@@ -1,7 +1,7 @@
-#include "Game/Actor/AI/aiForkAI.h"
+#include "KingSystem/ActorSystem/aiForkAI.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 ForkAI::ForkAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -154,4 +154,4 @@ void ForkAI::getNames(sead::BufferedSafeString* out) const {
     out->appendWithFormat("}");
 }
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai

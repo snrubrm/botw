@@ -1,4 +1,4 @@
-#include "Game/Actor/AI/aiDemoRootAI.h"
+#include "KingSystem/ActorSystem/aiDemoRootAI.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtActionContext.h"
 
@@ -7,11 +7,11 @@ namespace ai {
 // root (returns it or null; the return feeds the DemoRootAI helpers below, so DemoRootAI*).
 class ActorAI {
 public:
-    static uking::ai::DemoRootAI* x_0(ksys::act::ai::RootAi* root);
+    static ksys::act::ai::DemoRootAI* x_0(ksys::act::ai::RootAi* root);
 };
 }  // namespace ai
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 // Helpers for the RootAi + 0x140 event context used by DemoRootAI (defined here, not in
 // aiDemoRootAI.cpp, or they inline into its callers). The context type itself is unknown
@@ -68,4 +68,4 @@ void sub_7100D630AC(void* context) {
     chain->_8 = nullptr;
 }
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai

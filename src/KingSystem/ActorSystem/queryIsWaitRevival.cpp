@@ -1,8 +1,8 @@
-#include "Game/Actor/Query/queryIsWaitRevival.h"
+#include "KingSystem/ActorSystem/queryIsWaitRevival.h"
 #include <evfl/Query.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
-namespace uking::query {
+namespace ksys::act::ai {
 
 IsWaitRevival::IsWaitRevival(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
@@ -16,4 +16,4 @@ void IsWaitRevival::loadParams(const evfl::QueryArg& arg) {}
 
 void IsWaitRevival::loadParams() {}
 
-}  // namespace uking::query
+}  // namespace ksys::act::ai

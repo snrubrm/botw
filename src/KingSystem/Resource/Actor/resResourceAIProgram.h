@@ -72,7 +72,7 @@ public:
     }
 
     const sead::Buffer<u16>& getDemoAiActionIndices() const { return mDemoAIActionIndices; }
-    // Passed to Ai::initChildren_ by uking::ai::DemoRootAI::initChildren.
+    // Passed to Ai::initChildren_ by ksys::act::ai::DemoRootAI::initChildren.
     sead::Buffer<u16>& getDemoAiActionIndices() { return mDemoAIActionIndices; }
     const sead::Buffer<u8>& getDemoBehaviorIndices() const { return mDemoBehaviorIndices; }
 

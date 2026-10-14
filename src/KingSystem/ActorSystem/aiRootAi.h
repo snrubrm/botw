@@ -11,11 +11,9 @@
 #include "KingSystem/ActorSystem/actAiQuery.h"
 #include "KingSystem/Utils/Types.h"
 
-namespace uking::ai {
-class DemoRootAI;
-}
-
 namespace ksys::act::ai {
+
+class DemoRootAI;
 
 class IRootAi {
 public:
@@ -107,7 +105,7 @@ public:
 private:
     friend class ActionBase;
     // DemoRootAI::leave_ reads _140 (the event context cleaned by sub_7100D630AC).
-    friend class uking::ai::DemoRootAI;
+    friend class DemoRootAI;
 
     // TODO: rename and put this in a different translation unit
     struct SomeStruct {

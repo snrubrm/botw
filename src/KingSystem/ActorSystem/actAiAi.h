@@ -56,7 +56,7 @@ protected:
     u16 mNewChildIdx = InvalidIdx;
     sead::Buffer<ActionBase*> mChildren;
 
-    // Protected: also called by uking::ai::DemoRootAI::initChildren.
+    // Protected: also called by ksys::act::ai::DemoRootAI::initChildren.
     bool initChildren_(s32 num_children, const char** names, sead::Buffer<u16>& indices,
                        sead::Heap* heap);
 };

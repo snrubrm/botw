@@ -2,7 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 class ForkAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ForkAI, ksys::act::ai::Ai)
@@ -24,4 +24,4 @@ public:
     void getNames(sead::BufferedSafeString* out) const override;
 };
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai

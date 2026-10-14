@@ -165,7 +165,6 @@
 #include "Game/Actor/AI/aiDeadlyBlowWeaponRoot.h"
 #include "Game/Actor/Horse/AI/aiDefWanderAI.h"
 #include "Game/Actor/AI/aiDemoRailMoveRemains.h"
-#include "Game/Actor/AI/aiDemoRootAI.h"
 #include "Game/Actor/AI/aiDgnObj_DLC_CWRotDirSwitch.h"
 #include "Game/Actor/AI/aiDgnObj_DLC_CW_WithEntityBody00.h"
 #include "Game/Actor/AI/aiDgnObj_DLC_CogWheel2.h"
@@ -341,12 +340,7 @@
 #include "Game/Actor/AI/aiForestGiantRoam.h"
 #include "Game/Actor/AI/aiForestGiantRoot.h"
 #include "Game/Actor/AI/aiForestGiantStoneShootBattle.h"
-#include "Game/Actor/AI/aiFork2AI.h"
 #include "Game/Actor/AI/aiFork2AIUpperLowerBody.h"
-#include "Game/Actor/AI/aiFork3AI.h"
-#include "Game/Actor/AI/aiFork4AI.h"
-#include "Game/Actor/AI/aiFork5AI.h"
-#include "Game/Actor/AI/aiFork6AI.h"
 #include "Game/Actor/AI/aiForkActionAndJoin.h"
 #include "Game/Actor/AI/aiForkBeastGanonRoot.h"
 #include "Game/Actor/AI/aiFreezeInWaterSelect.h"
@@ -1170,6 +1164,12 @@
 #include "Game/Actor/AI/aiZoraHeroSoulGiftRoot.h"
 #include "Game/Actor/AI/aiZoraHeroWarp2Player.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/aiDemoRootAI.h"
+#include "KingSystem/ActorSystem/aiFork2AI.h"
+#include "KingSystem/ActorSystem/aiFork3AI.h"
+#include "KingSystem/ActorSystem/aiFork4AI.h"
+#include "KingSystem/ActorSystem/aiFork5AI.h"
+#include "KingSystem/ActorSystem/aiFork6AI.h"
 #include "KingSystem/Sound/Actor/AI/aiEnvSeEmitPointRootAI.h"
 #include "KingSystem/Sound/Actor/AI/aiSignaledSpotBgmTrigger.h"
 #include "KingSystem/Sound/Actor/AI/aiSpotBgmTrigger.h"
@@ -2177,7 +2177,7 @@ static Factory sAiFactories[] = {
     {0xd800da13, Factory::make<ai::EnemyNoticeSoundWithUI>},
     {0xd855d755, Factory::make<ai::GuardianMiniTransformSelect>},
     {0xd87ab5ee, Factory::make<ai::PrevASSkipSeq>},
-    {0xd8c46be8, Factory::make<ai::DemoRootAI>},
+    {0xd8c46be8, Factory::make<ksys::act::ai::DemoRootAI>},
     {0xd8eee460, Factory::make<ai::AnchorRangeSelectTwoAction>},
     {0xd908c25c, Factory::make<ai::HorseRideShooterFindPlayer>},
     {0xd93f35ac, Factory::make<ai::EnemyNotice>},
@@ -2245,9 +2245,9 @@ static Factory sAiFactories[] = {
     {0xe874b318, Factory::make<ai::StunBossReaction>},
     {0xe87547e4, Factory::make<ai::GelEnemyReaction>},
     {0xe887a5b2, Factory::make<ai::GanonThrowActorRoot>},
-    {0xe8e24114, Factory::make<ai::Fork5AI>},
+    {0xe8e24114, Factory::make<ksys::act::ai::Fork5AI>},
     {0xe8f2addd, Factory::make<ai::OctarockReaction>},
-    {0xe9202b23, Factory::make<ai::Fork4AI>},
+    {0xe9202b23, Factory::make<ksys::act::ai::Fork4AI>},
     {0xe953a698, Factory::make<ai::EnemyVacuumBombSelect>},
     {0xe96d0d7d, Factory::make<ai::SelfXRotSelector>},
     {0xe97748df, Factory::make<ai::TargetLastAttacker>},
@@ -2255,7 +2255,7 @@ static Factory sAiFactories[] = {
     {0xea0994f6, Factory::make<ai::TargetAngerSelect>},
     {0xea1c70ed, Factory::make<ai::SignalFlowchartRootAI>},
     {0xea7c8a41, Factory::make<ai::EnemyCutRope>},
-    {0xeaa4ff4d, Factory::make<ai::Fork6AI>},
+    {0xeaa4ff4d, Factory::make<ksys::act::ai::Fork6AI>},
     {0xeaafb8eb, Factory::make<ai::GolfBallRoot>},
     {0xeacf2879, Factory::make<ai::TargetBeatGetDrop>},
     {0xead748ac, Factory::make<ai::Stole>},
@@ -2267,11 +2267,11 @@ static Factory sAiFactories[] = {
     {0xebc9ee5d, Factory::make<ai::HomePosDistanceSelector>},
     {0xebcedf46, Factory::make<ai::GolemNormal>},
     {0xebfb21c4, Factory::make<ai::SwitchDistance>},
-    {0xec6f3da6, Factory::make<ai::Fork3AI>},
+    {0xec6f3da6, Factory::make<ksys::act::ai::Fork3AI>},
     {0xec77049c, Factory::make<ai::SwitchTorch>},
     {0xecbc5f90, Factory::make<ai::HorseMoveToPlayer>},
     {0xed9f7612, Factory::make<ai::LastBossShootGaleArrowRoot>},
-    {0xedad5791, Factory::make<ai::Fork2AI>},
+    {0xedad5791, Factory::make<ksys::act::ai::Fork2AI>},
     {0xedbf519f, Factory::make<ai::SetTargetPosForFlyThroughMove>},
     {0xedd27f4e, Factory::make<ai::WarpSafeTagRoot>},
     {0xeddbc467, Factory::make<ai::AssassinMiddleAzitoNoMemberDemo>},

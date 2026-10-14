@@ -8,7 +8,7 @@ namespace ksys::evt {
 class ActionContext;
 }
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 class DemoRootAI : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DemoRootAI, ksys::act::ai::Ai)
@@ -44,4 +44,4 @@ protected:
     u16 _4a{};
 };
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai

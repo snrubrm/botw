@@ -1,4 +1,4 @@
-#include "Game/Actor/AI/aiDemoRootAI.h"
+#include "KingSystem/ActorSystem/aiDemoRootAI.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -9,7 +9,7 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 // 0x7100d630ac (placeholder name; declared only; define in its own TU, not here, or it inlines into
 // leave_): releases the event-context list at RootAi + 0x140 (takes that object; void* because the
@@ -219,4 +219,4 @@ void DemoRootAI::getCurrentName(sead::BufferedSafeString* name,
     name->appendWithFormat("}");
 }
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai

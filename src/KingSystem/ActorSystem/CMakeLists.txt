@@ -182,14 +182,36 @@ target_sources(uking PRIVATE
     actUnk_71024ef4e8Attach.cpp
     actUnk_71024ef620.cpp
     actUnk_71024ef620.h
+    aiDemoRootAI.cpp
+    aiDemoRootAI.h
+    aiDemoRootAIContext.cpp
+    aiDemoRootAIHelpers.cpp
     aiDummyAi.cpp
     aiDummyAi.h
+    aiFork2AI.cpp
+    aiFork2AI.h
+    aiFork3AI.cpp
+    aiFork3AI.h
+    aiFork4AI.cpp
+    aiFork4AI.h
+    aiFork5AI.cpp
+    aiFork5AI.h
+    aiFork6AI.cpp
+    aiFork6AI.h
+    aiForkAI.cpp
+    aiForkAI.h
     aiRootAi.cpp
     aiRootAi.h
     behaviorDummyBehavior.cpp
     behaviorDummyBehavior.h
+    queryCheckEventCancel.cpp
+    queryCheckEventCancel.h
+    queryCheckJustBeforeEventCancel.cpp
+    queryCheckJustBeforeEventCancel.h
     queryDummyQuery.cpp
     queryDummyQuery.h
+    queryIsWaitRevival.cpp
+    queryIsWaitRevival.h
 
     ../Resource/Actor/resResourceASSettingMgr.h
 

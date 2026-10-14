@@ -1,9 +1,9 @@
-#include "Game/Actor/AI/aiDemoRootAI.h"
+#include "KingSystem/ActorSystem/aiDemoRootAI.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/Event/evtActionContext.h"
 
-namespace uking::ai {
+namespace ksys::act::ai {
 
 // DemoRootAI node-advance helpers (the 0x7100d61fac-0x7100d62750 cluster; defined here, not in
 // aiDemoRootAIContext.cpp, or the context walker below starts skipping the d61fac call: with
@@ -138,4 +138,4 @@ void sub_7100D62750(DemoRootAI* demo, u32 child_idx, s32 request_idx,
     demo->_38[request_idx]->enter(params, demo->getName());
 }
 
-}  // namespace uking::ai
+}  // namespace ksys::act::ai
