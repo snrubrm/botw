@@ -133,6 +133,113 @@ ScreenMainScreenUnk3648::ScreenMainScreenUnk3648(eui::LayoutEx* layout) : Screen
 // NON_MATCHING: the inlined ScreenChild member teardown differs in scheduling only.
 ScreenMainScreenUnk3648::~ScreenMainScreenUnk3648() = default;
 
+// 0x710098a470
+bool ScreenMainScreenUnk3648::m5(bool a1) {
+    Entry* entry = _1f0.front();
+    if (!entry)
+        return false;
+
+    const s32 state = _104;
+    if (state == 0 || (u32(state - 2) <= 4 && ((state - 2) & 1) == 0)) {
+        const bool ret = ScreenChild::m5(a1);
+        sub_710098A5D4();
+        return ret;
+    }
+
+    s32 type = entry->_0;
+    s32 current = _148;
+    if (current == 12)
+        current = 8;
+    else if (current == 13)
+        current = 9;
+    if (type == 12)
+        type = 8;
+    else if (type == 13)
+        type = 9;
+
+    if (current == type) {
+        bool keep;
+        switch (entry->_0) {
+        case 8:
+        case 9:
+        case 10:
+        case 12:
+        case 13:
+            keep = true;
+            break;
+        default:
+            keep = false;
+            break;
+        }
+        if (keep)
+            return false;
+        _130.reset();
+        _1f0.erase(entry);
+        if (_148 == 46)
+            return false;
+    } else {
+        sub_710098A5D4();
+    }
+    ScreenChild::m6(false);
+    return ScreenChild::m5(a1);
+}
+
+// 0x710098b144
+void ScreenMainScreenUnk3648::m24(sead::Heap* heap) {
+    _1f0.clear();
+    _130.init(3.0f);
+}
+
+// 0x710098b1b4
+void ScreenMainScreenUnk3648::m25() {
+    if (!sub_7100AA8F30()) {
+        _1a8 = false;
+    } else if (!_1a8) {
+        clearAndClose_(true);
+        return;
+    }
+
+    switch (_388) {
+    case 1:
+        _388 = 2;
+        break;
+    case 2:
+        sub_710098A5D4();
+        break;
+    }
+
+    if (_104 != 7)
+        return;
+
+    bool ended;
+    if (_148 == 46) {
+        const f32 progress = _130.getProgress();
+        ended = true;
+        if (progress <= 0.01f && progress >= -0.01f)
+            ended = _130.updateAndCheckEnded();
+    } else {
+        ended = _130.updateAndCheckEnded();
+    }
+
+    if (_1f0.size() > 0) {
+        if (ended || _130.getProgress() >= 1.0f / 3.0f) {
+            ScreenChild::m6(false);
+            ScreenChild::m5(true);
+            sub_710098A5D4();
+        }
+    } else if (ended) {
+        clearAndClose_(true);
+    }
+}
+
+// 0x710098b3bc
+void ScreenMainScreenUnk3648::m16() {
+    const s32 state = _104;
+    if (state != 7 && !(u32(state - 1) <= 4 && ((state - 1) & 1) == 0))
+        return;
+    clearAndClose_(false);
+}
+
 // 0x710098b59c
 ScreenMainScreenUnk3658::ScreenMainScreenUnk3658(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 

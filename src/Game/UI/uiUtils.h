@@ -152,6 +152,8 @@ CookEffectId sub_7100AA42AC(const PouchItem& item);
 bool sub_7100AA4A4C(CookEffectId effect, f32* out);
 bool sub_7100AA4ACC(s32 effect, f32* out);
 bool sub_7100AA7290(const act::WeaponModifierInfo& modifier, bool is_bow, f32* out);
+// 0x7100aa8f30 (uiGdtFacade.cpp): bit 13 of the Manager's flag word
+bool sub_7100AA8F30();
 s32 sub_7100AA6E4C(const PouchItem& item);
 // 0x7100aa6d54 (placeholder name): whether the actor `name` (a weapon, bow or shield; not an arrow) has a capacity parameter
 bool sub_7100AA6D54(const sead::SafeString& name);

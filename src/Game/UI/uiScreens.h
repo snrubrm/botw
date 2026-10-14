@@ -831,6 +831,22 @@ public:
 struct ScreenMainScreenUnk3648 : ScreenChildEx {
     explicit ScreenMainScreenUnk3648(eui::LayoutEx* layout);
     ~ScreenMainScreenUnk3648() override;
+    bool m5(bool a1) override;
+    void m16() override;
+    void m24(sead::Heap* heap) override;
+    void m25() override;
+    // 0x710098a5d4 (CSV mainScreenMessageStuff; declared only)
+    void sub_710098A5D4();
+    // inline-only in the original; name is a guess: m16 and m25 (twice) repeat this sequence
+    void clearAndClose_(bool a1) {
+        _1f0.clear();
+        _388 = 0;
+        _148 = -1;
+        _150.clear();
+        _1a8 = false;
+        _130.reset();
+        ScreenChild::m6(a1);
+    }
 
     // 0x710098a93c (CSV unnamed; declared only)
     void sub_710098A93C(s32 type, const sead::SafeString& text);
@@ -839,19 +855,17 @@ struct ScreenMainScreenUnk3648 : ScreenChildEx {
 
     // Element of the three-entry list at 0x1f0 (0x78-byte list nodes); contents not known yet.
     struct Entry {
-        u8 _0[0x68];
+        s32 _0;  // type (8..13 are compared by slot 5)
+        u8 _4[0x68 - 0x4];
     };
 
-    /* 0x130 */ void* _130 = nullptr;
-    /* 0x138 */ void* _138 = nullptr;
-    /* 0x140 */ f32 _140 = 1.0f;
-    /* 0x144 */ bool _144 = false;
-    /* 0x148 */ s32 _148 = -1;
+    /* 0x130 */ UiTimer _130;
+    /* 0x148 */ s32 _148 = -1;  // type of the entry being shown (Entry::_0)
     /* 0x150 */ sead::FixedSafeString<64> _150;
     /* 0x1a8 */ bool _1a8 = false;
     /* 0x1b0 */ sead::CriticalSection _1b0;
     /* 0x1f0 */ sead::FixedObjList<Entry, 3> _1f0;
-    /* 0x388 */ bool _388 = false;
+    /* 0x388 */ u8 _388 = 0;  // 0, 1, 2 (slot 25 moves 1 to 2)
 };
 static_assert(sizeof(ScreenMainScreenUnk3648) == 0x390);
 
