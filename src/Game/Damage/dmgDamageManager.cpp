@@ -1026,6 +1026,84 @@ void DamageManager::sub_71006D7628(s32 type, s32* damage, s32*, u32*, u32*, s32*
     actor->m149(3);
 }
 
+// NON_MATCHING: register use for the listener addresses and the block order of the no-attack-info paths.
+bool DamageManager::sub_71006D5668(s32* damage, s32*, u32* minDmg, u32* f50, s32* f54, s32* f40) {
+    auto* actor = mActor;
+    if (_f0._30) {
+        *f50 = 8;
+        *f54 = 7;
+        *damage = 0;
+        *minDmg = 0;
+        *f40 = 4;
+        _f0.x();
+        _140.x();
+        if (!::hasAttackInfo(actor))
+            _218 |= 0x20;
+        return true;
+    }
+
+    if (::hasAttackInfo(actor)) {
+        auto* info = ::getAttackInfo(actor, 0);
+        if (info) {
+            if (_1a8._30 && _1a8._38.mLink == info->_50)
+                return false;
+            if (info->_18 & 2) {
+                if (_140._30) {
+                    _140.x();
+                    *f50 = 8;
+                    *f54 = 8;
+                } else {
+                    *f50 = 8;
+                    *f54 = 7;
+                }
+                *damage = 0;
+                *minDmg = 0;
+                *f40 = 0;
+                return true;
+            }
+            if (!_140._30)
+                return false;
+            _140.x();
+            if (!(info->_18 & 1))
+                return false;
+            *f50 = 8;
+            *f54 = 6;
+            *damage = 0;
+            *minDmg = 0;
+            *f40 = 0;
+            return true;
+        }
+    }
+
+    if (!_140._30)
+        return false;
+    _140.x();
+    *f50 = 8;
+    *f54 = 6;
+    *damage = 0;
+    *minDmg = 0;
+    *f40 = 1;
+    _218 |= 0x10;
+    return true;
+}
+
+void DamageManager::m43() {
+    s32 damage = 0;
+    u32 minDmg = 0;
+    u32 f50 = -1;
+    s32 f54 = -1;
+    s32 f40 = 0;
+    if (!sub_71006D5668(&damage, nullptr, &minDmg, &f50, &f54, &f40)) {
+        damage = 0;
+        minDmg = 0;
+        f50 = -1;
+        f54 = -1;
+        f40 = 0;
+    }
+    sub_71006D357C(3, 1, true, damage, 0, minDmg, f50, f54, f40);
+    _1a8.x();
+}
+
 void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
     DamageManagerBase::handleDamageForPlayer(a2, a3, a4, a5, a6);
     auto* info = sead::DynamicCast<Struct20_2>(mStruct20_b);

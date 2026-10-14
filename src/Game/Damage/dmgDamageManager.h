@@ -93,6 +93,12 @@ public:
     // Slot 46 (0x71006d6b5c): the base handling, then the flags, guard state and scaled direction (_cc) of the
     // Struct20_2 in mStruct20_b.
     void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) override;
+    // Slot 43 (0x71006d55ac): applies the hit of the 0x800003e / 0x800003f / attack-info messages (sub_71006D5668)
+    // as damage kind 3, then resets the listener _1a8.
+    void m43() override;
+    // 0x71006d5668 (placeholder name): the damage values of m43 from the listeners _f0 / _140 and the actor's first
+    // attack info; false if there is nothing to apply. `df48` is not written.
+    bool sub_71006D5668(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40);
     // Slot 16 (0x71006d8404): the listeners _f0, _140 and _1a8 (the last one inlined).
     bool m16(const ksys::Message& message) override;
     // Slots 29 / 30 (CSV DamageMgr::m29 / m30): the normalised `_cc` for damage kind 7 when bit 6 of `_216` is set,
