@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -31,6 +32,8 @@ public:
     bool sub_7100D62394(ksys::evt::ActionContext* request);
     // 0x7100d62d18 (placeholder name): the child `name` exists and has the TriggerAction flag.
     bool sub_7100D62D18(const sead::SafeString& name);
+    // Signal bits read by SendSignalAction::calc_ (two bits per signal type).
+    sead::BitFlag16 get4a() const { return sead::BitFlag16(_4a); }
 
     // The 0x7100d61fc0-0x7100d62750 node-advance helpers are free functions in this TU that read
     // _38 directly, so they are friends (they cannot go through a public accessor: the original

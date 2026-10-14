@@ -60,6 +60,8 @@ public:
     // 0x7100d66b94 (CSV RootAi::x_0; lane1 s24, name is a guess): sets (`on`) or clears the bits `mask` of the
     // flag word at 0x3c of every Chemical of the actor.
     void setChemicalFlags3cMaybe(u32 mask, bool on);
+    // 0x7100d65cbc (CSV ai::ActorAI::x_0; declared only; placeholder name): child 0 if it is a DemoRootAI.
+    DemoRootAI* sub_7100D65CBC();
     bool isActorDeletedOrDeleting() const;
     bool isChildIdx0() const;
     void onActorPreDelete1();
