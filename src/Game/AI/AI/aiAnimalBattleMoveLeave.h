@@ -15,11 +15,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     // 0x7100303a90 (placeholder name; declared only)
     void sub_7100303A90();
+    // 0x7100304170 (placeholder name; declared only): the position to move away to.
+    sead::Vector3f sub_7100304170();
 
 protected:
     // static_param at offset 0x38
@@ -28,7 +31,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     ksys::Timer _48;
     sead::Vector3f _54;
-    sead::Vector3f _60{0, 0, 0};
+    ksys::Timer _60{0, 0, 0};  // forward-check cooldown
     s32 _6c = 0;
 };
 

@@ -18,7 +18,7 @@ bool AnimalBattleMoveLeave::init_(sead::Heap* heap) {
 void AnimalBattleMoveLeave::enter_(ksys::act::ai::InlineParamPack* params) {
     _48 = ksys::Timer(0.0f, -1.0f, 0.0f);
     _54 = *mTargetPos_d;
-    _60 = {-1.0f, -1.0f, 0.0f};
+    _60 = ksys::Timer(-1.0f, -1.0f, 0.0f);
     _6c = 0;
     if (sub_710072FEC4(mActor, mActor->getMtx().getBase(2), *mCheckForwardDist_s, nullptr, true,
                        nullptr)) {
@@ -41,11 +41,70 @@ void AnimalBattleMoveLeave::sub_7100303A90() {
     mActor->getMtx().getTranslation(position);
     _48 = ksys::Timer(70.0f, 70.0f);
     _54 = position + dir;
-    _60 = {-1.0f, -1.0f, 0.0f};
+    _60 = ksys::Timer(-1.0f, -1.0f, 0.0f);
     ++_6c;
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(_54, "TargetPos", -1);
     changeChild("旋回", &pack);
+}
+
+// NON_MATCHING: stack slot of the front-axis temporary in the changeable branch only.
+void AnimalBattleMoveLeave::calc_() {
+    if (isCurrentChild("旋回") || !(_48.value <= sead::Mathf::epsilon()) ||
+        !(_60.value <= sead::Mathf::epsilon())) {
+        _48.update();
+        if (_48.value <= sead::Mathf::epsilon())
+            _48 = ksys::Timer(-1.0f, -1.0f, 0.0f);
+    } else {
+        _54 = sub_7100304170();
+    }
+    getCurrentChild()->setDynamicParam(_54, "TargetPos");
+    _60.update();
+    if (_60.value <= sead::Mathf::epsilon())
+        _60 = ksys::Timer(-1.0f, -1.0f, 0.0f);
+
+    const auto changeToMove = [this] {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_54, "TargetPos", -1);
+        changeChild("移動", &pack);
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!sub_710072FEC4(mActor, mActor->getMtx().getBase(2), *mCheckForwardDist_s, nullptr,
+                            true, nullptr)) {
+            if (isCurrentChild("旋回")) {
+                changeToMove();
+                return;
+            }
+            if (child->isFinished())
+                setFinished();
+            changeToMove();
+            return;
+        }
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        const sead::Vector3f ahead = mActor->getMtx().getBase(2) * 3.0f + pos;
+        if (sub_710072EC90(pos, ahead, nullptr, 1.0f, 2.0f)) {
+            _60 = ksys::Timer(10, 10);
+            _54 = ahead;
+            changeToMove();
+            return;
+        }
+        if (_6c > 2) {
+            setFailed();
+            changeToMove();
+            return;
+        }
+    } else {
+        if (!child->isChangeable() || isCurrentChild("旋回") ||
+            !(_60.value <= sead::Mathf::epsilon()))
+            return;
+        if (!sub_710072FEC4(mActor, mActor->getMtx().getBase(2), *mCheckForwardDist_s, nullptr,
+                            true, nullptr))
+            return;
+    }
+    sub_7100303A90();
 }
 
 void AnimalBattleMoveLeave::leave_() {
