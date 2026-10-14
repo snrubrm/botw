@@ -119,6 +119,30 @@ void CarryBox::calc_() {
     callDeleteAndCreateDropAndEmit(actor, 0);
 }
 
+void CarryBox::sub_710034461C(ksys::phys::RigidBody* body, bool has_contacts) {
+    auto* scene = GameSceneSubsys12::instance();
+    if (!_7a && scene) {
+        scene->sub_7100664484(1, &_80);
+        _7a = true;
+    }
+    if (!_79) {
+        _80.sub_710065FB60(body, has_contacts);
+        _79 = true;
+    }
+    if (!body)
+        return;
+    auto* info = body->getContactPointInfo();
+    if (!info)
+        return;
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGround);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityTree);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityAirWall);
+}
+
 bool CarryBox::updateForPreDelete() {
     return _80.sub_710065E710();
 }

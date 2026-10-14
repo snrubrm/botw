@@ -134,6 +134,8 @@ public:
     // 0x710065f1f0 / 0x710065f954: active scene-context scale and carry flag.
     f32 sub_710065F1F0(f32 scale);
     bool sub_710065F954() const;
+    // 0x710065fb60 (not decompiled; called by CarryBox::sub_710034461C).
+    void sub_710065FB60(ksys::phys::RigidBody* body, bool has_contacts);
     // 0x710065f258 / 65f544: remove the matching carried entry.
     bool sub_710065F258(ksys::act::BaseProcLink* link, bool immediately);
     bool sub_710065F544(ksys::act::BaseProc* proc);

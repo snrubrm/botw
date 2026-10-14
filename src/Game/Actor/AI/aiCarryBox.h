@@ -39,11 +39,15 @@ protected:
     // (343fd0) / is not (3440a8) held; `has_contacts`: the first contact point info has contacts.
     void sub_7100343FD0(ksys::phys::RigidBody* body, ksys::phys::ContactPointInfo* info, bool has_contacts);
     void sub_71003440A8(ksys::phys::RigidBody* body, ksys::phys::ContactPointInfo* info, bool has_contacts);
+    // 0x710034461c (placeholder name): registers the context with GameSceneSubsys12 (state 1) and
+    // ActorContextStuff::sub_710065FB60 once each, then subscribes the body's contact info to the ground, object
+    // and tree layers.
+    void sub_710034461C(ksys::phys::RigidBody* body, bool has_contacts);
 
     /* 0x38 */ Unk_71024507c8 _38{0x1800004};
     /* 0x78 */ u8 _78{};
     /* 0x79 */ bool _79{};
-    /* 0x7a */ u8 _7a{};
+    /* 0x7a */ bool _7a{};
     /* 0x7c */ u32 _7c{};
     /* 0x80 */ ActorContextStuff _80{mActor};
     /* 0x7e0 */ Unk_71023dcd70 _7e0;
