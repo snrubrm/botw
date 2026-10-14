@@ -2422,7 +2422,31 @@ public:
     void sub_710100F8B0(bool value);
     void sub_710100F900(bool flag, s32 value);
     void m14(sead::TextWriter& writer) override {}
+    // 0x710100f950 / 0x710100f9d8 (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    // The fixed guardian BGM ("GuardianFixedBgm"; 0x200 bytes, constructor 0x710100f2a8).
+    explicit Unk_71024feae8(const ksys::snd::BgmInitArg& arg);
+
+    struct Entry {
+        u32 _0 = 0;
+        u16 _4 = 0;
+    };
+
+    ksys::snd::MusicInfo* mInfo = nullptr;
+    u32 _198 = 0;
+    aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
+    sead::Buffer<Entry> mEntries;
+    u32 _1d8 = 0;
+    u32 _1dc = 0;
+    u32 _1e0 = 0;
+    u32 _1e4 = 0;
+    u32 _1e8 = 0;
+    u64 _1f0 = 0;
+    s32 _1f8 = -1;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024feae8, 0x200);
 
 // vtable 0x71024fec18 (17 slots); placeholder generated from the vtable (genskel.py).
 // The Ganon beast BGM ("GanonBeastBgm"; 0x1b8 bytes, constructor 0x710100fcf8).

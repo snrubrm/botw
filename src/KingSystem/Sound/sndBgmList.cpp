@@ -22,9 +22,22 @@ Unk_71024fe808::~Unk_71024fe808() = default;
 // this class does not declare yet.
 Unk_71024fe970::~Unk_71024fe970() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710100f3f4) also destroys members or bases
-// this class does not declare yet.
-Unk_71024feae8::~Unk_71024feae8() = default;
+namespace {
+sead::SafeString sStr_GuardianFixedBgm = "GuardianFixedBgm";
+}  // namespace
+
+// NON_MATCHING: the original zeroes 0x1d8 alone and 0x1dc / 0x1e4 as two unaligned doublewords (tried u32[2] and a
+// two-word struct; clang merges 0x1d8..0x1e8 differently).
+Unk_71024feae8::Unk_71024feae8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    auto* heap = arg.heap;
+    Unk_SpotBgmHandle::init(heap, sStr_GuardianFixedBgm, nullptr);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_14);
+    mEntries.tryAllocBuffer(64, heap);
+}
+
+Unk_71024feae8::~Unk_71024feae8() {
+    mEntries.freeBuffer();
+}
 
 Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, "GanonBeastBgm", nullptr);
