@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 // Name from the CSV (RadarMgr::createInstance 0x710067b9c0, threadFn, calc, ...; no namespace). A singleton whose
@@ -12,6 +13,8 @@ public:
 
     u8 _0[0x52];
     /* 0x52 */ bool _52;
-    u8 _53[0x9c - 0x53];
+    u8 _53[0x6c - 0x53];
+    /* 0x6c */ sead::Vector3f _6c;  // the Sheikah sensor target position (WolfLinkShiekSensorRoot::calc_)
+    u8 _78[0x9c - 0x78];
     /* 0x9c */ f32 _9c;  // compared with the Sheikah sensor lead distance by WolfLinkNormalRoot
 };
