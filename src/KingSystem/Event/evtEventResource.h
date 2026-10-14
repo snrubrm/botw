@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtDemoInfo.h"
+#include "KingSystem/Resource/Event/resDemoASLoader.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
@@ -33,9 +34,12 @@ class ActorBindings;
 class ResourceFlowchart;
 class ResourceTimeline;
 
-// Event xlink information (CSV EventXlinkInfo; vtable-less helper at EventResource + 0x1b8)
+// Event xlink information (CSV EventXlinkInfo; helper at EventResource + 0x1b8)
 class EventXlinkInfo {
 public:
+    // 0x7100dc8db4 / 0x7100dc8ec4 (CSV unnamed; not decompiled)
+    virtual ~EventXlinkInfo();
+
     // 0x7100dc96a0 / 0x7100dc9780 (CSV EventXlinkInfo::x_1 / x_0; not decompiled)
     void x_1(EventFlowBase* flow);
     void x_0();
@@ -45,7 +49,6 @@ public:
     xlink::XLink* sub_7100DC9628();
 
     // Only the members used by x_0 / x_1 are known; the extent is not recovered.
-    u8 _0[8];
     /* 0x08 */ act::BaseProcHandle _8;
     /* 0x18 */ act::BaseProcLink _18;
 };
@@ -56,12 +59,14 @@ class CameraSystem {
 public:
     using LoadFn = sead::Delegate1R<CameraSystem, void*, bool>;
 
+    // 0x7100da3db4 / 0x7100da3edc (CSV unnamed; not decompiled)
+    virtual ~CameraSystem();
+
     // 0x7100da3f00: polls the loading of the camera resources; true once they are loaded
     bool finishLoad();
     // Constructor DA3B8C binds this member to LoadFn; finishLoad submits that callback.
     bool sub_7100DA3D14(void* user_data);
 
-    u8 _0[8];
     /* 0x08 */ s32 _8;  // 1: loading, 2: the low priority request has been submitted
     u8 _c[4];
     /* 0x10 */ sead::Buffer<res::Handle> _10;
@@ -79,10 +84,11 @@ bool submitLowPriorityRequest(const LowPrioThreadMgr::Request& request);
 class EventBgmInfo {
 public:
     EventBgmInfo();
+    virtual ~EventBgmInfo();
     void init(const sead::SafeString& event_name, sead::Heap* heap, bool is_timeline, al::ByamlIter* info,
               res::Handle* pack_handle);
 
-    u8 _0[0x70];
+    u8 _8[0x70 - 0x8];
 };
 static_assert(sizeof(EventBgmInfo) == 0x70);
 
@@ -130,7 +136,7 @@ public:
     /* 0x148 */ CameraSystem* _148;
     /* 0x150 */ sead::Heap* mHeap;
     /* 0x158 */ res::ResDerived _158;
-    /* 0x1a8 */ void* _1a8{};
+    /* 0x1a8 */ res::DemoASLoader* _1a8{};
     /* 0x1b0 */ void* _1b0{};
     /* 0x1b8 */ EventXlinkInfo* _1b8{};
     /* 0x1c0 */ EventBgmInfo* _1c0{};

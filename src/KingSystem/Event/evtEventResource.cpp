@@ -7,6 +7,7 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace ksys::evt {
 
@@ -32,6 +33,19 @@ bool EventResource::invokedParseExtraModelRes() {
         _1b0 = _158.getModelRes();
     _1d3 = true;
     return true;
+}
+
+EventResource::~EventResource() {
+    delete mFlowchart;
+    delete mTimeline;
+    delete mActorBindings;
+    delete _148;
+    delete _1a8;
+    delete _1b8;
+    delete _1c0;
+    delete mTempResourceLoader;
+    if (_1d2)
+        ui::sub_7100EDC6B8();
 }
 
 void EventResource::initFlowchart(const sead::SafeString& event_name,
