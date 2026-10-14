@@ -2,6 +2,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -37,6 +38,55 @@ void ForestGiantRoam::enter_(ksys::act::ai::InlineParamPack* params) {
         if (holder->_0) {
             holder->_0->sub_7100F75F8C(*mCentralPos_d);
             holder->_8 = 0;
+        }
+        _e8 = true;
+    }
+}
+
+void ForestGiantRoam::calc_() {
+    const bool returning = isCurrentChild("帰還");
+    auto* child = getCurrentChild();
+    const bool done = child->isFinished() || child->isFailed();
+
+    if (returning) {
+        if (!done)
+            return;
+        if (child->isFinished())
+            _e8 = false;
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            if (auto* holder = enemy->_12d0) {
+                holder->_8 = -1;
+                if (holder->_0)
+                    holder->_0->inlineReset();
+            }
+        }
+        changeToSearch();
+        return;
+    }
+
+    if (done) {
+        auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+        if (enemy && enemy->_12d0 && enemy->_12d0->_8 == 1) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mCentralPos_d, "TargetPos", -1);
+            changeChild("帰還", &pack);
+            return;
+        }
+    }
+
+    BokoblinRoam::calc_();
+    if (isRootAiParamINot5() || _e8)
+        return;
+
+    auto* actor = mActor;
+    const sead::Vector3f diff = actor->getMtx().getTranslation() - *mCentralPos_d;
+    if (diff.x * diff.x + diff.z * diff.z >= *mReturnHomeDist_s * *mReturnHomeDist_s) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+            auto* holder = enemy->_12d0;
+            if (holder && holder->_0) {
+                holder->_0->sub_7100F75F8C(*mCentralPos_d);
+                holder->_8 = 0;
+            }
         }
         _e8 = true;
     }

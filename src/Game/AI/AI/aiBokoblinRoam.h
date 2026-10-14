@@ -16,6 +16,8 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    // 0x71003337f4 (declared only)
+    void calc_() override;
     void loadParams_() override;
 
     // 0x7100333e68 / 0x7100333f7c / 0x7100333fec (placeholder names)
