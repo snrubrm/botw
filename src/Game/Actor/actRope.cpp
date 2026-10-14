@@ -41,6 +41,8 @@ uking::dmg::DamageManagerBase* Rope::getDamageMgr() {
     return &_a00;
 }
 
+// NON_MATCHING: the original (0x7100024a04) also tears down listeners and links of RopeBase and Rope
+// (0x8c0 to 0xcc8) that are not declared yet; the thunks and D0 differ because of that.
 Rope::~Rope() = default;
 
 }  // namespace uking::act
