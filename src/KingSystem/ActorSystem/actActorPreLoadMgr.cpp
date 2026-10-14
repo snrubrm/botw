@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -182,6 +183,25 @@ ActorPreLoadTask::~ActorPreLoadTask() {
         mRefCount = 0;
         sub_7100D59608();
     }
+}
+
+bool ActorPreLoadTask::sub_7100D5947C(const sead::SafeString& name) {
+    mName = name;
+    mRefCount = 1;
+    if (ActorParamMgr::instance()->requestLoadActorPack(&mPackHandle, mName, 1)) {
+        mState = 1;
+        mPackRequested = true;
+        return true;
+    }
+
+    bool allocated = false;
+    mActorParam = ActorParamMgr::instance()->loadParamAsync(mName.cstr(), nullptr, &allocated, _ae8, 1);
+    if (!mActorParam) {
+        mState = 7;
+        return false;
+    }
+    mState = allocated ? 2 : 5;
+    return true;
 }
 
 bool ActorPreLoadTask::sub_7100D59608() {
