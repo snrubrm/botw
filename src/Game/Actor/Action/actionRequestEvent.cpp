@@ -1,5 +1,6 @@
 #include "Game/Actor/Action/actionRequestEvent.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
@@ -44,6 +45,21 @@ void RequestEvent::loadParams_() {
     getStaticParam(&mIsWaitRun_s, "IsWaitRun");
     getStaticParam(&mEventName_s, "EventName");
     getStaticParam(&mEntryPointName_s, "EntryPointName");
+}
+
+void RequestEvent::initEvent(ksys::evt::Metadata* metadata) {
+    sead::SafeString event_name = mEventName_s;
+    sead::FixedSafeString<128> entry_name(mEntryPointName_s);
+    if (*mIsSelfEvent_s) {
+        auto* schedule = mActor->getSchedule();
+        if (!schedule || schedule->_10.isEmpty()) {
+            event_name = mActor->getName();
+        } else {
+            event_name = schedule->_10;
+            entry_name.appendWithFormat("_%s", mActor->getName().cstr());
+        }
+    }
+    metadata->init(event_name.cstr(), entry_name.cstr(), "");
 }
 
 void RequestEvent::calc_() {
