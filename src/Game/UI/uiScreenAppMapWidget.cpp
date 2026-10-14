@@ -132,4 +132,6 @@ u8 ScreenAppMapWidget::sub_71009AF37C() const {
     return _b1db;
 }
 
+ScreenAppMapWidget::~ScreenAppMapWidget() = default;
+
 }  // namespace uking::ui

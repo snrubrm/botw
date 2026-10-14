@@ -33,3 +33,5 @@ void Unk_71025ba778::sub_710070F398(ksys::act::Actor* actor) {
         actor->sub_71011DA868(&_100);
     }
 }
+
+Unk_7100710078::~Unk_7100710078() = default;

@@ -30,6 +30,8 @@ void Unk_7102479838::m39(void* button) {
         mMapWidget->_b33c = 1;
 }
 
+Unk_7102479838::~Unk_7102479838() = default;
+
 
 // 0x71009b30ec
 void Unk_710247ae48::m7() {
@@ -121,6 +123,8 @@ void Unk_710247c010::m82() {
     mController.sub_71009CC970();
 }
 
+Unk_710247c010::~Unk_710247c010() = default;
+
 // 0x710098b59c
 ScreenMainScreenUnk3658::ScreenMainScreenUnk3658(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
@@ -156,6 +160,8 @@ void ScreenMainScreenUnk3658::m21() {
     _150 = -1;
     _154 = -1;
 }
+
+ScreenMainScreenUnk3658::~ScreenMainScreenUnk3658() = default;
 
 // 0x7100985eb4
 Unk_7102476db8::Unk_7102476db8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
@@ -232,6 +238,8 @@ void Unk_7102476db8::sub_7100986580() {
     mNumOff->StopAtMin();
 }
 
+Unk_7102476db8::~Unk_7102476db8() = default;
+
 // 0x7100986aac / 0x7100986ab4 / 0x7100986ac0
 // UiSubsys1 0x71009645d0 uses these no-argument values to clamp effect scale.
 // The UI namespace is source inference from that caller and the address neighbors.
@@ -253,6 +261,8 @@ Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 // 0x710098c688 / 0x710098c68c: the native table overrides only these two update hooks.
 void Unk_7102477c30::m24(sead::Heap*) {}
 void Unk_7102477c30::m25() {}
+
+Unk_7102477c30::~Unk_7102477c30() = default;
 
 
 // 0x71009bc9bc
@@ -304,6 +314,8 @@ void Unk_710247bcb8::m29() {
     _18c = 0;
     _190 = -1;
 }
+
+Unk_710247bcb8::~Unk_710247bcb8() = default;
 
 // 0x71009b9b38
 Unk_710247b428::Unk_710247b428(eui::LayoutEx* layout)
@@ -571,6 +583,8 @@ void Unk_710247b428::m151() {}
 // 0x71009bc0b4
 s32 Unk_710247b428::m152() { return 0; }
 
+Unk_710247b428::~Unk_710247b428() = default;
+
 // 0x71009c9878
 void Unk_710247e468::m24(sead::Heap*) {
     _130 = mLayout->tryCreateAnimatorAuto("Scroll", false);
@@ -739,6 +753,8 @@ s32 Unk_710247e468::m108() { return 0; }
 // 0x71009ca364
 s32 Unk_710247e468::m112() { return 0; }
 
+Unk_710247e468::~Unk_710247e468() = default;
+
 // 0x71009c0310
 void Unk_710247c368::sub_71009C0310() {
     if (!Unk_71025d6ac0::instance()->get88())
@@ -833,6 +849,20 @@ void Unk_710247c368::sub_71009C082C() {
     mAnimators[4]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
     _14c = 1;
 }
+
+Unk_710247c368::~Unk_710247c368() = default;
+
+Unk_7102477110::~Unk_7102477110() = default;
+
+Unk_7102478048::~Unk_7102478048() = default;
+
+Unk_710247d580::~Unk_710247d580() = default;
+
+Unk_710247d8f8::~Unk_710247d8f8() = default;
+
+Unk_710247dc90::~Unk_710247dc90() = default;
+
+Unk_710247e0c8::~Unk_710247e0c8() = default;
 
 }  // namespace uking::ui
 

@@ -77,4 +77,6 @@ void Unk_710123830c::sub_71012370A8() {
     mOverrideDuration = 0;
 }
 
+Unk_710123830c::~Unk_710123830c() = default;
+
 }  // namespace ksys::xlink

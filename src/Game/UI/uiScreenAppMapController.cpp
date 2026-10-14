@@ -71,4 +71,6 @@ bool ScreenAppMapUnk3c90::sub_71009C1814(s32 type) const {
     return true;
 }
 
+ScreenAppMapUnk3c90::~ScreenAppMapUnk3c90() = default;
+
 }  // namespace uking::ui

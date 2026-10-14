@@ -645,6 +645,8 @@ void Unk_7102476250::m29() {
     }
 }
 
+Unk_7102476250::~Unk_7102476250() = default;
+
 void Unk_7102476350::m29() {
     auto* record = _58;
     if (record && record->_28 && *record->_28)
@@ -677,6 +679,8 @@ void Unk_7102476350::m17() {
     UiSubsys1Entry::m17();
 }
 
+Unk_7102476350::~Unk_7102476350() = default;
+
 
 
 void Unk_7102476450::m11() {
@@ -696,6 +700,8 @@ void Unk_7102476450::m12() {
         m25(false);
     }
 }
+
+Unk_7102476450::~Unk_7102476450() = default;
 
 
 void Unk_7102476548::m4() {
@@ -720,6 +726,8 @@ void Unk_7102476548::m11() {
 void Unk_7102476548::m21() {
     sub_710095156C(true);
 }
+
+Unk_7102476548::~Unk_7102476548() = default;
 
 void Unk_7102476640::m4() {
     _3c &= ~0x777f;
@@ -987,6 +995,8 @@ void Unk_7102476640::sub_7100958D4C() {
     }
 }
 
+Unk_7102476640::~Unk_7102476640() = default;
+
 s32 Unk_7102476738::m10() {
     return 5;
 }
@@ -1086,6 +1096,8 @@ void Unk_7102476738::m25(bool enabled) {
     }
 }
 
+Unk_7102476738::~Unk_7102476738() = default;
+
 // NON_MATCHING: direct searches remove the native nullable-find guards.
 void Unk_7102476830::m25(bool enabled) {
     m27(enabled);
@@ -1120,6 +1132,8 @@ void Unk_7102476830::m25(bool enabled) {
         _68.init(0.0f);
     }
 }
+
+Unk_7102476830::~Unk_7102476830() = default;
 // NON_MATCHING: direct search removes the native nullable-find guard.
 void Unk_7102476928::m25(bool enabled) {
     UiSubsys1Entry::m25(enabled);
@@ -1142,5 +1156,7 @@ void Unk_7102476928::m25(bool enabled) {
         }
     }
 }
+
+Unk_7102476928::~Unk_7102476928() = default;
 
 }  // namespace uking::ui

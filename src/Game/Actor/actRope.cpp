@@ -41,4 +41,6 @@ uking::dmg::DamageManagerBase* Rope::getDamageMgr() {
     return &_a00;
 }
 
+Rope::~Rope() = default;
+
 }  // namespace uking::act

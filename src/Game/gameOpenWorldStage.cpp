@@ -103,6 +103,8 @@ bool OpenWorldStage::fieldReenter(void* arg) {
     return false;
 }
 
+OpenWorldStage::~OpenWorldStage() = default;
+
 bool Unk_710245b478::return0(void* owner, void* arg) const {
     return static_cast<OpenWorldStage*>(owner)->ret0(arg);
 }

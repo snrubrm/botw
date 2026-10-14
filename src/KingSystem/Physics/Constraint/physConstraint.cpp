@@ -347,6 +347,8 @@ bool Constraint::sub_7100F6AC68() const {
     return !body || body == System::instance()->get190();
 }
 
+Constraint::~Constraint() = default;
+
 u64 sub_7100F6AC60(const hkpConstraintInstance* instance) {
     return instance->getUserData();
 }

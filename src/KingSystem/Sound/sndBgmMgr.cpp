@@ -44,6 +44,8 @@ void Unk_SoundMgr30::sub_7100FF8AC4(s32 fade_type) {
     _88 &= ~4;
 }
 
+Unk_71024fca78::~Unk_71024fca78() = default;
+
 }  // namespace ksys::snd
 
 Unk_71024fc990::~Unk_71024fc990() = default;
