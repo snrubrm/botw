@@ -49,7 +49,7 @@ bool ChemicalStayObjectRoot::m34() {
     if (!chemical)
         return false;
     if (_40 & 1)
-        return chemical->_b9[0] >> 1 & 1;
+        return chemical->_b8 >> 9 & 1;
     if (_40 & 2)
         return chemical->_b8 >> 2 & 1;
     return false;

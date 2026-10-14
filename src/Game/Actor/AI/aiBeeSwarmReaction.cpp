@@ -30,8 +30,7 @@ void BeeSwarmReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710032AF18();
 }
 
-// NON_MATCHING: the original tests Chemical::_b8 as a 16-bit flag word (`& 0x284`); with the current Chemical layout
-// (u8 _b8, u8 _b9[]) this is two byte tests.
+// NON_MATCHING: register allocation around the final calls (the original keeps a bool in w8 and moves x20 earlier).
 void BeeSwarmReaction::calc_() {
     if (isFinished() || isFailed())
         return;
@@ -41,7 +40,7 @@ void BeeSwarmReaction::calc_() {
     } else {
         bool damaged;
         auto* chemical = mActor->getChemicalStuff();
-        if (chemical && ((chemical->_b8 & 0x84) || (chemical->_b9[0] & 2))) {
+        if (chemical && (chemical->_b8 & 0x284)) {
             damaged = true;
         } else {
             auto* damage_mgr = sub_710072BA90(mActor);

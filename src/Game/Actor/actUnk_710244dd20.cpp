@@ -103,7 +103,7 @@ bool Unk_710244dd20::m16(s32 kind) {
     if (!chemical)
         return true;
     if (kind == 3)
-        return !(chemical->_b9[0] & 2);
+        return !(chemical->_b8 & 0x200);
     if (kind == 4)
         return !(chemical->_1b8 > 0.0f);
     return true;

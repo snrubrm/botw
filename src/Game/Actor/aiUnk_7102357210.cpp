@@ -969,7 +969,7 @@ void Unk_7102450410::Entry::sub_71007083DC() {
         break;
     case 2:
         if ((mElement == Unk_71006F5DB0::Fire &&
-             ((mChemical->_b9[0] & 2) || (mChemical->_c0 != 2 && mChemical->_c1 != 2))) ||
+             ((mChemical->_b8 & 0x200) || (mChemical->_c0 != 2 && mChemical->_c1 != 2))) ||
             (mElement == Unk_71006F5DB0::Ice &&
              ((mChemical->_b8 & 4) || (mChemical->_d0 > 0.0f && mChemical->_d4 == 1)))) {
             _b4 = 1;
@@ -982,7 +982,7 @@ void Unk_7102450410::Entry::sub_71007083DC() {
     default:
         mTimer.update();
         if (mElement == Unk_71006F5DB0::Fire) {
-            if ((mChemical->_b9[0] & 2) ||
+            if ((mChemical->_b8 & 0x200) ||
                 (_b0 == 2 && mChemical->_c0 != 2 && mChemical->_c1 != 2))
                 mTimer.reset(_1c);
             if (mChemical->_c0 == 2 || (mChemical->_b8 & 8))
@@ -992,7 +992,7 @@ void Unk_7102450410::Entry::sub_71007083DC() {
         } else if (mElement == Unk_71006F5DB0::Ice) {
             if ((mChemical->_b8 & 4) || (mChemical->_d0 > 0.0f && mChemical->_d4 == 1))
                 mTimer.reset(_1c);
-            if ((mChemical->_bf & 2) && !(mChemical->_b8 & 4) && (mChemical->_b9[0] & 2))
+            if ((mChemical->_bf & 2) && !(mChemical->_b8 & 4) && (mChemical->_b8 & 0x200))
                 sub_71007086AC();
             else
                 _b0 = mTimer.value <= std::numeric_limits<f32>::epsilon() ? 4 : 3;

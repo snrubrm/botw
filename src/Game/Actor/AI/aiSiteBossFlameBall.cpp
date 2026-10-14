@@ -119,7 +119,7 @@ bool SiteBossFlameBall::m40() {
     if (_1c9)
         return false;
     auto* chemical = mActor->sub_71011D8A44(*mChemicalIndex_s);
-    if (chemical && chemical->_b9[0] & 2)
+    if (chemical && chemical->_b8 & 0x200)
         return true;
     return _d9;
 }

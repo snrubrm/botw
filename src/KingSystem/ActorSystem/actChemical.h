@@ -215,8 +215,8 @@ public:
     /* 0x0ac */ f32 _ac;
     /* 0x0b0 */ f32 _b0;
     /* 0x0b4 */ u8 _b4[0xb8 - 0xb4];
-    /* 0x0b8 */ u8 _b8 = 0;  // flags
-    /* 0x0b9 */ u8 _b9[0xbc - 0xb9]{};
+    /* 0x0b8 */ u16 _b8 = 0;  // flags (16-bit: BeeSwarmReaction::calc_ reads it with ldrh, mask 0x284)
+    /* 0x0ba */ u8 _ba[0xbc - 0xba]{};
     /* 0x0bc */ u16 _bc = 0;  // flags (bit 3: Actor::m50, bit 13: SwitchWindHit::calc_)
     /* 0x0be */ u8 _be = 0;  // flags
     /* 0x0bf */ u8 _bf = 0;  // flags
