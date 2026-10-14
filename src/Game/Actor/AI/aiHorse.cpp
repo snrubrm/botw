@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiHorse.h"
 #include "Game/Actor/actHorse.h"
 #include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actHorseStrings.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -57,7 +59,20 @@ void Horse::sub_7100435420() {
 }
 
 void Horse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addInt(-1, "ChildSelectAtFirst", -1);
+    changeChild("非騎乗", &pack);
+    _48.reset(0xfb);
+    sub_71004334C8();
+    if (_48.isOn(4))
+        return;
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
+        if (!horse->_c00.isEmpty()) {
+            if (auto* rideable = horse->getHorseOptionsMaybe())
+                rideable->_18.sub_7100E76E74(act::sUnk_7102603330, false);
+        }
+    }
+    _48.set(4);
 }
 
 void Horse::leave_() {
