@@ -265,7 +265,9 @@ public:
     /* 0x295 */ u8 _295;
     /* 0x296 */ u8 _296;  // read under _1e0 (AnimalRangeKeepMoveWithLOS)
     /* 0x297 */ u8 _297;
-    /* 0x298 */ u8 _298[0x2a4 - 0x298];
+    /* 0x298 */ u8 _298[0x29c - 0x298];
+    /* 0x29c */ f32 _29c;  // read under _1e0 when (_2a4 & 0xffff) != 0x17 (FlyMoveToTarget)
+    /* 0x2a0 */ u8 _2a0[0x2a4 - 0x2a0];
     /* 0x2a4 */ sead::Atomic<u32> _2a4;
     /* 0x2a8 */ f32 _2a8;
     /* 0x2ac */ f32 _2ac;
