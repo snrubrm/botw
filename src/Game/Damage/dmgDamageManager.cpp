@@ -951,6 +951,25 @@ bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage,
     return true;
 }
 
+bool DamageManager::m16(const ksys::Message& message) {
+    if (_f0.m2(message))
+        return true;
+    if (_140.m2(message))
+        return true;
+    if (message.getType() != 0x800006e)
+        return false;
+    auto* payload = static_cast<Unk_7102358dc0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _1a8._38.mLink = payload->mLink;
+    }
+    _1a8._30 = true;
+    _1a8._18 = message.getSource();
+    return true;
+}
+
 void DamageManager::m45(const ConditionDamageInfo& info) {
     if ((_212 & 0x40) && !(info.mFlags & 1))
         return;

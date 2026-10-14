@@ -26,6 +26,10 @@ class Actor;
 class ActorParam;
 }  // namespace ksys::act
 
+namespace ksys {
+class Message;
+}
+
 namespace uking::dmg {
 
 class DamageCallback;
@@ -97,7 +101,8 @@ public:
     // Slot 14: writes the stasis blow direction (DamageMgr::m14) to `out`.
     virtual bool m14(sead::Vector3f* out) { return false; }
     virtual bool applyDamage(s32& life);
-    virtual bool m16() { return false; }
+    // Slot 16: message handler (DamageManager::m16 forwards to its listeners).
+    virtual bool m16(const ksys::Message& message) { return false; }
     virtual void m17() {}
     virtual s32 getNumCallbacks();
     virtual bool initCallbacks(sead::Heap* heap);
