@@ -138,6 +138,24 @@ void Unk_710244fee8::m10() {
     (&_20)->m3();
 }
 
+// NON_MATCHING: the final bit update is a branch in the original (ours: csel)
+void Unk_71025ae680::sub_71006DFA04(bool enable) {
+    const bool enabled = _a & 1;
+    if (enable) {
+        if (enabled)
+            return;
+        for (s32 i = 0; i < 12; ++i)
+            m13(i);
+    } else if (!enabled) {
+        return;
+    }
+    m11(enable);
+    if (enable)
+        _a |= 1;
+    else
+        _a &= ~1;
+}
+
 void Unk_71025ae680::sub_71006EF05C(s32 condition) {
     _8.resetBit(condition);
     auto* chemicals = _10->getChemicalContainer();
