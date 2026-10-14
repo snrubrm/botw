@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include <cmath>
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -136,6 +138,40 @@ void LandHumEnemyFindBait::m37() {
     } else {
         getCurrentChild()->setDynamicParam(target, "TargetPos");
     }
+}
+
+// NON_MATCHING: register allocation of the direction and the accessor address kept for its destructor.
+// Turns the neck towards the bait (yaw / pitch relative to the actor axes, smoothed by VFR::lerp); releases the
+// neck control when the bait is gone.
+void LandHumEnemyFindBait::sub_710045F398() {
+    ksys::act::ActorConstDataAccess bait;
+    ksys::act::acquireActor(mTargetBait_d, &bait);
+    if (!bait.hasProc() || bait.sub_7100D10E6C(30)) {
+        if (auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl()))
+            unit->_8c &= 0xffcf;
+        sub_71005DB498(mActor);
+        return;
+    }
+
+    sead::Vector3f dir = bait.getActorMtx().getTranslation();
+    auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl());
+    if (!unit)
+        return;
+    unit->_8c |= 0x20;
+    sead::Vector3f base;
+    unit->sub_7100D88CF4(&base);
+    dir -= base;
+    dir.normalize();
+
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    const f32 side = dir.dot(mtx.getBase(0));
+    const f32 up = dir.dot(mtx.getBase(1));
+    const f32 front = dir.dot(mtx.getBase(2));
+    f32 angle = -std::atan2(side, front);
+    ksys::VFR::lerp(&_bc, angle, 0.15f, 0.20943952f, 0.017453292f);
+    angle = std::atan2(up, std::sqrt(side * side + front * front));
+    ksys::VFR::lerp(&_c0, angle, 0.15f, 0.20943952f, 0.017453292f);
+    sub_71005DB44C(mActor, _bc, _c0);
 }
 
 bool LandHumEnemyFindBait::isChangeable() const {

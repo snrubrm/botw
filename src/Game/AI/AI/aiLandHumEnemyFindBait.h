@@ -30,7 +30,7 @@ public:
     void changeToFindBait();
 
     bool sub_710045FC10();
-    // 0x710045f398 (placeholder name; declared only): neck control towards the bait (IsValidForceNeck).
+    // 0x710045f398 (placeholder name): neck control towards the bait (IsValidForceNeck).
     void sub_710045F398();
 
 protected:
