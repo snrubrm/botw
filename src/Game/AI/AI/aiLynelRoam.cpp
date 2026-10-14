@@ -256,6 +256,30 @@ void LynelRoam::sub_71004990C8() {
     changeToMove(pos);
 }
 
+// NON_MATCHING: store order of the direction and the scheduling of the Territory * 2 load.
+// A position back towards the central position (mixed with the actor's front direction near the territory).
+bool LynelRoam::sub_7100499704(sead::Vector3f* out) {
+    const f32 x = mActor->getMtx()(0, 3);
+    const f32 z = mActor->getMtx()(2, 3);
+    sead::Vector3f to_center(mCentralPos_d->x - x, 0.0f, mCentralPos_d->z - z);
+    to_center.normalize();
+    const f32 dx = x - mCentralPos_d->x;
+    const f32 dz = z - mCentralPos_d->z;
+    const f32 limit = *mTerritory_s + *mTerritory_s;
+    if (dx * dx + dz * dz > limit * limit)
+        return sub_710049951C(out, to_center);
+
+    sead::Vector3f front;
+    sub_71000891C8(&front, mActor);
+    sead::Vector3f dir = front * 0.5f + to_center * 0.5f;
+    if (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f) {
+        dir = front;
+        const s32 sign = s32(sead::GlobalRandom::instance()->getU32() & 2) - 1;
+        ksys::util::sub_71011EF010(&dir, static_cast<f32>(sign) * sead::Mathf::piHalf());
+    }
+    return sub_710049951C(out, dir);
+}
+
 // NON_MATCHING: timer load scheduling differs.
 void LynelRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 time = *mNoSpAttackMoveTime_s;
