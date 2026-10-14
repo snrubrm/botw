@@ -2314,7 +2314,31 @@ public:
     void sub_71010029B8();
     void sub_71010029CC();
     void m14(sead::TextWriter& writer) override {}
+    // 0x71010029ec / 0x7101002a24 (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    // The dungeon BGM ("DungeonNormalBgm"; 0x1c0 bytes, constructor 0x7101002850).
+    explicit Unk_71024fd808(const ksys::snd::BgmInitArg& arg);
+
+    ksys::snd::MusicInfo* mInfo = nullptr;
+    f32 _198 = 0;
+    u32 _19c = 0;
+    u32 _1a0 = 0;
+    u16 _1a4 = 0;
+    bool _1a6 = false;
+    bool _1a7 = false;
+    bool _1a8 = false;
+    bool _1a9 = false;
+    bool _1aa = false;
+    bool _1ab = false;
+    bool _1ac = false;
+    bool _1ad = false;
+    u64 _1b0 = 0;
+    f32 _1b8 = 0;
+    u32 _1bc = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fd808, 0x1c0);
 
 // vtable 0x71024fd948 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fd948 : public ksys::snd::Unk_71025ce380 {
@@ -2325,7 +2349,26 @@ public:
     void sub_71010038AC();
     void sub_71010038C0();
     void m14(sead::TextWriter& writer) override {}
+    // 0x71010038e4 / 0x710100390c (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    // The dungeon reward BGM ("DungeonRewardBgm"; 0x1b8 bytes, constructor 0x7101003750).
+    explicit Unk_71024fd948(const ksys::snd::BgmInitArg& arg);
+
+    ksys::snd::MusicInfo* mInfo = nullptr;
+    f32 _198 = 0;
+    u32 _19c = 0;
+    u64 _1a0 = 0;
+    u32 _1a8 = 0;
+    f32 _1ac = 0;
+    bool _1b0 = false;
+    bool _1b1 = false;
+    bool _1b2 = false;
+    bool _1b3 = false;
+    bool _1b4 = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fd948, 0x1b8);
 
 // vtable 0x71024fe368 (19 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fe368 : public ksys::snd::Unk_71025ce380 {

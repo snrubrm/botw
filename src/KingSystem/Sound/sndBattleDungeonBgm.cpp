@@ -449,6 +449,28 @@ Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
 
+namespace {
+sead::SafeString sStr_DungeonNormalBgm = "DungeonNormalBgm";
+}  // namespace
+
+Unk_71024fd808::Unk_71024fd808(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    _1b8 = 0.8108108f;
+    _198 = 9.72973f;
+    Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonNormalBgm, nullptr);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_19);
+}
+
 Unk_71024fd808::~Unk_71024fd808() = default;
+
+namespace {
+sead::SafeString sStr_DungeonRewardBgm = "DungeonRewardBgm";
+}  // namespace
+
+Unk_71024fd948::Unk_71024fd948(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    _1ac = 0.8108108f;
+    _198 = 9.72973f;
+    Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonRewardBgm, nullptr);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_20);
+}
 
 Unk_71024fd948::~Unk_71024fd948() = default;
