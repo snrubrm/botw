@@ -100,7 +100,7 @@ public:
     /* 0x1638 */ Unk_71023d2f90 _1638{this, 0x80000b0};
     /* 0x1650 */ u8 _1650[0x1680 - 0x1650];
     /* 0x1680 */ const ksys::res::GParamListObjectWolfLink* _1680;  // the WolfLink GParam object
-    /* 0x1688 */ u32 _1688;
+    /* 0x1688 */ f32 _1688;  // 0-100 (WolfLinkChainAttack::leave_ lowers it per attack)
     /* 0x168c */ s32 _168c;
     /* 0x1690 */ s32 _1690;
     /* 0x1694 */ u32 _1694;

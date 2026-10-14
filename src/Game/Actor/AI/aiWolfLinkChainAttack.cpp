@@ -3,6 +3,11 @@
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "Game/Actor/actRideable.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -17,11 +22,37 @@ bool WolfLinkChainAttack::init_(sead::Heap* heap) {
 }
 
 void WolfLinkChainAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _c4 = 0;
+    _80.fill(-1);
+    _c0 = false;
+    if (*mIsInvincible_s)
+        _c8->sub_71002F3148(0, false);
+    _c8->_1698 |= 0x200;
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+    controller->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    auto* rideable = mActor->m132();
+    rideable->_154 = *mAnimalUnitRate_s;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("攻撃前", &pack);
 }
 
+// NON_MATCHING: regalloc (the original keeps the per-attack delta in s0 and loads _1688 into s1)
 void WolfLinkChainAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (*mIsInvincible_s)
+        _c8->sub_71002F31BC();
+    _c8->_1698 &= ~0x200;
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F60604();
+        controller->sub_7100F62DD0(1.0f);
+    }
+    mActor->m132()->_154 = 1.0f;
+    _c8->_1688 = sead::Mathf::clamp(_c8->_1688 + (-100.0f / *mNumAttacks_s) * _c4, 0.0f, 100.0f);
 }
 
 void WolfLinkChainAttack::loadParams_() {
