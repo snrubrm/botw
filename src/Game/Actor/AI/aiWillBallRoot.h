@@ -42,7 +42,7 @@ protected:
     ksys::act::BaseProcLink _80;
     Unk_7102450be8 _90;
     Unk_7102450588 _120;
-    u32 _170 = 0;
+    f32 _170 = 0;
     bool _174 = false;
     bool _175 = false;
     bool _176 = false;

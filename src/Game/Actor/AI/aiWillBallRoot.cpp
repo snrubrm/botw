@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 
 namespace uking::ai {
@@ -15,7 +18,28 @@ bool WillBallRoot::init_(sead::Heap* heap) {
 }
 
 void WillBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _174 = false;
+    _176 = false;
+    _120.x();
+    _90.x();
+    if (mActor->getRootAi()->getI() == 6) {
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        // C++14 evaluation order: the original evaluates the destination first
+        _80.operator=(act::PlayerInfo::getSomeProcLink());
+        if (_80.hasProc()) {
+            const auto& mtx = mActor->getMtx();
+            const sead::Vector3f pos{mtx(0, 3), mtx(1, 3), mtx(2, 3)};
+            sub_71005F5CEC(0, pos, *mCount_m);
+        } else {
+            changeChild("待機");
+        }
+    } else {
+        changeChild("待機");
+    }
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->_14c = 0;
+    _170 = static_cast<f32>(*mMagneLightningTime_s);
 }
 
 void WillBallRoot::leave_() {
