@@ -3,12 +3,14 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::act {
+
 
 Unk_710244dd20::Unk_710244dd20(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
 
@@ -116,6 +118,38 @@ void Unk_710244dd20::m20() {
     if (_88._30)
         sub_71006D0AB8();
     _88.x();
+}
+
+// NON_MATCHING: the depth loads (y before _6f0, as in sub_71006CFA80) and the block order of the string compare.
+bool Unk_710244dd20::m15() {
+    if (!m14())
+        return false;
+
+    if (_8.isOn(0x80)) {
+        auto* actor = _10;
+        if (!actor->get68f() ||
+            int(ksys::phys::Material(actor->get6fc())) != ksys::phys::Material::Water) {
+            return true;
+        }
+        return !(ksys::phys::MaterialMask::getSubMaterialName(ksys::phys::Material::Water,
+                                                              actor->get700()) == "Water_Poison");
+    }
+    if (_8.isOn(0x100)) {
+        if (!sub_71006DF43C(_10))
+            return true;
+        auto* param = sub_71006DF5A4();
+        if (!param)
+            return true;
+        const f32 depth = _10->get68f() ? _10->get6f0() - _10->getMtx()(1, 3) : 0.0f;
+        return !(depth > param->mColdWaterDamageStartDepth.ref());
+    }
+    if (_8.isOn(0x400)) {
+        auto* actor = _10;
+        if (!actor->get68f())
+            return true;
+        return int(ksys::phys::Material(actor->get6fc())) != ksys::phys::Material::Lava;
+    }
+    return false;
 }
 
 void Unk_710244dd20::sub_71006CF770() {
