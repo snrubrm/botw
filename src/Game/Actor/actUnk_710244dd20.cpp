@@ -7,6 +7,10 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::act {
@@ -37,6 +41,30 @@ bool Unk_710244dd20::sub_71006D1DA0() {
 
 bool Unk_710244dd20::m17(s32 bit) const {
     return _139.isOnBit(bit);
+}
+
+void Unk_71008502cc::m12(int index) {
+    switch (index) {
+    case 0: {
+        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(_10);
+        if (!player || !player->sub_710084CF24())
+            _8.setBit(0);
+        break;
+    }
+    case 1: {
+        auto* player = sead::DynamicCast<ksys::act::PlayerBase>(_10);
+        if (!player || !player->sub_710084CF24())
+            _8.setBit(1);
+        break;
+    }
+    case 5:
+        _140 = _10->getParam()->getRes().mGParamList->getPlayer()->mShockTime.ref();
+        _8.setBit(5);
+        break;
+    default:
+        Unk_710244dd20::m12(index);
+        break;
+    }
 }
 
 void Unk_71008502cc::m13(int index) {

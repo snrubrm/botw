@@ -126,6 +126,8 @@ public:
     bool m8(const ksys::Message& message) override;
     void m10() override;
     void m11(bool enable) override;
+    // Slot 12 (0x71006cfe18, not decompiled): starts the condition `index`.
+    void m12(int index) override;
     // Slot 13 (0x71006d05b0): ends the condition `index` (2 burn, 3 ice "Frozen_End", 4 electric, 6) and clears its
     // bit in _8.
     void m13(int index) override;
@@ -203,6 +205,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 class Unk_71008502cc : public Unk_710244dd20 {
 public:
     explicit Unk_71008502cc(ksys::act::Actor* actor);
+    // Slot 12 (0x710085062c): conditions 0 / 1 set their bit unless the player's 0x710084cf24 says otherwise, 5 also
+    // stores the player's ShockTime; the others go to Unk_710244dd20::m12.
+    void m12(int index) override;
     // Slot 13 (0x71008507a4): conditions 0, 1 and 5 only clear their bit, the others go to Unk_710244dd20::m13.
     void m13(int index) override;
 
@@ -211,7 +216,7 @@ public:
     bool sub_7100850CF4() const;
 
     /* 0x13c */ u32 _13c;
-    /* 0x140 */ u32 _140;
+    /* 0x140 */ f32 _140;  // ShockTime (m12)
     /* 0x144 */ u32 _144;
     /* 0x148 */ u32 _148;
 };
