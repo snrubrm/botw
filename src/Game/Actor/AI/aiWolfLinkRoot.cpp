@@ -15,6 +15,12 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include <cmath>
 
 // 0x71002c802c (defined in actMotorcycleAccessors.cpp)
 bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
@@ -77,6 +83,45 @@ void WolfLinkRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
     setFailed();
+}
+
+// NON_MATCHING: the lerp target lands in s0 instead of s1 (store scheduled after the constant loads)
+void WolfLinkRoot::calc_() {
+    auto* actor = mActor;
+    if (!actor->getLodState()->mFlags8.isOn(1 << 11)) {
+        auto* terrain = ksys::tera::Terrain::instance();
+        if (terrain && terrain->isGrassEnabled()) {
+            auto* controller = actor->getCharacterController();
+            if (controller && controller->sub_7100F5F0E4() == ksys::act::MotionType::_0) {
+                sead::Vector3f pos;
+                actor->getMtx().getTranslation(pos);
+                terrain->sub_710114DE4C()->sub_7101150A7C(&pos, 1.5f, 0.15f);
+            }
+        }
+    }
+
+    if (auto* controller = actor->getCharacterController()) {
+        if (auto* as_list = actor->getASList()) {
+            const sead::Vector3f dir = controller->get64();
+            const f32 dot = sead::Mathf::clamp(dir.dot(_38), -1.0f, 1.0f);
+            const f32 angle = std::acos(dot);
+            const f32 sign = _38.x * dir.z - dir.x * _38.z >= 0.0f ? 1.0f : -1.0f;
+            const f32 target = std::min(sead::Mathf::rad2deg(angle), 45.0f) * sign;
+            _44.lerp(target, 0.14f, 0.15f, 0.01f);
+            as_list->x_6(9, 0, -_44.value);
+            _38 = dir;
+
+            if (actor->m132()) {
+                auto* rideable = actor->m132();
+                const act::Rideable::Gear gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);
+                as_list->x_6(10, 0, static_cast<f32>(int(gear)));
+            }
+            as_list->x_6(16, 0, 9999.0f);
+        }
+    }
+
+    m36();
+    m38();
 }
 
 void WolfLinkRoot::leave_() {
