@@ -56,6 +56,7 @@ target_sources(uking PRIVATE
     actActorUniqueNameSearch.h
     actActorUnk117.h
     actActorUtil.cpp
+    actIsGetUtil.cpp
     actActorUtil.h
     actActorWeapons.cpp
     actActorWeapons.h
@@ -170,6 +171,7 @@ target_sources(uking PRIVATE
     actUnk_7100e4e084.cpp
     actUnk_7100e4e084.h
     actUnk_7102459df8.cpp
+    actUnk_710245a0b8.cpp
     actUnk_7102459df8.h
     actUnk_71024ef4e8.cpp
     actUnk_71024ef4e8.h

@@ -139,11 +139,6 @@ void getNameAndUniqueName(const ksys::map::Object* object, sead::BufferedSafeStr
 // 2026-10-07: original 0x7100ee9efc reads a bool game-data result; declaration only.
 bool checkIsGet(const sead::SafeString& name, bool mode);
 
-// Source owner unknown: the event-flow caller uses this string prefix.
-const char* sub_7100EE9E80() {
-    return "IsGet_";
-}
-
 // Source owner unknown: the independent controller consumer uses this bool setting.
 bool sub_7100EE9CE8() {
     bool value = false;
@@ -155,13 +150,6 @@ bool sub_7100EE9CE8() {
 // Source owner unknown: CameraEventMove supplies an acquired actor accessor.
 bool sub_7100EE1D34(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return ksys::act::isTagProfileMaybe(accessor.getProfile());
-}
-
-// NON_MATCHING: the same-group lookup is inlined from this TU instead of retaining its original call.
-bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode) {
-    sead::SafeString group_name;
-    const bool has_group = ksys::act::getSameGroupActorName(&group_name, actor_name);
-    return checkIsGet(has_group ? group_name : actor_name, mode);
 }
 
 // 2026-10-07: original callback storage at2606B10 is written by EE427C and read by both dispatchers.

@@ -154,6 +154,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e60, 0x2d0);
 
 // The complete producer 79C5F8 allocates 0x2d0 for both variants, constructs
 // the Unk_7102459e60 base and selects these three-slot tables.
+bool sub_710079F598(phys::RigidBody* body);
+
 class Unk_710245a0b8 : public Unk_7102459df8::Unk_7102459e60 {
 public:
     ~Unk_710245a0b8() override;
