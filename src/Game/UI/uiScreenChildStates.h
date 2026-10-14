@@ -177,17 +177,6 @@ public:
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);
 
-// Factory 9d7294 allocates 0x708 bytes; full ctor 9c69a4 and dtor 9c6a2c
-// establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.
-class Unk_710247dc90 : public ScreenChildEx {
-public:
-    explicit Unk_710247dc90(eui::LayoutEx* layout);
-    ~Unk_710247dc90() override;
-
-    u8 _130[0x708 - 0x130];
-};
-static_assert(sizeof(Unk_710247dc90) == 0x708);
-
 // Native ctor 9cb0c8 and D1 9cbcc0 establish this non-polymorphic 0x2e8-byte controller.
 // Queue count/state are also initialized by inner ctor 9cc648 and consumed by 9cc3a0 / 9cc970.
 class Unk_71009cb0c8 {
@@ -219,6 +208,27 @@ public:
     u8 _cc[0x2e8 - 0xcc];
 };
 static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
+
+// Factory 9d7294 allocates 0x708 bytes; full ctor 9c69a4 and dtor 9c6a2c
+// establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.
+class Unk_710247dc90 : public ScreenChildEx {
+public:
+    explicit Unk_710247dc90(eui::LayoutEx* layout);
+    ~Unk_710247dc90() override;
+
+    // Members from the ctor 0x9c69a4 and D1 0x9c6a2c.
+    u8 _130[0x188 - 0x130]{};
+    /* 0x188 */ nn::ui2d::ExternalTextureInfo _188;
+    /* 0x1a0 */ nn::ui2d::ExternalTextureInfo _1a0;
+    /* 0x1b8 */ agl::TextureData _1b8;
+    /* 0x2e0 */ agl::TextureData _2e0;
+    /* 0x408 */ Unk_71009cb0c8 _408;
+    /* 0x6f0 */ u16 _6f0 = 0;
+    /* 0x6f8 */ void* _6f8 = nullptr;
+    /* 0x700 */ void* _700 = nullptr;
+};
+static_assert(sizeof(Unk_710247dc90) == 0x708);
+
 
 // Factory 9de3f4 and full ctor/D1 9bd404 / 9bd470 place the controller at 0x198.
 class Unk_710247c010 : public ScreenChildEx {
