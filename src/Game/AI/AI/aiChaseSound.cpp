@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 bool sub_71005E2068(ksys::act::Actor* actor);
@@ -82,6 +83,49 @@ void ChaseSound::loadParams_() {
     getStaticParam(&mParams.mTurnDir_s, "TurnDir");
     getStaticParam(&mParams.mUseViewPointSimpleOffset_s, "UseViewPointSimpleOffset");
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: distance-load scheduling and the hit-position copy base register
+void ChaseSound::sub_7100346114() {
+    if (!isCurrentChild("回転")) {
+        const sead::Vector3f& pos = mActor->getMtx().getTranslation();
+        if (!((*mParams.mTargetPos_d - pos).length() < *mParams.mNearDist_s) &&
+            !sub_710072E154(mActor, *mParams.mTargetPos_d, nullptr, -1)) {
+            if (!_78) {
+                _78 = ksys::phys::RayCastForRequest::allocRequest(nullptr, ksys::phys::GroundHit(0xf));
+                if (!_78)
+                    return;
+            }
+            if (_78->isRequestQueued())
+                return;
+            auto* cast = _78;
+            if (_68.value <= sead::Mathf::epsilon()) {
+                sead::Vector3f start = mActor->getMtx().getTranslation();
+                sub_710072EC24(cast, start, *mParams.mTargetPos_d,
+                               ksys::phys::RayCast::NormalCheckingMode(1), 1.6f);
+            } else if (cast->get70() == 1) {
+                bool ok = false;
+                if (cast->hasHit()) {
+                    cast->getHitPosition(&_80);
+                    sead::Vector3f to = _80;
+                    to.y += -2.0f;
+                    ok = sub_710072EA18(_80, to, 1, &_80, nullptr, nullptr, 0.0f);
+                }
+                if (!ok)
+                    _80 = *mParams.mTargetPos_d;
+                const f32 dist = (_80 - *mParams.mTargetPos_d).length();
+                const int min = *mParams.mTargetUpdateIntervalMin_s;
+                const int max = *mParams.mTargetUpdateIntervalMax_s;
+                const f32 near = *mParams.mNearDist_s;
+                const f32 t = min + (max - min) * (dist - near) / near;
+                _68.reset(t > max ? f32(max) : t);
+            }
+            _68.update();
+            return;
+        }
+    }
+    _80 = *mParams.mTargetPos_d;
+    _68.reset(0.0f);
 }
 
 }  // namespace uking::ai

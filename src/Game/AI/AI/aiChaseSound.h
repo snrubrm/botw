@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::phys {
 class RayCastForRequest;
@@ -40,7 +41,7 @@ protected:
         sead::Vector3f* mTargetPos_d{};
     };
     Params mParams;
-    sead::Vector3f _68{0, 0, 0};
+    ksys::Timer _68;
     f32 _74{};
     ksys::phys::RayCastForRequest* _78{};
     sead::Vector3f _80;
