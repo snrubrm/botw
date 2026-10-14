@@ -1168,6 +1168,60 @@ void DamageManager::m45(const ConditionDamageInfo& info) {
 // NON_MATCHING: stack layout only (the original puts the callback info and the callback values above `damage`, which
 // points at an inlined helper shared with sub_71006D357C and m22: save the damage type, run the callbacks with a
 // DamageCallbackInfo holding _8c, restore both).
+void DamageManager::m54(const ConditionDamageInfo& info) {
+    bool update_type;
+    s32 f54;
+    if (info.mFlags & 2) {
+        _8c |= 0x1000;
+        update_type = true;
+        f54 = 31;
+    } else if (info.mFlags & 0x20) {
+        update_type = true;
+        f54 = 28;
+    } else if (info.mFlags & 0x10) {
+        auto* param = getActorDamageParam();
+        if (param && param->mProofBurnAtSmallDamage.ref()) {
+            update_type = true;
+            f54 = 15;
+        } else {
+            update_type = true;
+            f54 = -1;
+        }
+    } else if (info._8 & 4) {
+        update_type = true;
+        f54 = 22;
+    } else if (info._8 & 2) {
+        update_type = true;
+        f54 = 21;
+    } else if (info._8 & 1) {
+        update_type = true;
+        f54 = 17;
+    } else if (info.mFlags & 1) {
+        f54 = 0;
+        update_type = true;
+    } else {
+        update_type = mDamageType == -1;
+        f54 = (info.mFlags & 0x40) ? -1 : 18;
+    }
+
+    s32 damage = info.mDamage;
+    if (_214 & 0x40)
+        damage = (info.mFlags & 1) ? damage : 0;
+    const u32 prev_f50 = mField_50;
+    const s32 prev_type = update_type ? -1 : mDamageType;
+    const bool applied = sub_71006D357C(6, 5, info.mFlags & 8, damage, 0, 0, 9, f54, 0);
+    if (!update_type) {
+        mField_50 = prev_f50;
+        mDamageType = prev_type;
+        return;
+    }
+    if (!applied)
+        return;
+    _216.change(0x100, info.mFlags & 8);
+    if (info.mFlags & 8)
+        _88 = info._10;
+}
+
 void DamageManager::sub_71006D888C(const ConditionDamageInfo& info) {
     s32 f54;
     if (info.mFlags & 2) {
