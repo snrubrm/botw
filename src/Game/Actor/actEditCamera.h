@@ -60,6 +60,10 @@ static inline ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
 }
 
 
+// 0x71024741a8 (placeholder name; defined in an unknown TU): "Default", the name of the default CameraEdit
+// action (CameraEdit::loadParams_ copies its names into the EditCamera; also read by CameraEditRoot::calc_).
+extern const char* sUnk_71024741A8;
+
 // 0x7100791a0c / 0x7100791b00 (placeholder names): the accessor's actor as an EditCamera, and its sub_71007917C4().
 EditCamera* sub_7100791A0C(const ksys::act::ActorLinkConstDataAccess& accessor);
 EditCamera::CameraNames* sub_7100791B00(const ksys::act::ActorLinkConstDataAccess& accessor);

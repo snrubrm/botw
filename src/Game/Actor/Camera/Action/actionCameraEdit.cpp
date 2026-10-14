@@ -17,14 +17,28 @@ void CameraEdit::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CameraEdit::loadParams_() {
-    getStaticParam(&mNormal_s, "Normal");
-    getStaticParam(&mLockOn_s, "LockOn");
-    getStaticParam(&mWall_s, "Wall");
-    getStaticParam(&mNormalSubject_s, "NormalSubject");
-    getStaticParam(&mBow_s, "Bow");
-    getStaticParam(&mBowSquat_s, "BowSquat");
-    getStaticParam(&mBowLockOn_s, "BowLockOn");
-    // FIXME: CALL _ZNK4ksys3act2ai10ActionBase7getNameEv @ 0x7100d165fc
+    if (!getStaticParam(&mNormal_s, "Normal"))
+        mNormal_s = "DefaultNormal";
+    if (!getStaticParam(&mLockOn_s, "LockOn"))
+        mLockOn_s = "DefaultLockOn";
+    if (!getStaticParam(&mWall_s, "Wall"))
+        mWall_s = "DefaultWall";
+    if (!getStaticParam(&mNormalSubject_s, "NormalSubject"))
+        mNormalSubject_s = "DefaultNormalSubject";
+    if (!getStaticParam(&mBow_s, "Bow"))
+        mBow_s = "デフォルト弓カメラ";
+    if (!getStaticParam(&mBowSquat_s, "BowSquat"))
+        mBowSquat_s = "デフォルト弓屈みカメラ";
+    if (!getStaticParam(&mBowLockOn_s, "BowLockOn"))
+        mBowLockOn_s = "デフォルト弓注目カメラ";
+
+    if (sead::SafeString(getName()) == act::sUnk_71024741A8) {
+        if (mActor) {
+            if (auto* camera = sead::DynamicCast<act::EditCamera>(mActor))
+                std::memcpy(camera->sub_71007917B4(), &mNormal_s,
+                            sizeof(act::EditCamera::CameraNames));
+        }
+    }
 }
 
 }  // namespace uking::action
