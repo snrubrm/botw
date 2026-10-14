@@ -1,5 +1,8 @@
 #include "Game/Actor/AI/aiRemainsWaterChaseBulletRoot.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -112,6 +115,42 @@ void RemainsWaterChaseBulletRoot::calc_() {
 
     if (_3a && isCurrentChild("待機"))
         sub_710054A930();
+}
+
+// Whether the player touches the bullet's "PlayerSensor" body.
+bool RemainsWaterChaseBulletRoot::sub_7100549F6C() {
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return false;
+    auto* set = physics->findBodyByName(*sub_71007A2548());
+    if (!set)
+        return false;
+    auto* sensor = set->findBodyByHavokName("PlayerSensor");
+    if (!sensor)
+        return false;
+    auto* info = sensor->getCollisionInfo();
+    if (!info || info->getCollidingBodies().size() == 0)
+        return false;
+
+    auto* bodies = info->getCollidingBodies().front();
+    info->lock();
+    for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
+        auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(bodies->bodies[1]->getUserTag());
+        if (!tag)
+            continue;
+        bool is_player;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            tag->acquireActor(&accessor);
+            is_player = accessor.isPlayerProfile();
+        }
+        if (is_player) {
+            info->unlock();
+            return true;
+        }
+    }
+    info->unlock();
+    return false;
 }
 
 void RemainsWaterChaseBulletRoot::leave_() {
