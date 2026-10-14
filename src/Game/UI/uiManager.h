@@ -74,6 +74,8 @@ public:
     bool checkLoadResource(ksys::res::Handle* handle, const sead::SafeString& path);
     bool parseLocations();
     bool sub_7100A7F2EC(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos);
+    // 0x7100a7f930 (declared only; Unk_7102485670::sub_7100A01918 passes a message / tip id)
+    bool sub_7100A7F930(s32 id);
     bool sub_7100A7F468(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
