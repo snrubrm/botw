@@ -41,6 +41,10 @@ public:
     void sub_71004682CC();
     // 0x7100468028 (placeholder name): kills the ELink events and fades the SLink events of _f0 and _110.
     void sub_7100468028();
+    // 0x7100466c48 (placeholder name): whether the arrow should be released (m40): while flying (発射 / ホーミング /
+    // 上空撃ち) beyond 10 * _e8 from the player (XZ) when not visible, or within it when below the ground; after
+    // 刺さる / 跳ね返る / 接地 beyond that range.
+    bool sub_7100466C48();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a
@@ -93,7 +97,7 @@ protected:
     u32 _dc = 0;
     u32 _e0 = 0;
     u32 _e4 = 0;
-    u32 _e8 = 0;
+    f32 _e8 = 0;  // range (sub_7100466C48 uses 10 * _e8)
     bool _ec = false;
     Unk_71012419b4 _f0;
     Unk_71012419b4 _110;

@@ -1,6 +1,10 @@
 #include "Game/Actor/AI/aiArrow.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/aiUnk_7100D8C538.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
@@ -38,6 +42,42 @@ Arrow::~Arrow() {
 void Arrow::sub_7100463940() {
     if (_170.sub_7101241AD8(0))
         xlink::fade(_170.mELink, -1);
+}
+
+// NON_MATCHING: scheduling of the player / arrow position loads and the operand order of the XZ distance sum
+bool Arrow::sub_7100466C48() {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (!player.hasProc())
+        return false;
+
+    const auto& player_mtx = player.getActorMtx();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    const sead::Vector2f diff(player_mtx(0, 3) - pos.x, player_mtx(2, 3) - pos.z);
+    const f32 dist = diff.length();
+    const f32 dist_sq = dist * dist;
+    const f32 range = _e8 * 10.0f;
+    const f32 range_sq = range * range;
+
+    if (isCurrentChild("発射") || isCurrentChild("ホーミング") || isCurrentChild("上空撃ち")) {
+        if (dist_sq > range_sq) {
+            if (visibilityCheckMaybe(pos, 1.0f))
+                return false;
+        } else {
+            if (ksys::map::PlacementMgr::instance()->isStaticCompoundReady(pos, false))
+                return false;
+            f32 height = 0.0f;
+            if (sub_710072C21C(&height, &pos) != 2 || !(pos.y < height))
+                return false;
+        }
+    } else {
+        const bool landed = isCurrentChild("刺さる") || isCurrentChild("跳ね返る") || isCurrentChild("接地");
+        if (!landed || !(dist_sq > range_sq))
+            return false;
+    }
+    m40(mActor);
+    return true;
 }
 
 void Arrow::sub_7100468028() {
