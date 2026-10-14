@@ -382,6 +382,8 @@ public:
 
     // 0x7101001194 (declared only; 508 B): called at the end of the constructor.
     void sub_7101001194(const BgmInitArg& arg);
+    // 0x7101001808 (declared only; placeholder name): sets _60 (DragonReleaseGrudgeForDemo::calc_ clears it).
+    void sub_7101001808(bool on);
 
     u64 _10 = 0;
     // Indexed by DragonBgmInfo::DragonEnum (DragonBgm, GrudgeDragonBgm).
