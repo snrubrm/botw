@@ -86,6 +86,34 @@ void ChaseSound::loadParams_() {
 }
 
 // NON_MATCHING: distance-load scheduling and the hit-position copy base register
+bool ChaseSound::sub_7100345C2C() {
+    if (sub_710072E154(mActor, *mParams.mTargetPos_d, nullptr, -1)) {
+        if (isCurrentChild("直線追跡"))
+            return false;
+        _80 = *mParams.mTargetPos_d;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_80, "TargetPos", -1);
+        changeChild("直線追跡", &pack);
+        return true;
+    }
+
+    const sead::Vector3f target = *mParams.mTargetPos_d;
+    const f32 distance = (target - mActor->getMtx().getTranslation()).length();
+    if (distance < *mParams.mNearDist_s) {
+        if (isCurrentChild("近場追跡"))
+            return false;
+        _80 = *mParams.mTargetPos_d;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_80, "TargetPos", -1);
+        changeChild("近場追跡", &pack);
+    } else {
+        if (isCurrentChild("遠方追跡"))
+            return false;
+        sub_71003463B0();
+    }
+    return true;
+}
+
 void ChaseSound::sub_7100346114() {
     if (!isCurrentChild("回転")) {
         const sead::Vector3f& pos = mActor->getMtx().getTranslation();

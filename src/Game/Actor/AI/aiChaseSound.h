@@ -23,7 +23,11 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100345c2c (placeholder name): starts 直線追跡 / 近場追跡 / 遠方追跡 for the target position unless that child
+    // is already running (then false).
     bool sub_7100345C2C();
+    // 0x71003463b0 (placeholder name; declared only, 536 B): starts the far chase (遠方追跡).
+    void sub_71003463B0();
     void sub_7100346114();
 
     struct Params {
