@@ -1,6 +1,7 @@
 #include "Game/Actor/Action/actionHorseFreeze.h"
 #include "Game/Actor/actHorse.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/aiUnk_71006F1DF0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -19,6 +20,28 @@ bool HorseFreeze::init_(sead::Heap* heap) {
 
 void HorseFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
     StopBase::enter_(params);
+    if (auto* rideable_base = mActor->m132()) {
+        if (rideable_base->_8.load() & 4) {
+            rideable_base->_18.sub_7100E76BBC();
+            rideable_base->_8 &= ~4u;
+            rideable_base->sub_7100E63224(0, 0);
+        }
+        if (!mASName_s.isEmpty()) {
+            rideable_base->_18.sub_7100E770C4(false);
+            rideable_base->_18.sub_7100E76E74(mASName_s, false);
+        }
+        if (auto* rideable = sead::DynamicCast<act::Rideable>(rideable_base)) {
+            rideable->sub_7100E8BE10();
+            rideable->Unk_7100e8b2b8::_8 = 0x200;
+        }
+    }
+    if (*mIsEnableThrowOffAttack_d && !mThrowOffAttackRigidBodyName_s.isEmpty())
+        _70 = sub_71006F1408(mActor, mThrowOffAttackRigidBodyName_s, "Saddle_Root");
+    else
+        _70 = nullptr;
+    if (auto* xlink = mActor->getXLink())
+        xlink->_cc.set(0x800);
+    _68 = 0;
 }
 
 void HorseFreeze::leave_() {
