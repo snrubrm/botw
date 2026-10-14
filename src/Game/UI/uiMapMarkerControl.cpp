@@ -375,19 +375,287 @@ void Unk_7102478ec8::m11() {
 
 Unk_71024784c0::~Unk_71024784c0() = default;
 
+// 0x710098d7c4
+void Unk_71024784c0::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_71024756f0>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098d898
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_71024784c0::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_71024756f0>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x80000)
+                    animator->Stop(2.0f);
+                else if (entry->_3c & 0x20000)
+                    animator->Stop(1.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
+
 Unk_7102478558::~Unk_7102478558() = default;
+
+// 0x710098d988
+void Unk_7102478558::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475808>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x200)
+                animator->Stop(2.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098da48
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_7102478558::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475808>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x200)
+                    animator->Stop(2.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
 
 Unk_71024785f0::~Unk_71024785f0() = default;
 
+// 0x710098db24
+void Unk_71024785f0::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475920>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x20000)
+                animator->Stop(2.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098dbe4
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_71024785f0::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475920>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x20000)
+                    animator->Stop(2.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
+
 Unk_7102478688::~Unk_7102478688() = default;
+
+// 0x710098dcc0
+void Unk_7102478688::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098dd94
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_7102478688::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x80000)
+                    animator->Stop(2.0f);
+                else if (entry->_3c & 0x20000)
+                    animator->Stop(1.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
 
 Unk_7102478720::~Unk_7102478720() = default;
 
+// 0x710098de84
+void Unk_7102478720::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098df58
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_7102478720::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x80000)
+                    animator->Stop(2.0f);
+                else if (entry->_3c & 0x20000)
+                    animator->Stop(1.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
+
 Unk_71024787b8::~Unk_71024787b8() = default;
+
+// 0x710098e048
+void Unk_71024787b8::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098e11c
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_71024787b8::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x80000)
+                    animator->Stop(2.0f);
+                else if (entry->_3c & 0x20000)
+                    animator->Stop(1.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
 
 Unk_7102478850::~Unk_7102478850() = default;
 
+// 0x710098e20c
+void Unk_7102478850::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x80000)
+                animator->Stop(2.0f);
+            else if (entry->_3c & 0x20000)
+                animator->Stop(1.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098e2e0
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_7102478850::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475a38>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x80000)
+                    animator->Stop(2.0f);
+                else if (entry->_3c & 0x20000)
+                    animator->Stop(1.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
+
 Unk_71024788e8::~Unk_71024788e8() = default;
+
+// 0x710098e3d0
+void Unk_71024788e8::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102475b50>(_18)) {
+        if (auto* animator = _40) {
+            if (entry->_3c & 0x20000)
+                animator->Stop(2.0f);
+            else
+                animator->Stop(0.0f);
+        }
+    }
+}
+
+// 0x710098e490
+// NON_MATCHING: the flag tests are if-converted into a ccmp chain here.
+void Unk_71024788e8::m11() {
+    Unk_7102477fc0::m11();
+    if ((_18->_3c & 1) && ((_18->_3c & 0x4000) || (_18->_3c & 3) == 3 || (_18->_3c & 0x30) == 0x30)) {
+        if (auto* entry = sead::DynamicCast<Unk_7102475b50>(_18)) {
+            if (auto* animator = _40) {
+                if (entry->_3c & 0x20000)
+                    animator->Stop(2.0f);
+                else
+                    animator->Stop(0.0f);
+            }
+        }
+    }
+}
 
 Unk_7102478980::~Unk_7102478980() = default;
 
