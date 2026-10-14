@@ -70,8 +70,20 @@ void PriestBossGiantStageRotate::sub_710051C210() {
     _58.sub_710070DBB0(unit->_1a0, true);
 }
 
+// NON_MATCHING: the original has a dead SEAD_ENUM stack round trip (value 0) before storing the mode inside the lock
 void PriestBossGiantStageRotate::leave_() {
     PriestBoss::leave_();
+    sub_710051C44C();
+    if (!_140.isOnBit(Flag(Flag::_1)) && !_140.isOnBit(Flag(Flag::_0)) && !_140.isOnBit(Flag(Flag::_2)))
+        return;
+    if (_140.isOnBit(Flag(Flag::_6)) || !sub_7100505BE4())
+        return;
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_58._18.mLock);
+        _58._18._c = false;
+        _58._18._8 = 1;
+    }
+    _58.sub_710070DBB0(sub_7100505BE4()->_1a0, false);
 }
 
 void PriestBossGiantStageRotate::loadParams_() {
