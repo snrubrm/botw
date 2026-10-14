@@ -122,6 +122,8 @@ public:
     Unk_710260f248Entry* sub_71010209FC(const sead::SafeString& name);
     // 0x7101020bb0 (declared only): restarts the fader at 0 and moves it to 1 in `fade_sec` (nothing for 0).
     void sub_7101020BB0(f32 fade_sec);
+    // 0x7101020cec (declared only): whether the object has finished (type 3, or its asset reader is done).
+    bool sub_7101020CEC();
     // 0x7101020c08 (declared only): fades out the entries that belong to this object.
     void sub_7101020C08(f32 fade_sec);
 
@@ -211,6 +213,8 @@ public:
     void sub_7101007B44();
     bool sub_7101007C14();
     bool sub_7101007C90();
+    // 0x710100748c (declared only; 192 B): per-frame update.
+    void sub_710100748C();
 };
 
 // The kind of a BGM (Bgm::_c). A four-byte enum wrapper: sub_7100FF7920 / sub_7100FF7C74 and the controller BGM
@@ -438,6 +442,8 @@ struct Unk_SoundMgr30_10 {
     // 0x710101d5ec (declared only; 300 B) / 0x710101d718 (declared only; 96 B)
     void sub_710101D5EC(Unk_SpotBgmHandle* handle);
     void sub_710101D718(Unk_SpotBgmHandle* handle);
+    // 0x710101cfec (declared only; 1536 B): per-frame update.
+    void sub_710101CFEC();
 };
 
 // Four-byte state argument of sub_7100FF7BE0; the real enum name is unknown.
@@ -775,7 +781,9 @@ struct Unk_SoundMgr30 {
     void sub_7100FF8780(s32 fade_type);
     void sub_7100FF88A8(s32 fade_type);
     void sub_7100FF8AC4(s32 fade_type);
-    // 0x7100ff8b24 / 0x7100ff8b94 (declared only): add / remove a sound object from the ObjList at +0x90.
+    // 0x7100ff88d0: per-frame update; drops the finished sound objects.
+    void sub_7100FF88D0();
+    // 0x7100ff8b24 / 0x7100ff8b94: add / remove a sound object from the ObjList at +0x90.
     void sub_7100FF8B24(Unk_710260f248* obj);
     void sub_7100FF8B94(Unk_710260f248* obj);
     // 0x7100ff8a24 (declared only)
@@ -798,7 +806,11 @@ struct Unk_SoundMgr30 {
     /* 0x78 */ Unk_SoundMgr30_78* _78;
     u8 _80[8];
     u8 _88;
-    u8 _89[7];
+    // Skips the controller / _78 / _10 / fader updates in 0x7100ff88d0.
+    bool _89;
+    u8 _8a[6];
+    // The sound objects being updated (0x7100ff88d0 removes the finished ones).
+    sead::ObjList<Unk_710260f248*> mObjects;
 };
 
 // 0x7100ffd71c (32 B): `SoundMgr::instance()->_30`, or null without a SoundMgr. Placeholder name.

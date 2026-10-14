@@ -247,4 +247,45 @@ void Unk_710260f0c0::sub_7100FF98A4() {
     }
 }
 
+// Only read here (0x710260f058); set by code that is not in the release build.
+bool sUnk_710260F058;
+
+// NON_MATCHING: the original reads sUnk_710260F058 with adrp (TU-local; a static would be folded away here) and walks
+// the list nodes in other registers.
+void Unk_SoundMgr30::sub_7100FF88D0() {
+    if (!_89) {
+        if (_48)
+            _48->m5();
+        if (_78)
+            _78->sub_710100748C();
+        if (_10)
+            _10->sub_710101CFEC();
+        _60.calc();
+    }
+    if (sUnk_710260F058)
+        return;
+    for (auto it = mObjects.begin(), end = mObjects.end(); it != end;) {
+        auto& obj = *it;
+        ++it;
+        if (obj->sub_7101020CEC())
+            mObjects.erase(&obj);
+    }
+}
+
+// NON_MATCHING: the original schedules the list address (`add x0, x20, #0x90`) after the first zero store of the node.
+void Unk_SoundMgr30::sub_7100FF8B24(Unk_710260f248* obj) {
+    if (mObjects.isFull())
+        return;
+    *mObjects.emplaceBack() = obj;
+}
+
+void Unk_SoundMgr30::sub_7100FF8B94(Unk_710260f248* obj) {
+    for (auto& it : mObjects) {
+        if (it == obj) {
+            mObjects.erase(&it);
+            return;
+        }
+    }
+}
+
 }  // namespace ksys::snd
