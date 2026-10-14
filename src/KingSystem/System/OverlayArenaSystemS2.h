@@ -7,14 +7,14 @@
 namespace ksys {
 
 class OverlayArenaSystemS1;
-class SystemPauseMgr;
+class ISystemPauseMgr;
 
 // FIXME: incomplete
 class OverlayArenaSystemS2 {
 public:
     struct InitArg {
         OverlayArenaSystemS1* s1;
-        SystemPauseMgr* system_pause_mgr;
+        ISystemPauseMgr* system_pause_mgr;
     };
 
     OverlayArenaSystemS2();
@@ -32,7 +32,7 @@ private:
         this, &OverlayArenaSystemS2::sub_71012BBA50};
     u32 _28 = 1;
     OverlayArenaSystemS1* _30 = nullptr;
-    SystemPauseMgr* _38 = nullptr;
+    ISystemPauseMgr* _38 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(OverlayArenaSystemS2, 0x40);
 

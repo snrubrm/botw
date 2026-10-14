@@ -120,6 +120,10 @@ target_sources(uking PRIVATE
   gameWildHorseMgr.h
   E3Mgr.cpp
   E3Mgr.h
+  NXArgs.cpp
+  NXArgs.h
+  SystemPauseMgr.cpp
+  SystemPauseMgr.h
   gameRIDDemoSaveFileDevice.cpp
   gameRIDDemoSaveFileDevice.h
 )

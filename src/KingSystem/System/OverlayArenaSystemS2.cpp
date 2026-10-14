@@ -1,7 +1,7 @@
 #include "KingSystem/System/OverlayArenaSystemS2.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/System/OverlayArenaSystemS1.h"
-#include "KingSystem/System/SystemPauseMgr.h"
+#include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/Resource/resSystem.h"
 
 namespace ksys {
@@ -40,12 +40,12 @@ bool OverlayArenaSystemS2::sub_71012BBA50(void* userdata) {
         if (_30)
             _30->m9();
         if (_38)
-            _38->m9();
+            _38->waitForStageGenFinalStep();
     } else if (_0 == 1) {
         if (_30)
             _30->m13();
         if (_38)
-            _38->m13();
+            _38->showMainLayerAndResumeProcJobs();
     }
     res::stubbedLogFunction();
     _28 = 1;

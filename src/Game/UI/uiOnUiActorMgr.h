@@ -41,7 +41,8 @@ public:
     void sub_7100906F08(ksys::act::Actor* actor);
     bool sub_710090AB4C() const;
     // 0x710090941c (CSV OnUiActorMgr::__auto1; declaration only, placeholder name): called in the wait loop of
-    // SystemPauseMgr::m3 / m5 until sub_710090AB4C() holds.
+    // SystemPauseMgr::waitForOnUiActorMgrAndBlockSaveMaybe / waitForOnUiActorMgr until
+    // sub_710090AB4C() holds.
     void sub_710090941C();
     void sub_7100907A30();
     // 0x7100906e70 (CSV OnUiActorMgr::__auto3; placeholder name): releases the armors/actor/link actors
