@@ -2264,6 +2264,10 @@ class Unk_71024fd6c8 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd6c8, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fd6c8() override;
+    // Called by the BGM controllers (ksys::snd::Unk_710260f130 / Unk_710260f150) on their kind 18 BGM.
+    void sub_710100215C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+    void sub_7101002194();
+    void sub_7101002274();
     void m14(sead::TextWriter& writer) override {}
 };
 
@@ -2274,6 +2278,9 @@ class Unk_71024fd808 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd808, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fd808() override;
+    // Called by the BGM controllers on their kind 19 BGM.
+    void sub_71010029B8();
+    void sub_71010029CC();
     void m14(sead::TextWriter& writer) override {}
 };
 
@@ -2284,6 +2291,9 @@ class Unk_71024fd948 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd948, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fd948() override;
+    // Called by the BGM controllers on their kind 20 BGM.
+    void sub_71010038AC();
+    void sub_71010038C0();
     void m14(sead::TextWriter& writer) override {}
 };
 

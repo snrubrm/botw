@@ -4,6 +4,8 @@
 #include <aal/aalTimedFader.h>
 #include <container/seadOffsetList.h>
 #include <container/seadObjList.h>
+#include <prim/seadDelegate.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
@@ -153,8 +155,11 @@ public:
     ~Unk_7100ff7444();
     void sub_7100FF74D0();
     void sub_7100FF75DC(s32 capacity, sead::Heap* heap);
+    void sub_7100FF7698();
     void sub_7100FF7830(f32 fade_sec);
     void sub_7100FF78A8(f32 fade_sec);
+    // 0x7100ff7920 (184 B, CSV name snd::changeBgm): adds a reference to the entry of `kind`, or allocates the BGM.
+    void sub_7100FF7920(s32 kind, sead::Heap* heap);
     void sub_7100FF7BE0(Unk_7100FF7BE0 state);
     Bgm* sub_7100FF7C74(s32 kind);
 
@@ -165,33 +170,85 @@ private:
         u32 refs;
     };
     sead::ObjList<Entry> mEntries;
-    void* _30 = nullptr;
-    void* _38 = nullptr;
+
+public:
+    // Callbacks invoked by sub_7100FF7698 (_30) with each BGM; the controllers point them at their delegate members
+    // in their m4 (f160 sets both).
+    sead::IDelegate1<Bgm*>* _30 = nullptr;
+    sead::IDelegate1<Bgm*>* _38 = nullptr;
+
+private:
     sead::CriticalSection mCS;
     bool _80 = false;
     bool _81 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100ff7444, 0x88);
 
+// Argument of the controller virtual m8 (a pointer in the original). The consumers 0x7100ff9dcc / 0x7100ffbb24 read
+// the first dword, a dword at +4, a halfword at +8 and a dword at +0xc; 0x710100215c copies all 16 bytes.
+struct Unk_BgmControllerM8Arg {
+    u32 _0;
+    s32 _4;
+    u16 _8;
+    u8 _a[2];
+    u32 _c;
+};
+KSYS_CHECK_SIZE_NX150(Unk_BgmControllerM8Arg, 0x10);
+
+// Kind of BGM controller created by 0x7100ff8464 (CSV sound::x_1; it stores it at +0x40). That switch spills and
+// reloads the four-byte enum wrapper, and the Unk_710260f150 constructor receives it in a full register. Enumerator
+// names are unknown; the switch covers 1..11.
+SEAD_ENUM(BgmControllerType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11)
+
 // The RTTI root of the BGM controller family (vtable 0x71024fca78). `_8` is common to the family: the helpers
-// sub_7100FFDD38 etc. call `_48->_8.sub_7100FF7C74()` on the base pointer without a cast.
+// sub_7100FFDD38 etc. call `_48->_8.sub_7100FF7C74()` on the base pointer without a cast. The controllers derive from
+// it directly (their checkDerivedRuntimeTypeInfo tests their own typeInfo and then this class's).
 class Unk_71024fca78 {
 public:
     virtual ~Unk_71024fca78();
     SEAD_RTTI_BASE(Unk_71024fca78)
 
+    // Slots 4-7 are pure in the original vtable; 8-12 have empty or `return nullptr` default bodies.
+    virtual void m4(sead::Heap* heap) = 0;
+    virtual void m5() = 0;
+    virtual void m6(f32 fade_sec) = 0;
+    virtual void m7(f32 fade_sec) = 0;
+    virtual void m8(const Unk_BgmControllerM8Arg& arg) {}
+    virtual void m9() {}
+    virtual void m10() {}
+    virtual void* m11() { return nullptr; }
+    virtual void m12() {}
+
     Unk_7100ff7444 _8;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fca78, 0x90);
 
 // RTTI typeInfo 0x710260f130, SoundMgr::_30->_48.
 class Unk_710260f130 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f130, Unk_71024fca78)
 public:
+    Unk_710260f130();
+
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    void m8(const Unk_BgmControllerM8Arg& arg) override;
+    void m10() override;
+    void m12() override {}
+
+    void sub_7100FF9CC8(Bgm* bgm);
+    void sub_7100FF9F0C();
+    void sub_7100FF9FA8();
+    void sub_7100FFA0C4();
     void sub_7100FFA1E0(bool value);
-    bool _90;
-    bool _91;
-    bool _92;
+
+    bool _90 = false;
+    bool _91 = false;
+    bool _92 = true;
+    sead::Delegate1<Unk_710260f130, Bgm*> _98{this, &Unk_710260f130::sub_7100FF9CC8};
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f130, 0xb8);
 Unk_710260f130* sub_7100FFD9D0();
 
 // RTTI typeInfo 0x710260f198, a BGM controller (sub_7100FFD7CC casts SoundMgr::_30->_48 to it).
@@ -209,7 +266,25 @@ Unk_710260f1f8* sub_7100FFD878();
 // RTTI typeInfo 0x710260f150, a BGM controller (sub_7100FFD924 casts SoundMgr::_30->_48 to it).
 class Unk_710260f150 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f150, Unk_71024fca78)
+public:
+    explicit Unk_710260f150(BgmControllerType type);
+
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    void m8(const Unk_BgmControllerM8Arg& arg) override;
+    void m12() override {}
+
+    void sub_7100FFA46C(Bgm* bgm);
+    void sub_7100FFA610();
+    void sub_7100FFA72C();
+
+    bool _90 = false;
+    bool _91;
+    sead::Delegate1<Unk_710260f150, Bgm*> _98{this, &Unk_710260f150::sub_7100FFA46C};
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f150, 0xb8);
 Unk_710260f150* sub_7100FFD924();
 
 // RTTI typeInfo 0x710260f0c0, a BGM controller (sub_7100FFDB28 casts SoundMgr::_30->_48 to it).
