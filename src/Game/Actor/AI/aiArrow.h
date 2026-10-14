@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -71,6 +73,12 @@ public:
     // 0x7100468a18 (placeholder name): releases the prepared electric water ball (_1a8) at `pos`, giving it the
     // owner's chemical value and making the arrow's owner its owner.
     bool sub_7100468A18(const sead::Vector3f& pos);
+    // 0x710046b9ac (placeholder name): casts a ray of length 5 along the front axis from the actor position +
+    // `offset` against the ground layers, then the object / tree / rope sensors; outputs the hit and links _198 to
+    // the sensor's actor.
+    bool sub_710046B9AC(const sead::Vector3f& offset, sead::Vector3f* hit_pos, sead::Vector3f* normal,
+                        ksys::phys::MaterialMask* mask, ksys::phys::RigidBody::Type* type,
+                        ksys::map::Object** object);
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a

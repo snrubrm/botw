@@ -95,6 +95,8 @@ public:
     u32 get70() const { return _70; }
     void setNormalCheckingMode(NormalCheckingMode mode) { mNormalCheckingMode = mode; }
     const MaterialMask& getMaterialMask() const { return mMaterialMask; }
+    // Read inline by Arrow::sub_710046B9AC (lane1 s80; name is a guess).
+    map::Object* getHitMapObject() const { return mHitMapObject; }
     void getHitPosition(sead::Vector3f* position) const;
     bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
                               u32 shape_key) const;

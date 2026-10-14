@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiArrow.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -375,6 +376,57 @@ bool Arrow::sub_7100468A18(const sead::Vector3f& pos) {
     if (owner && ball_bullet) {
         ball_bullet->sub_71000048BC(owner);
         ball_bullet->sub_710000497C(owner);
+    }
+    return true;
+}
+
+// NON_MATCHING: scheduling of the start / end computation and the first query's exit path
+bool Arrow::sub_710046B9AC(const sead::Vector3f& offset, sead::Vector3f* hit_pos,
+                           sead::Vector3f* normal, ksys::phys::MaterialMask* mask,
+                           ksys::phys::RigidBody::Type* type, ksys::map::Object** object) {
+    const auto& mtx = mActor->getMtx();
+    const sead::Vector3f start = mtx.getTranslation() + offset;
+    sead::Vector3f front;
+    mtx.getBase(front, 2);
+    sead::Vector3f end = start;
+    end.setScaleAdd(5.0f, front, end);
+    {
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::Arrow);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+        query.enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+        query.setStartAndEnd(start, end);
+        query.set99(true);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            query.getHitPosition(hit_pos);
+            query.getHitNormal(normal);
+            *mask = query.getMaterialMask();
+            *object = query.getHitMapObject();
+            if (auto* body = query.getHitRigidBody())
+                *type = body->getType();
+            return true;
+        }
+    }
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::Arrow);
+    query.setStartAndEnd(start, end);
+    query.enableLayer(ksys::phys::ContactLayer::SensorObject);
+    query.enableLayer(ksys::phys::ContactLayer::SensorTree);
+    query.enableLayer(ksys::phys::ContactLayer::SensorRope);
+    query.worldRayCast(ksys::phys::ContactLayerType::Sensor);
+    if (!query.hasHit())
+        return false;
+    query.getHitPosition(hit_pos);
+    query.getHitNormal(normal);
+    *mask = query.getMaterialMask();
+    if (auto* body = query.getHitRigidBody()) {
+        if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag())) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            tag->acquireActor(&accessor);
+            accessor.linkAcquire(&_198);
+        }
     }
     return true;
 }
