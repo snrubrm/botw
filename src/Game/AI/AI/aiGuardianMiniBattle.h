@@ -27,9 +27,12 @@ public:
     void sub_7100413A38();
     bool sub_7100415140(s32 idx);
     s32 sub_7100415EAC();
-    // 0x7100415258 (declaration only, 1136 B; placeholder name): sets up the arm bones of the rolling attack
+    // 0x7100415258 (placeholder name): sets up the arm bones of the rolling attack
     // for the weapon pair (a, b) from the static node names.
     void sub_7100415258(s32 a, s32 b, s32 c, s32 d);
+    // 0x7100416068 (placeholder name; declared only): starts the animation `name` on AS slot `slot` (0-3) for the
+    // weapon indices (a, b, c, d).
+    void sub_7100416068(const sead::SafeString& name, s32 slot, s32 a, s32 b, s32 c, s32 d);
     void m37() override;
     void m43(ksys::act::ai::InlineParamPack* params) override;
     bool m40() override;

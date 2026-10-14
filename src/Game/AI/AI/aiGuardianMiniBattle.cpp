@@ -240,6 +240,70 @@ void GuardianMiniBattle::m43(ksys::act::ai::InlineParamPack* params) {
     params->addInt(a, "DynWeaponIdx", -1);
 }
 
+// NON_MATCHING: stack slots of the names and bone keys, as in GuardianMiniViewWait::sub_7100429D14.
+void GuardianMiniBattle::sub_7100415258(s32 a, s32 b, s32 c, s32 d) {
+    auto* actor = mActor;
+    if (!actor || !actor->getModel())
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+
+    sead::SafeString root = mRootNodeName_s;
+    // Arm node names for the back, left and right weapon slots.
+    sead::SafeString arms[3];
+    if (a == 2 && b == 0) {
+        arms[2] = mArm3NodeName_s;
+        arms[1] = mArm1NodeName_s;
+        arms[0] = mArm2NodeName_s;
+    } else if (a == 1 && b == 2) {
+        arms[2] = mArm2NodeName_s;
+        arms[1] = mArm3NodeName_s;
+        arms[0] = mArm1NodeName_s;
+    } else {
+        arms[2] = mArm1NodeName_s;
+        arms[1] = mArm2NodeName_s;
+        arms[0] = mArm3NodeName_s;
+    }
+
+    const auto root_key = actor->getModel()->searchBone(root);
+    const auto right_key = actor->getModel()->searchBone(arms[2]);
+    const auto left_key = actor->getModel()->searchBone(arms[1]);
+    const auto back_key = actor->getModel()->searchBone(arms[0]);
+    if (!root_key.isValid() || !right_key.isValid() || !left_key.isValid() || !back_key.isValid())
+        return;
+
+    as_list->sub_710115C9E0(0);
+    as_list->mSlots[0].sub_7101165008(root_key, 0, true);
+    as_list->mSlots[0].sub_7101165008(right_key, 3, true);
+    as_list->mSlots[0].sub_7101165008(left_key, 3, true);
+    as_list->mSlots[0].sub_7101165008(back_key, 3, true);
+    as_list->mSlots[0].sub_7101164E38(false);
+
+    const s32 right_slot = *mASSlotRight_s;
+    as_list->sub_710115C9E0(right_slot);
+    as_list->mSlots[right_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[right_slot].sub_7101165008(right_key, 0, true);
+    as_list->mSlots[right_slot].sub_7101164E38(false);
+
+    const s32 left_slot = *mASSlotLeft_s;
+    as_list->sub_710115C9E0(left_slot);
+    as_list->mSlots[left_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[left_slot].sub_7101165008(left_key, 0, true);
+    as_list->mSlots[left_slot].sub_7101164E38(false);
+
+    const s32 back_slot = *mASSlotBack_s;
+    as_list->sub_710115C9E0(back_slot);
+    as_list->mSlots[back_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[back_slot].sub_7101165008(back_key, 0, true);
+    as_list->mSlots[back_slot].sub_7101164E38(false);
+
+    sub_7100416068("Wait", 0, a, b, c, d);
+    sub_7100416068("Wait", 1, a, b, c, d);
+    sub_7100416068("Wait", 2, a, b, c, d);
+    sub_7100416068("Wait", 3, a, b, c, d);
+}
+
 void GuardianMiniBattle::m37() {
     s32 a;
     s32 b;
