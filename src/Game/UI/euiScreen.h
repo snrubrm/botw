@@ -300,7 +300,7 @@ public:
     /* 0xe8 */ ScreenUnkE8* _e8 = nullptr;
     /* 0xf0 */ ScreenSoundLinkUser* _f0 = nullptr;  // Sound-user interface pointer (the pointee is not fully resolved).
     /* 0xf8 */ f32 _f8 = sead::Mathf::pi() / 4;
-    /* 0xfc */ u8 mDrawTarget = 0xff;
+    /* 0xfc */ s8 mDrawTarget = -1;  // signed: ScreenGameOver::m158 sign-extends it (ldrsb)
     /* 0xfd */ s8 _fd = 0;
     /* 0xfe */ u8 mState = 0;
     /* 0xff */ u8 _ff = 0;

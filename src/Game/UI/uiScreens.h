@@ -3085,7 +3085,8 @@ public:
     u8 _368b{};
     u8 _368c[4];
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    virtual void m154();
+    // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
+    virtual void m154(s32 type, s32 draw_target, void* arg);
     virtual void m155();
 
 };
@@ -3138,7 +3139,8 @@ public:
     s32 _36c8 = -1;
     s32 _36cc = 4;
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    virtual void m154();
+    // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
+    virtual void m154(s32 type, s32 draw_target, void* arg);
     virtual void m155();
 
 };
@@ -3210,7 +3212,8 @@ public:
     u64 _3640{};
     u64 _3648{};
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    virtual void m154();
+    // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
+    virtual void m154(s32 type, s32 draw_target, void* arg);
     virtual void m155();
 
 };

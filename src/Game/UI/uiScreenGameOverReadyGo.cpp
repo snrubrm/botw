@@ -2,6 +2,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
 
@@ -59,6 +60,15 @@ void ScreenGameOver::m106(eui::AnimButton* button) {
         getStateMachine().changeState(&sUnk_71025ede00);
         break;
     }
+}
+
+// 0x7100a0aa18
+void ScreenGameOver::m158() {
+    createAndLoadScreenIfNeededImpl(ScreenId::SystemWindow00, nullptr);
+    auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+    if (screen)
+        screen->m154(1, mDrawTarget, nullptr);
 }
 
 // 0x7100a0aaec
