@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiWizzrobeRoam.h"
 #include "random/seadGlobalRandom.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/aiUnk_7102431fa8.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -15,8 +16,36 @@ bool WizzrobeRoam::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: scheduling (the original subtracts the central height before scaling the offset and loads
+// MexHeightLevel after the division)
 void WizzrobeRoam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    auto* unit = sead::DynamicCast<Unk_7102431fa8>(*static_cast<Unk_71025afb58**>(mWizzrobeMagicWeatherUnit_a));
+    if (unit && unit->_10)
+        unit->sub_7100741E14();
+
+    s32 level;
+    const f32 offset = *mHeightOffset_s;
+    if (offset == 0.0f) {
+        level = 0;
+    } else {
+        level = s32((offset * 0.5f + (mActor->getMtx().getTranslation().y - mCentralPos_d->y)) / offset);
+        const s32 max_level = *mMexHeightLevel_s;
+        if (level > max_level)
+            level = max_level;
+    }
+    _88 = level;
+    _8c = 0;
+
+    s32 count = *mMoveCountMin_s;
+    if (count < 1) {
+        count = 1;
+    } else if (count < *mMoveCountMax_s) {
+        count = sead::GlobalRandom::instance()->getS32Range(count, *mMoveCountMax_s + 1);
+    }
+    _90 = count;
+    sub_71005FE5CC();
 }
 
 void WizzrobeRoam::leave_() {
