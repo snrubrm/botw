@@ -63,6 +63,7 @@ public:
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     IsSpecialJobTypeResult isSpecialJobType_(ksys::act::JobType type) override;
+    void onPreDeleteStart_(PrepareArg&) override {}
 
 public:
     /* 0x83c */ u16 _83c = 0;

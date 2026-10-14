@@ -416,22 +416,22 @@ struct UiSubsys1Entry {
     virtual void m8();
     virtual void m9();
     virtual s32 m10();
-    virtual void m11();
-    virtual void m12();
+    virtual void m11() {}
+    virtual void m12() {}
     virtual void m13();
-    virtual void m14();
+    virtual void m14() {}
     virtual void m15();
-    virtual void m16();
+    virtual void m16() {}
     virtual void m17();
     virtual void m18();
     virtual void m19();
     virtual void m20();
-    virtual void m21();
+    virtual void m21() {}
     virtual void m22();
     virtual void updateDistrictFromPos(const sead::Vector3f* pos);
     virtual void m24(bool enabled);
     virtual void m25(bool enabled);
-    virtual void m26();
+    virtual void m26() {}
     virtual void m27(bool enabled);
     virtual void m28(bool enabled);
 

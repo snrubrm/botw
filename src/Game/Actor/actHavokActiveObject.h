@@ -13,6 +13,7 @@ public:
     explicit HavokActiveObject(const CreateArg& arg);
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+    void m63() override {}
 };
 KSYS_CHECK_SIZE_NX150(HavokActiveObject, 0x840);
 

@@ -38,6 +38,9 @@ public:
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void onPreDeleteStart_(PrepareArg&) override {}
+    void initMaybe() override {}
+    void updatePositionMaybe() override {}
 };
 KSYS_CHECK_SIZE_NX150(Anchor, 0x840);
 

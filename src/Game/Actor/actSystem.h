@@ -22,6 +22,10 @@ public:
     bool shouldUnload(s32* a1) override;
     // New virtual (vtable slot 148, signature unknown; the secondary vtable offsets are 8 bytes larger).
     virtual void m148() {}
+    void onPreDeleteStart_(PrepareArg&) override {}
+    void initMaybe() override {}
+    void calcMaybe() override {}
+    void updatePositionMaybe() override {}
 };
 KSYS_CHECK_SIZE_NX150(System, 0x840);
 

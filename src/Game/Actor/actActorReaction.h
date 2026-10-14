@@ -17,6 +17,8 @@ public:
 
     // New virtual (vtable slot 148, signature unknown; the secondary vtable offsets are 8 bytes larger).
     virtual void m148() {}
+    void calcMaybe() override {}
+    void updatePositionMaybe() override {}
 };
 KSYS_CHECK_SIZE_NX150(ActorReaction, 0x840);
 

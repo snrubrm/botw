@@ -976,6 +976,7 @@ public:
     void m100() override;
     // 0x71010a8afc
     const char* getLayoutName_() const override;
+    bool isEnableControl() const override { return true; }
 
     // 0x71010a87f0 (CSV unnamed, declared only): called by ui::sub_7100A981B0 with the tip type 18.
     bool sub_71010A87F0(s32 type);
@@ -1103,6 +1104,7 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
     // 0x71010b34d0
     const char* getLayoutName_() const override;
+    void m99() override {}
 
     u8 _2fc[0x300 - 0x2fc];
     /* 0x300 */ eui::LetterAnimControl* _300 = nullptr;
@@ -1278,6 +1280,7 @@ public:
     void sub_71010A0EE8(f32 progress);
     // 0x71010a1b24 (slot 101): clears the tip queue, refreshes the tip message and the draw target, tells the sound manager
     void m101() override;
+    void m99() override {}
     // 0x71010a172c (CSV Fade::updateTipMessage; declared only)
     void updateTipMessage();
     // 0x71010a0b88 (placeholder name): whether the animator at _300 is at its last frame
@@ -1340,6 +1343,8 @@ public:
     void m98() override;
     void m100() override;
     void m101() override;
+    void m94() override {}
+    void m99() override {}
     // 0x71010a01f8: `_350 = value` then updates the fade animators.
     void sub_71010A01F8(s32 value);
     // 0x71010a0200 (declared only): updates the selected animator and layout transforms.

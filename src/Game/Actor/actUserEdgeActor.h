@@ -12,6 +12,8 @@ class UserEdgeActor : public ksys::act::Actor {
 public:
     explicit UserEdgeActor(const CreateArg& arg);
     ~UserEdgeActor() override;
+    void calcMaybe() override {}
+    void updatePositionMaybe() override {}
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 

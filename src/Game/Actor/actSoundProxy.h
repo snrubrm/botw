@@ -20,6 +20,7 @@ public:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void onPreDeleteStart_(PrepareArg& arg) override;
     void calcMaybe() override;
+    void initMaybe() override {}
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
     // 2026-10-07: original 0x710105a10c writes the emitted handle through x2 and returns void.

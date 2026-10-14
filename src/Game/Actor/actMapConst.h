@@ -28,6 +28,8 @@ public:
     // lane4 s46: CSV MapConst::m87 / m135 (0x71002dd638 / 0x71002dd650).
     s32* getLife() override { return &_83c; }
     Unk3* m135() override { return &_848; }
+    void onPreDeleteStart_(PrepareArg&) override {}
+    void calcMaybe() override {}
 
     /* 0x83c */ s32 _83c = 0;
     /* 0x840 */ f32 _840 = 0;  // traverse distance of the actor

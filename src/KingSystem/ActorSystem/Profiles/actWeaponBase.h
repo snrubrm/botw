@@ -224,6 +224,7 @@ protected:
     void onEnterDelete_() override;
     // Primary vtable slot18 at24F2F70 points toEF3044.
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void onPreDeleteStart_(PrepareArg&) override {}
 
     // TODO
     sead::CriticalSection _840;

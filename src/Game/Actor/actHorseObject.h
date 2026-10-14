@@ -47,6 +47,8 @@ public:
     void calcMaybe() override;
     void m70() override;
     bool m81(const ksys::Message& message) override;
+    void onPreDeleteStart_(PrepareArg&) override {}
+    void updatePositionMaybe() override {}
 
     /* 0x840 */ ksys::act::BaseProcLink _840;
     /* 0x850 */ Unk_71024ebb00 _850;
@@ -74,6 +76,7 @@ public:
     bool shouldUnload(s32* a1) override;
     void initMaybe() override;
     void updatePositionMaybe() override;
+    void onPreDeleteStart_(PrepareArg&) override {}
 
     // 0x7100e7ba64 (declared only): `DynamicCast<Actor>(_840.getProc(nullptr, nullptr))`, the horse.
     Actor* sub_7100E7BA64();

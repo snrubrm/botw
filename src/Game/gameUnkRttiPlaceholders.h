@@ -56,6 +56,7 @@ class Unk_710247faf0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_710247faf0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_710247faf0() override;
+    void m5() override {}
 };
 
 // vtable 0x710247fbc0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -63,6 +64,7 @@ class Unk_710247fbc0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_710247fbc0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_710247fbc0() override;
+    void m5() override {}
 };
 
 // vtable 0x71024826c0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -70,6 +72,7 @@ class Unk_71024826c0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_71024826c0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_71024826c0() override;
+    void m5() override {}
 };
 
 // vtable 0x7102482790 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -115,9 +118,9 @@ public:
     virtual void m4() {}
     virtual void m5() {}
     virtual void m6();
-    virtual void m7();
+    virtual f32 m7() { return 0.0f; }
     virtual void m8() {}
-    virtual void m9();
+    virtual bool m9() { return false; }
     virtual s32 m10() { return 1; }
     virtual void m11() {}
     virtual void m12() {}
@@ -126,13 +129,13 @@ public:
     virtual void m15();
     virtual void m16();
     virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
+    virtual bool m18() { return false; }
+    virtual f32 m19() { return 1.0f; }
+    virtual f32 m20() { return 1.0f; }
+    virtual f32 m21() { return 1.0f; }
+    virtual f32 m22() { return 1.0f; }
+    virtual f32 m23() { return 1.0f; }
+    virtual f32 m24() { return 1.0f; }
     virtual void m25();
     virtual s32 m26() { return 1; }
     virtual void m27();
@@ -210,6 +213,7 @@ class Unk_710246a960 : public uking::act::Unk_710244dd20 {
     SEAD_RTTI_OVERRIDE(Unk_710246a960, uking::act::Unk_710244dd20)
 public:
     ~Unk_710246a960() override;
+    bool m4() override { return true; }
 };
 
 // vtable 0x710246cb78 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -237,31 +241,31 @@ public:
     virtual void m7();
     virtual void m8();
     virtual void m9() {}
-    virtual void m10();
+    virtual bool m10() { return false; }
     virtual void m11();
     virtual void m12();
     virtual void m13() {}
-    virtual void m14();
+    virtual bool m14() { return false; }
     virtual void m15();
     virtual void m16();
     virtual void m17() {}
-    virtual void m18();
+    virtual bool m18() { return false; }
     virtual void m19();
     virtual void m20();
     virtual void m21() {}
-    virtual void m22();
+    virtual bool m22() { return false; }
     virtual void m23() {}
     virtual void m24();
     virtual void m25() {}
-    virtual void m26();
+    virtual bool m26() { return false; }
     virtual void m27();
     virtual void m28();
     virtual void m29() {}
-    virtual void m30();
+    virtual bool m30() { return false; }
     virtual void m31();
     virtual void m32() {}
     virtual void m33() {}
-    virtual void m34();
+    virtual bool m34() { return false; }
 };
 
 // vtable 0x7102474fd8 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -270,7 +274,7 @@ class Unk_7102474fd8 {
 public:
     virtual ~Unk_7102474fd8();
     virtual void m4();
-    virtual void m5();
+    virtual s32 m5() { return 0; }
 };
 
 // vtable 0x7102475050 (13 slots); placeholder generated from the vtable (genskel.py).
@@ -285,6 +289,7 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
+    s32 m5() override { return 5; }
 };
 
 // vtable 0x71024750c8 (13 slots); placeholder generated from the vtable (genskel.py).
@@ -299,6 +304,7 @@ public:
     virtual void m10();
     virtual void m11() {}
     virtual void m12() {}
+    s32 m5() override { return 10; }
 };
 
 // vtable 0x71024756f0 (33 slots); placeholder generated from the vtable (genskel.py).
@@ -371,6 +377,7 @@ class Unk_710247e8c0 : public ksys::res::Resource {
     SEAD_RTTI_OVERRIDE(Unk_710247e8c0, ksys::res::Resource)
 public:
     ~Unk_710247e8c0() override;
+    s32 getLoadDataAlignment() const override { return 8192; }
 };
 
 // vtable 0x710247e960 (4 slots); placeholder generated from the vtable (genskel.py).
@@ -610,6 +617,8 @@ class Unk_7102502978 : public ksys::res::Resource {
     SEAD_RTTI_OVERRIDE(Unk_7102502978, ksys::res::Resource)
 public:
     ~Unk_7102502978() override;
+    s32 getLoadDataAlignment() const override { return 128; }
+    bool needsParse() const override { return true; }
 };
 
 // vtable 0x7102504260 (19 slots); placeholder generated from the vtable (genskel.py).
@@ -622,9 +631,9 @@ public:
     virtual void m4();
     virtual void m5();
     virtual void m6();
-    virtual void m7();
+    virtual bool m7() { return false; }
     virtual void m8();
-    virtual void m9();
+    virtual bool m9();
     virtual void m10();
     virtual void m11() {}
     virtual void m12() {}
@@ -665,17 +674,17 @@ public:
     virtual void m10();
     virtual void m11();
     virtual s32 m12() { return 20; }
-    virtual void m13();
+    virtual s32 m13() { return 4; }
     virtual void m14();
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
-    virtual void m19();
-    virtual void m20();
+    virtual s32 m19() { return 4; }
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual bool m23() { return false; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
@@ -712,17 +721,17 @@ public:
     virtual void m10();
     virtual void m11();
     virtual s32 m12() { return 20; }
-    virtual void m13();
+    virtual s32 m13() { return 4; }
     virtual void m14();
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
-    virtual void m19();
-    virtual void m20();
+    virtual s32 m19() { return 4; }
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual bool m23() { return false; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
@@ -803,6 +812,8 @@ public:
     virtual void m36() {}
     virtual s32 m37() { return 1; }
     virtual void m38() {}
+    bool m18() override { return true; }
+    f32 m20() override { return 0.0f; }
 };
 
 // vtable 0x710250c3e8 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -820,6 +831,7 @@ public:
     virtual void m36() {}
     virtual s32 m37() { return 1; }
     virtual void m38() {}
+    bool m18() override { return true; }
 };
 
 // vtable 0x710250c550 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -888,6 +900,8 @@ public:
     virtual void m36() {}
     virtual s32 m37() { return 1; }
     virtual void m38() {}
+    bool m9() override { return true; }
+    bool m18() override { return true; }
 };
 
 // vtable 0x710250d3e8 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -905,6 +919,7 @@ public:
     virtual void m36() {}
     virtual s32 m37() { return 1; }
     virtual void m38() {}
+    bool m18() override { return true; }
 };
 
 // vtable 0x710250db28 (15 slots); placeholder generated from the vtable (genskel.py).
@@ -986,7 +1001,7 @@ public:
     virtual ~Unk_710250e490();
     virtual void m4();
     virtual void m5() {}
-    virtual void m6();
+    virtual bool m6() { return false; }
     virtual void m7() {}
     virtual void m8() {}
 };
@@ -1000,9 +1015,15 @@ public:
     ~Unk_710250fb18() override;
     virtual void m19() {}
     virtual void m20();
-    virtual void m21();
+    virtual bool m21() { return false; }
     virtual void m22() {}
     virtual void m23() {}
+    bool m9() override { return false; }
+    void m10() override {}
+    void m14() override {}
+    void m16() override {}
+    void m17() override {}
+    void m18() override {}
 };
 
 // vtable 0x710250fdf8 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -1088,7 +1109,7 @@ class Unk_71025193e8 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025193e8, Unk_7102519378)
 public:
     ~Unk_71025193e8() override;
-    virtual void m5();
+    virtual bool m5() { return false; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1117,7 +1138,7 @@ class Unk_71025194d0 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025194d0, Unk_7102519378)
 public:
     ~Unk_71025194d0() override;
-    virtual void m5();
+    virtual s32 m5() { return 2; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1131,7 +1152,7 @@ class Unk_7102519540 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519540, Unk_7102519378)
 public:
     ~Unk_7102519540() override;
-    virtual void m5();
+    virtual s32 m5() { return 3; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1145,7 +1166,7 @@ class Unk_71025195b0 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025195b0, Unk_7102519378)
 public:
     ~Unk_71025195b0() override;
-    virtual void m5();
+    virtual s32 m5() { return 4; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1173,7 +1194,7 @@ class Unk_7102519690 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519690, Unk_7102519378)
 public:
     ~Unk_7102519690() override;
-    virtual void m5();
+    virtual s32 m5() { return 6; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1188,7 +1209,7 @@ class Unk_7102519708 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519708, Unk_7102519378)
 public:
     ~Unk_7102519708() override;
-    virtual void m5();
+    virtual s32 m5() { return 7; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1202,7 +1223,7 @@ class Unk_7102519778 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519778, Unk_7102519378)
 public:
     ~Unk_7102519778() override;
-    virtual void m5();
+    virtual s32 m5() { return 8; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
@@ -1243,23 +1264,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 2; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual bool m29() { return false; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1279,23 +1300,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
+    virtual s32 m13() { return 2; }
     virtual s32 m14() { return 1; }
     virtual s32 m15() { return 37; }
-    virtual void m16();
-    virtual void m17();
+    virtual bool m16() { return false; }
+    virtual bool m17() { return false; }
     virtual void m18();
     virtual s32 m19() { return 2817; }
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual s32 m29() { return 7; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1315,17 +1336,17 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
@@ -1351,23 +1372,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual s32 m29() { return 2; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1387,23 +1408,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual s32 m29() { return 3; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1423,23 +1444,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual s32 m29() { return 4; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1459,17 +1480,17 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
@@ -1495,23 +1516,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual s32 m29() { return 6; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1531,23 +1552,23 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual s32 m29() { return 8; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1567,17 +1588,17 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    virtual s32 m13() { return 2; }
+    virtual s32 m14() { return 3; }
     virtual void m15();
     virtual void m16();
     virtual void m17();
     virtual void m18();
     virtual void m19();
-    virtual void m20();
+    virtual s32 m20() { return 2; }
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
     virtual void m26();
@@ -1608,6 +1629,7 @@ public:
     virtual void m36() {}
     virtual s32 m37() { return 1; }
     virtual void m38() {}
+    f32 m19() override { return 1.0f; }
 };
 
 // vtable 0x710251cd38 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -1800,6 +1822,7 @@ class Unk_710249d608 : public sead::ArchiveRes {
     SEAD_RTTI_OVERRIDE(Unk_710249d608, sead::ArchiveRes)
 public:
     ~Unk_710249d608() override;
+    s32 getLoadDataAlignment() const override { return 64; }
 };
 
 // typeinfo 0x71025f89a8; the original has no vtable for this class (an abstract base: only its RTTI
@@ -1990,6 +2013,7 @@ class Unk_71025138e8 : public Unk_71024bd4f0 {
     SEAD_RTTI_OVERRIDE(Unk_71025138e8, Unk_71024bd4f0)
 public:
     ~Unk_71025138e8() override;
+    void m5() override {}
 };
 
 // vtable 0x7102513d70 (8 slots); placeholder generated from the vtable (genskel.py).
@@ -2087,6 +2111,7 @@ public:
     virtual void m9();
     virtual void m10();
     virtual void m11();
+    void m5() override {}
 };
 
 // vtable 0x710252e558 (5 slots); placeholder generated from the vtable (genskel.py).
@@ -2111,6 +2136,7 @@ class Unk_7102531eb0 : public Unk_710250e490 {
     SEAD_RTTI_OVERRIDE(Unk_7102531eb0, Unk_710250e490)
 public:
     ~Unk_7102531eb0() override;
+    bool m6() override { return false; }
 };
 
 // vtable 0x7102531f08 (9 slots); placeholder generated from the vtable (genskel.py).
@@ -2132,6 +2158,7 @@ class Unk_710245b7a0 : public sead::Task {
     SEAD_RTTI_OVERRIDE(Unk_710245b7a0, sead::Task)
 public:
     ~Unk_710245b7a0() override;
+    void enter() override {}
 };
 
 // vtable 0x710249c630 (10 slots); placeholder generated from the vtable (genskel.py).
@@ -2139,6 +2166,8 @@ class Unk_710249c630 : public ksys::res::EntryFactoryBase {
     SEAD_RTTI_OVERRIDE(Unk_710249c630, ksys::res::EntryFactoryBase)
 public:
     ~Unk_710249c630() override;
+    u32 getResourceSize() const override { return 96; }
+    u32 getLoadDataAlignment() const override { return 8192; }
 };
 
 // vtable 0x710249ce90 (127 slots); placeholder generated from the vtable (genskel.py).
@@ -2169,6 +2198,7 @@ class Unk_71024de2f0 : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(Unk_71024de2f0, ksys::act::Actor)
 public:
     ~Unk_71024de2f0() override;
+    bool shouldUnload(s32* a1) override { return false; }
 };
 
 // vtable 0x71024de830 (43 slots); placeholder generated from the vtable (genskel.py).
@@ -2189,6 +2219,8 @@ class Unk_71024f6f70 : public ksys::res::EntryFactoryBase {
     SEAD_RTTI_OVERRIDE(Unk_71024f6f70, ksys::res::EntryFactoryBase)
 public:
     ~Unk_71024f6f70() override;
+    u32 getResourceSize() const override { return 72; }
+    u32 getLoadDataAlignment() const override { return 4; }
 };
 
 // vtable 0x71024fd0a8 (15 slots); placeholder generated from the vtable (genskel.py).
@@ -2196,6 +2228,7 @@ class Unk_71024fd0a8 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd0a8, ksys::snd::Bgm)
 public:
     ~Unk_71024fd0a8() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fd188 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2212,6 +2245,7 @@ class Unk_71024fd318 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd318, ksys::snd::Bgm)
 public:
     ~Unk_71024fd318() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fd448 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2230,6 +2264,7 @@ class Unk_71024fd6c8 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd6c8, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fd6c8() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fd808 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2239,6 +2274,7 @@ class Unk_71024fd808 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd808, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fd808() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fd948 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2248,6 +2284,7 @@ class Unk_71024fd948 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd948, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fd948() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fe368 (19 slots); placeholder generated from the vtable (genskel.py).
@@ -2257,6 +2294,7 @@ class Unk_71024fe368 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe368, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fe368() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fe808 (19 slots); placeholder generated from the vtable (genskel.py).
@@ -2275,6 +2313,7 @@ class Unk_71024fe970 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe970, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fe970() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024feae8 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2284,6 +2323,7 @@ class Unk_71024feae8 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024feae8, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024feae8() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024fec18 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2320,6 +2360,7 @@ class Unk_71024fefe8 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fefe8, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fefe8() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71024ff268 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2327,6 +2368,7 @@ class Unk_71024ff268 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024ff268, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024ff268() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x71025008d0 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2345,6 +2387,7 @@ class Unk_7102500a00 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_7102500a00, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_7102500a00() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x7102500e08 (15 slots); placeholder generated from the vtable (genskel.py).
@@ -2352,6 +2395,7 @@ class Unk_7102500e08 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_7102500e08, ksys::snd::Bgm)
 public:
     ~Unk_7102500e08() override;
+    void m14(sead::TextWriter& writer) override {}
 };
 
 // vtable 0x7102502640 (18 slots); placeholder generated from the vtable (genskel.py).
@@ -2373,6 +2417,8 @@ class Unk_7102502b50 : public ksys::res::EntryFactoryBase {
     SEAD_RTTI_OVERRIDE(Unk_7102502b50, ksys::res::EntryFactoryBase)
 public:
     ~Unk_7102502b50() override;
+    u32 getResourceSize() const override { return 176; }
+    u32 getLoadDataAlignment() const override { return 128; }
 };
 
 // vtable 0x71025136c8 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -2380,6 +2426,9 @@ class Unk_71025136c8 : public sead::CalculateTask {
     SEAD_RTTI_OVERRIDE(Unk_71025136c8, sead::CalculateTask)
 public:
     ~Unk_71025136c8() override;
+    void enter() override {}
+    void exit() override {}
+    void calc() override {}
 };
 
 // vtable 0x7102513c38 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -2387,6 +2436,9 @@ class Unk_7102513c38 : public sead::CalculateTask {
     SEAD_RTTI_OVERRIDE(Unk_7102513c38, sead::CalculateTask)
 public:
     ~Unk_7102513c38() override;
+    void enter() override {}
+    void exit() override {}
+    void calc() override {}
 };
 
 // vtable 0x710251ab30 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2403,6 +2455,7 @@ class Unk_710251b5c0 : public Unk_7102502640 {
     SEAD_RTTI_OVERRIDE(Unk_710251b5c0, Unk_7102502640)
 public:
     ~Unk_710251b5c0() override;
+    void m15() override {}
 };
 
 // vtable 0x7102366538 (5 slots); placeholder generated from the vtable (genskel.py).
