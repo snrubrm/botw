@@ -366,7 +366,7 @@ Object* Object::sub_7100D4C890() const {
     return nullptr;
 }
 
-Object* Object::findPlacementLODLinkObject() const {
+Object* Object::findPlacementLODLinkObject_0(const PlacementActors*) const {
     if (!mLinkData)
         return nullptr;
 

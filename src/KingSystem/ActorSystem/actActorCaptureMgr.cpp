@@ -35,7 +35,7 @@ void ActorCaptureMgr::init(const InitArg& arg) {
     mDummyFile.load("Actor/ActorCapture/Dummy.bactcapt", &req);
 }
 
-void ActorCaptureMgr::setCamera(Camera* camera) {
+void ActorCaptureMgr::setCamera(Actor* camera) {
     if (camera)
         mCamera = camera;
 }

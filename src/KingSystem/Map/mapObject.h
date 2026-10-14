@@ -162,7 +162,7 @@ public:
     void getUniqueName(const char** out) const;
 
     Object* findPlacementLODLinkObject(const PlacementActors* unused) const;
-    Object* findPlacementLODLinkObject() const;
+    Object* findPlacementLODLinkObject_0(const PlacementActors* unused) const;
     // 0x7100d4c868 / 0x7100d4c890 (CSV getPlacementLODLinkObj_0 / getPlacementLODLinkObj; lane4 s30): the PlacementLOD
     // link of mLinkData, found through ObjectLinkData::findLinkWithType / findLinkWithType_0.
     Object* sub_7100D4C868() const;
