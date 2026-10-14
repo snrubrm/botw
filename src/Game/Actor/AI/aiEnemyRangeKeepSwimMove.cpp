@@ -18,8 +18,41 @@ bool EnemyRangeKeepSwimMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original loads both target components before the two subtractions (scheduling only).
 void EnemyRangeKeepSwimMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const f32 time = sead::GlobalRandom::instance()->getS32Range(8, 20);
+    _84 = ksys::Timer(time, time);
+
+    sead::Vector3f diff = sub_71005D9330(mActor) - mActor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 distance = diff.length();
+    if (!(distance > *mBaseDist_s + *mFarDist_s + sub_71007320F0(mActor, *mWeaponIdx_s))) {
+        sead::Vector3f diff2 = sub_71005D9330(mActor) - mActor->getMtx().getTranslation();
+        diff2.y = 0.0f;
+        const f32 distance2 = diff2.length();
+        if (!(distance2 < *mBaseDist_s + *mCloseDist_s + sub_71007320F0(mActor, *mWeaponIdx_s)) ||
+            sub_71003ADEE4()) {
+            const s8 dir = sub_71003AE028();
+            if (dir == 0) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("戦闘待機", &pack);
+            } else {
+                changeToMoveSideways(dir);
+            }
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("戦闘後ずさり", &pack);
+        }
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("戦闘歩行", &pack);
+    }
+
+    const s32 limit = *mTime_s;
+    _90 = ksys::Timer(limit, limit);
 }
 
 // NON_MATCHING: register numbering of the XZ offset (x/z swap the roles of s11/s12 after the normalisation)
