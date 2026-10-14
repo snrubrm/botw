@@ -226,6 +226,7 @@ class MusicInfo;
 class HorseBgmInfo;
 class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
+class BigMazeBgmInfo;
 
 // The argument of allocBgm (0x7100ff6e2c, which switches on `kind` and passes it on to the constructors).
 struct BgmInitArg {

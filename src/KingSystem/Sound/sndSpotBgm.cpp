@@ -11,7 +11,7 @@ const char* sLessonNames[] = {"Lesson1", "Lesson2", "Lesson3", "Lesson4"};
 }  // namespace
 
 Unk_710260f228::Unk_710260f228(const BgmInitArg& arg) : Unk_71025ce380(arg) {
-    init(arg.heap, "DungeonTutorialBgm", nullptr);
+    Unk_SpotBgmHandle::init(arg.heap, "DungeonTutorialBgm", nullptr);
     mInfo = sub_7100FFD76C()->getInfo(MusicInfoType::_23);
 }
 

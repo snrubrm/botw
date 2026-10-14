@@ -1,6 +1,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Sound/sndMusicInfo.h"
 
 namespace ksys::snd {
 
@@ -416,6 +417,16 @@ void Unk_710260f1f8::m8(const Unk_BgmControllerM8Arg& arg) {
 // NON_MATCHING: placeholder destructor; the original (0x7100ffd044) also destroys members or bases
 // this class does not declare yet.
 Unk_71024fd0a8::~Unk_71024fd0a8() = default;
+
+namespace {
+sead::SafeString sStr_BigMazeBgm = "BigMazeBgm";
+}  // namespace
+
+Unk_71024fd188::Unk_71024fd188(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    Unk_SpotBgmHandle::init(arg.heap, sStr_BigMazeBgm, nullptr);
+    mInfo = static_cast<ksys::snd::BigMazeBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_6));
+}
 
 Unk_71024fd188::~Unk_71024fd188() = default;
 

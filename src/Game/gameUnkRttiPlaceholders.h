@@ -2243,11 +2243,22 @@ public:
 };
 
 // vtable 0x71024fd188 (17 slots); placeholder generated from the vtable (genskel.py).
+// The big maze BGM ("BigMazeBgm"; 0x1d0 bytes, constructor 0x7100fff1fc).
 class Unk_71024fd188 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fd188, ksys::snd::Unk_71025ce380)
 public:
+    explicit Unk_71024fd188(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd188() override;
+    // 0x7100fff420 / 0x7100fff4dc (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    ksys::snd::BigMazeBgmInfo* mInfo = nullptr;
+    u64 _198 = 0;
+    aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
+    u64 _1c8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fd188, 0x1d0);
 
 // vtable 0x71024fd318 (15 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fd318 : public ksys::snd::Bgm {
