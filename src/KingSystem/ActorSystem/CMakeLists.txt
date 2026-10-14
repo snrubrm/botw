@@ -52,6 +52,7 @@ target_sources(uking PRIVATE
     actActorSystem.h
     actActorTemplate.cpp
     actActorTemplate.h
+    actActorNearestSearch.cpp
     actActorUniqueNameSearch.cpp
     actActorUniqueNameSearch.h
     actActorUnk117.h

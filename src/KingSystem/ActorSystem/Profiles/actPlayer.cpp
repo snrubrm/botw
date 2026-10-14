@@ -671,31 +671,6 @@ bool Player::m227() {
     return sub_71002EF884(accessor) == "Katana";
 }
 
-void Player::x_40() {
-    _1d6c = 1.0f;
-    _c40.reset(0x1200000);
-    _1d64 = 0.0f;
-    _1d68 = 0.0f;
-    _1f8c = 0;
-    _1f84 = 0;
-    if (_c44.isOnBit(8)) {
-        if (mASList->x_1(1, 1) != "WeaponThrow") {
-            _c44.resetBit(8);
-            x_18(true);
-        }
-    }
-}
-
-// NON_MATCHING: the inlined copy of x_40 has its stores scheduled differently (the original keeps the order of the
-// out-of-line x_40)
-void Player::x_16() {
-    _c40.resetBit(24);
-    if (x_17())
-        x_18(true);
-    x_40();
-    x_19(-1.0f);
-}
-
 void Player::nullsub_2601() {}
 
 void Player::m88() {

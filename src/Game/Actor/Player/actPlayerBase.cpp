@@ -1460,6 +1460,19 @@ void PlayerBase::sub_71008494C8() {
     _d04.set(0.0f, 0.0f, 0.0f);
 }
 
+}  // namespace uking::act
+
+namespace ksys::act {
+
+bool Actor::sub_710084CD70() {
+    auto* controller = getCharacterController();
+    return controller && (controller->_116 & 4);
+}
+
+}  // namespace ksys::act
+
+namespace uking::act {
+
 bool PlayerBase::sub_710084CD90() {
     if (!_cf0.isOnBit(23))
         return false;
