@@ -566,6 +566,9 @@ public:
 
 private:
     sead::CriticalSection mCS;
+
+public:
+    // Read by sub_7100FFED80 / sub_7100FFEDC8.
     bool _80 = false;
     bool _81 = false;
 };
@@ -853,6 +856,10 @@ Unk_71025ce350* sub_7100FFDC80();
 Unk_710260f288* sub_7100FFDDF0();
 Unk_710260f048* sub_7100FFDFDC();
 Unk_710260f1a8* sub_7100FFE14C();
+// 0x7100ffed80 / 0x7100ffedc8 (placeholder names): `_8._80` / `_8._81` of the controller at SoundMgr::_30->_48
+// (false if SoundMgr, _30 or the controller is null).
+bool sub_7100FFED80();
+bool sub_7100FFEDC8();
 
 // Placeholders (types unknown): SoundMgr::_30->_8 / _18 (returned by sub_7100FFD73C / sub_7100FFD76C).
 class MusicDefinition;

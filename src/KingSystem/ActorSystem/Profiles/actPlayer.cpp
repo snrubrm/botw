@@ -28,6 +28,7 @@
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
@@ -206,7 +207,7 @@ void Player::sub_710086C84C(s32 a, const BaseProcLink* link, bool b, bool c) {
 // NON_MATCHING: the early `return true` shares the result register with the inlined sub_710086C9E0 (w19 instead of w0)
 bool Player::sub_710086C928() {
     if (auto* mgr = uking::act::DamageInfoMgr::instance()) {
-        if (sub_7100FFED80() || mgr->_11eb[3] > 0)
+        if (snd::sub_7100FFED80() || mgr->_11eb[3] > 0)
             return true;
     }
     return sub_710086C9E0();

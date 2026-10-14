@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace ksys::eft {
 
@@ -75,6 +76,10 @@ void sub_710105DDDC(act::Actor* actor, const char* name, xlink2::HandleSLink* ha
 void sub_710105DF88(act::Actor* actor, const char* name, bool a, bool b) {
     if (auto* xlink = actor->getXLink())
         xlink->sub_7101232FB4(name, a, true, b);
+}
+
+void sub_710105DFA4(act::Actor* actor, u8 a, bool b, bool c) {
+    sub_710105DF6C(actor, snd::Unk_710105ec08::text(a), b, c);
 }
 
 bool sub_710105E000(act::Actor* actor, u32 idx, f32 value) {

@@ -9,6 +9,7 @@
 #include "KingSystem/Mii/miiHylianInfo.h"
 #include "KingSystem/Mii/miiUMii.h"
 #include "Game/gameEventMgr1.h"
+#include "Game/Actor/actNPCBase.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
@@ -964,6 +965,19 @@ void WeaponBase::sub_7100EE6AFC() {
                 model->sub_7100BF8CB8(false, -1);
         }
     }
+}
+
+// NON_MATCHING: the original masks `flag` after the SafeString assignment call (ours before it)
+bool sub_7100EE6B88(Actor* actor, const sead::SafeString& name, bool flag) {
+    if (!actor || !actor->getASList())
+        return false;
+    if (auto* npc = sead::DynamicCast<uking::act::NPCBase>(actor)) {
+        npc->_8a8 = name;
+        npc->_8b8 = flag;
+    } else if (actor->getASList()->goLimpFromHeadShotMaybe(55, name, 0)) {
+        return true;
+    }
+    return false;
 }
 
 // NON_MATCHING: the original starts with a discarded read of the map object's flag word (`ldr wzr, [x8]`)

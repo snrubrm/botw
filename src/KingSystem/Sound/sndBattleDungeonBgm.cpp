@@ -99,6 +99,32 @@ Unk_710260f1a8* sub_7100FFE14C() {
     return sead::DynamicCast<Unk_710260f1a8>(controller ? controller->_8.sub_7100FF7C74(5) : nullptr);
 }
 
+bool sub_7100FFED80() {
+    auto* sound = SoundMgr::instance();
+    if (!sound)
+        return false;
+    auto* bgm = sound->_30;
+    if (!bgm)
+        return false;
+    auto* controller = bgm->_48;
+    if (!controller)
+        return false;
+    return controller->_8._80;
+}
+
+bool sub_7100FFEDC8() {
+    auto* sound = SoundMgr::instance();
+    if (!sound)
+        return false;
+    auto* bgm = sound->_30;
+    if (!bgm)
+        return false;
+    auto* controller = bgm->_48;
+    if (!controller)
+        return false;
+    return controller->_8._81;
+}
+
 Unk_710260f218::Unk_710260f218() = default;
 
 void Unk_710260f218::sub_7100FFC5C8(Bgm* bgm) {

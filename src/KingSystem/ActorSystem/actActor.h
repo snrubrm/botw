@@ -1107,6 +1107,10 @@ bool sub_71011D7194(BaseProc* proc, s32 index);
 
 BaseProcLink& getDummyBaseProcLink();
 
+// 0x7100ee6b88 (placeholder name): for an NPC, stores the voice name and flag at NPCBase::_8a8 / _8b8 (returns false);
+// otherwise plays it through the AS list (ASList::goLimpFromHeadShotMaybe(55, name, 0)).
+bool sub_7100EE6B88(Actor* actor, const sead::SafeString& name, bool flag);
+
 }  // namespace act
 
 }  // namespace ksys

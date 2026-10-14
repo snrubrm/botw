@@ -27,6 +27,10 @@
 
 namespace ksys::snd {
 
+// Placeholder name: a 46-entry SEAD_ENUM of voice kinds (text_ at 0x710105ec08; eft::sub_710105DFA4 emits the
+// SLink named by it).
+SEAD_ENUM(Unk_710105ec08, Greeting, CallFar, TalkPositive, TalkDeny, QuestionNormal, QuestionAngry, QuestionSurprise, LaughS, LaughL, Happy, Sad, Sigh, Angry, Shitauchi, Think, Trouble, Ease, Notice, SurpriseS, SurpriseM, SurpriseL, Admiration, Understand, Chat, Humming, CustomSavotta, CustomSavaaq, CustomSavsaaba, CustomVasaaq, Runaway, Tired, Sleep, Wakeup, LaughBad, Run, Cry, BecomeAssasin, SakuradaCM1, SakuradaCM2, SakuradaCM3, Scare, Unconscious, Painful, Work, WorkHeavy, Bukubuku)
+
 class SoundResource {
     SEAD_SINGLETON_DISPOSER(SoundResource)
     SoundResource() = default;

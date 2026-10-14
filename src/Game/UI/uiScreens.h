@@ -3772,9 +3772,6 @@ void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
 // and the dialog scan (calls the eft voice helper and the WeaponBase TU helper).
 void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool a,
                     s16* out, bool b);
-// 0x7100ee6b88 (CSV unnamed; WeaponBase-TU helper, lane4's — declared only): apply an emotion voice
-// name to the actor (stores it at +0x8a8, flag at +0x8b8) or trigger the head-shot go-limp path.
-bool sub_7100EE6B88(ksys::act::Actor* actor, const sead::SafeStringBase<char>& name, bool flag);
 
 class ScreenShopInfo : public ScreenEx {
 public:

@@ -846,7 +846,7 @@ void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
     u8 mapped = v8 > 5 ? v8 - 6 : v8;
     if (!b) {
         sead::SafeStringBase<char> voice(sVoiceNames[mapped < 6 ? mapped : 0]);
-        sub_7100EE6B88(actor, voice, v8 > 5);
+        ksys::act::sub_7100EE6B88(actor, voice, v8 > 5);
     }
     if (a) {
         u8 v9 = tag->getParam()[1];
@@ -952,7 +952,7 @@ void ScreenMessageDialog::sub_71010B307C() {
             u8 eb = reinterpret_cast<const u8*>(q)[8];
             u8 m = eb > 5 ? eb - 6 : eb;
             sead::SafeStringBase<char> voice(sVoiceNames[m < 6 ? m : 0]);
-            sub_7100EE6B88(_720, voice, eb > 5);
+            ksys::act::sub_7100EE6B88(_720, voice, eb > 5);
             return;
         }
     } while (q[2] - 1u < 3);
