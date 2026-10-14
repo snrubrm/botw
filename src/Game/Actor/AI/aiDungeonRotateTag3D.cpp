@@ -1,7 +1,12 @@
 #include "Game/Actor/AI/aiDungeonRotateTag3D.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/aiXlinkHandle.h"
+#include "Game/Actor/actSoundProxy.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace uking::ai {
 
@@ -24,8 +29,37 @@ bool DungeonRotateTag3D::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original copies Vector3f::zero into _d8 as 8 + 4 bytes (our sead Vector3 has a memberwise
+// operator=) and loads mActor for sub_71005DDE8C earlier.
 void DungeonRotateTag3D::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _68.fill(false);
+    _a8 = sead::Matrix34f::ident;
+    _f8 = *mTargetRad_s;
+    _f4 = true;
+    _f5 = false;
+    sub_71005DDE8C(mActor, nullptr, *mRemainsPartType_m);
+    _78 = sead::Matrix34f::ident;
+    _d8 = sead::Vector3f::zero;
+    _ec = 0;
+    m36();
+    changeChild("待機");
+    _108 = 0;
+
+    auto* manager = ksys::snd::SoundMgr::instance()->_a0;
+    ksys::map::Object* proxy_object = nullptr;
+    if (mActor) {
+        auto* object = mActor->getMapObject();
+        if (object && object->getLinkData()) {
+            for (auto* linked : object->getLinkData()->mObjects) {
+                if (linked && linked->getActorData().mActorName.findIndex("SoundProxy") != -1) {
+                    proxy_object = linked;
+                    break;
+                }
+            }
+        }
+    }
+    if (auto* proxy = manager->sub_710105A830(proxy_object))
+        proxy->_8b8 = true;
 }
 
 void DungeonRotateTag3D::leave_() {
