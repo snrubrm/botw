@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -63,6 +65,74 @@ void EnemyRoam::changeToRoamSearch() {
     const sead::Vector3f pos = mtx.getBase(2) * 3.0f + trans;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("徘徊探索", &pack);
+}
+
+// NON_MATCHING: scheduling and stack copies of the position / direction (logic and calls match).
+// Picks the next roam position: around the front direction inside the territory (back towards the centre when outside
+// it), StepDist away, pulled back into the territory when it ends up too far; false if it is closer than MinMoveDist.
+bool EnemyRoam::sub_71003B2C0C(sead::Vector3f* position) {
+    const f32 radius = *mTerritoryRadius_s + *mTerritoryRadiusRnd_s;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = mActor->getMtx().getBase(2);
+    const sead::Vector3f& center = *mCentralPos_d;
+
+    bool rotate = true;
+    f32 angle;
+    if (!_60) {
+        const f32 dx = pos.x - center.x;
+        const f32 dz = pos.z - center.z;
+        const f32 distance = sead::Vector2f(dx, dz).length();
+        if (distance > radius) {
+            dir = center - pos;
+            dir.normalize();
+            rotate = false;
+        } else if (distance <= radius * 0.5f) {
+            angle = ksys::util::sub_71011EF0CC(sead::GlobalRandom::instance()->getF32()) / 6.0f;
+        } else {
+            const f32 offset =
+                ksys::util::sub_71011EF0CC(sead::GlobalRandom::instance()->getF32() * sead::Mathf::pi()) / 6.0f;
+            if (dir.x * dz - dir.z * dx <= 0.0f)
+                angle = offset + -0.43633232f;
+            else
+                angle = offset + 0.43633232f;
+        }
+    } else {
+        angle = sead::Mathf::piHalf();
+    }
+    if (rotate)
+        ksys::util::sub_71011EF010(&dir, angle);
+
+    sead::Vector3f target = pos + dir;
+    if (!sub_710072F99C(mActor, pos, target, nullptr, -1, -1.0f, -1.0f))
+        dir = -dir;
+
+    target = pos;
+    const f32 step = (*mTerritoryRadius_s +
+                      sead::GlobalRandom::instance()->getF32Range(0.0f, *mTerritoryRadiusRnd_s)) *
+                     0.9f;
+    target += dir * step;
+    sead::Vector3f hit;
+    if (!sub_710072F99C(mActor, pos, target, &hit, -1, -1.0f, -1.0f))
+        target = hit;
+
+    sead::Vector3f diff = target - center;
+    const f32 distance = sead::Vector2f(diff.x, diff.z).length();
+    diff.normalize();
+    if (distance > radius) {
+        const f32 back = radius * (sead::GlobalRandom::instance()->getF32() * 0.39999998f + 0.5f);
+        sead::Vector3f candidate = diff * back;
+        candidate += center;
+        sead::Vector3f candidate_hit;
+        if (sub_710072F99C(mActor, pos, candidate, &candidate_hit, -1, -1.0f, -1.0f)) {
+            target = candidate;
+        } else if (distance > radius * 1.2f &&
+                   sead::Vector2f(candidate_hit.x - center.x, candidate_hit.z - center.z).length() <
+                       radius * 0.9f) {
+            target = candidate_hit;
+        }
+    }
+    *position = target;
+    return (pos - target).length() >= *mMinMoveDist_s;
 }
 
 }  // namespace uking::ai
