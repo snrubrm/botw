@@ -41,6 +41,33 @@ void FlyMoveToTarget::loadParams_() {
 }
 
 // NON_MATCHING: the original adds in the other operand order (fadd y, h) with the height loaded first
+// NON_MATCHING: stack layout (our distance temporary takes an extra slot), the height add operand order and the
+// copy into the via point buffer
+void FlyMoveToTarget::sub_71003D4C84() {
+    sead::Vector3f target;
+    target = *mTargetPos_d;
+    target.y += *mOffsetHeight_s;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f raised;
+    raised = *mTargetPos_d;
+    raised.y += *mOffsetHeight_s;
+    const bool hit = sub_710072E5F8(pos, raised, 0, nullptr, nullptr, nullptr, 0.0f);
+    _a4 = !hit;
+    if (!hit) {
+        if (isCurrentChild("目標位置移動"))
+            _60[0] = target;
+        return;
+    }
+    if (_60.size() == 0 || _60.size() >= _60.capacity())
+        return;
+    if (!((_60.back() - target).length() > 0.5f))
+        return;
+    if (sub_710072E5F8(_60.back(), target, 0, nullptr, nullptr, nullptr, 0.0f))
+        return;
+    _60.pushBack(target);
+}
+
 void FlyMoveToTarget::changeToTargetPosMove() {
     sead::Vector3f target;
     target = *mTargetPos_d;

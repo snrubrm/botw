@@ -28,6 +28,10 @@ public:
     void changeToTargetPosMove();
     // 0x71003d53e0 (placeholder name): descends above the actor's position to `height`.
     void changeToDescend(f32 height);
+    // 0x71003d4c84 (placeholder name): while the target (raised by OffsetHeight) is hidden, adds it as a via point
+    // when it moved more than 0.5 from the last one and that one sees it; while visible and moving to the target
+    // position, updates the first via point.
+    void sub_71003D4C84();
 
 protected:
     // static_param at offset 0x38
