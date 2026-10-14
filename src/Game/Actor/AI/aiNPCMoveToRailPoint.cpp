@@ -1,4 +1,7 @@
 #include "Game/Actor/AI/aiNPCMoveToRailPoint.h"
+#include "Game/Actor/aiUnk_71024f15c0.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Map/mapRail.h"
 
 namespace uking::ai {
 
@@ -15,7 +18,23 @@ bool NPCMoveToRailPoint::init_(sead::Heap* heap) {
 }
 
 void NPCMoveToRailPoint::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::map::Rail* rail;
+    if (mRailUniqueName_d.isEmpty())
+        rail = sub_7100EEF264(mActor, 0);
+    else
+        rail = sub_7100EEF2F0(mActor, mRailUniqueName_d);
+
+    if (!rail || *mRailPointIndex_d < 0 || *mRailPointIndex_d >= rail->getNumPoints()) {
+        setFailed();
+        return;
+    }
+
+    rail->calcTranslate(&_70, *mRailPointIndex_d);
+    _7c = rail->getPointRotate(*mRailPointIndex_d);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_70, "TargetPos", -1);
+    pack.addString(mASName_d, "DynASKeyName", -1);
+    changeChild("移動", &pack);
 }
 
 void NPCMoveToRailPoint::leave_() {
