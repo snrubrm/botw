@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -34,7 +35,7 @@ protected:
     sead::Vector3f* mCentralPos_d{};
     ksys::act::BaseProcLink _50;
     ksys::act::BaseProcLink _60;
-    u32 _70 = 0;
+    f32 _70 = 0;  // countdown before re-selecting the linked actor
     s32 _74 = -1;
     bool _78 = false;
 };

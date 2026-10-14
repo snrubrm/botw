@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/System/Timer.h"
 
 bool sub_710072C9FC(ksys::act::Actor* actor, f32 distance);
 bool sub_71006DE574(const ksys::act::ActorConstDataAccess& accessor);
@@ -140,6 +142,89 @@ bool EnemyRoamSelect::isFinished() const {
 
 bool EnemyRoamSelect::isChangeable() const {
     return getCurrentChild()->isChangeable();
+}
+
+// NON_MATCHING: stack slots of `height` / `position` in the 待ち伏せ branch only (as in enter_).
+void EnemyRoamSelect::calc_() {
+    const auto changeToRoam = [this] {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mCentralPos_d, "CentralPos", -1);
+        pack.addVec3(*mCentralPos_d, "TargetPos", -1);
+        changeChild("単純徘徊", &pack);
+    };
+
+    if (!_50.hasProc())
+        _74 = -1;
+
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (sub_71005D9F04(mActor)) {
+        if (isCurrentChild("未帰還") && !sub_71003B3720())
+            changeChild("レール移動");
+        return;
+    }
+
+    if (isCurrentChild("待ち伏せ")) {
+        f32 height = 0;
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        if (sub_710072C278(&height, &position) != 1 && height < *mHideGrassHeight_s)
+            changeToRoam();
+    } else if (_78) {
+        _78 = false;
+        sub_71003B384C();
+        if (!_50.hasProcInCalcState()) {
+            changeToRoam();
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addActor(_50, "TargetActor", -1);
+            sead::Vector3f position;
+            ksys::act::sub_7100EE67B0(&position, &_50);
+            pack.addVec3(position, "TargetPos", -1);
+            pack.addBool(isCurrentChild("小物連携"), "IsChanged", -1);
+            changeChild("小物連携", &pack);
+        }
+    }
+
+    if (!isCurrentChild("小物連携")) {
+        if ((!isCurrentChild("未帰還") || !sub_71003B3720()) && sub_71003B384C()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addActor(_50, "TargetActor", -1);
+            sead::Vector3f position;
+            ksys::act::sub_7100EE67B0(&position, &_50);
+            pack.addVec3(position, "TargetPos", -1);
+            pack.addBool(false, "IsChanged", -1);
+            changeChild("小物連携", &pack);
+        }
+    } else if (!_78) {
+        _60 = _50;
+        if (sub_71003B384C()) {
+            _78 = true;
+        } else {
+            const bool in_calc = _50.hasProcInCalcState();
+            _78 = !in_calc;
+            if (in_calc)
+                return;
+        }
+        _70 = sead::GlobalRandom::instance()->getS32Range(7, 15);
+    } else if (_70 <= 0.0f) {
+        _78 = false;
+        sub_71003B384C();
+        if (!_50.hasProcInCalcState()) {
+            changeToRoam();
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addActor(_50, "TargetActor", -1);
+            sead::Vector3f position;
+            ksys::act::sub_7100EE67B0(&position, &_50);
+            pack.addVec3(position, "TargetPos", -1);
+            pack.addBool(!(_60 == _50), "IsChanged", -1);
+            changeChild("小物連携", &pack);
+            _60 = _50;
+        }
+    } else {
+        ksys::Timer::update(&_70, -1.0f);
+    }
 }
 
 void EnemyRoamSelect::leave_() {
