@@ -2425,11 +2425,24 @@ public:
 };
 
 // vtable 0x71024fec18 (17 slots); placeholder generated from the vtable (genskel.py).
+// The Ganon beast BGM ("GanonBeastBgm"; 0x1b8 bytes, constructor 0x710100fcf8).
 class Unk_71024fec18 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fec18, ksys::snd::Unk_71025ce380)
 public:
+    explicit Unk_71024fec18(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fec18() override;
+    // 0x710100fff4 / 0x710101011c (declared only)
+    void hm14() override;
+    void hm15() override;
+
+    ksys::snd::MusicInfo* mInfo = nullptr;
+    u64 _198 = 0;
+    u32 _1a0;
+    u32 _1a4 = 0;
+    u64 _1a8 = 0;
+    ksys::snd::Unk_710103AB10 _1b0{11};
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fec18, 0x1b8);
 
 // vtable 0x71024fed48 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fed48 : public ksys::snd::Unk_71025ce380 {

@@ -26,8 +26,11 @@ Unk_71024fe970::~Unk_71024fe970() = default;
 // this class does not declare yet.
 Unk_71024feae8::~Unk_71024feae8() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101010340) also destroys members or bases
-// this class does not declare yet.
+Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    Unk_SpotBgmHandle::init(arg.heap, "GanonBeastBgm", nullptr);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_24);
+}
+
 Unk_71024fec18::~Unk_71024fec18() = default;
 
 Unk_71024fed48::~Unk_71024fed48() = default;
