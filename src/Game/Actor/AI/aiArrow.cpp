@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiArrow.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_7100D8C538.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -78,6 +80,47 @@ bool Arrow::sub_7100466C48() {
     }
     m40(mActor);
     return true;
+}
+
+bool Arrow::sub_7100469628() {
+    if (_d8) {
+        _d8 = false;
+        const auto& mtx = mActor->getMtx();
+        sead::Vector3f front;
+        mtx.getBase(front, 2);
+        sead::Vector3f start;
+        mtx.getTranslation(start);
+        const sead::Vector3f end = front + start;
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::Arrow);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+        query.enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+        query.setStartAndEnd(start, end);
+        query.set99(true);
+        bool result = true;
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            sead::Vector3f hit;
+            query.getHitPosition(&hit);
+            result = sead::Mathf::abs(hit.y - _e0) <= 1.3f;
+        }
+        return result;
+    }
+
+    if (_c8.hasProc() && !_c8.isAccessingSpecifiedProcUnsafe(nullptr)) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(_c8.getProc(nullptr, nullptr));
+        if (actor) {
+            auto& parent = actor->getParentLinkMaybe();
+            if (parent.hasProc() && parent.isAccessingSpecifiedProcUnsafe(nullptr)) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&parent, &accessor);
+                if (accessor.isStateCalc())
+                    _d8 = true;
+            }
+        }
+    }
+    return false;
 }
 
 void Arrow::sub_7100468028() {

@@ -45,6 +45,10 @@ public:
     // 上空撃ち) beyond 10 * _e8 from the player (XZ) when not visible, or within it when below the ground; after
     // 刺さる / 跳ね返る / 接地 beyond that range.
     bool sub_7100466C48();
+    // 0x7100469628 (placeholder name): once _d8 is set (the parent of the actor of _c8 is in the calc state),
+    // casts a ground ray along the actor's front axis and returns whether the hit is within 1.3 of height _e0
+    // (true without a hit).
+    bool sub_7100469628();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a
@@ -95,7 +99,7 @@ protected:
     ksys::act::BaseProcLink _c8;
     bool _d8 = false;
     u32 _dc = 0;
-    u32 _e0 = 0;
+    f32 _e0 = 0;  // a height (sub_7100469628)
     u32 _e4 = 0;
     f32 _e8 = 0;  // range (sub_7100466C48 uses 10 * _e8)
     bool _ec = false;
