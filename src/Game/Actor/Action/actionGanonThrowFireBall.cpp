@@ -1,5 +1,7 @@
 #include "Game/Actor/Action/actionGanonThrowFireBall.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
@@ -49,6 +51,23 @@ void GanonThrowFireBall::calc_() {
 
 bool GanonThrowFireBall::isFinished() const {
     return isFinishedAS(0, 0);
+}
+
+void GanonThrowFireBall::sub_710017BE48(int idx) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    auto& link = enemy->getActorPartsActor(m32(idx));
+    if (!link.hasProc())
+        return;
+    _68 = *mTargetPos_d;
+    _80 = *mTargetActor_d;
+    _90 = *mInitVelocity_s;
+    _98.clear();
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800003a), &_68,
+                        true);
 }
 
 }  // namespace uking::action

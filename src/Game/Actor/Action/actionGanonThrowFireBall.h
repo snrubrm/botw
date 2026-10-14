@@ -26,7 +26,7 @@ protected:
     virtual void m33(sead::Vector3f* out, int idx);
     // 0x710017bba0 (declared only, 576 B): throws ball `idx` (parts actor / bone matrix + setProperties).
     void sub_710017BBA0(int idx);
-    // 0x710017be48 (declared only, 352 B).
+    // 0x710017be48: sends the target (message 0x800003a with the payload at 0x68) to the parts actor of ball `idx`.
     void sub_710017BE48(int idx);
 
     // static_param at offset 0x20
@@ -43,9 +43,11 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x60
     ksys::act::BaseProcLink* mTargetActor_d{};
-    u8 _68[0x18];
+    // 0x68-0xc8: payload of message 0x800003a (sub_710017BE48).
+    sead::Vector3f _68;
+    u8 _74[0x80 - 0x74];
     ksys::act::BaseProcLink _80;
-    s32 _90 = 0;
+    f32 _90 = 0;
     sead::FixedSafeString<32> _98;
 };
 KSYS_CHECK_SIZE_NX150(GanonThrowFireBall, 0xd0);
