@@ -164,6 +164,25 @@ void HavokAI::sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox
     }
 }
 
+// NON_MATCHING: two argument copies in the prologue are scheduled the other way round
+bool HavokAI::sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    bool hit = false;
+    if (_90.tryLock()) {
+        hit = sub_7100F85C00(a4, &from, &to, result);
+        _90.unlock();
+    } else if (_c8.tryLock()) {
+        hit = sub_7100F85EB8(a4, &from, &to, result);
+        _c8.unlock();
+    }
+    return hit;
+}
+
 void HavokAI::sub_7100F81854() {
     _38->sub_7100F8962C();
 }

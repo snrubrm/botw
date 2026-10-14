@@ -297,7 +297,7 @@ public:
         u16 _30 = 0;
     };
 
-    // 0x7100f86174 (not decompiled): a navmesh query from `from` towards `to` (`a4`: a height
+    // 0x7100f86174: a navmesh query from `from` towards `to` (`a4`: a height
     // tolerance); true if it hit.
     bool sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4);
 
@@ -395,6 +395,9 @@ public:
         sead::Event mEvent;
         sead::Atomic<u32> mCount;
     };
+
+    // 0x7100f85c00 (696 B; declared only): the query sub_7100F86174 runs under _90 (sub_7100F85EB8 under _c8).
+    bool sub_7100F85C00(f32 a4, const sead::Vector3f* from, const sead::Vector3f* to, Unk1* result);
 
     // 0x7100f85eb8 (700 B; declared only; was Unk_710260de68::sub_7100F85EB8): a line query from `from` to `to`
     // that answers whether something is in the way.
