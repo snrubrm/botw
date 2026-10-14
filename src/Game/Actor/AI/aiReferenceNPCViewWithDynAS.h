@@ -21,6 +21,11 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710053b7b4 (placeholder name): the position of the linked NPC (_58, or the first NPC among the
+    // map object's linked objects, which then becomes _58)
+    bool sub_710053B7B4(sead::Vector3f* pos);
+    // 0x710053b8f4 (placeholder name): whether `pos` is within TurnStartAngle of the actor's front
+    bool sub_710053B8F4(const sead::Vector3f& pos);
     // 0x710053bb30: changes to the "回転" child with the dynamic AS key
     void sub_710053BB30(const sead::Vector3f& pos);
     struct Params {
