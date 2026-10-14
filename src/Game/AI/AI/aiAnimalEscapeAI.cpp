@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAnimalEscapeAI.h"
+#include "Game/Actor/actRideable.h"
 #include <limits>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -190,6 +191,33 @@ void AnimalEscapeAI::sub_7100306664(const sead::Vector3f& direction) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(target, "TargetPos", -1);
     changeChild("逃走前", &pack);
+}
+
+// NON_MATCHING: the final store of the rideable direction (the original stores x / y per branch and z once).
+bool AnimalEscapeAI::m34(const sead::Vector3f* pos) {
+    auto* rideable = mActor->m132();
+    sead::Vector3f dir = mActor->getMtx().getTranslation() - *mTargetPos_d;
+
+    if (!(_114.isNan() || _114 == sead::Vector3f(0.0f, 0.0f, 0.0f))) {
+        if (rideable) {
+            dir = _114 - mActor->getMtx().getTranslation();
+            dir.normalize();
+            rideable->_148 = dir;
+        }
+        mActor->m45()->sub_7100F75F8C(_114);
+        _114 = sead::Vector3f(0.0f, 0.0f, 0.0f);
+        return true;
+    }
+
+    if (pos && !(pos->isNan() || *pos == sead::Vector3f(0.0f, 0.0f, 0.0f)))
+        dir = *pos;
+
+    if (rideable) {
+        dir.normalize();
+        const bool invalid = dir.isNan() || dir == sead::Vector3f(0.0f, 0.0f, 0.0f);
+        rideable->_148 = invalid ? sead::Vector3f::zero : dir;
+    }
+    return AnimalRoamBase::m34(&dir);
 }
 
 bool AnimalEscapeAI::m37() {
