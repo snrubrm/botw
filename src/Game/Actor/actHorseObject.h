@@ -76,6 +76,9 @@ public:
     bool shouldUnload(s32* a1) override;
     void initMaybe() override;
     void updatePositionMaybe() override;
+    // 0x7100e7bb18 (lane4 s85): applies the horse's m139 value and the pending _868 bit 4 / 5 requests (clear / set
+    // ActorFlag2::_20; both together cancel each other).
+    void m70() override;
     void onPreDeleteStart_(PrepareArg&) override {}
 
     // 0x7100e7ba64 (declared only): `DynamicCast<Actor>(_840.getProc(nullptr, nullptr))`, the horse.

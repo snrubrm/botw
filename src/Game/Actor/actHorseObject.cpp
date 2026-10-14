@@ -192,6 +192,22 @@ ksys::act::Actor* HorseReins::sub_7100E7BA64() {
     return sead::DynamicCast<ksys::act::Actor>(_840.getProc(nullptr, nullptr));
 }
 
+// NON_MATCHING: operand order of the final `and` only
+void HorseReins::m70() {
+    if (auto* horse = sub_7100E7BA64())
+        sub_71011CCB1C(horse->m139());
+
+    if (_868.isOnAll(0x30)) {
+        _868.reset(0x30);
+    } else if (_868.isOn(0x10)) {
+        mActorFlags2.reset(ActorFlag2::_20);
+        _868.reset(0x10);
+    } else if (_868.isOn(0x20)) {
+        mActorFlags2.set(ActorFlag2::_20);
+        _868.reset(0x20);
+    }
+}
+
 void HorseReins::sub_7100E7BC10(ksys::act::BaseProc* horse) {
     _840.acquire(horse, false);
 }
