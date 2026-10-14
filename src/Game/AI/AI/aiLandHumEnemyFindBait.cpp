@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -111,6 +112,30 @@ void LandHumEnemyFindBait::calc_() {
     getCurrentChild()->setDynamicParam(pos, "TargetPos");
     if (*mIsValidForceNeck_s)
         sub_710045F398();
+}
+
+// NON_MATCHING: scheduling of the FixedObjList free-list initialisation (same stores).
+void LandHumEnemyFindBait::m37() {
+    if (!mTargetBait_d->hasProc()) {
+        setFailed();
+        return;
+    }
+    _90.reset(*mRepathTime_s);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetBait_d, &accessor);
+    sead::Vector3f target;
+    accessor.getActorMtx().getTranslation(target);
+    if (!sub_710072E154(mActor, target, nullptr, -1)) {
+        if (!isGoStraightOrMove())
+            changeToLookAround();
+        sead::FixedObjList<sead::Vector3f, 8> points;
+        points.emplaceBack(target);
+        m41(points);
+    } else if (!isGoStraight()) {
+        startMoveToTargetMaybe(target);
+    } else {
+        getCurrentChild()->setDynamicParam(target, "TargetPos");
+    }
 }
 
 bool LandHumEnemyFindBait::isChangeable() const {

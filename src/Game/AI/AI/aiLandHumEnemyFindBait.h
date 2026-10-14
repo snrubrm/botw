@@ -18,6 +18,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m37() override;
     void m38() override;
     void m39() override;
 
