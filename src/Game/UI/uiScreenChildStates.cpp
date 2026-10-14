@@ -974,7 +974,15 @@ Unk_710247c368::~Unk_710247c368() = default;
 
 Unk_7102477110::~Unk_7102477110() = default;
 
-Unk_7102478048::~Unk_7102478048() = default;
+// 0x710098fc08
+// NON_MATCHING: the original stores 0x350 before the memset of 0x130.
+Unk_7102478048::Unk_7102478048(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x710098fc90
+// NON_MATCHING: the inlined ScreenChild member teardown differs in scheduling only.
+Unk_7102478048::~Unk_7102478048() {
+    sub_710098FD5C();
+}
 
 Unk_710247d580::~Unk_710247d580() = default;
 

@@ -3,6 +3,7 @@
 #include "Game/UI/uiScreens.h"
 #include <container/seadSafeArray.h>
 #include "Game/UI/uiControlCreator.h"
+#include "KingSystem/System/StringBoard.h"
 #include "KingSystem/World/worldDefines.h"
 
 // ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
@@ -261,8 +262,17 @@ class Unk_7102478048 : public ScreenChildEx {
 public:
     explicit Unk_7102478048(eui::LayoutEx* layout);
     ~Unk_7102478048() override;
+    // 0x710098fd5c (declared only; the destructor calls it first)
+    void sub_710098FD5C();
 
-    u8 _130[0x450 - 0x130];
+    // Members from the ctor 0x98fc08.
+    u8 _130[0x211]{};
+    /* 0x344 */ u32 _344[2]{};
+    /* 0x34c */ bool _34c = false;
+    /* 0x350 */ void* _350 = nullptr;
+    /* 0x358 */ f32 _358 = 1.0f;
+    /* 0x35c */ u8 _35c[0x428 - 0x35c]{};
+    /* 0x428 */ ksys::StringBoard _428[5];
 };
 static_assert(sizeof(Unk_7102478048) == 0x450);
 
