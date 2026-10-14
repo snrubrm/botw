@@ -2285,11 +2285,25 @@ public:
     void sub_7101002194();
     void sub_7101002274();
     void m14(sead::TextWriter& writer) override {}
+    // 0x7101002290 / 0x71010024ac (declared only)
+    void hm14() override;
+    void hm15() override;
 
-    u8 _190[0x1f4 - 0x190];
+    explicit Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg);
+
+    ksys::snd::MusicInfo* mInfo = nullptr;
+    u32 _198 = 0;
+    aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
+    u64 _1c8 = 0;
+    u32 _1d0;
+    u64 _1d8 = 0;
+    u64 _1e0 = 0;
+    u64 _1e8 = 0;
+    s32 _1f0 = -1;
     // ksys::snd::Unk_710260f0c0::sub_7100FF8F34 sets bit 0x10.
-    u8 _1f4;
+    u8 _1f4 = 7;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fd6c8, 0x1f8);
 
 // vtable 0x71024fd808 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fd808 : public ksys::snd::Unk_71025ce380 {

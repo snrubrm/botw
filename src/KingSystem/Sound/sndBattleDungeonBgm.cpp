@@ -438,6 +438,15 @@ Unk_71024fd318::~Unk_71024fd318() = default;
 // this class does not declare yet.
 Unk_71024fd448::~Unk_71024fd448() = default;
 
+namespace {
+sead::SafeString sStr_DungeonBattleBgm = "DungeonBattleBgm";
+}  // namespace
+
+Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonBattleBgm, nullptr);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_21);
+}
+
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
 
 Unk_71024fd808::~Unk_71024fd808() = default;
