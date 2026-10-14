@@ -80,7 +80,7 @@ void GiantSleepNormal::calc_() {
             _80 = getPlayerPosition();
             _98 = 2;
         }
-        auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+        auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
         if (manager && manager->getField54() != -1) {
             sead::Vector3f position;
             if (manager->getPosition(&position))
@@ -108,7 +108,7 @@ void GiantSleepNormal::leave_() {
         giant->_a68 |= 1;
     }
     if (!sub_71005D8F28(mActor)) {
-        auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+        auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
         if (manager && manager->getField54() != -1) {
             auto* actor = mActor;
             if (sub_7100739D74(actor, manager->getAttacker())) {

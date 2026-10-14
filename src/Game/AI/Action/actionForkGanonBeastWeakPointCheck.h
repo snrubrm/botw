@@ -9,27 +9,27 @@ namespace uking::action {
 class ForkGanonBeastWeakPointCheck;
 
 // Native tables share DamageCallback's RTTI and complete destructor slots.
-class Unk_710238b078 : public dmg::DamageCallback {
+class Unk_710238b078 : public act::DamageCallback {
 public:
     explicit Unk_710238b078(ForkGanonBeastWeakPointCheck* owner) : mOwner(owner) {}
-    void call(s32*, s32*, u32*, u32*, s32*, dmg::DamageCallbackInfo*) override;
+    void call(s32*, s32*, u32*, u32*, s32*, act::DamageCallbackInfo*) override;
     ForkGanonBeastWeakPointCheck* mOwner;
     ksys::phys::RigidBody* mBody = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710238b078, 0x38);
 
-class Unk_710238b0b0 : public dmg::DamageCallback {
+class Unk_710238b0b0 : public act::DamageCallback {
 public:
     explicit Unk_710238b0b0(ForkGanonBeastWeakPointCheck* owner) : mOwner(owner) {}
-    void call(s32*, s32*, u32*, u32*, s32*, dmg::DamageCallbackInfo*) override;
+    void call(s32*, s32*, u32*, u32*, s32*, act::DamageCallbackInfo*) override;
     ForkGanonBeastWeakPointCheck* mOwner;
     s32 mWeakPoint = 18;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710238b0b0, 0x38);
 
-class Unk_710238b040 : public dmg::DamageCallback {
+class Unk_710238b040 : public act::DamageCallback {
 public:
-    void call(s32*, s32*, u32*, u32*, s32*, dmg::DamageCallbackInfo*) override;
+    void call(s32*, s32*, u32*, u32*, s32*, act::DamageCallbackInfo*) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710238b040, 0x28);
 

@@ -29,7 +29,7 @@ bool PlayerOrEnemy::hasNoWeaponActors() {
 }
 
 void PlayerOrEnemy::m160() {
-    auto* damage_mgr = sead::DynamicCast<uking::dmg::DamageManager>(getDamageMgr());
+    auto* damage_mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
     if (!damage_mgr)
         return;
 

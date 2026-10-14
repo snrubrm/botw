@@ -28,12 +28,12 @@ void SetJustAvoidHit1DamageDCCB::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetJustAvoidHit1DamageDCCB::m14() {
+uking::act::DamageCallback* SetJustAvoidHit1DamageDCCB::m14() {
     return &_30;
 }
 
 void Unk_7102439a60::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (*a5 < 15)
         return;
     auto* enemy = sead::DynamicCast<act::Enemy>(mDamageManager->mActor);

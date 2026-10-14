@@ -1,7 +1,7 @@
 #include "Game/Damage/dmgUnk_7100671794.h"
 #include <prim/seadScopedLock.h>
 
-namespace uking::dmg {
+namespace uking::act {
 
 bool Unk_7100671794::sub_7100671A40(ksys::act::BaseProc* proc, s32 frames) {
     if (_c0 > 0.0f)
@@ -45,4 +45,4 @@ void Unk_7100671794::sub_71006720C8(ksys::act::BaseProc* proc) {
     _c4 = -1;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

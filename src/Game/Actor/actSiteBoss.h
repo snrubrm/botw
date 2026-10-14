@@ -31,11 +31,11 @@ class SiteBoss;
 // Placeholder name (vtable 0x71023d04f8; inherits DamageCallback's RTTI; `call` 0x71002d03e8).
 // SiteBoss::_14c8. `call` reads and clears bits of _30.
 // TODO: incomplete.
-class Unk_71023d04f8 : public dmg::DamageCallback {
+class Unk_71023d04f8 : public act::DamageCallback {
 public:
     explicit Unk_71023d04f8(SiteBoss* boss) : mBoss(boss) {}
 
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     /* 0x28 */ SiteBoss* mBoss;
     /* 0x30 */ sead::BitFlag16 _30;  // read by many SiteBoss AI functions (SiteBoss + 0x14f8)

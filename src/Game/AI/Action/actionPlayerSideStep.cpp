@@ -19,7 +19,7 @@ void PlayerSideStep::leave_() {
     static_cast<ksys::act::Player*>(mActor)->_c4c.reset(0x100);
     static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x1000000);
     static_cast<ksys::act::Player*>(mActor)->_1d70 = ksys::Timer(0.0f, 0.0f);
-    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr()))
+    if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         manager->_210 &= 0xfd6c;
 }
 

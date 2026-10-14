@@ -71,7 +71,7 @@ s32 BlownOff::m40() {
     return _158;
 }
 
-s32 BlownOff::m41(uking::dmg::DamageManager* manager) {
+s32 BlownOff::m41(uking::act::DamageManager* manager) {
     return manager->getField50();
 }
 

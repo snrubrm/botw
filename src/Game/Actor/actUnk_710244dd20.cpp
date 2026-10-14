@@ -227,7 +227,7 @@ void Unk_710244dd20::sub_71006CF770() {
     if (_8.isOn(0x80)) {
         auto* param = sub_71006DF5A4();
         if (param && param->mPoisonBogDamage.ref() >= 1) {
-            dmg::ConditionDamageInfo info;
+            act::ConditionDamageInfo info;
             info.mKind = 7;
             info.mDamage = param->mPoisonBogDamage.ref();
             info.mFlags = 1;
@@ -238,7 +238,7 @@ void Unk_710244dd20::sub_71006CF770() {
     } else if (_8.isOn(0x100)) {
         auto* param = sub_71006DF5A4();
         if (param && param->mColdWaterDamage.ref() >= 1) {
-            dmg::ConditionDamageInfo info;
+            act::ConditionDamageInfo info;
             info.mKind = 8;
             info.mDamage = param->mColdWaterDamage.ref();
             info.mFlags = 1;
@@ -263,7 +263,7 @@ void Unk_710244dd20::sub_71006CF770() {
     } else if (_8.isOn(0x400)) {
         auto* param = sub_71006DF5A4();
         if (param && param->mLavaDamage.ref() >= 1) {
-            dmg::ConditionDamageInfo info;
+            act::ConditionDamageInfo info;
             info.mKind = 10;
             info.mDamage = param->mLavaDamage.ref();
             info.mFlags = 1;
@@ -361,7 +361,7 @@ void Unk_710244dd20::sub_71006CF9B4() {
 
     auto* param = sub_71006DF5A4();
     if (param && param->mCurseContinuousDamage.ref() >= 1) {
-        dmg::ConditionDamageInfo info;
+        act::ConditionDamageInfo info;
         info.mKind = 11;
         info.mDamage = param->mCurseContinuousDamage.ref();
         info.mFlags = 1;
@@ -383,7 +383,7 @@ void Unk_710244dd20::sub_71006D0AB8() {
     param = sub_71006DF5A4();
     const s32 damage = param ? param->mGerudoHeroDamage.ref() : 0;
     if (time <= 0) {
-        dmg::ConditionDamageInfo info;
+        act::ConditionDamageInfo info;
         info.mKind = 4;
         info.mDamage = damage;
         info._8 = 4;
@@ -392,7 +392,7 @@ void Unk_710244dd20::sub_71006D0AB8() {
     } else {
         if (!_118.sub_7101241B6C())
             xlinkSearchAndEmit(_10, "ElectricShock", 2, &_118);
-        dmg::ConditionDamageInfo info;
+        act::ConditionDamageInfo info;
         info.mKind = 4;
         info.mDamage = damage;
         info.mFlags = 0x100;
@@ -413,7 +413,7 @@ void Unk_710244dd20::sub_71006D19AC() {
             _8.set(0x800);
             param = sub_71006DF5A4();
             if (param && param->mCurseDamage.ref() >= 1) {
-                dmg::ConditionDamageInfo info;
+                act::ConditionDamageInfo info;
                 info.mKind = 11;
                 info.mDamage = param->mCurseDamage.ref();
                 sub_71006DF5CC(info);

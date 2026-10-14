@@ -20,18 +20,18 @@ namespace uking::ai {
 
 // vtable 0x7102432d40: damage callback embedded in WolfLinkRoot (no RTTI of its own; `call`
 // 0x710060b8d8 reads its last argument as an object of an unknown RTTI class (GOT 0x7102579518)).
-class Unk_7102432d40 : public dmg::DamageCallback {
+class Unk_7102432d40 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102432d78: damage callback embedded in WolfLinkRoot (no RTTI of its own; `call`
 // 0x710060ba10 calls the unnamed 0x71002c802c). The link is acquired with the owner actor.
-class Unk_7102432d78 : public dmg::DamageCallback {
+class Unk_7102432d78 : public act::DamageCallback {
 public:
     explicit Unk_7102432d78(ksys::act::Actor* actor) { _28.acquire(actor, false); }
 
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     ksys::act::BaseProcLink _28;
 };

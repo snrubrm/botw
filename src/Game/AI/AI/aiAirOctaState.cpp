@@ -254,7 +254,7 @@ void AirOctaState::sub_71002FE668(f32 distance) {
         return;
 
     mActor->m93(0, 0.0f);
-    if (auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr()))
+    if (auto* damage_manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr()))
         damage_manager->_216.setBit(3);
     _278.set(0x1c);
     manager = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));

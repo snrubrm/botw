@@ -8,9 +8,9 @@ namespace uking::ai {
 
 // vtable 0x7102424d70 (no RTTI of its own; D0 0x71005a90d8, call 0x71005a90ac): damage callback
 // embedded twice in StalPartRoot. Cancels positive damage unless the damage type (*a4) is 3.
-class Unk_7102424d70 : public dmg::DamageCallback {
+class Unk_7102424d70 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
 class StalPartRoot : public ksys::act::ai::Ai {

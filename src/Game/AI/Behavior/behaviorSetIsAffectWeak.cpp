@@ -19,7 +19,7 @@ void SetIsAffectWeak::loadParams() {
 }
 
 void SetIsAffectWeak::m8() {
-    auto* dmg = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    auto* dmg = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr());
     if (!dmg)
         return;
     _30 = dmg->_216.isOn(8);
@@ -28,7 +28,7 @@ void SetIsAffectWeak::m8() {
 }
 
 void SetIsAffectWeak::m9() {
-    if (auto* dmg = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr()))
+    if (auto* dmg = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         dmg->_216.setDirect(_30 ? (dmg->_216.getDirect() | 8) :
                                   (dmg->_216.getDirect() & ~8));
 }

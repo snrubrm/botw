@@ -56,7 +56,7 @@ bool OpenWorldStage::m2(sead::BufferedSafeString* out) {
 }
 
 void OpenWorldStage::postCalc() {
-    dmg::DamageInfoMgr::instance()->postCalc();
+    act::DamageInfoMgr::instance()->postCalc();
     GameSceneSubsys4::instance()->m6();
     GameSceneSubsys5::instance()->postCalc();
     LastBossMgr::instance()->postCalc();

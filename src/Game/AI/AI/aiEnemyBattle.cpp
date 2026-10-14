@@ -45,8 +45,8 @@ bool EnemyBattle::m40() {
         return false;
     sead::Vector3f target;
     // The original uses a signed comparison of the nearest-enemy count at DamageInfoMgr +0x5c0.
-    if (dmg::DamageInfoMgr::instance() &&
-        static_cast<s32>(dmg::DamageInfoMgr::instance()->get4f8()._c8) > 1 &&
+    if (act::DamageInfoMgr::instance() &&
+        static_cast<s32>(act::DamageInfoMgr::instance()->get4f8()._c8) > 1 &&
         ksys::act::Attention::instance() &&
         !ksys::act::Attention::instance()->sub_7100D74114()) {
         mActor->getMtx().getTranslation(target);
@@ -68,7 +68,7 @@ bool EnemyBattle::sub_7100382558() {
         return true;
     if (!ksys::act::isPlayerProfile(&m35()))
         return true;
-    return dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, time);
+    return act::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, time);
 }
 
 bool EnemyBattle::sub_7100381D68() {

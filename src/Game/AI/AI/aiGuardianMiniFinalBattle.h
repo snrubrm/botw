@@ -13,21 +13,21 @@ class GuardianMiniFinalBattle;
 // the vtable addresses.
 
 // vtable 0x71023f86d8
-class Unk_71023f86d8 : public uking::dmg::DamageCallback {
+class Unk_71023f86d8 : public uking::act::DamageCallback {
 public:
     explicit Unk_71023f86d8(uking::ai::GuardianMiniFinalBattle* owner) : mOwner(owner) {}
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;
+              uking::act::DamageCallbackInfo* a6) override;
 
     uking::ai::GuardianMiniFinalBattle* mOwner;
 };
 
 // vtable 0x71023f8710
-class Unk_71023f8710 : public uking::dmg::DamageCallback {
+class Unk_71023f8710 : public uking::act::DamageCallback {
 public:
     explicit Unk_71023f8710(uking::ai::GuardianMiniFinalBattle* owner) : mOwner(owner) {}
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;
+              uking::act::DamageCallbackInfo* a6) override;
 
     uking::ai::GuardianMiniFinalBattle* mOwner;
 };

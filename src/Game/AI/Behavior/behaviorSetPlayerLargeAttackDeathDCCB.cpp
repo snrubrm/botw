@@ -30,15 +30,15 @@ void SetPlayerLargeAttackDeathDCCB::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetPlayerLargeAttackDeathDCCB::m14() {
+uking::act::DamageCallback* SetPlayerLargeAttackDeathDCCB::m14() {
     return &_30;
 }
 
 void Unk_7102439db0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (*a5 < 15)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!manager)
         return;
     ksys::act::acc::PlayerBase accessor;

@@ -4,7 +4,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManagerBase.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 // Names from the CSV (DamageMgrWeapon / DamageMgrSword / DamageMgrBow / DamageMgrShield::*). The damage managers of the
 // Weapon actor (allocated by Weapon::init1: DamageMgrBow for bows, DamageMgrShield for shields, DamageMgrSword
@@ -94,4 +94,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(DamageMgrShield, 0x78);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

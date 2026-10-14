@@ -30,7 +30,7 @@ void WeakPointRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _70._24 = *mIsShowCriticalEffect_s;
     _70._25 = mActor->getParam()->getRes().mDamageParam->mWeakPointNoUIFlag.ref();
     if (auto* mgr = mActor->getDamageMgr()) {
-        if (auto* manager = sead::DynamicCast<dmg::DamageManager>(mgr))
+        if (auto* manager = sead::DynamicCast<act::DamageManager>(mgr))
             manager->addDamageCallback(0, &_70);
     }
     _70._28 = false;
@@ -73,12 +73,12 @@ bool WeakPointRoot::handleMessage_(const ksys::Message* message) {
     return false;
 }
 
-s32 WeakPointRoot::m34(dmg::DamageManagerBase* mgr) {
+s32 WeakPointRoot::m34(act::DamageManagerBase* mgr) {
     return mgr->getField54();
 }
 
-s32 WeakPointRoot::m35(dmg::DamageManagerBase* mgr) {
-    if (auto* manager = sead::DynamicCast<dmg::DamageManager>(mgr))
+s32 WeakPointRoot::m35(act::DamageManagerBase* mgr) {
+    if (auto* manager = sead::DynamicCast<act::DamageManager>(mgr))
         return manager->_8c;
     return 0;
 }
@@ -86,11 +86,11 @@ s32 WeakPointRoot::m35(dmg::DamageManagerBase* mgr) {
 // NON_MATCHING: the original loads `_24` before the callback info's flags (ours the other way round) and
 // multiplies `velocity * delta` (ours emits `delta * velocity`); everything else is identical
 // 0x71005edb04
-void Unk_710242fcf0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_710242fcf0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a1 <= 0 || *a5 <= 2)
         return;
 
-    if (auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6)) {
+    if (auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6)) {
         u32 flags = info->mFlags;
         if (_24) {
             flags |= 0x80;

@@ -9,9 +9,9 @@ namespace uking::ai {
 
 // Placeholder name (vtable 0x7102414f60; inherits DamageCallback's RTTI; `call` 0x7100528494,
 // D0 0x71005285a8). PriestBossNormalReaction::_80.
-class Unk_7102414f60 : public dmg::DamageCallback {
+class Unk_7102414f60 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102414f60, 0x28);
 
@@ -26,8 +26,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type) override;
-    void m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+    bool m34(act::DamageManagerBase* damage_mgr, int damage_type) override;
+    void m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
              ksys::act::ai::InlineParamPack* params) override;
     bool m45() override;
 

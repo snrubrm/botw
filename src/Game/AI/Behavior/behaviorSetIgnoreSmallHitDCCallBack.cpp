@@ -27,7 +27,7 @@ void SetIgnoreSmallHitDCCallBack::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetIgnoreSmallHitDCCallBack::m14() {
+uking::act::DamageCallback* SetIgnoreSmallHitDCCallBack::m14() {
     return &_30;
 }
 

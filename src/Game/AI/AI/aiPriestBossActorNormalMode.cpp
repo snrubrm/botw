@@ -21,10 +21,10 @@ bool PriestBossActorNormalMode::sub_710050B7A8() {
         return false;
     if (!sub_7100505BE4())
         return false;
-    dmg::Unk_7100671794_Entry entry;
+    act::Unk_7100671794_Entry entry;
     entry.mLink.acquire(mActor, false);
     entry.mDistance = 10000.0f;
-    auto* limiter = &dmg::DamageInfoMgr::instance()->get4f8();
+    auto* limiter = &act::DamageInfoMgr::instance()->get4f8();
     return limiter->sub_7100671A74(&entry, sub_7100505BE4()->_98);
 }
 
@@ -119,7 +119,7 @@ void PriestBossActorNormalMode::leave_() {
     if (sub_7100505BE4()) {
         sub_7100505BE4();
         if (_e4 != 2 && u32(_e4 - 2) < 9)
-            dmg::DamageInfoMgr::instance()->get4f8().sub_7100671F78(mActor);
+            act::DamageInfoMgr::instance()->get4f8().sub_7100671F78(mActor);
     }
     if (auto* unit = sub_7100505BE4())
         unit->sub_7100719D5C(mActor);
@@ -184,7 +184,7 @@ f32 PriestBossActorNormalMode::m39() {
             if (_e4 != 2 && u32(_e4 - 2) < 9) {
                 if (u32(_130 - 4) < 5)
                     return 0.0f;
-                if (!dmg::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor))
+                if (!act::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor))
                     return 0.0f;
             }
         }
@@ -208,7 +208,7 @@ f32 PriestBossActorNormalMode::m40() {
             if (_e4 != 2 && u32(_e4 - 2) < 9) {
                 if (u32(_130 - 4) < 5)
                     return 0.0f;
-                if (!dmg::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor))
+                if (!act::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor))
                     return 0.0f;
             }
         }
@@ -237,7 +237,7 @@ f32 PriestBossActorNormalMode::m41() {
             if (_e4 != 2 && u32(_e4 - 2) < 9) {
                 if (_130 >= 4 && _130 <= 8)
                     return 0.0f;
-                if (!dmg::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor))
+                if (!act::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor))
                     return 0.0f;
             }
         }

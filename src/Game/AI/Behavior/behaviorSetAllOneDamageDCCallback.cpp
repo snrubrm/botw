@@ -26,12 +26,12 @@ void SetAllOneDamageDCCallback::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetAllOneDamageDCCallback::m14() {
+uking::act::DamageCallback* SetAllOneDamageDCCallback::m14() {
     return &_30;
 }
 
 void Unk_7102438b98::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (*a1 >= 2)
         *a1 = 1;
 }

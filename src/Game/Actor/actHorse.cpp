@@ -4,7 +4,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 
 // Declaration only; the original helper's source owner and namespace are unknown.
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 
 namespace uking::act {
 

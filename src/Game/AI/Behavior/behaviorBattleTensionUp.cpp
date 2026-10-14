@@ -10,13 +10,13 @@ void BattleTensionUp::m7() {}
 
 void BattleTensionUp::m8() {
     if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive)) {
-        if (auto* mgr = dmg::DamageInfoMgr::instance())
+        if (auto* mgr = act::DamageInfoMgr::instance())
             mgr->get28().sub_710065CE14(mActor);
     }
 }
 
 void BattleTensionUp::m9() {
-    if (auto* mgr = dmg::DamageInfoMgr::instance())
+    if (auto* mgr = act::DamageInfoMgr::instance())
         mgr->get28().sub_710065CF08(mActor);
 }
 

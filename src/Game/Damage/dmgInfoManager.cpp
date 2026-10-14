@@ -10,7 +10,7 @@
 #include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
@@ -190,4 +190,4 @@ void DamageInfoMgr::Unk11f0::sub_710067446C() {
     mLock.writeUnlock();
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

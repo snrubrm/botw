@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    uking::dmg::DamageCallback* m14() override;
+    uking::act::DamageCallback* m14() override;
 
     /* 0x30 */ Unk_71024519a8 _30;
 };

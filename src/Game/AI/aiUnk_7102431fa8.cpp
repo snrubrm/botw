@@ -9,8 +9,8 @@ void Unk_7102431fa8::sub_7100741C24() {
     if (_10) {
         const auto* life = _d0->getLife();
         if ((life && *life < 1) || !sub_71005D8F28(_d0) ||
-            !uking::dmg::DamageInfoMgr::instance()->get790().sub_71006726DC(_14[0]) ||
-            !uking::dmg::DamageInfoMgr::instance()->get790().sub_7100672B00(_d0))
+            !uking::act::DamageInfoMgr::instance()->get790().sub_71006726DC(_14[0]) ||
+            !uking::act::DamageInfoMgr::instance()->get790().sub_7100672B00(_d0))
             sub_7100741E14();
     }
     if (_8 == 2)
@@ -52,7 +52,7 @@ void Unk_7102431fa8::sub_7100741C24() {
 }
 
 void Unk_7102431fa8::sub_7100741E14() {
-    uking::dmg::DamageInfoMgr::instance()->get790().sub_7100672888(_d0);
+    uking::act::DamageInfoMgr::instance()->get790().sub_7100672888(_d0);
     _c = 2;
     _10 = false;
 }

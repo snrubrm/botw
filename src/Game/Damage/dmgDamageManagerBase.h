@@ -30,7 +30,7 @@ namespace ksys {
 class Message;
 }
 
-namespace uking::dmg {
+namespace uking::act {
 
 class DamageCallback;
 class DamageCallbackInfo;
@@ -213,4 +213,4 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(DamageManagerBase, 0x68);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

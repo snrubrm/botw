@@ -12,7 +12,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageManagerBase_UnknownBase1::DamageManagerBase_UnknownBase1(ksys::act::Actor* actor)
     : mActor(actor) {}
@@ -488,11 +488,11 @@ ksys::act::BaseProcLink* DamageManagerBase::m37() {
     return &ksys::act::getDummyBaseProcLink();
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 // 0x7100d2d424 (unnamed in the CSV, global namespace; declared by the callers): unregisters every damage callback and
 // frees the callback table.
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager) {
+void sub_7100D2D424(uking::act::DamageManagerBase* manager) {
     if (manager->mCallbacks.isBufferReady()) {
         for (s32 i = 0, n = manager->mCallbacks.size(); i < n; ++i) {
             while (auto* callback = manager->mCallbacks[i])

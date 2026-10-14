@@ -26,7 +26,7 @@ void SetIgnoreHorseDamage::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetIgnoreHorseDamage::m14() {
+uking::act::DamageCallback* SetIgnoreHorseDamage::m14() {
     return &_30;
 }
 

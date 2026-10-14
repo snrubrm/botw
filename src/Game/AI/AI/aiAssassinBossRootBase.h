@@ -23,9 +23,9 @@ public:
 
 // vtable 0x71023d7e40: damage callback without RTTI of its own; keeps the enemy's life (plus the
 // life recover info's extra HP) above _24.
-class Unk_71023d7e40 : public dmg::DamageCallback {
+class Unk_71023d7e40 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     s32 _24 = 0;
 };
@@ -33,9 +33,9 @@ public:
 // vtable 0x71023d7e78: damage callback without RTTI of its own; damage from an "AssassinRockBall"
 // attacker becomes _24 (type 22). `call` reads the attacker link from DamageManagerBase slot 37
 // (declared as `s64 m37()`), so it is declared only.
-class Unk_71023d7e78 : public dmg::DamageCallback {
+class Unk_71023d7e78 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     s32 _24 = 0;
 };

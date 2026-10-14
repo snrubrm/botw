@@ -54,7 +54,7 @@ void ForkDrownTimer::calc_() {
             return;
     }
     if (auto* manager = mActor->getDamageMgr()) {
-        uking::dmg::Struct20_2 damage;
+        uking::act::Struct20_2 damage;
         damage.mField_18 = 0x20;
         damage.mField_14 = 0x16;
         damage.mField_8 = 0;

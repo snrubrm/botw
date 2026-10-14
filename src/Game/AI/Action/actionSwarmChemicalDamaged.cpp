@@ -71,7 +71,7 @@ void SwarmChemicalDamaged::calc_() {
     SwarmDamaged::calc_();
 }
 
-void SwarmChemicalDamaged::m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir) {
+void SwarmChemicalDamaged::m34(act::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir) {
     if (_1d8 == -1) {
         SwarmDamaged::m34(mgr, pos, dir);
         return;

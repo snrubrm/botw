@@ -373,10 +373,10 @@ bool PreyRoot::handleMessage_(const ksys::Message* message) {
 
 // 0x7100505144
 void Unk_7102410b48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
     auto* attacker = manager->getAttacker();
@@ -390,17 +390,17 @@ void Unk_7102410b48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     }
     *a1 = 0;
     *a5 = -1;
-    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+    auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
     if (info)
         info->mFlags = 0;
 }
 
 // 0x71005052b0
 void Unk_7102410b80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
     if (!manager->getAttacker()->hasProc())
@@ -409,30 +409,30 @@ void Unk_7102410b80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         return;
     *a1 = 0;
     *a5 = -1;
-    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+    auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
     if (info)
         info->mFlags = 0;
 }
 
 // 0x71005053e8
 void Unk_7102410bb8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a4 - 9 < 3) {
         *a1 = 0;
         *a2 = 0;
         *a3 = 0;
         *a5 = 0xf;
-        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+        auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
         if (info)
             info->mFlags = 0;
     }
 }
 
 // 0x7100504fac
-void Unk_7102410b10::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_7102410b10::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a1 <= 0)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (manager && manager->_6c >= 0) {
         const auto* info = sub_71007A255C(mActor, manager->_6c);
         if (info && info->_d0 != 0x28)

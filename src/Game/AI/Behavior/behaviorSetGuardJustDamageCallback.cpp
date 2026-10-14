@@ -19,7 +19,7 @@ void SetGuardJustDamageCallback::loadParams() {
     getStaticParam(&mDamage_s, "Damage");
 }
 
-uking::dmg::DamageCallback* SetGuardJustDamageCallback::m14() {
+uking::act::DamageCallback* SetGuardJustDamageCallback::m14() {
     return &_38;
 }
 

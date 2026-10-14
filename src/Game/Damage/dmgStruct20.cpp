@@ -1,6 +1,6 @@
 #include "Game/Damage/dmgStruct20.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 void Struct20::reset() {
     mField_8 = 0;
@@ -48,4 +48,4 @@ void Struct20_2::combineMaybe(Struct20Base* other) {
     }
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

@@ -128,7 +128,7 @@ bool NPCRoot::sub_71004DC204() {
 
 // 0x71004dc100
 bool NPCRoot::sub_71004DC100(sead::Vector3f* pos, ksys::act::BaseProcLink* attacker) {
-    auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr());
+    auto* mgr = sead::DynamicCast<act::DamageManagerBase>(mActor->getDamageMgr());
     if (!mgr)
         return false;
     switch (mgr->getField50()) {

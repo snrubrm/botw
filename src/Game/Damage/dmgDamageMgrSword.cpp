@@ -13,7 +13,7 @@
 
 bool sub_71006DE628(const ksys::act::ActorLinkConstDataAccess& accessor, s32 type);
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageMgrSword::DamageMgrSword(ksys::act::Actor* actor) : DamageMgrWeapon(actor) {
     mDamageFromLife = uking::act::WeaponModifierInfo::getLifeMultiplier();
@@ -71,9 +71,9 @@ ksys::phys::MaterialMask* DamageMgrSword::m33() {
     return nullptr;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
-namespace uking::dmg {
+namespace uking::act {
 
 void DamageMgrSword::m22() {
     u32 v1 = 0;
@@ -125,9 +125,9 @@ void DamageMgrSword::m22() {
     callDamageCallbacks(1, &mDamage, &mField_48, &mMinDmg, &mField_50, &mField_54, nullptr);
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
-namespace uking::dmg {
+namespace uking::act {
 
 bool DamageMgrSword::sub_71002F267C(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54,
                                     s32* f40) {
@@ -191,4 +191,4 @@ bool DamageMgrSword::sub_71002F267C(s32* damage, s32* df48, u32* minDmg, u32* f5
     return true;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

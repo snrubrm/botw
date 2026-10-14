@@ -9,12 +9,12 @@
 namespace uking::ai {
 
 void Unk_71023d7798::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     _25 = false;
     if (*a1 <= 0 && *a5 == -1)
         return;
 
-    auto* damage_manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* damage_manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (damage_manager && !sub_71007368A4(damage_manager->getAttacker()) &&
         damage_manager->mActor->getASList()->x(14, nullptr, 0, 0,
                                                 &ksys::as::ASList::Unk2::sub_71011638DC, true)) {

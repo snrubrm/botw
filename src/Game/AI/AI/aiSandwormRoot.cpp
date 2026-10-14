@@ -46,10 +46,10 @@ void SandwormRoot::loadParams_() {
 }
 
 // 0x710055d7c8
-void Unk_710241c6c0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_710241c6c0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!manager)
         return;
     auto* enemy = sead::DynamicCast<act::Enemy>(manager->mActor);
@@ -81,7 +81,7 @@ void Unk_710241c6c0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
     if (auto* body = enemy->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body")) {
         if (manager->m38(body)) {
             *a1 = s32(_24 * f32(*a1));
-            if (auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6))
+            if (auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6))
                 info->mFlags |= 0x2001;
         }
     }

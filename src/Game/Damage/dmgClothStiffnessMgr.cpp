@@ -7,7 +7,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourcePhysics.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 ClothStiffnessMgr::Entry* ClothStiffnessMgr::sub_7100665830(const sead::SafeString& name) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
@@ -44,4 +44,4 @@ void ClothStiffnessMgr::sub_7100665B20() {
     mEntries[2].mRefCount = 0;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

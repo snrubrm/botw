@@ -87,7 +87,7 @@ bool StalEnemyRoot::m36() {
 }
 
 // 0x71005a2544
-void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
 
@@ -99,7 +99,7 @@ void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
             case 1:
             case 2: {
                 if (*a4 == 0) {
-                    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+                    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
                     ksys::act::ActorLinkConstDataAccess accessor;
                     if (manager && ksys::act::acquireActor(manager->m37(), &accessor) &&
                         accessor.getProfile() == "WeaponShield") {
@@ -120,7 +120,7 @@ void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
                 break;
             }
             default: {
-                auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+                auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
                 ksys::act::acc::Bullet accessor;
                 if (manager && ksys::act::acquireActor(manager->m37(), &accessor) &&
                     accessor.isReflectThrownBullet()) {
@@ -132,7 +132,7 @@ void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::Dama
         }
     }
 
-    if (auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6)) {
+    if (auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6)) {
         if ((info->mFlags & 1) && *a1 <= 0)
             *a1 = 1;
     }

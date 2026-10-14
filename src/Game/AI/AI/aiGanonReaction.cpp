@@ -117,7 +117,7 @@ void GanonReaction::calc_() {
     EnemyDefaultReaction::calc_();
 }
 
-bool GanonReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+bool GanonReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     if (_63)
         return false;
     return EnemyDefaultReaction::m34(damage_mgr, damage_type);

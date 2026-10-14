@@ -48,9 +48,9 @@ class GerudoQueenBattle;
 class KokkoRoot;
 }  // namespace uking::ai
 
-namespace uking::dmg {
+namespace uking::act {
 class DamageManagerBase;
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 class WorldMgrStruct0_8_a;
 
@@ -628,7 +628,7 @@ public:
     virtual void onPlacementObjReset();
     virtual Unk_71025ae640* getAtk();
     virtual Unk_71025b08f8* m126();
-    virtual uking::dmg::DamageManagerBase* getDamageMgr();
+    virtual uking::act::DamageManagerBase* getDamageMgr();
     virtual Unk_71006e45c4* m128();
     // The PlayerLink part of a player actor (null for other actors).
     virtual PlayerLink* m129();

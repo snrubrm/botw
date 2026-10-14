@@ -7,19 +7,19 @@
 namespace uking::behavior {
 
 // vtable 0x7102438dd0 (functions in this behavior's translation unit).
-class Unk_7102438dd0 : public uking::dmg::DamageCallback {
-    SEAD_RTTI_OVERRIDE(Unk_7102438dd0, uking::dmg::DamageCallback)
+class Unk_7102438dd0 : public uking::act::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102438dd0, uking::act::DamageCallback)
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;  // not decompiled yet
+              uking::act::DamageCallbackInfo* a6) override;  // not decompiled yet
 };
 
 // vtable 0x7102438e08 (functions in this behavior's translation unit).
-class Unk_7102438e08 : public uking::dmg::DamageCallback {
-    SEAD_RTTI_OVERRIDE(Unk_7102438e08, uking::dmg::DamageCallback)
+class Unk_7102438e08 : public uking::act::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102438e08, uking::act::DamageCallback)
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;  // 0x6385e8
+              uking::act::DamageCallbackInfo* a6) override;  // 0x6385e8
 };
 
 class SetBasicThrownEnemyDCCallback : public ksys::act::ai::Behavior {

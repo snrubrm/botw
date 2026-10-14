@@ -13,11 +13,11 @@ namespace uking::ai {
 
 // vtable 0x710241b460 (no RTTI of its own): damage callback embedded in SandwormAttackMove.
 // call() (0x71005569cc) triples the damage when the attacker is in front of the bone `_30`.
-class Unk_710241b460 : public dmg::DamageCallback {
+class Unk_710241b460 : public act::DamageCallback {
 public:
     explicit Unk_710241b460(gsys::Model* model) : _28(model) {}
 
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     gsys::Model* _28;
     gsys::BoneAccessKeyEx _30;

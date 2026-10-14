@@ -29,7 +29,7 @@ ChuchuRoot::~ChuchuRoot() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->sub_7100D3CFEC(mChemicalFieldKey_s);
     if (_248)
-        dmg::DamageInfoMgr::instance()->getClothStiffnessMgr().sub_7100665A84(mActor);
+        act::DamageInfoMgr::instance()->getClothStiffnessMgr().sub_7100665A84(mActor);
 }
 
 // NON_MATCHING: only the instruction order before the last call (the original computes the ClothStiffnessMgr
@@ -69,7 +69,7 @@ bool ChuchuRoot::init_(sead::Heap* heap) {
 
     auto* actor = mActor;
     sub_71006F5D3C(sub_71006F5694(actor), actor);
-    _248 = dmg::DamageInfoMgr::instance()->getClothStiffnessMgr().x(*mClothStiffness30_s,
+    _248 = act::DamageInfoMgr::instance()->getClothStiffnessMgr().x(*mClothStiffness30_s,
                                                                    *mClothStiffness20_s, mActor);
     return true;
 }
@@ -137,7 +137,7 @@ void ChuchuRoot::changeToCreateDrop() {
 
 // 0x71006f6284
 void Unk_71024500d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
     auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mDamageManager->mActor);

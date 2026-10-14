@@ -15,7 +15,7 @@ bool DamagedTurn::init_(sead::Heap* heap) {
 }
 
 void DamagedTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    auto* manager = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr());
     if (!manager) {
         setFailed();
         return;

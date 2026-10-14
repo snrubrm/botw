@@ -10,10 +10,10 @@ namespace uking::ai {
 
 // Placeholder name (vtable 0x710241c6c0; own RTTI, checkDerived 0x710055e77c; `call` 0x710055d7c8,
 // D0 0x710055e8a4). SandwormRoot::_250.
-class Unk_710241c6c0 : public dmg::DamageCallback {
-    SEAD_RTTI_OVERRIDE(Unk_710241c6c0, dmg::DamageCallback)
+class Unk_710241c6c0 : public act::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_710241c6c0, act::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     f32 _24 = 1.0f;
 };

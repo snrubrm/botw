@@ -82,7 +82,7 @@ void LandHumEnemyFindPlayer::m44() {
 
 void LandHumEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
-    dmg::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
+    act::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
 }
 
 void LandHumEnemyFindPlayer::loadParams_() {

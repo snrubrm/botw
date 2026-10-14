@@ -289,7 +289,7 @@ bool sub_710072FD28(ksys::act::Actor* actor, const sead::Vector3f& dir, sead::Ve
 
 bool sub_710072B8E8(ksys::act::Actor* actor) {
     bool result = false;
-    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr()))
+    if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr()))
         result = manager->getField54() > 27;
     if (auto* chemicals = actor->getChemicalContainer()) {
         if (chemicals->_58.size() + chemicals->_80 >= 0)
@@ -809,7 +809,7 @@ void sub_71007393EC(ksys::act::Actor* actor) {
 }
 
 const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_7100739578(ksys::act::Actor* actor) {
-    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+    auto* manager = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
     if (manager && manager->_6c >= 0)
         return sub_71007A255C(actor, manager->_6c);
     if (!sub_71007A2604(actor))
@@ -1000,7 +1000,7 @@ bool sub_7100733B84(ksys::act::Actor* actor) {
 }
 
 bool sub_7100733C24(ksys::act::Actor* actor) {
-    auto* damage = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+    auto* damage = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
     if (!damage || damage->getField54() != 28)
         return false;
     *actor->getLife() = 0;

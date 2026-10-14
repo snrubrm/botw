@@ -27,7 +27,7 @@ void SetNoWeakHitReactionDCCallBack::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetNoWeakHitReactionDCCallBack::m14() {
+uking::act::DamageCallback* SetNoWeakHitReactionDCCallBack::m14() {
     return &_30;
 }
 

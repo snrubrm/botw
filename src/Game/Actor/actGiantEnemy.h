@@ -13,10 +13,10 @@ namespace uking::act {
 
 // Placeholder name (vtable 0x710235a050; inherits DamageCallback's RTTI; D1 0x710002ab28, `call`
 // 0x710002b994). GiantEnemy::_1510.
-class Unk_710235a050 : public dmg::DamageCallback {
+class Unk_710235a050 : public act::DamageCallback {
 public:
     ~Unk_710235a050() override;
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
 // Placeholder name (the object at GiantEnemy::_1558, created by the unnamed factories 0x7100302d0 / 0x71002d99c; only

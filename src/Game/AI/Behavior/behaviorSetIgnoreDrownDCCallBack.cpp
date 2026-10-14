@@ -26,7 +26,7 @@ void SetIgnoreDrownDCCallBack::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetIgnoreDrownDCCallBack::m14() {
+uking::act::DamageCallback* SetIgnoreDrownDCCallBack::m14() {
     return &_30;
 }
 

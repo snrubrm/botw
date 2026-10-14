@@ -44,7 +44,7 @@ static const sead::SafeString sUnk_7102432be0 = "AtkBody";
 void WolfLinkRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     if (actor) {
-        auto* mgr = sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr());
+        auto* mgr = sead::DynamicCast<act::DamageManager>(actor->getDamageMgr());
         if (mgr) {
             auto* awareness = actor->getAwareness();
             if (awareness) {
@@ -114,7 +114,7 @@ bool WolfLinkRoot::m35() {
         return true;
     }
 
-    auto* mgr = sead::DynamicCast<dmg::DamageManager>(_e8->getDamageMgr());
+    auto* mgr = sead::DynamicCast<act::DamageManager>(_e8->getDamageMgr());
     if (!mgr)
         return false;
 
@@ -213,10 +213,10 @@ void WolfLinkRoot::sub_710060B700() {
 
 // 0x710060b8d8
 void Unk_7102432d40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
     if (!manager->getAttacker()->hasProc())
@@ -225,17 +225,17 @@ void Unk_7102432d40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         return;
     *a1 = 0;
     *a5 = -1;
-    auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+    auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
     if (info)
         info->mFlags = 0;
 }
 
 // 0x710060ba10
 void Unk_7102432d78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     ksys::act::ActorLinkConstDataAccess attacker;
     if (manager && manager->getDamageType() == 4) {
         if (ksys::act::acquireActor(manager->getAttacker(), &attacker) &&

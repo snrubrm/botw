@@ -22,7 +22,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageManager::DamageManager(ksys::act::Actor* actor)
     : DamageManagerBase(actor), _84(actor->getMtx()(1, 3)), _d8(actor, 0x800003e), _128(actor, 0x800003f),
@@ -1409,13 +1409,13 @@ void DamageManager::sub_71006D888C(const ConditionDamageInfo& info) {
         _88 = info._10;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 // Existing global damage callback cleanup (also called by DynamicActor and Rope).
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 
-uking::dmg::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap) {
-    auto* manager = new (heap, 8) uking::dmg::DamageManager(actor);
+uking::act::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap) {
+    auto* manager = new (heap, 8) uking::act::DamageManager(actor);
     if (!manager)
         return nullptr;
 

@@ -1,9 +1,9 @@
 #include "Game/Damage/dmgDamageMgrWeapon.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageMgrWeapon::DamageMgrWeapon(ksys::act::Actor* actor) : DamageManagerBase(actor) {
     mIsOwnedByPlayer = false;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

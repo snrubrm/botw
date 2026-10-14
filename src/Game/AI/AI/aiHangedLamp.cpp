@@ -7,17 +7,17 @@ namespace uking::ai {
 
 // 0x710042dbe0
 void Unk_71023fa168::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a1 <= 0)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
     ksys::act::ActorLinkConstDataAccess accessor;
     if (ksys::act::acquireActor(manager->m37(), &accessor) && accessor.hasTag(0x19f6c13a)) {
         *a1 = 0;
         *a5 = -1;
-        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+        auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
         if (info)
             info->mFlags = 0;
     }

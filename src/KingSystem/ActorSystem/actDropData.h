@@ -8,9 +8,9 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace uking::dmg {
+namespace uking::act {
 class DamageManagerBase;
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 namespace ksys::act {
 
@@ -69,7 +69,7 @@ public:
 
     /// CSV name "act::DropData::x" (0x71006da914; declaration only, lane4 s28): called by
     /// MapConstActive::m148 with the actor's damage manager (slot 127) and `false`.
-    void sub_71006DA914(uking::dmg::DamageManagerBase* damage_mgr, bool a2);
+    void sub_71006DA914(uking::act::DamageManagerBase* damage_mgr, bool a2);
 
     /* 0x008 */ sead::Atomic<u32> _8 = 0;
     /* 0x00c */ u16 _c = 0;  // flags

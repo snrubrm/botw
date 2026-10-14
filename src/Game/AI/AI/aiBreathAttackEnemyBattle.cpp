@@ -157,7 +157,7 @@ bool BreathAttackEnemyBattle::m39() {
         return true;
     if (!ksys::act::isPlayerProfile(&m34()))
         return true;
-    return dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, *mGlobalNoAtkTime_s);
+    return act::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, *mGlobalNoAtkTime_s);
 }
 
 void BreathAttackEnemyBattle::m41() {}

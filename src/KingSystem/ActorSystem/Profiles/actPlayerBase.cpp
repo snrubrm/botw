@@ -76,9 +76,9 @@ ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_710084BE2C(ksys::act::Actor* acto
 // all fold; see session log).
 bool sub_710084BD48(ksys::act::Actor* actor) {
     auto* mgr = actor->getDamageMgr();
-    if (!sead::IsDerivedFrom<uking::dmg::DamageMgrPlayer>(mgr))
+    if (!sead::IsDerivedFrom<uking::act::DamageMgrPlayer>(mgr))
         return false;
-    return static_cast<uking::dmg::DamageMgrPlayer*>(mgr)->_22c > 0.0f;
+    return static_cast<uking::act::DamageMgrPlayer*>(mgr)->_22c > 0.0f;
 }
 
 namespace ksys::act {

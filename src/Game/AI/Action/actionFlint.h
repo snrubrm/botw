@@ -9,10 +9,10 @@ class Flint;
 
 // vtable 0x71023820a8 (Flint damage callback; no RTTI of its own, its D2 slot is DamageCallback's; D0 at
 // 0x710012f760, `call` at 0x710012f2b8). Placeholder name. `call` is the key function (out of line).
-class Unk_71023820a8 : public uking::dmg::DamageCallback {
+class Unk_71023820a8 : public uking::act::DamageCallback {
 public:
     explicit Unk_71023820a8(uking::action::Flint* owner) : mOwner(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, uking::dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, uking::act::DamageCallbackInfo* a6) override;
 
     uking::action::Flint* mOwner;
 };

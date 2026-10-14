@@ -25,7 +25,7 @@ void Flint::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!base)
         return;
 
-    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(base))
+    if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(base))
         manager->addDamageCallback(4, &_38);
 }
 
@@ -34,7 +34,7 @@ void Flint::leave_() {
     if (!base)
         return;
 
-    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(base))
+    if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(base))
         manager->removeDamageCallback(&_38);
 }
 
@@ -69,7 +69,7 @@ void Flint::calc_() {
 }  // namespace uking::action
 
 void Unk_71023820a8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
 

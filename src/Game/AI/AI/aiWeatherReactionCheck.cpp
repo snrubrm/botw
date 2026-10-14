@@ -18,7 +18,7 @@ bool WeatherReactionCheck::init_(sead::Heap* heap) {
 }
 
 void WeatherReactionCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* mgr = dmg::DamageInfoMgr::instance();
+    auto* mgr = act::DamageInfoMgr::instance();
     if ((*mIsReactionRain_s && mgr->sub_7100674704()) ||
         (*mIsReactionSnow_s && mgr->sub_7100674730())) {
         if (!_60.isOnBit(0)) {
@@ -33,7 +33,7 @@ void WeatherReactionCheck::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: regalloc only (the original keeps `&_64` in x0 across the LodState branch and the Timer::update
 // call; ours copies it into a callee-saved register and needs an extra x21)
 void WeatherReactionCheck::calc_() {
-    auto* mgr = dmg::DamageInfoMgr::instance();
+    auto* mgr = act::DamageInfoMgr::instance();
     if ((*mIsReactionRain_s && mgr->sub_7100674704()) ||
         (*mIsReactionSnow_s && mgr->sub_7100674730())) {
         if (!_60.isOnBit(0)) {

@@ -26,7 +26,7 @@ void ChuchuJellyRoot::calc_() {
     auto* actor = mActor;
     if (!sub_71005D6E28(actor))
         return;
-    if (auto* mgr = sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr())) {
+    if (auto* mgr = sead::DynamicCast<act::DamageManager>(actor->getDamageMgr())) {
         if (mgr->getDamageType() == 9)
             return;
     }

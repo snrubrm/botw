@@ -63,7 +63,7 @@ bool SetThroughArrow::Listener::m0(void* a1, void* a2, void* a3, void* a4, void*
     return (info->_18 >> 3) & 1;
 }
 
-uking::dmg::DamageCallback* SetThroughArrow::m14() {
+uking::act::DamageCallback* SetThroughArrow::m14() {
     return &_30;
 }
 

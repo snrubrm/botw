@@ -16,9 +16,9 @@ namespace uking::ai {
 // vtable 0x71023fd228: damage callback without RTTI of its own (functions in the IceMakerBlock TU:
 // call 0x7100448720 — attackers with the CanBreakIceMakerBlock or AncientWeapon tag; it reads the
 // attacker link from DamageManagerBase slot 37, which is still declared as `s64 m37()`). Placeholder.
-class Unk_71023fd228 : public dmg::DamageCallback {
+class Unk_71023fd228 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
 class IceMakerBlock : public ksys::act::ai::Ai {

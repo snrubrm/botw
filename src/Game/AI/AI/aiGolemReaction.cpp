@@ -88,7 +88,7 @@ void GolemReaction::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
 
-    if (sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr())) {
+    if (sead::DynamicCast<act::DamageManager>(actor->getDamageMgr())) {
         if (sub_71003FEAB0())
             return;
 

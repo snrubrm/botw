@@ -87,7 +87,7 @@ bool FireWood::m33() {
         return true;
     if (const auto* life = mActor->getLife(); life && *life < 1)
         return false;
-    auto* damage = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+    auto* damage = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
     if (!damage)
         return true;
     if (damage->_216.isOn(2))

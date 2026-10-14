@@ -17,10 +17,10 @@ void sub_71005DBF28(ksys::phys::RigidBody* body, s32 a1, u8 a2, bool a3, bool a4
 namespace uking::ai {
 
 // vtable 0x71023f5460: damage callback (functions in the GolemRoot TU); placeholder name.
-class Unk_71023f5460 : public dmg::DamageCallback {
-    SEAD_RTTI_OVERRIDE(Unk_71023f5460, dmg::DamageCallback)
+class Unk_71023f5460 : public act::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_71023f5460, act::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     f32 _24;
 };

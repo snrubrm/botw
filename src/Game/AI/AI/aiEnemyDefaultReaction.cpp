@@ -119,7 +119,7 @@ bool EnemyDefaultReaction::m37() {
     return isCurrentChild("死亡");
 }
 
-bool EnemyDefaultReaction::m38(dmg::DamageManagerBase* damage_mgr) {
+bool EnemyDefaultReaction::m38(act::DamageManagerBase* damage_mgr) {
     return damage_mgr->getField50() == 1;
 }
 
@@ -151,7 +151,7 @@ void EnemyDefaultReaction::m42(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: same decisions and calls as the original; the block layout / SafeString temporary
 // stack slots differ (the original keeps three temporaries and places the default arm of the switch
 // before cases 6/8/12/13/20/18).
-bool EnemyDefaultReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+bool EnemyDefaultReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     auto* child = getCurrentChild();
     if (isCurrentChild("凍結")) {
         if (damage_mgr->getField54() == 23) {
@@ -291,7 +291,7 @@ bool EnemyDefaultReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_ty
 
 // NON_MATCHING: the death-type range test (types 29-31 -> m42) compiles to `cmp #2; b.hi` instead of
 // the original's `cmp #3; b.hs`; everything else is identical.
-void EnemyDefaultReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool flag,
+void EnemyDefaultReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool flag,
                                ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     bool check_death = true;
@@ -394,7 +394,7 @@ bool EnemyDefaultReaction::m45() {
         default:
             break;
         }
-        if (auto* damage_mgr2 = sead::DynamicCast<dmg::DamageManager>(damage_mgr)) {
+        if (auto* damage_mgr2 = sead::DynamicCast<act::DamageManager>(damage_mgr)) {
             if (damage_mgr2->sub_71006D8534() > 0)
                 return false;
         }

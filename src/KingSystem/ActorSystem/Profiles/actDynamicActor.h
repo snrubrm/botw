@@ -84,7 +84,7 @@ public:
     int getExtraHeapSize() override;
     Unk_71025ae640* getAtk() override;
     Unk_71025b08f8* m126() override;
-    uking::dmg::DamageManagerBase* getDamageMgr() override;
+    uking::act::DamageManagerBase* getDamageMgr() override;
     Unk_71006e45c4* m128() override;
     Unk_71025ae620* getDropData() override;
     Unk3* m135() override;
@@ -126,7 +126,7 @@ public:
 
 public:
     // Members are public: AI and action code read them directly.
-    /* 0x840 */ uking::dmg::DamageManagerBase* mDamageMgr = nullptr;
+    /* 0x840 */ uking::act::DamageManagerBase* mDamageMgr = nullptr;
     /* 0x848 */ s32 mLife = 1;
     /* 0x850 */ ActorAtk* _850 = nullptr;  // created by ActorAtk::makeForActor
     /* 0x858 */ Unk_7102459df8* _858 = nullptr;  // DynamicActor::initField858 (CSV)

@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type) override;
+    bool m34(act::DamageManagerBase* damage_mgr, int damage_type) override;
 
 protected:
     void sub_710052D98C();

@@ -74,7 +74,7 @@ void BowShoot::sub_7100339F94() {
 }
 
 void BowShoot::sub_710033A1F0() {
-    if (dmg::DamageInfoMgr::sub_710067476C()) {
+    if (act::DamageInfoMgr::sub_710067476C()) {
         if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
             sead::FormatFixedSafeString<64> message("引き絞り度合： %f ", weapon->_d04);
         }

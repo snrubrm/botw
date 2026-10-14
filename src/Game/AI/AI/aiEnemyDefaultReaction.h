@@ -2,7 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
-namespace uking::dmg {
+namespace uking::act {
 class DamageManagerBase;
 }
 
@@ -20,12 +20,12 @@ public:
 
     bool isChangeable() const override;
 
-    virtual bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type);
-    virtual void m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+    virtual bool m34(act::DamageManagerBase* damage_mgr, int damage_type);
+    virtual void m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
                      ksys::act::ai::InlineParamPack* params);
     virtual bool m36(int damage_type) { return false; }
     virtual bool m37();
-    virtual bool m38(dmg::DamageManagerBase* damage_mgr);
+    virtual bool m38(act::DamageManagerBase* damage_mgr);
     virtual void m39(ksys::act::ai::InlineParamPack* params);
     virtual void m40(ksys::act::ai::InlineParamPack* params);
     virtual void m41(ksys::act::ai::InlineParamPack* params);

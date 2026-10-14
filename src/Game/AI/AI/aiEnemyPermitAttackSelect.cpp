@@ -29,7 +29,7 @@ void EnemyPermitAttackSelect::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
 
-    if (dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A64(mActor))
+    if (act::DamageInfoMgr::instance()->get4f8().sub_7100671A64(mActor))
         changeChild("攻撃許可", params);
     else
         changeChild("攻撃禁止", params);
@@ -52,7 +52,7 @@ void EnemyPermitAttackSelect::calc_() {
             }
         }
 
-        if (dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A64(mActor)) {
+        if (act::DamageInfoMgr::instance()->get4f8().sub_7100671A64(mActor)) {
             if (!isCurrentChild("攻撃許可"))
                 changeChild("攻撃許可");
         } else if (!isCurrentChild("攻撃禁止")) {

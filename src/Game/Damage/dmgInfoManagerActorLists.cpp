@@ -2,7 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 bool DamageInfoMgr::Unk790::sub_7100672B00(ksys::act::Actor* actor) const {
     return mStatus == 2 && mLink.hasProcById(actor);
@@ -129,4 +129,4 @@ void DamageInfoMgr::Unk450::sub_710065D674(ksys::act::Actor* actor, s32 a, bool 
     }
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

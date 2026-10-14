@@ -142,7 +142,7 @@ void ArrowShootMove::m37() {
     sead::Vector3f dir;
     m39(&dir);
     sead::Vector3f velocity = dir * _b4.value;
-    if (dmg::DamageInfoMgr::sub_7100674764()) {
+    if (act::DamageInfoMgr::sub_7100674764()) {
         const sead::Vector3f relative_velocity = *mRelativeVel_d;
         velocity += relative_velocity;
     }

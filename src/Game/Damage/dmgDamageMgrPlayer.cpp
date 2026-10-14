@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageMgrPlayer::DamageMgrPlayer(ksys::act::Actor* actor) : DamageManager(actor) {}
 
@@ -91,11 +91,11 @@ void DamageMgrPlayer::m55(const ConditionDamageInfo& info) {
     DamageManager::m55(info);
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 // 0x7100852110
 void Unk_710246ac48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (!mDamageManager)
         return;
     auto* actor = mDamageManager->mActor;

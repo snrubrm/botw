@@ -4,7 +4,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManagerBase.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 class DamageManagerBase;
 
@@ -38,13 +38,13 @@ public:
     u32 mEventId{};
 };
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 namespace ksys::act {
 class Actor;
 }
 
 // 0x71005da048 (CSV name; namespace unknown): registers `callback` with the actor's damage manager.
-bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing, uking::dmg::DamageCallback* callback);
+bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing, uking::act::DamageCallback* callback);
 // 0x71005da114: unregisters `callback` from the actor's damage manager.
-bool sub_71005DA114(ksys::act::Actor* actor, uking::dmg::DamageCallback* callback);
+bool sub_71005DA114(ksys::act::Actor* actor, uking::act::DamageCallback* callback);

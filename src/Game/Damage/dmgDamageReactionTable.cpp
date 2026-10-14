@@ -6,7 +6,7 @@
 #include "KingSystem/System/Timer.h"
 #include "Game/Damage/dmgInfoManager.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageReactionTable::DamageReactionTable() = default;
 DamageReactionTable::~DamageReactionTable() = default;
@@ -118,4 +118,4 @@ bool DamageInfoMgr::Unk868::sub_710066885C(s32 group, const ksys::act::BaseProcL
     return sub_71006686D0(group, link);
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

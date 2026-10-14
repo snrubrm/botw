@@ -45,7 +45,7 @@ bool NPC::m148(s32 idx, Actor* weapon, bool a3, bool a4) {
     return getWeapons()->equipWeapon(idx, weapon, a3, a4);
 }
 
-uking::dmg::DamageManagerBase* NPC::getDamageMgr() {
+uking::act::DamageManagerBase* NPC::getDamageMgr() {
     return &_da0;
 }
 

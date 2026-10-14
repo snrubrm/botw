@@ -80,7 +80,7 @@ void GuardianMiniRollingAttackMove::sub_7100424760(f32* angle, s32 first, s32 se
 }
 
 void Unk_71023f92d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                           dmg::DamageCallbackInfo* a6) {
+                           act::DamageCallbackInfo* a6) {
     if (!_28)
         return;
     if ((_28->isCurrentChild("回転後退") || _28->isCurrentChild("回転待機")) && *a5 == 6) {
@@ -90,7 +90,7 @@ void Unk_71023f92d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (*_28->mAttackType_s != 1 || !_28->isCurrentChild("戦闘歩行") ||
         !(_28->_21c.value <= sead::Mathf::epsilon()))
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!manager)
         return;
     auto* actor = manager->mActor;
@@ -123,7 +123,7 @@ void Unk_71023f92d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 
 // NON_MATCHING: the original compares the animation name with "PreSpin" without the two assureTermination virtual calls
 // (inline loop over `mStringTop`)
-void Unk_71023f9310::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_71023f9310::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*_28->mAttackType_s != 1)
         return;
     if (!_28->isCurrentChild("回転予兆") && !_28->isCurrentChild("バックステップ") &&

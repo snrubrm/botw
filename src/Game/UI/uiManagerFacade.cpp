@@ -177,7 +177,7 @@ bool sub_7100AA6D54(const sead::SafeString& name) {
 s32 sub_7100AA6F90(const PouchItem& item) {
     if (item.getValue() < 1)
         return 1;
-    return dmg::DamageInfoMgr::instance()->isTrueFormMasterSword() ? 2 : 0;
+    return act::DamageInfoMgr::instance()->isTrueFormMasterSword() ? 2 : 0;
 }
 
 // 0x7100aa8294 (placeholder name)

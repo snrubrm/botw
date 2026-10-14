@@ -31,7 +31,7 @@ void SetAcceptOnlyBombDCCallback::loadParams() {
     getStaticParam(&mParams.mIsThroughDieAttribute_s, "IsThroughDieAttribute");
 }
 
-uking::dmg::DamageCallback* SetAcceptOnlyBombDCCallback::m14() {
+uking::act::DamageCallback* SetAcceptOnlyBombDCCallback::m14() {
     return &_40;
 }
 

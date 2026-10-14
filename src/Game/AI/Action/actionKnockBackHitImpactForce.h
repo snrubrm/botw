@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
 
-namespace uking::dmg {
+namespace uking::act {
 class DamageManager;
 }
 
@@ -25,8 +25,8 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32(sead::Vector3f* dir, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr);
-    virtual bool m33(sead::Vector3f* dir, uking::dmg::DamageManager* mgr);
+    virtual void m32(sead::Vector3f* dir, ksys::act::Actor* actor, uking::act::DamageManager* mgr);
+    virtual bool m33(sead::Vector3f* dir, uking::act::DamageManager* mgr);
     virtual void m34() {}
     virtual void m35();
     virtual bool m36() { return true; }

@@ -12,7 +12,7 @@ public:
     ~SetGuardJustDamageCallback() override;
     bool m6(sead::Heap* heap) override;
     void loadParams() override;
-    uking::dmg::DamageCallback* m14() override;
+    uking::act::DamageCallback* m14() override;
 
     /* 0x30 */ const int* mDamage_s{};
     /* 0x38 */ Unk_7102451938 _38;

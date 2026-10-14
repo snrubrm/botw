@@ -43,7 +43,7 @@ public:
     }
     ksys::act::Unk_71025ae640* getAtk() override { return &_c58; }
     ksys::act::Unk_71025b08f8* m126() override { return &_cd8; }
-    dmg::DamageManagerBase* getDamageMgr() override { return &_d20; }
+    act::DamageManagerBase* getDamageMgr() override { return &_d20; }
     Unk3* m135() override { return &_1168; }
     void loadReduceAncientEnemyDamageInfo() override;
 
@@ -52,7 +52,7 @@ public:
 
     /* 0x0c58 */ ksys::act::ActorAtk _c58{this};  // getAtk
     /* 0x0cd8 */ ksys::act::Unk_7102459df8 _cd8{this};  // m126
-    /* 0x0d20 */ dmg::DamageManager _d20{this};  // getDamageMgr
+    /* 0x0d20 */ act::DamageManager _d20{this};  // getDamageMgr
     /* 0x0f50 */ ksys::act::Unk_71006ecc78 _f50{this};  // ragdoll controller (embedded; same inlined ctor as DynamicActor::initField868)
     /* 0x1028 */ Unk_710244dd20 _1028{this};
     /* 0x1168 */ Unk3 _1168;  // m135

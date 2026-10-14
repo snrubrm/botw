@@ -258,11 +258,11 @@ void IceMakerBlock::loadParams_() {
 }
 
 void Unk_71023fd228::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a5 != 1)
         return;
 
-    auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* damage_manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     ksys::act::ActorLinkConstDataAccess accessor;
     if (damage_manager && ksys::act::acquireActor(damage_manager->m37(), &accessor) &&
         (accessor.hasTag(ksys::act::tags::CanBreakIceMakerBlock) ||

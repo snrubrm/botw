@@ -7,7 +7,7 @@ AcceptLSwordDamageDCCallback::AcceptLSwordDamageDCCallback(const InitArg& arg)
 
 AcceptLSwordDamageDCCallback::~AcceptLSwordDamageDCCallback() = default;
 
-uking::dmg::DamageCallback* AcceptLSwordDamageDCCallback::m14() {
+uking::act::DamageCallback* AcceptLSwordDamageDCCallback::m14() {
     return &_30;
 }
 

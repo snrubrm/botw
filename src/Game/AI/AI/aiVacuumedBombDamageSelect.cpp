@@ -13,7 +13,7 @@ bool VacuumedBombDamageSelect::init_(sead::Heap* heap) {
 }
 
 void VacuumedBombDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    auto* manager = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr());
     auto* bomb = sead::DynamicCast<Unk_7102370e70>(*mVacuumedExplodingBomb_a);
     if (manager && bomb && manager->getAttacker()->hasProc() &&
         *manager->getAttacker() == bomb->mLink) {

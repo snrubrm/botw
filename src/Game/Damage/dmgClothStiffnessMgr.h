@@ -11,7 +11,7 @@ namespace ksys::act {
 class Actor;
 }
 
-namespace uking::dmg {
+namespace uking::act {
 
 // Name from the CSV (ClothStiffnessMgr::x 0x7100665530; the object is DamageInfoMgr + 0xe98, lane1 request for
 // ChuchuRoot). Caches up to three loaded resources (`Entry`) with a reference count, keyed by a name string built from
@@ -46,4 +46,4 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ClothStiffnessMgr, 0x348);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

@@ -285,7 +285,7 @@ void IndoorStage::preCalc() {
 }
 
 void IndoorStage::postCalc() {
-    dmg::DamageInfoMgr::instance()->postCalc();
+    act::DamageInfoMgr::instance()->postCalc();
     GameSceneSubsys4::instance()->m6();
     GameSceneSubsys5::instance()->postCalc();
     LastBossMgr::instance()->postCalc();
@@ -346,7 +346,7 @@ void MainFieldDungeonStage::postInit(Unk_710245ac20* a, Unk_710245abf0* b) {
 
 void MainFieldDungeonStage::postCalc() {
     sub_71007C33AC();
-    dmg::DamageInfoMgr::instance()->postCalc();
+    act::DamageInfoMgr::instance()->postCalc();
     GameSceneSubsys4::instance()->m6();
     GameSceneSubsys5::instance()->postCalc();
     GameSceneSubsys14::instance()->postCalc();

@@ -1514,7 +1514,7 @@ Unk_71025ae620* Actor::getDropData() {
     return nullptr;
 }
 
-uking::dmg::DamageManagerBase* Actor::getDamageMgr() {
+uking::act::DamageManagerBase* Actor::getDamageMgr() {
     return nullptr;
 }
 

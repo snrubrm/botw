@@ -30,7 +30,7 @@ void OctarockReaction::loadParams_() {
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
-bool OctarockReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+bool OctarockReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     if (!EnemyDefaultReaction::m34(damage_mgr, damage_type))
         return false;
 
@@ -39,7 +39,7 @@ bool OctarockReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) 
     return true;
 }
 
-void OctarockReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+void OctarockReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
                            ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m35(damage_mgr, damage_type, x, params);
     if (!isCurrentChild("突風"))

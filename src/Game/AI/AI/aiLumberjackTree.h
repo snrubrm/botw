@@ -20,10 +20,10 @@ namespace uking::ai {
 class LumberjackTree;
 
 // Placeholder name (vtable address; inherits DamageCallback's RTTI). `_40` of LumberjackTree.
-class Unk_7102403fe8 : public dmg::DamageCallback {
+class Unk_7102403fe8 : public act::DamageCallback {
 public:
     explicit Unk_7102403fe8(LumberjackTree* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     LumberjackTree* _28;
 };

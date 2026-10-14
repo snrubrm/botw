@@ -320,7 +320,7 @@ public:
     ksys::act::Unk_71025ae620* getDropData() override;
     ksys::act::Actor::Unk3* m135() override;
     ksys::act::Unk_71025b08f8* m126() override;
-    uking::dmg::DamageManagerBase* getDamageMgr() override;
+    uking::act::DamageManagerBase* getDamageMgr() override;
     // Original 0x71002ee9e8 writes the unsigned amount into Struct20::mField_8.
     void setDamage(u32 damage);
     ksys::act::Unk_71006e45c4* m128() override;
@@ -482,7 +482,7 @@ public:
     /* 0xd98 */ ksys::act::Unk_71025b08f8* _d98;
     /* 0xda0 */ ksys::act::ActorAtk _da0{this};  // getAtk
     /* 0xe20 */ void* _e20 = nullptr;
-    /* 0xe28 */ uking::dmg::DamageManagerBase* mDamageMgr;
+    /* 0xe28 */ uking::act::DamageManagerBase* mDamageMgr;
     /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u16 _e52;

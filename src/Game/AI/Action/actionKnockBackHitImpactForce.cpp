@@ -95,11 +95,11 @@ bool KnockBackHitImpactForce::isChangeable() const {
 }
 
 void KnockBackHitImpactForce::m32(sead::Vector3f* dir, ksys::act::Actor* actor,
-                             uking::dmg::DamageManager* mgr) {
+                             uking::act::DamageManager* mgr) {
     sub_71005E2318(dir, actor, mgr);
 }
 
-bool KnockBackHitImpactForce::m33(sead::Vector3f* dir, uking::dmg::DamageManager* mgr) {
+bool KnockBackHitImpactForce::m33(sead::Vector3f* dir, uking::act::DamageManager* mgr) {
     if (!mgr)
         return false;
     return mgr->m30(dir);

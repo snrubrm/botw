@@ -9,7 +9,7 @@ namespace ksys::act {
 class BaseProc;
 }
 
-namespace uking::dmg {
+namespace uking::act {
 
 // Entry of the nearest-enemies list in DamageInfoMgr (0x18 bytes).
 struct Unk_7100671794_Entry {
@@ -51,4 +51,4 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100671794, 0xd8);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

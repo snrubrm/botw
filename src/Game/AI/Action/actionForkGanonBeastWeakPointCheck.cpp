@@ -16,11 +16,11 @@ namespace uking::action {
 
 // NON_MATCHING: point-mask calculation is scheduled after the RTTI query.
 void Unk_710238b078::call(s32* damage, s32*, u32*, u32*, s32* reaction,
-                         dmg::DamageCallbackInfo*) {
+                         act::DamageCallbackInfo*) {
     mBody = nullptr;
     if (*damage <= 0)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!manager)
         return;
     mBody = manager->sub_71006D69F8();
@@ -36,16 +36,16 @@ void Unk_710238b078::call(s32* damage, s32*, u32*, u32*, s32* reaction,
 }
 
 void Unk_710238b040::call(s32* damage, s32*, u32*, u32*, s32*,
-                         dmg::DamageCallbackInfo*) {
+                         act::DamageCallbackInfo*) {
     if (*damage <= 0)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (manager && !ksys::act::hasTag(manager->getAttacker(), ksys::act::tags::AffectBeastGanon))
         *damage = 0;
 }
 
 void Unk_710238b0b0::call(s32* damage, s32*, u32*, u32*, s32* reaction,
-                         dmg::DamageCallbackInfo*) {
+                         act::DamageCallbackInfo*) {
     mWeakPoint = 18;
     if (*damage <= 0)
         return;
@@ -58,7 +58,7 @@ void Unk_710238b0b0::call(s32* damage, s32*, u32*, u32*, s32* reaction,
         *reaction = 2;
         return;
     }
-    if (sead::DynamicCast<dmg::DamageManager>(mDamageManager)) {
+    if (sead::DynamicCast<act::DamageManager>(mDamageManager)) {
         if (sub_7100702894(mOwner->getActor())) {
             *damage = 0;
             *reaction = 2;

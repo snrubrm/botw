@@ -9,9 +9,9 @@ namespace uking::ai {
 
 // Placeholder name (vtable 0x710242fcf0; inherits DamageCallback's RTTI; D0 0x71005ef28c, `call`
 // 0x71005edb04). WeakPointRoot::_70.
-class Unk_710242fcf0 : public dmg::DamageCallback {
+class Unk_710242fcf0 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     bool _24 = false;
     bool _25 = false;
@@ -34,8 +34,8 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
-    virtual s32 m34(dmg::DamageManagerBase* mgr);
-    virtual s32 m35(dmg::DamageManagerBase* mgr);
+    virtual s32 m34(act::DamageManagerBase* mgr);
+    virtual s32 m35(act::DamageManagerBase* mgr);
 
 protected:
     // static_param at offset 0x38

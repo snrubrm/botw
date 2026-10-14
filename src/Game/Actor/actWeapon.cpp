@@ -184,7 +184,7 @@ ksys::act::Unk_71025b08f8* Weapon::m126() {
     return _d98;
 }
 
-uking::dmg::DamageManagerBase* Weapon::getDamageMgr() {
+uking::act::DamageManagerBase* Weapon::getDamageMgr() {
     return mDamageMgr;
 }
 
@@ -811,7 +811,7 @@ bool Weapon::isWeaponType3() const {
 
 bool Weapon::isTrueFormMasterSword() {
     if (isMasterSword()) {
-        auto* manager = dmg::DamageInfoMgr::instance();
+        auto* manager = act::DamageInfoMgr::instance();
         if (manager && manager->isTrueFormMasterSword())
             return true;
     }

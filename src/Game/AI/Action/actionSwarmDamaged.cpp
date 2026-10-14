@@ -46,7 +46,7 @@ void SwarmDamaged::m33(act::Swarm* swarm) {
     }
 }
 
-void SwarmDamaged::m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir) {
+void SwarmDamaged::m34(act::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir) {
     mgr->getPosition(pos);
     sub_71005E2318(dir, mActor, mgr);
 }

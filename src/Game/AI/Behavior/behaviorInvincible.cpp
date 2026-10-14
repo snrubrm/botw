@@ -16,7 +16,7 @@ bool Invincible::m6(sead::Heap* heap) {
 void Invincible::m7() {}
 
 void Invincible::m8() {
-    if (auto* mgr = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr()))
+    if (auto* mgr = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         mgr->mField_34 = true;
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
         if (auto* unk = actor->m159())
@@ -25,7 +25,7 @@ void Invincible::m8() {
 }
 
 void Invincible::m9() {
-    if (auto* mgr = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr()))
+    if (auto* mgr = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         mgr->mField_34 = false;
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
         if (auto* unk = actor->m159())

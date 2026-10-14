@@ -24,21 +24,21 @@ public:
     void sub_7100412DE8();
 
     // vtable 0x71023f78a8 (no RTTI of its own)
-    class Unk_71023f78a8 : public dmg::DamageCallback {
+    class Unk_71023f78a8 : public act::DamageCallback {
     public:
         explicit Unk_71023f78a8(GuardianMini2ndBattleAttack* owner) : mOwner(owner) {}
         void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                  dmg::DamageCallbackInfo* a6) override;
+                  act::DamageCallbackInfo* a6) override;
 
         GuardianMini2ndBattleAttack* mOwner;
     };
 
     // vtable 0x71023f78e0 (no RTTI of its own)
-    class Unk_71023f78e0 : public dmg::DamageCallback {
+    class Unk_71023f78e0 : public act::DamageCallback {
     public:
         explicit Unk_71023f78e0(GuardianMini2ndBattleAttack* owner) : mOwner(owner) {}
         void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                  dmg::DamageCallbackInfo* a6) override;
+                  act::DamageCallbackInfo* a6) override;
 
         GuardianMini2ndBattleAttack* mOwner;
     };

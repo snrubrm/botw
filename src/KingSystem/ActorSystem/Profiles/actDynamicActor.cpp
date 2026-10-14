@@ -19,7 +19,7 @@
 #include "Game/gameRoot38.h"
 
 // Source ownership is unknown; declaration only.
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 
 namespace ksys::act {
 
@@ -60,7 +60,7 @@ void DynamicActor::m76(VFR::ScopedDeltaSetter* setter) {
     _a68 &= ~2;
     if (_a50)
         _a50->m6();
-    if (auto* damage = sead::DynamicCast<uking::dmg::DamageManagerBase>(mDamageMgr))
+    if (auto* damage = sead::DynamicCast<uking::act::DamageManagerBase>(mDamageMgr))
         damage->m43();
     m160();
     if (mChemical && mChemical->sub_7100E39458() && _a60)
@@ -198,7 +198,7 @@ s32* DynamicActor::getLife() {
     return &mLife;
 }
 
-uking::dmg::DamageManagerBase* DynamicActor::getDamageMgr() {
+uking::act::DamageManagerBase* DynamicActor::getDamageMgr() {
     return mDamageMgr;
 }
 

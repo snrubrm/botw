@@ -27,7 +27,7 @@ void SetIgnoreGustDCCallback::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetIgnoreGustDCCallback::m14() {
+uking::act::DamageCallback* SetIgnoreGustDCCallback::m14() {
     return &_30;
 }
 

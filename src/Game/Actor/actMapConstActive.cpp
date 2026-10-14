@@ -10,7 +10,7 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 // Source ownership is unknown; declaration only.
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 
 namespace uking::act {
 
@@ -82,7 +82,7 @@ void MapConstActive::updatePositionMaybe() {
     MapConstActiveOrMergedDungeonParts::updatePositionMaybe();
 }
 
-uking::dmg::DamageManagerBase* MapConstActive::getDamageMgr() {
+uking::act::DamageManagerBase* MapConstActive::getDamageMgr() {
     return _858;
 }
 

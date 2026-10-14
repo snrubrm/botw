@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    uking::dmg::DamageCallback* m14() override;
+    uking::act::DamageCallback* m14() override;
 
     /* 0x30 */ Unk_7102451b30 _30;
     /* 0x58 */ const bool* mEnableCritical_s{};

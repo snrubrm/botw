@@ -27,7 +27,7 @@ void SetFixedNoActionDCCallBack::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetFixedNoActionDCCallBack::m14() {
+uking::act::DamageCallback* SetFixedNoActionDCCallBack::m14() {
     return &_30;
 }
 

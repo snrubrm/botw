@@ -8,10 +8,10 @@ namespace uking::ai {
 class GrudgeEyeball;
 
 // vtable 0x71023f64e0
-class Unk_71023f64e0 : public dmg::DamageCallback {
+class Unk_71023f64e0 : public act::DamageCallback {
 public:
     explicit Unk_71023f64e0(GrudgeEyeball* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     GrudgeEyeball* _28;
 };

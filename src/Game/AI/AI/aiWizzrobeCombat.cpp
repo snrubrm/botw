@@ -48,7 +48,7 @@ void WizzrobeCombat::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void WizzrobeCombat::leave_() {
     if (_59c) {
-        auto& status = dmg::DamageInfoMgr::instance()->get790();
+        auto& status = act::DamageInfoMgr::instance()->get790();
         if (status.sub_7100672B1C(mActor))
             status.sub_7100672888(mActor);
     }

@@ -16,7 +16,7 @@ namespace ksys::act {
 class Actor;
 }
 
-namespace uking::dmg {
+namespace uking::act {
 
 // FIXME: incomplete
 class DamageItem {
@@ -57,7 +57,7 @@ public:
     void sub_7100673D8C();
     void sub_7100674058();
 
-    using DamageItem = dmg::DamageItem;
+    using DamageItem = act::DamageItem;
 
     /// Boomerang remote bombs are a scrapped feature.
     static bool enableBoomerangRemoteBombs();
@@ -252,4 +252,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(DamageInfoMgr, 0x12F0);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

@@ -41,7 +41,7 @@
 #include "Game/gameHeroSoul.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 bool sub_71002EFEC0(const ksys::act::ActorLinkConstDataAccess& accessor);
 f32 sub_71002F000C(const ksys::act::ActorLinkConstDataAccess& accessor);
 f32 sub_71002F034C(const ksys::act::ActorLinkConstDataAccess& accessor);
@@ -205,7 +205,7 @@ void Player::sub_710086C84C(s32 a, const BaseProcLink* link, bool b, bool c) {
 // Placeholder name; static (no `this`).
 // NON_MATCHING: the early `return true` shares the result register with the inlined sub_710086C9E0 (w19 instead of w0)
 bool Player::sub_710086C928() {
-    if (auto* mgr = uking::dmg::DamageInfoMgr::instance()) {
+    if (auto* mgr = uking::act::DamageInfoMgr::instance()) {
         if (sub_7100FFED80() || mgr->_11eb[3] > 0)
             return true;
     }

@@ -42,7 +42,7 @@ bool Player::stillAlive() {
 }
 
 void Player::sub_7100884578() {
-    if (auto* mgr = sead::DynamicCast<uking::dmg::DamageMgrPlayer>(getDamageMgr()))
+    if (auto* mgr = sead::DynamicCast<uking::act::DamageMgrPlayer>(getDamageMgr()))
         mgr->_22c = uking::sUnk_7101e7c2b0;
 }
 

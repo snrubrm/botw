@@ -28,7 +28,7 @@ void SimpleKnockBackShock::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     sead::Vector3f dir = sead::Vector3f::zero;
-    sub_71005E2318(&dir, actor, sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr()));
+    sub_71005E2318(&dir, actor, sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr()));
     velocity.setScaleAdd(*mHitImpactForce_s, dir, velocity);
 
     ksys::util::sub_71011EFA00(&velocity, velocity, getUpDir(actor));

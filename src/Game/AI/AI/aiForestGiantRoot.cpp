@@ -321,7 +321,7 @@ void ForestGiantRoot::loadParams_() {
 }  // namespace uking::ai
 
 void Unk_7102450390::sub_71007062D4() {
-    _2c0 = uking::dmg::DamageInfoMgr::instance()->get11f0().sub_7100674A94(mActor);
+    _2c0 = uking::act::DamageInfoMgr::instance()->get11f0().sub_7100674A94(mActor);
     if (!_2c0)
         _2cc.reset(60.0f);
     if (_2d8.hasProc()) {
@@ -346,7 +346,7 @@ ksys::act::Actor* Unk_7102450390::sub_7100706D0C(u32 slot) {
 }
 
 void Unk_7102450390::sub_7100706C3C() {
-    uking::dmg::DamageInfoMgr::instance()->get11f0().sub_7100674B30(mActor);
+    uking::act::DamageInfoMgr::instance()->get11f0().sub_7100674B30(mActor);
     if (_2d8.hasProc()) {
         ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_2d8, &accessor);

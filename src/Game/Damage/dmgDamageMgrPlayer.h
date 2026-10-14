@@ -3,7 +3,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManager.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 // Name from the CSV (DamageMgrPlayer::*; vtable 0x710246aa50, ctor 0x71008515dc, TU 0x7100851550 - 0x7100852400; RTTI
 // static 0x71025c94e0). The damage manager of the Player (DamageManager at 0x0 + the members below). Size 0x238.
@@ -34,4 +34,4 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(DamageMgrPlayer, 0x238);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

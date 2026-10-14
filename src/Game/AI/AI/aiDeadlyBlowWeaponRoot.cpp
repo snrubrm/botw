@@ -186,7 +186,7 @@ void DeadlyBlowWeaponRoot::sub_710035C57C() {
     sub_71012412E4(mActor, 27, ratio, false);
     xlinkEventOn(mActor, 28, enabled, false);
     if (!isWeaponM213())
-        dmg::DamageInfoMgr::instance()->setOneHitObliteratorActive(enabled);
+        act::DamageInfoMgr::instance()->setOneHitObliteratorActive(enabled);
 }
 
 void DeadlyBlowWeaponRoot::sub_710035CE18() {

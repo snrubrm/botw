@@ -13,19 +13,19 @@ class LumberjackFallenTree;
 
 // Placeholder names (vtable addresses; they inherit DamageCallback's RTTI). `_38` / `_68` of LumberjackFallenTree.
 // vtable 0x7102403e48: call 0x7100485538, D0 0x7100487104.
-class Unk_7102403e48 : public dmg::DamageCallback {
+class Unk_7102403e48 : public act::DamageCallback {
 public:
     explicit Unk_7102403e48(LumberjackFallenTree* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     LumberjackFallenTree* _28;
 };
 
 // vtable 0x7102403e80: call 0x710048554c, D0 0x710048714c.
-class Unk_7102403e80 : public dmg::DamageCallback {
+class Unk_7102403e80 : public act::DamageCallback {
 public:
     explicit Unk_7102403e80(LumberjackFallenTree* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     LumberjackFallenTree* _28;
 };

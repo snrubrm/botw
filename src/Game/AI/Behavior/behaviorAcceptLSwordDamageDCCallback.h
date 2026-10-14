@@ -10,7 +10,7 @@ class AcceptLSwordDamageDCCallback : public SetDamageCallback {
 public:
     explicit AcceptLSwordDamageDCCallback(const InitArg& arg);
     ~AcceptLSwordDamageDCCallback() override;
-    uking::dmg::DamageCallback* m14() override;
+    uking::act::DamageCallback* m14() override;
 
     /* 0x30 */ Unk_7102451858 _30;
 };

@@ -175,8 +175,8 @@ public:
 };
 
 // vtable 0x7102451c48 (5 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102451c48 : public uking::dmg::DamageCallback {
-    SEAD_RTTI_OVERRIDE(Unk_7102451c48, uking::dmg::DamageCallback)
+class Unk_7102451c48 : public uking::act::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451c48, uking::act::DamageCallback)
 public:
     ~Unk_7102451c48() override;
 };

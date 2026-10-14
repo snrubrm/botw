@@ -81,7 +81,7 @@ void SetPopPoolDamageAttrDCCallback::loadParams() {
     getStaticParam(&mParams.mAttrForFinish_s, "AttrForFinish");
 }
 
-uking::dmg::DamageCallback* SetPopPoolDamageAttrDCCallback::m14() {
+uking::act::DamageCallback* SetPopPoolDamageAttrDCCallback::m14() {
     return &_40;
 }
 

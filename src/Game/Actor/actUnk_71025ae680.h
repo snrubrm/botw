@@ -17,7 +17,7 @@ namespace ksys::res {
 class DamageParam;
 }
 
-namespace uking::dmg {
+namespace uking::act {
 struct ConditionDamageInfo;
 }
 
@@ -67,7 +67,7 @@ public:
     void sub_71006EEFB4(s32 a, s32 b);
 
     // 0x71006df5cc (placeholder name): passes `info` to slot 45 of the actor's damage manager if it is a DamageManager.
-    void sub_71006DF5CC(const dmg::ConditionDamageInfo& info);
+    void sub_71006DF5CC(const act::ConditionDamageInfo& info);
 
     // 0x71006df5a4: resolves the actor damage resource.
     ksys::res::DamageParam* sub_71006DF5A4();

@@ -7,11 +7,11 @@
 
 // Native PlayerNormal constructor 82E794 embeds this callback at +0x1b8.
 // Its complete five-slot vtable is 0x710246ac48; D1 is DamageCallback's D2.
-class Unk_710246ac48 : public uking::dmg::DamageCallback {
-    SEAD_RTTI_OVERRIDE(Unk_710246ac48, uking::dmg::DamageCallback)
+class Unk_710246ac48 : public uking::act::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_710246ac48, uking::act::DamageCallback)
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;
+              uking::act::DamageCallbackInfo* a6) override;
 };
 
 namespace uking::ai {

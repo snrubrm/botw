@@ -4,8 +4,8 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
-uking::dmg::DamageManager* sub_710072BA90(ksys::act::Actor* actor) {
-    return sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+uking::act::DamageManager* sub_710072BA90(ksys::act::Actor* actor) {
+    return sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
 }
 
 void sub_710072BB28(ksys::act::Actor* actor) {

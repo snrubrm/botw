@@ -18,31 +18,31 @@ namespace uking::ai {
 // Damage callbacks used by PreyRoot (vtables in PreyRoot's TU; they use DamageCallback's RTTI).
 // Their `call` reads its last argument as an object of an unknown RTTI class and is not defined yet.
 // vtable 0x7102410b48
-class Unk_7102410b48 : public dmg::DamageCallback {
+class Unk_7102410b48 : public act::DamageCallback {
 public:
     explicit Unk_7102410b48(ksys::act::Actor* actor) : mActor(actor) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     ksys::act::Actor* mActor;
 };
 
 // vtable 0x7102410b80
-class Unk_7102410b80 : public dmg::DamageCallback {
+class Unk_7102410b80 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102410bb8
-class Unk_7102410bb8 : public dmg::DamageCallback {
+class Unk_7102410bb8 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102410b10
-class Unk_7102410b10 : public dmg::DamageCallback {
+class Unk_7102410b10 : public act::DamageCallback {
 public:
     explicit Unk_7102410b10(ksys::act::Actor* actor) : mActor(actor) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     ksys::act::Actor* mActor;
 };

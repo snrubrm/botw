@@ -6,13 +6,13 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 void Unk_71023fd380::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (!_38) {
         *a1 = 0;
         return;
     }
 
-    auto* manager = sead::DynamicCast<uking::dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<uking::act::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
 
@@ -53,7 +53,7 @@ void IncredibleAction::loadParams_() {
 // load and puts the mField_34 / removeDamageCallback arms after the callback arm)
 void IncredibleAction::sub_7100448C0C(bool enable) {
     if (*mIsInvincible_s) {
-        auto* mgr = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+        auto* mgr = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
         if (!mgr) {
             setFailed();
             return;

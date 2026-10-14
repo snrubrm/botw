@@ -6,7 +6,7 @@
 
 #include "KingSystem/Utils/Types.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 // What exactly Struct20 is, isn't known yet.
 // It is used by the Damage Managers, especially DamageManager and up, not so much in
@@ -63,4 +63,4 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Struct20_2, 0x38);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

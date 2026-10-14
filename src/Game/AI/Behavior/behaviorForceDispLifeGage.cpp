@@ -20,7 +20,7 @@ void ForceDispLifeGage::loadParams() {
 bool ForceDispLifeGage::sub_71006232EC() {
     if (sub_71005D94AC(mActor).hasProcInCalcState())
         return sub_71005D8FBC(mActor);
-    auto* mgr = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr());
     if (mgr && (mgr->getFlags2() & 0xffff0000) == 0x10000)
         return true;
     return false;

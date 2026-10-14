@@ -24,7 +24,7 @@ void PriestBossBlowoffDamageSelect::enter_(ksys::act::ai::InlineParamPack* param
     if (auto* base = mActor->getDamageMgr()) {
         _38 = base->getField54();
         _3c = base->getField50();
-        if (auto* mgr = sead::DynamicCast<uking::dmg::DamageManagerBase>(base)) {
+        if (auto* mgr = sead::DynamicCast<uking::act::DamageManagerBase>(base)) {
             auto* attacker = mgr->getAttacker();
             if (attacker->hasProc()) {
                 ksys::act::ActorLinkConstDataAccess accessor;

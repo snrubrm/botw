@@ -23,7 +23,7 @@ void PriestBossGiantReaction::calc_() {
     EnemyDefaultReaction::calc_();
 
     if (!_90) {
-        auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+        auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
         if (manager) {
             const s32 damage = manager->getDamage();
             if (damage >= 1 && manager->checkDamageFlags(22))
@@ -50,11 +50,11 @@ void PriestBossGiantReaction::loadParams_() {
     getAITreeVariable(&mPriestBossUrbosasFuryEShock_a, "PriestBossUrbosasFuryEShock");
 }
 
-bool PriestBossGiantReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+bool PriestBossGiantReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     return false;
 }
 
-void PriestBossGiantReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+void PriestBossGiantReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
                                   ksys::act::ai::InlineParamPack* params) {
     if (damage_mgr->checkDamageFlags(22)) {
         _90 = true;

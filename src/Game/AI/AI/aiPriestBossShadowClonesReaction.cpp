@@ -56,7 +56,7 @@ void PriestBossShadowClonesReaction::sub_710052D98C() {
     _70 = unit->isFlagOn(Unk_7102450fa8::Flag::_15);
 }
 
-bool PriestBossShadowClonesReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+bool PriestBossShadowClonesReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     if (!EnemyDefaultReaction::m34(damage_mgr, damage_type))
         return false;
     sub_710052D98C();

@@ -85,10 +85,10 @@ void SandwormAttackMove::sub_71005570C4() {
 // NON_MATCHING: one fadd operand order: the original sums the flattened direction's squared length as
 // z*z + (x*x + y*y), ours as (x*x + y*y) + z*z; everything else is identical
 // 0x71005569cc
-void Unk_710241b460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_710241b460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a4 != 4)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!manager)
         return;
     auto* attacker = manager->m37();

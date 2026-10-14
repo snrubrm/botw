@@ -89,7 +89,7 @@ void SiteBoss::sub_71002D2390() {
 
 // 0x71002d1740 (placeholder name): sets the shield guard power (DamageManager::_70) of the damage manager.
 void SiteBoss::sub_71002D1740(s32 value) {
-    if (auto* mgr = sead::DynamicCast<dmg::DamageManager>(getDamageMgr()))
+    if (auto* mgr = sead::DynamicCast<act::DamageManager>(getDamageMgr()))
         mgr->_70 = value;
 }
 
@@ -304,7 +304,7 @@ bool SiteBoss::sub_71002D3A68(const ksys::act::ActorLinkConstDataAccess& accesso
     auto* boss = sub_71002D3B20(accessor);
     if (!boss)
         return false;
-    auto* mgr = sead::DynamicCast<dmg::DamageManager>(boss->getDamageMgr());
+    auto* mgr = sead::DynamicCast<act::DamageManager>(boss->getDamageMgr());
     if (mgr && s32(mgr->getDamage()) > 0)
         return true;
     return false;

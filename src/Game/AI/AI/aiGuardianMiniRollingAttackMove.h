@@ -15,19 +15,19 @@ namespace uking::ai {
 class GuardianMiniRollingAttackMove;
 
 // vtable 0x71023f92d8: damage callback without RTTI of its own (call 0x71004256a0, not decompiled yet).
-class Unk_71023f92d8 : public dmg::DamageCallback {
+class Unk_71023f92d8 : public act::DamageCallback {
 public:
     explicit Unk_71023f92d8(GuardianMiniRollingAttackMove* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     GuardianMiniRollingAttackMove* _28{};
 };
 
 // vtable 0x71023f9310: damage callback without RTTI of its own (call 0x7100425c88, not decompiled yet).
-class Unk_71023f9310 : public dmg::DamageCallback {
+class Unk_71023f9310 : public act::DamageCallback {
 public:
     explicit Unk_71023f9310(GuardianMiniRollingAttackMove* owner) : _28(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     GuardianMiniRollingAttackMove* _28{};
 };

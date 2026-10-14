@@ -10,12 +10,12 @@
 
 namespace uking::ai {
 
-void Unk_7102403e48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_7102403e48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a5 != -1)
         *a1 = 0;
 }
 
-void Unk_7102403e80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_7102403e80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
     auto* damage_mgr = sub_710072BA90(_28->getActor());
@@ -124,13 +124,13 @@ bool LumberjackFallenTree::updateForPreDelete() {
 void LumberjackFallenTree::sub_71004860DC() {
     _294 = true;
     if (auto* damage_mgr = mActor->getDamageMgr()) {
-        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+        if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(damage_mgr)) {
             manager->removeDamageCallback(&_38);
             manager->removeDamageCallback(&_68);
         }
     }
     if (auto* damage_mgr = mActor->getDamageMgr()) {
-        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr))
+        if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(damage_mgr))
             manager->addDamageCallback(4, &_68);
     }
     if (auto* xlink = mActor->getXLink())
@@ -140,7 +140,7 @@ void LumberjackFallenTree::sub_71004860DC() {
 
 void LumberjackFallenTree::leave_() {
     if (auto* damage_mgr = mActor->getDamageMgr()) {
-        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr)) {
+        if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(damage_mgr)) {
             manager->removeDamageCallback(&_38);
             manager->removeDamageCallback(&_68);
         }
@@ -167,13 +167,13 @@ void LumberjackFallenTree::loadParams_() {
 void LumberjackFallenTree::sub_7100486258() {
     _294 = false;
     if (auto* damage = mActor->getDamageMgr()) {
-        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage)) {
+        if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(damage)) {
             manager->removeDamageCallback(&_38);
             manager->removeDamageCallback(&_68);
         }
     }
     if (auto* damage = mActor->getDamageMgr()) {
-        if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(damage))
+        if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(damage))
             manager->addDamageCallback(4, &_38);
     }
     _296 = 1;

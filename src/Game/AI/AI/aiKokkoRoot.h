@@ -11,9 +11,9 @@ namespace uking::ai {
 // Damage callback embedded in KokkoRoot (_248); vtable 0x71023fff70 (placeholder name), no RTTI
 // override. `call` (0x710045746c) compares the attacker's name with _28 and reads its last argument
 // as an object of an unknown RTTI class (like Unk_71024519a8), so it is declared only.
-class Unk_71023fff70 : public dmg::DamageCallback {
+class Unk_71023fff70 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
 
     sead::FixedSafeString<64> _28;
     bool _80 = false;

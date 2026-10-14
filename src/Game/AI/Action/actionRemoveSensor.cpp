@@ -16,7 +16,7 @@ bool RemoveSensor::init_(sead::Heap* heap) {
 void RemoveSensor::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     ksys::act::sub_7100EE5624(actor);
-    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr()))
+    if (auto* manager = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr()))
         manager->_216.reset(1);
 }
 

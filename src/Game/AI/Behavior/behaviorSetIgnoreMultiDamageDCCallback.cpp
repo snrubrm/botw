@@ -42,7 +42,7 @@ void SetIgnoreMultiDamageDCCallback::loadParams() {
     getStaticParam(&mEnableGust_s, "EnableGust");
 }
 
-uking::dmg::DamageCallback* SetIgnoreMultiDamageDCCallback::m14() {
+uking::act::DamageCallback* SetIgnoreMultiDamageDCCallback::m14() {
     return &_30;
 }
 

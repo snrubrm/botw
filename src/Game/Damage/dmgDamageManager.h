@@ -20,7 +20,7 @@ namespace ksys::phys {
 class RigidBody;
 }
 
-namespace uking::dmg {
+namespace uking::act {
 
 // CSV: DamageMgr (vtable 0x710244ddf8, 57 slots; ctor 0x71006d23e0). RTTI static 0x71025ae600.
 // TODO: incomplete. Size 0x230 (the ctor's last store is at 0x228; Horse embeds one at 0xd20
@@ -273,17 +273,17 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(DamageManager, 0x230);
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
-namespace uking::dmg {
+namespace uking::act {
 // 0x71006d7038 (placeholder name): whether `actor` (with the SleepSilentKill or AwakeSilentKill AttClient) takes a
 // silent kill from the attack info `info` (flag 0x80000; its attacker link _d8 tested by 0x7100735ba8 / 0x7100735d2c).
 bool sub_71006D7038(ksys::act::Actor* actor, ksys::act::ActorAtk::Unk_710079e64c::Unk1* info);
-}  // namespace uking::dmg
+}  // namespace uking::act
 
 // 0x71006d28ac: actor attack info or a non-dummy damage resource requires a damage manager.
 // Declaration only; namespace unknown.
 bool sub_71006D28AC(ksys::act::Actor* actor);
 // CSV name at 0x71006d28fc; declaration only, namespace unknown. Original allocates 0x230
 // and calls DamageManager's actual 0x71006d23e0 constructor, returning that object or null.
-uking::dmg::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap);
+uking::act::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap);

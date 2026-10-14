@@ -81,7 +81,7 @@ public:
     void initMaybe() override;
     void updatePositionMaybe() override;
     ksys::act::Unk_71025ae640* getAtk() override;
-    uking::dmg::DamageManagerBase* getDamageMgr() override;
+    uking::act::DamageManagerBase* getDamageMgr() override;
     ksys::act::Unk_71025ae620* getDropData() override;
 
     // New virtual (vtable slot 148; the secondary vtable offsets of this class are 8 bytes larger than
@@ -89,7 +89,7 @@ public:
     virtual void m148();
 
     /* 0x850 */ ksys::act::Unk_71025ae640* _850 = nullptr;  // ActorAtk
-    /* 0x858 */ uking::dmg::DamageManagerBase* _858 = nullptr;
+    /* 0x858 */ uking::act::DamageManagerBase* _858 = nullptr;
     /* 0x860 */ ksys::act::DropData* _860 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(MapConstActive, 0x868);

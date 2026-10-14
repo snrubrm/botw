@@ -7,10 +7,10 @@
 
 // Damage callback (vtable 0x71023f8530) without RTTI of its own; its functions are in the
 // GuardianMiniChangeWeapon translation unit. Placeholder name.
-class Unk_71023f8530 : public uking::dmg::DamageCallback {
+class Unk_71023f8530 : public uking::act::DamageCallback {
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override {
+              uking::act::DamageCallbackInfo* a6) override {
         if (*a5 != -1)
             *a5 = 1;
     }

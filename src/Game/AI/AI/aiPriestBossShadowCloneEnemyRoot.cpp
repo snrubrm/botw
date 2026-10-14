@@ -76,10 +76,10 @@ bool PriestBossShadowCloneEnemyRoot::m45() {
 // NON_MATCHING: the original compares the name with the literal without the SafeString assure-termination
 // virtual calls (a plain loop starting with the first character of the literal, `ldr x9, [name, #8]`)
 void Unk_7102415ae8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a4 != 6)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!manager)
         return;
     if (!manager->mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))

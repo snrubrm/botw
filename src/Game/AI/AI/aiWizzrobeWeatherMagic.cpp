@@ -22,7 +22,7 @@ void WizzrobeWeatherMagic::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WizzrobeWeatherMagic::leave_() {
-    if (!dmg::DamageInfoMgr::instance()->get790().sub_7100672B00(mActor) && _78)
+    if (!act::DamageInfoMgr::instance()->get790().sub_7100672B00(mActor) && _78)
         _78->_c = 2;
 }
 

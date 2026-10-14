@@ -32,11 +32,11 @@ void DragonRoot::Unk2::sub_710036B89C() {
     }
 }
 
-void Unk_71023e3a40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+void Unk_71023e3a40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
 
-    auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* damage_manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     if (!damage_manager)
         return;
     auto* dragon = sead::DynamicCast<act::Dragon>(damage_manager->mActor);

@@ -45,7 +45,7 @@ void NPCConfront::loadParams_() {
 
 // 0x71004c4aec
 bool NPCConfront::sub_71004C4AEC(bool* out) {
-    auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr());
+    auto* mgr = sead::DynamicCast<act::DamageManagerBase>(mActor->getDamageMgr());
     if (!mgr)
         return false;
     if (mgr->getField54() != 15 && mgr->getField54() != 12 && mgr->getField54() != 11)

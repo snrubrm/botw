@@ -47,7 +47,7 @@ void AppearNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     } else {
         changeToSpawnPrepare();
     }
-    if (auto* damage_mgr = sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr()))
+    if (auto* damage_mgr = sead::DynamicCast<act::DamageManager>(actor->getDamageMgr()))
         damage_mgr->addDamageCallback(3, &_60);
     _88 = 9999.0f;
     _8c = false;
@@ -66,7 +66,7 @@ void AppearNearTarget::leave_() {
     actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20000);
     if (auto* awareness = actor->getAwareness())
         awareness->disable();
-    if (auto* damage_mgr = sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr()))
+    if (auto* damage_mgr = sead::DynamicCast<act::DamageManager>(actor->getDamageMgr()))
         damage_mgr->removeDamageCallback(&_60);
 
     if (auto* body = mActor->getRigidBodyByName("Ragdoll")) {

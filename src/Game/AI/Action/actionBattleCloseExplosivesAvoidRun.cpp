@@ -130,11 +130,11 @@ void BattleCloseExplosivesAvoidRun::m32(sead::Vector3f* target_pos) {
 }  // namespace uking::action
 
 void Unk_710236b490::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          uking::dmg::DamageCallbackInfo* a6) {
+                          uking::act::DamageCallbackInfo* a6) {
     if (*a4 != 4)
         return;
 
-    auto* mgr = sead::DynamicCast<uking::dmg::DamageManager>(mDamageManager);
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(mDamageManager);
     if (!mgr)
         return;
 

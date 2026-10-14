@@ -1,7 +1,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageMgrWeapon.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageMgrBow::DamageMgrBow(ksys::act::Actor* actor) : DamageMgrSword(actor) {}
 
@@ -10,4 +10,4 @@ bool DamageMgrBow::m54() {
     return weapon && (weapon->_af8._0 | 1) == 7 && weapon->_d58[0] == 0;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    uking::dmg::DamageCallback* m14() override;
+    uking::act::DamageCallback* m14() override;
 
     struct Params {
         const int* mAttrForSmall_s{};

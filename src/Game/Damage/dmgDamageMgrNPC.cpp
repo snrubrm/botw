@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageMgrNPC::DamageMgrNPC(ksys::act::Actor* actor)
     : DamageManagerBase(actor), _68(actor, 0x80000b5), _80(sead::Vector3f::zero) {}
@@ -257,4 +257,4 @@ void DamageMgrNPC::resetDamage() {
     _80 = {0.0f, 0.0f, 0.0f};
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

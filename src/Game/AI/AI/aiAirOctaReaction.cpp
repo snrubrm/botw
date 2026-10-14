@@ -33,7 +33,7 @@ void AirOctaReaction::loadParams_() {
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
 }
 
-bool AirOctaReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+bool AirOctaReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     if (EnemyDefaultReaction::m34(damage_mgr, damage_type))
         return true;
 
@@ -57,7 +57,7 @@ void AirOctaReaction::m42(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m42(params);
 }
 
-void AirOctaReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+void AirOctaReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
                           ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m35(damage_mgr, damage_type, x, params);
 }

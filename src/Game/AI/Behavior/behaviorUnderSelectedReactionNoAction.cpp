@@ -31,7 +31,7 @@ void UnderSelectedReactionNoAction::loadParams() {
     getStaticParam(&mReactionID_s, "ReactionID");
 }
 
-uking::dmg::DamageCallback* UnderSelectedReactionNoAction::m14() {
+uking::act::DamageCallback* UnderSelectedReactionNoAction::m14() {
     return &_38;
 }
 

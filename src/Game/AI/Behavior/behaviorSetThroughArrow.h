@@ -15,7 +15,7 @@ public:
     bool m6(sead::Heap* heap) override;
     void m7() override;
     void loadParams() override;
-    uking::dmg::DamageCallback* m14() override;
+    uking::act::DamageCallback* m14() override;
     void m8() override;
     void m9() override;
 

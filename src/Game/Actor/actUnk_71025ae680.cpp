@@ -22,8 +22,8 @@ bool sub_71006DF4F0(ksys::act::Actor* actor) {
     return ksys::phys::MaterialMask::getSubMaterialName(ksys::phys::Material::Water, actor->get700()) == "Water_Hot";
 }
 
-void Unk_71025ae680::sub_71006DF5CC(const dmg::ConditionDamageInfo& info) {
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(_10->getDamageMgr());
+void Unk_71025ae680::sub_71006DF5CC(const act::ConditionDamageInfo& info) {
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(_10->getDamageMgr());
     if (manager)
         manager->m45(info);
 }

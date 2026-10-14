@@ -6,11 +6,11 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 // vtable 0x71023fd380 (IncredibleAction damage callback; no RTTI of its own)
-class Unk_71023fd380 : public uking::dmg::DamageCallback {
+class Unk_71023fd380 : public uking::act::DamageCallback {
 public:
     explicit Unk_71023fd380(ksys::act::Actor* actor) { _28.acquire(actor, false); }
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;
+              uking::act::DamageCallbackInfo* a6) override;
 
     ksys::act::BaseProcLink _28;
     bool _38 = false;

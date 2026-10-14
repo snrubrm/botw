@@ -3,7 +3,7 @@
 #include "Game/AI/Action/actionSwarmDamagedBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
-namespace uking::dmg {
+namespace uking::act {
 class DamageManager;
 }
 
@@ -23,7 +23,7 @@ public:
 protected:
     void calc_() override;
     virtual void m33(act::Swarm* swarm);
-    virtual void m34(dmg::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir);
+    virtual void m34(act::DamageManager* mgr, sead::Vector3f* pos, sead::Vector3f* dir);
 
     // static_param at offset 0x1b8
     const int* mDeadSubActorMax_s{};

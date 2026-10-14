@@ -232,13 +232,13 @@ void sub_71005D9974(ksys::act::Actor* actor, u32 mask, bool set) {
 }
 
 bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing,
-                             uking::dmg::DamageCallback* callback) {
+                             uking::act::DamageCallback* callback) {
     auto* damage_mgr = actor->getDamageMgr();
     if (!damage_mgr)
         return false;
     if (damage_mgr == callback->mDamageManager)
         return true;
-    auto* mgr = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr);
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(damage_mgr);
     if (!mgr)
         return false;
     mgr->addDamageCallback(timing, callback);
@@ -408,7 +408,7 @@ bool sub_71005DA5AC(ksys::act::Actor* actor, int idx) {
     return weapon->sub_71002E9A50();
 }
 
-bool sub_71005DA114(ksys::act::Actor* actor, uking::dmg::DamageCallback* callback) {
+bool sub_71005DA114(ksys::act::Actor* actor, uking::act::DamageCallback* callback) {
     if (!callback->mDamageManager)
         return false;
     auto* damage_mgr = actor->getDamageMgr();
@@ -1258,7 +1258,7 @@ void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     *out = dir * scale + actor->getVelocity();
 }
 
-void sub_71005E2318(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr) {
+void sub_71005E2318(sead::Vector3f* out, ksys::act::Actor* actor, uking::act::DamageManager* mgr) {
     sead::Vector3f dir = sead::Vector3f::zero;
     if (!(mgr && mgr->m30(&dir))) {
         actor->getMtx().getBase(dir, 2);
@@ -1268,7 +1268,7 @@ void sub_71005E2318(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::Da
     *out = dir;
 }
 
-void sub_71005E242C(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr) {
+void sub_71005E242C(sead::Vector3f* out, ksys::act::Actor* actor, uking::act::DamageManager* mgr) {
     sead::Vector3f dir = sead::Vector3f::zero;
     if (!(mgr && mgr->m29(&dir))) {
         actor->getMtx().getBase(dir, 2);

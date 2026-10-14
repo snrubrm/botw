@@ -38,7 +38,7 @@ void ForkStalEnemyForceDamage::calc_() {
         *mASTrigType_s == 0 && sub_71005DD780(mActor, 0x3b, nullptr, 0, 0)) {
         auto* manager = mActor->getDamageMgr();
         if (manager) {
-            uking::dmg::Struct20_2 damage;
+            uking::act::Struct20_2 damage;
             damage.mField_8 = *mDamage_s;
             if (*mDamageType_s == 0)
                 damage.mField_14 = 4;

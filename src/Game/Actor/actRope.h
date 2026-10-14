@@ -31,10 +31,10 @@ public:
     // RopeBase slot 149.
     void m149() override;
     s32* getLife() override;
-    uking::dmg::DamageManagerBase* getDamageMgr() override;
+    uking::act::DamageManagerBase* getDamageMgr() override;
 
     // Constructor241DC constructs DamageManager atA00 and ActorAtk atC30.
-    /* 0xa00 */ uking::dmg::DamageManager _a00;
+    /* 0xa00 */ uking::act::DamageManager _a00;
     /* 0xc30 */ ksys::act::ActorAtk _c30;
     /* 0xcb0 */ s32 _cb0 = 1;
     /* 0xcb8 */ ksys::act::BaseProcLink _cb8;

@@ -13,7 +13,7 @@ bool ForceMasterSwordFakeMode::init_(sead::Heap* heap) {
 }
 
 bool ForceMasterSwordFakeMode::oneShot_() {
-    if (auto* mgr = dmg::DamageInfoMgr::instance())
+    if (auto* mgr = act::DamageInfoMgr::instance())
         mgr->setMasterSwordDisableTrueForm(true);
     return ksys::act::ai::Action::oneShot_();
 }

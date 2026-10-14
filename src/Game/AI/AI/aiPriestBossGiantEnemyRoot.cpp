@@ -30,7 +30,7 @@ Unk_71024137d0::~Unk_71024137d0() = default;
 
 // NON_MATCHING: the timer reset stores are merged before the delegate call.
 void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a5 >= 0) {
         _24 = 0;
         sub_710051A000(*a4);
@@ -80,7 +80,7 @@ void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 }
 
 void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a5 >= 0) {
         _24 = 0;
         sub_710051A6B8();
@@ -98,7 +98,7 @@ void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 // SafeString through a base 0x10 below it (`ldr x8, [x21, #0x10]!`).
 // 0x710051a6b8
 void Unk_7102413808::sub_710051A6B8() {
-    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager);
     ksys::act::ActorLinkConstDataAccess accessor;
     if (manager) {
         ksys::act::acquireActor(manager->m37(), &accessor);
@@ -187,7 +187,7 @@ void PriestBossGiantEnemyRoot::calc_() {
                 }
             }
         } else {
-            auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+            auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
             if (manager && manager->getField50() == 5) {
                 ksys::act::ActorLinkConstDataAccess accessor;
                 ksys::act::acquireActor(manager->m37(), &accessor);

@@ -18,10 +18,10 @@ class PriestBossGiantEnemyRoot;
 
 // Placeholder name (vtable 0x71024137d0; inherits DamageCallback's RTTI; D1 0x7100519da4,
 // D0 0x710051b574, `call` 0x7100519ea0). PriestBossGiantEnemyRoot::_2e8.
-class Unk_71024137d0 : public dmg::DamageCallback {
+class Unk_71024137d0 : public act::DamageCallback {
 public:
     ~Unk_71024137d0() override;
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
     void sub_710051A000(u32 kind);
 
     s32 _24 = 0;
@@ -35,9 +35,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71024137d0, 0x80);
 
 // Placeholder name (vtable 0x7102413808; inherits DamageCallback's RTTI; D0 0x710051b5bc,
 // `call` 0x710051a640). PriestBossGiantEnemyRoot::_368.
-class Unk_7102413808 : public dmg::DamageCallback {
+class Unk_7102413808 : public act::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
     void sub_710051A6B8();
 
     s32 _24 = 1;

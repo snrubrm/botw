@@ -15,7 +15,7 @@
 
 bool sub_71006DE628(const ksys::act::ActorLinkConstDataAccess& accessor, s32 type);
 
-namespace uking::dmg {
+namespace uking::act {
 
 DamageMgrShield::DamageMgrShield(ksys::act::Actor* actor) : DamageMgrWeapon(actor) {
     _68 = 0;
@@ -38,9 +38,9 @@ void DamageMgrShield::m50(f32 scale) {
     mDamageFromLife = s32(uking::act::WeaponModifierInfo::getLifeMultiplier() * scale);
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act
 
-namespace uking::dmg {
+namespace uking::act {
 
 void DamageMgrShield::m22() {
     u32 v1 = 0;
@@ -181,4 +181,4 @@ bool DamageMgrShield::shieldSurfDamageLogic(s32* damage, s32* df48, u32* minDmg,
     return false;
 }
 
-}  // namespace uking::dmg
+}  // namespace uking::act

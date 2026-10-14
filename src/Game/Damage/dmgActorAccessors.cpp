@@ -66,7 +66,7 @@ bool sub_71006DE628(const ksys::act::ActorLinkConstDataAccess& accessor, s32 typ
     auto* actor = getActorOfAccessor(accessor);
     if (!actor)
         return false;
-    auto* manager = sead::DynamicCast<uking::dmg::DamageManagerBase>(actor->getDamageMgr());
+    auto* manager = sead::DynamicCast<uking::act::DamageManagerBase>(actor->getDamageMgr());
     if (!manager)
         return false;
     return manager->sub_71006E11F4(type);
@@ -122,7 +122,7 @@ s32 sub_71006DEF64(const ksys::act::ActorLinkConstDataAccess* accessor) {
     auto* actor = getActorOfAccessor(*accessor);
     if (!actor)
         return 0;
-    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr());
+    auto* manager = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
     return manager ? manager->_68 : 0;
 }
 

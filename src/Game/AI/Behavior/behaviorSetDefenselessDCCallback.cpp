@@ -26,7 +26,7 @@ void SetDefenselessDCCallback::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetDefenselessDCCallback::m14() {
+uking::act::DamageCallback* SetDefenselessDCCallback::m14() {
     return &_30;
 }
 

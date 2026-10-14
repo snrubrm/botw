@@ -13,7 +13,7 @@ bool UrbosasFuryDamageSelector::init_(sead::Heap* heap) {
 }
 
 void UrbosasFuryDamageSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* mgr = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+    auto* mgr = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
     if (mgr && mgr->checkDamageFlags(22))
         changeChild("ウルボザの怒り由来である", params);
     else

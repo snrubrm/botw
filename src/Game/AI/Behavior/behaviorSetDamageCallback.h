@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    virtual uking::dmg::DamageCallback* m14() = 0;
+    virtual uking::act::DamageCallback* m14() = 0;
 
     /* 0x28 */ const int* mTiming_s{};
 };

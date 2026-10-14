@@ -151,8 +151,8 @@ void WizzrobeCombatMove::sub_71005FD0AC() {
         controller->sub_7100F63554(true);
     }
     auto* damage = actor->getDamageMgr();
-    if (sead::IsDerivedFrom<uking::dmg::DamageManager>(damage))
-        static_cast<uking::dmg::DamageManager*>(damage)->_212 &= ~0x10;
+    if (sead::IsDerivedFrom<uking::act::DamageManager>(damage))
+        static_cast<uking::act::DamageManager*>(damage)->_212 &= ~0x10;
     _c8 = false;
 }
 

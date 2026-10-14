@@ -28,7 +28,7 @@ void HorseRiddenByNPC::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: low-byte flag test uses a dynamic SEAD_ENUM bit index in the original.
 void HorseRiddenByNPC::calc_() {
     HorseRiddenByNPCBase::calc_();
-    if (auto* damage = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr())) {
+    if (auto* damage = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr())) {
         if (damage->_216.isOn(2)) {
             if (auto* rideable = mActor->m132()) {
                 if (*(rideable->_18._b == 0 ? &rideable->_18._9 : &rideable->_18._b)) {

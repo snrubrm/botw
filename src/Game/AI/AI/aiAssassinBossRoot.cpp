@@ -17,10 +17,10 @@ namespace uking::ai {
 
 // 0x710031a970
 void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a1 <= 0)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (!manager)
         return;
     if (_24 && manager->getField50() == 4) {
@@ -32,13 +32,13 @@ void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     ksys::act::acquireActor(manager->getAttacker(), &accessor);
     if (accessor.getName() == "AssassinIronBall") {
         *a5 = 0x16;
-        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+        auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
         if (info)
             info->mFlags |= 2;
     } else if (accessor.getName() == "Explode") {
         *a1 = 0;
         *a5 = -1;
-        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
+        auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6);
         if (info)
             info->mFlags = 0;
         return;
@@ -58,10 +58,10 @@ void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 // NON_MATCHING: register allocation (the original keeps the cast result in two registers, one of them null when the cast fails)
 // 0x710031a6fc
 void Unk_71023d7bd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a1 <= 0)
         return;
-    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     bool has_manager = false;
     if (manager) {
         if (sub_71007368A4(manager->getAttacker()))
@@ -164,7 +164,7 @@ void AssassinBossRoot::sub_7100319AB4() {
     callback._27 = life < s32(f32(mActor->getMaxLife()) * *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s);
     setDamageCallbackTiming(mActor, 0, &callback);
     setDamageCallbackTiming(mActor, 2, &_2e8);
-    if (auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
+    if (auto* mgr = sead::DynamicCast<act::DamageManagerBase>(mActor->getDamageMgr()))
         mgr->setField64LowNibble(10);
 }
 
@@ -212,7 +212,7 @@ void AssassinBossRoot::calc_() {
     if (isCurrentChild("リアクション")) {
         sub_71005DA114(mActor, &_2c0);
         sub_71005DA114(mActor, &_2e8);
-        if (auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
+        if (auto* mgr = sead::DynamicCast<act::DamageManagerBase>(mActor->getDamageMgr()))
             mgr->setField64LowNibble(0);
     } else if (auto* controller = mActor->getCharacterController()) {
         if (!isCurrentChild("奈落"))
@@ -224,7 +224,7 @@ void AssassinBossRoot::leave_() {
     if (_2c0.mDamageManager) {
         sub_71005DA114(mActor, &_2c0);
         sub_71005DA114(mActor, &_2e8);
-        if (auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
+        if (auto* manager = sead::DynamicCast<act::DamageManagerBase>(mActor->getDamageMgr()))
             manager->setField64LowNibble(0);
     }
     sub_71005DA114(mActor, &_310);
@@ -361,11 +361,11 @@ void AssassinBossRoot::m46() {
 // NON_MATCHING: same instructions, but the original loads the matrix terms (0x3a0 / 0x3b0) before the attack
 // direction and the third one between the multiplies.
 void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
 
-    auto* damage_manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* damage_manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     s32 field_40 = -1;
     if (!damage_manager)
         return;
@@ -396,11 +396,11 @@ void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
 
 // Keeps the actor's life above zero: damage that would be lethal is reduced to life - 1.
 void Unk_71023d7c78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-                          dmg::DamageCallbackInfo* a6) {
+                          act::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
 
-    auto* damage_manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    auto* damage_manager = sead::DynamicCast<act::DamageManagerBase>(mDamageManager);
     if (!damage_manager || damage_manager->checkDamageFlags(1))
         return;
 

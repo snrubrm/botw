@@ -18,8 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type) override;
-    void m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+    bool m34(act::DamageManagerBase* damage_mgr, int damage_type) override;
+    void m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
              ksys::act::ai::InlineParamPack* params) override;
 
 protected:

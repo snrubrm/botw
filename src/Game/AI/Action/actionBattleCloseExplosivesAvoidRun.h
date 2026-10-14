@@ -11,11 +11,11 @@ class BattleCloseExplosivesAvoidRun;
 // vtable 0x710236b490 (BattleCloseExplosivesAvoidRun damage callback; no RTTI of its own, its D2 slot
 // is DamageCallback's). Zeroes the damage when the attacker is at least DamageIgnoreDist away.
 // Placeholder name.
-class Unk_710236b490 : public uking::dmg::DamageCallback {
+class Unk_710236b490 : public uking::act::DamageCallback {
 public:
     explicit Unk_710236b490(uking::action::BattleCloseExplosivesAvoidRun* owner) : mOwner(owner) {}
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::dmg::DamageCallbackInfo* a6) override;
+              uking::act::DamageCallbackInfo* a6) override;
 
     uking::action::BattleCloseExplosivesAvoidRun* mOwner;
 };

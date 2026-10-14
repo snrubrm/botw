@@ -22,12 +22,12 @@ Unk_710243c2a0::~Unk_710243c2a0() = default;
 void Unk_710243c250::sub_710066E134(s32 controller_type, bool enabled) {
     _40.mControllerType = controller_type;
     _40.mEnabled = enabled;
-    uking::dmg::DamageInfoMgr::instance()->getGuardianRegistry().sub_710066E548(this);
+    uking::act::DamageInfoMgr::instance()->getGuardianRegistry().sub_710066E548(this);
 }
 
 // NON_MATCHING: the registry removal body is inlined instead of tail-called.
 void Unk_710243c250::sub_710066E15C() {
-    uking::dmg::DamageInfoMgr::instance()->getGuardianRegistry().sub_710066E648(this);
+    uking::act::DamageInfoMgr::instance()->getGuardianRegistry().sub_710066E648(this);
 }
 
 // NON_MATCHING: the bucket sequence load and address calculation are scheduled later.

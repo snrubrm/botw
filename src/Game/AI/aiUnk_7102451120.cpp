@@ -128,7 +128,7 @@ void sub_7100721670(void* unused, ksys::act::Actor* actor, const sead::SafeStrin
 }
 
 void sub_7100720A70(ksys::act::Actor* actor) {
-    uking::dmg::DamageInfoMgr::instance()->get450().sub_710065D5D4(actor);
+    uking::act::DamageInfoMgr::instance()->get450().sub_710065D5D4(actor);
 }
 
 void sub_7100720814(ksys::act::Actor* actor, s32 mode) {

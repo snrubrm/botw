@@ -2,7 +2,7 @@
 #include "Game/gameSceneSubsysMisc.h"
 
 // Existing global damage callback cleanup, also called by DynamicActor.
-void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 
 namespace uking::act {
 
@@ -43,7 +43,7 @@ s32* Rope::getLife() {
     return &_cb0;
 }
 
-uking::dmg::DamageManagerBase* Rope::getDamageMgr() {
+uking::act::DamageManagerBase* Rope::getDamageMgr() {
     return &_a00;
 }
 

@@ -119,7 +119,7 @@ bool MoriblinUnarmedBattle::sub_71004ACC4C() {
         return false;
     if (!mActor || !sub_710072E1B4(mActor, false))
         return false;
-    return dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A40(
+    return act::DamageInfoMgr::instance()->get4f8().sub_7100671A40(
         mActor, 80 + sead::GlobalRandom::instance()->getU32(16));
 }
 

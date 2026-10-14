@@ -21,7 +21,7 @@ void EnemyNoticeLimit::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
 
-    dmg::Unk_7100671794_Entry entry;
+    act::Unk_7100671794_Entry entry;
     entry.mLink.acquire(mActor, false);
     const f32 x = mActor->getMtx().m[0][3];
     const f32 y = mActor->getMtx().m[1][3];
@@ -29,7 +29,7 @@ void EnemyNoticeLimit::enter_(ksys::act::ai::InlineParamPack* params) {
     const auto& target = sub_71005D9330(mActor);
     const sead::Vector3f diff(x - target.x, y - target.y, z - target.z);
     entry.mDistance = diff.length();
-    if (dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A74(&entry, *mOverNum_s)) {
+    if (act::DamageInfoMgr::instance()->get4f8().sub_7100671A74(&entry, *mOverNum_s)) {
         ksys::act::ai::InlineParamPack pack;
         pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
         changeChild("定員内", &pack);
@@ -44,7 +44,7 @@ void EnemyNoticeLimit::calc_() {
     auto* child = getCurrentChild();
     if (!child->isFinished() && !child->isFailed() && child->isChangeable()) {
         if (!isCurrentChild("定員オーバー")) {
-            if (!dmg::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor)) {
+            if (!act::DamageInfoMgr::instance()->get4f8().sub_7100671ED8(mActor)) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("定員オーバー", &pack);
@@ -52,7 +52,7 @@ void EnemyNoticeLimit::calc_() {
         } else if (!sub_71005D8F28(mActor)) {
             setFailed();
         } else {
-            dmg::Unk_7100671794_Entry entry;
+            act::Unk_7100671794_Entry entry;
             entry.mLink.acquire(mActor, false);
             const f32 x = mActor->getMtx().m[0][3];
             const f32 y = mActor->getMtx().m[1][3];
@@ -60,7 +60,7 @@ void EnemyNoticeLimit::calc_() {
             const auto& target = sub_71005D9330(mActor);
             const sead::Vector3f diff(x - target.x, y - target.y, z - target.z);
             entry.mDistance = diff.length();
-            if (dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A74(&entry, *mOverNum_s)) {
+            if (act::DamageInfoMgr::instance()->get4f8().sub_7100671A74(&entry, *mOverNum_s)) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("定員内", &pack);
@@ -79,7 +79,7 @@ bool EnemyNoticeLimit::isFinished() const {
 }
 
 void EnemyNoticeLimit::leave_() {
-    dmg::DamageInfoMgr::instance()->get4f8().sub_7100671F78(mActor);
+    act::DamageInfoMgr::instance()->get4f8().sub_7100671F78(mActor);
 }
 
 void EnemyNoticeLimit::loadParams_() {

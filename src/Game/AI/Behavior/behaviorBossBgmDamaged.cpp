@@ -28,7 +28,7 @@ void BossBgmDamaged::m7() {
                           manager->checkDamageFlags(1) || manager->checkDamageFlags(8) ||
                           manager->checkDamageFlags(12);
         auto* life = mActor->getLife();
-        dmg::DamageInfoMgr::instance()->get450().sub_710065D674(
+        act::DamageInfoMgr::instance()->get450().sub_710065D674(
             mActor, damage, flag, life ? *life < 1 : false, *mDieType_s == 1);
     }
 }

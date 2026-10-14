@@ -26,7 +26,7 @@ void SetNoReactionDCCallBack::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-uking::dmg::DamageCallback* SetNoReactionDCCallBack::m14() {
+uking::act::DamageCallback* SetNoReactionDCCallBack::m14() {
     return &_30;
 }
 

@@ -13,7 +13,7 @@ bool ResetMasterSwordForceState::init_(sead::Heap* heap) {
 }
 
 bool ResetMasterSwordForceState::oneShot_() {
-    if (auto* mgr = dmg::DamageInfoMgr::instance())
+    if (auto* mgr = act::DamageInfoMgr::instance())
         mgr->setMasterSwordDisableTrueForm(false);
     return ksys::act::ai::Action::oneShot_();
 }

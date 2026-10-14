@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
-namespace uking::dmg {
+namespace uking::act {
 class DamageManager;
 }
 
@@ -26,7 +26,7 @@ protected:
     void calc_() override;
     void m38() override;
     s32 m40() override;
-    virtual s32 m41(uking::dmg::DamageManager* manager);
+    virtual s32 m41(uking::act::DamageManager* manager);
 
     struct Params {
         // static_param at offset 0x118

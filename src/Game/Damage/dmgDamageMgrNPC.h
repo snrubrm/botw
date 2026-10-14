@@ -4,7 +4,7 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 
-namespace uking::dmg {
+namespace uking::act {
 
 // vtable 0x71023cee60 (DamageMgrNPC::_68): sends message 0x80000b5 (m2 at 0x71002c9ff4).
 class Unk_71023cee50 : public Unk_7102357d20 {
@@ -56,4 +56,4 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(DamageMgrNPC, 0x90);
 
-}  // namespace uking::dmg
+}  // namespace uking::act

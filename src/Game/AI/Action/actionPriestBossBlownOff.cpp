@@ -36,7 +36,7 @@ void PriestBossBlownOff::calc_() {
     }
 }
 
-s32 PriestBossBlownOff::m41(uking::dmg::DamageManager* manager) {
+s32 PriestBossBlownOff::m41(uking::act::DamageManager* manager) {
     if (!isBgGroundHit(mActor, false) && manager->getField50() == 8)
         return 12;
     return manager->getField50();

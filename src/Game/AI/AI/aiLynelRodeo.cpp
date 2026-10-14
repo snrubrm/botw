@@ -97,7 +97,7 @@ void LynelRodeo::sub_7100499E08() {
     }
     if (auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild())) {
         if (auto* manager = child->getDamageMgr()) {
-            dmg::Struct20_2 damage;
+            act::Struct20_2 damage;
             damage.mField_18 = 22;
             damage.mField_14 = 5;
             damage.mField_8 = 1;

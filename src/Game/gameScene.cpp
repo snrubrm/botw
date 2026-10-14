@@ -458,8 +458,8 @@ void GameScene::initGlobalParamE3TipsActorAndPlacement() {
     TipsMgr::instance()->loadTipFiles();
     ResidentActorMgr::instance()->loadByml();
     ksys::map::AutoPlacementFlowMgr::instance()->loadEventFlows();
-    if (dmg::DamageInfoMgr::instance())
-        dmg::DamageInfoMgr::instance()->sub_7100673D8C();
+    if (act::DamageInfoMgr::instance())
+        act::DamageInfoMgr::instance()->sub_7100673D8C();
 }
 
 
