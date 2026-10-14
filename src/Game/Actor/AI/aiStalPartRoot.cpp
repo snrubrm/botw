@@ -5,6 +5,9 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/Actor/aiUnk_71006F5B14.h"
+#include "Game/Actor/actUnk_71025ae680.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -42,6 +45,28 @@ void StalPartRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     mFlags.set(Flag::Changeable);
     changeChild("通常");
+}
+
+void StalPartRoot::calc_() {
+    if (!(*mInvincibleTime_s > 0) || _94.value <= sead::Mathf::epsilon())
+        return;
+
+    auto* chemical = mActor->getChemicalStuff();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (auto* unit = enemy->m159()) {
+            for (int i = 0; i < 12; ++i)
+                unit->m13(i);
+        }
+    }
+    if (chemical)
+        chemical->sub_7100D8EEE0();
+    _94.update();
+    if (_94.value <= sead::Mathf::epsilon()) {
+        sub_71005A8A8C(false);
+        return;
+    }
+    if (chemical && (chemical->_8 & 2))
+        sub_71006F5940(chemical);
 }
 
 void StalPartRoot::leave_() {
