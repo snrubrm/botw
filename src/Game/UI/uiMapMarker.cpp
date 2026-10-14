@@ -5,6 +5,8 @@
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameHorseMgr.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actHorseBase.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "Game/gameSceneSubsys13.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -325,6 +327,26 @@ void Unk_7102475d70::m16() {
     sead::Vector3f position{0.0f, 0.0f, 0.0f};
     ksys::gdt::getFlag_Horse_Pos_For_Map(&position);
     updateDistrictFromPos(&position);
+}
+
+// 0x7100955f2c
+// NON_MATCHING: block layout of the owned-horse branch (the original falls through to its m24(true) call).
+void Unk_7102475d70::m18() {
+    bool owned_horse_ok = false;
+    if (auto* manager = HorseMgr::instance(); manager && manager->mOwnedHorse.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&manager->mOwnedHorse, &accessor);
+        owned_horse_ok = act::sub_7100E6ED04(accessor);
+    }
+    if (owned_horse_ok) {
+        m24(true);
+        return;
+    }
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (screen && screen->sub_71009F1A64(&_28))
+        m24(true);
+    else
+        m24(false);
 }
 
 // NON_MATCHING: direct list search removes the nullable-find guard and changes argument setup.

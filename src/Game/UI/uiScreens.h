@@ -2043,6 +2043,8 @@ static_assert(offsetof(ScreenAppMapWidget, _b290) == 0xb290);
 
 class ScreenAppMap : public ScreenEx {
 public:
+    // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
+    bool sub_71009F1A64(const sead::Vector3f* pos);
     bool sub_71009EA030() const;
     bool sub_71009EECD0() const;
     s32 sub_71009EED10() const;
