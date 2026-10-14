@@ -27,6 +27,10 @@ public:
     void changeToAdjustPosition();
 
     bool sub_71003D1F88();
+    // 0x71003d1c48 (placeholder name; declared only): changes to 位置調整 when the actor needs to adjust its position.
+    bool sub_71003D1C48();
+    // 0x71003d20b0 (placeholder name; declared only): the 位置調整 target position.
+    bool sub_71003D20B0(sead::Vector3f* out);
     // 0x71003d2880 (placeholder name): the mean direction away from the (up to 10) awareness entries within `range`,
     // scaled by range / count; false without awareness
     bool sub_71003D2880(f32 range, sead::Vector3f* out);

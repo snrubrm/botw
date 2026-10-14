@@ -50,6 +50,65 @@ bool FlyingEnemyKeepMove::sub_71003D2880(f32 range, sead::Vector3f* out) {
     return true;
 }
 
+// NON_MATCHING: load scheduling of the XZ distances, and our build merges the two m36 calls of the 移動 / 待機
+// branches at the end.
+void FlyingEnemyKeepMove::calc_() {
+    // The XZ distance between the actor and the base position (m36).
+    const auto calcBaseDist = [this] {
+        sead::Vector3f base;
+        m36(&base);
+        const sead::Vector2f pos(mActor->getMtx()(0, 3), mActor->getMtx()(2, 3));
+        return (pos - sead::Vector2f(base.x, base.z)).length();
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (calcBaseDist() > *mParams.mBaseDist_s + *mParams.mLostDistance_s) {
+            setFailed();
+            return;
+        }
+        if (sub_71003D1C48())
+            return;
+        sead::Vector3f target;
+        m36(&target);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("待機", &pack);
+        return;
+    }
+
+    if (child->isChangeable()) {
+        if (calcBaseDist() > *mParams.mBaseDist_s + *mParams.mLostDistance_s) {
+            setFailed();
+            return;
+        }
+        if (isCurrentChild("待機")) {
+            if (sub_71003D1C48())
+                return;
+        } else if (isCurrentChild("位置調整")) {
+            if (calcBaseDist() > *mParams.mBaseDist_s + *mParams.mFarDist_s) {
+                sead::Vector3f target;
+                m36(&target);
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(target, "TargetPos", -1);
+                changeChild("移動", &pack);
+                return;
+            }
+        }
+    }
+
+    sead::Vector3f target;
+    if (isCurrentChild("位置調整") && !sub_71003D1F88())
+        sub_71003D20B0(&target);
+    else if (isCurrentChild("移動"))
+        m36(&target);
+    else if (isCurrentChild("待機"))
+        m36(&target);
+    else
+        return;
+    child->setDynamicParam(target, "TargetPos");
+}
+
 void FlyingEnemyKeepMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
