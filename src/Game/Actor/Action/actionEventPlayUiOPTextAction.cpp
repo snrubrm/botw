@@ -1,6 +1,7 @@
 #include "Game/Actor/Action/actionEventPlayUiOPTextAction.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace uking::action {
 
@@ -13,7 +14,25 @@ bool EventPlayUiOPTextAction::init_(sead::Heap* heap) {
 }
 
 void EventPlayUiOPTextAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::ui::sub_7100EDC530(81, nullptr);
+    auto* screen = sead::DynamicCast<ui::Screen>(
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::OPtext));
+    if (!screen) {
+        _30 = nullptr;
+        setFailed();
+        return;
+    }
+
+    _30 = screen;
+    if (*mClipIndex_d < 0) {
+        screen->open(1);
+        return;
+    }
+
+    const f32 progress = ksys::evt::Manager::instance()->sub_7100DB1174(*mClipIndex_d);
+    if (auto* text = sead::DynamicCast<ui::ScreenOPtext>(_30))
+        text->m154(*mTextType_d);
+    _30->m73(progress);
 }
 
 void EventPlayUiOPTextAction::leave_() {
