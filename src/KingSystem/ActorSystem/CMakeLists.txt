@@ -134,6 +134,8 @@ target_sources(uking PRIVATE
     actDropData.h
     actGlobalParameter.cpp
     actGlobalParameter.h
+    actIDamageManager.cpp
+    actIDamageManager.h
     actImpulseBaseProcLink.h
     actInfoCommon.cpp
     actInfoCommon.h

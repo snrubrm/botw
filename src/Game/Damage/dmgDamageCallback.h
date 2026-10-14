@@ -34,7 +34,7 @@ public:
 
     DamageCallback* mPrev{};
     DamageCallback* mNext{};
-    DamageManagerBase* mDamageManager{};  // Might be a different base class(Interface?)
+    ksys::act::IDamageManager* mDamageManager{};
     u32 mEventId{};
 };
 

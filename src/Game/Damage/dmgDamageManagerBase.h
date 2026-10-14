@@ -11,6 +11,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/Damage/dmgStruct20.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actIDamageManager.h"
 
 namespace ksys::res {
 class DamageParam;
@@ -35,9 +36,6 @@ namespace uking::act {
 class DamageCallback;
 class DamageCallbackInfo;
 
-// FIXME: Unknown base. This base seems to handle callbacks and messaging, so maybe a shared base?
-// The RTTI root of the damage managers: the original vtables start with checkDerivedRuntimeTypeInfo /
-// getRuntimeTypeInfo (slots 0-1), followed by the destructors (slots 2-3). RTTI static 0x71025ae5c0.
 // Placeholder name: a condition damage (burn / ice / electric ...) passed to slot 45, built on the stack by the
 // condition handlers of uking::act::Unk_71025ae680 and its subclasses (sent through Unk_71025ae680::sub_71006DF5CC).
 struct ConditionDamageInfo {
@@ -48,27 +46,6 @@ struct ConditionDamageInfo {
     s32 _10 = -1;     // copied to DamageManager::_88 with bit 3 of mFlags
 };
 
-class DamageManagerBase_UnknownBase1 {
-    SEAD_RTTI_BASE(DamageManagerBase_UnknownBase1)
-public:
-    explicit DamageManagerBase_UnknownBase1(ksys::act::Actor* WeaponActor);
-    virtual ~DamageManagerBase_UnknownBase1() = default;
-
-    // Sturct20 for Damage receive/send?
-    Struct20Base* mStruct20_a = nullptr;
-    Struct20Base* mStruct20_b = nullptr;
-
-    ksys::act::Actor* mActor = nullptr;
-
-    sead::Buffer<DamageCallback*> mCallbacks{};
-
-    // Lock word guarding mStruct20_a (ForkStalEnemyForceDamage::calc_ does
-    // mField_30.lock() / .unlock() around mStruct20_a->combineMaybe(); the inline
-    // JobQueueLock sequences match the original exactly).
-    sead::JobQueueLock mField_30;
-    s8 mField_34 = 0;
-};
-
 // FIXME: Unknown base 2. Helper functions maybe? Might also contain some of the fields from
 // DamageManagerBase.
 class DamageManagerBase_UnknownBase2 {
@@ -76,13 +53,12 @@ public:
     virtual ~DamageManagerBase_UnknownBase2() = default;
 };
 
-class DamageManagerBase : public DamageManagerBase_UnknownBase1,
-                          public DamageManagerBase_UnknownBase2 {
+class DamageManagerBase : public ksys::act::IDamageManager, public DamageManagerBase_UnknownBase2 {
 public:
     explicit DamageManagerBase(ksys::act::Actor* actor);
     ~DamageManagerBase() override = default;
 
-    SEAD_RTTI_OVERRIDE(DamageManagerBase, DamageManagerBase_UnknownBase1)
+    SEAD_RTTI_OVERRIDE(DamageManagerBase, ksys::act::IDamageManager)
 public:
     virtual u32 getDamage();
     virtual s32 getField48() { return mField_48; }
@@ -95,8 +71,6 @@ public:
     virtual u64 getFlags2() { return mFlags2; }
     // lane1 s22: AssassinBossRoot sets the low nibble of mField_64 (name is a guess).
     void setField64LowNibble(u8 value) { mField_64 = (mField_64 & 0xf0) | value; }
-    virtual void addDamageCallback(s32 eventId, DamageCallback* callback);
-    virtual void removeDamageCallback(DamageCallback* callback);
     virtual f32 m13() { return 0.0f; }
     // Slot 14: writes the stasis blow direction (DamageMgr::m14) to `out`.
     virtual bool m14(sead::Vector3f* out) { return false; }
