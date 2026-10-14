@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/Cloth/physClothSet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -27,6 +29,37 @@ bool NPCMamonoShopRoot::init_(sead::Heap* heap) {
 
 void NPCMamonoShopRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
+
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* cloth_set = physics->getClothSet())
+            cloth_set->_70 |= 0x20000;
+    }
+
+    if (mActor->isCalc())
+        return;
+
+    auto* schedule = mActor->getSchedule();
+    if ((schedule && schedule->_68 == "Action1") || sub_71004CD42C()) {
+        _248 = true;
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        ksys::act::setEnabledTalkAndLockOn(mActor, false);
+        if (auto* controller = mActor->getCharacterController()) {
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityObject);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityHitOnlyWater);
+        }
+        if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body"))
+            body->removeFromWorld();
+        if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+            npc->_fe8 |= 0x20000000;
+    } else {
+        _248 = false;
+        mActor->emitBasicSigOn();
+        ksys::gdt::setBoolByKey(true, "MamonoShop_Start");
+    }
 }
 
 void NPCMamonoShopRoot::leave_() {
