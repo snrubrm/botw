@@ -12,13 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     // dynamic2_param at offset 0x38
     bool* mHasToPlayRidingOnAS_d{};
-    u32 _40 = 0;
+    s32 _40 = 0;  // frames since enter_
 };
 KSYS_CHECK_SIZE_NX150(RideHorseAI, 0x48);
 
