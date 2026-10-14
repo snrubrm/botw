@@ -49,7 +49,8 @@ protected:
     ksys::Timer _74{0.0f, 0.0f, 0.0f};
     xlink2::HandleSLink _80;
     sead::Vector3f _90 = sead::Vector3f::zero;
-    u16 _9c = 0;
+    bool _9c = false;
+    bool _9d = false;
     bool _9e = false;
     u8 _9f[0x1];
 

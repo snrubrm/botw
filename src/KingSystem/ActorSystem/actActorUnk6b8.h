@@ -27,7 +27,10 @@ public:
     u16 _7a;
     u8 _7c[0x8b - 0x7c];
     u8 _8b;
-    u8 _8c[0xa8 - 0x8c];
+    u8 _8c[0x8f - 0x8c];
+    // IgnitedThrown::sub_71001B5C4C fades its "Thrown" sound while this is >= 1.
+    s8 _8f;
+    u8 _90[0xa8 - 0x90];
 };
 KSYS_CHECK_SIZE_NX150(ActorUnk6b8, 0xa8);
 

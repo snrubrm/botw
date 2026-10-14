@@ -8,6 +8,9 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/ActorSystem/actActorUnk6b8.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
@@ -96,7 +99,8 @@ void IgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
             _9e = true;
     }
     _90 = sead::Vector3f::zero;
-    _9c = 0x100;
+    _9c = false;
+    _9d = true;
 }
 
 void IgnitedThrown::leave_() {
@@ -138,6 +142,45 @@ void IgnitedThrown::calc_() {
             sub_7100738DC8(mActor);
     }
     sub_71001B5C4C();
+}
+
+// NON_MATCHING: the original keeps &_9d in a register (x23) across the property update.
+// Octarock balloons: drives the xlink velocity property and the "Thrown" sound (faded while _6b8->_8f >= 1,
+// emitted again afterwards). A velocity component that changed sign by at least 0.2 counts as a bounce.
+void IgnitedThrown::sub_71001B5C4C() {
+    if (!_9e)
+        return;
+    auto* actor = mActor;
+    if (!actor->mXLink)
+        return;
+    auto* user = actor->mXLink->_50;
+    if (!user)
+        return;
+
+    const auto& velocity = actor->mVelocity;
+    bool bounced = false;
+    for (int i = 0; i < 3; ++i) {
+        const f32 sign = velocity.e[i] >= 0.0f ? 1.0f : -1.0f;
+        const f32 prev_sign = _90.e[i] >= 0.0f ? 1.0f : -1.0f;
+        if (sign != prev_sign && sead::Mathf::abs(velocity.e[i] - _90.e[i]) >= 0.2f) {
+            bounced = true;
+            break;
+        }
+    }
+    if (!bounced || _9d)
+        user->setPropertyValue(3, velocity.y);
+
+    auto* unk = mActor->_6b8;
+    if (unk && unk->_8f >= 1) {
+        xlink::fade(_80, -1);
+        _9c = true;
+    } else {
+        if (_9c || _9d)
+            _80 = ksys::eft::searchAndEmitSLink(mActor, "Thrown", false);
+        _9c = false;
+    }
+    _90 = actor->mVelocity;
+    _9d = false;
 }
 
 bool IgnitedThrown::isFinished() const {
