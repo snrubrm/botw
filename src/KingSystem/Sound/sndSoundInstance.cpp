@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/XLink/xlinkXLink.h"

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSoundReverbAreaTagAction.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include <cstring>
 
@@ -11,7 +11,7 @@ ksys::util::InitConstants sInitConstants;
 ksys::util::InitTimeInfo sInitTimeInfo;
 }  // namespace
 
-SoundReverbAreaTagAction::SoundReverbAreaTagAction(const InitArg& arg) : AreaTagAction(arg) {}
+SoundReverbAreaTagAction::SoundReverbAreaTagAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 // NON_MATCHING: the root destructor remains out of line to preserve its own D1 definition.
 SoundReverbAreaTagAction::~SoundReverbAreaTagAction() {
@@ -27,7 +27,7 @@ bool SoundReverbAreaTagAction::init_(sead::Heap* heap) {
 }
 
 void SoundReverbAreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
     std::memset(_b0.getBufferPtr(), 0, _b0.getByteSize());
     sub_7101059880(0);
     if (auto* sound = ksys::snd::SoundMgr::instance()) {
@@ -69,7 +69,7 @@ void SoundReverbAreaTagAction::loadParams_() {
 }
 
 void SoundReverbAreaTagAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace uking::action

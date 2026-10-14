@@ -2,7 +2,7 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace uking::action {
 

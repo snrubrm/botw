@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actSoundProxy.h"
 

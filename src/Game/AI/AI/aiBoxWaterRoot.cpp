@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/StageInfo.h"
 
 namespace uking::ai {

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include "KingSystem/Utils/Types.h"
+#include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
@@ -23,6 +24,26 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Sound/sndMiiSound.h"
+
+namespace ksys::snd {
+
+class SoundResource {
+    SEAD_SINGLETON_DISPOSER(SoundResource)
+    SoundResource() = default;
+    virtual ~SoundResource();
+
+public:
+    void init(sead::Heap* heap, sead::Heap* debug_heap, bool extra_large);
+    sead::Heap* getSoundDebugHeap() const { return mSoundDebugHeap; }
+
+private:
+    sead::Heap* mSoundResourceHeap = nullptr;
+    sead::Heap* _30 = nullptr;  // TODO find out what this does
+    sead::Heap* mSoundDebugHeap = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(SoundResource, 0x40);
+
+}  // namespace ksys::snd
 
 namespace sead {
 class Thread;
@@ -580,7 +601,7 @@ struct Unk_SoundMgr60 {
     Unk_710251b710 mMiiSoundRequests;
 };
 
-// Placeholder name: the sound instances the AreaTagAction family (Shielding / Occlusion / Reverb) get from
+// Placeholder name: the sound instances the AreaActionBase family (Shielding / Occlusion / Reverb) get from
 // SoundMgr::_a8.
 struct Unk_SoundInstance {
     explicit Unk_SoundInstance(s32 id);
@@ -611,7 +632,7 @@ struct Unk_SoundInstance {
 };
 static_assert(sizeof(Unk_SoundInstance) == 0x498);
 
-// Placeholder name (SoundMgr::_a8): the manager of the sound instances the AreaTagAction family hold at +0xa0.
+// Placeholder name (SoundMgr::_a8): the manager of the sound instances the AreaActionBase family hold at +0xa0.
 class Unk_SoundMgra8 {
 public:
     Unk_SoundMgra8();

@@ -3,7 +3,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
 #include <nn/ui2d/ResExtUserData.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/SeadController.h"
 
 namespace uking::ui {

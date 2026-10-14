@@ -1,7 +1,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
 #include "Game/gameUnkRttiPlaceholders.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 

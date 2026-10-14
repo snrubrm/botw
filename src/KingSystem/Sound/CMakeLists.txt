@@ -21,13 +21,11 @@ target_sources(uking PRIVATE
   sndMusicInfo.cpp
   sndMusicInfo.h
   sndMiiSound.cpp
-  sndResource.cpp
+  sndSound.cpp
   sndResourceManager.cpp
-  sndResource.h
+  sndSound.h
   sndSoundCalcThread.cpp
   sndSoundCalcThread.h
-  sndMgr.cpp
-  sndMgr.h
   sndSoundMgr38.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp

@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <xlink2/xlink2UserInstanceSLink.h>

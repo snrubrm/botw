@@ -6,7 +6,7 @@
 
 namespace uking::action {
 
-OwnedHorseObserveAction::OwnedHorseObserveAction(const InitArg& arg) : AreaTagAction(arg) {}
+OwnedHorseObserveAction::OwnedHorseObserveAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
 // the original keeps the vtable store that a defaulted destructor drops.
@@ -22,7 +22,7 @@ bool OwnedHorseObserveAction::init_(sead::Heap* heap) {
 }
 
 void OwnedHorseObserveAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
     _59 = 0xff;
 }
 
@@ -49,7 +49,7 @@ void OwnedHorseObserveAction::calc_() {
         return;
 
     if (calc_tag)
-        AreaTagAction::calc_();
+        AreaActionBase::calc_();
     else
         ActorObserverBase::calc();
 

@@ -5,7 +5,7 @@
 
 namespace uking::action {
 
-AreaHorseSpeedLimitAction::AreaHorseSpeedLimitAction(const InitArg& arg) : AreaTagAction(arg) {}
+AreaHorseSpeedLimitAction::AreaHorseSpeedLimitAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 AreaHorseSpeedLimitAction::~AreaHorseSpeedLimitAction() {
     _38.freeBuffer();

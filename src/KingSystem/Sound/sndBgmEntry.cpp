@@ -5,7 +5,7 @@
 #include <container/seadPtrArray.h>
 #include <xlink2/xlink2EventSLink.h>
 #include <algorithm>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 // The sound object entries (0x7100ff6a18..0x7100ff6e2c). Both the Bgm code (0x7100ff62d0) and the BgmMgr code
 // (0x7100ff89a0) call these out of line, so they are in a TU of their own.

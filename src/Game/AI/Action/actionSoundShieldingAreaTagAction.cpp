@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionSoundShieldingAreaTagAction.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -10,7 +10,7 @@
 
 namespace uking::action {
 
-SoundShieldingAreaTagAction::SoundShieldingAreaTagAction(const InitArg& arg) : AreaTagAction(arg) {}
+SoundShieldingAreaTagAction::SoundShieldingAreaTagAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 SoundShieldingAreaTagAction::~SoundShieldingAreaTagAction() {
     ksys::snd::SoundMgr::instance()->_a8->sub_710104B554(_a0);
@@ -50,7 +50,7 @@ void SoundShieldingAreaTagAction::sub_7100FF3E48() {
 }
 
 void SoundShieldingAreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
     if (!_a0->sub_710104ACB4())
         _a0->_490 = true;
 }
@@ -65,7 +65,7 @@ void SoundShieldingAreaTagAction::loadParams_() {
 }
 
 void SoundShieldingAreaTagAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
     f32 value = 0.0f;
     if (_9c) {
         value = _98;

@@ -5,7 +5,7 @@
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "KingSystem/Utils/Types.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"

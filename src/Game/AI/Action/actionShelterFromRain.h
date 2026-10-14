@@ -1,13 +1,13 @@
 #pragma once
 
 #include <math/seadMatrix.h>
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ShelterFromRain : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(ShelterFromRain, AreaTagAction)
+class ShelterFromRain : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(ShelterFromRain, AreaActionBase)
 public:
     explicit ShelterFromRain(const InitArg& arg);
     ~ShelterFromRain() override;

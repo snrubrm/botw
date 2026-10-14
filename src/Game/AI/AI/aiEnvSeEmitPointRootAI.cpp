@@ -3,7 +3,7 @@
 #include "Game/Actor/actEnvSeEmitPoint.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace uking::ai {
 

@@ -6,7 +6,7 @@
 
 namespace uking::action {
 
-AreaActorObserve::AreaActorObserve(const InitArg& arg) : AreaTagAction(arg) {}
+AreaActorObserve::AreaActorObserve(const InitArg& arg) : AreaActionBase(arg) {}
 
 AreaActorObserve::~AreaActorObserve() {
     _50.freeBuffer();

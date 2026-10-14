@@ -1,7 +1,7 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMiiSound.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkUser.h"
 #include "Game/gameScene.h"

@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAnimator.h"

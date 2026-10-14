@@ -4,7 +4,7 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include <aal/aalSpeakerBalanceUnifier.h>
 #include <prim/seadScopedLock.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace ksys::snd {
 

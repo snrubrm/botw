@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SandwichDetectionAreaTag : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(SandwichDetectionAreaTag, AreaTagAction)
+class SandwichDetectionAreaTag : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(SandwichDetectionAreaTag, AreaActionBase)
 public:
     explicit SandwichDetectionAreaTag(const InitArg& arg);
     ~SandwichDetectionAreaTag() override;

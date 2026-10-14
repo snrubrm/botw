@@ -26,7 +26,7 @@
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/StateMachine.h"
 #include "Game/UI/uiScreenChildMessage.h"

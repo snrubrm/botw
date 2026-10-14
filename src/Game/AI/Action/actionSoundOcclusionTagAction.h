@@ -1,13 +1,13 @@
 #pragma once
 
 #include <container/seadBuffer.h>
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SoundOcclusionTagAction : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(SoundOcclusionTagAction, AreaTagAction)
+class SoundOcclusionTagAction : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(SoundOcclusionTagAction, AreaActionBase)
 public:
     explicit SoundOcclusionTagAction(const InitArg& arg);
     ~SoundOcclusionTagAction() override;

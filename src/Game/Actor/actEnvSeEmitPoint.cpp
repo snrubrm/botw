@@ -1,6 +1,6 @@
 #include "Game/Actor/actEnvSeEmitPoint.h"
 #include <basis/seadNew.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::act {

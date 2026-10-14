@@ -2,7 +2,7 @@
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndOcclusionMgr.h"
 #include "KingSystem/System/StageInfo.h"
 
@@ -13,7 +13,7 @@ ksys::util::InitConstants sInitConstants;
 ksys::util::InitTimeInfo sInitTimeInfo;
 }  // namespace
 
-SoundOcclusionTagAction::SoundOcclusionTagAction(const InitArg& arg) : AreaTagAction(arg) {}
+SoundOcclusionTagAction::SoundOcclusionTagAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 SoundOcclusionTagAction::~SoundOcclusionTagAction() {
     _38.freeBuffer();
@@ -43,11 +43,11 @@ bool SoundOcclusionTagAction::init_(sead::Heap* heap) {
 }
 
 void SoundOcclusionTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SoundOcclusionTagAction::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SoundOcclusionTagAction::loadParams_() {
@@ -77,7 +77,7 @@ bool SoundOcclusionTagAction::m15(const ksys::act::ActorLinkConstDataAccess& acc
 }
 
 void SoundOcclusionTagAction::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 }  // namespace uking::action

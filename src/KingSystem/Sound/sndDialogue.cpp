@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <xlink2/xlink2UserInstanceSLink.h>
 
 namespace ksys::snd {

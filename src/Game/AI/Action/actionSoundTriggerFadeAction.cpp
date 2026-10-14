@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionSoundTriggerFadeAction.h"
 #include <xlink2/xlink2HandleSLink.h>
 #include <xlink2/xlink2UserInstance.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Event/evtManager.h"

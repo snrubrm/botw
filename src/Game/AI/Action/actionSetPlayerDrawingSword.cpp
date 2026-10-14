@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionSetPlayerDrawingSword.h"
 
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndUnk_7102502138.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"

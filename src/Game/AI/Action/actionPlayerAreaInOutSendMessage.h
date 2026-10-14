@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Game/AI/Action/actionActorAreaInOutSendMessage.h"
+#include "Game/AI/Action/actionAreaInOutSendMessage.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class PlayerAreaInOutSendMessage : public ActorAreaInOutSendMessage {
-    SEAD_RTTI_OVERRIDE(PlayerAreaInOutSendMessage, ActorAreaInOutSendMessage)
+class PlayerAreaInOutSendMessage : public AreaInOutSendMessage {
+    SEAD_RTTI_OVERRIDE(PlayerAreaInOutSendMessage, AreaInOutSendMessage)
 public:
     explicit PlayerAreaInOutSendMessage(const InitArg& arg);
     ~PlayerAreaInOutSendMessage() override;

@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>

@@ -2,7 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Mii/miiUMii.h"
 #include "KingSystem/Resource/resLoadRequest.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 

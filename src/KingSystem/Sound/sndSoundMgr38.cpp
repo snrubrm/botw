@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/Actor/actEnvSeEmitPoint.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"

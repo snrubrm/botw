@@ -24,7 +24,7 @@ class ActionBase;
 // Observer of the actors that are inside the areas linked to the owner action's actor through
 // AreaCol map links (class names from the CSV; the classes have no RTTI). The functions live in
 // TU 0x7100e2814c-0x7100e29070 (ActorObserver's own functions are in the TU before it). Embedded
-// as the second base (at +0x20) of AreaTagAction (ActorObserver) and FireObserveBase
+// as the second base (at +0x20) of AreaActionBase (ActorObserver) and FireObserveBase
 // (Unk_71024e5408).
 //
 // The virtual functions are called for each body colliding with an area (CollisionInfo of the area

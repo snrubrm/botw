@@ -1,5 +1,5 @@
 #include "KingSystem/Sound/sndSoundCalcThread.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include <prim/seadNamable.h>
 #include "Game/gameUnkRttiPlaceholders.h"

@@ -3,7 +3,7 @@
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "Game/gameScene.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 // 0x7100f3ed50 (declared only; 48 B): placeholder name, global namespace.

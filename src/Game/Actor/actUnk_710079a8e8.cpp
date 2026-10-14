@@ -6,7 +6,7 @@
 #include <mc/seadCoreInfo.h>
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/Utils/MathUtil.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace uking::act {
 

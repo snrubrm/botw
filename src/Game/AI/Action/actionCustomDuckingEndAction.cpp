@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionCustomDuckingEndAction.h"
 
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {

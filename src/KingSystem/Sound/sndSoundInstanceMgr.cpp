@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"

@@ -7,8 +7,8 @@ target_sources(uking PRIVATE
   actionStopBase.h
   actionActivateAttackSensor.cpp
   actionActivateAttackSensor.h
-  actionActorAreaInOutSendMessage.cpp
-  actionActorAreaInOutSendMessage.h
+  actionAreaInOutSendMessage.cpp
+  actionAreaInOutSendMessage.h
   actionActorInfoToGameDataFloat.cpp
   actionActorInfoToGameDataFloat.h
   actionActorInfoToGameDataInt.cpp
@@ -177,8 +177,8 @@ target_sources(uking PRIVATE
   actionAreaRecreateActorAction.h
   actionAreaRoot.cpp
   actionAreaRoot.h
-  actionAreaTagAction.cpp
-  actionAreaTagAction.h
+  actionAreaActionBase.cpp
+  actionAreaActionBase.h
   actionArmorBindAction.cpp
   actionArmorBindAction.h
   actionArmorBindNodeAction.cpp

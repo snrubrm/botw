@@ -3,7 +3,7 @@
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "Game/Actor/actBeamBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 Unk_71006f3044::Unk_71006f3044(ksys::act::Actor* actor)
     : mActor(actor), _88(actor, 0x8000038), _a0(actor, 0x8000039) {}

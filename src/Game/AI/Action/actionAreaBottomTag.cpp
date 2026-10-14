@@ -7,7 +7,7 @@
 
 namespace uking::action {
 
-AreaBottomTag::AreaBottomTag(const InitArg& arg) : AreaTagAction(arg) {}
+AreaBottomTag::AreaBottomTag(const InitArg& arg) : AreaActionBase(arg) {}
 
 AreaBottomTag::~AreaBottomTag() {
     _38.freeBuffer();
@@ -28,17 +28,17 @@ bool AreaBottomTag::init_(sead::Heap* heap) {
 }
 
 void AreaBottomTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void AreaBottomTag::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void AreaBottomTag::loadParams_() {}
 
 void AreaBottomTag::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 bool AreaBottomTag::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {

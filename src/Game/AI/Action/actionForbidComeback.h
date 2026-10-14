@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ForbidComeback : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(ForbidComeback, AreaTagAction)
+class ForbidComeback : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(ForbidComeback, AreaActionBase)
 public:
     explicit ForbidComeback(const InitArg& arg);
     ~ForbidComeback() override;

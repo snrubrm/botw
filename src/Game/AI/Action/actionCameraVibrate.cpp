@@ -6,7 +6,7 @@
 #include "Game/Actor/actSoundProxy.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/Vibration.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/InitTimeInfo.h"

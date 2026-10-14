@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/Sound/sndReverbMgr.h"
 #include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class SoundReverbAreaTagAction : public AreaTagAction, public ksys::snd::Unk_7101059828 {
-    SEAD_RTTI_OVERRIDE(SoundReverbAreaTagAction, AreaTagAction)
+class SoundReverbAreaTagAction : public AreaActionBase, public ksys::snd::Unk_7101059828 {
+    SEAD_RTTI_OVERRIDE(SoundReverbAreaTagAction, AreaActionBase)
 public:
     explicit SoundReverbAreaTagAction(const InitArg& arg);
     ~SoundReverbAreaTagAction() override;

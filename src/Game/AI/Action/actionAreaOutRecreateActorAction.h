@@ -1,13 +1,13 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class AreaOutRecreateActorAction : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(AreaOutRecreateActorAction, AreaTagAction)
+class AreaOutRecreateActorAction : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(AreaOutRecreateActorAction, AreaActionBase)
 public:
     explicit AreaOutRecreateActorAction(const InitArg& arg);
     ~AreaOutRecreateActorAction() override;

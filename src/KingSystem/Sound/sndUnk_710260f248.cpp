@@ -4,7 +4,7 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2SystemSLink.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace ksys::snd {
 

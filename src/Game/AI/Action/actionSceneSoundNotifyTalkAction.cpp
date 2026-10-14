@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionSceneSoundNotifyTalkAction.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace uking::action {
 

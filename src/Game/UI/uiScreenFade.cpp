@@ -9,7 +9,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUI.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/UIGlue.h"
 
 namespace uking::ui {

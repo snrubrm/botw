@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionAscendingCurrentShieldable.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {

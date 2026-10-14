@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>

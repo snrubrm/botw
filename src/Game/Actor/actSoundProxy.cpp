@@ -1,6 +1,6 @@
 #include "Game/Actor/actSoundProxy.h"
 #include <basis/seadNew.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <prim/seadScopedLock.h>
 #include <aal/aalHandle.h>
 #include <aal/aalSoundSource.h>

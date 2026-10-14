@@ -1,23 +1,23 @@
-#include "Game/AI/Action/actionActorAreaInOutSendMessage.h"
+#include "Game/AI/Action/actionAreaInOutSendMessage.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::action {
 
-ActorAreaInOutSendMessage::ActorAreaInOutSendMessage(const InitArg& arg) : AreaTagAction(arg) {}
+AreaInOutSendMessage::AreaInOutSendMessage(const InitArg& arg) : AreaActionBase(arg) {}
 
-ActorAreaInOutSendMessage::~ActorAreaInOutSendMessage() {
+AreaInOutSendMessage::~AreaInOutSendMessage() {
     _40[0].freeBuffer();
     _40[1].freeBuffer();
 }
 
-bool ActorAreaInOutSendMessage::init_(sead::Heap* heap) {
+bool AreaInOutSendMessage::init_(sead::Heap* heap) {
     _40[0].tryAllocBuffer(*mBufferNum_s, heap);
     _40[1].tryAllocBuffer(*mBufferNum_s, heap);
     return true;
 }
 
-void ActorAreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+void AreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
+    AreaActionBase::enter_(params);
     _64 = 0;
     for (auto it = _40[0].begin(); it != _40[0].end(); ++it)
         it->reset();
@@ -25,7 +25,7 @@ void ActorAreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
         it->reset();
 }
 
-void ActorAreaInOutSendMessage::leave_() {
+void AreaInOutSendMessage::leave_() {
     auto& buffer = _40[_64];
     for (auto it = buffer.begin(); it != buffer.end(); ++it) {
         ksys::act::ActorLinkConstDataAccess accessor;
@@ -34,15 +34,15 @@ void ActorAreaInOutSendMessage::leave_() {
     }
 }
 
-void ActorAreaInOutSendMessage::loadParams_() {
+void AreaInOutSendMessage::loadParams_() {
     getStaticParam(&mBufferNum_s, "BufferNum");
 }
 
-void ActorAreaInOutSendMessage::calc_() {
-    AreaTagAction::calc_();
+void AreaInOutSendMessage::calc_() {
+    AreaActionBase::calc_();
 }
 
-void ActorAreaInOutSendMessage::m2() {
+void AreaInOutSendMessage::m2() {
     s32 next = _64 + 1;
     if (u32(next) > 1)
         next = 0;
@@ -52,7 +52,7 @@ void ActorAreaInOutSendMessage::m2() {
         it->reset();
 }
 
-bool ActorAreaInOutSendMessage::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
+bool AreaInOutSendMessage::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
     if (m34(accessor))
         return false;
 
@@ -71,7 +71,7 @@ bool ActorAreaInOutSendMessage::m15(const ksys::act::ActorLinkConstDataAccess& a
 }
 
 // NON_MATCHING: regalloc and address computation order of the two buffers
-void ActorAreaInOutSendMessage::m5() {
+void AreaInOutSendMessage::m5() {
     const s32 prev_idx = _64 < 1 ? 1 : _64 - 1;
     auto& cur = _40[_64];
     auto& prev = _40[prev_idx];

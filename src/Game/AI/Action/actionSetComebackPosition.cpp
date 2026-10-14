@@ -4,20 +4,20 @@
 
 namespace uking::action {
 
-SetComebackPosition::SetComebackPosition(const InitArg& arg) : AreaTagAction(arg) {}
+SetComebackPosition::SetComebackPosition(const InitArg& arg) : AreaActionBase(arg) {}
 
 SetComebackPosition::~SetComebackPosition() = default;
 
 bool SetComebackPosition::init_(sead::Heap* heap) {
-    return AreaTagAction::init_(heap);
+    return AreaActionBase::init_(heap);
 }
 
 void SetComebackPosition::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SetComebackPosition::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SetComebackPosition::loadParams_() {
@@ -25,7 +25,7 @@ void SetComebackPosition::loadParams_() {
 }
 
 void SetComebackPosition::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 bool SetComebackPosition::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {

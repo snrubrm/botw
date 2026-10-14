@@ -1,7 +1,7 @@
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace uking::ui {
 

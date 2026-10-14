@@ -1,6 +1,6 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActor.h"

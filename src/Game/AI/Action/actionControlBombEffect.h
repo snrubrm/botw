@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class ControlBombEffect : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(ControlBombEffect, AreaTagAction)
+class ControlBombEffect : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(ControlBombEffect, AreaActionBase)
 public:
     explicit ControlBombEffect(const InitArg& arg);
     ~ControlBombEffect() override;

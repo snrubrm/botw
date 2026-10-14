@@ -1,5 +1,5 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 

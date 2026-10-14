@@ -1,6 +1,6 @@
 #include "KingSystem/System/VFR.h"
 #include <mc/seadCoreInfo.h>
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace ksys {
 

@@ -2,7 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
-#include "Game/AI/Action/actionAreaTagAction.h"
+#include "Game/AI/Action/actionAreaActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -10,11 +10,11 @@ namespace uking::action {
 
 // Keeps the actors in the area in two buffers (current / previous frame, _64 selects the current one)
 // and calls m32 for actors that entered and m33 for actors that left.
-class ActorAreaInOutSendMessage : public AreaTagAction {
-    SEAD_RTTI_OVERRIDE(ActorAreaInOutSendMessage, AreaTagAction)
+class AreaInOutSendMessage : public AreaActionBase {
+    SEAD_RTTI_OVERRIDE(AreaInOutSendMessage, AreaActionBase)
 public:
-    explicit ActorAreaInOutSendMessage(const InitArg& arg);
-    ~ActorAreaInOutSendMessage() override;
+    explicit AreaInOutSendMessage(const InitArg& arg);
+    ~AreaInOutSendMessage() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -42,6 +42,6 @@ protected:
     u8 _60 = 0;
     s32 _64 = 0;
 };
-KSYS_CHECK_SIZE_NX150(ActorAreaInOutSendMessage, 0x68);
+KSYS_CHECK_SIZE_NX150(AreaInOutSendMessage, 0x68);
 
 }  // namespace uking::action

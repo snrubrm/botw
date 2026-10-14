@@ -30,7 +30,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEventFlow.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace dlc {

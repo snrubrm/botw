@@ -1,4 +1,4 @@
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <devenv/seadEnvUtil.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/InitTimeInfo.h"

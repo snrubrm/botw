@@ -3,7 +3,7 @@
 
 namespace uking::action {
 
-AreaRecreateActorAction::AreaRecreateActorAction(const InitArg& arg) : AreaTagAction(arg) {}
+AreaRecreateActorAction::AreaRecreateActorAction(const InitArg& arg) : AreaActionBase(arg) {}
 
 AreaRecreateActorAction::~AreaRecreateActorAction() {
     _38.freeBuffer();

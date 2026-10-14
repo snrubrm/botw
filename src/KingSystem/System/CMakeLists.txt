@@ -60,6 +60,7 @@ target_sources(uking PRIVATE
     Patrol.h
     PlayerTrackReporter.cpp
     PlayerTrackReporter.h
+    PlayReport.cpp
     PlayReportMgr.cpp
     PlayReportMgr.h
     PosTrackerUploader.cpp

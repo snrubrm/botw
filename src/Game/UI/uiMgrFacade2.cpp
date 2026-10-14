@@ -20,7 +20,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameHorseColorInfoMgr.h"
 #include "Game/gameRoot38.h"
-#include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"

@@ -11,7 +11,7 @@ public:
     explicit AreaFireObserve(const InitArg& arg);
 
 protected:
-    // Overrides of the Unk_71024e5408 observer virtuals. Like the other AreaTagAction-family
+    // Overrides of the Unk_71024e5408 observer virtuals. Like the other AreaActionBase-family
     // classes (e.g. SandwichDetectionAreaTag), the implementations also occupy primary slots 32-34
     // in declaration order; the secondary slots hold the adjusted copies (the _ZThn32_ thunks,
     // which llvm folds into full copies for these small bodies).

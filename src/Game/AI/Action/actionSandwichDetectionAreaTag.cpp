@@ -7,7 +7,7 @@
 
 namespace uking::action {
 
-SandwichDetectionAreaTag::SandwichDetectionAreaTag(const InitArg& arg) : AreaTagAction(arg) {
+SandwichDetectionAreaTag::SandwichDetectionAreaTag(const InitArg& arg) : AreaActionBase(arg) {
     std::memset(_48, 0xff, sizeof(_48));
     _148 = false;
     _149 = false;
@@ -30,17 +30,17 @@ bool SandwichDetectionAreaTag::init_(sead::Heap* heap) {
 }
 
 void SandwichDetectionAreaTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    AreaTagAction::enter_(params);
+    AreaActionBase::enter_(params);
 }
 
 void SandwichDetectionAreaTag::leave_() {
-    AreaTagAction::leave_();
+    AreaActionBase::leave_();
 }
 
 void SandwichDetectionAreaTag::loadParams_() {}
 
 void SandwichDetectionAreaTag::calc_() {
-    AreaTagAction::calc_();
+    AreaActionBase::calc_();
 }
 
 bool SandwichDetectionAreaTag::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
