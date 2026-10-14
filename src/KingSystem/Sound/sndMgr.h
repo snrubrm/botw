@@ -58,6 +58,8 @@ class SoundProxy;
 }
 
 namespace ksys::snd {
+
+class Unk_7102502950;
 class FxMgr;
 
 f32 sub_710105E3A4();
@@ -568,6 +570,9 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 // Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
 // (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.
 struct Unk_SoundMgr60 {
+    // 0x7101058734 (declared only; 248 B): loads the asset info of `name` into `reader`.
+    void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
+
     u8 _0[0x20];
     OverlayArena* mArena;
     u8 mSlinkResources[8];

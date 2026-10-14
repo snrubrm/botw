@@ -136,6 +136,9 @@ public:
     Unk_710260f248Entry* sub_7101020A88(const xlink2::Locator& locator);
     // 0x7101020b40 (declared only; needs the user header of xlink2::ResourceAccessor): emits the first call table.
     Unk_710260f248Entry* sub_7101020B40();
+    // 0x7101020988: for type 2, loads the asset info of the name (Unk_71025ce380's m4 slot 0x7100ff6544 forwards
+    // its second argument here, so Bgm::m4 probably takes the heap).
+    void sub_7101020988(sead::Heap* heap);
     // 0x7101020bb0: restarts the fader at 0 and moves it to 1 in `fade_sec` (nothing for 0).
     void sub_7101020BB0(f32 fade_sec);
     // 0x7101020cec (declared only): whether the object has finished (type 3, or its asset reader is done).

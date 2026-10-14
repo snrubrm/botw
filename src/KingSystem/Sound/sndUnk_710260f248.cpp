@@ -86,6 +86,14 @@ Unk_710260f248Entry* Unk_710260f248::sub_7101020A88(const xlink2::Locator& locat
     return entry;
 }
 
+void Unk_710260f248::sub_7101020988(sead::Heap* heap) {
+    if (mType != Unk_710260f248Type::_2)
+        return;
+    SoundMgr::instance()->_60->sub_7101058734(mName, &_68, heap, false);
+    if ((_68._18 & 1) && mUserInstance)
+        mUserInstance->setAssetInfoReader(&_68);
+}
+
 void Unk_710260f248::sub_7101020BB0(f32 fade_sec) {
     if (fade_sec == 0.0f)
         return;
