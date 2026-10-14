@@ -448,6 +448,9 @@ bool sub_7100A9A0A4(int value);
 bool sub_7100A9A160();
 void sub_7100A9A21C(const sead::Vector3f* world_pos, int scale_level);
 bool sub_7100A9BAEC(int state);
+// 0x7100a9d0d4: forwards a terminal description (WarpActivateTerminal::TerminalInfo) to the UI singleton
+// 0x71025d6550 (sub_71009489C0).
+void sub_7100A9D0D4(const void* a0);
 bool sub_7100A9D0F4();
 bool sub_7100A9D118();
 bool sub_7100A9D140();

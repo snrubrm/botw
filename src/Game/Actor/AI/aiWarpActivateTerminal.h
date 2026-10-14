@@ -13,11 +13,22 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
     bool sub_71005EABF4();
+
+    // Passed to the UI by calc_ (uking::ui::sub_7100A9D0D4) every frame. Placeholder name.
+    struct TerminalInfo {
+        s32 type;  // RemainsTerminalType
+        u32 _4;
+        sead::Vector3f home_mtx_pos;
+        sead::Vector3f home_pos;
+        bool is_used;
+        ksys::act::Actor* actor;
+    };
 
 protected:
     // static_param at offset 0x38

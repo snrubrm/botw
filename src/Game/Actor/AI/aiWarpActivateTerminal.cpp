@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,81 @@ void WarpActivateTerminal::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("待機");
     }
     _a8 = false;
+}
+
+// NON_MATCHING: the original copies the home position into the info as 8 + 4 bytes (a memcpy-style copy) and
+// schedules the stores differently
+void WarpActivateTerminal::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+
+    {
+        TerminalInfo info;
+        const sead::Vector3f home_mtx_pos = actor->getHomeMtxRaw().getTranslation();
+        sead::Vector3f home_pos;
+        actor->getHomePos(&home_pos);
+        info.type = *mRemainsTerminalType_m;
+        info.home_pos = home_pos;
+        info.home_mtx_pos = home_mtx_pos;
+        info.is_used = actor->isWaitRevivalForUsed();
+        info.actor = actor;
+        ui::sub_7100A9D0D4(&info);
+    }
+
+    if (!child->isChangeable() && !child->isFinished() && !child->isFailed())
+        return;
+
+    if (isCurrentChild("待機")) {
+        bool out_of_range = false;
+        if (*mIsCheckLimit_s) {
+            const sead::Vector3f up = sead::Vector3f::ey;
+            sead::Matrix34f home;
+            mActor->getHomeMtx(&home);
+            const f32 angle =
+                std::acos(up.x * home(0, 1) + up.y * home(1, 1) + up.z * home(2, 1));
+            out_of_range = angle >= *mDoLimitAngle_s;
+        }
+        if (out_of_range)
+            ksys::act::disableAllAttClients(actor);
+        else
+            ksys::act::enableAllAttClients(actor);
+
+        if (_68._30 || _a8) {
+            _a8 = false;
+            ksys::act::disableAllAttClients(mActor);
+            _68.x();
+            changeChild("起動");
+            return;
+        }
+    }
+
+    if (isCurrentChild("起動")) {
+        const bool can_reboot = *mIsAbleToReboot_s;
+        const bool used = actor->isWaitRevivalForUsed();
+        if (can_reboot) {
+            if (!used) {
+                ksys::act::enableAllAttClients(mActor);
+                _68.x();
+                changeChild("再起動準備");
+                return;
+            }
+            ksys::act::disableAllAttClients(mActor);
+            _68.x();
+            changeChild("起動後待機");
+            return;
+        }
+        if (used) {
+            ksys::act::disableAllAttClients(mActor);
+            _68.x();
+            changeChild("起動後待機");
+            return;
+        }
+    }
+
+    if (isCurrentChild("再起動準備")) {
+        _68.x();
+        changeChild("待機");
+    }
 }
 
 void WarpActivateTerminal::leave_() {
