@@ -106,6 +106,38 @@ bool WolfLinkMgr::sub_7100683410() {
     return sub_7100682CE8(&pos, {});
 }
 
+bool WolfLinkMgr::sub_7100683214(ksys::act::Actor* actor) {
+    if (_60 != 2)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!_28.hasProc() || !ksys::act::acquireActor(&_28, &accessor))
+        return false;
+    actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0), actor, true);
+    return true;
+}
+
+void WolfLinkMgr::sub_71006832C0() {
+    if (_60 != 5 && _60 != 2)
+        return;
+    if (_80) {
+        auto* gdm = ksys::gdt::Manager::instance();
+        const sead::Vector3f pos = _80->getMtx().getTranslation();
+        const s32* life_ptr = _80->getLife();
+        const s32 life = life_ptr ? *life_ptr : 1;
+        if (gdm->setS32(life, mCurrentLifeHandle) && gdm->setVec3f(pos, mCurrentPosHandle))
+            gdm->setBool(life < 1, mDiedTodayHandle);
+    }
+    if (const s32* life = _80->getLife()) {
+        const s32 value = *life;
+        sub_7100682F80(_80, false);
+        if (value < 1)
+            return;
+    } else {
+        sub_7100682F80(_80, false);
+    }
+    _60 = 6;
+}
+
 void WolfLinkMgr::sub_71006833C8() {
     if (_60 != 6)
         return;

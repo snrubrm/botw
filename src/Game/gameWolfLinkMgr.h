@@ -48,6 +48,12 @@ public:
     // 0x7100683410 / 0x7100683790 / 0x710068386c (312 / 220 / 260 B, declared only; placeholder names): the
     // postCalc handlers of the states 7 (and 6), 1 and 2. sub_7100683410 respawns the Wolf Link at the saved position.
     bool sub_7100683410();
+    // 0x7100683214 (placeholder name): in state 2, sends message 0 from `actor` (with itself as user data) to the
+    // Wolf Link; false when there is none.
+    bool sub_7100683214(ksys::act::Actor* actor);
+    // 0x71006832c0 (CSV WolfLinkMgr::__auto0; placeholder name): in state 2 or 5, saves the Wolf Link state and
+    // releases it (state 6 unless its life ran out).
+    void sub_71006832C0();
     // 0x71006833c8 (CSV WolfLinkMgr::__auto1; placeholder name): in state 6, moves to state 7 while an event is
     // active, else runs sub_7100683410.
     void sub_71006833C8();
