@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Event/evtEventResource.h"
 
 namespace ksys::act {
@@ -293,6 +296,53 @@ bool ActorPreLoadTask::run() {
         return true;
     }
     mRunAgain = true;
+    return true;
+}
+
+bool ActorPreLoadTask::sub_7100D59D18() {
+    if (mActorParam->_a) {
+        if (mActorParam) {
+            BaseProcMgr::instance()->requestUnloadActorParam(mActorParam);
+            mActorParam = nullptr;
+        }
+        mState = 7;
+        return false;
+    }
+
+    res::ModelList::ModelDataInfo info;
+    mActorParam->getRes().mModelList->getModelDataInfo(&info);
+    if (info.num_model_data == 0) {
+        mPackHandle.requestUnload();
+        mPackRequested = false;
+        if (mActorParam && mActorParam->_a) {
+            BaseProcMgr::instance()->requestUnloadActorParam(mActorParam);
+            mActorParam = nullptr;
+        }
+        mState = 7;
+        return false;
+    }
+
+    mParsedResources = 0;
+    mState = 6;
+    res::LoadRequest req;
+    req.mLaneId = 1;
+    req.mRequester = mName.cstr();
+    req._8 = true;
+    sead::FixedSafeString<64> path;
+    path.format("Model/%s.bfres", info.folder_name[0]);
+    mResources[mNumResources].requestLoad(path, &req);
+    ++mNumResources;
+
+    const auto& add_reses = mActorParam->getRes().mASList->getAddReses();
+    const s32 num_add_reses = add_reses.size();
+    for (s32 i = 0; i < num_add_reses; ++i) {
+        const char* model = add_reses[i].anim.ref().cstr();
+        if (sead::SafeString(model).isEmpty())
+            continue;
+        path.format("Model/%s.bfres", model);
+        mResources[mNumResources].requestLoad(path, &req);
+        ++mNumResources;
+    }
     return true;
 }
 
