@@ -364,6 +364,8 @@ public:
     f32 sub_71008902A8();
     // 0x7100885818 (lane4 s45, unnamed in the CSV): the constant 1.0.
     f32 sub_7100885818();
+    // 0x710088755c (declared only; placeholder name; called by PlayerGrabReady::enter_).
+    void sub_710088755C();
     // 0x7100887b68 (lane4 s45, unnamed in the CSV): starts the animation sequence "GrabWait".
     void sub_7100887B68();
     // 0x710086cab8 / 0x71008697c0 (lane4 s45, unnamed in the CSV): !x_44() / |_20bc| < 0.01.
