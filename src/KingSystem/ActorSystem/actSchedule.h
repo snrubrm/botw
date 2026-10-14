@@ -38,6 +38,10 @@ public:
     void reset();
     // 0x7100D192C0: ActLink passes the actor's schedule, a nullable iterator, name and bool.
     void sub_7100D192C0(const al::ByamlIter* iter, const char* name, bool value);
+    // 0x7100d1aad8 (352 B, declaration only; placeholder name): called after the timelines are (re)set.
+    void sub_7100D1AAD8();
+    // 0x7100d1c27c (1052 B, declaration only; placeholder name): checks the "Near" trigger parameters.
+    bool sub_7100D1C27C(const al::ByamlIter* params, bool active);
     // 0x7100d1c698 (declaration only, 356 bytes; placeholder name): read by act::x_6.
     bool sub_7100D1C698();
 
@@ -59,7 +63,7 @@ public:
     /* 0x120 */ bool _120 = false;  // NPCTimeline::calc_: the timeline name (_68) changed; cleared after handling
     /* 0x121 */ u8 _121 = 0;
     /* 0x122 */ bool _122 = false;
-    /* 0x123 */ u8 _123 = 0;
+    /* 0x123 */ bool _123 = false;  // the "Near" trigger fired (sub_7100D192C0)
     /* 0x124 */ sead::Atomic<bool> _124{sead::AtomicDirectInitTag{}, false};  // near trigger enabled (ChangeEnableNearTrigger behavior)
     /* 0x125 */ u8 _125 = 0;
     /* 0x126 */ u8 _126 = 0;
