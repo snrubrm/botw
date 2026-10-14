@@ -3,6 +3,8 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "gsys/gsysModel.h"
@@ -60,7 +62,28 @@ void MotorcycleRiddenByPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MotorcycleRiddenByPlayer::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->getPhysics()->findX(*sub_71007A24BC(), "Atk"))
+        body->removeFromWorld();
+    _184 = false;
+    if (auto* unit = mActor->get548())
+        unit->sub_7100D78444(&_c0);
+    if (auto* motorcycle = sead::DynamicCast<act::Motorcycle>(mActor)) {
+        motorcycle->setAccelMaybe(0.0f);
+        motorcycle->_e40 = 0.0f;
+        motorcycle->setLeftStickX(0.0f);
+        motorcycle->setLeftStickY(0.0f);
+        motorcycle->_f88.reset(0x205006);
+        motorcycle->_f88.set(0x5006);
+    }
+    if (auto* priority = mActor->getMotorcyclePriorityStuffMaybe())
+        priority->sub_7100E8BD80();
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBACE0(ksys::phys::ContactLayer::SensorAttackPlayer);
+    int i = 0;
+    while (auto* nav = mActor->getPhysics()->sub_7100FC00EC(i)) {
+        nav->sub_7100F7FB0C(true);
+        ++i;
+    }
 }
 
 void MotorcycleRiddenByPlayer::loadParams_() {
