@@ -2,6 +2,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physShapeCastWithInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
@@ -92,6 +94,36 @@ void IceMakerBlock::sub_7100446FD8(const sead::Vector3f& scale) {
         water->setTranslate(translate);
         water->setExtents(extents);
     }
+}
+
+bool IceMakerBlock::sub_710044717C(ksys::phys::RigidBody* body, const sead::Vector3f& start,
+                                   const sead::Vector3f& end, const sead::Matrix34f& rot) {
+    ksys::phys::ShapeCastWithInfo cast{body, 0x80, ksys::phys::ShapeCast::Mode::_0,
+                                       sead::SafeString::cEmptyString, ksys::phys::LowPriority::No};
+    cast.setRotation(rot);
+    cast.setStartAndEnd(start, end);
+    auto* info = cast.getContactPointInfo();
+    if (!info)
+        return false;
+
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGround);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityTree);
+    // called through a pointer in the original (not devirtualised)
+    if (!(&cast)->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes))
+        return false;
+
+    auto it = info->begin();
+    if (it != info->end()) {
+        sead::Vector3f pos;
+        it.getPointPosition(&pos, ksys::phys::ContactPointInfo::Iterator::Point::BodyB);
+        auto* hit_body = it.getPoint()->body_b;
+        if (hit_body && (hit_body->getMotionType() != ksys::phys::MotionType::Dynamic ||
+                         hit_body->hasFlag(ksys::phys::RigidBody::Flag::Fixed)))
+            return true;
+    }
+    return false;
 }
 
 // NON_MATCHING: register allocation / join of the "no point other than Fall" exit; `goto next` out of the inner loop

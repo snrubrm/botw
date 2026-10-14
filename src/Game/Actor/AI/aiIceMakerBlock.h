@@ -54,6 +54,10 @@ public:
     bool sub_71004483E8();
     // 0x7100446fd8 (placeholder name): resizes the main body and the "Water" body (both boxes) from `_138` scaled by `scale`.
     void sub_7100446FD8(const sead::Vector3f& scale);
+    // 0x710044717c (placeholder name; does not use `this`): casts `body` from `start` to `end` with rotation `rot`
+    // against the ground / tree layers; true if the first contact's other body is not dynamic or is fixed.
+    bool sub_710044717C(ksys::phys::RigidBody* body, const sead::Vector3f& start, const sead::Vector3f& end,
+                        const sead::Matrix34f& rot);
 
 protected:
     Unk_71023fd228 _38;
