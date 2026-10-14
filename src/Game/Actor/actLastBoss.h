@@ -104,6 +104,9 @@ void sub_71002C64A0(sead::Vector3f* out, ksys::act::Actor* actor);
 // 0x71002c62ec (placeholder name; declared only, lane1 s79): the wall direction of `actor` relative to its home position
 // (GanonApproachOnWallRoot::calc_ passes 10 and pre-fills `out` with the actor's position).
 void sub_71002C62EC(sead::Vector3f* out, ksys::act::Actor* actor, f32 a3);
+// 0x71002c5e00 (placeholder name; declared only, lane1 s79): whether `life` is at most `ratio` of the actor's maximum
+// life reduced by 1000 per cleared Divine Beast (like sub_71002C52DC with an explicit life value).
+bool sub_71002C5E00(ksys::act::Actor* actor, s32 life, f32 ratio);
 // 0x71002c682c (placeholder name): ActorLinkConstDataAccess::sub_7100D153A4(value) on every part actor (Enemy::_1128) of
 // `actor` that is in its calc state.
 void sub_71002C682C(ksys::act::Actor* actor, f32 value);
