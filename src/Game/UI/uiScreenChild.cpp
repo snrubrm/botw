@@ -6,6 +6,13 @@
 // forwarding to another slot of the same object.
 namespace uking::ui {
 
+// 0x71010a8cec
+ScreenChild::ScreenChild(eui::LayoutEx* layout) : mTransceiver(this, sUnk_710261ee00) {
+    mName = layout->mPane->GetName();
+    mLayout = layout;
+    _100 = 0;
+}
+
 // NON_MATCHING: the state tests become one bit-mask test here; the original tests 0 separately and the odd / even
 // ranges with sub + cmp + tbnz.
 // 0x71010a8e30
@@ -386,7 +393,5 @@ void ScreenChildEx::m103(void* a1, void* a2) { m93(a1, a2); }
 void ScreenChildEx::m104(void* a1, void* a2) { m94(a1, a2); }
 
 
-
-template class Unk_71025098d0<ScreenChild>;
 
 }  // namespace uking::ui

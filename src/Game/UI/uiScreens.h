@@ -197,12 +197,12 @@ public:
     /* 0x38 */ Unk_7102474a28<ScreenChild> mTransceiver;  // the state machine is at 0x80, the receiver at 0xa8, its adapter at 0xc8
     ksys::StateMachine& getStateMachine() { return mTransceiver.mReceiver.mMachine; }
 
-    /* 0x100 */ u8 _100;  // lifecycle event flags, cleared by the update method
-    /* 0x104 */ s32 _104;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
-    /* 0x108 */ u16 _108;
-    /* 0x110 */ eui::Animator* _110;
-    /* 0x118 */ eui::Animator* _118;
-    /* 0x120 */ Screen* _120;
+    /* 0x100 */ u8 _100 = 0;  // lifecycle event flags, cleared by the update method
+    /* 0x104 */ s32 _104 = 0;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
+    /* 0x108 */ u16 _108 = 1;
+    /* 0x110 */ eui::Animator* _110 = nullptr;
+    /* 0x118 */ eui::Animator* _118 = nullptr;
+    /* 0x120 */ Screen* _120 = nullptr;
 };
 static_assert(sizeof(ScreenChild) == 0x128);
 
