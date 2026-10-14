@@ -326,8 +326,14 @@ class Unk_710260f278 : public Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_710260f278, Unk_71025ce380)
 public:
     explicit Unk_710260f278(const BgmInitArg& arg);
+    ~Unk_710260f278() override;
 
-    // Overrides of Unk_71024fc7f8's slots 14 / 15 (primary slots 15 / 16); declared only.
+    // 0x7101012a14 (declared only; 376 B)
+    void m5() override;
+    void m13(f32 fade_sec) override;
+    void m14(sead::TextWriter& writer) override {}
+    // Overrides of Unk_71024fc7f8's slots 14 / 15 (primary slots 15 / 16): 0x7101012bbc / 0x7101012cd8, declared
+    // only.
     void hm14() override;
     void hm15() override;
 

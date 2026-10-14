@@ -80,6 +80,15 @@ Unk_710260f278::Unk_710260f278(const BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(heap, "HorseBgm", nullptr);
 }
 
+Unk_710260f278::~Unk_710260f278() = default;
+
+void Unk_710260f278::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    _198 = 0;
+    _1a8 = 0;
+    _1b0 = 0;
+}
+
 namespace {
 sead::SafeString sStr_MazeForestBgm = "MazeForestBgm";
 sead::SafeString sStr_MazeForestBgmMain = "main";
