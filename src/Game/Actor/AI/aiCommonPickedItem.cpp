@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Resource/Actor/resResourceDrop.h"
 
 // Declaration only; the original global source namespace is unknown.
 bool sub_710072B8E8(ksys::act::Actor* actor);
@@ -16,8 +19,52 @@ CommonPickedItem::~CommonPickedItem() {
     _d0.freeBuffer();
 }
 
+// NON_MATCHING: block layout (return paths) and register allocation.
 bool CommonPickedItem::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = mActor;
+    // Tag hash 0xf21f135 (name not identified).
+    if (!ksys::act::hasTag(actor, 0xf21f135)) {
+        _c8 = 1;
+        _e0 = 1;
+        return true;
+    }
+
+    if (!mDropActor_m.isEmpty()) {
+        _c8 = 1;
+        _e0 = 1;
+        _d0.tryAllocBuffer(1, heap);
+        if (!_d0.getBufferPtr())
+            return false;
+        _d0[0].copy(mDropActor_m);
+    } else {
+        auto* drop = actor->getParam()->getRes().mDropTable;
+        if (!drop)
+            return false;
+        const s32 table_idx = drop->findTableIndex(mDropTable_m);
+        if (table_idx < 0)
+            return false;
+        const s32 num = drop->getRepeatNum(table_idx);
+        _c8 = num;
+        _e0 = num;
+        if (num < 1)
+            return false;
+        _d0.tryAllocBuffer(num, heap);
+        if (!_d0.getBufferPtr())
+            return false;
+        for (s32 i = 0; i < _e0; ++i)
+            _d0[i].copy(drop->getRandomDropFromTable(table_idx));
+    }
+
+    if (_d0.getBufferPtr())
+        return true;
+
+    _c8 = 1;
+    _e0 = 1;
+    _d0.tryAllocBuffer(1, heap);
+    if (!_d0.getBufferPtr())
+        return false;
+    _d0[0].copy(ksys::act::getDefaultDropActor());
+    return true;
 }
 
 bool CommonPickedItem::handleMessage_(const ksys::Message* message) {
