@@ -4,6 +4,7 @@
 #include <evfl/ResTimeline.h>
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/VFR.h"
@@ -36,8 +37,23 @@ EventFlowBase::~EventFlowBase() {
 
 // NON_MATCHING (the destructors below): the original destructors destroy members that are not modelled yet.
 // They are defaulted here so that the classes' vtables (and with them the RTTI functions, which match) are emitted.
-EventFlowTimeline::~EventFlowTimeline() = default;
-EventFlowMovie::~EventFlowMovie() = default;
+EventFlowTimeline::~EventFlowTimeline() {
+    if (_628) {
+        delete[] _628;
+        _628 = nullptr;
+        _620 = 0;
+    }
+    Manager::instance()->getStruct1()->sub_7101273334(_638, true);
+}
+EventFlowMovie::~EventFlowMovie() {
+    for (auto& track : mTracks)
+        track.freeBuffer();
+    if (mVoiceTriggers.isBufferReady()) {
+        for (int i = 0; i < mVoiceTriggers.size(); ++i)
+            delete mVoiceTriggers[i].action;
+        mVoiceTriggers.freeBuffer();
+    }
+}
 
 // 0x7100db8c9c (CSV evt::EventFlowBase::m4_null)
 void EventFlowBase::m4() {}

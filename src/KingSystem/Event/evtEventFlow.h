@@ -4,6 +4,7 @@
 #include <evfl/Flowchart.h>
 #include <evfl/Param.h>
 #include <evfl/TimelineObj.h>
+#include <container/seadBuffer.h>
 #include <heap/seadHeap.h>
 #include <math/seadMatrix.h>
 #include <container/seadPtrArray.h>
@@ -12,8 +13,13 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
+#include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace ksys::act::ai {
+class ActionBase;
+}
 
 namespace ksys::evt {
 
@@ -266,10 +272,10 @@ public:
 
     /* 0x620 */ s32 _620;
     u8 _624[4];
-    /* 0x628 */ evfl::TimelineObj* _628;
+    /* 0x628 */ evfl::TimelineObj* _628;  // with _620: a buffer of timelines (freed by the destructor)
     /* 0x630 */ s32 _630;
     u8 _634[0x638 - 0x634];
-    /* 0x638 */ void* _638;
+    /* 0x638 */ EventMgrStruct1::Clock* _638;
 };
 
 class EventFlowMovie : public EventFlowBase {
@@ -285,9 +291,24 @@ public:
     void m16() override;
     void m17() override;
 
+    // 0x10-byte entries made from the movie's timeline_voice / xlink_emits / ui_texts / fade_outs / timeline_rumble
+    // arrays (types not modelled yet)
+    struct TrackEntry {
+        u32 _0;
+        void* _8;
+    };
+    // An entry of _6c8: a DemoVoiceTrigger action (made by the constructor) and a flag
+    struct VoiceTrigger {
+        act::ai::ActionBase* action;
+        bool _8;
+    };
+
     u8 _620[0x628 - 0x620];
     /* 0x628 */ const char* mMoviePath;
-    u8 _630[0x728 - 0x630];
+    u8 _630[0x678 - 0x630];
+    /* 0x678 */ sead::Buffer<TrackEntry> mTracks[5];
+    /* 0x6c8 */ sead::Buffer<VoiceTrigger> mVoiceTriggers;
+    u8 _6d8[0x728 - 0x6d8];
     /* 0x728 */ f32 mFrameCount;
 };
 

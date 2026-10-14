@@ -76171,8 +76171,8 @@ Address,Quality,Size,Name
 0x0000007100dbb428,O,000004,_ZN4ksys3evt17EventActionBinderD0Ev
 0x0000007100dbb42c,O,000004,_ZN4ksys3evt16EventQueryBinderD0Ev
 0x0000007100dbb430,U,000908,evt::EventFlowMovie::ctor
-0x0000007100dbb7bc,U,000260,evt::EventFlowMovie::m0
-0x0000007100dbb8c0,U,000036,evt::EventFlowMovie::m1
+0x0000007100dbb7bc,O,000260,_ZN4ksys3evt14EventFlowMovieD2Ev
+0x0000007100dbb8c0,O,000036,_ZN4ksys3evt14EventFlowMovieD0Ev
 0x0000007100dbb8e4,U,000456,evt::EventFlowMovie::m13
 0x0000007100dbbaac,U,000568,evt::EventFlowMovie::m4
 0x0000007100dbbce4,U,000060,evt::EventFlowMovie::m14
@@ -76189,8 +76189,8 @@ Address,Quality,Size,Name
 0x0000007100dbc71c,O,000004,_ZN4ksys3evt14EventFlowMovie3m17Ev
 0x0000007100dbc720,U,000052,
 0x0000007100dbc754,U,000128,evt::EventFlowTimeline::ctor
-0x0000007100dbc7d4,U,000152,evt::EventFlowTimeline::dtor
-0x0000007100dbc86c,U,000160,evt::EventFlowTimeline::dtorDelete
+0x0000007100dbc7d4,O,000152,_ZN4ksys3evt17EventFlowTimelineD2Ev
+0x0000007100dbc86c,O,000160,_ZN4ksys3evt17EventFlowTimelineD0Ev
 0x0000007100dbc90c,O,000016,_ZN4ksys3evt17EventFlowTimeline3m15Ev
 0x0000007100dbc91c,U,000544,evt::EventFlowTimeline::m11
 0x0000007100dbcb3c,U,000412,
@@ -76209,7 +76209,7 @@ Address,Quality,Size,Name
 0x0000007100dbd760,O,000092,_ZNK4ksys3evt17EventFlowTimeline18getRuntimeTypeInfoEv
 0x0000007100dbd7bc,O,000008,_ZNK4ksys3evt17EventFlowTimeline16getEventFlowTypeEv
 0x0000007100dbd7c4,O,000008,_ZN4ksys3evt17EventFlowTimeline2m7Ev
-0x0000007100dbd7cc,U,000236,
+0x0000007100dbd7cc,U,000236,_ZN4evfl11TimelineObjD2Ev
 0x0000007100dbd8b8,U,000328,
 0x0000007100dbda00,O,000160,_ZN4ksys3evt20BaseProcLinkForEventC1Ev
 0x0000007100dbdaa0,O,000572,_ZN4ksys3evt20BaseProcLinkForEvent4initERKNS0_7CallArgE

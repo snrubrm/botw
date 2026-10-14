@@ -162,6 +162,8 @@ public:
     bool sub_7100DB19DC() const;
     // 0x7100db19c0 (CSV unnamed; placeholder name): decrements the alive event flow count (not below 0)
     void sub_7100DB19C0();
+    // inline-only in the original; name is a guess (EventFlowTimeline's destructor releases its clock here)
+    EventMgrStruct1* getStruct1() const { return _1d2d0; }
     // 0x7100db101c (CSV EventMgr::getActiveEventName): the names of the active context's current flow (either
     // output may be null); false if there is no active context
     bool getActiveEventName(const char** event_name, const char** entry_point_name) const;
