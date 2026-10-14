@@ -15,12 +15,26 @@ class PriestBossPhaseFourth;
 // Two unnamed embedded objects of PriestBossPhaseFourth, identified by their
 // SEAD RTTI vtables. Their internals are not yet recovered; these declarations
 // retain the original out-of-line constructor and nonvirtual destructor calls.
+class Unk_7102450fa8;
+
 class Unk_7102451070 {
 public:
+    // Argument of sub_710071CB98 (placeholder)
+    struct InitArg {
+        Unk_7102450fa8* unit;
+        f32 _8;
+        f32 _c;
+        f32 _10;
+        bool _14;
+    };
+
     // 0x710071cae8 / 0x710071cb94
     Unk_7102451070();
     ~Unk_7102451070();
     void sub_710071CE44();
+    // 0x710071cb98 / 0x710071cc4c (placeholder names; not decompiled)
+    void sub_710071CB98(const InitArg& arg);
+    void sub_710071CC4C(s32 idx);
 
 private:
     friend class uking::ai::PriestBossPhaseSecond;
@@ -35,9 +49,19 @@ KSYS_CHECK_SIZE_NX150(Unk_7102451070, 0x330);
 
 class Unk_7102451050 {
 public:
+    // Argument of sub_710071BFE4 (placeholder)
+    struct InitArg {
+        Unk_7102450fa8* unit;
+        f32 _8 = -1.0f;
+        u16 _c = 1;
+        bool _e = false;
+    };
+
     // 0x710071bd3c / 0x710071bf08
     Unk_7102451050();
     ~Unk_7102451050();
+    // 0x710071bfe4 (placeholder name; not decompiled)
+    void sub_710071BFE4(const InitArg& arg);
     bool sub_710071C550(const ksys::Message& message);
     void sub_710071C034();
 

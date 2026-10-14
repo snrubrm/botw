@@ -14,6 +14,27 @@ bool PriestBossPhaseFourth::init_(sead::Heap* heap) {
 
 void PriestBossPhaseFourth::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
+    const Unk_7102451070::InitArg init_arg{sub_7100525A88(), 0.5f, 7.0f, 10.0f, false};
+    _98.sub_710071CB98(init_arg);
+    for (s32 i = 1; i <= 10; ++i) {
+        if (i != 2)
+            _98.sub_710071CC4C(i);
+    }
+    sub_7100525A88()->_90 = &_98;
+
+    Unk_7102451050::InitArg arg;
+    arg.unit = sub_7100525A88();
+    arg._8 = *mRespawnSpan_s;
+    arg._c = 2;
+    arg._e = true;
+    _3c8.sub_710071BFE4(arg);
+
+    auto* unit = sub_7100525A88();
+    const int sim_atk_max = *mSimAtkMax_s;
+    const int bow_equip_max = *mBowEquipMax_s;
+    unit->_98 = sim_atk_max;
+    unit->_198 = bow_equip_max;
+    _5d0 = false;
 }
 
 void PriestBossPhaseFourth::leave_() {

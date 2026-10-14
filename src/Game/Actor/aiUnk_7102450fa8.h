@@ -21,6 +21,8 @@
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
+class Unk_7102451070;
+
 namespace ksys {
 class Message;
 }
@@ -171,7 +173,7 @@ public:
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
     /* 0x084 */ u8 _84[0x88 - 0x84];
     /* 0x088 */ Unk_PriestBossObject* _88;
-    /* 0x090 */ u8 _90[0x98 - 0x90];
+    /* 0x090 */ Unk_7102451070* _90;  // set by PriestBossPhaseFourth::enter_ (its _98)
     /* 0x098 */ u32 _98;
     /* 0x09c */ sead::JobQueueLock _9c;
     /* 0x0a0 */ sead::FixedObjArray<ksys::act::BaseProcLink, 9> _a0;
