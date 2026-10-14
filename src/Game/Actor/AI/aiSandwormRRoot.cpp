@@ -5,6 +5,10 @@
 #include "Game/Actor/actSandworm.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include <limits>
 
 namespace uking::ai {
 
@@ -28,7 +32,33 @@ bool SandwormRRoot::init_(sead::Heap* heap) {
 }
 
 void SandwormRRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    setDamageCallbackTiming(actor, 0, &_258);
+    sub_7100720140(actor);
+    _298 = 0;
+    if (isRootAiParamINot5()) {
+        if (auto* as_list = mActor->getASList())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, "SwimNormal", 0, 0, true);
+    }
     EnemyRoot::enter_(params);
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor)) {
+        const f32 offset = *mSandOffset_s;
+        sandworm->_159c = offset;
+        sandworm->_15b0 = offset;
+    }
+    sub_71007A397C(actor);
+    _1f0.x();
+    _248 = 0;
+    _250 = -1.0f;
+    _288.sub_7100721380(std::numeric_limits<f32>::infinity(), mActor);
+
+    if (ksys::act::hasTag(mActor, 0x12AD8456u)) {
+        _29c = 0;
+        for (s32 i = 0; i < sub_71005D7854(mActor); ++i) {
+            if (sub_71005D83E8(mActor, i))
+                _29c |= 1 << i;
+        }
+    }
 }
 
 void SandwormRRoot::leave_() {

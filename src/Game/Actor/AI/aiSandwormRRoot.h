@@ -48,11 +48,11 @@ protected:
     Unk_710240dd68 _1f0;
     ksys::act::Actor* _240 = mActor;
     u64 _248 = 0;
-    u32 _250 = 0;
+    f32 _250 = 0;
     Unk_710241c878 _258{this};
     Unk_7102451120 _288;
     u32 _298 = 0;
-    bool _29c = false;
+    u8 _29c = 0;  // bit i: the actor has weapon i (set by enter_ for tagged actors)
 };
 KSYS_CHECK_SIZE_NX150(SandwormRRoot, 0x2a0);
 
