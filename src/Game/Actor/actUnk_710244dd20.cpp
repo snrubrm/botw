@@ -39,6 +39,23 @@ bool Unk_710244dd20::m17(s32 bit) const {
     return _139.isOnBit(bit);
 }
 
+void Unk_71008502cc::m13(int index) {
+    switch (index) {
+    case 0:
+        _8.resetBit(0);
+        break;
+    case 1:
+        _8.resetBit(1);
+        break;
+    case 5:
+        _8.resetBit(5);
+        break;
+    default:
+        Unk_710244dd20::m13(index);
+        break;
+    }
+}
+
 bool Unk_71008502cc::sub_7100850CE4() const {
     return _8.isOn(0x3);
 }
@@ -373,6 +390,56 @@ void Unk_710244dd20::sub_71006D19AC() {
         sub_71006DF750();
     }
     _50.x();
+}
+
+void Unk_710244dd20::m13(int index) {
+    auto* actor = _10;
+    switch (index) {
+    case 2:
+        if (_8.isOnBit(2)) {
+            auto* chemical = actor->getChemicalStuff();
+            if (chemical && chemical->_c0 == 2) {
+                _c0 |= 4;
+                chemical->sub_7100D90B78();
+                chemical->sub_7100D90C2C(true);
+                _30 = 0;
+            }
+        }
+        break;
+    case 3:
+        if (_8.isOnBit(3)) {
+            xlinkSearchAndEmit(actor, "Frozen_End", 2, nullptr);
+            _f8.fadeXLink();
+            auto* chemical = actor->getChemicalStuff();
+            if (chemical && chemical->_c0 == 1) {
+                _c0 |= 8;
+                chemical->sub_7100D8EEE0();
+                chemical->sub_7100D90CD8(true);
+                _13a = 1;
+            }
+        }
+        break;
+    case 4:
+        if (_8.isOnBit(4)) {
+            auto* chemical = actor->getChemicalStuff();
+            if (chemical && chemical->_1b8 > 0.0f) {
+                _c0 |= 0x10;
+                chemical->sub_7100D90D7C(true);
+            }
+            if (_118.sub_7101241B6C())
+                _118.fadeXLink();
+        }
+        break;
+    case 6:
+        if (_8.isOnBit(6)) {
+            if (auto* chemical = actor->getChemicalStuff())
+                chemical->_190 = 0;
+        }
+        break;
+    default:
+        break;
+    }
+    _8.resetBit(index);
 }
 
 // 0x71006d2130: only forwards to the base implementation.

@@ -126,6 +126,9 @@ public:
     bool m8(const ksys::Message& message) override;
     void m10() override;
     void m11(bool enable) override;
+    // Slot 13 (0x71006d05b0): ends the condition `index` (2 burn, 3 ice "Frozen_End", 4 electric, 6) and clears its
+    // bit in _8.
+    void m13(int index) override;
 
     // 0x71006cf338 / 0x71006cf770 / 0x71006cf9b4 (not decompiled; placeholder names): the parts of m10.
     void sub_71006CF338();
@@ -200,6 +203,8 @@ KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 class Unk_71008502cc : public Unk_710244dd20 {
 public:
     explicit Unk_71008502cc(ksys::act::Actor* actor);
+    // Slot 13 (0x71008507a4): conditions 0, 1 and 5 only clear their bit, the others go to Unk_710244dd20::m13.
+    void m13(int index) override;
 
     // 0x7100850ce4 / 0x7100850cf4 (lane4 s64; placeholder names): `_8` has a bit of 0x3 / 0x587 set.
     bool sub_7100850CE4() const;
