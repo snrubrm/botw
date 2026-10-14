@@ -1,7 +1,7 @@
 #include "Game/Actor/AI/aiDisplaySelect.h"
 #include "Game/Actor/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::ai {
 

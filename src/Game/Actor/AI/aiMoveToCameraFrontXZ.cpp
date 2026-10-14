@@ -5,7 +5,7 @@
 #include "Game/Actor/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/actCameraUtil.h"
 

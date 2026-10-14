@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <prim/seadSafeString.h>
 #include "Game/E3Mgr.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 

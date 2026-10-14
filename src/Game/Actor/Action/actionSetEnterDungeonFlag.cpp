@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionSetEnterDungeonFlag.h"
 #include "Game/gamePlayReport.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::action {

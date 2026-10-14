@@ -3,7 +3,7 @@
 #include <heap/seadHeap.h>
 #include <math/seadBoundBox.h>
 #include "Game/gameDebugStatus.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"

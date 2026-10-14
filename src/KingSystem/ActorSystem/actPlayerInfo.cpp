@@ -1,6 +1,6 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/UI/uiUtils.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"

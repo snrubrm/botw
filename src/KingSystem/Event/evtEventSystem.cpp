@@ -9,7 +9,7 @@
 #include "Game/gameRoot38.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlow.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Event/evtManager.h"
 

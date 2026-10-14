@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiMainFieldDungeonSelect.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 
 namespace uking::ai {
 

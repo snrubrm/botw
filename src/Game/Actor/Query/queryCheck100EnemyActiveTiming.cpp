@@ -1,7 +1,7 @@
 #include "Game/Actor/Query/queryCheck100EnemyActiveTiming.h"
 #include <evfl/Query.h>
 #include "Game/DLC/aocManager.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"

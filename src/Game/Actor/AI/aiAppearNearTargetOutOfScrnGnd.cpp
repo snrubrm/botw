@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiAppearNearTargetOutOfScrnGnd.h"
 #include "Game/Actor/aiUnk_7100D8C538.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::ai {
 

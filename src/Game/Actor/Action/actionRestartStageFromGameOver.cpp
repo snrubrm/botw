@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionRestartStageFromGameOver.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameSaveSystem.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 

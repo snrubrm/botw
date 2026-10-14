@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiAirOctaBurnReaction.h"
 #include <random/seadGlobalRandom.h>
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/System/VFR.h"

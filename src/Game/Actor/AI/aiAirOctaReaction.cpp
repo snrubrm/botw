@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiAirOctaReaction.h"
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"

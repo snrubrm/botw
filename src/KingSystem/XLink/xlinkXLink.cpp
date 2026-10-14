@@ -4,7 +4,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkUser.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include <gsys/gsysModel.h>
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>

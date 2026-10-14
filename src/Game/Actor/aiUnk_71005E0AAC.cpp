@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 // NON_MATCHING: the original keeps the Enemy-cast link selection as branches (the default link is only
 // loaded on the else path) and orders the three fsub of the direction differently; ours selects with csel

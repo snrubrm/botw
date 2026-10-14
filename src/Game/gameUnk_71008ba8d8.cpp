@@ -1,5 +1,5 @@
 #include "Game/gameUnk_71008ba8d8.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/System/Vibration.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"

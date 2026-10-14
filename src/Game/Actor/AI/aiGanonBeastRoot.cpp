@@ -12,7 +12,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::ai {
 

@@ -1,7 +1,7 @@
 #include "Game/Actor/Action/actionAppearGameOver.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/System/Timer.h"
 namespace uking::ui {
 // uiScreenFacade / uiMiscFacade (the GameOver screen helpers)

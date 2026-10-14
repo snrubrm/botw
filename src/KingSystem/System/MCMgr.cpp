@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 

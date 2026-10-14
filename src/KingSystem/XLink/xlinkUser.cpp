@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace ksys::xlink {

@@ -14,7 +14,7 @@
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
 #include <gfx/seadViewport.h>
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 // 0x7100d8aed0: fills `projection` from the camera manager state (declared in actionShootingStartFlying.cpp too).
 void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);

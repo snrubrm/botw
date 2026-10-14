@@ -2,7 +2,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actMotorcycleUtil.h"
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 
 namespace uking::ai {
 

@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiRailMoveRemainsBGCamera.h"
 #include "Game/Actor/aiUnk_71002CA6AC.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/Map/mapPlacement18.h"
 #include "KingSystem/System/StagePreActorCache.h"
 

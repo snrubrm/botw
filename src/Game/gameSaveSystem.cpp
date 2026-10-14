@@ -4,7 +4,7 @@
 #include "Game/E3Mgr.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUtils.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"

@@ -1,7 +1,7 @@
 #include "KingSystem/Event/evtS7.h"
 #include "Game/E3Mgr.h"
 #include "Game/UI/uiScreens.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/GameData/gdtManager.h"

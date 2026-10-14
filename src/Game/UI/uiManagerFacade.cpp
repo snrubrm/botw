@@ -16,7 +16,7 @@
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include <gfx/seadCamera.h>
 
 // UI wrapper functions around uking::ui::Manager (the 0x7100a94000 TU).

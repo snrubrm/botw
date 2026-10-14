@@ -13,7 +13,7 @@
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResource.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 

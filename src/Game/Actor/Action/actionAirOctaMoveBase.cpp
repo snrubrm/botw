@@ -2,7 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"

@@ -7,7 +7,7 @@
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::behavior {
 

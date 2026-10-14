@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtManager.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {

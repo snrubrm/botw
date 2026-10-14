@@ -1,5 +1,5 @@
 #include "KingSystem/System/CameraS1.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include <geom/seadFrustum.h>
 
 namespace ksys {

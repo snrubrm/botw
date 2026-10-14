@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 

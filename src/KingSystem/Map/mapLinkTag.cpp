@@ -1,6 +1,6 @@
 #include "KingSystem/Map/mapLinkTag.h"
 #include <algorithm>
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/GameData/gdtManager.h"

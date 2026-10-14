@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionLandTeleportConsiderCameraDir.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::action {
 

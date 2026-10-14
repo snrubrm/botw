@@ -3,7 +3,7 @@
 #include <math/seadMathNumbers.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/gameGraphics.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTimeMgr.h"

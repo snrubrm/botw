@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiAirOctaBoardBurn.h"
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"

@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryIsOnEnterDungeonFlag.h"
 #include <evfl/Query.h>
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::query {

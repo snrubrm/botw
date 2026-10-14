@@ -8,7 +8,7 @@
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/gameStage.h"
 #include "Game/gameVillagerMgr.h"
 #include "KingSystem/Graphics/gfxForestRenderer.h"

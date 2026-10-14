@@ -1,6 +1,6 @@
 #include "Game/Actor/AI/aiKeyLockedShutter.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 

@@ -1,5 +1,5 @@
 #include "Game/Actor/Action/actionAirOctaFloat.h"
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"

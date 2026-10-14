@@ -1,4 +1,4 @@
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include <gfx/seadCamera.h>
 #include <gfx/seadViewport.h>
 #include "Game/Actor/aiUnk_7100D8C538.h"

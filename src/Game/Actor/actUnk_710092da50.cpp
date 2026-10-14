@@ -2,7 +2,7 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 const sead::Viewport* sub_710092DAB8() {

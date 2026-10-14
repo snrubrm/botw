@@ -13,8 +13,6 @@ target_sources(uking PRIVATE
     CameraEditor.cpp
     CameraEditor.h
     CameraLookAt.cpp
-    CameraMgr.cpp
-    CameraMgr.h
     CameraPairSelector.cpp
     CameraS1.cpp
     CameraS1.h

@@ -1,7 +1,7 @@
 #include "Game/Actor/Player/Action/actionPlayerBow.h"
 #include <gfx/seadCamera.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace uking::action {
 

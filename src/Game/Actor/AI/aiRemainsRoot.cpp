@@ -2,7 +2,7 @@
 #include "Game/Actor/aiUnk_71002CA6AC.h"
 #include "Game/Actor/aiUnk_71024f15c0.h"
 #include "Game/UI/uiUtils.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 

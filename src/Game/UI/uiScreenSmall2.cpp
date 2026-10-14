@@ -29,7 +29,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiUI.h"
 #include "Game/DLC/aocManager.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"

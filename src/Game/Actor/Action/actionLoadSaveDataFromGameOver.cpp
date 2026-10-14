@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionLoadSaveDataFromGameOver.h"
 #include "Game/UI/uiUtils.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 
 namespace uking::action {
 

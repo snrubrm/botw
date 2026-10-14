@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Game/gameOpenWorldStageMessage.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/Map/mapMapProperties.h"

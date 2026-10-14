@@ -3,7 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 bool Unk_71007024d4::m0(sead::Vector3f* out) {

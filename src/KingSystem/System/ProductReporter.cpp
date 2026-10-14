@@ -9,7 +9,7 @@
 #include "KingSystem/Framework/frmFramework.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Sound/sndSound.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/VFR.h"
 

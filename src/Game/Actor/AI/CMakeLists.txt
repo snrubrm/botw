@@ -25,6 +25,8 @@ target_sources(uking PRIVATE
   aiAirOctaBoardBurn.h
   aiAirOctaBurnReaction.cpp
   aiAirOctaBurnReaction.h
+  aiAirOctaDataMgr.cpp
+  aiAirOctaDataMgr.h
   aiAirOctaFlyUp.cpp
   aiAirOctaFlyUp.h
   aiAirOctaReaction.cpp
@@ -227,8 +229,6 @@ target_sources(uking PRIVATE
   aiBreathEnemyRangeKeepMove.h
   aiCalledEnemyMove.cpp
   aiCalledEnemyMove.h
-  aiCameraEvent.cpp
-  aiCameraEvent.h
   aiCannonBallRoot.cpp
   aiCannonBallRoot.h
   aiCapturedActDeadSelector.cpp
@@ -2418,6 +2418,4 @@ target_sources(uking PRIVATE
   aiZoraHeroSoulGiftRoot.h
   aiZoraHeroWarp2Player.cpp
   aiZoraHeroWarp2Player.h
-  AirOcta/AirOctaDataMgr.cpp
-  AirOcta/AirOctaDataMgr.h
 )

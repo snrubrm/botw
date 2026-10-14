@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiAirOctaRoot.h"
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 

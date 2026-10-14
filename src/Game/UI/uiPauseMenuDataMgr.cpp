@@ -11,7 +11,7 @@
 #include "Game/DLC/aocManager.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameItemUtils.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

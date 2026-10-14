@@ -2,7 +2,7 @@
 #include <prim/seadMemUtil.h>
 #include <heap/seadHeap.h>
 #include <gfx/seadCamera.h>
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 
 namespace ksys::act {
 

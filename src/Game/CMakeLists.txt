@@ -1,6 +1,7 @@
 add_subdirectory(Actor)
 add_subdirectory(Cooking)
 add_subdirectory(DLC)
+add_subdirectory(Scene)
 add_subdirectory(UI)
 
 target_sources(uking PRIVATE
@@ -82,7 +83,6 @@ target_sources(uking PRIVATE
   gameUnkRttiPlaceholders.h
   gamePlayReport.cpp
   gamePlayReport.h
-  gameScene.cpp
   gameActorContextStuff.cpp
   gameCarriedItemEntry.cpp
   gameSceneSubsys12.cpp
@@ -98,7 +98,6 @@ target_sources(uking PRIVATE
   gameSceneSubsys14.cpp
   gameSceneSubsysMisc.cpp
   gameSceneSubsysMisc.h
-  gameScene.h
   gameSceneMgr.h
   gameSceneStateMachine.h
   gameSceneTaskMgr.cpp
@@ -112,8 +111,6 @@ target_sources(uking PRIVATE
   gameStage.h
   gameStageBinder.h
   gameStageBinderBase.cpp
-  gameStageInfo.cpp
-  gameStageInfo.h
   gameStageSelect.cpp
   gameStageSelect.h
   gameTipsMgr.cpp

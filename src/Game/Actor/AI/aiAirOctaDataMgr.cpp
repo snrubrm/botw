@@ -1,4 +1,4 @@
-#include "Game/Actor/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/Actor/AI/aiAirOctaDataMgr.h"
 namespace uking {
 
 void AirOctaDataMgr::sub_71002FB340(f32 x, f32 z) {

@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionEventFadeOut.h"
 #include "Game/UI/uiScreens.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {

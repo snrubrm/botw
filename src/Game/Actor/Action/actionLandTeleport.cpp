@@ -10,7 +10,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "math/seadMathCalcCommon.h"
 #include "random/seadGlobalRandom.h"

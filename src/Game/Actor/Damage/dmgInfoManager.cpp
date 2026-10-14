@@ -4,7 +4,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
-#include "Game/gameScene.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/World/worldWeatherMgr.h"

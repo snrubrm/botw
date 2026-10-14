@@ -1,4 +1,4 @@
-#include "Game/gameStageInfo.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/InitTimeInfo.h"

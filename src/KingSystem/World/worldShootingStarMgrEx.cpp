@@ -13,7 +13,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/World/worldManager.h"
 

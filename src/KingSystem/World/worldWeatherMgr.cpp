@@ -1,7 +1,7 @@
 #include "KingSystem/World/worldWeatherMgr.h"
 #include <random/seadGlobalRandom.h>
 #include <gfx/seadCamera.h>
-#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
