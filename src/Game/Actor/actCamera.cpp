@@ -263,6 +263,20 @@ int Camera::getCalcTiming() {
     return 1;
 }
 
+void Camera::calcMaybe() {
+    if (_860._804.sub_710079ADC8(1))
+        return;
+    _860.sub_710079B16C();
+    _860.sub_710079B2C4();
+    _860.sub_710079B308(this);
+    _860.sub_710079B3C8(this);
+    _860.sub_710079B4F0();
+    _860.sub_710079B4F4();
+    _860.sub_710079BAE4();
+    _860.sub_710079BBA8();
+    _10f8 = 1;
+}
+
 void Camera::m73() {
     if (sub_7100922428())
         return;

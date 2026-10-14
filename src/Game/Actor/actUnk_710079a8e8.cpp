@@ -6,6 +6,13 @@
 #include <mc/seadCoreInfo.h>
 #include "Game/Actor/actCamera.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/gameSceneSubsysMisc.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/actMotorcycle.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/Sound/sndSound.h"
 
 namespace uking::act {
@@ -135,10 +142,60 @@ void Unk_710079a8e8::sub_710079AED0() {
     _804.sub_710079AE40(0x8000);
 }
 
+void Unk_710079a8e8::sub_710079B2C4() {
+    _210.reset();
+    if (auto* attention = ksys::act::Attention::instance())
+        attention->sub_7100D747D8(&_210);
+}
+
+void Unk_710079a8e8::sub_710079B308(Camera* camera) {
+    if (!camera)
+        return;
+    if (!camera->get1a0() &&
+        !(camera->getMapObject() &&
+          camera->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+        return;
+    }
+    auto& link = ksys::evt::sub_7100DC85D4(camera);
+    if (!link.hasProc())
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.linkAcquire(&_220);
+    if (!ksys::util::sub_71011F10F4(accessor.getActorMtx()))
+        _324 = accessor.getActorMtx();
+}
+
+void Unk_710079a8e8::sub_710079B4F0() {}
+
 bool Unk_710079a8e8::sub_710079B63C(u32 mask) const {
     if (_800.sub_710079C0CC(mask))
         return false;
     return _7fc.sub_710079C0CC(mask);
+}
+
+void Unk_710079a8e8::sub_710079BAE4() {
+    auto* subsys = GameSceneSubsys5::instance();
+    if (!subsys)
+        return;
+    const auto& pos = subsys->sub_7100905C38();
+    if (!ksys::util::isVectorInvalid(pos))
+        _4cc = pos;
+    const auto pos2 = subsys->sub_7100905D58();
+    if (!ksys::util::isVectorInvalid(pos2))
+        _4d8 = pos2;
+}
+
+void Unk_710079a8e8::sub_710079BBA8() {
+    auto* player = sub_7100926A14();
+    if (!player)
+        return;
+    ksys::act::PlayerLink* link = player;
+    auto* motorcycle = sead::DynamicCast<Motorcycle>(link->m382());
+    if (!motorcycle)
+        return;
+    _49c = motorcycle->getMainBody()->getTransform();
+    _7fc._0 |= 0x400000;
 }
 
 void Unk_710079a8e8::sub_710079BC8C() {

@@ -129,6 +129,16 @@ public:
 // TODO: incomplete (field meanings unknown; 0x164-0x170 not initialised by the ctor).
 class Unk_710079a8e8 {
 public:
+    // Per-frame update steps called in this order by Camera::calcMaybe (declared only; placeholder names).
+    void sub_710079B16C();
+    void sub_710079B2C4();
+    void sub_710079B308(Camera* camera);
+    void sub_710079B3C8(Camera* camera);
+    void sub_710079B4F0();
+    void sub_710079B4F4();
+    void sub_710079BAE4();
+    void sub_710079BBA8();
+
     // Saved camera state at 0x730 (Camera + 0xf90; Camera::x_1 saves it, CameraEventReturnSavePoint and
     // CameraEventMovePosBase / CameraEventTalkManualCtrlRet restore it). Placeholder name.
     struct SavePoint {
@@ -468,6 +478,8 @@ public:
     // 0x7100799cd4 (CSV m82): returns 1.
     int getCalcTiming() override;
     // 0x7100799a54 (CSV m73): `if (!sub_7100922428()) sub_710079691C()`.
+    // CSV m69.
+    void calcMaybe() override;
     void m73() override;
     // 0x7100799a88 (CSV m75): if `_860._804` has bit 0 set nothing happens; otherwise sets `_1421` when
     // sub_7100922428() or calls sub_71007970E0().
