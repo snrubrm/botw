@@ -302,4 +302,21 @@ bool PriestBossGiantEnemyRoot::m53() {
     return PriestBossActorEnemyRoot::m53();
 }
 
+// NON_MATCHING: the original reaches the static SafeString through a base 0x10 below it (as in sub_710051A6B8)
+// Counts an iron ball hit (damage type 5 from a Priest_Boss_IronBall) on the unit.
+void PriestBossGiantEnemyRoot::m54() {
+    auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
+    if (!manager || manager->getField50() != 5)
+        return;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(manager->m37(), &accessor);
+    if (accessor.getName() != sUnk_7102413930)
+        return;
+
+    auto* unit = sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (unit)
+        ++unit->_34c;
+}
+
 }  // namespace uking::ai

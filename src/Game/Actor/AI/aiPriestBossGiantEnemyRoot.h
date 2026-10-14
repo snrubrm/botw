@@ -66,6 +66,7 @@ public:
     bool m51() override;
     bool m52() override;
     bool m53() override;
+    virtual void m54();
 
     // Bound to _2e8._40 by enter_.
     void sub_710051AD38(s32 x);
