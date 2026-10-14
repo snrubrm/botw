@@ -112,6 +112,9 @@ public:
     // Original 0x7100719ed0: clears the linked actor pool under its lock (declared only).
     void sub_7100719ED0();
     void sub_7100719D5C(ksys::act::Actor* actor);
+    // 0x7100719b78 (declared only): `_90 ? _90->sub_710071CDCC(out, idx) : false` (_90 unmodelled; its
+    // function looks `idx` up in a pointer array and copies the entry's position at +0x18).
+    bool sub_7100719B78(sead::Vector3f* out, s32 idx);
     // 0x7100719b88 (468 B, declared only; PriestBossActorNormalMode::m40)
     bool sub_7100719B88(ksys::act::Actor* actor);
     // Sends message 0x80000d9 (payload = this) from the actor of _18 to `dest`.

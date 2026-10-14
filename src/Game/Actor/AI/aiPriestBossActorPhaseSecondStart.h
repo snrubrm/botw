@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
     void sub_710050E7E0();
+    // 0x710050ead4: the weapon buffer index for the start (1, or 0 when the unit has a free weapon slot).
+    s32 sub_710050EAD4();
 
 protected:
     // aitree_variable at offset 0x38

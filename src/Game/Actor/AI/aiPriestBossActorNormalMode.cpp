@@ -44,7 +44,6 @@ s32 PriestBossActorNormalMode::sub_710050B6CC() {
     return attack;
 }
 
-// NON_MATCHING: the equipment-index choice emits boolean inversion instead of native conditional branches.
 // 0x710050bdcc
 void PriestBossActorNormalMode::sub_710050BDCC() {
     auto* unit = sub_7100505BE4();
@@ -56,12 +55,13 @@ void PriestBossActorNormalMode::sub_710050BDCC() {
     } else {
         if (auto* current = sub_7100505BE4())
             current->sub_7100719D5C(mActor);
+        s32 index = 1;
         if (sead::GlobalRandom::instance()->getBool()) {
             auto* current = sub_7100505BE4();
-            *mEquipWeaponBufIndex_a = current && !current->sub_7100719B88(mActor) ? 1 : 0;
-        } else {
-            *mEquipWeaponBufIndex_a = 1;
+            if (!current || current->sub_7100719B88(mActor))
+                index = 0;
         }
+        *mEquipWeaponBufIndex_a = index;
         sub_710050B7A8();
         _130 = sub_710050B6CC();
         sub_710050AE6C(12);
