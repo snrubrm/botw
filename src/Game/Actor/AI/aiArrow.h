@@ -65,6 +65,11 @@ public:
     // DeleteTime(WithChemical) (GroundHitTime when 0), clears chemical / LOD / bullet state, then the att clients as
     // in sub_71004693A0.
     void sub_7100469074();
+    // 0x7100467384 (placeholder name): while flying or stuck / bounced, updates a burning arrow on water (the
+    // fire is put out, or kept with the electric water ball from sub_7100468A18).
+    bool sub_7100467384();
+    // 0x7100468a18 (not decompiled): uses the electric water ball handle _1a8 at `pos`.
+    bool sub_7100468A18(const sead::Vector3f& pos);
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a

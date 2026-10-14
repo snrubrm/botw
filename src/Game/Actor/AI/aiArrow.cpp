@@ -303,6 +303,52 @@ f32 Arrow::sub_7100469958() {
     return range * weapon->sub_71002ED434();
 }
 
+bool Arrow::sub_7100467384() {
+    if (!(isCurrentChild("発射") || isCurrentChild("ホーミング") || isCurrentChild("上空撃ち") ||
+          isCurrentChild("刺さる") || isCurrentChild("跳ね返る")))
+        return false;
+
+    auto* chemical = mActor->sub_71011D8A44(0);
+    if (!chemical || !mActor->get68f())
+        return false;
+
+    if (chemical->mMaterial->attribute.ref() & 0x8000) {
+        if (chemical->_c & 0x40)
+            return false;
+        chemical->_bf |= 2;
+        return true;
+    }
+
+    if (((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+        chemical->_1b8 > 0.0f) {
+        if (_b9) {
+            chemical->sub_7100D91978(0.0f);
+            chemical->_190 = 0.0f;
+        } else {
+            sead::Vector3f pos;
+            mActor->getMtx().getTranslation(pos);
+            pos.y += -0.1f;
+            if (sub_7100468A18(pos)) {
+                _b9 = true;
+                chemical->sub_7100D91978(0.0f);
+                chemical->_190 = 0.0f;
+                chemical->sub_7100D90AF4(false);
+            }
+        }
+        return true;
+    }
+
+    auto* chemicals = mActor->getChemicalContainer();
+    if (!chemicals)
+        return false;
+    auto* element = chemicals->sub_7100E37FA8(0);
+    if (!element || !element->_18->isRigidAttribute6Or14Set(element->_288))
+        return false;
+    if (auto* chem = mActor->sub_71011D8A44(0))
+        chem->sub_7100D8EEE0();
+    return true;
+}
+
 f32 Arrow::sub_710046A7BC() {
     auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
     auto* weapon = sead::DynamicCast<act::Weapon>(actor);
