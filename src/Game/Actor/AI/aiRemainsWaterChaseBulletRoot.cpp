@@ -196,6 +196,36 @@ void RemainsWaterChaseBulletRoot::sub_710054A100() {
     }
 }
 
+// NON_MATCHING: the original sets the result after the accessor destructor in a shared block; epilogue layout
+// Whether the bullet touches ground that is not part of the RemainsWater actor.
+bool RemainsWaterChaseBulletRoot::sub_710054A6C0() {
+    auto* body = mActor->getMainBody();
+    if (!body || !body->isAddedToWorld())
+        return false;
+
+    bool hit = false;
+    auto* info = body->getCollisionInfo();
+    if (info && info->getCollidingBodies().size() != 0) {
+        auto* bodies = info->getCollidingBodies().front();
+        info->lock();
+        for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
+            auto* other = bodies->bodies[1];
+            if (!other || other->getContactLayer() != ksys::phys::ContactLayer::EntityGround)
+                continue;
+            bool is_remains_water = false;
+            if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(other->getUserTag())) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                tag->acquireActor(&accessor);
+                is_remains_water = accessor.getName() == "RemainsWater";
+            }
+            if (!is_remains_water)
+                hit = true;
+        }
+        info->unlock();
+    }
+    return hit;
+}
+
 void RemainsWaterChaseBulletRoot::leave_() {
     sub_710054AAD8();
 }
