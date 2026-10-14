@@ -3,6 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -51,6 +52,62 @@ void MoveAroundTarget::calc_() {
             _80.update();
     }
     getCurrentChild()->setDynamicParam(target, "TargetPos");
+}
+
+// NON_MATCHING: register allocation / stack layout (the original keeps the copied vectors in integer registers); the
+// logic, constants and calls follow the original.
+sead::Vector3f MoveAroundTarget::sub_71004B0238() {
+    static const f32 cTurnAngles[2] = {-0.6981317f, 0.6981317f};
+
+    ksys::Timer::update(&_8c, -1.0f);
+    auto* actor = mActor;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const sead::Vector3f target = *mTargetPos_d;
+    sead::Vector3f front = actor->getMtx().getBase(2);
+    front.normalize();
+    sead::Vector3f dir(target.x - pos.x, 0.0f, target.z - pos.z);
+    dir.normalize();
+    const f32 angle = cTurnAngles[front.z * dir.x - front.x * dir.z >= 0.0f];
+
+    // The point next to the target, on the side the actor is turned towards.
+    sead::Matrix34f rot;
+    rot.makeR({0.0f, angle, 0.0f});
+    sead::Vector3f side;
+    side.setRotated(rot, -dir);
+    side.normalize();
+    sead::Vector3f goal = target + side * _80.value;
+    sead::Vector3f hit;
+    if (sub_710072FAB0(actor, goal, &hit, -1, -1.0f, -1.0f)) {
+        if (_8c > 0.0f) {
+            _68 = ksys::Timer(-1.0f, -1.0f);
+            return goal;
+        }
+        goal = sub_71004B0848(angle, pos, target);
+        _74 = goal;
+        _68 = ksys::Timer(20.0f, 20.0f);
+        return goal;
+    }
+
+    f32 time = 20.0f;
+    const sead::Vector3f near = target + side * _80.value * 0.9f;
+    sead::Vector3f near_dir = near - pos;
+    near_dir.normalize();
+    if (sub_710072FAB0(actor, near + near_dir, &hit, -1, -1.0f, -1.0f)) {
+        goal = near;
+    } else {
+        const sead::Vector3f far = target + side * _80.value * 1.6f;
+        sead::Vector3f far_dir = far - pos;
+        far_dir.normalize();
+        if (sub_710072FAB0(actor, far + far_dir, &hit, -1, -1.0f, -1.0f)) {
+            goal = far;
+        } else {
+            goal = sub_71004B0848(angle, pos, target);
+            time = 5.0f;
+        }
+    }
+    _74 = goal;
+    _68 = ksys::Timer(time, time);
+    return goal;
 }
 
 // NON_MATCHING: the final addition loads the base vector per component (three pointers) in the original, and the
