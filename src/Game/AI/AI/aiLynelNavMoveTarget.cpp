@@ -4,6 +4,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -83,6 +84,51 @@ void LynelNavMoveTarget::calc_() {
     }
     sub_71004923C0();
     setFailed();
+}
+
+// NON_MATCHING: the CliffCheckDist load is scheduled before the front axis copy (the original loads it after).
+void LynelNavMoveTarget::m34() {
+    // Whether the rider's gear is at most StopGear.
+    const auto isAtStopGear = [this] {
+        auto* rideable = mActor->m132();
+        if (!rideable)
+            return false;
+        const act::Rideable::Gear gear(
+            *(rideable->_18._b == 0 ? &rideable->_18._9 : &rideable->_18._b));
+        return int(gear) <= int(act::Rideable::Gear(*mStopGear_s));
+    };
+    const auto changeToLookAround = [this] {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("見まわす", &pack);
+    };
+
+    // sub_710072FEC4 along the actor's front axis over CliffCheckDist.
+    const auto checkFront = [this] {
+        sead::Vector3f front;
+        mActor->getMtx().getBase(front, 2);
+        return sub_710072FEC4(mActor, front, *mCliffCheckDist_s, nullptr, true, nullptr);
+    };
+    if (!checkFront()) {
+        if (isAtStopGear() && !sub_7100492CB8()) {
+            sub_7100492574();
+            changeToLookAround();
+            return;
+        }
+        LynelNavMoveNoStop::m34();
+        return;
+    }
+
+    if (sub_7100493790(false))
+        return;
+    sub_7100492574();
+    if (isAtStopGear()) {
+        changeToLookAround();
+        return;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("ブレーキ", &pack);
 }
 
 bool LynelNavMoveTarget::sub_7100493790(bool a1) {

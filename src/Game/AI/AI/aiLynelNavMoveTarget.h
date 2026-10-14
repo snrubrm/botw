@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override;
     bool m35() override;
 
     // 0x7100493790 (placeholder name; declared only)
