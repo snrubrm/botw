@@ -2,6 +2,9 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "gsys/gsysModel.h"
+#include "gsys/gsysModelUnit.h"
 
 namespace uking::action {
 
@@ -51,6 +54,36 @@ void GanonThrowFireBall::calc_() {
 
 bool GanonThrowFireBall::isFinished() const {
     return isFinishedAS(0, 0);
+}
+
+// NON_MATCHING: the original loads the m33 offset right after the call (ours after the parts actor checks).
+void GanonThrowFireBall::sub_710017BBA0(int idx) {
+    sead::Matrix34f rot_mtx;
+    ksys::util::sub_71011F0260(&rot_mtx, sead::Vector3f::ez, sead::Vector3f::ey, sead::Vector3f::zero,
+                               false);
+
+    auto* model = mActor->getModel();
+    const auto key = model->searchBone("Weapon_L");
+    sead::Matrix34f bone_mtx;
+    mActor->getModel()->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+        &bone_mtx, key.bone_index);
+    const sead::Vector3f bone_pos = bone_mtx.getTranslation();
+    sead::Vector3f offset;
+    m33(&offset, idx);
+    const f32 scale_value = *mFireBallScale_s;
+    const sead::Vector3f scale{scale_value, scale_value, scale_value};
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || !enemy->getActorPartsActor(m32(idx)).hasProc())
+        return;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    const sead::Vector3f pos = bone_pos + offset;
+    ksys::act::acquireActor(&enemy->getActorPartsActor(m32(idx)), &accessor);
+    accessor.setThisActorAsChild(mActor, false);
+    sead::Matrix34f mtx = enemy->getMtx();
+    mtx.setTranslation(pos);
+    accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 3, -1);
 }
 
 void GanonThrowFireBall::sub_710017BE48(int idx) {

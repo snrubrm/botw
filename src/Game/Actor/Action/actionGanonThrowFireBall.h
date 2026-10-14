@@ -24,7 +24,7 @@ protected:
     virtual const sead::SafeString& m32(int idx);
     // 0x710017c0fc: `out->set(0, *mBallAppearOffset_s, 0)`; MultiIce / MultiTornado pass `idx` through.
     virtual void m33(sead::Vector3f* out, int idx);
-    // 0x710017bba0 (declared only, 576 B): throws ball `idx` (parts actor / bone matrix + setProperties).
+    // 0x710017bba0: throws ball `idx` (parts actor at the Weapon_L bone + m33 offset; setProperties).
     void sub_710017BBA0(int idx);
     // 0x710017be48: sends the target (message 0x800003a with the payload at 0x68) to the parts actor of ball `idx`.
     void sub_710017BE48(int idx);
