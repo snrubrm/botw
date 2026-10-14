@@ -7,6 +7,43 @@
 
 namespace ksys::snd {
 
+// NON_MATCHING: the original skips the m4 call for an unknown type instead of testing the current _48.
+void Unk_SoundMgr30::sub_7100FF8464(sead::Heap* heap, BgmControllerType type) {
+    switch (type) {
+    case BgmControllerType::_1:
+        _48 = new (heap) Unk_710260f198();
+        break;
+    case BgmControllerType::_2:
+    case BgmControllerType::_3:
+        _48 = new (heap) Unk_710260f150(type);
+        break;
+    case BgmControllerType::_4:
+        _48 = new (heap) Unk_710260f130();
+        break;
+    case BgmControllerType::_5:
+        _48 = new (heap) Unk_710260f218();
+        break;
+    case BgmControllerType::_6:
+    case BgmControllerType::_7:
+    case BgmControllerType::_8:
+    case BgmControllerType::_9:
+        _48 = new (heap) Unk_710260f1f8(type);
+        break;
+    case BgmControllerType::_10:
+        _48 = new (heap) Unk_710260f0c0();
+        break;
+    case BgmControllerType::_11:
+        _48 = new (heap) Unk_710260f160();
+        break;
+    default:
+        break;
+    }
+    if (_48)
+        _48->m4(heap);
+    _40 = type;
+    _88 &= ~7;
+}
+
 void Unk_SoundMgr30::sub_7100FF88A8(s32 fade_type) {
     if (_78)
         _78->sub_7101007AA0(fade_type == 1 ? _50 : 0.0f);

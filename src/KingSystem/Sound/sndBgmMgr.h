@@ -292,7 +292,24 @@ Unk_710260f130* sub_7100FFD9D0();
 // RTTI typeInfo 0x710260f198, a BGM controller (sub_7100FFD7CC casts SoundMgr::_30->_48 to it).
 class Unk_710260f198 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f198, Unk_71024fca78)
+public:
+    // 0x7100ffaf20 (declared only; 0x130 bytes, created by Unk_SoundMgr30::sub_7100FF8464 for type 1).
+    Unk_710260f198();
+    // Own slots of vtable 0x71024fcdb0 (D2 0x7100ffb368, m4 0x7100ffb438 ... m12 0x7100ffbf40); declared only.
+    ~Unk_710260f198() override;
+    void m4(sead::Heap* heap) override;
+    void m5() override;
+    void m6(f32 fade_sec) override;
+    void m7(f32 fade_sec) override;
+    void m8(const Unk_BgmControllerM8Arg& arg) override;
+    void m9(const Unk_BgmControllerM8Arg& arg) override;
+    void m10() override;
+    void* m11() override;
+    void m12() override;
+
+    u8 _90[0x130 - 0x90];
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f198, 0x130);
 Unk_710260f198* sub_7100FFD7CC();
 
 // RTTI typeInfo 0x710260f1f8, a BGM controller (sub_7100FFD878 casts SoundMgr::_30->_48 to it).
@@ -459,6 +476,8 @@ struct Unk_SoundMgr30_18;
 
 // Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
 struct Unk_SoundMgr30 {
+    // 0x7100ff8464 (CSV sound::x_1): creates the BGM controller for `type` at _48 and initializes it.
+    void sub_7100FF8464(sead::Heap* heap, BgmControllerType type);
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
     void sub_7100FF8804();
     void sub_7100FF85E0();
@@ -471,7 +490,9 @@ struct Unk_SoundMgr30 {
     /* 0x08 */ Unk_SoundMgr30_8* _8;
     /* 0x10 */ Unk_SoundMgr30_10* _10;
     /* 0x18 */ Unk_SoundMgr30_18* _18;
-    u8 _20[0x28];
+    u8 _20[0x20];
+    /* 0x40 */ BgmControllerType _40;
+    u8 _44[4];
     /* 0x48 */ Unk_71024fca78* _48;
     // Native constructor FF7D08 and fade controls independently establish these floats.
     f32 _50;
