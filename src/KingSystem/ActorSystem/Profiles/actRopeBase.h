@@ -25,6 +25,10 @@ class RopeBase;
 class RopeBase : public Actor {
     SEAD_RTTI_OVERRIDE(RopeBase, Actor)
 public:
+    // 0x7100ecaa68 (declared only).
+    explicit RopeBase(const CreateArg& arg);
+    // Rope's destructor (0x7100024a04) inlines this one; that needs the key function initMaybe (0x7100ecf66c) defined
+    // so the vtable and the destructor stay in this TU.
     ~RopeBase() override;
 
     // Primary vtable24F0440 slot64 points toECF66C; Actor names this slot initMaybe.

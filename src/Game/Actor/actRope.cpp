@@ -6,6 +6,12 @@ void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
 
 namespace uking::act {
 
+Rope::Rope(const CreateArg& arg) : RopeBase(arg), _a00(this), _c30(this), _cc8(this, 0x800002a) {}
+
+ksys::act::BaseProc* Rope::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Rope(arg);
+}
+
 void Rope::onPreDeleteStart_(PrepareArg& arg) {
     sub_7100D2D424(&_a00);
     // called through a pointer in the original (not devirtualised)
@@ -41,8 +47,8 @@ uking::dmg::DamageManagerBase* Rope::getDamageMgr() {
     return &_a00;
 }
 
-// NON_MATCHING: the original (0x7100024a04) also tears down listeners and links of RopeBase and Rope
-// (0x8c0 to 0xcc8) that are not declared yet; the thunks and D0 differ because of that.
+// NON_MATCHING: the original inlines the destructors of RopeBase and ActorAtk; both are out of line here until
+// their key functions (RopeBase::initMaybe 0x7100ecf66c, ActorAtk::init 0x710079d7b0) are decompiled.
 Rope::~Rope() = default;
 
 }  // namespace uking::act
