@@ -34,6 +34,14 @@ Player::Unk1 Player::x_5() {
     return Unk1(sead::Mathf::atan2Idx(dir.x, dir.z));
 }
 
+// NON_MATCHING: the original computes the matrix product with scalar lane multiplies; ours is vectorised
+void Player::sub_710086800C(f32 a1) {
+    const sead::Vector3f rotation = _20f0 * sead::Vector3f(0.0f, a1, 0.0f);
+    sead::Matrix34f rotation_mtx;
+    rotation_mtx.makeR(rotation);
+    _1b18.setMul(rotation_mtx, _1b18);
+}
+
 bool Player::stillAlive() {
     auto* life = getLife();
     if (!life || *life > 0 || hasFairy())

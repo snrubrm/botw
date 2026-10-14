@@ -101,8 +101,14 @@ public:
     bool isFinishedSavingMaybe() const;
     // 0x710091579c (CSV SaveSystem::loadDone): the same test as isFinishedSavingMaybe (a separate copy).
     bool loadDone() const;
-    // 0x71009147f4 (CSV SaveSystem::startLoad2; declaration only)
-    void startLoad2(s32 slot);
+    // 0x71009147f4 (CSV SaveSystem::startLoad2): starts loading `slot` (state 5); in the E3 demo on the title menu it
+    // runs sub_7100914A40 instead. False when the save system is busy.
+    bool startLoad2(s32 slot);
+    // 0x7100914a40 (declaration only, 328 bytes): the demo-mode load used by startLoad2.
+    bool sub_7100914A40();
+    // 0x7100914b88 (CSV SaveSystem::x_0; declaration only, 348 bytes): the load startLoad2 runs while _1a50 has
+    // both 0x20 and 0x40 set.
+    bool x_0(s32 slot, bool a);
     // 0x71009167f8 (CSV SaveSystem::requestAutoSaveForGameClear; declaration only)
     void requestAutoSaveForGameClear(const sead::SafeString& game_clear_flag);
     // 0x71009146f8 (CSV SaveSystem::setRetryData; declaration only)
@@ -196,7 +202,9 @@ public:
     // prohibited, auto saving is paused, ...) or the map type is empty.
     bool sub_7100912BE0(bool check_ui);
 
-    u8 _28[0x30 - 0x28];
+    u8 _28[0x2c - 0x28];
+    // The slot startLoad2 loads (when not negative).
+    s32 _2c;
     s32 _30;
     u32 _34;
     // bit 2 (4): see isFirstLaunch
@@ -223,7 +231,9 @@ public:
     // bool / s32 flag indices (with the flag handle prefix in the top byte) set by requestAutoSaveForGameClear
     u32 _1a34;
     u32 _1a38;
-    u8 _1a3c[0x1a42 - 0x1a3c];
+    u8 _1a3c[0x1a41 - 0x1a3c];
+    // Cleared by startLoad2.
+    u8 _1a41;
     bool _1a42;
     bool _1a43;
     bool _1a44;

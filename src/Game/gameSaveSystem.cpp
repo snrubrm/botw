@@ -67,6 +67,9 @@ void SaveSystem::sub_7100912EA4(bool a) {
 // 0x71025d1d18: the all-zero slot returned for a slot that does not exist.
 static SaveSlot sUnk_71025D1D18;
 
+// 0x71025d1c30: the title menu map type (compared by startLoad2; set up by the static initializer 0x7100917244).
+static sead::FixedSafeString<32> sTitleMenuMapType{"TitleMenu"};
+
 bool SaveSystem::isFinishedSavingMaybe() const {
     auto* mgr = ksys::SaveMgr::instance();
     return mgr && mgr->get38() == 0 && _3c == 0;
@@ -305,6 +308,51 @@ bool SaveSystem::triggerAutoSaveFromArea(ksys::act::Actor* actor) {
 
     _1a24 = f32(ksys::VFR::instance()->getFrameRate() * 60);
     return sub_71009109EC(false, true);
+}
+
+bool SaveSystem::startLoad2(s32 slot) {
+    if (E3Mgr::instance() && E3Mgr::instance()->isDemoMode() &&
+        !E3Mgr::instance()->isRidDemoAnd28IsOne()) {
+        if (GameScene::getCurrentMapType() == sTitleMenuMapType)
+            return sub_7100914A40();
+    }
+
+    if ((_1a50 & 0x60) == 0x60) {
+        const bool ok = x_0(slot, true);
+        _1a50 &= ~0x40;
+        return ok;
+    }
+
+    if (auto* gdm = ksys::gdt::Manager::instance()) {
+        _1a50 &= ~0x20;
+        gdm->mBitFlags.reset(ksys::gdt::Manager::BitFlag::_80);
+    }
+    _1a50 &= ~0x40;
+
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return false;
+    if (save_mgr->get38() != 0)
+        return false;
+    if (_3c != 0)
+        return false;
+
+    _1a41 = 0;
+    _1a50 &= ~8;
+    save_mgr->_f94 = 0;
+    if (!save_mgr->enableGdtMgrChangeOnlyMode(slot))
+        return false;
+
+    if (slot >= 0)
+        _2c = slot;
+    if (_30 != 8)
+        _1880.sub_710090CD84(&_40[_30], false);
+    _3c = 5;
+    _30 = slot;
+    _38 &= ~2;
+    if (auto* report = ksys::PlayReportMgr::instance())
+        report->setPlayerTrackReporter29();
+    return true;
 }
 
 bool SaveSystem::sub_71009145F8() {
