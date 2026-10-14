@@ -3,11 +3,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
-#include "Game/Actor/Action/actionSpotBgmTriggerAction.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/Actor/Action/actionSpotBgmTriggerAction.h"
 
 namespace uking::ai {
 

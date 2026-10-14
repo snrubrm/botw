@@ -1,3 +1,5 @@
+add_subdirectory(Actor)
+
 target_sources(uking PRIVATE
   sndBattleDungeonBgm.cpp
   sndBgm.cpp

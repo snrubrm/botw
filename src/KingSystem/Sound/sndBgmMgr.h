@@ -31,10 +31,6 @@ namespace sead {
 class TextWriter;
 }
 
-namespace uking::action {
-class SoundOcclusionTagAction;
-}
-
 class Unk_7102500a00;
 class Unk_71024fefe8;
 class Unk_71024feae8;
@@ -404,7 +400,7 @@ KSYS_CHECK_SIZE_NX150(Unk_710260f2a8, 0x68);
 // RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it).
 class Unk_71025ce350 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71025ce350, Bgm)
-    friend class uking::action::SoundOcclusionTagAction;
+    friend class SoundOcclusionTagAction;
 
     u8 _10[0x3c - 0x10];
     bool _3c;
@@ -774,7 +770,7 @@ public:
     void sub_7100FF9830(s32 id, bool use_a0);
     void sub_7100FF9850(s32 a, bool b, s32 id, bool use_a0);
     void sub_7100FF987C(bool a, s32 id, bool use_a0);
-    // Called by uking::action::SceneBgmCtrlAction::oneShot_.
+    // Called by SceneBgmCtrlAction::oneShot_.
     void sub_7100FF98A4();
 
     Unk_71024fe948* _90 = nullptr;

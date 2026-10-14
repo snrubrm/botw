@@ -6,10 +6,6 @@ namespace sead {
 class Heap;
 }
 
-namespace uking::action {
-class SoundOcclusionTagAction;
-}
-
 namespace ksys::snd {
 
 // Placeholder: the type of the owned objects of OcclusionMgr (deleted through the virtual destructor in slot 1).
@@ -21,7 +17,7 @@ public:
 // Name from the CSV (snd::OcclusionMgr::ctor 0x7101055f70, init 0x71010560d4 (an empty function in the original)): created in
 // SoundMgr's init. TODO: incomplete.
 class OcclusionMgr {
-    friend class uking::action::SoundOcclusionTagAction;
+    friend class SoundOcclusionTagAction;
 public:
     // 0x7101055f70
     OcclusionMgr();

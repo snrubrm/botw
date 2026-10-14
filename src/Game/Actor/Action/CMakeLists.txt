@@ -287,8 +287,6 @@ target_sources(uking PRIVATE
   actionBattleCloseSlippedWalk.h
   actionBattleCloseWalk.cpp
   actionBattleCloseWalk.h
-  actionBattleDungeonBGMAction.cpp
-  actionBattleDungeonBGMAction.h
   actionBattleHover.cpp
   actionBattleHover.h
   actionBattleLevelFlyMove.cpp
@@ -487,10 +485,6 @@ target_sources(uking PRIVATE
   actionCurseRRematchCount.h
   actionCurveMoveToTargetBase.cpp
   actionCurveMoveToTargetBase.h
-  actionCustomDuckingEndAction.cpp
-  actionCustomDuckingEndAction.h
-  actionCustomDuckingStartAction.cpp
-  actionCustomDuckingStartAction.h
   actionDamagedTurn.cpp
   actionDamagedTurn.h
   actionDamageField.cpp
@@ -735,10 +729,6 @@ target_sources(uking PRIVATE
   actionEnemyRigidBodySpinDie.h
   actionEnemyRushAttack.cpp
   actionEnemyRushAttack.h
-  actionEnvSeEmitPointBirdPlayAction.cpp
-  actionEnvSeEmitPointBirdPlayAction.h
-  actionEnvSeEmitPointInsectPlayAction.cpp
-  actionEnvSeEmitPointInsectPlayAction.h
   actionEquipDisplay.cpp
   actionEquipDisplay.h
   actionEquipDisplayCreate.cpp
@@ -785,14 +775,6 @@ target_sources(uking PRIVATE
   actionEventAppearRaceResult.h
   actionEventAutoSaveAtGameClear.cpp
   actionEventAutoSaveAtGameClear.h
-  actionEventBgmCtrlAction.cpp
-  actionEventBgmCtrlAction.h
-  actionEventBgmStartAction.cpp
-  actionEventBgmStartAction.h
-  actionEventBgmStartAndKeepAction.cpp
-  actionEventBgmStartAndKeepAction.h
-  actionEventBgmStopAction.cpp
-  actionEventBgmStopAction.h
   actionEventBind.cpp
   actionEventBind.h
   actionEventCancelGet.cpp
@@ -1446,8 +1428,6 @@ target_sources(uking PRIVATE
   actionFreezedInIceWeapon.h
   actionFromCDungeonToMainField.cpp
   actionFromCDungeonToMainField.h
-  actionFrontierSpotBgmTriggerAction.cpp
-  actionFrontierSpotBgmTriggerAction.h
   actionGameDataAddFloat.cpp
   actionGameDataAddFloat.h
   actionGameDataAddInt.cpp
@@ -1620,10 +1600,6 @@ target_sources(uking PRIVATE
   actionGrabRightWalk.h
   actionGraveAttack.cpp
   actionGraveAttack.h
-  actionGroupAllowEmitAction.cpp
-  actionGroupAllowEmitAction.h
-  actionGroupDisallowEmitAction.cpp
-  actionGroupDisallowEmitAction.h
   actionGuard.cpp
   actionGuard.h
   actionGuardBackWalk.cpp
@@ -1862,8 +1838,6 @@ target_sources(uking PRIVATE
   actionKeepStandingPosture.h
   actionKick.cpp
   actionKick.h
-  actionKillAllDemoSoundAction.cpp
-  actionKillAllDemoSoundAction.h
   actionKillSelectActor.cpp
   actionKillSelectActor.h
   actionKillUIScreenAction.cpp
@@ -1952,10 +1926,6 @@ target_sources(uking PRIVATE
   actionLinearFlyAttack.h
   actionLinearFlyAttackBase.cpp
   actionLinearFlyAttackBase.h
-  actionListenerFixPositionAction.cpp
-  actionListenerFixPositionAction.h
-  actionListenerSetModeAction.cpp
-  actionListenerSetModeAction.h
   actionLoadSaveDataFromGameOver.cpp
   actionLoadSaveDataFromGameOver.h
   actionLookAtObject.cpp
@@ -2060,8 +2030,6 @@ target_sources(uking PRIVATE
   actionMultiVacuumRotBase.h
   actionMultiVacuumRotScaleTimeByDist.cpp
   actionMultiVacuumRotScaleTimeByDist.h
-  actionMusicianSpotBgmTriggerAction.cpp
-  actionMusicianSpotBgmTriggerAction.h
   actionNavMeshBattleWalk.cpp
   actionNavMeshBattleWalk.h
   actionNavMeshConnectAction.cpp
@@ -2364,8 +2332,6 @@ target_sources(uking PRIVATE
   actionPlayerAreaInOutSendMessage.h
   actionPlayerBeamMove.cpp
   actionPlayerBeamMove.h
-  actionPlayerEmitEquipmentNoise.cpp
-  actionPlayerEmitEquipmentNoise.h
   actionPlayerInAreaAutoEnemyForbidTag.cpp
   actionPlayerInAreaAutoEnemyForbidTag.h
   actionPlayerLookAtObjectNow.cpp
@@ -2558,22 +2524,6 @@ target_sources(uking PRIVATE
   actionSandwormTackleMove.h
   actionSandwormTackleMoveList.cpp
   actionSandwormTackleTarget.cpp
-  actionSceneBgmCtrlAction.cpp
-  actionSceneBgmCtrlAction.h
-  actionSceneSoundCtrlAction.cpp
-  actionSceneSoundCtrlAction.h
-  actionSceneSoundKillDuckingAction.cpp
-  actionSceneSoundKillDuckingAction.h
-  actionSceneSoundNotifyTalkAction.cpp
-  actionSceneSoundNotifyTalkAction.h
-  actionSceneSoundSetEndProcAction.cpp
-  actionSceneSoundSetEndProcAction.h
-  actionSceneSoundSetStartProcAction.cpp
-  actionSceneSoundSetStartProcAction.h
-  actionSceneSoundStartDuckingAction.cpp
-  actionSceneSoundStartDuckingAction.h
-  actionSceneSoundStopDuckingAction.cpp
-  actionSceneSoundStopDuckingAction.h
   actionScrapEquip.cpp
   actionScrapEquip.h
   actionSearch.cpp
@@ -2848,24 +2798,14 @@ target_sources(uking PRIVATE
   actionSmallDamageDirectPreTargetBack.h
   actionSmallDamageDirectPreTargetBone.cpp
   actionSmallDamageDirectPreTargetBone.h
-  actionSoundOcclusionTagAction.cpp
-  actionSoundOcclusionTagAction.h
   actionSoundOcclusionTagRemainsWater.cpp
   actionSoundOcclusionTagRemainsWater.h
-  actionSoundProxyRootAction.cpp
-  actionSoundProxyRootAction.h
-  actionSoundReverbAreaTagAction.cpp
-  actionSoundReverbAreaTagAction.h
-  actionSoundShieldingAreaTagAction.cpp
-  actionSoundShieldingAreaTagAction.h
   actionSoundTrigger.cpp
   actionSoundTrigger.h
   actionSoundTriggerFadeAction.cpp
   actionSoundTriggerFadeAction.h
   actionSpinFlyAttack.cpp
   actionSpinFlyAttack.h
-  actionSpotBgmTriggerAction.cpp
-  actionSpotBgmTriggerAction.h
   actionSpreadToEnemy.cpp
   actionSpreadToEnemy.h
   actionSSMagneStickAcceptorAccept.cpp
@@ -2900,8 +2840,6 @@ target_sources(uking PRIVATE
   actionStepDoubleLargeAttack.h
   actionStick.cpp
   actionStick.h
-  actionStopAllDemoSoundAction.cpp
-  actionStopAllDemoSoundAction.h
   actionStopASIgnite.cpp
   actionStopASIgnite.h
   actionStopASPlay.cpp

@@ -1,10 +1,10 @@
 #include "Game/Actor/Action/actionDemoKokkoAngry.h"
-#include "Game/Actor/Action/actionSpotBgmTriggerAction.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Sound/Actor/Action/actionSpotBgmTriggerAction.h"
 
 namespace uking::action {
 
