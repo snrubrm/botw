@@ -241,7 +241,14 @@ private:
     /* 0x1d110 */ EventDebugA* _1d110;
     u8 pad_1d118[0x1d120 - 0x1d118];
     /* 0x1d120 */ EventDebugB* _1d120;
-    u8 pad_1d128[0x1d170 - 0x1d128];
+    u8 pad_1d128[0x1d129 - 0x1d128];
+
+public:
+    // set by Context's destructor when a flow has the flags 0x40000 and 0x20000000000
+    /* 0x1d129 */ bool _1d129;
+
+private:
+    u8 pad_1d12a[0x1d170 - 0x1d12a];
     /* 0x1d170 */ s32 mAliveEventFlowCount;
 
 public:

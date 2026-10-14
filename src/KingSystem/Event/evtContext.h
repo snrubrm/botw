@@ -1,14 +1,23 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlow.h"
 
 namespace ksys::evt {
 
 class ActorBase;
+class EventFlow;
+
+// The object at Context + 0x200 (placeholder; only its deleting destructor (slot 1) is used)
+class ContextUnk200 {
+public:
+    virtual ~ContextUnk200();
+};
 
 // The event manager's event context (CSV evt::Context; EventMgr + 0x1d2b8 is the active one): the event
 // flows that make up a running event (the main flow and the flows it starts) and a stack of indices of the
@@ -47,26 +56,34 @@ public:
     EventFlowBase* getCurrentFlowUnchecked() const { return mFlows(mFlowStack[mStackTop]); }
 
 private:
+    // An entry of _240 (the child flows; made by the constructor)
+    struct ChildFlow {
+        EventFlow* flow;
+        bool _8;
+    };
+
     /* 0x08 */ sead::PtrArray<EventFlowBase> mFlows;
-    u8 _18[0x28 - 0x18];
-public:
-    /* 0x28 */ act::BaseProcLink mLink;
-
-private:
-    u8 _38[0x60 - 0x38];
 
 public:
-    /* 0x60 */ sead::FixedSafeString<64> _60;  // (guess) the event name; compared by Manager::isActiveEventNameEqualTo
-    /* 0xb8 */ sead::FixedSafeString<64> _b8;  // copied by Manager::getEventEntryPointName (size guessed)
+    // _28 / _38 of this object: the actor link and the event metadata (the event name is compared by
+    // Manager::isActiveEventNameEqualTo, the entry point is copied by Manager::getEventEntryPointName)
+    /* 0x18 */ BaseProcLinkForEvent mProcLink;
 
 private:
-    u8 _110[0x1e8 - 0x110];
+    /* 0x1d8 */ s32 _1d8;
+    /* 0x1e0 */ sead::Heap* mHeap;
     /* 0x1e8 */ sead::SafeArray<s8, 8> mFlowStack;
     /* 0x1f0 */ s32 mStackTop;
     /* 0x1f4 */ u8 _1f4;
-    u8 _1f5[0x1f9 - 0x1f5];
+    u8 _1f5[0x1f7 - 0x1f5];
+    /* 0x1f7 */ bool _1f7;  // set by the constructor when the metadata's _160 < 500 (also sets ActorSystem::_13b bit 0)
+    u8 _1f8;
     /* 0x1f9 */ bool mActorBeingDeleted;
-    u8 _1fa[0x250 - 0x1fa];
+    u8 _1fa[0x200 - 0x1fa];
+    // made by the constructor through Manager::_1d2c8 (slot 0); type unknown
+    /* 0x200 */ ContextUnk200* _200;
+    u8 _208[0x240 - 0x208];
+    /* 0x240 */ sead::Buffer<ChildFlow> mChildFlows;
 };
 
 }  // namespace ksys::evt

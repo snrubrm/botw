@@ -58,7 +58,8 @@ bool Manager::sub_7100DB06EC(const BaseProcLinkForEvent& link) {
 bool Manager::isActiveEventNameEqualTo(const sead::SafeString& event_name,
                                        const sead::SafeString& entry_point) const {
     if (auto* context = _1d2b8)
-        return context->_60 == event_name && context->_b8 == entry_point;
+        return context->mProcLink.mMetadata.getEventName() == event_name &&
+               context->mProcLink.mMetadata.getEntryPointName() == entry_point;
     return false;
 }
 
@@ -147,7 +148,8 @@ bool Manager::checkActiveContextEventName(const sead::SafeString& event_name,
                                           const sead::SafeString& entry_point) const {
     if (!_1d2b8)
         return false;
-    return _1d2b8->_60 == event_name && _1d2b8->_b8 == entry_point;
+    return _1d2b8->mProcLink.mMetadata.getEventName() == event_name &&
+           _1d2b8->mProcLink.mMetadata.getEntryPointName() == entry_point;
 }
 
 // 0x7100db2a9c
@@ -174,7 +176,7 @@ void Manager::sub_7100DB3750() {
 void Manager::setActorBeingDeletedOnContexts(act::BaseProc* proc) {
     for (s32 i = 0; i < 32; ++i) {
         auto* context = mContexts[i];
-        if (context && _1d2b8 != context && context->mLink.hasProcById(proc))
+        if (context && _1d2b8 != context && context->mProcLink.mLink.hasProcById(proc))
             context->setActorBeingDeleted();
     }
 }
@@ -324,10 +326,10 @@ act::BaseProcLink* Manager::getBaseProcLinkForActorOrActiveLink(act::BaseProc* p
     if (proc) {
         for (s32 i = 0; i < 32; ++i) {
             if (mContexts[i] && mContexts[i]->getActorByPointer(proc))
-                return &mContexts[i]->mLink;
+                return &mContexts[i]->mProcLink.mLink;
         }
     }
-    return _1d2b8 ? &_1d2b8->mLink : nullptr;
+    return _1d2b8 ? &_1d2b8->mProcLink.mLink : nullptr;
 }
 
 // 0x7100db0ea0
@@ -359,7 +361,7 @@ bool Manager::sub_7100DB0EA0(const Message* message) {
 bool Manager::getEventEntryPointName(sead::BufferedSafeString* out) const {
     if (!_1d2b8)
         return false;
-    out->copy(sead::SafeString(_1d2b8->_b8.cstr()));
+    out->copy(sead::SafeString(_1d2b8->mProcLink.mMetadata.getEntryPointName().cstr()));
     return true;
 }
 

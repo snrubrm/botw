@@ -1,7 +1,36 @@
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/Event/evtEventFlowMgr.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
+
+// NON_MATCHING: missing the last step: `if (_1f7)` the original clears bit 0 of ActorSystem::_13b (`and #0xfe`);
+// _13b is a private bool in ActorSystem (lane4 header), so that flag write is left out.
+Context::~Context() {
+    constexpr u64 flags = 0x20000040000;
+    for (int i = 0; i < mFlows.size(); ++i) {
+        if ((mFlows(i)->_340 & flags) == flags) {
+            Manager::instance()->_1d129 = true;
+            break;
+        }
+    }
+    for (int i = 0; i < mFlows.size(); ++i)
+        delete mFlows.at(i);
+    mFlows.freeBuffer();
+
+    delete _200;
+
+    if (mChildFlows.isBufferReady()) {
+        for (int i = 0; i < mChildFlows.size(); ++i) {
+            if (mChildFlows[i].flow)
+                mChildFlows[i].flow->unload(true);
+        }
+        mChildFlows.freeBuffer();
+    }
+
+    Manager::instance()->sub_7100DB3750();
+}
 
 // 0x7100db9e2c
 void Context::setActorBeingDeleted() {
