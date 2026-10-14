@@ -42,11 +42,15 @@ public:
 
     // 0x7100682cb4: registered state 2 and the linked actor flag at 0x1699 bit 6.
     bool sub_7100682CB4() const;
+    // 0x7100683120 / 0x7100683174 (placeholder names): the Wolf Link's life (1 without a life value) / max life;
+    // -1 without a Wolf Link.
+    s32 sub_7100683120();
+    s32 sub_7100683174();
     sead::Vector3f sub_71006831BC() const;
     // 2026-10-07: original WolfLink pre-delete call passes this actor and true.
     bool sub_7100682F80(ksys::act::Actor* actor, bool deleting);
     // 0x7100682ce8 (declared only; WolfLinkAmiiboRegister::enter_): registers the amiibo Wolf Link at `pos`.
-    void sub_7100682CE8(const sead::Vector3f* pos, u8 flags);
+    bool sub_7100682CE8(const sead::Vector3f* pos, u8 flags);
     // 0x7100683088 (declared only; WolfLinkEvent::enter_ with 1).
     bool sub_7100683088(bool a1);
     // 0x710068367c / 0x7100683698 (declared only; WolfLinkAmiiboRegister::calc_).

@@ -39,6 +39,31 @@ bool WolfLinkMgr::sub_7100682CB4() const {
     return _60 == 2 && _80 && (_80->_1698 & 0x4000);
 }
 
+// NON_MATCHING: the original builds the flag as `1 << n` with n = 1 read back from a stack slot (probably a SEAD_ENUM
+// bit index: sead::TypedBitFlag::makeMask); ours folds it to 2
+bool WolfLinkMgr::sub_7100683088(bool a1) {
+    if (_60 != 2 || !_80 || !_28.hasProc())
+        return false;
+    const u8 flags = a1 ? 1 << 1 : 0;
+    const sead::Vector3f pos = _80->getMtx().getTranslation();
+    return sub_7100682CE8(&pos, flags);
+}
+
+s32 WolfLinkMgr::sub_7100683120() {
+    if (_28.hasProc() && _80) {
+        if (auto* life = _80->getLife())
+            return *life;
+        return 1;
+    }
+    return -1;
+}
+
+s32 WolfLinkMgr::sub_7100683174() {
+    if (_28.hasProc() && _80)
+        return _80->getMaxLife();
+    return -1;
+}
+
 sead::Vector3f WolfLinkMgr::sub_71006831BC() const {
     if (_28.hasProc() && _80)
         return _80->getMtx().getTranslation();
