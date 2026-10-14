@@ -13,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -20,6 +21,8 @@ protected:
     bool sub_71003E0DC4();
     // 0x71003e1318 (placeholder name)
     void sub_71003E1318(sead::Vector3f* out);
+    // 0x71003e14b8 (placeholder name; declared only, 1432 B): the destination position for `target`.
+    void sub_71003E14B8(sead::Vector3f* out, const sead::Vector3f& target);
 
     // static_param at offset 0x38
     const float* mApproachTime_s{};
