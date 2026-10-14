@@ -1,7 +1,7 @@
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"

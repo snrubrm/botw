@@ -16,7 +16,7 @@
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/GameData/gdtManager.h"
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"

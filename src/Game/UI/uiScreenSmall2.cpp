@@ -28,7 +28,7 @@
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiUI.h"
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/System/StageInfo.h"
@@ -1367,7 +1367,7 @@ void ScreenTitle::m99() {
     s32 tag = 0x68;
     if (_3639) {
         tag = 0x69;
-        if (auto* manager = aoc::Manager::instance())
+        if (auto* manager = ksys::aoc::Manager::instance())
             tag += manager->getVersion() != 0;
     }
     if (isRIDDemo())

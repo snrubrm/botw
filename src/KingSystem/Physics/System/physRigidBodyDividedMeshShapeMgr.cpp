@@ -3,7 +3,7 @@
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBody.h"
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h"
 #include "KingSystem/Resource/resLoadRequest.h"
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
 
 namespace ksys::phys {
@@ -83,8 +83,8 @@ void RigidBodyDividedMeshShapeMgr::loadTeraMeshRigidBody(HandleInfo* info) {
         sead::FixedSafeString<256> path;
         path.format("%s/%d-%d.hktmrb", mName.cstr(), info->coordinates.x,
                     info->coordinates.y);
-        if (uking::aoc::Manager::instance())
-            request.mAocFileDevice = uking::aoc::Manager::instance()->getFileDeviceForTeraMesh(path);
+        if (ksys::aoc::Manager::instance())
+            request.mAocFileDevice = ksys::aoc::Manager::instance()->getFileDeviceForTeraMesh(path);
         info->handle.requestLoad(path, &request, nullptr);
     }
     if (info->handle.isReadyOrNeedsParse())

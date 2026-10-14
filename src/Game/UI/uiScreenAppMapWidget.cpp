@@ -1,4 +1,4 @@
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 
@@ -95,7 +95,7 @@ void ScreenAppMapWidget::sub_71009A9E74(const sead::Vector3f* pos) {
 
 // 0x71009aa004
 void ScreenAppMapWidget::sub_71009AA004() {
-    if (aoc::Manager::instance()->getVersion() >= 0x200)
+    if (ksys::aoc::Manager::instance()->getVersion() >= 0x200)
         sub_71009AA024();
 }
 

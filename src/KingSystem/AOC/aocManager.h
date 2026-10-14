@@ -19,7 +19,7 @@ namespace sead {
 class FileDevice;
 }
 
-namespace uking::aoc {
+namespace ksys::aoc {
 
 // TODO
 class Manager {
@@ -129,4 +129,4 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x598);
 
-}  // namespace uking::aoc
+}  // namespace ksys::aoc

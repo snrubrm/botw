@@ -5,7 +5,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 
 // Trivial overrides of the leaf screens' own state-callback slots (154+).
 namespace uking::ui {
@@ -315,7 +315,7 @@ void ScreenSaveTransferWindow::m195() {
 void ScreenSaveTransferWindow::m155() {
     switch (_366c) {
     case 0x8d: {
-        auto* manager = aoc::Manager::instance();
+        auto* manager = ksys::aoc::Manager::instance();
         if (manager && manager->getVersion() != 0)
             getStateMachine().changeState(&sUnk_71025f1fa0);
         else

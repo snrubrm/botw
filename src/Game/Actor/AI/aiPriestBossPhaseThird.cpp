@@ -1,5 +1,5 @@
 #include "Game/Actor/AI/aiPriestBossPhaseThird.h"
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"

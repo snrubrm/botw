@@ -1,4 +1,4 @@
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include <container/seadBuffer.h>
 #include <filedevice/seadFileDeviceMgr.h>
 #include <prim/seadStringBuilder.h>
@@ -15,7 +15,7 @@
 #include <prim/seadStringUtil.h>
 #endif
 
-namespace uking::aoc {
+namespace ksys::aoc {
 
 namespace {
 
@@ -543,4 +543,4 @@ void Manager::onGdtReinit(ksys::gdt::Manager::ReinitEvent* event) {
     reinitFlags();
 }
 
-}  // namespace uking::aoc
+}  // namespace ksys::aoc

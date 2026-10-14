@@ -1,7 +1,7 @@
 #include "KingSystem/ksys.h"
 #include <heap/seadHeapMgr.h>
 #include <thread/seadThread.h>
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/ActorSystem/actBaseProcCreateTaskSelector.h"
 #include "KingSystem/ActorSystem/actBaseProcInitializer.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -114,7 +114,7 @@ bool checkPreInitializeResourcesStillLoading() {
         ui::LayoutResourceMgr::instance()->checkLangFontReady() &&
         ui::LayoutResourceMgr::instance()->checkExtraLangFontsReady() &&
         ui::LayoutResourceMgr::instance()->checkVersionReady()) {
-        return !uking::aoc::Manager::instance()->parseVersion();
+        return !ksys::aoc::Manager::instance()->parseVersion();
     }
     return true;
 }

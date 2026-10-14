@@ -1,6 +1,6 @@
 #include <xlink2/xlink2HandleELink.h>
 #include "Game/Actor/actCameraUtil.h"
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "Game/UI/euiScreen.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -695,7 +695,7 @@ bool fadeSlowEffect() {
 
 // 0x7100a9aaa8 (CSV activateHeroPath; global namespace)
 bool activateHeroPath() {
-    if (!uking::aoc::Manager::instance()->hasAoc2())
+    if (!ksys::aoc::Manager::instance()->hasAoc2())
         return false;
     if (uking::ui::UiSubsys1::instance()->get38b8())
         return false;

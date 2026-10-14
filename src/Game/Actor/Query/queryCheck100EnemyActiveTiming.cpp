@@ -1,6 +1,6 @@
 #include "Game/Actor/Query/queryCheck100EnemyActiveTiming.h"
 #include <evfl/Query.h>
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
@@ -16,7 +16,7 @@ Check100EnemyActiveTiming::~Check100EnemyActiveTiming() = default;
 int Check100EnemyActiveTiming::doQuery() {
     if (GameScene::getCurrentMapType() != "MainField")
         return 0;
-    if (!aoc::Manager::instance()->hasAoc2())
+    if (!ksys::aoc::Manager::instance()->hasAoc2())
         return 0;
     if (ksys::gdt::getFlag_100enemy_Activated())
         return 0;

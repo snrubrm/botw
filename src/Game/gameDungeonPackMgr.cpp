@@ -1,5 +1,5 @@
 #include "Game/gameDungeonPackMgr.h"
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resCompactedHeap.h"
@@ -45,8 +45,8 @@ void DungeonPackMgr::submitLoadPackRequest(const sead::SafeString& name) {
     request._8 = true;
     request._26 = false;
     request.mArena = mArena;
-    if (uking::aoc::Manager::instance()) {
-        request.mAocFileDevice = uking::aoc::Manager::instance()->getFileDeviceForDungeonPack(path);
+    if (ksys::aoc::Manager::instance()) {
+        request.mAocFileDevice = ksys::aoc::Manager::instance()->getFileDeviceForDungeonPack(path);
         mIsAocPack = request.mAocFileDevice != nullptr;
     }
     mHandle.requestLoad(path, &request, nullptr);
@@ -74,8 +74,8 @@ bool DungeonPackMgr::startedLoadAndFailed() const {
 
 void DungeonPackMgr::sub_71008A5ADC() {
     ksys::res::setResourceMgrPack(nullptr);
-    if (uking::aoc::Manager::instance())
-        uking::aoc::Manager::instance()->registerAocPack(nullptr);
+    if (ksys::aoc::Manager::instance())
+        ksys::aoc::Manager::instance()->registerAocPack(nullptr);
     mHandle.requestUnload();
 }
 
@@ -83,8 +83,8 @@ void DungeonPackMgr::setResourceMgrPack() {
     mHandle.parseResource(nullptr);
     if (mHandle.isSuccess()) {
         ksys::res::setResourceMgrPack(&mHandle);
-        if (mIsAocPack && uking::aoc::Manager::instance())
-            uking::aoc::Manager::instance()->registerAocPack(&mHandle);
+        if (mIsAocPack && ksys::aoc::Manager::instance())
+            ksys::aoc::Manager::instance()->registerAocPack(&mHandle);
     }
 }
 
@@ -93,8 +93,8 @@ void DungeonPackMgr::waitAndSetResMgrPack() {
     mHandle.parseResource(nullptr);
     if (mHandle.isSuccess()) {
         ksys::res::setResourceMgrPack(&mHandle);
-        if (mIsAocPack && uking::aoc::Manager::instance())
-            uking::aoc::Manager::instance()->registerAocPack(&mHandle);
+        if (mIsAocPack && ksys::aoc::Manager::instance())
+            ksys::aoc::Manager::instance()->registerAocPack(&mHandle);
     }
 }
 

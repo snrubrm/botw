@@ -1,5 +1,5 @@
 #include "Game/Cooking/cookManager.h"
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include <math/seadMathCalcCommon.h>
@@ -8,7 +8,7 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiManager.h"
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "Game/UI/uiUnkSingletons.h"

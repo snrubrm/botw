@@ -1,6 +1,6 @@
 #include "Game/gameSaveSystem.h"
 #include <heap/seadFrameHeap.h>
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUtils.h"

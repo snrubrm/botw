@@ -1,6 +1,6 @@
 #include "KingSystem/Quest/qstStep.h"
 #include <memory>
-#include "Game/DLC/aocManager.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Quest/qstActorData.h"
@@ -163,7 +163,7 @@ bool Step::sub_7100FDC2A4(al::ByamlIter* iter) {
 namespace ksys::qst {
 
 void Step::ActLink::sub_71012B4274() {
-    const auto* aoc = uking::aoc::Manager::instance();
+    const auto* aoc = ksys::aoc::Manager::instance();
     if ((!aoc || aoc->getVersion() == 0) && _1d != 0)
         return;
     if (link.hasProc()) {
@@ -180,7 +180,7 @@ void Step::ActLink::sub_71012B4274() {
 
 // NON_MATCHING: order and register allocation of the _18 and Schedule pointer loads.
 void Step::ActLink::sub_71012B44F4(const sead::SafeString& name) {
-    const auto* aoc = uking::aoc::Manager::instance();
+    const auto* aoc = ksys::aoc::Manager::instance();
     if ((!aoc || aoc->getVersion() == 0) && _1d != 0)
         return;
     if (!link.hasProc())

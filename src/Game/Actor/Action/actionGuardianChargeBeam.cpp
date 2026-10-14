@@ -1,6 +1,6 @@
 #include "Game/Actor/Action/actionGuardianChargeBeam.h"
 #include <random/seadGlobalRandom.h>
-#include "Game/DLC/aocHardModeManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::action {

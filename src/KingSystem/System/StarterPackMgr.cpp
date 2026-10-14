@@ -117,8 +117,8 @@ void StarterPackMgr::loadTitleBGPacks() {
 }
 
 void StarterPackMgr::loadAocMainFieldPack() {
-    if (uking::aoc::Manager::instance())
-        uking::aoc::Manager::instance()->loadAocMainFieldPack(mOverlayArena);
+    if (ksys::aoc::Manager::instance())
+        ksys::aoc::Manager::instance()->loadAocMainFieldPack(mOverlayArena);
 }
 
 void StarterPackMgr::unloadBootupGraphicsPack() {
@@ -192,8 +192,8 @@ void StarterPackMgr::setPackToTitleBGPack() {
         mTitleBGLangPack.waitForReady();
         mTitleBGLangPack.parseResource(nullptr);
 
-        if (uking::aoc::Manager::instance())
-            uking::aoc::Manager::instance()->registerAocMainFieldPack();
+        if (ksys::aoc::Manager::instance())
+            ksys::aoc::Manager::instance()->registerAocMainFieldPack();
 
         res::registerPackExtension(false, "");
         res::setResourceMgrPack(&mTitleBGPack);
@@ -207,8 +207,8 @@ void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
         mTitleBGPack.requestUnload();
         mTitleBGLangPack.requestUnload();
 
-        if (uking::aoc::Manager::instance())
-            uking::aoc::Manager::instance()->unloadAocMainFieldPack();
+        if (ksys::aoc::Manager::instance())
+            ksys::aoc::Manager::instance()->unloadAocMainFieldPack();
 
         for (int x = 0; x < 5; x++)
             res::ResourceMgrTask::instance()->waitForTaskQueuesToEmpty();
