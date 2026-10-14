@@ -152,6 +152,10 @@ public:
     bool sub_7100E6AF2C(ksys::act::BaseProc* proc) const;
     bool sub_7100E6B068(ksys::act::BaseProc* proc) const;
     void sub_7100E6BA08();
+    // 0x7100e6b4a8 / 0x7100e6b764 (lane3 s71; declared only): called by HorseReturnToSafePos::calc_ when the
+    // horse starts to fade out (0x7100e6b4a8, reads the link at _840) and after it reappeared (0x7100e6b764).
+    void sub_7100E6B4A8();
+    void sub_7100E6B764();
     bool sub_7100E6BE40() const;
     f32 sub_7100E6BE6C() const;
     void sub_7100E6BE8C(f32 delta);
