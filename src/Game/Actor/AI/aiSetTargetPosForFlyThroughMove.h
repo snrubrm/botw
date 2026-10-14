@@ -15,10 +15,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    // 0x7100568ea8 (declared only): computes the fly-through target position into `out`.
+    void sub_7100568EA8(sead::Vector3f* out);
+
     // static_param at offset 0x38
     const float* mTargetPosFixDist_s{};
     // static_param at offset 0x40
