@@ -235,7 +235,18 @@ public:
         };
 
         /* 0x000 */ ksys::act::Actor* mOwner;
-        /* 0x008 */ u8 _8[0x94 - 0x8];
+        // 0x008-0x094: fire ball spawn parameters (SiteBossLswordFirstCreateFBall::enter_).
+        /* 0x008 */ bool _8;
+        /* 0x00c */ f32 _c;
+        /* 0x010 */ u32 _10;
+        /* 0x018 */ sead::FixedSafeString<64> _18;  // actor name
+        /* 0x070 */ s32 _70;
+        /* 0x074 */ f32 _74;
+        /* 0x078 */ f32 _78;
+        /* 0x07c */ f32 _7c;
+        /* 0x080 */ f32 _80;
+        /* 0x084 */ s32 _84;
+        /* 0x088 */ sead::Vector3f _88;
         /* 0x094 */ u32 _94;
         /* 0x098 */ u8 _98;
         // 2026-10-07: SiteBossSwordRoot::init_ 0x710059881c sets this from _1534 bits 2/3.

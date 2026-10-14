@@ -15,8 +15,36 @@ bool SiteBossLswordFirstCreateFBall::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original keeps &boss->_1560 in a register for the stores after the name copy.
 void SiteBossLswordFirstCreateFBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mParams.mASName_s.cstr(), true, 0, 0, -1.0f);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        auto& info = boss->_1560;
+        info._8 = true;
+        info._c = 8.0f;
+        info._10 = 0;
+        info._18 = mParams.mThrowActorName_s;
+        s32 num = getNumberOfDeadBlights();
+        switch (boss->_1534 & ~3) {
+        case 4:
+            num = 3;
+            break;
+        case 8:
+            num = 4;
+            break;
+        }
+        const s32 add = *mParams.mAddAttackPower_s * num;
+        info._70 = *mParams.mAttackPower_s + add;
+        info._74 = 1.0f;
+        info._78 = 200.0f;
+        info._7c = *mParams.mFireBallScale_s;
+        info._80 = *mParams.mFireBallScale_s;
+        info._84 = *mParams.mAtMinDamage_s + add;
+        info._88 = *mParams.mBindPosOffset_s;
+        info._94 = 0;
+    }
+    _74 = ksys::Timer(1.0f, 1.0f, -1.0f);
+    _70 = false;
 }
 
 void SiteBossLswordFirstCreateFBall::leave_() {
