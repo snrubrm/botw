@@ -61,11 +61,14 @@ void LynelDirSelect::calc_() {
 
 void LynelDirSelect::m34() {}
 
-// NON_MATCHING: the original keeps the front vector in integer registers (csel on the y component); same operations.
+// NON_MATCHING: the y selects use the inverted csel (wzr first), and the dot products are scheduled differently.
 // Returns the side of the actor the target is on: 0 front, 1 back, 2 / 3 the two sides.
 s32 LynelDirSelect::sub_7100490308() {
     const sead::Matrix34f& mtx = mActor->getMtx();
-    sead::Vector3f front(mtx(0, 2), *mIsCheckOnlyXZ_s ? 0.0f : mtx(1, 2), mtx(2, 2));
+    sead::Vector3f front;
+    mtx.getBase(front, 2);
+    if (*mIsCheckOnlyXZ_s)
+        front.y = 0.0f;
     const sead::Vector3f pos = mtx.getTranslation();
     front.normalize();
 
