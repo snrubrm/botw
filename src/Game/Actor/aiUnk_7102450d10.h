@@ -31,6 +31,9 @@ public:
     // 0x7100714ed4 (declared only): called by OctarockReaction::sub_71004ED6D4 with `false`; maps the character
     // controller's value at +0x224 to a form index like sub_7100714C9C (switch over `_8` / `_30`).
     void sub_7100714ED4(bool a1);
+    // 0x7100714b88 (placeholder name; declared only): called by OctarockWaterWait::enter_ when it starts rising
+    // in the rain (sets the character controller's form _30 and the "Tgt" body contact layers).
+    void sub_7100714B88();
 
     // Compared with the character controller's value at +0x224 (index = form).
     /* 0x08 */ sead::SafeArray<int, 10> _8;
