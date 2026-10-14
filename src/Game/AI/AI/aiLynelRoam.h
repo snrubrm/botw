@@ -29,12 +29,14 @@ public:
     // a position, the other turns around the central position).
     void sub_7100498D14();
     void sub_7100498EF8();
-    // 0x71004990c8 (placeholder name; declared only): per-frame update while moving (RepathTime).
+    // 0x71004990c8 (placeholder name): per-frame update while moving (RepathTime).
     void sub_71004990C8();
 
 protected:
     bool sub_7100498398(sead::Vector3f* out);
     bool sub_710049951C(sead::Vector3f* out, const sead::Vector3f& direction);
+    // 0x7100499704 (placeholder name; declared only): a position back inside the territory.
+    bool sub_7100499704(sead::Vector3f* out);
 
     // static_param at offset 0x38
     const int* mFreeIntervalMin_s{};

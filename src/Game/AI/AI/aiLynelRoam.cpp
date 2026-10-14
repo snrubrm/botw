@@ -214,6 +214,48 @@ void LynelRoam::calc_() {
     }
 }
 
+// NON_MATCHING: register allocation and load scheduling of the distance tests.
+// Repaths while moving (RepathTime): a new position in front of the actor while inside the territory (or behind
+// it when it faces away from the central position), else a position back inside the territory.
+void LynelRoam::sub_71004990C8() {
+    if (!(_d4.value <= sead::Mathf::epsilon())) {
+        _d4.update();
+        return;
+    }
+
+    const f32 dx = mActor->getMtx()(0, 3) - mCentralPos_d->x;
+    const f32 dz = mActor->getMtx()(2, 3) - mCentralPos_d->z;
+    if (dx * dx + dz * dz > *mTerritory_s * *mTerritory_s) {
+        sead::Vector3f pos;
+        if (!sub_7100499704(&pos))
+            return;
+        _d4.reset(*mRepathTime_s);
+        changeToMove(pos);
+        return;
+    }
+
+    sead::Vector3f front;
+    sub_71000891C8(&front, mActor);
+    sead::Vector3f dir(mCentralPos_d->x - mActor->getMtx()(0, 3), 0.0f,
+                       mCentralPos_d->z - mActor->getMtx()(2, 3));
+    dir.normalize();
+    const f32 half = *mTerritory_s * 0.5f;
+    const f32 dx2 = mActor->getMtx()(0, 3) - mCentralPos_d->x;
+    const f32 dz2 = mActor->getMtx()(2, 3) - mCentralPos_d->z;
+    sead::Vector3f pos;
+    if ((-front).dot(dir) < 0.8660254f || dx2 * dx2 + dz2 * dz2 <= half * half) {
+        sub_71000891C8(&front, mActor);
+        if (!sub_710049951C(&pos, front))
+            return;
+    } else {
+        sub_71000891C8(&front, mActor);
+        if (!sub_710049951C(&pos, -front))
+            return;
+    }
+    _d4.reset(*mRepathTime_s);
+    changeToMove(pos);
+}
+
 // NON_MATCHING: timer load scheduling differs.
 void LynelRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 time = *mNoSpAttackMoveTime_s;
