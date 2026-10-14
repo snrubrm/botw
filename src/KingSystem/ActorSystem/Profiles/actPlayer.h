@@ -336,6 +336,9 @@ public:
     // 0x7100877bd8: stores the anim-driven speed (ASList::sub_710115D2D4) in _20bc / _20c0 and its
     // direction relative to x_5() in _1c68 (~18 player actions call it).
     void sub_7100877BD8();
+    // 0x7100884fcc (lane3 s71; declared only): stores the angle index of sub_710087386C() in _1c68 and
+    // the result of sub_7100869814 in _d1c, then ASList::x_6(9, 0, ...) with the angle difference from x_5().
+    void sub_7100884FCC();
     void sub_710085C55C();
     f32 x_39();                                                         // 0x867cd4
     void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990
