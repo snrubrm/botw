@@ -133,7 +133,12 @@ public:
     explicit Unk_710247d8f8(eui::LayoutEx* layout);
     ~Unk_710247d8f8() override;
 
-    u8 _130[0x408 - 0x130];
+    // Members from the ctor 0x9c54e4 and D1 0x9c55b8.
+    /* 0x130 */ void* _130 = nullptr;
+    /* 0x138 */ bool _138 = false;
+    /* 0x140 */ Unk_710247dc50 _140;
+    /* 0x158 */ Unk_710247d8d8 _158[14]{};
+    /* 0x388 */ u8 _388[0x80]{};
 };
 static_assert(sizeof(Unk_710247d8f8) == 0x408);
 

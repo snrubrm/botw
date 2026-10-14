@@ -482,14 +482,25 @@ public:
 };
 static_assert(sizeof(Unk_710247ae28) == 0x20);
 
+// Element of Unk_710247d8f8's array at 0x158 (implicit ctor 0x9c5074).
 class Unk_710247d8d8 {
 public:
     virtual ~Unk_710247d8d8();
+
+    /* 0x08 */ s32 _8 = -1;
+    /* 0x10 */ void* _10 = nullptr;
+    /* 0x18 */ void* _18 = nullptr;
+    /* 0x20 */ void* _20 = nullptr;
 };
+static_assert(sizeof(Unk_710247d8d8) == 0x28);
 
 class Unk_710247dc50 {
 public:
+    Unk_710247dc50();
     virtual ~Unk_710247dc50();
+
+    /* 0x8 */ u64 _8 = 0;
+    /* 0x10 */ u64 _10 = 0;
 };
 
 class Unk_710247dc70 {

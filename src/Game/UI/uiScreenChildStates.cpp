@@ -986,6 +986,11 @@ Unk_7102478048::~Unk_7102478048() {
 
 Unk_710247d580::~Unk_710247d580() = default;
 
+// 0x71009c54e4
+// NON_MATCHING: the original calls Unk_710247d8d8's implicit ctor (0x9c5074) out of line for each of the 14
+// elements after the memset; clang inlines it here.
+Unk_710247d8f8::Unk_710247d8f8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 Unk_710247d8f8::~Unk_710247d8f8() = default;
 
 // 0x71009c69a4
