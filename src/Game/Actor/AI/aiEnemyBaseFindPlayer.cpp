@@ -3,6 +3,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include <geom/seadGeometry.h>
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -215,6 +219,43 @@ bool EnemyBaseFindPlayer::sub_7100380B50() {
         return false;
     const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
     return level && level->mIsSwiftAttack.ref();
+}
+
+// NON_MATCHING: scheduling of the filter construction around the mActor load
+bool EnemyBaseFindPlayer::sub_7100380C88() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    ksys::act::acc::PlayerBase player;
+    ksys::act::acquireActor(&enemy->_c48._8, &player);
+    if (player.x_13())
+        return false;
+
+    if (s32(sead::GlobalRandom::instance()->getU32(100)) >= *mSurpriseAttackPer_s)
+        return false;
+
+    Unk_7102451448 filter;
+    auto* awareness = mActor->getAwareness();
+    const sead::Segment3f segment(mActor->getMtx().getTranslation(), sub_71005D9330(mActor));
+    if (awareness) {
+        while (auto* sensor = awareness->_260[0]) {
+            auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+            if (!entry)
+                break;
+            sead::Vector3f pos;
+            entry->_58.getTranslation(pos);
+            if (sead::Geometry::calcSquaredDistancePointToSegment(pos, segment, nullptr) < 3.0f)
+                return false;
+        }
+    }
+
+    // result unused in the original
+    sead::GlobalRandom::instance()->getU32();
+    auto* target = sub_71005D9050(mActor);
+    if (target && ksys::act::isPlayerProfile(target))
+        return act::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, 120);
+    return true;
 }
 
 void EnemyBaseFindPlayer::changeToSurpriseAttack() {

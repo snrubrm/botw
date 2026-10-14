@@ -60,6 +60,9 @@ public:
     // 0x71003806c8 (called by sub_710037EF30, result unused there): whether the nav path goal is within attack range of
     // the path end (height AttackVMin..Max, horizontal distance squared <= m34()); resets the nav request otherwise.
     bool sub_71003806C8();
+    // 0x7100380c88: surprise attack roll (SurpriseAttackPer) against a player that is not x_13(); false when an
+    // awareness entry lies within sqrt(3) of the segment from the actor to the target.
+    bool sub_7100380C88();
     // 0x7100380e90: TargetPos → 不意討ち.
     void changeToSurpriseAttack();
 
