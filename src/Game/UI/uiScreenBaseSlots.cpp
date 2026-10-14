@@ -16,6 +16,25 @@ void Screen::m13() {}
 
 namespace uking::ui {
 
+// 0x71010aa3b0
+Screen::Screen() : mTransceiver(this, sUnk_710261ee98), _1e0(*this) {
+    _291 = 0;
+    _292 = 0xfe7f;
+    _298.clear();
+}
+
+// 0x71010aa54c
+// NON_MATCHING: the inlined Unk_7102474a28 teardown takes the adapter address after getDispatcher().
+Screen::~Screen() {
+    for (auto it = mChildList.begin(); it != mChildList.end();) {
+        auto child = it++;
+        mChildList.erase(child);
+        delete &*child;
+    }
+    mChildren.freeBuffer();
+    mChildGroupSizes.freeBuffer();
+}
+
 // 0x71010a9f04
 eui::TagProcessor* ScreenBase::doCreateTagProcessor_(sead::Heap* heap) {
     return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());

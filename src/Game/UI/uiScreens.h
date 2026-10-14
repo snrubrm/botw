@@ -256,6 +256,8 @@ ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control);
 
 // The secondary RxOnly/TxOnly handlers are at0x108/0x110. Screen introduces its
 // handleMessage override at primary slot111; ScreenEx overrides that same slot.
+struct ScreenUnk298;
+
 class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
 public:
     // 0x71010aa3b0 (CSV Screen::ctor; declared only)
@@ -271,18 +273,22 @@ public:
     /* 0x1e0 */ ksys::ActorMessageTransceiver _1e0;
     /* 0x238 */ nn::util::IntrusiveList<ScreenChild, nn::util::IntrusiveListMemberNodeTraits<ScreenChild, &ScreenChild::_28>>
         mChildList;  // owned: the destructor deletes every child in it
-    u8 _248[0x250 - 0x248];
+    /* 0x248 */ void* _248 = nullptr;
     /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
     /* 0x260 */ sead::Buffer<s32> mChildGroupSizes;  // the number of children of each group (the groups are consecutive in mChildren)
-    /* 0x270 */ f32 _270;
-    u8 _274[0x288 - 0x274];
-    /* 0x288 */ eui::Animator* _288;
-    /* 0x290 */ u8 _290;
-    u8 _291;
-    /* 0x292 */ u16 _292;
-    /* 0x294 */ u8 _294;  // 1: ScreenSystemWindow00::m98 / m99 leave the button group's flag 2 clear
+    /* 0x270 */ f32 _270 = -1.0f;
+    /* 0x278 */ void* _278 = nullptr;
+    /* 0x280 */ void* _280 = nullptr;
+    /* 0x288 */ eui::Animator* _288 = nullptr;
+    /* 0x290 */ u8 _290 = 0;
+    u8 _291 = 0;
+    /* 0x292 */ u16 _292 = 0;
+    /* 0x294 */ u8 _294 = 0xff;  // 1: ScreenSystemWindow00::m98 / m99 leave the button group's flag 2 clear
+    u8 _295 = 0;
+    // Element type unknown (the ctor only sets up the 10-entry buffer).
+    /* 0x298 */ sead::FixedPtrArray<ScreenUnk298, 10> _298;
+    /* 0x2f8 */ s32 _2f8 = 0;
     // Ends at 0x2fc: the members of ScreenMainDungeon start there (tail padding of the non-POD base).
-    u8 _295[0x2fc - 0x295];
 
     void open(s32 option) override;
     void close(s32 option) override;
