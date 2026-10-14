@@ -11,6 +11,8 @@
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyPolytope.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Map/mapObject.h"
@@ -85,6 +87,72 @@ void LumberjackTree::sub_7100489A18(sead::Vector3f* out, const sead::Vector3f& f
         dir.normalize();
     }
     out->set(dir);
+}
+
+bool LumberjackTree::sub_710048A50C(ksys::phys::PolytopeShape* shape, bool upper, f32* min_y,
+                                    f32* max_y) {
+    const f32 volume = shape->getVolume();
+    const int num = shape->getNumVertices();
+    bool changed = false;
+    for (int i = 0; i < num; ++i) {
+        sead::Vector3f vertex = shape->getVertex(i);
+        if (*min_y > vertex.y)
+            *min_y = vertex.y;
+        if (*max_y < vertex.y)
+            *max_y = vertex.y;
+        if ((upper && vertex.y < 1.1f) || (!upper && vertex.y > 1.1f)) {
+            vertex.y = 1.1f;
+            shape->setVertex(i, vertex);
+            changed = true;
+        }
+    }
+    if (!changed)
+        return false;
+
+    shape->updateHavokShape();
+    const f32 height = *max_y - *min_y;
+    f32 bottom = 1.1f;
+    f32 top = *max_y;
+    if (!upper) {
+        bottom = *min_y;
+        top = 1.1f;
+    }
+    shape->setVolume(volume * ((top - bottom) / height));
+    return true;
+}
+
+// NON_MATCHING: the original uses the vertex count unmasked and signed (PolytopeRigidBody::getNumVertices returns
+// int there; ours is declared u16), which also changes the loop register allocation
+bool LumberjackTree::sub_710048A708(ksys::phys::PolytopeRigidBody* body, bool upper, f32* min_y,
+                                    f32* max_y) {
+    const f32 volume = body->getVolume();
+    const int num = body->getNumVertices();
+    bool changed = false;
+    for (int i = 0; i < num; ++i) {
+        sead::Vector3f vertex = body->getVertex(i);
+        if (*min_y > vertex.y)
+            *min_y = vertex.y;
+        if (*max_y < vertex.y)
+            *max_y = vertex.y;
+        if (upper ? vertex.y < 1.1f : vertex.y > 1.1f) {
+            vertex.y = 1.1f;
+            body->setVertex(i, vertex);
+            changed = true;
+        }
+    }
+    if (!changed)
+        return false;
+
+    body->updateShape();
+    const f32 height = *max_y - *min_y;
+    f32 bottom = 1.1f;
+    f32 top = *max_y;
+    if (!upper) {
+        bottom = *min_y;
+        top = 1.1f;
+    }
+    body->setVolume(volume * ((top - bottom) / height));
+    return true;
 }
 
 void LumberjackTree::sub_710048A190() {

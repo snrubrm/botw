@@ -15,6 +15,11 @@ namespace ksys::phys {
 class Constraint;
 }
 
+namespace ksys::phys {
+class PolytopeRigidBody;
+class PolytopeShape;
+}
+
 namespace uking::ai {
 
 class LumberjackTree;
@@ -76,6 +81,11 @@ public:
     // 0x7100489a18 (placeholder name; does not use `this`): the horizontal direction from `from` to `to`, or a random
     // unit vector when the two are (nearly) above each other.
     void sub_7100489A18(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to);
+    // 0x710048a50c (placeholder name; does not use `this`): flattens the vertices above (or, with `upper`, below)
+    // y = 1.1 onto that plane, tracking the minimum / maximum vertex y; scales the volume to the kept part.
+    bool sub_710048A50C(ksys::phys::PolytopeShape* shape, bool upper, f32* min_y, f32* max_y);
+    // 0x710048a708 (placeholder name; does not use `this`): the same for a polytope rigid body.
+    bool sub_710048A708(ksys::phys::PolytopeRigidBody* body, bool upper, f32* min_y, f32* max_y);
 
 protected:
     Unk_71024e1b58* _38 = nullptr;
