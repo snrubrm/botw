@@ -14,6 +14,8 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -382,6 +384,38 @@ f32 MagneStickRoot::m42() {
             return factor * radius;
     }
     return radius;
+}
+
+// NON_MATCHING: block layout of the contact-point loop (the original keeps the result in a register and
+// returns through one exit).
+bool MagneStickRoot::sub_71004A1138(ksys::phys::ShapeCast* cast) {
+    if (!mActor)
+        return false;
+    auto* info = cast->getContactPointInfo();
+    if (!info)
+        return false;
+
+    const u32 id = mActor->getId();
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityPlayer);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityNPC);
+    info->subscribeLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    if (!cast->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes))
+        return false;
+
+    bool found = false;
+    for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::sub_7100EEAC50(&accessor, it.getPoint()->body_b);
+        if (accessor.hasProc() && !accessor.hasTag(ksys::act::tags::IgnoreMagneStickShapeCast)) {
+            found = accessor.getId() != id;
+            if (found)
+                break;
+        }
+    }
+    return found;
 }
 
 }  // namespace uking::ai
