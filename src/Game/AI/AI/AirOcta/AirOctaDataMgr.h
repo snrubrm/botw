@@ -23,7 +23,9 @@ public:
     // Placeholder (lane3 s36): the object at +0x28 as returned by sub_71002FB32C (only two flag bytes are
     // read: +0xb1 / +0xb2 = mgr +0xd9 / +0xda).
     struct SubData {
-        u8 _0[0xb1];
+        u8 _0[0x24];
+        sead::Vector3f _24;  // read by AirOctaWait::calc_ (zero: no move)
+        u8 _30[0xb1 - 0x30];
         bool _b1;
         bool _b2;
     };
