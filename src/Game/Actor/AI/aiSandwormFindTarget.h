@@ -17,6 +17,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -27,6 +28,13 @@ protected:
     void sub_710055A530();
     // inline-only in the original; names are guesses (enter_ and calc_ both inline the navmesh reachability test
     // (sub_710072F944) and the lost test (LostVMin / LostVMax / LostRange, sub_71005D9F4C))
+    bool isTargetOutOfAttackRange() const {
+        const sead::Vector3f my_pos = mActor->getMtx().getTranslation();
+        const sead::Vector3f& target = sub_71005D9330(mActor);
+        const f32 dx = target.x - my_pos.x;
+        const f32 dz = target.z - my_pos.z;
+        return dx * dx + dz * dz > *mAttackRange_s * *mAttackRange_s;
+    }
     bool isTargetReachable() const {
         auto* actor = mActor;
         const sead::Vector3f pos = sub_71005D9330(actor);
@@ -55,9 +63,9 @@ protected:
     const float* mLostRange_s{};
     // static_param at offset 0x58
     const float* mAttackRange_s{};
-    u32 _60 = 0;
-    u32 _64 = 0;
-    u32 _68 = 0;
+    f32 _60 = 0;  // lost timer
+    s32 _64 = 0;  // lost timer range (both LostTimer)
+    s32 _68 = 0;
 };
 KSYS_CHECK_SIZE_NX150(SandwormFindTarget, 0x70);
 

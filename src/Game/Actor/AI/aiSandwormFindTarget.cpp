@@ -10,6 +10,8 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <cmath>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -22,15 +24,11 @@ bool SandwormFindTarget::init_(sead::Heap* heap) {
 }
 
 void SandwormFindTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    const u32 lost_timer = *mLostTimer_s;
+    const s32 lost_timer = *mLostTimer_s;
     _64 = lost_timer;
     _68 = lost_timer;
 
-    const sead::Vector3f my_pos = mActor->getMtx().getTranslation();
-    const sead::Vector3f& target = sub_71005D9330(mActor);
-    const f32 dx = target.x - my_pos.x;
-    const f32 dz = target.z - my_pos.z;
-    if (dx * dx + dz * dz > *mAttackRange_s * *mAttackRange_s || !isTargetReachable())
+    if (isTargetOutOfAttackRange() || !isTargetReachable())
         sub_710055A3DC();
     else if (isTargetLost())
         sub_710055A530();
@@ -81,6 +79,50 @@ void SandwormFindTarget::sub_710055A614() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("戦闘", &pack);
+}
+
+// NON_MATCHING: block layout and regalloc (the original keeps mActor from the lost test for the range test)
+void SandwormFindTarget::calc_() {
+    bool lost = true;
+    if (isTargetLost()) {
+        ksys::Timer::update(&_60, -1.0f);
+    } else {
+        s32 time = _64;
+        if (_68 != _64)
+            time = _64 + s32(sead::GlobalRandom::instance()->getU32(_68 - _64));
+        _60 = time;
+        lost = false;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("威嚇")) {
+            setFailed();
+            return;
+        }
+        const bool is_battle = isCurrentChild("戦闘");
+        if (is_battle) {
+            if (child->isFinished())
+                sub_710055A3DC();
+            else
+                sub_710055A530();
+        } else {
+            if (child->isFinished())
+                sub_710055A614();
+            else
+                sub_710055A530();
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("威嚇")) {
+            if (_60 <= 0)
+                sub_710055A530();
+        } else if (!lost && isTargetReachable()) {
+            if (isTargetOutOfAttackRange())
+                sub_710055A3DC();
+            else
+                sub_710055A614();
+        }
+    }
 }
 
 }  // namespace uking::ai
