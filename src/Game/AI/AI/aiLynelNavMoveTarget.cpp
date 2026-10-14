@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiLynelNavMoveTarget.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -79,6 +83,47 @@ void LynelNavMoveTarget::calc_() {
     }
     sub_71004923C0();
     setFailed();
+}
+
+bool LynelNavMoveTarget::sub_7100493790(bool a1) {
+    if (sub_710072E154(mActor, *mTargetPos_d, nullptr, -1)) {
+        if (!a1 && !sub_7100492E34()) {
+            const sead::Vector3f* target_pos = mTargetPos_d;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*target_pos, "TargetPos", -1);
+            changeChild("回転", &pack);
+            return true;
+        }
+        changeToGoStraight();
+        return true;
+    }
+
+    if (!sub_7100492CB8())
+        return false;
+
+    if (a1) {
+        changeToMove();
+        return true;
+    }
+
+    sead::Vector3f dir;
+    if (auto* nav = mActor->m45()) {
+        {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            dir = nav->_248;
+        }
+        if (dir.dot(mActor->getMtx().getBase(2)) >= std::cos(sead::Mathf::pi() / 4)) {
+            changeToMove();
+            return true;
+        }
+    } else {
+        dir.set(0.0f, 0.0f, 0.0f);
+    }
+    const sead::Vector3f target = dir * 5.0f + mActor->getMtx().getTranslation();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("回転", &pack);
+    return true;
 }
 
 bool LynelNavMoveTarget::m35() {
