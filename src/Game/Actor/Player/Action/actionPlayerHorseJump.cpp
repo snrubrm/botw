@@ -1,7 +1,9 @@
 #include "Game/Actor/Player/Action/actionPlayerHorseJump.h"
 #include <cstring>
 #include "Game/gameUnk_710246d058.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -99,8 +101,52 @@ void PlayerHorseJump::loadParams_() {
     getDynamicParam(&mIsLargeHorse_d, "IsLargeHorse");
 }
 
+// NON_MATCHING: the original reads the arguments of sub_710086843C (0.5f, 0x20000000, 0x200000) from rodata
+// constants with external linkage (see PlayerWallJump); the AS speed ternary loads the ASList / member pointer in
+// both arms (as PlayerJump).
 void PlayerHorseJump::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    const f32 speed = player->_c40.isOnBit(13) ? player->m301() : 1.0f;
+    player->getASList()->x_3(0, 0, &ksys::as::ASList::Unk2::sub_71011631BC, speed);
+    player->getASList()->x_3(1, 0, &ksys::as::ASList::Unk2::sub_71011631BC, speed);
+    static_cast<ksys::act::Player*>(mActor)->sub_7100881418();
+
+    auto* as_list = mActor->getASList();
+    player = static_cast<ksys::act::Player*>(mActor);
+    as_list->sub_710115EFD0(0, true, false, player->get17d0()->getLeftStick().length());
+    auto* current = static_cast<ksys::act::Player*>(mActor);
+    current->getASList()->x_6(
+        6, 0,
+        ksys::util::sub_71011EE4B8(ksys::util::angleDiff(current->_1c74, current->x_5())) *
+            ksys::util::sUnk_7101EC6BA4);
+    auto* p = static_cast<ksys::act::Player*>(mActor);
+    p->sub_710086843C(0.5f, &p->_1c68, 0x20000000, 0x200000);
+
+    static_cast<ksys::act::Player*>(mActor)->sub_71008931C4();
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_c44.isOnBit(8) && !player->_d11) {
+        player->x_37();
+        player = static_cast<ksys::act::Player*>(mActor);
+    }
+    if (player->m179()) {
+        static_cast<ksys::act::Player*>(mActor)->sub_71008824AC(false);
+        if (ksys::act::playerIsReloadingOrChargingOrShootingBow(static_cast<ksys::act::Player*>(mActor)))
+            static_cast<ksys::act::Player*>(mActor)->x_37();
+    }
+
+    if (static_cast<ksys::act::Player*>(mActor)->_1770.y <
+        static_cast<ksys::act::Player*>(mActor)->_2158 - 0.5f)
+        setFinished();
+
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1844.value <= sead::Mathf::epsilon()) {
+        if (player->getVelocity().y < 0.0f)
+            player->_c44.reset(0x2);
+    } else {
+        player->_1844.update();
+    }
+
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerHorseJump::isChangeable() const {
