@@ -415,7 +415,7 @@ void sub_7100A9F410(s32 value) {
 
 // 0x7100a9b5b0 (placeholder name): the original only evaluates the type check of the screen AppMapDungeon (id 34) and
 // ignores its result (the use of the cast screen was optimised away; called by SiteBossRoot)
-void sub_7100A9B5B0() {
+void sub_7100A9B5B0(bool a1) {
     sead::IsDerivedFrom<ScreenAppMapDungeon>(
         eui::ScreenMgr::instance()->getScreen(ScreenId::AppMapDungeon));
 }

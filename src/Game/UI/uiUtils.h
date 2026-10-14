@@ -313,7 +313,7 @@ s32 sub_7100AA92AC(s32 from, s32 to);
 
 // 0x7100a9b5b0 (placeholder name): type check of the screen AppMapDungeon (id 34) with an ignored result (called by
 // SiteBossRoot).
-void sub_7100A9B5B0();
+void sub_7100A9B5B0(bool a1);
 
 // 0x7100a9d664 (placeholder name): resets the rune timers and calls slot 126 of every Screen.
 void sub_7100A9D664();

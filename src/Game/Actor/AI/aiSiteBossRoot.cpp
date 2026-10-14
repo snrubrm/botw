@@ -5,6 +5,12 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "Game/Actor/aiUnk_71007368A4.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -39,7 +45,33 @@ void SiteBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+
+    if (mActor->getRootAi()->isActorGoingBackToRootAi()) {
+        if (!checkHpRate(mActor, 0.5f)) {
+            if (auto* as_list = mActor->getASList())
+                as_list->sub_710115BAF8("Root");
+            sub_71007398E4(mActor, true);
+        }
+        if (auto* controller = mActor->getCharacterController()) {
+            controller->sub_7100F5F6FC(sead::Vector3f::zero);
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+        }
+        if (checkHpRate(mActor, 0.5f)) {
+            if (boss->_1558.isOnBit(7))
+                boss->_1558.resetBit(7);
+            boss->x_0();
+        }
+    } else if (mActor->getRootAi()->isActorDeletedOrDeleting()) {
+        if (auto* damage_mgr = boss->getDamageMgr())
+            damage_mgr->removeDamageCallback(&boss->_14c8);
+        boss->x_0();
+    }
+    boss->sub_71002D28BC();
+    boss->sub_71002D3944();
+    ui::sub_7100A9B5B0(false);
 }
 
 void SiteBossRoot::onPreDelete() {
