@@ -340,6 +340,9 @@ class Unk_7102475e68 : public uking::ui::UiSubsys1Entry {
     SEAD_RTTI_OVERRIDE(Unk_7102475e68, uking::ui::UiSubsys1Entry)
 public:
     ~Unk_7102475e68() override;
+
+    u8 _50[0x7c - 0x50];
+    /* 0x7c */ s32 _7c;  // 0 / 1 select the frame of Unk_7102478ab0's animator
 };
 
 // vtable 0x71024795a8 (17 slots); placeholder generated from the vtable (genskel.py).

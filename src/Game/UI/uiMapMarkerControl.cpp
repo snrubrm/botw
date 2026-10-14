@@ -328,6 +328,20 @@ Unk_7102478b48::~Unk_7102478b48() {
     _48 = nullptr;
 }
 
+// 0x710098e6c0
+void Unk_7102478ab0::m11() {
+    Unk_7102477fc0::m11();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    auto* entry = sead::DynamicCast<Unk_7102475e68>(_18);
+    if (!entry)
+        return;
+    if (entry->_7c == 0)
+        _48->Stop(0.0f);
+    else if (entry->_7c == 1)
+        _48->Stop(1.0f);
+}
+
 // NON_MATCHING: the animator receiver loads before the predicate call, and frame selection uses conditional selects.
 void Unk_7102478a18::m11() {
     Unk_7102477fc0::m11();
