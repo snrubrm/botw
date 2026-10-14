@@ -1579,7 +1579,6 @@ void ActorLinkConstDataAccess::triggerLink() {
         actor->m107();
 }
 
-// NON_MATCHING: the native matrix getter is inlined; it lives in the sibling accessor TU here.
 bool ActorLinkConstDataAccess::getMtxPos(sead::Vector3f* out) const {
     if (auto* actor = getActor()) {
         if (auto* body = actor->getMainBody()) {
@@ -1610,7 +1609,6 @@ bool ActorLinkConstDataAccess::sub_7100D116B4(phys::MaterialMask* out) const {
     return false;
 }
 
-// NON_MATCHING: the native fallback matrix getter is inlined; the sibling TU keeps a call.
 bool ActorLinkConstDataAccess::sub_7100D119A8(sead::Matrix34f* out,
                                         const sead::SafeString& name) const {
     if (auto* actor = getActor()) {
@@ -1623,7 +1621,6 @@ bool ActorLinkConstDataAccess::sub_7100D119A8(sead::Matrix34f* out,
     return false;
 }
 
-// NON_MATCHING: the native fallback matrix getter is inlined; the sibling TU keeps a call.
 bool ActorLinkConstDataAccess::sub_7100D11B14(sead::Vector3f* out) const {
     if (auto* actor = getActor())
         return actor->x_18(out);
@@ -1631,7 +1628,6 @@ bool ActorLinkConstDataAccess::sub_7100D11B14(sead::Vector3f* out) const {
     return false;
 }
 
-// NON_MATCHING: the native fallback matrix getter is inlined; the sibling TU keeps a call.
 bool ActorLinkConstDataAccess::sub_7100D11D14(sead::Vector3f* out) const {
     if (auto* actor = getActor()) {
         sub_7100D36EE0(out, actor);

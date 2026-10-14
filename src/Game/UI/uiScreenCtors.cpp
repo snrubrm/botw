@@ -29,8 +29,6 @@ ScreenReadyGo::ScreenReadyGo() : ScreenEx() {}
 // 0x7100a40da0
 ScreenRupee::ScreenRupee() : ScreenEx() {}
 
-// NON_MATCHING: the tail GOT-load/store scheduling differs (the original interleaves the loads with the
-// stores and materialises -1 first; ours hoists all three loads and materialises -1 late). All stores match.
 // 0x71009fcd64
 ScreenAppTool::ScreenAppTool() : ScreenEx() {
     _3740 = -1;
