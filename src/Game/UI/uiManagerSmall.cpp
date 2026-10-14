@@ -415,16 +415,16 @@ void Manager::sub_7100A7A4C0() {
 
 }  // namespace uking::ui
 
-// NON_MATCHING: placeholder destructor; the original (0x71009453bc) also destroys members or bases
-// this class does not declare yet.
-Unk_7102474fd8::~Unk_7102474fd8() = default;
+// 0x71009479c4
+Unk_7102474fd8::~Unk_7102474fd8() {
+    _60.freeBuffer();
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x710094784c) also destroys members or bases
-// this class does not declare yet.
+// 0x710094784c
 Unk_7102475050::~Unk_7102475050() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71009479d8) also destroys members or bases
-// this class does not declare yet.
+// NON_MATCHING: placeholder destructor (keeps the vtable emitted); the original's slot is the base D2 0x71009479c4
+// and its D0 is 0x71009479d8.
 Unk_71024750c8::~Unk_71024750c8() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x7100a7f290) also destroys members or bases

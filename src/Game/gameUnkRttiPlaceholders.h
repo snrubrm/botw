@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
+
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/Actor/actHorseRideInfo.h"
@@ -269,12 +271,18 @@ public:
 };
 
 // vtable 0x7102474fd8 (6 slots); placeholder generated from the vtable (genskel.py).
+// ScreenPauseMenuInfo's destructor destroys two objects of this family (0x130 bytes each, at 0x36e0 / 0x3810).
+// The original destructor is inline (its D2 copy 0x71009479c4 sits in Unk_71024750c8's TU and both vtables use it;
+// D0 0x71009453bc is in another TU); it is defined out of line here so that the vtable (and RTTI rows) stay emitted.
 class Unk_7102474fd8 {
     SEAD_RTTI_BASE(Unk_7102474fd8)
 public:
     virtual ~Unk_7102474fd8();
     virtual void m4();
     virtual s32 m5() { return 0; }
+
+    u8 _8[0x60 - 0x8];
+    /* 0x60 */ sead::PtrArrayImpl _60;
 };
 
 // vtable 0x7102475050 (13 slots); placeholder generated from the vtable (genskel.py).
