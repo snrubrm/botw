@@ -82,6 +82,16 @@ public:
     Unk_710235aba0_Payload _18;
 };
 
+// vtable 0x7102358df0 (DamageManager::_178): sends a BaseProcLink (message 0x800006e; payload as the listener
+// Unk_7102358dc0). D1 0x7100024c9c, D0 0x7100024e2c, m2 0x7100024e60 (emitted in the Rope TU).
+class Unk_7102358df0 : public Unk_7102357d20 {
+public:
+    Unk_7102358df0(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) { _18.y(actor); }
+    void* m2() override { return &_18; }
+
+    Unk_7102358dc0_Payload _18;
+};
+
 // vtable 0x71023b73c8 (SendTargetActorRequestShareAwn::_30): sends a BaseProcLink (message 0x80000bf;
 // same payload layout as Unk_710235aba0). Its out-of-line copies sit in actionSendMessageToTargetActor's TU.
 class Unk_71023b73c8 : public Unk_7102357d20 {

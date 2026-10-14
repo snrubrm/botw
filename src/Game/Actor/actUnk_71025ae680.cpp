@@ -7,11 +7,6 @@
 
 namespace uking::act {
 
-// Keeps the original destructor's vtable update, as in upstream
-// GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
-Unk_71025ae680::~Unk_71025ae680() {
-    ;
-}
 
 void Unk_71025ae680::m6() {
     if (!(_a & 3))

@@ -1,4 +1,7 @@
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -18,6 +21,12 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::dmg {
+
+DamageManager::DamageManager(ksys::act::Actor* actor)
+    : DamageManagerBase(actor), _84(actor->getMtx()(1, 3)), _d8(actor, 0x800003e), _128(actor, 0x800003f),
+      _178(actor, 0x800006e), _1f8(actor, 0x80000b5) {
+    _216.set(9);
+}
 
 void DamageManager::sub_71006D32F8() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
@@ -825,6 +834,79 @@ bool DamageManager::m56() {
     if (actor && !actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40) && actor->m151(3))
         return actor->m154();
     return false;
+}
+
+bool DamageManager::sub_71006D33FC(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40) {
+    auto* actor = mActor;
+    auto* param = getActorDamageParam();
+    if (!param)
+        return false;
+
+    if (_78 < 1.0f && param->mLightningAffect.ref() && actor->m50()) {
+        *damage = s32(static_cast<f32>(param->mLightningDamage.ref()) * (1.0f - _78));
+        *df48 = 0;
+        *f50 = 11;
+        *f54 = 22;
+        *f40 = 4;
+        *minDmg = 0;
+        _216.set(0x20);
+        return true;
+    }
+
+    if (m50(damage, df48, minDmg, f50, f54, f40))
+        return true;
+
+    if (param->mGustAffect.ref()) {
+        auto* chemical = mActor->getChemicalStuff();
+        if (!chemical)
+            return false;
+        if (chemical->_bc & 0x2000) {
+            _c0 = chemical->_12c;
+            *damage = 0;
+            *df48 = 0;
+            *f50 = 12;
+            *f54 = 20;
+            *f40 = 2;
+            *minDmg = 0;
+            return true;
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: stack layout only; the original places `info` between df48 and minDmg (sp + 0x10), ours below f54.
+bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage, s32 df48, u32 minDmg,
+                                   u32 f50, s32 f54, s32 f40) {
+    const s32 prev_type = mDamageType;
+    mDamageType = type;
+    DamageCallbackInfo info;
+    info.mFlags = _8c;
+    callDamageCallbacks(eventId, &damage, &df48, &minDmg, &f50, &f54, &info);
+    _8c = info.mFlags;
+    mDamageType = prev_type;
+
+    if (type == 2 && sub_71007A2604(mActor)) {
+        const s32 reaction = m49(f50);
+        if (sub_71006E0F24(reaction)) {
+            const bool guard = sub_71006E0BD4(reaction) || ksys::act::isPlayerProfile(mActor);
+            if ((!guard || (f54 >= 9 && f54 <= 14)) && damage <= 0 && _6c >= 0) {
+                if (auto* attack = sub_71007A255C(mActor, _6c)) {
+                    if (attack->_e8.hasProcInCalcState())
+                        _1f8.sub_710070DCC0(&attack->_e8, true);
+                }
+            }
+        }
+    }
+
+    if (!addDamage(type, damage, df48, minDmg, f50, f54, f40))
+        return false;
+
+    mDamageType = type;
+    _216.change(2, flag);
+    auto* ride_info = mActor->getPlayerRideInfo();
+    if (ride_info && ride_info->_30 & 1)
+        _8c |= 0x20000;
+    return true;
 }
 
 }  // namespace uking::dmg

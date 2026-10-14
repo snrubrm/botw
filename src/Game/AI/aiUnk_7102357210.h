@@ -398,7 +398,11 @@ public:
 // vtable 0x7102450768 (message 0x8000084)
 class Unk_7102450768 : public Unk_7102357210 {
 public:
-    ~Unk_7102450768() override;
+    // Unk_710244dd20's ctor (0x71006cef7c) starts its listener with 2.
+    explicit Unk_7102450768(u32 value) : _34(value) {}
+    // Inlined into the owners' destructors (Unk_710244dd20 / DamageManager) but kept as an own D1; written
+    // like upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450768() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
@@ -428,7 +432,9 @@ public:
 // vtable 0x7102450b28 (message 0x800003f)
 class Unk_7102450b28 : public Unk_7102357210 {
 public:
-    ~Unk_7102450b28() override;
+    // Inlined into the owners' destructors (Unk_710244dd20 / DamageManager) but kept as an own D1; written
+    // like upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450b28() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };

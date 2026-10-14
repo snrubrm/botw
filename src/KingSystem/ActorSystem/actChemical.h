@@ -232,7 +232,10 @@ public:
     /* 0x0e4 */ sead::Vector3f _e4;
     /* 0x0f0 */ u8 _f0[0x10c - 0xf0];
     /* 0x10c */ f32 _10c;  // Player::m353: > 0
-    /* 0x110 */ u8 _110[0x14c - 0x110];
+    /* 0x110 */ u8 _110[0x12c - 0x110];
+    // Wind direction read with bit 13 of _bc (DamageManager::sub_71006D33FC copies it into the damage direction).
+    /* 0x12c */ sead::Vector3f _12c;
+    /* 0x138 */ u8 _138[0x14c - 0x138];
     /* 0x14c */ f32 _14c;  // wind force scale (behavior SetWindForceScale)
     /* 0x150 */ u8 _150[0x170 - 0x150];
     /* 0x170 */ f32 _170;

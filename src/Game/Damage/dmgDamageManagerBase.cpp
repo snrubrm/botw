@@ -455,7 +455,7 @@ void DamageManagerBase::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5
     *a4 = currentStruct->mField_10;
 }
 
-bool DamageManagerBase::addDamage(s64, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54,
+bool DamageManagerBase::addDamage(s32, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54,
                                   s32 f40) {
     mDamage += damage;
     mField_48 += df48;

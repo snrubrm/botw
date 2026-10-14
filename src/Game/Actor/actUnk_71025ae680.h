@@ -30,7 +30,9 @@ class Unk_71025ae680 {
 public:
     // 2026-10-07: the actor controller factories initialise this common prefix.
     explicit Unk_71025ae680(ksys::act::Actor* actor) : _8(0), _a(0), _10(actor), _18(-1) {}
-    virtual ~Unk_71025ae680();
+    // Inlined into the derived destructors (Unk_710244dd20 0x71006cf074); keeps the vtable store like upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    virtual ~Unk_71025ae680() { ; }
 
     // FIXME: figure out return types, parameters and names
     virtual bool m4() { return true; }
@@ -81,11 +83,27 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244edc0, 0x70);
 
+// Placeholder (Unk_710244dd20::_f8, four entries zeroed by the ctor).
+struct Unk_710244dd20Entry {
+    void* _0 = nullptr;
+    u32 _8 = 0;
+};
+
+// Second base of Unk_710244dd20 (at 0x20; its vtable at 0x710244dd20 + 0xc8 only holds the destructor thunks
+// 0x71006cf0f8 / 0x71006cf1f4). Placeholder name; the two words are zeroed by the ctor.
+class Unk_710244dd20Base2 {
+public:
+    virtual ~Unk_710244dd20Base2() = default;
+
+    // Named by their offsets in Unk_710244dd20 (0x28 / 0x30): `_8` / `_10` would hide the first base's members.
+    void* _28 = nullptr;
+    void* _30 = nullptr;
+};
+
 // Placeholder name (vtable 0x710244dd20; ctor 0x71006cef7c, size 0x140). Horse::_1028 and the
-// second kind of object created by Enemy vtable slot 178. Has a second base (vtable 0x710244dd20 +
-// 0xc8) at 0x20.
+// second kind of object created by Enemy vtable slot 178.
 // TODO: incomplete.
-class Unk_710244dd20 : public Unk_71025ae680 {
+class Unk_710244dd20 : public Unk_71025ae680, public Unk_710244dd20Base2 {
     SEAD_RTTI_OVERRIDE(Unk_710244dd20, Unk_71025ae680)
 public:
     explicit Unk_710244dd20(ksys::act::Actor* actor);
@@ -94,25 +112,38 @@ public:
     f32 sub_71006D1D48();
     bool sub_71006D1D7C();
     bool sub_71006D1DA0();
-    // 0x71006d22b4 (lane4 s64; placeholder name): whether bit `bit` of `_139` is set.
-    bool sub_71006D22B4(s32 bit) const;
 
     void m7() override;
     bool m8(const ksys::Message& message) override;
 
-    /* 0x01c */ u8 _1c[4];  // opaque alignment gap before the secondary interface at +0x20
-    /* 0x020 */ u8 _20[0x38 - 0x20];
-    /* 0x038 */ f32 _38;  // FlyingCharacterFreezeDie: 0 in enter_, 1 in leave_
-    /* 0x03c */ u8 _3c[0x88 - 0x3c];
+    // New virtuals (slots 14-20, 0x71006d22ac / 0x71006cfcc0 / 0x71006d20cc / 0x71006d22b4 / 0x71006d094c /
+    // 0x71006d0774 / 0x71006d0bdc); placeholder names, only m14 and m17 are decompiled.
+    virtual bool m14() { return false; }
+    virtual void m15();
+    virtual void m16(s32 kind);
+    // Slot 17 (0x71006d22b4; was sub_71006D22B4): whether bit `bit` of `_139` is set.
+    virtual bool m17(s32 bit) const;
+    virtual void m18();
+    virtual void m19();
+    virtual void m20();
+
+    /* 0x038 */ f32 _38 = 1.0f;  // FlyingCharacterFreezeDie: 0 in enter_, 1 in leave_
+    /* 0x03c */ u32 _3c[4]{};
+    /* 0x04c */ u8 _4c[4];
+    // Listener (message 0x8000084).
+    /* 0x050 */ Unk_7102450768 _50{2};
     // Listener (message 0x800009b); PriestBossShadowCloneEnemyRoot::enter_ resets it (x()).
     /* 0x088 */ Unk_710235a0c0 _88;
-    /* 0x0c0 */ u8 _c0[0xd0 - 0xc0];
+    /* 0x0c0 */ u16 _c0 = 0;
+    /* 0x0c2 */ u8 _c2[0xd0 - 0xc2];
     // Set by Player's 0x710088588c / 0x710088592c (ice / electric; the matching `_138` bits 2 / 4 say whether it is 0).
     /* 0x0d0 */ f32 _d0;
     /* 0x0d4 */ f32 _d4;
-    /* 0x0d8 */ u8 _d8[0x138 - 0xd8];
-    /* 0x138 */ u8 _138;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
-    /* 0x139 */ sead::BitFlag8 _139;
+    /* 0x0d8 */ u8 _d8[0xf8 - 0xd8];
+    /* 0x0f8 */ Unk_710244dd20Entry _f8[4];
+    /* 0x138 */ u8 _138 = 0;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
+    /* 0x139 */ sead::BitFlag8 _139 = 0;
+    /* 0x13a */ u8 _13a = 0;
     // (sizeof is 0x140 via tail padding: Player's derived object stores members at 0x13c.)
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);

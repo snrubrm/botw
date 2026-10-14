@@ -410,6 +410,12 @@ struct Unk_7102358dc0_Payload {
         *out = mLink;
     }
 
+    // Inline only (DamageManager ctor 0x71006d23e0 sets the sender's link to the actor); placeholder name.
+    void y(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        mLink.acquire(proc, false);
+    }
+
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };

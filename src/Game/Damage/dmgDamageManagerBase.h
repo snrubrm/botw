@@ -142,7 +142,7 @@ public:
     virtual bool canTakeDamage();
     virtual void m45() {}
     virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
-    virtual bool addDamage(s64 a2, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
+    virtual bool addDamage(s32 type, s32 damage, s32 df48, s32 minDmg, s32 f50, s32 f54, s32 f40);
     virtual void onApplyDamage() {}
 
     // Something depending on damage type?

@@ -217,7 +217,6 @@ bool Unk_71024506d8::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_7102450768::~Unk_7102450768() = default;
 
 bool Unk_7102450768::m2(const ksys::Message& message) {
     if (message.getType() != 0x8000084)
@@ -251,7 +250,6 @@ bool Unk_7102450798::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_7102450b28::~Unk_7102450b28() = default;
 
 bool Unk_7102450b28::m2(const ksys::Message& message) {
     if (message.getType() != 0x800003f)

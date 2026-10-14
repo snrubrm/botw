@@ -72,7 +72,7 @@ void Horse::loadReduceAncientEnemyDamageInfo() {
     const int level = (_b70 >> 9 & 1) + (_b70 >> 10 & 1);
     ksys::eco::Ecosystem::instance()->getStatusEffectInfo(
         ksys::eco::StatusEffect_ReduceAncientEnemyDamge, level, &info);
-    _d20._74 = info.val._s32;
+    _d20._74 = info.val._f32;
 }
 
 bool Horse::m81(const ksys::Message& message) {

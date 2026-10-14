@@ -4,6 +4,8 @@
 
 namespace uking::act {
 
+Unk_710244dd20::Unk_710244dd20(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
+
 f32 Unk_710244dd20::sub_71006D1D48() {
     f32 ratio = 1.0f;
     if (_8.isOn(8)) {
@@ -25,7 +27,7 @@ bool Unk_710244dd20::sub_71006D1DA0() {
     return false;
 }
 
-bool Unk_710244dd20::sub_71006D22B4(s32 bit) const {
+bool Unk_710244dd20::m17(s32 bit) const {
     return _139.isOnBit(bit);
 }
 

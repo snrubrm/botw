@@ -4,7 +4,10 @@
 
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Damage/dmgDamageMgrNPC.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 
 namespace ksys::act {
@@ -45,6 +48,20 @@ struct DamageManagerUnk220 {
     /* 0x018 */ u8 _18[0x27a - 0x18];
     /* 0x27a */ bool _27a;
     /* 0x27c */ sead::Vector3f _27c;
+};
+
+// Message senders embedded in DamageManager (0xd8: message 0x800003e, 0x128: message 0x800003f; no payload, m2 returns
+// null). Placeholder names = vtables 0x710244e030 / 0x710244e058 (D0 0x71006d9664 / 0x71006d9670).
+class Unk_710244e030 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
+class Unk_710244e058 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
 };
 
 class DamageManager : public DamageManagerBase {
@@ -100,7 +117,8 @@ public:
     // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
     // Slot 50 returns bool (DamageManager::m50 (0x71006d6c30) and DamageMgrPlayer::m50
     // both produce 0/1 in w0); the old void declaration was a guess.
-    virtual bool m50();
+    // Slot 50 (0x71006d6c30) fills the damage values like sub_71006D33FC (the arguments of addDamage).
+    virtual bool m50(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40);
     // 2026-10-07: slot 51 tests the lightning factor and the linked actor's name.
     virtual bool m51(const ksys::act::BaseProcLink* link);
     virtual s32 m52() { return 40; }
@@ -123,6 +141,14 @@ public:
     void sub_71006D27BC();
     void sub_71006D32F8();
     void sub_71006D81D8(f32 value);
+    // 0x71006d357c (CSV DamageMgr::m22_x_0; placeholder name): applies one damage of kind `type` (callbacks of event
+    // `eventId` first, then addDamage); records the kind, the flag `flag` (bit 1 of _216) and the ride flag (_8c).
+    // 0x71006d33fc (CSV DamageMgr::m22_x; placeholder name): the damage values (the arguments of addDamage) of a
+    // lightning hit (LightningAffect with _78 < 1 and Actor::m50), of m50, or of a gust (GustAffect and the wind flag
+    // of the actor's Chemical).
+    bool sub_71006D33FC(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40);
+    bool sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage, s32 df48, u32 minDmg, u32 f50, s32 f54,
+                        s32 f40);
     // 0x71006d8130 (lane4 s48; placeholder name): `_f8` of the attack info index `_6c` for damage kinds 2 / 10 / 6 (6 needs
     // bit 8 of `_216`), -1 otherwise.
     s32 sub_71006D8130();
@@ -146,34 +172,42 @@ public:
     // 0x71006d83b8: whether bit `bit` of field 0x18 of the most recent damage record is set.
     bool sub_71006D83B8(s32 bit) const;
 
-    s32 _68;  // WolfLinkRoot::enter_
-    s32 _6c;  // read by PreyRoot's damage callback (lane2 s42)
-    s32 _70;  // current shield guard power (PlayerOrEnemy::m160)
-    s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
+    s32 _68 = 0;  // WolfLinkRoot::enter_
+    s32 _6c = -1;  // read by PreyRoot's damage callback (lane2 s42)
+    s32 _70 = 0;  // current shield guard power (PlayerOrEnemy::m160)
+    // A damage factor (ctor: 1.0; Horse::loadReduceAncientEnemyDamageInfo copies a status effect value).
+    f32 _74 = 1.0f;
     // 0x71006d77b8 loads this as a float before testing against 1.0.
-    f32 _78;
-    u8 _7c[0x80 - 0x7c];
-    f32 _80;  // multiplier of the impulse threshold (sub_71006D27BC)
+    f32 _78 = 0.0f;
+    u32 _7c = 0;
+    f32 _80 = 1.0f;  // multiplier of the impulse threshold (sub_71006D27BC)
     f32 _84;  // DynamicActor::m148 result (0x71006d32f8).
-    s32 _88;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
-    s32 _8c;  // WeakPointRoot::m35
-    sead::Vector3f _90;  // position of damage kind 9 (getPosition)
-    sead::Vector3f _9c;  // direction of damage kind 9 (getAttackPos)
-    sead::Vector3f _a8;  // direction of damage kind 9 (m31)
-    sead::Vector3f _b4;  // blow of damage kind 9 (m32)
-    sead::Vector3f _c0;  // direction of damage kind 1 (getAttackPos)
-    sead::Vector3f _cc;  // direction used by damage kind 7 (m29 / m30)
-    u8 _d8[0x210 - 0xd8];
+    s32 _88 = -1;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
+    s32 _8c = 0;  // WeakPointRoot::m35
+    sead::Vector3f _90{0, 0, 0};  // position of damage kind 9 (getPosition)
+    sead::Vector3f _9c = sead::Vector3f::ez;  // direction of damage kind 9 (getAttackPos)
+    sead::Vector3f _a8 = sead::Vector3f::ez;  // direction of damage kind 9 (m31)
+    sead::Vector3f _b4{0, 0, 0};  // blow of damage kind 9 (m32)
+    sead::Vector3f _c0 = sead::Vector3f::zero;  // direction of damage kind 1 (getAttackPos)
+    sead::Vector3f _cc = sead::Vector3f::zero;  // direction used by damage kind 7 (m29 / m30)
+    // Message senders and listeners (DamageManager ctor 0x71006d23e0 and D1 0x71006d9130).
+    Unk_710244e030 _d8;
+    Unk_7102450af8 _f0;
+    Unk_710244e058 _128;
+    Unk_7102450b28 _140;
+    Unk_7102358df0 _178;
+    Unk_7102358dc0 _1a8;
+    Unk_71023cee50 _1f8;
     // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
-    u16 _210;
-    u16 _212;
-    u16 _214;
+    u16 _210 = 0;
+    u16 _212 = 0;
+    u16 _214 = 0;
     // Flags (ctor: 9). AI code tests bit 1 (`_216.isOn(2)`, ~15 functions).
     sead::BitFlag16 _216;
-    u8 _218;
-    bool _219;
-    DamageManagerUnk220* _220;
-    u32 _228;
+    u8 _218 = 0;
+    bool _219 = false;
+    DamageManagerUnk220* _220 = nullptr;
+    u32 _228 = 0;
 
 private:
     // Inline-only in the original (name is a guess; evidence: m39 / m40 / m41 and the other overrides start with

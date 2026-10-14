@@ -32,7 +32,7 @@ void DamageMgrPlayer::m22() {
     DamageManager::m22();
 }
 
-bool DamageMgrPlayer::m50() {
+bool DamageMgrPlayer::m50(s32*, s32*, u32*, u32*, s32*, s32*) {
     // Discarded IsDerivedFrom (a real virtual call in the target asm); always false.
     sead::IsDerivedFrom<ksys::act::PlayerBase>(mActor);
     return false;
@@ -76,7 +76,7 @@ void DamageMgrPlayer::x() {
     // and, _c0, _5c, strh216). Tried _216.reset() first / between _218 and _c0 / last.
     DamageManagerBase::resetStuff();
     _6c = -1;
-    _7c[0] = _7c[1] = _7c[2] = _7c[3] = 0;
+    _7c = 0;
     _88 = -1;
     _8c = 0;
     _218 = 0;
