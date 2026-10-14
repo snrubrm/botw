@@ -19,7 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x710022424c (declared only): out of line in the original.
+    // 0x710022424c: activates the attack sensor (AtkBodyName1-3) for an AS attack event.
     void sub_710022424C(ksys::as::ASList::Unk4* query);
     void calc_() override;
 
