@@ -5,6 +5,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Event/evtMetadata.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -40,6 +43,104 @@ void SiteBoss::sub_71002CFD04(bool on) {
                 y->m1();
         }
     }
+}
+
+bool SiteBoss::playHPDemoIfNeeded(f32 rate, const sead::SafeString& event, const sead::SafeString& entry1,
+                                  const sead::SafeString& entry2) {
+    playHPDemoIfNeededInitEvents(event, entry1, entry2);
+    s32 life = 1;
+    if (const s32* life_ptr = getLife()) {
+        life = *life_ptr;
+        if (life == 0)
+            return false;
+    }
+    if (_1558.isOn(0x500))
+        return false;
+    if (life == _1538)
+        return false;
+    if (!checkHpRate(this, rate))
+        return false;
+
+    if (!_1558.isOnBit(6)) {
+        _1558.setBit(6);
+        if (auto* bgm = ksys::snd::sub_7100FFD71C())
+            bgm->sub_7100FF8684(1);
+    }
+
+    if (_14c8._30.isOnBit(9) && _1558.isOnBit(27)) {
+        sub_71007A36BC(this);
+        _1558.setBit(18);
+        return false;
+    }
+
+    auto* resident_event = !_14c8._30.isOnBit(9) ? &_25e8 : &_27b8;
+    if (!resident_event->callEvent(true))
+        return false;
+    x_0();
+    _1558.set(0x180);
+    _2390.sub_71007224D4();
+    _2390._8 = false;
+    _1538 = static_cast<s32>(static_cast<f32>(getMaxLife()) * rate);
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&PlayerInfo::getSomeProcLink(), &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000b2), nullptr, true);
+
+    if (auto* controller = getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    if (auto* unk = sead::DynamicCast<Unk_710244fee8>(m159()))
+        unk->sub_71006EE354();
+    _14c8._30.reset(0x2000);
+    sub_71007A36BC(this);
+    _1558.setBit(18);
+    sub_71002D2958();
+    return true;
+}
+
+void SiteBoss::playHPDemoIfNeededInitEvents(const sead::SafeString& event, const sead::SafeString& entry1,
+                                            const sead::SafeString& entry2) {
+    if (_1558.isOnBit(25))
+        return;
+    _1558.setBit(25);
+    ksys::evt::Metadata metadata1(event.cstr(), entry1.cstr());
+    _25e8.initWithEvent_(this, &metadata1);
+    _25e8.loadEvent();
+    ksys::evt::Metadata metadata2(event.cstr(), entry2.cstr());
+    _27b8.initWithEvent_(this, &metadata2);
+    _27b8.loadEvent();
+}
+
+void SiteBoss::sub_71002D2958() {
+    for (auto* part : _1128.mList) {
+        if (!part->mLink.hasProcInCalcState())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&part->mLink, &accessor);
+        if (!accessor.hasTag(0xb0c0f649) && accessor.isStateCalc())
+            accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
+    _1560.sub_710066D094();
+}
+
+void SiteBoss::x() {
+    for (auto* part : _1128.mList) {
+        if (!part->mLink.hasProcInCalcState())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&part->mLink, &accessor);
+        if (accessor.hasTag(0xb0c0f649) && accessor.isStateCalc())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    _1560.sub_710066BC04();
+}
+
+void SiteBoss::x_0() {
+    if (_25e8.mEventFlow)
+        _25e8.unloadEvent();
+    if (_27b8.mEventFlow)
+        _27b8.unloadEvent();
 }
 
 void SiteBoss::initMaybe() {

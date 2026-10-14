@@ -99,7 +99,18 @@ public:
     Unk_71025ae680* m178(sead::Heap* heap) override;
 
     // Placeholder names (CSV x_N where it had one); called by SiteBoss AI functions.
+    // 0x71002d3740 (CSV x): deleteLater on every part actor in its calc state with tag 0xb0c0f649, then
+    // _1560.sub_710066BC04(). 0x71002d38f8 (CSV x_0): unloads the resident events _25e8 / _27b8.
+    void x();
     void x_0();
+    // CSV names. 0x71002d27a4: loads the HP demo resident events _25e8 / _27b8 (event `event`, entry points `entry1` /
+    // `entry2`) once (bit 25 of _1558). 0x71002d24f8: calls one of them when the life drops to `rate` of the max.
+    void playHPDemoIfNeededInitEvents(const sead::SafeString& event, const sead::SafeString& entry1,
+                                      const sead::SafeString& entry2);
+    bool playHPDemoIfNeeded(f32 rate, const sead::SafeString& event, const sead::SafeString& entry1,
+                            const sead::SafeString& entry2);
+    // 0x71002d2958 (placeholder name): puts the untagged part actors to sleep, then _1560.sub_710066D094().
+    void sub_71002D2958();
     void x_1(bool a1, bool a2, bool skip_flag);
     // 0x71002d20b8 (CSV SiteBoss::x_3; declared only; lane1 s25): called with no arguments by
     // LastBossBeamAttackRoot::enter_.
@@ -191,6 +202,8 @@ public:
         // 0x710066bc04 (declared only; placeholder name): deletes every bound actor that is still alive (the links
         // at 0x320 - 0x3a0 and _3b0); called by the destructors of SiteBoss*Root.
         void sub_710066BC04();
+        // 0x710066d094 (declared only; placeholder name): called by SiteBoss::sub_71002D2958.
+        void sub_710066D094();
         // 0x710066c074: number of bound actors that are in the calc state.
         s32 sub_710066C074();
         // 0x710066c738 (declared only; 200 B): `pos`, then two floats (SiteBossMoveAndAttack passes 0.8 / 0.4); looks for a
