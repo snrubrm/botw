@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "gsys/gsysModel.h"
+#include "gsys/gsysModelUnit.h"
 
 namespace uking::action {
 
@@ -62,6 +65,40 @@ void SiteBossLswordFireBall::calc_() {
                 }
             }
         }
+    }
+}
+
+// NON_MATCHING: mActor and the actor matrix address are loaded earlier in the original (scheduling).
+void SiteBossLswordFireBall::sub_710025D85C() {
+    if (mPartsName_d.isEmpty())
+        return;
+
+    sead::Matrix34f rot_mtx;
+    ksys::util::sub_71011F0260(&rot_mtx, sead::Vector3f::ez, sead::Vector3f::ey, sead::Vector3f::zero,
+                               false);
+
+    auto* model = mActor->getModel();
+    const auto key = model->searchBone("Weapon_L");
+    sead::Matrix34f bone_mtx;
+    mActor->getModel()->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+        &bone_mtx, key.bone_index);
+    const f32 offset = *mBallAppearOffset_s;
+    const f32 scale_value = *mFireBallScale_s;
+    const sead::Vector3f scale{scale_value, scale_value, scale_value};
+    const sead::Vector3f bone_pos = bone_mtx.getTranslation();
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || !enemy->getActorPartsActor(mPartsName_d).hasProc())
+        return;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName_d), &accessor);
+    if (accessor.isStateSleep()) {
+        const sead::Vector3f pos{bone_pos.x, bone_pos.y + offset, bone_pos.z};
+        accessor.setThisActorAsChild(mActor, false);
+        sead::Matrix34f mtx = enemy->getMtx();
+        mtx.setTranslation(pos);
+        accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 3, -1);
     }
 }
 
