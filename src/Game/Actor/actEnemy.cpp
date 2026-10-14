@@ -172,6 +172,13 @@ ksys::act::BaseProc* Enemy::construct(const CreateArg& arg, sead::Heap* heap) {
 
 // NON_MATCHING: BoneHandle members (0xf68, 0x1010) are not typed yet; the original also skips the
 // vtable store of the object at 0x1148
+Enemy::Enemy(const CreateArg& arg) : PlayerOrEnemy(arg), _ea8() {
+    _e84.makeAllZero();
+    _e82 = 0;
+    _1c0 = 1;
+    m135()->_4 = 1;
+}
+
 Enemy::~Enemy() = default;
 
 void Enemy::Unk_12d0::sub_7100710F04() {}

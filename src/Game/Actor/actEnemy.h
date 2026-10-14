@@ -354,7 +354,7 @@ public:
     /* 0xe88 */ void* _e88 = nullptr;
     /* 0xe90 */ u32 _e90 = 0;
     /* 0xe98 */ sead::SafeString _e98;
-    /* 0xea8 */ sead::SafeArray<ksys::act::BaseProcLink, 8> _ea8{};
+    /* 0xea8 */ sead::SafeArray<ksys::act::BaseProcLink, 8> _ea8;  // value-initialised by the constructor
     // Placeholder (offset of Enemy's pointer to it): heap object (0x20 bytes, `new (heap, 8)`) built
     // by Enemy's init 0x71000139.. with the actor's NavMeshCharacter (m45()); deleted in preDelete2_.
     // Returned by sub_71005E2BCC; AI code (LynelNavMoveNoStop, ForestGiantRoam, ...) sets _8.
@@ -449,7 +449,8 @@ public:
     /* 0x1338 */ u32 _1338 = 0;
     /* 0x1340 */ ksys::phys::MaterialMask _1340{0u};
     /* 0x1358 */ ksys::phys::MaterialMask _1358{0u};
-    /* 0x1370 */ u8 _1370[0x13a0 - 0x1370];
+    /* 0x1370 */ void* _1370 = nullptr;
+    /* 0x1378 */ void* _1378[5]{};  // zeroed by the constructor
     /* 0x13a0 */ u32 _13a0 = 2;
     /* 0x13a4 */ u8 _13a4 = 6;
     /* 0x13a8 */ ksys::act::BaseProcLink _13a8;
