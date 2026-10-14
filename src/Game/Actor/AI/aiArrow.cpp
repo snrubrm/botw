@@ -9,6 +9,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectArrow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -214,6 +215,38 @@ f32 Arrow::sub_7100469958() {
                      ->mBowAttackRangeRatio.ref();
     }
     return range * weapon->sub_71002ED434();
+}
+
+f32 Arrow::sub_710046A7BC() {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    auto* weapon = sead::DynamicCast<act::Weapon>(actor);
+    if (!weapon)
+        return 0.0f;
+
+    f32 scale = weapon->_d04;
+    if (m38())
+        scale = 1.0f;
+    const s32 power = weapon->getEffectiveAttackPower(nullptr);
+    f32 extra = 0.0f;
+    if (const auto* gparam = mActor->getParam()->getRes().mGParamList) {
+        if (const auto* arrow = gparam->getArrow())
+            extra = static_cast<f32>(arrow->mExtraDamage.ref()) * weapon->sub_71002EA21C();
+    }
+
+    f32 damage = static_cast<f32>(power);
+    ksys::act::acc::PlayerBase player;
+    ksys::act::acquireActor(&weapon->getParentLink(), &player);
+    const f32 rate = player.m232();
+    const f32 diff = rate - 1.0f;
+    if (diff <= sead::Mathf::epsilon() && diff >= -sead::Mathf::epsilon()) {
+        damage += extra;
+    } else if (ksys::act::hasTag(mActor, 0x5e27ef10)) {
+        if (ksys::act::hasTag(weapon, 0x5e27ef10))
+            damage += extra * rate;
+        else
+            damage = (damage + extra) * rate;
+    }
+    return scale * damage;
 }
 
 u32 Arrow::sub_710046A9EC() {

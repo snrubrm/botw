@@ -49,6 +49,10 @@ public:
     // casts a ground ray along the actor's front axis and returns whether the hit is within 1.3 of height _e0
     // (true without a hit).
     bool sub_7100469628();
+    // 0x710046a7bc (placeholder name): the damage of the shot: the connected Weapon's effective attack power plus
+    // Arrow ExtraDamage * Weapon::sub_71002EA21C, scaled by the shooter's PlayerBase::m232 rate (depending on tag
+    // 0x5e27ef10), times _d04 (1 with m38()).
+    f32 sub_710046A7BC();
     // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
     bool sub_71004692FC();
     // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a
