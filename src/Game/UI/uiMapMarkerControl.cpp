@@ -135,6 +135,49 @@ void Unk_7102477fc0::m9() {
         _20->AppendChild(pane);
 }
 
+// 0x710098cd5c
+// NON_MATCHING: the flag tests are emitted in a different order (the original keeps the source order 0x30, 3, 0x4000
+// via mvn and tests 0x20 before 0x30 in the layout path).
+void Unk_7102477fc0::m11() {
+    if (_10) {
+        sub_710098CB98(false);
+        if (_18 && (_18->_3c & 1) &&
+            ((_18->_3c & 0x30) == 0x30 || (_18->_3c & 3) == 3 || (_18->_3c & 0x4000))) {
+            auto* pane = _10;
+            if (pane) {
+                const s32 index = _18->_40;
+                if (index >= 0)
+                    pane->_240[index] = m14();
+            }
+        }
+        return;
+    }
+    if (!_18 || !_8)
+        return;
+    const u32 flags = _18->_3c;
+    if (!(flags & 1)) {
+        if ((flags & 3) == 2)
+            _8->startAnimCloseImpl_(false, true);
+        return;
+    }
+    if ((flags & 0x30) == 0x20) {
+        _8->startAnimCloseImpl_(false, false);
+        return;
+    }
+    s32 mode;
+    if ((flags & 0x30) == 0x30)
+        mode = 0;
+    else if ((flags & 3) == 3)
+        mode = 1;
+    else
+        return;
+    _8->sub_7100BDDE7C(false, mode, true);
+    if (_18->_3c & 0x100) {
+        _8->mPane->Hide();
+        _18->_3c &= ~0x100;
+    }
+}
+
 void Unk_7102477fc0::m12() {
     if (!_18 || ((_18->_3c & 0x41) != 0x40 && (_18->_3c & 5) != 4))
         return;
