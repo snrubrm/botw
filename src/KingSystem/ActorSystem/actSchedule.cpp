@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actSchedule.h"
+#include "Game/Actor/actNPCBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -171,6 +172,35 @@ bool Schedule::sub_7100D1C698() {
         }
     }
     return result;
+}
+
+// NON_MATCHING: two extra moves after tryGetIterByIndex (our build materialises the false result early); the rest
+// matches
+bool Schedule::sub_7100D1B2A0(const al::ByamlIter& event) {
+    al::ByamlIter actors;
+    if (!event.tryGetIterByKey(&actors, "Actors"))
+        return false;
+    al::ByamlIter actor;
+    const char* action;
+    if (!actors.tryGetIterByIndex(&actor, 0) || !actor.tryGetStringByKey(&action, "Action"))
+        return false;
+
+    const sead::SafeString action_str = action;
+    sead::SafeString current = _68;
+    if (!_98.isEmpty())
+        current = _98;
+    if (action_str != current && action_str != _a8)
+        return false;
+
+    if (!_88.isEmpty())
+        return true;
+
+    auto* npc = sead::DynamicCast<uking::act::NPCBase>(mActor);
+    if (!npc)
+        return false;
+    if (npc->_a70.findIndex("Meeting") == -1)
+        return false;
+    return npc->_c74 < 2;
 }
 
 void Schedule::sub_7100D1C7FC() {

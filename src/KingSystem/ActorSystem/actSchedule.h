@@ -43,6 +43,10 @@ public:
     bool sub_7100D1AAD8();
     // 0x7100d1c27c (1052 B, declaration only; placeholder name): checks the "Near" trigger parameters.
     bool sub_7100D1C27C(const al::ByamlIter* params, bool active);
+    // 0x7100d1b2a0 (placeholder name): whether the first actor of the event `event` performs the current
+    // action (_98, else _68, or _a8); with no _88, the actor must also be an NPC in a meeting with a terror level
+    // below 2.
+    bool sub_7100D1B2A0(const al::ByamlIter& event);
     // 0x7100d1c7fc (CSV ActorQuestLink::getUniqueName; placeholder name): counts _2fc down and, once it runs out,
     // calls mActor->getUniqueName() and discards the result (debug output stripped from the release build).
     void sub_7100D1C7FC();
