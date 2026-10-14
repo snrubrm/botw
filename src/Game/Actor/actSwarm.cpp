@@ -365,15 +365,7 @@ void uking::act::Swarm::Unit::m10() {
     _b0->sub_71002D484C(this);
 }
 
-// NON_MATCHING: the base update is inlined.
-void Unk_71023d0e08::m8() {
-    uking::act::Swarm::Unit::m8();
-}
-
 Unk_71023d0d08::Unk_71023d0d08() = default;
-
-Unk_71023d0e08::Unk_71023d0e08()
-    : _e0(30.0f), _e4(0.0f), _e8(0.0f), _ec(1.0f), _f0(0.0f), _f4(0) {}
 
 bool uking::act::Swarm::Unit::m4(Swarm* owner, sead::Heap* heap) {
     _b0 = owner;
@@ -391,28 +383,4 @@ void uking::act::Swarm::Unit::m5() {
     for (s32 i = 0; i < _88.size(); ++i)
         _88[i].requestUnload2();
     _88.freeBuffer();
-}
-
-void Unk_71023d0e08::sub_71002DAE8C() {
-    _f0 = sead::GlobalRandom::instance()->getF32() * sead::Mathf::pi2();
-}
-
-void Unk_71023d0e08::sub_71002DAEDC() {
-    _d4.reset(sead::GlobalRandom::instance()->getF32Range(150.0f, 450.0f));
-    _e8 = sead::GlobalRandom::instance()->getF32Range(-0.5f * _e0, 0.5f * _e0);
-    _ec = sead::GlobalRandom::instance()->getF32Range(0.15f, 0.25f);
-    _f4 = 0;
-}
-
-void Unk_71023d0e08::sub_71002DB2EC() {
-    _e4 = sead::Mathf::deg2rad(sead::Mathf::clamp(
-        60.0f - _e0 + sead::GlobalRandom::instance()->getF32Range(-5.0f, 5.0f), 3.0f, 60.0f));
-}
-
-void Unk_71023d0e08::m6() {
-    uking::act::Swarm::Unit::m6();
-    _e0 = 30.0f;
-    sub_71002DB2EC();
-    sub_71002DAE8C();
-    sub_71002DAEDC();
 }
