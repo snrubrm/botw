@@ -85,13 +85,12 @@ void SwarmChemicalDamaged::m34(act::DamageManager* mgr, sead::Vector3f* pos, sea
     sub_71005E2318(dir, mActor, mgr);
 }
 
-// NON_MATCHING: the original loads `_1d4` into w1 before the `mIsResetAllObject` test and `_1d8` after it.
 void SwarmChemicalDamaged::sub_71002831E4() {
     if (_1d0) {
         _1d0 = false;
-        if (auto* unk = sead::DynamicCast<act::Unk_71025ae680>(static_cast<ksys::act::DynamicActor*>(mActor)->m159())) {
+        if (auto* unk = sead::DynamicCast<act::Unk_710244ff68>(static_cast<ksys::act::DynamicActor*>(mActor)->m159())) {
             if (*mIsResetAllObject_s)
-                unk->sub_71006EF05C();
+                unk->sub_71006EF05C(_1d4);
             else
                 unk->sub_71006EEFB4(_1d4, _1d8);
         }

@@ -61,10 +61,10 @@ public:
     // then m11(enable), then updates the bit (behavior Invincible).
     void sub_71006DFA04(bool enable);
 
-    // 0x71006ef05c / 0x71006eefb4 (declared only, lane5 s6; 0x71006ef05c resets everything, 0x71006eefb4 resets the
-    // range [a, b]): called by SwarmChemicalDamaged::sub_71002831E4.
-    void sub_71006EF05C();
-    void sub_71006EEFB4(s32 a, s32 b);
+    // 0x71006ef05c / 0x71006eefb4 (lane4 s85): clear the condition bit `condition` of _8 and reset that condition on
+    // all chemicals / on chemical `chemical_idx` (called by SwarmChemicalDamaged::sub_71002831E4).
+    void sub_71006EF05C(s32 condition);
+    void sub_71006EEFB4(s32 condition, s32 chemical_idx);
 
     // 0x71006df5cc (placeholder name): passes `info` to slot 45 of the actor's damage manager if it is a DamageManager.
     void sub_71006DF5CC(const act::ConditionDamageInfo& info);

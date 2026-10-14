@@ -138,6 +138,32 @@ void Unk_710244fee8::m10() {
     (&_20)->m3();
 }
 
+void Unk_71025ae680::sub_71006EF05C(s32 condition) {
+    _8.resetBit(condition);
+    auto* chemicals = _10->getChemicalContainer();
+    if (!chemicals)
+        return;
+    const s32 num = chemicals->_80;
+    for (s32 i = 0; i < num; ++i) {
+        auto* chemical = chemicals->sub_7100E380FC(i);
+        if (!chemical)
+            return;
+        switch (condition) {
+        case 2:
+            chemical->sub_7100D90B78();
+            break;
+        case 3:
+            chemical->sub_7100D8EEE0();
+            break;
+        case 4:
+            chemical->sub_7100D945BC(chemical->sub_7100D945AC(), 1.0f, 1.0f);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void Unk_71025ae680::sub_71006EEFB4(s32 condition, s32 chemical_idx) {
     _8.resetBit(condition);
     if (chemical_idx < 0)
