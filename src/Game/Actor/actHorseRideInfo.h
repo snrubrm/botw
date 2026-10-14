@@ -15,6 +15,7 @@ struct Unk117;
 }  // namespace ksys::act
 
 namespace ksys::phys {
+class HavokAI;
 class NavMeshCharacter;
 }  // namespace ksys::phys
 
@@ -53,7 +54,7 @@ public:
     void sub_7100E7C4F8(ksys::act::Unk117* arg);
 
     /* 0x08 */ ksys::act::Actor* mActor;
-    /* 0x10 */ void* _10 = nullptr;
+    /* 0x10 */ ksys::phys::HavokAI* _10 = nullptr;  // the ridden actor's navmesh HavokAI (sub_7100E7BF5C)
     /* 0x18 */ ksys::act::BaseProcLink _18;
     /* 0x28 */ ksys::phys::NavMeshCharacter* _28 = nullptr;
     /* 0x30 */ u16 _30 = 0;  // flags
