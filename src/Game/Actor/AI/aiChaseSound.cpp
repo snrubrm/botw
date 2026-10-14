@@ -114,6 +114,28 @@ bool ChaseSound::sub_7100345C2C() {
     return true;
 }
 
+// NON_MATCHING: the start position's stack slot (shared with the param pack in the original) and the _80 update
+// scheduling.
+void ChaseSound::sub_71003463B0() {
+    const sead::Vector3f start = mActor->getMtx().getTranslation();
+    bool found = false;
+    if (sub_710072EA18(start, *mParams.mTargetPos_d, 1, &_80, nullptr, nullptr, 1.6f)) {
+        const sead::Vector3f& pos = mActor->getMtx().getTranslation();
+        sead::Vector3f dir(_80.x - pos.x, 0.0f, _80.z - pos.z);
+        dir.normalize();
+        _80 += dir * 2.0f;
+        sead::Vector3f to = _80;
+        to.y += -2.0f;
+        found = sub_710072EA18(_80, to, 1, &_80, nullptr, nullptr, 0.0f);
+    }
+    if (!found)
+        _80 = *mParams.mTargetPos_d;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_80, "TargetPos", -1);
+    changeChild("遠方追跡", &pack);
+}
+
 void ChaseSound::sub_7100346114() {
     if (!isCurrentChild("回転")) {
         const sead::Vector3f& pos = mActor->getMtx().getTranslation();

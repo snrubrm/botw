@@ -26,7 +26,7 @@ protected:
     // 0x7100345c2c (placeholder name): starts 直線追跡 / 近場追跡 / 遠方追跡 for the target position unless that child
     // is already running (then false).
     bool sub_7100345C2C();
-    // 0x71003463b0 (placeholder name; declared only, 536 B): starts the far chase (遠方追跡).
+    // 0x71003463b0 (placeholder name): starts the far chase (遠方追跡) towards a ground point 2 past the first hit.
     void sub_71003463B0();
     void sub_7100346114();
 
