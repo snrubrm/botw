@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionHideShootArrow.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -25,7 +27,38 @@ void HideShootArrow::loadParams_() {
 }
 
 void HideShootArrow::calc_() {
-    ShootArrow::calc_();
+    switch (_e8) {
+    case 0:
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
+        if (isFinishedAS(0, 0)) {
+            playAS(mShootASName_s.cstr(), false, 0, 0, -1.0f);
+            _ec.reset(*mLoopTime_s);
+            _e8 = 1;
+        }
+        break;
+    case 1:
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
+        _ec.update();
+        if (_ec.value <= sead::Mathf::epsilon()) {
+            playAS(mShootEndASName_s.cstr(), false, 0, 0, -1.0f);
+            _e8 = 2;
+        }
+        break;
+    case 2:
+        if (sub_71005DD780(mActor, 71, nullptr, 0, 0)) {
+            sead::Vector3f target;
+            sead::Vector3f pos;
+            if (sub_710024EB30(&target, &pos))
+                m33(pos, &target);
+            else
+                m33(pos, nullptr);
+        }
+        if (isFinishedAS(0, 0))
+            setFinished();
+        break;
+    }
+    sub_710024E90C();
+    sub_710024E994();
 }
 
 void HideShootArrow::m32() {}
