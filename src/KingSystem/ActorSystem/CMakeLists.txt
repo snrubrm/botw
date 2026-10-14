@@ -158,6 +158,8 @@ target_sources(uking PRIVATE
     actModelBindInfo.h
     actPlayerPosition.cpp
     actReaction.cpp
+    actSchedule.cpp
+    actSchedule.h
     actStruct8Base.cpp
     actUnk_71006e45c4.cpp
     actUnk_71006e45c4.h
