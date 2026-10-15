@@ -44,10 +44,9 @@ void DrowningDeath::loadParams_() {
     getStaticParam(&mPosBaseRagdollRbName_s, "PosBaseRagdollRbName");
 }
 
-// NON_MATCHING: the actor and ragdoll-state loads are swapped.
 void DrowningDeath::calc_() {
-    auto* actor = mActor;
     if (_38) {
+        auto* actor = mActor;
         if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
             auto* ragdoll = dynamic_actor->_868;
             if (auto* controller = actor->getCharacterController()) {
@@ -58,7 +57,7 @@ void DrowningDeath::calc_() {
                     controller->sub_7100F5F938(transform);
             }
         }
-    } else if (auto* controller = actor->getCharacterController()) {
+    } else if (auto* controller = mActor->getCharacterController()) {
         sead::Vector3f velocity;
         controller->sub_7100F5F598(&velocity);
         ksys::VFR::multiply(&velocity.x, 0.65f);
