@@ -207,6 +207,8 @@ public:
     RideableBase();
     virtual ~RideableBase();
 
+    // E534A0 forwards a null-terminated AS-name list through va_list to S1 (E78A04).
+    void sub_7100E534A0(const char* name, ...);
     bool getSomethingFromAnimalUnitSpeed();
     // 0x7100e63374 (lane4 s46, placeholder name): _140 if _138 > 0, else _144 if _13c > 0, else 0.
     u64 sub_7100E63374();
