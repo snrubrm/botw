@@ -214,6 +214,16 @@ public:
     /* 0x28 */ u32 _28 = 0;
 };
 
+// vtable 0x7102451790: accepts linked awareness entries with tag 0x2b533845.
+// Complete ctor / D1 / D0 / m2 at 74743C / 747460 / 747464 / 747488; no derived fields.
+class Unk_7102451790 : public ksys::act::Unk_71024dccf8 {
+public:
+    Unk_7102451790();
+    ~Unk_7102451790() override;
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102451790, 0x28);
+
 // vtable 0x71024517b8 (m2 0x7100747560, D0 0x7100747714)
 class Unk_71024517b8 : public ksys::act::Unk_71024dccf8 {
 public:

@@ -412,6 +412,19 @@ bool Unk_71024515d8::m2(Unk_71024dc978* entry) {
     return sub_71005DA304(&target->mLink);
 }
 
+Unk_7102451790::Unk_7102451790() = default;
+
+Unk_7102451790::~Unk_7102451790() = default;
+
+bool Unk_7102451790::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target || !target->mLink.hasProc())
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    return accessor.hasTag(0x2b533845u);
+}
+
 bool Unk_71024517b8::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
