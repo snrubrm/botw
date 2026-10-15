@@ -114,4 +114,36 @@ void sub_7100E7F6FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* 
     controller->sub_7100F5FB24(vel);
 }
 
+// NON_MATCHING: only register allocation and block layout differ (the clamp's branch polarity and
+// the s0/s9 argument registers). The logic, order and calls match.
+void sub_7100E7F4FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale) {
+    const sead::Vector3f& dir = as_list->sub_710115D2D4();
+    const f32 x = dir.x;
+    const f32 z = dir.z;
+    sead::Vector3f forward;
+    sead::Matrix34f mtx;
+    controller->physicsXXXGetMtx_1(&mtx);
+    forward.set(mtx.m[0][2], 0.0f, mtx.m[2][2]);
+    forward.normalize();
+
+    const f32 ax = sead::Mathf::abs(x);
+    const f32 az = sead::Mathf::abs(z);
+    f32 a;
+    f32 b;
+    f32 dominant;
+    if (az >= ax) {
+        a = 1.0f;
+        b = z == 0.0f ? 0.0f : sead::Mathf::clamp(x / z, -1.0f, 1.0f);
+        dominant = z;
+    } else {
+        b = 1.0f;
+        a = x == 0.0f ? 0.0f : sead::Mathf::clamp(z / x, -1.0f, 1.0f);
+        dominant = x;
+    }
+    controller->sub_7100F5EDD8(a);
+    controller->sub_7100F5EDE0(b);
+    controller->sub_7100F5EDBC(forward);
+    controller->sub_7100F5E7F0(dominant * 30.0f * scale);
+}
+
 }  // namespace uking::act
