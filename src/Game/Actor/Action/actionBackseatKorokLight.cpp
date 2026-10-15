@@ -15,7 +15,6 @@ BackseatKorokLight::BackseatKorokLight(const InitArg& arg) : ksys::act::ai::Acti
 
 BackseatKorokLight::~BackseatKorokLight() = default;
 
-// NON_MATCHING: the random choice branches are arranged differently.
 bool BackseatKorokLight::init_(sead::Heap* heap) {
     _a0 = mPlacementType_m == "Ground";
     if (auto* model = mActor->getModel()) {
@@ -25,9 +24,9 @@ bool BackseatKorokLight::init_(sead::Heap* heap) {
         if (_a0) {
             sead::Random random;
             switch (random.getU32() & 3) {
-            case 1:
+            case 3:
                 model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
-                    left.material_index, true);
+                    left.material_index, false);
                 model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
                     right.material_index, false);
                 break;
@@ -37,9 +36,9 @@ bool BackseatKorokLight::init_(sead::Heap* heap) {
                 model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
                     right.material_index, true);
                 break;
-            case 3:
+            case 1:
                 model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
-                    left.material_index, false);
+                    left.material_index, true);
                 model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
                     right.material_index, false);
                 break;
