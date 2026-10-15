@@ -59,6 +59,100 @@ void NavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71004B7E90();
 }
 
+// NON_MATCHING: the existing checker-data cast selects rather than branching.
+void NavMoveTarget::sub_71004B7C68() {
+    if (_310._0) {
+        auto* checker = *_310._0;
+        if (sead::IsDerivedFrom<Unk_71025b0578>(checker) &&
+            static_cast<Unk_71025b0578*>(checker)->mRefCount > 0) {
+            _310.getData()->reset();
+        }
+    }
+    if (_318._0) {
+        auto* checker = *_318._0;
+        if (sead::IsDerivedFrom<Unk_71025b7688>(checker) &&
+            static_cast<Unk_71025b7688*>(checker)->mRefCount > 0) {
+            _318.getData()->sub_710071F47C();
+        }
+    }
+}
+
+// NON_MATCHING: query/output stack slots, timer store order and transition tail layout.
+void NavMoveTarget::sub_71004B7F80() {
+    auto* nav = mActor->m45();
+    if (!nav || (nav->_2a4.load() & 0xffff) == 0x17) {
+        sub_71004B7E90();
+        return;
+    }
+    nav = mActor->m45();
+    if (!nav) {
+        sub_71004B7E90();
+        return;
+    }
+    sead::Vector3f query_position;
+    bool valid;
+    {
+        auto query = nav->sub_7100F760F0(&query_position, *m34(), 3.5f);
+        valid = query.sub_7100F7EB40();
+    }
+    if (!valid) {
+        sub_71004B7E90();
+        return;
+    }
+
+    if (auto* current_nav = mActor->m45()) {
+        u8 state;
+        {
+            auto lock = sead::makeScopedLock(current_nav->_1e0);
+            state = current_nav->_294 | 1;
+        }
+        if (state == 5)
+            current_nav->sub_7100F76790();
+    }
+    if (m37()) {
+        if (isCurrentChild("直進")) {
+            auto* child = getCurrentChild();
+            if (!child->isFinished() && !child->isFailed()) {
+                _370.reset(*mParams.mRepathTime_s);
+                return;
+            }
+        }
+        sub_71004B9984();
+        return;
+    }
+
+    if (_368->_8 == 1) {
+        if (auto* current_nav = mActor->m45()) {
+            if (!current_nav->_194.isNan()) {
+                const sead::Vector3f destination = current_nav->_194;
+                bool can_move = true;
+                if (auto* latest_nav = mActor->m45()) {
+                    f32 distance;
+                    {
+                        auto lock = sead::makeScopedLock(latest_nav->_1e0);
+                        distance = latest_nav->_2cc;
+                    }
+                    can_move = !(distance >= *mParams.mTooFarDist_s);
+                }
+                if (can_move) {
+                    _368->_8 = -1;
+                    _370.reset(*mParams.mRepathTime_s);
+                    ksys::act::ai::InlineParamPack params;
+                    params.addVec3(destination, "TargetPos", -1);
+                    changeChild("移動", &params);
+                    return;
+                }
+            }
+        }
+    }
+
+    _370.reset(*mParams.mRepathTime_s);
+    sub_71004B9590();
+    if ((isCurrentChild("直進") || isCurrentChild("移動")) && !getCurrentChild()->isFailed())
+        return;
+    sub_71004B7E90();
+}
+
 void NavMoveTarget::sub_71004B7E90() {
     sub_71004B7C68();
     const sead::Vector3f pos = *m34();
@@ -77,6 +171,48 @@ bool NavMoveTarget::sub_71004B9388() {
     const f32 dist = diff.length();
     return dist <= *mParams.mReachTargetArea_s + sub_71007320F0(mActor, *mParams.mWeaponIdx_s) ||
            _368->_8 == 3;
+}
+
+// NON_MATCHING: query/output stack slots and horizontal component load scheduling.
+bool NavMoveTarget::sub_71004B9590() {
+    const sead::Vector3f target = *m34();
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+
+    sead::Vector3f position;
+    bool valid;
+    {
+        auto query = nav->sub_7100F76078(&position, target, 3.0f);
+        valid = query.sub_7100F7EB40();
+    }
+    if (!valid)
+        return false;
+
+    sead::Vector3f direction = position - *mParams.mTargetPos_d;
+    direction.y = 0.0f;
+    if (sead::Mathf::sqrt(direction.x * direction.x + direction.z * direction.z) >= 0.5f) {
+        direction.normalize();
+        position += direction;
+    }
+    auto* state = _368;
+    if (state->_0) {
+        state->_0->sub_7100F75F8C(position);
+        state->_8 = 0;
+    }
+    return true;
+}
+
+void NavMoveTarget::sub_71004B9984() {
+    _368->_8 = -1;
+    if (auto* nav = _368->_0)
+        nav->inlineReset();
+    const f32 repath_time = *mParams.mRepathTime_s;
+    _370 = ksys::Timer(repath_time, repath_time);
+    const sead::Vector3f target = *m34();
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target, "TargetPos", -1);
+    changeChild("直進", &params);
 }
 
 void NavMoveTarget::leave_() {

@@ -113,7 +113,7 @@ public:
     void sub_7100F75AF0();
     // 0x7100f760f0 / 0x7100f76168 / 0x7100f761c8 (placeholder names): forward to HavokAI (the `_18` of the character, or
     // the singleton) after the NaN checks of the arguments; the last two pass the radius `_2a8 * _2ac`.
-    Unk_7100f7e9f0 sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to);
+    Unk_7100f7e9f0 sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to, f32 value);
     bool sub_7100F76168(f32 value, bool flag, void* out);
     bool sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag, void* out);
     // 0x7100f76260 (placeholder name): stores `pos` in _1b8 (unless it contains NaN), sets bit 0x2000 and clears 0x20000 of _220.

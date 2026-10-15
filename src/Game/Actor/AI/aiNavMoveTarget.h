@@ -35,6 +35,8 @@ protected:
     void sub_71004B7E90();
     void sub_71004B7F80();
     bool sub_71004B9388();
+    bool sub_71004B9590();
+    void sub_71004B9984();
 
     /* 0x38 */ void* _38{};
     // aitree_variable at offset 0x40

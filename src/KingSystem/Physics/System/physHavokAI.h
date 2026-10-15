@@ -356,7 +356,8 @@ public:
     void sub_7100F81854();
 
     // 0x7100f88fd0 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F760F0 forwards here.
-    Unk_7100f7e9f0 sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to);
+    Unk_7100f7e9f0 sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
+                                    f32 value);
 
     // 0x7100f87594 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F76168 / sub_7100F761C8 forward here
     // (`pos` may be null; `radius` is the character's `_2a8 * _2ac`).

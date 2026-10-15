@@ -107,13 +107,12 @@ void NavMeshCharacter::sub_7100F75AF0() {
         HavokAI::instance()->sub_7100F83A9C(_2e0);
 }
 
-// NON_MATCHING: the original loads `_18` before the singleton pointer (instruction order of the two loads)
-Unk_7100f7e9f0 NavMeshCharacter::sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to) {
+Unk_7100f7e9f0 NavMeshCharacter::sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to, f32 value) {
     if (to.isNan())
         return Unk_7100f7e9f0();
 
     auto* ai = _18 ? _18 : HavokAI::instance();
-    return ai->sub_7100F88FD0(this, out, to);
+    return ai->sub_7100F88FD0(this, out, to, value);
 }
 
 bool NavMeshCharacter::sub_7100F76168(f32 value, bool flag, void* out) {
