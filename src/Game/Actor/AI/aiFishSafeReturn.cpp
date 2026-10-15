@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <gfx/seadCamera.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Camera/CameraMgr.h"
@@ -122,6 +123,41 @@ void FishSafeReturn::changeToMove() {
     pack.addVec3(_60, "TargetPos", -1);
     pack.addVec3(_60, "MoveAwayFromPos", -1);
     changeChild("移動", &pack);
+}
+
+// NON_MATCHING: camera vector subtraction and normalization scheduling differ.
+void FishSafeReturn::sub_71003CFB58() {
+    if (isCurrentChild("逃走"))
+        return;
+    sead::Vector3f pos = mActor->getMtx().getTranslation();
+    // The original calls this getter before acquiring the player and discards its result.
+    getPlayerPosition();
+    ksys::act::ActorLinkConstDataAccess accessor;
+    sead::Vector3f dir;
+    if (ksys::act::acquireActor(&act::PlayerInfo::getSomeProcLink(), &accessor) &&
+        accessor.sub_7100D0FF48()) {
+        dir = getPlayerPosition();
+        dir -= pos;
+        dir.y = 0.0f;
+        dir.normalize();
+        dir.y = *mDivePercent_s;
+        dir = -dir;
+        dir.normalize();
+    } else {
+        auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();
+        if (!camera) {
+            setFailed();
+            return;
+        }
+        dir = camera->getAt() - camera->getPos();
+        dir.y = -*mDivePercent_s;
+        dir.normalize();
+    }
+    pos += dir * 10.0f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(getPlayerPosition(), "MoveAwayFromPos", -1);
+    changeChild("逃走", &pack);
 }
 
 bool FishSafeReturn::isChangeable() const {

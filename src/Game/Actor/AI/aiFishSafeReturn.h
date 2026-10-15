@@ -18,7 +18,7 @@ public:
     void loadParams_() override;
 
     void changeToMove();
-    // 0x71003cfb58 (placeholder name; declared only): the escape reaction.
+    // 0x71003cfb58 (placeholder name): the escape reaction.
     void sub_71003CFB58();
 
 protected:
