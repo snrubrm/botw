@@ -18,10 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
-    SEAD_ENUM(Bit, _0, _1)
+    SEAD_ENUM(Bit, _0, _1, _2)
 
     void calc_() override;
-    virtual int m32();
+    virtual bool m32();
 
     // static_param at offset 0x20
     const float* mMinFramesPlayWaitAS_s{};

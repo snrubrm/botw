@@ -41,7 +41,7 @@ void EatAndHeal::calc_() {
 
 // NON_MATCHING: the original keeps the timer index in a register across sub_71002F2E78 and converts it
 // in a stack slot above the accessor (as if from an inlined WolfLink helper)
-int EatAndHeal::m32() {
+bool EatAndHeal::m32() {
     ksys::act::ActorLinkConstDataAccess accessor;
     if (!ksys::act::acquireActor(mTargetActor_d, &accessor))
         return 0;
