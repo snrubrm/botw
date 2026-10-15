@@ -229,7 +229,8 @@ public:
     /* 0x0c8 */ f32 _c8[2];
     /* 0x0d0 */ f32 _d0;
     /* 0x0d4 */ u8 _d4;
-    /* 0x0d5 */ u8 _d5[3];
+    /* 0x0d5 */ u8 _d5;
+    /* 0x0d6 */ u8 _d6[2];
     /* 0x0d8 */ sead::Vector3f _d8;  // read by BalloonBase::m33 unless _c bit 24 is set
     /* 0x0e4 */ sead::Vector3f _e4;
     /* 0x0f0 */ sead::Vector3f _f0;
