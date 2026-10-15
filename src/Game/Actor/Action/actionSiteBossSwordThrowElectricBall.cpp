@@ -1,5 +1,8 @@
 #include "Game/Actor/Action/actionSiteBossSwordThrowElectricBall.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
@@ -58,6 +61,31 @@ void SiteBossSwordThrowElectricBall::loadParams_() {
 
 void SiteBossSwordThrowElectricBall::calc_() {
     SiteBossThrowParts::calc_();
+    const bool move = sub_71005DD798(mActor, 47, nullptr, 0, 0);
+    auto* actor = mActor;
+    if (move) {
+        sead::Vector3f position = actor->getMtx().getTranslation();
+        ksys::VFR::lerp(&_e4, *mParams.mMoveSpeed_s, 0.1f);
+        ksys::VFR::lerp(&position, _d8, _e4);
+        sub_710073FA90(&_e8, mActor);
+        sead::Vector3f direction = *mTargetPos_d;
+        direction -= position;
+        direction.normalize();
+        sub_710074006C(&_e8, direction, sead::Vector3f::ey, true, 0.08f,
+                       sead::Mathf::pi2(), 0.0f);
+        if (auto* controller = mActor->getCharacterController()) {
+            const sead::Matrix34f transform(_e8, position);
+            controller->sub_7100F5F938(transform);
+        }
+    } else if (auto* controller = actor->getCharacterController()) {
+        sead::Vector3f velocity;
+        controller->sub_7100F635BC(&velocity);
+        velocity *= 0.94f;
+        controller->sub_7100F5FB24(velocity);
+        controller->sub_7100F5F598(&velocity);
+        velocity *= 0.94f;
+        controller->sub_7100F5F6FC(velocity);
+    }
 }
 
 const sead::SafeString& SiteBossSwordThrowElectricBall::m34() {
