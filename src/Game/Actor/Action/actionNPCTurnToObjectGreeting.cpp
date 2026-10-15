@@ -2,6 +2,9 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/Event/evtEventSystem.h"
 
 namespace uking::action {
 
@@ -39,6 +42,28 @@ void NPCTurnToObjectGreeting::leave_() {
 void NPCTurnToObjectGreeting::loadParams_() {
     NPCTurnToObject::loadParams_();
     getDynamicParam(&mGreetingType_d, "GreetingType");
+}
+
+void NPCTurnToObjectGreeting::sub_710020ADF0() {
+    sead::SafeString greeting;
+    if (mGreetingType_d == "FollowAISchedule") {
+        if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::InstEvent))
+            return;
+        if (auto* schedule = mActor->getSchedule()) {
+            sead::FixedSafeString<64> names;
+            mActor->getRootAi()->getNames(&names);
+            if (names.findIndex("移動") != -1 || names.findIndex("遷移待機") != -1)
+                greeting = schedule->_2b8;
+            else
+                greeting = schedule->_2c8;
+        }
+    } else {
+        greeting = mGreetingType_d;
+    }
+    if (greeting == "DoAndDo" || greeting == "DoAndNot")
+        ksys::evt::EventSystem::instance()->_144 |= 1;
+    if (greeting == "DoAndDo" || greeting == "NotAndDo")
+        mActor->getASList()->x_2(0x42, 0xe, true, false);
 }
 
 void NPCTurnToObjectGreeting::calc_() {
