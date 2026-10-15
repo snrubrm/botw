@@ -650,11 +650,14 @@ public:
     bool sub_7100A83EC0() const;
     void sub_7100A83EC8(bool value);
     void sub_7100A83ED4(s32 value);
+    // 0x7100a83ea4 / 0x7100a83eac (placeholder names; called by 0x71009bad4c and 0x7100a6b278 as
+    // `x.sub_7100A83EA4(Unk_710249d300::sub_7100A83EAC())`): set _10 / the title ID 0x01007ef00011e000
+    void sub_7100A83EA4(u64 value);
+    static u64 sub_7100A83EAC();
 
     u8 _c[4];
-    // Small fields (meaning unknown; the original stores both initial values as one merged 64-bit constant).
-    u32 _10 = 0x11e000;
-    u32 _14 = 0x01007ef0;
+    // The game's title ID (0x01007ef00011e000), set by 0x7100a83ea4.
+    u64 _10 = 0x01007ef00011e000;
     bool _18 = false;
     bool _19 = false;
     sead::FixedSafeString<16> _20 = sead::SafeString::cEmptyString;
