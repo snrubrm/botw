@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -60,6 +63,58 @@ void RemainsWaterBulletWait::m32() {
     }
     ksys::VFR::lerp(&velocity, direction, *mChaseRate_s);
     body->setLinearVelocity(velocity * 30.0f, sead::Mathf::epsilon());
+}
+
+// NON_MATCHING: transform-vector registers, angle temporaries and accessor teardown branches differ.
+void RemainsWaterBulletWait::sub_71002325BC(sead::Vector3f* position) {
+    if (!position)
+        return;
+    const sead::Vector3f translation = mActor->getMtx().getTranslation();
+    *position = translation;
+    auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor);
+    ksys::act::acc::PlayerBase player;
+    if (!bullet || !player.getPlayerFromPlayerInfo())
+        return;
+    ksys::act::ActorLinkConstDataAccess parent;
+    if (!ksys::act::acquireActor(&bullet->_bd0._0, &parent))
+        return;
+    const sead::Matrix34f parent_matrix(parent.getActorMtx());
+    sead::Matrix34f inverse;
+    inverse.setInverse(parent_matrix);
+    const sead::Vector3f player_position = player.getActorMtx().getTranslation();
+    const sead::Vector3f parent_position = parent_matrix.getTranslation();
+    sead::Vector3f front = parent_matrix.getBase(2);
+    front.normalize();
+    front.y = 0.0f;
+    front.normalize();
+    sead::Vector3f player_direction = player_position - parent_position;
+    player_direction.rotate(inverse);
+    player_direction.z *= mRemainsWaterBulletOffset_m->x / mRemainsWaterBulletOffset_m->z;
+    player_direction.rotate(parent_matrix);
+    player_direction.y = 0.0f;
+    player_direction.normalize();
+    sead::Vector3f axis;
+    f32 angle = 0.0f;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, player_direction, sead::Vector3f::ey);
+    angle = axis.y * angle + *mRemainsWaterBulletAngle_m;
+    sead::Vector3f direction = translation - parent_position;
+    direction.rotate(inverse);
+    direction.z *= mRemainsWaterBulletOffset_m->x / mRemainsWaterBulletOffset_m->z;
+    direction.rotate(parent_matrix);
+    direction.y = 0.0f;
+    direction.normalize();
+    f32 current_angle = 0.0f;
+    ksys::util::sub_71011EEB08(&axis, &current_angle, direction, player_direction,
+                              sead::Vector3f::ey);
+    current_angle = axis.y * current_angle + *mRemainsWaterBulletAngle_m;
+    if (sead::Mathf::abs(current_angle) > *mMaxChaseAngle_s) {
+        const f32 sign = current_angle >= 0.0f ? 1.0f : -1.0f;
+        angle = *mMaxChaseAngle_s * sign + (angle - current_angle);
+    }
+    position->y = mRemainsWaterBulletOffset_m->y;
+    position->x = mRemainsWaterBulletOffset_m->x * std::sin(angle);
+    position->z = mRemainsWaterBulletOffset_m->z * std::cos(angle);
+    position->setMul(parent_matrix, *position);
 }
 
 }  // namespace uking::action
