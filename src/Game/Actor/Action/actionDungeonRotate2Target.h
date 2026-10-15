@@ -19,6 +19,7 @@ public:
 protected:
     void calc_() override;
     void m33() override;
+    void m35() override;
 
     // static_param at offset 0xc8
     const int* mDgnRotDir_s{};
