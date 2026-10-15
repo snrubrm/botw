@@ -84,6 +84,27 @@ f32 ArrowShootMove::m41() {
 
 void ArrowShootMove::m42() {}
 
+// NON_MATCHING: initial value stores and speed selection are scheduled differently.
+void ArrowShootMove::sub_71000A2A64() {
+    const f32 speed = mFirstSpeed_d->length();
+    _b4.value = speed;
+    _b4.prev_value = speed;
+    _c0.value = sead::Vector3f::zero;
+    _c0.prev_value = _c0.value;
+    _fc = *mAccel_d;
+    const f32 aim_speed = *mAimSpeed_d;
+    _100 = sead::Mathf::equalsEpsilon(0.0f, _fc) ? speed : aim_speed;
+    _f0 = *mTargetPos_d;
+    sead::Vector3f position = mActor->getMtx().getTranslation();
+    if (auto* body = mActor->getMainBody())
+        body->getPosition(&position);
+    _e4 = _f0 - position;
+    _e4.normalize();
+    _11c = mActor->getMtx().getTranslation();
+    _149 = false;
+    sub_71000A3400();
+}
+
 bool ArrowShootMove::sub_71000A331C() {
     auto* actor = mActor;
     if (!actor || !hasAttackInfo(actor))
