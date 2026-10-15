@@ -19,6 +19,7 @@
 
 namespace ksys::act {
 class ActorLinkConstDataAccess;
+class InstParamPack;
 }
 namespace ksys::map {
 class Rail;
@@ -208,6 +209,9 @@ public:
         // 0x710066bc04 (declared only; placeholder name): deletes every bound actor that is still alive (the links
         // at 0x320 - 0x3a0 and _3b0); called by the destructors of SiteBoss*Root.
         void sub_710066BC04();
+        // 0x710066bfec: requests the named actor in the existing handle slot.
+        bool sub_710066BFEC(s32 index, const char* name, ksys::act::InstParamPack* params,
+                           bool flag);
         // 0x710066d094 (declared only; placeholder name): called by SiteBoss::sub_71002D2958.
         void sub_710066D094();
         // 0x710066c074: number of bound actors that are in the calc state.

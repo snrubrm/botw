@@ -4,6 +4,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -11,6 +12,22 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
+
+void SiteBossSwordAttackRoot::sub_7100594BB8() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+    for (s32 i = 0; i < 10; ++i) {
+        if (boss->_1560._1e0[i].hasProc() || boss->_1560._a0[i].isAllocatedOrFailed())
+            continue;
+        const sead::Matrix34f matrix = mActor->getMtx();
+        ksys::act::InstParamPack params;
+        params->addMatrix(matrix);
+        params->add(i, "Count");
+        params->add(i, "PatternID");
+        boss->_1560.sub_710066BFEC(i, "Enemy_SiteBoss_Sword_AfterImage", &params, false);
+    }
+}
 
 void SiteBossSwordAttackRoot::sub_710059616C() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
@@ -63,7 +80,16 @@ void SiteBossSwordAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSwordAttackRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_14c8._30.reset(0x880);
+        boss->_14c8._30.set(0x80);
+        for (s32 i = 0; i < 16; ++i) {
+            sead::FormatFixedSafeString<64> name("IronPile%d", i);
+            act::SiteBoss::sub_71002D3624(boss, name);
+        }
+    }
+    _108 &= ~0x10;
+    _10c = *mElectricCounterMax_s + 1;
 }
 
 void SiteBossSwordAttackRoot::loadParams_() {
