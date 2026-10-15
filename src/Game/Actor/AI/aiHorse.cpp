@@ -2,6 +2,8 @@
 #include "Game/Actor/actHorse.h"
 #include "Game/Actor/actHorseBase.h"
 #include "Game/Actor/actHorseStrings.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/Actor/actRideable.h"
@@ -24,6 +26,57 @@ void Horse::sub_7100435180(u64 value) {
     }
     if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
         horse->sub_7100E6C0E0(true);
+}
+
+// NON_MATCHING: block layout (the original duplicates the x_2(66, 26) call into the horse / no-horse paths and threads
+// the later horse check), two enum stack slots swapped, and RideableBase::sub_7100E63374 is compared as 32-bit there
+// (declared u64 here)
+void Horse::sub_71004334C8() {
+    auto* as_list = mActor->getASList();
+    as_list->x_6(14, 0, 0.0f);
+    as_list->x_2(66, 12, false, false);
+    as_list->x_2(66, 24, false, false);
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    if (rideable) {
+        if (as_list->x_1(0, 0) != act::sUnk_7102603180 || as_list->x_4(0, 0)) {
+            const auto gear = act::Rideable::Gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);
+            as_list->x_6(10, 0, static_cast<f32>(int(gear)));
+        }
+        as_list->x_6(23, 0, rideable->sub_7100E63374() == 2 ? 1.0f : 0.0f);
+        as_list->x_2(66, 16, rideable->m39() != nullptr, false);
+        as_list->x_2(66, 22, rideable->Unk_7100e8b2b8::sub_7100E8BFF4(), false);
+        const act::Unk_7100e8b2b8::Unk8 kind = rideable->Unk_7100e8b2b8::_8.load() & 0xff;
+        if (horse)
+            as_list->x_2(66, 26, int(kind) != 0 && !horse->sub_7100E696D4(), false);
+        else
+            as_list->x_2(66, 26, int(kind) != 0, false);
+    } else {
+        as_list->x_6(10, 0, 0.0f);
+        as_list->x_6(23, 0, 0.0f);
+        as_list->x_2(66, 16, false, false);
+        as_list->x_2(66, 22, false, false);
+        as_list->x_2(66, 26, false, false);
+    }
+
+    if (!horse) {
+        as_list->x_2(66, 3, false, false);
+        as_list->x_6(17, 0, 1.0f);
+        return;
+    }
+    as_list->x_2(66, 3, horse->sub_7100E6BE40(), false);
+    const HorseMgr::RiddenAnimalType type = horse->x();
+    switch (type) {
+    case HorseMgr::RiddenAnimalType::_6:
+        as_list->x_6(17, 0, 2.0f);
+        break;
+    case HorseMgr::RiddenAnimalType::_7:
+        as_list->x_6(17, 0, 0.5f);
+        break;
+    default:
+        as_list->x_6(17, 0, 1.0f);
+        break;
+    }
 }
 
 void Horse::sub_7100435260() {
