@@ -20,7 +20,7 @@ public:
     virtual const sead::SafeString* m14();
     virtual void m15() {}
     bool m6(sead::Heap* heap) override;
-    void m7() override;  // not decompiled yet (0x7100641200)
+    void m7() override;
 
     /* 0x28 */ const int* mCloseOption_s{};
     /* 0x30 */ const int* mTimer_s{};
