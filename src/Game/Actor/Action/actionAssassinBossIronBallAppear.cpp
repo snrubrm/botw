@@ -19,8 +19,24 @@ AssassinBossIronBallAppear::~AssassinBossIronBallAppear() {
     _70.freeBuffer();
 }
 
+// NON_MATCHING: final sender-loop registers and increment scheduling differ.
 bool AssassinBossIronBallAppear::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _60.tryAllocBuffer(*mIronBallNum_s, heap);
+    if (!_60.isBufferReady())
+        return false;
+    _70.tryAllocBuffer(*mIronBallNum_s, heap);
+    if (!_70.isBufferReady())
+        return false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mIronBallNum_s; ++i) {
+            key.format("%s%d", mIronBallPartsName_s.cstr(), i);
+            enemy->sub_7100D3CED8(key, heap);
+        }
+    }
+    for (s32 i = 0; i < *mIronBallNum_s; ++i)
+        _60[i]._8 = &mActor->getMessageTransceiver();
+    return true;
 }
 
 void AssassinBossIronBallAppear::enter_(ksys::act::ai::InlineParamPack* params) {
