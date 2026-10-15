@@ -14,8 +14,46 @@ bool SwarmDamaged::init_(sead::Heap* heap) {
     return SwarmDamagedBase::init_(heap);
 }
 
+// NON_MATCHING: contact/count guards and unit velocity loads are scheduled differently.
 void SwarmDamaged::enter_(ksys::act::ai::InlineParamPack* params) {
     SwarmDamagedBase::enter_(params);
+    if (isFinished() || isFailed())
+        return;
+    auto* swarm = static_cast<act::Swarm*>(mActor);
+    m33(swarm);
+    sead::Vector3f direction;
+    s32 count = 0;
+    sub_7100729370(swarm, &direction, &count);
+    if (count == 0) {
+        for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
+            if (auto* unit = swarm->_14c8[i]) {
+                const f32 x = unit->_60.x * 5.0f;
+                const f32 spread = x + (x >= 0.0f ? 0.5f : -0.5f);
+                const f32 lift = sead::Mathf::clamp((unit->_60.y + 2.0f) * 0.25f, 0.0f, 1.0f);
+                unit->_6c.x = spread + (2.0f - (lift + lift));
+                unit->_6c.y = unit->_60.y + (lift + lift);
+                unit->_6c.z = unit->_60.z;
+            }
+        }
+    } else {
+        for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
+            if (auto* unit = swarm->_14c8[i]) {
+                f32 x = unit->_60.x * 5.0f;
+                x += x >= 0.0f ? 0.5f : -0.5f;
+                f32 y = unit->_60.y;
+                if (direction.x < -0.1f)
+                    x = -sead::Mathf::abs(x);
+                else if (direction.x > 0.1f)
+                    x = sead::Mathf::abs(x);
+                if (direction.y > -0.1f) {
+                    const f32 lift = sead::Mathf::clamp((y + 2.0f) * 0.25f, 0.0f, 1.0f);
+                    y += lift + lift;
+                    x += 2.0f - (lift + lift);
+                }
+                unit->_6c.set(x, y, unit->_60.z);
+            }
+        }
+    }
 }
 
 void SwarmDamaged::leave_() {
