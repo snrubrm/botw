@@ -37,6 +37,8 @@ public:
     // by m36, within mTeraDist_s of the ground when `_8d` is set, and passing the AutoPlacementMgr
     // statistics checks.
     bool sub_710030E930(const sead::Vector3f& pos);
+    // 0x710030e0c4 (placeholder name, not decompiled): looks for a spawn position and writes it to `pos`.
+    bool sub_710030E0C4(sead::Vector3f* pos);
 
 protected:
     // static_param at offset 0x38

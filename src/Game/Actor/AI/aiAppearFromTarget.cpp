@@ -9,6 +9,11 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/System/Timer.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/aiUnk_7100736460.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
@@ -51,6 +56,68 @@ void AppearFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
         damage_mgr->addDamageCallback(3, &_60);
     _88 = 9999.0f;
     _8c = false;
+}
+
+// NON_MATCHING: stack slots (the original shares one slot for the home position and the player accessor)
+void AppearFromTarget::calc_() {
+    sub_710030DFEC();
+    if (isCurrentChild("湧出準備")) {
+        bool remove = true;
+        if (!mActor->x_40() && !mActor->sub_7100EE1E94()) {
+            sead::Vector3f home;
+            mActor->getHomePos(&home);
+            const auto& mtx = mActor->getMtx();
+            const f32 dx = home.x - mtx(0, 3);
+            const f32 dz = home.z - mtx(2, 3);
+            if (!(dx * dx + dz * dz > 40000.0f)) {
+                const sead::Vector3f pos = mtx.getTranslation();
+                auto* mgr = uking::AutoPlacementMgr::instance();
+                if (!mgr || (!mgr->auto0(pos, 0) && !mgr->isNonAutoPlacement(pos, true))) {
+                    ksys::act::acc::PlayerBase player;
+                    remove = ksys::act::acquireActor(&sub_71005D94AC(mActor), &player) && player.x_7();
+                }
+            }
+        }
+        if (remove)
+            mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        setFinished();
+    } else if (child->isChangeable() && isCurrentChild("湧出準備")) {
+        sead::Vector3f pos;
+        if (!_8c) {
+            if (_58 >= 0) {
+                --_58;
+            } else {
+                auto* mgr = uking::AutoPlacementMgr::instance();
+                if (!(mgr && (dlc::isPlayingOneHitObliteratorQuest() || mgr->_171e68[0] > 0)) &&
+                    sub_710030E0C4(&pos)) {
+                    const s32 id = *mNearCreateAppearID_m;
+                    if (id != 0) {
+                        f32 delay = 30.0f;
+                        auto* global = ksys::act::GlobalParameter::instance();
+                        if (global && global->getGlobalParam())
+                            delay = global->getGlobalParam()->mEnemyNearCraeteIDDelay.ref();
+                        _8c = true;
+                        _88 = delay * static_cast<f32>(id);
+                    } else {
+                        m37(pos);
+                    }
+                }
+            }
+        } else if (_88 > 0.0f) {
+            ksys::Timer::update(&_88, -1.0f);
+        } else {
+            auto* mgr = uking::AutoPlacementMgr::instance();
+            if (!(mgr && (dlc::isPlayingOneHitObliteratorQuest() || mgr->_171e68[0] > 0)) &&
+                sub_710030E0C4(&pos)) {
+                m37(pos);
+            }
+        }
+    }
+    getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
 }
 
 bool AppearFromTarget::isChangeable() const {
