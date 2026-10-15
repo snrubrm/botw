@@ -11,6 +11,13 @@
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
+#include "Game/Actor/actModelMaterialUtil.h"
 
 namespace uking::ai {
 
@@ -27,8 +34,126 @@ void WeaponEquipedAI::sub_7100E1DC50() {
     }
 }
 
+// NON_MATCHING: initial state value stores are merged and use a different base register.
 void WeaponEquipedAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (weapon && weapon->m153())
+        sub_7100E1C850();
+    else
+        sub_7100E1CB40();
+    _39 = false;
+    weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (weapon && weapon->m195()) {
+        sub_7100E1CE30(false);
+        sub_7100E1D1DC();
+    }
+    weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    _3c = -1;
+    if (weapon && weapon->isParentPlayer())
+        _3c = 0;
+    _38 = false;
+}
+
+void WeaponEquipedAI::sub_7100E1C850() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon)
+        return;
+    sub_7100E1D7A8();
+    auto* current_weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!current_weapon || !current_weapon->m213()) {
+        if (auto* chemical = mActor->sub_71011D8A44(0))
+            chemical->sub_7100D90AF4(false);
+    }
+    current_weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!current_weapon || !current_weapon->m213()) {
+        if (auto* chemical = mActor->sub_71011D8A44(0))
+            chemical->_bf |= 2;
+    }
+    sub_7100E1DB34(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                   ksys::phys::ContactLayer::SensorHitOnlyInDoor);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(weapon->m164(), "NodeName", -1);
+    sead::Vector3f rotation;
+    weapon->m165(&rotation);
+    pack.addVec3(rotation, "RotOffset", -1);
+    sead::Vector3f translation;
+    weapon->m166(&translation);
+    pack.addVec3(translation, "TransOffset", -1);
+    changeChild("納刀", &pack);
+}
+
+void WeaponEquipedAI::sub_7100E1CB40() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon)
+        return;
+    sub_7100E1DB34(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                   ksys::phys::ContactLayer::SensorChemical);
+    auto* current_weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!current_weapon || !current_weapon->m213()) {
+        if (auto* chemical = mActor->sub_71011D8A44(0))
+            chemical->_bf &= ~2;
+    }
+    if (auto* chemical = mActor->sub_71011D8A44(0)) {
+        chemical->sub_7100D91098(false);
+        chemical->sub_7100D90C2C(false);
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(weapon->m164(), "NodeName", -1);
+    sead::SafeString node_name = sead::SafeString::cEmptyString;
+    weapon->m197(&node_name);
+    pack.addString(node_name, "MyNodeName", -1);
+    sead::Vector3f rotation;
+    weapon->m165(&rotation);
+    pack.addVec3(rotation, "RotOffset", -1);
+    sead::Vector3f translation;
+    weapon->m166(&translation);
+    pack.addVec3(translation, "TransOffset", -1);
+    changeChild("抜刀", &pack);
+}
+
+void WeaponEquipedAI::sub_7100E1CE30(bool visible) {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon || !weapon->getModel())
+        return;
+    auto* model = weapon->getModel();
+    const auto* params = weapon->getParam()->getRes().mGParamList->getGuardianMiniWeapon();
+    if (!params)
+        return;
+    const sead::SafeString materials = params->mVisibleOffMatName.ref();
+    if (!materials.isEmpty()) {
+        for (auto it = materials.tokenBegin(","); materials.tokenEnd(",") != it; ++it) {
+            sead::FixedSafeString<32> material;
+            it.get(&material);
+            if (!material.isEmpty()) {
+                const auto key = model->searchMaterial(material);
+                if (key.isValid())
+                    uking::act::setMaterialVisible(model, key, visible);
+            }
+        }
+    }
+    _39 = !visible;
+}
+
+void WeaponEquipedAI::sub_7100E1D1DC() {
+    if (!mActor || !mActor->getASList() ||
+        !mActor->getASList()->sub_710115AA68("ChangeColor"))
+        return;
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon)
+        return;
+    auto* parent = weapon->getParentActor();
+    if (!parent)
+        return;
+    const auto* params = parent->getParam()->getRes().mGParamList->getGuardianMini();
+    if (!params)
+        return;
+    auto* as_list = weapon->getASList();
+    if (!as_list)
+        return;
+    as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 1, true);
+    as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298,
+                 static_cast<f32>(params->mColorType.ref()));
+    as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0.0f);
 }
 
 void WeaponEquipedAI::leave_() {

@@ -16,7 +16,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
 
-    // Declaration only: tokenizes the weapon material list and changes material visibility.
+    void sub_7100E1C850();
+    void sub_7100E1CB40();
+    // Selects the parent weapon color animation.
+    void sub_7100E1D1DC();
+    // Tokenizes the weapon material list and changes material visibility.
     void sub_7100E1CE30(bool visible);
     void sub_7100E1DC50();
     // 0x7100e1db34: sets the contact layer of the main body and of the first "Chemical" body (unless the weapon m213() holds)
