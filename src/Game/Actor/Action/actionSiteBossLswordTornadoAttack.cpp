@@ -1,6 +1,7 @@
 #include "Game/Actor/Action/actionSiteBossLswordTornadoAttack.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/World/worldManager.h"
@@ -68,6 +69,33 @@ void SiteBossLswordTornadoAttack::calc_() {
 
     if (_4c.value <= sead::Mathf::epsilon())
         setFinished();
+}
+
+// NON_MATCHING: target count/id registers and iterator branch layout differ.
+void SiteBossLswordTornadoAttack::sub_710025FEF0() {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return;
+    Unk_7102451538 filter;
+    auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    u32 count = 0;
+    u32 last_id = 0;
+    while (entry && count < 2) {
+        auto& link = entry->_0.mLink;
+        if (link.hasProcInCalcState()) {
+            const u32 id = link.getId();
+            if (id != last_id) {
+                sub_71002601D4(1.0f, &link);
+                ++count;
+                last_id = id;
+            }
+        }
+        entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    }
+    while (entry) {
+        entry->_0.mLink.hasProcInCalcState();
+        entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    }
 }
 
 }  // namespace uking::action
