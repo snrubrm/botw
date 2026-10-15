@@ -325,6 +325,23 @@ bool sub_71002C6B0C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return boss ? boss->_14e4 == 1 : false;
 }
 
+// NON_MATCHING: height branches fold into floating-point selects; vector register scheduling differs.
+void sub_71002C62EC(sead::Vector3f* out, ksys::act::Actor* actor, f32 y_offset) {
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    const f32 height = position.y - home.y;
+    if (height > 20.0f)
+        position.y += -3.0f;
+    else if (height > 10.0f)
+        position.y += 0.0f;
+    else
+        position.y += y_offset;
+    sead::Vector3f direction = position - home;
+    direction.normalize();
+    *out = direction;
+}
+
 void sub_71002C6408(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to, f32 y_offset) {
     sead::Vector3f pos = from;
     pos.y += y_offset;

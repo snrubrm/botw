@@ -1,4 +1,5 @@
 #include <basis/seadNew.h>
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -25,6 +26,21 @@ bool RideableBase::m4(ksys::act::Actor* actor, sead::Heap* heap) {
     _178 = 0;
     getSomethingFromAnimalUnitSpeed();
     return true;
+}
+
+// NON_MATCHING: native enum stack temporaries and separate state branches are folded into register selection.
+int RideableBase::m11(int mode) {
+    s32 limit = _168;
+    if (mode == 0) {
+        if (_138 > 0.0f)
+            limit = sead::Mathi::min(limit, 1);
+        else if (_13c > 0.0f)
+            limit = sead::Mathi::min(limit, 2);
+    }
+    s32 gear = _18._b == 0 ? _18._9 : _18._b;
+    if ((_18._9 == _18._b && _18._8 == _18._a) || !(_18._c > 0.0f))
+        --gear;
+    return sead::Mathi::max(limit, gear);
 }
 
 void RideableBase::m9() {
@@ -65,8 +81,6 @@ void RideableBase::sub_7100E6314C(Rank rank, f32 value, u32 id) {
     }
 }
 
-// NON_MATCHING: the original computes the member address (`add x8, x0, #0x140`) and loads through it, with a 64-bit zero for
-// the third result; we fold the offset into the load and return a 32-bit zero.
 // NON_MATCHING: the original computes &_a0 before the m45 call and keeps it in a callee-saved register
 void RideableBase::sub_7100E62B84() {
     auto* as_list = mActor->getASList();
@@ -75,6 +89,8 @@ void RideableBase::sub_7100E62B84() {
     _a0.sub_7100E6FAB4(this, as_list, nav);
 }
 
+// NON_MATCHING: the original computes the member address (`add x8, x0, #0x140`) and loads through it, with a 64-bit zero for
+// the third result; we fold the offset into the load and return a 32-bit zero.
 u64 RideableBase::sub_7100E63374() {
     if (_138 > 0.0f)
         return _140;
