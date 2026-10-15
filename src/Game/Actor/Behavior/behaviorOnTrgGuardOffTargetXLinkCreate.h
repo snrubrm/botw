@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m14(Unk_71012419b4* handle) override;  // TODO 0x7100632148
+    void m14(Unk_71012419b4* handle) override;
 
 };
 KSYS_CHECK_SIZE_NX150(OnTrgGuardOffTargetXLinkCreate, 0x38);
