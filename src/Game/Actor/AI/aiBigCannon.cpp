@@ -140,7 +140,7 @@ void BigCannon::calc_() {
     _f4 = -1;
     actor->getAtk();
     if (auto* damage = sub_710072BA90(actor))
-        _f4 = damage->getField54();
+        _f4 = damage->getField50();
     if (_109 && _f4 == 4)
         _108 = true;
 }
