@@ -1,5 +1,6 @@
 #include "Game/Actor/Action/actionEventPlayUiOneTimeAnimAction.h"
 #include <container/seadBuffer.h>
+#include "Game/UI/uiScreenNameTable.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/Event/evtManager.h"
 
@@ -7,30 +8,12 @@ namespace uking::action {
 
 namespace {
 
-// Placeholder: screen name -> screen id entry (vtable 0x710237e1d0, no RTTI; 0x48 bytes).
-struct ScreenNameEntry {
-    ScreenNameEntry(const sead::SafeString& name_, s32 id_) : name(name_), id(id_) {}
-    virtual ~ScreenNameEntry() = default;
-
-    sead::FixedSafeString<32> name;
-    s32 id;
-};
-
-// Placeholder: the 8-byte object at 0x71025b2180 (stored by the static initializer 0x710011f87c
-// before the entry table is built).
-struct ScreenNameTableHeader {
-    ScreenNameTableHeader() : _0(0x8004ef), _4(0) {}
-
-    u32 _0;
-    u32 _4;
-};
-
 // NON_MATCHING (static initializer 0x710011f87c): same stores, but our build places the header
 // before the entries in .bss and schedules the first stores differently.
-ScreenNameTableHeader sScreenNameTableHeader;
-ScreenNameEntry sScreenNameEntries[] = {{"AppCamera", 4}};
+ui::ScreenNameTableHeader sScreenNameTableHeader;
+ui::ScreenNameEntry sScreenNameEntries[] = {{"AppCamera", 4}};
 // 0x71025b2188
-sead::Buffer<ScreenNameEntry> sScreenNames(sScreenNameEntries);
+sead::Buffer<ui::ScreenNameEntry> sScreenNames(sScreenNameEntries);
 
 }  // namespace
 

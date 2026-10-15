@@ -182,6 +182,7 @@ target_sources(uking PRIVATE
   uiScreenStates.cpp
   uiScreenTimerSlots.cpp
   uiScreenOwnSlots.cpp
+  uiScreenNameTable.h
   uiScreens.h
   uiShopFacade.cpp
   uiShopItemElement.cpp
