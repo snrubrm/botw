@@ -3,6 +3,11 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "KingSystem/System/VFR.h"
+#include <cmath>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
@@ -26,6 +31,56 @@ namespace uking::ai {
 PreyRoot::PreyRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 PreyRoot::~PreyRoot() = default;
+
+// NON_MATCHING: position registers and free-fall reset/threshold scheduling differ.
+void PreyRoot::sub_71005035A8() {
+    auto* nav = mActor->m45();
+    auto* controller = mActor->getCharacterController();
+    if (!nav || !controller)
+        return;
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    const f32 raw_time = ksys::VFR::instance()->getRawDeltaTime();
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    if (*mIsCheckFreeFall_s && !isCurrentChild("所持") && !controller->sub_7100F5F14C() &&
+        !m34() && !sub_7100504D80()) {
+        if (std::isnan(_1fc))
+            _1fc = position.y;
+        _200 = _1fc - position.y;
+        if (_200 > 0.0f && !_205 &&
+            _200 >= mActor->getParam()->getRes().mDamageParam->mFallDamageStartHeight.ref() - 0.1f)
+            _205 = true;
+    } else {
+        sub_7100504BF0();
+    }
+    const f32 dx = position.x - _19c.x;
+    const f32 dy = *mIsCheckStuckConsiderY_s ? position.y - _19c.y : 0.0f;
+    const f32 dz = position.z - _19c.z;
+    const f32 distance = sead::Mathf::sqrt((dx * dx + dy * dy) + dz * dz);
+    const f32 relative_speed = ((1.0f / raw_time) * distance) /
+                               (delta * controller->sub_7100F5EF00());
+    *mIsStuckOnTerrain_a = relative_speed < 0.2f;
+    if (*mIsStuckOnTerrain_a) {
+        *mFramesStuckOnTerrain_a += 1.0f;
+    } else {
+        *mIsStuckOnTerrain_a = false;
+        *mFramesStuckOnTerrain_a = 0.0f;
+    }
+    _19c = position;
+}
+
+bool PreyRoot::sub_7100504D80() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller || controller->sub_7100F5F14C() || !_188->_1190)
+        return false;
+    bool result = _188->_e84.isOn(0x400000);
+    if (auto* info = controller->sub_7100F635E4()) {
+        for (auto point = info->begin(), end = info->end(); point != end; ++point) {
+            if ((*point)->separating_normal.dot(sead::Vector3f::ey) != 0.0f)
+                result = true;
+        }
+    }
+    return result;
+}
 
 // NON_MATCHING: controller-vector stack slots and gear selection scheduling differ.
 void PreyRoot::sub_7100503864() {

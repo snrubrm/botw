@@ -89,6 +89,7 @@ public:
 protected:
     void calc_() override;
     void sub_71005035A8();
+    bool sub_7100504D80();
     void sub_7100503864();
     void sub_7100503A78();
     // Unnamed in the binary (0x7100504070): m34() and the controller's _116 / _18c flags say it is in a
