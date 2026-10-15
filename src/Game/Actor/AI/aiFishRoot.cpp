@@ -320,7 +320,7 @@ void FishRoot::sub_71003CC69C() {
     controller->_68 = !isCurrentChild("地上待機") && !isCurrentChild("死亡");
 }
 
-// NON_MATCHING: the awareness loop and acquired-actor snapshots use different registers and branches.
+// NON_MATCHING: awareness loop and accessor scheduling differ; the unused native distance/sqrt work is optimized away.
 s32 FishRoot::sub_71003CDB18() {
     auto* awareness = mActor->getAwareness();
     if (awareness) {

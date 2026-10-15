@@ -1,6 +1,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/World/worldWindMgr.h"
 #include <cstring>
+#include <common/aglTextureData.h>
+#include <common/aglGPUMemBlock.h>
 
 namespace ksys::world {
 
@@ -24,6 +26,26 @@ Unk_710251F868::~Unk_710251F868() {
         _40 = nullptr;
         _28.invalidate();
     }
+}
+
+// NON_MATCHING: GPU address assignment and texture allocation use different temporary scheduling.
+void Unk_710251F868::sub_71012FEAA8(sead::Heap* heap) {
+    _c = 0.0f;
+    _18 = 320;
+    _1c = 64;
+    _20 = 320;
+    _24 = 64;
+    _40 = new (heap, 8) agl::TextureData;
+    _40->initialize_(agl::TextureType::cTextureType_2D, agl::TextureFormat::cTextureFormat_R16_float,
+                     _18, _1c, 1, 1, agl::TextureAttribute{}, agl::MultiSampleType{}, true);
+    const u32 alignment = _40->getImageAlignment();
+    const u32 size = _40->getImageByteSize();
+    auto* memory = new (heap, 8) agl::GPUMemBlock<u8>;
+    memory->allocBuffer_(size, heap, alignment, agl::MemoryAttribute::Default);
+    _28 = agl::GPUMemAddrBase(*memory, 0);
+    _40->setImagePtr(_28, 0);
+    std::memset(&_1b8, 0, sizeof(_1b8));
+    sub_71012FEBE4();
 }
 
 void Unk_710251F868::sub_71012FEFF0(f32 delta) {
