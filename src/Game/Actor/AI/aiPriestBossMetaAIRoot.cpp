@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiPriestBossMetaAIRoot.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
@@ -92,6 +94,49 @@ void PriestBossMetaAIRoot::calc_() {
     }
     sub_71005266A0();
     sub_7100526918();
+}
+
+// NON_MATCHING: payload enum round trip, flag temporary slots and evaluation order.
+void PriestBossMetaAIRoot::sub_71005266A0() {
+    using Flag = Unk_7102450fa8::Flag;
+    auto* player = act::PlayerInfo::instance()->getPlayer();
+    _128.update();
+    if (player->_d18 != -1) {
+        if (_144 == -1) {
+            {
+                sead::ScopedLock<sead::JobQueueLock> lock(&_b8._18.mLock);
+                _b8._18._c = true;
+                _b8._18._8 = 1;
+            }
+            _b8.sub_710070DBB0(_138->_1a0, true);
+            _138->_78.resetBit(Flag(Flag::_6));
+            for (s32 idx = 11; idx < 19; ++idx) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                if (sub_7100525B18(idx, &accessor)) {
+                    {
+                        sead::ScopedLock<sead::JobQueueLock> lock(&_e8._18.mLock);
+                        _e8._18._0 = 1;
+                        _e8._18._4 = sead::Vector3f::zero;
+                    }
+                    _e8.sub_710070DBB0(*accessor.getMessageTransceiverId(), false);
+                }
+            }
+        }
+        if (player->_d18 != -1) {
+            _128.value = *mPlayerRecoverFromFallFrames_s;
+            _128.previous_value = _128.value;
+            _144 = player->_d18;
+        } else {
+            _144 = -1;
+        }
+    } else {
+        _144 = -1;
+    }
+    if (sub_7100525A88()) {
+        sub_7100525A88()->_78.changeBit(Flag(Flag::_11), !(_128.value <= sead::Mathf::epsilon()));
+        auto* unit = sub_7100525A88();
+        unit->_78.changeBit(Flag(Flag::_15), player->isDarukProtectionEnabled());
+    }
 }
 
 // NON_MATCHING: flag temporary stack slots and cached attention pointer.

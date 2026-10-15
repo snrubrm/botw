@@ -6,6 +6,7 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -46,8 +47,7 @@ protected:
     sead::SafeString mUniqueNameMessageLabel_m{};
     Unk_71023dbd40 _b8{mActor, 0x80000d7};
     Unk_7102409958 _e8{mActor, 0x80000da};
-    void* _128 = nullptr;
-    f32 _130 = -1.0f;
+    ksys::Timer _128{0, 0};
     Unk_7102450fa8* _138 = nullptr;
     Unk_7102450fa8::Phase _140;
     s32 _144 = -1;
