@@ -50,7 +50,7 @@ protected:
     // changes to "板燃焼".
     void sub_71002FD5BC();
     void sub_71002FD8C0();
-    // Full native body audited; list child access/dirty APIs remain unresolved.
+    // Updates the list sphere and marks the existing body and list shape dirty.
     void sub_71002FDB9C();
     // 0x71002fde2c (placeholder name): reacts to the AS events of slot 57 ("板との接続解除": sub_71002FDF9C; "プレイヤの方向を向く":
     // sub_71002FEF78(pi)).

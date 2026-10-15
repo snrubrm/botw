@@ -10,7 +10,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldWeatherMgr.h"
-#include <random/seadGlobalRandom.h>
 #include <limits>
 
 Unk_710071edf8::Unk_710071edf8(ksys::act::Actor* actor) : mActor(actor) {}
