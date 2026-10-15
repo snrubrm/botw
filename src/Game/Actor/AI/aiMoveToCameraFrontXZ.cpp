@@ -26,8 +26,7 @@ bool MoveToCameraFrontXZ::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original builds the line with the raw direction and normalises it in the line object (sead::Line
-// here has no such setter), and keeps the actor position on the stack.
+// NON_MATCHING: stack layout and operand scheduling differ from the original.
 void MoveToCameraFrontXZ::enter_(ksys::act::ai::InlineParamPack* params) {
     _80 = 0;
     _84 = 0;
@@ -39,7 +38,6 @@ void MoveToCameraFrontXZ::enter_(ksys::act::ai::InlineParamPack* params) {
     const auto& player = sub_71005D9330(mActor);
     const sead::Vector2f point(player.x, player.z);
     sead::Vector2f dir(_88.x - pos.x, _88.z - pos.z);
-    dir.normalize();
     const sead::Line2f line(sead::Vector2f(pos.x, pos.z), dir);
     if (sead::Geometry::calcSquaredDistancePointToLine(point, line, nullptr) > *mAvoidPlayerDist_s + 0.1f ||
         (_88 - pos).dot(sub_71005D9330(mActor) - pos) < 0.0f) {
