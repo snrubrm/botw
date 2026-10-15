@@ -103,7 +103,7 @@ public:
     Unk_71025ae680* m178(sead::Heap* heap) override;
 
     // Placeholder names (CSV x_N where it had one); called by SiteBoss AI functions.
-    // 0x71002d3740 (CSV x): deleteLater on every part actor in its calc state with tag 0xb0c0f649, then
+    // 0x71002d3740 (CSV x; SiteBossDie::enter_ calls it first): deleteLater on every part actor in its calc state with tag 0xb0c0f649, then
     // _1560.sub_710066BC04(). 0x71002d38f8 (CSV x_0): unloads the resident events _25e8 / _27b8.
     void x();
     void x_0();
@@ -123,8 +123,6 @@ public:
     void sub_71002D1FD4();
     void x_5(bool on);
     void x_6(bool on);
-    // 0x71002d3740 (CSV SiteBoss::x; declared only; lane3 s71): called first by SiteBossDie::enter_.
-    void x();
     bool sub_71002D33D0(f32 value) const;
     void sub_71002D1B18(bool on);
     void sub_71002D38EC(const sead::SafeString& name);
