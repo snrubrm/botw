@@ -17,6 +17,7 @@ public:
 
     // Native reset and independent update operate on both complete timers.
     void sub_710071EE1C();
+    void sub_710071EE38();
 
     ksys::act::Actor* mActor;
     ksys::Timer _8{};

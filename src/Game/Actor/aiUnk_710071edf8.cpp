@@ -6,6 +6,12 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
+#include <random/seadGlobalRandom.h>
+#include <limits>
 
 Unk_710071edf8::Unk_710071edf8(ksys::act::Actor* actor) : mActor(actor) {}
 
@@ -14,6 +20,46 @@ void Unk_710071edf8::sub_710071EE1C() {
     _14 = ksys::Timer(-1.0f, -1.0f, 0.0f);
     _20 = false;
     _21 = false;
+}
+
+// NON_MATCHING: timer stores and AS event/name query cleanup use different scheduling.
+void Unk_710071edf8::sub_710071EE38() {
+    auto* list = mActor->getASList();
+    if (!list)
+        return;
+    bool raining = false;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (!(chemical->_c & 0x1000000) && chemical->_18c > 0.05f)
+            raining = ksys::world::Manager::instance()->getWeatherMgr()->isRaining();
+    }
+    if (_20 != raining) {
+        if (raining) {
+            sub_710071EE1C();
+        } else {
+            _8.reset(sead::GlobalRandom::instance()->getF32Range(_24, _28));
+            _14.reset(-1.0f, 0.0f);
+        }
+    }
+    if (!raining) {
+        _8.update();
+        if (_8.value <= std::numeric_limits<f32>::epsilon()) {
+            _8.reset(1.0f, 0.0f);
+            _14.reset(_2c);
+        }
+    }
+    _20 = raining;
+    // Unordered timer values also keep the animation flag active.
+    if (!(_14.value <= std::numeric_limits<f32>::epsilon())) {
+        ksys::as::ASList::Unk4 event;
+        if (list->x(1, &event, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true) &&
+            event.name == "RainStops") {
+            _14.reset(-1.0f, 0.0f);
+            _21 = true;
+        } else {
+            _14.update();
+        }
+    }
+    list->x_2(66, 24, !(_14.value <= std::numeric_limits<f32>::epsilon()), false);
 }
 
 bool sub_710071E208() {
