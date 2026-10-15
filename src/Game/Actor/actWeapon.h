@@ -502,7 +502,9 @@ public:
     /* 0xf98 */ WeaponModifierInfo _f98;
     /* 0xfa0 */ u8 _fa0[0xfb0 - 0xfa0];  // TODO
     /* 0xfb0 */ s32 _fb0;
-    /* 0xfb4 */ u8 _fb4[0xfc8 - 0xfb4];  // TODO
+    /* 0xfb4 */ u8 _fb4[0xfb8 - 0xfb4];  // TODO
+    // Constructed by 2E04AC, reset by 2F18D4; m207 copies the owner link for BoomerangMove.
+    /* 0xfb8 */ ksys::act::BaseProcLink _fb8;
     /* 0xfc8 */ bool _fc8;
     /* 0xfc9 */ u8 _fc9[0xfd0 - 0xfc9];  // TODO
     /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
