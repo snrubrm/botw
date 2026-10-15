@@ -8,6 +8,9 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
 namespace uking::ai {
 
@@ -27,6 +30,113 @@ void BokoblinRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     _bc = _c0 = *mSpAttackServiceTime_s;
     _b8 = _bc;
     changeChild("待機");
+}
+
+// NON_MATCHING: source shares the native search/reset and turn-selection tails.
+void BokoblinRoam::calc_() {
+    const bool in_service_range = sub_7100333E68();
+    if (in_service_range)
+        ksys::Timer::update(&_b8, -1.0f);
+    else
+        _b8 = _bc == _c0 ? _bc : sead::GlobalRandom::instance()->getS32Range(_bc, _c0);
+    const bool service_active = in_service_range && !(_b8 <= 0.0f);
+    if (isCurrentChild("回転")) {
+        if (_c4.value < f32(*mNoMoveTime_s)) {
+            _dc = true;
+            _c4.reset(f32(*mNoMoveTime_s));
+        }
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            changeToSearch();
+        return;
+    }
+    if (isCurrentChild("暇つぶし")) {
+        sub_7100333FEC();
+        if (_c4.value < f32(*mNoMoveTime_s)) {
+            _dc = true;
+            _c4.reset(f32(*mNoMoveTime_s));
+        }
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            changeChild("待機");
+        return;
+    }
+    if (isCurrentChild("索敵")) {
+        if (_c4.value < f32(*mNoMoveTime_s)) {
+            _dc = true;
+            _c4.reset(f32(*mNoMoveTime_s));
+        }
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            const s32 minimum = *mFreeIntervalMin_s;
+            const s32 maximum = *mFreeIntervalMax_s;
+            _d0.reset(sead::GlobalRandom::instance()->getS32Range(minimum, maximum));
+            changeChild("待機");
+        }
+        return;
+    }
+    if (isCurrentChild("移動")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            auto* chemical = mActor->getChemicalStuff();
+            if (chemical && (chemical->_b8 & 0x40))
+                sub_7100334070(true);
+            else
+                changeToSearch();
+        } else if (getCurrentChild()->isChangeable() && sub_710033433C()) {
+            changeToRotate();
+        }
+        return;
+    }
+    sub_7100333FEC();
+    if (!_dc)
+        _d0.update();
+    const f32 move_time = _c4.value;
+    bool burning = false;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (chemical->_b8 & 0x40) {
+            const auto* damage = mActor->getParam()->getRes().mDamageParam;
+            burning = damage && damage->mBurnable.ref();
+        }
+    }
+    if (move_time <= sead::Mathf::epsilon() || burning) {
+        const s32 status = sub_7100334070(false);
+        if (status == 0)
+            return;
+        if (!burning && service_active) {
+            _c4.reset(f32(*mNoMoveTime_s));
+            return;
+        }
+        sub_71003345EC(status == 1);
+        return;
+    }
+    if (!(_d0.value <= sead::Mathf::epsilon()))
+        return;
+    auto to_center = *mCentralPos_d - mActor->getMtx().getTranslation();
+    const f32 distance = to_center.normalize();
+    if (!_dd && !service_active) {
+        if (distance > (*mTerritory_s + *mTerritory_s) / 3.0f &&
+            !(to_center.dot(mActor->getMtx().getBase(2)) >= 0.4999999701976776f)) {
+            sub_71003345EC(true);
+            return;
+        }
+        if (sead::GlobalRandom::instance()->getU32(100) < 20) {
+            sub_71003345EC(false);
+            return;
+        }
+        const auto position = mActor->getMtx().getTranslation();
+        const auto target = position + mActor->getMtx().getBase(2) * 5.0f;
+        if (sub_710072E928(position, target, nullptr, nullptr, nullptr, 0.5f)) {
+            sub_71003345EC(false);
+            return;
+        }
+    }
+    if (s32(sead::GlobalRandom::instance()->getU32(100)) < *mFreePer_s) {
+        changeToIdle();
+    } else {
+        _dd = false;
+        changeToSearch();
+    }
 }
 
 void BokoblinRoam::loadParams_() {
