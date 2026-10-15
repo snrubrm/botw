@@ -44,7 +44,7 @@ public:
     sead::BitFlag32 mFlags10;
     sead::BitFlag32 mFlags14;
     sead::BitFlag32 mFlags18;
-    u32 _1c = 4;
+    s32 _1c = 4;
     u32 mActorType = 9;
     u8 _24 = 0xff;
     u8 _25;

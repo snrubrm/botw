@@ -2,6 +2,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include "KingSystem/Camera/CameraMgr.h"
+#include "KingSystem/System/Timer.h"
+#include "Game/Actor/aiUnk_7100709414.h"
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
@@ -60,4 +64,26 @@ s32 sub_710070914C(ksys::act::Actor* actor, s32 value) {
     if (a == value)
         return 1;
     return b == value ? 2 : -1;
+}
+
+void Unk_7100709414::sub_7100709414() {
+    if (_0 != 2) {
+        auto* lod = _8->getLodState();
+        if (lod) {
+            if (lod->_1c > 1)
+                return;
+            if (_14 < 0.0f) {
+                if (lod->mFlags8.isOnBit(11))
+                    return;
+            } else {
+                sead::Vector3f camera_pos;
+                ksys::sub_7100D8C6AC(&camera_pos);
+                if (!((camera_pos - _8->getMtx().getTranslation()).length() < _14))
+                    return;
+            }
+        }
+    }
+    ksys::Timer::update(&_10, -1.0f);
+    if (_0 == 0)
+        _0 = 2;
 }
