@@ -29,6 +29,7 @@ public:
 
 protected:
     void sub_7100368FCC(bool enabled);
+    bool sub_710036AEA8(bool start, bool secondary);
 
     Unk2 _260;
     // static_param at offset 0x270

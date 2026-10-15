@@ -2,10 +2,12 @@
 #include "Game/Actor/actDragon.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -161,6 +163,91 @@ void DragonIceRoot::m44(const sead::Vector3f& pos) {
     ksys::act::ActorCreator::instance()->requestCreateActor(
         "DragonIceBall", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr, &pack,
         nullptr, 2);
+}
+
+// NON_MATCHING: flag extraction and the shared effect/return branches are scheduled differently.
+bool DragonIceRoot::sub_710036AEA8(bool start, bool secondary) {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return false;
+    auto* contact = sub_71007A255C(dragon, 0);
+    if (!contact || !contact->_c0)
+        return false;
+    const auto body_name = contact->_c0->getHkBodyName();
+    if (body_name.findIndex("怨念") == -1)
+        return false;
+
+    bool hit = false;
+    bool blocked = false;
+    if (body_name.findIndex("頭部") != -1) {
+        auto* current = sead::DynamicCast<act::Dragon>(mActor);
+        if (current && !current->_1f70.isOnBit(15)) {
+            current->sub_710000FC70(0, start, secondary);
+            hit = true;
+        } else {
+            hit = false;
+        }
+        blocked |= dragon->_1f70.isOnBit(15);
+    }
+    if (body_name.findIndex("胴前方") != -1) {
+        auto* current = sead::DynamicCast<act::Dragon>(mActor);
+        if (current && !current->_1f70.isOnBit(16)) {
+            current->sub_710000FC70(1, start, secondary);
+            hit = true;
+        } else {
+            hit = false;
+        }
+        blocked |= dragon->_1f70.isOnBit(16);
+    }
+    if (body_name.findIndex("胴後方") != -1) {
+        auto* current = sead::DynamicCast<act::Dragon>(mActor);
+        if (current && !current->_1f70.isOnBit(17)) {
+            current->sub_710000FC70(2, start, secondary);
+            hit = true;
+        } else {
+            hit = false;
+        }
+        blocked |= dragon->_1f70.isOnBit(17);
+    }
+    if (body_name.findIndex("尻尾") != -1) {
+        auto* current = sead::DynamicCast<act::Dragon>(mActor);
+        if (current && !current->_1f70.isOnBit(18)) {
+            current->sub_710000FC70(3, start, secondary);
+            hit = true;
+        } else {
+            hit = false;
+        }
+        blocked |= dragon->_1f70.isOnBit(18);
+    }
+    xlinkEventOn(dragon, 22, blocked ? 2 : 5, true);
+    if (hit) {
+        Unk_71012419b4 damage;
+        xlinkSearchAndEmit(dragon, "GrudgeDamage", 2, &damage);
+        damage.sub_71012419B4(contact->_0);
+        _398.fadeXLink();
+        _3b8 = 0;
+        if (body_name.findIndex("頭部") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeSmoke_A", 2, &_398);
+        if (body_name.findIndex("胴前方") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeSmoke_B", 2, &_398);
+        if (body_name.findIndex("胴後方") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeSmoke_C", 2, &_398);
+        if (body_name.findIndex("尻尾") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeSmoke_D", 2, &_398);
+    } else {
+        Unk_71012419b4 damage;
+        xlinkSearchAndEmit(dragon, "GrudgeDamage", 1, &damage);
+        damage.sub_71012419B4(contact->_0);
+        if (body_name.findIndex("頭部") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeInvincible_A", 0, nullptr);
+        if (body_name.findIndex("胴前方") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeInvincible_B", 0, nullptr);
+        if (body_name.findIndex("胴後方") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeInvincible_C", 0, nullptr);
+        if (body_name.findIndex("尻尾") != -1)
+            xlinkSearchAndEmit(dragon, "GrudgeInvincible_D", 0, nullptr);
+    }
+    return hit;
 }
 
 bool DragonIceRoot::m46() {
