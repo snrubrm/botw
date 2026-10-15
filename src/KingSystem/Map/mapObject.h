@@ -149,6 +149,7 @@ public:
     }
 
     void getTraversePosAndLoadDistance(sead::Vector3f* traverse_pos, f32* load_dist) const;
+    bool checkYDistance(f32 object_y, f32 player_y, f32 offset) const;
     f32 getDispDistance(const PlacementActors* pa, bool get_diameter, bool ignore_radius) const;
     f32 getDispDistance(const ActorData* data, bool get_diameter, u32 unused,
                         bool ignore_radius) const;

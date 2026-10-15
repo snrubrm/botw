@@ -433,7 +433,8 @@ public:
     // only; lane4 s28): CSV Actor::deleteIfPlacementStuff (0x71011ccc68), Actor::decrementSkipJobPushTimer
     // (0x71011cddb8), Actor::x_14 (0x71011c99dc), Actor::x_16 (0x71011ce034) and
     // Actor::handleModelFadeInOutAndFadeDelete (0x71011cc50c).
-    void deleteIfPlacementStuff();
+    bool deleteIfPlacementStuff();
+    void emitSignalsOnDeleteForAreaOrTag();
     void decrementSkipJobPushTimer();
     void x_14(bool a1);
     void x_16();

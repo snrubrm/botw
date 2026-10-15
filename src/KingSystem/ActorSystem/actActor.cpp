@@ -63,6 +63,9 @@
 #include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
+// Existing profile classification utility; original namespace is unknown.
+bool isAreaOrLinkTagOrOtherTag(const sead::SafeString& profile);
+
 namespace ksys::act {
 
 void Actor::x_14(bool on) {
@@ -2244,6 +2247,135 @@ void Actor::handleModelFadeInOutAndFadeDelete() {
         }
         _68e = true;
     }
+}
+
+bool Actor::deleteEx(DeleteType type, DeleteReason reason, bool* ok) {
+    if (!mModel || getState() != State::Calc) {
+        if (type == DeleteType::_2 || type == DeleteType::_3) {
+            mFadeOutDeleteType.compareExchange(0, s32(type));
+            const s32 requested_type = mFadeOutDeleteType;
+            if (!deleteLater(reason))
+                return false;
+            if (mMapObject &&
+                (((requested_type == 2 || requested_type == 3) &&
+                  mMapObject->getFlags0().isOff(map::Object::Flag0::_400)) ||
+                 (getState() != State::Calc &&
+                  mMapObject->getFlags0().isOff(map::Object::Flag0::_400)))) {
+                mMapObject->setFlags0(map::Object::Flag0::ActorCreated);
+                if (auto* mgr = map::PlacementMgr::instance())
+                    mgr->sub_71011EB46C(mMapObject);
+            }
+            return true;
+        }
+        if (type == DeleteType::_1)
+            return deleteLater(reason);
+    }
+    if (!mFadeOutDeleteType.compareExchange(0, s32(type)))
+        return false;
+    if (ok)
+        *ok = true;
+    onPreFadeOutDelete();
+    if (type == DeleteType::_2 || type == DeleteType::_3) {
+        ActorLinkConstDataAccess accessor;
+        if (mMapObject && mMapObject->getLinkData()) {
+            mMapObject->getLinkData()->sub_7100D4F6A4(accessor, map::MapLinkDefType::PlacementLOD);
+            accessor.wakeUp(SleepWakeReason::_0);
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: transformed-position argument setup and the flag-setting tail differ.
+void Actor::updatePlacementObjDistanceFlags() {
+    bool near_player = false;
+    if (mMapObject && mActorParam->getProfile() != "NPC" && !_687) {
+        sead::Vector3f home;
+        if (mFieldBodyGroup) {
+            const sead::Vector3f original_home = mHomeMtx.getTranslation();
+            home = phys::System::instance()->getStaticCompoundMgr()->getTransformedPos(
+                mFieldBodyGroup, original_home);
+        } else {
+            home = mHomeMtx.getTranslation();
+        }
+        if ((home - mMtx.getTranslation()).squaredLength() > 0.5f &&
+            mActorFlags.isOffBit(ActorFlag(0x17)) && mActorParam->getProfile() != "Area" &&
+            !mMapObject->checkCreateOrDeleteLinkObjRevival()) {
+            sead::Vector3f traverse;
+            f32 load_distance = 0.0f;
+            mMapObject->getTraversePosAndLoadDistance(&traverse, &load_distance);
+            const auto& player = ActorSystem::instance()->getPlayerPos();
+            const f32 x = traverse.x - player.x;
+            const f32 z = traverse.z - player.z;
+            if (x * x + z * z < mDispDistanceSq * 0.5f * 0.5f &&
+                !mMapObject->checkYDistance(traverse.y, player.y, -10.0f))
+                near_player = true;
+        }
+    }
+    if (near_player)
+        mMapObject->setFlags0(map::Object::Flag0::_400000);
+    else if (mMapObject->getFlags0().isOff(map::Object::Flag0::_800000))
+        mMapObject->resetFlags0(map::Object::Flag0::_400000);
+}
+
+// NON_MATCHING: the existing atomic bool is tested with cbz rather than bit 0.
+bool Actor::deleteIfPlacementStuff() {
+    if (_687) {
+        if (!mMapObject)
+            return true;
+        if (!isDeletedOrDeleting()) {
+            if (deleteEx(DeleteType::_3, DeleteReason(8)))
+                updatePlacementObjDistanceFlags();
+            if (_540)
+                mMapObject->resetFlags0(map::Object::Flag0::_400000);
+        }
+        auto* links = mMapObject ? mMapObject->getLinkData() : nullptr;
+        if (links) {
+            const bool deleting = mActorFlags.isOnBit(ActorFlag(0x17));
+            const bool counted = mActorFlags.isOnBit(ActorFlag::_e);
+            if (deleting && counted) {
+                mActorFlags.resetBit(ActorFlag::_e);
+                links->incrementGenGroupNumPrepareDelete();
+            } else if (!deleting && !counted) {
+                mActorFlags.setBit(ActorFlag::_e);
+                links->decrementGenGroupNumPrepareDelete();
+            }
+        }
+        return true;
+    }
+    if (!mMapObject || !mMapObject->checkCreateOrDeleteLinkObjRevival())
+        return false;
+    const bool delete_link = mMapObject->getLinkData()->checkDeleteLinkObjRevival();
+    becomePreActor(DeleteType::_2, DeleteReason(delete_link ? 7 : 6));
+    emitSignalsOnDeleteForAreaOrTag();
+    auto* links = mMapObject ? mMapObject->getLinkData() : nullptr;
+    if (links) {
+        const bool deleting = mActorFlags.isOnBit(ActorFlag(0x17));
+        const bool counted = mActorFlags.isOnBit(ActorFlag::_e);
+        if (deleting && counted) {
+            mActorFlags.resetBit(ActorFlag::_e);
+            links->incrementGenGroupNumPrepareDelete();
+        } else if (!deleting && !counted) {
+            mActorFlags.setBit(ActorFlag::_e);
+            links->decrementGenGroupNumPrepareDelete();
+        }
+    }
+    mActorFlags.setBit(ActorFlag::_36);
+    return true;
+}
+
+void Actor::emitSignalsOnDeleteForAreaOrTag() {
+    if (!mActorParam || !isAreaOrLinkTagOrOtherTag(mActorParam->getProfile()))
+        return;
+    emitSignal(map::MapLinkDefType::BasicSig, false);
+    emitSignal(map::MapLinkDefType::AxisX, false);
+    emitSignal(map::MapLinkDefType::AxisY, false);
+    emitSignal(map::MapLinkDefType::AxisZ, false);
+    emitSignal(map::MapLinkDefType::NAxisX, false);
+    emitSignal(map::MapLinkDefType::NAxisY, false);
+    emitSignal(map::MapLinkDefType::NAxisZ, false);
+    emitSignal(map::MapLinkDefType::GimmickSuccess, false);
+    emitSignal(map::MapLinkDefType::VelocityControl, false);
+    emitSignal(map::MapLinkDefType::Remains, false);
 }
 
 // NON_MATCHING: the deletion case chain becomes a jump table with a different block order.
