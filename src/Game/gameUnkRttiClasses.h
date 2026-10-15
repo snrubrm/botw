@@ -264,8 +264,6 @@ public:
 
     // 0x7100a578bc (placeholder name): sets `box` to the message `label` (shown), or to an empty
     // string (hidden) when the message is missing, empty or "EmptyMessage"; then requests realignment.
-    // Declared only: a body that differs only in the merged-globals base of its message file string
-    // was written in lane4 s93, but strcheck cannot verify its UTF-16 literal u"EmptyMessage".
     void setMessage(eui::TextBoxEx* box, const sead::SafeString& label);
     // 0x7100a579d8 (placeholder name): the AlignPane named `name` under the root pane.
     eui::AlignPane* findAlignPane(const sead::SafeString& name);
@@ -318,7 +316,6 @@ public:
 
     // 0x7100a5cffc (placeholder name): sets `box` to the message `label` (shown), or to an empty
     // string (hidden) when the message is missing, empty or "EmptyMessage"; then requests realignment.
-    // Declared only (see Unk_7102499a68::setMessage).
     void setMessage(eui::TextBoxEx* box, const sead::SafeString& label);
     // 0x7100a5d118 (placeholder name): the AlignPane named `name` under the root pane.
     eui::AlignPane* findAlignPane(const sead::SafeString& name);

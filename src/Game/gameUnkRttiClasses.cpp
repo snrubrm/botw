@@ -2,7 +2,9 @@
 #include <nn/font/font_Util.h>
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAlignPane.h"
+#include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/Actor/aiUnk_71025b27b8.h"
 #include "Game/Actor/aiUnk_71025b2aa8.h"
 #include "Game/Actor/aiUnk_71025b2d88.h"
@@ -135,6 +137,28 @@ void Unk_71024999e8::m5(const sead::SafeString& label, s32 idx) {
         setMessage(_18[idx], label);
 }
 
+namespace {
+sead::SafeString sStaffRollDLCMessageFile = "LayoutMsg/StaffRollDLC_00";
+}  // namespace
+
+// NON_MATCHING: the original reaches the static message file name through a merged-globals base (TU sinit)
+// (0x7100a578bc)
+void Unk_7102499a68::setMessage(eui::TextBoxEx* box, const sead::SafeString& label) {
+    if (!box)
+        return;
+    eui::MessageString message;
+    if (uking::ui::getMessage(sStaffRollDLCMessageFile, label, &message) == 0 && message.getLength() > 0 &&
+        sead::WSafeString(message.getString()) != sead::WSafeString(u"EmptyMessage")) {
+        box->SetVisible(true);
+        box->setMessageString(message, nullptr);
+    } else {
+        box->SetVisible(false);
+        box->setMessageString(eui::MessageString(sead::WSafeString(u"")), nullptr);
+    }
+    if (_10)
+        _10->mNeedsAlignment = true;
+}
+
 Unk_7102499968::~Unk_7102499968() = default;
 
 Unk_71024999a8::~Unk_71024999a8() = default;
@@ -193,6 +217,28 @@ void Unk_710249a120::m4(nn::ui2d::Pane* pane) {
 void Unk_710249a120::m5(const sead::SafeString& label, s32 idx) {
     if (u32(idx) <= 2 && _18[idx])
         setMessage(_18[idx], label);
+}
+
+namespace {
+sead::SafeString sStaffRollMessageFile = "LayoutMsg/StaffRoll_00";
+}  // namespace
+
+// NON_MATCHING: the original reaches the static message file name through a merged-globals base (TU sinit)
+// (0x7100a5cffc)
+void Unk_710249a1a0::setMessage(eui::TextBoxEx* box, const sead::SafeString& label) {
+    if (!box)
+        return;
+    eui::MessageString message;
+    if (uking::ui::getMessage(sStaffRollMessageFile, label, &message) == 0 && message.getLength() > 0 &&
+        sead::WSafeString(message.getString()) != sead::WSafeString(u"EmptyMessage")) {
+        box->SetVisible(true);
+        box->setMessageString(message, nullptr);
+    } else {
+        box->SetVisible(false);
+        box->setMessageString(eui::MessageString(sead::WSafeString(u"")), nullptr);
+    }
+    if (_10)
+        _10->mNeedsAlignment = true;
 }
 
 Unk_710249a0a0::~Unk_710249a0a0() = default;

@@ -23,11 +23,11 @@ public:
 
     // inline-only in the original; names are guesses: both TextBoxEx message setters read these fields.
     const char16* getString() const { return mString; }
-    u32 getLength() const { return _8; }
+    s32 getLength() const { return _8; }
 
 private:
     const char16* mString;  // null if the message was not found
-    u32 _8;
+    s32 _8;
 };
 
 }  // namespace eui
