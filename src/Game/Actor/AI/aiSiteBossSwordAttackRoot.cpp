@@ -44,7 +44,18 @@ SiteBossSwordAttackRoot::~SiteBossSwordAttackRoot() {
 }
 
 bool SiteBossSwordAttackRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _108 &= ~0x10;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (s32 i = 0; i < *mElectricCounterMax_s; ++i) {
+            sead::FormatFixedSafeString<32> name("ElectricBall%d", i);
+            enemy->sub_7100D3CED8(name, heap);
+            sub_71005947AC(i);
+        }
+    }
+    sub_7100594BB8();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_14c8._30.set(0x40);
+    return true;
 }
 
 void SiteBossSwordAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {

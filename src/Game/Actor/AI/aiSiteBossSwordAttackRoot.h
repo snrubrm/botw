@@ -20,6 +20,7 @@ public:
 protected:
     void sub_710059616C();
     void sub_71005947AC(s32 index);
+    void sub_7100594BB8();
     // 0x7100596400: the SiteBoss has both flags 6 set, _108 bit 2 is set and the boss's _1548 has run out
     bool sub_7100596400();
     // 0x7100595808: close attack: clears _108 bits 0x260; changes to the explicit "近接攻撃" / 2 / 3 child for `attack` 0 / 1 / 2 and then (always) to the one chosen by the HP rates
