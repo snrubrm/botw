@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -323,6 +326,48 @@ void BowShoot::sub_710033BF8C(u8 mode) {
             const auto* bow = params->getBow();
             if (bow && bow->mArrowName.ref().findIndex("Bright") != -1)
                 xlinkSearchAndEmit(mActor, "ChemicalShootBright", 1, nullptr);
+        }
+    }
+}
+
+// NON_MATCHING: handle deletion is unrolled and the retry loop uses indexed array iteration.
+void BowShoot::sub_7100338F38(bool clear_handles) {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon || weapon->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200))
+        return;
+    if (clear_handles) {
+        for (s32 i = 0; i < 20; ++i)
+            mHandles[i].deleteProc();
+    }
+    s32 shot_count;
+    auto* rapid = sead::DynamicCast<act::Weapon>(mActor);
+    if (rapid && rapid->sub_71002EA0D4()) {
+        auto* current = sead::DynamicCast<act::Weapon>(mActor);
+        if (!current)
+            return;
+        shot_count = current->sub_71002EA124();
+    } else {
+        auto* lead = sead::DynamicCast<act::Weapon>(mActor);
+        if (!lead || !lead->sub_71002EA16C())
+            return;
+        auto* current = sead::DynamicCast<act::Weapon>(mActor);
+        if (!current)
+            return;
+        shot_count = current->sub_71002EA1A8();
+    }
+    if (shot_count < 2 || !weapon->bowGetArrowName(&mArrowName) || mArrowName == "Empty")
+        return;
+    ksys::act::InstParamPack pack;
+    pack->addPosition(mActor->getMtx().getTranslation());
+    pack->addDeleteDistanceSq(999.0f * 999.0f);
+    pack->addResourceLane(2);
+    for (auto& handle : mHandles) {
+        if (!handle.isAllocatedOrFailed() || handle.hasProcCreationFailed()) {
+            if (handle.hasProcCreationFailed())
+                handle.deleteProcIfFailed();
+            ksys::act::ActorCreator::instance()->requestCreateActor(
+                mArrowName.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                &handle, &pack, nullptr, 2);
         }
     }
 }
