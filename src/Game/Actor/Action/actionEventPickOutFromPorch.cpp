@@ -4,10 +4,39 @@
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorLimiter.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 // Existing CSV utility name; source namespace is unknown.
 bool aiActionEventPickOutFromPorch(ksys::act::BaseProcHandle* handle);
+
+// 0x71002ecb04 (declared in actWeapon.cpp): computes the drop-from-porch matrix.
+void dropActorFromPorchCalculateMtx(sead::Matrix34f* matrix, ksys::act::Actor* actor);
+
+bool aiActionEventPickOutFromPorch(ksys::act::BaseProcHandle* handle) {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(handle->releaseAndWakeProc());
+    if (!actor)
+        return false;
+
+    if (actor->getProfile().findIndex("Weapon") == -1) {
+        ksys::act::ActorLimiter::instance()
+            ->get(ksys::act::ActorLimiter::Category::DroppedItems)
+            .addActor(actor, true);
+        return true;
+    }
+
+    if (sead::DynamicCast<uking::act::Weapon>(actor)) {
+        sead::Matrix34f mtx = actor->getMtx();
+        ksys::act::ActorLimiter::instance()
+            ->get(ksys::act::ActorLimiter::Category::PlayerTrash)
+            .addActor(actor, true);
+        dropActorFromPorchCalculateMtx(&mtx, actor);
+        actor->setMatrix(mtx, nullptr);
+        return true;
+    }
+
+    return false;
+}
 
 namespace uking::action {
 
