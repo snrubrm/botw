@@ -1,5 +1,7 @@
 #include "Game/Actor/AI/aiNPCClerkRoot.h"
 #include "Game/UI/uiShopMgr.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceShop.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -59,6 +61,20 @@ void NPCClerkRoot::leave_() {
         _240.unloadEvent();
     if (auto* mgr = ui::UiShopMgr::instance())
         mgr->sub_7100985508();
+}
+
+s32 NPCClerkRoot::sub_71004C402C(const sead::SafeString& name) {
+    const auto* shop = mActor->getParam()->getRes().mShopData;
+    if (!shop)
+        return 0;
+    const s32 index = shop->findTableIndexOrNormal("Market");
+    if (index < 0)
+        return 0;
+    for (const auto& item : shop->getTables()[index].items) {
+        if (item.name.ref() == name)
+            return item.price_adjustment.ref();
+    }
+    return 0;
 }
 
 void NPCClerkRoot::onPreDelete() {

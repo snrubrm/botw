@@ -21,6 +21,7 @@ public:
     void onPreDelete() override;
 
 protected:
+    s32 sub_71004C402C(const sead::SafeString& name);
     bool _238 = false;
     bool _239 = false;
     ksys::evt::ResidentEvent _240;
