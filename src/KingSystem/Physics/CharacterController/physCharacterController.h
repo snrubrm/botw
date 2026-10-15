@@ -45,6 +45,9 @@ struct CharacterControllerUnk40;
 struct CharacterControllerUnk48 : public hkpCharacterStateOnGround {
     // 0x7100f68f38: the address of the field at 0x5c.
     f32* sub_7100F68F38();
+    // 0x7100f67cd0: switches to the in-air state (1) on a jump or when not supported.
+    void m9(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override;
 
     // The base's tail padding (data size 0x1c) is reused by this derived class.
     /* 0x1c */ u8 _1c[0x50 - 0x1c];
