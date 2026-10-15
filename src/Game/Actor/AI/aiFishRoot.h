@@ -3,6 +3,7 @@
 #include "Game/Actor/AI/aiCapturedActorRoot.h"
 #include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
 #include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -104,16 +105,18 @@ protected:
         const float* mIgnoreFoodAfterSuccessRand_s{};
     };
     Params mParams{};
-    // Remaining opaque ranges: 0x16c .. 0x183 and parts of 0x19c .. 0x1b7.
+    // The interval at 0x16c remains opaque.
     ksys::act::BaseProcLink _150;  // the target of interest
     ksys::Timer _160{};
-    u8 _16c[0x184 - 0x16c]{};
+    u8 _16c[0x178 - 0x16c]{};
+    ksys::Timer _178{};
     sead::Vector3f _184{};
     sead::Vector3f _190{};
     f32 _19c{};
     f32 _1a0{};
     f32 _1a4{};
-    u8 _1a8[0x1b0 - 0x1a8]{};
+    f32 _1a8{};
+    s32 _1ac{};
     s32 _1b0{};
     u8 _1b4[0x1b8 - 0x1b4];
     ksys::phys::RayCastForRequest* _1b8{};
@@ -123,14 +126,14 @@ protected:
     bool _1ca{};
     u8 _1cb[0x1d0 - 0x1cb];
     sead::Buffer<FishRootBoneEntry> _1d0;
-    // Placeholder callback: vtable 0x71023ee000; m2 is the large bone-buffer processing routine.
-    class Unk_71023ee000 {
+    // Full entry installs this four-slot ModelUpdateHook at Model +0xd8.
+    class Unk_71023ee000 : public gsys::ModelUpdateHook {
     public:
         explicit Unk_71023ee000(sead::Buffer<FishRootBoneEntry>* buffer) : _8(buffer) {}
-        virtual void m0() {}
-        virtual void m1() {}
-        virtual void m2(void* model);
-        virtual void m3() {}
+        void m0(gsys::Model*) override {}
+        void m1(gsys::Model*) override {}
+        void m2(gsys::Model* model) override;
+        void m3(gsys::Model*) override {}
 
         sead::Buffer<FishRootBoneEntry>* _8;
         f32 _10 = 1.0f;

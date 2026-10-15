@@ -432,7 +432,9 @@ public:
     f32 _130;
     f32 _134;
     f32 _138;
-    u8 _13c[0x144 - 0x13c];
+    u8 _13c[4];
+    // Water depth adjustment, initialized by the controller and set by FishRoot on entry.
+    f32 _140;
     f32 _144;
     f32 _148;
     u8 _14c[0x150 - 0x14c];

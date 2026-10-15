@@ -12,6 +12,9 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -219,8 +222,64 @@ bool FishRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: timer resets, home-position snapshots and vector copies retain different scheduling.
 void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     CapturedActorRoot::enter_(params);
+    if (auto* body = mActor->findPhysicsBodyByName("Body", "FoodMover")) {
+        if (body->isAddedToWorld() || body->isAddingBodyToWorld())
+            body->removeFromWorld();
+    }
+    auto* actor = mActor;
+    if (auto* controller = actor->getCharacterController()) {
+        controller->_140 = *mParams.mInWaterDepth_s * 0.9f;
+        controller->sub_7100F5E754(true);
+        controller->sub_7100F60E80(false);
+        controller->sub_7100F5F07C(30.0f);
+    }
+    _1ac = 0;
+    if (_1b8)
+        _1b8->release();
+    _1b8 = nullptr;
+    if (_1c0)
+        _1c0->release();
+    _1c0 = nullptr;
+    _150.reset();
+    const f32 base = *mParams.mNextJumpTimeBase_s;
+    if (base < 0.0f)
+        _160.reset(1.0f, 0.0f);
+    else
+        _160.reset(base + *mParams.mNextJumpTimeRand_s * sead::GlobalRandom::instance()->getF32());
+    _178.reset(*mParams.mIgnoreFoodBase_s +
+               *mParams.mIgnoreFoodRand_s * sead::GlobalRandom::instance()->getF32());
+    _1b0 = 0;
+    _19c = 0.5f;
+    _1a0 = 0.0f;
+    if (auto* model = actor->getModel(); model && _1d0.getBufferPtr()) {
+        model->applyAnimationTo(model, 3);
+        sub_71003CC1AC(model);
+        _1e0._10 = _19c;
+        _1e0._14 = actor->getParam()->getRes().mGParamList->getFish()->mPrevSpeedRate.ref();
+        model->mUpdateHook = &_1e0;
+    }
+    actor = mActor;
+    sead::Vector3f home;
+    if (auto* object = actor->getMapObject())
+        home = object->getTranslate();
+    else
+        actor->getHomePos(&home);
+    const bool in_water = actor->get68f().load();
+    const f32 depth = in_water ? actor->get6f0() - actor->getMtx().getTranslation().y : 0.0f;
+    if (depth > *mParams.mInWaterDepth_s)
+        home.y -= sead::Mathf::abs(depth - *mParams.mInWaterDepth_s);
+    _190 = home;
+    _1c9 = false;
+    _1ca = false;
+    if (_184 == sead::Vector3f::zero)
+        _184 = _190;
+    _1a8 = mActor->getScale().y * (mActor->getAabb().getSizeY() * 0.5f);
+    sub_71003CC69C();
+    if (auto* awareness = mActor->get548())
+        awareness->_18._50 = 1;
 }
 
 void FishRoot::sub_71003CD268() {
@@ -401,10 +460,9 @@ void FishRoot::changeToReturnToInitialPlacement(bool is_escape) {
 }
 
 // NON_MATCHING: vector and matrix temporaries, quaternion scheduling and loop layout differ.
-void FishRoot::Unk_71023ee000::m2(void* model_arg) {
+void FishRoot::Unk_71023ee000::m2(gsys::Model* model) {
     if (_10 < std::numeric_limits<f32>::epsilon() || _8->size() < 2)
         return;
-    auto* model = static_cast<gsys::Model*>(model_arg);
     const auto& model_scale = model->getScale();
     const sead::Vector3f scale(model_scale.x * model->_94.x, model_scale.y * model->_94.y,
                                model_scale.z * model->_94.z);
