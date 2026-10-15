@@ -570,3 +570,5 @@ s32 sub_7100A9D800();
 
 // 0x7100a95214 (uiPouchFacade.cpp; global namespace in the CSV)
 s32 sub_7100A95214();
+// 0x7100a9c110: whether the UI Manager's _d0 equals `value`
+bool sub_7100A9C110(s32 value);

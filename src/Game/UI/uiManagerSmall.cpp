@@ -252,6 +252,23 @@ bool Unk_71025d6ac0::sub_7100968564() const {
     return RadarMgr::instance() && _4c != 1.0f && !sub_7100AA8F74();
 }
 
+// 0x71009685c4 (placeholder name): sets _4c to the radar's _9c as a fraction of _50 (clamped to 0-1) while
+// _74 is set; 1 when the UI Manager state is 1, there is no radar target or _9c is -1.
+void Unk_71025d6ac0::sub_71009685C4() {
+    f32 value = 0.0f;
+    if (_74 != 0) {
+        value = 1.0f;
+        if (!sub_7100A9C110(1)) {
+            auto* radar = RadarMgr::instance();
+            if (radar && (!radar->_108.isEmpty() || _54) && radar->_9c != -1.0f) {
+                const f32 ratio = radar->_9c / _50;
+                value = sead::Mathf::clamp(ratio, 0.0f, 1.0f);
+            }
+        }
+    }
+    _4c = value;
+}
+
 bool Unk_71025d6ac0::sub_71009685BC() const {
     return _54;
 }
