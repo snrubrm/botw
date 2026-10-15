@@ -24,6 +24,12 @@ void sub_71007130BC(ksys::act::Actor* actor, bool on);
 // `clamp(count, 0, 3)`.
 void sub_7100713564(ksys::act::Actor* actor, s32 count);
 
+// 0x71007131fc: reads the game data flag `<same-group actor name>_DispNameFlag` into `value`.
+bool sub_71007131FC(const sead::SafeString& actor_name, bool* value);
+
+// 0x7100713610: like sub_7100713564 for `<actor>_TerrorState`.
+void sub_7100713610(ksys::act::Actor* actor, s32 count);
+
 // 0x7100713ff4: updates the rider animation from the linked ride actor.
 void sub_7100713FF4(ksys::act::Actor* actor, ksys::act::Actor* ride_actor);
 

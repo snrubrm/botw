@@ -43,6 +43,22 @@ void sub_7100713564(ksys::act::Actor* actor, s32 count) {
     manager->setS32(count < 0 ? 0 : s32(state), key);
 }
 
+void sub_7100713610(ksys::act::Actor* actor, s32 count) {
+    if (!actor)
+        return;
+    const char* name = actor->getName().getStringTop();
+    if (auto* info = ksys::act::InfoData::instance()) {
+        if (!info->hasTag(name, ksys::act::tags::Unk_0x207CBCE1))
+            return;
+    }
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+    const f32 state = count < 3 ? count : 3;
+    sead::FormatFixedSafeString<64> key("%s_TerrorState", name);
+    manager->setS32(count < 0 ? 0 : s32(state), key);
+}
+
 namespace wm {
 bool callIsRainingOrSnowingOrThunderStorm(bool a1) {
     return isRainingOrSnowingOrThunderStorm(a1);
@@ -139,6 +155,15 @@ void sub_71007130D4(ksys::act::Actor* actor) {
     sead::FixedSafeString<128> flag;
     flag.format("%s_DispNameFlag", name.cstr());
     ksys::gdt::Manager::instance()->setBool(true, flag, false, false);
+}
+
+bool sub_71007131FC(const sead::SafeString& actor_name, bool* value) {
+    sead::SafeString name = actor_name;
+    ksys::act::getSameGroupActorName(&name, name);
+    sead::FixedSafeString<128> flag;
+    flag.format("%s_DispNameFlag", name.cstr());
+    auto& param = ksys::gdt::Manager::instance()->getParam();
+    return param.get().getBuffer()->getBool(value, flag, param.shouldCheckPermissions(), false);
 }
 
 void sub_71007133A8(ksys::act::Actor* actor, const ksys::act::BaseProcLink* link) {
