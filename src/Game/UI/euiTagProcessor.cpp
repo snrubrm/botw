@@ -23,6 +23,146 @@ TagProcessor::Operation TagProcessor::CalculateRect(nn::font::Rectangle* rect,
     return m15(code, context, rect);
 }
 
+// NON_MATCHING: page-mode loop unswitching, tag dispatch and saved-span arithmetic differ.
+s32 TagProcessor::m9(char16* out, u32* text_length, u32* character_count, u32 capacity,
+                     const char16* text, u32 length, s32 page, u32 line_count,
+                     bool trim_newlines, void* user_data) {
+    const char16* end = text + length;
+    u32 written = 0;
+    u32 characters = 0;
+    *text_length = 0;
+    *character_count = 0;
+    *out = 0;
+
+    if (page > 0) {
+        s32 skipped_pages = 0;
+        u32 skipped_lines = 0;
+        const char16* font_tag = nullptr;
+        const char16* size_tag = nullptr;
+        const char16* color_tag = nullptr;
+        u32 font_tag_length = 0;
+        u32 size_tag_length = 0;
+        u32 color_tag_length = 0;
+        while (skipped_pages < page) {
+            if (text >= end)
+                return 2;
+            const char16* current = text;
+            if (*current == 0xe || *current == 0xf) {
+                if (*current == 0xe)
+                    text = reinterpret_cast<const char16*>(
+                        reinterpret_cast<const u8*>(current) + 8 + current[3]);
+                else
+                    text = current + 3;
+                if (text > end) {
+                    mMessageMgr->m0();
+                    return 3;
+                }
+                if (current[1] == 0) {
+                    switch (current[2]) {
+                    case 1:
+                        font_tag = current;
+                        font_tag_length = u32(text - current);
+                        break;
+                    case 2:
+                        size_tag = current;
+                        size_tag_length = u32(text - current);
+                        break;
+                    case 3:
+                        color_tag = current;
+                        color_tag_length = u32(text - current);
+                        break;
+                    case 4:
+                        skipped_lines = 0;
+                        ++skipped_pages;
+                        break;
+                    }
+                }
+            } else {
+                if (*current == u'\n') {
+                    if (++skipped_lines >= line_count) {
+                        skipped_lines = 0;
+                        ++skipped_pages;
+                    }
+                }
+                text = current + 1;
+            }
+        }
+        if (font_tag)
+            m10(reinterpret_cast<const sead::MessageSet<char16>::TagInfo*>(font_tag), out,
+                &written, &characters, capacity, font_tag, font_tag_length, user_data);
+        if (size_tag)
+            m10(reinterpret_cast<const sead::MessageSet<char16>::TagInfo*>(size_tag), out,
+                &written, &characters, capacity, size_tag, size_tag_length, user_data);
+        if (color_tag)
+            m10(reinterpret_cast<const sead::MessageSet<char16>::TagInfo*>(color_tag), out,
+                &written, &characters, capacity, color_tag, color_tag_length, user_data);
+    }
+
+    s32 result = 0;
+    u32 lines = 0;
+    u32 trailing_newlines = 0;
+    while (text < end) {
+        if (written + 1 >= capacity) {
+            mMessageMgr->m0();
+            result = 5;
+            break;
+        }
+        if (*text == 0xe || *text == 0xf) {
+            const char16* next;
+            if (*text == 0xe)
+                next = reinterpret_cast<const char16*>(
+                    reinterpret_cast<const u8*>(text) + 8 + text[3]);
+            else
+                next = text + 3;
+            if (next > end) {
+                mMessageMgr->m0();
+                result = 3;
+                break;
+            }
+            const auto* tag = reinterpret_cast<const sead::MessageSet<char16>::TagInfo*>(text);
+            const u32 tag_length = u32(next - text);
+            if (tag->group == 0) {
+                if (tag->type == 4) {
+                    result = page == -1 ? 4 : 1;
+                    break;
+                }
+                m10(tag, out, &written, &characters, capacity, text, tag_length, user_data);
+            } else if (tag->group == 1) {
+                preProcessEuiTag_(tag, out, &written, &characters, capacity, text, tag_length,
+                                  user_data);
+            } else if (tag->group == 201) {
+                m13(tag, out, &written, &characters, capacity, text, tag_length, user_data);
+            } else {
+                preProcessAppTag_(tag, out, &written, &characters, capacity, text, tag_length,
+                                  user_data);
+            }
+            trailing_newlines = 0;
+            text = next;
+        } else {
+            if (*text >= 0x20) {
+                ++characters;
+                trailing_newlines = 0;
+            } else if (*text == u'\n') {
+                ++lines;
+                if (page != -1 && lines >= line_count) {
+                    result = text + 1 < end;
+                    break;
+                }
+                ++trailing_newlines;
+            }
+            out[written++] = *text++;
+        }
+    }
+    if (page == -1 && lines >= line_count && result == 0)
+        result = 4;
+    if (trailing_newlines != 0 && trim_newlines)
+        written = written >= trailing_newlines ? written - trailing_newlines : 0;
+    *text_length = written;
+    *character_count = characters;
+    out[written] = 0;
+    return result;
+}
+
 // NON_MATCHING: saved color byte stores combine into packed word stores.
 void TagProcessor::BeginPrint(nn::font::PrintContext<u16>* context) {
     const auto top = context->writer->GetTextColor(0);
