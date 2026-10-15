@@ -72,4 +72,8 @@ void CameraLockOn::m56(bool x) {
     }
 }
 
+// Defined in this translation unit like the original: the compiler inlines this into CameraLockOn's
+// deleting destructor.
+CameraTrackBase::~CameraTrackBase() = default;
+
 }  // namespace uking::action

@@ -19,8 +19,6 @@ bool sub_7100786CF4(const u8* flags, u8 mask) {
 
 CameraTrackBase::CameraTrackBase(const InitArg& arg) : CameraAction(arg) {}
 
-CameraTrackBase::~CameraTrackBase() = default;
-
 bool CameraTrackBase::m32(sead::Heap* heap) {
     _1bc = true;
     return m42(heap);
