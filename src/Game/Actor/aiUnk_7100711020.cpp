@@ -300,6 +300,16 @@ void Unk_7100711020::sub_71007116E0() {
     }
 }
 
+bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDataAccess& accessor,
+                    const sead::SafeString& key) {
+    if (!proc)
+        return false;
+    ksys::act::ActorLinkConstDataAccess link(proc);
+    if (!ksys::act::sub_7100EE3FA8(link, accessor, true, 0.0f))
+        return false;
+    return sub_7100711FAC(static_cast<ksys::act::Actor*>(proc), key);
+}
+
 bool sub_7100712AD8(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
         return false;
@@ -309,12 +319,11 @@ bool sub_7100712AD8(ksys::act::Actor* actor) {
     return false;
 }
 
-bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDataAccess& accessor,
-                    const sead::SafeString& key) {
-    if (!proc)
+bool sub_7100712CB0(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
         return false;
-    ksys::act::ActorLinkConstDataAccess link(proc);
-    if (!ksys::act::sub_7100EE3FA8(link, accessor, true, 0.0f))
-        return false;
-    return sub_7100711FAC(static_cast<ksys::act::Actor*>(proc), key);
+    const sead::SafeString name = actor->getASList()->x_1(0, 0);
+    if (name.include("Run") || name == "Escape")
+        return true;
+    return false;
 }
