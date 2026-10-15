@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void m32() override;
+    bool sub_710021DB44(sead::Vector3f* position);
     bool m33() override;
     f32 m34() override;
     int m37() override;
