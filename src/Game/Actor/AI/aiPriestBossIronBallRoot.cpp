@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiPriestBossIronBallRoot.h"
+#include "Game/Actor/Action/actionTeleportBase.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include "KingSystem/Physics/System/physEntityGroupFilter.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
@@ -60,6 +64,46 @@ bool PriestBossIronBallRoot::init_(sead::Heap* heap) {
 
 void PriestBossIronBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBoss::enter_(params);
+    sub_71007A3800(mActor);
+    auto* actor = mActor;
+    _26c = false;
+    _80.makeAllZero();
+    if (auto* lod = actor->getLodState())
+        lod->mFlags26.reset(1);
+    action::sub_710072BEC4(actor, nullptr, false);
+
+    auto* body = mActor->getMainBody();
+    if (body)
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    m36();
+    if (body && _268 <= 0.0f)
+        _268 = body->getMass();
+
+    _120.x();
+    _90.x();
+    m42();
+    if (auto* physics_body = mActor->getPhysicsMainBody()) {
+        physics_body->setLinearVelocity(sead::Vector3f::zero);
+        physics_body->setAngularVelocity(sead::Vector3f::zero);
+    }
+    if (auto* main_body = mActor->getMainBody()) {
+        const u32 mask = ksys::phys::orEntityGroundHitMask(0, ksys::phys::GroundHit::Giant);
+        main_body->setGroundHitMask(main_body->getContactLayer(), mask);
+    }
+    sub_710072DC9C(mActor, 1.0f);
+    if (mActor->getConnectedCalcChild())
+        mActor->resetConnectedCalcChild(false);
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_70, &accessor);
+        if (accessor.hasProc())
+            accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
+    actor->sub_71011D0204(4);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+    if (auto* unit = sub_7100505BE4(); unit && unit->_3cc) {
+        m43(0, mActor->getMtx().getTranslation(), 0);
+    }
 }
 
 void PriestBossIronBallRoot::leave_() {
@@ -288,6 +332,45 @@ void PriestBossIronBallRoot::m43(s32 command, const sead::Vector3f& base_pos, s3
     params.addInt(wait_time, "WaitTime", -1);
     params.addInt(command, "Command", -1);
     changeChild("念受信", &params);
+}
+
+// NON_MATCHING: position/impulse registers and dot-product scheduling around cross length.
+void PriestBossIronBallRoot::sub_7100520874(ksys::act::Unk_71006dc134* arg) {
+    arg->_21 = false;
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
+        return;
+
+    auto* unit = sub_7100505BE4();
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!unit || !unit->sub_71007194D4(1, &accessor))
+        return;
+
+    sead::Matrix34f head_matrix;
+    const sead::Matrix34f* matrix = &head_matrix;
+    if (!accessor.sub_7100D12944(&head_matrix, "Head"))
+        matrix = &accessor.getActorMtx();
+    sead::Vector3f direction = matrix->getTranslation();
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    direction -= position;
+    direction.normalize();
+    const f32 impulse = arg->_0.length();
+    if (!arg->_18)
+        return;
+
+    ksys::act::ActorLinkConstDataAccess source;
+    if (!ksys::act::acquireActor(&arg->_18->_d8, &source) || !source.isPlayerProfile())
+        return;
+
+    sead::Vector3f contact_direction = position - arg->_18->_58.getTranslation();
+    contact_direction.y = 0.0f;
+    contact_direction.normalize();
+    const sead::Vector3f horizontal(direction.x, 0.0f, direction.z);
+    const f32 angle = std::atan2(contact_direction.cross(horizontal).length(),
+                                horizontal.dot(contact_direction));
+    if (sead::Mathf::abs(angle) < sead::Mathf::pi() * 0.375f) {
+        arg->_0 = direction * impulse;
+        _80.setBit(Flag(Flag::_7));
+    }
 }
 
 void PriestBossIronBallRoot::sub_71005221EC(bool value) {
