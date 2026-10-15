@@ -45,7 +45,7 @@ protected:
     // static_param at offset 0x210
     sead::SafeString mShootActorName_s{};
     // static_param at offset 0x220 (ShootActorKey1 .. ShootActorKey3)
-    sead::SafeString mShootActorKey_s[3]{};
+    sead::SafeArray<sead::SafeString, 3> mShootActorKey_s{};
     // static_param at offset 0x250
     sead::SafeString mExtraShootActorName_s{};
     // static_param at offset 0x260
@@ -57,7 +57,7 @@ protected:
     // aitree_variable at offset 0x288
     void* mOctarockFormChangeUnit_a{};
     ksys::act::BaseProcHandle _290[3];
-    u32 _2c0 = 1;
+    s32 _2c0 = 1;
     Unk_710240dd68 _2c8;
     bool _318 = false;
     ksys::Timer _31c;

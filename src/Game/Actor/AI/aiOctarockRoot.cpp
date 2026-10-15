@@ -1,10 +1,18 @@
 #include "Game/Actor/AI/aiOctarockRoot.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7100736460.h"
+#include "Game/Actor/aiUnk_7100EDD26C.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 #include <prim/seadFormatPrint.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
@@ -56,6 +64,81 @@ bool OctarockRoot::handleMessage_(const ksys::Message* message) {
         return true;
     }
     return VacuumEnemyRoot::handleMessage_(message);
+}
+
+// 0x71004ee518
+void OctarockRoot::sub_71004EE518() {
+    auto* parts = mActor->m101();
+    if (!parts)
+        return;
+    if (_2c0 <= 2 && parts->getActorPartsActor(mShootActorKey_s[_2c0 - 1]).hasProcInCalcState())
+        ++_2c0;
+    for (s32 i = 0; i < 3 && i < _2c0; ++i) {
+        if (parts->getActorPartsActor(mShootActorKey_s[i]).hasProc())
+            continue;
+        auto& handle = _290[i];
+        if (handle.isAllocatedOrFailed()) {
+            if (handle.hasProcCreationFailed()) {
+                handle.deleteProcIfFailed();
+            } else if (handle.isProcReady()) {
+                if (auto* actor = sead::DynamicCast<ksys::act::Actor>(handle.releaseAndWakeProc())) {
+                    actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+                    parts->sub_7100D3D108(mShootActorKey_s[i], actor);
+                    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
+                        bullet->_bd0._0.acquire(mActor, false);
+                        bullet->sub_710000497C(mActor);
+                    }
+                }
+            }
+        } else {
+            ksys::act::InstParamPack params;
+            params->addMatrix(mActor->getMtx());
+            ksys::act::ActorCreator::instance()->requestCreateActor(
+                mShootActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                &handle, &params, nullptr, 1);
+        }
+    }
+}
+
+// 0x71004ef02c
+// NON_MATCHING: optional-output loop unswitching and iterator receiver lifetimes differ.
+void OctarockRoot::sub_71004EF02C(bool* more_available) {
+    auto* parts = mActor->m101();
+    if (!parts)
+        return;
+    bool found = false;
+    for (auto it = parts->mList.begin(); it != parts->mList.end(); ++it) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&(*it)->mLink, &accessor);
+        if (!accessor.isStateSleep() || !sub_710073646C(&(*it)->mLink))
+            continue;
+        if (found) {
+            *more_available = true;
+            return;
+        }
+        accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 7, -1);
+        _368.mLink = (*it)->mLink;
+        if (!more_available)
+            return;
+        found = true;
+    }
+}
+
+// 0x71004ee7ec
+// NON_MATCHING: model receiver is loaded before the bone-name call.
+void OctarockRoot::sub_71004EE7EC(ksys::act::Actor* actor) {
+    auto* owner = mActor;
+    const auto key = owner->getModel()->searchBone(sub_7100EDD258(owner, 0));
+    if (key.isValid()) {
+        sead::Matrix34f matrix;
+        owner->getModel()->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+            &matrix, key.bone_index);
+        sub_71005DC5AC(actor);
+        matrix *= sub_71005DC57C(actor);
+        actor->setProperties(0, matrix, nullptr, nullptr, nullptr, false, 0, -1);
+    } else {
+        actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
 }
 
 // 0x71004ee2c4
