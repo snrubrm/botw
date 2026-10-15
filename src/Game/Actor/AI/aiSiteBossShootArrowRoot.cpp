@@ -1,9 +1,14 @@
 #include "Game/Actor/AI/aiSiteBossShootArrowRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+
+bool sub_71002D2B5C(bool* side, ksys::act::Actor* actor, const gsys::BoneAccessKeyEx& key,
+                  f32 angle, f32 scale);
 
 namespace uking::ai {
 
@@ -18,6 +23,38 @@ bool SiteBossShootArrowRoot::sub_7100585F94() {
     const bool created = sub_7100586218(*mChildDeviceMax_s);
     _122 = true;
     return created;
+}
+
+// NON_MATCHING: initial cast select and loop counter registers.
+bool SiteBossShootArrowRoot::sub_7100586218(s32 count) {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || count == 0 || *mChildDeviceMax_s == 0)
+        return false;
+    sead::BitFlag32 create_flags;
+    u32 index = 0;
+    do {
+        auto& link = boss->_1560._1e0[index];
+        bool create = !sead::IsDerivedFrom<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (!create) {
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+            // The native repeats this runtime type query before checking the actor state.
+            create = sead::IsDerivedFrom<ksys::act::Actor>(actor) && actor->isSleep();
+        }
+        if (create) {
+            create_flags.setBit(index);
+            --count;
+        }
+        ++index;
+    } while (count != 0 && index < u32(*mChildDeviceMax_s));
+    if (create_flags.isZero())
+        return false;
+    ksys::act::ai::InlineParamPack params;
+    params.addBool(create_flags.isOnBit(0), "IsCreateA", -1);
+    params.addBool(create_flags.isOnBit(1), "IsCreateB", -1);
+    params.addBool(create_flags.isOnBit(2), "IsCreateC", -1);
+    params.addBool(create_flags.isOnBit(3), "IsCreateD", -1);
+    changeChild("子機生成", &params);
+    return true;
 }
 
 const sead::SafeArray<s32, 8> sUnk_7101e7abb4[12] = {
@@ -70,6 +107,57 @@ void SiteBossShootArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     _110 = ksys::Timer(0, 0);
+}
+
+// NON_MATCHING: avoidance predicate argument load order.
+void SiteBossShootArrowRoot::calc_() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+    boss->_1558.resetBit(3);
+    const sead::Vector3f target = *mTargetPos_d;
+    sub_71005DB0A8(mActor, target);
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    child->setDynamicParam(target, "TargetPos");
+    const bool cancel_attack = *mIsCancelAttack_d;
+    child->setDynamicParam(cancel_attack, "IsCancelAttack");
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("子機生成")) {
+            sub_7100584940(false);
+            ++_11c;
+            return;
+        }
+        if (isCurrentChild("待機")) {
+            setFinished();
+            return;
+        }
+        if (isCurrentChild("回避")) {
+            getCurrentChild()->setDynamicParam(target, "PlayerPos");
+            ++boss->_1530;
+            const f32 wait = *mAvoidWaitCount_s;
+            const f32 wait_range = *mAvoidWaitCountRand_s;
+            const f32 time = wait + wait_range * sead::GlobalRandom::instance()->getF32();
+            _110 = ksys::Timer(time, time);
+            sub_71005857EC(false);
+            return;
+        }
+        if (isCurrentChild(mNoWaitWarpAttackKey_s.cstr()))
+            setFinished();
+        else
+            sub_71005857EC(true);
+    } else if (isCurrentChild("待機")) {
+        _110.update();
+        if (_110.value <= sead::Mathf::epsilon() &&
+            static_cast<act::SiteBoss*>(mActor)->sub_71002D2AE0(*mAvoidLifeRate_s, boss->_1530,
+                                                             *mAvoidCountMax_s) &&
+            !boss->sub_71002D33D0(20.0f) && boss->sub_71002D33D0(120.0f)) {
+            bool side = false;
+            if (sub_71002D2B5C(&side, mActor, _128, *mAvoidAngle_s, 1.2f))
+                sub_71005858E4(side);
+        }
+    }
 }
 
 void SiteBossShootArrowRoot::leave_() {

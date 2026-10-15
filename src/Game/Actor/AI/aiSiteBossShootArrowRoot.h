@@ -19,11 +19,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     bool sub_7100585F94();
+    void sub_71005858E4(bool side);
     bool sub_7100586218(s32 count);
     // 0x71005857ec: changes to the "待機" child
     void sub_71005857EC(bool reset_end_time);
