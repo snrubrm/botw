@@ -155,6 +155,14 @@ struct Unk_7100d78e50 {
     // inline-only in the original; name is a guess (the same sequence (Unk_71024dc858 ctor, a memcpy of the identity
     // matrix, three zero stores) opens the stack copies in 0x7100d78e50 and KeeseHangOnCeil::calc_ (x2)).
     Unk_7100d78e50() : _58(sead::Matrix34f::ident), _a0(0), _a4(0), _a8(0) {}
+    // inline-only in the original; the same copy sequence appears in sub_7100D78F4C and
+    // LandHumEnemyUnarmedBattle::sub_7100471B68. m14 reads the source through mutable virtuals.
+    Unk_7100d78e50(Unk_7100d78e50& other)
+        : _58(other._58), _88(other._88), _94(other._94), _a0(other._a0), _a4(other._a4),
+          _a8(other._a8) {
+        // called through a pointer in the original (not devirtualised)
+        (&_0)->m14(&other._0);
+    }
 
     /* 0x00 */ Unk_71024dc858 _0;
     /* 0x58 */ sead::Matrix34f _58;  // passed as a matrix by EnemyCalledAppear::calc_ (sub_71005D8DE8)
