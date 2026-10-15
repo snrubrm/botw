@@ -187,6 +187,7 @@ target_sources(uking PRIVATE
   Actor/resResourceAttCheck.h
   Actor/resResourceAttClient.cpp
   Actor/resResourceAttClient.h
+  Actor/resResourceAttClientList.cpp
   Actor/resResourceAttPos.cpp
   Actor/resResourceAttPos.h
   Actor/resResourceAwareness.cpp
