@@ -23,6 +23,25 @@ TagProcessor::Operation TagProcessor::CalculateRect(nn::font::Rectangle* rect,
     return m15(code, context, rect);
 }
 
+// NON_MATCHING: saved color byte stores combine into packed word stores.
+void TagProcessor::BeginPrint(nn::font::PrintContext<u16>* context) {
+    const auto top = context->writer->GetTextColor(0);
+    const sead::Color4u8 top_color{top.v[0], top.v[1], top.v[2], top.v[2]};
+    std::memcpy(&_8, &top_color, sizeof(top_color));
+    const auto bottom = context->writer->GetTextColor(1);
+    const sead::Color4u8 bottom_color{bottom.v[0], bottom.v[1], bottom.v[2], bottom.v[2]};
+    std::memcpy(&_c, &bottom_color, sizeof(bottom_color));
+    _10 = _18 = context->writer->GetFont();
+    mTopAlpha = top.v[2];
+    mBottomAlpha = bottom.v[2];
+    mAlpha = 255;
+    if (mNestingDepth == 0) {
+        mScaleX = context->scaleX;
+        mScaleY = context->scaleY;
+    }
+    ++mNestingDepth;
+}
+
 // 0x7100be5d00
 void TagProcessor::BeginCalculateRect(nn::font::PrintContext<u16>* context) {
     _10 = _18 = context->writer->GetFont();
@@ -137,6 +156,36 @@ TagProcessor::Operation TagProcessor::m19(const sead::MessageSet<char16>::TagInf
     std::memcpy(&font_index, tag->getParam(), sizeof(font_index));
     context->writer->SetFont(font_index == 0xffff ? _10 : mFontMgr->getFontByMessageIndex(font_index));
     _18 = context->writer->GetFont();
+    return Operation_Default;
+}
+
+// NON_MATCHING: typed color copies split component addresses and reorder packing and alpha stores.
+TagProcessor::Operation TagProcessor::m21(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle* rect, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    if (!rect) {
+        u16 index;
+        std::memcpy(&index, tag->getParam(), sizeof(index));
+        sead::Color4u8 top;
+        sead::Color4u8 bottom;
+        if (index == 0xffff) {
+            std::memcpy(&top, &_8, sizeof(top));
+            std::memcpy(&bottom, &_c, sizeof(bottom));
+            mTopAlpha = top.a;
+            mBottomAlpha = bottom.a;
+        } else {
+            const auto& color = mMessageMgr->mGradationColors[index];
+            top = color.top;
+            bottom = color.bottom;
+            mTopAlpha = top.a;
+            mBottomAlpha = top.a;
+        }
+        nn::util::Unorm8x4 top_color{{top.r, top.g, top.b, u8(mAlpha * mTopAlpha / 255)}};
+        nn::util::Unorm8x4 bottom_color{{bottom.r, bottom.g, bottom.b,
+                                       u8(mAlpha * mBottomAlpha / 255)}};
+        context->writer->SetTextColor(top_color, bottom_color);
+    }
     return Operation_Default;
 }
 

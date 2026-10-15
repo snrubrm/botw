@@ -14,6 +14,7 @@ namespace eui {
 // The UI message manager singleton (0x58 bytes): the loaded message archives (one per language / archive file; each
 // archive holds one MessageSet per .msbt file) and the gradation colors of the texts.
 class MessageMgr {
+    friend class TagProcessor;
     SEAD_SINGLETON_DISPOSER(MessageMgr)
     SEAD_RTTI_BASE(MessageMgr)
     MessageMgr() { mArchives.initOffset(offsetof(Archive, mNode)); }

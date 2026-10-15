@@ -116,8 +116,8 @@ public:
     static char16* setSizeTag(char16* out, u16 size);
 
 protected:
-    /* 0x8 */ u32 _8 = 0xff;
-    /* 0xc */ u32 _c = 0xff;
+    /* 0x8 */ u32 _8 = 0xff;  // packed sead::Color4u8
+    /* 0xc */ u32 _c = 0xff;  // packed sead::Color4u8
     /* 0x10 */ const nn::font::Font* _10 = nullptr;
     /* 0x18 */ const nn::font::Font* _18 = nullptr;
     /* 0x20 */ f32 mSavedItalicRatio = 0.0f;
