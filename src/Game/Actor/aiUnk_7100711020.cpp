@@ -313,6 +313,38 @@ bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDa
     return sub_7100711FAC(static_cast<ksys::act::Actor*>(proc), key);
 }
 
+// Timeline node names (0x7102450ca8).
+static const char* sTimelineNames[] = {"移動",     "雨宿り地点に移動", "減速",     "アンカー接近", "振り返る",
+                                       "近傍移動", "遷移待機",         "一時停止", "何もしない"};
+
+bool sub_7100712448(const sead::SafeString& name, const sead::SafeString& prefix, bool skip_turn) {
+    for (s32 i = 0; i < 9; ++i) {
+        sead::FixedSafeString<64> path(sead::SafeString("/Root/Timeline/"));
+        path.appendWithFormat("%s/", prefix.cstr());
+        path.append(sTimelineNames[i]);
+        if (name.findIndex(path) != -1)
+            return i != 4 || !skip_turn;
+    }
+    return false;
+}
+
+// Timeline node names (0x7102450cf0).
+static const char* sTimelineNames2[] = {"到着", "雨宿り", "振り返る", "うろつく"};
+
+bool sub_710071277C(const sead::SafeString& name, const sead::SafeString& prefix, bool* is_shelter) {
+    for (s32 i = 0; i < 4; ++i) {
+        sead::FixedSafeString<64> path(sead::SafeString("/Root/Timeline/"));
+        path.appendWithFormat("%s/", prefix.cstr());
+        path.append(sTimelineNames2[i]);
+        if (name.findIndex(path) != -1) {
+            if (is_shelter && name.findIndex("雨宿り") != -1)
+                *is_shelter = true;
+            return true;
+        }
+    }
+    return false;
+}
+
 bool sub_7100712AD8(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
         return false;

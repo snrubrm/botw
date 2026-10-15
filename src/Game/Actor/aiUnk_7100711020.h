@@ -54,6 +54,12 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100711020, 0x128);
 
+// 0x7100712448: true if `name` contains /Root/Timeline/<prefix>/<node> for one of nine timeline nodes
+// (the turn node only when `skip_turn` is false).
+bool sub_7100712448(const sead::SafeString& name, const sead::SafeString& prefix, bool skip_turn);
+// 0x710071277c: like sub_7100712448 for four other nodes; sets `is_shelter` for the rain shelter node.
+bool sub_710071277C(const sead::SafeString& name, const sead::SafeString& prefix, bool* is_shelter);
+
 // 0x7100712ad8: true for an NPC whose slot 0 animation contains Walk or Run, or is Escape or Move_End.
 bool sub_7100712AD8(ksys::act::Actor* actor);
 
