@@ -12,6 +12,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
@@ -158,6 +160,50 @@ bool NPCRunaway::sub_71004DEBA0() {
             return false;
     }
     return true;
+}
+
+// NON_MATCHING: free-slot loop counter lifetime and saved link pointer allocation.
+void NPCRunaway::sub_71004DD80C() {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || !awareness->_260[2])
+        return;
+    const s32 count = awareness->_260[2]->_8.size();
+    s32 slot = 0;
+    for (s32 idx = 0; idx < count; ++idx) {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || idx >= sensor->_8.size())
+            continue;
+        auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, idx);
+        if (!entry || static_cast<s32>(entry->_a4) != 3)
+            continue;
+        const auto& target = entry->_0.mLink;
+        bool found = false;
+        for (const auto& link : _e8) {
+            if (link == target) {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+            continue;
+        ksys::act::BaseProcLink* free_link;
+        do {
+            if (slot >= 10)
+                return;
+            free_link = &_e8[slot++];
+        } while (free_link->hasProc());
+        *free_link = target;
+        if (_80) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&target, &accessor);
+            auto* info = ksys::act::InfoData::instance();
+            const s32 rank = ksys::act::getEnemyRank(info, accessor.getName().cstr());
+            if (s32(_80->_1038) < rank)
+                _80->_1038 = rank;
+        }
+        if (slot >= 10)
+            return;
+    }
 }
 
 // 0x71004dd654
