@@ -370,6 +370,11 @@ f32 ScreenPauseMenuInfo::sub_7100A31C64() const {
     return _3618.sub_710093695C();
 }
 
+// 0x7100a31c70
+void ScreenPauseMenuInfo::sub_7100A31C70() {
+    x_2();
+}
+
 // 0x7100a31c74
 // Const spelling follows the read-only query; native setup establishes the concrete child.
 eui::Animator* ScreenPauseMenuInfo::sub_7100A31C74() const {

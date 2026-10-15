@@ -741,6 +741,8 @@ public:
     f32 sub_7100A31C64() const;
     // 0x7100a31c74: read-only forwarding query; const spelling is inferred.
     eui::Animator* sub_7100A31C74() const;
+    // 0x7100a31c70 (placeholder name): no callers or data references in the original; tail-calls eui::Screen::x_2
+    void sub_7100A31C70();
     bool sub_7100A31C1C() const;
     // 0x7100a31988 (placeholder name): forwards to the member at 0x39f8
     void sub_7100A31988(bool flag);

@@ -6,6 +6,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/System/StringBoard.h"
 #include "KingSystem/World/worldDefines.h"
+#include <container/seadPtrArray.h>
+#include <xlink2/xlink2HandleELink.h>
 
 // ScreenChildEx-derived classes (their constructors call ScreenChildEx's) with their own state callback slots (105+, groups of four: void, void, void, s32).
 // Placeholder names after the vtable; their destructors / RTTI are not decompiled yet.
@@ -84,7 +86,29 @@ class Unk_7102477110 : public ScreenChildEx {
 public:
     explicit Unk_7102477110(eui::LayoutEx* layout);
     ~Unk_7102477110() override;
-    u8 _130[0x400 - 0x130];
+
+    // One entry of the effect array at 0x1d8; the destructor kills each effect handle.
+    struct EffectEntry {
+        xlink2::HandleELink handle;
+        u8 _10[0x10];
+    };
+    // 0x160 - 0x298: value-initialised by the constructor (one 0x138-byte memset).
+    struct Unk160 {
+        u8 _0[0x78];
+        EffectEntry effects[5];
+        u8 _118[0x20];
+    };
+
+    /* 0x130 */ void* _130 = nullptr;
+    /* 0x138 */ void* _138 = nullptr;
+    /* 0x140 */ void* _140 = nullptr;
+    /* 0x148 */ bool _148 = true;
+    /* 0x149 */ bool _149 = false;
+    u8 _14a[0x158 - 0x14a];
+    /* 0x158 */ f32 _158 = -1.0f;
+    /* 0x160 */ Unk160 _160;
+    /* 0x298 */ Unk_7102474bc8 _298;
+    /* 0x3f0 */ sead::PtrArray<u8> _3f0;
 };
 static_assert(sizeof(Unk_7102477110) == 0x400);
 
