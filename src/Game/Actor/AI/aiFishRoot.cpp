@@ -372,4 +372,104 @@ void FishRoot::changeToReturnToInitialPlacement(bool is_escape) {
     }
 }
 
+// NON_MATCHING: vector and matrix temporaries, quaternion scheduling and loop layout differ.
+void FishRoot::Unk_71023ee000::m2(void* model_arg) {
+    if (_10 < std::numeric_limits<f32>::epsilon() || _8->size() < 2)
+        return;
+    auto* model = static_cast<gsys::Model*>(model_arg);
+    const auto& model_scale = model->getScale();
+    const sead::Vector3f scale(model_scale.x * model->_94.x, model_scale.y * model->_94.y,
+                               model_scale.z * model->_94.z);
+    sead::Vector3f offset{0.0f, 0.0f, 0.0f};
+    sead::Vector3f translation{0.0f, 0.0f, 0.0f};
+    sead::Quatf correction;
+    correction.makeUnit();
+    const s32 last = _8->size() - 2;
+    for (s32 i = 0; i <= last; ++i) {
+        auto& current = (*_8)[i];
+        auto& next = (*_8)[i + 1];
+        const auto current_key = current._0.getKey();
+        const auto next_key = next._0.getKey();
+        sead::Matrix34f current_matrix;
+        model->getUnits()(current_key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+            &current_matrix, current_key.bone_index);
+        sead::Matrix34f next_matrix;
+        if (next_key.isValid()) {
+            model->getUnits()(next_key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &next_matrix, next_key.bone_index);
+        } else {
+            next_matrix = current_matrix;
+            const auto axis = current_matrix.getBase(0);
+            next_matrix.setTranslation(current_matrix.getTranslation() +
+                sead::Vector3f(scale.x * (next._e4 * axis.x), scale.y * (next._e4 * axis.y),
+                               scale.z * (next._e4 * axis.z)));
+        }
+        if (i == 0)
+            translation = current_matrix.getTranslation() - current._70.getTranslation();
+        const auto current_pos = translation + current._70.getTranslation();
+        const auto next_pos = translation + next._70.getTranslation();
+        const auto animated_pos = offset + next_matrix.getTranslation();
+        const f32 restore = (next._dc - 1.0f) * _10 + 1.0f;
+        const f32 inertia = _10 * _14 + 0.0f;
+        const auto desired_pos = next_pos + (animated_pos - next_pos) * restore + next._d0 * inertia;
+        sead::Vector3f direction = desired_pos - current_pos;
+        direction.rotate(correction);
+        direction.normalize();
+        sead::Vector3f previous_direction = current_matrix.getBase(0);
+        if (i == 0) {
+            sead::Matrix34f root_matrix;
+            model->getUnits()(current_key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &root_matrix, 0);
+            previous_direction = -root_matrix.getBase(2);
+        }
+        const f32 angle = std::atan2(direction.cross(previous_direction).length(),
+                                     direction.dot(previous_direction));
+        const f32 limit = (current._e0 - sead::Mathf::pi()) * _10 + sead::Mathf::pi();
+        if (angle <= limit) {
+            correction.makeUnit();
+        } else {
+            const f32 weight = sead::Mathf::clamp(limit / angle, 0.0f, 1.0f);
+            previous_direction += (direction - previous_direction) * weight;
+            previous_direction.normalize();
+            correction.makeVectorRotation(previous_direction, direction);
+            direction = previous_direction;
+        }
+        const auto end_pos = current_pos +
+            sead::Vector3f(direction.x * (scale.x * next._e4),
+                           direction.y * (scale.y * next._e4),
+                           direction.z * (scale.z * next._e4));
+        next._d0 = desired_pos - next_pos;
+        auto adjusted_current = current_matrix;
+        auto adjusted_next = next_matrix;
+        sead::Vector3f front = end_pos - current_matrix.getTranslation();
+        front.normalize();
+        if (front != sead::Vector3f::zero) {
+            auto up = front.cross(current_matrix.getBase(1));
+            up.normalize();
+            auto side = -front.cross(up);
+            side.normalize();
+            adjusted_current.setBase(0, front);
+            adjusted_current.setBase(1, side);
+            adjusted_current.setBase(2, up);
+        }
+        adjusted_next.setBase(0, adjusted_current.getBase(0));
+        adjusted_next.setBase(1, adjusted_current.getBase(1));
+        adjusted_next.setBase(2, adjusted_current.getBase(2));
+        adjusted_next.setTranslation(end_pos);
+        adjusted_current.scaleBases(scale.x, scale.y, scale.z);
+        model->setBoneWorldMatrix(current_key, adjusted_current);
+        current._70 = adjusted_current;
+        if (i == last) {
+            sead::Quatf orientation;
+            adjusted_next.toQuat(orientation);
+            adjusted_next.makeSQT(scale, orientation * correction, end_pos);
+            next._70 = adjusted_next;
+        } else {
+            adjusted_next.scaleBases(scale.x, scale.y, scale.z);
+            model->setBoneWorldMatrix(next_key, adjusted_next);
+            offset = end_pos - animated_pos;
+        }
+    }
+}
+
 }  // namespace uking::ai
