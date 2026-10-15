@@ -43,6 +43,8 @@ public:
     void sub_7100E50450(Actor* carrier);
     void sub_7100E4FCE8(f32 a, const sead::Matrix34f* mtx);
     f32 sub_7100E4EDB8();
+    // 0x7100e4efc4: updates the put rotation state and returns its scalar angle.
+    f32 sub_7100E4EFC4();
     // Declared only (CarriedData::x_6 / x_8 / x_12, lane1 s43): 0x7100e504c0 (when `_1c8._8` has a bit set, stores
     // `&_1c8` into the contact point info's `+0x58` and sets bit 2 of `_1c8._10`) and its undo 0x7100e5052c.
     void sub_7100E504C0();
