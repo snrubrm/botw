@@ -9,6 +9,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 
 namespace uking::ai {
 
@@ -132,6 +135,34 @@ void BreathEnemyRangeKeepMove::sub_7100340570() {
         ksys::act::acquireActor(&link, &acc);
         acc.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }
+}
+
+void BreathEnemyRangeKeepMove::sub_71003401FC() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    auto* model = enemy->getModel();
+    if (!model)
+        return;
+    const auto key = model->searchBone(mBaseNode_s);
+    if (!key.isValid())
+        return;
+    sead::Matrix34f matrix;
+    model->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&matrix, key.bone_index);
+    // These discarded calls are present in the original before the part lookup.
+    sead::Mathf::sin(sead::Vector3f::zero.x);
+    sead::Mathf::sin(sead::Vector3f::zero.y);
+    sead::Mathf::sin(sead::Vector3f::zero.z);
+    sead::Mathf::cos(sead::Vector3f::zero.x);
+    sead::Mathf::cos(sead::Vector3f::zero.y);
+    sead::Mathf::cos(sead::Vector3f::zero.z);
+    auto& link = enemy->getActorPartsActor(mBreathName_s.cstr());
+    if (sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr))) {
+        sub_71005DC604(sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr)), enemy);
+    }
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.setProperties(matrix, nullptr, nullptr, nullptr, false, 2, -1);
 }
 
 // NON_MATCHING: the original branches on the Enemy cast result (keeping `enemy != nullptr` as a
