@@ -70,12 +70,12 @@ void NPCArtistRoot::calc_() {
             return;
         }
         _2f8.update();
-        if (sead::Mathf::epsilon() < _2f8.value)
+        if (!(_2f8.value <= sead::Mathf::epsilon()))
             return;
         _2f4 -= step;
-        if (!(_2f4 >= 0.0f))
+        if (_2f4 < 0.0f)
             _2f4 = 0.0f;
-        else if (_2f4 > 1.0f)
+        else if (!(_2f4 <= 1.0f))
             _2f4 = 1.0f;
         if (_2f4 == 0.0f)
             _248._68.makeRT(sead::Vector3f::zero, sead::Vector3f::zero);
@@ -86,7 +86,7 @@ void NPCArtistRoot::calc_() {
             return;
         }
         _2f8.update();
-        if (sead::Mathf::epsilon() < _2f8.value)
+        if (!(_2f8.value <= sead::Mathf::epsilon()))
             return;
         _2f4 += step;
         if (_2f4 < 0.0f)
