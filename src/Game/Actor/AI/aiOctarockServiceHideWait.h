@@ -21,7 +21,7 @@ public:
 
 protected:
     void sub_71004EF670();
-    // 0x71004efae8 (declared only): the position of the noticed target (false when there is none).
+    // 0x71004efae8: the position of the noticed target (false when there is none).
     bool sub_71004EFAE8(sead::Vector3f* out);
 
     // static_param at offset 0x38

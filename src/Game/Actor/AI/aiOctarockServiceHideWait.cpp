@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "Game/Actor/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -110,6 +112,79 @@ void OctarockServiceHideWait::sub_71004EF670() {
     const f32 time = *mMinWaitTime_s + *mMinWaitTimeRand_s * sead::GlobalRandom::instance()->getF32();
     _6c = ksys::Timer(time, time);
     changeChild("待機");
+}
+
+// NON_MATCHING: worry-filter construction and shared return/cleanup branches.
+bool OctarockServiceHideWait::sub_71004EFAE8(sead::Vector3f* out) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+
+    auto* target = sub_71005D9050(mActor);
+    if (target && target->hasProcInCalcState()) {
+        Unk_71024514c0 filter(mActor);
+        while (auto* sensor = awareness->_260[0]) {
+            auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+            if (!entry)
+                break;
+            if (entry->_0.mLink == *target) {
+                if (out)
+                    *out = entry->_88;
+                return true;
+            }
+        }
+    } else {
+        Unk_71024514c0 filter(mActor);
+        if (auto* sensor = awareness->_260[0]) {
+            if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter)) {
+                if (out)
+                    *out = entry->_88;
+                return true;
+            }
+        }
+    }
+
+    if (auto* sensor = awareness->_260[2]) {
+        if (sensor->_8.size() >= 1) {
+            if (auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, 0)) {
+                if (*mNoticeTerrorLevel_s <= entry->_a4) {
+                    if (out)
+                        *out = entry->_88;
+                    return true;
+                }
+            }
+        }
+    }
+
+    f32 range = *mNoticeWorryRange_s;
+    if (range < 0.0f) {
+        auto* current_awareness = mActor->getAwareness();
+        if (!current_awareness)
+            return false;
+        Unk_71023e2780 request;
+        if (auto* sensor = current_awareness->_260[3]) {
+            range = sensor->m4(&request) ? request._8 : 0.0f;
+            if (!(range > 0.0f))
+                return false;
+        } else {
+            range = 0.0f;
+        }
+    }
+    if (!(range > 0.0f))
+        return false;
+
+    Unk_7102451510 filter;
+    filter._28 = mActor;
+    if (auto* sensor = awareness->_260[3]) {
+        if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter)) {
+            if (entry->_a8 <= range) {
+                if (out)
+                    *out = entry->_88;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
