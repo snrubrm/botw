@@ -46,7 +46,7 @@ protected:
     bool sub_71000A50D0(ksys::act::ActorAtk::Struct7::AttackInfo* info);
     void sub_71000A5254(const sead::Vector3f& direction, const sead::Vector3f& position,
                        ksys::phys::MaterialMask material, bool reset_velocity);
-    // 0x71000a2a64 (declared only): re-initialises the shot (called by ForLargeObject::calc_ when IsReInitShoot).
+    // 0x71000a2a64: re-initialises the shot (called by ForLargeObject::calc_ when IsReInitShoot).
     void sub_71000A2A64();
     void sub_71000A2EE0();
     void sub_71000A369C();
