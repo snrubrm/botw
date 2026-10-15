@@ -69,6 +69,17 @@ bool NPC::sub_7100022554(const sead::Vector3f& pos, bool a2, bool a3, void* a4, 
     return getWeapons()->dropAllWeapons(pos, a2, a3, a4, a5);
 }
 
+bool NPC::sub_71000228F8() {
+    for (const auto& weapon : mWeapons.mWeapons) {
+        ksys::act::acc::Weapon accessor;
+        if (weapon.link.hasProc())
+            ksys::act::acquireActor(&weapon.link, &accessor);
+        if (accessor.isShield())
+            return true;
+    }
+    return false;
+}
+
 bool NPC::sub_7100022B54() {
     if (!(_fe8 & 4))
         return false;
