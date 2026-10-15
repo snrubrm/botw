@@ -54,7 +54,7 @@ protected:
     sead::Vector3f* mFacePos_a{};
     sead::Vector3f _88{0.0f, 0.0f, 0.0f};
     sead::Vector3f _94{0.0f, 0.0f, 0.0f};
-    u8 _a0[0xc]{};
+    sead::Vector3f _a0{0.0f, 0.0f, 0.0f};
     s32 _ac = 0;
     bool _b0 = false;
     bool _b1 = false;

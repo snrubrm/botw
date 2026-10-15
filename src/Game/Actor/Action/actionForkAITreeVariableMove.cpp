@@ -1,6 +1,10 @@
 #include "Game/Actor/Action/actionForkAITreeVariableMove.h"
+#include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -68,6 +72,30 @@ void ForkAITreeVariableMove::sub_710005BE70() {
         query.getHitPosition(&start);
         mDestinationPos_a->y = dist + start.y;
     }
+}
+
+// NON_MATCHING: direction loads/stores and the length sum are scheduled differently.
+void ForkAITreeVariableMove::sub_710005C14C() {
+    auto* controller = mActor->getCharacterController();
+    sead::Matrix34f current;
+    controller->physicsXXXGetMtx_1(&current);
+    sead::Vector3f direction;
+    direction.x = _94.x - current.m[0][3];
+    direction.y = 0.0f;
+    direction.z = _94.z - current.m[2][3];
+    direction.normalize();
+    sead::Quatf current_rotation;
+    current.toQuat(current_rotation);
+    sead::Matrix34f target;
+    ksys::util::sub_71011F00EC(&target, direction, sead::Vector3f::ey, sead::Vector3f::zero, false);
+    sead::Quatf target_rotation;
+    target.toQuat(target_rotation);
+    const f32 rate = *mRotSlerpRate_s;
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    sead::Quatf rotation;
+    rotation.slerpTo(current_rotation, target_rotation, rate * delta);
+    controller->sub_7100F5FD40(rotation);
+    controller->sub_7100F5F6FC(_a0);
 }
 
 // NON_MATCHING: regalloc/scheduling only — the original holds &_94 in a register across the
