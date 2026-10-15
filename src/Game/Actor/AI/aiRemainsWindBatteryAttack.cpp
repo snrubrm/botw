@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiRemainsWindBatteryAttack.h"
+#include "Game/Actor/actBeamBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
@@ -15,7 +19,26 @@ RemainsWindBatteryAttack::~RemainsWindBatteryAttack() {
 }
 
 bool RemainsWindBatteryAttack::init_(sead::Heap* heap) {
-    return GuardianCommonBeamAttack::init_(heap);
+    if (!GuardianCommonBeamAttack::init_(heap))
+        return false;
+    auto* actor = mActor;
+    ksys::act::InstParamPack pack;
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, actor);
+    for (s32 i = 0; i < 5; ++i) {
+        auto* created = ksys::act::ActorCreator::instance()->createActor(
+            "GuardianBeam_RemainsWind", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+            &pack, true, false);
+        if (!created)
+            continue;
+        if (auto* beam = sead::DynamicCast<act::Beam>(created)) {
+            beam->sub_7100002DA8(actor);
+            beam->sub_7100003804(actor, "Head");
+        }
+        _38[i].acquire(created, false);
+    }
+    if (actor->getModel())
+        _88.search(actor->getModel(), "Head");
+    return true;
 }
 
 void RemainsWindBatteryAttack::enter_(ksys::act::ai::InlineParamPack* params) {
