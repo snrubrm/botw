@@ -4,6 +4,8 @@
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -346,6 +348,22 @@ void Unk_710244dd20::sub_71006D0AB8() {
         _3c = static_cast<f32>(time);
         _8.set(0x10);
     }
+}
+
+bool Unk_710244dd20::sub_71006D1C34() {
+    if (_10->get68f().load() != 0 && _10->get6fc() == ksys::phys::Material::Grudge)
+        return true;
+    if (auto* controller = _10->getCharacterController()) {
+        if (auto* contacts = controller->sub_7100F635E4()) {
+            for (auto it = contacts->begin(), end = contacts->end(); it != end; ++it) {
+                const auto material = (*it)->material_mask_b.getMaterial();
+                if (material == ksys::phys::Material::Grudge ||
+                    material == ksys::phys::Material::GrudgeSlow)
+                    return true;
+            }
+        }
+    }
+    return _50._30 && (_50._34 == 0 || _50._34 == 1);
 }
 
 void Unk_710244dd20::sub_71006D19AC() {
