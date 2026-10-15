@@ -22,7 +22,10 @@ public:
     void loadParams_() override;
     bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
 
+    f32 m34() override;
+    void m37() override;
     void m41() override;
+    void m42() override;
     void m43() override;
     void m44(const sead::Vector3f& pos) override;
     bool m46() override;
@@ -30,6 +33,7 @@ public:
 protected:
     void sub_7100368FCC(bool enabled);
     bool sub_710036AEA8(bool start, bool secondary);
+    bool sub_7100369CD4(const sead::SafeString& event_name, const sead::SafeString& entry_point);
 
     Unk2 _260;
     // static_param at offset 0x270

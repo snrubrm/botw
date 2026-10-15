@@ -1,12 +1,15 @@
 #include "Game/Actor/AI/aiDragonIceRoot.h"
 #include "Game/Actor/actDragon.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Map/mapRail.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -69,6 +72,26 @@ void DragonIceRoot::leave_() {
     _398.fadeXLink();
 }
 
+bool DragonIceRoot::sub_7100369CD4(const sead::SafeString& event_name,
+                                      const sead::SafeString& entry_point) {
+    auto* manager = ksys::evt::Manager::instance();
+    if (!manager)
+        return false;
+    auto* flow_manager = manager->getEventFlowMgr();
+    if (!flow_manager)
+        return false;
+    if (_3d0 && _3d0->mEntryPointName != entry_point) {
+        flow_manager->unload(_3d0);
+        _3d0 = nullptr;
+    }
+    if (!_3d0) {
+        _3d0 = flow_manager->loadSimple(event_name, entry_point);
+        if (!_3d0)
+            return false;
+    }
+    return _3d0->mEntryPointName == entry_point;
+}
+
 void DragonIceRoot::loadParams_() {
     DragonRoot::loadParams_();
     getStaticParam(&mGrudgeBulletMaxNum_s, "GrudgeBulletMaxNum");
@@ -115,8 +138,135 @@ bool DragonIceRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
     return true;
 }
 
+// NON_MATCHING: the alive-count switch and shared base-call branch are laid out differently.
+void DragonIceRoot::m37() {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+    xlinkEventOn(mActor, 25, 0, false);
+    _388 = 6;
+    if (dragon->_1e0c == 3 && m35() && m35()->getUniqueName() &&
+        sead::SafeString(m35()->getUniqueName()) == mGrudgeEventRail_Start_s &&
+        !dragon->getGameDataFlag("DropItem", -1)) {
+        s32 alive = dragon->getGameDataFlagGrudgeAlive(0);
+        alive += dragon->getGameDataFlagGrudgeAlive(1);
+        alive += dragon->getGameDataFlagGrudgeAlive(2);
+        alive += dragon->getGameDataFlagGrudgeAlive(3);
+        if (alive == 4) {
+            if (isRootAiParamINot5())
+                xlinkEventOn(mActor, 25, 1, false);
+        } else {
+            dragon->_1f70.set(0x80000);
+            if (alive == 0)
+                dragon->setGameDataFlag(true, "GrudgeDestroyDemoEnd", -1);
+        }
+        if (alive == 0 || alive == 4) {
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+            _24c.reset(0x14);
+            _24c.set(4);
+            _1d8 = 0;
+            _388 = alive == 4 ? 0 : 4;
+            dragon->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1000000);
+            if (auto* as_list = dragon->getASList())
+                as_list->x_2(66, 1, alive != 0, false);
+            changeChild("ラネール山頂待機", nullptr);
+            return;
+        }
+        switch (alive) {
+        case 1:
+            _388 = 3;
+            sub_7100357150(0.1f, mGrudgeEventRail_3rd_s, {10.0f, 10.0f});
+            break;
+        case 2:
+            _388 = 2;
+            sub_7100357150(0.1f, mGrudgeEventRail_2nd_s, {10.0f, 10.0f});
+            break;
+        case 3:
+            _388 = 1;
+            sub_7100357150(0.1f, mGrudgeEventRail_1st_s, {10.0f, 10.0f});
+            break;
+        }
+        m41();
+    }
+    DragonRoot::m37();
+}
+
+f32 DragonIceRoot::m34() {
+    f32 speed = DragonRoot::m34();
+    switch (_388) {
+    case 1:
+        if (mGrudgeEventRail_pre1st_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_pre1stSpeed_s;
+        else if (mGrudgeEventRail_1st_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_1stSpeed_s;
+        break;
+    case 2:
+        if (mGrudgeEventRail_pre2nd_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_pre2ndSpeed_s;
+        else if (mGrudgeEventRail_2nd_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_2ndSpeed_s;
+        break;
+    case 3:
+        if (mGrudgeEventRail_pre3rd_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_pre3rdSpeed_s;
+        else if (mGrudgeEventRail_3rd_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_3rdSpeed_s;
+        break;
+    case 4:
+        if (mGrudgeEventRail_preEnd_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_preEndSpeed_s;
+        else if (mGrudgeEventRail_End_s == _38._8.rail->getUniqueName())
+            speed *= *mGrudgeEventRail_EndSpeed_s;
+        break;
+    case 5:
+        speed *= *mGrudgeEventRail_ReturnSpeed_s;
+        break;
+    }
+    return speed;
+}
+
 void DragonIceRoot::m41() {
     DragonRoot::m41();
+}
+
+void DragonIceRoot::m42() {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+    if (dragon->_1e0c != 3) {
+        DragonRoot::m42();
+        return;
+    }
+    if (!dragon->sub_710000FDFC() || !(_3c4 > 0))
+        return;
+    ksys::Timer::update(&_3c4, -1.0f);
+    // Native b.pl includes an unordered timer in this countdown branch.
+    if (!(_3bc < 0)) {
+        ksys::Timer::update(&_3bc, -1.0f);
+        return;
+    }
+    if (!_24c.isOnBit(3))
+        return;
+    _260.sub_710036B89C();
+    if (!(f32(sead::GlobalRandom::instance()->getS32Range(0, 100)) < *mGrudgeBulletRate_s))
+        return;
+
+    for (auto& entry : _260._0) {
+        if (entry._0.isAllocatedOrFailed() || entry._10.hasProc())
+            continue;
+        ksys::act::InstParamPack pack;
+        const auto position = mActor->getMtx().getTranslation();
+        const sead::Vector3f offset{sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f),
+                                   sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f),
+                                   sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f)};
+        pack->addPosition(position + offset);
+        pack->add(offset * 0.01f - mActor->getVelocity() * 0.01f, "@TV");
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            mGrudgeBulletActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+            &entry._0, &pack, nullptr, 1);
+        break;
+    }
+    _3bc = f32(*mGrudgeBulletMinInterval_s);
 }
 
 // NON_MATCHING: the compiler duplicates the four close calls for the current-child branch.
