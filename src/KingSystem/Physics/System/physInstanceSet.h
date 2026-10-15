@@ -124,6 +124,7 @@ public:
     void sub_7100FBA7BC(bool enabled, act::LodState* lod);
     void sub_7100FBA508();
     void sub_7100FBBEC0();
+    void sub_7100FBBEC4(const sead::Matrix34f& mtx, f32 scale);
     void sub_7100FBDA08(const sead::Vector3f& translation);
     // 0x7100fbaa3c: removeFromWorld.
     void sub_7100FBAA3C();

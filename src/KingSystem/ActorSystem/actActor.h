@@ -582,6 +582,7 @@ public:
     virtual int getCalcTiming();
     virtual bool m83();
     virtual void updateMtxFromPhysics();
+    void sub_71011CB390();
     virtual void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3);
     virtual bool m86();
     virtual s32* getLife();

@@ -635,6 +635,32 @@ bool Actor::sub_71011CEA90() const {
     return ragdoll && ragdoll->getWorldState() == phys::RagdollInstance::WorldState::AddedToWorld;
 }
 
+void Actor::sub_71011CB390() {
+    auto* physics = mPhysics;
+    if (!physics)
+        return;
+    auto* controller = physics->getCharacterController();
+    auto* body = mMainBody.load();
+    if (mModelBindInfo) {
+        if (mModelBindInfo->m6(this)) {
+            physics->setFlag2();
+            mModelBindInfo->m9(this);
+        } else if (mModelBindInfo->m8(this)) {
+            physics->clothVisibleStuff();
+            mModelBindInfo->m9(this);
+        }
+    }
+    sead::Matrix34f mtx;
+    if (controller) {
+        m41(&mtx);
+    } else if (body) {
+        body->getTransform(&mtx);
+    } else if (auto* fallback = physics->sub_7100FBAEDC(0, 0)) {
+        fallback->getTransform(&mtx);
+    }
+    physics->sub_7100FBBEC4(mtx, mScale.x);
+}
+
 void Actor::updateMtxFromPhysics() {
     if (mPhysics) {
         if (auto* controller = mPhysics->getCharacterController()) {
