@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
+#include <xlink2/xlink2HandleSLink.h>
 
 namespace ksys::phys {
 class Constraint;
@@ -38,7 +39,7 @@ protected:
     // Plays OffASName.
     virtual void m34();
     // 0x710028ee24 / 0x710028ee98: play OnASName / OffASName (if set).
-    // 0x710028ea1c: declared only; updates movement sound from the slider displacement.
+    // 0x710028ea1c: updates movement sound from the slider displacement.
     void sub_710028EA1C(f32 distance);
     void sub_710028EE24();
     void sub_710028EE98();
@@ -69,9 +70,8 @@ protected:
     sead::Vector3f _94 = sead::Vector3f::zero;
     f32 _a0 = 0;
     ksys::act::Unk_7100d3bce4 _a8{mActor};
-    void* _c0 = nullptr;
-    u32 _c8 = 0;
-    u32 _cc;
+    // Ctor zeros the event/create-id; EA1C assigns the complete returned sound handle.
+    xlink2::HandleSLink _c0;
     f32 _d0 = 0;
     u32 _d4;
     ksys::phys::StaticCompoundRigidBodyGroup* _d8 = nullptr;

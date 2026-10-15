@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/Constraint/physSliderCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -148,6 +149,28 @@ void SwitchStepSliderConstraint::m33(ksys::phys::RigidBody* body, const sead::Ve
 
 void SwitchStepSliderConstraint::m34() {
     sub_710028EE98();
+}
+
+void SwitchStepSliderConstraint::sub_710028EA1C(f32 distance) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    const f32 length = (_88 - _94).length();
+    f32 speed = distance - _d0;
+    if (!(speed > 0.0f))
+        speed = -speed;
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    if (delta > 0.0f)
+        speed /= delta;
+    _d0 = distance;
+    if (auto* xlink = actor->getXLink())
+        if (auto* user = xlink->_50)
+            user->setPropertyValue(3, speed * 1000.0f);
+    if (!(distance >= 0.001f) || !(length - 0.001f >= distance) || !(speed > 0.0001f)) {
+        _c0.fade();
+    } else if (!_c0.isActive()) {
+        _c0 = ksys::eft::searchAndEmitSLink(actor, "moving", false);
+    }
 }
 
 void SwitchStepSliderConstraint::sub_710028EE24() {
