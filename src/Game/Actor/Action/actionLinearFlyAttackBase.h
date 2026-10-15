@@ -3,6 +3,7 @@
 #include "Game/Actor/Action/actionUnk_7102451ba0.h"
 #include <math/seadMatrix.h>
 #include "KingSystem/System/VFRValue.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -41,9 +42,7 @@ protected:
     Params mParams;
     Unk_7102451ba0 _50;
     sead::Matrix33f _78;
-    f32 _9c = 0;
-    f32 _a0 = 0;
-    f32 _a4 = 0;
+    ksys::Timer _9c;
     sead::Vector3f _a8;
     f32 _b4 = 0;
     sead::Vector3f _b8;
