@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include <prim/seadDelegate.h>
 #include "Game/Actor/actCameraUtil.h"
 #include "Game/gameEventMgrMiniGame.h"
@@ -20,6 +21,15 @@ class Actor;
 namespace sead {
 class Heap;
 }
+
+namespace nn::ui2d {
+class Pane;
+}
+
+namespace eui {
+class AlignPane;
+class TextBoxEx;
+}  // namespace eui
 
 namespace uking {
 class Stage;
@@ -242,13 +252,26 @@ public:
     sead::IDelegate1<uking::act::Unk_71009214b8*>* _48 = nullptr;
 };
 
-// vtable 0x7102499a68 (6 slots)
+// vtable 0x7102499a68 (6 slots). Staff roll (DLC) text block helpers: the TU (0x7100a578bc-) belongs to
+// ScreenStaffRollDLC; its messages come from "LayoutMsg/StaffRollDLC_00".
 class Unk_7102499a68 {
     SEAD_RTTI_BASE(Unk_7102499a68)
 public:
     virtual ~Unk_7102499a68();
-    virtual void m4();
-    virtual void m5() {}
+    // 0x7100a57b88: stores the root pane, hides it and moves it off screen.
+    virtual void m4(nn::ui2d::Pane* pane);
+    virtual void m5(const sead::SafeString& label, s32 idx) {}
+
+    // 0x7100a578bc (placeholder name): sets `box` to the message `label` (shown), or to an empty
+    // string (hidden) when the message is missing, empty or "EmptyMessage"; then requests realignment.
+    // Declared only: a body that differs only in the merged-globals base of its message file string
+    // was written in lane4 s93, but strcheck cannot verify its UTF-16 literal u"EmptyMessage".
+    void setMessage(eui::TextBoxEx* box, const sead::SafeString& label);
+    // 0x7100a579d8 (placeholder name): the AlignPane named `name` under the root pane.
+    eui::AlignPane* findAlignPane(const sead::SafeString& name);
+
+    /* 0x08 */ nn::ui2d::Pane* _8;
+    /* 0x10 */ eui::AlignPane* _10;
 };
 
 // vtable 0x7102499968 (6 slots)
@@ -256,8 +279,10 @@ class Unk_7102499968 : public Unk_7102499a68 {
     SEAD_RTTI_OVERRIDE(Unk_7102499968, Unk_7102499a68)
 public:
     ~Unk_7102499968() override;
-    void m4() override;
-    void m5() override;
+    void m4(nn::ui2d::Pane* pane) override;
+    void m5(const sead::SafeString& label, s32 idx) override;
+
+    /* 0x18 */ eui::TextBoxEx* _18;
 };
 
 // vtable 0x71024999a8 (6 slots)
@@ -265,8 +290,10 @@ class Unk_71024999a8 : public Unk_7102499a68 {
     SEAD_RTTI_OVERRIDE(Unk_71024999a8, Unk_7102499a68)
 public:
     ~Unk_71024999a8() override;
-    void m4() override;
-    void m5() override;
+    void m4(nn::ui2d::Pane* pane) override;
+    void m5(const sead::SafeString& label, s32 idx) override;
+
+    /* 0x18 */ eui::TextBoxEx* _18;
 };
 
 // vtable 0x71024999e8 (6 slots)
@@ -274,8 +301,10 @@ class Unk_71024999e8 : public Unk_7102499a68 {
     SEAD_RTTI_OVERRIDE(Unk_71024999e8, Unk_7102499a68)
 public:
     ~Unk_71024999e8() override;
-    void m4() override;
-    void m5() override;
+    void m4(nn::ui2d::Pane* pane) override;
+    void m5(const sead::SafeString& label, s32 idx) override;
+
+    /* 0x18 */ eui::TextBoxEx* _18[3];
 };
 
 // vtable 0x710249a1a0 (6 slots)

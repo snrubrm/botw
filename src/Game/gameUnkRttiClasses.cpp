@@ -1,4 +1,8 @@
 #include "Game/gameUnkRttiClasses.h"
+#include <nn/font/font_Util.h>
+#include <nn/ui2d/Pane.h>
+#include "Game/UI/euiAlignPane.h"
+#include "Game/UI/euiTextBoxEx.h"
 #include "Game/Actor/aiUnk_71025b27b8.h"
 #include "Game/Actor/aiUnk_71025b2aa8.h"
 #include "Game/Actor/aiUnk_71025b2d88.h"
@@ -78,6 +82,58 @@ Unk_7102457a80::~Unk_7102457a80() = default;
 Unk_7102457ac0::~Unk_7102457ac0() = default;
 
 Unk_7102499a68::~Unk_7102499a68() = default;
+
+eui::AlignPane* Unk_7102499a68::findAlignPane(const sead::SafeString& name) {
+    return nn::font::DynamicCast<eui::AlignPane>(_8->FindPaneByName(name.cstr(), true));
+}
+
+void Unk_7102499a68::m4(nn::ui2d::Pane* pane) {
+    _8 = pane;
+    if (_8)
+        _8->SetVisible(false);
+    if (_8)
+        _8->SetPosition(nn::util::Float3{0.0f, 2000.0f, 0.0f});
+}
+
+void Unk_7102499968::m4(nn::ui2d::Pane* pane) {
+    Unk_7102499a68::m4(pane);
+    if (!_8)
+        return;
+    _18 = eui::sub_7100933580(_8->FindPaneByName("T_PostOne_00", true));
+    _10 = findAlignPane("N_AlignEdge_00");
+}
+
+void Unk_7102499968::m5(const sead::SafeString& label, s32 idx) {
+    if (_18)
+        setMessage(_18, label);
+}
+
+void Unk_71024999a8::m4(nn::ui2d::Pane* pane) {
+    Unk_7102499a68::m4(pane);
+    if (!_8)
+        return;
+    _18 = eui::sub_7100933580(_8->FindPaneByName("T_NameOne_00", true));
+}
+
+void Unk_71024999a8::m5(const sead::SafeString& label, s32 idx) {
+    if (_18)
+        setMessage(_18, label);
+}
+
+void Unk_71024999e8::m4(nn::ui2d::Pane* pane) {
+    Unk_7102499a68::m4(pane);
+    if (!_8)
+        return;
+    _18[0] = eui::sub_7100933580(_8->FindPaneByName("T_NameTriple_00", true));
+    _18[1] = eui::sub_7100933580(_8->FindPaneByName("T_NameTriple_01", true));
+    _18[2] = eui::sub_7100933580(_8->FindPaneByName("T_NameTriple_02", true));
+    _10 = findAlignPane("N_Align_00");
+}
+
+void Unk_71024999e8::m5(const sead::SafeString& label, s32 idx) {
+    if (u32(idx) <= 2 && _18[idx])
+        setMessage(_18[idx], label);
+}
 
 Unk_7102499968::~Unk_7102499968() = default;
 
