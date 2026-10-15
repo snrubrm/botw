@@ -3,6 +3,7 @@
 #include "Game/Actor/actSwarm.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -18,7 +19,10 @@ public:
     void loadParams_() override;
 
 protected:
+    struct Entry;
     void calc_() override;
+    void sub_71002844D0();
+    void sub_71002847E0(Entry* entry);
     // 0x7100284798 (declared only): calls the Swarm helpers 0x7100729d5c(*_48 (f32), swarm, null, null, null, false) and
     // 0x710072a108(swarm, Vector3f::ey).
     virtual void m32(act::Swarm* swarm);
@@ -46,11 +50,12 @@ protected:
     const int* mSubUnitNum_m{};
     // map_unit_param at offset 0x60
     const int* mPatternID_m{};
-    sead::Vector3f _68{0, 0, 0};
+    // enter_ initializes this count-up timer; calc_ calls Timer::update.
+    ksys::Timer _68;
 
     struct Entry {
         ksys::act::BaseProcHandle mHandle;
-        void* mPtr{};
+        act::Swarm::Unit* mPtr{};
         s32 mIdx = -1;
     };
     Entry _78[10];
