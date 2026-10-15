@@ -521,9 +521,9 @@ KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
 
 namespace ksys::act::acc {
 
-// Read/write access to a PlayerBase through an ActorLinkConstDataAccess (CSV: act::acc::PlayerBase).
+// Read/write access to a PlayerBase through a PlayerOrEnemy accessor (CSV: act::acc::PlayerBase).
 // TODO: incomplete
-class PlayerBase : public ksys::act::ActorLinkConstDataAccess {
+class PlayerBase : public PlayerOrEnemy {
 public:
     bool getPlayerFromPlayerInfo();
     bool isMainWeaponHitEnemy() const;
