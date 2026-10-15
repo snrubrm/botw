@@ -308,7 +308,7 @@ public:
     // FIXME: figure out return types, parameters and names
     // Equips `weapon` in slot `idx` (the original asks getWeapons() first).
     virtual bool m177(s32 idx, ksys::act::Actor* weapon);
-    // 0x7100731cd8 (CSV Enemy::setDroppedWeaponFlag; declared only).
+    // 0x7100731cd8: records the placed enemy weapon drop outside AocField.
     void setDroppedWeaponFlag();
     // 0x7100015438 (placeholder name, lane4 s45; called by PriestBossActorNormalRoot::m35): acquires `weapon` in
     // slot `idx` and sets _e82 bit 12.

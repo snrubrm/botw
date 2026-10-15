@@ -1144,6 +1144,24 @@ bool sub_710073200C(ksys::act::Actor* actor, s32 index) {
     return (bits & (1u << index) & 0xff) != 0;
 }
 
+void uking::act::Enemy::setDroppedWeaponFlag() {
+    if (!this)
+        return;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+    auto* object = mMapObject;
+    if (!object)
+        return;
+    const auto& map = manager->getMapName();
+    if (map.findIndex("AocField") != -1)
+        return;
+    const u32 hash = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_WeaponDrop_%u", map.cstr(), hash);
+    manager->setBool(true, name);
+}
+
+
 // NON_MATCHING: normal format arguments read the hash after map-name string termination.
 bool sub_7100731E70(const ksys::map::Object* object) {
     if (!object)

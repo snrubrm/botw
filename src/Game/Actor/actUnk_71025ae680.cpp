@@ -36,6 +36,37 @@ void Unk_71025ae680::m6() {
     _a &= ~0x24;
 }
 
+void Unk_710244ff68::m11(bool enable) {
+    auto* chemicals = _10->getChemicalContainer();
+    if (!chemicals)
+        return;
+    const s32 count = chemicals->_80;
+    if (count <= 0)
+        return;
+    if (enable) {
+        for (s32 i = 0; i < count; ++i) {
+            auto* chemical = chemicals->sub_7100E380FC(i);
+            if (!chemical)
+                return;
+            chemical->sub_7100D8EEE0();
+            chemical->sub_7100D90C2C(true);
+            chemical->sub_7100D90CD8(true);
+            chemical->sub_7100D90D7C(true);
+            chemical->sub_7100D90F60(true);
+        }
+    } else {
+        for (s32 i = 0; i < count; ++i) {
+            auto* chemical = chemicals->sub_7100E380FC(i);
+            if (!chemical)
+                return;
+            chemical->sub_7100D90C2C(false);
+            chemical->sub_7100D90CD8(false);
+            chemical->sub_7100D90D7C(false);
+            chemical->sub_7100D90F60(false);
+        }
+    }
+}
+
 // Preserves the original own D1, as in upstream
 // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
 Unk_710244ff68::~Unk_710244ff68() {
