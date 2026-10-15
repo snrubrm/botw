@@ -99,6 +99,7 @@ public:
     // 0x71010a9eb8
     void registerController_() override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    nn::ui2d::ResourceAccessor* doCreateResourceAccessor_(sead::Heap* heap) override;
     // 0x71010a9b44 (placeholder name): empty; called with `true` by ScreenChangeController::m98 and Screen::doInitialize
     void sub_71010A9B44(bool flag);
 };

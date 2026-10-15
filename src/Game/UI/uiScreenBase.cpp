@@ -2,6 +2,8 @@
 #include "Game/UI/euiConstantBuffer.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
+#include "Game/UI/euiArcResourceMgr.h"
+#include "Game/UI/euiMultiArcResourceAccessor.h"
 #include <nn/ui2d/ResExtUserData.h>
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/SeadController.h"
@@ -57,6 +59,35 @@ void ScreenBase::registerController_() {
         mUIController->registerWith(ksys::SeadController::getInstance(), false);
 }
 
+// 0x71010a9fcc: also attaches the Title / Horse / BootUp / Test archives for some screen IDs, then the
+// screen's own layout archive
+nn::ui2d::ResourceAccessor* ScreenBase::doCreateResourceAccessor_(sead::Heap* heap) {
+    auto* accessor = eui::Screen::doCreateResourceAccessor_(heap);
+    if (!accessor)
+        return nullptr;
+    auto* multi = nn::font::DynamicCast<eui::MultiArcResourceAccessor>(accessor);
+    if (!multi)
+        return accessor;
 
+    if (mId == 1) {
+        if (auto* archive = multi->mArcResourceMgr->findArcResource("Title"))
+            multi->attachArchive(archive->mData, archive->mTextureResource);
+    }
+    if (mId == 23) {
+        if (auto* archive = multi->mArcResourceMgr->findArcResource("Horse"))
+            multi->attachArchive(archive->mData, archive->mTextureResource);
+    }
+    if (mId == 90 || mId == 91) {
+        if (auto* archive = multi->mArcResourceMgr->findArcResource("BootUp"))
+            multi->attachArchive(archive->mData, archive->mTextureResource);
+    }
+    if (mId == 93) {
+        if (auto* archive = multi->mArcResourceMgr->findArcResource("Test"))
+            multi->attachArchive(archive->mData, archive->mTextureResource);
+    }
+    if (auto* archive = multi->mArcResourceMgr->findArcResource(getLayoutName_()))
+        multi->attachArchive(archive->mData, archive->mTextureResource);
+    return accessor;
+}
 
 }  // namespace uking::ui
