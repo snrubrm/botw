@@ -409,8 +409,8 @@ void FishRoot::Unk_71023ee000::m2(void* model_arg) {
         const auto current_pos = translation + current._70.getTranslation();
         const auto next_pos = translation + next._70.getTranslation();
         const auto animated_pos = offset + next_matrix.getTranslation();
-        const f32 restore = (next._dc - 1.0f) * _10 + 1.0f;
-        const f32 inertia = _10 * _14 + 0.0f;
+        const f32 restore = sead::lerp(1.0f, next._dc, _10);
+        const f32 inertia = sead::lerp(0.0f, _14, _10);
         const auto desired_pos = next_pos + (animated_pos - next_pos) * restore + next._d0 * inertia;
         sead::Vector3f direction = desired_pos - current_pos;
         direction.rotate(correction);
@@ -424,8 +424,9 @@ void FishRoot::Unk_71023ee000::m2(void* model_arg) {
         }
         const f32 angle = std::atan2(direction.cross(previous_direction).length(),
                                      direction.dot(previous_direction));
-        const f32 limit = (current._e0 - sead::Mathf::pi()) * _10 + sead::Mathf::pi();
-        if (angle <= limit) {
+        const f32 limit = sead::lerp(sead::Mathf::pi(), current._e0, _10);
+        // An unordered angle also resets the correction to the unit quaternion.
+        if (!(angle > limit)) {
             correction.makeUnit();
         } else {
             const f32 weight = sead::Mathf::clamp(limit / angle, 0.0f, 1.0f);
