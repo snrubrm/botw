@@ -75,7 +75,7 @@ void NPCArtistRoot::calc_() {
         _2f4 -= step;
         if (_2f4 < 0.0f)
             _2f4 = 0.0f;
-        else if (!(_2f4 <= 1.0f))
+        else if (_2f4 > 1.0f)
             _2f4 = 1.0f;
         if (_2f4 == 0.0f)
             _248._68.makeRT(sead::Vector3f::zero, sead::Vector3f::zero);
@@ -91,7 +91,7 @@ void NPCArtistRoot::calc_() {
         _2f4 += step;
         if (_2f4 < 0.0f)
             _2f4 = 0.0f;
-        else if (!(_2f4 <= 1.0f))
+        else if (_2f4 > 1.0f)
             _2f4 = 1.0f;
         if (_2f4 == 1.0f)
             _248._68.makeRT({0.0f, 0.0f, -sead::Mathf::deg2rad(35.0f)},
