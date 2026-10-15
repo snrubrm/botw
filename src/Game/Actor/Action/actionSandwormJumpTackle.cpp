@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionSandwormJumpTackle.h"
+#include <gsys/gsysModel.h>
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actLodState.h"
@@ -6,6 +7,7 @@
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 // Declaration-only native helpers; source namespaces are unknown.
 void sub_71007201C8(ksys::act::Actor* actor, const sead::SafeString& name);
@@ -31,7 +33,33 @@ bool SandwormJumpTackle::init_(sead::Heap* heap) {
 }
 
 void SandwormJumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    _f4 = false;
+    _fc = false;
+    if (auto* controller = actor->getCharacterController()) {
+        _e8 = controller->get70();
+        controller->sub_7100F5EE1C(_e8 * *mGravityScale_s);
+    }
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    _c0.sub_71FEFC();
+    _f4 = _c0.sub_710071F8B0(position, 2.5f);
+    if (auto* lod = actor->getLodState())
+        lod->mFlags26.set(1);
     JumpTackle::enter_(params);
+    sub_71007A3800(actor);
+    sub_71007A44E4(actor, true);
+    sub_7100720814(actor, 0);
+    if (!_f4)
+        sub_7100720A18(actor, &_138);
+    _f8 = 0.0f;
+    mFlags.reset(Flag::Changeable);
+    if (auto* model = actor->getModel())
+        _100.search(model, "Head");
+    if (auto* terrain = ksys::tera::Terrain::instance()) {
+        auto* grass = terrain->sub_710114DE4C();
+        const sead::Vector3f grass_position = mActor->getMtx().getTranslation();
+        grass->sub_7101151064(&grass_position, 5.0f, 10.0f, true, false, false);
+    }
 }
 
 void SandwormJumpTackle::leave_() {

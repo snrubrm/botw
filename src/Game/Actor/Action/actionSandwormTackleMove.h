@@ -51,6 +51,7 @@ struct Unk_SandwormTackleMoveList {
     bool sub_71F6DC(sead::Heap* heap);
     void sub_71F858();  // deletes all targets (called from the owners' destructors)
     void sub_71FEFC();
+    bool sub_710071F8B0(const sead::Vector3f& position, f32 radius);
     bool sub_71FF70(const ksys::MessageAck* ack);
     // 0x71feb4: whether a target is in state 1 (`_58 == 1`).
     bool sub_71FEB4() const;
