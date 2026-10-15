@@ -33,6 +33,10 @@ struct Unk_UiPinInfo {
     /* 0x20 */ s32 _20;
 };
 
+// 0x7100a6c0ec (declaration only): stores `value` at controller + 0x4bc and forwards to
+// sead::ControllerBase::setLeftStickCrossThreshold with the default pair for the sign of `value`.
+void sub_7100A6C0EC(sead::Controller* controller, f32 value);
+
 // The UI manager singleton (CSV: uiManager::createInstance 0x7100a6e038, ctor 0x7100a6e0c4,
 // instance pointer 0x71025f5ee0, size 0x653b0, disposer at +0x18). Only the fields that are used
 // by the UI facade functions / read inline by AI code are declared (offsets from the original);
@@ -53,6 +57,10 @@ public:
     void sub_7100A76420();  // empty (CSV nullsub_6139)
     void sub_7100A76424();
     void sub_7100A79968();
+    // 0x7100a7a6c0 (CSV uiManager::__auto6; placeholder name): stores `value` at 0x653a8 and applies it.
+    void sub_7100A7A6C0(f32 value);
+    // 0x7100a7ef28 (CSV uiManager::__auto7; placeholder name): stores 40.0f at 0x653a8 and applies it.
+    void sub_7100A7EF28();
     // 0x7100a79a04 / 0x7100a79b38 (CSV uiManager::__auto13 / __auto12; declared only)
     void sub_7100A79A04();
     bool sub_7100A79B38();
@@ -221,7 +229,9 @@ public:
     /* 0x652f8 */ nn::ui2d::Pane** _652f8;
     u8 _65300[0x65387 - 0x65300];
     /* 0x65387 */ u8 _65387;
-    u8 _65388[0x653b0 - 0x65388];
+    u8 _65388[0x653a8 - 0x65388];
+    /* 0x653a8 */ f32 _653a8;  // left-stick cross threshold mirrored to the UI controller (see sub_7100A6C0EC)
+    u8 _653ac[0x653b0 - 0x653ac];
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x653b0);
 

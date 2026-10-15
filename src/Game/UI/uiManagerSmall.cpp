@@ -342,6 +342,20 @@ void Manager::sub_7100A79968() {
         _cc = -1;
 }
 
+// 0x7100a7a6c0 (CSV uiManager::__auto6)
+void Manager::sub_7100A7A6C0(f32 value) {
+    _653a8 = value;
+    if (_649f0)
+        sub_7100A6C0EC(_649f0, value);
+}
+
+// 0x7100a7ef28 (CSV uiManager::__auto7)
+void Manager::sub_7100A7EF28() {
+    _653a8 = 40.0f;
+    if (_649f0)
+        sub_7100A6C0EC(_649f0, 40.0f);
+}
+
 // 0x7100a7a6e4
 void Manager::sub_7100A7A6E4(s32 a1) {
     _64b0c |= 1 << a1;
