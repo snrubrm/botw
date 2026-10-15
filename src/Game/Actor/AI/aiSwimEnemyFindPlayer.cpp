@@ -40,15 +40,16 @@ void SwimEnemyFindPlayer::calc_() {
                 m40();
                 return;
             }
-            if (*mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3) {
+            if (*mNearScaffoldDist_s <= 0.0f || sub_71005D9744(mActor) != 3)
+                setFailed();
+            else
                 sub_710037EDA4();
-                return;
-            }
+            return;
         } else {
             if (!child->isChangeable())
                 return;
             m44();
-            if (*mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3)
+            if (!(*mNearScaffoldDist_s <= 0.0f) && sub_71005D9744(mActor) == 3)
                 return;
         }
     } else if (isCurrentChild("対象壁つかまり")) {
@@ -67,12 +68,13 @@ void SwimEnemyFindPlayer::calc_() {
                 return;
             }
             ksys::Timer::update(&_170, -1.0f);
-            if (!(_170 >= 0.0f))
+            if (_170 < 0.0f)
                 _170 = 0.0f;
-            if (_170 > 0.0f) {
+            if (_170 <= 0.0f)
+                setFailed();
+            else
                 sub_710037EDA4();
-                return;
-            }
+            return;
         } else {
             if (!child->isChangeable())
                 return;
@@ -82,9 +84,9 @@ void SwimEnemyFindPlayer::calc_() {
                 return;
             }
             ksys::Timer::update(&_170, -1.0f);
-            if (!(_170 >= 0.0f))
+            if (_170 < 0.0f)
                 _170 = 0.0f;
-            if (_170 > 0.0f)
+            if (!(_170 <= 0.0f))
                 return;
         }
     } else {
