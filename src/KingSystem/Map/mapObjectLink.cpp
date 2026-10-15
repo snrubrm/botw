@@ -401,9 +401,10 @@ void ObjectLinkData::decrementGenGroupNumPrepareDelete() {
         mGenGroup->mNumPrepareDelete.decrement();
 }
 
-void ObjectLinkData::deleteEachActorIfDeleteType2_0() {
+bool ObjectLinkData::deleteEachActorIfDeleteType2_0() {
     if (mGenGroup)
-        mGenGroup->sub_7100D507F8();
+        return mGenGroup->sub_7100D507F8();
+    return false;
 }
 
 void ObjectLinkData::deleteEachActorIfDeleteType2() {

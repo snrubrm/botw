@@ -2317,6 +2317,50 @@ void Actor::updatePlacementObjDistanceFlags() {
         mMapObject->resetFlags0(map::Object::Flag0::_400000);
 }
 
+// NON_MATCHING: deletion case order and the shared success/flag tail differ.
+bool Actor::becomePreActor(DeleteType type, DeleteReason reason) {
+    if (!mMapObject || isDeletedOrDeleting())
+        return false;
+    bool deleted = false;
+    if (type == DeleteType::_1) {
+        deleted = deleteEx(DeleteType::_3, reason);
+    } else if (type == DeleteType::_2) {
+        mFadeOutDeleteType.load();
+        if (deleteLater(reason)) {
+            if (mMapObject) {
+                mMapObject->setFlags0(map::Object::Flag0::ActorCreated);
+                if (auto* mgr = map::PlacementMgr::instance())
+                    mgr->sub_71011EB46C(mMapObject);
+            }
+            deleted = true;
+        }
+    } else if (type == DeleteType::_3) {
+        if (deleteLater(reason)) {
+            mMapObject->setFlags0(map::Object::Flag0::ActorCreated);
+            deleted = true;
+        }
+    } else {
+        auto* links = mMapObject->getLinkData();
+        if (links && mActorFlags.isOnBit(ActorFlag::_e)) {
+            mActorFlags.resetBit(ActorFlag::_e);
+            links->incrementGenGroupNumPrepareDelete();
+        }
+        if (mMapObject->getLinkData() && mMapObject->getLinkData()->mGenGroup) {
+            deleted = mMapObject->getLinkData()->deleteEachActorIfDeleteType2_0();
+        } else {
+            deleteEx(DeleteType::_3, reason);
+            deleted = true;
+        }
+    }
+    if (type != DeleteType::_3 && deleted)
+        updatePlacementObjDistanceFlags();
+    if (_540)
+        mMapObject->resetFlags0(map::Object::Flag0::_400000);
+    if (reason == DeleteReason(11) && deleted)
+        becomePreActor_(true, false);
+    return deleted;
+}
+
 // NON_MATCHING: the existing atomic bool is tested with cbz rather than bit 0.
 bool Actor::deleteIfPlacementStuff() {
     if (_687) {

@@ -705,6 +705,7 @@ public:
     void fadeOutWakeUp(SleepWakeReason reason);
 
     bool becomePreActor(DeleteType type, DeleteReason reason);
+    void becomePreActor_(bool, bool);
     void fadeOutSleep(SleepWakeReason reason);
     void emitDeadUpLifeZeroAndSetRevival();
     void setRevivalFlagForUsed(bool value);
