@@ -2,6 +2,9 @@
 #include "Game/Actor/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -326,4 +329,28 @@ bool sub_7100712CB0(ksys::act::Actor* actor) {
     if (name.include("Run") || name == "Escape")
         return true;
     return false;
+}
+
+bool sub_7100712E00(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
+        return false;
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(
+        actor->getWeapons()->mWeapons[0].link.getProc(nullptr, nullptr));
+    if (!sead::IsDerivedFrom<uking::act::Weapon>(weapon))
+        return false;
+    auto* param = weapon->getParam();
+    if (!param)
+        return false;
+    auto* gparams = param->getRes().mGParamList;
+    if (!gparams)
+        return false;
+    auto* common = gparams->getWeaponCommon();
+    if (!common)
+        return false;
+    const sead::SafeString type = common->mNPCWeaponType.ref();
+    if (type.isEmpty())
+        actor->getASList()->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+    else
+        actor->getASList()->goLimpFromHeadShotMaybe(44, type, 0);
+    return true;
 }

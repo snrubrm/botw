@@ -60,6 +60,10 @@ bool sub_7100712AD8(ksys::act::Actor* actor);
 // 0x7100712cb0: true for an NPC whose slot 0 animation contains Run or is Escape.
 bool sub_7100712CB0(ksys::act::Actor* actor);
 
+// 0x7100712e00: for an NPC holding a Weapon in slot 0, plays AS slot 44 from the weapon's NPCWeaponType
+// (or its profile when empty).
+bool sub_7100712E00(ksys::act::Actor* actor);
+
 // 0x7100712388: the actor message-text helper following this controller family.
 bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDataAccess& accessor,
                     const sead::SafeString& key);
