@@ -193,6 +193,47 @@ void SiteBossShootArrowRoot::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: avoidance-vector stack slots and height-selection scheduling differ.
+void SiteBossShootArrowRoot::sub_71005858E4(bool side) {
+    if (_121)
+        side = sead::GlobalRandom::instance()->getU32(100) < (_120 ? 20u : 60u);
+    else
+        _121 = true;
+    _120 = side;
+    const f32 distance = *mAvoidDist_s;
+    const f32 distance_range = *mAvoidDistRand_s;
+    const f32 avoid_distance = distance + distance_range * sead::GlobalRandom::instance()->getF32();
+    bool slerp = false;
+    const sead::Vector3f target = *mTargetPos_d;
+    sead::Vector3f avoid;
+    const bool horizon = sub_71002D2D9C(&avoid, &slerp, mActor, target, side, avoid_distance);
+    const s32 roll = static_cast<s32>(sead::GlobalRandom::instance()->getF32() * 100.0f);
+    const s32 rate = *mUpDownAvoidRate_s;
+    if (roll < rate) {
+        const f32 height = mActor->getMtx().getTranslation().y;
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        home += *mChaseDistOffset_s;
+        const f32 upper = (home.y + mChaseDist_s->y) + mChaseDistOffset_s->y;
+        const f32 lower = mChaseDistOffset_s->y + (home.y - mChaseDist_s->y);
+        const s32 half_rate = static_cast<s32>(static_cast<f32>(rate) * 0.5f);
+        const f32 scale = height < (upper + lower) * 0.5f ? 1.5f : 0.5f;
+        const s32 threshold = static_cast<s32>(static_cast<f32>(half_rate) * scale);
+        if (roll < threshold)
+            avoid.y += upper >= height + mChaseDist_s->y ? 0.25f : -0.25f;
+        else
+            avoid.y += lower > height - mChaseDist_s->y ? 0.25f : -0.25f;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    pack.addVec3(target, "PlayerPos", -1);
+    pack.addVec3(avoid, "AvoidVec", -1);
+    pack.addBool(horizon, "IsAvoidHorizon", -1);
+    pack.addFloat(avoid_distance, "AvoidDist", -1);
+    pack.addBool(slerp, "IsSlerp", -1);
+    changeChild("回避", &pack);
+}
+
 // 0x71005857ec
 void SiteBossShootArrowRoot::sub_71005857EC(bool reset_end_time) {
     ksys::act::ai::InlineParamPack pack;

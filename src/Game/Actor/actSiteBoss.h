@@ -326,3 +326,7 @@ int getNumberOfClearedRemains();
 bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home,
                   const sead::Vector3f* target, const sead::Vector3f* distance,
                   const sead::Vector3f* offset, bool special);
+
+// 0x71002d2d9c: computes the avoidance vector and interpolation flag.
+bool sub_71002D2D9C(sead::Vector3f* out, bool* out_flag, ksys::act::Actor* actor,
+                  const sead::Vector3f& target, bool side, f32 distance);
