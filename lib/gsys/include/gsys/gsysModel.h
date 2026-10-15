@@ -168,6 +168,8 @@ public:
     BoneAccessKey searchBone(const sead::SafeString& name) const;
     // 0x7100bf82e8 (CSV name; declared only)
     MaterialAccessKey searchMaterial(const sead::SafeString& name) const;
+    // 0x7100bf8404 (name is a guess): index in getUnits(), or -1 when no unit has this name.
+    int searchUnitIndex(const sead::SafeString& name) const;
     // 0x7100bf7cac (CSV name): calls ModelUnit::clearBoneLocalMatrix on every model unit.
     void clearBoneLocalMatrix() const;
     // 0x7100bf8364 (CSV name): ModelUnit::setMaterialVisibleAll on every model unit.

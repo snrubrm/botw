@@ -163,6 +163,16 @@ void Model::setMaterialVisibleAll(bool visible) {
         info.mModelUnit->setMaterialVisibleAll(visible);
 }
 
+int Model::searchUnitIndex(const sead::SafeString& name) const {
+    int index = 0;
+    for (const auto& info : mUnitAccess) {
+        if (name == info.mModelUnit->getName())
+            return index;
+        ++index;
+    }
+    return -1;
+}
+
 // 0x7100bf99b0
 void Model::requestUpdate(u32 flags) {
     _a3 = flags;
