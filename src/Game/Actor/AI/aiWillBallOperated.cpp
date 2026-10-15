@@ -21,8 +21,49 @@ bool WillBallOperated::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: near/far child branch ordering and inline parameter registers.
 void WillBallOperated::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _70 = static_cast<f32>(*mParams.mWaitTime_d);
+    _78.x();
+    switch (*mParams.mCommand_d) {
+    case 0:
+        sub_71005F4638();
+        break;
+    case 2:
+        sub_71005F4754();
+        break;
+    case 3:
+        sub_71005F4890();
+        break;
+    case 5:
+        sub_71005F49EC();
+        break;
+    case 6:
+        sub_71005F4B08();
+        break;
+    case 7:
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        changeChild("消滅");
+        break;
+    case 8:
+        sub_71005F4C24();
+        break;
+    default:
+        const f32 distance = (*mParams.mBasePos_d - mActor->getMtx().getTranslation()).length();
+        const f32 warp_distance = *mParams.mWarpDist_s;
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        if (distance <= warp_distance) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mParams.mBasePos_d, "TargetPos", -1);
+            changeChild("持ち上げ", &pack);
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mParams.mBasePos_d, "TargetPos", -1);
+            changeChild("ワープ", &pack);
+        }
+        break;
+    }
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 }
 
 void WillBallOperated::leave_() {
