@@ -331,7 +331,7 @@ void Unk_SoundMgr30::sub_7100FF88D0() {
         if (_48)
             _48->m5();
         if (_78)
-            _78->sub_710100748C();
+            _78->update();
         if (_10)
             _10->sub_710101CFEC();
         _60.calc();

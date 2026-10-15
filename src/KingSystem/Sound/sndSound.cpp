@@ -302,7 +302,7 @@ Unk_SoundMgr30_18* sub_7100FFD76C() {
     return SoundMgr::instance()->_30->_18;
 }
 
-Unk_SoundMgr30_78* sub_7100FFD784() {
+Unk_71010073f4* sub_7100FFD784() {
     return SoundMgr::instance()->_30->_78;
 }
 

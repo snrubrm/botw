@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include <prim/seadScopedLock.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 
@@ -9,6 +10,135 @@ Unk_71010073f4::Unk_71010073f4() {
 }
 
 Unk_71010073f4::~Unk_71010073f4() = default;
+
+void Unk_71010073f4::update() {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto it = mList.robustBegin(); it != mList.robustEnd(); ++it) {
+        it->update();
+        if (!it->mStarted && it->mEntries.size() == 0 && it->mRefCount <= 0) {
+            mList.erase(&*it);
+            sub_7100FFF0E4(&*it);
+        }
+    }
+}
+
+Unk_710260ecf8* Unk_71010073f4::find(const sead::SafeString& name) {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& bgm : mList) {
+        if (*bgm.getName() == name)
+            return &bgm;
+    }
+    return nullptr;
+}
+
+bool Unk_71010073f4::hold(const sead::SafeString& name, sead::Heap* heap) {
+    auto lock = sead::makeScopedLock(mCS);
+    if (auto* bgm = find(name)) {
+        ++bgm->mRefCount;
+        return true;
+    }
+    auto* bgm = bgmStuff(name, heap);
+    if (!bgm)
+        return false;
+    bgm->m8();
+    bgm->mRefCount = 1;
+    mList.pushBack(bgm);
+    return true;
+}
+
+bool Unk_71010073f4::isFinished(const sead::SafeString& name) {
+    auto lock = sead::makeScopedLock(mCS);
+    if (auto* bgm = find(name))
+        return bgm->sub_7101020CEC();
+    return true;
+}
+
+void Unk_71010073f4::release(const sead::SafeString& name) {
+    if (auto* bgm = find(name))
+        --bgm->mRefCount;
+}
+
+// NON_MATCHING: the original has a discarded 32-bit load of the handle type (+0xd8) after the null check.
+void Unk_71010073f4::sub_71010078A0(const sead::SafeString& name) {
+    auto* bgm = find(name);
+    if (!bgm || bgm->mStarted)
+        return;
+    bgm->sub_7101020BB0(0.0);
+    bgm->sub_710101D9D8();
+    bgm->m6(true);
+    bgm->mStarted = true;
+}
+
+void Unk_71010073f4::sub_7101007904(f32 fade_sec, const sead::SafeString& name) {
+    auto* bgm = find(name);
+    if (!bgm || !bgm->mStarted)
+        return;
+    bgm->sub_710101D9F4(fade_sec);
+    bgm->m6(false);
+    bgm->mStarted = false;
+}
+
+// Stops all started BGMs.
+void Unk_71010073f4::sub_7101007960(f32 fade_sec) {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& bgm : mList) {
+        if (!bgm.mStarted)
+            continue;
+        bgm.sub_710101D9F4(fade_sec);
+        bgm.m6(false);
+        bgm.mStarted = false;
+    }
+}
+
+void Unk_71010073f4::sub_7101007A08(f32 fade_sec) {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& bgm : mList) {
+        if (bgm.mStarted && bgm._189)
+            bgm.sub_710101D9F4(fade_sec);
+    }
+}
+
+void Unk_71010073f4::sub_7101007AA0(f32 fade_sec) {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& bgm : mList) {
+        if (bgm.mStarted && bgm._189) {
+            bgm.sub_7101020BB0(fade_sec);
+            bgm.sub_710101D9D8();
+        }
+    }
+}
+
+// Stops and deletes all BGMs.
+void Unk_71010073f4::sub_7101007B44() {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto it = mList.robustBegin(); it != mList.robustEnd(); ++it) {
+        if (it->mStarted) {
+            it->sub_710101D9F4(0.0);
+            it->m6(false);
+            it->mStarted = false;
+        }
+        mList.erase(&*it);
+        sub_7100FFF0E4(&*it);
+    }
+}
+
+bool Unk_71010073f4::sub_7101007C14() {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& bgm : mList) {
+        if (bgm.mStarted)
+            return true;
+    }
+    return false;
+}
+
+bool Unk_71010073f4::sub_7101007C90() {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& bgm : mList) {
+        if (bgm._189 && bgm.mStarted)
+            return true;
+    }
+    return false;
+}
 
 }  // namespace ksys::snd
 

@@ -127,6 +127,13 @@ bool sub_7100FFEDC8() {
 
 void sub_7100FFEE10() {}
 
+void sub_7100FFF0E4(Unk_710260ecf8* bgm) {
+    if (!bgm)
+        return;
+    bgm->sub_710101D9A4();
+    delete bgm;
+}
+
 Unk_710260f218::Unk_710260f218() = default;
 
 void Unk_710260f218::sub_7100FFC5C8(Bgm* bgm) {

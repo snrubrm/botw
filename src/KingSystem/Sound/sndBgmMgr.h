@@ -229,24 +229,47 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fc7f8, 0x180);
 
-// Placeholder name (`SoundMgr::_30->_78`, see sub_7100FFD784; the BGM interface used by the EventBgm* actions). Only the
-// methods those actions call are declared (declaration only).
-class Unk_SoundMgr30_78 {
+// RTTI root typeInfo 0x71025ce3b0 (vtable 0x710246d118: only the destructor pair is filled in; the original's RTTI slots
+// look pure). The base of the named BGM objects kept by Unk_71010073f4.
+class Unk_71025ce3b0 {
 public:
-    // 0x71010078a0 (100 B): starts the BGM `name`.
-    void sub_71010078A0(const sead::SafeString& name);
-    // 0x7101007904 (92 B): stops the BGM `name` with a fade of `fade_sec` seconds.
-    void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
-    // 0x7101007960 / 0x7101007b44 (declared only)
-    void sub_7101007960(f32 fade_sec);
-    void sub_7101007A08(f32 fade_sec);
-    void sub_7101007AA0(f32 fade_sec);
-    void sub_7101007B44();
-    bool sub_7101007C14();
-    bool sub_7101007C90();
-    // 0x710100748c (declared only; 192 B): per-frame update.
-    void sub_710100748C();
+    virtual ~Unk_71025ce3b0() = default;
+    SEAD_RTTI_BASE(Unk_71025ce3b0)
 };
+
+// RTTI typeInfo 0x710260ecf8 (vtable 0x71024fe268, 0x1a0 bytes, created by bgmStuff 0x7100ffee14 for names without a
+// dedicated class): a named BGM object with its handle base at +0x8. Unk_71010073f4 lists these (node at +0x190).
+class Unk_710260ecf8 : public Unk_71025ce3b0, public Unk_71024fc7f8 {
+    SEAD_RTTI_OVERRIDE(Unk_710260ecf8, Unk_71025ce3b0)
+public:
+    ~Unk_710260ecf8() override;
+
+    // 0x7101008120 (empty in this class)
+    virtual void update();
+    // 0x7101008124 (thunk 0x71010082fc)
+    const sead::SafeString* getName() override { return &mName; }
+    // 0x71010097d8 (empty in this class); called with true when the BGM is started.
+    virtual void m6(bool started);
+    // 0x7101008da0 (empty in this class)
+    virtual void m7();
+    // 0x7101008da4 (returns false in this class); called once after the object is created.
+    virtual bool m8();
+    // 0x71010094f4 / 0x71010095e8 (thunks 0x7101009574 / 0x7101009638; declared only)
+    void hm14() override;
+    void hm15() override;
+
+    bool mStarted = false;
+    bool _189 = true;
+    s32 mRefCount = 0;
+    sead::ListNode mListNode;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260ecf8, 0x1a0);
+
+// 0x7100ffee14 (declared only): creates the BGM object for `name` (dedicated classes for four names).
+Unk_710260ecf8* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
+// 0x7100fff0e4: releases the handle of `bgm` and deletes it.
+void sub_7100FFF0E4(Unk_710260ecf8* bgm);
+
 
 // The kind of a BGM (Bgm::_c). A four-byte enum wrapper: sub_7100FF7920 / sub_7100FF7C74 and the controller BGM
 // callbacks spill and reload it like SEAD_ENUM values, and a zero kind is passed as `mov x1, xzr`. Enumerator names are
@@ -520,8 +543,30 @@ public:
     // 0x7101007440 (D1) / 0x7101007454 (D0)
     virtual ~Unk_71010073f4();
 
+    // 0x710100748c: updates the BGMs and deletes the ones that are not started, have no entries and are not held.
+    void update();
+    // 0x710100760c: the BGM named `name`, or null.
+    Unk_710260ecf8* find(const sead::SafeString& name);
+    // 0x7101007760: holds the BGM `name`, creating it on `heap` if needed. Returns false if it could not be created.
+    bool hold(const sead::SafeString& name, sead::Heap* heap);
+    // 0x7101007818: whether the BGM `name` is finished (true when it does not exist).
+    bool isFinished(const sead::SafeString& name);
+    // 0x710100787c: releases a hold taken with hold().
+    void release(const sead::SafeString& name);
+    // 0x71010078a0 (100 B): starts the BGM `name`.
+    void sub_71010078A0(const sead::SafeString& name);
+    // 0x7101007904 (92 B): stops the BGM `name` with a fade of `fade_sec` seconds.
+    void sub_7101007904(f32 fade_sec, const sead::SafeString& name);
+    // declared only
+    void sub_7101007960(f32 fade_sec);
+    void sub_7101007A08(f32 fade_sec);
+    void sub_7101007AA0(f32 fade_sec);
+    void sub_7101007B44();
+    bool sub_7101007C14();
+    bool sub_7101007C90();
+
 private:
-    sead::OffsetList<Bgm> mList;
+    sead::OffsetList<Unk_710260ecf8> mList;
     sead::CriticalSection mCS;
 };
 
@@ -919,7 +964,7 @@ struct Unk_SoundMgr30 {
     f32 _58;
     u8 _5c[4];
     /* 0x60 */ aal::SimpleTimedFader _60;
-    /* 0x78 */ Unk_SoundMgr30_78* _78;
+    /* 0x78 */ Unk_71010073f4* _78;
     /* 0x80 */ Unk_SoundMgr30_80* _80;
     u8 _88;
     // Skips the controller / _78 / _10 / fader updates in 0x7100ff88d0.
@@ -947,6 +992,6 @@ struct Unk_SoundMgr30_240 {
 Unk_SoundMgr30_240* sub_7100FFF124();
 
 // 0x7100ffd784 (24 B): `SoundMgr::instance()->_30->_78`.
-Unk_SoundMgr30_78* sub_7100FFD784();
+Unk_71010073f4* sub_7100FFD784();
 
 }  // namespace ksys::snd
