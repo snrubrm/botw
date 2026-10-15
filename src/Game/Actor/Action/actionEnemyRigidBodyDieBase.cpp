@@ -1,7 +1,11 @@
 #include "Game/Actor/Action/actionEnemyRigidBodyDieBase.h"
 #include "math/seadBoundBox.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -13,8 +17,51 @@ bool EnemyRigidBodyDieBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// Turns the enemy into a dynamic rigid body (the dying ragdoll-like body) with the velocities from m32.
 void EnemyRigidBodyDieBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy) {
+        setFailed();
+        return;
+    }
+    auto* physics = enemy->getPhysics();
+    if (!physics) {
+        setFailed();
+        return;
+    }
+    auto* body = enemy->getMainBody();
+    if (!body) {
+        setFailed();
+        return;
+    }
+
+    if (auto* drop_data = sead::DynamicCast<ksys::act::DropData>(mActor->getDropData())) {
+        drop_data->_c |= 0x80;
+        if (auto* main_body = mActor->getMainBody()) {
+            sead::BoundBox3f aabb;
+            main_body->getAabbInWorld(&aabb);
+            *mForceSetDropPos_a = aabb.getCenter();
+        } else {
+            mActor->getMtx().getTranslation(*mForceSetDropPos_a);
+        }
+    }
+    enemy->_e84.set(0x800);
+    if (auto* controller = enemy->getCharacterController()) {
+        if (controller->sub_7100F5E954())
+            controller->sub_7100F5EC44();
+    }
+    if (!body->isAddedToWorld())
+        body->addToWorld();
+    physics->setFlag2();
+    body->setTransform(enemy->getMtx(), ksys::phys::PropagateToLinkedMotions{true});
+
+    sead::Vector3f velocity = sead::Vector3f::zero;
+    sead::Vector3f angular_velocity = sead::Vector3f::zero;
+    m32(&velocity, &angular_velocity);
+    body->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    body->setAngularVelocity(angular_velocity, sead::Mathf::epsilon());
+    body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    body->setContactLayer(ksys::phys::ContactLayer::EntityNPC);
 }
 
 void EnemyRigidBodyDieBase::leave_() {
