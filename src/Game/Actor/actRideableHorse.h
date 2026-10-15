@@ -26,6 +26,9 @@ public:
     void m42(s32 a) override;
     void m43() override;
 
+    void m7() override;
+    void m8() override;
+
     bool m10(const ksys::Message& message) override;
     f32 m12() override;
     void* m13() override;
@@ -59,7 +62,7 @@ public:
     };
     /* 0x280 */ Unk280 _280;
     /* 0x290 */ s32 _290 = 0;
-    /* 0x294 */ s32 _294 = 0;
+    /* 0x294 */ f32 _294 = 0;
     /* 0x298 */ f32 _298 = 0;
     /* 0x29c */ f32 _29c = 0;
     /* 0x2a0 */ f32 _2a0 = 0;

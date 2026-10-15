@@ -10,6 +10,8 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::act {
 
@@ -19,6 +21,50 @@ RideableHorse::~RideableHorse() = default;
 
 RideableBase* RideableHorse::make(sead::Heap* heap) {
     return new (heap, std::nothrow) RideableHorse;
+}
+
+// NON_MATCHING: the native enum conversion uses a stack temporary; the table complement is folded.
+void RideableHorse::m7() {
+    Rideable::m7();
+    auto* actor = RideableBase::mActor;
+    if (RideableBase::_8.load() & 8)
+        _294 = actor->getMtx().m[1][3];
+    if (auto* awareness = actor->getAwareness()) {
+        u32 mask = 0;
+        switch (Unk_7100e8b2b8::_c.load()) {
+        case 1:
+        case 3:
+            mask = 3;
+            break;
+        case 2:
+            mask = 7;
+            break;
+        }
+        awareness->_318 = awareness->_31c & ~mask;
+    }
+}
+
+// NON_MATCHING: the first clamp uses compare/select instead of FMAX, with different load scheduling.
+void RideableHorse::m8() {
+    Rideable::m8();
+    auto* controller = RideableBase::mActor->getCharacterController();
+    if (!controller)
+        return;
+    if (!(RideableBase::_8.load() & 4)) {
+        controller->sub_7100F605C8(sead::Vector3f::zero);
+        return;
+    }
+    // The clamps preserve unordered values and the native signs of zero.
+    const f32 rate = 1.0f - (_29c <= 0.0f ? 0.0f : _29c) / _298;
+    const f32 height = RideableBase::mActor->getMtx().m[1][3] - _294;
+    f32 correction;
+    if (RideableBase::_8.load() & 0x10)
+        correction = height + (rate - 1.0f) * _298;
+    else
+        correction = rate * height;
+    correction = -correction;
+    const sead::Vector3f velocity{0.0f, correction > 0.0f ? 0.0f : correction, 0.0f};
+    controller->sub_7100F605C8(velocity);
 }
 
 void RideableHorse::procLink8() {
