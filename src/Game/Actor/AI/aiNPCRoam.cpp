@@ -29,6 +29,35 @@ void NPCRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71004D7DD8();
 }
 
+// NON_MATCHING: animation parameter selection and descriptor register allocation.
+void NPCRoam::calc_() {
+    if (isFailed())
+        return;
+    if ((mActor->getMtx().getTranslation() - *mBasisPos_d).length() > *mRadius_s * 1.5f) {
+        setFailed();
+        return;
+    }
+    if (isCurrentChild("移動")) {
+        if (getCurrentChild()->isFinished()) {
+            const char* as_name = mActor->getASList()->x_1(0, 0).getStringTop();
+            const bool continuing = mActor->getASList()->x(
+                0x16, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(_78, "TargetPos", -1);
+            pack.addString(continuing ? as_name : "Move_End", "DynASKeyName", -1);
+            changeChild("減速", &pack);
+        } else if (getCurrentChild()->isFailed()) {
+            setFailed();
+        }
+    } else if (isCurrentChild("減速")) {
+        if ((mActor->getASList()->x_1(0, 0) == "Move_End" && checkAS(0, 0)) ||
+            mActor->getASList()->sub_710115F0BC(0, 0, 0.0f))
+            sub_71004D8644();
+    } else if (isCurrentChild("待機") && getCurrentChild()->isFinished()) {
+        sub_71004D7DD8();
+    }
+}
+
 void NPCRoam::leave_() {
     if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
         npc->_fe8 &= ~0x200;
