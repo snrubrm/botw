@@ -613,6 +613,9 @@ class Unk_7102502978 : public ksys::res::Resource {
     SEAD_RTTI_OVERRIDE(Unk_7102502978, ksys::res::Resource)
 public:
     ~Unk_7102502978() override;
+    // 0x7101057588: copies `name` into the file name string at +0x48 and passes it to the
+    // aal::AudioResource at +0x40 (setFilename). Called by snd::Unk_710251b6f0::sub_71012CD614.
+    void sub_7101057588(const sead::SafeString& name);
     s32 getLoadDataAlignment() const override { return 128; }
     bool needsParse() const override { return true; }
 };

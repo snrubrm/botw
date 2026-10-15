@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
@@ -24,6 +25,20 @@ Unk_710251b6f0::~Unk_710251b6f0() {
     auto& requests = SoundMgr::instance()->_60->mMiiSoundRequests;
     auto lock = sead::makeScopedLock(requests.mCS);
     requests.mQueue.erase(this);
+}
+
+void Unk_710251b6f0::sub_71012CD614() {
+    if (mHandle.requestedLoad() && mHandle.isReadyOrNeedsParse() && mHandle.parseResource(nullptr)) {
+        auto* resource = sead::DynamicCast<Unk_7102502978>(mHandle.getResource());
+        if (mHandle.isSuccess() && resource) {
+            sead::FixedSafeString<64> path;
+            path.format("%s.bars", mName.cstr());
+            resource->sub_7101057588(path);
+            if (!mPendingName.isEmpty())
+                mState = 1;
+        }
+    }
+    Timer::update(&mTimer, 1.0f);
 }
 
 void Unk_710251b6f0::sub_71012CD7A4() {
