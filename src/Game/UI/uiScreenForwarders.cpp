@@ -34,6 +34,17 @@ eui::TagProcessor* ScreenShopInfo::doCreateTagProcessor_(sead::Heap* heap) {
 }
 
 // 0x7100a51790: app-tag router bound to ScreenShopInfo::_3768.
+// 0x7100a238c8
+u32 ScreenMessageGet::sub_7100A238C8(const sead::MessageSet<char16>::TagInfo* tag,
+                                     sead::WBufferedSafeString* out) {
+    if (tag->type != 8) {
+        if (tag->type != 7)
+            return 0;
+        return sub_7100AA4E60(&_36f0, out);
+    }
+    return sub_7100AA5140(&_36f0, out);
+}
+
 u32 ScreenShopInfo::sub_7100A51790(const sead::MessageSet<char16>::TagInfo* tag,
                                    sead::WBufferedSafeString* out) {
     if (tag->type != 8) {

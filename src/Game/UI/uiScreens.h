@@ -3696,6 +3696,12 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ScreenEnergyMeterDLC, 0x37c0);
 
+struct ShopInfoTagData {
+    sead::FixedSafeString<64> str;
+    u32 _58 = 0xffffffff;
+    u32 _5c = 1;
+};
+
 class ScreenMessageGet : public ScreenEx {
 public:
     bool isEnableControl() const override;
@@ -3708,15 +3714,28 @@ public:
     // 0x7100a257f4 (slot 101): clears the UI singleton's actor name and runs ui::sub_7100A9B2D0
     void m101() override;
 
-    u8 _pad_3610[0x3640 - 0x3610];
-    /* 0x3640 */ eui::LayoutEx* _3640;
-    u8 _pad_3648[0x3650 - 0x3648];
-    /* 0x3650 */ u8 _3650;
-    u8 _pad_3651[0x3658 - 0x3651];
-    /* 0x3658 */ eui::ControlBase* _3658;
+    // 0x7100a23778 (CSV ScreenMessageGet::ctor)
+    ScreenMessageGet();
+    // 0x7100a238c8 (placeholder name): app-tag handler bound to _3750 (same body as ScreenShopInfo::sub_7100A51790)
+    u32 sub_7100A238C8(const sead::MessageSet<char16>::TagInfo* tag, sead::WBufferedSafeString* out);
+
+    // The ctor zeroes 0x3610-0x3652 with one memset (merged member initialisers).
+    u8 _pad_3610[0x3640 - 0x3610] = {};
+    /* 0x3640 */ eui::LayoutEx* _3640 = nullptr;
+    u8 _pad_3648[0x3650 - 0x3648] = {};
+    /* 0x3650 */ u8 _3650 = 0;
+    /* 0x3651 */ u8 _3651 = 0;
+    /* 0x3658 */ eui::ControlBase* _3658 = nullptr;
     u8 _pad_3660[0x3670 - 0x3660];
     Unk_710247adc8 _3670[2];
-    u8 _pad_36f0[0x37d8 - 0x36f0];
+    /* 0x36f0 */ ShopInfoTagData _36f0;
+    /* 0x3750 */ sead::Delegate2R<ScreenMessageGet, const sead::MessageSet<char16>::TagInfo*,
+                                  sead::WBufferedSafeString*, u32>
+        _3750;
+    /* 0x3770 */ s32 _3770 = -1;
+    /* 0x3774 */ u32 _3774 = 0;
+    /* 0x3778 */ u32 _3778 = 0;
+    /* 0x3780 */ sead::FixedSafeString<64> _3780;
     /* 0x37d8 */ sead::Buffer<Unk_7102474ba8> _37d8;
 };
 
@@ -3777,11 +3796,6 @@ public:
 // carries its two vtable stores) followed by the selector u32s the 0xaa4b4c/0xaa4e70 tag handlers
 // compare (read through the 0xaa4e60/0xaa5140 forwarders as +0x58/+0x5c; the ctor writes both halves
 // with one 0x1ffffffff store).
-struct ShopInfoTagData {
-    sead::FixedSafeString<64> str;
-    u32 _58 = 0xffffffff;
-    u32 _5c = 1;
-};
 
 // 0x7100aa4b4c / 0x7100aa4e70 (CSV placeholders, not decompiled yet): resolve a shop tag into `out`
 // (the handlers compare the selector against a table and copy the found message).

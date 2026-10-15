@@ -252,6 +252,8 @@ ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
 // zeroes the _3658 PtrArray members via NSDMI (two extra str xzr; the original's older sead did not,
 // its memset covered them), and the original hoists the 0x68-byte memset above the member
 // constructions (bl) while ours runs it last (tail b).
+ScreenMessageGet::ScreenMessageGet() : ScreenEx(), _3750(this, &ScreenMessageGet::sub_7100A238C8) {}
+
 ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_7100A51790) {
     memset(_pad_3610, 0, 0x68);
 }
