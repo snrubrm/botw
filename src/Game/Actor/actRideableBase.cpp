@@ -17,6 +17,14 @@ RideableBase* RideableBase::make(sead::Heap* heap) {
 
 RideableBase::RideableBase() = default;
 
+void RideableBase::sub_7100E639C4() {
+    const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
+    if (animal) {
+        _a0._40 = &animal->mSteeringOutputAvoidanceLerpRatio.ref();
+        _a0._48 = &sUnk_7101EC1904;
+    }
+}
+
 RideableBase::~RideableBase() = default;
 
 bool RideableBase::m4(ksys::act::Actor* actor, sead::Heap* heap) {
