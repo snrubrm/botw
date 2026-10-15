@@ -1,8 +1,24 @@
 #include "Game/Actor/Action/actionFreeMoveByGuideBase.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
+
+void sub_710016C144(sead::Vector3f* value, const sead::Vector3f& target, f32 ratio,
+                   f32 max_delta) {
+    const f32 factor = ksys::VFR::getLerpFactor(ratio);
+    max_delta *= ksys::VFR::instance()->getDeltaFrame();
+    sead::Vector3f delta = target - *value;
+    if (factor * delta.length() > max_delta) {
+        const f32 length = delta.length();
+        if (length > 0.0f)
+            delta *= max_delta / length;
+    } else {
+        delta *= factor;
+    }
+    *value += delta;
+}
 
 FreeMoveByGuideBase::FreeMoveByGuideBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
