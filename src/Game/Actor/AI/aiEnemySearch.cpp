@@ -2,6 +2,9 @@
 #include <limits>
 #include <cmath>
 #include "Game/Actor/aiAwarenessFilters.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -345,6 +348,148 @@ bool EnemySearch::sub_71003B884C() {
         }
     }
     return _78.size() != 0;
+}
+
+// NON_MATCHING: list/parameter-pack stack placement and selection branch merging differ.
+bool EnemySearch::sub_71003B6888() {
+    if (isGoStraightOrMove() && _68.hasProcInCalcState()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_68, &accessor);
+        const sead::Vector3f target = accessor.getActorMtx().getTranslation();
+        auto* actor = mActor;
+        auto* nav = actor->m45();
+        const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+        if (sub_710072F944(actor, target, nullptr, radius, 5.0f)) {
+            if (isMove())
+                startMoveToTargetMaybe(target);
+            return true;
+        }
+    }
+    _78.clear();
+    sead::FixedObjList<sead::Vector3f, 8> blocked_positions;
+    sub_71003B884C();
+    if (_78.size() != 0) {
+        bool has_non_bow = false;
+        for (auto& entry : _78) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&entry._0.mLink, &accessor);
+            has_non_bow |= accessor.getProfile().findIndex("Bow") == -1;
+        }
+        for (auto& entry : _78) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&entry._0.mLink, &accessor);
+            if (has_non_bow && accessor.getProfile().findIndex("Bow") != -1)
+                continue;
+            const sead::Vector3f target = accessor.getActorMtx().getTranslation();
+            auto* actor = mActor;
+            auto* nav = actor->m45();
+            const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+            if (!sub_710072F944(actor, target, nullptr, radius, 5.0f)) {
+                blocked_positions.emplaceBack(target);
+                continue;
+            }
+            if (isGoStraightOrMove() || isCurrentChild("回転")) {
+                if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                    enemy->sub_7100019D38(_68);
+                    enemy->sub_7100019A9C(entry._0.mLink);
+                }
+                _68 = entry._0.mLink;
+                if (!isGoStraight())
+                    startMoveToTargetMaybe(target);
+            } else {
+                f32 forbid_time = 60.0f;
+                if (auto* global = ksys::act::GlobalParameter::instance();
+                    global && global->getGlobalParam()) {
+                    forbid_time = static_cast<f32>(
+                        global->getGlobalParam()->mEnemyWeaponPickForbidTime.ref());
+                }
+                if (act::DamageInfoMgr::instance()->get868().sub_71006685C4(
+                        0, entry._0.mLink, forbid_time)) {
+                    if (!isGoStraight()) {
+                        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                            enemy->sub_7100019D38(_68);
+                            enemy->sub_7100019A9C(entry._0.mLink);
+                        }
+                        _68 = entry._0.mLink;
+                        startMoveToTargetMaybe(target);
+                    }
+                } else if (!isCurrentChild("武器拾い待ち")) {
+                    ksys::act::ai::InlineParamPack params;
+                    params.addVec3(entry._88, "TargetPos", -1);
+                    changeChild("武器拾い待ち", &params);
+                }
+            }
+            return true;
+        }
+        if (isGoStraightOrMove()) {
+            m41(blocked_positions);
+        } else if (isCurrentChild("回転")) {
+            m41(blocked_positions);
+            changeToLookAround();
+        } else {
+            sead::Vector3f last_position;
+            for (auto& entry : _78) {
+                f32 forbid_time = 60.0f;
+                if (auto* global = ksys::act::GlobalParameter::instance();
+                    global && global->getGlobalParam()) {
+                    forbid_time = static_cast<f32>(
+                        global->getGlobalParam()->mEnemyWeaponPickForbidTime.ref());
+                }
+                if (act::DamageInfoMgr::instance()->get868().sub_71006685C4(
+                        0, entry._0.mLink, forbid_time)) {
+                    changeToLookAround();
+                    sead::FixedObjList<sead::Vector3f, 8> points;
+                    ksys::act::ActorLinkConstDataAccess accessor;
+                    ksys::act::acquireActor(&entry._0.mLink, &accessor);
+                    points.emplaceBack(accessor.getActorMtx().getTranslation());
+                    m41(points);
+                    return true;
+                }
+                last_position = entry._88;
+            }
+            if (!isCurrentChild("武器拾い待ち")) {
+                ksys::act::ai::InlineParamPack params;
+                params.addVec3(last_position, "TargetPos", -1);
+                changeChild("武器拾い待ち", &params);
+            }
+        }
+        return true;
+    }
+    _78.clear();
+    sead::FixedObjList<sead::Vector3f, 8> points;
+    sub_71003B8B64();
+    if (_68.hasProcInCalcState()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_68, &accessor);
+        points.emplaceBack(accessor.getActorMtx().getTranslation());
+    }
+    if (_78.size() != 0) {
+        for (auto& entry : _78) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&entry._0.mLink, &accessor);
+            const sead::Vector3f target = accessor.getActorMtx().getTranslation();
+            auto* actor = mActor;
+            auto* nav = actor->m45();
+            const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+            if (sub_710072F944(actor, target, nullptr, radius, 5.0f)) {
+                if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                    enemy->sub_7100019D38(_68);
+                    enemy->sub_7100019A9C(entry._0.mLink);
+                }
+                _68 = entry._0.mLink;
+                if (!isGoStraight())
+                    startMoveToTargetMaybe(target);
+                return true;
+            }
+            points.emplaceBack(target);
+        }
+    }
+    if (points.size() == 0)
+        return false;
+    if (!isGoStraightOrMove())
+        changeToLookAround();
+    m41(points);
+    return true;
 }
 
 }  // namespace uking::ai
