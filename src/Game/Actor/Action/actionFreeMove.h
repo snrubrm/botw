@@ -33,12 +33,8 @@ protected:
     sead::Vector3f _28;
     ksys::VFRValue _34;
     int _40 = 0;
-    u32 _44 = 0;
-    u32 _48 = 0;
-    u32 _4c = 0;
-    u32 _50 = 0;
-    u32 _54 = 0;
-    u32 _58 = 0;
+    sead::Vector3f _44{0.0f, 0.0f, 0.0f};
+    sead::Vector3f _50{0.0f, 0.0f, 0.0f};
     struct Params {
         // static_param at offset 0x60
         const float* mSpeed_s{};
