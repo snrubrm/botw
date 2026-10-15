@@ -14,6 +14,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Map/mapObject.h"
 #include <cmath>
+#include "Game/Actor/aiUnk_71006F1DF0.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -96,6 +98,48 @@ void ZokuchoSunazarashi::enter_(ksys::act::ai::InlineParamPack* params) {
     _91 = false;
     _92 = false;
     m35();
+}
+
+// NON_MATCHING: search/delegate stack slots and ASList receiver load scheduling differ.
+void ZokuchoSunazarashi::calc_() {
+    if (!_70.hasProc()) {
+        if (auto* manager = ksys::act::BaseProcMgr::instance()) {
+            ksys::act::BaseProc* result = nullptr;
+            ksys::act::ActorNearestSearch search("", mActor, &result, sead::Vector3f::zero);
+            sead::Delegate1<ksys::act::ActorNearestSearch, ksys::act::BaseProc*> callback(
+                &search, &ksys::act::ActorNearestSearch::sub_7100EDC9E8);
+            manager->forEachProc(sUnk_71025bd7e8, callback,
+                                ksys::act::BaseProcMgr::ProcFilter::Initializing |
+                                    ksys::act::BaseProcMgr::ProcFilter::SkipAccessCheck);
+            if (result) {
+                _70.acquire(result, false);
+                mActor->setConnectedCalcChild(result, false);
+            }
+        }
+    }
+    if (auto* controller = mActor->getCharacterController()) {
+        ksys::phys::MaterialMask mask = controller->sub_7100F609CC();
+        mActor->getASList()->x_2(66, 10, sub_71006F1E70(mask), false);
+        mActor->getASList()->x_6(10, 0, controller->sub_7100F5EF00() / 30.0f);
+        mActor->getASList()->x_6(2, 0, 0.0f);
+    }
+    if (_70.hasProcInCalcState()) {
+        if (auto* manager = ksys::act::BaseProcMgr::instance()) {
+            if (!_80.hasProc()) {
+                ksys::act::BaseProc* result = nullptr;
+                ksys::act::ActorNearestSearch search("", mActor, &result, sead::Vector3f::zero);
+                sead::Delegate1<ksys::act::ActorNearestSearch, ksys::act::BaseProc*> callback(
+                    &search, &ksys::act::ActorNearestSearch::sub_7100EDC9E8);
+                manager->forEachProc(sUnk_71025bd790, callback,
+                                    ksys::act::BaseProcMgr::ProcFilter::SkipAccessCheck);
+                if (result)
+                    _80.acquire(result, false);
+            }
+        }
+        sub_7100610CD8();
+    } else {
+        m35();
+    }
 }
 
 // NON_MATCHING: value lifetimes, vector arithmetic scheduling and stack slots differ.
