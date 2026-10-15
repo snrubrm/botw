@@ -48,6 +48,8 @@ protected:
                        ksys::phys::MaterialMask material, bool reset_velocity);
     // 0x71000a2a64 (declared only): re-initialises the shot (called by ForLargeObject::calc_ when IsReInitShoot).
     void sub_71000A2A64();
+    void sub_71000A2EE0();
+    void sub_71000A369C();
     // 0x71000a3400: finds the attack body (AtkPlayerBody / AtkEnemyBody) into _138, moves it to the main body's
     // transform and activates the attack sensor (sub_71000A5604).
     void sub_71000A3400();

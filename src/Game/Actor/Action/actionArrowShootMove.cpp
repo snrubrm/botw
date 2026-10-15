@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionArrowShootMove.h"
+#include <math/seadQuat.h>
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -8,6 +9,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -52,12 +55,83 @@ void ArrowShootMove::loadParams_() {
     getDynamicParam(&mAtMinDamage_d, "AtMinDamage");
 }
 
+// NON_MATCHING: matrix and collision-result stack slots differ.
 void ArrowShootMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    m33();
+    m38();
+    sub_71000A2EE0();
+    sead::Vector3f actor_position;
+    mActor->getMtx().getTranslation(actor_position);
+    if (!ksys::map::PlacementMgr::instance()->isStaticCompoundReady(actor_position, false))
+        return;
+    bool a = false;
+    bool b = false;
+    sead::Vector3f velocity = sead::Vector3f::zero;
+    sead::Vector3f position;
+    if (!m34(&position, &a, &b, &velocity))
+        return;
+    _128 = position;
+    if (b) {
+        auto* body = mActor->getMainBody();
+        if (body && _138) {
+            sead::Matrix34f mtx = mActor->getMtx();
+            mtx.setTranslation(position);
+            body->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+            _138->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+        }
+        return;
+    }
+    const sead::Vector3f forward = mActor->getMtx().getBase(2);
+    _128 -= forward * m32();
+    if (a || _148)
+        _128 -= forward * m32();
+    auto* body = mActor->getMainBody();
+    if (body && _138) {
+        sead::Matrix34f mtx = mActor->getMtx();
+        _128 += velocity;
+        mtx.setTranslation(_128);
+        body->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+        _138->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+    }
+    m42();
+    if (velocity.x == 0.0f && velocity.y == 0.0f && velocity.z == 0.0f)
+        setFinished();
 }
 
 float ArrowShootMove::m32() {
     return 0.5f;
+}
+
+// NON_MATCHING: fall-speed clamping and switch block layout differ.
+void ArrowShootMove::m33() {
+    switch (_140) {
+    case -1:
+        m37();
+        _140 = 0;
+        break;
+    case 1:
+        sub_71000A369C();
+        break;
+    case 0:
+        m37();
+        if (!m40())
+            break;
+        _100 = *mFallAimSpeed_d;
+        _100 += (*mAtRange_d / 20.0f - 1.0f) * *mFallSpeedRatioByRange_s;
+        if (_100 < 0.0f)
+            _100 = 0.0f;
+        else if (_100 > *mAimSpeed_d)
+            _100 = *mAimSpeed_d;
+        _fc = sead::Mathf::abs(*mFallAccel_d);
+        _104.set(0.0f, *mGravity_d, 0.0f);
+        if (sead::Mathf::equalsEpsilon(0.0f, _fc))
+            _100 = _b4.value;
+        if (sead::Mathf::equalsEpsilon(0.0f, _100))
+            _100 = sead::Mathf::abs(_104.y);
+        _144 = 0;
+        _140 = 1;
+        break;
+    }
 }
 
 bool ArrowShootMove::m35(const ksys::act::ActorLinkConstDataAccess& accessor) {
@@ -83,6 +157,62 @@ f32 ArrowShootMove::m41() {
 }
 
 void ArrowShootMove::m42() {}
+
+// NON_MATCHING: the velocity stays in integer registers around the damage-state query.
+void ArrowShootMove::sub_71000A369C() {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    _b4 += _fc;
+    if (_fc < 0.0f)
+        _b4.setToMax(_100);
+    else if (_fc > 0.0f)
+        _b4.setToMin(_100);
+    _b4.updateStats();
+    sead::Vector3f velocity;
+    velocity = _110;
+    if (act::DamageInfoMgr::sub_7100674764()) {
+        const sead::Vector3f relative_velocity = *mRelativeVel_d;
+        velocity -= relative_velocity;
+    }
+    velocity.normalize();
+    velocity = velocity * _b4.value + _104;
+    if (act::DamageInfoMgr::sub_7100674764()) {
+        const sead::Vector3f relative_velocity = *mRelativeVel_d;
+        velocity += relative_velocity;
+    }
+    _110 = velocity;
+    body->setLinearVelocity(velocity * 30.0f, sead::Mathf::epsilon());
+}
+
+// NON_MATCHING: matrix values and quaternion temporaries are scheduled differently.
+void ArrowShootMove::sub_71000A2EE0() {
+    if (!_138)
+        return;
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    sead::Vector3f velocity;
+    body->getLinearVelocity(&velocity);
+    velocity = velocity * (1.0f / 30.0f);
+    velocity *= ksys::VFR::instance()->getDeltaFrame();
+    sead::Vector3f angular_velocity;
+    body->getAngularVelocity(&angular_velocity);
+    angular_velocity = angular_velocity * (1.0f / 30.0f);
+    angular_velocity *= ksys::VFR::instance()->getDeltaFrame();
+    sead::Matrix34f current;
+    body->getTransform(&current);
+    const sead::Vector3f position = current.getTranslation() + velocity;
+    const f32 angle = angular_velocity.normalize();
+    sead::Quatf quaternion;
+    quaternion.setAxisRadian(angular_velocity, angle);
+    sead::Matrix33f rotation;
+    rotation.fromQuat(quaternion);
+    sead::Matrix34f result;
+    sead::Matrix34CalcCommon<f32>::multiply(result, current, rotation);
+    result.setTranslation(position);
+    _138->changePositionAndRotation(result, sead::Mathf::epsilon());
+}
 
 // NON_MATCHING: initial value stores and speed selection are scheduled differently.
 void ArrowShootMove::sub_71000A2A64() {
