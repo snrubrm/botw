@@ -1,10 +1,10 @@
 #include "Game/Actor/Action/actionSiteBossAvoid.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -55,7 +55,32 @@ void SiteBossAvoid::loadParams_() {
 }
 
 void SiteBossAvoid::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    const sead::Vector3f up = sead::Vector3f::ey;
+    sub_710073FA94(&_6c, mActor);
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f target = *mTargetPos_d;
+    target -= position;
+    ksys::util::sub_71011EFA00(&target, target, up);
+    target.normalize();
+    sub_710074006C(&_6c, target, up, true, 0.93f, 0.03f, 0.001f);
+    ksys::VFR::lerp(&_a0, *mAvoidMoveSpeed_s, 0.1f);
+    sead::Vector3f next = position + (_90 - position) * _a0;
+    if (*mIsSlerp_d) {
+        sead::Vector3f direction = next - *mPlayerPos_d;
+        f32 distance = direction.normalize();
+        ksys::VFR::lerp(&distance, _9c, 0.1f);
+        next = *mPlayerPos_d + direction * distance;
+    }
+    const sead::Matrix34f transform(_6c, next);
+    controller->sub_7100F5F938(transform);
+    _60.update();
+    if (_60.value <= sead::Mathf::epsilon())
+        setFinished();
 }
 
 }  // namespace uking::action
