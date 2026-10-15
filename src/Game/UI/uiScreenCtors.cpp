@@ -211,6 +211,22 @@ ScreenShopHorse::ScreenShopHorse() : ScreenEx() {
 }
 
 // 0x7100a58150
+ScreenStaffRoll::ScreenStaffRoll() : ScreenEx() {
+    _37c0.setBuffer(2, _37d0);
+    _38bc = -1;
+    _38b8 = 0;
+    _38b0 = 0;
+    _38a8 = 0;
+    _38a0 = 0;
+    _38c0 = -1.0f;
+    _38c4 = 0;
+    _37c0.clear();
+    _36b8 = 0;
+    _36b0 = 0;
+    _36a8 = 0;
+    _36a0 = 0;
+}
+
 ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
     _37f8.setBuffer(2, _3808);
     _38f4 = -1;

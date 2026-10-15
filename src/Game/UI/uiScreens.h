@@ -4332,6 +4332,8 @@ extern Unk_71025f5450 sUnk_71025f5450;
 
 class ScreenStaffRoll : public ScreenEx {
 public:
+    // 0x7100a5d890 (CSV ScreenStaffRoll::ctor); members as in ScreenStaffRollDLC without its 0x38 bytes at 0x36c4
+    ScreenStaffRoll();
     ~ScreenStaffRoll() override;
     SEAD_RTTI_OVERRIDE(ScreenStaffRoll, ScreenEx)
     // 0x7100a5e0b8 / 0x7100a5e1b0: as Screen::m73 / m76 but open(1) / close(-1)
@@ -4342,6 +4344,35 @@ public:
     void sub_7100A5E42C(f32 time);
     // 0x7100a5dce8: the implementation sub_7100A5E42C tail-calls (declaration only).
     void sub_7100A5DCE8(f32 time);
+
+    /* 0x3610 */ u32 _3610 = 0;
+    /* 0x3614 */ u32 _3614 = 0;
+    /* 0x3618 */ f32 _3618 = 1.0f;
+    u8 _361c[0x3620 - 0x361c];
+    // 0x3670 is a pointer array the destructor empties (deleting each entry)
+    u64 _3620[0x60 / 8] = {};
+    /* 0x3680 */ sead::Vector2f _3680 = sead::Vector2f::zero;
+    /* 0x3688 */ sead::Vector2f _3688 = sead::Vector2f::zero;
+    /* 0x3690 */ sead::BoundBox2f _3690;
+    /* 0x36a0 */ u64 _36a0;
+    /* 0x36a8 */ u64 _36a8;
+    /* 0x36b0 */ u64 _36b0;
+    /* 0x36b8 */ u64 _36b8;
+    /* 0x36c0 */ f32 _36c0 = -1.0f;
+    u32 _36c4[0x1c / 4] = {};
+    /* 0x36e0 */ u64 _36e0 = 0x439600003F800000;  // two f32 {1.0f, 300.0f} in memory order
+    /* 0x36e8 */ u32 _36e8 = 0;
+    /* 0x36f0 */ UiTexSlots _36f0;
+    /* 0x37c0 */ sead::PtrArrayImpl _37c0;
+    /* 0x37d0 */ void* _37d0[2];
+    u8 _37e0[0x38a0 - 0x37e0];
+    /* 0x38a0 */ u64 _38a0;
+    /* 0x38a8 */ u64 _38a8;
+    /* 0x38b0 */ u64 _38b0;
+    /* 0x38b8 */ u32 _38b8;
+    /* 0x38bc */ s32 _38bc;
+    /* 0x38c0 */ f32 _38c0;
+    /* 0x38c4 */ u8 _38c4;
 };
 
 class ScreenStaffRollDLC : public ScreenEx {
