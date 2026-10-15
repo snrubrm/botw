@@ -485,6 +485,8 @@ public:
     bool sub_71008921A8();
     // 0x710086d5b8 (declared only; unnamed in the CSV, 1.3 KB): called by PlayerHellNoFade::enter_.
     void sub_710086D5B8();
+    // 0x71008736e4: checks the equipped weapon string against Fan; declaration only.
+    bool sub_71008736E4();
     bool sub_7100892724();
     s32 sub_7100892824();
     // 0x7100869258 (lane4 s48; placeholder name, `this` unused): the Euler angle indices (pitch / yaw / roll as
