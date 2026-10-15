@@ -23,6 +23,7 @@ protected:
     s32 m32(RandomMovePoints* points) override;
     // Full 10BF08 returns bool and consumes the update flag plus this action state.
     bool sub_710010BF08(bool update);
+    bool sub_710010C538(const sead::Vector3f& direction, f32 distance, f32 angle_range);
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
