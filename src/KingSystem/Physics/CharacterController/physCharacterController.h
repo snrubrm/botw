@@ -39,32 +39,73 @@ struct CharacterControllerUnk20;
 class CharacterFormSet;
 struct CharacterControllerUnk38;
 struct CharacterControllerUnk40;
+// Placeholder: the second base of CharacterControllerUnk48 (at +0x20); its part of the vtable only
+// has the destructors.
+struct CharacterControllerUnk48Base {
+    virtual ~CharacterControllerUnk48Base() = default;
+};
+
 // The object at +0x48: a ksys character state derived from hkpCharacterStateOnGround
-// (its constructor 0x7100f67b54 calls hkpCharacterStateOnGround's; the controller init
-// allocates 0xc0 bytes for it and registers it in the hkpCharacterStateManager at +0x18).
-struct CharacterControllerUnk48 : public hkpCharacterStateOnGround {
-    // 0x7100f68f38: the address of the field at 0x5c.
-    f32* sub_7100F68F38();
+// (the controller init allocates 0xc0 bytes for it and registers it in the
+// hkpCharacterStateManager at +0x18).
+struct CharacterControllerUnk48 : public hkpCharacterStateOnGround,
+                                  public CharacterControllerUnk48Base {
+    HK_DECLARE_CLASS_ALLOCATOR(CharacterControllerUnk48)
+    // 0x7100f67b54 (D1 is the empty 0x7100f67c1c, D0 0x7100f67c24).
+    explicit CharacterControllerUnk48(u32 x);
+    ~CharacterControllerUnk48() override = default;
+
+    // 0x7100f67cf8: empty.
+    void sub_7101675D34(hkpCharacterContext& context, hkpCharacterStateType type,
+                        const hkpCharacterInput& input, hkpCharacterOutput& output) override {}
+    // 0x7100f68e84: resets the per-landing state.
+    void sub_7101675D38(hkpCharacterContext& context, hkpCharacterStateType type,
+                        const hkpCharacterInput& input, hkpCharacterOutput& output) override;
     // 0x7100f67cd0: switches to the in-air state (1) on a jump or when not supported.
     void m9(hkpCharacterContext& context, const hkpCharacterInput& input,
             hkpCharacterOutput& output) override;
 
-    // The base's tail padding (data size 0x1c) is reused by this derived class.
-    /* 0x1c */ u8 _1c[0x50 - 0x1c];
-    /* 0x50 */ u8 _50;
-    /* 0x51 */ u8 _51[0x54 - 0x51];
-    /* 0x54 */ u32 _54;
-    /* 0x58 */ u8 _58[0x5c - 0x58];
+    // 0x7100f68f38: the address of the field at 0x5c.
+    f32* sub_7100F68F38();
+    // 0x7100f68f40: the address of the field at 0x74.
+    f32* sub_7100F68F40();
+
+    /* 0x28 */ f32 _28 = 1.0f;
+    /* 0x2c */ u8 _2c[4];
+    /* 0x30 */ f32 _30 = 0;
+    /* 0x34 */ f32 _34 = 0;
+    /* 0x38 */ f32 _38 = 0;
+    /* 0x3c */ f32 _3c = 0;
+    /* 0x40 */ f32 _40 = 1.0f;
+    /* 0x44 */ sead::Vector3f _44 = sead::Vector3f::zero;
+    /* 0x50 */ bool _50 = false;
+    /* 0x54 */ u32 _54 = 0;
+    /* 0x58 */ f32 _58 = 1.0f;
     // Set to 50 by GoronHeroDescendentRoot through sub_7100F68F38.
-    /* 0x5c */ f32 _5c;
-    /* 0x60 */ u8 _60[0x8c - 0x60];
+    /* 0x5c */ f32 _5c = 50.0f;
+    /* 0x60 */ f32 _60 = 1.0f;
+    /* 0x64 */ f32 _64 = 0.05f;
+    /* 0x68 */ f32 _68 = 7.0f;
+    /* 0x6c */ f32 _6c = 0.05f;
+    /* 0x70 */ f32 _70 = 0.8f;
+    /* 0x74 */ f32 _74 = 50.0f;
+    /* 0x78 */ f32 _78 = 80.0f;
+    /* 0x7c */ f32 _7c = 5.5f;
+    /* 0x80 */ f32 _80 = 0.15f;
+    /* 0x84 */ f32 _84 = 0;
+    /* 0x88 */ bool _88 = false;
     /* 0x8c */ u32 _8c;
-    /* 0x90 */ u8 _90[0x94 - 0x90];
-    /* 0x94 */ u32 _94;
-    /* 0x98 */ u8 _98[0xa8 - 0x98];
+    /* 0x90 */ u32 _90 = 0;
+    /* 0x94 */ u32 _94 = 0;
+    /* 0x98 */ bool _98 = false;
+    /* 0x9c */ f32 _9c = 0;
+    /* 0xa0 */ f32 _a0 = 0;
     // 0x7100f63140 stores the controller's `_40` here.
-    /* 0xa8 */ CharacterControllerUnk40* _a8;
+    /* 0xa8 */ CharacterControllerUnk40* _a8 = nullptr;
+    /* 0xb0 */ bool _b0 = false;
+    /* 0xb1 */ u8 _b1[0xc0 - 0xb1];
 };
+KSYS_CHECK_SIZE_NX150(CharacterControllerUnk48, 0xc0);
 
 // The object at +0x50: a ksys character state derived from hkpCharacterStateInAir
 // (its constructor 0x7100f67670 calls hkpCharacterStateInAir's; 0x40 bytes);
