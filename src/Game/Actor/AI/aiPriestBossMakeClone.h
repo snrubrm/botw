@@ -2,6 +2,7 @@
 
 #include <container/seadObjArray.h>
 #include <math/seadVector.h>
+#include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -35,13 +36,7 @@ protected:
     /* 0x6c */ sead::Vector3f _6c;
     /* 0x78 */ f32 mRespawnTimer = 0.0f;
 
-    // Records are 0x38 bytes; enter_ invokes their virtual destructor before returning
-    // each record to the fixed object array free list. The remaining payload is unknown.
-    struct CloneRecord {
-        virtual ~CloneRecord();
-        u8 _8[0x38 - 8];
-    };
-    /* 0x80 */ sead::FixedObjArray<CloneRecord, 3> mCloneRecords;
+    /* 0x80 */ sead::FixedObjArray<Unk_71023b1860, 3> mCloneRecords;
     /* 0x160 */ bool mRespawnStarted = false;
 };
 
