@@ -178,6 +178,14 @@ bool sub_7100E81568(ksys::as::ASList* list) {
     return list->x(22, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
 }
 
+bool sub_7100E813B0(ksys::as::ASList* list) {
+    if (list->x_4(1, 0))
+        return false;
+    const sead::SafeString name = list->x_1(1, 0);
+    return name == "RideonHorse" || name == "RideonRunHorse" || name == "RideonAboveHorse" ||
+           name == "RideonWaitHorse";
+}
+
 bool sub_7100E815C8(ksys::act::AwarenessInstance* awareness) {
     if (awareness && !awareness->sub_7100D7E964() && awareness->enable())
         return true;
