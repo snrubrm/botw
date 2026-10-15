@@ -2,6 +2,7 @@
 
 #include "Game/Actor/Action/actionTeleportBase.h"
 #include <math/seadVector.h>
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +23,7 @@ protected:
 
     // 0x7100296360 (placeholder name): turns the character controller towards the target position.
     void sub_7100296360();
+    bool sub_7100296134(sead::Vector3f* out);
 
     // map_unit_param at offset 0x20
     const float* mTerritoryArea_m{};
@@ -38,9 +40,7 @@ protected:
     TeleportBase::SavedState _50;
     int _5c = 0;
     sead::Vector3f _60{0, 0, 0};
-    float _6c = 0.0f;
-    int _70 = 0;
-    int _74 = 0;
+    ksys::Timer _6c;
 };
 
 }  // namespace uking::action
