@@ -12,6 +12,9 @@ namespace eui {
 // 0x7100be9a4c (CSV eui::Screen::x)
 void Screen::m13() {}
 
+// 0x7100be9a50 (CSV eui::Screen::x_0; vtable slot 0x71024c8ee0)
+void Screen::m14() {}
+
 }  // namespace eui
 
 namespace uking::ui {

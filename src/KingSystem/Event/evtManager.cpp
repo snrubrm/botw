@@ -423,6 +423,14 @@ void Manager::initBeforeStageGenB() {
     _1d1b0 &= ~2u;
 }
 
+// 0x7100db04cc
+bool Manager::sub_7100DB04CC() {
+    return false;
+}
+
+// 0x7100db04d4
+void Manager::stubbed() {}
+
 }  // namespace ksys::evt
 
 namespace ksys::evt {

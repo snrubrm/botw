@@ -4297,6 +4297,8 @@ public:
     // EventPlayUiStaffRollImage supplies event duration and the image range, then elapsed time.
     void sub_7100A5E1C4(f32 duration, s32 start, s32 end);
     void sub_7100A5E42C(f32 time);
+    // 0x7100a5dce8: the implementation sub_7100A5E42C tail-calls (declaration only).
+    void sub_7100A5DCE8(f32 time);
 };
 
 class ScreenStaffRollDLC : public ScreenEx {
