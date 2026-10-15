@@ -273,6 +273,7 @@ public:
     // 0x7100fb9db0: setUseSystemTimeFactor(use) on the character controller, the rigid body sets, the listed bodies
     // and the ragdoll.
     void sub_7100FB9DB0(bool use);
+    void sub_7100FB9C54(Fixed fixed, MarkLinearVelAsDirty mark_linear_vel_as_dirty);
     // 0x7100fba0f4 / 0x7100fbd434 / 0x7100fbde90 / 0x7100fbdf08 / 0x7100fc00ec (lane4 s47; placeholder names): update
     // the motion type related flags of every body (and the controller); forward `type` to every set / listed body;
     // whether `body` is a linked sensor body or a link-matrix entry key; whether `key` is an entry key; the listed

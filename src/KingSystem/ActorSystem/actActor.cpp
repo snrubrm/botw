@@ -59,9 +59,37 @@
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::act {
+
+void Actor::x_14(bool on) {
+    const bool fixed = on | mActorFlags.isOnBit(ActorFlag::_2b);
+    if (fixed) {
+        mActorFlags2.set(ActorFlag2::_400);
+    } else {
+        if (!mActorFlags2.isOn(ActorFlag2::_400))
+            return;
+        mActorFlags2.reset(ActorFlag2::_400);
+    }
+    if (mPhysics) {
+        mPhysics->sub_7100FB9C54(
+            static_cast<phys::Fixed>(fixed),
+            static_cast<phys::MarkLinearVelAsDirty>(evt::Manager::instance()->_1d2f8 < 2));
+        updateVelocityStuff();
+    }
+    m43(fixed);
+    if (_6b8)
+        _6b8->sub_7100EBBCB8(fixed);
+}
+
+void Actor::sub_71011DB070() {
+    if (!mActorFlags.isOnBit(ActorFlag::_1))
+        return;
+    x_14(false);
+    mActorFlags.resetBit(ActorFlag::_1);
+}
 
 // NON_MATCHING: typed key comparison and forwarding, stack placement and loop scheduling differ.
 void Actor::swordBlurStuff() {

@@ -23,6 +23,7 @@ namespace ksys::phys {
 class RigidBodyAccessor;
 
 enum class Fixed : bool;
+enum class MarkLinearVelAsDirty : bool;
 enum class PreserveVelocities : bool;
 
 class CollisionInfo;
@@ -142,6 +143,7 @@ public:
     void sub_7100F5F458(act::MotionType type);
     // 0x7100f609e4 (unnamed in the CSV; declared only): setFixed on the main rigid body (and more).
     void sub_7100F609E4(Fixed fixed, PreserveVelocities preserve_velocities);
+    void sub_7100F60648(Fixed fixed, MarkLinearVelAsDirty mark_linear_vel_as_dirty);
     // 0x7100f5f670 (unnamed in the CSV; declared only): applies the scheduled motion type change
     // (flags 0x3c0 of _114, calls sub_7100F5F458) and clears them.
     void sub_7100F5F670();

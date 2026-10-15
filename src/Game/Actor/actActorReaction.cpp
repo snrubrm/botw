@@ -33,6 +33,15 @@ Unk_71024efd58::~Unk_71024efd58() = default;
 
 namespace ksys::act {
 
+void ActorUnk6b8::sub_7100EBBCB8(bool fixed) {
+    if (fixed) {
+        _88 |= 0x4000;
+        _8e = 3;
+    } else {
+        _88 &= ~0x4000;
+    }
+}
+
 // NON_MATCHING: the original calls the base constructor 0x7100ebf8a0 (ours inlines it; it is defined above) and
 // stores _84 before _7c.
 ActorUnk6b8::ActorUnk6b8(const InitArg& arg) : Unk_71024efd58(arg) {

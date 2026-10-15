@@ -20,6 +20,7 @@ public:
     void m8() override;
     void m9() override;
     void m10() override;
+    void sub_7100EBBCB8(bool fixed);
 
     // Two sound handles that are faded together.
     struct SoundHandles {

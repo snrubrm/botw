@@ -19,6 +19,31 @@
 
 namespace ksys::phys {
 
+// NON_MATCHING: the existing state enum omits the native stack roundtrip.
+void CharacterController::sub_7100F60648(Fixed fixed,
+                                       MarkLinearVelAsDirty mark_linear_vel_as_dirty) {
+    if (static_cast<bool>(fixed) && s32(_28->sub_710167785C()) != 3) {
+        sead::Vector3f velocity;
+        mRigidBody->getLinearVelocity(&velocity);
+        if (velocity.y > 0.0f)
+            velocity.y = 0.0f;
+        sub_7100F5F774(velocity, true, false);
+        if (mFlags.isOn(0x10000))
+            _298->setLinearVelocity(velocity);
+        if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+            _114 |= 0x20;
+    }
+    mRigidBody->setFixedAndPreserveImpulse(fixed, mark_linear_vel_as_dirty);
+    if (_114 & 0x2000) {
+        for (s32 i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->setFixedAndPreserveImpulse(fixed, mark_linear_vel_as_dirty);
+        }
+    }
+    if (!static_cast<bool>(fixed))
+        _114 |= 0x20;
+}
+
 class Shape;
 
 // Placeholder: object at CharacterController::_20.

@@ -1035,6 +1035,21 @@ void InstanceSet::sub_7100FB9DB0(bool use) {
         mRagdollInstance->setUseSystemTimeFactor(use);
 }
 
+// NON_MATCHING: the combined fixed state is normalized once instead of at each call.
+void InstanceSet::sub_7100FB9C54(Fixed fixed, MarkLinearVelAsDirty mark_linear_vel_as_dirty) {
+    const auto requested_fixed =
+        static_cast<Fixed>(static_cast<bool>(fixed) | ((_26 & 0x20) != 0));
+    if (mCharacterController)
+        mCharacterController->sub_7100F60648(requested_fixed, mark_linear_vel_as_dirty);
+    for (auto& set : mRigidBodySets)
+        set.setFixedAndPreserveImpulse(requested_fixed, mark_linear_vel_as_dirty);
+    for (auto* body : mList)
+        body->setFixedAndPreserveImpulse(requested_fixed, mark_linear_vel_as_dirty);
+    if (mRagdollInstance)
+        mRagdollInstance->setFixedAndPreserveImpulse(requested_fixed, mark_linear_vel_as_dirty);
+    mFlags.change(Flag::_40000, static_cast<bool>(requested_fixed));
+}
+
 void InstanceSet::sub_7100FBA0F4() {
     for (auto& set : mRigidBodySets)
         set.updateMotionTypeRelatedFlags();
