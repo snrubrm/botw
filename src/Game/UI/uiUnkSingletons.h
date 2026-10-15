@@ -1263,6 +1263,8 @@ public:
     void sub_7100965D10(sead::Vector2f* out) const;
     // Sets _880 and _890 to the negated `view` size scaled by (_8b0, _8b4) (zero when both are zero)
     void sub_71009659A4(const sead::Vector2f* view);
+    // 0x710095f944 (placeholder name): clears the map icon / district state (ScreenAppMap's destructor calls it)
+    void sub_710095F944();
     // 0x7100965e68 / 0x7100965e78 / 0x7100965e88 / 0x7100965e98 (placeholder names)
     bool is898Zero() const;
     bool is898EqualTo3() const;

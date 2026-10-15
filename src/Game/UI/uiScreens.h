@@ -25,6 +25,10 @@
 #include "Game/UI/uiShopItemElement.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
+#include <common/aglRenderBuffer.h>
+#include <common/aglTextureData.h>
+#include <driver/aglNVNsampler.h>
+#include <driver/aglNVNtexture.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/UIGlue.h"
@@ -2121,14 +2125,24 @@ public:
     /* 0x3610 */ ScreenAppMapWidget* _3610;
     u8 _3618[0x3638 - 0x3618];
     /* 0x3638 */ eui::Animator* _3638;
-    u8 _3640[0x3ad1 - 0x3640];
+    u8 _3640[0x3778 - 0x3640];
+    /* 0x3778 */ agl::RenderBuffer _3778;
+    u8 _3778pad[0x37e0 - 0x3778 - sizeof(agl::RenderBuffer)];
+    /* 0x37e0 */ agl::TextureData _37e0;
+    u8 _37e0pad[0x3960 - 0x37e0 - sizeof(agl::TextureData)];
+    /* 0x3960 */ agl::driver::NVNsampler_ _3960;
+    u8 _3960pad[0x39c8 - 0x3960 - sizeof(agl::driver::NVNsampler_)];
+    /* 0x39c8 */ agl::driver::NVNtexture_ _39c8;
+    u8 _39c8pad[0x3ad1 - 0x39c8 - sizeof(agl::driver::NVNtexture_)];
     /* 0x3ad1 */ u8 _3ad1;
     /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
     u8 _3ad3;
     /* 0x3ad4 */ f32 _3ad4;
     /* 0x3ad8 */ f32 _3ad8;
     /* 0x3adc */ f32 _3adc;
-    u8 _3ae0[0x3c00 - 0x3ae0];
+    u8 _3ae0[0x3b18 - 0x3ae0];
+    /* 0x3b18 */ Unk_7102481e30 _3b18;
+    u8 _3bf0[0x3c00 - 0x3b18 - sizeof(Unk_7102481e30)];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
     u8 _3c10[0x3c88 - 0x3c10];

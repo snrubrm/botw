@@ -1,5 +1,6 @@
 #include "Game/UI/uiSwkbdMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
@@ -61,7 +62,18 @@ ScreenPickUp::~ScreenPickUp() {
     _3650.clear();
 }
 ScreenMessageTipsRunTime::~ScreenMessageTipsRunTime() = default;
-ScreenAppMap::~ScreenAppMap() = default;
+
+// 0x71009f2778 (D1) / 0x71009f278c (D0). Defined in the ScreenAppMap TU so its destruction inlines there.
+Unk_7102481e30::~Unk_7102481e30() = default;
+
+// 0x71009e9de4
+// NON_MATCHING: the member teardown order and calls are right, but every secondary-vtable store in the
+// original uses offsets +0x550 / +0x568 / +0x590 while ours uses +0x5a0 / +0x5b8 / +0x5e0: our
+// ScreenAppMap vtable group is 10 slots (0x50) longer than the original's.
+ScreenAppMap::~ScreenAppMap() {
+    if (auto* subsys = UiSubsys1::instance())
+        subsys->sub_710095F944();
+}
 // 0x71009dc3ec (D1): frees the array, then shows the skip screen again (m80(true)) if there is one
 ScreenAppHome::~ScreenAppHome() {
     _37f8.freeBuffer();
