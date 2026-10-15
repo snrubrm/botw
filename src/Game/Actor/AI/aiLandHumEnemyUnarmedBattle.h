@@ -46,8 +46,8 @@ public:
     // 0x710046f0ac (placeholder name): refills `_150` (sub_71004717FC) and makes the first entry the nav mesh can
     // reach the new _108 target (moving towards it unless going straight).
     bool sub_710046F0AC();
-    // 0x71004717fc (not decompiled): refills `_150` from the awareness entries.
-    void sub_71004717FC();
+    // 0x71004717fc: refills `_150` with usable weapons from the awareness entries.
+    bool sub_71004717FC();
     // 0x710046f2b0 (placeholder name): same with sub_7100471B68, a radius margin of 1 and the _118 target; also
     // sends message 0x80000c2 to the chosen actor.
     bool sub_710046F2B0();

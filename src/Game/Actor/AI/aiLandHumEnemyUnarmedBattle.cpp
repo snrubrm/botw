@@ -274,10 +274,41 @@ void LandHumEnemyUnarmedBattle::changeToBattle() {
     changeChild("戦闘", &pack);
 }
 
-// The getName() call and the profile comparison results are unused in the original (their use was
-// compiled out); the calls remain.
-// NON_MATCHING: the copy into _150. The original copy-constructs Unk_7100d78e50 as: entry ctor, matrix / field
-// copies, then the entry's virtual m14(&other entry) (no such copy constructor declared yet); ours memcpys it.
+// NON_MATCHING: filter setup, vector load order and loop register allocation differ.
+bool LandHumEnemyUnarmedBattle::sub_71004717FC() {
+    auto* actor = mActor;
+    auto* awareness = actor->getAwareness();
+    if (!awareness)
+        return false;
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    if (!enemy)
+        return false;
+    Unk_7102451808 filter;
+    while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+        if (!(entry->_a8 <= *mParams.mSearchWeaponDist_s))
+            continue;
+        auto* target = sead::DynamicCast<ksys::act::Actor>(entry->_0.mLink.getProc(nullptr, nullptr));
+        auto* weapon = sead::DynamicCast<act::Weapon>(target);
+        if (!weapon)
+            continue;
+        if (weapon->_cf0 == 3) {
+            const auto& target_pos = sub_71005D9330(mActor);
+            const sead::Vector2f distance(target_pos.x - mActor->getMtx()(0, 3),
+                                          target_pos.z - mActor->getMtx()(2, 3));
+            if (!(distance.length() >= *mParams.mSearchBowTargetDist_s))
+                continue;
+        }
+        if (!sub_7100472020(&entry->_0.mLink) ||
+            !sub_71005DE53C(weapon, enemy, entry->_a8, sead::Mathf::pi(), true))
+            continue;
+        _150.emplaceBack(*entry);
+        if (_150.isFull())
+            return true;
+    }
+    return _150.size() != 0;
+}
+
+// NON_MATCHING: filter setup, SafeString temporary spills and accessor / list cleanup scheduling differ.
 bool LandHumEnemyUnarmedBattle::sub_7100471B68() {
     auto* awareness = mActor->getAwareness();
     if (!awareness || !_798)
