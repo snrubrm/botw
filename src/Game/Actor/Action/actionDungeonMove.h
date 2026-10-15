@@ -32,6 +32,7 @@ public:
 protected:
     void calc_() override;
     ksys::map::Object* sub_71000F9C9C();
+    void sub_71000FA43C();
 
     // static_param at offset 0x20
     const float* mAccel_s{};
