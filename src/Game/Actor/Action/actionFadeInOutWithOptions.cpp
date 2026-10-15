@@ -1,5 +1,8 @@
 #include "Game/Actor/Action/actionFadeInOutWithOptions.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -88,8 +91,73 @@ void FadeInOutWithOptions::loadParams_() {
     getStaticParam(&mToggleHorseOptions_s, "ToggleHorseOptions");
 }
 
+// NON_MATCHING: state blocks and failed-model tail are arranged differently.
 void FadeInOutWithOptions::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (*mToggleHorseOptions_s) {
+        if (auto* horse = sead::DynamicCast<uking::act::HorseBase>(mActor))
+            horse->_b74.set(0x20);
+    }
+    if (isFinished() || isFailed())
+        return;
+    auto* actor = mActor;
+    auto* model = actor->getModel();
+    if (!model) {
+        setFailed();
+        return;
+    }
+    switch (_74) {
+    case 3:
+        if (*mFadeType_s == 0) {
+            if (*mToggleAttention_s)
+                ksys::act::enableAllAttClients(actor);
+            if (*mToggleAwareness_s)
+                mActor->getAwareness()->enable();
+        } else {
+            actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+            model->sub_7100BF8C58(false, -1);
+            if (*mToggleAttention_s)
+                ksys::act::disableAllAttClients(mActor);
+            if (*mToggleAwareness_s)
+                mActor->getAwareness()->disable();
+            if (*mToggleEffects_s)
+                mActor->getXLink()->sleep(ksys::xlink::XLink::MaskBit::_1);
+            if (*mToggleCollision_s) {
+                auto* bodies = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr());
+                auto* controller = mActor->getCharacterController();
+                if (bodies && controller) {
+                    bodies->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+                    bodies->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+                    bodies->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+                    bodies->enableContactLayer(ksys::phys::ContactLayer::EntityObject);
+                    bodies->enableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+                    controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+                    controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+                    controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+                    controller->enableContactLayer(ksys::phys::ContactLayer::EntityObject);
+                    controller->enableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+                    sub_71007A36BC(mActor);
+                }
+            }
+        }
+        setFinished();
+        break;
+    case 2: {
+        f32 opacity = _70 * _64;
+        if (*mFadeType_s != 0)
+            opacity = 1.0f - opacity;
+        _60 = sead::Mathf::clamp(opacity, 0.0f, 1.0f);
+        actor->sub_71011CCB1C(_60);
+        Unk_710260af28::instance()->sub_7100F1E100(model, _60);
+        if (_70 >= _6c)
+            _74 = 3;
+        break;
+    }
+    case 1:
+        if (_70 >= _68)
+            _74 = 2;
+        break;
+    }
+    _70 += 1.0f;
 }
 
 }  // namespace uking::action

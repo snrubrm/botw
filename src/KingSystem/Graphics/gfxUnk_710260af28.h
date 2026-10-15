@@ -41,6 +41,8 @@ public:
     void sub_7100F1ED28(gsys::Model* model, int mode);
     // Full F1ED8C handles numeric modes; ForestRenderer also calls it for one unit.
     void sub_7100F1ED8C(gsys::ModelUnit* unit, int mode);
+    // FadeInOutWithOptions passes model opacity; full callee updates uk_shadow_alpha.
+    void sub_7100F1E100(gsys::Model* model, f32 value);
     // 0x7100f1e2f4 (CSV: uk_damage_color_stuff; declaration only; lane4 s28): HorseReins::initMaybe
     // passes a zeroed 16 byte value (a colour) by reference.
     void sub_7100F1E2F4(gsys::Model* model, const sead::Color4f& color);
