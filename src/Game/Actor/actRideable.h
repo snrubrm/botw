@@ -132,8 +132,9 @@ public:
         S1();
 
         void sub_7100E747E8(ksys::as::ASList* list);
-        // 0x7100e761a4 (declared only; 188 B; called with (true, true) by RideableBase::sub_7100E633AC).
+        // 0x7100e761a4: resets animation requests and restores the AS rates.
         void sub_7100E761A4(bool a1, bool a2);
+        void sub_7100E76900(s32 slot, s32 bank, bool force);
 
         void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
 
