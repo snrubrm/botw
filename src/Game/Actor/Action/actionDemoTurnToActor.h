@@ -21,6 +21,8 @@ public:
 protected:
     void calc_() override;
     sead::Matrix34f m33() override;
+    void sub_71000EBE30(ksys::act::BaseProcLink* link, const sead::SafeString& name,
+                       const sead::SafeString& unique_name);
 
     // dynamic_param at offset 0x60
     sead::SafeString mActorName_d{};
