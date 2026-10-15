@@ -10,6 +10,9 @@ bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor);
 
 namespace uking::act {
 
+Unk_71008502cc::Unk_71008502cc(ksys::act::Actor* actor)
+    : Unk_710244dd20(actor), _13c(0), _140(0.0f), _144(0), _148(0) {}
+
 Unk_71008502cc::~Unk_71008502cc() {
     _144 = 0;
     _140 = 0;
