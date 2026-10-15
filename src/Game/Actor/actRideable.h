@@ -395,6 +395,9 @@ void sub_7100E7F6FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* 
 bool sub_7100E816E4(f32 dir_range_rad, f32 radius_limit, f32 dir_random, f32 fwd_dist_coef,
                     f32 reject_dist_ratio, ksys::act::Actor* actor, const sead::Vector3f& pos);
 
+// 0x7100e80d4c: horse animation update; declaration only.
+void sub_7100E80D4C(ksys::act::Actor* actor, bool first, bool flag3, bool other_flags);
+
 // 0x7100e8160c: nullable scalar outputs and a horizontal position output.
 bool sub_7100E8160C(ksys::phys::CharacterController* controller, f32* a, f32* b,
                   sead::Vector3f* position);
