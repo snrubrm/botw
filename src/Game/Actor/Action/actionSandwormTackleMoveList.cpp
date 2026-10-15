@@ -3,7 +3,12 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 const sead::SafeString& sub_71002CCC20(s32 idx);
@@ -68,6 +73,55 @@ bool Unk_SandwormTackleMoveList::sub_710071F8B0(const sead::Vector3f& position, 
         }
     }
     return found;
+}
+
+// NON_MATCHING: contact iteration and accessor distance scheduling.
+void Unk_SandwormTackleMoveList::sub_710071FAEC(ksys::act::Actor* actor,
+                                              const sead::Vector3f& center, f32 radius) {
+    auto* set = actor->getRigidBodyByName(sub_71007A24BC()->cstr());
+    if (!set || set->getRigidBodies().size() < 1)
+        return;
+    auto* contacts = set->getRigidBody(0)->getContactPointInfo();
+    if (contacts && contacts->getNumContactPoints() != 0 && !contacts->begin().isEnd()) {
+        for (const auto* point : *contacts) {
+            auto* body = point->body_b;
+            if (!body)
+                continue;
+            sead::Vector3f position;
+            body->getPosition(&position);
+            if ((position - center).squaredLength() < radius * radius) {
+                if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag())) {
+                    ksys::act::ActorLinkConstDataAccess accessor;
+                    tag->acquireActor(&accessor);
+                    if (accessor.hasProc() && accessor.isStateCalc() &&
+                        accessor.hasTag(ksys::act::tags::CookMaterial))
+                        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                }
+            }
+        }
+    }
+    auto* info = set->getRigidBody(0)->getCollisionInfo();
+    if (!info || info->getCollidingBodies().size() == 0)
+        return;
+    auto* collision = info->getCollidingBodies().front();
+    info->lock();
+    for (; collision; collision = info->getCollidingBodies().next(collision)) {
+        auto* body = collision->bodies[1];
+        if (!body)
+            continue;
+        sead::Vector3f position;
+        body->getPosition(&position);
+        if ((position - center).squaredLength() < radius * radius) {
+            if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag())) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                tag->acquireActor(&accessor);
+                if (accessor.hasProc() && accessor.isStateCalc() &&
+                    accessor.hasTag(ksys::act::tags::CookMaterial))
+                    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            }
+        }
+    }
+    info->unlock();
 }
 
 bool Unk_SandwormTackleMoveList::sub_71F6DC(sead::Heap* heap) {
