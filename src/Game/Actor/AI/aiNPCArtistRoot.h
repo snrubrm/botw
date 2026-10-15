@@ -19,10 +19,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void sub_71004BE960(f32 scale);
     // map_unit_param at offset 0x238
     sead::SafeString mActorName_m{};
     ksys::act::BoneHandle _248;

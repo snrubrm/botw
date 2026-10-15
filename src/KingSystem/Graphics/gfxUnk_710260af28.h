@@ -21,6 +21,8 @@ public:
     // Complete native callees operate on one unit / material; their bodies remain U.
     void sub_7100F1D0BC(gsys::ModelUnit* unit, u32 flags);
     void sub_7100F1C824(gsys::ModelUnit* unit, s32 material, const void* user_data);
+    // Complete native F1DFF0 clamps opacity and updates one material; body remains U.
+    void sub_7100F1DFF0(gsys::ModelUnit* unit, s32 material, f32 opacity, bool fade);
 
     // 0x7100f1cd88 / 0x7100f1ce68: preserves the model's material user data and object attribute.
     u64 sub_7100F1CD88(gsys::Model* model);
