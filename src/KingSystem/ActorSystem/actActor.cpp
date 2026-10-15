@@ -636,6 +636,68 @@ bool Actor::sub_71011CEA90() const {
     return ragdoll && ragdoll->getWorldState() == phys::RagdollInstance::WorldState::AddedToWorld;
 }
 
+// NON_MATCHING: nested scan exits, inlined buffer size and register allocation.
+void Actor::sub_71011CABA4(const sead::SafeString& name, bool enabled) {
+    if (!mPhysics || !mModel)
+        return;
+    auto* support = mPhysics->_e8;
+    if (!support)
+        return;
+    if (name.isEmpty()) {
+        const s32 units = mModel->getUnits().size();
+        for (s32 unit = 0; unit < units; ++unit) {
+            auto* model_unit = mModel->getUnits()[unit]->mModelUnit;
+            const s32 bones = model_unit->getBoneNum();
+            for (s32 bone = 0; bone < bones; ++bone) {
+                const auto bone_name = model_unit->getBoneName(bone);
+                const s32 index = support->sub_71012273A8(bone_name);
+                if (index != -1)
+                    support->_48[index].enabled = enabled;
+            }
+        }
+        return;
+    }
+    const auto* control = mActorParam->getRes().mBoneControl;
+    if (!control)
+        return;
+    const auto* group = control->getBoneGroup(name);
+    if (group) {
+        const s32 count = group->bones.size();
+        for (s32 bone = 0; bone < count; ++bone) {
+            const s32 index = support->sub_71012273A8(group->bones[bone].name.ref());
+            if (index != -1)
+                support->_48[index].enabled = enabled;
+        }
+        return;
+    }
+    if (enabled)
+        return;
+    auto* list = mASList;
+    if (list == &as::sNullASListMaybe || !list)
+        return;
+    sead::FixedSafeString<64> message;
+    const s32 slots = list->mSlots.size();
+    bool found = false;
+    for (s32 slot = 0; slot < slots && !found; ++slot) {
+        const s32 banks = list->mSlots[slot]._20.size();
+        for (s32 bank = 0; bank < banks && !found; ++bank) {
+            as::ASList::EventQueryResults results;
+            list->sub_710115FB60(&results, 31, slot, bank,
+                                &as::ASList::Unk2::sub_7101163908, true);
+            for (s64 event = 0; event < results.count; ++event) {
+                const auto& entry = results.events[event];
+                entry.name.cstr();
+                if (entry.name == name) {
+                    message.format("再生中AS %d-%d:%s", slot, bank,
+                                   list->x_1(slot, bank).cstr());
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
+}
+
 // NON_MATCHING: nested scan exits, inlined buffer size and block order.
 void Actor::sub_71011CAFBC(const sead::SafeString& name, bool enabled) {
     if (!mPhysics)

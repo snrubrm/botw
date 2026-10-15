@@ -52,12 +52,25 @@ class SystemGroupHandler;
 class UserTag;
 // Placeholder (vtable 0x7102519a10: the object Actor::initPhysics builds on its stack and passes to the physics
 // initialisation): two virtual getters, the cloth / support bone file name overrides, then the destructor.
-// Placeholder (declaration only; the constructor is 0x7101226aa8, 0x58 bytes): the runtime support bone object
-// InstanceSet::_e8 owns (name is a guess; deleted through its virtual destructor).
+// Placeholder runtime support bone object owned by InstanceSet::_e8 (name is a guess).
 class SupportBoneInstanceMaybe : public sead::hostio::Node {
 public:
+    struct State {
+        bool enabled;
+        bool _1;
+        bool _2;
+        u8 _3;
+        f32 weight;
+    };
+    KSYS_CHECK_SIZE_NX150(State, 8);
+
     virtual ~SupportBoneInstanceMaybe();
+    s32 sub_71012273A8(const sead::SafeString& name) const;
+
+    u8 _8[0x48 - 8];
+    sead::Buffer<State> _48;
 };
+KSYS_CHECK_SIZE_NX150(SupportBoneInstanceMaybe, 0x58);
 
 class Unk_7102519a10 {
 public:
@@ -70,6 +83,8 @@ class InstanceSet : public sead::hostio::Node {
 public:
     // Reads _178/_188 (the system group handler tables).
     friend class RigidBodySetParamAccessor;
+    // Actor toggles the states of its owned support bone instance.
+    friend class ksys::act::Actor;
     enum class Flag : u32 {
         _1 = 1 << 0,
         _2 = 1 << 1,
