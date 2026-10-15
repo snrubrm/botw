@@ -311,7 +311,7 @@ public:
     // 0x7100f5f134 / 0x7100f5f140: the vectors at `_38 + 0x1c` / `_38 + 0x28`.
     const sead::Vector3f& sub_7100F5F134() const;
     const sead::Vector3f& sub_7100F5F140() const;
-    // 0x7100f609c0 / 0x7100f609cc: the vector at `_40 + 0x54` and material mask at `_40 + 0x18`.
+    // 0x7100f609c0: the vector at `_40 + 0x54`.
     const sead::Vector3f& sub_7100F609C0() const;
     // 0x7100f609cc: the material mask at `_40 + 0x18`.
     const MaterialMask& sub_7100F609CC() const;
