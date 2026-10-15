@@ -60,6 +60,9 @@ public:
         _800000 = 0x800000,
         _2000000 = 0x2000000,
         _4000000 = 0x4000000,
+        // Set / cleared by LinkTag::updateIsFlagSetFlag for the Create / MtxCopyCreate and Delete link targets.
+        _10000000 = 0x10000000,
+        _20000000 = 0x20000000,
         _40000000 = 0x40000000,
         _80000000 = 0x80000000,
         ResetOnUnlinkFailed = _100 | _2000,

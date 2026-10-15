@@ -320,6 +320,94 @@ void LinkTag::calcPulse(bool frame_changed) {
     _1e0 &= ~0x80;
 }
 
+// NON_MATCHING: flag bit 3 update order, the NAnd/NOr flag read (a byte load in the original) and the Create /
+// MtxCopyCreate test in the second loop (ccmp) differ; register allocation.
+void LinkTag::updateIsFlagSetFlag(bool on, bool a, bool b) {
+    if (!mObj)
+        return;
+
+    if (on)
+        _1e0 |= 8;
+    else
+        _1e0 &= ~8;
+
+    if (!(_1e0 & 0x40) || a) {
+        if (on)
+            mObj->setFlags0(Object::Flag0::_100);
+        else
+            mObj->resetFlags0(Object::Flag0::_100);
+
+        if (!(_1e0 & 0x40)) {
+            const bool is_nand_or_nor = mObj->getFlags().isOn(Object::Flag::IsLinkTagNAndOrNOr);
+            s32 frame = 0;
+            if (auto* timers = SystemTimers::instance())
+                frame = timers->mFrameCounter;
+
+            if (auto* link_data = mObj->getLinkData()) {
+                auto& links = link_data->mLinksOther.links;
+                if (on == is_nand_or_nor) {
+                    for (auto& link : links) {
+                        auto* obj = link.other_obj;
+                        if (!obj)
+                            continue;
+                        switch (link.type) {
+                        case MapLinkDefType::Create:
+                        case MapLinkDefType::MtxCopyCreate:
+                            if (obj->getFlags0().isOff(Object::Flag0::_10000000)) {
+                                obj->setFlags0(Object::Flag0::_10000000);
+                                _1e8 = frame;
+                            }
+                            break;
+                        case MapLinkDefType::Delete:
+                            if (_1e8 == frame)
+                                obj->resetFlags0(Object::Flag0::_20000000);
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                } else {
+                    for (auto& link : links) {
+                        auto* obj = link.other_obj;
+                        if (!obj)
+                            continue;
+                        const auto type = link.type;
+                        if (type == MapLinkDefType::Create || type == MapLinkDefType::MtxCopyCreate) {
+                            if (_1e8 == frame)
+                                obj->resetFlags0(Object::Flag0::_10000000);
+                        } else if (type == MapLinkDefType::Delete &&
+                                   obj->getFlags0().isOff(Object::Flag0::_20000000)) {
+                            obj->setFlags0(Object::Flag0::_20000000);
+                            _1e8 = frame;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    const bool is_on = on != bool(_1e0 & 4);
+    if (b)
+        _1e0 &= ~0x800;
+    if (is_on) {
+        if (!(_1e0 & 0x400))
+            _1e0 |= 0x800;
+        _1e0 |= 0x400;
+    } else if (_1e0 & 0x800) {
+        _1e0 &= ~0xc00;
+    }
+
+    if (!a) {
+        auto* link_data = mObj->getLinkData();
+        if (link_data && link_data->isGenGroupInitState3() &&
+            (link_data->findLinkWithType(MapLinkDefType::Create) ||
+             link_data->findLinkWithType(MapLinkDefType::Delete) ||
+             link_data->findLinkWithType(MapLinkDefType::MtxCopyCreate))) {
+            link_data->sub_7100D4FA90();
+        }
+    }
+}
+
 void LinkTag::finalizeInit_(InitContext* context) {
     if (mObj)
         mObj->registerBaseProc(this);
