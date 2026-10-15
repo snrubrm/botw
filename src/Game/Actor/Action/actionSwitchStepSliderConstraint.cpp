@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/Constraint/physSliderCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -90,8 +91,32 @@ void SwitchStepSliderConstraint::loadParams_() {
     getStaticParam(&mOffASName_s, "OffASName");
 }
 
+// NON_MATCHING: threshold and virtual-function loads are scheduled before the final dot-product add.
 void SwitchStepSliderConstraint::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    sead::Matrix34f home;
+    actor->getHomeMtx(&home);
+    const sead::Vector3f axis = home.getBase(1);
+    const sead::Vector3f translation = actor->getMtx().getTranslation();
+    _94 = translation + axis * *mMinLimit_s;
+    _88 = translation + axis * *mMaxLimit_s;
+    auto* main_body = actor->getMainBody();
+    auto* body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), sUnk_71023c3f28.cstr());
+    const sead::Vector3f minimum = _94;
+    sead::Vector3f position;
+    if (body) {
+        body->changeRotation(home, sead::Mathf::epsilon());
+        sead::Vector3f impulse(0.0f, *mImpulse_s, 0.0f);
+        impulse.rotate(home);
+        impulse *= ksys::VFR::instance()->getDeltaFrame();
+        m33(body, &impulse, &minimum);
+        body->getPosition(&position);
+    }
+    if (main_body && main_body->getMotionType() == ksys::phys::MotionType::Keyframed)
+        main_body->changePositionAndRotation(home, sead::Mathf::epsilon());
+    const f32 distance = axis.dot(position - minimum);
+    m32(distance - *mSwTh_s);
+    sub_710028EA1C(distance);
 }
 
 void SwitchStepSliderConstraint::m32(f32 value) {

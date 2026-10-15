@@ -38,6 +38,8 @@ protected:
     // Plays OffASName.
     virtual void m34();
     // 0x710028ee24 / 0x710028ee98: play OnASName / OffASName (if set).
+    // 0x710028ea1c: declared only; updates movement sound from the slider displacement.
+    void sub_710028EA1C(f32 distance);
     void sub_710028EE24();
     void sub_710028EE98();
 
