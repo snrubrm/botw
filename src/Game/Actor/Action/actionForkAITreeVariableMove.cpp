@@ -74,6 +74,24 @@ void ForkAITreeVariableMove::sub_710005BE70() {
     }
 }
 
+// NON_MATCHING: frame rate uses an integer register and vector sums are scheduled differently.
+void ForkAITreeVariableMove::sub_710005BF68() {
+    const f32 speed = *(*mTargetSpeed_a > 0.0f ? mTargetSpeed_a : mTargetSpeed_s);
+    const u32 frame_rate = ksys::VFR::instance()->getFrameRate();
+    sead::Vector3f direction = *mDestinationPos_a - mActor->getMtx().getTranslation();
+    const f32 distance = direction.normalize();
+    if (*mIsArrivedAtDestination_a && !_b0) {
+        _a0 *= 0.95f;
+    } else {
+        _a0 += direction * ksys::VFR::instance()->getRawDeltaTime();
+        const f32 length = _a0.length();
+        if (length > 0.0f) {
+            const f32 max_speed = speed * static_cast<f32>(frame_rate);
+            _a0 *= (max_speed < distance * 2.0f ? max_speed : distance * 2.0f) / length;
+        }
+    }
+}
+
 // NON_MATCHING: direction loads/stores and the length sum are scheduled differently.
 void ForkAITreeVariableMove::sub_710005C14C() {
     auto* controller = mActor->getCharacterController();
