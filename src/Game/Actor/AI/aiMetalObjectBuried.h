@@ -13,11 +13,15 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
     bool init_(sead::Heap* heap) override;
+    void calc_() override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
 
     void changeToUnderground();
+    // 0x71004a5990: probes the ground along the direction to target. Placeholder name.
+    bool sub_71004A5990(f32 scale, sead::Vector3f* hit_pos, sead::Vector3f* normal,
+                       f32* distance, const sead::Vector3f& target);
 protected:
     // static_param at offset 0x38
     const float* mPullOutSpeed_s{};
