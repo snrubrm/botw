@@ -8,9 +8,17 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyPolytope.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
 namespace uking::ai {
 
@@ -55,8 +63,43 @@ bool RemainsFireDroneNormal::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: awareness request construction and copied sensor-field stores.
 void RemainsFireDroneNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    BezierRailMove::enter_(params);
+    auto* actor = mActor;
+    _20a = false;
+    if (_209) {
+        sub_710032BCAC(0.0f);
+        sub_710032C088();
+    } else {
+        stopAtHomeMaybe();
+    }
+    if (auto* awareness = actor->getAwareness()) {
+        awareness->sub_7100D7E9BC(0);
+        Unk_71023e26d8 request;
+        request._c = 0.0f;
+        if (auto* sensor = awareness->_260[0])
+            sensor->m5(&request);
+        request._8 = *mLightRadius_m;
+        const f32 length = -*mLightLength_m;
+        request._10 = length;
+        request._14 = length;
+        request._1c = length;
+        awareness->sub_7100D7E6F4(&request, 0);
+    }
+    _334 = 0.0f;
+    mActor->sub_71011DA824(_320);
+    _208 = false;
+    broadcastToLinkedActorMaybe();
+    sub_71007A2C9C(mActor);
+    auto* sensor = getActorAttackSensor(mActor);
+    const auto* attack = mActor->getParam()->getRes().mGParamList->getAttack();
+    sensor->activateAttackSensor(0x2000, 0x11, attack->mPower.ref(), attack->mImpulseLarge.ref(),
+                                 0.0f, 0, 1, -1, false, 1, -1);
+    actor->getASList()->startAnimationMaybe(-1.0f, -1.0f, "MaterialDefault", 0, 0, true);
+    auto* physics = mActor->getPhysics();
+    auto* handler = ksys::phys::System::instance()->sub_7101216894(ksys::phys::ContactLayerType::Entity, 2);
+    if (physics)
+        physics->sub_7100FBDFA4(handler);
 }
 
 void RemainsFireDroneNormal::leave_() {
