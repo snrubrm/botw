@@ -49,6 +49,9 @@ public:
     virtual bool m36();
 
 protected:
+    void sub_71005A0028();
+    void sub_71005A0534();
+    void sub_71005A0780();
     Unk_7102424170 _38;
     Unk_7100702370* _60{};
     // static_param at offset 0x68

@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -27,8 +29,64 @@ bool StalEnemyRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: Timer::reset stores the previous value before the current value.
 void StalEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (_60)
+        _60->sub_7100702370();
+    auto* actor = mActor;
+    _2e0 = false;
+    _38._24 = _2e8._8.isOnBit(1);
+    setDamageCallbackTiming(actor, 4, &_38);
+    if (auto* enemy = sub_7100724D7C(actor)) {
+        sub_710072735C(enemy, true, true);
+        enemy->_e90 = 1;
+    }
+    if (auto* awareness = actor->getAwareness()) {
+        awareness->_2f4 = *mSearchDistXZ_s * 1.5f;
+        awareness->sub_7100D7C494();
+        awareness->enable();
+    }
+    sub_71005A0028();
+    _200.reset(*mSearchFrame_s);
+    if (sub_7100725588(mActor).hasProc()) {
+        if (auto* awareness = mActor->getAwareness()) {
+            if (!awareness->sub_7100D7E964())
+                awareness->enable();
+            awareness->sub_7100D7EBE0(1.0f);
+        }
+        changeChild("通常", nullptr);
+    } else if (_220.hasProc()) {
+        sub_71005A0534();
+    } else {
+        sub_71005A0780();
+    }
+}
+
+void StalEnemyRoot::sub_71005A0534() {
+    auto* awareness = mActor->getAwareness();
+    if (awareness && !awareness->sub_7100D7E964())
+        awareness->enable();
+    ksys::act::ai::InlineParamPack pack;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_220, &accessor);
+    sead::Vector3f position;
+    if (accessor.sub_7100D10E6C(0x1e)) {
+        pack.addBool(true, "IsCarried", -1);
+        pack.addBool(accessor.isPlayerTheConnectedParent(), "IsCarriedByPlayer", -1);
+        ksys::act::ActorLinkConstDataAccess parent;
+        if (accessor.acquireConnectedCalcParent(&parent))
+            parent.getActorMtx().getTranslation(position);
+        else
+            accessor.getActorMtx().getTranslation(position);
+    } else {
+        pack.addBool(false, "IsCarried", -1);
+        pack.addBool(false, "IsCarriedByPlayer", -1);
+        accessor.getActorMtx().getTranslation(position);
+    }
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("頭部無し", &pack);
+    if (awareness && !awareness->sub_7100D7E964())
+        awareness->enable();
 }
 
 void StalEnemyRoot::leave_() {
