@@ -1,5 +1,10 @@
 #include "Game/Actor/Action/actionDgnObj_DLC_DungeonRotate.h"
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/Actor/actSoundProxy.h"
+#include "Game/gameGearMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -35,6 +40,31 @@ void DgnObj_DLC_DungeonRotate::loadParams_() {
     getMapUnitParam(&mGearRatio_m, "GearRatio");
     getMapUnitParam(&mIsClockWiseRotation_m, "IsClockWiseRotation");
     getAITreeVariable(&mRotationOffset_a, "RotationOffset");
+}
+
+void DgnObj_DLC_DungeonRotate::sub_71000EE43C() {
+    auto* gear = GearMgr::instance();
+    if (gear && !(gear->_10a4 & 8))
+        return;
+    auto* manager = ksys::snd::SoundMgr::instance()->_a0;
+    auto* proxy = manager->sub_710105A830(sub_71000FC4EC());
+    if (proxy) {
+        xlink2::HandleSLink handle;
+        if (_b4)
+            proxy->sub_710105A10C("StartActionCW", &handle);
+        else
+            proxy->sub_710105A10C("StartActionCCW", &handle);
+        if (!handle.isActive())
+            proxy->sub_710105A10C("StartAction", &handle);
+    } else {
+        xlink2::HandleSLink handle;
+        if (_b4)
+            ksys::eft::sub_710105DDB8(mActor, "StartActionCW", &handle);
+        else
+            ksys::eft::sub_710105DDB8(mActor, "StartActionCCW", &handle);
+        if (!handle.isActive())
+            ksys::eft::sub_710105DDB8(mActor, "StartAction", &handle);
+    }
 }
 
 void DgnObj_DLC_DungeonRotate::calc_() {
