@@ -4331,6 +4331,9 @@ class ScreenStaffRoll : public ScreenEx {
 public:
     ~ScreenStaffRoll() override;
     SEAD_RTTI_OVERRIDE(ScreenStaffRoll, ScreenEx)
+    // 0x7100a5e0b8 / 0x7100a5e1b0: as Screen::m73 / m76 but open(1) / close(-1)
+    void m73(f32 value) override;
+    void m76() override;
     // EventPlayUiStaffRollImage supplies event duration and the image range, then elapsed time.
     void sub_7100A5E1C4(f32 duration, s32 start, s32 end);
     void sub_7100A5E42C(f32 time);

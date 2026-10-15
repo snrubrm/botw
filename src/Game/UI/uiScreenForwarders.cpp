@@ -54,6 +54,18 @@ eui::TagProcessor* ScreenMessageDialog::doCreateTagProcessor_(sead::Heap* heap) 
     return ScreenBase::doCreateTagProcessor_(heap);
 }
 
+// 0x7100a5e0b8
+void ScreenStaffRoll::m73(f32 value) {
+    _270 = value;
+    open(1);
+}
+
+// 0x7100a5e1b0
+void ScreenStaffRoll::m76() {
+    _270 = 0;
+    close(-1);
+}
+
 // 0x7100a5e42c: the original's whole body is a tail call to the same class's 0x7100a5dce8.
 void ScreenStaffRoll::sub_7100A5E42C(f32 time) {
     sub_7100A5DCE8(time);
