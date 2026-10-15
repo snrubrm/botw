@@ -82,19 +82,19 @@ void RemainElectricCannonBeamAttack::calc_() {
         accessor.getActorMtx().getTranslation(position);
         child->setDynamicParam(position, "SafePos");
     } else if (isCurrentChild("予兆")) {
-    auto* player_info = uking::act::PlayerInfo::instance();
-    f32 radius = 0;
-    auto* global = ksys::act::GlobalParameter::instance();
-    if (global && global->getGlobalParam())
-        radius = global->getGlobalParam()->mGerudoQueenSafetyAreaRadius.ref();
-    bool protected_player = false;
-    if (_38.hasProc() && player_info && player_info->getPlayerLink().hasProc()) {
-        ksys::act::acc::PlayerBase player;
-        ksys::act::acquireActor(&player_info->getPlayerLink(), &player);
-        const bool riding = player.isRidingSandSeal();
-        protected_player = sub_71007303F0(&player_info->getPlayerLink(), &_38,
-                                        riding ? radius + 0.25f : radius);
-    }
+        auto* player_info = uking::act::PlayerInfo::instance();
+        f32 radius = 0;
+        auto* global = ksys::act::GlobalParameter::instance();
+        if (global && global->getGlobalParam())
+            radius = global->getGlobalParam()->mGerudoQueenSafetyAreaRadius.ref();
+        bool protected_player = false;
+        if (_38.hasProc() && player_info && player_info->getPlayerLink().hasProc()) {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&player_info->getPlayerLink(), &player);
+            const bool riding = player.isRidingSandSeal();
+            protected_player = sub_71007303F0(&player_info->getPlayerLink(), &_38,
+                                            riding ? radius + 0.25f : radius);
+        }
         child->setDynamicParam(protected_player, "WillBeProtected");
     }
     if (child->isFinished() || child->isFailed()) {

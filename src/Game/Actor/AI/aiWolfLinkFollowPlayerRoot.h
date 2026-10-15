@@ -41,7 +41,7 @@ protected:
     // static_param at offset 0xf8
     const float* mAnteriorDistanceSprint_s{};
     act::WolfLink* _100{};
-    u64 _108{};
+    void* _108{};
     u32 _110{};
     sead::Vector3f _114{0, 0, 1};
     ksys::Timer _120{0.0f, 0.0f};
