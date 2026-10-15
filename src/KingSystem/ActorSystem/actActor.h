@@ -854,6 +854,7 @@ public:
 
 protected:
     friend class ActorCreator;
+    friend class DropMgr;  // D2C374 reads the existing mDeleteDistanceSq for drop creation.
     friend class ActorLinkConstDataAccess;
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride

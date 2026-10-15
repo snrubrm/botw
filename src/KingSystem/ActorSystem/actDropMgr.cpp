@@ -2,6 +2,8 @@
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -113,6 +115,53 @@ DropActorList* DropMgr::sub_7100D2C114(Actor* actor) {
     return nullptr;
 }
 
+// NON_MATCHING: entry address reuse and initial register/stack scheduling.
+void DropMgr::createDropsWithTable(Actor* actor, DropActorList* list,
+                                  const sead::Buffer<Unk_71025ae620::Unk1>* table) {
+    for (const auto& entry : *table) {
+        const s32 count = entry._0;
+        if (count == 0)
+            return;
+        if (count > 0) {
+            const s32 mode = entry._2;
+            const s32 kind = entry._3;
+            const auto& name = entry._8;
+            for (s32 i = 0; i < count; ++i) {
+                InstParamPack params;
+                sead::Vector3f velocity;
+                if (getDropVel(name, &velocity, actor, kind)) {
+                    params->addTranslationVelocity(velocity);
+                    sead::Vector3f angular_velocity;
+                    if (getDropAngVel(&angular_velocity, actor, kind, mode, &velocity))
+                        params->addRotationVelocity(angular_velocity);
+                }
+                params->addDeleteDistanceSq(actor->mDeleteDistanceSq);
+                ActorCreator::addAITreeParam(params, true, "IsDrop");
+                if (mode == 0 || mode == 2)
+                    ActorCreator::addAITreeParam(params, true, "InitBoundBoxPosOffset");
+                if (list) {
+                    void* storage;
+                    {
+                        auto lock = sead::makeScopedLock(mNodeCS);
+                        storage = mNodePool.alloc();
+                    }
+                    if (!storage)
+                        break;
+                    auto* node = new (storage) DropActorList::Node;
+                    list->pushFront(node);
+                    node->createActor(name.cstr(), &params, mode);
+                } else {
+                    sead::Matrix34f matrix;
+                    calculateDropPosition(&matrix, actor, mode);
+                    params->addMatrix(matrix);
+                    ActorCreator::instance()->requestCreateActor(
+                        name.cstr(), BaseProcHeapMgr::instance()->getHeap(), nullptr, &params, nullptr, 2);
+                }
+            }
+        }
+    }
+}
+
 // NON_MATCHING: parameter address selection retains the Parameter base and value offset.
 bool getDropVel(const sead::SafeString& name, sead::Vector3f* velocity, Actor* actor, s32 kind) {
     auto* data = actor->getDropData();
@@ -173,7 +222,8 @@ bool getDropAngVel(sead::Vector3f* angular_velocity, Actor* actor, s32 kind, s32
         angular_velocity->set(velocity->z, 0.0f, -velocity->x);
         angular_velocity->normalize();
     }
-    *angular_velocity *= sead::Mathf::deg2rad(angle + sead::GlobalRandom::instance()->getF32() * random);
+    *angular_velocity *=
+        sead::Mathf::deg2rad(angle + sead::GlobalRandom::instance()->getF32() * random);
     return true;
 }
 
@@ -193,7 +243,8 @@ void calculateDropPosition(sead::Matrix34f* matrix, Actor* actor, s32 mode) {
     }
     if (auto* root_ai = actor->getRootAi()) {
         sead::Vector3f* forced_position;
-        if (root_ai->getAITreeVariable2(&forced_position, "ForceSetDropPos") && actor->getDropData()->m5()) {
+        if (root_ai->getAITreeVariable2(&forced_position, "ForceSetDropPos") &&
+            actor->getDropData()->m5()) {
             matrix->setTranslation(*forced_position);
             return;
         }

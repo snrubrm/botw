@@ -49,7 +49,8 @@ KSYS_CHECK_SIZE_NX150(DropActorList, 0x8);
 
 class DropMgr {
     SEAD_SINGLETON_DISPOSER(DropMgr)
-    DropMgr() = default;
+    // Value-initialize the direct array: D2B83C zeroes it before calling its constructor.
+    DropMgr() : mEntries() {}
     // NON_MATCHING: the singleton disposer keeps the entry-array address across node-pool deletion.
     ~DropMgr() {
         for (auto& entry : mEntries)
@@ -64,18 +65,6 @@ public:
         DropActorList list;
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0x18);
-    // Placeholder name for the embedded 32-entry array holder. The member array is constructed
-    // at 0x7100d2b870 and destroyed at 0x7100d2ba84.
-    class EntryArray {
-    public:
-        Entry& operator[](s32 i) { return mEntries[i]; }
-        sead::SafeArray<Entry, 32>::iterator begin() { return mEntries.begin(); }
-        sead::SafeArray<Entry, 32>::iterator end() { return mEntries.end(); }
-
-    private:
-        sead::SafeArray<Entry, 32> mEntries;
-    };
-
     // CSV DropMgr::init: allocates the node pool.
     bool init(s32 num_nodes, sead::Heap* heap);
     // 0x7100d2bdbc (CSV DropMgr::__auto3): returns `node` to the pool.
@@ -90,7 +79,7 @@ public:
     // 0x7100d2c114 (CSV DropMgr::x; placeholder name): the drop list of a free entry, now linked to `actor` (null if
     // `actor` already has one or none is free).
     DropActorList* sub_7100D2C114(Actor* actor);
-    // 0x7100d2c204 (CSV name; declared only).
+    // 0x7100d2c204 (CSV name).
     void createDropsWithTable(Actor* actor, DropActorList* list,
                               const sead::Buffer<Unk_71025ae620::Unk1>* table);
 
@@ -104,7 +93,7 @@ private:
     // Pool of DropActorList::Node (allocated by init).
     /* 0x60 */ sead::FreeList mNodePool;
     /* 0x70 */ sead::CriticalSection mEntryCS;
-    /* 0xb0 */ EntryArray mEntries{};
+    /* 0xb0 */ sead::SafeArray<Entry, 32> mEntries;
 };
 KSYS_CHECK_SIZE_NX150(DropMgr, 0x3b0);
 

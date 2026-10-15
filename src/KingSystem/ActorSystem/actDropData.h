@@ -24,6 +24,9 @@ class Unk_71025ae620 {
 public:
     struct Unk1 {
         s16 _0;
+        // initActualTable 6DABC0 writes resource approach/speed values; D2C204 consumes them.
+        u8 _2;
+        u8 _3;
         sead::SafeString _8;
     };
 

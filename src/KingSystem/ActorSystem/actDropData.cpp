@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
 
@@ -118,6 +119,28 @@ bool DropData::preloadDropsMaybe(Actor* actor) {
 
 void DropData::resetPreloadActorsMaybe(Actor* actor) {
     ActorPreLoadMgr::instance()->sub_7100D58F28(actor);
+}
+
+// NON_MATCHING: the table-availability test folds to tst instead of and plus tst of 16 bits.
+void DropData::getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
+                        const sead::Vector3f& pos) {
+    s32 index = 0;
+    if (_c & 4) {
+        index = 1;
+    } else if (_c & 8) {
+        index = 2;
+    } else if (_c & 0x10) {
+        index = 3;
+    } else if (_c & 0x40) {
+        index = 4;
+    } else if ((_e & 0x40) && world::Manager::instance()->isRaining(pos)) {
+        index = 6;
+    } else if (isHappy()) {
+        table2->setBuffer(16, _10[5]);
+    }
+    if (!(_e & (1 << index)))
+        index = 0;
+    table->setBuffer(16, _10[index]);
 }
 
 }  // namespace ksys::act
