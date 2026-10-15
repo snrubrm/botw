@@ -5,6 +5,10 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -194,6 +198,40 @@ void AssassinBossRootBase::calc_() {
         m46();
     else
         EnemyRoot::calc_();
+}
+
+// NON_MATCHING: parameter-pack and temporary-string lifetimes use different scheduling.
+void AssassinBossRootBase::sub_710031BBC4(const sead::SafeString& part_name,
+                                         const sead::SafeString& actor_name, s32 idx,
+                                         sead::Heap* heap) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    sead::FixedSafeString<32> key;
+    key.format("%s%d", part_name.cstr(), idx);
+    auto& parts = enemy->_1128;
+    parts.sub_7100D3CED8(key, heap);
+    auto& link = parts.getActorPartsActor(key);
+    if (link.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        const auto& name = accessor.getName();
+        name.cstr();
+        name.cstr();
+        actor_name.cstr();
+        return;
+    }
+    ksys::act::InstParamPack pack;
+    pack.getBuffer().addPosition(mActor->getMtx().getTranslation());
+    pack.getBuffer().addRotation(mActor->getMtx().getRotation());
+    pack.getBuffer().add(9999, "Count");
+    auto* created = ksys::act::ActorCreator::instance()->createActor(
+        actor_name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true, false);
+    if (!created)
+        return;
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(created))
+        bullet->sub_710000497C(enemy);
+    parts.sub_7100D3D108(key, created);
 }
 
 void AssassinBossRootBase::sub_710031C2C8(s32 threshold) {
