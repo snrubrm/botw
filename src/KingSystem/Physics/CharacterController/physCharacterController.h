@@ -369,6 +369,9 @@ public:
     // the radius and the top (radius + the larger y of the two vertices) / the radius and the two vertices.
     bool sub_7100F62F60(f32* radius, f32* top, int index) const;
     bool sub_7100F62FC0(f32* radius, sead::Vector3f* vertex_a, sead::Vector3f* vertex_b, int index) const;
+    // 0x7100f63024: reads the four scalars and the horizontal position of the capsule shape `index`
+    // (declared only; placeholder name). False when the index is out of range.
+    bool sub_7100F63024(f32* a, f32* b, f32* c, f32* d, sead::Vector3f* out, int index) const;
     // 0x7100f63310: adds / removes the controller to / from System's list when bit 12 of mFlags changes.
     void sub_7100F63310(bool on);
 

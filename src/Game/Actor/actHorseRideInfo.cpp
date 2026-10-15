@@ -186,6 +186,27 @@ bool sub_7100E813B0(ksys::as::ASList* list) {
            name == "RideonWaitHorse";
 }
 
+bool sub_7100E8160C(ksys::phys::CharacterController* controller, f32* a, f32* b,
+                    sead::Vector3f* position) {
+    if (controller->sub_7100F63024(a, b, nullptr, nullptr, position, 0))
+        return true;
+
+    f32 radius;
+    sead::Vector3f vertex_a;
+    sead::Vector3f vertex_b;
+    if (!controller->sub_7100F62FC0(&radius, &vertex_a, &vertex_b, 0))
+        return false;
+
+    if (a)
+        *a = radius;
+    if (b)
+        *b = sead::Mathf::max(vertex_a.y, vertex_b.y) + radius;
+    if (position) {
+        position->set((vertex_a.x + vertex_b.x) * 0.5f, 0.0f, (vertex_a.z + vertex_b.z) * 0.5f);
+    }
+    return true;
+}
+
 bool sub_7100E815C8(ksys::act::AwarenessInstance* awareness) {
     if (awareness && !awareness->sub_7100D7E964() && awareness->enable())
         return true;
