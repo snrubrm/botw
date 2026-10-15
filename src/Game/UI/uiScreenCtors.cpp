@@ -7,6 +7,10 @@ namespace uking::ui {
 
 Unk_7101EC39D4 sUnk_7101EC39D4;
 
+// 0x71025f5450 (see uiScreens.h). The original initialises it from the ScreenStaffRoll TU's
+// static initialiser; a constant initialiser gives the same bytes without a runtime initialiser.
+Unk_71025f5450 sUnk_71025f5450 = {0, 9999, true, true};
+
 
 ScreenEnergyMeterDLC::ScreenEnergyMeterDLC() : ScreenEx() {}
 

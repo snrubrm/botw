@@ -2293,6 +2293,53 @@ void ScreenSystemWindow00::m99() {
     }
 }
 
+// 0x71009d06f4 (slot 154)
+// NON_MATCHING: the _3660 / _3668 stores rematerialise the field load through an address phi
+// (extra mov/add and a reload) where the original keeps the loaded value in a register.
+void ScreenAmiiboWindow::m154(s32 type, bool flag) {
+    _3614 = type;
+    _368a = flag;
+    _368b = ksys::gdt::getFlag_AmiiboItemOnOff(false);
+    switch (_3614) {
+    case 0:
+        sub_71009D0898(4, 0);
+        if (_3670)
+            _3670->Stop(0.0f);
+        if (_3678)
+            _3678->StopAtMin();
+        if (_3680)
+            _3680->Stop(0.0f);
+        _3660 = _3640;
+        _3668 = _3640;
+        break;
+    case 1:
+        sub_71009D09EC(5, 7, 0, 1, 2);
+        if (_3670)
+            _3670->Stop(1.0f);
+        if (_3678)
+            _3678->StopAtMin();
+        if (_3680)
+            _3680->Stop(1.0f);
+        _3660 = _3658;
+        _3668 = _3650;
+        break;
+    case 2:
+        sub_71009D09EC(6, 8, 0, 1, 3);
+        if (_3670)
+            _3670->Stop(1.0f);
+        if (_3678)
+            _3678->StopAtMin();
+        if (_3680)
+            _3680->Stop(0.0f);
+        _3660 = _3658;
+        _3668 = _3650;
+        break;
+    default:
+        return;
+    }
+    open(1);
+}
+
 // 0x71009d0ee4
 void ScreenAmiiboWindow::m98() {
     _3610 = 4;

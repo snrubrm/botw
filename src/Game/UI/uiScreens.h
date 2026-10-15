@@ -3108,9 +3108,9 @@ public:
     eui::AnimButton* _3658{};
     eui::AnimButton* _3660{};
     eui::AnimButton* _3668{};
-    u8 _3670[8]{};
+    /* 0x3670 */ eui::Animator* _3670{};
     /* 0x3678 */ eui::Animator* _3678{};
-    u8 _3680[8]{};
+    /* 0x3680 */ eui::Animator* _3680{};
     /* 0x3688 */ u8 _3688{};
     u8 _3689{};
     u8 _368a{};
@@ -3118,9 +3118,14 @@ public:
     u8 _368c[4];
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
-    virtual void m154(s32 type, s32 draw_target, void* arg);
+    // 0x71009d06f4 (slot 154): sets the state (_3614) and the item flag, then opens the window
+    virtual void m154(s32 type, bool flag);
     virtual void m155();
 
+    // 0x71009d0898 (declared only): formats and applies the two state strings
+    void sub_71009D0898(s32, s32);
+    // 0x71009d09ec (declared only): formats and applies five state strings
+    void sub_71009D09EC(s32, s32, s32, s32, s32);
 };
 
 class ScreenSystemWindowNoBtn : public ScreenEx {
@@ -4273,6 +4278,17 @@ public:
     // 0x7100a32d98 (slot 101): unloads the requested resources
     void m101() override;
 };
+
+// 0x71025f5450: credit-entry range. EventPlayUiStaffRoll writes it just before the staff roll
+// screen opens; the ScreenStaffRoll entry builder reads it. The original zero-initialises it from
+// the ScreenStaffRoll TU's static initialiser to {0, 9999, 1, 1}.
+struct Unk_71025f5450 {
+    s32 _0;
+    s32 _4;
+    bool _8;
+    bool _9;
+};
+extern Unk_71025f5450 sUnk_71025f5450;
 
 class ScreenStaffRoll : public ScreenEx {
 public:
