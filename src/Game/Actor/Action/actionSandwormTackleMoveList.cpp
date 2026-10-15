@@ -1,11 +1,74 @@
 #include "Game/Actor/Action/actionSandwormTackleMove.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 const sead::SafeString& sub_71002CCC20(s32 idx);
 
 // Adjacent target-list helper family used by the two Sandworm tackle actions.
 namespace uking::action {
+
+// Vtable 24510F8. Inline construction in 71F8B0 owns position/radius and the m2 result flag.
+class Unk_71024510f8 : public ksys::act::Unk_71024dccf8 {
+public:
+    Unk_71024510f8(const sead::Vector3f& position, f32 radius)
+        : mPosition(position), mRadius(radius) {}
+    ~Unk_71024510f8() override = default;
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+
+    sead::Vector3f mPosition;
+    bool _34 = false;
+    f32 mRadius;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024510f8, 0x40);
+
+bool Unk_71024510f8::m2(ksys::act::Unk_71024dc978* entry) {
+    _34 = false;
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    if (ksys::act::hasTag(&target->mLink, ksys::act::tags::EatItem)) {
+        ksys::act::ActorLinkConstDataAccess actor;
+        if (ksys::act::acquireActor(&target->mLink, &actor) && actor.isStateCalc() &&
+            (mPosition - actor.getActorMtx().getTranslation()).length() < mRadius)
+            return true;
+    }
+    if (ksys::act::hasTag(&target->mLink, ksys::act::tags::ExplosivesEnemyAI)) {
+        ksys::act::ActorLinkConstDataAccess actor;
+        if (ksys::act::acquireActor(&target->mLink, &actor) && actor.isStateCalc() &&
+            actor.getName().findIndex("RemoteBomb") != -1 &&
+            (mPosition - actor.getActorMtx().getTranslation()).length() < mRadius) {
+            _34 = true;
+            return true;
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: available-target scan and awareness iteration scheduling.
+bool Unk_SandwormTackleMoveList::sub_710071F8B0(const sead::Vector3f& position, f32 radius) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+    auto* target = getAvailableTarget();
+    Unk_71024510f8 filter(position, radius);
+    bool found = false;
+    while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+        if (!filter._34) {
+            ksys::act::ActorLinkConstDataAccess actor;
+            if (ksys::act::acquireActor(&entry->_0.mLink, &actor))
+                actor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        } else if (target) {
+            target->sub_710073E580(&entry->_0.mLink);
+            found = true;
+            target = getAvailableTarget();
+        }
+    }
+    return found;
+}
 
 bool Unk_SandwormTackleMoveList::sub_71F6DC(sead::Heap* heap) {
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
