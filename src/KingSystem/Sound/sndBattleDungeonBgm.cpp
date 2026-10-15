@@ -99,6 +99,22 @@ Unk_710260f1a8* sub_7100FFE14C() {
     return sead::DynamicCast<Unk_710260f1a8>(controller ? controller->_8.sub_7100FF7C74(5) : nullptr);
 }
 
+// NON_MATCHING: the original sets up the stack frame before the null check of the list (ours after it).
+Unk_710260f2b8* sub_7100FFE204() {
+    auto* list = SoundMgr::instance()->_30->_78;
+    if (!list)
+        return nullptr;
+    return sead::DynamicCast<Unk_710260f2b8>(list->find("RemainsWindBattleBgm"));
+}
+
+// NON_MATCHING: the original sets up the stack frame before the null check of the list (ours after it).
+Unk_71025ce390* sub_7100FFE39C() {
+    auto* list = SoundMgr::instance()->_30->_78;
+    if (!list)
+        return nullptr;
+    return sead::DynamicCast<Unk_71025ce390>(list->find("RemainsFireBattleBgm"));
+}
+
 bool sub_7100FFED80() {
     auto* sound = SoundMgr::instance();
     if (!sound)

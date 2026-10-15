@@ -265,6 +265,26 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260ecf8, 0x1a0);
 
+// RTTI typeInfo 0x710260f2b8 (0x1c8 bytes, constructor 0x7101008f50): the "RemainsWindBattleBgm" list BGM.
+class Unk_710260f2b8 : public Unk_710260ecf8 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f2b8, Unk_710260ecf8)
+public:
+    // 0x7101009040 (declared only): the jump cue (EventBgmCtrlAction "RemainsWindBattleBgm_Jump").
+    void sub_7101009040();
+};
+
+// RTTI typeInfo 0x71025ce390 (0x1b8 bytes, constructor 0x71010083d0): the "RemainsFireBattleBgm" list BGM.
+class Unk_71025ce390 : public Unk_710260ecf8 {
+    SEAD_RTTI_OVERRIDE(Unk_71025ce390, Unk_710260ecf8)
+public:
+    // 0x71010084b4 (declared only): the alert cues (EventBgmCtrlAction "RemainsFireBattleBgm_Alert" / "_Alert2").
+    void sub_71010084B4(bool alert);
+};
+
+// 0x7100ffe204 / 0x7100ffe39c: the wind / fire Remains battle BGM in the named BGM list, or null.
+Unk_710260f2b8* sub_7100FFE204();
+Unk_71025ce390* sub_7100FFE39C();
+
 // 0x7100ffee14 (declared only): creates the BGM object for `name` (dedicated classes for four names).
 Unk_710260ecf8* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
 // 0x7100fff0e4: releases the handle of `bgm` and deletes it.
