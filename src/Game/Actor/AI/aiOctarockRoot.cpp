@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiOctarockRoot.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include <prim/seadFormatPrint.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -51,10 +52,51 @@ bool OctarockRoot::handleMessage_(const ksys::Message* message) {
         _368.mLink = _2c8._38.mLink;
         _2c8.x();
         _318 = true;
-        _31c.set(15.0f, 15.0f, -1.0f);
+        _31c.reset(15.0f);
         return true;
     }
     return VacuumEnemyRoot::handleMessage_(message);
+}
+
+// 0x71004ee2c4
+void OctarockRoot::calc_() {
+    sub_71003B5644();
+    auto* actor = mActor;
+    sub_71004EE518();
+    if (_318) {
+        if (!(_31c.value <= sead::Mathf::epsilon())) {
+            _31c.update();
+        } else {
+            bool more_available = false;
+            sub_71004EF02C(&more_available);
+            if (more_available)
+                _31c.reset(5.0f);
+            else
+                _318 = false;
+        }
+    }
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_1)) {
+        if (auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild())) {
+            if (child->getState() == ksys::act::BaseProc::State::Sleep &&
+                sub_71005DC444(child)) {
+                sub_71004EE7EC(child);
+                _328.sub_7100714C9C();
+            } else if (*mIsWigBreakable_s) {
+                child->m128();
+                if (sub_71007A274C(child) && !isCurrentChild("擬態")) {
+                    actor->resetConnectedCalcChild(false);
+                    _328.sub_7100714ED4(false);
+                }
+            }
+        }
+    }
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("リアクション")) {
+        auto* actor = mActor;
+        if (auto* body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "HeadBody"))
+            body->setContactNone();
+    }
+    VacuumEnemyRoot::calc_();
 }
 
 void OctarockRoot::leave_() {

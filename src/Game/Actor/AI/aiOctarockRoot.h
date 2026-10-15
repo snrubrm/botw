@@ -6,6 +6,7 @@
 #include "Game/Actor/aiUnk_7102450d10.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
@@ -28,6 +30,10 @@ public:
     virtual void m45();
 
 protected:
+    void sub_71004EE518();
+    void sub_71004EF02C(bool* more_available);
+    void sub_71004EE7EC(ksys::act::Actor* actor);
+
     // static_param at offset 0x1d8
     const bool* mIsWigBreakable_s{};
     // static_param at offset 0x1e0
@@ -54,7 +60,7 @@ protected:
     u32 _2c0 = 1;
     Unk_710240dd68 _2c8;
     bool _318 = false;
-    sead::Vector3f _31c = {0, 0, 0};
+    ksys::Timer _31c;
     Unk_7102450d10 _328{mActor};
     Unk_7102370e70 _368;
 };
