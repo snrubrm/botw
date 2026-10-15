@@ -1,6 +1,9 @@
 #include "Game/Actor/AI/aiPriestBossMetaAIRoot.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
@@ -89,6 +92,23 @@ void PriestBossMetaAIRoot::calc_() {
     }
     sub_71005266A0();
     sub_7100526918();
+}
+
+// NON_MATCHING: flag temporary stack slots and cached attention pointer.
+void PriestBossMetaAIRoot::sub_7100526918() {
+    using Flag = Unk_7102450fa8::Flag;
+    sub_7100525A88()->_78.resetBit(Flag(Flag::_12));
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::BaseProcLink link;
+    if (sub_7100525A88()->sub_71007194D4(1, &accessor) && accessor.linkAcquire(&link)) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr))) {
+            const auto* attention = actor->getAttention();
+            if (attention && attention->getClientByName("LockOn") &&
+                attention->getClientByName("LockOn")->sub_7100D7251C(1)) {
+                sub_7100525A88()->_78.setBit(Flag(Flag::_12));
+            }
+        }
+    }
 }
 
 bool PriestBossMetaAIRoot::sub_710052656C(Unk_7102450fa8::Unk3* out) {
