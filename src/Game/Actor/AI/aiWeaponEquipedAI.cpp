@@ -9,6 +9,8 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiXlinkHandle.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
 
@@ -30,7 +32,20 @@ void WeaponEquipedAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WeaponEquipedAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_39)
+        sub_7100E1CE30(true);
+    xlink::kill(_40);
+    sub_7100E1E024();
+    if (_38) {
+        sub_7100E1DB34(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                       ksys::phys::ContactLayer::SensorChemical);
+        ksys::act::sub_7100EE544C(mActor);
+        if (auto* physics = mActor->getPhysics())
+            physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_20000);
+        if (auto* xlink = mActor->getXLink())
+            xlink->_cc.reset(0x800);
+        _38 = false;
+    }
 }
 
 // 0x7100e1e024

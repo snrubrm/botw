@@ -16,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
 
+    // Declaration only: tokenizes the weapon material list and changes material visibility.
+    void sub_7100E1CE30(bool visible);
     void sub_7100E1DC50();
     // 0x7100e1db34: sets the contact layer of the main body and of the first "Chemical" body (unless the weapon m213() holds)
     void sub_7100E1DB34(ksys::phys::ContactLayer main_layer, ksys::phys::ContactLayer chemical_layer);
