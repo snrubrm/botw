@@ -342,13 +342,14 @@ void sub_7100EDC6D0() {
         sSub_7100EDC6D0Handler();
 }
 
-using SSub_7100EDC6E8HandlerFn = void (*)();
+using SSub_7100EDC6E8HandlerFn = bool (*)();
 SSub_7100EDC6E8HandlerFn sSub_7100EDC6E8Handler;
 
 // 0x7100edc6e8
-void sub_7100EDC6E8() {
+bool sub_7100EDC6E8() {
     if (sSub_7100EDC6E8Handler)
-        sSub_7100EDC6E8Handler();
+        return sSub_7100EDC6E8Handler();
+    return false;
 }
 
 

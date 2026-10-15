@@ -48,7 +48,7 @@ void loadHorseLayoutRes();
 void sub_7100EDC6A0();
 void sub_7100EDC6B8();
 void sub_7100EDC6D0();
-void sub_7100EDC6E8();
+bool sub_7100EDC6E8();
 
 bool sub_7100EDC580();
 bool sub_7100EDC5D4();
