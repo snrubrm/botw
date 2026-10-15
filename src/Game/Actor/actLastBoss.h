@@ -70,6 +70,8 @@ public:
     // 0x71002c5f18 (CSV LastBoss::x; declaration only): called by GanonShockRoot::leave_.
     void x();
     bool sub_71002C6210(f32 value) const;
+    // Declaration only: toggles the existing WeaponChemical state and flag 8.
+    void sub_71002C6220(bool enabled);
     // 0x71002c5a14 / 0x71002c5db4 (lane1 s23, placeholder names): unload the loaded resident events
     // (_1548, _1718, _18e8 / _1ab8, _1c88).
     void sub_71002C5A14();
@@ -83,8 +85,7 @@ public:
 
     // The "WarpCharge" effect handle (LastBossPreNormalWarp::enter_). 0x14d4-0x14e4 are not initialised by the ctor.
     /* 0x14c8 */ xlink2::HandleELink _14c8;
-    /* 0x14d8 */ u64 _14d8;
-    /* 0x14e0 */ u32 _14e0;
+    /* 0x14d8 */ sead::Vector3f _14d8;  // home position copied by LastBossRoot::enter_; uninitialized
     /* 0x14e4 */ u32 _14e4 = 0;
     /* 0x14e8 */ sead::BitFlag32 _14e8;  // ~55 AI accesses
     /* 0x14ec */ sead::JobQueueLock _14ec;
