@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
 // Name from the CSV (RadarMgr::createInstance 0x710067b9c0, threadFn, calc, ...; no namespace). A singleton whose
@@ -17,4 +18,6 @@ public:
     /* 0x6c */ sead::Vector3f _6c;  // the Sheikah sensor target position (WolfLinkShiekSensorRoot::calc_)
     u8 _78[0x9c - 0x78];
     /* 0x9c */ f32 _9c;  // compared with the Sheikah sensor lead distance by WolfLinkNormalRoot
+    u8 _a0[0x108 - 0xa0];
+    /* 0x108 */ sead::FixedSafeString<64> _108;  // actor group name used by calc and the search thread
 };
