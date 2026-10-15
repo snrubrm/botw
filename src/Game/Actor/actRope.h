@@ -25,6 +25,7 @@ public:
     // Primary vtable slot19 at2358950 points to243E0.
     void onPreDeleteStart_(PrepareArg& arg) override;
     void initMaybe() override;
+    void m63() override;
     void updatePositionMaybe() override;
     ksys::act::Unk_71025ae640* getAtk() override;
 

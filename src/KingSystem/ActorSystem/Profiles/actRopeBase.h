@@ -40,6 +40,7 @@ public:
     void m43(bool on) override;
     bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
+    void m63() override;
     int getExtraHeapSize() override;
 
     // 0x7100ecde98 (declared only): cancels the constraints and removes the rigid bodies of the rope from the world.
