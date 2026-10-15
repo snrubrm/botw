@@ -7,6 +7,11 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/System/VFR.h"
+#include <prim/seadScopedLock.h>
+
+bool fadeSlowEffect();
 
 namespace uking::act {
 
@@ -46,6 +51,20 @@ void LastBoss::initMaybe() {
 void LastBoss::stunEnd() {
     if (auto* controller = sead::DynamicCast<Unk_710244eb48>(m159()))
         controller->sub_71006E252C();
+}
+
+void LastBoss::sub_71002C5E58(bool keep_effect) {
+    auto lock = sead::makeScopedLock(_14ec);
+    if (!_14e8.isOn(0x40))
+        return;
+    ksys::VFR::instance()->resetTimeMultiplier(4);
+    if (auto* physics = getPhysics())
+        physics->sub_7100FB9DB0(true);
+    if (!keep_effect)
+        fadeSlowEffect();
+    _14e8.reset(0xc0);
+    _14e8.set(0x80);
+    _14f8._30.reset(0x40);
 }
 
 void LastBoss::sub_71002C5B3C() {

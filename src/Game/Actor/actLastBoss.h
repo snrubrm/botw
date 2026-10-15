@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadBitFlag.h>
+#include <mc/seadJobQueue.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include <xlink2/xlink2HandleELink.h>
@@ -86,7 +87,7 @@ public:
     /* 0x14e0 */ u32 _14e0;
     /* 0x14e4 */ u32 _14e4 = 0;
     /* 0x14e8 */ sead::BitFlag32 _14e8;  // ~55 AI accesses
-    /* 0x14ec */ u32 _14ec = 0;
+    /* 0x14ec */ sead::JobQueueLock _14ec;
     /* 0x14f0 */ f32 _14f0 = 0;
     /* 0x14f8 */ Unk_71023ce678 _14f8{this};
     /* 0x1530 */ s32 _1530 = 0;
