@@ -123,6 +123,36 @@ void RailMoveObjectOneWay::calc_() {
     sub_710053479C();
 }
 
+// NON_MATCHING: the original captures mActor before the rail calls.
+void RailMoveObjectOneWay::sub_7100534D4C() {
+    if (!_58)
+        return;
+    f32 start = 0.0f;
+    f32 previous = 0.0f;
+    if (_6c == 1) {
+        start = sead::Mathf::ceil(_64);
+        previous = start - 1.0f;
+    } else if (_6c == 2) {
+        start = sead::Mathf::floor(_64);
+        previous = start + 1.0f;
+    }
+    previous = sead::Mathf::clamp(previous, 0.0f, _60 - 1.0f);
+    const sead::Vector3f start_pos = _58->calcTranslate(start);
+    const sead::Vector3f target_pos = _58->calcTranslate(_68);
+    const f32 length = (target_pos - start_pos).length();
+    const f32 distance = (mActor->getMtx().getTranslation() - start_pos).length();
+    const f32 ratio = sead::Mathf::clamp(distance / length, 0.0f, 1.0f);
+    if (_6c == 1) {
+        _64 = start - ratio;
+        _68 = previous + 1.0f;
+    } else if (_6c == 2) {
+        _64 = start + ratio;
+        _68 = previous - 1.0f;
+    }
+    _64 = sead::Mathf::clamp(_64, 0.0f, _60 - 1.0f);
+    _68 = sead::Mathf::clamp(_68, 0.0f, _60 - 1.0f);
+}
+
 void RailMoveObjectOneWay::leave_() {
     ksys::act::ai::Ai::leave_();
 }
