@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
     void m32() override;
+    // 0x71002325bc: declared only; computes the orbit target into the optional output.
+    void sub_71002325BC(sead::Vector3f* position);
 
     // static_param at offset 0x80
     const float* mMaxChaseAngle_s{};
