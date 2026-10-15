@@ -232,7 +232,8 @@ public:
     /* 0x0d5 */ u8 _d5[3];
     /* 0x0d8 */ sead::Vector3f _d8;  // read by BalloonBase::m33 unless _c bit 24 is set
     /* 0x0e4 */ sead::Vector3f _e4;
-    /* 0x0f0 */ u8 _f0[0x10c - 0xf0];
+    /* 0x0f0 */ sead::Vector3f _f0;
+    /* 0x0fc */ u8 _fc[0x10c - 0xfc];
     /* 0x10c */ f32 _10c;  // Player::m353: > 0
     /* 0x110 */ u8 _110[0x12c - 0x110];
     // Wind direction read with bit 13 of _bc (DamageManager::sub_71006D33FC copies it into the damage direction).
