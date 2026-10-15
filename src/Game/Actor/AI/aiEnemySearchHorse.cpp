@@ -8,6 +8,8 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include <limits>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -183,6 +185,102 @@ void EnemySearchHorse::calc_() {
         ksys::act::ActorLinkConstDataAccess accessor;
         ksys::act::acquireActor(&_110, &accessor);
         child->setDynamicParam(accessor.getActorMtx().getTranslation(), "TargetPos");
+    }
+}
+
+// NON_MATCHING: accessor/pack stack placement and timer-reset stores differ.
+void EnemySearchHorse::sub_71003B9A48() {
+    auto* actor = mActor;
+    if (sub_71007A4178(actor, false)) {
+        const s32 count = sub_71007A425C(actor);
+        for (s32 i = 0; i < count; ++i) {
+            // Native constructs and destroys an additional empty accessor for every contact.
+            ksys::act::ActorLinkConstDataAccess unused;
+            bool reached;
+            {
+                auto* contact = sub_71007A40D0(actor, i);
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&contact->_50, &accessor);
+                ksys::res::AttCheck_Unk1 arg;
+                arg._0 = mActor->getMtx();
+                arg._34 = false;
+                arg._36 = false;
+                arg._30 = sead::Mathf::max(mActor->getScale().x, mActor->getScale().y) *
+                          *mParams.mRideRadius_s;
+                reached = accessor.sub_7100D13AE4("Ride", mActor, &arg, false);
+            }
+            if (reached) {
+                _58 = sub_71007A40D0(actor, i)->_50;
+                ksys::act::ai::InlineParamPack pack;
+                pack.addActor(_58, "TargetActor", -1);
+                changeChild("馬到達", &pack);
+                return;
+            }
+        }
+    }
+    if (!_58.hasProc()) {
+        _58.reset();
+        changeChild("馬未発見", nullptr);
+        return;
+    }
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_58, &accessor);
+        auto* rideable = accessor.getHorseOptions();
+        if (!rideable) {
+            setFailed();
+            return;
+        }
+        const act::Unk_7100e8b2b8::Unk8 kind = rideable->Unk_7100e8b2b8::_8.load() & 0xff;
+        if (int(kind) != 0 || (rideable->Unk_7100e8b2b8::_8.load() & 0x100)) {
+            if ((*mParams.mNoWeaponRiding_s || !sub_71005D8B60(mActor)) && sub_71003BA1C4(&_58))
+                return;
+            sub_71003B9624();
+            return;
+        }
+        if (accessor.getLife() <= 0) {
+            sub_71003B9624();
+            return;
+        }
+        const auto position = mActor->getMtx().getTranslation();
+        const f32 distance = (position - accessor.getActorMtx().getTranslation()).length();
+        auto* current_actor = mActor;
+        if (sub_71005D8F28(current_actor)) {
+            const auto& target = sub_71005D9330(current_actor);
+            if ((target - current_actor->getMtx().getTranslation()).length() < distance) {
+                _58.reset();
+                changeChild("馬未発見", nullptr);
+                return;
+            }
+        }
+        const auto target = accessor.getActorMtx().getTranslation();
+        getCurrentChild()->setDynamicParam(target, "TargetPos");
+    }
+    bool reached;
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_58, &accessor);
+        ksys::res::AttCheck_Unk1 arg;
+        arg._0 = mActor->getMtx();
+        arg._34 = false;
+        arg._36 = false;
+        arg._30 = sead::Mathf::max(mActor->getScale().x, mActor->getScale().y) *
+                  *mParams.mRideRadius_s;
+        reached = accessor.sub_7100D13AE4("Ride", mActor, &arg, false);
+    }
+    if (reached) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addActor(_58, "TargetActor", -1);
+        changeChild("馬到達", &pack);
+        return;
+    }
+    _100.update();
+    if (_100.value <= std::numeric_limits<f32>::epsilon()) {
+        if (!sub_71003B9914()) {
+            _58.reset();
+            changeChild("馬未発見", nullptr);
+        }
+        _100.reset(f32(*mParams.mRepathTime_s));
     }
 }
 
