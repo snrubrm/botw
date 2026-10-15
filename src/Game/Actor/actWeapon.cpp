@@ -25,6 +25,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -679,17 +680,43 @@ void Weapon::sub_71002EDC14(const Unk_71002edc14& value) {
     _ce0 = true;
 }
 
-// NON_MATCHING: the original selects the address of the parameter value (add #0x70 / #0x90, then a plain load) and
-// loads the flags byte after the param array clamp; we select the parameter and fold the value offset into the load.
-f32 Weapon::sub_71002ECAFC(const sead::BitFlag8& flags) {
-    auto* attack = getParam()->getRes().mGParamList->getAttack();
-    return flags.isOn(6) ? attack->mImpulseLarge.ref() : attack->mImpulse.ref();
+// NON_MATCHING: equivalent conditional-select operands are inverted for the weapon parameter flags.
+u32 Weapon::getFlags(const u32& flags) {
+    u32 result = flags;
+    const auto* chemical = getChemicalStuff();
+    bool burning = chemical && chemical->_c0 == 2;
+    if (!burning && mChemical) {
+        const auto* element = mChemical->sub_7100E37FA8(0);
+        burning = element && element->_18->isRigidAttribute6Or14Set(element->_288) && m214();
+    }
+    if (burning)
+        result |= 0x200;
+    chemical = getChemicalStuff();
+    if (chemical && chemical->_c0 == 1)
+        result |= 0x400;
+    const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
+    if (param) {
+        if (param->mIsHammer.ref())
+            result |= 0x1000;
+        if (param->mIsLuckyWeapon.ref())
+            result |= 0x2000;
+        if (param->mIsBlunt.ref())
+            result |= 0x4000;
+    }
+    if (ksys::act::hasTag(this, 0x2b533845))
+        result |= 0x8000;
+    return result;
 }
 
-// NON_MATCHING: only the position of the flags byte load and the temporary registers differ.
-s32 Weapon::sub_71002ECB3C(const sead::BitFlag8& flags) {
+// NON_MATCHING: selects the parameter object rather than the address of its value.
+f32 Weapon::sub_71002ECAFC(const u32& flags) {
+    auto* attack = getParam()->getRes().mGParamList->getAttack();
+    return (flags & 6) == 0 ? attack->mImpulse.ref() : attack->mImpulseLarge.ref();
+}
+
+s32 Weapon::sub_71002ECB3C(const u32& flags) {
     s32 power = getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref();
-    return flags.isOn(6) ? (power * 3) >> 1 : power;
+    return (flags & 6) == 0 ? power : (power * 3) >> 1;
 }
 
 bool Weapon::sub_71002ED274() {

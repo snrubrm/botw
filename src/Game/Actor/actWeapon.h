@@ -409,8 +409,8 @@ public:
     // (ImpulseLarge if `flags` has bit 1 or 2). 0x71002ecb3c: GuardBreakPower (x1.5 with those bits).
     u32 sub_71002ECB78();
     u32 getFlags(const u32& flags);
-    f32 sub_71002ECAFC(const sead::BitFlag8& flags);
-    s32 sub_71002ECB3C(const sead::BitFlag8& flags);
+    f32 sub_71002ECAFC(const u32& flags);
+    s32 sub_71002ECB3C(const u32& flags);
     // lane4 s46 (placeholder names): 0x71002ed274 / 0x71002e9a7c test the chemical material attribute (bit 0 / both of
     // 0x88) and a flag of the chemical (_be bit 0 / bit 2).
     bool sub_71002ED274();
