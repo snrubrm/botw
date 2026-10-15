@@ -1,4 +1,6 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -1487,6 +1489,48 @@ void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
 }
 
 // NON_MATCHING: vector register allocation, stack slots and mass-condition scheduling differ.
+// NON_MATCHING: vector load scheduling and register allocation differ.
+bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 distance,
+                   f32 angle, bool check_awareness) {
+    if (!weapon || !enemy)
+        return false;
+    auto* awareness = enemy->getAwareness();
+    if (!awareness)
+        return false;
+    if (check_awareness) {
+        Unk_7102451740 filter;
+        filter._28.acquire(weapon, false);
+        if (distance > 3.0f) {
+            auto* sensor = awareness->_260[0];
+            if (!sensor || !ksys::act::sub_7100D7EEE8(&sensor->_8, &filter))
+                return false;
+        }
+    } else {
+        sead::Vector3f direction = weapon->getMtx().getTranslation() -
+                                  enemy->getMtx().getTranslation();
+        direction.y = 0.0f;
+        direction.normalize();
+        if (distance > 3.0f &&
+            !(direction.dot(enemy->getMtx().getBase(2)) >= std::cos(angle)))
+            return false;
+    }
+    sead::Vector3f offset = weapon->getMtx().getTranslation() -
+                            enemy->getMtx().getTranslation();
+    offset.y = 0.0f;
+    const f32 horizontal_distance = offset.length();
+    if (horizontal_distance > 3.0f &&
+        std::atan2(weapon->getMtx()(1, 3) - enemy->getMtx()(1, 3), horizontal_distance) >=
+            sead::Mathf::deg2rad(70.0f))
+        return false;
+    if (weapon->_cf0 == 4 || weapon->hasParentActor())
+        return false;
+    if (weapon->_d90 && weapon->_d90->m2())
+        return false;
+    if (weapon->get68f().load())
+        return false;
+    return enemy->_f54.isOnBit(weapon->_cf0);
+}
+
 void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
                     const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit) {
     if (!out)

@@ -469,3 +469,7 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
 // Native Lumberjack caller selects model indices; source owner remains unknown.
 void sub_71005DFF24(ksys::act::Actor* actor, s32 new_index, s32 old_index);
 void sub_71005E00C8(ksys::act::Actor* actor);
+
+// 0x71005de53c: whether an Enemy can select a weapon, including visibility, height and type checks.
+bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 distance,
+                   f32 angle, bool check_awareness);
