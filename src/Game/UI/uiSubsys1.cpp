@@ -9,6 +9,10 @@ namespace uking::ui {
 
 // 0x71025d6ab0: bypass for the sensor availability check.
 bool sUnk_71025d6ab0 = false;
+// 0x71025d6a98 / 0x71025d6a9c: written by 0x7100960ad8; 6a98 hides the Unk_7102476738 / Unk_7102476830 markers
+// (their m19), 6a9c is set while UiSubsys1::_3860 is non-zero.
+bool sUnk_71025d6a98 = false;
+bool sUnk_71025d6a9c = false;
 
 bool sub_7100A9C110(s32 value);
 
@@ -117,6 +121,13 @@ bool UiSubsys1::sub_7100960DF8() {
 bool UiSubsys1::sub_7100960DAC(s32 index) const {
     u16 lowest = _3860 != 0 ? sead::BitFlagUtil::countContinuousOffBitFromRight(_3860) : 6;
     return lowest == index;
+}
+
+// NON_MATCHING: the flags are reached through the GOT (the original's TU also holds uiMapMarker.cpp).
+// Placeholder name; no known callers.
+void UiSubsys1::sub_7100961008() {
+    sUnk_71025d6a98 = false;
+    sUnk_71025d6a9c = false;
 }
 
 // 0x710096101c

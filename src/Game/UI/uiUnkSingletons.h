@@ -1148,6 +1148,7 @@ public:
     // 0x7100960dac (CSV uiSubsys1::__auto39; placeholder name): `index` is the lowest set bit of `_3860` (6: none)
     bool sub_7100960DAC(s32 index) const;
     // 0x710096101c / 0x7100961058 / 0x710096106c / 0x710096107c (placeholder names)
+    static void sub_7100961008();
     void sub_710096101C();
     void copy38b8To38b9();
     void set38b8();
