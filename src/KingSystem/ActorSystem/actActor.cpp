@@ -59,6 +59,7 @@
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
@@ -633,6 +634,59 @@ bool Actor::sub_71011CEA90() const {
         return false;
     auto* ragdoll = mPhysics->getRagdollInstance();
     return ragdoll && ragdoll->getWorldState() == phys::RagdollInstance::WorldState::AddedToWorld;
+}
+
+// NON_MATCHING: nested scan exits, inlined buffer size and block order.
+void Actor::sub_71011CAFBC(const sead::SafeString& name, bool enabled) {
+    if (!mPhysics)
+        return;
+    auto* cloth = mPhysics->getClothSet();
+    if (!cloth)
+        return;
+    if (name.isEmpty()) {
+        const s32 count = cloth->_18.size();
+        for (s32 i = 0; i < count; ++i) {
+            if (enabled)
+                cloth->_18[i]._18 &= ~u32(8);
+            else
+                cloth->_18[i]._18 |= 8;
+        }
+        return;
+    }
+    const s32 index = cloth->sub_71012193C4(name);
+    if (index >= 0) {
+        if (enabled)
+            cloth->_18[index]._18 &= ~u32(8);
+        else
+            cloth->_18[index]._18 |= 8;
+        return;
+    }
+    if (enabled)
+        return;
+    sead::FixedSafeString<64> message;
+    auto* list = mASList;
+    if (list == &as::sNullASListMaybe || !list)
+        return;
+    const s32 slots = list->mSlots.size();
+    bool found = false;
+    for (s32 slot = 0; slot < slots && !found; ++slot) {
+        const s32 banks = list->mSlots[slot]._20.size();
+        for (s32 bank = 0; bank < banks && !found; ++bank) {
+            as::ASList::EventQueryResults results;
+            list->sub_710115FB60(&results, 30, slot, bank,
+                                &as::ASList::Unk2::sub_7101163908, true);
+            for (s64 event = 0; event < results.count; ++event) {
+                const auto& entry = results.events[event];
+                entry.name.cstr();
+                if (entry.name == name) {
+                    message.format("再生中AS %d-%d:%s", slot, bank,
+                                   list->x_1(slot, bank).cstr());
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
 }
 
 void Actor::sub_71011CB390() {
