@@ -37,13 +37,12 @@ protected:
     /* 0x1a8 */ struct Unk1a8 {
         sead::Vector3f _0{0, 0, 0};
         bool _c = false;
-        u8 _d[3]{};
+        bool _d[3]{};
     } _1a8{};
     bool sub_710023B234(Unk1a8* out);
     bool sub_710023B458(bool* out);
     // 0x710023b7b4 (declared only; 1492 B).
     void sub_710023B7B4();
-    // 0x710023be44 (declared only; 1284 B): tests the ball's path with ground ray casts.
     bool sub_710023BE44();
 };
 

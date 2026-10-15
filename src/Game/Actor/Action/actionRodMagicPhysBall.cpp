@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -147,6 +150,72 @@ bool RodMagicPhysBall::sub_710023B458(bool* out) {
     if (_a4 > m34())
         return true;
     return _b4 && _a8.value <= sead::Mathf::epsilon();
+}
+
+// NON_MATCHING: vector copies, saved registers and ray endpoint stores are reordered.
+bool RodMagicPhysBall::sub_710023BE44() {
+    if (!mActor)
+        return false;
+    auto* body = sead::DynamicCast<ksys::phys::SphereRigidBody>(mActor->getMainBody());
+    if (!body)
+        return false;
+    const f32 radius = body->getRadius();
+    sead::Vector3f velocity;
+    body->getLinearVelocity(&velocity);
+    sead::Vector3f direction = velocity;
+    direction.normalize();
+    velocity *= 1.0f / 30.0f;
+    velocity *= ksys::VFR::instance()->getDeltaFrame();
+    sead::Vector3f position;
+    body->getPosition(&position);
+    const sead::Vector3f end = direction * radius + position + velocity;
+    sead::Vector3f start = position;
+    if (_1a8._c)
+        start -= direction * 3.0f;
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.setStartAndEnd(start, end);
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        if (_1a8._c) {
+            sead::Vector3f hit_position;
+            query.getHitPosition(&hit_position);
+            hit_position -= sead::Vector3f(_1a8._0.x, position.y, _1a8._0.z);
+            hit_position.normalize();
+            if (direction.dot(hit_position) >= 0.0f)
+                return true;
+        } else {
+            if (*mBgCheckHeight_s < 0.0f)
+                return true;
+            _1a8._d[0] = true;
+        }
+    }
+    _1a8._c = false;
+    if (*mBgCheckHeight_s < 0.0f)
+        return false;
+    query.resetCastResult();
+    {
+        sead::Vector3f elevated_start = start;
+        sead::Vector3f elevated_end = end;
+        elevated_start.y += *mBgCheckHeight_s;
+        elevated_end.y += *mBgCheckHeight_s;
+        query.setStartAndEnd(elevated_start, elevated_end);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+            _1a8._d[1] = true;
+    }
+    query.resetCastResult();
+    {
+        sead::Vector3f elevated_start = start;
+        sead::Vector3f elevated_end = end;
+        elevated_start.y += *mBgCheckHeight_s * 2.0f;
+        elevated_end.y += *mBgCheckHeight_s * 2.0f;
+        query.setStartAndEnd(elevated_start, elevated_end);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+            _1a8._d[2] = true;
+    }
+    return _1a8._d[0] && _1a8._d[1] && _1a8._d[2];
 }
 
 int RodMagicPhysBall::m36() {
