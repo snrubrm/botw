@@ -9,7 +9,15 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiQueries.h"
 #include "KingSystem/ActorSystem/actAiQuery.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace ksys::act {
+
+// Heap bytes needed for the AI parameters stored in an instance parameter buffer.
+s32 getExtraHeapSizeForParams(InstParamPack::Buffer* buffer);
+
+}  // namespace ksys::act
 
 namespace ksys::act::ai {
 

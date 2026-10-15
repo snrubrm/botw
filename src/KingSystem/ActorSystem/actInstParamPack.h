@@ -39,6 +39,7 @@ public:
 
     struct Entry {
         union Data {
+            Data() {}
             s32 i;
             f32 f;
             u32 type1;
@@ -54,8 +55,11 @@ public:
         const char* key;
         sead::SizedEnum<EntryType, s8> type;
         Data data;
+        // Callers keep an Entry on the stack with 0x58 bytes reserved
+        // (getExtraHeapSizeForParams, HorseBase::getExtraHeapSize).
+        u8 _40[0x18];
     };
-    KSYS_CHECK_SIZE_NX150(Entry, 0x40);
+    KSYS_CHECK_SIZE_NX150(Entry, 0x58);
 
     class Buffer {
     public:
@@ -139,7 +143,7 @@ public:
             return true;
         }
 
-        u16 mNumItems;
+        s16 mNumItems;
         s16 mPosition;
         sead::SafeArray<u8, 0xc0> mData;
     };

@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/ActorSystem/aiDemoRootAI.h"
@@ -144,6 +145,52 @@ bool RootAi::loadMapUnitParams(const AIDef& def, sead::Heap* heap) {
 bool RootAi::loadAITreeParams(const AIDef& def, sead::Heap* heap) {
     return mAiTreeParams.load(*mActor, def, heap, AIDefInstParamKind::AITree);
 }
+
+}  // namespace ksys::act::ai
+
+namespace ksys::act {
+
+s32 getExtraHeapSizeForParams(InstParamPack::Buffer* buffer) {
+    if (!buffer)
+        return 0;
+
+    s32 size = 0;
+    s32 position = 0;
+    for (s32 i = 0; i < buffer->getNumParams(); ++i) {
+        InstParamPack::Entry entry;
+        if (!buffer->pop(&position, &entry))
+            break;
+        if (entry.key[0] == '@')
+            continue;
+        if (ActorCreator::isAITreeParam(entry))
+            continue;
+        switch (entry.type) {
+        case InstParamPack::EntryType::Int:
+            size += 0x2c;
+            break;
+        case InstParamPack::EntryType::UInt:
+            size += 0x2c;
+            break;
+        case InstParamPack::EntryType::Float:
+            size += 0x2c;
+            break;
+        case InstParamPack::EntryType::Bool:
+            size += 0x2c;
+            break;
+        case InstParamPack::EntryType::Vec3:
+            size += 0x34;
+            break;
+        case InstParamPack::EntryType::String:
+            size += 0x90;
+            break;
+        }
+    }
+    return size;
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act::ai {
 
 void RootAi::setBehavior(Behavior* behavior) {
     behavior->sub_7100D24A10(
