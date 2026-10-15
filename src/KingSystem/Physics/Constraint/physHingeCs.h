@@ -4,6 +4,8 @@
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkpHingeConstraintData;
+
 namespace ksys::phys {
 
 // 0x7100f6d9dc allocates 0xc0, calls Constraint's constructor and installs
@@ -23,18 +25,20 @@ public:
 
     ~HingeCs() override;
 
-    // 0x7100f6d9dc (CSV HingeCs::make; declared only).
     static HingeCs* make(const Param& param, sead::Heap* heap);
 
-    // 0x7100f6deac (placeholder name; declared only): converts the four vectors to hkVector4 and passes them to
+    // 0x7100f6deac (placeholder name): converts the four vectors to hkVector4 and passes them to
     // the Havok hinge data at +0xb8.
     void sub_7100F6DEAC(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b,
                         const sead::Vector3f& axis_a, const sead::Vector3f& axis_b);
 
 private:
-    // The factory and frame setters establish a data pointer here, but its
-    // library interface remains unresolved.
-    u8 _b8[8];
+    HingeCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+            ConstraintUnk18* breakable, hkpHingeConstraintData* data)
+        : Constraint(instance, body_a, body_b, 3, breakable), mData(data) {}
+
+    // Factory F6D9DC stores the pointer used independently by F6DEAC.
+    hkpHingeConstraintData* mData;
 };
 KSYS_CHECK_SIZE_NX150(HingeCs, 0xc0);
 
