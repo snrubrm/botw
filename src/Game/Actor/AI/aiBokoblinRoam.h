@@ -16,7 +16,6 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    // 0x71003337f4 (declared only)
     void calc_() override;
     void loadParams_() override;
 
@@ -30,6 +29,8 @@ public:
     void changeToRotate();
     // 0x710033433c (placeholder name): ray cast ahead of the actor (TurnCheckDist, TurnCheckHeight)
     bool sub_710033433C();
+    s32 sub_7100334070(bool force);
+    void sub_71003345EC(bool toward_center);
 
 protected:
     // static_param at offset 0x38
