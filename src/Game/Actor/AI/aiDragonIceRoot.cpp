@@ -145,7 +145,7 @@ void DragonIceRoot::calc_() {
                 }
             }
         } else if (!dragon->_1f70.isOnBit(28) && dragon->_1e0c == 3) {
-            // Native b.pl also counts down an unordered timer.
+            // The native countdown also admits an unordered timer.
             if (!(_390 < 0)) {
                 ksys::Timer::update(&_390, -1.0f);
             } else if (s32(_38c++) > 300) {
@@ -410,7 +410,7 @@ void DragonIceRoot::m42() {
     if (!dragon->sub_710000FDFC() || !(_3c4 > 0))
         return;
     ksys::Timer::update(&_3c4, -1.0f);
-    // Native b.pl includes an unordered timer in this countdown branch.
+    // The native countdown branch also admits an unordered timer.
     if (!(_3bc < 0)) {
         ksys::Timer::update(&_3bc, -1.0f);
         return;
