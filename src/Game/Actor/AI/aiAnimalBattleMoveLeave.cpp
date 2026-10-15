@@ -5,6 +5,11 @@
 
 namespace uking::ai {
 
+namespace {
+const f32 sLeaveAngles[] = {sead::Mathf::deg2rad(-135.0f), sead::Mathf::deg2rad(135.0f)};
+}
+
+
 AnimalBattleMoveLeave::AnimalBattleMoveLeave(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 AnimalBattleMoveLeave::~AnimalBattleMoveLeave() = default;
@@ -105,6 +110,41 @@ void AnimalBattleMoveLeave::calc_() {
             return;
     }
     sub_7100303A90();
+}
+
+// NON_MATCHING: vector load/register scheduling, temporary stack slots and probe-return layout differ.
+sead::Vector3f AnimalBattleMoveLeave::sub_7100304170() {
+    auto* actor = mActor;
+    const auto position = actor->getMtx().getTranslation();
+    const auto target = *mTargetPos_d;
+    sead::Vector3f front = actor->getMtx().getBase(2);
+    front.normalize();
+    sead::Vector3f direction = target - position;
+    direction.y = 0.0f;
+    direction.normalize();
+    const f32 angle = sLeaveAngles[front.cross(direction).y >= 0.0f];
+    sead::Matrix34f rotation;
+    rotation.makeR({0.0f, angle, 0.0f});
+    sead::Vector3f offset;
+    offset.setRotated(rotation, -direction);
+    offset.normalize();
+    offset *= 5.0f;
+    sead::Vector3f destination = target + offset;
+    sead::Vector3f hit_position;
+    if (!sub_710072FAB0(actor, destination, &hit_position, -1, -1.0f, -1.0f)) {
+        destination = target + offset * 0.9f;
+        direction = destination - position;
+        direction.normalize();
+        if (!sub_710072FAB0(actor, destination + direction, &hit_position, -1, -1.0f, -1.0f)) {
+            destination = target + offset * 1.6f;
+            direction = destination - position;
+            direction.normalize();
+            if (!sub_710072FAB0(actor, destination + direction, &hit_position, -1, -1.0f, -1.0f))
+                destination = *mTargetPos_d;
+        }
+        _48 = ksys::Timer(70.0f, 70.0f);
+    }
+    return destination;
 }
 
 void AnimalBattleMoveLeave::leave_() {

@@ -21,7 +21,7 @@ public:
 
     // 0x7100303a90 (placeholder name; declared only)
     void sub_7100303A90();
-    // 0x7100304170 (placeholder name; declared only): the position to move away to.
+    // 0x7100304170 (placeholder name): the position to move away to.
     sead::Vector3f sub_7100304170();
 
 protected:
