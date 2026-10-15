@@ -39,6 +39,7 @@ protected:
     void sub_71004DEA74();
     // 0x71004dd700: starts the "待機" child (timer _90[1] = 300)
     void sub_71004DD700();
+    void sub_71004DD80C();
     // static_param at offset 0x38
     const float* mReleaseDistance_s{};
     // static_param at offset 0x40

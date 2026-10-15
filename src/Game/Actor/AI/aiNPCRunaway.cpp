@@ -31,7 +31,29 @@ bool NPCRunaway::init_(sead::Heap* heap) {
 }
 
 void NPCRunaway::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71005D7518(mActor, false);
+    mActor->getLodState()->mFlags8.set(0x40000);
+    sub_710071418C(mActor, &_188);
+    sub_71004DD654(&_d8);
+    if (ksys::act::hasTag(mActor, 0x207cbce1))
+        mActor->emitBasicSigOn();
+    if (*mIsReturnFromDemo_d) {
+        sub_71004DD700();
+        return;
+    }
+    if (*mTerrorLayer_d & 0x100)
+        sub_7100711FAC(mActor, "TerrorAnimal");
+    _8d = false;
+    if (_80) {
+        _80->_1048 = 4;
+        sub_7100713564(mActor, 4);
+        _80->_1038 = 0;
+    }
+    for (auto& link : _e8)
+        link.reset();
+    sub_71004DD80C();
+    sub_71007130BC(mActor, false);
+    changeChild("驚く", nullptr);
 }
 
 void NPCRunaway::leave_() {
