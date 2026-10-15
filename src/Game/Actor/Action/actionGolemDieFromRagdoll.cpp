@@ -1,10 +1,19 @@
 #include "Game/Actor/Action/actionGolemDieFromRagdoll.h"
 #include <prim/seadFormatPrint.h>
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7100724C64.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -17,7 +26,51 @@ bool GolemDieFromRagdoll::init_(sead::Heap* heap) {
 }
 
 void GolemDieFromRagdoll::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_710072BB28(mActor);
+    const f32 time = static_cast<f32>(*mTime_s);
+    mTimer = ksys::Timer(time, time);
+    auto* actor = mActor;
+    auto* physics = actor->getPhysics();
+    if (!physics || !physics->getRagdollInstance()) {
+        setFailed();
+        return;
+    }
+    auto* ragdoll = physics->getRagdollInstance();
+    auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor);
+    if (!dynamic_actor || !dynamic_actor->_868) {
+        setFailed();
+        return;
+    }
+    auto* handler = dynamic_actor->_868;
+    s32 controller_idx = -1;
+    if (!mRagdollControllerKey_s.isEmpty())
+        controller_idx = physics->sub_7100FBDA2C(mRagdollControllerKey_s);
+    if (controller_idx < 0)
+        controller_idx = physics->get112();
+    _11c = controller_idx;
+    if (!actor->sub_71011CEA90() || !handler->sub_71006ED9EC())
+        handler->sub_71006ED484();
+    physics->sub_7100FBC838(_11c);
+    physics->sub_7100FBDB90(_11c, -1.0f);
+    ragdoll->x_22(-1, 0.0f);
+    for (const auto& body : mRagdollBodies_s)
+        sub_71007282F8(actor, body);
+    if (auto* current_physics = mActor->getPhysics()) {
+        if (auto* current_ragdoll = current_physics->getRagdollInstance()) {
+            for (s32 i = 0; i < current_ragdoll->getRigidBodies_().size(); ++i)
+                current_ragdoll->getRigidBodies_()[i]->changeMotionType(ksys::phys::MotionType::Dynamic);
+        }
+    }
+    sub_71005E1B7C(mActor, false);
+    if (auto* controller = actor->getCharacterController()) {
+        controller->sub_7100F60AE0();
+        controller->sub_7100F5E7F0(0.0f);
+        controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+        controller->sub_7100F62CA8(false);
+    }
+    _120 = 0;
+    if (!mXLinkKey_s.isEmpty())
+        xlinkSearchAndEmit(mActor, mXLinkKey_s.cstr(), 2, nullptr);
 }
 
 void GolemDieFromRagdoll::leave_() {
@@ -79,6 +132,36 @@ void GolemDieFromRagdoll::sub_710018C27C() {
         body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
     } else {
         controller->sub_7100F5FBE0(body_pos);
+    }
+}
+
+// NON_MATCHING: saved scalar registers and the near-limit setup are reordered.
+void GolemDieFromRagdoll::sub_710018C59C() {
+    auto* actor = mActor;
+    auto* ragdoll = actor->getRagdollInstance();
+    if (!ragdoll || ragdoll->getRigidBodies_().size() < 1)
+        return;
+    const f32 limit = *mRagdollMoveLimitDist_s;
+    const f32 near_limit = limit * 0.9f;
+    const auto actor_position = actor->getMtx().getTranslation();
+    for (s32 i = 0; i < ragdoll->getRigidBodies_().size(); ++i) {
+        auto* body = ragdoll->getRigidBodies_()[i];
+        sead::Vector3f position;
+        body->getPosition(&position);
+        const sead::Vector2f offset(actor_position.x - position.x, actor_position.z - position.z);
+        const f32 distance = offset.length();
+        const f32 height = actor_position.y - position.y;
+        if (distance > limit || height > limit) {
+            body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+            body->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+            body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        } else if (distance > near_limit || height > near_limit) {
+            sub_7100738084(body, *mPosReduceRatio_s * 0.8f, -sead::Vector3f::ey);
+            sub_7100738898(body, *mRotReduceRatio_s * 0.8f);
+        } else {
+            sub_7100738084(body, *mPosReduceRatio_s, -sead::Vector3f::ey);
+            sub_7100738898(body, *mRotReduceRatio_s);
+        }
     }
 }
 
