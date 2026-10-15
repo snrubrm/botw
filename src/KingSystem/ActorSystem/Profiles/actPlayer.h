@@ -738,7 +738,9 @@ public:
     /* 0x1f90 */ s32 _1f90;  // cut-turn count (PlayerCutTurn effect name "Kaitengiri_%d")
     /* 0x1f94 */ u8 _1f94[4];
     /* 0x1f98 */ s64 _1f98;  // read by sub_7100892F1C (|_1f98| range test)
-    /* 0x1fa0 */ u8 _1fa0[0x1fbc - 0x1fa0];
+    /* 0x1fa0 */ u8 _1fa0[8];
+    /* 0x1fa8 */ f32 _1fa8;
+    /* 0x1fac */ u8 _1fac[0x1fbc - 0x1fac];
     /* 0x1fbc */ f32 _1fbc;
     /* 0x1fc0 */ u8 _1fc0[0x1ffc - 0x1fc0];
     /* 0x1ffc */ s32 _1ffc;
