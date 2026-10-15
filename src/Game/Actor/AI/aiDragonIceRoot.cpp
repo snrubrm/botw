@@ -72,6 +72,176 @@ void DragonIceRoot::leave_() {
     _398.fadeXLink();
 }
 
+// NON_MATCHING: phase-switch branch order and alive-count addition scheduling differ.
+void DragonIceRoot::calc_() {
+    DragonRoot::calc_();
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon || !dragon->getCharacterController())
+        return;
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+
+    if (child->isFinishedOrFailed()) {
+        if (isCurrentChild("ラネール山頂から移動開始")) {
+            dragon->_1f70.reset(0x20000000);
+            if (sead::DynamicCast<act::Dragon>(mActor)) {
+                _388 = 1;
+                sub_7100357150(-1.0f, mGrudgeEventRail_pre1st_s, sead::Vector2f::zero);
+                m40(-1.0f);
+            }
+        } else if (isCurrentChild("ラネール山頂へ帰還")) {
+            changeChild("ラネール山頂待機", nullptr);
+        } else if (isCurrentChild("ラネール山頂からの帰還予備動作")) {
+            if (sead::DynamicCast<act::Dragon>(mActor)) {
+                _388 = 5;
+                changeChild("ラネール山頂から空へ", nullptr);
+            }
+        } else if (isCurrentChild("ラネール山頂から空へ")) {
+            dragon->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            setFinished();
+        }
+    } else if (child->isChangeable()) {
+        if (m47() && dragon->_1e0c == 3 && isCurrentChild("ラネール山頂待機"))
+            changeChild("ラネール山頂からの帰還予備動作", nullptr);
+        if (isCurrentChild("停止"))
+            changeChild("帰還", nullptr);
+        if ((dragon->_1f70.getDirect() & 0x300) == 0x200) {
+            _38c = 0;
+            if (!isCurrentChild("ラネール山頂待機") && _38._8.rail) {
+                // Native retains this repeated name lookup and discards its result.
+                if (_38._8.rail->getUniqueName())
+                    _38._8.rail->getUniqueName();
+                if (_388 == 6) {
+                    s32 alive = dragon->getGameDataFlagGrudgeAlive(0);
+                    alive += dragon->getGameDataFlagGrudgeAlive(1);
+                    alive += dragon->getGameDataFlagGrudgeAlive(2);
+                    alive += dragon->getGameDataFlagGrudgeAlive(3);
+                    if (alive < 4)
+                        _388 = 3 - alive;
+                }
+                switch (_388) {
+                case 3:
+                    if (sead::DynamicCast<act::Dragon>(mActor)) {
+                        _3c8 = 40.0f;
+                    }
+                    break;
+                case 2:
+                    if (sead::DynamicCast<act::Dragon>(mActor)) {
+                        _3c4 = 1200.0f;
+                        _388 = 3;
+                        sub_7100357150(-1.0f, mGrudgeEventRail_pre3rd_s, sead::Vector2f::zero);
+                        m40(-1.0f);
+                    }
+                    break;
+                case 1:
+                    if (sead::DynamicCast<act::Dragon>(mActor)) {
+                        _3c4 = 900.0f;
+                        _388 = 2;
+                        sub_7100357150(-1.0f, mGrudgeEventRail_pre2nd_s, sead::Vector2f::zero);
+                        m40(-1.0f);
+                    }
+                    break;
+                }
+            }
+        } else if (!dragon->_1f70.isOnBit(28) && dragon->_1e0c == 3) {
+            // Native b.pl also counts down an unordered timer.
+            if (!(_390 < 0)) {
+                ksys::Timer::update(&_390, -1.0f);
+            } else if (s32(_38c++) > 300) {
+                _38c = 0;
+                if (isCurrentChild("移動")) {
+                    // Native repeats this lookup even though no caller consumes its name.
+                    if (_38._8.rail->getUniqueName())
+                        _38._8.rail->getUniqueName();
+                    s32 active = dragon->sub_710000F70C(0);
+                    active += dragon->sub_710000F70C(1);
+                    active += dragon->sub_710000F70C(2);
+                    active += dragon->sub_710000F70C(3);
+                    switch (_388) {
+                    case 3:
+                        if (active < 1 && sead::DynamicCast<act::Dragon>(mActor)) {
+                            _3c8 = 40.0f;
+                        }
+                        break;
+                    case 2:
+                        if (active < 2 && sead::DynamicCast<act::Dragon>(mActor)) {
+                            _3c4 = 1200.0f;
+                            _388 = 3;
+                            sub_7100357150(-1.0f, mGrudgeEventRail_pre3rd_s, sead::Vector2f::zero);
+                            m40(-1.0f);
+                        }
+                        break;
+                    case 1:
+                        if (active < 3 && sead::DynamicCast<act::Dragon>(mActor)) {
+                            _3c4 = 900.0f;
+                            _388 = 2;
+                            sub_7100357150(-1.0f, mGrudgeEventRail_pre2nd_s, sead::Vector2f::zero);
+                            m40(-1.0f);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if (dragon->_1e0c != 3)
+        return;
+    if (_3c8 > 0) {
+        ksys::Timer::update(&_3c8, -1.0f);
+        if (_3c8 <= 0) {
+            _388 = 4;
+            if (!dragon->getGameDataFlag("GrudgeDestroyComplete", -1))
+                dragon->setGameDataFlag(true, "GrudgeDestroyComplete", -1);
+        }
+    }
+    if (dragon->_1e0c != 3)
+        return;
+    auto* as_list = dragon->getASList();
+    if (u32(_388) < 5) {
+        dragon->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1000000);
+        if (as_list)
+            as_list->x_2(66, 1, true, false);
+    } else {
+        dragon->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        if (as_list)
+            as_list->x_2(66, 1, false, false);
+    }
+    if (dragon->_1e0c != 3)
+        return;
+    // Native discards the event-slot helper's loaded/entry-point result.
+    if (_388 == 3)
+        sub_7100369CD4("Demo480_0", "DragonGrudgeAllOff");
+    if (isCurrentChild("ラネール山頂待機") && !dragon->sub_710000FDFC())
+        sub_7100369CD4("Demo480_3", "IceDragonPartsFirstGet");
+    if (dragon->_1f70.isOnBit(28))
+        return;
+    bool destroyed = false;
+    if (dragon->sub_710000FF60(0)) {
+        xlinkSearchAndEmit(dragon, "GrudgeDestroy_A", 2, nullptr);
+        destroyed = true;
+    }
+    if (dragon->sub_710000FF60(1)) {
+        xlinkSearchAndEmit(dragon, "GrudgeDestroy_B", 2, nullptr);
+        destroyed = true;
+    }
+    if (dragon->sub_710000FF60(2)) {
+        xlinkSearchAndEmit(dragon, "GrudgeDestroy_C", 2, nullptr);
+        destroyed = true;
+    }
+    if (dragon->sub_710000FF60(3)) {
+        xlinkSearchAndEmit(dragon, "GrudgeDestroy_D", 2, nullptr);
+        destroyed = true;
+    }
+    if (destroyed)
+        _3b8 = f32(*mGrudgeSmokeTime_s);
+    if (_3b8 > 0) {
+        ksys::Timer::update(&_3b8, -1.0f);
+        if (_3b8 <= 0)
+            _398.fadeXLink();
+    }
+}
+
 bool DragonIceRoot::sub_7100369CD4(const sead::SafeString& event_name,
                                       const sead::SafeString& entry_point) {
     auto* manager = ksys::evt::Manager::instance();
