@@ -517,7 +517,8 @@ public:
     ksys::act::BaseProcLink _40;
     sead::SafeString _50;
     sead::Matrix34f _60;
-    sead::Matrix34f _90;
+    sead::Matrix33f _90;
+    sead::Vector3f _b4;
     sead::Vector3f _c0;
     u8 _cc[4];
     bool _d0 = false;

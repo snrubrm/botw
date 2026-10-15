@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    bool handleMessage_(const ksys::Message* message) override;
     // Full F4798 reads DungeonName and sets this action's dungeon position.
     void sub_71000F4798();
 
