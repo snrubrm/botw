@@ -32,6 +32,9 @@ public:
 protected:
     void calc_() override;
     ksys::map::Object* sub_71000FC4EC();
+    // inline-only in the original; name is a guess. The fixed SoundProxy scan
+    // repeats in enter_ and calc_.
+    inline ksys::map::Object* findFixedSoundProxyObject() const;
     void sub_71000FCCA4(const sead::Vector3f* rotation, bool reverse);
     void sub_71000FD51C();
     virtual float m32();
@@ -70,7 +73,7 @@ protected:
     u32 _9c;
     xlink2::HandleSLink* _a0 = nullptr;
     xlink2::HandleSLink* _a8 = nullptr;
-    u32 _b0 = 0;
+    s32 _b0 = 0;
     u8 _b4 = 0;
     bool _b5 = false;
     f32 _b8 = 1.0f;
