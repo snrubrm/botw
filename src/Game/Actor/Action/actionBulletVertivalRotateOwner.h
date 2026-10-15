@@ -29,7 +29,7 @@ protected:
     ksys::VFRValue _44;
     f32 _50 = 0.0f;
     f32 _54 = 0.0f;
-    bool _58 = false;
+    s8 _58 = 0;
 };
 
 }  // namespace uking::action
