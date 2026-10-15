@@ -46,7 +46,7 @@ void MetalObjectBuried::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("地上");
 }
 
-// NON_MATCHING: query setup and vector arithmetic scheduling differ.
+// NON_MATCHING: vector arithmetic scheduling and branch layout differ.
 bool MetalObjectBuried::sub_71004A5990(f32 scale, sead::Vector3f* hit_pos,
                                      sead::Vector3f* normal, f32* distance,
                                      const sead::Vector3f& target) {
@@ -64,7 +64,7 @@ bool MetalObjectBuried::sub_71004A5990(f32 scale, sead::Vector3f* hit_pos,
     query.enableLayer(ksys::phys::ContactLayer::EntityGround);
     query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
     query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
-    query.setGroupHandlerIfAny(sub_710072E804(actor, 0));
+    query.setGroupHandler(sub_710072E804(actor, 0));
     query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_1);
     sead::Vector3f start;
     sead::Vector3f end;

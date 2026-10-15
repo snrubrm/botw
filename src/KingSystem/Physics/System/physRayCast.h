@@ -77,6 +77,10 @@ public:
             mGroupHandler = handler;
     }
 
+    // inline-only in the original; name is a guess. The unconditional store appears in
+    // MetalObjectBuried::sub_71004A5990 and RayCastRequestMgr::allocRequest (0x7100fc5ab8).
+    void setGroupHandler(SystemGroupHandler* handler) { mGroupHandler = handler; }
+
     /// @warning Only up to 4 groups can be ignored.
     bool addIgnoredGroup(SystemGroupHandler* group_handler);
     void setRigidBody(RigidBody* body);
