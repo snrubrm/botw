@@ -95,6 +95,8 @@ public:
     // Placeholder names (called by NPC AI code).
     bool sub_71000228F8();
     bool sub_7100022B54();
+    // 0x7100022b9c: looks up the animation's scalar in the NPC's existing records.
+    f32 sub_7100022B9C(const sead::SafeString& name) const;
     // 0x71000224f0 / 0x7100022554: forward to ActorWeapons::dropWeapon / dropAllWeapons (twins of
     // PlayerOrEnemy::dropWeapon / sub_7100007A1C).
     bool sub_71000224F0(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
