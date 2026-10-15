@@ -5,6 +5,7 @@
 
 namespace ksys::phys {
 class Unk_7102372790;
+class NavMeshCharacter;
 }
 
 namespace uking::action {
@@ -22,6 +23,7 @@ public:
 
 protected:
     void calc_() override;
+    bool sub_71001A25D4(ksys::phys::NavMeshCharacter* character);
 
     // static_param at offset 0x78
     const float* mSearchRadius_s{};

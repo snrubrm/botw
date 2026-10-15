@@ -1,5 +1,7 @@
 #include "Game/Actor/Action/actionHorseMoveToSafePos.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -40,7 +42,31 @@ void HorseMoveToSafePos::loadParams_() {
 }
 
 void HorseMoveToSafePos::calc_() {
-    AnimalMoveGuidedBase::calc_();
+    auto* character = mActor->m45();
+    if (isFinished() || isFailed() || !character || (character->_220 & 0x41000)) {
+        AnimalMoveGuidedBase::calc_();
+        return;
+    }
+    if (_a8) {
+        if (!_a0 && !sub_71001A25D4(character))
+            setFailed();
+    } else {
+        if (!_a0) {
+            AnimalMoveGuidedBase::calc_();
+            return;
+        }
+        if (_a0->_8 == 2) {
+            character->sub_7100F75F8C(_a0->_c);
+            ksys::phys::HavokAI::instance()->destroyQuery(_a0);
+            _a0 = nullptr;
+        }
+    }
+    mActor->getASList()->x_6(1, 0, 0.0f);
+    mActor->getASList()->x_6(2, 0, 0.0f);
+    mActor->getASList()->x_6(9, 0, 0.0f);
+    auto* rideable = mActor->m132();
+    auto* as_list = mActor->getASList();
+    act::sub_7100E7F698(rideable, as_list, mActor->getCharacterController());
 }
 
 }  // namespace uking::action
