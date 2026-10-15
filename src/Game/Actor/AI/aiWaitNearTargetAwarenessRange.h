@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,9 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
+    f32 sub_71005EA1AC();
     void loadParams_() override;
 
 protected:
@@ -28,9 +31,7 @@ protected:
     const bool* mUseNavMeshRequest_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
-    f32 _68 = 0;
-    u32 _6c = 0;
-    u32 _70 = 0;
+    ksys::Timer _68{};
 };
 KSYS_CHECK_SIZE_NX150(WaitNearTargetAwarenessRange, 0x78);
 
