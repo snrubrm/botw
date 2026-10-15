@@ -6,6 +6,9 @@
 #include "Game/Actor/actSoundProxy.h"
 #include "Game/gameGearMgr.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
@@ -38,8 +41,32 @@ bool DungeonRotateBase::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: home matrix copy lowers to memcpy; matrix and map-scan stack storage differs.
 void DungeonRotateBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const sead::Matrix34f home = mActor->getHomeMtxRaw();
+    auto* manager = ksys::phys::System::instance()->getStaticCompoundMgr();
+    sead::Vector3f axis = sead::Vector3f::zero;
+    f32 angle = 0.0f;
+    home.getBase(_70, *mRotateAxisIndex_s);
+    if (manager) {
+        sead::Matrix34f transformed;
+        transformed.setMul(manager->getExtraTransform(_90, _7c), home);
+        ksys::util::sub_71011EF78C(&axis, &angle, home, transformed, _70);
+    }
+    if (_70.dot(axis) < 0.0f)
+        angle = -angle;
+    _80 = angle;
+    m32();
+    m33();
+    m34(sead::Mathf::deg2rad(*mAngleVelocityControlAccelDeg_m));
+    _b0 = 0;
+    _b4 = 0;
+    _b5 = false;
+    _b8 = 1.0f;
+    if (auto* proxy = ksys::snd::SoundMgr::instance()->_a0->sub_710105A830(sub_71000FC4EC()))
+        proxy->_8b8 = true;
+    if (auto* proxy = ksys::snd::SoundMgr::instance()->_a0->sub_710105A830(findFixedSoundProxyObject()))
+        proxy->_8b8 = true;
 }
 
 void DungeonRotateBase::leave_() {

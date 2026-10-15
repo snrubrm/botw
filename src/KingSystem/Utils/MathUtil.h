@@ -104,6 +104,11 @@ void sub_71011EF1C4(sead::Vector3f* axis, f32* angle, const sead::Matrix33f& fro
 void sub_71011EF51C(sead::Vector3f* axis, f32* angle, const sead::Matrix34f& from,
                     const sead::Matrix34f& to, const sead::Vector3f& default_axis);
 
+// Complete 628-byte callee and DungeonRotateBase entry establish both writable outputs
+// and the three const inputs. Declaration only; distinct matrix order from EF51C.
+void sub_71011EF78C(sead::Vector3f* axis, f32* angle, const sead::Matrix34f& from,
+                    const sead::Matrix34f& to, const sead::Vector3f& default_axis);
+
 // 0x71011efa00: `out` = `v` minus its projection onto `n` (`n` is assumed to be normalised).
 void sub_71011EFA00(sead::Vector3f* out, const sead::Vector3f& v, const sead::Vector3f& n);
 
