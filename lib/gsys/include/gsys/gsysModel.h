@@ -14,6 +14,10 @@
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelUnitGroup.h>
 
+namespace uking::ai {
+class FishRoot;
+}
+
 namespace gsys {
 
 struct BoneAccessKey;
@@ -53,6 +57,8 @@ public:
 
 // TODO
 class Model : public sead::IDisposer, public sead::hostio::Node {
+    // FishRoot's native model callback reads the existing scale factor at +0x94.
+    friend class uking::ai::FishRoot;
 public:
     struct CreateArg {
         CreateArg();
