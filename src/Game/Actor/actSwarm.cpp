@@ -7,6 +7,10 @@
 #include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSwarm.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
@@ -14,6 +18,12 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::act {
+
+namespace {
+// 0x71025b7198 / 0x71025b71a8 (initialized by the TU's sinit at 0x71002d76b4).
+sead::SafeString sHeapMeasure = "_HeapMeasure";
+sead::SafeString sSubUnitNum = "SubUnitNum";
+}  // namespace
 
 // NON_MATCHING: the body pause helpers are inlined into the forwarding loops.
 void Swarm::m43(bool on) {
@@ -25,6 +35,33 @@ void Swarm::m43(bool on) {
         _15e8[i]._8.sub_71002D7870(true);
     for (s32 i = 0, count = _15f8.size(); i < count; ++i)
         _15f8[i]._8.sub_71002D7870(true);
+}
+
+// NON_MATCHING: the original addresses the two strings through a merged-globals base that starts at the TU's
+// first static (0x71025b7030, not yet defined here), which changes register allocation; the out value of
+// tryGetParamIntByKey is at sp+4 instead of x29-0x24.
+// The heap size of the sub-units the placement removes: the "<name>_HeapMeasure" InstSize is the
+// size of one sub-unit less than the full swarm, so the difference is the per-unit size.
+int Swarm::getExtraHeapSize() {
+    if (getName().findIndex(sHeapMeasure) != -1)
+        return 0;
+
+    const s32 full_size = ksys::act::InfoData::instance()->getInstSize(getName().cstr());
+    sead::FormatFixedSafeString<128> measure_name("%s%s", getName().cstr(), sHeapMeasure.cstr());
+    const s32 measure_size = ksys::act::InfoData::instance()->getInstSize(measure_name.cstr());
+    if (measure_size == 0)
+        return 0;
+
+    const s32 num = getParam()->getRes().mGParamList->getSwarm()->mSwarmSubActorNum.ref();
+    const s32 unit_size = (full_size - measure_size) / (num - 1);
+    if (unit_size < 0)
+        return 0;
+
+    s32 sub_unit_num = num;
+    getMapObjIter().tryGetParamIntByKey(&sub_unit_num, sSubUnitNum);
+    if (sub_unit_num < 1 || sub_unit_num > num)
+        return 0;
+    return (sub_unit_num - num) * unit_size;
 }
 
 void Swarm::UnitBody::BodyState::sub_71002D782C() {
