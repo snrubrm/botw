@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 
 void sub_71002C65C8(ksys::act::Actor* actor, bool a1, bool a2);
@@ -53,6 +55,44 @@ bool SiteBossBowRoot::init_(sead::Heap* heap) {
 
 void SiteBossBowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossRoot::enter_(params);
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss) {
+        if (_120 == 1)
+            boss->_1558.set(0x20000);
+        if (ksys::act::hasTag(mActor, ksys::act::tags::EnemySiteBoss_R))
+            boss->_1534 = 8;
+        else
+            boss->_1534 = *mIsRemainBoss_s ? 0 : 4;
+        boss->_1558.set(0x800000);
+    }
+
+    bool disable_draw = !ksys::act::hasTag(mActor, ksys::act::tags::EnemySiteBoss_R);
+    if (!disable_draw) {
+        auto* life = boss->getLife();
+        disable_draw = life && *life < 1;
+    }
+    if (disable_draw && ksys::gdt::getFlag_DisableDraw_ChildDevice(false)) {
+        _120 = 2;
+    } else if (_120 == 0) {
+        if (boss) {
+            for (s32 i = 0; i < 4; ++i)
+                boss->_1560.sub_710066D708(i);
+            for (s32 i = 0; i < 4; ++i)
+                boss->_1560.sub_710066C13C(nullptr, i);
+            boss->_1558.set(0x20000);
+        }
+        _120 = 1;
+    }
+
+    if (ksys::gdt::getFlag_DisableDraw_ChildDevice(false) ||
+        (getCurrentChild() && isCurrentChild("出現デモ待ち"))) {
+        sub_71002C65C8(mActor, true, true);
+        _124 = true;
+    } else {
+        _124 = false;
+    }
+    if (testRootAiFlag(ksys::act::ai::RootAiFlag::_7))
+        boss->_1558.reset(0x40000);
 }
 
 void SiteBossBowRoot::calc_() {
