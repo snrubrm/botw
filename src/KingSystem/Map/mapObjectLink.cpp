@@ -497,6 +497,41 @@ bool ObjectLinkData::sub_7100D4F0F0(sead::Matrix34f* mtx) {
     return tag->sub_7100D39D60(mtx);
 }
 
+void ObjectLinkData::sub_7100D4F1D0(s32 core, MessageTransceiverBase* sender, s32 a1, s32 a2,
+                                    s32 message, void* user_data, const sead::SafeString* target) {
+    const bool other_links = a1 & 1;
+    const bool cs_links = a1 & 2;
+
+    if (a2 & 2) {
+        if (other_links) {
+            for (auto& link : mLinksOther.links) {
+                act::ActorLinkConstDataAccess accessor;
+                link.getObjectProcWithAccessor(accessor);
+                accessor.sub_7100D15964(core, sender, a1, a2, message, user_data, target);
+            }
+        }
+        if (cs_links) {
+            for (auto& link : mLinksCs.links) {
+                act::ActorLinkConstDataAccess accessor;
+                link.getObjectProcWithAccessor(accessor);
+                accessor.sub_7100D15964(core, sender, a1, a2, message, user_data, target);
+            }
+        }
+    }
+
+    if (a2 & 1) {
+        for (auto& link : mLinksToSelf.links) {
+            const bool is_cs = link.type >= MapLinkDefType::FixedCs &&
+                               link.type <= MapLinkDefType::RackAndPinionCs;
+            if ((cs_links && is_cs) || (other_links && !is_cs)) {
+                act::ActorLinkConstDataAccess accessor;
+                link.getObjectProcWithAccessor(accessor);
+                accessor.sub_7100D15964(core, sender, a1, a2, message, user_data, target);
+            }
+        }
+    }
+}
+
 bool ObjectLinkData::sub_7100D4F6A4(act::BaseProcAccessor& accessor, MapLinkDefType type) {
     ObjectLink* link = findLinkWithType_0(type);
     if (link && link->other_obj)
