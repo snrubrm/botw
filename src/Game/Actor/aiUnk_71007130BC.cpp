@@ -84,3 +84,47 @@ void sub_71007136BC(ksys::act::Actor* actor) {
     }
 }
 
+// NON_MATCHING: local static array initialization and destructor registration differ.
+void sub_7100713780(ksys::act::Actor* actor, bool saved) {
+    if (!actor)
+        return;
+    const sead::SafeString name = actor->getName();
+    if (auto* info = ksys::act::InfoData::instance()) {
+        if (!info->hasTag(name.getStringTop(), ksys::act::tags::Unk_0x207CBCE1))
+            return;
+    }
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+    static const sead::SafeString sSavedFlagNames[] = {
+        "AttackedNPC_Set1_Saved", "AttackedNPC_Set2_Saved", "AttackedNPC_Set3_Saved",
+        "AttackedNPC_Set4_Saved", "AttackedNPC_Set5_Saved", "AttackedNPC_Set6_Saved",
+        "AttackedNPC_Set7_Saved", "AttackedNPC_Set8_Saved",
+    };
+    if (name == "Npc_Attacked_001") {
+        manager->setBool(saved, sSavedFlagNames[5]);
+        if (!saved)
+            manager->setBool(false, "AttackedNPC_Set6_Wander");
+    } else if (name == "Npc_Attacked_002") {
+        manager->setBool(saved, sSavedFlagNames[7]);
+    } else if (name == "Npc_Attacked_003") {
+        manager->setBool(saved, sSavedFlagNames[3]);
+    } else if (name == "Npc_Attacked_004") {
+        manager->setBool(saved, sSavedFlagNames[1]);
+    } else if (name == "Npc_Attacked_005") {
+        manager->setBool(saved, sSavedFlagNames[4]);
+    } else if (name == "Npc_Attacked_006") {
+        manager->setBool(saved, sSavedFlagNames[2]);
+    } else if (name == "Npc_Attacked_007") {
+        manager->setBool(saved, sSavedFlagNames[7]);
+    } else if (name == "Npc_Attacked_008" || name == "Npc_Attacked_009") {
+        manager->setBool(saved, sSavedFlagNames[0]);
+    } else if (name == "Npc_Attacked_010") {
+        manager->setBool(saved, sSavedFlagNames[1]);
+    } else if (name == "Npc_Attacked_011") {
+        manager->setBool(saved, sSavedFlagNames[2]);
+    } else if (name == "Npc_Attacked_012") {
+        manager->setBool(saved, sSavedFlagNames[6]);
+    }
+}
+
