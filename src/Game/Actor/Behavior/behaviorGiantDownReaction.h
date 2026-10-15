@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100624a1c)
+    void m7() override;
 
     /* 0x28 */ const int* mIntervalTime_s{};
     /* 0x30 */ sead::SafeString mDownCheckRagdollRbName_s{};

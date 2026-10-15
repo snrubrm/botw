@@ -68,5 +68,5 @@ KSYS_CHECK_SIZE_NX150(Horse, 0x11b0);
 
 }  // namespace uking::act
 
-// 0x7100081354 (placeholder name; declaration only): tests the linked Horse's _1028 subobject flags.
+// Tests the linked Horse subobject flags at 0x1028 + 8.
 bool sub_7100081354(const ksys::act::ActorLinkConstDataAccess& accessor, u16 mask);

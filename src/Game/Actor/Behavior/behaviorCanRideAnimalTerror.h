@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x710061b920)
+    void m7() override;
 
     void sub_710061B944();
 

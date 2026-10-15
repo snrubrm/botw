@@ -13,7 +13,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100e62234)
+    void m7() override;
 
     /* 0x158 */ const int* mGear1Level_s{};
     /* 0x160 */ const int* mGear2Level_s{};
