@@ -6,6 +6,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include <cmath>
 
 // Declaration only; the original source namespace and raw selector type are inferred.
 bool sub_7100E804E4(sead::Vector3f* out, ksys::act::Actor* actor,
@@ -21,8 +26,38 @@ bool HorseRiddenByNPC::init_(sead::Heap* heap) {
     return HorseRiddenByNPCBase::init_(heap);
 }
 
+// NON_MATCHING: native flag enum temporaries and branches fold into conditional bit-mask selection.
 void HorseRiddenByNPC::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRiddenByNPCBase::enter_(params);
+    _50.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+            std::numeric_limits<f32>::quiet_NaN());
+    _5c = 0.0f;
+    _60 = 0.0f;
+    _78 = 0;
+    if (auto* nav = mActor->m45()) {
+        nav->sub_7100F75F3C(0x15);
+        nav->_220 |= 0x2000000;
+    }
+    _68 = 0.0f;
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
+        if (horse->sub_7100E6BF00())
+            _78 |= 0x20;
+        else
+            _78 &= ~0x20;
+    }
+    if (auto* rideable = mActor->m132()) {
+        if (const auto* param = mActor->getParam()) {
+            if (const auto* gparam = param->getRes().mGParamList) {
+                if (const auto* animal = gparam->getAnimalUnit()) {
+                    _64 = 1.0f - std::pow(1.0f - animal->mSteeringOutputAvoidanceLerpRatio.ref(),
+                                          2.0f / 3.0f);
+                    rideable->_a0._40 = &_64;
+                    rideable->_a0._48 = &act::sUnk_7101EC1904;
+                }
+            }
+        }
+    }
+    changeChild("待機", nullptr);
 }
 
 // NON_MATCHING: low-byte flag test uses a dynamic SEAD_ENUM bit index in the original.

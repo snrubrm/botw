@@ -194,7 +194,11 @@ public:
         // 0x7100e6fab4 (declared only; 800 B): updates from the rider's AS list and navmesh character.
         void sub_7100E6FAB4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav);
 
-        u8 _0[0x88];
+        u8 _0[0x40];
+        // E6FA10 initializes these rates; E728F0 selects and dereferences them.
+        const f32* _40;
+        const f32* _48;
+        u8 _50[0x88 - 0x50];
         /* 0x88 */ u16 _88 = 0;  // flags (bit 4 is tested by HorseRiddenByNPC::calc_)
         u8 _8a[0x90 - 0x8a];
     };
@@ -280,6 +284,8 @@ KSYS_CHECK_SIZE_NX150(RideableBase, 0x180);
 
 // Native zero gear fallback. E63AD4 initializes both floats; E6CA70 / E6FF38 read speed / field 4.
 extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
+// Shared readonly rate used by S2 initialization and HorseRiddenByNPC entry.
+extern const f32 sUnk_7101EC1904;
 
 // Name from the CSV (Rideable::*). vtable 0x71024ec2e8 (45 slots), size 0x280, RTTI static
 // 0x71025ae9f0. Returned by Actor vtable slot 131 (Enemy: DynamicCast<Rideable>(_1168)).

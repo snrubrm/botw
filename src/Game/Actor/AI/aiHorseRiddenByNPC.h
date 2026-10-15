@@ -32,10 +32,10 @@ protected:
     std::numeric_limits<f32>::quiet_NaN()};
     f32 _5c = 0.0f;
     f32 _60 = 0.0f;
-    u32 _64 = 0;
+    f32 _64 = 0.0f;
     f32 _68 = 0.0f;
     void* _70{};
-    bool _78 = false;
+    u8 _78 = 0;
 };
 
 }  // namespace uking::ai
