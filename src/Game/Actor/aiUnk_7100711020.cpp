@@ -1,4 +1,5 @@
 #include "Game/Actor/aiUnk_7100711020.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -295,4 +296,14 @@ void Unk_7100711020::sub_71007116E0() {
         ksys::act::acquireActor(&_10, &accessor);
         _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }
+}
+
+bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDataAccess& accessor,
+                    const sead::SafeString& key) {
+    if (!proc)
+        return false;
+    ksys::act::ActorLinkConstDataAccess link(proc);
+    if (!ksys::act::sub_7100EE3FA8(link, accessor, true, 0.0f))
+        return false;
+    return sub_7100711FAC(static_cast<ksys::act::Actor*>(proc), key);
 }
