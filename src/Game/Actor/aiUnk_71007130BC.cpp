@@ -1,6 +1,8 @@
 #include "Game/Actor/aiUnk_71007130BC.h"
+#include "Game/Actor/actNPC.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -124,5 +126,30 @@ void sub_7100713780(ksys::act::Actor* actor, bool saved) {
     } else if (name == "Npc_Attacked_012") {
         manager->setBool(saved, sSavedFlagNames[6]);
     }
+}
+
+// NON_MATCHING: the public inline flag writer passes true for the callee's unused fourth argument.
+void sub_71007130D4(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    sead::SafeString name = actor->getName();
+    ksys::act::getSameGroupActorName(&name, actor);
+    sead::FixedSafeString<128> flag;
+    flag.format("%s_DispNameFlag", name.cstr());
+    ksys::gdt::Manager::instance()->setBool(true, flag, false, false);
+}
+
+void sub_71007133A8(ksys::act::Actor* actor, const ksys::act::BaseProcLink* link) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (link->hasProc() && ksys::act::acquireActor(link, &accessor)) {
+        const auto& position = accessor.getPreviousPos2();
+        if (auto* npc = sead::DynamicCast<uking::act::NPC>(actor))
+            npc->_103c = position;
+    }
+}
+
+void sub_7100713488(ksys::act::Actor* actor, const sead::Vector3f& position) {
+    if (auto* npc = sead::DynamicCast<uking::act::NPC>(actor))
+        npc->_103c = position;
 }
 
