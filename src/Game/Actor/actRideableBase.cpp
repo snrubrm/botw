@@ -8,6 +8,8 @@
 
 namespace uking::act {
 
+RideableBase::SpeedEntry::Gear sUnk_7102603058{};
+
 RideableBase* RideableBase::make(sead::Heap* heap) {
     return new (heap, std::nothrow) RideableBase;
 }

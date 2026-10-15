@@ -278,6 +278,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(RideableBase, 0x180);
 
+// Native zero gear fallback. E63AD4 initializes both floats; E6CA70 / E6FF38 read speed / field 4.
+extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
+
 // Name from the CSV (Rideable::*). vtable 0x71024ec2e8 (45 slots), size 0x280, RTTI static
 // 0x71025ae9f0. Returned by Actor vtable slot 131 (Enemy: DynamicCast<Rideable>(_1168)).
 // Derived: RideableEnemy (vtable 0x71023cf460), RideableHorse (vtable 0x71024ec0c8).

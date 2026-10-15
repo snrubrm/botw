@@ -312,6 +312,24 @@ void HorseBase::sub_7100E6BA08() {
 }
 
 // NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask)
+// NON_MATCHING: row selection uses registers instead of a stack enum; vector additions are scheduled differently.
+void HorseBase::m88() {
+    Actor::m88();
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+    const Rideable::Gear gear(_b10->_18._b == 0 ? _b10->_18._9 : _b10->_18._b);
+    s32 row = _b10->_18._a;
+    const auto* speed = &sUnk_7102603058;
+    if (gear != Rideable::Gear::_0 && _b10->_170) {
+        if (row >= _b10->_178)
+            row = 0;
+        speed = &_b10->_170->mGears[row][int(gear) - 1];
+    }
+    const f32 factor = speed->mSpeed * _b10->_164 * 0.1f;
+    mPreviousPos += controller->get64() * factor;
+}
+
 bool HorseBase::sub_7100E6BE40() const {
     return _a90.isOnBit(Flag(Flag::_0));
 }
