@@ -1,5 +1,6 @@
 #include "Game/Actor/Action/actionOpenEnduranceFloorNumber.h"
 #include "Game/UI/uiUI.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
 
@@ -13,7 +14,23 @@ bool OpenEnduranceFloorNumber::init_(sead::Heap* heap) {
 }
 
 void OpenEnduranceFloorNumber::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* ui = ui::UI::instance();
+    if (!ui || mLabelName_d.isEmpty()) {
+        setFailed();
+        return;
+    }
+    auto* gdm = ksys::gdt::Manager::instance();
+    if (!gdm) {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+        return;
+    }
+    s32 floor = 0;
+    gdm->getParam().get().getS32(&floor, mGameDataIntFloorNum_d);
+    sead::FixedSafeString<256> label(mLabelName_d);
+    sead::FixedSafeString<256> floor_label("");
+    floor_label.format("%s%d", mLabelName_d.cstr(), floor);
+    ui->sub_71010A6800(mMstxt_s, label, mSubMstxt_d, floor_label);
 }
 
 void OpenEnduranceFloorNumber::leave_() {
