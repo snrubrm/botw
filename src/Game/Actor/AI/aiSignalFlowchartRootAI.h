@@ -3,6 +3,8 @@
 #include <container/seadSafeArray.h>
 #include <evfl/Action.h>
 #include <evfl/Flowchart.h>
+#include <evfl/Query.h>
+#include <evfl/ResEventFlowFile.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -24,15 +26,22 @@ protected:
     // flowchart's action binding).
     struct BoundEntry {
         SignalFlowchartRootAI* owner;
-        void* res;
+        const void* res;
     };
+
+    static void loadResource(sead::Heap* heap);
+    static u64 sub_7100E1B8D4(evfl::ActBinder* binder, SignalFlowchartRootAI* owner);
+    static u64 sub_7100E1B9C8(evfl::ActBinder* binder, SignalFlowchartRootAI* owner);
+    static void sub_7100E1B1B0(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
+    static int sub_7100E1B274(const evfl::QueryArg& arg);
+    void sub_7100E1B31C(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
 
     // map_unit_param at offset 0x38
     sead::SafeString mEventFlowName_m{};
     // map_unit_param at offset 0x48
     sead::SafeString mEventFlowEntryName_m{};
-    /* 0x58 */ void* _58;
-    /* 0x60 */ void* _60;
+    /* 0x58 */ const evfl::ResEventFlowFile* _58;
+    /* 0x60 */ const evfl::ResFlowchart* _60;
     /* 0x68 */ evfl::FlowchartContext mContext;
     /* 0xf8 */ sead::SafeArray<BoundEntry, 8> _f8;
     /* 0x178 */ s32 _178;

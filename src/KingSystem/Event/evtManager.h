@@ -81,6 +81,8 @@ class EventSysActors {
 public:
     // 0x7100dc7c84 (CSV EventSysActors::finishedLoading)
     bool finishedLoading();
+    // 0x7100dc7e84: the Actor linked in the current thread's event-system slot.
+    act::Actor* sub_7100DC7E84();
 };
 
 class Manager {
