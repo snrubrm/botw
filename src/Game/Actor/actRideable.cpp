@@ -2,6 +2,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
@@ -98,6 +100,18 @@ void Rideable::sub_7100E7EF1C() {
 
 f32 Unk_7100e8b2b8::procLink13() {
     return 0.0f;
+}
+
+void sub_7100E7F6FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale) {
+    sead::Vector3f dir = as_list->sub_710115D2D4();
+    sead::Vector3f vel = as_list->sub_710115D3B8();
+    const f32 length = dir.normalize();
+    controller->sub_7100F5EDD8(1.0f);
+    controller->sub_7100F5EDE0(0.0f);
+    controller->sub_7100F5EDBC(dir);
+    controller->sub_7100F5E7F0(length * 30.0f * scale);
+    vel *= 30.0f;
+    controller->sub_7100F5FB24(vel);
 }
 
 }  // namespace uking::act
