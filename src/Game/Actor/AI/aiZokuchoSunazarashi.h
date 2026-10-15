@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -22,7 +23,7 @@ public:
 
     virtual void m34();
     virtual void m35();
-    virtual void m36();
+    virtual void m36(f32 distance, const sead::Vector3f& target);
 
 protected:
     // static_param at offset 0x38
@@ -42,9 +43,7 @@ protected:
     bool _91 = false;
     bool _92 = false;
     sead::Vector3f _94 = sead::Vector3f::zero;
-    u32 _a0 = 0;
-    u32 _a4 = 0;
-    u32 _a8 = 0;
+    ksys::Timer _a0;
     ksys::MessageTransceiverTxOnly _b0{mActor};
 };
 KSYS_CHECK_SIZE_NX150(ZokuchoSunazarashi, 0x100);
