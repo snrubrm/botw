@@ -1,5 +1,6 @@
 #include "Game/Actor/Behavior/behaviorAnimalAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -58,6 +59,39 @@ void AnimalAttack::m9() {
 void AnimalAttack::m7() {
     if (*mIsUseASEventAtCollision_s)
         sub_7100616E20();
+}
+
+void AnimalAttack::sub_7100616E20() {
+    auto* actor = mActor;
+    auto* list = actor->getASList();
+    if (!list)
+        return;
+    ksys::as::ASList::Unk4 query;
+    if (!_40) {
+        if (list->sub_710115FBC8(3, &query, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+            u32 size = 2;
+            if (query.name == "Middle")
+                size = 1;
+            else if (query.name == "Huge")
+                size = 4;
+            if (_48)
+                _48->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            getActorAttackSensor(actor)->activateAttackSensor(
+                0x2000, size, actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref(),
+                0, 0.0f, 0, 1, -1, false, 1, -1);
+            sub_71007A2C30(actor, mAtkRigidName_s, &actor->getMtx());
+            sub_71007A302C(actor, mAtkRigidName_s, nullptr);
+            _40 = true;
+            return;
+        }
+    }
+    if (_40 &&
+        !list->sub_710115FBC8(3, &query, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+        if (_48)
+            _48->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        sub_71007A3270(actor, mAtkRigidName_s, nullptr);
+        _40 = false;
+    }
 }
 
 }  // namespace uking::behavior

@@ -19,7 +19,6 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    // Original out-of-line update helper; declaration only.
     void sub_7100616E20();
 
     /* 0x28 */ const bool* mIsUseASEventAtCollision_s{};
