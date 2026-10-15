@@ -1,6 +1,11 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadMatrix.h>
+
+namespace ksys::phys {
+class CharacterController;
+}
 
 namespace uking::action {
 
@@ -19,15 +24,18 @@ public:
 protected:
     void calc_() override;
 
+    void sub_71001CD210(ksys::act::Actor* actor, ksys::phys::CharacterController* controller);
+
     // static_param at offset 0x20
     const float* mRotRatio_s{};
     // static_param at offset 0x28
     const float* mGravityScale_s{};
     // map_unit_param at offset 0x30
     const bool* mIsCreateOnFace_m{};
-    u8 _38[0x44 - 0x38];
+    sead::Vector3f _38;
     sead::Vector3f _44;
-    u8 _50[0x80 - 0x50];
+    sead::Vector3f _50;
+    sead::Matrix33f _5c;
     sead::Vector3f _80;
     int _8c = 0;
     float _90 = 1.0f;
