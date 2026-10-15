@@ -34,6 +34,7 @@ public:
     // weapon indices (a, b, c, d).
     void sub_7100416068(const sead::SafeString& name, s32 slot, s32 a, s32 b, s32 c, s32 d);
     void m37() override;
+    void m38() override;
     void m43(ksys::act::ai::InlineParamPack* params) override;
     bool m40() override;
     void changeToMoveTurning();

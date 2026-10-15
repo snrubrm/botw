@@ -207,6 +207,56 @@ bool GuardianMiniBattle::m40() {
     return false;
 }
 
+// NON_MATCHING: actor/AS null branches and pack temporaries use different stack slots.
+void GuardianMiniBattle::m38() {
+    s32 a;
+    s32 b;
+    s32 c = -1;
+    sub_71007091AC(mActor, &a, &b, &c);
+    if (!*mIsIgnoreArmCondition_s) {
+        if (!sub_7100415140(a)) {
+            if (!sub_7100415140(b)) {
+                sub_7100381ED4();
+                m37();
+                return;
+            }
+            _141 = false;
+            auto* actor = mActor;
+            if (actor) {
+                if (actor->getModel() && actor->getASList()) {
+                    actor->getASList()->sub_710115C11C();
+                    actor->getASList()->sub_710115BED4(true);
+                    actor = mActor;
+                }
+                if (actor && actor->getASList()) {
+                    actor->getASList()->sub_710115B01C(*mASSlotRight_s, 0, true);
+                    actor = mActor;
+                }
+                if (actor && actor->getASList()) {
+                    actor->getASList()->sub_710115B01C(*mASSlotLeft_s, 0, true);
+                    actor = mActor;
+                }
+                if (actor && actor->getASList())
+                    actor->getASList()->sub_710115B01C(*mASSlotBack_s, 0, true);
+            }
+            sub_7100415258(a, b, c, 1);
+            if (_141) {
+                _144 = 50;
+                ksys::act::ai::InlineParamPack pack;
+                pack.addInt(b, "DynWeaponIdx", -1);
+                changeChild("左腕フェイント攻撃", &pack);
+            } else {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addInt(b, "DynWeaponIdx", -1);
+                changeChild("左腕攻撃", &pack);
+            }
+            return;
+        }
+        _141 = false;
+    }
+    EnemyBattle::m38();
+}
+
 // NON_MATCHING: the original re-tests the AS list at each step without threading the null case to the end
 // (it reloads `mActor` after every call); same behaviour otherwise.
 void GuardianMiniBattle::m43(ksys::act::ai::InlineParamPack* params) {
@@ -238,6 +288,60 @@ void GuardianMiniBattle::m43(ksys::act::ai::InlineParamPack* params) {
     sub_71007091AC(mActor, &a, &b, &c);
     sub_7100415258(a, b, c, 0);
     params->addInt(a, "DynWeaponIdx", -1);
+}
+
+// NON_MATCHING: slot-zero animation-name selection and shared start branches differ.
+void GuardianMiniBattle::sub_7100416068(const sead::SafeString& name, s32 slot, s32 a, s32 b,
+                                       s32 c, s32 d) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list || !sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return;
+    switch (slot) {
+    case 0: {
+        auto* weapons = actor->getWeapons();
+        if (d == 0) {
+            auto* weapon = sead::DynamicCast<act::Weapon>(weapons->getEquippedWeapon(a));
+            if (weapon)
+                as_list->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+            as_list->startAnimationMaybe(-1.0f, -1.0f,
+                                        _141 ? "AttackFeintWaitRight" : "AttackWaitRight", 0, 0, true);
+        } else {
+            auto* weapon = sead::DynamicCast<act::Weapon>(weapons->getEquippedWeapon(b));
+            if (weapon)
+                as_list->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+            as_list->startAnimationMaybe(-1.0f, -1.0f,
+                                        _141 ? "AttackFeintWaitLeft" : "AttackWaitLeft", 0, 0, true);
+        }
+        break;
+    }
+    case 1: {
+        auto* weapon = sead::DynamicCast<act::Weapon>(actor->getWeapons()->getEquippedWeapon(a));
+        if (weapon)
+            as_list->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+        if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) || as_list->x_1(1, 0).isEmpty())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, name, 1, 0, true);
+        break;
+    }
+    case 2: {
+        auto* weapon = sead::DynamicCast<act::Weapon>(actor->getWeapons()->getEquippedWeapon(b));
+        if (weapon)
+            as_list->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+        if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) || as_list->x_1(2, 0).isEmpty())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, name, 2, 0, true);
+        break;
+    }
+    case 3: {
+        auto* weapon = sead::DynamicCast<act::Weapon>(actor->getWeapons()->getEquippedWeapon(c));
+        if (weapon)
+            as_list->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+        if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) || as_list->x_1(3, 0).isEmpty())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, name, 3, 0, true);
+        break;
+    }
+    }
 }
 
 // NON_MATCHING: stack slots of the names and bone keys, as in GuardianMiniViewWait::sub_7100429D14.
