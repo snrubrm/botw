@@ -3,6 +3,9 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModelUnit.h>
 #include <random/seadRandom.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 
@@ -104,8 +107,52 @@ void BackseatKorokLight::loadParams_() {
     getMapUnitParam(&mPlacementType_m, "PlacementType");
 }
 
+// NON_MATCHING: AS parameter selection, loads and matrix register scheduling.
 void BackseatKorokLight::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    const sead::Vector3f& player = getPlayerPosition();
+    const f32 player_x = player.x;
+    const f32 player_z = player.z;
+    const f32 dx = _a4.x - player_x;
+    const f32 dz = _a4.z - player_z;
+    const f32 distance_sq = dx * dx + dz * dz;
+    _a1 = distance_sq < *mDisappearDist_s * *mDisappearDist_s;
+    _a2 = distance_sq > *mAppearDist_s * *mAppearDist_s;
+    auto* list = actor->getASList();
+    const auto& wait = _a0 ? mGroundWaitASName_s : mFlyWaitASName_s;
+    const auto& appear = _a0 ? mGroundAppearASName_s : mFlyAppearASName_s;
+    const auto& disappear = _a0 ? mGroundDisappearASName_s : mFlyDisappearASName_s;
+    if (list->x_4(0, 0)) {
+        const sead::SafeString name = list->x_1(0, 0);
+        if (name == disappear) {
+            actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+            if (_a2) {
+                actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+                playAS(appear.cstr(), false, 0, 0, -1.0f);
+            }
+        } else if (name == appear) {
+            playAS(wait.cstr(), false, 0, 0, -1.0f);
+        }
+    } else if (_a1 && list->x_1(0, 0) == wait) {
+        playAS(disappear.cstr(), false, 0, 0, -1.0f);
+    }
+    if (!_a1) {
+        const sead::Vector3f direction{player_x - _a4.x, 0.0f, player_z - _a4.z};
+        const auto& matrix = actor->getMtx();
+        const sead::Vector3f forward{matrix(0, 2), 0.0f, matrix(2, 2)};
+        sead::Vector3f axis;
+        f32 angle;
+        ksys::util::sub_71011EEB08(&axis, &angle, forward, direction, sead::Vector3f::ey);
+        f32 turn = 0.0f;
+        ksys::VFR::lerp(&turn, angle, 0.1f);
+        sead::Vector3f rotation{0.0f, axis.y * turn, 0.0f};
+        rotation *= ksys::VFR::instance()->getDeltaFrame();
+        sead::Matrix34f rotate;
+        rotate.makeR(rotation);
+        sead::Matrix34f transform = matrix;
+        transform.setMul(transform, rotate);
+        actor->setMtx(transform, false, true);
+    }
 }
 
 }  // namespace uking::action
