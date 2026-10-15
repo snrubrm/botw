@@ -13,6 +13,8 @@ public:
 
     void loadParams_() override;
     bool m34() override;
+    bool m35() override;
+    void sub_71003AF848(const sead::Vector3f& position, const sead::Vector3f& front);
 
 protected:
     // map_unit_param at offset 0x128
