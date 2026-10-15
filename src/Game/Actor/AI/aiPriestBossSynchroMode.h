@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadEnum.h>
 #include "Game/Actor/AI/aiPriestBoss.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -17,6 +18,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // The children (0x71005309b0 is the text getter)
+    SEAD_ENUM(Mode, 円陣弓,円陣突進,一列流星,一列突進,待機,終了)
+
     // aitree_variable at offset 0x40
     int* mEquipWeaponBufIndex_a{};
     // aitree_variable at offset 0x48
