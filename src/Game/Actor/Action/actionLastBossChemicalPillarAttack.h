@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
@@ -24,7 +26,7 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
-    virtual void m33();
+    virtual s32 m33();
     bool sub_71001CF880();
     void sub_71001CFA48(s32 index, ksys::act::ActorLinkConstDataAccess* accessor);
 
@@ -48,7 +50,8 @@ protected:
     u8 _4f[0x1];
     ksys::Timer _50;
     ksys::Timer _5c;
-    u8 _68[0x28];
+    sead::Matrix33f _68;
+    u8 _8c[4];
 };
 KSYS_CHECK_SIZE_NX150(LastBossChemicalPillarAttack, 0x90);
 
