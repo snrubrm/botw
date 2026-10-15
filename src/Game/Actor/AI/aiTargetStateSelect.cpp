@@ -28,6 +28,36 @@ void TargetStateSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+void TargetStateSelect::calc_() {
+    const bool has_target = sub_71005D8F28(mActor);
+    auto* child = getCurrentChild();
+    if (has_target)
+        child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    if (!child->isChangeable())
+        return;
+    if (!has_target) {
+        setFailed();
+        return;
+    }
+    if (sub_71005D91A0(mActor, 1.5f)) {
+        if (!isCurrentChild("対象泳ぎ")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("対象泳ぎ", &pack);
+        }
+    } else if (sub_71005D90E0(mActor)) {
+        if (!isCurrentChild("対象騎乗")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("対象騎乗", &pack);
+        }
+    } else if (!isCurrentChild("対象通常")) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("対象通常", &pack);
+    }
+}
+
 void TargetStateSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
