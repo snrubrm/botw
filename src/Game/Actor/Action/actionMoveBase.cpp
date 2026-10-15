@@ -3,6 +3,8 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -63,6 +65,31 @@ void MoveBase::m32(sead::Vector3f* dir) {
     dir->normalize();
     dir->y = 0;
     dir->normalize();
+}
+
+// NON_MATCHING: normalized up-vector stores and fallback loads are reordered.
+void MoveBase::m35(ksys::phys::CharacterController* controller, const sead::Vector3f& dir) {
+    sub_7100741038(&_a8, mActor);
+    const f32 base_rot_ratio = *mBaseRotRatio_s;
+    const f32 rot_speed = *mRotSpd_s;
+    ksys::VFR::lerp(&_d8, rot_speed, base_rot_ratio);
+    sead::Vector3f up;
+    if (!*mFollowGround_s || !controller->sub_7100F5F234(&up)) {
+        const auto gravity = controller->get70();
+        const f32 length = gravity.length();
+        up = -gravity;
+        if (length > 0.0f)
+            up *= 1.0f / length;
+        if (length < sead::Mathf::epsilon())
+            up = sead::Vector3f::ey;
+    }
+    sead::Matrix34f target;
+    ksys::util::sub_71011F00EC(&target, dir, up, sead::Vector3f::zero, true);
+    sub_710074149C(&_a8, target, base_rot_ratio, _d8, _d8 * 0.25f);
+    const f32 angular_speed = mActor->getAngVelocity().length();
+    if (_d8 > angular_speed)
+        _d8 = angular_speed;
+    sub_71007419F4(_a8, controller);
 }
 
 }  // namespace uking::action
