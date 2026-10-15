@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/System/VFRValue.h"
 
 namespace ksys::act {
@@ -40,8 +41,11 @@ protected:
     virtual f32 m41();
     virtual void m42();
 
-    // 0x71000a331c (declared only): applies the arrow's attack info (called by leave_ unless _149).
+    // Applies the arrow's attack info (called by leave_ unless _149).
     bool sub_71000A331C();
+    bool sub_71000A50D0(ksys::act::ActorAtk::Struct7::AttackInfo* info);
+    void sub_71000A5254(const sead::Vector3f& direction, const sead::Vector3f& position,
+                       ksys::phys::MaterialMask material, bool reset_velocity);
     // 0x71000a2a64 (declared only): re-initialises the shot (called by ForLargeObject::calc_ when IsReInitShoot).
     void sub_71000A2A64();
     // 0x71000a3400: finds the attack body (AtkPlayerBody / AtkEnemyBody) into _138, moves it to the main body's

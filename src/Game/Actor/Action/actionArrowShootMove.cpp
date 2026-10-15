@@ -84,6 +84,20 @@ f32 ArrowShootMove::m41() {
 
 void ArrowShootMove::m42() {}
 
+bool ArrowShootMove::sub_71000A331C() {
+    auto* actor = mActor;
+    if (!actor || !hasAttackInfo(actor))
+        return false;
+    auto* info = getAttackInfo(actor, 0);
+    if (!info || sub_71000A50D0(info))
+        return false;
+    const sead::Vector3f position = info->_0;
+    const sead::Vector3f direction = info->_c;
+    const ksys::phys::MaterialMask material = info->_20;
+    sub_71000A5254(direction, position, material, false);
+    return true;
+}
+
 // NON_MATCHING: stack layout of the SafeString temporaries / matrix and the order of the two null tests.
 void ArrowShootMove::sub_71000A3400() {
     ksys::phys::RigidBody* atk_body;
