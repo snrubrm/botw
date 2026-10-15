@@ -32,11 +32,12 @@ protected:
     const float* mJumpHeight_s{};
     // static_param at offset 0x48
     sead::SafeString mASKey_s{};
-    u64 _58 = 0;
-    s32 _60 = 0;
+    ksys::Timer _58;
     sead::Vector3f _64;
     sead::Vector3f _70;
-    ksys::Timer _7c;
+    f32 _7c = 0.0f;
+    f32 _80 = 0.0f;
+    s32 _84 = 0;
     bool _88 = false;
     bool _89 = false;
     bool _8a = false;
