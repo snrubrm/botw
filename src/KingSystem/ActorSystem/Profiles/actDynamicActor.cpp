@@ -332,6 +332,11 @@ void DynamicActor::m73() {
     }
 }
 
+void DynamicActor::sub_71006DD8F8(const Unk_71006ED100Arg& arg) {
+    if (_868)
+        _868->sub_71006ED100(arg);
+}
+
 void DynamicActor::sub_71006DD908(sead::Vector3f* out) {
     if (_868)
         _868->sub_71006EE128(out);
