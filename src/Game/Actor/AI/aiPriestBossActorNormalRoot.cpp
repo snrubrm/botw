@@ -97,6 +97,23 @@ bool PriestBossActorNormalRoot::m36() {
     return false;
 }
 
+// 0x710050dc18
+void PriestBossActorNormalRoot::sub_710050DC18(bool from_sync) {
+    if (!sub_7100505BE4())
+        return;
+    if (sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_0) && !isCurrentChild("シンクロモード")) {
+        changeChild("シンクロモード", nullptr);
+        sub_710050DDBC(2);
+        return;
+    }
+    if (!sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_0) && !isCurrentChild("通常モード")) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addBool(from_sync, "FromSyncMode", -1);
+        changeChild("通常モード", &pack);
+        sub_710050DDBC(1);
+    }
+}
+
 // 0x710050ddbc
 // NON_MATCHING: actor load and accessor-destructor branch scheduling differ.
 void PriestBossActorNormalRoot::sub_710050DDBC(u32 value) {
