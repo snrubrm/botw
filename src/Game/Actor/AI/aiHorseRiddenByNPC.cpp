@@ -11,6 +11,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <cmath>
+#include <prim/seadScopedLock.h>
 
 // Declaration only; the original source namespace and raw selector type are inferred.
 bool sub_7100E804E4(sead::Vector3f* out, ksys::act::Actor* actor,
@@ -26,24 +27,21 @@ bool HorseRiddenByNPC::init_(sead::Heap* heap) {
     return HorseRiddenByNPCBase::init_(heap);
 }
 
-// NON_MATCHING: native flag enum temporaries and branches fold into conditional bit-mask selection.
+// NON_MATCHING: native flag-change branches fold into conditional bit-mask selection.
 void HorseRiddenByNPC::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRiddenByNPCBase::enter_(params);
     _50.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
             std::numeric_limits<f32>::quiet_NaN());
     _5c = 0.0f;
     _60 = 0.0f;
-    _78 = 0;
+    _78.makeAllZero();
     if (auto* nav = mActor->m45()) {
         nav->sub_7100F75F3C(0x15);
         nav->_220 |= 0x2000000;
     }
     _68 = 0.0f;
     if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
-        if (horse->sub_7100E6BF00())
-            _78 |= 0x20;
-        else
-            _78 &= ~0x20;
+        _78.changeBit(Flag(Flag::_5), horse->sub_7100E6BF00());
     }
     if (auto* rideable = mActor->m132()) {
         if (const auto* param = mActor->getParam()) {
@@ -99,6 +97,23 @@ bool HorseRiddenByNPC::m35(ksys::act::Unk_7100d78e50* entry, s32 idx) {
 
 void HorseRiddenByNPC::leave_() {
     HorseRiddenByNPCBase::leave_();
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        rideable->_18.sub_7100E78E00();
+        rideable->sub_7100E639C4();
+    }
+    if (auto* nav = mActor->m45()) {
+        nav->sub_7100F75F3C(nav->_1d8);
+        const f32 scale = _60;
+        if (scale > 0.0f && !(scale > std::numeric_limits<f32>::max()) &&
+            !sead::Mathf::isNan(scale)) {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            nav->_2b0 = scale;
+            nav->_220 |= 0x20;
+        }
+        nav->_220 &= ~0x2000000u;
+    }
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
+        horse->sub_7100E6BEC0(_78.isOnBit(Flag(Flag::_5)));
 }
 
 void HorseRiddenByNPC::loadParams_() {

@@ -232,6 +232,9 @@ public:
     // Declared only; full callee and HorseWaitAndLookAtNPC caller establish the pointer/bool inputs.
     void sub_7100E636D4(const sead::Vector3f* position, const sead::Vector3f* offset, bool adjust_height);
 
+    // 0x7100e639c4: restores the S2 steering-rate pointers from the actor's AnimalUnit parameters.
+    void sub_7100E639C4();
+
     // Placeholder names (declared only: no callers identified yet; lane4 s28).
     // 0x7100e63900: sets bit 0x80 of _8 if bit 0x20 is set.
     void sub_7100E63900();

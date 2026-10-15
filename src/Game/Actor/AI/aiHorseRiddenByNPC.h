@@ -2,7 +2,9 @@
 
 #include <limits>
 #include <math/seadVector.h>
+#include <prim/seadEnum.h>
 
+#include "Game/Actor/aiFlagByte.h"
 #include "Game/Actor/Horse/AI/aiHorseRiddenByNPCBase.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -11,6 +13,7 @@ namespace uking::ai {
 class HorseRiddenByNPC : public HorseRiddenByNPCBase {
     SEAD_RTTI_OVERRIDE(HorseRiddenByNPC, HorseRiddenByNPCBase)
 public:
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5)
     explicit HorseRiddenByNPC(const InitArg& arg);
     ~HorseRiddenByNPC() override;
 
@@ -35,7 +38,7 @@ protected:
     f32 _64 = 0.0f;
     f32 _68 = 0.0f;
     void* _70{};
-    u8 _78 = 0;
+    FlagByte<Flag> _78;
 };
 
 }  // namespace uking::ai
