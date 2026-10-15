@@ -7,6 +7,11 @@
 #include "Game/Actor/aiUnk_71006F5B14.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -30,8 +35,36 @@ void NPCMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+// NON_MATCHING: combined sleep-child predicate and shared cleanup branch layout.
 void NPCMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* schedule = mActor->getSchedule();
+    if (schedule && _2a8) {
+        if (mActor->getRootAi()->isActorGoingBackToRootAi() ||
+            testRootAiFlag(ksys::act::ai::RootAiFlag::_5)) {
+            _2a8->_104c = 0;
+        } else {
+            if (schedule->_68 != getName()) {
+                _2a8->_104c = 0;
+                if ((isCurrentChild("到着") || isCurrentChild("身体を起こす")) &&
+                    (sead::SafeString(getName()) == "Sleep" ||
+                     sead::SafeString(getName()) == "Sleep2")) {
+                    _2a8->_fe8 |= 0x80000;
+                }
+            }
+            sub_71007130BC(mActor, true);
+            if (mActor->getAttention()) {
+                if (auto* client = mActor->getAttention()->getClientByName("Awake"))
+                    client->setEnabled(false);
+                if (auto* client = mActor->getAttention()->getClientByName("AwakeLockOn"))
+                    client->setEnabled(false);
+            }
+        }
+        ksys::act::x_6(mActor);
+        _62 = false;
+        _68 = 0;
+    }
+    if (_78 <= sead::Mathf::epsilon())
+        mActor->setFlag(ksys::act::Actor::ActorFlag::_34, false);
 }
 
 void NPCMove::loadParams_() {
