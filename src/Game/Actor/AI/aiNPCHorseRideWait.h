@@ -24,6 +24,7 @@ public:
     void sub_71004CC76C();
 
 protected:
+    void calc_() override;
     // 0x71004cc680: copies the schedule timeline name to the key name, _dc = 0, then the "到着" child with the gear speed
     void sub_71004CC680();
     bool sub_71004CCCB8(s32 level, sead::Vector3f* position);

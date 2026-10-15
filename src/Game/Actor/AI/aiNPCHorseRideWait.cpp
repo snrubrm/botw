@@ -1,5 +1,8 @@
 #include "Game/Actor/AI/aiNPCHorseRideWait.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actRideable.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -48,6 +51,58 @@ void NPCHorseRideWait::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
     sub_71004CC680();
+}
+
+// NON_MATCHING: accessor stack slots, vector stores and branch scheduling differ.
+void NPCHorseRideWait::calc_() {
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
+            const act::Rideable::Gear gear(s32(accessor.sub_7100D1443C()));
+            if (int(gear) >= 3)
+                ksys::act::setEnabledTalkAndLockOn(mActor, false);
+            else
+                ksys::act::x_6(mActor);
+        }
+    }
+    if (_d9) {
+        changeAS("Face_C_Detect", true, 1, 0);
+    } else {
+        auto* info = mActor->getPlayerRideInfo();
+        ksys::act::Actor* ride_actor = nullptr;
+        if (!info->_18.isAccessingSpecifiedProcUnsafe(info->mActor))
+            ride_actor = sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+        // The native repeats the Actor RTTI query before this animation update.
+        if (sead::IsDerivedFrom<ksys::act::Actor>(ride_actor))
+            sub_7100713FF4(mActor, ride_actor);
+    }
+    if (isCurrentChild("移動")) {
+        if (_d8) {
+            _d8 = false;
+            {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
+                    mActor->sendMessage(*accessor.getMessageTransceiverId(),
+                                        ksys::MessageType(0x3800005), &_88, true);
+                }
+            }
+            sub_71004CC680();
+        }
+    } else if (isCurrentChild("到着")) {
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        if (!(sead::Vector2f{position.x - _38._40.x, position.z - _38._40.z}.length() < 4.0f))
+            sub_71004CC76C();
+    }
+    sead::Vector3f position;
+    if (!_d9 && sub_71004CCCB8(3, &position)) {
+        _d9 = true;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
+            _38._40 = position;
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x380000f),
+                                &_38, true);
+        }
+    }
 }
 
 // NON_MATCHING: same control flow; stack layout / register allocation only (the original keeps the
