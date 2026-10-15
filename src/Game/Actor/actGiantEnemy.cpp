@@ -42,6 +42,11 @@ Unk_71025ae680* GiantEnemy::m178(sead::Heap* heap) {
     return new (heap) Unk_710244ebc8(this);
 }
 
+void GiantEnemy::m180(Unk_7100732b28* arg) {
+    if (_1550)
+        arg->_30 = &_1510._28;
+}
+
 // NON_MATCHING: member types incomplete
 GiantEnemy::~GiantEnemy() = default;
 

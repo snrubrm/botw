@@ -100,7 +100,7 @@ public:
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     s32* getLife() override { return &_b80; }
     void m88() override;
-    int getExtraHeapSize() override;
+    int getExtraHeapSize(const ksys::act::ActorHeapInitArgMaybe& arg) override;
     int m109() override;
     void m114(bool, bool) override;
     void m117(ksys::act::Unk117* arg) override;

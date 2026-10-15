@@ -97,8 +97,7 @@ public:
     bool m146() override;
     bool weaponDroppedByEnemy() override;
     Unk_71025ae680* m178(sead::Heap* heap) override;
-    // Not declared: slot 180 (writes &_1510._28 to its pointer argument's +0x30 when _1550 is set;
-    // Enemy declares `void m180()`).
+    void m180(Unk_7100732b28* arg) override;
 
     /* 0x14c8 */ Unk1 _14c8{this};
     /* 0x1510 */ Unk_710235a050 _1510;

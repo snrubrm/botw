@@ -135,7 +135,7 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     bool m81(const ksys::Message& message) override;
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
-    int getExtraHeapSize() override;
+    int getExtraHeapSize(const ksys::act::ActorHeapInitArgMaybe& arg) override;
     void m103() override;
     void m108() override;
     void m114(bool, bool) override;

@@ -42,7 +42,7 @@ void Swarm::m43(bool on) {
 // tryGetParamIntByKey is at sp+4 instead of x29-0x24.
 // The heap size of the sub-units the placement removes: the "<name>_HeapMeasure" InstSize is the
 // size of one sub-unit less than the full swarm, so the difference is the per-unit size.
-int Swarm::getExtraHeapSize() {
+int Swarm::getExtraHeapSize(const ksys::act::ActorHeapInitArgMaybe& arg) {
     if (getName().findIndex(sHeapMeasure) != -1)
         return 0;
 

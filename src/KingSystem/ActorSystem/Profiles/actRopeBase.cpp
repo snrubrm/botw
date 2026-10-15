@@ -31,7 +31,7 @@ void RopeBase::updatePositionMaybe() {
     }
 }
 
-int RopeBase::getExtraHeapSize() {
+int RopeBase::getExtraHeapSize(const ActorHeapInitArgMaybe& arg) {
     map::SRT srt{sead::Vector3f::ones, sead::Vector3f::zero, sead::Vector3f::zero};
     mMapObjIter.getSRT(&srt);
     return sead::Mathf::ceil(srt.scale.y * 16384.0f);

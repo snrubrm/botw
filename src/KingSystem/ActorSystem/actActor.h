@@ -14,6 +14,7 @@
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapMubinIter.h"
@@ -172,6 +173,15 @@ struct ActorUnk5b0Node {
 // them, finalizeInit_ / ~Actor do not release them). Name is a guess.
 extern sead::BitFlag32 sActorDebugFlagsMaybe;
 
+// Placeholder name: the argument Actor::postCreateInit (0x71011d1828) passes to initHeapsAndParams (0x71011d024c),
+// which passes it on to getExtraHeapSize (vtable 0x330). initHeapsAndParams reads params and the string at 0x10.
+// TODO: incomplete.
+struct ActorHeapInitArgMaybe {
+    /* 0x00 */ InstParamPack::Buffer* params;
+    /* 0x08 */ void* _8;
+    /* 0x10 */ sead::SafeString _10;
+};
+
 class Actor : public BaseProc, public ActorMessageTransceiver::IHandler {
 public:
     enum class StasisFlag {
@@ -253,6 +263,8 @@ public:
     };
 
     explicit Actor(const CreateArg& arg);
+    // 0x71011c2e10 (CSV Dummy::construct): the factory for actor profiles built as a plain Actor.
+    static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Actor() override;
 
 protected:
@@ -606,7 +618,7 @@ public:
     virtual PlayerArmors* getArmors();
     virtual Unk_7100e4e084* m100();
     virtual uking::act::Unk_7100d3cd74* m101();
-    virtual int getExtraHeapSize();
+    virtual int getExtraHeapSize(const ActorHeapInitArgMaybe& arg);
     virtual void m103();
     // Order matters: these overrides of MessageReceiverEx virtuals get primary vtable slots 104 (handleAck)
     // and 105 (handleMessage) in the original.

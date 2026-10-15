@@ -241,6 +241,32 @@ f32 HorseBase::sub_7100E668C0() const {
     }
 }
 
+// NON_MATCHING: the original tests the bool value with `cmp w8, #1` (we emit cbnz); everything else matches.
+// Horses need 0x3000 extra bytes unless the placement sets IsIncreaseSkeletalSlotNumLimit to true; the
+// result is cached in bit 8 of _b70 (set = no extra heap).
+int HorseBase::getExtraHeapSize(const ksys::act::ActorHeapInitArgMaybe& arg) {
+    if (!(_b70 & 0x100)) {
+        bool increase_limit = false;
+        if (arg.params) {
+            s32 position = 0;
+            for (s32 i = 0, n = arg.params->getNumParams(); i < n; ++i) {
+                ksys::act::InstParamPack::Entry entry;
+                if (!arg.params->pop(&position, &entry))
+                    continue;
+                if (entry.type != ksys::act::InstParamPack::EntryType::Bool)
+                    continue;
+                if (sead::SafeString(entry.key) != "IsIncreaseSkeletalSlotNumLimit")
+                    continue;
+                increase_limit = entry.data.b;
+                break;
+            }
+        }
+        if (!increase_limit)
+            _b70.setBitOn(8);
+    }
+    return (_b70 & 0x100) ? 0 : 0x3000;
+}
+
 int HorseBase::m109() {
     return _b70 >> 7 & 2 ^ 10;
 }

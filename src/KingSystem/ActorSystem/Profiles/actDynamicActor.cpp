@@ -177,7 +177,7 @@ void DynamicActor::m156() {
         *life = max_life;
 }
 
-int DynamicActor::getExtraHeapSize() {
+int DynamicActor::getExtraHeapSize(const ActorHeapInitArgMaybe& arg) {
     return hasTag(this, tags::TreasureBox) ? 0xa90 : 0;
 }
 

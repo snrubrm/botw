@@ -41,7 +41,7 @@ public:
     bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
     void m63() override;
-    int getExtraHeapSize() override;
+    int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
 
     // 0x7100ecde98 (declared only): cancels the constraints and removes the rigid bodies of the rope from the world.
     void sub_7100ECDE98();

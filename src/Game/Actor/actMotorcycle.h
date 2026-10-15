@@ -9,6 +9,7 @@
 #include <thread/seadCriticalSection.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "Game/Actor/actMotorcycleStickControl.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
@@ -299,7 +300,9 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual f32 m163() { return _112c; }
-    virtual void m164();
+    // 0x710007a40c: fills the NavMeshCharacter init params (Motorcycle::m18 calls it before NavMeshCharacter::init).
+    // Body not written: NavMeshCharacter::InitArg is only declared (lane1).
+    virtual void m164(ksys::phys::NavMeshCharacter::InitArg* arg);
 
     // Non-virtual functions (CSV names where they exist; the placeholders `sub_<ADDR>` otherwise).
     // 0x710007a6fc: bit 11 of the flags.

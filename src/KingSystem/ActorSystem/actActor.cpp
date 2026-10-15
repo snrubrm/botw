@@ -209,6 +209,10 @@ BaseProcLink& getDummyBaseProcLink() {
     return sDummyBaseProcLink;
 }
 
+BaseProc* Actor::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Actor(arg);
+}
+
 Actor::Actor(const CreateArg& arg) : BaseProc(arg) {
     mJobHandlers[BaseProcMgr::getConstant0()] = &mJob0;
     mJobHandlers[BaseProcMgr::getConstant1()] = &mJob1;
@@ -1652,7 +1656,7 @@ uking::act::Unk_7100d3cd74* Actor::m101() {
     return nullptr;
 }
 
-int Actor::getExtraHeapSize() {
+int Actor::getExtraHeapSize(const ActorHeapInitArgMaybe& arg) {
     return 0;
 }
 

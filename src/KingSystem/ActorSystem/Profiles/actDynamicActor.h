@@ -82,7 +82,7 @@ public:
     bool m81(const Message& message) override;
     s32* getLife() override;
     Unk_7100e4e084* m100() override;
-    int getExtraHeapSize() override;
+    int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
     Unk_71025ae640* getAtk() override;
     Unk_71025b08f8* m126() override;
     uking::act::DamageManagerBase* getDamageMgr() override;
