@@ -34,7 +34,7 @@ public:
     void changeToCooperate(const ksys::act::BaseProcLink& target);
 
 protected:
-    // 0x710045328c (placeholder name; declared only): updates _488, the nearest glow object around the home position.
+    // 0x710045328c (placeholder name): updates _488, the nearest glow object around the home position.
     void sub_710045328C();
 
     // static_param at offset 0x3d0

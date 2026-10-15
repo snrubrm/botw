@@ -1,4 +1,7 @@
 #include "Game/Actor/AI/aiKeeseNormal.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include <limits>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/aiUnk_71006F5B14.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -104,6 +107,50 @@ void KeeseNormal::leave_() {
     }
     sub_71005DA114(mActor, &_460);
     EnemyNormal::leave_();
+}
+
+void KeeseNormal::sub_710045328C() {
+    if (!sub_71005DA304(&_488))
+        _488.reset();
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || !awareness->_260[0])
+        return;
+    const auto& entries = awareness->_260[0]->_8;
+    if (!entries.isBufferReady() || entries.size() < 1 ||
+        u32(ksys::act::sub_7100D78E30(&entries, 0)->_a0) < 2)
+        return;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    f32 distance = std::numeric_limits<f32>::infinity();
+    if (_488.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_488, &accessor);
+        distance = (pos - accessor.getActorMtx().getTranslation()).length();
+    }
+    Unk_71024515d8 filter;
+    auto* nearest = &_488;
+    while (auto* sensor = awareness->_260[0]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+        if (!entry)
+            break;
+        auto* link = &entry->_0.mLink;
+        if (!m46(pos, *link))
+            continue;
+        const sead::Vector2f from_home(home.x - entry->_88.x, home.z - entry->_88.z);
+        if (!(from_home.squaredLength() <= 40000.0f))
+            continue;
+        if (nearest->hasProc()) {
+            if (*nearest == *link)
+                continue;
+            if (!((pos - entry->_88).length() < distance))
+                continue;
+        }
+        nearest = link;
+    }
+    if (!(*nearest == _488))
+        _488 = *nearest;
 }
 
 void KeeseNormal::loadParams_() {
