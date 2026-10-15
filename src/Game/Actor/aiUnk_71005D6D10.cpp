@@ -1488,7 +1488,6 @@ void sub_71005DFAE0(ksys::act::BaseProcHandle* handle, ksys::act::Actor* actor,
     handle->releaseAndWakeProc();
 }
 
-// NON_MATCHING: vector register allocation, stack slots and mass-condition scheduling differ.
 // NON_MATCHING: vector load scheduling and register allocation differ.
 bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 distance,
                    f32 angle, bool check_awareness) {
@@ -1531,6 +1530,7 @@ bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 di
     return enemy->_f54.isOnBit(weapon->_cf0);
 }
 
+// NON_MATCHING: vector register allocation, stack slots and mass-condition scheduling differ.
 void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
                     const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit) {
     if (!out)

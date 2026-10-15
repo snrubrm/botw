@@ -109,7 +109,7 @@ protected:
     u8 _16c[0x184 - 0x16c]{};
     sead::Vector3f _184{};
     sead::Vector3f _190{};
-    u8 _19c[4]{};
+    f32 _19c{};
     f32 _1a0{};
     f32 _1a4{};
     u8 _1a8[0x1b0 - 0x1a8]{};

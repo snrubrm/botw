@@ -3,6 +3,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <random/seadGlobalRandom.h>
 #include <limits>
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -220,6 +221,30 @@ bool FishRoot::init_(sead::Heap* heap) {
 
 void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     CapturedActorRoot::enter_(params);
+}
+
+void FishRoot::sub_71003CD268() {
+    const auto updateBlend = [this](f32 change, f32 minimum) {
+        _19c = sead::Mathf::clamp(ksys::VFR::instance()->getDeltaFrame() * change + _19c,
+                                minimum, 1.0f);
+        if (sead::Mathf::equalsEpsilon(_19c, 0.0f))
+            _1e0._10 = 0.0f;
+        else if (sead::Mathf::equalsEpsilon(_19c, 1.0f))
+            _1e0._10 = 1.0f;
+        else
+            _1e0._10 = sead::Mathf::clamp((std::cos((1.0f - _19c) * sead::Mathf::pi()) + 1.0f) * 0.5f,
+                                        0.0f, 1.0f);
+    };
+    if (isCurrentChild("地上待機"))
+        updateBlend(-1.0f / 30.0f, 0.0f);
+    else if (isCurrentChild("ジャンプ")) {
+        if (mActor->get68f().load())
+            updateBlend(2.0f / 30.0f, 0.0f);
+        else
+            updateBlend(-4.0f / 30.0f, 0.1f);
+    } else {
+        updateBlend(1.0f / 30.0f, 0.0f);
+    }
 }
 
 void FishRoot::sub_71003CC69C() {
