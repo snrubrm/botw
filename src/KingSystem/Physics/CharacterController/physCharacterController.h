@@ -309,7 +309,7 @@ public:
     // 0x7100f5f134 / 0x7100f5f140: the vectors at `_38 + 0x1c` / `_38 + 0x28`.
     const sead::Vector3f& sub_7100F5F134() const;
     const sead::Vector3f& sub_7100F5F140() const;
-    // 0x7100f609c0 / 0x7100f609cc: the vectors at `_40 + 0x54` / `_40 + 0x18`.
+    // 0x7100f609c0 / 0x7100f609cc: the vector at `_40 + 0x54` and material mask at `_40 + 0x18`.
     const sead::Vector3f& sub_7100F609C0() const;
     const MaterialMask& sub_7100F609CC() const;
     // 0x7100f5fba8: RigidBody::computeLinearVelocity of the controller's body (or of _298 when flag 0x10000 is set).

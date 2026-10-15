@@ -71,7 +71,6 @@ void PriestBossGiantStageRotate::sub_710051C210() {
     _58.sub_710070DBB0(unit->_1a0, true);
 }
 
-// NON_MATCHING: the original has a dead SEAD_ENUM stack round trip (value 0) before storing the mode inside the lock
 // 0x710051bfa4
 // NON_MATCHING: enum stack slots, packed direction stores and accessor cleanup scheduling differ.
 void PriestBossGiantStageRotate::sub_710051BFA4() {
@@ -151,6 +150,7 @@ void PriestBossGiantStageRotate::calc_() {
     }
 }
 
+// NON_MATCHING: the original has a dead SEAD_ENUM stack round trip (value 0) before storing the mode inside the lock
 void PriestBossGiantStageRotate::leave_() {
     PriestBoss::leave_();
     sub_710051C44C();
