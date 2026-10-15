@@ -2390,6 +2390,8 @@ class Unk_71024fe970 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe970, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fe970() override;
+    // 0x710100e124 (declaration only): requests the signed state, queuing it during a transition.
+    void sub_710100E124(const s32& state);
     void m14(sead::TextWriter& writer) override {}
 };
 

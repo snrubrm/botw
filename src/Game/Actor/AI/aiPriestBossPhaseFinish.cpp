@@ -3,10 +3,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/Actor/aiUnk_7100FFDFDC.h"
 
-// Declared only (placeholder names): the original calls two unnamed helpers (0x7100ffeb28 returns an object or null, 0x710100e0e0
-// takes it).
-void* sub_7100FFEB28();
+// Declared only (placeholder name): the original passes the returned BGM object to this helper.
 void sub_710100E0E0(void* object);
 
 namespace uking::ai {

@@ -1,8 +1,14 @@
 #include "Game/Actor/AI/aiPriestBossPhaseFourth.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/aiUnk_7100FFDFDC.h"
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::ai {
+
+static const sead::SafeString sUnk_71024153b8("LargeDamageStandTransition");
 
 PriestBossPhaseFourth::PriestBossPhaseFourth(const InitArg& arg) : PriestBossPhase(arg) {}
 
@@ -56,6 +62,25 @@ void PriestBossPhaseFourth::calc_() {
     _98.sub_710071CE44();
     _3c8.sub_710071C034();
     sub_710052A63C();
+}
+
+// NON_MATCHING: the temporary signed BGM state uses a different stack slot.
+void PriestBossPhaseFourth::sub_710052A63C() {
+    if (_5d0)
+        return;
+    ksys::act::BaseProcLink link;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (sub_7100525B18(1, &accessor) && accessor.linkAcquire(&link)) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (auto* list = actor->getASList()) {
+            if (list->x_1(0, 0) == sUnk_71024153b8 &&
+                list->x(73, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+                if (auto* bgm = sub_7100FFEB28())
+                    bgm->sub_710100E124(3);
+                _5d0 = true;
+            }
+        }
+    }
 }
 
 void PriestBossPhaseFourth::loadParams_() {

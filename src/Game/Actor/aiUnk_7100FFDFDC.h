@@ -65,3 +65,7 @@ public:
 };
 Unk_7100ffe6ec* sub_7100FFE6EC();
 
+
+// 0x7100ffeb28 (declaration only): BGM kind 35, RTTI-checked as the priest boss BGM.
+class Unk_71024fe970;
+Unk_71024fe970* sub_7100FFEB28();
