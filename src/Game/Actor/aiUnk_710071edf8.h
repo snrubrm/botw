@@ -45,5 +45,5 @@ class Unk_7102450fa8;
 // passes the RTTI-checked battle unit, whose flags+78 are also read by this callee.
 bool sub_710071E64C(ksys::act::Actor* actor, Unk_7102450fa8* unit);
 
-// 0x710071e3d8 (declaration only): chooses a destination around the actor within the priest arena.
+// 0x710071e3d8: chooses a destination around the actor within the priest arena.
 void sub_710071E3D8(sead::Vector3f* out, ksys::act::Actor* actor, f32 distance);

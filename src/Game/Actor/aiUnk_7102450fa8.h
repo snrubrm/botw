@@ -218,11 +218,11 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_7102450fa8, 0x448);
 
 // Global Vector3f in the unit's TU (0x71025c8cf8), set to {0, 0, 900} by the TU's static initialiser
-// (0x710071a8f4); copied to PriestBossGiantStageRotRoot's FacePos. Placeholder name.
+// (0x710071a7b4); copied to PriestBossGiantStageRotRoot's FacePos. Placeholder name.
 extern sead::Vector3f sUnk_71025c8cf8;
-// Global constant in the unit's TU (0x7102450fa0, right before its vtable): 50.0 (the default arena
+// Global in the unit's TU (0x7102450fa0, right before its vtable): 50.0 (the default arena
 // radius, see Unk3::_c). Placeholder name.
-extern const f32 sUnk_7102450fa0;
+extern f32 sUnk_7102450fa0;
 // Global in the unit's TU (0x7102450f80): the three arrow actors the Priest Boss fires (fire / ice /
 // electric); PriestBossPhase::m40 stores a random one into `_2b0`. Placeholder name.
 extern const sead::SafeArray<const char*, 3> sUnk_7102450f80;
