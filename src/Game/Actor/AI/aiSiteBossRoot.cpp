@@ -1,5 +1,7 @@
 #include "Game/Actor/AI/aiSiteBossRoot.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -37,7 +39,37 @@ void SiteBossRoot::x() {
 }
 
 bool SiteBossRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (!sead::IsDerivedFrom<act::Enemy>(mActor))
+        return false;
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->m51(true);
+        if (auto* chemical = boss->sub_71011D8A54("WeaponChemical")) {
+            chemical->sub_7100D90F60(true);
+            if (((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 &&
+                 !(chemical->_be & 4)) || chemical->_1b8 > 0.0f) {
+                chemical->sub_7100D90AF4(false);
+            }
+        }
+        if (auto* chemical = boss->sub_71011D8A54("ShieldChemical")) {
+            chemical->sub_7100D90F60(true);
+            if (((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 &&
+                 !(chemical->_be & 4)) || chemical->_1b8 > 0.0f) {
+                chemical->sub_7100D90AF4(false);
+            }
+        }
+        boss->_1514 = *mWeakPointDamageRate_s;
+        boss->_151c = *mBlownOffAtWeakPointHitNum_s;
+        if (!mIsPlayed_DemoFlagName_s.isEmpty() && mActor->getMapObject() &&
+            ksys::gdt::getBoolByKey(mIsPlayed_DemoFlagName_s, false)) {
+            boss->_1540 = 1;
+        }
+    }
+    if (auto* effects = Unk_710260af28::instance())
+        effects->sub_7100F1ECE8(mActor->getModel());
+    _d9 = false;
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115BAF8("Root");
+    return true;
 }
 
 void SiteBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
