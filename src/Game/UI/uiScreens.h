@@ -3572,7 +3572,9 @@ public:
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenDLCWindow() override;
-    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
+    // 0x7100a05e2c (placeholder name; one extra virtual slot, vtable offsets +8): sets the button texts and opens
+    // the window
+    virtual void m154();
     SEAD_RTTI_OVERRIDE(ScreenDLCWindow, ScreenEx)
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
@@ -3581,8 +3583,43 @@ public:
     s32 sub_7100A05F94();
     // 0x7100a05f7c (placeholder name): stops the animator at 0x3870 at `frame`
     void sub_7100A05F7C(f32 frame);
-    u8 _pad_3610[0x3870 - 0x3610];
-    /* 0x3870 */ eui::Animator* _3870;
+
+    // 0x7100a05528 (CSV ScreenDLCWindow::ctor)
+    ScreenDLCWindow();
+
+    // A callback and a name (delegate vtable 0x7102480298, shared with other delegate instantiations).
+    struct Entry {
+        sead::Delegate<ScreenDLCWindow> callback;
+        sead::FixedSafeString<128> name;
+    };
+    static_assert(sizeof(Entry) == 0xb8);
+    // value-initialised in the ctor (one 0x230-byte memset before the member constructors)
+    struct Entries {
+        u64 _0;
+        Entry entries[3];
+    };
+
+    /* 0x3610 */ Entries _3610;
+    u8 _3840[0x3850 - 0x3840] = {};
+    // the window's open / close animators (set as the layout's in m154)
+    /* 0x3850 */ eui::Animator* _3850 = nullptr;
+    /* 0x3858 */ eui::Animator* _3858 = nullptr;
+    u8 _3860[0x3870 - 0x3860] = {};
+    /* 0x3870 */ eui::Animator* _3870 = nullptr;
+    u8 _3878[0x3880 - 0x3878] = {};
+    /* 0x3880 */ eui::Animator* _3880 = nullptr;
+    /* 0x3888 */ s32 _3888 = 1;
+    // the two buttons (T_BtnL_00 / T_BtnR_00 messages)
+    /* 0x3890 */ eui::ButtonBase* _3890 = nullptr;
+    /* 0x3898 */ eui::ButtonBase* _3898 = nullptr;
+    /* 0x38a0 */ u32 _38a0 = 0;
+    /* 0x38a4 */ u8 _38a4 = 0;
+    /* 0x38a5 */ u8 _38a5 = 0;
+    /* 0x38a6 */ u8 _38a6 = 0;
+    /* 0x38a7 */ u8 _38a7 = 0;
+    /* 0x38a8 */ u32 _38a8 = 0;
+    /* 0x38ac */ u8 _38ac = 0;
+    /* 0x38b0 */ s32 _38b0 = 3;
     // 0x7102486d48 (placeholder name): the window's result (0: no, 1: yes, 2: none yet)
     static s32 sResult;
 };
