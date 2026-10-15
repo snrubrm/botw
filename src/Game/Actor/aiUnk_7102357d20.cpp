@@ -104,6 +104,10 @@ void Unk_71023b1608_Payload::sub_710070E3D8(ksys::act::BaseProc* proc) {
     mLink.acquire(proc, false);
 }
 
+void Unk_7102415900::sub_710070E254(const ksys::act::LifeRecoverParams& params) {
+    sead::MemUtil::copy(&_18, &params, sizeof(params));
+}
+
 void Unk_7102413c08_Payload::sub_710070E270(Unk_7102413c08_Payload* out) {
     sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
     out->_4 = _4;

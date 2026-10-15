@@ -6,6 +6,7 @@
 #include <mc/seadJobQueue.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 
 namespace ksys::act {
 class BaseProc;
@@ -256,8 +257,9 @@ struct Unk_7102413c08_Payload {
     s32 _8 = -1;
 };
 
-// Message 0x80000dd (sender Unk_7102415900). Filled by the sender's non-virtual 0x710070e254 (a
-// 0x18-byte copy) from the struct getLifeRecoverParams (0x7100d68598) writes; field types unknown.
+// Message 0x80000dd (sender Unk_7102415900). The sender's non-virtual 0x710070e254 copies the
+// LifeRecoverParams written by getLifeRecoverParams (0x7100d68598); the listener
+// LifeRecoverInfo::sub_7100D68E54 reads the user data as a LifeRecoverParams.
 struct Unk_7102415900_Payload {
     u64 _0 = 0;
     u64 _8 = 0;
