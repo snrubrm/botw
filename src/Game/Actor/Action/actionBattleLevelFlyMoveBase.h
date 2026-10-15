@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/System/VFRValue.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -20,6 +21,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71000C0384(const sead::Vector3f& position, ksys::phys::CharacterController* controller);
 
     struct Params {
         // static_param at offset 0x20
@@ -41,8 +43,8 @@ protected:
     };
     Params mParams;
     ksys::VFRVec3f _60;
-    sead::Vector3f _84{0, 0, 0};
-    sead::Vector3f _90{0, 0, 0};
+    ksys::Timer _84;
+    ksys::Timer _90;
     sead::Matrix33f _9c;
     ksys::VFRValue _c0;
     ksys::act::CCAccessor _cc;
