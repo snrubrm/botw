@@ -15,11 +15,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    void sub_71005979BC();
+    void sub_7100597AE0();
+    bool sub_7100597E04(sead::Vector3f* out);
     // static_param at offset 0x38
     const float* mFallWaitCount_s{};
     // static_param at offset 0x40
@@ -39,13 +43,13 @@ protected:
     bool _80 = false;
     bool _81 = false;
     bool _82 = false;
-    u32 _84 = 0;
+    f32 _84 = 0;
     f32 _88 = 0;
     ksys::Timer _8c{};
     u32 _98 = 0;
     u32 _9c = 0;
     u32 _a0 = 0;
-    sead::Vector3f _a4 = {0, 0, 0};
+    ksys::Timer _a4{};
     ksys::act::BaseProcLink _b0;
     Unk_71012419b4 _c0;
 };
