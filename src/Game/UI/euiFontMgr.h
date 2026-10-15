@@ -99,6 +99,8 @@ public:
     void setRubyFont(const sead::SafeString& name);
 
 private:
+    friend class TagProcessor;
+
     /* 0x28 */ SharcArchive mArchive;
     // 0x7100be3420 constructs an array of ResFont objects, with the original 0xa8-byte stride.
     /* 0x30 */ sead::Buffer<nn::font::ResFont> mFonts;

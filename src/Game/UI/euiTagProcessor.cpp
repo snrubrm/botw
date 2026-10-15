@@ -267,6 +267,97 @@ TagProcessor::Operation TagProcessor::m17(const sead::MessageSet<char16>::TagInf
     return Operation_Default;
 }
 
+// 0x7100be6700
+// NON_MATCHING: tag-span simplification and receiver/cursor load scheduling differ.
+TagProcessor::Operation TagProcessor::m18(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle* rect, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    if (!mMessageMgr->isRubyEnabled() || rect || !mRubyEnabled)
+        return Operation_Default;
+
+    u16 base_bytes;
+    u16 ruby_bytes;
+    std::memcpy(&base_bytes, tag->getParam(), sizeof(base_bytes));
+    const u32 base_count = base_bytes / 2;
+    if (base_count == 0) {
+        mMessageMgr->m0();
+        return Operation_Default;
+    }
+    std::memcpy(&ruby_bytes, tag->getParam() + 2, sizeof(ruby_bytes));
+    const u32 ruby_count = ruby_bytes / 2;
+    s32 span = 0;
+    s32 counted = 0;
+    do {
+        const char16* current = next + span;
+        s32 length = 1;
+        if (*current == 0xe || *current == 0xf) {
+            const char16* end;
+            if (*current == 0xe)
+                end = reinterpret_cast<const char16*>(
+                    reinterpret_cast<const u8*>(current) + 8 + current[3]);
+            else
+                end = current + 3;
+            length = s32(end - current);
+            if (current[1] != 0 || current[2] < 0x80)
+                counted += length;
+        } else {
+            ++counted;
+        }
+        span += length;
+    } while (counted < s32(base_count));
+    if (u32(span - 1) >= 31 || ruby_bytes >= 64 || ruby_count == 0) {
+        mMessageMgr->m0();
+        return Operation_Default;
+    }
+
+    sead::WFixedSafeString<32> ruby;
+    ruby.copy(reinterpret_cast<const char16*>(tag->getParam() + 4), ruby_count);
+    sead::WFixedSafeString<32> base;
+    base.copy(next, span);
+    nn::font::TextWriterBase<u16> writer = *context->writer;
+    if (mFontMgr->mRubyFont)
+        writer.SetFont(mFontMgr->mRubyFont);
+    const f32 size_ratio = m27();
+    const f32 max_scale = m28();
+    const f32 vertical_offset = m29();
+    const f32 char_space = m30();
+    writer.SetDrawFlag(0x300);
+    writer.SetLineSpace(0.0f);
+    writer.SetCharSpace(char_space);
+    const f32 scale = size_ratio * context->writer->GetFontWidth() /
+                      static_cast<f32>(writer.GetFont()->GetWidth());
+    writer.SetItalicRatio(0.0f);
+    writer.SetTagProcessor(&nn::font::TextWriterBase<u16>::sDefaultTagProcessor);
+    writer.SetScale(scale < max_scale ? scale : max_scale, scale < max_scale ? scale : max_scale);
+
+    auto* saved_processor = context->writer->mTagProcessor;
+    TagProcessor processor(mMessageMgr, mFontMgr);
+    context->writer->SetTagProcessor(&processor);
+    const f32 base_width = context->writer->CalculateStringWidth(
+        reinterpret_cast<const u16*>(base.cstr()), span);
+    context->writer->SetTagProcessor(saved_processor);
+    const f32 ruby_width = writer.CalculateStringWidth(
+        reinterpret_cast<const u16*>(ruby.cstr()), ruby_count);
+    const f32 remaining = static_cast<f32>(span) - ruby_width;
+    if (remaining > 0.0f) {
+        const f32 space = remaining / static_cast<f32>(ruby_count + 1);
+        writer.SetCursorX(writer.GetCursorX() + space);
+        writer.SetCharSpace(char_space + space);
+    } else {
+        writer.SetCursorX(writer.GetCursorX() + (base_width - ruby_width) * 0.5f);
+    }
+    if (context->writer->GetItalicRatio() != 0.0f) {
+        writer.SetCursorX(writer.GetCursorX() + context->writer->GetItalicRatio() *
+                         context->writer->GetScaleX() *
+                         static_cast<f32>(context->writer->GetFont()->GetWidth()) * 0.5f);
+    }
+    writer.SetCursorY(writer.GetCursorY() + (-context->writer->GetScaleY() *
+                     static_cast<f32>(context->writer->GetFont()->GetBaselinePos()) - vertical_offset));
+    writer.Print(reinterpret_cast<const u16*>(ruby.cstr()), ruby_count);
+    return Operation_Default;
+}
+
 // 0x7100be6d4c
 TagProcessor::Operation TagProcessor::m22(const sead::MessageSet<char16>::TagInfo*,
                                          nn::font::PrintContext<u16>* context,
