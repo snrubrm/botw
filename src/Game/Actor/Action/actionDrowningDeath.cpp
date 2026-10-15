@@ -1,6 +1,10 @@
 #include "Game/Actor/Action/actionDrowningDeath.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
@@ -40,8 +44,31 @@ void DrowningDeath::loadParams_() {
     getStaticParam(&mPosBaseRagdollRbName_s, "PosBaseRagdollRbName");
 }
 
+// NON_MATCHING: the actor and ragdoll-state loads are swapped.
 void DrowningDeath::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (_38) {
+        if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
+            auto* ragdoll = dynamic_actor->_868;
+            if (auto* controller = actor->getCharacterController()) {
+                sead::Matrix34f transform;
+                if (ragdoll)
+                    ragdoll->sub_71006EDE54(&transform, mPosBaseRagdollRbName_s);
+                if (!ksys::util::isMatrixInvalid(transform))
+                    controller->sub_7100F5F938(transform);
+            }
+        }
+    } else if (auto* controller = actor->getCharacterController()) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        ksys::VFR::multiply(&velocity.x, 0.65f);
+        ksys::VFR::multiply(&velocity.y, 0.1f);
+        ksys::VFR::multiply(&velocity.z, 0.65f);
+        controller->sub_7100F5F6FC(velocity);
+        sub_7100738660(controller, 0.85f);
+    }
+    if (isFinishedAS(0, 0))
+        callDeleteAndCreateDropAndEmit(mActor, 0);
 }
 
 }  // namespace uking::action
