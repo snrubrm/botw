@@ -111,16 +111,15 @@ bool NavMeshLoadMgr::sub_7100F8ADC4(const sead::Vector3f* pos) {
     return handle->sub_7100F8AF0C();
 }
 
-// NON_MATCHING: the original tests bit 10 of _60 with a 32-bit load; clang narrows it to a byte load.
 bool NavMeshLoadMgr::TileHandle::sub_7100F8AF0C() {
     if (!requestedLoad() || _58 != 1)
         return false;
 
     const auto* entries =
         sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().getBufferPtr();
-    u32 count = sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().size();
-    for (const auto* entry = entries; count != 0; --count, ++entry) {
-        if (entry->_8 && !(entry->_60 & 0x400))
+    const s32 count = sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().size();
+    for (s32 i = 0; i != count; ++i) {
+        if (entries[i]._8 && !(entries[i]._60.load() & 0x400))
             return false;
     }
     return true;

@@ -1,9 +1,13 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <math/seadMatrix.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Resource/resResource.h"
 
 namespace ksys::phys {
+
+class HavokAI;
 
 // Root table 0x7102519a98 contains only the two destructor slots. Native parse
 // allocates entries at stride 0xa8; the resource lifecycle tests pointers +8/+28.
@@ -15,13 +19,24 @@ public:
     void sub_71012A7544();
     bool sub_71012A7738();
 
-    void* _8;
-    u8 _10[0x28 - 0x10];
-    void* _28;
-    u8 _30[0x60 - 0x30];
+    void* _8 = nullptr;
+    void* _10 = nullptr;
+    void* _18 = nullptr;
+    void* _20 = nullptr;
+    void* _28 = nullptr;
+    void* _30 = nullptr;
+    void* _38 = nullptr;
+    void* _40 = nullptr;
+    s32 _48;
+    // Same request scheme as NavMeshObj2Maybe: the HavokAI it was added to, the pending HavokAI
+    // (tag bits 0-1) and request flags (0x3c00: queued on _50).
+    HavokAI* _50 = nullptr;
+    sead::Atomic<HavokAI*> _58 = nullptr;
     // NavMeshLoadMgr::TileHandle::sub_7100F8AF0C requires bit 10 for every entry with _8 set.
-    u32 _60;
-    u8 _64[0xa8 - 0x64];
+    sead::Atomic<u32> _60 = 0;
+    sead::Matrix34f _64 = sead::Matrix34f::ident;
+    void* _98 = nullptr;
+    void* _a0 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102519a98, 0xa8);
 

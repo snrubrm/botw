@@ -227,6 +227,7 @@ target_sources(uking PRIVATE
     Constraint/physUnk_71024f6778.h
     Constraint/physUnk_71024f67a8.h
 
+    Ragdoll/physUnk_7102519a98.cpp
     Ragdoll/physUnk_7102519b90.cpp
     Ragdoll/physUnk_7102519b90.h
 
