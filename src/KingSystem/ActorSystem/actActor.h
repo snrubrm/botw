@@ -67,6 +67,7 @@ class ActorBase;
 
 namespace map {
 enum class MapLinkDefType;
+class LinkTag;
 class Object;
 struct ObjectLink;
 }  // namespace map
@@ -864,6 +865,7 @@ protected:
     friend class ActorCreator;
     friend class DropMgr;  // D2C374 reads the existing mDeleteDistanceSq for drop creation.
     friend class ActorLinkConstDataAccess;
+    friend class map::LinkTag;  // D396A0 (isTriggered) reads mSignals.
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
     friend class ModelBindInfo;  // copies the bound pose to mMtx.

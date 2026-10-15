@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
@@ -105,14 +106,12 @@ act::BaseProc::InitResult LinkTag::init_() {
     updateIsFlagSetFlag(is_set, true, true);
     if (is_set) {
         _1e0 |= 0x10;
-        _1d0 = ~u64(0);
         _1e0 |= 0x20;
-        _1d8 = ~0u;
+        mTriggeredLinks.makeAllOne();
     } else {
         _1e0 &= ~0x10;
         _1e0 &= ~0x20;
-        _1d8 = 0;
-        _1d0 = 0;
+        mTriggeredLinks.makeAllZero();
     }
     return InitResult::Ok;
 }
@@ -187,6 +186,40 @@ bool LinkTag::sub_7100D39E2C() {
 
 // NON_MATCHING: only the count accumulation (the original selects `count + 1` with csinc; ours folds the bool into an add) and
 // the register assignment of the loop counters.
+// NON_MATCHING: the inlined sub_7100D39420 keeps its branches in the original (see there); the rest matches.
+bool LinkTag::isTriggered(const ObjectLink* link, u32 idx) {
+    const Object* obj = link->other_obj;
+    if (!obj)
+        return mTriggeredLinks.isOnBit(idx);
+
+    auto* proc = obj->getProc();
+    if (proc && (proc->getState() == State::Calc || proc->getState() == State::Delete)) {
+        bool on;
+        if (auto* tag = sead::DynamicCast<LinkTag>(proc))
+            on = tag->sub_7100D39420(link->type == MapLinkDefType::BasicSigOnOnly);
+        else if (auto* actor = sead::DynamicCast<act::Actor>(proc))
+            on = actor->mSignals.isOnBit(int(link->type));
+        else
+            on = false;
+        if (on) {
+            if (idx < 96)
+                mTriggeredLinks.setBit(idx);
+        } else if (idx < 96) {
+            mTriggeredLinks.resetBit(idx);
+        }
+    } else if (link->type == MapLinkDefType::DeadUp || link->type == MapLinkDefType::LifeZero) {
+        if (obj->getFlags0().isOn(Object::Flag0::_100000) ||
+            obj->checkRevivalFlag(ActorData::Flag::RevivalEnable)) {
+            if (idx < 96)
+                mTriggeredLinks.setBit(idx);
+        }
+    }
+
+    if ((_1e0 & 2) && !obj->getFlags().isOn(Object::Flag::IsLinkTag))
+        _1df = idx;
+    return mTriggeredLinks.isOnBit(idx);
+}
+
 void LinkTag::calcCount(bool frame_changed) {
     if (!(_1e0 & 1))
         return;
@@ -209,6 +242,82 @@ void LinkTag::calcCount(bool frame_changed) {
         setS32ByIdxForLinkTag(gdt::Manager::instance(), s8(count), mObj->getRevivalGameDataFlagHash());
         updateIsFlagSetFlag(s8(_1e2) > 0, false, frame_changed);
     }
+}
+
+// NON_MATCHING: the original counts with csinc and re-derives the pending-trigger bit from the flags read at entry;
+// register allocation and branch layout differ.
+void LinkTag::calcPulse(bool frame_changed) {
+    if (!(_1e0 & 1)) {
+        if (mObj) {
+            if (auto* link_data = mObj->getLinkData()) {
+                auto& links = link_data->mLinksToSelf.links;
+                const s32 num = std::min(links.size(), 0x60);
+                for (s32 i = 0; i < num; ++i) {
+                    if (links[i].type <= MapLinkDefType::ChangeAtnSig && isTriggered(&links[i], i))
+                        ++_1e2;
+                }
+            }
+        }
+        _1e0 &= ~0x10;
+        return;
+    }
+
+    bool trigger = _1e0 & 0x80;
+    u8 count = 0;
+    if (mObj) {
+        if (auto* link_data = mObj->getLinkData()) {
+            auto& links = link_data->mLinksToSelf.links;
+            const s32 num = std::min(links.size(), 0x60);
+            for (s32 i = 0; i < num; ++i) {
+                if (links[i].type <= MapLinkDefType::ChangeAtnSig && isTriggered(&links[i], i))
+                    ++count;
+            }
+        }
+    }
+
+    const u8 prev_count = _1e2;
+    _1e0 &= ~0x10;
+    _1e2 = count;
+
+    if (frame_changed) {
+        if ((count != prev_count) != bool(_1e0 & 8)) {
+            updateIsFlagSetFlag(count != prev_count, false, true);
+            trigger = true;
+        }
+        if (count != prev_count) {
+            _1e0 |= 0x2000;
+            if (mObj) {
+                if (auto* link_data = mObj->getLinkData()) {
+                    for (auto& link : link_data->mLinksOther.links) {
+                        if (link.type == MapLinkDefType::OffWaitRevival && link.other_obj) {
+                            gdt::Manager::instance()->setBoolNoCheck(
+                                false, link.other_obj->getRevivalGameDataFlagHash());
+                        }
+                    }
+                }
+            }
+        } else {
+            _1e0 &= ~0x2000;
+        }
+    }
+
+    if (!trigger)
+        return;
+
+    if (mObj) {
+        auto* link_data = mObj->getLinkData();
+        const auto flag = mObj->getRevivalGameDataFlagHash();
+        if (link_data) {
+            for (auto& link : link_data->mLinksOther.links) {
+                act::ActorLinkConstDataAccess accessor;
+                link.getObjectProcWithAccessor(accessor);
+                accessor.triggerLink();
+            }
+        }
+        if (flag != gdt::InvalidHandle)
+            act::BaseProcMgr::instance()->mPushActorJobType3InsteadOf6 = true;
+    }
+    _1e0 &= ~0x80;
 }
 
 void LinkTag::finalizeInit_(InitContext* context) {

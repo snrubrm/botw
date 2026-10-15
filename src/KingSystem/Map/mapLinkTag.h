@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadMatrix.h>
+#include <prim/seadLongBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/ActorSystem/actBaseProc.h"
@@ -33,7 +34,7 @@ bool isLinkTagNAndOrNOr(const sead::SafeString& name);
 bool isFlagSet(bool* out, bool a, const Object* obj);
 
 // The BaseProc of a placed link tag (CSV LinkTag::*; the class name is the CSV's). It follows the links that point
-// to its map object (a bit per link in `_1d0`) and drives the placed object's link signals. Only the small virtual
+// to its map object (a bit per link in `mTriggeredLinks`) and drives the placed object's link signals. Only the small virtual
 // overrides are decompiled so far.
 // TODO: incomplete
 class LinkTag : public act::BaseProc {
@@ -108,9 +109,8 @@ private:
     friend class act::BaseProcJobHandlerT<LinkTag>;
 
     /* 0x180 */ act::BaseProcJobHandlerT<LinkTag> mJob{this, &LinkTag::calc};
-    // One bit per link of the object's links to self (at most 96; the original stores them as a u64 and a u32).
-    /* 0x1d0 */ u64 _1d0 = 0;
-    /* 0x1d8 */ u32 _1d8 = 0;
+    // One bit per link of the object's links to self (at most 96): whether the link is triggered.
+    /* 0x1d0 */ sead::LongBitFlag<96> mTriggeredLinks;
     /* 0x1dc */ s8 _1dc = 0;
     /* 0x1dd */ s8 _1dd = -1;
     /* 0x1de */ u8 _1de = 0;
