@@ -91,6 +91,29 @@ void Actor::sub_71011DB070() {
     mActorFlags.resetBit(ActorFlag::_1);
 }
 
+// NON_MATCHING: the XLink flag update branches instead of selecting its value.
+void Actor::onJobPush2_(JobType type) {
+    switch (type) {
+    case JobType::PreCalc:
+        deleteIfPlacementStuff();
+        decrementSkipJobPushTimer();
+        if (shouldSkipJobPush(JobType::PreCalc)) {
+            x_14(true);
+            handleModelFadeInOutAndFadeDelete();
+        }
+        break;
+    case JobType::Calc1:
+        shouldSkipJobPush(JobType::Calc1);
+        break;
+    case JobType::Calc4:
+        if (mXLink)
+            mXLink->_cc.change(8, mActorFlags.isOffBit(ActorFlag::_18));
+        break;
+    default:
+        break;
+    }
+}
+
 // NON_MATCHING: typed key comparison and forwarding, stack placement and loop scheduling differ.
 void Actor::swordBlurStuff() {
     if (mASList == &as::sNullASListMaybe || !mASList)
