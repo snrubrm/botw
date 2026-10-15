@@ -13,12 +13,14 @@ public:
     ~PriestBossMakeClone() override;
 
     bool init_(sead::Heap* heap) override;
+    void calc_() override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
 
     // 0x7100524660 (placeholder name; not decompiled)
-    void sub_7100524660(bool a1);
+    void sub_7100524660(s32 state);
+    void sub_7100525270(s32 value);
 
 protected:
     // static_param at offset 0x38

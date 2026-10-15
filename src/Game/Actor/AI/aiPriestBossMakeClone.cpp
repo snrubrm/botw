@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiPriestBossMakeClone.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -19,7 +20,44 @@ void PriestBossMakeClone::enter_(ksys::act::ai::InlineParamPack* params) {
     mRespawnStarted = false;
     mRespawnTimer = 0.0f;
     mState = 0;
-    sub_7100524660(true);
+    sub_7100524660(1);
+}
+
+void PriestBossMakeClone::calc_() {
+    if (mRespawnStarted) {
+        ksys::Timer::update(&mRespawnTimer, 1.0f);
+        if (mRespawnTimer > *mRespawnFrame_s) {
+            sub_7100525270(1);
+            sub_7100525270(2);
+            sub_7100525270(5);
+            mRespawnStarted = false;
+        }
+    }
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+    switch (mState) {
+    case 1:
+        sub_7100524660(2);
+        break;
+    case 2:
+    case 3:
+        sub_7100524660(4);
+        break;
+    case 4:
+        sub_7100524660(5);
+        break;
+    case 5:
+        if (!mRespawnStarted) {
+            auto* unit = sead::DynamicCast<Unk_7102450fa8>(
+                *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+            if (!unit->isFlagOn(Unk_7102450fa8::Flag::_4))
+                setFinished();
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 void PriestBossMakeClone::leave_() {
