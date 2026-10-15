@@ -21,12 +21,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     virtual bool m34();
 
 protected:
+    void sub_7100570D90(const sead::Vector3f& direction);
     // 0x7100570ca4: "TargetPos" / "MoveDstPos" (_230), then the "遠距離攻撃移動" child
     void sub_7100570CA4();
     // 0x71005702d4: "TargetPos" / "MoveDstPos", then the "移動" child
@@ -51,14 +53,14 @@ protected:
     bool _79 = true;
     ksys::Timer _7c{};
     ksys::Timer _88{};
-    f32 _94 = 0;
-    f32 _98 = 0;
+    s32 _94 = 0;
+    u32 _98 = 0;
     // Wall-check ray casts (released in enter_ / leave_) and their result positions (zeroed together by one
     // memset in the constructor, which the compiler places after the BoneAccessKeyEx constructor).
     sead::SafeArray<ksys::phys::RayCastForRequest*, 5> mRayCasts;
     sead::SafeArray<sead::Vector3f, 5> _c8;
-    sead::Vector3f _104[15];
-    sead::Vector3f _1b8[5];
+    sead::SafeArray<sead::Vector3f, 15> _104;
+    sead::SafeArray<f32, 15> _1b8;
     gsys::BoneAccessKeyEx _1f8;
     sead::Vector3f _230;
 };
