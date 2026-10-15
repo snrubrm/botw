@@ -57,13 +57,14 @@ struct Unk_7100722420 {
     void sub_71007224DC(s32 a1, s32 a2, s32 a3);
     // 722764 updates this dialog owner; SiteBoss::m73 passes its existing member.
     void sub_7100722764();
-    // 0x7100723418 (declared only): enables the pending dialog after the given delay.
+    // 0x7100723418: enables the pending dialog after the given delay.
     void sub_7100723418(f32 delay);
 
     // 2026-10-07: ctor 0x7100722420 stores its Actor* argument here, not a vtable.
     ksys::act::Actor* _0;
     /* 0x08 */ bool _8;  // cleared by SiteBossDie::leave_
-    u8 _9[0x240 - 9];
+    u8 _9[0x23c - 9];
+    /* 0x23c */ f32 _23c;
     /* 0x240 */ Unk_71025b2aa8Data _240;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100722420, 0x258);

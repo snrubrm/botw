@@ -177,6 +177,11 @@ void Unk_7100722420::sub_71007224D4() {
     _240.sub_7100721EFC();
 }
 
+void Unk_7100722420::sub_7100723418(f32 delay) {
+    _8 = true;
+    _23c = delay;
+}
+
 // NON_MATCHING: the SafeArray iterator uses an element index instead of the original byte offset.
 void SiteBoss::Unk_71002cf2ac::sub_710066CD7C(u32 value) {
     _94 = value;
