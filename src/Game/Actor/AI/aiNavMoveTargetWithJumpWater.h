@@ -21,6 +21,7 @@ public:
 
 protected:
     void sub_71004BA408(sead::Vector3f* out, f32 distance);
+    bool sub_71004BA6E4(f32* depth_out, const sead::Vector3f& position);
     bool sub_71004BA1F8(const sead::Vector3f& position);
 
     // static_param at offset 0x380
