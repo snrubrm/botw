@@ -17,6 +17,10 @@ bool NPC::isZora_(ksys::act::Actor* actor) {
            *actor->getUMii()->getBody().race == ksys::mii::UMii::Body::Race_Zora;
 }
 
+ksys::act::BaseProc* NPCBase::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) NPCBase(arg);
+}
+
 NPCBase::NPCBase(const CreateArg& arg) : Actor(arg) {
     _1c0 = 2;
 }

@@ -16,6 +16,9 @@ public:
     explicit NPCBase(const CreateArg& arg);
     ~NPCBase() override;
 
+    // 0x7100e93788 (CSV DemoNPC::construct): the factory for actor profiles built as a plain NPCBase.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void onPreDeleteStart_(PrepareArg& arg) override;
