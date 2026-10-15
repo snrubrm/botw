@@ -1,5 +1,7 @@
 #include "Game/Actor/AI/aiBigCannon.h"
 #include <math/seadMathCalcCommon.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -41,6 +43,52 @@ void BigCannon::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     _10a = false;
     _10b = false;
+}
+
+// NON_MATCHING: vector load/store scheduling, float registers and branch layout differ.
+void BigCannon::sub_710032D5FC() {
+    auto* actor = mActor;
+    auto* model = actor->getModel();
+    sead::Matrix34f transform = actor->getMtx();
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    if (mShotNodeName_s.isEmpty()) {
+        sead::Vector3f offset;
+        offset.setRotated(transform, *mOffset_s);
+        position += offset;
+    } else if (model) {
+        const auto bone = model->searchBone(mShotNodeName_s);
+        if (bone.isValid()) {
+            model->getUnits()(bone.model_unit_index)->mModelUnit->getBoneWorldMatrix(&transform,
+                                                                                  bone.bone_index);
+            transform.getTranslation(position);
+        }
+    }
+    _10c = position;
+    sead::Vector3f velocity;
+    if (!*mIsUseShotNodeAngle_s) {
+        transform = actor->getMtx();
+        transform.setTranslation(position);
+        const f32 angle = sead::Mathf::deg2rad(_12c ? _124 : *mAngle_m);
+        sead::Vector3f front;
+        front.setRotated(transform, {0.0f, std::sin(angle), std::cos(angle)});
+        front.normalize();
+        sead::Vector3f up = front.cross(sead::Vector3f::ex);
+        up.normalize();
+        sead::Matrix33f basis;
+        basis.setBase(0, sead::Vector3f::ex);
+        basis.setBase(1, up);
+        basis.setBase(2, front);
+        velocity = sead::Vector3f::zero;
+        velocity.z = *mSpeed_m;
+        if (_12c)
+            velocity.z = _128 / 30.0f;
+        velocity.rotate(basis);
+    } else {
+        transform.setTranslation(position);
+        velocity = transform.getBase(2) * (_12c ? _128 / 30.0f : *mSpeed_m);
+    }
+    _118 = _10c + velocity;
+    m34(transform, &velocity);
 }
 
 void BigCannon::leave_() {
