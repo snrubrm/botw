@@ -29,7 +29,7 @@ protected:
     const float* mNearGoalDist_s{};
     // static_param at offset 0x40
     const float* mNearGoalLimitSpd_s{};
-    // 0x71005d0cb4 (not decompiled): the DynamicActor _a70 callback.
+    // 0x71005d0cb4: the DynamicActor _a70 callback.
     void sub_71005D0CB4(ksys::act::Unk_71006dc134* arg);
 
     // static_param at offset 0x48
