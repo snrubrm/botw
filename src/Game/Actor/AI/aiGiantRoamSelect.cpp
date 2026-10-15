@@ -29,17 +29,17 @@ bool GiantRoamSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: block order of the last two changeChild calls (tried if/else both ways, switch, else-if)
+// NON_MATCHING: the last child selection uses a conditional select instead of branches.
 void GiantRoamSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* object = mActor->getMapObject();
-    if (object && object->getRails_0() && static_cast<ksys::map::Rail**>(object->getRails_0())[0]) {
-        changeChild("レール移動", params);
-        return;
-    }
-    if (*mGiantRoamType_m == 1)
-        changeChild("徘徊", params);
+    const char* child;
+    if (object && object->getRails_0() && object->getRails_0()[0])
+        child = "レール移動";
+    else if (*mGiantRoamType_m != 1)
+        child = "待機";
     else
-        changeChild("待機", params);
+        child = "徘徊";
+    changeChild(child, params);
 }
 
 void GiantRoamSelect::calc_() {}
