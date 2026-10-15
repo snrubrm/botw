@@ -2,6 +2,8 @@
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actHorse.h"
+#include "Game/Actor/actRideable.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
@@ -29,6 +31,36 @@ bool EnemySearchHorse::sub_71003BA1C4(ksys::act::BaseProcLink* link) {
         }
     }
     return false;
+}
+
+// NON_MATCHING: enum temporary stack slots differ.
+bool EnemySearchHorse::sub_71003BA2C4(const ksys::act::BaseProcLink* link) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    auto* rideable = accessor.getHorseOptions();
+    if (!rideable)
+        return false;
+    const act::Unk_7100e8b2b8::Unk8 kind = rideable->Unk_7100e8b2b8::_8.load() & 0xff;
+    if (int(kind) != 0)
+        return false;
+    const act::Unk_7100e8b2b8::Unk8 previous_kind = rideable->Unk_7100e8b2b8::_c.load();
+    if (int(previous_kind) != 2 || accessor.getLife() < 1 ||
+        (rideable->Unk_7100e8b2b8::_8.load() & 0x100) || sub_7100081354(accessor, 0x18))
+        return false;
+
+    const auto position = mActor->getMtx().getTranslation();
+    const f32 distance = (position - accessor.getActorMtx().getTranslation()).length();
+    if (distance > *mParams.mSearchDist_s)
+        return false;
+    auto* actor = mActor;
+    if (sub_71005D8F28(actor)) {
+        const auto& target = sub_71005D9330(actor);
+        if ((target - actor->getMtx().getTranslation()).length() < distance)
+            return false;
+    }
+    sead::Vector3f horse_position;
+    accessor.getActorMtx().getTranslation(horse_position);
+    return sub_710072E154(mActor, horse_position, nullptr, -1);
 }
 
 EnemySearchHorse::EnemySearchHorse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
