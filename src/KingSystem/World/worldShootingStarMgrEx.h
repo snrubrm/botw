@@ -25,7 +25,7 @@ public:
     ShootingStarAnchor();
     virtual ~ShootingStarAnchor();
 
-    // 0x71010cf868 (CSV wm::calcShootingStarDLC; declaration only)
+    // 0x71010cf868
     void calcShootingStarDLC();
     void sub_71010D00B0();
     bool sub_71010D02C0(const al::ByamlIter& iter);
@@ -49,7 +49,7 @@ public:
     void sub_71010D0814(act::InstParamPack* pack, sead::Vector3f* out_position);
 
     char mIdBuffer[32];
-    u32 _28 = 0;
+    f32 _28 = 0.0f;
     f32 _2c = 10.0f;
     Identifier mIdentifier;
     sead::Vector3f _48 = sead::Vector3f::zero;
@@ -61,7 +61,7 @@ public:
     const char* _68 = nullptr;
     const char* _70 = nullptr;
     const char* _78 = nullptr;
-    u8 _80[4]{};
+    s32 _80 = 0;
     s32 _84 = 10;
     bool _88 = false;
     bool _89 = false;
@@ -88,6 +88,8 @@ public:
     void spawnStar() override;
 
 private:
+    friend class ShootingStarAnchor;
+
     // 0x71010cfe18 (declaration only): loads the anchors from the map static mubin
     bool sub_71010CFE18();
 

@@ -16,6 +16,10 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/System/StageInfo.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 // E8DCA8 returns the matching map record's resource handle at +0x58.
 ksys::res::Handle* getMapStaticMubin(const sead::SafeString& name);
@@ -292,6 +296,79 @@ void ShootingStarAnchor::sub_71010D1394() {
 
 // 0x710250cb50 (TU-local, .data)
 static const sead::SafeString sUnk_710250CB50 = "MainField";
+
+// NON_MATCHING: SafeString comparison lowering, temporary stack slots and retry comparison differ.
+void ShootingStarAnchor::calcShootingStarDLC() {
+    const sead::SafeString* map_name = &sUnk_710250CB50;
+    if (auto* manager = Manager::instance()) {
+        auto* stars = sead::DynamicCast<ShootingStarMgrEx>(manager->getShootingStarMgr());
+        if (stars)
+            map_name = &stars->mMapName;
+    }
+    if (StageInfo::getCurrentMapType() != *map_name)
+        return;
+
+    if (gdt::Manager::instance()) {
+        bool started = false;
+        gdt::getBoolByNameNoBool2(gdt::Manager::instance(), &started, _78);
+        _88 = started;
+    } else {
+        _88 = false;
+    }
+    if (!_88)
+        return;
+
+    if (sub_71010D0B64()) {
+        Timer::update(&_28, VFR::instance()->getRawDeltaTime());
+        if (_28 < _60)
+            return;
+        act::InstParamPack pack;
+        sead::Vector3f position;
+        sub_71010D0814(&pack, &position);
+        phys::RayCastBodyQuery ray(nullptr, phys::GroundHit::HitAll);
+        ray.enableLayer(phys::ContactLayer::EntityGround);
+        ray.enableLayer(phys::ContactLayer::EntityGroundObject);
+        ray.enableLayer(phys::ContactLayer::EntityGroundRough);
+        ray.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+        ray.enableLayer(phys::ContactLayer::EntityHitOnlyGround);
+        ray.setStartAndEnd(position, _48);
+        ray.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::_0);
+        if (ray.worldRayCast(phys::ContactLayerType::Entity)) {
+            sead::Vector3f hit;
+            ray.getHitPosition(&hit);
+            if ((hit - _48).squaredLength() > 400.0f) {
+                _80 = _80 < 60 ? _80 + 1 : 0;
+                return;
+            }
+        }
+        if (!_89) {
+            auto* creator = act::ActorCreator::instance();
+            creator->requestCreateActor("FldObj_DLC_ShootingStarCollaboration",
+                                        act::BaseProcHeapMgr::instance()->getHeap(), nullptr,
+                                        &pack, nullptr, 1);
+            _89 = true;
+        }
+    } else if (sub_71010D0D78()) {
+        act::InstParamPack pack;
+        sub_71010D0814(&pack, nullptr);
+        if (!_89) {
+            auto* creator = act::ActorCreator::instance();
+            creator->requestCreateActor("FldObj_DLC_ShootingStarCollaboration",
+                                        act::BaseProcHeapMgr::instance()->getHeap(), nullptr,
+                                        &pack, nullptr, 1);
+            _89 = true;
+        }
+    } else {
+        if (!(_2c < 10.0f))
+            _2c = 10.0f;
+        else
+            Timer::update(&_2c, VFR::instance()->getRawDeltaTime());
+        _80 = 0;
+        _28 = 0.0f;
+        _60 = sead::GlobalRandom::instance()->getF32() + 0.5f;
+    }
+    ++_84;
+}
 
 ShootingStarMgrEx::ShootingStarMgrEx() : mMapName(sUnk_710250CB50) {}
 
