@@ -250,6 +250,36 @@ void ScreenChild::m54(sead::Heap* heap) {
     m24(heap);
 }
 
+// 0x71010a918c: per-frame update (clears the event flags, runs the open / close transitions, then m25)
+void ScreenChild::m55() {
+    _100 = 0;
+    if (!_108)
+        return;
+
+    if (_104 == 3) {
+        m76();
+    } else {
+        if (_104 == 1)
+            m73(false);
+        if (_104 == 5 && m74())
+            m75();
+    }
+
+    if (_110 && !_109 && _104 == 0)
+        return;
+
+    m25();
+
+    if (_104 == 4) {
+        m80();
+    } else {
+        if (_104 == 2)
+            m77(false);
+        if (_104 == 6 && m78())
+            m79();
+    }
+}
+
 // 0x7100932058
 void ScreenChild::m56() { m26(); }
 

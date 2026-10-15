@@ -927,6 +927,35 @@ u16 ScreenMessageDialog::sub_71010B2F68(s32 index) const {
     return _300->_68[index];
 }
 
+// 0x71010b2f84
+void ScreenMessageDialog::sub_71010B2F84(s32 type, const eui::MessageString& name) {
+    _772 = type;
+    if (_76a) {
+        if (type == 3)
+            _370->Stop(0.0f);
+        else if (type == 4)
+            _370->Stop(1.0f);
+        else
+            _370->Stop(2.0f);
+    } else if (type == 0 || type == 1) {
+        if (name.getString()) {
+            mLayout->setMessageStringForEachId("T_Name_00", name, true, nullptr);
+            if (type == 0)
+                _370->Stop(0.0f);
+            else
+                _370->Stop(2.0f);
+        } else {
+            if (type == 0)
+                _370->Stop(1.0f);
+            else
+                _370->Stop(3.0f);
+        }
+    } else if (type == 2) {
+        _370->Stop(4.0f);
+    }
+    x_2();
+}
+
 // 0x71010b306c (CSV unnamed): set the dialog's actor.
 void ScreenMessageDialog::sub_71010B306C(ksys::act::Actor* actor) {
     _720 = actor;

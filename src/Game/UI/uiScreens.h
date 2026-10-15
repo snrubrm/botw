@@ -204,6 +204,8 @@ public:
     // machine at 0x80 and the receiver at 0xa8 / adapter at 0xc8, then mName = the layout's root pane name and
     // mLayout = layout
     explicit ScreenChild(eui::LayoutEx* layout);
+    // NON_MATCHING: the implicit deleting destructor (0x71010a94e8) computes this + 0xc8 before the vtable stores
+    // instead of after the getDispatcher call (scheduling only).
 
     /* 0x28 */ nn::util::IntrusiveListNode _28;
     /* 0x38 */ Unk_7102474a28<ScreenChild> mTransceiver;  // the state machine is at 0x80, the receiver at 0xa8, its adapter at 0xc8
@@ -211,7 +213,8 @@ public:
 
     /* 0x100 */ u8 _100 = 0;  // lifecycle event flags, cleared by the update method
     /* 0x104 */ s32 _104 = 0;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
-    /* 0x108 */ u16 _108 = 1;
+    /* 0x108 */ bool _108 = true;  // m55 runs only while set
+    /* 0x109 */ bool _109 = false;
     /* 0x110 */ eui::Animator* _110 = nullptr;
     /* 0x118 */ eui::Animator* _118 = nullptr;
     /* 0x120 */ Screen* _120 = nullptr;
@@ -1188,7 +1191,10 @@ public:
     /* 0x308 */ eui::LetterAnimControl* _308 = nullptr;
     u8 _310[0x350 - 0x310];
     /* 0x350 */ s32 _350;
-    u8 _354[0x3a0 - 0x354];
+    u8 _354[0x370 - 0x354];
+    // The "Type" animator (created in 0x71010b34f0); its frame selects the dialog frame style
+    /* 0x370 */ eui::Animator* _370;
+    u8 _378[0x3a0 - 0x378];
     // The message being scanned (its mString/_8 are walked by sub_71010B307C/3294 as text/length;
     // sub_71010B2B30 assigns it as a whole).
     /* 0x3a0 */ eui::MessageString _3a0;
@@ -1211,7 +1217,8 @@ public:
     /* 0x76a */ bool _76a;
     u8 _76b[0x76d - 0x76b];
     /* 0x76d */ u8 _76d;
-    u8 _76e[0x773 - 0x76e];
+    u8 _76e[0x772 - 0x76e];
+    /* 0x772 */ u8 _772;
     /* 0x773 */ u8 _773;
     /* 0x774 */ s32 _774;
     // Created by ScreenBase::doCreateTagProcessor_ in 0x71010b34f0.
@@ -1228,6 +1235,8 @@ public:
     // choice `index` (_300->_68)
     s32 sub_71010B2F5C() const;
     u16 sub_71010B2F68(s32 index) const;
+    // 0x71010b2f84 (placeholder name; called by initMessageDialogName): set the dialog type and the speaker name
+    void sub_71010B2F84(s32 type, const eui::MessageString& name);
     // 0x71010b306c (CSV unnamed): set the dialog's actor (stores it in _720, acquires _728).
     void sub_71010B306C(ksys::act::Actor* actor);
     // 0x71010b307c (CSV unnamed): scan the text for a voice tag, apply the emotion to the actor.
