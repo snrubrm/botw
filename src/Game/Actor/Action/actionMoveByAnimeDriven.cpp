@@ -5,6 +5,8 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -93,8 +95,32 @@ void MoveByAnimeDriven::loadParams_() {
     getStaticParam(&mTargetBoneName_s, "TargetBoneName");
 }
 
+// NON_MATCHING: MotionType temporary spill and vector scheduling.
 void MoveByAnimeDriven::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* as_list = mActor->getASList();
+    auto* controller = mActor->getCharacterController();
+    if (!as_list || !controller) {
+        setFailed();
+        return;
+    }
+    if (controller->sub_7100F5F0E4() == ksys::act::MotionType::Hover) {
+        sead::Vector3f direction = as_list->sub_710115D2D4();
+        sead::Vector3f angular_velocity = as_list->sub_710115D3B8();
+        direction.setRotated(mActor->getMtx(), direction);
+        const f32 speed = direction.normalize();
+        if (direction == sead::Vector3f::zero)
+            direction = controller->get64();
+        controller->sub_7100F5EDD8(1.0f);
+        controller->sub_7100F5EDE0(0.0f);
+        controller->sub_7100F5EDBC(direction);
+        controller->sub_7100F5E7F0(speed * 30.0f);
+        angular_velocity *= 30.0f;
+        controller->sub_7100F5FB24(angular_velocity);
+    } else {
+        m33();
+    }
+    if (as_list->x_1(0, 0) == m32() && isFinishedAS(0, 0))
+        setFinished();
 }
 
 const char* MoveByAnimeDriven::m32() {
