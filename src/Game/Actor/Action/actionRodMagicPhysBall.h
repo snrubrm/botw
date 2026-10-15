@@ -39,12 +39,12 @@ protected:
         bool _c = false;
         u8 _d[3]{};
     } _1a8{};
-    // 0x710023b234 (declared only): out of line in the original.
     bool sub_710023B234(Unk1a8* out);
-    // 0x710023b458 (declared only; 860 B): returns whether the ball is finished; the out flag is set when ... (guess).
     bool sub_710023B458(bool* out);
     // 0x710023b7b4 (declared only; 1492 B).
     void sub_710023B7B4();
+    // 0x710023be44 (declared only; 1284 B): tests the ball's path with ground ray casts.
+    bool sub_710023BE44();
 };
 
 }  // namespace uking::action

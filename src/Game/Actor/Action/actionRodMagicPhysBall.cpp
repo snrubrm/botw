@@ -1,8 +1,11 @@
 #include "Game/Actor/Action/actionRodMagicPhysBall.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -79,6 +82,71 @@ bool RodMagicPhysBall::sub_710023B234(Unk1a8* out) {
         }
     }
     return false;
+}
+
+// NON_MATCHING: accessor initialization stores are reordered.
+bool RodMagicPhysBall::sub_710023B458(bool* out) {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+
+    switch (*mChemicalType_s) {
+    case 0:
+        if (hasAttackInfo(actor)) {
+            if (auto* info = getAttackInfo(actor, 0)) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&info->_50, &accessor);
+                if (ksys::act::isPlayerProfile(accessor) || ksys::act::isEnemyProfile(accessor) ||
+                    ksys::act::isBulletProfile(accessor) || ksys::act::isHorseProfile(accessor) ||
+                    ksys::act::isNPCProfile(accessor) || sead::DynamicCast<act::Enemy>(accessor.getProc())) {
+                    *out = true;
+                    return true;
+                }
+                if (accessor.sub_7100D13290(0)) {
+                    _d8 = info->_50;
+                    return false;
+                }
+            }
+        }
+        break;
+    case 1:
+        if (sub_710023BE44())
+            return true;
+        if (_a4 > m34())
+            return true;
+        return _b4 && _a8.value <= sead::Mathf::epsilon();
+    case 2:
+        if (hasAttackInfo(actor)) {
+            if (auto* info = getAttackInfo(actor, 0)) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&info->_50, &accessor);
+                if (ksys::act::isEnemyProfile(accessor)) {
+                    if (accessor.sub_7100D135A0(-1) > 0.1f)
+                        _d8 = info->_50;
+                    *out = true;
+                    return true;
+                }
+                if (ksys::act::isPlayerProfile(accessor) || ksys::act::isBulletProfile(accessor) ||
+                    ksys::act::isHorseProfile(accessor) || ksys::act::isNPCProfile(accessor) ||
+                    sead::DynamicCast<act::Enemy>(accessor.getProc())) {
+                    *out = true;
+                    return true;
+                }
+                if (accessor.sub_7100D1336C(0)) {
+                    _d8 = info->_50;
+                    *out = true;
+                    return true;
+                }
+            }
+        }
+        break;
+    }
+
+    if (mActor->get68f().load())
+        return true;
+    if (_a4 > m34())
+        return true;
+    return _b4 && _a8.value <= sead::Mathf::epsilon();
 }
 
 int RodMagicPhysBall::m36() {
