@@ -2,6 +2,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -33,8 +37,55 @@ bool CapturedActorRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: timer/string temporaries and initial-state dispatch use different scheduling.
 void CapturedActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (auto* awareness = actor->getAwareness())
+        awareness->enable();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F63700(false);
+    ksys::act::enableAttClient(actor, "NameBalloon");
+    ksys::act::disableAttClient(actor, "NoticeDo");
+    _c4.reset(f32(*mInvalidTgtTimerVal_s));
+    _d0.reset(f32(*mInvalidTgtTimerVal_s));
+    _38._28 = *mInvalidTgtTimerVal_s > 0;
+    if (auto* atk = sead::DynamicCast<ksys::act::ActorAtk>(mActor->getAtk()))
+        atk->sub_710079E344(&_38);
+    _dc = 45.0f;
+    _e0 = 45;
+    _e4 = 45;
+    f32 duration = 60.0f;
+    f32 random_duration = 240.0f;
+    if (!*mIsPlayerPut_m && !*mIsDrop_a && !*mIsCreateDead_m && mActor->sub_7100EE1E94()) {
+        duration = 15.0f;
+        random_duration = 30.0f;
+    }
+    _e8.reset(duration + random_duration * sead::GlobalRandom::instance()->getF32());
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f forward;
+    mtx.getBase(forward, 2);
+    _b8 = mtx.getTranslation() - forward * 5.0f;
+    actor->sub_71011C8B04(actor->getMtx());
+    if (actor->getModel())
+        actor->getASList()->sub_710115BAF8("Root");
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_e84.isOnBit(3)) {
+        m40();
+    } else if (_f6) {
+        m41();
+    } else if (*mIsPlayerPut_m) {
+        m42();
+    } else if (*mIsDrop_a) {
+        m43();
+    } else if (*mIsCreateDead_m) {
+        m40();
+    } else if (_f4) {
+        m37();
+    } else if (_f5) {
+        m44();
+    } else {
+        m38();
+    }
 }
 
 void CapturedActorRoot::leave_() {
@@ -259,7 +310,8 @@ void CapturedActorRoot::m44() {
     _f5 = false;
 }
 
-bool Unk_71023dcc38::m0() {
+bool Unk_71023dcc38::m0(void*, void*, void*, void*, void*, void*,
+                        const ksys::act::Struct8Base*, const ksys::act::PhysicsUserTag*) {
     return _28;
 }
 

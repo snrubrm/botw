@@ -1,24 +1,22 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
-// vtable 0x71023dcc38: unnamed sub-object of CapturedActorRoot with a single virtual function
-// (0x7100343a18) and a pointer to itself at +0x18.
-class Unk_71023dcc38 {
+// vtable 0x71023dcc38: attack-sensor listener registered by CapturedActorRoot entry.
+class Unk_71023dcc38 : public ksys::act::AttackSensor2Listener {
 public:
-    virtual bool m0();
+    bool m0(void*, void*, void*, void*, void*, void*, const ksys::act::Struct8Base*,
+            const ksys::act::PhysicsUserTag*) override;
 
-    u64 _8 = 0;
-    u64 _10;
-    Unk_71023dcc38* _18 = this;
-    u64 _20 = 0;
-    bool _28;
+    bool _28 = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71023dcc38, 0x30);
 
 // vtable 0x71023dcc20: the awareness filter CapturedActorRoot::m34 builds on the stack (m2 at 0x7100343738,
 // D0 at 0x7100343850; the D1 slot is the base class's). Not defined here yet.
