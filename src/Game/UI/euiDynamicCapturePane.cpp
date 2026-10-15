@@ -5,6 +5,8 @@
 #include "Game/UI/euiTypes.h"
 #include <common/aglDrawContext.h>
 #include <common/aglTextureSampler.h>
+#include <layer/aglRenderDisplay.h>
+#include <layer/aglRenderer.h>
 #include <utility/aglImageFilter2D.h>
 #include <gfx/seadGraphicsContext.h>
 #include <gfx/seadViewport.h>
@@ -132,6 +134,24 @@ void DynamicCapturePane::freeDynamicTexture() {
     else
         agl::utl::DynamicTextureAllocator::instance()->free(mTexture);
     mTexture = nullptr;
+}
+
+// NON_MATCHING: pane size loads are hoisted and texture size stores are scheduled differently.
+void DynamicCapturePane::applyTextureInfoToMaterialForCalculate(nn::ui2d::Pane* pane,
+                                                               const nn::ui2d::Size& size,
+                                                               s32 texture_index) {
+    f32 width = GetSize().width;
+    f32 height = GetSize().height;
+    if (mCaptureFlags.isOnBit(4)) {
+        if (auto* renderer = agl::lyr::Renderer::instance()) {
+            const auto& area = renderer->mDisplays[0]->mFrameBuffer->getPhysicalArea();
+            width = area.getSizeX() * width / size.width;
+            height = area.getSizeY() * height / size.height;
+        }
+    }
+    mTextureInfo.InvalidateDescriptorSlot();
+    mTextureInfo.SetSize(width, height);
+    ApplyTextureInfoToMaterial(pane, mTextureInfo, texture_index);
 }
 
 }  // namespace eui
