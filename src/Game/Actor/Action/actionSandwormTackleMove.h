@@ -58,15 +58,6 @@ struct Unk_SandwormTackleMoveList {
     // 0x71feb4: whether a target is in state 1 (`_58 == 1`).
     bool sub_71FEB4() const;
 
-    // inline-only in the original; name is a guess. The same scan is repeated twice in 71F8B0.
-    Unk_SandwormTackleTarget* getAvailableTarget() const {
-        for (s32 i = 0, n = mTargets.size(); i < n; ++i) {
-            if (mTargets.at(i)->sub_710073E4C4())
-                return mTargets.at(i);
-        }
-        return nullptr;
-    }
-
     ksys::act::Actor* mActor;
     sead::FixedPtrArray<Unk_SandwormTackleTarget, 2> mTargets;
 };

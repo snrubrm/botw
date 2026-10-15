@@ -58,7 +58,13 @@ bool Unk_SandwormTackleMoveList::sub_710071F8B0(const sead::Vector3f& position, 
     auto* awareness = mActor->getAwareness();
     if (!awareness)
         return false;
-    auto* target = getAvailableTarget();
+    Unk_SandwormTackleTarget* target = nullptr;
+    for (s32 i = 0, n = mTargets.size(); i < n; ++i) {
+        if (mTargets.at(i)->sub_710073E4C4()) {
+            target = mTargets.at(i);
+            break;
+        }
+    }
     Unk_71024510f8 filter(position, radius);
     bool found = false;
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
@@ -69,7 +75,13 @@ bool Unk_SandwormTackleMoveList::sub_710071F8B0(const sead::Vector3f& position, 
         } else if (target) {
             target->sub_710073E580(&entry->_0.mLink);
             found = true;
-            target = getAvailableTarget();
+            target = nullptr;
+            for (s32 i = 0, n = mTargets.size(); i < n; ++i) {
+                if (mTargets.at(i)->sub_710073E4C4()) {
+                    target = mTargets.at(i);
+                    break;
+                }
+            }
         }
     }
     return found;
