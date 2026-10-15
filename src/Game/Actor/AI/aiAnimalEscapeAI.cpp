@@ -18,8 +18,56 @@ bool AnimalEscapeAI::init_(sead::Heap* heap) {
     return AnimalRndMove::init_(heap);
 }
 
+// NON_MATCHING: finite checks, atomic updates and navigation-reset stores use different scheduling.
 void AnimalEscapeAI::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalRndMove::enter_(params);
+    auto* nav = mActor->m45();
+    if (!nav) {
+        setFailed();
+        return;
+    }
+    _130.value = _130.previous_value = 150.0f;
+    _13c.reset(120.0f);
+    _14c = 0;
+    _120.set(0.0f, 0.0f, 0.0f);
+    _148 = *mShouldEscapeDistance_s +
+           *mShouldEscapeDistanceRand_s * sead::GlobalRandom::instance()->getF32();
+    _108 = mActor->getMtx().getTranslation();
+    _150 = true;
+    {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        _120 = nav->_284;
+    }
+    const f32 penalty = *mPenaltyScale_s;
+    if (!sead::Mathf::isNan(penalty) && sead::Mathf::abs(penalty) <= sead::Mathf::maxNumber()) {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        nav->_2b0 = penalty;
+        nav->_220 |= 0x20;
+    }
+    sub_71003051C0();
+    _12c = nav->_2ac;
+    const f32 radius_scale = *mNavMeshRadiusScale_s;
+    if (!sead::Mathf::isNan(radius_scale) &&
+        sead::Mathf::abs(radius_scale) <= sead::Mathf::maxNumber() && nav->_2ac != radius_scale) {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        nav->_2ac = radius_scale;
+        nav->_220 |= 0x10;
+    }
+    nav->inlineReset();
+    nav->sub_7100F7604C(0.0f);
+    if (*mIsUseBeforeAction_s)
+        m36();
+    else
+        changeToEscape();
+    if (sub_710030B070(_108)) {
+        sead::Vector3f home;
+        const auto position = mActor->getMtx().getTranslation();
+        mActor->getHomePos(&home);
+        const auto direction = home - position;
+        m34(&direction);
+    } else {
+        m34(nullptr);
+    }
 }
 
 // NON_MATCHING: Finite radius comparison uses a different equivalent branch after the NaN check.
@@ -156,6 +204,35 @@ bool AnimalEscapeAI::sub_7100306890(sead::Vector3f* out_dir) {
     }
     if (out_dir)
         *out_dir = dir;
+    return true;
+}
+
+// NON_MATCHING: normalized-vector storage and reachability-query scheduling differ.
+bool AnimalEscapeAI::sub_7100305C58() {
+    if (!*mIsUseBeforeAction_s || _150 || !m35())
+        return false;
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+    const auto position = mActor->getMtx().getTranslation();
+    sead::Vector3f direction;
+    {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        direction.set(nav->_194.x - position.x, 0.0f, nav->_194.z - position.z);
+    }
+    direction.normalize();
+    sead::Vector3f forward;
+    mActor->getMtx().getBase(forward, 2);
+    if (sub_710072FAB0(mActor, position + forward * 7.0f, nullptr, -1, -1.0f, -1.0f))
+        return false;
+    if (sub_710072FAB0(mActor, position + direction * 7.0f, nullptr, -1, -1.0f, -1.0f)) {
+        if (!(forward.dot(direction) < 0.8660253882408142f))
+            return false;
+    } else if (!sub_7100306890(&direction)) {
+        direction = *mTargetPos_d - position;
+    }
+    sub_7100306664(direction);
+    _150 = true;
     return true;
 }
 
