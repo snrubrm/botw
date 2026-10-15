@@ -2,7 +2,6 @@
 #include <prim/seadScopedLock.h>
 #include <layer/aglLayer.h>
 
-// NON_MATCHING: scheduling of the bounds and zero stores differs.
 Unk_7100f35df8::Unk_7100f35df8() = default;
 
 Unk_7100f35df8* Graphics::sub_7100F35E54() const {
