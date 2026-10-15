@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiAnimalRangeKeepMove.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/System/Timer.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -52,6 +53,69 @@ void AnimalRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
         ksys::act::ai::InlineParamPack pack;
         pack.addVec3(_7c, "TargetPos", -1);
         changeChild("接近", &pack);
+    }
+}
+
+// NON_MATCHING: source shares the native transition parameter-pack construction and cleanup.
+void AnimalRangeKeepMove::calc_() {
+    auto* child = getCurrentChild();
+    const auto getDistance = [this] {
+        auto* actor = mActor;
+        const auto& target = sub_71005D9330(actor);
+        const auto position = actor->getMtx().getTranslation();
+        return sead::Vector3f(target.x - position.x, 0.0f, target.z - position.z).length();
+    };
+    // An unordered distance also refreshes the battle-end timer.
+    if (!(getDistance() > *mBattleEndDist_s))
+        _70 = _74 == _78 ? _74 : sead::GlobalRandom::instance()->getS32Range(_74, _78);
+    else
+        ksys::Timer::update(&_70, -1.0f);
+    if (_70 <= 0.0f) {
+        setFailed();
+        return;
+    }
+    _7c = sub_71005D9330(mActor);
+    child->setDynamicParam(_7c, "TargetPos");
+    const char* next_child = nullptr;
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("旋回")) {
+            next_child = "離脱";
+        } else if (isCurrentChild("接近")) {
+            next_child = "通常行動";
+        } else if (isCurrentChild("離脱")) {
+            next_child = getDistance() > *mCloseStartDist_s ? "接近" : "通常行動";
+        } else if (child->isFinished()) {
+            setFinished();
+            return;
+        } else {
+            next_child = "通常行動";
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("通常行動")) {
+            if (_70 <= 0.0f) {
+                setFailed();
+                return;
+            }
+            if (getDistance() > *mCloseStartDist_s)
+                next_child = "接近";
+            else if (getDistance() < *mLeaveStartDist_s)
+                next_child = "離脱";
+        } else if (isCurrentChild("接近")) {
+            if (_70 <= 0.0f) {
+                setFailed();
+                return;
+            }
+            if (getDistance() < *mCloseEndDist_s)
+                next_child = "通常行動";
+        } else if (isCurrentChild("離脱")) {
+            if (getDistance() > *mLeaveEndDist_s)
+                next_child = "通常行動";
+        }
+    }
+    if (next_child) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_7c, "TargetPos", -1);
+        changeChild(next_child, &pack);
     }
 }
 
