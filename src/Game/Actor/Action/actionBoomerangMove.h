@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    virtual sead::Vector3f m32();
     void sub_71000CB538(f32 gravity_factor);
 
     // static_param at offset 0x20
@@ -50,8 +50,8 @@ protected:
     f32 _8c = 1.0f;
     u64 _90 = 0;
     u64 _98 = 0;
-    u64 _a0 = 0;
-    u64 _a8 = 0;
+    sead::Vector3f _a0{0.0f, 0.0f, 0.0f};
+    u32 _ac = 0;
     u64 _b0 = 0;
     u64 _b8 = 0;
     u64 _c0 = 0;

@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionBoomerangMove.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -74,6 +76,30 @@ void BoomerangMove::loadParams_() {
 
 void BoomerangMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+// NON_MATCHING: accessor teardown branches and fallback vector register allocation.
+sead::Vector3f BoomerangMove::m32() {
+    sead::Vector3f result;
+    bool found = false;
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        ksys::act::ActorLinkConstDataAccess access;
+        if (ksys::act::acquireActor(&weapon->_fb8, &access)) {
+            const sead::Vector3f offset = *mTargetOffset_s;
+            result.setRotated(access.getActorMtx(), offset);
+            if (result.y >= 0.0f)
+                result.y = result.y < _e8 ? _e8 : result.y;
+            result += access.getActorMtx().getTranslation();
+            found = true;
+        }
+    }
+    if (!found) {
+        result = _a0;
+        if (result.y >= 0.0f)
+            result.y = result.y < _e8 ? _e8 : result.y;
+        result += *mTargetPos_d;
+    }
+    return result;
 }
 
 }  // namespace uking::action
