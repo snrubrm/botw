@@ -10,6 +10,12 @@
 
 namespace uking::act {
 
+GiantEnemy::GiantEnemy(const CreateArg& arg) : Enemy(arg) {}
+
+ksys::act::BaseProc* GiantEnemy::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) GiantEnemy(arg);
+}
+
 // NON_MATCHING: position and velocity temporaries are allocated separately instead of reusing storage.
 void GiantEnemy::m44(ksys::phys::NavMeshCharacter* nav) {
     auto* controller = getCharacterController();

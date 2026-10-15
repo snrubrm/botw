@@ -64,6 +64,8 @@ public:
     explicit GiantEnemy(const CreateArg& arg);
     ~GiantEnemy() override;
 
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
 protected:
     InitResult init_() override;
     bool startPreparingForPreDelete_() override;
