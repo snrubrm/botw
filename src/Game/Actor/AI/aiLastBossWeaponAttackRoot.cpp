@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiLastBossWeaponAttackRoot.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiAwarenessFilters.h"
@@ -78,6 +79,36 @@ void LastBossWeaponAttackRoot::calc_() {
 void LastBossWeaponAttackRoot::leave_() {
     if (auto* awareness = mActor->getAwareness())
         awareness->disable();
+}
+
+// NON_MATCHING: range-parameter selection uses conditional selects; registers and cleanup branches differ.
+bool LastBossWeaponAttackRoot::sub_710047F2B8() {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || awareness->_300 == 0)
+        return false;
+    Unk_7102451678 filter;
+    auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    if (!entry || entry->_a0 == 0)
+        return false;
+
+    sead::Vector3f target;
+    entry->_58.getTranslation(target);
+    sead::Vector3f home;
+    bool special = false;
+    bool reappearance = false;
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        home = boss->_2318;
+        special = (boss->_1534 & ~3) == 4;
+        reappearance = boss->_1558.isOnBit(15);
+    } else {
+        mActor->getHomePos(&home);
+    }
+    const auto* distance = reappearance ? mReappearanceDist_s : mChaseDist_s;
+    const auto* offset = reappearance ? mReappearanceDistOffset_s : mChaseDistOffset_s;
+    if (!sub_71002D17D4(mActor, &home, &target, distance, offset, special))
+        return false;
+    sub_71005D8DE8(mActor, entry->_0.mLink, &entry->_58, nullptr);
+    return true;
 }
 
 void LastBossWeaponAttackRoot::loadParams_() {

@@ -315,3 +315,8 @@ KSYS_CHECK_SIZE_NX150(SiteBoss, 0x2988);
 // game data flags that are set (0-4).
 int getNumberOfDeadBlights();
 int getNumberOfClearedRemains();
+
+// 0x71002d17d4 (placeholder name): tests a target against the home-relative chase range.
+bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home,
+                  const sead::Vector3f* target, const sead::Vector3f* distance,
+                  const sead::Vector3f* offset, bool special);
