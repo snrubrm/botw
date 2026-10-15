@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
@@ -52,11 +53,7 @@ protected:
     // map_unit_param at offset 0xa8
     sead::SafeString mActorName_m{};
     ksys::act::BaseProcHandle _b8;
-    void* _c8 = nullptr;
-    u32 _d0 = 0;
-    void* _d8 = nullptr;
-    u32 _e0 = 0;
-    u32 _e4;
+    Unk_71012419b4 _c8;
     sead::Vector3f _e8 = sead::Vector3f::ey;
     s32 _f4 = -1;
     f32 _f8 = 0;

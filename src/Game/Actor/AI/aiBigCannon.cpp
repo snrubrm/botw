@@ -8,6 +8,10 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
@@ -43,6 +47,102 @@ void BigCannon::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     _10a = false;
     _10b = false;
+}
+
+// NON_MATCHING: source combines the native velocity/transform loops; matrix and handle scheduling differ.
+void BigCannon::calc_() {
+    auto* actor = mActor;
+    f32 target = _fc;
+    if (actor->hasPlacementLinkWithTypeAxisY()) {
+        const bool signal = actor->checkAxisYSignal();
+        f32 speed = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
+        f32 acceleration = *mRotRadAccel_s;
+        if (signal) {
+            target = _f8;
+            if (_104 < 0.0f) {
+                acceleration = *mRotBrake_s;
+                speed = 0.0f;
+            }
+        } else if (_104 > 0.0f) {
+            acceleration = *mRotBrake_s;
+            speed = 0.0f;
+        } else {
+            speed = -speed;
+        }
+        ksys::VFR::chase(&_104, speed, acceleration);
+        const f32 tilt = *mTiltAngle_m;
+        const f32 delta = _104 * ksys::VFR::instance()->getDeltaFrame();
+        _100 += tilt < 0.0f ? -delta : delta;
+        bool moving;
+        if (signal != (tilt < 0.0f)) {
+            if (_100 > target)
+                _100 = target;
+            moving = !(_100 >= target);
+        } else {
+            if (_100 < target)
+                _100 = target;
+            moving = !(_100 <= target);
+        }
+        if (moving) {
+            _10a = false;
+            _10b = true;
+            if (!_c8.sub_7101241AD8(1))
+                xlinkSearchAndEmit(actor, "Rotate", 1, &_c8);
+        } else {
+            _104 = 0.0f;
+            if (_10b) {
+                xlinkSearchAndEmit(actor, "RotateStop", 1, nullptr);
+                _10b = false;
+            }
+            if (_c8.sub_7101241AD8(1))
+                _c8.fadeXLink();
+        }
+        auto* bodies = actor->getRigidBodyByName(sub_71007A24E4()->cstr());
+        sead::Matrix34f transform;
+        actor->getHomeMtx(&transform);
+        sead::Matrix34f rotation;
+        rotation.makeR(_e8 * _100);
+        transform *= rotation;
+        if (bodies) {
+            const s32 count = bodies->getRigidBodies().size();
+            for (s32 i = 0; i < count; ++i) {
+                auto* body = bodies->getRigidBody(i);
+                if (!body)
+                    continue;
+                if (_10a) {
+                    body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+                    body->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+                } else {
+                    body->changePositionAndRotation(transform, sead::Mathf::epsilon());
+                }
+            }
+        }
+        if (!moving)
+            _10a = true;
+    }
+    bool create = !_b8.isAllocatedOrFailed();
+    if (!create) {
+        if (_b8.isProcReady()) {
+            _109 = true;
+        } else if (_b8.hasProcCreationFailed()) {
+            _b8.deleteProcIfFailed();
+            create = true;
+        }
+    }
+    if (create) {
+        ksys::act::InstParamPack pack;
+        ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            mActName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_b8,
+            &pack, nullptr, 1);
+    }
+    _108 = false;
+    _f4 = -1;
+    actor->getAtk();
+    if (auto* damage = sub_710072BA90(actor))
+        _f4 = damage->getField54();
+    if (_109 && _f4 == 4)
+        _108 = true;
 }
 
 // NON_MATCHING: vector load/store scheduling, float registers and branch layout differ.
