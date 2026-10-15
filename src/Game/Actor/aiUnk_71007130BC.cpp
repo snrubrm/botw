@@ -2,6 +2,7 @@
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/aiLockedProcLink.h"
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -156,6 +157,20 @@ void sub_7100713488(ksys::act::Actor* actor, const sead::Vector3f& position) {
 
 // NON_MATCHING: clang keeps the accessor's address in x21 (frame 0x50 vs 0x40); the logic, order
 // and calls match.
+void sub_7100713FF4(ksys::act::Actor* actor, ksys::act::Actor* ride_actor) {
+    if (!actor || !ride_actor)
+        return;
+    const sead::SafeString ride_anim = ride_actor->getASList()->x_1(1, 0);
+    if (ride_anim == "Dislike" || ride_anim == "Slip") {
+        const sead::SafeString& anim = actor->getASList()->x_1(1, 0);
+        if (anim == "Face_C_Detect")
+            return;
+        actor->getASList()->startAnimationMaybe(-1.0f, -1.0f, "Face_C_Detect", 1, 0, true);
+    } else {
+        actor->getASList()->startAnimationMaybe(-1.0f, -1.0f, "Face_C_Default", 1, 0, true);
+    }
+}
+
 void sub_710071418C(ksys::act::Actor* actor, uking::ai::LockedProcLinkMaybe* payload) {
     if (!actor)
         return;
