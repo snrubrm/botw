@@ -72,10 +72,24 @@ struct CharacterControllerUnk38 {
 
 
 struct CharacterControllerUnk50 : public hkpCharacterStateInAir {
-    /* 0x18 */ f32 _18;
-    /* 0x1c */ u8 _1c[0x38 - 0x1c];
-    /* 0x38 */ u32 _38;
+    HK_DECLARE_CLASS_ALLOCATOR(CharacterControllerUnk50)
+    // 0x7100f67670; the controller passes its _120 and _7c (D1 0x7100f676c8, D0 0x7100f676cc).
+    CharacterControllerUnk50(sead::Vector3f* a, const sead::Vector3f* b);
+    ~CharacterControllerUnk50() override = default;
+
+    // 0x7100f67720
+    void m9(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override;
+
+    /* 0x18 */ f32 _18 = 0;
+    /* 0x1c */ f32 _1c = 1.0f;
+    /* 0x20 */ bool _20 = false;
+    /* 0x24 */ f32 _24 = 1.0f;
+    /* 0x28 */ sead::Vector3f* _28;
+    /* 0x30 */ const sead::Vector3f* _30;
+    /* 0x38 */ u32 _38 = 0;
 };
+KSYS_CHECK_SIZE_NX150(CharacterControllerUnk50, 0x40);
 
 // NON_MATCHING: scalar register assignment differs.
 void CharacterControllerUnk58::m8(hkpCharacterContext&, const hkpCharacterInput& input,
@@ -1043,6 +1057,29 @@ CharacterControllerUnk58::CharacterControllerUnk58() : _c(0.0f) {}
 
 hkpCharacterStateType CharacterControllerUnk58::m5() const {
     return static_cast<hkpCharacterStateType>(4);
+}
+
+CharacterControllerUnk50::CharacterControllerUnk50(sead::Vector3f* a, const sead::Vector3f* b)
+    : _28(a), _30(b) {}
+
+// NON_MATCHING: the dot product is reassociated (y term first) and the cross product scheduled differently.
+void CharacterControllerUnk50::m9(hkpCharacterContext& context, const hkpCharacterInput& input,
+                                  hkpCharacterOutput& output) {
+    const sead::Vector3f& up = *_30;
+    const sead::Vector3f normal = toVec3(input.m_surfaceInfo.m_surfaceNormal);
+    const f32 cos = (-up).dot(normal);
+    sead::Vector3f cross;
+    cross.setCross(up, normal);
+    const f32 sin = cross.length();
+    // The angle between the surface normal and down is computed but not used.
+    std::atan2(sin, cos);
+
+    if (input.m_surfaceInfo.m_supportedState != hkpSurfaceInfo::SUPPORTED)
+        return;
+    if (_20 || _30->dot(*_28) > 0.0f) {
+        context.sub_7101677864(hkpCharacterStateType(0), input, output);
+        _28->set(0, 0, 0);
+    }
 }
 
 CharacterControllerStateA::CharacterControllerStateA() = default;
