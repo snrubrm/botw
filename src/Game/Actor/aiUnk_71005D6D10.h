@@ -473,3 +473,7 @@ void sub_71005E00C8(ksys::act::Actor* actor);
 // 0x71005de53c: whether an Enemy can select a weapon, including visibility, height and type checks.
 bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 distance,
                    f32 angle, bool check_awareness);
+
+// Complete wrapper and ballistic solver establish the velocity output and direction input.
+bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor,
+                    const sead::Vector3f* direction, f32 angle, f32 max_speed);
