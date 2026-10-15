@@ -222,6 +222,22 @@ Chemical* ActorChemicals::getStuff(int idx) {
     return &element->mChemical;
 }
 
+// NON_MATCHING: inlined getStuff null-path branch and loop sum width differ.
+void ActorChemicals::sub_7100E37CE4() {
+    const auto lock = sead::makeScopedLock(mCS);
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        const auto* element = sub_7100E3718C(i);
+        if (!element || !element->_18)
+            continue;
+        const auto* root = element->_18;
+        const u32 index = element->_288;
+        if (root->rigidHasBurnOutTime(index)) {
+            const f32 time = root->getRigidBurnOutTime(index);
+            getStuff(i)->sub_7100D91390(time);
+        }
+    }
+}
+
 Chemical* ActorChemicals::sub_7100E380FC(int idx) {
     const auto lock = sead::makeScopedLock(mCS);
     if (idx < 0 || idx >= _70.size())
