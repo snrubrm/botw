@@ -2,6 +2,7 @@
 
 #include <math/seadMatrix.h>
 #include "KingSystem/System/VFRValue.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -34,9 +35,7 @@ protected:
     ksys::VFRValue _50;
     sead::Matrix33f _5c;
     sead::Vector3f _80;
-    f32 _8c = 0.0f;
-    f32 _90 = 0.0f;
-    f32 _94 = 0.0f;
+    ksys::Timer _8c;
     f32 _98 = 0.0f;
     ksys::act::CCAccessor _9c;
     u8 _a4[0x4];
