@@ -10,6 +10,10 @@ SEAD_SINGLETON_DISPOSER_IMPL(SwkbdMgr)
 // D1 0x71009858fc, D0 0x7100985900
 SwkbdMgr::~SwkbdMgr() = default;
 
+void SwkbdMgr::init() {
+    _78 = 0;
+}
+
 // 0x710098590c
 void SwkbdMgr::sub_710098590C() {
     _60 = sead::DynamicCast<ScreenKeyBoradTextArea>(eui::ScreenMgr::instance()->getScreen(79));

@@ -22,6 +22,8 @@ class SwkbdMgr {
 public:
     virtual ~SwkbdMgr();
 
+    // 0x7100985904: clears the keyboard result.
+    void init();
     // 0x7100985c4c (placeholder name; empty): called by ScreenKeyBoradTextArea's close override and destructor
     void sub_7100985C4C();
     // 0x710098590c (placeholder name): called before show() by ScreenKeyBoradTextArea::m154
