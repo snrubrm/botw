@@ -19,9 +19,11 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x710028b750 (declared only): out of line in the original.
+    // Out of line in the original.
     void sub_710028B750();
     void calc_() override;
+    // Native slot 32 is pure; SwimTurnBase supplies the target position.
+    virtual void m32(sead::Vector3f* out) = 0;
 
     // static_param at offset 0x60
     const float* mPosReduceRatio_s{};

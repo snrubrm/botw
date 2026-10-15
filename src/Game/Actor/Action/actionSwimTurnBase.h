@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32(sead::Vector3f* out);
+    void m32(sead::Vector3f* out) override;
 
     // static_param at offset 0xa8
     const float* mFinRotate_s{};
