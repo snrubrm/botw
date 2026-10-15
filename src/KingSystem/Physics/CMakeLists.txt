@@ -1,5 +1,6 @@
 target_sources(uking PRIVATE
     CharacterController/physCharacterController.h
+    CharacterController/physCharacterControllerUnk48.cpp
 
     Cloth/physClothParam.cpp
     Cloth/physClothParam.h
@@ -106,6 +107,7 @@ target_sources(uking PRIVATE
 
     RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h
 
+    SupportBone/physSupportBoneInstanceMaybe.cpp
     SupportBone/physSupportBoneParam.cpp
     SupportBone/physSupportBoneParam.h
     SupportBone/physSupportBoneResource.cpp

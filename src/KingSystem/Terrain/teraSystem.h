@@ -74,8 +74,8 @@ public:
 
         void sub_7101150990(bool enabled);
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
-        // 0x7101150be0 (declared only; placeholder name; ExpandChemicalField::calc_ with cut grass type 3).
-        void sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value);
+        // 0x7101150be0 (placeholder name; ExpandChemicalField::calc_ with cut grass type 3).
+        bool sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value);
 
         // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
         u8 _0[8];
@@ -185,30 +185,59 @@ class ImageResourceMgr {
     void procUnloadResidualRequest();
 };
 class ResourceHolder;
-class Scene {
-    void exportFileBinary();
-};
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
 struct Unk_710111F504 {
     u8 _0[0x20];
     u8 _20;
 };
 
+// The objects System keeps in its 0x90-byte scene slots (name from the CSV row at 0x7101111650).
+class Scene {
+    void exportFileBinary();
+
+public:
+    // 0x71011001d4 (declaration only; placeholder name): stores the two levels at 0x2940 / 0x2941
+    // (clamped) and sets flag 4.
+    void sub_71011001D4(int level, int type);
+    // 0x7101101964 (declaration only; placeholder name): refreshes the 19 words at 0x278c from the Terrain
+    // and sets flag 4 if one changed.
+    void sub_7101101964();
+
+    u8 _0[0x2300];
+    Unk_710111F504 _2300;
+    u8 _2321[0x2998 - 0x2321];
+    // Flags: 4 set when the levels change, 8 read by System::sub_710111F618.
+    u32 _2998;
+};
+
 class System {
 public:
     static System* instance();
-    // 0x710111f504 (declaration only): `*_e0 + 0x2300`.
+    // 0x710111f504: `*_e0 + 0x2300`.
     Unk_710111F504* sub_710111F504();
+    // 0x710111f518 (placeholder name): sub_71011001D4(level, type) on every scene.
     void sub_710111F518(int level, int type);
+    // 0x7101112a74 (placeholder name): sub_7101101964 on every scene, then clears bit 3 of _1338.
     void sub_7101112A74();
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
     // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
     bool sub_710111F618(s32 index);
 
+    // 0x90-byte entries; only the scene pointer at +0 is known.
+    struct SceneSlot {
+        Scene* scene;
+        u8 _8[0x90 - 0x8];
+    };
+
     u8 _0[0x8];
     // Checked by sub_710110B4A4 (no query without it).
     void* _8;
+    u8 _10[0xd8 - 0x10];
+    sead::Buffer<SceneSlot> mScenes;
+    u8 _e8[0x1338 - 0xe8];
+    // sub_7101112A74 clears bit 3 (8).
+    u32 _1338;
 };
 class Water {
     void setUpAttributeTable();

@@ -48,6 +48,7 @@ class RigidBodyFromShape;
 class RigidBodyInstanceParam;
 class SphereParam;
 class SphereRigidBody;
+class SupportBoneResource;
 class SystemGroupHandler;
 class UserTag;
 // Placeholder (vtable 0x7102519a10: the object Actor::initPhysics builds on its stack and passes to the physics
@@ -65,9 +66,12 @@ public:
     KSYS_CHECK_SIZE_NX150(State, 8);
 
     virtual ~SupportBoneInstanceMaybe();
+    // 0x71012273a8 (placeholder name): the support bone index of `name`, -1 without a resource.
     s32 sub_71012273A8(const sead::SafeString& name) const;
 
-    u8 _8[0x48 - 8];
+    u8 _8[0x10 - 8];
+    SupportBoneResource* mResource;
+    u8 _18[0x48 - 0x18];
     sead::Buffer<State> _48;
 };
 KSYS_CHECK_SIZE_NX150(SupportBoneInstanceMaybe, 0x58);

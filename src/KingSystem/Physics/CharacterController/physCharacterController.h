@@ -43,7 +43,7 @@ struct CharacterControllerUnk40;
 // (its constructor 0x7100f67b54 calls hkpCharacterStateOnGround's; the controller init
 // allocates 0xc0 bytes for it and registers it in the hkpCharacterStateManager at +0x18).
 struct CharacterControllerUnk48 : public hkpCharacterStateOnGround {
-    // 0x7100f68f38 (declaration only): the address of the field at 0x5c.
+    // 0x7100f68f38: the address of the field at 0x5c.
     f32* sub_7100F68F38();
 
     // The base's tail padding (data size 0x1c) is reused by this derived class.
@@ -51,7 +51,10 @@ struct CharacterControllerUnk48 : public hkpCharacterStateOnGround {
     /* 0x50 */ u8 _50;
     /* 0x51 */ u8 _51[0x54 - 0x51];
     /* 0x54 */ u32 _54;
-    /* 0x58 */ u8 _58[0x8c - 0x58];
+    /* 0x58 */ u8 _58[0x5c - 0x58];
+    // Set to 50 by GoronHeroDescendentRoot through sub_7100F68F38.
+    /* 0x5c */ f32 _5c;
+    /* 0x60 */ u8 _60[0x8c - 0x60];
     /* 0x8c */ u32 _8c;
     /* 0x90 */ u8 _90[0x94 - 0x90];
     /* 0x94 */ u32 _94;

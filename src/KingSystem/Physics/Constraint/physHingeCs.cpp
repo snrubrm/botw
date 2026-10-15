@@ -43,6 +43,12 @@ void HingeCs::sub_7100F6DEAC(const sead::Vector3f& pivot_a, const sead::Vector3f
     mData->sub_71015F6B54(toHkVec4(pivot_a), toHkVec4(pivot_b), toHkVec4(axis_a), toHkVec4(axis_b));
 }
 
+sead::Vector3f HingeCs::sub_7100F6DF30() const {
+    sead::Vector3f axis;
+    storeToVec3(&axis, mData->m_atoms.m_transforms.m_transformA.getRotation().getColumn(0));
+    return axis;
+}
+
 u32 sub_7100F6DC48(bool breakable) {
     return sub_7100F6ACF4(breakable) + 0x1c0;
 }
