@@ -14,13 +14,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_71003FE9C4();
-    // 0x71003ff3f8 (declaration only, 352 B; placeholder name): reports which arms (a: right, b: left) were broken.
+    // Reports which arms (a: right, b: left) were broken.
     void sub_71003FF3F8(bool* right, bool* left);
-    // 0x71003ff79c (declaration only, 708 B; placeholder name): breaks an arm: its body names, the effect key and
+    // Breaks an arm: its body names, the effect key and
     // the arm target/material names.
     void sub_71003FF79C(const sead::SafeString& body1, const sead::SafeString& body2,
                         const sead::SafeString& str, const sead::SafeString& target,

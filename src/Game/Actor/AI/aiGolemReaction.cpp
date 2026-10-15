@@ -9,6 +9,12 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <prim/seadDelegate.h>
+#include <limits>
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_7100724C64.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::ai {
 
@@ -110,6 +116,145 @@ void GolemReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     if (damage_mgr && damage_mgr->getField50() == 4)
         _128.mTimer.reset(*mIgnoreBombTime_s);
     changeChild("ふっとび");
+}
+
+// NON_MATCHING: state branches merge into shared bomb processing; timer stores and child dispatch differ.
+void GolemReaction::calc_() {
+    const f32 epsilon = std::numeric_limits<f32>::epsilon();
+    if (!(_128.mTimer.value <= epsilon))
+        _128.sub_7100D3BCE4();
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("死亡")) {
+            callDeleteAndCreateDropAndEmit(mActor, 0);
+            return;
+        }
+        // An unordered climb time also ends this reaction.
+        if (!(static_cast<f32>(*mClimbLimitTime_s) <= *mGolemClimbedTime_a)) {
+            setRootAiFlag(ksys::act::ai::RootAiFlag::_0);
+            setFinished();
+            return;
+        }
+        changeChild("振り落し");
+    }
+    if (_120) {
+        _120 = false;
+    } else {
+        auto* damage = mActor->getDamageMgr();
+        if (damage && damage->getField54() >= 6 && !isCurrentChild("死亡")) {
+            if (sub_71005DD798(mActor, 0x13, nullptr, 0, 0)) {
+                sub_71003FE9C4();
+            } else {
+                const bool shake_off = isCurrentChild("振り落し");
+                damage = mActor->getDamageMgr();
+                const s32 type = damage ? damage->getField54() : -1;
+                const bool strong = type == 0x16 || type == 0x1b;
+                bool bomb;
+                bool chemical_reaction;
+                if (shake_off) {
+                    damage = mActor->getDamageMgr();
+                    bomb = damage && damage->getField50() == 4;
+                    chemical_reaction = sub_71003FEC7C();
+                } else {
+                    chemical_reaction = sub_71003FEC7C();
+                    damage = mActor->getDamageMgr();
+                    bomb = damage && damage->getField50() == 4;
+                }
+                damage = mActor->getDamageMgr();
+                const bool climbed = damage && damage->getField54() <= 0x15 &&
+                                     *mGolemClimbedTime_a > 0.0f;
+                bool blow = false;
+                bool right = false;
+                bool left = false;
+                if (bomb) {
+                    auto* actor = mActor;
+                    const s32 count = sub_71007A26AC(actor);
+                    bool found = false;
+                    for (s32 i = 0; i < count; ++i) {
+                        auto* entry = sub_71007A255C(actor, i);
+                        if (!entry || !(entry->_50 & 0x10))
+                            continue;
+                        if (_140 == entry->_d8 && !(_128.mTimer.value <= epsilon))
+                            continue;
+                        _140 = entry->_d8;
+                        sub_71003FF3F8(&right, &left);
+                        found = true;
+                        break;
+                    }
+                    if (found) {
+                        if (right || left) {
+                            _128.mTimer.reset(static_cast<f32>(*mIgnoreBombTime_s));
+                            if (right)
+                                sub_71003FF79C(mBodyArmRName1_s, mBodyArmRName2_s, "",
+                                               mRightArmTgtBodyName_s, mChmArmRName_s,
+                                               mArmRMaterialName_s, mBreakArmRXLinkKey_s);
+                            else
+                                sub_71003FF79C(mBodyArmLName1_s, mBodyArmLName2_s, "",
+                                               mLeftArmTgtBodyName_s, mChmArmLName_s,
+                                               mArmLMaterialName_s, mBreakArmLXLinkKey_s);
+                            blow = true;
+                        } else {
+                            blow = shake_off || chemical_reaction;
+                        }
+                    }
+                } else if (shake_off) {
+                    blow = strong || (!climbed && chemical_reaction);
+                } else if (climbed && isCurrentChild("小ダメージ")) {
+                    if (!(static_cast<f32>(*mClimbLimitTime_s) <= *mGolemClimbedTime_a))
+                        changeChild("小ダメージ");
+                    else
+                        changeChild("振り落し");
+                } else {
+                    blow = strong || (chemical_reaction && !isCurrentChild("ふっとび"));
+                }
+                if (blow) {
+                    if (!right && !left) {
+                        damage = mActor->getDamageMgr();
+                        if (damage && damage->getField50() == 4)
+                            _128.mTimer.reset(static_cast<f32>(*mIgnoreBombTime_s));
+                    }
+                    changeChild("ふっとび");
+                }
+            }
+        }
+    }
+    auto* life = mActor->getLife();
+    if (life && *life <= 0 && !isCurrentChild("死亡")) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+        changeChild("死亡");
+    }
+}
+
+void GolemReaction::sub_71003FF79C(const sead::SafeString& body1, const sead::SafeString& body2,
+                                  const sead::SafeString& str, const sead::SafeString& target,
+                                  const sead::SafeString& chm, const sead::SafeString& material,
+                                  const sead::SafeString& xlink_key) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    if (auto* chemical = enemy->sub_71011D8A54(chm)) {
+        auto* controller = sead::DynamicCast<Unk_7102450410>(
+            *static_cast<Unk_71025afb58**>(mGolemChemicalController_a));
+        if (controller) {
+            if (auto* entry = controller->sub_7100708E90(chemical))
+                entry->sub_7100708A0C();
+        }
+    }
+    if (auto* physics = enemy->getPhysics()) {
+        if (auto* body = enemy->findPhysicsBodyByName(sub_71007A24E4()->cstr(), body1.cstr()))
+            body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+        if (auto* body = enemy->findPhysicsBodyByName(sub_71007A24E4()->cstr(), body2.cstr()))
+            body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+        if (auto* body = enemy->findPhysicsBodyByName(sub_71007A250C()->cstr(), str.cstr()))
+            body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+        if (!material.isEmpty()) {
+            sub_7100725960(mActor, material, false);
+            sub_71007259CC(mActor, material, false);
+        }
+        if (auto* body = physics->findX(*sub_71007A24D0(), target))
+            body->setContactLayer(ksys::phys::ContactLayer::SensorNoHit);
+    }
+    xlinkSearchAndEmit(mActor, xlink_key.cstr(), 2, nullptr);
 }
 
 void GolemReaction::leave_() {
