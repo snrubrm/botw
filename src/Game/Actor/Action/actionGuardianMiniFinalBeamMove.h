@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    using AttackInfo = ksys::act::ActorAtk::Struct7::AttackInfo;
+    void m36(const AttackInfo* info) override;
+
 protected:
     // 0x7100194a58 (declared only): out of line in the original.
     void sub_7100194A58();
