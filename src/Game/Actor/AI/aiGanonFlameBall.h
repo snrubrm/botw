@@ -39,6 +39,8 @@ public:
 
     // 0x71003eb7c8 (placeholder name): not landed, and every ground contact is an actor whose contact layer is 0
     bool sub_71003EB7C8();
+    // 0x71003eb8a8 (placeholder name): every attack hit is a SensorObject with a different actor name.
+    bool sub_71003EB8A8();
 
     virtual const sead::SafeString& m34();
     virtual sead::Vector3f m35();
@@ -124,7 +126,7 @@ protected:
     ksys::act::BaseProcLink _158;
     ksys::act::BaseProcLink _168;
     f32 _178 = 0;
-    u32 _17c = 0;
+    f32 _17c = 0;
 };
 KSYS_CHECK_SIZE_NX150(GanonFlameBall, 0x180);
 

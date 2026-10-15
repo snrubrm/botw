@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiGanonFlameBall.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -27,8 +28,79 @@ bool GanonFlameBall::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: parent pointer lifetime adds a saved register and changes the parameter-pack registers.
 void GanonFlameBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _dc = 0.1f;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        chemical->sub_7100D91098(false);
+        chemical->sub_7100D90FF0(true);
+    }
+    if (auto* body = mActor->getMainBody()) {
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    }
+    _bc = mActor->getVelocity();
+    _e0.value = _e0.prev_value = _bc.length();
+    _118 = _e0.value;
+    _c8 = sead::Vector3f::zero;
+    mActor->getMtx().getTranslation(_b0);
+    _d4 = false;
+    _d5 = false;
+    _d7 = true;
+    _d9 = false;
+
+    switch (mActor->getRootAi()->getI()) {
+    case 2:
+        changeChild("発射");
+        if (auto* chemical = mActor->getChemicalStuff()) {
+            chemical->sub_7100D91098(true);
+            chemical->sub_7100D90C2C(false);
+            if ((chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1))
+                chemical->sub_7100D90858(false, 2, false, true, false);
+        }
+        _108.reset();
+        sub_71003EA0AC(true);
+        _d6 = true;
+        _d8 = true;
+        break;
+    case 3: {
+        auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+        if (parent) {
+            parent->getMtx().getTranslation(_b0);
+            _b0.y += 2.0f;
+            sub_71003EA21C(true);
+        }
+        ksys::act::ai::InlineParamPack pack;
+        pack.addString(m34(), "NodeName", -1);
+        pack.addVec3(m36(), "RotOffset", -1);
+        pack.addVec3(m35(), "TransOffset", -1);
+        pack.addBool(false, "IsKeepParentActor", -1);
+        pack.acquireActor(parent, "ParentActor", -1);
+        changeChild("所持", &pack);
+        if (auto* body = mActor->getMainBody()) {
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setGravityFactor(0.0f);
+            if (parent && *mIsSetParentSystemGroupHandler_s)
+                body->setSystemGroupHandler(parent->getPhysics()->get188(0));
+        }
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+        _d6 = false;
+        _d8 = true;
+        break;
+    }
+    default:
+        if (auto* body = mActor->getMainBody()) {
+            if (body->isAddedToWorld())
+                body->removeFromWorld();
+        }
+        changeChild("生成待機");
+        _d6 = false;
+        _d8 = false;
+        break;
+    }
+    _178 = *mExplosionTime_s;
+    _17c = mActor->getName() == "GanonFlameBall" ? 150.0f : 1800.0f;
 }
 
 void GanonFlameBall::leave_() {
@@ -284,6 +356,23 @@ bool GanonFlameBall::sub_71003EB7C8() {
             other = !accessor.sub_7100D117C0(&layer) || layer != ksys::phys::ContactLayer::EntityObject;
         }
         if (other)
+            return false;
+    }
+    return true;
+}
+
+bool GanonFlameBall::sub_71003EB8A8() {
+    const s32 count = getNumAttackInfoMaybe(mActor);
+    for (s32 i = 0; i < count; ++i) {
+        auto* info = getAttackInfo(mActor, i);
+        if (!info)
+            return false;
+        const ksys::phys::ContactLayer layer(info->_60);
+        if (int(layer) != ksys::phys::ContactLayer::SensorObject || !info->_50.hasProc())
+            return false;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&info->_50, &accessor);
+        if (accessor.getName() == mActor->getName())
             return false;
     }
     return true;
