@@ -35,7 +35,9 @@ public:
     // destructor inlined): written as `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     ~Unk_71023e26d8() override { ; }
 
-    /* 0x10 */ u64 _10 = 0;
+    // Sensor m4 D81348 scales these separately; m5 D814F8 / m6 D815D0 copy both floats.
+    /* 0x10 */ f32 _10 = 0;
+    /* 0x14 */ f32 _14 = 0;
     /* 0x18 */ f32 _18 = 0;
     /* 0x1c */ f32 _1c = 0;
     /* 0x20 */ f32 _20 = 0;
