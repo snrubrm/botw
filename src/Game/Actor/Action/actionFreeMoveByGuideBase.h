@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    bool sub_710016BBC4();
 
     // static_param at offset 0x20
     const float* mRotateAngleMax_s{};
