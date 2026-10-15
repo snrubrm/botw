@@ -5,6 +5,7 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -22,8 +23,45 @@ bool LandOnCeil::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: direction projection stores, registers and stack slots.
 void LandOnCeil::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    const sead::Vector3f end = position + sead::Vector3f::ey * 2.0f;
+    _80 = controller->get70();
+    _90 = controller->get110();
+    if (!sub_710072EA18(position, end, 0, &_38, &_44, nullptr, 0.0f)) {
+        setFailed();
+        return;
+    }
+    actor->getMtx().getBase(_50, 2);
+    _50 = _44.cross(_44.cross(_50));
+    _50.normalize();
+    sub_710073FA90(&_5c, actor);
+    controller->sub_7100F5E754(false);
+    controller->sub_7100F5F07C(360.0f);
+    controller->_48->_8c = 2;
+    if (!*mIsCreateOnFace_m || mActor->getRootAi()->getI() == 5) {
+        playAS("WaitStart", false, 0, 0, -1.0f);
+        _8c = 0;
+    } else {
+        controller->sub_7100F5EE1C(_44 * -_80.length());
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
+        sead::Vector3f front;
+        actor->getMtx().getBase(front, 2);
+        front.normalize();
+        sead::Matrix34f transform;
+        ksys::util::sub_71011F0260(&transform, front, _44, _38, false);
+        controller->sub_7100F5F938(transform);
+        _8c = 3;
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1);
+        controller->sub_7100F5EDE8(-sead::Vector3f::ey);
+    }
 }
 
 void LandOnCeil::leave_() {
