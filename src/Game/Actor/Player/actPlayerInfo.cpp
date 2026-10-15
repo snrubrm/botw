@@ -236,6 +236,15 @@ bool sub_710072B660() {
     return accessor.x_25();
 }
 
+bool sub_710072B6C8() {
+    auto* info = uking::act::PlayerInfo::instance();
+    if (!info)
+        return true;
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+    return accessor.x_12();
+}
+
 bool isSlowTimeMaybe() {
     if (auto* vfr = ksys::VFR::instance()) {
         if (vfr->getTimeSpeedMultiplierValue(0) < 1.0f)
