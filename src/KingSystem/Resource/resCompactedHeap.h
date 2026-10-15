@@ -56,6 +56,8 @@ public:
         void sub_71012B8C7C();
         // Complete 12B8C10 sets tag bit 0 and returns true; declaration only.
         bool sub_71012B8C10();
+        // 0x71012B8A78: updates the block record for this allocation while the heap lock is held.
+        void sub_71012B8A78(bool x);
         void* mData;
         u32 _8;
         u64 mTaggedHeap;

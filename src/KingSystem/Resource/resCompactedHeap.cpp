@@ -63,4 +63,29 @@ bool CompactedHeap::compact() {
     return true;
 }
 
+void CompactedHeap::Allocation::sub_71012B8C7C() {
+    if (mData) {
+        auto* heap = reinterpret_cast<CompactedHeap*>(mTaggedHeap & ~u64(3));
+        heap->_5cf8.lock();
+        sub_71012B8A78(false);
+        mTaggedHeap &= ~u64(1);
+        heap->_5cf8.unlock();
+    } else {
+        mTaggedHeap &= ~u64(1);
+    }
+}
+
+bool CompactedHeap::Allocation::sub_71012B8C10() {
+    if (mData) {
+        auto* heap = reinterpret_cast<CompactedHeap*>(mTaggedHeap & ~u64(3));
+        heap->_5cf8.lock();
+        sub_71012B8A78(true);
+        mTaggedHeap |= 1;
+        heap->_5cf8.unlock();
+    } else {
+        mTaggedHeap |= 1;
+    }
+    return true;
+}
+
 }  // namespace ksys::res
