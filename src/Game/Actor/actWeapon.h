@@ -407,6 +407,8 @@ public:
     void sub_71002EDB84(const u64& value);
     // lane4 s46 (placeholder names; the callers pass a local holding 4): 0x71002ecafc: the Attack param Impulse
     // (ImpulseLarge if `flags` has bit 1 or 2). 0x71002ecb3c: GuardBreakPower (x1.5 with those bits).
+    // Declaration only: 0x71002ecdc0 queries the linked Player state without modifying the weapon.
+    bool sub_71002ECDC0() const;
     u32 sub_71002ECB78();
     u32 getFlags(const u32& flags);
     f32 sub_71002ECAFC(const u32& flags);

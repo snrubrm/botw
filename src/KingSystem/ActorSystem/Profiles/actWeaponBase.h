@@ -17,6 +17,10 @@ namespace uking::act {
 class OptionalWeapon;
 }
 
+namespace uking::ai {
+class MasterSwordRoot;
+}
+
 namespace uking::action {
 class EquipedAction;
 }
@@ -212,6 +216,7 @@ public:
 protected:
     // EquipedAction binds the weapon through `_a00` (lane3 s23).
     friend class uking::action::EquipedAction;
+    friend class uking::ai::MasterSwordRoot;
     friend class acc::WeaponBase;
     friend class ActorWeapons;
 

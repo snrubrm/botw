@@ -15,9 +15,10 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
-    // 0x71004a3410 (not decompiled): (re)creates the magic attack actor into _100.
+    // 0x71004a3410: (re)creates the magic attack actor into _100.
     void sub_71004A3410();
     // 0x71004a3afc (placeholder name): for a Weapon actor: motion type 2, then changeChild
     // "マスターソードチャレンジ" with the weapon's NodeName (m164) and zero RotOffset / TransOffset.
