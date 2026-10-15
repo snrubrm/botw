@@ -9,6 +9,9 @@ class HandleSLink;
 namespace ksys::phys {
 class StaticCompoundRigidBodyGroup;
 }
+namespace ksys::map {
+class Object;
+}
 
 namespace uking::action {
 
@@ -26,6 +29,10 @@ public:
 protected:
     void calc_() override;
     void applyParams() override;
+    void sub_7100100A6C();
+    // inline-only in the original; name is a guess. The same linked-object scan is
+    // in enter_, both calc_ camera paths and sub_7100100A6C.
+    inline ksys::map::Object* findSoundProxyObject() const;
 
     // map_unit_param at offset 0x20
     const int* mInitDgnPriority_m{};
@@ -49,11 +56,11 @@ protected:
     f32 _74 = 0;
     ksys::phys::StaticCompoundRigidBodyGroup* _78 = nullptr;
     s32 _80 = -1;
-    bool _84 = false;
+    s8 _84 = 0;
     bool _85 = false;
     bool _86 = false;
     xlink2::HandleSLink* _88 = nullptr;
-    u32 _90 = 0;
+    s32 _90 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DungeonRotateSymmetry, 0x98);
 
