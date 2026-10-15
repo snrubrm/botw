@@ -14,6 +14,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
     // 0x7100307530 (placeholder name): starts the child of the given gear (1-4) and restarts the gear-up restriction timer.
