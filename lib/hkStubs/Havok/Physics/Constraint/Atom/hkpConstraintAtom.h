@@ -101,6 +101,16 @@ struct hkpSetLocalTransformsConstraintAtom : hkpConstraintAtom {
 };
 static_assert(sizeof(hkpSetLocalTransformsConstraintAtom) == 0x90);
 
+// Full atom reflection 17BD944: translationA / translationB at +10 / +20, extent30.
+// Ball-and-socket construction and both body/world-space setters use these vectors.
+struct hkpSetLocalTranslationsConstraintAtom : hkpConstraintAtom {
+    hkpSetLocalTranslationsConstraintAtom();
+    hkUint8 m_padding[14];
+    hkVector4 m_translationA;
+    hkVector4 m_translationB;
+};
+static_assert(sizeof(hkpSetLocalTranslationsConstraintAtom) == 0x30);
+
 struct hkpSetupStabilizationAtom : hkpConstraintAtom {
     hkpSetupStabilizationAtom();
     hkBool m_enabled;
