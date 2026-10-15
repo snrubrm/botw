@@ -8,6 +8,9 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include <cstring>
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::action {
 
@@ -46,7 +49,33 @@ GanonAttackWithEmitChemical::~GanonAttackWithEmitChemical() {
 }
 
 bool GanonAttackWithEmitChemical::init_(sead::Heap* heap) {
-    return GanonWeaponNearAttack::init_(heap);
+    if (!GanonWeaponNearAttack::init_(heap))
+        return false;
+    if (sub_71005D6D10())
+        return true;
+    ksys::act::InstParamPack params;
+    params->add(*mEmitAttackPower_s, "AttackPower");
+    params->add(*mScaleTime_s, "ScaleTime");
+    params->add(*mEmitMinDamage_s, "AtMinDamage");
+    params->add(*mChildCreateLimit_s, "CreateLimit");
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || *mEmitNum_s <= 0)
+        return true;
+    s32 i = 0;
+    do {
+        const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
+        auto* creator = ksys::act::ActorCreator::instance();
+        mEmitActorName_s.cstr();
+        auto* created = creator->createActor(
+            mEmitActorName_s.getStringTop(),
+            ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &params, true, false);
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(created)) {
+            enemy->sub_7100D3CED8(name, heap);
+            enemy->sub_7100D3D108(name, actor);
+        }
+        ++i;
+    } while (i < *mEmitNum_s * 2);
+    return true;
 }
 
 // NON_MATCHING: the stores of 0x170..0x17a are merged (str xzr / strh) in ours; the original stores them one by one
