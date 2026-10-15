@@ -18,7 +18,10 @@ public:
     void* _8;
     u8 _10[0x28 - 0x10];
     void* _28;
-    u8 _30[0xa8 - 0x30];
+    u8 _30[0x60 - 0x30];
+    // NavMeshLoadMgr::TileHandle::sub_7100F8AF0C requires bit 10 for every entry with _8 set.
+    u32 _60;
+    u8 _64[0xa8 - 0x64];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102519a98, 0xa8);
 
@@ -28,6 +31,8 @@ class Unk_7102519b90 : public res::Resource {
 public:
     Unk_7102519b90();
     ~Unk_7102519b90() override;
+
+    const sead::Buffer<Unk_7102519a98>& getEntries() const { return mEntries; }
 
 protected:
     bool needsParse() const override { return true; }

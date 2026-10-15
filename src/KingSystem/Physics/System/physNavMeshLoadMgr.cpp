@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Physics/Ragdoll/physUnk_7102519b90.h"
 
 namespace ksys::phys {
 
@@ -108,6 +109,21 @@ bool NavMeshLoadMgr::sub_7100F8ADC4(const sead::Vector3f* pos) {
     auto lock = sead::makeScopedLock(_130);
     TileHandle* handle = _8 ? &_10[0] : nullptr;
     return handle->sub_7100F8AF0C();
+}
+
+// NON_MATCHING: the original tests bit 10 of _60 with a 32-bit load; clang narrows it to a byte load.
+bool NavMeshLoadMgr::TileHandle::sub_7100F8AF0C() {
+    if (!requestedLoad() || _58 != 1)
+        return false;
+
+    const auto* entries =
+        sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().getBufferPtr();
+    u32 count = sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().size();
+    for (const auto* entry = entries; count != 0; --count, ++entry) {
+        if (entry->_8 && !(entry->_60 & 0x400))
+            return false;
+    }
+    return true;
 }
 
 void NavMeshLoadMgr::x_2() {
