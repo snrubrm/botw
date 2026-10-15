@@ -27,6 +27,8 @@ public:
     void sub_7100741C24();
     // 0x7100741e14
     void sub_7100741E14();
+    // 0x7100741e54: starts the requested Wizzrobe magic weather type.
+    void sub_7100741E54(s32 weather_type);
 
     u32 _8 = 0;
     u32 _c = 0;  // WizzrobeWeatherMagic sets 1 (sub_71005FF9BC) / 2 (leave_)
