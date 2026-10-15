@@ -20,7 +20,7 @@ public:
     sead::SafeString m46() override { return "ThirdBeam"; }
 
 protected:
-    void sub_7100516FAC(const sead::Vector3f& pos, bool is_arrived);
+    void sub_7100516FAC(sead::Vector3f& pos, bool is_arrived);
 
     // aitree_variable at offset 0xb8
     bool* mIsArrivedAtDestination_a{};
