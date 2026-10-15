@@ -30,6 +30,10 @@ namespace uking {
 class SaveSystem;
 }
 
+namespace uking::ui {
+class ScreenTitle;
+}
+
 namespace ksys {
 class SaveMgr;
 }  // namespace ksys
@@ -573,6 +577,7 @@ private:
     friend class uking::action::EventOffWaitRevivalAction;
     friend class ksys::SaveMgr;
     friend class uking::SaveSystem;
+    friend class uking::ui::ScreenTitle;
 
     enum class BitFlag {
         _1 = 0x1,

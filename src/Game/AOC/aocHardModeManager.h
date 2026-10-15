@@ -10,6 +10,10 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace uking::ui {
+class ScreenTitle;
+}
+
 namespace uking::aoc {
 
 class HardModeManager final {
@@ -59,6 +63,8 @@ public:
     f32 getMultiplier(MultiplierType type) const { return mMultipliers[type]; }
 
 private:
+    friend class uking::ui::ScreenTitle;
+
     void setHardModeEnabledFlag(ksys::gdt::Manager::ResetEvent* event = nullptr);
     void initFlagHandles(ksys::gdt::Manager::ReinitEvent* event = nullptr);
     void init_();

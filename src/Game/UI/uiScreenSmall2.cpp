@@ -1,3 +1,4 @@
+#include "Game/AOC/aocHardModeManager.h"
 #include <algorithm>
 #include <thread/seadThread.h>
 #include <thread/seadDelegateThread.h>
@@ -1405,6 +1406,18 @@ void ScreenHardModeTextDLC::m98() {
 // 0x7100a322bc
 void ScreenPauseMenuMantan::m98() {
     setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
+}
+
+// 0x7100a6b178 (placeholder name): when `value` is set, the next game data reset sets the AoC hard mode flag;
+// then resets the save system's flags and clears bit 5 of its _1a50 before calling its sub_71009157E4.
+void ScreenTitle::sub_7100A6B178(bool value) {
+    if (value)
+        ksys::gdt::Manager::instance()->mResetSignal.connect(aoc::HardModeManager::instance()->mGdtResetSlot);
+    if (auto* save_system = SaveSystem::instance()) {
+        save_system->sub_7100912EA4(false);
+        save_system->_1a50 &= ~0x20;
+        save_system->sub_71009157E4();
+    }
 }
 
 // 0x7100a6ba08
