@@ -269,6 +269,17 @@ s32 NavMeshCharacter::sub_7100F7D1CC(const NavMeshCharacter* other) {
     return result;
 }
 
+// NON_MATCHING: register allocation only (the original returns through w8, like sub_7100F7D1CC)
+s32 NavMeshCharacter::sub_7100F7D234(const NavMeshObjMaybe* other) {
+    const s32 index = _d0.load();
+    if (index > 9)
+        return -1;
+    _a8[index] = other->_ac;
+    if (!_d0.compareExchange(index, index + 1))
+        return -1;
+    return index;
+}
+
 void NavMeshCharacter::sub_7100F7D298(s32 index, const NavMeshCharacter* other) {
     if (index < 0 || _d0.load() <= index)
         return;
