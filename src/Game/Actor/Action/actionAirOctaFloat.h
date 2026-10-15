@@ -4,6 +4,8 @@
 #include "Game/Actor/aiUnk_7100D3D3A8.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys { class RigidBody; }
+
 namespace uking::action {
 
 class AirOctaFloat : public AirOctaMoveBase {
@@ -20,6 +22,9 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
+    // 0x71000845cc: declaration only; applies linked-object lift impulses.
+    void sub_71000845CC(AirOctaDataMgr* manager, ksys::phys::RigidBody* body);
     void m33(sead::Vector3f* min, sead::Vector3f* max) override;
     f32 m34() override;
 

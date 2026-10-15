@@ -1,9 +1,14 @@
 #include "Game/Actor/Action/actionAirOctaFloat.h"
 #include "Game/Actor/AI/aiAirOctaDataMgr.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
+
+// Existing global helper; complete native body applies chemical-motion impulses.
+void sub_71002FF594(ksys::act::Actor* actor);
 
 namespace uking::action {
 
@@ -79,6 +84,47 @@ void AirOctaFloat::calc_() {
         }
     }
     AirOctaMoveBase::calc_();
+}
+
+// NON_MATCHING: manager/data registers, reaction-vector temporaries and scalar multiplication stores differ.
+void AirOctaFloat::m32() {
+    auto* manager = sub_7100088DA8();
+    if (!manager)
+        return;
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    auto* data = manager->sub_71002FB32C();
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    const f32 time = ksys::VFR::instance()->getDeltaTime();
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, mActor);
+    gravity.y = -gravity.y;
+    gravity *= time * body->getMass();
+    body->applyLinearImpulse(gravity);
+    if (!(manager->mFlags & 2)) {
+        sub_71000845CC(manager, body);
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        sead::Vector3f impulse;
+        sub_7100088E38(1.7f, 0.08f, 0.5f, 0.5f, -1.0f, &impulse, &manager->vec_F8,
+                        &position, &_1c4);
+        impulse *= delta * body->getMass();
+        body->applyLinearImpulse(impulse);
+        sub_71002FF594(mActor);
+        if (data && (data->_24.x != 0.0f || data->_24.y != 0.0f || data->_24.z != 0.0f)) {
+            ksys::act::ActorLinkConstDataAccess linked;
+            if (ksys::act::acquireActor(&manager->mBaseProcLink2, &linked)) {
+                const f32 factor = delta * time * 1.02f;
+                sead::Vector3f reaction(-data->_24.x, 0.0f, -data->_24.z);
+                reaction *= factor;
+                body->applyLinearImpulse(reaction);
+            }
+        }
+    } else {
+        const f32 factor = time * body->getMass();
+        const sead::Vector3f impulse = factor * sead::Vector3f(0.0f, 20.0f, 0.0f);
+        body->applyLinearImpulse(impulse);
+    }
 }
 
 void AirOctaFloat::m33(sead::Vector3f* min, sead::Vector3f* max) {
