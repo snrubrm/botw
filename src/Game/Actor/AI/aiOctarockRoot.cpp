@@ -40,8 +40,56 @@ OctarockRoot::~OctarockRoot() {
     }
 }
 
+// 0x71004ede50
+// NON_MATCHING: position/rotation stack slots and RPY branch scheduling differ.
 bool OctarockRoot::init_(sead::Heap* heap) {
-    return VacuumEnemyRoot::init_(heap);
+    if (!VacuumEnemyRoot::init_(heap))
+        return false;
+    auto* parts = mActor->m101();
+    if (!parts)
+        return false;
+    _328.sub_71007142C0();
+    if (!parts->sub_7100D3CED8("Wig", heap))
+        return false;
+    for (const auto& key : mShootActorKey_s) {
+        if (!parts->sub_7100D3CED8(key, heap))
+            return false;
+    }
+    if (!mExtraShootActorKey_s.isEmpty() &&
+        !parts->sub_7100D3CED8(mExtraShootActorKey_s, heap)) {
+        return false;
+    }
+    auto* actor = mActor;
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    const auto& name = mCarryActorName_m.isEmpty() ? mItemName_s : mCarryActorName_m;
+    if (!sub_71005D6D10() && !name.isEmpty() && !actor->getConnectedCalcChild()) {
+        const sead::Vector3f rotation = actor->getMtx().getRotation();
+        position.y += 10.0f;
+        ksys::act::InstParamPack params;
+        params->addPosition(position);
+        params->addRotation(rotation);
+        auto* child = ksys::act::ActorCreator::instance()->createActor(
+            name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &params, true, false);
+        if (!child)
+            return false;
+        parts->sub_7100D3D108("Wig", child);
+        actor->setConnectedCalcChild(child, false);
+        child->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_40000000);
+        sub_71005DC208(actor, child, 0);
+        sub_71005DC41C(child);
+    }
+    if (!sub_71005D6D10() && !mExtraShootActorName_s.isEmpty() && !mExtraShootActorKey_s.isEmpty()) {
+        ksys::act::InstParamPack params;
+        params->addMatrix(actor->getMtx());
+        if (auto* child = ksys::act::ActorCreator::instance()->createActor(
+                mExtraShootActorName_s.cstr(),
+                ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &params, true, false)) {
+            parts->sub_7100D3D108(mExtraShootActorKey_s, child);
+        }
+    }
+    *static_cast<Unk_71025afb58**>(mVacuumedExplodingBomb_a) = &_368;
+    *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a) = &_328;
+    return true;
 }
 
 void OctarockRoot::enter_(ksys::act::ai::InlineParamPack* params) {

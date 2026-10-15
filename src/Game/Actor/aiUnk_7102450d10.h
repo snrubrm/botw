@@ -23,6 +23,7 @@ public:
 
     // Re-evaluates the form from the actor's character controller (+0x224) and switches the
     // target bodies' contact layers (calls 0x7100714548 / 0x7100714918).
+    bool sub_71007142C0();
     void sub_7100714C9C();
     // 0x7100714918 (declared only): called by OctarockRoot::enter_ (the other callee of sub_7100714C9C).
     void sub_7100714918();
