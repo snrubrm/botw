@@ -2,6 +2,9 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "Game/UI/uiManager.h"
+#include "KingSystem/AOC/aocManager.h"
 
 namespace eui {
 void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map);
@@ -38,6 +41,37 @@ UiTexSlots::~UiTexSlots() {
         ++i;
     }
     mEntries.freeBuffer();
+}
+
+void UiTexSlots::sub_7100A81B1C(const sead::SafeString& path, s32 index) {
+    if (!mEntries[index].handle || !mEntries[index].material)
+        return;
+    if (mMode == 0) {
+        auto* manager = Manager::instance();
+        if (!manager->sub_7100A7FDB4() && sub_7100A81BC8(path, index))
+            return;
+        manager->sub_7100A7FDCC();
+    }
+    sub_7100A81DB0(path, index);
+}
+
+void UiTexSlots::sub_7100A81DB0(const sead::SafeString& path, s32 index) {
+    if (auto* animator = mEntries[index].animator)
+        animator->StopAtMin();
+    Entry& entry = mEntries[index];
+    if (entry.handle && entry.material) {
+        entry.material->GetTexMapArray()[entry.texMapIndex].ReplaceTextureInfo(&mTexInfo);
+        if (mEntries[index].handle->requestedLoad())
+            mEntries[index].handle->requestUnload2();
+    }
+    mEntries[index].loaded = false;
+    ksys::res::Handle::Status status{};
+    ksys::res::LoadRequest request;
+    request.mRequester = mPath;
+    request.mLaneId = 2;
+    if (auto* manager = ksys::aoc::Manager::instance())
+        request.mAocFileDevice = manager->getFileDeviceForUI(path);
+    mEntries[index].handle->requestLoad(path, &request, &status);
 }
 
 // 0x7100a819fc

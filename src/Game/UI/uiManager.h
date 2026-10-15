@@ -97,6 +97,7 @@ public:
     // 0x7100a7f918 / 0x7100a7fdb4 (CSV uiManager::__auto4 / __auto11; placeholder names)
     bool sub_7100A7F918() const;
     bool sub_7100A7FDB4() const;
+    void sub_7100A7FDCC();
     // 0x7100a7f890 / 0x7100a7f8d4 (lane2 s47): restart the timer `_651ac` once the flag `_651c4` is set / init `_651c8`
     void sub_7100A7F890();
     void sub_7100A7F8D4();

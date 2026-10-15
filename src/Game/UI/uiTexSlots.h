@@ -20,7 +20,7 @@ namespace uking::ui {
 // Member of ShopBtnList15 / ShopInfo / AppTool / AppMap / MainShortCut / StaffRoll(DLC) (vtable 0x249ce30; the class
 // name is not known). Loads a texture resource per entry (the resource's texture is attached to the material's texture
 // map slot while it is loaded, a default texture info (`mTexInfo`) otherwise) and plays an optional animator.
-// Only construction / destruction / unloading are decompiled so far.
+// Synchronous texture creation still needs its resource owner.
 class UiTexSlots {
 public:
     struct Entry {
@@ -39,6 +39,8 @@ public:
     // 0x7100a813e0
     void unload(s32 index);
     void sub_7100A81B1C(const sead::SafeString& path, s32 index);
+    bool sub_7100A81BC8(const sead::SafeString& path, s32 index);
+    void sub_7100A81DB0(const sead::SafeString& path, s32 index);
 
     // 0x7100a819fc / 0x7100a81a30 / 0x7100a81a7c (placeholder names): store the material of entry `index` (and its texture
     // map index) and optionally attach the default texture info of the first texture map / re-apply it
