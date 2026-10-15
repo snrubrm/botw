@@ -1,6 +1,12 @@
 #include "Game/Actor/AI/aiEnemyTreeWeaponSearchOrBattle.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "Game/Actor/aiUnk_71007320F0.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -114,6 +120,65 @@ void EnemyTreeWeaponSearchOrBattle::calc_() {
         auto* actor = mActor;
         sub_71005DB1D8(actor, sub_71005D9330(actor));
     }
+}
+
+// NON_MATCHING: vector copies, loop branches and registers for the three RTTI tests differ.
+bool EnemyTreeWeaponSearchOrBattle::sub_71003C1E20() {
+    auto* actor = mActor;
+    auto* awareness = actor->getAwareness();
+    if (!awareness || !sead::DynamicCast<act::Enemy>(actor))
+        return false;
+    auto* enemy = static_cast<act::Enemy*>(actor);
+    _50.reset();
+    const auto origin = mActor->getMtx().getTranslation();
+    const f32 target_distance = sub_71005D8F28(mActor) ?
+        (sub_71005D9330(mActor) - origin).length() : std::numeric_limits<f32>::infinity();
+    auto* nav = mActor->m45();
+    const f32 radius = nav ? nav->_2a8 * nav->_2ac : 0.1f;
+    const f32 weapon_range = sub_71007320F0(mActor, *mWeaponIdx_s);
+    Unk_7102451790 filter;
+    if (awareness->_260[0]) {
+        const bool allow_tagged_tree = enemy->_f54.isOn(4);
+        const f32 reach_radius = (radius > weapon_range ? radius : weapon_range) + 2.0f;
+        while (awareness->_260[0]) {
+            auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_260[0]->_8, &filter);
+            if (!entry)
+                break;
+            auto& link = entry->_0.mLink;
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (!link.hasProc())
+                continue;
+            const auto position = entry->_58.getTranslation();
+            if (!sub_710072CB78(mActor, position, nullptr, reach_radius, -1))
+                continue;
+            if ((position - origin).length() > target_distance)
+                continue;
+            const bool is_weapon = link.mId != ksys::act::BaseProcLink::cInvalidId &&
+                sead::DynamicCast<act::Weapon>(link.getProc());
+            if (is_weapon) {
+                auto* candidate = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+                auto* weapon = sead::DynamicCast<act::Weapon>(candidate);
+                if (!weapon ||
+                    !(enemy->_f54.getDirect() & (1u << (u32(weapon->_cf0) & 31))) ||
+                    weapon->hasParentActor_() ||
+                    weapon->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
+                    continue;
+                _50 = link;
+                _60 = true;
+                _61 = false;
+            } else {
+                if (!allow_tagged_tree && accessor.hasTag(0xe024e81fu))
+                    continue;
+                _50 = link;
+                _60 = false;
+                _61 = true;
+                _68.sub_710070DCC0(&_50, true);
+            }
+            break;
+        }
+    }
+    return _50.hasProc();
 }
 
 void EnemyTreeWeaponSearchOrBattle::loadParams_() {

@@ -9,6 +9,10 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace uking::ai {
+class EnemyTreeWeaponSearchOrBattle;
+}
+
 namespace ksys::act {
 
 class BaseProcAccessor;
@@ -50,6 +54,8 @@ public:
     auto getProcInContext(const Function& function) const;
 
 private:
+    friend class uking::ai::EnemyTreeWeaponSearchOrBattle;
+
     static constexpr u32 cInvalidId = -1;
 
     BaseProc* getProc() const;
