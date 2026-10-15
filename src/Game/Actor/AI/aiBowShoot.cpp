@@ -2,6 +2,9 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
@@ -252,6 +255,76 @@ bool BowShoot::sub_710033A350() {
         child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
     return false;
+}
+
+// NON_MATCHING: release-mode branch merging and switch table bounds differ.
+void BowShoot::sub_710033BF8C(u8 mode) {
+    if (mode == 2 || mode == 3) {
+        switch (sub_710033C41C()) {
+        case 2:
+            xlinkSearchAndEmit(mActor, "Release2", 1, nullptr);
+            break;
+        case 3:
+            xlinkSearchAndEmit(mActor, "Release3", 1, nullptr);
+            break;
+        case 4:
+            break;
+        case 5:
+            xlinkSearchAndEmit(mActor, "Release5", 1, nullptr);
+            break;
+        case 1:
+        default:
+            xlinkSearchAndEmit(mActor, "Release1", 1, nullptr);
+            break;
+        }
+    } else if (mode == 1) {
+        xlinkSearchAndEmit(mActor, "Release1", 1, nullptr);
+    } else if (mode == 0) {
+        xlinkSearchAndEmit(mActor, "ReleaseEmpty", 1, nullptr);
+        return;
+    }
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (!actor)
+        return;
+    if (auto* chemicals = actor->getChemicalContainer()) {
+        if (auto* element = chemicals->sub_7100E37FA8(0)) {
+            if (element->_18->isRigidAttribute6Or14Set(element->_288)) {
+                xlinkSearchAndEmit(mActor, "ChemicalShootFire", 1, nullptr);
+                return;
+            }
+        }
+    }
+    if (auto* chemical = actor->getChemicalStuff()) {
+        if (((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+            chemical->_1b8 > 0.0f) {
+            xlinkSearchAndEmit(mActor, "ChemicalShootElectric", 1, nullptr);
+            return;
+        }
+    }
+    if (auto* chemical = actor->getChemicalStuff()) {
+        if (chemical->mMaterial->attribute.ref() & 0x8000) {
+            xlinkSearchAndEmit(mActor, "ChemicalShootIce", 1, nullptr);
+            return;
+        }
+    }
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor); bullet && !(bullet->_cf4 & 2)) {
+        if (auto* chemical = actor->getChemicalStuff()) {
+            if (chemical->mMaterial->attribute.ref() & 0x10) {
+                xlinkSearchAndEmit(mActor, "ChemicalShootBomb", 1, nullptr);
+                return;
+            }
+        }
+    }
+    if (ksys::act::hasTag(actor, 0x5e27ef10)) {
+        xlinkSearchAndEmit(mActor, "ChemicalShootAncient", 1, nullptr);
+    } else if (mActor) {
+        const auto* params = mActor->getParam()->getRes().mGParamList;
+        if (params) {
+            const auto* bow = params->getBow();
+            if (bow && bow->mArrowName.ref().findIndex("Bright") != -1)
+                xlinkSearchAndEmit(mActor, "ChemicalShootBright", 1, nullptr);
+        }
+    }
 }
 
 }  // namespace uking::ai
