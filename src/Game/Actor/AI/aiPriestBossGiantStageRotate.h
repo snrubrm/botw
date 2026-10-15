@@ -19,6 +19,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -27,6 +28,7 @@ public:
     bool handleAck_(const ksys::MessageAck* ack) override;
 
 protected:
+    void sub_710051BFA4();
     // 0x710051c44c: leave_ tail: tells the linked actor (message 0x80000de, value 0, index -1)
     void sub_710051C44C();
     // static_param at offset 0x40

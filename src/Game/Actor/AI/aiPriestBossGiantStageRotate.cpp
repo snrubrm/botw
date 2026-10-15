@@ -4,6 +4,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::ai {
 
@@ -71,6 +72,85 @@ void PriestBossGiantStageRotate::sub_710051C210() {
 }
 
 // NON_MATCHING: the original has a dead SEAD_ENUM stack round trip (value 0) before storing the mode inside the lock
+// 0x710051bfa4
+// NON_MATCHING: enum stack slots, packed direction stores and accessor cleanup scheduling differ.
+void PriestBossGiantStageRotate::sub_710051BFA4() {
+    auto* unit = sub_7100505BE4();
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (unit->sub_71007194CC(&accessor)) {
+        if (_140.isOnBit(Flag(Flag::_3))) {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_58._18.mLock);
+            _58._18._8 = 4;
+            _58._18._c = false;
+            _58._18._0 = _d0;
+        } else if (_140.isOnBit(Flag(Flag::_4))) {
+            {
+                sead::ScopedLock<sead::JobQueueLock> lock(&_58._18.mLock);
+                _58._18._c = false;
+                _58._18._8 = 5;
+            }
+            for (s32 i = 0; i < 8; ++i) {
+                ksys::act::ActorLinkConstDataAccess child;
+                if (unit->sub_71007194D4(i + 11, &child)) {
+                    {
+                        sead::ScopedLock<sead::JobQueueLock> lock(&_d8._18.mLock);
+                        _d8._18._0 = 1;
+                        _d8._18._4 = sead::Vector3f::zero;
+                    }
+                    _d8.sub_710070DBB0(*child.getMessageTransceiverId(), false);
+                }
+            }
+        } else if (_140.isOnBit(Flag(Flag::_5))) {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_58._18.mLock);
+            _58._18._c = false;
+            _58._18._8 = 6;
+        }
+        _58.sub_710070DD78(accessor, true);
+    }
+    setFinished();
+}
+
+// 0x710051c5dc
+// NON_MATCHING: received-command switch order and enum temporary stack slots differ.
+void PriestBossGiantStageRotate::calc_() {
+    PriestBoss::calc_();
+    if (_88._30) {
+        switch (_88._34._8) {
+        case 5:
+            _140.setBit(Flag(Flag::_4));
+            // fallthrough
+        case 6:
+            _140.setBit(Flag(Flag::_5));
+            break;
+        case 3:
+            _140.setBit(Flag(Flag::_3));
+            break;
+        }
+        _88.x();
+    }
+    if (*mSendOnThrowASEvent_s && mActor->getASList()->x(
+            0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        sub_710051C210();
+    }
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    if (isCurrentChild("開始")) {
+        if (child->isFinished() || child->isFailed()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("回転終了待機", &pack);
+        }
+    } else if (isCurrentChild("回転終了待機")) {
+        if (_140.isOnBit(Flag(Flag::_4)) || _140.isOnBit(Flag(Flag::_3)) ||
+            _140.isOnBit(Flag(Flag::_5))) {
+            sub_710051BFA4();
+            setFinished();
+        }
+    }
+}
+
 void PriestBossGiantStageRotate::leave_() {
     PriestBoss::leave_();
     sub_710051C44C();
