@@ -8,6 +8,7 @@
 #include <heap/seadDisposer.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
+#include <math/seadMatrix.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <math/seadBoundBox.h>
@@ -112,6 +113,8 @@ public:
     void x_2();
     // 0x7100f8a670 (CSV NavMeshLoadMgr::x_3; declared only): called with the same handle twice.
     void x_3(TileHandle* a, TileHandle* b);
+    // Complete F8AA78 updates the selected resource's extra transform; declaration only.
+    void sub_7100F8AA78(s32 index, const sead::Matrix34f& transform);
 
     /* 0x008 */ u32 _8;
     // 0x7100f8a3b8 (CSV NavMeshLoadMgr::a; declared only): requests the tile of the handle.
