@@ -2,6 +2,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -126,6 +128,28 @@ bool MoriblinSpearBattle::sub_71004AAEAC() {
 
 void MoriblinSpearBattle::leave_() {
     sub_71005DA114(mActor, &_90);
+}
+
+// NON_MATCHING: vector load order and float register allocation differ.
+bool MoriblinSpearBattle::sub_71004AB0E0() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || !(enemy->_e68.value <= sead::Mathf::epsilon()))
+        return false;
+    sead::Vector3f diff = sub_71005D9330(mActor) - mActor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 dist = diff.length();
+    const f32 range = sub_71007320F0(mActor, *mWeaponIdx_s) + *mBaseDist_s + *mFarDist_s;
+    if (!(dist <= range))
+        return false;
+    sead::Vector3f direction = *mTargetPos_d - mActor->getMtx().getTranslation();
+    direction.y = 0.0f;
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    direction.normalize();
+    if (!(front.dot(direction) >= std::cos(*mAttackStartRotate_s)))
+        return false;
+    return act::DamageInfoMgr::instance()->get4f8().sub_7100671A40(
+        mActor, 80 + sead::GlobalRandom::instance()->getU32(16));
 }
 
 void MoriblinSpearBattle::loadParams_() {
