@@ -19,6 +19,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -26,9 +27,9 @@ public:
     bool isFailed() const override;
 
 protected:
-    sead::FixedSafeString<32> _38;
-    sead::Vector3f _70{};
-    sead::Vector3f _7c{};
+    sead::FixedSafeString<32> _38{""};
+    sead::Vector3f _70{0.0f, 0.0f, 0.0f};
+    sead::Vector3f _7c{0.0f, 0.0f, 0.0f};
     ksys::map::Rail* _88 = nullptr;
     s32 _90 = 0;
 };

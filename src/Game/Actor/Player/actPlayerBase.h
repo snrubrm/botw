@@ -13,6 +13,10 @@ namespace uking {
 class Unk_710246d058;
 }
 
+namespace uking::ai {
+class PlayerWaterFall;
+}
+
 namespace uking::act {
 class Weapon;
 }
@@ -350,6 +354,7 @@ public:
 protected:
     friend class ksys::act::acc::PlayerBase;
     friend class PlayerInfo;
+    friend class uking::ai::PlayerWaterFall;
 
 public:
     // State flags; also read and written directly by action code (inlined accesses).
