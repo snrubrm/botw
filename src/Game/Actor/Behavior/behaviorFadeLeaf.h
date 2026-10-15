@@ -14,7 +14,6 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    // Original out-of-line update helper; declaration only.
     void sub_7100622AB0();
 
     /* 0x28 */ const float* mAlphaLower_s{};
