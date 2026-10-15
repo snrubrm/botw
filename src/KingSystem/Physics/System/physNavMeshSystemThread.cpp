@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include <thread/seadThreadUtil.h>
+#include <time/seadTickTime.h>
 #include <prim/seadNamable.h>
 #include "KingSystem/Physics/System/physSystem.h"
 
@@ -40,6 +41,25 @@ void NavMeshSystemThread::calc_(sead::MessageQueue::Element msg) {
         if (dt > 0.0f)
             _100->sub_7100F81550(dt);
     }
+}
+
+void NavMeshSystemThread::sub_7100F8962C() {
+    sead::Thread* current = sead::ThreadMgr::instance()->getCurrentThread();
+    _10c = true;
+    setPriority(current->getPriority());
+    const sead::TickTime start;
+    if (mMessageQueue.peek(sead::MessageQueue::BlockType::NonBlocking) != 0) {
+        const auto timeout = sead::TickSpan::makeFromSeconds(1);
+        const auto interval = sead::TickSpan::makeFromMicroSeconds(100);
+        do {
+            if (start.diffToNow().toS64() > timeout.toS64()) {
+                _100->sub_7100F84194();
+                break;
+            }
+            sead::Thread::sleep(interval);
+        } while (mMessageQueue.peek(sead::MessageQueue::BlockType::NonBlocking) != 0);
+    }
+    setPriority(sead::ThreadUtil::ConvertPrioritySeadToPlatform(20));
 }
 
 }  // namespace ksys::phys

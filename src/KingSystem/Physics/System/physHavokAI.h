@@ -316,6 +316,10 @@ public:
     Unk_7100f7e9f0 sub_7100F88B1C(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
                                   f32 a3);
 
+    // 0x7100f84194 (placeholder name; CSV guess HavokAI::getNavMeshLoadMgr): walks the +0x118 offset list and
+    // the +0x28 object's +0xe0 array. Called by NavMeshSystemThread::sub_7100F8962C on timeout (declared only).
+    void sub_7100F84194();
+
     // 0x7100f82bcc (CSV HavokAI::__auto2): registers a navmesh character: clears flag 2 / sets flag 1 of
     // its `_220`, stores this in its `_20` and queues it. Callers run it when `nav->_18` is null.
     void sub_7100F82BCC(NavMeshCharacter* nav);
