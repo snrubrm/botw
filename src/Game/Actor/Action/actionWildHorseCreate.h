@@ -20,6 +20,9 @@ public:
 
 protected:
     void calc_() override;
+    // Complete native callees return bool; the second result is discarded by calc_.
+    bool sub_71002B9BC0();
+    bool sub_71002B9F00();
 
     // static_param at offset 0x20
     const int* mMinCreateNum_s{};

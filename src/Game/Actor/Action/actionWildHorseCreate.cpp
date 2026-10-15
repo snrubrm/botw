@@ -1,5 +1,8 @@
 #include "Game/Actor/Action/actionWildHorseCreate.h"
 #include <random/seadGlobalRandom.h>
+#include <limits>
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapPlacementActors.h"
@@ -58,8 +61,68 @@ void WildHorseCreate::loadParams_() {
     getMapUnitParam(&mWildHorseCreateNum_m, "WildHorseCreateNum");
 }
 
+// NON_MATCHING: position registers and creation-state conditional selection differ.
 void WildHorseCreate::calc_() {
-    ksys::act::ai::Action::calc_();
+    switch (_5c) {
+    case 0: {
+        auto* system = ksys::act::ActorSystem::instance();
+        if (!system || !system->getPlayerLink())
+            break;
+        const f32 x = mActor->getMtx()(0, 3);
+        const f32 z = mActor->getMtx()(2, 3);
+        auto* player = system->getPlayerLink()->getPlayer();
+        if (!player)
+            break;
+        const f32 dx = x - player->getMtx()(0, 3);
+        const f32 dz = z - player->getMtx()(2, 3);
+        if (dx * dx + dz * dz < _58)
+            _5c = sub_71002B9BC0() ? 1 : 4;
+        break;
+    }
+    case 1: {
+        const s32 count = _48.size();
+        for (s32 i = 0; i < count; ++i) {
+            if (!_48[i].isProcReady() && !_48[i].hasProcCreationFailed())
+                return;
+        }
+        sub_71002B9F00();
+        _5c = 2;
+        break;
+    }
+    case 2: {
+        f32 distance = std::numeric_limits<f32>::infinity();
+        auto* system = ksys::act::ActorSystem::instance();
+        if (system && system->getPlayerLink()) {
+            const f32 x = mActor->getMtx()(0, 3);
+            const f32 z = mActor->getMtx()(2, 3);
+            if (auto* player = system->getPlayerLink()->getPlayer()) {
+                const f32 dx = x - player->getMtx()(0, 3);
+                const f32 dz = z - player->getMtx()(2, 3);
+                distance = dx * dx + dz * dz;
+            }
+        }
+        if (distance > _58) {
+            for (s32 i = 0; i < _38.size(); ++i) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                if (ksys::act::acquireActor(&_38[i], &accessor)) {
+                    mActor->sendMessage(*accessor.getMessageTransceiverId(),
+                                        ksys::MessageType(0x3800017), nullptr, true);
+                }
+            }
+            _5c = 3;
+        }
+        break;
+    }
+    case 3: {
+        const s32 count = _38.size();
+        for (s32 i = 0; i < count; ++i) {
+            if (_38[i].hasProc())
+                return;
+        }
+        _5c = 0;
+        break;
+    }
+    }
 }
 
 }  // namespace uking::action
