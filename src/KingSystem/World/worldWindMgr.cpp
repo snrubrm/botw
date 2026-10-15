@@ -1,5 +1,6 @@
 #include "KingSystem/World/worldWindMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/Utils/Types.h"
 #include <utility/aglPrimitiveTexture.h>
 #include <g3d/aglTextureUtilG3D.h>
 #include <cstring>
@@ -20,7 +21,7 @@ struct WindTransitionConstants {
     f32 _14;
     f32 _18;
 };
-__attribute__((visibility("hidden"))) WindTransitionConstants sUnk_710250d280 = {
+KSYS_VISIBILITY_HIDDEN WindTransitionConstants sUnk_710250d280 = {
     0.001f, 30.0f, 120.0f, 2.0f, 0.0001f, 300.0f, 60.0f};
 
 Unk_710250D258::~Unk_710250D258() = default;
