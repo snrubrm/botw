@@ -7,7 +7,6 @@ namespace uking::act {
 
 // Name from the CSV (MergedDungeonParts::*; the namespace is a guess). Factory 0x7100ddcb4: new(0xbc8) + inlined
 // ctor. RTTI static 0x71025b7238.
-// TODO: incomplete (m63 = 984 B not written).
 class MergedDungeonParts : public MapConstActiveOrMergedDungeonParts {
     SEAD_RTTI_OVERRIDE(MergedDungeonParts, MapConstActiveOrMergedDungeonParts)
 public:
