@@ -70,6 +70,127 @@ void AnimalEscapeAI::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: retry branches and completed-child transitions share source tails.
+void AnimalEscapeAI::calc_() {
+    if (!*mIsUseTerritory_a)
+        _a4 = false;
+    AnimalRndMove::calc_();
+    auto* nav = mActor->m45();
+    if (!nav)
+        return;
+    if (!isCurrentChild("最後の手段")) {
+        const auto position = mActor->getMtx().getTranslation();
+        if (sub_710030B070(position)) {
+            _13c.update();
+            if (_13c.value <= sead::Mathf::epsilon()) {
+                _13c.reset(1.0f, 0.0f);
+                changeChild("最後の手段");
+            }
+        } else {
+            _13c.reset(120.0f);
+        }
+    }
+    if (!isCurrentChild("地形嵌り") && !isCurrentChild("最後の手段")) {
+        _130.update();
+        if (_130.value <= sead::Mathf::epsilon()) {
+            _130.value = _130.previous_value = 150.0f;
+            _14c = sead::Mathi::max(_14c - 1, 0);
+        }
+    }
+    const bool has_goal = m35();
+    bool retry = !has_goal;
+    bool return_home = false;
+    if (has_goal) {
+        if (sub_710030B070(nav->_194)) {
+            retry = true;
+            return_home = true;
+        } else if (isCurrentChild("逃走") && sub_710030AE5C()) {
+            retry = true;
+        } else {
+            _a0 = 0;
+        }
+    }
+    if (retry && !(nav->_220 & 0x41000)) {
+        if (return_home && _a0 % 2 == 1) {
+            const auto position = mActor->getMtx().getTranslation();
+            sead::Vector3f home;
+            mActor->getHomePos(&home);
+            const auto direction = home - position;
+            m34(&direction);
+        } else {
+            m34(nullptr);
+        }
+    }
+    sub_71003051C0();
+    if (isCurrentChild("逃走")) {
+        const auto position = mActor->getMtx().getTranslation();
+        const f32 target_distance = sead::Vector2f(position.x - mTargetPos_d->x,
+                                                  position.z - mTargetPos_d->z).length();
+        const f32 travelled = sead::Vector2f(position.x - _108.x, position.z - _108.z).length();
+        if (target_distance >= *mContinueDistance_s && travelled >= _148) {
+            setFinished();
+            return;
+        }
+        if (!isCurrentChild("地形嵌り") && mIsStuckOnTerrain_a && *mIsStuckOnTerrain_a) {
+            const f32 stuck_frames = mFramesStuckOnTerrain_a ? *mFramesStuckOnTerrain_a : -1.0f;
+            if (stuck_frames > *mFramesStuckOnTerrainAction_s) {
+                _130.value = _130.previous_value = 150.0f;
+                changeToStuckOnTerrain();
+                return;
+            }
+        }
+    }
+    if (*mIsSendGoalPos_s && has_goal) {
+        sead::Vector3f target;
+        {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            target = nav->_194;
+        }
+        getCurrentChild()->setDynamicParam(target, "TargetPos");
+    }
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+    if (!(child->isFinished() || child->isFailed())) {
+        child->isChangeable();
+        return;
+    }
+    if (m37()) {
+        if (!sub_7100305C58())
+            changeToEscape();
+        return;
+    }
+    if (isCurrentChild("逃走")) {
+        if (_a0 >= 5) {
+            changeToStuckOnTerrain();
+            return;
+        }
+        if (!has_goal && !(nav->_220 & 0x41000))
+            m34(nullptr);
+        changeToEscape();
+    } else if (isCurrentChild("地形嵌り")) {
+        *mIsStuckOnTerrain_a = false;
+        *mFramesStuckOnTerrain_a = 0.0f;
+        if (child->isFinished())
+            _a0 = 0;
+        if (*mNumTimesAllowStuck_s >= 0) {
+            ++_14c;
+            if (_14c >= *mNumTimesAllowStuck_s) {
+                changeChild("最後の手段");
+                return;
+            }
+        }
+        changeToEscape();
+    } else if (isCurrentChild("最後の手段")) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
+}
+
 // NON_MATCHING: Finite radius comparison uses a different equivalent branch after the NaN check.
 void AnimalEscapeAI::leave_() {
     AnimalRndMove::leave_();
