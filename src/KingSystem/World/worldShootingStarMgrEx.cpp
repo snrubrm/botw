@@ -181,6 +181,33 @@ bool ShootingStarAnchor::sub_71010D0B64() const {
     return !(_2c < 10.0f);
 }
 
+// NON_MATCHING: local-static base offsets and vector load/register scheduling differ.
+void ShootingStarAnchor::sub_71010D1130(bool* available, bool* in_view) const {
+    static const sead::Vector3f directions[]{{0.0f, 0.0f, 1.0f}, {-1.0f, 0.0f, 1.0f},
+                                            {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, -1.0f},
+                                            {0.0f, 0.0f, -1.0f}, {1.0f, 0.0f, -1.0f},
+                                            {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 1.0f}};
+    static const f32 min_dot = std::cos(sead::Mathf::deg2rad(45.0f));
+    if (!available || !in_view)
+        return;
+    *in_view = false;
+    *available = false;
+    if (u32(mDirection) >= sizeof(directions) / sizeof(directions[0]))
+        return;
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+    *available = _84 < 10;
+    sead::Vector3f direction(_48.x - camera->getPos().x, 0.0f, _48.z - camera->getPos().z);
+    sead::Vector3f look;
+    camera->getLookVectorByMatrix(&look);
+    look = -look;
+    look.y = 0.0f;
+    look.normalize();
+    direction.normalize();
+    *in_view = direction.dot(look) >= min_dot;
+}
+
 bool ShootingStarAnchor::sub_71010D0F64(s32 hour_offset) const {
     const s32 hour = Manager::instance()->getTimeMgr()->getHour();
     const s32 start = mStartHour % 24;
