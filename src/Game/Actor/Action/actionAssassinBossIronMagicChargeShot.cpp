@@ -19,8 +19,24 @@ AssassinBossIronMagicChargeShot::~AssassinBossIronMagicChargeShot() {
     _58.freeBuffer();
 }
 
+// NON_MATCHING: final sender-loop registers and increment scheduling differ.
 bool AssassinBossIronMagicChargeShot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _48.tryAllocBuffer(*mIronBallNum_s, heap);
+    if (!_48.isBufferReady())
+        return false;
+    _58.tryAllocBuffer(*mIronBallNum_s, heap);
+    if (!_58.isBufferReady())
+        return false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mIronBallNum_s; ++i) {
+            key.format("%s%d", mIronBallPartsName_s.cstr(), i);
+            enemy->sub_7100D3CED8(key, heap);
+        }
+    }
+    for (s32 i = 0; i < *mIronBallNum_s; ++i)
+        _48[i]._8 = &mActor->getMessageTransceiver();
+    return true;
 }
 
 void AssassinBossIronMagicChargeShot::enter_(ksys::act::ai::InlineParamPack* params) {

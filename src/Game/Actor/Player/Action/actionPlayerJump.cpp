@@ -28,8 +28,51 @@ void PlayerJump::sub_71007F7FBC() {
     }
 }
 
+// NON_MATCHING: the established u32 turn angle is copied into an angle object for x_53.
 void PlayerJump::enter_(ksys::act::ai::InlineParamPack* params) {
+    static_cast<ksys::act::Player*>(mActor)->_17f1 =
+        static_cast<ksys::act::Player*>(mActor)->_cf0.isOnBit(17);
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x8000000);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x10000000);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x4);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x80000);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x100000);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x200000);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_17f1) {
+        player->_cf8.set(0x8);
+        player = static_cast<ksys::act::Player*>(mActor);
+    }
+    player->_c44.set(0x40000);
+    if (static_cast<ksys::act::Player*>(mActor)->sub_7100892098())
+        static_cast<ksys::act::Player*>(mActor)->_c44.set(0x1000000);
+    if (mActor->getASList()->x_1(0, 0) != "Slide" &&
+        mActor->getASList()->x_1(0, 0) != "SlideBrake") {
+        player = static_cast<ksys::act::Player*>(mActor);
+        if (player->_209c > 0.05f) {
+            player->x_53(ksys::act::Player::Unk1(player->_1c74));
+            static_cast<ksys::act::Player*>(mActor)->_1c68.value =
+                static_cast<ksys::act::Player*>(mActor)->_1c74;
+        } else {
+            const auto angle = player->x_5();
+            static_cast<ksys::act::Player*>(mActor)->_1c68 = angle;
+        }
+    }
+    sub_71007F7FBC();
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("Jump", true, -1.0f);
+    sub_71007F80BC();
+    static_cast<ksys::act::Player*>(mActor)->x_16();
+    static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->_17f2 = true;
+    static_cast<ksys::act::Player*>(mActor)->_17f3 =
+        static_cast<ksys::act::Player*>(mActor)->_1fa8 > 1.25f;
+    player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1cb0 == 0x44) {
+        player->_c44.set(0x80000);
+        player = static_cast<ksys::act::Player*>(mActor);
+    }
+    player->_1ec0 = ksys::Timer(4.0f, 4.0f, -1.0f);
 }
 
 void PlayerJump::leave_() {
