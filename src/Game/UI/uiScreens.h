@@ -190,6 +190,15 @@ public:
     virtual void m79();
     virtual void m80();
 
+    // 0x71010a9000 / 0x71010a9008 / 0x71010a9014 / 0x71010a9064 / 0x71010a90b4 (placeholder names): helpers that
+    // forward to the owning screen _120 (child group size, button by tag, controller hold / trigger test while the
+    // screen accepts input (_292 bit 6), animation step)
+    s32 sub_71010A9000(s32 group) const;
+    eui::ButtonBase* sub_71010A9008(s32 tag) const;
+    bool sub_71010A9014(u32 mask) const;
+    bool sub_71010A9064(u32 mask) const;
+    f32 sub_71010A90B4() const;
+
 
     // 0x71010a8cec (CSV ksys::ui::Control::ctor; declared only): builds the message transceiver at 0x38, the state
     // machine at 0x80 and the receiver at 0xa8 / adapter at 0xc8, then mName = the layout's root pane name and
@@ -1215,6 +1224,10 @@ public:
     bool sub_71010B343C();
     void sub_71010B34B4(bool choice_mode, s32 stock);
     void sub_71010B34A0(bool a1);
+    // 0x71010b2f5c / 0x71010b2f68 (placeholder names; called by UI::x_1): the choice count (_300->_61) and the value of
+    // choice `index` (_300->_68)
+    s32 sub_71010B2F5C() const;
+    u16 sub_71010B2F68(s32 index) const;
     // 0x71010b306c (CSV unnamed): set the dialog's actor (stores it in _720, acquires _728).
     void sub_71010B306C(ksys::act::Actor* actor);
     // 0x71010b307c (CSV unnamed): scan the text for a voice tag, apply the emotion to the actor.

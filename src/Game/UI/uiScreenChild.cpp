@@ -1,5 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiButton.h"
+#include "Game/UI/euiUIController.h"
 #include "Game/UI/uiScreenChildMessage.h"
 
 // Default implementations of ScreenChild and ScreenChildEx virtual slots (0x7100931dd8 - 0x71009321c8, ...): empty or
@@ -210,6 +212,35 @@ void ScreenChild::m52() { m22(); }
 
 // 0x710093204c
 void ScreenChild::m53(void* a1) { m23(a1); }
+
+// 0x71010a9000
+s32 ScreenChild::sub_71010A9000(s32 group) const {
+    return _120->sub_71010AA868(group);
+}
+
+// 0x71010a9008
+eui::ButtonBase* ScreenChild::sub_71010A9008(s32 tag) const {
+    return _120->mButtonGroup->FindButtonByTag(tag);
+}
+
+// 0x71010a9014
+bool ScreenChild::sub_71010A9014(u32 mask) const {
+    Screen* screen = _120;
+    return (screen->_292 & 0x40) && screen->sub_71010AA9D0() && screen->mUIController &&
+           screen->mUIController->isHold(mask);
+}
+
+// 0x71010a9064
+bool ScreenChild::sub_71010A9064(u32 mask) const {
+    Screen* screen = _120;
+    return (screen->_292 & 0x40) && screen->sub_71010AA9D0() && screen->mUIController &&
+           screen->mUIController->isTrig(mask);
+}
+
+// 0x71010a90b4
+f32 ScreenChild::sub_71010A90B4() const {
+    return _120->getAnimationStep_();
+}
 
 // 0x71010a90c4
 void ScreenChild::m54(sead::Heap* heap) {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include "Game/UI/euiControlBase.h"
 
 namespace sead {
@@ -52,7 +53,9 @@ public:
     /* 0x61 */ u8 _61 = 0;
     /* 0x62 */ u8 _62 = 0;
     /* 0x63 */ u8 _63 = 0xff;
-    u8 _64[0x70 - 0x64]{};
+    u8 _64[0x68 - 0x64]{};
+    // Read per choice by ScreenMessageDialog::sub_71010B2F68.
+    /* 0x68 */ sead::SafeArray<u16, 4> _68{};
     /* 0x70 */ void* _70 = nullptr;
     /* 0x78 */ void* _78 = nullptr;
 };

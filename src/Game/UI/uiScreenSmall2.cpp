@@ -2,6 +2,7 @@
 #include <thread/seadThread.h>
 #include <thread/seadDelegateThread.h>
 #include <prim/seadDelegate.h>
+#include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/uiSwkbdMgr.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
@@ -914,6 +915,16 @@ s32 ScreenMessageDialog::sub_71010B2B30(const sead::SafeString& set_name,
     _5ec = -1;
     _5e0 = result ? 1 : -1;
     return 0;
+}
+
+// 0x71010b2f5c
+s32 ScreenMessageDialog::sub_71010B2F5C() const {
+    return _300->_61;
+}
+
+// 0x71010b2f68
+u16 ScreenMessageDialog::sub_71010B2F68(s32 index) const {
+    return _300->_68[index];
 }
 
 // 0x71010b306c (CSV unnamed): set the dialog's actor.
