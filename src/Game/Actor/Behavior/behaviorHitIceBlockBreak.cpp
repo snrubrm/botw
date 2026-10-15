@@ -2,6 +2,13 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Utils/Thread/Message.h"
+
 namespace uking::behavior {
 
 HitIceBlockBreak::HitIceBlockBreak(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
@@ -29,6 +36,29 @@ bool HitIceBlockBreak::m6(sead::Heap* heap) {
 void HitIceBlockBreak::m7() {
     if (_38)
         sub_7100627F7C(_38);
+}
+
+// NON_MATCHING: message ID initialization is scheduled before the body pointer load.
+void HitIceBlockBreak::sub_7100627F7C(ksys::phys::RigidBody* body) {
+    if (!body || !body->getContactPointInfo())
+        return;
+    for (const auto* point : *body->getContactPointInfo()) {
+        ksys::MesTransceiverId id;
+        if (sub_7100628084(&id, point->body_b))
+            mActor->sendMessage(id, ksys::MessageType(0x8000004), nullptr, true);
+    }
+}
+
+bool HitIceBlockBreak::sub_7100628084(ksys::MesTransceiverId* id, ksys::phys::RigidBody* body) {
+    if (!body || !body->getUserTag())
+        return false;
+    const auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag());
+    if (!tag)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    tag->acquireActor(&accessor);
+    *id = *accessor.getMessageTransceiverId();
+    return accessor.hasTag(ksys::act::tags::IsIceMakerBlock);
 }
 
 }  // namespace uking::behavior

@@ -50,6 +50,33 @@ void TerrorBehavior::m8() {
     owner->sub_7100D783E4(&_a0);
 }
 
+u32 TerrorBehavior::sub_7100E93098() const {
+    u32 flags = *mIsPlayerLayer_s;
+    if (*mIsNpcLayer_s)
+        flags |= 0x2;
+    if (*mIsEnemyLayer_s)
+        flags |= 0x4;
+    if (*mIsGuardianLayer_s)
+        flags |= 0x8;
+    if (*mIsImpulseLayer_s)
+        flags |= 0x10;
+    if (*mIsFireLayer_s)
+        flags |= 0x20;
+    if (*mIsInsectLayer_s)
+        flags |= 0x40;
+    if (*mIsHorseLayer_s)
+        flags |= 0x80;
+    if (*mIsAnimalLayer_s)
+        flags |= 0x100;
+    if (*mIsWolfLinkLayer_s)
+        flags |= 0x200;
+    if (*mIsIceLayer_s)
+        flags |= 0x400;
+    if (*mIsElectricLayer_s)
+        flags |= 0x800;
+    return flags;
+}
+
 void TerrorBehavior::m9() {
     if (auto* owner = mActor->get548())
         owner->sub_7100D78444(&_a0);

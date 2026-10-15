@@ -311,7 +311,6 @@ void HorseBase::sub_7100E6BA08() {
     _b74.set(0x100);
 }
 
-// NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask)
 // NON_MATCHING: row selection uses registers instead of a stack enum; vector additions are scheduled differently.
 void HorseBase::m88() {
     Actor::m88();
@@ -330,6 +329,7 @@ void HorseBase::m88() {
     mPreviousPos += controller->get64() * factor;
 }
 
+// NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask)
 bool HorseBase::sub_7100E6BE40() const {
     return _a90.isOnBit(Flag(Flag::_0));
 }
@@ -350,7 +350,6 @@ void HorseBase::sub_7100E6BEC0(bool on) {
     _b18->_8.changeBit(Unk_71024eb548::Flag(Unk_71024eb548::Flag::_1), on);
 }
 
-// NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask)
 bool HorseBase::sub_7100E6BF00() const {
     if (!_b18)
         return false;

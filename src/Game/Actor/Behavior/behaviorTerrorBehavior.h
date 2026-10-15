@@ -18,6 +18,7 @@ public:
     void loadParams() override;
     bool updateForPreDelete() override { return !_a0._8 || !_a0._8->isAddedToWorld(); }
     void m8() override;
+    u32 sub_7100E93098() const;
 
     /* 0x28 */ const int* mLevel_s{};
     /* 0x30 */ const float* mRadius_s{};
