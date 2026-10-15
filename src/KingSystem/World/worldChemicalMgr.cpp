@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actChemicalUserTag.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
@@ -496,6 +497,26 @@ act::ActorChemicals* sub_71010CE968(const phys::UserTag* tag) {
         return static_cast<const ChemicalUserTag*>(tag)->mActorChemicals;
     }
     return nullptr;
+}
+
+// NON_MATCHING: native separates the tagged and untagged loops and retains result-state branches.
+bool ChemicalMgr::x_6(map::Object* object, const sead::Vector3f& position) {
+    if (_ae8->_26c < 1)
+        return false;
+
+    const auto* info = act::InfoData::instance();
+    const bool tagged = info->hasTag(object->getUnitConfigName(), 0x170cf1e2);
+    const auto* holder = _ae8;
+    for (s32 i = 0; i < holder->_26c; ++i) {
+        const auto& entry = holder->_1cc[i];
+        if (tagged && entry._c)
+            continue;
+        const f32 dx = position.x - entry.position.x;
+        const f32 dz = position.z - entry.position.z;
+        if (dx * dx + dz * dz < 25.0f)
+            return true;
+    }
+    return false;
 }
 
 }  // namespace ksys::world

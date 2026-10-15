@@ -313,6 +313,7 @@ public:
     void sub_71010CBEAC(act::Chemical* chemical);
     bool x_4() const;
     void x_5(ksys::act::Actor* actor);
+    bool x_6(map::Object* object, const sead::Vector3f& position);
     void x_7(ksys::act::Actor* actor);
     Unk_710250c698* x_8();
     bool x_9(Unk_710250c698* entry);

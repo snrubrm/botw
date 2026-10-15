@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
@@ -64,6 +65,15 @@ public:
     bool _198;
     u8 _199[0x1b0 - 0x199];
     Chemical* _1b0;
+    u8 _1b8[0x1cc - 0x1b8];
+    // Full D9B8C8 fills up to ten positions and flags; D9A1D0 clears them.
+    struct PositionEntry {
+        sead::Vector3f position;
+        bool _c;
+    };
+    KSYS_CHECK_SIZE_NX150(PositionEntry, 0x10);
+    sead::SafeArray<PositionEntry, 10> _1cc;
+    s32 _26c;
 };
 
 Unk_71024dd490* sub_7100D9A1D0(const Unk_71024dd490::CreateArg& arg, sead::Heap* heap);
