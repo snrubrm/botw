@@ -2,10 +2,11 @@
 #include "Game/gameGearMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/Constraint/physHingeCs.h"
 
 namespace uking::action {
 
-// NON_MATCHING: store merging of the two quaternions at 0x6c / 0x7c (identical stores, different order/pairing)
+// NON_MATCHING: store merging of the two quaternions at 0x6c / 0x7c differs.
 DgnObj_DLC_CogWheel_Rotate::DgnObj_DLC_CogWheel_Rotate(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
@@ -21,8 +22,35 @@ bool DgnObj_DLC_CogWheel_Rotate::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: axis copies, quaternion inverse operands and zero-velocity stores differ.
 void DgnObj_DLC_CogWheel_Rotate::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* gear = GearMgr::instance();
+    if (!gear)
+        return;
+    const f32 ratio = *mGearRatio_m;
+    _58 = ratio > 0.0f ? 1.0f / ratio : 0.0f;
+    _54 = *mIsClockWiseRotation_m ? 1.0f : -1.0f;
+    auto* actor = mActor;
+    if (actor) {
+        _60 = sead::Vector3f::ez;
+        if (auto* body = actor->getMainBody()) {
+            for (s32 i = 0; i < actor->getConstraints().size(); ++i) {
+                auto* constraint = actor->getConstraints().mConstraints[i];
+                if (constraint && constraint->_10 == 3) {
+                    if (auto* hinge = sead::DynamicCast<ksys::phys::HingeCs>(constraint))
+                        _60 = hinge->sub_7100F6DF30();
+                }
+            }
+            _6c = body->getRotation();
+            _7c.setInverse(_6c);
+            body->changeMotionType(_9c);
+            body->setAngularVelocity({0.0f, 0.0f, 0.0f}, sead::Mathf::epsilon());
+            _a0 = !body->hasFlag(ksys::phys::RigidBody::Flag::_2000000);
+            body->clearFlag2000000(false);
+            _4c = gear->_109c;
+        }
+    }
+    _48 = 0;
 }
 
 void DgnObj_DLC_CogWheel_Rotate::leave_() {

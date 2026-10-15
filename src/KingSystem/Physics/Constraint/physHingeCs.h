@@ -32,6 +32,10 @@ public:
     void sub_7100F6DEAC(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b,
                         const sead::Vector3f& axis_a, const sead::Vector3f& axis_b);
 
+    // Full 20-byte getter, factory and setter establish the owned data's axis-A
+    // column and Vector3f return ABI. Declaration only.
+    sead::Vector3f sub_7100F6DF30() const;
+
 private:
     HingeCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
             ConstraintUnk18* breakable, hkpHingeConstraintData* data)
