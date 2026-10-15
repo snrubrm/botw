@@ -26,6 +26,8 @@ public:
     void sub_71004012F8();
     void sub_71004014A4();
     void sub_7100402194();
+    bool sub_7100401A14(sead::Heap* heap);
+    bool sub_7100401D68(sead::Heap* heap);
 
 protected:
     // static_param at offset 0x1d8

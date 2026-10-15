@@ -37,26 +37,26 @@ public:
         void sub_7100708A44(const sead::SafeString& name);
 
         // Actor and animation coordinates used by the part-animation dispatcher.
-        ksys::act::Actor* mActor;
-        ksys::act::Chemical* mChemical;
-        ksys::Timer mTimer;
-        f32 _1c;
-        Unk_71006F5DB0 mElement;
+        ksys::act::Actor* mActor = nullptr;
+        ksys::act::Chemical* mChemical = nullptr;
+        ksys::Timer mTimer{};
+        f32 _1c = 30.0f;
+        Unk_71006F5DB0 mElement = Unk_71006F5DB0::Normal;
         u8 _24[4];
-        s32 mASSlot;
-        s32 mASBank;
+        s32 mASSlot = 0;
+        s32 mASBank = 0;
         sead::SafeString _30;
         sead::SafeString _40;
         sead::SafeString _50;
-        bool _60;
+        bool _60 = false;
         u8 _61[7];
         Unk_71012419b4 _68;
         Unk_71012419b4 _88;
-        s32 _a8;
+        s32 _a8 = 0;
         u8 _ac[4];
-        s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
+        s32 _b0 = 1;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
         sead::BitFlag8 _b4;  // bit 0 tested by sub_71007090F4
-        bool _b5;
+        bool _b5 = false;
         u8 _b6[2];
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0xb8);
