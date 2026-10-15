@@ -1,5 +1,7 @@
 #pragma once
 
+#include <prim/seadEnum.h>
+#include "Game/Actor/aiFlagByte.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,7 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
-    bool _38{};
+    SEAD_ENUM(Flag, _0, _1)
+    FlagByte<Flag> _38;
 };
 
 }  // namespace uking::ai
