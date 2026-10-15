@@ -108,6 +108,10 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(DropMgr, 0x3b0);
 
+bool getDropVel(const sead::SafeString& name, sead::Vector3f* velocity, Actor* actor, s32 kind);
+bool getDropAngVel(sead::Vector3f* angular_velocity, Actor* actor, s32 kind, s32 mode,
+                   const sead::Vector3f* velocity);
+
 // CSV name; fills the drop actor matrix using the source actor and its drop mode.
 void calculateDropPosition(sead::Matrix34f* matrix, Actor* actor, s32 mode);
 
