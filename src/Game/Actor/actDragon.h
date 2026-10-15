@@ -75,6 +75,7 @@ public:
     // 0x710000f70c (lane4 s46, unnamed in the CSV): `_1f70` has the bit `idx + 4`.
     bool sub_710000F70C(int idx);
     // Full F654 / FC70 bodies and independent DragonIceRoot / DragonRoot callers prove these arguments.
+    void sub_710000F36C(s32 idx);
     void sub_710000F52C(s32 idx);
     void sub_710000F654(s32 idx);
     void sub_710000FC70(s32 idx, bool start, bool secondary);

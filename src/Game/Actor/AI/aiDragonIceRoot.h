@@ -23,6 +23,7 @@ public:
     bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
 
     void m41() override;
+    void m43() override;
     void m44(const sead::Vector3f& pos) override;
     bool m46() override;
 

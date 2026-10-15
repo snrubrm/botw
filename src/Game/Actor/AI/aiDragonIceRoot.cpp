@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -114,6 +115,40 @@ bool DragonIceRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
 
 void DragonIceRoot::m41() {
     DragonRoot::m41();
+}
+
+// NON_MATCHING: the compiler duplicates the four close calls for the current-child branch.
+void DragonIceRoot::m43() {
+    DragonRoot::m43();
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+
+    if (dragon->sub_710000FDFC()) {
+        _24c.set(0x20);
+        static const f32 delays[] = {1050.0f, 1050.0f, 900.0f, 1200.0f};
+        const f32 delay = u32(_388) < 4 ? delays[_388] : -1.0f;
+        const bool moving_to_rail = isCurrentChild("レールに向かう");
+        if (moving_to_rail || _3c0 <= delay) {
+            dragon->sub_710000F52C(0);
+            dragon->sub_710000F52C(1);
+            dragon->sub_710000F52C(2);
+            dragon->sub_710000F52C(3);
+        } else {
+            dragon->sub_710000F36C(0);
+            if (isCurrentChild("ラネール山頂待機"))
+                dragon->sub_710000F52C(1);
+            else
+                dragon->sub_710000F36C(1);
+            dragon->sub_710000F36C(2);
+            dragon->sub_710000F36C(3);
+        }
+        if (!moving_to_rail)
+            ksys::Timer::update(&_3c0, 1.0f);
+    } else if (dragon->_1e0c == 3 && !dragon->sub_710000FDFC() &&
+               !isCurrentChild("ラネール山頂待機")) {
+        _24c.set(0x20);
+    }
 }
 
 void DragonIceRoot::m44(const sead::Vector3f& pos) {
