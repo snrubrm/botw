@@ -21,6 +21,7 @@ public:
     virtual bool m35();
 
 protected:
+    void calc_() override;
     bool _38 = true;
 };
 
