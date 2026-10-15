@@ -3,6 +3,12 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -127,6 +133,37 @@ void AppearFollowChallenge::sub_710004DFF4() {
 
 bool AppearFollowChallenge::sub_710004FA3C() {
     return _4ba;
+}
+
+bool AppearFollowChallenge::sub_710004F8A4() {
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return false;
+    auto* set = physics->findBodyByName(*sub_71007A2548());
+    if (!set)
+        return false;
+    auto* body = set->findBodyByHavokName("PlayerSensor");
+    if (!body)
+        return false;
+    auto* info = body->getCollisionInfo();
+    if (!info || info->getCollidingBodies().size() == 0)
+        return false;
+
+    bool found = false;
+    auto* bodies = info->getCollidingBodies().front();
+    info->lock();
+    for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
+        auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(bodies->bodies[1]->getUserTag());
+        if (!tag)
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        tag->acquireActor(&accessor);
+        found = accessor.isPlayerProfile();
+        if (found)
+            break;
+    }
+    info->unlock();
+    return found;
 }
 
 }  // namespace uking::action
