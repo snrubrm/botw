@@ -2,6 +2,8 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWolfLink.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include <math/seadMathCalcCommon.h>
+#include <cmath>
 
 namespace uking::ai {
 
@@ -48,6 +50,36 @@ void WolfLinkFollowPlayerRoot::loadParams_() {
 
 f32 WolfLinkFollowPlayerRoot::m35() {
     return HorseFollow::m35();
+}
+
+// NON_MATCHING: cross-product arithmetic, matrix snapshots and register allocation.
+void WolfLinkFollowPlayerRoot::m39(bool force) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!mTargetActor_d || !ksys::act::acquireActor(mTargetActor_d, &accessor))
+        return;
+    if (force) {
+        _144 = accessor.getActorMtx();
+        _144.getBase(_12c, 2);
+        _144.getTranslation(_138);
+    } else if (!(_100->_1698 & 0x10)) {
+        const auto matrix = accessor.getActorMtx();
+        const auto direction = matrix.getBase(2);
+        const auto position = matrix.getTranslation();
+        const f32 angle = std::atan2(_12c.cross(direction).length(), _12c.dot(direction));
+        const f32 dx = _138.x - position.x;
+        const f32 dz = _138.z - position.z;
+        if (dx * dx + dz * dz < 1.0f || angle >= sead::Mathf::deg2rad(4.0f)) {
+            if (angle >= sead::Mathf::deg2rad(4.0f))
+                _12c = direction;
+            _144.getTranslation(_138);
+            _114 = sead::Vector3f::ez;
+        } else {
+            _144 = matrix;
+            _12c = direction;
+            _138 = position;
+            _17c = false;
+        }
+    }
 }
 
 void WolfLinkFollowPlayerRoot::m40() {
