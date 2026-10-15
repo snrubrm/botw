@@ -6,6 +6,16 @@
 
 namespace uking::ui {
 
+// NON_MATCHING: one register choice for the 0x1048 offset (w9 instead of w8)
+ScreenEx::ScreenEx() {
+    _370.clear();
+    mButtonUnits.clear();
+    mButtons.clear();
+    _1cd0.clear();
+    _2968.init(0.1f);
+    _2980.clear();
+}
+
 // 0x7100a477dc
 ScreenEx::~ScreenEx() = default;
 

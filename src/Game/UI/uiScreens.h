@@ -536,13 +536,17 @@ public:
     /* 0x310 */ Unk_710246c4d8 _310;
     /* 0x320 */ Unk_710246c498 _320;
     /* 0x330 */ Unk_71024746b0 mButtonHelper;
-    /* 0x368 */ ButtonEventQueue* mButtonEvents;
-    u8 _370[0x3a8 - 0x370];
+    /* 0x368 */ ButtonEventQueue* mButtonEvents = nullptr;
+    /* 0x370 */ sead::FixedPtrArray<u8, 5> _370;
     // The units and buttons are parallel arrays (the setBuffer calls of the constructor: 400 entries each, the
     // storage follows the array header).
     /* 0x3a8 */ sead::FixedPtrArray<Unk_7102474e38, 400> mButtonUnits;
     /* 0x1038 */ sead::FixedPtrArray<eui::AnimButton, 400> mButtons;
-    u8 _1cc8[0x3610 - 0x1cc8];
+    /* 0x1cc8 */ bool _1cc8 = true;
+    /* 0x1cd0 */ sead::FixedPtrArray<u8, 400> _1cd0;
+    /* 0x2960 */ u64 _2960 = 0;
+    /* 0x2968 */ UiTimer _2968;
+    /* 0x2980 */ sead::FixedPtrArray<u8, 400> _2980;
 
     // Unnamed helpers of ScreenEx (placeholder names after the addresses; the hubs of the UI: 20 / 52 / 62 callers).
     // 0x7100a480b4: the button of the pane that `path` (slash separated) resolves to
