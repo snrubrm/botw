@@ -56,6 +56,8 @@ struct Unk_7100722420 {
     void sub_71007224DC(s32 a1, s32 a2, s32 a3);
     // 722764 updates this dialog owner; SiteBoss::m73 passes its existing member.
     void sub_7100722764();
+    // 0x7100723418 (declared only): enables the pending dialog after the given delay.
+    void sub_7100723418(f32 delay);
 
     // 2026-10-07: ctor 0x7100722420 stores its Actor* argument here, not a vtable.
     ksys::act::Actor* _0;

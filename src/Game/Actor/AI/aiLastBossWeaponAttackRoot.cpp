@@ -1,5 +1,9 @@
 #include "Game/Actor/AI/aiLastBossWeaponAttackRoot.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/aiUnk_7100FFDFDC.h"
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Map/mapObject.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiAwarenessFilters.h"
@@ -79,6 +83,93 @@ void LastBossWeaponAttackRoot::calc_() {
 void LastBossWeaponAttackRoot::leave_() {
     if (auto* awareness = mActor->getAwareness())
         awareness->disable();
+}
+
+// NON_MATCHING: kind selection becomes a jump table instead of membership-test branches.
+void LastBossWeaponAttackRoot::sub_710047EA10() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7EBE0(1.0f);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->_e90 != 4) {
+            enemy->_e90 = 4;
+            bool start_bgm = *mIsStartBossBgm_s;
+            if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+                const s32 kind = boss->_1534;
+                if ((kind & ~3) == 4) {
+                    if (kind == 0 || kind == 4 || kind == 8)
+                        start_bgm &= ksys::gdt::getFlag_IsPlayed_Demo141_0(false);
+                    else if (kind == 3 || kind == 7 || kind == 11)
+                        start_bgm &= ksys::gdt::getFlag_IsPlayed_Demo141_3(false);
+                    else if (kind == 1 || kind == 5 || kind == 9)
+                        start_bgm &= ksys::gdt::getFlag_IsPlayed_Demo141_1(false);
+                    else if (kind == 2 || kind == 6 || kind == 10)
+                        start_bgm &= ksys::gdt::getFlag_IsPlayed_Demo141_2(false);
+                }
+            }
+            if (start_bgm) {
+                Unk_71024fd448* bgm;
+                if (*mEnemyType_s == -1) {
+                    bgm = sub_7100FFE5EC();
+                } else {
+                    const ksys::snd::RemainsBossBgmType type = *mEnemyType_s;
+                    bgm = sub_7100FFE520(&type);
+                }
+                if (bgm)
+                    bgm->sub_71010003A4();
+            }
+        }
+    }
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (!boss->get1a0() &&
+            !(boss->getMapObject() &&
+              boss->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+            if (boss->_1540) {
+                boss->_2390.sub_7100723418(30.0f);
+                boss->_1540 = 0;
+            } else {
+                boss->_2390._8 = true;
+            }
+        }
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(*mIsAttackPatternFixed_d, "IsAttackPatternFixed", -1);
+    changeChild("発見中", &pack);
+}
+
+void LastBossWeaponAttackRoot::sub_710047ED84() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7EBE0(1.5f);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->_e90 != 4) {
+            enemy->_e90 = 4;
+            if (*mIsStartBossBgm_s) {
+                Unk_71024fd448* bgm;
+                if (*mEnemyType_s == -1) {
+                    bgm = sub_7100FFE5EC();
+                } else {
+                    const ksys::snd::RemainsBossBgmType type = *mEnemyType_s;
+                    bgm = sub_7100FFE520(&type);
+                }
+                if (bgm)
+                    bgm->sub_71010003A4();
+            }
+        }
+    }
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (!boss->get1a0() &&
+            !(boss->getMapObject() &&
+              boss->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+            if (boss->_1540) {
+                boss->_2390.sub_7100723418(30.0f);
+                boss->_1540 = 0;
+            } else {
+                boss->_2390._8 = true;
+            }
+        }
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+    changeChild("ダメージ反応", &pack);
 }
 
 // NON_MATCHING: range-parameter selection uses conditional selects; registers and cleanup branches differ.
