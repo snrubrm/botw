@@ -30,6 +30,7 @@ class ContactPointInfo;
 class RigidBody;
 class SystemGroupHandler;
 class UserTag;
+class MaterialMask;
 
 struct CharacterControllerUnk10;  // Legacy placeholder declaration.
 class CharacterRigidBody;
@@ -310,7 +311,7 @@ public:
     const sead::Vector3f& sub_7100F5F140() const;
     // 0x7100f609c0 / 0x7100f609cc: the vectors at `_40 + 0x54` / `_40 + 0x18`.
     const sead::Vector3f& sub_7100F609C0() const;
-    const sead::Vector3f& sub_7100F609CC() const;
+    const MaterialMask& sub_7100F609CC() const;
     // 0x7100f5fba8: RigidBody::computeLinearVelocity of the controller's body (or of _298 when flag 0x10000 is set).
     void sub_7100F5FBA8(sead::Vector3f* velocity, const sead::Vector3f& target) const;
     // 0x7100f5e714: changeNoCharStandingOnFlag(!clear) of the main rigid body.

@@ -2,11 +2,11 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::phys {
 
-// Placeholder: the object at CharacterController::_38 + 8 .. (CharacterController::_40; only the fields read / written
-// by the accessors).
+// Placeholder: the listener at CharacterController::_40; only the established prefix is declared.
 struct CharacterControllerUnk40 {
     // 0x7100f6693c (out of line in the original, in its own file so that it is not inlined into its callers).
     void sub_7100F6693C(bool value);
@@ -16,8 +16,9 @@ struct CharacterControllerUnk40 {
     /* 0x00 */ u8 _0[0x10];
     /* 0x10 */ s32 _10;
     /* 0x14 */ u8 _14[4];
-    /* 0x18 */ sead::Vector3f _18;
-    /* 0x24 */ u8 _24[0x54 - 0x24];
+    /* 0x18 */ MaterialMask _18;
+    /* 0x30 */ MaterialMask _30;
+    /* 0x48 */ u8 _48[0x54 - 0x48];
     /* 0x54 */ sead::Vector3f _54;
     /* 0x60 */ u8 _60[4];
     /* 0x64 */ u32 _64;

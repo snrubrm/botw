@@ -954,7 +954,7 @@ const sead::Vector3f& CharacterController::sub_7100F609C0() const {
     return _40->_54;
 }
 
-const sead::Vector3f& CharacterController::sub_7100F609CC() const {
+const MaterialMask& CharacterController::sub_7100F609CC() const {
     return _40->_18;
 }
 
