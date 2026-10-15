@@ -9,6 +9,9 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::ai {
@@ -85,8 +88,101 @@ void WizzrobeCombat::sub_71005FA684() {
     }
 }
 
+// NON_MATCHING: summon-selection branch layout and actor creation argument scheduling.
 void WizzrobeCombat::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _59c = false;
+    if (*mSummonCount_s > *mSummonCount_a &&
+        (!_98.isAllocatedOrFailed() || (!_98.isProcReady() && _98.hasProcCreationFailed()))) {
+        if (_98.isAllocatedOrFailed())
+            _98.deleteProcIfFailed();
+        _98.deleteProc();
+        mSelectedSummonActor = nullptr;
+        _598 = 0;
+        u32 count = 0;
+        for (const auto& actor : mSummonActors) {
+            if (actor.name.isEmpty())
+                break;
+            ++count;
+        }
+        if (count) {
+            s32 choice = (sead::GlobalRandom::instance()->getU32() & 0x7fffffff) % count;
+            for (s32 idx = 0; idx < mSummonActors.size(); ++idx) {
+                if (mSummonActors[idx].name.isEmpty())
+                    break;
+                if (choice == 0) {
+                    mSelectedSummonActor = &mSummonActors[idx];
+                    ksys::act::ActorCreator::instance()->requestCreateActor(
+                        mSelectedSummonActor->name.cstr(),
+                        ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_98, nullptr,
+                        nullptr, 1);
+                    break;
+                }
+                --choice;
+            }
+        }
+    }
+    if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0)) {
+        _59d = true;
+        if (sead::GlobalRandom::instance()->getS32Range(1, 100) < 21 && sub_71005FACD8()) {
+            sub_71005FADC4();
+            return;
+        }
+    }
+    sub_71005FAE9C();
+}
+
+// NON_MATCHING: vector rotation and target component snapshots.
+void WizzrobeCombat::sub_71005FAE9C() {
+    ksys::act::ai::InlineParamPack pack;
+    _590 = sub_71005FC1D0();
+    const auto offset = *mTargetOffset_s;
+    const auto matrix = sub_71005D96A8(mActor);
+    sead::Vector3f target;
+    target.setRotated(matrix, sead::Vector3f{offset.x, 0.0f, offset.z});
+    const auto& attention = sub_71005D9330(mActor);
+    target.x += attention.x;
+    target.y = offset.y + _590 * *mHeightOffset_s + attention.y;
+    target.z += attention.z;
+    pack.addVec3(target, "TargetPos", -1);
+    pack.addVec3(sub_71005D9330(mActor), "AttPos", -1);
+    changeChild("移動", &pack);
+}
+
+// NON_MATCHING: random-selection branch layout and register allocation.
+s32 WizzrobeCombat::sub_71005FC1D0() {
+    auto* actor = mActor;
+    const f32 height = actor->getMtx().m[1][3];
+    const auto& target = sub_71005D9330(actor);
+    const f32 offset = *mHeightOffset_s;
+    if (offset == 0.0f)
+        return 0;
+    s32 max_level = *mMaxHeightLevel_s;
+    s32 level = static_cast<s32>((offset * 0.5f + (height - (target.y + mTargetOffset_s->y))) / offset);
+    const s32* life = actor->getLife();
+    if ((life ? *life : 1) / actor->getMaxLife() < 1)
+        max_level = sead::Mathi::max(max_level - 1, 0);
+    if (level < -1) {
+        level = 0;
+    } else if (level <= 0) {
+        level = (~sead::GlobalRandom::instance()->getU32()) & 1;
+    } else if (level > max_level + 1) {
+        return sead::Mathi::max(max_level, 0);
+    } else if (level < max_level) {
+        switch (sead::GlobalRandom::instance()->getU32(3)) {
+        case 0:
+            --level;
+            break;
+        case 1:
+            ++level;
+            break;
+        }
+    } else {
+        if (sead::GlobalRandom::instance()->getU32() & 1)
+            level = sead::Mathi::max(max_level - 1, 0);
+        else
+            level = max_level;
+    }
+    return sead::Mathi::min(level, max_level);
 }
 
 void WizzrobeCombat::leave_() {

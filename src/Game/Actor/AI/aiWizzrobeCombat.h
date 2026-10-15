@@ -28,6 +28,8 @@ protected:
     void sub_71005FC01C();
     // 0x71005fadc4: clears _59d, then changes to the "武器攻撃" child
     void sub_71005FADC4();
+    void sub_71005FAE9C();
+    s32 sub_71005FC1D0();
     // static_param at offset 0x38
     const int* mWeatherMagicRate_s{};
     // static_param at offset 0x40
