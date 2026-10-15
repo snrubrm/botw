@@ -3,6 +3,9 @@
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -112,6 +115,44 @@ void EnemyRangeKeepSwimMove::loadParams_() {
     getStaticParam(&mBaseDist_s, "BaseDist");
     getStaticParam(&mSpaceDist_s, "SpaceDist");
     getStaticParam(&mIsCheckCliff_s, "IsCheckCliff");
+}
+
+// NON_MATCHING: vector copies, gravity normalization scheduling and loop comparison order differ.
+s8 EnemyRangeKeepSwimMove::sub_71003AE028() {
+    auto gravity = getGravity(mActor);
+    const auto origin = mActor->getMtx().getTranslation();
+    auto target_direction = sub_71005D9330(mActor) - origin;
+    target_direction.normalize();
+    gravity *= 1.0f / 900.0f;
+    const auto& entries = mActor->getAwareness()->_8;
+    s8 balance = 0;
+    for (s32 i = 0; i < 5 && i < entries.size(); ++i) {
+        auto* entry = ksys::act::sub_7100D78E30(&entries, i);
+        if (!entry)
+            break;
+        if (!ksys::act::isEnemyProfile(&entry->_0.mLink))
+            continue;
+        if (entry->_a8 > *mSpaceDist_s)
+            break;
+        auto offset = entry->_58.getTranslation() - origin;
+        const auto up = getUpDir(gravity);
+        ksys::util::sub_71011EFA00(&offset, offset, up);
+        const f32 cross = target_direction.x * offset.z - target_direction.z * offset.x;
+        balance = s8(f32(balance) + (cross > 0.0f ? entry->_a8 : -entry->_a8));
+    }
+    if (balance == 0)
+        return 0;
+    const s8 side = balance > 0 ? -1 : 1;
+    const auto& target = sub_71005D9330(mActor);
+    sead::Vector3f direction(-(target.z - origin.z), 0.0f, target.x - origin.x);
+    direction.normalize();
+    direction *= f32(side);
+    const auto destination = direction * *mSpaceDist_s + origin;
+    if (*mIsCheckCliff_s && sub_710072FEC4(mActor, destination, 2.0f, nullptr, true, nullptr))
+        return 0;
+    if (sub_710072EA18(origin, destination, 0, nullptr, nullptr, nullptr, 0.1f))
+        return 0;
+    return side;
 }
 
 void EnemyRangeKeepSwimMove::changeToMoveSideways(s8 dir) {

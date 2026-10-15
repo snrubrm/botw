@@ -22,7 +22,7 @@ protected:
     // 0x71003adee4 (placeholder name): whether a point 5 units away from the player (XZ) is not on the navmesh
     // or the navmesh query there does not hit the surface type 6.
     bool sub_71003ADEE4();
-    // 0x71003ae028 (placeholder name; declared only, 924 B): the side to move to (0: none).
+    // 0x71003ae028 (placeholder name, 924 B): the side to move to (0: none).
     s8 sub_71003AE028();
     // 0x71003aed8c (placeholder name): restarts the timer `_84` (random 4..10) once the player is within range,
     // else counts it down while it is running.
