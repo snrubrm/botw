@@ -1,3 +1,4 @@
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actHorse.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/actRideable.h"
@@ -82,3 +83,12 @@ bool Horse::m81(const ksys::Message& message) {
 }
 
 }  // namespace uking::act
+
+// NON_MATCHING: null and Actor cast results use conditional selection rather than native branches.
+bool sub_7100081354(const ksys::act::ActorLinkConstDataAccess& accessor, u16 mask) {
+    ksys::act::Actor* actor = nullptr;
+    if (auto* proc = accessor.getProc())
+        actor = sead::DynamicCast<ksys::act::Actor>(proc);
+    auto* horse = sead::DynamicCast<uking::act::Horse>(actor);
+    return horse && horse->_1028._8.isOn(mask);
+}
