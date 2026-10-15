@@ -123,7 +123,8 @@ public:
     f32 _10c4;
     // Least common multiple of the registered gear ratios (sub_7100669144).
     f32 _10c8;
-    u32 _10cc;
+    // Per-frame rotation step (sub_7100669C8C).
+    f32 _10cc;
     // 0x710066990c stores Timer(sUnk_710243C148, sUnk_710243C148) here and sub_7100668D44 calls Timer::update() on it.
     ksys::Timer _10d0;
     u8 _10dc;
