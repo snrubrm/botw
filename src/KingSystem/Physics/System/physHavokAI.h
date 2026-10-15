@@ -70,7 +70,7 @@ class Unk_7102372790 {
 public:
     virtual ~Unk_7102372790();
 
-    /* 0x08 */ bool _8;  // set when the request is queued
+    /* 0x08 */ u8 _8;  // 0: idle, 1: queued, 2: processed (NavMeshQueryRequestPool)
     /* 0x09 */ bool _9;  // set by destroyQuery before it is queued
     /* 0x0c */ sead::Vector3f _c;  // the result position (MotorcycleMgr::spawnMotorcycle_x; layout of the
                                    // derived query class not modelled)
