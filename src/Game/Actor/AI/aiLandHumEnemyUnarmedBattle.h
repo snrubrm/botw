@@ -19,7 +19,7 @@ public:
     void loadParams_() override;
 
     void m35(const sead::Vector3f& target) override;
-    void m36() override {}
+    void m36(sead::FixedObjList<sead::Vector3f, 8>* points) override {}
     void m42() override;
 
     // 0x71004703e8 (placeholder name): tells the actor of _118 that we let go (0x80000c3), unlinks it from the Enemy

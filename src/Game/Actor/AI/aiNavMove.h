@@ -23,7 +23,7 @@ public:
 
     virtual bool m34();
     virtual void m35(const sead::Vector3f& target);
-    virtual void m36() {}
+    virtual void m36(sead::FixedObjList<sead::Vector3f, 8>* points) {}
     virtual void m37();
     virtual void m38() {}
     virtual void m39();

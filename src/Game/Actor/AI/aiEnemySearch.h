@@ -21,7 +21,7 @@ public:
     void m35(const sead::Vector3f& target) override;
 
     bool m34() override;
-    void m36() override {}
+    void m36(sead::FixedObjList<sead::Vector3f, 8>* points) override {}
     virtual void m44();
     virtual void m45();
     virtual bool m46(ksys::act::BaseProcLink& target) { return true; }

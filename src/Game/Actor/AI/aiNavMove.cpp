@@ -207,6 +207,24 @@ void NavMove::calc_() {
     }
 }
 
+void NavMove::m37() {
+    sead::FixedObjList<sead::Vector3f, 8> points;
+    m36(&points);
+    if (points.size() == 0) {
+        changeToLookAround();
+        return;
+    }
+    sead::Vector3f target;
+    if (m40(points, &target)) {
+        if (!isCurrentChild("直進"))
+            startMoveToTargetMaybe(target);
+    } else {
+        if (!isCurrentChild("直進") && !isCurrentChild("移動"))
+            changeToLookAround();
+        m41(points);
+    }
+}
+
 void NavMove::m35(const sead::Vector3f& target) {
     if (_50)
         _50->_8 = -1;
