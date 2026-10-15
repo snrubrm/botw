@@ -1,5 +1,8 @@
 #include "Game/Actor/AI/aiSiteBossRoot.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -112,6 +115,55 @@ void SiteBossRoot::onPreDelete() {
 }
 
 void SiteBossRoot::m34(act::SiteBoss* boss) {}
+
+// NON_MATCHING: shared return tails and callback flag test scheduling.
+bool SiteBossRoot::m35(act::SiteBoss* boss) {
+    auto* child = getCurrentChild();
+    if (!child)
+        return false;
+    auto* life = boss->getLife();
+    if (life && *life <= 0 && !boss->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive)) {
+        auto* current_life = mActor->getLife();
+        if (!current_life || *current_life != 0 || _d8 || !isSlowTimeMaybe())
+            return true;
+    } else {
+        if (boss->_1558.isOn(0x4000000))
+            return true;
+        if (!boss->_14c8._30.isOn(0x200) &&
+            ((child->isChangeable() && sub_71005D6E28(mActor)) || boss->_14c8._30.isOn(0x100))) {
+            const bool child_done = !isCurrentChild("リアクション") || child->isFinished() || child->isFailed();
+            auto* current_life = mActor->getLife();
+            const bool first_zero = current_life && *current_life == 0 && !_d8;
+            const u16 flags = boss->_14c8._30.getDirect();
+            boss->_14c8._30.reset(0x100);
+            if (!child_done && !first_zero && !(flags & 0x101))
+                return false;
+            _d8 |= first_zero;
+            if (!first_zero || !isSlowTimeMaybe())
+                return true;
+        } else {
+            if (boss->_14c8._30.isOn(0x200) || boss->_1558.isOn(0x10000))
+                return false;
+            auto* damage = sub_710072BA90(mActor);
+            if (!damage)
+                return false;
+            if (damage->checkDamageFlags(1) || damage->checkDamageFlags(0)) {
+                if (damage->getField50() == 3 || damage->getField50() == 16)
+                    return true;
+            }
+            if (boss->_14c8._30.isOn(0x2000))
+                return true;
+            if (damage->getField54() == 6)
+                return true;
+            return damage->getField54() == 7;
+        }
+    }
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&act::PlayerInfo::getSomeProcLink(), &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000b2), nullptr);
+    return true;
+}
 
 void SiteBossRoot::loadParams_() {
     getStaticParam(&mOffFlagIndexAtClipping_s, "OffFlagIndexAtClipping");
