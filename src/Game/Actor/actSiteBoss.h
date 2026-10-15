@@ -295,7 +295,6 @@ public:
     /* 0x2348 */ xlink2::HandleELink _2348;  // "Elec_Shield"
     /* 0x2358 */ xlink2::HandleELink _2358;  // "LightShield" (sub_71002D2390)
     /* 0x2368 */ xlink2::HandleSLink _2368;
-    /* 0x2374 */ u32 _2374;  // not initialised by the ctor
     /* 0x2378 */ u8 _2378 = 0;
     /* 0x2379 */ u8 _2379 = 0;
     /* 0x237a */ u8 _237a = 0;
