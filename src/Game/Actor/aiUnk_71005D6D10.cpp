@@ -1420,7 +1420,7 @@ void sub_71005E2C58(ksys::act::Actor* actor) {
 }
 
 // NON_MATCHING: register allocation and operand order in the cross product
-void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const sead::Vector3f& dir) {
+void sub_71005E0230(sead::Vector3f* out, const ksys::phys::RigidBody* actor, const sead::Vector3f& dir) {
     if (!actor)
         return;
     sead::Vector3f v;

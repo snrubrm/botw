@@ -11,6 +11,7 @@
 
 namespace ksys::phys {
 class CharacterController;
+class RigidBody;
 }
 
 namespace ksys::act {
@@ -346,7 +347,7 @@ bool sub_71005DA164(ksys::act::Actor* actor, sead::ObjList<sead::Vector3f>* poin
 // 0x71005e2bcc: the enemy's Enemy::_12d0 object (nullptr for non-enemies).
 uking::act::Enemy::Unk_12d0* sub_71005E2BCC(ksys::act::Actor* actor);
 /// Normalised horizontal direction perpendicular to `dir` (ey x dir with y = 0).
-void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const sead::Vector3f& dir);
+void sub_71005E0230(sead::Vector3f* out, const ksys::phys::RigidBody* actor, const sead::Vector3f& dir);
 // --- attack helpers (used by the attack actions' calc_ and the Unk_71025afc58 family) ---
 // Placeholder signatures from register use; the int arguments are forwarded to ASList (x / x_7).
 
