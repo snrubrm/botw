@@ -12,11 +12,13 @@ class RigidBody;
 namespace uking::act {
 
 // Placeholder name (vtable 0x710235a050; inherits DamageCallback's RTTI; D1 0x710002ab28, `call`
-// 0x710002b994). GiantEnemy::_1510.
+// 0x710002b994). GiantEnemy::_1510. Size 0x40: DamageCallback (0x28) + a MaterialMask at 0x28.
 class Unk_710235a050 : public act::DamageCallback {
 public:
     ~Unk_710235a050() override;
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
+
+    /* 0x28 */ ksys::phys::MaterialMask _28;
 };
 
 // Placeholder name (the object at GiantEnemy::_1558, created by the unnamed factories 0x7100302d0 / 0x71002d99c; only
@@ -95,12 +97,11 @@ public:
     bool m146() override;
     bool weaponDroppedByEnemy() override;
     Unk_71025ae680* m178(sead::Heap* heap) override;
-    // Not declared: slot 180 (writes &_1538 to its pointer argument's +0x30 when _1550 is set; Enemy
-    // declares `void m180()`).
+    // Not declared: slot 180 (writes &_1510._28 to its pointer argument's +0x30 when _1550 is set;
+    // Enemy declares `void m180()`).
 
     /* 0x14c8 */ Unk1 _14c8{this};
     /* 0x1510 */ Unk_710235a050 _1510;
-    /* 0x1538 */ ksys::phys::MaterialMask _1538;
     /* 0x1550 */ u8 _1550 = 0;
     /* 0x1558 */ Unk_71002d99c* _1558 = nullptr;
     /* 0x1560 */ ksys::phys::RigidBody* _1560 = nullptr;  // set by the ForestGiant / StalGiantEnemy / Golem root AIs (m56)

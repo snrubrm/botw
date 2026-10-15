@@ -10,6 +10,8 @@
 
 namespace uking::act {
 
+Unk_710235a050::~Unk_710235a050() { ; }
+
 GiantEnemy::GiantEnemy(const CreateArg& arg) : Enemy(arg) {}
 
 ksys::act::BaseProc* GiantEnemy::construct(const CreateArg& arg, sead::Heap* heap) {
