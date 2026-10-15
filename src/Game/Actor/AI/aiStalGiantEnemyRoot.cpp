@@ -37,6 +37,10 @@ void StalGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void StalGiantEnemyRoot::leave_() {
     StalEnemyRoot::leave_();
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
+        for (auto& entry : _340.mEntries)
+            giant->_1570.erase(&entry.mAttachment);
+    }
 }
 
 void StalGiantEnemyRoot::calc_() {

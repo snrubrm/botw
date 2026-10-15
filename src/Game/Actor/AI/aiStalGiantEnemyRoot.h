@@ -10,7 +10,7 @@
 class Unk_71005A4E14 {
 public:
     Unk_71005A4E14();
-private:
+
     struct Entry {
         u64 _0[0xd0 / sizeof(u64)];
         Unk_71024511a8 mAttachment;
