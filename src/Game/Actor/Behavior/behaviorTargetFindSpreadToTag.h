@@ -17,7 +17,7 @@ public:
     void m7() override;
     void m9() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x7100646268)
+    void m8() override;
 
     /* 0x28 */ sead::SafeString mTagName_s{};
     /* 0x38 */ Unk_710235abc8 _38{mActor, 0x8000006};
