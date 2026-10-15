@@ -19,6 +19,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     void onPreDelete() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     s32 sub_71004C402C(const sead::SafeString& name);

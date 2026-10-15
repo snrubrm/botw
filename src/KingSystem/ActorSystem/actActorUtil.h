@@ -425,3 +425,9 @@ void sub_7100D36FA0(sead::Matrix34f* out, ksys::act::Actor* actor);
 
 // Source owner unknown: D11D14 and 73432C pass a Vector3f output and Actor.
 void sub_7100D36EE0(sead::Vector3f* out, ksys::act::Actor* actor);
+
+// 0x7100ee3368, declaration only; source namespace unknown. Counts matching ForSale map links.
+// NPCClerkRoot supplies a read-only acquired item; total may be null and grouping is a bool.
+s32 getPlacedItemStockNum(ksys::act::Actor* actor,
+                         const ksys::act::ActorLinkConstDataAccess& item, s32* total,
+                         bool grouping);
