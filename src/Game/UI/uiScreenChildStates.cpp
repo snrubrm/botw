@@ -41,6 +41,30 @@ void Unk_710247ae48::m7() {
     sub_71009B30F0();
 }
 
+// 0x71009b3840
+void Unk_710247ae48::m15(eui::AnimButton* button) {
+    auto* screen = sead::DynamicCast<ScreenPauseMenu>(sub_7100939C5C());
+    if (!screen)
+        return;
+    if (auto* child = sub_71009B43A4(screen, 1, 0))
+        child->sub_71009B38EC(this);
+}
+
+// 0x71009b40dc
+void Unk_710247ae48::m19(eui::AnimButton* button) {
+    auto* screen = sead::DynamicCast<ScreenPauseMenu>(sub_7100939C5C());
+    if (!screen)
+        return;
+    if (auto* child = sub_71009B43A4(screen, 1, 0))
+        child->sub_71009B4188(this);
+}
+
+// 0x71009b43a4
+Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index) {
+    return nn::font::DynamicCast<Unk_710247af10>(
+        nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
+}
+
 // 0x71009cbcc0
 Unk_71009cb0c8::~Unk_71009cb0c8() {
     ksys::ManagedTaskHandle* task_handle;

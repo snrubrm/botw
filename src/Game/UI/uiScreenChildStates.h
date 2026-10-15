@@ -368,6 +368,11 @@ public:
 };
 static_assert(sizeof(Unk_710247ae48) == 0x58);
 
+class Unk_710247af10;
+// 0x71009b43a4 (placeholder name): the child `index` of the group `group` of `screen` as an Unk_710247af10 (null if it
+// is not one)
+Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index);
+
 // A child class of the PauseMenu screen (id 46, child group 1; the facade helpers of the 0x7100a94000 TU DynamicCast
 // to it). Its typeinfo static is at 0x71025d9b08 (guard 0x71025d9b10); it was declared separately as
 // ScreenChildUnk_71025d9b08 before.
@@ -397,6 +402,10 @@ public:
     // The members used so far (the state machine at 0x80 is ScreenChild's).
     // 0x71009b8b6c (not decompiled; m110 tail-calls it)
     void sub_71009B8B6C();
+    // 0x71009b38ec / 0x71009b4188 (declared only; 2032 / 540 bytes): Unk_710247ae48::m15 / m19 tail-call them with
+    // the state object; both return at once when it is null.
+    void sub_71009B38EC(Unk_7102474e38* state);
+    void sub_71009B4188(Unk_7102474e38* state);
 
     u8 _130[0x148 - 0x130];
     /* 0x148 */ eui::Animator* _148;
