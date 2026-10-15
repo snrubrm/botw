@@ -22,6 +22,9 @@ public:
 
     bool m34() override;
     void m36(sead::FixedObjList<sead::Vector3f, 8>* points) override {}
+    void m37() override;
+    void m38() override;
+    void m39() override;
     virtual void m44();
     virtual void m45();
     virtual bool m46(ksys::act::BaseProcLink& target) { return true; }
@@ -31,6 +34,9 @@ protected:
     // 0x71003b8020: the twin of LandHumEnemyUnarmedBattle::sub_7100470ED4: whether `link` is reachable (sub_7100739030) or within the reach distance
     bool sub_71003B8020(ksys::act::BaseProcLink& link) const;
     bool sub_71003B6888();
+    bool sub_71003B80F8();
+    bool sub_71003B8B64();
+    bool sub_71003B884C();
     // 0x71003b8e70: the link of the entry of _78 nearest to the position of the navmesh character (the dummy link if none)
     ksys::act::BaseProcLink* sub_71003B8E70();
     void sub_71003B8780();
