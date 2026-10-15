@@ -1,5 +1,7 @@
 #include "Game/Actor/aiUnk_7100711020.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/Actor/actNPC.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -296,6 +298,15 @@ void Unk_7100711020::sub_71007116E0() {
         ksys::act::acquireActor(&_10, &accessor);
         _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
     }
+}
+
+bool sub_7100712AD8(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
+        return false;
+    const sead::SafeString name = actor->getASList()->x_1(0, 0);
+    if (name.include("Walk") || name.include("Run") || name == "Escape" || name == "Move_End")
+        return true;
+    return false;
 }
 
 bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDataAccess& accessor,

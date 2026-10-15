@@ -54,6 +54,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100711020, 0x128);
 
+// 0x7100712ad8: true for an NPC whose slot 0 animation contains Walk or Run, or is Escape or Move_End.
+bool sub_7100712AD8(ksys::act::Actor* actor);
+
 // 0x7100712388: the actor message-text helper following this controller family.
 bool sub_7100712388(ksys::act::BaseProc* proc, const ksys::act::ActorLinkConstDataAccess& accessor,
                     const sead::SafeString& key);
