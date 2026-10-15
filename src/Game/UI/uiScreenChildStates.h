@@ -53,7 +53,26 @@ class Unk_710247d580 : public ScreenChildEx {
 public:
     explicit Unk_710247d580(eui::LayoutEx* layout);
     ~Unk_710247d580() override;
-    u8 _130[0x1d8 - 0x130];
+
+    // Members from the ctor 0x9c37f8.
+    /* 0x130 */ s32 _130 = 3;
+    /* 0x134 */ u16 _134 = 0;
+    /* 0x138 */ void* _138 = nullptr;
+    /* 0x140 */ void* _140 = nullptr;
+    /* 0x148 */ u16 _148 = 0;
+    /* 0x14c */ u32 _14c = 0;
+    /* 0x150 */ u32 _150 = 0;
+    /* 0x154 */ u32 _154 = 0;
+    /* 0x158 */ u32 _158 = 0;
+    u8 _15c[4];
+    /* 0x160 */ u8 _160[0x38]{};
+    /* 0x198 */ sead::FixedPtrArray<u8, 2> _198;
+    /* 0x1b8 */ void* _1b8 = nullptr;
+    /* 0x1c0 */ void* _1c0 = nullptr;
+    /* 0x1c8 */ f32 _1c8 = 1.0f;
+    /* 0x1cc */ bool _1cc = false;
+    u8 _1cd[3];
+    /* 0x1d0 */ bool _1d0 = false;
 };
 static_assert(sizeof(Unk_710247d580) == 0x1d8);
 

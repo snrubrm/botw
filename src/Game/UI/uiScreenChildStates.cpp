@@ -1053,6 +1053,10 @@ Unk_7102478048::~Unk_7102478048() {
     sub_710098FD5C();
 }
 
+// 0x71009c37f8
+// NON_MATCHING: the original stores _130 and the vtable before the zero members (scheduling only).
+Unk_710247d580::Unk_710247d580(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 Unk_710247d580::~Unk_710247d580() = default;
 
 // 0x71009c54e4
