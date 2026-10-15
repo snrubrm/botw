@@ -22,7 +22,7 @@ protected:
 
     // 0x710019992c: movement data towards DynTargetPos in a straight line (the actor's own parameters select it).
     void sub_710019992C(Data* data);
-    // 0x7100199ad4 (declared only; 656 B): movement data from the guardian's path (navmesh) state.
+    // Movement data from the guardian's path state.
     void sub_7100199AD4(Data* data, ksys::act::Actor* actor);
 
     // static_param at offset 0x28

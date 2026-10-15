@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionGuardianMoveToPosition.h"
+#include <container/seadObjArray.h>
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -111,8 +113,48 @@ void GuardianMoveToPosition::loadParams_() {
     getDynamicParam(&mDynStartPos_d, "DynStartPos");
 }
 
+// NON_MATCHING: array setup scheduling and pointer index extension differ.
 void GuardianMoveToPosition::calc_() {
     GuardianActionBase::calc_();
+    auto* nav = mActor->m45();
+    auto* guardian = sub_7100192770();
+    if (!nav || !guardian) {
+        setFailed();
+        return;
+    }
+    nav->_1e0.lock();
+    const u8 state = nav->_294;
+    nav->_1e0.unlock();
+    if (state == 2) {
+        setFinished();
+        return;
+    }
+    const sead::Vector3f target = *mDynTargetPos_d;
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    const sead::Vector3f direction = target - position;
+    const f32 distance = direction.length();
+    if (distance < 4.0f) {
+        setFinished();
+        return;
+    }
+    if (_48 > 0.0f) {
+        ksys::Timer::update(&_48, -1.0f);
+        if (_48 <= 0.0f) {
+            sead::FixedObjArray<sead::Vector3f, 16> points;
+            const s32 count = sead::Mathi::min(sead::Mathf::ceil(distance * 0.125f), 4);
+            for (s32 i = 0; i < count; ++i) {
+                const f32 ratio = (f32(i) + 3.0f) / (f32(count) + 2.0f);
+                const sead::Vector3f sample = position + direction * ratio;
+                sead::Vector3f point;
+                const bool valid = nav->sub_7100F76078(&point, sample, 10.0f).sub_7100F7EB40();
+                if (valid)
+                    points.pushBack(point);
+            }
+            _48 = 30.0f;
+            if (!points.isEmpty())
+                nav->sub_710019960C(points.data(), points.data() + points.size());
+        }
+    }
 }
 
 }  // namespace uking::action
