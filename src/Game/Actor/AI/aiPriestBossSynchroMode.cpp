@@ -54,6 +54,54 @@ void PriestBossSynchroMode::enter_(ksys::act::ai::InlineParamPack* params) {
     *mReturnFromBananaMode_a = false;
 }
 
+// NON_MATCHING: flag-index temporary slots and the shared mode-to-index tail differ.
+void PriestBossSynchroMode::calc_() {
+    auto* child = getCurrentChild();
+    auto* unit = sub_7100505BE4();
+    if (!child || !unit)
+        return;
+
+    if (_50 != 4 && unit->_78.isOnBit(Unk_7102450fa8::Flag(Unk_7102450fa8::Flag::_11))) {
+        changeChild(Mode::text(4));
+        _50 = 4;
+    }
+    if (child->isFinished() || child->isFailed()) {
+        if (unit->_78.isOnBit(Unk_7102450fa8::Flag(Unk_7102450fa8::Flag::_11)))
+            return;
+        const s32 state = unit->sub_7100719FE4(unit->sub_7100719534(mActor));
+        if (state != 0 && state != 7) {
+            const s32 formation = unit->sub_7100719FA4();
+            const s32 type = unit->sub_7100719F70();
+            s32 mode;
+            switch (formation) {
+            case 1:
+                mode = type == 1 ? 1 : 3;
+                break;
+            case 2:
+                mode = 0;
+                break;
+            case 3:
+                mode = 2;
+                break;
+            default:
+                mode = 4;
+                break;
+            }
+            s32 index;
+            if (mode == 0)
+                index = 0;
+            else if (mode == 4)
+                index = -1;
+            else
+                index = 1;
+            *mEquipWeaponBufIndex_a = index;
+            changeChild(Mode::text(mode));
+            _50 = mode;
+        }
+    }
+    PriestBoss::calc_();
+}
+
 void PriestBossSynchroMode::leave_() {
     PriestBoss::leave_();
 }
