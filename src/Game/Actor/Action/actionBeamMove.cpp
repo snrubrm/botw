@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -78,6 +79,33 @@ void BeamMove::calc_() {
 
 bool BeamMove::m32(const AttackInfo* info) {
     return info->_18 & 0xa;
+}
+
+void BeamMove::m33(const AttackInfo* info) {
+    if (!info)
+        return;
+    m35(&_40);
+    _4c *= m37();
+    _58->setContactLayer(ksys::phys::ContactLayer::SensorAttackPlayer);
+    _58->setSystemGroupHandler(nullptr);
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F0260(&mtx, _40, sead::Vector3f::ey, info->_0, false);
+    _50->setTransform(mtx);
+    _58->setTransform(mtx);
+    const sead::Vector3f velocity = _40 * _4c;
+    _50->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    _58->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    if (_60) {
+        _60->setTransform(mtx);
+        _60->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    }
+    if (auto* contact = _50->getContactPointInfo()) {
+        contact->unsubscribeLayer(ksys::phys::ContactLayer::EntityNPC);
+        _50->getContactPointInfo()->unsubscribeLayer(ksys::phys::ContactLayer::EntityPlayer);
+    }
+    _68 = 1;
+    _69 = 1;
+    *mIsReflectThrownBullet_a = true;
 }
 
 bool BeamMove::m34(const AttackInfo* info) {
