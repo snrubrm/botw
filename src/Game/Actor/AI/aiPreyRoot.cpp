@@ -1,5 +1,8 @@
 #include "Game/Actor/AI/aiPreyRoot.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
@@ -23,6 +26,49 @@ namespace uking::ai {
 PreyRoot::PreyRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 PreyRoot::~PreyRoot() = default;
+
+// NON_MATCHING: controller-vector stack slots and gear selection scheduling differ.
+void PreyRoot::sub_7100503864() {
+    auto* actor = mActor;
+    auto* list = actor->getASList();
+    if (!list)
+        return;
+    auto* controller = actor->getCharacterController();
+    if (controller)
+        _190 = controller->get64();
+    if (actor->m132()) {
+        auto* rideable = actor->m132();
+        const act::Rideable::Gear gear(rideable->_18._b ? rideable->_18._b : rideable->_18._9);
+        list->x_6(10, 0, static_cast<f32>(int(gear)));
+        if (actor->getHorseOptionsMaybe()) {
+            const act::Unk_7100e8b2b8::Unk8 type(
+                actor->getHorseOptionsMaybe()->act::Unk_7100e8b2b8::_8.load() & 0xff);
+            list->x_2(66, 26, int(type) != 0, false);
+        }
+    } else if (controller) {
+        sead::Vector3f direction = sead::Vector3f::zero;
+        if ((controller->_116 & 0xc) == 0xc &&
+            controller->sub_7100F5F0E4() == ksys::act::MotionType::_1) {
+            list->sub_710115F024(sead::Vector3f::ey, 0);
+        } else if (controller->sub_7100F5F14C() && controller->sub_7100F5F234(&direction)) {
+            list->sub_710115F024(direction, 0);
+        }
+    } else if (auto* body = actor->getMainBody()) {
+        if (body->getMotionType() == ksys::phys::MotionType::Keyframed ||
+            body->getMotionType() == ksys::phys::MotionType::Fixed) {
+            const sead::Vector3f direction = actor->getMtx().getBase(1);
+            list->sub_710115F024(direction, 0);
+        }
+    }
+    f32 distance = 99999.0f;
+    if (_188->_c48._8.hasProc()) {
+        const f32 dx = actor->getMtx().getTranslation().x - _188->_c48._18.x;
+        const f32 dz = actor->getMtx().getTranslation().z - _188->_c48._18.z;
+        distance = sead::Mathf::sqrt(dx * dx + dz * dz);
+    }
+    list->x_6(16, 0, distance);
+    _1c0.sub_710071EE38();
+}
 
 void PreyRoot::calc_() {
     auto* actor = mActor;
