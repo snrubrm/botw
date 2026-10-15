@@ -289,6 +289,9 @@ public:
     void m12(int index) override;
     void m13(int index) override;
 
+    void sub_71006E2BAC();
+    void sub_71006E3060();
+
     /* 0x1c */ f32 _1c = 0;
     /* 0x20 */ Unk_71012419b4 _20;
     /* 0x40 */ Unk_710235a0c0 _40;

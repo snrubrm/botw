@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
 namespace uking::act {
 
@@ -99,6 +100,83 @@ void Unk_710244ebc8::m13(int index) {
     if (index == 4)
         _20.fadeXLink();
     _8.resetBit(index);
+}
+
+// NON_MATCHING: same-TU parameter and electric helpers inline into the condition branches.
+void Unk_710244ebc8::m12(int index) {
+    switch (index) {
+    case 2: {
+        auto* param = sub_71006DF5A4();
+        if (!param || !param->mIceable.ref())
+            break;
+        param = sub_71006DF5A4();
+        if (!param || !param->mIceable.ref())
+            break;
+        param = sub_71006DF5A4();
+        if (param) {
+            ConditionDamageInfo info;
+            info.mKind = 2;
+            info.mDamage = param->mIceDamage.ref();
+            sub_71006DF5CC(info);
+        }
+        _8.setBit(2);
+        break;
+    }
+    case 4: {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mElectricable.ref())
+            sub_71006E2BAC();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+// NON_MATCHING: same-TU parameter and requested-damage helpers inline into the body.
+void Unk_710244ebc8::sub_71006E2BAC() {
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mElectricable.ref())
+        return;
+    param = sub_71006DF5A4();
+    if (param) {
+        ConditionDamageInfo info;
+        info.mKind = 4;
+        info.mDamage = param->mElectricDamage.ref();
+        sub_71006DF5CC(info);
+    }
+    _1c = static_cast<f32>(param->mElectricTime.ref());
+    if (!_20.sub_7101241B6C())
+        xlinkSearchAndEmit(_10, "ElectricShock", 2, &_20);
+    _8.setBit(4);
+}
+
+// NON_MATCHING: same-TU parameter and requested-damage helpers inline into both branches.
+void Unk_710244ebc8::sub_71006E3060() {
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mGerudoHeroAffect.ref())
+        return;
+    param = sub_71006DF5A4();
+    const s32 time = param ? param->mGerudoHeroTime.ref() : 0;
+    param = sub_71006DF5A4();
+    const s32 damage = param ? param->mGerudoHeroDamage.ref() : 0;
+    if (time > 0) {
+        if (!_20.sub_7101241B6C())
+            xlinkSearchAndEmit(_10, "ElectricShock", 2, &_20);
+        ConditionDamageInfo info;
+        info.mKind = 4;
+        info.mDamage = damage;
+        sub_71006DF5CC(info);
+        _8.setBit(4);
+        _1c = static_cast<f32>(time);
+    } else {
+        ConditionDamageInfo info;
+        info.mKind = 4;
+        info.mDamage = damage;
+        info._8 = 4;
+        info.mFlags = 0x80;
+        sub_71006DF5CC(info);
+    }
 }
 
 void Unk_71025ae680::sub_71006DF67C(s32 value) {
