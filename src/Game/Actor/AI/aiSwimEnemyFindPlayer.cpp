@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <math/seadMathCalcCommon.h>
 #include <cmath>
+#include "KingSystem/System/Timer.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -24,6 +25,78 @@ bool SwimEnemyFindPlayer::init_(sead::Heap* heap) {
 
 void SwimEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBaseFindPlayer::enter_(params);
+}
+
+// NON_MATCHING: shared transition tails and child-state branch layout differ.
+void SwimEnemyFindPlayer::calc_() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("対象見張り台")) {
+        if (child->isFinished() || child->isFailed()) {
+            if (sub_710037EEAC()) {
+                setFailed();
+                return;
+            }
+            if (m35()) {
+                m40();
+                return;
+            }
+            if (*mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3) {
+                sub_710037EDA4();
+                return;
+            }
+        } else {
+            if (!child->isChangeable())
+                return;
+            m44();
+            if (*mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3)
+                return;
+        }
+    } else if (isCurrentChild("対象壁つかまり")) {
+        if (child->isFinished() || child->isFailed()) {
+            if (sub_710037EEAC()) {
+                setFailed();
+                return;
+            }
+            if (m35()) {
+                m40();
+                return;
+            }
+            if (sub_71005B3F30()) {
+                _170 = 15.0f;
+                sub_710037EDA4();
+                return;
+            }
+            ksys::Timer::update(&_170, -1.0f);
+            if (!(_170 >= 0.0f))
+                _170 = 0.0f;
+            if (_170 > 0.0f) {
+                sub_710037EDA4();
+                return;
+            }
+        } else {
+            if (!child->isChangeable())
+                return;
+            m44();
+            if (sub_71005B3F30()) {
+                _170 = 15.0f;
+                return;
+            }
+            ksys::Timer::update(&_170, -1.0f);
+            if (!(_170 >= 0.0f))
+                _170 = 0.0f;
+            if (_170 > 0.0f)
+                return;
+        }
+    } else {
+        EnemyBaseFindPlayer::calc_();
+        return;
+    }
+    if (sub_710037EEAC())
+        setFailed();
+    else if (m35())
+        m40();
+    else
+        sub_710037EDA4();
 }
 
 void SwimEnemyFindPlayer::leave_() {
