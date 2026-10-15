@@ -30,3 +30,6 @@ bool sub_7100742588(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav, cons
 // AnimalLineOfSightSelector.
 bool sub_7100742664(sead::Vector3f* hit, ksys::phys::NavMeshCharacter* nav, const sead::Vector3f* position,
                     f32 length, f32 tolerance);
+
+// 0x7100742334: checks the position's height above the navmesh against the supplied limit.
+bool sub_7100742334(const sead::Vector3f* position, f32 height);
