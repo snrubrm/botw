@@ -3,6 +3,7 @@
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -153,6 +154,207 @@ void NavMoveTarget::sub_71004B7F80() {
     sub_71004B7E90();
 }
 
+// NON_MATCHING: reach-check inlining, param/query stack slots and shared transition tails.
+void NavMoveTarget::calc_() {
+    if (!_368) {
+        setFailed();
+        return;
+    }
+    if (isFinished() || isFailed())
+        return;
+
+    const bool moving = isCurrentChild("直進") || isCurrentChild("移動");
+    if (moving) {
+        sub_71004B8F54();
+        if (sub_71004B917C())
+            setFailed();
+    }
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("ジャンプ") || isCurrentChild("脱出")) {
+            sub_71004B7F80();
+            return;
+        }
+        if (isCurrentChild("見まわす")) {
+            if (_368 && _368->_8 == 0)
+                sub_71004B7E90();
+            else
+                setFailed();
+            return;
+        }
+        if (moving) {
+            if (sub_71004B9388()) {
+                if ((!*mParams.mIsLastLineReachCheck_s || m36()) && sub_71004B9484()) {
+                    setFinished();
+                    return;
+                }
+                const sead::Vector3f target = *m34();
+                auto* nav = mActor->m45();
+                if (!nav) {
+                    setFailed();
+                    return;
+                }
+                sead::Vector3f position;
+                bool valid;
+                {
+                    auto query = nav->sub_7100F76078(&position, target, 3.0f);
+                    valid = query.sub_7100F7EB40();
+                }
+                if (!valid) {
+                    setFailed();
+                    return;
+                }
+            }
+            if (getCurrentChild()->isFailed() && _368->_8 == -1) {
+                if (isCurrentChild("直進")) {
+                    _370.reset(*mParams.mRepathTime_s);
+                    sub_71004B9590();
+                    sub_71004B7E90();
+                } else {
+                    sub_71004B7F80();
+                }
+                return;
+            }
+            if (!getCurrentChild()->isFinished() || !isCurrentChild("移動")) {
+                setFailed();
+                return;
+            }
+            if (sub_71004B9388()) {
+                setFailed();
+                return;
+            }
+            if (_368->_8 == 0)
+                return;
+            _370.reset(*mParams.mRepathTime_s);
+            sub_71004B9590();
+            const sead::Vector3f& target = *m34();
+            _368->_8 = -1;
+            _370.reset(*mParams.mRepathTime_s);
+            {
+                const sead::Vector3f destination = target;
+                ksys::act::ai::InlineParamPack params;
+                params.addVec3(destination, "TargetPos", -1);
+                changeChild("移動", &params);
+            }
+            getCurrentChild()->setDynamicParam(*m34(), "TargetPos");
+            return;
+        }
+    } else if (moving) {
+        if (getCurrentChild()->isChangeable() && sub_71004B9388()) {
+            bool reached = sub_71004B9484();
+            if (*mParams.mIsLastLineReachCheck_s)
+                reached &= m36();
+            if (reached) {
+                setFinished();
+                return;
+            }
+            const sead::Vector3f target = *m34();
+            auto* nav = mActor->m45();
+            if (!nav) {
+                setFailed();
+                return;
+            }
+            sead::Vector3f position;
+            bool valid;
+            {
+                auto query = nav->sub_7100F76078(&position, target, 3.0f);
+                valid = query.sub_7100F7EB40();
+            }
+            if (!valid) {
+                setFailed();
+                return;
+            }
+            if (_368->_8 == -1) {
+                sub_71004B7F80();
+                return;
+            }
+            if (_368->_8 == 3) {
+                setFinished();
+                return;
+            }
+        }
+        if (getCurrentChild()->isChangeable()) {
+            if (auto* nav = mActor->m45()) {
+                f32 distance;
+                {
+                    auto lock = sead::makeScopedLock(nav->_1e0);
+                    distance = nav->_2cc;
+                }
+                if (distance >= *mParams.mTooFarDist_s && isCurrentChild("移動")) {
+                    setFailed();
+                    return;
+                }
+            }
+        }
+        if (_368->_c == 1) {
+            sub_71004B96F8();
+            return;
+        }
+        if (_368->_8 == 1) {
+            if (auto* nav = mActor->m45()) {
+                if (!nav->_194.isNan()) {
+                    const sead::Vector3f destination = nav->_194;
+                    const bool moving_child = isCurrentChild("移動");
+                    _368->_8 = -1;
+                    _370.reset(*mParams.mRepathTime_s);
+                    if (moving_child) {
+                        getCurrentChild()->setDynamicParam(destination, "TargetPos");
+                    } else {
+                        ksys::act::ai::InlineParamPack params;
+                        params.addVec3(destination, "TargetPos", -1);
+                        changeChild("移動", &params);
+                    }
+                    return;
+                }
+            }
+        }
+        if (_368->_8 == 2) {
+            sub_71004B7E90();
+            return;
+        }
+        if (_370.value <= sead::Mathf::epsilon()) {
+            sub_71004B7F80();
+            return;
+        }
+        _370.update();
+        if (isCurrentChild("直進"))
+            getCurrentChild()->setDynamicParam(*m34(), "TargetPos");
+        return;
+    }
+
+    if (isCurrentChild("見まわす")) {
+        if (_368->_8 != 1)
+            return;
+        auto* nav = mActor->m45();
+        if (!nav || nav->_194.isNan())
+            return;
+        const sead::Vector3f destination = nav->_194;
+        if (auto* current_nav = mActor->m45()) {
+            f32 distance;
+            {
+                auto lock = sead::makeScopedLock(current_nav->_1e0);
+                distance = current_nav->_2cc;
+            }
+            if (distance >= *mParams.mTooFarDist_s) {
+                setFailed();
+                return;
+            }
+        }
+        _368->_8 = -1;
+        _370.reset(*mParams.mRepathTime_s);
+        ksys::act::ai::InlineParamPack params;
+        params.addVec3(destination, "TargetPos", -1);
+        changeChild("移動", &params);
+    } else if (isCurrentChild("待機")) {
+        if (sub_71004B9388()) {
+            if (!*mParams.mIsLastLineReachCheck_s || m36())
+                setFinished();
+        } else {
+            sub_71004B7F80();
+        }
+    }
+}
+
 void NavMoveTarget::sub_71004B7E90() {
     sub_71004B7C68();
     const sead::Vector3f pos = *m34();
@@ -213,6 +415,87 @@ void NavMoveTarget::sub_71004B9984() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(target, "TargetPos", -1);
     changeChild("直進", &params);
+}
+
+// NON_MATCHING: checker-data cast selects and saved pointer scheduling.
+void NavMoveTarget::sub_71004B8F54() {
+    if (_310._0) {
+        auto* checker = *_310._0;
+        if (sead::IsDerivedFrom<Unk_71025b0578>(checker) &&
+            static_cast<Unk_71025b0578*>(checker)->mRefCount > 0) {
+            sead::Vector3f position;
+            mActor->getMtx().getTranslation(position);
+            _310.getData()->sub_7100716408(position);
+        }
+    }
+    if (_318._0) {
+        auto* checker = *_318._0;
+        if (sead::IsDerivedFrom<Unk_71025b7688>(checker) &&
+            static_cast<Unk_71025b7688*>(checker)->mRefCount > 0) {
+            _318.getData()->sub_710071F374(mActor);
+        }
+    }
+}
+
+// NON_MATCHING: RTTI receiver loads are retained across guard initialization.
+bool NavMoveTarget::sub_71004B917C() {
+    if (_310._0) {
+        auto* checker = *_310._0;
+        if (sead::IsDerivedFrom<Unk_71025b0578>(checker) &&
+            static_cast<Unk_71025b0578*>(checker)->mRefCount > 0) {
+            auto* current_checker = *_310._0;
+            current_checker->checkDerivedRuntimeTypeInfo(
+                Unk_71025b0578::getRuntimeTypeInfoStatic());
+            auto* data = static_cast<Unk_71025b0578*>(current_checker);
+            if (data->_78 <= 0.0f || data->sub_71007169CC(0.05f))
+                return true;
+        }
+    }
+    if (_318._0) {
+        auto* checker = *_318._0;
+        if (sead::IsDerivedFrom<Unk_71025b7688>(checker) &&
+            static_cast<Unk_71025b7688*>(checker)->mRefCount > 0) {
+            auto* current_checker = *_318._0;
+            current_checker->checkDerivedRuntimeTypeInfo(
+                Unk_71025b7688::getRuntimeTypeInfoStatic());
+            if (static_cast<Unk_71025b7688*>(current_checker)->_c < 1)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool NavMoveTarget::sub_71004B9484() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    if (!sub_71005D8F28(actor))
+        return true;
+    if (ksys::act::isEnemyProfile(actor))
+        return sub_710072E1B4(actor, false);
+
+    sead::Vector3f position;
+    actor->getMtx().getTranslation(position);
+    const f32 reach = *mParams.mReachTargetArea_s + sub_71007320F0(actor, *mParams.mWeaponIdx_s) + 3.0f;
+    sead::Vector3f front;
+    actor->getMtx().getBase(front, 2);
+    return sub_710072DEF0(sub_71005D960C(actor), reach, -0.6f, 0.6f, position,
+                          front, sead::Mathf::pi(), std::numeric_limits<f32>::max(), 0.0f);
+}
+
+void NavMoveTarget::sub_71004B96F8() {
+    sub_71004B7C68();
+    _368->_c = 0;
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f direction = _368->_10;
+    direction -= position;
+    direction.y = 0.0f;
+    direction.normalize();
+    direction *= 3.0f;
+    direction += _368->_10;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(direction, "TargetPos", -1);
+    changeChild("ジャンプ", &params);
 }
 
 void NavMoveTarget::leave_() {

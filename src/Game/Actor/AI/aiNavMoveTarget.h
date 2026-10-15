@@ -34,7 +34,11 @@ protected:
     void sub_71004B7C68();
     void sub_71004B7E90();
     void sub_71004B7F80();
+    void sub_71004B8F54();
+    bool sub_71004B917C();
     bool sub_71004B9388();
+    bool sub_71004B9484();
+    void sub_71004B96F8();
     bool sub_71004B9590();
     void sub_71004B9984();
 
