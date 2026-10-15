@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
 namespace uking::ai {
 
@@ -113,6 +114,31 @@ void NPCHorseRideWait::sub_71004CC76C() {
     ksys::act::ai::InlineParamPack params;
     params.addFloat(f32(_dc), "GearSpeed", -1);
     changeChild("移動", &params);
+}
+
+// NON_MATCHING: sensor iteration saved registers and null-output branch layout.
+bool NPCHorseRideWait::sub_71004CCCB8(s32 level, sead::Vector3f* position) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+    auto* sensor = awareness->_260[2];
+    if (!sensor)
+        return false;
+    const s32 count = sensor->_8.size();
+    for (s32 i = 0; i < count; ++i) {
+        sensor = awareness->_260[2];
+        if (!sensor || i >= sensor->_8.size())
+            continue;
+        auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, i);
+        if (!entry || !(static_cast<f32>(level) <= entry->_a4))
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (position && ksys::act::acquireActor(&entry->_0.mLink, &accessor)) {
+            accessor.getActorMtx().getTranslation(*position);
+            return true;
+        }
+    }
+    return false;
 }
 
 void NPCHorseRideWait::loadParams_() {}
