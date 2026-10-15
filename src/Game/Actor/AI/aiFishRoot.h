@@ -54,6 +54,7 @@ public:
     bool m34() override;
     bool m35() override;
     bool m36() override;
+    void m38() override;
     void m40() override;
     void m41() override;
     void m39() override;

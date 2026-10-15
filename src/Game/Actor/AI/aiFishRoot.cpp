@@ -312,6 +312,34 @@ bool FishRoot::m36() {
     return false;
 }
 
+// NON_MATCHING: water-test branch layout and vector/float scheduling differ.
+void FishRoot::m38() {
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F63700(false);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    const f32 base = *mParams.mNextJumpTimeBase_s;
+    if (base < 0.0f) {
+        _160 = ksys::Timer(1.0f, 1.0f, 0.0f);
+    } else {
+        const f32 time = base + *mParams.mNextJumpTimeRand_s *
+                                    sead::GlobalRandom::instance()->getF32();
+        _160 = ksys::Timer(time, time);
+    }
+    sead::Vector3f position;
+    mActor->getMtx().getTranslation(position);
+    const bool in_water = mActor->get68f().load();
+    const f32 depth = in_water ? mActor->get6f0() - position.y : 0.0f;
+    if (in_water && depth < mActor->getScale().x)
+        position.y -= mActor->getScale().x - depth;
+    sead::Vector3f direction = mActor->getMtx().getBase(2);
+    direction.y = 0.0f;
+    direction.normalize();
+    position += direction * 0.2f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("通常行動", &pack);
+}
+
 void FishRoot::m39() {
     if (_c4.value <= sead::Mathf::epsilon()) {
         if (!isCurrentChild("初期配置帰還") && !isCurrentChild("ジャンプ") && sub_710034342C()) {
