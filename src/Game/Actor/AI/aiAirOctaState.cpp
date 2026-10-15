@@ -16,6 +16,9 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actMotorcycleUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::ai {
 
@@ -60,6 +63,96 @@ bool AirOctaState::init_(sead::Heap* heap) {
 
 void AirOctaState::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
+}
+
+// NON_MATCHING: state-completion branches and chemical-loop scheduling differ.
+void AirOctaState::calc_() {
+    if (!_278.isOnBit(0))
+        _278.setBit(0);
+    if (isCurrentChild("上昇")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            if (_278.isOnBit(2))
+                _278.resetBit(2);
+            changeToWait(false);
+        }
+    } else if (isCurrentChild("発見")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            changeToWait(false);
+    } else if (_278.isOnBit(1) && !m36()) {
+        if (!isCurrentChild("板切断"))
+            changeChild("板切断");
+    } else if (!isCurrentChild("待機")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            changeToWait(false);
+    }
+    sub_71002FD5BC();
+    sub_71002FD7D8();
+    if (auto* body = mActor->getMainBody()) {
+        if (auto* as_list = mActor->getASList()) {
+            const f32 yaw = as_list->sub_710115D3B8().y;
+            if (!(sead::Mathf::abs(yaw) < sead::Mathf::epsilon())) {
+                auto velocity = body->getAngularVelocity();
+                velocity.y = yaw * 30.0f + velocity.y;
+                body->setAngularVelocity(velocity, sead::Mathf::epsilon());
+            }
+        }
+    }
+    sub_71002FD8C0();
+    if (s32(_210) > 0) {
+        auto* chemicals = mActor->getChemicalContainer();
+        for (s32 i = 0; i < chemicals->_58.size() + chemicals->_80; ++i) {
+            if (chemicals->sub_7100E37788(i)->_b8 & 4) {
+                for (s32 j = 0; j < chemicals->_58.size() + chemicals->_80; ++j) {
+                    if (auto* chemical = chemicals->sub_7100E37788(j))
+                        chemical->_188 = 0.0f;
+                }
+                --_210;
+                break;
+            }
+        }
+    }
+    sub_71002FDB9C();
+    // Native constructs this pack even though no parameters are added or consumed.
+    ksys::act::ai::InlineParamPack pack;
+    mActor->getASList()->x_2(66, 40, _278.isOnBit(3), false);
+    EnemyRoot::calc_();
+    sub_71002FDE2C();
+    if (auto* damage = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr())) {
+        if (damage->getField54() == 34)
+            sub_71002FDF9C();
+    }
+}
+
+// NON_MATCHING: contact-iterator and normalized-impulse temporaries use different scheduling.
+void AirOctaState::sub_71002FD8C0() {
+    auto* body = mActor->getMainBody();
+    if (!body || isCurrentChild("滝死亡"))
+        return;
+    if (!(mActor->get68f().load() & 2)) {
+        _204.z = 0.0f;
+        return;
+    }
+    _204.z += ksys::VFR::instance()->getDeltaTime();
+    if (_204.z > 3.0f) {
+        if (auto* manager = sead::DynamicCast<AirOctaDataMgr>(
+                *static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a)))
+            manager->mFlags |= 8;
+        mActor->getASList()->goLimpFromHeadShotMaybe(47, "ヘッドショット", 0);
+        changeChild("滝死亡");
+        return;
+    }
+    for (const auto* point : *body->getContactPointInfo()) {
+        if (point->material_mask_b.getFloorCode() != ksys::phys::FloorCode::Fall)
+            continue;
+        sead::Vector3f impulse(-point->separating_normal.x, 0.0f, -point->separating_normal.z);
+        impulse.normalize();
+        impulse *= body->getMass() * 1.5f;
+        body->applyLinearImpulse(impulse);
+        return;
+    }
 }
 
 void AirOctaState::leave_() {

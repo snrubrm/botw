@@ -18,6 +18,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
@@ -48,6 +49,9 @@ protected:
     // 0x71002fd5bc (placeholder name): while waiting, if the board's actor (the data manager's second link) is burning:
     // changes to "板燃焼".
     void sub_71002FD5BC();
+    void sub_71002FD8C0();
+    // Full native body audited; list child access/dirty APIs remain unresolved.
+    void sub_71002FDB9C();
     // 0x71002fde2c (placeholder name): reacts to the AS events of slot 57 ("板との接続解除": sub_71002FDF9C; "プレイヤの方向を向く":
     // sub_71002FEF78(pi)).
     void sub_71002FDE2C();
