@@ -1,5 +1,10 @@
 #include "Game/Actor/Horse/AI/aiRideHorseNonPlayer.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/aiUnk_7100E81220.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/Mii/miiUMii.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
@@ -18,8 +23,35 @@ bool RideHorseNonPlayer::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: UMii gender branch and saved receiver/register scheduling.
 void RideHorseNonPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _d8 = 0;
+    if (!mActor->getModelBindInfo() && m35()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        sub_7100E81220(mActor, &accessor);
+        f32 height = 0.0f;
+        if (auto* rideable = accessor.getHorseRideStuff())
+            height = rideable->procLink13();
+        if (auto* umii = mActor->getUMii()) {
+            if (auto* global = ksys::act::GlobalParameter::instance()) {
+                if (auto* params = global->getGlobalParam()) {
+                    if (umii->isFemale())
+                        height += params->mHorseBindOffsetYOfFemaleUMii.ref();
+                    else
+                        height += params->mHorseBindOffsetYOfMaleUMii.ref();
+                }
+            }
+        }
+        _38.x(*act::sub_7100E811F0(mActor));
+        auto* rideable = accessor.getHorseRideStuff();
+        const sead::SafeString& bone =
+            rideable ? rideable->sub_7100E8B524() : sead::SafeString::cEmptyString;
+        _38._28 = bone.cstr();
+        _38._30.getKey().reset();
+        _38._68.makeRT(sead::Vector3f::zero, {0.0f, height, 0.0f});
+        mActor->sub_71011DA824(&_38);
+    }
+    m36();
 }
 
 void RideHorseNonPlayer::leave_() {
