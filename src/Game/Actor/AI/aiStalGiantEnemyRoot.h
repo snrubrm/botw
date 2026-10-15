@@ -3,17 +3,7 @@
 #include "Game/Actor/AI/aiStalEnemyRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "Game/Actor/aiUnk_7102451120.h"
-
-// Actual opaque attachment object (vtable 0x71024511a8, ctor 0x7100724814,
-// destructor 0x7100724874). The original calls its destructor for three members.
-class Unk_71024511a8 {
-public:
-    Unk_71024511a8();
-    ~Unk_71024511a8();
-private:
-    u64 _0[0xb0 / sizeof(u64)];
-};
-KSYS_CHECK_SIZE_NX150(Unk_71024511a8, 0xb0);
+#include "Game/Actor/aiUnk_7100724C64.h"
 
 // Embedded object constructed by 0x71005a4e14. Three 0x180-byte entries each
 // contain an attachment at +0xd0; the remaining entry fields are unrecovered.

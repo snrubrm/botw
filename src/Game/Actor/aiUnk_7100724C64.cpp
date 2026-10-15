@@ -10,6 +10,44 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
+Unk_71024511a8::Unk_71024511a8() = default;
+
+// The original retains the derived vtable store during member teardown, as in upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() (96101229).
+// NON_MATCHING: the original inlines the base destructor's list removal.
+Unk_71024511a8::~Unk_71024511a8() { ; }
+
+bool Unk_71024511a8::sub_7100724938(ksys::act::Actor* actor, const sead::SafeString& target,
+                                 const sead::SafeString& source) {
+    if (mOwner)
+        return false;
+    _20 = target;
+    _30.getKey().reset();
+    _68 = source;
+    _78.getKey().reset();
+    auto* model = actor->getModel();
+    _30.search(model, _20);
+    if (!_30.isValid())
+        return false;
+    _78.search(model, _68);
+    return _78.isValid();
+}
+
+// NON_MATCHING: one target-key field uses the object register instead of the key register.
+void Unk_71024511a8::call(ksys::act::Actor* actor) {
+    const auto& target = _30.getKey();
+    const auto& source = _78.getKey();
+    if (!target.isValid() || !source.isValid())
+        return;
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    sead::Matrix34f matrix = sead::Matrix34f::ident;
+    model->getUnits().unsafeAt(source.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+        &matrix, source.bone_index);
+    model->setBoneWorldMatrix(target, matrix);
+}
+
 // 0x71024511f8
 static const char* const sUnk_71024511f8[] = {
     "StalHead", "StalLeftArm", "StalChin", "StalRib1", "StalRib2", "StalRib3", "StalRib4",

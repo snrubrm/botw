@@ -1,8 +1,10 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <gsys/gsysModelAccessKey.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/Action/actionGolemDieFromRagdoll.h"
+#include "Game/Actor/actUnk_7102366570.h"
 
 namespace sead {
 class Heap;
@@ -21,6 +23,23 @@ class Enemy;
 namespace uking::ai {
 class Unk_71024241a8;
 }
+
+// Attachment callback (vtable 0x71024511a8): copies one bone's world matrix to another.
+class Unk_71024511a8 : public Unk_7102366570 {
+    SEAD_RTTI_OVERRIDE(Unk_71024511a8, Unk_7102366570)
+public:
+    Unk_71024511a8();
+    ~Unk_71024511a8() override;
+    void call(ksys::act::Actor* actor) override;
+    bool sub_7100724938(ksys::act::Actor* actor, const sead::SafeString& target,
+                      const sead::SafeString& source);
+
+    /* 0x20 */ sead::SafeString _20;
+    /* 0x30 */ gsys::BoneAccessKeyEx _30;
+    /* 0x68 */ sead::SafeString _68;
+    /* 0x78 */ gsys::BoneAccessKeyEx _78;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024511a8, 0xb0);
 
 // Unnamed free helpers for Stalfos part actors (0x7100724c80-0x7100725960, CSV placeholders
 // aiStalPartStuff_3..16). They act on the uking::act::Unk_7100d3cd74 parts list (Enemy::_1128) of an
