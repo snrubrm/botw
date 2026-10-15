@@ -71,6 +71,61 @@ void GenGroup::sub_7100D50778(Object* obj) {
     }
 }
 
+// NON_MATCHING: the original keeps the three byte stores at the end separate (ours merges two into a strh) and
+// addresses the counters through a second base register.
+void GenGroup::sub_7100D50AA8() {
+    if (_4 != 0)
+        return;
+
+    if (mObjects.size() == mObjects.capacity()) {
+        if (mNumPrepareDelete != mObjects.size()) {
+            // The original builds a status text for a debug print here (dropped in release builds).
+            sead::FixedSafeString<1024> text;
+            text.format("グループ内数(%d), LinkTag数(%d)\n", mObjects.size(), _18);
+            text.appendWithFormat(" 存在アクタ数(%d), ステート(%d), 削除準備数(%d), 生成itr(%d)\n", s32(_4),
+                                  u32(_0), s32(mNumPrepareDelete), s32(_c));
+            text.appendWithFormat("実行待ちLinkTag(%d), 実行待ち他(%d)\n", s32(_10), s32(_14));
+            text.appendWithFormat("初期完了ステート(%d), LinkTag実行(%d)\n", mInitState, mNumExecLinkTag);
+            text.appendWithFormat("グローバルカウンタ( %x : %x, %x, %x )\n",
+                                  SystemTimers::instance()->mFrameCounter, _20, _24, _28);
+            mNumPrepareDelete = mObjects.capacity();
+        }
+        if (_10 != 0) {
+            sead::FixedSafeString<1024> text;
+            text.format("グループ内数(%d), LinkTag数(%d)\n", mObjects.size(), _18);
+            text.appendWithFormat(" 存在アクタ数(%d), ステート(%d), 削除準備数(%d), 生成itr(%d)\n", s32(_4),
+                                  u32(_0), s32(mNumPrepareDelete), s32(_c));
+            text.appendWithFormat("実行待ちLinkTag(%d), 実行待ち他(%d)\n", s32(_10), s32(_14));
+            text.appendWithFormat("初期完了ステート(%d), LinkTag実行(%d)\n", mInitState, mNumExecLinkTag);
+            text.appendWithFormat("グローバルカウンタ( %x : %x, %x, %x )\n",
+                                  SystemTimers::instance()->mFrameCounter, _20, _24, _28);
+            _10 = 0;
+        }
+        if (_14 != 0) {
+            sead::FixedSafeString<1024> text;
+            text.format("グループ内数(%d), LinkTag数(%d)\n", mObjects.size(), _18);
+            text.appendWithFormat(" 存在アクタ数(%d), ステート(%d), 削除準備数(%d), 生成itr(%d)\n", s32(_4),
+                                  u32(_0), s32(mNumPrepareDelete), s32(_c));
+            text.appendWithFormat("実行待ちLinkTag(%d), 実行待ち他(%d)\n", s32(_10), s32(_14));
+            text.appendWithFormat("初期完了ステート(%d), LinkTag実行(%d)\n", mInitState, mNumExecLinkTag);
+            text.appendWithFormat("グローバルカウンタ( %x : %x, %x, %x )\n",
+                                  SystemTimers::instance()->mFrameCounter, _20, _24, _28);
+            _14 = 0;
+        }
+    } else {
+        mNumPrepareDelete = mObjects.capacity();
+        _10 = 0;
+        _14 = 0;
+    }
+
+    mInitState = 0;
+    _1f = 0;
+    mNumExecLinkTag = 0;
+    _0 = 0;
+    _c = 0;
+    _1d = 0;
+}
+
 bool GenGroup::sub_7100D50E00() {
     if (_0)
         return true;

@@ -38,7 +38,8 @@ public:
     bool x(const u16* id);
     // 0x7100d51e6c (declared only).
     bool sub_7100D51E6C();
-    // 0x7100d50aa8 (declared only; 856 B): called after `_4` was decremented by ObjectLinkData::sub_7100D4F884.
+    // 0x7100d50aa8 (placeholder name): called after `_4` was decremented by ObjectLinkData::sub_7100D4F884. Once the
+    // group has no more pending users, resets the counters and the init state (the inconsistent ones are printed).
     void sub_7100D50AA8();
     void sub_7100D510D0();
     u8 sub_7100D510FC();
