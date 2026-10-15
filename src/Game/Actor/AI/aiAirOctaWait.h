@@ -19,7 +19,7 @@ public:
 
     // 0x71002ffedc (placeholder name): sets `_48` from the AS event 0x39 ("待機可" / "待機不可").
     void sub_71002FFEDC();
-    // 0x71002ffbbc (placeholder name; declared only): moves the actor along `move` (uses its main rigid body).
+    // 0x71002ffbbc (placeholder name): turns the main rigid body towards the movement direction.
     void sub_71002FFBBC(const sead::Vector3f& move);
 
 protected:

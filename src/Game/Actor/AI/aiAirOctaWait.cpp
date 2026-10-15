@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actMotorcycleUtil.h"
 #include "Game/Actor/AI/aiAirOctaDataMgr.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -69,6 +72,33 @@ void AirOctaWait::sub_71002FFEDC() {
         _48 = true;
     else if (event.name == "待機不可")
         _48 = false;
+}
+
+// NON_MATCHING: vector/matrix temporary storage and floating-point register allocation differ.
+void AirOctaWait::sub_71002FFBBC(const sead::Vector3f& move) {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.normalize();
+    front.y = 0.0f;
+    front.normalize();
+    sead::Vector3f direction = -sead::Vector3f(move.x, 0.0f, move.z);
+    direction.normalize();
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    sead::Vector3f rotation;
+    ksys::util::sub_71011EF10C(&rotation, front, direction, sead::Vector3f::ey);
+    rotation.y = sead::Mathf::clamp(rotation.y, -delta * sead::Mathf::deg2rad(5.0f),
+                                  delta * sead::Mathf::deg2rad(5.0f));
+    sead::Vector3f angular_velocity = body->getAngularVelocity();
+    sead::Matrix34f transform = body->getTransform();
+    sead::Matrix34f turn;
+    turn.makeR({0.0f, rotation.y, 0.0f});
+    turn.setMul(transform, turn);
+    body->changeRotation(turn);
+    angular_velocity.y = body->getAngularVelocity().y;
+    body->setAngularVelocity(angular_velocity);
 }
 
 void AirOctaWait::leave_() {
