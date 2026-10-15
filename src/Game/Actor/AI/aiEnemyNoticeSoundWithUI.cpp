@@ -9,6 +9,8 @@ namespace uking::ai {
 
 EnemyNoticeSoundWithUI::EnemyNoticeSoundWithUI(const InitArg& arg) : EnemyNoticeSound(arg) {}
 
+// NON_MATCHING: the original inlines EnemyNoticeSound's trivial destructor, so the base-dtor call
+// in this D1/D0 is Ai::~Ai(); our build emits an out-of-line EnemyNoticeSound::~EnemyNoticeSound().
 EnemyNoticeSoundWithUI::~EnemyNoticeSoundWithUI() = default;
 
 bool EnemyNoticeSoundWithUI::init_(sead::Heap* heap) {

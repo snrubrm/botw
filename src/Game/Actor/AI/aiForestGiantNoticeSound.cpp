@@ -8,6 +8,9 @@ namespace uking::ai {
 
 ForestGiantNoticeSound::ForestGiantNoticeSound(const InitArg& arg) : EnemyNoticeSound(arg) {}
 
+// NON_MATCHING: the original inlines EnemyNoticeSound's trivial destructor, so this D1/D0
+// tail-call Ai::~Ai(). Our build emits an out-of-line call to EnemyNoticeSound::~EnemyNoticeSound()
+// instead; making the base dtor inline would drop the base's own D1 row.
 ForestGiantNoticeSound::~ForestGiantNoticeSound() = default;
 
 bool ForestGiantNoticeSound::init_(sead::Heap* heap) {

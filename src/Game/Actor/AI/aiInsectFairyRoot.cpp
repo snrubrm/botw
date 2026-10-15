@@ -6,6 +6,9 @@ namespace uking::ai {
 
 InsectFairyRoot::InsectFairyRoot(const InitArg& arg) : InsectRoot(arg) {}
 
+// NON_MATCHING: the original inlines InsectRoot's trivial destructor, so this D1/D0 tail-call
+// Ai::~Ai(). Our build emits an out-of-line call to InsectRoot::~InsectRoot() instead; making the
+// base dtor inline would drop the base's own D1 row.
 InsectFairyRoot::~InsectFairyRoot() = default;
 
 bool InsectFairyRoot::init_(sead::Heap* heap) {
