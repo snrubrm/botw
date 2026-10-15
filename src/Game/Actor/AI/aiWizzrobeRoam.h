@@ -21,7 +21,7 @@ protected:
     bool sub_71005FEDB4(sead::Vector3f start, sead::Vector3f end, sead::Vector3f* hit_pos);
     // 0x71005fe5cc: counts the move, picks the next position (sub_71005FEB18) and starts the "移動" child
     void sub_71005FE5CC();
-    // 0x71005feb18 (declared only, 668 bytes): picks the next roam position (returned in s0 / s1 / s2).
+    // 0x71005feb18: picks the next roam position (returned in s0 / s1 / s2).
     sead::Vector3f sub_71005FEB18();
     // 0x71005fe85c: changes the height level (random +-1 step, clamped by MexHeightLevel) and starts the "高度変化" child
     void sub_71005FE85C();

@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiWizzrobeRoam.h"
 #include "random/seadGlobalRandom.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_7102431fa8.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -63,6 +64,36 @@ void WizzrobeRoam::loadParams_() {
     getStaticParam(&mHeightOffset_s, "HeightOffset");
     getDynamicParam(&mCentralPos_d, "CentralPos");
     getAITreeVariable(&mWizzrobeMagicWeatherUnit_a, "WizzrobeMagicWeatherUnit");
+}
+
+// NON_MATCHING: vector snapshots, ray argument scheduling and return registers differ.
+sead::Vector3f WizzrobeRoam::sub_71005FEB18() {
+    const sead::Vector3f actor_position = mActor->getMtx().getTranslation();
+    const sead::Vector3f ray_start{actor_position.x, actor_position.y + 0.1f, actor_position.z};
+    const f32 angle = static_cast<f32>(sead::GlobalRandom::instance()->getS32Range(0, 360)) /
+                      360.0f * (2.0f * sead::Mathf::pi());
+    const f32 base_radius = *mTerritoryRadius_s;
+    const f32 random_radius = *mTerritoryRadiusRnd_s;
+    const f32 radius = base_radius + sead::GlobalRandom::instance()->getF32Range(0.0f, random_radius);
+    sead::Vector3f target;
+    target.x = mCentralPos_d->x + cosf(angle) * radius;
+    target.z = mCentralPos_d->z + sinf(angle) * radius;
+    target.y = mCentralPos_d->y + static_cast<f32>(_88) * *mHeightOffset_s;
+    sead::Vector3f hit;
+    if (sub_71005FEDB4(ray_start, target, &hit))
+        target = hit;
+    if (sead::Vector2f{target.x - mActor->getMtx().getTranslation().x,
+                       target.z - mActor->getMtx().getTranslation().z}.length() < *mRetryLength_s) {
+        target.x = radius * cosf(angle + sead::Mathf::pi()) + mCentralPos_d->x;
+        target.z = radius * sinf(angle + sead::Mathf::pi()) + mCentralPos_d->z;
+        target.y = mCentralPos_d->y + static_cast<f32>(_88) * *mHeightOffset_s;
+        if (sub_71005FEDB4(ray_start, target, &hit))
+            target = hit;
+        if (sead::Vector2f{target.x - mActor->getMtx().getTranslation().x,
+                           target.z - mActor->getMtx().getTranslation().z}.length() < *mRetryLength_s)
+            return mActor->getMtx().getTranslation();
+    }
+    return target;
 }
 
 // 0x71005fedb4
