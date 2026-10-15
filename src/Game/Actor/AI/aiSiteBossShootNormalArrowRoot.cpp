@@ -120,6 +120,21 @@ void SiteBossShootNormalArrowRoot::m36(bool a1, f32 a2) {
     changeChild("子機発射", &pack);
 }
 
+void SiteBossShootNormalArrowRoot::m37() {
+    m41();
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f target;
+    m45(&target);
+    params.addVec3(target, "TargetPos", -1);
+    params.addPointer(nullptr, "ArrowHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        params.addActor(*boss->_1560.sub_710066DDEC(_144), "IgniteActor", -1);
+        params.addInt(_144, "Index", -1);
+        params.addInt(m44(), "AtAttr", -1);
+        changeChild("弾発射", &params);
+    }
+}
+
 void SiteBossShootNormalArrowRoot::m39() {}
 
 void SiteBossShootNormalArrowRoot::m40() {}
