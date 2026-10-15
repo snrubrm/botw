@@ -21,8 +21,10 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actDropMgr.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
@@ -967,6 +969,23 @@ const sead::SafeString& sub_710072DB1C(const ksys::act::ActorLinkConstDataAccess
     default:
         return sead::SafeString::cEmptyString;
     }
+}
+
+// NON_MATCHING: the unrolled search reuses its link pointer instead of recomputing it from the slot.
+void sub_7100736114(ksys::act::BaseProcLink* link, ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return;
+    for (s32 i = 0; i < 6; ++i) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (weapons->mWeapons[i].link.hasProc())
+            ksys::act::acquireActor(&weapons->mWeapons[i].link, &accessor);
+        if (sub_71002F0258(accessor) == 4) {
+            *link = weapons->mWeapons[i].link;
+            return;
+        }
+    }
+    link->reset();
 }
 
 bool sub_7100736384(ksys::act::Actor* actor) {

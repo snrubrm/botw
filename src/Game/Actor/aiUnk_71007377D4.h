@@ -480,6 +480,8 @@ const sead::SafeString& sub_710072DAD0(const ksys::act::BaseProcLink* link);
 const sead::SafeString& sub_710072DB1C(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 bool sub_7100736384(ksys::act::Actor* actor);
+// 0x7100736114: select the first linked weapon of kind 4, or reset the output link.
+void sub_7100736114(ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
 
 bool sub_71007356EC(const ksys::act::BaseProcLink* link);
 bool sub_7100733360(ksys::act::Actor* actor);
