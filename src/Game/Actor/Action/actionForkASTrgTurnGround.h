@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100145FCC(f32 frames);
+    void sub_7100146268();
 
     // static_param at offset 0x20
     const float* mSpeedBasePosRatio_s{};
@@ -34,8 +36,8 @@ protected:
     // aitree_variable at offset 0x50
     void* mCRBOffsetUnit_a{};
     Unk_71000b0800<Unk_7102384718> _58;
-    u8 _60[0x30];
-    s32 _90 = 0;
+    sead::Matrix34f _60;
+    f32 _90 = 0;
     bool _94 = false;
     u8 _95[0x3];
     f32 _98 = 1.0f;
