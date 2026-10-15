@@ -567,6 +567,8 @@ public:
     bool x_35();                                                        // 0x8886f4
     void x_7();                                                         // 0x88a048
     // All ~45 callers pass (0, 0); x_8 does not read them (types a guess).
+    // 0x7100888c40: compares the selected equipment name with equipment type 1.
+    bool sub_7100888C40();
     void x_8(bool a1, bool a2);                                         // 0x88a8a8
     void x_33();                                                        // 0x88c900
     // 0x874514: acquires links to the resident actors (ResidentActorMgr::getActorByName).
