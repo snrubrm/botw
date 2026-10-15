@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -117,6 +118,41 @@ void GuardianMiniBeamMove::sub_71001940D0() {
 void GuardianMiniBeamMove::sub_71001943F0() {
     _78.mELink.kill();
     _78.mSLink.fade();
+}
+
+bool GuardianMiniBeamMove::sub_7100193EB4() {
+    auto* body = mActor->findPhysicsBodyByName("Atk", "AtkBody");
+    if (!body)
+        return false;
+    auto* contacts = body->getContactPointInfo();
+    if (!contacts || contacts->getNumContactPoints() == 0 || contacts->begin().isEnd())
+        return false;
+
+    sead::Vector3f position;
+    contacts = body->getContactPointInfo();
+    if (contacts && contacts->getNumContactPoints() != 0 && !contacts->begin().isEnd()) {
+        bool found = false;
+        auto it = contacts->begin();
+        const auto end = contacts->end();
+        for (; it != end; ++it) {
+            if (sead::DynamicCast<ksys::act::AttackSensor2>((*it)->body_b->getUserTag())) {
+                it.getPointPosition(&position, ksys::phys::ContactPointInfo::Iterator::Point::BodyA);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            setFinished();
+            return true;
+        }
+    }
+    sead::Matrix34f transform;
+    body->getTransform(&transform);
+    transform.setTranslation(position);
+    if (auto* main_body = mActor->getMainBody())
+        main_body->changePositionAndRotation(transform, sead::Mathf::epsilon());
+    body->changePositionAndRotation(transform, sead::Mathf::epsilon());
+    return true;
 }
 
 // NON_MATCHING: contact-iterator stack slots and range-query loads are reordered.
