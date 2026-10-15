@@ -1,6 +1,12 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/World/worldWindMgr.h"
 #include <cstring>
+#include <limits>
+#include <prim/seadBitUtil.h>
+#include <prim/seadPtrUtil.h>
+#include <nvn/nvn_FuncPtrInline.h>
+#include <common/aglTextureDataInitializerRAW.h>
+#include <g3d/aglTextureUtilG3D.h>
 #include <common/aglTextureData.h>
 #include <common/aglGPUMemBlock.h>
 
@@ -46,6 +52,72 @@ void Unk_710251F868::sub_71012FEAA8(sead::Heap* heap) {
     _40->setImagePtr(_28, 0);
     std::memset(&_1b8, 0, sizeof(_1b8));
     sub_71012FEBE4();
+}
+
+// NON_MATCHING: loop temporaries and half-float case selection differ.
+void Unk_710251F868::sub_71012FEBE4() {
+    if (s32(_20) > s32(_18))
+        _20 = _18;
+    if (s32(_24) > s32(_1c))
+        _24 = _1c;
+    _40->initialize_(agl::TextureType::cTextureType_2D, agl::TextureFormat::cTextureFormat_R16_float,
+                     _20, _24, 1, 1, agl::TextureAttribute{}, agl::MultiSampleType{}, true);
+    void* mapped = _28.isValid() ? nvnMemoryPoolMap(_28.getMemoryPool()->getDriverPool()) : nullptr;
+    auto* pixels = static_cast<u16*>(sead::PtrUtil::addOffset(mapped, _28.getByteOffset()));
+    for (u32 y = 0; s32(y) < s32(_24); ++y) {
+        f32 minimum = std::numeric_limits<f32>::max();
+        f32 maximum = -std::numeric_limits<f32>::max();
+        if (s32(_20) > 0) {
+            const f32 t = f32(y) / f32(_24);
+            const f32 envelope = sead::Mathf::clamp(2.0f * sead::Mathf::min(t, 1.0f - t),
+                                                   0.0f, 1.0f);
+            const f32 high = sead::Mathf::clamp(t - 0.3f, 0.0f, 1.0f) / 0.7f;
+            for (u32 x = 0; s32(x) < s32(_20); ++x) {
+                const f32 phase = f32(x) / f32(_20) * 6.2831855f;
+                const f32 cos2 = sead::Mathf::cos(phase + phase);
+                const f32 cos3 = sead::Mathf::cos(phase * 3.0f);
+                const f32 cos5 = sead::Mathf::cos(phase * 5.0f);
+                const f32 sin3 = sead::Mathf::sin(phase * 3.0f);
+                const f32 sin5 = sead::Mathf::sin(phase * 5.0f);
+                const f32 sin7 = sead::Mathf::sin(phase * 7.0f);
+                const f32 value = (envelope * (1.0f - envelope * cos2 * cos3 * cos5) *
+                                   0.23333333f + high * (high * 0.6f * sin3 * sin5 * sin7 + 1.0f)) *
+                                  0.3f;
+                // The texture conversion truncates the mantissa, flushes half subnormals,
+                // saturates overflow, and preserves the distinction between quiet/signaling NaNs.
+                const u32 bits = sead::BitUtil::bitCast<u32>(value);
+                const u32 sign = (bits >> 16) & 0x8000;
+                const u32 exponent_bits = bits & 0x7f800000;
+                const u32 mantissa = bits & 0x7fffff;
+                const s32 exponent = s32(exponent_bits >> 23) - 0x70;
+                u32 half = sign | ((bits >> 13) & 0x3ff) | ((u32(exponent) & 0x1f) << 10);
+                if (exponent_bits <= 0x38000000)
+                    half = sign;
+                if (exponent > 30)
+                    half = sign | 0x7c00;
+                if (exponent_bits == 0x7f800000) {
+                    if (mantissa == 0)
+                        half = sign | 0x7c00;
+                    else if (mantissa >> 22)
+                        half = sign | 0x7fff;
+                    else
+                        half = sign | 0x7dff;
+                }
+                *pixels++ = u16(half);
+                minimum = minimum < value ? minimum : value;
+                maximum = maximum > value ? maximum : value;
+            }
+        }
+        sUnk_7102660D10[0][y] = minimum;
+        sUnk_7102660D10[1][y] = maximum;
+    }
+    agl::TextureDataInitializerRAW::initialize(_40, _28, _40->getImageByteSize(),
+                                             _40->getFormat(), s32(_20), s32(_24), nullptr);
+    _28.flushCPUCache(_40->getImageByteSize());
+    _48.applyTextureData(*_40);
+    _48.setWrap(1, 6, 1);
+    _48.setFilter(1, 1, 1);
+    agl::g3d::TextureUtilG3D::convertToResTexture(&_1b8, *_40, nullptr);
 }
 
 void Unk_710251F868::sub_71012FEFF0(f32 delta) {
