@@ -44,6 +44,11 @@ void BAndSCs::sub_7100F6B144(const sead::Vector3f& pivot_a, const sead::Vector3f
     mData->sub_71015F47C8(toHkVec4(pivot_a), toHkVec4(pivot_b));
 }
 
+void BAndSCs::sub_7100F6B394(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const {
+    storeToVec3(pivot_a, mData->m_atoms.m_pivots.m_translationA);
+    storeToVec3(pivot_b, mData->m_atoms.m_pivots.m_translationB);
+}
+
 u32 sub_7100F6B100(bool breakable) {
     return sub_7100F6ACF4(breakable) + 0x150;
 }

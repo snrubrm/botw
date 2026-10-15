@@ -23,6 +23,8 @@ public:
     ~BAndSCs() override;
 
     void sub_7100F6B144(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b);
+    // 0x7100f6b394 (placeholder name): reads back the two body-space pivots.
+    void sub_7100F6B394(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const;
 
 private:
     BAndSCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
