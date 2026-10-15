@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
+#include "KingSystem/Physics/CharacterController/physCharacterFormSet.h"
 #include <basis/seadRawPrint.h>
 #include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
@@ -80,6 +81,15 @@ Shape* CharacterControllerParam::createShape(int form_idx, sead::Heap* heap) {
     if (form_idx >= getNumForms() || form_idx < 0)
         return nullptr;
     return forms[form_idx].createShape(heap);
+}
+
+CharacterFormSet* CharacterControllerParam::createFormSet(sead::Heap* heap) {
+    auto* form_set = new (heap) CharacterFormSet(height_enable_hitting_wall.ref());
+    if (!form_set->init(this, heap)) {
+        delete form_set;
+        return nullptr;
+    }
+    return form_set;
 }
 
 CharacterControllerParam::Form::Form()

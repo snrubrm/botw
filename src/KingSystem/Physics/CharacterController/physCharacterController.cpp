@@ -4,6 +4,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterControllerRigidBody.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
+#include "KingSystem/Physics/CharacterController/physCharacterFormSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCharacterPrismShape.h"
@@ -53,34 +54,6 @@ struct CharacterControllerUnk20 {
     /* 0x44 */ u8 _44[0xc];
     /* 0x50 */ hkVector4f _50;
     /* 0x60 */ hkVector4f _60;
-};
-
-// Placeholder: 0x30 byte entry of the controller's shape list (CharacterControllerShapes).
-struct CharacterControllerShape {
-    // 2026-10-07: factory F67174 stores newly constructed Havok capsule shapes
-    // here; controller initialization passes the second pointer to RigidBodyFromShape.
-    /* 0x00 */ hkpShape* _0;
-    /* 0x08 */ Shape* _8;
-    /* 0x10 */ bool _10;
-    /* 0x11 */ u8 _11;
-    /* 0x12 */ bool _12;
-    /* 0x13 */ u8 _13;
-    /* 0x14 */ f32 _14;
-    /* 0x18 */ f32 _18;
-    /* 0x1c */ f32 _1c;
-    /* 0x20 */ sead::Vector3f _20;
-    /* 0x2c */ u8 _2c[4];
-};
-KSYS_CHECK_SIZE_NX150(CharacterControllerShape, 0x30);
-
-// Placeholder: object at CharacterController::_30.
-struct CharacterControllerShapes {
-    void sub_7100F66D34(s32 index);
-
-    /* 0x00 */ void* _0;
-    /* 0x08 */ sead::Buffer<CharacterControllerShape> mShapes;
-    // Constructor F66978 stores its float argument here; factory 12814BC forwards param +520.
-    /* 0x18 */ f32 _18;
 };
 
 // Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
@@ -1230,60 +1203,6 @@ const hkpShape* CharacterControllerRigidBody::getNewHavokShape_() {
     return shapes->mShapes[index]._0;
 }
 
-// NON_MATCHING: prism/sphere field loads and stores are scheduled differently.
-void CharacterControllerShapes::sub_7100F66D34(s32 index) {
-    auto& entry = mShapes[index];
-    entry._10 = false;
-    entry._11 = 0;
-    entry._12 = false;
-    entry._14 = 0;
-    entry._18 = _18;
-    entry._20.set(0, 0, 0);
-    auto* shape = entry._8;
-    if (shape->getType() == ShapeType::Capsule) {
-        auto* capsule = sead::DynamicCast<CapsuleShape>(shape);
-        if (!capsule)
-            return;
-        sead::Vector3f a, b;
-        capsule->getVertices(&a, &b);
-        if ((a.x - b.x) * (a.x - b.x) + (a.z - b.z) * (a.z - b.z) <
-            sead::Mathf::epsilon()) {
-            entry._10 = true;
-            entry._14 = capsule->getRadius();
-            entry._18 = capsule->getRadius();
-            if (a.x == 0.0f && a.z == 0.0f && b.x == 0.0f && b.z == 0.0f)
-                entry._11 = 1;
-        }
-        entry._12 = true;
-        entry._20 = b.y < a.y ? b : a;
-        entry._20.y -= capsule->getRadius();
-    } else if (shape->getType() == ShapeType::Sphere) {
-        auto* sphere = sead::DynamicCast<SphereShape>(shape);
-        if (!sphere)
-            return;
-        entry._10 = true;
-        entry._14 = sphere->mRadius;
-        entry._18 = sphere->mRadius;
-        if (sphere->mTranslate.x == 0.0f && sphere->mTranslate.z == 0.0f)
-            entry._11 = 1;
-        entry._12 = true;
-        entry._20 = sphere->mTranslate;
-        entry._20.y -= sphere->mRadius;
-    } else {
-        auto* prism = sead::DynamicCast<CharacterPrismShape>(shape);
-        if (!prism)
-            return;
-        entry._10 = true;
-        entry._14 = prism->mRadius;
-        entry._18 = prism->mRing0Distance;
-        entry._1c = prism->mRing1Distance;
-        if (prism->mOffset.x == 0.0f && prism->mOffset.z == 0.0f)
-            entry._11 = 1;
-        entry._12 = true;
-        entry._20 += prism->mOffset;
-    }
-}
-
 void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
     if (velocity.squaredLength() > 400.0f) {
         sead::Vector3f clamped = velocity;
@@ -1318,11 +1237,3 @@ void CharacterController::sub_7100F6321C(bool on) {
 }
 
 }  // namespace ksys::phys
-
-// NON_MATCHING: placeholder destructor; the original (0x7100f66998) also destroys members or bases
-// this class does not declare yet.
-Unk_71024f5e40::~Unk_71024f5e40() = default;
-
-// NON_MATCHING: placeholder destructor; the original (0x7100f6741c) also destroys members or bases
-// this class does not declare yet.
-Unk_71024f5e90::~Unk_71024f5e90() = default;

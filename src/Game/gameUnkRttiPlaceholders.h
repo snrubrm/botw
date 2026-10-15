@@ -571,24 +571,6 @@ public:
     ~Unk_71024f4720() override;
 };
 
-// vtable 0x71024f5e40 (8 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f5e40 {
-    SEAD_RTTI_BASE(Unk_71024f5e40)
-public:
-    virtual ~Unk_71024f5e40();
-    virtual void m4() {}
-    virtual void m5();
-    virtual void m6() {}
-    virtual void m7();
-};
-
-// vtable 0x71024f5e90 (8 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f5e90 : public Unk_71024f5e40 {
-    SEAD_RTTI_OVERRIDE(Unk_71024f5e90, Unk_71024f5e40)
-public:
-    ~Unk_71024f5e90() override;
-};
-
 // vtable 0x7102519e58 (4 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519e58 {
     SEAD_RTTI_BASE(Unk_7102519e58)

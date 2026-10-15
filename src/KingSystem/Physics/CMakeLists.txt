@@ -198,6 +198,9 @@ target_sources(uking PRIVATE
     CharacterController/physCharacterController.cpp
     CharacterController/physCharacterControllerUnk40.cpp
     CharacterController/physCharacterControllerUnk40.h
+    CharacterController/physCharacterFormSet.cpp
+    CharacterController/physCharacterFormSet.h
+    CharacterController/physUnk_71024f5e90.cpp
     CharacterController/physCharacterRigidBody.cpp
     CharacterController/physCharacterRigidBody.h
 
