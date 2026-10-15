@@ -79,11 +79,43 @@ public:
 // CSV EventSysActors (Manager + 0x1d378's object; declared only).
 class EventSysActors {
 public:
+    // 0x28 bytes: an actor link plus the handle used while the actor is being created.
+    struct ActorHandle {
+        // 0x7100dc7bb8 (CSV EventSysActors::ActorHandle::ready)
+        void ready();
+
+        act::BaseProcLink link;
+        act::BaseProcHandle handle;
+        bool _20 = false;
+        bool _21 = false;
+    };
+    KSYS_CHECK_SIZE_NX150(ActorHandle, 0x28);
+
+    struct ActorSet {
+        sead::SafeArray<ActorHandle, 4> handles;
+        // name of the actor created into every handle (EventSystemActor, SceneSoundCtrlTag, SoundTriggerTag)
+        sead::SafeString actor_name;
+    };
+    KSYS_CHECK_SIZE_NX150(ActorSet, 0xb0);
+
+    // 0x7100dc782c (placeholder name)
+    struct Unk78 {
+        Unk78();
+        ActorSet sets[3];
+    };
+
+    // 0x7100dc77d4 (CSV EventSysActors::ctor)
+    EventSysActors();
+
     // 0x7100dc7c84 (CSV EventSysActors::finishedLoading)
     bool finishedLoading();
     // 0x7100dc7e84: the Actor linked in the current thread's event-system slot.
     act::Actor* sub_7100DC7E84();
+
+    sead::SafeArray<ActorHandle, 3> mThreadActors;
+    Unk78 _78;
 };
+KSYS_CHECK_SIZE_NX150(EventSysActors, 0x288);
 
 class Manager {
     SEAD_SINGLETON_DISPOSER(Manager)

@@ -9,6 +9,9 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtManager.h"
+#include <mc/seadCoreInfo.h>
 
 namespace ksys::evt {
 
@@ -173,3 +176,27 @@ bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap
 }  // namespace ksys::evt
 
 Unk_71024de2f0::~Unk_71024de2f0() = default;
+
+namespace ksys::evt {
+
+EventSysActors::EventSysActors() = default;
+
+EventSysActors::Unk78::Unk78() = default;
+
+void EventSysActors::ActorHandle::ready() {
+    if (link.hasProc())
+        return;
+    if (!handle.isProcReady())
+        return;
+    auto* actor = sead::DynamicCast<act::Actor>(handle.releaseProc());
+    link.acquire(actor, false);
+    actor->getActorFlags2().set(act::Actor::ActorFlag2::NoDistanceCheck);
+    _20 = true;
+}
+
+act::Actor* EventSysActors::sub_7100DC7E84() {
+    return sead::DynamicCast<act::Actor>(
+        mThreadActors[sead::CoreInfo::getCurrentCoreId()].link.getProc(nullptr, nullptr));
+}
+
+}  // namespace ksys::evt
