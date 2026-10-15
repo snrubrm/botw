@@ -2,6 +2,8 @@
 
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiBehavior.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::behavior {
 
@@ -15,6 +17,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
+    void sub_710062BAE0(act::Rideable::Gear gear);
 
     /* 0x28 */ const int* mAttackIntensity_s{};
     /* 0x30 */ const float* mDamageScaleGear0_s{};
@@ -26,11 +29,9 @@ public:
     /* 0x60 */ const bool* mIsForceGuardBreak_s{};
     /* 0x68 */ const bool* mIsIniviciblePierce_s{};
     /* 0x70 */ sead::SafeString mAttackRigidName_s{};
-    /* 0x80 */ f32 _80 = 0;
-    /* 0x84 */ f32 _84 = 0;
-    /* 0x88 */ f32 _88 = 0;
+    /* 0x80 */ ksys::Timer _80;
     /* 0x8c */ u32 _8c = 0;
-    /* 0x90 */ bool _90 = false;
+    /* 0x90 */ u8 _90 = 0;
 };
 KSYS_CHECK_SIZE_NX150(LynelGearAttackCollision, 0x98);
 
