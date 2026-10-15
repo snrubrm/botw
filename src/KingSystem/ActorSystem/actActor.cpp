@@ -2017,6 +2017,93 @@ void Actor::sub_71011D7EC4(phys::RigidBody* body) {
     }
 }
 
+// NON_MATCHING: fade-mode branches, chase temporaries and the shared movement tail are reordered.
+void Actor::handleModelFadeInOutAndFadeDelete() {
+    s32 mode = 0;
+    f32 target;
+    if (ui::sub_7100EDC6E8()) {
+        target = _68d == 0 ? 1.0f : 0.01f;
+        mode = 2;
+    } else if (_68d == 0) {
+        target = 1.0f;
+    } else if (_68d == 1) {
+        m110(&target, &mode);
+    } else if (_68d == 2) {
+        m111(&target, &mode);
+    } else if (_68d == 3) {
+        m112(&target, &mode);
+    } else {
+        m113(&target, &mode);
+    }
+    _68d = 0;
+    if (_4e8 != target) {
+        if (mode == 0) {
+            sead::Mathf::chase(&_4e8, target, VFR::instance()->getIntervalRatio() * (1.0f / 6.0f));
+        } else if (mode == 1) {
+            if (_4e8 > 0.7f)
+                _4e8 = 0.7f;
+            else if (_4e8 > 0.3f)
+                _4e8 = 0.3f;
+            else
+                _4e8 = target;
+        } else {
+            _4e8 = target;
+        }
+        _68e = true;
+    }
+    if (_4f8 > 0.0f)
+        sead::Mathf::chase(&_4f8, 0.0f, VFR::instance()->getIntervalRatio());
+
+    bool check_movement = false;
+    const s32 delete_type = mFadeOutDeleteType;
+    if (delete_type != 0 || mFadeOutSleepFlags.load() > 0 || _68c.load() != 0) {
+        if (mModel)
+            sead::Mathf::chase(&mStartModelOpacity, 0.0f,
+                               VFR::instance()->getIntervalRatio() * (1.0f / 6.0f));
+        else
+            mStartModelOpacity = 0.0f;
+        if (!(mStartModelOpacity <= 0.0f)) {
+            check_movement = true;
+        } else if (delete_type != 0) {
+            handleFadeoutDelete(DeleteReason::_0);
+        } else if (mFadeOutSleepFlags.load() > 0) {
+            if (mFadeOutSleepFlags.load() & 1)
+                sleep(SleepWakeReason(0));
+            if (mFadeOutSleepFlags.load() & 2)
+                sleep(SleepWakeReason(1));
+            if (mFadeOutSleepFlags.load() & 4)
+                sleep(SleepWakeReason(2));
+            if (mFadeOutSleepFlags.load() & 8)
+                sleep(SleepWakeReason(3));
+        } else if (_68c.load() == 1) {
+            mMsgTransceiver.sendMessage(*mMsgTransceiver.getId(), MessageType(0x3000010), nullptr, true);
+            _68c = 2;
+        }
+    } else if (mStartModelOpacity < 1.0f) {
+        if (_4f8 > 0.0f) {
+            check_movement = true;
+        } else {
+            if (mModel)
+                sead::Mathf::chase(&mStartModelOpacity, 1.0f,
+                                   VFR::instance()->getIntervalRatio() * (1.0f / 6.0f));
+            else
+                mStartModelOpacity = 1.0f;
+            _68e = true;
+        }
+    }
+    if (check_movement) {
+        if (mMapObject && mMapObject->getFlags0().isOn(map::Object::Flag0::_2)) {
+            sead::Vector3f home = mHomeMtx.getTranslation();
+            if (mFieldBodyGroup)
+                home = phys::System::instance()->getStaticCompoundMgr()->getTransformedPos(
+                    mFieldBodyGroup, home);
+            if (!((home - mMtx.getTranslation()).squaredLength() > 0.5f))
+                return;
+        }
+        _68e = true;
+    }
+}
+
 // NON_MATCHING: the deletion case chain becomes a jump table with a different block order.
 bool Actor::handleFadeoutDelete(DeleteReason reason) {
     const s32 requested_type = mFadeOutDeleteType;

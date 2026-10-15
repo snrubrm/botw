@@ -656,7 +656,7 @@ public:
     virtual void m147();
 
     sead::Atomic<bool>& get689() { return _689; }
-    sead::Atomic<bool>& get68c() { return _68c; }
+    sead::Atomic<u8>& get68c() { return _68c; }
     sead::Atomic<u8>& get68f() { return _68f; }
     bool get690() const { return _690; }
     // lane3 s38 (FixedMagneStick::calc_); the type is a placeholder (only byte 0x8b is known).
@@ -1025,7 +1025,7 @@ protected:
     /* 0x689 */ sead::Atomic<bool> _689 = false;
     /* 0x68a */ sead::Atomic<bool> _68a = false;
     /* 0x68b */ sead::Atomic<bool> mNoFadeInCreate = false;
-    /* 0x68c */ sead::Atomic<bool> _68c = false;
+    /* 0x68c */ sead::Atomic<u8> _68c = 0;  // fade request: 0 idle, 1 pending, 2 acknowledged
     /* 0x68d */ u8 _68d = 0;  // set to 1-4 by ActorLinkConstDataAccess::sub_7100D15570 / 155F8 / 15680 / 15708
     /* 0x68e */ sead::Atomic<bool> _68e = false;
     // job1_1 independently clears bits 0 and 1 with separate reads and writes of this shared byte.
@@ -1033,7 +1033,7 @@ protected:
     /* 0x690 */ bool _690 = false;
     /* 0x691 */ sead::BitFlag8 _691;
     /* 0x694 */ sead::Atomic<int> mFadeOutDeleteType = 0;
-    /* 0x698 */ sead::Atomic<u32> mFadeOutSleepFlags;
+    /* 0x698 */ sead::Atomic<s32> mFadeOutSleepFlags;
     /* 0x6a0 */ class ActorX6A0* _6a0 = nullptr;
     /* 0x6a8 */ ActorChemicals* mChemical = nullptr;
     /* 0x6b0 */ phys::Reaction* mReaction = nullptr;
