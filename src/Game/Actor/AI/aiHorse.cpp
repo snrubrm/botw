@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,7 @@ Horse::Horse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 Horse::~Horse() = default;
 
-void Horse::sub_7100435180(u64 value) {
+void Horse::sub_7100435180(const sead::Matrix34f* value) {
     _48.reset(0x70);
     _48.set(0x50);
     _50 = value;
@@ -37,7 +39,7 @@ void Horse::sub_71004334C8() {
     as_list->x_2(66, 12, false, false);
     as_list->x_2(66, 24, false, false);
     auto* rideable = mActor->getHorseOptionsMaybe();
-    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    auto* horse = sead::DynamicCast<act::Horse>(mActor);
     if (rideable) {
         if (as_list->x_1(0, 0) != act::sUnk_7102603180 || as_list->x_4(0, 0)) {
             const auto gear = act::Rideable::Gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);
@@ -130,6 +132,68 @@ void Horse::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void Horse::leave_() {
     sub_7100435420();
+}
+
+// NON_MATCHING: enum temporary stack slots differ.
+bool Horse::handleMessage_(const ksys::Message* message) {
+    auto* horse = sead::DynamicCast<act::Horse>(mActor);
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    const u32 type = u32(message->getType());
+    switch (type) {
+    case 0x3000007:
+        if (horse && rideable) {
+            const act::Unk_7100e8b2b8::Unk8 kind = rideable->Unk_7100e8b2b8::_8.load() & 0xff;
+            if (int(kind) != 0) {
+                const act::Unk_7100e8b2b8::Flag10 flag = act::Unk_7100e8b2b8::Flag10::_0;
+                rideable->Unk_7100e8b2b8::_10.setBitOn(int(flag));
+                return true;
+            }
+        }
+        changeChild("奈落復帰");
+        return true;
+    case 0x3800001:
+        if (isCurrentChild("泳ぐ終了待ち")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addInt(-1, "ChildSelectAtFirst", -1);
+            changeChild("非騎乗", &pack);
+            return false;
+        }
+        if (!isCurrentChild("非騎乗")) {
+            ksys::gdt::Manager::instance()->setS32(1, "Horse_UnreachableCause");
+            return true;
+        }
+        return false;
+    case 0x380001d:
+    case 0x380001e: {
+        const bool swimming = isCurrentChild("泳ぐ") || isCurrentChild("泳ぐ終了待ち");
+        const bool not_ridden = isCurrentChild("非騎乗");
+        if (_48.isOn(0x30))
+            return true;
+        if (swimming || not_ridden) {
+            if (!rideable || int(act::Unk_7100e8b2b8::Unk8(rideable->Unk_7100e8b2b8::_8.load() & 0xff)) == 0) {
+                auto* payload = static_cast<const sead::Matrix34f*>(message->getUserData());
+                if (payload) {
+                    if (swimming) {
+                        ksys::act::ai::InlineParamPack pack;
+                        pack.addInt(-1, "ChildSelectAtFirst", -1);
+                        changeChild("非騎乗", &pack);
+                    }
+                    if (type == 0x380001e)
+                        sub_7100435260();
+                    else
+                        sub_7100435180(payload);
+                }
+                return true;
+            }
+        }
+        if (rideable && (rideable->Unk_7100e8b2b8::_8.load() & 0xff) == 1)
+            return true;
+        ksys::gdt::Manager::instance()->setS32(2, "Horse_UnreachableCause");
+        return true;
+    }
+    default:
+        return false;
+    }
 }
 
 void Horse::loadParams_() {
