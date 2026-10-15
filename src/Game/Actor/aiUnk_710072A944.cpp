@@ -30,6 +30,20 @@ void sub_7100729370(uking::act::Swarm* swarm, sead::Vector3f* direction, s32* co
         *count = num_contacts;
 }
 
+bool sub_7100729494(uking::act::Swarm* swarm) {
+    return swarm->sub_71002D47D8(0) || swarm->sub_71002D47D8(1) ||
+           swarm->sub_71002D47D8(2) || swarm->sub_71002D47D8(3);
+}
+
+// NON_MATCHING: the third boolean count is added with swapped integer operands.
+s32 sub_71007294F4(uking::act::Swarm* swarm) {
+    s32 count = swarm->sub_71002D47D8(0);
+    count += swarm->sub_71002D47D8(1);
+    count += swarm->sub_71002D47D8(2);
+    count += swarm->sub_71002D47D8(3);
+    return count;
+}
+
 void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
     for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
         if (auto* unit = swarm->_14c8[i])

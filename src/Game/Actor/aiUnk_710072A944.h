@@ -18,6 +18,9 @@ class Swarm;
 
 // 0x7100729370: sums the opposite contact directions of the four swarm bodies.
 void sub_7100729370(uking::act::Swarm* swarm, sead::Vector3f* direction, s32* count);
+// Contact queries over the four swarm bodies.
+bool sub_7100729494(uking::act::Swarm* swarm);
+s32 sub_71007294F4(uking::act::Swarm* swarm);
 
 void swarmDropTableStuff(ksys::act::Actor* actor);
 void sub_710072A264(uking::act::Swarm* swarm, const sead::Vector3f& target, const sead::Vector3f& up);
