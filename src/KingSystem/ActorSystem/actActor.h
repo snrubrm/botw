@@ -438,6 +438,7 @@ public:
     void x_14(bool a1);
     void x_16();
     void handleModelFadeInOutAndFadeDelete();
+    bool handleFadeoutDelete(DeleteReason reason);
     // CSV Actor::x_2 (0x7100732fc0, 928 bytes; declaration only, lane4 s28): called first by MapConstActive::m148.
     void x_2();
     bool x_8(bool a1);

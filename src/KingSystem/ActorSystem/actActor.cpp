@@ -2017,6 +2017,43 @@ void Actor::sub_71011D7EC4(phys::RigidBody* body) {
     }
 }
 
+// NON_MATCHING: the deletion case chain becomes a jump table with a different block order.
+bool Actor::handleFadeoutDelete(DeleteReason reason) {
+    const s32 requested_type = mFadeOutDeleteType;
+    if (requested_type == 4) {
+        if (mFadeOutDeleteType.compareExchange(4, 1))
+            emitSignalsOrDisappearEffectForDelete(0);
+    } else if (requested_type == 5) {
+        if (mFadeOutDeleteType.compareExchange(5, 1)) {
+            emitSignal(map::MapLinkDefType::DeadUp, true);
+            emitSignal(map::MapLinkDefType::LifeZero, true);
+            if (mMapObject) {
+                mMapObject->setFlags0(map::Object::Flag0::_100000);
+                if (mMapObject) {
+                    mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
+                    if (mMapObject && mMapObject->getLinkData())
+                        mMapObject->getLinkData()->sub_7100D4FAD8();
+                }
+            }
+        }
+    } else if (requested_type != 1 && requested_type != 3) {
+        if (requested_type != 2)
+            return false;
+        if (mMapObject && mMapObject->getLinkData())
+            mMapObject->getLinkData()->deleteEachActorIfDeleteType2();
+        return true;
+    }
+    const s32 type = mFadeOutDeleteType;
+    if (deleteLater(reason) && mMapObject &&
+        (((type == 2 || type == 3) && mMapObject->getFlags0().isOff(map::Object::Flag0::_400)) ||
+         (getState() != State::Calc && mMapObject->getFlags0().isOff(map::Object::Flag0::_400)))) {
+        mMapObject->setFlags0(map::Object::Flag0::ActorCreated);
+        if (auto* mgr = map::PlacementMgr::instance())
+            mgr->sub_71011EB46C(mMapObject);
+    }
+    return true;
+}
+
 void Actor::deleteIfDeleteType2() {
     if (mFadeOutDeleteType != 2)
         return;
