@@ -21,6 +21,7 @@ public:
 protected:
     void calc_() override;
     bool m33() override;
+    void sub_71001E271C(sead::Matrix34f* out);
 
     struct Params {
         // static_param at offset 0x90
