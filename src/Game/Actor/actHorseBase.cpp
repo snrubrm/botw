@@ -7,6 +7,7 @@
 #include <gsys/gsysModelUnitGroup.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actHorseObject.h"
+#include "Game/Actor/actHorseStrings.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -82,6 +83,24 @@ void HorseBase::sub_7100E6C464(s32 id) {
         if (ksys::act::acquireActor(&_b30, &accessor))
             sub_7100E6C5A4(accessor, id);
     }
+}
+
+void HorseBase::sub_7100E67230() {
+    x_3(1.0f);
+    if (_b10) {
+        _b10->Unk_7100e8b2b8::sub_7100E8BE10();
+        _b10->Unk_7100e8b2b8::_8 = 0x200;
+        if (mASList->x_1(0, 0) != sUnk_7102603360) {
+            _b10->_18.sub_7100E770C4(false);
+            _b10->sub_7100E633AC();
+            _b10->_18.sub_7100E76E74(sUnk_7102603360, false);
+            mASList->startAnimationMaybe(-1.0f, -1.0f, sUnk_7102603360, 0, 0, true);
+        }
+    }
+    _b74.set(0x8000);
+    if (auto* lod = getLodState())
+        lod->mFlags10.set(0x40);
+    _b74.set(8);
 }
 
 void HorseBase::m63() {

@@ -10,6 +10,8 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/System/VFR.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actTag.h"
 
 bool fadeSlowEffect();
 
@@ -364,4 +366,29 @@ void sub_71002C682C(ksys::act::Actor* actor, f32 value) {
         ksys::act::acquireActor(&part->mLink, &accessor);
         accessor.sub_7100D153A4(value);
     }
+}
+
+// NON_MATCHING: one parts-message loop replaces the native duplicated on/off loops.
+void sub_71002C65DC(ksys::act::Actor* actor, bool on, bool sync_parts, bool xlink_flag) {
+    actor->getActorFlags2().change(ksys::act::Actor::ActorFlag2::_20, on);
+    if (auto* xlink = actor->getXLink())
+        xlink->_cc.change(0x80000, xlink_flag);
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor);
+    if (!enemy)
+        return;
+    for (auto* part : enemy->_1128.mList) {
+        if (!part->mLink.hasProcInCalcState())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&part->mLink, &accessor);
+        if (accessor.getProc() && accessor.hasTag(ksys::act::tags::SiteBossParts)) {
+            actor->sendMessage(*accessor.getMessageTransceiverId(),
+                               ksys::MessageType(on && sync_parts ? 0x3000001 : 0x3000002),
+                               nullptr, true);
+        }
+    }
+}
+
+void sub_71002C65C8(ksys::act::Actor* actor, bool on, bool sync_parts) {
+    sub_71002C65DC(actor, on, sync_parts, !on);
 }

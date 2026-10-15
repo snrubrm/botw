@@ -1,4 +1,5 @@
 #include <cstdarg>
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -12,6 +13,21 @@ namespace uking::act {
 Rideable::Rideable() = default;
 
 Rideable::~Rideable() = default;
+
+// NON_MATCHING: matrix snapshot stores and translation extraction use different registers and scheduling.
+bool Rideable::m4(ksys::act::Actor* actor, sead::Heap* heap) {
+    if (!RideableBase::m4(actor, heap))
+        return false;
+    if (!Unk_7100e8b2b8::m4(actor, heap))
+        return false;
+    const sead::Matrix34f matrix = RideableBase::mActor->getMtx();
+    _1c4 = matrix;
+    _200 = matrix;
+    _1f4 = matrix.getTranslation();
+    _230 = matrix.getTranslation();
+    _23c.set(0.0f, -sead::Mathf::epsilon(), 0.0f);
+    return true;
+}
 
 s32 Rideable::getCalmDownNum() const {
     return RideableBase::mActor->getParam()->getRes().mGParamList->getHorseUnit()->mCalmDownNum.ref();
