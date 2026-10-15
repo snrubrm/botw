@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionOpenDungeonTitle.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUI.h"
 
 namespace uking::action {
@@ -12,7 +13,14 @@ bool OpenDungeonTitle::init_(sead::Heap* heap) {
 }
 
 void OpenDungeonTitle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* ui = ui::UI::instance();
+    if (!ui) {
+        setFailed();
+        return;
+    }
+    sead::FixedSafeString<256> label(GameScene::getCurrentMapName());
+    sead::FixedSafeString<256> secondary_label(GameScene::getCurrentMapName());
+    ui->sub_71010A7774(mMstxt_s, label, mSubMstxt_d, secondary_label, true);
 }
 
 void OpenDungeonTitle::leave_() {

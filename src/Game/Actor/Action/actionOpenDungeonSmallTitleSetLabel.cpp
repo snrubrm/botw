@@ -13,7 +13,14 @@ bool OpenDungeonSmallTitleSetLabel::init_(sead::Heap* heap) {
 }
 
 void OpenDungeonSmallTitleSetLabel::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* ui = ui::UI::instance();
+    if (!ui || mLabelName_d.isEmpty()) {
+        setFailed();
+        return;
+    }
+    sead::FixedSafeString<256> label(mLabelName_d);
+    sead::FixedSafeString<256> secondary_label(mLabelName_d);
+    ui->sub_71010A6800(mMstxt_s, label, mSubMstxt_d, secondary_label);
 }
 
 void OpenDungeonSmallTitleSetLabel::leave_() {
