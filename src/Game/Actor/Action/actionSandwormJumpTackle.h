@@ -38,7 +38,7 @@ protected:
     Unk_SandwormTackleMoveList _c0{mActor};
     sead::Vector3f _e8{0, 0, 0};
     bool _f4 = false;
-    f32 _f8 = 0.0f;
+    s32 _f8 = 0;
     bool _fc = false;
     gsys::BoneAccessKeyEx _100;
     Unk_71012419b4 _138;

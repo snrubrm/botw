@@ -1,5 +1,8 @@
 #include "Game/Actor/Action/actionSandwormJumpTackle.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
+#include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actLodState.h"
@@ -51,7 +54,7 @@ void SandwormJumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100720814(actor, 0);
     if (!_f4)
         sub_7100720A18(actor, &_138);
-    _f8 = 0.0f;
+    _f8 = 0;
     mFlags.reset(Flag::Changeable);
     if (auto* model = actor->getModel())
         _100.search(model, "Head");
@@ -91,7 +94,65 @@ void SandwormJumpTackle::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+// NON_MATCHING: bone-offset component stores are paired differently.
 void SandwormJumpTackle::calc_() {
+    auto* actor = mActor;
+    auto* list = actor->getASList();
+    switch (_f8) {
+    case 0:
+        if (actor->getVelocity().y > 0.0f)
+            _f8 = 1;
+        if (auto* model = actor->getModel(); model && _100.isValid()) {
+            const auto& key = _100.getKey();
+            sead::Matrix34f matrix;
+            model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &matrix, key.bone_index);
+            const sead::Vector3f position = matrix.getTranslation() + sead::Vector3f::ey * 2.5f;
+            _c0.sub_710071FAEC(mActor, position, 6.0f);
+        }
+        break;
+    case 1:
+        if (auto* model = actor->getModel(); model && _100.isValid()) {
+            const auto& key = _100.getKey();
+            sead::Matrix34f matrix;
+            model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &matrix, key.bone_index);
+            const sead::Vector3f position = matrix.getTranslation() + sead::Vector3f::ey * 2.5f;
+            _c0.sub_710071FAEC(mActor, position, 6.0f);
+        }
+        if (actor->getVelocity().y < 0.0f) {
+            if (auto* controller = actor->getCharacterController())
+                controller->sub_7100F5EE1C(controller->get70() * 0.8f);
+            sub_710072027C(actor, false, 8);
+            _f8 = 2;
+        }
+        break;
+    case 2:
+        if (!_fc && _100.isValid()) {
+            if (auto* model = actor->getModel()) {
+                const auto& key = _100.getKey();
+                sead::Matrix34f matrix;
+                model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                    &matrix, key.bone_index);
+                const sead::Vector3f position = actor->getMtx().getTranslation();
+                const f32 head_y = matrix(1, 3);
+                f32 ground_y;
+                if (sub_710072C21C(&ground_y, &position) && head_y - ground_y < 6.0f) {
+                    _fc = true;
+                    if (auto* sandworm = sead::DynamicCast<uking::act::Sandworm>(actor))
+                        sandworm->_163c = 2;
+                }
+            }
+        }
+        break;
+    }
+    if (list && !isFinishedAS(0, 0) &&
+        list->x(47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+        sead::Vector3f gravity;
+        sub_710072DC50(&gravity, actor);
+        if (auto* controller = actor->getCharacterController())
+            sub_71007377D4(controller, *mPosReduceRate_s);
+    }
     JumpTackle::calc_();
 }
 
