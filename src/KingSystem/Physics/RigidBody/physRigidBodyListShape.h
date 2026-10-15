@@ -2,6 +2,10 @@
 
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
 
+namespace uking::ai {
+class AirOctaState;
+}
+
 namespace ksys::phys {
 
 struct BoxShapeParam;
@@ -62,6 +66,7 @@ protected:
                           const sead::Vector3f& contact_point) override;
 
 private:
+    friend class uking::ai::AirOctaState;  // updates the existing sphere child directly.
     ListShape* mShape{};
 };
 

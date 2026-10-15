@@ -8,6 +8,10 @@
 
 class hkpListShape;
 
+namespace uking::ai {
+class AirOctaState;
+}
+
 namespace ksys::phys {
 
 struct BoxShapeParam;
@@ -76,6 +80,7 @@ public:
     void setScale(float scale) override;
 
 private:
+    friend class uking::ai::AirOctaState;  // updates a child sphere and marks the list dirty.
     enum class Flag {
         /// Whether the Havok list shape needs to be recreated.
         NeedsHavokShapeUpdate = 1 << 0,

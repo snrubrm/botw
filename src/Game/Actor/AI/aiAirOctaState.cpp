@@ -21,8 +21,40 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
+#include <cmath>
 
 namespace uking::ai {
+
+// NON_MATCHING: sphere interpolation and radius arguments use different scheduling.
+void AirOctaState::sub_71002FDB9C() {
+    if (!_278.isOnBit(4))
+        return;
+    _204.x = ksys::VFR::instance()->getRawDeltaTime() + _204.x;
+    if (_204.x > 4.0f)
+        _278.resetBit(4);
+    auto* main_body = mActor->getMainBody();
+    if (!main_body)
+        return;
+    auto* body = sead::DynamicCast<ksys::phys::ListShapeRigidBody>(main_body);
+    if (!body)
+        return;
+    auto* child = body->mShape ? body->mShape->mShapes[0] : nullptr;
+    auto* sphere = sead::DynamicCast<ksys::phys::SphereShape>(child);
+    if (!sphere)
+        return;
+    static const sead::Vector3f sUnk_71025B73E0(0.0f, 2.0f, 0.0f);
+    static const sead::Vector3f sUnk_71025B73EC(0.0f, 2.5f, 0.0f);
+    const f32 weight = std::fmin(_204.x * 0.25f, 1.0f);
+    const sead::Vector3f translation = sead::lerp(sUnk_71025B73E0, sUnk_71025B73EC, weight);
+    sphere->setRadius(sead::lerp(1.2f, 1.8f, weight));
+    sphere->setTranslate(translation);
+    body->setMotionFlag(ksys::phys::RigidBody::MotionFlag::DirtyShape);
+    if (body->mShape)
+        body->mShape->mFlags.set(ksys::phys::ListShape::Flag::NeedsHavokShapeUpdate);
+}
 
 // NON_MATCHING: forcePushBack followed by back retains an extra ring-buffer lookup.
 void AirOctaState::sub_71002FDF9C() {
