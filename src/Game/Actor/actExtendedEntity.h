@@ -24,6 +24,7 @@ public:
     ExtendedEntity();
     ~ExtendedEntity();
     void sub_7100E64E60();
+    void sub_7100E64EAC(f32 scale);
 
     /* 0x00 */ void* _0 = nullptr;
     /* 0x08 */ ksys::phys::RigidBody* _8 = nullptr;

@@ -15,6 +15,14 @@
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actExtendedEntity.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -150,8 +158,69 @@ bool PreyRoot::init_(sead::Heap* heap) {
     return _188 != nullptr;
 }
 
+// NON_MATCHING: flag selects, vector stores and callback argument scheduling differ.
 void PreyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!_188) {
+        setFailed();
+        return;
+    }
+    _204 = ksys::act::hasTag(_188, 0xff2ecb67);
+    if (auto* awareness = _188->getAwareness()) {
+        awareness->enable();
+        awareness->_328 = awareness->_32c == 0x20 ? 0x10211 : 0x10201;
+    }
+    auto* controller = _188->getCharacterController();
+    auto* nav = _188->m45();
+    if (controller && nav) {
+        sead::Vector3f position;
+        if (act::sub_7100E8160C(controller, nullptr, nullptr, &position) &&
+            !ksys::util::isVectorInvalid(position)) {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            nav->_284 = position;
+        }
+        controller->sub_7100F631B8(true);
+        if (auto* entity = _188->_1190) {
+            const bool special = ksys::act::hasTag(mActor, 0xfa5c683e);
+            entity->_34 = special ? 0.3491f : 0.6108f;
+            entity->_38 = special ? -0.3491f : -0.6108f;
+            entity->_3c = special ? 0.06981f : 0.10472f;
+            entity->_40 = special ? 0.06981f : 0.10472f;
+            entity->sub_7100E64EAC(0.0f);
+        } else {
+            controller->sub_7100F62DD0(0.0f);
+        }
+        if (*mIsUseWeakForcePushOutside_s)
+            controller->mFlags.set(0x80000);
+    }
+    if (_204)
+        ksys::act::enableAttClient(_188, "Grab");
+    else
+        ksys::act::disableAttClient(_188, "Grab");
+    if (_188->getHorseOptionsMaybe())
+        _188->getHorseOptionsMaybe()->sub_7100E8BD80();
+    if (ksys::act::isWolfOrBear(_188)) {
+        if (auto* sensor = getActorAttackSensor(_188))
+            sensor->_20 |= 0x10;
+    }
+    setDamageCallbackTiming(_188, 0, &_98);
+    setDamageCallbackTiming(_188, 0, &_118);
+    setDamageCallbackTiming(_188, 1, &_c8);
+    if (ksys::act::hasTag(mActor, 0xfa5c683e))
+        setDamageCallbackTiming(mActor, 5, &_f0);
+    if (_188->getModel())
+        _188->getASList()->sub_710115BAF8("Root");
+    if (auto* root = mActor->getRootAi(); root && root->getI() == 10)
+        sub_710073DCB4(_188, *mCreateDeadConditionType_a);
+    _190 = _188->getMtx().getBase(2);
+    _1a8.value = 0.0f;
+    _1a8.prev_value = 0.0f;
+    _188->getASList()->x_6(9, 0, 0.0f);
+    _1c0.sub_710071EE1C();
+    _1f0.reset(*mEscapeForceEndTime_s);
+    m44();
+    sub_7100736A84(_188);
+    _1b4.reset(sead::GlobalRandom::instance()->getF32Range(5.0f, 35.0f));
+    _19c = mActor->getMtx().getTranslation();
 }
 
 void PreyRoot::leave_() {

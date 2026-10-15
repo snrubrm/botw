@@ -344,7 +344,8 @@ public:
     /* 0x320 */ u32 _320;  // NPCRoot::leave_ sets 0x100000 for Npc_Kakariko016
     /* 0x324 */ u8 _324[0x328 - 0x324];
     /* 0x328 */ u32 _328;  // WolfLinkRoot::enter_ (0x2000b8)
-    /* 0x32c */ u8 _32c[0x334 - 0x32c];
+    /* 0x32c */ u32 _32c;
+    /* 0x330 */ u8 _330[4];
     s8 _334;
     u8 _335[0x337 - 0x335];
     /* 0x337 */ bool _337;  // registered with Awareness::Instances
