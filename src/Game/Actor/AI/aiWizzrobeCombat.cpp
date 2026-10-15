@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiWizzrobeCombat.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWizzrobe.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -39,7 +41,48 @@ WizzrobeCombat::~WizzrobeCombat() {
 }
 
 bool WizzrobeCombat::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    sead::FixedSafeString<64> name;
+    for (s32 i = 0; i < *mSummonBufferSize_s; ++i) {
+        name.format("%s_%d", mSummonBufferKey_s.cstr(), i);
+        if (!enemy->sub_7100D3CED8(name, heap))
+            return false;
+    }
+    mMagicWeatherType = 0;
+    mSelectedSummonActor = nullptr;
+    sub_71005FA684();
+    return true;
+}
+
+void WizzrobeCombat::sub_71005FA684() {
+    for (auto& actor : mSummonActors) {
+        actor.name.clear();
+        actor.isFlyActor = false;
+    }
+    const auto* params = getGParamList()->getWizzrobe();
+    if (params) {
+        mMagicWeatherType = params->mMagicWeatherType.ref();
+        const sead::SafeString names = params->mSummonActorName.ref();
+        s32 index = 0;
+        for (auto it = names.tokenBegin(","); names.tokenEnd(",") != it; ++it) {
+            it.get(&mSummonActors[index].name);
+            if (!mSummonActors[index].name.isEmpty())
+                ++index;
+            if (index == mSummonActors.size())
+                break;
+        }
+    }
+    auto* info = ksys::act::InfoData::instance();
+    if (info) {
+        for (auto& actor : mSummonActors) {
+            if (!actor.name.isEmpty()) {
+                info->getInvalidLifeConditions(actor.name.cstr(), actor.conditions);
+                actor.isFlyActor = info->hasTag(actor.name.cstr(), 0xd3231bed);
+            }
+        }
+    }
 }
 
 void WizzrobeCombat::enter_(ksys::act::ai::InlineParamPack* params) {

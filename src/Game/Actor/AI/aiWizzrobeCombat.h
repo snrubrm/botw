@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,7 @@ public:
 
 protected:
     bool sub_71005FACD8();
+    void sub_71005FA684();
     // 0x71005fc498: the ray from `start` to `end` hits something that is neither water nor bog
     bool sub_71005FC498(const sead::Vector3f& start, const sead::Vector3f& end);
     // 0x71005fc01c: changes to the "召喚魔法" child
@@ -49,10 +51,19 @@ protected:
     // aitree_variable at offset 0x90
     bool* mIsWizzrobeInBattleAreaFlag_a{};
     ksys::act::BaseProcHandle _98;
-    // The rest (0xa8 - 0x5a0: FixedSafeString<64> + SafeString arrays) is not recovered yet.
-    u8 _a8[0x59c - 0xa8];
-    bool _59c;
-    bool _59d;
+    struct SummonActor {
+        sead::FixedSafeString<64> name;
+        ksys::act::InfoData::InvalidLifeConditions conditions{};
+        bool isFlyActor;
+    };
+    static_assert(sizeof(SummonActor) == 0x270);
+    SummonActor* mSelectedSummonActor = nullptr;
+    sead::SafeArray<SummonActor, 2> mSummonActors;
+    s32 _590 = 0;
+    s32 mMagicWeatherType = 0;
+    s32 _598 = 0;
+    bool _59c = false;
+    bool _59d = true;
     u8 _59e[0x5a0 - 0x59e];
 };
 KSYS_CHECK_SIZE_NX150(WizzrobeCombat, 0x5a0);
