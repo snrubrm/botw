@@ -25,6 +25,10 @@ public:
 protected:
     // 0x71004c69b0: finds the first NPC among the linked map objects and acquires it into `link`
     bool sub_71004C69B0(ksys::act::BaseProcLink* link);
+    void sub_71004C6A5C(bool reset_timers);
+    void sub_71004C6CC8();
+    bool sub_71004C6F0C(ksys::act::BaseProcLink* link);
+    void sub_71004C717C();
     // 0x71004c84c8: updates the talk state, then finishes / "納刀" / the thank-you state
     void sub_71004C84C8();
     // 0x71004c8ddc: starts the "気絶前振り向き" child (timer _98[1] = 600)
@@ -56,7 +60,7 @@ protected:
     act::NPC* _88{};
     bool _90 = false;
     bool _91 = false;
-    u8 _92 = 0;
+    bool _92 = false;
     bool _93 = false;
     bool _94 = false;
     // Five timers (the confront / thank / faint states use the entries 0 and 1); zeroed together by one memset.
