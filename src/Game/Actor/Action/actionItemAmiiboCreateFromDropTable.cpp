@@ -1,5 +1,7 @@
 #include "Game/Actor/Action/actionItemAmiiboCreateFromDropTable.h"
+#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 
 namespace uking::action {
 
@@ -8,8 +10,21 @@ ItemAmiiboCreateFromDropTable::ItemAmiiboCreateFromDropTable(const InitArg& arg)
 
 ItemAmiiboCreateFromDropTable::~ItemAmiiboCreateFromDropTable() = default;
 
+// NON_MATCHING: parameter initialization and store scheduling.
 bool ItemAmiiboCreateFromDropTable::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    ksys::phys::BoxParam param;
+    param.center_of_mass = {0.0f, 0.0f, 0.0f};
+    param.toi = true;
+    param.translate = {0.0f, -0.52f, 0.0f};
+    param.extents = {1.5f, 1.0f, 1.5f};
+    param.motion_type = ksys::phys::MotionType::Fixed;
+    param.mass = 10.0f;
+    param.contact_layer = ksys::phys::ContactLayer::EntityGround;
+    param.groundhit = ksys::phys::GroundHit::HitAll;
+    param.common.material = ksys::phys::Material::AirWall;
+    param.no_hit_ground = true;
+    _a80 = ksys::phys::BoxRigidBody::make(&param, heap);
+    return _a80 != nullptr;
 }
 
 void ItemAmiiboCreateFromDropTable::enter_(ksys::act::ai::InlineParamPack* params) {
