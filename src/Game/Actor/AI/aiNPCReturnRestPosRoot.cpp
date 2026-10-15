@@ -2,6 +2,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/Actor/actNPC.h"
+#include "Game/Actor/aiUnk_71024f1658.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::ai {
 
@@ -13,8 +18,24 @@ bool NPCReturnRestPosRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: inline parameter argument and string descriptor scheduling.
 void NPCReturnRestPosRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+        if (npc->_840) {
+            npc->_fe8 &= ~0x100;
+            npc->_9d8.copy(npc->_840->sub_7100EEEE88(mActor));
+        }
+    }
+    if (auto* schedule = mActor->getSchedule()) {
+        mActor->getASList()->goLimpFromHeadShotMaybe(0x37, schedule->_248, 0);
+        mActor->getASList()->goLimpFromHeadShotMaybe(0x38, schedule->_248, 0);
+    }
+    const bool raining = wm::callIsRainingOrSnowingOrThunderStorm(false);
+    ksys::act::ai::InlineParamPack pack;
+    const char* as_name = raining ? "Run_Rain" : "Walk";
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addString(as_name, "DynASKeyName", -1);
+    changeChild("Move", &pack);
 }
 
 void NPCReturnRestPosRoot::calc_() {
