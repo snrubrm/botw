@@ -7,6 +7,59 @@
 
 namespace uking::action {
 
+void GuardianMiniFinalBeamMove::sub_7100194A58() {
+    if (_80)
+        return;
+
+    auto* beam = sead::DynamicCast<act::BeamBase>(mActor);
+    if (!beam)
+        return;
+    auto* actor = beam->m48();
+    if (!actor)
+        return;
+
+    if (hasAttackInfo(beam)) {
+        auto* info = getAttackInfo(beam, 0);
+        if (info && isPlayerProfile(&const_cast<AttackInfo*>(info)->_50)) {
+            auto* proc = info->_50.getProc(nullptr, nullptr);
+            if (sead::DynamicCast<ksys::act::Actor>(proc) &&
+                sead::DynamicCast<uking::act::PlayerBase>(proc) &&
+                static_cast<uking::act::PlayerBase*>(proc)->_cf0.isOnBit(0)) {
+                sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000043), beam);
+                _80 = true;
+                return;
+            }
+        }
+    }
+
+    auto* body = beam->findPhysicsBodyByName("Atk", "AtkBody");
+    if (!body)
+        return;
+    auto* contacts = body->getContactPointInfo();
+    if (!contacts || contacts->getNumContactPoints() == 0 || contacts->begin().isEnd())
+        return;
+
+    auto it = contacts->begin();
+    const auto end = contacts->end();
+    for (; it != end; ++it) {
+        auto* user_tag = (*it)->body_b->getUserTag();
+        if (!user_tag)
+            continue;
+        if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(user_tag)) {
+            if (auto* target = tag->getActor(nullptr, nullptr)) {
+                if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(target)) {
+                    if (!player->isGuard()) {
+                        sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000043),
+                                    beam);
+                        _80 = true;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void GuardianMiniFinalBeamMove::m36(const AttackInfo* info) {
     BeamMove::m36(info);
 
