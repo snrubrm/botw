@@ -1,6 +1,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapLinkTag.h"
 #include <container/seadBuffer.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectGenGroup.h"
@@ -529,6 +530,51 @@ void ObjectLinkData::sub_7100D4F1D0(s32 core, MessageTransceiverBase* sender, s3
                 accessor.sub_7100D15964(core, sender, a1, a2, message, user_data, target);
             }
         }
+    }
+}
+
+void ObjectLinkData::sub_7100D4F3E4(act::Unk117* arg) {
+    const auto forward = [arg](const ObjectLink& link) {
+        if (auto* actor = link.getObjectActor()) {
+            actor->x_17(arg);
+            return;
+        }
+        if (!link.other_obj)
+            return;
+        auto* tag = link.other_obj->tryGetLinkTag(false);
+        if (!tag || !act::sub_71011D7194(tag, arg->_4))
+            return;
+        if (auto* obj = tag->getObject()) {
+            if (auto* link_data = obj->getLinkData())
+                link_data->sub_7100D4F3E4(arg);
+        }
+    };
+
+    for (auto& link : mLinksOther.links) {
+        switch (link.type) {
+        case MapLinkDefType::BasicSig:
+        case MapLinkDefType::BasicSigOnOnly:
+            if (link.other_obj && link.other_obj->getLinkData() &&
+                link.other_obj->getLinkData()->mNoAutoDemoMember) {
+                continue;
+            }
+            break;
+        case MapLinkDefType::DemoMember:
+            break;
+        default:
+            if (link.type > MapLinkDefType::ChangeAtnSig)
+                continue;
+            break;
+        }
+        forward(link);
+    }
+
+    for (auto& link : mLinksCs.links)
+        forward(link);
+
+    for (auto& link : mLinksToSelf.links) {
+        if (link.type >= MapLinkDefType::FixedCs && link.type <= MapLinkDefType::RackAndPinionCs)
+            forward(link);
     }
 }
 

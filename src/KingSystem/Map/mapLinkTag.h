@@ -84,6 +84,8 @@ public:
     // 0x7100d39e2c (placeholder name; called by deleteAllActors): the object's link data's sub_7100D4FBF8, true without one.
     bool sub_7100D39E2C();
 
+    Object* getObject() const { return mObj; }
+
 private:
     // GenGroup::sub_7100D507F8 directly marks the pre-delete flag at +0x1de.
     friend class GenGroup;

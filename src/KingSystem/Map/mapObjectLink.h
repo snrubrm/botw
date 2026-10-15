@@ -14,6 +14,7 @@ namespace ksys::act {
 class Actor;
 class ActorLinkConstDataAccess;
 class BaseProcAccessor;
+struct Unk117;
 }  // namespace ksys::act
 
 namespace ksys::map {
@@ -131,6 +132,9 @@ public:
     // 0x7100d4f0f0 (placeholder name): the matrix of the actor of the LinkTag that the MtxCopyCreate link of the links to self
     // refers to (LinkTag::sub_7100D39D60); false if there is none.
     bool sub_7100D4F0F0(sead::Matrix34f* mtx);
+    // 0x7100d4f3e4 (placeholder name): forwards an Actor slot 117 request to the actors of the signal / demo member
+    // links, the constraint links and the constraint links to self, following link tags (each once per core).
+    void sub_7100D4F3E4(act::Unk117* arg);
     // 0x7100d4f824 (CSV PlacementLinkData::x_9; declaration only): called by LinkTag::canWakeUp_ after x_8.
     void sub_7100D4F824();
     // Declaration only: 0x7100d4f884, called by Actor::unlinkPlacementObj.

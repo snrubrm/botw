@@ -1,6 +1,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include <cfloat>
 #include <gsys/gsysModel.h>
+#include "KingSystem/Map/mapLinkTag.h"
 #include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -133,6 +134,11 @@ act::BaseProc* Object::tryGetProc(bool force) {
 act::Actor* Object::tryGetActor(bool force) {
     auto* proc = tryGetProc(force);
     return sead::DynamicCast<act::Actor>(proc);
+}
+
+LinkTag* Object::tryGetLinkTag(bool force) {
+    auto* proc = tryGetProc(force);
+    return sead::DynamicCast<LinkTag>(proc);
 }
 
 bool Object::getActorWithAccessor(act::BaseProcAccessor& accessor) {
