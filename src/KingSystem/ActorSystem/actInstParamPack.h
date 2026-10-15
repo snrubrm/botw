@@ -38,26 +38,26 @@ public:
     using ActorCallback = sead::IDelegate1<BaseProc*>;
 
     struct Entry {
-        union Data {
-            Data() {}
-            s32 i;
-            f32 f;
-            u32 type1;
-            u64 l;
-            bool b;
+        // Buffer::pop writes a Vec3 at +0x18 (Data +0x8), so the vector and the matrix
+        // follow the scalar value instead of sharing storage with it.
+        struct Data {
+            union {
+                s32 i;
+                f32 f;
+                u32 type1;
+                u64 l;
+                bool b;
+                const char* str;
+                ActorCallback* cb;
+            };
             sead::Vector3f vec3;
             sead::Matrix34f mtx34;
-            const char* str;
-            ActorCallback* cb;
         };
-        KSYS_CHECK_SIZE_NX150(Data, 0x30);
+        KSYS_CHECK_SIZE_NX150(Data, 0x48);
 
         const char* key;
         sead::SizedEnum<EntryType, s8> type;
         Data data;
-        // Callers keep an Entry on the stack with 0x58 bytes reserved
-        // (getExtraHeapSizeForParams, HorseBase::getExtraHeapSize).
-        u8 _40[0x18];
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0x58);
 
