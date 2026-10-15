@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiPriestBossActorGiantRoot.h"
 #include <cmath>
+#include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -108,6 +109,17 @@ f32 PriestBossActorGiantRoot::m39() {
 
 f32 PriestBossActorGiantRoot::m40() {
     return getWeight(Attack::_3);
+}
+
+// NON_MATCHING: the by-value attack uses one stack slot instead of separate frequency/index slots.
+f32 PriestBossActorGiantRoot::m41() {
+    if (sub_7100505C74())
+        return 0.0f;
+    if (sub_71005D9330(mActor).y > mActor->getMtx().getTranslation().y)
+        return 0.0f;
+    if (!sub_7100508668())
+        return 0.0f;
+    return getWeight(Attack::_4);
 }
 
 f32 PriestBossActorGiantRoot::m42() {

@@ -48,6 +48,7 @@ protected:
     // enum parameter gives the stack round trips seen in the asm.
     f32 getWeight(Attack attack);
     void sub_71005089F4(State state);
+    bool sub_7100508668();
 
     // static_param at offset 0x40
     const float* mFreqIronBallAttack_s{};
