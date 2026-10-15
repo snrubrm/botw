@@ -5,6 +5,7 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/aiUnk_71007320F0.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -59,6 +60,38 @@ void NavMeshMoveBase::calc_() {
     m33();
     if (sub_71001F08E4())
         setFinished();
+}
+
+// NON_MATCHING: locked direction copies and rotation scheduling.
+void NavMeshMoveBase::m33() {
+    auto* actor = mActor;
+    auto* nav = actor->m45();
+    if (!nav)
+        return;
+    sub_7100741038(&_6c, actor);
+    sead::Vector3f direction;
+    {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        direction = nav->_23c;
+    }
+    if (direction.x <= sead::Mathf::epsilon() && direction.x >= -sead::Mathf::epsilon() &&
+        direction.z <= sead::Mathf::epsilon() && direction.z >= -sead::Mathf::epsilon()) {
+        bool has_direction;
+        {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            has_direction = nav->_294 == 1;
+        }
+        if (has_direction) {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            direction = nav->_248;
+        }
+    }
+    const sead::Vector3f up = getUpDir(actor);
+    ksys::util::sub_71011EFA00(&direction, direction, up);
+    direction.normalize();
+    sub_7100741578(&_6c, direction, up, true, 0.25f, *mParams.mRotSpd_s,
+                   *mParams.mRotSpd_s * 0.1f);
+    m37(sead::Matrix34f(_6c, sead::Vector3f::zero));
 }
 
 // NON_MATCHING: the three products of the dot product with the actor's z axis are scheduled in a
