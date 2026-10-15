@@ -261,6 +261,7 @@ private:
     friend class uking::ai::ChangeWeatherTagRoot;
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
     friend class WindMgr;  // Wind speed selectors read the existing manual wind timer directly.
+    friend class Unk_710250D258;  // the wind-transition update reads the manual wind timer (0x71010ee904).
     friend class TempMgr;
     friend class act::ActorX6A0;  // sub_71010F220C appends itself to mAtomicPtrArray (0x5d0).
     friend class WeatherMgr;

@@ -5,10 +5,75 @@
 #include <cstring>
 #include <layer/aglRenderer.h>
 #include <layer/aglLayer.h>
+#include <random/seadGlobalRandom.h>
 
 namespace ksys::world {
 
+// Wind transition constants at 0x710250d280; field meaning unknown. Hidden visibility matches the
+// original's direct adrp+add access (no GOT, no constant folding).
+struct WindTransitionConstants {
+    f32 _0;
+    f32 _4;
+    f32 _8;
+    f32 _c;
+    f32 _10;
+    f32 _14;
+    f32 _18;
+};
+__attribute__((visibility("hidden"))) WindTransitionConstants sUnk_710250d280 = {
+    0.001f, 30.0f, 120.0f, 2.0f, 0.0001f, 300.0f, 60.0f};
+
 Unk_710250D258::~Unk_710250D258() = default;
+
+void Unk_710250D258::sub_71010EE904(f32 delta, f32 speed) {
+    switch (_c) {
+    case 0:
+        if (_8) {
+            _c = 1;
+            break;
+        }
+        if (_14 <= 0.0f) {
+            _14 = (sead::GlobalRandom::instance()->getF32() + 2.0f) * 30.0f * 60.0f;
+        } else {
+            _14 -= delta;
+            if (_14 < 0.0f) {
+                _14 = 0.0f;
+                if (speed <= 10.0f) {
+                    auto* manager = Manager::instance();
+                    if (!manager || manager->mManualWindTimer == 0)
+                        _8 = true;
+                }
+            }
+        }
+        break;
+    case 1:
+        _10 += (-1.0f / sUnk_710250d280._14) * delta;
+        if (_10 < 0.0f) {
+            _c = 2;
+            _10 = 0.0f;
+        }
+        break;
+    case 2:
+        if (auto* manager = Manager::instance()) {
+            manager->rerollClimateWindPowers();
+            ++_c;
+        } else {
+            _c = 3;
+        }
+        break;
+    case 3:
+        _10 += (1.0f / sUnk_710250d280._18) * delta;
+        if (_10 >= 1.0f) {
+            _c = 4;
+            _10 = 1.0f;
+        }
+        break;
+    case 4:
+        _c = 0;
+        _8 = false;
+        break;
+    }
+}
 
 WindMgr::WindMgr()
     : _20(nullptr), _28(0x18), _2c(15.0f), _30(0.0f), _34(1.0f, 0.0f, 0.0f),
