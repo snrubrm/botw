@@ -13,7 +13,7 @@ namespace uking::ai {
 class DogNormal : public DomesticNormal {
     SEAD_RTTI_OVERRIDE(DogNormal, DomesticNormal)
 public:
-    SEAD_ENUM(Flag, _0, _1, _2, _3, _4)
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6)
 
     explicit DogNormal(const InitArg& arg);
     ~DogNormal() override;
@@ -21,6 +21,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     bool m40() override;
     bool m41() override;
@@ -36,6 +37,8 @@ public:
     void changeToTurn(const sead::Vector3f* pos, const sead::Vector3f* dir);
 
 protected:
+    void sub_7100363C94();
+
     // static_param at offset 0x3a0
     const int* mNumFriendlyFoodForLeadTreasure_s{};
     // static_param at offset 0x3a8
@@ -71,9 +74,7 @@ protected:
     // static_param at offset 0x420
     const float* mAngleTurnToPlayer_s{};
     ksys::Timer _428{0, 0};  // enter_: value = previous value = FriendTickRate
-    u32 _434 = 0;
-    u32 _438 = 0;
-    u32 _43c = 0;
+    sead::Vector3f _434{0, 0, 0};  // previous target position (calc_ / 363C94)
     sead::Vector3f _440{0, 0, 0};
     // init_: translate and rotate (y) of the map object
     sead::Vector3f _44c{std::numeric_limits<f32>::quiet_NaN(),
