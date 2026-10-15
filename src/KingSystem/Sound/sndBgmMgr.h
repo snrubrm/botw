@@ -356,7 +356,8 @@ public:
     HorseBgmInfo* mInfo = nullptr;
     u32 _198 = 0;
     u8 _19c = 0;
-    u64 _1a0 = 0;
+    s32 _1a0 = 0;
+    u32 _1a4 = 0;
     u64 _1a8 = 0;
     u32 _1b0 = 0;
     u64 _1b8 = 0;

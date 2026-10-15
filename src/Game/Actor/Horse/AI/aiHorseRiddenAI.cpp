@@ -75,8 +75,29 @@ void HorseRiddenAI::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: flag branch and BGM clear scheduling differ.
 void HorseRiddenAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* physics = mActor->getPhysics()) {
+        physics->sub_7100FBACE0(ksys::phys::ContactLayer::SensorAttackPlayer);
+        physics->sub_7100FBACE0(ksys::phys::ContactLayer::SensorAttackEnemy);
+    }
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    if (!rideable)
+        return;
+    if (_38.isOnBit(Flag(Flag::_1))) {
+        if (rideable->act::Unk_7100e8b2b8::_c.load() == 1) {
+            if (auto* bgm = ksys::snd::sub_7100FFDD38()) {
+                bgm->_19c = 0;
+                bgm->_1a0 = 0;
+            }
+        }
+    } else {
+        static_cast<act::Unk_7100e8b2b8*>(rideable)->m43();
+        rideable->act::Unk_7100e8b2b8::_c = 0;
+    }
+    rideable->m22(act::Unk_7100e8b2b8::Unk8(act::Unk_7100e8b2b8::Unk8::_0));
+    rideable->sub_7100E8BD80();
+    rideable->_134 = 0;
 }
 
 void HorseRiddenAI::loadParams_() {}
