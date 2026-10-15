@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -32,11 +33,7 @@ protected:
     const float* mMaxWaterDepth_s{};
     // static_param at offset 0x48
     const float* mGravity_s{};
-    void* _50{};
-    int _58 = 0;
-    void* _60{};
-    int _68 = 0;
-    u8 _6c[0x70 - 0x6c];
+    Unk_71012419b4 _50;
     float _70 = 0.0f;
     float _74 = 0.0f;
     float _78 = 0.0f;
