@@ -1,5 +1,12 @@
 #include "Game/Actor/AI/aiHorseNotRidden.h"
 #include <random/seadGlobalRandom.h>
+#include <limits>
+#include "Game/Actor/actRideable.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -27,8 +34,53 @@ void HorseNotRidden::setAnimalMasterAppearanceFlagIdx(ksys::gdt::Manager::Reinit
     _198 = ksys::gdt::Manager::instance()->getBoolHandle("AnimalMaster_Appearance");
 }
 
+// NON_MATCHING: awareness flag selection and child/ride-state branches use different scheduling.
 void HorseNotRidden::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _1a9.makeAllZero();
+    if (mActor->getParam()->getRes().mGParamList->getHorse()->mIsDecoy.ref()) {
+        _1a9.setBit(Flag(Flag::_4));
+        changeChild("待機(静止)");
+        return;
+    }
+    _c0.sub_710071EE1C();
+    _1a9.changeBit(Flag(Flag::_0), act::sub_7100E815C8(mActor->getAwareness()));
+    _120 = -1;
+    _f0 = std::numeric_limits<f32>::infinity();
+    _108 = std::numeric_limits<f32>::infinity();
+    const f32 nan = std::numeric_limits<f32>::quiet_NaN();
+    _10c.set(nan, nan, nan);
+    _19c.set(0.0f, 0.0f, 0.0f);
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    if (*mParams.mChildSelectAtFirst_d == 0) {
+        changeChild("逃走");
+        _1a9.setBit(Flag(Flag::_1));
+        return;
+    }
+    if (*mParams.mChildSelectAtFirst_d == 1) {
+        changeChild("ダメージリアクション");
+        return;
+    }
+    if (rideable && rideable->sub_7100E8BFF4()) {
+        if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
+            horse->sub_7100E6BEC0(true);
+            _1a9.setBit(Flag(Flag::_5));
+        }
+        changeChild("待機(静止)");
+        return;
+    }
+    if (mActor->get1a0() || (mActor->getMapObject() &&
+        mActor->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+        changeChild("待機(静止)");
+        return;
+    }
+    if (rideable && rideable->Unk_7100e8b2b8::_c.load() == 1) {
+        const act::Rideable::Gear gear = rideable->_18._b ? rideable->_18._b : rideable->_18._9;
+        if (int(gear) != 0) {
+            changeChild("待機(静止)");
+            return;
+        }
+    }
+    changeChild("うろつく");
 }
 
 void HorseNotRidden::leave_() {

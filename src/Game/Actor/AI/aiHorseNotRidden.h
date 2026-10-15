@@ -1,6 +1,8 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <prim/seadEnum.h>
+#include "Game/Actor/aiFlagByte.h"
 #include "Game/Actor/aiUnk_710071edf8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -12,6 +14,7 @@ namespace uking::ai {
 class HorseNotRidden : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HorseNotRidden, ksys::act::ai::Ai)
 public:
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5)
     explicit HorseNotRidden(const InitArg& arg);
     ~HorseNotRidden() override;
 
@@ -75,7 +78,7 @@ protected:
     ksys::gdt::FlagHandle _198 = ksys::gdt::InvalidHandle;
     sead::Vector3f _19c = sead::Vector3f::zero;
     bool _1a8 = false;
-    bool _1a9 = false;
+    FlagByte<Flag> _1a9;
 };
 KSYS_CHECK_SIZE_NX150(HorseNotRidden, 0x1b0);
 

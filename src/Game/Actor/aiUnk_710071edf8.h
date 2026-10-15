@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::act {
 class Actor;
@@ -14,11 +15,14 @@ class Unk_710071edf8 {
 public:
     explicit Unk_710071edf8(ksys::act::Actor* actor);
 
+    // Native reset and independent update operate on both complete timers.
+    void sub_710071EE1C();
+
     ksys::act::Actor* mActor;
-    void* _8 = nullptr;
-    void* _10 = nullptr;
-    void* _18 = nullptr;
-    u16 _20 = 0;
+    ksys::Timer _8{};
+    ksys::Timer _14{};
+    bool _20 = false;
+    bool _21 = false;
     f32 _24 = 45.0f;
     f32 _28 = 120.0f;
     f32 _2c = 450.0f;

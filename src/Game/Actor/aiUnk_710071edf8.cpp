@@ -9,6 +9,13 @@
 
 Unk_710071edf8::Unk_710071edf8(ksys::act::Actor* actor) : mActor(actor) {}
 
+void Unk_710071edf8::sub_710071EE1C() {
+    _8 = ksys::Timer(1.0f, 1.0f, 0.0f);
+    _14 = ksys::Timer(-1.0f, -1.0f, 0.0f);
+    _20 = false;
+    _21 = false;
+}
+
 bool sub_710071E208() {
     auto* manager = ksys::evt::Manager::instance();
     return manager && manager->hasActiveEvent() && manager->isActiveEventNameEqualTo("Demo648_0", "");
