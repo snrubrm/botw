@@ -21,6 +21,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100610CD8();
+
     virtual void m34();
     virtual void m35();
     virtual void m36(f32 distance, const sead::Vector3f& target);
