@@ -1,4 +1,5 @@
 #include <nn/ui2d/Pane.h>
+#include <nn/ui2d/ResExtUserData.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -81,6 +82,40 @@ void UniteButton::BuildStateAnim(const nn::ui2d::ControlSrc& src, LayoutEx* layo
         src.FindFunctionalAnimName("Cancel"),   src.FindFunctionalAnimName("TouchCancel"),
     };
     mAnimators = layout->createAnimatorSet(names, 8, true);
+}
+
+// 0x7100bdb004
+// NON_MATCHING: the inlined type setter narrows the 0xffffffdf mask to 16 bits.
+void UniteButton::Build(const nn::ui2d::ControlSrc& src, LayoutEx* layout) {
+    AnimButton::Build(src, layout);
+    const auto* data = layout->GetPane()->FindExtUserDataByName("UniteButtonType");
+    if (!data)
+        data = src.FindExtUserDataByName("UniteButtonType");
+    if (data) {
+        const sead::SafeString name(data->GetString());
+        for (const auto type : Type()) {
+            if (name == type.text()) {
+                sub_7100BDAFC0(type);
+                break;
+            }
+        }
+    }
+    const char* check = src.FindFunctionalAnimName("Check");
+    if (check && *check) {
+        mCheckAnim = layout->tryCreateAnimatorAutoWithWarning(check, true);
+        if (mCheckAnim) {
+            mCheckAnim->mFlags |= 0x10;
+            mCheckAnim->mFlags &= ~0x20;
+        }
+    }
+    const char* drag = src.FindFunctionalAnimName("DragOnOff");
+    if (drag && *drag) {
+        mDragAnim = layout->tryCreateAnimatorAutoWithWarning(drag, true);
+        if (mDragAnim) {
+            mDragAnim->mFlags |= 0x10;
+            mDragAnim->mFlags &= ~0x20;
+        }
+    }
 }
 
 // NON_MATCHING: the original ANDs the first flag with the 32-bit mask 0xffffffdf (and w9, w9, #0xffffffdf); ours narrows it to
