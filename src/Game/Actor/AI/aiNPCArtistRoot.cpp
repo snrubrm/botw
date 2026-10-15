@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiNPCArtistRoot.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 
@@ -25,8 +26,26 @@ bool NPCArtistRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: Timer stores and matrix construction are scheduled differently.
 void NPCArtistRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
+    if (!mActor->isCalc())
+        return;
+    const bool sleeping = _308 && _308->_1028 == "Sleep";
+    const bool bad_weather = wm::callIsRainingOrSnowingOrThunderStorm(true);
+    if (sleeping || !bad_weather) {
+        _2f0 = false;
+        _2f4 = 0.0f;
+        _2f8 = ksys::Timer(50.0f, 50.0f);
+        const sead::Vector3f zero = sead::Vector3f::zero;
+        _248._68.makeRT(zero, zero);
+    } else {
+        _2f0 = true;
+        _2f4 = 1.0f;
+        _2f8 = ksys::Timer(60.0f, 60.0f);
+        _248._68.makeRT({0.0f, 0.0f, -sead::Mathf::deg2rad(35.0f)},
+                       {-0.0147f, -0.0298f, 0.0f});
+    }
 }
 
 void NPCArtistRoot::leave_() {

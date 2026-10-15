@@ -3,6 +3,7 @@
 #include "Game/Actor/AI/aiNPCRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::act {
 class NPC;
@@ -27,9 +28,7 @@ protected:
     ksys::act::BoneHandle _248;
     bool _2f0 = false;
     f32 _2f4 = 0;
-    f32 _2f8 = 0;
-    f32 _2fc = 0;
-    f32 _300 = 0;
+    ksys::Timer _2f8;
     act::NPC* _308 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(NPCArtistRoot, 0x310);
