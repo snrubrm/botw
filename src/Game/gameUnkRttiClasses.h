@@ -307,40 +307,57 @@ public:
     /* 0x18 */ eui::TextBoxEx* _18[3];
 };
 
-// vtable 0x710249a1a0 (6 slots)
+// vtable 0x7102499a68 (6 slots). Staff roll text block helpers (the ScreenStaffRoll copy of Unk_7102499a68).
 class Unk_710249a1a0 {
     SEAD_RTTI_BASE(Unk_710249a1a0)
 public:
     virtual ~Unk_710249a1a0();
-    virtual void m4();
-    virtual void m5() {}
+    // 0x7100a5d2c8: stores the root pane, hides it and moves it off screen.
+    virtual void m4(nn::ui2d::Pane* pane);
+    virtual void m5(const sead::SafeString& label, s32 idx) {}
+
+    // 0x7100a5cffc (placeholder name): sets `box` to the message `label` (shown), or to an empty
+    // string (hidden) when the message is missing, empty or "EmptyMessage"; then requests realignment.
+    // Declared only (see Unk_7102499a68::setMessage).
+    void setMessage(eui::TextBoxEx* box, const sead::SafeString& label);
+    // 0x7100a5d118 (placeholder name): the AlignPane named `name` under the root pane.
+    eui::AlignPane* findAlignPane(const sead::SafeString& name);
+
+    /* 0x08 */ nn::ui2d::Pane* _8;
+    /* 0x10 */ eui::AlignPane* _10;
 };
 
-// vtable 0x710249a0a0 (6 slots)
+// vtable 0x7102499968 (6 slots)
 class Unk_710249a0a0 : public Unk_710249a1a0 {
     SEAD_RTTI_OVERRIDE(Unk_710249a0a0, Unk_710249a1a0)
 public:
     ~Unk_710249a0a0() override;
-    void m4() override;
-    void m5() override;
+    void m4(nn::ui2d::Pane* pane) override;
+    void m5(const sead::SafeString& label, s32 idx) override;
+
+    /* 0x18 */ eui::TextBoxEx* _18;
 };
 
-// vtable 0x710249a0e0 (6 slots)
+// vtable 0x71024999a8 (6 slots)
 class Unk_710249a0e0 : public Unk_710249a1a0 {
     SEAD_RTTI_OVERRIDE(Unk_710249a0e0, Unk_710249a1a0)
 public:
     ~Unk_710249a0e0() override;
-    void m4() override;
-    void m5() override;
+    void m4(nn::ui2d::Pane* pane) override;
+    void m5(const sead::SafeString& label, s32 idx) override;
+
+    /* 0x18 */ eui::TextBoxEx* _18;
 };
 
-// vtable 0x710249a120 (6 slots)
+// vtable 0x71024999e8 (6 slots)
 class Unk_710249a120 : public Unk_710249a1a0 {
     SEAD_RTTI_OVERRIDE(Unk_710249a120, Unk_710249a1a0)
 public:
     ~Unk_710249a120() override;
-    void m4() override;
-    void m5() override;
+    void m4(nn::ui2d::Pane* pane) override;
+    void m5(const sead::SafeString& label, s32 idx) override;
+
+    /* 0x18 */ eui::TextBoxEx* _18[3];
 };
 
 // vtable 0x710251d230 (7 slots)

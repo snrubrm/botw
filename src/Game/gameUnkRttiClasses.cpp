@@ -143,6 +143,58 @@ Unk_71024999e8::~Unk_71024999e8() = default;
 
 Unk_710249a1a0::~Unk_710249a1a0() = default;
 
+eui::AlignPane* Unk_710249a1a0::findAlignPane(const sead::SafeString& name) {
+    return nn::font::DynamicCast<eui::AlignPane>(_8->FindPaneByName(name.cstr(), true));
+}
+
+void Unk_710249a1a0::m4(nn::ui2d::Pane* pane) {
+    _8 = pane;
+    if (_8)
+        _8->SetVisible(false);
+    if (_8)
+        _8->SetPosition(nn::util::Float3{0.0f, 2000.0f, 0.0f});
+}
+
+void Unk_710249a0a0::m4(nn::ui2d::Pane* pane) {
+    Unk_710249a1a0::m4(pane);
+    if (!_8)
+        return;
+    _18 = eui::sub_7100933580(_8->FindPaneByName("T_PostOne_00", true));
+    _10 = findAlignPane("N_AlignEdge_00");
+}
+
+void Unk_710249a0a0::m5(const sead::SafeString& label, s32 idx) {
+    if (_18)
+        setMessage(_18, label);
+}
+
+void Unk_710249a0e0::m4(nn::ui2d::Pane* pane) {
+    Unk_710249a1a0::m4(pane);
+    if (!_8)
+        return;
+    _18 = eui::sub_7100933580(_8->FindPaneByName("T_NameOne_00", true));
+}
+
+void Unk_710249a0e0::m5(const sead::SafeString& label, s32 idx) {
+    if (_18)
+        setMessage(_18, label);
+}
+
+void Unk_710249a120::m4(nn::ui2d::Pane* pane) {
+    Unk_710249a1a0::m4(pane);
+    if (!_8)
+        return;
+    _18[0] = eui::sub_7100933580(_8->FindPaneByName("T_NameTriple_00", true));
+    _18[1] = eui::sub_7100933580(_8->FindPaneByName("T_NameTriple_01", true));
+    _18[2] = eui::sub_7100933580(_8->FindPaneByName("T_NameTriple_02", true));
+    _10 = findAlignPane("N_Align_00");
+}
+
+void Unk_710249a120::m5(const sead::SafeString& label, s32 idx) {
+    if (u32(idx) <= 2 && _18[idx])
+        setMessage(_18[idx], label);
+}
+
 Unk_710249a0a0::~Unk_710249a0a0() = default;
 
 Unk_710249a0e0::~Unk_710249a0e0() = default;
