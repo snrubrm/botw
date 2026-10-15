@@ -25,8 +25,37 @@ void EventBgmStartAndKeepAction::loadParams_() {
     getDynamicParam(&mBgmName_d, "BgmName");
 }
 
+// NON_MATCHING: the original reads _30 before the getAliveAssetNum call (ours after it).
 void EventBgmStartAndKeepAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedOrFailed())
+        return;
+
+    auto* bgm = sub_7100FFD784()->find(mBgmName_d);
+    if (!bgm) {
+        setFinished();
+        return;
+    }
+    if (!sead::IsDerivedFrom<Unk_710260ecf8>(bgm)) {
+        setFailed();
+        return;
+    }
+    if (bgm->_124 == 1)
+        return;
+
+    if (bgm->mEntries.size() >= 1) {
+        auto* entry = bgm->mEntries.front();
+        if (entry && entry->mHandle.isActive()) {
+            const s32 num = entry->mHandle.getEvent()->getAliveAssetNum();
+            if (!_30) {
+                if (num != 0)
+                    _30 = true;
+                return;
+            }
+            if (num != 0)
+                return;
+        }
+    }
+    setFinished();
 }
 
 }  // namespace ksys::snd
