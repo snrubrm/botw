@@ -16,6 +16,9 @@ class Swarm;
 // Swarm helpers in the translation unit around 0x710072a8c4 (CSV swarmDropTableStuff). Placeholder
 // names; not decompiled yet.
 
+// 0x7100729370: sums the opposite contact directions of the four swarm bodies.
+void sub_7100729370(uking::act::Swarm* swarm, sead::Vector3f* direction, s32* count);
+
 void swarmDropTableStuff(ksys::act::Actor* actor);
 void sub_710072A264(uking::act::Swarm* swarm, const sead::Vector3f& target, const sead::Vector3f& up);
 void sub_710072A3BC(uking::act::Swarm* swarm, const sead::Vector3f& target, const sead::Vector3f& up);

@@ -12,6 +12,24 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
+// NON_MATCHING: normalized direction components stay in FP registers instead of GP registers.
+void sub_7100729370(uking::act::Swarm* swarm, sead::Vector3f* direction, s32* count) {
+    sead::Vector3f sum = sead::Vector3f::zero;
+    s32 num_contacts = 0;
+    for (const auto& body : swarm->_14f8) {
+        if (!body.sub_71002D481C())
+            continue;
+        sead::Vector3f normal = body._c;
+        normal.normalize();
+        sum -= normal;
+        ++num_contacts;
+    }
+    if (direction)
+        *direction = sum;
+    if (count)
+        *count = num_contacts;
+}
+
 void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
     for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
         if (auto* unit = swarm->_14c8[i])
