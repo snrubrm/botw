@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_710071edf8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -42,6 +43,49 @@ void PriestBossActorGiantRoot::calc_() {
             child->setDynamicParam(pos, "TargetPos");
     }
     m47();
+}
+
+// NON_MATCHING: State wrapper temporaries and the shared transition tail differ.
+void PriestBossActorGiantRoot::m47() {
+    auto* child = getCurrentChild();
+    if (m34()) {
+        if (_9c != State::_9) {
+            *mDestinationPos_a = mActor->getMtx().getTranslation();
+            *mIsActive_a = true;
+            *mIsArrivedAtDestination_a = true;
+            *mKeepDistFromGround_a = -1.0f;
+            child->setFinished();
+            sub_71005089F4(State::_9);
+        }
+        return;
+    }
+
+    if (_9c == State::_9) {
+        _a0 = m46();
+        sub_71005089F4(_a0 == 7 ? State::_2 : State::_1);
+    }
+    if (!child->isFinished() && !child->isFailed())
+        return;
+    switch (_9c) {
+    case State::_1:
+        if (*mIsArrivedAtDestination_a)
+            sub_71005089F4(State(_a0));
+        break;
+    case State::_2:
+        *mDestinationPos_a = mActor->getMtx().getTranslation();
+        sub_71005089F4(State(_a0));
+        break;
+    default:
+        _a0 = m46();
+        if (_a0 == 7) {
+            sub_71005089F4(State::_2);
+        } else {
+            sub_71005089F4(State::_1);
+            if (sead::GlobalRandom::instance()->getU32(5) != 0)
+                sub_710071E3D8(mDestinationPos_a, mActor, *mFloatDistFromPlayer_s);
+        }
+        break;
+    }
 }
 
 void PriestBossActorGiantRoot::leave_() {

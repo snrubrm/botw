@@ -38,7 +38,6 @@ public:
     virtual f32 m44();
     virtual f32 m45();
     // m46: the attack index of the child's last attack (0x710050924c; also counts it in `_b0`, not decompiled);
-    // m47 is not decompiled (0x710050941c).
     virtual Attack m46();
     virtual void m47();
 
