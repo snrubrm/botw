@@ -44,6 +44,57 @@ s32 PriestBossActorNormalMode::sub_710050B6CC() {
     return attack;
 }
 
+// NON_MATCHING: mode-selection joins, enum temporaries and random branch scheduling differ.
+void PriestBossActorNormalMode::sub_710050BBC0() {
+    auto* unit = sub_7100505BE4();
+    if (!unit || unit->_3c != Unk_7102450fa8::Phase::_1)
+        return;
+    if (_b0 != 1 && *mEquipWeaponBufIndex_a != -1) {
+        sub_710050B7A8();
+        const s32 attack = sub_710050B6CC();
+        _12c = u32(attack - 4) < 5 ? attack : 1;
+        _130 = 1;
+        sub_710050AE6C(_12c);
+        return;
+    }
+    if (sub_7100505BE4() && _e4 == 2 &&
+        sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_3))
+        _12c = 9;
+    else
+        _12c = *mReturnFromBananaMode_a ? 1 : 2;
+    if (_e4 != 2 && u32(_e4 - 2) <= 8) {
+        const bool restricted = unit->sub_7100719978(_e4);
+        if (restricted || *mFromSyncMode_d) {
+            if (auto* current = sub_7100505BE4())
+                current->sub_7100719D5C(mActor);
+            s32 index = 1;
+            if (sead::GlobalRandom::instance()->getBool()) {
+                auto* current = sub_7100505BE4();
+                if (!current || current->sub_7100719B88(mActor))
+                    index = 0;
+            }
+            *mEquipWeaponBufIndex_a = index;
+            if (restricted) {
+                _130 = 3;
+                sub_710050AE6C(9);
+                return;
+            }
+        }
+    } else if (*mFromSyncMode_d && _12c != 9) {
+        if (auto* current = sub_7100505BE4())
+            current->sub_7100719D5C(mActor);
+        s32 index = 1;
+        if (sead::GlobalRandom::instance()->getBool()) {
+            auto* current = sub_7100505BE4();
+            if (!current || current->sub_7100719B88(mActor))
+                index = 0;
+        }
+        *mEquipWeaponBufIndex_a = index;
+    }
+    _130 = sub_710050B6CC();
+    sub_710050AE6C(_12c);
+}
+
 // 0x710050bdcc
 void PriestBossActorNormalMode::sub_710050BDCC() {
     auto* unit = sub_7100505BE4();
