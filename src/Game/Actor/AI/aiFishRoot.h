@@ -70,6 +70,8 @@ protected:
     // 0x71003ce608 (placeholder name): submits a downward ground ray cast from `start` as tall as the actor.
     bool sub_71003CE608(const sead::Vector3f& start);
     void sub_71003CCA34();
+    // The native helper returns zero; its original status domain is unknown.
+    s32 sub_71003CDB18();
     // Updates the jump timer and checks the asynchronous forward ground cast.
     bool sub_71003CD93C();
     // 0x71003cd730 (placeholder name)
@@ -105,10 +107,9 @@ protected:
         const float* mIgnoreFoodAfterSuccessRand_s{};
     };
     Params mParams{};
-    // The interval at 0x16c remains opaque.
     ksys::act::BaseProcLink _150;  // the target of interest
     ksys::Timer _160{};
-    u8 _16c[0x178 - 0x16c]{};
+    ksys::Timer _16c{};
     ksys::Timer _178{};
     sead::Vector3f _184{};
     sead::Vector3f _190{};

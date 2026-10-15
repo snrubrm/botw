@@ -18,6 +18,10 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/aiUnk_71007368A4.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Utils/StringUtil.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEatTarget.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectFish.h"
@@ -314,6 +318,234 @@ void FishRoot::sub_71003CC69C() {
     if (!controller)
         return;
     controller->_68 = !isCurrentChild("地上待機") && !isCurrentChild("死亡");
+}
+
+// NON_MATCHING: the awareness loop and acquired-actor snapshots use different registers and branches.
+s32 FishRoot::sub_71003CDB18() {
+    auto* awareness = mActor->getAwareness();
+    if (awareness) {
+        const auto* params = mActor->getParam()->getRes().mGParamList->getEatTarget();
+        if (!params)
+            return 0;
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        _1ac = _1ac > 3 ? 0 : _1ac + 1;
+        const s32 count = awareness->_8.size();
+        bool found = false;
+        sead::Vector3f food_position;
+        for (s32 i = 0; i < count; ++i) {
+            if (i >= awareness->_8.size())
+                continue;
+            auto* entry = ksys::act::sub_7100D78E30(&awareness->_8, i);
+            if (!entry)
+                continue;
+            if (entry->_a8 > 20.0f)
+                break;
+            ksys::act::ActorLinkConstDataAccess access;
+            if (!ksys::act::acquireActor(&entry->_0.mLink, &access) ||
+                !sub_710073697C(&entry->_0.mLink, "IsPlayerPut") || !access.sub_7100D0FF48())
+                continue;
+            food_position = access.getActorMtx().getTranslation();
+            sead::Vector3f distance = food_position - position;
+            distance.y = 0.0f;
+            distance.length();
+            sead::SafeString names = "";
+            switch (_1ac) {
+            case 0:
+                if (!params->mEatActorTags.ref().isEmpty() &&
+                    ksys::act::hasOneTagAtLeast(access, params->mEatActorTags.ref()))
+                    names = access.getName();
+                break;
+            case 1:
+                names = params->mEatActorNames.ref();
+                break;
+            case 2:
+                names = params->mEatActorNames2.ref();
+                break;
+            case 3:
+                names = params->mEatActorNames3.ref();
+                break;
+            case 4:
+                names = params->mFavoriteEatActorNames.ref();
+                break;
+            }
+            if (ksys::util::sub_71010C2EE4(access.getName(), names, ',')) {
+                _150 = entry->_0.mLink;
+                found = true;
+                break;
+            }
+        }
+        // Release the acquired target before submitting its asynchronous ground query.
+        if (found && sub_71003CE608(food_position))
+            return 0;
+    }
+    _178.reset(*mParams.mIgnoreFoodBase_s +
+               *mParams.mIgnoreFoodRand_s * sead::GlobalRandom::instance()->getF32());
+    return 0;
+}
+
+// NON_MATCHING: state dispatch, vector temporaries and acquired-target cleanup have different scheduling.
+void FishRoot::sub_71003CCA34() {
+    const f32 epsilon = std::numeric_limits<f32>::epsilon();
+    if (!(_178.value <= epsilon))
+        _178.update();
+    if (!_1c8) {
+        const bool in_water = mActor->get68f().load();
+        const f32 depth = in_water ? mActor->get6f0() - mActor->getMtx().getTranslation().y : 0.0f;
+        if (in_water && depth < mActor->getScale().x) {
+            _1c8 = true;
+            _190.y = mActor->getMtx().getTranslation().y - (mActor->getScale().x - depth);
+        }
+    }
+    sub_71003CC69C();
+    if (isCurrentChild("死亡"))
+        return;
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("逃走")) {
+            if (!child->isFinished()) {
+                changeToReturn();
+                return;
+            }
+            if (!isCurrentChild("待機"))
+                changeChild("待機");
+            return;
+        }
+        if (isCurrentChild("帰還")) {
+            m38();
+            return;
+        }
+        if (isCurrentChild("初期配置帰還")) {
+            const f32 distance = (getPlayerPosition() - _184).squaredLength();
+            const f32 allow = *mParams.mAllowReturnThreatDist_s;
+            if (distance >= allow * allow)
+                m38();
+            else if (!isCurrentChild("待機"))
+                changeChild("待機");
+            return;
+        }
+        if (isCurrentChild("興味対象発見")) {
+            _150.reset();
+            changeToReturnToInitialPlacement(false);
+            _178.reset(*mParams.mIgnoreFoodAfterSuccessBase_s +
+                       *mParams.mIgnoreFoodAfterSuccessRand_s * sead::GlobalRandom::instance()->getF32());
+            return;
+        }
+        if (isCurrentChild("ジャンプ")) {
+            m38();
+            return;
+        }
+    }
+    const bool in_water = mActor->get68f().load();
+    const f32 depth = (in_water ? mActor->get6f0() - mActor->getMtx().getTranslation().y : 0.0f) - _1a8;
+    const f32 water_depth = *mParams.mInWaterDepth_s;
+    const f32 ground_depth = *mParams.mOnGroundDepth_s;
+    auto* controller = mActor->getCharacterController();
+    const bool controller_ground = controller && mActor->get68f().load() && controller->get18c() == 1;
+    const bool escape = m34() || _1a4 < *mParams.mDistRunFromPlayerOnReturn_s;
+    if (!isCurrentChild("ジャンプ") && depth <= ground_depth && !in_water &&
+        !isCurrentChild("地上待機")) {
+        if (!_1c9) {
+            _1c9 = true;
+            _16c.reset(*mParams.mFrameUntilOutOfWater_s);
+            return;
+        }
+        _16c.update();
+        if (!(_16c.value <= epsilon))
+            return;
+        if (isCurrentChild("地上待機"))
+            return;
+        if (auto* cc = mActor->getCharacterController()) {
+            cc->sub_7100F60604();
+            cc->sub_7100F63700(true);
+        }
+        _1b0 = 0;
+        changeChild("地上待機");
+        return;
+    }
+    if (_1c9)
+        _1c9 = false;
+    if (isCurrentChild("地上待機")) {
+        // An unordered depth follows the same delay path as a depth above the ground threshold.
+        if (!(depth <= ground_depth) && in_water) {
+            if (!_1ca) {
+                _1ca = true;
+                _16c.reset(*mParams.mFrameUntilOutOfWater_s);
+                return;
+            }
+            _16c.update();
+            if (!(_16c.value <= epsilon))
+                return;
+            changeToReturnToInitialPlacement(escape);
+        } else {
+            _1ca = false;
+        }
+        return;
+    }
+    if (isCurrentChild("帰還")) {
+        if (escape)
+            m39();
+        return;
+    }
+    if (isCurrentChild("初期配置帰還")) {
+        child->setDynamicParam(escape, "IsEscape");
+        const bool changeable = child->isChangeable();
+        if (depth > water_depth * 1.05f && in_water && changeable && escape)
+            m39();
+        return;
+    }
+    if (isCurrentChild("興味対象発見")) {
+        ksys::act::ActorLinkConstDataAccess access;
+        if (!ksys::act::acquireActor(&_150, &access) || !access.sub_7100D0FF48()) {
+            m38();
+        } else {
+            const sead::Vector3f position = access.getActorMtx().getTranslation();
+            getCurrentChild()->setDynamicParam(position + sead::Vector3f(0.0f, -0.15f, 0.0f), "TargetPos");
+        }
+        return;
+    }
+    if (isCurrentChild("ジャンプ"))
+        return;
+    const f32 return_depth = water_depth * 0.95f;
+    if (isCurrentChild("通常行動")) {
+        if ((in_water && depth < return_depth) || controller_ground) {
+            changeToReturnToInitialPlacement(escape);
+            return;
+        }
+        const bool can_jump = sub_71003CD93C();
+        if (depth < 1.0f && in_water && can_jump) {
+            if (!isCurrentChild("ジャンプ"))
+                changeChild("ジャンプ");
+            return;
+        }
+        if (_1c0) {
+            if (_1c0->get70() != 1)
+                return;
+            const bool hit = _1c0->hasHit();
+            _1c0->release();
+            _1c0 = nullptr;
+            if (hit)
+                _150.reset();
+            else
+                changeToDiscoverInterest();
+        } else if (_178.value <= epsilon) {
+            sub_71003CDB18();
+        }
+        return;
+    }
+    if (isCurrentChild("逃走")) {
+        child->setDynamicParam(getPlayerPosition(), "MoveAwayFromPos");
+        if (depth < return_depth)
+            changeToReturnToInitialPlacement(escape);
+        return;
+    }
+    if (isCurrentChild("待機")) {
+        const f32 distance = (getPlayerPosition() - _184).squaredLength();
+        const f32 allow = *mParams.mAllowReturnThreatDist_s;
+        if (distance >= allow * allow)
+            changeToReturn();
+    }
 }
 
 void FishRoot::calc_() {
