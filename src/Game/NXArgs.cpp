@@ -1,4 +1,13 @@
 #include "Game/NXArgs.h"
+#include <prim/seadScopedLock.h>
+#include "Game/Scene/gameScene.h"
+
+// 0x7100901a90 sits just before nxargs::createInstance; its owner class is unknown.
+bool Unk_71025d1740::sub_7100901A90(bool value) {
+    auto lock = sead::makeScopedLock(_28);
+    _20 = value;
+    return true;
+}
 
 namespace uking {
 

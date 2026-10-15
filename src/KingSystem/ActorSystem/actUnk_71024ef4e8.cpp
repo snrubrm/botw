@@ -28,6 +28,13 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
 
+bool Unk_71024ef4e8::Unk2::sub_7100EAB818(sead::Vector3f* out) const {
+    if (!(_1f0 & 0x20))
+        return false;
+    *out = _1d8;
+    return true;
+}
+
 // NON_MATCHING: scalar scheduling and flag-test register allocation differ.
 void Unk_71024ef4e8::sub_7100EB4814(int type, int a2, f32 f) {
     auto& config = sAttachConfigs[type];

@@ -74,7 +74,9 @@ public:
 
         u8 _0[0x1a8];
         /* 0x1a8 */ sead::Vector3f _1a8;
-        u8 _1b4[0x1f0 - 0x1b4];
+        u8 _1b4[0x1d8 - 0x1b4];
+        /* 0x1d8 */ sead::Vector3f _1d8;  // the target position (valid while _1f0 bit 5 is set)
+        u8 _1e4[0x1f0 - 0x1e4];
         /* 0x1f0 */ u32 _1f0;  // tested with 0x1002 by Player::sub_710087CF54
     };
 

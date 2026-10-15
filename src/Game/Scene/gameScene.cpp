@@ -183,6 +183,8 @@ ksys::MessageReceiverEx* Unk_710245a688::getReceiver() {
 }
 
 // NON_MATCHING: the final state cleanup argument is scheduled before the frame restore.
+Unk_710245a7a0::~Unk_710245a7a0() = default;
+
 Unk_710245a6d0::~Unk_710245a6d0() = default;
 
 void Unk_710245a6d0::run() {

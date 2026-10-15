@@ -7,6 +7,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
+#include <thread/seadCriticalSection.h>
 #include "Game/gameScene320.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnk_71024F9D48.h"
@@ -27,8 +28,14 @@ class Resource;
 class Unk_71025d1740 {
 public:
     static Unk_71025d1740* instance() { return sInstance; }
+    // 0x7100901a90: sets the flag at 0x20 under the lock; always returns true.
     bool sub_7100901A90(bool value);
     static Unk_71025d1740* sInstance;
+
+private:
+    u8 _0[0x20];
+    /* 0x20 */ bool _20;
+    /* 0x28 */ sead::CriticalSection _28;
 };
 
 namespace uking {

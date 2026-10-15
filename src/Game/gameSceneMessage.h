@@ -12,7 +12,7 @@ namespace uking {
 class Unk_710245a7a0 : public StateMachineWrapper {
 public:
     using StateMachineWrapper::StateMachineWrapper;
-    ~Unk_710245a7a0() override = default;
+    ~Unk_710245a7a0() override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710245a7a0, 0x58);
 
