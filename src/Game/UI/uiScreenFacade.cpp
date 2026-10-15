@@ -103,14 +103,14 @@ bool sub_7100A96194(s32 a0) {
 }
 
 // 0x7100a96254
-void sub_7100A96254(s64 a0) {
+void sub_7100A96254(BossGaugeInfo* info) {
     auto* mgr = eui::ScreenMgr::instance();
     if (!mgr)
         return;
     auto* screen = sead::DynamicCast<ScreenMainScreen>(mgr->getScreen(ScreenId::MainScreen));
     if (!screen)
         return;
-    screen->sub_7100A1A4E4(a0);
+    screen->sub_7100A1A4E4(info);
 }
 
 // 0x7100a96688

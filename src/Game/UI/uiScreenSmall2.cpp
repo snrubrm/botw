@@ -393,8 +393,8 @@ void ScreenPauseMenuInfo::sub_7100A31BE0() {
 }
 
 // 0x7100a1ab14
-void ScreenMainScreen::sub_7100A1AB14(s64 a1, f32 value) {
-    sub_7100A1A518(a1, true);
+void ScreenMainScreen::sub_7100A1AB14(BossGaugeInfo* info, f32 value) {
+    sub_7100A1A518(info, true);
     _3720 = value;
 }
 
@@ -438,8 +438,8 @@ void ScreenMainScreen::showInfoOverlayWithString(s32 type, const sead::SafeStrin
 }
 
 // 0x7100a1a4e4
-void ScreenMainScreen::sub_7100A1A4E4(s64 a1) {
-    sub_7100A1A518(a1, false);
+void ScreenMainScreen::sub_7100A1A4E4(BossGaugeInfo* info) {
+    sub_7100A1A518(info, false);
     if (!sub_7100AA8F10())
         _3720 = -99.0f;
 }
@@ -1371,13 +1371,13 @@ void ScreenSystemWindowNoBtn::sub_7100A60650() {
 }
 
 // 0x7100a03ee8
-bool ScreenDemoName::m154(ShopInfoTagData* name) {
+bool ScreenDemoName::m154(const sead::SafeString& name) {
     eui::MessageString message;
     if (sub_7100AA2BDC(name, &message))
         return false;
     if (!setWidgetString(mLayout, "T_Name_00", message))
         return false;
-    sead::FormatFixedSafeString<64> label("%s_SubText", name->str.cstr());
+    sead::FormatFixedSafeString<64> label("%s_SubText", name.cstr());
     getMessage("StaticMsg/DemoActorSubText", label, &message);
     setWidgetString(mLayout, "T_SubText_00", message);
     return true;
@@ -1866,7 +1866,7 @@ void ScreenShopBtnList15::sub_7100A4B3C4() {
 // 0x7100a4b50c
 void ScreenShopBtnList15::sub_7100A4B50C(ShopInfoTagData* data) {
     eui::MessageString message;
-    sub_7100AA2BDC(data, &message);
+    sub_7100AA2BDC(data->str, &message);
     setWidgetString(mLayout, "T_Name_00", message);
 }
 

@@ -949,6 +949,12 @@ public:
 };
 static_assert(sizeof(Unk_710248ea70) == 0x80);
 
+// The boss gauge info passed to ScreenMainScreen::sub_7100A1AB14 / sub_7100A1A4E4 (0x90 bytes, filled by
+// EventPlayUiBossHpAction; fields not modelled yet; name is a guess).
+struct BossGaugeInfo {
+    u8 _0[0x90];
+};
+
 class ScreenMainScreen : public ScreenEx {
 public:
     void m85() override;
@@ -1022,15 +1028,15 @@ public:
     // 0x7100a1ab74 (CSV ScreenMainScreen::showInfoOverlayWithString)
     void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 
-    void sub_7100A1A4E4(s64);
+    void sub_7100A1A4E4(BossGaugeInfo* info);
     // 0x7100a1ab14 / 0x7100a1abc8 / 0x7100a1abe8 / 0x7100a1abf8 (placeholder names)
-    void sub_7100A1AB14(s64 a1, f32 value);
+    void sub_7100A1AB14(BossGaugeInfo* info, f32 value);
     void sub_7100A1AB84(s32 a1);
     void sub_7100A1ABC8(s32 value);
     bool sub_7100A1ABE8() const;
     void sub_7100A1ABF8();
     // 0x7100a1a518 (CSV unnamed; declared only; the types are guesses)
-    void sub_7100A1A518(s64 a1, bool a2);
+    void sub_7100A1A518(BossGaugeInfo* info, bool a2);
     void sub_7100A1957C(s32 count);
     void sub_7100A1AB48();
     void sub_7100A1958C();
@@ -2969,7 +2975,7 @@ public:
     ~ScreenDemoName() override;
     // 0x7100a03ee8 (one extra virtual slot, vtable offsets +8): shows the demo actor's name (T_Name_00) and its
     // sub text (<name>_SubText in StaticMsg/DemoActorSubText); false when the name has no message
-    virtual bool m154(ShopInfoTagData* name);
+    virtual bool m154(const sead::SafeString& name);
     SEAD_RTTI_OVERRIDE(ScreenDemoName, ScreenEx)
 };
 
@@ -3853,10 +3859,10 @@ u32 sub_7100AA2E08(ShopInfoTagData* data, eui::MessageString* out);
 void sub_7100AA2FA0(ShopInfoTagData* data, sead::BufferedSafeStringBase<char>* arg1,
                     sead::BufferedSafeStringBase<char>* arg2);
 // 0x7100aa29c4 (CSV unnamed): strip the "_Far" suffix from the name, reporting whether it changed.
-bool sub_7100AA29C4(ShopInfoTagData* data, sead::SafeString& name);
+bool sub_7100AA29C4(const sead::SafeString& actor_name, sead::SafeString& name);
 // 0x7100aa2bdc (CSV unnamed): resolve the tag data's string into a message (suffix-stripped actor
 // name under ActorType/<profile>, or the empty message).
-u32 sub_7100AA2BDC(ShopInfoTagData* data, eui::MessageString* out);
+u32 sub_7100AA2BDC(const sead::SafeString& actor_name, eui::MessageString* out);
 // 0x7100aa3b50 (CSV unnamed): build the "UI/StockItem/<icon>" texture path for `name` into `out`
 // (icon-actor lookup, Weapon_Sword_502/503 quirk, ".%02d" count suffix, ".bitemico" extension).
 void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<char>* out,

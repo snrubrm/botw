@@ -68,7 +68,7 @@ u32 sub_7100AA4B4C(ShopInfoTagData* data, u32 selector, sead::WBufferedSafeStrin
     eui::Grammar::WordAttr attr;
     eui::MessageString msg;
     bool use_plural;
-    if (sub_7100AA2BDC(data, &msg) != 0)
+    if (sub_7100AA2BDC(data->str, &msg) != 0)
         use_plural = false;
     else
         use_plural = eui::Grammar::sub_7100BE39DC(&attr, msg);
@@ -201,15 +201,15 @@ u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out) {
 
 // 0x7100aa2bdc (CSV unnamed): resolve the tag data's string into a message (suffix-stripped actor
 // name under ActorType/<profile>, or the empty message).
-u32 sub_7100AA2BDC(ShopInfoTagData* data, eui::MessageString* out) {
-    if (data->str.getStringTop()[0] == sead::SafeString::cNullChar) {
+u32 sub_7100AA2BDC(const sead::SafeString& actor_name, eui::MessageString* out) {
+    if (actor_name.getStringTop()[0] == sead::SafeString::cNullChar) {
         const s32 len = sead::WSafeString::cEmptyString.calcLength();
         eui::MessageString empty(len, sead::WSafeString::cEmptyString.cstr());
         out->assign(empty);
         return 1;
     }
     sead::FixedSafeString<64> name;
-    sub_7100AA29C4(data, name);
+    sub_7100AA29C4(actor_name, name);
     sead::FixedSafeString<256> set;
     const char* profile;
     ksys::act::InfoData::instance()->getActorProfile(&profile, name.cstr());
@@ -224,17 +224,17 @@ u32 sub_7100AA2BDC(ShopInfoTagData* data, eui::MessageString* out) {
 // "_Far" literal folds in our TU (immediate char compares, constant length) while the original
 // scans it generically, which also perturbs the second calcLength's unrolling and the memcmp tail.
 // (A same-TU literal + simple loop always folds in clang 4; the original's must be opaque.)
-bool sub_7100AA29C4(ShopInfoTagData* data, sead::SafeString& name) {
+bool sub_7100AA29C4(const sead::SafeString& actor_name, sead::SafeString& name) {
     ksys::act::InfoData* info = ksys::act::InfoData::instance();
     if (info == nullptr) {
-        name = data->str;
+        name = actor_name;
         return false;
     }
-    if (ksys::act::getSystemIsGetItemSelf(info, data->str.cstr())) {
-        name = data->str;
+    if (ksys::act::getSystemIsGetItemSelf(info, actor_name.cstr())) {
+        name = actor_name;
         return false;
     }
-    if (ksys::act::getSameGroupActorName(&name, data->str))
+    if (ksys::act::getSameGroupActorName(&name, actor_name))
         return true;
     const s32 len = name.calcLength();
     s32 len2 = name.calcLength();
@@ -294,7 +294,7 @@ void sub_7100AA2FA0(ShopInfoTagData* data, sead::BufferedSafeStringBase<char>* a
     if (data->str.getStringTop()[0] == sead::SafeString::cNullChar)
         return;
     sead::FixedSafeString<64> name;
-    sub_7100AA29C4(data, name);
+    sub_7100AA29C4(data->str, name);
     if (arg1 != nullptr) {
         const char* profile;
         ksys::act::InfoData::instance()->getActorProfile(&profile, name.cstr());
