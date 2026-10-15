@@ -12,11 +12,23 @@ namespace ksys::phys {
 class BAndSCs : public Constraint {
     SEAD_RTTI_OVERRIDE(BAndSCs, Constraint)
 public:
+    struct Param : Constraint::Param {
+        // The factory does not consume this four-byte prefix before the pivots.
+        u8 _20[4];
+        sead::Vector3f pivot_a;
+        sead::Vector3f pivot_b;
+    };
+    static BAndSCs* make(const Param& param, sead::Heap* heap);
+
     ~BAndSCs() override;
 
     void sub_7100F6B144(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b);
 
 private:
+    BAndSCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+             ConstraintUnk18* breakable, hkpBallAndSocketConstraintData* data)
+        : Constraint(instance, body_a, body_b, 1, breakable), mData(data) {}
+
     // Full factory and independent body-space setter use this same library owner.
     hkpBallAndSocketConstraintData* mData;
 };
