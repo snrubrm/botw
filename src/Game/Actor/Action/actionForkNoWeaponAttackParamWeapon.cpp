@@ -33,7 +33,6 @@ void ForkNoWeaponAttackParamWeapon::loadParams_() {
     getStaticParam(&mAttackIntensity_s, "AttackIntensity");
 }
 
-// NON_MATCHING: the first and third intensity checks are reversed.
 void ForkNoWeaponAttackParamWeapon::calc_() {
     ksys::as::ASList::Unk4 query;
     if (sub_71005DD66C(mActor, &query, *mTargetBone_s, *mSeqBank_s)) {
@@ -42,12 +41,12 @@ void ForkNoWeaponAttackParamWeapon::calc_() {
             return;
         u32 flags = 0;
         const s32 intensity = *mAttackIntensity_s;
-        if (intensity == 1)
-            flags = 1;
+        if (intensity == 3)
+            flags = 4;
         else if (intensity == 2)
             flags = 2;
-        else if (intensity == 3)
-            flags = 4;
+        else if (intensity == 1)
+            flags = 1;
         auto* sensor = getActorAttackSensor(mActor);
         const u32 type = weapon->sub_71002ECB78();
         const u32 attributes = weapon->getFlags(flags);
