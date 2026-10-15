@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiNPCHorseRideWait.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -18,8 +19,34 @@ bool NPCHorseRideWait::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: rotation arithmetic, accessor cleanup and stack slots differ.
 void NPCHorseRideWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _d8 = false;
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+        if (auto* point = npc->_f80) {
+            _38._40.set(point->_0);
+            sead::Matrix33f rotation;
+            rotation.makeR({0.0f, point->_c.y, 0.0f});
+            _88._40.setRotated(rotation, sead::Vector3f::ez);
+        } else {
+            setFailed();
+        }
+    }
+    const auto& position = mActor->getMtx().getTranslation();
+    const f32 distance = (sead::Vector2f(position.x, position.z) -
+                          sead::Vector2f(_38._40.x, _38._40.z)).length();
+    if (!(distance < 4.0f)) {
+        sub_71004CC76C();
+        return;
+    }
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor)) {
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800005),
+                                &_88, true);
+        }
+    }
+    sub_71004CC680();
 }
 
 // NON_MATCHING: same control flow; stack layout / register allocation only (the original keeps the
