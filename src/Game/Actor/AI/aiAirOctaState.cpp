@@ -19,6 +19,8 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {
 
@@ -61,8 +63,45 @@ bool AirOctaState::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: linked-actor access and random rotation temporaries use different scheduling.
 void AirOctaState::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
+    if (auto* object = ksys::act::findLinkReferenceObj(mActor, "", "Rope", nullptr)) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        object->getActorWithAccessor(accessor);
+        accessor.setThisActorAsChild(mActor, false);
+        accessor.linkAcquire(&_218);
+    } else if (auto* object = ksys::act::findLinkReferenceObj(mActor, "", "OctaLeg", nullptr)) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        object->getActorWithAccessor(accessor);
+        accessor.setThisActorAsChild(mActor, false);
+        accessor.linkAcquire(&_228);
+    }
+    ksys::act::ActorLinkConstDataAccess accessor;
+    auto* manager = sead::DynamicCast<AirOctaDataMgr>(
+        *static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    if (ksys::act::acquireActor(&manager->mBaseProcLink2, &accessor)) {
+        if (auto* body = mActor->getMainBody()) {
+            if (*mBalloonMassRatio_s > 0.0f) {
+                body->setMass(accessor.sub_7100D14114() * *mBalloonMassRatio_s);
+                body->resetInertiaAndCenterOfMass();
+            }
+        }
+    }
+    if (auto* chemical = mActor->sub_71011D8A44(0))
+        chemical->_14c = *mWindForceScale_s;
+    if (auto* damage = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr()))
+        damage->_216.resetBit(3);
+    mActor->getASList()->sub_710115BAF8("Root");
+    const sead::Matrix34f transform = mActor->getMtx();
+    const f32 angle = sead::GlobalRandom::instance()->getF32() * 2.094395160675049f -
+                      1.0471975803375244f;
+    sead::Matrix34f rotation;
+    rotation.makeR({0.0f, angle, 0.0f});
+    mActor->mMtx.setMul(transform, rotation);
+    mActor->nullsub_4648();
+    _210 = s32(sead::GlobalRandom::instance()->getF32() * 10.0f);
+    changeToWait(false);
 }
 
 // NON_MATCHING: state-completion branches and chemical-loop scheduling differ.
