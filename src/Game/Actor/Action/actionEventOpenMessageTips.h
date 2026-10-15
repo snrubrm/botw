@@ -22,7 +22,9 @@ protected:
     int* mTipsType_d{};
     // dynamic_param at offset 0x28
     sead::SafeString mMessageId_d{};
-    u16 _38 = 0;
+    // Set once the tips screen was requested / seen open.
+    bool mRequested = false;
+    bool mOpened = false;
     u8 _3a[0x6];
 
 };

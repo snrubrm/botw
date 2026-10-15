@@ -67,6 +67,8 @@ public:
     bool sub_71010A5DB0();
     bool sub_71010A5E64();
     // 0x71010a6454 (CSV unnamed): called by Message3DText with its message set / message label.
+    // 0x71010a6584 (328 B, declared only): opens the message tips screen with `label` of `message_set`.
+    void sub_71010A6584(const sead::SafeString& message_set, const sead::SafeString& label, s32 tips_id);
     bool sub_71010A6454(const sead::SafeString& message_set, const sead::SafeString& label,
                         ksys::act::Actor* actor, f32 time, bool flag);
 
