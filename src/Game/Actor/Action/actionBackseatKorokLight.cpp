@@ -1,4 +1,8 @@
 #include "Game/Actor/Action/actionBackseatKorokLight.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
+#include <random/seadRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 
@@ -8,8 +12,55 @@ BackseatKorokLight::BackseatKorokLight(const InitArg& arg) : ksys::act::ai::Acti
 
 BackseatKorokLight::~BackseatKorokLight() = default;
 
+// NON_MATCHING: the random choice branches are arranged differently.
 bool BackseatKorokLight::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _a0 = mPlacementType_m == "Ground";
+    if (auto* model = mActor->getModel()) {
+        const auto plant = model->searchMaterial("Mt_Korogu_PlantL_C_002");
+        const auto left = model->searchMaterial("Mt_Korogu_PlantL_C_000");
+        const auto right = model->searchMaterial("Mt_Korogu_PlantR_C_000");
+        if (_a0) {
+            sead::Random random;
+            switch (random.getU32() & 3) {
+            case 1:
+                model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
+                    left.material_index, true);
+                model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
+                    right.material_index, false);
+                break;
+            case 2:
+                model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
+                    left.material_index, false);
+                model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
+                    right.material_index, true);
+                break;
+            case 3:
+                model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
+                    left.material_index, false);
+                model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
+                    right.material_index, false);
+                break;
+            default:
+                model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
+                    left.material_index, true);
+                model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
+                    right.material_index, true);
+                break;
+            }
+            model->getUnits().unsafeAt(plant.model_unit_index)->mModelUnit->setMaterialVisible(
+                plant.material_index, false);
+        } else {
+            model->getUnits().unsafeAt(left.model_unit_index)->mModelUnit->setMaterialVisible(
+                left.material_index, false);
+            model->getUnits().unsafeAt(right.model_unit_index)->mModelUnit->setMaterialVisible(
+                right.material_index, false);
+            model->getUnits().unsafeAt(plant.model_unit_index)->mModelUnit->setMaterialVisible(
+                plant.material_index, true);
+        }
+    }
+    if (auto* model = mActor->getModel())
+        model->sub_7100BF8C58(false, -1);
+    return true;
 }
 
 void BackseatKorokLight::enter_(ksys::act::ai::InlineParamPack* params) {
