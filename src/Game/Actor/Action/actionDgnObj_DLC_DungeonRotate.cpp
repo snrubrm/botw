@@ -1,9 +1,11 @@
 #include "Game/Actor/Action/actionDgnObj_DLC_DungeonRotate.h"
 #include <xlink2/xlink2HandleSLink.h>
+#include <math/seadQuat.h>
 #include "Game/Actor/actSoundProxy.h"
 #include "Game/gameGearMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
@@ -67,8 +69,24 @@ void DgnObj_DLC_DungeonRotate::sub_71000EE43C() {
     }
 }
 
+// NON_MATCHING: Clang outlines the existing quaternion-to-RPY conversion.
 void DgnObj_DLC_DungeonRotate::calc_() {
     DungeonRotateBase::calc_();
+    if (!_90)
+        return;
+    auto* gear = GearMgr::instance();
+    if (!gear || !gear->sub_7100669B48())
+        return;
+    _80 = (gear->_1098 - *mRotationOffset_a) * _e4 * _e0 + _e8;
+    _80 = ksys::util::sub_71011EF0CC(_80);
+    _b8 = gear->_10cc;
+    sead::Quatf quaternion;
+    quaternion.setAxisRadian(_70, _80);
+    sead::Vector3f rotation;
+    quaternion.calcRPY(rotation);
+    sub_71000FCCA4(&rotation, _84 < 0.0f);
+    if (gear->_10dd)
+        sub_71000EE43C();
 }
 
 }  // namespace uking::action
