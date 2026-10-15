@@ -1,5 +1,6 @@
 #include "Game/Actor/aiUnk_71007130BC.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/aiLockedProcLink.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -151,5 +152,28 @@ void sub_71007133A8(ksys::act::Actor* actor, const ksys::act::BaseProcLink* link
 void sub_7100713488(ksys::act::Actor* actor, const sead::Vector3f& position) {
     if (auto* npc = sead::DynamicCast<uking::act::NPC>(actor))
         npc->_103c = position;
+}
+
+// NON_MATCHING: clang keeps the accessor's address in x21 (frame 0x50 vs 0x40); the logic, order
+// and calls match.
+void sub_710071418C(ksys::act::Actor* actor, uking::ai::LockedProcLinkMaybe* payload) {
+    if (!actor)
+        return;
+    if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
+        return;
+    auto* npc = static_cast<uking::act::NPC*>(actor);
+    if (npc->_fe8 & 0x10000)
+        return;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&npc->_f70, &accessor))
+        return;
+
+    payload->mLock.lock();
+    payload->mLink.acquire(npc, false);
+    payload->_50 = 0.0f;
+    npc->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800009), payload,
+                     true);
+    payload->mLock.unlock();
 }
 
