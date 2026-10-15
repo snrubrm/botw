@@ -352,7 +352,8 @@ public:
     virtual void m74(f32 progress);
     virtual void m75();
     virtual void m76();
-    virtual void m77();
+    // 0x71010aacc0: looks up the animation `anim` (field +0x30 helper) and stores it at +0x288.
+    virtual void m77(const sead::SafeString& anim);
     virtual void m78(f32 frame);
     virtual void m79();
     virtual void m80(bool visible);

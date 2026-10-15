@@ -1,8 +1,38 @@
 #include "Game/Actor/Action/actionEventPlayUiOneTimeAnimAction.h"
+#include <container/seadBuffer.h>
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
+
+namespace {
+
+// Placeholder: screen name -> screen id entry (vtable 0x710237e1d0, no RTTI; 0x48 bytes).
+struct ScreenNameEntry {
+    ScreenNameEntry(const sead::SafeString& name_, s32 id_) : name(name_), id(id_) {}
+    virtual ~ScreenNameEntry() = default;
+
+    sead::FixedSafeString<32> name;
+    s32 id;
+};
+
+// Placeholder: the 8-byte object at 0x71025b2180 (stored by the static initializer 0x710011f87c
+// before the entry table is built).
+struct ScreenNameTableHeader {
+    ScreenNameTableHeader() : _0(0x8004ef), _4(0) {}
+
+    u32 _0;
+    u32 _4;
+};
+
+// NON_MATCHING (static initializer 0x710011f87c): same stores, but our build places the header
+// before the entries in .bss and schedules the first stores differently.
+ScreenNameTableHeader sScreenNameTableHeader;
+ScreenNameEntry sScreenNameEntries[] = {{"AppCamera", 4}};
+// 0x71025b2188
+sead::Buffer<ScreenNameEntry> sScreenNames(sScreenNameEntries);
+
+}  // namespace
 
 EventPlayUiOneTimeAnimAction::EventPlayUiOneTimeAnimAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
@@ -14,7 +44,22 @@ bool EventPlayUiOneTimeAnimAction::init_(sead::Heap* heap) {
 }
 
 void EventPlayUiOneTimeAnimAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _48 = 99;
+    _50 = nullptr;
+    for (s32 i = 0; i < sScreenNames.size(); ++i) {
+        if (mScreenName_d == sScreenNames[i].name) {
+            _48 = sScreenNames[i].id;
+            _50 = sead::DynamicCast<ui::Screen>(eui::ScreenMgr::instance()->getScreen(_48));
+            if (!_50)
+                break;
+            if (*mClipIndex_d < 0)
+                return;
+            ksys::evt::Manager::instance()->sub_7100DB1174(*mClipIndex_d);
+            _50->m77(mAnimName_d);
+            return;
+        }
+    }
+    setFailed();
 }
 
 void EventPlayUiOneTimeAnimAction::leave_() {
