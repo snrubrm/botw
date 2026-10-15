@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiRemainsFireDroneNormal.h"
 #include "Game/Actor/aiXlinkHandle.h"
+#include "Game/Actor/aiUnk_71024f15c0.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -8,6 +9,8 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapRail.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyPolytope.h"
 
 namespace uking::ai {
 
@@ -28,7 +31,28 @@ RemainsFireDroneNormal::~RemainsFireDroneNormal() {
 }
 
 bool RemainsFireDroneNormal::init_(sead::Heap* heap) {
-    return BezierRailMove::init_(heap);
+    if (!BezierRailMove::init_(heap))
+        return false;
+    auto* actor = mActor;
+    mPropellerTop.search(actor->getModel(), "Propeller_Top");
+    mPropellerBottom.search(actor->getModel(), "Propeller_Bottom");
+    mSearchlight.search(actor->getModel(), "Searchlight");
+    mBody.search(actor->getModel(), "Body");
+    _320 = new (heap, 8) Unk_71024192e0(this);
+    _209 = sub_7100EEF034(mActor, 0) != nullptr;
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* body = sead::DynamicCast<ksys::phys::PolytopeRigidBody>(
+                physics->findX("Body", "Barrier"))) {
+            body->setFlag1000000();
+            body->setRestitutionScale(0.0f);
+            body->setFrictionScale(0.0f);
+            body->setColImpulseScale(0.0f);
+            auto mask = body->getMaterialMask();
+            mask.getData().flag30 = 1;
+            body->setMaterialMask(mask);
+        }
+    }
+    return true;
 }
 
 void RemainsFireDroneNormal::enter_(ksys::act::ai::InlineParamPack* params) {
