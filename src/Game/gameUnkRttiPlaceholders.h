@@ -2263,6 +2263,10 @@ public:
     void hm14() override;
     void hm15() override;
 
+    // Full native lookups and member bodies establish this existing BGM owner.
+    void sub_71010003A4();
+    void sub_7101000838(f32 value);
+
     u32 _190 = 0;
     u64 _198 = 0;
     ksys::snd::Unk_710103AB10 _1a0{10};

@@ -1,5 +1,6 @@
 #include "Game/Actor/Behavior/behaviorCurseGanonBGMApplyLPF.h"
 #include "Game/Actor/aiUnk_7100FFDFDC.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::behavior {
 

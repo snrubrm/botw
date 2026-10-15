@@ -51,12 +51,10 @@ public:
 };
 Unk_7100ffe468* sub_7100FFE468();
 
-// 0x7100ffe5ec
-class Unk_7100ffe5ec {
-public:
-    // 0x7101000838
-    void sub_7101000838(f32 value);
-};
+// FFE520/FFE5EC both cast to the existing Remains boss BGM RTTI owner.
+class Unk_71024fd448;
+using Unk_7100ffe5ec = Unk_71024fd448;
+Unk_71024fd448* sub_7100FFE520(const ksys::snd::RemainsBossBgmType* type);
 Unk_7100ffe5ec* sub_7100FFE5EC();
 
 // 0x7100ffe6ec: entry 0x1f.
