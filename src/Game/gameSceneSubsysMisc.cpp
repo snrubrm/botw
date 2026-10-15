@@ -59,6 +59,52 @@ void GameSceneSubsys4::sub_710066B8C0(ksys::act::BaseProc* actor) {
     }
 }
 
+// NON_MATCHING: the address of out's element count is hoisted into a spilled register; the rest is regalloc.
+s32 GameSceneSubsys4::sub_710066B1BC(f32 time, ksys::act::Actor* actor,
+                                     ksys::phys::NavMeshCharacter* nav,
+                                     sead::ObjList<sead::Vector3f>* points,
+                                     sead::ObjList<sead::Vector3f>* out) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    if (!nav || mRequests.isFull())
+        return 0;
+    sub_710066B5B8(time, actor, nav, points);
+    if (mPoints.size() == 0)
+        return 0;
+    sub_710066AC84(actor);
+
+    bool has_request = false;
+    sead::Vector3f request_pos;
+    for (auto it = mRequests.begin(); it != mRequests.end(); ++it) {
+        if (it->mLink.hasProcById(actor)) {
+            request_pos = it->mPos;
+            has_request = true;
+            break;
+        }
+    }
+
+    for (auto it = mList1008.begin(); it != mList1008.end(); ++it) {
+        if (isRequestedByOther(*it, actor))
+            continue;
+        if (has_request && (request_pos - *it).length() <= 0.6f) {
+            out->clear();
+            out->emplaceBack(*it);
+            break;
+        }
+        out->emplaceBack(*it);
+        if (out->isFull())
+            break;
+    }
+    return out->isEmpty() ? 0 : 2;
+}
+
+s32 GameSceneSubsys4::sub_710066B73C(ksys::act::Actor* actor, sead::Vector3f* target) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    if (isRequestedByOther(*target, actor))
+        return 0;
+    mRequests.emplaceBack(actor, *target);
+    return 1;
+}
+
 // NON_MATCHING: initial target-direction coordinate registers differ.
 bool Unk_710243c238::m0(const void* node) {
     const auto* edge = static_cast<const ksys::phys::Unk_7100f7e64c*>(node);

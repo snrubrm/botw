@@ -81,17 +81,26 @@ public:
     // 0x710066b8c0: drops the path requests of `actor` (called by EnemyHide's destructor and
     // before a new request).
     void sub_710066B8C0(ksys::act::BaseProc* actor);
-    // 0x710066b73c (declaration only): path request towards `target` (returns 1 when a path was found).
+    // 0x710066b73c: adds a request of `actor` towards `target`; returns 0 when another actor already has a request
+    // within 0.6 of `target`.
     s32 sub_710066B73C(ksys::act::Actor* actor, sead::Vector3f* target);
-    // 0x710066b1bc (declaration only): path request using the points in `points`; the result is written to `out`.
+    // 0x710066b1bc: collects the points near `points` (sub_710066B5B8) and writes to `out` the candidates that no
+    // other actor has requested (within 0.6); only the point of the actor's own request when it is one of them.
+    // Returns 2 when `out` is not empty.
     s32 sub_710066B1BC(f32 time, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
                        sead::ObjList<sead::Vector3f>* points, sead::ObjList<sead::Vector3f>* out);
 
+    // 0x710066ac84 (declaration only): rebuilds the 0x1008 / 0x1218 / 0x14a0 lists for `actor`.
+    void sub_710066AC84(ksys::act::Actor* actor);
     void sub_710066B5B8(f32 radius, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
                        sead::ObjList<sead::Vector3f>* points);
 
     // A request of an actor to reach `mPos` (BaseProcLink at 0, Vector3f at 0x10; the list node follows at 0x20).
     struct Request {
+        Request(ksys::act::BaseProc* proc, const sead::Vector3f& pos) : mPos(pos) {
+            mLink.acquire(proc, false);
+        }
+
         ksys::act::BaseProcLink mLink;
         sead::Vector3f mPos;
     };
@@ -102,6 +111,16 @@ public:
     };
 
 private:
+    // inline-only in the original; name is a guess (the same loop is inlined in sub_710066B73C and sub_710066B1BC).
+    bool isRequestedByOther(const sead::Vector3f& pos, ksys::act::BaseProc* proc) {
+        for (auto it = mRequests.begin(); it != mRequests.end(); ++it) {
+            const f32 distance = (pos - it->mPos).length();
+            if (!it->mLink.hasProcById(proc) && distance <= 0.6f)
+                return true;
+        }
+        return false;
+    }
+
     // Lists at 0x28 / 0x358 / 0x1008 / 0x1218 / 0x14a0 (capacities from the constructor: 16 / 100 / 15 / 15 / 15).
     sead::FixedObjList<Request, 16> mRequests;
     sead::FixedObjList<sead::Vector3f, 100> mPoints;
