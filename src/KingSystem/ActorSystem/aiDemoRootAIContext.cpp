@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/aiDemoRootAI.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Event/evtActionContext.h"
 
 namespace ai {
@@ -22,6 +23,26 @@ struct DemoContext {
     u8 _0[8];
     ksys::evt::ActionContext* _8;
 };
+
+RootAi::SomeStruct::SomeStruct() = default;
+
+RootAi::SomeStruct::~SomeStruct() = default;
+
+void RootAi::SomeStruct::removeContextMaybe(evt::ActionContext* ctx) {
+    evt::ActionContext* it = _8;
+    if (it == ctx) {
+        _8 = nullptr;
+        return;
+    }
+    if (!it)
+        return;
+    for (evt::ActionContext* next = it->_a58; next; it = next, next = it->_a58) {
+        if (next == ctx) {
+            it->_a58 = ctx->_a58;
+            return;
+        }
+    }
+}
 
 // 0x7100d61fac / 0x7100d62154 (CSV placeholders; defined in aiDemoRootAIHelpers.cpp, not here,
 // or the walker below starts skipping the d61fac call).

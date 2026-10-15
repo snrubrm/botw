@@ -12,6 +12,10 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::evt {
+class ActionContext;
+}  // namespace ksys::evt
+
 namespace ksys::act {
 
 // Heap bytes needed for the AI parameters stored in an instance parameter buffer.
@@ -120,11 +124,18 @@ private:
     void sub_7100D65E1C();
 
     // TODO: rename and put this in a different translation unit
+    // ctor 0x7100d62eec (CSV AIStruct5::ctor), vtable 0x71024dbae0. Defined in aiDemoRootAIContext.cpp.
     struct SomeStruct {
         SomeStruct();
         virtual ~SomeStruct();
+        // 0x7100d62f08: unlinks `ctx` from the chain at _8 (clears the whole chain when it is the head).
+        virtual void removeContextMaybe(evt::ActionContext* ctx);
+        // FIXME: 0x7100d62f40 appends the ActionContext from its third argument's slot 5 to
+        // the chain; argument types unknown. (0x7100d62fbc, the same append without the RootAi check, is not a slot.)
+        virtual void m3();
 
-        void* _8{};
+        // Head of an ActionContext chain linked through ActionContext::_a58.
+        evt::ActionContext* _8{};
     };
     KSYS_CHECK_SIZE_NX150(SomeStruct, 0x10);
 
