@@ -26,6 +26,8 @@
 #include <aal/aalSpatialCalculator.h>
 #include <gsys/gsysIModelProcedural.h>
 #include <gsys/gsysModelUnit.h>
+#include <common/aglDrawContext.h>
+#include <common/aglGPUMemBlock.h>
 #include "Game/gameUnk_71024739f8.h"
 #include "controller/seadControllerAddon.h"
 #include "framework/seadSingleScreenMethodTreeMgr.h"
@@ -1524,6 +1526,21 @@ public:
 };
 
 // vtable 0x710251cf40 (10 slots); placeholder generated from the vtable (genskel.py).
+// Placeholder name (ctor 0x71011595fc, declaration only): a GPU memory block and a draw context with a small
+// header; Unk_710251cf40 holds two of them.
+struct Unk_71011595fc {
+    Unk_71011595fc();
+
+    u8 _0;
+    u8 _1[0x8 - 0x1];
+    u32 _8;
+    u64 _10;
+    u32 _18;
+    agl::GPUMemBlock<u8> _20;
+    agl::DrawContext _58;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71011595fc, 0x208);
+
 class Unk_710251cf40 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251cf40, Unk_710251d230)
 public:
@@ -1531,7 +1548,12 @@ public:
     virtual void m7() {}
     virtual void m8();
     virtual void m9();
+
+    u8 _8[0xd8 - 0x8];
+    Unk_71011595fc _d8;
+    Unk_71011595fc _2e0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710251cf40, 0x4e8);
 
 // vtable 0x710251d160 (14 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710251d160 : public Unk_710251d230 {
