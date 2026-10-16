@@ -1,4 +1,5 @@
 #include "Game/gameRuneMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -43,6 +44,26 @@ bool RuneMgr::sub_71006754CC(u8 idx) {
 
 void RuneMgr::sub_71006754D8(u8 idx) {
     _2a8.sub_710067E838(idx);
+}
+
+f32 RuneMgr::sub_71006754E4(u8 idx, const ksys::act::Actor* actor) {
+    return _2a8.sub_710067EC28(idx, actor->getMtx().getTranslation());
+}
+
+bool RuneMgr::sub_7100675520(u8 idx) {
+    return _2a8.sub_710067E4E0(idx);
+}
+
+bool RuneMgr::sub_710067552C(u8 idx) {
+    if (!_2a8.sub_710067E4E0(idx))
+        return false;
+    return _2a8.mEntries[idx].flags.isOnBit(0);
+}
+
+bool RuneMgr::sub_710067557C(u8 idx) {
+    if (!_2a8.sub_710067E4E0(idx))
+        return false;
+    return _2a8.mEntries[idx].flags.isOnBit(3);
 }
 
 void RuneMgr::sub_71006757B8() {

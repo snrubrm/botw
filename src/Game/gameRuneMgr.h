@@ -78,6 +78,13 @@ public:
     ksys::act::Actor* spawnBomb(u8 idx, const sead::Matrix34f& mtx, s32 type, bool a4);
     bool sub_71006754CC(u8 idx);
     void sub_71006754D8(u8 idx);
+    // 0x71006754e4 (CSV x_1): sub_710067EC28 with the actor's position.
+    f32 sub_71006754E4(u8 idx, const ksys::act::Actor* actor);
+    // 0x7100675520 (CSV __auto2) / 0x710067552c / 0x710067557c (CSV __auto7): sub_710067E4E0, and when it
+    // succeeds bit 0 / bit 3 of the entry flags.
+    bool sub_7100675520(u8 idx);
+    bool sub_710067552C(u8 idx);
+    bool sub_710067557C(u8 idx);
 
     // 0x710067525c (CSV __auto6): byte flag at 0x250.
     bool sub_710067525C() const;
