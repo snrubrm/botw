@@ -2215,6 +2215,13 @@ public:
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
+    // 0x71009eb0e0 (placeholder name; called by m94): toggles the UiSubsys1 map flags 0x38c8 / 0x6e4 and plays the
+    // animator at 0x3630 forwards or backwards
+    void sub_71009EB0E0();
+    // 0x71009f1b9c (placeholder name): sets the animator at 0x3c88 to its max / min end and shows the temperature
+    void sub_71009F1B9C();
+    // 0x71009f1ca4 (placeholder name): plays the animator at 0x3638 and shows the time in `layout`
+    void sub_71009F1CA4(eui::LayoutEx* layout);
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
@@ -2273,7 +2280,8 @@ public:
     virtual s32 demoReenter();
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
-    u8 _3618[0x3638 - 0x3618];
+    u8 _3618[0x3630 - 0x3618];
+    /* 0x3630 */ eui::Animator* _3630;
     /* 0x3638 */ eui::Animator* _3638;
     u8 _3640[0x3778 - 0x3640];
     /* 0x3778 */ agl::RenderBuffer _3778;
@@ -2295,7 +2303,14 @@ public:
     u8 _3bf0[0x3c00 - 0x3b18 - sizeof(Unk_7102481e30)];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
-    u8 _3c10[0x3c88 - 0x3c10];
+    u8 _3c10[0x3c60 - 0x3c10];
+    /* 0x3c60 */ f32 _3c60;  // the temperature shown in T_Temp_00
+    /* 0x3c64 */ u8 _3c64;
+    /* 0x3c65 */ u8 _3c65;
+    /* 0x3c66 */ u8 _3c66;
+    u8 _3c67;
+    u8 _3c68[0x3c80 - 0x3c68];
+    /* 0x3c80 */ eui::LayoutEx* _3c80;
     /* 0x3c88 */ eui::Animator* _3c88;
     /* 0x3c90 */ ScreenAppMapUnk3c90* _3c90;
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;

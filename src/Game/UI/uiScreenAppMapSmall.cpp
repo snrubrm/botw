@@ -254,4 +254,51 @@ void ScreenAppMap::sub_71009F273C() {
     close(-1);
 }
 
+// 0x71009eb0e0
+// NON_MATCHING: the original materialises the 0 for set6e4 as `mov x1, xzr` (ours `mov w1, wzr`); same in m98
+void ScreenAppMap::sub_71009EB0E0() {
+    auto* subsys = UiSubsys1::instance();
+    if (subsys->is38b8And38b9Clear()) {
+        UiSubsys1::instance()->clear38c8();
+        UiSubsys1::instance()->set6e4(1);
+        _3630->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    } else if (UiSubsys1::instance()->sub_7100966E64()) {
+        UiSubsys1::instance()->set38c8();
+        UiSubsys1::instance()->set6e4(0);
+        _3630->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    }
+}
+
+// 0x71009f1b9c
+void ScreenAppMap::sub_71009F1B9C() {
+    if (wm::sub_7100A9D800())
+        _3c88->StopAtMax();
+    else
+        _3c88->StopAtMin();
+    if (!_3c66)
+        return;
+    const s32 temperature = sead::Mathf::floor(_3c60);
+    sead::FixedSafeString<16> text;
+    text.format("%+d", temperature);
+    setWidgetString(_3c80, "T_Temp_00", text);
+}
+
+// 0x71009f1ca4
+void ScreenAppMap::sub_71009F1CA4(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    const s32 found = _3610->sub_71009AEF7C();
+    if (wm::isFindDungeonActivated()) {
+        if (!found)
+            _3638->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    } else if (!found) {
+        _3638->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    }
+    if (_3c65 || _3c64) {
+        sead::FixedSafeString<128> text;
+        wm::formatTimeString(&text);
+        setWidgetString(layout, "T_Time_00", text);
+    }
+}
+
 }  // namespace uking::ui

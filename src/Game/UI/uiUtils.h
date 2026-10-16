@@ -579,6 +579,8 @@ namespace wm {
 bool isFindDungeonActivated();
 // 0x7100a9d800 (CSV unnamed; declared only)
 s32 sub_7100A9D800();
+// 0x7100a9d964 (CSV wm::formatTimeString; declared only, 1744 bytes): writes the in-game time to `out`
+void formatTimeString(sead::BufferedSafeString* out);
 }  // namespace wm
 
 // 0x7100a95214 (uiPouchFacade.cpp; global namespace in the CSV)
