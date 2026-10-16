@@ -662,6 +662,9 @@ public:
     void sub_710100454C();
     // 0x7101004a14: the info's DistanceOfCheckingActiveEnemy (from the registered EnvBgm info when mInfo is not set).
     s32 getDistanceOfCheckingActiveEnemyMaybe() const;
+    // 0x7101004764: true once FirstTouchdown is set (latched in _3d), with _38 <= 0, _3c clear and the weather
+    // Bluesky, Cloudy or BlueskyRain.
+    bool sub_7101004764();
 
 private:
     EnvBgmInfo* mInfo = nullptr;

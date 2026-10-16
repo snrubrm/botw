@@ -270,4 +270,21 @@ s32 Unk_71025ce350::getDistanceOfCheckingActiveEnemyMaybe() const {
     return info->mDistanceOfCheckingActiveEnemy.ref();
 }
 
+// NON_MATCHING: the flag value is tested with `cbz` in the original (`tbz #0` here), as in the constructor; tail
+// layout of the _38 check.
+bool Unk_71025ce350::sub_7101004764() {
+    if (!_3d) {
+        bool value = false;
+        if (gdt::getBoolByName(gdt::Manager::instance(), &value, "FirstTouchdown") && value)
+            _3d = true;
+    }
+    if (!_3d)
+        return false;
+    if (s32(_38) > 0 || _3c)
+        return false;
+    const auto weather = world::Manager::instance()->getWeatherMgr()->getWeather();
+    return weather == world::WeatherType::Bluesky || weather == world::WeatherType::Cloudy ||
+           weather == world::WeatherType::BlueskyRain;
+}
+
 }  // namespace ksys::snd
