@@ -9,6 +9,12 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include <limits>
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+
+// 0x71002ccc20 (free function, declared only; as in aiSandwormRoot.cpp).
+const sead::SafeString& sub_71002CCC20(s32 idx);
 
 namespace uking::ai {
 
@@ -102,6 +108,55 @@ bool SandwormRRoot::handleMessage_(const ksys::Message* message) {
         }
     }
     return true;
+}
+
+// 0x710055f874
+void SandwormRRoot::m45(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6,
+                        act::DamageManager* damage_mgr) {
+    if (*a1 < 1)
+        return;
+    auto* enemy = sead::DynamicCast<act::Enemy>(damage_mgr->mActor);
+    if (!enemy)
+        return;
+
+    if (*a4 == 4) {
+        auto* attacker = damage_mgr->getAttacker();
+        if (enemy->_1128.getActorPartsActor(sub_71002CCC20(0)) == *attacker ||
+            enemy->_1128.getActorPartsActor(sub_71002CCC20(1)) == *attacker) {
+            *a1 = 0;
+            *a4 = -1;
+            *a5 = -1;
+            return;
+        }
+    }
+
+    if (*a4 == 3) {
+        auto* attacker = damage_mgr->getAttacker();
+        ksys::act::acc::Bullet accessor;
+        if (ksys::act::acquireActor(attacker, &accessor)) {
+            if (accessor.getName() == "BombArrow_A" && !accessor.sub_71000057DC())
+                *a5 = 22;
+        }
+    }
+
+    bool weak_point_hit = false;
+    if (auto* body = enemy->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body")) {
+        if (damage_mgr->isDamageSourceObjectMaybe(body)) {
+            weak_point_hit = true;
+            *a1 = s32(*mWeakPointDamageRate_s * f32(*a1));
+        }
+    }
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    auto* chemical = ksys::act::acquireActor(damage_mgr->m37(), &accessor) ? accessor.sub_7100D14E0C() : nullptr;
+    if (chemical && (chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4) &&
+        chemical->_1b8 > 0.0f) {
+        *a1 = s32(f32(*a1) * *mWeakChimicalDamageRate_s);
+    } else if (!weak_point_hit) {
+        return;
+    }
+    if (auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6))
+        info->mFlags |= 0x2001;
 }
 
 }  // namespace uking::ai
