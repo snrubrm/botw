@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include <limits>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -77,7 +80,35 @@ void GanonChemicalPillarAttack::sub_7100178DC4(s32 index, ksys::act::ActorLinkCo
 }
 
 bool GanonChemicalPillarAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (sub_71005D6D10())
+        return true;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return true;
+
+    ksys::act::InstParamPack params;
+    params->add(sead::SafeString("Normal"), "DropTable");
+    params->add(false, "EnableRevival");
+    params->add(false, "IsFixedPlace");
+    params->add(true, "IsInGround");
+    params->add(*mAttackPower_s, "AttackPower");
+    params->add(*mAttackPowerForPlayer_s, "AttackPowerForPlayer");
+    params->add(*mAtMinPower_s, "AtMinDamage");
+    params->add(0, "AddAtkPower");
+    params->add(mCreateActorName_s, "ActorName");
+
+    for (int i = 0; i <= *mPillarNum_s; ++i) {
+        sead::FormatFixedSafeString<64> name("IronPile%d", i);
+        enemy->_1128.sub_7100D3CED8(name, heap);
+        auto* actor = ksys::act::ActorCreator::instance()->createActor(
+            "GanonIronPile", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &params, true,
+            false);
+        if (actor) {
+            actor->clearFadeInCreate();
+            enemy->_1128.sub_7100D3D108(name, actor);
+        }
+    }
+    return true;
 }
 
 // NON_MATCHING: the original keeps `_b8` / `_b9` as two byte stores (no strh merge) and schedules the stores of the
