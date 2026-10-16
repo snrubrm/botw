@@ -237,7 +237,8 @@ public:
     // Placeholder names: one 9 x 9 grid of entries; the object at 0xf0 holds a buffer of these at 0x60.
     struct Cell {
         struct Entry {
-            u64 _0;
+            // The region the entry was filled from (sub_7101249E6C reads its state).
+            ClusteredRendererRegion* _0;
             u64 _8;
             sead::Vector2i _10;
             s64 _18;
@@ -245,6 +246,10 @@ public:
             Unk_CellNode2* _28[3];
         };
         static_assert(sizeof(Entry) == 0x40);
+
+        // Not trivially destructible: sub_7101243CD8 frees the Buffer<Cell> with delete[] on the array
+        // cookie (buffer - 8), and no destructor code remains.
+        ~Cell() {}
 
         // 0x710124749c (declaration only; placeholder name): drains the queues below.
         void sub_710124749C(sead::FreeList* node_list, sead::FreeList* node2_list);
@@ -315,6 +320,9 @@ public:
     void sub_71012475EC(Cell* cell, const ClusteredRendererRegion* region, bool reset);
     // 0x7101243eec (placeholder name): resets the entries of a cell.
     void sub_7101243EEC(Cell* cell);
+    // 0x7101249e6c (placeholder name): under all three locks, walks the node chains of the entries whose
+    // region is ready (state 1, _7c clear); the results are unused (debug code stripped).
+    void sub_7101249E6C();
 
     void startThread();
     void requestDraw();

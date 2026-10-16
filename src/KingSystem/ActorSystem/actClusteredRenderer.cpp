@@ -613,6 +613,23 @@ void ClusteredRenderer::sub_7101243BD8(bool release) {
     mData2._c9c &= ~0x40000u;
 }
 
+// NON_MATCHING: the original does not pass `this` to sub_710124474C / sub_7101244980 (as in sub_7101246FBC).
+void ClusteredRenderer::sub_7101243CD8(ClusteredRendererCells* cells) {
+    for (s32 i = 0; i < 4; ++i) {
+        cells->mRegions[i]->mState.exchange(7);
+        sub_710124474C(cells->mRegions[i]);
+        sub_7101244980(cells->mRegions[i], true);
+        delete cells->mRegions[i];
+        delete cells->mHandles[i];
+    }
+
+    const s32 num = cells->mCells.size();
+    for (s32 i = 0; i < num; ++i)
+        sub_7101243EEC(&cells->mCells[i]);
+    cells->mCells.freeBuffer();
+    delete cells;
+}
+
 void ClusteredRenderer::sub_7101243EEC(Cell* cell) {
     for (s32 x = 0; x < 9; ++x) {
         for (s32 y = 0; y < 9; ++y) {
@@ -668,4 +685,38 @@ void sub_7101249DF4(sead::Vector2<s32>* out, const sead::Vector3f* pos) {
 }
 
 }  // namespace ksys::map
+
+namespace ksys::act {
+
+// NON_MATCHING: the node walk: ours iterates the address of the next pointer (load then add 0xd0); the
+// original loads _20 first and then follows mNext at 0xd0.
+void ClusteredRenderer::sub_7101249E6C() {
+    auto lock0 = sead::makeScopedLock(mData._218);
+    auto lock1 = sead::makeScopedLock(mData._198);
+    auto lock2 = sead::makeScopedLock(mData._1d8);
+
+    auto& cells = mData._f0->mCells;
+    for (s32 i = 0; i < cells.size(); ++i) {
+        for (s32 z = 0; z < 9; ++z) {
+            for (s32 x = 0; x < 9; ++x) {
+                const ClusteredRendererRegion* region = cells[i].mEntries[z][x]._0;
+                if (!region || region->_7c != 0 || region->mState != 1)
+                    continue;
+                for (Unk_CellNode* node = cells[i].mEntries[z][x]._20; node; node = node->mNext) {
+                }
+            }
+        }
+    }
+    for (s32 z = 0; z < 9; ++z) {
+        for (s32 x = 0; x < 9; ++x) {
+            const ClusteredRendererRegion* region = cells[0].mEntries[z][x]._0;
+            if (!region || region->_7c != 0 || region->mState != 1)
+                continue;
+            for (Unk_CellNode* node = cells[0].mEntries[z][x]._20; node; node = node->mNext) {
+            }
+        }
+    }
+}
+
+}  // namespace ksys::act
 
