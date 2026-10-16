@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <algorithm>
+#include <devenv/seadGameConfig.h>
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
@@ -191,6 +192,39 @@ void Unk_71008502cc::m20() {
         }
     }
     sub_71008508FC();
+}
+
+// Ends conditions 3 and 0 without chemicals, when sead GameConfig byte 0x80b is set or while the player's m204
+// holds; otherwise starts / ends cold condition 1 and hot condition 0 from the chemical temperature against the
+// player's cold / hot limits.
+void Unk_71008502cc::sub_71008508FC() {
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    auto* chemical = _10->getChemicalStuff();
+    if (!chemical || sead::GameConfig::instance()->get_80b() || (player && player->m204())) {
+        m13(3);
+        m13(0);
+        _13c = 0;
+        return;
+    }
+
+    const f32 temperature = chemical->sub_7100D91958();
+    if (temperature < getPlayerColdTempLimit()) {
+        auto* player_base = sead::DynamicCast<uking::act::PlayerBase>(_10);
+        if (!player_base || !player_base->sub_710084CF24())
+            _8.setBit(1);
+    } else {
+        m13(1);
+    }
+
+    if (temperature > getPlayerHotTempLimit()) {
+        if (!_8.isOnBit(3)) {
+            auto* player_base = sead::DynamicCast<uking::act::PlayerBase>(_10);
+            if (!player_base || !player_base->sub_710084CF24())
+                _8.setBit(0);
+        }
+    } else {
+        m13(0);
+    }
 }
 
 bool Unk_71008502cc::m14() {
