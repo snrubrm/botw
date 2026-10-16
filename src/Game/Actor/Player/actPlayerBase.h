@@ -241,7 +241,7 @@ public:
     /* 308 */ void m308() override;
     /* 309 */ virtual void m309(f32) {}
     /* 310 */ virtual void m310(f32) {}
-    /* 311 */ virtual void m311() {}
+    /* 311 */ virtual void m311(bool on) {}
     /* 312 */ virtual gsys::BoneAccessKey m312(int idx);
     /* 313 */ void getActorDirect() override;
     /* 314 */ const sead::Color4f& m314() override;

@@ -223,7 +223,9 @@ public:
     /* 306 */ bool m306() override { return x_44(); }
     /* 309 */ void m309(f32) override;
     /* 310 */ void m310(f32) override;
-    /* 311 */ void m311() override;
+    // Sets / clears ActorFlag2::_20 on the player, its armor parts, equipped weapons (and their optional
+    // weapons), the first resident actor and a connected calc child whose m100()->_100 is 2 or > 4.
+    /* 311 */ void m311(bool on) override;
     /* 312 */ gsys::BoneAccessKey m312(int idx) override;
     /* 318 */ void m318(sead::Matrix34f* out) override;
     /* 319 */ f32 m319() override { return _2094; }

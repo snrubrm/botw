@@ -18,6 +18,8 @@
 #include "Game/Actor/actMotorcycle.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actOptionalWeapon.h"
+#include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
@@ -646,6 +648,39 @@ void Player::sub_710084AD5C(f32 value, bool a2) {
     if (!a2 && VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f)
         delta *= uking::sUnk_7101e7c1d8;
     _e7c[sead::CoreInfo::getCurrentCoreId()] += delta;
+}
+
+void Player::m311(bool on) {
+    getActorFlags2().change(ActorFlag2::_20, on);
+    for (int i = 0; i < 6; ++i) {
+        if (auto* actor = sead::DynamicCast<Actor>(_23e0.getPartsLink(i).getProc(nullptr, nullptr)))
+            actor->getActorFlags2().change(ActorFlag2::_20, on);
+    }
+    for (int i = 0; i < 4; ++i) {
+        if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i))) {
+            weapon->getActorFlags2().change(ActorFlag2::_20, on);
+            if (auto* optional = weapon->m162())
+                optional->getActorFlags2().change(ActorFlag2::_20, on);
+        }
+    }
+    if (auto* actor = sead::DynamicCast<Actor>(mResidentActors[0].getProc(nullptr, nullptr)))
+        actor->getActorFlags2().change(ActorFlag2::_20, on);
+    auto* child = sead::DynamicCast<Actor>(getConnectedCalcChild());
+    if (!child)
+        return;
+    auto* unk = child->m100();
+    if (!unk)
+        return;
+    switch (unk->_100) {
+    case 0:
+    case 1:
+    case 3:
+    case 4:
+        return;
+    default:
+        child->getActorFlags2().change(ActorFlag2::_20, on);
+        return;
+    }
 }
 
 void Player::m310(f32 target) {
