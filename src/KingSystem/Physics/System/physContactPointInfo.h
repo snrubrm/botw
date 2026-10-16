@@ -83,6 +83,9 @@ public:
             mLayerMask2[i].setDirect(0xffffffff);
     }
 
+    // Sets the value passed as `a` to the constructor (GuardianComponent::m63 sets 1; meaning unknown).
+    void set2c(u32 value) { _2c = value; }
+
     // Inline-only in the original (CarryBox::enter_ clears both subscribed words with one 64-bit store; the name is
     // a guess).
     void unsubscribeAllLayers() {

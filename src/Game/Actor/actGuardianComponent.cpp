@@ -3,6 +3,9 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_7102451120.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
@@ -78,6 +81,21 @@ void GuardianComponent::initMaybe() {
 
 void GuardianComponent::updateMtxFromPhysics() {
     _ba8->m13();
+}
+
+void GuardianComponent::m63() {
+    if (auto* awareness = getAwareness())
+        awareness->enable();
+    if (auto* physics = getPhysics()) {
+        const s32 idx = physics->findContactPointInfo("Ground");
+        _bb0 = idx < 0 ? nullptr : physics->getContactPointInfoAt(idx);
+        if (_bb0) {
+            _bb0->setAllLayerMask2();
+            _bb0->set2c(1);
+        }
+    }
+    DynamicActor::m63();
+    _ba8->m9();
 }
 
 bool GuardianComponent::canWakeUp_() {

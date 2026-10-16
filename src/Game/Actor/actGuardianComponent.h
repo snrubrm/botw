@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 
+namespace ksys::phys {
+class ContactPointInfo;
+}
+
 namespace uking::act {
 
 class Guardian;
@@ -80,6 +84,7 @@ public:
     void preDelete2_(const PreDeleteArg& arg) override;
     void initMaybe() override;
     void updateMtxFromPhysics() override;
+    void m63() override;
     ksys::act::Actor* m31() override;
     bool m55() override;
     bool shouldUnload(s32* reason) override;
@@ -94,7 +99,7 @@ public:
     // The part: 0 Cannon, 1 WeakPoint, 2 Leg, 3 BrokenLeg, 4 Propeller (from the actor name), else -1.
     /* 0xba0 */ s32 _ba0 = -1;
     /* 0xba8 */ GuardianComponentBind* _ba8 = nullptr;
-    /* 0xbb0 */ void* _bb0 = nullptr;
+    /* 0xbb0 */ ksys::phys::ContactPointInfo* _bb0 = nullptr;  // "Ground" contact points (m63)
     /* 0xbb8 */ Unk_710235b700 mDamageCallback{this};
 };
 KSYS_CHECK_SIZE_NX150(GuardianComponent, 0xbf0);
