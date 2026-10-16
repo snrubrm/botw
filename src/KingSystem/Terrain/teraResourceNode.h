@@ -78,6 +78,8 @@ extern const ImageTypeMaybe sUnk_7101EC54A8;
 struct MaterialTextureMaybe {
     // 0x7101140610 (placeholder name)
     nn::gfx::ResTexture* getTexture() const;
+    // 0x7101140620 (placeholder name): the texture's width.
+    u32 getWidthMaybe() const;
 
     nn::g3d::ResMaterial* material;
     s32 index;

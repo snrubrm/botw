@@ -234,8 +234,32 @@ public:
         MaterialName** mNames;
     };
     struct Unk4ae0 {
+        // Placeholder: the object at 0x10. Slot 0x60 returns the material texture of an index
+        // (System::x_2 0x71011178e4 calls it with 0 when _8 is set).
+        class Unk_10 {
+        public:
+            // Declared only (never constructed here).
+            virtual void m0();
+            virtual void m1();
+            virtual void m2();
+            virtual void m3();
+            virtual void m4();
+            virtual void m5();
+            virtual void m6();
+            virtual void m7();
+            virtual void m8();
+            virtual void m9();
+            virtual void m10();
+            virtual void m11();
+            virtual const MaterialTextureMaybe* m12(s32 index);
+
+            void* _8;
+        };
+
         void* _0;
-        u8 _8[0x710 - 0x8];
+        u8 _8[0x10 - 0x8];
+        Unk_10 _10;
+        u8 _20[0x710 - 0x20];
         s32 _710;
         MaterialNameTable* mMaterialNames;
         u8 _720[0x728 - 0x720];
@@ -775,6 +799,9 @@ public:
     bool sub_71011170F4(s32 index, u32 level);
     // 0x710111713c (CSV TeraSystem::x_1; placeholder name): Scene::_276c of scene `index`.
     Scene::Unk_276c* sub_710111713C(s32 index);
+    // 0x71011178e4 (CSV name; the debug message calls it Scene::setMaterialUVWInfo): sets each material's
+    // value and scale (the first material texture's width times the larger of _4 / _8).
+    void x_2();
     // 0x7101112714 (CSV System::x; placeholder name): under the write lock, resets every scene, removes
     // the image users of the flagged _fa8 nodes, destroys the area tree (telling `listener`) and clears
     // the image change ring.
@@ -858,7 +885,17 @@ public:
     // when it is not empty, else a linear search of _fa8.
     Unk_7101106F44* sub_7101115080(u32 id) const;
 
-    u8 _e8[0xee9 - 0xe8];
+    // Placeholder: per-material UV scale, set by x_2 0x71011178e4 (one entry per material of
+    // Terrain::_370->_4ae0; the count is not known, at most 149 fit before 0xee9).
+    struct MaterialUVWMaybe {
+        u32 value;
+        f32 _4;
+        f32 _8;
+        u8 _c[0x14 - 0xc];
+        f32 scale;
+    };
+    MaterialUVWMaybe _e8[149];
+    u8 _ee0[0xee9 - 0xee0];
     u8 _ee9;
     // Number of entries of _fa8 / _ff8 in use (sub_7101112714).
     u16 _eea;

@@ -4,6 +4,7 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <cmath>
 #include <filedevice/seadFileDevice.h>
+#include <nn/gfx/gfx_ResTexture.h>
 #include <math/seadMathCalcCommon.h>
 #include <common/aglDrawContext.h>
 #include <gfx/seadViewport.h>
@@ -163,6 +164,10 @@ bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
 
 nn::gfx::ResTexture* MaterialTextureMaybe::getTexture() const {
     return agl::g3d::ResMaterial::GetTexture(material, index);
+}
+
+u32 MaterialTextureMaybe::getWidthMaybe() const {
+    return getTexture()->GetTextureInfo()->GetWidth();
 }
 
 const sead::Vector2f sUnk_7101EC503C[4] = {{-0.5f, -0.5f}, {0.5f, -0.5f}, {-0.5f, 0.5f}, {0.5f, 0.5f}};

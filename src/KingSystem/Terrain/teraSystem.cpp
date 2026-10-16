@@ -632,7 +632,7 @@ bool sub_710110C1A4(u32* out, u32 index) {
 // NON_MATCHING: register allocation; the not-found return is a separate block in ours.
 bool sub_710110C1E4(u32* out, const sead::SafeString& name) {
     const u32 count = Terrain::instance()->_370->_4ae0->_710;
-    for (u32 i = 0; i < count; ++i) {
+    for (s32 i = 0; i < count; ++i) {
         if (sead::SafeString(Terrain::instance()->_370->_4ae0->_728->mNames[s32(i)]->name) == name) {
             *out = Terrain::instance()->_370->_4ae0->_730->mValues[i];
             return true;
@@ -714,6 +714,31 @@ bool System::sub_71011170F4(s32 index, u32 level) {
 
 Scene::Unk_276c* System::sub_710111713C(s32 index) {
     return &mScenes[index].scene->_276c;
+}
+
+// NON_MATCHING: the original indexes _e8 with a sign-extended multiply each iteration; ours walks a pointer.
+void System::x_2() {
+    f32 width;
+    auto* materials = Terrain::instance()->_370->_4ae0;
+    if (materials->_10._8) {
+        // called through a pointer in the original (not devirtualised)
+        width = (&materials->_10)->m12(0)->getWidthMaybe();
+    } else {
+        width = 1024.0f;
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log(
+                "マテリアルが読み込まれていないのに Scene::setMaterialUVWInfo が処理されました！");
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+    }
+
+    const u32 count = Terrain::instance()->_370->_4ae0->_710;
+    for (s32 i = 0; i < count; ++i) {
+        MaterialUVWMaybe& entry = _e8[i];
+        entry.value = Terrain::instance()->_370->_4ae0->_730->mValues[i];
+        entry.scale = width * sead::Mathf::max(entry._4, entry._8);
+    }
 }
 
 void System::sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type) {
