@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -25,9 +26,7 @@ protected:
     bool _38 = false;
     u8 _39[3];
     sead::Vector3f _3c;
-    f32 _48 = 0;
-    f32 _4c = 0;
-    f32 _50 = 0;
+    ksys::Timer _48;
     u8 _54[0x4];
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSpearChangeWaterLevel, 0x58);
