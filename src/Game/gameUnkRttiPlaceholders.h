@@ -825,10 +825,20 @@ public:
     ksys::phys::RigidBody* _50;
 };
 
+// lane1 s95: the request passed to Unk_71024dd490::sub_71010F1D1C.
+struct Unk_710250d3e8Arg {
+    u32 _0;
+    f32 _4;
+    u8 _8[0x18 - 0x8];
+    ksys::phys::RigidBody* body;
+};
+
 // vtable 0x710250d3e8 (39 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250d3e8 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250d3e8, Unk_7102518688)
 public:
+    // lane1 s95: a "directional_wind" element; built by Unk_71024dd490::sub_71010F1D1C.
+    Unk_710250d3e8(const Unk_710250d3e8Arg& arg, sead::Heap* heap);
     ~Unk_710250d3e8() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -838,13 +848,10 @@ public:
     void m38() override {}
     bool m18() override { return true; }
 
-    // lane1 s91: m29 / m35 copy _4c to the holder's _3c; m33 stores its first flag in _69.
-    u8 _48[0x4c - 0x48];
-    f32 _4c;
-    u8 _50[0x60 - 0x50];
-    ksys::phys::RigidBody* _60;
-    u8 _68;
-    bool _69;
+    // lane1 s91: m29 / m35 copy mArg._4 to the holder's _3c; m33 stores its first flag in _69.
+    Unk_710250d3e8Arg mArg;
+    bool _68 = false;
+    bool _69 = false;
 };
 
 // vtable 0x710250db28 (15 slots); placeholder generated from the vtable (genskel.py).
