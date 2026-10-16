@@ -242,6 +242,9 @@ protected:
     // Primary vtable slot18 at24F2F70 points toEF3044.
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void onPreDeleteStart_(PrepareArg&) override {}
+    // 0x7100ef8748: reorders a list of weapons around this one by profile (sword types move ahead of other
+    // weapons and OptionalWeapon; others move after the swords).
+    void m147(sead::PtrArray<Actor>* actors) override;
 
     // TODO
     sead::CriticalSection _840;

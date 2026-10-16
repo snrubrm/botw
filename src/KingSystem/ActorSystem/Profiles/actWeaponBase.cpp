@@ -734,6 +734,49 @@ bool WeaponBase::m199() {
     return result;
 }
 
+// NON_MATCHING: the original's index search and swaps are bounds-checked (PtrArray::at / a checked swap);
+// our sead PtrArray::indexOf / swap are not.
+void WeaponBase::m147(sead::PtrArray<Actor>* actors) {
+    const s32 num = actors->size();
+    s32 idx = actors->indexOf(this);
+    if (idx < 0)
+        return;
+
+    if (isWeaponType0Or1Or2()) {
+        for (s32 i = 0; i < num; ++i) {
+            auto* weapon = sead::DynamicCast<WeaponBase>(actors->at(i));
+            if ((weapon && weapon->getProfile() != "WeaponSmallSword" &&
+                 weapon->getProfile() != "WeaponLargeSword" &&
+                 weapon->getProfile() != "WeaponLargeSpear") ||
+                (actors->at(i) && actors->at(i)->getProfile() == "OptionalWeapon")) {
+                if (idx > i) {
+                    actors->swap(idx, i);
+                    idx = i;
+                }
+            }
+        }
+        return;
+    }
+
+    for (s32 i = 0; i < num; ++i) {
+        auto* weapon = sead::DynamicCast<WeaponBase>(actors->at(i));
+        const bool is_sword = weapon && (weapon->getProfile() == "WeaponSmallSword" ||
+                                         weapon->getProfile() == "WeaponLargeSword" ||
+                                         weapon->getProfile() == "WeaponLargeSpear");
+        if (idx < i && is_sword) {
+            actors->swap(idx, i);
+            idx = i;
+        }
+        if (actors->at(i) && actors->at(i)->getProfile() == "OptionalWeapon") {
+            const bool type3 = isWeaponType3();
+            if (i < idx && type3) {
+                actors->swap(idx, i);
+                idx = i;
+            }
+        }
+    }
+}
+
 bool WeaponBase::m201() {
     sub_7100EE6AFC();
     auto* actor = sead::DynamicCast<Actor>(_880.getProc(nullptr, nullptr));
