@@ -6,6 +6,7 @@
 #include "Game/Actor/aiUnk_7100724C64.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -336,6 +337,30 @@ void LandHumEnemyUnarmedBattle::changeToBattle() {
 }
 
 // NON_MATCHING: filter setup, vector load order and loop register allocation differ.
+void LandHumEnemyUnarmedBattle::sub_710046ED70() {
+    ksys::act::ai::InlineParamPack pack;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(_108.getProc(nullptr, nullptr));
+    auto* weapon = sead::DynamicCast<act::Weapon>(actor);
+    if (!weapon || weapon->isParentPlayer()) {
+        sub_71005D7270(&pack, "TargetPos");
+        // C++14 evaluation order: the original evaluates the destination first
+        _128.operator=(act::PlayerInfo::getSomeProcLink());
+    } else {
+        pack.addVec3(weapon->getMtx().getTranslation(), "TargetPos", -1);
+        _128 = _108;
+    }
+    if (enemy) {
+        const s32 idx = *mParams.mEquipItemSearchIdx_s;
+        enemy->_c38[idx].reset();
+        enemy->_e80.resetBit(idx);
+        if (auto* enemy2 = sead::DynamicCast<act::Enemy>(mActor))
+            enemy2->sub_7100019D38(_108);
+        _108.reset();
+    }
+    changeChild("怒り", &pack);
+}
+
 bool LandHumEnemyUnarmedBattle::sub_71004717FC() {
     auto* actor = mActor;
     auto* awareness = actor->getAwareness();
