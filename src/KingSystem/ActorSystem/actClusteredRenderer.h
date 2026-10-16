@@ -14,6 +14,7 @@
 #include <container/seadObjList.h>
 #include <gsys/gsysIModelProcedural.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resTextureHandleList.h"
 
 namespace sead {
@@ -37,6 +38,7 @@ namespace ksys::act {
 
 class ClusteredRenderer;
 struct ClusteredRendererCells;
+struct ClusteredRendererRegion;
 
 // Placeholder names: what TextureHandleList::Entry::sub_71012BD4D8 returns, as used by
 // ClusteredRenderer::sub_7101242720 (a use count at 0x84 of the owner and a bit per slot index).
@@ -76,7 +78,9 @@ struct ClusteredRendererData {
     sead::FixedSafeString<64> _110;
     // Placeholder item type (0x18 bytes; the list node follows at 0x18).
     struct ListItem {
-        u8 _0[0x18];
+        ClusteredRendererRegion* mRegion;
+        res::Handle* mHandle;
+        u8 _10[0x18 - 0x10];
     };
     sead::ObjList<ListItem> _168;
     sead::CriticalSection _198;
@@ -191,6 +195,13 @@ public:
     void sub_71012439BC();
     // 0x7101243ea8 (placeholder name): finalizes and deletes `renderer`, then destroys its heap.
     static void sub_7101243EA8(ClusteredRenderer* renderer);
+    // 0x7101244210 (placeholder name): moves to grid cell (x, z) (stored in _e8 / _ec): unloads the
+    // regions sub_7101244C58 does not keep and loads the others.
+    void sub_7101244210(s32 x, s32 z);
+    // 0x7101244c58 (declaration only; placeholder name): bit i set = region i stays loaded for (x, z).
+    u32 sub_7101244C58(s32 x, s32 z);
+    // 0x7101244ea8 (CSV ClusteredRenderer::loadX; declaration only)
+    void loadX(ClusteredRendererCells* cells, s32 region);
     // 0x7101243cd8 (declaration only; placeholder name): releases the cell object.
     void sub_7101243CD8(ClusteredRendererCells* cells);
 
@@ -219,9 +230,22 @@ public:
     ClusteredRendererData2 mData2;
 };
 
-// Placeholder name: the object at ClusteredRenderer+0xf0 holds a buffer of cells at 0x60.
+// Placeholder name: one of the four regions of ClusteredRendererCells (sub_7101244210 resets and
+// unloads the ones it no longer needs).
+struct ClusteredRendererRegion {
+    u8 _0[0x68];
+    // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
+    sead::Atomic<s32> mState;
+    u8 _6c[0x90 - 0x6c];
+    u32 _90;
+};
+
+// Placeholder name: the object at ClusteredRenderer+0xf0: four regions with their resource handles and a
+// buffer of cells at 0x60.
 struct ClusteredRendererCells {
-    u8 _0[0x60];
+    u8 _0[0x20];
+    ClusteredRendererRegion* mRegions[4];
+    res::Handle* mHandles[4];
     sead::Buffer<ClusteredRenderer::Cell> mCells;
 };
 

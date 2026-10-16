@@ -158,6 +158,41 @@ void ClusteredRenderer::sub_71012439BC() {
         mData._f8 = nullptr;
 }
 
+// NON_MATCHING: the original walks the list nodes (next loaded before the match test); the ObjList
+// iterator walks items.
+void ClusteredRenderer::sub_7101244210(s32 x, s32 z) {
+    const u32 keep = sub_7101244C58(x, z);
+    auto lock = sead::makeScopedLock(mData._198);
+
+    for (s32 i = 0; i < 4; ++i) {
+        if (keep & (1 << i))
+            continue;
+
+        ClusteredRendererRegion* region = mData._f0->mRegions[i];
+        res::Handle* handle = mData._f0->mHandles[i];
+        region->_90 = 0;
+        if (region->mState != 2 || region->mState != 3) {
+            for (auto it = mData._168.begin(); it != mData._168.end();) {
+                auto& item = *it;
+                ++it;
+                if (item.mRegion == region && item.mHandle == handle)
+                    mData._168.erase(&item);
+            }
+        }
+        handle->requestUnload();
+        region->mState.exchange(0);
+    }
+
+    mData._e8 = x;
+    mData._ec = z;
+    for (s32 i = 0; i < 4; ++i) {
+        if (!(keep & (1 << i)))
+            loadX(mData._f0, i);
+    }
+    if ((~keep & 0xf) != 0 && (mData2._c9c & 8))
+        mData2._c9c &= ~4u;
+}
+
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
     sead::Heap* heap = renderer->mData._f8;
     renderer->sub_71012439BC();
