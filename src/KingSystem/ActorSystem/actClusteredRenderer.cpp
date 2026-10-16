@@ -407,6 +407,42 @@ void ClusteredRenderer::sub_71012443AC() {
     }
 }
 
+void ClusteredRenderer::sub_7101244980(ClusteredRendererRegion* region, bool unload) {
+    region->mHeap->mFlag.setBit(sead::Heap::Flag::cDisposing);
+
+    for (s32 i = 0; i < region->mTextures.size(); ++i)
+        region->mTextures[i].mEntry.sub_71012BD338();
+
+    for (s32 i = 0; i < region->mResources.size(); ++i) {
+        if (region->mResources[i]._0) {
+            if (!unload && region->mResources[i].mHandle.isSuccess())
+                region->mResources[i].mHandle.resetUnitFlag20000IfSuccess();
+            region->mResources[i].mHandle.requestUnload();
+        }
+    }
+
+    for (s32 i = 0; i < region->mSubs.size(); ++i) {
+        if (region->mSubs[i]) {
+            region->mSubs[i]->_38.freeBuffer();
+            delete region->mSubs[i]->_30;
+            delete region->mSubs[i];
+        }
+    }
+
+    if (region->_88) {
+        delete region->_88;
+        region->_88 = nullptr;
+    }
+
+    region->mSubs.freeBuffer();
+    region->mModels.freeBuffer();
+    region->mResources.freeBuffer();
+    region->_30.freeBuffer();
+    region->_40.freeBuffer();
+    region->mTextures.freeBuffer();
+    region->mHeap->freeAll();
+}
+
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
     sead::Heap* heap = renderer->mData._f8;
     renderer->sub_71012439BC();

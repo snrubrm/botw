@@ -15,6 +15,7 @@
 #include <gsys/gsysIModelProcedural.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resTextureHandleList.h"
 
 namespace sead {
@@ -59,13 +60,37 @@ struct ClusteredRendererTexMaybe {
 // Placeholder name: one of the four regions of ClusteredRendererCells (sub_7101244210 resets and
 // unloads the ones it no longer needs).
 struct ClusteredRendererRegion {
-    u8 _0[0x68];
+    // Placeholder names: element types of the buffers below (layouts from sub_7101244980 / sub_710124474C).
+    struct Sub {
+        u8 _0[0x30];
+        u8* _30;
+        sead::Buffer<u8[0x44]> _38;
+    };
+    struct ModelEntry {
+        u8 _0[0x38];
+    };
+    struct ResEntry {
+        void* _0;
+        res::ResDerived mHandle;
+    };
+    struct TextureEntry {
+        res::TextureHandleList::Entry mEntry;
+        u8 _b0[0xc0 - 0xb0];
+    };
+
+    sead::Buffer<Sub*> mSubs;
+    sead::Buffer<ModelEntry> mModels;
+    sead::Buffer<ResEntry> mResources;
+    sead::Buffer<u8> _30;
+    sead::Buffer<u8> _40;
+    sead::Buffer<TextureEntry> mTextures;
+    sead::Heap* mHeap;
     // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
     sead::Atomic<s32> mState;
-    u8 _6c[0x90 - 0x6c];
+    u8 _6c[0x88 - 0x6c];
+    u8* _88;
     sead::Atomic<u32> _90;
 };
-
 // Placeholder: the second base of ClusteredRenderer (at 0xe0; its vtable 0x7102516df0 in ClusteredRenderer's
 // vtable group has only the destructor thunks 0x71012427dc / 0x71012428c4).
 class Unk_7102516df0 {
@@ -217,8 +242,9 @@ public:
     void sub_7101246FBC();
     // 0x710124474c (declaration only; placeholder name): releases a region's models and xlinks.
     void sub_710124474C(ClusteredRendererRegion* region);
-    // 0x7101244980 (declaration only; placeholder name)
-    void sub_7101244980(ClusteredRendererRegion* region, bool flag);
+    // 0x7101244980 (placeholder name): releases everything a region loaded; `unload` skips the
+    // resetUnitFlag20000IfSuccess step.
+    void sub_7101244980(ClusteredRendererRegion* region, bool unload);
     // 0x710124536c (CSV ClusteredRenderer::loadX_0; declaration only): 0 when the region must be finished in
     // queue 2.
     s32 loadX_0(ClusteredRendererRegion* region, res::Handle* handle, u32 frame);
