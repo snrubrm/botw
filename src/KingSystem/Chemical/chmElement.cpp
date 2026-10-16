@@ -174,6 +174,13 @@ void Unk_7102518688::m32() {
     m38();
 }
 
+void Unk_7102518688::m2() {
+    if (mRigidBody)
+        ksys::act::sub_7100E40448(&mPosition, mRigidBody);
+    else
+        mPosition = {0, 0, 0};
+}
+
 void Unk_7102518688::m3(f32 delta_frame) {
     if (!(mFlags & 1))
         m35(delta_frame);

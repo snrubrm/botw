@@ -18,6 +18,9 @@ namespace ksys::act {
 class Chemical;
 class Unk_71024dd1c8;
 class Unk_71024dd490;
+// lane1 s95: 0x7100e40448 (placeholder name, declared only): the centre of a rigid body (sphere / box
+// translate, capsule / cylinder midpoint, otherwise the centre of mass).
+void sub_7100E40448(sead::Vector3f* out, phys::RigidBody* body);
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -135,7 +138,7 @@ public:
     Unk_7102518688(const ElementName& name, sead::Heap* heap, bool flag8);
     ~Unk_7102518688() override;
 
-    // 0x710127d134 (declared only): calls 0x7100e40448 with mPosition and the rigid body.
+    // 0x710127d134: updates mPosition to the rigid body centre (zero without a body).
     void m2() override;
     void m3(f32 delta_frame) override;
     void m4(const sead::Matrix34f& mtx) override;
