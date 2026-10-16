@@ -1246,6 +1246,10 @@ public:
     // 0x7100966a74 (CSV uiSubsys1::__auto13; not decompiled)
     void sub_7100966A74();
     bool is848EqualTo1() const;
+    // 0x7100961cd4 (declared only; 372 bytes): the position to centre the map on for the current UI Manager state
+    // (_64c38: the Master Sword position in state 6, sub_7100957500 in states 0 .. 4 and 7, otherwise
+    // sub_7100A9B800 or _478's position)
+    void sub_7100961CD4(sead::Vector3f* out);
     bool get38b8() const;
     bool is128EqualTo6() const;
     void set848(s32 value);
