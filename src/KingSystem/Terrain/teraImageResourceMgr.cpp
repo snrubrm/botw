@@ -441,6 +441,64 @@ bool ImageResourceMgr::sub_7101130E44(sead::BufferedSafeString* out, const sead:
     return use_base;
 }
 
+// NON_MATCHING: stack layout, the order of the size loads and of the directory select.
+void ImageResourceMgr::sub_7101136328(Request* request, const sead::SafeString* name) {
+    if (!(_6473 & 1))
+        return;
+    if (!request->_20.isValid(mSystems, request->area, _6470))
+        return;
+    const Unk_7101106F44* const_area = request->area;
+    const Unk_710250dcd8* image = const_area->getImageMaybe(request->type);
+    if (!image || !(image->_8 >> 5 & 1))
+        return;
+
+    sub_7101132548(request);
+    const u32 offset = request->_74;
+    const u32 size = request->_78 - offset + request->_80;
+    sead::FixedSafeString<256> path;
+    Unk_71012EBDBC file;
+    if (name) {
+        const sead::SafeString dir = request->_38->_1050.cstr();
+        sub_7101130E44(&path, dir, *name, true);
+    } else {
+        Unk_7101106F44* area = request->area;
+        const sead::SafeString dir = request->_38->_1050.cstr();
+        const sead::SafeString* directory = (_6473 & 1) ? &mBaseDir : &dir;
+        const u32 length = path.format("%s/", directory->cstr());
+        sead::BufferedSafeString rest(path.getBuffer() + length, path.getBufferSize() - length);
+        area->sub_710111FD70(&rest, request->type);
+    }
+    file._48 = size;
+    file._4c = 1;
+    file._50 = 1;
+    file._54 = 1;
+    file.mFlags.setBit(1);
+
+    if (file.open(path.cstr(), 1)) {
+        file.write(static_cast<const u8*>(sead::PtrUtil::addOffset(request, offset)), size, 0, 0);
+        if (auto* img = request->area->getImageMaybe(request->type))
+            img->_8 &= ~0x20;
+        if (auto* img = request->area->getImageMaybe(request->type))
+            img->_8 |= 0x40;
+    } else if (auto* debug = Terrain::instance()->_a50) {
+        auto entry = debug->_70.log("保存失敗！ -> %s", path.cstr());
+        if (entry.buffer)
+            entry.buffer->setDisplayTime(10.0f);
+    }
+
+    if (Terrain::instance()->_a50->_110._88) {
+        sead::FixedSafeString<64> file_name;
+        request->area->sub_710111FD70(&file_name, request->type);
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_110.log("【イメージ】保存 -> %s", file_name.cstr());
+            if (entry.buffer) {
+                entry.buffer->_30 = 0;
+                entry.buffer->setDisplayTime(2.0f);
+            }
+        }
+    }
+}
+
 void ImageResourceMgr::sub_7101136950() {
     for (Request& request : mList31c0.reverseRobustRange()) {
         sub_7101136328(&request, nullptr);
@@ -596,7 +654,7 @@ bool ImageResourceMgr::Unk_7101136C10::sub_7101136C10(res::Handle* handle, LoadT
 }
 
 bool ImageResourceMgr::sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
-                                      bool a4, void* a5) {
+                                      bool a4, const sead::SafeString* a5) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS68);
     sub_7101135F34(owner, area, type);
     if (_6473 & 2) {

@@ -470,7 +470,7 @@ public:
     // 0x710113625c (placeholder name): under the manager lock (0x68), runs sub_7101135F34 and, with flag 2
     // of _6473, finishes the matching request of mLists19c0 (sub_7101136328 first if `a4`).
     bool sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
-                        bool a4, void* a5);
+                        bool a4, const sead::SafeString* a5);
     // 0x7101130c80 (CSV tera::ImageResourceMgr::a; placeholder name): one step of the loader thread with
     // flag 4 of _6473: unloads residual requests, publishes the queue size (waking the thread), and
     // sleeps 33 ms or yields; after 16 busy steps, lowers _3c of the queued kind-1 tasks by 2.
@@ -512,9 +512,12 @@ public:
     // the area does not have that image).
     Request* sub_7101131E7C(sead::OffsetList<Request>* lists, void* a2, Unk_7101106F44* area,
                             const ImageTypeMaybe& type);
-    // 0x7101136328 (declared only; placeholder name).
-    // The second argument is a pointer (null-checked and passed on; sub_710113625C forwards its a5).
-    void sub_7101136328(Request* request, void* a2);
+    // 0x7101136328 (placeholder name): with flag 1 of _6473, dumps the data of a valid request whose image
+    // has flag 0x20 to "<dir>/<name>" (`name`, or the image's own file name under the system's
+    // directory), then moves the image from flag 0x20 to 0x40; logs the save.
+    void sub_7101136328(Request* request, const sead::SafeString* name);
+    // 0x7101132548 (declaration only; placeholder name; 816 bytes).
+    void sub_7101132548(Request* request);
     // 0x71011369d0 (placeholder name): allocates from mHeap, unloading the requests of mList31c0 until it
     // succeeds; on failure (or once _626c is set) logs the size, counts the failure in _626c and returns
     // null.
@@ -1088,8 +1091,8 @@ struct Unk_71012EBDBC {
     ~Unk_71012EBDBC();
     // 0x71012ebe70 (placeholder name): opens `path` (mode clamped to 2); sets flag 1 on success.
     bool open(const char* path, u32 mode);
-    // 0x71012ebef0 (placeholder name).
-    void write(const u8* data, u32 size);
+    // 0x71012ebef0 (placeholder name). sub_7101136328 passes 0 for the last two arguments (unused).
+    void write(const u8* data, u32 size, u32 a3, u32 a4);
 
     const char* mPath = "";
     sead::FileHandle mHandle;
@@ -1109,7 +1112,8 @@ struct ImageResourceMgr::Request {
     sead::ListNode mNode10;
     // Checked with isValid against mSystems / _6470 (0x7101131290, 0x7101136188).
     Unk_71012eb6e8 _20;
-    void* _38;
+    // The owning System (0x7101136328 reads its directory _1050).
+    System* _38;
     Unk_7101106F44* area;
     ImageTypeMaybe type;
     // Bit 0: queued in mLists1c0; bit 1: in mList31c0; bit 2: the data is ready (passed to the image
@@ -1124,7 +1128,13 @@ struct ImageResourceMgr::Request {
     u32 _64;
     u8 _68[0x6c - 0x68];
     u32 _6c;
-    u8 _70[0x88 - 0x70];
+    u8 _70[0x74 - 0x70];
+    // Data offset from the request and the bytes dumped by sub_7101136328 (_78 - _74 + _80).
+    u32 _74;
+    u32 _78;
+    u8 _7c[0x80 - 0x7c];
+    u32 _80;
+    u8 _84[0x88 - 0x84];
     agl::GPUMemVoidAddr* addr;
     // Resource handle taken from ImageResourceMgr::mHandleFreeList (0x710113400c); destroyed and returned
     // there by 0x7101133588.

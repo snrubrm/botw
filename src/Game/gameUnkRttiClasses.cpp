@@ -301,7 +301,7 @@ bool Unk_71012EBDBC::open(const char* path, u32 mode) {
 }
 
 // NON_MATCHING: the zero store of `written` is scheduled before the device load in ours.
-void Unk_71012EBDBC::write(const u8* data, u32 size) {
+void Unk_71012EBDBC::write(const u8* data, u32 size, u32 a3, u32 a4) {
     u32 written = 0;
     Terrain::instance()->_428->tryWrite(&written, &mHandle, data, size);
 }
