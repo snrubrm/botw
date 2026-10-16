@@ -106,6 +106,17 @@ struct TextureMipTableMaybe {
     u32 num_levels;
 };
 
+// Placeholder: what 0x710110979c samples (0x7101109bd8 builds it on the stack: {table, 0, true}).
+struct TextureSamplerArgMaybe {
+    const TextureMipTableMaybe* table;
+    u32 _8;
+    bool _c;
+};
+
+// 0x710110979c (placeholder name): bilinear sample (0 - 1) of the 8-bit texture of `arg` at `uv`
+// (texture coordinates of mip `level`, wrapped once into range).
+f32 sub_710110979C(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level);
+
 // 0x710110de64 (placeholder name): fills `table` from `texture` (image and mip addresses, level sizes);
 // unused levels are cleared.
 void sub_710110DE64(TextureMipTableMaybe* table, const agl::TextureData& texture);

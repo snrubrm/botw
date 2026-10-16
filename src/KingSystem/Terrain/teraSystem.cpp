@@ -1,4 +1,5 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include <cstring>
 #include <utility>
@@ -47,6 +48,56 @@ u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
     auto* areas = system->sub_710111F4F0();
     return sub_71011091DC(0.0f, Terrain::instance()->_3cc, out_height, out_normal, xz, &areas->_20,
                           areas, index, height_flag);
+}
+
+// inline-only in the original; name is a guess. Wraps a texel coordinate once into [0, size) and splits
+// it into the texel index and the fraction; inlined for both axes into 0x710110979c (and the samplers
+// 0x710110b814 / 0x7101122fc8).
+inline f32 wrapTexelMaybe(u32* index, f32 coord, f32 size) {
+    if (coord >= 0.0f) {
+        if (coord + 1.0f > size) {
+            if (coord >= size + size)
+                coord = size + -1.0f;
+            else
+                coord = coord - size;
+        }
+    } else if (coord > -size) {
+        coord = size + coord;
+    } else {
+        coord = 0.0f;
+    }
+    const s32 i = sead::Mathf::floor(coord);
+    *index = i;
+    return coord - static_cast<f32>(i);
+}
+
+// NON_MATCHING: instruction order and register allocation (float code).
+f32 sub_710110979C(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level) {
+    const TextureMipTableMaybe* table = arg->table;
+    const auto& mip = table->levels[level];
+    const f32 width = mip.width;
+    const f32 height = mip.height;
+    const f32 x = (u - mip.half_texel_x) * width;
+    const f32 y = (v - mip.half_texel_y) * height;
+
+    u32 ix, iy;
+    const f32 fx = wrapTexelMaybe(&ix, x, width);
+    const f32 fy = wrapTexelMaybe(&iy, y, height);
+
+    const u32 max = table->levels[0].height - 1;
+    const u8* data = table->levels[0].address;
+    const u32 row0 = sead::Mathu::min(iy, max) * table->levels[0].pitch;
+    const u32 col0 = sead::Mathu::min(ix, max) * table->_154;
+    const u32 col1 = sead::Mathu::min(ix + 1, max) * table->_154;
+    const u32 row1 = sead::Mathu::min(iy + 1, max) * table->levels[0].pitch;
+
+    const f32 p00 = data[row0 + col0];
+    const f32 p01 = data[row0 + col1];
+    const f32 p10 = data[row1 + col0];
+    const f32 p11 = data[row1 + col1];
+    const f32 top = p00 / 255.0f + fx * (p01 / 255.0f - p00 / 255.0f);
+    const f32 bottom = p10 / 255.0f + fx * (p11 / 255.0f - p10 / 255.0f);
+    return top + fy * (bottom - top);
 }
 
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
