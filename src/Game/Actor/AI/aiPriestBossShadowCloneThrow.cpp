@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -54,6 +56,55 @@ void PriestBossShadowCloneThrow::enter_(ksys::act::ai::InlineParamPack* params) 
     _3ea = false;
     _3e8 = true;
     _3e9 = false;
+}
+
+// 0x710052e274
+// NON_MATCHING: register allocation only (the accessor address is kept in a register for its destructor).
+void PriestBossShadowCloneThrow::calc_() {
+    getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+
+    if (isCurrentChild("準備完了待ち")) {
+        if (m37()) {
+            m34();
+            _3ea = true;
+        }
+        _80.update();
+        if (_80.value <= sead::Mathf::epsilon()) {
+            auto* unit = sead::DynamicCast<Unk_7102450fa8>(
+                *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+            if (unit) {
+                setPayload(_378, mActor, 1);
+                ksys::act::ActorLinkConstDataAccess accessor;
+                if (unit->sub_71007194CC(&accessor))
+                    _378.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+            }
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("攻撃", &pack);
+            if (!_3ea)
+                m34();
+        }
+    } else if (isCurrentChild("攻撃")) {
+        if (m37())
+            m35();
+        if (m36())
+            setFinished();
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("攻撃後", &pack);
+        }
+    } else if (isCurrentChild("攻撃後")) {
+        if (m37())
+            m35();
+        if (m36() && !(mActor->getASList()->x_1(0, 0) == "CallCloneEnd"))
+            setFinished();
+    }
+
+    m39();
+    if (_3e8)
+        _3e8 = false;
 }
 
 void PriestBossShadowCloneThrow::m35() {
