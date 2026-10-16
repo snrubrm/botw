@@ -242,9 +242,9 @@ ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
 // constructions (bl) while ours runs it last (tail b).
 ScreenDLCWindow::ScreenDLCWindow() : ScreenEx(), _3610() {}
 
-// 0x7100a4bae4: matches as `ScreenShopBtnList20::ScreenShopBtnList20() : ScreenEx(), _3610() {}`, but not defined:
-// our build emits a separate sead::Delegate<ScreenShopBtnList20> vtable where the original shares the ICF-folded
-// one at 0x7102480298 with ScreenDLCWindow (datarefs conflict).
+// The original shares the ICF-folded sead::Delegate vtable at 0x7102480298 with ScreenDLCWindow; ours emits its own
+// (datarefs-known entry).
+ScreenShopBtnList20::ScreenShopBtnList20() : ScreenEx(), _3610() {}
 
 ScreenMessageGet::ScreenMessageGet() : ScreenEx(), _3750(this, &ScreenMessageGet::sub_7100A238C8) {}
 
