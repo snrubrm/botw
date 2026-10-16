@@ -173,6 +173,29 @@ void CameraChase::m36() {
 }
 
 // NON_MATCHING: load order only (the original loads _f4 / _f8 together before the first angleStuff call).
+// NON_MATCHING: the clamps against 0 become fcmp + fcsel (the original uses fmax, as it does for the 0.01 clamp)
+void CameraChase::sub_7100750F30() {
+    sub_710075503C();
+    const f32 lng_cus_speed_effect = *mLngCusSpeedEffect_s;
+    _134 = lng_cus_speed_effect <= 0.01f ? 0.01f : lng_cus_speed_effect;
+    _140 = sub_7100924D40(*mRadiusMin_s);
+    _144 = sub_7100924D40(*mRadiusMax_s);
+    const f32 at_move_offset = *mAtMoveOffset_s;
+    _c4 = at_move_offset <= 0.0f ? 0.0f : at_move_offset;
+    sub_7100924DA4(*mAtHCusMin_s, *mAtHCusMax_s, &_ec, &_f0);
+    _2a0 = sub_7100924CAC(*mLat_s);
+    _2a4 = sub_7100924D80(*mLngCus_s);
+    _2a8 = sub_7100924D40(*mRadius_s);
+    _2ac = sub_7100924D50(*mFovy_s);
+    sub_7100924DA4(*mAtVCusMin_s, *mAtVCusMax_s, &_2b0, &_2b4);
+    const f32 connect = *mConnect_s;
+    _11c = connect <= 0.0f ? 0.0f : connect;
+    const f32 connect_item = *mConnectItem_s;
+    _120 = connect_item <= 0.0f ? 0.0f : connect_item;
+    const f32 connect_indoor = *mConnectIndoor_s;
+    _124 = connect_indoor <= 0.0f ? 0.0f : connect_indoor;
+}
+
 void CameraChase::sub_710075503C() {
     sub_7100924CDC(*mLatMin_s, *mLatMax_s, &_f4, &_f8);
     sub_7100924CDC(*mLatLimitMin_s, *mLatLimitMax_s, &_fc, &_100);

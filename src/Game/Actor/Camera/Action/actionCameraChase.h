@@ -23,6 +23,8 @@ protected:
     // 0x710075503c (placeholder name): limits _f4 / _f8 from LatMin / LatMax and _fc / _100 from LatLimitMin / LatLimitMax
     // (angle-wrapped, _fc >= _f4 and _100 <= _f8), then _10c / _110 are their sub_7100751710 curve values.
     void sub_710075503C();
+    // 0x7100750f30 (placeholder name): copies the static parameters into their clamped working values.
+    void sub_7100750F30();
     // 0x7100752dc4 (placeholder name): eases _ac towards the camera's _414 translation (or _2b8 without the 0x40000
     // flag) by sub_7100791E44(_dc) for x / z and sub_7100791E44(_e0) for y.
     void sub_7100752DC4();
@@ -182,9 +184,13 @@ protected:
     const int* mControlMode_s{};
     // static_param at offset 0x298
     const bool* mKeepManual_s{};
-    u8 _2a0[0x2a4 - 0x2a0]{};
+    // Clamped copies of the parameters (sub_7100750F30): Lat, LngCus, Radius, Fovy, AtVCusMin / Max.
+    f32 _2a0 = 0;
     f32 _2a4 = 0;
-    u8 _2a8[0x2b8 - 0x2a8]{};
+    f32 _2a8 = 0;
+    f32 _2ac = 0;
+    f32 _2b0 = 0;
+    f32 _2b4 = 0;
     sead::BitFlag8 _2b8;
     u8 _2b9 = 0;
     u8 _2ba = 2;
