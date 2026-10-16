@@ -249,6 +249,7 @@ public:
     explicit Unk_710247dc90(eui::LayoutEx* layout);
     ~Unk_710247dc90() override;
     void m24(sead::Heap* heap) override;
+    void m25() override;
     void m28() override;
     void m29() override;
     void m30() override;

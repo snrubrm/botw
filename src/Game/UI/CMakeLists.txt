@@ -205,6 +205,7 @@ target_sources(uking PRIVATE
   uiUnk_71025d6550.cpp
   uiUnk_71025d6560.cpp
   uiUnk_71025d6560.h
+  uiUnk_71009cb0c8.cpp
   uiUnk_71025d6578.cpp
   uiTagProcessor.cpp
   uiUI.cpp

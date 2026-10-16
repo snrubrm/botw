@@ -68,75 +68,6 @@ Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index) {
         nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
 }
 
-// 0x71009cbcc0
-Unk_71009cb0c8::~Unk_71009cb0c8() {
-    ksys::ManagedTaskHandle* task_handle;
-    {
-        auto lock = sead::makeScopedLock(mCS);
-        task_handle = mLoader.mTaskHandle;
-    }
-    if (task_handle && task_handle->hasTask())
-        task_handle->removeTaskFromQueue();
-    if (mTextureHandle) {
-        mTextureHandle->requestUnload();
-        delete mTextureHandle;
-        mTextureHandle = nullptr;
-    }
-}
-
-// 0x71009cbe38
-void Unk_71009cb0c8::sub_71009CBE38() {
-    if (mApplied)
-        return;
-    if (mLoader.mQueueCount != 0)
-        return;
-    if (mLoader.mQueueState != 5)
-        return;
-    auto* texture_info = sub_71009CBECC();
-    if (!texture_info)
-        return;
-    if (mMaterial)
-        mMaterial->GetTexMapArray()[0].ReplaceTextureInfo(texture_info);
-    if (mAnimator)
-        mAnimator->PlayAuto(1.0f);
-    mApplied = true;
-}
-
-// 0x71009cbd48
-void Unk_71009cb0c8::sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout,
-                                    const sead::SafeString& name) {
-    if (!layout)
-        return;
-    const char* pane_name = name.cstr();
-    auto* pane = layout->mPane->FindPaneByName(pane_name, true);
-    if (!pane)
-        return;
-    auto* material = pane->GetMaterial();
-    mTextureHandle = new (heap, 8) ksys::res::Handle;
-    mMaterial = material;
-    if (mMaterial)
-        eui::SetTextureInfoFromTexMap(&mTexInfo, mMaterial->GetTexMapArray()[0]);
-}
-
-// 0x71009cbde8
-void Unk_71009cb0c8::sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name) {
-    mAnimator = layout->tryCreateAnimatorAuto(name.cstr(), false);
-}
-
-// 0x71009cbeac
-bool Unk_71009cb0c8::sub_71009CBEAC() const {
-    if (mLoader.mQueueCount != 0)
-        return false;
-    return mLoader.mQueueState == 5;
-}
-
-// 0x71009cbfa4
-bool Unk_71009cb0c8::sub_71009CBFA4() const {
-    if (mLoader.mQueueCount != 0)
-        return false;
-    return mLoader.mQueueState == 13;
-}
-
 // 0x71009bd404
 Unk_710247c010::Unk_710247c010(eui::LayoutEx* layout)
     : ScreenChildEx(layout), mButtons() {
@@ -1127,7 +1058,6 @@ Unk_710247dc90::Unk_710247dc90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 Unk_710247dc90::~Unk_710247dc90() = default;
 
 // 0x71009c7850
-// NON_MATCHING: Unk_71009cb0c8::sub_71009CBD48 is defined in this file and gets inlined; the original calls it
 void Unk_710247dc90::m24(sead::Heap* heap) {
     _408.sub_71009CBD48(heap, mLayout, "P_CaptureNow_00");
     if (auto* pane = mLayout->mPane->FindPaneByName("P_CaptureNew_00", true))
@@ -1153,6 +1083,12 @@ void Unk_710247dc90::m24(sead::Heap* heap) {
         if (mBtnR00)
             mBtnR00->setFlag10(false);
     }
+}
+
+// 0x71009c7ac0
+void Unk_710247dc90::m25() {
+    _408.sub_71009CBE38();
+    getStateMachine().run();
 }
 
 // 0x71009c7ae8
