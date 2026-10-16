@@ -1,6 +1,8 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -35,6 +37,27 @@ void Unk_71025d69f0::sub_710094E064() {
     _28 = 3;
     sub_71009F8420(3);
     sub_710094DCC4(_28, _28 - prev);
+}
+
+// 0x710094f7ac
+bool Unk_71025d69f0::sub_710094F7AC(s32 app) const {
+    if (_30 == app)
+        return true;
+    switch (app) {
+    case 0:
+        for (s32 i = 0; i < 8; ++i) {
+            if (checkIsGetRune(i, 0))
+                return true;
+        }
+        break;
+    case 1:
+        return true;
+    case 2:
+        return ksys::gdt::getFlag_IsGet_Obj_Album();
+    case 3:
+        return ksys::gdt::getFlag_IsGet_Obj_PictureBook();
+    }
+    return false;
 }
 
 }  // namespace uking::ui
