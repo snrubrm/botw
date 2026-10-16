@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionThrown.h"
+#include <algorithm>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
@@ -14,6 +15,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -23,8 +25,73 @@ namespace uking::action {
 // NON_MATCHING: store scheduling (0x60/0x88 and 0xa0/0xac zero stores)
 Thrown::Thrown(const InitArg& arg) : ActionEx(arg) {}
 
+// NON_MATCHING: the original evaluates `is_bound || !IsOnImpact` without short-circuit and does not thread the
+// later `is_bound` checks into it; the _a6 store layout differs.
 void Thrown::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    auto* actor = mActor;
+    auto* unk = actor->m100();
+    const bool is_bound = unk && unk->_128;
+    actor->mDrawDistanceFlags.set(1);
+    _a0 = -1;
+    if (*mParams.mAS_s.getStringTop() != sead::SafeString::cNullChar)
+        playAS(mParams.mAS_s.cstr(), true, 0, 0, -1.0f);
+
+    if (!is_bound && *mParams.mIsOnImpact_s) {
+        const auto* attack = actor->getParam()->getRes().mGParamList->getAttack();
+        const s32 power = static_cast<s32>(static_cast<f32>(attack->mPower.ref()));
+        const ksys::res::GParamListObjectLiftable* liftable = nullptr;
+        if (const auto* param = mActor->getParam()) {
+            if (const auto* gparams = param->getRes().mGParamList)
+                liftable = gparams->getLiftable();
+        }
+        s32 level;
+        if (!liftable) {
+            level = *mParams.mReactionLevel_s;
+            if (level < 0) {
+                level = power < -2 ? 0 : std::min((power - 1) / 4, 2);
+            }
+        } else if (liftable->mThrowReactionLevel.ref() < 0) {
+            level = power < -2 ? 0 : std::min((power - 1) / 4, 2);
+        } else {
+            level = *mParams.mReactionLevel_s;
+        }
+        sub_71005DBC94(actor, power, level, true, false, *mParams.mIsForceOnly_s, false);
+    }
+    _a4 = true;
+    _a5 = false;
+    if (!is_bound) {
+        auto* parent = mActor->getConnectedCalcParent();
+        sub_7100738C88(actor, sead::IsDerivedFrom<ksys::act::Actor>(parent) ?
+                                  static_cast<ksys::act::Actor*>(parent) :
+                                  nullptr);
+    }
+    if (auto* chemical = actor->getChemicalStuff()) {
+        _a7 = (chemical->_c >> 6) & 1;
+        chemical->sub_7100D91098(true);
+    }
+    auto* body = actor->getMainBody();
+    if (mActor->getCharacterController())
+        body = nullptr;
+    if (body) {
+        _a8 = body->getLinearDamping();
+        _ac = body->getAngularDamping();
+    }
+    auto* parent = mActor->getConnectedCalcParent();
+    if (ksys::act::isPlayerProfile(sead::IsDerivedFrom<ksys::act::Actor>(parent) ?
+                                       static_cast<ksys::act::Actor*>(parent) :
+                                       nullptr)) {
+        _a6 = !is_bound;
+    } else {
+        if (body) {
+            body->setLinearDamping(0.0f);
+            body->setAngularDamping(0.0f);
+        }
+        _a6 = false;
+    }
+    if (sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr()))
+        setDamageCallbackTiming(mActor, 4, &_78);
+    if (!ksys::act::isEnemyProfile(actor))
+        actor->setFlag(ksys::act::Actor::ActorFlag::_2c, true);
 }
 
 void Thrown::leave_() {
