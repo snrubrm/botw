@@ -434,13 +434,7 @@ public:
     /* 0x94 */ bool _94 = false;
     /* 0x98 */ u32 _98 = 0;
 };
-class Unk_SoundMgr38_58 {
-public:
-    virtual ~Unk_SoundMgr38_58();
-    void sub_71010289CC();
-    // 0x7101028690 (declared only): called before deletion.
-    void sub_7101028690();
-};
+class Unk_SoundMgr38_58;
 class Unk_SoundMgr38_60;
 
 // Placeholder name (SoundMgr::_38; vtable 0x7102501880 with D1 / D0 only, ctor 0x7101029fe0).
@@ -1055,6 +1049,25 @@ public:
     /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502430, 0xa0);
+
+class Unk_SoundMgr38_58 {
+public:
+    // 0x71010284c4 / 0x7101028524
+    virtual ~Unk_SoundMgr38_58();
+    void sub_71010289CC();
+    // 0x7101028690: resets every entry, then frees and deletes mInstances (called before deletion).
+    void sub_7101028690();
+
+    // Placeholder: a named sound reference with 0x20 more bytes (four of them from +8).
+    struct Entry : Unk_7102502430 {
+        u8 _a0[0xc0 - 0xa0];
+    };
+
+    /* 0x008 */ Entry mEntries[4];
+    u8 _308[0x310 - 0x308];
+    /* 0x310 */ Unk_7102502410* mInstances;
+    /* 0x318 */ sead::CriticalSection mCS;
+};
 
 class Unk_SoundMgr38_60 {
 public:

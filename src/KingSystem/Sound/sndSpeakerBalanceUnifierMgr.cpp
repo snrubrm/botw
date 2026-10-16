@@ -94,6 +94,20 @@ xlink2::HandleSLink SpeakerBalanceUnifierMgr::sub_7101027E90(f32 size, int type,
 }
 
 // 0x71010289cc: empty in the release build (Unk_SoundMgr38::sub_710102AF84 calls it).
+Unk_SoundMgr38_58::~Unk_SoundMgr38_58() = default;
+
+void Unk_SoundMgr38_58::sub_7101028690() {
+    for (auto& entry : mEntries) {
+        // called through a pointer in the original (not devirtualised)
+        (&entry)->sub_710104A0D4();
+    }
+    if (mInstances) {
+        mInstances->sub_710104993C();
+        delete mInstances;
+        mInstances = nullptr;
+    }
+}
+
 void Unk_SoundMgr38_58::sub_71010289CC() {}
 
 }  // namespace ksys::snd
