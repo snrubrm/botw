@@ -155,6 +155,18 @@ void Unk_71024fec18::m13(f32 fade_sec) {
     _1b0.stop();
 }
 
+// NON_MATCHING: the original calls the destructor address 0x710103ab10 (ICF-folded with Unk_710103AB10::stop).
+void Unk_71024fec18::sub_71010101EC(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    _1b0.stop();
+    _198 = 0;
+    ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+    if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+        if (mgr->_50)
+            mgr->_50->_a8 = 0;
+    }
+}
+
 void Unk_71024fec18::hm14() {
     if (_198 != 1)
         return;

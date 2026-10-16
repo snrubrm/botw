@@ -2857,6 +2857,9 @@ public:
     void m12(f32 fade_sec) override;
     // 0x71010104ac: stops the BGM and the message ducking.
     void m13(f32 fade_sec) override;
+    // 0x71010101ec: like m13, then clears the state, releases the ducker request at Unk_710104e5b4 +0x294 (with
+    // hold) and resets the FX mode.
+    void sub_71010101EC(f32 fade_sec);
     // 0x7101010250: prints the state when the debug flag sUnk_710260FAE4 is set.
     void m14(sead::TextWriter& writer) override;
     // 0x710100fff4: starts the entry of the current level once it exists (state 1 -> playing).
