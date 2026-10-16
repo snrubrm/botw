@@ -300,6 +300,10 @@ class Rideable : public RideableBase, public Unk_7100e8b2b8 {
 public:
     // SEAD_ENUM in the original (stack round trip): the gear of the rider's AS controller (`_18._b`, `_18._9` when 0).
     SEAD_ENUM(Gear, _0, _1, _2, _3, _4, _5, _6, _7)
+    // Placeholder (SEAD_ENUM_EX; value array 0x71025b3c48 = {0, 1, 3, -1, -4, -2}, no enum text in the binary): the
+    // value stored in _278 (PlayerDemoAccelerateHorse::calc_ stores _3; also used by 0x71001a882c, 0x71001ac5f8 and
+    // 0x7100e81d74).
+    SEAD_ENUM_EX(Unk278, _0 = 0, _1 = 1, _3 = 3, _m1 = -1, _m4 = -4, _m2 = -2)
 
     Rideable();
     ~Rideable() override;
@@ -371,6 +375,8 @@ public:
     /* 0x279 */ s8 _279 = 0;  // LynelRodeo::calc_ reads it with ldrsb (finished when negative)
 };
 KSYS_CHECK_SIZE_NX150(Rideable, 0x280);
+// The value array is built inline in every user (the getArray_ guard 0x71025b3c40 is shared).
+inline SEAD_ENUM_EX_VALUES(Rideable::Unk278, 0, 1, 3, -1, -4, -2)
 
 // 0x7100e80d18 (placeholder name): Rideable::sub_7100E7EF1C for the rideable of `actor` while its state (_c) is 1.
 void sub_7100E80D18(ksys::act::Actor* actor);

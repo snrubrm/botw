@@ -1,4 +1,6 @@
 #include "Game/Actor/Player/Action/actionPlayerDemoAccelerateHorse.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actRideable.h"
 #include "Game/Actor/aiUnk_7100E81220.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -34,8 +36,23 @@ void PlayerDemoAccelerateHorse::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+// NON_MATCHING: the stack slots of the two enum temporaries are swapped
 void PlayerDemoAccelerateHorse::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->getASList()->x_4(0, 0))
+        setFinished();
+
+    if (!mActor->getASList()->sub_710115F0BC(0, 0, *mInputAccelerateFrame_s))
+        return;
+
+    auto* ride_actor = act::getRideActor(mActor);
+    if (!ride_actor)
+        return;
+    auto* rideable = ride_actor->getHorseOptionsMaybe();
+    if (!rideable)
+        return;
+
+    rideable->_278 = act::Rideable::Unk278(act::Rideable::Unk278::_3);
+    rideable->_10 |= 1u << act::Rideable::Flag10(act::Rideable::Flag10::_2);
 }
 
 }  // namespace uking::action
