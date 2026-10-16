@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadListImpl.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::tera {
@@ -48,6 +49,33 @@ public:
     void* mList;
     Unk_710110cfd0* mA;
     Unk_710110d278* mB;
+};
+
+}  // namespace ksys::tera
+
+namespace ksys::tera {
+
+// Placeholder (callers 0x7101108ae8, 0x7101109bd8, 0x710110a468, 0x710110a740, 0x7101105b2c,
+// 0x7100f289f0): an array of 0x528-byte areas at _8 with a base size at _18 and a level in the top
+// three bits of _1e.
+struct Unk_71010FEDBC {
+    struct Area {
+        sead::Vector2f center;
+        u8 _8[0x18 - 0x8];
+        f32 size;
+        u8 _1c[0x528 - 0x1c];
+    };
+
+    // 0x71010fedbc (placeholder name): the last of the first `count` areas whose distance from `pos`
+    // (plus `margin`) is in range of the current level, or -1.
+    s32 sub_71010FEDBC(const sead::Vector2f& pos, u32 count, f32 margin) const;
+
+    u8 _0[0x8];
+    Area* mAreas;
+    u8 _10[0x18 - 0x10];
+    f32 _18;
+    u8 _1c[0x1e - 0x1c];
+    s8 _1e;
 };
 
 }  // namespace ksys::tera
