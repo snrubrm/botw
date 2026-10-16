@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/Actor/aiLockedProcLink.h"
@@ -24,6 +25,8 @@ public:
 protected:
     // 0x71004c2a4c: true unless ground within 2 below the actor is found by a downward ray (length 10)
     bool sub_71004C2A4C();
+    // 0x71004c22d4: remembers the actors the third awareness sensor reports at terror level 5 (up to 10).
+    void sub_71004C22D4();
     // static_param at offset 0x38
     const int* mTargetTerrorLevel_s{};
     // static_param at offset 0x40
@@ -49,7 +52,7 @@ protected:
     ksys::Timer _a0{};
     ksys::Timer _ac{};
     LockedProcLinkMaybe _b8;
-    ksys::act::BaseProcLink _110[10];
+    sead::SafeArray<ksys::act::BaseProcLink, 10> _110;
 };
 KSYS_CHECK_SIZE_NX150(NPCAvoid, 0x1b0);
 

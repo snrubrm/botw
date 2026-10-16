@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiNPCAvoid.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -54,6 +55,50 @@ bool NPCAvoid::sub_71004C2A4C() {
     sead::Vector3f hit;
     query.getHitPosition(&hit);
     return mActor->getMtx().getTranslation().y - hit.y > 2.0f;
+}
+
+// 0x71004c22d4
+// NON_MATCHING: register allocation and the shape of the free slot search loop.
+void NPCAvoid::sub_71004C22D4() {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || !awareness->_260[2])
+        return;
+    const s32 num = awareness->_260[2]->_8.size();
+    if (num < 1)
+        return;
+
+    s32 slot = 0;
+    for (s32 i = 0; i < num; ++i) {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || i >= sensor->_8.size())
+            continue;
+        auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, i);
+        if (!entry || s32(entry->_a4) != 5)
+            continue;
+
+        const auto& link = entry->_0.mLink;
+        bool known = false;
+        for (const auto& registered : _110) {
+            if (registered == link) {
+                known = true;
+                break;
+            }
+        }
+        if (known)
+            continue;
+
+        while (true) {
+            if (slot > 9)
+                return;
+            auto& registered = _110[slot++];
+            if (!registered.hasProc()) {
+                registered = link;
+                break;
+            }
+        }
+        if (slot > 9)
+            return;
+    }
 }
 
 }  // namespace uking::ai
