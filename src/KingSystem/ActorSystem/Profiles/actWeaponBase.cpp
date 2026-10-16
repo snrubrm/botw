@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include <gsys/gsysModel.h>
 #include <random/seadGlobalRandom.h>
 #include <heap/seadHeapMgr.h>
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -137,6 +138,28 @@ Actor* WeaponBase::m48() {
     if (_948.hasProc())
         return sead::DynamicCast<Actor>(_948.getProc(nullptr, nullptr));
     return nullptr;
+}
+
+void WeaponBase::initMaybe() {
+    if (mModel)
+        mModel->setMatrix(mMtx);
+    if (hasParentActor_()) {
+        _920 = _9f4.getDirect() & 4;
+        isWeaponType3();
+        auto* parent = sead::DynamicCast<Actor>(_938.getProc(nullptr, this));
+        if (parent && parent->getState() == State::Sleep)
+            sleep(SleepWakeReason::_0);
+    }
+    _ab0 = 0;
+}
+
+void WeaponBase::m117(Unk117* arg) {
+    if (auto* optional = sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr, nullptr)))
+        optional->x_17(arg);
+    if (getConnectedCalcChild()) {
+        if (auto* child = sead::DynamicCast<Actor>(getConnectedCalcChild()))
+            child->x_17(arg);
+    }
 }
 
 void WeaponBase::calcMaybe() {

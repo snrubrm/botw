@@ -48,6 +48,11 @@ public:
     ~WeaponBase() override;
     Actor* m31() override;
     void calcMaybe() override;
+    // 0x7100ef32fc (CSV WeaponBase::m64): copies the matrix to the model and, with a parent, takes the held state
+    // from _9f4 bit 2 and sleeps when the parent sleeps; clears _ab0.
+    void initMaybe() override;
+    // 0x7100ef38fc: forwards the request to the optional weapon and the connected calc child.
+    void m117(Unk117* arg) override;
     void m70() override;
     void updatePositionMaybe() override;
     bool m86() override;
