@@ -771,6 +771,7 @@ struct ScreenId {
 
 class ScreenPauseMenuInfo : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m96() override;
     ~ScreenPauseMenuInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
@@ -881,6 +882,7 @@ struct ScreenMainScreen3DEntry {
 
 class ScreenMainScreen3D : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     const char* getLayoutName_() const override;
     void m84() override;
     void m87() override;
@@ -1967,6 +1969,7 @@ static_assert(sizeof(ShortcutIconInfo) == 0xd8);
 
 class ScreenMainShortCut : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m83() override;
     void m90() override;
     void sub_7100A1F684(s32 index);
@@ -2377,6 +2380,7 @@ KSYS_CHECK_SIZE_NX150(Unk_7100A341D0, 0x380);
 
 class ScreenPauseMenu : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     s32 m72() override;
     void m69() override;
     void m70() override;
@@ -3520,6 +3524,7 @@ public:
 
 class ScreenSkip : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     // 0x7100a537f8: opens the screen and switches the skip icon (10 with the button, 8 without).
     void sub_7100A537F8(bool with_button);
     // 0x7100a537c8 (slot 93): remembers the first child as the icon holder (its layout is at 0x20)
@@ -3607,6 +3612,7 @@ public:
 
 class ScreenShopBtnList20 : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     const char* getLayoutName_() const override;
     bool isEnableControl() const override;
     // 0x7100a4cef0 (placeholder name): whether the button group has a down button
@@ -3872,6 +3878,7 @@ extern const ksys::StateBase sUnk_71025dcd00;
 
 class ScreenAppCamera : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m127() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
@@ -3961,6 +3968,7 @@ struct ShopInfoTagData {
 
 class ScreenMessageGet : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenMessageGet() override;
@@ -3998,6 +4006,7 @@ public:
 
 class ScreenSousaGuide : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     ScreenSousaGuide();
     ~ScreenSousaGuide() override;
     SEAD_RTTI_OVERRIDE(ScreenSousaGuide, ScreenEx)
@@ -4091,6 +4100,7 @@ void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
 
 class ScreenShopInfo : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     ScreenShopInfo();
     const char* getLayoutName_() const override;
     void m94() override;
@@ -4285,6 +4295,7 @@ public:
 
 class ScreenAppHome : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     ScreenAppHome();
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
