@@ -26,6 +26,38 @@ bool Unk_71010FEDBC::sub_71010FCFD0(u32 index) const {
     return distance > scale * cEpsilon;
 }
 
+// NON_MATCHING: the offset entries are stored as 16-bit halves here (merged 32 / 64-bit stores in the
+// original) and the final center / origin stores are scheduled differently. The original also stores
+// zero to center before setting it.
+void Unk_71010FEDBC::Area::sub_71010FE480() {
+    for (s32 i = 0; i < 5; ++i) {
+        mOffsetsX[i] = {0x2000, 0};
+        mOffsetsY[i] = {0x2000, 0};
+    }
+    mOffsetIndex = 0;
+    _35 = (_35 & ~0x1f) | 0x10;
+    for (s32 y = 0; y < 5; ++y) {
+        for (s32 x = 0; x < 5; ++x) {
+            mCellFlags[y][x] = 0;
+            Cell& cell = mCells[y][x];
+            cell._8 = 1;
+            cell._0 = 0x2000;
+            cell._2 = 0;
+            cell._4 = 0x2000;
+            cell._6 = 0;
+            cell._10 = nullptr;
+            cell._18 = sead::Vector2f::zero;
+            cell._9 = 0x55;
+            cell._a = 0x55;
+        }
+    }
+    center = sead::Vector2f::zero;
+    origin = sead::Vector2f::zero;
+    size = 1.0f;
+    center.set(1000000.0f, 1000000.0f);
+    _8.set(10000.0f, 10000.0f);
+}
+
 s32 Unk_71010FEDBC::sub_71010FEDBC(const sead::Vector2f& pos, u32 count, f32 margin) const {
     const f32 range = _18 * static_cast<f32>(1 << mLevel) * 4.5f;
     while (count != 0) {

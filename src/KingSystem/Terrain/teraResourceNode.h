@@ -282,11 +282,16 @@ struct Unk_71010FEDBC {
             u8 _8[0x10 - 0x8];
         };
         struct Cell {
-            u8 _0[0x8];
+            s16 _0;
+            s16 _2;
+            s16 _4;
+            s16 _6;
             u8 _8;
-            u8 _9[0x10 - 0x9];
+            u8 _9;
+            u8 _a;
+            u8 _b[0x10 - 0xb];
             void* _10;
-            u8 _18[0x20 - 0x18];
+            sead::Vector2f _18;
         };
         struct Offset {
             s16 _0;
