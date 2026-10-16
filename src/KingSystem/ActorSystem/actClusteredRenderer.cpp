@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
+#include <heap/seadHeap.h>
 #include <mc/seadCoreInfo.h>
 #include <prim/seadScopedLock.h>
 #include <thread/seadDelegateThread.h>
@@ -30,6 +31,27 @@ void ClusteredRenderer::startThread() {
     const s32 num = _f0->mCells.size();
     for (s32 i = 0; i < num; ++i)
         sub_7101243EEC(&_f0->mCells[i]);
+}
+
+void ClusteredRenderer::sub_7101243BD8(bool release) {
+    auto lock = sead::makeScopedLock(_1d8);
+    if ((_c9c & 0x40000) == 0)
+        return;
+
+    const s32 num = _f0->mCells.size();
+    for (s32 i = 0; i < num; ++i)
+        sub_7101243EEC(&_f0->mCells[i]);
+
+    if (release) {
+        if ((_c9c & 0x20000) != 0) {
+            _bf0->destroy();
+            _c9c &= ~0x20000u;
+        } else {
+            _bf0->freeAll();
+        }
+    }
+    _bf0 = nullptr;
+    _c9c &= ~0x40000u;
 }
 
 void ClusteredRenderer::sub_7101243EEC(Cell* cell) {

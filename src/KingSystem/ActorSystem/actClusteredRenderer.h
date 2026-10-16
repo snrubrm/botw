@@ -68,7 +68,10 @@ public:
         sead::Buffer<Cell> mCells;
     };
 
-    // 0x7101243eec (declaration only; placeholder name): resets the entries of a cell.
+    // 0x7101243bd8 (placeholder name): resets every cell and releases the heap at 0xbf0 (destroys it when
+    // flag bit 17 is set, else frees all of it) if flag bit 18 is set.
+    void sub_7101243BD8(bool release);
+    // 0x7101243eec (placeholder name): resets the entries of a cell.
     void sub_7101243EEC(Cell* cell);
 
     void startThread();
@@ -108,7 +111,9 @@ public:
     u8 _b70[0xba8 - 0xb70];
     void* _ba8;
     u8 _bb0[0xbb8 - 0xbb0];
-    u8 _bb8[0xc00 - 0xbb8];
+    u8 _bb8[0xbf0 - 0xbb8];
+    sead::Heap* _bf0;
+    u8 _bf8[0xc00 - 0xbf8];
     sead::Delegate2<ClusteredRenderer, sead::Thread*, sead::MessageQueue::Element> mThreadDelegate;
     s32 mThreadPriority;
     sead::Heap* mHeap;
