@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include <random/seadGlobalRandom.h>
@@ -60,6 +61,16 @@ sead::Vector3f PriestBossLineFormationFall::sub_7100523708() {
         }
     }
     return target;
+}
+
+void PriestBossLineFormationFall::m39() {
+    ksys::act::ai::InlineParamPack params;
+    const sead::Vector3f target = sub_7100523708();
+    _88.set(sead::Vector3f::zero);
+    params.addVec3(target, "TargetPos", -1);
+    const sead::Vector3f appear = {target.x, target.y + *mWarpHightOffset_s, target.z};
+    params.addVec3(appear, "AppearPosition", -1);
+    changeChild("攻撃", &params);
 }
 
 void PriestBossLineFormationFall::leave_() {

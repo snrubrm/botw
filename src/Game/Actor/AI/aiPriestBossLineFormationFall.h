@@ -21,6 +21,7 @@ public:
     sead::Vector3f sub_7100523708();
 
     void m34(Unk_7102450fa8* unit) override;
+    void m39() override;
     void m42() override;
     void m43() override;
 
