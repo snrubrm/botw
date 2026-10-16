@@ -3,6 +3,8 @@
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSystemAccessor.h>
+#include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::snd {
 
@@ -12,6 +14,28 @@ Unk_710103b704::Unk_710103b704(sead::Heap* heap)
 Unk_710103b76c::Unk_710103b76c() = default;
 
 Unk_710103b704::~Unk_710103b704() = default;
+
+// NON_MATCHING: the original clamps the entry index to 0..7 (see sub_710103D324).
+void Unk_710103b704::sub_710103D0D8(UiSoundKind kind) {
+    if (_5c8 < 0)
+        return;
+    auto& entry = _8._0[_5c8];
+    if (entry._0 == "GotoZoraVillage" && entry._58 == "ZoraArrival3") {
+        auto* event = evt::Manager::instance()->getActiveEvent();
+        if (!event || !(event->getFrameCount() > 300.0f))
+            return;
+        auto* group_mgr = aal::SystemAccessor::getGroupMgr();
+        if (!group_mgr)
+            return;
+        auto* group = group_mgr->findGroup("NpcVoice");
+        if (!group)
+            return;
+        group->allowEmit(sead::BitFlag8(0x20), false);
+        return;
+    }
+    if (entry._0 == "Demo104_0" && kind.value == 4)
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeS);
+}
 
 // NON_MATCHING: the original clamps the entry index to 0..7 (as a SafeArray would); with a SafeArray here the
 // Unk_710103b76c constructor no longer matches.
