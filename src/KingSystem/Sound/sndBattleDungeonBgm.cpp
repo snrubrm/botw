@@ -616,9 +616,32 @@ void Unk_71024fd188::m13(f32 fade_sec) {
     _198 = 0;
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x7100fffde4) also destroys members or bases
-// this class does not declare yet.
-Unk_71024fd318::~Unk_71024fd318() = default;
+Unk_71024fd318::~Unk_71024fd318() {
+    if (_10) {
+        _10->sub_710101D9A4();
+        if (_10)
+            delete _10;
+    }
+}
+
+bool Unk_71024fd318::m9() {
+    if (!_10)
+        return true;
+    return _10->mEntries.size() == 0;
+}
+
+void Unk_71024fd318::m12(f32 fade_sec) {
+    if (_10)
+        _10->sub_7101020BB0(fade_sec);
+}
+
+void Unk_71024fd318::m13(f32 fade_sec) {
+    if (_10)
+        _10->sub_710101D9F4(fade_sec);
+    _1c = 0;
+    ksys::snd::SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(
+        ksys::snd::DuckingMgr::DuckerType::cBloody, false);
+}
 
 namespace {
 const char* sRemainsBossBgmNames[] = {"RemainsWindBossBgm", "RemainsFireBossBgm", "RemainsElecBossBgm",

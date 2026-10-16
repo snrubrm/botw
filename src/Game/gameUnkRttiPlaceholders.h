@@ -2410,11 +2410,21 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024fd188, 0x1d0);
 
 // vtable 0x71024fd318 (15 slots); placeholder generated from the vtable (genskel.py).
+// The concentration (Blood Moon) BGM: one handle (vtable 0x71024fd3a0) and the ducker cBloody.
 class Unk_71024fd318 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd318, ksys::snd::Bgm)
 public:
     ~Unk_71024fd318() override;
+    // 0x7100fffe88 (declared only)
+    void m5() override;
+    bool m9() override;
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
+
+    /* 0x10 */ Unk_SpotBgmHandle* _10;
+    /* 0x18 */ f32 _18;
+    /* 0x1c */ u32 _1c;
 };
 
 // vtable 0x71024fd448 (17 slots); placeholder generated from the vtable (genskel.py).
