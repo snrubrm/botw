@@ -1326,6 +1326,11 @@ struct Unk_SoundMgr30 {
     Unk_SoundMgr30_30* sub_7100FF8A24();
     // 0x7100ff8774 (placeholder name): _10->_b4.
     u32 sub_7100FF8774() const;
+    // 0x7100ff8aa0 / 0x7100ff8aac / 0x7100ff8ab8 (placeholder names): the tunables sUnk_71024FC940 (true),
+    // sUnk_71024FC944 (0.894) and sUnk_71024FC948 (0.448); `this` is not read.
+    bool sub_7100FF8AA0() const;
+    f32 sub_7100FF8AAC() const;
+    f32 sub_7100FF8AB8() const;
     // 0x7100ff89a0: a free entry of the pool at +0x20 (reset), or null.
     Unk_710260f248Entry* sub_7100FF89A0();
 

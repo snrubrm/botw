@@ -160,6 +160,23 @@ void Unk_SoundMgr30::sub_7100FF88A8(s32 fade_type) {
         _78->sub_7101007AA0(fade_type == 1 ? _50 : 0.0f);
 }
 
+// Tunables read by the getters below (never written in the release build).
+KSYS_VISIBILITY_HIDDEN bool sUnk_71024FC940 = true;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024FC944 = 0.894f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024FC948 = 0.448f;
+
+bool Unk_SoundMgr30::sub_7100FF8AA0() const {
+    return sUnk_71024FC940;
+}
+
+f32 Unk_SoundMgr30::sub_7100FF8AAC() const {
+    return sUnk_71024FC944;
+}
+
+f32 Unk_SoundMgr30::sub_7100FF8AB8() const {
+    return sUnk_71024FC948;
+}
+
 u32 Unk_SoundMgr30::sub_7100FF8774() const {
     return _10->_b4;
 }
