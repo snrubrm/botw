@@ -83,6 +83,10 @@ public:
         // degrees, scale) if the entry handles that model.
         bool sub_7100F071C4(const sead::SafeString& name, const sead::Vector3f& pos,
                             const sead::Vector3f& rotate, f32 scale);
+        // 0x7100f06cb0 (declaration only; placeholder name; the arguments of sub_7100F071C4): counts a tree
+        // instance in the u16 table at 0x78; true if the entry handles that model.
+        bool sub_7100F06CB0(const sead::SafeString& name, const sead::Vector3f& pos,
+                            const sead::Vector3f& rotate, f32 scale);
 
         // Placeholder: the 0x1c-byte records of the buffer at 0x18.
         struct Record {
@@ -168,6 +172,15 @@ public:
     // 0x7100f06904 (placeholder name; the arguments are unused): flushes the UBOs of every unit's draw array.
     void sub_710F06904(map::PlacementMgr* mgr, bool a);
     bool x_9();
+    // 0x7100f06b48 (CSV x_2): resets the terrain tree object and allocates and clears every entry's u16
+    // table (4960 entries if bit 0 of _8 is set, else 79360); state 2.
+    void x_2();
+    // 0x7100f06c0c (CSV x_3): passes a placed tree to every entry; when one takes it, also to the terrain
+    // tree object.
+    bool x_3(const sead::SafeString& name, const sead::Vector3f& pos, const sead::Vector3f& rotate,
+             f32 scale);
+    // 0x7100f07000 (CSV x_5): updates the terrain tree object and allocates every entry's buffers; state 4.
+    void x_5();
     // 0x7100f07150 (CSV x_6): passes a placed tree to every entry (PlacementMapMgr::initForestRendererFiles).
     bool x_6(const sead::SafeString& name, const sead::Vector3f& pos, const sead::Vector3f& rotate,
              f32 scale);
@@ -179,6 +192,11 @@ public:
     void requestDraw();
     // 0x7100f01ab4 / 0x7100f01ac0 (placeholder names): return the addresses of two file statics
     // (0x710260a1d8: requestDraw draws nothing while it is set; 0x710260a1dc).
+    // 0x7100f00b94 / 0x7100f00ba0 / 0x7100f00bac (placeholder names): addresses of three bool file statics
+    // (0x710260a1cc, read by 0x7100f07f84; 0x710260a1d0 and 0x710260a1d4, read by loadModel).
+    static bool* sub_7100F00B94();
+    static bool* sub_7100F00BA0();
+    static bool* sub_7100F00BAC();
     static bool* sub_7100F01AB4();
     static u32* sub_7100F01AC0();
 

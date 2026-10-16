@@ -113,12 +113,25 @@ public:
     class Model;
     class Tree;
 
+    // Placeholder (the object at 0x140; ForestRenderer x_2 / x_3 / x_5 reach it through
+    // Terrain::sub_710114DE70): flags at +0x8 (bit 2 checked by all three methods), two objects at
+    // +0x14cd0 / +0x14cd8.
+    class Unk_140 {
+    public:
+        // 0x71010827dc (declared only): clears flag bit 2 and resets both sub-objects (0x7101084d04).
+        void sub_71010827DC();
+        // 0x7101082824 (declared only): unless flag bit 2 is set, handles a tree placed at `pos` by name.
+        void sub_7101082824(const sead::SafeString& name, const sead::Vector3f& pos);
+        // 0x7101083060 (declared only; 400 B): sets flag bit 1 unless bit 2 is set and builds the tables.
+        void sub_7101083060();
+    };
+
     u8 _0[0xf0];
     void* _f0;
     gsys::Model* _f8;
     u8 _100[0x38];
     Grass* _138;
-    void* _140;
+    Unk_140* _140;
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
     sead::Buffer<Unk_7101300b4c> mPositions;
@@ -159,7 +172,7 @@ public:
     Core::Grass* sub_710114DE4C();
     Core::Grass* sub_710114DE58();
     void* sub_710114DE64();
-    void* sub_710114DE70();
+    Core::Unk_140* sub_710114DE70();
     void sub_710114DE7C(bool value);
     bool sub_710114DE9C();
     gsys::Model* sub_710114DEE0();

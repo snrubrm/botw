@@ -69,7 +69,7 @@ void Terrain::sub_710114DDA4(const Core::Unk_71013010d4* states, u32 count) {
 Core::Grass* Terrain::sub_710114DE4C() { return _360->_138; }
 Core::Grass* Terrain::sub_710114DE58() { return _360->_138; }
 void* Terrain::sub_710114DE64() { return _360->_140; }
-void* Terrain::sub_710114DE70() { return _360->_140; }
+Core::Unk_140* Terrain::sub_710114DE70() { return _360->_140; }
 // NON_MATCHING: the compiler orders the AND before the OR; the original orders them oppositely.
 void Terrain::sub_710114DE7C(bool value) {
     if (value)

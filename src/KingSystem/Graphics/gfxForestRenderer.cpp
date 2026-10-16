@@ -10,10 +10,26 @@
 namespace ksys::gfx {
 
 namespace {
-// 0x710260a1d8 / 0x710260a1dc (placeholder names; read directly, no GOT entries).
+// 0x710260a1cc / 0x710260a1d0 / 0x710260a1d4 / 0x710260a1d8 / 0x710260a1dc (placeholder names; read
+// directly, no GOT entries).
+bool sUnk_710260a1cc;
+bool sUnk_710260a1d0;
+bool sUnk_710260a1d4;
 bool sUnk_710260a1d8;
 u32 sUnk_710260a1dc;
 }  // namespace
+
+bool* ForestRenderer::sub_7100F00B94() {
+    return &sUnk_710260a1cc;
+}
+
+bool* ForestRenderer::sub_7100F00BA0() {
+    return &sUnk_710260a1d0;
+}
+
+bool* ForestRenderer::sub_7100F00BAC() {
+    return &sUnk_710260a1d4;
+}
 
 bool* ForestRenderer::sub_7100F01AB4() {
     return &sUnk_710260a1d8;
@@ -187,6 +203,34 @@ void ForestRenderer::sub_710F06904(map::PlacementMgr* mgr, bool a) {
         for (u32 i = 0; i < num; ++i)
             draw_array->flushUBO(i);
     }
+}
+
+void ForestRenderer::x_2() {
+    tera::Terrain::instance()->sub_710114DE70()->sub_71010827DC();
+    for (auto& entry : mEntries) {
+        const s32 size = (entry._8 & 1) ? 4960 : 79360;
+        entry._78.tryAllocBuffer(size, entry.mHeap);
+        std::memset(entry._78.getBufferPtr(), 0, entry._78.getByteSize());
+    }
+    _54 = 2;
+}
+
+bool ForestRenderer::x_3(const sead::SafeString& name, const sead::Vector3f& pos,
+                         const sead::Vector3f& rotate, f32 scale) {
+    bool found = false;
+    for (auto& entry : mEntries)
+        found |= entry.sub_7100F06CB0(name, pos, rotate, scale);
+    if (!found)
+        return false;
+    tera::Terrain::instance()->sub_710114DE70()->sub_7101082824(name, pos);
+    return true;
+}
+
+void ForestRenderer::x_5() {
+    tera::Terrain::instance()->sub_710114DE70()->sub_7101083060();
+    for (auto& entry : mEntries)
+        entry.sub_7100F07060();
+    _54 = 4;
 }
 
 s32 ForestRenderer::x_7(const sead::Vector3f& vec) {
