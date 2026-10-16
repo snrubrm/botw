@@ -76,6 +76,92 @@ bool EnemyRangeKeepSwimMove::sub_71003ADEE4() {
 }
 
 // NON_MATCHING: the original loads both actor and player XZ before the first fsub
+// NON_MATCHING: scheduling of the two subtractions in the distance checks (as in sub_71003AED8C)
+void EnemyRangeKeepSwimMove::calc_() {
+    _90.update();
+    sub_71003AED8C();
+    if (_84.value <= sead::Mathf::epsilon()) {
+        setFailed();
+        return;
+    }
+    getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+
+    const auto isFar = [this] {
+        const sead::Vector3f& player = sub_71005D9330(mActor);
+        const f32 x = mActor->getMtx().m[0][3];
+        const f32 z = mActor->getMtx().m[2][3];
+        const sead::Vector3f diff(player.x - x, 0, player.z - z);
+        const f32 dist = diff.length();
+        return dist > *mBaseDist_s + *mFarDist_s + sub_71007320F0(mActor, *mWeaponIdx_s);
+    };
+    const auto changeTo = [this](const char* name) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild(name, &pack);
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘歩行")) {
+            if (getCurrentChild()->isFailed()) {
+                setFailed();
+                return;
+            }
+            sub_71003AEE84();
+            if (_78.value <= sead::Mathf::epsilon()) {
+                changeTo("戦闘後ずさり");
+            } else {
+                const s8 dir = sub_71003AE028();
+                if (dir != 0)
+                    changeToMoveSideways(dir);
+                else
+                    changeTo("戦闘待機");
+            }
+        } else if (isCurrentChild("戦闘後ずさり")) {
+            if (isFar())
+                changeTo("戦闘歩行");
+            else
+                changeTo("戦闘待機");
+        } else {
+            changeTo("戦闘待機");
+        }
+        return;
+    }
+
+    if (isCurrentChild("戦闘待機")) {
+        sub_71003AEE84();
+    } else if (isCurrentChild("戦闘歩行")) {
+        sub_71003AED8C();
+        sub_71003AEE84();
+    } else if (isCurrentChild("横移動")) {
+        getCurrentChild()->setDynamicParam(s32(sub_71003AE028()), "RotDir");
+    }
+
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (*mTime_s >= 0 && _90.value <= sead::Mathf::epsilon())
+        setFinished();
+
+    if (isCurrentChild("戦闘待機")) {
+        if (isFar()) {
+            changeTo("戦闘歩行");
+        } else if (_78.value <= sead::Mathf::epsilon()) {
+            changeTo("戦闘後ずさり");
+        } else {
+            const s8 dir = sub_71003AE028();
+            if (dir != 0)
+                changeToMoveSideways(dir);
+        }
+    } else if (isCurrentChild("戦闘歩行")) {
+        if (_84.value <= sead::Mathf::epsilon())
+            setFailed();
+    } else if (isCurrentChild("横移動")) {
+        if (sub_71003AE028() == 0)
+            changeTo("戦闘待機");
+    }
+}
+
 void EnemyRangeKeepSwimMove::sub_71003AED8C() {
     const sead::Vector3f& player = sub_71005D9330(mActor);
     const f32 x = mActor->getMtx().m[0][3];

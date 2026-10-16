@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
     // 0x71003ae3c4 (placeholder name)
     void changeToMoveSideways(s8 dir);
 
