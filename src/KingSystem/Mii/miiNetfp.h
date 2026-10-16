@@ -6,6 +6,7 @@
 
 namespace gsys {
 class Model;
+class ModelUnit;
 }
 
 namespace ksys::mii {
@@ -52,6 +53,12 @@ void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
 // 0x7100f5ba04 (placeholder name): part type 2 of sub_7100F5ADA8 (from the hat parameter).
 void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
 
+// 0x7100f5c128 (placeholder name): applies the hat opacity (`opacity`, clamped) to the hat material
+// ("Mt_Kasa" for race 3 and HatSK hats) or, for plain Hylian hats, runs sub_7100F5C394.
+void sub_7100F5C128(gsys::Model* model, const UMii& umii, const f32* opacity, const f32* opacity2);
+// 0x7100f5c394 (declaration only; placeholder name and signature).
+void sub_7100F5C394(gsys::Model* model, gsys::ModelUnit* unit, const UMii& umii, f32* opacity,
+                    f32* opacity2, bool changed);
 // 0x7100f5c8d4 (placeholder name): hides the material "Mt_Hair" of `model` (if any).
 void sub_7100F5C8D4(gsys::Model* model);
 // 0x7100f5b8c0 (placeholder name): the hat or hair pattern name of `umii`.

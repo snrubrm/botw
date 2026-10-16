@@ -1,5 +1,6 @@
 #include "KingSystem/Mii/miiNetfp.h"
 #include <gsys/gsysModel.h>
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Mii/miiUMii.h"
 
 namespace ksys::mii {
@@ -381,6 +382,49 @@ void sub_7100F5C8D4(gsys::Model* model) {
     const auto key = model->searchMaterial("Mt_Hair");
     if (key.isValid())
         model->getUnits()(key.model_unit_index)->mModelUnit->setMaterialVisible(key.material_index, false);
+}
+
+// NON_MATCHING: the original keeps the clamped opacity in a register besides its stack copy (regalloc /
+// block order of the clamps).
+void sub_7100F5C128(gsys::Model* model, const UMii& umii, const f32* opacity, const f32* opacity2) {
+    if (!model)
+        return;
+
+    f32 value = *opacity < 0.0f ? 0.0f : (*opacity > 1.0f ? 1.0f : *opacity);
+    f32 value2 = *opacity2 < 0.0f ? 0.0f : (*opacity2 > 1.0f ? 1.0f : *opacity2);
+
+    gsys::ModelUnit* unit;
+    s32 material;
+    if (*umii.getBody().race == UMii::Body::Race_Sheikah) {
+        const auto key = model->searchMaterial("Mt_Kasa");
+        if (!key.isValid())
+            return;
+        material = key.material_index;
+        unit = model->getUnits()(key.model_unit_index)->mModelUnit;
+    } else {
+        sead::FixedSafeString<64> name;
+        sub_7100F5B774(&name, umii);
+        const s32 index = model->searchUnitIndex(name);
+        if (index == -1)
+            return;
+        unit = model->getUnits()(index)->mModelUnit;
+        if (!unit)
+            return;
+        if (name.findIndex("HatSK") == -1 || *umii.getCommon().no_hat_always) {
+            const auto& body = umii.getBody();
+            if (*body.race != UMii::Body::Race_Hylian || *body.type == UMii::Body::Type_N ||
+                *body.type == UMii::Body::Type_SK || *umii.getCommon().hat != 0) {
+                return;
+            }
+            const f32 alpha = unit->getMaterialParamXluAlpha(0, 0);
+            sub_7100F5C394(model, unit, umii, &value, &value2, alpha != value);
+            return;
+        }
+        material = unit->searchMaterialIndex("Mt_Kasa");
+        if (material < 0)
+            return;
+    }
+    Unk_710260af28::instance()->sub_7100F1DFF0(unit, material, value, false);
 }
 
 }  // namespace ksys::mii
