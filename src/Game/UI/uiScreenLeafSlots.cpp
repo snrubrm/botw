@@ -420,6 +420,21 @@ s32 sub_71009DA700(nn::ui2d::Pane* pane, const sead::SafeString& prefix) {
     return count;
 }
 
+// 0x71009da7e8
+s32 sub_71009DA7E8(sead::ObjArray<CollectedPane>* out, nn::ui2d::Pane* pane, const sead::SafeString& prefix) {
+    s32 count = 0;
+    if (!out || !pane)
+        return count;
+    for (auto& child : pane->GetChildList()) {
+        if (sead::SafeString(child.GetName()).startsWith(prefix)) {
+            ++count;
+            out->emplaceBack(&child);
+        }
+        count += sub_71009DA7E8(out, &child, prefix);
+    }
+    return count;
+}
+
 // 0x71009db754
 // NON_MATCHING: the child state test (1 / 3 / 5 / 7) is a bit-mask lookup in ours; the original tests 7, then
 // (state - 1) <= 4 with an even (state - 1)

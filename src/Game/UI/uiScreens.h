@@ -3519,6 +3519,15 @@ const char* sub_7100A9EEA4();
 const char* sub_7100A9EEF4();
 // 0x71009da700 (defined in uiScreenLeafSlots.cpp; called by ScreenAppCamera::m93)
 s32 sub_71009DA700(nn::ui2d::Pane* pane, const sead::SafeString& prefix);
+// A pane collected by sub_71009DA7E8 (placeholder; the second word is cleared when it is added).
+struct CollectedPane {
+    explicit CollectedPane(nn::ui2d::Pane* pane_) : pane(pane_) {}
+    nn::ui2d::Pane* pane;
+    void* _8 = nullptr;
+};
+// 0x71009da7e8 (defined in uiScreenLeafSlots.cpp; called by ScreenAppCamera::m93): as sub_71009DA700, and also adds
+// the matching panes to `out` while it has room
+s32 sub_71009DA7E8(sead::ObjArray<CollectedPane>* out, nn::ui2d::Pane* pane, const sead::SafeString& prefix);
 // 0x7100a9ac84 (defined in uiScreenFacade.cpp)
 void sub_7100A9AC84(void* a1);
 // 0x7100a96254 (defined in uiScreenFacade.cpp): passes the boss gauge info to the main screen
