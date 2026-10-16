@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "Game/UI/uiScreens.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -1058,7 +1059,7 @@ Unk_7102474bc8::Unk_7102474bc8() {}
 // 0x7100933e50
 bool Unk_7102474bc8::sub_7100933E50() const {
     for (s32 i = 0; i < _8; i++) {
-        UiSlotTarget* target = _130[i].target;
+        ScreenChild* target = _130[i].target;
         if (!target || target->_104 != 0)
             return false;
     }
@@ -1066,7 +1067,7 @@ bool Unk_7102474bc8::sub_7100933E50() const {
 }
 
 // 0x7100933fb8
-void Unk_7102474bc8::sub_7100933FB8(u32 index, UiSlotTarget* target) {
+void Unk_7102474bc8::sub_7100933FB8(u32 index, ScreenChild* target) {
     if (index < _8)
         _130[index].target = target;
 }
@@ -1079,6 +1080,21 @@ void Unk_7102474bc8::sub_7100934308(s32 id, const sead::SafeString& text, s32 va
     entry._8.copy(text);
     entry._120 = value;
     sub_7100933FE0(entry);
+}
+
+// 0x71009348d0
+void Unk_7102474bc8::sub_71009348D0(bool flag) {
+    for (s32 i = 0; i < _8; ++i) {
+        auto& entry = _140[i];
+        entry._0 = -1;
+        entry._8.copy(sead::SafeString::cEmptyString);
+        entry._120 = 30;
+        entry._124 = -1;
+        if (auto* target = _130[i].target)
+            target->m6(flag);
+        _130[i]._8 = -1;
+    }
+    _150 = 0;
 }
 
 Unk_7102474bc8::~Unk_7102474bc8() {

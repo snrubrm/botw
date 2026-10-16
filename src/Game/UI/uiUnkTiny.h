@@ -755,13 +755,11 @@ struct UiStringEntry {
 };
 
 // A slot of Unk_7102474bc8 (placeholder names): a pointer to an object with an s32 at 0x104 and one more word.
-struct UiSlotTarget {
-    u8 _0[0x104];
-    s32 _104;
-};
+class ScreenChild;
+// A slot of Unk_7102474bc8::_130: a screen child (opened / closed through slot 6, state _104) and an index.
 struct UiSlot {
-    UiSlotTarget* target;
-    u64 _8;
+    ScreenChild* target;
+    s32 _8;
 };
 
 // Member of ScreenSousaGuide (0x3618) and others: two sead::Buffers freed in the destructor (0x158 bytes).
@@ -777,7 +775,7 @@ public:
     void sub_71009348D0(bool flag);
     // 0x7100933bdc (declared only; 628 bytes): the per-frame update
     void sub_7100933BDC();
-    void sub_7100933FB8(u32 index, UiSlotTarget* target);
+    void sub_7100933FB8(u32 index, ScreenChild* target);
 
     // 0x7100933fe0 (declared only; 35 callers) / 0x7100934308 (32 callers): adds a string record (id, text, value)
     void sub_7100933FE0(const UiStringEntry& entry);
@@ -787,7 +785,7 @@ public:
     /* 0x10 */ sead::FixedSafeString<256> _10;
     /* 0x128 */ u8 _128 = 0;
     /* 0x130 */ sead::Buffer<UiSlot> _130;
-    sead::Buffer<Unk_Elem2> _140;
+    /* 0x140 */ sead::Buffer<UiStringEntry> _140;
     /* 0x150 */ u8 _150 = 0;
     /* 0x151 */ u8 _151 = 0;
 };
