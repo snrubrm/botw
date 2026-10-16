@@ -17,6 +17,15 @@ public:
     virtual ~Context() = default;
 };
 
+// Placeholder name (RTTI typeInfo static 0x71025dbf90): a load context subclass whose u32 at +0x60
+// ResourceJpg::sub_71009CD408 returns (8 for any other context).
+class Unk_71025dbf90 : public Context {
+    SEAD_RTTI_OVERRIDE(Unk_71025dbf90, Context)
+public:
+    u8 _8[0x60 - 0x8];
+    u32 _60;
+};
+
 class Resource : public sead::DirectResource, public IResource {
     SEAD_RTTI_OVERRIDE(Resource, sead::DirectResource)
 public:
@@ -30,6 +39,9 @@ public:
 
     Context* getContext() const;
     void setContext(Context* context);
+    // 0x71012012ec (lane3 s84: a member, ResourceJpg::sub_71009CD408 passes `this`): the context of the
+    // resource being loaded (set by the load task around doLoad).
+    Context* getCurrentLoadContext() const;
 
     void onDestroy();
     bool parse(Context*, sead::Heap* heap);
@@ -60,7 +72,6 @@ inline bool Resource::parse_(u8*, size_t, sead::Heap*) {
 
 // Native 1210D1C sets this Context pointer around doLoad, clears it, then passes the
 // same value to Resource::setContext. ResourceJpg's 9CD408 performs RTTI on the result.
-Context* getCurrentLoadContext();
 void setCurrentLoadContext(Context* context);
 void clearCurrentLoadContext();
 

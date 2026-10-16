@@ -39,7 +39,7 @@ bool Resource::m7() {
 
 Context* sCurrentLoadContext;
 
-Context* getCurrentLoadContext() {
+Context* Resource::getCurrentLoadContext() const {
     return sCurrentLoadContext;
 }
 

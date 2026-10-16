@@ -45,6 +45,15 @@ bool ResourceJpg::m2_() {
 }
 
 // NON_MATCHING: TextureData destruction remains an actual library call rather than its inlined NVNtexture body.
+u32 ResourceJpg::sub_71009CD408() {
+    if (!getCurrentLoadContext())
+        return 8;
+    auto* context = getCurrentLoadContext();
+    if (!context || !sead::IsDerivedFrom<Unk_71025dbf90>(context))
+        return 8;
+    return static_cast<Unk_71025dbf90*>(context)->_60;
+}
+
 void ResourceJpg::onDestroy_() {
     _50 = false;
     if (_70) {
