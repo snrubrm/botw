@@ -11,6 +11,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace uking {
+class Unk_710067e0a8;
+}
+
 namespace uking::act {
 class NPCBase;
 }
@@ -448,7 +452,8 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    u64 _38 = 0;
+    // The sender's remote bomb slot object (RuneMgr::StructX sends message 0x800003c; its ctor stores the type).
+    uking::Unk_710067e0a8* _38 = nullptr;
 };
 
 // vtable 0x7102450888 (message 0x80000d3)

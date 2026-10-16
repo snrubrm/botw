@@ -264,7 +264,7 @@ bool Unk_7102450b58::m2(const ksys::Message& message) {
     if (message.getType() != 0x800003c)
         return false;
 
-    auto* data = static_cast<const u64*>(message.getUserData());
+    auto* data = static_cast<uking::Unk_710067e0a8* const*>(message.getUserData());
     if (!data)
         return false;
 
