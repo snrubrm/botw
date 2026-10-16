@@ -13,7 +13,7 @@ SEAD_SINGLETON_DISPOSER_IMPL(ScreenMgr)
 
 ScreenMgr::ScreenMgr()
     : mTargetMgr(nullptr), mArcResourceMgr(nullptr), mBoxCursorMgr(nullptr), mAnimationStep(1.0f),
-      mMessageMgr(nullptr), mFontMgr(nullptr), mTargetFlags{{1, 1}}, mConstantBuffer(nullptr) {}
+      mMessageMgr(nullptr), mFontMgr(nullptr), mTargetFlags{{true, true}}, mConstantBuffer(nullptr) {}
 
 ScreenMgr::~ScreenMgr() {
     if (auto* heap = sead::HeapMgr::instance()->findContainHeap(mScreens.getBufferPtr())) {
@@ -60,8 +60,8 @@ void ScreenMgr::activateScreen(s32 id) {
 
 // 0x7100bec4c0
 void ScreenMgr::update() {
-    mTargetFlags[0] = 1;
-    mTargetFlags[1] = 1;
+    mTargetFlags[0] = true;
+    mTargetFlags[1] = true;
     if (auto* font = mFontMgr->getScalableFontMgr())
         font->sub_7100BE55A8();
     if (mBoxCursorMgr)

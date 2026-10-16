@@ -609,7 +609,7 @@ void Screen::eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node) {
 }
 
 // 0x7100be9f60
-u8 Screen::sub_7100BE9F60() const {
+bool Screen::sub_7100BE9F60() const {
     return mMgr->getTargetFlag(mDrawTarget);
 }
 

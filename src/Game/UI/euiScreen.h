@@ -255,7 +255,7 @@ public:
     // 0x7100be9908
     bool moveBoxCursorByButton(const AnimButton* button);
     // 0x7100be9f60 (placeholder name)
-    u8 sub_7100BE9F60() const;
+    bool sub_7100BE9F60() const;
     // 0x7100be989c
     void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
     // 0x7100beb570: the box cursor node whose button has the tag (null if none)
@@ -352,7 +352,7 @@ public:
     // inline-only in the original; name is a guess (Screen::x_1 reads the draw target of a screen id: -1 if inactive)
     s8 getScreenTarget(s32 id) const { return mScreenTargets[id]; }
     // inline-only in the original; name is a guess (the draw target byte is loaded before the target manager)
-    u8 getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
+    bool getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
     ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
     // inline-only in the original; names are guesses (Screen::doSetupDrawInfo_)
     nn::ui2d::GraphicsResource* getGraphicsResource() { return &mGraphicsResource; }
@@ -387,7 +387,8 @@ private:
     /* 0xb28 */ SharcArchive mMultiFilterArchive;
     /* 0xb30 */ MessageMgr* mMessageMgr;
     /* 0xb38 */ FontMgr* mFontMgr;
-    /* 0xb40 */ sead::SafeArray<u8, 2> mTargetFlags;  // indexed by DrawTarget (read by Screen::sub_7100BE9F60)
+    // Indexed by DrawTarget (read by Screen::sub_7100BE9F60; ScreenBase::updateButton_ tests the result as a bool).
+    /* 0xb40 */ sead::SafeArray<bool, 2> mTargetFlags;
     // Full init BEC244 copies argument byte +2c here; createInstance initializes it to zero.
     u8 _b42 = 0;
     u8 _b43[0xb48 - 0xb43];

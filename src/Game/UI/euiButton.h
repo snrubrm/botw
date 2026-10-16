@@ -118,7 +118,9 @@ class ButtonGroup {
 public:
     ButtonGroup();
     virtual ~ButtonGroup() = default;
-    virtual void m2();
+    // 0x7100bd7bac: updates the buttons. uking::ui::ScreenBase::updateButton_ 0x71010a9da0 passes the touch
+    // position in layout coordinates (null without touch) and the touch trigger / release / repeat states.
+    virtual void m2(const sead::Vector2f* touch_pos, bool touch_trig, bool touch_release, bool touch_repeat);
 
     // 0x7100bd8378
     bool IsExistExcludingDown() const;

@@ -5,6 +5,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiTagProcessor.h"
+#include <controller/seadController.h>
 #include "KingSystem/System/SeadController.h"
 
 namespace eui {
@@ -39,6 +40,29 @@ Screen::~Screen() {
 }
 
 // 0x71010a9f04
+void ScreenBase::updateButton_() {
+    if (!isEnableControl())
+        return;
+
+    if (!_104) {
+        mButtonGroup->m2(nullptr, false, false, false);
+        return;
+    }
+
+    constexpr u32 cTouch = 1 << sead::Controller::cPadIdx_Touch;
+    if (mUIController->isPointerOn() && sub_7100BE9F60()) {
+        const nn::font::Rectangle rect = mLayout->GetLayoutRect();
+        const auto* controller = mUIController;
+        const sead::Vector2f pos{controller->getPointer().x * (rect.right - rect.left) * 0.5f,
+                                 controller->getPointer().y * (rect.bottom - rect.top) * -0.5f};
+        mButtonGroup->m2(&pos, controller->isTrig(cTouch), controller->isRelease(cTouch),
+                         controller->isRepeat(cTouch));
+        return;
+    }
+
+    mButtonGroup->m2(nullptr, false, mUIController->isRelease(cTouch), false);
+}
+
 eui::TagProcessor* ScreenBase::doCreateTagProcessor_(sead::Heap* heap) {
     return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
 }
