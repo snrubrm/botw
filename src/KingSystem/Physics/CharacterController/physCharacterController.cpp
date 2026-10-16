@@ -182,7 +182,7 @@ bool CharacterController::sub_7100F631CC() const {
     return _40->_10 == 1;
 }
 
-u8 CharacterController::sub_7100F63210() const {
+bool CharacterController::sub_7100F63210() const {
     return _40->_70;
 }
 
