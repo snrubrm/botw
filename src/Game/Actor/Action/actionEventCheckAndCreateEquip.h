@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100116c38 (placeholder name): the equipment slot of a weapon profile (0 sword / large sword / spear,
+    // 1 shield, 2 bow, 3 anything else).
+    s32 sub_7100116C38(const sead::SafeString& profile);
 
     // dynamic_param at offset 0x20
     int* mSharpWeaponAddValue_d{};
