@@ -47,6 +47,8 @@
 #include "Game/gameHeroSoul.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
@@ -2130,6 +2132,40 @@ void Player::x_36() {
 bool Player::x_52() {
     return mASList->x_1(1, 1) == "GrabWait" || mASList->x_1(1, 1) == "GrabPouchUpper" ||
            mASList->x_1(1, 1) == "GrabThrowCharge";
+}
+
+void Player::sub_7100892F5C(as::ASList::Unk4* query) {
+    s32 direction;
+    if (query->name == "Upper")
+        direction = 0;
+    else if (query->name == "Lower")
+        direction = 1;
+    else if (query->name == "Left")
+        direction = 2;
+    else if (query->name == "Right")
+        direction = 3;
+    else
+        direction = -1;
+    _d20 = direction;
+}
+
+void Player::x_7() {
+    if (_d30 != getEquipmentTypeName(1) && (_d30 != getEquipmentTypeName(0) || _c40.isOnBit(3)))
+        x_8(false, false);
+    getWeapons()->mWeapons[1]._10 = false;
+    _c40.setBit(3);
+    _c44.resetBit(10);
+    snd::Unk_7102502138::instance()->sub_710103B430(true);
+}
+
+// NON_MATCHING: the matrix product is scheduled / allocated differently (same operations).
+void Player::sub_7100868220(f32 angle) {
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    sead::Matrix34f rot;
+    rot.makeR({0.0f, angle - std::atan2(dir.x, dir.z), 0.0f});
+    _1b18.setMul(rot, _1b18);
 }
 
 }  // namespace ksys::act

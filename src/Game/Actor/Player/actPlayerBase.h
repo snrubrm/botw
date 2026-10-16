@@ -411,7 +411,8 @@ public:
     /* 0xd1c */ u8 _d1c;  // 1-3 select the CutAfterJump turn angle (PlayerCutAfterJump::enter_)
 
 protected:
-    /* 0xd1d */ u8 _d1d[0xd24 - 0xd1d];
+    /* 0xd1d */ u8 _d1d[0xd20 - 0xd1d];
+    /* 0xd20 */ s32 _d20;  // AS query direction: Upper 0 / Lower 1 / Left 2 / Right 3, else -1 (Player::sub_7100892F5C)
 
 public:
     // Public: read by PlayerCutFall / PlayerSpAttack leave_ (x_7 is called when it is 0).

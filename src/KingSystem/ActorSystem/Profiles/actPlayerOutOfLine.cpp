@@ -254,4 +254,16 @@ void Player::sub_710085C55C() {
     sead::Mathf::chase(&_1fa0, target, VFR::instance()->getDeltaFrame() * 0.01f);
 }
 
+// Here, not in actPlayer.cpp: there the call to x_24 drops the unused -1.0f argument, which the original passes.
+void Player::sub_71008B5B8() {
+    if (_c40.isOnBit(3) || !m226())
+        return;
+    if (_17d0->playerCheckController(13) && !m202() && !_c44.isOnBit(13) && !m178())
+        return;
+    if (_d68 != getEquipmentTypeName(2))
+        return;
+    x_24(-1.0f);
+    _d68 = getEquipmentTypeName(0);
+}
+
 }  // namespace ksys::act

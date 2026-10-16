@@ -473,7 +473,9 @@ public:
     void x_4();
     void sub_71008893B8(bool a1);      // 0x71008893b8
     void sub_71008931C4();             // 0x71008931c4
-    void sub_71008B5B8();              // 0x71008b5b8
+    // 0x710088b5b8 (placeholder name keeps a typo of the address; used by lane3 action files): with the shield-type item (equipment type 2)
+    // in _d68 and m226(), x_24(-1) and resets _d68 to equipment type 0's name.
+    void sub_71008B5B8();
     // 0x710086952c (declared only; lane3 s22): finds the body "..." of the physics set and passes its rigid body to InstanceSet 0xfbd918.
     void sub_710086952C();
     // 0x7100887ac4 (lane3 s22): whether the AS of slot 1 / bank 1 is "GrabThrow".
