@@ -4,6 +4,8 @@
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/gameWolfLinkMgr.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ai {
 
@@ -98,6 +100,51 @@ void WolfLinkWarp::sub_710060EE14() {
         _b0->release();
         _b0 = nullptr;
     }
+}
+
+// NON_MATCHING: registers / stack (the original keeps the normalised direction in callee-saved registers and stores
+// the translation copy with stp)
+// Once the warp start child ends and the timer _8c ran out: starts "ワープ" at _80 facing the player (or in place
+// when Wolf Link cannot be used), or, with flag 8, waits for WolfLinkMgr (flag 9, info overlay 0x28) and finishes.
+void WolfLinkWarp::x() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+    _8c.update();
+    if (!(_8c.value <= sead::Mathf::epsilon()))
+        return;
+
+    if (isFlagOn(Flag::_8)) {
+        if (!isFlagOn(Flag::_9)) {
+            if (auto* mgr = WolfLinkMgr::instance()) {
+                if (mgr->sub_7100682F80(_a8, false)) {
+                    ui::showInfoOverlay(0x28);
+                    setFlag(Flag::_9);
+                }
+            }
+        }
+        if (isFlagOn(Flag::_9))
+            setFinished();
+        return;
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f forward;
+    if (*mWarpType_d == 4 || !cannotUseWolfLinkAmiibo()) {
+        forward.set(getPlayerPosition());
+        forward -= _80;
+        forward.y = 0.0f;
+        forward.normalize();
+        pack.addVec3(_80, "TargetPos", -1);
+    } else {
+        forward = mActor->getMtx().getTranslation();
+        pack.addVec3(forward, "TargetPos", -1);
+        mActor->getMtx().getBase(forward, 2);
+    }
+    pack.addVec3(forward, "TargetFoward", -1);
+    changeChild("ワープ", &pack);
 }
 
 void WolfLinkWarp::calc_() {

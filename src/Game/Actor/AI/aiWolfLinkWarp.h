@@ -21,12 +21,14 @@ class WolfLinkWarp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkWarp, ksys::act::ai::Ai)
 public:
     // Bit indices of _c0 (names unknown).
-    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8)
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9)
     // inline-only in the original; name is a guess. Evidence: enter_ sets two bits back to back and
     // their enum temporaries share the InlineParamPack's stack slot (by-value parameter -> lifetime
     // markers); the WolfLinkNormalRoot flag setters (`_1b8 |= 1 << Flag`) have the same shape.
     void setFlag(Flag flag) { _c0 |= 1 << flag; }
     void clearFlag(Flag flag) { _c0 &= ~(1 << flag); }
+    // Same evidence: x() stores the Flag value to the stack before each test.
+    bool isFlagOn(Flag flag) const { return (1 << flag) & _c0; }
 
     explicit WolfLinkWarp(const InitArg& arg);
     ~WolfLinkWarp() override;
