@@ -365,11 +365,12 @@ class Unk_SoundMgr38_38 {
 public:
     // 0x7101039f00 (declared only)
     Unk_SoundMgr38_38();
+    // 0x710103a02c (empty) / 0x710103a030
     virtual ~Unk_SoundMgr38_38();
-    // 0x710103a034 (declared only): called with the heap right after construction.
+    // 0x710103a034 (empty in the release build): called with the heap right after construction.
     void sub_710103A034(sead::Heap* heap);
     void sub_710103A084();
-    // 0x710103a294 (declared only; empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
+    // 0x710103a294 (empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
     void sub_710103A294();
 
     u8 _8[0xd8 - 0x8];

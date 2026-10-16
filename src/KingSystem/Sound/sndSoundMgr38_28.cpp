@@ -42,6 +42,8 @@ void Unk_SoundMgr38_28::sub_7101037F7C(bool value) {
 
 void Unk_SoundMgr38_28::sub_7101039208() {}
 
+Unk_SoundMgr38_38::~Unk_SoundMgr38_38() = default;
+
 // Empty in the release build.
 void Unk_SoundMgr38_38::sub_710103A034(sead::Heap* heap) {}
 
