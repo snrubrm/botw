@@ -2624,6 +2624,26 @@ bool ScreenAppMap::sub_71009E9F10() {
     return _3610 ? _3610->sub_71009A9438() : false;
 }
 
+// 0x71009e9f48: whether the map is busy (system window open, the _3618 child's flag, or _3c98 opening / closing)
+// NON_MATCHING: block layout (the original branches to one shared `return true`)
+bool ScreenAppMap::sub_71009E9F48() {
+    if (sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        return true;
+    if (_3618 && _3618->sub_71009C5B68())
+        return true;
+    if (!_3c98)
+        return false;
+    const s32 state = _3c98->_104;
+    if (state == 7)
+        return true;
+    if (u32(state - 1) > 4)
+        return false;
+    if ((state - 1) & 1)
+        return false;
+    return true;
+}
+
 // 0x71009e9f20
 bool ScreenAppMap::sub_71009E9F20() {
     if (_3ad1)

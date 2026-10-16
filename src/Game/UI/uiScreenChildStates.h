@@ -180,6 +180,8 @@ class Unk_710247d8f8 : public ScreenChildEx {
 public:
     explicit Unk_710247d8f8(eui::LayoutEx* layout);
     ~Unk_710247d8f8() override;
+    // 0x71009c5b68 (placeholder name): _138
+    bool sub_71009C5B68() const;
 
     // Members from the ctor 0x9c54e4 and D1 0x9c55b8.
     /* 0x130 */ void* _130 = nullptr;

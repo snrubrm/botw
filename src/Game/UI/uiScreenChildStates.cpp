@@ -1092,6 +1092,10 @@ Unk_710247d8f8::Unk_710247d8f8(eui::LayoutEx* layout) : ScreenChildEx(layout), _
 
 Unk_710247d8f8::~Unk_710247d8f8() = default;
 
+bool Unk_710247d8f8::sub_71009C5B68() const {
+    return _138;
+}
+
 // 0x71009c69a4
 Unk_710247dc90::Unk_710247dc90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 

@@ -2179,6 +2179,7 @@ extern const ksys::StateBase sUnk_71025df1e0;
 
 // Full setup 9eab28 casts child group 5 to the same RTTI as Unk_710247c010 (9bf07c).
 class Unk_710247c010;
+class Unk_710247d8f8;
 using ScreenAppMapUnk3c98 = Unk_710247c010;
 
 // Map animation child: full ctor 9c0ebc, vtable 247c6c0 and independent 9c1474 / 9c1814 consumers.
@@ -2350,7 +2351,8 @@ public:
 
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
-    u8 _3618[0x3630 - 0x3618];
+    /* 0x3618 */ Unk_710247d8f8* _3618;
+    u8 _3620[0x3630 - 0x3620];
     /* 0x3630 */ eui::Animator* _3630;
     /* 0x3638 */ eui::Animator* _3638;
     u8 _3640[0x3778 - 0x3640];
