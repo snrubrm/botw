@@ -4262,7 +4262,30 @@ public:
     // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
     u8 _3610[0x11520 - 0x3610];
     /* 0x11520 */ Unk_710247c010* mSensorChild;
-    u8 _11528[0x11938 - 0x11528];
+    u8 _11528[0x11530 - 0x11528];
+    // 11 parts layouts with four animators each (set up by 0x71009e1518)
+    struct PartsEntry {
+        eui::LayoutEx* layout;
+        eui::Animator* animators[4];
+        u8 _28[0x38 - 0x28];
+    };
+    /* 0x11530 */ sead::SafeArray<PartsEntry, 11> _11530;
+    u8 _11798[0x11818 - 0x11798];
+    struct Entry11818 {
+        eui::Animator* animator;
+        u8 _8[0x30 - 0x8];
+    };
+    /* 0x11818 */ sead::SafeArray<Entry11818, 3> _11818;
+    u8 _118a8[0x118ac - 0x118a8];
+    /* 0x118ac */ s32 _118ac;  // selected entry (-1: none)
+    u8 _118b0[0x118d0 - 0x118b0];
+    /* 0x118d0 */ s32 _118d0;  // last selected entry
+    u8 _118d4[0x11918 - 0x118d4];
+    /* 0x11918 */ eui::Animator* _11918;
+    u8 _11920[0x11938 - 0x11920];
+
+    // 0x71009e5868 (placeholder name): selects entry `index` (-1: none), playing its animators backwards / forwards
+    void sub_71009E5868(s32 index);
 };
 static_assert(sizeof(ScreenAppMapDungeon) == 0x11938);
 

@@ -340,4 +340,27 @@ bool sub_71009E5530() {
     }
 }
 
+// 0x71009e5868
+void ScreenAppMapDungeon::sub_71009E5868(s32 index) {
+    const s32 prev = _118ac;
+    if (prev != -1) {
+        _118ac = -1;
+        if (auto* animator = _11530[prev].animators[2])
+            animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        if (auto* animator = _11818[prev].animator)
+            animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    }
+    _118ac = index;
+    if (index == -1) {
+        if (_11918)
+            _11918->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        return;
+    }
+    _118d0 = index;
+    if (auto* animator = _11818[index].animator)
+        animator->PlayAuto(1.0f);
+    if (auto* animator = _11530[index].animators[2])
+        animator->PlayAuto(1.0f);
+}
+
 }  // namespace uking::ui
