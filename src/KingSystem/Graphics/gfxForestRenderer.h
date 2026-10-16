@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
@@ -31,9 +32,24 @@ public:
         // ForestRenderer::x_8's loop.
         bool sub_7100F0914C(void* record, bool a, bool b);
 
-        u8 _0[0xc];
+        // 0x7100f078a4 (vtable 0x71024f38b8): releases the item's pointer array and resets it if _8 is set.
+        virtual ~Item();
+
+        u32 _8;
         sead::BitFlag16 _c;
-        u8 _e[0x98 - 0xe];
+        u8 _e[0x10 - 0xe];
+        u32 _10;
+        u64 _18;
+        sead::PtrArray<u8> _20;
+        u64 _30;
+        u16 _38;
+        u8 _3a;
+        u8 _3b;
+        u8 _3c;
+        u8 _3d;
+        u8 _3e[0x40 - 0x3e];
+        u64 _40;
+        u8 _48[0x98 - 0x48];
     };
     static_assert(sizeof(Item) == 0x98);
     struct Entry {
