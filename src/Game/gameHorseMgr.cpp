@@ -12,6 +12,12 @@ namespace uking {
 SEAD_SINGLETON_DISPOSER_IMPL(HorseMgr)
 
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
+void HorseMgr::setHorsePosForMap() {
+    sead::Vector3f pos;
+    if (ksys::gdt::Manager::instance()->getParam().get().getVec3f(&pos, "Horse_Pos"))
+        ksys::gdt::Manager::instance()->setVec3f(pos, "Horse_Pos_For_Map");
+}
+
 bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
     return actor && _30.hasProcById(actor);
 }
