@@ -869,7 +869,10 @@ public:
     /* 0x1ea4 */ f32 _1ea4;
     /* 0x1ea8 */ u8 _1ea8[0x1ec0 - 0x1ea8];
     /* 0x1ec0 */ ksys::Timer _1ec0;  // set to Timer(4, 4) by PlayerTwiceJump::enter_
-    /* 0x1ecc */ u8 _1ecc[0x1f84 - 0x1ecc];
+    /* 0x1ecc */ u8 _1ecc[0x1ed8 - 0x1ecc];
+    // Status effect durations (syncStatusEffectFlags), indexed like the levels _1ff0 .. _2024.
+    /* 0x1ed8 */ ksys::Timer _1ed8[14];
+    /* 0x1f80 */ u8 _1f80[0x1f84 - 0x1f80];
     /* 0x1f84 */ s32 _1f84;
     /* 0x1f88 */ s32 _1f88;
     /* 0x1f8c */ s32 _1f8c;
@@ -888,19 +891,20 @@ public:
     /* 0x1fd8 */ f32 _1fd8;  // added to _2024 for the quietness level (sub_710086DD00)
     /* 0x1fdc */ u8 _1fdc[0x1fe8 - 0x1fdc];
     /* 0x1fe8 */ f32 _1fe8;  // knock-back correction (sub_7100893F1C)
-    /* 0x1fec */ u8 _1fec[0x1ff4 - 0x1fec];
+    /* 0x1fec */ u8 _1fec[0x1ff0 - 0x1fec];
+    /* 0x1ff0 */ s32 _1ff0;
     /* 0x1ff4 */ s32 _1ff4;  // swim status level (getSwimMoveSpeed)
-    /* 0x1ff8 */ u8 _1ff8[4];
+    /* 0x1ff8 */ s32 _1ff8;
     /* 0x1ffc */ s32 _1ffc;
     /* 0x2000 */ f32 _2000;
     /* 0x2004 */ s32 _2004;
-    /* 0x2008 */ u8 _2008[0x200c - 0x2008];
+    /* 0x2008 */ s32 _2008;
     /* 0x200c */ s32 _200c;
     /* 0x2010 */ s32 _2010;
     /* 0x2014 */ s32 _2014;
     /* 0x2018 */ s32 _2018;  // sub_710088588C
     /* 0x201c */ s32 _201c;  // sub_71008859EC
-    /* 0x2020 */ u8 _2020[0x2024 - 0x2020];
+    /* 0x2020 */ s32 _2020;
     /* 0x2024 */ s32 _2024;
     /* 0x2028 */ s32 _2028;
     /* 0x202c */ s32 _202c;

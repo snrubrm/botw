@@ -1591,6 +1591,140 @@ void Player::updateResistColdVal() {
 
 // NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
 // order also differs from the original.
+// NON_MATCHING: the original sinks each level / timer store into one block per effect (selecting the values);
+// ours stores in both arms. Same logic.
+// Copies the pending status effects (_1180 .. _11ec, written by the PlayerBase setters) into the levels _1ff0 ..
+// _2024 and their duration timers. Effects that are not pending are cleared when `force` is set or any other
+// effect is pending.
+void Player::syncStatusEffectFlags(bool force) {
+    bool clear = true;
+    if (!force && _1184 == 0.0f && _118c == 0.0f && _1194 == 0.0f && _119c == 0.0f && _11a4 == 0.0f &&
+        _11a8[0].value == 0.0f && _11a8[1].value == 0.0f && _11a8[2].value == 0.0f &&
+        _11a8[3].value == 0.0f && _11a8[4].value == 0.0f && _11a8[5].value == 0.0f &&
+        _11a8[6].value == 0.0f && _11a8[7].value == 0.0f && _11a8[8].value == 0.0f) {
+        clear = false;
+    }
+
+    if (_1180 != 0.0f) {
+        _1ff0 = s32(_1180);
+        _1ed8[0] = ksys::Timer(_1184, _1184);
+    } else if (clear) {
+        _1ff0 = 0;
+        _1ed8[0] = ksys::Timer(0, 0);
+    }
+    if (_1188 != 0.0f) {
+        _1ff4 = s32(_1188);
+        _1ed8[1] = ksys::Timer(_118c, _118c);
+    } else if (clear) {
+        _1ff4 = 0;
+        _1ed8[1] = ksys::Timer(0, 0);
+    }
+    if (_1190 != 0.0f) {
+        _1ff8 = s32(_1190);
+        _1ed8[2] = ksys::Timer(_1194, _1194);
+    } else if (clear) {
+        _1ff8 = 0;
+        _1ed8[2] = ksys::Timer(0, 0);
+    }
+
+    auto* info = uking::act::PlayerInfo::instance();
+    if (_1198 != 0) {
+        const s32 max_heart = info->getMaxHeartValue();
+        if (_1ffc < _1198) {
+            _1ffc = _1198;
+            _1ed8[3] = ksys::Timer(0, 0);
+            uking::act::PlayerInfo::instance()->setMaxLifeForPlayerActor(_1198 + max_heart);
+            sub_710084AC68();
+        }
+    } else if (force) {
+        _1ffc = 0;
+        _1ed8[3] = ksys::Timer(0, 0);
+        info->setMaxLifeForPlayerActor(info->getMaxHeartValue());
+    }
+
+    if (_11a0 != 0.0f) {
+        const f32 value = _11a0;
+        const f32 prev = _2000;
+        sub_710084AE78();
+        if (value - prev > 0.0f) {
+            _2000 = _11a0;
+            _1ed8[4] = ksys::Timer(0, 0);
+        }
+    } else if (force) {
+        _2000 = 0;
+        _1ed8[4] = ksys::Timer(0, 0);
+    }
+
+    if (_11a8[0].type != 0) {
+        _2004 = _11a8[0].type;
+        _1ed8[5] = ksys::Timer(_11a8[0].value, _11a8[0].value);
+    } else if (clear) {
+        _2004 = 1;
+        _1ed8[5] = ksys::Timer(0, 0);
+    }
+    updateStatusEffectAttackUp();
+    if (_11a8[1].type != 0) {
+        _2008 = _11a8[1].type;
+        _1ed8[6] = ksys::Timer(_11a8[1].value, _11a8[1].value);
+    } else if (clear) {
+        _2008 = 1;
+        _1ed8[6] = ksys::Timer(0, 0);
+    }
+    if (_11a8[2].type != 0) {
+        _200c = _11a8[2].type;
+        _1ed8[7] = ksys::Timer(_11a8[2].value, _11a8[2].value);
+    } else if (clear) {
+        _200c = 0;
+        _1ed8[7] = ksys::Timer(0, 0);
+    }
+    updateResistHotVal();
+    if (_11a8[3].type != 0) {
+        _2010 = _11a8[3].type;
+        _1ed8[8] = ksys::Timer(_11a8[3].value, _11a8[3].value);
+    } else if (clear) {
+        _2010 = 0;
+        _1ed8[8] = ksys::Timer(0, 0);
+    }
+    updateResistColdVal();
+    if (_11a8[4].type != 0) {
+        _2014 = _11a8[4].type;
+        _1ed8[9] = ksys::Timer(_11a8[4].value, _11a8[4].value);
+    } else if (clear) {
+        _2014 = 0;
+        _1ed8[9] = ksys::Timer(0, 0);
+    }
+    if (_11a8[5].type != 0) {
+        _2018 = _11a8[5].type;
+        _1ed8[10] = ksys::Timer(_11a8[5].value, _11a8[5].value);
+    } else if (clear) {
+        _2018 = 0;
+        _1ed8[10] = ksys::Timer(0, 0);
+    }
+    if (_11a8[6].type != 0) {
+        _201c = _11a8[6].type;
+        _1ed8[11] = ksys::Timer(_11a8[6].value, _11a8[6].value);
+    } else if (clear) {
+        _201c = 0;
+        _1ed8[11] = ksys::Timer(0, 0);
+    }
+    if (_11a8[7].type != 0) {
+        _2020 = _11a8[7].type;
+        _1ed8[12] = ksys::Timer(_11a8[7].value, _11a8[7].value);
+    } else if (clear) {
+        _2020 = 0;
+        _1ed8[12] = ksys::Timer(0, 0);
+    }
+    if (_11a8[8].type != 0) {
+        _2024 = _11a8[8].type;
+        _1ed8[13] = ksys::Timer(_11a8[8].value, _11a8[8].value);
+    } else if (clear) {
+        _2024 = 1;
+        _1ed8[13] = ksys::Timer(0, 0);
+    }
+    sub_710086DD00();
+    x_12(false);
+}
+
 void Player::updateStatusEffectAttackUp() {
     eco::StatusEffectInfo info;
     eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_AttackUp, _2004 + _2040, &info);
