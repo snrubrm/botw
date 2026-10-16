@@ -1067,11 +1067,14 @@ public:
         // 0x71012c1f1c: moves the emitted event to mPos.
         void m5(xlink2::UserInstanceSLink* user_instance, xlink2::HandleSLink* handle) override;
 
-        /* 0xa0 */ sead::Vector3f mPos;
-        /* 0xac */ s32 mId;
-        /* 0xb0 */ s32 _b0;
+        /* 0xa0 */ sead::Vector3f mPos = sead::Vector3f::zero;
+        /* 0xac */ s32 mId = 0;
+        /* 0xb0 */ s32 _b0 = -1;
         u8 _b4[0xb8 - 0xb4];
     };
+
+    // 0x71012c1308
+    Unk_SoundMgr38_60();
 
     virtual ~Unk_SoundMgr38_60();
     // 0x71012c17b4 (empty in the release build)
@@ -1092,10 +1095,15 @@ public:
 
     /* 0x008 */ Entry mEntries[6];
     // The shared user instance buffer the entries reference (updated by sub_71012C171C).
-    /* 0x458 */ Unk_7102502410* mInstances;
+    /* 0x458 */ Unk_7102502410* mInstances = nullptr;
     /* 0x460 */ sead::CriticalSection mCS;
-    /* 0x4a0 */ s32 mNextId;
+    /* 0x4a0 */ s32 mNextId = 0;
+    /* 0x4a4 */ bool _4a4 = false;
+    /* 0x4a8 */ f32 _4a8 = 20.0f;
+    /* 0x4ac */ f32 _4ac = 120.0f;
+    /* 0x4b0 */ u64 _4b0 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_60, 0x4b8);
 
 // Placeholder name: the sound instances the AreaActionBase family (Shielding / Occlusion / Reverb) get from
 // SoundMgr::_a8.

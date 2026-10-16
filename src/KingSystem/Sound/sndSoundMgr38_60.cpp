@@ -14,6 +14,8 @@ util::InitTimeInfo sInitTimeInfo;
 
 // TU around 0x71012c167c in the original (far from the other sub-managers).
 
+Unk_SoundMgr38_60::Unk_SoundMgr38_60() = default;
+
 Unk_SoundMgr38_60::~Unk_SoundMgr38_60() = default;
 
 Unk_SoundMgr38_60::Entry::~Entry() = default;
