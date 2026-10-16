@@ -232,6 +232,95 @@ bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) co
     return (pos - self).squaredLength() < reach * reach;
 }
 
+// NON_MATCHING: scheduling of the translation copies and of the pending entry counter.
+bool LandHumEnemyUnarmedBattle::sub_710046E57C() {
+    if (isGoStraightOrMove() && _118.hasProcInCalcState()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_118, &accessor);
+        if (accessor.isAttClientEnabled("Grab")) {
+            const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+            auto* character = mActor->m45();
+            character->sub_7100F7D350();
+            accessor.sub_7100D122EC(character);
+            auto* actor = mActor;
+            auto* nav = actor->m45();
+            if (sub_710072F944(actor, pos, nullptr, (nav ? nav->getRadiusMaybe() : 0.0f) + 1.0f, 5.0f)) {
+                if (isMove())
+                    startMoveToTargetMaybe(pos);
+                return true;
+            }
+        }
+    }
+
+    sead::FixedObjList<sead::Vector3f, 8> points;
+    _150.clear();
+    sub_7100471B68();
+    auto* character = mActor->m45();
+    character->sub_7100F7D350();
+
+    if (_118.hasProcInCalcState()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_118, &accessor);
+        accessor.sub_7100D122EC(character);
+        const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+        if (accessor.isAttClientEnabled("Grab")) {
+            points.emplaceBack(pos);
+            auto* actor = mActor;
+            auto* nav = actor->m45();
+            if (sub_710072F944(actor, pos, nullptr, (nav ? nav->getRadiusMaybe() : 0.0f) + 1.0f, 5.0f)) {
+                if (!isGoStraight())
+                    startMoveToTargetMaybe(pos);
+                return true;
+            }
+        }
+    }
+
+    if (_150.size() != 0) {
+        sead::SafeArray<ksys::act::Unk_7100d78e50*, 8> pending;
+        s32 num_pending = 0;
+        for (auto& entry : _150) {
+            auto& link = entry._0.mLink;
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+            auto* entry_character = mActor->m45();
+            entry_character->sub_7100F7D350();
+            accessor.sub_7100D122EC(entry_character);
+            auto* actor = mActor;
+            auto* nav = actor->m45();
+            if (!sub_710072F944(actor, pos, nullptr, (nav ? nav->getRadiusMaybe() : 0.0f) + 1.0f, 5.0f)) {
+                if (!points.isFull()) {
+                    points.emplaceBack(pos);
+                    pending[num_pending++] = &entry;
+                }
+                continue;
+            }
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                enemy->sub_7100019D38(_118);
+                enemy->sub_7100019A9C(link);
+            }
+            _118 = link;
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c2), mActor);
+            if (!isGoStraight())
+                startMoveToTargetMaybe(pos);
+            return true;
+        }
+        for (s32 i = 0; i < num_pending; ++i) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&pending[i]->_0.mLink, &accessor);
+            accessor.sub_7100D122EC(character);
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c2), mActor);
+        }
+    }
+
+    if (points.size() == 0)
+        return false;
+    if (!isGoStraightOrMove())
+        changeToLookAround();
+    m41(points);
+    return true;
+}
+
 // NON_MATCHING: block layout and register allocation (same structure as the original).
 void LandHumEnemyUnarmedBattle::m38() {
     auto* actor = mActor;

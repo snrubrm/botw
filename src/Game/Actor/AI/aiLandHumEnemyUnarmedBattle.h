@@ -61,7 +61,8 @@ public:
     // 0x7100472020 (placeholder name): Enemy::sub_710001A204 with the positions of the actor of `link`
     // and of our actor, sub_71005D9330 and SearchWeaponTargetDist; true when not an Enemy.
     bool sub_7100472020(const ksys::act::BaseProcLink* link);
-    // 0x710046ed70 / 0x710046d718 / 0x710046e57c (declared only; placeholder names): called by m39.
+    // 0x710046ed70 / 0x710046d718 / 0x710046e57c (placeholder names): called by m37 / m38 / m39; 0x710046e57c heads
+    // for the grab target or the nearest reachable grabbable item (or looks around the unreachable ones).
     void sub_710046ED70();
     bool sub_710046D718();
     bool sub_710046E57C();
