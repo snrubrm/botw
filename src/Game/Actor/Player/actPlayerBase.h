@@ -526,7 +526,8 @@ public:
     /* 0x1770 */ sead::Vector3f _1770;  // a position (Player::sub_7100892100, PlayerSuperJumpCharge)
 
 protected:
-    /* 0x177c */ u8 _177c[0x178c - 0x177c];
+    /* 0x177c */ sead::Vector3f _177c;  // copy of the position (Player::sub_710086D5B8)
+    /* 0x1788 */ u8 _1788[0x178c - 0x1788];
 public:
     // Public: compared with _1770.y by PlayerFall::calc_.
     /* 0x178c */ f32 _178c;

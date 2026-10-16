@@ -10,6 +10,13 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7101E7C2B4.h"
+#include "Game/Actor/actCameraUtil.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/StageInfo.h"
 #include "Game/Actor/Player/Action/actionPlayerBackJump.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/gameSceneSubsys12.h"
@@ -263,6 +270,79 @@ void Player::m228(bool event) {
     }
     if ((!_c44.isOnBit(8) || _d11) && !sub_7100888618())
         x_18(true);
+}
+
+// NON_MATCHING: the inlined makeRTIdx matrix is built in a different order (scheduling only).
+// In this file because the original calls sub_710088CEC8, sub_710087F654 and sub_710087F360 out of line.
+// Placeholder name: puts the player back at the saved position _230c (facing _2324) after drowning / falling
+// out of bounds: snaps it to the ground just behind, resets the controller, moves the ridden horse along,
+// restores _20b8 stamina and notifies the camera.
+void Player::sub_710086D5B8() {
+    sub_710088CEC8();
+    if (auto* aoc = aoc::Manager::instance())
+        aoc->x(&_230c, nullptr, nullptr);
+
+    sead::Vector3f back{_1770.x - _230c.x, 0.0f, _1770.z - _230c.z};
+    back.normalize();
+    _1770 = _230c;
+    _177c = _230c;
+    x_53(_2324);
+    _d1c = 0;
+    _20bc.value = 0;
+    _20bc.prev_value = 0;
+
+    sead::Vector3f start = _1770 - back * 0.35f;
+    sead::Vector3f end = start;
+    start.y += 1.45f;
+    end.y += 0.4f;
+    if (StageInfo::sIsCDungeon)
+        end.y += 0.2f;
+    if (!sub_710087F654(start, end, phys::GroundHit(0), nullptr, false, false, 0.0f)) {
+        end.y = _1770.y + -0.1f;
+        if (StageInfo::sIsCDungeon)
+            end.y += -0.2f;
+        sead::Vector3f hit_pos;
+        sead::Vector3f hit_normal;
+        if (sub_710087F360(start, end, &hit_pos, &hit_normal)) {
+            const f32 slope =
+                std::atan2(hit_normal.y, sead::Vector2f(hit_normal.x, hit_normal.z).length());
+            const u32 angle = util::sUnk_7101EC6BA0 &
+                              (u32(sead::Mathf::rad2idx(-slope)) + (util::sUnk_7101EC6BA0 & 0x40000000));
+            if (util::sub_71011EE4C0(angle) <
+                u32(s64(uking::sUnk_7101e7c2f8 * (0x80000000u / 180.0f)))) {
+                _1770 = hit_pos;
+            }
+        }
+    }
+
+    if (auto* controller = getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        controller->sub_7100F5F458(MotionType::_0);
+    }
+
+    sead::Matrix34f mtx;
+    mtx.makeRTIdx({0, _2324.value, 0}, _1770);
+    setMtx(mtx, true, true);
+    nullsub_4648();
+    if (isRidingHorse()) {
+        auto* info = getPlayerRideInfo();
+        if (!info->_18.isAccessingSpecifiedProcUnsafe(info->mActor)) {
+            auto* horse = sead::DynamicCast<Actor>(info->_18.getProc(nullptr, info->mActor));
+            if (horse) {
+                if (_cf4.isOnBit(9))
+                    horse->setMtx(mtx, false, true);
+                else
+                    sendMessage(*horse->getMesTransceiverId(), MessageType(0x3000007), nullptr, true);
+            }
+        }
+    }
+    addExtraStamina(_20b8, 0.0f);
+    m323();
+
+    ActorLinkConstDataAccess camera;
+    getRoot6SomeActor(&camera);
+    sendMessage(*camera.getMessageTransceiverId(), MessageType(0x880000c), nullptr, true);
 }
 
 }  // namespace ksys::act

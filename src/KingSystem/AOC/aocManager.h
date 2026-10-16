@@ -29,6 +29,9 @@ class Manager {
 
 public:
     void init(sead::Heap* heap);
+    // 0x7100d6bc10 (CSV aocManager::x; declared only): with the Master Trials version, adjusts `pos` (DLC
+    // area handling); the two outputs may be null.
+    bool x(sead::Vector3f* pos, u32* a2, u32* a3);
 
     u32 getVersion() const { return mVersion; }
 

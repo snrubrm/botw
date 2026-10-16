@@ -947,7 +947,7 @@ public:
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
     /* 0x20a0 */ u8 _20a0[0x20b4 - 0x20a0];
     /* 0x20b4 */ f32 _20b4;
-    /* 0x20b8 */ u8 _20b8[0x20bc - 0x20b8];
+    /* 0x20b8 */ f32 _20b8;  // stamina added back by sub_710086D5B8
     /* 0x20bc */ ksys::VFRValue _20bc;  // PlayerSuperBlow::calc_ calls VFRValue::chase on it
     /* 0x20c8 */ f32 _20c8;  // initial guard-slip speed (PlayerGuardSlip::enter_)
     /* 0x20cc */ u8 _20cc[0x20d0 - 0x20cc];
