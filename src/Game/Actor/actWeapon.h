@@ -379,6 +379,11 @@ public:
     void m247(sead::Vector3f* out) override;
     void m248(sead::Vector3f* out) override;
     void invokedEmitBlinkEffect();
+    // Slot 196 (0x71002e79ac): with WeaponCommon params, whether `out` is non-empty; else empties it.
+    bool m196(sead::SafeString* out) override;
+    // Slot 62 (0x71002ed570): never in CDungeon stages; with a parent actor, a held state (_920 != 0xff) or _921 only
+    // when _fc9 is set; otherwise only without the _f60 link; then the distance check.
+    bool shouldUnload(s32* a1) override;
     bool m197(sead::SafeString* out) override;
     void updateMtxFromPhysics() override;
     bool m218() override;
@@ -521,7 +526,8 @@ public:
     // Constructed by 2E04AC, reset by 2F18D4; m207 copies the owner link for BoomerangMove.
     /* 0xfb8 */ ksys::act::BaseProcLink _fb8;
     /* 0xfc8 */ bool _fc8;
-    /* 0xfc9 */ u8 _fc9[0xfd0 - 0xfc9];  // TODO
+    /* 0xfc9 */ bool _fc9;  // lets a held weapon unload (shouldUnload)
+    /* 0xfca */ u8 _fca[0xfd0 - 0xfca];  // TODO
     /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
     /* 0xfd8 */ bool _fd8;
     /* 0xfd9 */ u8 _fd9[0xfe0 - 0xfd9];

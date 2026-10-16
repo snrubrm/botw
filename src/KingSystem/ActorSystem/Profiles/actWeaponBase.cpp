@@ -519,7 +519,7 @@ void WeaponBase::m208() {
 }
 
 // The return type of this constant-false slot is a guess (bool).
-bool WeaponBase::m196() {
+bool WeaponBase::m196(sead::SafeString* out) {
     return false;
 }
 

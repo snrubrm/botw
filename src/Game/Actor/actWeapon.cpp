@@ -1,6 +1,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actOptionalWeapon.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/System/StageInfo.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/gameUnk_71008ba8d8.h"
@@ -314,6 +315,27 @@ void Weapon::invokedEmitBlinkEffect() {
     auto* object = getMapObject();
     if (!object || !object->getForSaleLink())
         emitItemKirakira_Plus(accessor.getPreviousPos2(), true);
+}
+
+bool Weapon::shouldUnload(s32* a1) {
+    if (ksys::StageInfo::sIsCDungeon)
+        return false;
+    if (hasParentActor() || get920() != 0xff || get921()) {
+        if (!_fc9)
+            return false;
+    } else if (_f60.hasProc()) {
+        return false;
+    }
+    return shouldUnloadBecauseOfDistance(a1);
+}
+
+bool Weapon::m196(sead::SafeString* out) {
+    if (!out)
+        return false;
+    if (getParam()->getRes().mGParamList->getWeaponCommon())
+        return !out->isEmpty();
+    *out = sead::SafeString::cEmptyString;
+    return false;
 }
 
 bool Weapon::m197(sead::SafeString* out) {
