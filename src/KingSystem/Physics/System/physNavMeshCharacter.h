@@ -150,6 +150,10 @@ public:
     // 0x710038ae34: a separate original point-list setter used by EnemyEscapeMove.
     void sub_710038AE34(sead::ObjList<sead::Vector3f>::iterator begin,
                         sead::ObjList<sead::Vector3f>::iterator end);
+    // 0x71003f76a0 (declaration only; defined in the GiantEscapeFromDamageWater TU of the original): the same
+    // point-list setter over a range of an array of eight points (the end compares only the index).
+    void sub_71003F76A0(sead::SafeArray<sead::Vector3f, 8>::iterator begin,
+                        sead::SafeArray<sead::Vector3f, 8>::iterator end);
     // 0x7100f7d1b4 / 0x7100f7d1cc / 0x7100f7d298 (lane4 s29): the list of agent ids (`other->_8->_98`) at _a8 /
     // _d0 (HorseFollow: the rider's character): set the list to one entry, append an entry (returns its
     // index, -1 when full or when another thread appended first), replace the entry at `index` (ignored
