@@ -1,4 +1,6 @@
 #include "Game/Actor/aiUnk_71024f15c0.h"
+#include "Game/Actor/aiUnk_71024f1658.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapDebug.h"
@@ -402,4 +404,29 @@ bool Unk_71024f15c0::Data::sub_7100EEB514(const ksys::map::RailConnectablePoint*
     pos = sead::Vector3f::zero;
     rot = sead::Vector3f::zero;
     return false;
+}
+
+// NON_MATCHING: the original compares _71 with 1 (b.le); ours with 2 (b.lt). Same logic.
+bool Unk_71024f1658::sub_7100EEDDA4(const sead::Vector3f& position) {
+    if (_71 > 1)
+        return sub_7100EED62C(position, nullptr, 0);
+    auto* mgr = ksys::map::PlacementMgr::instance();
+    if (!mgr)
+        return false;
+    auto* point = mgr->sub_71011EA45C(&position, _60);
+    if (point && _30.sub_7100EEB3B4(point)) {
+        x(0.1f);
+        return _30.rail != nullptr;
+    }
+    m2();
+    return false;
+}
+
+// NON_MATCHING: the original compares _71 with 1 (b.le); ours with 2 (b.lt). Same logic.
+bool Unk_71024f1658::sub_7100EEDF78(const sead::Vector3f& position, s32 direction) {
+    if (direction != 1 && direction != -1)
+        return false;
+    if (_71 > 1)
+        return sub_7100EED62C(position, nullptr, direction);
+    return sub_7100EEDDA4(position);
 }

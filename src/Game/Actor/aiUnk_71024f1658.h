@@ -20,8 +20,17 @@ class Unk_71024f1658 : public Unk_71024f15c0 {
 public:
     // 0x7100eec734
     Unk_71024f1658();
-    // 0x7100eedda4: `position` is the actor's position.
-    bool sub_7100EEDDA4(const sead::Vector3f& position);
+    // Slot 5 (0x7100eed470; declaration only): picks a random route point when _71 > 1.
+    virtual bool m5();
+    // 0x7100eedda4 (slot 6): `position` is the actor's position. With route points (_71 > 1) it calls
+    // sub_7100EED62C; otherwise it attaches _30 to the connectable rail point near `position` of route _60.
+    virtual bool sub_7100EEDDA4(const sead::Vector3f& position);
+
+    // 0x7100eed62c (592 B, declaration only; placeholder name). The second argument is passed on to
+    // 0x7100eedac4 (type unknown; callers pass null).
+    bool sub_7100EED62C(const sead::Vector3f& position, void* a3, s32 direction);
+    // 0x7100eedf78 (placeholder name): for direction 1 / -1, sub_7100EED62C with route points, else slot 6.
+    bool sub_7100EEDF78(const sead::Vector3f& position, s32 direction);
     // 0x7100eeee88: a Traveler route string for the current point and direction ("" if the actor
     // has no Traveler parameters or _71 < 2).
     const char* sub_7100EEEE88(ksys::act::Actor* actor);
