@@ -271,6 +271,12 @@ void ScreenAppMap::sub_71009EB0E0() {
     }
 }
 
+// 0x71009f1b18
+void ScreenAppMap::sub_71009F1B18(sead::Vector2f* v) const {
+    v->normalize();
+    *v *= _3c48 / _3c4c;
+}
+
 // 0x71009f1b9c
 void ScreenAppMap::sub_71009F1B9C() {
     if (wm::sub_7100A9D800())

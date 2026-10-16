@@ -2220,6 +2220,8 @@ public:
     // 0x71009eb0e0 (placeholder name; called by m94): toggles the UiSubsys1 map flags 0x38c8 / 0x6e4 and plays the
     // animator at 0x3630 forwards or backwards
     void sub_71009EB0E0();
+    // 0x71009f1b18 (placeholder name): normalises `v` and scales it by _3c48 / _3c4c
+    void sub_71009F1B18(sead::Vector2f* v) const;
     // 0x71009f1b9c (placeholder name): sets the animator at 0x3c88 to its max / min end and shows the temperature
     void sub_71009F1B9C();
     // 0x71009f1ca4 (placeholder name): plays the animator at 0x3638 and shows the time in `layout`
@@ -2295,7 +2297,10 @@ public:
     u8 _3bf0[0x3c00 - 0x3b18 - sizeof(Unk_7102481e30)];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
-    u8 _3c10[0x3c60 - 0x3c10];
+    u8 _3c10[0x3c48 - 0x3c10];
+    /* 0x3c48 */ f32 _3c48;
+    /* 0x3c4c */ f32 _3c4c;
+    u8 _3c50[0x3c60 - 0x3c50];
     /* 0x3c60 */ f32 _3c60;  // the temperature shown in T_Temp_00
     /* 0x3c64 */ u8 _3c64;
     /* 0x3c65 */ u8 _3c65;
