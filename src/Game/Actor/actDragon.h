@@ -86,7 +86,9 @@ public:
     /* 0x50 */ sead::Vector3f _50;
     /* 0x5c */ sead::Vector3f _5c;
     /* 0x68 */ sead::FixedSafeString<32> _68;
-    /* 0xa0 */ u64 _a0;
+    /* 0xa0 */ u32 _a0;
+    // m0 resets it to 0.
+    /* 0xa4 */ f32 _a4;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102357168, 0xa8);
 

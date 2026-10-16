@@ -28,6 +28,8 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkInfoData.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -1149,6 +1151,153 @@ void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor) {
 
 // NON_MATCHING: the original keeps the reaction kind in a stack slot (stored by each branch and reloaded for
 // xlinkEventOn, like a SEAD_ENUM value); ours keeps it in a register.
+void sub_7100734E68(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return;
+    for (auto& weapon : weapons->mWeapons) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (weapon.link.hasProc())
+            ksys::act::acquireActor(&weapon.link, &accessor);
+        if (sub_71002F0258(accessor) == 4) {
+            if (weapon.link.hasProc())
+                ksys::act::acquireActor(&weapon.link, out);
+            return;
+        }
+    }
+}
+
+// NON_MATCHING: the target kind branches and the profile string tests are laid out differently.
+void sub_7100735044(DamageReactionRequest* request, ksys::act::Actor* actor,
+                    const DamageReactionInfo* info, bool a3, bool a4, bool a5, bool a6) {
+    const char* user = ksys::act::InfoData::instance()->getXLinkUser(actor->getName().cstr());
+    const auto iter = ksys::xlink::InfoData::instance()->getIter(user);
+    const bool tiny_enemy =
+        ksys::xlink::InfoData::instance()->getXLinkSettingIsReactionTargetTinyEnemy(iter);
+    const bool enemy = ksys::xlink::InfoData::instance()->getXLinkSettingIsReactionTargetEnemy(iter);
+    const bool object = ksys::xlink::InfoData::instance()->getXLinkSettingIsReactionTargetObject(iter);
+    const bool tag_fa5c683e = ksys::act::hasTag(actor, 0xfa5c683e);
+
+    s32 target;
+    if (tiny_enemy) {
+        target = 4;
+    } else if (object) {
+        target = 5;
+    } else {
+        const bool tag_319c67f0 = ksys::act::hasTag(actor, 0x319c67f0);
+        if (enemy || tag_319c67f0) {
+            target = tag_319c67f0 ? 9 : 3;
+        } else {
+            bool other = true;
+            if (ksys::act::isEnemyProfile(actor) || ksys::act::isPreyOrSwarm(actor) ||
+                ksys::act::isHorseProfile(actor)) {
+                other = tag_fa5c683e;
+            } else if (actor->getProfile() == "CapturedActor") {
+                other = (ksys::act::hasTag(actor, 0xe0194f30) && info->_24) || tag_fa5c683e;
+            }
+            if (!other)
+                target = 3;
+            else if (ksys::act::isPlayerProfile(actor))
+                target = 1;
+            else if (tag_fa5c683e || ksys::act::isNPCProfile(actor))
+                target = 2;
+            else if (actor->getName() == "RemainsWind_Barrier_A_01")
+                target = 8;
+            else
+                target = 5;
+        }
+    }
+
+    s32 kind;
+    if (info->_0 == 0x12) {
+        kind = 7;
+    } else if (info->_1e) {
+        kind = 6;
+    } else {
+        switch (info->_4) {
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 14:
+            kind = 4;
+            break;
+        case 13:
+            kind = 5;
+            break;
+        default:
+            if (info->_25)
+                kind = 4;
+            else if (info->_0 == 3)
+                kind = 3;
+            else
+                kind = info->_21 ? 2 : 1;
+            break;
+        }
+    }
+
+    s32 reaction = 3;
+    if (!(a3 && a4) && !ksys::act::hasTag(actor, 0xfa5c683e) && (info->_8 > 0 || info->_4 > 0x1c) &&
+        !(info->_24 && actor->getProfile() == "CapturedActor")) {
+        if (info->_4 == 0x17) {
+            reaction = 7;
+        } else if (info->_18) {
+            reaction = 9;
+        } else if (info->_1f) {
+            reaction = 4;
+        } else if (info->_1a) {
+            reaction = 5;
+        } else if (info->_19) {
+            reaction = 6;
+        } else if (info->_26) {
+            reaction = 8;
+        } else if (info->_0 == 0x10) {
+            reaction = 11;
+        } else if (info->_0 == 4) {
+            reaction = 10;
+        } else {
+            switch (info->_4) {
+            case 21:
+            case 22:
+            case 27:
+            case 30:
+            case 31:
+            case 34:
+                reaction = 2;
+                break;
+            default:
+                reaction = 1;
+                break;
+            }
+        }
+    }
+
+    s32 a4_kind = info->_22 || a6 ? 3 : 0;
+    if (!a5 && (info->_22 || a6))
+        a4_kind = ksys::act::hasTag(actor, 0x17044493) ? 2 : 1;
+
+    if (info->_27)
+        request->_c4 |= 0x10;
+    if (auto* life = actor->getLife()) {
+        if (*life <= 0 && !(actor->getProfile() == "CapturedActor"))
+            request->_c4 |= 1;
+    }
+
+    request->_94 = reaction;
+    request->_98 = target;
+    request->_90 = kind;
+    request->_a4 = a4_kind;
+    request->_b0 = info->_10;
+    if (info->_28)
+        request->_c4 |= 0x20;
+    else
+        request->_c4 &= ~0x20;
+    if (info->_29)
+        request->_c4 |= 0x40;
+    else
+        request->_c4 &= ~0x40;
+}
+
 bool sub_71007357A8(ksys::act::Actor* actor, const DamageReactionInfo* info) {
     if (sub_71007A2604(actor) && sub_71007A255C(actor, 0)->sub_71007A1F68(0x20))
         return true;

@@ -52,6 +52,9 @@ struct DamageManagerUnk220 {
     // _294 from the StasisMgr constants, else fades it by 0.7 per frame (VFR delta frame; -1 when done); sets the model's
     // damage colour to the level (capped at 2.0).
     void sub_71006DA02C(gsys::Model* model, bool reset);
+    // 0x71006da8e4 (placeholder name; called by StasisMgr::m0 for the target's model): ends a running hit
+    // flash (_294 = -1) and clears the model's damage colour.
+    void sub_71006DA8E4(gsys::Model* model);
 
     // 0x71006d99a8 (called by StasisMgr::__auto5, which allocates it for DamageManager::_220).
     DamageManagerUnk220();

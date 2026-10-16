@@ -34,6 +34,9 @@ public:
     // 0x7100f1dca8: applies the model opacity to each model unit, with the fade flag.
     void sub_7100F1DCA8(gsys::Model* model, f32 opacity, bool fade);
     void sub_7100F1CEF4(gsys::Model* model, f32 value);
+    // 0x7100f1d9b4 (declaration only; lane4 s106): sets uk_special_effect_A of every material to
+    // fmodf(value, Graphics +0xf9c), negated with `negate`. StasisMgr::m0 passes 0.0 and 0x7101da2328.
+    void sub_7100F1D9B4(gsys::Model* model, f32 value, bool negate);
 
     // 0x7100f1ece8: clears bit 2 of the flags halfword (+0x12) of every element of the model's list.
     void sub_7100F1ECE8(gsys::Model* model);

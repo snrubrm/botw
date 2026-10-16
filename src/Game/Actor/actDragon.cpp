@@ -143,6 +143,32 @@ bool Dragon::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
 }
 
+// NON_MATCHING: the bone matrix lives at a different stack offset (regalloc / stack layout).
+void Unk_7102357168::m0() {
+    for (s32 i = 0; i < numParts; ++i)
+        parts[i].handle._68 = sead::Matrix34f::ident;
+    _a4 = 0;
+    if (!actor)
+        return;
+
+    sead::Matrix34f mtx;
+    const auto& key = _10[0].getKey();
+    actor->getModel()->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+        &mtx, key.bone_index);
+    sead::Vector3f x_axis = mtx.getBase(0);
+    sead::Vector3f y_axis = mtx.getBase(1);
+    sead::Vector3f z_axis = mtx.getBase(2);
+    x_axis.normalize();
+    y_axis.normalize();
+    z_axis.normalize();
+    _44 = sead::Vector3f::zero;
+    _38 = mtx.getTranslation() + x_axis * 4.0f;
+    _5c = sead::Vector3f::zero;
+}
+
+// TODO: not decompiled yet (W, 3360 B). Defined so that the vtable (keyed on m0) links.
+void Unk_7102357168::m1() {}
+
 // NON_MATCHING: the second bone key / model loads are scheduled differently.
 void Unk_7102357188::m0() {
     for (s32 i = 0; i < numParts; ++i)

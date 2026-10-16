@@ -4,8 +4,14 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/Mii/miiUMii.h"
 
 namespace uking::act {
+
+bool NPC::isGoron(ksys::act::Actor* actor) {
+    return actor && actor->getUMii() &&
+           *actor->getUMii()->getBody().race == ksys::mii::UMii::Body::Race_Goron;
+}
 
 bool NPC::isZora(ksys::act::Actor* actor) {
     return isZora_(actor);

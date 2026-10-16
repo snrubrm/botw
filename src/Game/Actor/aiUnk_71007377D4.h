@@ -15,6 +15,7 @@ namespace ksys::act {
 class AttackSensor;
 }
 #include "KingSystem/Physics/System/physRayCast.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::act {
 class Actor;
@@ -512,6 +513,50 @@ void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor);
 /// link at 0xc8, flags at 0xd8 / 0xd9; NPC::_10e8) to `result`; without `result` it is passed to
 /// Reaction::__auto6 (0x7100ec10b8), whose result is returned.
 bool sub_7100733418(ksys::act::Actor* actor, const DamageReactionInfo* info, void* result);
+/// The 0xc8-byte reaction request sub_7100733418 builds on the stack and passes to Reaction::__auto6 (0x7100ec10b8)
+/// (name is a guess; the 0xe0-byte result copy adds a BaseProcLink at 0xc8 and two bools). Fields from the
+/// initialisation in sub_7100733418, sub_7100735044 and Reaction::__auto6.
+struct DamageReactionRequest {
+    /* 0x00 */ sead::Matrix34f mtx;
+    /* 0x30 */ f32 _30;
+    /* 0x34 */ f32 _34;
+    /* 0x38 */ f32 _38;
+    /* 0x3c */ f32 _3c;
+    /* 0x40 */ f32 _40;
+    /* 0x44 */ f32 _44;
+    /* 0x48 */ f32 _48;
+    /* 0x4c */ f32 _4c;
+    /* 0x50 */ u32 _50;
+    /* 0x54 */ u32 _54;
+    /* 0x58 */ u32 _58;
+    /* 0x60 */ ksys::phys::MaterialMask _60;
+    /* 0x78 */ ksys::phys::MaterialMask _78;
+    // Damage kind (sub_7100735044; Reaction::__auto6 tests 1).
+    /* 0x90 */ s32 _90;
+    // Reaction kind (sub_7100735044).
+    /* 0x94 */ s32 _94;
+    // Target kind from the actor's xlink settings and profile (sub_7100735044; Reaction::__auto6 tests 5).
+    /* 0x98 */ s32 _98;
+    /* 0x9c */ s32 _9c;
+    /* 0xa0 */ s32 _a0;
+    /* 0xa4 */ s32 _a4;
+    /* 0xa8 */ u64 _a8;
+    // DamageReactionInfo::_10 (attacker link).
+    /* 0xb0 */ ksys::act::BaseProcLink* _b0;
+    /* 0xb8 */ ksys::act::BaseProc* _b8;
+    /* 0xc0 */ s32 _c0;
+    // Bit 1 / 2: Reaction::__auto6 passes the request on (0x7100ec313c / 0x7101284954).
+    /* 0xc4 */ u8 _c4;
+};
+KSYS_CHECK_SIZE_NX150(DamageReactionRequest, 0xc8);
+
+/// 0x7100735044 (placeholder name; called by sub_7100733418): fills the kinds and flags of `request` from
+/// `info`, the actor's xlink reaction settings, tags and profile, and four flags computed by the caller.
+void sub_7100735044(DamageReactionRequest* request, ksys::act::Actor* actor,
+                    const DamageReactionInfo* info, bool a3, bool a4, bool a5, bool a6);
+/// 0x7100734e68 (placeholder name; called by sub_7100733418): links `out` to the first of the actor's
+/// weapons whose weapon type (sub_71002F0258) is 4; leaves it unset when there is none.
+void sub_7100734E68(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor);
 /// 0x71007357a8 (placeholder name): xlink damage event (kind from tags and `info`) and Damage / DamageDead sound;
 /// second reaction step for damage classified with
 /// flag 2 by sub_7100732864 (Horse::m149); returns true.

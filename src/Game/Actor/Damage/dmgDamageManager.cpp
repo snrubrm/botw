@@ -30,6 +30,8 @@ namespace uking::act {
 const f32 sUnk_7101E7C2BC = 24.0f;
 const sead::Vector3f sUnk_7101E7C2C0{1.0f, 0.15f, 0.1f};
 const f32 sUnk_7101E7C2D0 = 1.0f;
+// A zero colour in .rodata, loaded by address in DamageManagerUnk220::sub_71006DA8E4 (0x71006da8e4).
+static const sead::Color4f sUnk_7101E7B56C{0.0f, 0.0f, 0.0f, 0.0f};
 
 DamageManager::DamageManager(ksys::act::Actor* actor)
     : DamageManagerBase(actor), _84(actor->getMtx()(1, 3)), _d8(actor, 0x800003e), _128(actor, 0x800003f),
@@ -236,6 +238,13 @@ void DamageManagerUnk220::sub_71006DA02C(gsys::Model* model, bool reset) {
     }
     const sead::Color4f color{value, value, value, 0.0f};
     Unk_710260af28::instance()->sub_7100F1E2F4(model, color);
+}
+
+void DamageManagerUnk220::sub_71006DA8E4(gsys::Model* model) {
+    if (_294 > 0.0f) {
+        _294 = -1.0f;
+        Unk_710260af28::instance()->sub_7100F1E2F4(model, sUnk_7101E7B56C);
+    }
 }
 
 f32 DamageManager::getStasisBlowPowerRatio() {

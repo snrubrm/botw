@@ -312,6 +312,9 @@ public:
     ai::RootAi* getRootAi() const { return mRootAi; }
     const ActorParam* getParam() const { return mActorParam; }
     map::Object* getMapObject() const { return mMapObject; }
+    // Placeholder name: StasisMgr::m0 (0x7100680bb4) stores the player's StopTimerCancelDeleteWaitTime in
+    // _718 when the actor leaves stasis.
+    void setField718(f32 value) { _718 = value; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     f32 get6f4() const { return _6f4; }
     as::ASList* getASList() const { return mASList; }

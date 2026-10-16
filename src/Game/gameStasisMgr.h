@@ -12,9 +12,14 @@
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace ksys::act {
 class Actor;
+}
+
+namespace ksys::map {
+struct ObjectLinkArray;
 }
 
 namespace uking {
@@ -24,7 +29,8 @@ namespace uking {
 // virtual destructor. The StasisMgr constructor installs this interface in ActorSystem.
 class Unk_710243c7c8 {
 public:
-    virtual s32 m0(ksys::act::Actor* actor, void* request) = 0;
+    // Handles the stasis messages 0x3000003 - 0x3000006 for `actor` (0 if not handled).
+    virtual s32 m0(ksys::act::Actor* actor, const ksys::Message* message) = 0;
     // void: StasisMgr's override (0x71006812d8) returns whatever the transceiver call left.
     virtual void sendMessage(ksys::act::Actor* actor, ksys::MessageType type,
                              bool on_processing_thread) = 0;
@@ -47,7 +53,7 @@ public:
     // 0x7100681bac.
     int handleMessage(const ksys::Message* message) override { return 1; }
     // Primary slots 3-6 (0x7100680bb4, 0x71006818fc, 0x7100681a94, 0x71006809f0).
-    s32 m0(ksys::act::Actor* actor, void* request) override;
+    s32 m0(ksys::act::Actor* actor, const ksys::Message* message) override;
     // Emits "BitaLocked_Trace" into a free effect slot and places it at `mtx`; returns the slot.
     s32 m2(const sead::Matrix34f& mtx) override;
     s32 m3(const sead::Matrix34f& mtx, s32 index) override;
@@ -63,9 +69,9 @@ public:
     struct Entry {
         /* 0x000 */ ksys::act::BaseProcLink link;
         /* 0x010 */ act::DamageManagerUnk220 damage;
-        // m0 kills _2a8 when the target is released.
-        /* 0x2a8 */ xlink2::HandleELink _2a8;
-        /* 0x2b8 */ xlink2::HandleELink _2b8;
+        // m0 kills the ELink event when the target is released; 0x710067ffbc tests both handles with
+        // Unk_71012419b4::sub_7101241B6C (0x7101241b6c called on entry + 0x2a8).
+        /* 0x2a8 */ Unk_71012419b4 _2a8;
         // m4 returns its address for the entry linked to the actor.
         /* 0x2c8 */ xlink2::HandleELink _2c8;
         /* 0x2d8 */ sead::CriticalSection mCS;
@@ -75,6 +81,14 @@ public:
     // 0x710067f9a8 (CSV StasisMgr::__auto0; placeholder name): clears the state, the entries (link,
     // effect, damage records) and the effects.
     void sub_710067F9A8();
+    // 0x710067fb80 (CSV name): kills the effects of targets whose map object is being revived, updates
+    // the others' effects, counts the stasis timer _48 down (unless the active event flow has
+    // byte3FlagIsSet) and sends the countdown messages (0x300000a / 0x300000b, 0x3000004 at zero).
+    void updateStasisCountdownStuff();
+    // 0x710067ffbc (placeholder name; does not use `this`: the caller leaves x0 unset): places the
+    // target's effects at the actor (scale from DamageManagerUnk220::sub_71006D9B30) and fades the
+    // first one out while the actor has flag 18.
+    void sub_710067FFBC(Entry* entry);
     // 0x7100680368 (placeholder name): releases every target (message 0x3000004), kills their
     // effects and resets the countdown state from the player's stop timer reload time.
     void sub_7100680368(bool on_processing_thread);
@@ -85,6 +99,15 @@ public:
     // 0x7100680ac8 (placeholder name; does not use `this`): links `entry` to `proc`, clears its
     // damage records and kills its first effect.
     void sub_7100680AC8(Entry* entry, ksys::act::BaseProc* proc);
+    // 0x7100681368 (placeholder name; m0 passes the target's map object links to self and constraint links):
+    // sends `type` to the dynamic actors on the constraint links (Fixed .. RackAndPinion, except Pulley and
+    // CogWheel) other than ropes; for types other than 0x3000005 / 0x3000006 only to actors whose
+    // ActorFlag2 bit 6 differs from `flag`.
+    void sub_7100681368(ksys::map::ObjectLinkArray* links, ksys::MessageType type, bool flag);
+    // 0x71006815fc (CSV StasisMgr::__auto3; placeholder name; called by DamageManagerUnk220 0x71006d9c34 for a
+    // new stasis hit): sets xlink property 4 of the reaction actor to the actor's stasis blow power ratio and
+    // re-emits "BitaLocked_Vector" for the entry whose damage records are `damage`.
+    void sub_71006815FC(ksys::act::Actor* actor, act::DamageManagerUnk220* damage);
     // 0x7100681570 (CSV StasisMgr::__auto2): _44 * _58, at least 0.
     f32 sub_7100681570() const;
     // 0x7100681588 (CSV StasisMgr::__auto5): the damage records of the entry linked to `actor`.
@@ -103,7 +126,7 @@ public:
     /* 0x044 */ f32 _44 = 0;
     /* 0x048 */ f32 _48 = 0;
     /* 0x04c */ f32 _4c = 0;
-    /* 0x050 */ f32 _50;
+    /* 0x050 */ s32 _50;  // compared with the timer _48 truncated to an int
     /* 0x054 */ f32 _54 = 1.0f;
     /* 0x058 */ f32 _58 = 1.0f;
     /* 0x060 */ sead::SafeArray<Entry, 16> mEntries{};
