@@ -193,6 +193,11 @@ bool UiSubsys1::is898Positive() const {
     return _898 > 0;
 }
 
+// 0x7100965ea8
+s32 UiSubsys1::sub_7100965EA8() const {
+    return _84c;
+}
+
 // 0x7100965fec
 f32 UiSubsys1::sub_7100965FEC() const {
     static const sead::SafeArray<f32, 4> sValues{{6.0f, 7.5f, 8.5f, 9.5f}};
@@ -431,7 +436,7 @@ void UiSubsys1::sub_7100966684(const sead::Vector3f* pos) {
 
 // 0x7100965e58
 void* UiSubsys1::sub_7100965E58() {
-    return &_84c[0x850 - 0x84c];
+    return _850;
 }
 
 f32 UiSubsys1::sub_7100965EE0(f32 angle) const {

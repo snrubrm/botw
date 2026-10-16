@@ -1295,6 +1295,8 @@ public:
     bool is898Zero() const;
     bool is898EqualTo3() const;
     bool is898Below3() const;
+    // 0x7100965ea8 (placeholder name): _84c
+    s32 sub_7100965EA8() const;
     // 0x7100959438 (placeholder name; defined in uiMapMarker.cpp next to its address neighbours): whether `entry` is _698
     bool sub_7100959438(const UiSubsys1Entry* entry) const;
     bool is898Positive() const;
@@ -1407,8 +1409,9 @@ private:
     u8 _804[0x808 - 0x804];
     /* 0x808 */ sead::CriticalSection _808;
     /* 0x848 */ s32 _848;
+    /* 0x84c */ s32 _84c;  // read by sub_7100965EA8
     // 0x850 .. 0x870: a 0x20 byte object (UiSubsys1::sub_7100965E58 returns its address)
-    u8 _84c[0x870 - 0x84c];
+    u8 _850[0x870 - 0x850];
     // The map view: position, scale, rotation (degrees) and the scale factors of the map widget.
     /* 0x870 */ sead::Vector2f _870;
     /* 0x878 */ f32 _878;

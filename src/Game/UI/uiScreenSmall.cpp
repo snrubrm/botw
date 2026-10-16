@@ -104,6 +104,25 @@ void ScreenPauseMenuUnk3a00::sub_71009B01C4(f32 x) {
     pane->SetPosition(position);
 }
 
+// 0x71009aff68
+void ScreenPauseMenuUnk3a00::sub_71009AFF68() {
+    _130 = -1;
+}
+
+// 0x71009b01e4
+void ScreenPauseMenuUnk3a00::sub_71009B01E4(f32 dx) {
+    auto* pane = mLayout->mPane;
+    nn::util::Float3 position = pane->GetPosition();
+    position.x += dx;
+    position.z = 0.0f;
+    pane->SetPosition(position);
+}
+
+// 0x71009b020c
+void ScreenPauseMenuUnk3a00::sub_71009B020C(bool visible) {
+    mLayout->mPane->SetVisible(visible);
+}
+
 // 0x71009b0190
 void ScreenPauseMenuUnk3a00::sub_71009B0190(s32 index, bool a2) {
     if (a2)
