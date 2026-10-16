@@ -2766,6 +2766,16 @@ void Player::sub_71008695A8(const sead::Vector3f& offset) {
     mASList->_b0->sub_7100D68544(&mtx, &_19f0[1]);
 }
 
+// NON_MATCHING: register allocation (as in sub_71008695A8) and vector lane moves in the multiply.
+void Player::sub_7100869634(const Unk1& angle) {
+    sead::Matrix34f mtx;
+    mASList->_b0->sub_7100D68464(&mtx, &_19f0[1]);
+    sead::Matrix34f rot;
+    rot.makeRIdx(0, angle.value, 0);
+    mtx.setMul(mtx, rot);
+    mASList->_b0->sub_7100D68544(&mtx, &_19f0[1]);
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act {

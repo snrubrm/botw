@@ -349,6 +349,8 @@ public:
     void sub_7100877BD8();
     // 0x7100877ca4: same with the anim movement offset by _1fe0 towards the angle _1c98 (relative to x_5()).
     void sub_7100877CA4();
+    // 0x7100869634: rotates the AS bone matrix of key 1 by `angle` around Y (PlayerSwitchHang::enter_).
+    void sub_7100869634(const Unk1& angle);
     // 0x7100884fcc (lane3 s71; declared only): stores the angle index of sub_710087386C() in _1c68 and
     // the result of sub_7100869814 in _d1c, then ASList::x_6(9, 0, ...) with the angle difference from x_5().
     void sub_7100884FCC();
