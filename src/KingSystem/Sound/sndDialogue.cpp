@@ -32,13 +32,7 @@ void Unk_710104e5b4::sub_710104F1B8(s32 state) {
         fx->sub_710105126C();
     _30 = state;
     _2a0.set(1);
-    sead::ScopedLock<sead::CriticalSection> lock(&mHandleCS);
-    for (auto it = mHandles.robustBegin(); it != mHandles.robustEnd(); ++it) {
-        if (!it->isActive())
-            mHandles.erase(&*it);
-        else if (_2a0.isOn(1))
-            sub_710104FB40(&*it);
-    }
+    updateHandles();
 }
 
 xlink2::HandleSLink Unk_710104e5b4::sub_710104F30C(const sead::SafeString& label) {
@@ -91,6 +85,34 @@ void Unk_710104e5b4::sub_710104F4A0() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
+// inline-only in the original; name is a guess (the same locked loop is inlined in 0x710104e964, 0x710104ee64
+// and 0x710104f1b8): drops the handles whose event is gone and refreshes the others while bit 0 of _2a0 is set.
+inline void Unk_710104e5b4::updateHandles() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mHandleCS);
+    for (auto it = mHandles.robustBegin(); it != mHandles.robustEnd(); ++it) {
+        if (!it->isActive())
+            mHandles.erase(&*it);
+        else if (_2a0.isOn(1))
+            sub_710104FB40(&*it);
+    }
+}
+
+void Unk_710104e5b4::sub_710104E964() {
+    auto* user = _28;
+    user->preCalc();
+    user->postCalc();
+    sub_710104EA7C();
+    updateHandles();
+    if (_2a0.isOn(1)) {
+        sub_710104EBBC();
+        _2a0.reset(1);
+    }
+    if (_b8 != 0)
+        --_b8;
+    mRemainsDucking.calc();
+    _294.calc();
+}
+
 void Unk_710104e5b4::sub_710104E92C(sead::Heap* heap) {
     _28 = sub_710105E3D0("ExpressionSound", heap, nullptr, nullptr, nullptr);
 }
@@ -108,13 +130,7 @@ void Unk_710104e5b4::sub_710104EE64() {
         fx->sub_7101051154(sUnk_71025024F0);
     _30 = 2;
     _2a0.set(1);
-    sead::ScopedLock<sead::CriticalSection> lock(&mHandleCS);
-    for (auto it = mHandles.robustBegin(); it != mHandles.robustEnd(); ++it) {
-        if (!it->isActive())
-            mHandles.erase(&*it);
-        else if (_2a0.isOn(1))
-            sub_710104FB40(&*it);
-    }
+    updateHandles();
 }
 
 void Unk_710104e5b4::sub_710104EE50() {

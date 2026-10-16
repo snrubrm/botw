@@ -787,6 +787,12 @@ public:
     void sub_710104FD4C();
     void sub_710104FD38(const xlink2::HandleSLink& handle);
     void sub_710104EA7C();
+    // 0x710104e964: per-frame update (user instance calc, volume state, handles, duckers).
+    void sub_710104E964();
+    // 0x710104ebbc (declared only)
+    void sub_710104EBBC();
+    // inline-only (see sndDialogue.cpp)
+    inline void updateHandles();
     // 0x710104e92c: creates the "ExpressionSound" SLink user instance _28 on `heap`.
     void sub_710104E92C(sead::Heap* heap);
     void sub_710104EE50();
