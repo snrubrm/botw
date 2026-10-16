@@ -7,3 +7,5 @@
 // (`_8.sub_7100FF7BE0` releases one reference of a BGM kind), BattleBgmRequestFinishTag::calc_ (slot m10),
 // HorseRiddenAI's helper 0x7100ffdd38 and XLink::calc. Placeholder name.
 ksys::snd::Unk_71024fca78* sub_7100FFD79C();
+// 0x7100ffeaf4: m11 of that controller, or null (placeholder name).
+void* sub_7100FFEAF4();

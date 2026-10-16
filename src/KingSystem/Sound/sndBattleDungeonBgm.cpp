@@ -1,6 +1,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "Game/Actor/aiUnk_7100FFD79C.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/System/StageInfo.h"
@@ -566,6 +567,19 @@ void Unk_710260f1f8::m8(const Unk_BgmControllerM8Arg& arg) {
 }
 
 }  // namespace ksys::snd
+
+ksys::snd::Unk_71024fca78* sub_7100FFD79C() {
+    auto* sound = ksys::snd::SoundMgr::instance();
+    if (!sound || !sound->_30)
+        return nullptr;
+    return sound->_30->_48;
+}
+
+void* sub_7100FFEAF4() {
+    if (auto* controller = sub_7100FFD79C())
+        return controller->m11();
+    return nullptr;
+}
 
 Unk_71024fd010::~Unk_71024fd010() = default;
 
