@@ -25,6 +25,20 @@ u32 sub_7100F7F92C() {
     }
 }
 
+u8 NavMeshCharacter::sub_7100F74F94(const NavMeshCharacter* nav) {
+    if (!nav)
+        return 0;
+    return nav->_1d8;
+}
+
+bool NavMeshCharacter::sub_7100F74FA0(s32 type, s32 other) {
+    const NavMeshCharacterType character_type = type;
+    if (character_type == NavMeshCharacterType::Player)
+        return true;
+    return int(character_type) != NavMeshCharacterType::SmallAnimal &&
+           other == NavMeshCharacterType::SmallAnimal;
+}
+
 void NavMeshCharacter::init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai) {
     sub_7100F75680(arg, heap, havok_ai);
 }
