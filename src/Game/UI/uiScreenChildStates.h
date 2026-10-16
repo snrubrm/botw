@@ -37,6 +37,9 @@ public:
     void sub_71009C9450(f32 x, f32 y);
     void sub_71009C9540(s32 value);
     void sub_71009C9554(s32 value);
+    // 0x71009c9468 (placeholder name): sets _1b0 to the heat / cold resistance values of the two levels (floored and
+    // clamped to -40 .. 80) and marks it (bit 0x2)
+    void sub_71009C9468(s32 hot_level, s32 cold_level);
     // 0x71009c9568 / 0x71009c9580 (placeholder names): set bit 0x10 (unless _1a8) / 0x20 of _1c4
     void sub_71009C9568();
     void sub_71009C9580();

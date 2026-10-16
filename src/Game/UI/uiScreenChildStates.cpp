@@ -1165,6 +1165,15 @@ void Unk_710247e0c8::sub_71009C9450(f32 x, f32 y) {
     _1c4 |= 2;
 }
 
+// NON_MATCHING: the original floors through an int / float round trip with a negative fix-up (our
+// sead::Mathf::floor compares the float), and the flag store is scheduled after the second call
+// 0x71009c9468
+void Unk_710247e0c8::sub_71009C9468(s32 hot_level, s32 cold_level) {
+    _1b0.x = sead::Mathi::clamp(sead::Mathf::floor(getResistHotVal(hot_level)), -40, 80);
+    _1c4 |= 2;
+    _1b0.y = sead::Mathi::clamp(sead::Mathf::floor(getResistColdVal(cold_level)), -40, 80);
+}
+
 // 0x71009c9540
 void Unk_710247e0c8::sub_71009C9540(s32 value) {
     _1b8 = value;
