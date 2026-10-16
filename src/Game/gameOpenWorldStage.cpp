@@ -1,4 +1,9 @@
 #include "Game/gameOpenWorldStage.h"
+#include <gfx/seadCamera.h>
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
+#include "Game/gameRadarMgr.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/System/StageInfo.h"
 #include <limits>
 #include "Game/gameOpenWorldStageMessage.h"
 #include "Game/gameStage.h"
@@ -68,6 +73,24 @@ void OpenWorldStage::preCalc() {
     ksys::phys::HavokAI::instance()->_48->x(&pos);
     if (mDividedMeshShapeMgr)
         mDividedMeshShapeMgr->setPlayerPos(mPlayer->getMtx().getTranslation());
+}
+
+void OpenWorldStage::calc() {
+    if (ksys::map::PlacementMgr::instance()) {
+        if (const auto* camera = ksys::CameraMgr::instance()->getLookAtCamera()) {
+            if (auto* navi = ksys::map::PlacementMgr::instance()->mPlacementNavi)
+                navi->_34 = camera->getAt() - camera->getPos();
+        }
+    }
+    if (auto* mgr = AutoPlacementMgr::instance(); mgr && !ksys::StageInfo::sIsAocField)
+        mgr->calc();
+    if (auto* mgr = RadarMgr::instance())
+        mgr->calc();
+
+    sead::Vector3f pos = mPlayer->getMtx().getTranslation();
+    pos.y += 1.5f;
+    ksys::tera::Terrain::instance()->sub_710114DE4C()->sub_7101150A7C(&pos, 2.0f, 0.0f);
+    mTransceiver.mReceiver.mMachine.run();
 }
 
 void OpenWorldStage::postCalc() {

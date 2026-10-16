@@ -45,6 +45,8 @@ public:
     bool sub_7100659E40(ksys::act::Actor* actor, const sead::SafeString& actor_name, int count,
                         u32 is_box);
     void sub_7100659F94(ksys::act::Actor* actor);
+    // 0x7100655c0c (CSV AutoPlacementMgr::calc; declaration only)
+    void calc();
     // 0x7100655568 (CSV stopThread)
     void stopThread();
     // 0x7100659158 (CSV __auto10; placeholder name): placement type of the flow `idx` (near flows with `near_flow`).

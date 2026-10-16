@@ -12,6 +12,9 @@ public:
     static RadarMgr* instance() { return sInstance; }
     static RadarMgr* sInstance;
 
+    // 0x710067bfe8 (CSV RadarMgr::calc; declaration only)
+    void calc();
+
     u8 _0[0x52];
     /* 0x52 */ bool _52;
     u8 _53[0x6c - 0x53];
