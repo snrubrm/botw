@@ -333,6 +333,9 @@ public:
 // 0x710260de68). Members known from createInstance / init / the dtor: NavMeshSystemThread* at +0x38,
 // NavMeshQueryRequestPool* at +0x40, a CriticalSection at +0x50, two sead::Events at +0x90 / +0xc8,
 // three offset lists at +0x100 / +0x118 / +0x130. Only what callers use is declared so far.
+// 0x7101ec27f8 (lane4 s102; GOT-loaded f32 3.5): default radius of HavokAI::Unk2. Declared only.
+extern const f32 sUnk_7101ec27f8;
+
 class HavokAI {
     SEAD_SINGLETON_DISPOSER(HavokAI)
     HavokAI();
@@ -348,6 +351,25 @@ public:
         sead::Vector3f _24{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
         u16 _30 = 0;
     };
+
+    // Placeholder (lane4 s102): input of sub_7100F86324, built on the stack by 0x710072edfc. Defaults from
+    // that function: tolerance -1, _10 = Vector3f::zero, dir = Vector3f::ex, distance -1, radius from the
+    // global 3.5 at 0x7101ec27f8. `from` and `_30` have no default; `_34` is not written by the caller
+    // (sub_7100F86324 passes its address on to 0x7100f86334).
+    struct Unk2 {
+        sead::Vector3f from;
+        f32 tolerance = -1.0f;
+        sead::Vector3f _10 = sead::Vector3f::zero;
+        sead::Vector3f dir = sead::Vector3f::ex;
+        f32 distance = -1.0f;
+        f32 radius = sUnk_7101ec27f8;
+        u8 _30;
+        u32 _34;
+    };
+    static_assert(sizeof(Unk2) == 0x38);
+
+    // 0x7100f86324 (declared only, lane4 s102): forwards to 0x7100f86334 with `&in._34` added; true if it hit.
+    bool sub_7100F86324(NavMeshCharacter* nav, const Unk2& in, Unk1* result);
 
     // 0x7100f86174: a navmesh query from `from` towards `to` (`a4`: a height
     // tolerance); true if it hit.

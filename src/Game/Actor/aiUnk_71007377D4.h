@@ -229,8 +229,8 @@ bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
 /// 0x710072fbd4 (lane3 s36; declared only): probe from `from` towards `to` (like sub_710072FAB0 with two
 /// points); AnmDirectionMove::sub_7100095AA0 passes (0, -1, actor, from, to, &to, -1) and reads `to`
 /// back as the position the probe reports. Placeholder name; parameter types guessed.
-bool sub_710072FBD4(f32 a1, f32 a2, ksys::act::Actor* actor, const sead::Vector3f& from,
-                    const sead::Vector3f& to, sead::Vector3f* out_pos, s32 a6);
+bool sub_710072FBD4(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 extra, f32 a7);
 /// 0x710072f99c (lane1 s79; declared only): like sub_710072FAB0 from `from` to `to` (EnemyRandomRepeatSideStep
 /// passes a null `out_pos` and -1 / -1 / -1). Placeholder name; parameter types from the CSV symbol.
 bool sub_710072F99C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,

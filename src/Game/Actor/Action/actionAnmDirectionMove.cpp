@@ -81,7 +81,7 @@ f32 AnmDirectionMove::sub_7100095AA0(f32 scale) {
     dir.setRotated(mActor->getMtx(), offset);
     const sead::Vector3f from = mActor->getMtx().getTranslation();
     sead::Vector3f to = dir * scale + from;
-    sub_710072FBD4(0.0f, -1.0f, mActor, from, to, &to, -1);
+    sub_710072FBD4(mActor, from, to, &to, -1, 0.0f, -1.0f);
     const f32 dx = from.x - to.x;
     const f32 dz = from.z - to.z;
     return sead::Mathf::sqrt(dx * dx + dz * dz);

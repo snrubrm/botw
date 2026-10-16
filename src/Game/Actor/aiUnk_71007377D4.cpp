@@ -220,6 +220,75 @@ void sub_7100738488(ksys::act::Actor* actor, f32 ratio, const sead::Vector3f& di
     }
 }
 
+// NON_MATCHING: the original computes the zero-direction test into a bool before the distance compare,
+// copies the result vectors as 8 + 4 bytes and tests NaN as `< 0x7f800001`; same logic.
+bool sub_710072EDFC(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& dir,
+                    sead::Vector3f* out_normal, sead::Vector3f* out_pos, s32 a5, bool a6, f32 distance,
+                    f32 radius, f32 a9, f32 tolerance) {
+    if ((dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f) || distance <= radius) {
+        if (out_normal)
+            *out_normal = {0.0f, 0.0f, 0.0f};
+        if (out_pos) {
+            if (!from.isNan())
+                *out_pos = from;
+            else
+                actor->getMtx().getTranslation(*out_pos);
+        }
+        return true;
+    }
+
+    auto* nav = actor->m45();
+    if (!nav) {
+        if (out_normal)
+            *out_normal = {0.0f, 0.0f, 0.0f};
+        if (out_pos) {
+            if (!from.isNan())
+                *out_pos = from;
+            else
+                actor->getMtx().getTranslation(*out_pos);
+        }
+        return false;
+    }
+
+    ksys::phys::HavokAI::Unk1 result;
+    ksys::phys::HavokAI::Unk2 query;
+    query.from = from;
+    query._30 = a5;
+    if (radius > 0.0f)
+        query.radius = radius;
+    if (tolerance >= 0.0f)
+        query.tolerance = tolerance;
+    sead::Vector3f pos = from;
+    if (pos.isNan())
+        actor->getMtx().getTranslation(pos);
+    query.dir = dir;
+    query.distance = distance;
+
+    auto* havok_ai = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+    const bool hit = havok_ai->sub_7100F86324(nav, query, &result);
+    const sead::Vector3f point = !result._24.isNan() ? result._24 : pos;
+
+    bool reached = hit;
+    if (radius > 0.0f && !hit) {
+        sead::Vector3f flat_dir{dir.x, 0.0f, dir.z};
+        flat_dir.normalize();
+        const sead::Vector3f end = flat_dir * distance + pos;
+        const f32 dx = result._c.x - end.x;
+        const f32 dz = result._c.z - end.z;
+        reached = !(dx * dx + dz * dz > radius * radius);
+    }
+
+    if (out_normal)
+        *out_normal = point;
+    if (out_pos) {
+        if (hit || !result._c.isNan())
+            *out_pos = result._c;
+        else
+            *out_pos = pos;
+    }
+    return reached;
+}
+
 bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos) {
     return sub_710072F28C(actor, from, to, nullptr, out_pos, -1, true, -1.0f, -1.0f, -1.0f);
@@ -268,6 +337,36 @@ bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const s
     auto* nav = actor->m45();
     const f32 tolerance = nav ? nav->_2a8 * nav->_2ac : 0.0f;
     return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, tolerance, -1.0f, -1.0f);
+}
+
+bool sub_710072F99C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7) {
+    sead::Vector3f dir = to - from;
+    const f32 distance = sead::Mathf::sqrt(dir.x * dir.x + dir.z * dir.z);
+    dir.normalize();
+    return sub_710072EDFC(actor, from, dir, nullptr, out_pos, a5, false, distance, a6, a7, -1.0f);
+}
+
+// NON_MATCHING: scheduling (the original moves the `a4` copy after the first fsqrt).
+bool sub_710072FAB0(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    s32 a4, f32 a5, f32 a6) {
+    sead::Vector3f dir = target - actor->getMtx().getTranslation();
+    const f32 distance = sead::Mathf::sqrt(dir.x * dir.x + dir.z * dir.z);
+    dir.normalize();
+    const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN()};
+    return sub_710072EDFC(actor, from, dir, nullptr, out_pos, a4, false, distance, a5, a6, -1.0f);
+}
+
+bool sub_710072FBD4(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 extra, f32 a7) {
+    sead::Vector3f dir = to - from;
+    const f32 distance = sead::Mathf::sqrt(dir.x * dir.x + dir.z * dir.z);
+    dir.normalize();
+    auto* nav = actor->m45();
+    const f32 radius = nav ? nav->getRadiusMaybe() + extra : extra;
+    return sub_710072EDFC(actor, from, dir, nullptr, out_pos, a5, false, distance, radius, a7, -1.0f);
 }
 
 bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,

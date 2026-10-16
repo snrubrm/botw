@@ -72,7 +72,7 @@ void AnimalMoveStraightTimed::calc_() {
         const sead::Vector3f from = mActor->getMtx().getTranslation();
         const sead::Vector3f to = from + controller->get64() * distance;
         sead::Vector3f position;
-        if (!sub_710072FBD4(0.0f, -1.0f, mActor, from, to, &position, -1))
+        if (!sub_710072FBD4(mActor, from, to, &position, -1, 0.0f, -1.0f))
             setFinished();
     }
     act::sub_7100E7F698(rideable, as_list, controller);
