@@ -6,6 +6,7 @@
 #include <xlink2/xlink2ResourceAccessorSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/World/worldEnvMgr.h"
@@ -86,6 +87,53 @@ void Unk_71024fec18::m12(f32 fade_sec) {
         return;
     _198 = 1;
     sub_710101D9D8();
+}
+
+// Requests the ducker of Unk_710104e5b4 +0x294, sets the FX mode 3 and fades the listener's _a8 in.
+inline void Unk_71024fec18::startWaitDucking() {
+    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+        if (mgr->_50)
+            mgr->_50->_a8 = 3;
+        if (mgr->_58)
+            mgr->_58->sub_7101054C10(true);
+    }
+}
+
+// NON_MATCHING: the original selects the transition delay with branches instead of a select.
+void Unk_71024fec18::sub_710100FE0C(const s32* level) {
+    m8(true);
+    if (_1a8 && _1a8->sub_7100FF6DF4(this) && _1a4 == u32(*level))
+        return;
+    sub_710101D9D8();
+    if (*level == 0) {
+        if (_1a8 && _1a8->sub_7100FF6DF4(this))
+            _1a8->sub_7100FF6A64(0.1f);
+        _1a4 = *level;
+        _1a0 = mInfo->mStartDelaySec.ref();
+        _198 = 2;
+        _19c = 0;
+        startWaitDucking();
+    } else {
+        _1a4 = *level;
+        if (_1a4 == 1)
+            _1a0 = mInfo->m1To2TransitionDelaySec.ref();
+        else
+            _1a0 = mInfo->m2To3TransitionDelaySec.ref();
+        _19c = 0;
+        _198 = 2;
+    }
+}
+
+// NON_MATCHING: the original stores the state twice (once merged with the timer).
+void Unk_71024fec18::sub_710100FF38() {
+    if (_1a8 && _1a8->sub_7100FF6DF4(this))
+        return;
+    _1a4 = 0;
+    _198 = 2;
+    _1a0 = mInfo->mRetryDelaySec.ref();
+    _19c = 0;
+    startWaitDucking();
 }
 
 void Unk_71024fec18::hm14() {

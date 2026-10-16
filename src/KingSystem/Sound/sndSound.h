@@ -755,6 +755,8 @@ KSYS_CHECK_SIZE_NX150(Unk_710103AC60, 0x8);
 struct Unk_710103ACC8 {
     // 0x710103acc8: while requested, the ducker runs except during events; then counts the hold frames down.
     void calc();
+    // 0x710103adb4: requests the ducker (and cancels a pending hold).
+    void start();
     // 0x710103adcc: releases the request (`hold`: keeps the ducker for 120 more frames).
     void stop(bool hold);
 
@@ -837,7 +839,8 @@ public:
     /* 0x278 */ xlink2::HandleSLink _278;
     u8 _288[0x28c - 0x288];
     /* 0x28c */ Unk_710103AC60 mRemainsDucking;
-    u8 _294[0x2a0 - 0x294];
+    // Requested by the Ganon beast BGM (Unk_71024fec18) while it waits to start a level.
+    /* 0x294 */ Unk_710103ACC8 _294;
     /* 0x2a0 */ sead::BitFlag8 _2a0;
 
 private:
@@ -868,6 +871,8 @@ public:
     void sub_71010554C8();
     // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
     void sub_7101055538(s32 value);
+    // 0x7101054c10: fades _a8 to 1 (`on`) or 0 in 0.5 s and stores the flag in _85.
+    void sub_7101054C10(bool on);
     // 0x7101054b30 (declaration only): creates the poser (in `heap`) and the default listener.
     void init(sead::Heap* heap);
 

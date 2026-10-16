@@ -75,6 +75,12 @@ void Unk_710103ACC8::calc() {
     }
 }
 
+void Unk_710103ACC8::start() {
+    if (!mActive)
+        mActive = true;
+    mHoldFrames = 0;
+}
+
 void Unk_710103ACC8::stop(bool hold) {
     if (!mActive)
         return;
