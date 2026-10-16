@@ -45,6 +45,9 @@ public:
     // 0x7100407988 (placeholder name): sets the message sender's payload link to the actor and, if the actor linked by
     // the "RegistedActorMessageBroadCastTag" link is running, sends it the message (and remembers that in `_200`).
     void sub_7100407988();
+    // 0x71004076d4 (declared only; placeholder name): the placement position / rotation used when the actor is
+    // not in the calc state yet; false if there is none.
+    bool sub_71004076D4(sead::Vector3f* pos, sead::Vector3f* rot);
 
 protected:
     // static_param at offset 0x38
@@ -77,7 +80,8 @@ protected:
     f32 _104 = 0;
     f32 _108 = 0;
     u32 _10c = 0;
-    u64 _110 = 0;
+    f32 _110 = 0;
+    f32 _114 = 0;
     u32 _118 = 0;
     f32 _11c = -1.0f;
     f32 _120 = -1.0f;

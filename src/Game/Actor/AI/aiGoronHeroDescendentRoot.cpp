@@ -1,6 +1,10 @@
 #include "Game/Actor/AI/aiGoronHeroDescendentRoot.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
@@ -43,8 +47,72 @@ bool GoronHeroDescendentRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: stack slots (the original shares one slot between the matrix and the accessor), the rotation
+// stays in registers across the sin / cos calls, and the _110 / _114 / _118 store pairing.
 void GoronHeroDescendentRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (isRootAiParamINot5())
+        _200._38 = false;
+
+    auto* actor = mActor;
+    if (!actor->isCalc()) {
+        sead::Matrix34f mtx;
+        sead::Vector3f pos;
+        sead::Vector3f rot;
+        if (sub_71004076D4(&pos, &rot)) {
+            mtx.makeSRT(mActor->getScale(), rot, pos);
+            auto* target = mActor;
+            target->setMtx(mtx, true, true);
+            target->nullsub_4648();
+        }
+        actor = mActor;
+    }
+
+    if (auto* attention = actor->getAttention()) {
+        if (auto* client = attention->getClientByName("Talk"))
+            client->sub_7100D7235C(&_240);
+        if (auto* client = mActor->getAttention()->getClientByName("LockOn"))
+            client->sub_7100D7235C(&_240);
+    }
+
+    getPlayerPosition();
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (auto* nav = mActor->m45()) {
+        if (ksys::act::acquireActor(&act::PlayerInfo::getSomeProcLink(), &accessor)) {
+            if (auto* player_nav = accessor.sub_7100D0F57C())
+                nav->sub_7100F7D1B4(player_nav);
+        }
+    }
+
+    _8b = false;
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20))
+        _8a = false;
+    _100 = 0x8000000;
+    _190.x();
+    _1c8.x();
+    _110 = -1.0f;
+    _114 = -1.0f;
+    _118 = 0;
+    ksys::act::x_6(mActor);
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x37, "Normal", 0);
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x38, "Normal", 0);
+    sub_7100407988();
+    _88 = false;
+    _89 = false;
+    mActor->getASList()->sub_710115C11C();
+    if (handlePendingChildChange())
+        return;
+
+    auto* schedule = mActor->getSchedule();
+    if (schedule && schedule->_68 == "Action1") {
+        changeChild("屈む");
+    } else if (_8a) {
+        changeChild("砲台内");
+    } else if (!ksys::gdt::getBoolByKey("Fire_Relic_YunboStopGo", false) ||
+               ksys::gdt::getBoolByKey(mFollowModeFlagName_s, false)) {
+        changeToWaitForPlayerApproach();
+    } else {
+        changeToStopCommand();
+    }
 }
 
 void GoronHeroDescendentRoot::leave_() {
