@@ -23,6 +23,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/gameSceneSubsys12.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -772,6 +773,52 @@ void Player::actionCommon() {
     controller->sub_7100F62E64(center);
     if (!m222())
         controller->sub_7100F5FC8C(_1b18);
+}
+
+// Puts the held item away (equipment type 7 into _d68): bow (WeaponEquipOff, bow slow rate, slot 2 request 5),
+// rune items (ItemEquipLeftOff), a carried bomb and the m203 two-hand state (ItemEquipBoth).
+void Player::x_33() {
+    if (_d68 == getEquipmentTypeName(7))
+        return;
+    _d68 = getEquipmentTypeName(7);
+
+    if (_d30 == getEquipmentTypeName(3)) {
+        x_25();
+        x_26("WeaponEquipOff", 0.0f);
+        _1cdc = 3;
+        if (_c40.isOnBit(13)) {
+            f32 rate = 1.0f;
+            if (isSlowTime() && _cf4.isOnBit(17))
+                rate = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+            mASList->x_3(2, 0, &as::ASList::Unk2::sub_71011631BC, rate);
+        }
+        if (sub_71005D8514(this, playerWeapons_return2()))
+            sub_71005D787C(this, playerWeapons_return2(), uking::act::Unk_71002eda38(5));
+    }
+
+    if (_d30 == getEquipmentTypeName(6) || _d30 == getEquipmentTypeName(5)) {
+        if (mASList->x_7(1, 1, &as::ASList::Unk2::sub_710002E82C))
+            x_18(true);
+        x_31();
+        x_26("ItemEquipLeftOff", -1.0f);
+    }
+
+    if (_d11) {
+        if (auto* child = getConnectedCalcChild()) {
+            const sead::SafeString name = child->getName();
+            if (name == "Bomb" || name == "BombNut") {
+                x_25();
+                x_26("ItemEquipBoth", -1.0f);
+            }
+        }
+    }
+
+    if (x_21()) {
+        x_25();
+        x_26("ItemEquipBoth", -1.0f);
+        if (auto* subsys = GameSceneSubsys12::instance())
+            subsys->sub_71006643EC();
+    }
 }
 
 }  // namespace ksys::act
