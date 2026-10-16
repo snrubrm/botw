@@ -80,6 +80,15 @@ public:
     void sub_71012920C4(s32 index);
 };
 
+// Declaration only: F2C140 allocates 0x6c0 bytes, constructs this object at 129421C and stores it at
+// Graphics + 0x370. Its source name is unknown.
+class Unk_710129421c {
+public:
+    // 0x71012955ac (placeholder name): stores value at +0x7e4 of entry index of the 0x7e8-byte entry
+    // buffer at 0x1e0.
+    void sub_71012955AC(f32 value, s32 index);
+};
+
 // Partial declaration only: F2C140 constructs this 0x258-byte item filter at
 // 1293BAC and stores it at 398. Table 25192A8 inherits Node's class-type method;
 // 1293BAC initializes the word at C to 2, and 1293D68 / 1293FC0 consume its flags.
@@ -174,6 +183,9 @@ public:
     // 0x7100f2fe38 (CSV Graphics::getDynamicCloudRatio; it sets the value): sets uking_dynamic_cloud_ratio to
     // 1 - ratio clamped to [0, 1].
     void setDynamicCloudRatio(f32 ratio);
+    // 0x7100f2ff08 (placeholder name; CSV Graphics::__auto7): stores ratio at 0xe88, passes 1 - scale to the
+    // object at 0x370 and sets the depth / world shadow uking_dynamic parameters.
+    void sub_7100F2FF08(f32 ratio, f32 scale);
     // 0x7100f2faac (placeholder name): sets uking_dynamic_exposure unless the byte at 0xf5a is 4 (force skips the test).
     void sub_7100F2FAAC(f32 exposure, bool force);
 
@@ -237,7 +249,8 @@ public:
     /* 0x360 */ ksys::act::PlayerLink* _360;
 
 private:
-    u8 _368[0x378 - 0x368];
+    u8 _368[0x370 - 0x368];
+    Unk_710129421c* _370;
 
 public:
     // Read by the shooting-star grid predicate at 10D103C.
@@ -272,7 +285,9 @@ private:
     u8 _e18[0xe80 - 0xe18];
     f32 _e80;
     f32 _e84;
-    u8 _e88[0xea8 - 0xe88];
+    f32 _e88;
+    f32 _e8c;
+    u8 _e90[0xea8 - 0xe90];
     // The environment model unit whose material parameters the uking_dynamic_* setters change.
     gsys::ModelUnit* _ea8;
     u8 _eb0[0xed8 - 0xeb0];

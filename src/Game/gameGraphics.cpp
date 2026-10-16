@@ -88,6 +88,17 @@ void Graphics::setDynamicCloudRatio(f32 ratio) {
     setEnvMaterialParamF32("uking_dynamic_cloud_ratio", sead::Mathf::clamp(1.0f - ratio, 0.0f, 1.0f));
 }
 
+// NON_MATCHING: the original loads _e8c and materialises 1.0f once before the first lock (kept across the calls).
+void Graphics::sub_7100F2FF08(f32 ratio, f32 scale) {
+    _e88 = ratio;
+    if (_370)
+        _370->sub_71012955AC(1.0f - scale, 0);
+    const f32 shadowRatio = _e88;
+    setEnvMaterialParamF32("uking_dynamic_depth_shadow_off", 1.0f - shadowRatio);
+    setEnvMaterialParamF32("uking_dynamic_depth_shadow_scale", 1.0f - scale);
+    setEnvMaterialParamF32("uking_dynamic_world_shadow_off", shadowRatio * ((1.0f - _e8c) - 1.0f) + 1.0f);
+}
+
 void Graphics::sub_7100F2F1C8(Unk_7100f35df8* settings) {
     if (_ae0)
         return;
