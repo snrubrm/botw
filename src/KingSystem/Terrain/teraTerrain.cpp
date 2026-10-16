@@ -34,6 +34,90 @@ void Terrain::sub_710114C648(agl::DrawContext* context) {
         !(_a58 & 0x8000) || _a40->mThread != sead::ThreadMgr::instance()->getCurrentThread());
 }
 
+// NON_MATCHING: our sead::Viewport destructor is out of line; the colour flag update is scheduled
+// differently.
+void Terrain::sub_710114C3C4(agl::DrawContext* context, const agl::TextureData& texture, u32 mip,
+                             u32 layer, u32 index, u32 flags) {
+    RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
+    if (flags & 1) {
+        set.mRenderBuffer.setRenderTargetColorNullAll();
+        set.mRenderBuffer.setRenderTargetDepth(nullptr);
+        set.mColorFlags = 0;
+    }
+
+    agl::RenderTargetColor& target = set.mColorTargets[index];
+    target.applyTextureData(texture, target.getMipLevel(), target.getLayer());
+    target.setLayer(layer);
+    target.setMipLevel(mip);
+    set.mRenderBuffer.setRenderTargetColor(&target, index);
+    set.mColorFlags = (set.mColorFlags | 1 << index) | (flags << 29 & 0x80000000);
+
+    if (!(flags & 2))
+        return;
+
+    const f32 width = static_cast<u32>(sead::Mathi::max(texture.getWidth() >> mip, 1));
+    const f32 height =
+        static_cast<u32>(sead::Mathi::max(texture.getMinHeight_(), texture.getHeight() >> mip));
+    set.mRenderBuffer.setPhysicalArea(sead::BoundBox2f({0.0f, 0.0f}, {width, height}));
+    set.mRenderBuffer.setVirtualSize({width, height});
+    if (set.mColorFlags & 0x80000000) {
+        sub_710114C648(context);
+        return;
+    }
+    set.mRenderBuffer.bind(context);
+    sead::Viewport viewport(set.mRenderBuffer);
+    viewport.apply(context, set.mRenderBuffer);
+}
+
+// NON_MATCHING: our sead::Viewport destructor is out of line.
+void Terrain::sub_710114C72C(agl::DrawContext* context, const agl::TextureData& texture,
+                             const agl::GPUMemVoidAddr& storage, u32 mip, u32 flags) {
+    RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
+    if (flags & 1) {
+        set.mRenderBuffer.setRenderTargetColorNullAll();
+        set.mRenderBuffer.setRenderTargetDepth(nullptr);
+        set.mColorFlags = 0;
+    }
+
+    agl::RenderTargetDepth& target = set.mDepthTarget;
+    target.applyTextureData(texture, target.getMipLevel(), target.getLayer());
+    target.setStorage(storage);
+    target.setLayer(0);
+    target.setMipLevel(mip);
+    set.mRenderBuffer.setRenderTargetDepth(&target);
+    set.mColorFlags = (set.mColorFlags | (flags << 29 & 0x80000000)) | 0x40000000;
+
+    if (!(flags & 2))
+        return;
+
+    const f32 width = sead::Mathu::max(texture.getWidth(), 1);
+    const f32 height = static_cast<u32>(
+        sead::Mathi::max(texture.getMinHeight_(), texture.getHeight()));
+    set.mRenderBuffer.setPhysicalArea(sead::BoundBox2f({0.0f, 0.0f}, {width, height}));
+    set.mRenderBuffer.setVirtualSize({width, height});
+    if (set.mColorFlags & 0x80000000) {
+        sub_710114C648(context);
+        return;
+    }
+    set.mRenderBuffer.bind(context);
+    sead::Viewport viewport(set.mRenderBuffer);
+    viewport.apply(context, set.mRenderBuffer);
+}
+
+agl::TextureSampler* Terrain::sub_710114CA64(s32 index, u32 flags) {
+    RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
+    agl::TextureSampler* sampler = &set.mSamplers[index];
+    if (flags & 1) {
+        sampler->setFilter(1, 1, 2);
+        sampler->setWrap(NVN_WRAP_MODE_CLAMP_TO_EDGE, NVN_WRAP_MODE_CLAMP_TO_EDGE,
+                         NVN_WRAP_MODE_CLAMP_TO_EDGE);
+        sampler->setLOD(0.0f, 14.0f, 0.0f);
+        sampler->resetCompSel();
+        sampler->setBorderColor(sead::Color4f::cBlack);
+    }
+    return sampler;
+}
+
 void Terrain::sub_710114C9D0(agl::DrawContext* context) {
     RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
     if (set.mColorFlags & 1)

@@ -397,18 +397,17 @@ public:
     void sub_710114C9D0(agl::DrawContext* context);
     // 0x710114c648 (placeholder name): binds this core's render set and fast-clears its depth to 1.
     void sub_710114C648(agl::DrawContext* context);
-    // 0x710114c3c4 (declaration only; placeholder name): binds `texture` (mip, layer) as color target `index`
+    // 0x710114c3c4 (placeholder name): binds `texture` (mip, layer) as color target `index`
     // of this core's set. Flag bit 0 first unbinds all targets, bit 1 sets the buffer size from the texture and
-    // binds it (or clears it through 0x710114c648 when bit 31 of mColorFlags is set). The agl layer / mip
-    // setters it inlines are not in lib/agl yet.
+    // binds it (or clears it through 0x710114c648 when bit 31 of mColorFlags is set).
     void sub_710114C3C4(agl::DrawContext* context, const agl::TextureData& texture, u32 mip, u32 layer,
-                        s32 index, u32 flags);
+                        u32 index, u32 flags);
     // 0x710114c72c (declaration only; placeholder name): the same for the depth target, with its storage.
     void sub_710114C72C(agl::DrawContext* context, const agl::TextureData& texture,
                         const agl::GPUMemVoidAddr& storage, u32 mip, u32 flags);
-    // 0x710114ca64 (declaration only; placeholder name): when bit 0 of `flags` is set, resets sampler `index`
-    // of this core's set (filters, wraps, LOD, border colour sead::Color4f::cBlack).
-    void sub_710114CA64(s32 index, u32 flags);
+    // 0x710114ca64 (placeholder name): returns sampler `index` of this core's set; when bit 0 of `flags`
+    // is set, first resets it (filters, wraps, LOD, selectors, border colour sead::Color4f::cBlack).
+    agl::TextureSampler* sub_710114CA64(s32 index, u32 flags);
     // 0x710114ce48 (declaration only; placeholder name; x0 is not read): sets three uniforms of `program`,
     // activates `sampler` and the shared vertex attribute, then draws.
     static void sub_710114CE48(agl::DrawContext* context, const agl::ShaderProgram* program,
