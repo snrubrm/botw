@@ -617,4 +617,46 @@ ksys::SeadController* Screen::sub_71010AA9D0() {
     return sead::DynamicCast<ksys::SeadController>(mUIController->getController());
 }
 
+// 0x71010b6638
+// NON_MATCHING: the original tests `from` before the null check of `open`; ours tests the pointer first
+void sub_71010B6638(eui::Animator* open, eui::Animator* close, eui::Animator* loop, f32 from, f32 to) {
+    if (from <= 0.0f || !open)
+        return;
+    f32 open_length = open->GetFrameSize();
+    f32 close_length = (close ? close : open)->GetFrameSize();
+    const f32 total = open_length + close_length;
+    if (total > from) {
+        const f32 excess = total - from;
+        if (close) {
+            close_length -= excess;
+            if (close_length < 0.0f) {
+                open_length += close_length;
+                close_length = 0.0f;
+            }
+        } else {
+            open_length += excess * -0.5f;
+            close_length = open_length;
+        }
+    }
+    if (to < 0.0f)
+        to = 0.0f;
+    else if (to > from)
+        to = from;
+    if (to < open_length) {
+        open->Stop(to);
+        return;
+    }
+    if (from - to < close_length) {
+        const f32 frame = to - (from - close_length);
+        if (close)
+            close->Stop(frame);
+        else
+            open->Stop(close_length - frame);
+        return;
+    }
+    open->StopAtMax();
+    if (loop && !loop->mEnabled)
+        loop->PlayAuto(1.0f);
+}
+
 }  // namespace uking::ui
