@@ -4,6 +4,7 @@
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::ai {
@@ -43,7 +44,8 @@ void PriestBossPhaseSecond::enter_(ksys::act::ai::InlineParamPack* params) {
     unit->_44 = space;
     unit->_48 = move_time;
     unit->_4c = interval;
-    _134.fill(0);
+    _134 = 0;
+    _138.fill(0);
 
     const Unk_7102451070::InitArg init_arg{sub_7100525A88(), 0.5f, 10.0f, 15.0f, false};
     _158.sub_710071CB98(init_arg);
@@ -71,7 +73,7 @@ void PriestBossPhaseSecond::enter_(ksys::act::ai::InlineParamPack* params) {
             mtx = accessor.getActorMtx();
             accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
         }
-        _134[0] = accessor.getMaxLife();
+        _134 = accessor.getMaxLife();
     }
 
     unit = sub_7100525A88();
@@ -98,6 +100,69 @@ void PriestBossPhaseSecond::leave_() {
     sub_7100525A88()->resetFlag(Unk_7102450fa8::Flag::_16);
 }
 
+// NON_MATCHING: one `and` operand order after the meta flag 0 set.
+void PriestBossPhaseSecond::calc_() {
+    PriestBossPhase::calc_();
+    if (sub_7100525A88()->getPhaseFlags(m38())._0)
+        return;
+
+    auto* unit = sub_7100525A88();
+    if (sub_7100528C48()) {
+        unit->setFlag(Unk_7102450fa8::Flag::_7);
+    } else {
+        if (!unit->isFlagOn(Unk_7102450fa8::Flag::_9))
+            unit->clearFlags8And9Maybe();
+        unit->resetFlag(Unk_7102450fa8::Flag::_7);
+    }
+
+    if (!sub_7100525A88()->isFlagOn(Unk_7102450fa8::Flag::_10)) {
+        for (s32 i = 0; i < 8; ++i) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            if (sub_7100525B18(i + 3, &accessor)) {
+                const s32 life = accessor.getLife();
+                if (sub_7100525A88()->isFlagOn(Unk_7102450fa8::Flag::_8) && _138[i] > life)
+                    sub_7100525A88()->clearFlags8And9Maybe();
+                _138[i] = life;
+            }
+        }
+    }
+
+    if (!isStateFlagOn(StateFlag::_0)) {
+        setStateFlag(StateFlag::_0);
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (sub_7100525B18(2, &accessor)) {
+            if (!isStateFlagOn(StateFlag::_2) && _12c < *mModeChangeBlockTime_s)
+                _12c += ksys::VFR::instance()->getDeltaTime();
+
+            const bool damaged = sub_710052BAC8(&accessor);
+            if (!isStateFlagOn(StateFlag::_2) && _130 >= *mModeChangeLife_s &&
+                !sub_7100525A88()->isFlagOn(Unk_7102450fa8::Flag::_4)) {
+                if (sub_7100525A88()->isFlagOn(Unk_7102450fa8::Flag::_0)) {
+                    sub_710052B4D0(Mode::_1);
+                } else if (auto* meta = sub_7100525A88()) {
+                    meta->setFlag(Unk_7102450fa8::Flag::_0);
+                    if (meta->isFlagOn(Unk_7102450fa8::Flag::_0)) {
+                        _128 = *mSyncAtkMax_s;
+                        meta->_90 = nullptr;
+                        _12c = 0;
+                        setStateFlag(StateFlag::_2);
+                        meta->setFlag(Unk_7102450fa8::Flag::_16);
+                    }
+                }
+                _134 = accessor.getLife();
+            }
+            if (sub_7100525A88()->isFlagOn(Unk_7102450fa8::Flag::_8) && damaged)
+                sub_7100525A88()->clearFlags8And9Maybe();
+        }
+    }
+
+    if (sub_7100525A88()->isFlagOn(Unk_7102450fa8::Flag::_0))
+        sub_710052BC04();
+    else
+        m41();
+}
+
 bool PriestBossPhaseSecond::sub_710052BAC8(const ksys::act::ActorLinkConstDataAccess* accessor) {
     ksys::act::BaseProcLink link;
     accessor->linkAcquire(&link);
@@ -107,7 +172,7 @@ bool PriestBossPhaseSecond::sub_710052BAC8(const ksys::act::ActorLinkConstDataAc
             return false;
         if (auto* damage_mgr = actor->getDamageMgr()) {
             if (const s32 damage = damage_mgr->getDamage()) {
-                if (*mModeChangeBlockTime_s <= _12c && !isStateFlagOn(StateFlag::_2))
+                if (_12c >= *mModeChangeBlockTime_s && !isStateFlagOn(StateFlag::_2))
                     _130 += damage;
                 return true;
             }
@@ -128,6 +193,8 @@ void PriestBossPhaseSecond::sub_710052BC04() {
         sub_710052B4D0(Mode::_1);
 }
 
+// NON_MATCHING: ours inlines sub_710052C738 (the original calls it) and the original's loop starts with a skipped
+// first pass (the same skip-0 shape as init_).
 void PriestBossPhaseSecond::sub_710052C350() {
     while (true) {
         sub_710052C738(&mRecords);
@@ -192,9 +259,11 @@ void PriestBossPhaseSecond::sub_710052C44C(s32 id) {
     }
     _6b0 = id;
     formation->m5(kind, wait, interval);
-    sub_7100525A88()->_88 = _6b8;
+    auto* unit = sub_7100525A88();
+    unit->_88 = _6b8;
 }
 
+// NON_MATCHING: loop structure (the sum loop is laid out differently).
 void PriestBossPhaseSecond::sub_710052C738(sead::ObjArray<PhaseRecord>* records) {
     if (records->size() == 0)
         return;

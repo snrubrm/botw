@@ -25,6 +25,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
     void m34() override {}
@@ -98,7 +99,8 @@ protected:
     /* 0x128 */ s32 _128 = 0;
     /* 0x12c */ f32 _12c = 0.0f;
     /* 0x130 */ s32 _130 = 0;
-    /* 0x134 */ sead::SafeArray<u32, 9> _134;
+    /* 0x134 */ s32 _134;  // life of member 2
+    /* 0x138 */ sead::SafeArray<s32, 8> _138;  // last life of members 3 .. 10
     /* 0x158 */ Unk_7102451070 _158;
     /* 0x488 */ Unk_7102451050 _488;
     struct PhaseRecord {

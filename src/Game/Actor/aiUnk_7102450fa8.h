@@ -94,6 +94,12 @@ public:
     // sub_710052B4D0 and handleMessage_ every flag index temporary shares one stack slot with the other locals.
     void setFlag(Flag flag) { _78.setBit(flag); }
     void resetFlag(Flag flag) { _78.resetBit(flag); }
+    // inline-only in the original; name is a guess (PriestBossPhaseSecond::calc_ inlines it twice)
+    void clearFlags8And9Maybe() {
+        resetFlag(Flag::_8);
+        if (isFlagOn(Flag::_9))
+            resetFlag(Flag::_9);
+    }
     // 0x7100719fe4: `_88 ? _88->vslot6(idx) : 3` (unnamed object at 0x88).
     s32 sub_7100719FE4(s32 idx);
     // 0x7100719978: `idx != 2 && idx - 2 <= 8 && (_80 >> idx & 1)`. Placeholder name.
@@ -182,6 +188,9 @@ public:
         bool _2;
     };
     /* 0x248 */ sead::SafeArray<PhaseFlags, 5> _248;
+    // inline-only in the original; name is a guess (PriestBossPhaseSecond::calc_: the phase index temporary
+    // shares the stack slot of a later local, as an inlined by-value parameter does)
+    const PhaseFlags& getPhaseFlags(Phase phase) const { return _248[phase]; }
     /* 0x257 */ u8 _257;
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
