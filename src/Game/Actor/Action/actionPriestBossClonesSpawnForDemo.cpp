@@ -3,6 +3,8 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/Timer.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <math/seadQuat.h>
@@ -42,12 +44,53 @@ void PriestBossClonesSpawnForDemo::loadParams_() {
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 
+// NON_MATCHING: block placement of the shared distance tail only.
 void PriestBossClonesSpawnForDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!sub_71000664E4())
+        return;
+
+    if (_54 >= 1) {
+        ksys::Timer::update(&_58, 1.0f);
+        if (_58 <= f32(_54)) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            if (sub_71000664E4()->sub_71007194D4(_50, &accessor)) {
+                const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+                ksys::act::sub_7100EE57FC(mActor, pos);
+            }
+            return;
+        }
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+        _54 = 0;
+    }
+
+    if (_84 && !mASName_d.isEmpty()) {
+        playAS(mASName_d.cstr(), false, 0, 0, -1.0f);
+        _84 = false;
+    }
+
+    ksys::Timer::update(&_5c, 1.0f);
+    f32 t;
+    if (sub_7100066884()) {
+        t = mOffset_d->length();
+        if (m32())
+            setFinished();
+    } else {
+        const s32 duration = *mDurationFrame_d;
+        const s32 decel_frames = *mDecelerationFrame_d;
+        const f32 decel_start = f32(duration - decel_frames);
+        const f32 accel_time = _5c > decel_start ? decel_start : _5c;
+        const f32 over = _5c - decel_start;
+        const f32 decel_time = sead::Mathf::clamp(over, 0.0f, f32(decel_frames));
+        const f32 moved = accel_time * (_6c + _70);
+        if (decel_time > 0.0f && _5c <= f32(duration))
+            _74 += m33(decel_time / f32(decel_frames));
+        t = moved + _74 * _6c + decel_time * _70;
+    }
+    sub_71000668A0(t);
 }
 
-int PriestBossClonesSpawnForDemo::m32() {
-    return 1;
+bool PriestBossClonesSpawnForDemo::m32() {
+    return true;
 }
 
 f32 PriestBossClonesSpawnForDemo::m33(f32 t) {

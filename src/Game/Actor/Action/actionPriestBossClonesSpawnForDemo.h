@@ -28,7 +28,7 @@ protected:
 
     // 0x71000664e4 (placeholder name): the meta AI unit (null if it is not a Unk_7102450fa8).
     Unk_7102450fa8* sub_71000664E4();
-    virtual int m32();
+    virtual bool m32();
     virtual f32 m33(f32 t);
 
     // dynamic_param at offset 0x20

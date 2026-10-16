@@ -65,7 +65,7 @@ void PriestBossClonesSpawn::sub_71002218D8() {
     _d8 = true;
 }
 
-int PriestBossClonesSpawn::m32() {
+bool PriestBossClonesSpawn::m32() {
     if (sub_71000664E4())
         return !sub_71000664E4()->isFlagOn(Unk_7102450fa8::Flag::_4);
     return true;
