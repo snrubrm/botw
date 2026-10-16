@@ -497,7 +497,8 @@ public:
     void sub_710087CF54();
     // 0x71008695a8 (placeholder name): moves the translation of the bone transform of `_19f0[1]` by `offset`.
     void sub_71008695A8(const sead::Vector3f& offset);
-    void sub_7100888D24();
+    // 0x7100888d24: sword button handling (like sub_71008893B8 for the bow); true once handled.
+    bool sub_7100888D24();
     // 0x71008901d0 (declared only, lane5 s6; 216 B): a float derived from controller / mode checks (PlayerAtnMove::enter_).
     f32 sub_71008901D0();
     // 0x7100881418 (declared only, lane5 s6; 356 B): character-controller / ASList (x_1 name) check run first by

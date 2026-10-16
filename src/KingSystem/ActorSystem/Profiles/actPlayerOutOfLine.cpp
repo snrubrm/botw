@@ -678,4 +678,41 @@ void Player::sub_7100889154() {
     }
 }
 
+// In this file because sub_71008921A8 is out of line in the original.
+// Placeholder name: sword button handling. Equips the slot 0 weapon when there is one, else plays WeaponEquipNG
+// (leaving the type 6 rune item); then releases grabbed pause-menu items when m203().
+bool Player::sub_7100888D24() {
+    if (!x_51() && !x_50() && !(x_49() && !_cf0.isOnBit(19)))
+        return false;
+    if (m256() && !mASList->x(0x2d, nullptr, 1, 1, &as::ASList::Unk2::sub_71011638DC, true))
+        return false;
+
+    _c48.resetBit(28);
+    if (sub_71008921A8()) {
+        if (_d30 != getEquipmentTypeName(1))
+            sub_7100889154();
+    } else if (mASList->x_1(2, 0) != "WeaponEquipNG") {
+        if (_c40.isOnBit(3))
+            sub_7100855494();
+        else
+            x_25();
+        mASList->goLimpFromHeadShotMaybe(0x2c, "WeaponSmallSword", 0);
+        x_26("WeaponEquipNG", 0.0f);
+        _1cdc = 0;
+        if (_d30 == getEquipmentTypeName(6)) {
+            uking::RuneMgr::instance()->setHandled();
+            _d30 = getEquipmentTypeName(0);
+            x_18(true);
+        }
+        uking::RuneMgr::instance()->sub_710067594C();
+    }
+
+    if (m203()) {
+        if (auto* pause_menu = uking::ui::PauseMenuDataMgr::instance())
+            pause_menu->unholdGrabbedItems();
+        x_18(true);
+    }
+    return true;
+}
+
 }  // namespace ksys::act
