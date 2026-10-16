@@ -45,7 +45,9 @@ protected:
     sead::Matrix33f _e0 = sead::Matrix33f::ident;
     f32 _104;
     xlink2::HandleSLink* _108 = nullptr;
-    u8 _110[0x128 - 0x110];
+    sead::Vector2f _110;
+    sead::Vector2f _118;
+    sead::Vector2f _120;
     u32 _128 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DungeonRotateGyro, 0x130);

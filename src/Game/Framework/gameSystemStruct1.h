@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -14,8 +15,12 @@ public:
     // Constructor zeroes the complete vector; calcController copies all three input components.
     sead::Vector3f _8;
 
+    u8 _14[0x38 - 0x14];
+    // lane3 s84: copied by DungeonRotateGyro::enter_ (the gyro orientation, presumably).
+    sead::Matrix33f _38;
+
 private:
-    u8 _14[0x98 - 0x14];
+    u8 _5c[0x98 - 0x5c];
 };
 KSYS_CHECK_SIZE_NX150(SystemStruct1, 0x98);
 
