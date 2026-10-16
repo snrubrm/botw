@@ -128,6 +128,50 @@ Unk_710250c3c8::~Unk_710250c3c8() {
     }
 }
 
+void Unk_710250c3c8::destroy(bool remove_links) {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+    if (mBody && (mBody->isAddedToWorld() || mBody->isAddingBodyToWorld())) {
+        if (remove_links)
+            mBody->removeFromWorldAndResetLinks();
+        else
+            mBody->removeFromWorld();
+    }
+    _58.fade();
+    if (_68.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+    }
+    _68.fade();
+    _18 &= ~2;
+}
+
+// NON_MATCHING: the default "no name" store is kept in the original and vertex_b is stored as 4 + 8 bytes.
+void Unk_710250c3c8::sub_71010C42B4(sead::Heap* heap) {
+    ksys::phys::CapsuleParam param;
+    param.name = "WindCapsule";
+    param.vertex_a = sead::Vector3f::zero;
+    param.vertex_b = sead::Vector3f::ey;
+    param.radius = 4.0f;
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    param.enable_deactivation = false;
+    param.toi = true;
+    mBody = ksys::phys::CapsuleRigidBody::make(&param, heap);
+    if (!mBody)
+        return;
+    mShape = aal::ShapeCapsule::create("WindCapsule", heap);
+    if (mShape) {
+        mShape->mFlags.resetBit(aal::Shape::KeepPosition);
+        mShape->mFlags.resetBit(aal::Shape::KeepRotation);
+    }
+    _18 |= 1;
+}
+
 bool Unk_710250c3c8::sub_71010C4284() const {
     return !mBody || !mBody->isAddedToWorld();
 }

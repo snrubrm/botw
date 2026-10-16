@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -19,6 +20,7 @@ class Actor;
 }
 
 class Unk_710250c118;
+class Unk_7102518688;
 
 namespace sead {
 class Heap;
@@ -77,26 +79,25 @@ public:
     Unk_710250c3c8();
     virtual ~Unk_710250c3c8();
 
-    // 0x71010c4008 (declared only; 516 B): releases the effect / body / event.
+    // 0x71010c4008: deletes the element, removes the body from the world (resetting its links when
+    // `remove_links`), fades the effect and the sound and clears flag bit 1.
     void destroy(bool remove_links);
-    // 0x71010c42b4 (declared only; 488 B).
-    void sub_71010C42B4();
+    // 0x71010c42b4: creates the WindCapsule sensor body and sound shape (sets flag bit 0).
+    void sub_71010C42B4(sead::Heap* heap);
     // 0x71010c449c (declared only; WindControl passes its actor matrix).
     void sub_71010C449C(f32 length, f32 radius, f32 speed, const sead::Matrix34f& mtx);
     // 0x71010c4284: true if the body was removed from the world (or there is none). Placeholder name.
     bool sub_71010C4284() const;
 
-    /* 0x08 */ void* _8 = nullptr;
+    /* 0x08 */ Unk_7102518688* _8 = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;
-    /* 0x18 */ bool _18 = false;
+    /* 0x18 */ u8 _18 = 0;  // bit 0: body created, bit 1: active
     /* 0x1c */ f32 _1c = 1.0f;
     /* 0x20 */ u8 _20[0x50 - 0x20];
     /* 0x50 */ f32 _50 = 1.0f;
     /* 0x54 */ f32 _54 = 1.0f;
-    /* 0x58 */ void* _58 = nullptr;
-    /* 0x60 */ u32 _60 = 0;
-    /* 0x68 */ void* _68 = nullptr;
-    /* 0x70 */ u32 _70 = 0;
+    /* 0x58 */ xlink2::HandleELink _58;
+    /* 0x68 */ xlink2::HandleSLink _68;
     /* 0x78 */ aal::Shape* mShape = nullptr;
     /* 0x80 */ bool _80 = false;
 };

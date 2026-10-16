@@ -10,7 +10,7 @@ ForkCapsuleWindFollow::~ForkCapsuleWindFollow() {
 }
 
 bool ForkCapsuleWindFollow::init_(sead::Heap* heap) {
-    _40.sub_71010C42B4();
+    _40.sub_71010C42B4(heap);
     return true;
 }
 

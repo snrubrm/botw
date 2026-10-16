@@ -9,7 +9,7 @@ WindControl::WindControl(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 
 bool WindControl::init_(sead::Heap* heap) {
-    _118.sub_71010C42B4();
+    _118.sub_71010C42B4(heap);
     if (mActor) {
         if (mActor->getName() == "WindGeneratorLength")
             _118._80 = true;
