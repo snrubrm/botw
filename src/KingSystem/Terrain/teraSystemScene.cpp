@@ -12,6 +12,21 @@ void System::sub_7101112A74() {
     _1338 &= ~8u;
 }
 
+void System::sub_71011129CC(const sead::SafeArray<s32, 19>& levels, bool force) {
+    if (!force && (_1338 & 8))
+        return;
+    const u32 count = mScenes.size();
+    for (u32 i = 0; i < count; ++i)
+        mScenes[i].scene->sub_7101101914(levels);
+    if (force)
+        _1338 |= 8;
+}
+
+void System::sub_710111F598(bool a, bool b) {
+    for (s32 i = 0; i < mScenes.size(); ++i)
+        mScenes[i].scene->sub_7101100234(a, b);
+}
+
 void System::sub_7101112AF0(s32 a, s32 b) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)

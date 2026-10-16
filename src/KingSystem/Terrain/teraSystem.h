@@ -532,6 +532,11 @@ public:
     void sub_710111F644(void* value);
     // 0x710111f518 (placeholder name): sub_71011001D4(level, type) on every scene.
     void sub_710111F518(int level, int type);
+    // 0x710111f598 (placeholder name): Scene::sub_7101100234(a, b) on every scene.
+    void sub_710111F598(bool a, bool b);
+    // 0x71011129cc (placeholder name): unless bit 3 of _1338 is set (and not `force`), passes `levels` to
+    // every scene; `force` then sets bit 3.
+    void sub_71011129CC(const sead::SafeArray<s32, 19>& levels, bool force);
     // 0x7101112a74 (placeholder name): sub_7101101964 on every scene, then clears bit 3 of _1338.
     void sub_7101112A74();
     // 0x7101112af0 / 0x7101112b80 (placeholder names): Scene::sub_71010FFE70 / sub_7101100260 on every scene.
