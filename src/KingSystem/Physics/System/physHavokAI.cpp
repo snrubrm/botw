@@ -188,6 +188,10 @@ bool HavokAI::sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& t
     return hit;
 }
 
+bool HavokAI::sub_7100F86324(NavMeshCharacter* nav, const Unk2& query, Unk1* result) {
+    return sub_7100F86334(nav, query, &query._34, result);
+}
+
 void HavokAI::sub_7100F81854() {
     _38->sub_7100F8962C();
 }

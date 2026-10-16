@@ -375,6 +375,27 @@ public:
     // tolerance); true if it hit.
     bool sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4);
 
+    // Placeholder: the query callers of sub_7100F86324 build on the stack (e.g. 0x7100346aa4, 0x7100e79e84):
+    // a start point, a direction and its length, 3.5 at _2c and 0xff at _30. Only the fields callers set
+    // are known; _34 is handed to the query separately.
+    struct Unk2 {
+        sead::Vector3f _0;
+        f32 _c;
+        u64 _10;
+        u32 _18;
+        sead::Vector3f _1c;
+        f32 _28;
+        f32 _2c;
+        u8 _30;
+        u32 _34;
+    };
+
+    // 0x7100f86324 (placeholder name): runs sub_7100F86334 on `query` for the character `nav`; `result`
+    // may be null. True if it hit.
+    bool sub_7100F86324(NavMeshCharacter* nav, const Unk2& query, Unk1* result);
+    // 0x7100f86334 (declared only; 424 B): sub_7100F8688C under _90, or sub_7100F864DC under _c8.
+    bool sub_7100F86334(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
+
     // 0x7100f87ed0 (CSV HavokAI::__auto3, declaration only): the HavokAI counterpart of
     // NavMeshCharacter::sub_7100F76078 (closest navmesh point to `to`, written to `out`).
     Unk_7100f7e9f0 sub_7100F87ED0(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
