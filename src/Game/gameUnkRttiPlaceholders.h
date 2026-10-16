@@ -63,6 +63,8 @@
 #include <aal/aalMarkerController.h>
 
 namespace aal {
+class FxInitializeArg;
+class FxParamSetter;
 class Shape;
 }
 
@@ -3331,8 +3333,11 @@ class Unk_7102502640 : public aal::AuxBusDataSerialCtrl {
     SEAD_RTTI_OVERRIDE(Unk_7102502640, aal::AuxBusDataSerialCtrl)
 public:
     ~Unk_7102502640() override;
-    virtual void m11();
-    virtual void m12();
+    // Slots 11 / 12: the aal::FxDelay rows 0x71012cc1f0 / 0x71012cc4d4 (and the FxReverbI3DL2 ones)
+    // that ksys::snd::FxMgr calls through the vtable (0x71010504fc, 0x7101051154).
+    virtual void initialize(const aal::FxInitializeArg& arg, const aal::FxParamSetter& setter,
+                            sead::Heap* heap);
+    virtual void updateParam(const aal::FxParamSetter& setter);
     virtual void m13();
     virtual void m14();
     virtual void m15() {}

@@ -10,6 +10,8 @@ class Camera;
 class Projection;
 class Viewport;
 }
+class Unk_710251b5c0;
+
 namespace ksys::snd {
 class Unk_7101059888;
 
@@ -27,16 +29,20 @@ public:
     void sub_710105034C();
     void sub_7101051078();
     void sub_71010511D4();
-    // 0x7101051154 (declared only): sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.
+    // 0x7101051154: sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.
     void sub_7101051154(f32 gain);
-    // 0x710105126c (declared only): sets the out gain of the two delay effects at +0x68 / +0x70 (1.0, 0.1).
+    // 0x710105126c: sets the out gain of the two delay effects at +0x68 / +0x70 (1.0, 0.1).
     void sub_710105126C();
     void sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,
                       const sead::Projection& projection, const sead::Viewport& viewport);
 
     u8 _8[0x50 - 8];
     Unk_7101059888* _50;
-    u8 _58[0xa8 - 0x58];
+    u8 _58[0x68 - 0x58];
+    // The two aal::FxDelay effects (vtable 0x710251b5c0) created by init 0x71010504fc.
+    Unk_710251b5c0* _68;
+    Unk_710251b5c0* _70;
+    u8 _78[0xa8 - 0x78];
     // Whole calculation 1050104 uses this signed index for the five-float preset table.
     s32 _a8;
     u8 _ac[0xd8 - 0xac];
