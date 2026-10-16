@@ -171,6 +171,7 @@ target_sources(uking PRIVATE
   uiScreenAppMenuBtn.cpp
   uiScreenMessage3D.cpp
   uiScreenSmall2.cpp
+  uiScreenAmiiboWindow.cpp
   uiScreenLeafSlots.cpp
   uiButtonEventQueue.cpp
   uiScreenEx.cpp
