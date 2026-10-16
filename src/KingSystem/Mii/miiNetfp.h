@@ -4,6 +4,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Mii/miiModelCreator.h"
 
+namespace gsys {
+class Model;
+}
+
 namespace ksys::mii {
 
 class UMii;
@@ -48,6 +52,8 @@ void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
 // 0x7100f5ba04 (placeholder name): part type 2 of sub_7100F5ADA8 (from the hat parameter).
 void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
 
+// 0x7100f5c8d4 (placeholder name): hides the material "Mt_Hair" of `model` (if any).
+void sub_7100F5C8D4(gsys::Model* model);
 // 0x7100f5b8c0 (placeholder name): the hat or hair pattern name of `umii`.
 void sub_7100F5B8C0(sead::BufferedSafeString* out, const UMii& umii);
 

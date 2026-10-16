@@ -1,4 +1,5 @@
 #include "KingSystem/Mii/miiNetfp.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/Mii/miiUMii.h"
 
 namespace ksys::mii {
@@ -372,6 +373,14 @@ void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii) {
         return;
     }
     out->clear();
+}
+
+void sub_7100F5C8D4(gsys::Model* model) {
+    if (!model)
+        return;
+    const auto key = model->searchMaterial("Mt_Hair");
+    if (key.isValid())
+        model->getUnits()(key.model_unit_index)->mModelUnit->setMaterialVisible(key.material_index, false);
 }
 
 }  // namespace ksys::mii
