@@ -28,9 +28,11 @@ class RigidBody;
 // and passes to Element::emitWrap. The holder ctor 0x7100d8cff0 reads the fields.
 class ElementName {
 public:
-    // 0x7100d8cbb4 and 0x7100d8e244 (next to CameraUtil).
+    // 0x7100d8cbb4 (next to CameraUtil); its TU also emits the vtable and D1 0x7100d8e244.
     ElementName();
-    virtual ~ElementName();
+    // The original keeps the vtable store; see upstream GameDataFlagSelector::~GameDataFlagSelector() { ; }
+    // (commit 96101229). Inline: ElementWater's ctor does not call it for its local.
+    virtual ~ElementName() { ; }
 
     /* 0x08 */ sead::SafeString mName = "unknown";
     /* 0x18 */ u32 _18 = 0;

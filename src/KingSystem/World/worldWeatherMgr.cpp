@@ -12,6 +12,7 @@
 #include "KingSystem/World/worldTempMgr.h"
 #include "KingSystem/World/worldTimeMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/World/worldElementWater.h"
 
 namespace ksys::world {
 
@@ -313,4 +314,32 @@ ksys::world::WeatherMgr* getWeatherMgr() {
 
 }  // namespace wm
 
-Unk_710250cfd8::~Unk_710250cfd8() = default;
+// 0x710262012c (placeholder name): when set, new water elements get flag 2.
+bool sUnk_710262012C;
+
+ElementWater* ElementWater::create(const ElementWaterCreateArg* arg) {
+    auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
+    if (holder)
+        return holder->sub_71010EA040(arg);
+    return nullptr;
+}
+
+// NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
+// constructor, so no temporary ElementName is built there.
+ElementWater::ElementWater(const ElementWaterCreateArg& arg, sead::Heap* heap)
+    : Unk_7102518688(ElementName(), heap, false) {
+    mArg = arg;
+    mArg.actor = nullptr;
+    mArg.direction.normalize();
+    if (sUnk_710262012C)
+        mArg.flags |= 2;
+    _1a4 = arg._20;
+
+    ElementName name;
+    name.mName = "water";
+    if (arg.actor && arg.actor->getChemicalContainer())
+        name._18 = arg.actor->getChemicalContainer()->_68;
+    emitWrap(name, ksys::world::Manager::instance()->getElementHolderMaybe());
+}
+
+ElementWater::~ElementWater() = default;
