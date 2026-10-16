@@ -26,6 +26,10 @@ namespace aal {
 class Group;
 }  // namespace aal
 
+namespace ksys::res {
+class Handle;
+}  // namespace ksys::res
+
 namespace xlink2 {
 class Locator;
 class PropertyDefinition;
@@ -114,10 +118,11 @@ public:
     // 0x7101057258 (declared only; 712 B): loads the asset info for `name`; true when done.
     bool sub_7101057258(const sead::SafeString& name, sead::Heap* heap);
     bool readAssetInfo(aal::AssetInfo* asset_info, const sead::SafeString& name, bool flag) override;
+    // 0x7101056bc8
     virtual ~Unk_7102502950();
 
-    s32 _8 = 0;
-    void* _10 = nullptr;
+    // The loaded asset info resources (0x50-byte res::Handle objects).
+    sead::Buffer<res::Handle> mHandles;
     // Bit 0 makes the owner pass this reader to its xlink2 user instance (0x7101020988).
     u8 _18 = 0;
 };
