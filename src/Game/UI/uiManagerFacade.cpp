@@ -1,3 +1,4 @@
+#include <container/seadBuffer.h>
 #include "KingSystem/System/DebugBoard.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/Cooking/cookManager.h"
@@ -128,6 +129,39 @@ void sub_7100AA4810(const PouchItem& item, CookingInfo* out) {
     out->_18 = sead::Mathi::max(data.mSellPrice, 0);
 }
 
+// 0x71025f6b60 / 0x71025f6b30: hero soul and seal actor names (set up by the TU initialiser 0x7100a9fd94)
+static sead::SafeString sUnk_71025f6b60[] = {
+    "Obj_HeroSoul_Rito",       "Obj_HeroSoul_Goron",      "Obj_HeroSoul_Gerudo",
+    "Obj_HeroSoul_Zora",       "Obj_DungeonClearSeal",    "Obj_WarpDLC",
+    "Obj_DLC_HeroSeal_Rito",   "Obj_DLC_HeroSeal_Goron",  "Obj_DLC_HeroSeal_Gerudo",
+    "Obj_DLC_HeroSeal_Zora",   "Obj_DLC_HeroSoul_Rito",   "Obj_DLC_HeroSoul_Goron",
+    "Obj_DLC_HeroSoul_Gerudo", "Obj_DLC_HeroSoul_Zora",
+};
+static sead::Buffer<sead::SafeString> sUnk_71025f6b30(sUnk_71025f6b60);
+
+// 0x7100aa45cc
+// NON_MATCHING: the original reaches the name buffer through the TU's merged globals
+bool sub_7100AA45CC(const sead::SafeString& name) {
+    return u32(sub_7100AA46F0(name)) < 14;
+}
+
+// 0x7100aa7d38
+// NON_MATCHING: the original reaches the name buffer through the TU's merged globals
+const sead::SafeString& sub_7100AA7D38(s32 index) {
+    if (index == -1)
+        return sead::SafeString::cEmptyString;
+    return sUnk_71025f6b30[index];
+}
+
+// 0x7100aa46f0
+// NON_MATCHING: the original reaches the name buffer through the TU's merged globals
+s32 sub_7100AA46F0(const sead::SafeString& name) {
+    for (s32 i = 0; i < 14; ++i) {
+        if (name == sUnk_71025f6b30[i])
+            return i;
+    }
+    return -1;
+}
 // 0x7100aa48c8
 void cookingStuff_0(const sead::SafeString& name, CookingInfo* out) {
     auto* info = ksys::act::InfoData::instance();

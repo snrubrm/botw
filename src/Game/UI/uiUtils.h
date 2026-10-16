@@ -393,6 +393,10 @@ ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
 // 0x7100aa7d38 (placeholder name): the name of hero soul `index` (-1: the empty string) from a UI-side
 // table of 16-byte SafeStrings.
 const sead::SafeString& sub_7100AA7D38(s32 index);
+// 0x7100aa46f0 (placeholder name): the index of `name` in that table, or -1
+s32 sub_7100AA46F0(const sead::SafeString& name);
+// 0x7100aa45cc (placeholder name): whether `name` is in that table
+bool sub_7100AA45CC(const sead::SafeString& name);
 
 // 0x7100aa0a5c (CSV ui::createAndLoadScreenIfNeededImpl): forwards `id` to Manager::createAndLoadScreenIfNeeded
 // (the second parameter is unused; callers pass nullptr).
