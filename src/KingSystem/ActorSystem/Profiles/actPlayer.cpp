@@ -692,6 +692,21 @@ bool Player::sub_7100892098() {
     return util::sub_71011EE4C0(_1c90) > limit && util::sub_71011EE4C0(_1c94) > limit;
 }
 
+// NON_MATCHING: the original loads the angle mask after both angle fields (scheduling only).
+bool Player::sub_71008902B4() {
+    if (!(_209c > 0.05f))
+        return false;
+    const s64 stick = util::sub_71011EE4C0(util::sUnk_7101EC6BA0 & (_1c70 - _1c7c));
+    const s64 dir = util::sub_71011EE4C0(util::sUnk_7101EC6BA0 & (_1c74 - _1c68.value));
+    const auto* params = getParam()->getRes().mGParamList->getPlayer();
+    if (stick <= u32(s64(params->mTurnEnableStickSub.ref() * (0x80000000u / 180.0f))))
+        return false;
+    const u32 limit = u32(s64(params->mTurnEnableDirSub.ref() * (0x80000000u / 180.0f)));
+    if (dir <= limit)
+        return false;
+    return std::abs(_1f98) < limit;
+}
+
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
                             sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
     uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
@@ -904,6 +919,37 @@ void Player::sub_7100892A98() {
         sub_7100855BB4("CutChargeMoveLower", false, -1.0f);
 }
 
+// NON_MATCHING: sub_7100F63210 returns u8 here (the original tests bit 0: bool)
+// (the epsilon test form is the one in aiUnk_7102433970.cpp / aiMessage3DText.cpp).
+void Player::sub_7100881418() {
+    auto* controller = getCharacterController();
+    if (!controller || !controller->sub_7100F63210() || _cf0.isOnBit(25))
+        return;
+    if (_1fb0 > getParam()->getRes().mGParamList->getPlayer()->mRoofCrashVel.ref() ||
+        !(_1ec0.value <= sead::Mathf::epsilon())) {
+        if (mASList->x_1(0, 0) != "JumpStagger")
+            switchToAnimSequenceMaybe("JumpStagger", true, -1.0f);
+        _1ec0 = Timer(0.0f, 0.0f, -1.0f);
+    }
+    sead::Vector3f velocity;
+    controller->sub_7100F5F598(&velocity);
+    if (velocity.y > 0.0f) {
+        controller->sub_7100F62B88(sead::Vector3f::zero);
+        velocity.y = 0.0f;
+        controller->sub_7100F5F6FC(velocity);
+    }
+}
+
+f32 Player::getSwimMoveSpeed() {
+    if (m188() && mASList->x_1(0, 0) == "SwimMove") {
+        if (_c44.isOnBit(5))
+            return getParam()->getRes().mGParamList->getPlayer()->mArmorCompNakedSwimAnimeRate.ref();
+        const f32 level = _2054 + _1ff4;
+        return getStatusEffectSwimingAnimRate(level);
+    }
+    return getStatusEffectSpeed();
+}
+
 // Placeholder name (CSV Player::m71_x): resizes the Tgt cylinder by _cec bit 2 and moves the AreaCheck sensor to
 // _1770.
 void Player::sub_71008655AC() {
@@ -1082,12 +1128,6 @@ f32 Player::getStatusEffectSwimingSpeed(s32 level) {
 f32 Player::getStatusEffectClimbingSpeed(s32 level) {
     eco::StatusEffectInfo info;
     eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ClimbingSpeed, level, &info);
-    return info.val._f32;
-}
-
-f32 Player::getStatusEffectSwimingAnimRate(s32 level) {
-    eco::StatusEffectInfo info;
-    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SwimingAnimRate, level, &info);
     return info.val._f32;
 }
 

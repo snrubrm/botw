@@ -9,6 +9,9 @@
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/gameUnk_710246d058.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -168,6 +171,32 @@ bool Player::sub_710088873C() {
     if (!m225() && !m226())
         return false;
     return _d68 == getEquipmentTypeName(7);
+}
+
+
+// Out of line in the original: getSwimMoveSpeed tail-calls it.
+f32 Player::getStatusEffectSwimingAnimRate(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SwimingAnimRate, level, &info);
+    return info.val._f32;
+}
+
+
+// Kept apart from sub_710086C9E0 (actPlayer.cpp): the original calls it out of line here but inlines it into
+// sub_710086C928.
+bool Player::sub_7100878044() {
+    if (sub_710086C9E0()) {
+        const f32 time = getParam()->getRes().mGParamList->getPlayer()->mPostureContinueTime.ref();
+        _1e60 = Timer(time, time, -1.0f);
+        return true;
+    }
+    if (_17d0->playerCheckController(13) && !m202() && _c44.isOffBit(13) && !m178())
+        return true;
+    if (snd::sub_7100FFED80())
+        return true;
+    if (!(_1e60.value <= sead::Mathf::epsilon()))
+        return true;
+    return !(_1e90 <= sead::Mathf::epsilon());
 }
 
 

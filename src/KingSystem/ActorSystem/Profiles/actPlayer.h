@@ -514,6 +514,13 @@ public:
     void sub_7100873094();
     void sub_710087317C();
     void sub_71008655AC();
+    // 0x7100863254: the swim animation rate while in SwimMove (m188), else getStatusEffectSpeed().
+    f32 getSwimMoveSpeed();
+    // 0x7100878044 (unnamed in the CSV): restarts _1e60 while sub_710086C9E0() holds, else checks controls,
+    // the BGM state and the _1e60 / _1e90 timers.
+    bool sub_7100878044();
+    // 0x71008902b4 (unnamed in the CSV): _209c > 0.05 and both turn angles past the TurnEnable limits.
+    bool sub_71008902B4();
     // 0x7100892f1c (lane4 s48; placeholder name): 0 while `_d24` is set or if |_1f98| < 0xf8000001, else 1 / 2 by the sign of
     // `_1f98`.
     s32 sub_7100892F1C();
@@ -707,7 +714,9 @@ public:
     /* 0x1c6c */ u8 _1c6c[0x1c70 - 0x1c6c];
     /* 0x1c70 */ u32 _1c70;  // an angle index (0x80000000 = reset by PlayerLadderDownStart::leave_)
     /* 0x1c74 */ u32 _1c74;  // an angle index (PlayerLand::enter_)
-    /* 0x1c78 */ u8 _1c78[0x1c84 - 0x1c78];
+    /* 0x1c78 */ u8 _1c78[0x1c7c - 0x1c78];
+    /* 0x1c7c */ u32 _1c7c;  // an angle index (sub_71008902B4)
+    /* 0x1c80 */ u8 _1c80[0x1c84 - 0x1c80];
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
     /* 0x1c88 */ Unk1 _1c88;  // x_5() (sub_710087CF54)
     /* 0x1c8c */ u32 _1c8c;  // an angle index (sub_710087CEEC)
@@ -768,7 +777,8 @@ public:
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
     /* 0x1e24 */ f32 _1e24;  // Master Sword recover time
-    /* 0x1e28 */ u8 _1e28[0x1e6c - 0x1e28];
+    /* 0x1e28 */ u8 _1e28[0x1e60 - 0x1e28];
+    /* 0x1e60 */ ksys::Timer _1e60;  // set to PostureContinueTime by sub_7100878044
     /* 0x1e6c */ f32 _1e6c;  // set to 15 by PlayerAtnMove::enter_
     /* 0x1e70 */ f32 _1e70;
     /* 0x1e74 */ u8 _1e74[0x1e90 - 0x1e74];
@@ -789,9 +799,13 @@ public:
     /* 0x1f98 */ s64 _1f98;  // read by sub_7100892F1C (|_1f98| range test)
     /* 0x1fa0 */ u8 _1fa0[8];
     /* 0x1fa8 */ f32 _1fa8;
-    /* 0x1fac */ u8 _1fac[0x1fbc - 0x1fac];
+    /* 0x1fac */ u8 _1fac[0x1fb0 - 0x1fac];
+    /* 0x1fb0 */ f32 _1fb0;  // compared with RoofCrashVel (sub_7100881418)
+    /* 0x1fb4 */ u8 _1fb4[0x1fbc - 0x1fb4];
     /* 0x1fbc */ f32 _1fbc;
-    /* 0x1fc0 */ u8 _1fc0[0x1ffc - 0x1fc0];
+    /* 0x1fc0 */ u8 _1fc0[0x1ff4 - 0x1fc0];
+    /* 0x1ff4 */ s32 _1ff4;  // swim status level (getSwimMoveSpeed)
+    /* 0x1ff8 */ u8 _1ff8[4];
     /* 0x1ffc */ s32 _1ffc;
     /* 0x2000 */ f32 _2000;
     /* 0x2004 */ s32 _2004;
@@ -811,7 +825,9 @@ public:
     /* 0x2040 */ s32 _2040;
     /* 0x2044 */ s32 _2044;  // armor charge-attack status index, passed to Ecosystem
     /* 0x2048 */ s32 _2048;  // MaterSwordAttackUp status effect level (updateStatusEffectMasterSwordAttackUp)
-    /* 0x204c */ u8 _204c[0x2074 - 0x204c];
+    /* 0x204c */ u8 _204c[0x2054 - 0x204c];
+    /* 0x2054 */ s32 _2054;  // swim status level (getSwimMoveSpeed)
+    /* 0x2058 */ u8 _2058[0x2074 - 0x2058];
     /* 0x2074 */ f32 _2074;
     /* 0x2078 */ u8 _2078[0x207e - 0x2078];
     /* 0x207e */ bool _207e;
