@@ -145,6 +145,8 @@ public:
     static void setHorsePosForMap();
     // 0x7100e824a0 (CSV name): sets flag _0 to `on`, initialises the game data handles (initHorseGameDataIters,
     // 0x7100e82500, declaration only) and registers mReinitSlot. `heap` is unused.
+    // 0x7100e8235c (CSV j_initHorseGameDataIters; name is a guess): the mReinitSlot callback.
+    void onGameDataReinit(ksys::gdt::Manager::ReinitEvent* event);
     void initHorseGameDataItersAndStuff(sead::Heap* heap, bool on);
     void initHorseGameDataIters();
     // 0x7100e88720 (descriptive name): the owned horse (mOwnedHorse) as a HorseBase, or null.

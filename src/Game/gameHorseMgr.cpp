@@ -19,6 +19,10 @@ void HorseMgr::setHorsePosForMap() {
         ksys::gdt::Manager::instance()->setVec3f(pos, "Horse_Pos_For_Map");
 }
 
+void HorseMgr::onGameDataReinit(ksys::gdt::Manager::ReinitEvent* event) {
+    initHorseGameDataIters();
+}
+
 void HorseMgr::initHorseGameDataItersAndStuff(sead::Heap* heap, bool on) {
     _228.change(1 << Flag(Flag::_0), on);
     initHorseGameDataIters();
