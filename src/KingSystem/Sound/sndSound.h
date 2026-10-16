@@ -379,11 +379,12 @@ class Unk_SoundMgr38_40 {
 public:
     // 0x71012be294 (declared only)
     Unk_SoundMgr38_40();
+    // 0x71012be5ec (empty) / 0x71012be5f0 (vtable 0x710251ac60 only has the destructor pair)
     virtual ~Unk_SoundMgr38_40();
-    // 0x71012be5f4 (declared only): called with the heap right after construction.
+    // 0x71012be5f4 (empty in the release build): called with the heap right after construction.
     void sub_71012BE5F4(sead::Heap* heap);
     void sub_71012BEC28();
-    // 0x71012bed18 (declared only; empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
+    // 0x71012bed18 (empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
     void sub_71012BED18();
 
     u8 _8[0x2f0 - 0x8];
