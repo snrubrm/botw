@@ -274,4 +274,20 @@ void ImageResourceMgr::sub_71011334B4() {
     mCS68.unlock();
 }
 
+bool ImageResourceMgr::sub_7101131D68() {
+    if (mList4a18.size() == 0)
+        return false;
+
+    mCS68.lock();
+    while (mList4a18.size() != 0) {
+        Request* request = mList4a18.popFront();
+        mKindLists2[u8(request->_24)].erase(request);
+        if (request->_20 == 0)
+            sub_71011355E8(request);
+        mList31e8.pushBack(request);
+    }
+    mCS68.unlock();
+    return true;
+}
+
 }  // namespace ksys::tera

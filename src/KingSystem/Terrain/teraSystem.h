@@ -14,6 +14,7 @@
 #include <thread/seadCriticalSection.h>
 #include <thread/seadThread.h>
 #include <common/aglGPUMemAddr.h>
+#include <common/aglGPUMemBlock.h>
 #include <common/aglTextureSampler.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Utils/Types.h"
@@ -321,18 +322,29 @@ public:
     bool sub_7101131CDC(System* system);
     // 0x71011334b4 (placeholder name): moves the kind-1 requests to the front of the queue.
     void sub_71011334B4();
+    // 0x71011355e8 (declared only; placeholder name).
+    void sub_71011355E8(Request* request);
+    // 0x7101131d68 (placeholder name): moves every request of mList4a18 to mList31e8 (running
+    // sub_71011355E8 on kind 0); false if there was none.
+    bool sub_7101131D68();
 
     u8 _0[0x28];
     sead::CriticalSection mCS28;
     sead::CriticalSection mCS68;
     u8 _a8[0x31c0 - 0xa8];
     sead::OffsetList<Request> mList31c0;
-    u8 _31d8[0x3200 - 0x31d8];
+    u8 _31d8[0x31e8 - 0x31d8];
+    sead::OffsetList<Request> mList31e8;
     // Pending requests (insertion order depends on the request kind); its size is published in _62a0.
     sead::OffsetList<Request> mList3200;
-    // Indexed by the low byte of Request::_24 (count unknown; 0x6270 bounds it).
-    sead::OffsetList<Request> mKindLists[0x200];
-    u8 _6218[0x6270 - 0x6218];
+    // Indexed by the low byte of Request::_24.
+    sead::OffsetList<Request> mKindLists[0x100];
+    sead::OffsetList<Request> mList4a18;
+    // Indexed like mKindLists (0x7101131d68).
+    sead::OffsetList<Request> mKindLists2[0x100];
+    // Destroyed by 0x7101130df0.
+    agl::GPUMemBlock<u8> mMemBlock6230;
+    u8 _6268[0x6270 - 0x6268];
     s32 _6270;
     u8 _6274[0x6298 - 0x6274];
     sead::Thread* mThread;
