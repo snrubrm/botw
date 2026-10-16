@@ -5,6 +5,8 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -142,6 +144,28 @@ bool NPCTargetMove::sub_7100205BA8() {
         _f0.reset(0.0f, 1.0f);
     }
     return stuck;
+}
+
+void NPCTargetMove::sub_7100205CE4() {
+    auto* nav = mActor->m45();
+    if (!nav)
+        return;
+
+    nav->_1e0.lock();
+    const sead::Vector3f velocity = nav->_23c;
+    nav->_1e0.unlock();
+
+    sead::Vector3f front = mActor->getMtx().getBase(2);
+    front.y = 0.0f;
+    front.normalize();
+    sead::Vector3f dir = velocity;
+    dir.y = 0.0f;
+    dir.normalize();
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, dir, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, angle * 57.29578f * axis.y);
 }
 
 }  // namespace uking::action

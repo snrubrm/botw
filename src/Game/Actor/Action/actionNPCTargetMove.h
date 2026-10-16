@@ -34,6 +34,9 @@ protected:
     bool sub_71002065FC();
     // 0x7100205ba8 (placeholder name): true once the NPC has been stuck against a wall for WallHitTime seconds.
     bool sub_7100205BA8();
+    // 0x7100205ce4 (placeholder name): sets AS parameter 9 to the signed horizontal angle (degrees) between the
+    // actor's front and the navmesh character's velocity.
+    void sub_7100205CE4();
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
