@@ -7,6 +7,9 @@
 // address; the defining TU is unknown.
 namespace uking {
 // 0x7101e7c2b0 (30): the s32 just before the two floats; read by Player::sub_7100884578 (converted to f32).
+// 0x7101e7c244 / 0x7101e7c248 (5.0, 0.5): read by Player::m69_x_6 (push-down vector from _216c).
+extern const f32 sUnk_7101e7c244;
+extern const f32 sUnk_7101e7c248;
 // 0x7101e7c280 - 0x7101e7c29c (9, 9, 9, 9, 3, 3, 3, 3): the champion ability Plus support timer rates inside / outside
 // Hyrule Castle (wind, fire, electric, water; Player::updateSupportTimerRates).
 extern const f32 sUnk_7101e7c280;

@@ -896,6 +896,7 @@ protected:
     friend class uking::action::BrightBowSlowFall;  // D2674 copies the initial world matrix.
     friend class uking::action::EmitAttackBase;  // lerps mScale.x in place
     friend class uking::action::IgnitedThrown;  // writes mScale directly (enter_)
+    friend class Player;  // x_6 / initResidentActors write the resident armor actor's mMtx.
 
     struct Unk1 {
         Actor* actor;

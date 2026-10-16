@@ -204,4 +204,29 @@ bool SiteBoss::Unk_71002cf2ac::sub_710066D9B8(s32 idx) {
     return true;
 }
 
+
+// NON_MATCHING: the original checks the try counter before the hasProc result and keeps 19 in a second
+// register for the first wrap (loop and constant layout only).
+s32 SiteBoss::Unk_71002cf2ac::sub_710066DF44(s32 index, s32 step, s32 skip) {
+    s32 next = index + step;
+    next = next < 0 ? 19 : (next < 20 ? next : 0);
+    if (next == skip) {
+        next = skip + step;
+        next = next < 0 ? 19 : (next < 20 ? next : 0);
+    }
+    if (!_1e0[next].hasProc()) {
+        for (s32 i = 20; i > 0; --i) {
+            next += step;
+            next = next < 0 ? 19 : (next < 20 ? next : 0);
+            if (next == skip) {
+                next = skip + step;
+                next = next < 0 ? 19 : (next < 20 ? next : 0);
+            }
+            if (_1e0[next].hasProc())
+                break;
+        }
+    }
+    return next;
+}
+
 }  // namespace uking::act

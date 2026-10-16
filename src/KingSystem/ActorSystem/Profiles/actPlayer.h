@@ -444,6 +444,9 @@ public:
     void updateResistColdVal();
     void updateStatusEffectAttackUp();
     void m69_x_1();
+    void m69_x_2();
+    bool sub_7100863534();
+    void m69_x_6();
     void showRuntimeTipForColdHotStatusEffects();
     void actionCommon();                                                // 0x86aa94
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
@@ -622,6 +625,9 @@ public:
     void x_33();                                                        // 0x88c900
     // 0x874514: acquires links to the resident actors (ResidentActorMgr::getActorByName).
     void initResidentActors();
+    // 0x85def8 (placeholder name): looks up the resident armor actor `name`, hands it to
+    // PlayerArmors::x_31(slot, armor, flag) and moves it to the player's translation.
+    void x_6(s32 slot, const char* name, bool flag);
     // World ray casts (uking::Unk_71024739d0) from `start` to `end`; on a hit the position and the
     // normal are written to the non-null outputs.
     // 0x87f168: ground layers; `wall` NoClimb rejects the wall codes NoClimb and
@@ -808,7 +814,9 @@ public:
     /* 0x1e60 */ ksys::Timer _1e60;  // set to PostureContinueTime by sub_7100878044
     /* 0x1e6c */ f32 _1e6c;  // set to 15 by PlayerAtnMove::enter_
     /* 0x1e70 */ f32 _1e70;
-    /* 0x1e74 */ u8 _1e74[0x1e90 - 0x1e74];
+    /* 0x1e74 */ u8 _1e74[0x1e78 - 0x1e74];
+    /* 0x1e78 */ ksys::Timer _1e78;  // m69_x_6: counts down before the push-down
+    /* 0x1e84 */ u8 _1e84[0x1e90 - 0x1e84];
     /* 0x1e90 */ f32 _1e90;
     /* 0x1e94 */ f32 _1e94;
     /* 0x1e98 */ f32 _1e98;
@@ -906,7 +914,8 @@ public:
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
     /* 0x215c */ u8 _215c[0x2160 - 0x215c];
     /* 0x2160 */ sead::Vector3f _2160;  // copy of the vector at +0x1a8 of _1870->_c8 (sub_710087CF54)
-    u8 _216c[0x2184 - 0x216c];
+    /* 0x216c */ sead::Vector3f _216c;  // m69_x_6: half of it, minus 5 in y, is the push-down vector
+    /* 0x2178 */ u8 _2178[0x2184 - 0x2178];
     /* 0x2184 */ sead::Vector3f _2184;
     /* 0x2190 */ u8 _2190[0x21b8 - 0x2190];
     // Three lock-guarded positions (m245 / getPosCopyMagnesis / m244 return a pointer to `mPos`).

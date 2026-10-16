@@ -382,6 +382,10 @@ void sub_710073953C(ksys::act::Actor* actor);
 u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos);
 /// 0x710072c278 (lane1 s47, placeholder name; declared only): terrain query at the (x, z) of `pos` (a similar one to sub_710072C494; 1 when the position is on grass / a special surface, with the height in `out`).
 u32 sub_710072C278(f32* out, const sead::Vector3f* pos);
+/// 0x710072c388 (placeholder name; declared only): terrain material at the (x, z) of `pos`: 0 unless the
+/// terrain height (0x71011094a0) is within `max_height_diff` of pos.y; then the material entry (system + 0x1c8,
+/// stride 0x18, value at +0xe8) selected by the unnamed 0x710110bd78 is written to `out`.
+u32 sub_710072C388(u32* out, const sead::Vector3f* pos, f32 max_height_diff);
 
 /// 0x710072c1b8 (placeholder name): the grass amount at the (x, z) of `pos` (Grass::sub_71011516D0; 0 without terrain
 /// or with the grass disabled).

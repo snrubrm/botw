@@ -142,6 +142,8 @@ public:
 
     // 0x7100e2d7fc (CSV setActor).
     void setActor(Actor* actor);
+    // 0x7100e2e35c (declared only).
+    void x_31(s32 slot, Actor* armor, bool flag);
 
     // Inline in the original (uking::act::Armor::m148).
     bool get133() const { return _133; }

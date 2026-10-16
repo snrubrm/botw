@@ -19,6 +19,8 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/E3Mgr.h"
+#include "Game/Actor/actArmorBase.h"
+#include "Game/gameResidentActorMgr.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/gameUnk_710246d058.h"
 #include "Game/gameMaskController.h"
@@ -80,6 +82,9 @@ bool isPlayingBeastGanonDeadEventFlow();
 
 bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
 
+// Defined in actPlayerBase.cpp (0x710084beec).
+bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor);
+
 namespace ksys::act {
 
 s32 Player::m378() {
@@ -121,6 +126,21 @@ void Player::m158() {
         delete mDamageMgr;
         mDamageMgr = nullptr;
     }
+}
+
+void Player::x_6(s32 slot, const char* name, bool flag) {
+    auto* mgr = uking::ResidentActorMgr::instance();
+    if (!mgr)
+        return;
+    auto* armor = sead::DynamicCast<uking::act::ArmorBase>(mgr->getActorByName(name));
+    if (!armor)
+        return;
+    _23e0.x_31(slot, armor, flag);
+    sead::Vector3f pos;
+    mMtx.getTranslation(pos);
+    armor->mMtx.setTranslation(pos);
+    armor->setMtx(armor->mMtx, true, true);
+    armor->nullsub_4648();
 }
 
 BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
@@ -1006,6 +1026,80 @@ f32 Player::getSwimMoveSpeed() {
         return getStatusEffectSwimingAnimRate(level);
     }
     return getStatusEffectSpeed();
+}
+
+// Placeholder name (CSV Player::m69_x_2): with _c98 bit 8 set, runs slot 13 of _2550 for indices 0-11;
+// then sets _2550._139 bits 2-4 while the damage manager's _22c is positive, an event is active or
+// _14c0 is set, and clears them otherwise.
+void Player::m69_x_2() {
+    if (_c98.isOnBit(8)) {
+        for (int i = 0; i < 12; ++i) {
+            // called through a pointer in the original (not devirtualised)
+            (&_2550)->m13(i);
+        }
+    }
+    auto* damage_mgr = sead::DynamicCast<uking::act::DamageMgrPlayer>(getDamageMgr());
+    if (!damage_mgr)
+        return;
+    if (damage_mgr->_22c > 0 || j_eventMgrHasActiveEventMaybe(this) || _14c0)
+        _2550._139.set(0x1c);
+    else
+        _2550._139.reset(0x1c);
+}
+
+// Placeholder name: true while the player is in one of the states checked below (controller check 13
+// outside m202 / _c44 bit 13 / m178, m202, _c44 bit 8 without _d11, m224, using the bow, Cryonis), else
+// whether _d30 names the equipment of type 5.
+bool Player::sub_7100863534() {
+    if ((_17d0->playerCheckController(13) && !m202() && !_c44.isOnBit(13) && !m178()) || m202() ||
+        (_c44.isOnBit(8) && !_d11) || m224() || playerIsReloadingOrChargingOrShootingBow(this) ||
+        (runeMgrCheckCanUseCryonis() && sub_71008494B8())) {
+        return true;
+    }
+    return _d30 == getEquipmentTypeName(5);
+}
+
+// NON_MATCHING: the original copies the controller velocity through a second stack vector before the y check
+// and loads the 5.0 global first.
+// Placeholder name (CSV Player::m69_x_6): sets the character controller's velocity (twice the actor velocity
+// times 30 with _c50 bit 35; the knock-back _1fe8 against the _1b18 z axis; zero while blocked, which resets
+// _1e78; else after _1e78 runs out, half of _216c pushed down by 5), then above y = 1700 clamps the upward speed.
+void Player::m69_x_6() {
+    if (x_2())
+        return;
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+
+    sead::Vector3f velocity;
+    if (_c50.isOnBit(35)) {
+        velocity = (mVelocity + mVelocity) * 30.0f;
+        controller->sub_7100F5F060(velocity);
+    } else if (_1fe8 != 0.0f) {
+        sead::Vector3f dir;
+        _1b18.getBase(dir, 2);
+        dir.normalize();
+        velocity = -(dir * _1fe8);
+        controller->sub_7100F5F060(velocity);
+        _1fe8 = 0.0f;
+    } else if (!_c98.isOnBit(16) || _cec.isOnBit(1) || _cf0.isOnBit(11) ||
+               j_eventMgrHasActiveEventMaybe(this) || _14c0) {
+        _1e78.value = _1e78.previous_value = 1.0f;
+        controller->sub_7100F5F060(sead::Vector3f::zero);
+    } else if (_1e78.value <= sead::Mathf::epsilon()) {
+        velocity = uking::sUnk_7101e7c248 * _216c + sead::Vector3f(0.0f, -uking::sUnk_7101e7c244, 0.0f);
+        controller->sub_7100F5F060(velocity);
+    } else {
+        _1e78.update();
+    }
+
+    if (_1770.y > 1700.0f) {
+        controller->sub_7100F5F598(&velocity);
+        if (velocity.y > 0.0f) {
+            velocity.y = 0.0f;
+            controller->sub_7100F5F6FC(velocity);
+        }
+    }
 }
 
 // Placeholder name (CSV Player::m71_x): resizes the Tgt cylinder by _cec bit 2 and moves the AreaCheck sensor to
