@@ -60,6 +60,12 @@ void ScreenPauseMenu::adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCu
         screen->close(-4);
 }
 
+// 0x71009b01b4
+sead::Vector2f ScreenPauseMenuUnk3a00::sub_71009B01B4() const {
+    const auto& position = mLayout->mPane->GetPosition();
+    return {position.x, position.y};
+}
+
 // 0x71009b0224
 void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
     if (_130 == -1)

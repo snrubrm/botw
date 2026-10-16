@@ -456,6 +456,8 @@ public:
     void sub_71009B205C(eui::LayoutEx* layout);
     void sub_71009B20E4(u32 category, s32 value, s32 old_number);
     void sub_71009B21B4(s32 value, bool old);
+    // 0x71009b2380: sub_71009B20E4 for both the old and the new number
+    void sub_71009B2380(u32 category, s32 old_value, s32 value, s32 old_number, s32 number);
 
     /* 0x08 */ eui::LayoutEx* mLayout = nullptr;
     /* 0x10 */ eui::Animator* mTexturePatternAnimator = nullptr;

@@ -585,6 +585,49 @@ void Unk_710247adc8::sub_71009B20E4(u32 category, s32 value, s32 old_number) {
     }
 }
 
+// 0x71009b2380
+void Unk_710247adc8::sub_71009B2380(u32 category, s32 old_value, s32 value, s32 old_number,
+                                    s32 number) {
+    if (!mLayout)
+        return;
+    if (mTexturePatternAnimator)
+        mTexturePatternAnimator->Stop(category);
+    if (mColorAnimator)
+        mColorAnimator->StopAtMax();
+    sub_71009B21B4(old_value, true);
+    if (mOldNumberAnimator) {
+        if (old_number <= 1) {
+            mOldNumberAnimator->StopAtMin();
+        } else {
+            f32 frame;
+            switch (old_number) {
+            case 2: frame = 1.0f; break;
+            case 3: frame = 2.0f; break;
+            case 4: frame = 0.0f; break;
+            case 5: frame = 3.0f; break;
+            default: frame = 0.0f; break;
+            }
+            mOldNumberAnimator->Stop(frame);
+        }
+    }
+    sub_71009B21B4(value, false);
+    if (!mNumberAnimator)
+        return;
+    if (number <= 1) {
+        mNumberAnimator->StopAtMin();
+    } else {
+        f32 frame;
+        switch (number) {
+        case 2: frame = 1.0f; break;
+        case 3: frame = 2.0f; break;
+        case 4: frame = 0.0f; break;
+        case 5: frame = 3.0f; break;
+        default: frame = 0.0f; break;
+        }
+        mNumberAnimator->Stop(frame);
+    }
+}
+
 Unk_710247adc8::~Unk_710247adc8() = default;
 
 // 0x71009b2ee0

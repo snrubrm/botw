@@ -2476,7 +2476,9 @@ KSYS_CHECK_SIZE_NX150(ScreenButton_7100989968, 0x90);
 
 // Placeholder for the three objects ScreenPauseMenu keeps at 0x3a00 (indexed by the byte at 0x3a18).
 struct ScreenPauseMenuUnk3a00 {
-    u8 _0[0x130];
+    u8 _0[0x20];
+    /* 0x20 */ eui::LayoutEx* mLayout;  // as in eui::ControlBase (read by sub_71009B01B4)
+    u8 _28[0x130 - 0x28];
     /* 0x130 */ s32 _130;
     // index of the first item shown in mButtons
     /* 0x134 */ s32 _134;
