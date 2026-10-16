@@ -38,6 +38,9 @@ public:
 class Unk_71024e1b58 {
 public:
     virtual ~Unk_71024e1b58();
+    // 0x7100e18ec4 (declared only; placeholder name): LumberjackTree::handleMessage_ tests it before
+    // forwarding a 0x8000018 message.
+    bool sub_7100E18EC4();
 };
 
 // Placeholder name (vtable 0x7102404020). `_70` of LumberjackTree; registered as an attack sensor
@@ -74,6 +77,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool handleMessage_(const ksys::Message* message) override;
     void loadParams_() override;
     // 0x710048a190 (placeholder name): emits "Leaf", then drops the loot at the force-set drop position and
     // deletes the actor.
@@ -99,7 +103,10 @@ protected:
     sead::FixedSafeString<0x40> _1e8;
     u8 _240 = 0xff;  // Original constructor sentinel; enter_ assigns tree kinds 0, 1 and 2.
     f32 _244 = 1.0f;
-    u32 _248 = 0;
+    u8 _248 = 0;
+    u8 _249 = 0;
+    u8 _24a = 0;
+    bool _24b = false;  // set by handleMessage_ (0x8000018 / listener _110), cleared by 0x8000019
     bool _24c = false;
     // static_param at offset 0x250
     const float* mFallInterval_s{};

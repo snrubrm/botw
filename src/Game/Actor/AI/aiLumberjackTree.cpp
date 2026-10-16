@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiLumberjackTree.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include "Game/Actor/aiUnk_7102357210.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -218,4 +222,50 @@ void LumberjackTree::onPreDelete() {
         object->unlinkProc(true);
 }
 
+// NON_MATCHING: return value kept in a callee-saved register shared with the inlined listener (regalloc /
+// block layout).
+bool LumberjackTree::handleMessage_(const ksys::Message* message) {
+    if (_110._30)
+        return false;
+    auto* actor = mActor;
+    if (!ksys::act::hasTag(actor, 0x2b533845))
+        return false;
+
+    if (message->getType() == 0x8000019) {
+        _24b = false;
+        return true;
+    }
+
+    if (_a8.m2(*message)) {
+        if (_38 && _38->sub_7100E18EC4()) {
+            _f8.sub_710070DE10(message->getSource(), true);
+            _a8.x();
+        }
+    } else if (!_110.m2(*message)) {
+        return false;
+    }
+
+    _24b = true;
+    // inline-only in the original: the body of LodState::sub_710125122C (as in PhysicsUserTag)
+    if (auto* lod = actor->getLodState()) {
+        lod->mFlags8.reset(0x40);
+        lod->_60 = 0;
+    }
+    return true;
+}
+
 }  // namespace uking::ai
+
+bool Unk_7102404060::m2(const ksys::Message& message) {
+    if (message.getType() != 0x8000018)
+        return false;
+
+    auto* payload = static_cast<Unk_7102404060_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38.mLink);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
