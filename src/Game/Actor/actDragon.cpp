@@ -9,6 +9,8 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::act {
 
@@ -99,6 +101,20 @@ inline float sqXYZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
     sead::Vector3f diff = a;
     diff -= b;
     return diff.squaredLength();
+}
+
+// Name from the CSV (dragon::isWithin1kmOfHyruleCastle). Despite the name, false when the player is in the open
+// world within 1000 (XZ) of Hyrule Castle (-244.9891, -945.029); true otherwise.
+bool isWithin1kmOfHyruleCastle() {
+    auto* world = ksys::world::Manager::instance();
+    if (world && world->getStageType() == ksys::StageType::OpenWorld) {
+        const auto& pos = getPlayerPosition();
+        const f32 dx = -244.9891f - pos.x;
+        const f32 dz = -945.029f - pos.z;
+        if (dx * dx + dz * dz < 1000000.0f)
+            return false;
+    }
+    return true;
 }
 
 // NON_MATCHING: Swapped arguments in fadd for distance calcuation
