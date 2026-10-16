@@ -2,6 +2,7 @@
 #include <gfx/seadCamera.h>
 #include <gfx/seadViewport.h>
 #include "Game/Actor/aiUnk_7100D8C538.h"
+#include "KingSystem/Chemical/chmElement.h"
 
 bool sub_7100D8C538(const sead::Vector3f& pos, f32 near_clip, f32 far_clip) {
     auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();
@@ -106,3 +107,11 @@ f32 sub_7100D8C8BC() {
 }
 
 }  // namespace ksys
+
+ElementName::ElementName() = default;
+
+// The original keeps the vtable store; see upstream GameDataFlagSelector::~GameDataFlagSelector() { ; }
+// (commit 96101229).
+ElementName::~ElementName() {
+    ;
+}

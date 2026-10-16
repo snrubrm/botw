@@ -28,14 +28,15 @@ class RigidBody;
 // and passes to Element::emitWrap. The holder ctor 0x7100d8cff0 reads the fields.
 class ElementName {
 public:
+    // 0x7100d8cbb4 and 0x7100d8e244 (next to CameraUtil).
     ElementName();
     virtual ~ElementName();
 
-    /* 0x08 */ sead::SafeString mName;
-    /* 0x18 */ u32 _18;
-    /* 0x20 */ ksys::act::Chemical* _20;
-    /* 0x28 */ u32 _28;
-    /* 0x30 */ u64 _30;
+    /* 0x08 */ sead::SafeString mName = "unknown";
+    /* 0x18 */ u32 _18 = 0;
+    /* 0x20 */ ksys::act::Chemical* _20 = nullptr;
+    /* 0x28 */ u64 _28 = 0;
+    /* 0x30 */ u64 _30 = 0;
 };
 KSYS_CHECK_SIZE_NX150(ElementName, 0x38);
 
