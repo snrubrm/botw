@@ -2223,6 +2223,68 @@ void ScreenAppPictureBookUnk::sub_7100942AE0() {
     }
 }
 
+// 0x7100943c84
+void ScreenAppPictureBookUnk::sub_7100943C84() {
+    _340 = 2;
+    _28 |= 2;
+    sub_710093F7F8(_2c & 1);
+    m12();
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                continue;
+            for (auto& unit : group.mUnits)
+                unit.m10();
+        }
+    }
+}
+
+// 0x7100943b60
+void ScreenAppPictureBookUnk::sub_7100943B60(s32 state) {
+    _340 = 1;
+    _28 |= 1;
+    if (mEntries.data()) {
+        for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+            if (!*it)
+                continue;
+            for (auto& group : (*it)->mGroupList->mUnits)
+                group.sub_710093A008(state);
+        }
+    }
+    m11();
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                continue;
+            for (auto& unit : group.mUnits)
+                unit.m9();
+        }
+    }
+}
+
+// 0x7100943d5c
+void ScreenAppPictureBookUnk::sub_7100943D5C(s32 state) {
+    _340 = 3;
+    _28 |= 4;
+    if (mEntries.data()) {
+        for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+            if (!*it)
+                continue;
+            for (auto& group : (*it)->mGroupList->mUnits)
+                group.sub_710093A0A8(state);
+        }
+    }
+    m13();
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                continue;
+            for (auto& unit : group.mUnits)
+                unit.m11();
+        }
+    }
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
