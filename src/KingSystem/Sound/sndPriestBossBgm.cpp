@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2Event.h>
 #include <xlink2/xlink2EventSLink.h>
@@ -164,6 +165,49 @@ void Unk_71024fe970::hm15() {
     if ((mFlags & 0x40) && ((mFlags & 0x80) ? _1a0 : _1e8)._3c == 0) {
         mFlags = (mFlags & ~0x40) ^ 0x80;
         _198 = _19c;
+    }
+}
+
+// NON_MATCHING: branch layout (the original reloads the state after each case).
+void Unk_71024fe970::Slot::sub_710100D8B8() {
+    if (!mEntry)
+        return;
+    switch (_3c) {
+    case 4:
+        if (mFader.getValue() == mFader.getNextValue()) {
+            mEntry->sub_7100FF6A64(0.01f);
+            _34 = -1;
+            mEntry = nullptr;
+            _38 = 0.0f;
+            _3c = 0;
+            _40 = true;
+        }
+        break;
+    case 2:
+        if (mFader.getValue() == mFader.getNextValue())
+            _3c = 3;
+        break;
+    case 1:
+        if (_34 < _30 || sead::Mathi::abs(_30 - _34) < 1600) {
+            if (!mEntry->mHandle.isActive())
+                break;
+            auto* executor =
+                static_cast<xlink2::EventSLink*>(mEntry->mHandle.getEvent())->getAliveAssetExecutor();
+            if (!executor)
+                break;
+            if (auto* source = executor->getHandle()->getSoundSource()) {
+                source->startPrepared();
+                mFader.setValueImmediate(0.0f);
+                mFader.moveTo(1.0f, _38);
+                _3c = 2;
+            }
+        }
+        break;
+    }
+    if (_3c != 0) {
+        mFader.calc();
+        if (mEntry)
+            mEntry->_20 = sead::Mathf::max(mFader.getValue(), 0.0f);
     }
 }
 

@@ -2990,7 +2990,8 @@ public:
         aal::TimedFader mFader;
         s32 _30;
         s32 _34;
-        s32 _38;
+        // The fade-in time of sub_710100D8B8.
+        f32 _38;
         s32 _3c;
         bool _40;
         // Set by sub_710100E108.
