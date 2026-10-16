@@ -55,6 +55,7 @@ target_sources(uking PRIVATE
   sndSoundProxyMgr.cpp
   sndVoice.cpp
   sndSpotBgm.cpp
+  sndSpotBgmGroup.cpp
   sndSoundMgr30_10.cpp
   sndSpotBgmHandle.cpp
   sndUnk_710260f248.cpp

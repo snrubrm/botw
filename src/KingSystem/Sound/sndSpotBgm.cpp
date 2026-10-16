@@ -9,27 +9,6 @@
 
 namespace ksys::snd {
 
-Unk_710260f1a8::~Unk_710260f1a8() {
-    mInstances.freeBuffer();
-    _60.freeBuffer();
-}
-
-void Unk_710260f1a8::m12(f32 fade_sec) {
-    auto lock = sead::makeScopedLock(mLock);
-    for (s32 i = 0; i < mInstances.size(); ++i) {
-        if (auto* instance = mInstances[i])
-            instance->sub_710102413C(fade_sec);
-    }
-}
-
-void Unk_710260f1a8::m13(f32 fade_sec) {
-    auto lock = sead::makeScopedLock(mLock);
-    for (s32 i = 0; i < mInstances.size(); ++i) {
-        if (auto* instance = mInstances[i])
-            instance->sub_710102418C(fade_sec);
-    }
-    _28 = 0;
-}
 
 namespace {
 const char* sLessonNames[] = {"Lesson1", "Lesson2", "Lesson3", "Lesson4"};
