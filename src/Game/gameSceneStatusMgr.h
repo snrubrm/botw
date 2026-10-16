@@ -11,14 +11,14 @@ class DebugStatus;
 // Name from the CSV (GameSceneStatusMgr::createInstance 0x71010bd158, registerStatus 0x71010bd280, ...;
 // the CSV name has no namespace). A sead singleton without vtable that keeps the sorted list of
 // DebugStatus lines and draws them (debug builds only, mostly stubbed in the release binary).
-// TODO: incomplete (registerStatus and the draw function are not decompiled).
+// TODO: incomplete (the draw function is not decompiled).
 class GameSceneStatusMgr {
     SEAD_SINGLETON_DISPOSER(GameSceneStatusMgr)
     GameSceneStatusMgr() = default;
 
 public:
     void initStubbed();
-    // 0x71010bd280 (declared only): adds `status` and sorts the list by id, then by title.
+    // 0x71010bd280: adds `status` and sorts the list by id, then by title.
     void registerStatus(DebugStatus* status);
     // 0x71010bd50c
     void unregisterStatus(DebugStatus* status);

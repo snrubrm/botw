@@ -28,6 +28,18 @@ void DebugStatus::stopTimer() {
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneStatusMgr)
 
+// NON_MATCHING: register allocation and block order in the inlined sort (same instructions otherwise)
+void GameSceneStatusMgr::registerStatus(DebugStatus* status) {
+    if (!status)
+        return;
+    mStatuses.pushBack(status);
+    mStatuses.sort([](const DebugStatus* a, const DebugStatus* b) {
+        if (a->getId() != b->getId())
+            return a->getId() - b->getId();
+        return a->getTitle().compare(b->getTitle());
+    });
+}
+
 void GameSceneStatusMgr::unregisterStatus(DebugStatus* status) {
     if (status) {
         const s32 idx = mStatuses.indexOf(status);

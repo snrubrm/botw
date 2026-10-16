@@ -21,6 +21,9 @@ public:
     void startTimer();
     void stopTimer();
 
+    s32 getId() const { return mId; }
+    const sead::SafeString& getTitle() const { return mTitle; }
+
 private:
     s32 mId;
     s32 _4 = 0;
