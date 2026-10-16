@@ -311,5 +311,19 @@ void Unk_71024fd948::hm14() {
     _19c = 0;
     _1a0 = 0;
     _1b0 = 0;
-    _1b4 = false;
+    _1b4 = 0;
+}
+
+void Unk_71024fd948::sub_7101003A74() {
+    if (_68._18 & 1) {
+        const u32 first = sead::GlobalRandom::instance()->getU32(8);
+        u32 second = sead::GlobalRandom::instance()->getU32(7);
+        if (first == second)
+            ++second;
+        const sead::FormatFixedSafeString<32> first_name("Piano_0%d", first);
+        sub_71010209FC(first_name);
+        const sead::FormatFixedSafeString<32> second_name("Piano_0%d", second);
+        sub_71010209FC(second_name);
+    }
+    _1b4 |= 1;
 }

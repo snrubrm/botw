@@ -2804,6 +2804,8 @@ public:
     void hm14() override;
     // 0x710100390c (declared only; 360 B)
     void hm15() override;
+    // 0x7101003a74: plays two different random piano parts (Piano_00 .. Piano_07).
+    void sub_7101003A74();
 
     // The dungeon reward BGM ("DungeonRewardBgm"; 0x1b8 bytes, constructor 0x7101003750).
     explicit Unk_71024fd948(const ksys::snd::BgmInitArg& arg);
@@ -2816,7 +2818,8 @@ public:
     f32 _1a8 = 0;
     f32 _1ac = 0;
     u32 _1b0 = 0;
-    bool _1b4 = false;
+    // Bit 0 is set by sub_7101003A74.
+    u8 _1b4 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fd948, 0x1b8);
 
