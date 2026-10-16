@@ -50,6 +50,94 @@ void ClusteredRenderer::sub_710124271C(sead::Thread*, sead::MessageQueue::Elemen
     sub_7101246FBC();
 }
 
+// NON_MATCHING: the original does not pass `this` to sub_710124474C / sub_7101244980 (their first argument is
+// unused, so it looks dead-argument-eliminated); register allocation and a few compare forms differ.
+void ClusteredRenderer::sub_7101246FBC() {
+    s32 wait_ms = 0;
+    auto& queue0 = mData.mQueues[0];
+    auto& queue1 = mData.mQueues[1];
+    auto& queue2 = mData.mQueues[2];
+
+    mData._218.lock();
+
+    while (!(mData2._c9c & 0x40000000)) {
+        if (queue0.mRead == queue0.mWrite)
+            break;
+        mData._198.lock();
+        if (queue0.mRead == queue0.mWrite) {
+            mData._198.unlock();
+            break;
+        }
+        auto& entry = queue0.mItems[queue0.mRead.increment() % 32];
+        ClusteredRendererRegion* region = entry.mRegion;
+        entry.mRegion = nullptr;
+        res::Handle* handle = entry.mHandle;
+        const u32 _14 = entry._14;
+        if (entry.mFrame == region->_90) {
+            region->_90 = mData._c38;
+            const u32 frame = region->_90;
+            mData._198.unlock();
+            sub_710124474C(region);
+            queue1.push({region, handle, frame, _14});
+        } else {
+            mData._198.unlock();
+        }
+    }
+
+    while (!(mData2._c9c & 0x40000000)) {
+        if (queue1.mRead == queue1.mWrite)
+            break;
+        if (mData._c38 < 3)
+            break;
+        auto& entry = queue1.mItems[queue1.mRead % 32];
+        if (mData._c38 - entry.mFrame < 3)
+            break;
+        sub_7101244980(entry.mRegion, true);
+        if (loadX_0(entry.mRegion, entry.mHandle, entry.mFrame) == 0) {
+            queue2.push(entry);
+        } else if (entry.mFrame == entry.mRegion->_90) {
+            sub_710124474C(entry.mRegion);
+            sub_7101244980(entry.mRegion, true);
+        }
+        entry.mRegion = nullptr;
+        queue1.mRead.increment();
+    }
+
+    while (!(mData2._c9c & 0x40000000)) {
+        if (queue2.mRead == queue2.mWrite)
+            break;
+        auto& entry = queue2.mItems[queue2.mRead % 32];
+        const s32 result = sub_71012460A4(entry.mRegion, entry.mFrame);
+        if (result == 1) {
+            if (!(mData2._c9c & 0x40000000) && entry.mFrame == entry.mRegion->_90) {
+                sub_710124474C(entry.mRegion);
+                sub_7101244980(entry.mRegion, true);
+            }
+        } else if (result == 2) {
+            wait_ms = 33;
+            break;
+        }
+        entry.mRegion = nullptr;
+        queue2.mRead.increment();
+    }
+
+    mData._218.unlock();
+    if (mData2._c9c & 0x40000000)
+        return;
+
+    mData._198.lock();
+    if (queue0.mRead == queue0.mWrite && queue1.mRead == queue1.mWrite && queue2.mRead == queue2.mWrite)
+        mData2._c9c |= 4;
+    else
+        mData.mThread->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
+    mData._198.unlock();
+
+    if (wait_ms == 0)
+        sead::Thread::yield();
+    else
+        sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(wait_ms));
+}
+
 // NON_MATCHING: the original reloads mOwner before loading mIndex (C++14 evaluation order of |=, or an
 // inline bit-set helper on the owner; not applied).
 void ClusteredRenderer::sub_7101242720(res::TextureHandleList::Entry* entry) {
@@ -312,20 +400,8 @@ void ClusteredRenderer::sub_71012443AC() {
             continue;
         region->_90 = item.mFrame;
 
-        auto& queue = mData.mQueues[0];
-        while (queue.mRead != queue.mWrite) {
-            auto& entry = queue.mItems[queue.mRead % 32];
-            if (entry.mFrame == entry.mRegion->_90)
-                break;
-            entry.mRegion = nullptr;
-            queue.mRead.increment();
-        }
-
-        auto& slot = queue.mItems[queue.mWrite % 32];
-        if (slot.mRegion)
+        if (!mData.mQueues[0].push(item))
             continue;
-        slot = item;
-        queue.mWrite.increment();
         region->mState.exchange(4);
         mData._168.erase(&item);
     }

@@ -38,7 +38,6 @@ namespace ksys::act {
 
 class ClusteredRenderer;
 struct ClusteredRendererCells;
-struct ClusteredRendererRegion;
 
 // Placeholder names: what TextureHandleList::Entry::sub_71012BD4D8 returns, as used by
 // ClusteredRenderer::sub_7101242720 (a use count at 0x84 of the owner and a bit per slot index).
@@ -55,6 +54,16 @@ struct ClusteredRendererTexMaybe {
     u8 _0[0xb0];
     ClusteredRendererTexOwnerMaybe* mOwner;
     u32 mIndex;
+};
+
+// Placeholder name: one of the four regions of ClusteredRendererCells (sub_7101244210 resets and
+// unloads the ones it no longer needs).
+struct ClusteredRendererRegion {
+    u8 _0[0x68];
+    // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
+    sead::Atomic<s32> mState;
+    u8 _6c[0x90 - 0x6c];
+    sead::Atomic<u32> _90;
 };
 
 // Placeholder: the second base of ClusteredRenderer (at 0xe0; its vtable 0x7102516df0 in ClusteredRenderer's
@@ -89,6 +98,25 @@ struct ClusteredRendererData {
     sead::CriticalSection _218;
     // Placeholder: a ring of 32 list items; 0x7101246fbc reads with atomic read counters.
     struct Queue {
+        // inline-only in the original; name is a guess. sub_71012443AC and the thread function
+        // 0x7101246fbc (twice) repeat it: drops entries whose region moved on (frame mismatch), then
+        // appends `item` unless the write slot is still in use.
+        bool push(const ListItem& item) {
+            while (mRead != mWrite) {
+                auto& entry = mItems[mRead % 32];
+                if (entry.mFrame == entry.mRegion->_90)
+                    break;
+                entry.mRegion = nullptr;
+                mRead.increment();
+            }
+            auto& slot = mItems[mWrite % 32];
+            if (slot.mRegion)
+                return false;
+            slot = item;
+            mWrite.increment();
+            return true;
+        }
+
         ListItem mItems[32];
         sead::Atomic<u32> mRead;
         sead::Atomic<u32> mWrite;
@@ -184,8 +212,18 @@ public:
     void sub_710124A02C();
     // 0x710124271c (placeholder name): the thread function (mThreadDelegate).
     void sub_710124271C(sead::Thread* thread, sead::MessageQueue::Element msg);
-    // 0x7101246fbc (declaration only; placeholder name)
+    // 0x7101246fbc (placeholder name): one step of the loader thread: moves regions from queue 0 to 1 (after
+    // releasing their old data), loads queue 1 entries (loadX_0) into queue 2 and finishes queue 2.
     void sub_7101246FBC();
+    // 0x710124474c (declaration only; placeholder name): releases a region's models and xlinks.
+    void sub_710124474C(ClusteredRendererRegion* region);
+    // 0x7101244980 (declaration only; placeholder name)
+    void sub_7101244980(ClusteredRendererRegion* region, bool flag);
+    // 0x710124536c (CSV ClusteredRenderer::loadX_0; declaration only): 0 when the region must be finished in
+    // queue 2.
+    s32 loadX_0(ClusteredRendererRegion* region, res::Handle* handle, u32 frame);
+    // 0x71012460a4 (declaration only; placeholder name): 1 = done, 2 = wait (sleep 33 ms).
+    s32 sub_71012460A4(ClusteredRendererRegion* region, u32 frame);
     // 0x7101242720 (placeholder name): delegate _c48.
     void sub_7101242720(res::TextureHandleList::Entry* entry);
 
@@ -228,16 +266,6 @@ public:
 
     ClusteredRendererData mData;
     ClusteredRendererData2 mData2;
-};
-
-// Placeholder name: one of the four regions of ClusteredRendererCells (sub_7101244210 resets and
-// unloads the ones it no longer needs).
-struct ClusteredRendererRegion {
-    u8 _0[0x68];
-    // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
-    sead::Atomic<s32> mState;
-    u8 _6c[0x90 - 0x6c];
-    u32 _90;
 };
 
 // Placeholder name: the object at ClusteredRenderer+0xf0: four regions with their resource handles and a
