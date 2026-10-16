@@ -28,6 +28,11 @@ public:
     // 0x7100671634 (CSV IceBlockMgr::x_2).
     int handleMessage(const ksys::Message* message) override { return 1; }
 
+    // 0x710066f004 / 0x710066f038 (CSV IceBlockMgr::__auto2; placeholder names): _140 / 50 clamped to [0, 1],
+    // and whether _140 is positive.
+    f32 sub_710066F004() const;
+    bool sub_710066F038() const;
+
     // 0x710066f8c4: declaration only; removes all linked ice blocks.
     void sub_710066F8C4();
 
@@ -38,7 +43,9 @@ public:
     /* 0x080 */ ksys::act::BaseProcLink _80;
     /* 0x090 */ ksys::ActorMessageTransceiver mTransceiver;
     /* 0x0e8 */ u16 _e8 = 0;
-    /* 0x0ea */ u8 _ea[0x148 - 0xea];
+    /* 0x0ea */ u8 _ea[0x140 - 0xea];
+    /* 0x140 */ f32 _140;  // a level: sub_710066F004 returns it / 50 clamped to [0, 1]
+    /* 0x144 */ u8 _144[0x148 - 0x144];
     /* 0x148 */ f32 _148 = -1.0;
     /* 0x14c */ u16 _14c = 0;
     /* 0x14e */ bool _14e = false;  // set by RemainsWaterBattleRoot::handleMessage_ (message 0x8000069)

@@ -1,4 +1,5 @@
 #include "Game/gameIceBlockMgr.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
@@ -15,6 +16,14 @@ IceBlockMgr::~IceBlockMgr() {
         ksys::phys::QueryContactPointInfo::free(_158);
         _158 = nullptr;
     }
+}
+
+f32 IceBlockMgr::sub_710066F004() const {
+    return sead::Mathf::clamp(_140 / 50.0f, 0.0f, 1.0f);
+}
+
+bool IceBlockMgr::sub_710066F038() const {
+    return _140 > 0.0f;
 }
 
 }  // namespace uking
