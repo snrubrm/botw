@@ -593,6 +593,12 @@ void ScreenAppPictureBookEntry::Params::sub_7100938F28(const Params& other) {
     _2d0 = other._2d0;
 }
 
+// 0x7100943fe0
+void ScreenAppPictureBookUnk::sub_7100943FE0(sead::Heap* heap, s32 count) {
+    if (count > 0)
+        mGroupLists.allocBuffer(count, heap);
+}
+
 // NON_MATCHING: the not-found -1 goes through w2 instead of w1 (register allocation)
 // 0x710093e42c
 bool ScreenAppPictureBookUnk::sub_710093E42C(s32 index, s32 mode) {
@@ -753,7 +759,7 @@ void ScreenAppPictureBookUnk::sub_710093F594(bool flag) {
 void ScreenAppPictureBookUnk::sub_710093F670() {
     if ((_2c & 1) == 0)
         return;
-    u32 n = _298;
+    u32 n = mGroupLists.size();
     if (s32(n) < 1)
         return;
     u64 count298 = n;
@@ -761,7 +767,7 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
     u64 i = 0;
     while (true) {
         if (lim > i) {
-            PictureBookGroupList* group = _2a0[i];
+            PictureBookGroupList* group = mGroupLists.data()[i];
             if (group && group->mUnits.size() >= 1) {
                 u32 count = group->mUnits.size();
                 u64 last = u64(count) - 1;
@@ -811,7 +817,7 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
         }
         ++i;
         if (i != count298) {
-            lim = _298;
+            lim = mGroupLists.size();
             continue;
         }
         break;
@@ -822,10 +828,10 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
 // NON_MATCHING: the 7-operand flag expression is lowered to branches plus a cset, while the original
 // funnels all false paths to a shared mov w1,0; registers differ in that block.
 void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
-    s64 count = _298;
+    s64 count = mGroupLists.size();
     if (count == 0)
         return;
-    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** outer = mGroupLists.data();
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
@@ -862,11 +868,11 @@ void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
 // via mov w0,wzr while the original returns the null pointer itself via mov w0,w8.
 s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
     s32 result = -1;
-    s64 count = _298;
+    s64 count = mGroupLists.size();
     if (count == 0)
         return -1;
     Unk_7102474e38* l = nullptr;
-    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** outer = mGroupLists.data();
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
@@ -1110,10 +1116,10 @@ bool ScreenAppPictureBookUnk::sub_710093FE74(s32 index) const {
 
 // 0x71009401e4
 void ScreenAppPictureBookUnk::sub_71009401E4() {
-    s64 count = _298;
+    s64 count = mGroupLists.size();
     if (count == 0)
         return;
-    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** outer = mGroupLists.data();
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
@@ -1134,10 +1140,10 @@ void ScreenAppPictureBookUnk::sub_71009401E4() {
 
 // 0x7100940288
 void ScreenAppPictureBookUnk::sub_7100940288() {
-    s64 count = _298;
+    s64 count = mGroupLists.size();
     if (count == 0)
         return;
-    PictureBookGroupList** outer = _2a0;
+    PictureBookGroupList** outer = mGroupLists.data();
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;

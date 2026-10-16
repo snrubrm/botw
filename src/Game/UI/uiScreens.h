@@ -2899,6 +2899,8 @@ struct ScreenAppPictureBookUnk {
     bool sub_710093DAFC(s32 index, s32 entry, s32 mode);
     // 0x710093e42c (placeholder name): selects the overall item `index` (clamped to _2ac) through sub_710093DAFC
     bool sub_710093E42C(s32 index, s32 mode);
+    // 0x7100943fe0 (placeholder name): allocates room for `count` group lists
+    void sub_7100943FE0(sead::Heap* heap, s32 count);
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
 
@@ -2922,9 +2924,9 @@ struct ScreenAppPictureBookUnk {
     u8 _d4[0x288 - 0xd4];
     // Full producer 943e80 calls PtrArrayImpl::allocBuffer at +288 then pushes 0x398 entries.
     /* 0x288 */ sead::PtrArray<ScreenAppPictureBookEntry> mEntries;
-    /* 0x298 */ s32 _298;
-    u8 _29c[0x2a0 - 0x29c];
-    /* 0x2a0 */ PictureBookGroupList** _2a0;
+    // the group lists shared by the entries (sub_7100943FE0 allocates them; ScreenAppPictureBookEntry::sub_710093A2F8
+    // adds them)
+    /* 0x298 */ sead::PtrArray<PictureBookGroupList> mGroupLists;
     /* 0x2a8 */ s32 _2a8;
     /* 0x2ac */ s32 _2ac;
     u8 _2b0[0x2d8 - 0x2b0];
