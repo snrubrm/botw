@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
@@ -394,4 +395,44 @@ bool Unk_710250c6d8::m29(const ElementName& name, sead::Heap* heap) {
 void Unk_710250c6d8::m33(bool a, bool fixed) {
     if (_50)
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
+
+// NON_MATCHING: prologue argument moves are ordered differently.
+bool Unk_710250c530::sub_71010C5A10(f32 max_height, f32 radius, const sead::Vector3f& pos) {
+    if (_10->isAddedToWorld())
+        return false;
+    f32 height = ksys::act::sub_7100E41584(pos, max_height);
+    if (height < max_height) {
+        height -= radius;
+        if (height < 0.0f)
+            height = 0.0f;
+    }
+    if (!_10)
+        return false;
+    _10->setVertices(sead::Vector3f::ey * -radius, sead::Vector3f::ey * (height + radius));
+    _10->setRadius(radius);
+    _10->setPosition(pos, ksys::phys::PropagateToLinkedMotions(true));
+    _10->addToWorld();
+    _18 = pos;
+    _24 = height;
+    _28 = radius;
+    if (!_8) {
+        Unk_710250c3e8Arg arg;
+        arg.body = _10;
+        arg._8 = 20.0f;
+        arg._c = height;
+        arg._10 = radius;
+        auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
+        _8 = holder ? holder->sub_71010C79DC(&arg) : nullptr;
+    }
+    return true;
+}
+
+void Unk_710250c530::sub_71010C5B78() {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+    if (_10 && (_10->isAddedToWorld() || _10->isAddingBodyToWorld()))
+        _10->removeFromWorld();
 }

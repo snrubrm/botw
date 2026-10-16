@@ -17,6 +17,7 @@
 
 class ElementName;
 class Unk_71025187d0;
+class Unk_710250c3e8;
 
 namespace ksys::world {
 class ChemicalMgr;
@@ -28,6 +29,7 @@ class Shape;
 
 namespace ksys::phys {
 class RigidBody;
+class CylinderRigidBody;
 class CollisionInfo;
 class ContactPointInfo;
 class SystemGroupHandler;
@@ -158,12 +160,16 @@ public:
     Unk_710250c530();
     virtual ~Unk_710250c530();
     void sub_71010C587C(sead::Heap* heap);
+    // lane1 s95: 0x71010c5a10 (placeholder name): places the updraft cylinder at `pos` (height from
+    // 0x7100e41584 up to `max_height`), adds it to the world and creates the Updraft element. False when
+    // the body is already in the world.
+    bool sub_71010C5A10(f32 max_height, f32 radius, const sead::Vector3f& pos);
     // Full 96-byte deactivation and pool reset pass this directional-wind record.
     void sub_71010C5B78();
 
-    // Carried directional-wind element from 10C79DC; its interface remains opaque.
-    void* _8 = nullptr;
-    ksys::phys::RigidBody* _10 = nullptr;
+    // lane1 s95: the Updraft element from 10C79DC.
+    ::Unk_710250c3e8* _8 = nullptr;
+    ksys::phys::CylinderRigidBody* _10 = nullptr;
     sead::Vector3f _18;
     f32 _24 = 1.0f;
     f32 _28 = 1.0f;
