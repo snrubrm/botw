@@ -7,7 +7,7 @@ namespace ksys::tera {
 void Scene::sub_71011001D4(int level, int type) {
     _2940 = level;
     _2941 = type;
-    const u32 max = _29 + _2780 + _28;
+    const u32 max = _0[0]._29 + _2780 + _0[0]._28;
     if (_2941 > max)
         _2941 = max;
     if (_2940 > _2941)
@@ -18,6 +18,17 @@ void Scene::sub_71011001D4(int level, int type) {
 void Scene::sub_7101100234(bool a, bool b) {
     _2998 = a ? _2998 | 8 : _2998 & ~8u;
     _2998 = b ? _2998 | 0x10 : _2998 & ~0x10u;
+}
+
+void Scene::sub_7101100260(s32 a, s32 b, s32 c, s32 d) {
+    _0[0]._1c = a;
+    _0[2]._1c = b;
+    _0[3]._1c = c;
+    _0[4]._1c = d;
+    _0[5]._1c = a;
+    _0[6]._1c = b;
+    _0[7]._1c = c;
+    _0[8]._1c = 0xfff0;
 }
 
 void Scene::sub_7101101A10(void* a, void* b, void* c, void* d, void* e) {

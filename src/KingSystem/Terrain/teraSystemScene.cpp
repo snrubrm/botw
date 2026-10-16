@@ -10,6 +10,18 @@ void System::sub_7101112A74() {
     _1338 &= ~8u;
 }
 
+void System::sub_7101112AF0(s32 a, s32 b) {
+    const u32 count = mScenes.size();
+    for (u32 i = 0; i < count; ++i)
+        mScenes[i].scene->sub_71010FFE70(a, b);
+}
+
+void System::sub_7101112B80(s32 a, s32 b, s32 c, s32 d) {
+    const u32 count = mScenes.size();
+    for (u32 i = 0; i < count; ++i)
+        mScenes[i].scene->sub_7101100260(a, b, c, d);
+}
+
 void System::sub_7101112C30(const sead::Vector3f& vec) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i) {
@@ -25,11 +37,11 @@ s32 System::sub_71011188E4() const {
 }
 
 void* System::sub_710111F4F0() {
-    return mScenes(0).scene->_15e0;
+    return &mScenes(0).scene->_0[5];
 }
 
 Unk_710111F504* System::sub_710111F504() {
-    return &mScenes(0).scene->_2300;
+    return &mScenes(0).scene->_0[8];
 }
 
 void System::sub_710111F518(int level, int type) {

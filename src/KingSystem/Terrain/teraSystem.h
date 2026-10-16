@@ -228,10 +228,18 @@ class ImageResourceMgr {
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
+// The nine 0x460-byte objects at the start of a Scene (Scene::sub_7101100260 writes _1c of eight of them).
 struct Unk_710111F504 {
-    u8 _0[0x20];
+    u8 _0[0x1c];
+    u16 _1c;
+    u8 _1e[0x20 - 0x1e];
     u8 _20;
+    u8 _21[0x28 - 0x21];
+    u8 _28;
+    u8 _29;
+    u8 _2a[0x460 - 0x2a];
 };
+KSYS_CHECK_SIZE_NX150(Unk_710111F504, 0x460);
 
 // The objects System keeps in its 0x90-byte scene slots (name from the CSV row at 0x7101111650).
 class Scene {
@@ -253,15 +261,15 @@ public:
     // 0x7101101964 (declaration only; placeholder name): refreshes the 19 words at 0x278c from the Terrain
     // and sets flag 4 if one changed.
     void sub_7101101964();
+    // 0x71010ffe70 (declaration only; placeholder name): when (a, b) differ from _2780 / _2784, stores them,
+    // rebuilds through _2948 and sets flags 0xff00.
+    void sub_71010FFE70(s32 a, s32 b);
+    // 0x7101100260 (placeholder name): stores the four values as u16 into the sub-objects of
+    // stride 0x460 (+0x1c).
+    void sub_7101100260(s32 a, s32 b, s32 c, s32 d);
 
-    u8 _0[0x28];
-    u8 _28;
-    u8 _29;
-    u8 _2a[0x15e0 - 0x2a];
-    // Returned by System::sub_710111F4F0; type unknown.
-    u8 _15e0[0x2300 - 0x15e0];
-    Unk_710111F504 _2300;
-    u8 _2321[0x2760 - 0x2321];
+    // [5] is returned by System::sub_710111F4F0, [8] by System::sub_710111F504.
+    Unk_710111F504 _0[9];
     // Set on every scene by System::sub_7101112C30.
     sead::Vector3f _2760;
     u8 _276c[0x2780 - 0x276c];
@@ -302,6 +310,9 @@ public:
     void sub_710111F518(int level, int type);
     // 0x7101112a74 (placeholder name): sub_7101101964 on every scene, then clears bit 3 of _1338.
     void sub_7101112A74();
+    // 0x7101112af0 / 0x7101112b80 (placeholder names): Scene::sub_71010FFE70 / sub_7101100260 on every scene.
+    void sub_7101112AF0(s32 a, s32 b);
+    void sub_7101112B80(s32 a, s32 b, s32 c, s32 d);
     // 0x7101112c30 (placeholder name): stores `vec` in every scene (_2760) and sets its flag 4.
     void sub_7101112C30(const sead::Vector3f& vec);
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
