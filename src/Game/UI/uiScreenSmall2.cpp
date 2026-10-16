@@ -420,6 +420,22 @@ void ScreenPauseMenuInfo::sub_7100A31BE0() {
         _391c = 2;
 }
 
+// 0x7100a19d78
+void ScreenMainScreen::m98() {
+    if (_3d68) {
+        if (Unk_71025d6ac0::instance()->sub_710096828C() && Unk_71025d6ac0::instance()->sub_71009682B4())
+            _3d68->m5(true);
+        else
+            _3d68->m6(false);
+    }
+    if (mLocationNameLayout)
+        mLocationNameLayout->sub_7100BDDE7C(false, 1, true);
+    if (mLocationNameSLayout)
+        mLocationNameSLayout->sub_7100BDDE7C(false, 1, true);
+    if (_3ccc.isDone() && _3ca8)
+        _3ca8->sub_7100BDDE7C(false, 1, true);
+}
+
 // 0x7100a1ab14
 void ScreenMainScreen::sub_7100A1AB14(BossGaugeInfo* info, f32 value) {
     sub_7100A1A518(info, true);

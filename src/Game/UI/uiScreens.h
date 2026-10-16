@@ -1018,6 +1018,8 @@ public:
     void m90() override;
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
+    // 0x7100a19d78
+    void m98() override;
 
     u8 _pad_3610[0x3620 - 0x3610];
     /* 0x3620 */ void* _3620;
