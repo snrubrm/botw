@@ -154,6 +154,19 @@ void System::initSystemGroupHandlers() {
     }
 }
 
+void System::finalizeSystemGroupHandlers() {
+    for (int type = 0; type < NumContactLayerTypes; ++type) {
+        for (int i = 0; i < 4; ++i) {
+            removeSystemGroupHandler(_2c0[type][i]);
+            _2c0[type][i] = nullptr;
+        }
+        for (int i = 0; i < 2; ++i) {
+            removeSystemGroupHandler(_300[type][i]);
+            _300[type][i] = nullptr;
+        }
+    }
+}
+
 SystemGroupHandler* System::addSystemGroupHandler(ContactLayerType layer_type, int free_list_idx) {
     return getGroupFilter(layer_type)->addSystemGroupHandler(free_list_idx);
 }

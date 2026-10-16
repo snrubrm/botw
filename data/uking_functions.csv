@@ -93972,7 +93972,7 @@ Address,Quality,Size,Name
 0x0000007101213ff0,O,000136,_ZN4ksys4phys6System14createInstanceEPN4sead4HeapE
 0x0000007101214078,U,000720,PhysicsMemSys::ctor
 0x0000007101214348,U,000360,PhysicsMemSys::dtor
-0x00000071012144b0,U,000316,PhysicsMemSys::finalize
+0x00000071012144b0,O,000316,_ZN4ksys4phys6System27finalizeSystemGroupHandlersEv
 0x00000071012145ec,U,000036,PhysicsMemSys::dtorDelete
 0x0000007101214610,U,001020,ksys::phys::System::init
 0x0000007101214a0c,U,000156,phys::System::initMemorySystem

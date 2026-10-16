@@ -122,6 +122,8 @@ public:
     // 0x7101215984 (CSV PhysicsMemSys::initGroupFilterXs): fills _2c0 / _300 with the system group handlers of
     // both group filters (four from free list 0, two from free list 1 each).
     void initSystemGroupHandlers();
+    // 0x71012144b0 (CSV PhysicsMemSys::finalize): removes and clears the handlers of initSystemGroupHandlers.
+    void finalizeSystemGroupHandlers();
 
     ContactPointInfo* allocContactPointInfo(sead::Heap* heap, int num, const sead::SafeString& name,
                                             int a, int b, int c) const;
