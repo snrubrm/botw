@@ -1,3 +1,4 @@
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include <resource/seadResource.h>
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Sound/sndSound.h"
@@ -6,6 +7,10 @@ namespace ksys::snd {
 
 // The TU after sndResourceManager.cpp's static initialiser (0x7101057c4c onwards: the SoundMgr::_60 resource
 // manager).
+
+void Unk_SoundMgr60::sub_7101059354(Unk_7102502950* reader) {
+    delete reader;
+}
 
 sead::DirectResource* Unk_SoundMgr60::tryLoadResource(const sead::SafeString& path, sead::Heap* heap,
                                                       s32 alignment) {

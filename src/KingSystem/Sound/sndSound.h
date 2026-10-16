@@ -445,7 +445,7 @@ public:
     u32 _78 = 0;
     u32 _7c = 0;
     // Released through SoundMgr::_60 (0x7101059354) by the destructor.
-    /* 0x80 */ void* _80 = nullptr;
+    /* 0x80 */ Unk_7102502950* _80 = nullptr;
     /* 0x88 */ u32 _88 = 0;
     u32 _8c = 0;
     u32 _90 = 0;
@@ -881,9 +881,8 @@ struct Unk_SoundMgr60 {
                   res::Handle* pack);
     // 0x7101058734 (declared only; 248 B): loads the asset info of `name` into `reader`.
     void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
-    // 0x7101059354 (declared only; CSV Curl_protocol_getsock is wrong): calls vtable slot 2 of `obj` if set (the
-    // object type is not modelled).
-    void sub_7101059354(void* obj);
+    // 0x7101059354 (CSV Curl_protocol_getsock was wrong): deletes the asset info reader (vtable slot 2 is its D0).
+    void sub_7101059354(Unk_7102502950* reader);
     // 0x7101058198 (CSV sound::tryLoadResource): loadDirectResource into a local; null when it fails.
     sead::DirectResource* tryLoadResource(const sead::SafeString& path, sead::Heap* heap, s32 alignment);
     // 0x7101059248 (CSV soundStuff_2): loads `path` through ResourceMgrTask (on mHeap when `heap` is null) and stores
