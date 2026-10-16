@@ -65,7 +65,8 @@ void Unk_71024feae8::m13(f32 fade_sec) {
 
 Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, "GanonBeastBgm", nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GanonBeastBgm);
+    mInfo = static_cast<ksys::snd::GanonBeastBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GanonBeastBgm));
 }
 
 Unk_71024fec18::~Unk_71024fec18() = default;
@@ -85,6 +86,29 @@ void Unk_71024fec18::m12(f32 fade_sec) {
         return;
     _198 = 1;
     sub_710101D9D8();
+}
+
+void Unk_71024fec18::hm14() {
+    if (_198 != 1)
+        return;
+    if (!_1a8 || !_1a8->sub_7100FF6DF4(this))
+        _1a8 = sub_71010209FC(Level::text(_1a4));
+    if (_1a8 && _1a8->sub_7100FF6DF4(this))
+        _198 = 1;
+}
+
+void Unk_71024fec18::hm15() {
+    if (_198 != 2)
+        return;
+    _19c += ksys::snd::sub_710105E3A4();
+    if (_19c > _1a0) {
+        _19c = _1a0;
+        if (_1a8 && _1a8->sub_7100FF6DF4(this))
+            _1a8->sub_7100FF6A64(mInfo->mFadeOutSec.ref());
+        _1a8 = sub_71010209FC(Level::text(_1a4));
+        if (_1a8 && _1a8->sub_7100FF6DF4(this))
+            _198 = 1;
+    }
 }
 
 // NON_MATCHING: regalloc (entry count / buffer registers swapped).

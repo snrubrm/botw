@@ -466,6 +466,7 @@ class GuardianFixedBgmInfo;
 class GuardianBgmInfo;
 class GanonGrudgeBattleBgmInfo;
 class DungeonRewardBgmInfo;
+class GanonBeastBgmInfo;
 class FieldBattleBgmInfo;
 class TutorialDungeonBattleBgmInfo;
 

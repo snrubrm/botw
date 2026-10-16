@@ -2833,16 +2833,22 @@ public:
     void m5() override;
     bool m10() override;
     void m12(f32 fade_sec) override;
-    // 0x710100fff4 / 0x710101011c (declared only)
+    // 0x710100fff4: starts the entry of the current level once it exists (state 1 -> playing).
     void hm14() override;
+    // 0x710101011c: after the delay _1a0 in state 2, fades out the current entry and starts the level _1a4.
     void hm15() override;
 
-    ksys::snd::MusicInfo* mInfo = nullptr;
+    // The levels (enum text "Level1,Level2,Level3"; text_ is 0x71010106dc).
+    // clang-format off
+    SEAD_ENUM(Level,Level1,Level2,Level3)
+    // clang-format on
+
+    ksys::snd::GanonBeastBgmInfo* mInfo = nullptr;
     u32 _198 = 0;
-    u32 _19c = 0;
-    u32 _1a0;
+    f32 _19c = 0;
+    f32 _1a0;
     u32 _1a4 = 0;
-    u64 _1a8 = 0;
+    ksys::snd::Unk_710260f248Entry* _1a8 = nullptr;
     ksys::snd::Unk_710103AB10 _1b0{11};
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fec18, 0x1b8);
