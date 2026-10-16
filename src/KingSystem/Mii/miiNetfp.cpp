@@ -281,6 +281,40 @@ void sub_7100F5B02C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
     }
 }
 
+// NON_MATCHING: the body type is loaded one instruction later in the original (scheduling).
+void sub_7100F5B8C0(sead::BufferedSafeString* out, const UMii& umii) {
+    const auto& body = umii.getBody();
+    const s32 hat = *umii.getCommon().hat;
+    if (hat >= 0) {
+        const s32 type = *body.type;
+        const bool hylian_hair = *body.race == UMii::Body::Race_Hylian &&
+                                 type != UMii::Body::Type_N && type != UMii::Body::Type_SK &&
+                                 hat == 0;
+        if (!hylian_hair) {
+            switch (type) {
+            case UMii::Body::Type_C:
+            case UMii::Body::Type_T:
+            case UMii::Body::Type_S:
+                out->format("HatC_C_Pattern");
+                return;
+            case UMii::Body::Type_N:
+            case UMii::Body::Type_SK:
+                out->format("Hat%s_%s_Pattern", sUnk_710260DB50[type].cstr(),
+                            sUnk_710260D7A0[umii.getSexAge()].cstr());
+                return;
+            default:
+                return;
+            }
+        }
+    }
+    const auto age = umii.getAge();
+    if (age == UMii::Personal::Age_Child) {
+        out->format("Hair_%s_Pattern", sUnk_710260D7A0[age].cstr());
+        return;
+    }
+    out->format("Hair_C_Pattern");
+}
+
 // NON_MATCHING: the original tests the age for 2, then 1, then 0 (ours tests 0 first).
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii) {
     const auto& body = umii.getBody();

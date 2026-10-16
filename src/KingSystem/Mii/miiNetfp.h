@@ -48,6 +48,9 @@ void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
 // 0x7100f5ba04 (placeholder name): part type 2 of sub_7100F5ADA8 (from the hat parameter).
 void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
 
+// 0x7100f5b8c0 (placeholder name): the hat or hair pattern name of `umii`.
+void sub_7100F5B8C0(sead::BufferedSafeString* out, const UMii& umii);
+
 // 0x7100f5b5b8 / 0x7100f5b774 (placeholder names): the model names of part types 0 (body) and 8 (hat).
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii);
 void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii);
