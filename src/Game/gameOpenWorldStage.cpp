@@ -1,4 +1,5 @@
 #include "Game/gameOpenWorldStage.h"
+#include <limits>
 #include "Game/gameOpenWorldStageMessage.h"
 #include "Game/gameStage.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
@@ -119,6 +120,19 @@ bool OpenWorldStage::fieldReenter(void* arg) {
 
 OpenWorldStage::~OpenWorldStage() {
     sIsTitleStageActive = false;
+}
+
+void OpenWorldStage::m13() {
+    if (mDividedMeshShapeMgr) {
+        delete mDividedMeshShapeMgr;
+        mDividedMeshShapeMgr = nullptr;
+    }
+    if (_198) {
+        delete _198;
+        _198 = nullptr;
+    }
+    sMapStaticScale = 0;
+    sTeraWaterDisableHeight = -std::numeric_limits<f32>::infinity();
 }
 
 bool Unk_710245b478::return0(void* owner, void* arg) const {

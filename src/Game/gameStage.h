@@ -34,6 +34,8 @@ void sub_71007D10B0();
 // Other readers use the same XZ bounds and maximum height; storage remains in the original data.
 extern sead::BoundBox2f sTeraWaterDisableBounds;
 extern f32 sTeraWaterDisableHeight;
+// 0x7102606940: map static scale (set by OpenWorldStage::init, cleared by m13).
+extern f32 sMapStaticScale;
 
 // State of the startup save check (0x18 bytes, vtable 0x710245c470: a sead::hostio node).
 struct StartupSaveCheckState {

@@ -16,6 +16,12 @@ class Actor;
 
 namespace ksys::phys {
 class RigidBodyDividedMeshShapeMgr;
+
+// Placeholder (vtable 0x71024f8d68, 0x30 bytes): created by 0x7100fc7128 in OpenWorldStage::init.
+class Unk_71024f8d68 {
+public:
+    virtual ~Unk_71024f8d68();
+};
 }
 
 namespace uking {
@@ -59,7 +65,7 @@ private:
     /* 0xe8 */ GameScene::sb mDrawMethods;
     u8 _110[0x190 - 0x110];
     /* 0x190 */ ksys::phys::RigidBodyDividedMeshShapeMgr* mDividedMeshShapeMgr;  // created by init
-    u8 _198[0x1a0 - 0x198];
+    /* 0x198 */ ksys::phys::Unk_71024f8d68* _198;
     /* 0x1a0 */ sead::FixedSafeString<32> mMapType;
     /* 0x1d8 */ ksys::Unk_71024dd110* mCamera;
     /* 0x1e0 */ u8 _1e0;
