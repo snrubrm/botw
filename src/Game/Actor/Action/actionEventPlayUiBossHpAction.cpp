@@ -1,6 +1,7 @@
 #include "Game/Actor/Action/actionEventPlayUiBossHpAction.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiScreens.h"
+#include "Game/gameFlagUtils.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -59,7 +60,38 @@ void EventPlayUiBossHpAction::loadParams_() {
 }
 
 void EventPlayUiBossHpAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* screen =
+        sead::DynamicCast<ui::Screen>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::MainScreen));
+    if (screen != _28) {
+        setFailed();
+        return;
+    }
+
+    if (*mClipIndex_d < 0) {
+        if (screen->isOpened())
+            setFinished();
+        return;
+    }
+
+    auto* main_screen = sead::DynamicCast<ui::ScreenMainScreen>(screen);
+    if (!main_screen)
+        return;
+
+    const s32 frame =
+        sead::Mathi::max(s32(ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d)), 0);
+    if (sub_7100900C84("DispBossGaugeRate_Demo"))
+        _34 = frame;
+
+    ui::BossGaugeInfo info;
+    info.name = "Event_BossGanon";
+    info.maxValue = 4000;
+    info.value = u32(ksys::gdt::getFlag_DispBossGaugeRate_Demo() * static_cast<f32>(info.maxValue));
+    info.actorId = _30;
+    info.layoutName = "Pa_BossGauge_Ganon";
+    main_screen->sub_7100A1AB14(&info, _34 >= 0 ? static_cast<f32>(frame - _34) : 0.0f);
 }
 
 }  // namespace uking::action

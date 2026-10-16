@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::ui {
+class Screen;
+}
+
 namespace uking::action {
 
 class EventPlayUiActorName : public ksys::act::ai::Action {
@@ -24,7 +28,7 @@ protected:
     int* mActorType_d{};
     // dynamic_param at offset 0x30
     sead::SafeString mActorName_d{};
-    void* _40{};
+    ui::Screen* _40{};
     f32 _48 = -1.0f;
 };
 

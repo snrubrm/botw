@@ -953,10 +953,18 @@ public:
 static_assert(sizeof(Unk_710248ea70) == 0x80);
 
 // The boss gauge info passed to ScreenMainScreen::sub_7100A1AB14 / sub_7100A1A4E4 (0x90 bytes, filled by
-// EventPlayUiBossHpAction; fields not modelled yet; name is a guess).
+// EventPlayUiBossHpAction; name is a guess).
 struct BossGaugeInfo {
-    u8 _0[0x90];
+    u64 _0 = 0;
+    u32 _8 = 0;
+    /* 0x0c */ u32 value = 0;
+    /* 0x10 */ u32 maxValue = 0;
+    /* 0x18 */ sead::FixedSafeString<64> name;
+    /* 0x70 */ s32 actorId = -1;
+    /* 0x78 */ sead::SafeString layoutName;
+    /* 0x88 */ u16 _88 = 0;
 };
+static_assert(sizeof(BossGaugeInfo) == 0x90);
 
 class ScreenMainScreen : public ScreenEx {
 public:
@@ -3020,7 +3028,9 @@ public:
     void m93(sead::Heap*) override;
     ScreenDemoNameEnemy();
     ~ScreenDemoNameEnemy() override;
-    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
+    // 0x7100a038bc (one extra virtual slot, vtable offsets +8): reads the argument as a string (called with
+    // EventPlayUiActorName's ActorName) and returns true
+    virtual bool m154(const sead::SafeString& name);
     SEAD_RTTI_OVERRIDE(ScreenDemoNameEnemy, ScreenEx)
 };
 
