@@ -30,6 +30,17 @@ Unk_710105abc0::~Unk_710105abc0() {
     }
 }
 
+// NON_MATCHING: the original keeps the sample rate as an integer until the division (lib aal::AssetInfo::getSampleRate
+// converts it to f32 first)
+f32 Unk_710105abc0::sub_710105AE80() const {
+    if (_10.isActive() && _10.getAssetInfo()) {
+        const f32 rate = _10.getAssetInfo()->getSampleRate();
+        if (rate != 0.0f)
+            return static_cast<f32>(s32(_10.getPlaySamplePosition())) * 30.0f / rate;
+    }
+    return -1.0f;
+}
+
 // NON_MATCHING: the comparison result is materialized after the string loop instead of before it,
 // and the original uses full-width moves when forwarding that Boolean fade choice.
 void Unk_710105abc0::sub_710105AF00(const sead::SafeString& name, bool skip_event_info) {

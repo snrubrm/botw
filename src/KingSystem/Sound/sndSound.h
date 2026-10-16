@@ -500,6 +500,9 @@ public:
     explicit Unk_710105abc0(sead::Heap* heap);
     virtual ~Unk_710105abc0();
     void sub_710105ACEC();
+    // 0x710105ae80 (placeholder name): the play position of _10 in frames (30 per second), or -1 when it is not
+    // playing or has no sample rate.
+    f32 sub_710105AE80() const;
     void sub_710105AF00(const sead::SafeString& name, bool skip_event_info);
     bool sub_710105B090();
     void sub_710105B37C();
