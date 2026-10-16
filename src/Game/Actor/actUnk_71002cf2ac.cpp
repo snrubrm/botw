@@ -1,4 +1,5 @@
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/actSandworm.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -189,6 +190,42 @@ void Unk_7100722420::sub_71007224D4() {
 void Unk_7100722420::sub_7100723418(f32 delay) {
     _8 = true;
     _23c = delay;
+}
+
+bool Unk_71007237d0::sub_71007237D0(ksys::act::Actor* actor, const sead::SafeString* names, s32 num_parts,
+                                    s32 num_values, sead::Heap* heap) {
+    mActor = actor;
+    _70.tryAllocBuffer(num_parts, heap);
+    if (!_70.isBufferReady())
+        return false;
+    auto* model = actor->getModel();
+    if (!model)
+        return false;
+    for (s32 i = 0; i < num_parts; ++i) {
+        if (names[i].isEmpty())
+            continue;
+        _70[i]._a8.search(model, names[i]);
+        _70[i].handle.setName(names[i]);
+    }
+
+    _40.tryAllocBuffer(num_values, heap);
+    if (!_40.isBufferReady())
+        return false;
+    _50.tryAllocBuffer(num_values, heap);
+    if (!_50.isBufferReady())
+        return false;
+    _50.fill(-1.0f);
+    return true;
+}
+
+// NON_MATCHING: the original calls search and then returns true / false; ours tail-calls it.
+bool Unk_71007237d0::sub_7100723A84(const sead::SafeString& name) {
+    if (!mActor)
+        return false;
+    auto* model = mActor->getModel();
+    if (!model)
+        return false;
+    return _8.search(model, name);
 }
 
 // NON_MATCHING: the SafeArray iterator uses an element index instead of the original byte offset.

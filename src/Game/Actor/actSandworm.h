@@ -38,6 +38,14 @@ struct Unk_71007237d0 {
         _50.freeBuffer();
     }
 
+    // 0x71007237d0 (placeholder name): allocates `num_parts` parts (searching / naming those with a non-empty
+    // name in the actor's model) and `num_values` matrices and values (values set to -1). False if an allocation
+    // fails or the actor has no model.
+    bool sub_71007237D0(ksys::act::Actor* actor, const sead::SafeString* names, s32 num_parts, s32 num_values,
+                        sead::Heap* heap);
+    // 0x7100723a84 (placeholder name): searches the bone `name` of the actor's model for _8.
+    bool sub_7100723A84(const sead::SafeString& name);
+
     // 0x71002ccfd4 (placeholder name): frees the part buffer and both value buffers. Inline: the original
     // emits it in the Sandworm TU, away from the rest of this class.
     void sub_71002CCFD4() {
