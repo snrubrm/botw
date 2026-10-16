@@ -91,7 +91,7 @@ bool ForkASTrgShootArrow::sub_7100143C64(sead::Vector3f* dir, sead::Vector3f* po
     pos->y = target.y + sign * side.y * offset;
     pos->z = actor_pos.z + horizontal_distance * front.z + sign * side.z * offset;
 
-    const sead::Vector3f base = actor_pos + sead::Vector3f(0, 1, 0);
+    const sead::Vector3f base = actor_pos + sead::Vector3f::ey;
     const f32 height = pos->y - base.y;
     if (height < 0.0f) {
         const f32 length = sead::Vector2f(pos->x - base.x, pos->z - base.z).length();
