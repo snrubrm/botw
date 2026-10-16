@@ -22,7 +22,17 @@ public:
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor
 
-    u8 _1288[0x5d80 - 0x1288];
+    u8 _1288[0x52e0 - 0x1288];
+
+    // Placeholder type: the object at +0x52e0 (read by the accessor 0x7100c2ca78). Graphics::setRainRatio
+    // 0x7100f2fcdc picks shader variation 2 when its byte at +0x230 is set.
+    struct Unk_52e0 {
+        u8 _0[0x230];
+        bool _230;
+    };
+    /* 0x52e0 */ Unk_52e0* _52e0;
+
+    u8 _52e8[0x5d80 - 0x52e8];
 
     // Flags (0xa39 after construction). Game code sets bit 1 after it applied an env set (SystemApplyEnvSetAction)
     // and bit 13 when it creates the scene; ModelScene's own code reads bits 0, 1, 2, 5 and 8.
@@ -31,6 +41,7 @@ public:
     u8 _5d84[0x5f20 - 0x5d84];
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
+static_assert(offsetof(ModelScene, _52e0) == 0x52e0);
 static_assert(offsetof(ModelScene, mFlags) == 0x5d80);
 static_assert(sizeof(ModelScene) == 0x5f20);
 

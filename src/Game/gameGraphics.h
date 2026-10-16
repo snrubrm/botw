@@ -144,6 +144,9 @@ public:
     virtual ~Unk_7101293bac();
     s32 _8;
     sead::BitFlag32 mFlags;
+    u8 _10[0x254 - 0x10];
+    // Graphics::setRainRatio 0x7100f2fcdc scales the rain ratio by 1 - this value.
+    f32 _254;
 };
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
@@ -230,6 +233,9 @@ public:
     // 0x7100f2fc24 (placeholder name): stores the ratio at 0xe80 and sets
     // uking_dynamic_base_light_change_ratio to 1 - ratio.
     void sub_7100F2FC24(f32 ratio);
+    // 0x7100f2fcdc (CSV name): sets uking_dynamic_rain_ratio and uking_dynamic_rainfall and picks the
+    // environment unit's shader variation (2 when the first scene's _52e0 flag is set, else rain > 0).
+    void setRainRatio(f32 ratio, f32 rainfall);
     // 0x7100f2fe38 (CSV Graphics::getDynamicCloudRatio; it sets the value): sets uking_dynamic_cloud_ratio to
     // 1 - ratio clamped to [0, 1].
     void setDynamicCloudRatio(f32 ratio);
@@ -354,7 +360,10 @@ private:
     f32 _e84;
     f32 _e88;
     f32 _e8c;
-    u8 _e90[0xea8 - 0xe90];
+    u8 _e90[0xe98 - 0xe90];
+    // A model unit whose shader variation setRainRatio (0x7100f2fcdc) picks.
+    gsys::ModelUnit* _e98;
+    u8 _ea0[0xea8 - 0xea0];
     // The environment model unit whose material parameters the uking_dynamic_* setters change.
     gsys::ModelUnit* _ea8;
     u8 _eb0[0xed8 - 0xeb0];

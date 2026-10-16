@@ -89,6 +89,15 @@ void Graphics::sub_7100F2FC24(f32 ratio) {
     setEnvMaterialParamF32("uking_dynamic_base_light_change_ratio", 1.0f - ratio);
 }
 
+void Graphics::setRainRatio(f32 ratio, f32 rainfall) {
+    const f32 rain = (1.0f - _398->_254) * ratio;
+    setEnvMaterialParamF32("uking_dynamic_rain_ratio", rain);
+    setEnvMaterialParamF32("uking_dynamic_rainfall", rainfall);
+    const bool raining = rain > 0.0f;
+    const s32 variation = mModelScenes.front()->_52e0->_230 ? 2 : raining;
+    _e98->setShaderAssignVariation(static_cast<gsys::ModelEnum::ShaderAssignType>(0), variation);
+}
+
 void Graphics::setDynamicCloudRatio(f32 ratio) {
     setEnvMaterialParamF32("uking_dynamic_cloud_ratio", sead::Mathf::clamp(1.0f - ratio, 0.0f, 1.0f));
 }
