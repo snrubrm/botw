@@ -1,4 +1,9 @@
 #include "Game/Actor/AI/aiNPCRoot.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -220,6 +225,36 @@ void NPCRoot::sub_71004D92DC() {
     key = model->searchMaterial("Mt_Lower_141");
     if (key.isValid())
         act::setMaterialVisible(model, key, lower_141);
+}
+
+// NON_MATCHING: the original loads the entry position (z, x) before the actor position (operand order only).
+void NPCRoot::sub_71004D9608() {
+    if (auto* awareness = mActor->getAwareness()) {
+        auto* entry = awareness->getSortedEntry(0);
+        if (entry && entry->_0._48 >= 2) {
+            const auto& mtx = mActor->getMtx();
+            const f32 dx = mtx(0, 3) - entry->_58(0, 3);
+            const f32 dz = mtx(2, 3) - entry->_58(2, 3);
+            if (sead::Mathf::sqrt(dx * dx + dz * dz) < 5.0f) {
+                ksys::act::acc::PlayerBase player;
+                ksys::act::acquireActor(&entry->_0.mLink, &player);
+                if (player.x_6() && !_1b0.hasProc() &&
+                    mActor->getParam()->getRes().mGParamList->getNpc()->mIsReactNakedPlayer.ref()) {
+                    _1b0 = entry->_0.mLink;
+                    _1d8 = {1800.0f, 1800.0f, -1.0f};
+                }
+            }
+        }
+    }
+
+    if (_68) {
+        _68->_a70 = "";
+        _68->_1048 = 3;
+        sub_7100713564(mActor, 3);
+        _68->_1038 = 0;
+        _68->_c74 = 0;
+    }
+    sub_71005D7518(mActor, true);
 }
 
 }  // namespace uking::ai

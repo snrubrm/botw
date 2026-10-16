@@ -1,5 +1,9 @@
 #include "Game/Actor/AI/aiNPCTravelerRoot.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 // Source namespace and return spelling are inferred from the lifecycle callers.
@@ -25,7 +29,42 @@ bool NPCTravelerRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the terror level test is `cmp 3; b.ge` in the original (ours `cmp 2; b.gt`).
 void NPCTravelerRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    if ((mActor->getRootAi()->getI() & ~1u) == 8) {
+        sub_71004D9608();
+        ksys::act::ai::InlineParamPack pack;
+        pack.addBool(true, "IsWarpHorse", -1);
+        changeChild("Rest", &pack);
+        _240 = true;
+        return;
+    }
+
+    if (auto* ride_info = mActor->getPlayerRideInfo(); ride_info && ride_info->_30 & 1) {
+        sub_71004D9608();
+        if (*mIsRiderChangableAction_s) {
+            m34();
+            return;
+        }
+        changeChild("Ride");
+        return;
+    }
+
+    if (_240) {
+        if (!_248 || _248->_1048 != 4 || _248->_c74 < 3) {
+            sub_71004D9608();
+            sead::Vector3f home_pos;
+            mActor->getHomePos(&home_pos);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(home_pos, "TargetPos", -1);
+            changeChild("ReturnRestPos", &pack);
+            return;
+        }
+    } else if (auto* schedule = mActor->getSchedule();
+               schedule && !schedule->_b8.isEmpty() && _248) {
+        if (auto* unk = _248->_840; unk && unk->sub_7100EEBB74())
+            _248->_9d8.copy(unk->sub_7100EEEE88(mActor));
+    }
     NPCRoot::enter_(params);
 }
 
