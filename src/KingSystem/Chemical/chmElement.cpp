@@ -195,6 +195,11 @@ f32 Unk_7102518688::m19(ksys::act::Chemical* chemical) {
     return value;
 }
 
+f32 Unk_7102518688::m21(ksys::act::Chemical* chemical) {
+    auto* owner = sead::DynamicCast<ksys::act::Unk_71024e6428>(chemical->_18);
+    return ksys::act::sub_7100E40D94(owner->_278(0).body, mRigidBody);
+}
+
 void Unk_7102518688::m3(f32 delta_frame) {
     if (!(mFlags & 1))
         m35(delta_frame);
