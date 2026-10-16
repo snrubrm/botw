@@ -1,4 +1,8 @@
 #include "Game/Actor/Action/actionTornadoMove.h"
+#include <cmath>
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -43,8 +47,45 @@ void TornadoMove::loadParams_() {
     getStaticParam(&mIgnoreHitFrame_s, "IgnoreHitFrame");
 }
 
+// NON_MATCHING: float scheduling of the rotated forward step and the side wave.
 void TornadoMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    sead::Mathf::chase(&_70, *mMaxAmplitude_s,
+                       *mAmplitudeAddRate_s * ksys::VFR::instance()->getDeltaFrame());
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f move = sead::Vector3f(0, 0, *mMaxSpeed_s) * _a4.value;
+    move.rotate(_74);
+    sead::Vector3f side;
+    side.setCross(move, sead::Vector3f::ey);
+    side.normalize();
+    const f32 wave = std::sin(_a4.value * *mFrequency_s) * _70;
+    _a4.update();
+    sead::Vector3f dir = side * wave + move + _98 - pos;
+    f32 distance = dir.normalize();
+    distance = sead::Mathf::min(distance, *mMaxSpeed_s + _70 * 0.05f);
+    const sead::Matrix34f mtx(
+        _74, {pos.x + dir.x * distance, _98.y, pos.z + dir.z * distance});
+    if (auto* body = mActor->getMainBody())
+        body->changePositionAndRotation(mtx);
+    if (_b0 && _b0->isAddedToWorld())
+        _b0->setTransform(mtx);
+
+    _58.update();
+    if (_58.value <= sead::Mathf::epsilon() && !_b0) {
+        _b0 = mActor->findPhysicsBodyByName(sub_71007A250C()->cstr(), "BgSensor");
+        if (_b0 && !_b0->isAddedToWorld()) {
+            _b0->setTransform(mtx);
+            _b0->addToWorld();
+            _b0->setFlag1000000();
+            _b0->setGravityFactor(0.0f);
+        }
+    }
+
+    if ((_58.value <= sead::Mathf::epsilon() && _b0 && _b0->getCollisionInfo() &&
+         _b0->getCollisionInfo()->getCollidingBodies().size() != 0) ||
+        hasAttackInfo(mActor) || (_64.update(), _64.value <= sead::Mathf::epsilon())) {
+        setFinished();
+    }
 }
 
 }  // namespace uking::action
