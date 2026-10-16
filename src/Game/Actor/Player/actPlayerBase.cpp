@@ -31,6 +31,7 @@
 #include "KingSystem/System/VFR.h"
 #include <cstring>
 #include <mc/seadCoreInfo.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -156,6 +157,20 @@ namespace {
 const sead::SafeString sEquipmentTypeNames[8] = {
     "None", "Sword", "Shield", "Bow", "Bomb", "Item_Magnetglove", "ShiekahStone", "Unequip"};
 }  // namespace
+
+// NON_MATCHING: the original addresses the name table through a larger merged global (as in m179).
+bool PlayerBase::checkCanUseRuneCommon() {
+    if ((m200() && !_cf0.isOnBit(3)) || _cec.isOnBit(31) || _cf0.isOnBit(25))
+        return false;
+    if (m224() && !mASList->x(0x2d, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return false;
+    if (_cf0.isOnBit(17) || isRidingHorse() || m188() || m186() || m187() || _cec.isOnBit(19) ||
+        _cf4.isOnBit(1) || m194() || _cf0.isOnBit(23) || eventMgrHasActiveEvent() || m287() || m256() ||
+        _cf0.isOnBit(30) || _cf4.isOnBit(2) || _c44.isOnBit(21) || (m199() && _c50.isOnBit(9))) {
+        return false;
+    }
+    return _d68 == sEquipmentTypeNames[0] || _d68 == sEquipmentTypeNames[6];
+}
 
 // NON_MATCHING: Compiler folds table addressing into fewer instructions.
 const sead::SafeString& PlayerBase::getEquipmentTypeName(u32 type) const {
