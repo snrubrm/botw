@@ -1,4 +1,9 @@
 #include "Game/Actor/actDragon.h"
+#include <math/seadQuat.h>
+#include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModel.h>
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/gameDragonChallengeMgr.h"
@@ -517,4 +522,48 @@ void Dragon::x(const sead::Matrix34f& mtx) {
     _14c8.sub_71006FB3FC(matrix);
     controller->sub_7100F5FBE0(matrix.getTranslation());
 }
+// NON_MATCHING: same flow; the quaternion-to-matrix products and the translation lerps are scheduled differently.
+// Reads the bone's local matrix and scale, then (while the blend timer _16c runs from 0 to 1 at rate 1 / _168)
+// blends _20 from _108 to _138 with a smoothstep: translation lerp and a partial rotation about the relative axis.
+void Unk_7102450330::m2(gsys::Model* model) {
+    const auto& key = _60.getKey();
+    if (!key.isValid())
+        return;
+    model->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(&_9c, &_cc, key.bone_index);
+
+    if (_16c < 1.0f) {
+        ksys::Timer::update(&_16c, 1.0f / _168);
+        const f32 t = _16c;
+        const f32 rate = t * t * (3.0f - 2.0f * t);
+
+        sead::Vector3f pos;
+        pos.x = _108.m[0][3] + rate * (_138.m[0][3] - _108.m[0][3]);
+        pos.y = _108.m[1][3] + rate * (_138.m[1][3] - _108.m[1][3]);
+        pos.z = _108.m[2][3] + rate * (_138.m[2][3] - _108.m[2][3]);
+
+        sead::Vector3f axis;
+        f32 angle;
+        ksys::util::sub_71011EF51C(&axis, &angle, _108, _138, sead::Vector3f::ey);
+        sead::Quatf quat;
+        quat.setAxisRadian(axis, rate * angle);
+        sead::Matrix34f rotation;
+        rotation.fromQuat(quat);
+        sead::Matrix34f mtx;
+        mtx.setMul(rotation, _108);
+        mtx.setTranslation(pos);
+
+        const f32 rest = sead::Mathf::max(1.0f - _16c, 0.0f);
+        pos.x += rest * (_138.m[0][3] - pos.x);
+        pos.y += rest * (_138.m[1][3] - pos.y);
+        pos.z += rest * (_138.m[2][3] - pos.z);
+        ksys::util::sub_71011EF51C(&axis, &angle, mtx, _138, sead::Vector3f::ey);
+        quat.setAxisRadian(axis, rest * angle);
+        rotation.fromQuat(quat);
+        mtx.setMul(rotation, mtx);
+        mtx.setTranslation(pos);
+        _20 = mtx;
+    }
+    Unk_71024512e8::m2(model);
+}
+
 }  // namespace uking::act
