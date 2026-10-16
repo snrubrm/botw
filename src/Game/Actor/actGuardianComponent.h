@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 
 namespace uking::act {
 
@@ -36,6 +37,18 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710235b408, 0x38);
 
+// vtable 0x710235b700 (placeholder name; no RTTI of its own): the GuardianComponent's damage callback, forwarding to
+// Guardian::sub_710003B564 with the component's part. `call` (0x7100040e9c) is the key function; D0 0x7100040e54.
+class Unk_710235b700 : public DamageCallback {
+public:
+    explicit Unk_710235b700(GuardianComponent* owner) : mOwner(owner) {}
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, DamageCallbackInfo* a6) override;
+
+    /* 0x28 */ GuardianComponent* mOwner;
+    /* 0x30 */ u32 _30 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710235b700, 0x38);
+
 // Name from the CSV (GuardianComponent::*; the namespace is a guess). Direct child of DynamicActor: the RTTI static
 // 0x71025af298 is initialised with the Derive<DynamicActor> vtable. ctor 0x710003bec0, factory 0x710003be7c.
 // Declaration only (lane1 s47): the AI of the Guardian beam attack casts its actor to this class.
@@ -43,8 +56,11 @@ KSYS_CHECK_SIZE_NX150(Unk_710235b408, 0x38);
 class GuardianComponent : public ksys::act::DynamicActor {
     SEAD_RTTI_OVERRIDE(GuardianComponent, DynamicActor)
 public:
+    // 0x710003be7c (CSV GuardianComponent::construct).
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     explicit GuardianComponent(const CreateArg& arg);
     ~GuardianComponent() override;
+    bool canWakeUp_() override;
     ksys::act::Actor* m31() override;
     bool m55() override;
     bool shouldUnload(s32* reason) override;
@@ -56,8 +72,12 @@ public:
     // Full ctor 3BEC0 initializes the subtype selector to -1 and this pointer to
     // null. Full prepareInit_ 3C41C assigns one of five interface subtypes; full
     // preDelete2_ 3C6D8 calls its cleanup and deleting destructor, then clears it.
-    /* 0xba0 */ s32 _ba0;
-    /* 0xba8 */ GuardianComponentBind* _ba8;
+    // The part: 0 Cannon, 1 WeakPoint, 2 Leg, 3 BrokenLeg, 4 Propeller (from the actor name), else -1.
+    /* 0xba0 */ s32 _ba0 = -1;
+    /* 0xba8 */ GuardianComponentBind* _ba8 = nullptr;
+    /* 0xbb0 */ void* _bb0 = nullptr;
+    /* 0xbb8 */ Unk_710235b700 mDamageCallback{this};
 };
+KSYS_CHECK_SIZE_NX150(GuardianComponent, 0xbf0);
 
 }  // namespace uking::act
