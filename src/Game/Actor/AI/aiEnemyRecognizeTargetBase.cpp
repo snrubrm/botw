@@ -8,6 +8,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/System/Timer.h"
 
 // 0x71005d70c8 (declaration only; placeholder name)
 bool sub_71005D70C8(ksys::act::Actor* actor);
@@ -117,6 +118,120 @@ void EnemyRecognizeTargetBase::enter_(ksys::act::ai::InlineParamPack* params) {
     actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     _124 = false;
+}
+
+// NON_MATCHING: mActor address kept in a register and the countdown block layout
+void EnemyRecognizeTargetBase::calc_() {
+    ksys::Timer::update(&_78, -1.0f);
+    ksys::Timer::update(&_7c, -1.0f);
+    if (_124)
+        ksys::Timer::update(&_74, -1.0f);
+
+    const auto changeToDisadvantage = [this](const char* name) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild(name, &pack);
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        auto& link = sub_71005D94AC(mActor);
+        if (link.hasProcInCalcState()) {
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.sub_7100D10E6C(26)) {
+                setFinished();
+                return;
+            }
+        }
+
+        if (isCurrentChild("仕掛け作動")) {
+            if (getCurrentChild()->isFailed())
+                _90.sub_710070DCC0(&_c0._38._10, true);
+            if (_80 == _c0._38._0) {
+                _c0.x();
+                changeToDiscover();
+            } else {
+                changeToActivateTrap();
+            }
+        } else if (isCurrentChild("気づき")) {
+            if (sub_71005D70C8(mActor)) {
+                changeToDisadvantage("戦況不利");
+                return;
+            }
+            if (m34()) {
+                if (m35())
+                    changeToContact();
+                else
+                    changeToDiscover();
+            } else if (*mSpreadDist_s > 0.0f && sub_71005D9E68(mActor)) {
+                changeToContact();
+            } else {
+                changeToDiscover();
+            }
+        } else if (isCurrentChild("連絡")) {
+            changeToDiscover();
+        } else if (isCurrentChild("戦況不利認識")) {
+            changeToDisadvantage("戦況不利");
+        } else if (child->isFinished()) {
+            setFinished();
+        } else {
+            setFailed();
+        }
+    } else if (child->isChangeable()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        auto& link = sub_71005D94AC(mActor);
+        if (link.hasProcInCalcState()) {
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.sub_7100D10E6C(26)) {
+                setFinished();
+                return;
+            }
+        }
+
+        if (isCurrentChild("戦況不利") || isCurrentChild("戦況不利認識")) {
+            if (!sub_71005D70C8(mActor)) {
+                changeToDiscover();
+                return;
+            }
+        } else if (_124) {
+            if (_74 <= 0.0f) {
+                _124 = false;
+                changeToDisadvantage("戦況不利認識");
+                return;
+            }
+        } else if (sub_71005D70C8(mActor)) {
+            changeToDisadvantage("戦況不利");
+            return;
+        } else if (!isCurrentChild("仕掛け作動") && !isCurrentChild("気づき") && !isCurrentChild("連絡") &&
+                   _c0._30) {
+            changeToActivateTrap();
+            return;
+        }
+
+        bool far = true;
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_7102451448 filter;
+            if (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter))
+                far = !(entry->_a8 < *mSpreadDist_s);
+        }
+        bool cry = true;
+        if (far) {
+            const s32 count = _120 - 1;
+            if (count < 0) {
+                cry = false;
+            } else {
+                _120 = count;
+                cry = count != 0;
+            }
+        } else {
+            _120 = 2;
+        }
+        if (cry && !isCurrentChild("連絡") && sub_71003B12A4())
+            changeToContact();
+    }
+
+    child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
 }
 
 bool EnemyRecognizeTargetBase::isChangeable() const {

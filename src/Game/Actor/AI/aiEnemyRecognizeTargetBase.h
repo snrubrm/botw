@@ -46,7 +46,8 @@ protected:
     const float* mSpreadDist_s{};
     // static_param at offset 0x68
     const float* mNoCryDist_s{};
-    void* _70{};
+    u32 _70{};
+    f32 _74{};  // counted down while _124 is set
     f32 _78{};
     f32 _7c{};
     ksys::act::BaseProcLink _80;
