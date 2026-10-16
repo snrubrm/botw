@@ -105,6 +105,38 @@ f32 EquipedDefaultWindWeapon::getWindFlyingDist() {
     return dist;
 }
 
+void EquipedDefaultWindWeapon::getAttackDirMaybe(sead::Vector3f* dir) {
+    if (!dir)
+        return;
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    auto* parent = weapon->getParentActor();
+    if (!parent)
+        return;
+    auto* w = sead::DynamicCast<act::Weapon>(mActor);
+    if (w && w->_af8._0 == 9) {
+        *dir = *weapon->sub_71002EE46C();
+        *dir -= *weapon->getAttackPosMaybe();
+        dir->normalize();
+    } else {
+        parent->getMtx().getBase(*dir, 2);
+    }
+}
+
+void EquipedDefaultWindWeapon::getAttackPosMaybe(sead::Vector3f* pos) {
+    if (!pos)
+        return;
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    auto* w = sead::DynamicCast<act::Weapon>(mActor);
+    if (w && w->_af8._0 == 9)
+        *pos = *weapon->getAttackPosMaybe();
+    else
+        weapon->getMtx().getTranslation(*pos);
+}
+
 void EquipedDefaultWindWeapon::calc_() {
     EquipedAction::calc_();
 

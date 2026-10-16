@@ -21,6 +21,12 @@ protected:
     // values scaled by the attack count rate when the weapon's attack flags have bit 1 or 2.
     f32 getWindSpeedRate();
     f32 getWindFlyingDist();
+    // 0x710010f4b4 (CSV name): the attack position (Weapon::getAttackPosMaybe for request type 9, else the
+    // actor position).
+    void getAttackPosMaybe(sead::Vector3f* pos);
+    // 0x710010f2d4 (CSV getAttackPosMaybe_0): the attack direction (from the attack position to the request
+    // target for request type 9, else the holder's forward axis).
+    void getAttackDirMaybe(sead::Vector3f* dir);
 
     sead::Heap* _40{};
     // static_param at offset 0x48
