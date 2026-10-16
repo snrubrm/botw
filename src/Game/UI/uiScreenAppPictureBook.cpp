@@ -2155,6 +2155,74 @@ void ScreenAppPictureBookUnk::sub_7100941D70(bool flag) {
     }
 }
 
+// 0x7100942ae0
+void ScreenAppPictureBookUnk::sub_7100942AE0() {
+    if (_33c > 2) {
+        if (_340 == 0 || _340 == 3 || _33c == 4 || _33c == 5)
+            sub_7100943B60(_33c);
+        _33c = -1;
+    }
+
+    if (_340 == 1) {
+        // opened once the last group of every entry has finished its open animation
+        bool opened = true;
+        if (mEntries.data()) {
+            for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+                if (!*it)
+                    continue;
+                bool done = true;
+                for (auto& group : (*it)->mGroupList->mUnits) {
+                    if (group._30)
+                        done = group._30->mFrame == f32(group._30->GetFrameSize());
+                    else
+                        done = !group._8 || group._8->isAnimOpenEnd(false);
+                }
+                opened &= done;
+            }
+        }
+        if (opened)
+            sub_7100943C84();
+    }
+
+    if (_33c != -1 && _33c < 3) {
+        if (u32(_33c - 1) < 2 || u32(_340 - 1) < 2)
+            sub_7100943D5C(_33c);
+        _33c = -1;
+    }
+
+    if (_340 == 3) {
+        // closed once the last group of every entry has finished its close animation
+        bool closed = true;
+        if (mEntries.data()) {
+            for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+                if (!*it)
+                    continue;
+                bool done = false;
+                for (auto& group : (*it)->mGroupList->mUnits) {
+                    if (group._30)
+                        done = group._30->mFrame == 0.0f;
+                    else
+                        done = group._8 && group._8->isAnimCloseEnd(false);
+                }
+                closed &= done;
+            }
+        }
+        if (!closed)
+            return;
+        _28 |= 8;
+        _340 = 0;
+        m14();
+        for (auto& list : mGroupLists) {
+            for (auto& group : list.mUnits) {
+                if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                    continue;
+                for (auto& unit : group.mUnits)
+                    unit.m12();
+            }
+        }
+    }
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)

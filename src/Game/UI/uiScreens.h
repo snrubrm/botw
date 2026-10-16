@@ -3137,6 +3137,11 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     void sub_710093EC3C(s32 index, s32 mode);
     // 0x710093ee8c (declared only; 464 bytes): selects item `index` of entry `entry_index` (like sub_710093DAFC)
     void sub_710093EE8C(s32 index, s32 entry_index, s32 mode);
+    // 0x7100943b60 / 0x7100943c84 / 0x7100943d5c (declared only): open / close state steps of sub_7100942AE0 (the
+    // first and last get the requested state _33c)
+    void sub_7100943B60(s32 state);
+    void sub_7100943C84();
+    void sub_7100943D5C(s32 state);
     // Callees of Update (declared only; not decompiled)
     void sub_7100942AE0();
     s32 sub_7100942D78();
