@@ -259,6 +259,8 @@ void Unk_710250c820::sub_71010C66E4(sead::Heap* heap) {
     _10 = ksys::phys::SphereRigidBody::make(&param, heap);
 }
 
+Unk_710250c6b8::Unk_710250c6b8() = default;
+
 Unk_710250c6b8::~Unk_710250c6b8() {
     if (_10) {
         if (_10->isAddedToWorld())

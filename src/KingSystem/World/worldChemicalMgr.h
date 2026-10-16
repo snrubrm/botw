@@ -206,10 +206,16 @@ public:
     virtual ~Unk_710250c6b8();
     void sub_71010C6304(sead::Heap* heap);
 
-    u8 _8[0x10 - 0x8];
-    ksys::phys::RigidBody* _10;
-    u8 _18[0x50 - 0x18];
-    aal::Shape* _50;
+    void* _8 = nullptr;
+    ksys::phys::RigidBody* _10 = nullptr;
+    sead::Vector3f _18;
+    f32 _24 = 1.0f;
+    f32 _28 = 1.0f;
+    void* _30 = nullptr;
+    u32 _38 = 0;
+    void* _40 = nullptr;
+    u32 _48 = 0;
+    aal::Shape* _50 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c6b8, 0x58);
 

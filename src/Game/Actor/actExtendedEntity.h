@@ -6,6 +6,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
+class CharacterController;
 class Constraint;
 class RigidBody;
 }
@@ -26,7 +27,7 @@ public:
     void sub_7100E64E60();
     void sub_7100E64EAC(f32 scale);
 
-    /* 0x00 */ void* _0 = nullptr;
+    /* 0x00 */ ksys::phys::CharacterController* _0 = nullptr;
     /* 0x08 */ ksys::phys::RigidBody* _8 = nullptr;
     /* 0x10 */ ksys::phys::Constraint* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
