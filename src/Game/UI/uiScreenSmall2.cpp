@@ -354,6 +354,14 @@ void ScreenAppTool::m102(eui::AnimButton* button) {
     sub_71009FE318(_3638[index]._24, true);
 }
 
+// 0x71009ffad4: disables the eight tool buttons
+void ScreenAppTool::m160() {
+    for (s32 i = 0; i < 8; ++i) {
+        if (_3638[i].button)
+            _3638[i].button->setFlag10(false);
+    }
+}
+
 // 0x71009ffe1c: plays the animator of the record whose id is the selected tool (else of record 1)
 void ScreenAppTool::m168() {
     for (s32 i = 0; i < 8; ++i) {

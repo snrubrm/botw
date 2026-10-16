@@ -2486,7 +2486,8 @@ public:
 
     // An element of the table at 0x3638 (0x28 bytes).
     struct Record {
-        u8 _0[0x18];
+        /* 0x00 */ eui::ButtonBase* button;
+        u8 _8[0x18 - 0x8];
         /* 0x18 */ eui::Animator* animator;
         u8 _20[0x24 - 0x20];
         /* 0x24 */ s32 _24;
