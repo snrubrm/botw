@@ -514,7 +514,8 @@ public:
     /* 0x178c */ f32 _178c;
 
 protected:
-    /* 0x1790 */ u8 _1790[0x17a0 - 0x1790];
+    /* 0x1790 */ u8 _1790[0x1794 - 0x1790];
+    /* 0x1794 */ sead::Vector3f _1794;
     /* 0x17a0 */ sead::Vector3f _17a0;
     /* 0x17ac */ u8 _17ac[0x17d0 - 0x17ac];
 public:

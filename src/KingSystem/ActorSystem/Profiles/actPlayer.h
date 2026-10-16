@@ -491,6 +491,11 @@ public:
     // Targets of the slot thunks m256 / m257 / m268 / m270 / m287 / m295 / m296 / m298 (declared only;
     // placeholder names).
     bool x_32();  // 0x88c1ec
+    // 0x710086dbd0 (CSV name): whether bow slow time can start (flags, slow-time flag, ground below the bow slow
+    // invalid height).
+    bool x_30();
+    // 0x710088c0a4 (CSV name): starts ItemCommonReady on slot 1 (and sets _c44 bit 12) for runes 2, 3, 4, 6, 7.
+    void x_36();
     bool sub_7100881EDC();
     bool isASItemBombReadyOrStart();
     bool sub_710088873C();
@@ -543,6 +548,9 @@ public:
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x7100857390 (lane4 s48; placeholder name): sub_7100857014(-1.0f, &<sub_710092DBA4()>, -1, -1).
     void sub_7100857390();
+    // 0x71008573cc (CSV Player::m71_x_2): _1794 = translation of bone key _19f0[47], moved back 0.3 along the
+    // normalised third base vector of _1b18 when m186().
+    void sub_71008573CC();
     // 0x710086843c: forwards to sub_7100857014 (out of line in another TU in the original; ~7 Player actions).
     bool sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =

@@ -46,6 +46,7 @@
 #include "Game/gameHeroSoul.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
+#include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
@@ -2069,6 +2070,43 @@ Player::Unk1 Player::sub_710087CEEC(const Unk1& angle) {
     const Unk1 diff = util::angleDiff(_1c8c, angle);
     const f32 c = sead::Mathf::cosIdx(diff.value);
     return Unk1(util::sUnk_7101EC6BA0 & s64(-(static_cast<f32>(_1c90) * c)));
+}
+
+// Whether the current slot 1 animation is a rune item start (Magnesis or the common one) that has not ended.
+// NON_MATCHING: the original sets the result to 1 before the x_4 call and branches on it; ours uses eor.
+bool Player::x_32() {
+    if (mASList->x_1(1, 1) == "ItemMagneCatchStart" || mASList->x_1(1, 1) == "ItemCommonStart")
+        return !mASList->x_4(1, 1);
+    return false;
+}
+
+void Player::sub_71008573CC() {
+    const auto& key = _19f0[47];
+    sead::Matrix34f mtx;
+    mModel->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    mtx.getTranslation(_1794);
+    if (m186()) {
+        sead::Vector3f dir;
+        _1b18.getBase(dir, 2);
+        dir.normalize();
+        _1794 -= dir * 0.3f;
+    }
+}
+
+void Player::x_36() {
+    if (x_32() || m225() || m226())
+        return;
+    auto* rune_mgr = uking::RuneMgr::instance();
+    if (!rune_mgr)
+        return;
+    if (!rune_mgr->isSelectedRune(2) && !rune_mgr->isSelectedRune(3) && !rune_mgr->isSelectedRune(4) &&
+        !rune_mgr->isSelectedRune(6) && !rune_mgr->isSelectedRune(7)) {
+        return;
+    }
+    if (mASList->x_1(1, 1) == "ItemCommonReady")
+        return;
+    x_23("ItemCommonReady", false, -1.0f);
+    _c44.setBit(12);
 }
 
 }  // namespace ksys::act

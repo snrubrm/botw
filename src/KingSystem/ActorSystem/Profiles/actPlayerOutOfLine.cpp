@@ -1,3 +1,4 @@
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -207,5 +208,34 @@ bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& e
     return sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0.0f);
 }
 
+
+// Here, not in actPlayer.cpp: the original calls sub_7100881B14 out of line.
+// NON_MATCHING: the original loads the height once after selecting its address and does not tail-call
+// sub_7100881B14 (returns 1 / 0 after it); form unknown.
+bool Player::x_30() {
+    const bool flags_ok = !_cec.isOnBit(1) && !_cf8.isOnBit(8);
+    if (isSlowTime())
+        return false;
+    if (!flags_ok || !gdt::getFlag_App_Slowtimer_OnOff())
+        return false;
+    if (_cec.isOnBit(14))
+        return false;
+    if (x_44())
+        return false;
+    if (m373() && gdt::getFlag_Water_Relic_BattleTime())
+        return false;
+    if (m378() == 0)
+        return false;
+
+    const auto* gparam = getParam()->getRes().mGParamList->getPlayer();
+    if (_cf0.isOnBit(23))
+        return sub_7100881B14(gparam->mBowSlowInvalidHeightOnShield.ref());
+    if (!(_1e9c <= sead::Mathf::epsilon()))
+        return sub_7100881B14(gparam->mBowSlowInvalidHeightWeaponChange.ref());
+    f32 height = gparam->mBowSlowInvalidHeight.ref();
+    if (x_48())
+        height = uking::sUnk_7101e7c2a8;
+    return sub_7100881B14(height);
+}
 
 }  // namespace ksys::act
