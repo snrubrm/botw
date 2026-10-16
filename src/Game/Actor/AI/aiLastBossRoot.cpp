@@ -9,6 +9,7 @@
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_71007398C0.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -148,6 +149,122 @@ void LastBossRoot::loadParams_() {
 }  // namespace uking::ai
 
 namespace uking::ai {
+
+// NON_MATCHING: the guard timer reset stores both 5.0 values with one 64-bit store in the original; stack slot of
+// the home position
+void LastBossRoot::calc_() {
+    const bool prev_as = _b6;
+    _b6 = checkAS(1, 0);
+    auto* boss = sead::DynamicCast<act::LastBoss>(mActor);
+    if (!boss) {
+        setFailed();
+        return;
+    }
+    auto* damage_mgr = sub_710072BA90(mActor);
+    if (!damage_mgr) {
+        setFailed();
+        return;
+    }
+    if (damage_mgr->getField50() == 3)
+        boss->_14f0 = 0;
+    else
+        ksys::Timer::update(&boss->_14f0, 1.0f);
+
+    const auto isDead = [boss] {
+        auto* life = boss->getLife();
+        return life && *life == 0;
+    };
+    const auto resetGuardTimer = [this] {
+        _c4.reset(5.0f);
+        _b5 = false;
+    };
+
+    if ((boss->_14e8.getDirect() & 0xc02) == 2 && !isDead()) {
+        if (!(_c4.value <= sead::Mathf::epsilon()))
+            _c4.update();
+        if (sub_710072B7C4()) {
+            if (boss->_14f8._30.isOnBit(0)) {
+                if (boss->_14e8.isOnBit(2))
+                    boss->_14e8.resetBit(2);
+                boss->_14f8._30.resetBit(0);
+                boss->update();
+            } else if (_b5) {
+                _b5 = false;
+                boss->update();
+            } else if (!sub_71005DD798(mActor, 8, nullptr, 0, 0) || !_b5) {
+                if (!sub_71005DD798(mActor, 8, nullptr, 0, 0) && _b5)
+                    resetGuardTimer();
+            }
+        } else if (boss->_14f8._30.isOnBit(0)) {
+            if (sub_71005DD798(mActor, 8, nullptr, 0, 0) && !_b5) {
+                _b5 = true;
+                if (boss->_14e8.isOnBit(2))
+                    boss->_14e8.resetBit(2);
+                boss->_14f8._30.resetBit(0);
+                boss->update();
+            } else if (!sub_71005DD798(mActor, 8, nullptr, 0, 0) || !_b5) {
+                if (!sub_71005DD798(mActor, 8, nullptr, 0, 0) && _b5)
+                    resetGuardTimer();
+            }
+        } else if (!_b5 && _c4.value <= sead::Mathf::epsilon()) {
+            if (!boss->_14e8.isOnBit(2))
+                boss->_14e8.setBit(2);
+            boss->_14f8._30.setBit(0);
+            boss->x();
+        } else if (!sub_71005DD798(mActor, 8, nullptr, 0, 0) || !_b5) {
+            if (!sub_71005DD798(mActor, 8, nullptr, 0, 0) && _b5)
+                resetGuardTimer();
+        }
+    } else if (boss->_14e8.getDirect() & 0xc00) {
+        resetGuardTimer();
+    }
+
+    boss->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000000);
+    if (boss->_14e8.isOnBit(14) && isSlowTimeMaybe())
+        boss->sub_71002C5E58(true);
+
+    getCurrentChild();
+    if ((isCurrentChild("通常") || isCurrentChild("リアクション")) && !_b4) {
+        if (boss->_14f8._30.isOnBit(8) || (boss->_14e4 != 0 && isDead())) {
+            changeChild("特殊リアクション");
+            return;
+        }
+    }
+
+    sub_7100479F74(boss, prev_as);
+
+    sead::Vector3f home;
+    boss->getHomePos(&home);
+    const auto& player = getPlayerPosition();
+    boss->_14e8.changeBit(12, home.y + 3.0f < player.y);
+    const bool react = sub_710047A374(boss);
+
+    auto* boss2 = sead::DynamicCast<act::LastBoss>(mActor);
+    if (boss2 && boss2->transitionToSecondHalf(*mAuraHPRate_s, mAuraDemoName_s, mAuraEntryName_s, mAuraWallEntry_s,
+                                               mAuraDemoDownEntry_s)) {
+        if (boss->_14f8._30.isOnBit(4))
+            return;
+        if (!boss->_14e8.isOnBit(14))
+            changeChild("リアクション");
+        return;
+    }
+    if (mActor->get1a0())
+        return;
+    if (auto* obj = mActor->getMapObject()) {
+        if (obj->getFlags0().isOn(ksys::map::Object::Flag0::_20000))
+            return;
+    }
+    auto* child = getCurrentChild();
+    if (react) {
+        changeChild("リアクション");
+        return;
+    }
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("リアクション"))
+            _b5 = false;
+        changeChild("通常");
+    }
+}
 
 // NON_MATCHING: the two flag bit tests of _14e8 are merged into one mask compare in our build
 void LastBossRoot::sub_7100479F74(act::LastBoss* boss, bool update_wait) {
