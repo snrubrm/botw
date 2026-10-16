@@ -50,8 +50,11 @@ public:
     bool finishLoad(bool a1);
     // 0x7100dc9628: the XLink of the linked actor (null without an acquirable actor)
     xlink::XLink* sub_7100DC9628();
-    // 0x7100dc9404 (CSV unnamed; not decompiled): requests the actor; true when the request was made
+    // 0x7100dc9404 (CSV unnamed): requests the actor; true when the request was made
     bool sub_7100DC9404();
+    // 0x7100dc9da0 (CSV EventXlinkInfo::x; called by init2): false for Demo709_0, Demo721_0 and the three
+    // Electric_Relic_BattleField entry points
+    bool sub_7100DC9DA0(const sead::SafeString& event_name, const sead::SafeString& entry_point);
 
     // An element of the two arrays allocated by init2 (0x7100dc9828; three strings each)
     struct Entry {

@@ -98,6 +98,19 @@ bool EventXlinkInfo::sub_7100DC9404() {
     return act::ActorCreator::instance()->requestCreateActor("DemoXLinkActor", mHeap, &_8, &params, nullptr, 1);
 }
 
+// 0x7100dc9da0
+bool EventXlinkInfo::sub_7100DC9DA0(const sead::SafeString& event_name, const sead::SafeString& entry_point) {
+    if (event_name == "Demo709_0" || event_name == "Demo721_0")
+        return false;
+    if (event_name == "Electric_Relic") {
+        if (entry_point == "Electric_Relic_BattleField01" || entry_point == "Electric_Relic_BattleField02" ||
+            entry_point == "Electric_Relic_BattleField03") {
+            return false;
+        }
+    }
+    return true;
+}
+
 // 0x7100dc96a0
 void EventXlinkInfo::x_1(EventFlowBase* flow) {
     if (auto* actor = sead::DynamicCast<act::Actor>(_18.getProc(nullptr))) {
