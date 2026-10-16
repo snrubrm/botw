@@ -26,6 +26,8 @@ public:
     void m114(bool, bool) override;
     bool m165(sead::BufferedSafeString* out) override;
     void coldHotStatusEffectStuff();
+    // 0x71006ea160 (placeholder name; not decompiled): called first by m76
+    void sub_71006EA160();
     // 0x71006ea2d4 (placeholder name): sets AS slot 66 to the flame-resistance variant while the burn resistance
     // level (armor + _c44) is below _c48
     void sub_71006EA2D4();

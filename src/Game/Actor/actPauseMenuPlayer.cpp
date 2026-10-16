@@ -1,4 +1,5 @@
 #include "Game/Actor/actPauseMenuPlayer.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiUtils.h"
 #include <basis/seadNew.h>
@@ -10,6 +11,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -149,6 +152,43 @@ void PauseMenuPlayer::sub_71006E9E24() {
     _c3c = 0;
     _c40 = 0;
     _c44 = 0;
+}
+
+// 0x71006e9e34
+// NON_MATCHING: sub_71006EA2D4 gets inlined (the original calls it), and the original repeats the Weapon cast in
+// each branch
+void PauseMenuPlayer::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    ksys::act::sub_7100EE9B68(this, setter);
+    sub_71006EA160();
+    mASList->x_2(66, 33, _c35, false);
+    coldHotStatusEffectStuff();
+    sub_71006EA2D4();
+    sub_71006EA348();
+
+    auto* as_list = sub_71011C9A88();
+    if (!as_list)
+        return;
+    as_list->x_2(66, 5, _c34, false);
+    const bool has_bow = sead::DynamicCast<Weapon>(getWeapons()->getEquippedWeapon(1)) &&
+                         !getWeapons()->mWeapons[1]._10;
+    as_list->x_2(66, 30, has_bow, false);
+    as_list->x_6(17, 0, static_cast<f32>(_c38));
+
+    ksys::act::WeaponBase* weapon;
+    if (!getWeapons()->mWeapons[0]._10) {
+        weapon = getWeapons()->getEquippedWeapon(0);
+    } else if (!getWeapons()->mWeapons[2]._10) {
+        weapon = getWeapons()->getEquippedWeapon(2);
+    } else if (!getWeapons()->mWeapons[1]._10) {
+        weapon = getWeapons()->getEquippedWeapon(1);
+    } else {
+        as_list->goLimpFromHeadShotMaybe(44, "", 0);
+        return;
+    }
+    if (auto* equipped = sead::DynamicCast<Weapon>(weapon))
+        as_list->goLimpFromHeadShotMaybe(44, equipped->getProfile(), 0);
+    else
+        as_list->goLimpFromHeadShotMaybe(44, "", 0);
 }
 
 void PauseMenuPlayer::sub_71006EA2D4() {
