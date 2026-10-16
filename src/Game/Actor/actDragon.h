@@ -9,6 +9,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actSandworm.h"
 
 namespace ksys::map {
 class Object;
@@ -44,6 +45,60 @@ struct Unk_710000b710Part {
     /* 0x1a8 */ u8 _1a8[0x280 - 0x1a8];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710000b710Part, 0x280);
+
+// Bone part group of the Dragon (four Unk_7102357168 at 0x1fd0, one Unk_7102357188 at 0x2270):
+// parts attached to bones of `actor`. Name is descriptive; the base has no vtable of its own in
+// the binary (no virtual destructor; two virtual slots).
+class DragonBonePartGroup {
+public:
+    virtual void m0() = 0;
+    virtual void m1() = 0;
+
+    // inline-only in the original; name is a guess (Dragon::startPreparingForPreDelete_ repeats it
+    // for all five groups): releases the parts' bone handles once.
+    void detachParts() {
+        if (!attached)
+            return;
+        attached = false;
+        if (!actor)
+            return;
+        for (s32 i = 0; i < numParts; ++i)
+            actor->sub_71011DA868(&parts[i].handle);
+    }
+
+    /* 0x08 */ ksys::act::Actor* actor;
+    // Element type unknown (0x71000102b8 reads s16 bone indices at +0x30 / +0x32 of the first).
+    /* 0x10 */ sead::Buffer<u8> _10;
+    /* 0x20 */ sead::Buffer<Unk_71007237d0Part> parts;
+    /* 0x30 */ s32 numParts;
+    /* 0x34 */ bool attached;
+};
+
+// vtable 0x7102357168 (m0 0x71000102b8, m1 0x710001049c); four of them at Dragon + 0x1fd0
+// (array ctor 0x710000b9b0).
+class Unk_7102357168 : public DragonBonePartGroup {
+public:
+    void m0() override;
+    void m1() override;
+
+    /* 0x38 */ sead::Vector3f _38;
+    /* 0x44 */ sead::Vector3f _44;
+    /* 0x50 */ sead::Vector3f _50;
+    /* 0x5c */ sead::Vector3f _5c;
+    /* 0x68 */ sead::FixedSafeString<32> _68;
+    /* 0xa0 */ u64 _a0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102357168, 0xa8);
+
+// vtable 0x7102357188 (m0 0x710000f228, m1 0x710000ded8); one at Dragon + 0x2270.
+class Unk_7102357188 : public DragonBonePartGroup {
+public:
+    void m0() override;
+    void m1() override;
+
+    /* 0x38 */ u8 _38[0x50 - 0x38];
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102357188, 0x50);
 
 // Name from the CSV (Dragon::*): the three dragons. vtable 0x7102356b28 (181 slots, no new
 // virtuals), RTTI static 0x71025ae7c0 (parent: Enemy). ctor 0x710000b214 (CSV Dragon::ctor),
@@ -213,9 +268,9 @@ public:
     /* 0x1fbc */ f32 _1fbc;
     /* 0x1fc0 */ u8 _1fc0[0xc];
     /* 0x1fcc */ f32 _1fcc;
-    // object with ctor 0x710000b9b0(this + 0x1fd0)
-    /* 0x1fd0 */ u8 _1fd0[0x2270 - 0x1fd0];
-    /* 0x2270 */ u8 _2270[0x22c0 - 0x2270];
+    // Array ctor 0x710000b9b0(this + 0x1fd0).
+    /* 0x1fd0 */ Unk_7102357168 _1fd0[4];
+    /* 0x2270 */ Unk_7102357188 _2270;
 };
 KSYS_CHECK_SIZE_NX150(Dragon, 0x22c0);
 

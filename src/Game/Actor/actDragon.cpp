@@ -143,6 +143,20 @@ bool Dragon::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
 }
 
+bool Dragon::startPreparingForPreDelete_() {
+    if (!_1f70.isOn(0x4000000)) {
+        if (_14c8._930 & 8)
+            _14c8.sub_71006FB8A8();
+        for (auto& group : _1fd0)
+            group.detachParts();
+        _2270.detachParts();
+        if (!_1f70.isOn(0x10000000))
+            _1ec0.sub_71010F17FC(true);
+        _1f70.set(0x4000000);
+    }
+    return Enemy::startPreparingForPreDelete_();
+}
+
 ksys::act::BaseProc::PreDeletePrepareResult Dragon::prepareForPreDelete_() {
     auto* mgr = ksys::map::PlacementMgr::instance();
     if (mgr && mgr->mPlacementActors) {
