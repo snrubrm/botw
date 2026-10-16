@@ -960,6 +960,9 @@ public:
         virtual ~Entry() { finalize(); }
         // 0x7101049778 (declaration only; placeholder name): per-frame update of the entry.
         void sub_7101049778();
+        // 0x7101049824 (placeholder name): loads the bars of the user instance's user name into a new asset
+        // info reader once (_18 becomes 1).
+        bool sub_7101049824();
 
         // inline-only in the original; name is a guess. The destructor and Unk_7102502410::sub_710104993C
         // both free the asset info reader and destroy the user instance this way.
@@ -1001,12 +1004,24 @@ public:
     // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
     // and puts the user instance to sleep.
     void sub_710104A108();
+    // 0x710104a2e8 (placeholder name): whether the referenced entry's state _18 is 2.
+    bool sub_710104A2E8() const;
+    // 0x710104a858 (placeholder name)
+    bool sub_710104A858() const;
+    // 0x710104a8ac (placeholder name): no entry referenced and _10 empty.
+    bool sub_710104A8AC() const;
+
+    // Placeholder: the object at _80 (only its counter at 0x20 is read).
+    struct Unk80 {
+        u8 _0[0x20];
+        u32 _20;
+    };
 
     /* 0x08 */ bool mIsSet = false;
     /* 0x10 */ sead::FixedSafeString<64> _10{sead::SafeString::cEmptyString};
     /* 0x68 */ u8 _68 = 0;
     /* 0x70 */ sead::SafeString mName{sead::SafeString::cEmptyString};
-    /* 0x80 */ u64 _80 = 0;
+    /* 0x80 */ const Unk80* _80 = nullptr;
     /* 0x88 */ u32 _88 = 0;
     /* 0x90 */ void* mOwner = nullptr;
     /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;

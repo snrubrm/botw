@@ -3,6 +3,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
 
 namespace ksys::snd {
@@ -19,6 +20,23 @@ void Unk_7102502410::sub_710104993C() {
     for (s32 i = 0; i < mEntries.size(); ++i)
         mEntries[i].finalize();
     mEntries.freeBuffer();
+}
+
+bool Unk_7102502410::Entry::sub_7101049824() {
+    if (!mUserInstance)
+        return false;
+    const char* name = mUserInstance->getUserName();
+    if (!name || _18 != 0)
+        return false;
+    auto* resource_mgr = SoundMgr::instance()->_60;
+    mAssetInfoReader = new (resource_mgr->mHeap, 8) Unk_7102502950;
+    if (resource_mgr->loadBars(name, mAssetInfoReader, resource_mgr->mHeap, false, false, nullptr)) {
+        _18 = 1;
+        return true;
+    }
+    resource_mgr->sub_7101059354(mAssetInfoReader);
+    mAssetInfoReader = nullptr;
+    return false;
 }
 
 void Unk_7102502410::sub_7101049C60() {
@@ -54,6 +72,24 @@ void Unk_7102502430::sub_710104A0D4() {
     sub_710104A108();
     mOwner = nullptr;
     mIsSet = false;
+}
+
+bool Unk_7102502430::sub_710104A2E8() const {
+    return _98 && _98->_18 == 2;
+}
+
+bool Unk_7102502430::sub_710104A858() const {
+    if (_80 && _80->_20 == _88)
+        return true;
+    if (!_10.isEmpty())
+        return true;
+    return _68 != 0;
+}
+
+bool Unk_7102502430::sub_710104A8AC() const {
+    if (_98)
+        return false;
+    return _10.isEmpty();
 }
 
 void Unk_7102502430::sub_710104A108() {
