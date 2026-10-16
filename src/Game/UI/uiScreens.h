@@ -305,8 +305,8 @@ public:
     /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
     /* 0x260 */ sead::Buffer<s32> mChildGroupSizes;  // the number of children of each group (the groups are consecutive in mChildren)
     /* 0x270 */ f32 _270 = -1.0f;
-    /* 0x278 */ void* _278 = nullptr;
-    /* 0x280 */ void* _280 = nullptr;
+    // animators reset by ScreenAppCamera::sub_71009D9AD8
+    /* 0x278 */ sead::PtrArray<eui::Animator> _278;
     /* 0x288 */ eui::Animator* _288 = nullptr;
     /* 0x290 */ u8 _290 = 0;
     u8 _291 = 0;
@@ -3926,11 +3926,16 @@ public:
 
     /* 0x3610 */ ScreenChild* _3610;
     /* 0x3618 */ eui::Animator* _3618;
-    u8 _pad_3620[0x3648 - 0x3620];
+    /* 0x3620 */ eui::Animator* _3620;
+    /* 0x3628 */ eui::Animator* _3628;
+    /* 0x3630 */ eui::Animator* _3630;
+    /* 0x3638 */ eui::Animator* _3638;
+    u8 _pad_3640[0x3648 - 0x3640];
     /* 0x3648 */ xlink2::HandleSLink _3648;  // the camera sound
     u8 _pad_3658[0x3688 - 0x3658];
     /* 0x3688 */ eui::LayoutEx* _3688;
-    u8 _pad_3690[0x36e8 - 0x3690];
+    /* 0x3690 */ eui::Animator* _3690;
+    u8 _pad_3698[0x36e8 - 0x3698];
     /* 0x36e8 */ s32 _36e8;
     /* 0x36ec */ s32 _36ec;  // frames counted by m159 while _3618 is stopped
     u8 _pad_36f0[0x3b70 - 0x36f0];
@@ -3944,6 +3949,12 @@ public:
     /* 0x4030 */ u8* _4030;
     u8 _pad_4038[0x4080 - 0x4038];
     /* 0x4080 */ bool _4080;
+    u8 _pad_4081[0x44c8 - 0x4081];
+    /* 0x44c8 */ eui::Animator* _44c8;
+    /* 0x44d0 */ eui::Animator* _44d0;
+
+    // 0x71009d9ad8 (placeholder name): stops every animator of the screen at its start and applies it
+    void sub_71009D9AD8();
 
     void m99() override;
     // 0x71009db754: closes the camera screen

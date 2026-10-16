@@ -58292,7 +58292,7 @@ Address,Quality,Size,Name
 0x00000071009d98b8,U,000368,ScreenAppCamera::m162
 0x00000071009d9a28,O,000036,_ZN5uking2ui15ScreenAppCamera4m163Ev
 0x00000071009d9a4c,U,000140,ScreenAppCamera::m164
-0x00000071009d9ad8,U,000348,
+0x00000071009d9ad8,O,000348,_ZN5uking2ui15ScreenAppCamera14sub_71009D9AD8Ev
 0x00000071009d9c34,O,000012,_ZNK5uking2ui15ScreenAppCamera14getLayoutName_Ev
 0x00000071009d9c40,m,000276,_ZN5uking2ui15ScreenAppCamera14doBuildLayout_ERKN4sead14SafeStringBaseIcEEPN2nn4ui2d16ResourceAccessorE
 0x00000071009d9d54,U,002476,ScreenAppCamera::m93
