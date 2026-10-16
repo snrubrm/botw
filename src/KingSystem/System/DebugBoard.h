@@ -52,12 +52,23 @@ public:
     ksys::IMessageBroker* getBroker1();
     ksys::IMessageBroker* getBroker2();
 
+    // 0x710089ba4c: sets or clears bit 0x20000 of _44c0 (GameScene::startLoadingScreen passes true).
+    void sub_710089BA4C(bool on);
+    // 0x710089ba6c: when `on` changes, sets the _4530 entries to 2 (on) or entries 1 and 7 to 1 (off).
+    void sub_710089BA6C(bool on);
+
     u8 _0[0x60];
     /* 0x60 */ Unk_DebugBoardBroker mBroker0;
     /* 0x1338 */ Unk_DebugBoardBroker mBroker1;
     /* 0x2610 */ Unk_DebugBoardBroker mBroker2;
     u8 _38e8[0x39bc - 0x38e8];
     /* 0x39bc */ s32 _39bc;  // 1 / 0: ScreenGamePadBG::m83 stops its animator at max / min
+    u8 _39c0[0x44b0 - 0x39c0];
+    /* 0x44b0 */ bool _44b0;
+    u8 _44b1[0x44c0 - 0x44b1];
+    /* 0x44c0 */ u32 _44c0;
+    u8 _44c4[0x4530 - 0x44c4];
+    /* 0x4530 */ s32 _4530[17];
 };
 
 // The three board components (no RTTI; vtables 0x710246c458 / 0x710246c498 / 0x710246c4d8 with the destructor pair

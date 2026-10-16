@@ -47,3 +47,37 @@ bool Unk_710246c4d8::sub_710089CA04(const DebugBoardTransceiverArgMaybe& arg) {
     DebugBoardMgr::instance()->getBroker2()->registerTransceiver(*arg.mTransceiver);
     return true;
 }
+
+void DebugBoardMgr::sub_710089BA4C(bool on) {
+    _44c0 = on ? _44c0 | 0x20000 : _44c0 & ~0x20000u;
+}
+
+// NON_MATCHING: the original merges the constant stores into 64-bit pairs and shares the last two stores of
+// both branches (indexed by 15 / 16 or 1 / 7).
+void DebugBoardMgr::sub_710089BA6C(bool on) {
+    if (_44b0 == on)
+        return;
+
+    if (on) {
+        _4530[0] = 2;
+        _4530[1] = 2;
+        _4530[2] = 2;
+        _4530[3] = 2;
+        _4530[4] = 2;
+        _4530[5] = 2;
+        _4530[6] = 2;
+        _4530[7] = 2;
+        _4530[8] = 2;
+        _4530[9] = 2;
+        _4530[10] = 2;
+        _4530[11] = 2;
+        _4530[12] = 2;
+        _4530[13] = 2;
+        _4530[15] = 2;
+        _4530[16] = 2;
+    } else {
+        _4530[1] = 1;
+        _4530[7] = 1;
+    }
+    _44b0 = on;
+}
