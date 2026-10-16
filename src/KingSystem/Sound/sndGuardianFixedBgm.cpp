@@ -50,3 +50,33 @@ Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 }
 
 Unk_71024fec18::~Unk_71024fec18() = default;
+
+void Unk_71024feae8::sub_710100F860(s32 id) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.id == id) {
+            entry = {};
+            return;
+        }
+    }
+}
+
+void Unk_71024feae8::sub_710100F8B0(bool value, s32 id) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.id == id) {
+            entry._4 = value;
+            return;
+        }
+    }
+}
+
+void Unk_71024feae8::sub_710100F900(bool value, s32 id) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.id == id) {
+            entry._5 = value;
+            return;
+        }
+    }
+}

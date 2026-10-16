@@ -17,6 +17,40 @@ Unk_71024fefe8::~Unk_71024fefe8() {
     mEntries.freeBuffer();
 }
 
+void Unk_71024fefe8::sub_71010122A0(s32 id) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.id == id) {
+            entry = {};
+            return;
+        }
+    }
+}
+
+void Unk_71024fefe8::sub_71010122F0(bool value, s32 id) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.id == id) {
+            entry._4 = value;
+            return;
+        }
+    }
+}
+
+void Unk_71024fefe8::sub_7101012340(s32 value, bool flag, s32 id) {
+    if (_1ec < value)
+        _1ec = value;
+    if (flag)
+        _1f0 = true;
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.id == id) {
+            entry._5 = flag;
+            return;
+        }
+    }
+}
+
 namespace ksys::snd {
 
 Unk_710260f278::Unk_710260f278(const BgmInitArg& arg) : Unk_71025ce380(arg) {

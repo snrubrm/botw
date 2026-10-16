@@ -2590,10 +2590,12 @@ class Unk_71024feae8 : public ksys::snd::Unk_71025ce380 {
 public:
     ~Unk_71024feae8() override;
     // Called by ksys::snd::Unk_710260f0c0 on its kind 17 BGM.
-    void sub_710100F798();
-    void sub_710100F860();
-    void sub_710100F8B0(bool value);
-    void sub_710100F900(bool flag, s32 value);
+    // 0x710100f798 (declared only): under the lock at _1d8, takes a free entry for `id` unless it has one.
+    void sub_710100F798(s32 id);
+    // 0x710100f860 / 0x710100f8b0 / 0x710100f900: clear / set _4 / set _5 of the entry of `id`.
+    void sub_710100F860(s32 id);
+    void sub_710100F8B0(bool value, s32 id);
+    void sub_710100F900(bool value, s32 id);
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
     void hm15() override;
@@ -2602,8 +2604,9 @@ public:
     explicit Unk_71024feae8(const ksys::snd::BgmInitArg& arg);
 
     struct Entry {
-        u32 _0 = 0;
-        u16 _4 = 0;
+        s32 id = 0;
+        bool _4 = false;
+        bool _5 = false;
     };
 
     ksys::snd::MusicInfo* mInfo = nullptr;
@@ -2666,10 +2669,13 @@ class Unk_71024fefe8 : public ksys::snd::Unk_71025ce380 {
 public:
     ~Unk_71024fefe8() override;
     // Called by ksys::snd::Unk_710260f0c0 on its kind 16 BGM.
-    void sub_71010121D8();
-    void sub_71010122A0();
-    void sub_71010122F0(bool value);
-    void sub_7101012340(s32 value, bool flag);
+    // 0x71010121d8 (declared only): as Unk_71024feae8::sub_710100F798.
+    void sub_71010121D8(s32 id);
+    // 0x71010122a0 / 0x71010122f0: clear / set _4 of the entry of `id`.
+    void sub_71010122A0(s32 id);
+    void sub_71010122F0(bool value, s32 id);
+    // 0x7101012340: raises _1ec to `value`, sets _1f0 if `flag`, and sets _5 of the entry of `id` to `flag`.
+    void sub_7101012340(s32 value, bool flag, s32 id);
     void m14(sead::TextWriter& writer) override {}
     // 0x71010123ac / 0x71010124f4 (declared only)
     void hm14() override;
@@ -2677,8 +2683,9 @@ public:
 
     // 64 entries allocated by the constructor 0x7101011b90 (same zeroing loop as Unk_71024feae8's).
     struct Entry {
-        u32 _0 = 0;
-        u16 _4 = 0;
+        s32 id = 0;
+        bool _4 = false;
+        bool _5 = false;
     };
 
     ksys::snd::MusicInfo* mInfo;
@@ -2686,7 +2693,10 @@ public:
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     sead::Buffer<Entry> mEntries;
     // Not declared yet: fields up to 0x200, a FixedSafeString<8>-based object at 0x200 and fields to 0x240.
-    u8 _1d8[0x240 - 0x1d8];
+    u8 _1d8[0x1ec - 0x1d8];
+    /* 0x1ec */ s32 _1ec;
+    /* 0x1f0 */ bool _1f0;
+    u8 _1f1[0x240 - 0x1f1];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 

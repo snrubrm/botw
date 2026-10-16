@@ -340,18 +340,18 @@ void Unk_710260f0c0::m10() {
 void Unk_710260f0c0::sub_7100FF9810(s32 id, bool use_a0) {
     if (use_a0) {
         if (_a0)
-            _a0->sub_710100F798();
+            _a0->sub_710100F798(id);
     } else if (_98) {
-        _98->sub_71010121D8();
+        _98->sub_71010121D8(id);
     }
 }
 
 void Unk_710260f0c0::sub_7100FF9830(s32 id, bool use_a0) {
     if (use_a0) {
         if (_a0)
-            _a0->sub_710100F860();
+            _a0->sub_710100F860(id);
     } else if (_98) {
-        _98->sub_71010122A0();
+        _98->sub_71010122A0(id);
     }
 }
 
@@ -360,16 +360,16 @@ void Unk_710260f0c0::sub_7100FF9850(s32 a, bool b, s32 id, bool use_a0) {
         if (_a0)
             _a0->sub_710100F900(b, id);
     } else if (_98) {
-        _98->sub_7101012340(a, b);
+        _98->sub_7101012340(a, b, id);
     }
 }
 
 void Unk_710260f0c0::sub_7100FF987C(bool a, s32 id, bool use_a0) {
     if (use_a0) {
         if (_a0)
-            _a0->sub_710100F8B0(a);
+            _a0->sub_710100F8B0(a, id);
     } else if (_98) {
-        _98->sub_71010122F0(a);
+        _98->sub_71010122F0(a, id);
     }
 }
 
