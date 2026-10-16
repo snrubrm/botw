@@ -350,6 +350,38 @@ void ScreenAppCamera::m159() {
     }
 }
 
+// 0x71009d9ad8
+void ScreenAppCamera::sub_71009D9AD8() {
+    if (_3618)
+        _3618->StopAtMin();
+    if (_3620)
+        _3620->StopAtMin();
+    if (_3628)
+        _3628->StopAtMin();
+    if (_3630)
+        _3630->StopAtMin();
+    if (_3638)
+        _3638->StopAtMin();
+    if (_3690)
+        _3690->StopAtMin();
+    if (_44c8)
+        _44c8->StopAtMin();
+    if (_44d0)
+        _44d0->StopAtMin();
+    if (auto* animator = mLayout->_70)
+        animator->StopAtMin();
+    if (auto* animator = mLayout->mCloseAnimator)
+        animator->StopAtMin();
+    if (auto* animator = mLayout->mOpenAnimator) {
+        animator->StopAtMin();
+        animator->Animate();
+    }
+    for (auto& animator : _278) {
+        animator.StopAtMin();
+        animator.Animate();
+    }
+}
+
 // 0x71009db754
 // NON_MATCHING: the child state test (1 / 3 / 5 / 7) is a bit-mask lookup in ours; the original tests 7, then
 // (state - 1) <= 4 with an even (state - 1)
