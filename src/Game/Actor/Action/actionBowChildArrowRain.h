@@ -22,6 +22,11 @@ protected:
     // 0x71000ce328 (placeholder name): false while one of the 24 actors bound by the parent SiteBoss is in its calc
     // state.
     bool sub_71000CE328();
+    // 0x71000cd2a8 (placeholder name): moves _d8 to the next bound actor of the parent SiteBoss (stepping by
+    // +1 / -1 by the parity of ID, skipping ID) and writes its position when it is in its calc state.
+    bool sub_71000CD2A8(sead::Vector3f* pos);
+    // 0x71000cd040 (placeholder name): updates _12c._3d8 for the 24 bound actors of the parent SiteBoss.
+    void sub_71000CD040();
 
     // static_param at offset 0x20
     const int* mRainMax_s{};
@@ -83,7 +88,13 @@ protected:
         u8 _0[0x3c0];
         sead::Vector3f _3c0{0, 0, 0};
         sead::Vector3f _3cc{0, 0, 0};
-        sead::Vector2f _3d8[6]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+        // Per bound actor of the parent SiteBoss (0x71000cd040): `entered` is set for one frame when it comes
+        // within one frame's movement of this actor, `inside` while it is.
+        struct BoundActorState {
+            bool entered;
+            bool inside;
+        };
+        BoundActorState _3d8[24]{};
     };
     Unk12c _12c{};
 };

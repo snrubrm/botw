@@ -1,6 +1,7 @@
 #include "Game/Actor/Action/actionBowChildArrowRain.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -32,8 +33,8 @@ void BowChildArrowRain::enter_(ksys::act::ai::InlineParamPack* params) {
     _100 = 0;
     _108 = 0;
     _c0 = f32(id) * (sead::Mathf::pi() / 2);
-    for (auto& v : _12c._3d8)
-        v = {0, 0};
+    for (auto& state : _12c._3d8)
+        state = {false, false};
     _12c._3cc.set(*mToTargetTime_s, *mToTargetTime_s, -1);
     _d0 = false;
     _d1 = false;
@@ -98,6 +99,58 @@ bool BowChildArrowRain::isChangeable() const {
 
 void BowChildArrowRain::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+// NON_MATCHING: the original repeats the speed sqrt (dead) after the store; register allocation.
+void BowChildArrowRain::sub_71000CD040() {
+    if (!mParentActor_d)
+        return;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr));
+    auto* boss = sead::DynamicCast<act::SiteBoss>(actor);
+    if (!boss)
+        return;
+
+    for (s32 i = 0; i < 24; ++i) {
+        auto& state = _12c._3d8[i];
+        if (state.entered)
+            state.entered = false;
+        auto* link = boss->_1560.sub_710066DE24(i);
+        if (!link->hasProcInCalcState())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        const sead::Vector3f pos = accessor.getActorMtx().getTranslation();
+        const sead::Vector3f velocity = accessor.getVelocity();
+        const f32 speed = velocity.length();
+        const sead::Vector3f diff = mActor->getMtx().getTranslation() - (pos + velocity);
+        const bool inside = diff.squaredLength() < speed * speed;
+        if (inside && !state.inside)
+            state.entered = true;
+        state.inside = inside;
+    }
+}
+
+// NON_MATCHING: the original keeps &_1560 in a register and adds 0x1e0 after the index (we fold the offsets).
+bool BowChildArrowRain::sub_71000CD2A8(sead::Vector3f* pos) {
+    if (!mParentActor_d)
+        return false;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr));
+    auto* boss = sead::DynamicCast<act::SiteBoss>(actor);
+    if (!boss)
+        return false;
+
+    auto& bound = boss->_1560;
+    _d8 = bound.sub_710066DF44(_d8, (*mID_d & 1) ? -1 : 1, *mID_d);
+    auto& link = bound._1e0[_d8];
+    if (link.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.isStateCalc()) {
+            accessor.getActorMtx().getTranslation(*pos);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool BowChildArrowRain::sub_71000CE328() {
