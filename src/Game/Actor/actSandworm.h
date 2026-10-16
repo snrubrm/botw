@@ -1,10 +1,12 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <random/seadRandom.h>
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/System/VFRValue.h"
 
 namespace ksys::phys {
@@ -17,6 +19,44 @@ namespace uking::act {
 // virtuals), RTTI static 0x71025b5838 (parent: Enemy). Factory 0x71002cbadc (CSV Sandworm::construct,
 // which inlines the ctor): new(0x1658).
 // TODO: incomplete. Members are public: AI code reads them directly.
+// 0x148-byte element of Unk_71007237d0::_70 (built by 0x71007237d0: BoneHandle and BoneAccessKeyEx
+// constructors only, so 0xe0-0x148 is trivial).
+struct Unk_71007237d0Part {
+    /* 0x00 */ ksys::act::BoneHandle handle;
+    /* 0xa8 */ gsys::BoneAccessKeyEx _a8;
+    /* 0xe0 */ u8 _e0[0x148 - 0xe0];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71007237d0Part, 0x148);
+
+// Bone part set at Sandworm + 0x14d0, named after its init function 0x71007237d0 (actor, bone names,
+// part count, matrix count, heap; the constructor is inline). Its code lives near Unk_7100722420.
+// Only the members the destructor and init touch are modelled.
+struct Unk_71007237d0 {
+    ~Unk_71007237d0() {
+        sub_71002CCFD4();
+        _40.freeBuffer();
+        _50.freeBuffer();
+    }
+
+    // 0x71002ccfd4 (placeholder name): frees the part buffer and both value buffers. Inline: the original
+    // emits it in the Sandworm TU, away from the rest of this class.
+    void sub_71002CCFD4() {
+        _70.freeBuffer();
+        _40.freeBuffer();
+        _50.freeBuffer();
+    }
+
+    /* 0x00 */ ksys::act::Actor* mActor = nullptr;
+    /* 0x08 */ gsys::BoneAccessKeyEx _8;
+    /* 0x40 */ sead::Buffer<sead::Matrix34f> _40;  // 0x30-byte elements (init)
+    /* 0x50 */ sead::Buffer<f32> _50;  // 4-byte elements (init; type a guess)
+    /* 0x60 */ void* _60 = nullptr;
+    /* 0x68 */ f32 _68 = 0.05;
+    /* 0x6c */ u32 _6c = 0;
+    /* 0x70 */ sead::Buffer<Unk_71007237d0Part> _70;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71007237d0, 0x80);
+
 class Sandworm : public Enemy {
     SEAD_RTTI_OVERRIDE(Sandworm, Enemy)
 public:
@@ -63,17 +103,7 @@ public:
 
     /* 0x14c8 */ s32 _14c8 = 2;
     /* 0x14cc */ s32 _14cc = 2;
-    /* 0x14d0 */ void* _14d0 = nullptr;
-    /* 0x14d8 */ gsys::BoneAccessKeyEx _14d8;
-    /* 0x1510 */ u32 _1510 = 0;
-    /* 0x1518 */ void* _1518 = nullptr;
-    /* 0x1520 */ u32 _1520 = 0;
-    /* 0x1528 */ void* _1528 = nullptr;
-    /* 0x1530 */ void* _1530 = nullptr;
-    /* 0x1538 */ f32 _1538 = 0.05;
-    /* 0x153c */ u32 _153c = 0;
-    /* 0x1540 */ u32 _1540 = 0;
-    /* 0x1548 */ void* _1548 = nullptr;
+    /* 0x14d0 */ Unk_71007237d0 _14d0;
     /* 0x1550 */ sead::Matrix34f _1550 = sead::Matrix34f::ident;
     /* 0x1580 */ f32 _1580 = 3.0;
     /* 0x1584 */ u8 _1584 = 0;
