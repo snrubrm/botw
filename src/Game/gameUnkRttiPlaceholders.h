@@ -727,11 +727,7 @@ class Unk_710250c118 : public Unk_7102518688 {
 public:
     ~Unk_710250c118() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override {}
     void m36() override {}
     bool m37() override { return true; }
@@ -749,11 +745,7 @@ class Unk_710250c280 : public Unk_7102518688 {
 public:
     ~Unk_710250c280() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
@@ -774,11 +766,7 @@ class Unk_710250c3e8 : public Unk_7102518688 {
 public:
     ~Unk_710250c3e8() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
@@ -792,11 +780,7 @@ class Unk_710250c550 : public Unk_7102518688 {
 public:
     ~Unk_710250c550() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override {}
     void m36() override {}
     bool m37() override { return true; }
@@ -813,11 +797,7 @@ class Unk_710250c6d8 : public Unk_7102518688 {
 public:
     ~Unk_710250c6d8() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
@@ -834,11 +814,7 @@ class Unk_710250d3e8 : public Unk_7102518688 {
 public:
     ~Unk_710250d3e8() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
@@ -1528,11 +1504,7 @@ class Unk_710251cbf0 : public Unk_7102518688 {
 public:
     ~Unk_710251cbf0() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
@@ -1546,15 +1518,15 @@ class Unk_710251cd38 : public Unk_7102518688 {
 public:
     ~Unk_710251cd38() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33(bool a, bool fixed) override;
-    void m34() override;
     void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
+
+    // lane1 s91: _50 is a sphere rigid body (m35 sets its radius from the floats at _48 + 0x30 / 0x34).
+    void* _48;
+    ksys::phys::RigidBody* _50;
 };
 
 // vtable 0x710251cf40 (10 slots); placeholder generated from the vtable (genskel.py).

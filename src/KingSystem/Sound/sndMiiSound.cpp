@@ -6,6 +6,7 @@
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::snd {
 
@@ -169,7 +170,17 @@ Unk_710251ca78::~Unk_710251ca78() = default;
 
 Unk_710251cbf0::~Unk_710251cbf0() = default;
 
-Unk_710251cd38::~Unk_710251cd38() = default;
+Unk_710251cd38::~Unk_710251cd38() {
+    if (_50) {
+        delete _50;
+        _50 = nullptr;
+    }
+}
+
+void Unk_710251cd38::m33(bool a, bool fixed) {
+    if (_50)
+        _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x71012e86e8) also destroys members or bases
 // this class does not declare yet.
