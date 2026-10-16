@@ -1169,6 +1169,18 @@ public:
     virtual void m14() {}
     virtual void m15() {}
     virtual void m16();
+
+    // Layout from the ctor at 0x71011ece14 (getName 0x71011ed3cc returns "PlacementNavi"). The dtor also
+    // destroys a ksys::SeadController at 0x48 and restores the vtable of Unk_71024f13f0 (base not declared yet).
+    u64 _8 = 0;
+    u64 _10 = 0;
+    u64 _18 = 0;
+    u64 _20 = 0;
+    void* _28 = nullptr;  // points to _48
+    u32 _30 = 5;
+    // Written by OpenWorldStage::calc (camera direction, lane1).
+    sead::Vector3f _34{0, 0, 1};
+    u64 _40 = 0;
 };
 
 // vtable 0x7102516b30 (84 slots); placeholder generated from the vtable (genskel.py).

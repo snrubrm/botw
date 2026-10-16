@@ -18,6 +18,9 @@ class ClusteredRenderer;
 class InstParamPack;
 }  // namespace ksys::act
 
+// The "PlacementNavi" object (getName at 0x71011ed3cc); placeholder class in Game/gameUnkRttiPlaceholders.h.
+class Unk_7102513630;
+
 namespace uking {
 class VillagerMgr;
 }
@@ -336,7 +339,7 @@ public:
     u32 _7a8;
     MassRenderer* mMassRenderer = nullptr;
     act::ClusteredRenderer* mClusteredRenderer = nullptr;
-    void* mPlacementNavi = nullptr;
+    Unk_7102513630* mPlacementNavi = nullptr;
     u32 mMassRendererReqCount = 0;
     u32 mMassRendererStatus = 0;
 
