@@ -608,7 +608,7 @@ PictureBookListConfig::PictureBookListConfig() {
     _6c = {0, 0};
     _a0 = 0x4000000;
     _a4 = 0x8000000;
-    _80 = 0;
+    _80 = {0, 0};
     _88 = 0;
     _8c = 0;
     _a8 = 0;
@@ -636,7 +636,7 @@ void PictureBookListConfig::sub_71009396EC() {
     _6c = {0, 0};
     _74 = {0, 0};
     _7c = 0;
-    _80 = 0;
+    _80 = {0, 0};
     _88 = 0;
     _8c = 0;
     _90 = 0;
@@ -1485,23 +1485,7 @@ void ScreenAppPictureBookUnk::Update(f32 dt) {
         _2d8 += _2ec;
     }
 
-    s32 direction = -1;
-    if (_2c0 != _2c8 && _2c8 != sead::ControllerBase::cInvalidPointer &&
-        _2c0 != sead::ControllerBase::cInvalidPointer) {
-        if (mConfig._58 == 1) {
-            const f32 diff = _2c0.y - _2c8.y;
-            if (diff > 0)
-                direction = 0;
-            else if (diff < 0)
-                direction = 1;
-        } else if (mConfig._58 == 0) {
-            const f32 diff = _2c0.x - _2c8.x;
-            if (diff > 0)
-                direction = 3;
-            else if (diff < 0)
-                direction = 2;
-        }
-    }
+    const s32 direction = getMoveDirectionMaybe(_2c8, _2c0);
     _334 = direction;
     if (direction == -1) {
         if (_330 != 1)
@@ -1753,6 +1737,65 @@ void ScreenAppPictureBookUnk::sub_71009419E0(s32 index, s32 entry_index, sead::V
         }
         prev = entry;
     }
+}
+
+// NON_MATCHING: the direction switch is laid out differently (the original jumps from the direction test into the
+// cases) and _80 is loaded as a pair
+// 0x710093dafc
+bool ScreenAppPictureBookUnk::sub_710093DAFC(s32 index, s32 entry_index, s32 mode) {
+    const s32 entry_idx = sead::Mathi::clamp(entry_index, 0, _2a8 - 1);
+    if (!mEntries.data())
+        return false;
+    ScreenAppPictureBookEntry* entry = mEntries[entry_idx];
+    if (!entry)
+        return false;
+    const s32 item = sead::Mathi::clamp(index, 0, entry->_2f4 - 1);
+    const bool locked = entry->_38c || entry->_38d;
+    if (mode != 2 && locked)
+        return false;
+
+    _2dc = 0;
+    for (s32 i = 0; i < entry_idx; ++i) {
+        if (ScreenAppPictureBookEntry* previous = mEntries[i])
+            _2dc += previous->_2f4;
+    }
+    _2dc += item;
+    _2f0 = item;
+    _2e8 = entry_idx;
+
+    sub_71009419E0(item, entry_idx, &_2d0);
+    _2d0.x = -_2d0.x;
+    _2d0.y = -_2d0.y;
+    _2d0.x = sead::Mathf::clamp(_2d0.x, _2b0.getMin().x, _2b0.getMax().x);
+    _2d0.y = sead::Mathf::clamp(_2d0.y, _2b0.getMin().y, _2b0.getMax().y);
+
+    // start scrolling a bit before the target
+    const sead::Vector2f lead = mConfig._80;
+    if (!(lead.x == 0.0f && lead.y == 0.0f)) {
+        switch (getMoveDirectionMaybe(_2c0, _2d0)) {
+        case 0:
+            _2c0.y = _2d0.y - lead.y;
+            break;
+        case 1:
+            _2c0.y = _2d0.y + lead.y;
+            break;
+        case 2:
+            _2c0.x = _2d0.x + lead.x;
+            break;
+        case 3:
+            _2c0.x = _2d0.x - lead.x;
+            break;
+        }
+    }
+
+    _338 = mode;
+    if (u32(mode - 1) < 2) {
+        sub_7100941D70(mode != 2);
+        s32 unit_index = -1;
+        sub_710093E258(entry_idx, item, 0, 0, &unit_index);
+        sub_710093E784(unit_index);
+    }
+    return true;
 }
 
 // 0x710093dad4

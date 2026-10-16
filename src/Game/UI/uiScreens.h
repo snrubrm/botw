@@ -2964,7 +2964,8 @@ struct PictureBookListConfig {
     /* 0x06c */ sead::Vector2f _6c{0, 0};
     /* 0x074 */ sead::Vector2f _74{0.28f, 300.0f};
     /* 0x07c */ f32 _7c = 0.1f;
-    /* 0x080 */ u64 _80;
+    // how far before the target a jump to an item starts scrolling (ScreenAppPictureBookUnk::sub_710093DAFC)
+    /* 0x080 */ sead::Vector2f _80;
     /* 0x088 */ u32 _88 = 0;
     /* 0x08c */ u32 _8c = 0;
     /* 0x090 */ u32 _90 = 0;
@@ -3094,6 +3095,31 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     void sub_7100944004(ScreenEx* screen, const PictureBookListConfig& config, eui::ControlBase* control);
     // 0x7100944138 (declared only; 344 bytes)
     void sub_7100944138();
+    // inline-only in the original; name is a guess (the same test is inlined in Update and sub_710093DAFC): the
+    // direction of a move from `from` to `to` along the config direction (-1: none or an invalid pointer)
+    s32 getMoveDirectionMaybe(const sead::Vector2f& from, const sead::Vector2f& to) const {
+        if (to == from || from == sead::ControllerBase::cInvalidPointer ||
+            to == sead::ControllerBase::cInvalidPointer)
+            return -1;
+        s32 direction = -1;
+        if (mConfig._58 == 1) {
+            const f32 diff = to.y - from.y;
+            if (diff > 0)
+                direction = 0;
+            else if (diff < 0)
+                direction = 1;
+        } else if (mConfig._58 == 0) {
+            const f32 diff = to.x - from.x;
+            if (diff > 0)
+                direction = 3;
+            else if (diff < 0)
+                direction = 2;
+        }
+        return direction;
+    }
+    // 0x710093e258 (declared only; 464 bytes): the overall index of the unit at (`col`, `row`) of item `index` of entry
+    // `entry_index` (placeholder description from its arguments)
+    void sub_710093E258(s32 entry_index, s32 index, s32 col, s32 row, s32* out);
     // Callees of Update (declared only; not decompiled)
     void sub_7100942AE0();
     s32 sub_7100942D78();
