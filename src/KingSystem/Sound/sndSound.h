@@ -441,14 +441,7 @@ public:
     // 0x7101028690 (declared only): called before deletion.
     void sub_7101028690();
 };
-class Unk_SoundMgr38_60 {
-public:
-    virtual ~Unk_SoundMgr38_60();
-    // 0x71012c17b4 (empty in the release build)
-    void sub_71012C17B4();
-    // 0x71012c167c (declared only): called before deletion.
-    void sub_71012C167C();
-};
+class Unk_SoundMgr38_60;
 
 // Placeholder name (SoundMgr::_38; vtable 0x7102501880 with D1 / D0 only, ctor 0x7101029fe0).
 class Unk_SoundMgr38 {
@@ -1062,6 +1055,33 @@ public:
     /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502430, 0xa0);
+
+class Unk_SoundMgr38_60 {
+public:
+    // A named sound reference with a position (0xb8 bytes; six of them from +8).
+    struct Entry : Unk_7102502430 {
+        /* 0xa0 */ sead::Vector3f mPos;
+        /* 0xac */ s32 mId;
+        /* 0xb0 */ s32 _b0;
+        u8 _b4[0xb8 - 0xb4];
+    };
+
+    virtual ~Unk_SoundMgr38_60();
+    // 0x71012c17b4 (empty in the release build)
+    void sub_71012C17B4();
+    // 0x71012c167c (declared only): called before deletion.
+    void sub_71012C167C();
+    // 0x71012c17b8 (placeholder name): under mCS, takes a free entry for `name`, sets its position, rebinds it
+    // to `name` and gives it the next id (returned; -1 without a free entry).
+    s32 sub_71012C17B8(const sead::SafeString& name, const sead::Vector3f& pos, s32 value);
+    // 0x71012c1860 (declaration only; placeholder name): the entry to use for `name` (null if none is free).
+    Entry* sub_71012C1860(const sead::SafeString& name);
+
+    /* 0x008 */ Entry mEntries[6];
+    u8 _458[0x460 - 0x458];
+    /* 0x460 */ sead::CriticalSection mCS;
+    /* 0x4a0 */ s32 mNextId;
+};
 
 // Placeholder name: the sound instances the AreaActionBase family (Shielding / Occlusion / Reverb) get from
 // SoundMgr::_a8.

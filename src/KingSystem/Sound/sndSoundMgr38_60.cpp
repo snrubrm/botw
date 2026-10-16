@@ -1,3 +1,4 @@
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndSound.h"
 
 namespace ksys::snd {
@@ -6,5 +7,20 @@ namespace ksys::snd {
 
 // Empty in the release build.
 void Unk_SoundMgr38_60::sub_71012C17B4() {}
+
+s32 Unk_SoundMgr38_60::sub_71012C17B8(const sead::SafeString& name, const sead::Vector3f& pos,
+                                      s32 value) {
+    auto lock = sead::makeScopedLock(mCS);
+    Entry* entry = sub_71012C1860(name);
+    if (!entry)
+        return -1;
+    entry->mPos = pos;
+    entry->sub_710104A308(name);
+    const s32 id = mNextId;
+    entry->mId = id;
+    ++mNextId;
+    entry->_b0 = value;
+    return id;
+}
 
 }  // namespace ksys::snd
