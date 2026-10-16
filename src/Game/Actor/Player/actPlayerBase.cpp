@@ -32,6 +32,7 @@
 #include <cstring>
 #include <mc/seadCoreInfo.h>
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 
@@ -75,6 +76,9 @@ bool PlayerBase::sub_710084BE3C() {
 // 0x710084beec: tail-calls eventMgrHasActiveEvent (the actor argument is ignored).
 // Lives here (PlayerBase's TU, by address neighbours); called by PlayerBase TU
 // functions and PlayerNormal::leave_.
+// 0x71007a4a90 (declared only; name from the CSV).
+bool motorcycleCheckStuff(ksys::act::Actor* actor, bool a2);
+
 bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor) {
     static_cast<void>(actor);
     return eventMgrHasActiveEvent();
@@ -1695,6 +1699,35 @@ bool PlayerBase::sub_710084CF74() {
     if (auto* chemical = getChemicalStuff())
         return chemical->sub_7100D91508();
     return false;
+}
+
+bool PlayerBase::isGroundForEvent() {
+    if (_cf0.isOnBit(17))
+        return false;
+    auto* damage_mgr = sead::DynamicCast<DamageManager>(getDamageMgr());
+    if (damage_mgr && damage_mgr->_216.isOnBit(2))
+        return false;
+    if (_cf4.isOnBit(1) || _c98.isOnBit(17) || getAttachedTargetActor()->_110.isOnBit(6) ||
+        getAttachedTargetActor()->_110.isOnBit(9)) {
+        return false;
+    }
+    if (_cec.isOnBit(31))
+        return false;
+    auto* controller = getCharacterController();
+    if (controller && controller->sub_7100F5F0A4())
+        return false;
+    if (isRidingHorse()) {
+        auto* info = getPlayerRideInfo();
+        if (!info->_18.isAccessingSpecifiedProcUnsafe(info->mActor)) {
+            auto* ride_actor =
+                sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+            if (ride_actor)
+                return motorcycleCheckStuff(ride_actor, true);
+        }
+    }
+    if (_cfc.isOnBit(0))
+        return true;
+    return m188();
 }
 
 bool PlayerBase::sub_710084BDEC() {
