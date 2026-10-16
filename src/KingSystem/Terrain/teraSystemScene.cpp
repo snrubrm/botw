@@ -317,6 +317,12 @@ void System::sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listen
     delete area;
 }
 
+s32 System::sub_71011188CC(const Unk_7101106F44* a, const Unk_7101106F44* b) {
+    if (a->mId < b->mId)
+        return -1;
+    return a->mId > b->mId;
+}
+
 s32 System::sub_71011188E4() const {
     const Scene* scene = mScenes(0).scene;
     return sead::Mathi::max(scene->_2946 - 1 - scene->_2780, 0);

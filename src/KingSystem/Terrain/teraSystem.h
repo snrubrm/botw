@@ -911,6 +911,9 @@ public:
     void sub_7101112714(Unk_7101112C94Listener* listener);
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
     s32 sub_71011188E4() const;
+    // 0x71011188cc (placeholder name): orders area nodes by mId (x_3 0x7101114cc8 sorts _1018 with it
+    // through 0x71011200e8).
+    static s32 sub_71011188CC(const Unk_7101106F44* a, const Unk_7101106F44* b);
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     // 0x710111e04c: under the write lock, resets the scenes, sets the image directory from `dir` and
     // parses the scene XML; unless `keep_flags`, flags the images no node can provide (pre-order walk
