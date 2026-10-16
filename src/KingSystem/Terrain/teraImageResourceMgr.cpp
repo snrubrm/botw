@@ -62,14 +62,13 @@ void ImageResourceMgr::sub_7101133724(Request* request) {
     ++_6270;
 }
 
-// NON_MATCHING: the original walks _31c0 backwards (prev links; sead::OffsetList has no reverse robust
-// iterator in lib yet).
+// NON_MATCHING: the original sets up `this` for sub_7101131290 after the fence (scheduling).
 void ImageResourceMgr::sub_71011311BC() {
     mCS28.lock();
     mCS68.lock();
     std::atomic_thread_fence(std::memory_order_seq_cst);
     sub_7101131290();
-    for (Request& request : mList31c0.robustRange())
+    for (Request& request : mList31c0.reverseRobustRange())
         sub_71011320B4(&request);
 
     _62a0.exchange(mList3200.size());
@@ -118,11 +117,10 @@ bool ImageResourceMgr::sub_7101131CDC(System* system) {
     return registered;
 }
 
-// NON_MATCHING: the original walks the queue backwards (prev links).
 void ImageResourceMgr::sub_71011334B4() {
     mCS68.lock();
     Request* first = nullptr;
-    for (Request& request : mList3200.robustRange()) {
+    for (Request& request : mList3200.reverseRobustRange()) {
         if (request._20 != 1)
             continue;
         if (first) {
@@ -206,9 +204,8 @@ bool ImageResourceMgr::sub_7101130E44(sead::BufferedSafeString* out, const sead:
     return use_base;
 }
 
-// NON_MATCHING: the original walks mList31c0 through the +0 links (as in sub_71011311BC).
 void ImageResourceMgr::sub_7101136950() {
-    for (Request& request : mList31c0.robustRange()) {
+    for (Request& request : mList31c0.reverseRobustRange()) {
         sub_7101136328(&request, nullptr);
         sub_71011320B4(&request);
     }

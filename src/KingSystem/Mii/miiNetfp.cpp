@@ -320,6 +320,33 @@ void sub_7100F5B8C0(sead::BufferedSafeString* out, const UMii& umii) {
 }
 
 // NON_MATCHING: the original tests the age for 2, then 1, then 0 (ours tests 0 first).
+void sub_7100F5B4F0(sead::BufferedSafeString* out, const UMii& umii) {
+    const sead::SafeString* name;
+    switch (*umii.getBody().race) {
+    case UMii::Body::Race_Hylian:
+        if (*umii.getCommon().backpack != 0)
+            break;
+        name = &sUnk_710260D1A0[7];
+        out->format("%s_%03d", name->cstr(), 0);
+        return;
+    case UMii::Body::Race_Goron:
+        if (*umii.getCommon().backpack != 0)
+            break;
+        name = &sUnk_710260D480[1];
+        out->format("%s_%03d", name->cstr(), 0);
+        return;
+    case UMii::Body::Race_Gerudo:
+        if (*umii.getCommon().backpack != 0)
+            break;
+        name = &sUnk_710260D530[3];
+        out->format("%s_%03d", name->cstr(), 0);
+        return;
+    default:
+        break;
+    }
+    out->clear();
+}
+
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii) {
     const auto& body = umii.getBody();
     if (*body.type == UMii::Body::Type_N) {

@@ -70,6 +70,10 @@ void sub_7100F5C8D4(gsys::Model* model);
 // 0x7100f5b8c0 (placeholder name): the hat or hair pattern name of `umii`.
 void sub_7100F5B8C0(sead::BufferedSafeString* out, const UMii& umii);
 
+// 0x7100f5b4f0 (placeholder name; the CSV row was misnamed PlayerStainControl::tryEmitClearStainEffect):
+// the backpack model name (part type 7) by race when common.backpack is 0; empty otherwise.
+void sub_7100F5B4F0(sead::BufferedSafeString* out, const UMii& umii);
+
 // 0x7100f5b5b8 / 0x7100f5b774 (placeholder names): the model names of part types 0 (body) and 8 (hat).
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii);
 void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii);
