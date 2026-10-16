@@ -3,6 +3,12 @@
 
 namespace ksys::mii {
 
+namespace {
+// 0x710260dca0 (placeholder name): indexed by UMii::getAge(); TU-local (addressed directly), filled by
+// sinitUmiiStrings2 0x7100f5cc00 with "", "C" and "X".
+sead::SafeArray<sead::SafeString, 3> sUnk_710260DCA0{{"", "C", "X"}};
+}  // namespace
+
 // NON_MATCHING: register allocation (arg / umii swapped) and some block order.
 void sub_7100F5A708(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
     const auto& face = umii.getFace();
@@ -311,8 +317,6 @@ void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii) {
     }
 }
 
-// NON_MATCHING: sUnk_710260DCA0 is TU-local in the original (addressed directly; filled by
-// sinitUmiiStrings2 0x7100f5cc00, whose strings are not recovered yet), ours goes through the GOT.
 void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii) {
     const auto& common = umii.getCommon();
     if (*common.hat == 0) {

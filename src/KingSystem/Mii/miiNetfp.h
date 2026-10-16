@@ -42,8 +42,6 @@ void sub_7100F5B02C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
 void sub_7100F5AB68(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 void sub_7100F5ADA8(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
-// 0x710260dca0: indexed by UMii::getAge() (3 entries; 0x7100f5ba04).
-extern sead::SafeArray<sead::SafeString, 3> sUnk_710260DCA0;
 // 0x7100f5ba04 (placeholder name): part type 2 of sub_7100F5ADA8 (from the hat parameter).
 void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
 
