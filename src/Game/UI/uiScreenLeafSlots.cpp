@@ -6,6 +6,8 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/UI/uiManager.h"
+#include "Game/Scene/gameScene.h"
 
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
 namespace uking::ui {
@@ -155,6 +157,39 @@ void ScreenAppPictureBook::m100() {
 void ScreenAppCamera::m99() {
     getStateMachine().changeState(&sUnk_71025dcca0);
     ksys::gdt::setFlag_IsOpenAppCamera(true, false);
+}
+
+// 0x71009db754
+// NON_MATCHING: the child state test (1 / 3 / 5 / 7) is a bit-mask lookup in ours; the original tests 7, then
+// (state - 1) <= 4 with an even (state - 1)
+void ScreenAppCamera::m100() {
+    ksys::gdt::setFlag_IsOpenAppCamera(false);
+    _3688->startAnimCloseImpl_(false, true);
+    _4080 = false;
+    _36e8 = 0;
+    if (_3610) {
+        switch (_3610->_104) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+            _3610->m6(true);
+            break;
+        default:
+            break;
+        }
+    }
+    // called through a pointer in the original (not devirtualised)
+    if (getStateMachine().getState()->getId() == (&sUnk_71025dcd60)->getId() ||
+        // called through a pointer in the original (not devirtualised)
+        getStateMachine().getState()->getId() == (&sUnk_71025dcd00)->getId()) {
+        Manager::instance()->sub_7100A7CACC();
+        if (_4019) {
+            _4019 = false;
+            Unk_71025d1740::instance()->sub_7100901A90(true);
+        }
+    }
+    getStateMachine().changeState(&sUnk_710261ee98);
 }
 
 // 0x71009db888

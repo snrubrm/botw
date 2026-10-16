@@ -3827,11 +3827,9 @@ public:
 // State object of ScreenAppCamera (a StateTemplate<ScreenAppCamera>, 0x71025dcca0).
 extern const ksys::StateBase sUnk_71025dcca0;
 
-// Placeholder for the object ScreenAppCamera keeps at 0x3610 (the int at 0x104 is tested).
-struct ScreenAppCameraUnk3610 {
-    u8 _0[0x104];
-    /* 0x104 */ s32 _104;
-};
+// 0x71025dcd60 / 0x71025dcd00 (placeholder names): two more ScreenAppCamera states
+extern const ksys::StateBase sUnk_71025dcd60;
+extern const ksys::StateBase sUnk_71025dcd00;
 
 class ScreenAppCamera : public ScreenEx {
 public:
@@ -3841,15 +3839,25 @@ public:
     ~ScreenAppCamera() override;
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
 
-    /* 0x3610 */ ScreenAppCameraUnk3610* _3610;
-    u8 _pad_3618[0x3b70 - 0x3618];
+    /* 0x3610 */ ScreenChild* _3610;
+    u8 _pad_3618[0x3688 - 0x3618];
+    /* 0x3688 */ eui::LayoutEx* _3688;
+    u8 _pad_3690[0x36e8 - 0x3690];
+    /* 0x36e8 */ s32 _36e8;
+    u8 _pad_36ec[0x3b70 - 0x36ec];
     /* 0x3b70 */ agl::GPUMemVoidAddr _3b70;  // the photo image memory (freed by m101)
-    u8 _pad_3b88[0x4020 - 0x3b88];
+    u8 _pad_3b88[0x4019 - 0x3b88];
+    /* 0x4019 */ bool _4019;  // set when the camera mode was entered from a state that must be left
+    u8 _pad_401a[0x4020 - 0x401a];
     /* 0x4020 */ u8* _4020;
     u8 _pad_4028[0x4030 - 0x4028];
     /* 0x4030 */ u8* _4030;
+    u8 _pad_4038[0x4080 - 0x4038];
+    /* 0x4080 */ bool _4080;
 
     void m99() override;
+    // 0x71009db754: closes the camera screen
+    void m100() override;
     // 0x71009db888: frees the photo image memory and the two work buffers
     void m101() override;
 
