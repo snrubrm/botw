@@ -19,7 +19,7 @@ static const sead::SafeString sUnk_71025babc8[4] = {"FL", "FR", "BL", "BR"};
 static const sead::SafeString sUnk_71025bac08[4] = {"Arm_10_L", "Arm_10_R", "Leg_10_L", "Leg_10_R"};
 
 // NON_MATCHING: the original zeroes 0x80..0x308 with one memset before the (out-of-line) SafeArray
-// constructor; ours stores the params separately and inlines it.
+// constructor; ours stores the params separately (`_a8{}` gives the memset but inlines the constructor).
 MoveRemainsElectric::MoveRemainsElectric(const InitArg& arg) : RailMoveRemains(arg) {
     for (s32 i = 0; i < 4; ++i) {
         _a8[i].mActorName.format("%s_%s", sUnk_71025baba8.cstr(), sUnk_71025babc8[i].cstr());
