@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
 #include "KingSystem/World/worldManager.h"
@@ -46,6 +47,31 @@ f32 Unk_71024dcfd0::m14() {
 
 f32 Unk_71024dd070::m14() {
     return _54;
+}
+
+// NON_MATCHING: ours inlines sub_7100D8010C (it has more callers in the original TU).
+bool Unk_71024dd070::m4(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e2780>(request);
+    if (!req)
+        return false;
+    req->_8 = _54 * sub_7100D8010C();
+    return true;
+}
+
+bool Unk_71024dd070::m5(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e2780>(request);
+    if (!req)
+        return false;
+    req->_8 = _54;
+    return true;
+}
+
+bool Unk_71024dd070::m6(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e2780>(request);
+    if (!req)
+        return false;
+    _54 = req->_8;
+    return true;
 }
 
 }  // namespace ksys::act
