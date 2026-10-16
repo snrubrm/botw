@@ -52,4 +52,37 @@ Unk_7101106F44* System::sub_7101115218(sead::Vector2f* out_center, f32* out_size
     return node;
 }
 
+// NON_MATCHING: the original loads the offset pair with one ldp before multiplying.
+void Unk_7101106F44::sub_7101120374(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                                    const ImageTypeMaybe& type) {
+    Unk_7101106F44* area = *node;
+    while (area) {
+        if (area->hasImageMaybe(type)) {
+            const Unk_710250dcd8* image = area->getImageMaybe(type);
+            if (image && image->_8 & 4)
+                break;
+        }
+        Unk_7101106F44* parent = area->mParent;
+        const s32 slot = parent ? area->_1 : 0;
+        *center -= sUnk_7101EC503C[slot] * *size;
+        *size += *size;
+        area = parent;
+    }
+    *node = area;
+}
+
+// NON_MATCHING: the original loads the offset pair with one ldp before multiplying.
+void Unk_7101106F44::sub_7101120598(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                                    const ImageTypeMaybe& type) {
+    Unk_7101106F44* area = *node;
+    while (area && !area->hasImageMaybe(type)) {
+        Unk_7101106F44* parent = area->mParent;
+        const s32 slot = parent ? area->_1 : 0;
+        *center -= sUnk_7101EC503C[slot] * *size;
+        *size += *size;
+        area = parent;
+    }
+    *node = area;
+}
+
 }  // namespace ksys::tera

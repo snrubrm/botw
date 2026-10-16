@@ -116,6 +116,34 @@ public:
     // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.
     void sub_7101107768();
 
+    // inline-only in the original; name is a guess. Whether the node has the image for `type` (types 0
+    // and 1 always); inlined into 0x7101120374 and 0x7101120598.
+    bool hasImageMaybe(const ImageTypeMaybe& type) const {
+        switch (type.type) {
+        case 0:
+        case 1:
+            return true;
+        case 2:
+            return findNodeMaybe(type.index) != nullptr;
+        case 3:
+            for (const Unk_710250db28* image : mImages) {
+                if (image->mIndex == type.index)
+                    return image != nullptr;
+            }
+            return false;
+        default:
+            return false;
+        }
+    }
+
+    // 0x7101120598 (placeholder name): climbs from `*node` to the first node that has the image for
+    // `type`, keeping `center` / `size` in step; null if there is none.
+    static void sub_7101120598(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                               const ImageTypeMaybe& type);
+    // 0x7101120374 (placeholder name): the same for a node whose image is also ready (flag 4).
+    static void sub_7101120374(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                               const ImageTypeMaybe& type);
+
     // 0x71011080d4 (placeholder name): releases the buffers of the image for `type` (slot 12).
     void sub_71011080D4(const ImageTypeMaybe& type);
 
