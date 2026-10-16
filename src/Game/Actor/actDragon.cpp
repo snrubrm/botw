@@ -239,6 +239,23 @@ void Dragon::Unk_710000b710::sub_71006FB8A8() {
     _930 &= ~8;
 }
 
+// NON_MATCHING: the bit 3 test uses the flags before bit 0 was cleared (register choice only).
+void Dragon::Unk_710000b710::sub_71006FBAD4() {
+    _930 &= ~1;
+    _860.setTranslation(sead::Vector3f::zero);
+    if (!(_930 & 0x800)) {
+        if (_930 & 8)
+            sub_71006FB8A8();
+        sub_71006FABC8();
+    }
+    if (!(_930 & 0x20))
+        sub_71006FB51C();
+    if (!(_930 & 0x10))
+        _8.clear();
+    if (!(_930 & 0x80))
+        sub_71006FBB64();
+}
+
 void Dragon::Unk_710000b710::sub_71006FD830(f32 start_frame, f32 end_frame) {
     if (start_frame < 0.0f) {
         if (_930 & 0x100) {
