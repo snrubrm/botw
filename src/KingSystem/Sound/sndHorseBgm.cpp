@@ -45,6 +45,12 @@ void Unk_71024fefe8::sub_71010121D8(s32 id) {
     }
 }
 
+bool Unk_71024fefe8::m10() {
+    if (_124 != 3 && _124 != 4)
+        return false;
+    return _160[1] >= mInfo->mFeelPlayingSec.ref();
+}
+
 bool Unk_71024fefe8::m11() {
     return mState == 2;
 }

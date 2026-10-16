@@ -450,6 +450,8 @@ class BigMazeBgmInfo;
 class DungeonBattleBgmInfo;
 class DungeonNormalBgmInfo;
 class GuardianFixedBgmInfo;
+class GuardianBgmInfo;
+class GanonGrudgeBattleBgmInfo;
 class DungeonRewardBgmInfo;
 class FieldBattleBgmInfo;
 class TutorialDungeonBattleBgmInfo;

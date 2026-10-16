@@ -2734,10 +2734,11 @@ public:
     ~Unk_71024fee78() override;
     // 0x710101157c: stores the first dword of `arg` at +0x1d0 (called by Unk_710260f1f8::m8 on its kind 26 BGM).
     void sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+    bool m10() override;
     bool m11() override;
     void m13(f32 fade_sec) override;
 
-    u8 _190[0x198 - 0x190];
+    /* 0x190 */ ksys::snd::GanonGrudgeBattleBgmInfo* mInfo;
     /* 0x198 */ s32 mState;
     u8 _19c[0x1d4 - 0x19c];
     // Bit 1 is set by uking::behavior::BgmCtrlBehavior::enter.
@@ -2757,6 +2758,7 @@ public:
     void sub_71010122F0(bool value, s32 id);
     // 0x7101012340: raises _1ec to `value`, sets _1f0 if `flag`, and sets _5 of the entry of `id` to `flag`.
     void sub_7101012340(s32 value, bool flag, s32 id);
+    bool m10() override;
     bool m11() override;
     void m14(sead::TextWriter& writer) override {}
     // 0x71010123ac / 0x71010124f4 (declared only)
@@ -2770,7 +2772,7 @@ public:
         bool _5 = false;
     };
 
-    ksys::snd::MusicInfo* mInfo;
+    ksys::snd::GuardianBgmInfo* mInfo;
     s32 mState;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     sead::Buffer<Entry> mEntries;

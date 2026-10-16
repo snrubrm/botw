@@ -199,6 +199,12 @@ void Unk_71024fed48::m13(f32 fade_sec) {
 
 Unk_71024fee78::~Unk_71024fee78() = default;
 
+bool Unk_71024fee78::m10() {
+    if (_124 != 3 && _124 != 4)
+        return false;
+    return _160[1] >= mInfo->mFeelPlayingSec.ref();
+}
+
 bool Unk_71024fee78::m11() {
     return mState == 2;
 }
