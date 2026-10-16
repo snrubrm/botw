@@ -9,10 +9,41 @@
 #include "Game/UI/uiManager.h"
 #include "Game/Scene/gameScene.h"
 
+#include "Game/UI/euiTextSearcher.h"
+#include "Game/UI/euiMessageMgr.h"
+#include <gfx/nin/seadGraphicsNvn.h>
+#include <nn/ui2d/BuildTypes.h>
+
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
 namespace uking::ui {
 
 // ScreenAppMap
+// 0x71009ea064
+// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
+// the stack slots / load order around it differ.
+void ScreenAppMap::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
+    Unk_7102481828 creator(mButtonGroup, &mControls, &_50);
+    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
+    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+    nn::ui2d::Layout::BuildOption options{};
+    nn::ui2d::BuildResultInformation result;
+    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    sub_71010ABF8C(creator.getEntries());
+}
+
+// 0x7100a18350
+// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
+// the stack slots / load order around it differ.
+void ScreenMainScreen::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
+    Unk_710248e4e0 creator(mButtonGroup, &mControls, &_50);
+    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
+    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+    nn::ui2d::Layout::BuildOption options{};
+    nn::ui2d::BuildResultInformation result;
+    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    sub_71010ABF8C(creator.getEntries());
+}
+
 // 0x71009ea178 (CSV ScreenAppMap::m92)
 void ScreenAppMap::m92(sead::Heap*) {
     if (auto* subsys = UiSubsys1::instance())

@@ -284,6 +284,8 @@ ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control);
 // handleMessage override at primary slot111; ScreenEx overrides that same slot.
 struct ScreenUnk298;
 
+struct ChildControlCreatorEntry;
+
 class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
 public:
     // 0x71010aa3b0 (CSV Screen::ctor; declared only)
@@ -341,6 +343,9 @@ public:
     void sub_71010ABDA8(eui::AnimButton* button);
     void sub_71010ABE68(eui::AnimButton* button);
     void sub_71010ABF28(eui::AnimButton* button);
+    // 0x71010abf8c (placeholder name; declared only, 2108 bytes): called by the doBuildLayout_ overrides with the
+    // creator's child-control table after the layout is built
+    void sub_71010ABF8C(const sead::Buffer<const ChildControlCreatorEntry>* entries);
     // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
     ksys::SeadController* sub_71010AA9D0();
 
@@ -1018,6 +1023,7 @@ static_assert(sizeof(BossGaugeInfo) == 0x90);
 
 class ScreenMainScreen : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m85() override;
     void m88() override;
     bool isEnableControl() const override;
@@ -2203,6 +2209,7 @@ static_assert(offsetof(ScreenAppMapWidget, _b290) == 0xb290);
 
 class ScreenAppMap : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
     bool sub_71009EA030() const;
@@ -4164,6 +4171,7 @@ public:
 
 class ScreenAppMapDungeon : public ScreenEx {
 public:
+    void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     bool sub_71009E0DF8() const;
     void m100() override;
     // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,

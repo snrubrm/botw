@@ -29,7 +29,8 @@ static_assert(sizeof(ChildControlCreatorEntry) == 0x18);
 // Real shared game creator, vtable 0x7102485000. Slot 5 defaults to nullptr.
 class Unk_7102485000 : public eui::ControlCreator {
 public:
-    using eui::ControlCreator::ControlCreator;
+    // 0x7100a0103c
+    Unk_7102485000(eui::ButtonGroup* buttons, eui::ListNode* controls, eui::ListNode* children);
     ~Unk_7102485000() override;
     // 0x7100a01074 / 0x7100a01130
     eui::ControlBase* createControl(const nn::ui2d::ControlSrc&, eui::LayoutEx*) override;

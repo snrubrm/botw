@@ -23,6 +23,11 @@ bool Unk_71024746d0::sub_7100931DBC() const {
     return mButton && (mButton->mFlags & 0x10);
 }
 
+// 0x7100a0103c
+Unk_7102485000::Unk_7102485000(eui::ButtonGroup* buttons, eui::ListNode* controls,
+                               eui::ListNode* children)
+    : eui::ControlCreator(buttons, controls, children) {}
+
 // 0x7100a0106c / 0x7100a01070
 // NON_MATCHING: the out-of-line eui base destructor is called.
 Unk_7102485000::~Unk_7102485000() = default;
