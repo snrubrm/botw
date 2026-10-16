@@ -10,6 +10,13 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/Player/Action/actionPlayerBackJump.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/gameSceneSubsys12.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 
 namespace ksys::act {
@@ -190,6 +197,72 @@ void Player::sub_710088D654() {
     else
         _d30 = _d68;
     _d68 = getEquipmentTypeName(0);
+}
+
+// NON_MATCHING: the original merges the TeamGolemLittle / _cf0 bit 30 tests with orr (ours branches twice),
+// plus small scheduling differences.
+// In this file because the original calls sub_710088873C and sub_7100888618 out of line.
+// Releases the grabbed actor: a sleeping RemoteBomb is deleted; otherwise it is dropped in front of the player
+// (or, with `event`, deleted during Demo005_0 and sent message 0x8000002). Then resets the grab state.
+void Player::m228(bool event) {
+    if (_c4c.isOnBit(14) || sub_71007D86B4(this) || gdt::getFlag_HatenoDye_Start())
+        return;
+
+    if (auto* child = getConnectedCalcChild()) {
+        const sead::SafeString name = child->getName();
+        if (child->getState() == BaseProc::State::Sleep && name.startsWith("RemoteBomb"))
+            child->deleteLater(BaseProc::DeleteReason::_0);
+
+        bool released = false;
+        if (auto* subsys = GameSceneSubsys12::instance()) {
+            if (subsys->sub_71006652C8()) {
+                if (sub_710088873C()) {
+                    if (auto* pause_menu = uking::ui::PauseMenuDataMgr::instance())
+                        pause_menu->unholdGrabbedItems();
+                }
+                released = true;
+            }
+        }
+
+        BaseProcLink link;
+        link.acquire(child, false);
+        ActorLinkConstDataAccess accessor;
+        acquireActor(&link, &accessor);
+        const bool is_golem = accessor.hasTag("TeamGolemLittle");
+        if (!released && !is_golem && !_cf0.isOnBit(30)) {
+            sead::Vector3f dir;
+            _1b18.getBase(dir, 2);
+            dir.normalize();
+            const sead::Vector3f pos = dir * -0.2f;
+            if (auto* actor = sead::DynamicCast<Actor>(child)) {
+                if (!event) {
+                    sub_71005DC350(actor, pos);
+                } else {
+                    if (auto* active_event = evt::Manager::instance()->getActiveEvent()) {
+                        if (active_event->mEventName == "Demo005_0")
+                            actor->deleteEx(Actor::DeleteType::_1, BaseProc::DeleteReason::_0);
+                    }
+                    sendMessage(*actor->getMesTransceiverId(), MessageType(0x8000002), nullptr, true);
+                }
+            }
+        }
+        resetConnectedCalcChild(false);
+    }
+
+    _c40.resetBit(17);
+    _d11 = false;
+    _20f8 = 0;
+    _c44.resetBit(21);
+    if (_d30 == getEquipmentTypeName(4))
+        _d30 = getEquipmentTypeName(0);
+    if (m203()) {
+        if (_d68 == getEquipmentTypeName(7)) {
+            x_24(-1.0f);
+            _d68 = getEquipmentTypeName(0);
+        }
+    }
+    if ((!_c44.isOnBit(8) || _d11) && !sub_7100888618())
+        x_18(true);
 }
 
 }  // namespace ksys::act
