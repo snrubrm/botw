@@ -1,8 +1,19 @@
 #include "KingSystem/Sound/sndSound.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actSoundProxy.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::snd {
+
+// The TU statics at 0x7102615170 (static initialiser 0x710105ab34; the array destructor is the empty
+// 0x710105ab30). Names are guesses. 0x710105ba88 (emitter TU, not decompiled) reads sStr_RelicBeamBgm, so the
+// original's is a global; it is TU-local here so that GlobalMerge keeps the original layout.
+namespace {
+util::InitTimeInfo sInitTimeInfo;
+util::InitConstants sInitConstants;
+sead::SafeString sStr_RelicBeamBgm = "RelicBeamBgm";
+sead::SafeString sStr_Demo143[4] = {"Demo143_0", "Demo143_1", "Demo143_2", "Demo143_3"};
+}  // namespace
 
 Unk_710105a6f0::Unk_710105a6f0() = default;
 
