@@ -21,6 +21,7 @@
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
 #include <common/aglTextureSampler.h>
+#include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Utils/Types.h"
 #include <common/aglRenderBuffer.h>
@@ -357,6 +358,11 @@ public:
     struct Unk_a50 {
         u8 _0[0x18];
         u8 _18;
+        u8 _19[0x70 - 0x19];
+        // Debug log targets. 0x71011320b4 logs to _110 when its enabled flag (_88, at 0x198) is set.
+        DebugMessage _70;
+        u8 _100[0x110 - 0x100];
+        DebugMessage _110;
     };
     Unk_a50* _a50;
     u32 _a58;
@@ -453,6 +459,10 @@ public:
     // 0x7101136328 (declared only; placeholder name).
     // The second argument is a pointer (null-checked and passed on; sub_710113625C forwards its a5).
     void sub_7101136328(Request* request, void* a2);
+    // 0x71011369d0 (placeholder name): allocates from mHeap, unloading the requests of mList31c0 until it
+    // succeeds; on failure (or once _626c is set) logs the size, counts the failure in _626c and returns
+    // null.
+    void* sub_71011369D0(u32 size, s32 alignment);
     // 0x7101135aa0 (placeholder name): if the image for `type` is requested (flag 2), marks it unused and
     // queues a kind-1 (unload) task for it; 0 if no task is free or the image is still referenced.
     s32 sub_7101135AA0(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type);
@@ -514,7 +524,11 @@ public:
     bool sub_7101130E44(sead::BufferedSafeString* out, const sead::SafeString& dir,
                         const sead::SafeString& name, bool use_base_dir);
 
-    u8 _0[0x28];
+    u8 _0[0x18];
+    // Requests are allocated from it with tryAlloc (slot 0x30, 0x71011369d0) and freed with free
+    // (slot 0x38, 0x71011320b4): sead::Heap's slots.
+    sead::Heap* mHeap;
+    u8 _20[0x28 - 0x20];
     sead::CriticalSection mCS28;
     sead::CriticalSection mCS68;
     // Directory used instead of the given one when flag 1 of _6473 is set (0x7101130e44); the real

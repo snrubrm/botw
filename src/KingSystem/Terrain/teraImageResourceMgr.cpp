@@ -651,4 +651,57 @@ bool ImageResourceMgr::sub_7101133AF8(System* system, Unk_7101106F44* area,
     return true;
 }
 
+
+void ImageResourceMgr::sub_71011320B4(Request* request) {
+    if (request->_20.isValid(mSystems, request->area, _6470) &&
+        Terrain::instance()->_a50->_110._88) {
+        sead::FixedSafeString<64> name;
+        request->area->sub_710111FD70(&name, request->type);
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_110.log("【イメージ】破棄 -> %s", name.cstr());
+            if (entry.buffer) {
+                entry.buffer->_30 = 0;
+                entry.buffer->setDisplayTime(2.0f);
+            }
+        }
+    }
+
+    mCS68.lock();
+    mList31c0.erase(request);
+    mLists19c0[u8(request->_50)].erase(request);
+    request->_4c &= ~2;
+    mCS68.lock();
+    mHeap->free(request);
+    mCS68.unlock();
+    mCS68.unlock();
+}
+
+void* ImageResourceMgr::sub_71011369D0(u32 size, s32 alignment) {
+    if (_626c == 0) {
+        mCS68.lock();
+        void* ptr = mHeap->tryAlloc(size, alignment);
+        while (!ptr) {
+            auto it = mList31c0.reverseRobustBegin();
+            if (it == mList31c0.reverseRobustEnd())
+                break;
+            Request* request = &*it;
+            sub_7101136328(request, nullptr);
+            sub_71011320B4(request);
+            ptr = mHeap->tryAlloc(size, alignment);
+        }
+        mCS68.unlock();
+        if (ptr)
+            return ptr;
+    }
+
+    if (auto* debug = Terrain::instance()->_a50) {
+        auto entry = debug->_70.log("【データロード】メモリの確保に失敗しました : %d [align : %d]", size,
+                                    alignment);
+        if (entry.buffer)
+            entry.buffer->setDisplayTime(10.0f);
+    }
+    ++_626c;
+    return nullptr;
+}
+
 }  // namespace ksys::tera

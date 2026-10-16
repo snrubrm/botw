@@ -3,18 +3,34 @@
 #include <basis/seadTypes.h>
 #include <gfx/seadColor.h>
 #include <prim/seadSafeString.h>
+#include <time/seadTickSpan.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
 
 struct DebugMessage {
+    // Log entry returned by log(). Only its tail is known: 36 tera debug paths (e.g. 0x71011320b4,
+    // 0x71011369d0, 0x7101144b10) store 0 to +0x30 and a display time to +0x38 after log(),
+    // and Buffer's destructor sets +0x44.
+    struct Entry {
+        // Display time = cFrequency x seconds. sead has no float-seconds maker yet; makeFromSeconds(1) * s
+        // gives the same (s64)((f32)cFrequency * s).
+        void setDisplayTime(f32 seconds) { display_time = sead::TickSpan::makeFromSeconds(1) * seconds; }
+
+        u8 _0[0x30];
+        u32 _30;
+        sead::TickSpan display_time;
+        u32 _40;
+        bool _44;
+    };
+
     struct Buffer {
         ~Buffer() {
             if (buffer && _8)
-                buffer[0x44] = 1;
+                buffer->_44 = true;
         }
 
-        char* buffer;
+        Entry* buffer;
         bool _8;
     };
 
