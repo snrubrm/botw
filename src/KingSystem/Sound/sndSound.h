@@ -145,6 +145,8 @@ KSYS_CHECK_SIZE_NX150(UiSoundMgr, 0x128);
 // guarded by a CriticalSection at +0x20); shapes are registered with the one picked by a size threshold.
 class SpeakerBalanceUnifierMgr {
 public:
+    // 0x7101027bbc (empty in the release build): per-frame update (Unk_SoundMgr38::sub_710102C098).
+    void sub_7101027BBC();
     // 0x7101027d4c: adds `shape` to the unifier chosen by `size` (3 thresholds).
     void sub_7101027D4C(f32 size, aal::Shape* shape);
     // 0x7101027e0c: removes `shape` from every unifier.
@@ -181,6 +183,8 @@ public:
 // SoundOcclusionTag* actions (the sound is occluded while the player is inside the box set by sub_7101037ED8).
 class Unk_SoundMgr38_28 {
 public:
+    // 0x7101038d88 (declaration only; placeholder name): per-frame update (Unk_SoundMgr38::sub_710102C098).
+    void sub_7101038D88();
     // 0x7101039208: empty in the release build (Unk_SoundMgr38::sub_710102AE50).
     void sub_7101039208();
     // 0x7101037ed8 (declared only; 132 B): sets the box (centre `pos`, size `size`) and stores both vectors.
@@ -324,6 +328,8 @@ public:
 };
 class Unk_SoundMgr38_10 {
 public:
+    // 0x7101032870 (declaration only; placeholder name): per-frame update (Unk_SoundMgr38::sub_710102C098).
+    void sub_7101032870();
     // 0x7101031010 (declared only)
     Unk_SoundMgr38_10();
     virtual ~Unk_SoundMgr38_10();
@@ -350,6 +356,8 @@ public:
     void sub_710102EE60();
     // 0x710102effc (declared only): called by Unk_SoundMgr38::sub_710102AF84.
     void sub_710102EFFC();
+    // 0x710102eb9c (empty in the release build): per-frame update (Unk_SoundMgr38::sub_710102C098).
+    void sub_710102EB9C();
 
     // 0x710102ee40: sets three flags (Unk_SoundMgr38::sub_710102AE50).
     void sub_710102EE40();
@@ -448,6 +456,8 @@ public:
     Unk_SoundMgr38();
     virtual ~Unk_SoundMgr38();
 
+    // 0x710102c098 (placeholder name): runs the per-frame update of each sub-manager.
+    void sub_710102C098();
     // 0x710102c104: returns `_28`.
     Unk_SoundMgr38_28* sub_710102C104() const;
     // 0x710102c10c: unavailable while the manager's mode byte is set.

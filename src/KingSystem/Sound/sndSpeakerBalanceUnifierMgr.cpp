@@ -15,6 +15,8 @@ f32 SpeakerBalanceUnifierMgr::sSizeThresholds[3] = {2.0f, 5.0f, 40.0f};
 // (GOT access).
 void SpeakerBalanceUnifierMgr::sub_7101027BF4() {}
 
+void SpeakerBalanceUnifierMgr::sub_7101027BBC() {}
+
 void SpeakerBalanceUnifierMgr::sub_7101027D4C(f32 size, aal::Shape* shape) {
     if (!mUnifiers.isBufferReady())
         return;

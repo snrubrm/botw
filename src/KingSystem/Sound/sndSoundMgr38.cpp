@@ -220,6 +220,21 @@ void Unk_SoundMgr38::sub_710102B4B8() {
     _130 = distance;
 }
 
+void Unk_SoundMgr38::sub_710102C098() {
+    if (_8)
+        _8->sub_710102C594();
+    if (_10)
+        _10->sub_7101032870();
+    if (_18)
+        _18->sub_710102EB9C();
+    if (_20)
+        _20->sub_7101029970();
+    if (_28)
+        _28->sub_7101038D88();
+    if (_30)
+        _30->sub_7101027BBC();
+}
+
 Unk_SoundMgr38_28* Unk_SoundMgr38::sub_710102C104() const {
     return _28;
 }

@@ -152,6 +152,8 @@ void Unk_SoundMgr38_8::sub_710102C8F8() {
     _68 = false;
 }
 
+void Unk_SoundMgr38_18::sub_710102EB9C() {}
+
 void Unk_SoundMgr38_18::sub_710102EE40() {
     _9627 = true;
     _9624 = true;
