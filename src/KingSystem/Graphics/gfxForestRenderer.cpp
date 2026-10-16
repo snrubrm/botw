@@ -102,6 +102,14 @@ void ForestRenderer::Entry::sub_7100F07060() {
     std::memset(_78.getBufferPtr(), 0, _78.getByteSize());
 }
 
+ForestRenderer::ModelSlot::~ModelSlot() {
+    mRes.sub_7100FDD264();
+    if (mModel) {
+        gsys::Model::sub_7100BF69F8(mModel);
+        mModel = nullptr;
+    }
+}
+
 bool ForestRenderer::x_6(const sead::SafeString& name, const sead::Vector3f& pos,
                          const sead::Vector3f& rotate, f32 scale) {
     for (auto& entry : mEntries)

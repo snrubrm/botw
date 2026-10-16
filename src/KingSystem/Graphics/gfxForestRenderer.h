@@ -7,6 +7,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Resource/resUnk_71024F9938.h"
 
 namespace gsys {
 class Model;
@@ -111,14 +112,15 @@ public:
     static bool* sub_7100F01AB4();
     static u32* sub_7100F01AC0();
 
-    // Placeholder: the two 0x50-byte model slots at 0x110; requestDraw draws the slot 1 - _1b0 when its
-    // state is 2.
+    // Placeholder name (vtable 0x71024f3918): the two 0x50-byte model slots at 0x110; requestDraw draws the
+    // slot 1 - _1b0 when its state is 2.
     struct ModelSlot {
-        u8 _0[0x8];
-        gsys::Model* mModel;
-        u8 _10[0x48 - 0x10];
-        s32 mState;
-        u8 _4c[0x50 - 0x4c];
+        // 0x7100f095b8
+        virtual ~ModelSlot();
+
+        gsys::Model* mModel = nullptr;
+        res::Unk_71024f9958 mRes;
+        s32 mState = 0;
     };
     static_assert(sizeof(ModelSlot) == 0x50);
 
