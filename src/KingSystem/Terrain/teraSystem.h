@@ -372,6 +372,16 @@ u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vecto
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
                     s32 flag);
 
+// 0x71011096d0 (declaration only): like sub_71011094A0, also writes the terrain normal.
+u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   System* system, s32 index, s32 flag);
+// 0x710110b52c (declaration only): like sub_710110B4A4, also writes the terrain normal.
+u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   System* system);
+// 0x710110b6a4 (declaration only): like sub_710110C02C without the flag.
+u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
+                   System* system);
+
 // Full 110C1E4 looks up the texture name and writes its indexed 32-bit value.
 // GolemRootBase 402194 consumes the unsigned output for model and XLink state.
 bool sub_710110C1E4(u32* out, const sead::SafeString& name);

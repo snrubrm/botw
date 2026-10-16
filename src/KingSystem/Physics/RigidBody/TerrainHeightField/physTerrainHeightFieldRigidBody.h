@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldShape.h>
 #include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -64,5 +65,75 @@ private:
     bool _d8 = false;
 };
 KSYS_CHECK_SIZE_NX150(TerrainHeightFieldRigidBody, 0xe0);
+
+// vtable 0x7102515a58 (placeholder name): a terrain height field shape (heights from
+// tera::sub_71011094A0, with an optional circular hole). Built by Unk_71025158e8::sub_71012238E4 with a
+// user-type sampled height field cinfo; 0xe0 bytes.
+class alignas(16) Unk_7102515a58 : public hkpSampledHeightFieldShape {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(Unk_7102515a58)
+
+    // 0x7101224848
+    Unk_7102515a58(const hkpSampledHeightFieldBaseCinfo& ci, tera::System* system,
+                   const sead::Vector3f& offset, const sead::Vector3f& half_extents,
+                   const sead::Vector3f& center, const sead::Vector2f& circle_center, f32 radius,
+                   f32 scale, s32 a, s32 b);
+
+    void getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const override;
+    void collideSpheres(const CollideSpheresInput& input,
+                        SphereCollisionOutput* outputArray) const override;
+    void castSphere(const hkpSphereCastInput& input, const hkpCdBody& cdBody,
+                    hkpRayHitCollector& collector) const override;
+    hkReal getHeightAtImpl(int x, int z) const override;
+    hkBool getTriangleFlipImpl() const override;
+    hkReal sub_71015C398C(hkReal x, hkReal z) const override;
+    hkReal sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const override;
+    hkUint32 m28(const hkVector4& position) const override;
+
+protected:
+    bool isInHole(f32 x, f32 z) const {
+        return mRadiusSq > 0.0f && (sead::Vector2f(x, z) - mCircleCenter).squaredLength() < mRadiusSq;
+    }
+
+    tera::System* mSystem;
+    void* _98 = nullptr;
+    sead::Vector3f mOffset;
+    sead::Vector3f mHalfExtents;
+    sead::Vector3f mCenter;
+    // Heights inside the circle around mCircleCenter (squared radius mRadiusSq) read as 0.
+    sead::Vector2f mCircleCenter;
+    f32 mRadiusSq;
+    f32 mScale;
+    s32 _d4;
+    s32 _d8;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102515a58, 0xe0);
+
+// vtable 0x7102515b40 (placeholder name): heights from tera::sub_710110B4A4. Its ctor 0x7101224e08 inlines
+// the Unk_7102515a58 ctor (vtable store) with no hole.
+class Unk_7102515b40 : public Unk_7102515a58 {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(Unk_7102515b40)
+
+    // 0x7101224e08 (the radius is unused)
+    Unk_7102515b40(const hkpSampledHeightFieldBaseCinfo& ci, tera::System* system,
+                   const sead::Vector3f& offset, const sead::Vector3f& half_extents,
+                   const sead::Vector3f& center, const sead::Vector2f& circle_center, f32 radius,
+                   f32 scale, s32 a, s32 b);
+
+    void collideSpheres(const CollideSpheresInput& input,
+                        SphereCollisionOutput* outputArray) const override;
+    void castSphere(const hkpSphereCastInput& input, const hkpCdBody& cdBody,
+                    hkpRayHitCollector& collector) const override;
+    hkReal getHeightAtImpl(int x, int z) const override;
+    hkReal sub_71015C398C(hkReal x, hkReal z) const override;
+    hkReal sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const override;
+    hkUint32 m28(const hkVector4& position) const override;
+
+    // 0x7101224f80 (declaration only, 5204 bytes): the sphere cast.
+    void sub_7101224F80(const hkpSphereCastInput& input, const hkpCdBody& cdBody, bool flag,
+                        hkpRayHitCollector& collector, hkReal max_extra_penetration,
+                        hkReal radius) const;
+};
 
 }  // namespace ksys::phys

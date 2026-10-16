@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -71,6 +72,169 @@ u32 TerrainHeightFieldRigidBody::getCollisionMasks(CollisionMasks* masks, const 
     masks->collision_filter_info = 8;
     masks->ignored_layers = getIgnoredLayers().getDirect();
     return 0;
+}
+
+// NON_MATCHING: one commuted operand of the max add (register allocation).
+void Unk_7102515a58::getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const {
+    hkVector4 center;
+    center.load<3>(mCenter.e.data());
+    center.zeroComponent<3>();
+    hkVector4 half_extents;
+    half_extents.load<3>(mHalfExtents.e.data());
+    half_extents.zeroComponent<3>();
+
+    hkVector4 x, y, z;
+    x.setMul(half_extents.getComponent<0>(), localToWorld.getRotation().getColumn<0>());
+    y.setMul(half_extents.getComponent<1>(), localToWorld.getRotation().getColumn<1>());
+    z.setMul(half_extents.getComponent<2>(), localToWorld.getRotation().getColumn<2>());
+    x.setAbs(x);
+    y.setAbs(y);
+    z.setAbs(z);
+
+    hkVector4 extents;
+    z.setAdd(z, hkSimdReal(tolerance));
+    extents.setAdd(x, y);
+    extents.add(z);
+
+    hkVector4 world_center;
+    world_center._setTransformedPos(localToWorld, center);
+    out.m_max.setAdd(world_center, extents);
+    out.m_min.setSub(world_center, extents);
+}
+
+Unk_7102515a58::Unk_7102515a58(const hkpSampledHeightFieldBaseCinfo& ci, tera::System* system,
+                               const sead::Vector3f& offset, const sead::Vector3f& half_extents,
+                               const sead::Vector3f& center, const sead::Vector2f& circle_center,
+                               f32 radius, f32 scale, s32 a, s32 b)
+    : hkpSampledHeightFieldShape(ci, HEIGHTFIELD_USER), mSystem(system), mOffset(offset),
+      mHalfExtents(half_extents), mCenter(center), mCircleCenter(circle_center),
+      mRadiusSq(radius > 0.0f ? radius * radius : 0.0f), mScale(scale), _d4(a), _d8(b) {
+    m_extents.set(half_extents.x + half_extents.x, half_extents.y + half_extents.y,
+                  half_extents.z + half_extents.z);
+    m_heightCenter = 0;
+}
+
+hkBool Unk_7102515a58::getTriangleFlipImpl() const {
+    return false;
+}
+
+// TODO: 0x71012264c8 (368 bytes), not decompiled yet (inlines the sub_71015C3994 query per sphere).
+void Unk_7102515a58::collideSpheres(const CollideSpheresInput&, SphereCollisionOutput*) const {}
+
+// TODO: 0x7101224a0c (528 bytes), not decompiled yet.
+void Unk_7102515a58::castSphere(const hkpSphereCastInput&, const hkpCdBody&,
+                                hkpRayHitCollector&) const {}
+
+hkReal Unk_7102515a58::getHeightAtImpl(int x, int z) const {
+    f32 height = 0;
+    const f32 px = x * mScale + mOffset.x;
+    const f32 pz = z * mScale + mOffset.z;
+    if (isInHole(px, pz))
+        return 0.0f;
+    const sead::Vector2f pos(px, pz);
+    if (tera::sub_71011094A0(&height, &pos, mSystem, -1, 0) == 0)
+        return 0.0f;
+    return height;
+}
+
+hkReal Unk_7102515a58::sub_71015C398C(hkReal x, hkReal z) const {
+    f32 height = 0;
+    const f32 px = mOffset.x + x;
+    const f32 pz = mOffset.z + z;
+    if (isInHole(px, pz))
+        return 0.0f;
+    const sead::Vector2f pos(px, pz);
+    if (tera::sub_71011094A0(&height, &pos, mSystem, -1, 0) == 0)
+        return 0.0f;
+    return height;
+}
+
+// NON_MATCHING: the original writes a 12-byte normal (a sead::Vector3f, not the hkVector4 that
+// hkpSampledHeightFieldShape declares for this slot).
+hkReal Unk_7102515a58::sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const {
+    f32 height = 0;
+    sead::Vector3f normal = sead::Vector3f::ey;
+    const f32 px = mOffset.x + x;
+    const f32 pz = mOffset.z + z;
+    if (isInHole(px, pz)) {
+        normalOut.set(0, 1, 0);
+        return 0.0f;
+    }
+    const sead::Vector2f pos(px, pz);
+    if (tera::sub_71011096D0(&height, &normal, &pos, mSystem, -1, 0) == 0)
+        return 0.0f;
+    normalOut.set(normal.x, normal.y, normal.z);
+    return height;
+}
+
+// NON_MATCHING: stack slots and the fallback branches differ (as in getCollisionMasks).
+hkUint32 Unk_7102515a58::m28(const hkVector4& position) const {
+    s32 submaterial = 0;
+    Material material = Material::Undefined;
+    const sead::Vector2f pos(position(0), position(2));
+    if (!tera::sub_710110C02C(&material, &submaterial, &pos, mSystem, false)) {
+        if (int(material) == -1)
+            submaterial = 0;
+        material = Material::Undefined;
+    }
+    return MaterialMask(material, submaterial, FloorCode::None, WallCode::None, true).getRawData();
+}
+
+Unk_7102515b40::Unk_7102515b40(const hkpSampledHeightFieldBaseCinfo& ci, tera::System* system,
+                               const sead::Vector3f& offset, const sead::Vector3f& half_extents,
+                               const sead::Vector3f& center, const sead::Vector2f& circle_center,
+                               f32, f32 scale, s32 a, s32 b)
+    : Unk_7102515a58(ci, system, offset, half_extents, center, circle_center, 0.0f, scale, a, b) {}
+
+// TODO: 0x7101226894 (292 bytes), not decompiled yet.
+void Unk_7102515b40::collideSpheres(const CollideSpheresInput&, SphereCollisionOutput*) const {}
+
+void Unk_7102515b40::castSphere(const hkpSphereCastInput& input, const hkpCdBody& cdBody,
+                                hkpRayHitCollector& collector) const {
+    sub_7101224F80(input, cdBody, true, collector, input.m_maxExtraPenetration, input.m_radius);
+}
+
+hkReal Unk_7102515b40::getHeightAtImpl(int x, int z) const {
+    f32 height = 0;
+    const sead::Vector2f pos(x * mScale + mOffset.x, z * mScale + mOffset.z);
+    const u32 status = tera::sub_710110B4A4(&height, &pos, mSystem);
+    if (status == 0 || status == 0xffffffff)
+        return 0.0f;
+    return height;
+}
+
+hkReal Unk_7102515b40::sub_71015C398C(hkReal x, hkReal z) const {
+    f32 height = 0;
+    const sead::Vector2f pos(mOffset.x + x, mOffset.z + z);
+    const u32 status = tera::sub_710110B4A4(&height, &pos, mSystem);
+    if (status == 0 || status == 0xffffffff)
+        return 0.0f;
+    return height;
+}
+
+// NON_MATCHING: see Unk_7102515a58::sub_71015C3994 (12-byte normal).
+hkReal Unk_7102515b40::sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const {
+    f32 height = 0;
+    sead::Vector3f normal = sead::Vector3f::ey;
+    const sead::Vector2f pos(mOffset.x + x, mOffset.z + z);
+    const u32 status = tera::sub_710110B52C(&height, &normal, &pos, mSystem);
+    if (status == 0 || status == 0xffffffff)
+        return 0.0f;
+    normalOut.set(normal.x, normal.y, normal.z);
+    return height;
+}
+
+// NON_MATCHING: stack slots and the fallback branches differ (as in getCollisionMasks).
+hkUint32 Unk_7102515b40::m28(const hkVector4& position) const {
+    s32 submaterial = 0;
+    Material material = Material::Undefined;
+    const sead::Vector2f pos(position(0), position(2));
+    if (!tera::sub_710110B6A4(&material, &submaterial, &pos, mSystem)) {
+        if (int(material) == -1)
+            submaterial = 0;
+        material = Material::Undefined;
+    }
+    return MaterialMask(material, submaterial, FloorCode::None, WallCode::None, true).getRawData();
 }
 
 }  // namespace ksys::phys
