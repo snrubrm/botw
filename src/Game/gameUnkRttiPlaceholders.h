@@ -2855,10 +2855,32 @@ public:
 class Unk_7102500a00 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_7102500a00, ksys::snd::Unk_71025ce380)
 public:
+    // 0x7101021db8: frees the faders and the part names, then the handle base.
     ~Unk_7102500a00() override;
+    // 0x7101022668
+    void m5() override {}
+    // 0x7101021eec (declared only)
+    void m12(f32 fade_sec) override;
+    // 0x710102266c
+    void m13(f32 fade_sec) override { sub_710101D9F4(fade_sec); }
     void m14(sead::TextWriter& writer) override {}
+    // 0x7101022108 / 0x71010221e8 (declared only; handle base thunks 0x71010221e0 / 0x710102257c).
+    void hm14() override;
+    void hm15() override;
 
-    u8 _190[0x20c - 0x190];
+    /* 0x190 */ ksys::snd::MusicInfo* mInfo;
+    /* 0x198 */ s32 _198;
+    /* 0x19c */ s32 _19c;
+    /* 0x1a0 */ s32 _1a0;
+    /* 0x1a4 */ s32 _1a4;
+    // One fader per part (_19c - 1 of them; constructor 0x7101021b10).
+    /* 0x1a8 */ sead::Buffer<aal::TimedFader> mFaders;
+    /* 0x1b8 */ ksys::snd::Unk_710260f248Entry* _1b8;
+    // "B%d" part names, one per fader.
+    /* 0x1c0 */ sead::Buffer<sead::FixedSafeString<8>*> mPartNames;
+    u8 _1d0[0x1e0 - 0x1d0];
+    /* 0x1e0 */ aal::TimedFader _1e0;
+    u8 _208[0x20c - 0x208];
     // Bit 1 is set by uking::behavior::BgmCtrlBehavior::enter.
     /* 0x20c */ u8 _20c;
 };

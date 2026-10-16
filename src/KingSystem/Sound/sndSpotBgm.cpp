@@ -135,9 +135,16 @@ void Unk_SpotBgmInstance::sub_71010242F0() {
 
 Unk_71025008d0::~Unk_71025008d0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101021db8) also destroys members or bases
-// this class does not declare yet.
-Unk_7102500a00::~Unk_7102500a00() = default;
+Unk_7102500a00::~Unk_7102500a00() {
+    mFaders.freeBuffer();
+    if (mPartNames.isBufferReady()) {
+        for (s32 i = 0; i < mPartNames.size(); ++i) {
+            delete mPartNames[i];
+            mPartNames[i] = nullptr;
+        }
+        mPartNames.freeBuffer();
+    }
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x7101025acc) also destroys members or bases
 // this class does not declare yet.
