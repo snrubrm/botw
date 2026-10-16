@@ -3,6 +3,21 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
+
+namespace ksys::util {
+
+// NON_MATCHING: the original also reads the current core id twice (results unused) before the three
+// getDeltaFrame calls.
+bool sub_71007E4160(Unk_7101EC6BAC* angle, const u32& target, f32 ratio, f32 max_step, f32 snap_step) {
+    const f32 factor = VFR::getLerpFactor(ratio);
+    const u32 max = u32(sead::Mathf::max(max_step, 0.0f) * VFR::instance()->getDeltaFrame());
+    const u32 snap = u32(sead::Mathf::max(snap_step, 0.0f) * VFR::instance()->getDeltaFrame());
+    return sub_71011EE5A8(angle, target, max, snap, factor);
+}
+
+}  // namespace ksys::util
 
 namespace uking::action {
 

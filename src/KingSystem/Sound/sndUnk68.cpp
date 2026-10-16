@@ -18,6 +18,13 @@ void Unk_7102502138::Unk68::sub_710104BEF0() {
     }
 }
 
+// NON_MATCHING: the original compares with `current` through an inline byte loop without the two
+// assureTermination calls; the form is unknown.
+bool Unk_7102502138::Unk68::sub_710104D204(const sead::SafeString& name,
+                                           const sead::SafeString& current) const {
+    return name == "None" || name == "No_Sound" || name == "Dummy" || name == current;
+}
+
 void Unk_7102502138::Unk68::sub_710104D398(bool flag) {
     _15c = flag;
     _56c |= 8;

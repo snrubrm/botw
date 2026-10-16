@@ -107,6 +107,8 @@ public:
         void sub_710104D620(bool flag);
         // 0x710104d068 / 0x710104d3b0 (declared only).
         void sub_710104D068(const sead::SafeString& name);
+        // 0x710104d204 (placeholder name): whether `name` is "None", "No_Sound", "Dummy" or `current`.
+        bool sub_710104D204(const sead::SafeString& name, const sead::SafeString& current) const;
         void sub_710104D3B0(const sead::SafeString& name, xlink::XLink* xlink);
 
         void sub_710104D638(const sead::SafeString& name);

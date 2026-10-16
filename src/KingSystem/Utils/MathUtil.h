@@ -196,6 +196,15 @@ s32 sub_71011EE4B8(Unk_7101EC6BAC angle);
 
 extern const u32 sUnk_7101EC6BA0;
 
+// 0x71011ee5a8 (declaration only; placeholder name): moves `angle` towards `target` by `ratio` of the signed
+// difference, at most `max_step` per call; snaps to `target` once the step is within `snap_step`. Returns
+// whether `angle` reached `target`.
+bool sub_71011EE5A8(Unk_7101EC6BAC* angle, u32 target, s32 max_step, s32 snap_step, f32 ratio);
+
+// 0x71007e4160 (placeholder name; emitted in the PlayerCutTurnLSword TU, called by ~7 player functions):
+// sub_71011EE5A8 with the ratio and steps scaled by VFR::getDeltaFrame().
+bool sub_71007E4160(Unk_7101EC6BAC* angle, const u32& target, f32 ratio, f32 max_step, f32 snap_step);
+
 /// inline-only in the original; name is a guess. Evidence: `mask & (target - current)` with `target` read after the
 /// call that produces `current` (a by-reference parameter) repeats in PlayerLadderToClimb::enter_,
 /// PlayerDestinationTurn::m33, PlayerGuidedMove::enter_, PlayerLand::enter_, PlayerSuperBlow::enter_, ...

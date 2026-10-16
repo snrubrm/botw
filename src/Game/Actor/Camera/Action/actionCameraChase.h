@@ -47,6 +47,11 @@ protected:
     void sub_7100754194();
     void sub_7100754A0C();
     void sub_7100754680();
+    // 0x71007534b8 (placeholder name): the look-at point for `angles`: _ac raised to the ground height under it
+    // (plus a margin from the player's m188), plus the sub_7100755108 offset and the offset Y of the lat angle.
+    void sub_71007534B8(sead::Vector3f* out, const sead::Vector3f* angles);
+    // 0x7100755108 (declaration only; placeholder name): the look-at offset from _b8.._c4 rotated by angles->z.
+    void sub_7100755108(sead::Vector3f* out, const sead::Vector3f* angles);
     // 0x7100752fa4: the blend factor of the stick input `value` (clamped to [-1, 1]).
     f32 sub_7100752FA4(f32 value);
     // 0x7100753084 / 0x7100751710: maps `value` through the lat curve with the widths (and back through the

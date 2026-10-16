@@ -85,6 +85,34 @@ f32 CameraChase::sub_71007517E8(f32 value) {
     return curve2.eval(t);
 }
 
+// NON_MATCHING: the ground height gets its own stack slot (the original reuses the offset vector's).
+void CameraChase::sub_71007534B8(sead::Vector3f* out, const sead::Vector3f* angles) {
+    ksys::act::acc::PlayerBase accessor;
+    sub_7100926A50(&accessor);
+    if (!accessor.hasProc())
+        return;
+
+    out->x = _ac.x;
+    out->y = _ac.y;
+    out->z = _ac.z;
+    f32 ground_height = 0.0f;
+    if (sub_71009269F8(*out, &ground_height)) {
+        ground_height += accessor.m188() ? 0.05f : 0.4f;
+        out->y = sead::Mathf::max(out->y, ground_height);
+    }
+
+    sead::Vector3f offset = sead::Vector3f::zero;
+    sub_7100755108(&offset, angles);
+    *out += offset;
+
+    if (*mOffsetYMin_s == *mOffsetYMax_s) {
+        out->y += *mOffsetYMin_s;
+    } else {
+        const f32 lat = sead::Mathf::clamp(angleStuff(angles->y), _f4, _f8);
+        out->y += sub_71007517E8(sub_7100751710(angleStuff(lat)));
+    }
+}
+
 // NON_MATCHING: the original clamps the widths with branch-free selects (ours: branches)
 f32 CameraChase::sub_7100752EB8(f32 value) {
     act::Unk_71024741b8 curve1;
