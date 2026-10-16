@@ -8,6 +8,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace uking::ui {
+struct BossGaugeInfo;
+}
+
 namespace uking::ai {
 
 class PriestBossMetaAIRoot : public PriestBossMeta {
@@ -23,7 +27,10 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
     void calc_() override;
 
+    // 0x710052618c: shows the boss gauge (life / max life from the tree variables, the unique name label)
     void sub_710052618C();
+    // 0x71005263f8: master mode regeneration of the linked enemy: _89 and the extra HP added to the value
+    void sub_71005263F8(ui::BossGaugeInfo* info, ksys::act::BaseProcLink* link);
     bool sub_710052656C(Unk_7102450fa8::Unk3* out);
     void sub_71005266A0();
     void sub_7100526918();

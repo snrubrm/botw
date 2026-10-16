@@ -1040,7 +1040,9 @@ struct BossGaugeInfo {
     /* 0x18 */ sead::FixedSafeString<64> name;
     /* 0x70 */ s32 actorId = -1;
     /* 0x78 */ sead::SafeString layoutName;
-    /* 0x88 */ u16 _88 = 0;
+    /* 0x88 */ bool _88 = false;
+    // PriestBossMetaAIRoot sets it from bit 0 of the boss's LifeRecoverInfo flags (master mode regeneration)
+    /* 0x89 */ bool _89 = false;
 };
 static_assert(sizeof(BossGaugeInfo) == 0x90);
 
@@ -3450,6 +3452,8 @@ const char* sub_7100A9EEA4();
 const char* sub_7100A9EEF4();
 // 0x7100a9ac84 (defined in uiScreenFacade.cpp)
 void sub_7100A9AC84(void* a1);
+// 0x7100a96254 (defined in uiScreenFacade.cpp): passes the boss gauge info to the main screen
+void sub_7100A96254(BossGaugeInfo* info);
 // 0x7100aa8784 (CSV checkFlagsAndSetCurrentRuneStuff; declared only)
 void checkFlagsAndSetCurrentRuneStuff();
 

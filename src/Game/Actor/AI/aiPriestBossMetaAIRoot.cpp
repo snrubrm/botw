@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiPriestBossMetaAIRoot.h"
+#include "Game/AOC/aocHardModeManager.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -94,6 +98,67 @@ void PriestBossMetaAIRoot::calc_() {
     }
     sub_71005266A0();
     sub_7100526918();
+}
+
+// NON_MATCHING: the original branches straight to the call / the _89 store instead of testing `ok`; life / max life
+// registers swapped
+void PriestBossMetaAIRoot::sub_710052618C() {
+    const int life = *mMetaAILife_a;
+    const int max_life = *mMetaAIMaxLife_a;
+    ui::BossGaugeInfo info;
+    info.name = mActor->getName();
+    info.value = life;
+    info.maxValue = max_life;
+    info.actorId = mActor->getId();
+    info.layoutName = mUniqueNameMessageLabel_m;
+
+    auto* hard_mode = aoc::HardModeManager::instance();
+    if (hard_mode && hard_mode->checkFlag(aoc::HardModeManager::Flag::EnableHardMode) &&
+        hard_mode->isHardModeChangeOn(aoc::HardModeManager::HardModeChange::EnableLifeRegen)) {
+        ksys::act::BaseProcLink link;
+        int idx;
+        bool ok = true;
+        switch (_140) {
+        case Unk_7102450fa8::Phase::_0:
+            idx = 0;
+            break;
+        case Unk_7102450fa8::Phase::_1:
+            idx = 2;
+            break;
+        case Unk_7102450fa8::Phase::_2:
+        case Unk_7102450fa8::Phase::_3:
+            idx = 1;
+            break;
+        default:
+            ok = false;
+            break;
+        }
+        if (ok) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ok = sub_7100525B18(idx, &accessor) && accessor.linkAcquire(&link);
+        }
+        if (ok)
+            sub_71005263F8(&info, &link);
+        else
+            info._89 = false;
+    } else {
+        info._89 = false;
+    }
+    info._88 = false;
+    ui::sub_7100A96254(&info);
+}
+
+// NON_MATCHING: the flag mask is computed after the getLifeRecoverInfo() call in the original
+void PriestBossMetaAIRoot::sub_71005263F8(ui::BossGaugeInfo* info, ksys::act::BaseProcLink* link) {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(link->getProc(nullptr, nullptr));
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    if (enemy && enemy->getLifeRecoverInfo()) {
+        using Flag = ksys::act::LifeRecoverInfo::Flag;
+        info->_89 = (enemy->getLifeRecoverInfo()->mFlags & (1 << int(Flag(Flag::_0)))) != 0;
+        info->value += enemy->getLifeRecoverInfo()->mExtraHp1;
+    } else {
+        info->_89 = false;
+    }
 }
 
 // NON_MATCHING: payload enum round trip, flag temporary slots and evaluation order.
