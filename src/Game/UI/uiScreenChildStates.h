@@ -412,6 +412,9 @@ public:
     // the state object; both return at once when it is null.
     void sub_71009B38EC(Unk_7102474e38* state);
     void sub_71009B4188(Unk_7102474e38* state);
+    // 0x71009b6b4c: whether the "IsPlayed_Demo" flag of memory `index` (0-22) is set; the table row is shifted by
+    // five unless the Champions' Ballad is active
+    bool sub_71009B6B4C(s32 index) const;
 
     u8 _130[0x148 - 0x130];
     /* 0x148 */ eui::Animator* _148;

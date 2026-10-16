@@ -1,3 +1,4 @@
+#include "KingSystem/AOC/aocManager.h"
 #include <nn/g3d/ResFile.h>
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Resource/resResourceFileUtil.h"
@@ -456,6 +457,38 @@ Unk_710247b428::Unk_710247b428(eui::LayoutEx* layout)
 
 
 Unk_710247ae48::~Unk_710247ae48() = default;
+
+// 0x7101e7ddcc: 70-byte rows; sub_71009B6B4C reads the two demo numbers at +2 and +4 (not defined here)
+struct Unk_7101e7ddcc {
+    s16 _0;
+    s16 mDemoNumber;
+    s16 mDemoSubNumber;
+    u8 _6[0x46 - 0x6];
+};
+static_assert(sizeof(Unk_7101e7ddcc) == 0x46);
+}  // namespace uking::ui
+extern const uking::ui::Unk_7101e7ddcc sUnk_7101e7ddcc[];
+namespace uking::ui {
+
+// 0x71025d9d08 (set up by the TU initialiser 0x71009b27b4)
+static sead::SafeString sUnk_71025d9d08 = "IsPlayed_Demo";
+
+// 0x71009b6b4c
+// NON_MATCHING: the original addresses the row table directly (it is TU-local there) and through the merged
+// globals for sUnk_71025d9d08; the two strings swap stack slots
+bool Unk_710247af10::sub_71009B6B4C(s32 index) const {
+    if (index > 22)
+        return false;
+    sead::FixedSafeString<128> flag_name;
+    const bool ballad =
+        ksys::aoc::Manager::instance()->hasAoc3() && ksys::gdt::getFlag_BalladOfHeroes_Activated(false);
+    const auto& row = sUnk_7101e7ddcc[ballad ? index : index + 5];
+    flag_name = sead::FormatFixedSafeString<128>("%s%3d_%1d", sUnk_71025d9d08.cstr(), row.mDemoNumber,
+                                                 row.mDemoSubNumber);
+    // the original evaluates this check a second time and drops the result
+    ksys::aoc::Manager::instance()->hasAoc3() && ksys::gdt::getFlag_BalladOfHeroes_Activated(false);
+    return ksys::gdt::getBoolByKey(flag_name, false);
+}
 
 // 0x71009b7a1c
 void Unk_710247af10::sub_71009B7A1C(Unk_710247ae28* record) {
