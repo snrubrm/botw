@@ -60,6 +60,34 @@ void ScreenPauseMenu::adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCu
         screen->close(-4);
 }
 
+// 0x71025f1220: first button tag of each of the three pause menu pages (set up by the TU initialiser 0x7100a3324c)
+static s32 sUnk_7102493538[] = {9, 29, 49};
+static sead::Buffer<s32> sUnk_71025f1220(sUnk_7102493538);
+
+// 0x7100a3a7fc
+// NON_MATCHING: the original reaches sUnk_71025f1220 through the TU's merged globals and keeps the page index
+// in a separate 64-bit register for the element address
+bool ScreenPauseMenu::sub_7100A3A7FC(s32 page, s32 offset) {
+    s32 i = 0;
+    for (; i < 3; ++i) {
+        if (_3a00[i] && _3a00[i]->_130 == page)
+            break;
+    }
+    if (i == 3)
+        return false;
+    const s32 tag = sUnk_71025f1220[i] + offset;
+    if (tag == 0)
+        return false;
+    if (getStateMachine().getState()->getId() == (&sUnk_71025f0cf0)->getId()) {
+        moveBoxCursorByTag_(tag);
+        if (auto* button = mButtonGroup->FindButtonByTag(tag))
+            button->setFlag10(true);
+    } else {
+        _3b80 = tag;
+    }
+    return true;
+}
+
 // 0x71009b01b4
 sead::Vector2f ScreenPauseMenuUnk3a00::sub_71009B01B4() const {
     const auto& position = mLayout->mPane->GetPosition();

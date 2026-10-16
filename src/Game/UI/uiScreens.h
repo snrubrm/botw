@@ -2547,6 +2547,9 @@ public:
     void sub_7100A379BC(s32 tab);
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
+    // 0x7100a3a7fc: moves the cursor to button tag (base tag of the page shown by `page` + offset); false if no
+    // shown page matches or the tag is 0
+    bool sub_7100A3A7FC(s32 page, s32 offset);
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
     void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
     u8 _pad_3610[0x3618 - 0x3610];
