@@ -489,6 +489,10 @@ public:
     void sub_710088349C();
     void sub_71008562CC();
     bool sub_7100890394();
+    // 0x7100890594 (3164 B, declaration only; placeholder name): picks and starts the idle / move animation
+    // (ASList::x_1 on the equipment type names, Player::x_23); called by PlayerMove / PlayerWait /
+    // PlayerAtnWait::calc_, which ignore any result.
+    void sub_7100890594();
     void sub_7100861858();
     void sub_710088C5A4();
     void sub_710088A388();
