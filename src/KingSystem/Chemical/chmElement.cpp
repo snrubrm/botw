@@ -5,6 +5,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/World/worldManager.h"
@@ -179,6 +180,19 @@ void Unk_7102518688::m2() {
         ksys::act::sub_7100E40448(&mPosition, mRigidBody);
     else
         mPosition = {0, 0, 0};
+}
+
+f32 Unk_7102518688::m19(ksys::act::Chemical* chemical) {
+    f32 value = 0.0f;
+    if (mRigidBody && chemical->_18) {
+        const sead::Vector3f& pos = m6();
+        sead::Vector3f dir = pos - chemical->sub_7100D9155C();
+        dir.normalize();
+        const f32 extent = ksys::act::sub_7100E40B7C(mRigidBody, &dir, nullptr);
+        const f32 other = chemical->_18->m30(&dir);
+        value = extent < other ? extent : other;
+    }
+    return value;
 }
 
 void Unk_7102518688::m3(f32 delta_frame) {
