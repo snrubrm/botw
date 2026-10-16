@@ -17,6 +17,34 @@ void RuneMgr::setFieldD8() {
     setLockedFlag(_98);
 }
 
+f32 RuneMgr::sub_710067549C() const {
+    return _29c;
+}
+
+f32 RuneMgr::sub_71006754A4() const {
+    return _280;
+}
+
+void RuneMgr::sub_71006754AC() {
+    _2a8.sub_710067E2B4();
+}
+
+void RuneMgr::sub_71006754B4() {
+    _2a8.sub_710067E2F8();
+}
+
+ksys::act::Actor* RuneMgr::spawnBomb(u8 idx, const sead::Matrix34f& mtx, s32 type, bool a4) {
+    return _2a8.doSpawnRemoteBomb(idx, mtx, type, a4);
+}
+
+bool RuneMgr::sub_71006754CC(u8 idx) {
+    return _2a8.sub_710067E55C(idx);
+}
+
+void RuneMgr::sub_71006754D8(u8 idx) {
+    _2a8.sub_710067E838(idx);
+}
+
 void RuneMgr::sub_71006757B8() {
     _3c8[0].setDuration(1e-4f);
     _3c8[1].setDuration(1e-4f);

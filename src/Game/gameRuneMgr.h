@@ -68,6 +68,17 @@ public:
     // 0x71006757b8 (CSV __auto0; declared only, lane2 s46): sets the duration (1e-4) of the two UiTimers at 0x3c8 / 0x3e0.
     void sub_71006757B8();
 
+    // 0x710067549c / 0x71006754a4 (placeholder names): float getters.
+    f32 sub_710067549C() const;
+    f32 sub_71006754A4() const;
+    // Forwarders to the remote bomb tracker _2a8 (0x71006754ac CSV __auto3, 0x71006754b4 CSV __auto12,
+    // 0x71006754cc CSV __auto10, 0x71006754d8 CSV __auto1; spawnBomb is the CSV name).
+    void sub_71006754AC();
+    void sub_71006754B4();
+    ksys::act::Actor* spawnBomb(u8 idx, const sead::Matrix34f& mtx, s32 type, bool a4);
+    bool sub_71006754CC(u8 idx);
+    void sub_71006754D8(u8 idx);
+
     // 0x710067525c (CSV __auto6): byte flag at 0x250.
     bool sub_710067525C() const;
 
@@ -91,7 +102,11 @@ public:
     /* 0x248 */ s32 _248;  // selected rune (-1: none)
     /* 0x24c */ s32 _24c;
     /* 0x250 */ bool _250;
-    /* 0x251 */ u8 _251[0x2a8 - 0x251];
+    /* 0x251 */ u8 _251[0x280 - 0x251];
+    /* 0x280 */ f32 _280;  // returned by sub_71006754A4
+    /* 0x284 */ u8 _284[0x29c - 0x284];
+    /* 0x29c */ f32 _29c;  // returned by sub_710067549C
+    /* 0x2a0 */ u8 _2a0[0x2a8 - 0x2a0];
     // The remote bomb tracker (constructed at +0x2a8 by the RuneMgr constructor 0x7100675000).
     /* 0x2a8 */ Unk_710243c698 _2a8;
     // The two UiTimers set by sub_71006757B8 (0x18 bytes each).
