@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -17,6 +18,30 @@
 namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Awareness)
+
+// NON_MATCHING: the original spills `weather` to the stack and reloads it for each use.
+f32 sub_7100D7A93C(s32 sense, s32 weather) {
+    static const f32 sWeatherFactors[9][4] = {
+        {1.0f, 1.0f, 1.0f, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {1.0f, 0.8f, 1.0f, 1.0f},
+        {0.9f, 0.5f, 1.0f, 1.0f}, {1.0f, 0.8f, 1.0f, 1.0f}, {0.7f, 0.5f, 1.0f, 1.0f},
+        {1.0f, 0.8f, 1.0f, 1.0f}, {0.8f, 0.5f, 1.0f, 1.0f}, {1.0f, 0.8f, 1.0f, 1.0f},
+    };
+    static const f32 sFactorsA[4] = {0.7f, 1.0f, 1.0f, 1.0f};
+    static const f32 sSandstormFactors[4] = {0.8f, 0.8f, 1.0f, 1.0f};
+
+    if (weather < 0 || weather > 8)
+        return 1.0f;
+
+    if (auto* manager = world::Manager::instance()) {
+        if (auto* env = manager->getEnvMgr()) {
+            if (env->returnFalse())
+                return sead::Mathf::min(sWeatherFactors[weather][sense], sFactorsA[sense]);
+            if (env->isInSandstorm())
+                return sead::Mathf::min(sWeatherFactors[weather][sense], sSandstormFactors[sense]);
+        }
+    }
+    return sWeatherFactors[weather][sense];
+}
 
 // NON_MATCHING: the index comparison is hoisted before the singleton and weather-array checks.
 f32 sub_7100D7AA24(s32 idx) {

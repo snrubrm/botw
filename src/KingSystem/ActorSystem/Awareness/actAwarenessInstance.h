@@ -51,13 +51,19 @@ public:
     virtual sead::BitFlag8* m16();
     virtual void m17();
 
+    // 0x7100d8010c (placeholder name): _4c, times the weather factor of sensor kind _38
+    // (sub_7100D7A93C) unless _51 is set.
+    f32 sub_7100D8010C() const;
+
     /* 0x08 */ sead::ObjArray<Unk_7100d78e50> _8;
-    /* 0x28 */ u8 _28[0x3c - 0x28];
+    /* 0x28 */ u8 _28[0x38 - 0x28];
+    /* 0x38 */ s32 _38;
     /* 0x3c */ u32 _3c;
     /* 0x40 */ u8 _40[0x48 - 0x40];
     /* 0x48 */ s32 _48;  // cleared by CapturedActorRoot::m37
     /* 0x4c */ f32 _4c;
     /* 0x50 */ bool _50;  // active (AwarenessInstance::sub_7100D7E9BC / sub_7100D7EAE4)
+    /* 0x51 */ bool _51;  // ignores the weather (sub_7100D8010C)
 };
 
 // Placeholder name (vtable 0x71024dc978, RTTI static 0x71025af288): abstract base of the awareness
