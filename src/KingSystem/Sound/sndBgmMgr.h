@@ -12,6 +12,7 @@
 #include <thread/seadCriticalSection.h>
 #include <thread/seadSpinLock.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Sound/sndMusicInfo.h"
 #include "KingSystem/Sound/sndSound.h"
 
 #include <aal/aalAssetInfo.h>
@@ -603,16 +604,46 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260f2a8, 0x68);
 
-// RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it).
+class Unk_71024fdb00;
+
+// RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it): the environment BGM
+// (EnvBgmInfo; constructor 0x7101003df4, defined in sndEnvBgm.cpp with its day and night handles).
 class Unk_71025ce350 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71025ce350, Bgm)
     friend class SoundOcclusionTagAction;
 
-    u8 _10[0x3c - 0x10];
-    bool _3c;
-    u8 _3d;
-    bool _3e;
-    u8 _3f;
+public:
+    explicit Unk_71025ce350(const BgmInitArg& arg);
+    ~Unk_71025ce350() override;
+
+    // 0x7101003fb8 (declared only; 1428 B)
+    void m5() override;
+    // 0x7101006b0c
+    bool m9() override { return true; }
+    // 0x7101004858: starts both handles and picks the day or night part from the world time.
+    void m12(f32 fade_sec) override;
+    // 0x710100496c
+    void m13(f32 fade_sec) override;
+    // 0x7101005734
+    void m14(sead::TextWriter& writer) override {}
+
+    // 0x710100454c (declared only; 536 B): switches between the day and night handles.
+    void sub_710100454C();
+
+private:
+    EnvBgmInfo* mInfo = nullptr;
+    // Indexed by EnvBgmInfo::EnvTimeEnum.
+    sead::SafeArray<Unk_71024fdb00*, 2> mHandles{};
+    bool _28 = true;
+    u32 _2c = 0;
+    // The EnvBgmInfo::EnvTimeEnum value of the playing part.
+    s32 mTimeType = 0;
+    u32 _34 = 0;
+    u32 _38 = 0;
+    bool _3c = false;
+    u8 _3d = 0;
+    bool _3e = false;
+    u8 _3f = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025ce350, 0x40);
 
