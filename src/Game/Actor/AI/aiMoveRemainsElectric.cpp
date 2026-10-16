@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiMoveRemainsElectric.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -142,6 +143,78 @@ bool MoveRemainsElectric::reenter_(ksys::act::ai::ActionBase* other, bool x) {
         _370.loadEvent();
     }
     return true;
+}
+
+// Updates the weak point life values and their AS blend weights (slots 0x20, 0x1f, 0x22, 0x21); emits the
+// DamageFoot_<suffix> effect when a weak point is destroyed.
+// NON_MATCHING: the original walks the parts with a pointer (index kept separately); static data base address.
+void MoveRemainsElectric::sub_71004B2718() {
+    if (mActor->getName().findIndex("_Far") != -1)
+        return;
+    auto* parts = mActor->m101();
+    if (!parts)
+        return;
+
+    for (s32 i = 0; i < 4; ++i) {
+        auto& part = _a8[i];
+        if (ksys::gdt::getFlag_Enter_RemainsElectric(false)) {
+            if (auto* as_list = mActor->sub_71011C9A88()) {
+                switch (i) {
+                case 0:
+                    as_list->x_6(0x20, 0, 0.0f);
+                    break;
+                case 1:
+                    as_list->x_6(0x1f, 0, 0.0f);
+                    break;
+                case 2:
+                    as_list->x_6(0x22, 0, 0.0f);
+                    break;
+                case 3:
+                    as_list->x_6(0x21, 0, 0.0f);
+                    break;
+                }
+            }
+            continue;
+        }
+
+        auto& link = parts->getActorPartsActor(part.mActorName);
+        f32 rate = 0.0f;
+        if (link.hasProc()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            part.mLife = accessor.getLife();
+            if (const s32 max_life = accessor.getMaxLife())
+                rate = static_cast<f32>(part.mLife) / static_cast<f32>(max_life);
+        } else if (*mIsJoinRemainsBattle_m) {
+            part.mLife = 0;
+        } else {
+            part.mLife = 4;
+            rate = 1.0f;
+        }
+
+        if (auto* as_list = mActor->sub_71011C9A88()) {
+            switch (i) {
+            case 0:
+                as_list->x_6(0x20, 0, rate);
+                break;
+            case 1:
+                as_list->x_6(0x1f, 0, rate);
+                break;
+            case 2:
+                as_list->x_6(0x22, 0, rate);
+                break;
+            case 3:
+                as_list->x_6(0x21, 0, rate);
+                break;
+            }
+        }
+
+        if (rate == 0.0f && !part.mHandle.sub_7101241AD8(2)) {
+            sead::FormatFixedSafeString<32> name("%s_%s", sUnk_71025babb8.cstr(),
+                                                 sUnk_71025babc8[i].cstr());
+            xlinkSearchAndEmit(mActor, name.cstr(), 2, &part.mHandle);
+        }
+    }
 }
 
 void MoveRemainsElectric::leave_() {
