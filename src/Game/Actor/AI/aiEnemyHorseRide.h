@@ -41,6 +41,9 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
     void m34() override;
 
+    // 0x71003958bc
+    void setUpRiderAnimation();
+
 protected:
     // static_param at offset 0xe0
     const int* mUpperBodyASSlot_s{};

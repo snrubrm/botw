@@ -1,5 +1,8 @@
 #include "Game/Actor/AI/aiEnemyHorseRide.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7102451120.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actRideable.h"
@@ -10,6 +13,8 @@
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
 
 namespace uking::ai {
 
@@ -64,7 +69,88 @@ bool EnemyHorseRide::init_(sead::Heap* heap) {
 }
 
 void EnemyHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
+    setUpRiderAnimation();
+    auto* actor = mActor;
     RideHorseNonPlayer::enter_(params);
+
+    if (auto* damage_mgr = actor->getDamageMgr()) {
+        damage_mgr->addDamageCallback(4, &_f8);
+        damage_mgr->addDamageCallback(1, &_120);
+        damage_mgr->addDamageCallback(5, &_148);
+    }
+
+    sub_71005DDA44(actor);
+
+    if (auto* nav = actor->m45()) {
+        if (auto* ride_info = actor->getPlayerRideInfo()) {
+            auto* horse = sead::DynamicCast<ksys::act::Actor>(ride_info->_18.getProc(nullptr, ride_info->mActor));
+            if (horse) {
+                if (auto* horse_nav = horse->m45()) {
+                    sead::Vector3f horse_pos;
+                    horse->getMtx().getTranslation(horse_pos);
+                    sead::Matrix34f inv;
+                    sead::Matrix34CalcCommon<f32>::inverse(inv, mActor->getMtx());
+                    sead::Vector3f pos;
+                    pos.setMul(inv, horse_pos);
+                    if (!pos.isNan()) {
+                        auto lock = sead::makeScopedLock(nav->_1e0);
+                        nav->_284 = pos;
+                    }
+                    nav->sub_7100F7D1CC(horse_nav);
+                }
+            }
+        }
+    }
+
+    if (auto* bone_control = sub_71005DB0EC(actor)) {
+        const auto* rider = actor->getParam()->getRes().mGParamList->getHorseRider();
+        s32 idx = bone_control->sub_7100D89124(rider->mSpineNode.ref());
+        if (idx >= 0) {
+            bone_control->sub_7100D89AC4(sead::Mathf::deg2rad(rider->mRotLimit.ref()), idx);
+            bone_control->sub_7100D89A20(sead::Mathf::deg2rad(rider->mRotLimit.ref()), idx);
+        }
+    }
+}
+
+// Makes the root and spine bones partial bones of the upper / lower body AS slots and starts HorseWait on the
+// lower body slot (once).
+// NON_MATCHING: the original passes a second argument (0) to ASList::sub_710115EA64 (see calc_), and the
+// HorseWait string object sits at sp instead of sp + 8.
+void EnemyHorseRide::setUpRiderAnimation() {
+    if (_f0)
+        return;
+    auto* actor = mActor;
+    if (!actor->getModel())
+        return;
+    auto* rider = sead::DynamicCast<Unk_7102357ab0>(actor->getPlayerRideInfo());
+    if (!rider)
+        return;
+    const auto root = actor->getModel()->searchBone(rider->getRootNodeName());
+    const auto spine = actor->getModel()->searchBone(rider->getSpineNodeName());
+    if (!root.isValid() || !spine.isValid())
+        return;
+
+    {
+        auto* as_list = actor->getASList();
+        const s32 slot = *mUpperBodyASSlot_s;
+        as_list->sub_710115C9E0(slot);
+        as_list->mSlots[slot].sub_7101165008(root, 3, true);
+        as_list->mSlots[slot].sub_7101165008(spine, 0, true);
+        as_list->mSlots[slot].sub_7101164E38(false);
+    }
+    {
+        auto* as_list = actor->getASList();
+        const s32 slot = *mLowerBodyASSlot_s;
+        as_list->sub_710115C9E0(slot);
+        as_list->mSlots[slot].sub_7101165008(root, 0, true);
+        as_list->mSlots[slot].sub_7101165008(spine, 3, true);
+        as_list->mSlots[slot].sub_7101164E38(false);
+    }
+    if (auto* as_list = actor->getASList()) {
+        as_list->sub_710115EA64(0);
+        as_list->startAnimationMaybe(-1.0f, -1.0f, "HorseWait", *mLowerBodyASSlot_s, 0, true);
+    }
+    _f0 = true;
 }
 
 // NON_MATCHING: the original passes a second argument (0) to ASList::sub_710115EA64, which the callee does not read;
