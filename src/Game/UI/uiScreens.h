@@ -3372,6 +3372,12 @@ public:
 
 };
 
+// 0x71009f1e9c / 0x71009f1f64 / 0x71009f202c (placeholder names; ScreenAppMap TU): load the app system window and open
+// it with type 5 / 6 / 7
+void sub_71009F1E9C();
+void sub_71009F1F64();
+void sub_71009F202C();
+
 class ScreenPauseMenuMantan : public ScreenEx {
 public:
     ScreenPauseMenuMantan();
@@ -3439,8 +3445,8 @@ public:
     u64 _3640{};
     u64 _3648{};
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
-    virtual void m154(s32 type, s32 draw_target, void* arg);
+    // 0x71009fbd7c (declared only, 1824 bytes): stores `type` at 0x3610 and opens the window for it (types 0 - 9)
+    virtual void m154(s32 type);
     virtual void m155();
 
 };

@@ -1,3 +1,4 @@
+#include "Game/UI/uiUtils.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiMessageMgr.h"
 #include <gfx/nin/seadGraphicsNvn.h>
@@ -170,6 +171,33 @@ ScreenChild* sub_71009E844C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
         return nullptr;
     return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102477c30(layout_ex);
+}
+
+// 0x71009f1e9c
+void sub_71009F1E9C() {
+    createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+    auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (screen)
+        screen->m154(5);
+}
+
+// 0x71009f1f64
+void sub_71009F1F64() {
+    createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+    auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (screen)
+        screen->m154(6);
+}
+
+// 0x71009f202c
+void sub_71009F202C() {
+    createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+    auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (screen)
+        screen->m154(7);
 }
 
 }  // namespace uking::ui
