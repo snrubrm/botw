@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -21,6 +22,12 @@ public:
 
 protected:
     void calc_() override;
+
+    // 0x71000f693c (placeholder name): checks whether `pos` is within 10 units of the ground or water
+    // surface below it and, if so, plays contact effect `index` there.
+    bool sub_71000F693C(int index, const sead::Vector3f* pos);
+    // 0x71000f6c18 (placeholder name): plays contact effect `index` (water or ground by material) at `pos`.
+    void sub_71000F6C18(int index, bool in_water, bool unused, const sead::Vector3f* pos);
 
     // static_param at offset 0x20
     const float* mRollMax_s{};
@@ -51,9 +58,8 @@ protected:
         bool _24 = false;
     };
 
-    Unk1 _80;
-    Unk1 _a8;
-    Unk1 _d0;
+    // Ground / water contact effects (0x71000f6c18 indexes them).
+    sead::SafeArray<Unk1, 3> mContacts;
     // 18 bones (names in a table of the TU's static data), searched by init_.
     sead::Buffer<gsys::BoneAccessKeyEx> _f8;
     sead::Matrix34f _108 = sead::Matrix34f::ident;
