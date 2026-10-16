@@ -49,6 +49,7 @@
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Physics/Ragdoll/physUnk_7102519b90.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/Sound/sndMusicInfo.h"
 #include <aal/aalAuxBusDataSerialCtrl.h>
 #include "framework/nx/seadGameFrameworkNx.h"
 #include "framework/seadCalculateTask.h"
@@ -2993,6 +2994,15 @@ public:
     // 0x7101025acc: stops and deletes the three handles.
     ~Unk_7102500e08() override;
     void m14(sead::TextWriter& writer) override {}
+    // 0x7101025bf0: stores the ignited level at the player (_88, _3c) and updates the three handles.
+    void m5() override;
+    // 0x710102653c
+    bool m9() override { return true; }
+    // 0x7101025fe0 / 0x7101026068
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
+    // 0x7101025ca4 (declaration only; placeholder name): updates the handle of `type`.
+    void sub_7101025CA4(ksys::snd::TemperatureBgmInfo::TemperatureEnum type);
 
     // 0x7101025840 (placeholder name; end of the constructor 0x7101025764): creates one handle per
     // TemperatureEnum value ("Bgm_TemperatureCold" / "Hot" / "Burn") and gets the TemperatureBgm music info.
@@ -3001,11 +3011,12 @@ public:
     /* 0x10 */ ksys::snd::TemperatureBgmInfo* mInfo = nullptr;
     // Indexed by TemperatureBgmInfo::TemperatureEnum (as are the arrays below).
     /* 0x18 */ sead::SafeArray<Unk_SpotBgmHandle*, 3> mHandles;
-    /* 0x30 */ u32 _30[3]{};
+    /* 0x30 */ sead::SafeArray<u32, 3> _30{};
     /* 0x3c */ bool _3c = false;
-    /* 0x40 */ aal::SimpleTimedFader mFaders[3]{aal::SimpleTimedFader{1.0f}, aal::SimpleTimedFader{1.0f},
-                                             aal::SimpleTimedFader{1.0f}};
-    /* 0x88 */ u32 _88 = 0;
+    /* 0x40 */ sead::SafeArray<aal::SimpleTimedFader, 3> mFaders{
+        {aal::SimpleTimedFader{1.0f}, aal::SimpleTimedFader{1.0f}, aal::SimpleTimedFader{1.0f}}};
+    // The ignited level at the player (world::Manager::getIgnitedLevel).
+    /* 0x88 */ s32 _88 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102500e08, 0x90);
 

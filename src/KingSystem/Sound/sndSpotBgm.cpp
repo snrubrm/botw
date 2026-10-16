@@ -6,6 +6,9 @@
 #include "KingSystem/Sound/Actor/Action/actionSpotBgmTriggerAction.h"
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/Sound/sndMusicDefinition.h"
+#include "KingSystem/World/worldManager.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 
 namespace ksys::snd {
 
@@ -219,6 +222,44 @@ namespace {
 const char* sTemperatureBgmAssetNames[] = {"Bgm_TemperatureCold", "Bgm_TemperatureHot",
                                            "Bgm_TemperatureBurn"};
 }  // namespace
+
+void Unk_7102500e08::m5() {
+    if (!mActive)
+        return;
+    bool ignited = false;
+    if (auto* link = ksys::act::ActorSystem::instance()->getPlayerLink()) {
+        if (auto* player = link->getPlayer()) {
+            const sead::Vector3f pos = player->getMtx().getTranslation();
+            _88 = ksys::world::Manager::instance()->getIgnitedLevel(pos);
+            ignited = _88 > 0;
+        }
+    }
+    _3c = ignited;
+    using ksys::snd::TemperatureBgmInfo;
+    sub_7101025CA4(TemperatureBgmInfo::TemperatureEnum::ColdBgm);
+    sub_7101025CA4(TemperatureBgmInfo::TemperatureEnum::HotBgm);
+    sub_7101025CA4(TemperatureBgmInfo::TemperatureEnum::BurnBgm);
+}
+
+void Unk_7102500e08::m12(f32 fade_sec) {
+    using ksys::snd::TemperatureBgmInfo;
+    for (s32 i = 0; i < TemperatureBgmInfo::TemperatureEnum::size(); ++i) {
+        const TemperatureBgmInfo::TemperatureEnum type = i;
+        mHandles[type]->sub_7101020BB0(fade_sec);
+    }
+}
+
+void Unk_7102500e08::m13(f32 fade_sec) {
+    using ksys::snd::TemperatureBgmInfo;
+    for (s32 i = 0; i < TemperatureBgmInfo::TemperatureEnum::size(); ++i) {
+        const TemperatureBgmInfo::TemperatureEnum type = i;
+        if (_30[type]) {
+            mHandles[type]->sub_710101D9F4(fade_sec);
+            mFaders[type].setValueImmediate(1.0f);
+            _30[type] = 0;
+        }
+    }
+}
 
 void Unk_7102500e08::sub_7101025840(const ksys::snd::BgmInitArg& arg) {
     using ksys::snd::TemperatureBgmInfo;
