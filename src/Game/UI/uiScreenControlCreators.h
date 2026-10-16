@@ -53,7 +53,8 @@ public:
 class Unk_7102481078 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102481078() override;
+    // Inline: ScreenAppMapDungeon::doBuildLayout_ 0x71009e0e24 calls the base destructor directly.
+    ~Unk_7102481078() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 

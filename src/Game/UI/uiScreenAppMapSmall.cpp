@@ -36,15 +36,13 @@ void ScreenAppCamera::doBuildLayout_(const sead::SafeString& name, nn::ui2d::Res
 }
 
 // 0x71009e0e24
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenAppMapDungeon::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102481078 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 

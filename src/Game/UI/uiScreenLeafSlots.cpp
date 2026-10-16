@@ -613,8 +613,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102481038(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481078::getEntries() const {
     return &sUnk_7102481038;
 }
-// 0x71009de3d0
-Unk_7102481078::~Unk_7102481078() = default;
 
 ScreenChild* sub_71009DE3F4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
