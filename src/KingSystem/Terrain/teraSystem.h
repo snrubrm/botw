@@ -280,7 +280,18 @@ public:
     u8 _368[0x370 - 0x368];
     Unk370* _370;
     ImageResourceMgr* mImageResourceMgr;
-    u8 _380[0x3c8 - 0x380];
+    // Placeholder type: System::loadScene 0x710111e04c calls sub_71011382EC on it.
+    struct Unk_380 {
+        // Placeholder: the pooled items (only linked through the list).
+        struct Item;
+        // 0x71011382ec (placeholder name): returns every item of mList to mFreeList.
+        void sub_71011382EC();
+
+        sead::FreeList mFreeList;
+        sead::OffsetList<Item> mList;
+    };
+    Unk_380* _380;
+    u8 _388[0x3c8 - 0x388];
     f32 _3c8;
     // Passed by sub_710110B4A4 to sub_710110AA5C.
     f32 _3cc;

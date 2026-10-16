@@ -270,4 +270,11 @@ void Scene::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_7
     _6070.sub_7101127304(_28->_20._e >> (_28->_20._9 + y));
 }
 
+void Terrain::Unk_380::sub_71011382EC() {
+    for (Item& item : mList.robustRange()) {
+        mList.erase(&item);
+        mFreeList.free(&item);
+    }
+}
+
 }  // namespace ksys::tera
