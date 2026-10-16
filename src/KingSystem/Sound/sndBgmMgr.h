@@ -323,6 +323,9 @@ struct BgmInitArg {
     Unk_710260f248Type handle_type;
     sead::Heap* heap;
 };
+class Bgm;
+// 0x7100ff6e2c (declared only; 1500 B)
+Bgm* allocBgm(const BgmInitArg& arg);
 
 // Index of the music info table of Unk_SoundMgr30_18 (the factory 0x710101b84c creates 0 EnvBgmInfo, 1 HorseBgmInfo,
 // 3 SpotBgmInfo, ...). Spilled and reloaded like a SEAD_ENUM; enumerator names are unknown.
@@ -599,10 +602,6 @@ struct Unk_SoundMgr30_10 {
     void sub_710101CFEC();
 };
 
-// Four-byte state argument of sub_7100FF7BE0; the real enum name is unknown.
-struct Unk_7100FF7BE0 {
-    s32 value;
-};
 
 class Unk_7100ff7444 {
 public:
@@ -621,8 +620,8 @@ public:
 private:
     // FF79D8 constructs 0x10-byte values in the 0x20-byte ObjList nodes.
     struct Entry {
-        Bgm* bgm;
-        u32 refs;
+        Bgm* bgm = nullptr;
+        u32 refs = 0;
     };
 
     // inline-only in the original; name is a guess. Evidence: sub_7100FF7920, sub_7100FF7BE0 and sub_7100FF7C74
@@ -634,8 +633,8 @@ private:
         }
         return nullptr;
     }
-    // 0x7100ff79d8 (CSV callAllocBgm; declared only): allocates the BGM for `arg` and adds an entry for it.
-    void sub_7100FF79D8(const BgmInitArg& arg);
+    // 0x7100ff79d8 (CSV callAllocBgm): allocates the BGM for `arg` and adds an entry for it.
+    Entry* sub_7100FF79D8(const BgmInitArg& arg);
 
     sead::ObjList<Entry> mEntries;
 

@@ -124,6 +124,22 @@ Unk_7100ff7444::~Unk_7100ff7444() {
     mEntries.freeBuffer();
 }
 
+// NON_MATCHING: the original walks the list with a cached next node (a robust iterator, which our sead ObjList
+// does not have); ours goes through front() / next().
+void Unk_7100ff7444::sub_7100FF74D0() {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto* entry = mEntries.front(); entry;) {
+        auto* next = mEntries.next(entry);
+        if (Bgm* bgm = entry->bgm) {
+            if (auto* child = sead::DynamicCast<Unk_71025ce380>(bgm))
+                child->sub_710101D9A4();
+            delete bgm;
+        }
+        mEntries.erase(entry);
+        entry = next;
+    }
+}
+
 void Unk_7100ff7444::sub_7100FF75DC(s32 capacity, sead::Heap* heap) {
     mEntries.allocBuffer(capacity, heap, 8);
 }
@@ -147,6 +163,24 @@ void Unk_7100ff7444::sub_7100FF7920(BgmKind kind, sead::Heap* heap) {
         return;
     }
     sub_7100FF79D8({kind, Unk_710260f248Type::_0, heap});
+}
+
+// NON_MATCHING: the new entry is zeroed with one stp (padding included) here; the original stores the two fields.
+Unk_7100ff7444::Entry* Unk_7100ff7444::sub_7100FF79D8(const BgmInitArg& arg) {
+    Bgm* bgm = allocBgm(arg);
+    if (!bgm)
+        return nullptr;
+    if (auto* entry = mEntries.emplaceBack()) {
+        entry->bgm = bgm;
+        entry->refs = 1;
+        if (_30)
+            _30->invoke(bgm);
+        return entry;
+    }
+    if (auto* child = sead::DynamicCast<Unk_71025ce380>(bgm))
+        child->sub_710101D9A4();
+    delete bgm;
+    return nullptr;
 }
 
 void Unk_7100ff7444::sub_7100FF7BE0(BgmKind kind) {
