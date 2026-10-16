@@ -2356,6 +2356,38 @@ Unk_7102474e38* ScreenAppPictureBookUnk::sub_7100943684(s32 index) {
     return nullptr;
 }
 
+// 0x710093ff88
+void ScreenAppPictureBookUnk::sub_710093FF88() {
+    m9();
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                continue;
+            for (auto& unit : group.mUnits) {
+                if (unit._30 & 4)
+                    unit.m8();
+            }
+        }
+    }
+}
+
+// 0x710093feac
+void ScreenAppPictureBookUnk::sub_710093FEAC() {
+    m8();
+    for (auto& list : mGroupLists) {
+        for (auto it = list.mUnits.begin(), end = list.mUnits.end(); it != end; ++it) {
+            if (!it->mEntry || !it->mRecord || it->mRecord->_c < 0)
+                continue;
+            if (it->_40)
+                it->_40->m7();
+            for (auto& unit : it->mUnits) {
+                if (unit._30 & 4)
+                    unit.m7();
+            }
+        }
+    }
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
