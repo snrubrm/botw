@@ -653,6 +653,47 @@ void Unk_7102475d70::m18() {
         m24(false);
 }
 
+}  // namespace uking::ui
+
+// 0x7100956070
+void Unk_7102475e68::m11() {
+    m25(_50);
+}
+
+// 0x7100956080
+void Unk_7102475e68::m12() {
+    m25(_50);
+}
+
+// 0x7100956090
+void Unk_7102475e68::m14() {
+    if (!(_3c & 0x10))
+        return;
+    if (_58 == 1)
+        updateDistrictFromPos(&_70);
+    else if (_54 == 0)
+        updateDistrictFromPos(&_64);
+}
+
+// 0x71009560d0
+void Unk_7102475e68::m16() {
+    if (!uking::ui::Manager::instance()->isPausedMaybe())
+        _7c = 0;
+    if (_3c & 0x10) {
+        if (_58 == 1) {
+            updateDistrictFromPos(&_70);
+            _7c = _60;
+        } else if (_54 == 0) {
+            updateDistrictFromPos(&_64);
+            _7c = _5c;
+        }
+    }
+    _54 = 2;
+    _58 = 2;
+}
+
+namespace uking::ui {
+
 // NON_MATCHING: direct list search removes the nullable-find guard and changes argument setup.
 void UiSubsys1Entry::sub_710095156C(bool enabled) {
     _3c = (enabled != ((_3c & 0x200) != 0)) ? _3c | 0x400 : _3c & ~0x400;

@@ -370,8 +370,18 @@ class Unk_7102475e68 : public uking::ui::UiSubsys1Entry {
     SEAD_RTTI_OVERRIDE(Unk_7102475e68, uking::ui::UiSubsys1Entry)
 public:
     ~Unk_7102475e68() override;
+    void m11() override;
+    void m12() override;
+    void m14() override;
+    void m16() override;
 
-    u8 _50[0x7c - 0x50];
+    /* 0x50 */ bool _50;
+    /* 0x54 */ s32 _54;
+    /* 0x58 */ s32 _58;  // 1: use _70 / _60, else _64 / _5c while _54 is 0 (m14 / m16)
+    /* 0x5c */ s32 _5c;
+    /* 0x60 */ s32 _60;
+    /* 0x64 */ sead::Vector3f _64;
+    /* 0x70 */ sead::Vector3f _70;
     /* 0x7c */ s32 _7c;  // 0 / 1 select the frame of Unk_7102478ab0's animator
 };
 
