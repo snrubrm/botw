@@ -8,7 +8,7 @@ namespace uking::ui {
 
 // 0x71009a9438
 bool ScreenAppMapWidget::sub_71009A9438() {
-    return _b290.isDone() || _b1db;
+    return mNormalMap._a9a0.isDone() || mNormalMap._a8eb;
 }
 
 // 0x71009a995c
@@ -127,9 +127,22 @@ void ScreenAppMapWidget::sub_71009AEF88() {
     }
 }
 
+// 0x71009a9380
+void ScreenAppMapWidget::m21() {
+    mNormalMap.sub_71009A6F34();
+}
+
+// 0x71009a9280
+void ScreenAppMapWidget::m31() {
+    UiSubsys1::instance()->sub_710095B530();
+    if (_8e8)
+        mNormalMap.sub_71009A63F4();
+    _8e8 = false;
+}
+
 // 0x71009af37c
 u8 ScreenAppMapWidget::sub_71009AF37C() const {
-    return _b1db;
+    return mNormalMap._a8eb;
 }
 
 ScreenAppMapWidget::~ScreenAppMapWidget() = default;

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include "Game/UI/uiTimer.h"
 #include "Game/UI/uiUnkTiny.h"
 
 namespace ksys::res {
@@ -56,11 +57,18 @@ void sub_71009A5670(const Unk_7102479bb0* entry, u32 level, sead::BufferedSafeSt
 class Unk_7102479c10 {
 public:
     virtual ~Unk_7102479c10();
+    // 0x71009a63f4 / 0x71009a6f34 (CSV unnamed; not decompiled): called by ScreenAppMapWidget::m31 / m21
+    void sub_71009A63F4();
+    void sub_71009A6F34();
 
     u8 _8[0x28 - 8];
     /* 0x28 */ Unk_7102479bb0 mEntries[120];
     /* 0x12e8 */ Unk_7102479bf0 mTiles[240];
-    u8 _a8e8[0xaa48 - 0xa8e8];
+    u8 _a8e8[0xa8eb - 0xa8e8];
+    /* 0xa8eb */ u8 _a8eb;  // ScreenAppMapWidget::sub_71009A9438 / sub_71009AF37C read it
+    u8 _a8ec[0xa9a0 - 0xa8ec];
+    /* 0xa9a0 */ UiTimer _a9a0;
+    u8 _a9b8[0xaa48 - 0xa9b8];
 };
 static_assert(sizeof(Unk_7102479c10) == 0xaa48);
 

@@ -29,6 +29,7 @@
 #include "Game/UI/uiShopItemElement.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
+#include "Game/UI/uiNormalMap.h"
 #include <common/aglRenderBuffer.h>
 #include <common/aglTextureData.h>
 #include <xlink2/xlink2HandleSLink.h>
@@ -2246,11 +2247,14 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009aef88 (placeholder name): clears _b4ec / _b4f0 and decodes the packed signed (x, y) word at `_b370` into _b4b8 / _b4bc
     void sub_71009AEF88();
 
-    u8 _130[0xb1db - 0x130];
-    /* 0xb1db */ u8 _b1db;
-    u8 _b1dc[0xb290 - 0xb1dc];
-    /* 0xb290 */ UiTimer _b290;
-    u8 _b2a8[0xb33a - 0xb2a8];
+    // 0x71009a9380 / 0x71009a9280 (slots 21 / 31)
+    void m21() override;
+    void m31() override;
+
+    u8 _130[0x8e8 - 0x130];
+    /* 0x8e8 */ bool _8e8;
+    /* 0x8f0 */ Unk_7102479c10 mNormalMap;
+    u8 _b338[0xb33a - 0xb338];
     /* 0xb33a */ u8 _b33a;
     u8 _b33b;
     /* 0xb33c */ u8 _b33c;  // button callback sets it; constructor and update clear it
@@ -2287,7 +2291,7 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     u8 _b500[0xb538 - 0xb500];
 };
 static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
-static_assert(offsetof(ScreenAppMapWidget, _b290) == 0xb290);
+static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
 
 class ScreenAppMap : public ScreenEx {
 public:
