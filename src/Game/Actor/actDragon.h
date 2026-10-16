@@ -147,7 +147,8 @@ public:
     // FixedSafeString<20> at 0x1ef0 / 0x1f18
     /* 0x1e88 */ u8 _1e88[0x1ec0 - 0x1e88];
     /* 0x1ec0 */ Unk_710250d530 _1ec0;
-    /* 0x1ef0 */ u8 _1ef0[0x1f40 - 0x1ef0];
+    /* 0x1ef0 */ sead::FixedSafeString<20> _1ef0;
+    /* 0x1f18 */ sead::FixedSafeString<20> _1f18;  // current horn animation (sub_710000EA88)
     /* 0x1f40 */ u8 _1f40[0x1f4c - 0x1f40];
     // FC70 writes these; calcMaybe D5E0 passes them in s0/s1 to6FD6BC.
     /* 0x1f4c */ f32 _1f4c;

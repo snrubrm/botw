@@ -67,6 +67,22 @@ bool Dragon::sub_710000F70C(int idx) {
 }
 
 // NON_MATCHING: we merge the two adjacent -1.0f stores into one 64-bit store and schedule the copies' loads differently.
+// Placeholder name: switches the horn animation (AS slot 5) to `name` when it changes, then sub_710000D474.
+void Dragon::sub_710000EA88(const sead::SafeString& name) {
+    if (name.isEmpty())
+        return;
+    if (_1f18 == name)
+        return;
+    _1f18.copy(name);
+    mASList->startAnimationMaybe(-1.0f, -1.0f, _1f18, 5, 0, true);
+    sub_710000D474();
+}
+
+// Placeholder name: plays the "Appear" animation in AS slot 5, bank 2.
+void Dragon::sub_710000EC50() {
+    mASList->startAnimationMaybe(-1.0f, -1.0f, "Appear", 5, 2, true);
+}
+
 void Dragon::Unk_710000b710::sub_71006FB3FC(const sead::Matrix34f& matrix) {
     _20 = matrix;
     for (int i = 0; i < 3; ++i) {
