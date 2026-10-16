@@ -224,7 +224,7 @@ struct Unk_71002ef75c {
     // Layout from ChemicalWeaponRoot::calc_ / sub_7100348B18 (lane1 s28); everything else is unknown.
     /* 0x00 */ Weapon* _0;  // owner
     /* 0x08 */ Unk1* _8;
-    /* 0x10 */ u32 _10;
+    /* 0x10 */ f32 _10;  // RodRoot::sub_71005539C0 compares it with 0 while bit 0 of _18 is set
     /* 0x14 */ f32 _14;
     /* 0x18 */ u8 _18;  // flags (bit 0: charge used up; bit 3 starts the "ChemSwordChargeLoop" xlink)
 };

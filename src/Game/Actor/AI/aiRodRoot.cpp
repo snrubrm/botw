@@ -5,6 +5,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectRod.h"
 #include "Game/Actor/aiXlinkHandle.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -60,6 +61,37 @@ void RodRoot::calc_() {
     sub_71005539C0();
     sub_71005531E8();
     sub_7100553CF0();
+}
+
+// 0x71005539c0
+void RodRoot::sub_71005539C0() {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+
+    if (weapon->m188()) {
+        xlink::kill(_f0.mELink);
+        return;
+    }
+
+    if (auto* rod = sead::DynamicCast<act::Weapon>(mActor)) {
+        auto* charge = rod->_d38;
+        if (!charge || ((charge->_18 & 1) ? charge->_10 > 0.0f : !charge->sub_71002E999C())) {
+            xlink::kill(_f0.mELink);
+            sub_71012412E4(weapon, 0x1b, 0.0f, false);
+            return;
+        }
+    }
+
+    f32 value = 0.0f;
+    s32 max = 0;
+    if (auto* charge = weapon->_d38) {
+        value = charge->_14;
+        max = charge->sub_71002EF74C();
+    }
+    sub_71012412E4(weapon, 0x1b, value / max, false);
+    if (!_f0.mELink.isActive())
+        xlinkSearchAndEmit(weapon, "Active", 2, &_f0);
 }
 
 // NON_MATCHING: the original reloads handle->mUnit through the array base (ldr [x22, #0x130]) while we
