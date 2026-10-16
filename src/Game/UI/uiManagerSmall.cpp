@@ -1,3 +1,4 @@
+#include "Game/UI/euiCapturePane.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiTimer.h"
@@ -493,8 +494,35 @@ int Manager::handleMessage(const ksys::Message* message) {
 
 }  // namespace uking::ui
 
+// 0x71025d64e8 / 0x71025d64ec / 0x71025d6540 (placeholder names): flags of the gauge TU (direct adrp loads:
+// hidden visibility)
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64e8;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64ec;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6540;
+
+// 0x71009452c4
+bool sub_71009452C4() {
+    return sUnk_71025d64ec;
+}
+
 // 0x7100945364
 Unk_7102474fd8::Unk_7102474fd8() = default;
+
+// 0x7100945db8
+void Unk_7102474fd8::sub_7100945DB8() {
+    if (!uking::ui::sub_7100AA8F30()) {
+        sUnk_71025d64e8 = false;
+        sUnk_71025d64ec = false;
+        sUnk_71025d6540 = false;
+    }
+    if (_8 && _8->_91 != 0) {
+        for (auto& pane : _60)
+            pane._db = true;
+    }
+    (this->*_a0)();
+    _9d = false;
+    _9e = false;
+}
 
 // 0x7100945c98
 void Unk_7102474fd8::sub_7100945C98(bool a1) {

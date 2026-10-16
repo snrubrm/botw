@@ -303,6 +303,7 @@ public:
 
 namespace eui {
 class Animator;
+class CapturePane;
 class LayoutEx;
 class TraceGaugeControl;
 }  // namespace eui
@@ -325,6 +326,9 @@ public:
     // 0x7100945c98 (placeholder name): closes the layout if it is open or opening; with `a1`, also when it is not
     // closed
     void sub_7100945C98(bool a1);
+    // 0x7100945db8 (placeholder name): resets the TU's gauge flags (unless sub_7100AA8F30 holds), flags the capture
+    // panes of an open layout, runs the state function _a0 and clears _9d / _9e
+    void sub_7100945DB8();
     // 0x7100945ea4 (placeholder name): follows the trace gauge: stores its speed in _98 while it is not tracing,
     // otherwise stops tracing at _98 (or once it has caught up)
     void sub_7100945EA4();
@@ -357,7 +361,8 @@ public:
     /* 0x48 */ eui::Animator* _48 = nullptr;
     /* 0x50 */ eui::Animator* _50 = nullptr;
     /* 0x58 */ eui::Animator* _58 = nullptr;
-    /* 0x60 */ sead::PtrArrayImpl _60;
+    // capture panes whose _db flag sub_7100945DB8 sets
+    /* 0x60 */ sead::PtrArray<eui::CapturePane> _60;
     /* 0x70 */ void* _70 = nullptr;
     /* 0x78 */ void* _78 = nullptr;
     /* 0x80 */ f32 _80 = 1.0f;
@@ -375,6 +380,9 @@ public:
     /* 0xa0 */ void (Unk_7102474fd8::*_a0)() = nullptr;
     /* 0xb0 */ void* _b0 = nullptr;
 };
+
+// 0x71009452c4 (placeholder name): the gauge flag sUnk_71025d64ec of the gauge TU
+bool sub_71009452C4();
 
 // Placeholder: the common base of Unk_7102475050 and Unk_71024750c8. Both vtables have the slots m6 .. m12 after the
 // base's six, and the gauge helpers 0x7100945f78 / 0x7100946740 (in the base's TU) call m6 .. m9 and m12 on `this`;
