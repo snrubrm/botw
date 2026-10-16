@@ -950,7 +950,12 @@ public:
     // 0x71011188cc (placeholder name): orders area nodes by mId (x_3 0x7101114cc8 sorts _1018 with it
     // through 0x71011200e8).
     static s32 sub_71011188CC(const Unk_7101106F44* a, const Unk_7101106F44* b);
+    // 0x71011128c4: ApertureMapsCollector::allocateImage on every slot (OverlayArenaSystem calls it with
+    // the TeraWork heap).
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
+    // 0x7101112948 (name by analogy with allocateApertureMapsCollectorImage): releaseImage on every slot
+    // (called by OverlayArenaSystem 0x7100fdf1e0).
+    void releaseApertureMapsCollectorImage(bool free_memory);
     // 0x710111e04c: under the write lock, resets the scenes, sets the image directory from `dir` and
     // parses the scene XML; unless `keep_flags`, flags the images no node can provide (pre-order walk
     // 4). Then x_2 (unless Terrain flag 1) and x_3. Signature from the callees: `heap` is passed to

@@ -10,6 +10,18 @@
 
 namespace ksys::tera {
 
+void System::allocateApertureMapsCollectorImage(sead::Heap* heap) {
+    const u32 count = mScenes.size();
+    for (u32 i = 0; i < count; ++i)
+        mScenes[i].collector->allocateImage(heap);
+}
+
+void System::releaseApertureMapsCollectorImage(bool free_memory) {
+    const u32 count = mScenes.size();
+    for (u32 i = 0; i < count; ++i)
+        mScenes[i].collector->releaseImage(free_memory);
+}
+
 void System::sub_7101112A74() {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
