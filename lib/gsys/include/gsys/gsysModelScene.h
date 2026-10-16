@@ -4,6 +4,10 @@
 #include <cstddef>
 #include "gsys/gsysModelSceneEnv.h"
 
+namespace agl::pfx {
+class DepthOfField;
+}
+
 namespace gsys {
 
 // A scene that model units are bound to and drawn in. The object is 0x5f20 bytes (the function at 0x7100c0d920
@@ -22,7 +26,13 @@ public:
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor
 
-    u8 _1288[0x52e0 - 0x1288];
+    u8 _1288[0x3428 - 0x1288];
+
+    // Null when the scene has no depth of field. 0x7100c2b674 / 0x7100c2b63c pass it to
+    // DepthOfField::setIndirectTextureData; 0x7100c11a80 copies context parameters into it.
+    /* 0x3428 */ agl::pfx::DepthOfField* mDepthOfField;
+
+    u8 _3430[0x52e0 - 0x3430];
 
     // Placeholder type: the object at +0x52e0 (read by the accessor 0x7100c2ca78). Graphics::setRainRatio
     // 0x7100f2fcdc picks shader variation 2 when its byte at +0x230 is set.
@@ -41,6 +51,7 @@ public:
     u8 _5d84[0x5f20 - 0x5d84];
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
+static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);
 static_assert(offsetof(ModelScene, _52e0) == 0x52e0);
 static_assert(offsetof(ModelScene, mFlags) == 0x5d80);
 static_assert(sizeof(ModelScene) == 0x5f20);

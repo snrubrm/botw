@@ -20,6 +20,8 @@ public:
     // 0x00000071010d19b4
     void calcEntryJob();
     void sub_71010D20FC(float a, float b, float c);
+    // Inline in the original: Graphics::sub_7100F309FC (0x7100f30c04) reads the byte at +0x170.
+    bool get_170() const { return _170; }
 
 protected:
     void init_(sead::Heap* heap) override;

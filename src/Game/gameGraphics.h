@@ -242,6 +242,16 @@ public:
     // 0x7100f2ff08 (placeholder name; CSV Graphics::__auto7): stores ratio at 0xe88, passes 1 - scale to the
     // object at 0x370 and sets the depth / world shadow uking_dynamic parameters.
     void sub_7100F2FF08(f32 ratio, f32 scale);
+    // Placeholder name: the camera values 0x7100f30178 passes to sub_7100F309FC (camera +0x6c, the projection's
+    // fovy from its virtual getter at +0x30, Graphics +0x358).
+    struct DofCameraArg {
+        f32 focus_distance;
+        f32 fovy;
+        f32 f_number;
+    };
+    // 0x7100f309fc (placeholder name; CSV Graphics::__auto8): computes the near / far blur ranges of the depth of
+    // field from the camera and writes them to the first scene's agl::pfx::DepthOfField. False if the fovy is ~0.
+    bool sub_7100F309FC(const DofCameraArg& arg);
     // 0x7100f2faac (placeholder name): sets uking_dynamic_exposure unless the byte at 0xf5a is 4 (force skips the test).
     void sub_7100F2FAAC(f32 exposure, bool force);
 

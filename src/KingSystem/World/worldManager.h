@@ -225,6 +225,9 @@ public:
     // (+0x5c8 -> +0x30) without the bounds check of getEnvMgr().
     EnvMgr* getEnvMgrUnchecked() const { return static_cast<EnvMgr*>(mMgrs.unsafeAt(6)); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
+    // Inline-only in the original; name is a guess. Evidence: Graphics::sub_7100F309FC reads `mMgrs[7]`
+    // (+0x5c8 -> +0x38) without the bounds check of getDofMgr().
+    DofMgr* getDofMgrUnchecked() const { return static_cast<DofMgr*>(mMgrs.unsafeAt(7)); }
     // 0x71010f7930: the chemical manager's element holder.
     act::Unk_71024dd490* getElementHolderMaybe() const;
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }

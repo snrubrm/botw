@@ -7,6 +7,9 @@
 #include <nn/g3d/ResMaterial.h>
 #include <layer/aglLayer.h>
 #include <math/seadMathCalcCommon.h>
+#include <postfx/aglDepthOfField.h>
+#include "KingSystem/World/worldDofMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 Unk_7100f35df8::Unk_7100f35df8() = default;
 
@@ -96,6 +99,53 @@ void Graphics::setRainRatio(f32 ratio, f32 rainfall) {
     const bool raining = rain > 0.0f;
     const s32 variation = mModelScenes.front()->_52e0->_230 ? 2 : raining;
     _e98->setShaderAssignVariation(static_cast<gsys::ModelEnum::ShaderAssignType>(0), variation);
+}
+
+// NON_MATCHING: register allocation (the hyperfocal distance / rate share d12 instead of d14, the -0.1 / 0.9
+// constants take d13 / d14 instead of d12 / d13).
+bool Graphics::sub_7100F309FC(const DofCameraArg& arg) {
+    const f32 tan = std::tan(arg.fovy * 0.5f);
+    if (tan <= sead::Mathf::epsilon())
+        return false;
+
+    const f32 focal = 17.5f / tan;
+    const f32 hyperfocal = focal + focal * focal / (arg.f_number * 0.026f);
+    const f32 distance = arg.focus_distance * 1000.0f;
+    const f32 numerator = (distance - focal) * (distance - focal);
+
+    const f32 near_denominator = (distance + hyperfocal - 2.0f * focal) * 1000.0f;
+    const f32 near = near_denominator > 0.0f ? numerator / near_denominator : 100000.0f;
+    const f32 near_pow = sead::Mathf::powTable(near, 1.4f);
+    const f32 near_start = std::max(near + (near_pow - near) * -0.1f / 0.9f, 0.0f);
+
+    f32 far_start;
+    f32 far_end;
+    f32 rate;
+    const f32 far_denominator = (hyperfocal - distance) * 1000.0f;
+    if (far_denominator > 0.0f) {
+        const f32 far = numerator / far_denominator;
+        far_end = std::min(sead::Mathf::powTable(far, 1.4f), 3000.0f);
+        far_start = sead::Mathf::clamp(far + (far_end - far) * -0.1f / 0.9f, 0.0f, 1000.0f);
+        rate = 0.0f;
+    } else {
+        far_start = 1000.0f;
+        far_end = 3000.0f;
+        rate = 1.0f;
+    }
+
+    if (auto* dof = mModelScenes.front()->mDepthOfField) {
+        auto& param = dof->getParameter();
+        far_start += (1000.0f - far_start) * rate;
+        far_end += (3000.0f - far_end) * rate;
+        param.setEnableDofFar(true);
+        param.setStartEnd(far_start + arg.focus_distance, far_end + arg.focus_distance);
+        if (ksys::world::Manager::instance()->getDofMgrUnchecked()->get_170())
+            param.setEnableDofFarMax(true);
+        else
+            param.setEnableDofFarMax(false);
+        param.setFarStartEnd(arg.focus_distance - near_pow, arg.focus_distance - near_start);
+    }
+    return true;
 }
 
 void Graphics::setDynamicCloudRatio(f32 ratio) {
