@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -27,6 +29,9 @@ protected:
     bool sub_71000CD2A8(sead::Vector3f* pos);
     // 0x71000cd040 (placeholder name): updates _12c._3d8 for the 24 bound actors of the parent SiteBoss.
     void sub_71000CD040();
+    // 0x71000cdeec (placeholder name): moves the main body to `pos` (or _120 unless `use_pos`) with the
+    // rotation _dc turned by XRotateAngle about the x axis.
+    void sub_71000CDEEC(const sead::Vector3f& pos, bool use_pos);
 
     // static_param at offset 0x20
     const int* mRainMax_s{};
@@ -78,11 +83,12 @@ protected:
     bool _d2 = false;
     s32 _d4 = 0;
     s32 _d8 = 0;
-    u8 _dc[0x24];
+    sead::Matrix33f _dc;
     u64 _100 = 0;
     u64 _108 = 0;
     s32 _110 = 0;
-    u8 _114[0x18];
+    u8 _114[0xc];
+    sead::Vector3f _120;
     // Placeholder layout of the block at 0x12c (0x408 bytes, zero-initialised as a whole).
     struct Unk12c {
         u8 _0[0x3c0];

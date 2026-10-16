@@ -2,6 +2,8 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -99,6 +101,21 @@ bool BowChildArrowRain::isChangeable() const {
 
 void BowChildArrowRain::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void BowChildArrowRain::sub_71000CDEEC(const sead::Vector3f& pos, bool use_pos) {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+
+    sead::Matrix33f rotation_mtx = _dc;
+    sead::Matrix33f rotation;
+    rotation.makeR({*mXRotateAngle_d, 0, 0});
+    rotation_mtx.setMul(rotation_mtx, rotation);
+    sead::Matrix34f mtx(rotation_mtx, pos);
+    if (!use_pos)
+        mtx.setTranslation(_120);
+    body->changePositionAndRotation(mtx);
 }
 
 // NON_MATCHING: the original repeats the speed sqrt (dead) after the store; register allocation.
