@@ -34,7 +34,7 @@ void PlayerParashawlGlide::enter_(ksys::act::ai::InlineParamPack* params) {
                                                                            -1.0f);
     _1c = true;
 
-    auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+    auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
     const u32 had_flag = flags & 0x800000;
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
         actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
@@ -58,7 +58,7 @@ void PlayerParashawlGlide::enter_(ksys::act::ai::InlineParamPack* params) {
 // the same stack slot) before the `y > 0` test; no source form found.
 void PlayerParashawlGlide::leave_() {
     PlayerParashawlGlideBase::leave_();
-    auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+    auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
         actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     if (static_cast<ksys::act::Player*>(mActor)->_cf0.isOnBit(23))

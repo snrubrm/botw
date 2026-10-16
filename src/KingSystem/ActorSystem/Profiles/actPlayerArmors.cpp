@@ -489,7 +489,8 @@ bool PlayerArmors::sub_7100E30DA8() {
     return false;
 }
 
-void PlayerArmors::setActor(Actor* actor) {
+// The heap argument is unused.
+void PlayerArmors::setActor(Actor* actor, sead::Heap*) {
     _128 = actor;
 }
 

@@ -6,9 +6,6 @@
 // Link order puts these after mapDebug, apart from the actActorUtil block.
 
 bool checkIsGet(const sead::SafeString& name, bool mode);
-// 0x7100eea1f0 (declared only): sets IsGet_<name>. A matching body exists (FixedSafeString<96> flag_name{"IsGet_"};
-// append; Manager::setBoolSpecial(value, flag_name, mode, true)) but datarefs then flags the FixedSafeString<96>
-// vtable slots the original folded (identical code folding); left out until that fingerprint is accepted.
 void setIsGetFlagEx(const sead::SafeString& name, bool value, bool mode);
 
 // Source owner unknown: the event-flow caller uses this string prefix.
@@ -33,6 +30,14 @@ bool checkIsGet(const sead::SafeString& name, bool mode) {
         ref.get().getBuffer0()->getBool(&value, flag_name, ref.shouldCheckPermissions(), !mode);
     }
     return value;
+}
+
+// Sets IsGet_<name>.
+void setIsGetFlagEx(const sead::SafeString& name, bool value, bool mode) {
+    sead::FixedSafeString<96> flag_name{"IsGet_"};
+    flag_name.append(name);
+    if (auto* mgr = ksys::gdt::Manager::instance())
+        mgr->setBoolSpecial(value, flag_name, mode, true);
 }
 
 // Placeholder name: sets the IsGet flag of the actor's same-group name (or of the name itself).

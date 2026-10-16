@@ -46,6 +46,8 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/gameHeroSoul.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
@@ -338,13 +340,13 @@ const sead::Vector3f* Player::m245() {
 }
 
 bool Player::isRevivalFairyActive(ActorLinkConstDataAccess* accessor) {
-    if (acquireActor(&_2c48, accessor) && accessor->isStateCalc())
+    if (acquireActor(&mResidentActors[2], accessor) && accessor->isStateCalc())
         return true;
     return false;
 }
 
 bool Player::isZoraHeroActive(ActorLinkConstDataAccess* accessor) {
-    if (acquireActor(&_2c88, accessor) && accessor->isStateCalc())
+    if (acquireActor(&mResidentActors[6], accessor) && accessor->isStateCalc())
         return true;
     return false;
 }
@@ -1424,33 +1426,33 @@ void Player::sub_7100881DFC(f32 y, bool a2) {
     }
 }
 
-// Placeholder name: unless _c4c bit 9 is set, sends message 0x8000036 to the actors linked at _2c58 / _2c68 /
-// _2c78 / _2c88 / _2c48, then sets the bit.
+// Placeholder name: unless _c4c bit 9 is set, sends message 0x8000036 to the four HeroSoul actors and the
+// revival fairy (mResidentActors[3..6], [2]), then sets the bit.
 void Player::sub_7100861858() {
     if (_c4c.isOnBit(9))
         return;
     {
         ActorLinkConstDataAccess accessor;
-        acquireActor(&_2c58, &accessor);
+        acquireActor(&mResidentActors[3], &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
     }
     {
         ActorLinkConstDataAccess accessor;
-        acquireActor(&_2c68, &accessor);
+        acquireActor(&mResidentActors[4], &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
     }
     {
         ActorLinkConstDataAccess accessor;
-        acquireActor(&_2c78, &accessor);
+        acquireActor(&mResidentActors[5], &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
     }
     {
         ActorLinkConstDataAccess accessor;
-        acquireActor(&_2c88, &accessor);
+        acquireActor(&mResidentActors[6], &accessor);
         sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
     }
     ActorLinkConstDataAccess accessor;
-    acquireActor(&_2c48, &accessor);
+    acquireActor(&mResidentActors[2], &accessor);
     sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
     _c4c.setBit(9);
 }
@@ -2288,6 +2290,41 @@ f32 Player::sub_710086D138() {
 bool Player::sub_71008744D4() {
     auto* root = uking::Root4::instance();
     return root && !root->checkFlag(uking::Root4::FlagIdx::_1);
+}
+
+namespace {
+// Indexed like Player::mResidentActors.
+const char* sResidentActorNames[] = {
+    "PlayerStole2",
+    "WakeBoardRope",
+    "Dm_Npc_RevivalFairy",
+    "Dm_Npc_Gerudo_HeroSoul_Kago",
+    "Dm_Npc_Goron_HeroSoul_Kago",
+    "Dm_Npc_Rito_HeroSoul_Kago",
+    "Dm_Npc_Zora_HeroSoul_Kago",
+};
+}  // namespace
+
+void Player::initResidentActors() {
+    for (s32 i = 0; i < 7; ++i) {
+        auto* mgr = uking::ResidentActorMgr::instance();
+        if (!mgr || mResidentActors[i].hasProc())
+            continue;
+        auto* actor = mgr->getActorByName(sResidentActorNames[i]);
+        if (!actor)
+            continue;
+        mResidentActors[i].acquire(actor, false);
+        // The wake board rope stays awake.
+        if (i != 1)
+            actor->sleep(BaseProc::SleepWakeReason::_0);
+    }
+
+    _23e0.setActor(this, ActorHeapUtil::instance()->getMemoryResidentActorHeap());
+
+    const bool no_portable_unit = !gdt::getBoolByKey("IsGet_PortableUnit");
+    x_6(3, "Armor_Default_Extra_00", no_portable_unit);
+    x_6(4, "Armor_Default_Extra_01", no_portable_unit);
+    x_6(5, "Item_Conductor", no_portable_unit);
 }
 
 bool Player::sub_71008738BC() {

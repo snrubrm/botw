@@ -80,7 +80,7 @@ void PlayerStopInAir::leave_() {
         controller->sub_7100F5F6FC(static_cast<ksys::act::Player*>(mActor)->_1810);
     }
     if (static_cast<ksys::act::Player*>(mActor)->_17f0) {
-        auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+        auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
         if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
             actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }

@@ -988,13 +988,10 @@ public:
     /* 0x26a0 */ BaseProcLink _26a0;
     /* 0x26b0 */ RideInfo _26b0{this};  // getPlayerRideInfo
     /* 0x29a8 */ u8 _29a8[0x2c28 - 0x29a8];
-    /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
-    /* 0x2c38 */ BaseProcLink _2c38;
-    /* 0x2c48 */ BaseProcLink _2c48;  // isRevivalFairyActive
-    /* 0x2c58 */ BaseProcLink _2c58;
-    /* 0x2c68 */ BaseProcLink _2c68;
-    /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
-    /* 0x2c88 */ BaseProcLink _2c88;  // isZoraHeroActive
+    // Resident actors linked by initResidentActors: PlayerStole2 (woken / put to sleep by PlayerSuperJump /
+    // PlayerLand / PlayerFall), WakeBoardRope, Dm_Npc_RevivalFairy (isRevivalFairyActive), then the Gerudo /
+    // Goron / Rito (set up and woken by PlayerSuperJumpCharge::calc_) / Zora (isZoraHeroActive) HeroSoul_Kago.
+    /* 0x2c28 */ BaseProcLink mResidentActors[7];
     /* 0x2c98 */ BaseProcLink _2c98;
     /* 0x2ca8 */ u8 _2ca8[0x2d30 - 0x2ca8];
     /* 0x2d30 */ bool _2d30;  // look-at target active (sub_7100859EDC / sub_7100859FC0)

@@ -69,7 +69,7 @@ void PlayerSuperJumpCharge::calc_() {
     if (player->_1844.value > *mChargeTime_s) {
         player->_1cbe = 1;
         ksys::act::ActorLinkConstDataAccess accessor;
-        if (ksys::act::acquireActor(&static_cast<ksys::act::Player*>(mActor)->_2c78, &accessor) &&
+        if (ksys::act::acquireActor(&static_cast<ksys::act::Player*>(mActor)->mResidentActors[5], &accessor) &&
             accessor.hasProc() && accessor.isStateSleep()) {
             accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
             ksys::eft::searchAndEmitELink(mActor, "Kago_Wind");

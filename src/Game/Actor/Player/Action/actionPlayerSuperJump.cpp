@@ -25,7 +25,7 @@ void PlayerSuperJump::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
     static_cast<ksys::act::Player*>(mActor)->x_8(false, false);
 
-    auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+    auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
         actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
         sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000024), nullptr);
@@ -48,7 +48,7 @@ void PlayerSuperJump::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSuperJump::leave_() {
-    auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+    auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
         actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     mActor->getChemicalStuff()->_14c = 1.0f;

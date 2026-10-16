@@ -15,7 +15,7 @@ void PlayerWakeBoardReady::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("WakeBoarding", true, -1);
     if (!mActor->getConnectedCalcChild()) {
         ksys::act::ActorLinkConstDataAccess accessor;
-        ksys::act::acquireActor(&static_cast<ksys::act::Player*>(mActor)->_2c38, &accessor);
+        ksys::act::acquireActor(&static_cast<ksys::act::Player*>(mActor)->mResidentActors[1], &accessor);
         accessor.setThisActorAsChild(mActor, false);
         static_cast<ksys::act::Player*>(mActor)->_1870->_c0->_8 = mActor;
     }

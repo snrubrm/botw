@@ -73,7 +73,7 @@ void PlayerDemoAirWait::calc_() {
     if (static_cast<ksys::act::Player*>(mActor)->isShootingBow()) {
         if (mActor->getASList()->x_4(1, 1)) {
             static_cast<ksys::act::Player*>(mActor)->x_18(true);
-            auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+            auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
             if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
                 actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
             static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("ParaEquipOn", true,

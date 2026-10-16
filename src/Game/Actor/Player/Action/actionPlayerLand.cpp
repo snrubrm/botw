@@ -45,7 +45,7 @@ void PlayerLand::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
     static_cast<ksys::act::Player*>(mActor)->_211c = 0;
     if (static_cast<ksys::act::Player*>(mActor)->m194()) {
-        auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+        auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
         if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
             actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
     }
@@ -54,7 +54,7 @@ void PlayerLand::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerLand::leave_() {
     if (static_cast<ksys::act::Player*>(mActor)->m194()) {
         auto* player = static_cast<ksys::act::Player*>(mActor);
-        auto* proc = player->_2c28.getProc(nullptr, nullptr);
+        auto* proc = player->mResidentActors[0].getProc(nullptr, nullptr);
         if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
             actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }
@@ -66,7 +66,7 @@ void PlayerLand::calc_() {
                                    true) ||
             mActor->getASList()->x_1(1, 1) != "ParaEquipOff") {
             static_cast<ksys::act::Player*>(mActor)->_cec.reset(0x8000);
-            auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+            auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
             if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
                 actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         }

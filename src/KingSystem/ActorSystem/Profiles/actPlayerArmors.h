@@ -141,7 +141,7 @@ public:
     void sleepLastPart();
 
     // 0x7100e2d7fc (CSV setActor).
-    void setActor(Actor* actor);
+    void setActor(Actor* actor, sead::Heap* heap);
     // 0x7100e2e35c (declared only).
     void x_31(s32 slot, Actor* armor, bool flag);
 
