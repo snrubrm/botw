@@ -927,6 +927,11 @@ void ScreenMessageDialog::m101() {
     ksys::snd::Unk_710104e5b4::instance()->sub_710104F8C4(false);
 }
 
+// 0x71010b25c8
+// NON_MATCHING: scheduling at the start (the original masks the bool argument before the Screen ctor and stores
+// _308 / _338 / _348 earlier).
+ScreenMessageDialog::ScreenMessageDialog(bool a1) : Screen(), _76a(a1) {}
+
 // 0x71010b2b30
 s32 ScreenMessageDialog::sub_71010B2B30(const sead::SafeString& set_name,
                                       const sead::SafeString& message_name) {

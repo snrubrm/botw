@@ -1202,43 +1202,61 @@ public:
     const char* getLayoutName_() const override;
     void m99() override {}
 
+    // 0x71010b25c8 (CSV ScreenMessageDialog::ctor)
+    explicit ScreenMessageDialog(bool a1);
+
+    // 0x71010b2788 / 0x71010b2884 / 0x71010b2a40 (CSV unnamed; not decompiled): the dialog's tag callbacks
+    void sub_71010B2788(const sead::MessageSet<char16>::TagInfo* tag);
+    bool sub_71010B2884(const char16* text, s32 length);
+    u32 sub_71010B2A40(const sead::MessageSet<char16>::TagInfo* tag, sead::WBufferedSafeString* out);
+
     u8 _2fc[0x300 - 0x2fc];
     /* 0x300 */ eui::LetterAnimControl* _300 = nullptr;
     /* 0x308 */ eui::LetterAnimControl* _308 = nullptr;
-    u8 _310[0x350 - 0x310];
-    /* 0x350 */ s32 _350;
-    u8 _354[0x370 - 0x354];
+    /* 0x310 */ sead::Delegate1<ScreenMessageDialog, const sead::MessageSet<char16>::TagInfo*> _310{
+        this, &ScreenMessageDialog::sub_71010B2788};
+    /* 0x330 */ sead::Delegate2R<ScreenMessageDialog, const char16*, s32, bool> _330{
+        this, &ScreenMessageDialog::sub_71010B2884};
+    /* 0x350 */ s32 _350 = 10;
+    u8 _354[0x358 - 0x354];
+    u8 _358[0x370 - 0x358] = {};
     // The "Type" animator (created in 0x71010b34f0); its frame selects the dialog frame style
-    /* 0x370 */ eui::Animator* _370;
-    u8 _378[0x3a0 - 0x378];
+    /* 0x370 */ eui::Animator* _370 = nullptr;
+    u8 _378[0x3a0 - 0x378] = {};
     // The message being scanned (its mString/_8 are walked by sub_71010B307C/3294 as text/length;
     // sub_71010B2B30 assigns it as a whole).
     /* 0x3a0 */ eui::MessageString _3a0;
     // The constructor points each string at its inline buffer and sets capacity 256.
     /* 0x3b0 */ sead::FixedSafeString<256> _3b0;
     /* 0x4c8 */ sead::FixedSafeString<256> _4c8;
-    /* 0x5e0 */ s32 _5e0 = 0;
-    u8 _5e4[0x5ec - 0x5e4];
-    /* 0x5ec */ s32 _5ec;
-    u8 _5f0[0x720 - 0x5f0];
+    /* 0x5e0 */ s32 _5e0 = -1;
+    /* 0x5e4 */ s32 _5e4 = 0;
+    /* 0x5e8 */ s32 _5e8 = 0;
+    /* 0x5ec */ s32 _5ec = -1;
+    u8 _5f0[0x718 - 0x5f0];
+    /* 0x718 */ s32 _718 = 0;
     // The dialog's actor (set by sub_71010B306C, linked by _728).
-    /* 0x720 */ ksys::act::Actor* _720;
+    /* 0x720 */ ksys::act::Actor* _720 = nullptr;
     /* 0x728 */ ksys::act::BaseProcLink _728;
-    /* 0x738 */ s32 _738;
-    /* 0x73c */ s32 _73c;
+    /* 0x738 */ s32 _738 = -1;
+    /* 0x73c */ s32 _73c = 0;
     // Vertical text offset, initialized to 3.0f and written to the output pane.
     /* 0x740 */ f32 _740 = 3.0f;
-    u8 _744[0x768 - 0x744];
-    /* 0x768 */ u16 _768;
+    /* 0x744 */ s32 _744 = 0;
+    /* 0x748 */ sead::Delegate2R<ScreenMessageDialog, const sead::MessageSet<char16>::TagInfo*,
+                                  sead::WBufferedSafeString*, u32>
+        _748{this, &ScreenMessageDialog::sub_71010B2A40};
+    /* 0x768 */ u16 _768 = 0xffff;
     /* 0x76a */ bool _76a;
-    u8 _76b[0x76d - 0x76b];
-    /* 0x76d */ u8 _76d;
-    u8 _76e[0x772 - 0x76e];
-    /* 0x772 */ u8 _772;
-    /* 0x773 */ u8 _773;
-    /* 0x774 */ s32 _774;
+    u8 _76b[0x76d - 0x76b] = {};
+    /* 0x76d */ u8 _76d = 0;
+    u8 _76e[0x772 - 0x76e] = {};
+    /* 0x772 */ u8 _772 = 0;
+    /* 0x773 */ u8 _773 = 0;
+    /* 0x774 */ s32 _774 = 0;
     // Created by ScreenBase::doCreateTagProcessor_ in 0x71010b34f0.
-    /* 0x778 */ TagProcessor* _778;
+    /* 0x778 */ TagProcessor* _778 = nullptr;
+    /* 0x780 */ void* _780 = nullptr;
 
     // 0x71010b2b30: set the message archive / message name and populate the letter controls.
     s32 sub_71010B2B30(const sead::SafeString& set_name, const sead::SafeString& message_name);
