@@ -16,6 +16,7 @@
 #include <hostio/seadHostIONode.h>
 #include <container/seadOffsetList.h>
 #include <container/seadTreeMap.h>
+#include <prim/seadXmlDocument.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadReadWriteLock.h>
 #include <thread/seadThread.h>
@@ -812,7 +813,22 @@ public:
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
     s32 sub_71011188E4() const;
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
-    void loadScene();
+    // 0x710111e04c: under the write lock, resets the scenes, sets the image directory from `dir` and
+    // parses the scene XML; unless `keep_flags`, flags the images no node can provide (pre-order walk
+    // 4). Then x_2 (unless Terrain flag 1) and x_3. Signature from the callees: `heap` is passed to
+    // parseSceneXmlMaybe and on to 0x7101140414 (operator new[]), `doc`'s root (+0x8) is the XML element.
+    bool loadScene(sead::Heap* heap, const sead::XmlDocument* doc, const sead::SafeString& dir,
+                   bool keep_flags);
+    // 0x710111ab00 (declaration only; CSV name): reads the scene element (named "scene").
+    bool parseSceneXmlMaybe(sead::Heap* heap, sead::XmlElement* element);
+    // 0x7101114cc8 (declaration only; CSV name).
+    void x_3();
+    // 0x710111e960 (placeholder name): loadScene for a binary scene ("TSCB", parsed by sub_710111DD0C).
+    // `size` (x3) is not used.
+    bool sub_710111E960(sead::Heap* heap, const u8* data, size_t size, const sead::SafeString& dir,
+                        bool keep_flags);
+    // 0x710111dd0c (declaration only; placeholder name): parses a "TSCB" binary scene (version 10).
+    bool sub_710111DD0C(sead::Heap* heap, const u8* data);
     // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
     bool sub_710111F618(s32 index);
 

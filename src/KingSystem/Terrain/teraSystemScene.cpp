@@ -102,6 +102,56 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
     mLock.writeUnlock();
 }
 
+// NON_MATCHING: the delegate set-up is scheduled differently.
+bool System::loadScene(sead::Heap* heap, const sead::XmlDocument* doc, const sead::SafeString& dir,
+                       bool keep_flags) {
+    mLock.writeLock();
+    sub_7101112714(nullptr);
+    Terrain::instance()->_380->sub_71011382EC();
+    sub_7101119278(dir, !keep_flags);
+
+    bool ok = false;
+    if (parseSceneXmlMaybe(heap, doc->getRoot())) {
+        if (!keep_flags) {
+            Unk_710111E168 context{this, true};
+            sead::Delegate1R<Unk_710111E168, Unk_7101106F44*, s32> delegate(
+                &context, &Unk_710111E168::sub_710111E168);
+            _8->sub_7101107DB0(4, &delegate);
+        }
+        if (!(Terrain::instance()->_a58 & 1))
+            x_2();
+        x_3();
+        ok = true;
+    }
+    mLock.writeUnlock();
+    return ok;
+}
+
+// NON_MATCHING: as loadScene.
+bool System::sub_710111E960(sead::Heap* heap, const u8* data, size_t size, const sead::SafeString& dir,
+                            bool keep_flags) {
+    mLock.writeLock();
+    sub_7101112714(nullptr);
+    Terrain::instance()->_380->sub_71011382EC();
+    sub_7101119278(dir, !keep_flags);
+
+    bool ok = false;
+    if (sub_710111DD0C(heap, data)) {
+        if (!keep_flags) {
+            Unk_710111E168 context{this, true};
+            sead::Delegate1R<Unk_710111E168, Unk_7101106F44*, s32> delegate(
+                &context, &Unk_710111E168::sub_710111E168);
+            _8->sub_7101107DB0(4, &delegate);
+        }
+        if (!(Terrain::instance()->_a58 & 1))
+            x_2();
+        x_3();
+        ok = true;
+    }
+    mLock.writeUnlock();
+    return ok;
+}
+
 // NON_MATCHING: register allocation.
 s32 System::Unk_710111E168::sub_710111E168(Unk_7101106F44* area) {
     System* sys = system;
