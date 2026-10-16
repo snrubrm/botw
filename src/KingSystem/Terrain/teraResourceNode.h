@@ -117,6 +117,10 @@ struct TextureSamplerArgMaybe {
 // (texture coordinates of mip `level`, wrapped once into range).
 f32 sub_710110979C(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level);
 
+// 0x710110b814 (placeholder name): samples a four-byte texel of mip `level` at `uv`: bytes 0, 1 and 3 from
+// the nearest texel, byte 2 bilinearly filtered; returned as (b0 << 24) | (b1 << 16) | (b2 << 8) | b3.
+u32 sub_710110B814(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level);
+
 // 0x710110de64 (placeholder name): fills `table` from `texture` (image and mip addresses, level sizes);
 // unused levels are cleared.
 void sub_710110DE64(TextureMipTableMaybe* table, const agl::TextureData& texture);

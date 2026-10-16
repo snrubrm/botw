@@ -99,6 +99,43 @@ f32 sub_710110979C(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level) {
     return top + fy * (bottom - top);
 }
 
+// NON_MATCHING: instruction order and register allocation (float code).
+u32 sub_710110B814(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level) {
+    const TextureMipTableMaybe* table = arg->table;
+    const auto& mip = table->levels[level];
+    const f32 width = mip.width;
+    const f32 height = mip.height;
+    const f32 x = (u - mip.half_texel_x) * width;
+    const f32 y = (v - mip.half_texel_y) * height;
+
+    u32 ix, iy;
+    const f32 fx = wrapTexelMaybe(&ix, x, width);
+    const f32 fy = wrapTexelMaybe(&iy, y, height);
+
+    const u32 max = mip.height - 1;
+    const u32 row0 = sead::Mathu::min(iy, max) * mip.pitch;
+    const u32 col0 = sead::Mathu::min(ix, max) * table->_154;
+    const u32 col1 = sead::Mathu::min(ix + 1, max) * table->_154;
+    const u32 row1 = sead::Mathu::min(iy + 1, max) * mip.pitch;
+    const u8* p00 = &mip.address[row0 + col0];
+    const u8* p01 = &mip.address[row0 + col1];
+    const u8* p10 = &mip.address[row1 + col0];
+    const u8* p11 = &mip.address[row1 + col1];
+
+    const u8* row = fx >= 0.5f ? p01 : p00;
+    const u8* row_next = fx >= 0.5f ? p11 : p10;
+    const u8* nearest = fy >= 0.5f ? row_next : row;
+
+    const f32 a00 = sead::Mathf::min((p00[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 a01 = sead::Mathf::min((p01[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 top = a00 + fx * (a01 - a00);
+    const f32 a10 = sead::Mathf::min((p10[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 a11 = sead::Mathf::min((p11[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 value = top + fy * ((a10 + fx * (a11 - a10)) - top);
+    const u32 blended = value >= 0.0f ? u32(s32(sead::Mathf::min(value, 1.0f) * 255.0f + 0.5f)) << 8 : 0;
+    return u32(nearest[0]) << 24 | u32(nearest[1]) << 16 | nearest[3] | blended;
+}
+
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system) {
     if (!system->_8)
