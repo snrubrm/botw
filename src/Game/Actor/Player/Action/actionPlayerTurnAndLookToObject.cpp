@@ -85,8 +85,7 @@ bool PlayerTurnAndLookToObject::isChangeable() const {
     return false;
 }
 
-// NON_MATCHING: the original keeps the "DemoTurn" / "DemoTurnNatural" choice as branches (ours: csel) and loads the
-// z component of `front` as an int before the x multiply.
+// NON_MATCHING: the original keeps the "DemoTurn" / "DemoTurnNatural" choice as branches (ours: csel).
 void PlayerTurnAndLookToObject::m40() {
     auto* controller = mActor->getCharacterController();
     if (_d8) {
@@ -95,7 +94,8 @@ void PlayerTurnAndLookToObject::m40() {
     }
     _38.y = 0.0f;
     _38.normalize();
-    sead::Vector3f front(mActor->getMtx().m[0][2], 0.0f, mActor->getMtx().m[2][2]);
+    sead::Vector3f front = mActor->getMtx().getBase(2);
+    front.y = 0.0f;
     front.normalize();
     sead::Vector3f axis;
     f32 angle;
@@ -116,7 +116,7 @@ void PlayerTurnAndLookToObject::m40() {
     }
 }
 
-// NON_MATCHING: as m40, the z component of `front` is loaded as an int; mActor is loaded once for both branches.
+// NON_MATCHING: mActor is loaded once for both branches (the original reloads it in each).
 void PlayerTurnAndLookToObject::m41(ksys::phys::CharacterController* controller) {
     auto* player = static_cast<ksys::act::Player*>(mActor);
     player->_20bc.value = 0;
@@ -131,7 +131,8 @@ void PlayerTurnAndLookToObject::m41(ksys::phys::CharacterController* controller)
     }
 
     if (!_d9) {
-        sead::Vector3f front(mActor->getMtx().m[0][2], 0.0f, mActor->getMtx().m[2][2]);
+        sead::Vector3f front = mActor->getMtx().getBase(2);
+        front.y = 0.0f;
         front.normalize();
         sead::Vector3f axis;
         f32 angle;
