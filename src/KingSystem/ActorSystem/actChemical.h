@@ -169,7 +169,7 @@ public:
     // 0x7100d9054c (declaration only, 604 bytes): refreshes values from the owner (_18 slots 26 / 23).
     void sub_7100D9054C();
     // 0x7100d91360: `_1c8->_1a`, or byte 0x182 while _c0 is 2, else 0.
-    u8 sub_7100D91360() const;
+    s32 sub_7100D91360() const;  // lane4 s102: s32 (sub_7100739634 stores the result without a zero-extension)
     sead::Vector3f sub_7100D9155C() const;
     // 0x7100d9cb54 (declared only): `world->...(chemical)`: whether `chemical` is one the chemical world watches
     // (`world` is `_60`).

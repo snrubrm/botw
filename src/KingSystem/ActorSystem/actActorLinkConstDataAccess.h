@@ -334,7 +334,7 @@ public:
     bool sub_7100D12F08(int idx) const;
     bool sub_7100D13290(int idx) const;
     bool sub_7100D1336C(int idx) const;
-    u8 sub_7100D134F8(int idx) const;
+    s32 sub_7100D134F8(int idx) const;
     f32 sub_7100D135A0(int idx) const;
     bool sub_7100D13654(int idx) const;
     bool sub_7100D1370C(int idx) const;

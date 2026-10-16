@@ -1109,7 +1109,7 @@ bool ActorLinkConstDataAccess::sub_7100D1336C(int idx) const {
 }
 
 // 0x7100d134f8
-u8 ActorLinkConstDataAccess::sub_7100D134F8(int idx) const {
+s32 ActorLinkConstDataAccess::sub_7100D134F8(int idx) const {
     auto* actor = getActor();
     if (!actor)
         return 0;

@@ -500,7 +500,7 @@ void Chemical::sub_7100D91390(f32 value) {
 }
 
 // NON_MATCHING: the original forms the addresses (`add x8, x0, #0x182`, pre-indexed `ldrb [x8, #0x1a]!`) before the loads
-u8 Chemical::sub_7100D91360() const {
+s32 Chemical::sub_7100D91360() const {
     if (_1c8)
         return _1c8->_1a;
     if (_c0 == 2)

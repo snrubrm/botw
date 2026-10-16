@@ -5,6 +5,8 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/actDragon.h"
@@ -916,6 +918,83 @@ const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_7100739578(ksys::act::Actor
     if (!sub_71007A2604(actor))
         return nullptr;
     return sub_71007A255C(actor, 0);
+}
+
+// NON_MATCHING: compare order of the switch (the original tests 2, 6, 4) and the _18 flag test (word load).
+bool sub_7100739634(Unk_7100739634Result* out, const ksys::act::Chemical* chemical,
+                    const ksys::act::ActorAtk::Unk_710079e64c::Unk1* atk, const bool* flags) {
+    if (!atk)
+        return false;
+
+    bool skip = false;
+    if (!flags || flags[1])
+        skip = (atk->_18 & 1) ? true : (atk->_18 >> 1 & 1);
+
+    if (chemical->sub_7100D91080())
+        return false;
+    if (!(chemical->_8 & 2))
+        return false;
+
+    const s32 id = atk->_f8;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&atk->_e8, &accessor);
+    if (accessor.sub_7100D12F08(-1) && !accessor.hasTag(0x19f6c13a))
+        return false;
+
+    s32 value;
+    switch (accessor.sub_7100D131D0(id)) {
+    case 2:
+        if (skip)
+            return false;
+        out->kind = 2;
+        out->_4 = accessor.sub_7100D134F8(id);
+        value = ((chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1)) ||
+                        (flags && flags[0]) ?
+                    1 :
+                    2;
+        break;
+    case 6:
+        if (skip)
+            return false;
+        if (!accessor.sub_7100D1370C(id))
+            return false;
+        out->kind = 3;
+        out->_4 = 1;
+        value = (chemical->_be & 2) ? 2 : ((chemical->mMaterial->attribute.ref() >> 22) & 1) + 1;
+        break;
+    case 4:
+        if (skip)
+            return false;
+        if (accessor.sub_7100D0FFDC(id)) {
+            out->kind = 2;
+            out->_4 = 3;
+            value = ((chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1)) ||
+                            (flags && flags[0]) ?
+                        1 :
+                        2;
+            break;
+        }
+        // fallthrough
+    default:
+        if (accessor.sub_7100D13080() <= 0.0f)
+            return false;
+        if (atk->sub_71007A1F68(0x800)) {
+            if ((flags != nullptr & skip) && !flags[2])
+                return false;
+            out->_18 = true;
+        } else if (skip) {
+            return false;
+        }
+        out->kind = 4;
+        out->_4 = 1;
+        out->_c = 1;
+        return true;
+    }
+
+    out->_c = value;
+    if (atk->sub_71007A1F68(0x800))
+        out->_18 = true;
+    return true;
 }
 
 void sub_7100739108(ksys::act::AttackSensor* sensor) {

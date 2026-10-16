@@ -18,6 +18,7 @@ class AttackSensor;
 
 namespace ksys::act {
 class Actor;
+class Chemical;
 class ActorLinkConstDataAccess;
 class BaseProcLink;
 class BaseProcHandle;
@@ -398,6 +399,23 @@ u32 sub_710072C21C(f32* out_height, const sead::Vector3f* pos);
 /// object's +0x6c selects it; falls back to ActorAtk entry 0 when the actor has attack info), or
 /// null. Its first three floats are the attack position. Placeholder name.
 const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_7100739578(ksys::act::Actor* actor);
+
+/// Placeholder (lane4 s102): result of sub_7100739634. NPCAvoid's 0x71004c24ac builds it on the stack with
+/// zeroes, `_14 = -1` and `_18 = false`, and reads `kind`.
+struct Unk_7100739634Result {
+    /* 0x00 */ s32 kind;  // 2, 3 or 4
+    /* 0x04 */ s32 _4;
+    /* 0x08 */ s32 _8;
+    /* 0x0c */ s32 _c;  // 1 or 2
+    /* 0x10 */ s32 _10;
+    /* 0x14 */ s32 _14;
+    /* 0x18 */ bool _18;  // attack flag 0x800 (_50) set
+};
+/// 0x7100739634 (lane4 s102; placeholder name): classifies the attack `atk` (attacker `_e8`, id `_f8`)
+/// against `chemical` for the damage reaction; false when it does not apply. `flags` (optional, three
+/// bools) relaxes the checks.
+bool sub_7100739634(Unk_7100739634Result* out, const ksys::act::Chemical* chemical,
+                    const ksys::act::ActorAtk::Unk_710079e64c::Unk1* atk, const bool* flags);
 
 /// 0x710073de08 (lane1 s22): clears stasis flags 0x10 and 0x4 (Actor 0x71011d0228) and sets
 /// ActorFlag2 0x10000. Placeholder name.
