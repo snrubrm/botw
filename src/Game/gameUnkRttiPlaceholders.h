@@ -2714,8 +2714,7 @@ public:
     // Called by the BGM controllers (ksys::snd::Unk_710260f130 / Unk_710260f150) on their kind 18 BGM.
     void sub_710100215C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
     void sub_7101002194();
-    // 0x7101002274 (declared only: in our TU layout Unk_710260f130::sub_7100FF9F0C would inline it): sets bit 3 of
-    // _1f4 and _1ec to the info's PlayWaitSec.
+    // 0x7101002274: sets bit 3 of _1f4 and _1ec to the info's PlayWaitSec.
     void sub_7101002274();
     // 0x7101002244: in state 3 / 4 with _160[1] above the info's VolumeNormal.
     bool m10() override;

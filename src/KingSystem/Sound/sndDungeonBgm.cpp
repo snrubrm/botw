@@ -134,6 +134,11 @@ void Unk_71024fd6c8::m13(f32 fade_sec) {
     mState = 0;
 }
 
+void Unk_71024fd6c8::sub_7101002274() {
+    _1f4 |= 8;
+    _1ec = mInfo->mPlayWaitSec.ref();
+}
+
 bool Unk_71024fd6c8::m10() {
     if (_124 != 3 && _124 != 4)
         return false;
