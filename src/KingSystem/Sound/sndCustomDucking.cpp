@@ -13,6 +13,18 @@ Unk_710103b76c::Unk_710103b76c() = default;
 
 Unk_710103b704::~Unk_710103b704() = default;
 
+// NON_MATCHING: the original clamps the entry index to 0..7 (as a SafeArray would); with a SafeArray here the
+// Unk_710103b76c constructor no longer matches.
+void Unk_710103b704::sub_710103D324(UiSoundKind kind) {
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEventSkip, _5d9);
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEventSkipBeam, _5d9);
+    _5d9 = false;
+    if (_5c8 < 0)
+        return;
+    if (_8._0[_5c8]._0 == "Demo346_4")
+        _620 = kind.value == 1 ? 1.0f : 0.5f;
+}
+
 void Unk_710103b704::sub_710103BA44() {
     if (_5cc && --_5cc == 0)
         sub_710103BB00(_5d0, _5d4);

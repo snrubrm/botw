@@ -656,13 +656,13 @@ public:
     // 0x710103b76c: only the strings are initialised.
     Unk_710103b76c();
 
-private:
     struct Entry {
         sead::FixedSafeString<64> _0;
         sead::FixedSafeString<64> _58;
         u8 _b0[8];
     };
 
+    // Indexed by Unk_710103b704::_5c8.
     Entry _0[8];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b76c, 0x5c0);
@@ -705,6 +705,8 @@ public:
     void sub_710103D094();
     // 0x710103d0d8 / 0x710103d324 (declared only): the UI sound kind handed over by SoundMgr (see sub_71011FC0C0).
     void sub_710103D0D8(UiSoundKind kind);
+    // 0x710103d324: applies and clears the event skip duckers; for the "Demo346_4" entry, _620 = 1 for kind 1,
+    // else 0.5.
     void sub_710103D324(UiSoundKind kind);
     // 0x710103d418: starts the ducker 0x1f.
     void sub_710103D418();
