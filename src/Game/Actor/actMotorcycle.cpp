@@ -16,6 +16,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -74,6 +75,29 @@ static SpeedCurve7 sUnk_7102361220;
 // NON_MATCHING: everything matches except the shared cleanup block of the ray cast query (we merge the early-return
 // and the fall-through destructor calls behind a flag, the original keeps two copies)
 // NON_MATCHING: only the scheduling of the second cross product
+void Motorcycle::x_9(bool on) {
+    if (_f88.getDirect() & 0x300)
+        return;
+    _f88.change(0x100, on);
+    _f88.change(1, !on);
+    if (_f88.isOn(0x100)) {
+        if (auto* unk = get6b8())
+            unk->_8a |= 3;
+    }
+}
+
+void Motorcycle::m164(ksys::phys::NavMeshCharacter::InitArg* arg) {
+    arg->_18 = 2.0f;
+    arg->_1c = 5.0f;
+    arg->_20 = 0;
+    arg->_28 = _bb8->getMaxLinearVelocity() + 1.0f;
+    arg->_24 = _bb8->getMaxLinearVelocity();
+    arg->_2c = 200.0f;
+    arg->_30 = 50.0f;
+    arg->_34 = 3.0f;
+    arg->_50 = 1;
+}
+
 void Motorcycle::sub_710007C330() {
     _dfc = _df8 = getParam()->getRes().mGParamList->getMotorcycle()->mManualWheelieRiseDegDelta.ref();
     _df0 = 0;
