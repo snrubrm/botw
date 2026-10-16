@@ -1,5 +1,7 @@
 #include "Game/Actor/Action/actionRandomJump.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -15,8 +17,46 @@ bool RandomJump::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: stack layout and register allocation (one more callee-saved register in ours).
 void RandomJump::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _78 = 0;
+    auto* cc = mActor->getCharacterController();
+    if (!cc) {
+        setFailed();
+        return;
+    }
+
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    const f32 angle_limit = *mAngleLimit_s;
+    const f32 angle = angle_limit * 2 * sead::GlobalRandom::instance()->getF32() - angle_limit;
+    const f32 distance =
+        *mDistanceMaxOffset_s * sead::GlobalRandom::instance()->getF32() + *mDistanceMin_s;
+    const f32 height =
+        *mHeightMin_s + *mHeightMaxOffset_s * sead::GlobalRandom::instance()->getF32();
+
+    sead::Vector3f dir = mActor->getMtx().getBase(2);
+    ksys::util::sub_71011EFA00(&dir, dir, getUpDir(cc->get70()));
+    ksys::util::sub_71011EF010(&dir, angle);
+    dir.normalize();
+    _a0 = dir;
+
+    const sead::Vector3f target = pos + dir * distance;
+    f32 speed;
+    f32 time = 0.0f;
+    const sead::Vector3f gravity = getGravity(mActor) * (1.0f / 900.0f);
+    const f32 value =
+        sub_710072CD88(height, &speed, &time, &pos, &target, &gravity) ? speed : 0.0f;
+    _60.value = _60.prev_value = value;
+    _60.updateStats();
+    cc->sub_7100F5EDD8(1.0f);
+    cc->sub_7100F5E7F0(_60.value * 30.0f);
+    sub_710072C1B4(cc, dir);
+    cc->sub_7100F62B70(height);
+    cc->sub_7100F5EF08(true);
+    sub_710073FA90(&_7c, mActor);
+    _ac = false;
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void RandomJump::leave_() {
