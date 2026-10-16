@@ -1,6 +1,10 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace ksys::evt {
 
@@ -15,6 +19,83 @@ EventXlinkInfo::~EventXlinkInfo() {
     _8.deleteProc();
     _28.freeBuffer();
     _38.freeBuffer();
+}
+
+// NON_MATCHING: block placement (the original moves the XLink reader block after the shared return and masks the
+// returned bool there).
+// 0x7100dc9208: loads the resources and the actor; true once done (or when there is nothing to load)
+bool EventXlinkInfo::finishLoad(bool a1) {
+    if (_c8.isEmpty() && _48.isEmpty())
+        return true;
+    if (!_181)
+        return false;
+
+    if (_170) {
+        if (!_120.isReady())
+            return false;
+        _170 = false;
+    }
+
+    bool done;
+    if (_182) {
+        done = false;
+    } else {
+        done = a1;
+        if (sub_7100DC9404()) {
+            done = false;
+            _182 = true;
+        }
+    }
+
+    if (_c0) {
+        if (!_a0.sub_7101057258(_48, nullptr))
+            return false;
+        _c0 = false;
+    }
+
+    if (done)
+        return true;
+    if (!_182)
+        return false;
+    if (!_8.isAllocatedOrFailed())
+        return true;
+
+    if (!_8.isProcReady()) {
+        const bool failed = _8.hasProcCreationFailed();
+        if (!a1 && failed) {
+            _182 = false;
+            if (sub_7100DC9404())
+                _182 = true;
+            return false;
+        }
+        return failed;
+    }
+
+    auto* actor = static_cast<act::Actor*>(_8.releaseProc());
+    actor->getActorFlags2().set(act::Actor::ActorFlag2::NoDistanceCheck);
+    _18.acquire(actor, false);
+    if (_a0._18 & 1) {
+        if (auto* xlink = sub_7100DC9628())
+            xlink->sub_710123051C(&_a0);
+    }
+    return true;
+}
+
+// NON_MATCHING: the temporary parameter names and the bool value use different stack slots (as in
+// ActorContextStuff::sub_710065DACC). The getHeap() result is discarded in the original too.
+// 0x7100dc9404: requests the DemoXLinkActor that plays the xlink:<_c8>,<_48> model user
+bool EventXlinkInfo::sub_7100DC9404() {
+    sead::FixedSafeString<128> model_user;
+    model_user.appendWithFormat("xlink:%s,%s", _c8.cstr(), _48.cstr());
+    act::InstParamPack params;
+    params->addModelUser(model_user);
+    if (_180) {
+        params->add(true, "@SB");
+        act::BaseProcHeapMgr::instance()->getHeap();
+    }
+    if (_8.hasProcCreationFailed())
+        _8.deleteProcIfFailed();
+    return act::ActorCreator::instance()->requestCreateActor("DemoXLinkActor", mHeap, &_8, &params, nullptr, 1);
 }
 
 // 0x7100dc96a0

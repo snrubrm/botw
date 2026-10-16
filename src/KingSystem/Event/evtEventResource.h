@@ -50,6 +50,8 @@ public:
     bool finishLoad(bool a1);
     // 0x7100dc9628: the XLink of the linked actor (null without an acquirable actor)
     xlink::XLink* sub_7100DC9628();
+    // 0x7100dc9404 (CSV unnamed; not decompiled): requests the actor; true when the request was made
+    bool sub_7100DC9404();
 
     // An element of the two arrays allocated by init2 (0x7100dc9828; three strings each)
     struct Entry {
