@@ -18,6 +18,8 @@
 #include "Game/Actor/actMotorcycle.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/E3Mgr.h"
 #include "Game/Actor/actArmorBase.h"
@@ -324,6 +326,43 @@ uking::act::Weapon* Player::m274() {
 uking::act::Weapon* Player::m275() {
     const int idx = playerWeapons_return2();
     return sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
+}
+
+void Player::m117(Unk117* arg) {
+    PlayerOrEnemy::m117(arg);
+    _23e0.sub_7100E31B9C(arg);
+    _26b0.sub_7100E7C4F8(arg);
+    if (m222()) {
+        if (auto* motorcycle_mgr = uking::MotorcycleMgr::instance())
+            motorcycle_mgr->sub_710067AF08(arg);
+    }
+    {
+        const int idx = playerWeapons_return0();
+        if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx)))
+            weapon->x_17(arg);
+    }
+    {
+        const int idx = playerWeapons_return1();
+        if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx)))
+            weapon->x_17(arg);
+    }
+    {
+        const int idx = playerWeapons_return2();
+        if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx)))
+            weapon->x_17(arg);
+    }
+    if (auto* subsys = GameSceneSubsys12::instance()) {
+        const s32 count = subsys->sub_710066358C();
+        for (s32 i = 0; i < count; ++i) {
+            auto* link = subsys->sub_7100664BC8(i);
+            if (!link)
+                continue;
+            if (auto* actor = sead::DynamicCast<Actor>(link->getProc(nullptr, nullptr)))
+                actor->x_17(arg);
+        }
+    }
+    if (auto* actor = sead::DynamicCast<Actor>(mResidentActors[0].getProc(nullptr, nullptr)))
+        actor->x_17(arg);
 }
 
 Actor* Player::m276(int idx) {
