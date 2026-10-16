@@ -5,6 +5,7 @@
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/gameUnk_710243c330.h"
+#include "Game/gameUnk_710243c698.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -90,7 +91,9 @@ public:
     /* 0x248 */ s32 _248;  // selected rune (-1: none)
     /* 0x24c */ s32 _24c;
     /* 0x250 */ bool _250;
-    /* 0x251 */ u8 _251[0x3c8 - 0x251];
+    /* 0x251 */ u8 _251[0x2a8 - 0x251];
+    // The remote bomb tracker (constructed at +0x2a8 by the RuneMgr constructor 0x7100675000).
+    /* 0x2a8 */ Unk_710243c698 _2a8;
     // The two UiTimers set by sub_71006757B8 (0x18 bytes each).
     /* 0x3c8 */ ui::UiTimer _3c8[2];
     /* 0x3f8 */ u8 _3f8[0x428 - 0x3f8];

@@ -62,9 +62,7 @@ void ExplodeReserved::calc_() {
 
 }  // namespace uking::action
 
-// Native sender copies follow ExplodeReserved in this translation unit.
-Unk_7102381468::~Unk_7102381468() = default;
-
+// Native sender copies follow ExplodeReserved in this translation unit (the destructor is inline in the header).
 void* Unk_7102381468::m2() {
     return &_18;
 }

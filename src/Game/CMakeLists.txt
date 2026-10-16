@@ -46,6 +46,8 @@ target_sources(uking PRIVATE
   gameMotorcycleMgr.h
   gameResetter.cpp
   gameRuneMgr.cpp
+  gameUnk_710243c698.cpp
+  gameUnk_710243c698.h
   gameRuneMgr.h
   gameResetter.h
   gameResidentActorMgr.cpp

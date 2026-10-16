@@ -39,6 +39,9 @@ public:
         : _8(&actor->getMessageTransceiver()), _10(ksys::MessageType(type)) {}
     // PriestBossGiantEnemyRoot::_268: constructed without a transceiver (set by its init_).
     explicit Unk_7102357d20(u32 type) : _8(nullptr), _10(ksys::MessageType(type)) {}
+    // lane4 s102: Unk_710243c698 (RuneMgr::_2a8) passes its own MessageTransceiverTxOnly (ctor 0x710067e0a8).
+    Unk_7102357d20(ksys::MessageTransceiverBase* transceiver, u32 type)
+        : _8(transceiver), _10(ksys::MessageType(type)) {}
     // The original keeps the base vtable store in every (inlined) destructor of this class, which a
     // defaulted destructor drops. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
     // { ; } (commit 96101229).
@@ -838,14 +841,18 @@ public:
     void* m2() override { return nullptr; }
 };
 
-// VT 0x2381468: RuneMgr::StructX embeds this sender at +0xf0.
-// Full producer/lifetimes establish the BaseProcLink payload at +0x18 and size 0x28.
-// The producer's constructor remains unmodeled; no RuneMgr storage is changed here.
+// VT 0x2381468: RuneMgr::StructX (Unk_710243c698) embeds this sender at +0xf0. The payload is a
+// BaseProcLink with a JobQueueLock (lane4 s102: 0x710067e55c locks the u32 at +0x28 around the link
+// assignment, the constructor 0x710067e0a8 zeroes it), the same payload as Unk_710235aba0.
 class Unk_7102381468 : public Unk_7102357d20 {
 public:
+    Unk_7102381468(ksys::MessageTransceiverBase* transceiver, u32 type)
+        : Unk_7102357d20(transceiver, type) {}
+    // Out of line in ExplodeReserved's TU (0x710012b67c), although Unk_710243c698's destructor
+    // 0x710067e16c inlines it (an inline definition makes our vtable reference D2 instead of D1).
     ~Unk_7102381468() override;
     void* m2() override;
 
-    ksys::act::BaseProcLink _18;
+    Unk_710235aba0_Payload _18;
 };
-static_assert(sizeof(Unk_7102381468) == 0x28);
+static_assert(sizeof(Unk_7102381468) == 0x30);
