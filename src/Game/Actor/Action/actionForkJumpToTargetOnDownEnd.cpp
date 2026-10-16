@@ -15,8 +15,60 @@ bool ForkJumpToTargetOnDownEnd::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: stack layout (the jump speed / time floats sit at the frame top in the original) and the
+// order of the landing-point copies.
 void ForkJumpToTargetOnDownEnd::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    _68 = *mParams.mTargetPos_d;
+    _68 -= pos;
+    _68.y = 0.0f;
+    const f32 distance = _68.normalize();
+
+    sead::Vector3f end;
+    if (!*mParams.mIsBasisByTarget_s) {
+        end = pos;
+        end += _68 * *mParams.mJumpDist_s * 2.0f;
+    } else if (distance + *mParams.mJumpDist_s < *mParams.mJumpMinDist_s) {
+        end = pos + _68 * *mParams.mJumpMinDist_s;
+    } else {
+        end = *mParams.mTargetPos_d;
+        end.y = pos.y;
+        end.x += *mParams.mJumpDist_s * _68.x;
+        end.z += *mParams.mJumpDist_s * _68.z;
+    }
+
+    if (*mParams.mOnGround_s) {
+        f32 height;
+        if (!*mParams.mIsBasisByTarget_s && sub_710072C21C(&height, &end))
+            end.y = height;
+        else if (*mParams.mIsBasisByTarget_s)
+            somePositionCalc(&end, end, -sead::Vector3f::ey, 50.0f);
+        else
+            somePositionCalc(&end, end, -sead::Vector3f::ey, 25.0f);
+    }
+
+    if (auto* controller = mActor->getCharacterController()) {
+        f32 time = 0;
+        f32 speed = 0;
+        sead::Vector3f gravity = getGravity(mActor);
+        gravity *= 1.0f / 900.0f;
+        sub_710072CD88(*mParams.mJumpHeight_s, &speed, &time, &pos, &end, &gravity);
+        _74.value = _74.prev_value = speed;
+        controller->sub_7100F5EDD8(1.0f);
+        controller->sub_7100F5E7F0(speed);
+        const f32 angle = *mParams.mAngleDir_s;
+        if (!sead::Mathf::equalsEpsilon(angle, 0.0f)) {
+            sead::Matrix33f rotation;
+            rotation.makeR({0, angle, 0});
+            _68.rotate(rotation);
+        }
+        sub_710072C1B4(controller, _68);
+        controller->sub_7100F62B70(*mParams.mJumpHeight_s);
+        controller->sub_7100F5EF08(true);
+    }
+    _80 = true;
+    _81 = false;
 }
 
 void ForkJumpToTargetOnDownEnd::leave_() {
