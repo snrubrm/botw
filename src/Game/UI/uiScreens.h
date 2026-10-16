@@ -2680,6 +2680,13 @@ public:
 struct PictureBookGroupList;
 struct PictureBookGroupRecord;
 
+// Placeholder (vtable not identified): ScreenAppPictureBookEntry::Params::_2d0. Slot 0 (called by 0x710093c304 for
+// every group with a layout) returns the group's item.
+class PictureBookItemFactoryMaybe {
+public:
+    virtual PictureBookItem* create(sead::Heap* heap, s32 index) = 0;
+};
+
 // The 0x398-byte entry allocated by 943e80, with vtable 2474f30.
 struct ScreenAppPictureBookEntry {
     // Constructor 938c94 and destructor 938e9c; also used as a standalone setup block.
@@ -2712,11 +2719,24 @@ struct ScreenAppPictureBookEntry {
         bool _2cb = false;
         bool _2cc = false;
         bool _2cd = false;
-        // Nonowned factory object invoked by 93c304; its interface is not yet modeled.
-        void* _2d0 = nullptr;
+        // Not owned; slot 0 is called by 93c304 to create the item of each group.
+        PictureBookItemFactoryMaybe* _2d0 = nullptr;
     };
 
     // Same-owner native setup chain; later stages remain declaration only.
+    // 0x710093a2f8 (placeholder name): finds the group list whose first unit uses the layout of the parts
+    // "<_28>/<_80>00" (or "<_80>00"), adding a new list to `lists` if there is none
+    void sub_710093A2F8(sead::Heap* heap, sead::PtrArray<PictureBookGroupList>* lists);
+    // 0x710093c24c (placeholder name): allocates the list's _298 groups
+    void sub_710093C24C(sead::Heap* heap);
+    // 0x710093c304 (placeholder name): binds every group to its layout (sub_710093C48C), its close animation (_240)
+    // and its item (_2d0)
+    void sub_710093C304(sead::Heap* heap);
+    // 0x710093c48c (declared only; 468 bytes): the layout of group `index`
+    eui::LayoutEx* sub_710093C48C(sead::Heap* heap, s32 index);
+    // 0x710093c660 (placeholder name): binds the units of every group to their parts layouts ("<_d8>NN"), buttons and
+    // cursor nodes
+    void sub_710093C660();
     void sub_710093A500(sead::Heap* heap);
     void sub_710093A5C0(sead::Heap* heap);
     void sub_710093A758();
@@ -2780,13 +2800,13 @@ public:
     // 0x710093a0a8 (placeholder name; called for every group by 0x7100943d5c): mode 0 / 1 / 2 plays the _30 animator
     // (from current / auto / stops at min), or starts the close animation of the layout when there is none.
     void sub_710093A0A8(s32 mode);
-    eui::LayoutEx* _8;
-    ScreenAppPictureBookEntry* mEntry;
-    ScreenAppPictureBookUnk* mController;
+    eui::LayoutEx* _8{};
+    ScreenAppPictureBookEntry* mEntry{};
+    ScreenAppPictureBookUnk* mController{};
     sead::PtrArray<Unk_7102474e38> mUnits;
-    eui::Animator* _30;
-    PictureBookGroupRecord* mRecord;
-    PictureBookItem* _40;
+    eui::Animator* _30{};
+    PictureBookGroupRecord* mRecord{};
+    PictureBookItem* _40{};
 };
 static_assert(sizeof(Unk_7102474f10) == 0x48);
 

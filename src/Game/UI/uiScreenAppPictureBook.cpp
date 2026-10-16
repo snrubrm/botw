@@ -440,6 +440,131 @@ Unk_7102474f10::~Unk_7102474f10() {
     _40 = nullptr;
 }
 
+// 0x710093a2f8
+void ScreenAppPictureBookEntry::sub_710093A2F8(sead::Heap* heap,
+                                               sead::PtrArray<PictureBookGroupList>* lists) {
+    sead::FixedSafeString<64> path;
+    if (mParams._28.isEmpty())
+        path.format("%s%02d", mParams._80.cstr(), 0);
+    else
+        path.format("%s/%s%02d", mParams._28.cstr(), mParams._80.cstr(), 0);
+
+    eui::PartsEx* parts = eui::sub_7100945088(mController->mScreen->sub_7100A48104(path, nullptr));
+    if (!parts || !parts->mPartsLayoutLink.layout)
+        return;
+
+    for (PictureBookGroupList& list : *lists) {
+        if (list.mUnits.size() > 0 && list.mUnits(0)->_8 == parts->mPartsLayoutLink.layout) {
+            mGroupList = &list;
+            return;
+        }
+    }
+    lists->pushBack(new (heap) PictureBookGroupList);
+    mGroupList = lists->back();
+}
+
+// 0x710093c24c
+void ScreenAppPictureBookEntry::sub_710093C24C(sead::Heap* heap) {
+    if (!mGroupList)
+        return;
+    s32 count = mParams._298;
+    if (count <= 0)
+        return;
+    mGroupList->mUnits.allocBuffer(count, heap);
+    do {
+        mGroupList->mUnits.pushBack(new (heap) Unk_7102474f10);
+    } while (--count != 0);
+}
+
+// 0x710093c304
+void ScreenAppPictureBookEntry::sub_710093C304(sead::Heap* heap) {
+    if (!mGroupList)
+        return;
+    const s32 count = mGroupList->mUnits.size();
+    for (s32 i = 0; i < count; ++i) {
+        eui::LayoutEx* layout = sub_710093C48C(heap, i);
+        if (!layout)
+            continue;
+        mGroupList->mUnits(i)->_8 = layout;
+        mGroupList->mUnits(i)->mEntry = this;
+        mGroupList->mUnits(i)->mController = mController;
+        Unk_7102474f10* group = mGroupList->mUnits(i);
+        ScreenAppPictureBookEntry* entry = group->mEntry;
+        if (!entry->mParams._240.isEmpty() && group->_8) {
+            group->_30 = group->_8->tryCreateAnimatorAuto(entry->mParams._240.cstr(), true);
+            if (group->_30)
+                group->_30->StopAtMin();
+            if (group->_8)
+                group->_8->startAnimCloseImpl_(false, true);
+        }
+        mGroupList->mUnits(i)->mEntry = nullptr;
+    }
+    for (s32 i = 0; i < count; ++i) {
+        if (mGroupList->mUnits(i)->_8 && mParams._2d0)
+            mGroupList->mUnits(i)->_40 = mParams._2d0->create(heap, i);
+    }
+}
+
+// NON_MATCHING: the original copies Vector2f::zero into _34 as one 64-bit value (ours: two floats), which
+// shifts the registers after it
+// 0x710093c660
+void ScreenAppPictureBookEntry::sub_710093C660() {
+    if (!mGroupList)
+        return;
+    sead::FixedSafeString<64> name;
+    if (mParams._d8.isEmpty()) {
+        for (auto it = mGroupList->mUnits.begin(), end = mGroupList->mUnits.end(); it != end; ++it) {
+            if (it->mUnits.size() < 1 || !it->_8)
+                continue;
+            it->mUnits(0)->_8 = it->_8;
+            it->mUnits(0)->_10 =
+                static_cast<eui::AnimButton*>(mController->mScreen->sub_7100A4810C(it->_8));
+            if (it->mUnits(0)->_10) {
+                mController->mScreen->sub_7100A48258(it->mUnits.front(), it->mUnits(0)->_10);
+                it->mUnits(0)->_28 =
+                    mController->mScreen->findBoxCursorNodeByButton(it->mUnits(0)->_10);
+            } else {
+                it->mUnits(0)->_28 = nullptr;
+            }
+            it->mUnits(0)->_18 = &*it;
+            it->mUnits(0)->_20 = mController;
+            it->mUnits(0)->_34 = sead::Vector2f::zero;
+            it->mUnits(0)->_3c = 0;
+            it->mUnits(0)->_40 = 0;
+            it->mUnits(0)->_44 = 0;
+        }
+    } else {
+        for (auto it = mGroupList->mUnits.begin(), end = mGroupList->mUnits.end(); it != end; ++it) {
+            if (it->mUnits.size() < 1 || !it->_8)
+                continue;
+            for (s32 row = 0; row < mParams._2a0; ++row) {
+                for (s32 column = 0; column < mParams._2a4; ++column) {
+                    const s32 index = column + row * mParams._2a4;
+                    name.format("%s%02d", mParams._d8.cstr(), index);
+                    eui::LayoutEx* layout = it->_8->findPartsLayout(name.cstr());
+                    if (!layout)
+                        continue;
+                    it->mUnits(index)->_8 = layout;
+                    it->mUnits(index)->_10 =
+                        static_cast<eui::AnimButton*>(mController->mScreen->sub_7100A4810C(layout));
+                    if (it->mUnits(index)->_10) {
+                        mController->mScreen->sub_7100A48258(it->mUnits[index],
+                                                             it->mUnits(index)->_10);
+                        it->mUnits(index)->_28 = mController->mScreen->findBoxCursorNodeByButton(
+                            it->mUnits(index)->_10);
+                    }
+                    it->mUnits(index)->_18 = &*it;
+                    it->mUnits(index)->_20 = mController;
+                    it->mUnits(index)->_34 = sead::Vector2f::zero;
+                    it->mUnits(index)->_3c = -1;
+                    it->mUnits(index)->_40 = row;
+                    it->mUnits(index)->_44 = column;
+                }
+            }
+        }
+    }
+}
+
 // NON_MATCHING: the original copies _2a8 as one 64-bit value (ours: two floats, like the other vectors)
 // 0x7100938f28
 void ScreenAppPictureBookEntry::Params::sub_7100938F28(const Params& other) {
