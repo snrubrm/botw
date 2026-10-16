@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <aal/aalHandle.h>
+#include <aal/aalMarkerController.h>
 #include <aal/aalSoundSource.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2Event.h>
@@ -209,6 +210,36 @@ void Unk_71024fe970::Slot::sub_710100D8B8() {
         if (mEntry)
             mEntry->_20 = sead::Mathf::max(mFader.getValue(), 0.0f);
     }
+}
+
+// NON_MATCHING: the original selects the entry handle pointer (entry ? &entry->mHandle : nullptr) before its checks.
+void Unk_71024fe970::Slot::sub_710100DB1C(f32 fade_sec) {
+    if (!mEntry)
+        return;
+    aal::Handle* handle = nullptr;
+    if (mEntry->mHandle.isActive()) {
+        if (auto* executor =
+                static_cast<xlink2::EventSLink*>(mEntry->mHandle.getEvent())->getAliveAssetExecutor()) {
+            handle = executor->getHandle();
+        }
+        if (!mEntry)
+            return;
+    }
+    if (!mEntry->mHandle.isActive())
+        return;
+    auto* executor = static_cast<xlink2::EventSLink*>(mEntry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    auto* source = executor->getHandle()->getSoundSource();
+    if (!handle || !source)
+        return;
+    const s32 position = source->mMarkerController->getMarkerSamplePos("ReEntryPoint");
+    source->setStartSamplePos(ksys::snd::sub_710105E6CC(position, handle->getAssetInfo()));
+    _38 = fade_sec;
+    _3c = 2;
+    mFader.setCurveType(aal::FadeCurveType::Linear);
+    mFader.setValueImmediate(0.0f);
+    mFader.moveTo(1.0f, fade_sec);
 }
 
 // NON_MATCHING: fmax instead of fmaxnm for the clamp; the original keeps the handle pointer select of the reloaded
