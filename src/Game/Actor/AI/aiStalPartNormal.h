@@ -4,6 +4,7 @@
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
+    void calc_() override;
 
 protected:
     // 0x71005a82f8: changes to the "ジャンプ" child at the offset position of the linked actor
@@ -42,9 +44,7 @@ protected:
     ksys::act::BaseProcLink _58;
     Unk_7102450558 _68;
     Unk_7102396ae0 _b8{mActor, 0x800001f};
-    f32 _e8 = 0;
-    f32 _ec = 0;
-    u32 _f0 = 0;
+    ksys::Timer _e8;  // WaitTimer
     bool _f4 = true;
     bool _f5 = false;
 };
