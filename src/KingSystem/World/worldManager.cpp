@@ -953,6 +953,34 @@ void Manager::setTemperatureNight(float temp) {
     mTempDirectNightTimer = 4;
 }
 
+// NON_MATCHING: register allocation and the operand order of one fadd in the distance.
+int Manager::getIgnitedLevel(const sead::Vector3f& pos) const {
+    if (mWorldInfoLoadStatus == WorldInfoLoadStatus::NotLoaded)
+        return 0;
+
+    int level;
+    if (isMainField()) {
+        level = mWorldInfo.mClimates[int(getClimate(pos))].IgnitedLevel.ref();
+    } else if (mStageType == StageType::MainFieldDungeon && mRemainsType == RemainsType::Fire) {
+        level = 2;
+        if (auto* player = act::ActorSystem::instance()->getPlayerLink()) {
+            if (player->m209())
+                level = 0;
+        }
+    } else {
+        level = 0;
+    }
+
+    if (mIgnitedTimer > 0) {
+        const bool outside =
+            mIgnitedRadius >= 0.0f &&
+            (mIgnitedCenter - sead::Vector3f(pos.x, mIgnitedCenter.y, pos.z)).length() > mIgnitedRadius;
+        if (!outside)
+            level = mIgnitedLevel;
+    }
+    return level;
+}
+
 // NON_MATCHING: mPlayerPos.y gets loaded into s8 instead of w20
 void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
     mIgnitedTimer = 4;
