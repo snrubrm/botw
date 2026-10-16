@@ -157,6 +157,30 @@ void Unk_7102502430::sub_710104A1B8() {
     }
 }
 
+void Unk_7102502430::sub_710104A308(const sead::SafeString& name) {
+    mHandle.fadeIfLoopSound();
+    _10.clear();
+    _68 = 0;
+    if (_98) {
+        const char* user_name = _98->mUserInstance ? _98->mUserInstance->getUserName() : nullptr;
+        if (name == user_name) {
+            if (_98->_18 != 2) {
+                _68 = 1;
+                return;
+            }
+            if (_98 && !mName.isEmpty()) {
+                if (auto* user_instance = _98->mUserInstance) {
+                    m4(user_instance);
+                    mHandle = user_instance->searchAndEmit(mName.cstr());
+                    m5(user_instance, &mHandle);
+                }
+            }
+            return;
+        }
+    }
+    _10 = name;
+}
+
 void Unk_7102502430::sub_710104A5E8() {
     if (!_98 || _98->_18 != 2)
         return;

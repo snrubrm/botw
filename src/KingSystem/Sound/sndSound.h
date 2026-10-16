@@ -1039,6 +1039,9 @@ public:
     // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
     // and puts the user instance to sleep.
     void sub_710104A108();
+    // 0x710104a308 (placeholder name): fades a looping emit and clears _10; if `name` is the referenced entry's
+    // user name, emits mName once the entry is ready (else sets _68), otherwise stores `name` in _10.
+    void sub_710104A308(const sead::SafeString& name);
     // 0x710104a5e8 (placeholder name): when the entry is ready, fades a looping emit and emits mName again.
     void sub_710104A5E8();
     // 0x710104a76c (placeholder name): fades the emitted event over `frame` frames and clears _10.
