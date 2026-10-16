@@ -124,9 +124,9 @@ void Unk_7102518688::m32() {
     m38();
 }
 
-void Unk_7102518688::m3() {
+void Unk_7102518688::m3(f32 delta_frame) {
     if (!(mFlags & 1))
-        m35();
+        m35(delta_frame);
 }
 
 f32 Unk_7102518688::m7() {
@@ -183,7 +183,7 @@ Unk_71025187d0::~Unk_71025187d0() {
     _50 = nullptr;
 }
 
-void Unk_71025187d0::m35() {
+void Unk_71025187d0::m35(f32 delta_frame) {
     if (mHolder->_18 & 4)
         _50 = nullptr;
 

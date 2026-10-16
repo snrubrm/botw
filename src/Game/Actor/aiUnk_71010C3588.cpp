@@ -34,7 +34,6 @@ bool Unk_710250c3c8::sub_71010C4284() const {
     return !mBody || !mBody->isAddedToWorld();
 }
 
-Unk_710250bfd0::~Unk_710250bfd0() = default;
 
 Unk_710250c118::~Unk_710250c118() = default;
 

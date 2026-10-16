@@ -721,23 +721,6 @@ public:
     virtual void m45() {}
 };
 
-// vtable 0x710250bfd0 (39 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710250bfd0 : public Unk_7102518688 {
-    SEAD_RTTI_OVERRIDE(Unk_710250bfd0, Unk_7102518688)
-public:
-    ~Unk_710250bfd0() override;
-    bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
-    void m33(bool a, bool fixed) override;
-    void m34() override;
-    void m35() override;
-    void m36() override {}
-    bool m37() override { return true; }
-    void m38() override {}
-};
-
 // vtable 0x710250c118 (39 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250c118 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c118, Unk_7102518688)
@@ -749,7 +732,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override {}
+    void m35(f32 delta_frame) override {}
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -766,7 +749,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -785,7 +768,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -803,7 +786,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override {}
+    void m35(f32 delta_frame) override {}
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -820,7 +803,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -837,7 +820,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -1523,7 +1506,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -1541,7 +1524,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -1582,7 +1565,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override {}
+    void m35(f32 delta_frame) override {}
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
@@ -1599,7 +1582,7 @@ public:
     void m32() override;
     void m33(bool a, bool fixed) override;
     void m34() override;
-    void m35() override {}
+    void m35(f32 delta_frame) override {}
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}

@@ -50,7 +50,7 @@ public:
     Element(const ElementName& name, sead::Heap* heap) : mHeap(heap) {}
 
     virtual void m2() {}
-    virtual void m3() {}
+    virtual void m3(f32 delta_frame) {}
     virtual void m4(const sead::Matrix34f& mtx) {}
     virtual void m5(sead::Matrix34f* mtx) const {}
     virtual const sead::Vector3f& m6() const;
@@ -138,7 +138,7 @@ public:
 
     // 0x710127d134 (declared only): calls 0x7100e40448 with mPosition and the rigid body.
     void m2() override;
-    void m3() override;
+    void m3(f32 delta_frame) override;
     void m4(const sead::Matrix34f& mtx) override;
     void m5(sead::Matrix34f* mtx) const override;
     const sead::Vector3f& m6() const override { return mPosition; }
@@ -165,7 +165,8 @@ public:
     bool m31() override;
     void m32() override;
     void m34() override;
-    virtual void m35() {}
+    // lane1 s91: ElementSpark::m35 uses the frame delta passed through m3.
+    virtual void m35(f32 delta_frame) {}
     virtual void m36() {}
     virtual bool m37() { return true; }
     virtual void m38() {}
@@ -214,7 +215,7 @@ public:
     ~Unk_71025187d0() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
     void m36() override;
 
     // 0x710127db28 (declared only; 820 bytes).

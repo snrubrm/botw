@@ -52,7 +52,7 @@ public:
     s32 m26() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
-    void m35() override;
+    void m35(f32 delta_frame) override;
 
     /* 0x48 */ ksys::phys::RigidBody* _48 = nullptr;
     /* 0x50 */ bool _50 = false;
