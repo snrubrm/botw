@@ -115,21 +115,21 @@ void Unk_71024fdb00::sub_7101005874(const sead::SafeString& name, s32 wait_count
 Unk_71024fdb98::Unk_71024fdb98(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
                                const agl::utl::Parameter<u32>* wait_count,
                                const MusicInfo::MinMax<f32>* volume, const MusicInfo::MinMax<f32>* pan)
-    : Unk_EnvBgmNode(owner), mPart(part), mWaitCount(wait_count), mVolume(volume),
+    : mOwner(owner), mPart(part), mWaitCount(wait_count), mVolume(volume),
       mPan(pan) {
     mName.append(name);
 }
 
 Unk_71024fdbe8::Unk_71024fdbe8(Unk_71024fdb00* owner, const sead::SafeString& name,
                                const MusicInfo::MinMax<f32>* volume, const MusicInfo::MinMax<f32>* pan)
-    : Unk_EnvBgmNode(owner), mVolume(volume), mPan(pan) {
+    : mOwner(owner), mVolume(volume), mPan(pan) {
     mName.append(name);
 }
 
 Unk_71024fdc38::Unk_71024fdc38(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
                                const agl::utl::Parameter<u32>* wait_count,
                                const MusicInfo::MinMax<f32>* volume, const MusicInfo::MinMax<f32>* pan)
-    : Unk_EnvBgmNode(owner), mPart(part), mWaitCount(wait_count), mVolume(volume),
+    : mOwner(owner), mPart(part), mWaitCount(wait_count), mVolume(volume),
       mPan(pan) {
     mName.append(name);
 }
@@ -138,7 +138,7 @@ Unk_71024fdc88::Unk_71024fdc88(Unk_71024fdb00* owner, const sead::SafeString& na
                                const agl::utl::Parameter<u32>* wait_count_base,
                                const MusicInfo::MinMax<u32>* wait_count_rate,
                                const MusicInfo::MinMax<f32>* volume, const MusicInfo::MinMax<f32>* pan)
-    : Unk_EnvBgmNode(owner), mPart(part), mWaitCountBase(wait_count_base),
+    : mOwner(owner), mPart(part), mWaitCountBase(wait_count_base),
       mWaitCountRate(wait_count_rate), mVolume(volume), mPan(pan) {
     mName.append(name);
 }

@@ -606,6 +606,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710260f2a8, 0x68);
 
 class Unk_71024fdb00;
+class Unk_EnvBgmNode;
 
 // RTTI typeInfo 0x71025ce350, derived from Bgm (sub_7100FFDC80 casts BGM kind 0 to it): the environment BGM
 // (EnvBgmInfo; constructor 0x7101003df4, defined in sndEnvBgm.cpp with its day and night handles).
@@ -904,7 +905,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7100ff7444, 0x88);
 // Argument of the controller virtual m8 (a pointer in the original). The consumers 0x7100ff9dcc / 0x7100ffbb24 read
 // the first dword, a dword at +4, a halfword at +8 and a dword at +0xc; 0x710100215c copies all 16 bytes.
 struct Unk_BgmControllerM8Arg {
-    u32 _0;
+    // The field battle BGM compares it (signed) with FieldBattleBgmInfo's Tension_Skip* values.
+    s32 _0;
     s32 _4;
     u16 _8;
     u8 _a[2];

@@ -1,4 +1,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include <random/seadGlobalRandom.h>
+#include <xlink2/xlink2EnumPropertyDefinition.h>
+#include "KingSystem/Sound/sndEnvBgm.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <xlink2/xlink2Event.h>
@@ -212,4 +215,350 @@ bool Unk_71024fee78::m11() {
 void Unk_71024fee78::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     mState = 0;
+}
+
+// The field battle BGM nodes (vtables 0x71024fe4d8..0x71024fe748; constructed only inline in
+// Unk_71024fe368::sub_71010099F0). Their destructors share the empty 0x71010069cc with the environment nodes.
+namespace ksys::snd {
+
+// Debug override of the tension read by Unk_71024fe668 (never written in the original).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F858;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710260F85C;
+
+// vtable 0x71024fe4d8 (0x30 bytes): picks the key (property 1) from two odds in percent.
+class Unk_71024fe4d8 : public Unk_EnvBgmNode {
+public:
+    Unk_71024fe4d8(Unk_71024fe368* owner, const agl::utl::Parameter<f32>* odds0,
+                   const agl::utl::Parameter<f32>* odds1)
+        : mOwner(owner), mOdds0(odds0), mOdds1(odds1) {}
+
+    bool isDone() override { return true; }
+    Unk_EnvBgmNode* getNext() override { return mNext; }
+    void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
+    // 0x710100b9f8
+    // NON_MATCHING: the three key stores are merged into a select (the original keeps one store per branch).
+    void start() override {
+        const f32 value = sead::GlobalRandom::instance()->getF32() * 100.0f;
+        if (value < mOdds0->ref())
+            mOwner->mKey = Unk_71024fe368::Key::調0;
+        else if (value < mOdds1->ref())
+            mOwner->mKey = Unk_71024fe368::Key::調1;
+        else
+            mOwner->mKey = Unk_71024fe368::Key::調2;
+        if (mOwner->mUserInstance)
+            mOwner->mUserInstance->setPropertyValue(1, mOwner->mKey);
+        if (mOwner->mSubHandle->mUserInstance)
+            mOwner->mSubHandle->mUserInstance->setPropertyValue(1, mOwner->mKey);
+    }
+
+private:
+    Unk_71024fe368* mOwner;
+    Unk_EnvBgmNode* mNext = nullptr;
+    const agl::utl::Parameter<f32>* mOdds0;
+    const agl::utl::Parameter<f32>* mOdds1;
+};
+
+// vtable 0x71024fe528 (0x28 bytes): picks the key type (property 2).
+class Unk_71024fe528 : public Unk_EnvBgmNode {
+public:
+    Unk_71024fe528(Unk_71024fe368* owner, const agl::utl::Parameter<f32>* odds)
+        : mOwner(owner), mOdds(odds) {}
+
+    bool isDone() override { return true; }
+    Unk_EnvBgmNode* getNext() override { return mNext; }
+    void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
+    // 0x710100bac0
+    // NON_MATCHING: the two stores are merged into a cset (the original keeps one store per branch).
+    void start() override {
+        const f32 value = sead::GlobalRandom::instance()->getF32() * 100.0f;
+        if (value < mOdds->ref())
+            mOwner->mKeyType = Unk_71024fe368::KeyType::A;
+        else
+            mOwner->mKeyType = Unk_71024fe368::KeyType::B;
+        if (mOwner->mUserInstance)
+            mOwner->mUserInstance->setPropertyValue(2, mOwner->mKeyType);
+        if (mOwner->mSubHandle->mUserInstance)
+            mOwner->mSubHandle->mUserInstance->setPropertyValue(2, mOwner->mKeyType);
+    }
+
+private:
+    Unk_71024fe368* mOwner;
+    Unk_EnvBgmNode* mNext = nullptr;
+    const agl::utl::Parameter<f32>* mOdds;
+};
+
+// vtable 0x71024fe578 (0x28 bytes): switches to a section (property 0) and clears the queued entries.
+class Unk_71024fe578 : public Unk_EnvBgmNode {
+public:
+    Unk_71024fe578(Unk_71024fe368* owner, Unk_71024fe368::Section section)
+        : mOwner(owner), mSection(section) {}
+
+    bool isDone() override { return true; }
+    Unk_EnvBgmNode* getNext() override { return mNext; }
+    void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
+    // 0x710100bb6c
+    // NON_MATCHING: the original spills the section to the stack before the compare.
+    void start() override {
+        const auto section = mSection;
+        auto* owner = mOwner;
+        if (owner->mSection == section)
+            return;
+        for (s32 i = 0; i < owner->mEntries4.size(); ++i)
+            owner->mEntries4(i)._98 = -1;
+        owner->_220 = 0;
+        owner->_218 = 0;
+        owner->_21c = 0;
+        owner->mSection = section;
+        if (owner->mUserInstance)
+            owner->mUserInstance->setPropertyValue(0, owner->mSection);
+        if (owner->mSubHandle->mUserInstance)
+            owner->mSubHandle->mUserInstance->setPropertyValue(0, owner->mSection);
+    }
+
+private:
+    Unk_71024fe368* mOwner;
+    Unk_EnvBgmNode* mNext = nullptr;
+    Unk_71024fe368::Section mSection;
+};
+
+// vtable 0x71024fe5c8 (0x28 bytes): moves the key on by one or two steps (modulo 3) with the given odds.
+class Unk_71024fe5c8 : public Unk_EnvBgmNode {
+public:
+    Unk_71024fe5c8(Unk_71024fe368* owner, const agl::utl::Parameter<f32>* odds)
+        : mOwner(owner), mOdds(odds) {}
+
+    bool isDone() override { return true; }
+    Unk_EnvBgmNode* getNext() override { return mNext; }
+    void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
+    // 0x710100bc0c
+    // NON_MATCHING: the original computes the wrap-around as (key + 1 > 2 ? key - 2 : key + 1) and loads the
+    // random instance before the key.
+    void start() override {
+        if (sead::GlobalRandom::instance()->getF32() * 100.0f < mOdds->ref())
+            return;
+        s32 key = mOwner->mKey + sead::GlobalRandom::instance()->getBool() + 1;
+        if (key > 2)
+            key -= 3;
+        auto* owner = mOwner;
+        owner->mKey = key;
+        if (owner->mUserInstance)
+            owner->mUserInstance->setPropertyValue(1, owner->mKey);
+        if (owner->mSubHandle->mUserInstance)
+            owner->mSubHandle->mUserInstance->setPropertyValue(1, owner->mKey);
+    }
+
+private:
+    Unk_71024fe368* mOwner;
+    Unk_EnvBgmNode* mNext = nullptr;
+    const agl::utl::Parameter<f32>* mOdds;
+};
+
+// vtable 0x71024fe618 (0x38 bytes): plays a part and waits its length in beats.
+class Unk_71024fe618 : public Unk_EnvBgmNode {
+public:
+    Unk_71024fe618(Unk_71024fe368* owner, s32 part, const s32* beats)
+        : mOwner(owner), mPart(part), mBeats(beats) {}
+
+    // 0x710100bcd4
+    // NON_MATCHING: the original returns false as a 64-bit zero (mov x0, xzr).
+    bool isDone() override {
+        if (mCounter != 0) {
+            --mCounter;
+            return false;
+        }
+        return true;
+    }
+    Unk_EnvBgmNode* getNext() override { return mNext; }
+    void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
+    // 0x710100bcf8
+    void start() override {
+        mCounter = *mBeats;
+        const s32 part = mPart;
+        auto* owner = mOwner;
+        owner->sub_71010209FC(Unk_71024fe368::Part::text(part));
+        owner->mPart = part;
+        owner->_270 = 0;
+    }
+
+private:
+    Unk_71024fe368* mOwner;
+    Unk_EnvBgmNode* mNext = nullptr;
+    s32 mPart;
+    const s32* mBeats;
+    s32 mCounter = 0;
+};
+
+// vtable 0x71024fe668 (0x30 bytes): branches on the tension (Unk_BgmControllerM8Arg::_0) against a threshold.
+class Unk_71024fe668 : public Unk_EnvBgmNode {
+public:
+    Unk_71024fe668(Unk_71024fe368* owner, const agl::utl::Parameter<s32>* threshold)
+        : mOwner(owner), mThreshold(threshold) {}
+
+    bool isDone() override { return true; }
+    // 0x710100bd64
+    // NON_MATCHING: the original loads the owner unconditionally and selects the tension address with csel.
+    Unk_EnvBgmNode* getNext() override {
+        const s32& tension = sUnk_710260F858 ? sUnk_710260F85C : mOwner->_1d8._0;
+        return mBranches[tension >= mThreshold->ref()];
+    }
+    void setNext(Unk_EnvBgmNode* next) override {}
+    // 0x710100be34
+    void setBranch(Unk_EnvBgmNode* next, s32 index) override { mBranches[index] = next; }
+    void start() override {}
+
+private:
+    Unk_71024fe368* mOwner;
+    sead::SafeArray<Unk_EnvBgmNode*, 2> mBranches;
+    const agl::utl::Parameter<s32>* mThreshold;
+};
+
+// vtable 0x71024fe748 (0x20 bytes): sets the owner's _1f8 flag.
+class Unk_71024fe748 : public Unk_EnvBgmNode {
+public:
+    explicit Unk_71024fe748(Unk_71024fe368* owner) : mOwner(owner) {}
+
+    bool isDone() override { return true; }
+    Unk_EnvBgmNode* getNext() override { return mNext; }
+    void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
+    // 0x710100ca60
+    void start() override { mOwner->_1f8 = 1; }
+
+private:
+    Unk_71024fe368* mOwner;
+    Unk_EnvBgmNode* mNext = nullptr;
+};
+
+}  // namespace ksys::snd
+
+namespace {
+sead::SafeString sStr_FieldBattleBgm = "FieldBattleBgm";
+sead::SafeString sStr_FieldBattleBgm_Hit = "FieldBattleBgm_Hit";
+
+// 0x71024fe4a8: the length in beats of each Part.
+const s32 sPartBeats[] = {29, 29, 13, 13, 54, 6, 68, 48, 16, 90, 84, 30};
+}  // namespace
+
+// NON_MATCHING: written from the original's structure; not compared in detail (4.7 KB).
+void Unk_71024fe368::sub_71010099F0(const ksys::snd::BgmInitArg& arg) {
+    using namespace ksys::snd;
+    auto* heap = arg.heap;
+    mInfo = static_cast<FieldBattleBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::FieldBattleBgm));
+
+    mProperties.allocBuffer(PropertyType::size(), heap);
+    auto* section = new (heap) xlink2::EnumPropertyDefinition(PropertyType::text(0), Section::size(), heap, false);
+    for (s32 i = 0; i < Section::size(); ++i)
+        section->entry(i, Section::text(i));
+    mProperties.pushBack(section);
+    auto* key = new (heap) xlink2::EnumPropertyDefinition(PropertyType::text(1), Key::size(), heap, false);
+    for (s32 i = 0; i < Key::size(); ++i)
+        key->entry(i, Key::text(i));
+    mProperties.pushBack(key);
+    auto* key_type = new (heap) xlink2::EnumPropertyDefinition(PropertyType::text(2), KeyType::size(), heap, false);
+    for (s32 i = 0; i < KeyType::size(); ++i)
+        key_type->entry(i, KeyType::text(i));
+    mProperties.pushBack(key_type);
+
+    Unk_SpotBgmHandle::init(heap, sStr_FieldBattleBgm, &mProperties);
+    if (auto* instance = mUserInstance) {
+        instance->setPropertyValue(0, mSection);
+        instance->setPropertyValue(1, mKey);
+        instance->setPropertyValue(2, mKeyType);
+    }
+    mSubHandle = new (heap) Unk_710260f248(Unk_710260f248Type::_0);
+    mSubHandle->init(heap, sStr_FieldBattleBgm_Hit, &mProperties);
+    if (auto* instance = mSubHandle->mUserInstance) {
+        instance->setPropertyValue(0, mSection);
+        instance->setPropertyValue(1, mKey);
+        instance->setPropertyValue(2, mKeyType);
+    }
+
+    mEntries4.tryAllocBuffer(4, heap);
+    mNodes.allocBuffer(0x20, heap);
+    _248 = new (heap) Unk_71024fdde8;
+
+    Unk_71024fe618* parts[Part::size()];
+    for (s32 i = 0; i < Part::size(); ++i) {
+        parts[i] = new (heap) Unk_71024fe618(this, i, &sPartBeats[i]);
+        mNodes.pushBack(parts[i]);
+    }
+    auto* skip_easy2 = new (heap) Unk_71024fe668(this, &mInfo->mTension_SkipEasy2);
+    mNodes.pushBack(skip_easy2);
+    auto* skip_easy5 = new (heap) Unk_71024fe668(this, &mInfo->mTension_SkipEasy5);
+    mNodes.pushBack(skip_easy5);
+    auto* skip_middle1 = new (heap) Unk_71024fe668(this, &mInfo->mTension_SkipMiddle1);
+    mNodes.pushBack(skip_middle1);
+    auto* skip_hard = new (heap) Unk_71024fe668(this, &mInfo->mTension_SkipHard);
+    mNodes.pushBack(skip_hard);
+    auto* first_key = new (heap) Unk_71024fe4d8(this, &mInfo->mEasy1_OddsByKey0, &mInfo->mEasy1_OddsByKey1);
+    mNodes.pushBack(first_key);
+    auto* key_easy1r = new (heap) Unk_71024fe5c8(this, &mInfo->mEasy1R_OddsBySameKey);
+    mNodes.pushBack(key_easy1r);
+    auto* key_easy5 = new (heap) Unk_71024fe5c8(this, &mInfo->mEasy5_OddsBySameKey);
+    mNodes.pushBack(key_easy5);
+    auto* key_middle0 = new (heap) Unk_71024fe5c8(this, &mInfo->mMiddle0_OddsBySameKey);
+    mNodes.pushBack(key_middle0);
+    auto* key_hard0 = new (heap) Unk_71024fe5c8(this, &mInfo->mHard0_OddsBySameKey);
+    mNodes.pushBack(key_hard0);
+    auto* key_hard1 = new (heap) Unk_71024fe5c8(this, &mInfo->mHard1_OddsBySameKey);
+    mNodes.pushBack(key_hard1);
+    auto* key_hard1f = new (heap) Unk_71024fe5c8(this, &mInfo->mHard1F_OddsBySameKey);
+    mNodes.pushBack(key_hard1f);
+    auto* key_type0 = new (heap) Unk_71024fe528(this, &mInfo->mOddsByKeySubId0);
+    mNodes.pushBack(key_type0);
+    auto* key_type1 = new (heap) Unk_71024fe528(this, &mInfo->mOddsByKeySubId0);
+    mNodes.pushBack(key_type1);
+    auto* key_type2 = new (heap) Unk_71024fe528(this, &mInfo->mOddsByKeySubId0);
+    mNodes.pushBack(key_type2);
+    auto* key_type3 = new (heap) Unk_71024fe528(this, &mInfo->mOddsByKeySubId0);
+    mNodes.pushBack(key_type3);
+    auto* section_easy = new (heap) Unk_71024fe578(this, Section::Easy);
+    mNodes.pushBack(section_easy);
+    auto* section_easy2 = new (heap) Unk_71024fe578(this, Section::Easy);
+    mNodes.pushBack(section_easy2);
+    auto* section_middle = new (heap) Unk_71024fe578(this, Section::Middle);
+    mNodes.pushBack(section_middle);
+    auto* section_hard = new (heap) Unk_71024fe578(this, Section::Hard);
+    mNodes.pushBack(section_hard);
+    auto* flag = new (heap) Unk_71024fe748(this);
+    mNodes.pushBack(flag);
+
+    first_key->setNext(section_easy);
+    section_easy->setNext(parts[Part::Easy1]);
+    parts[Part::Easy1]->setNext(skip_easy2);
+    skip_easy2->setBranch(parts[Part::Easy2], 0);
+    skip_easy2->setBranch(flag, 1);
+    parts[Part::Easy2]->setNext(parts[Part::Easy3]);
+    flag->setNext(parts[Part::Easy3]);
+    parts[Part::Easy3]->setNext(parts[Part::Easy4]);
+    parts[Part::Easy4]->setNext(skip_easy5);
+    skip_easy5->setBranch(key_easy5, 0);
+    skip_easy5->setBranch(parts[Part::Easy6], 1);
+    key_easy5->setNext(key_type0);
+    key_type0->setNext(parts[Part::Easy5]);
+    parts[Part::Easy5]->setNext(parts[Part::Easy6]);
+    parts[Part::Easy6]->setNext(key_middle0);
+    key_middle0->setNext(key_type1);
+    key_type1->setNext(section_middle);
+    section_middle->setNext(parts[Part::Middle0]);
+    parts[Part::Middle0]->setNext(skip_middle1);
+    skip_middle1->setBranch(parts[Part::Middle1], 0);
+    skip_middle1->setBranch(parts[Part::Middle2], 1);
+    parts[Part::Middle1]->setNext(parts[Part::Middle2]);
+    parts[Part::Middle2]->setNext(skip_hard);
+    skip_hard->setBranch(key_easy1r, 0);
+    key_easy1r->setNext(section_easy);
+    skip_hard->setBranch(section_hard, 1);
+    section_hard->setNext(key_hard0);
+    key_hard0->setNext(parts[Part::Hard0]);
+    parts[Part::Hard0]->setNext(key_hard1);
+    key_hard1->setNext(key_type2);
+    key_type2->setNext(parts[Part::Hard1]);
+    parts[Part::Hard1]->setNext(key_hard1f);
+    key_hard1f->setNext(key_type3);
+    key_type3->setNext(section_easy2);
+    section_easy2->setNext(parts[Part::Easy5]);
+    parts[Part::QuickIntro]->setNext(parts[Part::Middle0]);
+
+    _260 = first_key;
+    _268 = parts[Part::QuickIntro];
 }

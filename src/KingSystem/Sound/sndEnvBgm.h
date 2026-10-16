@@ -58,11 +58,11 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fdb00, 0x200);
 
-// Placeholder base of the environment BGM nodes (no vtable of its own is emitted: slots 0-2 and 4 are defined by each
+// Placeholder base of the environment and field battle BGM nodes (each node keeps its owner at +0x10; no vtable of its own is emitted: slots 0-2 and 4 are defined by each
 // node). Slots 3 and 5 are the shared empty functions 0x7101006960 / 0x7101006964.
 class Unk_EnvBgmNode {
 public:
-    explicit Unk_EnvBgmNode(Unk_71024fdb00* owner) : mOwner(owner) {}
+    Unk_EnvBgmNode() = default;
     virtual ~Unk_EnvBgmNode() = default;
 
     // True when the node is finished and the machine may move on (placeholder name).
@@ -75,7 +75,6 @@ public:
 
 protected:
     bool _8 = false;
-    Unk_71024fdb00* mOwner;
 };
 
 // vtable 0x71024fdb98 (constructor 0x7101005d68, 0xd8 bytes): plays a part after a fixed wait count.
@@ -102,6 +101,7 @@ public:
     }
 
 private:
+    Unk_71024fdb00* mOwner;
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
     u8 mPart;
@@ -164,6 +164,7 @@ public:
     }
 
 private:
+    Unk_71024fdb00* mOwner;
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
     const MusicInfo::MinMax<f32>* mVolume;
@@ -204,6 +205,7 @@ public:
     }
 
 private:
+    Unk_71024fdb00* mOwner;
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
     u8 mPart;
@@ -250,6 +252,7 @@ public:
     }
 
 private:
+    Unk_71024fdb00* mOwner;
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
     u8 mPart;

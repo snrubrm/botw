@@ -2590,6 +2590,18 @@ public:
     void hm14() override;
     // 0x710100b7e0: fills the first free entry (_98 == -1) with `name`, `value` and `flag` (placeholder name).
     void sub_710100B7E0(const sead::SafeString& name, s32 value, bool flag);
+    // 0x71010099f0 (tail of the constructor 0x710100992c): creates the xlink2 properties, the second handle, the
+    // entries and the node graph (lane3 s88).
+    void sub_71010099F0(const ksys::snd::BgmInitArg& arg);
+
+    // The xlink2 property names (text 0x710100c0b8) and the values of the three properties (0x710100c44c,
+    // 0x710100c5f8, 0x710100c7a4).
+    SEAD_ENUM(PropertyType,区間,調,調内タイプ)
+    SEAD_ENUM(Section,Easy,Middle,Hard)
+    SEAD_ENUM(Key,調0,調1,調2)
+    SEAD_ENUM(KeyType,A,B)
+    // The parts started by the Unk_71024fe618 nodes (text 0x710100ca70).
+    SEAD_ENUM(Part,Easy1,Easy2,Easy3,Easy4,Easy5,Easy6,Middle0,Middle1,Middle2,Hard0,Hard1,QuickIntro)
 
     /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
     /* 0x198 */ sead::PtrArray<xlink2::PropertyDefinition> mProperties;
@@ -2618,8 +2630,18 @@ public:
     bool _224;
     /* 0x228 */ s32 _228;
     /* 0x230 */ void* _230;
-    u8 _238[0x248 - 0x238];
+    // The values of the xlink2 properties (PropertyType order).
+    /* 0x238 */ Section mSection;
+    /* 0x23c */ Key mKey;
+    /* 0x240 */ KeyType mKeyType;
+    // The Part of the last started part node.
+    /* 0x244 */ s32 mPart;
     /* 0x248 */ ksys::snd::Unk_71024fdde8* _248;
+    /* 0x250 */ sead::PtrArray<ksys::snd::Unk_EnvBgmNode> mNodes;
+    /* 0x260 */ ksys::snd::Unk_EnvBgmNode* _260;
+    /* 0x268 */ ksys::snd::Unk_EnvBgmNode* _268;
+    /* 0x270 */ u32 _270;
+    /* 0x274 */ bool _274;
 };
 
 // vtable 0x71024fe808 (19 slots); placeholder generated from the vtable (genskel.py).
