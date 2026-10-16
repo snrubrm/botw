@@ -14,6 +14,26 @@
 
 Unk_71024fe808::~Unk_71024fe808() = default;
 
+bool Unk_71024fe808::m10() {
+    if (_124 == 3 || _124 == 4)
+        return _160[1] >= static_cast<ksys::snd::BossBgmInfo*>(mInfo)->mFeelPlayingSec.ref();
+    return false;
+}
+
+void Unk_71024fe808::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mState = 0;
+}
+
+namespace {
+// 0x71024fe7f8
+const sead::SafeString sStr_Main = "main";
+}  // namespace
+
+void Unk_71024fe808::hm14() {
+    sub_71010209FC(sStr_Main);
+}
+
 // NON_MATCHING: the original's RingBuffer::freeBuffer also zeroes head and size before the delete[] (our sead
 // zeroes them after).
 Unk_71024fe970::~Unk_71024fe970() {

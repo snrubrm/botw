@@ -2668,9 +2668,28 @@ class Unk_71024fe808 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe808, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fe808() override;
+    // 0x710100cf20 (declared only; 408 B)
+    void m5() override;
+    // 0x710100d2a0: playing (handle state 3 or 4) for at least FeelPlayingSec.
+    bool m10() override;
+    // 0x710100d3fc
+    bool m11() override { return mState == 3; }
+    // 0x710100d278
+    void m13(f32 fade_sec) override;
+    // 0x710100cf14 (placeholder name): initialises the handle without xlink2 properties.
+    virtual void initHandle(sead::Heap* heap, const sead::SafeString& name) {
+        Unk_SpotBgmHandle::init(heap, name, nullptr);
+    }
+    // 0x710100d2d0 (copy for the handle base 0x710100d2e0): plays "main".
+    void hm14() override;
+    // 0x710100d40c (copy for the handle base 0x710100d5b8)
+    void hm15() override {}
+    // 0x710100d410
+    virtual void m18() {}
 
-    // Set by Unk_71024fe958::sub_710100D874 (the Golem / Giant / Sandworm BGM info).
+    // Set by Unk_71024fe958::sub_710100D874 (the Golem / Giant / Sandworm BGM info, a BossBgmInfo).
     /* 0x190 */ ksys::snd::MusicInfo* mInfo;
+    /* 0x198 */ s32 mState;
 };
 
 // vtable 0x71024fe970 (17 slots); placeholder generated from the vtable (genskel.py).
