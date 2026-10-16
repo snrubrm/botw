@@ -23,6 +23,8 @@ u32* ForestRenderer::sub_7100F01AC0() {
     return &sUnk_710260a1dc;
 }
 
+ForestRenderer::ForestRenderer() = default;
+
 // NON_MATCHING: Clang duplicates the `_50 |= 8` store into the state 6 path (jump threading on bit 0)
 // and biases the loop pointer at mModelUnit instead of the unit buffer.
 void ForestRenderer::requestDraw() {

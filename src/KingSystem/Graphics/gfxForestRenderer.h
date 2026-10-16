@@ -6,6 +6,7 @@
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModel.h>
@@ -126,7 +127,13 @@ public:
     // 0x7100f03b68 (placeholder name): sets bit 1 of every item's flags.
     void sub_7100F03B68();
 
+    // 0x7100f01acc
+    ForestRenderer();
     virtual ~ForestRenderer();
+
+    // 0x7100f01bf8 / 0x7100f01ef8 (CSV names; declaration only): targets of the delegates at 0x1e0 / 0x200.
+    bool invoked2(void* arg);
+    bool invoked3(void* arg);
 
     s32 x_7(const sead::Vector3f& vec);
     // 0x7100f06798 (CSV x_8): `idx` from x_7 (entry << 16 | record). With `b` it clears record flags 1, 2 and 6;
@@ -197,13 +204,26 @@ public:
         s32 mCurrent = 0;
     };
 
+    // Placeholder name (vtable 0x71024f3978; D1 0x7100f09780 / D0 0x7100f09800): the locked object at 0x68.
+    // Its destructor releases _50 and _58 under the lock when bit 0 of mFlags is set.
+    struct Unk_68 {
+        virtual ~Unk_68();
+
+        sead::CriticalSection mCS;
+        u32 mFlags = 0;
+        void* _50 = nullptr;
+        sead::PtrArrayImpl _58;
+    };
+    static_assert(sizeof(Unk_68) == 0x68);
+
     sead::CriticalSection mCS;
-    u64 _48;
-    u32 _50;
-    s32 _54;
-    u8 _58[0x60 - 0x58];
-    s32 _60;
-    u8 _64[0xd0 - 0x64];
+    u64 _48 = 0;
+    u32 _50 = 0;
+    s32 _54 = 0;
+    u32 _58 = 0;
+    s32 _5c = -1;
+    s32 _60 = 0;
+    Unk_68 _68;
     sead::Buffer<Entry> mEntries;
     UnitEntryBuffer mUnitEntries;
     sead::Buffer<TreeResMaybe> mTreeRes;
@@ -214,11 +234,17 @@ public:
         // 0x7100f07818 (CSV ForestRenderer::invoked1): clears bit 0.
         void invoked1(TaskPostRunResult* result, const TaskPostRunContext& context);
 
-        u32 mFlags;
+        u32 mFlags = 0;
     };
     Unk_1b8 _1b8;
-    u8 _1bc[0x220 - 0x1bc];
-    u32 _220;
+    sead::Delegate2<Unk_1b8, TaskPostRunResult*, const TaskPostRunContext&> mPostRunDelegate{
+        &_1b8, &Unk_1b8::invoked1};
+    sead::Delegate1R<ForestRenderer, void*, bool> mDelegate2{this, &ForestRenderer::invoked2};
+    sead::Delegate1R<ForestRenderer, void*, bool> mDelegate3{this, &ForestRenderer::invoked3};
+    u32 _220 = 0;
+    u64 _228 = 0;
+    u64 _230 = 0;
 };
+static_assert(sizeof(ForestRenderer) == 0x238);
 
 }  // namespace ksys::gfx
