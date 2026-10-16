@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include <heap/seadHeap.h>
 #include <prim/seadScopedLock.h>
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
@@ -40,7 +41,7 @@ ConstraintUnk18* sub_7100F6ACA8(hkpConstraintData* data, const Constraint::Param
 
 Constraint::Constraint(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
                        const u32& value, ConstraintUnk18* breakable)
-    : mConstraintInstance(instance), _10(value), _18(breakable), _20(nullptr), _28(nullptr),
+    : mConstraintInstance(instance), _10(value), _18(breakable), _20(nullptr), mListener(nullptr),
       _50(0), _52(0), _98(1.0f), _9c(1.0f), _a0(nullptr) {
     mCurrentBodies[0] = System::instance()->get190();
     mCurrentBodies[1] = nullptr;
@@ -159,6 +160,33 @@ void Constraint::sub_7100F6A6F8(bool activate, bool replace_body) {
         _a8.unlock();
         if (added)
             System::instance()->unlockWorld(ContactLayerType::Entity);
+    }
+}
+
+void Constraint::sub_7100F6A180(sead::Heap* heap) {
+    mListener = new (heap->alloc(sizeof(ConstraintListener), 16)) ConstraintListener;
+    mConstraintInstance->addConstraintListener(mListener);
+}
+
+void ConstraintListener::constraintRemovedCallback(hkpConstraintInstance* constraint) {
+    auto* self = reinterpret_cast<Constraint*>(constraint->getUserData());
+    if (self->_a0)
+        self->_a0->m0(self, true);
+
+    hkpConstraintOwner* owner = constraint->getOwner();
+    self->_50 = (self->_50 & ~9) | 8;
+    if (self->_20)
+        System::instance()->sub_7101216AB0(self->_20);
+    if (self->mCurrentBodies[0])
+        self->mCurrentBodies[0]->getHkBody()->activate();
+    if (self->mCurrentBodies[1])
+        self->mCurrentBodies[1]->getHkBody()->activate();
+
+    if (!(self->_50 & 0x20)) {
+        constraint->setOwner(nullptr);
+        if (self->mCurrentBodies[1])
+            self->sub_7100F6A300(self->mCurrentBodies[1], System::instance()->get190());
+        constraint->setOwner(owner);
     }
 }
 

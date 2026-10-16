@@ -6,6 +6,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadSpinLock.h>
+#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintListener.h>
 #include "KingSystem/Physics/System/physUnk_71012a6844.h"
 
 class hkpConstraintInstance;
@@ -45,6 +46,15 @@ KSYS_CHECK_SIZE_NX150(ConstraintUnk18, 0x18);
 
 class Constraint;
 
+// vtable 0x71024f61a8 (placeholder name): created by Constraint::sub_7100F6A180 and registered on the
+// constraint's hk instance; only the removed callback does work.
+class ConstraintListener : public hkpConstraintListener {
+public:
+    // 0x7100f6ae3c: marks the Constraint (instance user data) removed from the world, wakes both
+    // bodies and moves body 1 back to System's _190 body unless a replacement is in progress.
+    void constraintRemovedCallback(hkpConstraintInstance* constraint) override;
+};
+
 // Placeholder (the object at Constraint +0xa0): 0x7100f6a474 calls its first virtual with (this, false) before the
 // constraint is added to the world.
 struct ConstraintUnkA0 {
@@ -77,7 +87,7 @@ public:
     virtual ~Constraint();
 
     // Whole FixedCs factory passes its constructed receiver and allocation heap.
-    // Listener registration implementation remains undecompiled.
+    // 0x7100f6a180 (placeholder name): creates mListener and adds it to the hk instance.
     void sub_7100F6A180(sead::Heap* heap);
 
     /// No-op if instance is null.
@@ -137,7 +147,7 @@ public:
     /* 0x10 */ u32 _10;
     /* 0x18 */ ConstraintUnk18* _18;
     /* 0x20 */ Unk_71012a6844::ItemA* _20;
-    /* 0x28 */ void* _28;
+    /* 0x28 */ ConstraintListener* mListener;
     // lane4 s64 (from the ctor 0x7100f69d38, x_0 and the commit function 0x7100f6a228): `mCurrentBodies` are the bodies the
     // hk constraint is attached to (the ctor stores {System::_190, null}); `mPendingBodies` are the bodies requested with
     // sub_7100F6A88C / A92C / A9D4 (request bit 3), applied by 0x7100f6a300 and cleared by the commit.
