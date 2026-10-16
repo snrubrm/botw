@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::act {
 
@@ -95,6 +96,36 @@ void Unk_7102459df8::Unk_710079d5a0::sub_710079F9C0(sead::Buffer<phys::Collision
         }
         info->unlock();
     }
+}
+
+// NON_MATCHING: the original keeps `pos` on the stack (in the slot of `velocity`); ours keeps it in registers.
+void Unk_7102459df8::Unk_710079d5a0::Unk1::sub_710079FC50(phys::RigidBody* body) {
+    sead::Vector3f angular_velocity;
+    body->getAngularVelocity(&angular_velocity);
+    const f32 angular_speed = angular_velocity.length();
+    if (angular_speed > 0.0f)
+        angular_velocity *= 0.7853982f / angular_speed;  // pi / 4
+
+    sead::Vector3f velocity;
+    body->getRigidBodyAccessor()->getLinearVelocity(&velocity);
+    velocity.normalize();
+
+    sead::Vector3f offset = velocity;
+    sead::Vector3f pos = _0;
+    util::sub_71011EFB40(&offset, angular_velocity);
+    pos += offset;
+    util::sub_71011EFB40(&offset, angular_velocity);
+    pos += offset;
+    pos -= _0;
+    pos.normalize();
+
+    // Both results are unused.
+    sead::Vector3f unused_body_velocity;
+    body->getAngularVelocity(&unused_body_velocity);
+    sead::Vector3f unused_accessor_velocity;
+    body->getRigidBodyAccessor()->getAngularVelocity(&unused_accessor_velocity);
+
+    _9c = pos;
 }
 
 }  // namespace ksys::act

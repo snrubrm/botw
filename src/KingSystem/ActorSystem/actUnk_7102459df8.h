@@ -116,8 +116,8 @@ public:
             /* 0x9c */ sead::Vector3f _9c = sead::Vector3f::ez;
             /* 0xa8 */ f32 _a8 = 0;  // mass of the hit body (sub_710079F66C)
 
-            // 0x710079fc50 (declared only; 588 B; placeholder name): updates the entry from the hit body's
-            // angular velocity.
+            // 0x710079fc50 (placeholder name): sets _9c to the direction of _0 moved twice along the body velocity
+            // rotated by its angular velocity (scaled to pi / 4).
             void sub_710079FC50(phys::RigidBody* body);
         };
         KSYS_CHECK_SIZE_NX150(Unk1, 0xb0);
