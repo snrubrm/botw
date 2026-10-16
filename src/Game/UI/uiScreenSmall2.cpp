@@ -216,6 +216,23 @@ void ScreenDoCommand::m130() {
     }
 }
 
+// 0x71009e4f88
+// NON_MATCHING: the original reads RuneMgr::_94 once as a word and computes the remote bomb test before the
+// closing / 0xa000 test (as in ScreenDoCommand::m130's shape)
+void ScreenAppMapDungeon::m130() {
+    if (!Unk_71025d6550::instance()->isD78Zero())
+        return;
+    const bool closing = isClosedOrClosing() && sub_7100AA8F50();
+    const u64 flags = Manager::instance()->_64c30;
+    const bool camera = (RuneMgr::instance()->_94 & 0x20) && (RuneMgr::instance()->_90 & 0x10) &&
+                        RuneMgr::instance()->isSelectedRune(5);
+    if (camera || (closing | ((flags & 0xa000) == 0xa000)) ||
+        ((RuneMgr::instance()->_94 & 0x80) && (RuneMgr::instance()->_90 & 0x20))) {
+        close(-4);
+        sub_7100AA9808(mLayout->GetPane());
+    }
+}
+
 // 0x7100a20230
 void ScreenMainShortCut::m84() {
     if (isClosed())

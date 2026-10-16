@@ -4146,6 +4146,9 @@ class ScreenAppMapDungeon : public ScreenEx {
 public:
     bool sub_71009E0DF8() const;
     void m100() override;
+    // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,
+    // the UI manager flags 0xa000 are both set or the remote bomb state bit is set
+    void m130() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppMapDungeon() override;
