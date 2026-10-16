@@ -443,6 +443,8 @@ s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
                     const eui::MessageString& message);
 // 0x7100aa37ec
 const char* getDecimalSeparator(bool a1);
+// 0x7100aa8334 (placeholder name): CreatePlayerTrashActorMgr::sub_7100667974, or true without the manager
+bool sub_7100AA8334();
 // 0x7100aa3914 (placeholder name): sets a widget to a number (format 0), mm:ss (1) or hh:mm:ss (2), followed by
 // the decimal separator and `fraction` when it is not negative (99 once the time is past the maximum)
 void sub_7100AA3914(eui::LayoutEx* layout, const sead::SafeString& widget_name, s32 format, s32 time,

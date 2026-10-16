@@ -224,6 +224,13 @@ bool sub_7100AA8294() {
     return true;
 }
 
+// 0x7100aa8334 (placeholder name)
+bool sub_7100AA8334() {
+    if (auto* mgr = uking::act::CreatePlayerTrashActorMgr::instance())
+        return mgr->sub_7100667974();
+    return true;
+}
+
 // 0x7100aa9838 / 0x7100aa9848 (CSV ResourceSystem::stopCompactionIfTooLong1_0 / unnamed)
 void sub_7100AA9838() {
     ksys::res::GameResourceSystem::instance()->pauseCompaction();
