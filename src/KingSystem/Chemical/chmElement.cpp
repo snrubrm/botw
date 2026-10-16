@@ -205,6 +205,51 @@ f32 Unk_7102518688::m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical
     return mHolder->_30;
 }
 
+// NON_MATCHING: prologue scheduling (the zero result and the argument moves are ordered differently).
+f32 Unk_7102518688::m15(f32 radius, sead::Vector3f* out, const sead::Vector3f& pos,
+                         ksys::act::Chemical* chemical) {
+    f32 value = 0.0f;
+    *out = sead::Vector3f::ex;
+    if (radius <= 0.0f)
+        return value;
+    if (mHolder->_8->effect_type.ref() != 2)
+        return value;
+    if (mHolder->_78 == 1) {
+        ksys::phys::SystemGroupHandler* handler = nullptr;
+        if (chemical && chemical->_18) {
+            auto* owner = sead::DynamicCast<ksys::act::Unk_71024e6428>(chemical->_18);
+            if (owner && owner->mActor)
+                handler = owner->mActor->getPhysics()->get188(0);
+        }
+        if (ksys::act::sub_7100E412D0(m6(), chemical, pos, handler, false))
+            return value;
+    }
+    *out = pos - m6();
+    if (out->x == 0.0f && out->y == 0.0f && out->z == 0.0f) {
+        *out = sead::Vector3f::ex;
+        return value;
+    }
+    f32 distance = out->normalize() - radius;
+    f32 ratio = mHolder->_44;
+    if (distance <= 1.0f)
+        distance = 1.0f;
+    if (distance > 1.0f)
+        ratio /= distance;
+    if (ratio < 1.0f)
+        return value;
+
+    const f32 r2 = ratio * ratio;
+    const f32 k = radius / (distance + radius);
+    const f32 s = std::sqrt(distance * (radius + radius + distance));
+    const f32 t = k * s / radius;
+    const f32 scale = radius == 0.0f ? 1.0f : t * t;
+    f32 q = (r2 * 0.39999998f + 2.0f) / (r2 * 2.8f + -0.39999998f);
+    if (q < 0.0f)
+        q = 0.0f;
+    value = (ratio - std::sqrt(q)) * scale;
+    return value;
+}
+
 f32 Unk_7102518688::m19(ksys::act::Chemical* chemical) {
     f32 value = 0.0f;
     if (mRigidBody && chemical->_18) {
