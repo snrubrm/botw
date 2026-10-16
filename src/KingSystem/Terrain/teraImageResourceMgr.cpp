@@ -1,11 +1,42 @@
 #include <atomic>
 #include <cstring>
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
 namespace ksys::tera {
 
 ImageResourceMgr::~ImageResourceMgr() = default;
+
+void ImageResourceMgr::sub_7101133588(Request* request) {
+    mCS68.lock();
+    if (!(request->_4c & 0x10)) {
+        for (LoadTask& task : mKindLists2[u8(request->_50)]) {
+            if (task._20 == 0 && task._80 == request)
+                task._20 = 2;
+        }
+    }
+    mLists1c0[u8(request->_50)].erase(request);
+    request->_4c &= ~1;
+    if (request->addr)
+        request->addr = nullptr;
+    res::Handle* handle = request->_90;
+    request->_90 = nullptr;
+    if (_6473 & 2) {
+        mLists19c0[u8(request->_50)].pushBack(request);
+        request->_4c |= 2;
+        mList31c0.pushFront(request);
+    }
+    mCS68.unlock();
+
+    if (handle && !(_6473 & 2)) {
+        handle->~Handle();
+        mCS68.lock();
+        mHandleFreeList.free(handle);
+        mCS68.unlock();
+    }
+    _626c = 0;
+}
 
 void ImageResourceMgr::sub_71011339D0(Request* request) {
     if (request->area->isImageFlagSetMaybe(request->type, 8))

@@ -4,6 +4,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadFreeList.h>
 #include <container/seadSafeArray.h>
 #include <math/seadBoundBox.h>
 #include <math/seadVector.h>
@@ -43,6 +44,10 @@ class ExpHeap;
 
 namespace ksys::phys {
 class Material;
+}
+
+namespace ksys::res {
+class Handle;
 }
 
 namespace ksys::tera {
@@ -488,12 +493,17 @@ public:
     sead::OffsetList<LoadTask> mKindLists2[0x100];
     // Destroyed by 0x7101130df0.
     agl::GPUMemBlock<u8> mMemBlock6230;
-    u8 _6268[0x6270 - 0x6268];
+    u8 _6268[0x626c - 0x6268];
+    // Cleared by 0x7101133588.
+    u32 _626c;
     s32 _6270;
     u8 _6274[0x6298 - 0x6274];
     sead::Thread* mThread;
     sead::Atomic<s32> _62a0;
-    u8 _62a4[0x62d8 - 0x62a4];
+    u8 _62a4[0x62a8 - 0x62a4];
+    // Storage for the requests' resource handles (0x710113400c allocates, 0x7101133588 frees).
+    sead::FreeList mHandleFreeList;
+    u8 _62b8[0x62d8 - 0x62b8];
     System* mSystems[8];
     u64 _6318;
     u64 _6320;
@@ -821,7 +831,10 @@ struct ImageResourceMgr::Request {
     u32 _6c;
     u8 _70[0x88 - 0x70];
     agl::GPUMemVoidAddr* addr;
-    u8 _90[0xb0 - 0x90];
+    // Resource handle taken from ImageResourceMgr::mHandleFreeList (0x710113400c); destroyed and returned
+    // there by 0x7101133588.
+    res::Handle* _90;
+    u8 _98[0xb0 - 0x98];
     agl::TextureSampler sampler;
 };
 
