@@ -1,4 +1,9 @@
 #include "Game/Actor/AI/aiEnemyRangeKeepMove.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include <cmath>
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -85,6 +90,74 @@ void EnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
             changeToMoveSideways(direction);
         }
     }
+}
+
+// The side to move to (-1 / 1) to keep space from the other chemicals / awareness targets / enemies near the
+// line to the target, 0 if there is none (or the side point is unreachable), -5 if the burning chemical and the
+// others push to opposite sides.
+// NON_MATCHING: stack layout of the vector copies and the sign test codegen; same logic.
+s8 EnemyRangeKeepMove::sub_71003AB9B0() {
+    if (*mSpaceAngle_s <= 0.0f)
+        return 0;
+
+    f32 angle = 0.0f;
+    auto* actor = mActor;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, actor);
+    const sead::Vector3f target = sub_71005D9330(actor);
+    sead::Vector3f front = target;
+    front -= pos;
+    front.y = 0.0f;
+    const f32 dist = front.normalize();
+
+    f32 chemical_angle = 0.0f;
+    if (auto* chemical = actor->getChemicalStuff()) {
+        const auto* damage_param = mActor->getParam()->getRes().mDamageParam;
+        if (damage_param && damage_param->mBurnable.ref()) {
+            if (auto* holder = chemical->_90->_0) {
+                sead::Matrix34f mtx;
+                mtx.setTranslation(holder->sub_7100D8D1E0());
+                sub_71003AD3EC(&angle, front, mtx, true, 6.0f, dist);
+                chemical_angle = angle;
+            }
+        }
+    }
+
+    auto* awareness = actor->getAwareness();
+    for (s32 i = 0; i < 5; ++i) {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || sensor->_8.size() <= i)
+            break;
+        auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, i);
+        if (!entry)
+            break;
+        sub_71003AD3EC(&angle, front, entry->_58, false, 4.0f, dist);
+    }
+    for (s32 i = 0; i < 10; ++i) {
+        if (awareness->_8.size() <= i)
+            break;
+        auto* entry = ksys::act::sub_7100D78E30(&awareness->_8, i);
+        if (!entry)
+            break;
+        if (ksys::act::isEnemyProfile(&entry->_0.mLink))
+            sub_71003AD3EC(&angle, front, entry->_58, false, 2.0f, dist);
+    }
+
+    if (!sead::Mathf::equalsEpsilon(chemical_angle, 0.0f) && !(chemical_angle * angle >= 0.0f))
+        return -5;
+    if (!(sead::Mathf::abs(angle) >= 0.7f))
+        return 0;
+
+    const s8 side = angle <= 0.0f ? 1 : -1;
+    sead::Vector3f dir = target;
+    dir -= pos;
+    dir.set(-dir.z, 0.0f, dir.x);
+    dir.normalize();
+    const sead::Vector3f dest = pos + dir * (*mSpaceDist_s * side);
+    if (!sub_710072FAB0(actor, dest, nullptr, -1, -1.0f, -1.0f))
+        return 0;
+    return side;
 }
 
 bool EnemyRangeKeepMove::isChangeable() const {
