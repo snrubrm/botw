@@ -6,7 +6,6 @@
 // Link order puts these after mapDebug, apart from the actActorUtil block.
 
 bool checkIsGet(const sead::SafeString& name, bool mode);
-// 0x7100eea1f0 (declared only): sets IsGet_<name> (FixedSafeString<96>).
 void setIsGetFlagEx(const sead::SafeString& name, bool value, bool mode);
 
 // Source owner unknown: the event-flow caller uses this string prefix.
@@ -40,6 +39,13 @@ void setIsGetSameGroup(const sead::SafeString& actor_name, bool value, bool mode
         setIsGetFlagEx(group_name, value, mode);
     else
         setIsGetFlagEx(actor_name, value, mode);
+}
+
+void setIsGetFlagEx(const sead::SafeString& name, bool value, bool mode) {
+    sead::FixedSafeString<96> flag_name{"IsGet_"};
+    flag_name.append(name);
+    if (auto* mgr = ksys::gdt::Manager::instance())
+        mgr->setBoolSpecial(value, flag_name, mode, true);
 }
 
 // Placeholder name (CSV act::checkIsGet): the same as checkIsGetSameGroupActorName for an actor.

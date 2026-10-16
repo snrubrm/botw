@@ -306,6 +306,8 @@ public:
     bool x_2();                              // 0x84bce8
     // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().
     bool sub_710084B41C();
+    bool sub_710084BE3C();
+    bool sub_710084BEF0();
     s32 sub_710084B580();
     // lane4 s46 (placeholder names, from the bodies).
     // 0x84acf0: 0 if `stamina` is above the Player.EnergyTiredValue parameter, else 2 if it is not positive, else 1 (a

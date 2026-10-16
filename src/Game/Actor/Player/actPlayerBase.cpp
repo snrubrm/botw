@@ -55,6 +55,19 @@ bool playerHasAttackInfo(ksys::act::Actor* actor) {
     return hasAttackInfo(actor);
 }
 
+namespace uking::act {
+
+// Placeholder name: false during events; true in the m188 / m186 (without _cec bit 9) states, with _cf0 bit 17,
+// _cec bits 1 / 19, or the m151 bits 4 / 3.
+bool PlayerBase::sub_710084BE3C() {
+    if (eventMgrHasActiveEvent())
+        return false;
+    return m188() || (m186() && !_cec.isOnBit(9)) || _cf0.isOnBit(17) || _cec.isOn(0x80002) || m151(4) ||
+           m151(3);
+}
+
+}  // namespace uking::act
+
 // 0x710084beec: tail-calls eventMgrHasActiveEvent (the actor argument is ignored).
 // Lives here (PlayerBase's TU, by address neighbours); called by PlayerBase TU
 // functions and PlayerNormal::leave_.
@@ -62,6 +75,24 @@ bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor) {
     static_cast<void>(actor);
     return eventMgrHasActiveEvent();
 }
+
+namespace uking::act {
+
+// Placeholder name: false during events; true in any of the listed states or while the root AI runs the
+// door-push action (ドアを押して開ける).
+bool PlayerBase::sub_710084BEF0() {
+    if (eventMgrHasActiveEvent())
+        return false;
+    if (m188() || m186() || _cf4.isOnBit(1) || m187() || _cf0.isOnBit(17) || _cec.isOnBit(19) ||
+        isRidingHorse() || m193() || m200() || _cec.isOn(0x80000008) || _c44.isOnBit(21) || m151(4) ||
+        m151(3) || _cf4.isOnBit(28) ||
+        (getRootAi() && getRootAi()->isCurrentAction("ドアを押して開ける"))) {
+        return true;
+    }
+    return false;
+}
+
+}  // namespace uking::act
 
 // 0x710084be2c: sub_71007A255C(actor, 0). Lives here (PlayerBase's TU, by address
 // neighbours); called by Player::m303.
