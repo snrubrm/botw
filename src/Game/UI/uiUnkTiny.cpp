@@ -668,6 +668,35 @@ Unk_710247dc70::Unk_710247dc70() = default;
 // 0x71009c6870
 Unk_710247dc70::~Unk_710247dc70() = default;
 
+// 0x71009c6878
+void Unk_710247dc70::sub_71009C6878(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    mLayout = layout;
+    mNumAnimator = layout->createAnimatorAuto("Num", false);
+}
+
+// 0x71009c68b8
+// NON_MATCHING: the original (C++14 order) loads mNumAnimator and its vtable after computing the frame
+void Unk_710247dc70::sub_71009C68B8(s32 count) {
+    if (!mLayout || !mNumAnimator)
+        return;
+    if (count <= 1) {
+        if (mLayout->_91 == 1 || mLayout->_91 == 2)
+            mLayout->startAnimCloseImpl_(false, true);
+        return;
+    }
+    if (mLayout->_91 == 3 || mLayout->_91 == 0)
+        mLayout->sub_7100BDDE7C(false, 1, true);
+    mNumAnimator->Stop(sead::Mathf::min(f32(count - 2), f32(mNumAnimator->GetFrameSize())));
+}
+
+// 0x71009c697c
+void Unk_710247dc70::sub_71009C697C() {
+    if (mLayout && (mLayout->_91 == 1 || mLayout->_91 == 2))
+        mLayout->startAnimCloseImpl_(false, true);
+}
+
 // 0x71009dff74
 Unk_71024810d8::~Unk_71024810d8() = default;
 

@@ -541,9 +541,15 @@ class Unk_710247dc70 {
 public:
     Unk_710247dc70();
     virtual ~Unk_710247dc70();
+    // 0x71009c6878: keeps the layout and creates its "Num" animator
+    void sub_71009C6878(eui::LayoutEx* layout);
+    // 0x71009c68b8: hides the layout for a count of at most 1, otherwise shows it at frame count - 2
+    void sub_71009C68B8(s32 count);
+    // 0x71009c697c: closes the layout when it is open or opening
+    void sub_71009C697C();
 
-    /* 0x8 */ u64 _8 = 0;
-    /* 0x10 */ u64 _10 = 0;
+    /* 0x8 */ eui::LayoutEx* mLayout = nullptr;
+    /* 0x10 */ eui::Animator* mNumAnimator = nullptr;
 };
 
 class Unk_71024810d8 {
