@@ -392,8 +392,21 @@ class Unk_SoundMgr38_50 {
 public:
     virtual ~Unk_SoundMgr38_50();
     void sub_7101036840();
-    // 0x7101036a68 (declared only; empty in the release build): called before deletion.
+    // 0x7101036a68 (empty in the release build): called before deletion.
     void sub_7101036A68();
+    // 0x71010367e8: resets the state and both faders.
+    void sub_71010367E8();
+
+    u8 _8[0x38 - 0x8];
+    /* 0x38 */ u32 _38;
+    /* 0x3c */ bool _3c;
+    /* 0x40 */ u32 _40;
+    /* 0x44 */ s32 _44;
+    /* 0x48 */ u32 _48;
+    /* 0x50 */ aal::SimpleTimedFader _50;
+    /* 0x68 */ aal::SimpleTimedFader _68;
+    /* 0x80 */ u16 _80;
+    /* 0x84 */ u32 _84;
 };
 class Unk_SoundMgr38_58 {
 public:
