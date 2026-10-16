@@ -6,6 +6,12 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -116,8 +122,67 @@ void SiteBossLswordAtkWithChemical::loadParams_() {
     getStaticParam(&mEmitActorSpeed_s, "EmitActorSpeed");
 }
 
+// NON_MATCHING: the final emit-all loop (the original guards with num != 0 and loops unsigned).
 void SiteBossLswordAtkWithChemical::calc_() {
     SiteBossLswordAttack::calc_();
+
+    if (sub_71005DD780(mActor, 0x3b, nullptr, 0, 0) && _1a0 && _1a0->getCollisionInfo() &&
+        _1a0->getCollisionInfo()->getCollidingBodies().size() != 0) {
+        ksys::eft::searchAndEmitSLink(mActor, "StraightAttackSwing_HitGround", false);
+    }
+
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || !boss->_1558.isOnBit(0))
+        return;
+
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0) && !_188) {
+        _188 = true;
+        _18c = ksys::Timer(*mEmitStartFrame_s, *mEmitStartFrame_s);
+        bool emitted = false;
+        for (s32 i = 0; i < *mEmitNum_s; ++i) {
+            const bool result = sub_710025B4B0(i);
+            _1a8[i] = result;
+            emitted |= result;
+        }
+        if (emitted && !mCallSEKeyAtAtOn_s.isEmpty()) {
+            xlinkSearchAndEmit(mActor, mCallSEKeyAtAtOn_s.cstr(), 1, &_1c8);
+            _18a = true;
+        }
+    }
+
+    if (_188) {
+        if (sub_710072B7C4()) {
+            _189 = true;
+            sub_710025B7CC();
+        } else {
+            const s32 num = getNumAttackInfoMaybe(mActor);
+            for (s32 i = 0; i < num; ++i) {
+                auto* info = getAttackInfo(mActor, i);
+                if (info && (info->_18 & 2)) {
+                    _189 = true;
+                    sub_710025B7CC();
+                    break;
+                }
+            }
+        }
+    }
+
+    _18c.update();
+    if (_18c.value <= std::numeric_limits<f32>::epsilon()) {
+        const s32 interval = *mEmitInterval_s;
+        const s32 num = *mEmitNum_s;
+        if (interval >= 1) {
+            if (num > _198) {
+                sub_710025B95C(_198);
+                _18c = ksys::Timer(f32(*mEmitInterval_s), f32(*mEmitInterval_s));
+                ++_198;
+            }
+        } else if (num > _198 && num != 0) {
+            for (s32 i = 0; i < *mEmitNum_s; ++i)
+                sub_710025B95C(i);
+        }
+    }
 }
 
 void SiteBossLswordAtkWithChemical::m37(sead::Vector3f* pos) {
