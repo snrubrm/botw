@@ -67,7 +67,13 @@ public:
     };
     // An element of _28 (0x1c bytes, one per main bone; filled by 0x7101226e44).
     struct MainBoneWork {
-        u8 _0[0x1c];
+        sead::Vector3f _0;
+        // Added to the bone's base_translate (0x7101226e44).
+        sead::Vector3f translate;
+        // Set once the bone transform has been written (0x7101226e44).
+        bool _18;
+        bool _19;
+        bool enabled;
     };
     KSYS_CHECK_SIZE_NX150(State, 8);
 
@@ -79,8 +85,13 @@ public:
     // 0x7101226bb4 (placeholder name): looks up the model bone of every bone of `resource` and allocates the main
     // and support bone work buffers. False without an accessor / resource or when the work buffer allocation fails.
     bool init(BoneAccessor* accessor, SupportBoneResource* resource, sead::Heap* heap);
-    // 0x7101226e44 (declaration only): sets up _28 from the main bones.
+    // 0x7101226e44: writes the transform of every enabled main bone (rotation from 0x710122ad34 and the base
+    // rotation, translation = base_translate + the work translation) in model space, local space or relative to
+    // its parent bone (`space`: -2, -1 or the parent bone index).
     void sub_7101226E44();
+    // 0x710122ad34 (declaration only; placeholder name): computes the aim rotation of a main bone, false if none.
+    static bool sub_710122AD34(sead::Quatf* out, const MainBoneWork& work, const sead::Vector3f& aim,
+                               const sead::Vector3f& up, const sead::Vector3f& side);
 
     // inline-only in the original; name is a guess: the same frees open the destructor 0x7101226ae0 and the
     // init function 0x7101226bb4.
