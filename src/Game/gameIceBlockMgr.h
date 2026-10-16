@@ -44,7 +44,9 @@ public:
     /* 0x080 */ ksys::act::BaseProcLink _80;
     /* 0x090 */ ksys::ActorMessageTransceiver mTransceiver{*this};
     /* 0x0e8 */ u16 _e8 = 0;
-    // Zeroed by the inlined ctor in createInstance 0x710066e984 (types unknown).
+    // Zeroed by the inlined ctor in createInstance 0x710066e984 (types unknown). 0x710066f538 fades an effect
+    // handle at 0x100 + _14c * 0x20, so 0x100-0x140 are probably two 0x20-byte effect handles, not the
+    // placeholder fields below.
     /* 0x0ec */ u32 _ec = 0;
     /* 0x0f0 */ u32 _f0 = 0;
     /* 0x0f4 */ u32 _f4 = 0;
