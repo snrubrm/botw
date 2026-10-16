@@ -759,6 +759,30 @@ void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out
     }
 }
 
+// NON_MATCHING: the original branches on one fccmp chain for isInside; ours materialises the four compares
+// 0x7100941c30
+void ScreenAppPictureBookUnk::sub_7100941C30(const sead::Vector2f& offset, s32* out_index, s32* out_entry) {
+    sead::Vector2f pos = sead::Vector2f::zero;
+    for (s32 e = 0; e < _2a8; ++e) {
+        if (mEntries(e)->_38d)
+            continue;
+        const s32 count = mEntries(e)->_2f4;
+        for (s32 i = 0; i < count; ++i) {
+            sub_71009419E0(i, e, &pos);
+            pos += offset;
+            ScreenAppPictureBookEntry* entry = mEntries(e);
+            const sead::Vector2f size = entry->mGroupList->_20 + entry->mParams._2a8;
+            sead::BoundBox2f box;
+            box.setFromCenterAndXY(sead::Vector2f::zero, size.x, size.y);
+            if (box.isInside(pos)) {
+                *out_index = i;
+                *out_entry = e;
+                return;
+            }
+        }
+    }
+}
+
 // NON_MATCHING: register allocation (the two zero results of the search and the clamp temporaries)
 // 0x7100941354
 f32 ScreenAppPictureBookUnk::sub_7100941354(s32 index) {
