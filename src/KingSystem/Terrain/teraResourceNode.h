@@ -4,16 +4,43 @@
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
+class Unk_710250dbc8;
+
 namespace ksys::tera {
 
-// Placeholder (ctor 0x710110cfd0, init 0x710110d034; size 0x28). Created for each
-// Unk_7101108460 node. Bit 0 / bit 3 of _8 are flags read and set by the resource managers.
-class Unk_710110cfd0 {
-public:
-    u8 _0[0x8];
-    u32 _8;
-    u8 _c[0x28 - 0xc];
+// Placeholder name: the kind of a terrain image (type 0 - 3, and an index for type 3). The
+// resources Unk_710250db28 / dbc8 / dc50 / dd60 answer their virtuals m4 - m8 through it.
+// A union: Unk_710250db28 builds it as one word (3 | index << 16).
+union ImageTypeMaybe {
+    // 0x710114a5a0 (placeholder name)
+    s32 sub_710114A5A0() const;
+    // 0x710114a5a8 (placeholder name)
+    s32 sub_710114A5A8() const;
+    // 0x710114a5cc (placeholder name)
+    s32 sub_710114A5CC() const;
+    // 0x710114a62c (placeholder name): the type is not 1.
+    s32 sub_710114A62C() const;
+    // 0x710114a650 (declared only; 1672 B): a value cached per type, size and `a3`.
+    u16 sub_710114A650(u32 size, s32 a3) const;
+
+    struct {
+        s16 type;
+        u16 index;
+    };
+    u32 raw;
 };
+
+// Constants passed by address to many terrain functions (CreateTeraSystem, 0x71011074a0, ...).
+// 0x7101ec54ac
+extern const ImageTypeMaybe sUnk_7101EC54AC;
+// 0x7101ec54b4
+extern const ImageTypeMaybe sUnk_7101EC54B4;
+
+// Placeholder name: an index into a table of image sizes (32 - 1024).
+enum class ImageSizeMaybe : u32 {};
+
+// 0x710114a63c (placeholder name): the size for `size`.
+u32 getImageSizeMaybe(const ImageSizeMaybe& size);
 
 // Placeholder (ctor 0x710110d278, init 0x710110d2c4; size 0xa8). _8 points to the key the managers
 // search by (first u16 is its id); _a0 is compared with epsilon by 0x7101108624.
@@ -35,9 +62,9 @@ public:
 class Unk_7101108460 : public sead::ListNode {
 public:
     // 0x7101107e90
-    Unk_710110cfd0* getA();
+    Unk_710250dbc8* getA();
     // 0x710110860c
-    const Unk_710110cfd0* getA() const;
+    const Unk_710250dbc8* getA() const;
     // 0x7101107760
     Unk_710110d278* getB() const;
     // 0x7101108614 (placeholder name): id of the key of B.
@@ -47,7 +74,7 @@ public:
 
     Unk_7101108460* mData;
     void* mList;
-    Unk_710110cfd0* mA;
+    Unk_710250dbc8* mA;
     Unk_710110d278* mB;
 };
 

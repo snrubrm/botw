@@ -1033,39 +1033,73 @@ public:
 };
 
 // vtable 0x710250db28 (15 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710250db28 : public Unk_710250dcd8 {
+// The list node is a base: 0x7101108564 converts a new object to it with a null check, and the
+// constructor builds it before the vtable store.
+class Unk_710250db28 : public Unk_710250dcd8, public sead::TListNode<Unk_710250db28*> {
     SEAD_RTTI_OVERRIDE(Unk_710250db28, Unk_710250dcd8)
 public:
+    // 0x710110cbcc
+    Unk_710250db28();
+    struct InitArg {
+        u32 index;
+        u32 size;
+    };
+    // 0x710110cc34
+    void init(const InitArg& arg);
+
     ~Unk_710250db28() override;
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10() { return 1; }
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    s32 m4() override;
+    s32 m5() override;
+    s32 m6() override;
+    s32 m7() override;
+    u16 m8() override;
+    u32 m9() override;
+    s32 m10() override { return 1; }
+    void m13(void* unused, const void* src, u32 size) override;
+
+    // inline-only in the original; name is a guess. m4 - m8 all build the key as one word
+    // (3 | index << 16), as a value returned in a register.
+    ksys::tera::ImageTypeMaybe getImageType() const {
+        ksys::tera::ImageTypeMaybe type;
+        type.type = 3;
+        type.index = mIndex;
+        return type;
+    }
+
+    // Bit-fields: init 0x710110cc34 stores both bytes as one halfword.
+    u16 mSize : 8;
+    u16 mIndex : 8;
 };
 
 // vtable 0x710250dbc8 (15 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250dbc8 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dbc8, Unk_710250dcd8)
 public:
+    // 0x710110cfd0
+    Unk_710250dbc8();
+    // 0x710110d034
+    void init(const ksys::tera::ImageSizeMaybe& size);
+
     ~Unk_710250dbc8() override;
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10() { return 1; }
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    s32 m4() override;
+    s32 m5() override;
+    s32 m6() override;
+    s32 m7() override;
+    u16 m8() override;
+    u32 m9() override;
+    s32 m10() override { return 1; }
+    void m13(void* unused, const void* src, u32 size) override;
+
+    // inline-only in the original; name is a guess (as Unk_710250db28::getImageType).
+    ksys::tera::ImageTypeMaybe getImageType() const {
+        ksys::tera::ImageTypeMaybe type;
+        type.type = 2;
+        type.index = 0;
+        return type;
+    }
+
+    ksys::tera::ImageSizeMaybe mSize = ksys::tera::ImageSizeMaybe(10);
+    u8 _24 = 0;
 };
 
 // vtable 0x710250dc50 (15 slots); placeholder generated from the vtable (genskel.py).
@@ -1073,17 +1107,14 @@ class Unk_710250dc50 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dc50, Unk_710250dcd8)
 public:
     ~Unk_710250dc50() override;
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10() { return 1; }
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    s32 m4() override;
+    s32 m5() override;
+    s32 m6() override;
+    s32 m7() override;
+    u16 m8() override;
+    u32 m9() override;
+    s32 m10() override { return 1; }
+    void m13(void* unused, const void* src, u32 size) override;
 };
 
 // vtable 0x710250dd60 (15 slots); placeholder generated from the vtable (genskel.py).
@@ -1091,17 +1122,16 @@ class Unk_710250dd60 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dd60, Unk_710250dcd8)
 public:
     ~Unk_710250dd60() override;
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10() { return 1; }
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
+    s32 m4() override;
+    s32 m5() override;
+    s32 m6() override;
+    s32 m7() override;
+    u16 m8() override;
+    u32 m9() override;
+    s32 m10() override { return 1; }
+    void m13(void* unused, const void* src, u32 size) override;
+
+    ksys::tera::ImageSizeMaybe mSize;
 };
 
 // vtable 0x710250e490 (9 slots); placeholder generated from the vtable (genskel.py).

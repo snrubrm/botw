@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Terrain/teraResourceNode.h"
 
 namespace ksys::tera {
 
@@ -120,10 +121,55 @@ bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
     return (sub_7101150C24(&arg) & 1) != 0;
 }
 
+const ImageTypeMaybe sUnk_7101EC54AC = {{0, 0}};
+const ImageTypeMaybe sUnk_7101EC54B4 = {{1, 0}};
+
+s32 ImageTypeMaybe::sub_710114A5A0() const {
+    return 1;
+}
+
+s32 ImageTypeMaybe::sub_710114A5A8() const {
+    switch (type) {
+    case 0:
+        return 1;
+    case 1:
+        return 1;
+    case 2:
+        return 0;
+    case 3:
+        return 1;
+    default:
+        return 1;
+    }
+}
+
+// NON_MATCHING: the original loads the type unsigned (ldrh) here but signed in sub_710114A5A8.
+s32 ImageTypeMaybe::sub_710114A5CC() const {
+    switch (type) {
+    case 0:
+        return 5;
+    case 1:
+        return 29;
+    case 2:
+        return 1;
+    case 3:
+        if (index == 0)
+            return 29;
+        if (index == 1)
+            return 39;
+        return 0;
+    default:
+        return 0;
+    }
+}
+
+s32 ImageTypeMaybe::sub_710114A62C() const {
+    return type != 1;
+}
+
+u32 getImageSizeMaybe(const ImageSizeMaybe& size) {
+    static constexpr u32 sSizes[] = {0x20, 0x40, 0x60, 0x80, 0xc0, 0x100, 0x180, 0x200, 0x300, 0x400};
+    return sSizes[u32(size)];
+}
+
 }  // namespace ksys::tera
-
-// NON_MATCHING: placeholder destructor; the original (0x7101149dcc) also destroys members or bases
-// this class does not declare yet.
-Unk_710250fb18::~Unk_710250fb18() = default;
-
-Unk_710250fdf8::~Unk_710250fdf8() = default;

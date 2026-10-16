@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <thread/seadAtomic.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadDelegate.h>
 #include "Game/Actor/actCameraUtil.h"
@@ -182,25 +183,56 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024efd58, 0x18);
 
-// vtable 0x710250dcd8 (4 slots)
+// vtable 0x710250dcd8 (15 slots; m4 - m10 pure). Base of the terrain image resources Unk_710250db28,
+// Unk_710250dbc8, Unk_710250dc50 and Unk_710250dd60 (ksys::tera, see teraResourceNode.h).
 class Unk_710250dcd8 {
     SEAD_RTTI_BASE(Unk_710250dcd8)
 public:
+    // 0x710110daf8
+    Unk_710250dcd8();
     virtual ~Unk_710250dcd8();
+
+    // m4 - m9 forward to the image type / size of the subclass (see ksys::tera::ImageTypeMaybe).
+    virtual s32 m4() = 0;
+    virtual s32 m5() = 0;
+    virtual s32 m6() = 0;
+    virtual s32 m7() = 0;
+    virtual u16 m8() = 0;
+    virtual u32 m9() = 0;
+    virtual s32 m10() = 0;
+    // 0x710110dce8 (declared only): sets flag 0x20000000, runs sub_710110DB28 and sets flag 8.
+    virtual void m11();
+    // 0x710110dd3c: clears bit 3 of the flags, destroys the sampler / texture pair at `_10` and nulls it.
+    // Placeholder name.
+    virtual void sub_710110DD3C();
+    // 0x710110dd7c (declared only): copies `size` bytes from `src` into the buffer of `_10` and flushes it.
+    virtual void m13(void* unused, const void* src, u32 size);
+    // 0x710110de04 (declared only): copies the buffer of `_10` to `dst` (if not null); returns its size.
+    virtual u32 m14(void* dst);
 
     // 0x710110dd20: sets (or clears) bit 2 of the flags. Placeholder name.
     void sub_710110DD20(bool on);
-    // 0x710110dd3c: clears bit 3 of the flags, destroys the sampler / texture pair at `_10` and nulls it.
-    // Placeholder name.
-    void sub_710110DD3C();
 
 private:
     // Sampler (+0) and texture (+0x68) wrapper of the object at `_10` (defined in the .cpp).
     struct Unk1;
 
-    u32 _8;
-    Unk1* _10;
+public:
+    u32 _8 = 0;
+
+private:
+    Unk1* _10 = nullptr;
+
+public:
+    // Placeholder: _4 is a reference count, 0x40000000 while unused (see 0x71011074a0, 0x7101108860).
+    // A struct: the constructor stores both words after the vtable.
+    struct RefCount {
+        u32 _0 = 0;
+        sead::Atomic<u32> _4 = 0x40000000;
+    };
+    RefCount _18;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710250dcd8, 0x20);
 
 // vtable 0x710251b678 (6 slots)
 class Unk_710251b678 {

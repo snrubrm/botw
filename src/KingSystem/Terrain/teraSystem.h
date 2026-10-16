@@ -227,7 +227,9 @@ public:
     f32 _3c8;
     // Passed by sub_710110B4A4 to sub_710110AA5C.
     f32 _3cc;
-    u8 _3d0[0x3dc - 0x3d0];
+    // Image size index of the Unk_710250dc50 resources (their m9 0x710110d9b4).
+    u32 _3d0;
+    u8 _3d4[0x3dc - 0x3d4];
     // Scene::sub_7101101964 gives the first _3dc of 19 entries level 1, the first _3dd level 2 and the
     // first _3de level 3.
     u8 _3dc;
