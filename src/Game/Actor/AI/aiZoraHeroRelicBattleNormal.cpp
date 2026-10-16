@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -80,6 +81,98 @@ void ZoraHeroRelicBattleNormal::sub_710061223C() {
         if (++count >= 5)
             return;
     }
+}
+
+// NON_MATCHING: registers (the original reloads the player x from the stack), `near` kept as branches, and _9c
+// loaded with ldrsw at each use
+// Follows the player: warps into the water near the player ("水中ワープ"), swims to the player in the water
+// ("プレイヤ水中"), waits at an anchor outside the battle area ("エリア外移動" / "エリア外待機") or stays above the
+// player ("プレイヤ上空").
+void ZoraHeroRelicBattleNormal::sub_7100612434() {
+    ksys::act::acc::PlayerBase player;
+    if (!player.getPlayerFromPlayerInfo())
+        return;
+
+    auto* child = getCurrentChild();
+    const sead::Vector3f player_pos = player.getActorMtx().getTranslation();
+    const bool in_water = player.sub_7100D0FF48() && player.m188();
+    const bool in_area = ksys::gdt::getFlag_Water_Relic_PlayerInBattleArea();
+    const f32 dist = sead::Vector2f(player_pos.x - mActor->getMtx()(0, 3), player_pos.z - mActor->getMtx()(2, 3))
+                         .length();
+    const f32 near_dist = *mNearPlayerDistanceXZ_s;
+    sead::Vector3f target = player_pos;
+    const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    const bool near = player.m204() ||
+                      sead::Vector2f(actor_pos.x - player_pos.x, actor_pos.z - player_pos.z).length() <=
+                          *mWarpDistanceXZ_s;
+
+    bool found = false;
+    bool tried = false;
+    if (in_water || (in_area && !player.m191() && !player.x_36() && !player.m186())) {
+        if (sub_7100612E84(3.0f, -15.0f, player_pos, in_water, &target)) {
+            _a0.set(target);
+            tried = true;
+            found = true;
+        } else if (in_water) {
+            tried = true;
+        }
+    }
+    if (!tried) {
+        _a0.x = std::numeric_limits<f32>::quiet_NaN();
+        _a0.y = std::numeric_limits<f32>::quiet_NaN();
+        _a0.z = std::numeric_limits<f32>::quiet_NaN();
+    }
+
+    if (isCurrentChild("水中ワープ") && !child->isFinished() && !child->isFailed()) {
+        if (tried && found)
+            child->setDynamicParam(target, "TargetPos");
+        return;
+    }
+
+    if (tried) {
+        if (found && !near) {
+            sub_7100612D98(target);
+            return;
+        }
+        if (!isCurrentChild("プレイヤ水中")) {
+            sub_71006129E8(target);
+            return;
+        }
+        if (found)
+            child->setDynamicParam(target, "TargetPos");
+        return;
+    }
+
+    if (!in_area && !(dist < near_dist)) {
+        const s32 prev = _9c;
+        _9c = sub_71006130C4(-1.0f, player_pos);
+        if (isCurrentChild("エリア外待機")) {
+            if (prev == _9c) {
+                child->setDynamicParam(player_pos, "TargetPos");
+                return;
+            }
+        } else if (isCurrentChild("エリア外移動")) {
+            if (prev == _9c) {
+                if (child->isFinished()) {
+                    sub_7100612CAC(player_pos);
+                    return;
+                }
+                if (!child->isFailed())
+                    return;
+            }
+        } else if (_9c < 0) {
+            sub_7100612CAC(player_pos);
+            return;
+        }
+        sub_7100612BC0(_38[_9c].pos);
+        return;
+    }
+
+    if (!isCurrentChild("プレイヤ上空")) {
+        sub_7100612AD4(player_pos);
+        return;
+    }
+    child->setDynamicParam(player_pos, "TargetPos");
 }
 
 void ZoraHeroRelicBattleNormal::sub_710061288C() {
