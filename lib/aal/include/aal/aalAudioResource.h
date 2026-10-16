@@ -2,10 +2,10 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include <resource/seadArchiveRes.h>
 #include "aal/aalMemoryPool.h"
 
 namespace sead {
-class ArchiveRes;
 class Heap;
 }
 
@@ -27,6 +27,19 @@ public:
     // 0x7101406F5C borrows this pointer. ResourceBars 0x7101057588
     // supplies its member SafeString, which must outlive the resource.
     void setFilename(const sead::SafeString* filename);
+
+    // inline-only in the original; names are guesses. ksys::snd 0x71010576a8 passes these to
+    // Arbiter::execOnDestroyWaveAsset: the archive's raw data and size when there is an archive,
+    // otherwise the bare data and the size word at +4 of its header (0 without data).
+    void getDataAndSize(const void** data, u32* size) const {
+        if (mArchive) {
+            *data = mArchive->getRawData();
+            *size = mArchive->getRawSize();
+        } else {
+            *data = mData;
+            *size = mData ? *reinterpret_cast<const u32*>(mData + 4) : 0;
+        }
+    }
 
 private:
     AudioResource();
