@@ -13,6 +13,8 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -230,6 +232,136 @@ bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) co
     return (pos - self).squaredLength() < reach * reach;
 }
 
+// NON_MATCHING: block layout and register allocation (same structure as the original).
+void LandHumEnemyUnarmedBattle::m38() {
+    auto* actor = mActor;
+    if (sub_71007A4178(actor, false)) {
+        const s32 num = sub_71007A425C(actor);
+        if (num > 0) {
+            const auto& mtx = actor->getMtx();
+            const sead::Vector3f front(mtx(0, 2), mtx(1, 2), mtx(2, 2));
+            sead::Vector3f pos = mtx.getTranslation();
+            for (s32 i = 0; i < num; ++i) {
+                auto& link = sub_71007A40D0(actor, i)->_50;
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&link, &accessor);
+                const sead::Vector3f dir = accessor.getActorMtx().getTranslation() - pos;
+                pos.normalize();
+                if (sub_7100470D54(&link, front.dot(dir) >=
+                                              sead::Mathf::cos(*mParams.mOnCoHitAllowGrabAngle_s))) {
+                    _148 = 1;
+                    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                        enemy->sub_7100019D38(_118);
+                        enemy->sub_7100019A9C(link);
+                    }
+                    _118 = link;
+                    changeToFindItem();
+                    return;
+                }
+            }
+        }
+    }
+
+    switch (_148) {
+    case 0: {
+            if (!_108.hasProcInCalcState()) {
+                auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+                if (enemy && enemy->_e80.isOnBit(*mParams.mEquipItemSearchIdx_s)) {
+                    sub_710046ED70();
+                    return;
+                }
+                if (sub_710046D718()) {
+                    _148 = 0;
+                    return;
+                }
+                if (sub_710046E57C()) {
+                    _148 = 1;
+                    return;
+                }
+                changeToBattle();
+                return;
+            }
+            auto* weapon =
+                sead::DynamicCast<act::Weapon>(sead::DynamicCast<ksys::act::Actor>(_108.getProc(nullptr, nullptr)));
+            if (!weapon) {
+                setFailed();
+                return;
+            }
+            if (sub_71005DEC08(&_108, mActor, 1000.0f, 1000.0f, sead::Mathf::pi())) {
+                const sead::Vector3f target = weapon->getMtx().getTranslation();
+                auto* self = mActor;
+                auto* nav = self->m45();
+                if (sub_710072F944(self, target, nullptr, (nav ? nav->getRadiusMaybe() : 0.0f) + 0.0f, 5.0f)) {
+                    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+                    if (enemy && enemy->_e80.isOnBit(*mParams.mEquipItemSearchIdx_s)) {
+                        sub_710046ED70();
+                        return;
+                    }
+                    if (auto* enemy2 = sead::DynamicCast<act::Enemy>(mActor))
+                        enemy2->sub_7100019D38(_108);
+                    _108.reset();
+                    if (sub_710046D718()) {
+                        _148 = 0;
+                        return;
+                    }
+                    if (sub_710046E57C()) {
+                        _148 = 1;
+                        return;
+                    }
+                    changeToBattle();
+                    return;
+                }
+            }
+            if (sub_7100470ED4(_108)) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addActor(_108, "TargetWeapon", -1);
+                changeChild("武器発見", &pack);
+                return;
+            }
+            getCurrentChild()->setDynamicParam(weapon->getMtx().getTranslation(), "TargetPos");
+        break;
+    }
+    case 1: {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_118, &accessor);
+            if (accessor.sub_7100D10E6C(30)) {
+                _118.hasProcInCalcState();
+                sub_71004703E8();
+                changeToBattle();
+                return;
+            }
+            const bool grab = accessor.isAttClientEnabled("Grab");
+            const bool in_calc = _118.hasProcInCalcState();
+            if (!grab || !in_calc ||
+                sub_71005DEC08(&_118, mActor, *mParams.mSearchObjectDist_s + 0.2f,
+                               *mParams.mItemChaseableSpd_s + 0.1f, sead::Mathf::piHalf())) {
+                sub_71004703E8();
+                changeToBattle();
+                return;
+            }
+            getCurrentChild()->setDynamicParam(accessor.getActorMtx().getTranslation(), "TargetPos");
+            if (sub_7100470D54(&_118, false)) {
+                changeToFindItem();
+                return;
+            }
+        break;
+    }
+    }
+
+    _780.update();
+    if (_780.value <= sead::Mathf::epsilon()) {
+        if (!sub_710046F0AC() && !sub_710046D718()) {
+            if (sub_710046E57C())
+                _148 = 1;
+            else
+                changeToBattle();
+        } else {
+            _148 = 0;
+        }
+        _780.reset(*mParams.mRepathTime_s);
+    }
+}
+
 // NON_MATCHING: the weapon cast result is kept with a csel in the original; slot-reset block placement and
 // matrix load order differ.
 void LandHumEnemyUnarmedBattle::m37() {
@@ -237,10 +369,7 @@ void LandHumEnemyUnarmedBattle::m37() {
         enemy->sub_7100019D38(_108);
     _108.reset();
     sub_71004703E8();
-    const f32 repath_time = *mParams.mRepathTime_s;
-    _788 = -1.0f;
-    _780 = repath_time;
-    _784 = repath_time;
+    _780.reset(*mParams.mRepathTime_s);
 
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (enemy && enemy->_c38[*mParams.mEquipItemSearchIdx_s].hasProcInCalcState()) {

@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,7 @@ public:
     void m35(const sead::Vector3f& target) override;
     void m36(sead::FixedObjList<sead::Vector3f, 8>* points) override {}
     void m37() override;
+    void m38() override;
     void m39() override;
     void m42() override;
 
@@ -114,9 +116,8 @@ protected:
     ksys::act::BaseProcLink _138;
     s32 _148 = -1;
     sead::FixedObjList<ksys::act::Unk_7100d78e50, 8> _150;
-    f32 _780 = 0;
-    f32 _784 = 0;
-    f32 _788 = -1.0f;
+    // Repath timer (reset to RepathTime by m37).
+    ksys::Timer _780{0.0f, 0.0f, -1.0f};
     s32 _78c = 0;
     u64 _790 = 0;
     bool _798 = true;
