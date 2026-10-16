@@ -168,6 +168,27 @@ void ScreenAppCamera::m158() {
     _4018 = true;
 }
 
+// 0x71009d9400
+void ScreenAppCamera::m159() {
+    if (_4018) {
+        if (!_4019)
+            _4019 = Unk_71025d1740::instance()->sub_7100901A90(false);
+        if (_4019) {
+            _3618->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+            sub_71009D94E8();
+            _4018 = false;
+        } else {
+            _3618->StopAtMin();
+        }
+    }
+    if (_3618->mRate == 0)
+        ++_36ec;
+    if (_36ec == 3) {
+        mActiveCursorNode = nullptr;
+        getStateMachine().changeState(&sUnk_71025dcd60);
+    }
+}
+
 // 0x71009db754
 // NON_MATCHING: the child state test (1 / 3 / 5 / 7) is a bit-mask lookup in ours; the original tests 7, then
 // (state - 1) <= 4 with an even (state - 1)

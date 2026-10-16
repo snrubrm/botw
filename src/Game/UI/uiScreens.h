@@ -3848,7 +3848,8 @@ public:
     /* 0x3688 */ eui::LayoutEx* _3688;
     u8 _pad_3690[0x36e8 - 0x3690];
     /* 0x36e8 */ s32 _36e8;
-    u8 _pad_36ec[0x3b70 - 0x36ec];
+    /* 0x36ec */ s32 _36ec;  // frames counted by m159 while _3618 is stopped
+    u8 _pad_36f0[0x3b70 - 0x36f0];
     /* 0x3b70 */ agl::GPUMemVoidAddr _3b70;  // the photo image memory (freed by m101)
     u8 _pad_3b88[0x4018 - 0x3b88];
     /* 0x4018 */ bool _4018;
@@ -3863,6 +3864,8 @@ public:
     void m99() override;
     // 0x71009db754: closes the camera screen
     void m100() override;
+    // 0x71009d94e8 (CSV ScreenAppCamera::calledFromM159; declared only)
+    void sub_71009D94E8();
 
     // 0x71009db888: frees the photo image memory and the two work buffers
     void m101() override;
