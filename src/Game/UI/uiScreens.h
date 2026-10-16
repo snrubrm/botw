@@ -2218,6 +2218,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     bool sub_71009A9438();
     // Small accessors of the widget (lane2 s46; placeholder names, the field meanings are not known)
     void sub_71009A995C();
+    // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
+    void sub_71009A99F0(s32 level);
     s32 sub_71009AEF7C() const;
     sead::Vector2f sub_71009AEFEC() const;
     bool sub_71009AF0B4() const;
@@ -2348,6 +2350,8 @@ public:
     void sub_71009EB52C();
     void sub_71009EB72C();
     bool sub_71009E9F10();
+    // 0x71009f1dbc (CSV unnamed; not decompiled)
+    void sub_71009F1DBC();
 
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
@@ -2378,7 +2382,10 @@ public:
     u8 _3c10[0x3c48 - 0x3c10];
     /* 0x3c48 */ f32 _3c48;
     /* 0x3c4c */ f32 _3c4c;
-    u8 _3c50[0x3c60 - 0x3c50];
+    /* 0x3c50 */ s32 _3c50;  // the map scale level applied to _3610
+    /* 0x3c54 */ bool _3c54;  // riding a horse
+    /* 0x3c55 */ bool _3c55;  // previous _3c54
+    u8 _3c56[0x3c60 - 0x3c56];
     /* 0x3c60 */ f32 _3c60;  // the temperature shown in T_Temp_00
     /* 0x3c64 */ u8 _3c64;
     /* 0x3c65 */ u8 _3c65;

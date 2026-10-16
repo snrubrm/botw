@@ -1,3 +1,7 @@
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/gameSceneSubsys14.h"
+#include "KingSystem/System/Patrol.h"
 #include "Game/gameGearMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiManager.h"
@@ -269,6 +273,31 @@ void ScreenAppMap::sub_71009EB0E0() {
         UiSubsys1::instance()->set6e4(0);
         _3630->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
     }
+}
+
+// 0x71009eb72c: picks the map scale level (forced by a flag, else from the horse / patrol / scene state)
+void ScreenAppMap::sub_71009EB72C() {
+    s32 level = ksys::gdt::getFlag_App_Map_ForceSetScaleLevelWhenMiniMap(false);
+    if (level == -1) {
+        _3c55 = _3c54;
+        if (auto* player = act::PlayerInfo::instance()->getPlayer())
+            _3c54 = player->isRidingHorse();
+        s32 mode;
+        if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0)
+            mode = 1;
+        else if (GameSceneSubsys14::instance() && GameSceneSubsys14::instance()->sub_7100904ED4())
+            mode = 1;
+        else if (_3c54)
+            mode = 2;
+        else
+            mode = 0;
+        level = sub_71009661BC(mode);
+    }
+    if (level != _3c50) {
+        _3610->sub_71009A99F0(level);
+        _3c50 = level;
+    }
+    sub_71009F1DBC();
 }
 
 // 0x71009f1b18
