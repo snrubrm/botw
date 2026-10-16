@@ -98,4 +98,40 @@ void SiteBossLswordTornadoAttack::sub_710025FEF0() {
     }
 }
 
+// NON_MATCHING: the target position copy (stored as ints) and the 0x23bcf28 rate table addressing.
+void SiteBossLswordTornadoAttack::sub_71002601D4(f32 rate, ksys::act::BaseProcLink* link) {
+    static const f32 sNearRates[] = {0.3f, 0.4f};
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    if (accessor.sub_7100D146D8())
+        return;
+
+    sead::Vector3f target_pos = accessor.getActorMtx().getTranslation();
+    sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    actor_pos.y += 5.0f;
+    sead::Vector3f dir = actor_pos - target_pos;
+    const f32 distance = dir.length();
+    if (distance > 0.0f)
+        dir *= 1.0f / distance;
+    if (distance > 30.0f)
+        return;
+
+    f32 max_speed = *mVacuumMaxSpeed_s;
+    if (distance < 10.0f)
+        max_speed *= sNearRates[0];
+    else if (distance < 15.0f)
+        max_speed *= sNearRates[1];
+    _58._c = max_speed * rate;
+
+    dir *= *mVacuumMaxSpeed_s;
+    sead::Quatf rotation;
+    rotation.setAxisRadian(sead::Vector3f::ey, *mVacuumAngle_s);
+    sead::Matrix34f rotation_mtx;
+    rotation_mtx.fromQuat(rotation);
+    dir.rotate(rotation_mtx);
+    target_pos += dir;
+    _58.sub_710073E8C4(link, &target_pos);
+}
+
 }  // namespace uking::action

@@ -22,7 +22,7 @@ protected:
 
     // 0x710025fef0: called every frame once the tornado has started (_48).
     void sub_710025FEF0();
-    // 0x71002601d4: declaration only; applies the vacuum target for this linked actor.
+    // 0x71002601d4: applies the vacuum target for this linked actor.
     void sub_71002601D4(f32 rate, ksys::act::BaseProcLink* link);
 
     // static_param at offset 0x20
