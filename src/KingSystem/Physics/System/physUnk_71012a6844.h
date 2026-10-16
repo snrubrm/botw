@@ -4,6 +4,7 @@
 #include <container/seadOffsetList.h>
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <thread/seadAtomic.h>
 #include <thread/seadMutex.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -34,7 +35,11 @@ public:
         bool isLinked() const { return mNode.isLinked(); }
     };
     KSYS_CHECK_SIZE_NX150(ItemA, 0x20);
-    struct ItemB {};
+    // Placeholder (only the counter cleared by sub_71012A6B48 is known).
+    struct ItemB {
+        u8 _0[0x18];
+        u32 _18;
+    };
 
     // 0x71012a69e0 / 0x71012a6a44: adds ItemA to / removes it from the list at +0x8 (guarded by the mutex at +0x48).
     void sub_71012A69E0(ItemA* item);
@@ -53,6 +58,8 @@ public:
     /* 0x38 */ u8 _38[0x48 - 0x38];
     /* 0x48 */ sead::Mutex mMutexA;
     /* 0x88 */ sead::Mutex mMutexB;
+    // Counter reset by sub_71012A6B48 (an atomic: the original keeps its store before the list loop).
+    /* 0xc8 */ sead::Atomic<u32> _c8;
 };
 
 }  // namespace ksys::phys

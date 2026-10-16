@@ -26,6 +26,13 @@ void Unk_71012a6844::sub_71012A6AF8(ItemB* item) {
     mListB.erase(item);
 }
 
+void Unk_71012a6844::sub_71012A6B48() {
+    auto lock = sead::makeScopedLock(mMutexA);
+    _c8 = 0;
+    for (auto& item : mListB)
+        item._18 = 0;
+}
+
 }  // namespace ksys::phys
 
 // NON_MATCHING: placeholder destructor; the original (0x71012a67c8) also destroys members or bases
