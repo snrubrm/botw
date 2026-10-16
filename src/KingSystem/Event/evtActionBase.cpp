@@ -1,4 +1,7 @@
 #include "KingSystem/Event/evtAction.h"
+#include "KingSystem/ActorSystem/aiDemoRootAI.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtActionContext.h"
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtEventFlow.h"
@@ -14,6 +17,30 @@ ActionBase::ActionBase(const evfl::ResAction* res, ActorBase* actor)
 
 // 0x7100da6818 (CSV evt::ActionBase::dtor), 0x7100da685c (m3)
 ActionBase::~ActionBase() = default;
+
+// 0x7100da69bc
+// NON_MATCHING: the ActionDoneHandler move (lib/EventFlow ore::IntrusiveListNode::operator=) links the node differently:
+// the original also relinks the destination node's old neighbour
+void ActionBase::m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+    mActor->m12();
+    slot->context->setStatus2(arg);
+    slot->context->x_3(&mActor->mLink);
+    slot->handler = std::move(*handler);
+
+    if (auto* actor = sead::DynamicCast<act::Actor>(mActor->mLink.getProc(nullptr, nullptr))) {
+        auto* demo_ai = actor->getRootAi()->sub_7100D65CBC();
+        if (demo_ai->sub_7100D62D18(mRes->name.Get()->data()) || !(slot->context->_af4 & 1)) {
+            if (slot->context->statusStuff(false))
+                slot->handler.Invoke();
+        }
+    }
+
+    if (mActor->mActorSet->mFlow->hasFlag(EventFlowBase::Flag::_1000) && slot->context &&
+        (slot->context->_af4 & 0x21) == 1) {
+        slot->handler.Invoke();
+    }
+    _718 = 0;
+}
 
 // 0x7100da6c58 (CSV evt::ActionBase::m5)
 void ActionBase::m5(ActionContext* context, const evfl::ActionArg& arg) {

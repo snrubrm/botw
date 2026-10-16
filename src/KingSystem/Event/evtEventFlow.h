@@ -127,6 +127,7 @@ public:
     SEAD_RTTI_BASE(EventFlowBase)
 
     enum class Flag : u64 {
+        _1000 = 0x1000,  // ActionBase::m4: actions whose context is ready finish at once
         _100000000 = 0x100000000,  // read by PlayerEventStartWait::leave_
         _80000000000 = 0x80000000000,
     };

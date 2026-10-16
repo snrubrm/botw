@@ -26,8 +26,8 @@ public:
     ActionBase(const evfl::ResAction* res, ActorBase* actor);
     virtual ~ActionBase();
 
-    // 0x7100da69bc (CSV evt::ActionBase::m4): starts an action in `slot`, moving `handler` into it. Not decompiled.
-    virtual void m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) = 0;
+    // 0x7100da69bc (CSV evt::ActionBase::m4): starts an action in `slot`, moving `handler` into it
+    virtual void m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
     // 0x7100da6c58 (CSV evt::ActionBase::m5)
     virtual void m5(ActionContext* context, const evfl::ActionArg& arg);
     // 0x7100da6cb4 (CSV evt::ActionBase::m6)
