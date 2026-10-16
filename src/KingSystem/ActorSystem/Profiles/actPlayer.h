@@ -539,6 +539,7 @@ public:
     // 0x7100887878 (CSV name): whether slot 1 plays GrabWait, GrabPouchUpper or GrabThrowCharge.
     bool x_52();
     bool sub_7100881EDC();
+    void sub_71008739BC();
     bool isASItemBombReadyOrStart();
     bool sub_710088873C();
     bool sub_71008921A8();

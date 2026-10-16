@@ -47,6 +47,7 @@
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/gameHeroSoul.h"
@@ -82,6 +83,29 @@ bool playerIsGuardJust(ksys::act::Actor* actor) {
     auto* info = getAttackInfo0(actor);
     return (info->_18 >> 1) & 1;
 }
+
+namespace ksys::act {
+
+// Placeholder name: Urbosa's Fury strike. Counts down the remaining uses (_1ccc); when they run out, starts the
+// recharge (_1e0c / _1e10 = ElectricSupportReuseTime * 30, _1e14 = -1) and resets the count to
+// SupportElectricNum. Emits Kago_Lightning and sends message 0x8000028 to the Gerudo HeroSoul actor.
+void Player::sub_71008739BC() {
+    if (--_1ccc <= 0) {
+        const f32 reuse_time =
+            getParam()->getRes().mGParamList->getPlayer()->mElectricSupportReuseTime.ref() * 30.0f;
+        _1e14 = -1.0f;
+        _1e0c = reuse_time;
+        _1e10 = reuse_time;
+        _1ccc = getParam()->getRes().mGParamList->getPlayer()->mSupportElectricNum.ref();
+    }
+    eft::searchAndEmitELink(this, "Kago_Lightning");
+    eft::searchAndEmitSLink(this, "Kago_Lightning", false);
+    ActorLinkConstDataAccess accessor;
+    acquireActor(&mResidentActors[3], &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000028), nullptr, true);
+}
+
+}  // namespace ksys::act
 
 // Source namespace unknown (0x710084ca64); declaration only.
 bool isPlayingBeastGanonDeadEventFlow();
