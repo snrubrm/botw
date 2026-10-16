@@ -16,7 +16,7 @@ class Unk_71024fdb00 : public Unk_SpotBgmHandle {
 public:
     // 0x7101005874 (declared only; 580 B): plays the part `name` with the given volume and pan, at once when
     // `wait_count` is 0, else queued in the free entry of `_1c0` (placeholder name; argument order is a guess).
-    void sub_7101005874(const sead::SafeString& name, s32 wait_count, bool flag, f32 volume, f32 pan);
+    void sub_7101005874(const sead::SafeString& name, s32 wait_count, u8 part, f32 volume, f32 pan);
 
     u8 _180[0x188 - 0x180];
     EnvBgmInfo* mInfo;
@@ -53,7 +53,7 @@ protected:
 // vtable 0x71024fdb98 (constructor 0x7101005d68, 0xd8 bytes): plays a part after a fixed wait count.
 class Unk_71024fdb98 : public Unk_EnvBgmNode {
 public:
-    Unk_71024fdb98(Unk_71024fdb00* owner, const sead::SafeString& name, bool flag,
+    Unk_71024fdb98(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
                    const agl::utl::Parameter<u32>* wait_count, const MusicInfo::MinMax<f32>* volume,
                    const MusicInfo::MinMax<f32>* pan);
 
@@ -70,13 +70,13 @@ public:
             volume = sead::GlobalRandom::instance()->getF32Range(volume, volume_max);
         if (pan < pan_max)
             pan = sead::GlobalRandom::instance()->getF32Range(pan, pan_max);
-        mOwner->sub_7101005874(mName, mWaitCount->ref(), mFlag, volume, pan);
+        mOwner->sub_7101005874(mName, mWaitCount->ref(), mPart, volume, pan);
     }
 
 private:
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
-    bool mFlag;
+    u8 mPart;
     const agl::utl::Parameter<u32>* mWaitCount;
     const MusicInfo::MinMax<f32>* mVolume;
     const MusicInfo::MinMax<f32>* mPan;
@@ -146,7 +146,7 @@ private:
 // done.
 class Unk_71024fdc38 : public Unk_EnvBgmNode {
 public:
-    Unk_71024fdc38(Unk_71024fdb00* owner, const sead::SafeString& name, bool flag,
+    Unk_71024fdc38(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
                    const agl::utl::Parameter<u32>* wait_count, const MusicInfo::MinMax<f32>* volume,
                    const MusicInfo::MinMax<f32>* pan);
 
@@ -172,13 +172,13 @@ public:
             volume = sead::GlobalRandom::instance()->getF32Range(volume, volume_max);
         if (pan < pan_max)
             pan = sead::GlobalRandom::instance()->getF32Range(pan, pan_max);
-        mOwner->sub_7101005874(mName, mCounter, mFlag, volume, pan);
+        mOwner->sub_7101005874(mName, mCounter, mPart, volume, pan);
     }
 
 private:
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
-    bool mFlag;
+    u8 mPart;
     const agl::utl::Parameter<u32>* mWaitCount;
     s32 mCounter = 0;
     const MusicInfo::MinMax<f32>* mVolume;
@@ -189,7 +189,7 @@ private:
 // (base * rate in [min, max]).
 class Unk_71024fdc88 : public Unk_EnvBgmNode {
 public:
-    Unk_71024fdc88(Unk_71024fdb00* owner, const sead::SafeString& name, bool flag,
+    Unk_71024fdc88(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
                    const agl::utl::Parameter<u32>* wait_count_base,
                    const MusicInfo::MinMax<u32>* wait_count_rate, const MusicInfo::MinMax<f32>* volume,
                    const MusicInfo::MinMax<f32>* pan);
@@ -218,13 +218,13 @@ public:
             volume = sead::GlobalRandom::instance()->getF32Range(volume, volume_max);
         if (pan < pan_max)
             pan = sead::GlobalRandom::instance()->getF32Range(pan, pan_max);
-        mOwner->sub_7101005874(mName, mCounter, mFlag, volume, pan);
+        mOwner->sub_7101005874(mName, mCounter, mPart, volume, pan);
     }
 
 private:
     Unk_EnvBgmNode* mNext = nullptr;
     sead::FixedSafeString<128> mName;
-    bool mFlag;
+    u8 mPart;
     const agl::utl::Parameter<u32>* mWaitCountBase;
     const MusicInfo::MinMax<u32>* mWaitCountRate;
     s32 mCounter = 0;
