@@ -72,6 +72,25 @@ void ScreenMiniGame::sub_7100A280A4(const sead::SafeString& key) {
     _366c = value;
 }
 
+// NON_MATCHING: the widget name temporary uses a different stack slot (as in sub_7100A28318)
+// 0x7100a2813c: as sub_7100A280A4 for layout 2; the _3688 animator shows frame 1 for the horseback archery target
+// count and frame 0 otherwise
+void ScreenMiniGame::sub_7100A2813C(const sead::SafeString& key) {
+    _3698 = key;
+    eui::LayoutEx* layout = _3610[2];
+    const sead::SafeString name = "T_Num_00";
+    const s32 value = ksys::gdt::getS32ByKey(sead::SafeString(_3698), false);
+    sead::FormatFixedSafeString<32> text("%d", value);
+    setWidgetString(layout, name, text);
+    _3690 = value;
+    if (_3688) {
+        f32 frame = 0.0f;
+        if (_3698 == "MiniGame_HorsebackArchery_BreakTargetNum")
+            frame = 1.0f;
+        _3688->Stop(frame);
+    }
+}
+
 // 0x7100a28318
 // NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots
 void ScreenMiniGame::sub_7100A28318(const sead::SafeString& key) {
