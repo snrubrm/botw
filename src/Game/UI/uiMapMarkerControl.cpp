@@ -879,6 +879,40 @@ Unk_7102478d00::~Unk_7102478d00() {
     _48 = nullptr;
 }
 
+// 0x710098f2c0
+void Unk_7102478d00::m5() {
+    _6c = false;
+    auto* entry = sead::DynamicCast<Unk_7102476640>(_18);
+    if (!entry)
+        return;
+    if (UiSubsys1::instance()->sub_7100958D18()) {
+        _50 = 0;
+    } else {
+        switch (_50) {
+        case 0:
+            if (entry->sub_7100958D38())
+                _50 = 1;
+            break;
+        case 1:
+            if (entry->_80 == 0)
+                _50 = 0;
+            break;
+        }
+    }
+    Unk_7102477fc0::m5();
+}
+
+// 0x710098f3a4
+void Unk_7102478d00::m8() {
+    Unk_7102477fc0::m8();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (auto* entry = sead::DynamicCast<Unk_7102476640>(_18)) {
+        if (_48)
+            _48->Stop(static_cast<f32>(entry->_80));
+    }
+}
+
 void Unk_7102478d00::m12() {
     if (_18 && ((_18->_3c & 0x41) == 0x40 || (_18->_3c & 5) == 4)) {
         if (auto* entry = sead::DynamicCast<Unk_7102476640>(_18)) {
