@@ -377,6 +377,7 @@ public:
     void m241(sead::Vector3f* out) override;
     void m242(sead::Vector3f* out) override;
     void m243(sead::Vector3f* out) override;
+    void m244(sead::Vector3f* out) override;
     void m245(sead::Vector3f* out) override;
     void m246(sead::Vector3f* out) override;
     void m247(sead::Vector3f* out) override;

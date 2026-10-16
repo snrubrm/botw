@@ -22,6 +22,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actLodState.h"
@@ -590,6 +591,29 @@ void Weapon::m243(sead::Vector3f* out) {
         }
     }
     *out = sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the original selects separate x / y / z pointers into the HorseRider offsets.
+void Weapon::m244(sead::Vector3f* out) {
+    auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor());
+    if (!parent || !parent->m169()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    const sead::Vector3f* offset;
+    if (m231())
+        offset = &parent->getParam()->getRes().mGParamList->getHorseRider()->mWeaponTransOffsetSmallSword.ref();
+    else if (m232())
+        offset = &parent->getParam()->getRes().mGParamList->getHorseRider()->mWeaponTransOffsetLargeSword.ref();
+    else if (m233())
+        offset = &parent->getParam()->getRes().mGParamList->getHorseRider()->mWeaponTransOffsetSpear.ref();
+    else if (isWeaponType4())
+        offset = &parent->getParam()->getRes().mGParamList->getHorseRider()->mWeaponTransOffsetShield.ref();
+    else if (isWeaponType3())
+        offset = &parent->getParam()->getRes().mGParamList->getHorseRider()->mWeaponTransOffsetBow.ref();
+    else
+        offset = &sead::Vector3f::zero;
+    *out = *offset + *out;
 }
 
 void Weapon::m245(sead::Vector3f* out) {
