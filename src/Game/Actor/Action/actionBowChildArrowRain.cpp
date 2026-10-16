@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -31,9 +32,7 @@ void BowChildArrowRain::enter_(ksys::act::ai::InlineParamPack* params) {
     _b8 = 0;
     _bc = 0;
     const s32 id = *mID_d;
-    _110 = 0;
-    _100 = 0;
-    _108 = 0;
+    _100.fill(0);
     _c0 = f32(id) * (sead::Mathf::pi() / 2);
     for (auto& state : _12c._3d8)
         state = {false, false};
@@ -116,6 +115,59 @@ void BowChildArrowRain::sub_71000CDEEC(const sead::Vector3f& pos, bool use_pos) 
     if (!use_pos)
         mtx.setTranslation(_120);
     body->changePositionAndRotation(mtx);
+}
+
+void BowChildArrowRain::sub_71000CE0C0() {
+    if (!mParentActor_d)
+        return;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr));
+    auto* boss = sead::DynamicCast<act::SiteBoss>(actor);
+    if (!boss)
+        return;
+
+    bool emitted = false;
+    for (s32 i = 0; i < 24; ++i) {
+        auto* link = boss->_1560.sub_710066DE24(i);
+        if (!link->hasProc())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (!accessor.isStateCalc() || !_12c._3d8[i].entered)
+            continue;
+
+        if (!_d0) {
+            _d0 = true;
+            for (u32 j = 0; j < u32(*mRainMax_s); ++j)
+                _100[j] = 3 * (j + 1);
+        }
+        auto* shot = &_12c._0[i];
+        sub_71000CE750(shot);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000056), shot,
+                            true);
+        if (!emitted)
+            ksys::eft::searchAndEmitSLink(mActor, "Reflect", false);
+        emitted = true;
+    }
+}
+
+void BowChildArrowRain::sub_71000CE750(Unk12c::Shot* shot) {
+    shot->has_target = sub_71000CD2A8(&shot->target);
+    if (_d2) {
+        ++_d4;
+        if (u32(_d4) >= 7)
+            _d4 -= 6;
+    } else {
+        _d4 = 0;
+    }
+    mActor->getMtx().getTranslation(shot->from);
+    shot->to = *mTargetPos_d;
+    if (_d4 >= 2) {
+        const f32 offset_x = *mTargetOffsetBase_s;
+        shot->to.x += sead::GlobalRandom::instance()->getF32Range(-offset_x, offset_x);
+        const f32 offset_z = *mTargetOffsetBase_s;
+        shot->to.z += sead::GlobalRandom::instance()->getF32Range(-offset_z, offset_z);
+    }
+    shot->to.y += 1.0f;
 }
 
 // NON_MATCHING: the original repeats the speed sqrt (dead) after the store; register allocation.

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <math/seadMatrix.h>
 
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -32,6 +33,9 @@ protected:
     // 0x71000cdeec (placeholder name): moves the main body to `pos` (or _120 unless `use_pos`) with the
     // rotation _dc turned by XRotateAngle about the x axis.
     void sub_71000CDEEC(const sead::Vector3f& pos, bool use_pos);
+    // 0x71000ce0c0 (placeholder name): sends a shot (message 0x8000056) to every bound actor of the parent
+    // SiteBoss that has just entered range, starting the slot countdowns the first time.
+    void sub_71000CE0C0();
 
     // static_param at offset 0x20
     const int* mRainMax_s{};
@@ -84,14 +88,20 @@ protected:
     s32 _d4 = 0;
     s32 _d8 = 0;
     sead::Matrix33f _dc;
-    u64 _100 = 0;
-    u64 _108 = 0;
-    s32 _110 = 0;
+    // Frame countdowns of the five arrow rain slots (calc_ fires one when it reaches 0).
+    sead::SafeArray<s32, 5> _100{};
     u8 _114[0xc];
     sead::Vector3f _120;
     // Placeholder layout of the block at 0x12c (0x408 bytes, zero-initialised as a whole).
     struct Unk12c {
-        u8 _0[0x3c0];
+        // A shot for each bound actor of the parent SiteBoss (0x71000ce750), sent with message 0x8000056.
+        struct Shot {
+            bool has_target;
+            sead::Vector3f from;
+            sead::Vector3f target;
+            sead::Vector3f to;
+        };
+        Shot _0[24];
         sead::Vector3f _3c0{0, 0, 0};
         sead::Vector3f _3cc{0, 0, 0};
         // Per bound actor of the parent SiteBoss (0x71000cd040): `entered` is set for one frame when it comes
@@ -103,6 +113,10 @@ protected:
         BoundActorState _3d8[24]{};
     };
     Unk12c _12c{};
+
+    // 0x71000ce750 (placeholder name): fills `shot` from this actor towards TargetPos (randomised by TargetOffsetBase
+    // after the second shot).
+    void sub_71000CE750(Unk12c::Shot* shot);
 };
 
 }  // namespace uking::action
