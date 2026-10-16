@@ -2,6 +2,8 @@
 #include "Game/Actor/actGuardian.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/aiUnk_7102451120.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace uking::act {
@@ -11,6 +13,32 @@ GuardianComponentBind::~GuardianComponentBind() = default;
 
 // 0x710003c2dc / D0 0x710003c2e4: empty.
 Unk_710235b408::~Unk_710235b408() = default;
+
+bool Unk_710235b408::m6() {
+    return true;
+}
+
+void Unk_710235b408::m7(const ksys::act::BaseProc::PreDeleteArg&) {}
+
+void Unk_710235b408::m8() {}
+
+// Follows the owning Guardian's matrix.
+void Unk_710235b408::m9() {
+    if (auto* guardian = _8->sub_710003D2B4())
+        _8->setMatrix(guardian->getMtx(), &sead::Vector3f::ones);
+}
+
+void Unk_710235b408::m13() {}
+
+void GuardianComponentBind::m9() {}
+
+void GuardianComponentBind::m10() {}
+
+void GuardianComponentBind::m11() {}
+
+void GuardianComponentBind::m12() {}
+
+void GuardianComponentBind::m14() {}
 
 ksys::act::BaseProc* GuardianComponent::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) GuardianComponent(arg);
@@ -30,6 +58,27 @@ GuardianComponent::GuardianComponent(const CreateArg& arg) : DynamicActor(arg) {
 }
 
 GuardianComponent::~GuardianComponent() = default;
+
+void GuardianComponent::preDelete2_(const PreDeleteArg& arg) {
+    sub_71005DA114(this, &mDamageCallback);
+    if (_ba8) {
+        _ba8->m7(arg);
+        delete _ba8;
+        _ba8 = nullptr;
+    }
+    DynamicActor::preDelete2_(arg);
+}
+
+void GuardianComponent::initMaybe() {
+    DynamicActor::initMaybe();
+    sub_71005DDA44(this);
+    _ba8->m10();
+    setDamageCallbackTiming(this, 0, &mDamageCallback);
+}
+
+void GuardianComponent::updateMtxFromPhysics() {
+    _ba8->m13();
+}
 
 bool GuardianComponent::canWakeUp_() {
     if (!Actor::canWakeUp_())

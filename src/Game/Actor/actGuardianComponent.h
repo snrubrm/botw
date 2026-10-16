@@ -17,6 +17,17 @@ class GuardianComponentBind {
     SEAD_RTTI_BASE(GuardianComponentBind)
 public:
     virtual ~GuardianComponentBind();
+    // Slots 0x20-0x60 (vtable 0x710235b390; null entries are pure). Placeholder names; m7 is called by
+    // GuardianComponent::preDelete2_, m10 by initMaybe, m13 by updateMtxFromPhysics.
+    virtual bool m6() = 0;
+    virtual void m7(const ksys::act::BaseProc::PreDeleteArg& arg) = 0;
+    virtual void m8() = 0;
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13() = 0;
+    virtual void m14();
 
     /* 0x08 */ GuardianComponent* _8;
 };
@@ -31,6 +42,11 @@ class Unk_710235b408 : public GuardianComponentBind {
     SEAD_RTTI_OVERRIDE(Unk_710235b408, GuardianComponentBind)
 public:
     ~Unk_710235b408() override;
+    bool m6() override;
+    void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
+    void m8() override;
+    void m9() override;
+    void m13() override;
 
     /* 0x10 */ u8 _10[0x30 - 0x10];
     /* 0x30 */ f32 _30;
@@ -61,6 +77,9 @@ public:
     explicit GuardianComponent(const CreateArg& arg);
     ~GuardianComponent() override;
     bool canWakeUp_() override;
+    void preDelete2_(const PreDeleteArg& arg) override;
+    void initMaybe() override;
+    void updateMtxFromPhysics() override;
     ksys::act::Actor* m31() override;
     bool m55() override;
     bool shouldUnload(s32* reason) override;
