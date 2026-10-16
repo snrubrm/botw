@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionBowChildArrowRain.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -96,6 +98,19 @@ bool BowChildArrowRain::isChangeable() const {
 
 void BowChildArrowRain::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool BowChildArrowRain::sub_71000CE328() {
+    if (mParentActor_d) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr));
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(actor)) {
+            for (u32 i = 0; i < 24; ++i) {
+                if (boss->_1560.sub_710066DE24(i)->hasProcInCalcState())
+                    return false;
+            }
+        }
+    }
+    return true;
 }
 
 }  // namespace uking::action

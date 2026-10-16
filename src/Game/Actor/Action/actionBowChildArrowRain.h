@@ -19,6 +19,9 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71000ce328 (placeholder name): false while one of the 24 actors bound by the parent SiteBoss is in its calc
+    // state.
+    bool sub_71000CE328();
 
     // static_param at offset 0x20
     const int* mRainMax_s{};
