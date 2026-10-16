@@ -640,7 +640,11 @@ static_assert(sizeof(Unk_7102476250) == 0x60);
 
 // Observed prefix of the Manager record used by native 0x956BAC.
 struct Unk_7100956bac {
-    u8 _0[0x28];
+    u8 _0[0xc];
+    // read by Unk_7102478be0::setMapMarkerAncientText (animation frame / name for the location marker)
+    /* 0x0c */ s32 _c;
+    /* 0x10 */ const char* _10;
+    u8 _18[0x28 - 0x18];
     const char* _28;
     ksys::gdt::FlagHandle _30;
 };
@@ -650,7 +654,8 @@ struct Unk_7100956bac {
 struct Unk_7102476350Record {
     u8 _0[8];
     /* 0x08 */ u32 _8;
-    u8 _c[4];
+    // ancient text type (Unk_7102478be0::setMapMarkerAncientText)
+    /* 0x0c */ s32 _c;
     /* 0x10 */ const char* _10;
 };
 

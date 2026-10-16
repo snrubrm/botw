@@ -813,6 +813,35 @@ void Unk_7102478be0::m8() {
     }
 }
 
+// NON_MATCHING: the original reuses the message's stack slot for the T_Ancient_00 name and addresses the guard of
+// sTypes from a merged base
+// 0x710098e848
+void Unk_7102478be0::setMapMarkerAncientText() {
+    auto* entry = sead::DynamicCast<Unk_7102476350>(_18);
+    if (!entry)
+        return;
+    if (entry->_50) {
+        eui::MessageString message;
+        getLocationMarker(entry->_50->_10, &message);
+        setWidgetString(_8, "T_Text_00", message);
+        if (_30) {
+            const s32 type = entry->_50->_c;
+            _30->Stop(type);
+            static const sead::SafeString sTypes[] = {"Water",  "Artifact", "Region", "Magma",
+                                                      "Timber", "Location", "Region", "Mountain"};
+            setWidgetString(_8, "T_Ancient_00", sTypes[sead::Mathi::clamp(type, 0, 7)]);
+        }
+    } else if (entry->_58) {
+        eui::MessageString message;
+        getLocationMarker(entry->_58->_10, &message);
+        setWidgetString(_8, "T_Text_00", message);
+        if (_30) {
+            _30->Stop(entry->_58->_c);
+            setWidgetString(_8, "T_Ancient_00", "Place");
+        }
+    }
+}
+
 Unk_7102478e30::~Unk_7102478e30() {
     _48 = nullptr;
     _50 = nullptr;
