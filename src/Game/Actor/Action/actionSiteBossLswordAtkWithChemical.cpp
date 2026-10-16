@@ -1,5 +1,11 @@
 #include "Game/Actor/Action/actionSiteBossLswordAtkWithChemical.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -23,13 +29,51 @@ SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() {
             }
         }
     }
-    _1a0 = 0;
+    _1a0 = nullptr;
     _1a8.freeBuffer();
     _1b8.freeBuffer();
 }
 
 bool SiteBossLswordAtkWithChemical::init_(sead::Heap* heap) {
-    return SiteBossLswordAttack::init_(heap);
+    if (!SiteBossLswordAttack::init_(heap))
+        return false;
+
+    if (!sub_71005D6D10()) {
+        ksys::act::InstParamPack params;
+        s32 level = getNumberOfDeadBlights();
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            const s32 kind = boss->_1534 & ~3;
+            if (kind == 4)
+                level = 3;
+            else if (kind == 8)
+                level = 4;
+        }
+        const s32 add_power = *mAddAttackPower_s * level;
+        const s32 attack_power = *mEmitAttackDamage_s + add_power;
+        const s32 min_damage = *mEmitActorMinDamage_s + add_power;
+        params->add(attack_power, "AttackPower");
+        params->add(*mScaleTime_s, "ScaleTime");
+        params->add(min_damage, "AtMinDamage");
+
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
+                const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
+                ksys::act::BaseProc* proc = ksys::act::ActorCreator::instance()->createActor(
+                    mEmitActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                    &params, true, false);
+                if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
+                    enemy->_1128.sub_7100D3CED8(name, heap);
+                    enemy->_1128.sub_7100D3D108(name, actor);
+                }
+            }
+        }
+    }
+
+    if (!_1a0)
+        _1a0 = mActor->findPhysicsBodyByName(sub_71007A250C()->cstr(), "BgSensor");
+    _1a8.tryAllocBuffer(*mEmitNum_s, heap);
+    _1b8.tryAllocBuffer(*mEmitNum_s, heap);
+    return true;
 }
 
 void SiteBossLswordAtkWithChemical::enter_(ksys::act::ai::InlineParamPack* params) {

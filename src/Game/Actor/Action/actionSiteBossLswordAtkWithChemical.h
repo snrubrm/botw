@@ -7,6 +7,10 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class SiteBossLswordAtkWithChemical : public SiteBossLswordAttack {
@@ -71,7 +75,8 @@ protected:
     bool _18a = false;
     ksys::Timer _18c;
     s32 _198 = 0;
-    u64 _1a0 = 0;
+    // The actor's EntitySensor "BgSensor" body (init_).
+    ksys::phys::RigidBody* _1a0 = nullptr;
     sead::Buffer<bool> _1a8;
     sead::Buffer<sead::Vector3f> _1b8;
     Unk_71012419b4 _1c8;
