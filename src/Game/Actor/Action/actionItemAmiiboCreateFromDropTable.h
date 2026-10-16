@@ -22,6 +22,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71001bbdec (placeholder name): fills _8d0 with random offsets and clears _a60.
+    void sub_71001BBDEC();
 
     // static_param at offset 0x20
     const int* mCreateInterval_s{};
@@ -75,7 +77,11 @@ protected:
     sead::SafeString mNotFlagActor_1_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mCreateOffset_s{};
-    u8 _130[0xa68 - 0x130];
+    u8 _130[0x8d0 - 0x130];
+    // Random drop offsets in [-1, 1]^2, each at least 0.5 away from the three before it (sub_71001BBDEC).
+    sead::Vector2f _8d0[50];
+    bool _a60;
+    u8 _a61[0xa68 - 0xa61];
     ksys::act::BaseProcHandle _a68;
     u8 _a78[0xa80 - 0xa78];
     ksys::phys::RigidBody* _a80{};

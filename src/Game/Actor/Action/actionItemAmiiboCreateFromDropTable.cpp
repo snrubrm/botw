@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionItemAmiiboCreateFromDropTable.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
@@ -75,6 +76,29 @@ void ItemAmiiboCreateFromDropTable::loadParams_() {
 
 void ItemAmiiboCreateFromDropTable::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+// NON_MATCHING: register allocation of the three previous offsets
+void ItemAmiiboCreateFromDropTable::sub_71001BBDEC() {
+    sead::Vector2f prev1 = sead::Vector2f::zero;
+    sead::Vector2f prev2 = sead::Vector2f::zero;
+    sead::Vector2f prev3 = sead::Vector2f::zero;
+    for (s32 i = 0; i < 50; ++i) {
+        sead::Vector2f pos;
+        for (s32 tries = 0; tries < 100; ++tries) {
+            pos.x = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+            pos.y = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+            if ((pos - prev1).squaredLength() > 0.25f && (pos - prev2).squaredLength() > 0.25f &&
+                (pos - prev3).squaredLength() > 0.25f) {
+                break;
+            }
+        }
+        _8d0[i] = pos;
+        prev3 = prev2;
+        prev2 = prev1;
+        prev1 = pos;
+    }
+    _a60 = false;
 }
 
 }  // namespace uking::action
