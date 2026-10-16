@@ -191,6 +191,15 @@ void Unk_7102500a00::hm14() {
     _1e0.setValueImmediate(1.0f);
 }
 
+Unk_7102500e08::Unk_7102500e08(const ksys::snd::BgmInitArg& arg) : Bgm(arg.kind) {
+    for (s32 i = 0; i < 3; ++i) {
+        mHandles[i] = nullptr;
+        _30[i] = 0;
+        mFaders[i].setValueImmediate(1.0f);
+    }
+    sub_7101025840(arg);
+}
+
 Unk_7102500e08::~Unk_7102500e08() {
     if (mHandles[0]) {
         mHandles[0]->sub_710101D9A4();

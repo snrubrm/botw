@@ -2988,6 +2988,8 @@ public:
 class Unk_7102500e08 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_7102500e08, ksys::snd::Bgm)
 public:
+    // 0x7101025764
+    explicit Unk_7102500e08(const ksys::snd::BgmInitArg& arg);
     // 0x7101025acc: stops and deletes the three handles.
     ~Unk_7102500e08() override;
     void m14(sead::TextWriter& writer) override {}
@@ -2996,10 +2998,16 @@ public:
     // TemperatureEnum value ("Bgm_TemperatureCold" / "Hot" / "Burn") and gets the TemperatureBgm music info.
     void sub_7101025840(const ksys::snd::BgmInitArg& arg);
 
-    /* 0x10 */ ksys::snd::TemperatureBgmInfo* mInfo;
-    // Indexed by TemperatureBgmInfo::TemperatureEnum.
+    /* 0x10 */ ksys::snd::TemperatureBgmInfo* mInfo = nullptr;
+    // Indexed by TemperatureBgmInfo::TemperatureEnum (as are the arrays below).
     /* 0x18 */ sead::SafeArray<Unk_SpotBgmHandle*, 3> mHandles;
+    /* 0x30 */ u32 _30[3]{};
+    /* 0x3c */ bool _3c = false;
+    /* 0x40 */ aal::SimpleTimedFader mFaders[3]{aal::SimpleTimedFader{1.0f}, aal::SimpleTimedFader{1.0f},
+                                             aal::SimpleTimedFader{1.0f}};
+    /* 0x88 */ u32 _88 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102500e08, 0x90);
 
 // vtable 0x7102502640 (18 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102502640 : public aal::AuxBusDataSerialCtrl {
