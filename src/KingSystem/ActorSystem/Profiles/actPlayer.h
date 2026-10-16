@@ -378,7 +378,8 @@ public:
     // 0x71008902a8 (lane4 s45, unnamed in the CSV): the constant 0.3.
     f32 sub_71008902A8();
     // 0x7100885818 (lane4 s45, unnamed in the CSV): the constant 1.0.
-    f32 sub_7100885818();
+    // Takes the armor effect level counter (m233 passes _2060 - _2070); returns 1.
+    f32 sub_7100885818(s32 level);
     // 0x710088755c (declared only; placeholder name; called by PlayerGrabReady::enter_).
     void sub_710088755C();
     // 0x7100893f1c / 0x7100881dfc / 0x7100892f5c (declared only; placeholder names; PlayerCutAfterJump::calc_).
@@ -856,7 +857,12 @@ public:
     /* 0x2048 */ s32 _2048;  // MaterSwordAttackUp status effect level (updateStatusEffectMasterSwordAttackUp)
     /* 0x204c */ u8 _204c[0x2054 - 0x204c];
     /* 0x2054 */ s32 _2054;  // swim status level (getSwimMoveSpeed)
-    /* 0x2058 */ u8 _2058[0x2074 - 0x2058];
+    /* 0x2058 */ u8 _2058[0x2060 - 0x2058];
+    /* 0x2060 */ s32 _2060;  // passed to sub_7100885818 by m233 (types 0 - 4)
+    /* 0x2064 */ s32 _2064;
+    /* 0x2068 */ s32 _2068;
+    /* 0x206c */ s32 _206c;
+    /* 0x2070 */ s32 _2070;
     /* 0x2074 */ f32 _2074;
     /* 0x2078 */ u8 _2078[0x207e - 0x2078];
     /* 0x207e */ bool _207e;

@@ -287,4 +287,48 @@ void Player::x_10(bool on) {
     _c44.resetBit(11);
 }
 
+// Here, not in actPlayer.cpp: the original calls sub_7100885818 out of line.
+// NON_MATCHING: switch block layout (the original places case 1 last) and tail merging of the level loads.
+f32 Player::m233(int type) {
+    if (sub_710084CBE4())
+        return 0.0f;
+    f32 rate;
+    s32 level;
+    switch (type) {
+    case 0:
+        rate = _23e0.sub_7100E2F61C()->isOnBit(13) ?
+                   getParam()->getRes().mGParamList->getPlayer()->mArmorCompWeaponBrakeRate.ref() :
+                   1.0f;
+        level = _2060;
+        break;
+    case 2:
+        rate = _23e0.sub_7100E2F61C()->isOnBit(15) ?
+                   getParam()->getRes().mGParamList->getPlayer()->mArmorCompWeaponBrakeRate.ref() :
+                   1.0f;
+        level = _2068;
+        break;
+    case 3:
+        rate = (_23e0.sub_7100E2F61C()->_2 & 1) ?
+                   getParam()->getRes().mGParamList->getPlayer()->mArmorCompWeaponBrakeRate.ref() :
+                   1.0f;
+        level = _206c;
+        break;
+    case 4:
+        rate = (_23e0.sub_7100E2F61C()->_2 & 2) ?
+                   getParam()->getRes().mGParamList->getPlayer()->mArmorCompWeaponBrakeRate.ref() :
+                   1.0f;
+        level = _2070;
+        break;
+    default:
+        return 1.0f;
+    case 1:
+        rate = _23e0.sub_7100E2F61C()->isOnBit(14) ?
+                   getParam()->getRes().mGParamList->getPlayer()->mArmorCompWeaponBrakeRate.ref() :
+                   1.0f;
+        level = _2064;
+        break;
+    }
+    return rate * sub_7100885818(level);
+}
+
 }  // namespace ksys::act

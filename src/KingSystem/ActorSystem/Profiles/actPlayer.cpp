@@ -1280,7 +1280,7 @@ f32 Player::sub_71008902A8() {
     return 0.3f;
 }
 
-f32 Player::sub_7100885818() {
+f32 Player::sub_7100885818(s32) {
     return 1.0f;
 }
 
