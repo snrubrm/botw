@@ -1,4 +1,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "Game/Actor/Player/Action/actionPlayerBackJump.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/gameRuneMgr.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -113,6 +117,62 @@ void Player::sub_710088755C() {
         _d12 = false;
         _d13 = true;
     }
+}
+
+// In this file because the original calls x_16, sub_710088A388, sub_71008823AC and sub_7100888278 out of line.
+// Starts the change from the current equipment type (_d30) towards _d68: the per-type put-away work (rune item,
+// sword, bow, both hands), then the shared follow-up; _d30 becomes type 0. The arguments are unused.
+void Player::x_8(bool, bool) {
+    if (_d68 == getEquipmentTypeName(2)) {
+        if (_d30 == getEquipmentTypeName(6)) {
+            uking::RuneMgr::instance()->setHandled();
+            _d30 = getEquipmentTypeName(0);
+        }
+        if (sub_71007D86B4(this) &&
+            mASList->x_5(1, 1, &as::ASList::Unk2::sub_71011631D0) != 0.0f) {
+            x_18(true);
+        }
+        return;
+    }
+
+    if (_d30 == getEquipmentTypeName(1)) {
+        x_16();
+        sub_710088A388();
+    } else if (!_c40.isOnBit(3)) {
+        if (_d30 == getEquipmentTypeName(3)) {
+            sub_71008823AC();
+        } else if (_d30 == getEquipmentTypeName(5)) {
+            if (getConnectedCalcChild()) {
+                getConnectedCalcChild()->deleteLater(BaseProc::DeleteReason::_0);
+                resetConnectedCalcChild(false);
+            }
+            uking::RuneMgr::instance()->setHandled();
+        } else if (_d30 == getEquipmentTypeName(6)) {
+            if (_d68 != getEquipmentTypeName(5))
+                uking::RuneMgr::instance()->setHandled();
+        }
+    } else if (!(mASList->x_1(2, 0) == "WeaponEquipNG" && _1cdc == 0 &&
+                 _d68 != getEquipmentTypeName(7)) &&
+               !(_d68 == getEquipmentTypeName(1) && _d24 == 0)) {
+        getWeapons()->mWeapons[1]._10 = true;
+        _c40.resetBit(3);
+        sub_7100888278();
+        snd::Unk_7102502138::instance()->sub_710103B430(false);
+    }
+
+    if (_d11) {
+        if (auto* pause_menu = uking::ui::PauseMenuDataMgr::instance())
+            pause_menu->unholdGrabbedItems();
+    }
+    if (sub_71007D86B4(this)) {
+        if (_d68 != getEquipmentTypeName(7))
+            x_18(true);
+    } else if (mASList->x_7(1, 1, &as::ASList::Unk2::sub_710002E82C) && !_c40.isOnBit(4)) {
+        x_18(true);
+    }
+    if (!m225())
+        x_24(3.0f);
+    _d30 = getEquipmentTypeName(0);
 }
 
 }  // namespace ksys::act
