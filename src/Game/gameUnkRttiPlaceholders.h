@@ -736,6 +736,11 @@ public:
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
+
+    // lane1 s91: m29 copies _54 to the holder's _1a and adds the rigid body _58 to the world.
+    u8 _48[0x54 - 0x48];
+    u32 _54;
+    ksys::phys::RigidBody* _58;
 };
 
 // vtable 0x710250c280 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -825,6 +830,14 @@ public:
     bool m37() override { return true; }
     void m38() override {}
     bool m18() override { return true; }
+
+    // lane1 s91: m29 / m35 copy _4c to the holder's _3c; m33 stores its first flag in _69.
+    u8 _48[0x4c - 0x48];
+    f32 _4c;
+    u8 _50[0x60 - 0x50];
+    ksys::phys::RigidBody* _60;
+    u8 _68;
+    bool _69;
 };
 
 // vtable 0x710250db28 (15 slots); placeholder generated from the vtable (genskel.py).
