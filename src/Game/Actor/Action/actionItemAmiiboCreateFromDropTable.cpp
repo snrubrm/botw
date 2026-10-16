@@ -1,4 +1,8 @@
 #include "Game/Actor/Action/actionItemAmiiboCreateFromDropTable.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -103,6 +107,40 @@ void ItemAmiiboCreateFromDropTable::parseFlagActor(FlagActor* out, const sead::S
             out->flag = token;
         }
     }
+}
+
+void ItemAmiiboCreateFromDropTable::calculateCreatePosition(sead::Vector3f* out) {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = getPlayerPosition() - pos;
+    dir.normalize();
+    sead::Vector3f side;
+    side.setCross(dir, sead::Vector3f::ey);
+    out->set(0, 0, 0);
+    *out -= dir * mCreateOffset_s->z;
+    *out += sead::Vector3f::ey * mCreateOffset_s->y;
+    *out -= side * mCreateOffset_s->x;
+}
+
+void ItemAmiiboCreateFromDropTable::initCreatePosition(const sead::Vector3f& pos) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.setStartAndDisplacementScaled(pos, -sead::Vector3f::ey, 20.0f);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    sead::Matrix34f mtx = mActor->getMtx();
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        sead::Vector3f hit_pos;
+        query.getHitPosition(&hit_pos);
+        sead::Vector3f normal;
+        query.getHitNormal(&normal);
+        ksys::util::sub_71011F00EC(&mtx, sead::Vector3f::ez, normal, sead::Vector3f::zero, false);
+        mtx.setTranslation(hit_pos);
+    }
+    _a80->setTransform(mtx);
+    _a80->addToWorld();
 }
 
 void ItemAmiiboCreateFromDropTable::calc_() {

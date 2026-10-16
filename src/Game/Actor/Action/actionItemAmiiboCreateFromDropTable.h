@@ -38,6 +38,11 @@ protected:
     // 0x71001bfa64 / 0x71001bfe54 (CSV names): split a comma-separated PairActor / FlagActor string.
     void parsePairActor(PairActor* out, const sead::SafeString& names);
     void parseFlagActor(FlagActor* out, const sead::SafeString& names);
+    // 0x71001bce24 (CSV name): places the drop area body (_a80) on the ground below `pos`, aligned to the ground
+    // normal, and adds it to the world.
+    void initCreatePosition(const sead::Vector3f& pos);
+    // 0x71001bccc8 (CSV name): CreateOffset in the frame facing the player (z toward the player, y up).
+    void calculateCreatePosition(sead::Vector3f* out);
 
     // static_param at offset 0x20
     const int* mCreateInterval_s{};
