@@ -1,3 +1,4 @@
+#include "KingSystem/System/DebugBoard.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/Cooking/cookManager.h"
 #include "Game/AOC/aocHardModeManager.h"
@@ -262,6 +263,14 @@ void sub_7100A94788() {
 void sub_7100A94A50(bool set) {
     auto* manager = Manager::instance();
     manager->_64c30 = set ? (manager->_64c30 | 0x80) : (manager->_64c30 & ~0x80ull);
+}
+
+// 0x7100a94a80 (placeholder name): true unless the debug board's _39bc is set
+bool sub_7100A94A80() {
+    auto* mgr = DebugBoardMgr::instance();
+    if (!mgr)
+        return true;
+    return mgr->_39bc == 0;
 }
 
 // 0x7100a94aa8
