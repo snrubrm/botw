@@ -110,6 +110,15 @@ void Unk_SoundMgr30::sub_7100FF88A8(s32 fade_type) {
         _78->sub_7101007AA0(fade_type == 1 ? _50 : 0.0f);
 }
 
+Unk_SoundMgr30_30* Unk_SoundMgr30::sub_7100FF8A24() {
+    for (s32 i = 0; i < mSpeakerBalanceSuppliers.size(); ++i) {
+        auto* supplier = mSpeakerBalanceSuppliers.get(i);
+        if (!supplier->mHandle.isActive())
+            return supplier;
+    }
+    return nullptr;
+}
+
 void Unk_SoundMgr30::sub_7100FF8AC4(s32 fade_type) {
     if (_78) {
         f32 fade_sec = 0.1f;

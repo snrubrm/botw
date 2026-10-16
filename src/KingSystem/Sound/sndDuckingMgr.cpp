@@ -2,6 +2,23 @@
 
 namespace ksys::snd {
 
+void DuckingMgr::Ducker::activateMaybe() {
+    _c8 |= 1;
+    _c0 = 0;
+}
+
+void DuckingMgr::Ducker::deactivateMaybe(bool suspend) {
+    _c8 &= ~1;
+    if (suspend)
+        mDucker.suspend();
+}
+
+void DuckingMgr::Ducker::activateAndResetMaybe() {
+    _c8 |= 1;
+    _c0 = 0;
+    mDucker.resetState();
+}
+
 bool DuckingMgr::Ducker::isActive() const {
     return _c8 & 1;
 }

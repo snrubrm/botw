@@ -413,6 +413,12 @@ public:
         // 0x7101042f18
         virtual bool isActive() const;
         bool sub_710103E368() const;
+        // 0x710103e00c: sets the active bit and clears _c0.
+        void activateMaybe();
+        // 0x710103e2a8: clears the active bit (`suspend`: also suspends mDucker).
+        void deactivateMaybe(bool suspend);
+        // 0x710103e2c4: activateMaybe() and resets mDucker's state.
+        void activateAndResetMaybe();
 
         u8 _8[0x60];
         /* 0x68 */ aal::GroupDucker mDucker;

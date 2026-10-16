@@ -2133,7 +2133,11 @@ public:
     // Called by the BGM controllers (ksys::snd::Unk_710260f130 / Unk_710260f150) on their kind 18 BGM.
     void sub_710100215C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
     void sub_7101002194();
+    // 0x7101002274 (declared only: in our TU layout Unk_710260f130::sub_7100FF9F0C would inline it): sets bit 3 of
+    // _1f4 and _1ec to the info's PlayWaitSec.
     void sub_7101002274();
+    // 0x7101002244: in state 3 / 4 with _160[1] above the info's VolumeNormal.
+    bool m10() override;
     void m14(sead::TextWriter& writer) override {}
     // 0x7101002290 (declared only)
     void hm14() override;
@@ -2141,14 +2145,15 @@ public:
 
     explicit Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg);
 
-    ksys::snd::MusicInfo* mInfo = nullptr;
+    ksys::snd::DungeonBattleBgmInfo* mInfo = nullptr;
     s32 mState = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
     u32 _1d0;
     u64 _1d8 = 0;
     u64 _1e0 = 0;
-    u64 _1e8 = 0;
+    u32 _1e8 = 0;
+    f32 _1ec = 0;
     s32 _1f0 = -1;
     // ksys::snd::Unk_710260f0c0::sub_7100FF8F34 sets bit 0x10.
     u8 _1f4 = 7;

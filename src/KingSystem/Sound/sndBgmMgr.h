@@ -87,6 +87,12 @@ public:
     u32 _8;
     // 0x7100ff8c74 (76 B): copies the handle and reads a byte of its asset info into `_c`.
     void sub_7100FF8C74(const aal::Handle& handle);
+    // Declared only (address unknown).
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index,
+                            f32 spread) override;
+
+    /* 0x0c */ u32 _c;
+    /* 0x10 */ aal::Handle mHandle;
 };
 
 // Placeholder (vtable 0x7102502950; D1 0x7101056bc8, readAssetInfo 0x7101056cac): the asset info reader at +0x68 of
@@ -301,6 +307,7 @@ class HorseBgmInfo;
 class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
 class BigMazeBgmInfo;
+class DungeonBattleBgmInfo;
 class TutorialDungeonBattleBgmInfo;
 
 // Placeholder (D1 0x710103ab10, declared only): a 4-byte object holding a ducker index (SoundMgr::DuckerType value;
@@ -974,7 +981,7 @@ struct Unk_SoundMgr30 {
     // 0x7100ff8b24 / 0x7100ff8b94: add / remove a sound object from the ObjList at +0x90.
     void sub_7100FF8B24(Unk_710260f248* obj);
     void sub_7100FF8B94(Unk_710260f248* obj);
-    // 0x7100ff8a24 (declared only)
+    // 0x7100ff8a24: a speaker balance supplier whose handle is inactive, or null.
     Unk_SoundMgr30_30* sub_7100FF8A24();
     // 0x7100ff89a0: a free entry of the pool at +0x20 (reset), or null.
     Unk_710260f248Entry* sub_7100FF89A0();
@@ -985,8 +992,8 @@ struct Unk_SoundMgr30 {
     /* 0x18 */ Unk_SoundMgr30_18* _18;
     // Pool of the sound object entries (0x7100ff89a0 hands out the unlinked ones).
     /* 0x20 */ sead::Buffer<Unk_710260f248Entry> mEntryPool;
-    // A buffer of the 0x20-byte speaker balance suppliers (count, pointer; 0x7100ff8a24).
-    /* 0x30 */ u8 _30[0x10];
+    // The speaker balance suppliers (0x7100ff8a24 hands out the ones whose handle is inactive).
+    /* 0x30 */ sead::Buffer<Unk_SoundMgr30_30> mSpeakerBalanceSuppliers;
     /* 0x40 */ BgmControllerType _40;
     u8 _44[4];
     /* 0x48 */ Unk_71024fca78* _48;

@@ -584,10 +584,17 @@ void Unk_710260f2a8::m13(f32 fade_sec) {
 
 Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonBattleBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_21);
+    mInfo = static_cast<ksys::snd::DungeonBattleBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_21));
 }
 
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
+
+bool Unk_71024fd6c8::m10() {
+    if (_124 != 3 && _124 != 4)
+        return false;
+    return _160[1] > mInfo->mVolumeNormal.ref();
+}
 
 void Unk_71024fd6c8::hm15() {
     if (mState != 1 && mState != 2)
