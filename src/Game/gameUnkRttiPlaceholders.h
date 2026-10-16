@@ -760,6 +760,12 @@ public:
     void m38() override {}
     bool m18() override { return true; }
     f32 m20(ksys::act::Chemical* chemical) override { return 0.0f; }
+
+    // lane1 s91: m29 / m35 copy _50 / _54 to the holder's _3c / _1c.
+    u8 _48[0x50 - 0x48];
+    f32 _50;
+    sead::Vector3f _54;
+    ksys::phys::RigidBody* _60;
 };
 
 // vtable 0x710250c3e8 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -795,6 +801,10 @@ public:
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
+
+    // lane1 s91: m29 adds this rigid body to the world.
+    u8 _48[0x50 - 0x48];
+    ksys::phys::RigidBody* _50;
 };
 
 // vtable 0x710250c6d8 (39 slots); placeholder generated from the vtable (genskel.py).
@@ -812,6 +822,10 @@ public:
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
+
+    // lane1 s91: m29 adds this rigid body to the world.
+    u8 _48[0x50 - 0x48];
+    ksys::phys::RigidBody* _50;
 };
 
 // vtable 0x710250d3e8 (39 slots); placeholder generated from the vtable (genskel.py).
