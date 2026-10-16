@@ -31,6 +31,8 @@ class ASList;
 namespace ksys::phys {
 class CharacterController;
 class NavMeshCharacter;
+class QueryContactPointInfo;
+class RigidBody;
 }
 
 namespace uking::act {

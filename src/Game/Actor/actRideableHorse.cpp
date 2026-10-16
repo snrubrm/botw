@@ -17,7 +17,9 @@ namespace uking::act {
 
 RideableHorse::RideableHorse() = default;
 
-RideableHorse::~RideableHorse() = default;
+RideableHorse::~RideableHorse() {
+    _280.freeBuffer();
+}
 
 RideableBase* RideableHorse::make(sead::Heap* heap) {
     return new (heap, std::nothrow) RideableHorse;

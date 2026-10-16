@@ -1,3 +1,6 @@
+#include "Game/Actor/actRideableHorse.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 
@@ -134,6 +137,17 @@ void RideableBase::S1::sub_7100E786F0(const sead::SafeString& name) {
         bank = 0;
     }
     sub_7100E76260(name, 0, 0, 0, bank);
+}
+
+Unk_7100e7941c::Unk_7100e7941c() = default;
+
+Unk_7100e7941c::~Unk_7100e7941c() {
+    if (_0)
+        delete _0;
+    if (_8)
+        delete _8;
+    if (_10)
+        ksys::phys::QueryContactPointInfo::free(_10);
 }
 
 }  // namespace uking::act

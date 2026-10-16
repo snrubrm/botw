@@ -1,10 +1,34 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include "Game/Actor/actRideable.h"
 
 namespace uking::act {
 
 class HorseBase;
+
+// Placeholder (ctor 0x7100e7941c, dtor 0x7100e79450; emitted in the RideableBase::S1 TU): one of the two
+// capsule bodies RideableHorse::m4 creates through 0x7100e794a8 (rigid bodies _0 / _8, contact info _10).
+struct Unk_7100e7941c {
+    Unk_7100e7941c();
+    ~Unk_7100e7941c();
+
+    ksys::phys::RigidBody* _0 = nullptr;
+    ksys::phys::RigidBody* _8 = nullptr;
+    ksys::phys::QueryContactPointInfo* _10 = nullptr;
+    u64 _18 = 0;
+    f32 _20 = 1.0f;
+    f32 _24 = 0;
+    f32 _28 = 0;
+    f32 _2c = 0;
+    f32 _30 = 0;
+    f32 _34 = 1.0f;
+    f32 _38[8]{};
+    u64 _58 = 0;
+    f32 _60 = 0.5f;
+    s32 _64 = 2;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100e7941c, 0x68);
 
 // Name from the CSV (RideableHorse::*). vtable 0x71024ec0c8 (47 slots: Rideable's 45 + m45 / m46), RTTI
 // statics 0x7102603c78 / 0x7102603c80, size 0x2a8; created by 0x7100e7c688 (CSV RideableHorse::ctor, the
@@ -56,10 +80,7 @@ public:
     HorseReins* m41() override;
 
     // A sead::Buffer of the 0x68-byte elements (m13 returns its address).
-    struct Unk280 {
-        u32 mSize = 0;
-        void* mBuffer = nullptr;
-    };
+    using Unk280 = sead::Buffer<Unk_7100e7941c>;
     /* 0x280 */ Unk280 _280;
     /* 0x290 */ s32 _290 = 0;
     /* 0x294 */ f32 _294 = 0;
