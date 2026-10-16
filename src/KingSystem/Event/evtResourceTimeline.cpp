@@ -192,7 +192,7 @@ EventSysActors::Unk78::Unk78() = default;
 // 0x7100dc7960
 // NON_MATCHING: the original spills the GameConfig::m6() result to the stack before comparing it with 1
 void EventSysActors::loadEventSystemActors(sead::Heap* heap) {
-    if (GameConfig::getInstance()->m6() != 1)
+    if (GameConfig::getInstance()->m6() != GameConfig::Unk6::_1)
         return;
 
     act::InstParamPack params;
@@ -227,7 +227,7 @@ void EventSysActors::ActorHandle::ready() {
 // 0x7100dc7c84
 // NON_MATCHING: the original spills the GameConfig::m6() result to the stack before comparing it with 1
 bool EventSysActors::finishedLoading() {
-    if (GameConfig::getInstance()->m6() != 1)
+    if (GameConfig::getInstance()->m6() != GameConfig::Unk6::_1)
         return true;
 
     bool done = true;
