@@ -113,6 +113,13 @@ void UiSubsys1::sub_7100963C78(bool a1) {
 }
 
 // 0x7100960df8
+// 0x7100960758
+void UiSubsys1::sub_7100960758(sead::BufferedSafeString* out) {
+    const char* name;
+    ksys::gdt::getFlag_ActorName_SeakSensor_Slot0(&name);
+    out->copy(name);
+}
+
 bool UiSubsys1::sub_7100960DF8() {
     return _3860 != 0;
 }

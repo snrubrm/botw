@@ -1145,6 +1145,8 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    // 0x7100960758 (placeholder name): copies the Sheikah Sensor+ target name (ActorName_SeakSensor_Slot0) to `out`
+    void sub_7100960758(sead::BufferedSafeString* out);
     bool sub_7100956C10(u32 index) const;
     Unk_7102476640** sub_71009580A4(Unk_7102476640* key);
     bool sub_71009580E4(Unk_7102476640** entry);
