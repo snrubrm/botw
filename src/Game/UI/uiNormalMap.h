@@ -11,6 +11,7 @@ class Handle;
 }
 namespace nn::ui2d {
 class Material;
+class Pane;
 }
 namespace eui {
 class LayoutEx;
@@ -43,11 +44,12 @@ public:
     /* 0x08 */ s32 mType = -1;
     u8 _c[4];
     /* 0x10 */ Unk_7102479bd0 mTexture;
-    /* 0x88 */ bool _88 = true;
-    /* 0x89 */ bool _89 = true;
-    /* 0x8a */ u16 _8a = 0;
-    /* 0x8c */ s32 _8c = -1;
-    /* 0x90 */ eui::LayoutEx* mLayout = nullptr;
+    /* 0x88 */ bool _88 = true;   // the pane is fully shown
+    /* 0x89 */ bool _89 = true;   // previous _88
+    /* 0x8a */ bool _8a = false;  // the pane is hidden
+    /* 0x8b */ bool _8b = false;  // previous _8a
+    /* 0x8c */ s32 _8c = -1;      // fade mode (0: in, 1: shown, 2: out, 3: hidden)
+    /* 0x90 */ nn::ui2d::Pane* mPane = nullptr;
     /* 0x98 */ Unk_7102479bb0* mMapEntry = nullptr;
 };
 static_assert(sizeof(Unk_7102479bf0) == 0xa0);

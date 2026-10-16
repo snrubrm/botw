@@ -1,4 +1,6 @@
 #include "Game/UI/uiNormalMap.h"
+#include <math/seadMathCalcCommon.h>
+#include <nn/ui2d/Pane.h>
 #include <nn/ui2d/Material.h>
 #include <gfx/seadGraphics.h>
 #include "KingSystem/Resource/resHandle.h"
@@ -20,6 +22,56 @@ Unk_7102479bd0::~Unk_7102479bd0() {
 
 // 0x71009a50a4
 Unk_7102479bf0::~Unk_7102479bf0() = default;
+
+// 0x71009a524c (placeholder name): fades the tile's pane in or out depending on its texture state
+void Unk_7102479bf0::sub_71009A524C() {
+    auto* pane = mPane;
+    if (!pane || mType == 1)
+        return;
+    _89 = _88;
+    _8b = _8a;
+    if (mType != 0) {
+        _8c = 1;
+    } else if (!mMapEntry->_20) {
+        _8c = 3;
+    } else {
+        switch (mTexture.mState) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            _8c = 2;
+            break;
+        case 4:
+            _8c = 0;
+            break;
+        case 6:
+            _8c = 3;
+            break;
+        default:
+            break;
+        }
+    }
+    switch (_8c) {
+    case 0:
+        if (pane->GetAlpha() != 0xff)
+            pane->SetAlpha(u8(sead::Mathi::min(pane->GetAlpha() + 30, 0xff)));
+        break;
+    case 1:
+        pane->SetAlpha(0xff);
+        break;
+    case 2:
+        if (pane->GetAlpha() != 0)
+            pane->SetAlpha(u8(sead::Mathi::max(pane->GetAlpha() - 30, 0)));
+        break;
+    case 3:
+        pane->SetAlpha(0);
+        break;
+    }
+    const u8 alpha = mPane->GetAlpha();
+    _8a = alpha == 0;
+    _88 = alpha == 0xff;
+}
 
 // 0x71009a5bc8
 Unk_7102479c10::~Unk_7102479c10() = default;

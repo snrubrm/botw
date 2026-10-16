@@ -413,7 +413,8 @@ public:
     /* 0x0d */ bool _d = false;
     /* 0x0e */ u16 _e = 0;
     /* 0x10 */ sead::BoundBox2f mBounds;
-    /* 0x20 */ u16 _20 = 0;
+    /* 0x20 */ bool _20 = false;  // tested by Unk_7102479bf0::sub_71009A524C
+    /* 0x21 */ u8 _21 = 0;
     /* 0x22 */ bool _22 = false;
     u8 _23[5];
 };
