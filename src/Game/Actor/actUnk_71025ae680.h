@@ -237,6 +237,15 @@ public:
     bool m15() override;
     // Slot 16 (0x7100850e64): kinds 4 / 3 are allowed once _144 / _148 run out.
     bool m16(s32 kind) override;
+    // Slot 10 (0x71008503f0): outside events, runs the condition timers (_13c via sub_7100850544, ShockTime _140
+    // ending condition 5, _144 reset to 60 by condition 4, _148 reset to IceInvalidTime by condition 3).
+    void m10() override;
+    // 0x7100850544 (placeholder name): while condition 0 / 1 is on, applies damage kind 0 / 1 every 2 time units
+    // of _13c (the timer rates come from sub_7100851144 / sub_7100850EB4); clears _13c otherwise.
+    void sub_7100850544();
+    // 0x7100850eb4 / 0x7100851144 (declared only; placeholder names): timer rates for conditions 1 / 0.
+    f32 sub_7100850EB4();
+    f32 sub_7100851144();
     // Slots 18 / 19 (0x71008507ec / 0x71008507f0): forward to the base.
     void m18() override;
     void m19() override;
@@ -245,7 +254,7 @@ public:
     bool sub_7100850CE4() const;
     bool sub_7100850CF4() const;
 
-    /* 0x13c */ u32 _13c;
+    /* 0x13c */ f32 _13c;
     /* 0x140 */ f32 _140;  // ShockTime (m12)
     /* 0x144 */ f32 _144;
     /* 0x148 */ f32 _148;

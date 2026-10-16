@@ -1,3 +1,5 @@
+#include "KingSystem/System/Timer.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
@@ -62,6 +64,62 @@ void Unk_71008502cc::m13(int index) {
     default:
         Unk_710244dd20::m13(index);
         break;
+    }
+}
+
+// NON_MATCHING: the original forms the address of _148 before loading it (scheduling only).
+void Unk_71008502cc::m10() {
+    Unk_710244dd20::m10();
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    if (!player || j_eventMgrHasActiveEventMaybe(player))
+        return;
+
+    sub_7100850544();
+
+    if (_8.isOnBit(5)) {
+        ksys::Timer::update(&_140, -1.0f);
+        if (_140 <= 0.0f)
+            m13(5);
+    }
+
+    if (_8.isOnBit(4))
+        _144 = 60.0f;
+    else if (_144 > 0.0f)
+        ksys::Timer::update(&_144, -1.0f);
+
+    if (_8.isOnBit(3))
+        _148 = _10->getParam()->getRes().mGParamList->getPlayer()->mIceInvalidTime.ref();
+    else if (_148 > 0.0f)
+        ksys::Timer::update(&_148, -1.0f);
+}
+
+void Unk_71008502cc::sub_7100850544() {
+    if (!_8.isOn(0x3)) {
+        _13c = 0;
+        return;
+    }
+    if (_8.isOnBit(1)) {
+        if (_13c >= 2.0f) {
+            ConditionDamageInfo info;
+            info.mKind = 1;
+            info.mDamage = 2;
+            info.mFlags = 1;
+            sub_71006DF5CC(info);
+            _13c = 0;
+        }
+        if (!_8.isOnBit(3))
+            ksys::Timer::update(&_13c, sub_7100850EB4());
+    }
+    if (_8.isOnBit(0)) {
+        if (_13c >= 2.0f) {
+            ConditionDamageInfo info;
+            info.mKind = 0;
+            info.mDamage = 2;
+            info.mFlags = 1;
+            sub_71006DF5CC(info);
+            _13c = 0;
+        }
+        ksys::Timer::update(&_13c, sub_7100851144());
     }
 }
 
