@@ -83,7 +83,8 @@ public:
     virtual void m30() {}
     virtual bool m31() { return false; }
     virtual void m32() {}
-    virtual void m33() = 0;
+    // lane1 s91: ElementWater and Unk_71025187d0 pass `fixed` to RigidBody::setFixed.
+    virtual void m33(bool a, bool fixed) = 0;
     virtual void m34() {}
 
     // 0x7101265698: creates the chemical holder for `name`, links it to this element and
@@ -212,7 +213,7 @@ public:
     Unk_71025187d0(const ksys::world::Unk_ChemicalMgrM2Arg& arg, sead::Heap* heap);
     ~Unk_71025187d0() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m35() override;
     void m36() override;
 

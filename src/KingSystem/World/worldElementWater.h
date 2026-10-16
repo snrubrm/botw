@@ -42,7 +42,7 @@ public:
     f32 m17(ksys::act::Chemical* chemical) override;
     f32 m20(ksys::act::Chemical* chemical) override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m35() override;
     void m36() override {}
     bool m37() override { return true; }

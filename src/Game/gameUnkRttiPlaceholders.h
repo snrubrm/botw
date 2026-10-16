@@ -730,7 +730,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -747,7 +747,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override {}
     void m36() override {}
@@ -764,7 +764,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -783,7 +783,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -801,7 +801,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override {}
     void m36() override {}
@@ -818,7 +818,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -835,7 +835,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -854,7 +854,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -1540,7 +1540,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -1558,7 +1558,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override;
     void m36() override {}
@@ -1599,7 +1599,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override {}
     void m36() override {}
@@ -1616,7 +1616,7 @@ public:
     void m30() override;
     bool m31() override;
     void m32() override;
-    void m33() override;
+    void m33(bool a, bool fixed) override;
     void m34() override;
     void m35() override {}
     void m36() override {}

@@ -212,3 +212,8 @@ void Unk_71025187d0::m36() {
     else if (_50)
         sub_710127DB28();
 }
+
+void Unk_71025187d0::m33(bool a, bool fixed) {
+    if (_48 && mHolder->_18 & 4)
+        _48->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
