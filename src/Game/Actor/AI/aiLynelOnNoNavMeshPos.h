@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
+
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -13,6 +15,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -27,8 +30,7 @@ protected:
     const float* mNoJumpDist_s{};
     // static_param at offset 0x58
     const float* mHyperJumpDist_s{};
-    ksys::act::Actor* _60 = mActor;
-    ksys::Timer _68;
+    ksys::act::Unk_7100d3bce4 _60{mActor};  // jump timer
 };
 
 }  // namespace uking::ai
