@@ -402,7 +402,8 @@ public:
     // 0x71011311bc (placeholder name): under both locks, runs sub_7101131290 and sub_71011320B4 on every
     // request of _31c0, then publishes the queue size and wakes the loader thread if it is not zero.
     void sub_71011311BC();
-    // 0x7101131290 (declared only; placeholder name).
+    // 0x7101131290 (placeholder name): under both locks, drops the queued load tasks (Unk_7101132878) and
+    // unloads every request of mLists1c0 (releasing its image first while its handle is valid).
     void sub_7101131290();
     // 0x71011320b4 (declared only; placeholder name; 444 B).
     void sub_71011320B4(Request* request);

@@ -206,6 +206,34 @@ void ImageResourceMgr::sub_7101132FE0(LoadTask* task, System* system, Unk_710110
     task->_7c = (max_b + task->_60 + 0x3f) & ~0x3f;
 }
 
+// NON_MATCHING: fence scheduling (as in sub_71011311BC) and the final unlock is not a tail call.
+void ImageResourceMgr::sub_7101131290() {
+    mCS28.lock();
+    mCS68.lock();
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    Unk_7101132878 prune{this};
+    mCS68.lock();
+    prune.sub_7101132878(&mList3200, mKindLists, true, true);
+    prune.sub_7101132878(&mList4a18, mKindLists2, true, true);
+    mCS68.unlock();
+
+    for (s32 i = 0; i < 0x100; ++i) {
+        for (Request& request : mLists1c0[i].robustRange()) {
+            if (Unk_710250dcd8* image = request.area->getImageMaybe(request.type))
+                image->sub_710110DD20(false);
+            if (Unk_710250dcd8* image = request.area->getImageMaybe(request.type))
+                image->_8 &= ~2;
+            if (request._20.isValid(mSystems, request.area, _6470)) {
+                request.area->sub_710110736C(request.type);
+                sub_71011339D0(&request);
+            }
+            sub_7101133588(&request);
+        }
+    }
+    mCS68.unlock();
+    mCS28.unlock();
+}
+
 s32 ImageResourceMgr::sub_710113333C(LoadTask* task, bool a3) {
     sead::OffsetList<LoadTask>& list = mKindLists[u8(task->_24)];
     for (LoadTask& other : list) {
