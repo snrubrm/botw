@@ -107,6 +107,21 @@ void HorseMgr::sub_7100E8533C(HorseData* data, s32 index) {
     Manager::instance()->setBool(data->familiarityChecked, "Horse_IsFamiliarityChecked", index);
 }
 
+void HorseMgr::sub_7100E8998C(s32 mode) {
+    if (mode != 2)
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor))
+        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    if (!(_30 == mOwnedHorse) && ksys::act::acquireActor(&_30, &accessor))
+        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    setFlagOn(Flag::_4);
+}
+
+void HorseMgr::sub_7100E89A44() {
+    setFlagOff(Flag::_4);
+}
+
 // 0x7100e89b20: the DeadHorse_* flags of dead horse `index` (no `this`).
 bool HorseMgr::sub_7100E89B20(HorseData* data, s32 index) {
     using ksys::gdt::Manager;

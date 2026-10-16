@@ -52,6 +52,8 @@ public:
     // for the orr (sub_7100E86D44 matches), isOnBit still has the `and` operands swapped.
     bool isFlagOn(Flag flag) const { return _228.isOnBit(flag); }
     void setFlagOn(Flag flag) { _228.setDirect((1 << flag) | _228.getDirect()); }
+    // Counterpart of setFlagOn (0x7100e89a44 clears _4 this way).
+    void setFlagOff(Flag flag) { _228.setDirect(~(1 << flag) & _228.getDirect()); }
 
     // One horse record of the game data (the Horse_* flags are arrays of 5: the owned horses; the DeadHorse_*
     // flags the dead ones). Names of the fields are guesses from the flag names the readers use
@@ -93,6 +95,10 @@ public:
     // 0x7100e887b8 (placeholder name; called by ai::Horse::calc_): sub_7100E857CC on the selected horse (under
     // _230) if `proc` is the owned horse.
     void sub_7100E887B8(ksys::act::BaseProc* proc, bool a2, bool a3, s32 a4);
+    // 0x7100e8998c (CSV HorseMgr::__auto1; placeholder name): for `mode` 2, puts the owned horse and the horse in
+    // _30 to sleep and sets _228 bit 4; 0x7100e89a44 (placeholder name) clears that bit.
+    void sub_7100E8998C(s32 mode);
+    void sub_7100E89A44();
     // 0x7100e88720 (descriptive name): the owned horse (mOwnedHorse) as a HorseBase, or null.
     act::HorseBase* getOwnedHorseBase() const;
     // 0x7100e8883c (name is a guess): the same for the dead horses (no selected index, no lock).
