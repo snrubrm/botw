@@ -271,6 +271,9 @@ public:
     // 0x710102c9e8 (declared by lane1 s95; placeholder name): releases a handle obtained from this object
     // (LumberjackTree::_2e0): removes it from the speaker balance unifier and returns it to the free list.
     void sub_710102C9E8(void* handle);
+    // 0x710102c924 (placeholder name): hands out a position from the pool and adds it to the unifier (null when
+    // the pool is not set up or full).
+    Unk_71025018c0* sub_710102C924();
 
     /* 0x08 */ act::BaseProcHandle mProcHandle;
     /* 0x18 */ void* _18;

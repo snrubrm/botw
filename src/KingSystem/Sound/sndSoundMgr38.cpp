@@ -273,6 +273,17 @@ void Unk_SoundMgr38_8::sub_710102C594() {
         sub_710102C5AC();
 }
 
+// NON_MATCHING: the original stores the zeroed position z before the vtable load (scheduling only).
+Unk_71025018c0* Unk_SoundMgr38_8::sub_710102C924() {
+    if (!mPositions.isBufferReady())
+        return nullptr;
+    auto lock = sead::makeScopedLock(mCS);
+    auto* position = mPositions.emplaceBack();
+    if (position)
+        mUnifier->addUnifiable(position);
+    return position;
+}
+
 void Unk_SoundMgr38_8::sub_710102C9E8(void* handle) {
     if (!handle || !mPositions.isBufferReady())
         return;
