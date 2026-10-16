@@ -1,3 +1,4 @@
+#include <atomic>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -15,6 +16,33 @@
 // NON_MATCHING: the two secondary-vtable thunks (0x7101011d98 / 0x7101011e3c) differ in register allocation.
 Unk_71024fefe8::~Unk_71024fefe8() {
     mEntries.freeBuffer();
+}
+
+// NON_MATCHING: regalloc (as Unk_71024feae8::sub_710100F798).
+void Unk_71024fefe8::sub_71010121D8(s32 id) {
+    while (mEntriesLock.load() == 1) {
+    }
+    while (!mEntriesLock.compareExchange(0, 1)) {
+    }
+
+    s32 free_idx = -1;
+    bool found = false;
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        if (mEntries[i].id == id) {
+            found = true;
+            break;
+        }
+        if (mEntries[i].id == 0 && free_idx < 0)
+            free_idx = i;
+    }
+    if (!found && free_idx >= 0) {
+        mEntries[free_idx] = {};
+        mEntries[free_idx].id = id;
+    }
+
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    while (!mEntriesLock.compareExchange(1, 0)) {
+    }
 }
 
 void Unk_71024fefe8::sub_71010122A0(s32 id) {

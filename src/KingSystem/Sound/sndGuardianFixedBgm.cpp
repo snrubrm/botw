@@ -1,3 +1,4 @@
+#include <atomic>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -17,8 +18,6 @@ sead::SafeString sStr_GuardianFixedBgm = "GuardianFixedBgm";
 sead::SafeString sStr_GuardianFixedBgmMain = "main";
 }  // namespace
 
-// NON_MATCHING: the original zeroes 0x1d8 alone and 0x1dc / 0x1e4 as two unaligned doublewords (tried u32[2] and a
-// two-word struct; clang merges 0x1d8..0x1e8 differently).
 Unk_71024feae8::Unk_71024feae8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     auto* heap = arg.heap;
     Unk_SpotBgmHandle::init(heap, sStr_GuardianFixedBgm, nullptr);
@@ -50,6 +49,33 @@ Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 }
 
 Unk_71024fec18::~Unk_71024fec18() = default;
+
+// NON_MATCHING: regalloc (entry count / buffer registers swapped).
+void Unk_71024feae8::sub_710100F798(s32 id) {
+    while (mEntriesLock.load() == 1) {
+    }
+    while (!mEntriesLock.compareExchange(0, 1)) {
+    }
+
+    s32 free_idx = -1;
+    bool found = false;
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        if (mEntries[i].id == id) {
+            found = true;
+            break;
+        }
+        if (mEntries[i].id == 0 && free_idx < 0)
+            free_idx = i;
+    }
+    if (!found && free_idx >= 0) {
+        mEntries[free_idx] = {};
+        mEntries[free_idx].id = id;
+    }
+
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    while (!mEntriesLock.compareExchange(1, 0)) {
+    }
+}
 
 void Unk_71024feae8::sub_710100F860(s32 id) {
     for (s32 i = 0; i < mEntries.size(); ++i) {

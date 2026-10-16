@@ -31,6 +31,7 @@
 #include <aal/aalSpeakerChannelVolume.h>
 #include <aal/aalDeviceType.h>
 #include <container/seadSafeArray.h>
+#include <thread/seadAtomic.h>
 #include <gsys/gsysIModelProcedural.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglDrawContext.h>
@@ -2613,7 +2614,8 @@ public:
     s32 mState = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     sead::Buffer<Entry> mEntries;
-    u32 _1d8 = 0;
+    // Spin lock of mEntries (0x710100f798).
+    sead::Atomic<s32> mEntriesLock = 0;
     u32 _1dc = 0;
     u32 _1e0 = 0;
     u32 _1e4 = 0;
@@ -2693,7 +2695,9 @@ public:
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     sead::Buffer<Entry> mEntries;
     // Not declared yet: fields up to 0x200, a FixedSafeString<8>-based object at 0x200 and fields to 0x240.
-    u8 _1d8[0x1ec - 0x1d8];
+    // Spin lock of mEntries (0x71010121d8).
+    /* 0x1d8 */ sead::Atomic<s32> mEntriesLock;
+    u8 _1dc[0x1ec - 0x1dc];
     /* 0x1ec */ s32 _1ec;
     /* 0x1f0 */ bool _1f0;
     u8 _1f1[0x240 - 0x1f1];
