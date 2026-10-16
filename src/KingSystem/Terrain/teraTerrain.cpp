@@ -3,11 +3,21 @@
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <cmath>
+#include <filedevice/seadFileDevice.h>
 #include <math/seadMathCalcCommon.h>
 
 namespace ksys::tera {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Terrain)
+
+// NON_MATCHING: the original stores `exists` after loading _428 (scheduling).
+bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type) {
+    sead::FixedSafeString<256> path;
+    mImageResourceMgr->sub_7101130FBC(&path, system, area, type);
+    bool exists = false;
+    _428->tryIsExistFile(&exists, path);
+    return exists;
+}
 
 void Terrain::sub_710114D8C0(sead::Heap* heap, System* system) {
     _360->sub_71013008E4(heap, system);

@@ -28,6 +28,7 @@ class Model;
 }
 
 namespace sead {
+class FileDevice;
 class Heap;
 class ExpHeap;
 }
@@ -51,6 +52,7 @@ class ApertureMapsCollector {
     void releaseImage();
 };
 class System;
+class Unk_7101106F44;
 
 class Core {
 public:
@@ -204,6 +206,9 @@ public:
     };
     sead::Vector2f sub_710114D8E4(const Unk_710114D8E4* params);
     f32 sub_710114D8F8(const Unk_710114D8E4* params);
+    // 0x710114d928 (CSV Terrain::a; placeholder name): whether the image file of `area` for `type` exists
+    // on _428.
+    bool sub_710114D928(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type);
 
     // Placeholders for the chain Terrain::_370->_4ae0 (0x710114de10 / 0x710114de20 / 0x710114de3c).
     struct MaterialName {
@@ -256,7 +261,10 @@ public:
     u8 _3de;
     u8 _3df[0x400 - 0x3df];
     f32 _400;
-    u8 _404[0x680 - 0x404];
+    u8 _404[0x428 - 0x404];
+    // Checked for image files by sub_710114D928.
+    sead::FileDevice* _428;
+    u8 _430[0x680 - 0x430];
     sead::Matrix44f mProjectionMatrix;
     sead::Matrix34f mViewMatrix;
     u8 _6f0[0xa40 - 0x6f0];
