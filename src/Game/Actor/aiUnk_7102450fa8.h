@@ -276,6 +276,8 @@ public:
     virtual const State* m11(Step step);
 
     bool isFlagOn(Flag flag) const { return _1d0.isOnBit(flag); }
+    // inline-only in the original; name is a guess (m5: the flag index temporary shares the accessor's stack slot)
+    void setFlag(Flag flag) { _1d0.setBit(flag); }
 
     // 0x710071b5ec / 0x710071b6a4: m11 table callbacks (per member update).
     static void sub_710071B5EC(Unk_7102450fe0* self, s32 idx);
@@ -285,6 +287,12 @@ public:
     void sub_710071B37C(Unk_7102450fa8* unit);
     // 0x710071aecc
     void sub_710071AECC();
+    // 0x710071b7d4: whether every member is in `state` and done
+    bool sub_710071B7D4(Step state) const;
+    // 0x710071b8c4: whether every member's step has the _11 flag (final step)
+    bool sub_710071B8C4();
+    // 0x710071ba04: whether any member is in `state`
+    bool sub_710071BA04(Step state) const;
 
     // inline-only in the original; name is a guess (the constructor 0x710071a92c and m10 0x710071b3a4 repeat it)
     void resetOrder() {

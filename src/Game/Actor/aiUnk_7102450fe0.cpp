@@ -2,6 +2,8 @@
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 // Own TU (0x710071a92c .. 0x710071bd38): Unk_7102450fa8's functions are called, not inlined, and the
 // Unk_7102450fa8 TU ends with its static initialiser at 0x710071a7b4.
@@ -16,8 +18,36 @@ Unk_7102450fe0::Unk_7102450fe0() {
 
 Unk_7102450fe0::~Unk_7102450fe0() = default;
 
-// TODO
-void Unk_7102450fe0::m5(s32 a8, f32 x, f32 y) {}
+void Unk_7102450fe0::m5(s32 a8, f32 x, f32 y) {
+    _a8 = a8;
+    _16c = x;
+    _170 = y;
+    _8[0]._c = false;
+    _ac = (_ac + 1) % 10000;
+    for (auto& entry : _8)
+        entry.reset(1);
+    m10();
+    _1d0.makeAllZero();
+    setFlag(Flag::_0);
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (_a0->sub_71007194CC(&accessor))
+        accessor.getActorMtx().getTranslation(_160);
+    else
+        _160 = sead::Vector3f::zero;
+    _98 = 1.0f;
+    if (_a0->sub_71007194D4(2, &accessor)) {
+        ksys::act::BaseProcLink link;
+        accessor.linkAcquire(&link);
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (actor && actor->m45()) {
+            auto* nav = actor->m45();
+            _98 = nav->_2a8 * nav->_2ac;
+        }
+    }
+    _1d4 = 0;
+    _98 *= 1.5f;
+}
 
 void Unk_7102450fe0::m8() {
     if (isFlagOn(Flag(Flag::_1)))
@@ -107,4 +137,28 @@ void Unk_7102450fe0::sub_710071B6A4(Unk_7102450fe0* self, s32 idx) {
     ksys::act::ActorLinkConstDataAccess accessor;
     if (!self->_a0->sub_71007194D4(idx + 2, &accessor) || accessor.isStateSleep())
         entry._c = true;
+}
+
+bool Unk_7102450fe0::sub_710071B7D4(Step state) const {
+    for (const auto& entry : _8) {
+        if (entry._0 != state || !entry._c)
+            return false;
+    }
+    return true;
+}
+
+bool Unk_7102450fe0::sub_710071B8C4() {
+    for (auto& entry : _8) {
+        if (m11(entry._0)->_11 != true)
+            return false;
+    }
+    return true;
+}
+
+bool Unk_7102450fe0::sub_710071BA04(Step state) const {
+    for (const auto& entry : _8) {
+        if (entry._0 == state)
+            return true;
+    }
+    return false;
 }
