@@ -6,7 +6,9 @@
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <container/seadSafeArray.h>
+#include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys { class Message; }
@@ -60,14 +62,26 @@ public:
         bool _e = false;
     };
 
+    // A queued request (0x20 bytes; the constructor resets the link once more).
+    struct Request {
+        Request() { link.reset(); }
+        ~Request() { link.reset(); }
+
+        s32 type = 0;
+        ksys::act::BaseProcLink link;
+        bool _18 = false;
+    };
+
     // 0x710071bd3c / 0x710071bf08
     Unk_7102451050();
-    ~Unk_7102451050();
-    // 0x710071bfe4 (placeholder name; not decompiled)
+    virtual ~Unk_7102451050();
+    // 0x710071bfe4 (placeholder name): takes the unit and the settings; with arg._e also starts (sub_710071C034)
     void sub_710071BFE4(const InitArg& arg);
     bool sub_710071C550(const ksys::Message& message);
+    // 0x710071c034 (declared only; 388 bytes)
     void sub_710071C034();
-    // 0x710071c1b8 (placeholder name; not decompiled)
+    // 0x710071c1b8 (placeholder name): sets flag 0 if the unit's flag 1 is set or a member (2 .. 9) sleeps, then
+    // resets the state and the member list and calls the unit's sub_71007199A8
     void sub_710071C1B8();
 
     // Bits of _200 (set / tested through a stack temporary, SEAD_ENUM style).
@@ -75,10 +89,19 @@ public:
 
     // inline-only in the original; name is a guess (see PriestBossPhaseSecond::resetStateFlag)
     void resetFlag(Flag flag) { _200.resetBit(flag); }
+    // inline-only in the original; name is a guess (sub_710071BFE4 / sub_710071C1B8 set the bit through a stack
+    // temporary, like resetFlag)
+    void setFlag(Flag flag) { _200.setBit(flag); }
 
-    u64 _0;
-    /* 0x008 */ Unk_7102450fa8* _8;  // the meta AI unit (read by 0x710071c1b8)
-    u8 _10[0x200 - 0x10];
+    /* 0x008 */ Unk_7102450fa8* _8 = nullptr;  // the meta AI unit
+    /* 0x010 */ s32 _10 = 1;
+    /* 0x014 */ f32 _14 = -1.0f;
+    /* 0x018 */ s32 _18 = 0;
+    /* 0x01c */ u16 _1c = 1;
+    /* 0x01e */ u16 _1e = 0;
+    /* 0x020 */ sead::FixedRingBuffer<Request, 6> _20;
+    /* 0x0f8 */ sead::FixedObjArray<s16, 9> _f8;
+    /* 0x1a8 */ Unk_7102450948 _1a8;
     /* 0x200 */ sead::BitFlag32 _200;
     u32 _204;
 };

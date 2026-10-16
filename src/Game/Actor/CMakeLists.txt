@@ -154,6 +154,7 @@ target_sources(uking PRIVATE
   aiUnk_7102450fa8.cpp
   aiUnk_7102450fa8.h
   aiUnk_7102450fe0.cpp
+  aiUnk_7102451050.cpp
   aiUnk_71024f15c0.cpp
   aiUnk_71024f15c0.h
   aiUnk_71024f15f8.cpp

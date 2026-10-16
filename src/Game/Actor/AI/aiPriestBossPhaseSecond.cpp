@@ -15,13 +15,14 @@ PriestBossPhaseSecond::~PriestBossPhaseSecond() {
     mRecords.freeBuffer();
 }
 
-// NON_MATCHING: ours unrolls the record loop; the original keeps a loop over 0 .. 4 that skips 0.
 bool PriestBossPhaseSecond::init_(sead::Heap* heap) {
     if (!PriestBossPhase::init_(heap))
         return false;
 
     mRecords.allocBuffer(4, heap);
-    for (s32 i = 1; i < 5; ++i) {
+    for (s32 i = 0; i < 5; ++i) {
+        if (i == 0)
+            continue;
         if (auto* record = mRecords.emplaceBack()) {
             record->id = i;
             record->value = 0.25f;
