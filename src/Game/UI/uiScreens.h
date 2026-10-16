@@ -3000,7 +3000,7 @@ struct PictureBookCallbacksMaybe {
 static_assert(sizeof(PictureBookCallbacksMaybe::Callback) == 0xb8);
 
 // vtable 0x7102474f50 (RTTI 0x7100944ff4, D1 0x710093d76c, D0 0x710093dab0, Update 0x710094211c; m5 .. m14 are
-// empty). Subclassed by the classes with vtables 0x7102474d30 and 0x7102497690 (they share Update and the empty slots).
+// empty). Subclassed by the classes with vtables 0x7102474d30 and 0x7102497698 (they share Update and the empty slots).
 struct ScreenAppPictureBookUnk : eui::ControlBase {
     NN_RUNTIME_TYPEINFO(eui::ControlBase)
     // 0x710093d628
@@ -3234,6 +3234,18 @@ public:
     /* 0x3e0 */ Unk_7102474c48 _3e0;
 };
 static_assert(sizeof(Unk_7102474d30) == 0x410);
+
+// vtable 0x7102497698 (placeholder name): the picture book list of the shop button list (code next to
+// ScreenShopBtnList5); m9 forwards to UiShopMgr.
+class Unk_7102497698 : public ScreenAppPictureBookUnk {
+public:
+    NN_RUNTIME_TYPEINFO(ScreenAppPictureBookUnk)
+    // 0x7100a4d9a8
+    ~Unk_7102497698() override;
+    // 0x7100a4d9d0
+    void m9() override;
+};
+static_assert(sizeof(Unk_7102497698) == 0x3c8);
 
 template <typename T>
 void ScreenAppPictureBookEntry::createUnits(sead::Heap* heap) {

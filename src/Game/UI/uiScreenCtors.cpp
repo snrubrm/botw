@@ -2,6 +2,7 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiShopMgr.h"
 
 namespace uking::ui {
 
@@ -89,6 +90,14 @@ ScreenChangeController::ScreenChangeController() : ScreenEx() {}
 ScreenDemoStart::ScreenDemoStart() : ScreenEx() {}
 
 ScreenKeyNum::ScreenKeyNum() : ScreenEx() {}
+
+// 0x7100a4d9a8
+Unk_7102497698::~Unk_7102497698() = default;
+
+// 0x7100a4d9d0
+void Unk_7102497698::m9() {
+    UiShopMgr::instance()->sub_71009842F8();
+}
 
 ScreenShopBtnList5::ScreenShopBtnList5() : ScreenEx() {}
 

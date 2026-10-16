@@ -60,6 +60,8 @@ public:
     bool sub_71009821F0(s32 state);  // returns true (its last block)
     // 0x710098411c (320 bytes, declared only)
     void sub_710098411C(s32 value);
+    // 0x71009842f8 (declared only; 180 bytes; called from the shop list's Unk_7102497698::m9)
+    void sub_71009842F8();
     // 0x710098425c (156 bytes, declared only; placeholder name)
     // 0x710098425c: the shop list entries pass (Unk_7102474e38::sub_7100939C68(), sub_7100939C78())
     void sub_710098425C(s32 a1, s32 a2);
