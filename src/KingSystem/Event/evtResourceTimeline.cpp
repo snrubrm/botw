@@ -173,6 +173,9 @@ bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap
     return builder.Build(obj, makeEvflAllocateArg(heap));
 }
 
+// 0x7100dc6e20 (next to bindActorActions; EventResource calls it out of line)
+EventBgmInfo::EventBgmInfo() = default;
+
 }  // namespace ksys::evt
 
 Unk_71024de2f0::~Unk_71024de2f0() = default;

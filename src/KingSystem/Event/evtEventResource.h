@@ -88,7 +88,9 @@ public:
     void init(const sead::SafeString& event_name, sead::Heap* heap, bool is_timeline, al::ByamlIter* info,
               res::Handle* pack_handle);
 
-    u8 _8[0x70 - 0x8];
+    // BGM names (the destructor 0x7100dc6f74 releases each one from the sound system before freeing the buffer).
+    sead::Buffer<sead::FixedSafeString<64>> _8;
+    sead::FixedSafeString<64> _18{sead::SafeString::cEmptyString};
 };
 static_assert(sizeof(EventBgmInfo) == 0x70);
 
