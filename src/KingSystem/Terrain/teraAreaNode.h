@@ -99,6 +99,12 @@ public:
     // (creating missing ones); with `check`, an existing node only counts if Terrain flag 0x400 is
     // clear or its image has flag 1, and new nodes get flag 1.
     bool sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, bool check);
+    // 0x71011176bc (placeholder name): runs sub_71011171D8 (or sub_710111731C if `flag` is false) on
+    // every image of `area`.
+    void sub_71011176BC(Unk_7101106F44* area, bool flag);
+    // 0x71011171d8 / 0x710111731c (declared only; placeholder names).
+    void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
+    void sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type);
 };
 
 }  // namespace ksys::tera

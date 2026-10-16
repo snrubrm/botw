@@ -38,4 +38,17 @@ bool Unk_7101118B34::sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area,
     return true;
 }
 
+// NON_MATCHING: two registers swapped in the type-3 loop.
+void Unk_7101118B34::sub_71011176BC(Unk_7101106F44* area, bool flag) {
+    void (Unk_7101118B34::*fn)(Unk_7101106F44*, const ImageTypeMaybe&) =
+        flag ? &Unk_7101118B34::sub_71011171D8 : &Unk_7101118B34::sub_710111731C;
+
+    (this->*fn)(area, sUnk_7101EC54AC);
+    (this->*fn)(area, sUnk_7101EC54B4);
+    for (Unk_7101108460* node : area->mNodes)
+        (this->*fn)(area, node->getImageType());
+    for (Unk_710250db28* image : area->mImages)
+        (this->*fn)(area, image->getImageType());
+}
+
 }  // namespace ksys::tera

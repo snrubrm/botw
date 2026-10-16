@@ -91,6 +91,14 @@ public:
     const Unk_710250dbc8* getA() const;
     // 0x7101107760
     Unk_710110d278* getB() const;
+    // inline-only in the original; name is a guess. The type-2 image key (2 | id << 16, built as one
+    // word in 0x71011176bc).
+    ImageTypeMaybe getImageType() const {
+        ImageTypeMaybe type;
+        type.type = 2;
+        type.index = getB()->_8->id;
+        return type;
+    }
     // 0x7101108614 (placeholder name): id of the key of B.
     u16 sub_7101108614() const;
     // 0x7101108624 (placeholder name): B's _a0 is above epsilon.

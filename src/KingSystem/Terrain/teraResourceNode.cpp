@@ -102,10 +102,7 @@ bool Unk_7101106F44::sub_71011074A0() {
         ok = false;
 
     for (Unk_7101108460* node : mNodes) {
-        ImageTypeMaybe type;
-        type.type = 2;
-        type.index = node->getB()->_8->id;
-        Unk_710250dcd8* image = getImageMaybe(type);
+        Unk_710250dcd8* image = getImageMaybe(node->getImageType());
         if (!image || !image->_18.tryMarkUnusedMaybe())
             ok = false;
     }
