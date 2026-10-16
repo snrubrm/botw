@@ -1983,7 +1983,7 @@ public:
     /* 0x3648 */ eui::Animator* _3648;
     /* 0x3650 */ u16 _3650;  // bit n: minigame layout n is open
     u8 _pad_3652[0x3658 - 0x3652];
-    /* 0x3658 */ u64 _3658;
+    /* 0x3658 */ eui::Animator* _3658;
     /* 0x3660 */ u64 _3660;
     /* 0x3668 */ u8 _3668;
     u8 _pad_3669[0x366c - 0x3669];

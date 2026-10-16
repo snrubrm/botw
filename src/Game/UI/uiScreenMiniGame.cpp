@@ -3,6 +3,8 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/euiCapturePane.h"
+#include <container/seadBuffer.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
@@ -11,7 +13,7 @@ namespace uking::ui {
 // NON_MATCHING: scalar zero stores are scheduled differently around string initialization.
 ScreenMiniGame::ScreenMiniGame()
     : _3648(nullptr), _3660(0), _3668(0), _366c(0), _3690(0), _36a8(0), _36c0(0) {
-    _3658 = 0;
+    _3658 = nullptr;
     _3650 = 0;
     for (auto& layout : _3610)
         layout = nullptr;
@@ -118,6 +120,50 @@ void ScreenMiniGame::sub_7100A28264(const sead::SafeString& key) {
 bool ScreenMiniGame::openMinigameScreen(s32 index, s32) {
     _3650 |= 1 << index;
     return sub_7100A2747C(index, false);
+}
+
+// 0x71024907e0 / 0x71025f01e8: the mini game layouts that stay closed while another screen blocks them
+static const s32 sUnk_71024907e0[] = {4, 2, 1};
+static sead::Buffer<const s32> sUnk_71025f01e8(sUnk_71024907e0);
+
+// 0x7100a2747c
+// NON_MATCHING: the original addresses sUnk_71025f01e8 from the TU's merged static block (+0x1c8); the search loop
+// keeps a separate "not found" flag and the index checks are ordered 6, 0, > 6.
+bool ScreenMiniGame::sub_7100A2747C(s32 index, bool a2) {
+    if (!isOpened())
+        open(1);
+    if (sub_7100A98038(-1)) {
+        bool allowed = true;
+        for (s32 i = 0; i < sUnk_71025f01e8.size() && allowed; ++i) {
+            if (sUnk_71025f01e8[i] == index)
+                allowed = false;
+        }
+        if (!allowed)
+            return false;
+    }
+
+    if (index == 6) {
+        if (auto* pane = sub_7100986160(_3610[6], "N_Capture_00"))
+            pane->_db = true;
+    } else if (index == 0) {
+        if (_3648)
+            _3648->StopAtMin();
+        if (_3658)
+            _3658->StopAtMin();
+    } else if (u32(index) > 6) {
+        return false;
+    }
+
+    eui::LayoutEx* layout = _3610[index];
+    if (!layout)
+        return false;
+    if (layout->_91 != 0)
+        return true;
+    if (a2)
+        layout->sub_7100BDDE7C(false, 1, true);
+    else
+        layout->sub_7100BDDE7C(false, 0, true);
+    return true;
 }
 
 // 0x7100a275ec
