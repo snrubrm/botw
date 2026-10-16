@@ -722,6 +722,40 @@ Unk_71024774a8::Unk_71024774a8()
     mAnimators.fill(nullptr);
 }
 
+// 0x71025d8228 / 0x71025d8218: the animator names of Unk_71024774a8 (initialised by the TU's static initialiser
+// 0x710098816c)
+static sead::SafeString sUnk_71025d8228[] = {
+    "In",
+    "Meter",
+    "GasOff",
+    "Loop",
+    "RecoverStartHolding",
+    "RecoverEndHolding",
+    "RecoverStartCursor",
+    "RecoverEndCursor",
+    "DemoOut",
+};
+static sead::Buffer<sead::SafeString> sUnk_71025d8218(sUnk_71025d8228);
+
+// 0x71009884b0
+// NON_MATCHING: the original addresses the name buffer from the TU's merged-static base (+0x148).
+void Unk_71024774a8::sub_71009884B0() {
+    if (!mLayout)
+        return;
+    for (s32 i = 0; i < 9; ++i)
+        mAnimators[i] = mLayout->createAnimatorAuto(sUnk_71025d8218[i].cstr(), true);
+    if (mAnimators[0])
+        mAnimators[0]->StopAtMax();
+    if (mAnimators[1])
+        mAnimators[1]->StopAtMax();
+    if (mAnimators[2])
+        mAnimators[2]->StopAtMax();
+    if (mAnimators[3])
+        mAnimators[3]->PlayAuto(1.0f);
+    sub_71009888D4();
+    sub_710098892C();
+}
+
 // 0x71009884a8
 void Unk_71024774a8::sub_71009884A8(eui::LayoutEx* layout) {
     mLayout = layout;
