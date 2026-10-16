@@ -10,5 +10,6 @@ target_sources(uking PRIVATE
   teraAreaNode.h
   teraResourceNode.cpp
   teraImageResource.cpp
+  teraImageResourceMgr.cpp
   teraLevelSearch.cpp
 )

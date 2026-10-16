@@ -10,6 +10,7 @@
 #include <thread/seadAtomic.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadHeap.h>
+#include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace gsys {
@@ -252,8 +253,21 @@ public:
     u32 _a58;
 };
 KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);
+class Unk_7101106F44;
+
 class ImageResourceMgr {
     void procUnloadResidualRequest();
+
+public:
+    // Placeholder: a load / unload request for one image of an area node.
+    struct Request {
+        u8 _0[0x40];
+        Unk_7101106F44* area;
+        ImageTypeMaybe type;
+    };
+
+    // 0x71011339d0 (placeholder name): releases the image of `request` if its flag 8 is set.
+    void sub_71011339D0(Request* request);
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.

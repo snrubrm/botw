@@ -85,7 +85,6 @@ u32 sub_7101108AE8(sead::Vector2f* out_pos, s32* out_index, const sead::Vector2f
     return 0;
 }
 
-// NON_MATCHING: the type-2 search loads the index before the list head (two instructions swapped).
 void Unk_7101106F44::sub_71011080D4(const ImageTypeMaybe& type) {
     getImageMaybe(type)->sub_710110DD3C();
 }

@@ -26,15 +26,15 @@ public:
 
     // inline-only in the original; name is a guess. The image for `type`: the same search is inlined
     // into 0x71011080d4, 0x7101108860 and 0x71011339d0 (type 2 dereferences a missing node).
-    Unk_710250dcd8* getImageMaybe(const ImageTypeMaybe& type) const {
+    const Unk_710250dcd8* getImageMaybe(const ImageTypeMaybe& type) const {
         switch (type.type) {
         case 0:
-            return const_cast<Unk_710250dc50*>(&mImage0);
+            return &mImage0;
         case 1:
-            return const_cast<Unk_710250dd60*>(&mImage1);
+            return &mImage1;
         case 2: {
-            Unk_7101108460* found = nullptr;
-            for (Unk_7101108460* node : mNodes) {
+            const Unk_7101108460* found = nullptr;
+            for (const Unk_7101108460* node : mNodes) {
                 if (node->getB()->_8->id == type.index) {
                     found = node;
                     break;
@@ -43,8 +43,8 @@ public:
             return found->getA();
         }
         case 3: {
-            Unk_710250db28* found = nullptr;
-            for (Unk_710250db28* image : mImages) {
+            const Unk_710250db28* found = nullptr;
+            for (const Unk_710250db28* image : mImages) {
                 if (image->mIndex == type.index) {
                     found = image;
                     break;
@@ -55,6 +55,10 @@ public:
         default:
             return nullptr;
         }
+    }
+
+    Unk_710250dcd8* getImageMaybe(const ImageTypeMaybe& type) {
+        return const_cast<Unk_710250dcd8*>(static_cast<const Unk_7101106F44*>(this)->getImageMaybe(type));
     }
 
     // 0x71011080d4 (placeholder name): releases the buffers of the image for `type` (slot 12).
