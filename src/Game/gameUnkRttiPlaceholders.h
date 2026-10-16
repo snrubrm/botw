@@ -2584,10 +2584,12 @@ public:
     void m13(f32 fade_sec) override;
     // 0x710100b234 (copy for the handle base 0x710100b278): forwards the volume to the second handle.
     void calc() override;
-    // 0x710100b9bc (copy for the handle base 0x710100b9d8)
-    void hm16(s32 arg) override;
     // 0x710100b350 (copy for the handle base 0x710100b3cc): resets the state and starts the node machine.
     void hm14() override;
+    // 0x710100b44c (declared only; 916 B; the handle base copy is 0x710100b9b4).
+    void hm15() override;
+    // 0x710100b9bc (copy for the handle base 0x710100b9d8)
+    void hm16(s32 arg) override;
     // 0x710100b7e0: fills the first free entry (_98 == -1) with `name`, `value` and `flag` (placeholder name).
     void sub_710100B7E0(const sead::SafeString& name, s32 value, bool flag);
     // 0x71010099f0 (tail of the constructor 0x710100992c): creates the xlink2 properties, the second handle, the

@@ -114,9 +114,23 @@ void Unk_710260ecf8::hm15() {
 
 }  // namespace ksys::snd
 
-// NON_MATCHING: placeholder destructor; the original (0x710100ac6c) also destroys members or bases
-// this class does not declare yet.
-Unk_71024fe368::~Unk_71024fe368() = default;
+Unk_71024fe368::~Unk_71024fe368() {
+    if (_248) {
+        delete _248;
+        _248 = nullptr;
+    }
+    for (auto& node : mNodes)
+        delete &node;
+    mNodes.freeBuffer();
+    mEntries4.freeBuffer();
+    for (auto& property : mProperties)
+        delete &property;
+    mProperties.freeBuffer();
+    if (mSubHandle) {
+        delete mSubHandle;
+        mSubHandle = nullptr;
+    }
+}
 
 void Unk_71024fe368::calc() {
     Unk_SpotBgmHandle::calc();
