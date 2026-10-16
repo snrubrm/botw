@@ -126,6 +126,12 @@ public:
     void suspend();
     void resetState();
 
+    // Inlined by ksys::snd::DuckingMgr::Ducker::sub_710103E368 0x710103e368, which reads the state
+    // (+0x18) and checks every target's fader through ListImpl::nth.
+    s32 getState() const { return mState; }
+    s32 getTargetNum() const { return mTargets.size(); }
+    Target* getTarget(s32 index) const { return mTargets.nth(index); }
+
 private:
     /// 0x7100b82c64 / 0x7100b82e30 (declared only)
     void updateStartEnd_();

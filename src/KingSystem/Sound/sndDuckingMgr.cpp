@@ -23,6 +23,24 @@ bool DuckingMgr::Ducker::isActive() const {
     return _c8 & 1;
 }
 
+// Whether the ducker is still ducking: active, and either just started or ducking (state 1 or 2)
+// with a target fader still moving.
+bool DuckingMgr::Ducker::sub_710103E368() const {
+    if (!(_c8 & 1))
+        return false;
+    if (_c0 == 0)
+        return true;
+    const s32 state = mDucker.getState();
+    if (state != 1 && state != 2)
+        return false;
+    const s32 num = mDucker.getTargetNum();
+    for (s32 i = 0; i < num; ++i) {
+        if (mDucker.getTarget(i)->isFaderMoving())
+            return true;
+    }
+    return false;
+}
+
 DuckingMgr::Ducker* DuckingMgr::sub_7101042024(DuckerType type) {
     Ducker& ducker = mDuckers[type];
     ducker._c8 |= 1;
