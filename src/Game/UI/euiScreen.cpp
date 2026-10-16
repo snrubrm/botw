@@ -1,3 +1,4 @@
+#include <controller/seadController.h>
 #include <controller/seadControllerMgr.h>
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
@@ -5,6 +6,7 @@
 #include "Game/UI/euiMultiArcResourceAccessor.h"
 #include "Game/UI/euiNwAllocator.h"
 #include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiButton.h"
 #include "Game/UI/euiConstantBuffer.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
@@ -128,6 +130,35 @@ void Screen::updateAnimator_() {
 }
 
 // 0x7100bea36c
+// Passes the touch position (in layout coordinates; on a touch device scaled from the 854x480 touch
+// screen to the 1280x720 layout) and the touch states to the button group.
+void Screen::updateButton_() {
+    if (!isEnableControl())
+        return;
+
+    constexpr u32 cTouch = 1 << sead::Controller::cPadIdx_Touch;
+    if (mUIController->isPointerOn() && mMgr->getTargetFlag(mDrawTarget)) {
+        const nn::font::Rectangle rect = mLayout->GetLayoutRect();
+        const auto* controller = mUIController;
+        const sead::Vector2f& pointer = controller->getPointer();
+        f32 x;
+        f32 y;
+        if (_104) {
+            x = pointer.x / 854.0f * 1280.0f + (rect.right - rect.left) * -0.5f;
+            y = pointer.y / 480.0f * -720.0f;
+        } else {
+            x = pointer.x + (rect.right - rect.left) * -0.5f;
+            y = -pointer.y;
+        }
+        const sead::Vector2f pos{x, y + (rect.bottom - rect.top) * -0.5f};
+        mButtonGroup->m2(&pos, controller->isTrig(cTouch), controller->isRelease(cTouch),
+                         controller->isRepeat(cTouch));
+        return;
+    }
+
+    mButtonGroup->m2(nullptr, false, mUIController->isRelease(cTouch), false);
+}
+
 void Screen::updateControl_() {
     const f32 step = getAnimationStep_();
     for (ListNode* node = mControls.next; node != &mControls; node = node->next)
