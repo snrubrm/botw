@@ -116,6 +116,10 @@ u32 Unk_710250dc50::m9() {
 
 Unk_710250dd60::Unk_710250dd60() = default;
 
+void Unk_710250dd60::init(const ImageSizeMaybe& size) {
+    mSize = size;
+}
+
 s32 Unk_710250dd60::m4() {
     return ksys::tera::sUnk_7101EC54B4.sub_710114A5A0();
 }

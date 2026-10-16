@@ -1106,6 +1106,8 @@ public:
 class Unk_710250dc50 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dc50, Unk_710250dcd8)
 public:
+    // 0x710110d8b8 (does nothing)
+    void init(const sead::SafeString& name) {}
     // 0x710110d860
     Unk_710250dc50();
     ~Unk_710250dc50() override;
@@ -1123,6 +1125,8 @@ public:
 class Unk_710250dd60 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dd60, Unk_710250dcd8)
 public:
+    // 0x710110e154
+    void init(const ksys::tera::ImageSizeMaybe& size);
     // 0x710110e0f4
     Unk_710250dd60();
     ~Unk_710250dd60() override;

@@ -20,6 +20,18 @@ class Unk_7101106F44 {
 public:
     Unk_7101106F44();
 
+    struct InitArg {
+        u8 _0[0x8];
+        Unk_7101106F44* parent;
+        s32 slot;
+        u32 id;
+        s32 _18;
+        u32 depth;
+    };
+    // 0x71011070e0 (placeholder name): links the node to its parent slot, names it ("%X%X%08X": id, depth,
+    // the slot path two bits per level) and initialises its two images.
+    bool init(const InitArg& arg);
+
     // 0x7101106fd0: unlinks and destroys all type-2 nodes and type-3 images.
     ~Unk_7101106F44();
 
@@ -121,10 +133,9 @@ public:
     Unk_710250dd60 mImage1;
     sead::TList<Unk_7101108460*> mNodes;
     sead::TList<Unk_710250db28*> mImages;
-    u8 _b8 = 0;
-    u8 _b9[0xc3 - 0xb9];
-    u8 _c3 = 0;
-    s32 _c4 = -1;
+    char mName[11]{};
+    u8 mNameLength = 0;
+    u32 mNameHash = -1;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101106F44, 0xc8);
 

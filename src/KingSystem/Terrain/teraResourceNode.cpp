@@ -1,5 +1,7 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadSafeString.h>
+#include <codec/seadHashCRC32.h>
 #include <thread/seadThread.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
@@ -19,7 +21,7 @@ const Unk_710250dbc8* Unk_7101108460::getA() const {
     return mA;
 }
 
-// NON_MATCHING: store order of _b8 / _c3 / _c4.
+// NON_MATCHING: store order of mName / mNameLength / mNameHash.
 Unk_7101106F44::Unk_7101106F44() {
     _8 = {1.0f, 0.0f};
     _10 = {1.0f, 0.0f};
@@ -215,6 +217,33 @@ void Unk_7101106F44::sub_710110736C(const ImageTypeMaybe& type) {
             return;
         sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(1));
     }
+}
+
+// NON_MATCHING: stack layout of the two strings and the order of the id load.
+bool Unk_7101106F44::init(const InitArg& arg) {
+    if (arg.parent && !arg.parent->sub_7101107318(arg.slot, this))
+        return false;
+
+    _4 = arg._18;
+    mDepth = arg.depth;
+
+    sead::FixedSafeString<32> name;
+    u32 path = 0;
+    s32 depth = -1;
+    s32 shift = 0;
+    for (const Unk_7101106F44* node = this; node; node = node->mParent) {
+        path |= (node->_1 & 3) << shift;
+        shift += 2;
+        ++depth;
+    }
+    name.format("%X%X%08X", arg.id, depth, path);
+
+    sead::BufferedSafeString name_buffer(mName, sizeof(mName));
+    mNameLength = name_buffer.copy(name);
+    mNameHash = sead::HashCRC32::calcHash(mName, mNameLength);
+    mImage0.init(name);
+    mImage1.init(ImageSizeMaybe(5));
+    return true;
 }
 
 }  // namespace ksys::tera
