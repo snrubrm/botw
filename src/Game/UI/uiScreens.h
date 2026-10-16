@@ -3517,6 +3517,8 @@ bool sub_71009E5530();
 // 0x7100a9eea4 / 0x7100a9eef4 (defined in uiManagerFacade.cpp)
 const char* sub_7100A9EEA4();
 const char* sub_7100A9EEF4();
+// 0x71009da700 (defined in uiScreenLeafSlots.cpp; called by ScreenAppCamera::m93)
+s32 sub_71009DA700(nn::ui2d::Pane* pane, const sead::SafeString& prefix);
 // 0x7100a9ac84 (defined in uiScreenFacade.cpp)
 void sub_7100A9AC84(void* a1);
 // 0x7100a96254 (defined in uiScreenFacade.cpp): passes the boss gauge info to the main screen

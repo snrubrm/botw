@@ -406,6 +406,20 @@ void ScreenAppCamera::sub_71009D9AD8() {
     }
 }
 
+// 0x71009da700 (placeholder name): the number of panes below `pane` whose names start with `prefix` (all of them for
+// an empty prefix)
+s32 sub_71009DA700(nn::ui2d::Pane* pane, const sead::SafeString& prefix) {
+    if (!pane)
+        return 0;
+    s32 count = 0;
+    for (auto& child : pane->GetChildList()) {
+        if (sead::SafeString(child.GetName()).startsWith(prefix))
+            ++count;
+        count += sub_71009DA700(&child, prefix);
+    }
+    return count;
+}
+
 // 0x71009db754
 // NON_MATCHING: the child state test (1 / 3 / 5 / 7) is a bit-mask lookup in ours; the original tests 7, then
 // (state - 1) <= 4 with an even (state - 1)
