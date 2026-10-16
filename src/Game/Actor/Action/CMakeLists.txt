@@ -14,6 +14,7 @@ target_sources(uking PRIVATE
   actionActorObserver.cpp
   actionActorObserver.h
   actionActorObserverBase.cpp
+  actionUnk_71024e5408.cpp
   actionActorObserverBase.h
   actionAddAutoPlacementCreator.cpp
   actionAddAutoPlacementCreator.h

@@ -149,7 +149,7 @@ KSYS_CHECK_SIZE_NX150(ActorObserverBase, 0x18);
 // and adds one new virtual (slot 15).
 class Unk_71024e5408 : public ActorObserverBase {
 public:
-    // 0x7100e28d58 (declared only).
+    // 0x7100e28d58
     explicit Unk_71024e5408(ksys::act::ai::ActionBase* owner);
     // 0x7100e28da8 / 0x7100e28e58 / 0x7100e28f10 / 0x7100e28fb8: the other body's user tag cast
     // to the element tag Unk_7102518620 (typeinfo static 0x7102600a90); m3 / m4 pass the element's
