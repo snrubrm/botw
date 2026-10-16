@@ -5,6 +5,8 @@
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include <gfx/seadTextWriter.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::snd {
 
@@ -618,6 +620,32 @@ void Unk_71024fd188::hm14() {
 void Unk_71024fd188::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     _198 = 0;
+    _19c = 0;
+}
+
+// 0x710260f33c: debug flag (never written); 0x710260f338: debug flag that forces "in the big maze" (never
+// written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F33C;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F338;
+// 0x71024fd180: the debug text position.
+KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71024FD180{920.0f, 80.0f};
+
+void Unk_71024fd188::m14(sead::TextWriter& writer) {
+    if (!sUnk_710260F33C)
+        return;
+    writer.setCursorFromTopLeft(sUnk_71024FD180);
+    writer.printf("---- 巨大迷路BGM ----\n");
+    writer.printf("処理            :%s\n", mActive ? "有効" : "無効");
+    bool in_maze = sUnk_710260F338;
+    if (!in_maze) {
+        auto* wm = ksys::world::Manager::instance();
+        ksys::world::EnvMgr* env_mgr;
+        in_maze = wm && (env_mgr = wm->getEnvMgr()) && env_mgr->getPaletteSet() == 11;
+    }
+    writer.printf("巨大迷路内?     :%s\n", in_maze ? "Yes" : "No");
+    writer.printf("状態            :%s\n", State::text(_198) ? State::text(_198) : "不明");
+    writer.printf("再生待ちカウント:%.2f\n", _19c);
+    writer.printf("フェード音量    :%.2f\n", _1a0.getValue());
 }
 
 Unk_71024fd3a0::~Unk_71024fd3a0() = default;

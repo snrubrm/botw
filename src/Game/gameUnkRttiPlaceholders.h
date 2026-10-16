@@ -2449,9 +2449,18 @@ public:
     void hm15() override {}
     // 0x7100fff73c
     void m13(f32 fade_sec) override;
+    // 0x7100fff4e4 (CSV giantMazeBGMDebug): prints the state when the debug flag sUnk_710260F33C is set.
+    void m14(sead::TextWriter& writer) override;
+
+    // The states of _198 (enum text "停止,本体再生中,フェードアウト"; text_ is 0x7100fff908).
+    // clang-format off
+    SEAD_ENUM(State,停止,本体再生中,フェードアウト)
+    // clang-format on
 
     ksys::snd::BigMazeBgmInfo* mInfo = nullptr;
-    u64 _198 = 0;
+    u32 _198 = 0;
+    // The play wait counter (m14).
+    f32 _19c = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
 };
