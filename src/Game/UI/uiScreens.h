@@ -2218,6 +2218,7 @@ struct ScreenAppMapUnk3c90 : ScreenChildEx {
     // 0x71009c1218 (placeholder name; not decompiled): with 0 and UiSubsys1::get38a8() == 1, sets a widget
     // string from a TU static name
     void sub_71009C1218(s32 type);
+    void sub_71009C13D4(s32 type);
     void sub_71009C1888(s32 type);
     void sub_71009C1900();
     void sub_71009C1474(f32 speed, s32 type);

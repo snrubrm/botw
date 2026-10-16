@@ -65,6 +65,17 @@ void ScreenAppMapUnk3c90::m27() {
     mLayout->startAnimCloseImpl_(false, true);
 }
 
+// 0x71009c13d4 (placeholder name): for types 0 and 1, plays the open animations at normal speed
+void ScreenAppMapUnk3c90::sub_71009C13D4(s32 type) {
+    if (type == 1 || type == 0) {
+        sub_71009C1530(_130);
+        _138->PlayAuto(1.0f);
+        _140->PlayAuto(1.0f);
+        if (UiSubsys1::instance()->sub_7100960DAC(2))
+            _158->PlayAuto(1.0f);
+    }
+}
+
 // 0x71009c1474
 void ScreenAppMapUnk3c90::sub_71009C1474(f32 speed, s32 type) {
     switch (type) {
