@@ -656,15 +656,37 @@ public:
     u8 _2947[0x2948 - 0x2947];
     // Placeholder type: System::sub_710111F644 writes its _afc0.
     struct Unk_2948 {
-        // 0x710112727c (declaration only; placeholder name): called by sub_71010FFE70 with the first four
-        // sub-objects and the two new values.
+        // 0x710112727c (placeholder name): called by sub_71010FFE70 with the first four records and two
+        // level offsets; sizes _1310 / _6070 from the texel counts (_20._e) shifted by the levels.
         void sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c, Unk_71010FEDBC* d, s32 x,
                             s32 y);
 
         // 0x7101128ba0 (declaration only; placeholder name)
         void sub_7101128BA0(s32 level);
 
-        u8 _0[0xafc0];
+        // Placeholder: two of these at 0x1310 / 0x6070, sized by 0x710112727c.
+        struct Unk_1310 {
+            // 0x7101127304 (declaration only; placeholder name).
+            void sub_7101127304(u32 size);
+
+            u8 _0[0x6070 - 0x1310];
+        };
+
+        u8 _0[0x8];
+        // Set by sub_710112727C: four records and the record after the fourth.
+        Unk_71010FEDBC* _8;
+        Unk_71010FEDBC* _10;
+        Unk_71010FEDBC* _18;
+        Unk_71010FEDBC* _20;
+        Unk_71010FEDBC* _28;
+        u8 _30[0x38 - 0x30];
+        u32 _38;
+        u32 _3c;
+        u32 _40;
+        u8 _44[0x1310 - 0x44];
+        Unk_1310 _1310;
+        Unk_1310 _6070;
+        u8 _add0[0xafc0 - 0xadd0];
         void* _afc0;
     };
     Unk_2948* _2948;

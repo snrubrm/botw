@@ -254,4 +254,20 @@ f32 sub_7101152DC0(const Unk_7101152DC0* obj) {
                             std::tan(sUnk_710250FC7C * sead::Mathf::pi2() / 360.0f * 0.5f));
 }
 
+// Scene::Unk_2948 code (0x7101127xxx) follows sub_7101123224; in teraScene.cpp it would inline into
+// Scene::sub_71010FFE70, which calls it.
+void Scene::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c,
+                                     Unk_71010FEDBC* d, s32 x, s32 y) {
+    _8 = a;
+    _10 = b;
+    _18 = c;
+    _20 = d;
+    _28 = d + 1;
+    _38 = a->_20._8;
+    _3c = a->_20._9 + x;
+    _40 = d[1]._20._9 + y;
+    _1310.sub_7101127304(a->_20._e >> (a->_20._9 + x));
+    _6070.sub_7101127304(_28->_20._e >> (_28->_20._9 + y));
+}
+
 }  // namespace ksys::tera
