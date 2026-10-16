@@ -2229,6 +2229,19 @@ bool Player::sub_710087394C() {
     }
 }
 
+// Placeholder name: whether AS slot 0 plays a death / slip / land damage / freeze animation, or a damage one.
+bool Player::sub_710087AE60() {
+    return mASList->x_1(0, 0) == "Dead" || mASList->x_1(0, 0) == "MasterSwordDead" ||
+           mASList->x_1(0, 0) == "SlippingDown" || mASList->x_1(0, 0) == "LandDamage" ||
+           mASList->x_1(0, 0) == "Freeze" || sub_710087ACD0();
+}
+
+// Placeholder name: whether AS slot 0 plays DamageS / DamageM / DamageL.
+bool Player::sub_710087ACD0() {
+    return mASList->x_1(0, 0) == "DamageS" || mASList->x_1(0, 0) == "DamageM" ||
+           mASList->x_1(0, 0) == "DamageL";
+}
+
 // Placeholder name: whether AS slot 0 plays Push or PushRoll.
 bool Player::sub_710087B0CC() {
     return mASList->x_1(0, 0) == "Push" || mASList->x_1(0, 0) == "PushRoll";

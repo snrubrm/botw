@@ -448,6 +448,9 @@ public:
     bool sub_7100863534();
     void m69_x_6();
     void m69_x_5();
+    bool sub_710087ACD0();
+    bool sub_710087AE60();
+    bool sub_71008923D0();
     bool sub_710087B0CC();
     bool sub_710087B1F0();
     bool sub_710087B500();

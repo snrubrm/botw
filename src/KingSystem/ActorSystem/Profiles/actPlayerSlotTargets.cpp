@@ -44,6 +44,14 @@ s32 Player::sub_71008923B0(int a1) {
     }
 }
 
+// Placeholder name: whether AS slot 0 plays a sword cut (CutL1, CutS1-4, CutSF, CutDash).
+bool Player::sub_71008923D0() {
+    return mASList->x_1(0, 0) == "CutL1" || mASList->x_1(0, 0) == "CutS1" ||
+           mASList->x_1(0, 0) == "CutS2" || mASList->x_1(0, 0) == "CutS3" ||
+           mASList->x_1(0, 0) == "CutS4" || mASList->x_1(0, 0) == "CutSF" ||
+           mASList->x_1(0, 0) == "CutDash";
+}
+
 // NON_MATCHING: the inlined copy of x_40 has its stores scheduled differently (the original keeps the order of the
 // out-of-line x_40)
 void Player::x_16() {
