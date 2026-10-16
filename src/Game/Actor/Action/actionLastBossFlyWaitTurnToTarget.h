@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/System/VFRValue.h"
+#include <math/seadMatrix.h>
 #include "Game/Actor/Action/actionLastBossFlyWait.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -17,7 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x71001d12d0 (declared only): the turning version of the flight target matrix.
+    // 0x71001d12d0: the turning version of the flight target matrix.
     void m32(sead::Matrix34f* mtx) override;
 
     // static_param at offset 0xa0
@@ -28,7 +29,7 @@ protected:
     sead::SafeString mTurnASName_s{};
     // dynamic_param at offset 0xc0
     sead::Vector3f* mTargetPos_d{};
-    u8 _c8[0x24];
+    sead::Matrix33f _c8;
     ksys::VFRValue _ec;
     bool _f8 = false;
     u8 _f9[0x7];
