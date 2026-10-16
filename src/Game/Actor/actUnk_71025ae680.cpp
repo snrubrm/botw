@@ -1,5 +1,8 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/actLastBoss.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -201,6 +204,34 @@ void Unk_710244eb48::sub_71006E252C() {
         _58.fadeXLink();
 }
 
+// NON_MATCHING: our build inlines sub_71006DF5A4 / sub_71006DF5CC (same TU); the original calls them.
+void Unk_710244eb48::sub_71006E264C() {
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mGerudoHeroAffect.ref() || _1c)
+        return;
+
+    param = sub_71006DF5A4();
+    ConditionDamageInfo info;
+    info.mKind = 4;
+    info.mDamage = param ? param->mGerudoHeroDamage.ref() : 0;
+    info._8 = 4;
+    info.mFlags = 0x80;
+    info._10 = -1;
+    sub_71006DF5CC(info);
+
+    if (auto* boss = sead::DynamicCast<LastBoss>(_10)) {
+        if (!boss->_14f8._30.isOnBit(4) && !boss->_14e8.isOnBit(10)) {
+            if (boss->_14e8.isOnBit(3))
+                boss->_14e8.setBit(18);
+            else
+                boss->_14f8._30.set(0x300);
+        }
+    }
+
+    if (!_58.sub_7101241B6C())
+        xlinkSearchAndEmit(_10, "ElectricShock", 2, &_58);
+}
+
 bool Unk_710244eb48::m8(const ksys::Message& message) {
     if (message.getType() != 0x800009b)
         return false;
@@ -227,6 +258,30 @@ void Unk_710244fee8::m5() {
 void Unk_710244fee8::sub_71006EE354() {
     if (_58.sub_7101241B6C())
         _58.fadeXLink();
+}
+
+// NON_MATCHING: our build inlines sub_71006DF5A4 / sub_71006DF5CC (same TU); the original calls them.
+void Unk_710244fee8::sub_71006EE474() {
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mGerudoHeroAffect.ref() || _1c)
+        return;
+
+    param = sub_71006DF5A4();
+    ConditionDamageInfo info;
+    info.mKind = 4;
+    info.mDamage = param ? param->mGerudoHeroDamage.ref() : 0;
+    info._8 = 4;
+    info.mFlags = 0x180;
+    info._10 = -1;
+    sub_71006DF5CC(info);
+
+    if (auto* boss = sead::DynamicCast<SiteBoss>(_10)) {
+        if (!boss->_14c8._30.isOnBit(9))
+            boss->_1558.setBit(26);
+    }
+
+    if (!_58.sub_7101241B6C())
+        xlinkSearchAndEmit(_10, "ElectricShock", 2, &_58);
 }
 
 bool Unk_710244fee8::m8(const ksys::Message& message) {
