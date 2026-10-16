@@ -2478,10 +2478,21 @@ KSYS_CHECK_SIZE_NX150(ScreenButton_7100989968, 0x90);
 struct ScreenPauseMenuUnk3a00 {
     u8 _0[0x130];
     /* 0x130 */ s32 _130;
-    u8 _134[4];
-    /* 0x138 */ ScreenButton_7100989968 mButtons[20];
+    // index of the first item shown in mButtons
+    /* 0x134 */ s32 _134;
+    /* 0x138 */ sead::SafeArray<ScreenButton_7100989968, 20> mButtons;
+    // per button value (returned by sub_71009B0484)
+    /* 0xc78 */ sead::SafeArray<s32, 20> _c78;
     // 0x71009b0224 (CSV unnamed; declared only)
     void sub_71009B0224(bool a1);
+    // 0x71009b0468 / 0x71009b0484 (placeholder names): the button slot of item `index` (-1 when it is not shown) /
+    // that slot's _c78 value (-1 when it is not shown)
+    s32 sub_71009B0468(s32 index) const;
+    s32 sub_71009B0484(s32 index) const;
+    // 0x71009b04bc / 0x71009b04e0 (placeholder names): sub_710098993C(flag, false) / sub_7100989888(flag, true) on
+    // button `index`
+    void sub_71009B04BC(s32 index, bool flag);
+    void sub_71009B04E0(s32 index, bool flag);
 };
 
 // Placeholder for the object ScreenPauseMenu keeps at 0x3b98.

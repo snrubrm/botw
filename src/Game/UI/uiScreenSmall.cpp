@@ -64,8 +64,32 @@ void ScreenPauseMenu::adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCu
 void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
     if (_130 == -1)
         return;
-    for (auto& button : mButtons)
+    for (auto& button : mButtons.mBuffer)
         button.sub_7100989968(enabled);
+}
+
+// 0x71009b0468
+s32 ScreenPauseMenuUnk3a00::sub_71009B0468(s32 index) const {
+    if (index < _134 || index >= _134 + 20)
+        return -1;
+    return index - _134;
+}
+
+// 0x71009b0484
+s32 ScreenPauseMenuUnk3a00::sub_71009B0484(s32 index) const {
+    if (index < _134 || index >= _134 + 20)
+        return -1;
+    return _c78[index - _134];
+}
+
+// 0x71009b04bc
+void ScreenPauseMenuUnk3a00::sub_71009B04BC(s32 index, bool flag) {
+    mButtons[index].sub_710098993C(flag, false);
+}
+
+// 0x71009b04e0
+void ScreenPauseMenuUnk3a00::sub_71009B04E0(s32 index, bool flag) {
+    mButtons[index].sub_7100989888(flag, true);
 }
 
 // 0x71009b0618

@@ -518,7 +518,7 @@ void ScreenPauseMenu::m175() {
     if (_3bb4 == 2) {
         const u32 index = _3a18 < 3 ? _3a18 : 0;
         auto* unit = _3a00[index];
-        if (unit && unit->mButtons[u32(_3bd0) < 20 ? _3bd0 : 0].sub_7100989A08())
+        if (unit && unit->mButtons[_3bd0].sub_7100989A08())
             _3bb4 = 3;
     } else if (_3bb4 == 1) {
         if (!_3bb8.updateAndCheckEnded())
@@ -526,7 +526,7 @@ void ScreenPauseMenu::m175() {
         _3bb4 = 2;
         const u32 index = _3a18 < 3 ? _3a18 : 0;
         if (auto* unit = _3a00[index])
-            unit->mButtons[u32(_3bd0) < 20 ? _3bd0 : 0].sub_71009899EC();
+            unit->mButtons[_3bd0].sub_71009899EC();
     }
 }
 
