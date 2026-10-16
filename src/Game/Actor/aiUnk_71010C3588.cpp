@@ -472,3 +472,50 @@ void Unk_710250c820::sub_71010C69C4() {
         _10->removeFromWorld();
     _28.fade();
 }
+
+// NON_MATCHING: the original computes the flag and NaN test as values and combines them, and reloads
+// _10 before each final store.
+void Unk_710250c698::sub_71010C5F2C() {
+    if (!_18)
+        return;
+    const bool valid = !_20.isNan();
+    if (!((_8 & 1) && valid && _2c > 0.0f && _30 > 0.0f)) {
+        if (_10) {
+            delete _10;
+            _10 = nullptr;
+        }
+        if (_18->isAddedToWorld() || _18->isAddingBodyToWorld())
+            _18->removeFromWorld();
+        return;
+    }
+    if (!_18->isAddedToWorld() && !_18->isAddingBodyToWorld()) {
+        if (auto* sphere = sead::DynamicCast<ksys::phys::SphereRigidBody>(_18)) {
+            sphere->setPosition(_20, ksys::phys::PropagateToLinkedMotions(true));
+            sphere->setRadius(_30);
+        }
+        _18->addToWorld();
+    } else if (auto* sphere = sead::DynamicCast<ksys::phys::SphereRigidBody>(_18)) {
+        sphere->changePosition(_20, ksys::phys::KeepAngularVelocity(false), sead::Mathf::epsilon());
+        sphere->setRadius(_30);
+    }
+    if (!_10) {
+        ksys::phys::RigidBody* body = _18;
+        auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
+        if (!holder) {
+            _10 = nullptr;
+            return;
+        }
+        _10 = holder->sub_71010C7BE0(&body);
+        if (!_10)
+            return;
+    }
+    _10->_58 = _20;
+    _10->_68 = _30;
+    _10->_64 = _2c;
+}
+
+void Unk_710250c698::sub_71010C61CC(const sead::Vector3f& pos, f32 radius, f32 strength) {
+    _20 = pos;
+    _30 = radius;
+    _2c = strength;
+}

@@ -18,6 +18,7 @@
 class ElementName;
 class Unk_71025187d0;
 class Unk_710250c3e8;
+class Unk_710250c550;
 class Unk_710250c6d8;
 
 namespace ksys::world {
@@ -185,11 +186,16 @@ public:
     Unk_710250c698();
     virtual ~Unk_710250c698();
     void sub_71010C5DEC(sead::Heap* heap);
+    // lane1 s95 (placeholder names): 0x71010c5f2c updates the radial wind sphere and element from
+    // _20 / _2c / _30 (or removes them when flag bit 0 is off or the values are invalid);
+    // 0x71010c61cc sets the position, radius and strength.
+    void sub_71010C5F2C();
+    void sub_71010C61CC(const sead::Vector3f& pos, f32 radius, f32 strength);
     u32 _8 = 0;
-    // Full 10C5F2C uses this as a carried radial-wind element; pointee interface remains opaque.
-    void* _10 = nullptr;
+    // The radial wind element from 10C7BE0.
+    ::Unk_710250c550* _10 = nullptr;
     ksys::phys::RigidBody* _18 = nullptr;
-    u8 _20[0x2c - 0x20];
+    sead::Vector3f _20;
     // Constructor defaults; full update 10C5F2C reads both as floats and passes _30 to setRadius.
     f32 _2c = 10.0f;
     f32 _30 = 5.0f;
