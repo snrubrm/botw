@@ -2938,8 +2938,8 @@ public:
     // 0x710100e194: switches to `state` at the play position plus the wait time (TransformDemoWaitSec for the
     // transform state 4, else one second).
     void sub_710100E194(const s32& state);
-    // 0x710100e2fc (declared only): prepares `state` to start at `position` (samples).
-    void sub_710100E2FC(const s32& state, s32 position);
+    // 0x710100e2fc: prepares `state` in the idle slot to start in sync at `position` (samples); -1 on failure.
+    s32 sub_710100E2FC(const s32& state, s32 position);
     bool m10() override;
     void m12(f32 fade_sec) override;
     void m13(f32 fade_sec) override;
@@ -3007,7 +3007,9 @@ public:
 
     /* 0x1a0 */ Slot _1a0;
     /* 0x1e8 */ Slot _1e8;
-    u8 _230[0x238 - 0x230];
+    // The start position (samples) of the prepared level (sub_710100E2FC).
+    /* 0x230 */ s32 _230;
+    u8 _234[0x238 - 0x234];
     // States queued by sub_710100E124 during a transition (freed by the destructor 0x710100df48).
     /* 0x238 */ sead::RingBuffer<s32> mStateQueue;
     u8 _250[0x288 - 0x250];

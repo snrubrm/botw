@@ -306,6 +306,102 @@ void Unk_71024fe970::Slot::sub_710100DC60(f32 fade_sec, const aal::FadeCurveType
 
 void Unk_71024fe970::Slot::emptyMarkerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {}
 
+// NON_MATCHING: the entry handle pointer select (as in sub_710100E194) and the curve parameter load order.
+s32 Unk_71024fe970::sub_710100E2FC(const s32& state, s32 position) {
+    Slot& next = (mFlags & 0x80) ? _1e8 : _1a0;
+    if (next._3c != 0)
+        return -1;
+    if (((mFlags & 0x80) ? _1a0 : _1e8)._3c == 0)
+        return -1;
+
+    aal::Handle* handle = nullptr;
+    {
+        const Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+        if (current.mEntry && current.mEntry->mHandle.isActive()) {
+            if (auto* executor = static_cast<xlink2::EventSLink*>(current.mEntry->mHandle.getEvent())
+                                     ->getAliveAssetExecutor()) {
+                handle = executor->getHandle();
+            }
+        }
+    }
+    const Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+    if (!current.mEntry || !current.mEntry->mHandle.isActive())
+        return -1;
+    auto* executor =
+        static_cast<xlink2::EventSLink*>(current.mEntry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return -1;
+    auto* source = executor->getHandle()->getSoundSource();
+    if (!handle || !source)
+        return -1;
+
+    const s32 end = source->mMarkerController->getMarkerSamplePos("[NW]#4");
+    if (end == -1)
+        return -1;
+    if (end < position) {
+        const s32 loop_start = source->mMarkerController->getMarkerSamplePos("[NW]#3");
+        if (loop_start == -1)
+            return -1;
+        position -= loop_start;
+    }
+    _230 = ksys::snd::sub_710105E6CC(position, handle->getAssetInfo());
+
+    auto* entry = sub_71010209FC(sPriestBossBgmLevelNames[state]);
+    if (!entry || !entry->sub_7100FF6DF4(this))
+        return -1;
+    next.sub_710100D9FC(entry);
+    if (!entry->mHandle.isActive())
+        return -1;
+    auto* entry_executor =
+        static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!entry_executor)
+        return -1;
+    entry_executor->getHandle()->getMarkerController()->setMarkerCallback(markerCallback, -32000, this);
+
+    const s32 start = _230;
+    f32 fade_sec;
+    aal::FadeCurveType curve;
+    if (!mInfo) {
+        fade_sec = 1.0f;
+        curve = aal::FadeCurveType::Square;
+    } else {
+        if (u32(state) < 3)
+            fade_sec = mInfo->mFadeSecFromTransformDemo.ref();
+        else if (state == 3)
+            fade_sec = mInfo->mFadeSeLevel3To4.ref();
+        else if (state == 4)
+            fade_sec = mInfo->mFadeSecToTransformDemo.ref();
+        else
+            fade_sec = 1.0f;
+
+        if (u32(state) < 3)
+            curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeFromTransformDemo.ref());
+        else if (state == 3)
+            curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeLevel3To4.ref());
+        else if (state == 4)
+            curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeToTransformDemo.ref());
+        else
+            curve = aal::FadeCurveType::Square;
+    }
+
+    if (next.mEntry && next.mEntry->mHandle.isActive()) {
+        if (auto* next_executor =
+                static_cast<xlink2::EventSLink*>(next.mEntry->mHandle.getEvent())->getAliveAssetExecutor()) {
+            if (auto* next_source = next_executor->getHandle()->getSoundSource()) {
+                next_source->setStartSamplePos(start);
+                next_source->prepare(true);
+                next._34 = start;
+                next._38 = fade_sec;
+                next._3c = 1;
+                next.mFader.setValueImmediate(0.0f);
+                next.mFader.setCurveType(curve);
+            }
+        }
+    }
+    mFlags |= 0x20;
+    return _230;
+}
+
 void Unk_71024fe970::markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {
     if (user)
         static_cast<Unk_71024fe970*>(user)->sub_710100EAD8(info);
