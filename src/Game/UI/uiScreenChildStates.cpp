@@ -1126,9 +1126,31 @@ Unk_710247dc90::Unk_710247dc90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247dc90::~Unk_710247dc90() = default;
 
+// 0x71009c7ae8
+void Unk_710247dc90::m31() {
+    getStateMachine().changeState(&sUnk_710261ee00);
+}
+
+// 0x71009c7af8
+void Unk_710247dc90::m34() {
+    getStateMachine().changeState(&sUnk_710261ee00);
+}
+
+// 0x71009c7b08
+void Unk_710247dc90::m28() {
+    getStateMachine().changeState(&sUnk_71025db820);
+    sub_7100AA86EC(1, false);
+    _128->mButtonGroup->_38 |= 2;
+}
+
 // 0x71009c7bd8
 void Unk_710247dc90::m30() {
     _408.sub_71009CC3A0();
+}
+
+// 0x71009c7d7c
+void Unk_710247dc90::m40(void*) {
+    _128->mButtonGroup->_38 |= 2;
 }
 
 // 0x71009c7d94

@@ -241,11 +241,18 @@ static_assert(sizeof(Unk_7102477c30) == 0x130);
 
 // Factory 9d7294 allocates 0x708 bytes; full ctor 9c69a4 and dtor 9c6a2c
 // establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.
+// A state of Unk_710247dc90 (entered by its m28).
+extern const ksys::StateBase sUnk_71025db820;
+
 class Unk_710247dc90 : public ScreenChildEx {
 public:
     explicit Unk_710247dc90(eui::LayoutEx* layout);
     ~Unk_710247dc90() override;
+    void m28() override;
     void m30() override;
+    void m31() override;
+    void m34() override;
+    void m40(void* a1) override;
     void m82() override;
 
     // Members from the ctor 0x9c69a4 and D1 0x9c6a2c.
