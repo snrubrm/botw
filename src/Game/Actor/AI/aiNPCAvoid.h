@@ -27,6 +27,8 @@ protected:
     bool sub_71004C2A4C();
     // 0x71004c22d4: remembers the actors the third awareness sensor reports at terror level 5 (up to 10).
     void sub_71004C22D4();
+    // 0x71004c25d4: switches to the threat-cleared child (and resets the NPC's travel state).
+    void sub_71004C25D4(bool skip_clear_message);
     // static_param at offset 0x38
     const int* mTargetTerrorLevel_s{};
     // static_param at offset 0x40

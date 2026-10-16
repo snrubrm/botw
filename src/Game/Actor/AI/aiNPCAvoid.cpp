@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiNPCAvoid.h"
+#include "Game/Actor/aiUnk_71024f1658.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -99,6 +101,18 @@ void NPCAvoid::sub_71004C22D4() {
         if (slot > 9)
             return;
     }
+}
+
+// 0x71004c25d4
+void NPCAvoid::sub_71004C25D4(bool skip_clear_message) {
+    if (!skip_clear_message && *mTargetTerrorLevel_s == 5)
+        sub_7100711FAC(mActor, "ClearTerrorGuardian");
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+        npc->_1048 = 3;
+        if (npc->_840 && npc->_840->sub_7100EEBB74())
+            npc->_9d8.copy(npc->_840->sub_7100EEEE88(mActor));
+    }
+    changeChild("脅威解除");
 }
 
 }  // namespace uking::ai
