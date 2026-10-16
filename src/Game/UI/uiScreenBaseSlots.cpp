@@ -384,6 +384,22 @@ void Screen::sub_71010ABDA8(eui::AnimButton* button) {
         child.m66(button);
 }
 
+// 0x71010ab490
+void Screen::sub_71010AB490(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    if (layout->GetAnimResourceData("SunLight")) {
+        if (auto* animator = layout->tryCreateAnimatorAuto("SunLight", false)) {
+            if (_298.isFull())
+                return;
+            animator->StopAtMin();
+            _298.pushBack(animator);
+        }
+    }
+    for (auto& part : layout->mPartsLayoutList)
+        sub_71010AB490(nn::font::DynamicCast<eui::LayoutEx>(part.layout));
+}
+
 // 0x71010abe68
 void Screen::sub_71010ABE68(eui::AnimButton* button) {
     m108(button);

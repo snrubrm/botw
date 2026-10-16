@@ -40,6 +40,8 @@ void sub_7100BEFA30(nn::ui2d::Pane* pane, LayoutEx* layout);
 class LayoutEx : public nn::ui2d::Layout {
 public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::Layout)
+    // read by uking::ui::Screen::sub_71010AB490, which walks the parts layouts of a screen layout
+    using nn::ui2d::Layout::mPartsLayoutList;
 
     using nn::ui2d::Layout::mName;
     using nn::ui2d::Layout::mPane;

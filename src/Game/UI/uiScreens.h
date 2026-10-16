@@ -282,7 +282,6 @@ ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control);
 
 // The secondary RxOnly/TxOnly handlers are at0x108/0x110. Screen introduces its
 // handleMessage override at primary slot111; ScreenEx overrides that same slot.
-struct ScreenUnk298;
 
 struct ChildControlCreatorEntry;
 
@@ -313,8 +312,8 @@ public:
     /* 0x292 */ u16 _292 = 0;
     /* 0x294 */ u8 _294 = 0xff;  // 1: ScreenSystemWindow00::m98 / m99 leave the button group's flag 2 clear
     u8 _295 = 0;
-    // Element type unknown (the ctor only sets up the 10-entry buffer).
-    /* 0x298 */ sead::FixedPtrArray<ScreenUnk298, 10> _298;
+    // the "SunLight" animators of the layout and its parts layouts (sub_71010AB490)
+    /* 0x298 */ sead::FixedPtrArray<eui::Animator, 10> _298;
     /* 0x2f8 */ s32 _2f8 = 0;
     // Ends at 0x2fc: the members of ScreenMainDungeon start there (tail padding of the non-POD base).
 
@@ -346,6 +345,9 @@ public:
     // 0x71010abf8c (placeholder name; declared only, 2108 bytes): called by the doBuildLayout_ overrides with the
     // creator's child-control table after the layout is built
     void sub_71010ABF8C(const sead::Buffer<const ChildControlCreatorEntry>* entries);
+    // 0x71010ab490 (placeholder name): collects the "SunLight" animator of `layout` and of its parts layouts
+    // (recursively) into _298, stopped at their start
+    void sub_71010AB490(eui::LayoutEx* layout);
     // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
     ksys::SeadController* sub_71010AA9D0();
 
