@@ -86,9 +86,12 @@ public:
             sead::Vector3f _0;  // copied as a ground position by OnEnterSwapActorBase
             sead::Vector3f _c;  // dotted with the gravity (KeeseDieSelect::m34)
             BaseProcLink _18;  // compared with Actor::getCreateArgBaseProcLink() (isBgGroundHit)
-            u8 _28[0x58 - 0x28];
+            // Destroyed by the array dtor 0x710079d4c8 (same layout as Unk_7102459e60::Unk1).
+            phys::MaterialMask _28;
+            phys::MaterialMask _40;
         };
 
+        // D2 0x710079d480 / D0 0x710079d494 (keep the base vtable store; GameDataFlagSelector precedent).
         virtual ~Unk_7102459e88();
         // lane4 s85: slot 2 (Unk_7102459df8::m8 calls it with the actor; overridden by 0x710245a028 / 0x710245a000).
         virtual void m2(Actor* actor) = 0;
@@ -156,6 +159,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8, 0x48);
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e60::Unk1, 0x58);
+KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e88::Unk1, 0x58);
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e60, 0x2d0);
 
 // The complete producer 79C5F8 allocates 0x2d0 for both variants, constructs

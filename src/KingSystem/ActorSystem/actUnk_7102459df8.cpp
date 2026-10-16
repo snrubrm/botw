@@ -113,6 +113,11 @@ Unk_7102459df8::Unk_7102459e60::Unk1* Unk_7102459df8::sub_710079CF40(int idx) co
     return &_10->mEntries[idx];
 }
 
+// Empty-body precedent: GameDataFlagSelector::~GameDataFlagSelector(), commit 96101229.
+Unk_7102459df8::Unk_7102459e88::~Unk_7102459e88() {
+    ;
+}
+
 Unk_7102459df8::Unk_7102459e88::Unk1* Unk_7102459df8::sub_710079CF6C(int idx) const {
     if (!_18)
         return nullptr;
