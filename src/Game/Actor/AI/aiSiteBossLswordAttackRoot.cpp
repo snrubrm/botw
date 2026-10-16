@@ -6,6 +6,12 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/aiUnk_71007368A4.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+
+// 0x71002d2a80 (declared only; SiteBoss TU).
+bool sub_71002D2A80();
 
 namespace uking::ai {
 
@@ -102,6 +108,107 @@ void SiteBossLswordAttackRoot::sub_7100579E30(const sead::Vector3f& pos, bool a2
         _b0 = 0;
         changeChild("火球投げ", &params);
     }
+}
+
+// 0x7100579fa4
+// NON_MATCHING: &_f0 kept in a register differently; the position copies are paired; scheduling of `_9c = 0`.
+void SiteBossLswordAttackRoot::sub_7100579FA4() {
+    sead::Vector3f pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+            pos = sub_71005D9330(actor);
+        else
+            pos = getPlayerPosition();
+    }
+
+    if (!sub_71002D2A80())
+        _f0 = ksys::Timer(*mReturnWaitCount_s, *mReturnWaitCount_s);
+    if (!(_f0.value <= sead::Mathf::epsilon())) {
+        _f0.update();
+        return;
+    }
+
+    if (act::SiteBoss::sub_71002D3804(mActor, "WearFlame")) {
+        sub_710057AEB8(pos, mActor->getMtx().getTranslation());
+        return;
+    }
+
+    const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    if (sub_710072EB10(actor_pos, pos, ksys::phys::RayCast::NormalCheckingMode(0), mActor, nullptr,
+                       nullptr, nullptr, 1.0f)) {
+        if (sead::GlobalRandom::instance()->getU32(100) > 50) {
+            if (_9c >= 5) {
+                _9c = 0;
+                setFailed();
+            } else {
+                ++_9c;
+                sub_710057A348(pos, true);
+            }
+        }
+        return;
+    }
+
+    s32 high = _a0;
+    s32 cross = _a4;
+    s32 whirl = _a8;
+    _9c = 0;
+    s32 fire = _ac < 30 ? 0 : _ac;
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss && boss->_1510 == 3) {
+        high = 0;
+        cross = 0;
+        whirl = 0;
+        fire = 100;
+        boss->_1510 = -1;
+    }
+
+    s32 beam;
+    if (!checkHpRate(mActor, *mPatternShiftFirstLifeRate_s)) {
+        beam = 0;
+    } else if (!_9a) {
+        high = 0;
+        cross = 0;
+        whirl = 0;
+        fire = 0;
+        _9a = true;
+        beam = 100;
+    } else {
+        beam = _b0;
+    }
+
+    const s32 value = sead::GlobalRandom::instance()->getU32(100);
+    if (value < beam) {
+        _a0 = *mHighSlashRate_s;
+        _a4 = *mCrossSlashRate_s;
+        _a8 = *mWhirlSlashRate_s;
+        _ac = 0;
+        _b0 = 0;
+        changeChild("ビーム攻撃");
+        return;
+    }
+
+    s32 limit = beam + high;
+    if (value >= limit) {
+        limit += whirl;
+        if (value < limit) {
+            sub_710057B120(pos);
+            return;
+        }
+        limit += cross;
+        if (value < limit) {
+            sub_710057B254(pos);
+            return;
+        }
+        if (value < limit + fire) {
+            if (checkHpRate(mActor, *mChemicalPlusHPRate_s))
+                sub_710057A908(pos);
+            else
+                sub_7100579E30(pos, false);
+            return;
+        }
+    }
+    sub_710057AFF0(pos);
 }
 
 void SiteBossLswordAttackRoot::sub_710057A348(const sead::Vector3f& pos, bool a2) {

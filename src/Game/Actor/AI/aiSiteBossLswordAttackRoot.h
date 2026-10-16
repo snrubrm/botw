@@ -65,7 +65,7 @@ protected:
     bool _98 = false;
     bool _99 = false;
     bool _9a = false;
-    u32 _9c = 0;
+    s32 _9c = 0;
     s32 _a0;
     s32 _a4;
     s32 _a8;
