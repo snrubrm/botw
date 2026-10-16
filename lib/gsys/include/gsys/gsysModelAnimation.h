@@ -7,6 +7,7 @@
 #include <gsys/gsysG3dResAnimationEx.h>
 
 namespace nn::g3d {
+class AnimFrameCtrl;
 class ResSkeletalAnim;
 class ResFile;
 }
@@ -60,9 +61,15 @@ public:
     };
 
     // initializeSkeletalAnm_ (bfa6e0) allocates 0xa8-byte slots at +0x40/+0x48.
+    // BoneBlendState 0x7101257934 stores the blend weight at +0x10 after setSkeletalAnmByKey
+    // and sets the frame through the frame controller pointer at +0x20.
     struct SkeletalAnm {
         AnimationAccessKey<SkeletalAnmType> key;
-        u8 _4[0xa8 - 4];
+        u8 _4[0x10 - 4];
+        f32 weight;
+        u8 _14[0x20 - 0x14];
+        nn::g3d::AnimFrameCtrl* frameCtrl;
+        u8 _28[0xa8 - 0x28];
     };
 
     // initializeSkeletalAnm_ allocates 0x28-byte resource records at +0x60/+0x68.

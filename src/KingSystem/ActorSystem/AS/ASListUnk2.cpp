@@ -341,7 +341,7 @@ bool ASList::Unk2::sub_71011636CC(f32 value, void* a2, bool full, gsys::BoneAcce
     return result;
 }
 
-void ASList::Unk2::sub_7101162C58(void* bones, BoneBlendState* state) {
+void ASList::Unk2::sub_7101162C58(gsys::PartialSkeletalAnmEx* bones, BoneBlendState* state) {
     if (!_18)
         return;
     for (auto& range : mBoneWeightRanges)

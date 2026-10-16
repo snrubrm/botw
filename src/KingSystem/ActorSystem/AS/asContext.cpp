@@ -5,6 +5,10 @@
 #include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 #include "KingSystem/System/VFR.h"
+#include <container/seadPtrArray.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAnimation.h>
+#include <nn/g3d/AnimObj.h>
 
 namespace ksys::as {
 
@@ -53,6 +57,91 @@ void BoneBlendState::sub_710125792C() {
     _20 = 0;
     _24 = 0.0f;
     _28 = nullptr;
+}
+
+static s32 compareEntryWeight(const BoneBlendState::Entry* a, const BoneBlendState::Entry* b) {
+    if (a->_1c > b->_1c)
+        return 1;
+    if (a->_1c < b->_1c)
+        return -1;
+    return 0;
+}
+
+// NON_MATCHING: register allocation (one fewer saved float register), the excess compare and the shaker sort
+// loop bounds.
+s32 BoneBlendState::sub_7101257934(gsys::Model* model, ASList* list) {
+    auto* animation = model->getAnimation();
+    if (!animation)
+        return 0;
+
+    const s32 excess = mNumEntries - animation->mSkeletalAnms.size();
+    if (excess > 0) {
+        sead::FixedPtrArray<Entry, 64> sorted;
+        for (s32 i = 0; i < mNumEntries; ++i)
+            sorted.pushBack(&mEntries[i]);
+        sorted.sort(compareEntryWeight);
+        for (s32 i = 0; i < excess; ++i)
+            sorted.unsafeAt(i)->weight = -1.0f;
+    }
+
+    s32 slot = 0;
+    ASList::Unk1* current = nullptr;
+    f32 total = 0.0f;
+    ASList::Unk2* range_entry = nullptr;
+    s32 range_start = -1;
+    s32 range_middle = -1;
+    s32 range_index = -1;
+    const res::ASSetting::BoneParams* range_params = nullptr;
+    for (s32 i = 0; i < mNumEntries; ++i) {
+        Entry& entry = mEntries[i];
+        if (entry.weight <= 0.0f) {
+            entry.record->_2 = -1;
+            continue;
+        }
+
+        if (entry._0 && entry._0->_8 != current) {
+            if (current)
+                current->_48 = total > 1.0f ? 1.0f : total;
+            current = entry._0->_8;
+            total = 0.0f;
+        }
+        const f32 weight = entry.weight;
+        if (!entry.partial)
+            total += weight;
+
+        animation->setSkeletalAnmByKey(slot, *entry.key, entry._28);
+        animation->mSkeletalAnms[slot].weight = weight;
+        animation->mSkeletalAnms[slot].frameCtrl->SetFrame(entry.frame);
+        entry.record->_2 = slot;
+        if (entry._0)
+            entry._0->mFlags |= 0x20;
+
+        if (range_entry && (range_index != entry._24 || range_entry != entry._0)) {
+            range_entry->sub_7101163960(range_start, range_middle, slot, range_index, range_params);
+            range_entry = nullptr;
+            range_params = nullptr;
+            range_index = -1;
+        }
+
+        if (entry._3c == 1) {
+            if (!range_entry) {
+                range_index = entry._24;
+                range_entry = entry._0;
+                range_params = entry._30;
+                range_start = slot;
+                range_middle = -1;
+            }
+        } else if (entry._3c == 2 && range_middle < 0) {
+            range_middle = slot;
+        }
+        ++slot;
+    }
+
+    if (current)
+        current->_48 = total > 1.0f ? 1.0f : total;
+    if (range_entry)
+        range_entry->sub_7101163960(range_start, range_middle, slot, range_index, range_params);
+    return slot;
 }
 
 

@@ -129,7 +129,7 @@ public:
         void sub_71011627C4(State* state);
         // 0x7101162c58: runs the entry's (up to three) elements through m15 with their blend weights; `bones` is
         // the slot's partial-bone object.
-        void sub_7101162C58(void* bones, BoneBlendState* state);
+        void sub_7101162C58(gsys::PartialSkeletalAnmEx* bones, BoneBlendState* state);
         // 0x71011636cc (placeholder name): the element's m32 (with the flag: with a temporary ElementParams and the
         // 0x200 context flag) or m33 for the bone `key`; false without an element.
         bool sub_71011636CC(f32 value, void* a2, bool full, gsys::BoneAccessKey* key);
@@ -604,7 +604,7 @@ struct BoneBlendState {
 
     s32 _0;
     f32 weight;
-    void* _8;  // The slot's partial-bone object (Unk1::_30); its type is not recovered.
+    gsys::PartialSkeletalAnmEx* _8;  // The slot's partial-bone object (Unk1::_30).
     ASList::Unk2* _10;
     s32 _18;
     bool _1c;
@@ -622,7 +622,7 @@ struct BoneBlendState {
         f32 _1c;
         f32 frame;
         s32 _24;
-        void* _28;
+        gsys::PartialSkeletalAnmEx* _28;
         const res::ASSetting::BoneParams* _30;
         bool partial;
         s32 _3c;
