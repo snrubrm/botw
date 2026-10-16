@@ -1,5 +1,6 @@
 #include "Game/Actor/actPauseMenuPlayer.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiUtils.h"
 #include <basis/seadNew.h>
@@ -152,6 +153,28 @@ void PauseMenuPlayer::sub_71006E9E24() {
     _c3c = 0;
     _c40 = 0;
     _c44 = 0;
+}
+
+// NON_MATCHING: the zero stores of the request (0x4 - 0x20) are grouped differently
+// 0x71006ea160 (placeholder name): equips the weapons the UI actor manager prepared for the slots flagged in _c4c
+void PauseMenuPlayer::sub_71006EA160() {
+    if (_c4c.isOnBit(0)) {
+        if (auto* weapon = uking::ui::OnUiActorMgr::instance()->sub_710090AA30(0))
+            m164(0, weapon, false, false);
+        _c4c.resetBit(0);
+    }
+    if (_c4c.isOnBit(1)) {
+        if (auto* weapon = uking::ui::OnUiActorMgr::instance()->sub_710090AA30(1))
+            m164(1, weapon, false, false);
+        _c4c.resetBit(1);
+    }
+    if (_c4c.isOnBit(2)) {
+        if (auto* weapon = uking::ui::OnUiActorMgr::instance()->sub_710090AA30(2)) {
+            sub_71005D787C(this, 2, Unk_71002eda38(5));
+            m164(2, weapon, false, false);
+        }
+        _c4c.resetBit(2);
+    }
 }
 
 // 0x71006e9e34

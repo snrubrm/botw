@@ -15,6 +15,7 @@ class PlayerArmors;
 }
 
 namespace uking::act {
+class Weapon;
 class PauseMenuPlayer;
 }
 
@@ -40,6 +41,9 @@ public:
     ksys::act::PlayerArmors* getArmors() const { return mArmors; }
     void sub_7100906F08(ksys::act::Actor* actor);
     bool sub_710090AB4C() const;
+    // 0x710090aa30 (placeholder name; not decompiled): releases the ready weapon proc of slot `idx` (handles at
+    // 0x60, 0x10 apart) and returns it as a Weapon (PauseMenuPlayer::sub_71006EA160)
+    uking::act::Weapon* sub_710090AA30(s32 idx);
     // 0x710090941c (CSV OnUiActorMgr::__auto1; declaration only, placeholder name): called in the wait loop of
     // SystemPauseMgr::waitForOnUiActorMgrAndBlockSaveMaybe / waitForOnUiActorMgr until
     // sub_710090AB4C() holds.
