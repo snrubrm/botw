@@ -20,6 +20,10 @@
 #include <heap/seadHeap.h>
 #include <xlink2/xlink2HandleSLink.h>
 
+namespace aal {
+class Group;
+}  // namespace aal
+
 namespace xlink2 {
 class Locator;
 class PropertyDefinition;
@@ -670,6 +674,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710260f048, 0x1c0);
 // RTTI typeInfo 0x710260f1a8, derived from Bgm (sub_7100FFE14C casts BGM kind 5 to it).
 class Unk_710260f1a8 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_710260f1a8, Bgm)
+public:
+    // 0x71010255d0 (declared only; 28 B): clears _80 and resets the volume of the sound at _78 to 1.
+    void sub_71010255D0();
 };
 
 // Four-byte practice-state argument, passed by reference to sub_71010267A8.
@@ -937,25 +944,77 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710260f130, 0xb8);
 Unk_710260f130* sub_7100FFD9D0();
 
-// RTTI typeInfo 0x710260f198, a BGM controller (sub_7100FFD7CC casts SoundMgr::_30->_48 to it).
+// Placeholder (vtable 0x71024fe958: D1 0x710100d5fc, D0 0x710100d600, slot 2 0x710100d8b4; 0x88 bytes): the boss
+// BGM table of the spot BGM controller (Unk_710260f198::_90). Defined in sndPriestBossBgm.cpp (its TU).
+class Unk_71024fe958 {
+public:
+    // 0x710100d5bc
+    Unk_71024fe958();
+    virtual ~Unk_71024fe958();
+    // 0x710100d8b4
+    virtual void m2();
+
+    // 0x710100d604: takes the music infos of the Golem, Giant and Sandworm BGMs.
+    void init(sead::Heap* heap);
+    // 0x710100d694 (declared only; 460 B)
+    void sub_710100D694();
+    // 0x710100d860: clears _1c and _8.
+    void sub_710100D860();
+
+    /* 0x08 */ bool _8 = false;
+    /* 0x0c */ u32 _c = 0;
+    /* 0x10 */ u32 _10 = 0;
+    /* 0x14 */ u16 _14 = 0;
+    /* 0x18 */ u32 _18 = 0;
+    /* 0x1c */ u32 _1c = 0;
+    /* 0x20 */ sead::SafeArray<Bgm*, 6> mBgms{};
+    /* 0x50 */ sead::SafeArray<MusicInfo*, 6> mInfos{};
+    u8 _80[8];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024fe958, 0x88);
+
+// RTTI typeInfo 0x710260f198, a BGM controller (sub_7100FFD7CC casts SoundMgr::_30->_48 to it): the spot BGM
+// controller (BGM kinds 0, 1, 4, 2, 5). Its TU is 0x7100ffaf20..0x7100ffc100 (static initialiser): sndSpotBgmController.cpp.
 class Unk_710260f198 : public Unk_71024fca78 {
     SEAD_RTTI_OVERRIDE(Unk_710260f198, Unk_71024fca78)
 public:
-    // 0x7100ffaf20 (declared only; 0x130 bytes, created by Unk_SoundMgr30::sub_7100FF8464 for type 1).
+    // 0x7100ffaf20 (0x130 bytes, created by Unk_SoundMgr30::sub_7100FF8464 for type 1).
     Unk_710260f198();
-    // Own slots of vtable 0x71024fcdb0 (D2 0x7100ffb368, m4 0x7100ffb438 ... m12 0x7100ffbf40); declared only.
+    // vtable 0x71024fcdb0 (D2 0x7100ffb368, ..., m12 0x7100ffbf40).
     ~Unk_710260f198() override;
     void m4(sead::Heap* heap) override;
     void m5() override;
     void m6(f32 fade_sec) override;
     void m7(f32 fade_sec) override;
+    // 0x7100ffba00 (declared only; 292 B)
     void m8(const Unk_BgmControllerM8Arg& arg) override;
+    // 0x7100ffbb24: copies the argument into the boss BGM table.
     void m9(const Unk_BgmControllerM8Arg& arg) override;
+    // 0x7100ffbb50: marks the field battle BGM (kind 3).
     void m10() override;
-    void* m11() override;
-    void m12() override;
+    void* m11() override { return _a8; }
+    void m12() override {}
 
-    u8 _90[0x130 - 0x90];
+    // 0x7100ffafbc / 0x7100ffb2d4 (declared only): the two BGM delegates.
+    void sub_7100FFAFBC(Bgm* bgm);
+    void sub_7100FFB2D4(Bgm* bgm);
+    // 0x7100ffb5b0 / 0x7100ffb7e8 (declared only; m5's update steps).
+    void sub_7100FFB5B0();
+    void sub_7100FFB7E8();
+
+    /* 0x90 */ Unk_71024fe958* mBossBgms = nullptr;
+    /* 0x98 */ void* _98 = nullptr;
+    /* 0xa0 */ void* _a0 = nullptr;
+    /* 0xa8 */ void* _a8;
+    /* 0xb0 */ void* _b0 = nullptr;
+    /* 0xb8 */ aal::Group* mGroup = nullptr;
+    /* 0xc0 */ aal::Handle _c0;
+    /* 0xd0 */ aal::SimpleTimedFader _d0{0.0f};
+    /* 0xe8 */ f32 _e8 = 1.0f;
+    // Bit 0: started (m6 / m7); bit 2: cleared by m5 / m6 after a fade request.
+    /* 0xec */ u8 _ec = 0;
+    /* 0xf0 */ sead::Delegate1<Unk_710260f198, Bgm*> _f0{this, &Unk_710260f198::sub_7100FFAFBC};
+    /* 0x110 */ sead::Delegate1<Unk_710260f198, Bgm*> _110{this, &Unk_710260f198::sub_7100FFB2D4};
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260f198, 0x130);
 Unk_710260f198* sub_7100FFD7CC();

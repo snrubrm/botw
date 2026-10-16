@@ -17,3 +17,27 @@ Unk_71024fe808::~Unk_71024fe808() = default;
 // NON_MATCHING: placeholder destructor; the original (0x710100df48) also destroys members or bases
 // this class does not declare yet.
 Unk_71024fe970::~Unk_71024fe970() = default;
+
+namespace ksys::snd {
+
+// NON_MATCHING: the original zeroes _c / _10 with one unaligned doubleword store.
+Unk_71024fe958::Unk_71024fe958() = default;
+
+Unk_71024fe958::~Unk_71024fe958() = default;
+
+void Unk_71024fe958::m2() {}
+
+void Unk_71024fe958::init(sead::Heap* heap) {
+    mInfos[1] = sub_7100FFD76C()->getInfo(MusicInfoType::GolemBgm);
+    mInfos[2] = sub_7100FFD76C()->getInfo(MusicInfoType::GiantBgm);
+    mInfos[3] = sub_7100FFD76C()->getInfo(MusicInfoType::SandwormBgm);
+}
+
+void Unk_71024fe958::sub_710100D860() {
+    if (!_8)
+        return;
+    _1c = 0;
+    _8 = false;
+}
+
+}  // namespace ksys::snd
