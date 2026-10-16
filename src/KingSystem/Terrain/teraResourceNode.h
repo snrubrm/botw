@@ -147,8 +147,20 @@ public:
     Unk_710110d278();
     // 0x710110d28c
     ~Unk_710110d278();
-    // 0x710110d2c4 (declared only)
+    // 0x710110d2c4: frees the buffer, takes the image, key and _18 of `arg` and runs sub_710110D320.
     void init(const InitArg& arg);
+    // 0x710110d320 (declaration only; placeholder name; 520 B): allocates the buffer from `heap`.
+    void sub_710110D320(sead::Heap* heap);
+
+    // inline-only in the original; name is a guess: the same release sequence is in the destructor
+    // 0x710110d28c and init 0x710110d2c4.
+    void freeBufferMaybe() {
+        if (_10 && _18) {
+            delete[] static_cast<u8*>(_18);
+            _18 = nullptr;
+            _10 = 0;
+        }
+    }
 
     Unk_710250dbc8* mImage = nullptr;
     Key* _8 = nullptr;
