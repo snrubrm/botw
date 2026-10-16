@@ -56,6 +56,8 @@ public:
 
     // 0x71010f0244 (CSV name; declared only): emits / fades the wind effect (ELink _58).
     void doEmitELink();
+    // 0x71010efdb4 (CSV name): emits the windEmit sound (SLink _68) with the shape _80 and the position.
+    void doEmitSLink();
 
     /* 0x48 */ ksys::phys::RigidBody* _48 = nullptr;
     /* 0x50 */ bool _50 = false;

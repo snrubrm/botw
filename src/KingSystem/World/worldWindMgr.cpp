@@ -277,6 +277,27 @@ f32 ElementDirectionalWindOrGust::m22() {
     return sead::Mathf::pi() * radius * radius + (radius * 0.75f + mArg._24);
 }
 
+// NON_MATCHING: register allocation (one more callee-saved register keeps &_68).
+void ElementDirectionalWindOrGust::doEmitSLink() {
+    if (mArg.flags & 0x20)
+        return;
+    if (_68.isActive() || !_78)
+        return;
+    _68 = ksys::eft::searchAndEmitSLink(ksys::act::Reaction::instance()->_38, "windEmit", false);
+    if (!_68.isActive())
+        return;
+    _68.getEvent()->resetFlagBit(1);
+    auto* shape = _80;
+    if (shape && _68.isActive()) {
+        if (auto* executor =
+                static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                source->mSpatialSetting.setShape(shape);
+    }
+    if (!_88)
+        _68.setPosition(mArg.position);
+}
+
 // NON_MATCHING: scheduling (the original reads _50 before the handle test and the arg fields in another order).
 void ElementDirectionalWindOrGust::doEmitELink() {
     const bool active = _58.isActive();
