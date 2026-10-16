@@ -732,6 +732,9 @@ public:
     explicit Unk_710103AB10(s32 type) : mType(DuckingMgr::DuckerType::ValueType(type)) {}
     // 0x710103ab10: stops the ducker if it is active.
     ~Unk_710103AB10();
+    // Stops the ducker if it is active. ICF-folded with the destructor at 0x710103ab10 in the original (the BGM
+    // m13 overrides call it directly).
+    void stop();
     // 0x710103aa3c: starts the ducker while a message sound plays and stops it afterwards.
     void calc();
 

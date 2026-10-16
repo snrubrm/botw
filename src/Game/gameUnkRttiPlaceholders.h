@@ -2850,6 +2850,8 @@ public:
     void m5() override;
     bool m10() override;
     void m12(f32 fade_sec) override;
+    // 0x71010104ac: stops the BGM and the message ducking.
+    void m13(f32 fade_sec) override;
     // 0x7101010250: prints the state when the debug flag sUnk_710260FAE4 is set.
     void m14(sead::TextWriter& writer) override;
     // 0x710100fff4: starts the entry of the current level once it exists (state 1 -> playing).

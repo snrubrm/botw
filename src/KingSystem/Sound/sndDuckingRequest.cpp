@@ -33,6 +33,11 @@ Unk_710103AB10::~Unk_710103AB10() {
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
 }
 
+void Unk_710103AB10::stop() {
+    if (SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive())
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
+}
+
 void Unk_710103AC60::calc() {
     if (!mActive)
         return;

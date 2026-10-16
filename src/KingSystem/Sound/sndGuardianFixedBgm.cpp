@@ -149,6 +149,12 @@ void Unk_71024fec18::m14(sead::TextWriter& writer) {
     writer.printf("段階        :%s\n", Level::text(_1a4) ? Level::text(_1a4) : "不明");
 }
 
+// NON_MATCHING: the original calls the destructor address 0x710103ab10 (ICF-folded with Unk_710103AB10::stop).
+void Unk_71024fec18::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    _1b0.stop();
+}
+
 void Unk_71024fec18::hm14() {
     if (_198 != 1)
         return;
