@@ -2432,6 +2432,35 @@ void ScreenSystemWindow00::m99() {
     }
 }
 
+namespace {
+// 0x710247f588
+const sead::SafeString sAmiiboWindowMsg = "LayoutMsg/AmiiboWindow_00";
+}  // namespace
+
+// 0x71009d0898
+// NON_MATCHING: the message file SafeString is merged with other statics of this file (+0x10); in the original it
+// is its own object at 0x710247f588 (the AmiiboWindow functions are a separate TU there)
+void ScreenAmiiboWindow::sub_71009D0898(s32 text_id, s32 button_id) {
+    sead::FormatFixedSafeString<64> text_label("%04d", text_id);
+    sead::FormatFixedSafeString<64> button_label("%04d", button_id);
+    eui::MessageString text;
+    eui::MessageString button;
+    getMessage(sAmiiboWindowMsg, text_label, &text);
+    getMessage(sAmiiboWindowMsg, button_label, &button);
+    if (_3618)
+        setWidgetString(_3618, "T_Text_00", text);
+    if (_3620)
+        setWidgetString(_3620, "T_Btn_00", button);
+    if (_3640)
+        _3640->setFlag10(true);
+    if (_3648)
+        _3648->setFlag10(false);
+    if (_3650)
+        _3650->setFlag10(false);
+    if (_3658)
+        _3658->setFlag10(false);
+}
+
 // 0x71009d06f4 (slot 154)
 // NON_MATCHING: the _3660 / _3668 stores rematerialise the field load through an address phi
 // (extra mov/add and a reload) where the original keeps the loaded value in a register.

@@ -3271,7 +3271,9 @@ public:
     void m107(eui::AnimButton* button) override;
     /* 0x3610 */ s32 _3610 = 4;
     s32 _3614 = 3;
-    u8 _3618[0x28]{};
+    /* 0x3618 */ eui::LayoutEx* _3618{};  // T_Text_00
+    /* 0x3620 */ eui::LayoutEx* _3620{};  // T_Btn_00
+    u8 _3628[0x18]{};
     /* 0x3640 */ eui::AnimButton* _3640{};
     eui::AnimButton* _3648{};
     eui::AnimButton* _3650{};
@@ -3292,8 +3294,9 @@ public:
     virtual void m154(s32 type, bool flag);
     virtual void m155();
 
-    // 0x71009d0898 (declared only): formats and applies the two state strings
-    void sub_71009D0898(s32, s32);
+    // 0x71009d0898: sets the text and button messages (labels "%04d" in LayoutMsg/AmiiboWindow_00) and enables only
+    // the first button
+    void sub_71009D0898(s32 text_id, s32 button_id);
     // 0x71009d09ec (declared only): formats and applies five state strings
     void sub_71009D09EC(s32, s32, s32, s32, s32);
 };
