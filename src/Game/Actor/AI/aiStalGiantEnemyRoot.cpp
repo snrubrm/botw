@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiStalGiantEnemyRoot.h"
 #include <prim/seadFormatPrint.h>
+#include <prim/seadFormatPrint.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_7100724C64.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -67,58 +68,19 @@ void StalGiantEnemyRoot::loadParams_() {
     getStaticParam(&mActorNameRib3_s, "ActorNameRib3");
     getStaticParam(&mActorNameRib4_s, "ActorNameRib4");
     getStaticParam(&mIsDamageToEnemy_s, "IsDamageToEnemy");
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    sead::FixedSafeString<64> key;
+    for (u32 i = 0; i < 4; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "WeakPointNode%d", i) << sead::flush;
+        getStaticParam(&mWeakPointNode_s[i], key);
+    }
+    sead::FixedSafeString<64> entry_key;
+    for (u32 i = 0; i < 3; i++) {
+        auto& entry = _340.mEntries[i];
+        (sead::StringCutOffPrintFormatter(&entry_key) << "NecklaceTgtName%d", i) << sead::flush;
+        getStaticParam(&entry.mNecklaceTgtName_s, entry_key);
+        (sead::StringCutOffPrintFormatter(&entry_key) << "NecklaceWeaponIdx%d", i) << sead::flush;
+        getStaticParam(&entry.mNecklaceWeaponIdx_s, entry_key);
+    }
 }
 
 void StalGiantEnemyRoot::m35(ksys::act::ai::InlineParamPack* params) {

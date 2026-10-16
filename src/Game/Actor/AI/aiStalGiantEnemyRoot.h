@@ -12,7 +12,10 @@ public:
     Unk_71005A4E14();
 
     struct Entry {
-        u64 _0[0xd0 / sizeof(u64)];
+        // static_param NecklaceTgtName%d / NecklaceWeaponIdx%d (StalGiantEnemyRoot::loadParams_)
+        /* 0x00 */ sead::SafeString mNecklaceTgtName_s;
+        /* 0x10 */ const int* mNecklaceWeaponIdx_s;
+        u64 _18[(0xd0 - 0x18) / sizeof(u64)];
         Unk_71024511a8 mAttachment;
     };
     Entry mEntries[3];
@@ -38,10 +41,8 @@ public:
 
 protected:
     void sub_71005A3530();
-    sead::SafeString _300;
-    sead::SafeString _310;
-    sead::SafeString _320;
-    sead::SafeString _330;
+    // static_param WeakPointNode%d at offset 0x300
+    sead::SafeString mWeakPointNode_s[4];
     Unk_71005A4E14 _340;
     // static_param at offset 0x7c0
     sead::SafeString mActorNameChin_s{};
