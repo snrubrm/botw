@@ -210,10 +210,62 @@ u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz,
     return result;
 }
 
+
 // inline-only in the original; name is a guess: a 16-bit channel of a texel as 0 - 1 (the same load and
 // scale repeat in 0x7101108c44, 0x710110aa5c and 0x710110b0e8).
 inline f32 texelChannelMaybe(const u8* texel, u32 offset) {
     return *static_cast<const u16*>(sead::PtrUtil::addOffset(texel, offset)) / 65535.0f;
+}
+
+// NON_MATCHING: scheduling and register allocation (as in sub_710110B38C).
+u32 sub_710110ADF8(f32 a, f32 b, f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   const Unk_7101108AE8Flags* info_20, const Unk_71010FEDBC* info) {
+    s32 area = 0;
+    sead::Vector2f pos = sead::Vector2f::zero;
+    u32 result = sub_7101108AE8(&pos, &area, *xz, *info_20, *info, -1);
+    if (result != 0) {
+        Unk_7101108C44Arg arg;
+        arg.table = info_20->table;
+        arg.index = area;
+        arg._c = false;
+        TexelPosMaybe texel;
+        sub_710110AC74(pos.x, pos.y, &arg, &texel, 0);
+        const Unk_710110AC74Table* table = arg.table;
+        const u32 max = table->levels[0].size - 1;
+        const u32 nx = texel.fx < 0.5f ? texel.x : texel.x + 1;
+        const u32 ny = texel.fy < 0.5f ? texel.y : texel.y + 1;
+        const u32 pitch = table->levels[0].pitch;
+        const u32 texel_size = table->texel_size;
+        const u8* data = table->areas[arg.index].levels[0];
+        if (s8(data[sead::Mathu::min(nx, max) * texel_size + sead::Mathu::min(ny, max) * pitch + 6]) <
+            0) {
+            *out_height = 0.0f;
+            out_normal->set(0.0f, 1.0f, 0.0f);
+            result = -1;
+        } else {
+            const u32 row0 = sead::Mathu::min(texel.y, max) * pitch;
+            const u32 col0 = sead::Mathu::min(texel.x, max) * texel_size;
+            const u32 col1 = sead::Mathu::min(texel.x + 1, max) * texel_size;
+            const u32 row1 = sead::Mathu::min(texel.y + 1, max) * pitch;
+            const f32 h00 = texelChannelMaybe(data, row0 + col0);
+            const f32 h01 = texelChannelMaybe(data, row0 + col1);
+            const f32 h10 = texelChannelMaybe(data, row1 + col0);
+            const f32 h11 = texelChannelMaybe(data, row1 + col1);
+            const f32 dx0 = h01 - h00;
+            const f32 dx1 = h11 - h10;
+            const f32 top = h00 + texel.fx * dx0;
+            const f32 dz0 = h10 - h00;
+            const f32 dz1 = h11 - h01;
+            out_normal->set(-(dx0 + (dx1 - dx0) * 0.0f), 1.0f, -(dz0 + (dz1 - dz0) * 0.0f));
+            const f32 scale = static_cast<f32>(info_20->_e) / info->mAreas[area].size;
+            out_normal->x = scale * out_normal->x;
+            out_normal->y = 1.0f / (b - a);
+            out_normal->z = scale * out_normal->z;
+            out_normal->normalize();
+            *out_height = (b - a) * (top + texel.fy * ((h10 + texel.fx * dx1) - top)) + a;
+        }
+    }
+    return result;
 }
 
 // NON_MATCHING: scheduling and register allocation (as in sub_710110B38C).
