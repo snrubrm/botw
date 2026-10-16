@@ -3243,6 +3243,11 @@ public:
     void sub_71009372E0(eui::LayoutEx* layout);
     // 0x71009372e8 (placeholder name): sets the page count, jumps to item `index` and resets the pane
     void sub_71009372E8(s32 index, s32 count);
+    // 0x7100937424 (placeholder name): like sub_7100937550 with ArchiveHandle::sub_71009C3788
+    f32 sub_7100937424(s32 index);
+    // 0x7100937550 (placeholder name): the first non-zero archive value (ArchiveHandle::sub_71009C37A8) of the
+    // shortcut units after unit `index` (or before it when there is no next unit)
+    f32 sub_7100937550(s32 index);
     // 0x710093767c (placeholder name): the layout `kind` of the nearest other shortcut unit next to unit `index`
     // (searching from the start of its run; none for kind 2)
     eui::LayoutEx* sub_710093767C(s32 index, s32 kind);

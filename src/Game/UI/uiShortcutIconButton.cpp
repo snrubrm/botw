@@ -134,6 +134,56 @@ void Unk_7102474d30::sub_7100937368() {
     unit->_10->Down();
 }
 
+// 0x7100937424
+f32 Unk_7102474d30::sub_7100937424(s32 index) {
+    s32 step = 1;
+    s32 i = index + 1;
+    Unk_7102474e38* unit = sub_7100943684(i);
+    if (!unit) {
+        step = -1;
+        i = index - 1;
+        unit = sub_7100943684(i);
+        if (!unit)
+            return 0.0f;
+    }
+    f32 value = 0.0f;
+    i += step;
+    for (; unit; i += step) {
+        if (auto* shortcut = sead::DynamicCast<Unk_7102474c68>(unit)) {
+            value = shortcut->mArchive.sub_71009C3788();
+            if (!sead::Mathf::equalsEpsilon(value, 0.0f, 0.001f))
+                return value;
+        }
+        unit = sub_7100943684(i);
+    }
+    return value;
+}
+
+// 0x7100937550
+f32 Unk_7102474d30::sub_7100937550(s32 index) {
+    s32 step = 1;
+    s32 i = index + 1;
+    Unk_7102474e38* unit = sub_7100943684(i);
+    if (!unit) {
+        step = -1;
+        i = index - 1;
+        unit = sub_7100943684(i);
+        if (!unit)
+            return 0.0f;
+    }
+    f32 value = 0.0f;
+    i += step;
+    for (; unit; i += step) {
+        if (auto* shortcut = sead::DynamicCast<Unk_7102474c68>(unit)) {
+            value = shortcut->mArchive.sub_71009C37A8();
+            if (!sead::Mathf::equalsEpsilon(value, 0.0f, 0.001f))
+                return value;
+        }
+        unit = sub_7100943684(i);
+    }
+    return value;
+}
+
 // NON_MATCHING: loop counter registers and the step selection (csinc in the original)
 // 0x710093767c
 eui::LayoutEx* Unk_7102474d30::sub_710093767C(s32 index, s32 kind) {
