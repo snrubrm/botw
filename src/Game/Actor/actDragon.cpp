@@ -11,8 +11,16 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::act {
+
+namespace {
+// File-static names set up by the TU's static initializer (0x7100012a28).
+sead::SafeString sBodyName = "Body";
+sead::SafeString sTgtName = "Tgt";
+sead::SafeString sAtkName = "Atk";
+}  // namespace
 
 f32 Dragon::x_0() const {
     return _1e1c.length();
@@ -67,6 +75,19 @@ bool Dragon::sub_710000F70C(int idx) {
 }
 
 // NON_MATCHING: we merge the two adjacent -1.0f stores into one 64-bit store and schedule the copies' loads differently.
+// NON_MATCHING: the original addresses the three names from one base of the TU's merged statics.
+void Dragon::sub_710000D474() {
+    if (!_1f70.isOnBit(22))
+        return;
+    _1f70.resetBit(22);
+    if (auto* body = getRigidBodyByName(sBodyName.cstr()))
+        body->removeFromWorld();
+    if (auto* body = getRigidBodyByName(sTgtName.cstr()))
+        body->removeFromWorld();
+    if (auto* body = getRigidBodyByName(sAtkName.cstr()))
+        body->removeFromWorld();
+}
+
 // Placeholder name: switches the horn animation (AS slot 5) to `name` when it changes, then sub_710000D474.
 void Dragon::sub_710000EA88(const sead::SafeString& name) {
     if (name.isEmpty())
