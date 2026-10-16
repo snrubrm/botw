@@ -8,6 +8,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/VFR.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -201,6 +202,82 @@ void BowChildArrowRain::sub_71000CD468(const sead::Vector3f& target, int index) 
     sead::Vector3f velocity = dir;
     velocity *= sead::GlobalRandom::instance()->getF32Range(0.4f, 0.8f) * 0.1f;
     accessor.setProperties(mtx, &velocity, nullptr, &scale, false, 2, -1);
+}
+
+// NON_MATCHING: float scheduling of the circle offset and of the chase step (the original recomputes the angle
+// difference per branch); the start up to the height offset matches.
+void BowChildArrowRain::sub_71000CD7AC(sead::Vector3f* pos) {
+    const sead::Vector3f center = *mMoveTargetPos_d;
+    sead::Vector3f parent_pos = center;
+    if (mParentActor_d &&
+        sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr))) {
+        auto* parent = sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr));
+        if (sead::DynamicCast<ksys::act::Actor>(parent))
+            parent->getMtx().getTranslation(parent_pos);
+    }
+
+    sead::Vector3f axis;
+    axis.setCross(parent_pos - center, sead::Vector3f::ey);
+    if (axis.equals(sead::Vector3f::zero, sead::Mathf::epsilon()))
+        axis = sead::Vector3f::ex;
+    axis.normalize();
+    sead::Quatf rotation;
+    rotation.setAxisRadian(axis, *mAngleToTarget_s);
+    sead::Matrix34f rotation_mtx;
+    rotation_mtx.fromQuat(rotation);
+    f32 height = *mMoveHeight_s;
+    if (*mIsIgnoreHightOffset_d)
+        height = 0.0f;
+    sead::Vector3f offset{0, height, 0};
+    offset.rotate(rotation_mtx);
+    _114 = center + offset;
+
+    bool far = false;
+    if (!*mIsIgnoreHightOffset_d) {
+        sead::Vector3f diff = _114 - parent_pos;
+        if (diff.x * diff.x + diff.z * diff.z < *mMoveOffsetBase_s * *mMoveOffsetBase_s) {
+            diff.normalize();
+            _114 += diff * (*mMoveOffsetBase_s + 2.0f);
+            far = !*mIsIgnoreHightOffset_d;
+        } else {
+            far = true;
+        }
+    }
+    f32 radius = far ? *mMoveOffsetBase_s : *mMoveOffsetBase_s * 0.8f;
+    radius += _c8;
+
+    const f32 count_angle = *mMoveCountNum_s * sead::Mathf::pi();
+    if (count_angle > _bc)
+        radius += (count_angle - _bc) / count_angle * *mMoveRange_s;
+    const f32 diff = count_angle - _bc;
+    _c0 += *mRotateRate_s;
+    if (sead::Mathf::abs(diff) <= 0.001f) {
+        _bc = count_angle;
+    } else {
+        const f32 step = *mRotateRate_s * sead::Mathf::abs(diff);
+        f32 delta;
+        if (step > *mRotateStepMax_s)
+            delta = diff < 0 ? -*mRotateStepMax_s : *mRotateStepMax_s;
+        else if (step < 0.001f)
+            delta = diff < 0 ? -0.001f : 0.001f;
+        else
+            delta = *mRotateRate_s * diff;
+        _bc += delta;
+    }
+
+    sead::Matrix33f circle_mtx;
+    circle_mtx.makeR({0, _c0, 0});
+    sead::Vector3f circle{radius, _cc, 0};
+    circle.rotate(circle_mtx);
+    sead::Vector3f current;
+    mActor->getMtx().getTranslation(current);
+    sead::Vector3f dir = _114 + circle - current;
+    f32 distance = dir.length();
+    if (distance > 0.0f)
+        dir *= 1.0f / distance;
+    distance = sead::Mathf::min(distance, _c4);
+    distance *= ksys::VFR::instance()->getDeltaFrame();
+    *pos = current + dir * distance;
 }
 
 void BowChildArrowRain::sub_71000CE0C0() {

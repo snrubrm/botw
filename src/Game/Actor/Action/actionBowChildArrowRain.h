@@ -37,7 +37,7 @@ protected:
     // 0x71000ce0c0 (placeholder name): sends a shot (message 0x8000056) to every bound actor of the parent
     // SiteBoss that has just entered range, starting the slot countdowns the first time.
     void sub_71000CE0C0();
-    // 0x71000cd7ac (placeholder name, declared only): the next position of this actor (circling the target).
+    // 0x71000cd7ac (placeholder name): the next position of this actor, circling above MoveTargetPos.
     void sub_71000CD7AC(sead::Vector3f* pos);
     // 0x71000cd468 (placeholder name): launches the parent SiteBoss's bound actor 4 * ID + 4 + `index` (when it
     // is not in its calc state) from this actor towards `target`, scaled by RainScale.
@@ -83,7 +83,7 @@ protected:
     ksys::act::BaseProcLink* mParentActor_d{};
 
     s32 _b8 = 0;
-    s32 _bc = 0;
+    f32 _bc = 0;
     f32 _c0 = 0;
     f32 _c4 = 0;
     f32 _c8 = 0;
@@ -96,7 +96,7 @@ protected:
     sead::Matrix33f _dc;
     // Frame countdowns of the five arrow rain slots (calc_ fires one when it reaches 0).
     sead::SafeArray<s32, 5> _100{};
-    u8 _114[0xc];
+    sead::Vector3f _114;  // circle centre (sub_71000CD7AC)
     sead::Vector3f _120;
     // Placeholder layout of the block at 0x12c (0x408 bytes, zero-initialised as a whole).
     struct Unk12c {
