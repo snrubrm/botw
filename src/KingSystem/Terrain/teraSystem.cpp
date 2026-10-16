@@ -51,8 +51,7 @@ u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
 }
 
 // inline-only in the original; name is a guess. Wraps a texel coordinate once into [0, size) and splits
-// it into the texel index and the fraction; inlined for both axes into 0x710110979c (and the samplers
-// 0x710110b814 / 0x7101122fc8).
+// it into the texel index and the fraction; inlined for both axes into 0x710110979c and 0x710110b814.
 inline f32 wrapTexelMaybe(u32* index, f32 coord, f32 size) {
     if (coord >= 0.0f) {
         if (coord + 1.0f > size) {
