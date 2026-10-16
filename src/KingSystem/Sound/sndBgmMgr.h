@@ -36,6 +36,8 @@ class Unk_7102500a00;
 class Unk_71024fefe8;
 class Unk_71024feae8;
 class Unk_71024fe368;
+class Unk_71024fee78;
+class Unk_71024fd448;
 class Unk_71024fd6c8;
 class Unk_71024fd948;
 
@@ -415,6 +417,11 @@ KSYS_CHECK_SIZE_NX150(Unk_710260f2b8, 0x1c8);
 // 0x7100ffe204 / 0x7100ffe39c: the wind / fire Remains battle BGM in the named BGM list, or null.
 Unk_710260f2b8* sub_7100FFE204();
 Unk_71025ce390* sub_7100FFE39C();
+// 0x7100ffe7a4 (declared only; 664 B): the BGM of kind 22..25 picked by the Unk_710260f1f8 controller's _94, else kind
+// 34 under another controller, cast to Unk_7102500a00.
+Unk_7102500a00* sub_7100FFE7A4();
+// 0x7100ffea3c: the BGM of kind 26 of the controller at SoundMgr::_30->_48, cast to Unk_71024fee78.
+Unk_71024fee78* sub_7100FFEA3C();
 
 // 0x7100ffee14 (declared only): creates the BGM object for `name` (dedicated classes for four names).
 NamedBgm* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
@@ -450,6 +457,8 @@ public:
 // Which Remains (Divine Beast) boss BGM an Unk_71024fd448 plays; the names come from its name table at 0x71024fd578
 // ("RemainsWindBossBgm", "RemainsFireBossBgm", "RemainsElecBossBgm", "RemainsWaterBossBgm").
 SEAD_ENUM(RemainsBossBgmType, Wind, Fire, Elec, Water)
+// 0x7100ffebe0: calls Unk_71024fd448::sub_7101000514 on the Remains boss BGM of `type` (kinds 27..30).
+void sub_7100FFEBE0(const RemainsBossBgmType& type);
 
 // The argument of allocBgm (0x7100ff6e2c, which switches on `kind` and passes it on to the constructors).
 struct BgmInitArg {

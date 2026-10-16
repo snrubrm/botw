@@ -2404,6 +2404,8 @@ public:
     // Full native lookups and member bodies establish this existing BGM owner.
     void sub_71010003A4();
     void sub_7101000838(f32 value);
+    // 0x7101000514 (declared only): called by ksys::snd::sub_7100FFEBE0 (BgmCtrlBehavior::enter).
+    void sub_7101000514();
 
     u32 _190 = 0;
     u64 _198 = 0;
@@ -2650,6 +2652,10 @@ public:
     ~Unk_71024fee78() override;
     // 0x710101157c: stores the first dword of `arg` at +0x1d0 (called by Unk_710260f1f8::m8 on its kind 26 BGM).
     void sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+
+    u8 _190[0x1d4 - 0x190];
+    // Bit 1 is set by uking::behavior::BgmCtrlBehavior::enter.
+    /* 0x1d4 */ u8 _1d4;
 };
 
 // vtable 0x71024fefe8 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2696,6 +2702,10 @@ class Unk_7102500a00 : public ksys::snd::Unk_71025ce380 {
 public:
     ~Unk_7102500a00() override;
     void m14(sead::TextWriter& writer) override {}
+
+    u8 _190[0x20c - 0x190];
+    // Bit 1 is set by uking::behavior::BgmCtrlBehavior::enter.
+    /* 0x20c */ u8 _20c;
 };
 
 // vtable 0x7102500e08 (15 slots); placeholder generated from the vtable (genskel.py).

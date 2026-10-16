@@ -115,6 +115,37 @@ Unk_71025ce390* sub_7100FFE39C() {
     return sead::DynamicCast<Unk_71025ce390>(list->find("RemainsFireBattleBgm"));
 }
 
+Unk_71024fee78* sub_7100FFEA3C() {
+    auto* controller = SoundMgr::instance()->_30->_48;
+    return sead::DynamicCast<Unk_71024fee78>(controller ? controller->_8.sub_7100FF7C74(26) : nullptr);
+}
+
+// NON_MATCHING: the original's kind table holds 8-byte entries (the kind as passed in a register); ours 4-byte.
+void sub_7100FFEBE0(const RemainsBossBgmType& type) {
+    BgmKind kind;
+    switch (type) {
+    case RemainsBossBgmType::Wind:
+        kind = BgmKind::_27;
+        break;
+    case RemainsBossBgmType::Fire:
+        kind = BgmKind::_29;
+        break;
+    case RemainsBossBgmType::Elec:
+        kind = BgmKind::_28;
+        break;
+    case RemainsBossBgmType::Water:
+        kind = BgmKind::_30;
+        break;
+    default:
+        return;
+    }
+    auto* controller = SoundMgr::instance()->_30->_48;
+    auto* bgm =
+        sead::DynamicCast<Unk_71024fd448>(controller ? controller->_8.sub_7100FF7C74(kind) : nullptr);
+    if (bgm)
+        bgm->sub_7101000514();
+}
+
 bool sub_7100FFED80() {
     auto* sound = SoundMgr::instance();
     if (!sound)
