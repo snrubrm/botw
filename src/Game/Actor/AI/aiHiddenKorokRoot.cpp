@@ -7,6 +7,14 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -84,6 +92,69 @@ void HiddenKorokRoot::callHiddenKorokFoundDemo() {
     else
         return;
     event_mgr->callEvent(metadata, mActor);
+}
+
+// NON_MATCHING: the two body pointer null tests are compared in the other order (cmp / ccmp).
+void HiddenKorokRoot::calc_() {
+    if (_82) {
+        callHiddenKorokFoundDemo();
+    } else if (_80) {
+        if (isCurrentChild("ひるむ") && getCurrentChild()->isFinished()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addBool(false, "TerrorOccurring", -1);
+            pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+            changeChild("振り向く", &pack);
+        } else if (isCurrentChild("振り向く")) {
+            bool hit = sub_71007A274C(mActor);
+            if (!hit) {
+                auto* info = mActor->getCharacterController()->sub_7100F6367C();
+                if (info && info->getCollidingBodies().size() != 0) {
+                    auto* bodies = info->getCollidingBodies().front();
+                    info->lock();
+                    for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
+                        auto* body = bodies->bodies[1];
+                        if (!(bodies->bodies[0] && body))
+                            continue;
+                        sead::Vector3f dir = body->getLinearVelocity();
+                        if (!(body->getLinearVelocity().length() > *mPainTalkHitSpeed_s))
+                            continue;
+                        if (body->getHkBodyName().findIndex("Motorcycle") != -1 &&
+                            body->getLinearVelocity().length() <= 4.75f) {
+                            continue;
+                        }
+                        dir.normalize();
+                        if (dir.y <= 0.6f)
+                            break;
+                    }
+                    info->unlock();
+                    hit = bodies != nullptr;
+                }
+            }
+
+            if (hit && (getPlayerPosition() - mActor->getMtx().getTranslation()).length() <=
+                           *mPainTalkDistance_s) {
+                changeChild("ひるむ");
+                sead::FixedSafeString<64> label;
+                label.format("near%02d", sead::GlobalRandom::instance()->getU32(3));
+                _a8.set(0.0f, label);
+            }
+        }
+    }
+
+    if (*mIsAppearCheck_m && !_80)
+        xlinkEventOn(mActor, 26, 1, false);
+    if (*mIsAppearCheck_m && !_80 && !_81) {
+        if (auto* set = mActor->getPhysics()->findBodyByName(*sub_71007A24D0())) {
+            auto* body = set->findBodyByHavokName("Body");
+            if (body && body->isAddedToWorld()) {
+                sub_71007A36BC(mActor);
+                _81 = true;
+            }
+        }
+    }
+
+    getCurrentChild()->setDynamicParam(getPlayerPosition(), "TargetPos");
+    _a8.sub_7100721C48();
 }
 
 void HiddenKorokRoot::loadParams_() {
