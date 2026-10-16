@@ -2092,6 +2092,69 @@ void ScreenAppPictureBookUnk::sub_71009439B0() {
     }
 }
 
+// NON_MATCHING: written from the binary, not tuned
+// 0x7100941d70
+void ScreenAppPictureBookUnk::sub_7100941D70(bool flag) {
+    const sead::Vector2f prev = _2c0;
+    _2c0 = _2d0;
+    _2e4 = _2e8;
+    _2ec = _2f0;
+    _2d8 = _2dc;
+    _334 = getMoveDirectionMaybe(prev, _2c0);
+    _330 = 2;
+    sub_710093F924(true);
+
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        if (*it)
+            (*it)->sub_710093AD60(_2c0);
+    }
+
+    if (!flag || _330 == 1) {
+        _2c8 = _2c0;
+        _2e0 = _2dc;
+        return;
+    }
+
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        ScreenAppPictureBookEntry* entry = *it;
+        if (!entry)
+            continue;
+        for (s32 i = 0; i < sead::Mathi::min(entry->mParams._298, entry->_2f4); ++i)
+            entry->sub_710093B684(entry->mRecords[i]);
+        for (s32 i = 0; i < sead::Mathi::min(entry->mParams._298, entry->_2f4); ++i)
+            entry->sub_710093B830(entry->mRecords[i]);
+    }
+    sub_710093F670();
+    _2c8 = _2c0;
+    _2e0 = _2dc;
+    if (_330 == 1)
+        return;
+
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        ScreenAppPictureBookEntry* entry = *it;
+        if (!entry)
+            continue;
+        for (s32 i = 0; i < sead::Mathi::min(entry->mParams._298, entry->_2f4); ++i)
+            entry->sub_710093B9F4(entry->mRecords[i]);
+    }
+
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            if (!group._8)
+                continue;
+            if (group.mEntry && group.mRecord && group.mRecord->_c >= 0) {
+                const nn::util::Float3 pos = {list._10.x + group.mEntry->_378.x + group.mRecord->mPosition.x,
+                                              list._10.y + group.mEntry->_378.y + group.mRecord->mPosition.y,
+                                              0.0f};
+                group._8->mPane->SetPosition(pos);
+                group._8->mPane->SetVisible(true);
+            } else {
+                group._8->mPane->SetVisible(false);
+            }
+        }
+    }
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
