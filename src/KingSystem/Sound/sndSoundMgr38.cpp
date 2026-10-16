@@ -95,6 +95,23 @@ void Unk_SoundMgr38::init(sead::Heap* heap) {
     _70 = false;
 }
 
+void Unk_SoundMgr38::sub_710102AE50() {
+    if (_70) {
+        if (_8)
+            _8->sub_710102C810();
+        if (_10)
+            _10->sub_71010333E0();
+        if (_18)
+            _18->sub_710102EE40();
+    }
+    if (_28)
+        _28->sub_7101039208();
+    if (_30)
+        _30->sub_7101027BF4();
+    if (_48)
+        _48->sub_7101035A50();
+}
+
 void Unk_SoundMgr38::sub_710102AEC4() {
     if (_70) {
         if (_8)

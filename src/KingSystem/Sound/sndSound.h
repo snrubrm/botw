@@ -151,6 +151,8 @@ public:
     // attaches `shape` to its sound source.
     xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
     void sub_7101027CE8();
+    // 0x7101027bf4: empty in the release build (Unk_SoundMgr38::sub_710102AE50).
+    void sub_7101027BF4();
     // 0x7101027bf8 (declared only)
     void sub_7101027BF8();
     static sead::SafeString sUnk_7102610618[4];
@@ -177,6 +179,8 @@ public:
 // SoundOcclusionTag* actions (the sound is occluded while the player is inside the box set by sub_7101037ED8).
 class Unk_SoundMgr38_28 {
 public:
+    // 0x7101039208: empty in the release build (Unk_SoundMgr38::sub_710102AE50).
+    void sub_7101039208();
     // 0x7101037ed8 (declared only; 132 B): sets the box (centre `pos`, size `size`) and stores both vectors.
     void sub_7101037ED8(const sead::Vector3f* pos, const sead::Vector3f* size);
     // 0x7101037f5c: stores `value` in the byte at +0x344.
@@ -251,6 +255,15 @@ public:
     void sub_7101035B50(ksys::act::Actor* actor);
     // 0x7101035c50 (declared only): removes the entry of the actor with id `id` / hash id `hash_id`.
     void sub_7101035C50(u32 id, u32 hash_id);
+    // 0x7101035a50: sets bit 0 of _1e08; the first time (bit 1 clear) also runs 0x7101035888 and sets _1dc0 to 1.
+    void sub_7101035A50();
+    // 0x7101035888 (declared only)
+    void sub_7101035888();
+
+    u8 _8[0x1dc0 - 0x8];
+    /* 0x1dc0 */ u32 _1dc0;
+    u8 _1dc4[0x1e08 - 0x1dc4];
+    /* 0x1e08 */ sead::BitFlag8 _1e08;
 };
 
 // Placeholder names (SoundMgr::_38 members at +0x8 / +0x10 / +0x18 / +0x38 / +0x40 / +0x50 / +0x58 / +0x60): only
@@ -314,7 +327,12 @@ public:
     // 0x710103362c (declared only): called by Unk_SoundMgr38::sub_710102AF84.
     void sub_710103362C();
 
-    u8 _8[0x1950 - 0x8];
+    // 0x71010333e0: sets _10c1 (Unk_SoundMgr38::sub_710102AE50).
+    void sub_71010333E0();
+
+    u8 _8[0x10c1 - 0x8];
+    /* 0x10c1 */ bool _10c1;
+    u8 _10c2[0x1950 - 0x10c2];
 };
 class Unk_SoundMgr38_18 {
 public:
@@ -327,7 +345,16 @@ public:
     // 0x710102effc (declared only): called by Unk_SoundMgr38::sub_710102AF84.
     void sub_710102EFFC();
 
-    u8 _8[0xa828 - 0x8];
+    // 0x710102ee40: sets three flags (Unk_SoundMgr38::sub_710102AE50).
+    void sub_710102EE40();
+
+    u8 _8[0x9624 - 0x8];
+    /* 0x9624 */ bool _9624;
+    u8 _9625[0x9627 - 0x9625];
+    /* 0x9627 */ bool _9627;
+    u8 _9628;
+    /* 0x9629 */ bool _9629;
+    u8 _962a[0xa828 - 0x962a];
 };
 class Unk_SoundMgr38_38 {
 public:
@@ -392,6 +419,8 @@ public:
     // 0x710102af84: finalizes and deletes the sub-managers and releases the xlink2 user and its asset reader.
     void sub_710102AF84();
     void sub_710102B4B8();
+    // 0x710102ae50: starts the sub-managers (_8 / _10 / _18 only while _70 is set).
+    void sub_710102AE50();
     // 0x710102aec4: stops the sub-managers (only while _70 is set) and the xlink2 user's events.
     void sub_710102AEC4();
     // 0x710102a28c: creates the sub-managers _8 / _10 / _18 / _20 / _30 / _38 / _40 on `heap`.

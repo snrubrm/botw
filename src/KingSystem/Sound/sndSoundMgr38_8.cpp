@@ -21,7 +21,8 @@
 
 namespace ksys::snd {
 
-// TU 0x710102c1d8..0x71010349dc in the original (static initialiser 0x710102c1a4 ends the previous TU).
+// TU 0x710102c1d8..0x71010349dc in the original (static initialiser 0x710102c1a4 ends the previous TU): also
+// Unk_SoundMgr38_18 (0x710102cfdc..) and Unk_SoundMgr38_10 (0x7101031010..).
 
 Unk_SoundMgr38_8::Unk_SoundMgr38_8() = default;
 
@@ -131,6 +132,16 @@ void Unk_SoundMgr38_8::sub_710102C8F8() {
     mProcHandle.deleteProc();
     mTree = nullptr;
     _68 = false;
+}
+
+void Unk_SoundMgr38_18::sub_710102EE40() {
+    _9627 = true;
+    _9624 = true;
+    _9629 = true;
+}
+
+void Unk_SoundMgr38_10::sub_71010333E0() {
+    _10c1 = true;
 }
 
 }  // namespace ksys::snd

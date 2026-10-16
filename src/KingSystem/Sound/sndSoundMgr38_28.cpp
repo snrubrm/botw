@@ -36,4 +36,6 @@ void Unk_SoundMgr38_28::sub_7101037F7C(bool value) {
     _39c = value;
 }
 
+void Unk_SoundMgr38_28::sub_7101039208() {}
+
 }  // namespace ksys::snd
