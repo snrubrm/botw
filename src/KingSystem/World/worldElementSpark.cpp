@@ -1,6 +1,9 @@
 #include "KingSystem/World/worldElementSpark.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldManager.h"
 
@@ -35,6 +38,32 @@ ElementSpark::~ElementSpark() {
         _48 = nullptr;
     }
     mXLink.fadeXLink();
+}
+
+// NON_MATCHING: stack layout (the original reuses the SphereParam slot for the second matrix) and scheduling.
+bool ElementSpark::m29(const ElementName& name, sead::Heap* heap) {
+    sead::Matrix34f mtx;
+    mtx.makeT(mArg.position);
+
+    ksys::phys::SphereParam param;
+    param.name = "ChemicalSpark(Sphere)";
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.radius = mArg.radius;
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    _48 = ksys::phys::SphereRigidBody::make(&param, heap);
+    if (!_48)
+        return false;
+
+    _48->setTransform(mtx, ksys::phys::PropagateToLinkedMotions(true));
+    setRigidBody(_48, true);
+    if (auto* actor = ksys::act::Reaction::instance()->_38) {
+        sead::Matrix34f effect_mtx;
+        effect_mtx.makeT(mArg.position);
+        xlinkSearchAndEmit(actor, "Chemical_Flint", 2, &mXLink);
+        if (mXLink.sub_7101241B6C())
+            mXLink.sub_7101241A44(effect_mtx);
+    }
+    return true;
 }
 
 void ElementSpark::m33(bool a, bool fixed) {
