@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
 protected:
     // 0x7100531900: ASList::x_6(0x10, 0, XZ distance to the player), then the "移動" child

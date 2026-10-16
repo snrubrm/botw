@@ -6,8 +6,10 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 
 namespace uking::ai {
+
 
 PriestBossWalkAttack::PriestBossWalkAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -50,6 +52,92 @@ void PriestBossWalkAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("待機", &child_params);
     }
     _98 = false;
+}
+
+// NON_MATCHING: the original keeps both path state reads in stack slots (str / ldr, like a SEAD_ENUM value; a
+// SEAD_ENUM helper did not reproduce it) and lays out the "移動" state branches the other way round
+// Walks to TargetPos ("移動"), turning first ("回転") when the target is too far to the side, and attacks with the
+// AS-driven attack sensor; finishes when the nav mesh path ends (state 2 / 3).
+void PriestBossWalkAttack::calc_() {
+    auto* child = getCurrentChild();
+    auto* nav = mActor->m45();
+    if (!child || !nav)
+        return;
+
+    child->setDynamicParam(*mTargetPos_d, "TargetPos");
+    if (isCurrentChild("待機")) {
+        if (!_98) {
+            nav->_1e0.lock();
+            const u8 state = nav->_294;
+            nav->_1e0.unlock();
+            if (state == 2 || state == 3) {
+                setFinished();
+            } else if (state == 1) {
+                sub_7100531900();
+                _98 = true;
+            }
+        }
+    } else if (isCurrentChild("移動")) {
+        nav->sub_7100F75F8C(*mTargetPos_d);
+        if (auto* as_list = mActor->getASList();
+            as_list && as_list->x(0x2e, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            const sead::Vector3f& player_pos = getPlayerPosition();
+            const f32 dx = pos.x - player_pos.x;
+            const f32 dz = pos.z - player_pos.z;
+            mActor->getASList()->x_6(0x10, 0, std::sqrt(dx * dx + dz * dz));
+        }
+        nav->_1e0.lock();
+        const u8 state = nav->_294;
+        nav->_1e0.unlock();
+        if (state == 2 || state == 3) {
+            setFinished();
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("待機", &pack);
+        } else if (state < 2) {
+            sead::Vector3f front;
+            mActor->getMtx().getBase(front, 2);
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            sead::Vector3f dir = *mTargetPos_d - pos;
+            dir.y = 0.0f;
+            dir.normalize();
+            if (dir.isNan() || dir == sead::Vector3f(0, 0, 0))
+                dir = front;
+            const f32 angle = sead::Mathf::acos(sead::Mathf::clamp(front.dot(dir), -1.0f, 1.0f));
+            if (angle > *mAngleNeedTurn_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("回転", &pack);
+            }
+        }
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("回転")) {
+            sub_7100531900();
+        } else if (isCurrentChild("移動")) {
+            setFinished();
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("待機", &pack);
+        }
+    }
+
+    ksys::as::ASList::Unk4 query;
+    if (mActor->getASList() &&
+        mActor->getASList()->x(3, &query, 0, 0, &ksys::as::ASList::Unk2::sub_710116383C, true)) {
+        const sead::SafeString name = query.name;
+        sub_71007A2C30(mActor, name, &mActor->getMtx());
+        getActorAttackSensor(mActor)->activateAttackSensor(
+            *mAtType_s, *mAtAttr_s, *mAtDamage_s, *mAtPower_s, static_cast<f32>(*mAtImpact_s), *mAtPowerReduce_s,
+            *mAtShieldBreakPower_s, *mAtDirType_s, false, 1, -1);
+    }
+    if (mActor->getASList() &&
+        mActor->getASList()->x(3, &query, 0, 0, &ksys::as::ASList::Unk2::sub_710116388C, true)) {
+        const sead::SafeString name = query.name;
+        sub_71007A2D7C(mActor, name);
+    }
 }
 
 void PriestBossWalkAttack::leave_() {
