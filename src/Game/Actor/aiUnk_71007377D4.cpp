@@ -1059,6 +1059,92 @@ bool sub_7100732B0C(s32 damage_type) {
     return u32(damage_type - 9) < 2 || damage_type == 14;
 }
 
+// 0x71006df0f8 (dmgActorAccessors.cpp): bit 3 of the accessor's DynamicActor::_a68.
+bool sub_71006DF0F8(const ksys::act::ActorLinkConstDataAccess& accessor);
+
+// NON_MATCHING: regalloc (damage / field50 swapped) and the order of the _1d / _1e stores.
+void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor) {
+    auto* base = sead::DynamicCast<uking::act::DamageManagerBase>(actor->getDamageMgr());
+    if (!base)
+        return;
+
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(base);
+    s32 type;
+    bool from_mgr;
+    if (mgr && mgr->sub_71006D82D4()) {
+        type = mgr->sub_71006D8340();
+        from_mgr = true;
+    } else {
+        type = base->getField54();
+        from_mgr = false;
+    }
+
+    sead::BitFlag8 flags;
+    sub_7100732864(&flags, actor);
+    if (flags.isZero())
+        return;
+
+    s32 field50;
+    s32 damage;
+    const ksys::phys::MaterialMask* attack_mask;
+    const ksys::phys::MaterialMask* sensor_mask;
+    bool flag0, flag7, flag10, flag12, flag1, flag16, flag18;
+    bool kind9;
+    if (from_mgr) {
+        damage = mgr->sub_71006D8304();
+        field50 = mgr->sub_71006D837C();
+        flag0 = mgr->sub_71006D83B8(0);
+        flag7 = mgr->sub_71006D83B8(7);
+        flag10 = mgr->sub_71006D83B8(10);
+        flag12 = mgr->sub_71006D83B8(12);
+        flag1 = mgr->sub_71006D83B8(1);
+        flag16 = mgr->sub_71006D83B8(16);
+        flag18 = mgr->sub_71006D83B8(18);
+        attack_mask = nullptr;
+        kind9 = false;
+        sensor_mask = nullptr;
+    } else {
+        damage = base->getDamage();
+        field50 = base->getField50();
+        attack_mask = base->getAttackOtherMaterialMask();
+        sensor_mask = base->tgSensorMaterialOnHitMaybe();
+        flag0 = base->checkDamageFlags(0);
+        flag7 = base->checkDamageFlags(7);
+        flag10 = base->checkDamageFlags(10);
+        flag12 = base->checkDamageFlags(12);
+        flag1 = base->checkDamageFlags(1);
+        flag16 = base->checkDamageFlags(16);
+        flag18 = base->checkDamageFlags(18);
+        kind9 = mgr && mgr->getDamageType() == 9;
+    }
+
+    ksys::act::ActorLinkConstDataAccess attacker;
+    ksys::act::acquireActor(base->m37(), &attacker);
+    info->_0 = field50;
+    info->_4 = type;
+    info->_8 = damage;
+    info->_c = mgr ? mgr->getField40() : 0;
+    info->_10 = base->m37();
+    info->_19 = flag0;
+    info->_1a = flag7;
+    info->_18 = base->checkDamageFlags(9);
+    info->_30 = sensor_mask;
+    info->_38 = attack_mask;
+    info->_1b = base->sub_71006E0D24();
+    info->_1c = base->sub_71006E0E78();
+    info->_1d = base->sub_71006E0FB4();
+    info->_1f = flag10;
+    info->_1e = actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40);
+    info->_22 = flag1;
+    info->_20 = flag12;
+    info->_21 = (mgr && mgr->getDamageType() == 4) || field50 == 6;
+    info->_25 = mgr && type == 20 && ((mgr->_218 & 8) || (mgr->_218 & 2));
+    info->_26 = flag16;
+    info->_27 = flag18;
+    info->_28 = sub_71006DF0F8(attacker);
+    info->_29 = kind9;
+}
+
 bool sub_7100732AD0(s32 damage_type) {
     switch (damage_type) {
     case 15:

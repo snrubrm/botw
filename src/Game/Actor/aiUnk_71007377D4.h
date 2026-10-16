@@ -472,6 +472,47 @@ void sub_7100732864(sead::BitFlag8* flags, ksys::act::Actor* actor);
 bool sub_7100732B0C(s32 damage_type);
 bool sub_7100732AD0(s32 damage_type);
 
+/// Damage reaction input (0x40 bytes; name is a guess): callers (NPC::m149, Enemy::calcMaybe, Horse::m149,
+/// Player::m160, Actor::x_2) build it on the stack with these values, fill it with sub_7100732B28 and pass it
+/// to sub_7100733418 (after setting _30 to their own material mask and clearing _19 / _1a).
+struct DamageReactionInfo {
+    /* 0x00 */ s32 _0 = -1;  // damage manager slot 0x38 (or 0x71006d837c)
+    /* 0x04 */ s32 _4 = -1;  // damage type (DamageManagerBase::getField54 / 0x71006d8340)
+    /* 0x08 */ s32 _8 = 0;   // slot 0x20 (or 0x71006d8304)
+    /* 0x0c */ s32 _c = 0;   // DamageMgr + 0x40
+    /* 0x10 */ ksys::act::BaseProcLink* _10 = nullptr;  // damage manager slot 0x128 (attacker link)
+    /* 0x18 */ bool _18 = false;
+    /* 0x19 */ bool _19 = false;
+    /* 0x1a */ bool _1a = false;
+    /* 0x1b */ bool _1b = true;
+    /* 0x1c */ bool _1c = true;
+    /* 0x1d */ bool _1d = true;
+    /* 0x1e */ bool _1e = false;
+    /* 0x1f */ bool _1f = false;
+    /* 0x20 */ bool _20 = false;
+    /* 0x21 */ bool _21 = false;
+    /* 0x22 */ bool _22 = false;
+    /* 0x23 */ bool _23 = false;
+    /* 0x24 */ bool _24 = false;
+    /* 0x25 */ bool _25 = false;
+    /* 0x26 */ bool _26 = false;
+    /* 0x27 */ bool _27 = false;
+    /* 0x28 */ bool _28 = false;
+    /* 0x29 */ bool _29 = false;
+    /* 0x30 */ const ksys::phys::MaterialMask* _30 = nullptr;
+    /* 0x38 */ const ksys::phys::MaterialMask* _38 = nullptr;  // damage manager slot 0x108
+};
+KSYS_CHECK_SIZE_NX150(DamageReactionInfo, 0x40);
+
+/// 0x7100732b28 (placeholder name): fills `info` from the actor's damage manager when
+/// sub_7100732864 classifies the damage as a reaction.
+void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor);
+/// 0x7100733418 (placeholder name; 1900 B, declared only): applies the damage reaction of `info` to `actor`
+/// and copies the 0xe0-byte reaction request it builds (matrix at 0, material masks at 0x60 / 0x78, attacker
+/// link at 0xc8, flags at 0xd8 / 0xd9; NPC::_10e8) to `result`; without `result` it is passed to
+/// Reaction::__auto6 (0x7100ec10b8), whose result is returned.
+bool sub_7100733418(ksys::act::Actor* actor, const DamageReactionInfo* info, void* result);
+
 /// 0x7100738cb0 / 0x7100738d50 (placeholder names): adds the system group handler `idx` (0 / 1) of the actor in
 /// `link` to the actor's physics (InstanceSet::sub_7100FBDFA4); nothing without a linked actor.
 void sub_7100738CB0(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
