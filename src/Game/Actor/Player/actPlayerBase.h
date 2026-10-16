@@ -204,8 +204,10 @@ public:
     /* 290 */ virtual bool m290() { return false; }
     /* 291 */ virtual s32 m291() { return 0; }
     /* 292 */ bool m292() override { return _c40.isOnBit(31); }
-    /* 293 */ virtual void m293();
-    /* 294 */ virtual void m294();
+    // 0x710084a6d0 / 0x710084a82c: on a horse (m288() <= 2; a ridden actor of type 11 (m291) must move slower
+    // than sUnk_7101e7c2a0 / 30 per frame), whether the attention target is an NPC with action 0x1800001 / 0x1800003.
+    /* 293 */ virtual bool m293();
+    /* 294 */ virtual bool m294();
     /* 295 */ virtual bool m295() { return false; }
     /* 296 */ virtual s32 m296() { return 0; }
     /* 297 */ virtual s32 m297() { return 0; }

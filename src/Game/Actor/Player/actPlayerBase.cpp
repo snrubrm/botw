@@ -1557,6 +1557,48 @@ bool PlayerBase::sub_7100849198() {
     }
 }
 
+// NON_MATCHING: the original destroys the accessor before the speed comparison and shares the exits.
+bool PlayerBase::m293() {
+    if (!isRidingHorse() || m288() > 2)
+        return false;
+    if (m291() == 11) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (!ksys::act::acquireActor(&getPlayerRideInfo()->_18, &accessor))
+            return false;
+        const auto& velocity = accessor.getVelocity();
+        const f32 max_speed = uking::sUnk_7101e7c2a0 / 30.0f;
+        if (velocity.x * velocity.x + velocity.z * velocity.z > max_speed * max_speed)
+            return false;
+    }
+    ksys::act::ActorLinkConstDataAccess target;
+    if (ksys::act::Attention::instance()->x_0(1, 0, &target) && target.isNPCProfile() &&
+        ksys::act::Attention::instance()->sub_7100D74430(1, 0) == ksys::act::AttActionCodeValue(0x1800001)) {
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the original destroys the accessor before the speed comparison and shares the exits.
+bool PlayerBase::m294() {
+    if (!isRidingHorse() || m288() > 2)
+        return false;
+    if (m291() == 11) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (!ksys::act::acquireActor(&getPlayerRideInfo()->_18, &accessor))
+            return false;
+        const auto& velocity = accessor.getVelocity();
+        const f32 max_speed = uking::sUnk_7101e7c2a0 / 30.0f;
+        if (velocity.x * velocity.x + velocity.z * velocity.z > max_speed * max_speed)
+            return false;
+    }
+    ksys::act::ActorLinkConstDataAccess target;
+    if (ksys::act::Attention::instance()->x_0(1, 0, &target) && target.isNPCProfile() &&
+        ksys::act::Attention::instance()->sub_7100D74430(1, 0) == ksys::act::AttActionCodeValue(0x1800003)) {
+        return true;
+    }
+    return false;
+}
+
 // Placeholder name: the grab node for equipment slot `slot` (sub_7100EDD258); slot 1 (the shield) uses the Grab
 // Slot4Node while _cec bit 17, shield surfing (盾サーフィン) or _cf0 bit 23 is active.
 const sead::SafeString& PlayerBase::sub_710084A608(s32 slot) {
@@ -1602,6 +1644,19 @@ bool Actor::sub_710084CD70() {
 }  // namespace ksys::act
 
 namespace uking::act {
+
+bool PlayerBase::sub_710084CBE4() {
+    auto* info = getPlayerRideInfo();
+    if (info->_18.isAccessingSpecifiedProcUnsafe(info->mActor))
+        return false;
+    auto* ride_actor = sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+    if (ride_actor) {
+        auto* rideable = ride_actor->getHorseOptionsMaybe();
+        if (rideable && (rideable->Unk_7100e8b2b8::_8.load() & 0x400))
+            return true;
+    }
+    return false;
+}
 
 bool PlayerBase::sub_710084CD90() {
     if (!_cf0.isOnBit(23))
