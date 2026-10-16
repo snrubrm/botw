@@ -14,12 +14,14 @@
 
 namespace ksys::act {
 class Actor;
+class BaseProc;
 class ActorLinkConstDataAccess;
 }
 
 namespace uking {
 
 namespace act {
+class HorseBase;
 // 0x7100e6eaac (declaration only; CreateObjectsOfOwnedHorse::calc_): a check of the horse actor.
 bool sub_7100E6EAAC(const ksys::act::ActorLinkConstDataAccess& accessor);
 }  // namespace act
@@ -88,6 +90,11 @@ public:
     // data (moving the valid ones up, fixing the selected index) and returns the number of valid ones
     // (5 if the game data is not initialised yet).
     s32 getNumRegisteredHorses();
+    // 0x7100e887b8 (placeholder name; called by ai::Horse::calc_): sub_7100E857CC on the selected horse (under
+    // _230) if `proc` is the owned horse.
+    void sub_7100E887B8(ksys::act::BaseProc* proc, bool a2, bool a3, s32 a4);
+    // 0x7100e88720 (descriptive name): the owned horse (mOwnedHorse) as a HorseBase, or null.
+    act::HorseBase* getOwnedHorseBase() const;
     // 0x7100e8883c (name is a guess): the same for the dead horses (no selected index, no lock).
     s32 getNumDeadHorsesRegistered();
     // 0x7100e87668 (name is a guess): the Horse_IsFamiliarityChecked flag of the selected horse.

@@ -212,6 +212,17 @@ s32 HorseMgr::getNumRegisteredHorses() {
     return count;
 }
 
+act::HorseBase* HorseMgr::getOwnedHorseBase() const {
+    return sead::DynamicCast<act::HorseBase>(mOwnedHorse.getProc(nullptr));
+}
+
+void HorseMgr::sub_7100E887B8(ksys::act::BaseProc* proc, bool a2, bool a3, s32 a4) {
+    if (!proc || !mOwnedHorse.hasProcById(proc))
+        return;
+    auto lock = sead::makeScopedLock(_230);
+    sub_7100E857CC(_d0, a2, a3, a4);
+}
+
 // NON_MATCHING: only the operand order of the `and` on the flags differs.
 s32 HorseMgr::getNumDeadHorsesRegistered() {
     if (!isFlagOn(Flag::_0))
