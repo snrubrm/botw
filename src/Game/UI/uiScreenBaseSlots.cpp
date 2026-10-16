@@ -410,6 +410,21 @@ s32 Screen::sub_71010AC7C8(eui::LayoutEx* layout, const sead::SafeString& name) 
     return count;
 }
 
+// 0x71010ac920
+void Screen::sub_71010AC920(sead::PtrArray<eui::Animator>* animators, eui::LayoutEx* layout,
+                            const sead::SafeString& name) {
+    if (!animators || animators->capacity() < 1)
+        return;
+    if (layout->GetAnimResourceData(name.cstr())) {
+        if (auto* animator = layout->sub_7100BDDDF8(name.cstr()))
+            animators->pushBack(animator);
+    }
+    for (auto& part : layout->mPartsLayoutList) {
+        if (auto* child = nn::font::DynamicCast<eui::LayoutEx>(part.layout))
+            sub_71010AC920(animators, child, name);
+    }
+}
+
 // 0x71010abe68
 void Screen::sub_71010ABE68(eui::AnimButton* button) {
     m108(button);

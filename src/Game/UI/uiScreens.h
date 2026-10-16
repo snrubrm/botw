@@ -351,6 +351,8 @@ public:
     // 0x71010ac7c8 (placeholder name): the number of layouts in `layout`'s tree (itself and its parts layouts) that
     // have an animation `name`
     s32 sub_71010AC7C8(eui::LayoutEx* layout, const sead::SafeString& name);
+    // 0x71010ac920 (placeholder name): appends the animator `name` of every layout in `layout`'s tree to `animators`
+    void sub_71010AC920(sead::PtrArray<eui::Animator>* animators, eui::LayoutEx* layout, const sead::SafeString& name);
     // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
     ksys::SeadController* sub_71010AA9D0();
 
