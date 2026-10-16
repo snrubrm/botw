@@ -282,6 +282,24 @@ struct Unk_71010cb0b8 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_71010cb0b8, 0x78);
 
+// Pool of burning grass records at ChemicalMgr + C80 (0x28-byte entries, 64 of them; init_ builds it).
+struct Unk_71010cb8ac {
+    struct Entry {
+        Unk_710250c820* _0;
+        u8 _8[0x14 - 0x8];
+        sead::Vector3f _14;
+        u8 _20[0x24 - 0x20];
+        u32 _24;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x28);
+
+    sead::CriticalSection lock;
+    sead::Buffer<Entry> entries;
+    sead::PtrArray<Entry> free;
+    sead::PtrArray<Entry> used;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71010cb8ac, 0x70);
+
 // Complete 0x70 pool at ChemicalMgr + C10: constructor 10CA1C0, init 10CA680 and lifetime 10CA33C.
 struct Unk_71010cb1f0 {
     void sub_71010CB1F0(s32 count, sead::Heap* heap);
@@ -347,6 +365,8 @@ public:
     void sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type);
     void sub_71010CBEAC(act::Chemical* chemical);
     bool x_4() const;
+    // 0x71010cb8ac (CSV wm::ChemicalMgr::x_3): stops and frees the burning grass record at `pos`.
+    void x_3(const sead::Vector3f& pos);
     void x_5(ksys::act::Actor* actor);
     bool x_6(map::Object* object, const sead::Vector3f& position);
     void x_7(ksys::act::Actor* actor);
@@ -379,7 +399,7 @@ public:
     Unk_71010cb39c _b20;
     Unk_71010cb0b8 _b98;
     Unk_71010cb1f0 _c10;
-    u8 _c80[0xcf0 - 0xc80];
+    Unk_71010cb8ac _c80;
     // lane1 s95: a time value; x_2 uses it to flicker the result.
     f32 _cf0;
     u8 _cf4[0xcf8 - 0xcf4];

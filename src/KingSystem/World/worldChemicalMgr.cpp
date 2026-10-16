@@ -428,6 +428,25 @@ Unk_710250c698* ChemicalMgr::x_8() {
 }
 
 // NON_MATCHING: indexOf uses a signed count loop rather than the original pointer countdown.
+// NON_MATCHING: the original re-reads the entry from its slot after stopping it and has no separate
+// index test after the inlined indexOf (same pattern as x_9).
+void ChemicalMgr::x_3(const sead::Vector3f& pos) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_68);
+    for (auto& entry : _c80.used) {
+        if (entry._14 == pos) {
+            entry._0->sub_71010C69C4();
+            auto* found = &entry;
+            sead::ScopedLock<sead::CriticalSection> pool_lock(&_c80.lock);
+            const s32 index = _c80.used.indexOf(found);
+            if (index >= 0) {
+                _c80.used.erase(index);
+                _c80.free.pushBack(found);
+            }
+            return;
+        }
+    }
+}
+
 bool ChemicalMgr::x_9(Unk_710250c698* entry) {
     entry->_8 &= ~1u;
     sead::ScopedLock<sead::CriticalSection> lock(&_c10.lock);
