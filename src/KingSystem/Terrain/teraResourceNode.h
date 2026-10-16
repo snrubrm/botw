@@ -247,6 +247,18 @@ struct Unk_71010FEDBC {
         u8 _15;
         bool _16;
     };
+    // inline-only in the original; name is a guess. Unless _1f is set, false if one of the first `level`
+    // areas (at most _20._2) has neither bit of 0xc in _35. Inlined four times into 0x71011020c0.
+    bool areAreasReadyMaybe(u32 level) const {
+        if (_1f)
+            return true;
+        for (u32 i = level < _20._2 ? level : _20._2; i != 0; --i) {
+            if (!(mAreas[i - 1]._35 & 0xc))
+                return false;
+        }
+        return true;
+    }
+
     // 0x71010fe920 (placeholder name): false if `pos` is outside area `index`; otherwise writes the
     // position relative to the area and the data of the cell it falls in.
     bool sub_71010FE920(Result* result, const sead::Vector2f& pos, u32 index) const;

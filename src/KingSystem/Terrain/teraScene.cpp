@@ -120,6 +120,15 @@ void Scene::sub_7101101964() {
     sub_7101101914(levels);
 }
 
+// NON_MATCHING: register allocation in the inlined area loops.
+bool Scene::sub_71011020C0(u32 level) const {
+    for (s32 i = 5; i < 9; ++i) {
+        if (!_0[i].areAreasReadyMaybe(level))
+            return false;
+    }
+    return true;
+}
+
 agl::TextureSampler* Unk_7101102B58::sub_7101102B58(u32 frame, u32 layer) {
     if (!(_0 & 8)) {
         if (mFrame != 0 || mLayer != 0) {

@@ -620,6 +620,9 @@ public:
     // 0x7101100260 (placeholder name): stores the four values as u16 into the sub-objects of
     // stride 0x460 (+0x1c).
     void sub_7101100260(s32 a, s32 b, s32 c, s32 d);
+    // 0x71011020c0 (placeholder name): whether records 5 - 8 have no area below `level` that is not
+    // loaded yet (Unk_71010FEDBC::areAreasReadyMaybe).
+    bool sub_71011020C0(u32 level) const;
 
     // [5] is returned by System::sub_710111F4F0, [8] by System::sub_710111F504.
     Unk_71010FEDBC _0[9];
