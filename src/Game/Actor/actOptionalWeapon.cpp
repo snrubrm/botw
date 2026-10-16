@@ -80,6 +80,66 @@ bool OptionalWeapon::sub_7100EF1ADC() {
     return true;
 }
 
+// NON_MATCHING: stack slot assignment of the string temporaries and accessors only.
+// Placeholder name: for owners other than shields and bows, copies the owner weapon's m155 / m154 / m156 states
+// into _83c bits 2 / 1 / 3, setting bit 0 and stopping at the first one that changed.
+void OptionalWeapon::sub_7100EF0A44() {
+    ksys::act::ActorLinkConstDataAccess owner;
+    ksys::act::acquireActor(&_850, &owner);
+    if (owner.getProfile().findIndex("Shield") != -1 || owner.getProfile().findIndex("Bow") != -1)
+        return;
+
+    bool on;
+    {
+        ksys::act::acc::WeaponBase weapon;
+        ksys::act::acquireActor(&_850, &weapon);
+        on = weapon.m155();
+    }
+    if (on) {
+        if (!(_83c & 4))
+            _83c |= 1;
+        _83c |= 4;
+    } else {
+        if (_83c & 4)
+            _83c |= 1;
+        _83c &= ~4;
+    }
+    if (_83c & 1)
+        return;
+
+    {
+        ksys::act::acc::WeaponBase weapon;
+        ksys::act::acquireActor(&_850, &weapon);
+        on = weapon.m154();
+    }
+    if (on) {
+        if (!(_83c & 2))
+            _83c |= 1;
+        _83c |= 2;
+    } else {
+        if (_83c & 2)
+            _83c |= 1;
+        _83c &= ~2;
+    }
+    if (_83c & 1)
+        return;
+
+    {
+        ksys::act::acc::WeaponBase weapon;
+        ksys::act::acquireActor(&_850, &weapon);
+        on = weapon.m156();
+    }
+    if (on) {
+        if (!(_83c & 8))
+            _83c |= 1;
+        _83c |= 8;
+    } else {
+        if (_83c & 8)
+            _83c |= 1;
+        _83c &= ~8;
+    }
+}
+
 // NON_MATCHING: stack slot order of the locals and `count < 4` compiled as cmp #3 / b.gt.
 // Placeholder name: for a Bow owner, sets the AS rate to the arrows missing from 4 and tells the sound unit.
 void OptionalWeapon::sub_7100EF0FAC() {
