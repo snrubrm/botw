@@ -140,6 +140,39 @@ Actor* WeaponBase::m48() {
     return nullptr;
 }
 
+void WeaponBase::sub_7100EF3664() {
+    if (hasParentActor() && !m189() && (m237(getParentActor()) || m238(getParentActor()))) {
+        if (!mExtraActorHandle.isAllocatedOrFailed())
+            return;
+        if (!m187() && mExtraActorHandle.isProcReady()) {
+            auto* proc = mExtraActorHandle.getProc();
+            if (auto* optional = sead::DynamicCast<uking::act::OptionalWeapon>(proc)) {
+                if (isWeaponType3()) {
+                    optional->sub_7100EF1954(getParentActor(), this, "Pod_B");
+                } else {
+                    optional->clearFadeInCreate();
+                    optional->sub_7100EF1954(getParentActor(), this, _9a0);
+                }
+                _958.acquire(optional, false);
+            }
+            mExtraActorHandle.releaseAndWakeProc();
+        } else if (mExtraActorHandle.hasProcCreationFailed()) {
+            mExtraActorHandle.deleteProcIfFailed();
+            if (m237(getParentActor()) && !_958.hasProc()) {
+                spawnExtraActor1();
+                return;
+            }
+            if (m238(getParentActor()) && !_958.hasProc()) {
+                spawnExtraActor2();
+                return;
+            }
+        }
+        return;
+    }
+    if (mExtraActorHandle.isAllocatedOrFailed())
+        mExtraActorHandle.deleteProc();
+}
+
 void WeaponBase::initMaybe() {
     if (mModel)
         mModel->setMatrix(mMtx);

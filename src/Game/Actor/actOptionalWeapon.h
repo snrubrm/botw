@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace ksys::act {
+class WeaponBase;
+}
+
 namespace uking::act {
 
 // Name from the CSV (OptionalWeapon::m2 / m3 = its RTTI virtuals at 0x7100ef2420 / 0x7100ef2538, between
@@ -57,6 +61,9 @@ public:
     // Declaration only: OptionalWeaponAI updates the existing links/name before reading offsets.
     void sub_7100EF1BF4();
     bool sub_7100EF1EA4();
+    // 0x7100ef1954 (declared only; 392 B): binds the optional weapon to `weapon` (held by `parent`) at the node `name`
+    // (WeaponBase::sub_7100EF3664 passes "Pod_B" for bows, else WeaponBase::_9a0).
+    bool sub_7100EF1954(ksys::act::Actor* parent, ksys::act::WeaponBase* weapon, const sead::SafeString& name);
     void sub_7100EF1F30();
     void sub_7100EF2290(f32 value, bool use_parent);
 
