@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
+#include <cstring>
 #include <utility>
 
 namespace ksys::tera {
@@ -125,6 +126,91 @@ bool Unk_7101088B24::sub_7101088BB4() {
     }
     mNumPending = count;
     return mNumPending == 0;
+}
+
+// NON_MATCHING: the original keeps the child loop counter as a 32-bit value (sign-extended for the
+// index, compared with != 4); ours uses a 64-bit counter.
+bool Unk_7101106F44::sub_710111FAFC(const ImageTypeMaybe& type, bool no_child) const {
+    switch (type.type) {
+    case 0:
+    case 1:
+        break;
+    case 3:
+        if (!hasImageMaybe(type))
+            return false;
+        break;
+    case 2: {
+        const Unk_7101108460* node = findNodeMaybe(type.index);
+        if (!node)
+            return false;
+        return node->sub_7101108624();
+    }
+    default:
+        return false;
+    }
+
+    if (no_child) {
+        for (s32 i = 0; i < 4; ++i) {
+            if (mChildren[i] && mChildren[i]->hasImageMaybe(type))
+                return false;
+        }
+        return true;
+    }
+
+    for (s32 i = 0; i < 4; ++i) {
+        if (!mChildren[i] || !mChildren[i]->hasImageMaybe(type))
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the original keeps a separate ".extm" store for the type-2 case (block layout).
+s32 Unk_7101106F44::sub_710111FD70(sead::BufferedSafeString* out, const ImageTypeMaybe& type) const {
+    if (!getImageMaybe(type))
+        return 0;
+
+    char* buffer = out->getBuffer();
+    const u8 name_length = mNameLength;
+    std::memcpy(buffer, mName, name_length);
+    char* end = buffer + name_length;
+    switch (type.type) {
+    case 0:
+        std::memcpy(end, ".hght", sizeof(".hght"));
+        end += sizeof(".hght") - 1;
+        break;
+    case 1:
+        std::memcpy(end, ".mate", sizeof(".mate"));
+        end += sizeof(".mate") - 1;
+        break;
+    case 2: {
+        sead::BufferedSafeString str(end, out->getBufferSize() - name_length);
+        end += str.format(".%d", type.index);
+        std::memcpy(end, ".extm", sizeof(".extm"));
+        end += sizeof(".extm") - 1;
+        break;
+    }
+    case 3: {
+        const char* name;
+        s32 length;
+        if (type.index == 1) {
+            name = "water";
+            length = 5;
+        } else if (type.index == 0) {
+            name = "grass";
+            length = 5;
+        } else {
+            name = "";
+            length = 0;
+        }
+        *end++ = '.';
+        std::memcpy(end, name, length);
+        end += length;
+        std::memcpy(end, ".extm", sizeof(".extm"));
+        end += sizeof(".extm") - 1;
+        break;
+    }
+    }
+    return end - out->cstr();
 }
 
 }  // namespace ksys::tera

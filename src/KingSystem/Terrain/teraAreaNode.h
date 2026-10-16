@@ -3,6 +3,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadTList.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
@@ -137,6 +138,16 @@ public:
             return false;
         }
     }
+
+    // 0x710111fafc (placeholder name): false unless this node has the image for `type` (a type-2 node also
+    // needs a B value above epsilon). Then with `no_child`, true if no child has it; otherwise true if
+    // a child is missing or lacks it.
+    bool sub_710111FAFC(const ImageTypeMaybe& type, bool no_child) const;
+
+    // 0x710111fd70 (placeholder name): writes the file name of the image for `type` to `out` (the node name
+    // plus ".hght", ".mate", ".<index>.extm", ".grass.extm" or ".water.extm") and returns its length; 0
+    // if the node does not have that image.
+    s32 sub_710111FD70(sead::BufferedSafeString* out, const ImageTypeMaybe& type) const;
 
     // 0x7101120598 (placeholder name): climbs from `*node` to the first node that has the image for
     // `type`, keeping `center` / `size` in step; null if there is none.
