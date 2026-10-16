@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include <prim/seadSafeString.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
@@ -977,7 +978,10 @@ public:
     /* 0x22f4 */ sead::Vector3f _22f4;  // ladder related (PlayerLadderDownStart / PlayerLadderUpStart)
     /* 0x2300 */ u8 _2300[0x230c - 0x2300];
     /* 0x230c */ sead::Vector3f _230c;
-    /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
+    /* 0x2318 */ u8 _2318[0x2390 - 0x2318];
+    // lane3 s84: faded by PlayerElectric::leave_ ("HandleELink::fade(%s)").
+    /* 0x2390 */ xlink2::HandleELink _2390;
+    /* 0x23a0 */ u8 _23a0[0x23e0 - 0x23a0];
     /* 0x23e0 */ PlayerArmors _23e0;
     /* 0x2550 */ uking::act::Unk_71008502cc _2550{this};  // m159; _2550._8 (BitFlag16): bit 5 is tested by PlayerShock::calc_
     /* 0x26a0 */ BaseProcLink _26a0;
