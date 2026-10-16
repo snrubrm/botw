@@ -1415,8 +1415,8 @@ ScreenAppPictureBookUnk::~ScreenAppPictureBookUnk() {
     mConfig.sub_71009396EC();
 }
 
-// 0x71025d6054: the colour of the scroll limit box drawn by Update (in a block of TU statics at 0x71025d5fd0; type is
-// a guess)
+// 0x71025d6054: the colour of the scroll limit box drawn by Update, red (1, 0, 0, 1); one of the colours the TU's
+// static initialiser 0x71009384e4 sets in its block of statics at 0x71025d5fd0
 KSYS_VISIBILITY_HIDDEN sead::Color4f sUnk_71025D6054;
 
 // NON_MATCHING: written from the binary, not tuned (the record search, loop shapes and register allocation differ)
@@ -1647,6 +1647,27 @@ void ScreenAppPictureBookUnk::Update(f32 dt) {
     }
 
     sub_71009439B0();
+}
+
+// 0x71025d6128: part of the TU's block of statics (set up by 0x71009384e4)
+KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025D6128 = "SlideObject";
+
+// NON_MATCHING: the original addresses "SlideObject" inside the TU's block of statics (0x71025d5fd0 + 0x158),
+// which swaps two registers
+// 0x7100944004
+void ScreenAppPictureBookUnk::sub_7100944004(ScreenEx* screen, const PictureBookListConfig& config,
+                                             eui::ControlBase* control) {
+    mScreen = screen;
+    if (!screen)
+        return;
+    mConfig.sub_7100939764(config);
+    sub_7100944138();
+    mScreen->mControls.linkNext(&control->_8);
+    mScreen->_370.pushBack(control);
+    if (mConfig._0.isEmpty())
+        mConfig._0.format("%d", mScreen->sub_7100A482A4(this));
+    _348.format("%s:%s", sUnk_71025D6128.cstr(), mConfig._0.cstr());
+    mName = _348.cstr();
 }
 
 // 0x710093dad4

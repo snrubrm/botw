@@ -705,7 +705,8 @@ public:
     /* 0x320 */ Unk_710246c498 _320;
     /* 0x330 */ Unk_71024746b0 mButtonHelper;
     /* 0x368 */ ButtonEventQueue* mButtonEvents = nullptr;
-    /* 0x370 */ sead::FixedPtrArray<u8, 5> _370;
+    // controls registered next to mControls (ScreenAppPictureBookUnk::sub_7100944004)
+    /* 0x370 */ sead::FixedPtrArray<eui::ControlBase, 5> _370;
     // The units and buttons are parallel arrays (the setBuffer calls of the constructor: 400 entries each, the
     // storage follows the array header).
     /* 0x3a8 */ sead::FixedPtrArray<Unk_7102474e38, 400> mButtonUnits;
@@ -3087,6 +3088,12 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     // 0x7100941354 (placeholder name): how far the list must scroll (along the config direction) to show item
     // `index` (its position clamped to _2b0)
     f32 sub_7100941354(s32 index);
+    // 0x7100944004 (placeholder name): attaches the list to `screen` with a copy of `config`, registers `control`
+    // (the list itself) with the screen and names it "SlideObject:<config name>" (the name defaults to the control's
+    // index in the screen)
+    void sub_7100944004(ScreenEx* screen, const PictureBookListConfig& config, eui::ControlBase* control);
+    // 0x7100944138 (declared only; 344 bytes)
+    void sub_7100944138();
     // Callees of Update (declared only; not decompiled)
     void sub_7100942AE0();
     s32 sub_7100942D78();
