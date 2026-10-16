@@ -279,3 +279,11 @@ bool NPCConfrontEnemy::sub_71004C69B0(ksys::act::BaseProcLink* link) {
 }
 
 }  // namespace uking::ai
+
+// The f32 dynamic parameter setter is first emitted in this TU in the original (0x71004c9274 / 0x71004c93ac, right
+// after calc_, which uses it for TerrorLevel); calc_ is not decompiled yet.
+template bool ksys::act::ai::ActionBase::setDynamicParamImpl<f32>(
+    const f32& value, const sead::SafeString& key,
+    bool (ksys::act::ai::ParamPack::*setter)(const f32& value, const sead::SafeString& key) const);
+template bool ksys::act::ai::ParamPack::setPtrGeneric<f32, ksys::AIDefParamType::Float>(
+    const f32& value, const sead::SafeString& key) const;

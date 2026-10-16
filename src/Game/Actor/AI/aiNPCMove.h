@@ -30,6 +30,9 @@ protected:
     void sub_71004D4CA4();
     // 0x71004d44b0: starts the "meeting" state: sets the NPC flags and updates them from the selected state value (_e8 / _ec / _f0 / _f4)
     void sub_71004D44B0(bool a1, bool a2);
+    // 0x71004cfc88 (placeholder name): plays the move AS _120[7] (_120[8] when it rains and _60 is set) on AS slots
+    // 55 and 56; true when slot 55 was playing another AS
+    bool sub_71004CFC88();
     // 0x71004d11f4: stands up: "Standing" physics preset, then "ベッドから起きる" (hover motion) or "起きる"
     void sub_71004D11F4();
     // static_param at offset 0x38

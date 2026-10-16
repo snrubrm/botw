@@ -122,6 +122,18 @@ bool NPCMove::handleAck_(const ksys::MessageAck* ack) {
     return true;
 }
 
+// NON_MATCHING: ours selects the name by array index (_120 is an array here); the original selects one of two
+// addresses, so _120[7] / _120[8] are probably separate members
+// 0x71004cfc88
+bool NPCMove::sub_71004CFC88() {
+    const sead::SafeString name =
+        wm::callIsRainingOrSnowingOrThunderStorm(true) && _60 ? _120[8] : _120[7];
+    const bool changed = name != mActor->getASList()->sub_710115ECF4(55, 1);
+    mActor->getASList()->goLimpFromHeadShotMaybe(55, name, 0);
+    mActor->getASList()->goLimpFromHeadShotMaybe(56, name, 0);
+    return changed;
+}
+
 // 0x71004d11f4
 void NPCMove::sub_71004D11F4() {
     const sead::SafeString name = "Standing";

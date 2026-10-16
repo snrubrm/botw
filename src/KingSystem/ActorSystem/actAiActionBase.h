@@ -198,6 +198,11 @@ public:
         return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<bool, AIDefParamType::Bool>);
     }
 
+    // 0x71004c9274 / 0x71004c93ac (first emitted in NPCConfrontEnemy's TU; its calc_ sets TerrorLevel with it)
+    bool setDynamicParam(f32 value, const sead::SafeString& key) {
+        return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<f32, AIDefParamType::Float>);
+    }
+
     // By value (NPCTerrorAI::calc_ copies the int to the stack after getting the child).
     bool setDynamicParam(s32 value, const sead::SafeString& key) {
         return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<s32, AIDefParamType::Int>);
