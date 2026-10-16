@@ -402,9 +402,151 @@ ElementWater::~ElementWater() {
     }
 }
 
-// 0x710250d120: two floats in .data; m29 copies the first to _1ac and 0x71010e9368 takes the address.
+// 0x710250d120: three floats in .data; m29 copies the first to _1ac, m35 0x71010e9368 grows _1ac from the
+// first to the second over the third (frames).
 // Nothing writes them, so they are non-static and hidden to keep the load.
-KSYS_VISIBILITY_HIDDEN f32 sUnk_710250D120[2] = {0.5f, 2.5f};
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710250D120[3] = {0.5f, 2.5f, 50.0f};
+
+// NON_MATCHING: scheduling and regalloc (1832 bytes against 1800).
+void ElementWater::m35(f32 delta_frame) {
+    if (mHolder->_64.length() > 0.0f)
+        _58->applyLinearImpulse(mHolder->_64);
+
+    f32 radius = mArg._20;
+    if (_1a0 & 1)
+        radius -= _1a8;
+
+    auto* core = sead::DynamicCast<ksys::phys::SphereRigidBody>(_58);
+    if (!core)
+        return;
+    auto* sensor = sead::DynamicCast<ksys::phys::SphereRigidBody>(_50);
+    if (!sensor)
+        return;
+
+    sead::Vector3f direction = core->getLinearVelocity();
+    const f32 speed = direction.normalize();
+    const sead::Vector3f position = core->getPosition();
+    mArg._20 = radius;
+    mArg._24 = speed;
+    mArg.direction = direction;
+    mArg.position = position;
+    mHolder->_3c = speed;
+    mHolder->_1c = direction;
+    if (radius > 0.1f)
+        sensor->setRadius(radius);
+    else
+        x();
+
+    if (!(mArg.flags & 4)) {
+        if (auto* sound = ksys::snd::SoundMgr::instance()) {
+            if (sound->_38) {
+                if (auto* mgr = sound->_38->sub_710102C10C())
+                    mgr->sub_7101039588(mArg._20, mArg.position);
+            }
+        }
+    }
+
+    if (_60->getNumContactPoints() != 0 && !_60->begin().isEnd()) {
+        for (auto it = _60->begin(), end = _60->end(); it != end; ++it) {
+            const auto layer = it.getPoint()->body_b->getContactLayer();
+            switch (layer) {
+            case ksys::phys::ContactLayer::EntityGroundObject:
+            case ksys::phys::ContactLayer::EntityGround:
+            case ksys::phys::ContactLayer::EntityGroundSmooth:
+            case ksys::phys::ContactLayer::EntityGroundRough:
+                _68.fade();
+                x();
+                break;
+            case ksys::phys::ContactLayer::EntityWater:
+                x();
+                break;
+            default:
+                break;
+            }
+        }
+        _1a0 |= 1;
+        sub_71010E9A70();
+    }
+
+    if (_68.isActive()) {
+        if (!(mArg.flags & 8)) {
+            _1ac += (sUnk_710250D120[1] - sUnk_710250D120[0]) * delta_frame / sUnk_710250D120[2];
+            if (_1ac > sUnk_710250D120[1])
+                _1ac = sUnk_710250D120[1];
+        } else {
+            _1ac += delta_frame * 0.95f / 60.0f;
+            if (_1ac > 1.75f)
+                _1ac = 1.75f;
+        }
+
+        const sead::Vector3f& dir = mArg.direction;
+        const sead::Vector3f& up = sead::Mathf::abs(dir.dot(sead::Vector3f::ey)) > 0.999f ?
+                                       sead::Vector3f::ex :
+                                       sead::Vector3f::ey;
+        sead::Vector3f x_axis;
+        x_axis.setCross(up, dir);
+        x_axis.normalize();
+        sead::Vector3f y_axis;
+        y_axis.setCross(dir, x_axis);
+        y_axis.normalize();
+        const f32 scale = mArg._20 * _1ac;
+        sead::Matrix34f mtx;
+        mtx.setBase(0, x_axis);
+        mtx.setBase(1, y_axis);
+        mtx.setBase(2, dir);
+        mtx.setTranslation(mArg.position);
+        _68.setMatrix(mtx, {scale, scale, scale});
+    }
+
+    if (mHolder->_58 & 2) {
+        sub_71010E9A70();
+        x();
+        _68.fade();
+    }
+}
+
+// NON_MATCHING: the effect name is picked with selects (the original branches).
+void ElementWater::sub_71010E9A70() {
+    if (!(mArg.flags & 2) && !_78.isActive()) {
+        const char* effect;
+        if (mArg.flags & 8)
+            effect = "Chemical_Splash_Ibutsu";
+        else if (mArg.flags & 0x10)
+            effect = "Chemical_Splash_Ibutsu_2";
+        else if (mArg.flags & 0x20)
+            effect = "Chemical_Splash_Ibutsu_3";
+        else
+            effect = "Chemical_Splash";
+        _78 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::instance()->_38, effect);
+        if (_78.isActive()) {
+            const sead::Vector3f& dir = mArg.direction;
+            const sead::Vector3f& up =
+                sead::Mathf::abs(dir.dot(sead::Vector3f::ey)) > 0.999f ? sead::Vector3f::ex :
+                                                                         sead::Vector3f::ey;
+            sead::Vector3f x;
+            x.setCross(up, dir);
+            x.normalize();
+            sead::Vector3f y;
+            y.setCross(dir, x);
+            y.normalize();
+            sead::Matrix34f mtx;
+            mtx.setBase(0, x);
+            mtx.setBase(1, y);
+            mtx.setBase(2, dir);
+            mtx.setTranslation(mArg.position);
+            _78.setMatrix(mtx);
+        }
+    }
+
+    if (!(mArg.flags & 4)) {
+        if (auto* sound = ksys::snd::SoundMgr::instance()) {
+            if (sound->_38) {
+                if (auto* mgr = sound->_38->sub_710102C10C())
+                    mgr->sub_7101039920(mArg._20, mArg.position);
+            }
+        }
+    }
+}
 
 // NON_MATCHING: the original builds both SphereParams in one stack slot and stores the mass clamp
 // conditionally (ours: fmin); 1664 bytes against 1752.

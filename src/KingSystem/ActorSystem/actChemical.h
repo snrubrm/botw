@@ -73,7 +73,13 @@ public:
     /* 0x3c */ f32 _3c;
     /* 0x40 */ f32 _40;
     /* 0x44 */ f32 _44;
-    /* 0x48 */ u8 _48[0x78 - 0x48];
+    /* 0x48 */ u8 _48[0x58 - 0x48];
+    // lane1 s104: ElementWater::m35 0x71010e9368 ends the element when bit 1 is set.
+    /* 0x58 */ u8 _58;
+    u8 _59[0x64 - 0x59];
+    // lane1 s104: impulse ElementWater::m35 applies to its core body when it is not zero.
+    /* 0x64 */ sead::Vector3f _64;
+    u8 _70[0x78 - 0x70];
     /* 0x78 */ u32 _78;
     /* 0x7c */ u8 _7c[4];
     /* 0x80 */ Chemical* _80;

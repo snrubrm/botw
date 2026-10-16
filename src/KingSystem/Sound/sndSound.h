@@ -192,6 +192,12 @@ public:
     void sub_7101039208();
     // 0x7101037ed8 (declared only; 132 B): sets the box (centre `pos`, size `size`) and stores both vectors.
     void sub_7101037ED8(const sead::Vector3f* pos, const sead::Vector3f* size);
+    // 0x7101039920 (declaration only; placeholder name): queues a splash of `size` at `pos` (picks one of
+    // two pools by the size; ElementWater::sub_71010E9A70).
+    bool sub_7101039920(f32 size, const sead::Vector3f& pos);
+    // 0x7101039588 (declaration only; placeholder name): the same for the moving water core
+    // (ElementWater::m35).
+    bool sub_7101039588(f32 size, const sead::Vector3f& pos);
     // 0x7101037f5c: stores `value` in the byte at +0x344.
     void sub_7101037F5C(u8 value);
     // 0x7101037f64: sets the enabled flag at +0x328 (clears the pointers at +0x3c0 / +0x3c8 when disabled).

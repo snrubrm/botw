@@ -48,6 +48,10 @@ public:
     bool m37() override { return true; }
     void m38() override {}
 
+    // 0x71010e9a70 (placeholder name): emits the splash effect (unless flag 2 or already active), aligned with
+    // the direction, and (unless flag 4) queues a splash sound of the size at the position.
+    void sub_71010E9A70();
+
     /* 0x48 */ u64 _48 = 0;
     /* 0x50 */ ksys::phys::RigidBody* _50 = nullptr;
     /* 0x58 */ ksys::phys::RigidBody* _58 = nullptr;
@@ -57,7 +61,8 @@ public:
     /* 0x88 */ ElementWaterCreateArg mArg;
     /* 0xb8 */ ksys::act::BaseProcHandle mHandle;
     /* 0xc8 */ ksys::act::InstParamPack mParamPack;
-    /* 0x1a0 */ bool _1a0 = false;
+    // Bit 0: touched a contact (m35); the radius then shrinks by _1a8.
+    /* 0x1a0 */ u8 _1a0 = 0;
     /* 0x1a4 */ f32 _1a4 = 0.0f;
     /* 0x1a8 */ f32 _1a8 = 10.0f;
     /* 0x1ac */ f32 _1ac = 0.75f;
