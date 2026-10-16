@@ -5,6 +5,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include <cmath>
+#include <limits>
 
 namespace uking::action {
 
@@ -89,8 +90,66 @@ void SiteBossSwordSlowMove::loadParams_() {
     getDynamicParam(&mAfterImage1Pos_d, "AfterImage1Pos");
 }
 
+// NON_MATCHING: the original keeps the front z component as an integer copy; register allocation.
 void SiteBossSwordSlowMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    sub_710073FA94(&_6c, mActor);
+    const auto& mtx = mActor->getMtx();
+    const sead::Vector3f front_xz{mtx(0, 2), 0.0f, mtx(2, 2)};
+    const sead::Vector3f pos = mtx.getTranslation();
+    const sead::Vector3f up = sead::Vector3f::ey;
+    sead::Vector3f look_dir = *mTargetPos_d;
+    look_dir -= *mMoveDstPos_d;
+    ksys::util::sub_71011EFA00(&look_dir, look_dir, up);
+    look_dir.normalize();
+    sub_710074006C(&_6c, look_dir, up, true, 0.66f, 0.36f, 0.001f);
+
+    _60.update();
+    if (_60.value <= std::numeric_limits<f32>::epsilon()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        setFinished();
+        return;
+    }
+
+    sead::Vector3f dir = *mMoveDstPos_d;
+    const f32 elapsed = *mAppearFrame_s - _60.value;
+    bool changed_segment;
+    if (elapsed < *mAfterImage0AppearFrame_s) {
+        dir = *mAfterImage0Pos_d;
+        changed_segment = false;
+    } else if (elapsed < *mAfterImage1AppearFrame_s) {
+        dir = *mAfterImage1Pos_d;
+        changed_segment = _60.hasEnded(*mAppearFrame_s - *mAfterImage0AppearFrame_s);
+    } else {
+        changed_segment = _60.hasEnded(*mAppearFrame_s - *mAfterImage1AppearFrame_s);
+    }
+
+    dir -= pos;
+    const f32 distance = dir.length();
+    if (distance > 0.0f)
+        dir *= 1.0f / distance;
+
+    if (changed_segment) {
+        sead::Vector3f front = front_xz;
+        front.normalize();
+        sead::Vector3f axis;
+        f32 angle;
+        ksys::util::sub_71011EEB08(&axis, &angle, front, dir, sead::Vector3f::ey);
+        angle = angle * 57.29578f * axis.y;
+        if (angle >= 0.0f && angle < 180.0f)
+            playAS("Run_Loop_L", false, 0, 0, -1.0f);
+        else
+            playAS("Run_Loop_R", false, 0, 0, -1.0f);
+    }
+
+    const sead::Vector3f new_pos = pos + dir * std::min(distance, 2.0f);
+    controller->sub_7100F5F938(sead::Matrix34f(_6c, new_pos));
 }
 
 }  // namespace uking::action
