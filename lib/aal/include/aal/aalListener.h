@@ -44,6 +44,9 @@ public:
     void calcLocalMatrixForAngle(sead::Matrix34f* out, const sead::Matrix34f& matrix) const;
     /// Purpose unknown (the byte at 0xf0 selects between the two bases of calcLocalPositionForAngle).
     bool isFlag0xf0() const { return _f0; }
+    /// The world matrix of the listener (ElectricCable::calc_ 0x710037c998 reads its translation at
+    /// +0x13c / +0x14c / +0x15c).
+    const sead::Matrix34f& getMatrix() const { return mMatrix; }
 
 private:
     f32 _58;

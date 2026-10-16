@@ -64,6 +64,8 @@ public:
     bool calcPositionByListener(const Listener& listener, sead::Vector3f* out) const;
     bool calcPositionForAngle(const Listener& listener, sead::Vector3f* out) const;
     void getPositionWithOffset(sead::Vector3f* out) const;
+    /// ElementDirectionalWindOrGust::x_0 0x71010f0ba0 reads the translation of this matrix (+0x64/+0x74/+0x84).
+    const sead::Matrix34f& getMatrix() const { return mMatrix; }
 
 protected:
     friend class SpatialCalculator;
