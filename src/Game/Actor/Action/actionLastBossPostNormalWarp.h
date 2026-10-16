@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
+#include <math/seadMatrix.h>
 
 namespace uking::action {
 
@@ -45,7 +46,7 @@ protected:
     float _74 = 30.0f;
     ksys::Timer _78;
     ksys::Timer _84;
-    u8 _90[0xb8 - 0x90];
+    sead::Matrix33f _90;
 };
 
 }  // namespace uking::action

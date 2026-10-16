@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_710073fa90.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include <limits>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -99,7 +102,63 @@ void LastBossPostNormalWarp::loadParams_() {
 }
 
 void LastBossPostNormalWarp::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (*mIsTurnToTarget_s && controller) {
+        sub_710073FA94(&_90, mActor);
+        sead::Vector3f target = getPlayerPosition();
+        sead::Vector3f dir = target - mActor->getMtx().getTranslation();
+        dir.y = 0.0f;
+        dir.normalize();
+        sub_710074006C(&_90, dir, sead::Vector3f::ey, true, 0.02f, sead::Mathf::pi2(), 0.0f);
+        sub_7100740E04(_90, controller);
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        sub_71005DB068(mActor, target);
+    }
+
+    if (!*mIsKeepDisableDraw_d) {
+        ksys::as::ASList::Unk4 query;
+        if (sub_71005DD5B0(mActor, 8, &query, 0, 0)) {
+            sub_71002C65C8(mActor, false, true);
+            _74 = query._10;
+            _84 = ksys::Timer(_74, _74);
+        }
+        if (sub_71005DD798(mActor, 8, nullptr, 0, 0)) {
+            _84.update();
+            const f32 rate = _84.value / _74;
+            m33(rate, mActor, *mIsPartsWarpEffectSync_d);
+        } else if (sub_71005DD734(mActor, 8, nullptr, 0, 0)) {
+            if (auto* client = mActor->getAttention()->getClientByName("LockOn"))
+                client->enable();
+            if (auto* client = mActor->getAttention()->getClientByName("AutoAim"))
+                client->enable();
+            m32();
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+        }
+    }
+
+    if (!_70) {
+        if (!isFinishedAS(0, 0))
+            return;
+        if (!_70 && isFinishedAS(0, 0)) {
+            _70 = true;
+            if (*mWaitTime_s > 0.0f)
+                playAS("Wait", false, 0, 0, -1.0f);
+            else
+                setFinished();
+        }
+    }
+
+    _78.update();
+    if (_78.value <= std::numeric_limits<f32>::epsilon()) {
+        if (*mIsCheckDistFromTarget_s) {
+            const f32 dist = (mActor->getMtx().getTranslation() - *mTargetPos_d).length();
+            if (dist >= 140.0f) {
+                setFailed();
+                return;
+            }
+        }
+        setFinished();
+    }
 }
 
 bool LastBossPostNormalWarp::isFinished() const {
