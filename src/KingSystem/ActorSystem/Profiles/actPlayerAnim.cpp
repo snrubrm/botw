@@ -30,6 +30,25 @@ void Player::x_31() {
     list->mSlots[2].sub_7101164E38(false);
 }
 
+// NON_MATCHING: register allocation / scheduling of the bone key addresses (as in x_31).
+// Placeholder name: the same AS slot 1 / 2 bone key setup as x_31 with the bones 4 / 2 / 4 / 50.
+void Player::sub_7100855494() {
+    _c40.setBit(7);
+    auto* list = mASList;
+    list->sub_710115C9E0(1);
+    list->mSlots[1].sub_7101165008(_19f0[0], 3, true);
+    list->mSlots[1].sub_7101165008(_19f0[4], 0, true);
+    list->mSlots[1].sub_7101164E38(false);
+
+    list = mASList;
+    list->sub_710115C9E0(2);
+    list->mSlots[2].sub_7101165008(_19f0[0], 3, true);
+    list->mSlots[2].sub_7101165008(_19f0[2], 0, true);
+    list->mSlots[2].sub_7101165008(_19f0[4], 3, true);
+    list->mSlots[2].sub_7101165008(_19f0[50], 3, true);
+    list->mSlots[2].sub_7101164E38(false);
+}
+
 void Player::switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3) {
     if (!a2 && mASList->x_1(0, 0) == name)
         return;

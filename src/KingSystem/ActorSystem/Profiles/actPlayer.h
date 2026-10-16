@@ -466,6 +466,7 @@ public:
     void sub_7100861858();
     void sub_710088C5A4();
     void sub_710088A388();
+    void sub_7100855494();
     void sub_710085603C();
     void sub_71008564CC();
     void sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
