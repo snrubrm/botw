@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Mii/miiModelCreator.h"
 
@@ -59,6 +60,11 @@ void sub_7100F5C128(gsys::Model* model, const UMii& umii, const f32* opacity, co
 // 0x7100f5c394 (declaration only; placeholder name and signature).
 void sub_7100F5C394(gsys::Model* model, gsys::ModelUnit* unit, const UMii& umii, f32* opacity,
                     f32* opacity2, bool changed);
+// 0x710260dc80: two bone names (GOT access; filled by sinitUmiiStrings2).
+extern sead::SafeArray<sead::SafeString, 2> sUnk_710260DC80;
+// 0x7100f5c6f4 (placeholder name): rotates the local matrices of the two sUnk_710260DC80 bones of `unit`
+// by the Euler angles `rotation`.
+void sub_7100F5C6F4(gsys::ModelUnit* unit, const sead::Vector3f& rotation);
 // 0x7100f5c8d4 (placeholder name): hides the material "Mt_Hair" of `model` (if any).
 void sub_7100F5C8D4(gsys::Model* model);
 // 0x7100f5b8c0 (placeholder name): the hat or hair pattern name of `umii`.

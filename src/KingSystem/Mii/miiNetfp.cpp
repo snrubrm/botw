@@ -1,5 +1,7 @@
 #include "KingSystem/Mii/miiNetfp.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
+#include <math/seadMatrix.h>
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Mii/miiUMii.h"
 
@@ -425,6 +427,22 @@ void sub_7100F5C128(gsys::Model* model, const UMii& umii, const f32* opacity, co
             return;
     }
     Unk_710260af28::instance()->sub_7100F1DFF0(unit, material, value, false);
+}
+
+// NON_MATCHING: the original walks the name table by byte offset and schedules the rotation differently.
+void sub_7100F5C6F4(gsys::ModelUnit* unit, const sead::Vector3f& rotation) {
+    if (!unit)
+        return;
+    for (const auto& name : sUnk_710260DC80) {
+        const s32 bone = unit->searchBoneIndex(name);
+        sead::Matrix34f local;
+        sead::Vector3f scale;
+        unit->getBoneLocalMatrix(&local, &scale, bone);
+        sead::Matrix34f rotate;
+        rotate.makeR(rotation);
+        local.setMul(rotate, local);
+        unit->setBoneLocalRTMatrix(local, bone);
+    }
 }
 
 }  // namespace ksys::mii
