@@ -2883,6 +2883,9 @@ struct ScreenAppPictureBookUnk {
 class Unk_71009cb0c8;
 // 0x71025eb5c0 (placeholder name): the AppPictureBook screen's texture controllers
 extern sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
+// 0x71025dc57c / 0x71025dc580 (placeholder names): the album position and page kind kept by ScreenAppAlbum::m100
+extern s32 sUnk_71025dc57c;
+extern bool sUnk_71025dc580;
 // 0x71025dc5e0 (placeholder name): the AppAlbum screen's texture controllers (stored as pointers to the controller pointers)
 extern sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 
@@ -4330,6 +4333,7 @@ public:
     bool sub_71009D3DC0() const;
     void m128() override;
     void m94() override;
+    void m100() override;
     // 0x71009d5100 (CSV unnamed; not decompiled): called at the end of m94
     void sub_71009D5100();
     u8 _3610[0x3618 - 0x3610];

@@ -18,6 +18,8 @@ u8 sUnk_71025ec54a;
 
 sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
 sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
+s32 sUnk_71025dc57c;
+bool sUnk_71025dc580;
 
 // 0x7102483490 (.data, initial value 6)
 s32 sUnk_7102483490 = 6;

@@ -92,6 +92,21 @@ void ScreenAppAlbum::m94() {
     sub_71009D5100();
 }
 
+// 0x71009d57d0
+void ScreenAppAlbum::m100() {
+    if (!_3638 || !_3640)
+        return;
+    if (_3640->sub_7100939F58()) {
+        sUnk_71025dc57c = _3640->_2d8;
+        sUnk_71025dc580 = true;
+    } else {
+        sUnk_71025dc57c = _3638->_30c;
+        sUnk_71025dc580 = false;
+    }
+    _3640->sub_710093F594(false);
+    _3638->sub_710093F594(false);
+}
+
 // 0x71009d5980
 void ScreenAppAlbum::m128() {
     for (auto* controller : sUnk_71025dc5e0)
