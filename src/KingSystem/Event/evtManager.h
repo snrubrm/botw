@@ -1,8 +1,10 @@
 #pragma once
 
+#include <container/seadObjList.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
@@ -166,6 +168,10 @@ public:
     bool sub_7100DB04CC();
     // 0x7100db04d4 (CSV EventMgr::stubbed; placeholder name): empty.
     void stubbed();
+    // 0x7100db04f0 (CSV EventMgr::residentMgrFinish)
+    void residentMgrFinish();
+    // 0x7100db0ca8 (CSV EventMgr::clearAllPendingEvents)
+    void clearAllPendingEvents();
     // 0x7100db0c44 (CSV EventMgr::callEvent)
     bool callEvent(const CallArg& arg);
 
@@ -277,8 +283,10 @@ public:
     /* 0x38 */ ActorMessageTransceiver mTransceiver;
 
 private:
+    // Guards mPendingEvents.
     /* 0x90 */ sead::CriticalSection _90;
-    u8 pad_d0[0x1d100 - 0xd0];
+    // Event calls waiting to be started (placeholder name).
+    /* 0xd0 */ sead::FixedObjList<BaseProcLinkForEvent, 256> mPendingEvents;
 
 public:
     // The camera actor (set by ksys::sub_7100F40428).
@@ -297,7 +305,9 @@ public:
     /* 0x1d129 */ bool _1d129;
 
 private:
-    u8 pad_1d12a[0x1d130 - 0x1d12a];
+    u8 pad_1d12a[0x1d12c - 0x1d12a];
+    /* 0x1d12c */ bool _1d12c;
+    u8 pad_1d12d[0x1d130 - 0x1d12d];
     /* 0x1d130 */ sead::CriticalSection _1d130;
     /* 0x1d170 */ s32 mAliveEventFlowCount;
 

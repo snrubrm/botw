@@ -285,6 +285,43 @@ bool Manager::sub_7100DB0CA0(const Metadata& metadata, act::Actor* actor) {
     return false;
 }
 
+// 0x7100db04f0
+// NON_MATCHING: as clearAllPendingEvents (regalloc in the list loop)
+void Manager::residentMgrFinish() {
+    _1d1b0 |= 2;
+    for (auto* context : mContexts) {
+        if (context)
+            context->x(false);
+    }
+    mEventFlowMgr->sub_7100DBF2B4(false);
+    _1d3e8 = nullptr;
+    _1d3e0 = nullptr;
+    sead::ScopedLock<sead::CriticalSection> lock(&_90);
+    for (auto it = mPendingEvents.begin(), end = mPendingEvents.end(); it != end;) {
+        auto& event = *it;
+        ++it;
+        mPendingEvents.erase(&event);
+    }
+}
+
+// 0x7100db0ca8
+// NON_MATCHING: regalloc (one register copy of the next node pointer); ObjList::clear() iterates nodes instead
+void Manager::clearAllPendingEvents() {
+    for (auto* context : mContexts) {
+        if (context)
+            context->x(false);
+    }
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&_90);
+        for (auto it = mPendingEvents.begin(), end = mPendingEvents.end(); it != end;) {
+            auto& event = *it;
+            ++it;
+            mPendingEvents.erase(&event);
+        }
+    }
+    _1d12c = true;
+}
+
 bool Manager::hasActiveEvent() const {
     return _1d2b8 != nullptr;
 }

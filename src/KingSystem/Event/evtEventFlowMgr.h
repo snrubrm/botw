@@ -89,6 +89,9 @@ public:
     void calc(bool a1);
     // 0x7100dbe85c (CSV EventFlowMgr::x_0; not decompiled)
     void x_0();
+    // 0x7100dbf2b4 (CSV unnamed; declared only; placeholder name): with a1, EventFlow::sub_7100DC1160 on every slot,
+    // else unloads the slots whose _120 is clear
+    void sub_7100DBF2B4(bool a1);
     // 0x7100dbf50c (CSV unnamed): true if every slot is free or has finished its init
     bool sub_7100DBF50C();
     // 0x7100dbf588 (CSV EventFlowMgr::areAllEventFlowsReady)
