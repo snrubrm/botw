@@ -731,6 +731,8 @@ public:
     void x_40();                                                        // 0x8922cc
     // 0x710088f57c (CSV name): syncs the status effect flags.
     void syncStatusEffectFlags(bool a);
+    // 0x710088f19c (CSV name).
+    void updateFoodStatusEffectFlagsFromGameData();
     // Declaration only.
     void sub_710086B834();
     // 0x710086bb68 / 0x710086bc30 (placeholder names): set the ui tip type _1cb0 from the Attention target type.

@@ -1591,6 +1591,28 @@ void Player::updateResistColdVal() {
 
 // NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
 // order also differs from the original.
+// Restores the food status effects from the game data flags (Item_*), then applies them.
+void Player::updateFoodStatusEffectFlagsFromGameData() {
+    x_12(false);
+    setItemVel(gdt::getS32ByKey("Item_VelRate"), gdt::getF32ByKey("Item_VelTime"));
+    setItemSwimVel(gdt::getS32ByKey("Item_SwimVelRate"), gdt::getF32ByKey("Item_SwimVelTime"));
+    sub_710084B6D4(gdt::getS32ByKey("Item_ClimbVelRate"), gdt::getF32ByKey("Item_ClimbVelTime"));
+    setExtraLife(gdt::getS32ByKey("Item_LifeMaxAdd"), gdt::getF32ByKey("Item_LifeMaxAddTime"));
+    addExtraStamina(gdt::getF32ByKey("Item_EnergyMaxAdd"), gdt::getF32ByKey("Item_EnergyMaxAddTime"));
+    sub_710084B7C0(gdt::getS32ByKey("Item_AttackRate"), gdt::getF32ByKey("Item_AttackTime"));
+    sub_710084B810(gdt::getS32ByKey("Item_DefenceRate"), gdt::getF32ByKey("Item_DefenceTime"));
+    sub_710084B860(gdt::getS32ByKey("Item_HotLevelAdd"), gdt::getF32ByKey("Item_HotLevelAddTime"));
+    sub_710084B8B0(gdt::getS32ByKey("Item_ColdResistLevelAdd"), gdt::getF32ByKey("Item_ColdLevelAddTime"));
+    sub_710084B900(gdt::getS32ByKey("Item_BurnLevelAdd"), gdt::getF32ByKey("Item_BurnLevelAddTime"));
+    sub_710084B950(gdt::getS32ByKey("Item_FreezeLevelAdd"), gdt::getF32ByKey("Item_FreezeLevelAddTime"));
+    sub_710084B9A0(gdt::getS32ByKey("Item_ElectricLevelAdd"), gdt::getF32ByKey("Item_ElectricLevelAddTime"));
+    sub_710084B9F0(gdt::getS32ByKey("Item_LightningLevelAdd"), gdt::getF32ByKey("Item_LightningLevelAddTime"));
+    sub_710084BA40(gdt::getS32ByKey("Item_NoiseRate"), gdt::getF32ByKey("Item_NoiseTime"));
+    _1ffc = 0;
+    _2000 = 0;
+    syncStatusEffectFlags(true);
+}
+
 // NON_MATCHING: the original sinks each level / timer store into one block per effect (selecting the values);
 // ours stores in both arms. Same logic.
 // Copies the pending status effects (_1180 .. _11ec, written by the PlayerBase setters) into the levels _1ff0 ..
