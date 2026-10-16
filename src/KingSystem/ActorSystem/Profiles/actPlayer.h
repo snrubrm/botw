@@ -366,6 +366,9 @@ public:
     // 0x7100890098 (placeholder name): creates the equipment type 5 actor (Item_Magnetglove) at bone key 45 and
     // makes the player its connected calc parent.
     void sub_7100890098();
+    // 0x710086b9d4 (placeholder name): compares _1c68 with the facing angle of _1b18 (z axis, or y when z is
+    // vertical) against 45 / 135 degree limits.
+    bool sub_710086B9D4();
     // 0x710085c55c: casts down through the water surface at _1770 and chases _1fa0 toward the surface's tilt along
     // the facing direction (0.01 per frame).
     void sub_710085C55C();

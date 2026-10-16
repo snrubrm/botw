@@ -109,6 +109,26 @@ AttActionCodeValue sub_710086B194() {
 
 // Placeholder name: sets the ui tip type _1cb0 from the Attention target type (not while the camera rune is
 // selected).
+// NON_MATCHING: the original derives the 135-degree limit from the masked 45-degree one (orr of the sign bits)
+// and loads the mask zero-extended.
+bool Player::sub_710086B9D4() {
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    if (sead::Vector2f(dir.x, dir.z).length() == 0.0f) {
+        _1b18.getBase(dir, 1);
+        dir.normalize();
+    }
+    const u32 diff = util::angleDiff(_1c68.value, Unk1(sead::Mathf::atan2Idx(dir.x, dir.z))).value;
+    const s64 angle = util::sub_71011EE4C0(diff);
+    const s64 limit = util::sub_71011EE4C0(util::sUnk_7101EC6BA0 & 0x20000000);
+    if (angle > util::sub_71011EE4C0(s32(util::sUnk_7101EC6BA0 & 0xa0000000)))
+        return false;
+    if (s32(diff) < 0 || angle < limit)
+        return s32(diff) >= 0 || angle < limit;
+    return false;
+}
+
 void Player::sub_710086BB68() {
     auto* rune_mgr = uking::RuneMgr::instance();
     if (rune_mgr->_90 & 0x20)
