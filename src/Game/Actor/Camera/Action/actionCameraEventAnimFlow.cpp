@@ -16,7 +16,7 @@ void CameraEventAnimFlow::m46() {
     getDynamicParam(&mUniqueName_d, "UniqueName");
 }
 
-u8 CameraEventAnimFlow::m52() {
+s8 CameraEventAnimFlow::m52() {
     return _1c0;
 }
 

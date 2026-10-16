@@ -14,7 +14,7 @@ public:
 protected:
     void m46() override;
     float m49() override;
-    u8 m52() override;
+    s8 m52() override;
     void m53() override;
     const sead::SafeString& m54() override;
     const sead::SafeString& m55() override;

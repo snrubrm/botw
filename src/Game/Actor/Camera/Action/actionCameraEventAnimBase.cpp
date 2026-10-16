@@ -1,5 +1,10 @@
 #include "Game/Actor/Camera/Action/actionCameraEventAnimBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include <prim/seadDelegate.h>
+#include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
+#include "KingSystem/Event/evtEventSystem.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -44,14 +49,54 @@ void CameraEventAnimBase::sub_7100757C24() {
     _17a |= 1;
 }
 
-// NON_MATCHING: the no-target sentinel compare uses an unsigned byte instead of sign extension.
+// NON_MATCHING: cases 0 and 2 share the link assignment tail; the original forms &_50 before the merge.
+void CameraEventAnimBase::sub_7100757A78() {
+    if (_90 == 2 && !(_17a & 1) && !_50.hasProc())
+        _90 = 0;
+    if (_90 != 0)
+        return;
+
+    switch (m52()) {
+    case -1:
+        _90 = 1;
+        break;
+    case 0:
+        _50 = ksys::evt::sub_7100DC85D4(mActor);
+        if (_50.hasProc())
+            _90 = 2;
+        break;
+    case 1: {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        sub_7100924BE4(&accessor);
+        accessor.linkAcquire(&_50);
+        if (_50.hasProc())
+            _90 = 2;
+        break;
+    }
+    case 2:
+        _50 = ksys::evt::EventSystem::instance()->mSpeaker.mLink;
+        if (_50.hasProc())
+            _90 = 2;
+        break;
+    case 3: {
+        sead::Delegate1<CameraEventAnimBase, ksys::act::ActorLinkConstDataAccess*> on_actor(
+            this, &CameraEventAnimBase::sub_7100758F80);
+        sead::Delegate1<CameraEventAnimBase, ksys::map::Object*> on_object(
+            this, &CameraEventAnimBase::sub_7100758FC0);
+        act::sub_71009248D4(mActor, m54(), m55(), &on_actor, &on_object);
+        break;
+    }
+    }
+}
+
+// NON_MATCHING: the -1 sentinel compare reuses the zero-extended byte (the original sign-extends again).
 void CameraEventAnimBase::sub_71007583CC() {
-    const u8 type = m52();
+    const s8 type = m52();
     if (type != 1) {
-        if (type == u8(-1)) {
+        if (type == -1) {
             _90 = 1;
         } else if (auto* actor = getActor()) {
-            if (m52() != u8(-1)) {
+            if (m52() != -1) {
                 ksys::act::ActorLinkConstDataAccess access(actor);
                 sendMessage(*access.getMessageTransceiverId(), ksys::MessageType(0x8800007), nullptr);
             }
@@ -62,14 +107,14 @@ void CameraEventAnimBase::sub_71007583CC() {
     sub_7100757C24();
 }
 
-void CameraEventAnimBase::sub_7100758F80(const ksys::act::ActorLinkConstDataAccess* access) {
+void CameraEventAnimBase::sub_7100758F80(ksys::act::ActorLinkConstDataAccess* access) {
     if (access && access->hasProc()) {
         access->linkAcquire(&_50);
         _90 = 2;
     }
 }
 
-void CameraEventAnimBase::sub_7100758FC0(const ksys::map::Object* object) {
+void CameraEventAnimBase::sub_7100758FC0(ksys::map::Object* object) {
     if (!object)
         return;
     _90 = 3;
@@ -143,7 +188,7 @@ void CameraEventAnimBase::m50(sead::BufferedSafeString* out) {
     out->copy(mSceneName_d);
 }
 
-u8 CameraEventAnimBase::m52() {
+s8 CameraEventAnimBase::m52() {
     return -1;
 }
 

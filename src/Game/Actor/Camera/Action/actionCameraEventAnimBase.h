@@ -34,7 +34,7 @@ protected:
     virtual float m49();
     virtual void m50(sead::BufferedSafeString* out);
     virtual bool m51() { return false; }
-    virtual u8 m52();
+    virtual s8 m52();
     virtual void m53();
     virtual const sead::SafeString& m54();
     virtual const sead::SafeString& m55();
@@ -44,15 +44,16 @@ protected:
     virtual void m59();
     virtual bool m60();
 
-    // 0x7100757a78 / 0x7100757c24 (non-virtual helpers, declared only).
+    // 0x7100757a78: resolves the camera target link (_50) by the target kind m52() (_90: 1 none, 2 found).
+    // 0x7100757c24 (non-virtual helper, declared only).
     void sub_7100757A78();
     void sub_71007583CC();
     void sub_7100757C24();
     // 0x710075863c (placeholder name): once (_17a bit 1), stores the camera's look-at point (minus the anim
     // object's / the camera's own translation when the animation is placed in the world) in _94.
     void sub_710075863C();
-    void sub_7100758F80(const ksys::act::ActorLinkConstDataAccess* access);
-    void sub_7100758FC0(const ksys::map::Object* object);
+    void sub_7100758F80(ksys::act::ActorLinkConstDataAccess* access);
+    void sub_7100758FC0(ksys::map::Object* object);
 
     ksys::act::BaseProcLink _50;
     sead::Matrix34f _60 = sead::Matrix34f::ident;

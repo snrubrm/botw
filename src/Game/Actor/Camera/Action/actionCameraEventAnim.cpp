@@ -23,7 +23,7 @@ float CameraEventAnim::m49() {
     return ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d);
 }
 
-u8 CameraEventAnim::m52() {
+s8 CameraEventAnim::m52() {
     return _1c8;
 }
 
