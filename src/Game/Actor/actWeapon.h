@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <math/seadVector.h>
+#include <gfx/seadColor.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/Actor/aiUnk_7102357210.h"
@@ -421,6 +422,14 @@ public:
     // weapon, its optional weapon and, for weapon type 3 with _d54 1 or 2, its connected calc child (each only
     // with a model).
     void sub_71002E9CD0(f32 alpha);
+    // 0x71002e9ac8 / 0x71002e9be0 / 0x71002e9e04 (placeholder names): the same for a model colour (stored in _1018,
+    // gfx sub_7100F1E2F4), the opacity without sub_71011CCB38, and a model value (gfx sub_7100F1EAF8, stored in
+    // _1028; also sets physics flag 0x20000 while it is non-zero). Only on change for the colour and the value.
+    void sub_71002E9AC8(const sead::Color4f& color);
+    void sub_71002E9BE0(f32 alpha);
+    void sub_71002E9E04(f32 value);
+    // 0x71002e9f28 (placeholder name): Actor::x_3(value) on the weapon and its type-3 child (with a model).
+    void sub_71002E9F28(f32 value);
     // 0x71002edbcc: `_c90 = value; _c94 = true` under the lock `_c50`.
     void sub_71002EDBCC(const u32& value);
     // 0x71002edc14: `_cd8 = value; _ce0 = true` under the lock `_c98`.
@@ -521,6 +530,8 @@ public:
     /* 0x1008 */ ksys::act::Actor::Unk3 _1008;
     /* 0x1010 */ u8 _1010[0x1014 - 0x1010];
     /* 0x1014 */ u8 _1014;
+    /* 0x1018 */ sead::Color4f _1018;  // colour last passed to sub_71002E9AC8
+    /* 0x1028 */ f32 _1028;            // value last passed to sub_71002E9E04
 };
 
 }  // namespace uking::act

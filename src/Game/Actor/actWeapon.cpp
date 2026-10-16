@@ -1,5 +1,6 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actOptionalWeapon.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/gameUnk_71008ba8d8.h"
@@ -738,6 +739,29 @@ bool Weapon::sub_71002E9A7C() {
     return !(chemical->_be & 4);
 }
 
+void Weapon::sub_71002E9AC8(const sead::Color4f& color) {
+    if (_1018 == color)
+        return;
+    if (getModel())
+        Unk_710260af28::instance()->sub_7100F1E2F4(getModel(), color);
+    if (isWeaponType3() && u32(_d54 - 1) < 2) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
+        if (child && child->getModel())
+            Unk_710260af28::instance()->sub_7100F1E2F4(child->getModel(), color);
+    }
+    _1018 = color;
+}
+
+void Weapon::sub_71002E9BE0(f32 alpha) {
+    if (getModel())
+        sub_71011CCB1C(alpha);
+    if (isWeaponType3() && u32(_d54 - 1) < 2) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
+        if (child && child->getModel())
+            child->sub_71011CCB1C(alpha);
+    }
+}
+
 void Weapon::sub_71002E9CD0(f32 alpha) {
     if (getModel()) {
         sub_71011CCB1C(alpha);
@@ -755,6 +779,35 @@ void Weapon::sub_71002E9CD0(f32 alpha) {
             child->sub_71011CCB1C(alpha);
             child->sub_71011CCB38();
         }
+    }
+}
+
+void Weapon::sub_71002E9E04(f32 value) {
+    if (_1028 == value)
+        return;
+    if (getModel())
+        Unk_710260af28::instance()->sub_7100F1EAF8(getModel(), value);
+    if (isWeaponType3() && u32(_d54 - 1) < 2) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
+        if (child && child->getModel())
+            Unk_710260af28::instance()->sub_7100F1EAF8(child->getModel(), value);
+    }
+    if (auto* physics = getPhysics()) {
+        if (value == 0.0f)
+            physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_20000);
+        else
+            physics->getFlags().set(ksys::phys::InstanceSet::Flag::_20000);
+    }
+    _1028 = value;
+}
+
+void Weapon::sub_71002E9F28(f32 value) {
+    if (getModel())
+        x_3(value);
+    if (isWeaponType3() && u32(_d54 - 1) < 2) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
+        if (child && child->getModel())
+            child->x_3(value);
     }
 }
 
