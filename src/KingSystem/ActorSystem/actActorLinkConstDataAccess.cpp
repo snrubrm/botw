@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -1026,6 +1027,27 @@ bool ActorLinkConstDataAccess::sub_7100D10F0C() const {
 }
 
 // 0x7100d12f08: Chemical::sub_7100D9108C() of the chemical `idx` (the actor's first chemical if idx < 0).
+// NON_MATCHING: the original evaluates `index < 0 || count < index` into a bool before the ChemicalMgr lookup.
+bool ActorLinkConstDataAccess::sub_7100D12758(Chemical* chemical, int flags, int index) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* chemicals = actor->getChemicalContainer();
+    if (!chemicals)
+        return false;
+    const s32 count = chemicals->_58.size() + chemicals->_80;
+    if (count <= 0)
+        return false;
+    auto* mgr = world::Manager::instance()->getChemicalMgr();
+    Chemical* target;
+    if (index < 0 || count < index)
+        target = actor->getChemicalStuff();
+    else
+        target = actor->sub_71011D8A34(index);
+    mgr->sub_71010CBDCC(target, chemical, flags);
+    return false;
+}
+
 bool ActorLinkConstDataAccess::sub_7100D12F08(int idx) const {
     auto* actor = getActor();
     if (!actor)
