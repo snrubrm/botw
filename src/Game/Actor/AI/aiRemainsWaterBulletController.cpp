@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/gameSceneSubsys14.h"
 
 namespace uking::ai {
 
@@ -43,6 +45,48 @@ void RemainsWaterBulletController::enter_(ksys::act::ai::InlineParamPack* params
         sub_710054779C();
     else
         sub_71005478C8();
+}
+
+// 0x71005474e4
+// NON_MATCHING: the bounding box test compiles to a different branch layout (sead's BoundBox3::isInside here).
+void RemainsWaterBulletController::sub_71005474E4() {
+    if (!mRemainsWaterBattleInfo_a)
+        return;
+    auto* info = sead::DynamicCast<Unk_7102419cb0>(
+        *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+    if (!info)
+        return;
+
+    info->_30 = ksys::gdt::getFlag_Water_Relic_PlayerInBattleArea();
+    ksys::act::acc::PlayerBase player;
+    if (!player.getPlayerFromPlayerInfo()) {
+        _348.set(0, 0, 0);
+        info->_31 = false;
+        info->_32 = false;
+        return;
+    }
+
+    const bool m193 = player.m193();
+    auto* subsys = GameSceneSubsys14::instance();
+    if (!m193 && !player.m194() && !(subsys && subsys->sub_7100904EF8())) {
+        _374 = ksys::Timer(30.0f, 30.0f);
+    } else {
+        if (!(_374.value <= sead::Mathf::epsilon()))
+            _374.update();
+        if (m193 && _374.value <= sead::Mathf::epsilon())
+            info->_30 = true;
+    }
+
+    const auto& mtx = mActor->getMtx();
+    const sead::Vector3f player_pos = player.getActorMtx().getTranslation();
+    const sead::Vector3f pos = mtx.getTranslation();
+    _348 = player_pos - pos;
+    const f32 dx = pos.x - player_pos.x;
+    const f32 dz = pos.z - player_pos.z;
+    info->_31 = *mInsideAreaRadius_s > sead::Mathf::sqrt(dx * dx + dz * dz);
+    sead::Matrix34f inverse;
+    inverse.setInverse(mtx);
+    info->_32 = _354.isInside(inverse * player_pos);
 }
 
 void RemainsWaterBulletController::calc_() {
