@@ -113,6 +113,17 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
 
+// Placeholder (vtable 0x71024fdde8: D1 0x71010073ac (empty), D0 0x71010073b0; 0x20 bytes): created by the field battle
+// BGM's init 0x71010099f0 (stored at +0x248), the same field layout as Unk_7102502950. Declared only.
+struct Unk_71024fdde8 {
+    virtual ~Unk_71024fdde8();
+
+    s32 _8 = 0;
+    void* _10 = nullptr;
+    u8 _18 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024fdde8, 0x20);
+
 // Type of an Unk_710260f248 (stored at +0xd0; the code tests 0, 1, 2 and 3). The constructors receive it as a
 // four-byte class in a full register (0x710101d7f8 masks it with 0xffffffff). Enumerator names are unknown.
 SEAD_ENUM(Unk_710260f248Type, _0, _1, _2, _3)
@@ -231,7 +242,8 @@ public:
     using Unk_SpotBgmHandle::Unk_SpotBgmHandle;
     virtual void hm14() = 0;
     virtual void hm15() = 0;
-    virtual void hm16() {}
+    // 0x7100ff6810 (empty); the field battle BGM's override (0x710100b9bc) reads the argument.
+    virtual void hm16(s32 arg) {}
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fc7f8, 0x180);
 
@@ -418,6 +430,7 @@ class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
 class BigMazeBgmInfo;
 class DungeonBattleBgmInfo;
+class FieldBattleBgmInfo;
 class TutorialDungeonBattleBgmInfo;
 
 // Placeholder (D1 0x710103ab10, declared only): a 4-byte object holding a ducker index (SoundMgr::DuckerType value;

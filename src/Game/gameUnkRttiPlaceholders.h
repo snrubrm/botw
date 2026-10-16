@@ -2513,12 +2513,35 @@ class Unk_71024fe368 : public ksys::snd::Unk_71025ce380 {
 public:
     ~Unk_71024fe368() override;
     void m14(sead::TextWriter& writer) override {}
-    // 0x710100b30c (declared only): called by ksys::snd::Unk_710260f0c0::m8 on its kind 3 BGM.
+    // 0x710100b30c: called by ksys::snd::Unk_710260f0c0::m8 on its kind 3 BGM.
     void sub_710100B30C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
 
-    u8 _190[0x224 - 0x190];
+    // The field battle BGM (MusicInfoType 8 info, FieldBattleBgmInfo). lane3 s86.
+    // 0x710100b320: playing (handle state 3 or 4) for longer than FeelPlayingSec.
+    bool m10() override;
+    // 0x710100bf2c
+    bool m11() override { return mState == 2; }
+    // 0x710100b2b8
+    void m13(f32 fade_sec) override;
+    // 0x710100b234 (copy for the handle base 0x710100b278): forwards the volume to the second handle.
+    void calc() override;
+    // 0x710100b9bc (copy for the handle base 0x710100b9d8)
+    void hm16(s32 arg) override;
+
+    /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
+    /* 0x198 */ sead::PtrArray<const xlink2::PropertyDefinition> mProperties;
+    /* 0x1a8 */ s32 mState;
+    /* 0x1b0 */ aal::TimedFader _1b0;
+    /* 0x1d8 */ ksys::snd::Unk_BgmControllerM8Arg _1d8;
+    /* 0x1e8 */ u32 _1e8;
+    u8 _1ec[0x210 - 0x1ec];
+    // A second sound object (0xe8 bytes) created by the init function 0x71010099f0.
+    /* 0x210 */ ksys::snd::Unk_710260f248* mSubHandle;
+    u8 _218[0x224 - 0x218];
     // Set by ksys::snd::Unk_710260f0c0::m10.
     bool _224;
+    u8 _225[0x248 - 0x225];
+    /* 0x248 */ ksys::snd::Unk_71024fdde8* _248;
 };
 
 // vtable 0x71024fe808 (19 slots); placeholder generated from the vtable (genskel.py).

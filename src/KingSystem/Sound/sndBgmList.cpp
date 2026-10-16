@@ -367,6 +367,37 @@ void Unk_710260ecf8::hm15() {
 // this class does not declare yet.
 Unk_71024fe368::~Unk_71024fe368() = default;
 
+void Unk_71024fe368::calc() {
+    Unk_SpotBgmHandle::calc();
+    mSubHandle->_a4 = _138.getValue() * _1b0.getValue();
+    mSubHandle->calc();
+}
+
+void Unk_71024fe368::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mSubHandle->sub_7101020C08(fade_sec);
+    _248->_18 = 0;
+    _1e8 = 0;
+    mState = 0;
+    mSubHandle->sub_7101020C08(fade_sec);
+}
+
+void Unk_71024fe368::sub_710100B30C(const ksys::snd::Unk_BgmControllerM8Arg& arg) {
+    _1d8 = arg;
+}
+
+bool Unk_71024fe368::m10() {
+    if (_124 == 3 || _124 == 4)
+        return _160[1] > *mInfo->mFeelPlayingSec;
+    return false;
+}
+
+void Unk_71024fe368::hm16(s32 arg) {
+    if (arg == 2)
+        _248->_18 = 0;
+    mSubHandle->sub_7101020C08(0.0f);
+}
+
 Unk_71024fe808::~Unk_71024fe808() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x710100df48) also destroys members or bases
