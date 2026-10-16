@@ -1297,6 +1297,8 @@ public:
     bool is898Below3() const;
     // 0x7100965ea8 (placeholder name): _84c
     s32 sub_7100965EA8() const;
+    // 0x710096603c (placeholder name): the screen size divided by _878
+    void sub_710096603C(sead::Vector2f* out) const;
     // 0x7100959438 (placeholder name; defined in uiMapMarker.cpp next to its address neighbours): whether `entry` is _698
     bool sub_7100959438(const UiSubsys1Entry* entry) const;
     bool is898Positive() const;
@@ -1477,5 +1479,9 @@ private:
 
 // 0x7100965960: entry 0-3 of the float buffer at 0x71025d6e58, -1 otherwise
 f32 sub_7100965960(s32 index);
+
+// 0x7100966008 / 0x7100966018 (placeholder names): the layout screen size (1280 x 720) / half of it
+const sead::Vector2f* sub_7100966008();
+void sub_7100966018(sead::Vector2f* out);
 
 }  // namespace uking::ui

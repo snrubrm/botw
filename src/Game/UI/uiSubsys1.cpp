@@ -193,6 +193,28 @@ bool UiSubsys1::is898Positive() const {
     return _898 > 0;
 }
 
+// 0x71025d6ca4: the layout screen size (written by the initialiser at 0x710094f9e4)
+static sead::Vector2f sUnk_71025d6ca4{1280.0f, 720.0f};
+
+// 0x7100966008
+// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
+const sead::Vector2f* sub_7100966008() {
+    return &sUnk_71025d6ca4;
+}
+
+// 0x7100966018
+// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
+void sub_7100966018(sead::Vector2f* out) {
+    *out = sUnk_71025d6ca4 * 0.5f;
+}
+
+// 0x710096603c
+// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
+void UiSubsys1::sub_710096603C(sead::Vector2f* out) const {
+    const f32 scale = 1.0f / _878;
+    *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
+}
+
 // 0x7100965ea8
 s32 UiSubsys1::sub_7100965EA8() const {
     return _84c;
