@@ -243,9 +243,24 @@ public:
     // 0x7100850544 (placeholder name): while condition 0 / 1 is on, applies damage kind 0 / 1 every 2 time units
     // of _13c (the timer rates come from sub_7100851144 / sub_7100850EB4); clears _13c otherwise.
     void sub_7100850544();
-    // 0x7100850eb4 / 0x7100851144 (declared only; placeholder names): timer rates for conditions 1 / 0.
+    // 0x7100850eb4 / 0x7100851144 (placeholder names): timer rates for conditions 1 / 0 (cold / hot): TempDamage plus
+    // the chemical temperature beyond the player's limit (m327 / m326) times Cold / HotTempDamageAdd, per frame.
     f32 sub_7100850EB4();
     f32 sub_7100851144();
+
+    // inline-only in the original; names are guesses. Evidence: 0x7100850eb4, 0x7100851144 and 0x71008508fc
+    // repeat the Player cast of _10 with a 0 fallback before each of these reads.
+    inline f32 getPlayerTempDamage() const;
+    inline f32 getPlayerHotTempDamageAdd() const;
+    inline f32 getPlayerColdTempDamageAdd() const;
+    inline f32 getPlayerHotTempLimit() const;
+    inline f32 getPlayerColdTempLimit() const;
+    // Slot 20 (0x71008507f4): outside events, an attack with flag 0x400 on the actor starts the ShockTime
+    // condition 5; then sub_71008508FC.
+    void m20() override;
+    // 0x71008508fc (declared only; placeholder name): starts / ends the temperature conditions 0 / 1 / 3 from the
+    // chemical temperature (reads byte 0x80b of the sead::GameConfig singleton).
+    void sub_71008508FC();
     // Slots 18 / 19 (0x71008507ec / 0x71008507f0): forward to the base.
     void m18() override;
     void m19() override;

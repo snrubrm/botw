@@ -1,3 +1,7 @@
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include <algorithm>
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/System/Timer.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -123,12 +127,70 @@ void Unk_71008502cc::sub_7100850544() {
     }
 }
 
+inline f32 Unk_71008502cc::getPlayerTempDamage() const {
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    return player ? player->getParam()->getRes().mGParamList->getPlayer()->mTempDamage.ref() : 0.0f;
+}
+
+inline f32 Unk_71008502cc::getPlayerHotTempDamageAdd() const {
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    return player ? player->getParam()->getRes().mGParamList->getPlayer()->mHotTempDamageAdd.ref() : 0.0f;
+}
+
+inline f32 Unk_71008502cc::getPlayerColdTempDamageAdd() const {
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    return player ? player->getParam()->getRes().mGParamList->getPlayer()->mColdTempDamageAdd.ref() : 0.0f;
+}
+
+inline f32 Unk_71008502cc::getPlayerHotTempLimit() const {
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    return player ? player->m326() : 0.0f;
+}
+
+inline f32 Unk_71008502cc::getPlayerColdTempLimit() const {
+    auto* player = sead::DynamicCast<ksys::act::Player>(_10);
+    return player ? player->m327() : 0.0f;
+}
+
+f32 Unk_71008502cc::sub_7100850EB4() {
+    auto* chemical = _10->getChemicalStuff();
+    if (!chemical)
+        return getPlayerTempDamage() / 30.0f;
+    const f32 temperature = chemical->sub_7100D91958();
+    const f32 damage = getPlayerTempDamage();
+    const f32 excess = std::max(getPlayerColdTempLimit() - temperature, 0.0f);
+    return (damage + excess * getPlayerColdTempDamageAdd()) / 30.0f;
+}
+
+f32 Unk_71008502cc::sub_7100851144() {
+    auto* chemical = _10->getChemicalStuff();
+    if (!chemical)
+        return getPlayerTempDamage() / 30.0f;
+    const f32 temperature = chemical->sub_7100D91958();
+    const f32 damage = getPlayerTempDamage();
+    const f32 excess = std::max(temperature - getPlayerHotTempLimit(), 0.0f);
+    return (damage + excess * getPlayerHotTempDamageAdd()) / 30.0f;
+}
+
 void Unk_71008502cc::m18() {
     Unk_710244dd20::m18();
 }
 
 void Unk_71008502cc::m19() {
     Unk_710244dd20::m19();
+}
+
+void Unk_71008502cc::m20() {
+    Unk_710244dd20::m20();
+    if (!j_eventMgrHasActiveEventMaybe(sead::DynamicCast<ksys::act::Player>(_10)) &&
+        sub_71007A2604(_10)) {
+        auto* attack = sub_71007A255C(_10, 0);
+        if (attack && attack->sub_71007A1F68(0x400)) {
+            _140 = _10->getParam()->getRes().mGParamList->getPlayer()->mShockTime.ref();
+            _8.setBit(5);
+        }
+    }
+    sub_71008508FC();
 }
 
 bool Unk_71008502cc::m14() {
