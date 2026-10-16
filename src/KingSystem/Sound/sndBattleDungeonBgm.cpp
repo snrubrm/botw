@@ -242,6 +242,10 @@ void sub_7100FFF0E4(NamedBgm* bgm) {
     delete bgm;
 }
 
+Unk_SoundMgr30_240* sub_7100FFF124() {
+    return SoundMgr::instance()->_30->_240;
+}
+
 Unk_710260f218::Unk_710260f218() = default;
 
 void Unk_710260f218::sub_7100FFC5C8(Bgm* bgm) {
@@ -605,6 +609,11 @@ void Unk_71024fd188::hm14() {
     mEntry = sub_71010209FC(sStr_maze);
     if (mEntry && mEntry->sub_7100FF6DF4(this))
         _1a0.moveTo(1.0, *mInfo->mFadeInSec);
+}
+
+void Unk_71024fd188::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    _198 = 0;
 }
 
 // NON_MATCHING: placeholder destructor; the original (0x7100fffde4) also destroys members or bases

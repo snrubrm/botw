@@ -1302,7 +1302,7 @@ struct Unk_SoundMgr30_240 {
     void sub_71012BE0A4(Unk_710260f248* obj);
     void sub_71012BE234(Unk_710260f248* obj);
 };
-// 0x7100fff124 (24 B): `SoundMgr::instance()->_30->_240` (no null checks). Placeholder name; declared only.
+// 0x7100fff124 (24 B): `SoundMgr::instance()->_30->_240` (no null checks). Placeholder name.
 Unk_SoundMgr30_240* sub_7100FFF124();
 
 // 0x7100ffd784 (24 B): `SoundMgr::instance()->_30->_78`.

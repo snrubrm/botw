@@ -2399,6 +2399,8 @@ public:
     ~Unk_71024fd188() override;
     void hm14() override;
     void hm15() override {}
+    // 0x7100fff73c
+    void m13(f32 fade_sec) override;
 
     ksys::snd::BigMazeBgmInfo* mInfo = nullptr;
     u64 _198 = 0;
