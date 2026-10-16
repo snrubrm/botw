@@ -236,17 +236,24 @@ struct Unk_7101108AE8Flags {
     u8 _2;
 };
 
-// Placeholder: what Unk_71010FEDBC::_458 points to: per level a texel count (_1a) and a coordinate offset
-// (_1c), stride 0xc from 0x18 (0x710110ac74).
+// Placeholder: what Unk_71010FEDBC::_458 points to: per level a row pitch, a texel count and a
+// coordinate offset (0x710110ac74, 0x7101108c44), then the texel data of each area per level.
 struct Unk_710110AC74Table {
     struct Level {
-        u16 _0;
+        u16 pitch;
         u16 size;
         f32 offset;
         u32 _8;
     };
+    struct AreaData {
+        const u8* levels[17];
+    };
     u8 _0[0x18];
-    Level levels[1];
+    Level levels[14];
+    AreaData areas[16];
+    u32 _940;
+    // Bytes per texel.
+    u32 texel_size;
 };
 
 // Placeholder (callers 0x7101108ae8, 0x7101109bd8, 0x710110a468, 0x710110a740, 0x7101105b2c,

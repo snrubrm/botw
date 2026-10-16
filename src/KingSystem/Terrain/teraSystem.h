@@ -981,8 +981,9 @@ struct TexelPosMaybe {
 void sub_710110AC74(f32 x, f32 y, const Unk_7101108C44Arg* arg, TexelPosMaybe* out, u32 level);
 // 0x710110c3e8 (declaration only, 1352 bytes; placeholder name).
 void sub_710110C3E8(const Unk_710110AC74Table* table, TexelPosMaybe* out, s32 index, u32 level);
-// 0x7101108c44 (declaration only, 712 bytes; placeholder name): the height at `pos` in the area of `arg`.
-f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, s32 flag);
+// 0x7101108c44 (placeholder name): the height (0 - 1, bilinear over 16-bit texels) at `pos` in the area of
+// `arg` at mip `level`.
+f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, u32 level);
 // Returns query status 0/1/2; the final argument preserves a full integer flag.
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
                     s32 flag);
