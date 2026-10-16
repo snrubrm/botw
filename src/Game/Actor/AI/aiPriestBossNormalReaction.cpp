@@ -1,8 +1,13 @@
 #include "Game/Actor/AI/aiPriestBossNormalReaction.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -34,6 +39,53 @@ void PriestBossNormalReaction::enter_(ksys::act::ai::InlineParamPack* params) {
         mgr->addDamageCallback(0, &_80);
     _c9 = false;
     *mPriestBossUrbosasFuryEShock_a = false;
+}
+
+// 0x7100527ed0
+void PriestBossNormalReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+
+    if (!_c8) {
+        auto* damage_mgr = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
+        if (damage_mgr && s32(damage_mgr->getDamage()) > 0 && damage_mgr->checkDamageFlags(0x16))
+            _c8 = true;
+    }
+    if (_c8 && *mPriestBossUrbosasFuryEShock_a) {
+        if (!_a8.sub_7101241B6C())
+            xlinkSearchAndEmit(mActor, "ElectricShock", 2, &_a8);
+    } else if (_a8.sub_7101241B6C()) {
+        _a8.fadeXLink();
+    }
+
+    if (sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a))) {
+        auto* unit =
+            sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+        if (unit->isFlagOn(Unk_7102450fa8::Flag::_16))
+            _c9 = true;
+    }
+
+    if (!*mIsUseQuickRecover_s || !_c9)
+        return;
+    if (!isCurrentChild("小ダメージ") && !isCurrentChild("ふっとび"))
+        return;
+
+    auto* ragdoll = sead::DynamicCast<act::Enemy>(mActor)->_868;
+    if (ragdoll->sub_71006ED9EC()) {
+        if (ragdoll->sub_71006EE15C()) {
+            _c9 = false;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addBool(true, "IsFromRagdoll", -1);
+            changeChild("クイック復帰", &pack);
+        }
+        return;
+    }
+
+    if (mActor->getASList()->x_1(0, 0) == "LargeDamageLoop") {
+        _c9 = false;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addBool(false, "IsFromRagdoll", -1);
+        changeChild("クイック復帰", &pack);
+    }
 }
 
 void PriestBossNormalReaction::leave_() {
