@@ -13,7 +13,7 @@ namespace ksys::tera {
 void System::sub_7101112A74() {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
-        mScenes[i].scene->sub_7101101964();
+        mScenes[i].collector->sub_7101101964();
     _1338 &= ~8u;
 }
 
@@ -22,37 +22,37 @@ void System::sub_71011129CC(const sead::SafeArray<s32, 19>& levels, bool force) 
         return;
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
-        mScenes[i].scene->sub_7101101914(levels);
+        mScenes[i].collector->sub_7101101914(levels);
     if (force)
         _1338 |= 8;
 }
 
 void System::sub_71011126C4(s32 value) {
     for (s32 i = 0; i < mScenes.size(); ++i)
-        mScenes[i].scene->_2943 = sead::Mathi::max(value, 0);
+        mScenes[i].collector->_2943 = sead::Mathi::max(value, 0);
 }
 
 void System::sub_710111F598(bool a, bool b) {
     for (s32 i = 0; i < mScenes.size(); ++i)
-        mScenes[i].scene->sub_7101100234(a, b);
+        mScenes[i].collector->sub_7101100234(a, b);
 }
 
 void System::sub_7101112AF0(s32 a, s32 b) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
-        mScenes[i].scene->sub_71010FFE70(a, b);
+        mScenes[i].collector->sub_71010FFE70(a, b);
 }
 
 void System::sub_7101112B80(s32 a, s32 b, s32 c, s32 d) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
-        mScenes[i].scene->sub_7101100260(a, b, c, d);
+        mScenes[i].collector->sub_7101100260(a, b, c, d);
 }
 
 void System::sub_7101112C30(const sead::Vector3f& vec) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i) {
-        Scene* scene = mScenes[i].scene;
+        ApertureMapsCollector* scene = mScenes[i].collector;
         scene->_2760 = vec;
         scene->_2998 |= 4;
     }
@@ -65,7 +65,7 @@ void System::sub_7101115158(bool update) {
     if (update) {
         mLock.writeLock();
         for (s32 i = 0; i < mScenes.size(); ++i)
-            mScenes[i].scene->sub_710110234C(this);
+            mScenes[i].collector->sub_710110234C(this);
         _1338 |= 0x10000;
         sub_7101115BAC();
         mLock.writeUnlock();
@@ -80,7 +80,7 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
 
     mLock.writeLock();
     for (s32 i = 0; i < mScenes.size(); ++i)
-        mScenes[i].scene->sub_7101101578(this, 0xff0000);
+        mScenes[i].collector->sub_7101101578(this, 0xff0000);
 
     for (u32 i = 0; i < _eea; ++i) {
         if (_ff8[i] & 1) {
@@ -497,30 +497,30 @@ s32 System::sub_71011188CC(const Unk_7101106F44* a, const Unk_7101106F44* b) {
 }
 
 s32 System::sub_71011188E4() const {
-    const Scene* scene = mScenes(0).scene;
+    const ApertureMapsCollector* scene = mScenes(0).collector;
     return sead::Mathi::max(scene->_2946 - 1 - scene->_2780, 0);
 }
 
 Unk_71010FEDBC* System::sub_710111F4F0() {
-    return &mScenes(0).scene->_0[5];
+    return &mScenes(0).collector->_0[5];
 }
 
 Unk_71010FEDBC* System::sub_710111F504() {
-    return &mScenes(0).scene->_0[8];
+    return &mScenes(0).collector->_0[8];
 }
 
 void System::sub_710111F518(int level, int type) {
     for (s32 i = 0; i < mScenes.size(); ++i)
-        mScenes[i].scene->sub_71011001D4(level, type);
+        mScenes[i].collector->sub_71011001D4(level, type);
 }
 
 bool System::sub_710111F618(s32 index) {
-    return mScenes[index].scene->_2998 >> 3 & 1;
+    return mScenes[index].collector->_2998 >> 3 & 1;
 }
 
 void System::sub_710111F644(void* value) {
     for (s32 i = 0; i < mScenes.size(); ++i)
-        mScenes[i].scene->_2948->_afc0 = value;
+        mScenes[i].collector->_2948->_afc0 = value;
 }
 
 void System::sub_7101114BA8() {
@@ -536,7 +536,7 @@ void System::sub_7101114BA8() {
         x_3();
     }
     for (s32 i = 0; i < mScenes.size(); ++i)
-        mScenes[i].scene->sub_710110028C();
+        mScenes[i].collector->sub_710110028C();
     std::memset(_1008.getBufferPtr(), 0, u32(_1008.size()));
     mLock.readUnlock();
 }

@@ -5,6 +5,12 @@
 
 namespace ksys::tera {
 
+void Unk_7101108AE8Flags::sub_71010F94F4(bool free_memory) {
+    if (free_memory)
+        _20.deleteGPUMemBlock();
+    _0 &= ~2;
+}
+
 void Unk_71010FEDBC::sub_71010FCB04() {
     _0 = nullptr;
     mAreas = nullptr;

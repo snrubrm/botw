@@ -5,7 +5,43 @@
 namespace ksys::tera {
 
 // NON_MATCHING: the original reads _29 and _2780 before the two stores and _28 after them.
-void Scene::sub_71011001D4(int level, int type) {
+bool ApertureMapsCollector::allocateImage(sead::Heap* heap) {
+    if (_2998 & 2) {
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry =
+                debug->_70.log("[ksys::tera::ApertureMapsCollector::allocateImage] ２重確保");
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        return false;
+    }
+
+    heap->getFreeSize();
+    for (Unk_71010FEDBC& record : _0) {
+        record._20.sub_71010F919C(heap);
+        heap->getFreeSize();
+    }
+    _2998 |= 0xff02;
+    return true;
+}
+
+bool ApertureMapsCollector::releaseImage(bool free_memory) {
+    if (!(_2998 & 2)) {
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log("[ksys::tera::ApertureMapsCollector::releaseImage] ２重解放");
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        return false;
+    }
+
+    _2998 &= ~2;
+    for (Unk_71010FEDBC& record : _0)
+        record._20.sub_71010F94F4(free_memory);
+    return true;
+}
+
+void ApertureMapsCollector::sub_71011001D4(int level, int type) {
     _2940 = level;
     _2941 = type;
     const u32 max = _0[0]._20._9 + _2780 + _0[0]._20._8;
@@ -16,12 +52,12 @@ void Scene::sub_71011001D4(int level, int type) {
     _2998 |= 4;
 }
 
-void Scene::sub_7101100234(bool a, bool b) {
+void ApertureMapsCollector::sub_7101100234(bool a, bool b) {
     _2998 = a ? _2998 | 8 : _2998 & ~8u;
     _2998 = b ? _2998 | 0x10 : _2998 & ~0x10u;
 }
 
-void Scene::sub_71010FFE70(s32 a, s32 b) {
+void ApertureMapsCollector::sub_71010FFE70(s32 a, s32 b) {
     if (_2780 == a && _2784 == b)
         return;
     _2780 = a;
@@ -30,7 +66,7 @@ void Scene::sub_71010FFE70(s32 a, s32 b) {
     _2998 |= 0xff00;
 }
 
-void Scene::sub_7101100260(s32 a, s32 b, s32 c, s32 d) {
+void ApertureMapsCollector::sub_7101100260(s32 a, s32 b, s32 c, s32 d) {
     _0[0]._1c = a;
     _0[2]._1c = b;
     _0[3]._1c = c;
@@ -41,11 +77,11 @@ void Scene::sub_7101100260(s32 a, s32 b, s32 c, s32 d) {
     _0[8]._1c = 0xfff0;
 }
 
-void Scene::sub_71011016F4() {
+void ApertureMapsCollector::sub_71011016F4() {
     _2948->sub_7101128BA0(_2942);
 }
 
-void Scene::sub_7101101A10(void* a, void* b, void* c, void* d, void* e) {
+void ApertureMapsCollector::sub_7101101A10(void* a, void* b, void* c, void* d, void* e) {
     _2910[0] = a;
     _2910[1] = b;
     _2910[2] = c;
@@ -53,18 +89,18 @@ void Scene::sub_7101101A10(void* a, void* b, void* c, void* d, void* e) {
     _2910[3] = e;
 }
 
-void Scene::sub_7101101A7C(void* a, void* b) {
+void ApertureMapsCollector::sub_7101101A7C(void* a, void* b) {
     _2920[0] = a;
     _2920[1] = b;
 }
 
-void Scene::sub_7101101AA0(void* a, void* b, void* c) {
+void ApertureMapsCollector::sub_7101101AA0(void* a, void* b, void* c) {
     _2930[0] = a;
     _2930[2] = b;
     _2930[1] = c;
 }
 
-void Scene::sub_7101101578(System* system, u32 flags) {
+void ApertureMapsCollector::sub_7101101578(System* system, u32 flags) {
     const Unk_7101101DFC entries[] = {
         {sUnk_7101EC54AC, 0x10000, 0x100000},
         {sUnk_7101EC54B4, 0x20000, 0x200000},
@@ -81,17 +117,17 @@ void Scene::sub_7101101578(System* system, u32 flags) {
 }
 
 // NON_MATCHING: the original tail-calls sub_7101100330 (ours calls it after the inlined request table).
-void Scene::sub_71011021E4(System* system, const Unk_276c* arg, bool request_all) {
+void ApertureMapsCollector::sub_71011021E4(System* system, const Unk_276c* arg, bool request_all) {
     if (request_all)
         sub_7101101578(system, 0xff0000);
     sub_7101100330(system, arg, true, true);
 }
 
-void Scene::sub_710110234C(System* system) {
+void ApertureMapsCollector::sub_710110234C(System* system) {
     sub_71011021E4(system, &_276c, true);
 }
 
-void Scene::sub_7101101914(const sead::SafeArray<s32, 19>& levels) {
+void ApertureMapsCollector::sub_7101101914(const sead::SafeArray<s32, 19>& levels) {
     bool changed = false;
     for (s32 i = 0; i < levels.size(); ++i) {
         if (levels[i] != -1 && levels[i] != _278c[i]) {
@@ -105,7 +141,7 @@ void Scene::sub_7101101914(const sead::SafeArray<s32, 19>& levels) {
 
 // NON_MATCHING: we unroll both loops and keep the levels in registers; the original keeps the 19-entry
 // stack array and two loops.
-void Scene::sub_7101101964() {
+void ApertureMapsCollector::sub_7101101964() {
     const Terrain* terrain = Terrain::instance();
     sead::SafeArray<s32, 19> levels;
     for (s32 i = 0; i < levels.size(); ++i) {
@@ -121,7 +157,7 @@ void Scene::sub_7101101964() {
 }
 
 // NON_MATCHING: register allocation in the inlined area loops.
-bool Scene::sub_71011020C0(u32 level) const {
+bool ApertureMapsCollector::sub_71011020C0(u32 level) const {
     for (s32 i = 5; i < 9; ++i) {
         if (!_0[i].areAreasReadyMaybe(level))
             return false;

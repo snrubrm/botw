@@ -48,7 +48,7 @@ u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s3
         return 0;
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return 0;
-    const s32 height_flag = flag != 0 && (system->mScenes(0).scene->_2998 & 0x20) ? flag : 0;
+    const s32 height_flag = flag != 0 && (system->mScenes(0).collector->_2998 & 0x20) ? flag : 0;
 
     auto* areas = system->sub_710111F4F0();
     const f32 scale = Terrain::instance()->_3cc;
@@ -71,7 +71,7 @@ u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
         return 0;
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return 0;
-    const s32 height_flag = flag != 0 && (system->mScenes(0).scene->_2998 & 0x20) ? flag : 0;
+    const s32 height_flag = flag != 0 && (system->mScenes(0).collector->_2998 & 0x20) ? flag : 0;
     auto* areas = system->sub_710111F4F0();
     return sub_71011091DC(0.0f, Terrain::instance()->_3cc, out_height, out_normal, xz, &areas->_20,
                           areas, index, height_flag);
@@ -441,7 +441,7 @@ void System::sub_7101115584(s32 index, Unk_7101115584Arg* arg) {
     mLock.readLock();
     SceneSlot& slot = mScenes[index];
     slot._88 = true;
-    slot.scene->sub_7101100F08(this, arg,
+    slot.collector->sub_7101100F08(this, arg,
                                (_1338 & 2) || (Terrain::instance()->_a50->_1d >> 4 & 1));
     if (arg->_198) {
         auto* debug = Terrain::instance()->_a50;
@@ -777,11 +777,11 @@ void System::sub_7101119278(const sead::SafeString& path, bool split) {
         _1338 |= 0x80000000;
 }
 
-void System::sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_all) {
+void System::sub_7101117048(s32 index, const ApertureMapsCollector::Unk_276c* arg, bool request_all) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;
     mLock.writeLock();
-    mScenes[index].scene->sub_71011021E4(this, arg, request_all);
+    mScenes[index].collector->sub_71011021E4(this, arg, request_all);
     sub_7101115BAC();
     mLock.writeUnlock();
 }
@@ -789,11 +789,11 @@ void System::sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_
 bool System::sub_71011170F4(s32 index, u32 level) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return true;
-    return mScenes[index].scene->sub_71011020C0(level);
+    return mScenes[index].collector->sub_71011020C0(level);
 }
 
-Scene::Unk_276c* System::sub_710111713C(s32 index) {
-    return &mScenes[index].scene->_276c;
+ApertureMapsCollector::Unk_276c* System::sub_710111713C(s32 index) {
+    return &mScenes[index].collector->_276c;
 }
 
 // NON_MATCHING: the original indexes _e8 with a sign-extended multiply each iteration; ours walks a pointer.

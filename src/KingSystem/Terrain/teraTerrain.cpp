@@ -366,9 +366,9 @@ f32 sub_7101152DC0(const Unk_7101152DC0* obj) {
                             std::tan(sUnk_710250FC7C * sead::Mathf::pi2() / 360.0f * 0.5f));
 }
 
-// Scene::Unk_2948 code (0x7101127xxx) follows sub_7101123224; in teraScene.cpp it would inline into
-// Scene::sub_71010FFE70, which calls it.
-void Scene::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c,
+// ApertureMapsCollector::Unk_2948 code (0x7101127xxx) follows sub_7101123224; in teraScene.cpp it would inline into
+// ApertureMapsCollector::sub_71010FFE70, which calls it.
+void ApertureMapsCollector::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c,
                                      Unk_71010FEDBC* d, s32 x, s32 y) {
     _8 = a;
     _10 = b;

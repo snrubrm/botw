@@ -71,10 +71,7 @@ sead::ExpHeap* sub_7101120314(u32 size, const sead::SafeString& name, sead::Heap
 class ApertureMaps {
     void updateMap();
 };
-class ApertureMapsCollector {
-    void allocateImage();
-    void releaseImage();
-};
+class ApertureMapsCollector;
 class System;
 class Unk_7101106F44;
 
@@ -376,7 +373,7 @@ public:
     // Image size index of the Unk_710250dc50 resources (their m9 0x710110d9b4).
     u32 _3d0;
     u8 _3d4[0x3dc - 0x3d4];
-    // Scene::sub_7101101964 gives the first _3dc of 19 entries level 1, the first _3dd level 2 and the
+    // ApertureMapsCollector::sub_7101101964 gives the first _3dc of 19 entries level 1, the first _3dd level 2 and the
     // first _3de level 3.
     u8 _3dc;
     u8 _3dd;
@@ -437,7 +434,7 @@ public:
         // Bit 7: sub_7101115584 skips sub_7101115338.
         u8 _18;
         u8 _19[0x1d - 0x19];
-        // Bit 4: passed to Scene::sub_7101100F08 by sub_7101115584 (unless System::_1338 bit 1).
+        // Bit 4: passed to ApertureMapsCollector::sub_7101100F08 by sub_7101115584 (unless System::_1338 bit 1).
         u8 _1d;
         u8 _1e[0x70 - 0x1e];
         // Debug log targets. 0x71011320b4 logs to _110 when its enabled flag (_88, at 0x198) is set.
@@ -746,10 +743,25 @@ struct Unk_7101115584Arg {
     u8 _199[0x1a0 - 0x199];
 };
 
+// Only the name is known ("[tera::Scene::exportFileBinary]"; no code in the tera range uses the string).
 class Scene {
     void exportFileBinary();
+};
 
+// The objects in System's 0x90-byte slots (SceneSlot). Named from the asserts of 0x71010ffee0 /
+// 0x71011000b0 ("[ksys::tera::ApertureMapsCollector::allocateImage]" / "releaseImage"), whose `this` has
+// this layout (nine records at 0, flags _2998), and from System::allocateApertureMapsCollectorImage
+// 0x71011128c4 (upstream name of the call in OverlayArenaSystem), which calls 0x71010ffee0 on each slot's
+// object. Called Scene in this repo until session 104.
+class ApertureMapsCollector {
 public:
+    // 0x71010ffee0: unless already allocated (flag 2; logs a double allocation), allocates the image
+    // memory of the nine records from `heap` and sets flags 2 and 0xff00. The heap's getFreeSize() is called
+    // before and after each record and the result dropped (discarded calls in the original).
+    bool allocateImage(sead::Heap* heap);
+    // 0x71011000b0: unless not allocated (logs a double release), clears flag 2 and releases the nine
+    // records' memory (freeing the GPU blocks if `free_memory`).
+    bool releaseImage(bool free_memory);
     // 0x710110028c (declaration only; placeholder name): range checks under Terrain::_a50 debug flags.
     void sub_710110028C();
     // 0x7101100f08 (declaration only; placeholder name and signature; 1648 bytes).
@@ -891,7 +903,7 @@ public:
     void sub_710111F644(void* value);
     // 0x710111f518 (placeholder name): sub_71011001D4(level, type) on every scene.
     void sub_710111F518(int level, int type);
-    // 0x710111f598 (placeholder name): Scene::sub_7101100234(a, b) on every scene.
+    // 0x710111f598 (placeholder name): ApertureMapsCollector::sub_7101100234(a, b) on every scene.
     void sub_710111F598(bool a, bool b);
     // 0x71011126c4 (placeholder name): stores `value` (at least 0) in _2943 of every scene.
     void sub_71011126C4(s32 value);
@@ -900,7 +912,7 @@ public:
     void sub_71011129CC(const sead::SafeArray<s32, 19>& levels, bool force);
     // 0x7101112a74 (placeholder name): sub_7101101964 on every scene, then clears bit 3 of _1338.
     void sub_7101112A74();
-    // 0x7101112af0 / 0x7101112b80 (placeholder names): Scene::sub_71010FFE70 / sub_7101100260 on every scene.
+    // 0x7101112af0 / 0x7101112b80 (placeholder names): ApertureMapsCollector::sub_71010FFE70 / sub_7101100260 on every scene.
     void sub_7101112AF0(s32 a, s32 b);
     void sub_7101112B80(s32 a, s32 b, s32 c, s32 d);
     // 0x7101112c30 (placeholder name): stores `vec` in every scene (_2760) and sets its flag 4.
@@ -908,7 +920,7 @@ public:
     // 0x7101112c94 (placeholder name): destroys `area` and its subtree (children first): waits until its
     // images are unused, tells `listener`, releases its images from the image resource manager and deletes it.
     void sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener);
-    // 0x7101115158 (placeholder name): with a current area node: if `update`, runs Scene::sub_710110234C
+    // 0x7101115158 (placeholder name): with a current area node: if `update`, runs ApertureMapsCollector::sub_710110234C
     // on every scene under the write lock, sets flag 0x10000 and runs sub_7101115BAC; otherwise only sets
     // flags 0x10002.
     void sub_7101115158(bool update);
@@ -918,14 +930,14 @@ public:
     // `path` (copied, or through sub_7101123258 with '/' when `split`), _1168 to its last component, and
     // bit 31 of _1338 if it contains ':'.
     void sub_7101119278(const sead::SafeString& path, bool split);
-    // 0x7101117048 (placeholder name): under the write lock, runs Scene::sub_71011021E4 on scene `index`
+    // 0x7101117048 (placeholder name): under the write lock, runs ApertureMapsCollector::sub_71011021E4 on scene `index`
     // and then sub_7101115BAC (only with Terrain flags 2 and 4).
-    void sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_all);
-    // 0x71011170f4 (CSV TeraSystem::x; placeholder name): Scene::sub_71011020C0 of scene `index` (true
+    void sub_7101117048(s32 index, const ApertureMapsCollector::Unk_276c* arg, bool request_all);
+    // 0x71011170f4 (CSV TeraSystem::x; placeholder name): ApertureMapsCollector::sub_71011020C0 of scene `index` (true
     // unless Terrain flags 2 and 4 are set).
     bool sub_71011170F4(s32 index, u32 level);
-    // 0x710111713c (CSV TeraSystem::x_1; placeholder name): Scene::_276c of scene `index`.
-    Scene::Unk_276c* sub_710111713C(s32 index);
+    // 0x710111713c (CSV TeraSystem::x_1; placeholder name): ApertureMapsCollector::_276c of scene `index`.
+    ApertureMapsCollector::Unk_276c* sub_710111713C(s32 index);
     // 0x71011178e4 (CSV name; the debug message calls it Scene::setMaterialUVWInfo): sets each material's
     // value and scale (the first material texture's width times the larger of _4 / _8).
     void x_2();
@@ -1041,7 +1053,7 @@ public:
 
     // 0x90-byte entries; only the scene pointer at +0 is known.
     struct SceneSlot {
-        Scene* scene;
+        ApertureMapsCollector* collector;
         u8 _8[0x88 - 0x8];
         // Set by sub_7101115584.
         bool _88;
