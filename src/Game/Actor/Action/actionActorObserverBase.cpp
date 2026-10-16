@@ -87,3 +87,21 @@ bool ActorObserverBase::m7(const CollisionIterator& it) {
 bool ActorObserverBase::m8(const ContactIterator& it) {
     return true;
 }
+
+// NON_MATCHING: C++17 evaluation order (the virtual m15 is loaded before the argument)
+bool Unk_71024e5408::m3(const CollisionIterator& it) {
+    return m15(getElementHolderMaybe((*it)->bodies[1]));
+}
+
+// NON_MATCHING: C++17 evaluation order (the virtual m15 is loaded before the argument)
+bool Unk_71024e5408::m4(const ContactIterator& it) {
+    return m15(getElementHolderMaybe((*it)->body_b));
+}
+
+bool Unk_71024e5408::m7(const CollisionIterator& it) {
+    return getElementHolderMaybe((*it)->bodies[1]) != nullptr;
+}
+
+bool Unk_71024e5408::m8(const ContactIterator& it) {
+    return getElementHolderMaybe((*it)->body_b) != nullptr;
+}

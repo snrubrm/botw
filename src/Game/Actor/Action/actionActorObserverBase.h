@@ -2,6 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include "KingSystem/Chemical/chmElement.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/physDefines.h"
@@ -149,8 +151,9 @@ class Unk_71024e5408 : public ActorObserverBase {
 public:
     // 0x7100e28d58 (declared only).
     explicit Unk_71024e5408(ksys::act::ai::ActionBase* owner);
-    // 0x7100e28da8 / 0x7100e28e58 / 0x7100e28f10 / 0x7100e28fb8 (all declared only): need the Area
-    // actor class (DynamicCast with guard 0x7102600a98 and typeinfo static 0x7102600a90).
+    // 0x7100e28da8 / 0x7100e28e58 / 0x7100e28f10 / 0x7100e28fb8: the other body's user tag cast
+    // to the element tag Unk_7102518620 (typeinfo static 0x7102600a90); m3 / m4 pass the element's
+    // chemical holder to m15, m7 / m8 return whether there is one.
     bool m3(const CollisionIterator& it) override;
     bool m4(const ContactIterator& it) override;
     sead::Buffer<Payload>* m6() override { return &_18; }
@@ -159,6 +162,17 @@ public:
     // Slot 15: called by the m3/m4 filters with the observed actor's link data (nullable).
     // 0x7100e23fa0 (defined in actionFireObserveBase.cpp).
     virtual bool m15(const void* data);
+
+    // inline-only in the original; name is a guess (m3, m4, m7 and m8 repeat it): the chemical
+    // holder of the element whose user tag is on `body` (null if none).
+    static ksys::act::Unk_71024dd1c8* getElementHolderMaybe(const ksys::phys::RigidBody* body) {
+        if (!body || !body->getUserTag())
+            return nullptr;
+        auto* tag = sead::DynamicCast<Unk_7102518620>(body->getUserTag());
+        if (!tag || !tag->mElement)
+            return nullptr;
+        return tag->mElement->mHolder;
+    }
 
 protected:
     sead::Buffer<Payload> _18;
