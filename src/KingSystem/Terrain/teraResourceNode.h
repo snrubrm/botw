@@ -32,7 +32,7 @@ union ImageTypeMaybe {
     u16 sub_710114A650(u32 size, s32 a3) const;
 
     struct {
-        s16 type;
+        u16 type;
         u16 index;
     };
     u32 raw;

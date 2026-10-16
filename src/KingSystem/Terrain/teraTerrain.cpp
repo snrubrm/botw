@@ -143,7 +143,6 @@ s32 ImageTypeMaybe::sub_710114A5A8() const {
     }
 }
 
-// NON_MATCHING: the original loads the type unsigned (ldrh) here but signed in sub_710114A5A8.
 s32 ImageTypeMaybe::sub_710114A5CC() const {
     switch (type) {
     case 0:
