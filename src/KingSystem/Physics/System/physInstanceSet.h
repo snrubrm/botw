@@ -65,13 +65,34 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(State, 8);
 
+    // 0x7101226aa8 (vtable 0x7102515c28; InstanceSet init 0x7100fb9928 allocates 0x58 bytes and calls it).
+    SupportBoneInstanceMaybe();
     virtual ~SupportBoneInstanceMaybe();
     // 0x71012273a8 (placeholder name): the support bone index of `name`, -1 without a resource.
     s32 sub_71012273A8(const sead::SafeString& name) const;
 
-    u8 _8[0x10 - 8];
-    SupportBoneResource* mResource;
-    u8 _18[0x48 - 0x18];
+    // inline-only in the original; name is a guess: the same frees open the destructor 0x7101226ae0 and the
+    // init function 0x7101226bb4.
+    void finalize_() {
+        if (_38) {
+            delete[] _38;
+            _38 = nullptr;
+            _40 = 0;
+        }
+        _8 = nullptr;
+        mResource = nullptr;
+        _18.freeBuffer();
+        _48.freeBuffer();
+    }
+
+    void* _8{};  // a bone accessor (init 0x7101226bb4 calls BoneAccessor::getBoneIndex on it)
+    SupportBoneResource* mResource{};
+    sead::Buffer<s32> _18;  // bone indices, one per support bone (filled with -1 by init)
+    s32 _28 = 0;
+    u64 _30 = 0;
+    u32* _38 = nullptr;
+    s32 _40 = 0;
+    s32 _44 = 1;
     sead::Buffer<State> _48;
 };
 KSYS_CHECK_SIZE_NX150(SupportBoneInstanceMaybe, 0x58);

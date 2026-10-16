@@ -3,6 +3,12 @@
 
 namespace ksys::phys {
 
+SupportBoneInstanceMaybe::SupportBoneInstanceMaybe() = default;
+
+SupportBoneInstanceMaybe::~SupportBoneInstanceMaybe() {
+    finalize_();
+}
+
 s32 SupportBoneInstanceMaybe::sub_71012273A8(const sead::SafeString& name) const {
     if (!mResource)
         return -1;
