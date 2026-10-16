@@ -2813,7 +2813,10 @@ struct ScreenAppPictureBookUnk {
     /* 0x310 */ s32 _310;
     /* 0x318 */ PictureBookItem* _318;
     /* 0x320 */ s32 _320;
-    u8 _324[0x33c - 0x324];
+    u8 _324[0x328 - 0x324];
+    // returned by Unk_710247b2c8::m10 (type unknown)
+    /* 0x328 */ void* _328;
+    u8 _330[0x33c - 0x330];
     /* 0x33c */ s32 _33c;
     /* 0x340 */ s32 _340;
 };

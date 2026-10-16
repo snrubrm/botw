@@ -1116,3 +1116,30 @@ Unk_710247e960::~Unk_710247e960() = default;
 Unk_710247e990::~Unk_710247e990() = default;
 
 Unk_710247b2c8::~Unk_710247b2c8() = default;
+
+// 0x71009b8fdc
+void Unk_710247b2c8::m4() {
+    sub_71009B7414();
+    sub_71009B2C38();
+}
+
+// 0x71009b9000
+void Unk_710247b2c8::m5() {
+    sub_71009B2DB4();
+}
+
+// 0x71009b9008
+void Unk_710247b2c8::m7() {
+    _18->sub_710093FEAC();
+}
+
+// 0x71009b2d8c
+void Unk_710247b2c8::m9() {
+    sub_71009B2DB4();
+    _18->sub_710093F594(false);
+}
+
+// 0x71009b9010
+void* Unk_710247b2c8::m10() {
+    return _18->_328;
+}

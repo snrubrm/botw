@@ -1845,7 +1845,15 @@ public:
     virtual void m7();
     virtual void m8();
     virtual void m9();
-    virtual void m10();
+    virtual void* m10();
+
+    // 0x71009b2c38 / 0x71009b2db4 / 0x71009b7414 (CSV unnamed; not decompiled)
+    void sub_71009B2C38();
+    void sub_71009B2DB4();
+    void sub_71009B7414();
+
+    u8 _8[0x18 - 0x8];
+    /* 0x18 */ uking::ui::ScreenAppPictureBookUnk* _18;
 };
 
 // typeinfo 0x71025b1218; the original has no vtable for this class (an abstract base: only its RTTI
