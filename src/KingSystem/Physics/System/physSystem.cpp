@@ -146,8 +146,6 @@ RayCastForRequest* System::allocRayCastRequest(SystemGroupHandler* group_handler
     return mRayCastRequestMgr->allocRequest(group_handler, ground_hit);
 }
 
-// NON_MATCHING: the original allocates 0x30 bytes for the HavokMemoryAllocator (sizeof is 0x28 here; the real
-// class is probably 16-byte aligned through its Havok base).
 void System::initMemorySystem(sead::Heap* heap, sead::Heap* heap2) {
     if (mHavokAllocator)
         return;

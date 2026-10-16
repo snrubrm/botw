@@ -2,7 +2,9 @@
 
 #include <Havok/Common/Base/hkBase.h>
 
-class hkMallocAllocator : public hkMemoryAllocator {
+// 16-byte aligned: ksys::phys::System::initMemorySystem 0x7101214a0c allocates 0x30 bytes (alignment 0x10) for
+// HavokMemoryAllocator, whose fields end at 0x28.
+class alignas(16) hkMallocAllocator : public hkMemoryAllocator {
 public:
     explicit hkMallocAllocator(int align = HK_REAL_ALIGNMENT)
         : m_align(align), m_currentUsed(0), m_peakUse(0) {}
