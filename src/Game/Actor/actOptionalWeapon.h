@@ -54,8 +54,9 @@ public:
     void sub_7100EF10BC();
     // 0x7100ef13a4 (placeholder name): the string at `_860`.
     sead::FixedSafeString<32>& sub_7100EF13A4();
-    // Declaration only: full bodies write Vector3f outputs consumed by OptionalWeaponAI's
-    // RotOffset / TransOffset parameters. No object layout is added.
+    // 0x7100ef13ac / 0x7100ef1680: the hold rotation / translation offset (OptionalWeaponAI RotOffset /
+    // TransOffset): for a bow, the WeaponOption player or NPC offset by holder; for swords, the weapon's own
+    // m167 / m168; zero otherwise.
     void sub_7100EF13AC(sead::Vector3f* out);
     void sub_7100EF1680(sead::Vector3f* out);
     // Declaration only: OptionalWeaponAI updates the existing links/name before reading offsets.

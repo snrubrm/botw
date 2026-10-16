@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponOption.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -66,6 +70,50 @@ void OptionalWeapon::sub_7100EF0D44() {
         }
     } else if (isNPCProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
         sub_7100EF1F30();
+    }
+}
+
+void OptionalWeapon::sub_7100EF13AC(sead::Vector3f* out) {
+    ksys::act::acc::WeaponBase weapon;
+    ksys::act::acquireActor(&_850, &weapon);
+    if (!weapon.hasProc() || !weapon.isStateCalc()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (!weapon.isWeaponType3()) {
+        if (weapon.isWeaponType0Or1Or2())
+            weapon.m167(out);
+        else
+            *out = sead::Vector3f::zero;
+        return;
+    }
+    if (isPlayerProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr))) ||
+        ksys::act::sub_7100EFD8E4(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
+        *out = getParam()->getRes().mGParamList->getWeaponOption()->mPlayerHoldRotOffset.ref();
+    } else if (isNPCProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
+        *out = getParam()->getRes().mGParamList->getWeaponOption()->mNPCHoldRotOffset.ref();
+    }
+}
+
+void OptionalWeapon::sub_7100EF1680(sead::Vector3f* out) {
+    ksys::act::acc::WeaponBase weapon;
+    ksys::act::acquireActor(&_850, &weapon);
+    if (!weapon.hasProc() || !weapon.isStateCalc()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (!weapon.isWeaponType3()) {
+        if (weapon.isWeaponType0Or1Or2())
+            weapon.m168(out);
+        else
+            *out = sead::Vector3f::zero;
+        return;
+    }
+    if (isPlayerProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr))) ||
+        ksys::act::sub_7100EFD8E4(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
+        *out = getParam()->getRes().mGParamList->getWeaponOption()->mPlayerHoldTransOffset.ref();
+    } else if (isNPCProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
+        *out = getParam()->getRes().mGParamList->getWeaponOption()->mNPCHoldTransOffset.ref();
     }
 }
 
