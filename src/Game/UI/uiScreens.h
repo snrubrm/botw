@@ -3243,6 +3243,9 @@ public:
     void sub_71009372E0(eui::LayoutEx* layout);
     // 0x71009372e8 (placeholder name): sets the page count, jumps to item `index` and resets the pane
     void sub_71009372E8(s32 index, s32 count);
+    // 0x710093767c (placeholder name): the layout `kind` of the nearest other shortcut unit next to unit `index`
+    // (searching from the start of its run; none for kind 2)
+    eui::LayoutEx* sub_710093767C(s32 index, s32 kind);
     // 0x7100937368 (placeholder name): presses the shortcut button of the unit at the scroll position
     void sub_7100937368();
     // 0x7100937894 (placeholder name): moves the pane towards its rest position shifted by the scroll offset

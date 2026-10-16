@@ -134,6 +134,30 @@ void Unk_7102474d30::sub_7100937368() {
     unit->_10->Down();
 }
 
+// NON_MATCHING: loop counter registers and the step selection (csinc in the original)
+// 0x710093767c
+eui::LayoutEx* Unk_7102474d30::sub_710093767C(s32 index, s32 kind) {
+    if (kind == 2)
+        return nullptr;
+    s32 i;
+    if (sub_7100943684(index - 1)) {
+        i = index;
+        do
+            --i;
+        while (sub_7100943684(i - 1));
+    } else {
+        i = index + 1;
+    }
+    for (Unk_7102474e38* unit = sub_7100943684(i); unit; unit = sub_7100943684(i)) {
+        if (auto* shortcut = sead::DynamicCast<Unk_7102474c68>(unit)) {
+            if (eui::LayoutEx* layout = shortcut->mArchive.sub_71009C37B0(kind))
+                return layout;
+        }
+        i = i + 1 == index ? i + 2 : i + 1;
+    }
+    return nullptr;
+}
+
 // 0x7100937790
 void Unk_7102474d30::m7() {
     if (!(_2c & 1))
