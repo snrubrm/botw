@@ -179,6 +179,8 @@ s32 sub_7100AA6F90(const PouchItem& item);
 int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out);
 // 0x7100aa3294: chooses the dungeon or location-marker message set.
 int getLocationMarker(const sead::SafeString& name, eui::MessageString* out);
+// 0x71010ba648 (CSV unnamed; not decompiled): converts the message to UTF-8 into `out`
+s32 sub_71010BA648(sead::BufferedSafeString* out, const eui::MessageString& message);
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
                eui::MessageString* out);
 

@@ -7,6 +7,8 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actHorseBase.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/UI/euiMessageString.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "Game/gameSceneSubsys13.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -730,6 +732,17 @@ void Unk_7102476250::m29() {
 }
 
 Unk_7102476250::~Unk_7102476250() = default;
+
+// 0x7100956fd4
+void Unk_7102476350::m26() {
+    if (!_50 || !_50->_10)
+        return;
+    eui::MessageString message;
+    if (getLocationMarker(_50->_10, &message) != 0)
+        return;
+    sead::FixedSafeString<64> name;
+    sub_71010BA648(&name, message);
+}
 
 void Unk_7102476350::m29() {
     auto* record = _58;

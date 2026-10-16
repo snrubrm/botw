@@ -644,6 +644,15 @@ struct Unk_7100956bac {
     ksys::gdt::FlagHandle _30;
 };
 
+// The record behind Unk_7102476350::_50 (sub_7100956C34 tests the map-mode bit of `_8`; m26 looks up the location
+// marker of the name `_10`).
+struct Unk_7102476350Record {
+    u8 _0[8];
+    /* 0x08 */ u32 _8;
+    u8 _c[4];
+    /* 0x10 */ const char* _10;
+};
+
 // Both list loops in factory 0x95C0A8 allocate 0x60 bytes for VT 0x2476350.
 class Unk_7102476350 : public UiSubsys1Entry {
     SEAD_RTTI_OVERRIDE(Unk_7102476350, UiSubsys1Entry)
@@ -659,7 +668,7 @@ public:
     virtual void m29();
     bool sub_7100956C34();
 
-    void* _50;
+    Unk_7102476350Record* _50;
     Unk_7100956bac* _58;
 };
 static_assert(sizeof(Unk_7102476350) == 0x60);
