@@ -39,6 +39,12 @@ void Unk_71025d69f0::sub_710094E064() {
     sub_710094DCC4(_28, _28 - prev);
 }
 
+// 0x710094f6f8
+bool Unk_71025d69f0::sub_710094F6F8() const {
+    auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome));
+    return screen && screen->sub_71009DD81C();
+}
+
 // 0x710094f7ac
 bool Unk_71025d69f0::sub_710094F7AC(s32 app) const {
     if (_30 == app)

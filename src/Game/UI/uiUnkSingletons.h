@@ -359,6 +359,8 @@ public:
     void sub_710094DCC4(s32 a1, s32 a2);
     // 0x710094e064 (placeholder name): sets _28 to 3, then forwards to sub_710094DCC4 with the change
     void sub_710094E064();
+    // 0x710094f6f8 (placeholder name): ScreenAppHome::sub_71009DD81C of the open home screen (false without one)
+    bool sub_710094F6F8() const;
     // 0x710094f7ac (placeholder name): whether app `app` can be used: the current one (_30), the runes app with any
     // rune, app 1 always, the album / picture book apps once obtained
     bool sub_710094F7AC(s32 app) const;
