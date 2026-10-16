@@ -21,6 +21,10 @@ class ForestRenderer : public sead::hostio::Node {
 public:
     // Placeholder names: the 0x88-byte entries of the buffer at 0xd0 and their 0x98-byte items.
     struct Item {
+        // 0x7100f0914c (declared only; placeholder name): updates the item for the changed record; true stops
+        // ForestRenderer::x_8's loop.
+        bool sub_7100F0914C(void* record, bool a, bool b);
+
         u8 _0[0xc];
         sead::BitFlag16 _c;
         u8 _e[0x98 - 0xe];
@@ -60,7 +64,8 @@ public:
     virtual ~ForestRenderer();
 
     s32 x_7(const sead::Vector3f& vec);
-    // 0x7100f06798 (CSV x_8; declaration only)
+    // 0x7100f06798 (CSV x_8): `idx` from x_7 (entry << 16 | record). With `b` it clears record flags 1, 2 and 6;
+    // otherwise it sets / clears flag 2 (`a` clears) and lets the entry's items react.
     void x_8(s32 idx, bool a, bool b);
     // 0x7100f03c18 (declaration only; placeholder name)
     void sub_710F03C18(const sead::Vector3f* pos);

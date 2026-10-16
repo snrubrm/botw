@@ -66,4 +66,25 @@ s32 ForestRenderer::x_7(const sead::Vector3f& vec) {
     return -1;
 }
 
+// NON_MATCHING: the order of the item pointer increment and the counter decrement in the loop.
+void ForestRenderer::x_8(s32 idx, bool a, bool b) {
+    const u32 entry_idx = u32(idx) >> 16;
+    if (entry_idx > 1)
+        return;
+    auto& entry = mEntries[entry_idx];
+    auto& record = entry.mRecords[idx & 0xffff];
+    if (b) {
+        record._4.reset(0x46);
+        return;
+    }
+    if (a)
+        record._4.reset(4);
+    else
+        record._4.set(4);
+    for (auto& item : entry.mItems) {
+        if (item.sub_7100F0914C(&record, a, false))
+            break;
+    }
+}
+
 }  // namespace ksys::gfx
