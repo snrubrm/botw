@@ -3,7 +3,7 @@
 
 namespace ksys::tera {
 
-Terrain* Terrain::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(Terrain)
 
 void Terrain::sub_710114D8C0(sead::Heap* heap, System* system) {
     _360->sub_71013008E4(heap, system);

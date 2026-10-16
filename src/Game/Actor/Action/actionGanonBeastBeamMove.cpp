@@ -64,7 +64,7 @@ void GanonBeastBeamMove::calc_() {
         return;
     auto* beam = static_cast<act::LineBeam*>(actor);
     if (beam->_d30) {
-        auto* terrain = ksys::tera::Terrain::sInstance;
+        auto* terrain = ksys::tera::Terrain::instance();
         if (terrain && terrain->isGrassEnabled()) {
             terrain->sub_710114DE4C()->sub_7101150FD4(&beam->_d1c, 10.0f, 8.0f);
             terrain->sub_710114DE4C()->sub_7101150A7C(&beam->_d1c, 13.0f, 10.0f);
@@ -87,7 +87,7 @@ void GanonBeastBeamMove::calc_() {
                     sead::Vector3f neg_ey = -sead::Vector3f::ey;
                     if (!::somePositionCalc(&pos, pos, neg_ey, 10.0f))
                         pos.x += -5.0f;
-                    auto* terrain2 = ksys::tera::Terrain::sInstance;
+                    auto* terrain2 = ksys::tera::Terrain::instance();
                     terrain2->sub_710114DE4C()->sub_7101150FD4(&pos, 10.0f, 8.0f);
                     --n;
                 } while (n != 0);

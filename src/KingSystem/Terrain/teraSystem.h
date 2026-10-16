@@ -8,6 +8,7 @@
 #include <math/seadVector.h>
 #include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
+#include <heap/seadDisposer.h>
 #include <heap/seadHeap.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -132,12 +133,13 @@ public:
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
 
-// Terrain is the CSV name of the singleton at 0x7102620698.
-// The bases and the remaining members are not modeled yet.
-class Terrain {
+// Terrain is the CSV name of the singleton at 0x7102620698 (a sead singleton: createInstance 0x710114961c
+// builds the disposer at 0x300). Its ctor 0x71011496a4 also constructs bases at 0x20 (ctor 0x710107e724) and
+// 0x58 (vtable group 0x710250faa8); those and the remaining members are not modeled yet.
+class Terrain : public sead::IDisposer {
 public:
-    static Terrain* sInstance;
-    static Terrain* instance() { return sInstance; }
+    Terrain();
+    ~Terrain() override;
 
     void setPauseState(bool paused);
     // 0x710114d73c (CSV Terrain::__auto21; placeholder name): Core::sub_710130085C while bits 1 and 2 of _a58 are
@@ -198,7 +200,11 @@ public:
     // The name of terrain material `index` (DragonMoveTo searches it for "雪").
     const char* sub_710114DE20(s32 index) const;
 
-    u8 _0[0x360];
+    u8 _20[0x300 - 0x20];
+    // The disposer buffer (mSingletonDisposerBuf_) is at 0x300.
+    SEAD_SINGLETON_DISPOSER(Terrain)
+public:
+    u8 _320[0x360 - 0x320];
     Core* _360;
     u8 _368[0x370 - 0x368];
     Unk370* _370;
