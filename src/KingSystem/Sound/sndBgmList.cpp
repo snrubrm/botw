@@ -150,20 +150,18 @@ bool Unk_71010073f4::sub_7101007C90() {
 // The Remains battle BGMs. In the original, Elec and Fire (up to the static initialiser 0x71010089f4) and Water, Wind
 // and Unk_710260ecf8 are two TUs.
 
-NamedBgm::NamedBgm(const BgmInitArg& arg) : Unk_71024fc7f8(arg.handle_type) {}
-
+// NON_MATCHING: the original adds +0x28c in each branch; ours hoists it.
 void Unk_71025ce3a0::m6(bool started) {
-    auto* mgr = Unk_710104e5b4::instance();
     if (started)
-        mgr->mRemainsDucking.start(mDuckingKind);
+        Unk_710104e5b4::instance()->mRemainsDucking.start(mDuckingKind);
     else
-        mgr->mRemainsDucking.stop();
+        Unk_710104e5b4::instance()->mRemainsDucking.stop();
 }
 
 static const sead::SafeString sRemainsElecBattle = "RemainsElecBattle";
 
 Unk_710260f2c8::Unk_710260f2c8(const BgmInitArg& arg)
-    : Unk_71025ce3a0(arg, 2),
+    : Unk_71025ce3a0(arg.handle_type, 2),
       mInfo(static_cast<EventBgmRemainsElecBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_17))) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsElecBattleBgm", nullptr);
 }
@@ -184,13 +182,18 @@ void Unk_710260f2c8::hm14() {
     mEntry->sub_7100FF6A50(2, wake_volume);
 }
 
+// NON_MATCHING: the original tests `_1e9 != 0` as a value against the target test and branches the other way.
 void Unk_710260f2c8::hm15() {
-    const bool storm_full = !_1e8 || _1e9;
-    if ((mStormFader.getTarget() == 1.0f) != storm_full) {
-        if (storm_full)
-            mStormFader.moveTo(1.0f, *mInfo->mFadeInSecOutStorm);
-        else
-            mStormFader.moveTo(*mInfo->mMinVolumeOutStorm, *mInfo->mFadeOutSecOutStorm);
+    const bool storm_at_full = mStormFader.getTarget() == 1.0f;
+    if (_1e8) {
+        if (storm_at_full != _1e9) {
+            if (!_1e9)
+                mStormFader.moveTo(*mInfo->mMinVolumeOutStorm, *mInfo->mFadeOutSecOutStorm);
+            else
+                mStormFader.moveTo(1.0f, *mInfo->mFadeInSecOutStorm);
+        }
+    } else if (!storm_at_full) {
+        mStormFader.moveTo(1.0f, *mInfo->mFadeInSecOutStorm);
     }
 
     if ((mWakeBoardingFader.getTarget() == 1.0f) != _1ea) {
@@ -215,11 +218,13 @@ sead::SafeString sStr_RemainsFireB = "B";
 }  // namespace
 
 Unk_71025ce390::Unk_71025ce390(const BgmInitArg& arg)
-    : Unk_71025ce3a0(arg, 1),
+    : Unk_71025ce3a0(arg.handle_type, 1),
       mInfo(static_cast<EventBgmRemainsFireBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_18))) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsFireBattleBgm", nullptr);
 }
 
+// NON_MATCHING: the original selects the parameter value addresses; and sStr_RemainsFireB sits at +0x28 of the TU's
+// static block (+0x20 here).
 void Unk_71025ce390::sub_71010084B4(bool alert) {
     sub_7101020C08(*mInfo->mFoundFadeOutSec);
     mWaitTimer = alert ? *mInfo->mFoundWaitSec : *mInfo->mFoundAgainWaitSec;
@@ -227,6 +232,7 @@ void Unk_71025ce390::sub_71010084B4(bool alert) {
         sub_71010209FC(sStr_RemainsFireB);
 }
 
+// NON_MATCHING: `!(flags & 2)` is computed as ubfx / eor in the original; static block offset of sStr_RemainsFireA.
 void Unk_71025ce390::hm14() {
     if (mType == Unk_710260f248Type::_3 || (_68._18 & 1)) {
         _1b4 = false;
@@ -239,6 +245,7 @@ void Unk_71025ce390::hm14() {
     mWaitTimer = 0.0f;
 }
 
+// NON_MATCHING: static block offsets of sStr_RemainsFireA / sStr_RemainsFireB (+0x18 / +0x28 in the original).
 void Unk_71025ce390::hm15() {
     if (_1b4) {
         if (mType == Unk_710260f248Type::_3 || (_68._18 & 3)) {
@@ -257,10 +264,11 @@ void Unk_71025ce390::hm15() {
 
 Unk_71025ce390::~Unk_71025ce390() = default;
 
-Unk_710260f848::Unk_710260f848(const BgmInitArg& arg) : Unk_71025ce3a0(arg, 3) {
+Unk_710260f848::Unk_710260f848(const BgmInitArg& arg) : Unk_71025ce3a0(arg.handle_type, 3) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsWaterBattleBgm", nullptr);
 }
 
+// NON_MATCHING: the original loads the asset call table before calling getResourceAccessor (C++14 argument order).
 void Unk_71025ce3a0::hm14() {
     auto* entry = sub_7101020B40();
     _189 = false;
@@ -280,7 +288,7 @@ void Unk_71025ce3a0::hm15() {
 
 Unk_710260f848::~Unk_710260f848() = default;
 
-Unk_710260f2b8::Unk_710260f2b8(const BgmInitArg& arg) : Unk_71025ce3a0(arg, 0) {
+Unk_710260f2b8::Unk_710260f2b8(const BgmInitArg& arg) : Unk_71025ce3a0(arg.handle_type, 0) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsWindBattleBgm", nullptr);
 }
 
@@ -323,7 +331,7 @@ void Unk_710260f2b8::hm15() {
         hm14();
     if (mEntry && mJumped) {
         mFader.calc();
-        mEntry->_20 = sead::Mathf::max(mFader.getValue(), 0.0f);
+        mEntry->_20 = sead::Mathf::clampMin(mFader.getValue(), 0.0f);
     }
 }
 
@@ -335,6 +343,7 @@ void Unk_710260f2b8::fadeOutMaybe(f32 fade_sec) {
 
 Unk_710260ecf8::~Unk_710260ecf8() = default;
 
+// NON_MATCHING: the original loads the asset call table before calling getResourceAccessor (C++14 argument order).
 void Unk_710260ecf8::hm14() {
     auto* entry = sub_7101020B40();
     _189 = false;

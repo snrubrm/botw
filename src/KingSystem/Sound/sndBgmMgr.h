@@ -254,7 +254,8 @@ class EventBgmRemainsFireBattleInfo;
 // m6 0x71010097d8, m7 0x7101008da0, m8 0x7101008da4).
 class NamedBgm : public Unk_71025ce3b0, public Unk_71024fc7f8 {
 public:
-    explicit NamedBgm(const BgmInitArg& arg);
+    // The derived constructors pass BgmInitArg::handle_type (read before the first vtable store).
+    explicit NamedBgm(Unk_710260f248Type type) : Unk_71024fc7f8(type) {}
 
     // The RTTI of the list items is Unk_71025ce3b0's (the handle base has its own).
     using Unk_71025ce3b0::checkDerivedRuntimeTypeInfo;
@@ -296,7 +297,7 @@ KSYS_CHECK_SIZE_NX150(Unk_710260ecf8, 0x1a0);
 class Unk_71025ce3a0 : public NamedBgm {
     SEAD_RTTI_OVERRIDE(Unk_71025ce3a0, Unk_71025ce3b0)
 public:
-    Unk_71025ce3a0(const BgmInitArg& arg, s32 ducking_kind) : NamedBgm(arg), mDuckingKind(ducking_kind) {}
+    Unk_71025ce3a0(Unk_710260f248Type type, s32 ducking_kind) : NamedBgm(type), mDuckingKind(ducking_kind) {}
 
     // 0x710100812c
     void m6(bool started) override;
