@@ -31,6 +31,7 @@
 #include "Game/UI/uiUnkTiny.h"
 #include <common/aglRenderBuffer.h>
 #include <common/aglTextureData.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -3840,13 +3841,17 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
 
     /* 0x3610 */ ScreenChild* _3610;
-    u8 _pad_3618[0x3688 - 0x3618];
+    /* 0x3618 */ eui::Animator* _3618;
+    u8 _pad_3620[0x3648 - 0x3620];
+    /* 0x3648 */ xlink2::HandleSLink _3648;  // the camera sound
+    u8 _pad_3658[0x3688 - 0x3658];
     /* 0x3688 */ eui::LayoutEx* _3688;
     u8 _pad_3690[0x36e8 - 0x3690];
     /* 0x36e8 */ s32 _36e8;
     u8 _pad_36ec[0x3b70 - 0x36ec];
     /* 0x3b70 */ agl::GPUMemVoidAddr _3b70;  // the photo image memory (freed by m101)
-    u8 _pad_3b88[0x4019 - 0x3b88];
+    u8 _pad_3b88[0x4018 - 0x3b88];
+    /* 0x4018 */ bool _4018;
     /* 0x4019 */ bool _4019;  // set when the camera mode was entered from a state that must be left
     u8 _pad_401a[0x4020 - 0x401a];
     /* 0x4020 */ u8* _4020;
@@ -3858,6 +3863,7 @@ public:
     void m99() override;
     // 0x71009db754: closes the camera screen
     void m100() override;
+
     // 0x71009db888: frees the photo image memory and the two work buffers
     void m101() override;
 

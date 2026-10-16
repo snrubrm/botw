@@ -159,6 +159,15 @@ void ScreenAppCamera::m99() {
     ksys::gdt::setFlag_IsOpenAppCamera(true, false);
 }
 
+// 0x71009d92e8: fades the camera sound and enters the camera mode
+void ScreenAppCamera::m158() {
+    _3648.fade();
+    _3618->PlayAuto(1.0f);
+    Manager::instance()->sub_7100A7CA68();
+    _4019 = Unk_71025d1740::instance()->sub_7100901A90(false);
+    _4018 = true;
+}
+
 // 0x71009db754
 // NON_MATCHING: the child state test (1 / 3 / 5 / 7) is a bit-mask lookup in ours; the original tests 7, then
 // (state - 1) <= 4 with an even (state - 1)
