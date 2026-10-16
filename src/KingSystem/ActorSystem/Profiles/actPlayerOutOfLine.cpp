@@ -1,3 +1,5 @@
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -264,6 +266,25 @@ void Player::sub_71008B5B8() {
         return;
     x_24(-1.0f);
     _d68 = getEquipmentTypeName(0);
+}
+
+// Here, not in actPlayer.cpp: the original calls playerWeapons_return0 out of line.
+void Player::x_10(bool on) {
+    getWeapons()->mWeapons[0]._10 = false;
+    snd::Unk_7102502138::instance()->sub_710103B41C(true);
+    if (!on && sub_710000759C() && _d24 == 0 && !_cf0.isOnBit(23) && !isRidingHorse() && !m193() &&
+        !_cf4.isOnBit(29)) {
+        x_7();
+    }
+    const s32 slot = playerWeapons_return0();
+    auto* weapon = getWeapons()->getEquippedWeapon(slot);
+    if (auto* sword = sead::DynamicCast<uking::act::Weapon>(weapon))
+        mASList->goLimpFromHeadShotMaybe(44, sword->getProfile(), 0);
+    _1d04 = 15.0f;
+    _1d08 = 15.0f;
+    _1d0c = -1.0f;
+    x_40();
+    _c44.resetBit(11);
 }
 
 }  // namespace ksys::act

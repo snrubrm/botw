@@ -763,7 +763,10 @@ public:
     /* 0x1cec */ f32 _1cec;
     /* 0x1cf0 */ u8 _1cf0[0x1cf8 - 0x1cf0];
     /* 0x1cf8 */ f32 _1cf8;
-    /* 0x1cfc */ u8 _1cfc[0x1d10 - 0x1cfc];
+    /* 0x1cfc */ u8 _1cfc[0x1d04 - 0x1cfc];
+    /* 0x1d04 */ f32 _1d04;  // 15 / 15 / -1 set by x_10
+    /* 0x1d08 */ f32 _1d08;
+    /* 0x1d0c */ f32 _1d0c;
     /* 0x1d10 */ ksys::Timer _1d10;  // set by PlayerBackJump::enter_ (NoDamageTime)
     /* 0x1d1c */ u8 _1d1c[0x1d34 - 0x1d1c];
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)

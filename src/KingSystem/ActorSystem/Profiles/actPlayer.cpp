@@ -2168,4 +2168,20 @@ void Player::sub_7100868220(f32 angle) {
     _1b18.setMul(rot, _1b18);
 }
 
+// NON_MATCHING: register allocation (the original keeps &_23e0 and &_23e0._138 in separate registers).
+void Player::getEnemyTeam(sead::BufferedSafeString* out) {
+    out->copy(_23e0._138);
+    if (*out == "Stalfos" || *out == "PhantomGanon") {
+        if (!_23e0.hasSeriesCompBonus())
+            out->clear();
+    }
+}
+
+bool Player::x_17() {
+    if (isRidingHorse())
+        return mASList->x_1(1, 1) == "CutChargeWaitHorseRide";
+    return mASList->x_1(0, 0) == "CutChargeWait" || mASList->x_1(0, 0) == "CutChargeMove" ||
+           mASList->x_1(0, 0) == "CutChargeLswordSpin";
+}
+
 }  // namespace ksys::act
