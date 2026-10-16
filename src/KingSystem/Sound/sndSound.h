@@ -1076,6 +1076,10 @@ public:
     // 0x71012c17b8 (placeholder name): under mCS, takes a free entry for `name`, sets its position, rebinds it
     // to `name` and gives it the next id (returned; -1 without a free entry).
     s32 sub_71012C17B8(const sead::SafeString& name, const sead::Vector3f& pos, s32 value);
+    // 0x71012c1d2c (placeholder name): fades out (over `frame` frames) and frees the entry with id `id`.
+    void sub_71012C1D2C(s32 id, s32 frame);
+    // 0x71012c1e3c (placeholder name): whether the entry with id `id` is still playing.
+    bool sub_71012C1E3C(s32 id) const;
     // 0x71012c1860 (declaration only; placeholder name): the entry to use for `name` (null if none is free).
     Entry* sub_71012C1860(const sead::SafeString& name);
 

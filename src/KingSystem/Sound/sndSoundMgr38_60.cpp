@@ -47,4 +47,30 @@ s32 Unk_SoundMgr38_60::sub_71012C17B8(const sead::SafeString& name, const sead::
     return id;
 }
 
+void Unk_SoundMgr38_60::sub_71012C1D2C(s32 id, s32 frame) {
+    if (id < 0)
+        return;
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& entry : mEntries) {
+        if (entry.mId == id) {
+            entry.sub_710104A76C(frame);
+            entry.mId = -1;
+        }
+    }
+}
+
+// NON_MATCHING: ours tail-calls sub_710104A858; the original masks its result with a found flag.
+bool Unk_SoundMgr38_60::sub_71012C1E3C(s32 id) const {
+    if (id < 0)
+        return false;
+    s32 index = -1;
+    for (s32 i = 0; i < 6; ++i) {
+        if (mEntries[i].mId == id) {
+            index = i;
+            break;
+        }
+    }
+    return index >= 0 && mEntries[index].sub_710104A858();
+}
+
 }  // namespace ksys::snd
