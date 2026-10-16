@@ -1,3 +1,6 @@
+#include <common/aglTextureData.h>
+#include <common/aglTextureFormatInfo.h>
+#include <cstring>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -143,3 +146,51 @@ u16 Unk_710250dd60::m8() {
 u32 Unk_710250dd60::m9() {
     return getImageSizeMaybe(mSize);
 }
+
+namespace ksys::tera {
+
+// NON_MATCHING: scheduling in the level loop (the height clamp is computed before the width store).
+void sub_710110DE64(TextureMipTableMaybe* table, const agl::TextureData& texture) {
+    u8* image = static_cast<u8*>(texture.getImagePtr().getAddress());
+    u8* mip = static_cast<u8*>(texture.getMipPtr().getAddress());
+    const s32 width = texture.getWidth() < 2 ? 1 : texture.getWidth();
+    const u32 pitch = texture.getSurface_1c();
+    const s32 min_height = texture.getMinHeight_();
+    const s32 tex_height = texture.getHeight();
+    table->_150 = pitch;
+    const s32 height = min_height > tex_height ? min_height : tex_height;
+    table->_154 = agl::TextureFormatInfo::sub_7100B3B7F8(texture.getFormat()) & 0xff;
+    table->num_levels = texture.getMipLevelNum();
+
+    table->levels[0].address = image;
+    table->levels[0].pitch = pitch;
+    table->levels[0].width = width;
+    table->levels[0].height = height;
+    table->levels[0].half_texel_x = 0.5f / static_cast<f32>(width);
+    table->levels[0].half_texel_y = 0.5f / static_cast<f32>(table->levels[0].height);
+
+    for (u32 i = 1; i < texture.getMipLevelNum(); ++i) {
+        const u32 size = texture.calcMipByteSize(i);
+        auto& level = table->levels[i];
+        level.address = mip;
+        const s32 level_min_height = texture.getMinHeight_();
+        const s32 level_tex_height = texture.getHeight() >> i;
+        const u32 rows = level_min_height > level_tex_height ? level_min_height : level_tex_height;
+        level.width = (u32(width) >> i) < 2 ? 1 : (u32(width) >> i);
+        level.height = (u32(height) >> i) < 2 ? 1 : (u32(height) >> i);
+        level.half_texel_x = 0.5f / static_cast<f32>(level.width);
+        level.half_texel_y = 0.5f / static_cast<f32>(level.height);
+        level.pitch = size / rows;
+        mip += size;
+    }
+    for (u32 i = texture.getMipLevelNum(); i < 14; ++i) {
+        table->levels[i].address = nullptr;
+        table->levels[i].pitch = 0;
+        table->levels[i].width = 0;
+        table->levels[i].height = 0;
+        table->levels[i].half_texel_x = 0;
+        table->levels[i].half_texel_y = 0;
+    }
+}
+
+}  // namespace ksys::tera

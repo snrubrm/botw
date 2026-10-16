@@ -5,6 +5,9 @@
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace agl {
+class TextureData;
+}
 namespace sead {
 class Heap;
 }
@@ -84,6 +87,28 @@ enum class ImageSizeMaybe : u32 {};
 
 // 0x710114a63c (placeholder name): the size for `size`.
 u32 getImageSizeMaybe(const ImageSizeMaybe& size);
+
+// Placeholder: per-mip-level CPU addresses and sizes of a texture (built on the stack by 0x7101109bd8,
+// 0x710110a468, 0x710110a740, 0x710110bd78).
+struct TextureMipTableMaybe {
+    struct Level {
+        u8* address;
+        // Level 0: TextureData +0x4c; other levels: byte size / height (a row pitch).
+        u32 pitch;
+        u16 width;
+        u16 height;
+        f32 half_texel_x;
+        f32 half_texel_y;
+    };
+    Level levels[14];
+    u32 _150;
+    u32 _154;
+    u32 num_levels;
+};
+
+// 0x710110de64 (placeholder name): fills `table` from `texture` (image and mip addresses, level sizes);
+// unused levels are cleared.
+void sub_710110DE64(TextureMipTableMaybe* table, const agl::TextureData& texture);
 // 0x710114add4 (declared only; placeholder name; 5176 B): writes two sizes for an image of `type` (cached
 // in function-local statics per type and `c`); called twice by 0x7101132fe0 with the image's m9 / m10 and
 // then m4 or m5.
