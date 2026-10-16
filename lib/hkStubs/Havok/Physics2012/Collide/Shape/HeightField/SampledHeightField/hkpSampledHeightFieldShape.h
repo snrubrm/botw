@@ -63,9 +63,10 @@ public:
     // 0x71015c398c and 0x71015c3994 return 0 and slot 28 is pure. The terrain shapes (vtables
     // 0x7102515a58 / 0x7102515b40) override all three: the height at a float position
     // (0x71012266dc), the height and the normal there (0x7101226768), and a hkUint32 for a
-    // position (0x7101224c1c, built from the terrain material).
+    // position (0x7101224c1c, built from the terrain material). The normal is three floats:
+    // 0x7101226768 writes 12 bytes to it (+0x0 as a pair, +0x8 as one float).
     virtual hkReal sub_71015C398C(hkReal x, hkReal z) const;
-    virtual hkReal sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const;
+    virtual hkReal sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]) const;
     virtual hkUint32 m28(const hkVector4& position) const = 0;
 
     using RayCastInternalFunc = void (hkpSampledHeightFieldShape::*)(const hkpShapeRayCastInput&,
