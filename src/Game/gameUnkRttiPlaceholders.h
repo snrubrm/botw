@@ -1526,6 +1526,8 @@ public:
 class Unk_710251cbf0 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710251cbf0, Unk_7102518688)
 public:
+    // lane1 s95: the "grass_fire" element; built by Unk_71024dd490::sub_71012DF1A0.
+    Unk_710251cbf0(void* arg, sead::Heap* heap);
     ~Unk_710251cbf0() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -1534,6 +1536,13 @@ public:
     bool m37() override { return true; }
     void m38() override {}
     f32 m19(ksys::act::Chemical* chemical) override { return 1.0f; }
+
+    // lane1 s95: only the initial values from the ctor are known.
+    void* _48;
+    void* _50 = nullptr;
+    s32 _58 = -1;
+    void* _60 = nullptr;
+    u32 _68 = 0;
 };
 
 // vtable 0x710251cd38 (39 slots); placeholder generated from the vtable (genskel.py).
