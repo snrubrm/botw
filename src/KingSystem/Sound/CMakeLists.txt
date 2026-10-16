@@ -5,6 +5,7 @@ target_sources(uking PRIVATE
   sndBgm.cpp
   sndBgmEntry.cpp
   sndBgmList.cpp
+  sndNamedBgmList.cpp
   sndBgmCastle.cpp
   sndBgmMgr.h
   sndBgmMgr.cpp
