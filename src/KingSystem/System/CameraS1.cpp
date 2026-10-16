@@ -2,6 +2,9 @@
 #include <layer/aglLayer.h>
 #include <layer/aglRenderer.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/Chemical/chmChemical.h"
+#include "KingSystem/Chemical/chmElement.h"
 
 namespace ksys {
 
@@ -102,6 +105,57 @@ const sead::Viewport* CameraS1::getViewport() const {
 
 }  // namespace ksys
 
-// NON_MATCHING: placeholder destructor; the original (0x7101265984) also destroys members or bases
-// this class does not declare yet.
-Unk_7102517b28::~Unk_7102517b28() = default;
+void Element::emitWrap(const ElementName& name, ksys::act::Unk_71024dd490* holder_mgr) {
+    if (name.mName.isEmpty())
+        return;
+    if (name.mName == "----")
+        return;
+
+    auto* chemical = ksys::chm::Chemical::instance();
+    if (!chemical || !chemical->_78)
+        return;
+
+    auto* holder = new (chemical->_78, std::nothrow_t{}) ksys::act::Unk_71024dd1c8();
+    if (!holder)
+        return;
+
+    holder->sub_7100D8CFF0(name, holder_mgr);
+    setHolderMaybe(holder);
+    if (!m29(name, mHeap) || !holder_mgr->sub_7100D9AFD8(holder)) {
+        unlinkHolderMaybe();
+        holder->sub_7100D8CFAC();
+        delete holder;
+    }
+}
+
+s32 Element::m25() {
+    if (!mHolder)
+        return 0;
+    return mHolder->_78;
+}
+
+f32 Element::m14(sead::Vector3f* out) {
+    *out = mHolder->_1c;
+    return mHolder->_3c;
+}
+
+f32 Element::m13(f32* out, void* a2, ksys::act::Chemical* chemical) {
+    *out = 1.0f;
+    return mHolder->_30;
+}
+
+f32 Element::m15(sead::Vector3f* out) {
+    *out = mHolder->_1c;
+    return mHolder->_44;
+}
+
+f32 Element::m17() {
+    if (!mHolder)
+        return 0.0f;
+    return mHolder->_34;
+}
+
+const sead::Vector3f& Element::m6() const {
+    return sead::Vector3f::zero;
+}
+

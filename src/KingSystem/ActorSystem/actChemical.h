@@ -10,6 +10,7 @@
 #include "KingSystem/Utils/Types.h"
 
 class Element;
+class ElementName;
 
 namespace ksys::chm {
 class IShape;
@@ -42,6 +43,14 @@ public:
     Unk_71024dd1c8();
     virtual ~Unk_71024dd1c8();
     const sead::Vector3f& sub_7100D8D1E0() const;
+    // lane1 s90 (declared only): 0x7100d8cff0 sets up the holder from an element request;
+    // 0x7100d8cf1c links the holder and the element both ways; 0x7100d8cf70 unlinks them;
+    // 0x7100d8cf88 sets flag 8 and calls the element's m30; 0x7100d8cfac calls its m32 and sets flag 1.
+    void sub_7100D8CFF0(const ElementName& name, Unk_71024dd490* holder_mgr);
+    void sub_7100D8CF1C(::Element* element);
+    void sub_7100D8CF70();
+    void sub_7100D8CF88();
+    void sub_7100D8CFAC();
     // D8CBEC / Element::emitWrap construct this holder; collision10CD440 supplies both vectors.
     void sub_7100D8D3F4(Chemical* chemical, bool a, bool b, bool c, f32 delta_frame,
                        const sead::Vector3f& position, const sead::Vector3f& normal);
@@ -52,7 +61,15 @@ public:
     /* 0x1a */ u8 _1a;
     /* 0x1b */ u8 _1b;
     /* 0x1c */ sead::Vector3f _1c;
-    /* 0x28 */ u8 _28[0x78 - 0x28];
+    /* 0x28 */ u8 _28[0x30 - 0x28];
+    // lane1 s90: read by the Element getters (0x7101265844 / 581c / 5858, Element::m17).
+    /* 0x30 */ f32 _30;
+    /* 0x34 */ f32 _34;
+    /* 0x38 */ f32 _38;
+    /* 0x3c */ f32 _3c;
+    /* 0x40 */ f32 _40;
+    /* 0x44 */ f32 _44;
+    /* 0x48 */ u8 _48[0x78 - 0x48];
     /* 0x78 */ u32 _78;
     /* 0x7c */ u8 _7c[4];
     /* 0x80 */ Chemical* _80;

@@ -208,10 +208,6 @@ void GameSaveData::sortFlags() {
 
 }  // namespace ksys::res
 
-Unk_7102518688::~Unk_7102518688() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710127c2d4) also destroys members or bases
-// this class does not declare yet.
-Unk_7102518620::~Unk_7102518620() = default;
 
 Unk_71025187d0::~Unk_71025187d0() = default;

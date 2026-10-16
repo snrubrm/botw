@@ -27,6 +27,7 @@ class Heap;
 
 namespace ksys::act {
 class Chemical;
+class Unk_71024dd1c8;
 
 // 2026-10-07: D9A1D0 constructs a 0x290-byte Node with vtable24DD490; D9A970/D9AA0C
 // are its original own D1/D0. Only the used prefix is recovered; do not allocate it.
@@ -52,6 +53,8 @@ public:
     // Full factories 12FE4B4 / 12FE6E0 return the allocated lightning element.
     ElementLightningShockwave* sub_71012FE4B4(const ElementLightningCreateArg* arg);
     ElementLightningFire* sub_71012FE6E0(const ElementLightningCreateArg* arg);
+    // lane1 s90 (declared only): 0x7100d9afd8 queues a chemical holder (sets its flag 0x20).
+    bool sub_7100D9AFD8(Unk_71024dd1c8* holder);
 
     u8 _8[0x48 - 0x8];
     sead::CriticalSection _48;

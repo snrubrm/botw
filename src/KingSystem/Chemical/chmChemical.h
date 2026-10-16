@@ -9,6 +9,8 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act { class Chemical; }
+class Element;
+class Unk_7102518688;
 
 namespace ksys::chm {
 
@@ -30,6 +32,9 @@ public:
 private:
     sead::CriticalSection _28;
     friend class act::Chemical;
+    // lane1 s90: the elements read the heap and the watch flags.
+    friend class ::Element;
+    friend class ::Unk_7102518688;
     sead::PtrArray<act::Chemical> _68;
     sead::Heap* _78 = nullptr;
     // Original d9979c obtains a unique id with a relaxed exclusive increment.
