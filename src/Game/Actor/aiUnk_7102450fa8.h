@@ -294,6 +294,13 @@ public:
     // 0x710071ba04: whether any member is in `state`
     bool sub_710071BA04(Step state) const;
 
+    // inline-only in the original; name is a guess (m5, sub_710071AECC (twice): the same nine unrolled resets, with the
+    // step loaded once)
+    void resetEntries(s32 state) {
+        for (auto& entry : _8)
+            entry.reset(state);
+    }
+
     // inline-only in the original; name is a guess (the constructor 0x710071a92c and m10 0x710071b3a4 repeat it)
     void resetOrder() {
         _b0.clear();

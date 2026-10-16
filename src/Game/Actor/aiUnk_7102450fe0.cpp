@@ -24,8 +24,7 @@ void Unk_7102450fe0::m5(s32 a8, f32 x, f32 y) {
     _170 = y;
     _8[0]._c = false;
     _ac = (_ac + 1) % 10000;
-    for (auto& entry : _8)
-        entry.reset(1);
+    resetEntries(1);
     m10();
     _1d0.makeAllZero();
     setFlag(Flag::_0);
@@ -55,8 +54,54 @@ void Unk_7102450fe0::m8() {
     sub_710071AECC();
 }
 
-// TODO
-void Unk_7102450fe0::sub_710071AECC() {}
+void Unk_7102450fe0::sub_710071AECC() {
+    if (sub_710071B8C4()) {
+        setFlag(Flag::_1);
+        return;
+    }
+
+    if (isFlagOn(Flag::_2))
+        resetEntries(8);
+    for (s32 i = 0; i < 9; ++i) {
+        if (auto* func = m11(_8[i]._0)->func)
+            func(this, i);
+    }
+
+    Step next = Step::_7;
+    for (s32 i = 0; i < 9; ++i) {
+        auto& entry = _8[i];
+        if (!entry._c)
+            continue;
+        const State* state = m11(entry._0);
+        if (state->_11)
+            continue;
+        if (state->_10)
+            next = entry._0;
+        else
+            entry.reset(state->_c);
+    }
+
+    if (int(next) == Step::_7)
+        return;
+
+    const State* state = m11(next);
+    if (!sub_710071B7D4(next))
+        return;
+
+    if (state->_c == 2) {
+        for (s32 i = 2; i < 11; ++i) {
+            if (i == 2)
+                continue;
+            ksys::act::ActorLinkConstDataAccess accessor;
+            if (_a0->sub_71007194D4(i, &accessor) && accessor.isStateSleep()) {
+                sead::Vector3f pos;
+                m7(&pos, i);
+                _a0->sub_71007196EC(i, pos);
+            }
+        }
+    }
+    resetEntries(state->_c);
+}
 
 bool Unk_7102450fe0::m9(const ksys::Message& message) {
     if (!_178.m2(message))
