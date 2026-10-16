@@ -36,6 +36,9 @@ protected:
     // 0x71000ce0c0 (placeholder name): sends a shot (message 0x8000056) to every bound actor of the parent
     // SiteBoss that has just entered range, starting the slot countdowns the first time.
     void sub_71000CE0C0();
+    // 0x71000cd468 (placeholder name): launches the parent SiteBoss's bound actor 4 * ID + 4 + `index` (when it
+    // is not in its calc state) from this actor towards `target`, scaled by RainScale.
+    void sub_71000CD468(const sead::Vector3f& target, int index);
 
     // static_param at offset 0x20
     const int* mRainMax_s{};

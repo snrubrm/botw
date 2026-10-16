@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Utils/Thread/Message.h"
@@ -115,6 +116,35 @@ void BowChildArrowRain::sub_71000CDEEC(const sead::Vector3f& pos, bool use_pos) 
     if (!use_pos)
         mtx.setTranslation(_120);
     body->changePositionAndRotation(mtx);
+}
+
+void BowChildArrowRain::sub_71000CD468(const sead::Vector3f& target, int index) {
+    if (!mParentActor_d)
+        return;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mParentActor_d->getProc(nullptr, nullptr));
+    auto* boss = sead::DynamicCast<act::SiteBoss>(actor);
+    if (!boss)
+        return;
+
+    auto* link = boss->_1560.sub_710066DE24(index + *mID_d * 4 + 4);
+    if (link->hasProcInCalcState() || !mActor->getPhysics())
+        return;
+
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f dir = target;
+    dir -= pos;
+    dir.normalize();
+    sead::Matrix33f rotation;
+    ksys::util::sub_71011EFFA8(&rotation, dir, sead::Vector3f::ey, false);
+    sead::Vector3f scale = sead::Vector3f::ones;
+    scale *= *mRainScale_s;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    const sead::Matrix34f mtx(rotation, pos);
+    sead::Vector3f velocity = dir;
+    velocity *= sead::GlobalRandom::instance()->getF32Range(0.4f, 0.8f) * 0.1f;
+    accessor.setProperties(mtx, &velocity, nullptr, &scale, false, 2, -1);
 }
 
 void BowChildArrowRain::sub_71000CE0C0() {
