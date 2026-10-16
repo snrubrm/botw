@@ -18,6 +18,8 @@ class Heap;
 
 namespace ksys::phys {
 class RigidBody;
+class CollisionInfo;
+class ContactPointInfo;
 }  // namespace ksys::phys
 
 namespace ksys::act {
@@ -119,8 +121,8 @@ public:
         void sub_710079F600();
         // 0x710079f9c0 / 0x710079f66c (544 / 852 B, declared only; placeholder names): Unk_7102459df8::m8 passes
         // its _38 / _28 buffers and the actor.
-        void sub_710079F9C0(sead::Buffer<u8>* buffer, Actor* actor);
-        void sub_710079F66C(sead::Buffer<u8>* buffer, Actor* actor);
+        void sub_710079F9C0(sead::Buffer<phys::CollisionInfo*>* buffer, Actor* actor);
+        void sub_710079F66C(sead::Buffer<phys::ContactPointInfo*>* buffer, Actor* actor);
 
         sead::SafeArray<Unk1, 8> mEntries;
         s16 mNum = 0;
@@ -159,8 +161,10 @@ public:
     /* 0x10 */ Unk_7102459e60* _10 = nullptr;
     /* 0x18 */ Unk_7102459e88* _18 = nullptr;
     /* 0x20 */ Unk_710079d5a0* _20 = nullptr;
-    /* 0x28 */ sead::Buffer<u8> _28;  // freed in m6 (element type unknown)
-    /* 0x38 */ sead::Buffer<u8> _38;
+    // Filled by sub_710079C9A0 with the distinct contact point infos / collision infos of the character
+    // controller and the "Body" rigid bodies; freed in m6.
+    /* 0x28 */ sead::Buffer<phys::ContactPointInfo*> _28;
+    /* 0x38 */ sead::Buffer<phys::CollisionInfo*> _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8, 0x48);
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8::Unk_7102459e60::Unk1, 0x58);

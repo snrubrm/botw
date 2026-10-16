@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -54,6 +57,74 @@ bool Unk_7102459df8::m4(sead::Heap* heap, const Unk_71025ca5f8* arg) {
     }
     m6();
     return false;
+}
+
+// NON_MATCHING: register allocation and the placement of the unique-insert stores.
+bool Unk_7102459df8::sub_710079C9A0(sead::Heap* heap) {
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return false;
+    auto* controller = physics->getCharacterController();
+    auto* body_set = physics->findBodyByName(*sub_71007A24E4());
+    if (!controller && !body_set)
+        return true;
+
+    phys::ContactPointInfo* contact_infos[32];
+    phys::CollisionInfo* collision_infos[32];
+    s32 num_contact_infos = 0;
+    s32 num_collision_infos = 0;
+
+    if (controller) {
+        if (auto* info = controller->sub_7100F635D8())
+            contact_infos[num_contact_infos++] = info;
+        if (auto* info = controller->sub_7100F635F8())
+            collision_infos[num_collision_infos++] = info;
+    }
+
+    if (body_set) {
+        for (s32 i = 0; i < body_set->getRigidBodies().size(); ++i) {
+            auto* body = body_set->getRigidBodies()[i];
+            if (auto* info = body->getContactPointInfo()) {
+                bool found = false;
+                for (s32 j = 0; j < num_contact_infos; ++j) {
+                    if (contact_infos[j] == info) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found && num_contact_infos != 32)
+                    contact_infos[num_contact_infos++] = info;
+            }
+            if (auto* info = body->getCollisionInfo()) {
+                bool found = false;
+                for (s32 j = 0; j < num_collision_infos; ++j) {
+                    if (collision_infos[j] == info) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found && num_collision_infos != 32)
+                    collision_infos[num_collision_infos++] = info;
+            }
+        }
+    }
+
+    if (num_contact_infos > 0) {
+        _28.tryAllocBuffer(num_contact_infos, heap);
+        if (!_28.isBufferReady())
+            return false;
+        for (s32 i = 0; i < num_contact_infos; ++i)
+            _28[i] = contact_infos[i];
+    }
+
+    if (num_collision_infos > 0) {
+        _38.tryAllocBuffer(num_collision_infos, heap);
+        if (!_38.isBufferReady())
+            return false;
+        for (s32 i = 0; i < num_collision_infos; ++i)
+            _38[i] = collision_infos[i];
+    }
+    return true;
 }
 
 void Unk_7102459df8::m5() {
