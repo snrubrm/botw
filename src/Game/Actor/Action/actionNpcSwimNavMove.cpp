@@ -1,10 +1,19 @@
 #include "Game/Actor/Action/actionNpcSwimNavMove.h"
+#include <limits>
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 // Name and signature are inferred from the call sites (also used by SwimGetUp and others).
+void sub_71006F54EC(ksys::phys::CharacterController* controller);
+void sub_71006F5538(ksys::phys::CharacterController* controller);
+
 void sub_71005DF820(f32* out, f32 velY, f32 depth, f32 floatDepth, f32 inWaterDepth,
                     f32 floatRadius, f32 floatCycleTime, f32 changeDepthSpeed);
 
@@ -61,8 +70,78 @@ bool NpcSwimNavMove::init_(sead::Heap* heap) {
     return RandomMoveAction::init_(heap);
 }
 
+// NON_MATCHING: same scheduling differences as NpcSwimMove::enter_ (finished epilogue placement, store order).
 void NpcSwimNavMove::enter_(ksys::act::ai::InlineParamPack* params) {
+    mFlags.set(Flag::Changeable);
+    auto* actor = mActor;
+    _124 = 1.0f;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    _130.sub_710072AD1C(controller);
+    if (controller->_210 > *mInWaterDepth_s) {
+        _12c = true;
+        sub_71006F54EC(controller);
+    } else {
+        _12c = false;
+        sub_71006F5538(controller);
+    }
+    auto* npc = sead::DynamicCast<act::NPC>(actor);
+    if (npc)
+        npc->_fe8 |= 0x10000000;
+
+    _128 = mActor->getVelocity().y * 30.0f;
+    const auto position = mActor->getMtx().getTranslation();
+    const auto target = *mTargetPos_d;
+    const f32 fin_height = *mFinHeight_s;
+    if (!(fin_height >= 0.0f && sead::Mathf::abs(target.y - position.y) > fin_height)) {
+        const sead::Vector2f diff(target.x - position.x, target.z - position.z);
+        if (!(diff.length() > *mFinRadius_s)) {
+            setFinished();
+            return;
+        }
+    }
+    if (npc) {
+        _120 = npc->sub_7100022B9C(m35());
+        if (_120 <= 0.0f)
+            _120 = 1.309f;
+    } else {
+        _120 = 1.309f;
+    }
+    _b8._30 = 0.0f;
+    _b8._34 = 0.0f;
+    _b8._38 = 0.0f;
+    _f8._8 = 0.0f;
+    if (auto* as_list = actor->getASList()) {
+        sead::Vector3f front;
+        actor->getMtx().getBase(front, 2);
+        front.y = 0.0f;
+        front.normalize();
+        sead::Vector3f to_target(mTargetPos_d->x - actor->getMtx().m[0][3], 0.0f,
+                                  mTargetPos_d->z - actor->getMtx().m[2][3]);
+        to_target.normalize();
+        sead::Vector3f axis;
+        f32 angle;
+        ksys::util::sub_71011EEB08(&axis, &angle, front, to_target, sead::Vector3f::ey);
+        as_list->x_6(9, 0, sead::Mathf::rad2deg(angle) * axis.y);
+    }
+    m34();
     RandomMoveAction::enter_(params);
+
+    auto* nav = actor->m45();
+    if (!ksys::phys::HavokAI::instance()) {
+        setFailed();
+        return;
+    }
+    if (!nav)
+        return;
+    nav->inlineSetField2C0(12.0f);
+    nav->sub_7100F76694(actor->getMtx().getBase(2));
+    nav->sub_7100F7604C(*mFinRadius_s);
+    nav->_2d0 = std::numeric_limits<f32>::infinity();
+    nav->_2d4 = 8.0f;
 }
 
 void NpcSwimNavMove::leave_() {
