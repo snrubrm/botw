@@ -72,6 +72,9 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0x318);
 
+    // 0x7100680368 (placeholder name): releases every target (message 0x3000004), kills their
+    // effects and resets the countdown state from the player's stop timer reload time.
+    void sub_7100680368(bool on_processing_thread);
     // 0x7100680920 (placeholder name): asks `actor` (or, while _42 is set and the actor is already
     // stasised, the actor in the first entry) to leave / enter stasis through messages 0x3000003 /
     // 0x3000004.

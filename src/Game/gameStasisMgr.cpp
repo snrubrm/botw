@@ -1,5 +1,7 @@
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -23,6 +25,48 @@ StasisMgr::~StasisMgr() {
 // TODO: not decompiled yet (W). Handles the stasis messages 0x3000003 - 0x3000006 for `actor`.
 s32 StasisMgr::m0(ksys::act::Actor* actor, void* request) {
     return 0;
+}
+
+// NON_MATCHING: the original recomputes each entry address from the index (as m2 / m4).
+void StasisMgr::sub_7100680368(bool on_processing_thread) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        if (entry.link.hasProc()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&entry.link, &accessor);
+            if (on_processing_thread) {
+                mTransceiver.sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
+                                                           ksys::MessageType(0x3000004),
+                                                           nullptr, true);
+            } else {
+                mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
+                                         ksys::MessageType(0x3000004), nullptr, true);
+            }
+        }
+        entry._2a8.kill();
+    }
+
+    if (auto* info = act::PlayerInfo::instance()) {
+        ksys::act::acc::PlayerBase player;
+        ksys::act::acquireActor(&info->getPlayerLink(), &player);
+        f32 time = player.getStopTimerReloadTime();
+        if (time <= 1.0f)
+            time = 1.0f;
+        _58 = 1.0f / time;
+        f32 progress = 0.0f;
+        if (_42) {
+            progress = _48 * _54;
+            if (progress <= 0.0f)
+                progress = 0.0f;
+        }
+        time *= 1.0f - progress;
+        if (time <= 1.0f)
+            time = 1.0f;
+        _44 = time;
+    }
+    _41 = false;
+    _42 = false;
+    _48 = 0;
 }
 
 void StasisMgr::sub_7100680920(ksys::act::Actor* actor) {
