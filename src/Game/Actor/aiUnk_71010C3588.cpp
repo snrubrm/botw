@@ -13,6 +13,7 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
@@ -435,4 +436,39 @@ void Unk_710250c530::sub_71010C5B78() {
     }
     if (_10 && (_10->isAddedToWorld() || _10->isAddingBodyToWorld()))
         _10->removeFromWorld();
+}
+
+// NON_MATCHING: the handle copy stores the id before the event pointer in the original.
+bool Unk_710250c820::sub_71010C683C(f32 radius, const sead::Vector3f& pos) {
+    if (!_10)
+        return false;
+    if (_10->isAddedToWorld() || _10->isAddingBodyToWorld())
+        return false;
+    _10->setRadius(radius);
+    _10->setPosition(pos, ksys::phys::PropagateToLinkedMotions(true));
+    _10->addToWorld();
+    _18 = pos;
+    _24 = radius;
+    if (!_8) {
+        ksys::phys::RigidBody* body = _10;
+        auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
+        _8 = holder ? holder->sub_71010C7DB8(&body) : nullptr;
+    }
+    if (auto* actor = ksys::act::Reaction::instance()->_38)
+        _28 = ksys::eft::searchAndEmitELink(actor, "Chemical_Fire_Plant");
+    const sead::Matrix34f mtx(1, 0, 0, _18.x,  //
+                              0, 1, 0, _18.y,  //
+                              0, 0, 1, _18.z);
+    _28.setMatrix(mtx, {_24, _24, _24});
+    return true;
+}
+
+void Unk_710250c820::sub_71010C69C4() {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+    if (_10 && (_10->isAddedToWorld() || _10->isAddingBodyToWorld()))
+        _10->removeFromWorld();
+    _28.fade();
 }

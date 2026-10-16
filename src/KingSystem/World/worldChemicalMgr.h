@@ -18,6 +18,7 @@
 class ElementName;
 class Unk_71025187d0;
 class Unk_710250c3e8;
+class Unk_710250c6d8;
 
 namespace ksys::world {
 class ChemicalMgr;
@@ -30,6 +31,7 @@ class Shape;
 namespace ksys::phys {
 class RigidBody;
 class CylinderRigidBody;
+class SphereRigidBody;
 class CollisionInfo;
 class ContactPointInfo;
 class SystemGroupHandler;
@@ -201,9 +203,14 @@ public:
     Unk_710250c820();
     virtual ~Unk_710250c820();
     void sub_71010C66E4(sead::Heap* heap);
+    // lane1 s95 (placeholder names): 0x71010c683c places the sphere at `pos` with `radius`, creates the
+    // chemi_fire element and the Chemical_Fire_Plant effect (false if the body is missing or already in
+    // the world); 0x71010c69c4 deletes the element, removes the body and fades the effect.
+    bool sub_71010C683C(f32 radius, const sead::Vector3f& pos);
+    void sub_71010C69C4();
 
-    void* _8 = nullptr;
-    ksys::phys::RigidBody* _10 = nullptr;
+    ::Unk_710250c6d8* _8 = nullptr;
+    ksys::phys::SphereRigidBody* _10 = nullptr;
     sead::Vector3f _18;
     f32 _24 = 1.0f;
     xlink2::HandleELink _28;
