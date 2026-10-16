@@ -30,7 +30,16 @@ public:
         // 0x7100f0663c (declaration only; placeholder name): index of the item at `pos`, or -1.
         s32 sub_7100F0663C(const sead::Vector3f& pos);
 
-        u8 _0[0x60];
+        // Placeholder: the 0x1c-byte records of the buffer at 0x18.
+        struct Record {
+            u8 _0[4];
+            sead::BitFlag8 _4;
+            u8 _5[0x1c - 0x5];
+        };
+
+        u8 _0[0x18];
+        sead::Buffer<Record> mRecords;
+        u8 _28[0x60 - 0x28];
         sead::Buffer<Item> mItems;
         u8 _70[0x88 - 0x70];
     };
@@ -43,6 +52,8 @@ public:
     };
     static_assert(sizeof(UnitEntry) == 0x60);
 
+    // 0x7100f06474 (CSV name): clears bit 2 of every record and sets bit 1 of every item.
+    void x_1();
     // 0x7100f03b68 (placeholder name): sets bit 1 of every item's flags.
     void sub_7100F03B68();
 

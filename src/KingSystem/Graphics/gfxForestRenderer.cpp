@@ -32,6 +32,15 @@ void ForestRenderer::sub_7100F03B68() {
     }
 }
 
+void ForestRenderer::x_1() {
+    for (auto& entry : mEntries) {
+        for (auto& record : entry.mRecords)
+            record._4.reset(4);
+        for (auto& item : entry.mItems)
+            item._c.set(2);
+    }
+}
+
 void ForestRenderer::sub_710F06904(map::PlacementMgr* mgr, bool a) {
     auto lock = sead::makeScopedLock(mCS);
     for (auto& entry : mUnitEntries) {
