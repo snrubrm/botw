@@ -100,6 +100,26 @@ void Unk_7102479c10::sub_71009A61DC() {
     _10->set60(value);
 }
 
+// 0x71009a63f4 (placeholder name): keeps each entry's previous flag, then re-parents the visible
+// entries' two panes
+void Unk_7102479c10::sub_71009A63F4() {
+    sub_71009A64E0();
+    for (s32 i = 0; i < 120; ++i)
+        mEntries[i]._21 = mEntries[i]._20;
+    sub_71009A6FF4();
+    sub_71009A75AC();
+    for (s32 i = 0; i < 120; ++i) {
+        if (!mEntries[i]._20)
+            continue;
+        auto* child = _a9f0 ? _a9f0[i] : nullptr;
+        if (_a9e0)
+            _a9e0->AppendChild(child);
+        child = _a9f0 ? _a9f0[i + 120] : nullptr;
+        if (_a9e8)
+            _a9e8->AppendChild(child);
+    }
+}
+
 // 0x71009a6f34
 void Unk_7102479c10::sub_71009A6F34() {
     for (s32 i = 0; i < 240; ++i) {
