@@ -948,8 +948,10 @@ public:
     void sub_7100FFC1C8(Bgm* bgm);
 
     bool _90 = false;
-    // 0..3, set from the controller types 6..9; m4 maps it to the BGM kinds 22, 24, 23, 25.
-    s32 _94 = 0;
+    // 0..3, set from the controller types 6..9; m4 maps it to the BGM kinds 22, 24, 23, 25. A four-byte enum wrapper:
+    // sub_7100FFE7A4 copies it to the stack and reloads it before switching (enumerator names unknown).
+    SEAD_ENUM(Kind, _0, _1, _2, _3)
+    Kind _94;
     sead::Delegate1<Unk_710260f1f8, Bgm*> _98{this, &Unk_710260f1f8::sub_7100FFC1C8};
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260f1f8, 0xb8);

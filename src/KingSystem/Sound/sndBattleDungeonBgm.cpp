@@ -115,6 +115,38 @@ Unk_71025ce390* sub_7100FFE39C() {
     return sead::DynamicCast<Unk_71025ce390>(list->find("RemainsFireBattleBgm"));
 }
 
+Unk_7102500a00* sub_7100FFE7A4() {
+    if (auto* controller = sub_7100FFD878()) {
+        BgmKind kind = 41;
+        const auto type = controller->_94;
+        switch (type) {
+        case Unk_710260f1f8::Kind::_0:
+            kind = BgmKind::_22;
+            break;
+        case Unk_710260f1f8::Kind::_1:
+            kind = BgmKind::_24;
+            break;
+        case Unk_710260f1f8::Kind::_2:
+            kind = BgmKind::_23;
+            break;
+        case Unk_710260f1f8::Kind::_3:
+            kind = BgmKind::_25;
+            break;
+        }
+        if (int(kind) != 41) {
+            auto* bgm_controller = SoundMgr::instance()->_30->_48;
+            return sead::DynamicCast<Unk_7102500a00>(
+                bgm_controller ? bgm_controller->_8.sub_7100FF7C74(kind) : nullptr);
+        }
+    }
+    if (sub_7100FFDBD4()) {
+        auto* bgm_controller = SoundMgr::instance()->_30->_48;
+        return sead::DynamicCast<Unk_7102500a00>(
+            bgm_controller ? bgm_controller->_8.sub_7100FF7C74(34) : nullptr);
+    }
+    return nullptr;
+}
+
 Unk_71024fee78* sub_7100FFEA3C() {
     auto* controller = SoundMgr::instance()->_30->_48;
     return sead::DynamicCast<Unk_71024fee78>(controller ? controller->_8.sub_7100FF7C74(26) : nullptr);
@@ -450,16 +482,16 @@ void Unk_710260f160::m7(f32 fade_sec) {
 Unk_710260f1f8::Unk_710260f1f8(BgmControllerType type) {
     switch (type) {
     case BgmControllerType::_6:
-        _94 = 0;
+        _94 = Kind::_0;
         break;
     case BgmControllerType::_7:
-        _94 = 2;
+        _94 = Kind::_2;
         break;
     case BgmControllerType::_8:
-        _94 = 1;
+        _94 = Kind::_1;
         break;
     case BgmControllerType::_9:
-        _94 = 3;
+        _94 = Kind::_3;
         break;
     default:
         break;
