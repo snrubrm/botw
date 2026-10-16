@@ -227,6 +227,18 @@ public:
     // Placeholder: _4 is a reference count, 0x40000000 while unused (see 0x71011074a0, 0x7101108860).
     // A struct: the constructor stores both words after the vtable.
     struct RefCount {
+        // inline-only in the original; name is a guess. Marks an unreferenced image as unused (0x40000000);
+        // false if it is still referenced. Inlined repeatedly into 0x71011074a0.
+        bool tryMarkUnusedMaybe() {
+            if ((_4.load() >> 30) != 0)
+                return true;
+            do {
+                if (_4.load() != 0)
+                    return false;
+            } while (!_4.compareExchange(0, 0x40000000));
+            return true;
+        }
+
         u32 _0 = 0;
         sead::Atomic<u32> _4 = 0x40000000;
     };

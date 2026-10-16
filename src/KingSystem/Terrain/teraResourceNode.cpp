@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <math/seadMathCalcCommon.h>
+#include <thread/seadThread.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -87,6 +88,39 @@ u32 sub_7101108AE8(sead::Vector2f* out_pos, s32* out_index, const sead::Vector2f
 
 void Unk_7101106F44::sub_71011080D4(const ImageTypeMaybe& type) {
     getImageMaybe(type)->sub_710110DD3C();
+}
+
+// NON_MATCHING: the original loads each image type as one word (the lookup looks like it takes the type by
+// value here, but by reference in sub_71011080D4).
+bool Unk_7101106F44::sub_71011074A0() {
+    bool ok = true;
+    Unk_710250dcd8* image0 = getImageMaybe(sUnk_7101EC54AC);
+    if (!image0 || !image0->_18.tryMarkUnusedMaybe())
+        ok = false;
+    Unk_710250dcd8* image1 = getImageMaybe(sUnk_7101EC54B4);
+    if (!image1 || !image1->_18.tryMarkUnusedMaybe())
+        ok = false;
+
+    for (Unk_7101108460* node : mNodes) {
+        ImageTypeMaybe type;
+        type.type = 2;
+        type.index = node->getB()->_8->id;
+        Unk_710250dcd8* image = getImageMaybe(type);
+        if (!image || !image->_18.tryMarkUnusedMaybe())
+            ok = false;
+    }
+
+    for (Unk_710250db28* image_ : mImages) {
+        Unk_710250dcd8* image = getImageMaybe(image_->getImageType());
+        if (!image || !image->_18.tryMarkUnusedMaybe())
+            ok = false;
+    }
+    return ok;
+}
+
+void Unk_7101106F44::sub_7101107768() {
+    while (!sub_71011074A0())
+        sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(1));
 }
 
 }  // namespace ksys::tera

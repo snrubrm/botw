@@ -61,6 +61,11 @@ public:
         return const_cast<Unk_710250dcd8*>(static_cast<const Unk_7101106F44*>(this)->getImageMaybe(type));
     }
 
+    // 0x71011074a0 (placeholder name): marks all images unused; false if one is still referenced.
+    bool sub_71011074A0();
+    // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.
+    void sub_7101107768();
+
     // 0x71011080d4 (placeholder name): releases the buffers of the image for `type` (slot 12).
     void sub_71011080D4(const ImageTypeMaybe& type);
 
