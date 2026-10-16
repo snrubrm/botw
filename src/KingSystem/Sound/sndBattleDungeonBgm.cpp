@@ -143,7 +143,7 @@ bool sub_7100FFEDC8() {
 
 void sub_7100FFEE10() {}
 
-void sub_7100FFF0E4(Unk_710260ecf8* bgm) {
+void sub_7100FFF0E4(NamedBgm* bgm) {
     if (!bgm)
         return;
     bgm->sub_710101D9A4();

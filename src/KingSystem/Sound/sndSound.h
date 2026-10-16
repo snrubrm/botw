@@ -620,6 +620,19 @@ KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
+// Placeholder name (0x710103ac60 / 0x710103ac84, in the sndSoundMgr38.cpp TU): a ducking request at
+// Unk_710104e5b4 +0x28c, held by the Remains battle BGMs while they play (Unk_71025ce3a0::m6).
+struct Unk_710103AC60 {
+    // 0x710103ac60: unless already active, requests cFieldRemainsFire (kind 1) or cFieldRemainsOrGanon.
+    void start(s32 kind);
+    // 0x710103ac84: releases the requested ducker.
+    void stop();
+
+    DuckingMgr::DuckerType mType;
+    bool mActive;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710103AC60, 0x8);
+
 class Unk_710104e5b4 {
 public:
     // The singleton (instance pointer 0x7102614cb0, size 0x2a8, disposer at +8; SoundMgr::_90 points to it as well;
@@ -692,7 +705,9 @@ public:
     /* 0x270 */ f32 _270;
     u8 _274[4];
     /* 0x278 */ xlink2::HandleSLink _278;
-    u8 _288[0x2a0 - 0x288];
+    u8 _288[0x28c - 0x288];
+    /* 0x28c */ Unk_710103AC60 mRemainsDucking;
+    u8 _294[0x2a0 - 0x294];
     /* 0x2a0 */ sead::BitFlag8 _2a0;
 
 private:

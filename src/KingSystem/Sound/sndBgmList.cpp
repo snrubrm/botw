@@ -1,5 +1,9 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2ResourceAccessorSLink.h>
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include "KingSystem/Sound/sndSound.h"
@@ -25,7 +29,7 @@ void Unk_71010073f4::update() {
     }
 }
 
-Unk_710260ecf8* Unk_71010073f4::find(const sead::SafeString& name) {
+NamedBgm* Unk_71010073f4::find(const sead::SafeString& name) {
     auto lock = sead::makeScopedLock(mCS);
     for (auto& bgm : mList) {
         if (*bgm.getName() == name)
@@ -141,6 +145,211 @@ bool Unk_71010073f4::sub_7101007C90() {
             return true;
     }
     return false;
+}
+
+// The Remains battle BGMs. In the original, Elec and Fire (up to the static initialiser 0x71010089f4) and Water, Wind
+// and Unk_710260ecf8 are two TUs.
+
+NamedBgm::NamedBgm(const BgmInitArg& arg) : Unk_71024fc7f8(arg.handle_type) {}
+
+void Unk_71025ce3a0::m6(bool started) {
+    auto* mgr = Unk_710104e5b4::instance();
+    if (started)
+        mgr->mRemainsDucking.start(mDuckingKind);
+    else
+        mgr->mRemainsDucking.stop();
+}
+
+static const sead::SafeString sRemainsElecBattle = "RemainsElecBattle";
+
+Unk_710260f2c8::Unk_710260f2c8(const BgmInitArg& arg)
+    : Unk_71025ce3a0(arg, 2),
+      mInfo(static_cast<EventBgmRemainsElecBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_17))) {
+    Unk_SpotBgmHandle::init(arg.heap, "RemainsElecBattleBgm", nullptr);
+}
+
+Unk_710260f2c8::~Unk_710260f2c8() = default;
+
+void Unk_710260f2c8::hm14() {
+    mEntry = sub_71010209FC(sRemainsElecBattle);
+    if (!mEntry || !mEntry->sub_7100FF6DF4(this))
+        return;
+
+    const f32 storm_volume = _1e8 && !_1e9 ? *mInfo->mMinVolumeOutStorm : 1.0f;
+    mStormFader.setValueImmediate(storm_volume);
+    mEntry->sub_7100FF6A50(1, storm_volume);
+
+    const f32 wake_volume = _1ea ? 1.0f : *mInfo->mMinVolumeWakeBoarding;
+    mWakeBoardingFader.setValueImmediate(wake_volume);
+    mEntry->sub_7100FF6A50(2, wake_volume);
+}
+
+void Unk_710260f2c8::hm15() {
+    const bool storm_full = !_1e8 || _1e9;
+    if ((mStormFader.getTarget() == 1.0f) != storm_full) {
+        if (storm_full)
+            mStormFader.moveTo(1.0f, *mInfo->mFadeInSecOutStorm);
+        else
+            mStormFader.moveTo(*mInfo->mMinVolumeOutStorm, *mInfo->mFadeOutSecOutStorm);
+    }
+
+    if ((mWakeBoardingFader.getTarget() == 1.0f) != _1ea) {
+        if (_1ea)
+            mWakeBoardingFader.moveTo(1.0f, *mInfo->mFadeInSecWakeBoarding);
+        else
+            mWakeBoardingFader.moveTo(*mInfo->mMinVolumeWakeBoarding, *mInfo->mFadeOutSecWakeBoarding);
+    }
+
+    mStormFader.calc();
+    mWakeBoardingFader.calc();
+
+    if (mEntry && mEntry->sub_7100FF6DF4(this)) {
+        mEntry->sub_7100FF6A50(1, mStormFader.getValue());
+        mEntry->sub_7100FF6A50(2, mWakeBoardingFader.getValue());
+    }
+}
+
+namespace {
+sead::SafeString sStr_RemainsFireA = "A";
+sead::SafeString sStr_RemainsFireB = "B";
+}  // namespace
+
+Unk_71025ce390::Unk_71025ce390(const BgmInitArg& arg)
+    : Unk_71025ce3a0(arg, 1),
+      mInfo(static_cast<EventBgmRemainsFireBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_18))) {
+    Unk_SpotBgmHandle::init(arg.heap, "RemainsFireBattleBgm", nullptr);
+}
+
+void Unk_71025ce390::sub_71010084B4(bool alert) {
+    sub_7101020C08(*mInfo->mFoundFadeOutSec);
+    mWaitTimer = alert ? *mInfo->mFoundWaitSec : *mInfo->mFoundAgainWaitSec;
+    if (mWaitTimer == 0.0f)
+        sub_71010209FC(sStr_RemainsFireB);
+}
+
+void Unk_71025ce390::hm14() {
+    if (mType == Unk_710260f248Type::_3 || (_68._18 & 1)) {
+        _1b4 = false;
+    } else {
+        _1b4 = !(_68._18 & 2);
+        if (!(_68._18 & 2))
+            return;
+    }
+    sub_71010209FC(sStr_RemainsFireA);
+    mWaitTimer = 0.0f;
+}
+
+void Unk_71025ce390::hm15() {
+    if (_1b4) {
+        if (mType == Unk_710260f248Type::_3 || (_68._18 & 3)) {
+            sub_71010209FC(sStr_RemainsFireA);
+            mWaitTimer = 0.0f;
+            _1b4 = false;
+        }
+    } else if (mWaitTimer > 0.0f) {
+        mWaitTimer -= sub_710105E3A4();
+        if (mWaitTimer <= 0.0f) {
+            mWaitTimer = 0.0f;
+            sub_71010209FC(sStr_RemainsFireB);
+        }
+    }
+}
+
+Unk_71025ce390::~Unk_71025ce390() = default;
+
+Unk_710260f848::Unk_710260f848(const BgmInitArg& arg) : Unk_71025ce3a0(arg, 3) {
+    Unk_SpotBgmHandle::init(arg.heap, "RemainsWaterBattleBgm", nullptr);
+}
+
+void Unk_71025ce3a0::hm14() {
+    auto* entry = sub_7101020B40();
+    _189 = false;
+    if (entry && entry->sub_7100FF6DF4(this) && entry->mHandle.isActive()) {
+        _189 = mUserInstance->getResourceAccessor().isNeedObserve(
+            *entry->mHandle.getEvent()->getAssetCallTable());
+    }
+}
+
+void Unk_71025ce3a0::hm15() {
+    if (mEntries.size() == 0 && mStarted) {
+        sub_710101D9F4(0.0f);
+        m6(false);
+        mStarted = false;
+    }
+}
+
+Unk_710260f848::~Unk_710260f848() = default;
+
+Unk_710260f2b8::Unk_710260f2b8(const BgmInitArg& arg) : Unk_71025ce3a0(arg, 0) {
+    Unk_SpotBgmHandle::init(arg.heap, "RemainsWindBattleBgm", nullptr);
+}
+
+namespace {
+struct RemainsWindBgmParams {
+    f32 jump_fade_out_sec;
+    f32 jump_fade_in_sec;
+    sead::SafeString intro;
+    sead::SafeString main;
+};
+}  // namespace
+
+// 0x71024fe240
+static const RemainsWindBgmParams sRemainsWindParams = {0.5, 0.5, "Intro", "Main"};
+
+void Unk_710260f2b8::fadeInMaybe(f32 fade_sec) {
+    sub_7101020BB0(fade_sec);
+    sub_710101D9D8();
+}
+
+void Unk_710260f2b8::sub_7101009040() {
+    if (mJumped)
+        return;
+    if (mEntry && mEntry->sub_7100FF6DF4(this))
+        mEntry->sub_7100FF6A64(sRemainsWindParams.jump_fade_out_sec);
+    mEntry = sub_71010209FC(sRemainsWindParams.main);
+    mFader.setValueImmediate(0.0f);
+    mFader.moveTo(1.0f, sRemainsWindParams.jump_fade_in_sec);
+    mJumped = true;
+}
+
+void Unk_710260f2b8::hm14() {
+    mEntry = sub_71010209FC(mJumped ? sRemainsWindParams.main : sRemainsWindParams.intro);
+}
+
+void Unk_710260f2b8::hm15() {
+    if (!mEntry)
+        return;
+    if (!mEntry->sub_7100FF6DF4(this))
+        hm14();
+    if (mEntry && mJumped) {
+        mFader.calc();
+        mEntry->_20 = sead::Mathf::max(mFader.getValue(), 0.0f);
+    }
+}
+
+Unk_710260f2b8::~Unk_710260f2b8() = default;
+
+void Unk_710260f2b8::fadeOutMaybe(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+}
+
+Unk_710260ecf8::~Unk_710260ecf8() = default;
+
+void Unk_710260ecf8::hm14() {
+    auto* entry = sub_7101020B40();
+    _189 = false;
+    if (entry && entry->sub_7100FF6DF4(this) && entry->mHandle.isActive()) {
+        _189 = mUserInstance->getResourceAccessor().isNeedObserve(
+            *entry->mHandle.getEvent()->getAssetCallTable());
+    }
+}
+
+void Unk_710260ecf8::hm15() {
+    if (mEntries.size() == 0 && mStarted) {
+        sub_710101D9F4(0.0f);
+        m6(false);
+        mStarted = false;
+    }
 }
 
 }  // namespace ksys::snd

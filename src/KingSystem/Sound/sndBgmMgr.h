@@ -243,58 +243,165 @@ public:
     SEAD_RTTI_BASE(Unk_71025ce3b0)
 };
 
-// RTTI typeInfo 0x710260ecf8 (vtable 0x71024fe268, 0x1a0 bytes, created by bgmStuff 0x7100ffee14 for names without a
-// dedicated class): a named BGM object with its handle base at +0x8. Unk_71010073f4 lists these (node at +0x190).
-class Unk_710260ecf8 : public Unk_71025ce3b0, public Unk_71024fc7f8 {
-    SEAD_RTTI_OVERRIDE(Unk_710260ecf8, Unk_71025ce3b0)
-public:
-    ~Unk_710260ecf8() override;
+struct BgmInitArg;
+class EventBgmRemainsElecBattleInfo;
+class EventBgmRemainsFireBattleInfo;
 
-    // 0x7101008120 (empty in this class)
-    virtual void update();
-    // 0x7101008124 (thunk 0x71010082fc)
+// The named BGM objects kept by Unk_71010073f4 (node at +0x190), created by bgmStuff 0x7100ffee14. Has no RTTI of its
+// own: the generic object Unk_710260ecf8 and the Remains battle BGMs (Unk_71025ce3a0) derive from it with
+// Unk_71025ce3b0 as their RTTI parent (EventBgmStartAndKeepAction fails for objects that are not Unk_710260ecf8).
+// Its inline virtuals are emitted next to the first vtable that uses them (update 0x7101008120, getName 0x7101008124,
+// m6 0x71010097d8, m7 0x7101008da0, m8 0x7101008da4).
+class NamedBgm : public Unk_71025ce3b0, public Unk_71024fc7f8 {
+public:
+    explicit NamedBgm(const BgmInitArg& arg);
+
+    // The RTTI of the list items is Unk_71025ce3b0's (the handle base has its own).
+    using Unk_71025ce3b0::checkDerivedRuntimeTypeInfo;
+    using Unk_71025ce3b0::getRuntimeTypeInfo;
+
+    virtual void update() {}
+    // Thunk 0x71010082fc.
     const sead::SafeString* getName() override { return &mName; }
-    // 0x71010097d8 (empty in this class); called with true when the BGM is started.
-    virtual void m6(bool started);
-    // 0x7101008da0 (empty in this class)
-    virtual void m7();
-    // 0x7101008da4 (returns false in this class); called once after the object is created.
-    virtual bool m8();
-    // 0x71010094f4 / 0x71010095e8 (thunks 0x7101009574 / 0x7101009638; declared only)
-    void hm14() override;
-    void hm15() override;
+    // Called with true when the BGM is started.
+    virtual void m6(bool started) {}
+    virtual void m7() {}
+    // Called once after the object is created.
+    virtual bool m8() { return false; }
 
     bool mStarted = false;
     bool _189 = true;
     s32 mRefCount = 0;
     sead::ListNode mListNode;
 };
+KSYS_CHECK_SIZE_NX150(NamedBgm, 0x1a0);
+
+// RTTI typeInfo 0x710260ecf8 (vtable 0x71024fe268, 0x1a0 bytes, created by bgmStuff 0x7100ffee14 for names without a
+// dedicated class).
+class Unk_710260ecf8 : public NamedBgm {
+    SEAD_RTTI_OVERRIDE(Unk_710260ecf8, Unk_71025ce3b0)
+public:
+    using NamedBgm::NamedBgm;
+    // 0x7101008738 (D1, shared with the Remains classes) / 0x7101009688 (D0)
+    ~Unk_710260ecf8() override;
+
+    // 0x71010094f4 / 0x71010095e8 (thunks 0x7101009574 / 0x7101009638)
+    void hm14() override;
+    void hm15() override;
+};
 KSYS_CHECK_SIZE_NX150(Unk_710260ecf8, 0x1a0);
 
-// RTTI typeInfo 0x710260f2b8 (0x1c8 bytes, constructor 0x7101008f50): the "RemainsWindBattleBgm" list BGM.
-class Unk_710260f2b8 : public Unk_710260ecf8 {
-    SEAD_RTTI_OVERRIDE(Unk_710260f2b8, Unk_710260ecf8)
+// RTTI typeInfo 0x71025ce3a0 (no vtable of its own; checkDerivedRuntimeTypeInfo 0x7101008304): the base of the four
+// Remains (Divine Beast) battle BGMs. While the BGM plays it holds a ducking request of kind `mDuckingKind`.
+class Unk_71025ce3a0 : public NamedBgm {
+    SEAD_RTTI_OVERRIDE(Unk_71025ce3a0, Unk_71025ce3b0)
 public:
-    // 0x7101009040 (declared only): the jump cue (EventBgmCtrlAction "RemainsWindBattleBgm_Jump").
-    void sub_7101009040();
-};
+    Unk_71025ce3a0(const BgmInitArg& arg, s32 ducking_kind) : NamedBgm(arg), mDuckingKind(ducking_kind) {}
 
-// RTTI typeInfo 0x71025ce390 (0x1b8 bytes, constructor 0x71010083d0): the "RemainsFireBattleBgm" list BGM.
-class Unk_71025ce390 : public Unk_710260ecf8 {
-    SEAD_RTTI_OVERRIDE(Unk_71025ce390, Unk_710260ecf8)
-public:
-    // 0x71010084b4 (declared only): the alert cues (EventBgmCtrlAction "RemainsFireBattleBgm_Alert" / "_Alert2").
-    void sub_71010084B4(bool alert);
+    // 0x710100812c
+    void m6(bool started) override;
+    // The water BGM's (0x7101008b04 / 0x7101008bf8); the same code as Unk_710260ecf8's.
+    void hm14() override;
+    void hm15() override;
+
+    s32 mDuckingKind;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025ce3a0, 0x1a8);
+
+// RTTI typeInfo 0x710260f2c8 (vtable 0x71024fde28, 0x1f0 bytes, constructor 0x7101007d14): "RemainsElecBattleBgm".
+// The music has two parts (entry volumes 1 and 2) faded by the storm and wake boarding states.
+class Unk_710260f2c8 : public Unk_71025ce3a0 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f2c8, Unk_71025ce3a0)
+public:
+    explicit Unk_710260f2c8(const BgmInitArg& arg);
+    ~Unk_710260f2c8() override;
+
+    // 0x710100800c
+    void m7() override {}
+    // 0x7101008150
+    bool m8() override { return true; }
+    // 0x7101007e1c / 0x7101007ee8 (thunks 0x7101007ee0 / 0x7101008004)
+    void hm14() override;
+    void hm15() override;
+
+    EventBgmRemainsElecBattleInfo* mInfo;
+    Unk_710260f248Entry* mEntry = nullptr;
+    aal::SimpleTimedFader mStormFader{0.0};
+    aal::SimpleTimedFader mWakeBoardingFader{0.0};
+    bool _1e8 = false;
+    bool _1e9 = false;
+    bool _1ea = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260f2c8, 0x1f0);
+
+// RTTI typeInfo 0x71025ce390 (vtable 0x71024fdf28, 0x1b8 bytes, constructor 0x71010083d0): "RemainsFireBattleBgm".
+class Unk_71025ce390 : public Unk_71025ce3a0 {
+    SEAD_RTTI_OVERRIDE(Unk_71025ce390, Unk_71025ce3a0)
+public:
+    explicit Unk_71025ce390(const BgmInitArg& arg);
+    ~Unk_71025ce390() override;
+
+    // 0x7101008734
+    void m7() override {}
+    // 0x7101008848
+    bool m8() override { return true; }
+    // 0x7101008534 / 0x71010085f4 (thunks 0x7101008594 / 0x7101008694)
+    void hm14() override;
+    void hm15() override;
+
+    // 0x71010084b4: the alert cues (EventBgmCtrlAction "RemainsFireBattleBgm_Alert" / "_Alert2").
+    void sub_71010084B4(bool alert);
+
+    EventBgmRemainsFireBattleInfo* mInfo;
+    // Countdown (seconds) before the "B" asset is emitted.
+    f32 mWaitTimer = 0.0;
+    bool _1b4 = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025ce390, 0x1b8);
+
+// RTTI typeInfo 0x710260f848 (vtable 0x71024fe028, 0x1a8 bytes, constructor 0x7101008a4c): "RemainsWaterBattleBgm".
+class Unk_710260f848 : public Unk_71025ce3a0 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f848, Unk_71025ce3a0)
+public:
+    explicit Unk_710260f848(const BgmInitArg& arg);
+    ~Unk_710260f848() override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260f848, 0x1a8);
+
+// RTTI typeInfo 0x710260f2b8 (vtable 0x71024fe128, 0x1c8 bytes, constructor 0x7101008f50): "RemainsWindBattleBgm".
+class Unk_710260f2b8 : public Unk_71025ce3a0 {
+    SEAD_RTTI_OVERRIDE(Unk_710260f2b8, Unk_71025ce3a0)
+public:
+    explicit Unk_710260f2b8(const BgmInitArg& arg);
+    ~Unk_710260f2b8() override;
+
+    // 0x7101009234
+    void m7() override {}
+    // 0x71010090d4 / 0x7101009158 (thunks 0x7101009118 / 0x71010091c4)
+    void hm14() override;
+    void hm15() override;
+    // 0x7101009018 / 0x7101009348: fade the handle in / out (placeholder names).
+    virtual void fadeInMaybe(f32 fade_sec);
+    virtual void fadeOutMaybe(f32 fade_sec);
+
+    // 0x7101009040: the jump cue (EventBgmCtrlAction "RemainsWindBattleBgm_Jump").
+    void sub_7101009040();
+
+    // In the tail padding of Unk_71025ce3a0 (+0x1a4).
+    bool mJumped = false;
+    Unk_710260f248Entry* mEntry = nullptr;
+    aal::SimpleTimedFader mFader{1.0};
+};
+KSYS_CHECK_SIZE_NX150(Unk_710260f2b8, 0x1c8);
 
 // 0x7100ffe204 / 0x7100ffe39c: the wind / fire Remains battle BGM in the named BGM list, or null.
 Unk_710260f2b8* sub_7100FFE204();
 Unk_71025ce390* sub_7100FFE39C();
 
 // 0x7100ffee14 (declared only): creates the BGM object for `name` (dedicated classes for four names).
-Unk_710260ecf8* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
+NamedBgm* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
 // 0x7100fff0e4: releases the handle of `bgm` and deletes it.
-void sub_7100FFF0E4(Unk_710260ecf8* bgm);
+void sub_7100FFF0E4(NamedBgm* bgm);
 
 
 // The kind of a BGM (Bgm::_c). A four-byte enum wrapper: sub_7100FF7920 / sub_7100FF7C74 and the controller BGM
@@ -579,7 +686,7 @@ public:
     // 0x710100748c: updates the BGMs and deletes the ones that are not started, have no entries and are not held.
     void update();
     // 0x710100760c: the BGM named `name`, or null.
-    Unk_710260ecf8* find(const sead::SafeString& name);
+    NamedBgm* find(const sead::SafeString& name);
     // 0x7101007760: holds the BGM `name`, creating it on `heap` if needed. Returns false if it could not be created.
     bool hold(const sead::SafeString& name, sead::Heap* heap);
     // 0x7101007818: whether the BGM `name` is finished (true when it does not exist).
@@ -599,7 +706,7 @@ public:
     bool sub_7101007C90();
 
 private:
-    sead::OffsetList<Unk_710260ecf8> mList;
+    sead::OffsetList<NamedBgm> mList;
     sead::CriticalSection mCS;
 };
 

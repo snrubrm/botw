@@ -323,6 +323,20 @@ void Unk_SoundMgr38_28::sub_7101037F7C(bool value) {
     _39c = value;
 }
 
+void Unk_710103AC60::start(s32 kind) {
+    if (mActive)
+        return;
+    mType = kind == 1 ? DuckingMgr::DuckerType::cFieldRemainsFire : DuckingMgr::DuckerType::cFieldRemainsOrGanon;
+    mActive = true;
+}
+
+void Unk_710103AC60::stop() {
+    if (!mActive)
+        return;
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
+    mActive = false;
+}
+
 }  // namespace ksys::snd
 
 Unk_7102501910::~Unk_7102501910() = default;
