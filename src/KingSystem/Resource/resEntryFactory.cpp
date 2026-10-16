@@ -32,14 +32,8 @@ void Unk_71024f9f78::doCreate_(u8* buffer, u32 size, sead::Heap*) {
     buffer[size] = 0;
 }
 
-// Independently supported native creation, size, and alignment specializations.
-template sead::DirectResource* EntryFactory<Unk_71024f9f78>::newResource_(sead::Heap*, s32);
-template u32 EntryFactory<Unk_71024f9f78>::getResourceSize() const;
-template u32 EntryFactory<Unk_71024f9f78>::getLoadDataAlignment() const;
-template bool EntryFactory<Unk_71024f9f78>::checkDerivedRuntimeTypeInfo(
-    const sead::RuntimeTypeInfo::Interface*) const;
-template const sead::RuntimeTypeInfo::Interface*
-EntryFactory<Unk_71024f9f78>::getRuntimeTypeInfo() const;
+// The whole factory is instantiated here (destructors 0x7100f42978 / 0x7100f429bc).
+template class EntryFactory<Unk_71024f9f78>;
 
 // Native factories A80D08/A80F20 construct the complete 0x60-byte texture owners.
 template sead::DirectResource* EntryFactory<::Unk_710247ed28>::newResource_(sead::Heap*, s32);
