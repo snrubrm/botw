@@ -258,6 +258,10 @@ public:
     // 0x7100f74fd8 (declared only; placeholder name): the cost of the face sub material `material` for the
     // character type `type` (a table at 0x7101ec22ec plus special cases).
     static f32 sub_7100F74FD8(s32 type, s32 material);
+    // 0x7100f74f94 (placeholder name): _1d8 of `character`, 0 without one.
+    static u8 sub_7100F74F94(const NavMeshCharacter* character);
+    // 0x7100f74fa0 (placeholder name): true for type 0, or when `material` is 10 and `type` is not.
+    static bool sub_7100F74FA0(s32 type, s32 material);
 
     // Inline-only in the original; name is a guess. GiantNavMoveTarget::m34 0x71003f7904 and its face callback
     // 0x71003f9260, and the face callbacks of HorseMoveToSafePos (0x71001a27b8) and HorseSwimAction
