@@ -25,6 +25,9 @@ class Shape;
 
 namespace ksys::phys {
 class RigidBody;
+class CollisionInfo;
+class ContactPointInfo;
+class SystemGroupHandler;
 }
 
 namespace ksys::act {
@@ -333,10 +336,16 @@ public:
     static_assert(sizeof(ChemicalPair) == 0x18);
     sead::CriticalSection mChemicalPairLock;
     sead::CriticalSection _68;
-    u8 _a8[0x10];
+    // lane1 s91: given to element rigid bodies by 0x7100e3f3ac.
+    phys::SystemGroupHandler* _a8;
+    u8 _b0[8];
     sead::FixedObjList<ChemicalPair, 64> mChemicalPairs;
     act::Unk_71024dd490* _ae8;  // Actual Element holder created by sub_7100D9A1D0.
-    u8 _af0[0xb10 - 0xaf0];
+    u8 _af0[8];
+    // lane1 s91: element rigid body contact infos (Unk_7102518688::setRigidBody).
+    phys::ContactPointInfo* _af8;
+    phys::ContactPointInfo* _b00;
+    phys::CollisionInfo* _b08;
     u8 _b10;
     u8 _b11[3];
     sead::BitFlag32 _b14;

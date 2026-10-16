@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/World/worldManager.h"
 
 void Unk_7102518620::onMaxPositionExceeded(ksys::phys::RigidBody* body) {
     if (auto* element = mElement) {
@@ -139,4 +140,31 @@ f32 Unk_7102518688::m7() {
 void Unk_7102518688::m8() {
     if (!(mFlags & 1))
         m36();
+}
+
+void Unk_7102518688::setRigidBody(ksys::phys::RigidBody* body, bool add_to_world) {
+    if (mFlags & 1)
+        return;
+
+    mRigidBody = body;
+    body->setContactLayer(ksys::phys::ContactLayer::SensorChemicalElement);
+    mRigidBody->setUserTag(&mTag);
+
+    if (mHolder->_8->type.ref() == 1) {
+        body->setContactPointInfo(ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_b00);
+    } else if (mHolder->_80 && mHolder->_80->_c & 0x10000000) {
+        body->setCollisionInfo(ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_b08);
+    } else {
+        body->setContactPointInfo(ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_af8);
+    }
+
+    ksys::act::sub_7100E3F3AC(mRigidBody, mHolder);
+
+    if (add_to_world && !mRigidBody->isAddedToWorld() && !mRigidBody->isAddingBodyToWorld()) {
+        mRigidBody->addToWorld();
+        notifyChemicalMaybe();
+    }
+
+    m8();
+    updateRadius();
 }

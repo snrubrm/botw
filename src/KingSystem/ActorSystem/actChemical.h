@@ -16,6 +16,10 @@ namespace ksys::chm {
 class IShape;
 }
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::act {
 
 class Unk_71024e6560;
@@ -78,6 +82,10 @@ public:
     /* 0x94 */ u8 _94[0xa0 - 0x94];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024dd1c8, 0xa0);
+
+// lane1 s91 (declared only): 0x7100e3f3ac gives the body the chemical manager's system group handler
+// when the holder's element type and _78 are both 2.
+void sub_7100E3F3AC(phys::RigidBody* body, Unk_71024dd1c8* holder);
 
 // Placeholder (lane1 s22): the object Chemical::_90 points to; fields read by ChmCheck / ViewWaitRiskAvoid.
 struct Unk_ChemicalData {
