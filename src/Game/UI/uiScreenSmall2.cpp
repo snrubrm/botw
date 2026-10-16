@@ -80,6 +80,24 @@ Unk_710248ea70::~Unk_710248ea70() {
 }
 
 
+// 0x71009d5980
+void ScreenAppAlbum::m128() {
+    for (auto* controller : sUnk_71025dc5e0)
+        controller->sub_71009CC970();
+}
+
+// 0x71009d5db0
+void ScreenAppAlbum::m156() {
+    if (_3638)
+        _3638->sub_710093F594(false);
+}
+
+// 0x71009d5f18
+void ScreenAppAlbum::m160() {
+    if (_3640)
+        _3640->sub_710093F594(false);
+}
+
 // 0x71009d656c
 void ScreenAppAlbum::m174() {
     _3a9c = Unk_71025d1740::instance()->sub_7100901A90(false) ? 0 : -1;

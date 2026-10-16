@@ -2883,6 +2883,8 @@ struct ScreenAppPictureBookUnk {
 class Unk_71009cb0c8;
 // 0x71025eb5c0 (placeholder name): the AppPictureBook screen's texture controllers
 extern sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
+// 0x71025dc5e0 (placeholder name): the AppAlbum screen's texture controllers (stored as pointers to the controller pointers)
+extern sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 
 class ScreenAppPictureBook : public ScreenEx {
 public:
@@ -4326,9 +4328,12 @@ public:
 
     bool sub_71009D3DA0() const;
     bool sub_71009D3DC0() const;
+    void m128() override;
     u8 _3610[0x3630 - 0x3610];
     /* 0x3630 */ eui::Animator* _3630;
-    u8 _pad_3638[0x3a9c - 0x3638];
+    /* 0x3638 */ ScreenAppPictureBookUnk* _3638;
+    /* 0x3640 */ ScreenAppPictureBookUnk* _3640;
+    u8 _pad_3648[0x3a9c - 0x3648];
     /* 0x3a9c */ s32 _3a9c;
 
 };
