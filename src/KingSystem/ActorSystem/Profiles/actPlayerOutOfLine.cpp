@@ -653,4 +653,29 @@ void Player::x_14(u32 type) {
     uking::RuneMgr::instance()->sub_710067594C();
 }
 
+// Placeholder name: when weapon slot 0 holds a Weapon, makes it the equipment type 1 in _d68, sets up the bone keys
+// and plays WeaponEquipOn with the weapon's profile on AS slot 0x2c.
+void Player::sub_7100889154() {
+    const s32 slot = playerWeapons_return0();
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(slot));
+    if (!weapon)
+        return;
+    _d68 = getEquipmentTypeName(1);
+    if (_d24 == 0 && (!sub_7100888294() || _c40.isOnBit(3) || isRidingHorse()))
+        sub_7100855494();
+    else
+        x_25();
+    mASList->goLimpFromHeadShotMaybe(0x2c, weapon->getProfile(), 0);
+    _1cdc = _d24;
+    if (sub_7100888294())
+        mASList->x_2(0x42, 0x1e, true, false);
+    x_27();
+    x_26("WeaponEquipOn", 0.0f);
+    uking::RuneMgr::instance()->sub_710067594C();
+    if (m178()) {
+        _c40.resetBit(1);
+        _c44.setBit(12);
+    }
+}
+
 }  // namespace ksys::act
