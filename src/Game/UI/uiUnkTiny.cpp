@@ -640,11 +640,30 @@ Unk_7102481e50::~Unk_7102481e50() = default;
 // 0x7100a6cb6c
 Unk_710249c3b0::~Unk_710249c3b0() = default;
 
+// 0x7100a6cb7c
+// NON_MATCHING: the original pairs the stores as 0x10 / 0x14 and 0x18 / 0x1c (ours: 0xc / 0x10, 0x14 / 0x18)
+Unk_710249c3d0::Unk_710249c3d0() = default;
+
 // 0x7100a6cbb8
 Unk_710249c3d0::~Unk_710249c3d0() = default;
 
+// 0x7100a6cbc0
+sead::BoundBox2f* Unk_710249c3d0::getBounds() {
+    return &mBounds;
+}
+
 // 0x7100a6cc44
 Unk_710249c3f0::~Unk_710249c3f0() = default;
+
+// 0x7100a6cc4c
+sead::BoundBox2f* Unk_710249c3f0::getBounds() {
+    return &mBounds;
+}
+
+// 0x7100a6cc54
+u8 Unk_710249c3f0::get9() const {
+    return _9;
+}
 
 // 0x7100a6d2c8
 Unk_710249c410::~Unk_710249c410() = default;

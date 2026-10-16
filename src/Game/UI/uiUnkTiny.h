@@ -569,15 +569,34 @@ public:
     virtual ~Unk_710249c3b0();
 };
 
+// Member _440 of Unk_710249c338 (ctor 0x7100a6cb7c).
 class Unk_710249c3d0 {
 public:
+    Unk_710249c3d0();
     virtual ~Unk_710249c3d0();
-};
+    sead::BoundBox2f* getBounds();
 
+    /* 0x08 */ u8 _8 = 0;
+    /* 0x0c */ f32 _c = 0.0f;
+    /* 0x10 */ f32 _10 = 25.0f;
+    /* 0x14 */ sead::BoundBox2f mBounds;
+};
+static_assert(sizeof(Unk_710249c3d0) == 0x28);
+
+// Member _468 of Unk_710249c338 (ctor 0x7100a6cbc8, not decompiled: it stores the result of an unidentified
+// import call at 0x38).
 class Unk_710249c3f0 {
 public:
     virtual ~Unk_710249c3f0();
+    sead::BoundBox2f* getBounds();
+    u8 get9() const;
+
+    /* 0x08 */ u8 _8;
+    /* 0x09 */ u8 _9;  // 30 after construction
+    u8 _a[0x40 - 0xa];
+    /* 0x40 */ sead::BoundBox2f mBounds;
 };
+static_assert(sizeof(Unk_710249c3f0) == 0x50);
 
 class Unk_710249c410 {
 public:
