@@ -7,6 +7,10 @@
 #include <xlink2/xlink2EventSLink.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 Unk_710250c260::Unk_710250c260() = default;
 
@@ -93,6 +97,59 @@ void Unk_710250c3e8::m35(f32 delta_frame) {
     sub_71010C53D8();
     f32 t = delta_frame / 1000.0f + _98;
     _98 = t > 1.0f ? t - 1.0f : t;
+}
+
+// NON_MATCHING: the _69 load is scheduled later and the scale / matrix floats are computed in another order.
+void Unk_710250c3e8::sub_71010C5154() {
+    const bool active = _70.isActive();
+    if (!_69) {
+        if (active) {
+            _70.fade();
+            _70.reset();
+            return;
+        }
+    } else if (!active) {
+        auto* actor = ksys::act::Reaction::instance()->_38;
+        if (actor) {
+            if (actor->getXLink()) {
+                const f32 half_height = mArg._c * 0.5f;
+                actor->getXLink()->sub_7101231468(0x19, mArg._10, false);
+                actor->getXLink()->sub_7101231468(0x1a, half_height, false);
+                actor->getXLink()->sub_7101231468(0x1b, 20.0f, false);
+            }
+            _70 = ksys::eft::searchAndEmitELink(actor, "Chemical_Updraft");
+        }
+    }
+    if (_70.isActive()) {
+        const sead::Vector3f& pos = m6();
+        const f32 height = mArg._c;
+        const f32 diameter = mArg._10 + mArg._10;
+        const sead::Vector3f center = pos + sead::Vector3f::ey * height * 0.5f;
+        const sead::Matrix34f mtx(1, 0, 0, center.x,  //
+                                  0, 1, 0, center.y,  //
+                                  0, 0, 1, center.z);
+        _70.setMatrix(mtx, {diameter, height, diameter});
+    }
+}
+
+// NON_MATCHING: register allocation (one more callee-saved register keeps &_80), as in
+// ElementDirectionalWindOrGust::doEmitSLink.
+void Unk_710250c3e8::sub_71010C53D8() {
+    if (_80.isActive())
+        return;
+    auto* reaction = ksys::act::Reaction::instance();
+    if (!reaction->_38)
+        return;
+    _80 = ksys::eft::searchAndEmitSLink(reaction->_38, "windBurn", false);
+    if (!_80.isActive())
+        return;
+    _80.getEvent()->resetFlagBit(1);
+    auto* shape = _90;
+    if (shape && _80.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_80.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                source->mSpatialSetting.setShape(shape);
+    }
 }
 
 void Unk_710250c3e8::m33(bool a, bool fixed) {
