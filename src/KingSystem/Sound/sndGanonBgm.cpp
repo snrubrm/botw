@@ -41,6 +41,13 @@ void Unk_71024fed48::sub_7101010B20() {
     }
 }
 
+void Unk_71024fed48::sub_7101010B84() {
+    if (mState == 1 || mState == 2)
+        return;
+    mState = 2;
+    sub_710101D9D8();
+}
+
 void Unk_71024fed48::sub_7101010C58(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     mState = mState == 1 ? 3 : mState == 2 ? 4 : 0;

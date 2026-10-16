@@ -40,6 +40,39 @@ void Unk_71024fee78::hm14() {
         _1a0.moveTo(1.0f, mInfo->mFadeInSec.ref());
 }
 
+void Unk_71024fee78::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+    const bool in_battle = (_1d4 & 3) != 1 && _1d0 > 0;
+    switch (mState) {
+    case 0:
+        if (in_battle) {
+            _1a0.setValueImmediate(0.0f);
+            sub_710101D9D8();
+            mState = 1;
+        }
+        break;
+    case 1:
+        if (!in_battle) {
+            _1a0.moveTo(0.0f, mInfo->mFadeOutSec.ref());
+            mState = 2;
+        }
+        break;
+    case 2:
+        if (in_battle) {
+            _1a0.moveTo(1.0f, 0.5f);
+            mState = 1;
+        }
+        if (_1a0.getValue() == _1a0.getNextValue()) {
+            sub_710101D9F4(0.1f);
+            mState = 0;
+        }
+        break;
+    }
+    _1a0.calc();
+    _a4 = _1a0.getValue();
+}
+
 bool Unk_71024fee78::m10() {
     if (_124 != 3 && _124 != 4)
         return false;

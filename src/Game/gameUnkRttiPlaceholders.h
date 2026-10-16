@@ -2914,6 +2914,8 @@ public:
     void hm14() override;
     // 0x7101010eb8 (copy for the handle base 0x7101011060)
     void hm15() override {}
+    // 0x7101010b84: unless playing (state 1 or 2), starts the second half.
+    void sub_7101010B84();
     // 0x7101010b20: unless playing (state 1 or 2), starts the first half, requests the ducker at
     // Unk_710104e5b4 +0x294 and sets the FX mode 1.
     void sub_7101010B20();
@@ -2942,6 +2944,8 @@ public:
     ~Unk_71024fee78() override;
     // 0x710101157c: stores the first dword of `arg` at +0x1d0 (called by Unk_710260f1f8::m8 on its kind 26 BGM).
     void sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+    // 0x7101011380: starts the BGM when a battle begins, fades it out after it ends and stops it once faded out.
+    void m5() override;
     bool m10() override;
     bool m11() override;
     void m13(f32 fade_sec) override;
