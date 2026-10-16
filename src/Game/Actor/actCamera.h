@@ -21,6 +21,7 @@
 
 namespace ksys::phys {
 class RayCast;
+class ShapeCast;
 }
 
 namespace ksys::res {
@@ -362,6 +363,10 @@ public:
 
 // Placeholder name (out-of-line ctor 0x7100928b6c (this, camera), in the camera utility code):
 // Camera::_1240.
+// 0x7100928cd4 (placeholder name): sets the cast's mode to 0 and subscribes its contact point info to the
+// object, ground, water and tree layers (the camera collision casts).
+void sub_7100928CD4(ksys::phys::ShapeCast* cast);
+
 class Unk_7100928b6c {
 public:
     explicit Unk_7100928b6c(Camera* camera);
