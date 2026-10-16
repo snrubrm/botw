@@ -19,9 +19,17 @@ namespace uking {
 // The per-slot save data (0x308 bytes; only the flag at +0x300 is known: tested by AlbumInfo's copy helpers).
 struct SaveSlot {
     s32 mAlbumIndices[0x30];  // the picture indices of the slot's album (copied by AlbumInfo)
-    u8 _c0[0x2f8 - 0xc0];
+    // 0xc0 / 0x1d8: two 0x118-byte blocks (the size of a FixedSafeString<256>), but the static SaveSlot at
+    // 0x71025d1d18 has no static initialiser, so they are trivially constructible (plain data); SaveSystem
+    // 0x7100914154 copies only the first 0xc0 bytes (the album indices) between slots. Types unknown.
+    /* 0x0c0 */ u8 _c0[0x118];
+    /* 0x1d8 */ u8 _1d8[0x118];
+    // 0x2f0: the save time stamp, a sead::DateTime value (u64 unix time); 0x71009131b0 copies it into a
+    // sead::DateTime and calls diffToNow(). Kept as u64: sead::DateTime's constructor would need a static
+    // initialiser for the static slot.
+    /* 0x2f0 */ u64 mTimestamp;
     /* 0x2f8 */ s32 _2f8;  // set from the UI manager when saving (initA / init1)
-    u8 _2fc[4];
+    /* 0x2fc */ s32 _2fc;  // returned by 0x71009131b0 when the slot was saved less than 60 s ago
     bool _300;
     u8 _301;
     /* 0x302 */ u8 _302;  // read by the UI save-slot scan (lane2 s46)
