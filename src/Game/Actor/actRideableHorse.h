@@ -58,6 +58,7 @@ public:
     void m43() override;
 
     bool m4(ksys::act::Actor* actor, sead::Heap* heap) override;
+    void m6() override;
     void m7() override;
     void m8() override;
 

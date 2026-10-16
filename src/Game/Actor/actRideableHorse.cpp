@@ -42,6 +42,27 @@ bool RideableHorse::m4(ksys::act::Actor* actor, sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original reads Unk_7100e8b2b8::_c through a stack temporary (SEAD_ENUM-like value).
+void RideableHorse::m6() {
+    Rideable::m6();
+    _294 = 0;
+    _298 = 0;
+    _29c = 0;
+    if (!static_cast<HorseBase*>(RideableBase::mActor)->_c00.isEmpty()) {
+        _2a0 = 1.0f;
+        procLink8();
+    }
+    if (Unk_7100e8b2b8::_c == 1)
+        RideableBase::_8.setBitOff(10);
+    else
+        RideableBase::_8.setBitOn(10);
+    const HorseBase::Nature nature = static_cast<HorseBase*>(RideableBase::mActor)->sub_7100E68298();
+    if (s32(nature) == 0)
+        RideableBase::_8.setBitOff(11);
+    else
+        RideableBase::_8.setBitOn(11);
+}
+
 // NON_MATCHING: the native enum conversion uses a stack temporary; the table complement is folded.
 void RideableHorse::m7() {
     Rideable::m7();
