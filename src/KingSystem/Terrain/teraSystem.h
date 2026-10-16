@@ -170,7 +170,13 @@ public:
     f32 _3c8;
     // Passed by sub_710110B4A4 to sub_710110AA5C.
     f32 _3cc;
-    u8 _3d0[0x400 - 0x3d0];
+    u8 _3d0[0x3dc - 0x3d0];
+    // Scene::sub_7101101964 gives the first _3dc of 19 entries level 1, the first _3dd level 2 and the
+    // first _3de level 3.
+    u8 _3dc;
+    u8 _3dd;
+    u8 _3de;
+    u8 _3df[0x400 - 0x3df];
     f32 _400;
     u8 _404[0x680 - 0x404];
     sead::Matrix44f mProjectionMatrix;
@@ -203,9 +209,19 @@ public:
     // and sets flag 4 if one changed.
     void sub_7101101964();
 
-    u8 _0[0x2300];
+    u8 _0[0x28];
+    u8 _28;
+    u8 _29;
+    u8 _2a[0x2300 - 0x2a];
     Unk_710111F504 _2300;
-    u8 _2321[0x2998 - 0x2321];
+    u8 _2321[0x2780 - 0x2321];
+    s32 _2780;
+    u8 _2784[0x278c - 0x2784];
+    s32 _278c[19];
+    u8 _27d8[0x2940 - 0x27d8];
+    u8 _2940;
+    u8 _2941;
+    u8 _2942[0x2998 - 0x2942];
     // Flags: 4 set when the levels change, 8 read by System::sub_710111F618.
     u32 _2998;
 };
