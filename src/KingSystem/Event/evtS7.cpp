@@ -6,6 +6,8 @@
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/AutoDim.h"
+#include "KingSystem/System/SeadController.h"
+#include "Game/UI/uiManager.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
 // Declaration only; the original source namespace is unknown (0x7100f40360).
@@ -31,6 +33,62 @@ void S7::sub_71008ADDB0() {
 
 // NON_MATCHING: same logic, but the original keeps the blocked flag as a materialised bool (`mov w0, wzr; tbz w0, ...`
 // after the name compare, jumps through it) where ours threads the branches.
+// 0x71008ade40
+// NON_MATCHING: the original loads EventSystem::instance() before computing the stored value (C++14 order) and
+// keeps the two flag masks as immediates
+void S7::handleEventSkip() {
+    if (mFlow->getType() == EventFlowType::MovieWithNoPath)
+        return;
+
+    auto* controller = SeadController::getInstance();
+    auto* ui_mgr = uking::ui::Manager::instance();
+    const bool blocked = ui_mgr->isPausedMaybe() && (ui_mgr->_64c30 & 8) == 0;
+    const bool is_movie = mFlow->getEventFlowType() == 1 || mFlow->getEventFlowType() == 2;
+
+    switch (_10) {
+    case 1:
+        if (controller->isTrig(8) && !blocked)
+            _10 = 2;
+        break;
+    case 2:
+        if (controller->isTrig(is_movie ? 0x800 : 2) && !blocked) {
+            _10 = 3;
+            mFlow->_340 |= 0x2000000000;
+        }
+        if (controller->isTrig(2))
+            _10 = 1;
+        break;
+    case 4:
+        if (controller->isTrig(8))
+            _10 = 3;
+        break;
+    case 5:
+        if (controller->isTrig(2 | 8))
+            _10 = 3;
+        break;
+    }
+
+    if (_10 == 2)
+        EventSystem::instance()->_138 = 1;
+    else if (_10 == 4)
+        EventSystem::instance()->_138 = 2;
+    else
+        EventSystem::instance()->_138 = _10 == 5 ? 2 : 0;
+
+    if (_10 == 4 || _10 == 2)
+        uking::ui::openSkipScreen(is_movie);
+    else
+        uking::ui::closeSkipScreen();
+
+    if (_14 & 2) {
+        if (controller->isHold(2))
+            _14 |= 4;
+        _14 &= ~2u;
+    } else {
+        _14 &= ~4u;
+    }
+}
+
 // 0x71008ae08c
 void S7::blockSkipForDemo102(bool a, bool b) {
     bool blocked = false;

@@ -53,6 +53,8 @@ public:
 
     // 0x71008addb0 (CSV unnamed; placeholder name): takes the flow out of the EventSystem's count
     void sub_71008ADDB0();
+    // 0x71008ade40: advances the skip state `_10` from the controller input and opens / closes the skip screen
+    void handleEventSkip();
 
     // 0x71008ae2a8 (CSV evt::S7::openFadeDemoScreen) / 0x71008ae41c / 0x71008ae730 (placeholder names; none of them uses
     // `this`; defined in uiFadeScreens.cpp): open the fade demo screen / the fade screen
