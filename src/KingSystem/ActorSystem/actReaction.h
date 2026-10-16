@@ -26,6 +26,10 @@ public:
     static Reaction* sInstance;
     // Surface raycast/XLink update called by GolemRootBase::calc_; declaration only.
     void sub_7100EC29D0(Actor* actor);
+    // 0x7100ec2278 (placeholder name): size class 0-4 of the actor from the local AABB of its main body
+    // (2 or 3 from the height alone without one). `is_long` (optional) is set when the body is longer than
+    // 4.5 and much thinner in the other two directions.
+    s32 sub_7100EC2278(Actor* actor, bool* is_long);
 
     // EC04D0 stores an Actor cast from the released handle; EC0D20 deletes the same actor.
     // EC04D0 releases the first handle and dynamically casts it to Actor here.
