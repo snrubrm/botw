@@ -812,6 +812,54 @@ void ScreenAppPictureBookUnk::sub_7100941C30(const sead::Vector2f& offset, s32* 
     }
 }
 
+// NON_MATCHING: the original tests each axis with one fcmp / fccmp pair (both bounds computed first); ours
+// branches between the two compares
+// 0x710093b9f4
+void ScreenAppPictureBookEntry::sub_710093B9F4(PictureBookGroupRecord* record) {
+    if (_38d)
+        return;
+    if (record->_c < 0)
+        return;
+    const f32 x = _378.x + record->mPosition.x;
+    const f32 half_width = mGroupList->_20.x * 0.5f;
+    const f32 left = x - half_width;
+    const f32 right = x + half_width;
+    if (_308.getMin().x <= right && left <= _308.getMax().x) {
+        const f32 y = _378.y + record->mPosition.y;
+        const f32 half_height = mGroupList->_20.y * 0.5f;
+        const f32 top = y + half_height;
+        const f32 bottom = y - half_height;
+        if (_308.getMin().y <= top && bottom <= _308.getMax().y)
+            return;
+    }
+    if (!(record->_0 & 1))
+        return;
+    Unk_7102474f10* group = nullptr;
+    for (auto& it : mGroupList->mUnits) {
+        if (it.mRecord == record) {
+            group = &it;
+            break;
+        }
+    }
+    if (!group)
+        return;
+    record->_0 &= ~1u;
+    if (auto* item = group->_40) {
+        item->m5();
+        item->_8 = nullptr;
+    }
+    const s32 count = group->mUnits.size();
+    for (s32 i = 0; i < count; ++i) {
+        Unk_7102474e38* unit = group->mUnits(i);
+        unit->_30 = 0;
+        unit->_8->mPane->SetVisible(false);
+        if (unit->_10)
+            unit->_10->setFlag10(false);
+    }
+    group->mEntry = nullptr;
+    group->mRecord = nullptr;
+}
+
 // 0x710093ad60
 void ScreenAppPictureBookEntry::sub_710093AD60(const sead::Vector2f& position) {
     sub_710093AE60(position);

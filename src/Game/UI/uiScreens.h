@@ -2815,6 +2815,9 @@ struct ScreenAppPictureBookEntry {
     void sub_710093AD60(const sead::Vector2f& position);
     // 0x710093b0d8 (declared only; 1452 bytes)
     void sub_710093B0D8(PictureBookGroupRecord* record);
+    // 0x710093b9f4 (placeholder name): when the record's group is out of the view box _308, releases the group
+    // (item, units, record link)
+    void sub_710093B9F4(PictureBookGroupRecord* record);
     void sub_710093AF74();
     void sub_710093BB48();
     void sub_710093BDFC();
@@ -2898,7 +2901,8 @@ struct PictureBookItem {
     virtual void m7();
     virtual void m8(PictureBookItem* prev);
     virtual void m9();
-    /* 0x8 */ u8 _8[0x10 - 0x8];
+    // cleared after m5 by ScreenAppPictureBookEntry::sub_710093B9F4
+    /* 0x8 */ void* _8;
     /* 0x10 */ bool _10;
 };
 
