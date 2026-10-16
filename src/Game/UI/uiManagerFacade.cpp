@@ -17,6 +17,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include <gfx/seadCamera.h>
@@ -677,6 +678,19 @@ bool sub_7100A9B96C() {
     if (auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr)))
         return player->sub_710084CF24();
     return false;
+}
+
+// 0x7100a9b990: false while the player's flag bit 2 at 0xc48 (PlayerBase::m209) is set; otherwise whether the
+// weather manager's _320 is non-zero
+bool sub_7100A9B990() {
+    if (auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr))) {
+        if (player->m209())
+            return false;
+    }
+    auto* world = ksys::world::Manager::instance();
+    if (!world)
+        return false;
+    return world->getWeatherMgrUnchecked()->_320 != 0;
 }
 
 }  // namespace uking::ui
