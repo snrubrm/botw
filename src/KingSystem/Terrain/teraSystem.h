@@ -264,6 +264,8 @@ public:
     // 0x71010ffe70 (placeholder name): when (a, b) differ from _2780 / _2784, stores them,
     // rebuilds through _2948 and sets flags 0xff00.
     void sub_71010FFE70(s32 a, s32 b);
+    // 0x71011016f4 (placeholder name): forwards the level _2942 to _2948.
+    void sub_71011016F4();
     // 0x7101100260 (placeholder name): stores the four values as u16 into the sub-objects of
     // stride 0x460 (+0x1c).
     void sub_7101100260(s32 a, s32 b, s32 c, s32 d);
@@ -284,7 +286,8 @@ public:
     sead::Buffer<void*> _2930;
     u8 _2940;
     u8 _2941;
-    u8 _2942[0x2946 - 0x2942];
+    s8 _2942;
+    u8 _2943[0x2946 - 0x2943];
     s8 _2946;
     u8 _2947[0x2948 - 0x2947];
     // Placeholder type: System::sub_710111F644 writes its _afc0.
@@ -293,6 +296,9 @@ public:
         // sub-objects and the two new values.
         void sub_710112727C(Unk_710111F504* a, Unk_710111F504* b, Unk_710111F504* c, Unk_710111F504* d, s32 x,
                             s32 y);
+
+        // 0x7101128ba0 (declaration only; placeholder name)
+        void sub_7101128BA0(s32 level);
 
         u8 _0[0xafc0];
         void* _afc0;

@@ -40,6 +40,10 @@ void Scene::sub_7101100260(s32 a, s32 b, s32 c, s32 d) {
     _0[8]._1c = 0xfff0;
 }
 
+void Scene::sub_71011016F4() {
+    _2948->sub_7101128BA0(_2942);
+}
+
 void Scene::sub_7101101A10(void* a, void* b, void* c, void* d, void* e) {
     _2910[0] = a;
     _2910[1] = b;
