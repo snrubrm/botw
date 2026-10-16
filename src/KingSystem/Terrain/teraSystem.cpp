@@ -14,6 +14,24 @@ u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system) {
     return sub_710110AA5C(0.0f, Terrain::instance()->_3cc, out_height, xz, &info->_20, info);
 }
 
+u32 sub_710110B5BC(sead::Vector2f* out, const sead::Vector2f* xz, System* system) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    auto* info = system->sub_710111F504();
+    return sub_710110B0E8(50.0f, out, xz, &info->_20, info);
+}
+
+u32 sub_710110B634(u32* out, const sead::Vector2f* xz, System* system) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    auto* info = system->sub_710111F504();
+    return sub_710110B38C(out, xz, &info->_20, info);
+}
+
 // NON_MATCHING: register allocation.
 Unk_7101106F44* System::sub_7101115218(sead::Vector2f* out_center, f32* out_size,
                                        const sead::Vector2f& pos, u32 levels) {

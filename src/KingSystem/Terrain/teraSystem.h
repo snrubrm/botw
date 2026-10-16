@@ -737,6 +737,15 @@ class Water {
 // 0x710110aa5c (declaration only, 536 bytes): height query used by sub_710110B4A4.
 u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz, const u8* info_20,
                    const Unk_710111F504* info);
+// 0x710110b0e8 / 0x710110b38c (declaration only; placeholder names): queries like sub_710110AA5C that
+// write a 2D value / a u32.
+u32 sub_710110B0E8(f32 a, sead::Vector2f* out, const sead::Vector2f* xz, const u8* info_20,
+                   const Unk_710111F504* info);
+u32 sub_710110B38C(u32* out, const sead::Vector2f* xz, const u8* info_20, const Unk_710111F504* info);
+// 0x710110b5bc / 0x710110b634 (placeholder names): sub_710110B0E8 (with 50) / sub_710110B38C for
+// `system`, under the same conditions as sub_710110B4A4.
+u32 sub_710110B5BC(sead::Vector2f* out, const sead::Vector2f* xz, System* system);
+u32 sub_710110B634(u32* out, const sead::Vector2f* xz, System* system);
 // CreateTeraSystem passes the System created at 0x71011113d4 to PlacementMgr.
 // 0x710110b4a4: 0 without a scene (System+0x8) or unless Terrain flags 2 and 4 are both set.
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
