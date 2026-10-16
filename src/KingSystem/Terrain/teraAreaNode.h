@@ -80,6 +80,14 @@ public:
     void sub_7101108020(const ImageTypeMaybe& type, agl::TextureSampler* sampler,
                         const agl::GPUMemVoidAddr& addr, s32 mip_offset, bool flag);
 
+    // 0x7101107318 (placeholder name): sets child `index` (true if the slot was free) or, with null,
+    // clears it (true if it was set). A child's _1 holds its slot (4: none).
+    bool sub_7101107318(s32 index, Unk_7101106F44* child);
+    // 0x7101108298 (placeholder name): gives `node` new A / B objects (heap null, size 1), keeping its key.
+    void sub_7101108298(Unk_7101108460* node);
+    // 0x71011081d4 (placeholder name): the same with `heap` and `size`; B gets `value` scaled down by the depth.
+    void sub_71011081D4(Unk_7101108460* node, sead::Heap* heap, u32 size, f32 value);
+
     // 0x71011074a0 (placeholder name): marks all images unused; false if one is still referenced.
     bool sub_71011074A0();
     // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.

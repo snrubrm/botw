@@ -168,4 +168,39 @@ void Unk_7101106F44::sub_7101108020(const ImageTypeMaybe& type, agl::TextureSamp
     getImageMaybe(type)->m11(sampler, addr, mip_offset, flag);
 }
 
+bool Unk_7101106F44::sub_7101107318(s32 index, Unk_7101106F44* child) {
+    Unk_7101106F44*& slot = mChildren[index];
+    if (!child) {
+        if (!slot)
+            return false;
+        slot->mParent = nullptr;
+        slot->_1 = 4;
+        slot = nullptr;
+        return true;
+    }
+    if (slot)
+        return false;
+    slot = child;
+    child->mParent = this;
+    child->_1 = index;
+    return true;
+}
+
+void Unk_7101106F44::sub_7101108298(Unk_7101108460* node) {
+    Unk_710110d278::Key* key = node->mB->_8;
+    node->mA = new (static_cast<sead::Heap*>(nullptr)) Unk_710250dbc8;
+    node->mA->init(ImageSizeMaybe(1));
+    node->mB = new (static_cast<sead::Heap*>(nullptr)) Unk_710110d278;
+    node->mB->init({nullptr, node->mA, key, 0.0f});
+}
+
+void Unk_7101106F44::sub_71011081D4(Unk_7101108460* node, sead::Heap* heap, u32 size, f32 value) {
+    Unk_710110d278::Key* key = node->mB->_8;
+    const f32 scaled = value / static_cast<f32>(1 << mDepth);
+    node->mA = new (heap) Unk_710250dbc8;
+    node->mA->init(ImageSizeMaybe(size));
+    node->mB = new (heap) Unk_710110d278;
+    node->mB->init({heap, node->mA, key, scaled});
+}
+
 }  // namespace ksys::tera

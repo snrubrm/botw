@@ -61,7 +61,7 @@ public:
         sead::Heap* heap;
         Unk_710250dbc8* image;
         Key* key;
-        u32 _18;
+        f32 _18;
     };
 
     // 0x710110d278
