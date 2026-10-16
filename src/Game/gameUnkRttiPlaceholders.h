@@ -2713,6 +2713,7 @@ public:
     ~Unk_71024fd6c8() override;
     // Called by the BGM controllers (ksys::snd::Unk_710260f130 / Unk_710260f150) on their kind 18 BGM.
     void sub_710100215C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+    // 0x7101002194: stops the main entry and plays the "outro" entry (state 4), or stops the BGM.
     void sub_7101002194();
     // 0x7101002274: sets bit 3 of _1f4 and _1ec to the info's PlayWaitSec.
     void sub_7101002274();
@@ -2731,7 +2732,8 @@ public:
     s32 mState = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
-    u32 _1d0;
+    // The "outro" entry (sub_7101002194).
+    ksys::snd::Unk_710260f248Entry* _1d0;
     u64 _1d8 = 0;
     u64 _1e0 = 0;
     u32 _1e8 = 0;

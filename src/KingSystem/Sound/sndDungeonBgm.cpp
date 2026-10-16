@@ -134,6 +134,29 @@ void Unk_71024fd6c8::m13(f32 fade_sec) {
     mState = 0;
 }
 
+namespace {
+// 0x71024fd6a8 / 0x71024fd6b8
+const sead::SafeString sStr_Main = "main";
+const sead::SafeString sStr_Outro = "outro";
+}  // namespace
+
+// NON_MATCHING: the base pointer this + 0x10 is computed once up front in the original; block order of the tail.
+void Unk_71024fd6c8::sub_7101002194() {
+    _1f4 &= ~8;
+    if (mEntry && mEntry->sub_7100FF6DF4(this))
+        mEntry->sub_7100FF6A64(0.0f);
+    _1d0 = sub_71010209FC(sStr_Outro);
+    if (!_1d0 || !_1d0->sub_7100FF6DF4(this)) {
+        sub_710101D9F4(0.0f);
+        _1ec = 0;
+        mState = 0;
+        return;
+    }
+    if (_1f4 & 0x10)
+        _1a0.setValueImmediate(1.0f);
+    mState = 4;
+}
+
 void Unk_71024fd6c8::sub_7101002274() {
     _1f4 |= 8;
     _1ec = mInfo->mPlayWaitSec.ref();
