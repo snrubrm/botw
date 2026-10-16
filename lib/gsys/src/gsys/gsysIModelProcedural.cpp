@@ -2,8 +2,12 @@
 
 namespace gsys {
 
-// NON_MATCHING: the original (0x7100c7fc2c) also frees the 0x38-byte pass array at +0xd0/+0xd8,
-// which is not modelled yet.
-IModelProcedural::~IModelProcedural() = default;
+IModelProcedural::IModelProcedural() = default;
+
+// NON_MATCHING: the original keeps the RenderUnit vtable store before each element's base destructor; our
+// RenderUnit destructor has a trivial body, so Clang skips it. What makes the original body non-trivial is unknown.
+IModelProcedural::~IModelProcedural() {
+    mRenderUnits.freeBuffer();
+}
 
 }  // namespace gsys
