@@ -13,6 +13,7 @@
 #include <gfx/seadProjection.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadAtomic.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiMessageString.h"
@@ -4488,8 +4489,22 @@ public:
     ~ScreenOptionWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
 
+    // 0x7100a28c20
+    ScreenOptionWindow();
+    // 0x7100a28cd0 (placeholder name; the _36c8 callback): sets bit 1 of _36e8
+    void sub_7100A28CD0();
+
     /* 0x3610 */ Unk_7102474df8 _3610;
     /* 0x3698 */ sead::PtrArray<Unk_OptionWindowEntry> _3698;
+    /* 0x36a8 */ s32 _36a8 = 3;
+    /* 0x36b0 */ u64 _36b0 = 0;
+    /* 0x36b8 */ s32 _36b8 = 99;
+    /* 0x36bc */ bool _36bc = false;
+    /* 0x36bd */ bool _36bd = false;
+    /* 0x36be */ bool _36be = false;
+    /* 0x36c0 */ u64 _36c0 = 0;
+    /* 0x36c8 */ sead::Delegate<ScreenOptionWindow> _36c8;
+    /* 0x36e8 */ sead::Atomic<u32> _36e8 = 0;
 };
 
 // 0x710249ad74 (placeholder name; a mode of the system window: 1 / 2 close the window without saving)

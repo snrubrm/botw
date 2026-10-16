@@ -246,6 +246,14 @@ ScreenDLCWindow::ScreenDLCWindow() : ScreenEx(), _3610() {}
 // (datarefs-known entry).
 ScreenShopBtnList20::ScreenShopBtnList20() : ScreenEx(), _3610() {}
 
+// 0x7100a28c20
+ScreenOptionWindow::ScreenOptionWindow() : ScreenEx(), _36c8(this, &ScreenOptionWindow::sub_7100A28CD0) {}
+
+// 0x7100a28cd0
+void ScreenOptionWindow::sub_7100A28CD0() {
+    _36e8 |= 2;
+}
+
 ScreenMessageGet::ScreenMessageGet() : ScreenEx(), _3750(this, &ScreenMessageGet::sub_7100A238C8) {}
 
 ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_7100A51790) {
