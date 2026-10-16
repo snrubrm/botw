@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
 
@@ -42,6 +44,54 @@ void TurnAndLookToObjBase::m33() {
     _45 = *mIsValid_d;
     _48 = mActorName_d;
     _58 = mUniqueName_d;
+}
+
+// NON_MATCHING: only the store order of the "" SafeString temporary differs.
+bool TurnAndLookToObjBase::m34(ksys::act::BaseProcLink* link, sead::Vector3f* pos,
+                               const sead::SafeString& name1, const sead::SafeString& name2) {
+    if (!ksys::gdt::Manager::instance()) {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+        return false;
+    }
+
+    bool found = false;
+    {
+        ksys::act::BaseProcMgr::ProcIteratorContext context(
+            *ksys::act::BaseProcMgr::instance(),
+            ksys::act::BaseProcMgr::ProcFilter::Sleeping |
+                ksys::act::BaseProcMgr::ProcFilter::Initializing |
+                ksys::act::BaseProcMgr::ProcFilter::SkipAccessCheck);
+        while (auto* proc = context.next()) {
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(proc);
+            if (!actor)
+                continue;
+            if (!(name1 == proc->getName()))
+                continue;
+            if (!proc->isCalc())
+                continue;
+            if (!(name2.isEmpty() && !actor->getUniqueName())) {
+                if (!actor->getUniqueName())
+                    continue;
+                if (!(name2 == actor->getUniqueName()))
+                    continue;
+            }
+            link->acquire(proc, false);
+            found = true;
+        }
+    }
+    if (found)
+        return true;
+
+    ksys::map::Object* obj;
+    if (name2.isEmpty())
+        obj = ksys::act::findLinkReferenceObj(mActor, name1, "", nullptr);
+    else
+        obj = ksys::act::findLinkReferenceObj(mActor, name1, name2, nullptr);
+    if (!obj)
+        return false;
+    *pos = sead::Vector3f(obj->getTranslate());
+    return true;
 }
 
 bool TurnAndLookToObjBase::m35(ksys::act::BaseProcLink* link, sead::Vector3f* pos,
