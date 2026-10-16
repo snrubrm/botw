@@ -47,7 +47,7 @@ public:
     ActorWeapons* getWeapons() override { return &mWeapons; }
     void m116() override;
     void m117(Unk117* arg) override;
-    void m147() override;
+    void m147(sead::PtrArray<Actor>* actors) override;
     // 0x7100007e08: no active equipped actor derives from uking::act::Weapon.
     bool hasNoWeaponActors();
 

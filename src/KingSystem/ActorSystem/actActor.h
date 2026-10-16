@@ -670,7 +670,8 @@ public:
     virtual void m144();
     virtual void m145();
     virtual bool m146();
-    virtual void m147();
+    // `actors`: a list the override adds related actors to (PlayerOrEnemy / GuardianComponent).
+    virtual void m147(sead::PtrArray<Actor>* actors);
 
     sead::Atomic<bool>& get689() { return _689; }
     sead::Atomic<u8>& get68c() { return _68c; }

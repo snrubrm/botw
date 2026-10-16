@@ -86,6 +86,8 @@ public:
     void updateMtxFromPhysics() override;
     void m63() override;
     void updatePositionMaybe() override;
+    ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
+    void m147(sead::PtrArray<ksys::act::Actor>* actors) override;
     ksys::act::Actor* m31() override;
     bool m55() override;
     bool shouldUnload(s32* reason) override;

@@ -1666,7 +1666,7 @@ void Actor::m114(bool, bool) {}
 
 void Actor::m117(Unk117*) {}
 
-void Actor::m147() {}
+void Actor::m147(sead::PtrArray<Actor>*) {}
 
 bool Actor::m106() {
     return true;
