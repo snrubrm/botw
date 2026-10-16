@@ -3009,7 +3009,8 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     ~ScreenAppPictureBookUnk() override;
     // 0x710094211c (declared only; 2500 bytes)
     void Update(f32 dt) override;
-    virtual void m5() {}
+    // called by sub_7100944290 with its heap
+    virtual void m5(sead::Heap* heap) {}
     virtual void m6() {}
     // 0x7100945084 (the subclass at 0x7102474d30 overrides it)
     virtual void m7() {}
@@ -3122,6 +3123,15 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     // 0x710093e258 (declared only; 464 bytes): the overall index of the unit at (`col`, `row`) of item `index` of entry
     // `entry_index` (placeholder description from its arguments)
     void sub_710093E258(s32 entry_index, s32 index, s32 col, s32 row, s32* out);
+    // 0x7100944290 (declared only; 940 bytes): finishes the setup: item count _2ac, scroll limits _2b0, the first /
+    // last item positions of every entry, sub_710094004C, the open state _340, m5(heap), Unk_7102474e38::m4(heap)
+    // of every unit, then sub_710093F594(false)
+    void sub_7100944290(sead::Heap* heap);
+    // 0x710094004c (declared only; 408 bytes)
+    void sub_710094004C();
+    // 0x710093ec3c (declared only; 384 bytes): selects the overall item `index` (finds its entry and page, then
+    // sub_710093DAFC with `mode`)
+    void sub_710093EC3C(s32 index, s32 mode);
     // Callees of Update (declared only; not decompiled)
     void sub_7100942AE0();
     s32 sub_7100942D78();
