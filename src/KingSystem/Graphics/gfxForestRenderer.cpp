@@ -1,4 +1,6 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
+#include <gsys/gsysModelUnit.h>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/System/StageInfo.h"
 
 namespace ksys::gfx {
@@ -27,6 +29,18 @@ void ForestRenderer::sub_7100F03B68() {
     for (auto& entry : mEntries) {
         for (auto& item : entry.mItems)
             item._c.set(2);
+    }
+}
+
+void ForestRenderer::sub_710F06904(map::PlacementMgr* mgr, bool a) {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& entry : mUnitEntries) {
+        if (!entry.mModelUnit)
+            continue;
+        auto* draw_array = entry.mModelUnit->getDrawArray();
+        const u32 num = draw_array->_18;
+        for (u32 i = 0; i < num; ++i)
+            draw_array->flushUBO(i);
     }
 }
 

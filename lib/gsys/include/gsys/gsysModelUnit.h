@@ -230,6 +230,9 @@ public:
     const sead::Vector3f* get50() const { return &_50->getCenter(); }
     const sead::BoundSphere3f* getBoundSphere() const { return _50; }
 
+    // Inlined by ksys::gfx::ForestRenderer 0x7100f06904 (+0x28).
+    ModelUnitDrawArray* getDrawArray() const { return mDrawArray; }
+
 protected:
     friend class Model;
 

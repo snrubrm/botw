@@ -6,6 +6,10 @@
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 
+namespace gsys {
+class ModelUnit;
+}
+
 namespace ksys::map {
 class PlacementMgr;
 }
@@ -31,6 +35,13 @@ public:
         u8 _70[0x88 - 0x70];
     };
     static_assert(sizeof(Entry) == 0x88);
+    // Placeholder: the 0x60-byte entries of the buffer at 0xe8 (only the model unit is known).
+    struct UnitEntry {
+        u8 _0[0x38];
+        gsys::ModelUnit* mModelUnit;
+        u8 _40[0x60 - 0x40];
+    };
+    static_assert(sizeof(UnitEntry) == 0x60);
 
     // 0x7100f03b68 (placeholder name): sets bit 1 of every item's flags.
     void sub_7100F03B68();
@@ -42,7 +53,7 @@ public:
     void x_8(s32 idx, bool a, bool b);
     // 0x7100f03c18 (declaration only; placeholder name)
     void sub_710F03C18(const sead::Vector3f* pos);
-    // 0x7100f06904 (declaration only; placeholder name)
+    // 0x7100f06904 (placeholder name; the arguments are unused): flushes the UBOs of every unit's draw array.
     void sub_710F06904(map::PlacementMgr* mgr, bool a);
     bool x_9();
     // 0x7100f03af0 (CSV ForestRenderer::stopped): true unless the renderer has reached state 5 with _220 set in
@@ -58,7 +69,9 @@ public:
     s32 _60;
     u8 _64[0xd0 - 0x64];
     sead::Buffer<Entry> mEntries;
-    u8 _e0[0x220 - 0xe0];
+    u8 _e0[0xe8 - 0xe0];
+    sead::Buffer<UnitEntry> mUnitEntries;
+    u8 _f8[0x220 - 0xf8];
     u32 _220;
 };
 
