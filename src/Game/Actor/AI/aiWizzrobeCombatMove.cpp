@@ -21,6 +21,11 @@
 
 namespace uking::ai {
 
+// 0x71025bd620 (.bss, between the WizzrobeCombat and WizzrobeCombatMove RTTI statics): a flag that keeps the
+// Wizzrobe model visible while it is hidden by sub_71005FC9C0. Only read there; no writer found (debug option?).
+// Declared extern (not static): see sub_71005FC9C0.
+bool sUnk_71025BD620 = false;
+
 WizzrobeCombatMove::WizzrobeCombatMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 // The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
@@ -131,6 +136,35 @@ void WizzrobeCombatMove::calc_() {
         if (isCurrentChild("現れる"))
             child->setDynamicParam(*mAttPos_d, "TargetPos");
     }
+}
+
+// Hides the Wizzrobe (undone by sub_71005FD0AC): attack clients off, model hidden unless sUnk_71025BD620 is set,
+// chemical and character controller disabled.
+// NON_MATCHING: the original reads sUnk_71025BD620 directly (adrp + ldrb: a TU-local symbol); ours through the GOT. A
+// `static` flag with no writer is folded to false by clang.
+void WizzrobeCombatMove::sub_71005FC9C0() {
+    if (_c8)
+        return;
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<uking::act::Enemy>(actor)) {
+        auto* enemy = static_cast<uking::act::Enemy*>(actor);
+        _c4 = enemy->_e90;
+        enemy->_e90 = 1;
+        ksys::act::disableAllAttClients(actor);
+        sub_71005D8D4C(actor, 0.0f, 0, false);
+        if (actor->getModel() && !sUnk_71025BD620)
+            actor->getModel()->sub_7100BF8CB8(true, -1);
+        sub_71006F5940(actor->getChemicalStuff());
+    }
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000);
+    if (auto* controller = actor->getCharacterController()) {
+        controller->sub_7100F62CA8(false);
+        controller->sub_7100F63554(false);
+    }
+    auto* damage = actor->getDamageMgr();
+    if (sead::IsDerivedFrom<uking::act::DamageManager>(damage))
+        static_cast<uking::act::DamageManager*>(damage)->_212 |= 0x10;
+    _c8 = true;
 }
 
 void WizzrobeCombatMove::sub_71005FD0AC() {
