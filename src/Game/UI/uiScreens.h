@@ -4516,6 +4516,8 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
+    // 0x71009de0f0: shows the Skip screen and runs UiSubsys1::sub_7100966A74 when UiSubsys1::returnTrue
+    void m101() override;
 
     // 0x3610 .. 0x3660 is zeroed by one memset in the constructor; the pointer at 0x3640 is an animator
     // (0x71009dd81c reads its finished flag).

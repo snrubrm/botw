@@ -80,6 +80,14 @@ Unk_710248ea70::~Unk_710248ea70() {
 }
 
 
+// 0x71009de0f0
+void ScreenAppHome::m101() {
+    if (auto* skip = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(ScreenId::Skip)))
+        skip->m80(true);
+    if (UiSubsys1::instance()->returnTrue())
+        UiSubsys1::instance()->sub_7100966A74();
+}
+
 // 0x71009d5088
 void ScreenAppAlbum::m94() {
     if (_3618 && _3620) {

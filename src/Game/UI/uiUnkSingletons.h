@@ -1193,6 +1193,8 @@ public:
     // Accessors (uiSubsys1.cpp). Placeholder names after the offsets of the fields they use.
     bool is848Zero() const;
     bool returnTrue() const;
+    // 0x7100966a74 (CSV uiSubsys1::__auto13; not decompiled)
+    void sub_7100966A74();
     bool is848EqualTo1() const;
     bool get38b8() const;
     bool is128EqualTo6() const;
