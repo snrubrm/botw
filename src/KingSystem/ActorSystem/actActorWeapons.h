@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
@@ -81,6 +82,9 @@ public:
     bool sub_7100EFD1F8();
     // 0x7100efd458: forwards the request to every weapon actor (Actor::x_17).
     void sub_7100EFD458(Unk117* arg);
+    // 0x7100efd524 (unnamed): the lowest index in `actors` of one of the linked weapons (the list size when none
+    // is listed). Used by PlayerOrEnemy::m147.
+    s32 sub_7100EFD524(sead::PtrArray<Actor>* actors);
 
     // Accessed directly by AI helper functions (0x71005db5c0 - 0x71005db7e4)
 

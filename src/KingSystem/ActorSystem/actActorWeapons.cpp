@@ -241,6 +241,21 @@ void ActorWeapons::sub_7100EFD458(Unk117* arg) {
     }
 }
 
+s32 ActorWeapons::sub_7100EFD524(sead::PtrArray<Actor>* actors) {
+    const s32 num = actors->size();
+    s32 index = num;
+    for (s32 i = 0; i < num; ++i) {
+        auto* weapon = sead::DynamicCast<WeaponBase>(actors->at(i));
+        if (!weapon)
+            continue;
+        for (auto& entry : mWeapons) {
+            if (entry.link.hasProcById(weapon) && index > i)
+                index = i;
+        }
+    }
+    return index;
+}
+
 }  // namespace ksys::act
 
 // Source owner unknown: the OptionalWeapon caller passes an Actor.
