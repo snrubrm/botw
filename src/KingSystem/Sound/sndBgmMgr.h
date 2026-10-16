@@ -800,6 +800,9 @@ public:
     bool hold(const sead::SafeString& name, sead::Heap* heap);
     // 0x7101007818: whether the BGM `name` is finished (true when it does not exist).
     bool isFinished(const sead::SafeString& name);
+    // 0x710100754c (declared only; CSV bgmStuff_0): looks up the BGM `name` under the lock (called by
+    // Unk_710105abc0::sub_710105B0F0 before it loads the Demo143 resources).
+    u32 sub_710100754C(const sead::SafeString& name);
     // 0x710100787c: releases a hold taken with hold().
     void release(const sead::SafeString& name);
     // 0x71010078a0 (100 B): starts the BGM `name`.

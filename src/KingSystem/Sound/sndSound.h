@@ -917,6 +917,9 @@ struct Unk_SoundMgr60_828 {
 
     // 0x710105c96c (placeholder name): sets _a0 of the entry named `name`.
     void sub_710105C96C(const sead::SafeString& name);
+    // 0x710105c3d0 (declared only; 828 B): adds an entry for `name` and loads "M_<name>.bars" (`pack` is passed
+    // through to ResourceManager::loadBars).
+    void sub_710105C3D0(const sead::SafeString& name, res::Handle* pack);
 
     u8 _0[0x8];
     nn::util::IntrusiveList<Entry, nn::util::IntrusiveListMemberNodeTraits<Entry, &Entry::mNode>> mEntries;
