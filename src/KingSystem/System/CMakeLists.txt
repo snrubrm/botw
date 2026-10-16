@@ -42,6 +42,8 @@ target_sources(uking PRIVATE
     MemoryProfiler.h
     MessageCapture.cpp
     MessageCapture.h
+    ModelPicker.cpp
+    ModelPicker.h
     MoviePlayer.cpp
     MoviePlayer.h
     OcclusionQueryCylinder.cpp
