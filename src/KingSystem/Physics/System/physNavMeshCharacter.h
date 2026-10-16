@@ -242,11 +242,11 @@ public:
 
     // Inline-only in the original; name is a guess. GiantNavMoveTarget::m34 0x71003f7904 and its face callback
     // 0x71003f9260, and the face callbacks of HorseMoveToSafePos (0x71001a27b8) and HorseSwimAction
-    // (0x7100e58340) repeat it: asks the filter at _58, or else accepts a material cost of at most 0.3.
+    // (0x7100e58340) repeat it: asks the filter at _58, or else accepts any finite material cost.
     bool isMaterialUsableMaybe(s32 material) {
         if (_58)
             return _58->m4(this, material, 0, nullptr);
-        if (sead::Mathf::abs(sub_7100F74FD8(_1d8, material)) > 0.3f)
+        if (sead::Mathf::abs(sub_7100F74FD8(_1d8, material)) > std::numeric_limits<f32>::max())
             return false;
         return true;
     }
