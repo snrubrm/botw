@@ -50,6 +50,9 @@
 #include "Game/gameHeroSoul.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/Sound/sndUnk_7102502138.h"
 #include "Game/gameRuneMgr.h"
@@ -786,8 +789,50 @@ f32 Player::sub_710086DB94(f32 value) {
     return uking::sUnk_7101e7c1dc * value;
 }
 
+// Placeholder name: false while slow time is active, else the App_Slowtimer_OnOff flag.
+bool Player::sub_710086DBA8() {
+    if (isSlowTime())
+        return false;
+    return gdt::getFlag_App_Slowtimer_OnOff(false);
+}
+
 void Player::sub_710086DCF8(f32 value) {
     _1fd4 = value;
+}
+
+// Placeholder name: resets _1d4c / _1d50 / _1d54 / _1f88 and the _c40 / _c44 / _c50 bits, then sends request 3 to
+// weapon slot 2.
+void Player::sub_71008822EC() {
+    _1d54 = -1.0f;
+    _c50.resetBit(15);
+    _c44.resetBit(9);
+    _c40.setBit(30);
+    _1d4c = 0;
+    _1d50 = 0;
+    _1f88 = 0;
+    sub_71005D787C(this, 2, uking::act::Unk_71002eda38(3));
+}
+
+// Placeholder name: clears _c40 bit 10, flags weapon slot 2, then sends request 5 to slot 2 if sub_71005D8514 allows.
+void Player::sub_71008823AC() {
+    _c40.resetBit(10);
+    getWeapons()->mWeapons[2]._10 = true;
+    snd::Unk_7102502138::instance()->sub_710103B444(false);
+    if (sub_71005D8514(this, 2))
+        sub_71005D787C(this, 2, uking::act::Unk_71002eda38(5));
+}
+
+// Placeholder name: x_18(true), sets _c50 bit 23 and clears _1f88.
+void Player::sub_7100882478() {
+    x_18(true);
+    _1f88 = 0;
+    _c50.setBit(23);
+}
+
+// Placeholder name: clears the damage manager's _22c.
+void Player::sub_7100884618() {
+    if (auto* damage_mgr = sead::DynamicCast<uking::act::DamageMgrPlayer>(getDamageMgr()))
+        damage_mgr->_22c = 0;
 }
 
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,

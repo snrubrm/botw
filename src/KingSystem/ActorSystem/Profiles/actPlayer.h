@@ -451,6 +451,13 @@ public:
     bool sub_710087B0CC();
     bool sub_710087B1F0();
     bool sub_710087B500();
+    void sub_710085A64C(const sead::Color4f& color);
+    bool sub_710086DBA8();
+    void sub_710086DD00();
+    void sub_7100882478();
+    void sub_71008822EC();
+    void sub_71008823AC();
+    void sub_7100884618();
     void showRuntimeTipForColdHotStatusEffects();
     void actionCommon();                                                // 0x86aa94
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
@@ -785,7 +792,11 @@ public:
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
-    /* 0x1d40 */ u8 _1d40[0x1d64 - 0x1d40];
+    /* 0x1d40 */ u8 _1d40[0x1d4c - 0x1d40];
+    /* 0x1d4c */ u32 _1d4c;  // cleared by sub_71008822EC
+    /* 0x1d50 */ u32 _1d50;  // cleared by sub_71008822EC
+    /* 0x1d54 */ f32 _1d54;  // -1 from sub_71008822EC
+    /* 0x1d58 */ u8 _1d58[0x1d64 - 0x1d58];
     /* 0x1d64 */ f32 _1d64;  // reset by x_40 / x_16
     /* 0x1d68 */ f32 _1d68;
     /* 0x1d6c */ f32 _1d6c;  // set to 1 by x_40 / x_16
@@ -845,7 +856,8 @@ public:
     /* 0x1fbc */ f32 _1fbc;
     /* 0x1fc0 */ u8 _1fc0[0x1fd4 - 0x1fc0];
     /* 0x1fd4 */ f32 _1fd4;  // set by sub_710086DCF8 (PlayerSpAttack::enter_, PlayerNormal::calc_)
-    /* 0x1fd8 */ u8 _1fd8[0x1fe8 - 0x1fd8];
+    /* 0x1fd8 */ f32 _1fd8;  // added to _2024 for the quietness level (sub_710086DD00)
+    /* 0x1fdc */ u8 _1fdc[0x1fe8 - 0x1fdc];
     /* 0x1fe8 */ f32 _1fe8;  // knock-back correction (sub_7100893F1C)
     /* 0x1fec */ u8 _1fec[0x1ff4 - 0x1fec];
     /* 0x1ff4 */ s32 _1ff4;  // swim status level (getSwimMoveSpeed)
@@ -859,7 +871,8 @@ public:
     /* 0x2014 */ s32 _2014;
     /* 0x2018 */ s32 _2018;  // sub_710088588C
     /* 0x201c */ s32 _201c;  // sub_71008859EC
-    /* 0x2020 */ u8 _2020[0x2028 - 0x2020];
+    /* 0x2020 */ u8 _2020[0x2024 - 0x2020];
+    /* 0x2024 */ s32 _2024;
     /* 0x2028 */ s32 _2028;
     /* 0x202c */ s32 _202c;
     /* 0x2030 */ s32 _2030;

@@ -1,3 +1,4 @@
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
@@ -107,6 +108,14 @@ bool Player::sub_7100859FC0(bool a1) {
     _2d38 = sead::Vector3f::zero;
     _2d58 = sead::Vector3f::zero;
     return true;
+}
+
+// Placeholder name: stores a new colour in _e60 and passes it on to Unk_710260af28 with the model.
+void Player::sub_710085A64C(const sead::Color4f& color) {
+    if (_e60 == color)
+        return;
+    _e60 = color;
+    Unk_710260af28::instance()->sub_7100F1E2F4(mModel, color);
 }
 
 void Player::x_18(bool a1) {

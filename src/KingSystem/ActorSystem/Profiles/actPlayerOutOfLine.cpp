@@ -406,4 +406,10 @@ bool Player::sub_710087B1F0() {
            sub_71007D86B4(this);
 }
 
+// In this file because getStatusEffectQuietness is out of line in the original.
+// Placeholder name: _2094 = quietness for the level _1fd8 + _2024.
+void Player::sub_710086DD00() {
+    _2094 = getStatusEffectQuietness(s32(_1fd8 + static_cast<f32>(_2024)));
+}
+
 }  // namespace ksys::act
