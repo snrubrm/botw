@@ -1,5 +1,7 @@
 #include "Game/Actor/Action/actionBowChildArrowRain.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/aiUnk_710073fa90.h"
+#include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -37,7 +39,7 @@ void BowChildArrowRain::enter_(ksys::act::ai::InlineParamPack* params) {
     _c0 = f32(id) * (sead::Mathf::pi() / 2);
     for (auto& state : _12c._3d8)
         state = {false, false};
-    _12c._3cc.set(*mToTargetTime_s, *mToTargetTime_s, -1);
+    _12c._3cc = ksys::Timer(*mToTargetTime_s, *mToTargetTime_s);
     _d0 = false;
     _d1 = false;
     _d2 = false;
@@ -90,7 +92,7 @@ bool BowChildArrowRain::handleMessage_(const ksys::Message* message) {
     }
 
     _b8 = 1;
-    _12c._3c0.set(45.0f, 45.0f, -1.0f);
+    _12c._3c0 = ksys::Timer(45.0f, 45.0f);
     playAS("Open", false, 0, 0, -1.0f);
     return true;
 }
@@ -100,7 +102,61 @@ bool BowChildArrowRain::isChangeable() const {
 }
 
 void BowChildArrowRain::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_710073FA94(&_dc, mActor);
+    sead::Vector3f dir = *mTargetPos_d;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    dir -= pos;
+    dir.normalize();
+    sead::Matrix33f rotation;
+    rotation.makeR({0, -sead::Mathf::piHalf(), 0});
+    dir.rotate(rotation);
+    sub_71000CD040();
+
+    sead::Vector3f target;
+    for (s32 i = 0; i < 5; ++i) {
+        if (_100[i] != 0 && --_100[i] == 0) {
+            if (sub_71000CD2A8(&target)) {
+                sub_71000CD468(target, i);
+                _12c._3d8[i] = {false, true};
+            } else {
+                _100[i] = 20;
+            }
+        }
+    }
+
+    sub_7100740200(&_dc, dir, 0.66f, 0.36f, 0.001f);
+    switch (_b8) {
+    case 0:
+        _c4 += (*mMoveSpeed_s - _c4) * 0.33f;
+        sub_71000CD7AC(&target);
+        sub_71000CDEEC(target, true);
+        break;
+    case 1:
+        _c4 += (0.04f - _c4) * 0.1f;
+        sub_71000CD7AC(&target);
+        sub_71000CDEEC(target, true);
+        sub_71000CE0C0();
+        _12c._3c0.update();
+        if (_12c._3c0.value <= sead::Mathf::epsilon()) {
+            _120 = target;
+            _b8 = 2;
+        }
+        break;
+    case 2:
+        sub_71000CDEEC(sead::Vector3f::zero, false);
+        sub_71000CE0C0();
+        if (!_d1)
+            break;
+        if (!_d2) {
+            _12c._3cc.update();
+            if (_12c._3cc.value <= sead::Mathf::epsilon())
+                _d2 = true;
+        } else if (sub_71000CE328()) {
+            setFinished();
+        }
+        break;
+    }
 }
 
 void BowChildArrowRain::sub_71000CDEEC(const sead::Vector3f& pos, bool use_pos) {

@@ -2,6 +2,7 @@
 
 #include <container/seadSafeArray.h>
 #include <math/seadMatrix.h>
+#include "KingSystem/System/Timer.h"
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -36,6 +37,8 @@ protected:
     // 0x71000ce0c0 (placeholder name): sends a shot (message 0x8000056) to every bound actor of the parent
     // SiteBoss that has just entered range, starting the slot countdowns the first time.
     void sub_71000CE0C0();
+    // 0x71000cd7ac (placeholder name, declared only): the next position of this actor (circling the target).
+    void sub_71000CD7AC(sead::Vector3f* pos);
     // 0x71000cd468 (placeholder name): launches the parent SiteBoss's bound actor 4 * ID + 4 + `index` (when it
     // is not in its calc state) from this actor towards `target`, scaled by RainScale.
     void sub_71000CD468(const sead::Vector3f& target, int index);
@@ -105,8 +108,8 @@ protected:
             sead::Vector3f to;
         };
         Shot _0[24];
-        sead::Vector3f _3c0{0, 0, 0};
-        sead::Vector3f _3cc{0, 0, 0};
+        ksys::Timer _3c0;
+        ksys::Timer _3cc;
         // Per bound actor of the parent SiteBoss (0x71000cd040): `entered` is set for one frame when it comes
         // within one frame's movement of this actor, `inside` while it is.
         struct BoundActorState {
