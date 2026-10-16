@@ -1,6 +1,8 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include <container/seadPtrArray.h>
 
 #include <prim/seadRuntimeTypeInfo.h>
@@ -44,6 +46,10 @@
 #include "Game/Actor/actUnk_7102366570.h"
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
 #include <aal/aalISpeakerBalanceSupplier.h>
+
+namespace aal {
+class Shape;
+}
 
 // Placeholder classes generated from the vtables of the original (genskel.py in the botw-tools scratch). Each class
 // is named after the address of its vtable and declares only what the vtable shows: the sead RTTI pair with the
@@ -771,10 +777,22 @@ public:
     Unk_710250c280Arg mArg;
 };
 
+// lane1 s95: the request passed to Unk_71024dd490::sub_71010C79DC.
+struct Unk_710250c3e8Arg {
+    ksys::phys::RigidBody* body;
+    f32 _8;
+    f32 _c;
+    f32 _10;
+    u32 _14;
+};
+
 // vtable 0x710250c3e8 (39 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250c3e8 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c3e8, Unk_7102518688)
 public:
+    // lane1 s95: a "directional_wind" element with an "Updraft" capsule sound shape; built by
+    // Unk_71024dd490::sub_71010C79DC.
+    Unk_710250c3e8(const Unk_710250c3e8Arg& arg, sead::Heap* heap);
     ~Unk_710250c3e8() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -783,6 +801,20 @@ public:
     bool m37() override { return true; }
     void m38() override {}
     bool m18() override { return true; }
+
+    // 0x71010c5154 / 0x71010c53d8 (placeholder names, declared only): called from m33 / m35; they use the
+    // effect and sound handles.
+    void sub_71010C5154();
+    void sub_71010C53D8();
+
+    u8 _48[0x50 - 0x48];
+    /* 0x50 */ Unk_710250c3e8Arg mArg;
+    /* 0x68 */ bool _68 = false;
+    /* 0x69 */ bool _69 = false;
+    /* 0x70 */ xlink2::HandleELink _70;
+    /* 0x80 */ xlink2::HandleSLink _80;
+    /* 0x90 */ aal::Shape* _90 = nullptr;
+    /* 0x98 */ f32 _98 = 0.0f;
 };
 
 // vtable 0x710250c550 (39 slots); placeholder generated from the vtable (genskel.py).

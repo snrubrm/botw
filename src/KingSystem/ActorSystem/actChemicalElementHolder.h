@@ -15,6 +15,8 @@
 
 class ElementSpark;
 class Unk_710250c550;
+class Unk_710250c3e8;
+struct Unk_710250c3e8Arg;
 class Unk_710251cbf0;
 class Unk_710251cd38;
 class Unk_710250d3e8;
@@ -138,6 +140,8 @@ public:
     ::Unk_710251cd38* sub_71012DF384(void* arg);
     // lane1 s95: 12DF1A0, the same factory for the "grass_fire" element (Unk_710251cbf0).
     ::Unk_710251cbf0* sub_71012DF1A0(void* arg);
+    // lane1 s95: 10C79DC, the same factory for the Updraft "directional_wind" element (Unk_710250c3e8).
+    ::Unk_710250c3e8* sub_71010C79DC(const ::Unk_710250c3e8Arg* arg);
     // Full factories 12FE4B4 / 12FE6E0 return the allocated lightning element.
     ElementLightningShockwave* sub_71012FE4B4(const ElementLightningCreateArg* arg);
     ElementLightningFire* sub_71012FE6E0(const ElementLightningCreateArg* arg);

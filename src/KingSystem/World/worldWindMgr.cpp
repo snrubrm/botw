@@ -436,8 +436,7 @@ ksys::act::Unk_71024dd490::sub_71010F1BB0(const ElementDirectionalWindCreateArg*
 // NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
 // constructor, so no temporary ElementName is built there.
 Unk_710250d3e8::Unk_710250d3e8(const Unk_710250d3e8Arg& arg, sead::Heap* heap)
-    : Unk_7102518688(ElementName(), heap, true) {
-    mArg = arg;
+    : Unk_7102518688(ElementName(), heap, true), mArg(arg) {
     ElementName name;
     name._18 = arg._0;
     name.mName = "directional_wind";
