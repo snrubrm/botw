@@ -224,6 +224,22 @@ bool Swarm::m39() {
     return _14c8.getSize();
 }
 
+void Swarm::updatePositionMaybe() {
+    if (!mActorFlags2.isOn(ActorFlag2::_40) && !isSpecialJobType(ksys::act::JobType::PreCalc)) {
+        for (s32 i = 0; i < _14c8.size(); ++i) {
+            if (auto* unit = _14c8[i]) {
+                unit->m8();
+                auto* model = unit->_78;
+                model->setScale(mScale * unit->_bc);
+                model->setMatrix(unit->_8);
+                model->updateWorldMatrix();
+            }
+        }
+    }
+    Enemy::updatePositionMaybe();
+    _15b8.setInverse(mMtx);
+}
+
 void Swarm::m74() {
     sub_710011CCBD0();
     if ((mActorFlags2.getDirect() & 0x21) != 0)
