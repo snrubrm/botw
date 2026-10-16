@@ -18,6 +18,9 @@ public:
     // 0x710038d018 (placeholder name): the target is within the attack range / height band while the actor is
     // below AttackTargetSpeed
     bool sub_710038D018();
+    // 0x710038d124 (CSV name; declaration only)
+    void enemyFindHorseRideStuff();
+    void calc_() override;
 
 protected:
     // static_param at offset 0x38
@@ -50,7 +53,7 @@ protected:
     int _a4{};
     int _a8{};
     f32 _ac{};
-    int _b0{};
+    f32 _b0{};  // counted by Timer::update(f32*, f32) while flag 2 of _b4 is set
     int _b4{};
 };
 

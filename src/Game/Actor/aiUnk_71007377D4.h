@@ -306,6 +306,10 @@ bool sub_710072DCFC(const sead::Vector3f& target, const sead::Vector3f& pos,
 /// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
 bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle);
 
+/// 0x7100730bb8 (declaration only; placeholder name): EnemyFindHorseRideTarget::calc_ counts its lost timer
+/// down while this holds for (LostRange, LostVMin, LostVMax).
+bool sub_7100730BB8(ksys::act::Actor* actor, f32 range, f32 min_dy, f32 max_dy);
+
 /// 0x710072def0: whether `target` is within reach of an actor at `pos` facing `dir`: XZ distance
 /// <= `max_dist`, height difference in [`min_dy`, `max_dy`], within `angle` of `dir` (checked only
 /// beyond `angle_check_dist`), and no line-of-sight hit between the two points raised by
