@@ -261,17 +261,27 @@ class Unk_71025018c0 : public aal::UnifiablePosition {};
 
 class Unk_SoundMgr38_8 {
 public:
-    // 0x710102c1d8 (declared only)
+    // 0x710102c1d8
     Unk_SoundMgr38_8();
     virtual ~Unk_SoundMgr38_8();
-    // 0x710102c388 (declared only): called with the heap right after construction.
+    // 0x710102c27c: deletes the forest shake handle, frees the speaker balance unifier and the positions.
+    void sub_710102C27C();
+    // 0x710102c388 (declared only; needs a setter for aal::SpeakerBalanceUnifier::_149 in lib/aal): called with
+    // the heap right after construction (50 positions, the "ForestShake" unifier, the forest shake handle).
     void sub_710102C388(sead::Heap* heap);
+    // 0x710102c4b0: once the "EnvSoundTree" actor is ready, keeps it in mTree (NoDistanceCheck) and wakes it.
+    void sub_710102C4B0();
+    // 0x710102c7c0: requests the "EnvSoundTree" actor unless it exists.
+    void sub_710102C7C0(sead::Heap* heap, act::ActorCreator* creator);
+    // 0x710102c810
+    void sub_710102C810();
+    // 0x710102c81c: fades the forest shake sound out.
     void sub_710102C81C();
-    // 0x710102c594: runs the update 0x710102c5ac while _68 is set and there is a proc (_18).
+    // 0x710102c594: runs the update 0x710102c5ac while _68 is set and there is a tree actor.
     void sub_710102C594();
-    // 0x710102c5ac (declared only)
+    // 0x710102c5ac: plays / fades the forest shake sound and unifies its speaker balance.
     void sub_710102C5AC();
-    // 0x710102c8f8: deletes the proc and clears _18 / _68.
+    // 0x710102c8f8: deletes the proc and clears mTree / _68.
     void sub_710102C8F8();
     // 0x710102c9e8 (declared by lane1 s95; placeholder name): releases a handle obtained from this object
     // (LumberjackTree::_2e0): removes it from the speaker balance unifier and returns it to the free list.
@@ -281,15 +291,17 @@ public:
     Unk_71025018c0* sub_710102C924();
 
     /* 0x08 */ act::BaseProcHandle mProcHandle;
-    /* 0x18 */ void* _18;
+    // The "EnvSoundTree" actor (0x710102c4b0 casts it to SoundSystemActor).
+    /* 0x18 */ act::Actor* mTree = nullptr;
     // 50 positions (0x710102c388); handed out by 0x710102c924 and taken back by sub_710102C9E8.
     /* 0x20 */ sead::ObjList<Unk_71025018c0> mPositions;
-    u8 _50[0x58 - 0x50];
-    /* 0x58 */ aal::SpeakerBalanceUnifier* mUnifier;
-    u8 _60[0x68 - 0x60];
-    /* 0x68 */ bool _68;
+    /* 0x50 */ u32 _50 = 0;
+    /* 0x58 */ aal::SpeakerBalanceUnifier* mUnifier = nullptr;
+    // Forest shake sound (faded by 0x710102c81c).
+    /* 0x60 */ xlink2::HandleSLink* _60 = nullptr;
+    /* 0x68 */ bool _68 = false;
     /* 0x70 */ sead::CriticalSection mCS;
-    u8 _b0[0xb8 - 0xb0];
+    /* 0xb0 */ bool _b0 = false;
 };
 class Unk_SoundMgr38_10 {
 public:
