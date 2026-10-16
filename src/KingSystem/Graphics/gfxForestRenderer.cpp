@@ -90,6 +90,13 @@ bool ForestRenderer::stopped() {
     return true;
 }
 
+bool ForestRenderer::x_6(const sead::SafeString& name, const sead::Vector3f& pos,
+                         const sead::Vector3f& rotate, f32 scale) {
+    for (auto& entry : mEntries)
+        entry.sub_7100F071C4(name, pos, rotate, scale);
+    return true;
+}
+
 void ForestRenderer::sub_7100F03B68() {
     for (auto& entry : mEntries) {
         for (auto& item : entry.mItems)

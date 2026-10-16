@@ -5,6 +5,7 @@
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
 namespace gsys {
@@ -35,6 +36,10 @@ public:
     struct Entry {
         // 0x7100f0663c (declaration only; placeholder name): index of the item at `pos`, or -1.
         s32 sub_7100F0663C(const sead::Vector3f& pos);
+        // 0x7100f071c4 (declaration only; placeholder name): adds a tree instance (name, position, rotation in
+        // degrees, scale) if the entry handles that model.
+        bool sub_7100F071C4(const sead::SafeString& name, const sead::Vector3f& pos,
+                            const sead::Vector3f& rotate, f32 scale);
 
         // Placeholder: the 0x1c-byte records of the buffer at 0x18.
         struct Record {
@@ -83,6 +88,9 @@ public:
     // 0x7100f06904 (placeholder name; the arguments are unused): flushes the UBOs of every unit's draw array.
     void sub_710F06904(map::PlacementMgr* mgr, bool a);
     bool x_9();
+    // 0x7100f07150 (CSV x_6): passes a placed tree to every entry (PlacementMapMgr::initForestRendererFiles).
+    bool x_6(const sead::SafeString& name, const sead::Vector3f& pos, const sead::Vector3f& rotate,
+             f32 scale);
     // 0x7100f03af0 (CSV ForestRenderer::stopped): true unless the renderer has reached state 5 with _220 set in
     // a non-debug, non-dungeon stage (or the final trial); in state 6 it is true if bit 0 of _50 is set and
     // _60 > 3.
