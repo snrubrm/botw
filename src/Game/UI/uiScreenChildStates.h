@@ -159,6 +159,10 @@ public:
     void sub_71009BCFF8();
     void sub_71009BD010(const eui::Animator* animator);
     eui::Animator* sub_71009BD02C() const;
+    // 0x71009bcca4: shows the remaining effect time (mm:ss) and the effect icon; mAttention plays below 300
+    void sub_71009BCCA4(f32 time, s32 effect, s32 level);
+    // 0x71009bcdd0 (declared only; 552 bytes): sets the effect name text and icons for an effect and level
+    void sub_71009BCDD0(s32 effect, s32 level);
 
     // Constructor and independent setup/update/reset consumers identify these controls.
     eui::Animator* mNumber = nullptr;

@@ -414,6 +414,31 @@ void Unk_710247bcb8::m24(sead::Heap*) {
     mEffectIcons[2].sub_7100988EF0(mLayout->findPartsLayout("Pa_SpIcon_02"));
 }
 
+// 0x71009bcca4
+// NON_MATCHING: the mAttention frame load is hoisted above the branch (the original loads it in each branch)
+void Unk_710247bcb8::sub_71009BCCA4(f32 time, s32 effect, s32 level) {
+    if (effect == -1)
+        return;
+    if (level >= 1 && (_188 != effect || _18c != level)) {
+        _188 = effect;
+        _18c = level;
+        sub_71009BCDD0(effect, level);
+    }
+    const s32 seconds = sead::Mathf::ceil(time / f32(sub_7100AA946C()));
+    if (_190 != seconds) {
+        _190 = seconds;
+        sub_7100AA3914(mLayout, "T_Timer_00", 1, seconds, -1);
+    }
+    if (!mAttention)
+        return;
+    if (time <= 300.0f) {
+        if (mAttention->mFrame != f32(mAttention->GetFrameSize()))
+            mAttention->StopAtMax();
+    } else if (mAttention->mFrame != 0.0f) {
+        mAttention->StopAtMin();
+    }
+}
+
 // 0x71009bcff8: MainScreen 0x7100a1adc4 resets the status child before the next update.
 void Unk_710247bcb8::sub_71009BCFF8() {
     _188 = -1;
