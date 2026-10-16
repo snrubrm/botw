@@ -532,21 +532,34 @@ Unk_7102475050::~Unk_7102475050() = default;
 // and its D0 is 0x71009479d8.
 Unk_71024750c8::~Unk_71024750c8() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a7f290) also destroys members or bases
-// this class does not declare yet.
-Unk_710249c5e8::~Unk_710249c5e8() = default;
+// 0x7100a7f290
+Unk_710249c5e8::~Unk_710249c5e8() {
+    _8 = -1;
+    _10 = nullptr;
+    _18 = nullptr;
+    _20 = 0;
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a7ef58) also destroys members or bases
-// this class does not declare yet.
-Unk_710249c5b8::~Unk_710249c5b8() = default;
+// 0x7100a7ef58
+Unk_710249c5b8::~Unk_710249c5b8() {
+    _28 = nullptr;
+    _30 = -1;
+    _34 = 0;
+    _38 = false;
+    _3c = -1;
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a800f0) also destroys members or bases
-// this class does not declare yet.
-Unk_710249c558::~Unk_710249c558() = default;
+// 0x7100a800f0
+Unk_710249c558::~Unk_710249c558() {
+    _8.clear();
+    _60 = -1;
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a80270) also destroys members or bases
-// this class does not declare yet.
-Unk_710249c588::~Unk_710249c588() = default;
+// 0x7100a80270
+Unk_710249c588::~Unk_710249c588() {
+    _8.clear();
+    _60 = -1;
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x7100a80550) also destroys members or bases
 // this class does not declare yet.
