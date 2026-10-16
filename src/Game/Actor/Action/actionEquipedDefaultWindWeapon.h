@@ -17,6 +17,10 @@ protected:
     void calc_() override;
     virtual void m36(bool x);
     virtual void m37();
+    // 0x710010ecc0 / 0x710010ee64 (CSV names): the wind speed (per second) and flying distance, the Large
+    // values scaled by the attack count rate when the weapon's attack flags have bit 1 or 2.
+    f32 getWindSpeedRate();
+    f32 getWindFlyingDist();
 
     sead::Heap* _40{};
     // static_param at offset 0x48
