@@ -184,6 +184,5 @@ void ScreenShopHorse::sub_7100A503DC() {
 
 }  // namespace uking::ui
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a6bfd8) also destroys members or bases
-// this class does not declare yet.
+// 0x7100a6bfd8
 Unk_710249c338::~Unk_710249c338() = default;

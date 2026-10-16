@@ -621,6 +621,13 @@ class Unk_710249c338 : public uking::Unk_710246d448 {
     SEAD_RTTI_OVERRIDE(Unk_710249c338, uking::Unk_710246d448)
 public:
     ~Unk_710249c338() override;
+
+    u8 _200[0x408 - 0x200];
+    /* 0x408 */ uking::ui::Unk_710249c3b0 _408;
+    u8 _410[0x440 - 0x410];
+    /* 0x440 */ uking::ui::Unk_710249c3d0 _440;
+    u8 _448[0x468 - 0x448];
+    /* 0x468 */ uking::ui::Unk_710249c3f0 _468;
 };
 
 // vtable 0x710249c5e8 (4 slots); placeholder generated from the vtable (genskel.py).
