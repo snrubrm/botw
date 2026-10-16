@@ -17,6 +17,7 @@
 #include <aal/aalISpeakerBalanceSupplier.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
+#include <heap/seadHeap.h>
 #include <xlink2/xlink2HandleSLink.h>
 
 namespace xlink2 {
@@ -97,12 +98,11 @@ public:
 
 // Placeholder (vtable 0x7102502950; D1 0x7101056bc8, readAssetInfo 0x7101056cac): the asset info reader at +0x68 of
 // Unk_710260f248. The D1 frees a buffer of 0x50-byte res::Handle objects (`_8` count, `_10` pointer).
-struct Unk_SoundMgr30_80;
 
 class Unk_7102502950 : public aal::IAssetInfoReadable {
 public:
     // 0x7101057258 (declared only; 712 B): loads the asset info for `name`; true when done.
-    bool sub_7101057258(const sead::SafeString& name, Unk_SoundMgr30_80* arg);
+    bool sub_7101057258(const sead::SafeString& name, sead::Heap* heap);
     bool readAssetInfo(aal::AssetInfo* asset_info, const sead::SafeString& name, bool flag) override;
     virtual ~Unk_7102502950();
 
@@ -605,6 +605,8 @@ private:
 
 // Placeholder name (`SoundMgr::_30->_10`, see sub_7100FFD754): the manager the spot BGM handles register with.
 struct Unk_SoundMgr30_10 {
+    // Deleted through slot 1 by Unk_SoundMgr30's destructor (declared only).
+    virtual ~Unk_SoundMgr30_10();
     // 0x710101d5ec (declared only; 300 B) / 0x710101d718 (declared only; 96 B)
     void sub_710101D5EC(Unk_SpotBgmHandle* handle);
     void sub_710101D718(Unk_SpotBgmHandle* handle);
@@ -962,12 +964,22 @@ struct Unk_SoundMgr30_18 {
     // spilled enum whose stack slot is shared with later temporaries).
     MusicInfo* getInfo(MusicInfoType type) const { return mInfos[type]; }
 
-    u8 _0[8];
+    // Deleted through slot 1 by Unk_SoundMgr30's destructor (vtable 0x71024fc..., declared only).
+    virtual ~Unk_SoundMgr30_18();
+
     sead::SafeArray<MusicInfo*, 27> mInfos;
 };
 
-// Placeholder name (SoundMgr::_30): the BGM side of the sound manager.
+struct Unk_SoundMgr30_240;
+
+// Placeholder name (SoundMgr::_30; CSV snd::BgmMgr::ctor / init): the BGM side of the sound manager (vtable
+// 0x71024fc918: D1 0x7100ff7e1c, D0 0x7100ff7ef0, 0x7100ff8338).
 struct Unk_SoundMgr30 {
+    Unk_SoundMgr30();
+    virtual ~Unk_SoundMgr30();
+    // 0x7100ff8338 (declared only; 300 B): loads the music definition and creates _10 and _18 on `heap`.
+    virtual void sub_7100FF8338(sead::Heap* heap);
+
     // 0x7100ff8464 (CSV sound::x_1): creates the BGM controller for `type` at _48 and initializes it.
     void sub_7100FF8464(sead::Heap* heap, BgmControllerType type);
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
@@ -989,32 +1001,32 @@ struct Unk_SoundMgr30 {
     // 0x7100ff89a0: a free entry of the pool at +0x20 (reset), or null.
     Unk_710260f248Entry* sub_7100FF89A0();
 
-    u8 _0[0x8];
-    /* 0x08 */ MusicDefinition* _8;
-    /* 0x10 */ Unk_SoundMgr30_10* _10;
-    /* 0x18 */ Unk_SoundMgr30_18* _18;
+    /* 0x08 */ MusicDefinition* _8 = nullptr;
+    /* 0x10 */ Unk_SoundMgr30_10* _10 = nullptr;
+    /* 0x18 */ Unk_SoundMgr30_18* _18 = nullptr;
     // Pool of the sound object entries (0x7100ff89a0 hands out the unlinked ones).
     /* 0x20 */ sead::Buffer<Unk_710260f248Entry> mEntryPool;
     // The speaker balance suppliers (0x7100ff8a24 hands out the ones whose handle is inactive).
     /* 0x30 */ sead::Buffer<Unk_SoundMgr30_30> mSpeakerBalanceSuppliers;
     /* 0x40 */ BgmControllerType _40;
-    u8 _44[4];
-    /* 0x48 */ Unk_71024fca78* _48;
+    /* 0x48 */ Unk_71024fca78* _48 = nullptr;
     // Native constructor FF7D08 and fade controls independently establish these floats.
-    f32 _50;
-    f32 _54;
-    f32 _58;
-    u8 _5c[4];
-    /* 0x60 */ aal::SimpleTimedFader _60;
-    /* 0x78 */ Unk_71010073f4* _78;
-    /* 0x80 */ Unk_SoundMgr30_80* _80;
-    u8 _88;
+    f32 _50 = 2.0;
+    f32 _54 = 2.2;
+    f32 _58 = 1.0;
+    /* 0x60 */ aal::SimpleTimedFader _60{0.0};
+    /* 0x78 */ Unk_71010073f4* _78 = nullptr;
+    // The ExpHeap created by init (0x7100ff7f14); destroyed by the destructor.
+    /* 0x80 */ sead::Heap* mHeap = nullptr;
+    u8 _88 = 0;
     // Skips the controller / _78 / _10 / fader updates in 0x7100ff88d0.
-    bool _89;
-    u8 _8a[6];
+    bool _89 = false;
     // The sound objects being updated (0x7100ff88d0 removes the finished ones).
-    sead::ObjList<Unk_710260f248*> mObjects;
+    sead::FixedObjList<Unk_710260f248*, 16> mObjects;
+    /* 0x240 */ Unk_SoundMgr30_240* _240 = nullptr;
+    u16 _248 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr30, 0x250);
 
 // 0x7100ffd71c (32 B): `SoundMgr::instance()->_30`, or null without a SoundMgr. Placeholder name.
 Unk_SoundMgr30* sub_7100FFD71C();
@@ -1026,6 +1038,8 @@ Unk_SoundMgr30_18* sub_7100FFD76C();
 Unk_SoundMgr30_10* sub_7100FFD754();
 
 struct Unk_SoundMgr30_240 {
+    // Deleted through slot 1 by Unk_SoundMgr30's destructor (declared only).
+    virtual ~Unk_SoundMgr30_240();
     // 0x71012be0a4 (400 B) / 0x71012be234 (96 B), declared only: register / unregister a sound object.
     void sub_71012BE0A4(Unk_710260f248* obj);
     void sub_71012BE234(Unk_710260f248* obj);

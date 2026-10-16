@@ -8,6 +8,34 @@
 namespace ksys::snd {
 
 // NON_MATCHING: the original skips the m4 call for an unknown type instead of testing the current _48.
+// NON_MATCHING: store order of the FixedObjList setup (the original stores the list head before _a0)
+Unk_SoundMgr30::Unk_SoundMgr30() = default;
+
+Unk_SoundMgr30::~Unk_SoundMgr30() {
+    if (_10) {
+        delete _10;
+        _10 = nullptr;
+    }
+    if (_18) {
+        delete _18;
+        _18 = nullptr;
+    }
+    if (_240) {
+        delete _240;
+        _240 = nullptr;
+    }
+    if (_78) {
+        delete _78;
+        _78 = nullptr;
+    }
+    if (mHeap) {
+        mHeap->destroy();
+        mHeap = nullptr;
+    }
+    mEntryPool.freeBuffer();
+    mSpeakerBalanceSuppliers.freeBuffer();
+}
+
 void Unk_SoundMgr30::sub_7100FF8464(sead::Heap* heap, BgmControllerType type) {
     switch (type) {
     case BgmControllerType::_1:

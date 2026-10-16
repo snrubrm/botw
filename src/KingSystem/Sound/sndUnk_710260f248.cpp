@@ -112,7 +112,7 @@ void Unk_710260f248::sub_7101020C08(f32 fade_sec) {
 bool Unk_710260f248::sub_7101020CEC() {
     if (mType == Unk_710260f248Type::_3 || (_68._18 & 3) != 0)
         return true;
-    if (!_68.sub_7101057258(mName, sub_7100FFD71C()->_80))
+    if (!_68.sub_7101057258(mName, sub_7100FFD71C()->mHeap))
         return false;
     if (_68._18 & 1) {
         if (mUserInstance)
