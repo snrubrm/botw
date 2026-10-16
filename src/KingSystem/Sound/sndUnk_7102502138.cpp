@@ -120,6 +120,37 @@ void Unk_7102502138::sub_710103B474(s32 value) {
     _68->sub_710104DD7C(value);
 }
 
+// NON_MATCHING: the original computes both bytes before storing them
+void Unk_71012C5034::sub_71012C384C() {
+    const bool result = m2();
+    _c = result;
+    _d = !result;
+}
+
+void Unk_71012C5034::sub_71012C3888(void* arg) {
+    if (_d) {
+        _c = m3();
+        _d = false;
+    }
+    if (_c)
+        m4(arg);
+}
+
+void Unk_71012C5034::sub_71012C38F8(void* arg) {
+    if (_d) {
+        _c = m3();
+        _d = false;
+    }
+    if (_c)
+        m5(arg);
+}
+
+void Unk_71012C5034::sub_71012C3968() {
+    m6();
+    _c = false;
+    _d = false;
+}
+
 void Unk_71012C5034::sub_71012C5034(s32 value) {
     _10 = value > 4 ? 2 : value > 0;
 }

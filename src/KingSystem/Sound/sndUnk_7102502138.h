@@ -19,10 +19,28 @@ namespace ksys::snd {
 // loads a vptr from the same object, so the real class is polymorphic).
 class Unk_71012C5034 {
 public:
+    // Slots 0 / 1 are assumed to be the destructors; slots 2..6 are called by the functions below (names unknown).
+    virtual ~Unk_71012C5034();
+    virtual bool m2();
+    virtual bool m3();
+    virtual void m4(void* arg);
+    virtual void m5(void* arg);
+    virtual void m6();
+
     // 0x71012c5034 (declared only)
     void sub_71012C5034(s32 value);
+    // 0x71012c384c (placeholder name): _c = m2(), _d = !_c.
+    void sub_71012C384C();
+    // 0x71012c3888 / 0x71012c38f8 (placeholder names): if _d is set, first _c = m3() (clearing _d); then m4 / m5
+    // while _c is set.
+    void sub_71012C3888(void* arg);
+    void sub_71012C38F8(void* arg);
+    // 0x71012c3968 (placeholder name): m6(), then clears _c and _d.
+    void sub_71012C3968();
 
-    u8 _0[0x10];
+    u8 _8[4];
+    bool _c;
+    bool _d;
     s32 _10;
 };
 
