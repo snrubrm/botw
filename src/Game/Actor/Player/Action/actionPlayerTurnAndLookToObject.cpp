@@ -116,4 +116,45 @@ void PlayerTurnAndLookToObject::m40() {
     }
 }
 
+// NON_MATCHING: as m40, the z component of `front` is loaded as an int; mActor is loaded once for both branches.
+void PlayerTurnAndLookToObject::m41(ksys::phys::CharacterController* controller) {
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+    if (static_cast<ksys::act::Player*>(mActor)->m188()) {
+        ksys::util::Unk_7101EC6BAC angle(sead::Mathf::atan2Idx(_38.x, _38.z));
+        const bool done = static_cast<ksys::act::Player*>(mActor)->sub_7100857014(-1.0f, &angle, -1, -1);
+        static_cast<ksys::act::Player*>(mActor)->actionCommon();
+        if (done)
+            setFinished();
+        return;
+    }
+
+    if (!_d9) {
+        sead::Vector3f front(mActor->getMtx().m[0][2], 0.0f, mActor->getMtx().m[2][2]);
+        front.normalize();
+        sead::Vector3f axis;
+        f32 angle;
+        ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+        const sead::Vector3f& velocity = mActor->getASList()->sub_710115D3B8();
+        const f32 turn = angle * axis.y;
+        if (sead::Mathf::abs(sead::Mathf::rad2deg(turn)) < _2c) {
+            static_cast<ksys::act::Player*>(mActor)->sub_710086800C(turn);
+            static_cast<ksys::act::Player*>(mActor)->_1c68 =
+                static_cast<ksys::act::Player*>(mActor)->x_5();
+            static_cast<ksys::act::Player*>(mActor)->actionCommon();
+            _d9 = true;
+        } else {
+            static_cast<ksys::act::Player*>(mActor)->sub_710086800C(velocity.y);
+            static_cast<ksys::act::Player*>(mActor)->_1c68 =
+                static_cast<ksys::act::Player*>(mActor)->x_5();
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (isFinishedAS(0, 0)) {
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe(_e0.cstr(), true, -1.0f);
+        setFinished();
+    }
+}
+
 }  // namespace uking::action
