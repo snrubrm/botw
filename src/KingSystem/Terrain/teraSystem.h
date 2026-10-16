@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+#include <cstring>
 #include <prim/seadSafeString.h>
 
 #include <basis/seadTypes.h>
@@ -49,6 +51,10 @@ class ExpHeap;
 
 namespace ksys::phys {
 class Material;
+}
+
+namespace ksys {
+class OverlayArena;
 }
 
 namespace ksys::res {
@@ -334,7 +340,11 @@ public:
     // The name of terrain material `index` (DragonMoveTo searches it for "雪").
     const char* sub_710114DE20(s32 index) const;
 
-    u8 _20[0x300 - 0x20];
+    u8 _20[0x2e0 - 0x20];
+    // Arenas of the image load requests of ImageResourceMgr::sub_710113400C (_2e8 for the ".stera" pack).
+    OverlayArena* _2e0;
+    OverlayArena* _2e8;
+    u8 _2f0[0x300 - 0x2f0];
     // The disposer buffer (mSingletonDisposerBuf_) is at 0x300.
     SEAD_SINGLETON_DISPOSER(Terrain)
 public:
@@ -354,7 +364,9 @@ public:
         sead::OffsetList<Item> mList;
     };
     Unk_380* _380;
-    u8 _388[0x3c8 - 0x388];
+    // Pack load modes by area depth (ImageResourceMgr::sub_710113400C, with bit 18 of _a58): image types 0
+    // and 1, then type 3 with index 0 and 1. 1: one pack per four names, 2: per sixteen.
+    u8 _388[4][0x10];
     f32 _3c8;
     // Passed by sub_710110B4A4 to sub_710110AA5C.
     f32 _3cc;
@@ -596,11 +608,15 @@ public:
     bool sub_7101130E44(sead::BufferedSafeString* out, const sead::SafeString& dir,
                         const sead::SafeString& name, bool use_base_dir);
 
-    u8 _0[0x18];
+    u8 _0[0x8];
+    // Compared with mHeap before freeing a request's data (0x710113400c).
+    sead::Heap* _8;
+    u8 _10[0x18 - 0x10];
     // Requests are allocated from it with tryAlloc (slot 0x30, 0x71011369d0) and freed with free
     // (slot 0x38, 0x71011320b4): sead::Heap's slots.
     sead::Heap* mHeap;
-    u8 _20[0x28 - 0x20];
+    // 0x710113400c keeps a loaded request only while this is still the mHeap it saw before loading.
+    sead::Heap* _20;
     sead::CriticalSection mCS28;
     sead::CriticalSection mCS68;
     // Directory used instead of the given one when flag 1 of _6473 is set (0x7101130e44); the real
@@ -1141,6 +1157,29 @@ struct Unk_71012EBDBC {
 };
 
 struct ImageResourceMgr::Request {
+    // inline-only in the original; name is a guess. Clears a request placed in new memory: inlined three
+    // times into 0x710113400c (loaded resource, read file, zeroed buffer).
+    void initMaybe() {
+        std::memset(this, 0, offsetof(Request, type));
+        _54 = 0;
+        _58 = 0;
+        _5c = 0;
+        _60 = 0;
+        _64 = 0;
+        _68 = 0;
+        _6c = 0;
+        _70 = 0;
+        _74 = 0;
+        _78 = 0;
+        _7c = 0;
+        _80 = 0;
+        addr = nullptr;
+        _90 = nullptr;
+        type.raw = 0xff;
+        _4c &= ~0x1f;
+        _50 = -1;
+    }
+
     u8 _0[0x10];
     // Link in mList31c0.
     sead::ListNode mNode10;
@@ -1156,17 +1195,21 @@ struct ImageResourceMgr::Request {
     u8 _4d[0x50 - 0x4d];
     // Name hash of the area; the low byte indexes mLists1c0 / mLists19c0.
     u32 _50;
-    u8 _54[0x60 - 0x54];
+    // From the load task (0x710113400c): _54 = alignment (task _58), _58 / _70 = task _70, _5c = task _64,
+    // _68 / _6c = task _68 / _6c, _7c / _80 = task _74 / _78.
+    u32 _54;
+    u32 _58;
+    u32 _5c;
     // Offset of the image data from the request, inside mMemBlock6328 (0x7101136b40).
     u32 _60;
     u32 _64;
-    u8 _68[0x6c - 0x68];
+    u32 _68;
     u32 _6c;
-    u8 _70[0x74 - 0x70];
+    u32 _70;
     // Data offset from the request and the bytes dumped by sub_7101136328 (_78 - _74 + _80).
     u32 _74;
     u32 _78;
-    u8 _7c[0x80 - 0x7c];
+    u32 _7c;
     u32 _80;
     u8 _84[0x88 - 0x84];
     agl::GPUMemVoidAddr* addr;

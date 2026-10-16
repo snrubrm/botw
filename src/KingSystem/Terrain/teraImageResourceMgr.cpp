@@ -1,6 +1,10 @@
 #include <atomic>
 #include <cstring>
+#include <filedevice/seadFileDeviceMgr.h>
+#include <resource/seadResource.h>
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -913,6 +917,435 @@ s32 ImageResourceMgr::procUnloadResidualRequest() {
     mCS68.unlock();
     mCS28.unlock();
     return result;
+}
+
+// Names of the image types 0 - 3 for the heap size message of sub_710113400C (0x710250e890).
+const char* sImageTypeNames[] = {"height", "material", "extra", "extended"};
+
+// NON_MATCHING: block layout and stack slots (5848 bytes against 5596); the LoadRequest of the image load also
+// gets this + 0x62b8 as its mFileDevice in the original (the object there is not known, so it is left out).
+s32 ImageResourceMgr::sub_710113400C(LoadTask* task) {
+    Unk_7101136C10 waiter{this, true};
+    Unk_7101136B40 finisher{this};
+    sead::FixedSafeString<256> dir;
+    sead::FixedSafeString<256> name;
+
+    mCS68.lock();
+    if (!task->handle.isValid(mSystems, task->area, _6470)) {
+        mCS68.unlock();
+        return 8;
+    }
+
+    if (_6473 & 2) {
+        if (Request* request = sub_7101131E7C(mLists19c0, task->system, task->area, task->type)) {
+            if (request->_20.isValid(mSystems, request->area, _6470)) {
+                sub_7101131FD0(request);
+                request->_4c &= ~0x18;
+                request->_20 = task->handle;
+                task->_80 = request;
+                task->_5a = 1;
+                const s32 result = finisher.sub_7101136B40(1, request);
+                mCS68.unlock();
+                return result;
+            }
+            if (_6473 & 2)
+                sub_71011320B4(request);
+        }
+    }
+
+    if (Request* request = sub_7101131E7C(mLists1c0, task->system, task->area, task->type)) {
+        request->_4c &= ~0x18;
+        request->_20 = task->handle;
+        task->_80 = request;
+        task->_5a = 1;
+        const s32 result = finisher.sub_7101136B40(1, request);
+        mCS68.unlock();
+        return result;
+    }
+
+    task->area->sub_710111FD70(&name, task->type);
+    dir.copy(task->system->_1050);
+    const bool use_base_dir = task->area->isImageFlagSetMaybe(task->type, 0x40);
+    const bool zero_fill = task->area->isImageFlagSetMaybe(task->type, 0x40000000);
+    const u8 depth = task->area->mDepth;
+    mCS68.unlock();
+
+    sead::FixedSafeString<256> path;
+    const u32 terrain_flags = Terrain::instance()->_a58;
+    const bool use_terrain_device = sub_7101130E44(&path, dir, name, use_base_dir) ||
+                                    ((terrain_flags & 0x10) && (task->system->_1338 & 0x80000000));
+
+    if (auto* debug = Terrain::instance()->_a50) {
+        if (debug->_110._88) {
+            auto entry = debug->_110.log("【イメージ】読込 -> %s", name.cstr());
+            if (entry.buffer) {
+                entry.buffer->_30 = 0;
+                entry.buffer->setDisplayTime(2.0f);
+            }
+        }
+    }
+
+    s32 result;
+    sead::Heap* heap;
+    if (!(_6473 & 2)) {
+        heap = mHeap;
+        mCS68.lock();
+        auto* handle = new (mHandleFreeList.alloc()) res::Handle;
+        mCS68.unlock();
+
+        res::Handle::Status status = res::Handle::Status::Unknown;
+        u8 mode = 0;
+        if (Terrain::instance()->_a58 & 0x40000) {
+            switch (task->type.type) {
+            case 0:
+                mode = Terrain::instance()->_388[0][depth];
+                break;
+            case 1:
+                mode = Terrain::instance()->_388[1][depth];
+                break;
+            case 3:
+                if (task->type.index == 1)
+                    mode = Terrain::instance()->_388[3][depth];
+                else if (task->type.index == 0)
+                    mode = Terrain::instance()->_388[2][depth];
+                break;
+            default:
+                break;
+            }
+        }
+
+        res::Handle pack_handle;
+        sead::SafeString file_name;
+        bool ok = true;
+        bool loaded = false;
+        if (mode != 0) {
+            file_name = path.getPart(path.rfindIndex("/") + 1);
+            res::SimpleLoadRequest request;
+            request.mRequester = "teraImageResourceMgr";
+            request._8 = true;
+            status = res::Handle::Status::Unknown;
+            if (handle->requestLoad(file_name, &request, &status)) {
+                if (!waiter.sub_7101136C10(handle, task)) {
+                    ok = false;
+                } else if (handle->getStatus() != res::Handle::Status::_8) {
+                    handle->parseResource(nullptr);
+                    status = handle->getStatus();
+                    loaded = handle->isSuccess();
+                }
+            }
+        }
+
+        if (!loaded && waiter._8) {
+            bool packed = false;
+            if (mode != 0) {
+                handle->requestUnload();
+                sead::FixedSafeString<256> pack_path;
+                res::LoadRequest request;
+                request._20 = false;
+                request.mLoadDataAlignment = 0x40;
+                request.mEntryFactory = nullptr;
+                request.mArena = Terrain::instance()->_2e8;
+                request.mRequester = "teraImageResourceMgr";
+                request._8 = true;
+                pack_path.copy(path);
+                const s32 dot = pack_path.findIndex(".");
+                char* digit = &pack_path.getBuffer()[dot - 1];
+                if (mode == 2) {
+                    *digit = '0';
+                } else if (mode == 1) {
+                    switch (*digit) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                        *digit = '0';
+                        break;
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                        *digit = '4';
+                        break;
+                    case '8':
+                    case '9':
+                    case 'A':
+                    case 'B':
+                        *digit = '8';
+                        break;
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                        *digit = 'C';
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                pack_path.append(".stera");
+                if (auto* aoc = aoc::Manager::instance())
+                    request.mAocFileDevice = aoc->getFileDeviceForTerrain(pack_path);
+                status = res::Handle::Status::Unknown;
+                if (pack_handle.requestLoad(pack_path, &request, &status)) {
+                    if (!waiter.sub_7101136C10(&pack_handle, task)) {
+                        ok = false;
+                    } else {
+                        pack_handle.parseResource(nullptr);
+                        status = pack_handle.getStatus();
+                        packed = pack_handle.isSuccess() && u32(status) - 4 < 3;
+                        ok = packed;
+                    }
+                }
+            }
+
+            if (ok) {
+                res::LoadRequest request;
+                request._20 = false;
+                request.mLoadDataAlignment = task->_58;
+                request.mBufferSize = task->_7c;
+                request._34 = task->_5c;
+                request.mEntryFactory = nullptr;
+                request.mAocFileDevice =
+                    packed ? nullptr :
+                             (use_terrain_device ? Terrain::instance()->_428 :
+                                                   sead::FileDeviceMgr::instance()->getMainFileDevice());
+                request.mPackHandle = packed ? &pack_handle : nullptr;
+                request.mArena = Terrain::instance()->_2e0;
+                request.mRequester = "teraImageResourceMgr";
+                request._8 = true;
+                request.mCanFallBackToNonArchiveLoad = false;
+                status = res::Handle::Status::Unknown;
+                if (handle->requestLoad(packed ? file_name : path, &request, &status)) {
+                    if (!waiter.sub_7101136C10(handle, nullptr)) {
+                        ok = false;
+                    } else {
+                        handle->parseResource(nullptr);
+                        status = handle->getStatus();
+                    }
+                }
+            }
+        }
+
+        bool success = false;
+        if (ok && handle->isSuccess()) {
+            auto* resource = sead::DynamicCast<sead::DirectResource>(handle->getResource());
+            _626c = 0;
+            if (resource && status != res::Handle::Status::_5) {
+                task->_80 = reinterpret_cast<Request*>(resource->getRawData());
+                task->_5a = status == res::Handle::Status::_6;
+                success = true;
+            }
+        } else {
+            ++_626c;
+        }
+
+        if (!success) {
+            mCS68.lock();
+            if (!(_6473 & 2)) {
+                handle->~Handle();
+                mCS68.lock();
+                mHandleFreeList.free(handle);
+                mCS68.unlock();
+            }
+            if (!waiter._8)
+                status = res::Handle::Status::Cancelled;
+
+            if (task->handle.isValid(mSystems, task->area, _6470)) {
+                const char* reason = nullptr;
+                switch (status) {
+                case res::Handle::Status::NoFile:
+                    reason = "読み込みが走らなかった";
+                    break;
+                case res::Handle::Status::_1:
+                    reason = "ファイルが見つからない";
+                    break;
+                case res::Handle::Status::_3:
+                    reason = "メモリ確保失敗";
+                    break;
+                case res::Handle::Status::_8:
+                    reason = "なぜか実行されなかったので再度処理します";
+                    break;
+                case res::Handle::Status::Cancelled:
+                    reason = "キャンセルされたので再度処理します";
+                    break;
+                default:
+                    break;
+                }
+                if (reason) {
+                    if (auto* debug = Terrain::instance()->_a50) {
+                        auto entry = debug->_70.log("【イメージ】[中断/失敗] : 理由 = %s -> %s", reason,
+                                                    path.cstr());
+                        if (entry.buffer)
+                            entry.buffer->setDisplayTime(2.0f);
+                    }
+                }
+            }
+
+            switch (status) {
+            case res::Handle::Status::NoFile:
+                result = 9;
+                break;
+            case res::Handle::Status::_1:
+                result = 3;
+                break;
+            case res::Handle::Status::SizeZero:
+                result = 10;
+                break;
+            case res::Handle::Status::_3:
+                result = 5;
+                break;
+            case res::Handle::Status::_4:
+                result = 6;
+                break;
+            case res::Handle::Status::_5:
+                result = 4;
+                break;
+            case res::Handle::Status::_6:
+                result = 11;
+                break;
+            case res::Handle::Status::_7:
+                result = 6;
+                break;
+            case res::Handle::Status::_8:
+                result = 7;
+                break;
+            case res::Handle::Status::ParseFailed:
+                result = 12;
+                break;
+            case res::Handle::Status::BadAllocSize:
+                result = 13;
+                break;
+            case res::Handle::Status::Edited:
+                result = 14;
+                break;
+            case res::Handle::Status::BadHeapSize:
+                result = 15;
+                break;
+            case res::Handle::Status::FileDeviceError:
+                result = 16;
+                break;
+            case res::Handle::Status::Cancelled:
+                result = 7;
+                break;
+            default:
+                result = 17;
+                break;
+            }
+            mCS68.unlock();
+            return result;
+        }
+
+        Request* request = task->_80;
+        if (!task->_5a)
+            request->initMaybe();
+        request->_90 = handle;
+        result = 1;
+    } else {
+        mCS68.lock();
+        task->_80 = static_cast<Request*>(sub_71011369D0(task->_7c, task->_58));
+        if (!task->_80) {
+            mCS68.unlock();
+            return 5;
+        }
+        heap = mHeap;
+        mCS68.unlock();
+
+        if (!zero_fill) {
+            task->_80->initMaybe();
+            sead::FileDevice* device = use_terrain_device ?
+                                           Terrain::instance()->_428 :
+                                           sead::FileDeviceMgr::instance()->getMainFileDevice();
+            sead::FileHandle file;
+            if (!device->tryOpen(&file, path, sead::FileDevice::cFileOpenFlag_ReadOnly, 0)) {
+                if (!(Terrain::instance()->_a58 & 1)) {
+                    if (auto* debug = Terrain::instance()->_a50) {
+                        auto entry =
+                            debug->_70.log("【データロード】ファイルが見つからない！ - [%s]", path.cstr());
+                        if (entry.buffer)
+                            entry.buffer->setDisplayTime(10.0f);
+                    }
+                }
+                std::memset(sead::PtrUtil::addOffset(task->_80, task->_5c), 0, task->_7c - task->_5c);
+                result = 3;
+            } else {
+                u32 size = 0;
+                device->tryGetFileSize(&size, path);
+                u8* data = static_cast<u8*>(sead::PtrUtil::addOffset(task->_80, task->_5c));
+                u32 read_size = (size + 0x3f) & ~0x3f;
+                if (task->_5c + read_size > task->_7c) {
+                    if (auto* debug = Terrain::instance()->_a50) {
+                        auto entry = debug->_70.log(
+                            "【データロード】ランタイムのヒープサイズがファイルサイズより小さい！ - [%s : %d] | %d != %d",
+                            task->type.type < 4 ? sImageTypeNames[task->type.type] : "",
+                            task->type.index, task->_5c + size, task->_7c);
+                        if (entry.buffer)
+                            entry.buffer->setDisplayTime(10.0f);
+                    }
+                    read_size = (task->_7c - task->_5c) & ~0x3f;
+                }
+                u32 read = 0;
+                device->tryRead(&read, &file, data, read_size);
+                device->tryClose(&file);
+                result = 1;
+            }
+        } else {
+            std::memset(task->_80, 0, task->_7c);
+            task->_80->initMaybe();
+            result = 1;
+        }
+    }
+
+    mCS68.lock();
+    Request* request = task->_80;
+    request->_4c &= ~0x18;
+    if (!task->_5a) {
+        request->_54 = task->_58;
+        request->_5c = task->_64;
+        request->_68 = task->_68;
+        request->_6c = task->_6c;
+        request->_70 = task->_70;
+        request->_7c = task->_74;
+        request->_80 = task->_78;
+        request->_4c &= ~0x1f;
+        request->_58 = task->_70;
+
+        const s32 n = task->_58;
+        request->_60 = u32(n) > 0x400 ? n : sead::Mathu::roundUp(0x400, n);
+        const s32 a = request->_68;
+        const s32 size_a = a < 0 ? a - n + 1 : a + n - 1;
+        request->_64 = request->_60 + size_a - size_a % n;
+        request->_74 = u32(n) > 0x400 ? n : sead::Mathu::roundUp(0x400, n);
+        const s32 b = request->_7c;
+        const s32 size_b = b < 0 ? b - n + 1 : b + n - 1;
+        request->_78 = request->_74 + size_b - size_b % n;
+    }
+
+    if (task->handle.isValid(mSystems, task->area, _6470) && dir == task->system->_1050 &&
+        _20 == heap) {
+        request->_20 = task->handle;
+        request->_38 = task->system;
+        request->area = task->area;
+        request->type = task->type;
+        request->_50 = task->_24;
+        sub_7101131FD0(request);
+        result = finisher.sub_7101136B40(result, request);
+        mCS68.unlock();
+        return result;
+    }
+
+    if (res::Handle* handle = request->_90) {
+        request->_90 = nullptr;
+        if (!(_6473 & 2)) {
+            handle->~Handle();
+            mCS68.lock();
+            mHandleFreeList.free(handle);
+            mCS68.unlock();
+        }
+    }
+    if (heap && (_6473 & 2) && heap == _8)
+        heap->free(task->_80);
+    mCS68.unlock();
+    return 8;
 }
 
 }  // namespace ksys::tera
