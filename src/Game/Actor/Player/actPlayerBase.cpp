@@ -11,6 +11,8 @@
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameUnk_710246d058.h"
@@ -244,6 +246,27 @@ sead::BitFlag32 PlayerBase::getDeathReason() {
     if (auto* manager = getDamageMgr())
         return manager->getFlags2();
     return 0;
+}
+
+// Placeholder name (CSV Player::x_28): false while riding something whose motorcycle data has _10 flag 3 or 5,
+// while the motorcycle manager tracks a motorcycle (with _17b set), or while _14c0 / _14c4 / _14d0 are set.
+bool PlayerBase::sub_710084B41C() {
+    if (isRidingHorse()) {
+        auto* info = getPlayerRideInfo();
+        if (!info->_18.isAccessingSpecifiedProcUnsafe(info->mActor)) {
+            auto* actor =
+                sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+            if (actor) {
+                auto* stuff = actor->getMotorcyclePriorityStuffMaybe();
+                if (stuff && (stuff->_10.load() & 0x28) != 0)
+                    return false;
+            }
+        }
+    }
+    auto* motorcycle_mgr = uking::MotorcycleMgr::instance();
+    if (motorcycle_mgr && motorcycle_mgr->_17b && motorcycle_mgr->x_0())
+        return false;
+    return !_14c0 && _14c4 <= sead::Mathf::epsilon() && _14d0 <= sead::Mathf::epsilon();
 }
 
 s32 PlayerBase::sub_710084B580() {

@@ -305,6 +305,7 @@ public:
     bool x_48();                             // 0x84a988
     bool x_2();                              // 0x84bce8
     // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().
+    bool sub_710084B41C();
     s32 sub_710084B580();
     // lane4 s46 (placeholder names, from the bodies).
     // 0x84acf0: 0 if `stamina` is above the Player.EnergyTiredValue parameter, else 2 if it is not positive, else 1 (a
@@ -488,7 +489,11 @@ public:
     /* 0x14c0 */ bool _14c0;  // cleared by ~30 player action leave_ functions
 
 protected:
-    /* 0x14c1 */ u8 _14c1[0x1530 - 0x14c1];
+    /* 0x14c1 */ u8 _14c1[0x14c4 - 0x14c1];
+    /* 0x14c4 */ f32 _14c4;  // sub_710084B41C: must be 0
+    /* 0x14c8 */ u8 _14c8[0x14d0 - 0x14c8];
+    /* 0x14d0 */ f32 _14d0;  // sub_710084B41C: must be 0
+    /* 0x14d4 */ u8 _14d4[0x1530 - 0x14d4];
     /* 0x1530 */ sead::CriticalSection _1530;
     /* 0x1570 */ ksys::act::BaseProcLink _1570;
     /* 0x1580 */ u8 _1580[0x1610 - 0x1580];

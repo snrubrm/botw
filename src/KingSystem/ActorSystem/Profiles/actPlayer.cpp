@@ -25,6 +25,7 @@
 #include "Game/gameUnk_710246d058.h"
 #include "Game/gameMaskController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/Map/mapObject.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "Game/gameUnk_71024739d0.h"
@@ -81,6 +82,9 @@ bool playerIsGuardJust(ksys::act::Actor* actor) {
 bool isPlayingBeastGanonDeadEventFlow();
 
 bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
+
+// 0x7100e9cf30 (declared only).
+void sub_7100E9CF30(void* obj);
 
 // Defined in actPlayerBase.cpp (0x710084beec).
 bool j_eventMgrHasActiveEventMaybe(ksys::act::Actor* actor);
@@ -1579,6 +1583,41 @@ Player::Unk1 Player::sub_71008569B8() {
     return result;
 }
 
+// NON_MATCHING: the original keeps the translation in registers and builds both water-check vectors on the
+// stack inside the m188() branch.
+void Player::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
+    if (x_2())
+        getAttachedTargetActor2()->sub_7100EB51E0();
+    if (_1a0 || (mMapObject && mMapObject->getFlags0().isOn(map::Object::Flag0::_20000)))
+        _c4c.setBit(13);
+    setC98Locked(0x800000);
+    Actor::setMtx(mtx, a2, a3);
+    if (a3)
+        getWeapons()->x();
+
+    const u32 angle = sead::Mathf::atan2Idx(mtx(0, 2), mtx(2, 2));
+    x_53(Unk1(angle));
+    _1c68.value = angle;
+
+    const sead::Vector3f pos = mtx.getTranslation();
+    _20d0 = pos.y;
+    _1770 = pos;
+    sub_7100E9CF30(_1b90);
+    if (m188()) {
+        sead::Vector3f start = pos;
+        start.y += 1.8f;
+        if (!sub_710087F4F8(start, pos, nullptr, nullptr))
+            _cec.resetBit(10);
+    }
+    _cec.resetBit(7);
+    if (auto* controller = getCharacterController())
+        controller->sub_7100F6059C();
+    if (m203()) {
+        if (auto* pause_menu = uking::ui::PauseMenuDataMgr::instance())
+            pause_menu->unholdGrabbedItems();
+    }
+}
+
 f32 Player::sub_7100867D68() {
     sead::Vector3f dir;
     _1b18.getBase(dir, 2);
@@ -2112,6 +2151,37 @@ bool Player::sub_710088D50C() {
 }
 
 // NON_MATCHING: the original emits the `false` result block before the attention test (block layout only).
+// NON_MATCHING: argument copy order in the prologue, the angle's stack slot and the scheduling of the gravity
+// z scale.
+void Player::sub_7100894384(f32 height, const sead::Vector3f& target, f32 a3, f32 a4) {
+    f32 speed;
+    f32 time;
+    sead::Vector3f velocity = sead::Vector3f::zero;
+    if (auto* controller = getCharacterController())
+        controller->sub_7100F62640(height, &velocity);
+
+    sead::Vector3f attention_pos = sead::Vector3f::zero;
+    if (!Attention::instance()->sub_7100D742E8(1)) {
+        ActorLinkConstDataAccess accessor;
+        if (Attention::instance()->x_0(1, 0, &accessor))
+            accessor.getActorMtx().getTranslation(attention_pos);
+    }
+
+    const f32 dx = attention_pos.x - target.x;
+    const f32 dz = attention_pos.z - target.z;
+    const u32 angle = sead::Mathf::atan2Idx(dx, dz);
+    const f32 dist = sead::Mathf::min(sead::Mathf::sqrt(dx * dx + dz * dz), a4);
+    util::sub_71011EEEE0(&attention_pos, angle, -dist);
+
+    sead::Vector3f gravity = getGravity(this);
+    gravity *= 1.0f / 900.0f;
+    sub_710072CF4C(velocity.y / 30.0f, &speed, &time, &target, &attention_pos, &gravity);
+    if (speed > a3)
+        speed = a3;
+    _20bc.value = speed;
+    _20bc.prev_value = speed;
+}
+
 bool Player::sub_7100894540() {
     return sub_71008921A8() && m224() && !Attention::instance()->sub_7100D742E8(3);
 }
