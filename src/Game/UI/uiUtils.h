@@ -472,6 +472,8 @@ bool sub_7100A97498();
 bool sub_7100A976C4(int a1, bool a2);
 bool sub_7100A97B14();
 void sub_7100A98340();
+// 0x7100a985dc (placeholder name): the picture book category of an Obj_Photo_* item name (5: none of them)
+s32 sub_7100A985DC(const sead::SafeString& name);
 void sub_7100A98358();
 bool sub_7100A98558();
 void sub_7100A98598();

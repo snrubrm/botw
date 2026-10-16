@@ -233,4 +233,20 @@ void sub_7100A99104() {
     }
 }
 
+// 0x7100a985dc: the picture book category of a photo item (1 animal, 2 enemy, 6 boss, 3 material, 4 weapon,
+// 5 anything else)
+s32 sub_7100A985DC(const sead::SafeString& name) {
+    if (name == "Obj_Photo_Animal")
+        return 1;
+    if (name == "Obj_Photo_Enemy")
+        return 2;
+    if (name == "Obj_Photo_BossEnemy")
+        return 6;
+    if (name == "Obj_Photo_Material")
+        return 3;
+    if (name == "Obj_Photo_Weapon")
+        return 4;
+    return 5;
+}
+
 }  // namespace uking::ui
