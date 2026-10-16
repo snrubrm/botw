@@ -296,10 +296,10 @@ void ImageResourceMgr::sub_7101131FD0(Request* request) {
     mCS68.lock();
     if (request->mNode10.isLinked()) {
         mList31c0.erase(request);
-        mLists19c0[request->_50].erase(request);
+        mLists19c0[u8(request->_50)].erase(request);
         request->_4c &= ~2;
     }
-    mLists1c0[request->_50].pushBack(request);
+    mLists1c0[u8(request->_50)].pushBack(request);
     request->_4c |= 1;
     mCS68.unlock();
 }
@@ -330,6 +330,21 @@ void ImageResourceMgr::sub_7101136950() {
         sub_7101136328(&request, false);
         sub_71011320B4(&request);
     }
+}
+
+ImageResourceMgr::Request* ImageResourceMgr::sub_7101131E7C(sead::OffsetList<Request>* lists, void* a2,
+                                                             Unk_7101106F44* area,
+                                                             const ImageTypeMaybe& type) {
+    if (!area->hasImageMaybe(type))
+        return nullptr;
+
+    for (Request& request : lists[u8(area->mNameHash)]) {
+        if (area->mNameHash == request._50 && type.raw == request.type.raw && request.area == area &&
+            request._38 == a2) {
+            return &request;
+        }
+    }
+    return nullptr;
 }
 
 }  // namespace ksys::tera

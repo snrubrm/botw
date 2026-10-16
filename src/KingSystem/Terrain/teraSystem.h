@@ -278,16 +278,17 @@ public:
         s32 _20;
         // Low byte: index of the list in mKindLists.
         u32 _24;
-        u8 _28[0x40 - 0x28];
+        u8 _28[0x38 - 0x28];
+        void* _38;
         Unk_7101106F44* area;
         ImageTypeMaybe type;
         // Bit 0: queued in mLists1c0; bit 1: in mList31c0; bit 2: the data is ready (passed to the image
         // set-up); bit 3: set up.
         u8 _4c;
         u8 _4d[0x50 - 0x4d];
-        // Index in mLists1c0 / mLists19c0.
-        u8 _50;
-        u8 _51[0x64 - 0x51];
+        // Name hash of the area; the low byte indexes mLists1c0 / mLists19c0.
+        u32 _50;
+        u8 _54[0x64 - 0x54];
         u32 _64;
         u8 _68[0x6c - 0x68];
         u32 _6c;
@@ -338,6 +339,10 @@ public:
     // 0x7101131fd0 (placeholder name): takes `request` out of mList31c0 / mLists19c0 if it is linked and
     // queues it in mLists1c0.
     void sub_7101131FD0(Request* request);
+    // 0x7101131e7c (placeholder name; `this` unused): the request in `lists` for (`a2`, `area`, `type`), or null (also when
+    // the area does not have that image).
+    Request* sub_7101131E7C(sead::OffsetList<Request>* lists, void* a2, Unk_7101106F44* area,
+                            const ImageTypeMaybe& type);
     // 0x7101136328 (declared only; placeholder name).
     void sub_7101136328(Request* request, bool a2);
     // 0x7101136950 (placeholder name): sub_7101136328 and sub_71011320B4 on every request of mList31c0.
