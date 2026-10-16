@@ -1,3 +1,5 @@
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldEnvMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiButton.h"
@@ -263,6 +265,38 @@ void Screen::doInitialize_(sead::Heap* heap) {
     else
         _292 |= 0x20;
     _290 = 0;
+}
+
+// 0x71010ab66c
+// NON_MATCHING: the original walks the pointer buffer (begin / end computed after GetFrameSize, size reloaded) with
+// a null check per entry; ours indexes it
+void Screen::doUpdate_WorldMgrStuff() {
+    if (_298.size() == 0)
+        return;
+    auto* world = ksys::world::Manager::instance();
+    if (!world)
+        return;
+    const f32 frame = world->getEnvMgrUnchecked()->getExposure();
+    if (frame == _2f8)
+        return;
+    const f32 max = _298.size() > 0 ? _298[0]->GetFrameSize() : 0.0f;
+    if (frame < 0.0f) {
+        for (s32 i = 0; i < _298.size(); ++i) {
+            if (auto* animator = _298[i])
+                animator->Stop(0.0f);
+        }
+    } else if (frame > max) {
+        for (s32 i = 0; i < _298.size(); ++i) {
+            if (auto* animator = _298[i])
+                animator->Stop(max);
+        }
+    } else {
+        for (s32 i = 0; i < _298.size(); ++i) {
+            if (auto* animator = _298[i])
+                animator->Stop(frame);
+        }
+    }
+    _2f8 = frame;
 }
 
 // 0x71010ab5f8 (CSV Screen::doUpdate)

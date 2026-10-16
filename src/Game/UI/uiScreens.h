@@ -314,7 +314,7 @@ public:
     u8 _295 = 0;
     // the "SunLight" animators of the layout and its parts layouts (sub_71010AB490)
     /* 0x298 */ sead::FixedPtrArray<eui::Animator, 10> _298;
-    /* 0x2f8 */ s32 _2f8 = 0;
+    /* 0x2f8 */ f32 _2f8 = 0;  // the last frame applied to the _298 animators (doUpdate_WorldMgrStuff)
     // Ends at 0x2fc: the members of ScreenMainDungeon start there (tail padding of the non-POD base).
 
     void open(s32 option) override;
@@ -322,7 +322,8 @@ public:
     void update() override;
     // 0x71010aa7a0 (CSV Screen::x_0): the child with index `index` of the group `group` (null if out of range)
     ScreenChild* getChild(s32 group, s32 index);
-    // 0x71010ab66c (CSV Screen::doUpdate_WorldMgrStuff; not decompiled)
+    // 0x71010ab66c (CSV Screen::doUpdate_WorldMgrStuff): sets the _298 animators to the EnvMgr's mExposure frame
+    // (clamped to the first animator's frame range)
     void doUpdate_WorldMgrStuff();
     // 0x71010aa868 / 0x71010aa8d0 / 0x71010aa910 (placeholder names): the size of the child group; suspend / resume the
     // screen's button group (flag 2 of its word at 0x38 is saved in bit 7 of _292 and bit 8 of _292 marks the suspension)
