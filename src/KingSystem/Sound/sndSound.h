@@ -526,6 +526,10 @@ public:
     // `suspend`.
     void sub_7101042D6C(DuckerType type, bool suspend);
 
+    // inline-only in the original; name is a guess (the type is copied to the stack before indexing in
+    // 0x710103aa3c, 0x710103ab10, 0x710103ab98 and 0x710103acc8).
+    Ducker& getDucker(DuckerType type) { return mDuckers[type]; }
+
     void* _0;  // vtable
     /* 0x08 */ sead::Buffer<Ducker> mDuckers;
 };
@@ -682,7 +686,19 @@ KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 // Placeholder name (0x710103ac60 / 0x710103ac84, in the sndSoundMgr38.cpp TU): a ducking request at
 // Unk_710104e5b4 +0x28c, held by the Remains battle BGMs while they play (Unk_71025ce3a0::m6).
+// 0x710103aa3c's owner (placeholder): ducks while a message sound (SoundMgr::_48) plays.
+struct Unk_710103AA3C {
+    // 0x710103aa3c: starts the ducker while a message sound plays and stops it afterwards.
+    void calc();
+
+    DuckingMgr::DuckerType mType;
+};
+
 struct Unk_710103AC60 {
+    // 0x710103ab10: stops the ducker if it is active.
+    void sub_710103AB10();
+    // 0x710103ab98: while requested, the ducker runs except during events.
+    void calc();
     // 0x710103ac60: unless already active, requests cFieldRemainsFire (kind 1) or cFieldRemainsOrGanon.
     void start(s32 kind);
     // 0x710103ac84: releases the requested ducker.
@@ -692,6 +708,18 @@ struct Unk_710103AC60 {
     bool mActive;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103AC60, 0x8);
+
+// Placeholder: like Unk_710103AC60, but the ducker can be kept for a number of frames after a stop.
+struct Unk_710103ACC8 {
+    // 0x710103acc8: while requested, the ducker runs except during events; then counts the hold frames down.
+    void calc();
+    // 0x710103adcc: releases the request (`hold`: keeps the ducker for 120 more frames).
+    void stop(bool hold);
+
+    DuckingMgr::DuckerType mType;
+    s32 mHoldFrames;
+    bool mActive;
+};
 
 class Unk_710104e5b4 {
 public:
