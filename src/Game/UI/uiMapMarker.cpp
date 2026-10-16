@@ -419,6 +419,73 @@ void Unk_7102475920::m21() {
         sub_710095156C((_3c & 0x20000) != 0);
 }
 
+// 0x71009540e4
+// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+Unk_7102475a38::~Unk_7102475a38() {
+    if (_68.hasProc())
+        _68.reset();
+    _78 = "";
+    _88 = ksys::gdt::InvalidHandle;
+    _8c = ksys::gdt::InvalidHandle;
+    _90 = false;
+    _91 = true;
+}
+
+void Unk_7102475a38::m9() {
+    if (!(_3c & 8))
+        _3c &= ~0x7566;
+    _3c &= ~0x150008;
+}
+
+// NON_MATCHING: the original branches on _90 once before the m25 call and keeps both results apart
+void Unk_7102475a38::m11() {
+    Unk_71024754c0::m11();
+    if (_3c & 0x10) {
+        m25(((_3c & 0x80000) != 0) ^ !_90);
+        _3c = (((_3c & 0x80000) != 0) ^ !_90) ? _3c | 0x80 : _3c & ~0x80;
+    }
+}
+
+void Unk_7102475a38::m31() {
+    Unk_71024754c0::m31();
+    _3c &= ~0x140000;
+    if (_88 != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_88) ? _3c | 0x20000 : _3c & ~0x20000;
+    if (_8c != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_8c) ? _3c | 0x80000 : _3c & ~0x80000;
+}
+
+// NON_MATCHING: scheduling of the `_90 == 0` compare
+void Unk_7102475a38::m12() {
+    Unk_71024754c0::m12();
+    if (_3c & 0x80)
+        _3c = (((_3c & 0x80000) != 0) ^ !_90) ? _3c | 0x80 : _3c & ~0x80;
+}
+
+// NON_MATCHING: as Unk_71024755d8::m32 (the changed-flag guards become selects).
+void Unk_7102475a38::m32() {
+    Unk_71024754c0::m32();
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedBoolFlags())
+        return;
+    if (_88 != ksys::gdt::InvalidHandle) {
+        bool value = ksys::gdt::getFlagGenericBool(_88);
+        _3c = (value != ((_3c & 0x20000) != 0)) ? _3c | 0x40000 : _3c & ~0x40000;
+        if (_3c & 0x40000)
+            _3c = value ? _3c | 0x20000 : _3c & ~0x20000;
+    }
+    if (_8c != ksys::gdt::InvalidHandle) {
+        bool value = ksys::gdt::getFlagGenericBool(_8c);
+        _3c = (value != ((_3c & 0x80000) != 0)) ? _3c | 0x100000 : _3c & ~0x100000;
+        if (_3c & 0x100000)
+            _3c = value ? _3c | 0x80000 : _3c & ~0x80000;
+    }
+}
+
+void Unk_7102475a38::m21() {
+    if (_3c & 1)
+        sub_710095156C((_3c & 0x20000) != 0);
+}
+
 namespace uking::ui {
 
 // NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.

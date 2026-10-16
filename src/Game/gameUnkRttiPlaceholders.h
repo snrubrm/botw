@@ -325,11 +325,26 @@ public:
     ksys::gdt::FlagHandle _78;
 };
 
-// vtable 0x7102475a38 (33 slots); placeholder generated from the vtable (genskel.py).
+// vtable 0x7102475a38 (33 slots): a map marker with an actor link, a name and two bool flag handles (defined in
+// uiMapMarker.cpp).
 class Unk_7102475a38 : public uking::ui::Unk_71024754c0 {
     SEAD_RTTI_OVERRIDE(Unk_7102475a38, uking::ui::Unk_71024754c0)
 public:
     ~Unk_7102475a38() override;
+    void m9() override;
+    void m11() override;
+    void m12() override;
+    void m21() override;
+    void m31() override;
+    void m32() override;
+
+    ksys::act::BaseProcLink _68;
+    sead::SafeString _78;
+    ksys::gdt::FlagHandle _88;
+    ksys::gdt::FlagHandle _8c;
+    // m11 / m12: the marker is shown while bit 19 of _3c equals this (compared with 0, so not a bool)
+    u8 _90;
+    bool _91;
 };
 
 // vtable 0x7102475b50 (33 slots); placeholder generated from the vtable (genskel.py).
