@@ -7,6 +7,8 @@
 #include "KingSystem/System/Timer.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::snd {
 
@@ -180,6 +182,49 @@ Unk_710251cd38::~Unk_710251cd38() {
 void Unk_710251cd38::m33(bool a, bool fixed) {
     if (_50)
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
+
+// NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
+// constructor, so no temporary ElementName is built there.
+Unk_710251cd38::Unk_710251cd38(void* arg, sead::Heap* heap) : Unk_7102518688(ElementName(), heap, false) {
+    _48 = arg;
+    ElementName name;
+    name.mName = "grass_fire_warm";
+    name._28 = 2;
+    emitWrap(name, ksys::world::Manager::instance()->getElementHolderMaybe());
+}
+
+Unk_710251cd38* ksys::act::Unk_71024dd490::sub_71012DF384(void* arg) {
+    auto* chemical = ksys::chm::Chemical::instance();
+    if (!chemical)
+        return nullptr;
+    sead::Heap* parent = chemical->_78;
+    if (!parent)
+        return nullptr;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&chemical->_28);
+    auto* heap = sead::ExpHeap::tryCreate(0x2000, "ElementHolder", parent, 8,
+                                          sead::Heap::cHeapDirection_Forward, true);
+    if (!heap) {
+        if (!(chemical->_84 & 4))
+            elementEmitMaybe();
+        return nullptr;
+    }
+    auto* element = new (parent, std::nothrow_t()) Unk_710251cd38(arg, heap);
+    if (!element) {
+        elementEmitMaybe();
+        heap->destroy();
+        return nullptr;
+    }
+    if (mMaxElementHeapSize < heap->getSize())
+        mMaxElementHeapSize = heap->getSize();
+    if (!element->mHolder) {
+        elementEmitMaybe();
+        element->m32();
+        delete element;
+        return nullptr;
+    }
+    return element;
 }
 
 // NON_MATCHING: placeholder destructor; the original (0x71012e86e8) also destroys members or bases

@@ -1540,6 +1540,8 @@ public:
 class Unk_710251cd38 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710251cd38, Unk_7102518688)
 public:
+    // lane1 s95: the "grass_fire_warm" element; built by Unk_71024dd490::sub_71012DF384.
+    Unk_710251cd38(void* arg, sead::Heap* heap);
     ~Unk_710251cd38() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -1550,7 +1552,7 @@ public:
 
     // lane1 s91: _50 is a sphere rigid body (m35 sets its radius from the floats at _48 + 0x30 / 0x34).
     void* _48;
-    ksys::phys::RigidBody* _50;
+    ksys::phys::RigidBody* _50 = nullptr;
 };
 
 // vtable 0x710251cf40 (10 slots); placeholder generated from the vtable (genskel.py).
