@@ -233,6 +233,38 @@ void Screen::doAfterBuildLayout_(sead::Heap* heap) {
         child.m53(heap);
 }
 
+// 0x71010ab2dc (CSV Screen::doInitialize)
+void Screen::doInitialize_(sead::Heap* heap) {
+    ScreenBase::doInitialize_(heap);
+    _294 = mDrawTarget;
+    _295 = _104;
+    m113();
+    m114(heap);
+    m116();
+    sub_71010AB490(mLayout);
+    if (auto* layout = mLayout) {
+        if (layout->GetAnimResourceData("TimeLineDemoIn_00")) {
+            const s32 count = sub_71010AC7C8(layout, "TimeLineDemoIn_00");
+            if (count >= 1) {
+                _278.allocBuffer(count, heap);
+                sub_71010AC920(&_278, layout, "TimeLineDemoIn_00");
+            }
+        }
+        layout->tryCreateAnimatorAuto("TimeLineDemo_00", false);
+    }
+    for (auto& child : mChildren)
+        child.m54(heap);
+    m93(heap);
+    sub_71010A9B44(ksys::ui::sub_7100EDC5D4());
+    m112(heap);
+    _292 |= 0x1f;
+    if (ksys::ui::sub_7100EDC548(mId))
+        _292 &= ~0x20;
+    else
+        _292 |= 0x20;
+    _290 = 0;
+}
+
 // 0x71010ab5f8 (CSV Screen::doUpdate)
 void Screen::doUpdate_() {
     if (_292 & 2) {
