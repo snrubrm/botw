@@ -226,6 +226,7 @@ void Unk_710260f278::m13(f32 fade_sec) {
 namespace {
 sead::SafeString sStr_MazeForestBgm = "MazeForestBgm";
 sead::SafeString sStr_MazeForestBgmMain = "main";
+sead::SafeString sStr_MazeForestBgmGetLost = "GetLost";
 }  // namespace
 
 Unk_710260f288::Unk_710260f288(const BgmInitArg& arg) : Unk_71025ce380(arg) {
@@ -308,6 +309,12 @@ void Unk_710260f288::m13(f32 fade_sec) {
     sub_7101020C08(fade_sec);
     mFader.setValueImmediate(0.0);
     mState = 0;
+}
+
+void Unk_710260f288::playGetLostMaybe() {
+    if (_124 != 3 && _124 != 4)
+        return;
+    sub_71010209FC(sStr_MazeForestBgmGetLost);
 }
 
 void Unk_710260f288::hm14() {

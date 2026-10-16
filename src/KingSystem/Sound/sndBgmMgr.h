@@ -479,6 +479,8 @@ public:
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
     void hm15() override {}
+    // 0x7101013fe0 (called by SceneBgmCtrlAction::oneShot_): plays the "GetLost" entry while _124 is 3 or 4.
+    void playGetLostMaybe();
 
 private:
     MazeForestBgmInfo* mInfo = nullptr;
