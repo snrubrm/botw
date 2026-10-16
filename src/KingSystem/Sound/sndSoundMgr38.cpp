@@ -233,6 +233,68 @@ void Unk_SoundMgr38::sub_710102AEC4() {
         _60->sub_71012C17B4();
 }
 
+// NON_MATCHING: Unk_SoundMgr38_8::sub_710102C8F8 and Unk_SoundMgr38_20::sub_7101029BA8 are inlined in our build (other
+// TUs in the original; same as sub_710102AEC4).
+void Unk_SoundMgr38::sub_710102AF84() {
+    if (_70) {
+        if (_8)
+            _8->sub_710102C8F8();
+        if (_10)
+            _10->sub_710103362C();
+        if (_18)
+            _18->sub_710102EFFC();
+    }
+    if (_20)
+        _20->sub_7101029BA8();
+    if (_28)
+        _28->sub_710103937C();
+    if (_30)
+        _30->sub_7101027CE8();
+    if (_38)
+        _38->sub_710103A294();
+    if (_40)
+        _40->sub_71012BED18();
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+    if (_50) {
+        _50->sub_7101036A68();
+        delete _50;
+        _50 = nullptr;
+    }
+    if (_58) {
+        _58->sub_7101028690();
+        delete _58;
+        _58 = nullptr;
+    }
+    if (_60) {
+        _60->sub_71012C167C();
+        delete _60;
+        _60 = nullptr;
+    }
+    if (_28) {
+        _28->sub_710103937C();
+        _28->sub_71010375CC();
+        delete _28;
+        _28 = nullptr;
+    }
+    if (_80) {
+        SoundMgr::instance()->_60->sub_7101059354(_80);
+        if (_68)
+            _68->setAssetInfoReader(nullptr);
+        _80 = nullptr;
+        _88 = 0;
+    }
+    if (_68) {
+        _68->destroy();
+        _68 = nullptr;
+    }
+    _98 = 0;
+    _a0 = 0;
+    _138 = nullptr;
+}
+
 // NON_MATCHING: local vector and terrain-height stack layout differs.
 void Unk_SoundMgr38::sub_710102B4B8() {
     sead::Vector3f position = sead::Vector3f::zero;

@@ -187,6 +187,10 @@ public:
     void sub_7101037F7C(bool value);
     // 0x710103920c (declared only)
     void sub_710103920C();
+    // 0x710103937c / 0x71010375cc (declared only): called by Unk_SoundMgr38::sub_710102AF84 (the second before
+    // deletion).
+    void sub_710103937C();
+    void sub_71010375CC();
 
     virtual ~Unk_SoundMgr38_28();
 
@@ -295,6 +299,8 @@ public:
     // 0x71010317b4 (declared only): called with the heap right after construction.
     void sub_71010317B4(sead::Heap* heap);
     void sub_71010333F0();
+    // 0x710103362c (declared only): called by Unk_SoundMgr38::sub_710102AF84.
+    void sub_710103362C();
 
     u8 _8[0x1950 - 0x8];
 };
@@ -306,6 +312,8 @@ public:
     // 0x710102d9c0 (declared only): called with the heap right after construction.
     void sub_710102D9C0(sead::Heap* heap);
     void sub_710102EE60();
+    // 0x710102effc (declared only): called by Unk_SoundMgr38::sub_710102AF84.
+    void sub_710102EFFC();
 
     u8 _8[0xa828 - 0x8];
 };
@@ -317,6 +325,8 @@ public:
     // 0x710103a034 (declared only): called with the heap right after construction.
     void sub_710103A034(sead::Heap* heap);
     void sub_710103A084();
+    // 0x710103a294 (declared only; empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
+    void sub_710103A294();
 
     u8 _8[0xd8 - 0x8];
 };
@@ -328,6 +338,8 @@ public:
     // 0x71012be5f4 (declared only): called with the heap right after construction.
     void sub_71012BE5F4(sead::Heap* heap);
     void sub_71012BEC28();
+    // 0x71012bed18 (declared only; empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
+    void sub_71012BED18();
 
     u8 _8[0x2f0 - 0x8];
 };
@@ -335,16 +347,22 @@ class Unk_SoundMgr38_50 {
 public:
     virtual ~Unk_SoundMgr38_50();
     void sub_7101036840();
+    // 0x7101036a68 (declared only; empty in the release build): called before deletion.
+    void sub_7101036A68();
 };
 class Unk_SoundMgr38_58 {
 public:
     virtual ~Unk_SoundMgr38_58();
     void sub_71010289CC();
+    // 0x7101028690 (declared only): called before deletion.
+    void sub_7101028690();
 };
 class Unk_SoundMgr38_60 {
 public:
     virtual ~Unk_SoundMgr38_60();
     void sub_71012C17B4();
+    // 0x71012c167c (declared only): called before deletion.
+    void sub_71012C167C();
 };
 
 // Placeholder name (SoundMgr::_38; vtable 0x7102501880 with D1 / D0 only, ctor 0x7101029fe0).
@@ -359,6 +377,7 @@ public:
     Unk_SoundMgr38_28* sub_710102C10C() const;
     // 0x710102b11c: forwards to the cleanup operation.
     void sub_710102B11C();
+    // 0x710102af84: finalizes and deletes the sub-managers and releases the xlink2 user and its asset reader.
     void sub_710102AF84();
     void sub_710102B4B8();
     // 0x710102aec4: stops the sub-managers (only while _70 is set) and the xlink2 user's events.
