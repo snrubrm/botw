@@ -79,6 +79,17 @@ void MoveRemainsElectric::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// Starts the weak point AS (WeakPoint<suffix>) in slots 0 .. 3, except for the far LOD actor.
+// NON_MATCHING: the base address of the file-scope name table (our .bss places the TU statics differently).
+void MoveRemainsElectric::sub_71004B2288() {
+    if (mActor->getName().findIndex("_Far") != -1)
+        return;
+    for (s32 i = 0; i < 4; ++i) {
+        sead::FormatFixedSafeString<32> name("WeakPoint%s", sUnk_71025babc8[i].cstr());
+        changeAS(name.cstr(), false, 2, i);
+    }
+}
+
 // NON_MATCHING: the repeated name search retains different SafeString setup.
 bool MoveRemainsElectric::reenter_(ksys::act::ai::ActionBase* other, bool x) {
     if (!RailMoveRemains::reenter_(other, true))
