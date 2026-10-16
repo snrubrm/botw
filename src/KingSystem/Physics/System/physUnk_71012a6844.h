@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
 #include <container/seadOffsetList.h>
 #include <math/seadVector.h>
@@ -35,10 +36,22 @@ public:
         bool isLinked() const { return mNode.isLinked(); }
     };
     KSYS_CHECK_SIZE_NX150(ItemA, 0x20);
-    // Placeholder (only the counter cleared by sub_71012A6B48 is known).
+    // Placeholder: a constraint snapshot written by sub_71012A6BB0 (0x40 bytes).
+    struct Record {
+        sead::Vector3f _0 = sead::Vector3f::zero;
+        sead::Vector3f _c = sead::Vector3f::zero;
+        sead::Vector3f _18 = sead::Vector3f::zero;
+        sead::Vector3f _24 = sead::Vector3f::zero;
+        Constraint* _30 = nullptr;
+        bool _38 = false;
+    };
+    KSYS_CHECK_SIZE_NX150(Record, 0x40);
+
+    // Placeholder: a consumer of the records (pointers to the records of the current step).
     struct ItemB {
-        u8 _0[0x18];
-        u32 _18;
+        u8 _0[0x8];
+        sead::Buffer<Record*> _8;
+        sead::Atomic<s32> _18;
     };
 
     // 0x71012a69e0 / 0x71012a6a44: adds ItemA to / removes it from the list at +0x8 (guarded by the mutex at +0x48).
@@ -55,11 +68,11 @@ public:
     /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ sead::OffsetList<ItemA> mListA;
     /* 0x20 */ sead::OffsetList<ItemB> mListB;
-    /* 0x38 */ u8 _38[0x48 - 0x38];
+    /* 0x38 */ sead::Buffer<Record> mRecords;
     /* 0x48 */ sead::Mutex mMutexA;
     /* 0x88 */ sead::Mutex mMutexB;
-    // Counter reset by sub_71012A6B48 (an atomic: the original keeps its store before the list loop).
-    /* 0xc8 */ sead::Atomic<u32> _c8;
+    // Number of used mRecords (an atomic: reset by sub_71012A6B48, incremented by sub_71012A6BB0).
+    /* 0xc8 */ sead::Atomic<s32> _c8;
 };
 
 }  // namespace ksys::phys
