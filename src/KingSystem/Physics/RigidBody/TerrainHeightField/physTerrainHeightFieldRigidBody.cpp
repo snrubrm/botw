@@ -1,5 +1,8 @@
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include <math/seadMathCalcCommon.h>
+#include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastOutput.h>
+#include <Havok/Physics2012/Collide/Query/hkpRayHitCollector.h>
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -121,9 +124,53 @@ hkBool Unk_7102515a58::getTriangleFlipImpl() const {
 // TODO: 0x71012264c8 (368 bytes), not decompiled yet (inlines the sub_71015C3994 query per sphere).
 void Unk_7102515a58::collideSpheres(const CollideSpheresInput&, SphereCollisionOutput*) const {}
 
-// TODO: 0x7101224a0c (528 bytes), not decompiled yet.
-void Unk_7102515a58::castSphere(const hkpSphereCastInput&, const hkpCdBody&,
-                                hkpRayHitCollector&) const {}
+// NON_MATCHING: the original reuses the query position slot for the output (stack coloring) and
+// stores the normal earlier.
+void Unk_7102515a58::castSphere(const hkpSphereCastInput& input, const hkpCdBody& cdBody,
+                                hkpRayHitCollector& collector) const {
+    const hkVector4 from = input.m_from;
+    const hkVector4 to = input.m_to;
+    const sead::Vector3f offset = mOffset;
+    const f32 to_x = to(0) + offset.x;
+    const f32 to_z = to(2) + offset.z;
+    if (isInHole(to_x, to_z))
+        return;
+
+    f32 height = 0;
+    sead::Vector3f normal = sead::Vector3f::ey;
+    const sead::Vector2f pos(to_x, to_z);
+    if (!tera::sub_71011096D0(&height, &normal, &pos, mSystem, -1, 0))
+        return;
+
+    const f32 to_y = to(1) + offset.y;
+    const f32 radius = input.m_radius;
+    if (!(height > to_y - radius))
+        return;
+
+    const f32 dx = to_x - (from(0) + offset.x);
+    const f32 from_y = from(1) + offset.y;
+    const f32 dy = to_y - from_y;
+    const f32 dz = to_z - (from(2) + offset.z);
+
+    hkpShapeRayCastOutput output;
+    output.m_normal.load<3>(normal.e.data());
+    output.m_normal.zeroComponent<3>();
+    output.m_hitFraction = 0;
+
+    const f32 length = sead::Mathf::sqrt(dx * dx + dy * dy + dz * dz);
+    if (length > 0.0f) {
+        const f32 cos = sead::Mathf::abs(dy) / length;
+        if (cos > sead::Mathf::epsilon()) {
+            const f32 radius_offset = radius / cos;
+            const f32 hy = height - from_y;
+            const f32 dist = sead::Mathf::sqrt(dx * dx + hy * hy + dz * dz);
+            output.m_hitFraction = (dist - radius_offset) / length;
+            output.m_hitFraction = sead::Mathf::clamp(output.m_hitFraction, 0.0f, 1.0f);
+        }
+    }
+    output.m_extraInfo = 0;
+    collector.addRayHit(cdBody, output);
+}
 
 hkReal Unk_7102515a58::getHeightAtImpl(int x, int z) const {
     f32 height = 0;
