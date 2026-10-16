@@ -10,10 +10,10 @@ class NeckControl : public ksys::act::ai::Behavior {
 public:
     explicit NeckControl(const InitArg& arg);
     ~NeckControl() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     virtual bool m14() { return false; }
     virtual void m15(sead::Vector3f* out) {}

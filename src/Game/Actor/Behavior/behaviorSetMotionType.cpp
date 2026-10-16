@@ -8,19 +8,19 @@ SetMotionType::SetMotionType(const InitArg& arg) : ksys::act::ai::Behavior(arg) 
 
 SetMotionType::~SetMotionType() = default;
 
-bool SetMotionType::m6(sead::Heap* heap) {
+bool SetMotionType::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetMotionType::m7() {}
+void SetMotionType::calc() {}
 
-void SetMotionType::m9() {}
+void SetMotionType::leave() {}
 
 void SetMotionType::loadParams() {
 
 }
 
-void SetMotionType::m8() {
+void SetMotionType::enter() {
     if (auto* body = mActor->getMainBody())
         body->changeMotionType(ksys::phys::MotionType::Fixed);
 }

@@ -13,11 +13,11 @@ class NeckParamChange : public ksys::act::ai::Behavior {
 public:
     explicit NeckParamChange(const InitArg& arg);
     ~NeckParamChange() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
     void loadParams() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
 
     /* 0x28 */ const float* mULimit_s{};
     /* 0x30 */ const float* mDLimit_s{};
@@ -29,7 +29,7 @@ public:
     /* 0x60 */ const float* mMaxRotate_s{};
     /* 0x68 */ const float* mOffsetLR_s{};
     /* 0x70 */ const float* mOffsetUD_s{};
-    // The spine controller's limits before this behavior changed them (saved by m8, restored by m9).
+    // The spine controller's limits before this behavior changed them (saved by enter, restored by leave).
     // Placeholder name; the two methods are out-of-line in the original (0x710062cb24 / 0x710062cd74).
     struct Saved {
         void sub_710062CB24(ksys::act::Unk_7100d860d8* unit);  // save

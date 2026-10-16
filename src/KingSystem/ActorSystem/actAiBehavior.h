@@ -58,12 +58,12 @@ public:
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
-    virtual bool m6(sead::Heap* heap) { return true; }
-    virtual void m7() {}
-    virtual void m8() {}
-    virtual void m9() {}
+    virtual bool init_(sead::Heap* heap) { return true; }
+    virtual void calc() {}
+    virtual void enter() {}
+    virtual void leave() {}
     virtual void loadParams() {}
-    virtual void m11() {}
+    virtual void onChangeChild() {}
     virtual bool updateForPreDelete() { return true; }
     virtual void onPreDelete() {}
 

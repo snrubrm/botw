@@ -9,20 +9,20 @@ ViewLastAttackerPos::ViewLastAttackerPos(const InitArg& arg) : NeckControl(arg) 
 
 ViewLastAttackerPos::~ViewLastAttackerPos() = default;
 
-bool ViewLastAttackerPos::m6(sead::Heap* heap) {
-    return NeckControl::m6(heap);
+bool ViewLastAttackerPos::init_(sead::Heap* heap) {
+    return NeckControl::init_(heap);
 }
 
-void ViewLastAttackerPos::m7() {
-    NeckControl::m7();
+void ViewLastAttackerPos::calc() {
+    NeckControl::calc();
 }
 
-void ViewLastAttackerPos::m8() {
-    NeckControl::m8();
+void ViewLastAttackerPos::enter() {
+    NeckControl::enter();
 }
 
-void ViewLastAttackerPos::m9() {
-    NeckControl::m9();
+void ViewLastAttackerPos::leave() {
+    NeckControl::leave();
 }
 
 void ViewLastAttackerPos::m15(sead::Vector3f* out) {

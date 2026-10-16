@@ -9,10 +9,10 @@ class EmitInterest : public ksys::act::ai::Behavior {
 public:
     explicit EmitInterest(const InitArg& arg);
     ~EmitInterest() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ const int* mLevel_s{};

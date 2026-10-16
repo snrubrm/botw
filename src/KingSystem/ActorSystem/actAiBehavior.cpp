@@ -33,7 +33,7 @@ bool Behavior::init(sead::Heap* heap) {
         return false;
 
     loadParams();
-    return m6(heap);
+    return init_(heap);
 }
 
 inline void Behavior::updateState(Behavior** pending_list) {
@@ -100,7 +100,7 @@ bool Behavior::sub_7100D24AC0(Behavior** list, Behavior** pending_list) {
 
 Behavior* Behavior::sub_7100D24B94() {
     if (_13 == 2) {
-        m9();
+        leave();
         _13 = 0;
     }
     return _20;
@@ -108,14 +108,14 @@ Behavior* Behavior::sub_7100D24B94() {
 
 Behavior* Behavior::sub_7100D24BD4() {
     if (_13 == 1)
-        m8();
+        enter();
     _13 = 0;
     return _20;
 }
 
 void Behavior::x() {
     if (_13 == 0 || _13 == 3)
-        m11();
+        onChangeChild();
 }
 
 s32 Behavior::getCalcTiming() const {

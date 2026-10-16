@@ -8,17 +8,17 @@ SetIsAffectWeak::SetIsAffectWeak(const InitArg& arg) : ksys::act::ai::Behavior(a
 
 SetIsAffectWeak::~SetIsAffectWeak() = default;
 
-bool SetIsAffectWeak::m6(sead::Heap* heap) {
+bool SetIsAffectWeak::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetIsAffectWeak::m7() {}
+void SetIsAffectWeak::calc() {}
 
 void SetIsAffectWeak::loadParams() {
     getStaticParam(&mIsAffect_s, "IsAffect");
 }
 
-void SetIsAffectWeak::m8() {
+void SetIsAffectWeak::enter() {
     auto* dmg = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr());
     if (!dmg)
         return;
@@ -27,7 +27,7 @@ void SetIsAffectWeak::m8() {
                                          (dmg->_216.getDirect() & ~8));
 }
 
-void SetIsAffectWeak::m9() {
+void SetIsAffectWeak::leave() {
     if (auto* dmg = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         dmg->_216.setDirect(_30 ? (dmg->_216.getDirect() | 8) :
                                   (dmg->_216.getDirect() & ~8));

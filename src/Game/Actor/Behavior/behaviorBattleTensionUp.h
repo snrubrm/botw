@@ -8,9 +8,9 @@ class BattleTensionUp : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(BattleTensionUp, ksys::act::ai::Behavior)
 public:
     explicit BattleTensionUp(const InitArg& arg);
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
 };

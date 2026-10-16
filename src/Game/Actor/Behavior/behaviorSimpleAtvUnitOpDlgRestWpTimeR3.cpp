@@ -12,20 +12,20 @@ SimpleAtvUnitOpDlgRestWpTimeR3::~SimpleAtvUnitOpDlgRestWpTimeR3() {
     ;
 }
 
-bool SimpleAtvUnitOpDlgRestWpTimeR3::m6(sead::Heap* heap) {
-    return SimpleAtvUnitOpDlgRestWpTimeR3Base::m6(heap);
+bool SimpleAtvUnitOpDlgRestWpTimeR3::init_(sead::Heap* heap) {
+    return SimpleAtvUnitOpDlgRestWpTimeR3Base::init_(heap);
 }
 
-void SimpleAtvUnitOpDlgRestWpTimeR3::m7() {
-    SimpleAtvUnitOpDlgRestWpTimeR3Base::m7();
+void SimpleAtvUnitOpDlgRestWpTimeR3::calc() {
+    SimpleAtvUnitOpDlgRestWpTimeR3Base::calc();
 }
 
-void SimpleAtvUnitOpDlgRestWpTimeR3::m8() {
-    SimpleAtvUnitOpDlgRestWpTimeR3Base::m8();
+void SimpleAtvUnitOpDlgRestWpTimeR3::enter() {
+    SimpleAtvUnitOpDlgRestWpTimeR3Base::enter();
 }
 
-void SimpleAtvUnitOpDlgRestWpTimeR3::m9() {
-    SimpleAtvUnitOpDlgRestWpTimeR3Base::m9();
+void SimpleAtvUnitOpDlgRestWpTimeR3::leave() {
+    SimpleAtvUnitOpDlgRestWpTimeR3Base::leave();
 }
 
 void SimpleAtvUnitOpDlgRestWpTimeR3::loadParams() {

@@ -10,10 +10,10 @@ class SubAS : public ksys::act::ai::Behavior {
 public:
     explicit SubAS(const InitArg& arg);
     ~SubAS() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     // Original out-of-line update helper.
     void sub_7100643440(const sead::SafeString& name);

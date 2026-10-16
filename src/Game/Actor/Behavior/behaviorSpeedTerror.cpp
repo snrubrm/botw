@@ -7,12 +7,12 @@ namespace uking::behavior {
 
 SpeedTerror::SpeedTerror(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-bool SpeedTerror::m6(sead::Heap* heap) {
+bool SpeedTerror::init_(sead::Heap* heap) {
     _28.sub_7100D78564(heap);
     return true;
 }
 
-void SpeedTerror::m7() {
+void SpeedTerror::calc() {
     auto* actor = mActor;
     auto* body = actor->getMainBody();
     if (!body)
@@ -65,8 +65,8 @@ void SpeedTerror::m7() {
 }
 
 // NON_MATCHING: the original loads and converts *mParams.mLevel_s before building the layer mask (same as
-// TerrorBehavior::m8; the mask code is duplicated in m7, probably one inline helper)
-void SpeedTerror::m8() {
+// TerrorBehavior::enter; the mask code is duplicated in calc, probably one inline helper)
+void SpeedTerror::enter() {
     u32 flags = *mParams.mIsPlayerLayer_s;
     if (*mParams.mIsNpcLayer_s)
         flags |= 0x2;
@@ -94,7 +94,7 @@ void SpeedTerror::m8() {
     _28.setRadius(*mParams.mRadius_s);
 }
 
-void SpeedTerror::m9() {
+void SpeedTerror::leave() {
     if (auto* owner = mActor->get548())
         owner->sub_7100D78444(&_28);
 }

@@ -17,11 +17,11 @@ class HorseSlipBehavior : public ksys::act::ai::Behavior {
 public:
     explicit HorseSlipBehavior(const InitArg& arg);
     ~HorseSlipBehavior() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100e613f4)
-    void m8() override;  // not decompiled yet (0x7100e612f0)
-    void m9() override;  // not decompiled yet (0x7100e61aa0)
+    void calc() override;  // not decompiled yet (0x7100e613f4)
+    void enter() override;  // not decompiled yet (0x7100e612f0)
+    void leave() override;  // not decompiled yet (0x7100e61aa0)
 
     // 0x7100e61830 (placeholder name): passes the slip angle of the rider's current gear to the controller.
     void sub_7100E61830(ksys::phys::CharacterController* controller, act::Rideable* rideable);

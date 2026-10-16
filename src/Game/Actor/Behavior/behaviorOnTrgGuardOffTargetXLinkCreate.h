@@ -9,10 +9,10 @@ class OnTrgGuardOffTargetXLinkCreate : public OnTrgGuardOffTargetXLinkCreateBase
 public:
     explicit OnTrgGuardOffTargetXLinkCreate(const InitArg& arg);
     ~OnTrgGuardOffTargetXLinkCreate() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     void m14(Unk_71012419b4* handle) override;
 

@@ -7,20 +7,20 @@ SetEnemyChemicalPower::SetEnemyChemicalPower(const InitArg& arg) : SetChemicalPo
 
 SetEnemyChemicalPower::~SetEnemyChemicalPower() = default;
 
-bool SetEnemyChemicalPower::m6(sead::Heap* heap) {
-    return SetChemicalPower::m6(heap);
+bool SetEnemyChemicalPower::init_(sead::Heap* heap) {
+    return SetChemicalPower::init_(heap);
 }
 
-void SetEnemyChemicalPower::m7() {
-    SetChemicalPower::m7();
+void SetEnemyChemicalPower::calc() {
+    SetChemicalPower::calc();
 }
 
-void SetEnemyChemicalPower::m8() {
-    SetChemicalPower::m8();
+void SetEnemyChemicalPower::enter() {
+    SetChemicalPower::enter();
 }
 
-void SetEnemyChemicalPower::m9() {
-    SetChemicalPower::m9();
+void SetEnemyChemicalPower::leave() {
+    SetChemicalPower::leave();
 }
 
 void SetEnemyChemicalPower::loadParams() {

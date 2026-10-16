@@ -9,11 +9,11 @@ ForceFixed::ForceFixed(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 ForceFixed::~ForceFixed() = default;
 
-bool ForceFixed::m6(sead::Heap* heap) {
+bool ForceFixed::init_(sead::Heap* heap) {
     return true;
 }
 
-void ForceFixed::m7() {
+void ForceFixed::calc() {
     if (auto* controller = mActor->getCharacterController()) {
         if (!controller->mFlags.isOn(0x400))
             controller->mFlags.set(0x400);
@@ -27,7 +27,7 @@ void ForceFixed::m7() {
     }
 }
 
-void ForceFixed::m8() {
+void ForceFixed::enter() {
     if (auto* controller = mActor->getCharacterController()) {
         _28 = controller->mFlags.isOn(0x400);
         _29 = controller->mFlags.isOn(0x800);
@@ -40,7 +40,7 @@ void ForceFixed::m8() {
     }
 }
 
-void ForceFixed::m9() {
+void ForceFixed::leave() {
     if (auto* controller = mActor->getCharacterController()) {
         controller->mFlags.change(0x400, _28);
         controller->mFlags.change(0x800, _29);

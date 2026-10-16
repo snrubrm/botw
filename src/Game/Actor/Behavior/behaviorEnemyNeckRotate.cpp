@@ -9,20 +9,20 @@ EnemyNeckRotate::EnemyNeckRotate(const InitArg& arg) : NeckControl(arg) {}
 
 EnemyNeckRotate::~EnemyNeckRotate() = default;
 
-bool EnemyNeckRotate::m6(sead::Heap* heap) {
-    return NeckControl::m6(heap);
+bool EnemyNeckRotate::init_(sead::Heap* heap) {
+    return NeckControl::init_(heap);
 }
 
-void EnemyNeckRotate::m7() {
-    NeckControl::m7();
+void EnemyNeckRotate::calc() {
+    NeckControl::calc();
 }
 
-void EnemyNeckRotate::m8() {
-    NeckControl::m8();
+void EnemyNeckRotate::enter() {
+    NeckControl::enter();
 }
 
-void EnemyNeckRotate::m9() {
-    NeckControl::m9();
+void EnemyNeckRotate::leave() {
+    NeckControl::leave();
 }
 
 void EnemyNeckRotate::loadParams() {

@@ -81,12 +81,12 @@ void BlownOff::m38() {
         ksys::act::Unk_71006ED100Arg arg;
         arg._5e = !isBgGroundHit(dynamic_actor, false);
         if (manager) {
-            manager->m35(&arg._0);
-            arg._5f = manager->m41();
+            manager->getAttackSourceMtx(&arg._0);
+            arg._5f = manager->getAttackInfoFlagFC();
             arg._30 = m41(manager);
             arg._34 = manager->getField54();
-            manager->m40(&arg._38);
-            manager->m32(&arg._40);
+            manager->getAttackDirType(&arg._38);
+            manager->getDamageImpulse(&arg._40);
             arg._40 *= *mParams.mImpulseRatio_s;
             manager->getPosition(&arg._4c);
             arg._3c = manager->getField40();

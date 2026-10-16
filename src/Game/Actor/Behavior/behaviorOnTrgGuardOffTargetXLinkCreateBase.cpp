@@ -13,11 +13,11 @@ OnTrgGuardOffTargetXLinkCreateBase::~OnTrgGuardOffTargetXLinkCreateBase() {
     ;
 }
 
-bool OnTrgGuardOffTargetXLinkCreateBase::m6(sead::Heap* heap) {
+bool OnTrgGuardOffTargetXLinkCreateBase::init_(sead::Heap* heap) {
     return true;
 }
 
-void OnTrgGuardOffTargetXLinkCreateBase::m7() {
+void OnTrgGuardOffTargetXLinkCreateBase::calc() {
     if (mActor->getASList()->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_710116388C,
                                true)) {
         Unk_71012419b4 handle{};
@@ -26,9 +26,9 @@ void OnTrgGuardOffTargetXLinkCreateBase::m7() {
     }
 }
 
-void OnTrgGuardOffTargetXLinkCreateBase::m8() {}
+void OnTrgGuardOffTargetXLinkCreateBase::enter() {}
 
-void OnTrgGuardOffTargetXLinkCreateBase::m9() {}
+void OnTrgGuardOffTargetXLinkCreateBase::leave() {}
 
 void OnTrgGuardOffTargetXLinkCreateBase::loadParams() {
     getStaticParam(&mKey_s, "Key");

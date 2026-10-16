@@ -18,10 +18,10 @@ class SetJustAvoidHit1DamageDCCB : public SetDamageCallback {
 public:
     explicit SetJustAvoidHit1DamageDCCB(const InitArg& arg);
     ~SetJustAvoidHit1DamageDCCB() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     uking::act::DamageCallback* m14() override;
 

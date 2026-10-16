@@ -7,22 +7,22 @@ SetAcceptOnlyBombDCCallback::SetAcceptOnlyBombDCCallback(const InitArg& arg)
 
 SetAcceptOnlyBombDCCallback::~SetAcceptOnlyBombDCCallback() = default;
 
-bool SetAcceptOnlyBombDCCallback::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetAcceptOnlyBombDCCallback::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetAcceptOnlyBombDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetAcceptOnlyBombDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetAcceptOnlyBombDCCallback::m8() {
-    SetDamageCallback::m8();
+void SetAcceptOnlyBombDCCallback::enter() {
+    SetDamageCallback::enter();
     _40._24 = *mParams.mIsThroughEffectiveDamage_s;
     _40._25 = *mParams.mIsThroughDieAttribute_s;
 }
 
-void SetAcceptOnlyBombDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetAcceptOnlyBombDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetAcceptOnlyBombDCCallback::loadParams() {

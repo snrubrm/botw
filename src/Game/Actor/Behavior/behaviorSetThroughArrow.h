@@ -12,12 +12,12 @@ class SetThroughArrow : public SetDamageCallback {
 public:
     explicit SetThroughArrow(const InitArg& arg);
     ~SetThroughArrow() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     void loadParams() override;
     uking::act::DamageCallback* m14() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
 
     // vtable 0x710243a0c8 (virtual 0x710063eef4): the registered attack sensor listener lets arrows through.
     class Listener : public ksys::act::AttackSensor2Listener {

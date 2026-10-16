@@ -9,22 +9,22 @@ AnimalUnitIgnoreStickXLimit::AnimalUnitIgnoreStickXLimit(const InitArg& arg)
 
 AnimalUnitIgnoreStickXLimit::~AnimalUnitIgnoreStickXLimit() = default;
 
-bool AnimalUnitIgnoreStickXLimit::m6(sead::Heap* heap) {
+bool AnimalUnitIgnoreStickXLimit::init_(sead::Heap* heap) {
     return true;
 }
 
-void AnimalUnitIgnoreStickXLimit::m7() {}
+void AnimalUnitIgnoreStickXLimit::calc() {}
 
 void AnimalUnitIgnoreStickXLimit::loadParams() {
 
 }
 
-void AnimalUnitIgnoreStickXLimit::m8() {
+void AnimalUnitIgnoreStickXLimit::enter() {
     if (auto* rideable = mActor->m132())
         rideable->_8 |= 0x100;
 }
 
-void AnimalUnitIgnoreStickXLimit::m9() {
+void AnimalUnitIgnoreStickXLimit::leave() {
     if (auto* rideable = mActor->m132())
         rideable->_8 &= ~0x100;
 }

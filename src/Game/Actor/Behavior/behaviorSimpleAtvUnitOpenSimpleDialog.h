@@ -13,8 +13,8 @@ class SimpleAtvUnitOpenSimpleDialog : public ksys::act::ai::Behavior {
 public:
     explicit SimpleAtvUnitOpenSimpleDialog(const InitArg& arg);
     ~SimpleAtvUnitOpenSimpleDialog() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     virtual const sead::SafeString* m14();
     virtual bool m15() { return false; }
@@ -22,8 +22,8 @@ public:
     // 0x7100641eb8: opens the dialog (request built from mstxtName / label / CloseOption / Type /
     // Timer), sets `_84` and, with Once, `_85`.
     void sub_7100641EB8();
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     bool updateForPreDelete() override;
 
     /* 0x28 */ const int* mCloseOption_s{};

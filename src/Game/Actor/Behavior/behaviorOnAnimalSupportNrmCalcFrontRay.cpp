@@ -8,13 +8,13 @@ OnAnimalSupportNrmCalcFrontRay::OnAnimalSupportNrmCalcFrontRay(const InitArg& ar
 
 OnAnimalSupportNrmCalcFrontRay::~OnAnimalSupportNrmCalcFrontRay() = default;
 
-bool OnAnimalSupportNrmCalcFrontRay::m6(sead::Heap* heap) {
+bool OnAnimalSupportNrmCalcFrontRay::init_(sead::Heap* heap) {
     return true;
 }
 
-void OnAnimalSupportNrmCalcFrontRay::m7() {}
+void OnAnimalSupportNrmCalcFrontRay::calc() {}
 
-void OnAnimalSupportNrmCalcFrontRay::m8() {
+void OnAnimalSupportNrmCalcFrontRay::enter() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         if (auto* support = enemy->_1198)
@@ -22,7 +22,7 @@ void OnAnimalSupportNrmCalcFrontRay::m8() {
     }
 }
 
-void OnAnimalSupportNrmCalcFrontRay::m9() {
+void OnAnimalSupportNrmCalcFrontRay::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         if (auto* support = enemy->_1198)

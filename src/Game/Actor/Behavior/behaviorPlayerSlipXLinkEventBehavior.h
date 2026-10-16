@@ -10,10 +10,10 @@ class PlayerSlipXLinkEventBehavior : public ksys::act::ai::Behavior {
 public:
     explicit PlayerSlipXLinkEventBehavior(const InitArg& arg);
     ~PlayerSlipXLinkEventBehavior() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ Unk_71012419b4 _28;

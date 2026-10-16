@@ -9,7 +9,7 @@ class SetDefenselessInAirDCCallback : public SetDefenselessDCCallback {
 public:
     explicit SetDefenselessInAirDCCallback(const InitArg& arg);
     ~SetDefenselessInAirDCCallback() override;
-    void m7() override;
+    void calc() override;
 
 };
 KSYS_CHECK_SIZE_NX150(SetDefenselessInAirDCCallback, 0x58);

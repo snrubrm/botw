@@ -9,8 +9,8 @@ class PlayerLandNoiseBase : public Noise {
     SEAD_RTTI_OVERRIDE(PlayerLandNoiseBase, Noise)
 public:
     explicit PlayerLandNoiseBase(const InitArg& arg);
-    void m7() override;
-    void m8() override;
+    void calc() override;
+    void enter() override;
 
     /* 0x100 */ bool _100 = false;
 };

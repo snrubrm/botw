@@ -6,21 +6,21 @@ SealNoticePlayerSound::SealNoticePlayerSound(const InitArg& arg) : ksys::act::ai
 
 SealNoticePlayerSound::~SealNoticePlayerSound() = default;
 
-bool SealNoticePlayerSound::m6(sead::Heap* heap) {
+bool SealNoticePlayerSound::init_(sead::Heap* heap) {
     return true;
 }
 
-void SealNoticePlayerSound::m7() {}
+void SealNoticePlayerSound::calc() {}
 
 void SealNoticePlayerSound::loadParams() {
     getAITreeVariable(&mPlayerSoundSealRefCount_a, "PlayerSoundSealRefCount");
 }
 
-void SealNoticePlayerSound::m8() {
+void SealNoticePlayerSound::enter() {
     ++*mPlayerSoundSealRefCount_a;
 }
 
-void SealNoticePlayerSound::m9() {
+void SealNoticePlayerSound::leave() {
     --*mPlayerSoundSealRefCount_a;
 }
 

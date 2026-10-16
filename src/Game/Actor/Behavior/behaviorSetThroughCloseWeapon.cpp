@@ -8,17 +8,17 @@ SetThroughCloseWeapon::SetThroughCloseWeapon(const InitArg& arg) : ksys::act::ai
 
 SetThroughCloseWeapon::~SetThroughCloseWeapon() = default;
 
-bool SetThroughCloseWeapon::m6(sead::Heap* heap) {
+bool SetThroughCloseWeapon::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetThroughCloseWeapon::m7() {}
+void SetThroughCloseWeapon::calc() {}
 
-void SetThroughCloseWeapon::m8() {
+void SetThroughCloseWeapon::enter() {
     sub_71007A439C(mActor, &_28);
 }
 
-void SetThroughCloseWeapon::m9() {
+void SetThroughCloseWeapon::leave() {
     sub_71007A4440(mActor, &_28);
 }
 

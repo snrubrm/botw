@@ -14,11 +14,11 @@ PartsMagneFollowRatioChanger::~PartsMagneFollowRatioChanger() {
     ;
 }
 
-bool PartsMagneFollowRatioChanger::m6(sead::Heap* heap) {
+bool PartsMagneFollowRatioChanger::init_(sead::Heap* heap) {
     return true;
 }
 
-void PartsMagneFollowRatioChanger::m7() {
+void PartsMagneFollowRatioChanger::calc() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);
@@ -33,9 +33,9 @@ void PartsMagneFollowRatioChanger::m7() {
     }
 }
 
-void PartsMagneFollowRatioChanger::m8() {}
+void PartsMagneFollowRatioChanger::enter() {}
 
-void PartsMagneFollowRatioChanger::m9() {
+void PartsMagneFollowRatioChanger::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mPartsName_s);

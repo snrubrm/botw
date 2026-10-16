@@ -9,11 +9,11 @@ SandwormBgmControl::SandwormBgmControl(const InitArg& arg) : ksys::act::ai::Beha
 
 SandwormBgmControl::~SandwormBgmControl() = default;
 
-bool SandwormBgmControl::m6(sead::Heap* heap) {
+bool SandwormBgmControl::init_(sead::Heap* heap) {
     return true;
 }
 
-void SandwormBgmControl::m8() {
+void SandwormBgmControl::enter() {
     auto* actor = mActor;
     if (sead::DynamicCast<uking::act::Sandworm>(actor)) {
         if (auto* bgm = sub_7100FFDEA8()) {

@@ -8,20 +8,20 @@ ForceConfront::ForceConfront(const InitArg& arg) : ksys::act::ai::Behavior(arg) 
 
 ForceConfront::~ForceConfront() = default;
 
-bool ForceConfront::m6(sead::Heap* heap) {
+bool ForceConfront::init_(sead::Heap* heap) {
     return true;
 }
 
-void ForceConfront::m7() {}
+void ForceConfront::calc() {}
 
-void ForceConfront::m8() {
+void ForceConfront::enter() {
     if (auto* mgr = act::DamageInfoMgr::instance()) {
         const sead::CoreId core = sead::CoreInfo::getCurrentCoreId();
         ++mgr->_11eb[core];
     }
 }
 
-void ForceConfront::m9() {
+void ForceConfront::leave() {
     if (auto* mgr = act::DamageInfoMgr::instance()) {
         const sead::CoreId core = sead::CoreInfo::getCurrentCoreId();
         --mgr->_11eb[core];

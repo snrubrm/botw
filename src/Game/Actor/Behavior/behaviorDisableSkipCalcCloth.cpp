@@ -8,22 +8,22 @@ DisableSkipCalcCloth::DisableSkipCalcCloth(const InitArg& arg) : ksys::act::ai::
 
 DisableSkipCalcCloth::~DisableSkipCalcCloth() = default;
 
-bool DisableSkipCalcCloth::m6(sead::Heap* heap) {
+bool DisableSkipCalcCloth::init_(sead::Heap* heap) {
     return true;
 }
 
-void DisableSkipCalcCloth::m7() {}
+void DisableSkipCalcCloth::calc() {}
 
 void DisableSkipCalcCloth::loadParams() {
 
 }
 
-void DisableSkipCalcCloth::m8() {
+void DisableSkipCalcCloth::enter() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags10.set(0x2);
 }
 
-void DisableSkipCalcCloth::m9() {
+void DisableSkipCalcCloth::leave() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags10.reset(0x2);
 }

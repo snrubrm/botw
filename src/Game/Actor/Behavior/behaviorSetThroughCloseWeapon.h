@@ -11,11 +11,11 @@ class SetThroughCloseWeapon : public ksys::act::ai::Behavior {
 public:
     explicit SetThroughCloseWeapon(const InitArg& arg);
     ~SetThroughCloseWeapon() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     void loadParams() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
 
     // vtable 0x710243a160 (virtual 0x710063f108): the registered attack sensor listener lets close weapons through.
     class Listener : public ksys::act::AttackSensor2Listener {

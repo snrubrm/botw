@@ -7,21 +7,21 @@ IgnoreGiantArmorCondition::IgnoreGiantArmorCondition(const InitArg& arg)
 
 IgnoreGiantArmorCondition::~IgnoreGiantArmorCondition() = default;
 
-bool IgnoreGiantArmorCondition::m6(sead::Heap* heap) {
+bool IgnoreGiantArmorCondition::init_(sead::Heap* heap) {
     return true;
 }
 
-void IgnoreGiantArmorCondition::m7() {}
+void IgnoreGiantArmorCondition::calc() {}
 
 void IgnoreGiantArmorCondition::loadParams() {
     getAITreeVariable(&mIgnoreGiantArmorCondition_a, "IgnoreGiantArmorCondition");
 }
 
-void IgnoreGiantArmorCondition::m8() {
+void IgnoreGiantArmorCondition::enter() {
     *mIgnoreGiantArmorCondition_a = true;
 }
 
-void IgnoreGiantArmorCondition::m9() {
+void IgnoreGiantArmorCondition::leave() {
     *mIgnoreGiantArmorCondition_a = false;
 }
 

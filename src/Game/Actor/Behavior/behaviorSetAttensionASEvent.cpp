@@ -12,7 +12,7 @@ SetAttensionASEvent::~SetAttensionASEvent() {
     ;
 }
 
-bool SetAttensionASEvent::m6(sead::Heap* heap) {
+bool SetAttensionASEvent::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -20,7 +20,7 @@ void SetAttensionASEvent::loadParams() {
     getStaticParam(&mAttKey_s, "AttKey");
 }
 
-void SetAttensionASEvent::m8() {
+void SetAttensionASEvent::enter() {
     _38 = false;
     if (sub_71005DD798(mActor, 0, nullptr, 0, 0)) {
         _38 = true;
@@ -28,7 +28,7 @@ void SetAttensionASEvent::m8() {
     }
 }
 
-void SetAttensionASEvent::m7() {
+void SetAttensionASEvent::calc() {
     const bool on = sub_71005DD798(mActor, 0, nullptr, 0, 0);
     if (_38) {
         if (!on) {
@@ -41,7 +41,7 @@ void SetAttensionASEvent::m7() {
     }
 }
 
-void SetAttensionASEvent::m9() {
+void SetAttensionASEvent::leave() {
     if (sub_71005DD798(mActor, 0, nullptr, 0, 0) || sub_71005DD734(mActor, 0, nullptr, 0, 0))
         ksys::act::disableAttClient(mActor, mAttKey_s);
 }

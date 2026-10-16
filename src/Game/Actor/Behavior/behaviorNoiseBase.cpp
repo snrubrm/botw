@@ -5,12 +5,12 @@ namespace uking::behavior {
 
 NoiseBase::NoiseBase(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void NoiseBase::m7() {
+void NoiseBase::calc() {
     if (_38)
         sub_71005D8D4C(mActor, m14(), true, *mIsShock_s);
 }
 
-void NoiseBase::m9() {
+void NoiseBase::leave() {
     _38 = false;
 }
 

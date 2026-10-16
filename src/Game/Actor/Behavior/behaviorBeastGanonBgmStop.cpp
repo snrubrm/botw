@@ -7,18 +7,18 @@ BeastGanonBgmStop::BeastGanonBgmStop(const InitArg& arg) : ksys::act::ai::Behavi
 
 BeastGanonBgmStop::~BeastGanonBgmStop() = default;
 
-bool BeastGanonBgmStop::m6(sead::Heap* heap) {
+bool BeastGanonBgmStop::init_(sead::Heap* heap) {
     return true;
 }
 
-void BeastGanonBgmStop::m7() {}
+void BeastGanonBgmStop::calc() {}
 
-void BeastGanonBgmStop::m8() {
+void BeastGanonBgmStop::enter() {
     if (auto* bgm = sub_7100FFE468())
         bgm->sub_71010101EC(0.0f);
 }
 
-void BeastGanonBgmStop::m9() {}
+void BeastGanonBgmStop::leave() {}
 
 void BeastGanonBgmStop::loadParams() {
 

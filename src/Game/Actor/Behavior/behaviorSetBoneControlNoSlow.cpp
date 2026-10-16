@@ -9,22 +9,22 @@ SetBoneControlNoSlow::SetBoneControlNoSlow(const InitArg& arg) : ksys::act::ai::
 
 SetBoneControlNoSlow::~SetBoneControlNoSlow() = default;
 
-bool SetBoneControlNoSlow::m6(sead::Heap* heap) {
+bool SetBoneControlNoSlow::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetBoneControlNoSlow::m7() {}
+void SetBoneControlNoSlow::calc() {}
 
 // NON_MATCHING: the original keeps the default ratio 1.0f in d8 across the isSlowTimeMaybe() call (fmov s8, #1.0
 // before the call); ours materialises it after
-void SetBoneControlNoSlow::m8() {
+void SetBoneControlNoSlow::enter() {
     auto* bone_control = mActor->getBoneControl();
     const f32 ratio = getNoSlowTimeRatio();
     if (bone_control)
         bone_control->sub_7100D82FE8(ratio);
 }
 
-void SetBoneControlNoSlow::m9() {
+void SetBoneControlNoSlow::leave() {
     if (auto* bone_control = mActor->getBoneControl())
         bone_control->sub_7100D82FE8(1.0f);
 }

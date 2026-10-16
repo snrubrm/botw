@@ -9,20 +9,20 @@ ChangeEnableNearTrigger::ChangeEnableNearTrigger(const InitArg& arg)
 
 ChangeEnableNearTrigger::~ChangeEnableNearTrigger() = default;
 
-bool ChangeEnableNearTrigger::m6(sead::Heap* heap) {
+bool ChangeEnableNearTrigger::init_(sead::Heap* heap) {
     return true;
 }
 
-void ChangeEnableNearTrigger::m7() {}
+void ChangeEnableNearTrigger::calc() {}
 
-void ChangeEnableNearTrigger::m8() {
+void ChangeEnableNearTrigger::enter() {
     if (auto* schedule = mActor->getSchedule()) {
         _38 = schedule->_124;
         schedule->_124 = !*mEnable_s;
     }
 }
 
-void ChangeEnableNearTrigger::m9() {
+void ChangeEnableNearTrigger::leave() {
     if (*mIsRestoreWhenLeave_s) {
         if (auto* schedule = mActor->getSchedule()) {
             if (_38)

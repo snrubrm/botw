@@ -12,11 +12,11 @@ AwarenessScaleByASEvent::AwarenessScaleByASEvent(const InitArg& arg)
 
 AwarenessScaleByASEvent::~AwarenessScaleByASEvent() = default;
 
-bool AwarenessScaleByASEvent::m6(sead::Heap* heap) {
+bool AwarenessScaleByASEvent::init_(sead::Heap* heap) {
     return true;
 }
 
-void AwarenessScaleByASEvent::m7() {
+void AwarenessScaleByASEvent::calc() {
     if (auto* rideable = mActor->m132())
         rideable->m9();
     if (auto* awareness = mActor->getAwareness()) {
@@ -36,13 +36,13 @@ void AwarenessScaleByASEvent::m7() {
     }
 }
 
-void AwarenessScaleByASEvent::m8() {}
+void AwarenessScaleByASEvent::enter() {}
 
 void AwarenessScaleByASEvent::loadParams() {
 
 }
 
-void AwarenessScaleByASEvent::m9() {
+void AwarenessScaleByASEvent::leave() {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7EBE0(1.0f);
 }

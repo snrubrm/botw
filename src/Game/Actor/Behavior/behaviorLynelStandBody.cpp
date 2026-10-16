@@ -7,18 +7,18 @@ LynelStandBody::LynelStandBody(const InitArg& arg) : ksys::act::ai::Behavior(arg
 
 LynelStandBody::~LynelStandBody() = default;
 
-bool LynelStandBody::m6(sead::Heap* heap) {
+bool LynelStandBody::init_(sead::Heap* heap) {
     return true;
 }
 
-void LynelStandBody::m7() {}
+void LynelStandBody::calc() {}
 
-void LynelStandBody::m8() {
+void LynelStandBody::enter() {
     if (auto* unit = sead::DynamicCast<Unk_71025ba778>(*static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a)))
         unit->_c = 1.0f;
 }
 
-void LynelStandBody::m9() {
+void LynelStandBody::leave() {
     if (auto* unit = sead::DynamicCast<Unk_71025ba778>(*static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a)))
         unit->_c = 0.0f;
 }

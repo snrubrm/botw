@@ -10,20 +10,20 @@ OnTrgGuardOffTargetXLinkCreate::OnTrgGuardOffTargetXLinkCreate(const InitArg& ar
 
 OnTrgGuardOffTargetXLinkCreate::~OnTrgGuardOffTargetXLinkCreate() = default;
 
-bool OnTrgGuardOffTargetXLinkCreate::m6(sead::Heap* heap) {
-    return OnTrgGuardOffTargetXLinkCreateBase::m6(heap);
+bool OnTrgGuardOffTargetXLinkCreate::init_(sead::Heap* heap) {
+    return OnTrgGuardOffTargetXLinkCreateBase::init_(heap);
 }
 
-void OnTrgGuardOffTargetXLinkCreate::m7() {
-    OnTrgGuardOffTargetXLinkCreateBase::m7();
+void OnTrgGuardOffTargetXLinkCreate::calc() {
+    OnTrgGuardOffTargetXLinkCreateBase::calc();
 }
 
-void OnTrgGuardOffTargetXLinkCreate::m8() {
-    OnTrgGuardOffTargetXLinkCreateBase::m8();
+void OnTrgGuardOffTargetXLinkCreate::enter() {
+    OnTrgGuardOffTargetXLinkCreateBase::enter();
 }
 
-void OnTrgGuardOffTargetXLinkCreate::m9() {
-    OnTrgGuardOffTargetXLinkCreateBase::m9();
+void OnTrgGuardOffTargetXLinkCreate::leave() {
+    OnTrgGuardOffTargetXLinkCreateBase::leave();
 }
 
 // NON_MATCHING: the three vector/matrix locals occupy different stack slots.

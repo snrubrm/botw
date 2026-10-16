@@ -16,7 +16,7 @@ DisableContactLayer::~DisableContactLayer() {
 // NON_MATCHING: ContactLayer::fromText (sead) builds a SafeString temporary per candidate and calls
 // its virtual cstr() through memory; the original compares the name against text(i) with a single
 // virtual call on the name and devirtualised access to the candidate
-bool DisableContactLayer::m6(sead::Heap* heap) {
+bool DisableContactLayer::init_(sead::Heap* heap) {
     ksys::phys::ContactLayer layer(int(_40._10));
     const bool found = layer.fromText(mLayerNameToDisable_s);
     _40._10 = layer;
@@ -24,9 +24,9 @@ bool DisableContactLayer::m6(sead::Heap* heap) {
     return found;
 }
 
-void DisableContactLayer::m7() {}
+void DisableContactLayer::calc() {}
 
-void DisableContactLayer::m8() {
+void DisableContactLayer::enter() {
     if (auto* cc = mActor->getCharacterController()) {
         cc->enableContactLayer(ksys::phys::ContactLayer(_40._10));
         if (*mIgnoreContactPoint_s) {
@@ -42,7 +42,7 @@ void DisableContactLayer::m8() {
     }
 }
 
-void DisableContactLayer::m9() {
+void DisableContactLayer::leave() {
     if (auto* cc = mActor->getCharacterController()) {
         cc->disableContactLayer(ksys::phys::ContactLayer(_40._10));
         if (*mIgnoreContactPoint_s) {

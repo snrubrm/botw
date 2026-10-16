@@ -14,10 +14,10 @@ class AnimalAttack : public ksys::act::ai::Behavior {
 public:
     explicit AnimalAttack(const InitArg& arg);
     ~AnimalAttack() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     void sub_7100616E20();
 

@@ -7,7 +7,7 @@ SetLocalBoneOffset::SetLocalBoneOffset(const InitArg& arg) : ksys::act::ai::Beha
 
 SetLocalBoneOffset::~SetLocalBoneOffset() = default;
 
-bool SetLocalBoneOffset::m6(sead::Heap* heap) {
+bool SetLocalBoneOffset::init_(sead::Heap* heap) {
     const sead::Vector3f& trans = *mTransOffset_s;
     const sead::Vector3f& rot = *mRotOffset_s;
     const sead::SafeString& name = mBoneName_s;
@@ -16,13 +16,13 @@ bool SetLocalBoneOffset::m6(sead::Heap* heap) {
     return true;
 }
 
-void SetLocalBoneOffset::m7() {}
+void SetLocalBoneOffset::calc() {}
 
-void SetLocalBoneOffset::m8() {
+void SetLocalBoneOffset::enter() {
     mActor->boneHandleStuff(&_48, false);
 }
 
-void SetLocalBoneOffset::m9() {
+void SetLocalBoneOffset::leave() {
     mActor->sub_71011DA868(&_48);
 }
 

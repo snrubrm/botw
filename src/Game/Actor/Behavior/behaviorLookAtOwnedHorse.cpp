@@ -10,15 +10,15 @@ LookAtOwnedHorse::LookAtOwnedHorse(const InitArg& arg) : InterestNeckControl(arg
 
 LookAtOwnedHorse::~LookAtOwnedHorse() = default;
 
-bool LookAtOwnedHorse::m6(sead::Heap* heap) {
-    if (!InterestNeckControl::m6(heap))
+bool LookAtOwnedHorse::init_(sead::Heap* heap) {
+    if (!InterestNeckControl::init_(heap))
         return false;
     _60 = sead::DynamicCast<act::NPC>(mActor);
     return true;
 }
 
-void LookAtOwnedHorse::m7() {
-    InterestNeckControl::m7();
+void LookAtOwnedHorse::calc() {
+    InterestNeckControl::calc();
     auto* spine_controller = mActor->sub_71011D8A10();
     if (!spine_controller || spine_controller->sub_7100D88CE0())
         return;
@@ -34,12 +34,12 @@ void LookAtOwnedHorse::m7() {
     }
 }
 
-void LookAtOwnedHorse::m8() {
-    InterestNeckControl::m8();
+void LookAtOwnedHorse::enter() {
+    InterestNeckControl::enter();
 }
 
-void LookAtOwnedHorse::m9() {
-    InterestNeckControl::m9();
+void LookAtOwnedHorse::leave() {
+    InterestNeckControl::leave();
 }
 
 void LookAtOwnedHorse::loadParams() {

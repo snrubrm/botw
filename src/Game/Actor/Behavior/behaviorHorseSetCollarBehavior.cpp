@@ -10,14 +10,14 @@ HorseSetCollarBehavior::HorseSetCollarBehavior(const InitArg& arg) : ksys::act::
 
 HorseSetCollarBehavior::~HorseSetCollarBehavior() = default;
 
-bool HorseSetCollarBehavior::m6(sead::Heap* heap) {
+bool HorseSetCollarBehavior::init_(sead::Heap* heap) {
     return true;
 }
 
-void HorseSetCollarBehavior::m7() {}
+void HorseSetCollarBehavior::calc() {}
 
 // NON_MATCHING: bank selections and the random-range increment are scheduled differently.
-void HorseSetCollarBehavior::m8() {
+void HorseSetCollarBehavior::enter() {
     const bool has_options = mActor->getHorseOptionsMaybe() != nullptr;
     const s32 shoe_bank = has_options ? 3 : 1;
     const s32 collar_bank = has_options ? 4 : 2;
@@ -37,7 +37,7 @@ void HorseSetCollarBehavior::m8() {
     }
 }
 
-void HorseSetCollarBehavior::m9() {}
+void HorseSetCollarBehavior::leave() {}
 
 void HorseSetCollarBehavior::loadParams() {
     getStaticParam(&mHorseShoeFrame_s, "HorseShoeFrame");

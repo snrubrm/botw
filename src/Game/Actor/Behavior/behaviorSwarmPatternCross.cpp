@@ -8,17 +8,17 @@ SwarmPatternCross::SwarmPatternCross(const InitArg& arg) : SwarmPattern(arg) {}
 
 SwarmPatternCross::~SwarmPatternCross() = default;
 
-bool SwarmPatternCross::m6(sead::Heap* heap) {
-    return SwarmPattern::m6(heap);
+bool SwarmPatternCross::init_(sead::Heap* heap) {
+    return SwarmPattern::init_(heap);
 }
 
-void SwarmPatternCross::m7() {
-    SwarmPattern::m7();
+void SwarmPatternCross::calc() {
+    SwarmPattern::calc();
 }
 
 // NON_MATCHING: only the register allocation of the x/y phi differs (w9/w10 swapped, 3 instructions).
-void SwarmPatternCross::m8() {
-    SwarmPattern::m8();
+void SwarmPatternCross::enter() {
+    SwarmPattern::enter();
     auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
     if (!swarm)
         return;
@@ -40,8 +40,8 @@ void SwarmPatternCross::m8() {
         swarm->_14c8[i]->_60 = pos;
     }
 }
-void SwarmPatternCross::m9() {
-    SwarmPattern::m9();
+void SwarmPatternCross::leave() {
+    SwarmPattern::leave();
 }
 
 void SwarmPatternCross::loadParams() {

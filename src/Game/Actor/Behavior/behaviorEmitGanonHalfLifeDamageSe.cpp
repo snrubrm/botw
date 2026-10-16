@@ -9,22 +9,22 @@ EmitGanonHalfLifeDamageSe::EmitGanonHalfLifeDamageSe(const InitArg& arg)
 
 EmitGanonHalfLifeDamageSe::~EmitGanonHalfLifeDamageSe() = default;
 
-bool EmitGanonHalfLifeDamageSe::m6(sead::Heap* heap) {
+bool EmitGanonHalfLifeDamageSe::init_(sead::Heap* heap) {
     return true;
 }
 
-void EmitGanonHalfLifeDamageSe::m7() {
+void EmitGanonHalfLifeDamageSe::calc() {
     const bool is_half_life = sub_71002C52DC(mActor, 0.5f);
     if (!_28 && is_half_life)
         xlinkSearchAndEmit(mActor, "DamageHalfLife", 2, nullptr);
     _28 = is_half_life;
 }
 
-void EmitGanonHalfLifeDamageSe::m8() {
+void EmitGanonHalfLifeDamageSe::enter() {
     _28 = sub_71002C52DC(mActor, 0.5f);
 }
 
-void EmitGanonHalfLifeDamageSe::m9() {}
+void EmitGanonHalfLifeDamageSe::leave() {}
 
 void EmitGanonHalfLifeDamageSe::loadParams() {
 

@@ -13,7 +13,7 @@ class AirWallMaterialSpecify : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(AirWallMaterialSpecify, ksys::act::ai::Behavior)
 public:
     explicit AirWallMaterialSpecify(const InitArg& arg);
-    void m8() override;
+    void enter() override;
     // 0x7100616964
     void sub_7100616964();
 

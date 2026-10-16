@@ -9,13 +9,13 @@ DisableCloth::DisableCloth(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 DisableCloth::~DisableCloth() = default;
 
-bool DisableCloth::m6(sead::Heap* heap) {
+bool DisableCloth::init_(sead::Heap* heap) {
     return true;
 }
 
-void DisableCloth::m7() {}
+void DisableCloth::calc() {}
 
-void DisableCloth::m8() {
+void DisableCloth::enter() {
     if (auto* physics = mActor->getPhysics()) {
         if (auto* cloth_set = physics->getClothSet()) {
             for (int i = 0; i < cloth_set->_18.size(); ++i)
@@ -24,7 +24,7 @@ void DisableCloth::m8() {
     }
 }
 
-void DisableCloth::m9() {
+void DisableCloth::leave() {
     if (auto* physics = mActor->getPhysics()) {
         if (auto* cloth_set = physics->getClothSet()) {
             for (int i = 0; i < cloth_set->_18.size(); ++i)

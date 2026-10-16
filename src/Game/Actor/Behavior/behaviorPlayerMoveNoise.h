@@ -8,9 +8,9 @@ class PlayerMoveNoise : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(PlayerMoveNoise, ksys::act::ai::Behavior)
 public:
     explicit PlayerMoveNoise(const InitArg& arg);
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ const float* mNoiseValue_s{};

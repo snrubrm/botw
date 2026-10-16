@@ -113,7 +113,7 @@ bool ForestGiantReaction::m34(act::DamageManagerBase* damage_mgr, int damage_typ
             m40(nullptr);
             return true;
         }
-        if (damage_mgr->m38(
+        if (damage_mgr->isDamageSourceObjectMaybe(
                 mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), mTgArmR_s.cstr()))) {
             name = "右腕大ダメージ";
         }
@@ -147,17 +147,17 @@ bool ForestGiantReaction::m34(act::DamageManagerBase* damage_mgr, int damage_typ
                    (player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor)) &&
                    player_or_enemy->m151(4)) {
             name = "痺れ";
-        } else if (damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
+        } else if (damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
                                                                  mTgArmR_s.cstr()))) {
             name = "右腕大ダメージ";
-        } else if (damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
+        } else if (damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
                                                                  mTgLegR_s.cstr())) ||
-                   damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
+                   damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
                                                                  mBgLegR_s.cstr()))) {
             name = "右足ダメージ";
-        } else if (damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
+        } else if (damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
                                                                  mTgLegL_s.cstr())) ||
-                   damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
+                   damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
                                                                  mBgLegL_s.cstr()))) {
             name = "左足ダメージ";
         } else {
@@ -208,7 +208,7 @@ void ForestGiantReaction::m35(act::DamageManagerBase* damage_mgr, int damage_typ
         break;
     case 21:
         if (!(manager->_8c & 1)) {
-            if (damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
+            if (damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
                                                               mTgArmR_s.cstr()))) {
                 name = "右腕大ダメージ";
             }
@@ -247,14 +247,14 @@ void ForestGiantReaction::m35(act::DamageManagerBase* damage_mgr, int damage_typ
         } else if ((player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor)) &&
                    player_or_enemy->m151(4)) {
             name = "痺れ";
-        } else if (damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
+        } else if (damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
                                                                  mTgLegR_s.cstr())) ||
-                   damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
+                   damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
                                                                  mBgLegR_s.cstr()))) {
             name = "右足ダメージ";
-        } else if (damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
+        } else if (damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(),
                                                                  mTgLegL_s.cstr())) ||
-                   damage_mgr->m38(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
+                   damage_mgr->isDamageSourceObjectMaybe(mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(),
                                                                  mBgLegL_s.cstr()))) {
             name = "左足ダメージ";
         } else {

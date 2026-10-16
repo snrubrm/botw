@@ -8,21 +8,21 @@ EmitHalfLifeDamageSe::EmitHalfLifeDamageSe(const InitArg& arg) : ksys::act::ai::
 
 EmitHalfLifeDamageSe::~EmitHalfLifeDamageSe() = default;
 
-bool EmitHalfLifeDamageSe::m6(sead::Heap* heap) {
+bool EmitHalfLifeDamageSe::init_(sead::Heap* heap) {
     return true;
 }
 
-void EmitHalfLifeDamageSe::m9() {}
+void EmitHalfLifeDamageSe::leave() {}
 
 void EmitHalfLifeDamageSe::loadParams() {
 
 }
 
-void EmitHalfLifeDamageSe::m8() {
+void EmitHalfLifeDamageSe::enter() {
     _28 = checkHpRate(mActor, 0.5f);
 }
 
-void EmitHalfLifeDamageSe::m7() {
+void EmitHalfLifeDamageSe::calc() {
     const bool half_life = checkHpRate(mActor, 0.5f);
     if (!_28 && half_life)
         xlinkSearchAndEmit(mActor, "DamageHalfLife", 2, nullptr);

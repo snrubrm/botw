@@ -13,20 +13,20 @@ CancelMessageSendToPartsBase::~CancelMessageSendToPartsBase() {
     ;
 }
 
-bool CancelMessageSendToPartsBase::m6(sead::Heap* heap) {
+bool CancelMessageSendToPartsBase::init_(sead::Heap* heap) {
     return true;
 }
 
-void CancelMessageSendToPartsBase::m7() {}
+void CancelMessageSendToPartsBase::calc() {}
 
-void CancelMessageSendToPartsBase::m8() {
+void CancelMessageSendToPartsBase::enter() {
     if (*mIsEnter_s) {
         m14();
         sub_710062C280();
     }
 }
 
-void CancelMessageSendToPartsBase::m9() {
+void CancelMessageSendToPartsBase::leave() {
     if (*mIsLeave_s) {
         m14();
         sub_710062C280();
@@ -40,7 +40,7 @@ void CancelMessageSendToPartsBase::loadParams() {
     getStaticParam(&mPartsName_s, "PartsName");
 }
 
-void CancelMessageSendToPartsBase::m11() {
+void CancelMessageSendToPartsBase::onChangeChild() {
     if (*mIsChangeChild_s) {
         m14();
         sub_710062C280();

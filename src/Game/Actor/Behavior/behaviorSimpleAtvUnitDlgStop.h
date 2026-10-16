@@ -12,11 +12,11 @@ class SimpleAtvUnitDlgStop : public ksys::act::ai::Behavior {
 public:
     explicit SimpleAtvUnitDlgStop(const InitArg& arg);
     ~SimpleAtvUnitDlgStop() override;
-    void m7() override;
-    void m9() override;
+    void calc() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
 
     /* 0x28 */ void* mSimpleDialogUnit_a{};
     /* 0x30 */ Unk_71000b0800<Unk_71025b2aa8> _30;

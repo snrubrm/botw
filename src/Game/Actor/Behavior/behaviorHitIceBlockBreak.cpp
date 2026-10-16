@@ -19,21 +19,21 @@ HitIceBlockBreak::~HitIceBlockBreak() {
     ;
 }
 
-void HitIceBlockBreak::m8() {}
+void HitIceBlockBreak::enter() {}
 
-void HitIceBlockBreak::m9() {}
+void HitIceBlockBreak::leave() {}
 
 void HitIceBlockBreak::loadParams() {
     getStaticParam(&mRigidBodyName_s, "RigidBodyName");
 }
 
-bool HitIceBlockBreak::m6(sead::Heap* heap) {
+bool HitIceBlockBreak::init_(sead::Heap* heap) {
     auto* actor = mActor;
     _38 = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), mRigidBodyName_s.cstr());
     return true;
 }
 
-void HitIceBlockBreak::m7() {
+void HitIceBlockBreak::calc() {
     if (_38)
         sub_7100627F7C(_38);
 }

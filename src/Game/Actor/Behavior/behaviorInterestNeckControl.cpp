@@ -20,7 +20,7 @@ InterestNeckControl::InterestNeckControl(const InitArg& arg) : ksys::act::ai::Be
 
 InterestNeckControl::~InterestNeckControl() = default;
 
-bool InterestNeckControl::m6(sead::Heap* heap) {
+bool InterestNeckControl::init_(sead::Heap* heap) {
     auto* global = ksys::act::GlobalParameter::instance();
     _30 = global->getGlobalParam()->mNPCIgnorePlayerTime.ref();
     _34 = global->getGlobalParam()->mNPCCancelIgnorePlayerTime.ref();
@@ -29,7 +29,7 @@ bool InterestNeckControl::m6(sead::Heap* heap) {
     return true;
 }
 
-void InterestNeckControl::m7() {
+void InterestNeckControl::calc() {
     if (_3c <= 2) {
         ++_3c;
         return;
@@ -110,7 +110,7 @@ void InterestNeckControl::m7() {
 
 // NON_MATCHING: the original zeroes the request in aligned 8 / 16 byte chunks from +0x10 (we start at +0xc); the
 // request layout is only partly known
-void InterestNeckControl::m8() {
+void InterestNeckControl::enter() {
     _3c = 0;
     if (_38 < 0) {
         if (auto* awareness = mActor->getAwareness()) {
@@ -127,7 +127,7 @@ void InterestNeckControl::loadParams() {
     getStaticParam(&mIgnorePlayerByTimePass_s, "IgnorePlayerByTimePass");
 }
 
-void InterestNeckControl::m9() {
+void InterestNeckControl::leave() {
     auto* actor = mActor;
     if (!actor || actor->get1a0())
         return;

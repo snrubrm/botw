@@ -12,14 +12,14 @@ SwarmPatternMovingSphere::SwarmPatternMovingSphere(const InitArg& arg) : SwarmPa
 
 SwarmPatternMovingSphere::~SwarmPatternMovingSphere() = default;
 
-bool SwarmPatternMovingSphere::m6(sead::Heap* heap) {
-    return SwarmPatternBase::m6(heap);
+bool SwarmPatternMovingSphere::init_(sead::Heap* heap) {
+    return SwarmPatternBase::init_(heap);
 }
 
 // NON_MATCHING: same arithmetic (Matrix33 makeR / setMul, three random jitters, sin / cos order); the original spills the timer
 // address and keeps the axis / base vectors in different registers, so the register allocation and the operand scheduling differ
-void SwarmPatternMovingSphere::m7() {
-    SwarmPatternBase::m7();
+void SwarmPatternMovingSphere::calc() {
+    SwarmPatternBase::calc();
     _60.update();
     auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
     if (!swarm)
@@ -48,8 +48,8 @@ void SwarmPatternMovingSphere::m7() {
     }
 }
 
-void SwarmPatternMovingSphere::m8() {
-    SwarmPatternBase::m8();
+void SwarmPatternMovingSphere::enter() {
+    SwarmPatternBase::enter();
     if (auto* swarm = sead::DynamicCast<act::Swarm>(mActor)) {
         for (s32 i = *mUseSubActorNum_s; i < swarm->_14c8.size(); ++i) {
             if (auto* unit = swarm->_14c8[i]) {
@@ -61,7 +61,7 @@ void SwarmPatternMovingSphere::m8() {
     _60 = ksys::Timer(0.0f, 0.0f, 1.0f);
 }
 
-void SwarmPatternMovingSphere::m9() {
+void SwarmPatternMovingSphere::leave() {
     if (mActor->getActorFlags2().isOff(ksys::act::Actor::ActorFlag2::Alive)) {
         if (auto* swarm = sead::DynamicCast<act::Swarm>(mActor)) {
             for (s32 i = *mUseSubActorNum_s; i < swarm->_14c8.size(); ++i) {
@@ -70,7 +70,7 @@ void SwarmPatternMovingSphere::m9() {
             }
         }
     }
-    SwarmPatternBase::m9();
+    SwarmPatternBase::leave();
 }
 
 void SwarmPatternMovingSphere::loadParams() {

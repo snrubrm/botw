@@ -7,20 +7,20 @@ SetIgnoreSmallHitDCCallBack::SetIgnoreSmallHitDCCallBack(const InitArg& arg)
 
 SetIgnoreSmallHitDCCallBack::~SetIgnoreSmallHitDCCallBack() = default;
 
-bool SetIgnoreSmallHitDCCallBack::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetIgnoreSmallHitDCCallBack::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetIgnoreSmallHitDCCallBack::m7() {
-    SetDamageCallback::m7();
+void SetIgnoreSmallHitDCCallBack::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetIgnoreSmallHitDCCallBack::m8() {
-    SetDamageCallback::m8();
+void SetIgnoreSmallHitDCCallBack::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetIgnoreSmallHitDCCallBack::m9() {
-    SetDamageCallback::m9();
+void SetIgnoreSmallHitDCCallBack::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetIgnoreSmallHitDCCallBack::loadParams() {

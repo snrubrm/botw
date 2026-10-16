@@ -13,18 +13,18 @@ bool BeastGanonBgmCtrl::hasUpdateForPreDeleteCb() {
     return true;
 }
 
-void BeastGanonBgmCtrl::m9() {}
+void BeastGanonBgmCtrl::leave() {}
 
 void BeastGanonBgmCtrl::loadParams() {
     getStaticParam(&mLevel_s, "Level");
 }
 
-void BeastGanonBgmCtrl::m7() {
+void BeastGanonBgmCtrl::calc() {
     if (!_30)
         applyLevelMaybe();
 }
 
-void BeastGanonBgmCtrl::m8() {
+void BeastGanonBgmCtrl::enter() {
     if (mActor->getRootAi()->getI() == 5)
         applyLevelMaybe();
 }
@@ -35,7 +35,7 @@ bool BeastGanonBgmCtrl::updateForPreDelete() {
     return true;
 }
 
-bool BeastGanonBgmCtrl::m6(sead::Heap* heap) {
+bool BeastGanonBgmCtrl::init_(sead::Heap* heap) {
     _30 = false;
     return true;
 }

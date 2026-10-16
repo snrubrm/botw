@@ -8,13 +8,13 @@ ActorFlagSetterAttensionNotice::ActorFlagSetterAttensionNotice(const InitArg& ar
 
 ActorFlagSetterAttensionNotice::~ActorFlagSetterAttensionNotice() = default;
 
-bool ActorFlagSetterAttensionNotice::m6(sead::Heap* heap) {
+bool ActorFlagSetterAttensionNotice::init_(sead::Heap* heap) {
     return true;
 }
 
-void ActorFlagSetterAttensionNotice::m7() {}
+void ActorFlagSetterAttensionNotice::calc() {}
 
-void ActorFlagSetterAttensionNotice::m9() {}
+void ActorFlagSetterAttensionNotice::leave() {}
 
 void ActorFlagSetterAttensionNotice::loadParams() {
     getStaticParam(&mMode_s, "Mode");
@@ -23,7 +23,7 @@ void ActorFlagSetterAttensionNotice::loadParams() {
 
 // NON_MATCHING: case order / block layout (the original tests 2, 1, then 0, and uses a select for
 // the first flag in case 2)
-void ActorFlagSetterAttensionNotice::m8() {
+void ActorFlagSetterAttensionNotice::enter() {
     using Flag = ksys::act::Actor::ActorFlag2;
     switch (*mMode_s) {
     case 0:

@@ -195,7 +195,7 @@ void SiteBossIceSplinterRoot::m43(bool a) {
         return;
 
     sead::Vector3f velocity{0.0f, 0.3f, 0.0f};
-    if (dmg && dmg->m32(&velocity)) {
+    if (dmg && dmg->getDamageImpulse(&velocity)) {
         velocity.normalize();
         velocity.x *= 0.1f;
         velocity.y = 0.3f;

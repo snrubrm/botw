@@ -9,13 +9,13 @@ SetInfRotSpeedToSpineController::SetInfRotSpeedToSpineController(const InitArg& 
 
 SetInfRotSpeedToSpineController::~SetInfRotSpeedToSpineController() = default;
 
-bool SetInfRotSpeedToSpineController::m6(sead::Heap* heap) {
+bool SetInfRotSpeedToSpineController::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetInfRotSpeedToSpineController::m7() {}
+void SetInfRotSpeedToSpineController::calc() {}
 
-void SetInfRotSpeedToSpineController::m8() {
+void SetInfRotSpeedToSpineController::enter() {
     if (auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl())) {
         unit->sub_7100D8AA60(*mRotSpeed_s);
         unit->sub_7100D8AA08(*mRotSpeed_s);
@@ -23,7 +23,7 @@ void SetInfRotSpeedToSpineController::m8() {
     }
 }
 
-void SetInfRotSpeedToSpineController::m9() {
+void SetInfRotSpeedToSpineController::leave() {
     if (auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl())) {
         unit->sub_7100D8AB00();
         unit->sub_7100D8AAB8();

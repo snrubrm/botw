@@ -10,10 +10,10 @@ class SimpleAtvUnitOpenDlg : public SimpleAtvUnitOpenSimpleDialog {
 public:
     explicit SimpleAtvUnitOpenDlg(const InitArg& arg);
     ~SimpleAtvUnitOpenDlg() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     virtual s32 m17() { return 1; }
     virtual s32 m18() { return 1; }

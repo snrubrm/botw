@@ -8,18 +8,18 @@ SandwormTeraUpdateTypeSetter::SandwormTeraUpdateTypeSetter(const InitArg& arg)
 
 SandwormTeraUpdateTypeSetter::~SandwormTeraUpdateTypeSetter() = default;
 
-bool SandwormTeraUpdateTypeSetter::m6(sead::Heap* heap) {
+bool SandwormTeraUpdateTypeSetter::init_(sead::Heap* heap) {
     return true;
 }
 
-void SandwormTeraUpdateTypeSetter::m7() {}
+void SandwormTeraUpdateTypeSetter::calc() {}
 
 void SandwormTeraUpdateTypeSetter::loadParams() {
     getStaticParam(&mUpdateType_s, "UpdateType");
 }
 
 // NON_MATCHING: the original keeps one store per case (ours selects the value)
-void SandwormTeraUpdateTypeSetter::m8() {
+void SandwormTeraUpdateTypeSetter::enter() {
     auto* sandworm = sead::DynamicCast<uking::act::Sandworm>(mActor);
     if (!sandworm)
         return;
@@ -36,7 +36,7 @@ void SandwormTeraUpdateTypeSetter::m8() {
     }
 }
 
-void SandwormTeraUpdateTypeSetter::m9() {
+void SandwormTeraUpdateTypeSetter::leave() {
     if (auto* sandworm = sead::DynamicCast<uking::act::Sandworm>(mActor))
         sandworm->_1640 = 0;
 }

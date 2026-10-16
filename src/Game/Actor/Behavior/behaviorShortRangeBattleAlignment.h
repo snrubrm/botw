@@ -8,9 +8,9 @@ class ShortRangeBattleAlignment : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(ShortRangeBattleAlignment, ksys::act::ai::Behavior)
 public:
     explicit ShortRangeBattleAlignment(const InitArg& arg);
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ const int* mMode_s{};

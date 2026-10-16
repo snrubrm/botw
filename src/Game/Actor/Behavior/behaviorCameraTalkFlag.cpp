@@ -5,7 +5,7 @@ namespace uking::behavior {
 
 CameraTalkFlag::CameraTalkFlag(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void CameraTalkFlag::m8() {
+void CameraTalkFlag::enter() {
     auto* actor = mActor;
     if (!actor)
         return;
@@ -13,7 +13,7 @@ void CameraTalkFlag::m8() {
         camera->_860._804.sub_710079AE20(0x20);
 }
 
-void CameraTalkFlag::m9() {
+void CameraTalkFlag::leave() {
     auto* actor = mActor;
     if (!actor)
         return;

@@ -11,11 +11,11 @@ class SetReceivedImpulseRate : public ksys::act::ai::Behavior {
 public:
     explicit SetReceivedImpulseRate(const InitArg& arg);
     ~SetReceivedImpulseRate() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
     void sub_710063E528(ksys::act::Unk_71006dc134* arg);
 
     /* 0x28 */ const float* mImpulseRate_s{};

@@ -6,20 +6,20 @@ SetNoReactionDCCallBack::SetNoReactionDCCallBack(const InitArg& arg) : SetDamage
 
 SetNoReactionDCCallBack::~SetNoReactionDCCallBack() = default;
 
-bool SetNoReactionDCCallBack::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetNoReactionDCCallBack::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetNoReactionDCCallBack::m7() {
-    SetDamageCallback::m7();
+void SetNoReactionDCCallBack::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetNoReactionDCCallBack::m8() {
-    SetDamageCallback::m8();
+void SetNoReactionDCCallBack::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetNoReactionDCCallBack::m9() {
-    SetDamageCallback::m9();
+void SetNoReactionDCCallBack::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetNoReactionDCCallBack::loadParams() {

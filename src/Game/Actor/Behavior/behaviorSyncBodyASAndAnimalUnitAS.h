@@ -10,11 +10,11 @@ class SyncBodyASAndAnimalUnitAS : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(SyncBodyASAndAnimalUnitAS, ksys::act::ai::Behavior)
 public:
     explicit SyncBodyASAndAnimalUnitAS(const InitArg& arg);
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x7100645c60)
-    void m9() override;  // not decompiled yet (0x7100645d08)
+    void enter() override;  // not decompiled yet (0x7100645c60)
+    void leave() override;  // not decompiled yet (0x7100645d08)
     ~SyncBodyASAndAnimalUnitAS() override;  // not decompiled yet
 
     // 2026-10-07: vtable0x710243b090 inherits the root callback RTTI and owns its D1/D0.

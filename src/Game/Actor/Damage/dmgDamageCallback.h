@@ -9,7 +9,7 @@ namespace uking::act {
 class DamageManagerBase;
 
 // The object the damage manager builds on the stack and passes to the damage callbacks as their last
-// argument (vtable 0x710244e090, RTTI static 0x71025af120; DamageMgr::m22 / m22_x_0 / m55 construct it
+// argument (vtable 0x710244e090, RTTI static 0x71025af120; DamageMgr::calcDamage / m22_x_0 / m55 construct it
 // with `mFlags` = the manager's field 0x8c and store `mFlags` back after the callbacks ran). Placeholder
 // name (its RTTI parent, typeinfo static 0x71025af130, has no other user).
 class DamageCallbackInfoBase {

@@ -7,20 +7,20 @@ SwarmPatternHoldHomePos::SwarmPatternHoldHomePos(const InitArg& arg) : SwarmPatt
 
 SwarmPatternHoldHomePos::~SwarmPatternHoldHomePos() = default;
 
-bool SwarmPatternHoldHomePos::m6(sead::Heap* heap) {
-    return SwarmPatternBase::m6(heap);
+bool SwarmPatternHoldHomePos::init_(sead::Heap* heap) {
+    return SwarmPatternBase::init_(heap);
 }
 
-void SwarmPatternHoldHomePos::m7() {
-    SwarmPatternBase::m7();
+void SwarmPatternHoldHomePos::calc() {
+    SwarmPatternBase::calc();
 }
 
-void SwarmPatternHoldHomePos::m8() {
-    SwarmPatternBase::m8();
+void SwarmPatternHoldHomePos::enter() {
+    SwarmPatternBase::enter();
 }
 
-void SwarmPatternHoldHomePos::m9() {
-    SwarmPatternBase::m9();
+void SwarmPatternHoldHomePos::leave() {
+    SwarmPatternBase::leave();
 }
 
 void SwarmPatternHoldHomePos::loadParams() {

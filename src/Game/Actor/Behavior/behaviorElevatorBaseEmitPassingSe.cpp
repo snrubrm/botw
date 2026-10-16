@@ -7,11 +7,11 @@ ElevatorBaseEmitPassingSe::ElevatorBaseEmitPassingSe(const InitArg& arg)
 
 ElevatorBaseEmitPassingSe::~ElevatorBaseEmitPassingSe() = default;
 
-bool ElevatorBaseEmitPassingSe::m6(sead::Heap* heap) {
+bool ElevatorBaseEmitPassingSe::init_(sead::Heap* heap) {
     return true;
 }
 
-void ElevatorBaseEmitPassingSe::m9() {}
+void ElevatorBaseEmitPassingSe::leave() {}
 
 void ElevatorBaseEmitPassingSe::loadParams() {
 

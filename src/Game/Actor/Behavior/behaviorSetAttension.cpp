@@ -11,18 +11,18 @@ SetAttension::~SetAttension() {
     ;
 }
 
-bool SetAttension::m6(sead::Heap* heap) {
+bool SetAttension::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetAttension::m7() {}
+void SetAttension::calc() {}
 
 void SetAttension::loadParams() {
     getStaticParam(&mSetState_s, "SetState");
     getStaticParam(&mAttKey_s, "AttKey");
 }
 
-void SetAttension::m8() {
+void SetAttension::enter() {
     switch (*mSetState_s) {
     case 0:
     case 2:
@@ -37,7 +37,7 @@ void SetAttension::m8() {
     }
 }
 
-void SetAttension::m9() {
+void SetAttension::leave() {
     switch (*mSetState_s) {
     case 0:
         ksys::act::enableAttClient(mActor, mAttKey_s);

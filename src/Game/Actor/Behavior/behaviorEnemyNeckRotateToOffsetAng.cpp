@@ -9,20 +9,20 @@ EnemyNeckRotateToOffsetAng::EnemyNeckRotateToOffsetAng(const InitArg& arg) : Ene
 
 EnemyNeckRotateToOffsetAng::~EnemyNeckRotateToOffsetAng() = default;
 
-bool EnemyNeckRotateToOffsetAng::m6(sead::Heap* heap) {
-    return EnemyNeckRotate::m6(heap);
+bool EnemyNeckRotateToOffsetAng::init_(sead::Heap* heap) {
+    return EnemyNeckRotate::init_(heap);
 }
 
-void EnemyNeckRotateToOffsetAng::m7() {
-    EnemyNeckRotate::m7();
+void EnemyNeckRotateToOffsetAng::calc() {
+    EnemyNeckRotate::calc();
 }
 
-void EnemyNeckRotateToOffsetAng::m8() {
-    EnemyNeckRotate::m8();
+void EnemyNeckRotateToOffsetAng::enter() {
+    EnemyNeckRotate::enter();
 }
 
-void EnemyNeckRotateToOffsetAng::m9() {
-    EnemyNeckRotate::m9();
+void EnemyNeckRotateToOffsetAng::leave() {
+    EnemyNeckRotate::leave();
 }
 
 // NON_MATCHING: operand order of the final `out + rotated` additions (the original adds `out` first)

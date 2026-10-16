@@ -8,18 +8,18 @@ RemoveNavMeshObj::RemoveNavMeshObj(const InitArg& arg) : ksys::act::ai::Behavior
 
 RemoveNavMeshObj::~RemoveNavMeshObj() = default;
 
-bool RemoveNavMeshObj::m6(sead::Heap* heap) {
+bool RemoveNavMeshObj::init_(sead::Heap* heap) {
     return true;
 }
 
-void RemoveNavMeshObj::m7() {}
+void RemoveNavMeshObj::calc() {}
 
-void RemoveNavMeshObj::m8() {
+void RemoveNavMeshObj::enter() {
     if (auto* physics = mActor->getPhysics())
         physics->sub_7100FC01B0();
 }
 
-void RemoveNavMeshObj::m9() {
+void RemoveNavMeshObj::leave() {
     if (auto* physics = mActor->getPhysics())
         physics->sub_7100FC012C(nullptr);
 }

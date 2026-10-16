@@ -6,20 +6,20 @@ SetDefenselessDCCallback::SetDefenselessDCCallback(const InitArg& arg) : SetDama
 
 SetDefenselessDCCallback::~SetDefenselessDCCallback() = default;
 
-bool SetDefenselessDCCallback::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetDefenselessDCCallback::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetDefenselessDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetDefenselessDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetDefenselessDCCallback::m8() {
-    SetDamageCallback::m8();
+void SetDefenselessDCCallback::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetDefenselessDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetDefenselessDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetDefenselessDCCallback::loadParams() {

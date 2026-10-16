@@ -15,11 +15,11 @@ class GiantGuardWeakPoint : public ksys::act::ai::Behavior {
 public:
     explicit GiantGuardWeakPoint(const InitArg& arg);
     ~GiantGuardWeakPoint() override;
-    void m8() override;
+    void enter() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void leave() override;
 
     // 0x7100625848 (lane4 s23): whether the player is looking at the weak point (the camera direction towards
     // the weak point or the actor is within GuardAngleRange of the camera's look direction).

@@ -11,24 +11,24 @@ OnChangeXLinkCreate::~OnChangeXLinkCreate() {
     ;
 }
 
-bool OnChangeXLinkCreate::m6(sead::Heap* heap) {
+bool OnChangeXLinkCreate::init_(sead::Heap* heap) {
     return true;
 }
 
-void OnChangeXLinkCreate::m7() {}
+void OnChangeXLinkCreate::calc() {}
 
-void OnChangeXLinkCreate::m8() {
+void OnChangeXLinkCreate::enter() {
     m14();
 }
 
-void OnChangeXLinkCreate::m9() {}
+void OnChangeXLinkCreate::leave() {}
 
 void OnChangeXLinkCreate::loadParams() {
     getStaticParam(&mKey_s, "Key");
     getStaticParam(&mDoOnChangeAI_s, "DoOnChangeAI");
 }
 
-void OnChangeXLinkCreate::m11() {
+void OnChangeXLinkCreate::onChangeChild() {
     if (*mDoOnChangeAI_s)
         m14();
 }

@@ -8,11 +8,11 @@ InvalidateCondition::InvalidateCondition(const InitArg& arg) : ksys::act::ai::Be
 
 InvalidateCondition::~InvalidateCondition() = default;
 
-bool InvalidateCondition::m6(sead::Heap* heap) {
+bool InvalidateCondition::init_(sead::Heap* heap) {
     return true;
 }
 
-void InvalidateCondition::m7() {}
+void InvalidateCondition::calc() {}
 
 void InvalidateCondition::loadParams() {
     getStaticParam(&mInvalidBurn_s, "InvalidBurn");
@@ -20,7 +20,7 @@ void InvalidateCondition::loadParams() {
     getStaticParam(&mInvalidElectric_s, "InvalidElectric");
 }
 
-void InvalidateCondition::m8() {
+void InvalidateCondition::enter() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)
         return;
@@ -33,7 +33,7 @@ void InvalidateCondition::m8() {
         unit->_138 |= 4;
 }
 
-void InvalidateCondition::m9() {
+void InvalidateCondition::leave() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)
         return;

@@ -12,20 +12,20 @@ FootstepChanger::~FootstepChanger() {
     ;
 }
 
-bool FootstepChanger::m6(sead::Heap* heap) {
+bool FootstepChanger::init_(sead::Heap* heap) {
     return true;
 }
 
-void FootstepChanger::m7() {}
+void FootstepChanger::calc() {}
 
-void FootstepChanger::m8() {
+void FootstepChanger::enter() {
     if (auto* xlink = mActor->getXLink()) {
         if (auto* footstep = xlink->_a0)
             footstep->sub_71012381A8(mFootstepKey_s.cstr(), *mChangeDuration_s);
     }
 }
 
-void FootstepChanger::m9() {
+void FootstepChanger::leave() {
     if (auto* xlink = mActor->getXLink()) {
         if (auto* footstep = xlink->_a0)
             footstep->sub_71012372EC();

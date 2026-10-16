@@ -10,10 +10,10 @@ class XLinkCreate : public OnStateXLinkCreate {
 public:
     explicit XLinkCreate(const InitArg& arg);
     ~XLinkCreate() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     virtual void m15(sead::Vector3f* out) {}
     virtual void m16(sead::Vector3f* out) {}

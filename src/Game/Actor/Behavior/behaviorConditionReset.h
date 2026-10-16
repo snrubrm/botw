@@ -9,12 +9,12 @@ class ConditionReset : public ksys::act::ai::Behavior {
 public:
     explicit ConditionReset(const InitArg& arg);
     ~ConditionReset() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m11() override;
+    void onChangeChild() override;
 
     /* 0x28 */ const bool* mIsResetBurn_s{};
     /* 0x30 */ const bool* mIsResetIce_s{};

@@ -49,7 +49,7 @@ bool DamageMgrSword::getPosition(sead::Vector3f* out) {
     return false;
 }
 
-bool DamageMgrSword::getAttackPos(sead::Vector3f* out) {
+bool DamageMgrSword::getDamageDir(sead::Vector3f* out) {
     if (getDamageType() == 1) {
         if (auto* info = getAttackInfo(mActor, 0)) {
             out->x = info->_c.x;
@@ -61,7 +61,7 @@ bool DamageMgrSword::getAttackPos(sead::Vector3f* out) {
     return false;
 }
 
-ksys::phys::MaterialMask* DamageMgrSword::m33() {
+ksys::phys::MaterialMask* DamageMgrSword::getAttackOtherMaterialMask() {
     if (getDamageType() == 1) {
         auto* info = getAttackInfo(mActor, 0);
         if (!info)
@@ -75,7 +75,7 @@ ksys::phys::MaterialMask* DamageMgrSword::m33() {
 
 namespace uking::act {
 
-void DamageMgrSword::m22() {
+void DamageMgrSword::calcDamage() {
     u32 v1 = 0;
     u32 v2 = 0;
     u32 v4 = -1;

@@ -8,7 +8,7 @@ OffOcculutionCulling::OffOcculutionCulling(const InitArg& arg) : ksys::act::ai::
 
 OffOcculutionCulling::~OffOcculutionCulling() = default;
 
-bool OffOcculutionCulling::m6(sead::Heap* heap) {
+bool OffOcculutionCulling::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -16,17 +16,17 @@ void OffOcculutionCulling::loadParams() {
 
 }
 
-void OffOcculutionCulling::m8() {
+void OffOcculutionCulling::enter() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags14.reset(0x2000000);
 }
 
-void OffOcculutionCulling::m7() {
+void OffOcculutionCulling::calc() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags14.reset(0x2000000);
 }
 
-void OffOcculutionCulling::m9() {
+void OffOcculutionCulling::leave() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags14.set(0x2000000);
 }

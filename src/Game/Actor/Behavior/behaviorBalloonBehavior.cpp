@@ -9,7 +9,7 @@ BalloonBehavior::BalloonBehavior(const InitArg& arg) : ksys::act::ai::Behavior(a
 
 BalloonBehavior::~BalloonBehavior() = default;
 
-void BalloonBehavior::m7() {
+void BalloonBehavior::calc() {
     // NON_MATCHING: register allocation and the suffix pointer arithmetic differ.
     if (!(mActor->getActorFlags2().getDirect() & 4))
         return;
@@ -27,9 +27,9 @@ void BalloonBehavior::m7() {
                       false);
 }
 
-void BalloonBehavior::m8() {}
+void BalloonBehavior::enter() {}
 
-void BalloonBehavior::m9() {}
+void BalloonBehavior::leave() {}
 
 void BalloonBehavior::loadParams() {
 

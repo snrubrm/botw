@@ -27,29 +27,29 @@ public:
     // Slot 20 (0x71002c9f8c): the base reset, resetStuff and a zero `_80`.
     void resetDamage() override;
 
-    // Slot 28 getAttackPos (0x71002c9670; lane4 s64): the direction of the damage by kind: 0 the first contact record's vector, 2 the
+    // Slot 28 getDamageDir (0x71002c9670; lane4 s64): the direction of the damage by kind: 0 the first contact record's vector, 2 the
     // actor's impulse link vector (zero without one), 3 the direction `_80` (else minus the actor's x axis), others false.
-    bool getAttackPos(sead::Vector3f* out) override;
-    // Slot 31 (0x71002c976c; lane4 s64): like getAttackPos with the first contact record's direction (_94); the kinds 0
+    bool getDamageDir(sead::Vector3f* out) override;
+    // Slot 31 (0x71002c976c; lane4 s64): like getDamageDir with the first contact record's direction (_94); the kinds 0
     // (without a record) and 3 use `_80`, else minus the actor's z axis; kind 2 the impulse link's vector.
-    bool m31(sead::Vector3f* out) override;
+    bool getHitDirection(sead::Vector3f* out) override;
     // Slot 32 (0x71002c9868; lane4 s64): a velocity: kind 0 the first contact record's _a0; kind 2 the impulse link's
     // vector times its factor (_8); kind 3 `_80` * 2400 when getField54() is 20, else zero.
-    bool m32(sead::Vector3f* out) override;
+    bool getDamageImpulse(sead::Vector3f* out) override;
     // Slots 33 / 36 / 37 / 40 / 41 (0x71002c9af4 / 9a5c / 9aa8 / 9c7c / 9c44; lane4 s64): the first contact record's
     // material mask / attacker link (_d8) / link (_e8) / value _bc (-1 written first) / flag _fc; kind 2 returns the
     // impulse link for both links; other kinds return null / dummy link / false.
-    ksys::phys::MaterialMask* m33() override;
+    ksys::phys::MaterialMask* getAttackOtherMaterialMask() override;
     ksys::act::BaseProcLink* getAttacker() override;
     ksys::act::BaseProcLink* m37() override;
-    bool m40(s32* out) override;
-    bool m41() override;
+    bool getAttackDirType(s32* out) override;
+    bool getAttackInfoFlagFC() override;
     // Slot 27 getPosition (0x71002c9b2c; lane4 s64): by kind: 0 the first contact record's position, 2 the impulse link's
     // position (zero without one), 3 the actor's translation moved against `_80`, others false.
     bool getPosition(sead::Vector3f* out) override;
     // Slot 35 (0x71002c99b0; lane4 s64): kind 0 the first contact record's matrix, 2 the impulse link's matrix
     // (identity without one); other kinds write the identity matrix and return false.
-    bool m35(sead::Matrix34f* out) override;
+    bool getAttackSourceMtx(sead::Matrix34f* out) override;
 
     /* 0x68 */ Unk_71023cee50 _68;
     /* 0x80 */ sead::Vector3f _80;

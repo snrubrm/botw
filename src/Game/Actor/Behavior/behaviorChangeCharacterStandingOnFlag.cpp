@@ -9,20 +9,20 @@ ChangeCharacterStandingOnFlag::ChangeCharacterStandingOnFlag(const InitArg& arg)
 
 ChangeCharacterStandingOnFlag::~ChangeCharacterStandingOnFlag() = default;
 
-bool ChangeCharacterStandingOnFlag::m6(sead::Heap* heap) {
+bool ChangeCharacterStandingOnFlag::init_(sead::Heap* heap) {
     return true;
 }
 
-void ChangeCharacterStandingOnFlag::m7() {
+void ChangeCharacterStandingOnFlag::calc() {
     if (auto* body = mActor->getMainBody()) {
         if (mActor->getScale().x < *mChangeScaleLimit_s)
             body->changeNoCharStandingOnFlag(!*mSetValue_s);
     }
 }
 
-void ChangeCharacterStandingOnFlag::m8() {}
+void ChangeCharacterStandingOnFlag::enter() {}
 
-void ChangeCharacterStandingOnFlag::m9() {}
+void ChangeCharacterStandingOnFlag::leave() {}
 
 void ChangeCharacterStandingOnFlag::loadParams() {
     getStaticParam(&mChangeScaleLimit_s, "ChangeScaleLimit");

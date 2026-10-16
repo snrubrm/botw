@@ -8,20 +8,20 @@ EmitInterest::EmitInterest(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 EmitInterest::~EmitInterest() = default;
 
-bool EmitInterest::m6(sead::Heap* heap) {
+bool EmitInterest::init_(sead::Heap* heap) {
     return true;
 }
 
-void EmitInterest::m8() {}
+void EmitInterest::enter() {}
 
-void EmitInterest::m9() {}
+void EmitInterest::leave() {}
 
 void EmitInterest::loadParams() {
     getStaticParam(&mLevel_s, "Level");
     getStaticParam(&mIsTargetNPC_s, "IsTargetNPC");
 }
 
-void EmitInterest::m7() {
+void EmitInterest::calc() {
     auto* unit = mActor->get548();
     if (!unit)
         return;

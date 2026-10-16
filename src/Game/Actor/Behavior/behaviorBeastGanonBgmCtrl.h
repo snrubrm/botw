@@ -11,14 +11,14 @@ public:
     explicit BeastGanonBgmCtrl(const InitArg& arg);
     ~BeastGanonBgmCtrl() override;
     bool hasUpdateForPreDeleteCb() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     bool updateForPreDelete() override;
 
-    // inline-only in the original; name is a guess (the same sequence is inlined into m7 and m8).
+    // inline-only in the original; name is a guess (the same sequence is inlined into calc and enter).
     void applyLevelMaybe() {
         if (*mLevel_s != -1) {
             Unk_BgmLevel level;

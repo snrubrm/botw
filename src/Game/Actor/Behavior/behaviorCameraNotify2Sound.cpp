@@ -24,14 +24,14 @@ SoundState sSoundStates[] = {
 
 CameraNotify2Sound::CameraNotify2Sound(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-bool CameraNotify2Sound::m6(sead::Heap* heap) {
+bool CameraNotify2Sound::init_(sead::Heap* heap) {
     const u32 state = *mCameraStateNotify2Sound_s;
     _30 = state < 4 ? state : 0;
     return true;
 }
 
 // NON_MATCHING: the compiler specializes the known nonvirtual member-pointer table dispatch.
-void CameraNotify2Sound::m8() {
+void CameraNotify2Sound::enter() {
     const u32 state = *mCameraStateNotify2Sound_s;
     _30 = state < 4 ? state : 0;
     if (auto* manager = ksys::snd::SoundMgr::instance()) {
@@ -43,7 +43,7 @@ void CameraNotify2Sound::m8() {
 }
 
 // NON_MATCHING: the compiler specializes the known nonvirtual member-pointer table dispatch.
-void CameraNotify2Sound::m9() {
+void CameraNotify2Sound::leave() {
     if (auto* manager = ksys::snd::SoundMgr::instance()) {
         if (manager->_58)
             manager->_58->_78 = 0;

@@ -11,7 +11,7 @@ HorseSlipBehavior::HorseSlipBehavior(const InitArg& arg) : ksys::act::ai::Behavi
 
 HorseSlipBehavior::~HorseSlipBehavior() = default;
 
-bool HorseSlipBehavior::m6(sead::Heap* heap) {
+bool HorseSlipBehavior::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -40,7 +40,7 @@ void HorseSlipBehavior::sub_7100E61830(ksys::phys::CharacterController* controll
     }
 }
 
-void HorseSlipBehavior::m9() {
+void HorseSlipBehavior::leave() {
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F5E754(false);
     if (mActor->getASList()->x_1(0, 0) == act::sUnk_7102603270) {

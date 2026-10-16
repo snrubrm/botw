@@ -19,12 +19,12 @@ void GuardTgtControl::loadParams() {
     getStaticParam(&mGuardTgtName_s, "GuardTgtName");
 }
 
-void GuardTgtControl::m8() {
+void GuardTgtControl::enter() {
     _38 = false;
     sub_71007A3910(mActor, mGuardTgtName_s.cstr());
 }
 
-void GuardTgtControl::m7() {
+void GuardTgtControl::calc() {
     bool guarding = false;
     {
         ksys::act::BaseProcLink link;
@@ -45,7 +45,7 @@ void GuardTgtControl::m7() {
     }
 }
 
-void GuardTgtControl::m9() {
+void GuardTgtControl::leave() {
     sub_71007A3910(mActor, mGuardTgtName_s.cstr());
 }
 

@@ -9,11 +9,11 @@ AwnHearingParamChange::AwnHearingParamChange(const InitArg& arg) : ksys::act::ai
 
 AwnHearingParamChange::~AwnHearingParamChange() = default;
 
-bool AwnHearingParamChange::m6(sead::Heap* heap) {
+bool AwnHearingParamChange::init_(sead::Heap* heap) {
     return true;
 }
 
-void AwnHearingParamChange::m7() {}
+void AwnHearingParamChange::calc() {}
 
 void AwnHearingParamChange::loadParams() {
     getStaticParam(&mNoticeRatio_s, "NoticeRatio");
@@ -21,7 +21,7 @@ void AwnHearingParamChange::loadParams() {
 }
 
 // NON_MATCHING: the original copies the request fields in descending order (`_18`, `_10`, `_8`/`_c`) after the vptr
-void AwnHearingParamChange::m8() {
+void AwnHearingParamChange::enter() {
     if (auto* awareness = mActor->getAwareness()) {
         if (auto* sensor = awareness->_260[1])
             sensor->m5(&_38);
@@ -35,7 +35,7 @@ void AwnHearingParamChange::m8() {
     }
 }
 
-void AwnHearingParamChange::m9() {
+void AwnHearingParamChange::leave() {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7E6F4(&_38, 1);
 }

@@ -8,7 +8,7 @@ class NoSensorHoldNoise : public NoiseBase {
     SEAD_RTTI_OVERRIDE(NoSensorHoldNoise, NoiseBase)
 public:
     explicit NoSensorHoldNoise(const InitArg& arg);
-    void m8() override;
+    void enter() override;
 
 };
 KSYS_CHECK_SIZE_NX150(NoSensorHoldNoise, 0x40);

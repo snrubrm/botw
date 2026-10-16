@@ -8,14 +8,14 @@ SetAnimalSupportNormalCalc::SetAnimalSupportNormalCalc(const InitArg& arg)
 
 SetAnimalSupportNormalCalc::~SetAnimalSupportNormalCalc() = default;
 
-bool SetAnimalSupportNormalCalc::m6(sead::Heap* heap) {
+bool SetAnimalSupportNormalCalc::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetAnimalSupportNormalCalc::m7() {}
+void SetAnimalSupportNormalCalc::calc() {}
 
 // NON_MATCHING: aggregate initialization omits overwritten defaults and copies vectors together.
-void SetAnimalSupportNormalCalc::m8() {
+void SetAnimalSupportNormalCalc::enter() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         if (auto* support = enemy->_1198) {
             act::Unk_7102357908::Unk50::CalcArg arg{
@@ -27,7 +27,7 @@ void SetAnimalSupportNormalCalc::m8() {
     }
 }
 
-void SetAnimalSupportNormalCalc::m9() {
+void SetAnimalSupportNormalCalc::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         if (auto* support = enemy->_1198)

@@ -9,11 +9,11 @@ class HorseTerrorBehavior : public TerrorBehavior {
 public:
     explicit HorseTerrorBehavior(const InitArg& arg);
     ~HorseTerrorBehavior() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m7() override;
+    void calc() override;
 
     /* 0x158 */ const int* mGear1Level_s{};
     /* 0x160 */ const int* mGear2Level_s{};

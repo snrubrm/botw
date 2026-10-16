@@ -8,20 +8,20 @@ FootstepSilencer::FootstepSilencer(const InitArg& arg) : ksys::act::ai::Behavior
 
 FootstepSilencer::~FootstepSilencer() = default;
 
-bool FootstepSilencer::m6(sead::Heap* heap) {
+bool FootstepSilencer::init_(sead::Heap* heap) {
     return true;
 }
 
-void FootstepSilencer::m7() {}
+void FootstepSilencer::calc() {}
 
-void FootstepSilencer::m8() {
+void FootstepSilencer::enter() {
     if (auto* xlink = mActor->getXLink()) {
         if (auto* settings = xlink->_a0)
             settings->_1c.set(0x10);
     }
 }
 
-void FootstepSilencer::m9() {
+void FootstepSilencer::leave() {
     if (auto* xlink = mActor->getXLink()) {
         if (auto* settings = xlink->_a0)
             settings->_1c.reset(0x10);

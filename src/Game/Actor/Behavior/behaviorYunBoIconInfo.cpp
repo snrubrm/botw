@@ -13,12 +13,12 @@ YunBoIconInfo::YunBoIconInfo(const InitArg& arg) : ksys::act::ai::Behavior(arg) 
 
 YunBoIconInfo::~YunBoIconInfo() = default;
 
-bool YunBoIconInfo::m6(sead::Heap* heap) {
+bool YunBoIconInfo::init_(sead::Heap* heap) {
     return true;
 }
 
 // NON_MATCHING: actor access is scheduled after pin initialization.
-void YunBoIconInfo::m7() {
+void YunBoIconInfo::calc() {
     ui::UiSubsys1PinArg arg{};
     mActor->getMtx().getTranslation(arg.pos);
     switch (*mType_s) {
@@ -33,9 +33,9 @@ void YunBoIconInfo::m7() {
     ai::sub_7100A9A6AC(*mVisible_s);
 }
 
-void YunBoIconInfo::m8() {}
+void YunBoIconInfo::enter() {}
 
-void YunBoIconInfo::m9() {}
+void YunBoIconInfo::leave() {}
 
 void YunBoIconInfo::loadParams() {
     getStaticParam(&mType_s, "Type");

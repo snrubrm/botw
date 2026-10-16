@@ -8,7 +8,7 @@ NeckParamChange::NeckParamChange(const InitArg& arg) : ksys::act::ai::Behavior(a
 
 NeckParamChange::~NeckParamChange() = default;
 
-bool NeckParamChange::m6(sead::Heap* heap) {
+bool NeckParamChange::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -44,7 +44,7 @@ void NeckParamChange::Saved::sub_710062CD74(ksys::act::Unk_7100d860d8* unit) {
     unit->sub_7100D8AB00();
 }
 
-void NeckParamChange::m7() {
+void NeckParamChange::calc() {
     auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl());
     if (!unit)
         return;
@@ -68,7 +68,7 @@ void NeckParamChange::m7() {
     unit->sub_7100D8A904(*mOffsetUD_s, false);
 }
 
-void NeckParamChange::m8() {
+void NeckParamChange::enter() {
     auto* unit = ksys::act::sub_7100D82FFC(mActor->getBoneControl());
     if (!unit)
         return;
@@ -93,7 +93,7 @@ void NeckParamChange::m8() {
     unit->sub_7100D8A904(*mOffsetUD_s, false);
 }
 
-void NeckParamChange::m9() {
+void NeckParamChange::leave() {
     _78.sub_710062CD74(ksys::act::sub_7100D82FFC(mActor->getBoneControl()));
 }
 

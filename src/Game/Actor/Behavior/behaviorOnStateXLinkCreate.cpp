@@ -10,13 +10,13 @@ OnStateXLinkCreate::~OnStateXLinkCreate() {
     ;
 }
 
-bool OnStateXLinkCreate::m6(sead::Heap* heap) {
+bool OnStateXLinkCreate::init_(sead::Heap* heap) {
     return true;
 }
 
-void OnStateXLinkCreate::m7() {}
+void OnStateXLinkCreate::calc() {}
 
-void OnStateXLinkCreate::m8() {
+void OnStateXLinkCreate::enter() {
     if (!m14())
         return;
     if (mKey_s.isEmpty())
@@ -24,7 +24,7 @@ void OnStateXLinkCreate::m8() {
     xlinkSearchAndEmit(mActor, mKey_s.cstr(), 2, &_58);
 }
 
-void OnStateXLinkCreate::m9() {
+void OnStateXLinkCreate::leave() {
     sub_7100631CAC();
 }
 

@@ -5,8 +5,8 @@ namespace uking::behavior {
 
 PlayerLandNoiseBase::PlayerLandNoiseBase(const InitArg& arg) : Noise(arg) {}
 
-void PlayerLandNoiseBase::m7() {
-    Noise::m7();
+void PlayerLandNoiseBase::calc() {
+    Noise::calc();
     const bool landed = isBgGroundHit(mActor, false) || isLandedMaybe(mActor, false);
     if (landed && !_100)
         sub_710062E9F8();
@@ -15,8 +15,8 @@ void PlayerLandNoiseBase::m7() {
     _100 = landed;
 }
 
-void PlayerLandNoiseBase::m8() {
-    Noise::m8();
+void PlayerLandNoiseBase::enter() {
+    Noise::enter();
     _100 = false;
 }
 

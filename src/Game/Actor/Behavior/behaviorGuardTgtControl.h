@@ -10,9 +10,9 @@ class GuardTgtControl : public ksys::act::ai::Behavior {
 public:
     explicit GuardTgtControl(const InitArg& arg);
     ~GuardTgtControl() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ sead::SafeString mGuardTgtName_s{};

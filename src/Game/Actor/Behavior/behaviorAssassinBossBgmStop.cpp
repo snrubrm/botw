@@ -7,18 +7,18 @@ AssassinBossBgmStop::AssassinBossBgmStop(const InitArg& arg) : ksys::act::ai::Be
 
 AssassinBossBgmStop::~AssassinBossBgmStop() = default;
 
-bool AssassinBossBgmStop::m6(sead::Heap* heap) {
+bool AssassinBossBgmStop::init_(sead::Heap* heap) {
     return true;
 }
 
-void AssassinBossBgmStop::m7() {}
+void AssassinBossBgmStop::calc() {}
 
-void AssassinBossBgmStop::m8() {
+void AssassinBossBgmStop::enter() {
     if (auto* bgm = sub_7100FFDFDC())
         bgm->sub_7100FF6220();
 }
 
-void AssassinBossBgmStop::m9() {}
+void AssassinBossBgmStop::leave() {}
 
 void AssassinBossBgmStop::loadParams() {
 

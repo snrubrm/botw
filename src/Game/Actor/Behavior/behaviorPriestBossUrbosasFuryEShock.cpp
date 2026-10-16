@@ -7,20 +7,20 @@ PriestBossUrbosasFuryEShock::PriestBossUrbosasFuryEShock(const InitArg& arg)
 
 PriestBossUrbosasFuryEShock::~PriestBossUrbosasFuryEShock() = default;
 
-bool PriestBossUrbosasFuryEShock::m6(sead::Heap* heap) {
+bool PriestBossUrbosasFuryEShock::init_(sead::Heap* heap) {
     return true;
 }
 
-void PriestBossUrbosasFuryEShock::m7() {}
+void PriestBossUrbosasFuryEShock::calc() {}
 
-void PriestBossUrbosasFuryEShock::m9() {}
+void PriestBossUrbosasFuryEShock::leave() {}
 
 void PriestBossUrbosasFuryEShock::loadParams() {
     getStaticParam(&mElectricShock_s, "ElectricShock");
     getAITreeVariable(&mPriestBossUrbosasFuryEShock_a, "PriestBossUrbosasFuryEShock");
 }
 
-void PriestBossUrbosasFuryEShock::m8() {
+void PriestBossUrbosasFuryEShock::enter() {
     *mPriestBossUrbosasFuryEShock_a = *mElectricShock_s;
 }
 

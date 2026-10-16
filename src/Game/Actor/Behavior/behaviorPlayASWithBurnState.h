@@ -12,10 +12,10 @@ class PlayASWithBurnState : public ksys::act::ai::Behavior {
 public:
     explicit PlayASWithBurnState(const InitArg& arg);
     ~PlayASWithBurnState() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     void sub_7100632B48(s8 state);
     s8 sub_7100632CD8();

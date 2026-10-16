@@ -10,20 +10,20 @@ ReduceUpwardVelocity::ReduceUpwardVelocity(const InitArg& arg) : ksys::act::ai::
 
 ReduceUpwardVelocity::~ReduceUpwardVelocity() = default;
 
-bool ReduceUpwardVelocity::m6(sead::Heap* heap) {
+bool ReduceUpwardVelocity::init_(sead::Heap* heap) {
     return true;
 }
 
-void ReduceUpwardVelocity::m8() {}
+void ReduceUpwardVelocity::enter() {}
 
-void ReduceUpwardVelocity::m9() {}
+void ReduceUpwardVelocity::leave() {}
 
 void ReduceUpwardVelocity::loadParams() {
     getStaticParam(&mImpulseScale_s, "ImpulseScale");
     getStaticParam(&mMinDownImpulse_s, "MinDownImpulse");
 }
 
-void ReduceUpwardVelocity::m7() {
+void ReduceUpwardVelocity::calc() {
     auto* cc = mActor->getCharacterController();
     if (!cc)
         return;

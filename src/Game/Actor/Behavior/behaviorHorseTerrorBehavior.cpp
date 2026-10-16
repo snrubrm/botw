@@ -9,16 +9,16 @@ HorseTerrorBehavior::HorseTerrorBehavior(const InitArg& arg) : TerrorBehavior(ar
 
 HorseTerrorBehavior::~HorseTerrorBehavior() = default;
 
-bool HorseTerrorBehavior::m6(sead::Heap* heap) {
-    return TerrorBehavior::m6(heap);
+bool HorseTerrorBehavior::init_(sead::Heap* heap) {
+    return TerrorBehavior::init_(heap);
 }
 
-void HorseTerrorBehavior::m8() {
-    TerrorBehavior::m8();
+void HorseTerrorBehavior::enter() {
+    TerrorBehavior::enter();
 }
 
 // NON_MATCHING: row selection stays in registers; switch and request setup stack scheduling differ.
-void HorseTerrorBehavior::m7() {
+void HorseTerrorBehavior::calc() {
     auto* rideable = mActor->getHorseOptionsMaybe();
     if (!rideable)
         return;
@@ -47,8 +47,8 @@ void HorseTerrorBehavior::m7() {
     _a0.setRadius(*mRadius_s);
 }
 
-void HorseTerrorBehavior::m9() {
-    TerrorBehavior::m9();
+void HorseTerrorBehavior::leave() {
+    TerrorBehavior::leave();
 }
 
 void HorseTerrorBehavior::loadParams() {

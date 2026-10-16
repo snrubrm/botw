@@ -14,20 +14,20 @@ BeastGanonWPPrincessShout::~BeastGanonWPPrincessShout() {
     ;
 }
 
-bool BeastGanonWPPrincessShout::m6(sead::Heap* heap) {
-    return SimpleAtvUnitOpenSimpleDialog::m6(heap);
+bool BeastGanonWPPrincessShout::init_(sead::Heap* heap) {
+    return SimpleAtvUnitOpenSimpleDialog::init_(heap);
 }
 
-void BeastGanonWPPrincessShout::m7() {
-    SimpleAtvUnitOpenSimpleDialog::m7();
+void BeastGanonWPPrincessShout::calc() {
+    SimpleAtvUnitOpenSimpleDialog::calc();
 }
 
-void BeastGanonWPPrincessShout::m8() {
-    SimpleAtvUnitOpenSimpleDialog::m8();
+void BeastGanonWPPrincessShout::enter() {
+    SimpleAtvUnitOpenSimpleDialog::enter();
 }
 
-void BeastGanonWPPrincessShout::m9() {
-    SimpleAtvUnitOpenSimpleDialog::m9();
+void BeastGanonWPPrincessShout::leave() {
+    SimpleAtvUnitOpenSimpleDialog::leave();
 }
 
 void BeastGanonWPPrincessShout::loadParams() {

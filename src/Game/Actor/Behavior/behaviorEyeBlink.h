@@ -11,10 +11,10 @@ class EyeBlink : public ksys::act::ai::Behavior {
 public:
     explicit EyeBlink(const InitArg& arg);
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     ~EyeBlink() override;
 
     /* 0x28 */ const int* mTimerMin_s{};

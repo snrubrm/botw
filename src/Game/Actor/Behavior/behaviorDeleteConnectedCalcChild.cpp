@@ -8,19 +8,19 @@ DeleteConnectedCalcChild::DeleteConnectedCalcChild(const InitArg& arg)
 
 DeleteConnectedCalcChild::~DeleteConnectedCalcChild() = default;
 
-bool DeleteConnectedCalcChild::m6(sead::Heap* heap) {
+bool DeleteConnectedCalcChild::init_(sead::Heap* heap) {
     return true;
 }
 
-void DeleteConnectedCalcChild::m7() {}
+void DeleteConnectedCalcChild::calc() {}
 
-void DeleteConnectedCalcChild::m9() {}
+void DeleteConnectedCalcChild::leave() {}
 
 void DeleteConnectedCalcChild::loadParams() {
 
 }
 
-void DeleteConnectedCalcChild::m8() {
+void DeleteConnectedCalcChild::enter() {
     auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
     if (!child)
         return;

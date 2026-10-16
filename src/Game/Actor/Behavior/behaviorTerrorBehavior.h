@@ -12,12 +12,12 @@ public:
     explicit TerrorBehavior(const InitArg& arg);
     ~TerrorBehavior() override;
     bool hasUpdateForPreDeleteCb() override { return true; }
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void leave() override;
     void loadParams() override;
     bool updateForPreDelete() override { return !_a0._8 || !_a0._8->isAddedToWorld(); }
-    void m8() override;
+    void enter() override;
     u32 sub_7100E93098() const;
 
     /* 0x28 */ const int* mLevel_s{};

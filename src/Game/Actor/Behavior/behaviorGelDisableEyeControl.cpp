@@ -7,17 +7,17 @@ GelDisableEyeControl::GelDisableEyeControl(const InitArg& arg) : ksys::act::ai::
 
 GelDisableEyeControl::~GelDisableEyeControl() = default;
 
-bool GelDisableEyeControl::m6(sead::Heap* heap) {
+bool GelDisableEyeControl::init_(sead::Heap* heap) {
     return true;
 }
 
-void GelDisableEyeControl::m7() {}
+void GelDisableEyeControl::calc() {}
 
 void GelDisableEyeControl::loadParams() {
     getStaticParam(&mIsImmediate_s, "IsImmediate");
 }
 
-void GelDisableEyeControl::m8() {
+void GelDisableEyeControl::enter() {
     auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mActor);
     if (!gel)
         return;
@@ -27,7 +27,7 @@ void GelDisableEyeControl::m8() {
         gel->_1620.z = 1.0f;
 }
 
-void GelDisableEyeControl::m9() {
+void GelDisableEyeControl::leave() {
     if (auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mActor))
         gel->_1678 &= ~2;
 }

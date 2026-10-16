@@ -13,19 +13,19 @@ BreakIceBlockAtAttackHit::BreakIceBlockAtAttackHit(const InitArg& arg)
 
 BreakIceBlockAtAttackHit::~BreakIceBlockAtAttackHit() = default;
 
-bool BreakIceBlockAtAttackHit::m6(sead::Heap* heap) {
+bool BreakIceBlockAtAttackHit::init_(sead::Heap* heap) {
     return true;
 }
 
-void BreakIceBlockAtAttackHit::m8() {}
+void BreakIceBlockAtAttackHit::enter() {}
 
-void BreakIceBlockAtAttackHit::m9() {}
+void BreakIceBlockAtAttackHit::leave() {}
 
 void BreakIceBlockAtAttackHit::loadParams() {
 
 }
 
-void BreakIceBlockAtAttackHit::m7() {
+void BreakIceBlockAtAttackHit::calc() {
     if (!hasAttackInfo(mActor))
         return;
     const int num = getNumAttackInfoMaybe(mActor);

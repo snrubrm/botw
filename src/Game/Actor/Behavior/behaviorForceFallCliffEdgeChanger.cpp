@@ -9,17 +9,17 @@ ForceFallCliffEdgeChanger::ForceFallCliffEdgeChanger(const InitArg& arg)
 
 ForceFallCliffEdgeChanger::~ForceFallCliffEdgeChanger() = default;
 
-bool ForceFallCliffEdgeChanger::m6(sead::Heap* heap) {
+bool ForceFallCliffEdgeChanger::init_(sead::Heap* heap) {
     return true;
 }
 
-void ForceFallCliffEdgeChanger::m7() {}
+void ForceFallCliffEdgeChanger::calc() {}
 
 void ForceFallCliffEdgeChanger::loadParams() {
     getStaticParam(&mState_s, "State");
 }
 
-void ForceFallCliffEdgeChanger::m8() {
+void ForceFallCliffEdgeChanger::enter() {
     auto* cc = mActor->getCharacterController();
     if (!cc)
         return;
@@ -28,7 +28,7 @@ void ForceFallCliffEdgeChanger::m8() {
                                     (cc->mFlags.getDirect() & ~0x4000));
 }
 
-void ForceFallCliffEdgeChanger::m9() {
+void ForceFallCliffEdgeChanger::leave() {
     auto* cc = mActor->getCharacterController();
     if (!cc)
         return;

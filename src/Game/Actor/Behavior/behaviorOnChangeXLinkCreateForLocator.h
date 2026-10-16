@@ -11,14 +11,14 @@ class OnChangeXLinkCreateForLocator : public OnChangeXLinkCreate {
 public:
     explicit OnChangeXLinkCreateForLocator(const InitArg& arg);
     ~OnChangeXLinkCreateForLocator() override;
-    bool m6(sead::Heap* heap) override;  // TODO 0x7100630bf0
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;  // TODO 0x7100630bf0
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     void m14() override;  // TODO 0x7100631144
     
-    // 0x40-byte elements allocated by m6 (type unknown).
+    // 0x40-byte elements allocated by init_ (type unknown).
     struct Unk58 {
         u8 _0[0x40];
     };

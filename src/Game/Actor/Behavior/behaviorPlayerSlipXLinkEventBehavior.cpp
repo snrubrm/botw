@@ -8,7 +8,7 @@ PlayerSlipXLinkEventBehavior::PlayerSlipXLinkEventBehavior(const InitArg& arg)
 
 PlayerSlipXLinkEventBehavior::~PlayerSlipXLinkEventBehavior() = default;
 
-bool PlayerSlipXLinkEventBehavior::m6(sead::Heap* heap) {
+bool PlayerSlipXLinkEventBehavior::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -16,13 +16,13 @@ void PlayerSlipXLinkEventBehavior::loadParams() {
 
 }
 
-void PlayerSlipXLinkEventBehavior::m8() {
+void PlayerSlipXLinkEventBehavior::enter() {
     _48 = 0;
     _4c = 0;
     _51 = false;
 }
 
-void PlayerSlipXLinkEventBehavior::m9() {
+void PlayerSlipXLinkEventBehavior::leave() {
     sub_71012412E4(mActor, 27, 0.0f, false);
     sub_71012412E4(mActor, 28, 0.0f, false);
 }

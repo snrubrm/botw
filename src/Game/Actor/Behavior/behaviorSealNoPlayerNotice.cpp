@@ -6,21 +6,21 @@ SealNoPlayerNotice::SealNoPlayerNotice(const InitArg& arg) : ksys::act::ai::Beha
 
 SealNoPlayerNotice::~SealNoPlayerNotice() = default;
 
-bool SealNoPlayerNotice::m6(sead::Heap* heap) {
+bool SealNoPlayerNotice::init_(sead::Heap* heap) {
     return true;
 }
 
-void SealNoPlayerNotice::m7() {}
+void SealNoPlayerNotice::calc() {}
 
 void SealNoPlayerNotice::loadParams() {
     getAITreeVariable(&mSealNoPlayerAwnRequestCount_a, "SealNoPlayerAwnRequestCount");
 }
 
-void SealNoPlayerNotice::m8() {
+void SealNoPlayerNotice::enter() {
     ++*mSealNoPlayerAwnRequestCount_a;
 }
 
-void SealNoPlayerNotice::m9() {
+void SealNoPlayerNotice::leave() {
     --*mSealNoPlayerAwnRequestCount_a;
 }
 

@@ -7,8 +7,8 @@ ShowRandomMessage3D::ShowRandomMessage3D(const InitArg& arg) : ShowMessage3D(arg
 
 ShowRandomMessage3D::~ShowRandomMessage3D() = default;
 
-void ShowRandomMessage3D::m7() {
-    ShowMessage3D::m7();
+void ShowRandomMessage3D::calc() {
+    ShowMessage3D::calc();
 }
 
 void ShowRandomMessage3D::m14(sead::BufferedSafeString* out) {

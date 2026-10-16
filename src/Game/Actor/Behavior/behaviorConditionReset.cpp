@@ -7,13 +7,13 @@ ConditionReset::ConditionReset(const InitArg& arg) : ksys::act::ai::Behavior(arg
 
 ConditionReset::~ConditionReset() = default;
 
-bool ConditionReset::m6(sead::Heap* heap) {
+bool ConditionReset::init_(sead::Heap* heap) {
     return true;
 }
 
-void ConditionReset::m7() {}
+void ConditionReset::calc() {}
 
-void ConditionReset::m9() {}
+void ConditionReset::leave() {}
 
 void ConditionReset::loadParams() {
     getStaticParam(&mIsResetBurn_s, "IsResetBurn");
@@ -21,7 +21,7 @@ void ConditionReset::loadParams() {
     getStaticParam(&mIsResetElectric_s, "IsResetElectric");
 }
 
-void ConditionReset::m8() {
+void ConditionReset::enter() {
     auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
     if (!actor)
         return;
@@ -33,7 +33,7 @@ void ConditionReset::m8() {
         actor->m149(4);
 }
 
-void ConditionReset::m11() {
+void ConditionReset::onChangeChild() {
     auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
     if (!actor)
         return;

@@ -11,20 +11,20 @@ SimpleAtvUnitOpenDlgRnd3::~SimpleAtvUnitOpenDlgRnd3() {
     ;
 }
 
-bool SimpleAtvUnitOpenDlgRnd3::m6(sead::Heap* heap) {
-    return SimpleAtvUnitOpenDlg::m6(heap);
+bool SimpleAtvUnitOpenDlgRnd3::init_(sead::Heap* heap) {
+    return SimpleAtvUnitOpenDlg::init_(heap);
 }
 
-void SimpleAtvUnitOpenDlgRnd3::m7() {
-    SimpleAtvUnitOpenDlg::m7();
+void SimpleAtvUnitOpenDlgRnd3::calc() {
+    SimpleAtvUnitOpenDlg::calc();
 }
 
-void SimpleAtvUnitOpenDlgRnd3::m8() {
-    SimpleAtvUnitOpenDlg::m8();
+void SimpleAtvUnitOpenDlgRnd3::enter() {
+    SimpleAtvUnitOpenDlg::enter();
 }
 
-void SimpleAtvUnitOpenDlgRnd3::m9() {
-    SimpleAtvUnitOpenDlg::m9();
+void SimpleAtvUnitOpenDlgRnd3::leave() {
+    SimpleAtvUnitOpenDlg::leave();
 }
 
 void SimpleAtvUnitOpenDlgRnd3::loadParams() {

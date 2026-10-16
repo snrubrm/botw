@@ -88,18 +88,18 @@ public:
     // 0x71006d22d0 (CSV DamageMgr::m23): the two Struct20 objects are Struct20_2 (their constructor is inlined here).
     bool allocStruct20(sead::Heap* heap) override;
     // 0x71006d8520: 1 while _8c has bit 4, else the base class's table lookup.
-    s32 m49(s32 damageTypeMaybe) override;
-    // Overrides of the base slots (lane4 s47; CSV DamageMgr::m18 / checkDamageFlags / m42 / m39 / m40 / m41).
+    s32 getDamageFromTypeIndex(s32 damageTypeMaybe) override;
+    // Overrides of the base slots (lane4 s47; CSV DamageMgr::m18 / checkDamageFlags / isDamageItemFlagCheckDisabled / m39 / getAttackDirType / getAttackInfoFlagFC).
     s32 getNumCallbacks() override;
     bool checkDamageFlags(s32 bit) override;
-    bool m42() override;
-    // Slot 13 (CSV DamageMgr::m13): the stasis blow ratio of `_220` (0 without it).
-    f32 m13() override;
+    bool isDamageItemFlagCheckDisabled() override;
+    // Slot 13 (CSV DamageMgr::getStasisBlowPowerRatio): the stasis blow ratio of `_220` (0 without it).
+    f32 getStasisBlowPowerRatio() override;
     bool m14(sead::Vector3f* out) override;
     bool isSlowTime() override;
-    bool m40(s32* out) override;
-    bool m41() override;
-    bool m38(ksys::phys::RigidBody* body) override;
+    bool getAttackDirType(s32* out) override;
+    bool getAttackInfoFlagFC() override;
+    bool isDamageSourceObjectMaybe(ksys::phys::RigidBody* body) override;
     // Slot 45 (0x71006d85a8): applies a condition damage (kind 2 / 4: m54 / m55, kind 3: sub_71006D888C, the others
     // through sub_71006D357C with event 5).
     void applyRequestedDamage(const ConditionDamageInfo& info) override;
@@ -108,40 +108,40 @@ public:
     void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) override;
     // Slot 43 (0x71006d55ac): applies the hit of the 0x800003e / 0x800003f / attack-info messages (sub_71006D5668)
     // as damage kind 3, then resets the listener _1a8.
-    void m43() override;
-    // 0x71006d5668 (placeholder name): the damage values of m43 from the listeners _f0 / _140 and the actor's first
+    void applyAttackInfoStateChangeDamage() override;
+    // 0x71006d5668 (placeholder name): the damage values of applyAttackInfoStateChangeDamage from the listeners _f0 / _140 and the actor's first
     // attack info; false if there is nothing to apply. `df48` is not written.
     bool sub_71006D5668(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40);
     // Slot 16 (0x71006d8404): the listeners _f0, _140 and _1a8 (the last one inlined).
-    bool m16(const ksys::Message& message) override;
+    bool handleMessage(const ksys::Message& message) override;
     // Slots 29 / 30 (CSV DamageMgr::m29 / m30): the normalised `_cc` for damage kind 7 when bit 6 of `_216` is set,
     // else the base class.
     bool m29(sead::Vector3f* out) override;
     bool m30(sead::Vector3f* out) override;
-    // Slots 33 / 34 (CSV DamageMgr::m33 / m34): the material masks of the attack info (`_20` / `_38`) or null.
-    ksys::phys::MaterialMask* m33() override;
+    // Slots 33 / 34 (CSV DamageMgr::getAttackOtherMaterialMask / m34): the material masks of the attack info (`_20` / `_38`) or null.
+    ksys::phys::MaterialMask* getAttackOtherMaterialMask() override;
     ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() override;
     // Slot 27 (CSV DamageMgr::getPosition): the actor's position, replaced by the position of the damage kind (the attack
     // info's position, `_90`, the impulse data, the position moved against the damage direction or the velocity).
     bool getPosition(sead::Vector3f* out) override;
     // Slot 28 (CSV DamageMgr::m28): a direction depending on the damage kind (the attack info's `_c`, `_c0`, `_cc`, `_9c`, the
     // impulse data, the actor's velocity or z axis); false for the others.
-    bool getAttackPos(sead::Vector3f* out) override;
-    // Slot 31 (CSV DamageMgr::m31): like getAttackPos with the attack info's `_94`, `_a8` and normalised directions.
-    bool m31(sead::Vector3f* out) override;
-    // Slot 32 (CSV DamageMgr::m32): the blow vector of the damage kind (the attack info's `_a0`, `_c` / the negated velocity scaled
+    bool getDamageDir(sead::Vector3f* out) override;
+    // Slot 31 (CSV DamageMgr::getHitDirection): like getDamageDir with the attack info's `_94`, `_a8` and normalised directions.
+    bool getHitDirection(sead::Vector3f* out) override;
+    // Slot 32 (CSV DamageMgr::getDamageImpulse): the blow vector of the damage kind (the attack info's `_a0`, `_c` / the negated velocity scaled
     // by 600 / 1800, the impulse data, `_cc`, `_b4`).
-    bool m32(sead::Vector3f* out) override;
-    // Slot 35 (CSV DamageMgr::m35): the matrix of the attacker of the damage kind (the attack info's link actor, the attack
+    bool getDamageImpulse(sead::Vector3f* out) override;
+    // Slot 35 (CSV DamageMgr::getAttackSourceMtx): the matrix of the attacker of the damage kind (the attack info's link actor, the attack
     // info's matrix, or the actor's impulse data); false (identity) otherwise.
-    bool m35(sead::Matrix34f* out) override;
+    bool getAttackSourceMtx(sead::Matrix34f* out) override;
     // Slots 36 / 37 (CSV DamageMgr::m36 / m37): the attacker links of the attack info the damage kind refers to
     // (`_d8` / `_e8`; kind 3: the first attack info's `_50`; kind 4 / 11: the actor's impulse link) or the dummy link.
     ksys::act::BaseProcLink* getAttacker() override;
     ksys::act::BaseProcLink* m37() override;
-    // Slot 22 (CSV DamageMgr::m22, 0x71006d2a84): base periodic update, tail-called by
-    // DamageMgrPlayer::m22 after the _22c timer handling below. Declared only.
-    void m22() override;
+    // Slot 22 (CSV DamageMgr::calcDamage, 0x71006d2a84): base periodic update, tail-called by
+    // DamageMgrPlayer::calcDamage after the _22c timer handling below. Declared only.
+    void calcDamage() override;
     // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
     // Slot 50 returns bool (DamageManager::m50 (0x71006d6c30) and DamageMgrPlayer::m50
     // both produce 0/1 in w0); the old void declaration was a guess.
@@ -229,10 +229,10 @@ public:
     s32 _88 = -1;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c = 0;  // WeakPointRoot::m35
     sead::Vector3f _90{0, 0, 0};  // position of damage kind 9 (getPosition)
-    sead::Vector3f _9c = sead::Vector3f::ez;  // direction of damage kind 9 (getAttackPos)
-    sead::Vector3f _a8 = sead::Vector3f::ez;  // direction of damage kind 9 (m31)
-    sead::Vector3f _b4{0, 0, 0};  // blow of damage kind 9 (m32)
-    sead::Vector3f _c0 = sead::Vector3f::zero;  // direction of damage kind 1 (getAttackPos)
+    sead::Vector3f _9c = sead::Vector3f::ez;  // direction of damage kind 9 (getDamageDir)
+    sead::Vector3f _a8 = sead::Vector3f::ez;  // direction of damage kind 9 (getHitDirection)
+    sead::Vector3f _b4{0, 0, 0};  // blow of damage kind 9 (getDamageImpulse)
+    sead::Vector3f _c0 = sead::Vector3f::zero;  // direction of damage kind 1 (getDamageDir)
     sead::Vector3f _cc = sead::Vector3f::zero;  // direction used by damage kind 7 (m29 / m30)
     // Message senders and listeners (DamageManager ctor 0x71006d23e0 and D1 0x71006d9130).
     Unk_710244e030 _d8;
@@ -267,7 +267,7 @@ private:
         mDamageType = prev_type;
     }
 
-    // Inline-only in the original (name is a guess; evidence: m39 / m40 / m41 and the other overrides start with
+    // Inline-only in the original (name is a guess; evidence: m39 / getAttackDirType / getAttackInfoFlagFC and the other overrides start with
     // it): the attack info the current damage kind (6: index _88 if bit 8 of _216 is set, 2: index _6c) refers to.
     ksys::act::ActorAtk::Unk_710079e64c::Unk1* getAttackInfo_();
 };

@@ -8,17 +8,17 @@ EnemyGanonBgmStop::EnemyGanonBgmStop(const InitArg& arg) : ksys::act::ai::Behavi
 
 EnemyGanonBgmStop::~EnemyGanonBgmStop() = default;
 
-bool EnemyGanonBgmStop::m6(sead::Heap* heap) {
+bool EnemyGanonBgmStop::init_(sead::Heap* heap) {
     return true;
 }
 
-void EnemyGanonBgmStop::m9() {}
+void EnemyGanonBgmStop::leave() {}
 
 void EnemyGanonBgmStop::loadParams() {
 
 }
 
-void EnemyGanonBgmStop::m7() {
+void EnemyGanonBgmStop::calc() {
     auto* life = mActor->getLife();
     if (life && *life == 0 && !_28) {
         _28 = true;
@@ -27,7 +27,7 @@ void EnemyGanonBgmStop::m7() {
     }
 }
 
-void EnemyGanonBgmStop::m8() {
+void EnemyGanonBgmStop::enter() {
     _28 = false;
 }
 

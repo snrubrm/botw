@@ -7,9 +7,9 @@ namespace uking::behavior {
 SimpleAtvUnitOpDlgRestWpTimeR3Base::SimpleAtvUnitOpDlgRestWpTimeR3Base(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
-void SimpleAtvUnitOpDlgRestWpTimeR3Base::m8() {}
+void SimpleAtvUnitOpDlgRestWpTimeR3Base::enter() {}
 
-void SimpleAtvUnitOpDlgRestWpTimeR3Base::m9() {}
+void SimpleAtvUnitOpDlgRestWpTimeR3Base::leave() {}
 
 // NON_MATCHING: the original computes &mIsWeakPointAppearMode_a before the first call (as in NeckControl)
 void SimpleAtvUnitOpDlgRestWpTimeR3Base::loadParams() {
@@ -31,12 +31,12 @@ const sead::SafeString* SimpleAtvUnitOpDlgRestWpTimeR3Base::m14() {
 
 SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() = default;
 
-bool SimpleAtvUnitOpDlgRestWpTimeR3Base::m6(sead::Heap* heap) {
+bool SimpleAtvUnitOpDlgRestWpTimeR3Base::init_(sead::Heap* heap) {
     return _88.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a));
 }
 
 // NON_MATCHING: the existing holder getData uses conditional selection instead of the native branch.
-void SimpleAtvUnitOpDlgRestWpTimeR3Base::m7() {
+void SimpleAtvUnitOpDlgRestWpTimeR3Base::calc() {
     if (!_88._0)
         return;
     auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_88._0);

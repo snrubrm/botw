@@ -6,18 +6,18 @@ namespace uking::behavior {
 
 TerrorBehavior::TerrorBehavior(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-bool TerrorBehavior::m6(sead::Heap* heap) {
+bool TerrorBehavior::init_(sead::Heap* heap) {
     _a0.sub_7100D78564(heap);
     return true;
 }
 
-void TerrorBehavior::m7() {
+void TerrorBehavior::calc() {
     const f32 ratio = *mOffsetSpeedRatio_s;
     if (ratio > 0.0f)
         _a0._94 = mActor->getVelocity() * ratio;
 }
 
-void TerrorBehavior::m8() {
+void TerrorBehavior::enter() {
     auto* owner = mActor->get548();
     if (!owner)
         return;
@@ -77,7 +77,7 @@ u32 TerrorBehavior::sub_7100E93098() const {
     return flags;
 }
 
-void TerrorBehavior::m9() {
+void TerrorBehavior::leave() {
     if (auto* owner = mActor->get548())
         owner->sub_7100D78444(&_a0);
 }

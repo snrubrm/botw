@@ -12,20 +12,20 @@ SetThroughArrow::SetThroughArrow(const InitArg& arg) : SetDamageCallback(arg) {}
 
 SetThroughArrow::~SetThroughArrow() = default;
 
-bool SetThroughArrow::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetThroughArrow::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetThroughArrow::m7() {
-    SetDamageCallback::m7();
+void SetThroughArrow::calc() {
+    SetDamageCallback::calc();
 }
 
 void SetThroughArrow::loadParams() {
     SetDamageCallback::loadParams();
 }
 
-void SetThroughArrow::m8() {
-    SetDamageCallback::m8();
+void SetThroughArrow::enter() {
+    SetDamageCallback::enter();
     sub_71007A439C(mActor, &_58);
     if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr())) {
         for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i) {
@@ -41,7 +41,7 @@ void SetThroughArrow::m8() {
     }
 }
 
-void SetThroughArrow::m9() {
+void SetThroughArrow::leave() {
     if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr())) {
         for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i) {
             if (auto* body = set->getRigidBodies()[i])
@@ -55,7 +55,7 @@ void SetThroughArrow::m9() {
         }
     }
     sub_71007A4440(mActor, &_58);
-    SetDamageCallback::m9();
+    SetDamageCallback::leave();
 }
 
 bool SetThroughArrow::Listener::m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,

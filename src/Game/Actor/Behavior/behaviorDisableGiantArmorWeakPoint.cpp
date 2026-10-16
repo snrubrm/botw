@@ -11,19 +11,19 @@ DisableGiantArmorWeakPoint::DisableGiantArmorWeakPoint(const InitArg& arg)
 
 DisableGiantArmorWeakPoint::~DisableGiantArmorWeakPoint() = default;
 
-bool DisableGiantArmorWeakPoint::m6(sead::Heap* heap) {
+bool DisableGiantArmorWeakPoint::init_(sead::Heap* heap) {
     return true;
 }
 
-void DisableGiantArmorWeakPoint::m7() {}
+void DisableGiantArmorWeakPoint::calc() {}
 
-void DisableGiantArmorWeakPoint::m8() {
+void DisableGiantArmorWeakPoint::enter() {
     const auto& name = sub_710072D53C(mActor, *mWeakPointIdx_s);
     if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), name.cstr()))
         body->removeFromWorld();
 }
 
-void DisableGiantArmorWeakPoint::m9() {
+void DisableGiantArmorWeakPoint::leave() {
     const auto& name = sub_710072D53C(mActor, *mWeakPointIdx_s);
     if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), name.cstr()))
         body->addToWorld();

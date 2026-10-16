@@ -9,7 +9,7 @@ ShortRangeBattleAlignment::ShortRangeBattleAlignment(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
 // NON_MATCHING: midpoint float registers, arithmetic scheduling and vector stores differ.
-void ShortRangeBattleAlignment::m7() {
+void ShortRangeBattleAlignment::calc() {
     const sead::Vector3f first = sub_71005D9330(mActor);
     const sead::Vector3f second = sub_71005D960C(mActor);
     const f32 offset_y = *mOffsetY_s;
@@ -19,7 +19,7 @@ void ShortRangeBattleAlignment::m7() {
     }
 }
 
-void ShortRangeBattleAlignment::m8() {
+void ShortRangeBattleAlignment::enter() {
     if (auto* controller = mActor->sub_71011D8A10()) {
         controller->_d4 |= 2;
         controller->_8c |= 0x10;
@@ -34,7 +34,7 @@ void ShortRangeBattleAlignment::m8() {
     }
 }
 
-void ShortRangeBattleAlignment::m9() {
+void ShortRangeBattleAlignment::leave() {
     if (auto* controller = mActor->sub_71011D8A10()) {
         controller->_8c &= ~0x10;
         controller->_d4 &= ~0xc0u;

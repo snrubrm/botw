@@ -32,7 +32,7 @@ void GuardianMiniBlownOff::sub_7100419D88(f32 value) {
     if (auto* manager = sub_710072BA90(mActor)) {
         sead::Vector3f pos;
         sead::Matrix34f mtx;
-        if (manager->getAttackPos(&pos) && manager->m35(&mtx)) {
+        if (manager->getDamageDir(&pos) && manager->getAttackSourceMtx(&mtx)) {
             pos.y = 0.0f;
             pos.normalize();
             const sead::Vector3f v = pos;

@@ -14,11 +14,11 @@ PlayASWithBurnState::~PlayASWithBurnState() {
     ;
 }
 
-bool PlayASWithBurnState::m6(sead::Heap* heap) {
+bool PlayASWithBurnState::init_(sead::Heap* heap) {
     return true;
 }
 
-void PlayASWithBurnState::m9() {}
+void PlayASWithBurnState::leave() {}
 
 void PlayASWithBurnState::loadParams() {
     getStaticParam(&mTargetIdx_s, "TargetIdx");
@@ -99,11 +99,11 @@ s8 PlayASWithBurnState::sub_7100632CD8() {
     return _68;
 }
 
-void PlayASWithBurnState::m8() {
+void PlayASWithBurnState::enter() {
     sub_7100632B48(sub_7100632CD8());
 }
 
-void PlayASWithBurnState::m7() {
+void PlayASWithBurnState::calc() {
     sub_7100632B48(sub_7100632CD8());
 }
 

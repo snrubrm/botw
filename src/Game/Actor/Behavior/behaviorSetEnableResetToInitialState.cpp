@@ -14,16 +14,16 @@ SetEnableResetToInitialState::SetEnableResetToInitialState(const InitArg& arg)
 
 SetEnableResetToInitialState::~SetEnableResetToInitialState() = default;
 
-bool SetEnableResetToInitialState::m6(sead::Heap* heap) {
+bool SetEnableResetToInitialState::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetEnableResetToInitialState::m8() {
+void SetEnableResetToInitialState::enter() {
     _28.mTimer = ksys::Timer(30.0f, 30.0f);
 }
 
 // NON_MATCHING: the first home position retains a separate stack slot.
-void SetEnableResetToInitialState::m7() {
+void SetEnableResetToInitialState::calc() {
     auto* object = mActor->getMapObject();
     if (!object || _28.mTimer.value <= std::numeric_limits<f32>::epsilon())
         return;
@@ -59,7 +59,7 @@ void SetEnableResetToInitialState::m7() {
     _28.mTimer = ksys::Timer(30.0f, 30.0f);
 }
 
-void SetEnableResetToInitialState::m9() {}
+void SetEnableResetToInitialState::leave() {}
 
 void SetEnableResetToInitialState::loadParams() {
 

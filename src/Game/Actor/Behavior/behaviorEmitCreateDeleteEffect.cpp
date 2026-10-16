@@ -12,22 +12,22 @@ EmitCreateDeleteEffect::~EmitCreateDeleteEffect() {
     ;
 }
 
-bool EmitCreateDeleteEffect::m6(sead::Heap* heap) {
+bool EmitCreateDeleteEffect::init_(sead::Heap* heap) {
     return true;
 }
 
-void EmitCreateDeleteEffect::m9() {}
+void EmitCreateDeleteEffect::leave() {}
 
 void EmitCreateDeleteEffect::loadParams() {
     getStaticParam(&mEffectName_s, "EffectName");
 }
 
-void EmitCreateDeleteEffect::m8() {
+void EmitCreateDeleteEffect::enter() {
     if (mActor->checkFlag(ksys::act::Actor::ActorFlag::_35) && !mEffectName_s.isEmpty())
         xlinkSearchAndEmit(mActor, mEffectName_s.cstr(), 2, nullptr);
 }
 
-void EmitCreateDeleteEffect::m7() {
+void EmitCreateDeleteEffect::calc() {
     if (mActor->checkFlag(ksys::act::Actor::ActorFlag::_36) && !mEffectName_s.isEmpty())
         xlinkSearchAndEmit(mActor, mEffectName_s.cstr(), 2, nullptr);
 }

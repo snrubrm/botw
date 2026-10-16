@@ -8,19 +8,19 @@ OnLeaveResetAttackInterval::OnLeaveResetAttackInterval(const InitArg& arg)
 
 OnLeaveResetAttackInterval::~OnLeaveResetAttackInterval() = default;
 
-bool OnLeaveResetAttackInterval::m6(sead::Heap* heap) {
+bool OnLeaveResetAttackInterval::init_(sead::Heap* heap) {
     return true;
 }
 
-void OnLeaveResetAttackInterval::m7() {}
+void OnLeaveResetAttackInterval::calc() {}
 
-void OnLeaveResetAttackInterval::m8() {}
+void OnLeaveResetAttackInterval::enter() {}
 
 void OnLeaveResetAttackInterval::loadParams() {
 
 }
 
-void OnLeaveResetAttackInterval::m9() {
+void OnLeaveResetAttackInterval::leave() {
     auto* enemy = static_cast<uking::act::Enemy*>(mActor);
     if (!enemy)
         return;

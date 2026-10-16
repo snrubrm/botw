@@ -6,22 +6,22 @@ AnimalCounterFlagOn::AnimalCounterFlagOn(const InitArg& arg) : ksys::act::ai::Be
 
 AnimalCounterFlagOn::~AnimalCounterFlagOn() = default;
 
-bool AnimalCounterFlagOn::m6(sead::Heap* heap) {
+bool AnimalCounterFlagOn::init_(sead::Heap* heap) {
     return true;
 }
 
-void AnimalCounterFlagOn::m7() {}
+void AnimalCounterFlagOn::calc() {}
 
 void AnimalCounterFlagOn::loadParams() {
     getAITreeVariable(&mAnimalEnableCounterFlag_a, "AnimalEnableCounterFlag");
 }
 
-void AnimalCounterFlagOn::m8() {
+void AnimalCounterFlagOn::enter() {
     if (mAnimalEnableCounterFlag_a)
         *mAnimalEnableCounterFlag_a = true;
 }
 
-void AnimalCounterFlagOn::m9() {
+void AnimalCounterFlagOn::leave() {
     if (mAnimalEnableCounterFlag_a)
         *mAnimalEnableCounterFlag_a = false;
 }

@@ -23,11 +23,11 @@ class DisableContactLayer : public ksys::act::ai::Behavior {
 public:
     explicit DisableContactLayer(const InitArg& arg);
     ~DisableContactLayer() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
 
     /* 0x28 */ const bool* mIgnoreContactPoint_s{};
     /* 0x30 */ sead::SafeString mLayerNameToDisable_s{};

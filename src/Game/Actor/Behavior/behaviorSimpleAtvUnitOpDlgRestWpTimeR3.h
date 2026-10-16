@@ -11,10 +11,10 @@ class SimpleAtvUnitOpDlgRestWpTimeR3 : public SimpleAtvUnitOpDlgRestWpTimeR3Base
 public:
     explicit SimpleAtvUnitOpDlgRestWpTimeR3(const InitArg& arg);
     ~SimpleAtvUnitOpDlgRestWpTimeR3() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     const sead::SafeString* m14() override;
     void m15() override;

@@ -14,13 +14,13 @@ class SimpleAtvUnitOpDlgRestWpTimeR3Base : public ksys::act::ai::Behavior {
 public:
     explicit SimpleAtvUnitOpDlgRestWpTimeR3Base(const InitArg& arg);
     ~SimpleAtvUnitOpDlgRestWpTimeR3Base() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     virtual const sead::SafeString* m14();
     virtual void m15() {}
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
 
     /* 0x28 */ const int* mCloseOption_s{};
     /* 0x30 */ const int* mTimer_s{};

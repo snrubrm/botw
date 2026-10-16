@@ -157,7 +157,7 @@ void EnemyRoot::calc_() {
         const f32 dist = *spread_dist;
         if (spread && dist > 0.0f) {
             sead::Matrix34f mtx;
-            damage_mgr->m35(&mtx);
+            damage_mgr->getAttackSourceMtx(&mtx);
             if (damage_mgr->getAttacker()->hasProc()) {
                 auto* self = mActor;
                 auto* attacker = damage_mgr->getAttacker();

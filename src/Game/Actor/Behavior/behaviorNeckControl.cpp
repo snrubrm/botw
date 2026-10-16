@@ -7,12 +7,12 @@ NeckControl::NeckControl(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 NeckControl::~NeckControl() = default;
 
-bool NeckControl::m6(sead::Heap* heap) {
+bool NeckControl::init_(sead::Heap* heap) {
     return true;
 }
 
 // NON_MATCHING: regalloc (s8/s9 swapped for the x/z differences)
-void NeckControl::m7() {
+void NeckControl::calc() {
     if (m14()) {
         sub_71005DB3EC(mActor);
         return;
@@ -31,13 +31,13 @@ void NeckControl::m7() {
     sub_71005DB068(mActor, target);
 }
 
-void NeckControl::m8() {
+void NeckControl::enter() {
     sead::Vector3f target;
     m15(&target);
     sub_71005DB068(mActor, target);
 }
 
-void NeckControl::m9() {
+void NeckControl::leave() {
     sub_71005DB3EC(mActor);
 }
 

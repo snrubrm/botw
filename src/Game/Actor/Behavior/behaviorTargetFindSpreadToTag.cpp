@@ -10,13 +10,13 @@ TargetFindSpreadToTag::TargetFindSpreadToTag(const InitArg& arg) : ksys::act::ai
 
 TargetFindSpreadToTag::~TargetFindSpreadToTag() = default;
 
-bool TargetFindSpreadToTag::m6(sead::Heap* heap) {
+bool TargetFindSpreadToTag::init_(sead::Heap* heap) {
     return true;
 }
 
-void TargetFindSpreadToTag::m7() {}
+void TargetFindSpreadToTag::calc() {}
 
-void TargetFindSpreadToTag::m8() {
+void TargetFindSpreadToTag::enter() {
     auto* target = sub_71005D9050(mActor);
     auto* actor = mActor;
     const auto& position = sub_71005D9330(actor);
@@ -53,7 +53,7 @@ void TargetFindSpreadToTag::m8() {
     }
 }
 
-void TargetFindSpreadToTag::m9() {}
+void TargetFindSpreadToTag::leave() {}
 
 void TargetFindSpreadToTag::loadParams() {
     getStaticParam(&mTagName_s, "TagName");

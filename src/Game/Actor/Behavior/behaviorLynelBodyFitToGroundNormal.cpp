@@ -8,13 +8,13 @@ LynelBodyFitToGroundNormal::LynelBodyFitToGroundNormal(const InitArg& arg)
 
 LynelBodyFitToGroundNormal::~LynelBodyFitToGroundNormal() = default;
 
-bool LynelBodyFitToGroundNormal::m6(sead::Heap* heap) {
+bool LynelBodyFitToGroundNormal::init_(sead::Heap* heap) {
     return true;
 }
 
-void LynelBodyFitToGroundNormal::m7() {}
+void LynelBodyFitToGroundNormal::calc() {}
 
-void LynelBodyFitToGroundNormal::m8() {
+void LynelBodyFitToGroundNormal::enter() {
     if (auto* unit = sead::DynamicCast<Unk_71025ba778>(
             *static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a))) {
         unit->_1a8 = *mCorrectAngleMax_s;
@@ -22,7 +22,7 @@ void LynelBodyFitToGroundNormal::m8() {
     }
 }
 
-void LynelBodyFitToGroundNormal::m9() {
+void LynelBodyFitToGroundNormal::leave() {
     if (auto* unit = sead::DynamicCast<Unk_71025ba778>(
             *static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a)))
         unit->sub_710070F820(mActor);

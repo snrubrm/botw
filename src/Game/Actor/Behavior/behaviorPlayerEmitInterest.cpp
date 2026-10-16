@@ -9,13 +9,13 @@ PlayerEmitInterest::PlayerEmitInterest(const InitArg& arg) : ksys::act::ai::Beha
 
 PlayerEmitInterest::~PlayerEmitInterest() = default;
 
-bool PlayerEmitInterest::m6(sead::Heap* heap) {
+bool PlayerEmitInterest::init_(sead::Heap* heap) {
     return true;
 }
 
-void PlayerEmitInterest::m8() {}
+void PlayerEmitInterest::enter() {}
 
-void PlayerEmitInterest::m9() {}
+void PlayerEmitInterest::leave() {}
 
 void PlayerEmitInterest::loadParams() {
     getStaticParam(&mLevelBase_s, "LevelBase");
@@ -23,7 +23,7 @@ void PlayerEmitInterest::loadParams() {
     getStaticParam(&mIsTargetNPC_s, "IsTargetNPC");
 }
 
-void PlayerEmitInterest::m7() {
+void PlayerEmitInterest::calc() {
     auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor);
     if (!player)
         return;

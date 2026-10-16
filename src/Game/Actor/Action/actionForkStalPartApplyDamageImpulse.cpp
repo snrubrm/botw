@@ -84,7 +84,7 @@ void ForkStalPartApplyDamageImpulse::sub_7100165930() {
     if (!dmg->m30(&dir1))
         return;
     sead::Vector3f dir2;
-    if (!dmg->m32(&dir2))
+    if (!dmg->getDamageImpulse(&dir2))
         return;
     auto* body = mActor->getMainBody();
     if (!body)
@@ -137,7 +137,7 @@ void ForkStalPartApplyDamageImpulse::sub_7100165930() {
     _ac.y = mActor->getMtx().m[1][3] - dir1.y;
     _ac.z = mActor->getMtx().m[2][3] - dir1.z;
     sead::Matrix34f atk_mtx;
-    if (!dmg->m35(&atk_mtx))
+    if (!dmg->getAttackSourceMtx(&atk_mtx))
         return;
     const f32 dx = atk_mtx.m[0][3] - mActor->getMtx().m[0][3];
     const f32 dz = atk_mtx.m[2][3] - mActor->getMtx().m[2][3];

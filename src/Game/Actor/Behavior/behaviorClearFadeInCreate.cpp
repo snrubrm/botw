@@ -7,13 +7,13 @@ ClearFadeInCreate::ClearFadeInCreate(const InitArg& arg) : ksys::act::ai::Behavi
 
 ClearFadeInCreate::~ClearFadeInCreate() = default;
 
-bool ClearFadeInCreate::m6(sead::Heap* heap) {
+bool ClearFadeInCreate::init_(sead::Heap* heap) {
     return true;
 }
 
-void ClearFadeInCreate::m9() {}
+void ClearFadeInCreate::leave() {}
 
-void ClearFadeInCreate::m8() {
+void ClearFadeInCreate::enter() {
     mActor->clearFadeInCreate();
 }
 

@@ -8,7 +8,7 @@ namespace uking::behavior {
 AirWallCollisionSpecify::AirWallCollisionSpecify(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
-void AirWallCollisionSpecify::m7() {
+void AirWallCollisionSpecify::calc() {
     if (_48 == *mAirWallCollision_m)
         return;
     bool set = true;
@@ -32,7 +32,7 @@ void AirWallCollisionSpecify::m7() {
     }
 }
 
-void AirWallCollisionSpecify::m8() {
+void AirWallCollisionSpecify::enter() {
     _48 = 3;
     if (_48 == *mAirWallCollision_m)
         return;

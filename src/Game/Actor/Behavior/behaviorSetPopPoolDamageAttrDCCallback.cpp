@@ -7,15 +7,15 @@ SetPopPoolDamageAttrDCCallback::SetPopPoolDamageAttrDCCallback(const InitArg& ar
 
 SetPopPoolDamageAttrDCCallback::~SetPopPoolDamageAttrDCCallback() = default;
 
-bool SetPopPoolDamageAttrDCCallback::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetPopPoolDamageAttrDCCallback::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetPopPoolDamageAttrDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetPopPoolDamageAttrDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetPopPoolDamageAttrDCCallback::m8() {
+void SetPopPoolDamageAttrDCCallback::enter() {
     switch (*mParams.mAttrForSmall_s) {
     case -1:
         _40._24 = -1;
@@ -68,11 +68,11 @@ void SetPopPoolDamageAttrDCCallback::m8() {
         _40._28 = -1;
         break;
     }
-    SetDamageCallback::m8();
+    SetDamageCallback::enter();
 }
 
-void SetPopPoolDamageAttrDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetPopPoolDamageAttrDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetPopPoolDamageAttrDCCallback::loadParams() {

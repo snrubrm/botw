@@ -9,22 +9,22 @@ AwarenessDarkAreaIgnore::AwarenessDarkAreaIgnore(const InitArg& arg)
 
 AwarenessDarkAreaIgnore::~AwarenessDarkAreaIgnore() = default;
 
-bool AwarenessDarkAreaIgnore::m6(sead::Heap* heap) {
+bool AwarenessDarkAreaIgnore::init_(sead::Heap* heap) {
     return true;
 }
 
-void AwarenessDarkAreaIgnore::m7() {}
+void AwarenessDarkAreaIgnore::calc() {}
 
 void AwarenessDarkAreaIgnore::loadParams() {
 
 }
 
-void AwarenessDarkAreaIgnore::m8() {
+void AwarenessDarkAreaIgnore::enter() {
     if (auto* awareness = mActor->getAwareness())
         awareness->_334 |= 8;
 }
 
-void AwarenessDarkAreaIgnore::m9() {
+void AwarenessDarkAreaIgnore::leave() {
     if (auto* awareness = mActor->getAwareness())
         awareness->_334 &= ~8;
 }

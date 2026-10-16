@@ -6,21 +6,21 @@ ForceSealSilentKill::ForceSealSilentKill(const InitArg& arg) : ksys::act::ai::Be
 
 ForceSealSilentKill::~ForceSealSilentKill() = default;
 
-bool ForceSealSilentKill::m6(sead::Heap* heap) {
+bool ForceSealSilentKill::init_(sead::Heap* heap) {
     return true;
 }
 
-void ForceSealSilentKill::m7() {}
+void ForceSealSilentKill::calc() {}
 
 void ForceSealSilentKill::loadParams() {
     getAITreeVariable(&mForceSealSilentKillCount_a, "ForceSealSilentKillCount");
 }
 
-void ForceSealSilentKill::m8() {
+void ForceSealSilentKill::enter() {
     ++*mForceSealSilentKillCount_a;
 }
 
-void ForceSealSilentKill::m9() {
+void ForceSealSilentKill::leave() {
     --*mForceSealSilentKillCount_a;
 }
 

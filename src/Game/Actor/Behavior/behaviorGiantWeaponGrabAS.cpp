@@ -10,7 +10,7 @@ namespace uking::behavior {
 
 GiantWeaponGrabAS::GiantWeaponGrabAS(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void GiantWeaponGrabAS::m8() {
+void GiantWeaponGrabAS::enter() {
     _d8 = false;
     _d9 = false;
 }
@@ -35,7 +35,7 @@ void GiantWeaponGrabAS::loadParams() {
 
 GiantWeaponGrabAS::~GiantWeaponGrabAS() = default;
 
-bool GiantWeaponGrabAS::m6(sead::Heap* heap) {
+bool GiantWeaponGrabAS::init_(sead::Heap* heap) {
     if (!_e0.acquire(heap, static_cast<Unk_71025afb58**>(mGiantPartBoneUnit_a), mActor))
         return false;
     if (Unk_71025be918Data* data = sead::DynamicCast<Unk_71025be918>(*_e0._0)) {
@@ -53,7 +53,7 @@ bool GiantWeaponGrabAS::m6(sead::Heap* heap) {
     return true;
 }
 
-void GiantWeaponGrabAS::m7() {
+void GiantWeaponGrabAS::calc() {
     auto* weapon = sub_71005D83E8(mActor, 0);
     const bool has_weapon = weapon != nullptr;
     if (has_weapon) {
@@ -87,7 +87,7 @@ void GiantWeaponGrabAS::m7() {
     }
 }
 
-void GiantWeaponGrabAS::m9() {
+void GiantWeaponGrabAS::leave() {
     if (_d8) {
         _d8 = false;
         if (auto* unit = sead::DynamicCast<Unk_71025be918>(*_e0._0))

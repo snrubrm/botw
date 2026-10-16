@@ -10,20 +10,20 @@ SetPlayerLargeAttackDeathDCCB::SetPlayerLargeAttackDeathDCCB(const InitArg& arg)
 
 SetPlayerLargeAttackDeathDCCB::~SetPlayerLargeAttackDeathDCCB() = default;
 
-bool SetPlayerLargeAttackDeathDCCB::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetPlayerLargeAttackDeathDCCB::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetPlayerLargeAttackDeathDCCB::m7() {
-    SetDamageCallback::m7();
+void SetPlayerLargeAttackDeathDCCB::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetPlayerLargeAttackDeathDCCB::m8() {
-    SetDamageCallback::m8();
+void SetPlayerLargeAttackDeathDCCB::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetPlayerLargeAttackDeathDCCB::m9() {
-    SetDamageCallback::m9();
+void SetPlayerLargeAttackDeathDCCB::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetPlayerLargeAttackDeathDCCB::loadParams() {

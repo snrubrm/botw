@@ -9,13 +9,13 @@ class BossBgmDamaged : public ksys::act::ai::Behavior {
 public:
     explicit BossBgmDamaged(const InitArg& arg);
     ~BossBgmDamaged() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m11() override {}
+    void onChangeChild() override {}
     virtual bool m14() { return false; }
-    void m7() override;
+    void calc() override;
 
     /* 0x28 */ const int* mDieType_s{};
 };

@@ -6,20 +6,20 @@ SetAllNoDamageDCCallback::SetAllNoDamageDCCallback(const InitArg& arg) : SetDama
 
 SetAllNoDamageDCCallback::~SetAllNoDamageDCCallback() = default;
 
-bool SetAllNoDamageDCCallback::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetAllNoDamageDCCallback::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetAllNoDamageDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetAllNoDamageDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetAllNoDamageDCCallback::m8() {
-    SetDamageCallback::m8();
+void SetAllNoDamageDCCallback::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetAllNoDamageDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetAllNoDamageDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetAllNoDamageDCCallback::loadParams() {

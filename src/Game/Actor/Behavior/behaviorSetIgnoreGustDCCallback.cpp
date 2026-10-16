@@ -7,20 +7,20 @@ SetIgnoreGustDCCallback::SetIgnoreGustDCCallback(const InitArg& arg) : SetDamage
 
 SetIgnoreGustDCCallback::~SetIgnoreGustDCCallback() = default;
 
-bool SetIgnoreGustDCCallback::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetIgnoreGustDCCallback::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetIgnoreGustDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetIgnoreGustDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetIgnoreGustDCCallback::m8() {
-    SetDamageCallback::m8();
+void SetIgnoreGustDCCallback::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetIgnoreGustDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetIgnoreGustDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetIgnoreGustDCCallback::loadParams() {

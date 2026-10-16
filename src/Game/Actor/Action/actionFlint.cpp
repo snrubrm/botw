@@ -77,7 +77,7 @@ void Unk_71023820a8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (!mgr || mgr->getField54() == 30)
         return;
 
-    auto* mask = mgr->m33();
+    auto* mask = mgr->getAttackOtherMaterialMask();
     if (!mask)
         return;
     if (int(mask->getData().getMaterial()) != ksys::phys::Material::Metal)

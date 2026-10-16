@@ -9,13 +9,13 @@ Invincible::Invincible(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 Invincible::~Invincible() = default;
 
-bool Invincible::m6(sead::Heap* heap) {
+bool Invincible::init_(sead::Heap* heap) {
     return true;
 }
 
-void Invincible::m7() {}
+void Invincible::calc() {}
 
-void Invincible::m8() {
+void Invincible::enter() {
     if (auto* mgr = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         mgr->mField_34 = true;
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
@@ -24,7 +24,7 @@ void Invincible::m8() {
     }
 }
 
-void Invincible::m9() {
+void Invincible::leave() {
     if (auto* mgr = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr()))
         mgr->mField_34 = false;
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {

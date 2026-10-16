@@ -11,13 +11,13 @@ CloseEye::~CloseEye() {
     ;
 }
 
-bool CloseEye::m6(sead::Heap* heap) {
+bool CloseEye::init_(sead::Heap* heap) {
     return true;
 }
 
-void CloseEye::m7() {}
+void CloseEye::calc() {}
 
-void CloseEye::m8() {
+void CloseEye::enter() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         enemy->_f60.sub_7100701BE4(mLeftEyeLidName_s, mRightEyeLidName_s, *mCloseOffset_s);
@@ -26,7 +26,7 @@ void CloseEye::m8() {
     }
 }
 
-void CloseEye::m9() {
+void CloseEye::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
         enemy->_f60.removeOrDefer();

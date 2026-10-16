@@ -147,7 +147,7 @@ void AttClient::checkM4(act::Actor* actor, sead::Buffer<sead::Matrix34f>& mtxs) 
 
     int i = 0;
     for (auto* att_check : mChecks) {
-        att_check->m4(actor, &mtxs[i]);
+        att_check->calcMtx(actor, &mtxs[i]);
         ++i;
     }
 }
@@ -156,7 +156,7 @@ float AttClient::checkM6(const act::ActorLinkConstDataAccess& accessor,
                          const sead::Vector3f& scale) const {
     f32 max = -1.0f;
     for (auto* att_check : mChecks)
-        max = sead::Mathf::max(max, att_check->m6(accessor, scale));
+        max = sead::Mathf::max(max, att_check->calcMaxRange(accessor, scale));
     return max;
 }
 

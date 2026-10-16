@@ -6,13 +6,13 @@ HorseNoise::HorseNoise(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 HorseNoise::~HorseNoise() = default;
 
-bool HorseNoise::m6(sead::Heap* heap) {
+bool HorseNoise::init_(sead::Heap* heap) {
     return true;
 }
 
-void HorseNoise::m8() {}
+void HorseNoise::enter() {}
 
-void HorseNoise::m9() {}
+void HorseNoise::leave() {}
 
 void HorseNoise::loadParams() {
     getStaticParam(&mParams.mNoiseWait_s, "NoiseWait");

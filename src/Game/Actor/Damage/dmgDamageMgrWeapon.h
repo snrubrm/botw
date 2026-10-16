@@ -35,10 +35,10 @@ public:
 
     s32 getNumCallbacks() override { return 2; }
     void resetDamage() override;
-    void m22() override;
+    void calcDamage() override;
     bool getPosition(sead::Vector3f* out) override;
-    bool getAttackPos(sead::Vector3f* out) override;
-    ksys::phys::MaterialMask* m33() override;
+    bool getDamageDir(sead::Vector3f* out) override;
+    ksys::phys::MaterialMask* getAttackOtherMaterialMask() override;
 
     void m50(f32 scale) override;
     s32 m51() override { return mDamageFromLife; }
@@ -61,8 +61,8 @@ public:
     explicit DamageMgrBow(ksys::act::Actor* actor);
 
     bool getPosition(sead::Vector3f* out) override { return false; }
-    bool getAttackPos(sead::Vector3f* out) override { return false; }
-    ksys::phys::MaterialMask* m33() override { return nullptr; }
+    bool getDamageDir(sead::Vector3f* out) override { return false; }
+    ksys::phys::MaterialMask* getAttackOtherMaterialMask() override { return nullptr; }
     bool m54() override;
 };
 KSYS_CHECK_SIZE_NX150(DamageMgrBow, 0x78);
@@ -75,7 +75,7 @@ public:
 
     s32 getNumCallbacks() override { return 1; }
     void resetDamage() override;
-    void m22() override;
+    void calcDamage() override;
 
     void m50(f32 scale) override;
     s32 m51() override { return mDamageFromLife; }

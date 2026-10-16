@@ -9,20 +9,20 @@ SetCollisionImpulseScale::SetCollisionImpulseScale(const InitArg& arg)
 
 SetCollisionImpulseScale::~SetCollisionImpulseScale() = default;
 
-bool SetCollisionImpulseScale::m6(sead::Heap* heap) {
+bool SetCollisionImpulseScale::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetCollisionImpulseScale::m7() {}
+void SetCollisionImpulseScale::calc() {}
 
-void SetCollisionImpulseScale::m8() {
+void SetCollisionImpulseScale::enter() {
     if (auto* controller = mActor->getCharacterController()) {
         _30 = controller->sub_7100F62E5C();
         controller->sub_7100F62DD0(*mScale_s);
     }
 }
 
-void SetCollisionImpulseScale::m9() {
+void SetCollisionImpulseScale::leave() {
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F62DD0(_30);
 }

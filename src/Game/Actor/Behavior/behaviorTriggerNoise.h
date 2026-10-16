@@ -8,8 +8,8 @@ class TriggerNoise : public Noise {
     SEAD_RTTI_OVERRIDE(TriggerNoise, Noise)
 public:
     explicit TriggerNoise(const InitArg& arg);
-    void m7() override;
-    void m8() override;
+    void calc() override;
+    void enter() override;
 
     /* 0x100 */ bool _100 = false;
     /* 0x101 */ bool _101 = false;

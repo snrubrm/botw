@@ -8,8 +8,8 @@ class NoSensorWaterInNoise : public NoiseBase {
     SEAD_RTTI_OVERRIDE(NoSensorWaterInNoise, NoiseBase)
 public:
     explicit NoSensorWaterInNoise(const InitArg& arg);
-    void m7() override;
-    void m8() override;
+    void calc() override;
+    void enter() override;
 
     /* 0x39 */ bool _39 = false;
 };

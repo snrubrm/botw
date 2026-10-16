@@ -9,15 +9,15 @@ AssassinBossBgmOnDelete::AssassinBossBgmOnDelete(const InitArg& arg)
 
 AssassinBossBgmOnDelete::~AssassinBossBgmOnDelete() = default;
 
-bool AssassinBossBgmOnDelete::m6(sead::Heap* heap) {
+bool AssassinBossBgmOnDelete::init_(sead::Heap* heap) {
     return true;
 }
 
-void AssassinBossBgmOnDelete::m7() {}
+void AssassinBossBgmOnDelete::calc() {}
 
-void AssassinBossBgmOnDelete::m8() {}
+void AssassinBossBgmOnDelete::enter() {}
 
-void AssassinBossBgmOnDelete::m9() {
+void AssassinBossBgmOnDelete::leave() {
     if (auto* bgm = sub_7100FFDFDC()) {
         if (mActor->isDeletedOrDeleting() || !mActor->isAwakeMaybe())
             bgm->sub_7100FF6268();

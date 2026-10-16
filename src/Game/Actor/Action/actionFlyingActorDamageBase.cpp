@@ -71,7 +71,7 @@ void FlyingActorDamageBase::calc_() {
     if (!sub_7100732AD0(mgr->getField54()))
         return;
     sead::Vector3f dir;
-    if (!mgr->getAttackPos(&dir))
+    if (!mgr->getDamageDir(&dir))
         return;
     sub_71005E2318(&dir, mActor, mgr);
     sub_7100130868(controller, dir);

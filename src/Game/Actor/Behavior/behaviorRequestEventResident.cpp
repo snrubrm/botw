@@ -7,20 +7,20 @@ RequestEventResident::RequestEventResident(const InitArg& arg) : ksys::act::ai::
 
 RequestEventResident::~RequestEventResident() = default;
 
-bool RequestEventResident::m6(sead::Heap* heap) {
+bool RequestEventResident::init_(sead::Heap* heap) {
     return true;
 }
 
-void RequestEventResident::m7() {}
+void RequestEventResident::calc() {}
 
-void RequestEventResident::m8() {
+void RequestEventResident::enter() {
     auto* actor = mActor;
     _48.initWithName(actor, mEventName_s, mEntryPointName_s);
     _48.loadEvent();
     _48.sendMessageToEventMgrActor(actor);
 }
 
-void RequestEventResident::m9() {
+void RequestEventResident::leave() {
     _48.unloadEvent();
 }
 

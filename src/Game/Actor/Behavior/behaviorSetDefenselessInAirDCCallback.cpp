@@ -8,8 +8,8 @@ SetDefenselessInAirDCCallback::SetDefenselessInAirDCCallback(const InitArg& arg)
 
 SetDefenselessInAirDCCallback::~SetDefenselessInAirDCCallback() = default;
 
-void SetDefenselessInAirDCCallback::m7() {
-    SetDefenselessDCCallback::m7();
+void SetDefenselessInAirDCCallback::calc() {
+    SetDefenselessDCCallback::calc();
     auto* actor = mActor;
     if (!actor)
         return;

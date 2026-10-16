@@ -10,17 +10,17 @@ CanRideAnimalTerror::CanRideAnimalTerror(const InitArg& arg) : TerrorBehavior(ar
 
 CanRideAnimalTerror::~CanRideAnimalTerror() = default;
 
-bool CanRideAnimalTerror::m6(sead::Heap* heap) {
-    return TerrorBehavior::m6(heap);
+bool CanRideAnimalTerror::init_(sead::Heap* heap) {
+    return TerrorBehavior::init_(heap);
 }
 
-void CanRideAnimalTerror::m8() {
-    TerrorBehavior::m8();
+void CanRideAnimalTerror::enter() {
+    TerrorBehavior::enter();
     _160 = ksys::Timer(-1.0f, -1.0f);
 }
 
-void CanRideAnimalTerror::m9() {
-    TerrorBehavior::m9();
+void CanRideAnimalTerror::leave() {
+    TerrorBehavior::leave();
 }
 
 void CanRideAnimalTerror::loadParams() {
@@ -28,8 +28,8 @@ void CanRideAnimalTerror::loadParams() {
     getStaticParam(&mLevelForRiddenPlayer_s, "LevelForRiddenPlayer");
 }
 
-void CanRideAnimalTerror::m7() {
-    TerrorBehavior::m7();
+void CanRideAnimalTerror::calc() {
+    TerrorBehavior::calc();
     sub_710061B944();
 }
 

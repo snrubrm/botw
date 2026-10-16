@@ -8,20 +8,20 @@ EnemyFrontNeckRotate::EnemyFrontNeckRotate(const InitArg& arg) : EnemyNeckRotate
 
 EnemyFrontNeckRotate::~EnemyFrontNeckRotate() = default;
 
-bool EnemyFrontNeckRotate::m6(sead::Heap* heap) {
-    return EnemyNeckRotate::m6(heap);
+bool EnemyFrontNeckRotate::init_(sead::Heap* heap) {
+    return EnemyNeckRotate::init_(heap);
 }
 
-void EnemyFrontNeckRotate::m7() {
-    EnemyNeckRotate::m7();
+void EnemyFrontNeckRotate::calc() {
+    EnemyNeckRotate::calc();
 }
 
-void EnemyFrontNeckRotate::m8() {
-    EnemyNeckRotate::m8();
+void EnemyFrontNeckRotate::enter() {
+    EnemyNeckRotate::enter();
 }
 
-void EnemyFrontNeckRotate::m9() {
-    EnemyNeckRotate::m9();
+void EnemyFrontNeckRotate::leave() {
+    EnemyNeckRotate::leave();
 }
 
 // NON_MATCHING: register naming of the two z loads (target.z / pos.z) of the direction subtraction

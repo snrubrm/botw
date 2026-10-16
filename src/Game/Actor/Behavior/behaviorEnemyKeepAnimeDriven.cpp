@@ -13,17 +13,17 @@ EnemyKeepAnimeDriven::~EnemyKeepAnimeDriven() {
     ;
 }
 
-bool EnemyKeepAnimeDriven::m6(sead::Heap* heap) {
+bool EnemyKeepAnimeDriven::init_(sead::Heap* heap) {
     return true;
 }
 
-void EnemyKeepAnimeDriven::m7() {}
+void EnemyKeepAnimeDriven::calc() {}
 
 void EnemyKeepAnimeDriven::loadParams() {
     getStaticParam(&mTransBoneName_s, "TransBoneName");
 }
 
-void EnemyKeepAnimeDriven::m8() {
+void EnemyKeepAnimeDriven::enter() {
     auto* actor = mActor;
     _38 = false;
     auto* as_list = actor->getASList();
@@ -38,7 +38,7 @@ void EnemyKeepAnimeDriven::m8() {
     }
 }
 
-void EnemyKeepAnimeDriven::m9() {
+void EnemyKeepAnimeDriven::leave() {
     auto* as_list = mActor->getASList();
     if (_38 && as_list)
         as_list->sub_710115CD0C();

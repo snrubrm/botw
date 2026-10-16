@@ -11,15 +11,15 @@ HorseAttackBehavior::HorseAttackBehavior(const InitArg& arg) : ksys::act::ai::Be
 
 HorseAttackBehavior::~HorseAttackBehavior() = default;
 
-bool HorseAttackBehavior::m6(sead::Heap* heap) {
+bool HorseAttackBehavior::init_(sead::Heap* heap) {
     return true;
 }
 
-void HorseAttackBehavior::m8() {
+void HorseAttackBehavior::enter() {
     _128 = 0;
 }
 
-void HorseAttackBehavior::m9() {
+void HorseAttackBehavior::leave() {
     _b8.remove();
     _48.remove();
     _80.remove();

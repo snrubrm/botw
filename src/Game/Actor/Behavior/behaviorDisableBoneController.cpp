@@ -7,19 +7,19 @@ DisableBoneController::DisableBoneController(const InitArg& arg) : ksys::act::ai
 
 DisableBoneController::~DisableBoneController() = default;
 
-bool DisableBoneController::m6(sead::Heap* heap) {
+bool DisableBoneController::init_(sead::Heap* heap) {
     return true;
 }
 
-void DisableBoneController::m8() {}
+void DisableBoneController::enter() {}
 
-void DisableBoneController::m9() {}
+void DisableBoneController::leave() {}
 
 void DisableBoneController::loadParams() {
 
 }
 
-void DisableBoneController::m7() {
+void DisableBoneController::calc() {
     sub_71005DB3EC(mActor);
 }
 

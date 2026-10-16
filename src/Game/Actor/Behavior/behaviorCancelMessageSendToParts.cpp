@@ -7,20 +7,20 @@ CancelMessageSendToParts::CancelMessageSendToParts(const InitArg& arg)
 
 CancelMessageSendToParts::~CancelMessageSendToParts() = default;
 
-bool CancelMessageSendToParts::m6(sead::Heap* heap) {
-    return CancelMessageSendToPartsBase::m6(heap);
+bool CancelMessageSendToParts::init_(sead::Heap* heap) {
+    return CancelMessageSendToPartsBase::init_(heap);
 }
 
-void CancelMessageSendToParts::m7() {
-    CancelMessageSendToPartsBase::m7();
+void CancelMessageSendToParts::calc() {
+    CancelMessageSendToPartsBase::calc();
 }
 
-void CancelMessageSendToParts::m8() {
-    CancelMessageSendToPartsBase::m8();
+void CancelMessageSendToParts::enter() {
+    CancelMessageSendToPartsBase::enter();
 }
 
-void CancelMessageSendToParts::m9() {
-    CancelMessageSendToPartsBase::m9();
+void CancelMessageSendToParts::leave() {
+    CancelMessageSendToPartsBase::leave();
 }
 
 void CancelMessageSendToParts::loadParams() {

@@ -9,10 +9,10 @@ class CancelMessageSendToParts : public CancelMessageSendToPartsBase {
 public:
     explicit CancelMessageSendToParts(const InitArg& arg);
     ~CancelMessageSendToParts() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     void m14() override;
     Unk_7102357d20* m15() override;

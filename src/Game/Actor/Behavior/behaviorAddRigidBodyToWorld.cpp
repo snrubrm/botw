@@ -15,13 +15,13 @@ AddRigidBodyToWorld::~AddRigidBodyToWorld() {
     ;
 }
 
-bool AddRigidBodyToWorld::m6(sead::Heap* heap) {
+bool AddRigidBodyToWorld::init_(sead::Heap* heap) {
     return true;
 }
 
-void AddRigidBodyToWorld::m7() {}
+void AddRigidBodyToWorld::calc() {}
 
-void AddRigidBodyToWorld::m8() {
+void AddRigidBodyToWorld::enter() {
     _40 = false;
     auto* physics = mActor->getPhysics();
     if (!physics)
@@ -37,7 +37,7 @@ void AddRigidBodyToWorld::m8() {
     _40 = true;
 }
 
-void AddRigidBodyToWorld::m9() {
+void AddRigidBodyToWorld::leave() {
     if (!_40)
         return;
     if (auto* physics = mActor->getPhysics()) {

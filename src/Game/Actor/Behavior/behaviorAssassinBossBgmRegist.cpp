@@ -7,18 +7,18 @@ AssassinBossBgmRegist::AssassinBossBgmRegist(const InitArg& arg) : ksys::act::ai
 
 AssassinBossBgmRegist::~AssassinBossBgmRegist() = default;
 
-bool AssassinBossBgmRegist::m6(sead::Heap* heap) {
+bool AssassinBossBgmRegist::init_(sead::Heap* heap) {
     return true;
 }
 
-void AssassinBossBgmRegist::m7() {}
+void AssassinBossBgmRegist::calc() {}
 
-void AssassinBossBgmRegist::m8() {
+void AssassinBossBgmRegist::enter() {
     if (auto* bgm = sub_7100FFDFDC())
         bgm->sub_7100FF61BC();
 }
 
-void AssassinBossBgmRegist::m9() {}
+void AssassinBossBgmRegist::leave() {}
 
 void AssassinBossBgmRegist::loadParams() {
 

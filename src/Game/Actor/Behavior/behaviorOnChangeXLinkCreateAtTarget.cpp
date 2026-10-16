@@ -12,23 +12,23 @@ OnChangeXLinkCreateAtTarget::~OnChangeXLinkCreateAtTarget() {
     ;
 }
 
-bool OnChangeXLinkCreateAtTarget::m6(sead::Heap* heap) {
-    if (!OnChangeXLinkCreate::m6(heap))
+bool OnChangeXLinkCreateAtTarget::init_(sead::Heap* heap) {
+    if (!OnChangeXLinkCreate::init_(heap))
         return false;
     sub_7100630570();
     return true;
 }
 
-void OnChangeXLinkCreateAtTarget::m7() {
-    OnChangeXLinkCreate::m7();
+void OnChangeXLinkCreateAtTarget::calc() {
+    OnChangeXLinkCreate::calc();
 }
 
-void OnChangeXLinkCreateAtTarget::m8() {
-    OnChangeXLinkCreate::m8();
+void OnChangeXLinkCreateAtTarget::enter() {
+    OnChangeXLinkCreate::enter();
 }
 
-void OnChangeXLinkCreateAtTarget::m9() {
-    OnChangeXLinkCreate::m9();
+void OnChangeXLinkCreateAtTarget::leave() {
+    OnChangeXLinkCreate::leave();
 }
 
 void OnChangeXLinkCreateAtTarget::m14() {

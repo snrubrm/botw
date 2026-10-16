@@ -11,17 +11,17 @@ SendControlFireMessage::SendControlFireMessage(const InitArg& arg) : ksys::act::
 
 SendControlFireMessage::~SendControlFireMessage() = default;
 
-bool SendControlFireMessage::m6(sead::Heap* heap) {
+bool SendControlFireMessage::init_(sead::Heap* heap) {
     return true;
 }
 
-void SendControlFireMessage::m9() {}
+void SendControlFireMessage::leave() {}
 
 void SendControlFireMessage::loadParams() {
     getStaticParam(&mIsIgnite_s, "IsIgnite");
 }
 
-void SendControlFireMessage::m8() {
+void SendControlFireMessage::enter() {
     if (*mIsIgnite_s)
         return;
     auto* obj = mActor->getMapObject();
@@ -45,7 +45,7 @@ void SendControlFireMessage::m8() {
 }
 
 // NON_MATCHING: the original keeps &_30 in a register for the value read after update()
-void SendControlFireMessage::m7() {
+void SendControlFireMessage::calc() {
     if (!*mIsIgnite_s)
         return;
     if (mActor->checkBasicSig()) {

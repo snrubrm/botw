@@ -15,7 +15,7 @@ void* Unk_71023cee50::m2() {
 
 // NON_MATCHING: the original shares one `str z` between the three copy paths (sunk into a common block); ours stores
 // z in each path.
-bool DamageMgrNPC::getAttackPos(sead::Vector3f* out) {
+bool DamageMgrNPC::getDamageDir(sead::Vector3f* out) {
     switch (getDamageType()) {
     case 0: {
         auto* info = sub_71007A255C(mActor, 0);
@@ -81,7 +81,7 @@ bool DamageMgrNPC::getPosition(sead::Vector3f* out) {
     }
 }
 
-bool DamageMgrNPC::m35(sead::Matrix34f* out) {
+bool DamageMgrNPC::getAttackSourceMtx(sead::Matrix34f* out) {
     switch (getDamageType()) {
     case 0: {
         auto* info = sub_71007A255C(mActor, 0);
@@ -106,7 +106,7 @@ bool DamageMgrNPC::m35(sead::Matrix34f* out) {
     }
 }
 
-bool DamageMgrNPC::m31(sead::Vector3f* out) {
+bool DamageMgrNPC::getHitDirection(sead::Vector3f* out) {
     switch (getDamageType()) {
     case 0: {
         auto* info = sub_71007A255C(mActor, 0);
@@ -140,7 +140,7 @@ bool DamageMgrNPC::m31(sead::Vector3f* out) {
     }
 }
 
-ksys::phys::MaterialMask* DamageMgrNPC::m33() {
+ksys::phys::MaterialMask* DamageMgrNPC::getAttackOtherMaterialMask() {
     if (getDamageType() != 0)
         return nullptr;
     auto* info = sub_71007A255C(mActor, 0);
@@ -191,7 +191,7 @@ ksys::act::BaseProcLink* DamageMgrNPC::m37() {
     }
 }
 
-bool DamageMgrNPC::m40(s32* out) {
+bool DamageMgrNPC::getAttackDirType(s32* out) {
     *out = -1;
     if (getDamageType() != 0)
         return false;
@@ -202,7 +202,7 @@ bool DamageMgrNPC::m40(s32* out) {
     return true;
 }
 
-bool DamageMgrNPC::m41() {
+bool DamageMgrNPC::getAttackInfoFlagFC() {
     if (getDamageType() != 0)
         return false;
     auto* info = sub_71007A255C(mActor, 0);
@@ -213,7 +213,7 @@ bool DamageMgrNPC::m41() {
 
 // NON_MATCHING: identical except that the original does not pair the x / y stores of the scaled vector (two str
 // instead of an stp) in the kind 2 path.
-bool DamageMgrNPC::m32(sead::Vector3f* out) {
+bool DamageMgrNPC::getDamageImpulse(sead::Vector3f* out) {
     switch (getDamageType()) {
     case 0: {
         auto* info = sub_71007A255C(mActor, 0);

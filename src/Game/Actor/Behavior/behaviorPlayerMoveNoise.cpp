@@ -6,10 +6,10 @@ namespace uking::behavior {
 
 PlayerMoveNoise::PlayerMoveNoise(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void PlayerMoveNoise::m8() {}
+void PlayerMoveNoise::enter() {}
 
 // NON_MATCHING: velocity loads, float operand registers and final call arguments are scheduled differently.
-void PlayerMoveNoise::m7() {
+void PlayerMoveNoise::calc() {
     const auto& velocity = mActor->getVelocity();
     f32 speed_squared = velocity.x * velocity.x;
     if (*mIsVec3_s)
@@ -21,7 +21,7 @@ void PlayerMoveNoise::m7() {
     sub_71005D8D4C(mActor, sead::Mathf::clampMax(noise, *mMaxNoise_s), 1, false);
 }
 
-void PlayerMoveNoise::m9() {
+void PlayerMoveNoise::leave() {
     sub_71005D8D4C(mActor, 0, 1, false);
 }
 

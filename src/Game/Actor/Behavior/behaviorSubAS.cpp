@@ -12,11 +12,11 @@ SubAS::~SubAS() {
     ;
 }
 
-bool SubAS::m6(sead::Heap* heap) {
+bool SubAS::init_(sead::Heap* heap) {
     return true;
 }
 
-void SubAS::m7() {}
+void SubAS::calc() {}
 
 void SubAS::loadParams() {
     getStaticParam(&mSeqBankIdx_s, "SeqBankIdx");
@@ -39,11 +39,11 @@ void SubAS::sub_7100643440(const sead::SafeString& name) {
     list->startAnimationMaybe(-1.0f, -1.0f, name, *mTargetIdx_s, *mSeqBankIdx_s, true);
 }
 
-void SubAS::m8() {
+void SubAS::enter() {
     sub_7100643440(mEnterASName_s);
 }
 
-void SubAS::m9() {
+void SubAS::leave() {
     sub_7100643440(mLeaveASName_s);
 }
 

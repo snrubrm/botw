@@ -9,11 +9,11 @@ AnimalNeckRotate::AnimalNeckRotate(const InitArg& arg) : ksys::act::ai::Behavior
 
 AnimalNeckRotate::~AnimalNeckRotate() = default;
 
-bool AnimalNeckRotate::m6(sead::Heap* heap) {
+bool AnimalNeckRotate::init_(sead::Heap* heap) {
     return true;
 }
 
-void AnimalNeckRotate::m9() {
+void AnimalNeckRotate::leave() {
     if (auto* unit = sub_71007398C0(mActor)) {
         sub_71005DB3EC(mActor);
         unit->sub_7100D8A830(0.0f, false);

@@ -18,11 +18,11 @@ FootstepReactionChanger::~FootstepReactionChanger() {
     ;
 }
 
-bool FootstepReactionChanger::m6(sead::Heap* heap) {
+bool FootstepReactionChanger::init_(sead::Heap* heap) {
     return true;
 }
 
-void FootstepReactionChanger::m7() {}
+void FootstepReactionChanger::calc() {}
 
 // NON_MATCHING: bounded lookup iteration and string comparison scheduling differ.
 void FootstepReactionChanger::loadParams() {
@@ -45,13 +45,13 @@ void FootstepReactionChanger::loadParams() {
     _54 = scale < 5 ? scale : 0;
 }
 
-void FootstepReactionChanger::m8() {
+void FootstepReactionChanger::enter() {
     auto* xlink = mActor->getXLink();
     const int duration = *mChangeDuration_s;
     xlink->_a0->sub_7101236520(_50, _54, duration);
 }
 
-void FootstepReactionChanger::m9() {
+void FootstepReactionChanger::leave() {
     mActor->getXLink()->_a0->sub_71012370A8();
 }
 

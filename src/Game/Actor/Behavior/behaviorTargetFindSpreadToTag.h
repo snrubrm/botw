@@ -13,11 +13,11 @@ class TargetFindSpreadToTag : public ksys::act::ai::Behavior {
 public:
     explicit TargetFindSpreadToTag(const InitArg& arg);
     ~TargetFindSpreadToTag() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void leave() override;
     void loadParams() override;
-    void m8() override;
+    void enter() override;
 
     /* 0x28 */ sead::SafeString mTagName_s{};
     /* 0x38 */ Unk_710235abc8 _38{mActor, 0x8000006};

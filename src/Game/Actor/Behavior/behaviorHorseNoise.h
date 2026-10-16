@@ -9,11 +9,11 @@ class HorseNoise : public ksys::act::ai::Behavior {
 public:
     explicit HorseNoise(const InitArg& arg);
     ~HorseNoise() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100628fe8)
+    void calc() override;  // not decompiled yet (0x7100628fe8)
 
     struct Params {
         const float* mNoiseWait_s{};

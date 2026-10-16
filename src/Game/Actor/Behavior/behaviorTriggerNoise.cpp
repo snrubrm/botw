@@ -4,8 +4,8 @@ namespace uking::behavior {
 
 TriggerNoise::TriggerNoise(const InitArg& arg) : Noise(arg) {}
 
-void TriggerNoise::m7() {
-    Noise::m7();
+void TriggerNoise::calc() {
+    Noise::calc();
     if (!_100 && !_101) {
         sub_710062E9F0();
         sub_710062DF30();
@@ -14,8 +14,8 @@ void TriggerNoise::m7() {
     _100 = false;
 }
 
-void TriggerNoise::m8() {
-    Noise::m8();
+void TriggerNoise::enter() {
+    Noise::enter();
     _100 = true;
     _101 = false;
     sub_710062E9F8();

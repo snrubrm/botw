@@ -10,11 +10,11 @@ class GiantDownReaction : public ksys::act::ai::Behavior {
 public:
     explicit GiantDownReaction(const InitArg& arg);
     ~GiantDownReaction() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m7() override;
+    void calc() override;
 
     /* 0x28 */ const int* mIntervalTime_s{};
     /* 0x30 */ sead::SafeString mDownCheckRagdollRbName_s{};

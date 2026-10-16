@@ -22,17 +22,17 @@ GiantDownReaction::~GiantDownReaction() {
     ;
 }
 
-bool GiantDownReaction::m6(sead::Heap* heap) {
+bool GiantDownReaction::init_(sead::Heap* heap) {
     return true;
 }
 
-void GiantDownReaction::m8() {
+void GiantDownReaction::enter() {
     _70 = false;
     _74 = -1.0f;
 }
 
 // NON_MATCHING: the matrix angle is loaded after the contact calls; register and stack scheduling differ.
-void GiantDownReaction::m7() {
+void GiantDownReaction::calc() {
     if (_74 > 0.0f)
         ksys::Timer::update(&_74, -1.0f);
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
@@ -66,7 +66,7 @@ void GiantDownReaction::m7() {
     }
 }
 
-void GiantDownReaction::m9() {}
+void GiantDownReaction::leave() {}
 
 void GiantDownReaction::loadParams() {
     getStaticParam(&mIntervalTime_s, "IntervalTime");

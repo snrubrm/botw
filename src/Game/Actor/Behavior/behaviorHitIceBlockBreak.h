@@ -16,10 +16,10 @@ class HitIceBlockBreak : public ksys::act::ai::Behavior {
 public:
     explicit HitIceBlockBreak(const InitArg& arg);
     ~HitIceBlockBreak() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     void sub_7100627F7C(ksys::phys::RigidBody* body);
     bool sub_7100628084(ksys::MesTransceiverId* id, ksys::phys::RigidBody* body);

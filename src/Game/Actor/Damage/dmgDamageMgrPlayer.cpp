@@ -17,7 +17,7 @@ void DamageMgrPlayer::resetDamage() {
     DamageManager::resetDamage();
 }
 
-void DamageMgrPlayer::m22() {
+void DamageMgrPlayer::calcDamage() {
     auto* actor = mActor;
     if (sead::IsDerivedFrom<uking::act::PlayerBase>(actor)) {
         auto* player = static_cast<uking::act::PlayerBase*>(actor);
@@ -29,7 +29,7 @@ void DamageMgrPlayer::m22() {
             _230 = 0;
         }
     }
-    DamageManager::m22();
+    DamageManager::calcDamage();
 }
 
 bool DamageMgrPlayer::m50(s32*, s32*, u32*, u32*, s32*, s32*) {

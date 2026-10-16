@@ -8,13 +8,13 @@ SwarmPatternBase::SwarmPatternBase(const InitArg& arg) : ksys::act::ai::Behavior
 
 SwarmPatternBase::~SwarmPatternBase() = default;
 
-bool SwarmPatternBase::m6(sead::Heap* heap) {
+bool SwarmPatternBase::init_(sead::Heap* heap) {
     return true;
 }
 
-void SwarmPatternBase::m7() {}
+void SwarmPatternBase::calc() {}
 
-void SwarmPatternBase::m8() {
+void SwarmPatternBase::enter() {
     if (!*mIsAutoMove_s)
         return;
     if (auto* swarm = sead::DynamicCast<act::Swarm>(mActor)) {
@@ -23,7 +23,7 @@ void SwarmPatternBase::m8() {
     }
 }
 
-void SwarmPatternBase::m9() {
+void SwarmPatternBase::leave() {
     if (!*mIsAutoMove_s)
         return;
     if (auto* swarm = sead::DynamicCast<act::Swarm>(mActor)) {

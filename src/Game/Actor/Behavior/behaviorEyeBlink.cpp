@@ -13,7 +13,7 @@ EyeBlink::~EyeBlink() {
         enemy->_f60.sub_7100701D4C();
 }
 
-bool EyeBlink::m6(sead::Heap* heap) {
+bool EyeBlink::init_(sead::Heap* heap) {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         enemy->_f60.sub_7100701BE4(mLeftEyeLidName_s, mRightEyeLidName_s, *mCloseOffset_s);
@@ -25,7 +25,7 @@ bool EyeBlink::m6(sead::Heap* heap) {
     return false;
 }
 
-void EyeBlink::m7() {
+void EyeBlink::calc() {
     ksys::Timer::update(&_68, -1.0f);
     if (_68 <= 0) {
         auto* actor = mActor;
@@ -38,13 +38,13 @@ void EyeBlink::m7() {
     }
 }
 
-void EyeBlink::m8() {
+void EyeBlink::enter() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
         enemy->_f60.sub_7100701CE8();
 }
 
-void EyeBlink::m9() {
+void EyeBlink::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
         enemy->_f60.removeOrDefer();

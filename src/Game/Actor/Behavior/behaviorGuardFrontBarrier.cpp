@@ -13,12 +13,12 @@ GuardFrontBarrier::~GuardFrontBarrier() {
     ;
 }
 
-bool GuardFrontBarrier::m6(sead::Heap* heap) {
-    return GuardFrontBarrierBase::m6(heap);
+bool GuardFrontBarrier::init_(sead::Heap* heap) {
+    return GuardFrontBarrierBase::init_(heap);
 }
 
-void GuardFrontBarrier::m8() {
-    GuardFrontBarrierBase::m8();
+void GuardFrontBarrier::enter() {
+    GuardFrontBarrierBase::enter();
     sead::Matrix34f mtx;
     m15(&mtx);
     _58.mELink.setMatrix(mtx);
@@ -32,8 +32,8 @@ void GuardFrontBarrier::m8() {
     }
 }
 
-void GuardFrontBarrier::m7() {
-    GuardFrontBarrierBase::m7();
+void GuardFrontBarrier::calc() {
+    GuardFrontBarrierBase::calc();
     sead::Matrix34f mtx;
     m15(&mtx);
     _58.mELink.setMatrix(mtx);
@@ -47,8 +47,8 @@ void GuardFrontBarrier::m7() {
     }
 }
 
-void GuardFrontBarrier::m9() {
-    GuardFrontBarrierBase::m9();
+void GuardFrontBarrier::leave() {
+    GuardFrontBarrierBase::leave();
     auto* body =
         mActor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(), mTgtName_s.cstr());
     if (body && body->isAddedToWorld()) {

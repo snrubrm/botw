@@ -6,13 +6,13 @@ RumbleController::RumbleController(const InitArg& arg) : ksys::act::ai::Behavior
 
 RumbleController::~RumbleController() = default;
 
-bool RumbleController::m6(sead::Heap* heap) {
+bool RumbleController::init_(sead::Heap* heap) {
     return true;
 }
 
-void RumbleController::m8() {}
+void RumbleController::enter() {}
 
-void RumbleController::m9() {}
+void RumbleController::leave() {}
 
 void RumbleController::loadParams() {
     getStaticParam(&mReduceDist_s, "ReduceDist");

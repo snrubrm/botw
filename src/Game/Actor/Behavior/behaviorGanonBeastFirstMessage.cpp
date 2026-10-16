@@ -44,7 +44,7 @@ void GanonBeastFirstMessage::sub_7100624048() {
 
 // NON_MATCHING: the original keeps &_b0 in x22 (and the DynamicCast guard address in x23) across the calls; the logic and the
 // block layout are identical
-void GanonBeastFirstMessage::m7() {
+void GanonBeastFirstMessage::calc() {
     Unk_71025b2aa8* unit = nullptr;
     if (_a0._0)
         unit = sead::DynamicCast<Unk_71025b2aa8>(*_a0._0);
@@ -74,7 +74,7 @@ void GanonBeastFirstMessage::m7() {
     }
 }
 
-void GanonBeastFirstMessage::m8() {
+void GanonBeastFirstMessage::enter() {
     if (_b0 == 5) {
         _b4 = false;
         return;
@@ -91,7 +91,7 @@ void GanonBeastFirstMessage::m8() {
     }
 }
 
-void GanonBeastFirstMessage::m9() {
+void GanonBeastFirstMessage::leave() {
     if (*mOnce_s && _b0 >= 2)
         _b0 = 5;
     if (_b4 && _b0 <= 4) {
@@ -116,7 +116,7 @@ void GanonBeastFirstMessage::loadParams() {
 
 GanonBeastFirstMessage::~GanonBeastFirstMessage() = default;
 
-bool GanonBeastFirstMessage::m6(sead::Heap* heap) {
+bool GanonBeastFirstMessage::init_(sead::Heap* heap) {
     if (!_a0.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a)))
         return false;
     _b0 = 0;

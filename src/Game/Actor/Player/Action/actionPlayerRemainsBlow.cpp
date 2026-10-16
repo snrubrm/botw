@@ -20,7 +20,7 @@ void PlayerRemainsBlow::enter_(ksys::act::ai::InlineParamPack* params) {
     f32 scale = 1.0f;
     if (manager) {
         sead::Vector3f impulse;
-        if (manager->m32(&impulse))
+        if (manager->getDamageImpulse(&impulse))
             scale = impulse.length();
     }
     static_cast<ksys::act::Player*>(mActor)->_cec.setBit(31);

@@ -9,18 +9,18 @@ SetBattleNodeBasisSelfPosBattle::SetBattleNodeBasisSelfPosBattle(const InitArg& 
 
 SetBattleNodeBasisSelfPosBattle::~SetBattleNodeBasisSelfPosBattle() = default;
 
-bool SetBattleNodeBasisSelfPosBattle::m6(sead::Heap* heap) {
+bool SetBattleNodeBasisSelfPosBattle::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetBattleNodeBasisSelfPosBattle::m7() {}
+void SetBattleNodeBasisSelfPosBattle::calc() {}
 
 void SetBattleNodeBasisSelfPosBattle::loadParams() {
     getStaticParam(&mSetFlag_s, "SetFlag");
 }
 
 // NON_MATCHING: the original keeps the three cases as branches (ours becomes a lookup table)
-void SetBattleNodeBasisSelfPosBattle::m8() {
+void SetBattleNodeBasisSelfPosBattle::enter() {
     auto* control = mActor->sub_71011D8A10();
     if (!control)
         return;
@@ -38,7 +38,7 @@ void SetBattleNodeBasisSelfPosBattle::m8() {
 }
 
 // NON_MATCHING: the original keeps the three cases as branches (ours becomes a lookup table)
-void SetBattleNodeBasisSelfPosBattle::m9() {
+void SetBattleNodeBasisSelfPosBattle::leave() {
     auto* control = mActor->sub_71011D8A10();
     if (!control)
         return;

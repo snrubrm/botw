@@ -8,8 +8,8 @@ SetIgnoreMultiDamageDCCallback::SetIgnoreMultiDamageDCCallback(const InitArg& ar
 SetIgnoreMultiDamageDCCallback::~SetIgnoreMultiDamageDCCallback() = default;
 
 // NON_MATCHING: cmp scheduled before the orr/and pair (regalloc)
-bool SetIgnoreMultiDamageDCCallback::m6(sead::Heap* heap) {
-    if (!SetDamageCallback::m6(heap))
+bool SetIgnoreMultiDamageDCCallback::init_(sead::Heap* heap) {
+    if (!SetDamageCallback::init_(heap))
         return false;
     _30._24.changeBit(0, *mEnableCritical_s);
     _30._24.changeBit(1, *mEnableSmallHit_s);
@@ -20,16 +20,16 @@ bool SetIgnoreMultiDamageDCCallback::m6(sead::Heap* heap) {
     return true;
 }
 
-void SetIgnoreMultiDamageDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetIgnoreMultiDamageDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetIgnoreMultiDamageDCCallback::m8() {
-    SetDamageCallback::m8();
+void SetIgnoreMultiDamageDCCallback::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetIgnoreMultiDamageDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetIgnoreMultiDamageDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetIgnoreMultiDamageDCCallback::loadParams() {

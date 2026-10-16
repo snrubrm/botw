@@ -10,13 +10,13 @@ BgmCtrlBehavior::~BgmCtrlBehavior() {
     ;
 }
 
-bool BgmCtrlBehavior::m6(sead::Heap* heap) {
+bool BgmCtrlBehavior::init_(sead::Heap* heap) {
     return true;
 }
 
-void BgmCtrlBehavior::m7() {}
+void BgmCtrlBehavior::calc() {}
 
-void BgmCtrlBehavior::m9() {}
+void BgmCtrlBehavior::leave() {}
 
 void BgmCtrlBehavior::loadParams() {
     getStaticParam(&mFadeTime_s, "FadeTime");

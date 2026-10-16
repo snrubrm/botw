@@ -15,7 +15,7 @@ NeckRotateToPlayerAndNPC::NeckRotateToPlayerAndNPC(const InitArg& arg)
 
 NeckRotateToPlayerAndNPC::~NeckRotateToPlayerAndNPC() = default;
 
-bool NeckRotateToPlayerAndNPC::m6(sead::Heap* heap) {
+bool NeckRotateToPlayerAndNPC::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -62,7 +62,7 @@ void NeckRotateToPlayerAndNPC::sub_710062D70C() {
     _48.reset();
 }
 
-void NeckRotateToPlayerAndNPC::m7() {
+void NeckRotateToPlayerAndNPC::calc() {
     _58.update();
     if (_58.value <= std::numeric_limits<f32>::epsilon()) {
         sub_710062D70C();
@@ -78,12 +78,12 @@ void NeckRotateToPlayerAndNPC::m7() {
     }
 }
 
-void NeckRotateToPlayerAndNPC::m8() {
+void NeckRotateToPlayerAndNPC::enter() {
     sub_710062D70C();
     _58 = ksys::Timer(*mUpdateInterval_s, *mUpdateInterval_s);
 }
 
-void NeckRotateToPlayerAndNPC::m9() {
+void NeckRotateToPlayerAndNPC::leave() {
     sub_71005DB3EC(mActor);
 }
 

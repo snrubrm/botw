@@ -7,7 +7,7 @@ SetReceivedImpulseRate::SetReceivedImpulseRate(const InitArg& arg) : ksys::act::
 
 SetReceivedImpulseRate::~SetReceivedImpulseRate() = default;
 
-bool SetReceivedImpulseRate::m6(sead::Heap* heap) {
+bool SetReceivedImpulseRate::init_(sead::Heap* heap) {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)
         return false;
@@ -24,11 +24,11 @@ void SetReceivedImpulseRate::sub_710063E528(ksys::act::Unk_71006dc134* arg) {
     }
 }
 
-void SetReceivedImpulseRate::m7() {}
+void SetReceivedImpulseRate::calc() {}
 
-void SetReceivedImpulseRate::m8() {}
+void SetReceivedImpulseRate::enter() {}
 
-void SetReceivedImpulseRate::m9() {}
+void SetReceivedImpulseRate::leave() {}
 
 void SetReceivedImpulseRate::loadParams() {
     getStaticParam(&mImpulseRate_s, "ImpulseRate");

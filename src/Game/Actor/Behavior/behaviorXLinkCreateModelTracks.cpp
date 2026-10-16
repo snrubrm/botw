@@ -9,21 +9,21 @@ XLinkCreateModelTracks::XLinkCreateModelTracks(const InitArg& arg) : XLinkCreate
 
 XLinkCreateModelTracks::~XLinkCreateModelTracks() = default;
 
-bool XLinkCreateModelTracks::m6(sead::Heap* heap) {
-    return XLinkCreate::m6(heap);
+bool XLinkCreateModelTracks::init_(sead::Heap* heap) {
+    return XLinkCreate::init_(heap);
 }
 
-void XLinkCreateModelTracks::m7() {
-    XLinkCreate::m7();
+void XLinkCreateModelTracks::calc() {
+    XLinkCreate::calc();
 }
 
-void XLinkCreateModelTracks::m8() {
+void XLinkCreateModelTracks::enter() {
     m16(&_78);
-    XLinkCreate::m8();
+    XLinkCreate::enter();
 }
 
-void XLinkCreateModelTracks::m9() {
-    XLinkCreate::m9();
+void XLinkCreateModelTracks::leave() {
+    XLinkCreate::leave();
 }
 
 void XLinkCreateModelTracks::loadParams() {

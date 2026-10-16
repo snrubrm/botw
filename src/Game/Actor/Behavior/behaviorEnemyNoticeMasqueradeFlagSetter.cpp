@@ -8,18 +8,18 @@ EnemyNoticeMasqueradeFlagSetter::EnemyNoticeMasqueradeFlagSetter(const InitArg& 
 
 EnemyNoticeMasqueradeFlagSetter::~EnemyNoticeMasqueradeFlagSetter() = default;
 
-bool EnemyNoticeMasqueradeFlagSetter::m6(sead::Heap* heap) {
+bool EnemyNoticeMasqueradeFlagSetter::init_(sead::Heap* heap) {
     return true;
 }
 
-void EnemyNoticeMasqueradeFlagSetter::m7() {}
+void EnemyNoticeMasqueradeFlagSetter::calc() {}
 
 void EnemyNoticeMasqueradeFlagSetter::loadParams() {
     getStaticParam(&mTiming_s, "Timing");
     getStaticParam(&mIsOn_s, "IsOn");
 }
 
-void EnemyNoticeMasqueradeFlagSetter::m8() {
+void EnemyNoticeMasqueradeFlagSetter::enter() {
     if (*mTiming_s != 0)
         return;
     const bool on = *mIsOn_s;
@@ -27,7 +27,7 @@ void EnemyNoticeMasqueradeFlagSetter::m8() {
         enemy->_e84.change(2, on);
 }
 
-void EnemyNoticeMasqueradeFlagSetter::m9() {
+void EnemyNoticeMasqueradeFlagSetter::leave() {
     if (*mTiming_s != 1)
         return;
     const bool on = *mIsOn_s;

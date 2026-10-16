@@ -8,19 +8,19 @@ ChangeEnemyNoticeUIState::ChangeEnemyNoticeUIState(const InitArg& arg)
 
 ChangeEnemyNoticeUIState::~ChangeEnemyNoticeUIState() = default;
 
-bool ChangeEnemyNoticeUIState::m6(sead::Heap* heap) {
+bool ChangeEnemyNoticeUIState::init_(sead::Heap* heap) {
     return true;
 }
 
-void ChangeEnemyNoticeUIState::m7() {}
+void ChangeEnemyNoticeUIState::calc() {}
 
-void ChangeEnemyNoticeUIState::m9() {}
+void ChangeEnemyNoticeUIState::leave() {}
 
 void ChangeEnemyNoticeUIState::loadParams() {
     getStaticParam(&mKey_s, "Key");
 }
 
-void ChangeEnemyNoticeUIState::m8() {
+void ChangeEnemyNoticeUIState::enter() {
     int key = *mKey_s;
     if (key == 4)
         key = 5;

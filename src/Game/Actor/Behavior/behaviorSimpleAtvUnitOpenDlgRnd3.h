@@ -10,10 +10,10 @@ class SimpleAtvUnitOpenDlgRnd3 : public SimpleAtvUnitOpenDlg {
 public:
     explicit SimpleAtvUnitOpenDlgRnd3(const InitArg& arg);
     ~SimpleAtvUnitOpenDlgRnd3() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     const sead::SafeString* m14() override;
     s32 m17() override { return 3; }

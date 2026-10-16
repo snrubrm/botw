@@ -6,7 +6,7 @@ namespace uking::behavior {
 
 PlayerTriggerNoise::PlayerTriggerNoise(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void PlayerTriggerNoise::m7() {
+void PlayerTriggerNoise::calc() {
     if (_30) {
         _30 = false;
         return;
@@ -14,7 +14,7 @@ void PlayerTriggerNoise::m7() {
     sub_71005D8D4C(mActor, 0, 1, false);
 }
 
-void PlayerTriggerNoise::m8() {
+void PlayerTriggerNoise::enter() {
     f32 noise = *mNoiseValue_s;
     if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor))
         noise *= player->m319();
@@ -22,7 +22,7 @@ void PlayerTriggerNoise::m8() {
     _30 = true;
 }
 
-void PlayerTriggerNoise::m9() {}
+void PlayerTriggerNoise::leave() {}
 
 void PlayerTriggerNoise::loadParams() {
     getStaticParam(&mNoiseValue_s, "NoiseValue");

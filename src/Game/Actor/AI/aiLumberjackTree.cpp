@@ -40,7 +40,7 @@ void Unk_7102403fe8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::Dama
     s32 type = -1;
     bool flag = false;
     if (damage_mgr) {
-        damage_mgr->m40(&type);
+        damage_mgr->getAttackDirType(&type);
         damage_mgr->getPosition(&position);
         flag = damage_mgr->checkDamageFlags(4);
     }

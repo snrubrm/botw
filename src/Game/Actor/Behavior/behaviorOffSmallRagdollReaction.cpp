@@ -8,17 +8,17 @@ OffSmallRagdollReaction::OffSmallRagdollReaction(const InitArg& arg)
 
 OffSmallRagdollReaction::~OffSmallRagdollReaction() = default;
 
-bool OffSmallRagdollReaction::m6(sead::Heap* heap) {
+bool OffSmallRagdollReaction::init_(sead::Heap* heap) {
     return true;
 }
 
-void OffSmallRagdollReaction::m7() {}
+void OffSmallRagdollReaction::calc() {}
 
 void OffSmallRagdollReaction::loadParams() {
 
 }
 
-void OffSmallRagdollReaction::m8() {
+void OffSmallRagdollReaction::enter() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)
         return;
@@ -27,7 +27,7 @@ void OffSmallRagdollReaction::m8() {
         actor->_a68 &= ~1;
 }
 
-void OffSmallRagdollReaction::m9() {
+void OffSmallRagdollReaction::leave() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)
         return;

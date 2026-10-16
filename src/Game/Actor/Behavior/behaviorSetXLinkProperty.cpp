@@ -9,11 +9,11 @@ SetXLinkProperty::SetXLinkProperty(const InitArg& arg) : ksys::act::ai::Behavior
 
 SetXLinkProperty::~SetXLinkProperty() = default;
 
-bool SetXLinkProperty::m6(sead::Heap* heap) {
+bool SetXLinkProperty::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetXLinkProperty::m7() {}
+void SetXLinkProperty::calc() {}
 
 void SetXLinkProperty::loadParams() {
     getStaticParam(&mPropertyIndex_s, "PropertyIndex");
@@ -21,14 +21,14 @@ void SetXLinkProperty::loadParams() {
     getStaticParam(&mResetValue_s, "ResetValue");
 }
 
-void SetXLinkProperty::m8() {
+void SetXLinkProperty::enter() {
     if (auto* link = mActor->getXLink()) {
         if (*mPropertyIndex_s == 0)
             link->sub_7101231468(27, *mValue_s, false);
     }
 }
 
-void SetXLinkProperty::m9() {
+void SetXLinkProperty::leave() {
     if (auto* link = mActor->getXLink()) {
         if (*mPropertyIndex_s == 0)
             link->sub_7101231468(27, *mResetValue_s, false);

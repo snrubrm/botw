@@ -9,13 +9,13 @@ NavMeshNonAvoidPlayer::NavMeshNonAvoidPlayer(const InitArg& arg) : ksys::act::ai
 
 NavMeshNonAvoidPlayer::~NavMeshNonAvoidPlayer() = default;
 
-bool NavMeshNonAvoidPlayer::m6(sead::Heap* heap) {
+bool NavMeshNonAvoidPlayer::init_(sead::Heap* heap) {
     return true;
 }
 
-void NavMeshNonAvoidPlayer::m7() {}
+void NavMeshNonAvoidPlayer::calc() {}
 
-void NavMeshNonAvoidPlayer::m8() {
+void NavMeshNonAvoidPlayer::enter() {
     if (auto* nav = mActor->m45()) {
         ksys::act::acc::PlayerBase accessor;
         accessor.getPlayerFromPlayerInfo();
@@ -24,7 +24,7 @@ void NavMeshNonAvoidPlayer::m8() {
     }
 }
 
-void NavMeshNonAvoidPlayer::m9() {
+void NavMeshNonAvoidPlayer::leave() {
     if (auto* nav = mActor->m45())
         nav->sub_7100F7D308(_28);
 }

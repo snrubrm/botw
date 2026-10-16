@@ -5,7 +5,7 @@ namespace uking::behavior {
 
 SoundStateLoad::SoundStateLoad(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void SoundStateLoad::m8() {
+void SoundStateLoad::enter() {
     if (mActor) {
         if (auto* camera = sead::DynamicCast<act::Camera>(mActor))
             camera->sub_7100795C38(0);

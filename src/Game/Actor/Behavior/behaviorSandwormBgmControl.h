@@ -9,8 +9,8 @@ class SandwormBgmControl : public ksys::act::ai::Behavior {
 public:
     explicit SandwormBgmControl(const InitArg& arg);
     ~SandwormBgmControl() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
     void loadParams() override;
 
     /* 0x28 */ const int* mType_s{};

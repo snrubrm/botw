@@ -11,10 +11,10 @@ class ShowMessage3D : public ksys::act::ai::Behavior {
 public:
     explicit ShowMessage3D(const InitArg& arg);
     ~ShowMessage3D() override;
-    void m7() override;
+    void calc() override;
     void loadParams() override;
     virtual void m14(sead::BufferedSafeString* out);
-    void m8() override;
+    void enter() override;
 
     /* 0x28 */ const int* mDelayFrame_s{};
     /* 0x30 */ const bool* mIsCloseOtherMessage_s{};

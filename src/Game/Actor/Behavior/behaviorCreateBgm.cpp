@@ -12,11 +12,11 @@ CreateBgm::~CreateBgm() {
     }
 }
 
-void CreateBgm::m7() {}
+void CreateBgm::calc() {}
 
-void CreateBgm::m8() {}
+void CreateBgm::enter() {}
 
-void CreateBgm::m9() {}
+void CreateBgm::leave() {}
 
 void CreateBgm::loadParams() {
     getStaticParam(&mBgmName_s, "BgmName");

@@ -67,16 +67,16 @@ public:
 
     // FIXME: signatures and names
     // Slot 4 (res::AttClient::checkM4 calls it for every check with the matrix of that check).
-    virtual void m4(act::Actor* actor, sead::Matrix34f* mtx);
+    virtual void calcMtx(act::Actor* actor, sead::Matrix34f* mtx);
     // Slot 5 (res::AttClient::check calls it for every check with the client's matrix `i`).
     virtual bool check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                        const sead::Matrix34f* mtx, const sead::Vector3f& pos,
                        const AttCheck_Unk1* arg, bool a6, bool a7);
     // Slot 6 (res::AttClient::checkM6: the maximum over the checks; `accessor` is a default-constructed one and `scale`
     // is the actor's scale).
-    virtual float m6(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale);
+    virtual float calcMaxRange(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale);
     // Slot 7.
-    virtual void m7(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) {}
+    virtual void drawDebug(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) {}
 
     virtual bool parse(const CreateArg& arg);
 
@@ -122,12 +122,12 @@ class AttCheckArea : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    void m4(act::Actor* actor, sead::Matrix34f* mtx) override;
+    void calcMtx(act::Actor* actor, sead::Matrix34f* mtx) override;
     bool check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
                bool a6, bool a7) override;
-    float m6(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
-    void m7(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) override;
+    float calcMaxRange(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void drawDebug(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) override;
     bool parse(const CreateArg& arg) override;
 
     // Slot 9: the area test of `check`: `local_pos` is `pos` in the area's matrix.
@@ -135,12 +135,12 @@ public:
                     const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) {
         return true;
     }
-    // Slot 10 (called by m6).
+    // Slot 10 (called by calcMaxRange).
     virtual float m10(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) {
         return 0;
     }
-    // Slot 11 (called by m7).
-    virtual void m11(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
+    // Slot 11 (called by drawDebug).
+    virtual void drawDebugShape(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
                      const sead::Vector3f& scale, bool a4) {}
 
 protected:
@@ -157,7 +157,7 @@ public:
     bool m9(const act::ActorLinkConstDataAccess& link, const sead::Vector3f& local_pos,
             const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
     float m10(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
-    void m11(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
+    void drawDebugShape(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
              const sead::Vector3f& scale, bool a4) override;
 
 private:
@@ -177,7 +177,7 @@ public:
     bool m9(const act::ActorLinkConstDataAccess& link, const sead::Vector3f& local_pos,
             const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
     float m10(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
-    void m11(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
+    void drawDebugShape(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
              const sead::Vector3f& scale, bool a4) override;
 
 private:
@@ -233,7 +233,7 @@ public:
     bool m9(const act::ActorLinkConstDataAccess& link, const sead::Vector3f& local_pos,
             const sead::Vector3f& pos, const AttCheck_Unk1* arg, bool a6, bool a7) override;
     float m10(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
-    void m11(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
+    void drawDebugShape(const act::ActorLinkConstDataAccess& link, const sead::Matrix34f& mtx,
              const sead::Vector3f& scale, bool a4) override;
 
 private:
@@ -252,12 +252,12 @@ class AttCheckEachOtherArea : public AttCheck {
 public:
     explicit AttCheckEachOtherArea(AttCheckType type);
 
-    void m4(act::Actor* actor, sead::Matrix34f* mtx) override;
+    void calcMtx(act::Actor* actor, sead::Matrix34f* mtx) override;
     bool check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
                bool a6, bool a7) override;
-    float m6(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
-    void m7(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) override;
+    float calcMaxRange(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) override;
+    void drawDebug(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) override;
     bool parse(const CreateArg& arg) override;
 
 private:
@@ -281,7 +281,7 @@ class AttCheckAngle : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    void m4(act::Actor* actor, sead::Matrix34f* mtx) override;
+    void calcMtx(act::Actor* actor, sead::Matrix34f* mtx) override;
     bool check(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor,
                const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
                bool a6, bool a7) override;

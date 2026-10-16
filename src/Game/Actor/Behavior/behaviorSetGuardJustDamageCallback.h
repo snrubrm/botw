@@ -10,7 +10,7 @@ class SetGuardJustDamageCallback : public SetDamageCallback {
 public:
     explicit SetGuardJustDamageCallback(const InitArg& arg);
     ~SetGuardJustDamageCallback() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
     void loadParams() override;
     uking::act::DamageCallback* m14() override;
 

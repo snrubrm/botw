@@ -5,16 +5,16 @@ namespace uking::behavior {
 OnChangeXLinkCreateForLocator::OnChangeXLinkCreateForLocator(const InitArg& arg)
     : OnChangeXLinkCreate(arg) {}
 
-void OnChangeXLinkCreateForLocator::m7() {
-    OnChangeXLinkCreate::m7();
+void OnChangeXLinkCreateForLocator::calc() {
+    OnChangeXLinkCreate::calc();
 }
 
-void OnChangeXLinkCreateForLocator::m8() {
-    OnChangeXLinkCreate::m8();
+void OnChangeXLinkCreateForLocator::enter() {
+    OnChangeXLinkCreate::enter();
 }
 
-void OnChangeXLinkCreateForLocator::m9() {
-    OnChangeXLinkCreate::m9();
+void OnChangeXLinkCreateForLocator::leave() {
+    OnChangeXLinkCreate::leave();
 }
 
 void OnChangeXLinkCreateForLocator::loadParams() {

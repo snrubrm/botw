@@ -14,7 +14,7 @@ CreateEaselBase::~CreateEaselBase() {
     ;
 }
 
-bool CreateEaselBase::m6(sead::Heap* heap) {
+bool CreateEaselBase::init_(sead::Heap* heap) {
     ksys::act::InstParamPack pack;
     const char* name = m14();
     if (*name != sead::SafeString::cNullChar) {
@@ -25,7 +25,7 @@ bool CreateEaselBase::m6(sead::Heap* heap) {
     return true;
 }
 
-void CreateEaselBase::m7() {
+void CreateEaselBase::calc() {
     if (mActor->getConnectedCalcChild())
         return;
     if (!_48.isAllocatedOrFailed())
@@ -70,9 +70,9 @@ void CreateEaselBase::m7() {
     }
 }
 
-void CreateEaselBase::m8() {}
+void CreateEaselBase::enter() {}
 
-void CreateEaselBase::m9() {}
+void CreateEaselBase::leave() {}
 
 void CreateEaselBase::loadParams() {
     getStaticParam(&mIsNoSystemDelete_s, "IsNoSystemDelete");

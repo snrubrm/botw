@@ -6,20 +6,20 @@ SetIgnoreHorseDamage::SetIgnoreHorseDamage(const InitArg& arg) : SetDamageCallba
 
 SetIgnoreHorseDamage::~SetIgnoreHorseDamage() = default;
 
-bool SetIgnoreHorseDamage::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetIgnoreHorseDamage::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetIgnoreHorseDamage::m7() {
-    SetDamageCallback::m7();
+void SetIgnoreHorseDamage::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetIgnoreHorseDamage::m8() {
-    SetDamageCallback::m8();
+void SetIgnoreHorseDamage::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetIgnoreHorseDamage::m9() {
-    SetDamageCallback::m9();
+void SetIgnoreHorseDamage::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetIgnoreHorseDamage::loadParams() {

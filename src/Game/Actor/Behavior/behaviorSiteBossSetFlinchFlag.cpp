@@ -7,22 +7,22 @@ SiteBossSetFlinchFlag::SiteBossSetFlinchFlag(const InitArg& arg) : ksys::act::ai
 
 SiteBossSetFlinchFlag::~SiteBossSetFlinchFlag() = default;
 
-bool SiteBossSetFlinchFlag::m6(sead::Heap* heap) {
+bool SiteBossSetFlinchFlag::init_(sead::Heap* heap) {
     return true;
 }
 
-void SiteBossSetFlinchFlag::m7() {}
+void SiteBossSetFlinchFlag::calc() {}
 
 void SiteBossSetFlinchFlag::loadParams() {
 
 }
 
-void SiteBossSetFlinchFlag::m8() {
+void SiteBossSetFlinchFlag::enter() {
     if (auto* boss = sead::DynamicCast<uking::act::SiteBoss>(mActor))
         boss->_1558.set(0x200000);
 }
 
-void SiteBossSetFlinchFlag::m9() {
+void SiteBossSetFlinchFlag::leave() {
     if (auto* boss = sead::DynamicCast<uking::act::SiteBoss>(mActor))
         boss->_1558.reset(0x200000);
 }

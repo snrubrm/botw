@@ -6,7 +6,7 @@ namespace uking::behavior {
 
 AirWallMaterialSpecify::AirWallMaterialSpecify(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void AirWallMaterialSpecify::m8() {
+void AirWallMaterialSpecify::enter() {
     _48 = 3;
     auto* actor = mActor;
     if (!actor)

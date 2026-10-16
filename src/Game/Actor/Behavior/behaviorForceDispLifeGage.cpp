@@ -9,7 +9,7 @@ ForceDispLifeGage::ForceDispLifeGage(const InitArg& arg) : ksys::act::ai::Behavi
 
 ForceDispLifeGage::~ForceDispLifeGage() = default;
 
-bool ForceDispLifeGage::m6(sead::Heap* heap) {
+bool ForceDispLifeGage::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -26,21 +26,21 @@ bool ForceDispLifeGage::sub_71006232EC() {
     return false;
 }
 
-void ForceDispLifeGage::m7() {
+void ForceDispLifeGage::calc() {
     if (!*mIsOnlyPlayer_s)
         return;
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e84.change(0x20000, sub_71006232EC());
 }
 
-void ForceDispLifeGage::m8() {
+void ForceDispLifeGage::enter() {
     if (*mIsOnlyPlayer_s)
         return;
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e84.set(0x20000);
 }
 
-void ForceDispLifeGage::m9() {
+void ForceDispLifeGage::leave() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e84.reset(0x20000);
 }

@@ -6,15 +6,15 @@ namespace uking::behavior {
 
 Noise::Noise(const InitArg& arg) : NoiseBase(arg) {}
 
-bool Noise::m6(sead::Heap* heap) {
+bool Noise::init_(sead::Heap* heap) {
     return _48.sub_7100D78564(heap);
 }
 
-void Noise::m7() {
-    NoiseBase::m7();
+void Noise::calc() {
+    NoiseBase::calc();
 }
 
-void Noise::m8() {
+void Noise::enter() {
     if (auto* owner = mActor->get548()) {
         _48.setRadius(*mSensorRadius_s);
         owner->sub_7100D783E4(&_48);
@@ -22,9 +22,9 @@ void Noise::m8() {
     sub_710062E9F0();
 }
 
-void Noise::m9() {
+void Noise::leave() {
     sub_710062DF30();
-    NoiseBase::m9();
+    NoiseBase::leave();
 }
 
 void Noise::loadParams() {

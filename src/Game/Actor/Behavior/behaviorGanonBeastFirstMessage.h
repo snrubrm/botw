@@ -13,11 +13,11 @@ class GanonBeastFirstMessage : public ksys::act::ai::Behavior {
 public:
     explicit GanonBeastFirstMessage(const InitArg& arg);
     ~GanonBeastFirstMessage() override;
-    void m9() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
 
     // 0x7100624048: opens the next message dialog (or finishes when three were shown).
     void sub_7100624048();

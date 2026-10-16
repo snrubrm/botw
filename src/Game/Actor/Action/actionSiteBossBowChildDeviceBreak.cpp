@@ -22,7 +22,7 @@ void SiteBossBowChildDeviceBreak::enter_(ksys::act::ai::InlineParamPack* params)
     _30 = ksys::Timer(*mReactionTime_s, *mReactionTime_s, -1.0f);
     sead::Vector3f offset{0.0f, 2.0f, 0.0f};
     if (auto* manager = sub_710072BA90(mActor)) {
-        manager->getAttackPos(&offset);
+        manager->getDamageDir(&offset);
         offset.normalize();
         offset.y *= 1.1f;
     }

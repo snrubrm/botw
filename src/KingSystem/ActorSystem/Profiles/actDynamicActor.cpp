@@ -61,7 +61,7 @@ void DynamicActor::m76(VFR::ScopedDeltaSetter* setter) {
     if (_a50)
         _a50->m6();
     if (auto* damage = sead::DynamicCast<uking::act::DamageManagerBase>(mDamageMgr))
-        damage->m43();
+        damage->applyAttackInfoStateChangeDamage();
     m160();
     if (mChemical && mChemical->sub_7100E39458() && _a60)
         _a60->_c |= 4;

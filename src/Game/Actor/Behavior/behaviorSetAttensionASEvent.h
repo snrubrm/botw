@@ -10,10 +10,10 @@ class SetAttensionASEvent : public ksys::act::ai::Behavior {
 public:
     explicit SetAttensionASEvent(const InitArg& arg);
     ~SetAttensionASEvent() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ sead::SafeString mAttKey_s{};

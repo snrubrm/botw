@@ -9,20 +9,20 @@ GuardToTargetBarrier::GuardToTargetBarrier(const InitArg& arg) : GuardFrontBarri
 
 GuardToTargetBarrier::~GuardToTargetBarrier() = default;
 
-bool GuardToTargetBarrier::m6(sead::Heap* heap) {
-    return GuardFrontBarrier::m6(heap);
+bool GuardToTargetBarrier::init_(sead::Heap* heap) {
+    return GuardFrontBarrier::init_(heap);
 }
 
-void GuardToTargetBarrier::m7() {
-    GuardFrontBarrier::m7();
+void GuardToTargetBarrier::calc() {
+    GuardFrontBarrier::calc();
 }
 
-void GuardToTargetBarrier::m8() {
-    GuardFrontBarrier::m8();
+void GuardToTargetBarrier::enter() {
+    GuardFrontBarrier::enter();
 }
 
-void GuardToTargetBarrier::m9() {
-    GuardFrontBarrier::m9();
+void GuardToTargetBarrier::leave() {
+    GuardFrontBarrier::leave();
 }
 
 void GuardToTargetBarrier::m15(sead::Matrix34f* out) {

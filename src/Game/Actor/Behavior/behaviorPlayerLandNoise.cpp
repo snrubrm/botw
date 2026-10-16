@@ -7,24 +7,24 @@ PlayerLandNoise::PlayerLandNoise(const InitArg& arg) : PlayerLandNoiseBase(arg) 
 
 PlayerLandNoise::~PlayerLandNoise() = default;
 
-bool PlayerLandNoise::m6(sead::Heap* heap) {
-    return PlayerLandNoiseBase::m6(heap);
+bool PlayerLandNoise::init_(sead::Heap* heap) {
+    return PlayerLandNoiseBase::init_(heap);
 }
 
-void PlayerLandNoise::m7() {
+void PlayerLandNoise::calc() {
     if (auto* player = sead::DynamicCast<uking::act::PlayerBase>(mActor)) {
         if (player->m195())
             return;
     }
-    PlayerLandNoiseBase::m7();
+    PlayerLandNoiseBase::calc();
 }
 
-void PlayerLandNoise::m8() {
-    PlayerLandNoiseBase::m8();
+void PlayerLandNoise::enter() {
+    PlayerLandNoiseBase::enter();
 }
 
-void PlayerLandNoise::m9() {
-    PlayerLandNoiseBase::m9();
+void PlayerLandNoise::leave() {
+    PlayerLandNoiseBase::leave();
 }
 
 void PlayerLandNoise::loadParams() {

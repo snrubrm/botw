@@ -42,7 +42,7 @@ void DamageMgrShield::m50(f32 scale) {
 
 namespace uking::act {
 
-void DamageMgrShield::m22() {
+void DamageMgrShield::calcDamage() {
     u32 v1 = 0;
     u32 v2 = 0;
     u32 v4 = -1;

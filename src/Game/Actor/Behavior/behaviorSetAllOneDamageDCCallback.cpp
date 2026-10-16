@@ -6,20 +6,20 @@ SetAllOneDamageDCCallback::SetAllOneDamageDCCallback(const InitArg& arg) : SetDa
 
 SetAllOneDamageDCCallback::~SetAllOneDamageDCCallback() = default;
 
-bool SetAllOneDamageDCCallback::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetAllOneDamageDCCallback::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetAllOneDamageDCCallback::m7() {
-    SetDamageCallback::m7();
+void SetAllOneDamageDCCallback::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetAllOneDamageDCCallback::m8() {
-    SetDamageCallback::m8();
+void SetAllOneDamageDCCallback::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetAllOneDamageDCCallback::m9() {
-    SetDamageCallback::m9();
+void SetAllOneDamageDCCallback::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetAllOneDamageDCCallback::loadParams() {

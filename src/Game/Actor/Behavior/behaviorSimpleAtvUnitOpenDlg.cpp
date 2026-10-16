@@ -8,8 +8,8 @@ SimpleAtvUnitOpenDlg::SimpleAtvUnitOpenDlg(const InitArg& arg)
 
 SimpleAtvUnitOpenDlg::~SimpleAtvUnitOpenDlg() = default;
 
-bool SimpleAtvUnitOpenDlg::m6(sead::Heap* heap) {
-    if (!SimpleAtvUnitOpenSimpleDialog::m6(heap))
+bool SimpleAtvUnitOpenDlg::init_(sead::Heap* heap) {
+    if (!SimpleAtvUnitOpenSimpleDialog::init_(heap))
         return false;
     _86 = 0;
     return true;
@@ -32,16 +32,16 @@ void SimpleAtvUnitOpenDlg::m16() {
     SimpleAtvUnitOpenSimpleDialog::m16();
 }
 
-void SimpleAtvUnitOpenDlg::m7() {
-    SimpleAtvUnitOpenSimpleDialog::m7();
+void SimpleAtvUnitOpenDlg::calc() {
+    SimpleAtvUnitOpenSimpleDialog::calc();
 }
 
-void SimpleAtvUnitOpenDlg::m8() {
-    SimpleAtvUnitOpenSimpleDialog::m8();
+void SimpleAtvUnitOpenDlg::enter() {
+    SimpleAtvUnitOpenSimpleDialog::enter();
 }
 
-void SimpleAtvUnitOpenDlg::m9() {
-    SimpleAtvUnitOpenSimpleDialog::m9();
+void SimpleAtvUnitOpenDlg::leave() {
+    SimpleAtvUnitOpenSimpleDialog::leave();
 }
 
 void SimpleAtvUnitOpenDlg::loadParams() {

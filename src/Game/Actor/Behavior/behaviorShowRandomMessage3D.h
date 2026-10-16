@@ -9,7 +9,7 @@ class ShowRandomMessage3D : public ShowMessage3D {
 public:
     explicit ShowRandomMessage3D(const InitArg& arg);
     ~ShowRandomMessage3D() override;
-    void m7() override;
+    void calc() override;
     void loadParams() override;
     void m14(sead::BufferedSafeString* out) override;
 

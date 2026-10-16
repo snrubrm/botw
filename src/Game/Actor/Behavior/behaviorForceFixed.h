@@ -9,13 +9,13 @@ class ForceFixed : public ksys::act::ai::Behavior {
 public:
     explicit ForceFixed(const InitArg& arg);
     ~ForceFixed() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
-    // Saved state (m8) restored by m9: the character controller's flag bits 0x400 / 0x800 / 4 (_28 - _2a), or
+    // Saved state (enter) restored by leave: the character controller's flag bits 0x400 / 0x800 / 4 (_28 - _2a), or
     // the main body's Fixed flag (_2b).
     /* 0x28 */ bool _28 = false;
     /* 0x29 */ bool _29 = false;

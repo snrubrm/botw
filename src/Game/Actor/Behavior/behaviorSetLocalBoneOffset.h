@@ -12,11 +12,11 @@ class SetLocalBoneOffset : public ksys::act::ai::Behavior {
 public:
     explicit SetLocalBoneOffset(const InitArg& arg);
     ~SetLocalBoneOffset() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
 
     /* 0x28 */ sead::SafeString mBoneName_s{};
     /* 0x38 */ const sead::Vector3f* mTransOffset_s{};

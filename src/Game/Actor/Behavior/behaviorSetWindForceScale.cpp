@@ -8,19 +8,19 @@ SetWindForceScale::SetWindForceScale(const InitArg& arg) : ksys::act::ai::Behavi
 
 SetWindForceScale::~SetWindForceScale() = default;
 
-bool SetWindForceScale::m6(sead::Heap* heap) {
+bool SetWindForceScale::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetWindForceScale::m7() {}
+void SetWindForceScale::calc() {}
 
-void SetWindForceScale::m9() {}
+void SetWindForceScale::leave() {}
 
 void SetWindForceScale::loadParams() {
     getStaticParam(&mWindScale_s, "WindScale");
 }
 
-void SetWindForceScale::m8() {
+void SetWindForceScale::enter() {
     if (auto* chemical = mActor->sub_71011D8A44(0))
         chemical->_14c = *mWindScale_s;
 }

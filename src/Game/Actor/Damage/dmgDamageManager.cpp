@@ -115,7 +115,7 @@ ksys::phys::RigidBody* DamageManager::sub_71006D69F8() {
 }
 
 // NON_MATCHING: inlining the existing body getter merges the two attack-info calls.
-bool DamageManager::m38(ksys::phys::RigidBody* body) {
+bool DamageManager::isDamageSourceObjectMaybe(ksys::phys::RigidBody* body) {
     auto* damage_body = sub_71006D69F8();
     return damage_body && damage_body == body;
 }
@@ -206,7 +206,7 @@ f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorLinkConstDataAcces
     return sead::Mathf::max(ratio, 0.01f);
 }
 
-f32 DamageManager::m13() {
+f32 DamageManager::getStasisBlowPowerRatio() {
     if (_220)
         return _220->sub_71006D9A24(mActor);
     return 0.0f;
@@ -367,7 +367,7 @@ bool DamageManager::checkDamageFlags(s32 bit) {
     return (1 << bit) & _8c;
 }
 
-bool DamageManager::m42() {
+bool DamageManager::isDamageItemFlagCheckDisabled() {
     return checkDamageFlags(14);
 }
 
@@ -378,7 +378,7 @@ bool DamageManager::isSlowTime() {
     return info && info->sub_71007A1F78(0x4000000);
 }
 
-bool DamageManager::m40(s32* out) {
+bool DamageManager::getAttackDirType(s32* out) {
     *out = -1;
     if (auto* info = getAttackInfo_()) {
         *out = info->_bc;
@@ -526,7 +526,7 @@ bool DamageManager::getPosition(sead::Vector3f* out) {
 
 // NON_MATCHING: same logic and damage-kind structure, but the original keeps no float register across the switch (the
 // impulse direction is copied first and scaled afterwards; our scheduling / csel polarity differ in several kinds)
-bool DamageManager::m32(sead::Vector3f* out) {
+bool DamageManager::getDamageImpulse(sead::Vector3f* out) {
     s32 index;
     switch (getDamageType()) {
     case 1:
@@ -620,7 +620,7 @@ bool DamageManager::m32(sead::Vector3f* out) {
     return true;
 }
 
-bool DamageManager::m31(sead::Vector3f* out) {
+bool DamageManager::getHitDirection(sead::Vector3f* out) {
     s32 index;
     switch (getDamageType()) {
     case 1:
@@ -690,7 +690,7 @@ bool DamageManager::m31(sead::Vector3f* out) {
     return true;
 }
 
-bool DamageManager::getAttackPos(sead::Vector3f* out) {
+bool DamageManager::getDamageDir(sead::Vector3f* out) {
     s32 index;
     switch (getDamageType()) {
     case 1:
@@ -764,7 +764,7 @@ bool DamageManager::getAttackPos(sead::Vector3f* out) {
     return true;
 }
 
-bool DamageManager::m35(sead::Matrix34f* out) {
+bool DamageManager::getAttackSourceMtx(sead::Matrix34f* out) {
     s32 index;
     switch (getDamageType()) {
     case 2:
@@ -813,12 +813,12 @@ bool DamageManager::m35(sead::Matrix34f* out) {
 }
 
 // NON_MATCHING: the original duplicates the `info ? &info->_20 : nullptr` tail in both arms of the damage kind switch
-ksys::phys::MaterialMask* DamageManager::m33() {
+ksys::phys::MaterialMask* DamageManager::getAttackOtherMaterialMask() {
     auto* info = getAttackInfo_();
     return info ? &info->_20 : nullptr;
 }
 
-// NON_MATCHING: same tail duplication as m33
+// NON_MATCHING: same tail duplication as getAttackOtherMaterialMask
 ksys::phys::MaterialMask* DamageManager::tgSensorMaterialOnHitMaybe() {
     auto* info = getAttackInfo_();
     return info ? &info->_38 : nullptr;
@@ -842,16 +842,16 @@ bool DamageManager::m30(sead::Vector3f* out) {
     return DamageManagerBase::m30(out);
 }
 
-bool DamageManager::m41() {
+bool DamageManager::getAttackInfoFlagFC() {
     if (auto* info = getAttackInfo_())
         return info->_fc & 1;
     return false;
 }
 
-s32 DamageManager::m49(s32 damageTypeMaybe) {
+s32 DamageManager::getDamageFromTypeIndex(s32 damageTypeMaybe) {
     if (_8c & 0x10)
         return 1;
-    return DamageManagerBase::m49(damageTypeMaybe);
+    return DamageManagerBase::getDamageFromTypeIndex(damageTypeMaybe);
 }
 
 bool DamageManager::sub_71006EE2B0() const {
@@ -938,7 +938,7 @@ bool DamageManager::sub_71006D357C(s32 type, s32 eventId, bool flag, s32 damage,
     callDamageCallbacks_(type, eventId, &damage, &df48, &minDmg, &f50, &f54);
 
     if (type == 2 && sub_71007A2604(mActor)) {
-        const s32 reaction = m49(f50);
+        const s32 reaction = getDamageFromTypeIndex(f50);
         if (sub_71006E0F24(reaction)) {
             const bool guard = sub_71006E0BD4(reaction) || ksys::act::isPlayerProfile(mActor);
             if ((!guard || (f54 >= 9 && f54 <= 14)) && damage <= 0 && _6c >= 0) {
@@ -1102,7 +1102,7 @@ bool DamageManager::sub_71006D5668(s32* damage, s32*, u32* minDmg, u32* f50, s32
     return true;
 }
 
-void DamageManager::m43() {
+void DamageManager::applyAttackInfoStateChangeDamage() {
     s32 damage = 0;
     u32 minDmg = 0;
     u32 f50 = -1;
@@ -1129,7 +1129,7 @@ void DamageManager::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u3
     _cc = info->mField_20 * info->mField_2C;
 }
 
-bool DamageManager::m16(const ksys::Message& message) {
+bool DamageManager::handleMessage(const ksys::Message& message) {
     if (_f0.m2(message))
         return true;
     if (_140.m2(message))

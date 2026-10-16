@@ -9,20 +9,20 @@ PosControl::PosControl(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 PosControl::~PosControl() = default;
 
-bool PosControl::m6(sead::Heap* heap) {
+bool PosControl::init_(sead::Heap* heap) {
     return true;
 }
 
-void PosControl::m8() {}
+void PosControl::enter() {}
 
-void PosControl::m9() {}
+void PosControl::leave() {}
 
 void PosControl::loadParams() {
     getStaticParam(&mImpulse_s, "Impulse");
 }
 
 // NON_MATCHING: scheduling (the original loads the impulse param before the matrix elements)
-void PosControl::m7() {
+void PosControl::calc() {
     auto* body = mActor->getMainBody();
     if (!body)
         return;

@@ -7,11 +7,11 @@ BossBgm::BossBgm(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 BossBgm::~BossBgm() = default;
 
-bool BossBgm::m6(sead::Heap* heap) {
+bool BossBgm::init_(sead::Heap* heap) {
     return true;
 }
 
-void BossBgm::m7() {}
+void BossBgm::calc() {}
 
 // Inline-only in the original (name is a guess): the switch is compiled to a lookup table (0x1e7af50: 2, 1, 3, 5, 4).
 static s32 getBossBgmValue(s32 boss_type) {
@@ -33,12 +33,12 @@ static s32 getBossBgmValue(s32 boss_type) {
 
 // NON_MATCHING: the original passes an 8-byte-aligned one-member struct (sp+8) to DamageInfoMgr::Unk450::sub_710065D428;
 // ours a scalar `const s32&` (x29-4) and loads in another order
-void BossBgm::m8() {
+void BossBgm::enter() {
     const s32 value = getBossBgmValue(*mBossType_s);
     act::DamageInfoMgr::instance()->get450().sub_710065D428(mActor, value);
 }
 
-void BossBgm::m9() {
+void BossBgm::leave() {
     act::DamageInfoMgr::instance()->get450().sub_710065D5D4(mActor);
 }
 

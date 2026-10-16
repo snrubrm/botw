@@ -13,7 +13,7 @@ namespace uking::behavior {
 
 GiantGuardWeakPoint::GiantGuardWeakPoint(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void GiantGuardWeakPoint::m8() {
+void GiantGuardWeakPoint::enter() {
     auto* actor = mActor;
     const f32 delay = *mDelayTime_s;
     _128 = ksys::Timer(delay, delay);
@@ -39,7 +39,7 @@ GiantGuardWeakPoint::~GiantGuardWeakPoint() = default;
 
 // NON_MATCHING: the original converts the unit to its data base with branches (null / `unit + 8`); we get a csel
 // (with `Unk_71025be918Data* data = ...` first the addresses of the string members are computed late instead)
-bool GiantGuardWeakPoint::m6(sead::Heap* heap) {
+bool GiantGuardWeakPoint::init_(sead::Heap* heap) {
     if (!_138.acquire(heap, static_cast<Unk_71025afb58**>(mGiantPartBoneUnit_a), mActor))
         return false;
     return _a8.sub_710001C000(*mTargetBone_s, mGuardTgName_s, mGuardStartAS_s, mGuardLoopAS_s,
@@ -49,7 +49,7 @@ bool GiantGuardWeakPoint::m6(sead::Heap* heap) {
 
 // NON_MATCHING: block layout of the timer branch (the original lays out the timer update first and keeps `&_128` in
 // a register before the compare)
-void GiantGuardWeakPoint::m7() {
+void GiantGuardWeakPoint::calc() {
     if (_134) {
         if (!_135 || !(_135 = sub_7100726F20(mActor))) {
             if (u32(_a8._c - 1) < 2)
@@ -86,7 +86,7 @@ void GiantGuardWeakPoint::m7() {
     _a8.sub_710001C1DC();
 }
 
-void GiantGuardWeakPoint::m9() {
+void GiantGuardWeakPoint::leave() {
     _a8.sub_710001C194();
 }
 

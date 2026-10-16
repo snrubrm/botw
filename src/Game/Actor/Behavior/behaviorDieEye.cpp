@@ -11,13 +11,13 @@ DieEye::~DieEye() {
     ;
 }
 
-bool DieEye::m6(sead::Heap* heap) {
+bool DieEye::init_(sead::Heap* heap) {
     return true;
 }
 
-void DieEye::m7() {}
+void DieEye::calc() {}
 
-void DieEye::m8() {
+void DieEye::enter() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         enemy->_f60.sub_7100701BE4(mLeftEyeLidName_s, mRightEyeLidName_s, *mCloseOffset_s);
@@ -26,7 +26,7 @@ void DieEye::m8() {
     }
 }
 
-void DieEye::m9() {
+void DieEye::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
         enemy->_f60.removeOrDefer();

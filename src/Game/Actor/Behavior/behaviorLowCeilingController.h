@@ -10,11 +10,11 @@ class LowCeilingController : public ksys::act::ai::Behavior {
 public:
     explicit LowCeilingController(const InitArg& arg);
     ~LowCeilingController() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
 
     /* 0x28 */ const float* mChangeFrame_s{};
     /* 0x30 */ const float* mReverseFrame_s{};

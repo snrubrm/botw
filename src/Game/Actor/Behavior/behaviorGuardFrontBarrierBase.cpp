@@ -8,12 +8,12 @@ GuardFrontBarrierBase::GuardFrontBarrierBase(const InitArg& arg) : OnStateXLinkC
 
 GuardFrontBarrierBase::~GuardFrontBarrierBase() = default;
 
-bool GuardFrontBarrierBase::m6(sead::Heap* heap) {
-    return OnStateXLinkCreate::m6(heap);
+bool GuardFrontBarrierBase::init_(sead::Heap* heap) {
+    return OnStateXLinkCreate::init_(heap);
 }
 
-void GuardFrontBarrierBase::m7() {
-    OnStateXLinkCreate::m7();
+void GuardFrontBarrierBase::calc() {
+    OnStateXLinkCreate::calc();
     if (!m14()) {
         sub_7100631CAC();
         return;
@@ -25,12 +25,12 @@ void GuardFrontBarrierBase::m7() {
     xlinkSearchAndEmit(mActor, mKey_s.cstr(), 2, &_58);
 }
 
-void GuardFrontBarrierBase::m8() {
-    OnStateXLinkCreate::m8();
+void GuardFrontBarrierBase::enter() {
+    OnStateXLinkCreate::enter();
 }
 
-void GuardFrontBarrierBase::m9() {
-    OnStateXLinkCreate::m9();
+void GuardFrontBarrierBase::leave() {
+    OnStateXLinkCreate::leave();
 }
 
 void GuardFrontBarrierBase::loadParams() {

@@ -7,22 +7,22 @@ SetForceSmallRagdoll::SetForceSmallRagdoll(const InitArg& arg) : ksys::act::ai::
 
 SetForceSmallRagdoll::~SetForceSmallRagdoll() = default;
 
-bool SetForceSmallRagdoll::m6(sead::Heap* heap) {
+bool SetForceSmallRagdoll::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetForceSmallRagdoll::m7() {}
+void SetForceSmallRagdoll::calc() {}
 
 void SetForceSmallRagdoll::loadParams() {
 
 }
 
-void SetForceSmallRagdoll::m8() {
+void SetForceSmallRagdoll::enter() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e82 |= 0x200;
 }
 
-void SetForceSmallRagdoll::m9() {
+void SetForceSmallRagdoll::leave() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e82 &= ~0x200;
 }

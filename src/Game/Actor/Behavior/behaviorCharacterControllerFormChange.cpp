@@ -10,7 +10,7 @@ CharacterControllerFormChange::CharacterControllerFormChange(const InitArg& arg)
 
 CharacterControllerFormChange::~CharacterControllerFormChange() = default;
 
-bool CharacterControllerFormChange::m6(sead::Heap* heap) {
+bool CharacterControllerFormChange::init_(sead::Heap* heap) {
     s32 idx = -1;
     if (auto* physics = mActor->getPhysics()) {
         switch (*mEnterState_s) {
@@ -29,9 +29,9 @@ bool CharacterControllerFormChange::m6(sead::Heap* heap) {
     return true;
 }
 
-void CharacterControllerFormChange::m7() {}
+void CharacterControllerFormChange::calc() {}
 
-void CharacterControllerFormChange::m8() {
+void CharacterControllerFormChange::enter() {
     auto* cc = mActor->getCharacterController();
     _38 = -1;
     if (!cc)
@@ -42,7 +42,7 @@ void CharacterControllerFormChange::m8() {
     cc->sub_7100F5F270(_3c);
 }
 
-void CharacterControllerFormChange::m9() {
+void CharacterControllerFormChange::leave() {
     if (!*mIsRestoreWhenLeave_s)
         return;
     auto* cc = mActor->getCharacterController();

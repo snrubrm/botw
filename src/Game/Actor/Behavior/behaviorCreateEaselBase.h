@@ -12,13 +12,13 @@ class CreateEaselBase : public ksys::act::ai::Behavior {
 public:
     explicit CreateEaselBase(const InitArg& arg);
     ~CreateEaselBase() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
     virtual const char* m14();
     virtual bool m15() { return true; }
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
 
     /* 0x28 */ const bool* mIsNoSystemDelete_s{};
     /* 0x30 */ sead::SafeString mActorName_s{};

@@ -7,20 +7,20 @@ NeckRotateToPlayer::NeckRotateToPlayer(const InitArg& arg) : NeckControl(arg) {}
 
 NeckRotateToPlayer::~NeckRotateToPlayer() = default;
 
-bool NeckRotateToPlayer::m6(sead::Heap* heap) {
-    return NeckControl::m6(heap);
+bool NeckRotateToPlayer::init_(sead::Heap* heap) {
+    return NeckControl::init_(heap);
 }
 
-void NeckRotateToPlayer::m7() {
-    NeckControl::m7();
+void NeckRotateToPlayer::calc() {
+    NeckControl::calc();
 }
 
-void NeckRotateToPlayer::m8() {
-    NeckControl::m8();
+void NeckRotateToPlayer::enter() {
+    NeckControl::enter();
 }
 
-void NeckRotateToPlayer::m9() {
-    NeckControl::m9();
+void NeckRotateToPlayer::leave() {
+    NeckControl::leave();
 }
 
 void NeckRotateToPlayer::loadParams() {

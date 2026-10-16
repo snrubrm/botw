@@ -7,7 +7,7 @@ ShowConstStringBoard::ShowConstStringBoard(const InitArg& arg) : ksys::act::ai::
 
 ShowConstStringBoard::~ShowConstStringBoard() = default;
 
-void ShowConstStringBoard::m7() {
+void ShowConstStringBoard::calc() {
     _11c = sead::Color4f(mLineColor_s->x, mLineColor_s->y, mLineColor_s->z, *mLineAlpha_s);
     _f8.set(*mBGCenterOffset_s);
     _e8 = sead::Color4f(mBGColor_s->x, mBGColor_s->y, mBGColor_s->z, *mBGAlpha_s);
@@ -23,9 +23,9 @@ void ShowConstStringBoard::m7() {
     mActor->getMtx().getTranslation(_110);
 }
 
-void ShowConstStringBoard::m8() {}
+void ShowConstStringBoard::enter() {}
 
-void ShowConstStringBoard::m9() {}
+void ShowConstStringBoard::leave() {}
 
 // NON_MATCHING: the trailing `SafeString = mText_s` copy (the stubbed string board's call argument) is
 // built in a 24-byte stack object in the original (an extra zero qword after the SafeString), which

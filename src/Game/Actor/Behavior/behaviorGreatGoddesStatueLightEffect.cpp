@@ -13,19 +13,19 @@ GreatGoddesStatueLightEffect::~GreatGoddesStatueLightEffect() {
     ;
 }
 
-bool GreatGoddesStatueLightEffect::m6(sead::Heap* heap) {
+bool GreatGoddesStatueLightEffect::init_(sead::Heap* heap) {
     return true;
 }
 
-void GreatGoddesStatueLightEffect::m8() {}
+void GreatGoddesStatueLightEffect::enter() {}
 
-void GreatGoddesStatueLightEffect::m9() {}
+void GreatGoddesStatueLightEffect::leave() {}
 
 void GreatGoddesStatueLightEffect::loadParams() {
     getStaticParam(&mFlagName_s, "FlagName");
 }
 
-void GreatGoddesStatueLightEffect::m7() {
+void GreatGoddesStatueLightEffect::calc() {
     auto* gdm = ksys::gdt::Manager::instance();
     if (!gdm)
         return;

@@ -9,16 +9,16 @@ SwarmPatternDoubleRing::SwarmPatternDoubleRing(const InitArg& arg) : SwarmPatter
 
 SwarmPatternDoubleRing::~SwarmPatternDoubleRing() = default;
 
-bool SwarmPatternDoubleRing::m6(sead::Heap* heap) {
-    return SwarmPattern::m6(heap);
+bool SwarmPatternDoubleRing::init_(sead::Heap* heap) {
+    return SwarmPattern::init_(heap);
 }
 
-void SwarmPatternDoubleRing::m7() {
-    SwarmPattern::m7();
+void SwarmPatternDoubleRing::calc() {
+    SwarmPattern::calc();
 }
 
-void SwarmPatternDoubleRing::m8() {
-    SwarmPattern::m8();
+void SwarmPatternDoubleRing::enter() {
+    SwarmPattern::enter();
     auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
     if (!swarm)
         return;
@@ -38,8 +38,8 @@ void SwarmPatternDoubleRing::m8() {
     }
 }
 
-void SwarmPatternDoubleRing::m9() {
-    SwarmPattern::m9();
+void SwarmPatternDoubleRing::leave() {
+    SwarmPattern::leave();
 }
 
 void SwarmPatternDoubleRing::loadParams() {

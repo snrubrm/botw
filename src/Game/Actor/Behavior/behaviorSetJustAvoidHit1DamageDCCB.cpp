@@ -8,20 +8,20 @@ SetJustAvoidHit1DamageDCCB::SetJustAvoidHit1DamageDCCB(const InitArg& arg)
 
 SetJustAvoidHit1DamageDCCB::~SetJustAvoidHit1DamageDCCB() = default;
 
-bool SetJustAvoidHit1DamageDCCB::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetJustAvoidHit1DamageDCCB::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetJustAvoidHit1DamageDCCB::m7() {
-    SetDamageCallback::m7();
+void SetJustAvoidHit1DamageDCCB::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetJustAvoidHit1DamageDCCB::m8() {
-    SetDamageCallback::m8();
+void SetJustAvoidHit1DamageDCCB::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetJustAvoidHit1DamageDCCB::m9() {
-    SetDamageCallback::m9();
+void SetJustAvoidHit1DamageDCCB::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetJustAvoidHit1DamageDCCB::loadParams() {

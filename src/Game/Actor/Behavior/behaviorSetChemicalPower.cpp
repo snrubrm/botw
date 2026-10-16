@@ -8,13 +8,13 @@ SetChemicalPower::SetChemicalPower(const InitArg& arg) : ksys::act::ai::Behavior
 
 SetChemicalPower::~SetChemicalPower() = default;
 
-bool SetChemicalPower::m6(sead::Heap* heap) {
+bool SetChemicalPower::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetChemicalPower::m7() {}
+void SetChemicalPower::calc() {}
 
-void SetChemicalPower::m8() {
+void SetChemicalPower::enter() {
     if (auto* chemical = mActor->getChemicalStuff()) {
         if (*mIsOnOffensive_s)
             chemical->sub_7100D91098(true);
@@ -22,7 +22,7 @@ void SetChemicalPower::m8() {
     }
 }
 
-void SetChemicalPower::m9() {
+void SetChemicalPower::leave() {
     if (auto* chemical = mActor->getChemicalStuff()) {
         if (*mIsOnOffensive_s)
             chemical->sub_7100D91098(false);

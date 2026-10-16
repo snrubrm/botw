@@ -349,7 +349,7 @@ public:
     void calcType1_() override {}
     void calcType2_() override {}
     void m9() override {}
-    void m10() override {}
+    void drawDebug() override {}
     void m11() override {}
 
     void initBeforeStageGen();

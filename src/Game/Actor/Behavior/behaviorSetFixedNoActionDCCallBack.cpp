@@ -7,20 +7,20 @@ SetFixedNoActionDCCallBack::SetFixedNoActionDCCallBack(const InitArg& arg)
 
 SetFixedNoActionDCCallBack::~SetFixedNoActionDCCallBack() = default;
 
-bool SetFixedNoActionDCCallBack::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetFixedNoActionDCCallBack::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetFixedNoActionDCCallBack::m7() {
-    SetDamageCallback::m7();
+void SetFixedNoActionDCCallBack::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetFixedNoActionDCCallBack::m8() {
-    SetDamageCallback::m8();
+void SetFixedNoActionDCCallBack::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetFixedNoActionDCCallBack::m9() {
-    SetDamageCallback::m9();
+void SetFixedNoActionDCCallBack::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetFixedNoActionDCCallBack::loadParams() {

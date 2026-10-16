@@ -7,11 +7,11 @@ SignalControl::SignalControl(const InitArg& arg) : ksys::act::ai::Behavior(arg) 
 
 SignalControl::~SignalControl() = default;
 
-bool SignalControl::m6(sead::Heap* heap) {
+bool SignalControl::init_(sead::Heap* heap) {
     return true;
 }
 
-void SignalControl::m7() {}
+void SignalControl::calc() {}
 
 void SignalControl::loadParams() {
     getStaticParam(&mSignalType_s, "SignalType");
@@ -19,7 +19,7 @@ void SignalControl::loadParams() {
     getStaticParam(&mIsReverseOnLeave_s, "IsReverseOnLeave");
 }
 
-void SignalControl::m8() {
+void SignalControl::enter() {
     if (*mSignalType_s != 0)
         return;
     auto* actor = mActor;
@@ -29,7 +29,7 @@ void SignalControl::m8() {
         actor->emitBasicSigOff();
 }
 
-void SignalControl::m9() {
+void SignalControl::leave() {
     if (!*mIsReverseOnLeave_s)
         return;
     if (*mSignalType_s != 0)

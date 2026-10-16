@@ -10,11 +10,11 @@ class AwnHearingParamChange : public ksys::act::ai::Behavior {
 public:
     explicit AwnHearingParamChange(const InitArg& arg);
     ~AwnHearingParamChange() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     void loadParams() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
 
     /* 0x28 */ const float* mNoticeRatio_s{};
     /* 0x30 */ const float* mWarnRatio_s{};

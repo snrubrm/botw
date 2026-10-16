@@ -7,21 +7,21 @@ DisableForbidJob::DisableForbidJob(const InitArg& arg) : ksys::act::ai::Behavior
 
 DisableForbidJob::~DisableForbidJob() = default;
 
-bool DisableForbidJob::m6(sead::Heap* heap) {
+bool DisableForbidJob::init_(sead::Heap* heap) {
     return true;
 }
 
-void DisableForbidJob::m7() {}
+void DisableForbidJob::calc() {}
 
 void DisableForbidJob::loadParams() {
 
 }
 
-void DisableForbidJob::m8() {
+void DisableForbidJob::enter() {
     mActor->setFlag(ksys::act::Actor::ActorFlag::_2d, true);
 }
 
-void DisableForbidJob::m9() {
+void DisableForbidJob::leave() {
     mActor->setFlag(ksys::act::Actor::ActorFlag::_2d, false);
 }
 

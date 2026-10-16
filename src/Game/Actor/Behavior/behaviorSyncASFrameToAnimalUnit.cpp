@@ -10,11 +10,11 @@ SyncASFrameToAnimalUnit::SyncASFrameToAnimalUnit(const InitArg& arg)
 
 SyncASFrameToAnimalUnit::~SyncASFrameToAnimalUnit() = default;
 
-bool SyncASFrameToAnimalUnit::m6(sead::Heap* heap) {
+bool SyncASFrameToAnimalUnit::init_(sead::Heap* heap) {
     return true;
 }
 
-void SyncASFrameToAnimalUnit::m7() {
+void SyncASFrameToAnimalUnit::calc() {
     auto* list = mActor->getASList();
     if (!list)
         return;
@@ -25,9 +25,9 @@ void SyncASFrameToAnimalUnit::m7() {
     list->sub_710115F158(list, *mTargetBone_s, 0, *mSeqBank_s, bank);
 }
 
-void SyncASFrameToAnimalUnit::m8() {}
+void SyncASFrameToAnimalUnit::enter() {}
 
-void SyncASFrameToAnimalUnit::m9() {}
+void SyncASFrameToAnimalUnit::leave() {}
 
 void SyncASFrameToAnimalUnit::loadParams() {
     getStaticParam(&mSeqBank_s, "SeqBank");

@@ -7,14 +7,14 @@ SwarmPatternBeeAttack::SwarmPatternBeeAttack(const InitArg& arg) : SwarmPattern(
 
 SwarmPatternBeeAttack::~SwarmPatternBeeAttack() = default;
 
-bool SwarmPatternBeeAttack::m6(sead::Heap* heap) {
-    return SwarmPattern::m6(heap);
+bool SwarmPatternBeeAttack::init_(sead::Heap* heap) {
+    return SwarmPattern::init_(heap);
 }
 
 // NON_MATCHING: same maths and branch structure; the original schedules the row division (sdiv) and the
 // float conversions differently (about 20 instructions are reordered).
-void SwarmPatternBeeAttack::m7() {
-    SwarmPattern::m7();
+void SwarmPatternBeeAttack::calc() {
+    SwarmPattern::calc();
     auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
     if (!swarm)
         return;
@@ -38,12 +38,12 @@ void SwarmPatternBeeAttack::m7() {
     }
 }
 
-void SwarmPatternBeeAttack::m8() {
-    SwarmPattern::m8();
+void SwarmPatternBeeAttack::enter() {
+    SwarmPattern::enter();
 }
 
-void SwarmPatternBeeAttack::m9() {
-    SwarmPattern::m9();
+void SwarmPatternBeeAttack::leave() {
+    SwarmPattern::leave();
 }
 
 void SwarmPatternBeeAttack::loadParams() {

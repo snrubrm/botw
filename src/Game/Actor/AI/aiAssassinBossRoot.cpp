@@ -77,12 +77,12 @@ void Unk_71023d7bd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     *a5 = -1;
     s32 attack_type = -1;
     if (has_manager) {
-        manager->m40(&attack_type);
+        manager->getAttackDirType(&attack_type);
         auto* actor = manager->mActor;
         if (actor->getASList()->x(0xe, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
                                   true)) {
             sead::Vector3f attack_pos;
-            manager->getAttackPos(&attack_pos);
+            manager->getDamageDir(&attack_pos);
             attack_pos = -attack_pos;
             if (*a4 == 3 ||
                 actor->getMtx().getBase(2).dot(attack_pos) >= -4.371139e-08f) {
@@ -377,13 +377,13 @@ void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     if (damage_manager->checkDamageFlags(1))
         return;
 
-    damage_manager->m40(&field_40);
+    damage_manager->getAttackDirType(&field_40);
     auto* actor = damage_manager->mActor;
     if (!actor->getASList()->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
         return;
 
     sead::Vector3f dir;
-    damage_manager->getAttackPos(&dir);
+    damage_manager->getDamageDir(&dir);
     const auto& mtx = actor->getMtx();
     if (!(mtx.m[0][2] * -dir.x + mtx.m[1][2] * -dir.y + mtx.m[2][2] * -dir.z >=
           std::cos(sead::Mathf::pi() / 2)))

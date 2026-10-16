@@ -10,18 +10,18 @@ SetStaticSystemGroupHandler::SetStaticSystemGroupHandler(const InitArg& arg)
 
 SetStaticSystemGroupHandler::~SetStaticSystemGroupHandler() = default;
 
-bool SetStaticSystemGroupHandler::m6(sead::Heap* heap) {
+bool SetStaticSystemGroupHandler::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetStaticSystemGroupHandler::m7() {}
+void SetStaticSystemGroupHandler::calc() {}
 
 void SetStaticSystemGroupHandler::loadParams() {
     getStaticParam(&mType_s, "Type");
     getStaticParam(&mOnLeaveReset_s, "OnLeaveReset");
 }
 
-void SetStaticSystemGroupHandler::m8() {
+void SetStaticSystemGroupHandler::enter() {
     if (*mType_s != 1)
         return;
     auto* handler = ksys::phys::System::instance()->sub_7101216894(
@@ -32,7 +32,7 @@ void SetStaticSystemGroupHandler::m8() {
     }
 }
 
-void SetStaticSystemGroupHandler::m9() {
+void SetStaticSystemGroupHandler::leave() {
     if (!*mOnLeaveReset_s)
         return;
     auto* physics = mActor->getPhysics();

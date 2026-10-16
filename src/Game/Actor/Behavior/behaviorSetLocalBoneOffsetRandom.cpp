@@ -11,7 +11,7 @@ SetLocalBoneOffsetRandom::~SetLocalBoneOffsetRandom() = default;
 
 // NON_MATCHING: register allocation / frame layout (the original computes &mBoneName_s up front and
 // spills the x translation at sp+0xc)
-bool SetLocalBoneOffsetRandom::m6(sead::Heap* heap) {
+bool SetLocalBoneOffsetRandom::init_(sead::Heap* heap) {
     sead::Vector3f trans;
     trans.x = sead::GlobalRandom::instance()->getF32Range(mTransOffsetMin_s->x, mTransOffsetMax_s->x);
     trans.y = sead::GlobalRandom::instance()->getF32Range(mTransOffsetMin_s->y, mTransOffsetMax_s->y);
@@ -25,13 +25,13 @@ bool SetLocalBoneOffsetRandom::m6(sead::Heap* heap) {
     return true;
 }
 
-void SetLocalBoneOffsetRandom::m7() {}
+void SetLocalBoneOffsetRandom::calc() {}
 
-void SetLocalBoneOffsetRandom::m8() {
+void SetLocalBoneOffsetRandom::enter() {
     mActor->boneHandleStuff(&_58, false);
 }
 
-void SetLocalBoneOffsetRandom::m9() {
+void SetLocalBoneOffsetRandom::leave() {
     mActor->sub_71011DA868(&_58);
 }
 

@@ -11,11 +11,11 @@ class RequestEventResident : public ksys::act::ai::Behavior {
 public:
     explicit RequestEventResident(const InitArg& arg);
     ~RequestEventResident() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void leave() override;
     void loadParams() override;
-    void m8() override;
+    void enter() override;
 
     /* 0x28 */ sead::SafeString mEventName_s{};
     /* 0x38 */ sead::SafeString mEntryPointName_s{};

@@ -10,11 +10,11 @@ class AnimalNeckRotate : public ksys::act::ai::Behavior {
 public:
     explicit AnimalNeckRotate(const InitArg& arg);
     ~AnimalNeckRotate() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100617618)
-    void m8() override;  // not decompiled yet (0x7100617490)
-    void m9() override;
+    void calc() override;  // not decompiled yet (0x7100617618)
+    void enter() override;  // not decompiled yet (0x7100617490)
+    void leave() override;
 
     /* 0x28 */ const float* mLimitAngleLR_s{};
     /* 0x30 */ const float* mRotRate_s{};

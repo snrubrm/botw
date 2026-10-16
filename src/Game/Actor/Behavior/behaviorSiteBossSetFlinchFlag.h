@@ -9,10 +9,10 @@ class SiteBossSetFlinchFlag : public ksys::act::ai::Behavior {
 public:
     explicit SiteBossSetFlinchFlag(const InitArg& arg);
     ~SiteBossSetFlinchFlag() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
 };

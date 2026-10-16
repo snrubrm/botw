@@ -13,20 +13,20 @@ XLinkCreateToParts::~XLinkCreateToParts() {
     ;
 }
 
-bool XLinkCreateToParts::m6(sead::Heap* heap) {
-    return XLinkCreate::m6(heap);
+bool XLinkCreateToParts::init_(sead::Heap* heap) {
+    return XLinkCreate::init_(heap);
 }
 
-void XLinkCreateToParts::m7() {
-    XLinkCreate::m7();
+void XLinkCreateToParts::calc() {
+    XLinkCreate::calc();
 }
 
-void XLinkCreateToParts::m8() {
-    XLinkCreate::m8();
+void XLinkCreateToParts::enter() {
+    XLinkCreate::enter();
 }
 
-void XLinkCreateToParts::m9() {
-    XLinkCreate::m9();
+void XLinkCreateToParts::leave() {
+    XLinkCreate::leave();
 }
 
 void XLinkCreateToParts::m15(sead::Vector3f* out) {

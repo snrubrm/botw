@@ -7,7 +7,7 @@ namespace uking::behavior {
 SimpleAtvUnitOpenSimpleDialog::SimpleAtvUnitOpenSimpleDialog(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
-void SimpleAtvUnitOpenSimpleDialog::m7() {
+void SimpleAtvUnitOpenSimpleDialog::calc() {
     if (m15() || _85 || _84)
         return;
     if (_80 <= 0)
@@ -56,13 +56,13 @@ bool SimpleAtvUnitOpenSimpleDialog::updateForPreDelete() {
     return true;
 }
 
-void SimpleAtvUnitOpenSimpleDialog::m8() {
+void SimpleAtvUnitOpenSimpleDialog::enter() {
     if (_85)
         return;
     m16();
 }
 
-void SimpleAtvUnitOpenSimpleDialog::m9() {}
+void SimpleAtvUnitOpenSimpleDialog::leave() {}
 
 void SimpleAtvUnitOpenSimpleDialog::loadParams() {
     getStaticParam(&mCloseOption_s, "CloseOption");
@@ -81,7 +81,7 @@ const sead::SafeString* SimpleAtvUnitOpenSimpleDialog::m14() {
 
 SimpleAtvUnitOpenSimpleDialog::~SimpleAtvUnitOpenSimpleDialog() = default;
 
-bool SimpleAtvUnitOpenSimpleDialog::m6(sead::Heap* heap) {
+bool SimpleAtvUnitOpenSimpleDialog::init_(sead::Heap* heap) {
     if (!_78.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a)))
         return false;
     _85 = false;

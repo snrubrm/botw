@@ -7,24 +7,24 @@ HideLifeGage::HideLifeGage(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 HideLifeGage::~HideLifeGage() = default;
 
-bool HideLifeGage::m6(sead::Heap* heap) {
+bool HideLifeGage::init_(sead::Heap* heap) {
     return true;
 }
 
-void HideLifeGage::m7() {}
+void HideLifeGage::calc() {}
 
 void HideLifeGage::loadParams() {
 
 }
 
-void HideLifeGage::m8() {
+void HideLifeGage::enter() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor)) {
         _28 = enemy->_e90;
         enemy->_e90 = 1;
     }
 }
 
-void HideLifeGage::m9() {
+void HideLifeGage::leave() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e90 = _28;
 }

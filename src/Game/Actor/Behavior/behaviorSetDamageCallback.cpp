@@ -6,17 +6,17 @@ SetDamageCallback::SetDamageCallback(const InitArg& arg) : ksys::act::ai::Behavi
 
 SetDamageCallback::~SetDamageCallback() = default;
 
-bool SetDamageCallback::m6(sead::Heap* heap) {
+bool SetDamageCallback::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetDamageCallback::m7() {}
+void SetDamageCallback::calc() {}
 
-void SetDamageCallback::m8() {
+void SetDamageCallback::enter() {
     setDamageCallbackTiming(mActor, *mTiming_s, m14());
 }
 
-void SetDamageCallback::m9() {
+void SetDamageCallback::leave() {
     sub_71005DA114(mActor, m14());
 }
 

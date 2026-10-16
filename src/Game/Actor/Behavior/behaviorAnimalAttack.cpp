@@ -20,7 +20,7 @@ AnimalAttack::~AnimalAttack() {
     ;
 }
 
-bool AnimalAttack::m6(sead::Heap* heap) {
+bool AnimalAttack::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -29,7 +29,7 @@ void AnimalAttack::loadParams() {
     getStaticParam(&mAtkRigidName_s, "AtkRigidName");
 }
 
-void AnimalAttack::m8() {
+void AnimalAttack::enter() {
     auto* actor = mActor;
     _40 = false;
     sub_71007A2C30(actor, mAtkRigidName_s, &actor->getMtx());
@@ -50,13 +50,13 @@ void AnimalAttack::m8() {
         1, -1, false, 1, -1);
 }
 
-void AnimalAttack::m9() {
+void AnimalAttack::leave() {
     if (_48)
         _48->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
     sub_71007A2D7C(mActor, mAtkRigidName_s);
 }
 
-void AnimalAttack::m7() {
+void AnimalAttack::calc() {
     if (*mIsUseASEventAtCollision_s)
         sub_7100616E20();
 }

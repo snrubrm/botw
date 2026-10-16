@@ -12,7 +12,7 @@ PlayerParasailAltitude::PlayerParasailAltitude(const InitArg& arg) : ksys::act::
 
 PlayerParasailAltitude::~PlayerParasailAltitude() = default;
 
-bool PlayerParasailAltitude::m6(sead::Heap* heap) {
+bool PlayerParasailAltitude::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -20,7 +20,7 @@ void PlayerParasailAltitude::loadParams() {
 
 }
 
-void PlayerParasailAltitude::m8() {
+void PlayerParasailAltitude::enter() {
     _30 = 0;
     mActor->getXLink()->_50->setPropertyValue(31, _30);
     mActor->getXLink()->_48->setPropertyValue(31, _30);
@@ -39,7 +39,7 @@ void PlayerParasailAltitude::m8() {
     _44 = true;
 }
 
-void PlayerParasailAltitude::m7() {
+void PlayerParasailAltitude::calc() {
     if (!_28) {
         _28 = ksys::phys::RayCastForRequest::allocRequest();
         if (_28) {
@@ -88,7 +88,7 @@ void PlayerParasailAltitude::m7() {
     _28->submitRequest(ksys::phys::ContactLayerType::Entity);
 }
 
-void PlayerParasailAltitude::m9() {
+void PlayerParasailAltitude::leave() {
     _28->release();
     _30 = 0;
     mActor->getXLink()->_50->setPropertyValue(31, _30);

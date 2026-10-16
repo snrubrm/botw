@@ -10,16 +10,16 @@ SwarmPatternDisc::SwarmPatternDisc(const InitArg& arg) : SwarmPattern(arg) {}
 
 SwarmPatternDisc::~SwarmPatternDisc() = default;
 
-bool SwarmPatternDisc::m6(sead::Heap* heap) {
-    return SwarmPattern::m6(heap);
+bool SwarmPatternDisc::init_(sead::Heap* heap) {
+    return SwarmPattern::init_(heap);
 }
 
-void SwarmPatternDisc::m7() {
-    SwarmPattern::m7();
+void SwarmPatternDisc::calc() {
+    SwarmPattern::calc();
 }
 
-void SwarmPatternDisc::m8() {
-    SwarmPattern::m8();
+void SwarmPatternDisc::enter() {
+    SwarmPattern::enter();
     auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
     if (!swarm)
         return;
@@ -44,8 +44,8 @@ void SwarmPatternDisc::m8() {
         }
     }
 }
-void SwarmPatternDisc::m9() {
-    SwarmPattern::m9();
+void SwarmPatternDisc::leave() {
+    SwarmPattern::leave();
 }
 
 void SwarmPatternDisc::loadParams() {

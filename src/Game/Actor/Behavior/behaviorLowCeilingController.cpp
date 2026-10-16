@@ -16,7 +16,7 @@ LowCeilingController::~LowCeilingController() {
     ;
 }
 
-bool LowCeilingController::m6(sead::Heap* heap) {
+bool LowCeilingController::init_(sead::Heap* heap) {
     _4c = -1;
     _50 = 0;
     if (auto* physics = mActor->getPhysics())
@@ -26,7 +26,7 @@ bool LowCeilingController::m6(sead::Heap* heap) {
 
 // NON_MATCHING: the original tests `moving` with cbnz where ours uses tbnz #0 (bool / int / u32 and
 // ternary forms tried) and merges the final `_50 = 0` of both branches
-void LowCeilingController::m7() {
+void LowCeilingController::calc() {
     if (_4c < 0)
         return;
     const f32 delta = ksys::VFR::instance()->getDeltaFrame();
@@ -72,7 +72,7 @@ void LowCeilingController::m7() {
     _50 = sead::Mathf::clampMin(timer - delta, 0.0f);
 }
 
-void LowCeilingController::m8() {
+void LowCeilingController::enter() {
     if (_4c < 0)
         return;
     if (auto* cc = mActor->getCharacterController()) {
@@ -84,7 +84,7 @@ void LowCeilingController::m8() {
     _50 = 0;
 }
 
-void LowCeilingController::m9() {
+void LowCeilingController::leave() {
     if (_4c < 0)
         return;
     if (auto* cc = mActor->getCharacterController()) {

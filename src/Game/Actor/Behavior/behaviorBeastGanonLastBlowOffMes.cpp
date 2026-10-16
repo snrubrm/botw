@@ -14,27 +14,27 @@ BeastGanonLastBlowOffMes::BeastGanonLastBlowOffMes(const InitArg& arg)
 
 BeastGanonLastBlowOffMes::~BeastGanonLastBlowOffMes() = default;
 
-bool BeastGanonLastBlowOffMes::m6(sead::Heap* heap) {
-    if (!SimpleAtvUnitOpenDlgRnd3::m6(heap))
+bool BeastGanonLastBlowOffMes::init_(sead::Heap* heap) {
+    if (!SimpleAtvUnitOpenDlgRnd3::init_(heap))
         return false;
     _d8.search(mActor->getModel(), mXZBaseNode_s);
     return true;
 }
 
-void BeastGanonLastBlowOffMes::m7() {
-    SimpleAtvUnitOpenDlgRnd3::m7();
+void BeastGanonLastBlowOffMes::calc() {
+    SimpleAtvUnitOpenDlgRnd3::calc();
     ksys::act::acc::PlayerBase accessor;
     ksys::act::acquireActor(&uking::act::PlayerInfo::getSomeProcLink(), &accessor);
     if (accessor.isGroundForEvent() && _84)
         m16();
 }
 
-void BeastGanonLastBlowOffMes::m8() {
-    SimpleAtvUnitOpenDlgRnd3::m8();
+void BeastGanonLastBlowOffMes::enter() {
+    SimpleAtvUnitOpenDlgRnd3::enter();
 }
 
-void BeastGanonLastBlowOffMes::m9() {
-    SimpleAtvUnitOpenDlgRnd3::m9();
+void BeastGanonLastBlowOffMes::leave() {
+    SimpleAtvUnitOpenDlgRnd3::leave();
 }
 
 // NON_MATCHING: the original keeps the normalized forward vector in integer registers (memcpy-style Vector3f copy) and

@@ -7,8 +7,8 @@ SetGuardJustDamageCallback::SetGuardJustDamageCallback(const InitArg& arg)
 
 SetGuardJustDamageCallback::~SetGuardJustDamageCallback() = default;
 
-bool SetGuardJustDamageCallback::m6(sead::Heap* heap) {
-    if (!SetDamageCallback::m6(heap))
+bool SetGuardJustDamageCallback::init_(sead::Heap* heap) {
+    if (!SetDamageCallback::init_(heap))
         return false;
     _38._24 = *mDamage_s;
     return true;

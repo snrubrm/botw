@@ -8,13 +8,13 @@ SpeedEmitInterest::SpeedEmitInterest(const InitArg& arg) : ksys::act::ai::Behavi
 
 SpeedEmitInterest::~SpeedEmitInterest() = default;
 
-bool SpeedEmitInterest::m6(sead::Heap* heap) {
+bool SpeedEmitInterest::init_(sead::Heap* heap) {
     return true;
 }
 
-void SpeedEmitInterest::m8() {}
+void SpeedEmitInterest::enter() {}
 
-void SpeedEmitInterest::m9() {}
+void SpeedEmitInterest::leave() {}
 
 void SpeedEmitInterest::loadParams() {
     getStaticParam(&mLevel_s, "Level");
@@ -22,7 +22,7 @@ void SpeedEmitInterest::loadParams() {
     getStaticParam(&mIsTargetNPC_s, "IsTargetNPC");
 }
 
-void SpeedEmitInterest::m7() {
+void SpeedEmitInterest::calc() {
     if (!(mActor->getVelocity().length() > *mSpeed_s))
         return;
     auto* unit = mActor->get548();

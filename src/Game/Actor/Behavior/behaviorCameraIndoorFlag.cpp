@@ -5,7 +5,7 @@ namespace uking::behavior {
 
 CameraIndoorFlag::CameraIndoorFlag(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void CameraIndoorFlag::m8() {
+void CameraIndoorFlag::enter() {
     auto* actor = mActor;
     if (!actor)
         return;
@@ -13,7 +13,7 @@ void CameraIndoorFlag::m8() {
         camera->_860._804.sub_710079AE20(0x40);
 }
 
-void CameraIndoorFlag::m9() {
+void CameraIndoorFlag::leave() {
     auto* actor = mActor;
     if (!actor)
         return;

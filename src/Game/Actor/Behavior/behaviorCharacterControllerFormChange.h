@@ -9,11 +9,11 @@ class CharacterControllerFormChange : public ksys::act::ai::Behavior {
 public:
     explicit CharacterControllerFormChange(const InitArg& arg);
     ~CharacterControllerFormChange() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
+    bool init_(sead::Heap* heap) override;
 
     /* 0x28 */ const int* mEnterState_s{};
     /* 0x30 */ const bool* mIsRestoreWhenLeave_s{};

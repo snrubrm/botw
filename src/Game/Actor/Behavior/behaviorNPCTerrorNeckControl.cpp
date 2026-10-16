@@ -7,23 +7,23 @@ NPCTerrorNeckControl::NPCTerrorNeckControl(const InitArg& arg) : NeckControl(arg
 
 NPCTerrorNeckControl::~NPCTerrorNeckControl() = default;
 
-bool NPCTerrorNeckControl::m6(sead::Heap* heap) {
-    if (!NeckControl::m6(heap))
+bool NPCTerrorNeckControl::init_(sead::Heap* heap) {
+    if (!NeckControl::init_(heap))
         return false;
     _38 = sead::DynamicCast<act::NPC>(mActor);
     return true;
 }
 
-void NPCTerrorNeckControl::m7() {
-    NeckControl::m7();
+void NPCTerrorNeckControl::calc() {
+    NeckControl::calc();
 }
 
-void NPCTerrorNeckControl::m8() {
-    NeckControl::m8();
+void NPCTerrorNeckControl::enter() {
+    NeckControl::enter();
 }
 
-void NPCTerrorNeckControl::m9() {
-    NeckControl::m9();
+void NPCTerrorNeckControl::leave() {
+    NeckControl::leave();
 }
 
 void NPCTerrorNeckControl::loadParams() {

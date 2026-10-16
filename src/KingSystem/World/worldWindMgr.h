@@ -65,7 +65,7 @@ public:
     void calc_() override {}
     void calcType1_() override {}
     void calcType2_() override;
-    void m10() override;
+    void drawDebug() override;
 
     JobType getType() const override { return JobType::Wind; }
 

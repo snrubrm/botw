@@ -8,13 +8,13 @@ DisableWeakPointActor::DisableWeakPointActor(const InitArg& arg) : ksys::act::ai
 
 DisableWeakPointActor::~DisableWeakPointActor() = default;
 
-bool DisableWeakPointActor::m6(sead::Heap* heap) {
+bool DisableWeakPointActor::init_(sead::Heap* heap) {
     return true;
 }
 
-void DisableWeakPointActor::m7() {}
+void DisableWeakPointActor::calc() {}
 
-void DisableWeakPointActor::m8() {
+void DisableWeakPointActor::enter() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mWeakPointKey_s);
@@ -23,7 +23,7 @@ void DisableWeakPointActor::m8() {
     }
 }
 
-void DisableWeakPointActor::m9() {
+void DisableWeakPointActor::leave() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
         auto& link = enemy->getActorPartsActor(mWeakPointKey_s);

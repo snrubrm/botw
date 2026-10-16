@@ -16,24 +16,24 @@ void SyncBodyASAndAnimalUnitAS::Callback::call(ksys::act::Actor* actor) {
     sub_71006459BC(actor);
 }
 
-void SyncBodyASAndAnimalUnitAS::m8() {
+void SyncBodyASAndAnimalUnitAS::enter() {
     _68 = -1;
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
     if (enemy && enemy->_1170)
         enemy->_1170->append(&_28);
 }
 
-void SyncBodyASAndAnimalUnitAS::m9() {
+void SyncBodyASAndAnimalUnitAS::leave() {
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
     if (enemy && enemy->_1170)
         enemy->_1170->erase(&_28);
 }
 
-bool SyncBodyASAndAnimalUnitAS::m6(sead::Heap* heap) {
+bool SyncBodyASAndAnimalUnitAS::init_(sead::Heap* heap) {
     return true;
 }
 
-void SyncBodyASAndAnimalUnitAS::m7() {}
+void SyncBodyASAndAnimalUnitAS::calc() {}
 
 void SyncBodyASAndAnimalUnitAS::loadParams() {
     getStaticParam(&mSeqBank_s, "SeqBank");

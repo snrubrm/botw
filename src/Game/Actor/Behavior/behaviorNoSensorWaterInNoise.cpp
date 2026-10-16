@@ -5,8 +5,8 @@ namespace uking::behavior {
 
 NoSensorWaterInNoise::NoSensorWaterInNoise(const InitArg& arg) : NoiseBase(arg) {}
 
-void NoSensorWaterInNoise::m7() {
-    NoiseBase::m7();
+void NoSensorWaterInNoise::calc() {
+    NoiseBase::calc();
     const bool in_water = mActor->get68f();
     if (in_water && !_39)
         sub_710062E9F8();
@@ -15,7 +15,7 @@ void NoSensorWaterInNoise::m7() {
     _39 = in_water;
 }
 
-void NoSensorWaterInNoise::m8() {
+void NoSensorWaterInNoise::enter() {
     _39 = false;
 }
 

@@ -12,13 +12,13 @@ NpcClerkCheck::NpcClerkCheck(const InitArg& arg) : ksys::act::ai::Behavior(arg) 
 
 NpcClerkCheck::~NpcClerkCheck() = default;
 
-bool NpcClerkCheck::m6(sead::Heap* heap) {
+bool NpcClerkCheck::init_(sead::Heap* heap) {
     return true;
 }
 
-void NpcClerkCheck::m8() {}
+void NpcClerkCheck::enter() {}
 
-void NpcClerkCheck::m7() {
+void NpcClerkCheck::calc() {
     auto* actor = mActor;
     ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100EE2800(&accessor, actor);
@@ -28,7 +28,7 @@ void NpcClerkCheck::m7() {
         ksys::act::disableAttClient(actor, "Buy");
 }
 
-void NpcClerkCheck::m9() {}
+void NpcClerkCheck::leave() {}
 
 void NpcClerkCheck::loadParams() {
 

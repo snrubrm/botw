@@ -10,17 +10,17 @@ HorseSwitchAttRideBehavior::HorseSwitchAttRideBehavior(const InitArg& arg)
 
 HorseSwitchAttRideBehavior::~HorseSwitchAttRideBehavior() = default;
 
-bool HorseSwitchAttRideBehavior::m6(sead::Heap* heap) {
+bool HorseSwitchAttRideBehavior::init_(sead::Heap* heap) {
     return true;
 }
 
-void HorseSwitchAttRideBehavior::m7() {}
+void HorseSwitchAttRideBehavior::calc() {}
 
 void HorseSwitchAttRideBehavior::loadParams() {
 
 }
 
-void HorseSwitchAttRideBehavior::m8() {
+void HorseSwitchAttRideBehavior::enter() {
     auto* attention = mActor->getAttention();
     if (!attention)
         return;
@@ -34,7 +34,7 @@ void HorseSwitchAttRideBehavior::m8() {
     ride2->enable();
 }
 
-void HorseSwitchAttRideBehavior::m9() {
+void HorseSwitchAttRideBehavior::leave() {
     auto* attention = mActor->getAttention();
     if (!attention)
         return;

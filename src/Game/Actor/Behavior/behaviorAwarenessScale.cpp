@@ -9,11 +9,11 @@ AwarenessScale::AwarenessScale(const InitArg& arg) : ksys::act::ai::Behavior(arg
 
 AwarenessScale::~AwarenessScale() = default;
 
-bool AwarenessScale::m6(sead::Heap* heap) {
+bool AwarenessScale::init_(sead::Heap* heap) {
     return true;
 }
 
-void AwarenessScale::m7() {}
+void AwarenessScale::calc() {}
 
 void AwarenessScale::loadParams() {
     getStaticParam(&mSight_s, "Sight");
@@ -22,7 +22,7 @@ void AwarenessScale::loadParams() {
     getStaticParam(&mWorry_s, "Worry");
 }
 
-void AwarenessScale::m8() {
+void AwarenessScale::enter() {
     auto* awareness = mActor->getAwareness();
     if (!awareness)
         return;
@@ -44,7 +44,7 @@ void AwarenessScale::m8() {
         awareness->sub_7100D7EC14(3, awareness->sub_7100D7EC34(3) * *mWorry_s);
 }
 
-void AwarenessScale::m9() {
+void AwarenessScale::leave() {
     if (mActor->getRootAi()->isActorDeletedOrDeleting())
         return;
     auto* awareness = mActor->getAwareness();

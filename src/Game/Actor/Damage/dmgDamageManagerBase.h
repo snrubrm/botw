@@ -73,12 +73,12 @@ public:
     virtual u64 getFlags2() { return mFlags2; }
     // lane1 s22: AssassinBossRoot sets the low nibble of mField_64 (name is a guess).
     void setField64LowNibble(u8 value) { mField_64 = (mField_64 & 0xf0) | value; }
-    virtual f32 m13() { return 0.0f; }
+    virtual f32 getStasisBlowPowerRatio() { return 0.0f; }
     // Slot 14: writes the stasis blow direction (DamageMgr::m14) to `out`.
     virtual bool m14(sead::Vector3f* out) { return false; }
     virtual bool applyDamage(s32& life);
-    // Slot 16: message handler (DamageManager::m16 forwards to its listeners).
-    virtual bool m16(const ksys::Message& message) { return false; }
+    // Slot 16: message handler (DamageManager::handleMessage forwards to its listeners).
+    virtual bool handleMessage(const ksys::Message& message) { return false; }
     virtual void accumulateStasisBlowVelocity() {}
     virtual s32 getNumCallbacks();
     virtual bool initCallbacks(sead::Heap* heap);
@@ -87,15 +87,15 @@ public:
     virtual void resetDamage();
 
     virtual void preDelete2() {}
-    virtual void m22() {}
+    virtual void calcDamage() {}
     virtual bool allocStruct20(sead::Heap* heap);
     virtual void preDelete1();
     virtual s64 m25() { return 0; }
     virtual s64 m26() { return 0; }
     // Slot 27: writes the damage position to `out` (SwarmDamaged::m34; DamageMgr::getPosition 0x71006d66fc).
     virtual bool getPosition(sead::Vector3f* out) { return false; }
-    // Slot 28 (CSV DamageMgrSword::getAttackPos: AttackInfo position; DamageMgr::m28).
-    virtual bool getAttackPos(sead::Vector3f* out) { return false; }
+    // Slot 28: the damage direction (DamageMgrSword: the AttackInfo `_c` vector; callers normalise or negate it).
+    virtual bool getDamageDir(sead::Vector3f* out) { return false; }
 
     // Slot 29 (0x71006e0158 DamageMgrBase::m29, DamageMgr::m29): writes a direction to `out` (callers test
     // the result; sub_71005E242C).
@@ -104,14 +104,14 @@ public:
     // 0x71006e029c (DamageMgrBase::m30): writes a direction to `out` (callers test the result).
     virtual bool m30(sead::Vector3f* out);
 
-    // lane4 s51: takes an out direction (DamageManager::m31; the base returns false).
-    virtual bool m31(sead::Vector3f* out) { return false; }
+    // lane4 s51: takes an out direction (DamageManager::getHitDirection; the base returns false).
+    virtual bool getHitDirection(sead::Vector3f* out) { return false; }
     // Signature from IceSplinterRoot::m43 (lane2): takes an out vector (a direction), result is tested.
-    virtual bool m32(sead::Vector3f* out) { return false; }
-    virtual ksys::phys::MaterialMask* m33() { return nullptr; }
+    virtual bool getDamageImpulse(sead::Vector3f* out) { return false; }
+    virtual ksys::phys::MaterialMask* getAttackOtherMaterialMask() { return nullptr; }
     virtual ksys::phys::MaterialMask* tgSensorMaterialOnHitMaybe() { return nullptr; }
-    // Slot 35: overrides write a matrix (DamageMgr::m35: the attacker's actor matrix).
-    virtual bool m35(sead::Matrix34f* out) { return false; }
+    // Slot 35: overrides write a matrix (DamageMgr::getAttackSourceMtx: the attacker's actor matrix).
+    virtual bool getAttackSourceMtx(sead::Matrix34f* out) { return false; }
 
     // 2026-10-07: both base slots return the canonical dummy BaseProcLink.
     virtual ksys::act::BaseProcLink* getAttacker();
@@ -119,17 +119,17 @@ public:
     virtual ksys::act::BaseProcLink* m37();
 
     // lane2 s42: takes a rigid body (the Sandworm damage callback calls it with the actor's "Body" body).
-    virtual bool m38(ksys::phys::RigidBody* body) { return false; }
+    virtual bool isDamageSourceObjectMaybe(ksys::phys::RigidBody* body) { return false; }
 
     // FIXME: Incomplete. Call isSlowTimeMaybe
     virtual bool isSlowTime();
 
-    // Signature from the AssassinBossRoot damage callbacks (lane2): takes an out value; DamageMgr::m40 writes -1 first
+    // Signature from the AssassinBossRoot damage callbacks (lane2): takes an out value; DamageMgr::getAttackDirType writes -1 first
     // and returns whether it found a value.
-    virtual bool m40(s32* out) { return false; }
-    virtual bool m41() { return false; }
-    virtual bool m42() { return false; }
-    virtual void m43() {}
+    virtual bool getAttackDirType(s32* out) { return false; }
+    virtual bool getAttackInfoFlagFC() { return false; }
+    virtual bool isDamageItemFlagCheckDisabled() { return false; }
+    virtual void applyAttackInfoStateChangeDamage() {}
     virtual bool canTakeDamage();
     virtual void applyRequestedDamage(const ConditionDamageInfo& info) {}
     virtual void handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6);
@@ -137,18 +137,18 @@ public:
     virtual void onApplyDamage() {}
 
     // Something depending on damage type?
-    virtual s32 m49(s32 damageTypeMaybe);
+    virtual s32 getDamageFromTypeIndex(s32 damageTypeMaybe);
 
     // 0x71006e1288 (CSV DamageMgr::getActorDamageParam; in the DamageManagerBase TU): the actor's
     // DamageParam resource (null without an ActorParam).
     ksys::res::DamageParam* getActorDamageParam();
 
     // 0x71006e0bc... family (lane4 s47; placeholder names): predicates over the DamageInfoMgr entry of the manager's
-    // reaction table index (`mCanTakeDamageFromType[type]`), the `type` being the argument or m49(getField50()).
+    // reaction table index (`mCanTakeDamageFromType[type]`), the `type` being the argument or getDamageFromTypeIndex(getField50()).
     // Bit 5 / bit 0 of the entry.
     bool sub_71006E0BD4(s32 type) const;
     bool sub_71006E0CC0(s32 type) const;
-    // Bit 1 / bit 3 and not m42().
+    // Bit 1 / bit 3 and not isDamageItemFlagCheckDisabled().
     bool sub_71006E0D24();
     bool sub_71006E0DE8(s32 type) const;
     bool sub_71006E0E78();
@@ -176,7 +176,7 @@ protected:
     s32 mField_40 = 0;
     s32 mDamage = 0;
     s32 mField_48 = 0;
-    // u32: DamageMgrSword::m22 passes the addresses of mMinDmg / mField_50 as the `u32*` arguments of
+    // u32: DamageMgrSword::calcDamage passes the addresses of mMinDmg / mField_50 as the `u32*` arguments of
     // callDamageCallbacks.
     u32 mMinDmg = 0;
     u32 mField_50 = -1;

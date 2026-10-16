@@ -10,20 +10,20 @@ OnChangeXLinkCreateTrgDrop::OnChangeXLinkCreateTrgDrop(const InitArg& arg)
 
 OnChangeXLinkCreateTrgDrop::~OnChangeXLinkCreateTrgDrop() = default;
 
-bool OnChangeXLinkCreateTrgDrop::m6(sead::Heap* heap) {
-    return OnChangeXLinkCreate::m6(heap);
+bool OnChangeXLinkCreateTrgDrop::init_(sead::Heap* heap) {
+    return OnChangeXLinkCreate::init_(heap);
 }
 
-void OnChangeXLinkCreateTrgDrop::m7() {
-    OnChangeXLinkCreate::m7();
+void OnChangeXLinkCreateTrgDrop::calc() {
+    OnChangeXLinkCreate::calc();
 }
 
-void OnChangeXLinkCreateTrgDrop::m8() {
-    OnChangeXLinkCreate::m8();
+void OnChangeXLinkCreateTrgDrop::enter() {
+    OnChangeXLinkCreate::enter();
 }
 
-void OnChangeXLinkCreateTrgDrop::m9() {
-    OnChangeXLinkCreate::m9();
+void OnChangeXLinkCreateTrgDrop::leave() {
+    OnChangeXLinkCreate::leave();
 }
 
 void OnChangeXLinkCreateTrgDrop::loadParams() {

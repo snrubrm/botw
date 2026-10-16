@@ -13,9 +13,9 @@ class CastleBarrierCollisionSpecify : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(CastleBarrierCollisionSpecify, ksys::act::ai::Behavior)
 public:
     explicit CastleBarrierCollisionSpecify(const InitArg& arg);
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
     // 0x710061bcb0
     void sub_710061BCB0(ksys::phys::RigidBody* body);
 

@@ -9,9 +9,9 @@ class NoiseBase : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(NoiseBase, ksys::act::ai::Behavior)
 public:
     explicit NoiseBase(const InitArg& arg);
-    void m7() override;
-    void m8() override { _38 = false; }
-    void m9() override;
+    void calc() override;
+    void enter() override { _38 = false; }
+    void leave() override;
     void loadParams() override;
     virtual f32 m14() { return *mNoiseValue_s; }
     // 0x710062e9f0

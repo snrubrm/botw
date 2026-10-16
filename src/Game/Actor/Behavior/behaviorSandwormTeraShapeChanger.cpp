@@ -8,11 +8,11 @@ SandwormTeraShapeChanger::SandwormTeraShapeChanger(const InitArg& arg)
 
 SandwormTeraShapeChanger::~SandwormTeraShapeChanger() = default;
 
-bool SandwormTeraShapeChanger::m6(sead::Heap* heap) {
+bool SandwormTeraShapeChanger::init_(sead::Heap* heap) {
     return true;
 }
 
-void SandwormTeraShapeChanger::m7() {}
+void SandwormTeraShapeChanger::calc() {}
 
 void SandwormTeraShapeChanger::loadParams() {
     getStaticParam(&mEnterShapeIdx_s, "EnterShapeIdx");
@@ -21,7 +21,7 @@ void SandwormTeraShapeChanger::loadParams() {
 }
 
 // NON_MATCHING: the original keeps a jump table with per-case stores (ours: a lookup table)
-void SandwormTeraShapeChanger::m8() {
+void SandwormTeraShapeChanger::enter() {
     const int idx = *mEnterShapeIdx_s;
     auto* sandworm = sead::DynamicCast<uking::act::Sandworm>(mActor);
     if (!sandworm)
@@ -47,7 +47,7 @@ void SandwormTeraShapeChanger::m8() {
 }
 
 // NON_MATCHING: the original keeps a jump table with per-case stores (ours: a lookup table)
-void SandwormTeraShapeChanger::m9() {
+void SandwormTeraShapeChanger::leave() {
     const int idx = *mLeaveShapeIdx_s;
     auto* sandworm = sead::DynamicCast<uking::act::Sandworm>(mActor);
     if (!sandworm)

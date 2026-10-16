@@ -13,11 +13,11 @@ class GiantWeaponGrabAS : public ksys::act::ai::Behavior {
 public:
     explicit GiantWeaponGrabAS(const InitArg& arg);
     ~GiantWeaponGrabAS() override;
-    void m8() override;
+    void enter() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void leave() override;
 
     // 0x7100626590 / 0x7100626768 (lane4 s23): the weapon frame (`frame`) is set on the AS slots of both hands.
     void sub_7100626590(f32 frame, bool use_b);

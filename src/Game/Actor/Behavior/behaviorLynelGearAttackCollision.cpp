@@ -22,11 +22,11 @@ LynelGearAttackCollision::~LynelGearAttackCollision() {
     ;
 }
 
-bool LynelGearAttackCollision::m6(sead::Heap* heap) {
+bool LynelGearAttackCollision::init_(sead::Heap* heap) {
     return true;
 }
 
-void LynelGearAttackCollision::m9() {}
+void LynelGearAttackCollision::leave() {}
 
 void LynelGearAttackCollision::loadParams() {
     getStaticParam(&mAttackIntensity_s, "AttackIntensity");
@@ -41,7 +41,7 @@ void LynelGearAttackCollision::loadParams() {
     getStaticParam(&mAttackRigidName_s, "AttackRigidName");
 }
 
-void LynelGearAttackCollision::m8() {
+void LynelGearAttackCollision::enter() {
     _80.rate = -1.0f;
     _8c = 0;
     _90 = 0;
@@ -50,7 +50,7 @@ void LynelGearAttackCollision::m8() {
 }
 
 // NON_MATCHING: shared slow-time setup and gear selection differ from the native duplicated paths.
-void LynelGearAttackCollision::m7() {
+void LynelGearAttackCollision::calc() {
     const bool slow = isSlowTimeMaybe();
     if (auto* rideable = mActor->getHorseOptionsMaybe()) {
         const act::Rideable::Gear gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);

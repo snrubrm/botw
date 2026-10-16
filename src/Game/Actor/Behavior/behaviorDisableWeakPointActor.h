@@ -11,11 +11,11 @@ class DisableWeakPointActor : public ksys::act::ai::Behavior {
 public:
     explicit DisableWeakPointActor(const InitArg& arg);
     ~DisableWeakPointActor() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     void loadParams() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
 
     /* 0x28 */ sead::SafeString mWeakPointKey_s{};
     /* 0x38 */ Unk_7102357d48 _38{mActor, 0x800002f};

@@ -6,16 +6,16 @@ namespace uking::behavior {
 
 BattleTensionUp::BattleTensionUp(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
-void BattleTensionUp::m7() {}
+void BattleTensionUp::calc() {}
 
-void BattleTensionUp::m8() {
+void BattleTensionUp::enter() {
     if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::Alive)) {
         if (auto* mgr = act::DamageInfoMgr::instance())
             mgr->get28().sub_710065CE14(mActor);
     }
 }
 
-void BattleTensionUp::m9() {
+void BattleTensionUp::leave() {
     if (auto* mgr = act::DamageInfoMgr::instance())
         mgr->get28().sub_710065CF08(mActor);
 }

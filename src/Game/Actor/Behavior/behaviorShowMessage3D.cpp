@@ -10,11 +10,11 @@ ShowMessage3D::~ShowMessage3D() {
     ;
 }
 
-void ShowMessage3D::m7() {
+void ShowMessage3D::calc() {
     _50.sub_7100721C48();
 }
 
-void ShowMessage3D::m8() {
+void ShowMessage3D::enter() {
     _50.sub_7100721830(mActor, *mUseVoiceFolder_s);
     _50._c8 = *mIsCloseOtherMessage_s;
     sead::FixedSafeString<64> label;

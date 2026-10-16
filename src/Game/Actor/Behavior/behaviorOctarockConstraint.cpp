@@ -8,22 +8,22 @@ OctarockConstraint::OctarockConstraint(const InitArg& arg) : ksys::act::ai::Beha
 
 OctarockConstraint::~OctarockConstraint() = default;
 
-bool OctarockConstraint::m6(sead::Heap* heap) {
+bool OctarockConstraint::init_(sead::Heap* heap) {
     return true;
 }
 
-void OctarockConstraint::m7() {}
+void OctarockConstraint::calc() {}
 
 void OctarockConstraint::loadParams() {
 
 }
 
-void OctarockConstraint::m8() {
+void OctarockConstraint::enter() {
     if (auto* cc = mActor->getCharacterController())
         cc->mFlags.set(0xc00);
 }
 
-void OctarockConstraint::m9() {
+void OctarockConstraint::leave() {
     if (auto* cc = mActor->getCharacterController())
         cc->mFlags.reset(0xc00);
 }

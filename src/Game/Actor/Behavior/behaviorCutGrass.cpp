@@ -8,12 +8,12 @@ CutGrass::CutGrass(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 CutGrass::~CutGrass() = default;
 
-bool CutGrass::m6(sead::Heap* heap) {
+bool CutGrass::init_(sead::Heap* heap) {
     return true;
 }
 
 // NON_MATCHING: the compiler shares the position and parameter setup between the two grass calls.
-void CutGrass::m7() {
+void CutGrass::calc() {
     auto* terrain = ksys::tera::Terrain::instance();
     if (!terrain || !terrain->isGrassEnabled())
         return;
@@ -26,9 +26,9 @@ void CutGrass::m7() {
         grass->sub_7101150F88(&position, *mCutRange_s, *mIntensity_s, false);
 }
 
-void CutGrass::m8() {}
+void CutGrass::enter() {}
 
-void CutGrass::m9() {}
+void CutGrass::leave() {}
 
 void CutGrass::loadParams() {
     getStaticParam(&mCutRange_s, "CutRange");

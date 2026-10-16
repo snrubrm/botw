@@ -6,22 +6,22 @@ XLinkCreate::XLinkCreate(const InitArg& arg) : OnStateXLinkCreate(arg) {}
 
 XLinkCreate::~XLinkCreate() = default;
 
-bool XLinkCreate::m6(sead::Heap* heap) {
-    return OnStateXLinkCreate::m6(heap);
+bool XLinkCreate::init_(sead::Heap* heap) {
+    return OnStateXLinkCreate::init_(heap);
 }
 
-void XLinkCreate::m7() {
-    OnStateXLinkCreate::m7();
+void XLinkCreate::calc() {
+    OnStateXLinkCreate::calc();
     sub_7100647608();
 }
 
-void XLinkCreate::m8() {
-    OnStateXLinkCreate::m8();
+void XLinkCreate::enter() {
+    OnStateXLinkCreate::enter();
     sub_7100647608();
 }
 
-void XLinkCreate::m9() {
-    OnStateXLinkCreate::m9();
+void XLinkCreate::leave() {
+    OnStateXLinkCreate::leave();
 }
 
 void XLinkCreate::loadParams() {

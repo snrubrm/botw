@@ -6,20 +6,20 @@ SetIgnoreDrownDCCallBack::SetIgnoreDrownDCCallBack(const InitArg& arg) : SetDama
 
 SetIgnoreDrownDCCallBack::~SetIgnoreDrownDCCallBack() = default;
 
-bool SetIgnoreDrownDCCallBack::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetIgnoreDrownDCCallBack::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetIgnoreDrownDCCallBack::m7() {
-    SetDamageCallback::m7();
+void SetIgnoreDrownDCCallBack::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetIgnoreDrownDCCallBack::m8() {
-    SetDamageCallback::m8();
+void SetIgnoreDrownDCCallBack::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetIgnoreDrownDCCallBack::m9() {
-    SetDamageCallback::m9();
+void SetIgnoreDrownDCCallBack::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetIgnoreDrownDCCallBack::loadParams() {

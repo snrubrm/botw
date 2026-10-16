@@ -11,12 +11,12 @@ class OnChangeXLinkCreate : public ksys::act::ai::Behavior {
 public:
     explicit OnChangeXLinkCreate(const InitArg& arg);
     ~OnChangeXLinkCreate() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m11() override;
+    void onChangeChild() override;
     virtual void m14();
 
     /* 0x28 */ const bool* mDoOnChangeAI_s{};

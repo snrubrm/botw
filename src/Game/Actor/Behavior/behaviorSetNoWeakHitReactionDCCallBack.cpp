@@ -7,20 +7,20 @@ SetNoWeakHitReactionDCCallBack::SetNoWeakHitReactionDCCallBack(const InitArg& ar
 
 SetNoWeakHitReactionDCCallBack::~SetNoWeakHitReactionDCCallBack() = default;
 
-bool SetNoWeakHitReactionDCCallBack::m6(sead::Heap* heap) {
-    return SetDamageCallback::m6(heap);
+bool SetNoWeakHitReactionDCCallBack::init_(sead::Heap* heap) {
+    return SetDamageCallback::init_(heap);
 }
 
-void SetNoWeakHitReactionDCCallBack::m7() {
-    SetDamageCallback::m7();
+void SetNoWeakHitReactionDCCallBack::calc() {
+    SetDamageCallback::calc();
 }
 
-void SetNoWeakHitReactionDCCallBack::m8() {
-    SetDamageCallback::m8();
+void SetNoWeakHitReactionDCCallBack::enter() {
+    SetDamageCallback::enter();
 }
 
-void SetNoWeakHitReactionDCCallBack::m9() {
-    SetDamageCallback::m9();
+void SetNoWeakHitReactionDCCallBack::leave() {
+    SetDamageCallback::leave();
 }
 
 void SetNoWeakHitReactionDCCallBack::loadParams() {

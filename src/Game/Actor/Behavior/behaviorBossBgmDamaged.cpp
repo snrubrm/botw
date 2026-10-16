@@ -10,13 +10,13 @@ BossBgmDamaged::BossBgmDamaged(const InitArg& arg) : ksys::act::ai::Behavior(arg
 
 BossBgmDamaged::~BossBgmDamaged() = default;
 
-bool BossBgmDamaged::m6(sead::Heap* heap) {
+bool BossBgmDamaged::init_(sead::Heap* heap) {
     return true;
 }
 
 // NON_MATCHING: the original loads the DamageInfoMgr singleton after the getLife() call (matches with a once-used local
 // `const bool dead = life ? *life < 1 : false;` before the call)
-void BossBgmDamaged::m7() {
+void BossBgmDamaged::calc() {
     auto* manager = sub_710072BA90(mActor);
     if (!manager)
         return;
@@ -33,9 +33,9 @@ void BossBgmDamaged::m7() {
     }
 }
 
-void BossBgmDamaged::m8() {}
+void BossBgmDamaged::enter() {}
 
-void BossBgmDamaged::m9() {}
+void BossBgmDamaged::leave() {}
 
 void BossBgmDamaged::loadParams() {
     getStaticParam(&mDieType_s, "DieType");

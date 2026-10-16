@@ -13,20 +13,20 @@ SetRagdollBodyForceKeyframed::~SetRagdollBodyForceKeyframed() {
     ;
 }
 
-bool SetRagdollBodyForceKeyframed::m6(sead::Heap* heap) {
+bool SetRagdollBodyForceKeyframed::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetRagdollBodyForceKeyframed::m7() {}
+void SetRagdollBodyForceKeyframed::calc() {}
 
-void SetRagdollBodyForceKeyframed::m8() {
+void SetRagdollBodyForceKeyframed::enter() {
     for (const auto& name : mRagdollBodyName_s) {
         if (!name.isEmpty())
             sub_71005E226C(mActor, name, true);
     }
 }
 
-void SetRagdollBodyForceKeyframed::m9() {
+void SetRagdollBodyForceKeyframed::leave() {
     for (const auto& name : mRagdollBodyName_s) {
         if (!name.isEmpty())
             sub_71005E226C(mActor, name, false);

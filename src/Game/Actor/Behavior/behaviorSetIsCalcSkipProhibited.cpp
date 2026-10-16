@@ -9,22 +9,22 @@ SetIsCalcSkipProhibited::SetIsCalcSkipProhibited(const InitArg& arg)
 
 SetIsCalcSkipProhibited::~SetIsCalcSkipProhibited() = default;
 
-bool SetIsCalcSkipProhibited::m6(sead::Heap* heap) {
+bool SetIsCalcSkipProhibited::init_(sead::Heap* heap) {
     return true;
 }
 
-void SetIsCalcSkipProhibited::m7() {}
+void SetIsCalcSkipProhibited::calc() {}
 
 void SetIsCalcSkipProhibited::loadParams() {
 
 }
 
-void SetIsCalcSkipProhibited::m8() {
+void SetIsCalcSkipProhibited::enter() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags10.set(0x40);
 }
 
-void SetIsCalcSkipProhibited::m9() {
+void SetIsCalcSkipProhibited::leave() {
     if (auto* lod = mActor->getLodState())
         lod->mFlags10.reset(0x40);
 }

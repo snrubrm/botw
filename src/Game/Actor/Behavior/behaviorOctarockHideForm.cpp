@@ -8,13 +8,13 @@ OctarockHideForm::OctarockHideForm(const InitArg& arg) : ksys::act::ai::Behavior
 
 OctarockHideForm::~OctarockHideForm() = default;
 
-bool OctarockHideForm::m6(sead::Heap* heap) {
+bool OctarockHideForm::init_(sead::Heap* heap) {
     return true;
 }
 
-void OctarockHideForm::m8() {}
+void OctarockHideForm::enter() {}
 
-void OctarockHideForm::m7() {
+void OctarockHideForm::calc() {
     if (sub_71005DD5B0(mActor, 19, nullptr, 0, 0)) {
         if (auto* unit = sead::DynamicCast<Unk_7102450d10>(
                 *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a)))
@@ -26,7 +26,7 @@ void OctarockHideForm::m7() {
     }
 }
 
-void OctarockHideForm::m9() {
+void OctarockHideForm::leave() {
     if (auto* unit = sead::DynamicCast<Unk_7102450d10>(
             *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a)))
         unit->sub_7100714918();

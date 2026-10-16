@@ -15,7 +15,7 @@ RagdollSmallDamageIdxChanger::~RagdollSmallDamageIdxChanger() {
     ;
 }
 
-bool RagdollSmallDamageIdxChanger::m6(sead::Heap* heap) {
+bool RagdollSmallDamageIdxChanger::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -37,7 +37,7 @@ void RagdollSmallDamageIdxChanger::sub_restoreKey_() {
     _44 = false;
 }
 
-void RagdollSmallDamageIdxChanger::m7() {
+void RagdollSmallDamageIdxChanger::calc() {
     if (!*mIsChinkCheck_s)
         return;
     if (mActor->getASList()->x(5, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
@@ -48,12 +48,12 @@ void RagdollSmallDamageIdxChanger::m7() {
     }
 }
 
-void RagdollSmallDamageIdxChanger::m8() {
+void RagdollSmallDamageIdxChanger::enter() {
     _44 = false;
     sub_applyKey_();
 }
 
-void RagdollSmallDamageIdxChanger::m9() {
+void RagdollSmallDamageIdxChanger::leave() {
     if (_44)
         sub_restoreKey_();
 }

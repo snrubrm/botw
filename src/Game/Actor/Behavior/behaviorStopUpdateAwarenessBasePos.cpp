@@ -9,22 +9,22 @@ StopUpdateAwarenessBasePos::StopUpdateAwarenessBasePos(const InitArg& arg)
 
 StopUpdateAwarenessBasePos::~StopUpdateAwarenessBasePos() = default;
 
-bool StopUpdateAwarenessBasePos::m6(sead::Heap* heap) {
+bool StopUpdateAwarenessBasePos::init_(sead::Heap* heap) {
     return true;
 }
 
-void StopUpdateAwarenessBasePos::m7() {}
+void StopUpdateAwarenessBasePos::calc() {}
 
 void StopUpdateAwarenessBasePos::loadParams() {
 
 }
 
-void StopUpdateAwarenessBasePos::m8() {
+void StopUpdateAwarenessBasePos::enter() {
     if (auto* awareness = mActor->getAwareness())
         awareness->_334 |= 0x10;
 }
 
-void StopUpdateAwarenessBasePos::m9() {
+void StopUpdateAwarenessBasePos::leave() {
     if (auto* awareness = mActor->getAwareness())
         awareness->_334 &= ~0x10;
 }

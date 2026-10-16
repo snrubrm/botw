@@ -11,14 +11,14 @@
 
 namespace ksys::res {
 
-void AttCheck::m4(act::Actor*, sead::Matrix34f*) {}
+void AttCheck::calcMtx(act::Actor*, sead::Matrix34f*) {}
 
 bool AttCheck::check(act::Actor*, const act::ActorLinkConstDataAccess&, const sead::Matrix34f*,
                      const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     return true;
 }
 
-float AttCheck::m6(const act::ActorLinkConstDataAccess&, const sead::Vector3f&) {
+float AttCheck::calcMaxRange(const act::ActorLinkConstDataAccess&, const sead::Vector3f&) {
     return -1.0;
 }
 
@@ -34,7 +34,7 @@ bool AttCheckArea::parse(const CreateArg& arg) {
     return true;
 }
 
-void AttCheckArea::m4(act::Actor* actor, sead::Matrix34f* mtx) {
+void AttCheckArea::calcMtx(act::Actor* actor, sead::Matrix34f* mtx) {
     if (!mFromPlayer.ref())
         mAttPos.x_2(mtx, actor);
 }
@@ -71,11 +71,11 @@ bool AttCheckArea::check(act::Actor* actor, const act::ActorLinkConstDataAccess&
     return m9(link, local, pos, arg, a6, a7);
 }
 
-float AttCheckArea::m6(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) {
+float AttCheckArea::calcMaxRange(const act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& scale) {
     return mAttPos.offset.ref().length() + m10(accessor, scale);
 }
 
-void AttCheckArea::m7(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) {
+void AttCheckArea::drawDebug(act::Actor* actor, const act::ActorLinkConstDataAccess& accessor, bool a3) {
     sead::Matrix34f mtx;
     if (mFromPlayer.ref())
         mAttPos.x_1(&mtx, accessor);
@@ -83,7 +83,7 @@ void AttCheckArea::m7(act::Actor* actor, const act::ActorLinkConstDataAccess& ac
         mAttPos.x_2(&mtx, actor);
 
     act::ActorLinkConstDataAccess link(actor);
-    m11(link, mtx, actor->getScale(), a3);
+    drawDebugShape(link, mtx, actor->getScale(), a3);
 }
 
 bool AttCheckAreaSphere::parse(const CreateArg& arg) {
@@ -155,7 +155,7 @@ bool AttCheckAreaBox::parse(const CreateArg& arg) {
 
 AttCheckEachOtherArea::AttCheckEachOtherArea(AttCheckType type) : AttCheck(type) {}
 
-void AttCheckEachOtherArea::m4(act::Actor* actor, sead::Matrix34f* mtx) {
+void AttCheckEachOtherArea::calcMtx(act::Actor* actor, sead::Matrix34f* mtx) {
     *mtx = actor->getMtx();
 }
 
@@ -304,7 +304,7 @@ bool AttCheckUnderWater::check(act::Actor* actor, const act::ActorLinkConstDataA
     return actor && actor->get6f4() <= 0.99f;
 }
 
-void AttCheckAngle::m4(act::Actor* actor, sead::Matrix34f* mtx) {
+void AttCheckAngle::calcMtx(act::Actor* actor, sead::Matrix34f* mtx) {
     mAttPos.x_2(mtx, actor);
 }
 

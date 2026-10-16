@@ -7,20 +7,20 @@ AssassinBossBgmControl::AssassinBossBgmControl(const InitArg& arg) : ksys::act::
 
 AssassinBossBgmControl::~AssassinBossBgmControl() = default;
 
-bool AssassinBossBgmControl::m6(sead::Heap* heap) {
+bool AssassinBossBgmControl::init_(sead::Heap* heap) {
     return true;
 }
 
-void AssassinBossBgmControl::m7() {}
+void AssassinBossBgmControl::calc() {}
 
-void AssassinBossBgmControl::m8() {
+void AssassinBossBgmControl::enter() {
     if (auto* bgm = sub_7100FFDFDC()) {
         bgm->sub_7100FF61BC();
         bgm->sub_7100FF61C0();
     }
 }
 
-void AssassinBossBgmControl::m9() {}
+void AssassinBossBgmControl::leave() {}
 
 void AssassinBossBgmControl::loadParams() {
 

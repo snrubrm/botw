@@ -7,12 +7,12 @@ namespace uking::behavior {
 CastleBarrierCollisionSpecify::CastleBarrierCollisionSpecify(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
-bool CastleBarrierCollisionSpecify::m6(sead::Heap* heap) {
+bool CastleBarrierCollisionSpecify::init_(sead::Heap* heap) {
     _28.setFunction(&CastleBarrierCollisionSpecify::sub_710061BCB0);
     return true;
 }
 
-void CastleBarrierCollisionSpecify::m8() {
+void CastleBarrierCollisionSpecify::enter() {
     auto* actor = mActor;
     if (!actor)
         return;
@@ -20,7 +20,7 @@ void CastleBarrierCollisionSpecify::m8() {
         wall->sub_7100E245B8(&_28);
 }
 
-void CastleBarrierCollisionSpecify::m9() {
+void CastleBarrierCollisionSpecify::leave() {
     auto* actor = mActor;
     if (!actor)
         return;

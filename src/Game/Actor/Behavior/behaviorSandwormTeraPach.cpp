@@ -10,15 +10,15 @@ SandwormTeraPach::SandwormTeraPach(const InitArg& arg) : ksys::act::ai::Behavior
 
 SandwormTeraPach::~SandwormTeraPach() = default;
 
-bool SandwormTeraPach::m6(sead::Heap* heap) {
+bool SandwormTeraPach::init_(sead::Heap* heap) {
     return true;
 }
 
-void SandwormTeraPach::m9() {}
+void SandwormTeraPach::leave() {}
 
 // NON_MATCHING: the original reads Sandworm::_1640 / _163c through stack slots (they are probably SEAD_ENUMs, read
 // with operator int() const volatile); the rest matches
-void SandwormTeraPach::m7() {
+void SandwormTeraPach::calc() {
     auto* sandworm = sead::DynamicCast<act::Sandworm>(mActor);
     if (!sandworm)
         return;
@@ -46,7 +46,7 @@ void SandwormTeraPach::m7() {
     sandworm->sub_71002CD990(pos);
 }
 
-void SandwormTeraPach::m8() {
+void SandwormTeraPach::enter() {
     _70 = 1.0f;
     const auto& actor_mtx = mActor->getMtx();
     sead::Vector3f pos{actor_mtx(0, 3), actor_mtx(1, 3), actor_mtx(2, 3)};

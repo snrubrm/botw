@@ -9,9 +9,9 @@ class ClearFadeInCreate : public ksys::act::ai::Behavior {
 public:
     explicit ClearFadeInCreate(const InitArg& arg);
     ~ClearFadeInCreate() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
 
 };
 KSYS_CHECK_SIZE_NX150(ClearFadeInCreate, 0x28);

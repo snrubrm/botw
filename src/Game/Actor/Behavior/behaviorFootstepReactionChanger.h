@@ -10,11 +10,11 @@ class FootstepReactionChanger : public ksys::act::ai::Behavior {
 public:
     explicit FootstepReactionChanger(const InitArg& arg);
     ~FootstepReactionChanger() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x7100e363fc)
-    void m9() override;  // not decompiled yet (0x7100e36420)
+    void enter() override;  // not decompiled yet (0x7100e363fc)
+    void leave() override;  // not decompiled yet (0x7100e36420)
 
     /* 0x28 */ const int* mChangeDuration_s{};
     /* 0x30 */ sead::SafeString mReactionType_s{};

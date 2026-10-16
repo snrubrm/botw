@@ -9,9 +9,9 @@ class InWaterNoise : public Noise {
 public:
     explicit InWaterNoise(const InitArg& arg);
     ~InWaterNoise() override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
 };

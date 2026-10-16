@@ -8,7 +8,7 @@ CurseGanonBGMApplyLPF::CurseGanonBGMApplyLPF(const InitArg& arg) : ksys::act::ai
 
 CurseGanonBGMApplyLPF::~CurseGanonBGMApplyLPF() = default;
 
-bool CurseGanonBGMApplyLPF::m6(sead::Heap* heap) {
+bool CurseGanonBGMApplyLPF::init_(sead::Heap* heap) {
     return true;
 }
 
@@ -16,7 +16,7 @@ void CurseGanonBGMApplyLPF::loadParams() {
     getStaticParam(&mLPF_s, "LPF");
 }
 
-void CurseGanonBGMApplyLPF::m7() {
+void CurseGanonBGMApplyLPF::calc() {
     if (_30)
         return;
     _30 = sub_7100FFE5EC();
@@ -24,11 +24,11 @@ void CurseGanonBGMApplyLPF::m7() {
         _30->sub_7101000838(*mLPF_s);
 }
 
-void CurseGanonBGMApplyLPF::m8() {
+void CurseGanonBGMApplyLPF::enter() {
     _30 = nullptr;
 }
 
-void CurseGanonBGMApplyLPF::m9() {
+void CurseGanonBGMApplyLPF::leave() {
     _30 = nullptr;
 }
 

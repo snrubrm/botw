@@ -9,13 +9,13 @@ WeaponChemicalReset::WeaponChemicalReset(const InitArg& arg) : ksys::act::ai::Be
 
 WeaponChemicalReset::~WeaponChemicalReset() = default;
 
-bool WeaponChemicalReset::m6(sead::Heap* heap) {
+bool WeaponChemicalReset::init_(sead::Heap* heap) {
     return true;
 }
 
-void WeaponChemicalReset::m7() {}
+void WeaponChemicalReset::calc() {}
 
-void WeaponChemicalReset::m8() {
+void WeaponChemicalReset::enter() {
     if (auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor)) {
         actor->getWeapons();
         const uking::act::Weapon::Unk3 state = uking::act::Weapon::Unk3::_2;
@@ -28,7 +28,7 @@ void WeaponChemicalReset::m8() {
     }
 }
 
-void WeaponChemicalReset::m9() {}
+void WeaponChemicalReset::leave() {}
 
 void WeaponChemicalReset::loadParams() {
 

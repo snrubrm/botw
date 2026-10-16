@@ -9,10 +9,10 @@ class SetWindForceScale : public ksys::act::ai::Behavior {
 public:
     explicit SetWindForceScale(const InitArg& arg);
     ~SetWindForceScale() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
     /* 0x28 */ const float* mWindScale_s{};

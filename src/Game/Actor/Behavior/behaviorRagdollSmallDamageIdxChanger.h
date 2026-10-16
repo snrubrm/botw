@@ -10,13 +10,13 @@ class RagdollSmallDamageIdxChanger : public ksys::act::ai::Behavior {
 public:
     explicit RagdollSmallDamageIdxChanger(const InitArg& arg);
     ~RagdollSmallDamageIdxChanger() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
 
-    // inline-only in the original; names are guesses (the same sequences are inlined in m7, m8 and m9).
+    // inline-only in the original; names are guesses (the same sequences are inlined in calc, enter and leave).
     void sub_applyKey_();
     void sub_restoreKey_();
 

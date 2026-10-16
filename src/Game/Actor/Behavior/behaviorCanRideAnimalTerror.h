@@ -10,11 +10,11 @@ class CanRideAnimalTerror : public TerrorBehavior {
 public:
     explicit CanRideAnimalTerror(const InitArg& arg);
     ~CanRideAnimalTerror() override;
-    bool m6(sead::Heap* heap) override;
-    void m8() override;
-    void m9() override;
+    bool init_(sead::Heap* heap) override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    void m7() override;
+    void calc() override;
 
     void sub_710061B944();
 

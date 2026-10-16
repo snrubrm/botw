@@ -10,26 +10,26 @@ XLinkCreateForSandworm::XLinkCreateForSandworm(const InitArg& arg) : OnStateXLin
 
 XLinkCreateForSandworm::~XLinkCreateForSandworm() = default;
 
-bool XLinkCreateForSandworm::m6(sead::Heap* heap) {
-    return OnStateXLinkCreate::m6(heap);
+bool XLinkCreateForSandworm::init_(sead::Heap* heap) {
+    return OnStateXLinkCreate::init_(heap);
 }
 
-void XLinkCreateForSandworm::m7() {
-    OnStateXLinkCreate::m7();
+void XLinkCreateForSandworm::calc() {
+    OnStateXLinkCreate::calc();
     sub_7100647278();
 }
 
-void XLinkCreateForSandworm::m8() {
+void XLinkCreateForSandworm::enter() {
     if (auto* model = mActor->getModel()) {
         if (!mBoneKey_s.isEmpty())
             _90.search(model, mBoneKey_s);
     }
-    OnStateXLinkCreate::m8();
+    OnStateXLinkCreate::enter();
     sub_7100647278();
 }
 
-void XLinkCreateForSandworm::m9() {
-    OnStateXLinkCreate::m9();
+void XLinkCreateForSandworm::leave() {
+    OnStateXLinkCreate::leave();
     _90.getKey().reset();
 }
 

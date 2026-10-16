@@ -9,13 +9,13 @@ NoSensorBombLandNoise::NoSensorBombLandNoise(const InitArg& arg) : NoiseBase(arg
 
 NoSensorBombLandNoise::~NoSensorBombLandNoise() = default;
 
-bool NoSensorBombLandNoise::m6(sead::Heap* heap) {
+bool NoSensorBombLandNoise::init_(sead::Heap* heap) {
     return true;
 }
 
 // NON_MATCHING: `!_60` / the `_61` test compile differently (the original treats _61 as a byte) and
 // the velocity loads are scheduled differently
-void NoSensorBombLandNoise::m7() {
+void NoSensorBombLandNoise::calc() {
     const bool landed = isBgGroundHit(mActor, false) || isLandedMaybe(mActor, false);
     _61 = landed && !_60;
     if (_58 > 0.0f)
@@ -26,19 +26,19 @@ void NoSensorBombLandNoise::m7() {
         sub_710062E9F8();
     else
         sub_710062E9F0();
-    NoiseBase::m7();
+    NoiseBase::calc();
     _60 = landed;
 }
 
-void NoSensorBombLandNoise::m8() {
+void NoSensorBombLandNoise::enter() {
     sub_710062E9F0();
     const int no_noise_frame = *mNoNoiseFrame_s;
     _61 = false;
     _58 = no_noise_frame;
 }
 
-void NoSensorBombLandNoise::m9() {
-    NoiseBase::m9();
+void NoSensorBombLandNoise::leave() {
+    NoiseBase::leave();
 }
 
 void NoSensorBombLandNoise::loadParams() {

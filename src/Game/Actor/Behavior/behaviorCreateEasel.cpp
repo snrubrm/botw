@@ -8,20 +8,20 @@ CreateEasel::CreateEasel(const InitArg& arg) : Unk_7102435118(arg) {}
 
 CreateEasel::~CreateEasel() = default;
 
-bool CreateEasel::m6(sead::Heap* heap) {
-    return Unk_7102435118::m6(heap);
+bool CreateEasel::init_(sead::Heap* heap) {
+    return Unk_7102435118::init_(heap);
 }
 
-void CreateEasel::m7() {
-    Unk_7102435118::m7();
+void CreateEasel::calc() {
+    Unk_7102435118::calc();
 }
 
-void CreateEasel::m8() {
-    Unk_7102435118::m8();
+void CreateEasel::enter() {
+    Unk_7102435118::enter();
 }
 
-void CreateEasel::m9() {
-    Unk_7102435118::m9();
+void CreateEasel::leave() {
+    Unk_7102435118::leave();
 }
 
 void CreateEasel::loadParams() {

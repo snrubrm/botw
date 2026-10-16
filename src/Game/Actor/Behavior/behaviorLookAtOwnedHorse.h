@@ -10,11 +10,11 @@ class LookAtOwnedHorse : public InterestNeckControl {
 public:
     explicit LookAtOwnedHorse(const InitArg& arg);
     ~LookAtOwnedHorse() override;
-    void m8() override;
-    void m9() override;
+    void enter() override;
+    void leave() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;
-    void m7() override;
+    bool init_(sead::Heap* heap) override;
+    void calc() override;
 
     /* 0x58 */ const float* mDistance_s{};
     /* 0x60 */ act::NPC* _60 = nullptr;

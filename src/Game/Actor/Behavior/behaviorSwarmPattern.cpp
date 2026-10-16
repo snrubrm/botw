@@ -7,20 +7,20 @@ SwarmPattern::SwarmPattern(const InitArg& arg) : SwarmPatternBase(arg) {}
 
 SwarmPattern::~SwarmPattern() = default;
 
-bool SwarmPattern::m6(sead::Heap* heap) {
-    return SwarmPatternBase::m6(heap);
+bool SwarmPattern::init_(sead::Heap* heap) {
+    return SwarmPatternBase::init_(heap);
 }
 
-void SwarmPattern::m7() {
-    SwarmPatternBase::m7();
+void SwarmPattern::calc() {
+    SwarmPatternBase::calc();
 }
 
-void SwarmPattern::m8() {
-    SwarmPatternBase::m8();
+void SwarmPattern::enter() {
+    SwarmPatternBase::enter();
 }
 
-void SwarmPattern::m9() {
-    SwarmPatternBase::m9();
+void SwarmPattern::leave() {
+    SwarmPatternBase::leave();
 }
 
 void SwarmPattern::loadParams() {

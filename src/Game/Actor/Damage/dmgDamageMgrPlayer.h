@@ -13,7 +13,7 @@ class DamageMgrPlayer : public DamageManager {
     SEAD_RTTI_OVERRIDE(DamageMgrPlayer, DamageManager)
 public:
     void resetDamage() override;
-    void m22() override;
+    void calcDamage() override;
     bool m51(const ksys::act::BaseProcLink* link) override;
     bool m47(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7);
     bool m50(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40) override;
