@@ -295,8 +295,15 @@ static_assert(sizeof(Unk_710247aa50) == 0x130);
 // sub_7100A2C4D4 creates it (0x170 bytes, ctor 0x71009bc268).
 class Unk_710247b960 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247b960(eui::LayoutEx* layout);
-    u8 _130[0x170 - 0x130];
+    /* 0x130 */ void* _130 = nullptr;
+    /* 0x138 */ void* _138 = nullptr;
+    /* 0x140 */ void* _140 = nullptr;
+    /* 0x148 */ void* _148 = nullptr;
+    /* 0x150 */ Unk_71024774c8 _150;
+    /* 0x168 */ s32 _168 = -1;
+    /* 0x16c */ s32 _16c = 0;
 };
 static_assert(sizeof(Unk_710247b960) == 0x170);
 

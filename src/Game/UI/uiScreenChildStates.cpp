@@ -465,6 +465,8 @@ Unk_7102477c30::~Unk_7102477c30() = default;
 
 
 // 0x71009bc9bc
+Unk_710247b960::Unk_710247b960(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 Unk_710247bcb8::Unk_710247bcb8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x71009bcbdc
