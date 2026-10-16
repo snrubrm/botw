@@ -45,6 +45,10 @@ void Unk_71024fefe8::sub_71010121D8(s32 id) {
     }
 }
 
+bool Unk_71024fefe8::m11() {
+    return mState == 2;
+}
+
 void Unk_71024fefe8::sub_71010122A0(s32 id) {
     for (s32 i = 0; i < mEntries.size(); ++i) {
         auto& entry = mEntries[i];

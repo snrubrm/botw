@@ -18,6 +18,24 @@ Unk_71024fe808::~Unk_71024fe808() = default;
 // this class does not declare yet.
 Unk_71024fe970::~Unk_71024fe970() = default;
 
+bool Unk_71024fe970::m10() {
+    return mFlags & 1;
+}
+
+void Unk_71024fe970::m12(f32 fade_sec) {
+    if (!(mFlags & 1))
+        return;
+    mFlags |= 0x101;
+    sub_710101D9D8();
+}
+
+void Unk_71024fe970::m13(f32 fade_sec) {
+    if (mFlags & 0x78)
+        _198 = _19c;
+    mFlags = (mFlags & ~0x178) | 0x100;
+    sub_710101D9F4(fade_sec);
+}
+
 namespace ksys::snd {
 
 // NON_MATCHING: the original zeroes _c / _10 with one unaligned doubleword store.

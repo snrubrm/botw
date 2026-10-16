@@ -2633,7 +2633,17 @@ public:
     ~Unk_71024fe970() override;
     // 0x710100e124 (declaration only): requests the signed state, queuing it during a transition.
     void sub_710100E124(const s32& state);
+    bool m10() override;
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
+
+    u8 _190[0x198 - 0x190];
+    /* 0x198 */ s32 _198;
+    /* 0x19c */ s32 _19c;
+    u8 _1a0[0x288 - 0x1a0];
+    // Bit 0: playing; bits 3..6: transition states (0x710100f0c0); bit 8 set on start / stop.
+    /* 0x288 */ u16 mFlags;
 };
 
 // vtable 0x71024feae8 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2708,6 +2718,13 @@ class Unk_71024fed48 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fed48, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fed48() override;
+    bool m10() override;
+    // 0x7101010af0: restarts the BGM after a stop (state 3 -> 1, 4 -> 2).
+    void m12(f32 fade_sec) override;
+    // 0x7101010e74: stops the BGM (state 1 -> 3, 2 -> 4, else 0).
+    void m13(f32 fade_sec) override;
+
+    /* 0x190 */ u32 mState;
 };
 
 // vtable 0x71024fee78 (17 slots); placeholder generated from the vtable (genskel.py).
@@ -2717,8 +2734,12 @@ public:
     ~Unk_71024fee78() override;
     // 0x710101157c: stores the first dword of `arg` at +0x1d0 (called by Unk_710260f1f8::m8 on its kind 26 BGM).
     void sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+    bool m11() override;
+    void m13(f32 fade_sec) override;
 
-    u8 _190[0x1d4 - 0x190];
+    u8 _190[0x198 - 0x190];
+    /* 0x198 */ s32 mState;
+    u8 _19c[0x1d4 - 0x19c];
     // Bit 1 is set by uking::behavior::BgmCtrlBehavior::enter.
     /* 0x1d4 */ u8 _1d4;
 };
@@ -2736,6 +2757,7 @@ public:
     void sub_71010122F0(bool value, s32 id);
     // 0x7101012340: raises _1ec to `value`, sets _1f0 if `flag`, and sets _5 of the entry of `id` to `flag`.
     void sub_7101012340(s32 value, bool flag, s32 id);
+    bool m11() override;
     void m14(sead::TextWriter& writer) override {}
     // 0x71010123ac / 0x71010124f4 (declared only)
     void hm14() override;

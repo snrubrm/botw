@@ -178,4 +178,32 @@ void Unk_71024fe368::hm16(s32 arg) {
 // Unk_71024fed48 (TU ..0x7101011210) and Unk_71024fee78 (TU ..0x7101011b2c) are separate TUs in the original.
 Unk_71024fed48::~Unk_71024fed48() = default;
 
+bool Unk_71024fed48::m10() {
+    return mState != 0;
+}
+
+void Unk_71024fed48::m12(f32 fade_sec) {
+    if (mState == 4)
+        mState = 2;
+    else if (mState == 3)
+        mState = 1;
+    else
+        return;
+    sub_710101D9D8();
+}
+
+void Unk_71024fed48::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mState = mState == 1 ? 3 : mState == 2 ? 4 : 0;
+}
+
 Unk_71024fee78::~Unk_71024fee78() = default;
+
+bool Unk_71024fee78::m11() {
+    return mState == 2;
+}
+
+void Unk_71024fee78::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mState = 0;
+}
