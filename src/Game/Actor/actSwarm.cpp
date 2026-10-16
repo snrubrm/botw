@@ -240,6 +240,23 @@ void Swarm::updatePositionMaybe() {
     _15b8.setInverse(mMtx);
 }
 
+// NON_MATCHING: the original evaluates the _98 loop bound once (the size is reloaded only for the bounds check).
+void Swarm::m103() {
+    for (s32 i = 0; i < _14c8.size(); ++i) {
+        auto* unit = _14c8[i];
+        if (!unit)
+            continue;
+        if (unit->_78) {
+            for (s32 j = 0; j < unit->_98.size(); ++j)
+                unit->_98[j].sub_7100FDD264();
+            gsys::Model::sub_7100BF69F8(unit->_78);
+            unit->_78 = nullptr;
+        }
+        for (s32 j = 0; j < unit->_80; ++j)
+            unit->_88[j].unloadAndResetUnitFlag20000();
+    }
+}
+
 void Swarm::m74() {
     sub_710011CCBD0();
     if ((mActorFlags2.getDirect() & 0x21) != 0)
