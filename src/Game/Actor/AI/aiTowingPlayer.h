@@ -16,10 +16,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void m38() override;
+
+    // 0x71005cd23c: sends the sand seal camera messages (0x8800002 / 0x8800003 for SP actors, then 0x8800004).
+    void sub_71005CD23C();
 
 protected:
     // static_param at offset 0xc8

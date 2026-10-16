@@ -28,6 +28,9 @@ protected:
     bool sub_71005CC40C() const;
     // 0x71005cc384: whether the towing is at a standstill state: not in the controller motion type, standard speed reached while _38 == 0, or slowing down (3)
     bool sub_71005CC384();
+    // 0x71005cc5c0 (declared only): sand check ahead of the actor; updates the free distance and returns the
+    // side to turn to (1 / 2) in `side`.
+    void sub_71005CC5C0(f32* distance, s32* side);
     s32 _38 = 0;  // speed state (1: accelerating, 2: keeping the max speed, 3: slowing down)
     f32 _3c = 0;  // speed
     f32 _40 = 0;
