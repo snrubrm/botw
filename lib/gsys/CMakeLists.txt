@@ -36,6 +36,7 @@ add_library(gsys OBJECT
   src/gsys/gsysMemBuffer.cpp
   src/gsys/gsysModel.cpp
   src/gsys/gsysModelResource.cpp
+  src/gsys/gsysG3dResModelEx.cpp
   src/gsys/gsysCameraAnimation.cpp
   src/gsys/gsysModelAccessKey.cpp
   src/gsys/gsysModelAnimation.cpp

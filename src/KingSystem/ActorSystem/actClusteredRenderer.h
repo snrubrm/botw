@@ -31,6 +31,7 @@ class Thread;
 }  // namespace sead
 
 namespace gsys {
+class G3dResModelEx;
 class Model;
 class ModelScene;
 class ModelViewData;
@@ -39,6 +40,10 @@ class ModelViewData;
 
 namespace ksys::map {
 struct Unk_71012497f8Entry;
+}
+
+namespace ksys::eft {
+class EffectModelData;
 }
 
 namespace ksys::xlink {
@@ -71,15 +76,22 @@ struct ClusteredRendererTexMaybe {
 // unloads the ones it no longer needs).
 struct ClusteredRendererRegion {
     // Placeholder names: element types of the buffers below (layouts from sub_7101244980 / sub_710124474C).
+    struct SubEntry {
+        u8 _0[0x30];
+        // Index into mModels (sub_710124474C).
+        s32 mModelIndex;
+        u8 _34[0x44 - 0x34];
+    };
     struct Sub {
         u8 _0[0x30];
         u8* _30;
-        sead::Buffer<u8[0x44]> _38;
+        sead::Buffer<SubEntry> _38;
     };
     struct ModelEntry {
-        u8 _0[0x8];
+        gsys::G3dResModelEx* mResModel;
         xlink::XLink* mXLink;
-        u8 _10[0x38 - 0x10];
+        u8 _10[0x30 - 0x10];
+        eft::EffectModelData* mEffectModel;
     };
     struct ResEntry {
         void* _0;

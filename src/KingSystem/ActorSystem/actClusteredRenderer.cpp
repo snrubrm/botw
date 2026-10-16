@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include <utility>
+#include <gsys/gsysG3dResModelEx.h>
 #include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
 #include <heap/seadHeap.h>
@@ -9,8 +10,10 @@
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -408,6 +411,39 @@ void ClusteredRenderer::sub_71012443AC() {
             continue;
         region->mState.exchange(4);
         mData._168.erase(&item);
+    }
+}
+
+void ClusteredRenderer::sub_710124474C(ClusteredRendererRegion* region) {
+    region->mHeap->mFlag.setBit(sead::Heap::Flag::cDisposing);
+
+    for (s32 i = 0; i < region->mModels.size(); ++i) {
+        if (region->mModels[i].mEffectModel) {
+            eft::Effect::instance()->getModelMgr().requestDeleteModel(nullptr,
+                                                                      region->mModels[i].mEffectModel);
+            eft::Effect::instance()->getModelMgr().release(nullptr, region->mModels[i].mEffectModel);
+            region->mModels[i].mEffectModel = nullptr;
+        }
+        if (region->mModels[i].mXLink) {
+            xlink::Manager::instance()->removeTransform(region->mModels[i].mXLink);
+            region->mModels[i].mXLink->resetELinkEvents();
+            region->mModels[i].mXLink->sub_7101230B18();
+            delete region->mModels[i].mXLink;
+            region->mModels[i].mXLink = nullptr;
+        }
+    }
+
+    if (region->_94 & 1) {
+        for (s32 i = 0; i < region->mSubs.size(); ++i) {
+            ClusteredRendererRegion::Sub* sub = region->mSubs[i];
+            if (!sub)
+                continue;
+            for (s32 j = 0; j < sub->_38.size(); ++j) {
+                if (auto* model = region->mModels[sub->_38[j].mModelIndex].mResModel)
+                    model->countDownReferenceCounter();
+            }
+        }
+        region->_94 &= ~1u;
     }
 }
 
