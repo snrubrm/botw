@@ -55,6 +55,16 @@ void Unk_71024fe970::hm14() {
         sub_710100E6A8();
 }
 
+// NON_MATCHING: the original reloads the state after the push (ours merges the tails).
+void Unk_71024fe970::sub_710100E124(const s32& state) {
+    if (!(mFlags & 1) || _198 == state)
+        return;
+    if (mFlags & 0x78)
+        mStateQueue.pushBack(state);
+    _19c = state;
+    mFlags |= 8;
+}
+
 void Unk_71024fe970::sub_710100E0C4() {
     mFlags = (mFlags & ~0x101) | 1;
     sub_710101D9D8();
