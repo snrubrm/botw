@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include "Game/gameUnk_710243c330.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
@@ -9,6 +10,7 @@
 
 namespace ksys::phys {
 class QueryContactPointInfo;
+class RigidBody;
 }
 
 namespace uking {
@@ -23,10 +25,14 @@ class IceBlockMgr : public ksys::ActorMessageTransceiver::IHandler, public Unk_7
     ~IceBlockMgr() override;
 
 public:
+    // 0x7100671634 (CSV IceBlockMgr::x_2).
+    int handleMessage(const ksys::Message* message) override { return 1; }
+
     // 0x710066f8c4: declaration only; removes all linked ice blocks.
     void sub_710066F8C4();
 
-    /* 0x038 */ u8 _38[0x60 - 0x38];  // a sead::FixedPtrArray<?, 3>
+    // Element type unknown (the ctor sets up a three-pointer buffer at 0x48; the dtor clears it first).
+    /* 0x038 */ sead::FixedPtrArray<u8, 3> _38;
     /* 0x060 */ ksys::act::BaseProcLink _60;
     /* 0x070 */ ksys::act::BaseProcLink _70;
     /* 0x080 */ ksys::act::BaseProcLink _80;
@@ -36,7 +42,8 @@ public:
     /* 0x148 */ f32 _148 = -1.0;
     /* 0x14c */ u16 _14c = 0;
     /* 0x14e */ bool _14e = false;  // set by RemainsWaterBattleRoot::handleMessage_ (message 0x8000069)
-    /* 0x150 */ void* _150 = nullptr;  // polymorphic, deleted in the destructor
+    // Deleted through its virtual destructor in ~IceBlockMgr (AmiiboMgr keeps a CylinderRigidBody here).
+    /* 0x150 */ ksys::phys::RigidBody* _150 = nullptr;
     /* 0x158 */ ksys::phys::QueryContactPointInfo* _158 = nullptr;
     /* 0x160 */ s64 _160 = -1;
     /* 0x168 */ s32 _168 = -1;
