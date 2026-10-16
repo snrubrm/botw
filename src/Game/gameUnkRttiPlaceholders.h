@@ -2362,7 +2362,12 @@ public:
 // empty slots 0x7100ffd654 / 0x7100ffd658). Declared only.
 class Unk_71024fd010 : public Unk_SpotBgmHandle {
 public:
+    using Unk_SpotBgmHandle::Unk_SpotBgmHandle;
+    // 0x7100ffd630 (D0; D1 is Unk_SpotBgmHandle's)
     ~Unk_71024fd010() override;
+    // 0x7100ffd654 / 0x7100ffd658 (empty)
+    virtual void m16() {}
+    virtual void m17() {}
 
     /* 0x180 */ u32 _180;
 };

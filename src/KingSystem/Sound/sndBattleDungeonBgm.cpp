@@ -561,6 +561,8 @@ void Unk_710260f1f8::m8(const Unk_BgmControllerM8Arg& arg) {
 
 }  // namespace ksys::snd
 
+Unk_71024fd010::~Unk_71024fd010() = default;
+
 // NON_MATCHING: member store order around the vtable store.
 Unk_71024fd0a8::Unk_71024fd0a8(const ksys::snd::BgmInitArg& arg) : Bgm(arg.kind) {
     mAppearanceFlag = ksys::gdt::Manager::instance()->getBoolHandle("AnimalMaster_Appearance");
