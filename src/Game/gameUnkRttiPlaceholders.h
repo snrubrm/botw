@@ -1566,6 +1566,7 @@ class Unk_710251cbf0 : public Unk_7102518688 {
 public:
     // lane1 s95: the "grass_fire" element; built by Unk_71024dd490::sub_71012DF1A0.
     Unk_710251cbf0(void* arg, sead::Heap* heap);
+    f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     ~Unk_710251cbf0() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -1577,7 +1578,7 @@ public:
 
     // lane1 s95: only the initial values from the ctor are known.
     void* _48;
-    void* _50 = nullptr;
+    ksys::phys::RigidBody* _50 = nullptr;
     s32 _58 = -1;
     void* _60 = nullptr;
     u32 _68 = 0;
@@ -1589,6 +1590,7 @@ class Unk_710251cd38 : public Unk_7102518688 {
 public:
     // lane1 s95: the "grass_fire_warm" element; built by Unk_71024dd490::sub_71012DF384.
     Unk_710251cd38(void* arg, sead::Heap* heap);
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     ~Unk_710251cd38() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
