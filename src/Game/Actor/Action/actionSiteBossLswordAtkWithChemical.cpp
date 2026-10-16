@@ -11,6 +11,9 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <math/seadQuat.h>
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -120,6 +123,44 @@ void SiteBossLswordAtkWithChemical::loadParams_() {
     getStaticParam(&mEmitPartsName_s, "EmitPartsName");
     getStaticParam(&mCallSEKeyAtAtOn_s, "CallSEKeyAtAtOn");
     getStaticParam(&mEmitActorSpeed_s, "EmitActorSpeed");
+}
+
+// NON_MATCHING: register allocation around the index conversion only.
+bool SiteBossLswordAtkWithChemical::sub_710025B4B0(int index) {
+    sead::Matrix34f base_mtx;
+    ksys::util::sub_71011F0260(&base_mtx, sead::Vector3f::ez, sead::Vector3f::ey,
+                               sead::Vector3f::zero, false);
+
+    sead::Vector3f pos;
+    m37(&pos);
+    const sead::Matrix34f mtx = mActor->getMtx();
+    const f32 base_dist = m38();
+    const f32 i = f32(u32(index));
+    const f32 dist = base_dist + i * *mEmitIntervalDist_s;
+    sead::Quatf rotation;
+    rotation.setAxisRadian(sead::Vector3f::ey, *mEmitAngleFromParent_s + i * *mEmitIntervalRotate_s);
+    sead::Matrix34f rotation_mtx;
+    rotation_mtx.fromQuat(rotation);
+    sead::Vector3f offset{0.0f, 0.0f, dist};
+    offset.rotate(mtx);
+    offset.rotate(rotation_mtx);
+    pos += offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    sead::Vector3f start = pos;
+    start.y += 5.0f;
+    query.setStartAndDisplacementScaled(start, {0.0f, -1.0f, 0.0f}, 8.0f);
+    sead::Vector3f hit_pos = pos;
+    bool hit = false;
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        query.getHitPosition(&hit_pos);
+        _1b8[index] = hit_pos;
+        hit = true;
+    }
+    return hit;
 }
 
 // NON_MATCHING: the final emit-all loop (the original guards with num != 0 and loops unsigned).

@@ -65,7 +65,7 @@ protected:
     sead::SafeString mCallSEKeyAtAtOn_s{};
     // static_param at offset 0x180
     const sead::Vector3f* mEmitActorSpeed_s{};
-    // Not decompiled yet (placeholder names): 0x710025b4b0, 0x710025b7cc, 0x710025b95c.
+    // Placeholder names. 0x710025b4b0: ray-casts the ground below emit position `index` into _1b8.
     bool sub_710025B4B0(int index);
     void sub_710025B7CC();
     void sub_710025B95C(int index);
