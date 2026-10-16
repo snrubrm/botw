@@ -145,6 +145,15 @@ RayCastForRequest* System::allocRayCastRequest(SystemGroupHandler* group_handler
     return mRayCastRequestMgr->allocRequest(group_handler, ground_hit);
 }
 
+void System::initSystemGroupHandlers() {
+    for (int type = 0; type < NumContactLayerTypes; ++type) {
+        for (int i = 0; i < 4; ++i)
+            _2c0[type][i] = mGroupFilters[type]->addSystemGroupHandler(0);
+        for (int i = 0; i < 2; ++i)
+            _300[type][i] = mGroupFilters[type]->addSystemGroupHandler(1);
+    }
+}
+
 SystemGroupHandler* System::addSystemGroupHandler(ContactLayerType layer_type, int free_list_idx) {
     return getGroupFilter(layer_type)->addSystemGroupHandler(free_list_idx);
 }
