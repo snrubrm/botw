@@ -190,6 +190,7 @@ target_sources(uking PRIVATE
   actDragon.cpp
   actDragon.h
   actEnemy.cpp
+  actUnk_Enemy1250.cpp
   actEnemyUnk12d0.cpp
   actEnemyAccessors.cpp
   actEnemy.h

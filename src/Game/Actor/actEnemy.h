@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/Actor/actUnk_7102366570.h"
+#include "Game/Actor/Action/actionUnk_71024512e8.h"
 
 #include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
@@ -48,16 +49,25 @@ struct Unk_7100732b28 {
     /* 0x30 */ ksys::phys::MaterialMask* _30;
 };
 
+// 0xd8 bytes (ClothReactionUnit::init 0x71006f7928 builds them).
 struct Unk_Enemy1250Sub {
     virtual void m0();
     virtual void m1();
+
+    /* 0x08 */ ksys::act::Actor* _8;
+    /* 0x10 */ u8 _10[0x38 - 0x10];
+    /* 0x38 */ Unk_71024512e8 _38;
 };
+KSYS_CHECK_SIZE_NX150(Unk_Enemy1250Sub, 0xd8);
 struct Unk_Enemy1250 {
     // Weapon FE0 and Enemy1250 share the result of ClothReactionUnit::make at6F78A4.
     // 6F81F0 detaches the four child bone handles; no child layout is declared here.
     void sub_71006F81F0();
-    u8 _0[0x18];
+    u8 _0[0x10];
+    Unk_Enemy1250Sub* _10;
     Unk_Enemy1250Sub* _18;
+    Unk_Enemy1250Sub* _20;
+    Unk_Enemy1250Sub* _28;
 };
 
 // Placeholder name (ctor 0x710070ef50, dtor 0x710070efa8 - empty, out of line).
