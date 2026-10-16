@@ -27,10 +27,17 @@ f32 sub_7100E40B7C(phys::RigidBody* body, const sead::Vector3f* dir, void* arg);
 // lane1 s95: 0x7100e40d94 (placeholder name, declared only): a value for two rigid bodies (owner body first,
 // element body second; used by Unk_7102518688::m21).
 f32 sub_7100E40D94(phys::RigidBody* owner_body, phys::RigidBody* body);
+// lane1 s95 (placeholder names, declared only; used by Unk_7102518688::m13): 0x7100e40814 returns a value
+// for the body at `pos`; 0x7100e412d0 tests the element position against `pos` (with the owner's group
+// handler).
+f32 sub_7100E40814(phys::RigidBody* body, const sead::Vector3f& pos, f32 a, f32 b);
+bool sub_7100E412D0(const sead::Vector3f& element_pos, Chemical* chemical, const sead::Vector3f& pos,
+                    phys::SystemGroupHandler* handler, bool flag);
 }  // namespace ksys::act
 
 namespace ksys::phys {
 class RigidBody;
+class SystemGroupHandler;
 }
 
 // vtable 0x71024dd1a8 (ctor 0x7100d8cbb4; CSV name ElementName): the request an element factory fills
@@ -156,7 +163,7 @@ public:
     bool m10() override;
     void m11() override;
     void m12() override;
-    // Declared only (lane1 s90): m13 0x710127c7a4, m14 0x710127c920, m15 0x710127cab4 (m19 / m21 done in s95),
+    // Declared only (lane1 s90): m14 0x710127c920, m15 0x710127cab4 (m13 / m19 / m21 done in s95),
     // m21 0x710127ceb0 (unnamed helpers 0x7100e40814 / e412d0 / e40b7c / e40d94).
     f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;

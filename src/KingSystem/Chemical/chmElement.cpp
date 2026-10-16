@@ -6,6 +6,8 @@
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/World/worldManager.h"
@@ -180,6 +182,27 @@ void Unk_7102518688::m2() {
         ksys::act::sub_7100E40448(&mPosition, mRigidBody);
     else
         mPosition = {0, 0, 0};
+}
+
+f32 Unk_7102518688::m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
+    if (mHolder->_8->effect_type.ref() == 2) {
+        auto* body = mRigidBody;
+        const f32 a = chemical ? chemical->_34 : 0.0f;
+        *out = ksys::act::sub_7100E40814(body, pos, a, m24());
+        if (mHolder->_78 == 1) {
+            ksys::phys::SystemGroupHandler* handler = nullptr;
+            if (chemical && chemical->_18) {
+                auto* owner = sead::DynamicCast<ksys::act::Unk_71024e6428>(chemical->_18);
+                if (owner && owner->mActor)
+                    handler = owner->mActor->getPhysics()->get188(0);
+            }
+            if (ksys::act::sub_7100E412D0(m6(), chemical, pos, handler, false))
+                *out = 0.0f;
+        }
+    }
+    if (ksys::world::Manager::instance() && mHolder->_8->attribute.ref() & 1)
+        *out = 0.0f;
+    return mHolder->_30;
 }
 
 f32 Unk_7102518688::m19(ksys::act::Chemical* chemical) {
