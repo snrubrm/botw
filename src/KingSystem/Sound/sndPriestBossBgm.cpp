@@ -65,6 +65,39 @@ void Unk_71024fe970::sub_710100E124(const s32& state) {
     mFlags |= 8;
 }
 
+// NON_MATCHING: the original selects the entry handle pointer (entry ? &entry->mHandle : nullptr) before its
+// checks, and converts the sample rate as signed (lib getSampleRate converts it as unsigned).
+void Unk_71024fe970::sub_710100E194(const s32& state) {
+    if (!(mFlags & 1) || _198 == state)
+        return;
+
+    aal::Handle* handle = nullptr;
+    {
+        const Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+        if (current.mEntry && current.mEntry->mHandle.isActive()) {
+            if (auto* executor = static_cast<xlink2::EventSLink*>(current.mEntry->mHandle.getEvent())
+                                     ->getAliveAssetExecutor()) {
+                handle = executor->getHandle();
+            }
+        }
+    }
+    const Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+    if (!current.mEntry || !current.mEntry->mHandle.isActive())
+        return;
+    auto* executor =
+        static_cast<xlink2::EventSLink*>(current.mEntry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    auto* source = executor->getHandle()->getSoundSource();
+    if (!handle || !source)
+        return;
+
+    const f32 wait_sec = state == 4 ? mInfo->mTransformDemoWaitSec.ref() : 1.0f;
+    const s32 position = handle->getPlaySamplePosition();
+    sub_710100E2FC(state, s32(wait_sec * source->getAssetInfo()->getSampleRate()) + position);
+    _19c = state;
+}
+
 void Unk_71024fe970::sub_710100E0C4() {
     mFlags = (mFlags & ~0x101) | 1;
     sub_710101D9D8();

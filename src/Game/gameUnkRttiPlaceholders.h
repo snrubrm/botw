@@ -2935,6 +2935,11 @@ public:
     ~Unk_71024fe970() override;
     // 0x710100e124 (declaration only): requests the signed state, queuing it during a transition.
     void sub_710100E124(const s32& state);
+    // 0x710100e194: switches to `state` at the play position plus the wait time (TransformDemoWaitSec for the
+    // transform state 4, else one second).
+    void sub_710100E194(const s32& state);
+    // 0x710100e2fc (declared only): prepares `state` to start at `position` (samples).
+    void sub_710100E2FC(const s32& state, s32 position);
     bool m10() override;
     void m12(f32 fade_sec) override;
     void m13(f32 fade_sec) override;
