@@ -9,6 +9,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -86,6 +87,55 @@ void Dragon::sub_710000D474() {
         body->removeFromWorld();
     if (auto* body = getRigidBodyByName(sAtkName.cstr()))
         body->removeFromWorld();
+}
+
+ksys::map::Object* Dragon::sub_710000C440() const {
+    if (_1f70.isOnBit(28))
+        return getMapObject();
+    auto* mgr = ksys::map::PlacementMgr::instance();
+    if (!mgr)
+        return nullptr;
+    auto* actors = mgr->mPlacementActors;
+    if (!actors)
+        return nullptr;
+    switch (_1e0c) {
+    case 0:
+        return actors->mDragonObjects[0];
+    case 1:
+        return actors->mDragonObjects[1];
+    case 2:
+        return actors->mDragonObjects[2];
+    case 3:
+        return getMapObject();
+    default:
+        return nullptr;
+    }
+}
+
+bool Dragon::shouldUnload(s32* a1) {
+    if (!_1f70.isOnBit(28)) {
+        const f32 dist_sq = _1f6c * _1f6c;
+        if (dist_sq < mDeleteDistanceSq)
+            return false;
+        if (_1f70.isOnBit(29)) {
+            if (auto* obj = sub_710000C440()) {
+                if (obj->sub_7100D4C868()) {
+                    const f32 lod_dist = obj->sub_7100D4C868()->getTraverseDistForLOD();
+                    if (dist_sq > lod_dist * lod_dist)
+                        deleteLater(DeleteReason::_0);
+                }
+            }
+            return false;
+        }
+    }
+    if (_1e0c == 2) {
+        const auto& pos = getMtx().getTranslation();
+        const f32 dx = pos.x + 47.9083f;
+        const f32 dz = pos.z - 2505.9648f;
+        if (dx * dx + dz * dz < 1000000.0f && _1f6c * _1f6c < mDeleteDistanceSq)
+            return false;
+    }
+    return shouldUnloadBecauseOfDistance(a1);
 }
 
 // Placeholder name: switches the horn animation (AS slot 5) to `name` when it changes, then sub_710000D474.

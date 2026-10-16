@@ -232,7 +232,9 @@ public:
     sead::OffsetList<Unk_7100D4D998> _2a8060;
     // The mutex guarding `_2a8060`.
     sead::Mutex _2a8078;
-    u8 _2a80a0[0x2a80d0 - 0x2a8078 - sizeof(sead::Mutex)];
+    u8 _2a80a0[0x2a80b8 - 0x2a8078 - sizeof(sead::Mutex)];
+    // The map objects of the three roaming dragons (Dragon::sub_710000C440, by dragon kind 0 - 2).
+    /* 0x2a80b8 */ Object* mDragonObjects[3];
 };
 KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
 
