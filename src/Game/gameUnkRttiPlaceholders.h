@@ -325,6 +325,9 @@ public:
     // 0x7100945c98 (placeholder name): closes the layout if it is open or opening; with `a1`, also when it is not
     // closed
     void sub_7100945C98(bool a1);
+    // 0x7100945ea4 (placeholder name): follows the trace gauge: stores its speed in _98 while it is not tracing,
+    // otherwise stops tracing at _98 (or once it has caught up)
+    void sub_7100945EA4();
     // 0x7100945d84 (placeholder name): sets the trace gauge's _6c flag
     void sub_7100945D84(bool value);
     // 0x7100946864 (placeholder name): 1 + the number of whole 1000s above 1000 in _8c
@@ -354,10 +357,8 @@ public:
     /* 0x8c */ f32 _8c = 0;
     /* 0x90 */ f32 _90 = 0;
     /* 0x94 */ f32 _94 = 0;
-    /* 0x98 */ bool _98 = false;
-    /* 0x99 */ bool _99 = false;
-    /* 0x9a */ bool _9a = false;
-    /* 0x9b */ bool _9b = false;
+    // the value the trace gauge catches up to (sub_7100945EA4)
+    /* 0x98 */ f32 _98 = 0;
     /* 0x9c */ bool _9c = false;
     /* 0x9d */ bool _9d = false;
     /* 0x9e */ bool _9e = false;
@@ -383,6 +384,9 @@ public:
     // 0x7100945f78 (placeholder name): takes the new gauge value (m7), moves the gauge animation and the trace
     // gauge, then updates the extra animators
     void sub_7100945F78();
+    // 0x71009461b8 (placeholder name): with m10, opens the layout (also when the remote bomb / camera rune state
+    // says so) after refreshing the gauge; otherwise closes it
+    void sub_71009461B8();
     // 0x7100946318 (declared only; 304 bytes): sets the animators _50 / _40 / _20 from the player's state
     void sub_7100946318();
     // 0x7100946740 (placeholder name): opens the layout (and with `update`, refreshes the gauge first) if it is

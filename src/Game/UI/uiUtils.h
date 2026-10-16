@@ -174,6 +174,8 @@ bool sub_7100AA4ACC(s32 effect, f32* out);
 bool sub_7100AA7290(const act::WeaponModifierInfo& modifier, bool is_bow, f32* out);
 // 0x7100aa8f30 (uiGdtFacade.cpp): bit 13 of the Manager's flag word
 bool sub_7100AA8F30();
+// 0x7100aa8f50 (defined in uiGdtFacade.cpp)
+bool sub_7100AA8F50();
 // 0x7100aa8e5c (uiGdtFacade.cpp): bit 21 of the Manager's flag word
 bool sub_7100AA8E5C();
 // 0x7100a9b830 / 0x7100a9b89c (uiManagerFacade.cpp): the heading in degrees of the manager's direction / of the

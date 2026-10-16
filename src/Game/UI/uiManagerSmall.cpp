@@ -1,3 +1,4 @@
+#include "Game/gameRuneMgr.h"
 #include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -503,6 +504,21 @@ void Unk_7102474fd8::sub_7100945C98(bool a1) {
         _8->startAnimCloseImpl_(false, true);
 }
 
+// 0x7100945ea4
+void Unk_7102474fd8::sub_7100945EA4() {
+    if (!_10)
+        return;
+    if (!_10->_6c) {
+        _98 = _10->mTracingSpeed;
+        return;
+    }
+    if (_10->_50 >= _98)
+        _10->set50(_98);
+    else if (!sead::Mathf::equalsEpsilon(_10->_50, _10->mTracingSpeed))
+        return;
+    sub_7100945D84(false);
+}
+
 // 0x7100945d84
 void Unk_7102474fd8::sub_7100945D84(bool value) {
     if (_10)
@@ -555,6 +571,23 @@ void Unk_7102474fd8Gauge::sub_7100945F78() {
         _38->StopAtMin();
     if (_48)
         _48->StopAtMin();
+}
+
+// 0x71009461b8
+void Unk_7102474fd8Gauge::sub_71009461B8() {
+    if (m10()) {
+        auto* rune = uking::RuneMgr::instance();
+        bool open;
+        if ((rune->_94 & 0x80) && !(rune->_90 & 0x20))
+            open = true;
+        else if ((rune->_94 & 0x20) && !(rune->_90 & 0x10))
+            open = rune->isSelectedRune(5);
+        else
+            open = false;
+        sub_7100946740(open, true);
+    } else {
+        sub_7100945C98(uking::ui::sub_7100AA8F50() || !uking::ui::sub_7100AA948C());
+    }
 }
 
 // 0x7100946740
