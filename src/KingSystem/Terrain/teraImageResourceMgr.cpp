@@ -217,4 +217,19 @@ void ImageResourceMgr::sub_71011311BC() {
     mCS28.unlock();
 }
 
+s32 ImageResourceMgr::sub_7101133274(Request* request) {
+    const s32 result = sub_710113333C(request, false);
+    if (result != 0)
+        return result;
+
+    mKindLists[u8(request->_24)].pushBack(request);
+    if (request->_20 == 1)
+        mList3200.pushFront(request);
+    else
+        mList3200.pushBack(request);
+    if (_62a0.exchange(mList3200.size()) == 0)
+        mThread->sendMessage(1, sead::MessageQueue::BlockType::Blocking);
+    return 0;
+}
+
 }  // namespace ksys::tera

@@ -270,7 +270,12 @@ class ImageResourceMgr {
 public:
     // Placeholder: a load / unload request for one image of an area node.
     struct Request {
-        u8 _0[0x40];
+        u8 _0[0x20];
+        // 1: queued at the front of mList3200.
+        s32 _20;
+        // Low byte: index of the list in mKindLists.
+        u32 _24;
+        u8 _28[0x40 - 0x28];
         Unk_7101106F44* area;
         ImageTypeMaybe type;
         // Bit 2: the data is ready (passed to the image set-up); bit 3: set up.
@@ -303,6 +308,11 @@ public:
     void sub_7101131290();
     // 0x71011320b4 (declared only; placeholder name; 444 B).
     void sub_71011320B4(Request* request);
+    // 0x710113333c (declared only; placeholder name): looks for a matching queued request.
+    s32 sub_710113333C(Request* request, bool a3);
+    // 0x7101133274 (placeholder name): queues `request` unless sub_710113333C finds a match (returns its
+    // result) and wakes the loader thread if the queue was empty.
+    s32 sub_7101133274(Request* request);
 
     u8 _0[0x28];
     sead::CriticalSection mCS28;
@@ -312,7 +322,9 @@ public:
     u8 _31d8[0x3200 - 0x31d8];
     // Pending requests (insertion order depends on the request kind); its size is published in _62a0.
     sead::OffsetList<Request> mList3200;
-    u8 _3218[0x6270 - 0x3218];
+    // Indexed by the low byte of Request::_24 (count unknown; 0x6270 bounds it).
+    sead::OffsetList<Request> mKindLists[0x200];
+    u8 _6218[0x6270 - 0x6218];
     s32 _6270;
     u8 _6274[0x6298 - 0x6274];
     sead::Thread* mThread;
