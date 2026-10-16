@@ -2983,6 +2983,8 @@ public:
         void sub_710100D8B8();
         // 0x710100dc60 (declared only): fades the slot in over `fade_sec` with `curve`.
         void sub_710100DC60(f32 fade_sec, const aal::FadeCurveType& curve);
+        // 0x710100dd48: the empty marker callback that sub_710100DC60 installs (replacing markerCallback).
+        static void emptyMarkerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user);
 
         ksys::snd::Unk_710260f248Entry* mEntry;
         aal::TimedFader mFader;

@@ -167,6 +167,27 @@ void Unk_71024fe970::hm15() {
     }
 }
 
+// NON_MATCHING: fmax instead of fmaxnm for the clamp; the original keeps the handle pointer select of the reloaded
+// entry.
+void Unk_71024fe970::Slot::sub_710100DC60(f32 fade_sec, const aal::FadeCurveType& curve) {
+    if (_3c == 3)
+        mFader.setValueImmediate(1.0f);
+    mFader.moveTo(0.0f, fade_sec);
+    mFader.setCurveType(curve);
+    mEntry->_20 = sead::Mathf::max(mFader.getValue(), 0.0f);
+    _3c = 4;
+    auto* handle = mEntry ? &mEntry->mHandle : nullptr;
+    if (!handle || !handle->isActive())
+        return;
+    auto* executor = static_cast<xlink2::EventSLink*>(handle->getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    if (auto* marker = executor->getHandle()->getMarkerController())
+        marker->setMarkerCallback(emptyMarkerCallback, 0, this);
+}
+
+void Unk_71024fe970::Slot::emptyMarkerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {}
+
 void Unk_71024fe970::markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {
     if (user)
         static_cast<Unk_71024fe970*>(user)->sub_710100EAD8(info);
