@@ -8,6 +8,11 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h"
+#include <gsys/gsysModel.h>
 #include <limits>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -15,6 +20,11 @@
 
 // 0x71002ccc20 (free function, declared only; as in aiSandwormRoot.cpp).
 const sead::SafeString& sub_71002CCC20(s32 idx);
+
+namespace uking::ui {
+// 0x7100a96310 (defined in uiScreenFacade.cpp, not declared in a header).
+s32 sub_7100A96310();
+}  // namespace uking::ui
 
 namespace uking::ai {
 
@@ -54,15 +64,14 @@ void SandwormRRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     sub_71007A397C(actor);
     _1f0.x();
-    _248 = 0;
-    _250 = -1.0f;
+    _240.mTimer.reset(0.0f);
     _288.sub_7100721380(std::numeric_limits<f32>::infinity(), mActor);
 
     if (ksys::act::hasTag(mActor, 0x12AD8456u)) {
-        _29c = 0;
+        _29c.makeAllZero();
         for (s32 i = 0; i < sub_71005D7854(mActor); ++i) {
             if (sub_71005D83E8(mActor, i))
-                _29c |= 1 << i;
+                _29c.set(1 << i);
         }
     }
 }
@@ -157,6 +166,138 @@ void SandwormRRoot::m45(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::Damage
     }
     if (auto* info = sead::DynamicCast<act::DamageCallbackInfo>(a6))
         info->mFlags |= 0x2001;
+}
+
+// Bombs held by the two parts actors follow the "Spine_4" bone; when the weak-point timer runs out, the sleeping
+// "RemoteBomb" parts are placed there and hit the Sandworm with their attack power (damage type 22).
+void SandwormRRoot::calc_() {
+    auto* actor = mActor;
+    if (!sub_71005D8F28(actor) && sub_7100720038(actor))
+        sub_710072009C(actor);
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor))
+        sandworm->sub_71002CDDE8();
+
+    if (_1f0._30) {
+        sub_710072009C(actor);
+        _1f0.x();
+        if (_240.mTimer.value <= sead::Mathf::epsilon())
+            _240.mTimer.reset(8.0f);
+    } else if (!(_240.mTimer.value <= sead::Mathf::epsilon())) {
+        _240.sub_7100D3BCE4();
+        if (_240.mTimer.value <= sead::Mathf::epsilon()) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+                sead::Matrix34f mtx = enemy->getMtx();
+                ksys::act::ActorLinkConstDataAccess accessor;
+                auto* manager = enemy->getDamageMgr();
+                for (s32 i = 0; i < 2; ++i) {
+                    if (!ksys::act::acquireActor(&enemy->getActorPartsActor(sub_71002CCC20(i)), &accessor))
+                        continue;
+                    if (!accessor.isStateSleep())
+                        continue;
+                    if (accessor.getName().findIndex("RemoteBomb") == -1)
+                        continue;
+
+                    if (auto* model = enemy->getModel()) {
+                        const auto key = model->searchBone("Spine_4");
+                        if (key.isValid())
+                            model->getBoneWorldMatrix(key, &mtx);
+                    }
+                    accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 7, -1);
+                    sub_7100720A00(enemy, nullptr);
+                    if (manager) {
+                        act::Struct20_2 damage;
+                        damage.mField_8 = accessor.getAttackPower();
+                        damage.mField_14 = 4;
+                        damage.mField_18 = 22;
+                        if (manager->mStruct20_a) {
+                            manager->mField_30.lock();
+                            manager->mStruct20_a->combineMaybe(&damage);
+                            manager->mField_30.unlock();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    EnemyRoot::calc_();
+    sub_710055F3E0();
+
+    // Necklace weapons the actor no longer holds.
+    if (ksys::act::hasTag(mActor, 0x12AD8456u)) {
+        for (s32 i = 0; i < sub_71005D7854(mActor); ++i) {
+            if (_29c.isOn(1 << i) && !sub_71005D83E8(mActor, i)) {
+                _29c.reset(1 << i);
+                if (auto* sandworm = sead::DynamicCast<act::Sandworm>(mActor))
+                    sandworm->setNecklaceFlag(i);
+            }
+        }
+    }
+}
+
+// NON_MATCHING: the original adds the squared components as y + x then z + (y + x) and loads the player x alone
+// (ours: x + y, z; one ldp)
+void SandwormRRoot::sub_710055F3E0() {
+    auto* actor = mActor;
+    if (isCurrentChild("リアクション")) {
+        const s32* life = actor->getLife();
+        if (life && *life <= 0) {
+            if (_298 != 0) {
+                auto* a = mActor;
+                sub_7100720140(a);
+                sub_7100720A70(a);
+            }
+            _298 = 0;
+            return;
+        }
+    }
+
+    if (sub_710072B8E4()) {
+        const sead::Vector3f& player_pos = getPlayerPosition();
+        const auto* param = actor->getParam()->getRes().mGParamList->getSandworm();
+        if (param) {
+            const f32 dist = (actor->getMtx().getTranslation() - player_pos).length();
+            const bool flag = sub_71005D8F28(actor);
+            switch (_298) {
+            case 0:
+                if (flag) {
+                    auto* a = mActor;
+                    sub_71007200B8(a);
+                    sub_7100720A30(a);
+                    _298 = 2;
+                } else if (dist < param->mShowLifeGageDist.ref()) {
+                    auto* a = mActor;
+                    sub_71007200B8(a);
+                    sub_7100720A30(a);
+                    _298 = 1;
+                }
+                break;
+            case 1:
+                if (flag)
+                    _298 = 2;
+                else if (dist > param->mShowLifeGageDist.ref() + param->mShowLifeGageOffset.ref())
+                    goto hide;
+                break;
+            case 2:
+                if (flag)
+                    break;
+                if (dist > param->mShowLifeGageDist.ref() + param->mShowLifeGageOffset.ref())
+                    goto hide;
+                _298 = 1;
+                break;
+            hide: {
+                auto* a = mActor;
+                sub_7100720140(a);
+                sub_7100720A70(a);
+                _298 = 0;
+                break;
+            }
+            }
+        }
+    }
+
+    if (_298 != 0)
+        ui::sub_7100A96310();
 }
 
 }  // namespace uking::ai
