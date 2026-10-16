@@ -203,6 +203,7 @@ public:
     bool isInYigaClanHideoutArea() const;
     float getConcentrationDarkness() const;
     bool isPaletteSetTransitionDone() const;
+    f32 getPaletteSetTransition() const { return mPaletteSetTransition; }
 
     void worldMgrCalc2();
     int getPaletteSet() const;
