@@ -91,4 +91,14 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101106F44, 0xc8);
 
+// Placeholder: the owner of 0x7101118b34 (its `this` is only passed on to the recursive call; called by
+// 0x7101118c40).
+class Unk_7101118B34 {
+public:
+    // 0x7101118b34 (placeholder name): makes sure `area` and its parents have a type-2 node for `key`
+    // (creating missing ones); with `check`, an existing node only counts if Terrain flag 0x400 is
+    // clear or its image has flag 1, and new nodes get flag 1.
+    bool sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, bool check);
+};
+
 }  // namespace ksys::tera
