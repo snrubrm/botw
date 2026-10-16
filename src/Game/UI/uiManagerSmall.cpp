@@ -169,6 +169,26 @@ void Manager::sub_7100A7F8D4() {
     _651c8.init(15.0f);
 }
 
+// 0x7100a7fdcc: advances the timer of state 2 (4.5 s; the value _653a0 = progress + 2 / 9, 1 after 150 frames)
+// NON_MATCHING: block order (the original places the 150-frame case after the increment block)
+void Manager::sub_7100A7FDCC() {
+    if (_65387 == 1)
+        return;
+    if (_65387 == 2) {
+        if (_653a4 >= 150) {
+            _653a0 = 1.0f;
+            _65387 = 2;
+            return;
+        }
+    } else {
+        _65388.init(4.5f);
+        _653a4 = 0;
+    }
+    ++_653a4;
+    _653a0 = _65388.getProgress() + 2.0f / 9.0f;
+    _65387 = 2;
+}
+
 // 0x7100a7f918
 bool Manager::sub_7100A7F918() const {
     return _651f8 > 0;

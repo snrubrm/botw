@@ -229,7 +229,9 @@ public:
     /* 0x652f8 */ nn::ui2d::Pane** _652f8;
     u8 _65300[0x65387 - 0x65300];
     /* 0x65387 */ u8 _65387;
-    u8 _65388[0x653a8 - 0x65388];
+    /* 0x65388 */ UiTimer _65388;
+    /* 0x653a0 */ f32 _653a0;
+    /* 0x653a4 */ s32 _653a4;  // frames since sub_7100A7FDCC started the timer (up to 150)
     /* 0x653a8 */ f32 _653a8;  // left-stick cross threshold mirrored to the UI controller (see sub_7100A6C0EC)
     u8 _653ac[0x653b0 - 0x653ac];
 };
