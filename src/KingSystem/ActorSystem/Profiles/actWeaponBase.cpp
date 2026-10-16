@@ -639,6 +639,20 @@ void WeaponBase::m168(sead::Vector3f* out) {
     *out += extra;
 }
 
+bool WeaponBase::m201() {
+    sub_7100EE6AFC();
+    auto* actor = sead::DynamicCast<Actor>(_880.getProc(nullptr, nullptr));
+    if (!actor)
+        return false;
+    _938.acquire(actor, false);
+    _9f0 = _91c;
+    _920 = 0xff;
+    _968.copy(_8a0);
+    _9a0.copy(_8d8);
+    _9f4.set(4);
+    return true;
+}
+
 void WeaponBase::m169(sead::Vector3f* out) {
     if (getParentActor() && !m153() && (!sub_7100EFD700(getParentActor()) || m159().isEmpty())) {
         *out = sead::Vector3f::zero;

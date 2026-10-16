@@ -152,7 +152,9 @@ public:
     // Original weapon update helpers at 0xef345c and 0xef3664.
     void sub_7100EF345C();
     void sub_7100EF3664();
-    virtual void m201();
+    // 0x7100ef83d4: takes over the actor of _880 as the parent (copies _91c and the names to _9f0 / _968 / _9a0, sets
+    // _9f4 bit 2); false without one.
+    virtual bool m201();
     virtual void m202(bool on) { _9f4.change(1, on); }
     virtual bool m203() { return _9f4.isOn(1); }
     virtual bool m204() { return false; }
