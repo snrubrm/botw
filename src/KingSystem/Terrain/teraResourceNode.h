@@ -60,12 +60,42 @@ namespace ksys::tera {
 // three bits of _1e.
 struct Unk_71010FEDBC {
     struct Area {
-        sead::Vector2f center;
-        u8 _8[0x18 - 0x8];
-        f32 size;
-        u8 _1c[0x528 - 0x1c];
-    };
+        // Placeholder: fixed-point (1 / 8192) bounds of a cell.
+        struct Rect {
+            s16 minX;
+            s16 maxX;
+            s16 minY;
+            s16 maxY;
+            u8 _8[0x10 - 0x8];
+        };
+        struct Cell {
+            u8 _0[0x8];
+            u8 _8;
+            u8 _9[0x10 - 0x9];
+            void* _10;
+            u8 _18[0x20 - 0x18];
+        };
+        struct Offset {
+            s16 _0;
+            s16 _2;
+        };
 
+        sead::Vector2f center;
+        u8 _8[0x10 - 0x8];
+        sead::Vector2f origin;
+        f32 size;
+        // low nibble: a type (< 4 has bounds in mRects), high nibble: another value.
+        u8 mCellFlags[5][5];
+        u8 _35;
+        // low nibble: x offset index, high nibble: y offset index.
+        u8 mOffsetIndex;
+        u8 _37;
+        Offset mOffsetsX[5];
+        Offset mOffsetsY[5];
+        Cell mCells[5][5];
+        Rect mRects[5][5];
+        u8 _510[0x528 - 0x510];
+    };
     // 0x71010fedbc (placeholder name): the last of the first `count` areas whose distance from `pos`
     // (plus `margin`) is in range of the current level, or -1.
     s32 sub_71010FEDBC(const sead::Vector2f& pos, u32 count, f32 margin) const;
@@ -74,13 +104,14 @@ struct Unk_71010FEDBC {
     struct Result {
         sead::Vector2f pos;
         void* _8;
-        s32 _10;
+        u32 _10;
         u8 _14;
         u8 _15;
         bool _16;
     };
-    // 0x71010fe920 (declared only; 624 B): fills `result` for area `index` and `pos`.
-    bool sub_71010FE920(Result* result, const sead::Vector2f& pos, s32 index) const;
+    // 0x71010fe920 (placeholder name): false if `pos` is outside area `index`; otherwise writes the
+    // position relative to the area and the data of the cell it falls in.
+    bool sub_71010FE920(Result* result, const sead::Vector2f& pos, u32 index) const;
 
     u8 _0[0x8];
     Area* mAreas;
