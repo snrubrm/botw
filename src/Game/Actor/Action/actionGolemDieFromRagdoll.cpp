@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionGolemDieFromRagdoll.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include <prim/seadFormatPrint.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -133,6 +134,43 @@ void GolemDieFromRagdoll::sub_710018C27C() {
     } else {
         controller->sub_7100F5FBE0(body_pos);
     }
+}
+
+// Blows the ragdoll up (and away from the base body).
+// NON_MATCHING: the original loads BlownHeight before the physics System instance (scheduling only).
+void GolemDieFromRagdoll::sub_710018C3A4() {
+    auto* ragdoll = mActor->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    auto* base_body = ragdoll->getBoneRigidBodyByName(mPosBaseRagdollRbName_s);
+    if (!base_body)
+        return;
+
+    sead::Vector3f base_pos;
+    base_body->getPosition(&base_pos);
+    const f32 up_speed =
+        sub_710072D068(&ksys::phys::System::instance()->getField48(), *mBlownHeight_s);
+    const f32 speed = *mBlownSpeed_s * 30.0f;
+    for (s32 i = 0; i < ragdoll->getRigidBodies_().size(); ++i) {
+        auto* body = ragdoll->getRigidBodies_()[i];
+        if (body == base_body) {
+            base_body->setLinearVelocity({0, up_speed, 0}, sead::Mathf::epsilon());
+            continue;
+        }
+        sead::Vector3f pos;
+        body->getPosition(&pos);
+        sead::Vector3f velocity = pos;
+        velocity -= base_pos;
+        velocity.y = 0;
+        const f32 length = velocity.length();
+        if (length > 0.0f)
+            velocity *= speed / length;
+        velocity.y = up_speed;
+        body->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    }
+
+    if (!mImpulseXLinkKey_s.isEmpty())
+        xlinkSearchAndEmit(mActor, mImpulseXLinkKey_s.cstr(), 2, nullptr);
 }
 
 // NON_MATCHING: saved scalar registers and the near-limit setup are reordered.
