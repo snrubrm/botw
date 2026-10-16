@@ -36,11 +36,7 @@ ScreenAkashNum::~ScreenAkashNum() = default;
 ScreenMamoNum::~ScreenMamoNum() = default;
 // 0x71009fce34 (D1): frees the array, then resets the ScreenAppHome slot 0
 ScreenAppTool::~ScreenAppTool() {
-    if (_3640) {
-        delete[] _3640;
-        _3640 = nullptr;
-        _3638 = 0;
-    }
+    _3638.freeBuffer();
     if (auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
         screen->sub_71009DC77C(0, nullptr);
 }

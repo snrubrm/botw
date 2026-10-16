@@ -341,7 +341,6 @@ void ScreenAppTool::m100() {
     sUnk_71025ec54a = 0;
 }
 
-// NON_MATCHING: the original builds both record addresses and selects between the pointers (madd + csel) where ours selects the index first
 // 0x71009fe284
 void ScreenAppTool::m102(eui::AnimButton* button) {
     if (button->IsPlayDisableAnim()) {
@@ -352,8 +351,22 @@ void ScreenAppTool::m102(eui::AnimButton* button) {
     if (_3650)
         _3650->StopAtMin();
     const s32 index = button->mTag - 0x70;
-    const Record* record = static_cast<u32>(index) < _3638 ? &_3640[index] : &_3640[0];
-    sub_71009FE318(record->_24, true);
+    sub_71009FE318(_3638[index]._24, true);
+}
+
+// 0x71009ffe1c: plays the animator of the record whose id is the selected tool (else of record 1)
+void ScreenAppTool::m168() {
+    for (s32 i = 0; i < 8; ++i) {
+        auto& record = _3638[i];
+        if (record._24 == sUnk_71025ec540._0) {
+            if (record.animator)
+                record.animator->PlayAuto(1.0f);
+            if (sUnk_71025ec540._0 == 0 && _3638[1].animator)
+                _3638[1].animator->PlayAuto(1.0f);
+            _3744 = 0;
+            return;
+        }
+    }
 }
 
 // 0x71009ff43c

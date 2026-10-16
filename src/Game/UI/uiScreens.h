@@ -2484,10 +2484,12 @@ public:
     // 0x71009fe318 (declared only; placeholder name)
     void sub_71009FE318(s32 value, bool flag);
 
-    // An element of the table at 0x3640 (0x28 bytes; only the s32 at 0x24 is used so far).
+    // An element of the table at 0x3638 (0x28 bytes).
     struct Record {
-        u8 _0[0x24];
-        s32 _24;
+        u8 _0[0x18];
+        /* 0x18 */ eui::Animator* animator;
+        u8 _20[0x24 - 0x20];
+        /* 0x24 */ s32 _24;
     };
 
     // Members used by the state callbacks (see the constructor 0x71009fcd64).
@@ -2498,10 +2500,7 @@ public:
     /* 0x3628 */ u64 _3628 = 0;
     /* 0x3630 */ u8 _3630 = 0;
     u8 _pad_3631[0x3638 - 0x3631];
-    // Count and storage of the array the destructor deletes (element type not known).
-    /* 0x3638 */ u32 _3638 = 0;
-    u8 _pad_363c[0x3640 - 0x363c];
-    /* 0x3640 */ Record* _3640 = nullptr;  // delete[]d by the destructor
+    /* 0x3638 */ sead::Buffer<Record> _3638;  // freed by the destructor
     /* 0x3648 */ u64 _3648 = 0;
     /* 0x3650 */ eui::Animator* _3650 = nullptr;
     /* 0x3658 */ u64 _3658 = 0;
