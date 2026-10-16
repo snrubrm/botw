@@ -18,4 +18,12 @@ void ClothSet::sub_71012189B8(bool enabled) {
     }
 }
 
+void ClothSet::sub_710121C26C(s32 cloth_index, s32 item_index, f32 value) {
+    if (cloth_index >= _18.size())
+        return;
+    ClothDataUnk* data = _18[cloth_index]._0->_20->_0->_10;
+    if (item_index < data->mNumParticles)
+        data->mParticles[item_index]._8 = value;
+}
+
 }  // namespace ksys::phys

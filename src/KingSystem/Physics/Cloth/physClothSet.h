@@ -11,9 +11,33 @@ namespace ksys::phys {
 // InstanceSet::mClothSet (no name known in the CSV). TODO: incomplete (size unknown).
 class ClothSet {
 public:
+    // Placeholder chain down to the Havok cloth particle array (types not in hkStubs).
+    struct ParticleUnk {
+        u8 _0[0x8];
+        f32 _8;  // written by sub_710121C26C
+        u8 _c[0x10 - 0xc];
+    };
+    struct ClothDataUnk {
+        u8 _0[0x38];
+        ParticleUnk* mParticles;
+        s32 mNumParticles;
+    };
+    struct ClothUnk3 {
+        u8 _0[0x10];
+        ClothDataUnk* _10;
+    };
+    struct ClothUnk2 {
+        ClothUnk3* _0;
+    };
+    struct ClothUnk1 {
+        u8 _0[0x20];
+        ClothUnk2* _20;
+    };
+
     // Placeholder: 0x40-byte cloth entry.
     struct Unk1 {
-        /* 0x00 */ u8 _0[0x18];
+        /* 0x00 */ ClothUnk1* _0;
+        /* 0x08 */ u8 _8[0x18 - 0x8];
         /* 0x18 */ u32 _18;  // flags (bit 3 is set by the DisableCloth behavior)
         /* 0x1c */ u8 _1c[0x3c - 0x1c];
         /* 0x3c */ f32 _3c;  // set to 1.0 by SiteBossReaction::leave_
