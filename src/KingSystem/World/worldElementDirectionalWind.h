@@ -54,6 +54,9 @@ public:
     void m33(bool a, bool fixed) override;
     void m35(f32 delta_frame) override;
 
+    // 0x71010f0244 (CSV name; declared only): emits / fades the wind effect (ELink _58).
+    void doEmitELink();
+
     /* 0x48 */ ksys::phys::RigidBody* _48 = nullptr;
     /* 0x50 */ bool _50 = false;
     /* 0x58 */ xlink2::HandleELink _58;

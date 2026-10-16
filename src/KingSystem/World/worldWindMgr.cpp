@@ -275,6 +275,22 @@ f32 ElementDirectionalWindOrGust::m22() {
     return sead::Mathf::pi() * radius * radius + (radius * 0.75f + mArg._24);
 }
 
+void ElementDirectionalWindOrGust::m33(bool a, bool fixed) {
+    if (_48)
+        _48->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+    if (!(mArg.flags & 8)) {
+        _50 = !a;
+        doEmitELink();
+    }
+    if (_68.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+    }
+    _68.fade();
+}
+
 s32 ElementDirectionalWindOrGust::m26() {
     return (mArg.flags & 0x40 ? 1 : 0) + 1;
 }
