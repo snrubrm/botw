@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionForceChangeAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::action {
 
@@ -7,7 +9,15 @@ ForceChangeAction::ForceChangeAction(const InitArg& arg) : ksys::act::ai::Action
 ForceChangeAction::~ForceChangeAction() = default;
 
 void ForceChangeAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sead::FixedSafeString<64> name;
+    ksys::act::ai::ActionBase* action = mActor->getRootAi()->getChild(1);
+    auto it = mTree_s.tokenBegin("/");
+    const auto end = mTree_s.tokenEnd("/");
+    while (end != it && action) {
+        it.getAndForward(&name);
+        action = action->changeChildLater(name);
+    }
+    setFinished();
 }
 
 void ForceChangeAction::leave_() {
