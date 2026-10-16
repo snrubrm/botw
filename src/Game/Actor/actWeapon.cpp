@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actOptionalWeapon.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/gameUnk_71008ba8d8.h"
@@ -735,6 +736,26 @@ bool Weapon::sub_71002E9A7C() {
     if ((chemical->mMaterial->attribute.ref() & 0x88) != 0x88)
         return false;
     return !(chemical->_be & 4);
+}
+
+void Weapon::sub_71002E9CD0(f32 alpha) {
+    if (getModel()) {
+        sub_71011CCB1C(alpha);
+        sub_71011CCB38();
+    }
+    if (auto* optional = m162()) {
+        if (optional->getModel()) {
+            optional->sub_71011CCB1C(alpha);
+            optional->sub_71011CCB38();
+        }
+    }
+    if (isWeaponType3() && u32(_d54 - 1) < 2) {
+        auto* child = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
+        if (child && child->getModel()) {
+            child->sub_71011CCB1C(alpha);
+            child->sub_71011CCB38();
+        }
+    }
 }
 
 s32 Weapon::getMaxHp() {

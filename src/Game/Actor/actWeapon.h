@@ -417,6 +417,10 @@ public:
     // 0x88) and a flag of the chemical (_be bit 0 / bit 2).
     bool sub_71002ED274();
     bool sub_71002E9A7C();
+    // 0x71002e9cd0 (placeholder name): applies the opacity `alpha` (Actor::sub_71011CCB1C + sub_71011CCB38) to the
+    // weapon, its optional weapon and, for weapon type 3 with _d54 1 or 2, its connected calc child (each only
+    // with a model).
+    void sub_71002E9CD0(f32 alpha);
     // 0x71002edbcc: `_c90 = value; _c94 = true` under the lock `_c50`.
     void sub_71002EDBCC(const u32& value);
     // 0x71002edc14: `_cd8 = value; _ce0 = true` under the lock `_c98`.

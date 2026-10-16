@@ -650,6 +650,44 @@ void Player::sub_710084AD5C(f32 value, bool a2) {
     _e7c[sead::CoreInfo::getCurrentCoreId()] += delta;
 }
 
+void Player::m309(f32 alpha) {
+    sub_71011CCB1C(alpha);
+    sub_71011CCB38();
+    for (int i = 0; i < 6; ++i) {
+        if (i == 0 && _23e0._133)
+            continue;
+        if (auto* actor = sead::DynamicCast<Actor>(_23e0.getPartsLink(i).getProc(nullptr, nullptr))) {
+            actor->sub_71011CCB1C(alpha);
+            actor->sub_71011CCB38();
+        }
+    }
+    for (int i = 0; i < 4; ++i) {
+        if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i)))
+            weapon->sub_71002E9CD0(alpha);
+    }
+    if (auto* actor = sead::DynamicCast<Actor>(mResidentActors[0].getProc(nullptr, nullptr))) {
+        actor->sub_71011CCB1C(alpha);
+        actor->sub_71011CCB38();
+    }
+    auto* child = sead::DynamicCast<Actor>(getConnectedCalcChild());
+    if (!child || hasTag(child, 0x8b8be818))
+        return;
+    auto* unk = child->m100();
+    if (!unk)
+        return;
+    switch (unk->_100) {
+    case 0:
+    case 1:
+    case 3:
+    case 4:
+        return;
+    default:
+        child->sub_71011CCB1C(alpha);
+        child->sub_71011CCB38();
+        return;
+    }
+}
+
 void Player::m311(bool on) {
     getActorFlags2().change(ActorFlag2::_20, on);
     for (int i = 0; i < 6; ++i) {
