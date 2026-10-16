@@ -1,7 +1,13 @@
 #include "Game/Actor/AI/aiGuardianRoot.h"
 #include "Game/Actor/aiUnk_71024f15c0.h"
 #include "Game/Actor/actGuardian.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/Damage/dmgStruct20.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -82,6 +88,178 @@ void GuardianRoot::changeToFeignDeath() {
     sub_710040DDB0(12);
     sub_710040DE48(false);
     changeChild("仮死", nullptr);
+}
+
+// NON_MATCHING: stack slots of the SafeString temporaries in the isCurrentChild chains, one b.le / b.lt
+void GuardianRoot::calc_() {
+    GuardianAI::calc_();
+    auto* guardian = sub_710040DA6C();
+    act::Guardian::Unk15a8* info;
+    if (!guardian || !(info = sub_710040DC50())) {
+        changeChild("待機", nullptr);
+        sub_710040DDB0(0);
+        sub_710040DE48(false);
+        return;
+    }
+
+    sub_7100734270(guardian, mForceSetDropPos_a, info->_0);
+
+    const auto isDead = [guardian] {
+        auto* life = guardian->getLife();
+        return life && *life <= 0;
+    };
+
+    if (!isDead()) {
+        if (guardian->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
+            changeChild("待機", nullptr);
+            sub_710040DDB0(0);
+            sub_710040DE48(false);
+            return;
+        }
+        if (!isCurrentChild("仮死") && !isCurrentChild("落雷スタン") && _50._30) {
+            ksys::eft::searchAndEmitELink(guardian, "Lightning");
+            _50.x();
+            sub_710040DE48(false);
+            sub_710040DDB0(0);
+            changeChild("落雷スタン", nullptr);
+            return;
+        }
+        if (!isCurrentChild("仮死") && (_48 & 2)) {
+            changeToFeignDeath();
+            _48 &= ~2u;
+            return;
+        }
+        if (isCurrentChild("仮死") && (guardian->checkBasicSig() || (_48 & 1))) {
+            changeToWakeUp();
+            return;
+        }
+    }
+
+    _48 &= ~3u;
+
+    const auto sendDamage = [](act::DamageManagerBase* manager, bool flag) {
+        act::Struct20_2 damage;
+        damage.mField_8 = 100;
+        damage.mField_14 = -1;
+        damage.mField_18 = 22;
+        if (flag)
+            damage.mField_1C |= 0x80;
+        if (manager->mStruct20_a) {
+            manager->mField_30.lock();
+            manager->mStruct20_a->combineMaybe(&damage);
+            manager->mField_30.unlock();
+        }
+    };
+
+    bool react = false;
+    bool send_damage = false;
+    if (isCurrentChild("リアクション")) {
+        send_damage = guardian->_14c8.isOnBit(13);
+    } else {
+        const bool stunned = isCurrentChild("落雷スタン");
+        const bool hit_flag = guardian->_14c8.isOnBit(13);
+        if (stunned) {
+            send_damage = hit_flag;
+        } else if (const bool sensed = sub_71005D6E28(guardian); hit_flag || sensed) {
+            if (isDead()) {
+                react = true;
+            } else if (isCurrentChild("仮死")) {
+                changeToWakeUp();
+                return;
+            } else if (isCurrentChild("待機") || isCurrentChild("見失い") || isCurrentChild("見回す")) {
+                react = true;
+            } else {
+                auto* manager = guardian->getDamageMgr();
+                const bool damaged = manager->checkDamageFlags(0) || manager->checkDamageFlags(7) ||
+                                     manager->checkDamageFlags(11);
+                if (hit_flag) {
+                    sendDamage(manager, true);
+                    react = true;
+                } else {
+                    react = damaged;
+                }
+            }
+        }
+    }
+    if (send_damage)
+        sendDamage(guardian->getDamageMgr(), false);
+
+    if (react) {
+        sub_710040DE48(false);
+        changeChild("リアクション", nullptr);
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("起動")) {
+            if (info->_48 || info->_4a[0]) {
+                changeToChase();
+                return;
+            }
+            changeChild("待機", nullptr);
+            sub_710040DDB0(0);
+            sub_710040DE48(false);
+            return;
+        }
+        if (isCurrentChild("落雷スタン") || isCurrentChild("リアクション")) {
+            changeToReactToSound();
+            return;
+        }
+        if (isCurrentChild("追跡") || isCurrentChild("視覚反応")) {
+            if (info->_48 || info->_4a[0]) {
+                changeToChase();
+                return;
+            }
+            changeChild("見失い", nullptr);
+            sub_710040DDB0(6);
+            sub_710040DE48(false);
+            return;
+        }
+        if (info->_48 || info->_4a[0]) {
+            changeToChase();
+            return;
+        }
+        if (info->_49) {
+            changeToReactToSound();
+            return;
+        }
+        changeChild("待機", nullptr);
+        sub_710040DDB0(0);
+        sub_710040DE48(false);
+        return;
+    }
+
+    if (isCurrentChild("追跡")) {
+        if (!info->_48) {
+            changeChild("見失い", nullptr);
+            sub_710040DDB0(6);
+            sub_710040DE48(false);
+            return;
+        }
+    } else if (isCurrentChild("見失い")) {
+        if (info->_48) {
+            changeToChase();
+            return;
+        }
+    } else if (isCurrentChild("待機") || isCurrentChild("見回す")) {
+        if (info->_4a[0]) {
+            changeToChase();
+            return;
+        }
+        if (info->_48) {
+            changeToReactToSight();
+            return;
+        }
+        if (info->_49) {
+            changeToReactToSound();
+            return;
+        }
+    } else if (isCurrentChild("音反応") && info->_48) {
+        changeToReactToSight();
+        return;
+    }
+    guardian->getASList()->sub_710115F444(0, 0, &ksys::as::ASList::Unk2::sub_710042BBEC);
 }
 
 void GuardianRoot::changeToWakeUp() {
