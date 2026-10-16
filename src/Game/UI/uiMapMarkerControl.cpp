@@ -902,6 +902,43 @@ void Unk_7102478d00::m5() {
     Unk_7102477fc0::m5();
 }
 
+// 0x710098f584
+// NON_MATCHING: ours hoists the _8->mPane load above the state test; the original loads it in both branches
+void Unk_7102478d00::m11() {
+    Unk_7102477fc0::m11();
+    if (!_18)
+        return;
+    if (!(_18->_3c & 1)) {
+        if (_8)
+            _8->startAnimCloseImpl_(false, true);
+        return;
+    }
+    auto* entry = sead::DynamicCast<Unk_7102476640>(_18);
+    if (!entry)
+        return;
+    if ((_50 | 4) == 4)
+        _8->mPane->SetVisible(false);
+    else
+        _8->mPane->SetVisible(true);
+    if (!_48)
+        return;
+    switch (_50) {
+    case -1:
+    case 1:
+        _48->Stop(static_cast<f32>(entry->_80));
+        break;
+    case 2:
+        _48->Stop(2.0f);
+        break;
+    case 3:
+    case 5:
+        _48->Stop(0.0f);
+        break;
+    default:
+        break;
+    }
+}
+
 // 0x710098f3a4
 void Unk_7102478d00::m8() {
     Unk_7102477fc0::m8();
