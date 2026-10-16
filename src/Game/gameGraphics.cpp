@@ -100,7 +100,7 @@ void Graphics::sub_7100F2FF08(f32 ratio, f32 scale) {
 }
 
 void Graphics::sub_7100F2E2A4() {
-    if (_b38 && _ae0 && (_b38->_18->_1f91 & 2)) {
+    if (_b38 && _ae0 && (_b38->mRecords(0)._1f91 & 2)) {
         Unk_710129175c::Result result;
         _b38->sub_710129276C(0, &result);
         _ae0->_8 = result._0;

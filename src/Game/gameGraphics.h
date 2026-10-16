@@ -82,13 +82,17 @@ private:
 // 12920C4 selects a signed buffer index and sets byte 1FF4 in its record.
 class Unk_710129175c {
 public:
-    // Placeholder: the block at _18 (Graphics::sub_7100F2E2A4 tests bit 1 of the byte at 0x1f91).
-    struct Unk_18 {
+    // Placeholder: the 0x2088-byte records of the buffer at 0x10 (only the fields read through
+    // sub_710129276C and Graphics::sub_7100F2E2A4 are modelled).
+    struct Record {
         u8 _0[0x1f91];
-        u8 _1f91;
+        u8 _1f91;  // Graphics::sub_7100F2E2A4 tests bit 1 of record 0
+        u8 _1f92[0x2088 - 0x1f92];
     };
-    // The result that 0x710129276c fills (layout from Graphics::sub_7100F2E2A4, which copies it to the
-    // registered Unk_7100f35df8 settings).
+    static_assert(sizeof(Record) == 0x2088);
+
+    // The result that 0x710129276c fills from a record (layout from Graphics::sub_7100F2E2A4, which copies
+    // it to the registered Unk_7100f35df8 settings).
     struct Result {
         u64 _0;
         sead::BoundBox2f bounds;
@@ -98,11 +102,12 @@ public:
     };
 
     void sub_71012920C4(s32 index);
-    // 0x710129276c (declaration only; placeholder name).
+    // 0x710129276c (declaration only; placeholder name): copies record `index` (the first if out of range)
+    // into `result`.
     void sub_710129276C(s32 index, Result* result);
 
-    u8 _0[0x18];
-    Unk_18* _18;
+    u8 _0[0x10];
+    sead::Buffer<Record> mRecords;
 };
 
 // Declaration only: F2C140 constructs these (0x1010 bytes at 0x7100f185a4, stored at Graphics + 0x388;
