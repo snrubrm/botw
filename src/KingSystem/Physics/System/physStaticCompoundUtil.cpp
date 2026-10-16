@@ -1,6 +1,7 @@
 #include "KingSystem/Physics/System/physStaticCompoundUtil.h"
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
+#include <Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldShape.h>
 #include <Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h>
 #include <Havok/Physics2012/Internal/Collide/StaticCompound/hkpStaticCompoundShape.h>
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
@@ -8,6 +9,19 @@
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
+
+// NON_MATCHING: the original's mask temporary is 4 bytes (getMaterialMaskFromCollidable only writes
+// material_mask), so it keeps one frame instead of tail-calling the height field slot.
+u32 getMaterialMaskFromShape(const hkpShape& shape, const u32* shape_key,
+                             const sead::Vector3f& position) {
+    if (shape.getType() == hkcdShapeType::SAMPLED_HEIGHT_FIELD)
+        return static_cast<const hkpSampledHeightFieldShape&>(shape).m28(position);
+
+    RigidBodyCollisionMasks masks;
+    u32 collision_filter_info;
+    getMaterialMaskFromCollidable(&masks, &collision_filter_info, shape, shape_key);
+    return masks.material_mask;
+}
 
 // NON_MATCHING: shape tests are reordered, the compound instance array is loaded after the filter call,
 // and the existing bool return type adds a conversion after recursive calls.

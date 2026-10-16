@@ -5,6 +5,11 @@
 #include <Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldBaseCinfo.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/hkpHeightFieldShape.h>
 
+namespace sead {
+template <typename T>
+struct Vector3;
+}  // namespace sead
+
 class hkpSampledHeightFieldShape : public hkpHeightFieldShape {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(hkpHeightFieldShape)
@@ -67,7 +72,8 @@ public:
     // 0x7101226768 writes 12 bytes to it (+0x0 as a pair, +0x8 as one float).
     virtual hkReal sub_71015C398C(hkReal x, hkReal z) const;
     virtual hkReal sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]) const;
-    virtual hkUint32 m28(const hkVector4& position) const = 0;
+    // ksys::phys 0x7100fd0810 passes its const sead::Vector3f& position straight to slot 28.
+    virtual hkUint32 m28(const sead::Vector3<float>& position) const = 0;
 
     using RayCastInternalFunc = void (hkpSampledHeightFieldShape::*)(const hkpShapeRayCastInput&,
                                                                      const hkpCdBody&,

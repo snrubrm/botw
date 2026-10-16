@@ -103,7 +103,7 @@ public:
     hkBool getTriangleFlipImpl() const override;
     hkReal sub_71015C398C(hkReal x, hkReal z) const override;
     hkReal sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]) const override;
-    hkUint32 m28(const hkVector4& position) const override;
+    hkUint32 m28(const sead::Vector3f& position) const override;
 
     // 0x7101224944 (placeholder name): creates the object at 0x98 on `heap` (called by sub_71012238E4).
     void sub_7101224944(sead::Heap* heap);
@@ -146,7 +146,7 @@ public:
     hkReal getHeightAtImpl(int x, int z) const override;
     hkReal sub_71015C398C(hkReal x, hkReal z) const override;
     hkReal sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]) const override;
-    hkUint32 m28(const hkVector4& position) const override;
+    hkUint32 m28(const sead::Vector3f& position) const override;
 
     // 0x7101224f80 (declaration only, 5204 bytes): the sphere cast.
     void sub_7101224F80(const hkpSphereCastInput& input, const hkpCdBody& cdBody, bool flag,

@@ -260,10 +260,10 @@ hkReal Unk_7102515a58::sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]
 }
 
 // NON_MATCHING: stack slots and the fallback branches differ (as in getCollisionMasks).
-hkUint32 Unk_7102515a58::m28(const hkVector4& position) const {
+hkUint32 Unk_7102515a58::m28(const sead::Vector3f& position) const {
     s32 submaterial = 0;
     Material material = Material::Undefined;
-    const sead::Vector2f pos(position(0), position(2));
+    const sead::Vector2f pos(position.x, position.z);
     if (!tera::sub_710110C02C(&material, &submaterial, &pos, mSystem, false)) {
         if (int(material) == -1)
             submaterial = 0;
@@ -333,10 +333,10 @@ hkReal Unk_7102515b40::sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]
 }
 
 // NON_MATCHING: stack slots and the fallback branches differ (as in getCollisionMasks).
-hkUint32 Unk_7102515b40::m28(const hkVector4& position) const {
+hkUint32 Unk_7102515b40::m28(const sead::Vector3f& position) const {
     s32 submaterial = 0;
     Material material = Material::Undefined;
-    const sead::Vector2f pos(position(0), position(2));
+    const sead::Vector2f pos(position.x, position.z);
     if (!tera::sub_710110B6A4(&material, &submaterial, &pos, mSystem)) {
         if (int(material) == -1)
             submaterial = 0;
