@@ -51,6 +51,12 @@ bool ScreenAppMap::sub_71009EA030() const {
     return true;
 }
 
+// 0x71009ec780
+void ScreenAppMap::sub_71009EC780(sead::Vector2f* out) const {
+    const auto& position = mLayout->mPane->GetPosition();
+    *out = {position.x, position.y};
+}
+
 // 0x71009ea670
 Unk_710247d8f8* sub_71009EA670(Screen* screen, s32 group, s32 index) {
     return nn::font::DynamicCast<Unk_710247d8f8>(

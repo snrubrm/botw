@@ -2364,6 +2364,8 @@ public:
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
     bool sub_71009EA030() const;
+    // 0x71009ec780: x and y of the layout's root pane position
+    void sub_71009EC780(sead::Vector2f* out) const;
     bool sub_71009EECD0() const;
     s32 sub_71009EED10() const;
     void m92(sead::Heap*) override;
