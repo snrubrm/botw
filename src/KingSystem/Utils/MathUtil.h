@@ -198,6 +198,10 @@ s32 sub_71011EE4B8(Unk_7101EC6BAC angle);
 
 extern const u32 sUnk_7101EC6BA0;
 
+// 0x71011ee4ec (placeholder name; callers: Player 0x71008687e4, ...): moves `angle` by `step` towards `target`
+// (the shorter way); returns true once it reaches or passes `target` (then `angle` = `target`).
+bool sub_71011EE4EC(Unk_7101EC6BAC* angle, u32 target, u32 step);
+
 // 0x71011ee5a8 (declaration only; placeholder name): moves `angle` towards `target` by `ratio` of the signed
 // difference, at most `max_step` per call; snaps to `target` once the step is within `snap_step`. Returns
 // whether `angle` reached `target`.

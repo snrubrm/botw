@@ -2336,6 +2336,21 @@ f32 Player::sub_7100867D68() {
     return sead::Mathf::atan2(dir.x, dir.z);
 }
 
+// NON_MATCHING: the original keeps the facing vector in integer registers (a copied vector object).
+bool Player::sub_71008687E4(const Unk1& target, s32 step) {
+    sead::Vector3f dir = _1b18.getBase(2);
+    dir.normalize();
+    if (sead::Mathf::sqrt(dir.z * dir.z + dir.x * dir.x) == 0.0f) {
+        dir = _1b18.getBase(1);
+        dir.normalize();
+    }
+    Unk1 angle(sead::Mathf::atan2Idx(dir.x, dir.z));
+    const bool reached = util::sub_71011EE4EC(
+        &angle, target.value, u32(static_cast<f32>(step) * VFR::instance()->getDeltaFrame()));
+    x_53(angle);
+    return reached;
+}
+
 // NON_MATCHING: same arithmetic; the original keeps the quaternion and the 3x3 rotation in registers (ours
 // goes through the stack) and schedules the product differently.
 // Turns the up axis of _1b18 towards `target_up`, at most `rate * _20f0` per frame.

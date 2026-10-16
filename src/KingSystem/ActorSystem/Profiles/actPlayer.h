@@ -379,6 +379,9 @@ public:
     // the facing direction (0.01 per frame).
     void sub_710085C55C();
     f32 x_39();                                                         // 0x867cd4
+    // 0x71008687e4 (placeholder name): turns the player's facing (z axis of _1b18, or its y axis when z is
+    // vertical) towards `target` by `step` angle units per frame (x_53); true once it is reached.
+    bool sub_71008687E4(const Unk1& target, s32 step);
     void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990
     // 0x71008697e4: clears _20bc / _20c0 and the character controller velocity.
     void sub_71008697E4();

@@ -10,6 +10,38 @@ s64 sub_71011EE4C0(s64 difference) {
     return magnitude > 0x80000000LL ? 0x100000000LL - magnitude : magnitude;
 }
 
+// NON_MATCHING: sUnk_7101EC6BA0 is defined in this file, so the angleDiff mask folds away (the original loads it
+// through the GOT); branch layout follows from that.
+bool sub_71011EE4EC(Unk_7101EC6BAC* angle, u32 target, u32 step) {
+    const u32 current = angle->value;
+    if (current == target)
+        return true;
+
+    const s64 delta = s32(angleDiff(target, *angle).value) < 0 ? -s64(step) : s64(step);
+    const u32 next = current + u32(delta);
+    bool reached;
+    if (delta > 0) {
+        if (current < next)
+            reached = current <= target && target <= next;
+        else
+            reached = current <= target || target <= next;
+    } else if (delta < 0) {
+        if (next < current)
+            reached = target <= current && next <= target;
+        else
+            reached = target <= current || next <= target;
+    } else {
+        return current == next;
+    }
+
+    if (reached) {
+        angle->value = target;
+        return true;
+    }
+    angle->value = next;
+    return false;
+}
+
 bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio) {
     return sub_71011EE70C(a, b, ratio, sead::Mathf::pi2(), 0.0f);
 }
