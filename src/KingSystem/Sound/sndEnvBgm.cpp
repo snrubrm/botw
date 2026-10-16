@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTimeMgr.h"
 
@@ -54,6 +55,41 @@ void Unk_71025ce350::m12(f32 fade_sec) {
     _34 = 0;
     _38 = 0;
     _2c = 1;
+}
+
+// NON_MATCHING: the time type is zero-initialised on the stack here; the old handle and mTimeType reloads differ.
+void Unk_71025ce350::sub_710100454C() {
+    const f32 hour = world::Manager::instance()->getTimeMgr()->getTime() / 15.0f;
+    EnvBgmInfo::EnvTimeEnum time_type;
+    if (hour >= mInfo->mTimeDay.ref() && hour < mInfo->mTimeNight.ref())
+        time_type = EnvBgmInfo::EnvTimeEnum::EnvDayBgm;
+    else
+        time_type = EnvBgmInfo::EnvTimeEnum::EnvNightBgm;
+
+    if (mHandles[mTimeType]) {
+        auto& entries = mHandles[mTimeType]->mEntries;
+        for (s32 i = 0; i < entries.size(); ++i)
+            entries.get(i)->wait_count = 0;
+        mHandles[mTimeType]->sub_710101DA34();
+        mHandles[mTimeType]->sub_710101D9A4();
+        delete mHandles[mTimeType];
+        mHandles[mTimeType] = nullptr;
+    }
+
+    if (!mHandles[time_type]) {
+        auto* heap = map::PlacementMgr::instance()->mDynamicHeap;
+        auto* handle = new (heap) Unk_71024fdb00;
+        if (handle) {
+            handle->sub_7101004A54(heap, time_type, mInfo);
+            handle->sub_710101D970();
+            handle->sub_7101005698();
+        }
+        mHandles[time_type] = handle;
+    }
+    mHandles[time_type]->sub_7101005698();
+    _2c = 1;
+    mTimeType = time_type;
+    _34 = 0;
 }
 
 void Unk_71025ce350::m13(f32 fade_sec) {

@@ -22,6 +22,8 @@ const char* sub_7101006E6C(int idx);
 
 class Unk_71024fdb00 : public Unk_71024fc7f8 {
 public:
+    // Inlined into Unk_71025ce350::sub_710100454C (0x710100454c), which creates the day / night handles.
+    Unk_71024fdb00() : Unk_71024fc7f8(Unk_710260f248Type::_0) {}
     ~Unk_71024fdb00() override;
 
     // 0x7101005ab8
@@ -53,23 +55,23 @@ public:
         u8 part = 0;
     };
 
-    u32 mTimeType;
-    EnvBgmInfo* mInfo;
+    u32 mTimeType = 0;
+    EnvBgmInfo* mInfo = nullptr;
     sead::PtrArray<xlink2::PropertyDefinition> mProperties;
-    u32 mBpm;
-    f32 mBeatSec;
-    u32 _1a8;
-    bool _1ac;
+    u32 mBpm = 0;
+    f32 mBeatSec = 0;
+    u32 _1a8 = 0;
+    bool _1ac = true;
     u8 _1ad[0x1b0 - 0x1ad];
-    u32 _1b0;
+    u32 _1b0 = 0;
     // The branch taken by Unk_71024fdd28.
     Section _1b4;
-    s32 _1b8;
+    s32 _1b8 = 0;
     // 0..15; Unk_71024fdbe8::start multiplies the wait count by 2 or 3 for some values.
-    u32 _1bc;
+    u32 _1bc = 0;
     sead::Buffer<Entry> mEntries;
     // The node machines of parts 0 to 3.
-    Unk_71024fdde8* mPartMachines[4];
+    Unk_71024fdde8* mPartMachines[4]{};
     sead::PtrArray<Unk_EnvBgmNode> mNodes;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fdb00, 0x200);

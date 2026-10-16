@@ -658,7 +658,7 @@ public:
     // 0x7101005734
     void m14(sead::TextWriter& writer) override {}
 
-    // 0x710100454c (declared only; 536 B): switches between the day and night handles.
+    // 0x710100454c: switches to the day or night handle (creating it on the PlacementMgr dynamic heap).
     void sub_710100454C();
     // 0x7101004a14: the info's DistanceOfCheckingActiveEnemy (from the registered EnvBgm info when mInfo is not set).
     s32 getDistanceOfCheckingActiveEnemyMaybe() const;
