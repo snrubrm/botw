@@ -57,6 +57,7 @@ class Unk_71024fd948;
 namespace ksys::snd {
 
 class Unk_710260f248;
+class Unk_EnvBgmNode;
 
 // Placeholder: the entries of Unk_710260f248::mEntries (0x58 bytes, list node at +0x40; a buffer of them sits at
 // Unk_SoundMgr30 +0x20, 0x7100ff89a0 returns a free one). The f048 code at 0x7100ff62d0 calls 0x7100ff6df4 out of
@@ -134,13 +135,14 @@ KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
 // BGM's init 0x71010099f0 (stored at +0x248): a small state machine over the BGM's node objects (`_8` the first node,
 // `_10` the current one, `_18` running). Declared only.
 struct Unk_71024fdde8 {
+    // Defined (empty) in sndEnvBgm.cpp, the TU of its vtable.
     virtual ~Unk_71024fdde8();
 
     // 0x7101014300: makes `_8` the current node and sets `_18`, once.
     void start();
 
-    void* _8 = nullptr;
-    void* _10 = nullptr;
+    Unk_EnvBgmNode* _8 = nullptr;
+    Unk_EnvBgmNode* _10 = nullptr;
     u8 _18 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fdde8, 0x20);

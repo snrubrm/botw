@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndEnvBgm.h"
+#include <xlink2/xlink2EnumPropertyDefinition.h>
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/GameData/gdtManager.h"
@@ -111,6 +112,109 @@ void Unk_71024fdb00::sub_7101005874(const sead::SafeString& name, s32 wait_count
         }
     }
 }
+
+// NON_MATCHING: written from the original's structure; not compared in detail (3140 B).
+void Unk_71024fdb00::sub_7101004A54(sead::Heap* heap, EnvBgmInfo::EnvTimeEnum type, EnvBgmInfo* info) {
+    mTimeType = type;
+    mInfo = info;
+    const auto& params = info->mParamPerTypes[type];
+
+    mProperties.allocBuffer(PropertyType::size(), heap);
+    auto* section = new (heap) xlink2::EnumPropertyDefinition(PropertyType::text(0), Section::size(), heap, false);
+    for (s32 i = 0; i < Section::size(); ++i)
+        section->entry(i, Section::text(i));
+    mProperties.pushBack(section);
+    auto* part0 = new (heap) xlink2::EnumPropertyDefinition(PropertyType::text(1), 16, heap, false);
+    for (s32 i = 0; i < 16; ++i)
+        part0->entry(i, sub_7101006E6C(i));
+    mProperties.pushBack(part0);
+
+    Unk_SpotBgmHandle::init(heap, type.text(), &mProperties);
+    mBpm = params.mBpm.ref();
+    mBeatSec = 60.0f / static_cast<f32>(mBpm);
+    _1b8 = mInfo->mMasterBeatBase.ref();
+    mEntries.tryAllocBuffer(8, heap);
+    mNodes.allocBuffer(0x20, heap);
+
+    mPartMachines[0] = new (heap) Unk_71024fdde8;
+    if (mPartMachines[0]) {
+        auto* intro = new (heap) Unk_71024fdb98(this, "Part0_A0", 0, &params.mPart0FirstWaitCount,
+                                                &mInfo->mConstVolume, &mInfo->mConstPan);
+        mNodes.pushBack(intro);
+        mPartMachines[0]->_8 = intro;
+        auto* main = new (heap) Unk_71024fdbe8(this, "Part0", &mInfo->mPart0Volume, &mInfo->mPart0Pan);
+        mNodes.pushBack(main);
+        intro->setNext(main);
+        auto* wait = new (heap) Unk_71024fdcd8(this);
+        mNodes.pushBack(wait);
+        main->setNext(wait);
+        wait->setNext(main);
+    }
+
+    mPartMachines[1] = new (heap) Unk_71024fdde8;
+    if (mPartMachines[1]) {
+        auto* intro = new (heap) Unk_71024fdc38(this, "Part1_A0", 1, &params.mPart1FirstWaitCount,
+                                                &mInfo->mConstVolume, &mInfo->mPart1Pan);
+        mNodes.pushBack(intro);
+        mPartMachines[1]->_8 = intro;
+        auto* branch = new (heap) Unk_71024fdd28(this);
+        mNodes.pushBack(branch);
+        intro->setNext(branch);
+        auto* a = new (heap) Unk_71024fdc88(this, "Part1", 1, &mInfo->mPart1SegmentAWaitCountBase,
+                                            &mInfo->mPart1SegmentAWaitCountRate, &mInfo->mPart1Volume,
+                                            &mInfo->mPart1Pan);
+        mNodes.pushBack(a);
+        branch->setBranch(a, 0);
+        auto* b = new (heap) Unk_71024fdc88(this, "Part1", 1, &mInfo->mPart1SegmentBWaitCountBase,
+                                            &mInfo->mPart1SegmentBWaitCountRate, &mInfo->mPart1Volume,
+                                            &mInfo->mPart1Pan);
+        mNodes.pushBack(b);
+        branch->setBranch(b, 1);
+        auto* c = new (heap) Unk_71024fdc88(this, "Part1", 1, &mInfo->mPart1SegmentCWaitCountBase,
+                                            &mInfo->mPart1SegmentCWaitCountRate, &mInfo->mPart1Volume,
+                                            &mInfo->mPart1Pan);
+        mNodes.pushBack(c);
+        branch->setBranch(c, 2);
+        a->setNext(branch);
+        b->setNext(branch);
+        c->setNext(branch);
+    }
+
+    mPartMachines[2] = new (heap) Unk_71024fdde8;
+    if (mPartMachines[2]) {
+        auto* intro = new (heap) Unk_71024fdc38(this, "Part2_A0", 2, &params.mPart2FirstWaitCount,
+                                                &mInfo->mPart2Volume, &mInfo->mConstPan);
+        mNodes.pushBack(intro);
+        mPartMachines[2]->_8 = intro;
+        auto* main = new (heap) Unk_71024fdc88(this, "Part2", 2, &mInfo->mPart2WaitCountBase,
+                                               &mInfo->mPart2WaitCountRate, &mInfo->mPart2Volume,
+                                               &mInfo->mConstPan);
+        mNodes.pushBack(main);
+        intro->setNext(main);
+        main->setNext(main);
+    }
+
+    mPartMachines[3] = new (heap) Unk_71024fdde8;
+    if (mPartMachines[3]) {
+        auto* intro = new (heap) Unk_71024fdc38(this, "Part3", 3, &params.mPart3FirstWaitCount,
+                                                &mInfo->mPart3Volume, &mInfo->mPart3Pan);
+        mNodes.pushBack(intro);
+        mPartMachines[3]->_8 = intro;
+        auto* main = new (heap) Unk_71024fdc88(this, "Part3", 3, &mInfo->mPart3WaitCountBase,
+                                               &mInfo->mPart3WaitCountRate, &mInfo->mPart3Volume,
+                                               &mInfo->mPart3Pan);
+        mNodes.pushBack(main);
+        intro->setNext(main);
+        main->setNext(main);
+    }
+
+    for (auto* machine : mPartMachines) {
+        if (machine)
+            machine->start();
+    }
+}
+
+Unk_71024fdde8::~Unk_71024fdde8() = default;
 
 Unk_71024fdb98::Unk_71024fdb98(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
                                const agl::utl::Parameter<u32>* wait_count,
