@@ -4,6 +4,31 @@
 
 namespace ksys {
 
+// NON_MATCHING: register allocation and the order of the delta-frame loads.
+bool VFR::lerp(sead::Vector3f* value, const sead::Vector3f& b, f32 t, f32 max_delta, f32 min_delta) {
+    const auto f = getLerpFactor(t);
+    const auto max_d = instance()->getDeltaFrame() * max_delta;
+    const auto min_d = instance()->getDeltaFrame() * min_delta;
+
+    sead::Vector3f diff = b - *value;
+    if (diff.length() <= min_d) {
+        *value = b;
+        return true;
+    }
+
+    if (f * diff.length() > max_d) {
+        if (diff.length() > 0.0f)
+            diff *= max_d / diff.length();
+    } else if (f * diff.length() < min_d) {
+        if (diff.length() > 0.0f)
+            diff *= min_d / diff.length();
+    } else {
+        diff *= f;
+    }
+    *value += diff;
+    return false;
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(VFR)
 
 VFR::VFR() {

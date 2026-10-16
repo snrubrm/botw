@@ -6,6 +6,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadMathCalcCommon.h>
+#include <math/seadVector.h>
 #include <mc/seadCoreInfo.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/System/CoreInfo.h"
@@ -144,6 +145,10 @@ public:
         }
         return false;
     }
+
+    // 0x710002fac8: out-of-line Vector3f version of the lerp above (LastBossNormalWarp::calc_,
+    // PriestBossCloneBulletRoot and 8 other callers call it): the step is clamped by length.
+    static bool lerp(sead::Vector3f* value, const sead::Vector3f& b, f32 t, f32 max_delta, f32 min_delta);
 
     // inline-only in the original; name is a guess. Evidence: the chase target is taken by const reference
     // (its pointer is loaded before getDeltaFrame(), dereferenced after) in SwitchRightAndWrong::calc_,
