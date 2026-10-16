@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include <cmath>
+#include "Game/Actor/aiUnk_71005E0AAC.h"
+#include "Game/Actor/aiUnk_71006F1DF0.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -46,9 +50,9 @@ void SunazarashiRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
     *mSunazarashiReturnPos_a = pos;
-    _290 = 0.0f;
-    _294 = 0.0f;
-    _298 = 1.0f;
+    _290.value = 0.0f;
+    _290.previous_value = 0.0f;
+    _290.rate = 1.0f;
     _29c = 150.0f;
     _2a0 = 10.0f;
     PreyRoot::enter_(params);
@@ -79,6 +83,92 @@ bool SunazarashiRoot::handleMessage_(const ksys::Message* message) {
 }
 
 // NON_MATCHING: the original materialises a dead bool (w23 = 0 for "衝突", 1 for "びっくり") that is never used
+// NON_MATCHING: stack slots only (the original shares one slot between the velocity and the position copy, and
+// another between the string temporaries and the hit position)
+// Updates the stun state (_278: damage type 4 or a noise above StunNoiseLevel), the sand flag of the AS
+// parameters, the return position while towed on sand ("牽引") and the "Hang" attention client.
+void SunazarashiRoot::calc_() {
+    bool stunned;
+    auto* damage = mActor->getDamageMgr();
+    if (damage && damage->getField50() == 4) {
+        stunned = true;
+    } else {
+        stunned = false;
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_7102426418 filter;
+            while (auto* sensor = awareness->_260[1]) {
+                auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+                if (!entry) {
+                    stunned = false;
+                    break;
+                }
+                if (entry->_a4 > *mStunNoiseLevel_s) {
+                    stunned = true;
+                    break;
+                }
+            }
+        }
+    }
+    _278 = stunned;
+
+    auto* controller = mActor->getCharacterController();
+    if (controller) {
+        const ksys::phys::MaterialMask mask = controller->sub_7100F609CC();
+        if (sub_71006F1E70(mask)) {
+            mActor->getASList()->x_2(0x42, 10, true, false);
+            _2a0 = 10.0f;
+        } else {
+            ksys::Timer::update(&_2a0, -1.0f);
+            if (_2a0 < 0.0f)
+                mActor->getASList()->x_2(0x42, 10, false, false);
+        }
+    }
+
+    if (isCurrentChild("牽引") && controller) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        if (velocity.x != 0.0f || velocity.z != 0.0f) {
+            sead::Vector3f hit{0, 0, 0};
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            bool far = false;
+            if (sub_71005E0788(pos, &hit)) {
+                const sead::Vector2f diff{hit.x - mSunazarashiReturnPos_a->x, hit.z - mSunazarashiReturnPos_a->z};
+                far = diff.length() >= 3.0f;
+            }
+            if (!far) {
+                _290.reset(0.0f, 1.0f);
+            } else {
+                _290.update();
+                if (_290.hasEnded(10.0f)) {
+                    _284 = hit;
+                } else if (_290.hasEnded(20.0f)) {
+                    *mSunazarashiReturnPos_a = _284;
+                    _290.reset(0.0f, 1.0f);
+                }
+            }
+        }
+    }
+
+    const bool flag = mActor->getASList()->sub_710115ED5C(0x42, 10);
+    if (isCurrentChild("砂地復帰")) {
+        if (*mEnableHangAlways_s && flag && isCurrentAction("移動"))
+            ksys::act::enableAttClient(mActor, "Hang");
+        else
+            ksys::act::disableAttClient(mActor, "Hang");
+    } else if (isCurrentChild("通常行動")) {
+        if (*mEnableHangAlways_s && flag)
+            ksys::act::enableAttClient(mActor, "Hang");
+        else
+            ksys::act::disableAttClient(mActor, "Hang");
+        if (flag)
+            _29c = 150.0f;
+        else
+            ksys::Timer::update(&_29c, -1.0f);
+    }
+
+    PreyRoot::calc_();
+}
+
 bool SunazarashiRoot::m39() {
     auto* actor = mActor;
     if (isCurrentChild("砂地復帰") && actor->m139() < 1.0f)
@@ -151,9 +241,9 @@ void SunazarashiRoot::m41() {
                 ksys::act::disableAttClient(mActor, "Hang");
                 mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
                 _29c = 150.0f;
-                _298 = 1.0f;
-                _290 = 0.0f;
-                _294 = 0.0f;
+                _290.rate = 1.0f;
+                _290.value = 0.0f;
+                _290.previous_value = 0.0f;
                 _279 = false;
                 _280 = sead::Mathf::pi();
                 changeChild("牽引");
@@ -213,9 +303,9 @@ void SunazarashiRoot::m44() {
         if (player.hasProc() && player.isRidingSandSeal() && player.isRidingThisSandSeal(mActor)) {
             mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
             _29c = 150.0f;
-            _298 = 1.0f;
-            _290 = 0.0f;
-            _294 = 0.0f;
+            _290.rate = 1.0f;
+            _290.value = 0.0f;
+            _290.previous_value = 0.0f;
             _279 = false;
             _280 = sead::Mathf::pi();
             changeChild("牽引");

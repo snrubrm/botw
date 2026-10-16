@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
@@ -33,6 +34,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
+    void calc_() override;
     bool m39() override;
     void m41() override;
     void m42() override;
@@ -63,9 +65,8 @@ protected:
     f32 _27c = 0.0f;
     f32 _280 = sead::Mathf::pi();
     sead::Vector3f _284 = sead::Vector3f::zero;
-    f32 _290 = 0.0f;
-    f32 _294 = 0.0f;
-    f32 _298 = 0.0f;
+    // calc_ runs ksys::Timer::update() / hasEnded on it (while towed on sand away from the return position).
+    ksys::Timer _290{0.0f, 0.0f, 0.0f};
     f32 _29c = 0.0f;
     f32 _2a0 = 0.0f;
 };

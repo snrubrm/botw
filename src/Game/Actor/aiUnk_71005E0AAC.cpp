@@ -6,6 +6,29 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Camera/CameraMgr.h"
+#include "Game/Actor/aiUnk_71006F1DF0.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include <math/seadMathCalcCommon.h>
+
+bool sub_71005E0788(const sead::Vector3f& pos, sead::Vector3f* out) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEAD38(&query);
+    sead::Vector3f start = pos;
+    start.y += 0.5f;
+    sead::Vector3f end = start;
+    end.y += -50.0f;
+    query.setStartAndEnd(start, end);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+
+    const sead::Vector3f& normal = query.getHitNormalInline();
+    const f32 dot = normal.dot(sead::Vector3f::ey);
+    const f32 angle = sead::Mathf::atan2(normal.cross(sead::Vector3f::ey).length(), dot);
+    if (angle >= sead::Mathf::pi() / 4 || !sub_71006F1E70(query.getMaterialMask()))
+        return false;
+    query.getHitPosition(out);
+    return true;
+}
 
 // NON_MATCHING: the original keeps the Enemy-cast link selection as branches (the default link is only
 // loaded on the else path) and orders the three fsub of the direction differently; ours selects with csel
