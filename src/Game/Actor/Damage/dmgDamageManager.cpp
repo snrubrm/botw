@@ -1,4 +1,7 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/gameStasisMgr.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/Damage/dmgStruct20.h"
 #include "Game/Actor/actHorseRideInfo.h"
@@ -208,6 +211,31 @@ f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorLinkConstDataAcces
         ratio = sead::Mathf::min(ratio, 1.0f);
     }
     return sead::Mathf::max(ratio, 0.01f);
+}
+
+// NON_MATCHING: the chase result is tested with tbnz in the original (cbnz here).
+void DamageManagerUnk220::sub_71006DA02C(gsys::Model* model, bool reset) {
+    const f32 max = StasisMgr::sub_7100681B90();
+    f32 value;
+    if (reset) {
+        const f32 extra = static_cast<f32>(StasisMgr::sub_7100681B98() - 1);
+        _294 = max + StasisMgr::sub_7100681BA0() * extra;
+        value = _294 > max ? max : _294;
+    } else {
+        if (_294 < 0.0f)
+            return;
+        const f32 step = StasisMgr::sub_7100681BA0() * ksys::VFR::instance()->getDeltaFrame();
+        if (sead::Mathf::chase(&_294, 0.0f, step)) {
+            _294 = -1.0f;
+            value = 0.0f;
+        } else {
+            value = _294;
+            if (value >= max)
+                return;
+        }
+    }
+    const sead::Color4f color{value, value, value, 0.0f};
+    Unk_710260af28::instance()->sub_7100F1E2F4(model, color);
 }
 
 f32 DamageManager::getStasisBlowPowerRatio() {

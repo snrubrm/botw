@@ -20,6 +20,10 @@ namespace ksys::phys {
 class RigidBody;
 }
 
+namespace gsys {
+class Model;
+}
+
 namespace uking::act {
 
 // CSV: DamageMgr (vtable 0x710244ddf8, 57 slots; ctor 0x71006d23e0). RTTI static 0x71025ae600.
@@ -44,6 +48,10 @@ struct DamageManagerUnk220 {
     // `getter()` value of the actor (Actor::m38 / ActorLinkConstDataAccess::sub_7100D14114).
     f32 sub_71006D9A24(ksys::act::Actor* actor) const;
     f32 sub_71006D9B30(const ksys::act::ActorLinkConstDataAccess& accessor) const;
+    // 0x71006da02c (placeholder name): the stasis hit flash of `model`: with `reset`, restarts the flash level
+    // _294 from the StasisMgr constants, else fades it by 0.7 per frame (VFR delta frame; -1 when done); sets the model's
+    // damage colour to the level (capped at 2.0).
+    void sub_71006DA02C(gsys::Model* model, bool reset);
 
     // 0x71006d99a8 (called by StasisMgr::__auto5, which allocates it for DamageManager::_220).
     DamageManagerUnk220();
