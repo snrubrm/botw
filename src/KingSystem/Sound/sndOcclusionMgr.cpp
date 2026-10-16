@@ -4,7 +4,7 @@
 namespace ksys::snd {
 
 // Whole 1056A68 reads this writable float; native initial bits are 3e4ccccd.
-f32 sUnk_710250294C = 0.2f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710250294C = 0.2f;
 
 f32 OcclusionMgr::sub_7101056A4C() const {
     return _24 == 3 ? _20 : _1c;

@@ -20,7 +20,7 @@ class SystemGroupHandler;
 namespace uking {
 
 // Non-const f32 in .data at 0x710243c148 (12.0 in the executable), read by GearMgr::sub_710066990C.
-extern f32 sUnk_710243C148;
+KSYS_VISIBILITY_HIDDEN extern f32 sUnk_710243C148;
 
 // Name from the CSV (GearMgr::createInstance 0x7100668af8, GearMgr::ctor 0x7100668bd8, init,
 // postCalc_). A polymorphic sead singleton (size 0x1108, instance pointer at 0x71025c5d08) with 0x80

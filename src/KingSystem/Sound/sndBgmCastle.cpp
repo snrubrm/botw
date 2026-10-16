@@ -20,9 +20,9 @@ sead::SafeString sStr_CastleBgmSpot = "SpSpotBgm";
 // 0x710260fd90 / 0x710260fd94 / 0x710260fd98 (placeholder names): bytes the original reads PC-relative and
 // nothing writes (debug switches: force playing / the inside mix / the battle part). Non-static here so that
 // they are not folded away.
-bool sUnk_710260FD90 = false;
-bool sUnk_710260FD94 = false;
-bool sUnk_710260FD98 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FD90 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FD94 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FD98 = false;
 
 Unk_71024ff268::Unk_71024ff268(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_CastleBgm, nullptr);

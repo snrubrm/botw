@@ -381,7 +381,7 @@ void Unk_710260f0c0::sub_7100FF98A4() {
 }
 
 // Only read here (0x710260f058); set by code that is not in the release build.
-bool sUnk_710260F058;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F058;
 
 // NON_MATCHING: the original reads sUnk_710260F058 with adrp (TU-local; a static would be folded away here) and walks
 // the list nodes in other registers.

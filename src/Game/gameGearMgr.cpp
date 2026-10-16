@@ -132,9 +132,7 @@ void GearMgr::sub_71006698B0(bool on) {
     mCS.unlock();
 }
 
-f32 sUnk_710243C148 = 12.0f;
-
-// NON_MATCHING: the original addresses sUnk_710243C148 directly (adrp + ldr, internal linkage); ours goes through the GOT.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710243C148 = 12.0f;
 
 void GearMgr::sub_710066990C(bool on) {
     mCS.lock();

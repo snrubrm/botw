@@ -88,9 +88,8 @@ void Unk_710104e5b4::sub_710104EA7C() {
     }
 }
 
-extern const f32 sUnk_7102502500[2];
+KSYS_VISIBILITY_HIDDEN f32 sUnk_7102502500[2] = {1.6f, 0.05f};
 
-// NON_MATCHING: the original local data pair is accessed through the mapped external symbol.
 void Unk_710104e5b4::sub_710104FD4C() {
     _250 = 1;
     _258.moveTo(sUnk_7102502500[0], sUnk_7102502500[1]);

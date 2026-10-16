@@ -27,7 +27,7 @@ Unk_710260f288::Unk_710260f288(const BgmInitArg& arg) : Unk_71025ce380(arg) {
 
 // 0x710260fdf0: the original reads it PC-relative (a TU-local static that something else in the TU writes; no
 // writer found). Placeholder name; non-static here so that it is not folded away.
-bool sUnk_710260FDF0 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FDF0 = false;
 
 // NON_MATCHING: sUnk_710260FDF0 is loaded through the GOT (the original's is TU-local); the three flags are
 // combined with branches instead of orr, and the two moveTo + sub_710101D9D8 tails are not merged.
