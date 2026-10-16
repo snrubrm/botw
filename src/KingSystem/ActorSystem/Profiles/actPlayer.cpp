@@ -1815,6 +1815,28 @@ bool Player::m365() {
            (!_17d0->playerCheckController(2) && _c44.isOnBit(25));
 }
 
+// NON_MATCHING: the original returns the null pointer itself as false (skips one `mov w0, wzr`).
+bool Player::sub_7100883BC4() {
+    sead::Vector3f dir;
+    if (auto* target = _1870->_c8) {
+        if (target->sub_7100EAB7C0(&dir) && dir.y < -0.1f)
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: load scheduling of the two angles and the angle mask.
+bool Player::sub_7100883C14() {
+    const auto dir = x_5();
+    const auto camera_dir = sub_710092DBA4();
+    const s64 diff = util::sub_71011EE4C0(util::sUnk_7101EC6BA0 & (dir.value - camera_dir.value));
+    if (diff > 0x3fffffff)
+        return _209c > 0.05f;
+    if (!(_209c > 0.05f))
+        return false;
+    return _17d0->getLeftStick().y > 0.0f;
+}
+
 void Player::sub_710085ECF4() {
     if (auto* controller = getCharacterController())
         controller->sub_7100F5EECC(60.0f);

@@ -28,6 +28,15 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
 
+bool Unk_71024ef4e8::Unk2::sub_7100EAB7C0(sead::Vector3f* out) const {
+    if (!(_1f0 & 0x20))
+        return false;
+    if (_1c0.x == 0.0f && _1c0.y == 0.0f && _1c0.z == 0.0f)
+        return false;
+    *out = _1c0;
+    return true;
+}
+
 bool Unk_71024ef4e8::Unk2::sub_7100EAB818(sead::Vector3f* out) const {
     if (!(_1f0 & 0x20))
         return false;

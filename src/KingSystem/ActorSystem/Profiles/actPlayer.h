@@ -353,6 +353,12 @@ public:
     // 0x7100878110 (8524 B, declared only): picks the event start-wait animation from ASList slot 1 / 0
     // (called by PlayerEventStartWait::enter_).
     void sub_7100878110();
+    // 0x7100883bc4: whether the attached-target object (_1870->_c8) reports a vector at _1c0 pointing down
+    // (y < -0.1).
+    bool sub_7100883BC4();
+    // 0x7100883c14: _209c > 0.05 and either the facing differs from the camera direction (sub_710092DBA4) by more
+    // than 90 degrees or the left stick points forward.
+    bool sub_7100883C14();
     // 0x710085c55c: casts down through the water surface at _1770 and chases _1fa0 toward the surface's tilt along
     // the facing direction (0.01 per frame).
     void sub_710085C55C();

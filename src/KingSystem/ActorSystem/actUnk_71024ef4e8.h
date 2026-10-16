@@ -72,10 +72,14 @@ public:
     struct Unk2 {
         // EAB818: writes the target position when available; Player 87F29C consumes all three floats.
         bool sub_7100EAB818(sead::Vector3f* out) const;
+        // EAB7C0: writes _1c0 while _1f0 bit 5 is set and _1c0 is not zero (Player 0x7100883bc4 tests its y).
+        bool sub_7100EAB7C0(sead::Vector3f* out) const;
 
         u8 _0[0x1a8];
         /* 0x1a8 */ sead::Vector3f _1a8;
-        u8 _1b4[0x1d8 - 0x1b4];
+        u8 _1b4[0x1c0 - 0x1b4];
+        /* 0x1c0 */ sead::Vector3f _1c0;
+        u8 _1cc[0x1d8 - 0x1cc];
         /* 0x1d8 */ sead::Vector3f _1d8;  // the target position (valid while _1f0 bit 5 is set)
         u8 _1e4[0x1f0 - 0x1e4];
         /* 0x1f0 */ u32 _1f0;  // tested with 0x1002 by Player::sub_710087CF54
