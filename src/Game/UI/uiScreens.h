@@ -3035,6 +3035,21 @@ public:
     ~ScreenMainHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHorse, ScreenEx)
 
+    // 0x7100a10cd4: disables every animator of the screen
+    void m101() override;
+
+    u8 _pad_3610[0x3678 - 0x3610];
+    /* 0x3678 */ eui::Animator* _3678[10];
+    /* 0x36c8 */ eui::Animator* _36c8[10];
+    /* 0x3718 */ eui::Animator* _3718[10];
+    u8 _pad_3768[0x3808 - 0x3768];
+    /* 0x3808 */ eui::Animator* _3808;
+    /* 0x3810 */ eui::Animator* _3810;
+    /* 0x3818 */ eui::Animator* _3818;
+    /* 0x3820 */ eui::Animator* _3820;
+    u8 _pad_3828[0x3840 - 0x3828];
+    /* 0x3840 */ eui::Animator* _3840;
+    /* 0x3848 */ eui::Animator* _3848;
 };
 
 class ScreenKeyNum : public ScreenEx {

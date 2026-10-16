@@ -46,6 +46,13 @@ public:
                            nn::ui2d::GroupContainer* groups, bool enabled);
     // 0x7100be79fc (placeholder name): disables the animator and unlinks it from the screen's list
     void Disable();
+    // inline-only in the original; name is a guess. Disable() without the screen unlink: the same
+    // SetEnabled(false) + mRate = 0 pair repeats in Screen 0x7100bea3d0, LayoutEx 0x7100bdde7c and
+    // ScreenMainHorse::m101 (nine times).
+    void disableKeepLinked() {
+        nn::ui2d::AnimTransform::SetEnabled(false);
+        mRate = 0;
+    }
     // 0x7100be782c (placeholder name)
     void PlayFromFrame(PlayType type, f32 start_frame, f32 speed);
     // 0x7100be7840: starts at a random frame

@@ -7,6 +7,21 @@ namespace uking::ui {
 ScreenGamePadBG::~ScreenGamePadBG() = default;
 ScreenWolfLinkHeartGauge::~ScreenWolfLinkHeartGauge() = default;
 ScreenMainHorse::~ScreenMainHorse() = default;
+
+// 0x7100a10cd4
+void ScreenMainHorse::m101() {
+    _3808->disableKeepLinked();
+    _3840->disableKeepLinked();
+    _3848->disableKeepLinked();
+    for (s32 i = 0; i < 10; ++i) {
+        _3678[i]->disableKeepLinked();
+        _3718[i]->disableKeepLinked();
+        _36c8[i]->disableKeepLinked();
+    }
+    _3810->disableKeepLinked();
+    _3818->disableKeepLinked();
+    _3820->disableKeepLinked();
+}
 ScreenReadyGo::~ScreenReadyGo() = default;
 ScreenKeyNum::~ScreenKeyNum() = default;
 ScreenGameTitle::~ScreenGameTitle() = default;
