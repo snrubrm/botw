@@ -170,8 +170,15 @@ public:
     void m2(Actor* actor) override;
 };
 
-// vtable 0x710245a000 (D1 0x71007a03d0, D0 0x71007a03e4, m2 0x71007a0108). The Unk_7102459e88 sensor at
-// 0x7102459fd8 is not declared yet.
+// vtable 0x7102459fd8 (D1 0x71007a0388, D0 0x71007a039c, m2 0x710079fea4): records contact points with
+// floors (normal within 70 degrees of up).
+class Unk_7102459fd8 : public Unk_7102459df8::Unk_7102459e88 {
+public:
+    ~Unk_7102459fd8() override;
+    void m2(Actor* actor) override;
+};
+
+// vtable 0x710245a000 (D1 0x71007a03d0, D0 0x71007a03e4, m2 0x71007a0108).
 class Unk_710245a000 : public Unk_7102459df8::Unk_7102459e88 {
 public:
     ~Unk_710245a000() override;
