@@ -351,9 +351,13 @@ struct Unk_71010FEDBC {
     struct AreaPos {
         sead::Vector2f pos;
         sead::Vector2f _8;
-        u8 _10[0x1c - 0x10];
+        sead::Vector2f _10;
+        f32 _18;
     };
 
+    // 0x71010fcb20 (placeholder name): allocates 16 position records and `num_areas` areas from `heap`
+    // and resets the areas; _18 = 1 / `size`.
+    void sub_71010FCB20(sead::Heap* heap, u8 num_areas, u32 size, s8 level);
     // 0x71010fcb04 (placeholder name): clears the record (_10 / _14 = 1000000, _18 = 1).
     void sub_71010FCB04();
     // 0x71010fcfd0 (placeholder name): whether area `index` has moved away from its position record

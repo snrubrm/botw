@@ -1,4 +1,6 @@
 #include <math/seadMathCalcCommon.h>
+#include <basis/seadNew.h>
+#include <heap/seadHeap.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 
 namespace ksys::tera {
@@ -13,6 +15,24 @@ void Unk_71010FEDBC::sub_71010FCB04() {
     mNumAreas = 0;
     mLevel = 0;
     _1f = 0;
+}
+
+// NON_MATCHING: register allocation of the division and the merged 1000000 stores (as in
+// sub_71010FEB94, which is inlined here).
+void Unk_71010FEDBC::sub_71010FCB20(sead::Heap* heap, u8 num_areas, u32 size, s8 level) {
+    mNumAreas = num_areas;
+    mLevel = level;
+    _18 = 1.0f / static_cast<f32>(size);
+    _0 = new (heap, 0x20) AreaPos[16];
+    mAreas = new (heap, 0x20) Area[mNumAreas];
+    for (s32 i = 0; i < 16; ++i) {
+        AreaPos& pos = _0[i];
+        pos.pos = sead::Vector2f::zero;
+        pos._8 = sead::Vector2f::zero;
+        pos._10 = sead::Vector2f::zero;
+        pos._18 = 1.0f;
+    }
+    sub_71010FEB94(0);
 }
 
 bool Unk_71010FEDBC::sub_71010FCFD0(u32 index) const {
@@ -123,8 +143,8 @@ bool Unk_71010FEDBC::sub_71010FE920(Result* result, const sead::Vector2f& pos, u
 void Unk_71010FEDBC::sub_71010FEB94(s32 start) {
     for (s32 i = start; i < mNumAreas; ++i) {
         mAreas[u32(i)].sub_71010FE480();
-        _14 = 1000000.0f;
         _10 = 1000000.0f;
+        _14 = 1000000.0f;
     }
 }
 
