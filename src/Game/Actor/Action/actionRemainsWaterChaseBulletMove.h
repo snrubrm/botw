@@ -18,8 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x710023357c (declared only): out of line in the original.
+    // 0x710023357c: the bullet velocity chasing the target position (false without a player, body or target).
     bool sub_710023357C(sead::Vector3f* out);
+    // 0x71002338d4 (declared only; 1132 B): the chase target position.
+    bool sub_71002338D4(sead::Vector3f* target);
     void calc_() override;
     void m32() override;
 
