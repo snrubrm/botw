@@ -387,6 +387,8 @@ Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index);
 // 0x71009ea670 (placeholder name): the child `index` of the group `group` of `screen` as an Unk_710247d8f8 (null
 // if it is not one)
 Unk_710247d8f8* sub_71009EA670(Screen* screen, s32 group, s32 index);
+// 0x71009beb44 (placeholder name): UiSubsys1::get38ac of the UiSubsys1 instance
+bool sub_71009BEB44();
 
 // A child class of the PauseMenu screen (id 46, child group 1; the facade helpers of the 0x7100a94000 TU DynamicCast
 // to it). Its typeinfo static is at 0x71025d9b08 (guard 0x71025d9b10); it was declared separately as

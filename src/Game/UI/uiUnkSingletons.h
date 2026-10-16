@@ -1295,6 +1295,8 @@ public:
     bool is898Zero() const;
     bool is898EqualTo3() const;
     bool is898Below3() const;
+    // 0x7100959438 (placeholder name; defined in uiMapMarker.cpp next to its address neighbours): whether `entry` is _698
+    bool sub_7100959438(const UiSubsys1Entry* entry) const;
     bool is898Positive() const;
     // 0x7100965fec (placeholder name): 6.0 / 7.5 / 8.5 / 9.5 for `_898` 0 .. 3 (6.0 otherwise)
     f32 sub_7100965FEC() const;

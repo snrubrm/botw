@@ -69,6 +69,11 @@ Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index) {
         nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
 }
 
+// 0x71009beb44
+bool sub_71009BEB44() {
+    return UiSubsys1::instance()->get38ac();
+}
+
 // 0x71009bd404
 Unk_710247c010::Unk_710247c010(eui::LayoutEx* layout)
     : ScreenChildEx(layout), mButtons() {

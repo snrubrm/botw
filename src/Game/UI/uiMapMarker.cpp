@@ -1444,6 +1444,11 @@ void Unk_7102476830::m5() {
         _68.update();
 }
 
+// 0x7100959438
+bool UiSubsys1::sub_7100959438(const UiSubsys1Entry* entry) const {
+    return _698 == entry;
+}
+
 // NON_MATCHING: the 0x6e0 compare is scheduled after the vtable load in the original.
 void Unk_7102476830::m19() {
     auto* subsys = UiSubsys1::instance();
