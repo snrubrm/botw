@@ -348,9 +348,9 @@ ksys::world::WeatherMgr* getWeatherMgr() {
 }  // namespace wm
 
 // 0x7102620128 (placeholder name): when set, fixing a water element also kills its effects (m33).
-bool sUnk_7102620128;
+KSYS_VISIBILITY_HIDDEN bool sUnk_7102620128;
 // 0x710262012c (placeholder name): when set, new water elements get flag 2.
-bool sUnk_710262012C;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710262012C;
 
 ElementWater* ElementWater::create(const ElementWaterCreateArg* arg) {
     auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
@@ -399,7 +399,6 @@ ElementWater::~ElementWater() {
     }
 }
 
-// NON_MATCHING: the original reads sUnk_7102620128 directly (non-preemptible symbol); ours goes through the GOT.
 void ElementWater::m33(bool a, bool fixed) {
     if (_50)
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));

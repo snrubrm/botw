@@ -8,7 +8,7 @@
 namespace uking::ui {
 
 // 0x71025d6ab0: bypass for the sensor availability check.
-bool sUnk_71025d6ab0 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6ab0 = false;
 // 0x71025d6a98 / 0x71025d6a9c: written by 0x7100960ad8; 6a98 hides the Unk_7102476738 / Unk_7102476830 markers
 // (their m19), 6a9c is set while UiSubsys1::_3860 is non-zero.
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6a98 = false;
@@ -839,7 +839,6 @@ void UiSubsys1::updateCompletionCount() {
 
 namespace uking::ui {
 
-// NON_MATCHING: the original accesses the bypass flag directly; this declaration uses the GOT.
 bool UiSubsys1::sub_7100968BD8() {
     if (sUnk_71025d6ab0)
         return true;

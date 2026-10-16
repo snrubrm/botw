@@ -7,7 +7,7 @@
 
 namespace uking::action {
 
-extern bool sUnk_71025b5e68;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025b5e68 = false;
 
 SiteBossLswordWhirlSlash::SiteBossLswordWhirlSlash(const InitArg& arg)
     : SiteBossLswordAtkWithChemical(arg) {}
@@ -20,7 +20,6 @@ void SiteBossLswordWhirlSlash::loadParams_() {
     getStaticParam(&mCircleEmitOffset_s, "CircleEmitOffset");
 }
 
-// NON_MATCHING: The original flag uses a local data binding.
 void SiteBossLswordWhirlSlash::calc_() {
     SiteBossLswordAtkWithChemical::calc_();
     if (!sUnk_71025b5e68)

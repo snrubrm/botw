@@ -78,7 +78,7 @@ public:
 
 protected:
     // Constructors load the shared value at 0x7102600398.
-    static u32 sHashBase;
+    KSYS_VISIBILITY_HIDDEN static u32 sHashBase;
 
     sead::TypedBitFlag<Flag> mFlags{};
     u32 mHashId = sHashBase;
@@ -153,7 +153,6 @@ public:
     RailPoint* allocPoint(sead::Heap* heap) override;
 
     bool x_18() override { return true; }
-    bool x_20() override { return true; }
     void x_38() override {}
 };
 
@@ -177,7 +176,7 @@ public:
     RailRoute();
     ~RailRoute() override;
     RailPoint* allocPoint(sead::Heap* heap) override;
-
+    bool x_20() override { return true; }
     bool parse(MubinIter* iter) override;
 
     bool isRenderEnabled() const;

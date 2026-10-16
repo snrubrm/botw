@@ -144,7 +144,7 @@ void Unk_7102459df8::Unk_7102459e60::Unk1::sub_710079F508(
 }
 
 // The initialized word at 0x7102459fd0 is the contact-layer selection mask.
-u32 sUnk_7102459fd0 = 0x1504;
+KSYS_VISIBILITY_HIDDEN u32 sUnk_7102459fd0 = 0x1504;
 
 // NON_MATCHING: global mask address and load scheduling.
 bool sub_710079F598(phys::RigidBody* body) {

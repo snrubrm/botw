@@ -12,7 +12,7 @@ bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home,
 namespace uking::ai {
 
 // 0x71025bc6c8: only read by calc_ (a debug switch whose drawing code is compiled out; placeholder name).
-bool sUnk_71025bc6c8 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025bc6c8 = false;
 
 // 0x710058196c
 bool SiteBossRecognizeRoot::sub_710058196C() {

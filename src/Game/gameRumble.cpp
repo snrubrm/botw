@@ -51,7 +51,7 @@ static sead::SafeString sPatterns2[RumblePattern::size()] = {
 
 // 0x71025d0300 (placeholder name): Rumble::calc only runs 0x7100898a20 when it is set. Nothing in this file
 // writes it; the original loads it without the GOT.
-bool sUnk_71025D0300;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025D0300;
 
 SEAD_SINGLETON_DISPOSER_IMPL(Rumble)
 
@@ -143,7 +143,6 @@ void Rumble::State::calc() {
     mIsPlaying = addon->isPatternEnable();
 }
 
-// NON_MATCHING: sUnk_71025D0300 is loaded through the GOT (the original addresses it directly)
 void Rumble::calc() {
     mState.calc();
     if (sUnk_71025D0300)

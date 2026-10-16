@@ -119,7 +119,7 @@ private:
     gdt::FlagHandle mGameDataHandles[PlayReportKey::size()]{};
     gdt::Manager::ReinitSignal::Slot mSlot{this, &ProductReporter::onGdtReinit};
 
-    static bool sSomeBool;
+    KSYS_VISIBILITY_HIDDEN static bool sSomeBool;
 };
 
 }  // namespace ksys

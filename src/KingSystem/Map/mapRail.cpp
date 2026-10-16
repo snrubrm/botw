@@ -72,7 +72,6 @@ bool RailPoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
-// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 Rail::Rail() = default;
 
 Rail::~Rail() {
@@ -255,7 +254,6 @@ bool RailGuidePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
-// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 RailGuide::RailGuide() = default;
 
 RailGuide::~RailGuide() = default;
@@ -275,7 +273,6 @@ bool RailRemainGuidePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
-// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 RailRemainGuide::RailRemainGuide() = default;
 
 RailRemainGuide::~RailRemainGuide() = default;
@@ -306,7 +303,6 @@ bool RailConnectablePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return RailPoint::parse(iter, heap);
 }
 
-// NON_MATCHING: the shared hash initializer is accessed through the GOT.
 RailConnectable::RailConnectable() = default;
 
 RailConnectable::~RailConnectable() = default;
@@ -332,7 +328,6 @@ bool RailRoutePoint::parse(MubinIter* iter, sead::Heap* heap) {
     return success;
 }
 
-// NON_MATCHING: the shared hash uses the GOT, and the flag updates combine differently.
 RailRoute::RailRoute() {
     mFlags.reset(Flag::RenderEnabled);
     mFlags.set(Flag::AutoPlacementEnabled);

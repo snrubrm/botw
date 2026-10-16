@@ -69,8 +69,6 @@ void ProductReporter::initGameDataIterators() {
     }
 }
 
-// NON_MATCHING: the original reads sSomeBool directly (adrp+ldrb) instead of through the GOT,
-// yet the value is never written in this binary. A file-static is constant-folded instead.
 bool ProductReporter::getSomeBool() {
     return sSomeBool;
 }

@@ -9,7 +9,7 @@
 
 namespace uking::ai {
 
-bool sUnk_71025ba278 = false;
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025ba278 = false;
 
 LastBossRecognizeRoot::LastBossRecognizeRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -172,9 +172,7 @@ bool LastBossRecognizeRoot::m35() {
     return (mActor->getMtx().getTranslation() - player_pos).length() >= *mWarpStartDist_s;
 }
 
-// NON_MATCHING: sUnk_71025ba278 is reached through the GOT here (the original addresses it directly:
-// a TU-local object that is never written, yet not folded — tried TU-local static, which folds to a
-// constant); getU32 argument order as in enter_
+// NON_MATCHING: getU32 argument order as in enter_
 void LastBossRecognizeRoot::m40() {
     if (sUnk_71025ba278) {
         _64 = 0;
@@ -199,7 +197,6 @@ void LastBossRecognizeRoot::m40() {
     changeChild("ワープ移動", &params);
 }
 
-// NON_MATCHING: sUnk_71025ba278 through the GOT (see m40)
 bool LastBossRecognizeRoot::m41() {
     return sUnk_71025ba278;
 }
