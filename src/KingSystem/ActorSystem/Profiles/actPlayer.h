@@ -462,6 +462,8 @@ public:
     bool sub_7100883220(bool force);
     void sub_710088349C();
     void sub_71008562CC();
+    bool sub_7100890394();
+    void sub_7100861858();
     void sub_710085603C();
     void sub_71008564CC();
     void sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
@@ -977,7 +979,8 @@ public:
     /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
     /* 0x2c38 */ BaseProcLink _2c38;
     /* 0x2c48 */ BaseProcLink _2c48;  // isRevivalFairyActive
-    /* 0x2c58 */ u8 _2c58[0x2c78 - 0x2c58];
+    /* 0x2c58 */ BaseProcLink _2c58;
+    /* 0x2c68 */ BaseProcLink _2c68;
     /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
     /* 0x2c88 */ BaseProcLink _2c88;  // isZoraHeroActive
     /* 0x2c98 */ BaseProcLink _2c98;

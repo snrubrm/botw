@@ -483,4 +483,13 @@ void Player::sub_710088349C() {
     }
 }
 
+// Placeholder name: whether the player is busy (bow, push, upper-body damage or item ready animations, ...). In this
+// file because sub_710087B0CC is out of line in the original.
+bool Player::sub_7100890394() {
+    return _d11 || _cf0.isOnBit(22) || m224() || playerIsReloadingOrChargingOrShootingBow(this) ||
+           (_c44.isOnBit(8) && !_d11) || sub_71007D86B4(this) || sub_710087B0CC() ||
+           mASList->x_1(1, 1) == "DamageSUpper" || mASList->x_1(1, 1) == "ItemCommonReady" ||
+           mASList->x_1(1, 1) == "ItemBombReady";
+}
+
 }  // namespace ksys::act

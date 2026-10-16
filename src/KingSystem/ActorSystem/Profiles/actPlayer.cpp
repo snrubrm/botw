@@ -1424,6 +1424,37 @@ void Player::sub_7100881DFC(f32 y, bool a2) {
     }
 }
 
+// Placeholder name: unless _c4c bit 9 is set, sends message 0x8000036 to the actors linked at _2c58 / _2c68 /
+// _2c78 / _2c88 / _2c48, then sets the bit.
+void Player::sub_7100861858() {
+    if (_c4c.isOnBit(9))
+        return;
+    {
+        ActorLinkConstDataAccess accessor;
+        acquireActor(&_2c58, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
+    }
+    {
+        ActorLinkConstDataAccess accessor;
+        acquireActor(&_2c68, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
+    }
+    {
+        ActorLinkConstDataAccess accessor;
+        acquireActor(&_2c78, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
+    }
+    {
+        ActorLinkConstDataAccess accessor;
+        acquireActor(&_2c88, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
+    }
+    ActorLinkConstDataAccess accessor;
+    acquireActor(&_2c48, &accessor);
+    sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x8000036), nullptr, true);
+    _c4c.setBit(9);
+}
+
 // NON_MATCHING: block order of the midpoint selection and the _1cbc checks, register allocation of the last part.
 // Placeholder name: from three ladder points, _22f4 = the midpoint of the two closest in height (y replaced by the
 // lowest / highest point for _1cbc 4 / 5, else _1770.y) and _2100 = the highest y (lowered for _1cbc 5).
