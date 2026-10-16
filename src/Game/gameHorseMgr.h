@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <container/seadSafeArray.h>
+#include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
@@ -11,6 +12,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
+
+namespace ksys::phys {
+class NavMeshQuery;
+}
 
 namespace ksys::act {
 class Actor;
@@ -30,6 +35,20 @@ bool sub_7100E6EAAC(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e821e4, postCalc 0x7100e8789c, createHorse, ...; instance pointer at 0x7102603c90; namespace
 // is a guess). The manager of the owned horse; only what the AI actions use is declared.
 // TODO: incomplete.
+// Placeholder (ctor 0x7100e8a080; HorseMgr::_270): a navmesh query with a linked actor and a matrix.
+struct Unk_7100e8a080 {
+    Unk_7100e8a080();
+    // 0x7100e8a0c4 (placeholder name): destroys the query and resets the link.
+    void sub_7100E8A0C4();
+
+    /* 0x00 */ ksys::phys::NavMeshQuery* mQuery = nullptr;
+    /* 0x08 */ ksys::act::BaseProcLink _8;
+    /* 0x18 */ sead::Matrix34f _18 = sead::Matrix34f::ident;
+    /* 0x48 */ f32 _48 = 0;
+    /* 0x4c */ bool _4c = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100e8a080, 0x50);
+
 class HorseMgr {
     SEAD_SINGLETON_DISPOSER(HorseMgr)
     HorseMgr();
@@ -191,8 +210,8 @@ public:
     /* 0x228 */ sead::BitFlag16 _228;
     u8 _22a[0x230 - 0x22a];
     /* 0x230 */ sead::CriticalSection _230;
-    // lane4 s46: a sub-object (ctor 0x7100e8a080) is not modelled yet; the size (0x2c0) is the allocation size of createInstance.
-    u8 _270[0x2c0 - 0x270];
+    // The size (0x2c0) is the allocation size of createInstance.
+    /* 0x270 */ Unk_7100e8a080 _270;
 };
 KSYS_CHECK_SIZE_NX150(HorseMgr, 0x2c0);
 

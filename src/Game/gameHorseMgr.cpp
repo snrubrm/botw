@@ -1,6 +1,7 @@
 #include "Game/gameHorseMgr.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actHorseBase.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -455,6 +456,16 @@ void HorseMgr::sub_7100E87584(const sead::SafeString& name, sead::Heap* heap) {
         act::sub_7100E6E98C(accessor, false);
         act::sub_7100E6E6C8(accessor, name, heap);
     }
+}
+
+Unk_7100e8a080::Unk_7100e8a080() = default;
+
+void Unk_7100e8a080::sub_7100E8A0C4() {
+    if (mQuery) {
+        ksys::phys::HavokAI::instance()->destroyQuery(mQuery);
+        mQuery = nullptr;
+    }
+    _8.reset();
 }
 
 }  // namespace uking
