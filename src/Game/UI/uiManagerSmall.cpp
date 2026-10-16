@@ -1,5 +1,7 @@
 #include "Game/UI/euiCapturePane.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -712,6 +714,23 @@ void Unk_7102475050::m4() {
     _c8.setToEnd();
 }
 
+// 0x71009469b4
+bool Unk_7102475050::m10() {
+    auto* info = uking::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    auto* player = info->getPlayer();
+    if (!player || player->_cf0.isOnBit(19) || player->sub_710084A6B8())
+        return false;
+    if (uking::ui::sub_7100AA8F30())
+        return sUnk_71025d64e8;
+    if (!_9e && uking::act::PlayerInfo::instance()->getPlayer()->m139() < 1.0f)
+        return false;
+    if (_9d)
+        return false;
+    return !_c8.isDone();
+}
+
 // 0x7100946a5c
 bool Unk_7102475050::sub_7100946A5C() const {
     return !_c8.isDone();
@@ -763,6 +782,24 @@ f32 Unk_7102475050::m8() {
 f32 Unk_7102475050::m9(f32 value) {
     const f32 rate = (value + -1000.0f) / 2000.0f;
     return rate < 0.0f ? 0.0f : (rate > 1.0f ? 1.0f : rate);
+}
+
+// 0x7100947318
+bool Unk_71024750c8::m10() {
+    auto* info = uking::act::PlayerInfo::instance();
+    if (!info || !info->getPlayer())
+        return false;
+    if ((uking::RuneMgr::instance()->_90 & 0x10) && uking::RuneMgr::instance()->isSelectedRune(5))
+        return false;
+    if (uking::RuneMgr::instance()->_90 & 0x20)
+        return false;
+    if (!(_90 > 0 || _8c > 0 || !_10 || !sead::Mathf::equalsEpsilon(_10->_50, _10->mTracingSpeed)) && !_9c)
+        return false;
+    if (uking::ui::sub_7100AA8F30())
+        return sUnk_71025d64ec;
+    if (!_9e && uking::act::PlayerInfo::instance()->getPlayer()->m139() < 1.0f)
+        return false;
+    return !_9d;
 }
 
 // 0x71009472cc
