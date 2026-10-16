@@ -11,7 +11,6 @@ EventIncreasePorchItemAction::EventIncreasePorchItemAction(const InitArg& arg)
 
 EventIncreasePorchItemAction::~EventIncreasePorchItemAction() = default;
 
-// NON_MATCHING: callCheckWeaponFreeSlotHandlerMaybe is declared to return s32 (cbz); the original tests a bool (tbz)
 bool EventIncreasePorchItemAction::oneShot_() {
     if (ksys::act::InfoData::instance()->hasTag(mPorchItemName_d.cstr(), 0x30a3552e)) {
         sead::FixedSafeString<128> path("");
