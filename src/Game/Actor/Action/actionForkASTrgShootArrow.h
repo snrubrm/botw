@@ -21,7 +21,8 @@ protected:
     virtual void m32(sead::Vector3f* dir);
     virtual void m33(const sead::Vector3f& pos, const sead::Vector3f* dir);
 
-    // 0x7100143c64 (declaration only; 808 B): computes the arrow's aim; false if there is no direction.
+    // 0x7100143c64: the arrow target beside TargetPos (random side offset); true with a raised aim point in
+    // `dir` when that target is more than 30 degrees below the actor.
     bool sub_7100143C64(sead::Vector3f* dir, sead::Vector3f* pos);
 
     // static_param at offset 0x20
