@@ -1,3 +1,6 @@
+#include "Game/UI/uiTimer.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiAnimator.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/UI/uiManager.h"
 #include "KingSystem/XLink/xlinkManager.h"
@@ -488,9 +491,26 @@ int Manager::handleMessage(const ksys::Message* message) {
 
 }  // namespace uking::ui
 
+// 0x7100945364
+Unk_7102474fd8::Unk_7102474fd8() = default;
+
 // 0x71009479c4
 Unk_7102474fd8::~Unk_7102474fd8() {
     _60.freeBuffer();
+}
+
+// 0x71009468f0
+void Unk_7102475050::m4() {
+    Unk_7102474fd8::m4();
+    if (_8) {
+        _b8 = _8->tryCreateAnimatorAuto("Born", false);
+        if (_b8)
+            _b8->StopAtMin();
+        _c0 = _8->tryCreateAnimatorAuto("Dead", false);
+        if (_c0)
+            _c0->StopAtMax();
+    }
+    _c8.setToEnd();
 }
 
 // 0x7100946968
@@ -526,6 +546,14 @@ f32 Unk_71024750c8::m7() {
     static const f32 sLimits[] = {1000.0f, 2000.0f};
     const f32 value = m6();
     return value > 0.0f ? sLimits[!(value <= 1000.0f)] : 0.0f;
+}
+
+// 0x7100947244
+void Unk_71024750c8::m4() {
+    Unk_7102474fd8::m4();
+    if (_40)
+        _40->StopAtMin();
+    _40 = nullptr;
 }
 
 // 0x710094727c

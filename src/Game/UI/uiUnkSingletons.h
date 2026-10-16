@@ -363,6 +363,8 @@ private:
 // 0x710094d8c8, disposer vtable 0x7102475328; `_2c` is a state set by the facade functions).
 // 0x71009f8420: sets the mode in sUnk_71025eb5b8
 void sub_71009F8420(s32 a1);
+// 0x71009d3fb0 (declared only)
+void sub_71009D3FB0(s32 a1, s32 a2, const sead::SafeString* name);
 
 class Unk_71025d69f0 {
     SEAD_SINGLETON_DISPOSER(Unk_71025d69f0)
@@ -373,6 +375,9 @@ public:
 
     void sub_710094D8CC();
     void sub_710094D8DC();
+    // 0x710094d8ec (placeholder name): unless the home screen is open / opening or sub_7100AA8F30 holds, resets _28
+    // to 1 and the app mode; true when it did
+    bool sub_710094D8EC();
     void sub_710094E0A0();
     bool sub_710094E920();
     void sub_710094E1C0(bool value);
@@ -396,7 +401,9 @@ public:
     u8 _37 = 0;
     /* 0x38 */ u8 _38 = 0;
     /* 0x3c */ s32 _3c = 0;
-    /* 0x40 */ void* _40 = nullptr;
+    /* 0x40 */ s32 _40 = 0;
+    // cleared by sub_710094D8EC
+    /* 0x44 */ s32 _44 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025d69f0, 0x48);
 

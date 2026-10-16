@@ -18,6 +18,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiTexSlots.h"
+#include "Game/UI/uiTimer.h"
 #include "Game/gameStageBinder.h"
 #include "Game/gameUnkRttiClasses.h"
 #include "Game/gameUnk_710246d058.h"
@@ -300,6 +301,12 @@ public:
     virtual bool m34() { return false; }
 };
 
+namespace eui {
+class Animator;
+class LayoutEx;
+class TraceGaugeControl;
+}  // namespace eui
+
 // vtable 0x7102474fd8 (6 slots); placeholder generated from the vtable (genskel.py).
 // ScreenPauseMenuInfo's destructor destroys two objects of this family (0x130 bytes each, at 0x36e0 / 0x3810).
 // The original destructor is inline (its D2 copy 0x71009479c4 sits in Unk_71024750c8's TU and both vtables use it;
@@ -311,10 +318,41 @@ public:
     virtual void m4();
     virtual s32 m5() { return 0; }
 
-    u8 _8[0x60 - 0x8];
+    // 0x7100945364 (inlined into the ScreenMainScreen3D / ScreenPauseMenuInfo constructors as well)
+    Unk_7102474fd8();
+
+    // Layout from the constructor (0x8 .. 0x80 zeroed as one block) and the gauge updates 0x7100945f78 /
+    // 0x7100946318 (placeholder types: the slots used are eui::Animator / TraceGaugeControl virtuals).
+    /* 0x08 */ eui::LayoutEx* _8 = nullptr;
+    /* 0x10 */ eui::TraceGaugeControl* _10 = nullptr;
+    /* 0x18 */ eui::Animator* _18 = nullptr;
+    /* 0x20 */ eui::Animator* _20 = nullptr;
+    /* 0x28 */ void* _28 = nullptr;
+    /* 0x30 */ void* _30 = nullptr;
+    /* 0x38 */ eui::Animator* _38 = nullptr;
+    /* 0x40 */ eui::Animator* _40 = nullptr;
+    /* 0x48 */ eui::Animator* _48 = nullptr;
+    /* 0x50 */ eui::Animator* _50 = nullptr;
+    /* 0x58 */ eui::Animator* _58 = nullptr;
     /* 0x60 */ sead::PtrArrayImpl _60;
-    u8 _70[0x8c - 0x70];
-    /* 0x8c */ f32 _8c;
+    /* 0x70 */ void* _70 = nullptr;
+    /* 0x78 */ void* _78 = nullptr;
+    /* 0x80 */ f32 _80 = 1.0f;
+    /* 0x84 */ bool _84 = false;
+    /* 0x88 */ f32 _88 = 0;
+    /* 0x8c */ f32 _8c = 0;
+    /* 0x90 */ f32 _90 = 0;
+    /* 0x94 */ f32 _94 = 0;
+    /* 0x98 */ bool _98 = false;
+    /* 0x99 */ bool _99 = false;
+    /* 0x9a */ bool _9a = false;
+    /* 0x9b */ bool _9b = false;
+    /* 0x9c */ bool _9c = false;
+    /* 0x9d */ bool _9d = false;
+    /* 0x9e */ bool _9e = false;
+    /* 0xa0 */ void* _a0 = nullptr;
+    /* 0xa8 */ void* _a8 = nullptr;
+    /* 0xb0 */ void* _b0 = nullptr;
 };
 
 // vtable 0x7102475050 (13 slots); placeholder generated from the vtable (genskel.py).
@@ -322,6 +360,8 @@ class Unk_7102475050 : public Unk_7102474fd8 {
     SEAD_RTTI_OVERRIDE(Unk_7102475050, Unk_7102474fd8)
 public:
     ~Unk_7102475050() override;
+    // 0x71009468f0: also creates the "Born" (stopped at min) / "Dead" (stopped at max) animators and ends the timer
+    void m4() override;
     // the gauge values from the UI Manager (uking::ui::sub_7100A9B6D0 / sub_7100A9B6F0)
     virtual f32 m6();
     virtual f32 m7();
@@ -333,6 +373,10 @@ public:
     virtual void m11();
     virtual void m12();
     s32 m5() override { return 5; }
+
+    /* 0xb8 */ eui::Animator* _b8;
+    /* 0xc0 */ eui::Animator* _c0;
+    /* 0xc8 */ uking::ui::UiTimer _c8;
 };
 
 // vtable 0x71024750c8 (13 slots); placeholder generated from the vtable (genskel.py).
@@ -340,6 +384,8 @@ class Unk_71024750c8 : public Unk_7102474fd8 {
     SEAD_RTTI_OVERRIDE(Unk_71024750c8, Unk_7102474fd8)
 public:
     ~Unk_71024750c8() override;
+    // 0x7100947244: also stops _40 at its minimum and drops it
+    void m4() override;
     // the gauge value from the UI Manager (uking::ui::sub_7100A9B710)
     virtual f32 m6();
     // 1000 or 2000 depending on m6() (0 while it is not positive)

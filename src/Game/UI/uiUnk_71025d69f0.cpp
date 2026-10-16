@@ -21,6 +21,20 @@ void Unk_71025d69f0::sub_710094D8DC() {
     _38 = 0;
 }
 
+// 0x710094d8ec
+bool Unk_71025d69f0::sub_710094D8EC() {
+    auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome));
+    if (screen && (screen->isOpened() || screen->isOpening()))
+        return false;
+    if (sub_7100AA8F30())
+        return false;
+    _28 = 1;
+    sub_71009F8420(0);
+    sub_71009D3FB0(0, -1, &sead::SafeString::cEmptyString);
+    _44 = 0;
+    return true;
+}
+
 // 0x710094e920
 bool Unk_71025d69f0::sub_710094E920() {
     auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome));
