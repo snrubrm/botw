@@ -22,6 +22,17 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100203f04 (placeholder name): plays RideWait while riding, else the talk animation _78 (looped unless it
+    // contains "Talk").
+    void sub_7100203F04();
+    // 0x71002027d0 (placeholder name): the talk animation for the actor's AS posture parameter 0x3b.
+    const char* sub_71002027D0();
+    // 0x7100203b38 (placeholder name): switches AS parameter 0x38 to the NPC's posture name (_8a8); false without
+    // an NPC.
+    bool sub_7100203B38();
+    // 0x7100203808 (placeholder name): sets AS parameters 0x37 / 0x38 to the NPC's posture group and name; true if
+    // the group changed.
+    bool sub_7100203808();
 
     // static_param at offset 0x20
     const int* mIsRemainOpeningDialog_s{};
