@@ -2,9 +2,72 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include <prim/seadScopedLock.h>
 
 namespace ksys::snd {
+
+Unk_7102502410::Unk_7102502410() = default;
+
+Unk_7102502410::~Unk_7102502410() {
+    sub_710104993C();
+}
+
+void Unk_7102502410::sub_7101049C60() {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        Entry& entry = mEntries[i];
+        entry.sub_7101049778();
+        if (entry.mRefCount > 0) {
+            if (auto* user_instance = entry.mUserInstance) {
+                user_instance->preCalc();
+                user_instance->postCalc();
+            }
+        }
+    }
+}
+
+Unk_7102502430::~Unk_7102502430() {
+    sub_710104A0D4();
+}
+
+void Unk_7102502430::sub_710104A098(void* owner, const sead::SafeString& name) {
+    if (mIsSet)
+        return;
+    mOwner = owner;
+    mName = name;
+    mIsSet = true;
+}
+
+void Unk_7102502430::sub_710104A0D4() {
+    if (!mIsSet)
+        return;
+    sub_710104A108();
+    mOwner = nullptr;
+    mIsSet = false;
+}
+
+void Unk_7102502430::sub_710104A108() {
+    if (!mOwner)
+        return;
+    Unk_7102502410::Entry* entry = _98;
+    if (!entry)
+        return;
+    {
+        auto lock = sead::makeScopedLock(entry->mCS);
+        if (--entry->mRefCount == 0) {
+            if (entry->mAssetInfoReader) {
+                SoundMgr::instance()->_60->sub_7101059354(entry->mAssetInfoReader);
+                if (entry->mUserInstance)
+                    entry->mUserInstance->setAssetInfoReader(nullptr);
+                entry->mAssetInfoReader = nullptr;
+                entry->_18 = 0;
+            }
+            if (entry->mUserInstance)
+                entry->mUserInstance->sleep();
+        }
+    }
+    _98 = nullptr;
+}
 
 Unk_SoundInstance::Unk_SoundInstance(s32 id) : _48c(id) {}
 

@@ -950,6 +950,59 @@ struct Unk_SoundMgr60 {
     Unk_SoundMgr60_828 _828;
 };
 
+// Placeholder name = vtable address (0x7102502410; only the destructor pair). A buffer of shared xlink user
+// instances (the members built by the Unk_SoundMgr38_* constructors: 0x710102eba0, 0x71012c153c, ...).
+class Unk_7102502410 {
+public:
+    // 0x60-byte entry: a reference-counted SLink user instance with its asset info reader.
+    struct Entry {
+        // 0x7101049778 (declaration only; placeholder name): per-frame update of the entry.
+        void sub_7101049778();
+
+        u8 _0[0x8];
+        /* 0x08 */ xlink2::UserInstanceSLink* mUserInstance;
+        /* 0x10 */ Unk_7102502950* mAssetInfoReader;
+        /* 0x18 */ u32 _18;
+        /* 0x1c */ s32 mRefCount;
+        /* 0x20 */ sead::CriticalSection mCS;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x60);
+
+    // 0x710104990c
+    Unk_7102502410();
+    // 0x7101049928 / 0x7101049ac4
+    virtual ~Unk_7102502410();
+    // 0x710104993c (declaration only; placeholder name): releases the entries (the destructor's body).
+    void sub_710104993C();
+    // 0x7101049c60 (placeholder name): updates every entry and runs preCalc / postCalc of the referenced ones.
+    void sub_7101049C60();
+
+    sead::Buffer<Entry> mEntries;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102502410, 0x18);
+
+// Placeholder name = vtable address (0x7102502430; only the destructor pair): a named reference to an
+// Unk_7102502410::Entry (12 owners destroy it inline).
+class Unk_7102502430 {
+public:
+    // 0x710104a014 / 0x710104a058
+    virtual ~Unk_7102502430();
+    // 0x710104a098 (placeholder name): stores `owner` and `name` once.
+    void sub_710104A098(void* owner, const sead::SafeString& name);
+    // 0x710104a0d4 (placeholder name): releases the entry and clears the owner.
+    void sub_710104A0D4();
+    // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
+    // and puts the user instance to sleep.
+    void sub_710104A108();
+
+    /* 0x08 */ bool mIsSet;
+    u8 _9[0x70 - 0x9];
+    /* 0x70 */ sead::SafeString mName;
+    u8 _80[0x90 - 0x80];
+    /* 0x90 */ void* mOwner;
+    /* 0x98 */ Unk_7102502410::Entry* _98;
+};
+
 // Placeholder name: the sound instances the AreaActionBase family (Shielding / Occlusion / Reverb) get from
 // SoundMgr::_a8.
 struct Unk_SoundInstance {
