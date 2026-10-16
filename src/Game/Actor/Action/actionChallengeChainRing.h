@@ -30,16 +30,38 @@ protected:
     const float* mChainRingOrbitSpeed_m{};
     // map_unit_param at offset 0xab8
     const bool* mIsFirstNode_m{};
-    u8 _ac0[0xb4c - 0xac0];
+    // Four 0x10-byte records (an 8-byte field and a 4-byte field each), cleared by the constructor.
+    struct Record {
+        u64 _0 = 0;
+        u32 _8 = 0;
+    };
+    Record _ac0;
+    Record _ad0;
+    Record _ae0;
+    Record _af0;
+    sead::Vector3f _b00 = sead::Vector3f::zero;
+    sead::Vector3f _b0c = sead::Vector3f::zero;
+    sead::Matrix34f _b18 = sead::Matrix34f::ident;
+    f32 _b48 = 0;
     f32 _b4c = 0;
     f32 _b50 = 0;
     f32 _b54 = 0;
     f32 _b58 = 0;
     f32 _b5c = 0;
-    u8 _b60[0xb70 - 0xb60];
+    f32 _b60 = 0;
+    f32 _b64 = 0;
+    f32 _b68 = 45.0f;
+    u8 _b6c = 0;
+    u8 _b6d = 1;
+    u8 _b6e = 0;
+    u8 _b6f = 0;
     bool _b70 = false;
+    u8 _b71 = 0;
+    u16 _b72 = 0;
+    u8 _b74 = 0;
     Unk_71024f15c0* _b78 = nullptr;
-    sead::Vector3f _b80{0, 0, 0};
+    // Not initialised by the constructor.
+    sead::Vector3f _b80;
     ksys::Timer _b8c;
 
     virtual void m35(sead::Vector3f* pos);
