@@ -107,6 +107,28 @@ bool Unk_7102450fa8::sub_71007196EC(s32 idx, const sead::Vector3f& pos) {
     return false;
 }
 
+// 0x710071984c
+bool Unk_7102450fa8::sub_710071984C(s32 idx, const sead::Matrix34f& mtx) {
+    const u32 member = idx - 2;
+    if (member == 0 || member > 8)
+        return false;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (idx < _8.size()) {
+        ksys::act::acquireActor(&_8[idx]._e0, &accessor);
+        if (accessor.hasProc() && accessor.isStateSleep()) {
+            accessor.setProperties(mtx, &sead::Vector3f::zero, &sead::Vector3f::zero, nullptr, false, 0, -1);
+            if (!(_80 & (1u << idx))) {
+                _80 |= 1u << idx;
+                ++_74;
+                _50[member] = _74 % 2 != 0 ? _74 / 2 + 1 : -(_74 / 2);
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void Unk_7102450fa8::sub_71007199A8() {
     _80 = 0;
     _50.fill(0);
