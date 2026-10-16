@@ -2148,6 +2148,8 @@ public:
 
     bool sub_7100A20DD0();
     bool sub_7100A20E5C(u32 index, ShortcutIconInfo* info);
+    // 0x7100a21604 (declared only; 100 bytes): selects entry `index` (0 .. 20) of the shortcut list
+    void sub_7100A21604(s32 index);
     // 0x7100a1fa64 / 0x7100a1fabc / 0x7100a1fa74 / 0x7100a21908 (placeholder names): set the 0x38c8 value (and clear / set
     // the byte at 0x38cc); whether the animator at 0x37a0 is at its end / at its start
     void sub_7100A1FA64(s32 value);
@@ -3128,6 +3130,9 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     void sub_7100943520(const sead::Vector2f& delta);
     void sub_71009437C8();
     void sub_71009439B0();
+    // 0x710093f160 (declared only; 280 bytes): the offset of item `index` from the scroll position (_2fc; zero when
+    // there is no such item)
+    const sead::Vector2f& sub_710093F160(s32 index);
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
     // Template (placeholder name): sets up entry `index` with `params`, its group list and (once per group list) its
@@ -3198,6 +3203,37 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     /* 0x3c4 */ u32 _3c4 = 0;
 };
 static_assert(sizeof(ScreenAppPictureBookUnk) == 0x3c8);
+
+// vtable 0x7102474d30 (placeholder name): the picture book list of the shortcut screen (code next to
+// Unk_7102474c68 in uiShortcutIconButton.cpp). It moves a pane (_3c8) with the scroll offset and selects the
+// ScreenMainShortCut entry under the scroll position.
+class Unk_7102474d30 : public ScreenAppPictureBookUnk {
+public:
+    NN_RUNTIME_TYPEINFO(ScreenAppPictureBookUnk)
+    // 0x7100937210
+    Unk_7102474d30();
+    // 0x710093724c
+    ~Unk_7102474d30() override;
+    // 0x7100937790
+    void m7() override;
+
+    // 0x71009372c4 (placeholder name): sets the pane that follows the scroll and remembers its position
+    void sub_71009372C4(nn::ui2d::Pane* pane);
+    // 0x71009372e0 (placeholder name): binds the page arrows to `layout`
+    void sub_71009372E0(eui::LayoutEx* layout);
+    // 0x71009372e8 (placeholder name): sets the page count, jumps to item `index` and resets the pane
+    void sub_71009372E8(s32 index, s32 count);
+    // 0x7100937894 (placeholder name): moves the pane towards its rest position shifted by the scroll offset
+    void sub_7100937894();
+
+    /* 0x3c8 */ nn::ui2d::Pane* _3c8 = nullptr;
+    // the pane's rest position (both read from its x in sub_71009372C4)
+    /* 0x3d0 */ f32 _3d0;
+    /* 0x3d4 */ f32 _3d4;
+    /* 0x3d8 */ f32 _3d8 = 0;
+    /* 0x3e0 */ Unk_7102474c48 _3e0;
+};
+static_assert(sizeof(Unk_7102474d30) == 0x410);
 
 template <typename T>
 void ScreenAppPictureBookEntry::createUnits(sead::Heap* heap) {
