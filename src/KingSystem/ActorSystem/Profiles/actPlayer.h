@@ -850,9 +850,8 @@ public:
     /* 0x1e24 */ f32 _1e24;  // Master Sword recover time
     /* 0x1e28 */ u8 _1e28[0x1e60 - 0x1e28];
     /* 0x1e60 */ ksys::Timer _1e60;  // set to PostureContinueTime by sub_7100878044
-    /* 0x1e6c */ f32 _1e6c;  // set to 15 by PlayerAtnMove::enter_
-    /* 0x1e70 */ f32 _1e70;
-    /* 0x1e74 */ u8 _1e74[0x1e78 - 0x1e74];
+    // set to 15 by PlayerAtnMove::enter_, counted down by PlayerAtnMove::calc_
+    /* 0x1e6c */ ksys::Timer _1e6c;
     /* 0x1e78 */ ksys::Timer _1e78;  // m69_x_6: counts down before the push-down
     /* 0x1e84 */ u8 _1e84[0x1e90 - 0x1e84];
     /* 0x1e90 */ f32 _1e90;
