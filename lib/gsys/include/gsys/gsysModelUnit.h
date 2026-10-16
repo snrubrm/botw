@@ -230,6 +230,10 @@ public:
     const sead::Vector3f* get50() const { return &_50->getCenter(); }
     const sead::BoundSphere3f* getBoundSphere() const { return _50; }
 
+    // Inlined by ksys::mii 0x7100f5c964 (strh of 0 / 0xffff to +0xc).
+    void setVisibilityMask(u16 mask) { mVisibilityMask.setDirect(mask); }
+    u16 getVisibilityMask() const { return mVisibilityMask.getDirect(); }
+
     // Inlined by ksys::gfx::ForestRenderer 0x7100f06904 (+0x28).
     ModelUnitDrawArray* getDrawArray() const { return mDrawArray; }
 

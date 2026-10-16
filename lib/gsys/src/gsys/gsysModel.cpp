@@ -3,6 +3,7 @@
 #include "gsys/gsysModelAccessKey.h"
 #include "gsys/gsysModelAnimation.h"
 #include "gsys/gsysModelAutoAnimation.h"
+#include "gsys/gsysModelDebugInfo.h"
 #include "gsys/gsysModelNW.h"
 #include <math/seadMathCalcCommon.h>
 #include "gsys/gsysModelUnit.h"
@@ -28,6 +29,20 @@ void Model::sub_7100BF69F8(Model* model) {
 ModelUnit* Model::sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap) {
     sub_7100BF6EBC(unit, flag, heap);
     return unit;
+}
+
+void Model::sub_7100BF713C() {
+    for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it) {
+        it->mModelUnit->unbindResource();
+        it->mRigObjs.clear();
+    }
+    mNumModels = 0;
+    mUnitAccess.clear();
+    _48.clear();
+    if (!(_a0 & 8))
+        _ac = 0;
+    if (mDebugInfo)
+        mDebugInfo->resetEditModelIndex();
 }
 
 void Model::sub_7100BF9CA8(const sead::SafeString& name) {

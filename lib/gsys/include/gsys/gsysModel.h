@@ -28,6 +28,7 @@ class IModelRigObj;
 struct MaterialAccessKey;
 class ModelAnimation;
 class ModelBone;
+class ModelDebugInfo;
 class Model;
 class ModelResource;
 
@@ -90,6 +91,9 @@ public:
     // Original BF7114 forwards registration and returns the supplied unit.
     ModelUnit* sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap);
     void sub_7100BF9CA8(const sead::SafeString& name);
+    // 0x7100bf713c (placeholder name): unbinds the resources of the used units, empties their rig object lists
+    // and the unit arrays; ForestRenderer::releaseResource calls it before it releases the model resources.
+    void sub_7100BF713C();
     ~Model() override;
 
     sead::PtrArray<ModelInfo>& getUnits() { return mUnitAccess; }
@@ -269,7 +273,9 @@ private:
     u8 _e0[0xf0 - 0xe0];
     /// The scene the model is bound to (bind()).
     ModelScene* mScene;
-    u8 _f8[0x140 - 0xf8];
+    u8 _f8[0x138 - 0xf8];
+    /// May be null (0x7100bf713c resets its edit model index).
+    ModelDebugInfo* mDebugInfo;
     mutable sead::CriticalSection mCS;
     mutable sead::OffsetList<IModelAccesssHandle> mHandleList;
     sead::FixedSafeString<256> mName{"名称未設定"};

@@ -66,6 +66,16 @@ struct MaterialAccessKey {
 
     bool isValid() const { return model_unit_index != -1 && material_index != -1; }
 
+    // ksys::mii 0x7100f5c964 compares packed keys (unit index low, material index high).
+    friend bool operator==(const MaterialAccessKey& lhs, const MaterialAccessKey& rhs) {
+        static_assert(sizeof(MaterialAccessKey) == sizeof(u32));
+        return sead::BitUtil::bitCastPtr<u32>(&lhs) == sead::BitUtil::bitCastPtr<u32>(&rhs);
+    }
+
+    friend bool operator!=(const MaterialAccessKey& lhs, const MaterialAccessKey& rhs) {
+        return !operator==(lhs, rhs);
+    }
+
     s16 model_unit_index{};
     s16 material_index{};
 };
