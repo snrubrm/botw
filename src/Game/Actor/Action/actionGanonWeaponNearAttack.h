@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    // 0x710017e400: starts the weapon attack (weapon index from the event name, else WeaponIdx).
+    void sub_710017E400(ksys::as::ASList::Unk4* query);
+    // 0x710017e550: ends the weapon attack (Unk_71002edaec(1) for the same weapon index).
+    void sub_710017E550(ksys::as::ASList::Unk4* query);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};

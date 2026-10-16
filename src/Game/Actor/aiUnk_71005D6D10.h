@@ -366,6 +366,9 @@ bool sub_71005DD780(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* q
 bool sub_71005DD798(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* query, int a3,
                     int a4);
 bool sub_71005DD7B0(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int a2, int a3);
+/// 0x71005dd7e4 (declared only; lane3 s81): writes a number taken from `name` (an AS event name) to `out`;
+/// GanonWeaponNearAttack parses it with tryParseS32 as a weapon index.
+void sub_71005DD7E4(sead::BufferedSafeString* out, const sead::SafeString& name);
 /// Build an Unk_71002edaec request (_0 = 2 / 1 / 0) and pass it to sub_71005D79AC. `name` and
 /// `flags` may be null; flags is copied to Unk_71002edaec::_14.
 void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
