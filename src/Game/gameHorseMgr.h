@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys::phys {
@@ -142,6 +143,10 @@ public:
     bool isAmiiboUsed(const sead::SafeString& uid_hash);
     // 0x7100e84984 (CSV name; static): copies the Horse_Pos game data flag to Horse_Pos_For_Map.
     static void setHorsePosForMap();
+    // 0x7100e824a0 (CSV name): sets flag _0 to `on`, initialises the game data handles (initHorseGameDataIters,
+    // 0x7100e82500, declaration only) and registers mReinitSlot. `heap` is unused.
+    void initHorseGameDataItersAndStuff(sead::Heap* heap, bool on);
+    void initHorseGameDataIters();
     // 0x7100e88720 (descriptive name): the owned horse (mOwnedHorse) as a HorseBase, or null.
     act::HorseBase* getOwnedHorseBase() const;
     // 0x7100e8883c (name is a guess): the same for the dead horses (no selected index, no lock).
@@ -214,7 +219,11 @@ public:
     /* 0x19c */ ksys::gdt::FlagHandle _19c;  // Horse_Familiarity
     /* 0x1a0 */ ksys::gdt::FlagHandle _1a0;  // Horse_ActiveIndex
     /* 0x1a4 */ ksys::gdt::FlagHandle _1a4;  // Horse_ActorName
-    u8 _1a8[0x228 - 0x1a8];
+    u8 _1a8[0x1b8 - 0x1a8];
+    // Registered with gdt::Manager::addReinitCallback by initHorseGameDataItersAndStuff (the delegate target is
+    // set by the constructor, not decompiled).
+    /* 0x1b8 */ ksys::gdt::Manager::ReinitSignal::Slot mReinitSlot;
+    u8 _1b8_end[0x228 - 0x1b8 - sizeof(ksys::gdt::Manager::ReinitSignal::Slot)];
     /* 0x228 */ sead::BitFlag16 _228;
     u8 _22a[0x230 - 0x22a];
     /* 0x230 */ sead::CriticalSection _230;

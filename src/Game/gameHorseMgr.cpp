@@ -19,6 +19,12 @@ void HorseMgr::setHorsePosForMap() {
         ksys::gdt::Manager::instance()->setVec3f(pos, "Horse_Pos_For_Map");
 }
 
+void HorseMgr::initHorseGameDataItersAndStuff(sead::Heap* heap, bool on) {
+    _228.change(1 << Flag(Flag::_0), on);
+    initHorseGameDataIters();
+    ksys::gdt::Manager::instance()->addReinitCallback(mReinitSlot);
+}
+
 bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
     return actor && _30.hasProcById(actor);
 }
