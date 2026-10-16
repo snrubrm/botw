@@ -533,6 +533,8 @@ f32 Unk_710247aa30::sub_71009B1784() const {
 
 Unk_710247aa30::~Unk_710247aa30() = default;
 
+Unk_710247aa50::Unk_710247aa50(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 // 0x71009b2054
 Unk_710247adc8::Unk_710247adc8() = default;
 
