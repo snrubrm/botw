@@ -840,10 +840,6 @@ bool UiSubsys1::sub_7100968BD8() {
 }  // namespace uking::ui
 
 
-// NON_MATCHING: placeholder destructor; the original (0x71009550f8) also destroys members or bases
-// this class does not declare yet.
-Unk_7102475b50::~Unk_7102475b50() = default;
-
 // NON_MATCHING: placeholder destructor; the original (0x710095606c) also destroys members or bases
 // this class does not declare yet.
 Unk_7102475e68::~Unk_7102475e68() = default;

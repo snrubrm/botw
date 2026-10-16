@@ -352,6 +352,17 @@ class Unk_7102475b50 : public uking::ui::Unk_71024754c0 {
     SEAD_RTTI_OVERRIDE(Unk_7102475b50, uking::ui::Unk_71024754c0)
 public:
     ~Unk_7102475b50() override;
+    void m9() override;
+    void m21() override;
+    void m29(uking::ui::Unk_710095192c* entry) override;
+    void m31() override;
+    void m32() override;
+    // 0x71009552fc (CSV unnamed; not decompiled): called at the end of m29
+    void sub_71009552FC();
+
+    // Same layout and overrides as Unk_7102475920 (defined in uiMapMarker.cpp).
+    sead::SafeString _68;
+    ksys::gdt::FlagHandle _78;
 };
 
 // vtable 0x7102475e68 (29 slots); placeholder generated from the vtable (genskel.py).
