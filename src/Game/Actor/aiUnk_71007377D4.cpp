@@ -26,6 +26,8 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -1143,6 +1145,78 @@ void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor) {
     info->_27 = flag18;
     info->_28 = sub_71006DF0F8(attacker);
     info->_29 = kind9;
+}
+
+// NON_MATCHING: the original keeps the reaction kind in a stack slot (stored by each branch and reloaded for
+// xlinkEventOn, like a SEAD_ENUM value); ours keeps it in a register.
+bool sub_71007357A8(ksys::act::Actor* actor, const DamageReactionInfo* info) {
+    if (sub_71007A2604(actor) && sub_71007A255C(actor, 0)->sub_71007A1F68(0x20))
+        return true;
+
+    auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor);
+    auto* unk = dynamic_actor ? dynamic_actor->m159() : nullptr;
+
+    s32 kind = 0;
+    if (ksys::act::hasTag(actor, 0xfa5c683e)) {
+        kind = 2;
+    } else if (info->_4 == 4 || (unk && unk->_8.isOn(0x10))) {
+        kind = 13;
+    } else if (ksys::act::hasTag(info->_10, 0x5e27ef10) && ksys::act::hasTag(actor, 0x17044493)) {
+        kind = info->_19 ? 9 : 8;
+    } else if (info->_4 == 23) {
+        kind = 6;
+    } else if (info->_20) {
+        kind = 7;
+    } else if (info->_4 == 3 || info->_1f) {
+        kind = 3;
+    } else if (info->_1a) {
+        kind = 4;
+    } else if (info->_19) {
+        kind = 5;
+    } else {
+        switch (info->_4) {
+        case 0: {
+            const s32* life = actor->getLife();
+            if (!life || *life > 0)
+                return true;
+            if (info->_0 == 20)
+                kind = 12;
+            else if (info->_0 == 19)
+                kind = 11;
+            else
+                return true;
+            break;
+        }
+        case 18:
+            kind = 10;
+            break;
+        case 21:
+        case 22:
+            if (!info->_23 || info->_c > 1)
+                kind = 1;
+            else
+                kind = 0;
+            break;
+        case 27:
+        case 30:
+        case 31:
+        case 34:
+            kind = 1;
+            break;
+        default:
+            kind = 0;
+            break;
+        }
+    }
+
+    xlinkEventOn(actor, 22, kind, true);
+    const s32* life = actor->getLife();
+    if (life && *life <= 0) {
+        ksys::eft::searchAndEmitSLink(actor, "DamageDead", false);
+    } else if (u32(info->_4) <= 34 && ((1ull << info->_4) & 0x4c862803eull)) {
+        ksys::eft::searchAndEmitSLink(actor, "Damage", false);
+    }
+    return true;
 }
 
 namespace ksys::act {
