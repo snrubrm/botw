@@ -70,6 +70,18 @@ struct Unk_71010FEDBC {
     // (plus `margin`) is in range of the current level, or -1.
     s32 sub_71010FEDBC(const sead::Vector2f& pos, u32 count, f32 margin) const;
 
+    // Placeholder: what sub_71010FE920 writes for an area.
+    struct Result {
+        sead::Vector2f pos;
+        void* _8;
+        s32 _10;
+        u8 _14;
+        u8 _15;
+        bool _16;
+    };
+    // 0x71010fe920 (declared only; 624 B): fills `result` for area `index` and `pos`.
+    bool sub_71010FE920(Result* result, const sead::Vector2f& pos, s32 index) const;
+
     u8 _0[0x8];
     Area* mAreas;
     u8 _10[0x18 - 0x10];
@@ -77,5 +89,18 @@ struct Unk_71010FEDBC {
     u8 _1c[0x1e - 0x1c];
     s8 _1e;
 };
+
+// Placeholder: the flags 0x7101108ae8 reads (both low bits of _0 must be set; _2 is a level limit).
+struct Unk_7101108AE8Flags {
+    u8 _0;
+    u8 _1;
+    u8 _2;
+};
+
+// 0x7101108ae8 (placeholder name): searches the areas from the highest usable level down for one
+// whose position for `pos` is in [-1, 2); returns 2 (or 1 if its _10 is set) and writes the position
+// and area index, or returns 0.
+u32 sub_7101108AE8(sead::Vector2f* out_pos, s32* out_index, const sead::Vector2f& pos,
+                   const Unk_7101108AE8Flags& flags, const Unk_71010FEDBC& areas, u32 max_level);
 
 }  // namespace ksys::tera
