@@ -269,3 +269,62 @@ ElementDirectionalWindOrGust::~ElementDirectionalWindOrGust() {
         _80 = nullptr;
     }
 }
+
+f32 ElementDirectionalWindOrGust::m22() {
+    const f32 radius = mArg._20;
+    return sead::Mathf::pi() * radius * radius + (radius * 0.75f + mArg._24);
+}
+
+s32 ElementDirectionalWindOrGust::m26() {
+    return (mArg.flags & 0x40 ? 1 : 0) + 1;
+}
+
+// NON_MATCHING: the original loads mArg._24 before the length (kept in s12).
+f32 ElementDirectionalWindOrGust::m13(f32* out, const sead::Vector3f& pos,
+                                      ksys::act::Chemical* chemical) {
+    sead::Vector3f diff = pos - mArg.position;
+    f32 distance = diff.length();
+    if (mArg._24 != 0.0f) {
+        if (distance > 0.0f)
+            diff *= 1.0f / distance;
+        const f32 cos = diff.dot(mArg.direction);
+        distance *= std::sqrt(sead::Mathf::clamp(1.0f - cos * cos, 0.0f, 1.0f));
+    }
+    f32 ratio = distance / mArg._20;
+    ratio *= ratio;
+    if (ratio > 1.0f)
+        ratio = 1.0f;
+    *out = 1.0f - ratio;
+    return mHolder->_30;
+}
+
+// NON_MATCHING: the original copies the direction as 8 + 4 bytes and loads mArg._24 before the length.
+f32 ElementDirectionalWindOrGust::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = mArg.direction;
+    sead::Vector3f diff = pos - mArg.position;
+    f32 distance = diff.length();
+    if (mArg._24 != 0.0f) {
+        if (distance > 0.0f)
+            diff *= 1.0f / distance;
+        const f32 cos = diff.dot(mArg.direction);
+        distance *= std::sqrt(sead::Mathf::clamp(1.0f - cos * cos, 0.0f, 1.0f));
+    }
+    f32 strength = mArg._28;
+    if (mArg._20 <= distance)
+        strength *= 1.0f - sead::Mathf::clamp(distance - mArg._20, 0.0f, 1.0f);
+    return strength;
+}
+
+// NON_MATCHING: regalloc (s10 / s11 and s0 / s1 swapped), as ElementWater::m20.
+f32 ElementDirectionalWindOrGust::m20(ksys::act::Chemical* chemical) {
+    sead::Matrix34f mtx;
+    chemical->sub_7100D9153C(&mtx);
+    sead::Vector3f dir;
+    mtx.getTranslation(dir);
+    dir -= mArg.position;
+    const f32 distance = dir.normalize();
+    const f32 cos = dir.dot(mArg.direction);
+    const f32 sin = std::sqrt(sead::Mathf::clamp(1.0f - cos * cos, 0.0f, 1.0f));
+    const f32 radius = chemical->_34;
+    return sead::Mathf::clamp((radius - (distance * sin - mArg._20)) / (radius + radius), 0.0f, 1.0f);
+}

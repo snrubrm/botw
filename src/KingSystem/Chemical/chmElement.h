@@ -60,8 +60,8 @@ public:
     virtual bool m10() { return true; }
     virtual void m11() {}
     virtual void m12() {}
-    virtual f32 m13(f32* out, void* a2, ksys::act::Chemical* chemical);
-    virtual f32 m14(sead::Vector3f* out);
+    virtual f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical);
+    virtual f32 m14(sead::Vector3f* out, const sead::Vector3f& pos);
     virtual f32 m15(sead::Vector3f* out);
     virtual f32 m16() {
         if (mHolder && mHolder->_80)
@@ -150,8 +150,8 @@ public:
     void m12() override;
     // Declared only (lane1 s90): m13 0x710127c7a4, m14 0x710127c920, m15 0x710127cab4, m19 0x710127cda8,
     // m21 0x710127ceb0 (unnamed helpers 0x7100e40814 / e412d0 / e40b7c / e40d94).
-    f32 m13(f32* out, void* a2, ksys::act::Chemical* chemical) override;
-    f32 m14(sead::Vector3f* out) override;
+    f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
     f32 m15(sead::Vector3f* out) override;
     f32 m16() override;
     f32 m19(ksys::act::Chemical* chemical) override;
