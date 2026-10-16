@@ -45,6 +45,7 @@ class TextWriter;
 }
 
 class Unk_7102500a00;
+class DragonBgmInfo;
 class Unk_71024fefe8;
 class Unk_71024fe808;
 class Unk_71024feae8;
@@ -588,12 +589,13 @@ public:
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override;
 
-    // 0x7101001194 (declared only; 508 B): called at the end of the constructor.
+    // 0x7101001194: called at the end of the constructor; creates the two handles (Unk_71024fd3a0).
     void sub_7101001194(const BgmInitArg& arg);
     // 0x7101001808 (declared only; placeholder name): sets _60 (DragonReleaseGrudgeForDemo::calc_ clears it).
     void sub_7101001808(bool on);
 
-    u64 _10 = 0;
+    // The DragonBgm music info (set by sub_7101001194).
+    DragonBgmInfo* _10 = nullptr;
     // Indexed by DragonBgmInfo::DragonEnum (DragonBgm, GrudgeDragonBgm).
     sead::SafeArray<Unk_SpotBgmHandle*, 2> mHandles{};
     Unk_SpotBgmHandle* _28 = nullptr;

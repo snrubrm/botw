@@ -709,6 +709,24 @@ Unk_710260f2a8::Unk_710260f2a8(const BgmInitArg& arg) : Bgm(arg.kind) {
     sub_7101001194(arg);
 }
 
+namespace {
+const char* sDragonBgmAssetNames[] = {"Dragon", "Dragon"};
+}  // namespace
+
+void Unk_710260f2a8::sub_7101001194(const BgmInitArg& arg) {
+    sead::Heap* heap = arg.heap;
+    for (s32 i = 0; i < DragonBgmInfo::DragonEnum::size(); ++i) {
+        const char* name = DragonBgmInfo::DragonEnum::text(i);
+        const DragonBgmInfo::DragonEnum type = i;
+        auto* handle = new (heap, 8) Unk_71024fd3a0(arg.handle_type);
+        handle->sub_7101022DEC(heap, name, sDragonBgmAssetNames[type]);
+        handle->sub_710101D970();
+        mHandles[type] = handle;
+    }
+    _10 = static_cast<DragonBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::DragonBgm));
+    _28 = mHandles[0];
+}
+
 Unk_710260f2a8::~Unk_710260f2a8() {
     for (auto*& handle : mHandles) {
         if (handle) {
