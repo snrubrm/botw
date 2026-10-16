@@ -2,6 +2,8 @@
 #include "Game/Actor/actHorse.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 
 // Declaration only; the original helper's source owner and namespace are unknown.
@@ -85,6 +87,67 @@ bool Horse::m81(const ksys::Message& message) {
 }  // namespace uking::act
 
 // NON_MATCHING: null and Actor cast results use conditional selection rather than native branches.
+namespace uking::act {
+
+// NON_MATCHING: the original keeps `prev_life != 0` as a flag and schedules the colour / direction
+// loads differently.
+void Horse::m149() {
+    auto* rideable = getHorseOptionsMaybe();
+    if (!rideable)
+        return;
+
+    s32* life = getLife();
+    const s32 prev_life = *life;
+    if (_d20.getDamage() != 0) {
+        const s32 type = _d20.getField54();
+        _d20.getAttackOtherMaterialMask();
+        auto* attacker = _d20.m37();
+        _d20.applyDamage(*life);
+        if (auto* chemical = getChemicalStuff()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            if (ksys::act::acquireActor(attacker, &accessor))
+                accessor.sub_7100D12640(chemical, 3);
+        }
+
+        if (type != -1 && prev_life != 0) {
+            sead::BitFlag8 flags;
+            sub_7100732864(&flags, this);
+            if (!flags.isZero()) {
+                ksys::phys::MaterialMask mask(0x12u);
+                DamageReactionInfo info;
+                sub_7100732B28(&info, this);
+                info._30 = &mask;
+                if (flags.isOnBit(0))
+                    sub_7100733418(this, &info, nullptr);
+                if (flags.isOnBit(1))
+                    sub_71007357A8(this, &info);
+            }
+        }
+    }
+
+    if (prev_life != 0 && _d20.getField54() == 0 && _1198 <= 0.0f)
+        _1198 = sUnk_7101E7C2BC;
+
+    if (_1198 > 0.0f) {
+        sead::Color4u8 color{0, 0, 0, 255};
+        color.setf(sUnk_7101E7C2C0.x, sUnk_7101E7C2C0.y, sUnk_7101E7C2C0.z,
+                   1.0f - sUnk_7101E7C2D0 * (1.0f - _1198 / sUnk_7101E7C2BC));
+        _b94 = color;
+        ksys::Timer::update(&_1198, -1.0f);
+    } else {
+        _b94 = {0, 0, 0, 0};
+    }
+
+    sead::Matrix34f mtx;
+    if (_d20.getAttackSourceMtx(&mtx)) {
+        sead::Vector3f dir = getMtx().getTranslation() - mtx.getTranslation();
+        dir.normalize();
+        rideable->_148 = dir;
+    }
+}
+
+}  // namespace uking::act
+
 bool sub_7100081354(const ksys::act::ActorLinkConstDataAccess& accessor, u16 mask) {
     ksys::act::Actor* actor = nullptr;
     if (auto* proc = accessor.getProc())

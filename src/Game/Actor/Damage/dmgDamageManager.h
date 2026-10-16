@@ -287,3 +287,11 @@ bool sub_71006D28AC(ksys::act::Actor* actor);
 // CSV name at 0x71006d28fc; declaration only, namespace unknown. Original allocates 0x230
 // and calls DamageManager's actual 0x71006d23e0 constructor, returning that object or null.
 uking::act::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap);
+
+namespace uking::act {
+// Read-only constants used through the GOT by Horse::m149 and the Player damage code (Player::m69_x_4,
+// 0x71008846a8, Player::m81 / m76): the damage flash duration (24 frames), its colour and intensity.
+extern const f32 sUnk_7101E7C2BC;
+extern const sead::Vector3f sUnk_7101E7C2C0;
+extern const f32 sUnk_7101E7C2D0;
+}  // namespace uking::act

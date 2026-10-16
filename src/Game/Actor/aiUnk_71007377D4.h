@@ -512,6 +512,9 @@ void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor);
 /// link at 0xc8, flags at 0xd8 / 0xd9; NPC::_10e8) to `result`; without `result` it is passed to
 /// Reaction::__auto6 (0x7100ec10b8), whose result is returned.
 bool sub_7100733418(ksys::act::Actor* actor, const DamageReactionInfo* info, void* result);
+/// 0x71007357a8 (placeholder name; 708 B, declaration only): second reaction step for damage classified with
+/// flag 2 by sub_7100732864 (Horse::m149); returns true.
+bool sub_71007357A8(ksys::act::Actor* actor, const DamageReactionInfo* info);
 
 /// 0x7100738cb0 / 0x7100738d50 (placeholder names): adds the system group handler `idx` (0 / 1) of the actor in
 /// `link` to the actor's physics (InstanceSet::sub_7100FBDFA4); nothing without a linked actor.

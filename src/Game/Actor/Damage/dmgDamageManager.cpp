@@ -24,6 +24,10 @@
 
 namespace uking::act {
 
+const f32 sUnk_7101E7C2BC = 24.0f;
+const sead::Vector3f sUnk_7101E7C2C0{1.0f, 0.15f, 0.1f};
+const f32 sUnk_7101E7C2D0 = 1.0f;
+
 DamageManager::DamageManager(ksys::act::Actor* actor)
     : DamageManagerBase(actor), _84(actor->getMtx()(1, 3)), _d8(actor, 0x800003e), _128(actor, 0x800003f),
       _178(actor, 0x800006e), _1f8(actor, 0x80000b5) {

@@ -57,7 +57,7 @@ public:
     /* 0x1028 */ Unk_710244dd20 _1028{this};
     /* 0x1168 */ Unk3 _1168;  // m135
     /* 0x1170 */ Unk_7102451a50 _1170{};
-    /* 0x1198 */ u32 _1198 = 0;
+    /* 0x1198 */ f32 _1198 = 0;  // damage flash timer (m149)
     /* 0x11a0 */ void* _11a0 = nullptr;
     // Placeholder (bits of _11a8; callers convert through the stack like a SEAD_ENUM).
     SEAD_ENUM(Flag, _0, _1, _2, _3)

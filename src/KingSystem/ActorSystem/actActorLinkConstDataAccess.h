@@ -330,6 +330,9 @@ public:
     // 0x7100d150e8 (declared only; lane3 s22; 176 B): acts on the accessed actor for `owner`.
     void sub_7100D150E8(Actor* owner);
     // Full D12758 and independent 73278C consumer: transfer chemistry to the indexed part.
+    // 0x7100d12640 (placeholder name; declaration only): for each chemical shape of the linked actor (a
+    // Chemical-derived actor), forwards `chemical` and `a` to the world chemical manager; returns false.
+    bool sub_7100D12640(Chemical* chemical, int a) const;
     bool sub_7100D12758(Chemical* chemical, int flags, int index) const;
     bool sub_7100D12F08(int idx) const;
     bool sub_7100D13290(int idx) const;
