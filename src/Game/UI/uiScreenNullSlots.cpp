@@ -164,6 +164,5 @@ void ScreenAppMenuBtn::m98() {}
 
 }  // namespace uking::ui
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a02f40) also destroys members or bases
-// this class does not declare yet.
+// 0x7100a02f40
 Unk_71024855a8::~Unk_71024855a8() = default;

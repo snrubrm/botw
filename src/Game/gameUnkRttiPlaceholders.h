@@ -13,6 +13,7 @@
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/gameStageBinder.h"
 #include "Game/gameUnkRttiClasses.h"
@@ -72,6 +73,10 @@ class Unk_710247faf0 : public uking::ui::Unk_7102474e38 {
 public:
     ~Unk_710247faf0() override;
     void m5() override {}
+    void m7() override;
+    void m14() override;
+
+    /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
 };
 
 // vtable 0x710247fbc0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -80,6 +85,9 @@ class Unk_710247fbc0 : public uking::ui::Unk_7102474e38 {
 public:
     ~Unk_710247fbc0() override;
     void m5() override {}
+    void m7() override;
+
+    /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
 };
 
 // vtable 0x71024826c0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -88,6 +96,10 @@ class Unk_71024826c0 : public uking::ui::Unk_7102474e38 {
 public:
     ~Unk_71024826c0() override;
     void m5() override {}
+    void m8() override;
+    void m14() override;
+
+    /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
 };
 
 // vtable 0x7102482790 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -95,6 +107,8 @@ class Unk_7102482790 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_7102482790, uking::ui::Unk_7102474e38)
 public:
     ~Unk_7102482790() override;
+
+    /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
 };
 
 // vtable 0x71024855a8 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -102,6 +116,8 @@ class Unk_71024855a8 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_71024855a8, uking::ui::Unk_7102474e38)
 public:
     ~Unk_71024855a8() override;
+
+    /* 0x48 */ uking::ui::Unk_7102509148 _48;
 };
 
 // vtable 0x71024975d0 (23 slots); placeholder generated from the vtable (genskel.py).

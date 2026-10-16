@@ -579,10 +579,18 @@ ScreenChild* sub_71009DE4F0(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
 
 }  // namespace uking::ui
 
-// NON_MATCHING: placeholder destructor; the original (0x71009f345c) also destroys members or bases
-// this class does not declare yet.
+// 0x71009f345c
 Unk_71024826c0::~Unk_71024826c0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71009f47f8) also destroys members or bases
-// this class does not declare yet.
+// 0x71009f3b20
+void Unk_71024826c0::m8() {
+    _48.sub_71009CC3A0();
+}
+
+// 0x71009f43e0
+void Unk_71024826c0::m14() {
+    _48.sub_71009CC3A0();
+}
+
+// 0x71009f47f8
 Unk_7102482790::~Unk_7102482790() = default;

@@ -2901,13 +2901,26 @@ Unk_710248ea90::~Unk_710248ea90() = default;
 
 }  // namespace uking::ui
 
-// NON_MATCHING: placeholder destructor; the original (0x71009d1d08) also destroys members or bases
-// this class does not declare yet.
+// 0x71009d1d08
 Unk_710247faf0::~Unk_710247faf0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71009d29a0) also destroys members or bases
-// this class does not declare yet.
+// 0x71009d23c8
+void Unk_710247faf0::m7() {
+    m13();
+}
+
+// 0x71009d276c
+void Unk_710247faf0::m14() {
+    _48.sub_71009CC3A0();
+}
+
+// 0x71009d29a0
 Unk_710247fbc0::~Unk_710247fbc0() = default;
+
+// 0x71009d2b10
+void Unk_710247fbc0::m7() {
+    m13();
+}
 
 // 0x7100a4d220
 Unk_71024975d0::~Unk_71024975d0() = default;
