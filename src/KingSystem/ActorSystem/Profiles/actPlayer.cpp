@@ -33,6 +33,9 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
@@ -870,6 +873,72 @@ bool Player::m227() {
     if (link.hasProc())
         acquireActor(&link, &accessor);
     return sub_71002EF884(accessor) == "Katana";
+}
+
+bool Player::sub_71008736E4() {
+    ActorLinkConstDataAccess accessor;
+    const s32 slot = playerWeapons_return0();
+    auto& link = getWeapons()->mWeapons[slot].link;
+    if (link.hasProc())
+        acquireActor(&link, &accessor);
+    return sub_71002EF884(accessor) == "Fan";
+}
+
+void Player::sub_710089290C() {
+    if (_d24 != 1 || m227() || sub_71008736E4()) {
+        if (mASList->x_1(0, 0) == "CutChargeWait")
+            return;
+        mASList->sub_710115EECC(43, _1f8c, 0);
+        switchToAnimSequenceMaybe("CutChargeWait", true, -1.0f);
+    } else {
+        if (mASList->x_1(0, 0) == "CutChargeLswordSpin")
+            return;
+        switchToAnimSequenceMaybe("CutChargeLswordSpin", true, -1.0f);
+    }
+}
+
+void Player::sub_7100892A98() {
+    if (mASList->x_1(0, 0) != "CutChargeMove")
+        switchToAnimSequenceMaybe("CutChargeMove", true, -1.0f);
+    if (mASList->x_1(0, 1) != "MoveAttention")
+        sub_7100855BB4("CutChargeMoveLower", false, -1.0f);
+}
+
+// Placeholder name (CSV Player::m71_x): resizes the Tgt cylinder by _cec bit 2 and moves the AreaCheck sensor to
+// _1770.
+void Player::sub_71008655AC() {
+    if (_cec.isOnBit(2))
+        sub_7100873094();
+    else
+        sub_710087317C();
+    if (auto* physics = mPhysics) {
+        if (auto* set = physics->findBodyByName("AreaCheck")) {
+            if (auto* body = set->findBodyByHavokName("SensorForArea"))
+                body->changePosition(_1770, phys::KeepAngularVelocity{false});
+        }
+    }
+}
+
+// Placeholder name: sets _c40 bit 25 and shortens the Tgt cylinder body (height 1.2).
+void Player::sub_7100873094() {
+    if (_c40.isOnBit(25))
+        return;
+    _c40.setBit(25);
+    if (auto* set = mPhysics->findBodyByName(*sub_71007A24D0())) {
+        if (auto* body = sead::DynamicCast<phys::CylinderRigidBody>(set->getRigidBody(0)))
+            body->setVertices(sead::Vector3f::zero, {0.0f, 1.2f, 0.0f});
+    }
+}
+
+// Placeholder name: clears _c40 bit 25 and restores the Tgt cylinder body (height 1.6).
+void Player::sub_710087317C() {
+    if (_c40.isOffBit(25))
+        return;
+    _c40.resetBit(25);
+    if (auto* set = mPhysics->findBodyByName(*sub_71007A24D0())) {
+        if (auto* body = sead::DynamicCast<phys::CylinderRigidBody>(set->getRigidBody(0)))
+            body->setVertices(sead::Vector3f::zero, {0.0f, 1.6f, 0.0f});
+    }
 }
 
 void Player::nullsub_2601() {}

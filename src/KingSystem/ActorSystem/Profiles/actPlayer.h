@@ -510,6 +510,10 @@ public:
     void sub_71008928CC();
     void sub_710089290C();
     void sub_7100892A98();
+    // 0x7100873094 / 0x710087317c (called by m71_x): set / clear _c40 bit 25 and resize the Tgt cylinder body.
+    void sub_7100873094();
+    void sub_710087317C();
+    void sub_71008655AC();
     // 0x7100892f1c (lane4 s48; placeholder name): 0 while `_d24` is set or if |_1f98| < 0xf8000001, else 1 / 2 by the sign of
     // `_1f98`.
     s32 sub_7100892F1C();
