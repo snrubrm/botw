@@ -1,11 +1,30 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndSound.h"
+#include <xlink2/xlink2HandleSLink.h>
+#include <xlink2/xlink2EventSLink.h>
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::snd {
+
+// The TU's static initialiser is 0x71012c1f6c.
+namespace {
+util::InitConstants sInitConstants;
+util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 // TU around 0x71012c167c in the original (far from the other sub-managers).
 
 Unk_SoundMgr38_60::~Unk_SoundMgr38_60() = default;
+
+Unk_SoundMgr38_60::Entry::~Entry() = default;
+
+void Unk_SoundMgr38_60::Entry::m4(xlink2::UserInstanceSLink* user_instance) {}
+
+void Unk_SoundMgr38_60::Entry::m5(xlink2::UserInstanceSLink* user_instance,
+                                  xlink2::HandleSLink* handle) {
+    if (handle)
+        handle->setPosition(mPos);
+}
 
 void Unk_SoundMgr38_60::sub_71012C167C() {
     for (auto& entry : mEntries) {

@@ -1060,6 +1060,13 @@ class Unk_SoundMgr38_60 {
 public:
     // A named sound reference with a position (0xb8 bytes; six of them from +8).
     struct Entry : Unk_7102502430 {
+        // 0x71012c1ef0 / 0x71012c1ef4
+        ~Entry() override;
+        // 0x71012c1f18 (empty)
+        void m4(xlink2::UserInstanceSLink* user_instance) override;
+        // 0x71012c1f1c: moves the emitted event to mPos.
+        void m5(xlink2::UserInstanceSLink* user_instance, xlink2::HandleSLink* handle) override;
+
         /* 0xa0 */ sead::Vector3f mPos;
         /* 0xac */ s32 mId;
         /* 0xb0 */ s32 _b0;
