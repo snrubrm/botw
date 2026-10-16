@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiRailMoveRemains.h"
+#include <cmath>
 #include "Game/Actor/actRemains.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -51,6 +52,41 @@ void RailMoveRemains::enter_(ksys::act::ai::InlineParamPack* params) {
         m35();
     else
         m37();
+}
+
+// NON_MATCHING: branch layout of the inlined Rail progress helpers (the original branches where ours selects).
+bool RailMoveRemains::sub_7100535684(ksys::map::Rail* rail, sead::Vector3f* position,
+                                     sead::Vector3f* direction, f32 progress) {
+    if (!rail || rail->getNumPoints() < 2)
+        return false;
+
+    progress = rail->normalizeProgressMaybe(progress);
+    rail->calcTranslate(position, progress);
+
+    const f32 next = progress + 0.1f;
+    sead::Vector3f dir;
+    if (rail->isClosed() || rail->isProgressInRangeMaybe(next)) {
+        dir = rail->calcTranslate(rail->normalizeProgressMaybe(next)) - *position;
+        dir.normalize();
+    } else {
+        const f32 prev = progress - 0.1f;
+        if (rail->isProgressInRangeMaybe(prev)) {
+            dir = *position - rail->calcTranslate(prev);
+            dir.normalize();
+        } else {
+            const sead::Vector3f start = rail->calcTranslate(0.0f);
+            dir = rail->calcTranslate(f32(rail->getNumPoints() - 1)) - start;
+            dir.normalize();
+        }
+    }
+    *direction = dir;
+
+    if (std::isnan(dir.x) || std::isnan(dir.y) || std::isnan(dir.z) ||
+        (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f)) {
+        mActor->getMtx().getBase(*direction, 2);
+        return false;
+    }
+    return true;
 }
 
 void RailMoveRemains::calc_() {

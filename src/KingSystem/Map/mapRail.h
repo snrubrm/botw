@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/Map/mapMubinIter.h"
 
@@ -64,6 +65,43 @@ public:
                              float progress) const;
     bool isClosed() const;
     bool isBezier() const;
+
+    // inline-only in the original; name is a guess. RailMoveRemains::sub_7100535684 repeats it twice (and
+    // RailMoveRemains::enter_ keeps the isClosed / getNumPoints calls of a third, unused copy): a
+    // progress wrapped into [0, numPoints - epsilon) on a closed rail, clamped to [0, numPoints - 1] on an
+    // open one.
+    f32 normalizeProgressMaybe(f32 progress) const {
+        if (getNumPoints() < 1)
+            return 0.0f;
+        const bool closed = isClosed();
+        const s32 num_points = getNumPoints();
+        if (closed) {
+            const f32 max = sead::Mathf::clampMin(f32(num_points) - sead::Mathf::epsilon(), 0.0f);
+            if (progress < 0.0f) {
+                do
+                    progress += max;
+                while (progress < 0.0f);
+            } else {
+                while (progress > max)
+                    progress -= max;
+            }
+        } else if (progress < 0.0f) {
+            progress = 0.0f;
+        } else {
+            const f32 max = sead::Mathf::clampMin(f32(num_points) - 1.0f, 0.0f);
+            if (progress > max)
+                progress = max;
+        }
+        return progress;
+    }
+
+    // inline-only in the original; name is a guess. RailMoveRemains::sub_7100535684 repeats it twice.
+    bool isProgressInRangeMaybe(f32 progress) const {
+        const bool closed = isClosed();
+        const s32 num_points = getNumPoints();
+        const f32 max = closed ? f32(num_points) - sead::Mathf::epsilon() : f32(num_points - 1);
+        return progress >= 0.0f && progress <= sead::Mathf::clampMin(max, 0.0f);
+    }
     const u32& getHashId() const;
     const char* getUniqueName() const;
 
