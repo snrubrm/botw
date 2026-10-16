@@ -1554,40 +1554,6 @@ public:
     virtual void m13();
 };
 
-// vtable 0x710251f5c8 (39 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710251f5c8 : public Unk_7102518688 {
-    SEAD_RTTI_OVERRIDE(Unk_710251f5c8, Unk_7102518688)
-public:
-    ~Unk_710251f5c8() override;
-    bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
-    void m33(bool a, bool fixed) override;
-    void m34() override;
-    void m35(f32 delta_frame) override {}
-    void m36() override {}
-    bool m37() override { return true; }
-    void m38() override {}
-};
-
-// vtable 0x710251f710 (39 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710251f710 : public Unk_7102518688 {
-    SEAD_RTTI_OVERRIDE(Unk_710251f710, Unk_7102518688)
-public:
-    ~Unk_710251f710() override;
-    bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
-    void m33(bool a, bool fixed) override;
-    void m34() override;
-    void m35(f32 delta_frame) override {}
-    void m36() override {}
-    bool m37() override { return true; }
-    void m38() override {}
-};
-
 // vtable 0x710251f878 (85 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710251f878 : public Unk_71024f4720 {
     SEAD_RTTI_OVERRIDE(Unk_710251f878, Unk_71024f4720)

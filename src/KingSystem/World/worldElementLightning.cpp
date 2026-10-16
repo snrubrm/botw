@@ -1,3 +1,4 @@
+#include "KingSystem/World/worldElementLightning.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/World/worldChemicalMgr.h"
@@ -55,6 +56,26 @@ ElementLightningFire* sub_71012FDF24(const ElementLightningCreateArg* arg) {
 
 }  // namespace ksys::world
 
-Unk_710251f5c8::~Unk_710251f5c8() = default;
+ElementLightningShockwave::~ElementLightningShockwave() {
+    if (mRigidBody2) {
+        delete mRigidBody2;
+        mRigidBody2 = nullptr;
+    }
+}
 
-Unk_710251f710::~Unk_710251f710() = default;
+void ElementLightningShockwave::m33(bool a, bool fixed) {
+    if (mRigidBody2)
+        mRigidBody2->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
+
+ElementLightningFire::~ElementLightningFire() {
+    if (mRigidBody2) {
+        delete mRigidBody2;
+        mRigidBody2 = nullptr;
+    }
+}
+
+void ElementLightningFire::m33(bool a, bool fixed) {
+    if (mRigidBody2)
+        mRigidBody2->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
