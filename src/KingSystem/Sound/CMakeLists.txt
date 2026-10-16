@@ -7,6 +7,8 @@ target_sources(uking PRIVATE
   sndBgmEntry.cpp
   sndNamedBgmList.cpp
   sndBgmList.cpp
+  sndGanonBgm.cpp
+  sndGanonGrudgeBattleBgm.cpp
   sndPriestBossBgm.cpp
   sndGuardianFixedBgm.cpp
   sndHorseBgm.cpp

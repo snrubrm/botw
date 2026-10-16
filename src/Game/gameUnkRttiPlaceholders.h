@@ -2793,32 +2793,51 @@ KSYS_CHECK_SIZE_NX150(Unk_71024fec18, 0x1b8);
 class Unk_71024fed48 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fed48, ksys::snd::Unk_71025ce380)
 public:
+    // 0x7101010a68: the Ganon BGM ("GanonBgm").
+    explicit Unk_71024fed48(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fed48() override;
     bool m10() override;
     // 0x7101010af0: restarts the BGM after a stop (state 3 -> 1, 4 -> 2).
     void m12(f32 fade_sec) override;
     // 0x7101010e74: stops the BGM (state 1 -> 3, 2 -> 4, else 0).
     void m13(f32 fade_sec) override;
+    // 0x7101010e70
+    void m5() override {}
+    // 0x7101010ba8 (copy for the handle base 0x7101010bf8): plays "former" (state 1) or "latter" (state 2).
+    void hm14() override;
+    // 0x7101010eb8 (copy for the handle base 0x7101011060)
+    void hm15() override {}
 
-    /* 0x190 */ u32 mState;
+    /* 0x190 */ u32 mState = 0;
+    /* 0x198 */ ksys::snd::Unk_710260f248Entry* mEntry;
 };
 
 // vtable 0x71024fee78 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024fee78 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fee78, ksys::snd::Unk_71025ce380)
 public:
+    // 0x7101011274: the Ganon grudge battle BGM ("GanonGrudgeBattleBgm").
+    explicit Unk_71024fee78(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fee78() override;
     // 0x710101157c: stores the first dword of `arg` at +0x1d0 (called by Unk_710260f1f8::m8 on its kind 26 BGM).
     void sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
     bool m10() override;
     bool m11() override;
     void m13(f32 fade_sec) override;
+    // 0x7101011480 (copy for the handle base 0x71010114e4): plays the main part and fades it in.
+    void hm14() override;
+    // 0x7101011544 (copy for the handle base 0x7101011548)
+    void hm15() override {}
 
     /* 0x190 */ ksys::snd::GanonGrudgeBattleBgmInfo* mInfo;
-    /* 0x198 */ s32 mState;
-    u8 _19c[0x1d4 - 0x19c];
-    // Bit 1 is set by uking::behavior::BgmCtrlBehavior::enter.
-    /* 0x1d4 */ u8 _1d4;
+    /* 0x198 */ s32 mState = 0;
+    /* 0x1a0 */ aal::TimedFader _1a0{1.0, aal::FadeCurveType(0), 1.0};
+    /* 0x1c8 */ ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
+    // Set by sub_710101157C.
+    /* 0x1d0 */ u32 _1d0 = 0;
+    // Bit 1: set by uking::behavior::BgmCtrlBehavior::enter; the constructor sets it from
+    // Unk_710246be38::m5 (SoundMgr::_c8).
+    /* 0x1d4 */ u8 _1d4 = 0;
 };
 
 // vtable 0x71024fefe8 (17 slots); placeholder generated from the vtable (genskel.py).

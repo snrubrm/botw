@@ -192,45 +192,6 @@ void Unk_71024fe368::hm16(s32 arg) {
     mSubHandle->sub_7101020C08(0.0f);
 }
 
-// Unk_71024fed48 (TU ..0x7101011210) and Unk_71024fee78 (TU ..0x7101011b2c) are separate TUs in the original.
-Unk_71024fed48::~Unk_71024fed48() = default;
-
-bool Unk_71024fed48::m10() {
-    return mState != 0;
-}
-
-void Unk_71024fed48::m12(f32 fade_sec) {
-    if (mState == 4)
-        mState = 2;
-    else if (mState == 3)
-        mState = 1;
-    else
-        return;
-    sub_710101D9D8();
-}
-
-void Unk_71024fed48::m13(f32 fade_sec) {
-    sub_710101D9F4(fade_sec);
-    mState = mState == 1 ? 3 : mState == 2 ? 4 : 0;
-}
-
-Unk_71024fee78::~Unk_71024fee78() = default;
-
-bool Unk_71024fee78::m10() {
-    if (_124 != 3 && _124 != 4)
-        return false;
-    return _160[1] >= mInfo->mFeelPlayingSec.ref();
-}
-
-bool Unk_71024fee78::m11() {
-    return mState == 2;
-}
-
-void Unk_71024fee78::m13(f32 fade_sec) {
-    sub_710101D9F4(fade_sec);
-    mState = 0;
-}
-
 // The field battle BGM nodes (vtables 0x71024fe4d8..0x71024fe748; constructed only inline in
 // Unk_71024fe368::sub_71010099F0). Their destructors share the empty 0x71010069cc with the environment nodes.
 namespace ksys::snd {
