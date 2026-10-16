@@ -525,6 +525,69 @@ void EnvPaletteReactiveBgmInfo::init(sead::Heap* heap) {
     applySoundResource();
 }
 
+// NON_MATCHING: the original merges the identical tails of the three 0x238-byte infos (Temperature, Dragon, EnvPaletteReactive)
+// and orders the cases differently; same calls and sizes.
+MusicInfo* Unk_SoundMgr30_18::createInfo(sead::Heap* heap, MusicInfoType type) {
+    switch (type) {
+    case MusicInfoType::EnvBgm:
+        return new (heap, 8) EnvBgmInfo;
+    case MusicInfoType::HorseBgm:
+        return new (heap, 8) HorseBgmInfo;
+    case MusicInfoType::TemperatureBgm:
+        return new (heap, 8) TemperatureBgmInfo;
+    case MusicInfoType::SpotBgm:
+        return new (heap, 8) SpotBgmInfo;
+    case MusicInfoType::MazeForestBgm:
+        return new (heap, 8) MazeForestBgmInfo;
+    case MusicInfoType::CastleBgm:
+        return new (heap, 8) CastleBgmInfo;
+    case MusicInfoType::BigMazeBgm:
+        return new (heap, 8) BigMazeBgmInfo;
+    case MusicInfoType::AnimalMasterBgm:
+        return new (heap, 8) AnimalMasterBgmInfo;
+    case MusicInfoType::FieldBattleBgm:
+        return new (heap, 8) FieldBattleBgmInfo;
+    case MusicInfoType::GolemBgm:
+        return new (heap, 8) GolemBgmInfo;
+    case MusicInfoType::GiantBgm:
+        return new (heap, 8) GiantBgmInfo;
+    case MusicInfoType::SandwormBgm:
+        return new (heap, 8) SandwormBgmInfo;
+    case MusicInfoType::AssassinSeniorBgm:
+        return new (heap, 8) AssassinSeniorBgmInfo;
+    case MusicInfoType::GuardianBgm:
+        return new (heap, 8) GuardianBgmInfo;
+    case MusicInfoType::GuardianFixedBgm:
+        return new (heap, 8) GuardianFixedBgmInfo;
+    case MusicInfoType::DragonBgm:
+        return new (heap, 8) DragonBgmInfo;
+    case MusicInfoType::GanonGrudgeBattleBgm:
+        return new (heap, 8) GanonGrudgeBattleBgmInfo;
+    case MusicInfoType::EventBgmRemainsElecBattle:
+        return new (heap, 8) EventBgmRemainsElecBattleInfo;
+    case MusicInfoType::EventBgmRemainsFireBattle:
+        return new (heap, 8) EventBgmRemainsFireBattleInfo;
+    case MusicInfoType::DungeonNormalBgm:
+        return new (heap, 8) DungeonNormalBgmInfo;
+    case MusicInfoType::DungeonRewardBgm:
+        return new (heap, 8) DungeonRewardBgmInfo;
+    case MusicInfoType::DungeonBattleBgm:
+        return new (heap, 8) DungeonBattleBgmInfo;
+    case MusicInfoType::RemainsNormalBgm:
+        return new (heap, 8) RemainsNormalBgmInfo;
+    case MusicInfoType::TutorialDungeonBattleBgm:
+        return new (heap, 8) TutorialDungeonBattleBgmInfo;
+    case MusicInfoType::GanonBeastBgm:
+        return new (heap, 8) GanonBeastBgmInfo;
+    case MusicInfoType::FinalTrialBossBattleBgm:
+        return new (heap, 8) FinalTrialBossBattleBgmInfo;
+    case MusicInfoType::EnvPaletteReactiveBgm:
+        return new (heap, 8) EnvPaletteReactiveBgmInfo;
+    default:
+        return nullptr;
+    }
+}
+
 // NON_MATCHING: the original does not set x0 for the createInfo call (x1 = heap, w2 = type), so the factory
 // 0x710101b84c probably is not a member taking `this`; its real form is unknown.
 void Unk_SoundMgr30_18::init(sead::Heap* heap) {

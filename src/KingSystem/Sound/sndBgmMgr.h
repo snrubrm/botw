@@ -1141,7 +1141,7 @@ struct Unk_SoundMgr30_18 {
     virtual ~Unk_SoundMgr30_18();
     // 0x710101b79c: creates and initializes the 27 music infos.
     void init(sead::Heap* heap);
-    // 0x710101b84c (declared only; 1372 B): creates the music info object of `type`.
+    // 0x710101b84c: creates the music info object of `type` (the original call does not set x0).
     MusicInfo* createInfo(sead::Heap* heap, MusicInfoType type);
 
     sead::SafeArray<MusicInfo*, 27> mInfos{};
