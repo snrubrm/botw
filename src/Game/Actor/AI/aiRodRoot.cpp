@@ -10,6 +10,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
 
@@ -134,6 +137,84 @@ void RodRoot::sub_71005531E8() {
     }
     if (as_list->x_7(0, 1, &ksys::as::ASList::Unk2::sub_710002E82C))
         as_list->sub_710115F1D8(0, 1, value);
+}
+
+// 0x71005535f8
+// NON_MATCHING: stack slots / scheduling of the position and key setup.
+void RodRoot::sub_71005535F8() {
+    _118._8.deleteProc();
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    auto* rod = weapon->getParam()->getRes().mGParamList->getRod();
+    if (!rod || rod->mMagicName.ref().isEmpty())
+        return;
+
+    s32 scale_time;
+    f32 scale;
+    f32 range;
+    const char* body_name;
+    if (weapon->m142()) {
+        scale_time = rod->mScaleTimeByEnemy.ref();
+        scale = rod->mMagicRadiusByEnemy.ref();
+        range = rod->mMagicRangeByEnemy.ref();
+        body_name = "AtkEnemyBody";
+    } else {
+        scale_time = rod->mScaleTime.ref();
+        scale = rod->mMagicRadius.ref();
+        range = rod->mMagicRange.ref();
+        body_name = "AtkPlayerBody";
+    }
+    const s32 power = rod->mMagicPower.ref();
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(mActor->getMtx().getTranslation());
+    pack->add(power, "AttackPower");
+    pack->add(static_cast<f32>(scale_time), "ScaleTime");
+    pack->add(range, "Range");
+    ksys::act::ActorCreator::addScale(pack, scale);
+    pack->add(sead::SafeString(body_name), "RigidBodyName");
+    u32 flags;
+    if ((weapon->_af8._0 | 1) == 7)
+        flags = weapon->_af8._4;
+    else if (weapon->_d08)
+        flags = weapon->_cf4;
+    else
+        flags = weapon->_c20._4;
+    pack->add(bool(flags >> 30 & 1), "AttackAttrEventKill");
+    pack->addResourceLane(2);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        rod->mMagicName.ref().cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_118._8,
+        &pack, nullptr, 2);
+}
+
+// 0x7100553e5c
+// NON_MATCHING: stack slots / scheduling of the position and key setup; the index test is scheduled earlier.
+void RodRoot::sub_7100553E5C(s32 idx) {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    auto* rod = weapon->getParam()->getRes().mGParamList->getRod();
+    if (!rod || idx >= 8 || rod->mMagicName.ref().isEmpty())
+        return;
+
+    const f32 scale = rod->mMagicRadius.ref();
+    const s32 scale_time = rod->mScaleTime.ref();
+    const f32 range = rod->mMagicRange.ref();
+    const s32 power = rod->mMagicPower.ref();
+    auto& handle = _118._18[idx];
+    handle.deleteProc();
+    ksys::act::InstParamPack pack;
+    pack->addPosition(mActor->getMtx().getTranslation());
+    pack->add(power, "AttackPower");
+    pack->add(static_cast<f32>(scale_time), "ScaleTime");
+    pack->add(range, "Range");
+    ksys::act::ActorCreator::addScale(pack, scale);
+    pack->add(sead::SafeString("AtkPlayerBody"), "RigidBodyName");
+    pack->addResourceLane(2);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        rod->mMagicName.ref().cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &handle,
+        &pack, nullptr, 2);
 }
 
 // 0x71005539c0
