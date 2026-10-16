@@ -1,13 +1,19 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadBitFlag.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverRxOnly.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace gsys {
+class ModelScene;
+}
 
 namespace ksys::act {
 class Actor;
@@ -41,7 +47,7 @@ public:
     ksys::act::PlayerArmors* getArmors() const { return mArmors; }
     void sub_7100906F08(ksys::act::Actor* actor);
     bool sub_710090AB4C() const;
-    // 0x710090aa30 (placeholder name; not decompiled): releases the ready weapon proc of slot `idx` (handles at
+    // 0x710090aa30 (placeholder name): releases the ready weapon proc of slot `idx` (handles at
     // 0x60, 0x10 apart) and returns it as a Weapon (PauseMenuPlayer::sub_71006EA160)
     uking::act::Weapon* sub_710090AA30(s32 idx);
     // 0x710090941c (CSV OnUiActorMgr::__auto1; declaration only, placeholder name): called in the wait loop of
@@ -61,9 +67,11 @@ private:
     /* 0x38 */ ksys::act::BaseProcLink mActorLink;
     /* 0x48 */ ksys::act::Actor* mActor;
     /* 0x50 */ ksys::act::BaseProcLink _50;
-    u8 _60[0x90 - 0x60];
+    // the weapons being created for the pause menu player (sub_710090AA30 hands them over)
+    /* 0x60 */ sead::SafeArray<ksys::act::BaseProcHandle, 3> _60;
     /* 0x90 */ ksys::act::PlayerArmors* mArmors;
-    u8 _98[0xb0 - 0x98];
+    /* 0x98 */ gsys::ModelScene* _98;  // the scene the handed-over weapons' models are bound to
+    u8 _a0[0xb0 - 0xa0];
     /* 0xb0 */ sead::FixedSafeString<64> _b0;
     u8 _108[0x1f4 - 0x108];
     /* 0x1f4 */ sead::BitFlag8 _1f4;
