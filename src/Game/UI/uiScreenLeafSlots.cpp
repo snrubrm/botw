@@ -157,6 +157,18 @@ void ScreenAppCamera::m99() {
     ksys::gdt::setFlag_IsOpenAppCamera(true, false);
 }
 
+// 0x71009db888
+void ScreenAppCamera::m101() {
+    if (_3b70.isValid()) {
+        _3b70.deleteGPUMemBlock();
+        _3b70.invalidate();
+    }
+    delete[] _4020;
+    delete[] _4030;
+    _4020 = nullptr;
+    _4030 = nullptr;
+}
+
 // 0x71009d9a28
 void ScreenAppCamera::m163() {
     if (_3610 && _3610->_104)

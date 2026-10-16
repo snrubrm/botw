@@ -3806,8 +3806,16 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
 
     /* 0x3610 */ ScreenAppCameraUnk3610* _3610;
+    u8 _pad_3618[0x3b70 - 0x3618];
+    /* 0x3b70 */ agl::GPUMemVoidAddr _3b70;  // the photo image memory (freed by m101)
+    u8 _pad_3b88[0x4020 - 0x3b88];
+    /* 0x4020 */ u8* _4020;
+    u8 _pad_4028[0x4030 - 0x4028];
+    /* 0x4030 */ u8* _4030;
 
     void m99() override;
+    // 0x71009db888: frees the photo image memory and the two work buffers
+    void m101() override;
 
     // state callbacks (slots 154-166, trivial ones defined in uiScreenLeafSlots.cpp)
     virtual void m154();
