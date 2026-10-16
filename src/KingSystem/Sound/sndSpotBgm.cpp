@@ -146,6 +146,30 @@ Unk_7102500a00::~Unk_7102500a00() {
     }
 }
 
+// 0x7102610328 / 0x7102500b48 (placeholder names): a debug switch nothing writes and the part count it forces.
+KSYS_VISIBILITY_HIDDEN bool sUnk_7102610328;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_7102500B48 = -1;
+
+// NON_MATCHING: the clamp of diff - 1 (subs + csel in the original) and the frame setup differ.
+void Unk_7102500a00::m12(f32 fade_sec) {
+    if (_20c & 3)
+        return;
+    const s32& count = sUnk_7102610328 ? sUnk_7102500B48 : _198;
+    const s32 diff = _19c - count;
+    if (diff == 0) {
+        _1a0 = 0;
+        _1a4 = -1;
+    } else if (count >= 1) {
+        _1a0 = 1;
+        _1a4 = diff - 1 < 0 ? 0 : diff - 1;
+    } else {
+        _1a0 = 2;
+        _1a4 = -1;
+    }
+    sub_710101D9D8();
+    sub_710101D9D8();
+}
+
 namespace {
 // 0x7102500b30: the part names for _1a0 != 1 (_1a0 == 1 plays mPartNames[_1a4]).
 const char* const sUnk_7102500B30[] = {"A", "B", "Z"};
