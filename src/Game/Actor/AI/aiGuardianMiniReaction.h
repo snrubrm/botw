@@ -58,9 +58,8 @@ protected:
     const bool* mIsChangeWeapon_s{};
     // aitree_variable at offset 0xf0
     int* mGuardianMiniChanceTimeState_a{};
-    bool _f8;
-    bool _f9;
-    bool _fa;
+    // Per weapon slot counter compared with JustGuardNumForBreak.
+    u8 _f8[3];
     s32 _fc = 0;
     ksys::act::BaseProcLink _100;
 };

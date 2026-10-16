@@ -24,9 +24,9 @@ GuardianMiniReaction::GuardianMiniReaction(const InitArg& arg) : EnemyDefaultRea
 GuardianMiniReaction::~GuardianMiniReaction() = default;
 
 bool GuardianMiniReaction::init_(sead::Heap* heap) {
-    _fa = false;
-    _f8 = false;
-    _f9 = false;
+    _f8[2] = 0;
+    _f8[0] = 0;
+    _f8[1] = 0;
     return true;
 }
 
@@ -462,6 +462,98 @@ void GuardianMiniReaction::sub_71004201A4(const sead::SafeString& name, s32 a, s
         if (!list || !sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(target))
             continue;
         list->startAnimationMaybe(-1.0f, -1.0f, anim, slot, 0, true);
+    }
+}
+
+
+// NON_MATCHING: block layout of the inlined pre-attack name compares (the original places them after the
+// first child change).
+bool GuardianMiniReaction::sub_710041F990(bool from_player) {
+    if (!from_player) {
+        changeToChance();
+        return true;
+    }
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    s32 idx;
+    ksys::act::WeaponBase* weapon = enemy->getWeapons()->getEquippedWeapon(0);
+    if (sead::IsDerivedFrom<act::Weapon>(weapon) && hasAttackInfo(weapon)) {
+        idx = 0;
+    } else {
+        weapon = enemy->getWeapons()->getEquippedWeapon(1);
+        if (sead::IsDerivedFrom<act::Weapon>(weapon) && hasAttackInfo(weapon)) {
+            idx = 1;
+        } else {
+            weapon = enemy->getWeapons()->getEquippedWeapon(2);
+            if (!sead::IsDerivedFrom<act::Weapon>(weapon) || !hasAttackInfo(weapon))
+                return false;
+            idx = 2;
+        }
+    }
+
+    if (_f8[idx] < *mJustGuardNumForBreak_s) {
+        s32 side = idx;
+        auto* actor = mActor;
+        if (!actor->getASList() || !(actor->getASList()->x_1(1, 0) == "AttackSpin")) {
+            if (!mActor->getASList()) {
+                side = -1;
+            } else {
+                const sead::SafeString name = mActor->getASList()->x_1(0, 0);
+                if (name == mPreAttackASRight_s)
+                    side = 0;
+                else if (name == mPreAttackASLeft_s)
+                    side = 1;
+                else
+                    side = -1;
+            }
+        }
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        const char* child;
+        if (side == 1)
+            child = "左手ショック";
+        else if (side == 2)
+            child = "後ろ手ショック";
+        else
+            child = "ショック";
+        changeChild(child, &pack);
+        mActor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+        return true;
+    }
+
+    {
+        _fc = idx;
+        s32 side = idx;
+        auto* actor = mActor;
+        if (!actor->getASList() || !(actor->getASList()->x_1(1, 0) == "AttackSpin")) {
+            if (!mActor->getASList()) {
+                side = -1;
+            } else {
+                const sead::SafeString name = mActor->getASList()->x_1(0, 0);
+                if (name == mPreAttackASRight_s)
+                    side = 0;
+                else if (name == mPreAttackASLeft_s)
+                    side = 1;
+                else
+                    side = -1;
+            }
+        }
+        ksys::act::ai::InlineParamPack pack;
+        pack.acquireActor(weapon, "DropWeapon", -1);
+        pack.addVec3({0.0f, 0.0f, 0.0f}, "DropDir", -1);
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        const char* child;
+        if (side == 1)
+            child = "左手超ショック";
+        else if (side == 2)
+            child = "後ろ手超ショック";
+        else
+            child = "超ショック";
+        changeChild(child, &pack);
+        mActor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+        return true;
     }
 }
 
