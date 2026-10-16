@@ -108,9 +108,13 @@ public:
     /// Inline in the original: ksys::snd 0x71010255d0 and 0x7100ffb7e8 call SoundParam::setVolume on group +0xe0.
     SoundParam& getParam() { return mCurrentParam; }
 
-protected:
+    // Inline in the original (names are guesses): ksys::snd 0x710104fd68 tests bit `n` of _13c and
+    // otherwise walks the children of the tree node at +0x58 (child +0x60, next +0x10, value +0x20).
     sead::TTreeNode<Group*>& treeNode() { return *this; }
     const sead::TTreeNode<Group*>& treeNode() const { return *this; }
+    u32 get_13c() const { return _13c; }
+
+protected:
 
     bool mInitialized;
     GroupDucker* mDucker;
