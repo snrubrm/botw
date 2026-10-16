@@ -41,6 +41,34 @@
 
 namespace uking::ui {
 
+// 0x7100a1964c
+// NON_MATCHING: the original loads mLayout before name.cstr() but its root pane after it (as if a helper took
+// (layout, name)); ours loads both first.
+void Unk_710248ea70::sub_7100A1964C(eui::LayoutEx* layout, sead::Heap* heap) {
+    if (!layout || !heap)
+        return;
+    mLayout = layout->findPartsLayout("Pa_Gauge_00");
+    if (!mLayout)
+        return;
+    mCapturePane = sub_7100986160(mLayout, "N_Capture_00");
+    if (mCapturePane)
+        mCapturePane->SetVisible(false);
+    mGauge = mLayout->createAnimatorAuto("Gauge", false);
+    mIconOff = mLayout->createAnimatorAuto("IconOff", false);
+    mFull = mLayout->createAnimatorAuto("Full", false);
+    mOut = mLayout->createAnimatorAuto("Out", false);
+    mLayout->startAnimCloseImpl_(false, true);
+    mIconOff->StopAtMin();
+    mTextureHandle = new (heap) ksys::res::Handle;
+    for (s32 i = 0; i < 2; ++i) {
+        sead::FormatFixedSafeString<32> name("P_Icon_%02d", i);
+        if (nn::ui2d::Pane* pane = mLayout->GetPane()->FindPaneByName(name.cstr(), true))
+            mMaterials[i] = pane->GetMaterial();
+    }
+    if (mMaterials[0])
+        eui::SetTextureInfoFromTexMap(&mTexInfo, mMaterials[0]->GetTexMapArray()[0]);
+}
+
 Unk_710248ea70::~Unk_710248ea70() {
     unload();
     if (mTextureHandle) {
