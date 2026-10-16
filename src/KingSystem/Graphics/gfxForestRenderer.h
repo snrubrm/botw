@@ -8,6 +8,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModel.h>
+#include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 
 namespace gsys {
@@ -113,6 +114,20 @@ public:
     static bool* sub_7100F01AB4();
     static u32* sub_7100F01AC0();
 
+    // Placeholder name (vtable 0x71024f38a8): one of the 25 tree model resources (buffer at 0xf8, filled by init
+    // 0x7100f02dac with the names "Obj_TreeBroadleaf_A", ...).
+    struct TreeResMaybe {
+        // 0x7100f07828
+        virtual ~TreeResMaybe();
+
+        bool _8 = false;
+        u8 mIndex = 0xff;
+        const char* mName = nullptr;
+        res::ResDerived mRes;
+        u64 _68 = 0;
+    };
+    static_assert(sizeof(TreeResMaybe) == 0x70);
+
     // Placeholder name (vtable 0x71024f3918): the two 0x50-byte model slots at 0x110; requestDraw draws the
     // slot 1 - _1b0 when its state is 2.
     struct ModelSlot {
@@ -155,7 +170,7 @@ public:
     sead::Buffer<Entry> mEntries;
     u8 _e0[0xe8 - 0xe0];
     sead::Buffer<UnitEntry> mUnitEntries;
-    u8 _f8[0x108 - 0xf8];
+    sead::Buffer<TreeResMaybe> mTreeRes;
     ModelSet mModelSet;
     u8 _1b4[0x220 - 0x1b4];
     u32 _220;

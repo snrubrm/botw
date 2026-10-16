@@ -102,6 +102,10 @@ void ForestRenderer::Entry::sub_7100F07060() {
     std::memset(_78.getBufferPtr(), 0, _78.getByteSize());
 }
 
+ForestRenderer::TreeResMaybe::~TreeResMaybe() {
+    mRes.unloadAndResetUnitFlag20000();
+}
+
 ForestRenderer::ModelSlot::~ModelSlot() {
     finalize();
 }
