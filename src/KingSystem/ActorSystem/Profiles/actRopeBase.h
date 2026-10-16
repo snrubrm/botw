@@ -16,6 +16,7 @@ class RopeRoot;
 }
 
 namespace ksys::phys {
+class Constraint;
 class RigidBody;
 }  // namespace ksys::phys
 
@@ -45,6 +46,24 @@ public:
 
     // 0x7100ecde98 (declared only): cancels the constraints and removes the rigid bodies of the rope from the world.
     void sub_7100ECDE98();
+    // 0x7100ecd620 (placeholder name): switches off and clears the constraint of segment `idx`; for an end segment
+    // (0 or _928 - 1) also the matching active actor constraint and end attachment, else it keeps it in _850.
+    void sub_7100ECD620(s32 idx);
+    // Filled by sub_7100ED2C24 for one end constraint of the rope (0x7100ecdab8 does both ends).
+    struct EndState {
+        f32 _0 = 0;  // _950, or the attached body's mass times a constant
+        bool _4 = false;
+        bool _5 = false;
+        bool _6 = false;
+        bool _7 = false;
+        bool _8 = false;
+    };
+    // 0x7100ecdab8 (placeholder name): computes both end states and applies them (sub_7100ED2D4C); with _95b,
+    // sets damping 0.25 / max velocity 15 on the bodies and PSI priority on the constraints.
+    void sub_7100ECDAB8();
+    // 0x7100ed2c24 / 0x7100ed2d4c (296 / 1600 B, declaration only; placeholder names).
+    void sub_7100ED2C24(phys::Constraint* constraint, EndState* state);
+    void sub_7100ED2D4C(EndState* first, EndState* last);
     // 0x7100ece61c (lane1 s41, declaration only; placeholder name): the point of the rope at `length` from its start.
     sead::Vector3f sub_7100ECE61C(f32 length);
     // 0x7100ece0cc / 0x7100ece140 (declared only; placeholder names; BalloonRopeBase::m35): enable the contact
@@ -79,13 +98,19 @@ public:
 
 protected:
     // TODO
-    u8 _840[0x860 - 0x840];
+    // Constraints between consecutive rope bodies (0x7100ecd620 releases entry `idx`, keeping a copy in _850).
+    sead::Buffer<phys::Constraint*> _840;
+    sead::Buffer<phys::Constraint*> _850;
     sead::Buffer<phys::RigidBody*> _860;
     u8 _870[0x880 - 0x870];
     sead::Buffer<phys::RigidBody*> _880;
-    u8 _890[0x8c0 - 0x890];
+    u8 _890[0x8b0 - 0x890];
+    // The constraints attaching the rope ends (0x7100ecd620 switches them off with their segment).
+    phys::Constraint* _8b0;
+    phys::Constraint* _8b8;
     BaseProcLink _8c0[2];
-    u8 _8e0[0x92c - 0x8e0];
+    u8 _8e0[0x928 - 0x8e0];
+    s32 _928;  // number of constraint entries (the last index is an end segment)
     s32 _92c;
     s32 _930;
     u8 _934[4];
@@ -98,7 +123,8 @@ protected:
     u8 _956;
     u8 _957[0x95a - 0x957];
     bool _95a;
-    u8 _95b[0x96c - 0x95b];
+    bool _95b;  // 0x7100ecdab8: slows the bodies and switches the constraints to PSI priority
+    u8 _95c[0x96c - 0x95c];
     // 2026-10-07: ED1B00/ED1D78/ED33F0 write states 1/2/3; ED5010 switches on the state.
     s32 _96c;
     // ED4E50 clears this flag and sets it when a rigid body is detached.

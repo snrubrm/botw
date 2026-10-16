@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Map/mapTypes.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
@@ -35,6 +36,53 @@ int RopeBase::getExtraHeapSize(const ActorHeapInitArgMaybe& arg) {
     map::SRT srt{sead::Vector3f::ones, sead::Vector3f::zero, sead::Vector3f::zero};
     mMapObjIter.getSRT(&srt);
     return sead::Mathf::ceil(srt.scale.y * 16384.0f);
+}
+
+// NON_MATCHING: after the _850 store the original reloads the _840 buffer; ours reuses it.
+void RopeBase::sub_7100ECD620(s32 idx) {
+    if (!_840[idx] || u32(idx) >= u32(_840.size()))
+        return;
+
+    if (idx != 0 && idx != _928 - 1) {
+        _840[idx]->sub_7100F6A074();
+        _850[idx] = _840[idx];
+    } else {
+        for (s32 i = 0; i < mConstraints.size(); ++i) {
+            if (mConstraints.mConstraints[i] == _840[idx] && (_840[idx]->_50 & 1)) {
+                _840[idx]->sub_7100F6A074();
+                break;
+            }
+        }
+        auto* constraint = _840[idx];
+        if ((_8b0 == constraint && (constraint->_50 & 1)) ||
+            (_8b8 == constraint && (constraint->_50 & 1))) {
+            constraint->sub_7100F6A074();
+        }
+    }
+    _840[idx] = nullptr;
+}
+
+void RopeBase::sub_7100ECDAB8() {
+    EndState first;
+    EndState last;
+    sub_7100ED2C24(_840[0], &first);
+    sub_7100ED2C24(_840[_930 + 1], &last);
+    sub_7100ED2D4C(&first, &last);
+    if (!_95b)
+        return;
+
+    for (s32 i = 0; i < _92c; ++i) {
+        if (auto* body = _860[i])
+            body->setLinearDamping(0.25f);
+    }
+    for (s32 i = 0; i < _92c; ++i) {
+        if (auto* body = _860[i])
+            body->setMaxLinearVelocity(15.0f);
+    }
+    for (s32 i = 0; i < _928; ++i) {
+        if (auto* constraint = _840[i])
+            constraint->sub_7100F6AC04(false);
+    }
 }
 
 void RopeBase::sub_7100ECE0CC(phys::ContactLayer layer) {
