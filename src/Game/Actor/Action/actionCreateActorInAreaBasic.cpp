@@ -1,5 +1,11 @@
 #include "Game/Actor/Action/actionCreateActorInAreaBasic.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "Game/gameResetter.h"
 #include <math/seadMathCalcCommon.h>
+#include <math/seadBoundBox.h>
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actLodState.h"
@@ -22,7 +28,7 @@ void CreateActorInAreaBasic::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     for (auto& handle : _78)
         handle.deleteProc();
-    _dc = 0.0f;
+    _dc = 0;
     const f32 count = static_cast<f32>(*mCreateBasePosNum_s + 1);
     const f32 interval = (*mCreateContinueTime_s + 2.0f) / count;
     _d8 = interval;
@@ -50,6 +56,55 @@ void CreateActorInAreaBasic::loadParams_() {
     getStaticParam(&mBaseOffset_s, "BaseOffset");
     getStaticParam(&mCreateRandArea_s, "CreateRandArea");
     getStaticParam(&mProhibitedCreateArea_s, "ProhibitedCreateArea");
+}
+
+void CreateActorInAreaBasic::m32() {
+    if (_a8.value <= sead::Mathf::epsilon()) {
+        if (Resetter::instance()->finishedReset()) {
+            if (_cc.value <= sead::Mathf::epsilon() && _dc < *mCreateBasePosNum_s) {
+                ++_dc;
+                _cc = ksys::Timer(_d8, _d8);
+            } else {
+                const sead::Vector3f& area = *mCreateRandArea_s;
+                for (s32 i = 0; i < 7; ++i) {
+                    const f32 x = sead::GlobalRandom::instance()->getF32Range(-area.x, area.x);
+                    const f32 y = sead::GlobalRandom::instance()->getF32Range(-area.y, area.y);
+                    const f32 z = sead::GlobalRandom::instance()->getF32Range(-area.z, area.z);
+                    const sead::BoundBox3f prohibited_area(-*mProhibitedCreateArea_s,
+                                                           *mProhibitedCreateArea_s);
+                    if (prohibited_area.isInside({x, y, z}) &&
+                        !(i == 6 && *mIsAllowCreateNoSafeArea_s))
+                        continue;
+
+                    sead::Vector3f pos;
+                    m33(&pos);
+                    pos.setAdd(sead::Vector3f(x, y, z) + *mBaseOffset_s, pos);
+                    for (auto& handle : _78) {
+                        if (handle.isAllocatedOrFailed())
+                            continue;
+                        ksys::act::InstParamPack params;
+                        params->addPosition(pos);
+                        auto* creator = ksys::act::ActorCreator::instance();
+                        mCreateActorName_s.cstr();
+                        creator->requestCreateActor(
+                            mCreateActorName_s.getStringTop(),
+                            ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &handle, &params,
+                            nullptr, 1);
+                        break;
+                    }
+                    break;
+                }
+            }
+        }
+        _a8 = ksys::Timer(*mCreateNewActorInterval_s, *mCreateNewActorInterval_s);
+    }
+
+    for (auto& handle : _78) {
+        if (handle.isProcReady())
+            handle.releaseAndWakeProc();
+        else if (handle.hasProcCreationFailed())
+            handle.deleteProcIfFailed();
+    }
 }
 
 void CreateActorInAreaBasic::m33(sead::Vector3f* pos) {

@@ -49,7 +49,7 @@ protected:
     ksys::Timer _c0;
     ksys::Timer _cc;
     f32 _d8 = 0.0f;
-    f32 _dc = 0.0f;
+    s32 _dc = 0;  // number of timed creations so far
 };
 KSYS_CHECK_SIZE_NX150(CreateActorInAreaBasic, 0xe0);
 
