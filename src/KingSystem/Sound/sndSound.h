@@ -263,6 +263,9 @@ public:
     void sub_710102C5AC();
     // 0x710102c8f8: deletes the proc and clears _18 / _68.
     void sub_710102C8F8();
+    // 0x710102c9e8 (declared by lane1 s95; placeholder name): releases a handle obtained from this object
+    // (LumberjackTree::_2e0): removes it from the speaker balance unifier and returns it to the free list.
+    void sub_710102C9E8(void* handle);
 
     /* 0x08 */ act::BaseProcHandle mProcHandle;
     /* 0x18 */ void* _18;

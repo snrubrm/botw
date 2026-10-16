@@ -78,6 +78,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     bool handleMessage_(const ksys::Message* message) override;
+    // 0x7100488d00 (placeholder name): drops the lock-on, the sound handle, the effects, the attack sensor
+    // listener and the damage callback, then switches to 伐採 (felling).
+    void changeToFelling();
     void loadParams_() override;
     // 0x710048a190 (placeholder name): emits "Leaf", then drops the loot at the force-set drop position and
     // deletes the actor.

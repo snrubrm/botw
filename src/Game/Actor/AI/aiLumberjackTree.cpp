@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiLumberjackTree.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actLodState.h"
@@ -77,6 +78,24 @@ LumberjackTree::~LumberjackTree() {
         ksys::phys::Constraint::destroy(_2e8);
         _2e8 = nullptr;
     }
+}
+
+void LumberjackTree::changeToFelling() {
+    ksys::act::disableAttClient(mActor, "LockOn");
+    if (_2e0) {
+        if (auto* mgr = ksys::snd::SoundMgr::instance()->_38) {
+            if (mgr->_8)
+                mgr->_8->sub_710102C9E8(_2e0);
+        }
+    }
+    _2e0 = nullptr;
+    ksys::eft::Effect::instance()->getActorTable9FE0().sub_7100DA2330(mActor);
+    sub_71007A4440(mActor, &_70);
+    if (auto* damage_mgr_base = mActor->getDamageMgr()) {
+        if (auto* damage_mgr = sead::DynamicCast<act::DamageManager>(damage_mgr_base))
+            damage_mgr->removeDamageCallback(&_40);
+    }
+    changeChild("伐採");
 }
 
 void LumberjackTree::sub_7100489A18(sead::Vector3f* out, const sead::Vector3f& from,
@@ -186,7 +205,20 @@ bool LumberjackTree::hasPreDeleteCb() {
 }
 
 void LumberjackTree::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71007A4440(mActor, &_70);
+    if (auto* damage_mgr_base = mActor->getDamageMgr()) {
+        if (auto* damage_mgr = sead::DynamicCast<act::DamageManager>(damage_mgr_base))
+            damage_mgr->removeDamageCallback(&_40);
+    }
+    if (_2e0) {
+        if (auto* mgr = ksys::snd::SoundMgr::instance()->_38) {
+            if (mgr->_8)
+                mgr->_8->sub_710102C9E8(_2e0);
+        }
+    }
+    _2e0 = nullptr;
+    if (_2e8)
+        _2e8->sub_7100F6A074();
 }
 
 void LumberjackTree::loadParams_() {
