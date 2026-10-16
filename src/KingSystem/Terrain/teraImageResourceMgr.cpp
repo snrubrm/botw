@@ -292,4 +292,16 @@ bool ImageResourceMgr::sub_7101131D68() {
     return true;
 }
 
+void ImageResourceMgr::sub_7101131FD0(Request* request) {
+    mCS68.lock();
+    if (request->mNode10.isLinked()) {
+        mList31c0.erase(request);
+        mLists19c0[request->_50].erase(request);
+        request->_4c &= ~2;
+    }
+    mLists1c0[request->_50].pushBack(request);
+    request->_4c |= 1;
+    mCS68.unlock();
+}
+
 }  // namespace ksys::tera

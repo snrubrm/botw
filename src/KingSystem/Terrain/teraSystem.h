@@ -271,7 +271,9 @@ class ImageResourceMgr {
 public:
     // Placeholder: a load / unload request for one image of an area node.
     struct Request {
-        u8 _0[0x20];
+        u8 _0[0x10];
+        // Link in mList31c0.
+        sead::ListNode mNode10;
         // 1: queued at the front of mList3200.
         s32 _20;
         // Low byte: index of the list in mKindLists.
@@ -279,9 +281,13 @@ public:
         u8 _28[0x40 - 0x28];
         Unk_7101106F44* area;
         ImageTypeMaybe type;
-        // Bit 2: the data is ready (passed to the image set-up); bit 3: set up.
+        // Bit 0: queued in mLists1c0; bit 1: in mList31c0; bit 2: the data is ready (passed to the image
+        // set-up); bit 3: set up.
         u8 _4c;
-        u8 _4d[0x64 - 0x4d];
+        u8 _4d[0x50 - 0x4d];
+        // Index in mLists1c0 / mLists19c0.
+        u8 _50;
+        u8 _51[0x64 - 0x51];
         u32 _64;
         u8 _68[0x6c - 0x68];
         u32 _6c;
@@ -329,11 +335,17 @@ public:
     // 0x7101131d68 (placeholder name): moves every request of mList4a18 to mList31e8 (running
     // sub_71011355E8 on kind 0); false if there was none.
     bool sub_7101131D68();
+    // 0x7101131fd0 (placeholder name): takes `request` out of mList31c0 / mLists19c0 if it is linked and
+    // queues it in mLists1c0.
+    void sub_7101131FD0(Request* request);
 
     u8 _0[0x28];
     sead::CriticalSection mCS28;
     sead::CriticalSection mCS68;
-    u8 _a8[0x31c0 - 0xa8];
+    u8 _a8[0x1c0 - 0xa8];
+    // Indexed by Request::_50.
+    sead::OffsetList<Request> mLists1c0[0x100];
+    sead::OffsetList<Request> mLists19c0[0x100];
     sead::OffsetList<Request> mList31c0;
     u8 _31d8[0x31e8 - 0x31d8];
     sead::OffsetList<Request> mList31e8;
