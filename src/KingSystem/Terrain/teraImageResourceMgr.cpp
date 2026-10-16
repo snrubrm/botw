@@ -431,6 +431,48 @@ ImageResourceMgr::Request* ImageResourceMgr::sub_7101131E7C(sead::OffsetList<Req
     return nullptr;
 }
 
+// NON_MATCHING: the result of sub_7101133274 is compared to 2 and 1 separately in the original; the
+// free-list address is computed before the second lock.
+s32 ImageResourceMgr::sub_7101135AA0(System* system, Unk_7101106F44* area,
+                                     const ImageTypeMaybe& type) {
+    mCS68.lock();
+    s32 ok = 1;
+    if (area->isImageFlagSetMaybe(type, 2)) {
+        mCS68.lock();
+        LoadTask* task = mList31e8.popBack();
+        mCS68.unlock();
+        if (!task) {
+            ok = 0;
+        } else {
+            Unk_710250dcd8* image = area->getImageMaybe(type);
+            if (!image || !image->_18.tryMarkUnusedMaybe()) {
+                mList31e8.pushBack(task);
+                ok = 0;
+            } else {
+                task->_20 = 1;
+                task->_24 = area->mNameHash;
+                task->handle.set(system, area, _6470);
+                task->system = system;
+                task->area = area;
+                task->type = type;
+                task->_3c = system->_1330;
+                if (Unk_710250dcd8* image = area->getImageMaybe(type))
+                    image->_8 &= ~2;
+
+                const s32 result = sub_7101133274(task);
+                if (result == 2 || result == 1) {
+                    mList31e8.pushBack(task);
+                } else if (result == 0) {
+                    if (Unk_710250dcd8* image = area->getImageMaybe(type))
+                        image->sub_710110DD20(false);
+                }
+            }
+        }
+    }
+    mCS68.unlock();
+    return ok;
+}
+
 void ImageResourceMgr::sub_7101135F34(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type) {
     LoadTask task;
     mCS68.lock();

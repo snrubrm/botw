@@ -435,6 +435,9 @@ public:
     // 0x7101136328 (declared only; placeholder name).
     // The second argument is a pointer (null-checked and passed on; sub_710113625C forwards its a5).
     void sub_7101136328(Request* request, void* a2);
+    // 0x7101135aa0 (placeholder name): if the image for `type` is requested (flag 2), marks it unused and
+    // queues a kind-1 (unload) task for it; 0 if no task is free or the image is still referenced.
+    s32 sub_7101135AA0(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type);
     // 0x7101135f34 (placeholder name): under the manager lock, clears the image's pending state for `type`
     // (sub_710110DD20(false), flag 2), queues a kind-1 load task for it (sub_710113333C) and hands it to
     // sub_7101136188.
