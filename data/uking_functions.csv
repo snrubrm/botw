@@ -93975,13 +93975,13 @@ Address,Quality,Size,Name
 0x00000071012144b0,O,000316,_ZN4ksys4phys6System27finalizeSystemGroupHandlersEv
 0x00000071012145ec,U,000036,PhysicsMemSys::dtorDelete
 0x0000007101214610,U,001020,ksys::phys::System::init
-0x0000007101214a0c,U,000156,phys::System::initMemorySystem
+0x0000007101214a0c,m,000156,_ZN4ksys4phys6System16initMemorySystemEPN4sead4HeapES4_
 0x0000007101214aa8,U,000004,nullsub_5572
 0x0000007101214aac,O,000016,_ZN4ksys4phys6System18initBeforeStageGenEPN4sead4HeapE
 0x0000007101214abc,U,000072,PhysicsMemSys::__auto4
 0x0000007101214b04,O,000016,_ZN4ksys4phys6System23waitForResourceCreationEv
 0x0000007101214b14,U,000136,PhysicsMemSys::x_0
-0x0000007101214b9c,U,000564,PhysicsMemSys::initHeaps
+0x0000007101214b9c,U,000564,_ZN4ksys4phys6System9initHeapsEPN4sead4HeapES4_
 0x0000007101214dd0,O,001416,_ZN4ksys4phys6System14initSystemDataEPN4sead4HeapE
 0x0000007101215358,O,000092,_ZN4ksys4phys6System14sub_7101215358EPNS0_19CharacterControllerE
 0x00000071012153b4,O,000120,_ZN4ksys4phys6System14sub_71012153B4EPNS0_19CharacterControllerE
@@ -96027,7 +96027,7 @@ Address,Quality,Size,Name
 0x00000071012b183c,O,000016,_ZNK4ksys4phys20HavokMemoryAllocator11getHeapSizeEv
 0x00000071012b184c,O,000140,_ZNK4ksys4phys20HavokMemoryAllocator15getHeapFreeSizeEv
 0x00000071012b18d8,O,000024,_ZNK4ksys4phys20HavokMemoryAllocator16getAllocatedSizeEPKvi
-0x00000071012b18f0,U,000056,
+0x00000071012b18f0,U,000056,_ZN4ksys4phys14Unk_710251a370C1Ev
 0x00000071012b1928,O,000004,_ZN4ksys4phys20HavokMemoryAllocatorD2Ev
 0x00000071012b192c,U,000008,
 0x00000071012b1934,U,000004,

@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physSystem.h"
+#include <new>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollInstanceMgr.h"
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
@@ -143,6 +144,16 @@ GroupFilter* System::getGroupFilter(ContactLayerType type) const {
 RayCastForRequest* System::allocRayCastRequest(SystemGroupHandler* group_handler,
                                                GroundHit ground_hit) {
     return mRayCastRequestMgr->allocRequest(group_handler, ground_hit);
+}
+
+// NON_MATCHING: the original allocates 0x30 bytes for the HavokMemoryAllocator (sizeof is 0x28 here; the real
+// class is probably 16-byte aligned through its Havok base).
+void System::initMemorySystem(sead::Heap* heap, sead::Heap* heap2) {
+    if (mHavokAllocator)
+        return;
+    mHavokAllocator = new (heap->alloc(sizeof(HavokMemoryAllocator), 0x10)) HavokMemoryAllocator(0x10);
+    _80 = new (heap->alloc(sizeof(Unk_710251a370), 0x10)) Unk_710251a370();
+    initHeaps(heap, heap2);
 }
 
 void System::initSystemGroupHandlers() {

@@ -29,6 +29,7 @@ class ContactMgr;
 class ContactPointInfo;
 class GroupFilter;
 class HavokMemoryAllocator;
+class Unk_710251a370;
 class LayerContactPointInfo;
 class MaterialTable;
 class RayCastForRequest;
@@ -119,6 +120,10 @@ public:
     void setRigidBodyDividedMeshShapeMgr(void* mgr);
 
     void initSystemData(sead::Heap* heap);
+    // 0x7101214a0c (CSV phys::System::initMemorySystem): creates the Havok allocators once, then initHeaps.
+    void initMemorySystem(sead::Heap* heap, sead::Heap* heap2);
+    // 0x7101214b9c (CSV PhysicsMemSys::initHeaps; declared only)
+    void initHeaps(sead::Heap* heap, sead::Heap* heap2);
     // 0x7101215984 (CSV PhysicsMemSys::initGroupFilterXs): fills _2c0 / _300 with the system group handlers of
     // both group filters (four from free list 0, two from free list 1 each).
     void initSystemGroupHandlers();
@@ -225,7 +230,8 @@ private:
     float _70 = 1.0 / 30.0;
     float mTimeFactor{};
     HavokMemoryAllocator* mHavokAllocator{};
-    u8 _80[0xa8 - 0x80];
+    Unk_710251a370* _80{};
+    u8 _88[0xa8 - 0x88];
     sead::CriticalSection mCS;
     void* _e8{};
     void* _f0{};

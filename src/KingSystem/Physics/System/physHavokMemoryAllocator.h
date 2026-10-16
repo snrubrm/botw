@@ -4,6 +4,7 @@
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Utils/Types.h"
 
 namespace sead {
 class ExpHeap;
@@ -28,5 +29,16 @@ public:
 private:
     sead::ExpHeap* mHeap{};
 };
+
+// Placeholder name (vtable 0x710251a370, 0x1578 bytes): the second Havok memory object System::initMemorySystem
+// creates (its constructor 0x71012b18f0 calls a Havok base constructor 0x710157f978). TODO: incomplete.
+class Unk_710251a370 {
+public:
+    // 0x71012b18f0 (declared only)
+    Unk_710251a370();
+
+    u8 _0[0x1578];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710251a370, 0x1578);
 
 }  // namespace ksys::phys
