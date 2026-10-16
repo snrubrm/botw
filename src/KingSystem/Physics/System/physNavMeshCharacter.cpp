@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -249,6 +250,46 @@ void NavMeshCharacter::sub_7100F76790() {
 
 void NavMeshCharacter::sub_7100F7D350() {
     _d0 = 0;
+}
+
+namespace {
+struct TypeParams {
+    f32 _38;
+    f32 _3c;
+    f32 _40;
+    f32 _48;
+};
+
+const TypeParams sTypeParams[NavMeshCharacterType::size()] = {
+    {1.0f, 1.0f, 1.0f, 0.01f}, {2.0f, 1.0f, 1.0f, 0.1f},   {1.0f, 1.0f, 1.0f, 0.01f},
+    {1.0f, 0.1f, 1.0f, 0.01f}, {1.0f, 1.0f, 1.0f, 0.01f},  {1.0f, 1.0f, 1.0f, 0.01f},
+    {1.0f, 1.0f, 1.0f, 0.01f}, {1.0f, 1.0f, 1.0f, 0.01f},  {1.0f, 1.0f, 1.0f, 0.01f},
+    {2.0f, 0.5f, 50.0f, 0.1f}, {1.0f, 1.0f, 10.0f, 0.1f},  {2.0f, 0.5f, 50.0f, 0.1f},
+    {1.0f, 1.0f, 10.0f, 0.01f}, {1.0f, 1.0f, 10.0f, 0.01f}, {1.0f, 1.0f, 10.0f, 0.01f},
+    {1.0f, 1.0f, 1.0f, 0.01f}, {1.0f, 2.0f, 1.0f, 0.01f},  {1.0f, 1.0f, 1.0f, 0.01f},
+    {1.0f, 1.0f, 1.0f, 0.01f}, {1.0f, 1.0f, 1.0f, 0.01f},  {1.0f, 1.0f, 1.0f, 0.01f},
+};
+}  // namespace
+
+void NavMeshCharacter::sub_7100F7E598(InitArg* arg, NavMeshCharacterType type) {
+    arg->_38 = sTypeParams[type]._38;
+    arg->_3c = sTypeParams[type]._3c;
+    arg->_40 = sTypeParams[type]._40;
+    arg->_48 = sTypeParams[type]._48;
+    switch (type) {
+    case NavMeshCharacterType::Player:
+        arg->_58 = 1;
+        arg->_59 = 1;
+        break;
+    case NavMeshCharacterType::Horse:
+    case NavMeshCharacterType::NPC:
+    case NavMeshCharacterType::NPCGoron:
+    case NavMeshCharacterType::NPCSwimmer:
+        arg->_54 = 10;
+        break;
+    default:
+        break;
+    }
 }
 
 void NavMeshCharacter::sub_7100F7D1B4(const NavMeshCharacter* other) {

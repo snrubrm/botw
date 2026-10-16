@@ -10,6 +10,7 @@
 #include <container/seadSafeArray.h>
 #include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Utils/Types.h"
 
 class hkaiStreamingCollection;
@@ -127,6 +128,9 @@ public:
         u8 _59;
     };
     static_assert(sizeof(InitArg) == 0x5c);
+    // 0x7100f7e598 (placeholder name): sets the per-type parameters _38 / _3c / _40 / _48 of `arg` from a table and
+    // the type-specific flags (_58 / _59 for Player, _54 = 10 for Horse and NPC / NPCGoron / NPCSwimmer).
+    static void sub_7100F7E598(InitArg* arg, NavMeshCharacterType type);
     void init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
     // Actual implementation reached by the original init tail call (declared only).
     void sub_7100F75680(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
