@@ -4,6 +4,8 @@
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/gameStasisMgr.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -124,6 +126,32 @@ void GuardianComponent::calcMaybe() {
     mActorFlags2.set(ActorFlag2::_1000000);
     if (_ba8)
         _ba8->m11();
+}
+
+// NON_MATCHING: the original tests 0x3000006 before 0x3000005; our switch lowering tests them in ascending order.
+// CSV m81. Stasis messages 0x3000003 / 0x3000004 go to the owning Guardian (unless the Guardian flag bit 7
+// is set); 0x3000005 / 0x3000006 set / clear the damage callback's bit 0.
+bool GuardianComponent::m81(const ksys::Message& message) {
+    switch (message.getType()) {
+    case 0x3000003:
+    case 0x3000004:
+        if (auto* guardian = sub_710003D2B4()) {
+            if (guardian->sub_71000380A8()) {
+                ksys::act::ActorSystem::instance()->getStasisMessageSender()->sendMessage(
+                    guardian, message.getType(), true);
+            }
+        }
+        return true;
+    case 0x3000006:
+        mDamageCallback._30 &= ~1;
+        return true;
+    case 0x3000005:
+        mDamageCallback._30 |= 1;
+        return true;
+    default:
+        break;
+    }
+    return DynamicActor::m81(message);
 }
 
 void GuardianComponent::updatePositionMaybe() {

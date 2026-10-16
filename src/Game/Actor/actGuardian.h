@@ -112,8 +112,13 @@ public:
     void sub_710003B3FC();
     // 0x710003b41c: like sub_710003B3FC, but the call on `_15b0` is the empty Unk1::sub_7100042B48.
     void sub_710003B41C();
-    // 0x710003b554 (lane1 s47, declaration only; placeholder name): returns a static flag (`sFlag & 1`).
+    // 0x710003b554 (lane1 s47, declaration only; placeholder name): bit 0 of the Guardian flags at 0x71025af300
+    // (a global read directly, not through the GOT: probably file-static in the Guardian TU with a writer that
+    // is not decompiled yet).
     bool sub_710003B554() const;
+    // 0x71000380a8 (declaration only; placeholder name): bit 7 of those flags is clear (GuardianComponent::m81 forwards
+    // stasis messages then).
+    bool sub_71000380A8() const;
     // 0x710003b564 (placeholder name): damage callback of the GuardianComponent parts (`part`): a hit of an
     // AncientWeapon (attacker of `damage_mgr`) with condition a4 == 3 deals the full max life to parts 0 / 1
     // (cannon, weak point) and a third of it (rounded up) to the other parts.
