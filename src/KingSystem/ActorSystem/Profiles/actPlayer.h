@@ -467,6 +467,9 @@ public:
     void sub_710088C5A4();
     void sub_710088A388();
     void sub_7100855494();
+    void sub_710088A220();
+    // 0x7100891b60 (CSV Player::x_27; declared only).
+    void x_27();
     void sub_710085603C();
     void sub_71008564CC();
     void sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
@@ -796,7 +799,8 @@ public:
     /* 0x1cd0 */ s32 _1cd0;
     /* 0x1cd4 */ s32 _1cd4;
     /* 0x1cd8 */ s32 _1cd8;
-    /* 0x1cdc */ u8 _1cdc[0x1cec - 0x1cdc];
+    /* 0x1cdc */ s32 _1cdc;  // copy of _d24 (sub_710088A220)
+    /* 0x1ce0 */ u8 _1ce0[0x1cec - 0x1ce0];
     /* 0x1cec */ f32 _1cec;
     /* 0x1cf0 */ u8 _1cf0[0x1cf8 - 0x1cf0];
     /* 0x1cf8 */ f32 _1cf8;

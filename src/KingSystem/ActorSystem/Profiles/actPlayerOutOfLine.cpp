@@ -509,6 +509,21 @@ void Player::sub_710088C5A4() {
     }
 }
 
+// Placeholder name: equips equipment type 7 into _d68, sets up the AS bone keys (x_25 while _d24 or _c40 bit 3),
+// plays WeaponEquipOff and copies _d24 to _1cdc; sets _c44 bit 10 on controller check 13.
+void Player::sub_710088A220() {
+    _d68 = getEquipmentTypeName(7);
+    if (_d24 == 0 && !_c40.isOnBit(3))
+        sub_7100855494();
+    else
+        x_25();
+    x_27();
+    x_26("WeaponEquipOff", 0.0f);
+    _1cdc = _d24;
+    if (_17d0->playerCheckController(13) && sub_7100888294() && _d24 == 0)
+        _c44.setBit(10);
+}
+
 // Placeholder name: item equip animation follow-up (ItemEquipLeftOn / ItemEquipRight) for weapon slots 0 / 1.
 void Player::sub_710088A388() {
     if (mASList->x_1(2, 0) == "ItemEquipLeftOn" && _d68 != getEquipmentTypeName(6) &&
