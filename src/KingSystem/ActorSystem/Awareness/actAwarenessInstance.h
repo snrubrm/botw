@@ -46,7 +46,9 @@ public:
     virtual void m13();
     // 0x7100d7c494 multiplies its result with _4c (the interest level of the sensor).
     virtual f32 m14() = 0;
-    virtual void m15();
+    // 0x7100d80038 (shared by the three sensors with this slot): a random count between the part
+    // of the count given by `a` / `b` against m14 * _4c, and the count.
+    virtual s32 m15(f32 a, f32 b);
     // 0x7100d7f748 (base: null); 0x7100d81dc8 (vtable 0x71024dcea8): a flag byte at +0x68.
     // EnemyNormal::m41 clears bit 0 of it.
     virtual sead::BitFlag8* m16();
@@ -61,7 +63,9 @@ public:
     /* 0x28 */ sead::Buffer<Unk_7100d78e50> _28;
     /* 0x38 */ s32 _38;
     /* 0x3c */ u32 _3c;
-    /* 0x40 */ u8 _40[0x48 - 0x40];
+    // m15 uses _48 as the count when it is not negative, else _40.
+    /* 0x40 */ s32 _40;
+    /* 0x44 */ u32 _44;
     /* 0x48 */ s32 _48;  // cleared by CapturedActorRoot::m37
     /* 0x4c */ f32 _4c;
     /* 0x50 */ bool _50;  // active (AwarenessInstance::sub_7100D7E9BC / sub_7100D7EAE4)

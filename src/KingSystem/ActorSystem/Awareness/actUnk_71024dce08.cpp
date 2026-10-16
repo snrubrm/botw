@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
@@ -24,6 +26,18 @@ sead::BitFlag8* Unk_71024dce08::m16() { return nullptr; }
 void Unk_71024dce08::m17() { _8.clear(); }
 
 // NON_MATCHING: the original keeps the result in s8 on every path.
+// NON_MATCHING: scheduling (the original converts the count after the subtraction).
+s32 Unk_71024dce08::m15(f32 a, f32 b) {
+    const s32 count = _48 >= 0 ? _48 : _40;
+    if (count < 1)
+        return 0;
+    const f32 ratio = sead::Mathf::clamp(a * 2, 0.0f, 1.0f) * b / (m14() * _4c) - 0.3f;
+    const s32 min = s32(count * std::max(ratio, 0.0f));
+    if (min < count)
+        return sead::GlobalRandom::instance()->getU32(count - min) + min;
+    return count;
+}
+
 f32 Unk_71024dce08::sub_7100D8010C() const {
     if (!_51) {
         if (auto* manager = world::Manager::instance()) {
