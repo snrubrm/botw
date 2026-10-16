@@ -67,6 +67,8 @@ public:
     bool get139() const { return _139; }
     // inline-only in the original; name is a guess (Swarm::m81, Guardian::m81).
     uking::Unk_710243c7c8* getStasisMessageSender() const { return _c8; }
+    // Set by the StasisMgr ctor (0x710067f430) and cleared by its dtor.
+    void setStasisMessageSender(uking::Unk_710243c7c8* sender) { _c8 = sender; }
 
     // inline-only in the original; name is a guess (GameScene::sub_71007B4B50 clears it).
     void set104(bool value) { _104 = value; }

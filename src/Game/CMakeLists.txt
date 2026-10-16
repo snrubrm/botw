@@ -27,6 +27,8 @@ target_sources(uking PRIVATE
   gameGraphics.h
   gameIceBlockMgr.cpp
   gameIceBlockMgr.h
+  gameStasisMgr.cpp
+  gameStasisMgr.h
   gameHeroSoul.cpp
   gameHeroSoul.h
   gameHorseMgr.cpp
