@@ -2184,4 +2184,27 @@ bool Player::x_17() {
            mASList->x_1(0, 0) == "CutChargeLswordSpin";
 }
 
+// NON_MATCHING: the original loads each GParam rate unconditionally and selects with fcsel / csel (no branches).
+void Player::updateSupportTimerRates() {
+    const bool in_castle = gdt::getFlag_IsInHyruleCastleArea();
+    const bool revali_plus = hasRevaliGalePlus();
+    const bool daruk_plus = hasDarukProtectionPlus();
+    const bool urbosa_plus = hasUrbosaFuryPlus();
+    const bool mipha_plus = hasMiphaGracePlus();
+
+    const f32 wind_plus = in_castle ? uking::sUnk_7101e7c280 : uking::sUnk_7101e7c290;
+    const f32 fire_plus = in_castle ? uking::sUnk_7101e7c284 : uking::sUnk_7101e7c294;
+    const f32 electric_plus = in_castle ? uking::sUnk_7101e7c288 : uking::sUnk_7101e7c298;
+    const f32 water_plus = in_castle ? uking::sUnk_7101e7c28c : uking::sUnk_7101e7c29c;
+
+    f32 rate = in_castle ? -getParam()->getRes().mGParamList->getPlayer()->mWindSupportTimerRate.ref() : -1.0f;
+    _1dfc = revali_plus ? -wind_plus : rate;
+    rate = in_castle ? -getParam()->getRes().mGParamList->getPlayer()->mFireSupportTimerRate.ref() : -1.0f;
+    _1e08 = daruk_plus ? -fire_plus : rate;
+    rate = in_castle ? -getParam()->getRes().mGParamList->getPlayer()->mElectricSupportTimerRate.ref() : -1.0f;
+    _1e14 = urbosa_plus ? -electric_plus : rate;
+    rate = in_castle ? -getParam()->getRes().mGParamList->getPlayer()->mWaterSupportTimerRate.ref() : -1.0f;
+    _1e20 = mipha_plus ? -water_plus : rate;
+}
+
 }  // namespace ksys::act
