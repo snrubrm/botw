@@ -32,6 +32,51 @@ bool PriestBossPhaseSecond::init_(sead::Heap* heap) {
 
 void PriestBossPhaseSecond::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
+
+    auto* unit = sub_7100525A88();
+    const f32 space = *mRespawnBaseSpace_s;
+    const f32 move_time = *mRespawnBaseMoveTime_s;
+    const f32 interval = *mRespawnBaseInterval_s;
+    unit->_44 = space;
+    unit->_48 = move_time;
+    unit->_4c = interval;
+    _134.fill(0);
+
+    const Unk_7102451070::InitArg init_arg{sub_7100525A88(), 0.5f, 10.0f, 15.0f, false};
+    _158.sub_710071CB98(init_arg);
+    for (s32 i = 2; i <= 10; ++i)
+        _158.sub_710071CC4C(i);
+
+    Unk_7102451050::InitArg arg;
+    arg.unit = sub_7100525A88();
+    arg._8 = *mRespawnSpan_s;
+    arg._c = 1;
+    const int* start_phase = nullptr;
+    arg._e = !getMapUnitParam(&start_phase, "PriestBossStartPhase") || *start_phase != 0;
+    _488.sub_710071BFE4(arg);
+
+    _6c0._1d8 = *mCircleFormRange_s;
+    _958._1dc = *mLineFormDistFromPlayer_s;
+    _958._1d8 = *mLineFormSpace_s;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (sub_7100525B18(2, &accessor)) {
+        if (accessor.isStateSleep()) {
+            sead::Matrix34f mtx;
+            sead::Vector3f pos;
+            _6c0.m7(&pos, 2);
+            mtx = accessor.getActorMtx();
+            accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+        }
+        _134[0] = accessor.getMaxLife();
+    }
+
+    unit = sub_7100525A88();
+    const s32 sim_atk_max = *mSimAtkMax_s;
+    const s32 bow_equip_max = *mBowEquipMax_s;
+    unit->_98 = sim_atk_max;
+    unit->_198 = bow_equip_max;
+    sub_710052B4D0(Mode::_0);
 }
 
 void PriestBossPhaseSecond::leave_() {

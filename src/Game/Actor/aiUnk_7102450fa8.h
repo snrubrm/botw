@@ -151,7 +151,9 @@ public:
     /* 0x038 */ Phase _38;
     /* 0x03c */ Phase _3c;
     /* 0x040 */ f32 _40;  // compared with PriestBossActorNormalMode's SecondHalfLifePercent
-    /* 0x044 */ u8 _44[0x50 - 0x44];
+    /* 0x044 */ f32 _44;  // RespawnBaseSpace (PriestBossPhaseSecond::enter_)
+    /* 0x048 */ f32 _48;  // RespawnBaseMoveTime
+    /* 0x04c */ f32 _4c;  // RespawnBaseInterval
     // Cleared together with `_80` by sub_71007199A8.
     /* 0x050 */ u64 _50;
     /* 0x058 */ u64 _58;
