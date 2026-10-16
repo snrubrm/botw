@@ -91,6 +91,10 @@ void Unk_710104e5b4::sub_710104F4A0() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
+void Unk_710104e5b4::sub_710104E92C(sead::Heap* heap) {
+    _28 = sub_710105E3D0("ExpressionSound", heap, nullptr, nullptr, nullptr);
+}
+
 // 0x71025024f0: the FX delay gain restored when the slow motion ends.
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025024F0 = 0.7f;
 

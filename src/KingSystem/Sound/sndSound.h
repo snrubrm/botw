@@ -787,6 +787,8 @@ public:
     void sub_710104FD4C();
     void sub_710104FD38(const xlink2::HandleSLink& handle);
     void sub_710104EA7C();
+    // 0x710104e92c: creates the "ExpressionSound" SLink user instance _28 on `heap`.
+    void sub_710104E92C(sead::Heap* heap);
     void sub_710104EE50();
     void sub_710104EE64();
     // 0x710104f030: fades the two SLink handles out, clears _b8 and bit 3 of _2a0 and releases the Remains and
