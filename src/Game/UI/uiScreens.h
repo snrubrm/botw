@@ -2810,6 +2810,11 @@ struct ScreenAppPictureBookEntry {
     void sub_710093A758();
     void sub_710093AC7C();
     void sub_710093AE60(const sead::Vector2f& position);
+    // 0x710093ad60 (placeholder name): moves the entry (sub_710093AE60), recomputes the page _388 along the config
+    // direction, then updates the group records (sub_710093B0D8)
+    void sub_710093AD60(const sead::Vector2f& position);
+    // 0x710093b0d8 (declared only; 1452 bytes)
+    void sub_710093B0D8(PictureBookGroupRecord* record);
     void sub_710093AF74();
     void sub_710093BB48();
     void sub_710093BDFC();

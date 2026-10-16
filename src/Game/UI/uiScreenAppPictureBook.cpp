@@ -812,6 +812,24 @@ void ScreenAppPictureBookUnk::sub_7100941C30(const sead::Vector2f& offset, s32* 
     }
 }
 
+// 0x710093ad60
+void ScreenAppPictureBookEntry::sub_710093AD60(const sead::Vector2f& position) {
+    sub_710093AE60(position);
+    if (mController) {
+        switch (mController->mConfig._58) {
+        case 0:
+            _388 = sead::Mathf::floor((sead::Mathf::abs(_380.x) + _340.x * 0.5f) / _340.x);
+            break;
+        case 1:
+            _388 = sead::Mathf::floor((sead::Mathf::abs(_380.y) + _340.y * 0.5f) / _340.y);
+            break;
+        }
+    }
+    sub_710093AF74();
+    for (s32 i = 0; i < sead::Mathi::min(mParams._298, _2f4); ++i)
+        sub_710093B0D8(mRecords.at(i));
+}
+
 // NON_MATCHING: register allocation (the two zero results of the search and the clamp temporaries)
 // 0x7100941354
 f32 ScreenAppPictureBookUnk::sub_7100941354(s32 index) {
