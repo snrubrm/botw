@@ -1,4 +1,9 @@
 #include "Game/Actor/Action/actionAnchorSummon.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
@@ -61,6 +66,31 @@ void AnchorSummon::enter_(ksys::act::ai::InlineParamPack* params) {
             ++index;
         }
     }
+}
+
+// NON_MATCHING: register allocation inside the inlined Matrix34::getRotation (two registers swapped).
+void AnchorSummon::sub_710008C850(const sead::Vector3f& pos, s32 index) {
+    sead::Vector3f front = sub_71005D9330(mActor);
+    front -= pos;
+    front.normalize();
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F00EC(&mtx, front, sead::Vector3f::ey, pos, false);
+    sead::Vector3f rotation;
+    mtx.getRotation(rotation);
+
+    ksys::act::InstParamPack params;
+    params->addPosition(pos);
+    params->addRotation(rotation);
+    params->add(6, "@I");
+    if (!mSummonActorEquip1_d.isEmpty())
+        params->add(mSummonActorEquip1_d, "EquipItem1");
+    if (!mSummonActorEquip2_d.isEmpty())
+        params->add(mSummonActorEquip2_d, "EquipItem2");
+    auto* creator = ksys::act::ActorCreator::instance();
+    mSummonActor_d.cstr();
+    creator->requestCreateActor(mSummonActor_d.getStringTop(),
+                                ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                                &_80[index], &params, nullptr, 1);
 }
 
 void AnchorSummon::leave_() {
