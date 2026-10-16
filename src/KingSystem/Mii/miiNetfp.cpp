@@ -111,4 +111,49 @@ void sub_7100F5A708(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
     out->format("%s", sUnk_710260D1A0[arg.type].cstr());
 }
 
+// NON_MATCHING: the original tests the age for 2, then 1, then 0 (ours tests 0 first).
+void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii) {
+    const auto& body = umii.getBody();
+    if (*body.type == UMii::Body::Type_N) {
+        const auto age = umii.getAge();
+        if (age == UMii::Personal::Age_OldAdult) {
+            out->format("%s%s_X_%03d", sUnk_710260D1A0[0].cstr(),
+                        sUnk_710260DB50[*body.type].cstr(), *body.number);
+            return;
+        }
+        if (age != UMii::Personal::Age_Adult) {
+            if (age != UMii::Personal::Age_Child)
+                return;
+            out->format("%s%s_B_%03d", sUnk_710260D1A0[0].cstr(),
+                        sUnk_710260DB50[*body.type].cstr(), *body.number);
+            return;
+        }
+    }
+    out->format("%s%s_%s_%03d", sUnk_710260D1A0[0].cstr(), sUnk_710260DB50[*body.type].cstr(),
+                sUnk_710260D7A0[umii.getSexAge()].cstr(), *body.number);
+}
+
+void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii) {
+    const auto& common = umii.getCommon();
+    if (*common.hat == 4 || *common.hat < 0) {
+        out->clear();
+        return;
+    }
+    const s32 type = *umii.getBody().type;
+    switch (type) {
+    case UMii::Body::Type_C:
+    case UMii::Body::Type_T:
+    case UMii::Body::Type_S:
+        out->format("%sC_C_%03d", sUnk_710260D1A0[8].cstr(), *common.hat);
+        return;
+    case UMii::Body::Type_N:
+    case UMii::Body::Type_SK:
+        out->format("%s%s_%s_%03d", sUnk_710260D1A0[8].cstr(), sUnk_710260DB50[type].cstr(),
+                    sUnk_710260D7A0[umii.getSexAge()].cstr(), *common.hat);
+        return;
+    default:
+        return;
+    }
+}
+
 }  // namespace ksys::mii
