@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -66,6 +67,21 @@ void OptionalWeapon::sub_7100EF0D44() {
     } else if (isNPCProfile(sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))) {
         sub_7100EF1F30();
     }
+}
+
+bool OptionalWeapon::sub_7100EF1954(ksys::act::Actor* parent, ksys::act::WeaponBase* weapon,
+                                    const sead::SafeString& name) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_898._0);
+    if (!weapon || !_898._60 || _840.hasProc())
+        return false;
+    _898._40[1].acquire(weapon, false);
+    _898._40[0].acquire(parent, false);
+    _898._60 = 0;
+    _900.copy(name);
+    auto* obj = parent->getMapObject();
+    if (parent->get1a0() || (obj && obj->getFlags0().isOn(ksys::map::Object::Flag0::_20000)))
+        sub_71011D7650(this, parent);
+    return true;
 }
 
 bool OptionalWeapon::sub_7100EF1ADC() {
