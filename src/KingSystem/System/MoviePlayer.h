@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadHeap.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -11,6 +12,9 @@ class MoviePlayer {
 public:
     static MoviePlayer* instance() { return sInstance; }
     static MoviePlayer* sInstance;
+
+    // 0x71010b9a08 (CSV name): empty; InitializeApp calls it with the createInstance heap.
+    void init(sead::Heap* heap);
 
     // Native cleanup clears +0x31/+0x32; start sets +0x31 and StageMgrRun tests it.
     void sub_71010B9C04();
