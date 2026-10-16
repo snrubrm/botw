@@ -1,6 +1,9 @@
 #include "Game/Actor/Action/actionBackSwim.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -64,6 +67,22 @@ void BackSwim::loadParams_() {
 
 void BackSwim::calc_() {
     WaterFloatBase::calc_();
+}
+
+// NON_MATCHING: fadd operand order of the offset point and the final bool (cset instead of two branches)
+bool BackSwim::sub_71000B5798() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const sead::Vector3f& target = sub_71005D9330(mActor);
+    sead::Vector3f dir = {pos.x - target.x, 0.0f, pos.z - target.z};
+    dir.normalize();
+    sead::Vector3f point = dir * 5.0f;
+    point += pos;
+    if (!sub_710072F8E4(mActor, point, nullptr, 3.0f))
+        return true;
+    const auto result = ksys::phys::HavokAI::instance()->sub_7100F87ED0(nullptr, point, 3.0f);
+    if (!result.sub_7100F7EB40() || result.sub_7100F7EEE4() == 6)
+        return false;
+    return true;
 }
 
 }  // namespace uking::action

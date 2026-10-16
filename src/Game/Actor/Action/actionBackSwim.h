@@ -23,6 +23,9 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71000b5798 (placeholder name): whether the point 5 m further away from the target (horizontally) is free
+    // water: false if it is on land or on a navmesh face of type 6.
+    bool sub_71000B5798();
 
     struct Params {
         // static_param at offset 0x60
