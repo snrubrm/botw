@@ -140,6 +140,22 @@ bool Unk_71024fe368::m10() {
     return false;
 }
 
+void Unk_71024fe368::hm14() {
+    _1f8 = 0;
+    _1f0 = 0;
+    _1f4 = 0;
+    _218 = 0;
+    _21c = 0;
+    _220 = 0;
+    _224 = false;
+    _228 = -1;
+    _230 = nullptr;
+    for (s32 i = 0; i < mEntries4.size(); ++i)
+        mEntries4(i)._98 = -1;
+    mHalfBeatSec = 60.0f / *mInfo->mBpm * 0.5f;
+    _248->start();
+}
+
 void Unk_71024fe368::hm16(s32 arg) {
     if (arg == 2)
         _248->_18 = 0;

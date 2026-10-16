@@ -114,11 +114,15 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
 
 // Placeholder (vtable 0x71024fdde8: D1 0x71010073ac (empty), D0 0x71010073b0; 0x20 bytes): created by the field battle
-// BGM's init 0x71010099f0 (stored at +0x248), the same field layout as Unk_7102502950. Declared only.
+// BGM's init 0x71010099f0 (stored at +0x248): a small state machine over the BGM's node objects (`_8` the first node,
+// `_10` the current one, `_18` running). Declared only.
 struct Unk_71024fdde8 {
     virtual ~Unk_71024fdde8();
 
-    s32 _8 = 0;
+    // 0x7101014300: makes `_8` the current node and sets `_18`, once.
+    void start();
+
+    void* _8 = nullptr;
     void* _10 = nullptr;
     u8 _18 = 0;
 };

@@ -2527,6 +2527,8 @@ public:
     void calc() override;
     // 0x710100b9bc (copy for the handle base 0x710100b9d8)
     void hm16(s32 arg) override;
+    // 0x710100b350 (copy for the handle base 0x710100b3cc): resets the state and starts the node machine.
+    void hm14() override;
 
     /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
     /* 0x198 */ sead::PtrArray<const xlink2::PropertyDefinition> mProperties;
@@ -2534,13 +2536,28 @@ public:
     /* 0x1b0 */ aal::TimedFader _1b0;
     /* 0x1d8 */ ksys::snd::Unk_BgmControllerM8Arg _1d8;
     /* 0x1e8 */ u32 _1e8;
-    u8 _1ec[0x210 - 0x1ec];
+    // Half a beat in seconds (hm14: 60 / Bpm / 2).
+    /* 0x1ec */ f32 mHalfBeatSec;
+    /* 0x1f0 */ u32 _1f0;
+    /* 0x1f4 */ u32 _1f4;
+    /* 0x1f8 */ u8 _1f8;
+    // Four entries (allocated by the init function 0x71010099f0).
+    struct Entry {
+        sead::FixedSafeString<128> name;
+        s32 _98 = -1;
+        bool _9c = false;
+    };
+    /* 0x200 */ sead::Buffer<Entry> mEntries4;
     // A second sound object (0xe8 bytes) created by the init function 0x71010099f0.
     /* 0x210 */ ksys::snd::Unk_710260f248* mSubHandle;
-    u8 _218[0x224 - 0x218];
+    /* 0x218 */ u32 _218;
+    /* 0x21c */ u32 _21c;
+    /* 0x220 */ u32 _220;
     // Set by ksys::snd::Unk_710260f0c0::m10.
     bool _224;
-    u8 _225[0x248 - 0x225];
+    /* 0x228 */ s32 _228;
+    /* 0x230 */ void* _230;
+    u8 _238[0x248 - 0x238];
     /* 0x248 */ ksys::snd::Unk_71024fdde8* _248;
 };
 

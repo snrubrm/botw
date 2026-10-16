@@ -1,10 +1,19 @@
 #include "KingSystem/Sound/sndMusicDefinition.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resSystem.h"
 
 namespace ksys::snd {
 
 static sead::SafeString str_EventBgm = "EventBgm";
+
+// 0x7101014300: the address neighbour before MusicDefinition::registerFactory (the TU may start earlier).
+void Unk_71024fdde8::start() {
+    if (!_18 && _8) {
+        _10 = _8;
+        _18 = 1;
+    }
+}
 
 MusicDefinition::MusicDefinition() : agl::utl::IParameterIO(".bmscdef", 0) {}
 
