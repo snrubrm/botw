@@ -32,6 +32,10 @@ u32 DamageManagerBase::getDamage() {
     return result;
 }
 
+s32 DamageManagerBase::getField54() {
+    return mField_54;
+}
+
 // NON_MATCHING: the original stores the two -1 values as a pair of words (stp w8, w8); ours merges
 // them into one 64-bit store
 bool DamageManagerBase::isSlowTime() {

@@ -1,4 +1,6 @@
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "Game/Actor/actOptionalWeapon.h"
 #include "Game/Actor/Damage/dmgDamageMgrWeapon.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
@@ -183,6 +185,17 @@ f32 Weapon::sub_71002ED434() {
         return aabb.getMax().y - aabb.getMin().y;
     }
     return getParam()->getRes().mGParamList->getAttack()->mRange.ref() * _d64;
+}
+
+bool Weapon::sub_71002ED4CC(ksys::phys::MaterialMask* mask) {
+    auto* main_body = getMainBody();
+    if (!main_body)
+        return false;
+    if (auto* body = sead::DynamicCast<ksys::phys::RigidBodyFromShape>(main_body)) {
+        *mask = *body->tryGetMaterialMask();
+        return true;
+    }
+    return false;
 }
 
 void Weapon::m181() {

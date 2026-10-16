@@ -64,7 +64,8 @@ public:
     virtual s32 getField48() { return mField_48; }
     virtual s32 getMinDmg() { return mMinDmg; }
     virtual s32 getField50() { return mField_50; }
-    virtual s32 getField54() { return mField_54; }
+    // Out of line (0x71006e0bcc, right after getDamage): NPC::m149 / Horse::m149 call it directly.
+    virtual s32 getField54();
     // Read by BlownOff::m38 (non-virtual load).
     s32 getField40() const { return mField_40; }
     virtual bool checkDamageFlags(s32 bit) { return false; }

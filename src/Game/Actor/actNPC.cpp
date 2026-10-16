@@ -1,6 +1,7 @@
 #include "Game/Actor/actNPC.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 
@@ -67,6 +68,30 @@ bool NPC::sub_71000224F0(int idx, const sead::Vector3f& pos, bool a2, bool a3, v
 
 bool NPC::sub_7100022554(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
     return getWeapons()->dropAllWeapons(pos, a2, a3, a4, a5);
+}
+
+void NPC::m149() {
+    if (_da0.getField54() == -1)
+        return;
+
+    // Discarded calls (results unused in the original).
+    _da0.getDamage();
+    _da0.getAttackOtherMaterialMask();
+
+    ksys::phys::MaterialMask mask(0x13u);
+    if (auto* weapon = sead::DynamicCast<Weapon>(mWeapons.getEquippedWeapon(1)))
+        weapon->sub_71002ED4CC(&mask);
+
+    sead::Matrix34f mtx;
+    if (_da0.getAttackSourceMtx(&mtx))
+        _e30.sub_71006E4478(_da0.getAttacker(), mtx);
+
+    DamageReactionInfo info;
+    sub_7100732B28(&info, this);
+    info._19 = false;
+    info._1a = false;
+    info._30 = &mask;
+    sub_7100733418(this, &info, &_10e8);
 }
 
 bool NPC::sub_71000228F8() {

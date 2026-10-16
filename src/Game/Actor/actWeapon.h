@@ -421,6 +421,9 @@ public:
     bool m233() const override;
     // Declaration only: 0x71002ed434, queried by Player::m248.
     f32 sub_71002ED434();
+    // 0x71002ed4cc (placeholder name): copies the material mask of the main body (a RigidBodyFromShape) to
+    // `mask`; false without one. Used by NPC::m149 for the equipped weapon.
+    bool sub_71002ED4CC(ksys::phys::MaterialMask* mask);
     // Declaration only: 0x71002ed730, queried by PlayerOrEnemy::sub_7100007BF8 (lane4 s46).
     f32 sub_71002ED730(bool a1);
     // lane4 s46 (placeholder names, unnamed in the CSV). 0x71002ea0c8: has the (unnamed) tag 0xdf7c57f6.
