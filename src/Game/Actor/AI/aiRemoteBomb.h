@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/gameRuneMgrStructX.h"
+
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -17,6 +19,11 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710054fef4 (unnamed in the CSV): marks the bomb as exploding in the rune slots, disables its attention clients
+    // and starts "爆発予約"; 0x7100550260: the same without ActorFlag 0x1c, starting "爆発".
+    void sub_710054FEF4();
+    void sub_7100550260();
+
     // static_param at offset 0x38
     const float* mWindRatio_s{};
     // static_param at offset 0x40
@@ -28,7 +35,7 @@ protected:
     Unk_7102450798 _d0;
     Unk_7102450b58 _108;
     Unk_71023da100 _148;
-    void* _198{};
+    Unk_710067e0a8* _198{};  // RuneMgr::StructX (remote bomb slots)
     bool _1a0 = false;
 };
 KSYS_CHECK_SIZE_NX150(RemoteBomb, 0x1a8);
