@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -27,10 +30,8 @@ protected:
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
     bool _60 = false;
-    // Not initialised by the ctor; calc_ reads a Vector3f at +0x70 (unmodelled).
-    u8 _61[0x88 - 0x61];
-    u64 _88 = 0;
-    u32 _90 = 0;
+    /* 0x64 */ sead::Matrix33f _64;  // the turning rotation (calc_; not initialised by the ctor)
+    /* 0x88 */ ksys::Timer _88{0, 0, 0};
 };
 KSYS_CHECK_SIZE_NX150(SiteBossThrowIceRoot, 0x98);
 
