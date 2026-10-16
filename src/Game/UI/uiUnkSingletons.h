@@ -1303,6 +1303,8 @@ public:
     s32 sub_7100965EA8() const;
     // 0x710096603c (placeholder name): the screen size divided by _878
     void sub_710096603C(sead::Vector2f* out) const;
+    // 0x7100966064 (placeholder name): the screen size divided by _888
+    void sub_7100966064(sead::Vector2f* out) const;
     // 0x7100959438 (placeholder name; defined in uiMapMarker.cpp next to its address neighbours): whether `entry` is _698
     bool sub_7100959438(const UiSubsys1Entry* entry) const;
     bool is898Positive() const;
@@ -1423,7 +1425,8 @@ private:
     /* 0x878 */ f32 _878;
     /* 0x87c */ f32 _87c;
     /* 0x880 */ sead::Vector2f _880;
-    u8 _888[0x890 - 0x888];
+    /* 0x888 */ f32 _888;  // a second scale (sub_7100966064)
+    u8 _88c[0x890 - 0x88c];
     /* 0x890 */ sead::Vector2f _890;
     /* 0x898 */ s32 _898;
     u8 _89c[0x8b0 - 0x89c];

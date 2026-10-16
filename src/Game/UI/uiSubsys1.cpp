@@ -215,6 +215,13 @@ void UiSubsys1::sub_710096603C(sead::Vector2f* out) const {
     *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
 }
 
+// 0x7100966064
+// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
+void UiSubsys1::sub_7100966064(sead::Vector2f* out) const {
+    const f32 scale = 1.0f / _888;
+    *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
+}
+
 // 0x7100965ea8
 s32 UiSubsys1::sub_7100965EA8() const {
     return _84c;

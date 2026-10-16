@@ -927,4 +927,7 @@ public:
     eui::Animator* _88{};
 };
 
+// 0x7100959d14 (placeholder name): 130 for 0, -1 otherwise
+f32 sub_7100959D14(s32 value);
+
 }  // namespace uking::ui

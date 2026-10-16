@@ -343,9 +343,13 @@ public:
     explicit Unk_710247ca18(eui::LayoutEx* layout);
     // 0x71009c28d0: stops _130 at its start and _138 at frame 0
     void sub_71009C28D0();
+    // 0x71009c20f0: sets the gauge _170 and clears its byte at 0x6c
+    void sub_71009C20F0(eui::TraceGaugeControl* gauge);
     /* 0x130 */ eui::Animator* _130;
     /* 0x138 */ eui::Animator* _138;
-    u8 _140[0x1e8 - 0x140];
+    u8 _140[0x170 - 0x140];
+    /* 0x170 */ eui::TraceGaugeControl* _170;
+    u8 _178[0x1e8 - 0x178];
 };
 static_assert(sizeof(Unk_710247ca18) == 0x1e8);
 
