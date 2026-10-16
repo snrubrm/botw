@@ -606,4 +606,51 @@ bool Player::sub_71008893B8(bool held) {
     return true;
 }
 
+// NON_MATCHING: the slow max time select keeps the parameter value offset (+0x18) in the load instead of the two
+// addresses, and _cec is loaded earlier.
+// Equips the equipment type `type` into _d68 and starts its equip animation (bomb, both hands, sword, bow with the
+// bow slow-motion setup, rune item).
+void Player::x_14(u32 type) {
+    x_16();
+    _d68 = getEquipmentTypeName(type);
+    if (_d68 == getEquipmentTypeName(4)) {
+        x_23("ItemBombReady", false, -1.0f);
+        _c48.setBit(10);
+        x_24(-1.0f);
+    } else if (_d68 == getEquipmentTypeName(5)) {
+        x_25();
+        x_26("ItemEquipBoth", -1.0f);
+    } else if (_d68 == getEquipmentTypeName(2)) {
+        x_18(true);
+        x_25();
+        mASList->x_2(0x42, 0x1e, true, false);
+        x_27();
+        mASList->goLimpFromHeadShotMaybe(0x2c, "", 0);
+        x_26("WeaponEquipOn", 0.0f);
+        _1cdc = -1;
+    } else if (_d68 == getEquipmentTypeName(3)) {
+        x_25();
+        mASList->goLimpFromHeadShotMaybe(0x2c, "WeaponBow", 0);
+        x_26("WeaponEquipOn", 0.0f);
+        _1cdc = 3;
+        if (isSlowTime() || x_30()) {
+            _c50.setBit(11);
+            _1cc1 = false;
+            mASList->x_3(2, 0, &as::ASList::Unk2::sub_71011631BC,
+                         getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref());
+            const f32 rate = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+            mASList->x_3(0, 0, &as::ASList::Unk2::sub_71011631BC, rate);
+            mASList->x_3(1, 0, &as::ASList::Unk2::sub_71011631BC, rate);
+            const auto* param = getParam()->getRes().mGParamList->getPlayer();
+            const f32 time = sub_710086DB94(_cec.isOnBit(14) ? param->mDiveBowSlowMaxTime.ref() :
+                                                               param->mBowSlowMaxTime.ref());
+            _1d70 = ksys::Timer(time, time);
+        }
+    } else if (_d68 == getEquipmentTypeName(6)) {
+        x_31();
+        x_26("ItemEquipLeftOn", -1.0f);
+    }
+    uking::RuneMgr::instance()->sub_710067594C();
+}
+
 }  // namespace ksys::act
