@@ -3104,6 +3104,16 @@ public:
 class Unk_71024fc990 : public aal::ISpeakerBalanceSupplier {
 public:
     ~Unk_71024fc990() override;
+    // 0x7100ff8e90 (empty)
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index,
+                            f32 spread) override {}
+    // 0x7100ff8cc0: pans by _8 when _c is 1; on a surround output with the BGM manager's tunable set, also
+    // feeds the rear channels.
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                            s32 index_b, f32 spread) override;
+
+    /* 0x08 */ f32 _8;
+    /* 0x0c */ s32 _c;
 };
 
 // vtable 0x7102501910 (11 slots); placeholder generated from the vtable (genskel.py).
