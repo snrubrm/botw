@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiSiteBossFlameBall.h"
+#include <math/seadMatrix.h>
+#include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -113,6 +115,38 @@ void SiteBossFlameBall::loadParams_() {
 
 sead::Vector3f SiteBossFlameBall::m35() {
     return *mPosOffset_m;
+}
+
+// NON_MATCHING: scheduling of the two index computations (see lane2 log: locals `row = count / 4` then
+// `column = count % 5` declared first make it match)
+// 0x7100576f48: moves the held child along a ring: the ball's slot (count) picks a direction, which then
+// spins around itself by _1c0
+void SiteBossFlameBall::m37() {
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+
+    sead::Vector3f pos = m35();
+    const f32 offset = *mMoveOffset_s;
+    sead::Vector3f dir = sead::Vector3f::ey;
+    const s32 count = *mCount_m;
+    sead::Quatf q;
+    sead::Matrix33f mtx;
+
+    q.setAxisRadian(sead::Vector3f::ex, static_cast<f32>(count % 5) * sead::Mathf::deg2rad(36.0f));
+    mtx.fromQuat(q);
+    dir = mtx * dir;
+
+    q.setAxisRadian(sead::Vector3f::ey, static_cast<f32>(count / 4) * sead::Mathf::deg2rad(36.0f));
+    mtx.fromQuat(q);
+    dir = mtx * dir;
+
+    q.setAxisRadian(dir, _1c0);
+    _1c0 += *mMoveSpeed_s;
+    mtx.fromQuat(q);
+    pos += mtx * sead::Vector3f(offset, 0.0f, 0.0f);
+
+    child->setDynamicParam(pos, "TransOffset");
 }
 
 bool SiteBossFlameBall::m40() {
