@@ -320,6 +320,8 @@ public:
 
     // 0x7100945364 (inlined into the ScreenMainScreen3D / ScreenPauseMenuInfo constructors as well)
     Unk_7102474fd8();
+    // 0x710094581c (declared only; 796 bytes): a state function stored in _a0
+    void sub_710094581C();
     // 0x7100945c98 (placeholder name): closes the layout if it is open or opening; with `a1`, also when it is not
     // closed
     void sub_7100945C98(bool a1);
@@ -337,7 +339,7 @@ public:
     /* 0x18 */ eui::Animator* _18 = nullptr;
     /* 0x20 */ eui::Animator* _20 = nullptr;
     /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ void* _30 = nullptr;
+    /* 0x30 */ eui::Animator* _30 = nullptr;
     /* 0x38 */ eui::Animator* _38 = nullptr;
     /* 0x40 */ eui::Animator* _40 = nullptr;
     /* 0x48 */ eui::Animator* _48 = nullptr;
@@ -359,28 +361,55 @@ public:
     /* 0x9c */ bool _9c = false;
     /* 0x9d */ bool _9d = false;
     /* 0x9e */ bool _9e = false;
-    /* 0xa0 */ void* _a0 = nullptr;
-    /* 0xa8 */ void* _a8 = nullptr;
+    // a member function pointer (Unk_7102475050::m12 compares it with sub_710094581C)
+    /* 0xa0 */ void (Unk_7102474fd8::*_a0)() = nullptr;
     /* 0xb0 */ void* _b0 = nullptr;
 };
 
+// Placeholder: the common base of Unk_7102475050 and Unk_71024750c8. Both vtables have the slots m6 .. m12 after the
+// base's six, and the gauge helpers 0x7100945f78 / 0x7100946740 (in the base's TU) call m6 .. m9 and m12 on `this`;
+// it has no RTTI of its own (both derived classes check Unk_7102474fd8 directly) and no vtable of its own in the
+// original (abstract).
+class Unk_7102474fd8Gauge : public Unk_7102474fd8 {
+public:
+    virtual f32 m6() = 0;
+    virtual f32 m7() = 0;
+    virtual f32 m8() = 0;
+    virtual f32 m9(f32 value) = 0;
+    virtual bool m10() = 0;
+    virtual void m11() = 0;
+    virtual void m12() = 0;
+
+    // 0x7100945f78 (placeholder name): takes the new gauge value (m7), moves the gauge animation and the trace
+    // gauge, then updates the extra animators
+    void sub_7100945F78();
+    // 0x7100946318 (declared only; 304 bytes): sets the animators _50 / _40 / _20 from the player's state
+    void sub_7100946318();
+    // 0x7100946740 (placeholder name): opens the layout (and with `update`, refreshes the gauge first) if it is
+    // closed or closing; with `a1` also when it is not open
+    void sub_7100946740(bool a1, bool update);
+};
+
 // vtable 0x7102475050 (13 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102475050 : public Unk_7102474fd8 {
+class Unk_7102475050 : public Unk_7102474fd8Gauge {
     SEAD_RTTI_OVERRIDE(Unk_7102475050, Unk_7102474fd8)
 public:
     ~Unk_7102475050() override;
     // 0x71009468f0: also creates the "Born" (stopped at min) / "Dead" (stopped at max) animators and ends the timer
     void m4() override;
     // the gauge values from the UI Manager (uking::ui::sub_7100A9B6D0 / sub_7100A9B6F0)
-    virtual f32 m6();
-    virtual f32 m7();
+    f32 m6() override;
+    f32 m7() override;
     // 3000 (the default limit set by uking::ui::sub_7100945320)
-    virtual f32 m8();
+    f32 m8() override;
     // (value - 1000) / 2000 clamped to [0, 1]
-    virtual f32 m9(f32 value);
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    f32 m9(f32 value) override;
+    // 0x71009469b4 (not decompiled)
+    bool m10() override;
+    // 0x7100946688: restarts the timer while the value changes; plays _30 once the value is stable
+    void m11() override;
+    // 0x71009467d8: closes the layout once the value is stable and the state is sub_710094581C
+    void m12() override;
     s32 m5() override { return 5; }
 
     /* 0xb8 */ eui::Animator* _b8;
@@ -389,23 +418,24 @@ public:
 };
 
 // vtable 0x71024750c8 (13 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024750c8 : public Unk_7102474fd8 {
+class Unk_71024750c8 : public Unk_7102474fd8Gauge {
     SEAD_RTTI_OVERRIDE(Unk_71024750c8, Unk_7102474fd8)
 public:
     ~Unk_71024750c8() override;
     // 0x7100947244: also stops _40 at its minimum and drops it
     void m4() override;
     // the gauge value from the UI Manager (uking::ui::sub_7100A9B710)
-    virtual f32 m6();
+    f32 m6() override;
     // 1000 or 2000 depending on m6() (0 while it is not positive)
-    virtual f32 m7();
+    f32 m7() override;
     // 2000 (the default limit set by uking::ui::sub_7100945344)
-    virtual f32 m8();
+    f32 m8() override;
     // how many 1000 steps _8c is above 1000 (the parameter is unused)
-    virtual f32 m9(f32 value);
-    virtual void m10();
-    virtual void m11() {}
-    virtual void m12() {}
+    f32 m9(f32 value) override;
+    // 0x7100947318 (not decompiled)
+    bool m10() override;
+    void m11() override {}
+    void m12() override {}
     s32 m5() override { return 10; }
 };
 

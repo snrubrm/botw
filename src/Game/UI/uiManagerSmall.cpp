@@ -527,6 +527,50 @@ void Unk_7102474fd8::sub_71009468E0(f32 frame) {
     _58->Stop(frame);
 }
 
+// NON_MATCHING: we compile as C++17, so `_18->Stop(...)` loads the callee before evaluating the frame (the original
+// reads _18 again after GetFrameSize); the trace gauge locals share one stack slot in ours
+// 0x7100945f78
+void Unk_7102474fd8Gauge::sub_7100945F78() {
+    const f32 value = m7();
+    if (_88 != _8c)
+        _88 = _8c;
+    _8c = value;
+    const f32 rate = m9(value);
+    _18->Stop(rate * _18->GetFrameSize());
+    const f32 current = m6();
+    _90 = current;
+    _94 = current;
+    if (_10) {
+        f32 speed = 0;
+        uking::ui::sub_7100AA8FCC(&speed, current, m8());
+        _10->setTracingSpeed(speed);
+    }
+    if (_10) {
+        f32 shown = 0;
+        uking::ui::sub_7100AA8FCC(&shown, _90, m8());
+        _10->set50(shown);
+    }
+    sub_7100946318();
+    if (_38)
+        _38->StopAtMin();
+    if (_48)
+        _48->StopAtMin();
+}
+
+// 0x7100946740
+void Unk_7102474fd8Gauge::sub_7100946740(bool a1, bool update) {
+    if (!_8)
+        return;
+    if (_8->_91 == 3 || _8->_91 == 0) {
+        if (update)
+            sub_7100945F78();
+        _8->sub_7100BDDE7C(false, 0, true);
+        m12();
+    }
+    if (a1 && !(_8 && _8->_91 == 2))
+        _8->sub_7100BDDE7C(false, 1, true);
+}
+
 // 0x71009479c4
 Unk_7102474fd8::~Unk_7102474fd8() {
     _60.freeBuffer();
@@ -544,6 +588,32 @@ void Unk_7102475050::m4() {
             _c0->StopAtMax();
     }
     _c8.setToEnd();
+}
+
+// 0x7100946688
+void Unk_7102475050::m11() {
+    if (!_30)
+        return;
+    const f32 value = _8c;
+    if (value != _90) {
+        _c8.init(1.0f);
+        _c8.update();
+        return;
+    }
+    const f32 shown = _94;
+    _c8.update();
+    if (shown == value || uking::ui::sub_7100AA8F10() || !_8 || _8->_91 != 2 || _30->mRate != 0.0f)
+        return;
+    _30->PlayAuto(1.0f);
+}
+
+// 0x71009467d8
+void Unk_7102475050::m12() {
+    if (_8c == _90) {
+        _c8.setToEnd();
+        if (_a0 == &Unk_7102474fd8::sub_710094581C && !uking::ui::sub_7100AA8F30() && !_9e)
+            _8->startAnimCloseImpl_(false, true);
+    }
 }
 
 // 0x7100946968
