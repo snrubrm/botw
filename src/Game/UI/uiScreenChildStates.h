@@ -235,52 +235,7 @@ public:
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);
 
-// Polymorphic loader embedded in Unk_71009cb0c8 at 0x80 (vtable 0x710247e990; ctor 9cc648 and D1 9cc7c4 are not
-// decompiled). Queue count/state are consumed by 9cc3a0 / 9cc970; 9cbcc0 reads the task handle at 0x200 under the
-// owner's lock.
-class Unk_710247e990 {
-public:
-    Unk_710247e990();
-    virtual ~Unk_710247e990();
-
-    /* 0x08 */ s32 mQueueCount;
-    u8 _c[0x48 - 0xc];
-    /* 0x48 */ s32 mQueueState;
-    u8 _4c[0x200 - 0x4c];
-    /* 0x200 */ ksys::ManagedTaskHandle* mTaskHandle;
-};
-static_assert(sizeof(Unk_710247e990) == 0x208);
-
-// Native ctor 9cb0c8 and D1 9cbcc0 establish this non-polymorphic 0x2e8-byte controller.
-// Queue count/state are also initialized by inner ctor 9cc648 and consumed by 9cc3a0 / 9cc970.
-class Unk_71009cb0c8 {
-public:
-    Unk_71009cb0c8();
-    ~Unk_71009cb0c8();
-    void sub_71009CC3A0();
-    void sub_71009CC970();
-    bool sub_71009CBFA4() const;
-    bool sub_71009CBEAC() const;
-    void sub_71009CBE38();
-    // Full 216-byte native returns one of the resource's two texture records under the controller lock.
-    // Declaration only: resource access remains with its owner.
-    nn::ui2d::TextureInfo* sub_71009CBECC();
-    void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
-    void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
-
-    u8 _0[8];
-    /* 0x8 */ bool mApplied;
-    u8 _9[7];
-    /* 0x10 */ ksys::res::Handle* mTextureHandle;
-    /* 0x18 */ nn::ui2d::Material* mMaterial;
-    /* 0x20 */ nn::ui2d::ExternalTextureInfo mTexInfo;
-    /* 0x38 */ eui::Animator* mAnimator;
-    /* 0x40 */ sead::CriticalSection mCS;
-    /* 0x80 */ Unk_710247e990 mLoader;
-    // Member delegates set up by the ctor 9cb0c8 (trivially destroyed).
-    u8 _288[0x2e8 - 0x288];
-};
-static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
+// Unk_710247e990 / Unk_71009cb0c8: see uiScreens.h (ScreenSystemWindow01 embeds six controllers).
 
 // Factory 9d7294 allocates 0x708 bytes; full ctor 9c69a4 and dtor 9c6a2c
 // establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.

@@ -216,6 +216,12 @@ void ScreenSystemWindow01::m100() {
         invokeSoundLink2Event_("mc_CloseOnlyLoad");
 }
 
+// 0x7100a6637c
+void ScreenSystemWindow01::m128() {
+    for (auto& controller : _3748)
+        controller.sub_71009CC970();
+}
+
 // 0x7100a663d8 (CSV ScreenSystemWindow01::m129)
 void ScreenSystemWindow01::m129() {
     if (sUnk_710249ad74)

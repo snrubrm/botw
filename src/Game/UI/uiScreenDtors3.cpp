@@ -88,6 +88,8 @@ ScreenOptionWindow::~ScreenOptionWindow() {
         delete _3698.at(i);
     _3698.freeBuffer();
 }
+// NON_MATCHING: lib/agl declares agl::TextureData::~TextureData out of line; the original inlines it (only the
+// NVNtexture_ member destructor at 0x4910 is called)
 ScreenSystemWindow01::~ScreenSystemWindow01() = default;
 // 0x7100a324a0
 ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() {
