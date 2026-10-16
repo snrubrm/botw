@@ -1,4 +1,9 @@
 #include "Game/Actor/AI/aiMoveRemainsElectric.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "Game/Actor/aiUnk_710073033C.h"
 #include "Game/Actor/actRemains.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -48,6 +53,34 @@ MoveRemainsElectric::~MoveRemainsElectric() {
             }
             remains->_b98.sub_7100D3CFEC(part.mActorName);
         }
+    }
+}
+
+// Creates the cannon (RemainsElectricCannon) at the actor, binds it to the Spine_1 bone with CannonOffset
+// and links it as a calc child (_308).
+// NON_MATCHING: base address of the static name (data layout) and the offset load order in the matrix.
+void MoveRemainsElectric::sub_71004B1A00() {
+    auto* actor = mActor;
+    ksys::act::BaseProcLink link;
+    link.acquire(actor, false);
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(mActor->getMtx().getTranslation());
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+    auto* cannon = ksys::act::ActorCreator::instance()->createActor(
+        sUnk_71025bab88.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(cannon)) {
+        if (auto* binding = enemy->_f38) {
+            binding->x(mActor);
+            binding->_30.getKey() = {};
+            binding->_28 = "Spine_1";
+            const auto& offset = *mCannonOffset_s;
+            binding->_68 = sead::Matrix34f(1, 0, 0, offset.x, 0, 1, 0, offset.y, 0, 0, 1, offset.z);
+        }
+        enemy->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+        enemy->setConnectedCalcParent(actor, false);
+        _308.acquire(enemy, false);
     }
 }
 
