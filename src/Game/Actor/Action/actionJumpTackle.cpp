@@ -1,10 +1,13 @@
 #include "Game/Actor/Action/actionJumpTackle.h"
+#include <algorithm>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -20,8 +23,50 @@ bool JumpTackle::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original loads TargetPos while copying the position and keeps &_78 in a register only
+// around the speed clamp (load / register scheduling).
 void JumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    playAS("JumpAttack", false, 0, 0, -1.0f);
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    const sead::Vector3f* target = mParams.mTargetPos_d;
+    f32 height = *mParams.mJumpHeight_s;
+    const f32 height_diff = target->y - pos.y;
+    if (height_diff > height * 0.5f)
+        height += sead::Mathf::clampMax(height_diff - height * 0.5f, *mParams.mJumpHeightMaxOffset_s);
+
+    sead::Vector3f dir = *target;
+    dir -= pos;
+    ksys::util::sub_71011EFA00(&dir, dir, getUpDir(controller->get70()));
+    if (dir.normalize() < 1.0f) {
+        _78.value = *mParams.mMinSpeed_s;
+        _78.prev_value = *mParams.mMinSpeed_s;
+    } else {
+        f32 time = 0;
+        f32 speed = 0;
+        sead::Vector3f gravity = getGravity(mActor);
+        gravity *= 1.0f / 900.0f;
+        if (sub_710072CD88(height, &speed, &time, &pos, target, &gravity)) {
+            _78.value = _78.prev_value = speed;
+            _78.clamp(*mParams.mMinSpeed_s, *mParams.mMaxSpeed_s);
+        } else {
+            _78.value = *mParams.mMaxSpeed_s;
+            _78.prev_value = *mParams.mMaxSpeed_s;
+        }
+    }
+    _78.updateStats();
+    controller->sub_7100F5EDD8(1.0f);
+    controller->sub_7100F5E7F0(_78.value * 30.0f);
+    sub_710072C1B4(controller, mActor->getMtx().getBase(2));
+    controller->sub_7100F62B70(height);
+    controller->sub_7100F5EF08(true);
+    _90 = false;
+    m32();
+    setDamageCallbackTiming(mActor, 4, &_50);
 }
 
 void JumpTackle::leave_() {
