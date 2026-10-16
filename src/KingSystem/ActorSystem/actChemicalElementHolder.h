@@ -11,6 +11,8 @@
 class ElementSpark;
 struct ElementSparkCreateArg;
 class ElementWater;
+class ElementDirectionalWindOrGust;
+struct ElementDirectionalWindCreateArg;
 struct ElementWaterCreateArg;
 class ElementLightningFire;
 class ElementLightningShockwave;
@@ -54,6 +56,8 @@ public:
     ElementSpark* sub_71010C74A0(const ElementSparkCreateArg* arg);
     // lane1 s91 (declared only): 10EA040, the same factory for a 0x1b0-byte ElementWater.
     ElementWater* sub_71010EA040(const ElementWaterCreateArg* arg);
+    // lane1 s91 (declared only): 10F1BB0, the same factory for ElementDirectionalWindOrGust.
+    ElementDirectionalWindOrGust* sub_71010F1BB0(const ElementDirectionalWindCreateArg* arg);
     // Full factories 12FE4B4 / 12FE6E0 return the allocated lightning element.
     ElementLightningShockwave* sub_71012FE4B4(const ElementLightningCreateArg* arg);
     ElementLightningFire* sub_71012FE6E0(const ElementLightningCreateArg* arg);

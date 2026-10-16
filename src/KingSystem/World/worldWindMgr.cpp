@@ -1,4 +1,13 @@
 #include "KingSystem/World/worldWindMgr.h"
+#include <aal/aalHandle.h>
+#include <aal/aalShape.h>
+#include <aal/aalSoundSource.h>
+#include <aal/aalSpeakerBalanceUnifier.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2EventSLink.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/World/worldElementDirectionalWind.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Utils/Types.h"
 #include <utility/aglPrimitiveTexture.h>
@@ -206,3 +215,57 @@ f32 WindMgr::sub_71010EECF8(const sead::Vector3f* position, f32 value) {
 }
 
 }  // namespace ksys::world
+
+ElementDirectionalWindOrGust*
+ElementDirectionalWindOrGust::create(const ElementDirectionalWindCreateArg* arg) {
+    auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
+    if (holder)
+        return holder->sub_71010F1BB0(arg);
+    return nullptr;
+}
+
+// NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
+// constructor, so no temporary ElementName is built there.
+ElementDirectionalWindOrGust::ElementDirectionalWindOrGust(const ElementDirectionalWindCreateArg& arg,
+                                                           sead::Heap* heap)
+    : Unk_7102518688(ElementName(), heap, false) {
+    mArg = arg;
+    mArg.direction.normalize();
+
+    ElementName name;
+    if (mArg.flags & 2)
+        name.mName = "gust";
+    else
+        name.mName = "directional_wind";
+    if (mArg.actor && mArg.actor->getChemicalContainer())
+        name._18 = mArg.actor->getChemicalContainer()->_68;
+    emitWrap(name, ksys::world::Manager::instance()->getElementHolderMaybe());
+
+    if (mArg.flags & 4)
+        _88 = true;
+    mArg.actor = nullptr;
+}
+
+ElementDirectionalWindOrGust::~ElementDirectionalWindOrGust() {
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+    _50 = false;
+    if (_58.isActive()) {
+        _58.fade();
+        _58.reset();
+    }
+    if (_68.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+    }
+    _68.fade();
+    _78 = false;
+    if (_80) {
+        _80->destroy();
+        _80 = nullptr;
+    }
+}

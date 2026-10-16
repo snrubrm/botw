@@ -64,6 +64,5 @@ void Unk_710250d530::sub_71010F17FC(bool remove_links) {
     }
 }
 
-Unk_710250d2a0::~Unk_710250d2a0() = default;
 
 Unk_710250d3e8::~Unk_710250d3e8() = default;
