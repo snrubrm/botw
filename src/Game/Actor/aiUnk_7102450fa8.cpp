@@ -82,13 +82,36 @@ bool Unk_7102450fa8::sub_710071962C(sead::Vector3f* out) {
     return true;
 }
 
+// NON_MATCHING: ours merges the member range test into one compare (the original tests 0 and > 8 separately).
+bool Unk_7102450fa8::sub_71007196EC(s32 idx, const sead::Vector3f& pos) {
+    const u32 member = idx - 2;
+    if (member == 0 || member > 8)
+        return false;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (idx < _8.size()) {
+        ksys::act::acquireActor(&_8[idx]._e0, &accessor);
+        if (accessor.hasProc() && accessor.isStateSleep()) {
+            sead::Matrix34f mtx;
+            mtx = accessor.getActorMtx();
+            mtx.setTranslation(pos);
+            accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+            if (!(_80 & (1u << idx))) {
+                _80 |= 1u << idx;
+                ++_74;
+                _50[member] = _74 % 2 != 0 ? _74 / 2 + 1 : -(_74 / 2);
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void Unk_7102450fa8::sub_71007199A8() {
     _80 = 0;
-    _68 = 0;
+    _50.fill(0);
     _70 = 0;
-    _50 = 0;
-    _58 = 0;
-    _60 = 0;
+    _74 = 0;
 }
 
 s32 Unk_7102450fa8::sub_7100719F70() {

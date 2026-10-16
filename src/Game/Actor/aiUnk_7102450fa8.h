@@ -135,6 +135,8 @@ public:
     bool sub_710071A2D0();
     // 0x710071962c: copies the global {0, 0, 900} (sUnk_71025c8cf8) to `out` and returns true. Placeholder name.
     bool sub_710071962C(sead::Vector3f* out);
+    // 0x71007196ec: places the sleeping member `idx` at `pos` and gives it the next side offset
+    bool sub_71007196EC(s32 idx, const sead::Vector3f& pos);
     // 0x71007199a8: zeroes `_50`..`_70` and `_80`. Placeholder name.
     void sub_71007199A8();
     // 0x7100719f70: `_88 ? _88->m4() : 0` (result goes through a Phase temporary). Placeholder name.
@@ -161,11 +163,9 @@ public:
     /* 0x048 */ f32 _48;  // RespawnBaseMoveTime
     /* 0x04c */ f32 _4c;  // RespawnBaseInterval
     // Cleared together with `_80` by sub_71007199A8.
-    /* 0x050 */ u64 _50;
-    /* 0x058 */ u64 _58;
-    /* 0x060 */ u64 _60;
-    /* 0x068 */ u64 _68;
-    /* 0x070 */ u64 _70;
+    /* 0x050 */ sead::SafeArray<s32, 8> _50;  // per member 3 .. 10: alternating side offset (sub_71007196EC)
+    /* 0x070 */ s32 _70;
+    /* 0x074 */ s32 _74;  // number of members placed (sub_71007196EC)
     /* 0x078 */ sead::BitFlag32 _78;
     /* 0x07c */ u8 _7c[0x80 - 0x7c];
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
