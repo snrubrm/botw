@@ -4,6 +4,7 @@
 #include <Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h>
 #include <limits>
 #include <basis/seadTypes.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include <container/seadOffsetList.h>
 #include <heap/seadDisposer.h>
 #include <math/seadMathCalcCommon.h>
@@ -63,21 +64,66 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(NavMeshSystemThread, 0x110);
 
-// Placeholder name (vtable 0x7102372790; a second base with its own vtable at +0x10): base of the
-// navmesh query requests that AI / horse code allocates from NavMeshQueryRequestPool's heap and
-// hands to HavokAI::submitQuery / destroyQuery (e.g. the derived class with vtable 0x71024ed690).
-// TODO: incomplete (virtuals: D1 0x71000e43e8, D0, 0x71000e4348 (clears _8), 0x71000e4350, a pure
-// slot, 0x71000e43d0).
-class Unk_7102372790 {
+// Placeholder name: the abstract base of the navmesh query requests that AI / horse code allocates from
+// NavMeshQueryRequestPool's heap and hands to HavokAI::submitQuery / destroyQuery. Every query vtable starts
+// with the same slots: an empty D1 (0x71000e43e8 for the trivial ones), D0, reset 0x71000e4348 and process.
+class NavMeshQuery {
 public:
-    virtual ~Unk_7102372790();
+    virtual ~NavMeshQuery() {}
+    // 0x71000e4348 (shared): marks the query idle.
+    virtual void reset() { _8 = 0; }
+    // Runs the query; called with the HavokAI instance (0x71000e4350 for Unk_7102372790, 0x7100f809e4 for
+    // NavMeshFaceQuery).
+    virtual void process(HavokAI* ai) = 0;
 
-    /* 0x08 */ u8 _8;  // 0: idle, 1: queued, 2: processed (NavMeshQueryRequestPool)
-    /* 0x09 */ bool _9;  // set by destroyQuery before it is queued
+    /* 0x08 */ u8 _8 = 0;  // 0: idle, 1: queued, 2: processed (NavMeshQueryRequestPool)
+    /* 0x09 */ bool _9 = false;  // set by destroyQuery before it is queued
+};
+
+// Placeholder name (vtable 0x7102372790: D1 0x71000e43e8, D0 0x71000e4344, reset, process 0x71000e4350): a
+// query that WolfLinkAmiibo derives from (vtable 0x71024ed690) and MotorcycleMgr / CreateEpona use.
+class Unk_7102372790 : public NavMeshQuery {
+public:
+    // 0x71000e4350 (declared only).
+    void process(HavokAI* ai) override;
+
     /* 0x0c */ sead::Vector3f _c;  // the result position (MotorcycleMgr::spawnMotorcycle_x; layout of the
                                    // derived query class not modelled)
     u8 _18[0x24 - 0x18];
     /* 0x24 */ s32 _24;
+};
+
+// Placeholder name: the callback interface of the face searches (HavokAI::sub_7100F87334). Its m1 / m2
+// defaults are 0x71000e43d0 / 0x71000e43e0 (not Unk_NavMeshCallback's out-of-line copies).
+class NavMeshFaceCallback {
+public:
+    // Visits one face; returning true takes it.
+    virtual bool m0(const Unk_7100f7e9f0& face) = 0;
+    virtual void* m1() { return nullptr; }
+    virtual bool m2() { return true; }
+};
+
+// Placeholder name (RTTI root; typeinfo static 0x71025b3c00, emitted with the HorseMoveToSafePos TU): a query
+// bound to a character. NavMeshCharacter::_2e0 holds one; HorseMoveToSafePos casts it to its own query class.
+class NavMeshCharacterQuery : public NavMeshQuery {
+    SEAD_RTTI_BASE(NavMeshCharacterQuery)
+public:
+    /* 0x10 */ NavMeshCharacter* mCharacter = nullptr;
+};
+
+// Placeholder name (typeinfo static 0x71025b3bf0, Derive vtable 0x710239b208): searches the faces within
+// mRadius of mPos (or of the character when mPos is NaN) and passes them to m0. The leaves (HorseMoveToSafePos's
+// query: typeinfo 0x71025b3be0, vtable 0x710239b178, 0x50 bytes; HorseSwimAction's: typeinfo 0x7102602e80,
+// 0x58 bytes) override m0 / m1 and keep the face they take.
+class NavMeshFaceQuery : public NavMeshCharacterQuery, public NavMeshFaceCallback {
+    SEAD_RTTI_OVERRIDE(NavMeshFaceQuery, NavMeshCharacterQuery)
+public:
+    // 0x7100f809e4
+    void process(HavokAI* ai) override;
+
+    /* 0x20 */ sead::Vector3f mPos;
+    /* 0x2c */ f32 mRadius;
+    /* 0x30 */ bool _30;
 };
 
 // Name from the CSV (NavMeshLoadMgr::a 0x7100f8a3b8 ... 0x7100f8bf64; lane1 s26: placeholder, only what callers use is declared;
@@ -250,16 +296,16 @@ KSYS_CHECK_SIZE_NX150(NavMeshObj2Maybe, 0x98);
 class NavMeshQueryRequestPool {
 public:
     // 0x71012a9ee8: sets query->_9 and pushes it to the queue at +0x180.
-    void sub_71012A9EE8(Unk_7102372790* query);
+    void sub_71012A9EE8(NavMeshQuery* query);
     // 0x71012a9f68: pushes the query to the queue at +0x180; false if it is null or the queue is full.
-    bool sub_71012A9F68(Unk_7102372790* query);
+    bool sub_71012A9F68(NavMeshQuery* query);
     // 0x71012aa000 (declared only): sets query->_9 = 1.
-    void sub_71012AA000(Unk_7102372790* query);
+    void sub_71012AA000(NavMeshQuery* query);
 
     // 0x71012aa080 (same as sub_71012A9F68), 0x71012aa118 / 0x71012aa1f0: remove `query` / the character
     // from the queues (under the lock at +8 / +0x48).
-    bool sub_71012AA080(Unk_7102372790* query);
-    void sub_71012AA118(Unk_7102372790* query);
+    bool sub_71012AA080(NavMeshQuery* query);
+    void sub_71012AA118(NavMeshQuery* query);
     void sub_71012AA1F0(NavMeshCharacter* nav);
     // 0x71012aa270 / 0x71012aa2f0 (placeholder names): remove `obj` from the queue at +0x150 / +0x168.
     void sub_71012AA270(NavMeshObjMaybe* obj);
@@ -270,14 +316,16 @@ public:
     /* 0x048 */ sead::CriticalSection _48;
     /* 0x088 */ sead::CriticalSection _88;  // guards _150 (0x71012aa270)
     /* 0x0c8 */ sead::CriticalSection _c8;  // guards _168 (0x71012aa2f0)
-    /* 0x108 */ Unk_RequestQueue<Unk_7102372790> _108;
-    /* 0x120 */ Unk_RequestQueue<Unk_7102372790> _120;
+    /* 0x108 */ Unk_RequestQueue<NavMeshQuery> _108;
+    /* 0x120 */ Unk_RequestQueue<NavMeshQuery> _120;
     /* 0x138 */ util::LockFreeQueue<NavMeshCharacter> _138;  // pushed by HavokAI::sub_7100F82BCC
     // The push loop of 0x7100f8305c etc. matches util::LockFreeQueue (same 0x18-byte layout as Unk_RequestQueue).
     /* 0x150 */ util::LockFreeQueue<NavMeshObjMaybe> _150;
     /* 0x168 */ util::LockFreeQueue<NavMeshObj2Maybe> _168;
-    /* 0x180 */ Unk_RequestQueue<Unk_7102372790> _180;
-    /* 0x198 */ Unk_7102372790* _198;
+    /* 0x180 */ Unk_RequestQueue<NavMeshQuery> _180;
+    /* 0x198 */ NavMeshQuery* _198;
+    // The heap the query requests are allocated from (callers call tryAlloc on it directly).
+    /* 0x1a0 */ sead::Heap* mHeap;
 };
 
 // Name from the CSV (HavokAI::createInstance 0x7100f80b20, init 0x7100f80f38, ...). A polymorphic sead
@@ -374,16 +422,20 @@ public:
     // (`pos` may be null; `radius` is the character's `_2a8 * _2ac`).
     bool sub_7100F87594(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 value, bool flag,
                         void* out);
+    // 0x7100f87334 (declared only; 304 B): the face search of NavMeshFaceQuery::process (`pos` may be null;
+    // `radius` is the character's `_2a8 * _2ac`).
+    void sub_7100F87334(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 search_radius,
+                        bool flag, NavMeshFaceCallback* callback);
 
     // 0x7100f83a9c (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F75AF0 forwards its query here.
-    void sub_7100F83A9C(Unk_7102372790* query);
+    void sub_7100F83A9C(NavMeshQuery* query);
 
     // 0x7100f83a94 (CSV HavokAI::__auto4): hands the query back to the pool (NavMeshCharacter::finalize).
-    void sub_7100F83A94(Unk_7102372790* query);
+    void sub_7100F83A94(NavMeshQuery* query);
 
     // 0x7100f83a84 / 0x7100f83a8c (CSV names).
-    void destroyQuery(Unk_7102372790* query);
-    bool submitQuery(Unk_7102372790* query);
+    void destroyQuery(NavMeshQuery* query);
+    bool submitQuery(NavMeshQuery* query);
 
     // inline-only in the original; name is a guess. A shared lock: up to 0x100 holders, the event is reset by the first
     // and signalled when the last one leaves. The same acquire / release sequence is inlined into 0x7100f857f4,

@@ -24,6 +24,7 @@ namespace ksys::phys {
 class HavokAI;
 struct NavMeshObjMaybe;
 class Unk_7102372790;
+class NavMeshCharacterQuery;
 class Unk_7100f7e9f0Event;
 
 // Placeholder name (ctor 0x7100f7e9f0, dtor 0x7100f7eb14; 0x18 bytes): result returned by value
@@ -320,7 +321,7 @@ public:
     /* 0x2d0 */ f32 _2d0;
     /* 0x2d4 */ f32 _2d4;
     /* 0x2d8 */ u8 _2d8[0x2e0 - 0x2d8];
-    /* 0x2e0 */ Unk_7102372790* _2e0;  // navmesh query (released through HavokAI::sub_7100F83A94)
+    /* 0x2e0 */ NavMeshCharacterQuery* _2e0;  // navmesh query (released through HavokAI::sub_7100F83A94)
 };
 
 }  // namespace ksys::phys

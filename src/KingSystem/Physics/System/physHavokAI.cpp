@@ -8,6 +8,11 @@
 
 namespace ksys::phys {
 
+void NavMeshFaceQuery::process(HavokAI* ai) {
+    const f32 radius = mCharacter->getRadiusMaybe();
+    ai->sub_7100F87334(mCharacter, mPos.isNan() ? nullptr : &mPos, radius, mRadius, _30, this);
+}
+
 void HavokAI::sub_7100F83460(NavMeshObjMaybe* obj) {
     auto lock = sead::makeScopedLock(_50);
     if (obj->_98 != this && !obj->_98) {
@@ -40,19 +45,19 @@ void HavokAI::sub_7100F834CC(NavMeshObjMaybe* obj, bool queued) {
 }
 
 
-void HavokAI::destroyQuery(Unk_7102372790* query) {
+void HavokAI::destroyQuery(NavMeshQuery* query) {
     _40->sub_71012A9EE8(query);
 }
 
-void HavokAI::sub_7100F83A94(Unk_7102372790* query) {
+void HavokAI::sub_7100F83A94(NavMeshQuery* query) {
     _40->sub_71012AA000(query);
 }
 
-void HavokAI::sub_7100F83A9C(Unk_7102372790* query) {
+void HavokAI::sub_7100F83A9C(NavMeshQuery* query) {
     _40->sub_71012AA080(query);
 }
 
-bool HavokAI::submitQuery(Unk_7102372790* query) {
+bool HavokAI::submitQuery(NavMeshQuery* query) {
     return _40->sub_71012A9F68(query);
 }
 
