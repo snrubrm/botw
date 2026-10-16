@@ -392,17 +392,6 @@ void NavMeshObjMaybe::sub_7100F7FB0C(bool on) {
     }
 }
 
-u8 NavMeshCharacter::sub_7100F74F94(const NavMeshCharacter* character) {
-    return character ? character->_1d8 : 0;
-}
-
-// NON_MATCHING: the original spills `type` to the stack and reloads it (unexplained, as in sub_7100F74FD8).
-bool NavMeshCharacter::sub_7100F74FA0(s32 type, s32 material) {
-    if (type == 0)
-        return true;
-    return material == 10 && type != 10;
-}
-
 Unk_71024f67c8::~Unk_71024f67c8() = default;
 
 Unk_71024f67c8* Unk_71024f67c8::sub_7100F73640(const InitArg& arg, sead::Heap* heap) {

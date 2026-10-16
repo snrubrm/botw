@@ -21,6 +21,8 @@ bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTy
     bool exists = false;
     _428->tryIsExistFile(&exists, path);
     return exists;
+}
+
 // NON_MATCHING: our sead::Viewport destructor is out of line (the original has no destructor call).
 void Terrain::sub_710114C648(agl::DrawContext* context) {
     RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];

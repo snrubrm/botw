@@ -287,7 +287,40 @@ public:
     u8 _3de;
     u8 _3df[0x400 - 0x3df];
     f32 _400;
-    u8 _404[0x428 - 0x404];
+    u8 _404[0x418 - 0x404];
+    // Placeholder: one render target set per core (0x710114c3c4 .. 0x710114ce48 index this buffer with
+    // sead::CoreInfo::getCurrentCoreId()). Color targets 0 / 1 at 0x68 / 0x1e0, depth at 0x358, eight samplers
+    // at 0x4d0; bits 0 / 1 of mColorFlags mark bound color targets (0x710114c9d0 invalidates them).
+    struct RenderSet {
+        agl::RenderBuffer mRenderBuffer;
+        agl::RenderTargetColor mColorTargets[2];
+        agl::RenderTargetDepth mDepthTarget;
+        agl::TextureSampler mSamplers[8];
+        u32 mColorFlags;
+    };
+    // 0x710114c9d0 (placeholder name): invalidates the GPU cache of the bound color targets of this core's set
+    // and clears their flags.
+    void sub_710114C9D0(agl::DrawContext* context);
+    // 0x710114c648 (placeholder name): binds this core's render set and fast-clears its depth to 1.
+    void sub_710114C648(agl::DrawContext* context);
+    // 0x710114c3c4 (declaration only; placeholder name): binds `texture` (mip, layer) as color target `index`
+    // of this core's set. Flag bit 0 first unbinds all targets, bit 1 sets the buffer size from the texture and
+    // binds it (or clears it through 0x710114c648 when bit 31 of mColorFlags is set). The agl layer / mip
+    // setters it inlines are not in lib/agl yet.
+    void sub_710114C3C4(agl::DrawContext* context, const agl::TextureData& texture, u32 mip, u32 layer,
+                        s32 index, u32 flags);
+    // 0x710114c72c (declaration only; placeholder name): the same for the depth target, with its storage.
+    void sub_710114C72C(agl::DrawContext* context, const agl::TextureData& texture,
+                        const agl::GPUMemVoidAddr& storage, u32 mip, u32 flags);
+    // 0x710114ca64 (declaration only; placeholder name): when bit 0 of `flags` is set, resets sampler `index`
+    // of this core's set (filters, wraps, LOD, border colour sead::Color4f::cBlack).
+    void sub_710114CA64(s32 index, u32 flags);
+    // 0x710114ce48 (declaration only; placeholder name; x0 is not read): sets three uniforms of `program`,
+    // activates `sampler` and the shared vertex attribute, then draws.
+    static void sub_710114CE48(agl::DrawContext* context, const agl::ShaderProgram* program,
+                               const agl::TextureSampler* sampler, const sead::Vector4f* a,
+                               const sead::Vector4f* b, const sead::Vector4f* c);
+    sead::Buffer<RenderSet> mRenderSets;
     // Checked for image files by sub_710114D928.
     sead::FileDevice* _428;
     u8 _430[0x680 - 0x430];
