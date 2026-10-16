@@ -1963,6 +1963,49 @@ void ScreenAppPictureBookUnk::sub_710094004C() {
     sub_710093EE8C(0, first, 2);
 }
 
+// NON_MATCHING: the original reloads mEntries' buffer in the first loop (ours hoists it)
+// 0x710093e258
+void ScreenAppPictureBookUnk::sub_710093E258(s32 entry_index, s32 index, s32 col, s32 row, s32* out) {
+    *out = 0;
+    if (entry_index < 0 || mEntries.size() < 1)
+        return;
+    for (s32 i = 0; i < entry_index; ++i)
+        *out += mEntries(i)->mParams._29c;
+    const ScreenAppPictureBookEntry* entry = mEntries[entry_index];
+    const s32 a0 = entry->mParams._2a0;
+    const s32 a4 = entry->mParams._2a4;
+    *out += a0 * index * a4;
+
+    s32 offset = -1;
+    switch (mConfig._64) {
+    case 0:
+        if (mConfig._68 == 1)
+            offset = col + a0 * row;
+        else if (mConfig._68 == 3)
+            offset = row + a4 * col;
+        break;
+    case 1:
+        if (mConfig._68 == 3)
+            offset = row + (a0 - 1 - col) * a4;
+        else if (mConfig._68 == 0)
+            offset = a0 - 1 - col + a0 * row;
+        break;
+    case 2:
+        if (mConfig._68 == 1)
+            offset = col + (a4 - 1 - row) * a0;
+        else if (mConfig._68 == 2)
+            offset = a4 - 1 - row + a4 * col;
+        break;
+    case 3:
+        if (mConfig._68 == 2)
+            offset = a4 - 1 - row + (a0 - 1 - col) * a4;
+        else if (mConfig._68 == 0)
+            offset = a0 - 1 - col + (a4 - 1 - row) * a0;
+        break;
+    }
+    *out += offset;
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
