@@ -29,6 +29,22 @@ void HorseMgr::initHorseGameDataItersAndStuff(sead::Heap* heap, bool on) {
     ksys::gdt::Manager::instance()->addReinitCallback(mReinitSlot);
 }
 
+void HorseMgr::initHorseGameDataIters() {
+    _180 = ksys::gdt::Manager::instance()->getVec3fHandle("Horse_Pos");
+    _184 = ksys::gdt::Manager::instance()->getF32Handle("Horse_RotY");
+    _188 = ksys::gdt::Manager::instance()->getVec3fHandle("Horse_Pos_For_Map");
+    _18c = ksys::gdt::Manager::instance()->getVec3fHandle("Last_Ridden_Horse_Pos");
+    _190 = ksys::gdt::Manager::instance()->getF32Handle("Last_Ridden_Horse_RotY");
+    _194 = ksys::gdt::Manager::instance()->getS32Handle("Horse_Extra_Charge_Num");
+    _198 = ksys::gdt::Manager::instance()->getS32Handle("Last_Ridden_Horse_Extra_Charge_Num");
+    _19c = ksys::gdt::Manager::instance()->getF32ArrayHandle("Horse_Familiarity");
+    _1a0 = ksys::gdt::Manager::instance()->getS32Handle("Horse_ActiveIndex");
+    _1a4 = ksys::gdt::Manager::instance()->getStr64ArrayHandle("Horse_ActorName");
+    _1a8 = ksys::gdt::Manager::instance()->getBoolHandle("Horse_Is_LastRidden_Owned");
+    _1ac = ksys::gdt::Manager::instance()->getBoolHandle("Horse_Large_Exists");
+    _1b0 = ksys::gdt::Manager::instance()->getBoolHandle("Horse_Zelda_Exists");
+}
+
 bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
     return actor && _30.hasProcById(actor);
 }

@@ -144,7 +144,7 @@ public:
     // 0x7100e84984 (CSV name; static): copies the Horse_Pos game data flag to Horse_Pos_For_Map.
     static void setHorsePosForMap();
     // 0x7100e824a0 (CSV name): sets flag _0 to `on`, initialises the game data handles (initHorseGameDataIters,
-    // 0x7100e82500, declaration only) and registers mReinitSlot. `heap` is unused.
+    // 0x7100e82500) and registers mReinitSlot. `heap` is unused.
     // 0x7100e8235c (CSV j_initHorseGameDataIters; name is a guess): the mReinitSlot callback.
     void onGameDataReinit(ksys::gdt::Manager::ReinitEvent* event);
     void initHorseGameDataItersAndStuff(sead::Heap* heap, bool on);
@@ -217,11 +217,22 @@ public:
     /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver
     u8 _c8[0xd0 - 0xc8];
     /* 0x0d0 */ s32 _d0;  // the selected horse (-1: none)
-    u8 _d4[0x19c - 0xd4];
+    u8 _d4[0x180 - 0xd4];
+    // Game data handles set by initHorseGameDataIters (0x7100e82500).
+    /* 0x180 */ ksys::gdt::FlagHandle _180;  // Horse_Pos
+    /* 0x184 */ ksys::gdt::FlagHandle _184;  // Horse_RotY
+    /* 0x188 */ ksys::gdt::FlagHandle _188;  // Horse_Pos_For_Map
+    /* 0x18c */ ksys::gdt::FlagHandle _18c;  // Last_Ridden_Horse_Pos
+    /* 0x190 */ ksys::gdt::FlagHandle _190;  // Last_Ridden_Horse_RotY
+    /* 0x194 */ ksys::gdt::FlagHandle _194;  // Horse_Extra_Charge_Num
+    /* 0x198 */ ksys::gdt::FlagHandle _198;  // Last_Ridden_Horse_Extra_Charge_Num
     /* 0x19c */ ksys::gdt::FlagHandle _19c;  // Horse_Familiarity
     /* 0x1a0 */ ksys::gdt::FlagHandle _1a0;  // Horse_ActiveIndex
     /* 0x1a4 */ ksys::gdt::FlagHandle _1a4;  // Horse_ActorName
-    u8 _1a8[0x1b8 - 0x1a8];
+    /* 0x1a8 */ ksys::gdt::FlagHandle _1a8;  // Horse_Is_LastRidden_Owned
+    /* 0x1ac */ ksys::gdt::FlagHandle _1ac;  // Horse_Large_Exists
+    /* 0x1b0 */ ksys::gdt::FlagHandle _1b0;  // Horse_Zelda_Exists
+    u8 _1b4[0x1b8 - 0x1b4];
     // Registered with gdt::Manager::addReinitCallback by initHorseGameDataItersAndStuff (the delegate target is
     // set by the constructor, not decompiled).
     /* 0x1b8 */ ksys::gdt::Manager::ReinitSignal::Slot mReinitSlot;
