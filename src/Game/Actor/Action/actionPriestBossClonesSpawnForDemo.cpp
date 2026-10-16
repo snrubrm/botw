@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/System/Timer.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -25,8 +26,60 @@ bool PriestBossClonesSpawnForDemo::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: block placement of the phase switch and a pointer kept to _50.
 void PriestBossClonesSpawnForDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mActor) {
+        setFailed();
+        return;
+    }
+
+    if (!sub_71000664E4()) {
+        setFailed();
+    } else {
+        sub_71007A397C(mActor);
+        bool link = true;
+        if (mActor->get1a0() ||
+            (mActor->getMapObject() &&
+             mActor->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+            _50 = 2;
+        } else {
+            const auto phase = sub_71000664E4()->_3c;
+            if (phase == Unk_7102450fa8::Phase::_1)
+                _50 = 2;
+            else if (phase == Unk_7102450fa8::Phase::_3)
+                _50 = 1;
+            else if (_50 == -1)
+                link = false;
+        }
+
+        if (link) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            if (sub_71000664E4()->sub_71007194D4(_50, &accessor) && mActor->getPhysics() &&
+                accessor.x(0)) {
+                mActor->getPhysics()->sub_7100FBDFA4(accessor.x(0));
+            }
+        }
+    }
+
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+    _54 = 0;
+    _58 = 0;
+    _5c = 0;
+    _60 = *mOffset_d;
+    const f32 distance = _60.normalize();
+    const f32 speed = distance / f32(*mDurationFrame_d);
+    _6c = speed;
+
+    if (*mDecelerationFrame_d >= 1) {
+        f32 sum = 0.0f;
+        for (f32 i = 1.0f; i <= f32(*mDecelerationFrame_d); i += 1.0f)
+            sum += m33(i / f32(*mDecelerationFrame_d));
+        _70 = speed * (f32(*mDecelerationFrame_d) - sum) / f32(*mDurationFrame_d);
+    } else {
+        _70 = 0.0f;
+    }
+    _74 = 0.0f;
+    _84 = true;
 }
 
 void PriestBossClonesSpawnForDemo::leave_() {
