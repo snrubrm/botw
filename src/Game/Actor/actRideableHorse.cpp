@@ -1,3 +1,4 @@
+#include "Game/Actor/actHorseStrings.h"
 #include "Game/Actor/actRideableHorse.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseBase.h"
@@ -23,6 +24,22 @@ RideableHorse::~RideableHorse() {
 
 RideableBase* RideableHorse::make(sead::Heap* heap) {
     return new (heap, std::nothrow) RideableHorse;
+}
+
+// NON_MATCHING: scheduling of the second call's arguments.
+bool RideableHorse::m4(ksys::act::Actor* actor, sead::Heap* heap) {
+    if (!Rideable::m4(actor, heap))
+        return false;
+    if (auto* controller = actor->getCharacterController()) {
+        if (!_280.tryAllocBuffer(2, heap))
+            return false;
+        _280[0].sub_7100E794A8(controller, sUnk_7102603370, heap, 1.5f, 1.0f, 3.5f, 1.0f, 0.0f, 20.0f,
+                               4.0f, 19.0f, 0.04f, 2.0f, 1.0f, 0.0f, 0.16f);
+        _280[1].sub_7100E794A8(controller, sUnk_71026033c0, heap, 2.5f, 1.0f, 3.0f, 1.0f, 0.2f, 18.0f,
+                               4.0f, 20.0f, 0.04f, 4.5f, 1.0f, 0.0f, 0.2f);
+    }
+    _18._52 |= 1;
+    return true;
 }
 
 // NON_MATCHING: the native enum conversion uses a stack temporary; the table complement is folded.

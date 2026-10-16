@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include "Game/Actor/actRideable.h"
 
 namespace uking::act {
@@ -12,6 +13,12 @@ class HorseBase;
 struct Unk_7100e7941c {
     Unk_7100e7941c();
     ~Unk_7100e7941c();
+    // 0x7100e794a8 (placeholder name; declaration only, 1180 B): creates the capsule bodies and the contact
+    // info for `controller` (`names`: the Jump_Gear* name table); 13 shape / layer values.
+    void sub_7100E794A8(ksys::phys::CharacterController* controller,
+                        const sead::SafeArray<sead::SafeString, 5>& names, sead::Heap* heap, f32 a0,
+                        f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8, f32 a9, f32 a10,
+                        f32 a11, f32 a12);
 
     ksys::phys::RigidBody* _0 = nullptr;
     ksys::phys::RigidBody* _8 = nullptr;
@@ -50,6 +57,7 @@ public:
     void m42(s32 a) override;
     void m43() override;
 
+    bool m4(ksys::act::Actor* actor, sead::Heap* heap) override;
     void m7() override;
     void m8() override;
 
