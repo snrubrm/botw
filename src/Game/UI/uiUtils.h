@@ -367,6 +367,8 @@ bool getMainScreenOnOff();
 // 0x7100aa34a4 (placeholder name; declared only, 760 B): sets the button icon `icon` (a UI button id; 28 / 29 depend on
 // the JumpButtonChange flag) on the parts pane `parts`; `name` is the icon pane's name.
 void sub_7100AA34A4(void* parts, const sead::SafeString& name, s32 icon);
+// 0x7100aa379c (uiGdtFacade.cpp): the icon of a button id (28 / 29 swap with JumpButtonChange)
+s32 sub_7100AA379C(s32 button);
 
 // 0x7100aa8f78: `actor` itself, or the player if there is none.
 ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);

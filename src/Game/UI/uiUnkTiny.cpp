@@ -1073,6 +1073,33 @@ void Unk_7102474bc8::sub_7100933FB8(u32 index, ScreenChild* target) {
 }
 
 // 0x7100933938
+// 0x7100933fe0
+void Unk_7102474bc8::sub_7100933FE0(const UiStringEntry& entry) {
+    if (_150) {
+        for (s32 i = 0; i < _8; ++i) {
+            auto& record = _140[i];
+            record._0 = -1;
+            record._8.copy(sead::SafeString::cEmptyString);
+            record._120 = 30;
+            record._124 = -1;
+        }
+        _150 = 0;
+    }
+    for (s32 i = 0; i < _8; ++i) {
+        auto& record = _140[i];
+        if (record._0 != -1)
+            continue;
+        record = entry;
+        _140[i]._124 = 0;
+        const s32 priority = sub_7100AA379C(_140[i]._120);
+        for (s32 j = i - 1; j >= 0; --j) {
+            const s32 other = sub_7100AA379C(_140[j]._120);
+            _140[priority > other ? i : j]._124 += 1;
+        }
+        return;
+    }
+}
+
 // 0x7100934308
 void Unk_7102474bc8::sub_7100934308(s32 id, const sead::SafeString& text, s32 value) {
     UiStringEntry entry;
