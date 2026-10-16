@@ -492,4 +492,21 @@ bool Player::sub_7100890394() {
            mASList->x_1(1, 1) == "ItemBombReady";
 }
 
+// Placeholder name: when the upper body (AS slot 1) plays ItemCommonReady / ItemMagneCatchStart / ItemCommonStart
+// and the full body does not, switches the full body to it. In this file because sub_7100855824 is out of line.
+void Player::sub_710088C5A4() {
+    if (mASList->x_1(1, 1) == "ItemCommonReady" && mASList->x_1(0, 0) != "ItemCommonReady") {
+        switchToAnimSequenceMaybe("ItemCommonReady", true, -1.0f);
+        sub_7100855824();
+    }
+    if (mASList->x_1(1, 1) == "ItemMagneCatchStart" && mASList->x_1(0, 0) != "ItemMagneCatchStart") {
+        switchToAnimSequenceMaybe("ItemMagneCatchStart", true, -1.0f);
+        sub_7100855824();
+    }
+    if (mASList->x_1(1, 1) == "ItemCommonStart" && mASList->x_1(0, 0) != "ItemCommonStart") {
+        switchToAnimSequenceMaybe("ItemCommonStart", true, -1.0f);
+        sub_7100855824();
+    }
+}
+
 }  // namespace ksys::act
