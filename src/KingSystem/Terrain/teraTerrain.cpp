@@ -181,4 +181,15 @@ sead::Vector4f sub_7101123224(s32 index) {
     return Terrain::instance()->_370->_4ae0->_888[index];
 }
 
+// NON_MATCHING: the original stores each coordinate separately (x / z of both corners first, then the
+// heights), reloading the inputs in between.
+void sub_7101128B24(f32 low, f32 high, f32 t_min, f32 t_max, sead::BoundBox3f* box,
+                    const sead::Vector2f& min, const sead::Vector2f& max,
+                    const Unk_7101128B24Transform& transform) {
+    box->setMin({min.x * transform.scale + transform.offset.x, (high - low) * t_min + low,
+                 min.y * transform.scale + transform.offset.y});
+    box->setMax({max.x * transform.scale + transform.offset.x, (high - low) * t_max + low,
+                 max.y * transform.scale + transform.offset.y});
+}
+
 }  // namespace ksys::tera

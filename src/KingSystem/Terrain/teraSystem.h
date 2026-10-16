@@ -5,6 +5,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
+#include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
@@ -267,6 +268,19 @@ public:
 KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);
 class Unk_7101106F44;
 class Unk_7101118B34;
+
+// Placeholder: a 2D scale and offset (0x7101128b24).
+struct Unk_7101128B24Transform {
+    f32 scale;
+    f32 _4;
+    sead::Vector2f offset;
+};
+
+// 0x7101128b24 (placeholder name): the box from `min` to `max` (x / z, scaled and offset by `transform`)
+// with heights interpolated between `low` and `high` at `t_min` / `t_max`.
+void sub_7101128B24(f32 low, f32 high, f32 t_min, f32 t_max, sead::BoundBox3f* box,
+                    const sead::Vector2f& min, const sead::Vector2f& max,
+                    const Unk_7101128B24Transform& transform);
 
 // 0x7101123224 (placeholder name): entry `index` of Terrain::_370->_4ae0->_888 (the first one when out of
 // range).
