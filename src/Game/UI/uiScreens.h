@@ -2081,7 +2081,9 @@ public:
     void m84() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    u8 _pad_3610[0x3638 - 0x3610];
+    u8 _pad_3610[0x3620 - 0x3610];
+    /* 0x3620 */ eui::Animator* _3620;  // stopped at max while _3738 is empty (sub_7100A2080C)
+    u8 _pad_3628[0x3638 - 0x3628];
     nn::ui2d::ArchiveHandle _3638;
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ s32 _36e8;
@@ -2089,7 +2091,10 @@ public:
     /* 0x3700 */ sead::BitFlag8 _3700;
     u8 _pad_3701[0x3720 - 0x3701];
     /* 0x3720 */ s32 _3720;
-    u8 _pad_3724[0x3790 - 0x3724];
+    u8 _pad_3724[0x372c - 0x3724];
+    /* 0x372c */ s32 _372c;  // arrow count shown in T_BowNum_00
+    u8 _pad_3730[0x3738 - 0x3730];
+    /* 0x3738 */ sead::FixedSafeString<64> _3738;  // ctor 0x7100a1ef28; 0x58 bytes with its tail padding
     /* 0x3790 */ ScreenAppPictureBookUnk* _3790;
     /* 0x3798 */ eui::Animator* _3798;
     /* 0x37a0 */ eui::Animator* _37a0;
@@ -2131,6 +2136,8 @@ public:
     void sub_7100A209E4();
     void sub_7100A20AD4();
     void sub_7100A20CBC();
+    // 0x7100a2080c: shows the arrow count when _3738 is empty and passes it on to the main screen
+    void sub_7100A2080C();
 };
 
 class ScreenReadyGo : public ScreenEx {

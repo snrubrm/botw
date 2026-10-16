@@ -162,6 +162,30 @@ void ScreenMainShortCut::m83() {
     sub_7100A1F684(mgr ? mgr->sub_7100676104() : -1);
 }
 
+// 0x7100a2080c
+// NON_MATCHING: ScreenMainScreen::sub_7100A1957C / sub_7100A1AB48 are defined in this file and get inlined
+void ScreenMainShortCut::sub_7100A2080C() {
+    if (_3738.isEmpty()) {
+        if (_3620 && _3620->mFrame != f32(_3620->GetFrameSize()))
+            _3620->StopAtMax();
+        sead::FixedSafeString<32> text;
+        text.format("%d", _372c);
+        setWidgetString(mLayout, "T_BowNum_00", text);
+    } else if (_3620 && _3620->mFrame != 0.0f) {
+        _3620->StopAtMin();
+    }
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    auto* screen = sead::DynamicCast<ScreenMainScreen>(mgr->getScreen(ScreenId::MainScreen));
+    if (!screen)
+        return;
+    if (_3738.isEmpty())
+        screen->sub_7100A1957C(_372c);
+    else
+        screen->sub_7100A1AB48();
+}
+
 bool ScreenMainShortCut::sub_7100A20DD0() {
     // called through a pointer in the original (not devirtualised)
     if (getStateMachine().getState()->getId() == (&sUnk_71025ef170)->getId())
