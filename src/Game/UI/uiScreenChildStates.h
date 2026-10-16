@@ -195,6 +195,8 @@ static_assert(sizeof(Unk_7102479838) == 0x158);
 // The native embedded dc50 and d8d8 lifetimes are not defined here.
 class Unk_710247d8f8 : public ScreenChildEx {
 public:
+    // typeinfo 0x71025d6c58 / guard 0x71025d6c60 (GetRuntimeTypeInfo 0x71009c6400, static 0x71009c6404)
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247d8f8(eui::LayoutEx* layout);
     ~Unk_710247d8f8() override;
     // 0x71009c5b68 (placeholder name): _138
@@ -378,6 +380,9 @@ class Unk_710247af10;
 // 0x71009b43a4 (placeholder name): the child `index` of the group `group` of `screen` as an Unk_710247af10 (null if it
 // is not one)
 Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index);
+// 0x71009ea670 (placeholder name): the child `index` of the group `group` of `screen` as an Unk_710247d8f8 (null
+// if it is not one)
+Unk_710247d8f8* sub_71009EA670(Screen* screen, s32 group, s32 index);
 
 // A child class of the PauseMenu screen (id 46, child group 1; the facade helpers of the 0x7100a94000 TU DynamicCast
 // to it). Its typeinfo static is at 0x71025d9b08 (guard 0x71025d9b10); it was declared separately as

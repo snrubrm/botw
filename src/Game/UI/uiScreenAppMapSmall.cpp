@@ -51,6 +51,12 @@ bool ScreenAppMap::sub_71009EA030() const {
     return true;
 }
 
+// 0x71009ea670
+Unk_710247d8f8* sub_71009EA670(Screen* screen, s32 group, s32 index) {
+    return nn::font::DynamicCast<Unk_710247d8f8>(
+        nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
+}
+
 // 0x71009e0df8
 bool ScreenAppMapDungeon::sub_71009E0DF8() const {
     if (mSensorChild)
