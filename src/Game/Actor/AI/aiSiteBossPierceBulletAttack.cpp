@@ -1,6 +1,11 @@
 #include "Game/Actor/AI/aiSiteBossPierceBulletAttack.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -36,6 +41,52 @@ void SiteBossPierceBulletAttack::calc_() {
 
 bool SiteBossPierceBulletAttack::m34() {
     return sub_7100588164(false);
+}
+
+// NON_MATCHING: the original passes 0 to SiteBoss::Unk_71002cf2ac::sub_710066DE04 (an unused int parameter
+// that its declaration lacks)
+void SiteBossPierceBulletAttack::m37() {
+    m41();
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f target;
+    m45(&target);
+    params.addVec3(target, "TargetPos", -1);
+    params.addPointer(nullptr, "ArrowHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        params.addActor(*boss->_1560.sub_710066DE04(), "IgniteActor", -1);
+        params.addInt(_144, "Index", -1);
+        params.addInt(m44(), "AtAttr", -1);
+        changeChild("弾発射", &params);
+    }
+}
+
+// NON_MATCHING: as m37 (the unused 0 argument of sub_710066DE04); the original also computes the length of the
+// actor matrix's z axis without using it (only the sqrtf call for a NaN remains), and regalloc differs
+void SiteBossPierceBulletAttack::m39() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+    boss->_1560.sub_710066C568(nullptr, 20);
+    auto* actor = mActor;
+    auto* link = boss->_1560.sub_710066DE04();
+    if (!link->hasProc())
+        return;
+
+    sead::Matrix34f mtx;
+    const auto key = mActor->getModel()->searchBone("Muzzle_A");
+    if (key.isValid()) {
+        actor->getModel()
+            ->getUnits()
+            .unsafeAt(key.model_unit_index)
+            ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    } else {
+        mtx = actor->getMtx();
+    }
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    accessor.setThisActorAsChild(actor, false);
+    accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
 }
 
 void SiteBossPierceBulletAttack::m40() {

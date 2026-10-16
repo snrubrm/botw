@@ -17,6 +17,8 @@ public:
     void leave_() override;
 
     bool m34() override;
+    void m37() override;
+    void m39() override;
     void m40() override;
     void m41() override;
     s32 m44() override;
