@@ -1071,6 +1071,8 @@ public:
     void sub_71012C17B4();
     // 0x71012c167c (declared only): called before deletion.
     void sub_71012C167C();
+    // 0x71012c171c (placeholder name): under mCS, updates mInstances and every entry.
+    void sub_71012C171C();
     // 0x71012c17b8 (placeholder name): under mCS, takes a free entry for `name`, sets its position, rebinds it
     // to `name` and gives it the next id (returned; -1 without a free entry).
     s32 sub_71012C17B8(const sead::SafeString& name, const sead::Vector3f& pos, s32 value);
@@ -1078,7 +1080,8 @@ public:
     Entry* sub_71012C1860(const sead::SafeString& name);
 
     /* 0x008 */ Entry mEntries[6];
-    u8 _458[0x460 - 0x458];
+    // The shared user instance buffer the entries reference (updated by sub_71012C171C).
+    /* 0x458 */ Unk_7102502410* mInstances;
     /* 0x460 */ sead::CriticalSection mCS;
     /* 0x4a0 */ s32 mNextId;
 };

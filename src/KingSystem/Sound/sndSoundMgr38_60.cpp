@@ -8,6 +8,16 @@ namespace ksys::snd {
 // Empty in the release build.
 void Unk_SoundMgr38_60::sub_71012C17B4() {}
 
+void Unk_SoundMgr38_60::sub_71012C171C() {
+    auto lock = sead::makeScopedLock(mCS);
+    if (mInstances)
+        mInstances->sub_7101049C60();
+    for (auto& entry : mEntries) {
+        // called through a pointer in the original (not devirtualised)
+        (&entry)->sub_710104A1B8();
+    }
+}
+
 s32 Unk_SoundMgr38_60::sub_71012C17B8(const sead::SafeString& name, const sead::Vector3f& pos,
                                       s32 value) {
     auto lock = sead::makeScopedLock(mCS);
