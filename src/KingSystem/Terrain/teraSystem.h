@@ -15,6 +15,7 @@
 #include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
 #include <container/seadOffsetList.h>
+#include <container/seadTreeMap.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadReadWriteLock.h>
 #include <thread/seadThread.h>
@@ -232,6 +233,8 @@ public:
     struct MaterialNameTable {
         u8 _0[8];
         MaterialName** mNames;
+        // Read by Water::setUpAttributeTable 0x7101144834.
+        u32 mCount;
     };
     struct Unk4ae0 {
         // Placeholder: the object at 0x10. Slot 0x60 returns the material texture of an index
@@ -1017,7 +1020,25 @@ struct ImageResourceMgr::LoadTask {
     Request* _80;
 };
 class Water {
-    void setUpAttributeTable();
+public:
+    // Placeholder: the main / sub attribute of a material (-1 if not found).
+    struct AttributeMaybe {
+        s32 main;
+        s32 sub;
+    };
+    using AttributeMap = sead::TreeMap<sead::SafeString, s32>;
+
+    // 0x7101144834: looks up the main / sub attribute of every material by name in the two maps;
+    // logs the materials with a missing one.
+    void setUpAttributeTable(sead::Heap* heap, const AttributeMap* main_map, const AttributeMap* sub_map);
+
+    u8 _0[0x700];
+    // File names (for the debug message), main and sub attribute names of each material.
+    Terrain::MaterialNameTable* _700;
+    u8 _708[0x710 - 0x708];
+    Terrain::MaterialNameTable* _710;
+    Terrain::MaterialNameTable* _718;
+    sead::Buffer<AttributeMaybe> mAttributes;
 };
 
 // 0x710110aa5c (declaration only, 536 bytes): height query used by sub_710110B4A4.

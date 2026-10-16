@@ -170,6 +170,37 @@ u32 MaterialTextureMaybe::getWidthMaybe() const {
     return getTexture()->GetTextureInfo()->GetWidth();
 }
 
+// NON_MATCHING: loop counter kept as 64-bit in ours (the original sign-extends a 32-bit counter); first lookup
+// becomes a select.
+void Water::setUpAttributeTable(sead::Heap* heap, const AttributeMap* main_map, const AttributeMap* sub_map) {
+    mAttributes.tryAllocBuffer(_710->mCount, heap);
+
+    const u32 count = _710->mCount;
+    for (s32 i = 0; i < count; ++i) {
+        const sead::SafeString main_name = _710->mNames[i]->name;
+        const sead::SafeString sub_name = _718->mNames[i]->name;
+        const s32* main = nullptr;
+        if (const auto* node = main_map->find(main_name))
+            main = &node->value();
+        const s32* sub = nullptr;
+        if (const auto* node = sub_map->find(sub_name))
+            sub = &node->value();
+
+        if (!main || !sub) {
+            if (auto* debug = Terrain::instance()->_a50) {
+                auto entry = debug->_70.log(
+                    "[tera::Water::setUpAttributeTable] マテリアルの対応アトリビュートが見つかりません -> No : %d | ファイル : %s | アトリビュート(Main) : %s | アトリビュート(Sub) : %s",
+                    i, _700->mNames[i]->name, main_name.cstr(), sub_name.cstr());
+                if (entry.buffer)
+                    entry.buffer->setDisplayTime(10.0f);
+            }
+        }
+
+        mAttributes[i].main = main ? *main : -1;
+        mAttributes[i].sub = sub ? *sub : -1;
+    }
+}
+
 const sead::Vector2f sUnk_7101EC503C[4] = {{-0.5f, -0.5f}, {0.5f, -0.5f}, {-0.5f, 0.5f}, {0.5f, 0.5f}};
 const ImageTypeMaybe sUnk_7101EC54A8 = {{0xff, 0}};
 const ImageTypeMaybe sUnk_7101EC54AC = {{0, 0}};
