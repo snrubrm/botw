@@ -17,6 +17,7 @@ class RigidBody;
 
 namespace ksys::act {
 
+class PlayerLink;
 class Unk_71024ef620;
 
 // Placeholder name (vtable 0x71024ef4e8, only a trivial virtual dtor; methods in 0x7100eb2394-0x7100eb5900;
@@ -91,6 +92,9 @@ public:
     bool sub_7100EB5784() const;
     // 0x7100eb57f0: stores `mtx` into _e0 / _188 (resets the scale at _1b8 to 1) and updates the flags at _110.
     void sub_7100EB57F0(const sead::Matrix34f& mtx);
+    // 0x7100eb58a4 (declared only; unnamed in the CSV): unless _110 bit 0 is set and not game over, stores the link,
+    // matrix, value and flag (_270 - _2ac), sets _2b0 and submits a worker request (Player::m74).
+    void sub_7100EB58A4(f32 value, PlayerLink* link, const sead::Matrix34f& mtx, bool flag);
 
     // 0x7100eb2394: applies the buoyancy scale, the centre of mass and the masses to the bodies. 0x7100eb4814 / 0x7100eb4928 (declared only; 276 / 1892 bytes).
     void sub_7100EB2394();

@@ -2207,4 +2207,6 @@ void Player::updateSupportTimerRates() {
     _1e20 = mipha_plus ? -water_plus : rate;
 }
 
+void Player::sub_7100887554() {}
+
 }  // namespace ksys::act

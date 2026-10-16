@@ -584,6 +584,8 @@ public:
     // the callers pass `mask & diff` and `mask & 0x20000000`.
     u8 sub_7100869814(Unk1 a, Unk1 b);
     bool isSurfingOnGround() const;                                     // 0x87f290
+    // 0x7100887554 (CSV nullsub_6134): empty; called at the end of m74.
+    void sub_7100887554();
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {
         return getASList()->x_1(1, 1) == "BowShoot" || getASList()->x_1(1, 1) == "SquatBowShoot" ||
@@ -867,7 +869,7 @@ public:
     /* 0x2078 */ u8 _2078[0x207e - 0x2078];
     /* 0x207e */ bool _207e;
     /* 0x207f */ bool _207f;
-    /* 0x2080 */ u8 _2080[0x2081 - 0x2080];
+    /* 0x2080 */ bool _2080;  // m74 passes the predicted turn to _1870 and clears it
     /* 0x2081 */ bool _2081;
     /* 0x2082 */ u8 _2082[0x2084 - 0x2082];
     /* 0x2084 */ f32 _2084;

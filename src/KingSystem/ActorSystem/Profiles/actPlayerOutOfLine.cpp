@@ -331,4 +331,27 @@ f32 Player::m233(int type) {
     return rate * sub_7100885818(level);
 }
 
+// Here, not in actPlayer.cpp: the original calls isSurfingOnGround and sub_7100887554 out of line.
+// NON_MATCHING: instruction order of the _cf4 load and the 0.0f in the first branch.
+void Player::m74() {
+    f32 angle = 0.0f;
+    bool flag;
+    if ((!_cec.isOnBit(1) || mASList->x_1(0, 0) == "WallDash") && !_cf0.isOnBit(10)) {
+        flag = _cf4.isOnBit(1);
+    } else if (_209c > 0.05f && !isSurfingOnGround()) {
+        const f32 value = mASList->sub_710115EC98(6, nullptr, 0);
+        const f32 max = getParam()->getRes().mGParamList->getPlayer()->mPredictDiffAngleMax.ref();
+        flag = true;
+        angle = sead::Mathf::clamp(value, -max, max);
+    } else {
+        flag = true;
+    }
+    if (_2080) {
+        _1870->sub_7100EB58A4(angle, this, _1b18, flag);
+        _2080 = false;
+    }
+    Actor::m74();
+    sub_7100887554();
+}
+
 }  // namespace ksys::act
