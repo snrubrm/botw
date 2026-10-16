@@ -852,7 +852,9 @@ struct Unk_SoundMgr30_10 {
     /* 0x30 */ sead::CriticalSection mCS;
     /* 0x70 */ u32 _70 = 0;
     /* 0x78 */ sead::FixedSafeString<32> _78;
-    /* 0xb0 */ void* _b0 = nullptr;
+    /* 0xb0 */ u32 _b0 = 0;
+    // Returned by Unk_SoundMgr30::sub_7100FF8774.
+    /* 0xb4 */ u32 _b4 = 0;
     /* 0xb8 */ void* _b8 = nullptr;
     /* 0xc0 */ void* _c0 = nullptr;
     /* 0xc8 */ bool _c8 = false;
@@ -1322,6 +1324,8 @@ struct Unk_SoundMgr30 {
     void sub_7100FF8B94(Unk_710260f248* obj);
     // 0x7100ff8a24: a speaker balance supplier whose handle is inactive, or null.
     Unk_SoundMgr30_30* sub_7100FF8A24();
+    // 0x7100ff8774 (placeholder name): _10->_b4.
+    u32 sub_7100FF8774() const;
     // 0x7100ff89a0: a free entry of the pool at +0x20 (reset), or null.
     Unk_710260f248Entry* sub_7100FF89A0();
 
