@@ -31,7 +31,11 @@ target_sources(uking PRIVATE
   sndSound.h
   sndSoundCalcThread.cpp
   sndSoundCalcThread.h
+  sndSoundMgr38_20.cpp
   sndSoundMgr38.cpp
+  sndSoundMgr38_8.cpp
+  sndSoundMgr38_28.cpp
+  sndDuckingRequest.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp
   sndStreamPath.cpp
