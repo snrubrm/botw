@@ -250,7 +250,3 @@ s32 sub_71011EE4B8(Unk_7101EC6BAC angle) {
 }  // namespace ksys::util
 
 Unk_71025138e8::~Unk_71025138e8() = default;
-
-// NON_MATCHING: placeholder destructor; the original (0x71011f13e8) also destroys members or bases
-// this class does not declare yet.
-Unk_71025136c8::~Unk_71025136c8() = default;

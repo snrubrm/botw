@@ -131,6 +131,11 @@ f32 sub_71009226EC(const f32& deg);
 
 namespace sead {
 class Viewport;
+class PerspectiveProjection;
+}
+
+namespace ksys {
+class Unk_71024dd110;
 }
 
 namespace uking::act {
@@ -308,6 +313,13 @@ f32 sub_7100923A38(const sead::Matrix33f& current, const sead::Matrix33f& previo
                      u32 axis1);
 // 0x7100923e2c: VFR-scaled vertical gyro input.
 f32 sub_7100923E2C();
+// 0x7100923e74: the camera registered as "DefaultCamera" with the camera manager task
+// (Unk_71025136c8), if it is a ksys::Unk_71024dd110.
+ksys::Unk_71024dd110* sub_7100923E74();
+// 0x710092da58 / 0x710092da88: fill `projection` from the default camera (sub_7100D8AED0); false
+// without one.
+bool sub_710092DA58(sead::PerspectiveProjection* projection);
+bool sub_710092DA88(sead::PerspectiveProjection* projection);
 // 0x710092732c: player-state check returning a boolean for the gyro mode.
 bool sub_710092732C();
 

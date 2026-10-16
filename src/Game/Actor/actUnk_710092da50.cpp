@@ -4,6 +4,25 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/System/CameraS1.h"
+
+void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
+
+bool sub_710092DA58(sead::PerspectiveProjection* projection) {
+    if (auto* camera = sub_7100923E74()) {
+        sub_7100D8AED0(camera, projection);
+        return true;
+    }
+    return false;
+}
+
+bool sub_710092DA88(sead::PerspectiveProjection* projection) {
+    if (auto* camera = sub_7100923E74()) {
+        sub_7100D8AED0(camera, projection);
+        return true;
+    }
+    return false;
+}
 
 const sead::Viewport* sub_710092DAB8() {
     if (auto* mgr = ksys::CameraMgr::instance())

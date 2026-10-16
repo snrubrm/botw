@@ -31,6 +31,7 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
+#include "KingSystem/Camera/camUnk_71025136c8.h"
 #include <aal/aalSpatialCalculator.h>
 #include <aal/aalSpeakerChannelVolume.h>
 #include <aal/aalDeviceType.h>
@@ -3278,15 +3279,7 @@ public:
     u32 getLoadDataAlignment() const override { return 128; }
 };
 
-// vtable 0x71025136c8 (23 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71025136c8 : public sead::CalculateTask {
-    SEAD_RTTI_OVERRIDE(Unk_71025136c8, sead::CalculateTask)
-public:
-    ~Unk_71025136c8() override;
-    void enter() override {}
-    void exit() override {}
-    void calc() override {}
-};
+// vtable 0x71025136c8: moved to KingSystem/Camera/camUnk_71025136c8.h (camera manager task).
 
 // vtable 0x7102513c38 (23 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102513c38 : public sead::CalculateTask {

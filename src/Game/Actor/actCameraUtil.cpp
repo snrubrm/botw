@@ -16,6 +16,8 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/Camera/camUnk_71025136c8.h"
+#include "KingSystem/System/CameraS1.h"
 
 bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 
@@ -583,6 +585,13 @@ bool sub_7100925FD8(const ksys::act::BaseProcLink& link, sead::Vector3f* out) {
         return false;
     *out = pos;
     return true;
+}
+
+ksys::Unk_71024dd110* sub_7100923E74() {
+    const sead::SafeString name = "DefaultCamera";
+    if (auto* task = Unk_71025136c8::instance())
+        return task->getCameras().findCamera<ksys::Unk_71024dd110>(name);
+    return nullptr;
 }
 
 namespace uking::act {
