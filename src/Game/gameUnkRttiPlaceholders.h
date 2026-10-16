@@ -1893,6 +1893,20 @@ class Unk_710249d608 : public sead::ArchiveRes {
 public:
     ~Unk_710249d608() override;
     s32 getLoadDataAlignment() const override { return 64; }
+
+protected:
+    const void* getFileImpl_(const sead::SafeString& file_path,
+                             sead::ArchiveRes::FileInfo* file_info) SEAD_ARCHIVERES_CONST_TOKEN override;
+    const void* getFileFastImpl_(s32 entry_id,
+                                 sead::ArchiveRes::FileInfo* file_info) SEAD_ARCHIVERES_CONST_TOKEN override;
+    s32 convertPathToEntryIDImpl_(const sead::SafeString& file_path) SEAD_ARCHIVERES_CONST_TOKEN override;
+    bool setCurrentDirectoryImpl_(const sead::SafeString&) override;
+    bool openDirectoryImpl_(sead::HandleBuffer* handle,
+                            const sead::SafeString& path) SEAD_ARCHIVERES_CONST_TOKEN override;
+    bool closeDirectoryImpl_(sead::HandleBuffer* handle) SEAD_ARCHIVERES_CONST_TOKEN override;
+    u32 readDirectoryImpl_(sead::HandleBuffer* handle, sead::DirectoryEntry* entries,
+                           u32 num) SEAD_ARCHIVERES_CONST_TOKEN override;
+    bool prepareArchive_(const void* archive) override;
 };
 
 // typeinfo 0x71025f89a8; the original has no vtable for this class (an abstract base: only its RTTI

@@ -25,6 +25,20 @@ Unk_710251d160::~Unk_710251d160() = default;
 
 Unk_710249d608::~Unk_710249d608() = default;
 
+// 0x7100a926b4
+const void* Unk_710249d608::getFileImpl_(const sead::SafeString& file_path,
+                                         sead::ArchiveRes::FileInfo* file_info) SEAD_ARCHIVERES_CONST_TOKEN {
+    s32 id = convertPathToEntryIDImpl_(file_path);
+    if (id < 0)
+        return nullptr;
+    return getFileFastImpl_(id, file_info);
+}
+
+// 0x7100a93b20
+bool Unk_710249d608::setCurrentDirectoryImpl_(const sead::SafeString&) {
+    return false;
+}
+
 Unk_710251d0e0::~Unk_710251d0e0() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x71012e906c) also destroys members or bases
