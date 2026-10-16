@@ -5,6 +5,8 @@
 
 namespace ksys::tera {
 
+ImageResourceMgr::~ImageResourceMgr() = default;
+
 void ImageResourceMgr::sub_71011339D0(Request* request) {
     const Unk_710250dcd8* image = request->area->getImageMaybe(request->type);
     if (image && image->_8 & 8)

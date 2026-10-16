@@ -300,6 +300,8 @@ public:
     // 0x710113625c (declared only; placeholder name): called under the manager lock (0x68).
     bool sub_710113625C(Unk_7101118B34* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                         bool a4, void* a5);
+    // 0x7101130df0
+    ~ImageResourceMgr();
     // 0x71011339d0 (placeholder name): releases the image of `request` if its flag 8 is set.
     void sub_71011339D0(Request* request);
     // 0x71011311bc (placeholder name): under both locks, runs sub_7101131290 and sub_71011320B4 on every
@@ -351,6 +353,9 @@ public:
     sead::Atomic<s32> _62a0;
     u8 _62a4[0x62d8 - 0x62a4];
     System* mSystems[8];
+    u64 _6318;
+    u64 _6320;
+    agl::GPUMemBlock<u8> mMemBlock6328;
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
