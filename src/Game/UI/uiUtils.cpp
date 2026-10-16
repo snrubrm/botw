@@ -563,6 +563,34 @@ bool sub_7100AA20F0(eui::Screen* screen, f32* value, f32 target, f32 speed) {
     return reached;
 }
 
+// 0x7100aa21f4
+bool sub_7100AA21F4(eui::Screen* screen, sead::Vector2f* value, const sead::Vector2f& target, f32 rate,
+                    f32 max_step, f32 min_step) {
+    if (!screen || !value)
+        return false;
+    const f32 step = screen->getAnimationStep_();
+    sead::Vector2f diff = target - *value;
+    if (diff.length() <= min_step) {
+        *value = target;
+        return true;
+    }
+    const f32 speed = step * rate;
+    const f32 distance_step = speed * diff.length();
+    if (distance_step > max_step) {
+        const f32 length = diff.length();
+        if (length > 0.0f)
+            diff *= max_step / length;
+    } else if (distance_step < min_step) {
+        const f32 length = diff.length();
+        if (length > 0.0f)
+            diff *= min_step / length;
+    } else {
+        diff *= speed;
+    }
+    *value += diff;
+    return false;
+}
+
 // 0x7100aa2350 (placeholder name): moves `*value` towards `target` by `rate` of the distance per animation step,
 // clamped to [min_step, max_step]; snaps (and returns true) within min_step
 bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 max_step, f32 min_step) {

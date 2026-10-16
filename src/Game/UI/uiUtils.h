@@ -224,6 +224,9 @@ bool sub_7100AA16E8(const nn::ui2d::Pane* pane);
 // 0x7100aa2350 (uiUtils.cpp)
 bool sub_7100AA2418(f32 previous, f32 current, f32 target, bool ascending);
 bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 max_step, f32 min_step);
+// 0x7100aa21f4 (placeholder name): sub_7100AA2350 for a 2D position (the step is scaled to the distance)
+bool sub_7100AA21F4(eui::Screen* screen, sead::Vector2f* value, const sead::Vector2f& target, f32 rate,
+                    f32 max_step, f32 min_step);
 // 0x7100aa6c84 (uiUtils.cpp)
 bool sub_7100AA6C84(const sead::SafeString& name);
 // 0x7100aa170c (uiUtils.cpp)
