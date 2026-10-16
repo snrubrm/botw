@@ -385,6 +385,10 @@ public:
     // when _fc9 is set; otherwise only without the _f60 link; then the distance check.
     bool shouldUnload(s32* a1) override;
     bool m197(sead::SafeString* out) override;
+    // Slot 217 (0x71002ecc08): the parent player's string for slot _9f0 (PlayerBase::sub_710084A608), else empty.
+    bool m217(sead::SafeString* out) override;
+    // Slot 223 (0x71002ececc): the porch count of the owner's arrow name (m165), minus one while m222() holds.
+    bool m223(s32* out) override;
     void updateMtxFromPhysics() override;
     bool m218() override;
     bool m225() override;

@@ -338,6 +338,36 @@ bool Weapon::m196(sead::SafeString* out) {
     return false;
 }
 
+bool Weapon::m217(sead::SafeString* out) {
+    if (!out)
+        return false;
+    if (_9f0 >= 0) {
+        if (auto* player = sead::DynamicCast<PlayerBase>(getParentActor())) {
+            *out = player->sub_710084A608(_9f0);
+            return !out->isEmpty();
+        }
+    }
+    *out = sead::SafeString::cEmptyString;
+    return false;
+}
+
+// NON_MATCHING: the original tests `count < 1` (cmp #1 / b.lt) where we test `count <= 0`.
+bool Weapon::m223(s32* out) {
+    if (auto* owner = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor())) {
+        const bool in_use = m222();
+        sead::FixedSafeString<32> name;
+        if (owner->m165(&name)) {
+            *out = ui::getPorchNum(name);
+            if (*out > 0) {
+                *out = std::max(*out - in_use, 0);
+                return true;
+            }
+        }
+    }
+    *out = 0;
+    return false;
+}
+
 bool Weapon::m197(sead::SafeString* out) {
     if (!out)
         return false;
