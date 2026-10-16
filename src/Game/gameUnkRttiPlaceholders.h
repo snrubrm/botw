@@ -285,12 +285,28 @@ public:
     s32 m5() override { return 10; }
 };
 
-// vtable 0x71024756f0 (33 slots); placeholder generated from the vtable (genskel.py).
+// vtable 0x71024756f0 (33 slots): a map marker like Unk_71024755d8 (same layout; defined in uiMapMarker.cpp).
 class Unk_71024756f0 : public uking::ui::Unk_71024754c0 {
     SEAD_RTTI_OVERRIDE(Unk_71024756f0, uking::ui::Unk_71024754c0)
 public:
     ~Unk_71024756f0() override;
+    void m9() override;
+    void m11() override;
+    void m12() override;
+    void m21() override;
+    void m29(uking::ui::Unk_710095192c* entry) override;
+    void m31() override;
+    void m32() override;
+    // 0x7100952c00 (CSV unnamed; not decompiled): called at the end of m29 (as Unk_71024755d8::sub_71009520D4)
+    void sub_7100952C00();
+
+    sead::SafeString _68;
+    ksys::gdt::FlagHandle _78;
+    ksys::gdt::FlagHandle _7c;
+    ksys::gdt::FlagHandle _80;
+    ksys::gdt::FlagHandle _84;
 };
+static_assert(sizeof(Unk_71024756f0) == 0x88);
 
 // vtable 0x7102475920 (33 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102475920 : public uking::ui::Unk_71024754c0 {

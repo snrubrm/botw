@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/uiManager.h"
 #include "Game/Actor/actGuardian.h"
 #include "KingSystem/Quest/qstIndicator.h"
@@ -303,6 +304,78 @@ void Unk_71024755d8::m32() {
     if (_84 != ksys::gdt::InvalidHandle)
         _3c = ksys::gdt::getFlagGenericBool(_84) ? _3c | 0x200000 : _3c & ~0x200000;
 }
+
+}  // namespace uking::ui
+
+// 0x71009529f8
+// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+Unk_71024756f0::~Unk_71024756f0() {
+    _68 = "";
+    _78 = ksys::gdt::InvalidHandle;
+    _7c = ksys::gdt::InvalidHandle;
+    _80 = ksys::gdt::InvalidHandle;
+    _84 = ksys::gdt::InvalidHandle;
+}
+
+// 0x7100952b24
+// NON_MATCHING: as Unk_71024754c0::m29 (the type is spilled to the stack in the original).
+void Unk_71024756f0::m29(uking::ui::Unk_710095192c* entry) {
+    Unk_71024754c0::m29(entry);
+    sub_7100952C00();
+}
+
+void Unk_71024756f0::m9() {
+    if (!(_3c & 8))
+        _3c &= ~0x7566;
+    _3c &= ~0x150008;
+}
+
+void Unk_71024756f0::m11() {
+    Unk_71024754c0::m11();
+}
+
+void Unk_71024756f0::m31() {
+    Unk_71024754c0::m31();
+    _3c &= ~0x140000;
+    if (_7c != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_7c) ? _3c | 0x20000 : _3c & ~0x20000;
+    if (_80 != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_80) ? _3c | 0x80000 : _3c & ~0x80000;
+    if (_84 != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_84) ? _3c | 0x200000 : _3c & ~0x200000;
+}
+
+void Unk_71024756f0::m12() {
+    _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
+}
+
+// NON_MATCHING: as Unk_71024755d8::m32 (the changed-flag guards become selects).
+void Unk_71024756f0::m32() {
+    Unk_71024754c0::m32();
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedBoolFlags())
+        return;
+    if (_7c != ksys::gdt::InvalidHandle) {
+        bool value = ksys::gdt::getFlagGenericBool(_7c);
+        _3c = (value != ((_3c & 0x20000) != 0)) ? _3c | 0x40000 : _3c & ~0x40000;
+        if (_3c & 0x40000)
+            _3c = value ? _3c | 0x20000 : _3c & ~0x20000;
+    }
+    if (_80 != ksys::gdt::InvalidHandle) {
+        bool value = ksys::gdt::getFlagGenericBool(_80);
+        _3c = (value != ((_3c & 0x80000) != 0)) ? _3c | 0x100000 : _3c & ~0x100000;
+        if (_3c & 0x100000)
+            _3c = value ? _3c | 0x80000 : _3c & ~0x80000;
+    }
+    if (_84 != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_84) ? _3c | 0x200000 : _3c & ~0x200000;
+}
+
+void Unk_71024756f0::m21() {
+    if (_3c & 1)
+        sub_710095156C((_3c & 0x20000) != 0);
+}
+
+namespace uking::ui {
 
 // NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.
 Unk_7102475808::~Unk_7102475808() {
