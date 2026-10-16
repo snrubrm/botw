@@ -2955,7 +2955,7 @@ public:
     // 0x710100eac0: the marker callback set by sub_710100E6A8.
     static void markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user);
 
-    u8 _190[0x198 - 0x190];
+    ksys::snd::FinalTrialBossBattleBgmInfo* mInfo;
     /* 0x198 */ s32 _198;
     /* 0x19c */ s32 _19c;
     // Placeholder (0x48 bytes): a playing level entry with its fader; two at 0x1a0 / 0x1e8 (constructor
@@ -2979,6 +2979,10 @@ public:
         void sub_710100D9FC(ksys::snd::Unk_710260f248Entry* entry);
         // 0x710100db1c (declared only)
         void sub_710100DB1C(f32 value);
+        // 0x710100d8b8 (declared only): per-frame update.
+        void sub_710100D8B8();
+        // 0x710100dc60 (declared only): fades the slot in over `fade_sec` with `curve`.
+        void sub_710100DC60(f32 fade_sec, const aal::FadeCurveType& curve);
 
         ksys::snd::Unk_710260f248Entry* mEntry;
         aal::TimedFader mFader;

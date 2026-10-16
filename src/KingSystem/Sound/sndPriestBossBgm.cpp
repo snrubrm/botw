@@ -90,6 +90,83 @@ void Unk_71024fe970::sub_710100E6A8() {
         marker->setMarkerCallback(markerCallback, -32000, this);
 }
 
+// NON_MATCHING: ring buffer index computed differently; block layout around the slot selection and the curve
+// parameter loads differs.
+void Unk_71024fe970::hm15() {
+    if (mFlags & 2) {
+        if (mType != ksys::snd::Unk_710260f248Type::_3 && !(_68._18 & 3))
+            return;
+        sub_710100E6A8();
+        mFlags &= ~2;
+    }
+
+    if ((mFlags & 1) && !(_1a0.mEntry && _1a0.mEntry->sub_7100FF6DF4(this)) &&
+        !(_1e8.mEntry && _1e8.mEntry->sub_7100FF6DF4(this))) {
+        hm14();
+    }
+
+    if (mStateQueue.size() != 0 && !(mFlags & 0x78)) {
+        if (mFlags & 1) {
+            const s32 state = mStateQueue(0);
+            if (_198 != state) {
+                _19c = state;
+                mFlags |= 8;
+            }
+        }
+        mStateQueue.popFront();
+    }
+
+    if (mFlags & 0x20) {
+        Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+        s32 position = -1;
+        if (current.mEntry && current.mEntry->mHandle.isActive()) {
+            if (auto* executor = static_cast<xlink2::EventSLink*>(current.mEntry->mHandle.getEvent())
+                                     ->getAliveAssetExecutor()) {
+                position = executor->getHandle()->getPlaySamplePosition();
+            }
+        }
+        ((mFlags & 0x80) ? _1e8 : _1a0)._30 = position;
+    }
+
+    _1a0.sub_710100D8B8();
+    _1e8.sub_710100D8B8();
+
+    if ((mFlags & 0x20) && ((mFlags & 0x80) ? _1e8 : _1a0)._3c == 2) {
+        Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+        f32 fade_sec;
+        aal::FadeCurveType curve;
+        if (!mInfo) {
+            fade_sec = 1.0f;
+            curve = aal::FadeCurveType::Square;
+        } else {
+            if (u32(_19c) < 3)
+                fade_sec = mInfo->mFadeSecFromTransformDemo.ref();
+            else if (_19c == 3)
+                fade_sec = mInfo->mFadeSeLevel3To4.ref();
+            else if (_19c == 4)
+                fade_sec = mInfo->mFadeSecToTransformDemo.ref();
+            else
+                fade_sec = 1.0f;
+
+            if (u32(_19c) < 3)
+                curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeFromTransformDemo.ref());
+            else if (_19c == 3)
+                curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeLevel3To4.ref());
+            else if (_19c == 4)
+                curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeToTransformDemo.ref());
+            else
+                curve = aal::FadeCurveType::Square;
+        }
+        current.sub_710100DC60(fade_sec, curve);
+        mFlags = (mFlags & ~0x60) | 0x40;
+    }
+
+    if ((mFlags & 0x40) && ((mFlags & 0x80) ? _1a0 : _1e8)._3c == 0) {
+        mFlags = (mFlags & ~0x40) ^ 0x80;
+        _198 = _19c;
+    }
+}
+
 void Unk_71024fe970::markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {
     if (user)
         static_cast<Unk_71024fe970*>(user)->sub_710100EAD8(info);

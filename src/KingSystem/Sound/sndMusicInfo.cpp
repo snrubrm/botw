@@ -509,6 +509,12 @@ void FinalTrialBossBattleBgmInfo::init(sead::Heap* heap) {
     applySoundResource();
 }
 
+aal::FadeCurveType FinalTrialBossBattleBgmInfo::toFadeCurveTypeMaybe(u32 value) const {
+    if (value < u32(aal::FadeCurveType::size()))
+        return static_cast<aal::FadeCurveType::ValueType>(value);
+    return aal::FadeCurveType::Square;
+}
+
 EnvPaletteReactiveBgmInfo::ParamPerType::ParamPerType()
     : mPlayWaitSec(2, "PlayWaitSec", "再生待ち秒", "Min = 0.1f, Max = 10.f", this),
       mFadeInSec(5, "FadeInSec", "フェードイン秒", this),

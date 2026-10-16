@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <aal/aalFadeCurveType.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <resource/seadResource.h>
@@ -555,6 +556,8 @@ class FinalTrialBossBattleBgmInfo : public MusicInfo {
 public:
     FinalTrialBossBattleBgmInfo();
     void init(sead::Heap* heap) override;
+    // 0x710101b544: the curve type of a curve parameter (Square when out of range).
+    aal::FadeCurveType toFadeCurveTypeMaybe(u32 value) const;
 
 private:
     agl::utl::IParameterObj mData;
