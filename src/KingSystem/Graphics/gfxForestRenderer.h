@@ -7,6 +7,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include <gsys/gsysModel.h>
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 
 namespace gsys {
@@ -118,11 +119,31 @@ public:
         // 0x7100f095b8
         virtual ~ModelSlot();
 
+        // inline-only in the original; name is a guess. ~ModelSlot and ~ModelSet (for each slot, before the
+        // slot destructors) repeat it.
+        void finalize() {
+            mRes.sub_7100FDD264();
+            if (mModel) {
+                gsys::Model::sub_7100BF69F8(mModel);
+                mModel = nullptr;
+            }
+        }
+
         gsys::Model* mModel = nullptr;
         res::Unk_71024f9958 mRes;
         s32 mState = 0;
     };
     static_assert(sizeof(ModelSlot) == 0x50);
+
+    // Placeholder name (vtable 0x71024f3938): the double-buffered model slots at 0x108; mCurrent (0x1b0) is
+    // flipped by requestDraw.
+    struct ModelSet {
+        // 0x7100f09658
+        virtual ~ModelSet();
+
+        sead::SafeArray<ModelSlot, 2> mSlots;
+        s32 mCurrent = 0;
+    };
 
     sead::CriticalSection mCS;
     u64 _48;
@@ -134,9 +155,8 @@ public:
     sead::Buffer<Entry> mEntries;
     u8 _e0[0xe8 - 0xe0];
     sead::Buffer<UnitEntry> mUnitEntries;
-    u8 _f8[0x110 - 0xf8];
-    sead::SafeArray<ModelSlot, 2> mModelSlots;
-    s32 _1b0;
+    u8 _f8[0x108 - 0xf8];
+    ModelSet mModelSet;
     u8 _1b4[0x220 - 0x1b4];
     u32 _220;
 };

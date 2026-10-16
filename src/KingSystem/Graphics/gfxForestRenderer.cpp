@@ -42,7 +42,7 @@ void ForestRenderer::requestDraw() {
     switch (_54) {
     case 10:
     case 16:
-        _1b0 = 1 - _1b0;
+        mModelSet.mCurrent = 1 - mModelSet.mCurrent;
         for (auto& entry : mUnitEntries) {
             if (entry.mState != 3)
                 continue;
@@ -66,7 +66,7 @@ void ForestRenderer::requestDraw() {
     if (sUnk_710260a1d8)
         return;
 
-    auto& slot = mModelSlots[1 - _1b0];
+    auto& slot = mModelSet.mSlots[1 - mModelSet.mCurrent];
     if (slot.mState == 2)
         slot.mModel->requestDraw();
 }
@@ -103,11 +103,12 @@ void ForestRenderer::Entry::sub_7100F07060() {
 }
 
 ForestRenderer::ModelSlot::~ModelSlot() {
-    mRes.sub_7100FDD264();
-    if (mModel) {
-        gsys::Model::sub_7100BF69F8(mModel);
-        mModel = nullptr;
-    }
+    finalize();
+}
+
+ForestRenderer::ModelSet::~ModelSet() {
+    for (auto& slot : mSlots)
+        slot.finalize();
 }
 
 bool ForestRenderer::x_6(const sead::SafeString& name, const sead::Vector3f& pos,
