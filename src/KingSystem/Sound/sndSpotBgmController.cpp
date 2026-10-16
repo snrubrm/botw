@@ -78,6 +78,13 @@ void Unk_710260f198::m7(f32 fade_sec) {
     _ec &= ~1;
 }
 
+void Unk_710260f198::m8(const Unk_BgmControllerM8Arg& arg) {
+    if (auto* field_battle = sead::DynamicCast<Unk_71024fe368>(_8.sub_7100FF7C74(3)))
+        field_battle->sub_710100B30C(arg);
+    if (auto* castle = sead::DynamicCast<Unk_71024ff268>(_8.sub_7100FF7C74(10)))
+        castle->_1e8 = arg._0;
+}
+
 void Unk_710260f198::m9(const Unk_BgmControllerM8Arg& arg) {
     auto* boss_bgms = mBossBgms;
     if (!boss_bgms)
@@ -92,6 +99,33 @@ void Unk_710260f198::m10() {
     auto* bgm = sead::DynamicCast<Unk_71024fe368>(_8.sub_7100FF7C74(3));
     if (bgm)
         bgm->_224 = true;
+}
+
+// NON_MATCHING: the original has a separate return block for the default case (block layout only).
+void Unk_710260f198::sub_7100FFB2D4(Bgm* bgm) {
+    switch (bgm->getKind()) {
+    case 5:
+        _a8 = nullptr;
+        break;
+    case 11:
+        if (mBossBgms)
+            mBossBgms->sub_710100D874(1, nullptr);
+        break;
+    case 12:
+        if (mBossBgms)
+            mBossBgms->sub_710100D874(2, nullptr);
+        break;
+    case 13:
+        if (mBossBgms)
+            mBossBgms->sub_710100D874(3, nullptr);
+        break;
+    case 16:
+        _98 = nullptr;
+        break;
+    case 17:
+        _a0 = nullptr;
+        break;
+    }
 }
 
 void Unk_710260f198::sub_7100FFBD44(s32 id, bool use_a0) {

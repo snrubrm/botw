@@ -963,6 +963,8 @@ public:
     // 0x710100d694 (declared only; 460 B)
     void sub_710100D694();
     // 0x710100d860: clears _1c and _8.
+    // 0x710100d874 (declared only; the index is an enum wrapper): stores the BGM and gives it the matching info.
+    void sub_710100D874(s32 idx, Bgm* bgm);
     void sub_710100D860();
 
     /* 0x08 */ bool _8 = false;
@@ -990,7 +992,7 @@ public:
     void m5() override;
     void m6(f32 fade_sec) override;
     void m7(f32 fade_sec) override;
-    // 0x7100ffba00 (declared only; 292 B)
+    // 0x7100ffba00: passes the argument to the field battle BGM (kind 3) and its count to the castle BGM (kind 10).
     void m8(const Unk_BgmControllerM8Arg& arg) override;
     // 0x7100ffbb24: copies the argument into the boss BGM table.
     void m9(const Unk_BgmControllerM8Arg& arg) override;
@@ -999,7 +1001,7 @@ public:
     void* m11() override { return _a8; }
     void m12() override {}
 
-    // 0x7100ffafbc / 0x7100ffb2d4 (declared only): the two BGM delegates.
+    // 0x7100ffafbc (declared only) / 0x7100ffb2d4: the BGM delegates (0x7100ffb2d4 forgets a deleted BGM).
     void sub_7100FFAFBC(Bgm* bgm);
     void sub_7100FFB2D4(Bgm* bgm);
     // 0x7100ffbd44 / 0x7100ffbdc0 / 0x7100ffbe0c / 0x7100ffbe38: as Unk_710260f0c0's entry functions, on the kind 17
