@@ -22,6 +22,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelShaderVariationKey.h
   include/gsys/gsysG3dResAnimationEx.h
   include/gsys/gsysPartialSkeletalAnm.h
+  include/gsys/gsysIModelProcedural.h
   include/gsys/gsysModelUnit.h
   include/gsys/gsysModelUnitGroup.h
   include/gsys/gsysModelUnitDrawArray.h
@@ -42,6 +43,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelShaderVariationKey.cpp
   src/gsys/gsysG3dResAnimationEx.cpp
   src/gsys/gsysPartialSkeletalAnm.cpp
+  src/gsys/gsysIModelProcedural.cpp
   src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelUnitGroup.cpp
   src/gsys/gsysModelSceneConfig.cpp

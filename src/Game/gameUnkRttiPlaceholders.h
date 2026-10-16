@@ -24,6 +24,7 @@
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
 #include <aal/aalSpatialCalculator.h>
+#include <gsys/gsysIModelProcedural.h>
 #include <gsys/gsysModelUnit.h>
 #include "Game/gameUnk_71024739f8.h"
 #include "controller/seadControllerAddon.h"
@@ -521,13 +522,6 @@ public:
     ~Unk_71024cffe8() override;
 };
 
-// vtable 0x71024d1af8 (83 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024d1af8 : public gsys::ModelUnit {
-    SEAD_RTTI_OVERRIDE(Unk_71024d1af8, gsys::ModelUnit)
-public:
-    ~Unk_71024d1af8() override;
-};
-
 // vtable 0x71024f1358 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024f1358 {
     SEAD_RTTI_BASE(Unk_71024f1358)
@@ -549,8 +543,8 @@ public:
 };
 
 // vtable 0x71024f4720 (84 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f4720 : public gsys::ModelUnit {
-    SEAD_RTTI_OVERRIDE(Unk_71024f4720, gsys::ModelUnit)
+// Uses gsys::IModelProcedural's RTTI functions (slots 0 and 1 are 0x7100c1444c / 0x7100c14518).
+class Unk_71024f4720 : public gsys::IModelProcedural {
 public:
     ~Unk_71024f4720() override;
 };
