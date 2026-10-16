@@ -223,10 +223,11 @@ public:
     float getExposure() const { return mExposure; }
     // Read by GerudoQueenBattle::sub_71003F4648 (the float at +0x6b548, after mCharMainLightScale).
     float get6b548() const { return _6b548; }
-    // Read and written by WarpSafeTagRoot::calc_ (0x71005eb1a0; Lost Woods mist flags).
+    // Read and written by WarpSafeTagRoot::calc_ (0x71005eb1a0) and WarpTagRoot::calc_ (Lost Woods mist flags).
     bool get6b60e() const { return _6b60e; }
     void set6b60e(bool value) { _6b60e = value; }
     bool get6b60f() const { return _6b60f; }
+    void set6b60f(bool value) { _6b60f = value; }
     bool get6b610() const { return _6b610; }
     void set6b610(bool value) { _6b610 = value; }
 
