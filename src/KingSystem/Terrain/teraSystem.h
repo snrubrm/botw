@@ -222,7 +222,9 @@ public:
     u8 _0[0x28];
     u8 _28;
     u8 _29;
-    u8 _2a[0x2300 - 0x2a];
+    u8 _2a[0x15e0 - 0x2a];
+    // Returned by System::sub_710111F4F0; type unknown.
+    u8 _15e0[0x2300 - 0x15e0];
     Unk_710111F504 _2300;
     u8 _2321[0x2760 - 0x2321];
     // Set on every scene by System::sub_7101112C30.
@@ -240,7 +242,14 @@ public:
     u8 _2941;
     u8 _2942[0x2946 - 0x2942];
     s8 _2946;
-    u8 _2947[0x2998 - 0x2947];
+    u8 _2947[0x2948 - 0x2947];
+    // Placeholder type: System::sub_710111F644 writes its _afc0.
+    struct Unk_2948 {
+        u8 _0[0xafc0];
+        void* _afc0;
+    };
+    Unk_2948* _2948;
+    u8 _2950[0x2998 - 0x2950];
     // Flags: 4 set when the levels change, 8 read by System::sub_710111F618.
     u32 _2998;
 };
@@ -250,6 +259,10 @@ public:
     static System* instance();
     // 0x710111f504: `*_e0 + 0x2300`.
     Unk_710111F504* sub_710111F504();
+    // 0x710111f4f0 (placeholder name): `*_e0 + 0x15e0`.
+    void* sub_710111F4F0();
+    // 0x710111f644 (placeholder name): stores `value` in _2948->_afc0 of every scene.
+    void sub_710111F644(void* value);
     // 0x710111f518 (placeholder name): sub_71011001D4(level, type) on every scene.
     void sub_710111F518(int level, int type);
     // 0x7101112a74 (placeholder name): sub_7101101964 on every scene, then clears bit 3 of _1338.
