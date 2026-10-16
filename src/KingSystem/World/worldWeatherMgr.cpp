@@ -1,4 +1,6 @@
 #include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Sound/sndSound.h"
 #include <random/seadGlobalRandom.h>
 #include <gfx/seadCamera.h>
@@ -223,6 +225,19 @@ WeatherType WeatherMgr::x_5(int climate) const {
 
 WeatherType WeatherMgr::x_18(int climate) const {
     return sanitizeWeather(_2a[climate][5]);
+}
+
+// NON_MATCHING: the original stores the event scale (1, 1, 1) as one 8-byte store at 0xb4 and a 4-byte one at 0xbc.
+void WeatherMgr::x_10() {
+    const sead::Vector3f pos =
+        sub_71010ED450(2000.0f, sead::GlobalRandom::instance()->getF32Range(-0.65f, 0.65f));
+    auto* actor = act::Reaction::instance()->_38;
+    if (!actor)
+        return;
+    const f32 y = Manager::instance()->getCameraPos().y;
+    Unk_71012419b4 handle;
+    xlinkSearchAndEmit(actor, "Far_Lightning", 2, &handle);
+    handle.mELink.setPosition({pos.x, y, pos.z});
 }
 
 void WeatherMgr::x_13() {

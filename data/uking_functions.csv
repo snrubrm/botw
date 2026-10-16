@@ -90016,7 +90016,7 @@ Address,Quality,Size,Name
 0x00000071010ed67c,m,000316,_ZN4ksys5world10WeatherMgr4x_11ERKN4sead7Vector3IfEE
 0x00000071010ed7b8,m,000220,_ZN4ksys5world10WeatherMgr4x_12ERKN4sead7Vector3IfEE
 0x00000071010ed894,U,001080,wm::WeatherMgr::x_9
-0x00000071010edccc,U,000256,wm::WeatherMgr::x_10
+0x00000071010edccc,m,000256,_ZN4ksys5world10WeatherMgr4x_10Ev
 0x00000071010eddcc,O,000036,_ZNK4ksys5world10WeatherMgr3x_1Ei
 0x00000071010eddf0,O,000036,_ZNK4ksys5world10WeatherMgr3x_2Ei
 0x00000071010ede14,O,000036,_ZNK4ksys5world10WeatherMgr3x_3Ei

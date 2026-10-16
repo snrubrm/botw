@@ -39,6 +39,9 @@ public:
     u8 x_6(int idx) const;
     bool x_8() const;
     static bool x_7();
+    // 0x71010edccc: emits Far_Lightning on the reaction actor 2000 units in front of the camera (random yaw
+    // offset in [-0.65, 0.65]), at the camera height.
+    static void x_10();
     void setWeatherEffect(int effect);
     void x_16();
     void x_17();
