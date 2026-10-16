@@ -23,6 +23,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -565,6 +566,44 @@ void Player::sub_710088A388() {
     _c40.resetBit(3);
     sub_7100888278();
     snd::Unk_7102502138::instance()->sub_710103B430(false);
+}
+
+// In this file because sub_7100881EDC is out of line in the original.
+// Placeholder name: bow button handling. Unless blocked, on a press of controller button 18 (or while it is held
+// with `held`): readies the bow (equipment type 3) when slot 2 has one, else plays WeaponEquipNG (leaving the
+// type 6 rune item); then releases grabbed pause-menu items when m203().
+bool Player::sub_71008893B8(bool held) {
+    _c50.setBit(36);
+    if (_c44.isOnBit(21) || isSlowTime())
+        return false;
+    if (!_17d0->controllerCheckPressedMaybe(18) && !(held && _17d0->playerCheckController(18)))
+        return false;
+    if (m256() && !mASList->x(0x2d, nullptr, 1, 1, &as::ASList::Unk2::sub_71011638DC, true))
+        return false;
+
+    if (sub_7100881EDC()) {
+        if (_d30 != getEquipmentTypeName(3))
+            x_14(3);
+    } else if (!m194() && mASList->x_1(2, 0) != "WeaponEquipNG") {
+        x_16();
+        x_25();
+        mASList->goLimpFromHeadShotMaybe(0x2c, "WeaponBow", 0);
+        x_26("WeaponEquipNG", 0.0f);
+        _1cdc = 3;
+        if (_d30 == getEquipmentTypeName(6)) {
+            uking::RuneMgr::instance()->setHandled();
+            _d30 = getEquipmentTypeName(0);
+            x_18(true);
+        }
+        uking::RuneMgr::instance()->sub_710067594C();
+    }
+
+    if (m203()) {
+        if (auto* pause_menu = uking::ui::PauseMenuDataMgr::instance())
+            pause_menu->unholdGrabbedItems();
+        x_18(true);
+    }
+    return true;
 }
 
 }  // namespace ksys::act

@@ -505,7 +505,10 @@ public:
     void sub_7100881418();
     // 0x710086a554 (CSV Player::x_4; declared only, 1344 B): called by PlayerBow::calc_ unless _1f88 == 5.
     void x_4();
-    void sub_71008893B8(bool a1);      // 0x71008893b8
+    // 0x71008893b8: bow draw / equip request on the bow button (controller 18); true once handled.
+    bool sub_71008893B8(bool held);
+    // 0x7100889810 (CSV Player::x_14; declared only): equips the equipment type `type`.
+    void x_14(u32 type);
     void sub_71008931C4();             // 0x71008931c4
     // 0x710088b5b8 (placeholder name keeps a typo of the address; used by lane3 action files): with the shield-type item (equipment type 2)
     // in _d68 and m226(), x_24(-1) and resets _d68 to equipment type 0's name.
