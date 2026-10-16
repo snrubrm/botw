@@ -7,6 +7,7 @@
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/gameUnk_710243c330.h"
+#include "Game/gameGraphics.h"
 #include "Game/gameUnk_710243c698.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Types.h"
@@ -35,7 +36,8 @@ class RuneMgr : public ksys::ActorMessageTransceiver::IHandler, public Unk_71024
     ~RuneMgr() override;
 
 public:
-    int handleMessage(const ksys::Message* message) override;
+    // 0x71006775fc.
+    int handleMessage(const ksys::Message* message) override { return 1; }
 
     // A flag that is set / read under its own critical section (the five at 0x98..0x1f8: 0x98 /
     // 0xe0 / 0x128 / 0x170 / 0x1b8; the sixth critical section at 0x200 guards the current item).
@@ -112,19 +114,19 @@ public:
     /* 0x244 */ u8 _244[4];
     /* 0x248 */ s32 _248;  // selected rune (-1: none)
     /* 0x24c */ s32 _24c;
-    /* 0x250 */ bool _250;
-    /* 0x251 */ u8 _251[0x280 - 0x251];
-    /* 0x280 */ f32 _280;  // returned by sub_71006754A4
-    /* 0x284 */ u8 _284[0x28c - 0x284];
-    /* 0x28c */ sead::Vector2f _28c;  // set with _2a0 by sub_710067623C
-    /* 0x294 */ u8 _294[0x29c - 0x294];
-    /* 0x29c */ f32 _29c;  // returned by sub_710067549C
+    // Constructed by the RuneMgr ctor; the dtor unregisters it from Graphics (sub_7100F2F1E8) when
+    // it is the current one. _30 is returned by sub_71006754A4, _4c by sub_710067549C; _3c / _40
+    // are set with _2a0 by sub_710067623C.
+    /* 0x250 */ Unk_7100f35df8 _250;
     /* 0x2a0 */ sead::Vector2f _2a0;
     // The remote bomb tracker (constructed at +0x2a8 by the RuneMgr constructor 0x7100675000).
     /* 0x2a8 */ Unk_710243c698 _2a8;
     // The two UiTimers set by sub_71006757B8 (0x18 bytes each).
     /* 0x3c8 */ ui::UiTimer _3c8[2];
-    /* 0x3f8 */ u8 _3f8[0x428 - 0x3f8];
+    /* 0x3f8 */ u8 _3f8[0x408 - 0x3f8];
+    /* 0x408 */ void* _408;  // cleared by the dtor
+    /* 0x410 */ void* _410;  // cleared by the dtor
+    /* 0x418 */ u8 _418[0x428 - 0x418];
 };
 KSYS_CHECK_SIZE_NX150(RuneMgr, 0x428);
 

@@ -9,6 +9,16 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(RuneMgr)
 
+RuneMgr::~RuneMgr() {
+    if (&_250 == Graphics::instance()->sub_7100F35E54()) {
+        Graphics::instance()->sub_7100F2F1E8(&_250);
+        _250._0 = false;
+    }
+    _410 = nullptr;
+    _408 = nullptr;
+    _90 &= ~0x180u;
+}
+
 static void setLockedFlag(RuneMgr::LockedFlag& flag) {
     const auto lock = sead::makeScopedLock(flag.mCS);
     flag.mFlag = true;
@@ -19,11 +29,11 @@ void RuneMgr::setFieldD8() {
 }
 
 f32 RuneMgr::sub_710067549C() const {
-    return _29c;
+    return _250._4c;
 }
 
 f32 RuneMgr::sub_71006754A4() const {
-    return _280;
+    return _250._30;
 }
 
 void RuneMgr::sub_71006754AC() {
@@ -142,7 +152,7 @@ bool RuneMgr::checkCanUseRune(s32 rune, uking::act::PlayerBase* player) {
 }
 
 bool RuneMgr::sub_710067525C() const {
-    return _250;
+    return _250._0;
 }
 
 bool RuneMgr::__auto15(int idx) {
@@ -162,7 +172,8 @@ s32 RuneMgr::sub_7100676104() {
 
 void RuneMgr::sub_710067623C(const sead::Vector2f& value) {
     _2a0 = value;
-    _28c = _2a0;
+    _250._3c = _2a0.x;
+    _250._40 = _2a0.y;
 }
 
 }  // namespace uking
