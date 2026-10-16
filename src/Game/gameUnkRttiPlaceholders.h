@@ -5,6 +5,8 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include <container/seadPtrArray.h>
 #include <container/seadRingBuffer.h>
+#include <container/seadTList.h>
+#include "KingSystem/Terrain/teraResourceNode.h"
 
 #include <prim/seadRuntimeTypeInfo.h>
 #include <nn/ui2d/TextureInfo.h>

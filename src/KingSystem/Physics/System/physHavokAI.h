@@ -368,31 +368,14 @@ public:
     };
     static_assert(sizeof(Unk2) == 0x38);
 
-    // 0x7100f86324 (declared only, lane4 s102): forwards to 0x7100f86334 with `&in._34` added; true if it hit.
-    bool sub_7100F86324(NavMeshCharacter* nav, const Unk2& in, Unk1* result);
+    // 0x7100f86324: runs sub_7100F86334 on `query` for the character `nav`, with `&query._34` added;
+    // `result` may be null. True if it hit.
+    bool sub_7100F86324(NavMeshCharacter* nav, const Unk2& query, Unk1* result);
 
     // 0x7100f86174: a navmesh query from `from` towards `to` (`a4`: a height
     // tolerance); true if it hit.
     bool sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4);
 
-    // Placeholder: the query callers of sub_7100F86324 build on the stack (e.g. 0x7100346aa4, 0x7100e79e84):
-    // a start point, a direction and its length, 3.5 at _2c and 0xff at _30. Only the fields callers set
-    // are known; _34 is handed to the query separately.
-    struct Unk2 {
-        sead::Vector3f _0;
-        f32 _c;
-        u64 _10;
-        u32 _18;
-        sead::Vector3f _1c;
-        f32 _28;
-        f32 _2c;
-        u8 _30;
-        u32 _34;
-    };
-
-    // 0x7100f86324 (placeholder name): runs sub_7100F86334 on `query` for the character `nav`; `result`
-    // may be null. True if it hit.
-    bool sub_7100F86324(NavMeshCharacter* nav, const Unk2& query, Unk1* result);
     // 0x7100f86334 (declared only; 424 B): sub_7100F8688C under _90, or sub_7100F864DC under _c8.
     bool sub_7100F86334(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
 
