@@ -219,7 +219,13 @@ public:
     sead::Matrix34f mViewMatrix;
     u8 _6f0[0xa48 - 0x6f0];
     f64 _a48;
-    void* _a50;
+    // Placeholder type: ForestRenderer::requestDraw 0x7100f03964 draws nothing when bit 5 of its byte at
+    // 0x18 is set.
+    struct Unk_a50 {
+        u8 _0[0x18];
+        u8 _18;
+    };
+    Unk_a50* _a50;
     u32 _a58;
 };
 KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);

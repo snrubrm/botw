@@ -1,14 +1,16 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 
 namespace gsys {
+class Model;
 class ModelUnit;
-}
+}  // namespace gsys
 
 namespace ksys::map {
 class PlacementMgr;
@@ -48,9 +50,18 @@ public:
         u8 _70[0x88 - 0x70];
     };
     static_assert(sizeof(Entry) == 0x88);
-    // Placeholder: the 0x60-byte entries of the buffer at 0xe8 (only the model unit is known).
+    // Placeholder: the 0x60-byte entries of the buffer at 0xe8. requestDraw hands the draw array of
+    // mModelUnit one of two blocks of 0x400 unit pointers (mUnits[mIndex * 0x400], mCount used) when
+    // mState is 3, then flips mIndex.
     struct UnitEntry {
-        u8 _0[0x38];
+        u8 _0[0x8];
+        s32 mState;
+        u8 _c[0x20 - 0xc];
+        void** mUnits;
+        u32 mIndex;
+        u32 mCount;
+        u32 mPrevCount;
+        u8 _34[0x38 - 0x34];
         gsys::ModelUnit* mModelUnit;
         u8 _40[0x60 - 0x40];
     };
@@ -76,6 +87,23 @@ public:
     // a non-debug, non-dungeon stage (or the final trial); in state 6 it is true if bit 0 of _50 is set and
     // _60 > 3.
     bool stopped();
+    // 0x7100f03964
+    void requestDraw();
+    // 0x7100f01ab4 / 0x7100f01ac0 (placeholder names): return the addresses of two file statics
+    // (0x710260a1d8: requestDraw draws nothing while it is set; 0x710260a1dc).
+    static bool* sub_7100F01AB4();
+    static u32* sub_7100F01AC0();
+
+    // Placeholder: the two 0x50-byte model slots at 0x110; requestDraw draws the slot 1 - _1b0 when its
+    // state is 2.
+    struct ModelSlot {
+        u8 _0[0x8];
+        gsys::Model* mModel;
+        u8 _10[0x48 - 0x10];
+        s32 mState;
+        u8 _4c[0x50 - 0x4c];
+    };
+    static_assert(sizeof(ModelSlot) == 0x50);
 
     sead::CriticalSection mCS;
     u64 _48;
@@ -87,7 +115,10 @@ public:
     sead::Buffer<Entry> mEntries;
     u8 _e0[0xe8 - 0xe0];
     sead::Buffer<UnitEntry> mUnitEntries;
-    u8 _f8[0x220 - 0xf8];
+    u8 _f8[0x110 - 0xf8];
+    sead::SafeArray<ModelSlot, 2> mModelSlots;
+    s32 _1b0;
+    u8 _1b4[0x220 - 0x1b4];
     u32 _220;
 };
 

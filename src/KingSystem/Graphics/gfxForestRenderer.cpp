@@ -1,9 +1,74 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
+#include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModelUnitDrawArray.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/System/StageInfo.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace ksys::gfx {
+
+namespace {
+// 0x710260a1d8 / 0x710260a1dc (placeholder names; read directly, no GOT entries).
+bool sUnk_710260a1d8;
+u32 sUnk_710260a1dc;
+}  // namespace
+
+bool* ForestRenderer::sub_7100F01AB4() {
+    return &sUnk_710260a1d8;
+}
+
+u32* ForestRenderer::sub_7100F01AC0() {
+    return &sUnk_710260a1dc;
+}
+
+// NON_MATCHING: Clang duplicates the `_50 |= 8` store into the state 6 path, merges the bit 10 / bit 0
+// tests of _50 into one mask test and biases the loop pointer differently.
+void ForestRenderer::requestDraw() {
+    auto* terrain = tera::Terrain::instance();
+    if (terrain && terrain->_a50 && (terrain->_a50->_18 & 0x20))
+        return;
+
+    const bool stage = StageInfo::sIsNotDebugStageAndNotDungeon | StageInfo::sIsFinalTrial;
+    if (!stage)
+        return;
+    if (_54 < 5 || _220 == 0)
+        return;
+    if (_54 == 6 && (_50 & 1) && _60 > 3)
+        return;
+
+    _50 |= 8;
+    switch (_54) {
+    case 10:
+    case 16:
+        _1b0 = 1 - _1b0;
+        for (auto& entry : mUnitEntries) {
+            if (entry.mState != 3)
+                continue;
+            entry.mModelUnit->getDrawArray()->setUnits(&entry.mUnits[entry.mIndex * 0x400], entry.mCount);
+            entry.mModelUnit->getDrawArray()->setSize(entry.mCount);
+            const u32 count = entry.mCount;
+            entry.mIndex = 1 - entry.mIndex;
+            entry.mCount = 0;
+            entry.mPrevCount = count;
+        }
+        ++_54;
+        break;
+    default:
+        break;
+    }
+
+    if (_50 & 0x400)
+        return;
+    if (_50 & 1)
+        return;
+    if (sUnk_710260a1d8)
+        return;
+
+    auto& slot = mModelSlots[1 - _1b0];
+    if (slot.mState == 2)
+        slot.mModel->requestDraw();
+}
 
 // NON_MATCHING: only the schedule of the two GOT loads (the original loads both addresses first, then both bytes).
 // `sIsFinalTrial` is the byte at 0x2606855 (StageInfo statics are consecutive from 0x2606848).
