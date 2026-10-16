@@ -37,6 +37,14 @@ public:
 
     // 0x710052b4d0
     void sub_710052B4D0(Mode mode);
+    // 0x710052bac8: whether the member has taken damage; adds it to _130 once the mode change block time is over
+    bool sub_710052BAC8(const ksys::act::ActorLinkConstDataAccess* accessor);
+    // 0x710052bc04: runs the current formation; picks a new one when it is done
+    void sub_710052BC04();
+    // 0x710052c350: picks a formation record by weight (not the current one) and starts it
+    void sub_710052C350();
+    // 0x710052c44c: starts formation `id` (1: circle shoot, 2: circle rush, 3: line fall, 4: line rush)
+    void sub_710052C44C(s32 id);
 
     // inline-only in the original; names are guesses (sub_710052B4D0 and handleMessage_: the flag index
     // temporaries share one stack slot, as inlined by-value parameters do)
@@ -96,8 +104,11 @@ protected:
     struct PhaseRecord {
         s32 id = 0;
         f32 value = 0;
-        void* data = nullptr;
+        f32 _8 = 0;  // weight (0x710052c350 picks a record by it)
+        s32 _c = 0;  // times picked
     };
+    // 0x710052c738: recomputes the record weights (less likely the more often picked), normalised to 1
+    static void sub_710052C738(sead::ObjArray<PhaseRecord>* records);
     /* 0x690 */ sead::ObjArray<PhaseRecord> mRecords;
     /* 0x6b0 */ s32 _6b0 = 0;
     /* 0x6b8 */ Unk_7102450fe0* _6b8 = nullptr;  // current formation (_6c0 or _958; handleMessage_ forwards to m9)

@@ -48,6 +48,7 @@ namespace uking::ai {
 class AirOctaState;
 class GerudoQueenBattle;
 class KokkoRoot;
+class NPCTravelerRoot;
 }  // namespace uking::ai
 
 namespace uking::act {
@@ -891,6 +892,7 @@ protected:
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::action::NPCTargetMove;  // checks ActorX6A0 flags.
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags
+    friend class uking::ai::NPCTravelerRoot;  // checks ActorX6A0 flags (calc_)
     friend class ::WorldMgrStruct0_8_a;  // transfers the existing ActorX6A0 state to carried chemicals.
     friend class uking::ai::AirOctaState;  // entry rotates mMtx before notifying the actor.
     friend class uking::ai::GerudoQueenBattle;  // updates mMtx before notifying the actor.

@@ -3,6 +3,10 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "Game/Actor/aiUnk_71007130BC.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -66,6 +70,91 @@ void NPCTravelerRoot::enter_(ksys::act::ai::InlineParamPack* params) {
             _248->_9d8.copy(unk->sub_7100EEEE88(mActor));
     }
     NPCRoot::enter_(params);
+}
+
+// NON_MATCHING: the original evaluates the timeline end condition without branches (cset / orr).
+void NPCTravelerRoot::calc_() {
+    if (isCurrentChild("Timeline")) {
+        if (auto* schedule = mActor->getSchedule(); schedule && !schedule->_b8.isEmpty()) {
+            _2a8.update();
+            const f32 time = _2a8.value;
+            const auto flags = mActor->_6a0->_a;
+            const bool bad_weather = wm::callIsRainingOrSnowingOrThunderStorm(false);
+            if ((time <= sead::Mathf::epsilon() && !bad_weather) ||
+                (!schedule->_88.isEmpty() && flags.isOff(8) && bad_weather)) {
+                schedule->_b8 = sead::SafeString::cEmptyString;
+                if (_248)
+                    _248->_f80 = nullptr;
+            }
+        }
+    }
+
+    if (auto* ride_info = mActor->getPlayerRideInfo(); ride_info && ride_info->_30 & 1)
+        return;
+
+    if (isCurrentChild("Terror")) {
+        auto* child = getCurrentChild();
+        if ((child->isFinished() || child->isFailed()) && _240) {
+            sead::Vector3f home_pos;
+            mActor->getHomePos(&home_pos);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(home_pos, "TargetPos", -1);
+            changeChild("ReturnRestPos", &pack);
+            return;
+        }
+    }
+
+    if (isCurrentChild("ReturnRestPos")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addBool(false, "IsWarpHorse", -1);
+            changeChild("Rest", &pack);
+            if (_248 && _248->_f70.hasProc()) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&_248->_f70, &accessor);
+                _250.mLock.lock();
+                _250.mLink.acquire(mActor, false);
+                _250._50 = 0.5f;
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800008), &_250);
+                _250.mLock.unlock();
+                return;
+            }
+        }
+    }
+    NPCRoot::calc_();
+}
+
+void NPCTravelerRoot::m34() {
+    if ((mActor->getRootAi()->getI() & ~1u) == 8) {
+        sub_71004D9608();
+        ksys::act::ai::InlineParamPack pack;
+        pack.addBool(true, "IsWarpHorse", -1);
+        changeChild("Rest", &pack);
+        _240 = true;
+        return;
+    }
+
+    if (auto* ride_info = mActor->getPlayerRideInfo(); ride_info && ride_info->_30 & 1) {
+        sub_71004D9608();
+        if (*mIsRiderChangableAction_s)
+            changeChild("Timeline");
+        else
+            changeChild("Ride");
+        return;
+    }
+
+    if (!_240) {
+        NPCRoot::m34();
+        return;
+    }
+
+    sub_71004D9608();
+    sead::Vector3f home_pos;
+    mActor->getHomePos(&home_pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(home_pos, "TargetPos", -1);
+    changeChild("ReturnRestPos", &pack);
 }
 
 bool NPCTravelerRoot::handleMessage_(const ksys::Message* message) {

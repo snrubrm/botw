@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiPriestBossPhaseSecond.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
@@ -22,7 +24,8 @@ bool PriestBossPhaseSecond::init_(sead::Heap* heap) {
         if (auto* record = mRecords.emplaceBack()) {
             record->id = i;
             record->value = 0.25f;
-            record->data = nullptr;
+            record->_8 = 0;
+            record->_c = 0;
         }
     }
     _6c0.sub_710071B37C(sub_7100525A88());
@@ -93,6 +96,129 @@ void PriestBossPhaseSecond::leave_() {
     sub_7100525A88()->sub_7100719ED0();
     sub_7100525A88()->resetFlag(Unk_7102450fa8::Flag::_3);
     sub_7100525A88()->resetFlag(Unk_7102450fa8::Flag::_16);
+}
+
+bool PriestBossPhaseSecond::sub_710052BAC8(const ksys::act::ActorLinkConstDataAccess* accessor) {
+    ksys::act::BaseProcLink link;
+    accessor->linkAcquire(&link);
+    if (link.hasProc()) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        if (!actor)
+            return false;
+        if (auto* damage_mgr = actor->getDamageMgr()) {
+            if (const s32 damage = damage_mgr->getDamage()) {
+                if (*mModeChangeBlockTime_s <= _12c && !isStateFlagOn(StateFlag::_2))
+                    _130 += damage;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void PriestBossPhaseSecond::sub_710052BC04() {
+    sub_7100525A88()->sub_71007199A8();
+    if (!_6b8 || _6b8->isFlagOn(Unk_7102450fe0::Flag::_1)) {
+        sub_710052C350();
+        if (!_6b8)
+            return;
+    }
+    _6b8->m8();
+    if (_6b8->isFlagOn(Unk_7102450fe0::Flag::_1) && --_128 <= 0)
+        sub_710052B4D0(Mode::_1);
+}
+
+void PriestBossPhaseSecond::sub_710052C350() {
+    while (true) {
+        sub_710052C738(&mRecords);
+        const f32 value = sead::GlobalRandom::instance()->getF32();
+        PhaseRecord* picked = nullptr;
+        f32 sum = 0.0f;
+        for (auto& record : mRecords) {
+            const f32 prev = sum;
+            sum += record._8;
+            if (prev <= value && value < sum) {
+                picked = &record;
+                break;
+            }
+        }
+        if (!picked)
+            picked = mRecords.back();
+        ++picked->_c;
+        if (picked->id != _6b0) {
+            sub_710052C44C(picked->id);
+            return;
+        }
+    }
+}
+
+void PriestBossPhaseSecond::sub_710052C44C(s32 id) {
+    Unk_7102450fe0* formation;
+    f32 wait;
+    f32 interval;
+    s32 kind;
+    switch (id) {
+    case 1:
+        _6b8 = &_6c0;
+        wait = *mCircleFormShootWait_s;
+        interval = *mCircleFormShootInterval_s;
+        sub_7100525A88()->_2b0.copy(sUnk_7102450f80[sead::GlobalRandom::instance()->getU32(3)]);
+        formation = _6b8;
+        kind = 2;
+        break;
+    case 2:
+        formation = &_6c0;
+        _6b8 = formation;
+        wait = *mCircleFormRushWait_s;
+        interval = *mCircleFormRushInterval_s;
+        kind = 1;
+        break;
+    case 3:
+        formation = &_958;
+        _6b8 = formation;
+        wait = *mLineFormFallWait_s;
+        interval = *mLineFormFallInterval_s;
+        kind = 3;
+        break;
+    case 4:
+        formation = &_958;
+        _6b8 = formation;
+        wait = *mLineFormRushWait_s;
+        interval = *mLineFormRushInterval_s;
+        kind = 1;
+        break;
+    default:
+        return;
+    }
+    _6b0 = id;
+    formation->m5(kind, wait, interval);
+    sub_7100525A88()->_88 = _6b8;
+}
+
+void PriestBossPhaseSecond::sub_710052C738(sead::ObjArray<PhaseRecord>* records) {
+    if (records->size() == 0)
+        return;
+
+    s32 total = 0;
+    for (auto& record : *records)
+        total += record._c;
+
+    f32 sum = 0.0f;
+    if (total == 0) {
+        for (auto& record : *records) {
+            record._8 = record.value;
+            sum += record._8;
+        }
+    } else {
+        for (auto& record : *records) {
+            record._8 = (1.0f - static_cast<f32>(record._c) / static_cast<f32>(total)) * record.value;
+            sum += record._8;
+        }
+    }
+    if (sum > 0.0f) {
+        for (auto& record : *records)
+            record._8 /= sum;
+    }
 }
 
 void PriestBossPhaseSecond::sub_710052B4D0(Mode mode) {
