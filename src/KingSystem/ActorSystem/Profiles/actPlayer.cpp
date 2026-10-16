@@ -498,6 +498,28 @@ bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& e
     return sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0.0f);
 }
 
+bool Player::sub_710087F0B4() {
+    sead::Vector3f start = _22f4;
+    start.y = _1770.y + 0.35f;
+    util::sub_71011EEEE0(&start, _1c84, 0.55f);
+    sead::Vector3f end = start;
+    end.y += uking::sUnk_7101e7c5d0 * 4.0f;
+    return !sub_710087F654(start, end, phys::GroundHit::Player, nullptr, false, false, 0.3f);
+}
+
+void Player::sub_71008838FC(sead::Vector3f* out) {
+    sead::Vector3f pos = _21b8.mPos;
+    pos.y += uking::sUnk_7101e7c2d8;
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 0);
+    dir.normalize();
+    *out = pos + dir * uking::sUnk_7101e7c2dc;
+}
+
+bool Player::sub_7100888618() {
+    return _d30 == getEquipmentTypeName(5);
+}
+
 bool Player::sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
                             sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                             bool check_normal) {

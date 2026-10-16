@@ -605,6 +605,14 @@ public:
     // 0x7100881b14: no ground within `depth` + 0.1 below the position (cast from 1 above it, actors that
     // sub_71002C802C accepts only).
     bool sub_7100881B14(f32 depth);
+    // 0x71008838fc: the locked position _21b8 (read without the lock) lowered by 0.4 and moved 0.2 along the
+    // normalised first base vector of _1b18.
+    void sub_71008838FC(sead::Vector3f* out);
+    // 0x7100888618: _d30 is the name of equipment type 5.
+    bool sub_7100888618();
+    // 0x710087f0b4: no ground hit 0.55 ahead (direction _1c84) of the ladder point _22f4 at height _1770.y + 0.35,
+    // casting up by 4 ladder steps (sUnk_7101e7c5d0).
+    bool sub_710087F0B4();
     // 0x7100881bac: no ground within `depth` + 0.1 below the position, probing both ahead (by the forward speed
     // _20bc) and straight down; false when the character controller's _116 bit 2 is set.
     bool sub_7100881BAC(f32 depth);
