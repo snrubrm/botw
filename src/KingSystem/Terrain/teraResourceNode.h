@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadListImpl.h>
+#include <container/seadPtrArray.h>
 #include <container/seadTList.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
@@ -133,8 +134,21 @@ void sub_710114ADD4(u32* out_a, u32* out_b, const ImageTypeMaybe& type, s32 a, u
 // search by (first u16 is its id); _a0 is compared with epsilon by 0x7101108624.
 class Unk_710110d278 {
 public:
+    // Placeholder: an entry of Key::_a8 (0x710110d320 reads its weight at 0x18).
+    struct Layer {
+        u8 _0[0x18];
+        f32 weight;
+    };
     struct Key {
         u16 id;
+        u8 _2[0xa4 - 0x2];
+        // Texel count per square unit (0x710110d320 multiplies it by _a0 squared).
+        f32 _a4;
+        sead::PtrArray<Layer> _a8;
+    };
+    // Placeholder: 16-byte entries of the buffer allocated by 0x710110d320.
+    struct Entry {
+        u8 _0[0x10];
     };
     struct InitArg {
         sead::Heap* heap;
@@ -156,7 +170,7 @@ public:
     // 0x710110d28c and init 0x710110d2c4.
     void freeBufferMaybe() {
         if (_10 && _18) {
-            delete[] static_cast<u8*>(_18);
+            delete[] _18;
             _18 = nullptr;
             _10 = 0;
         }
@@ -166,8 +180,10 @@ public:
     Key* _8 = nullptr;
     // Freed by init (count, then buffer).
     u32 _10 = 0;
-    void* _18 = nullptr;
-    u8 _20[0xa0 - 0x20];
+    Entry* _18 = nullptr;
+    // Per layer of the key: the first entry index (by weight) and a counter.
+    u32 _20[16];
+    u32 _60[16];
     f32 _a0 = 0.0f;
     u8 _a4[0xa8 - 0xa4];
 };

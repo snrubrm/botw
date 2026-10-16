@@ -65,6 +65,53 @@ void Unk_710110d278::init(const InitArg& arg) {
     sub_710110D320(arg.heap);
 }
 
+// NON_MATCHING: loop shapes (store scheduling, the clearing loop is not unrolled the same way).
+void Unk_710110d278::sub_710110D320(sead::Heap* heap) {
+    u32 num_layers = _8->_a8.size();
+    if (num_layers == 0)
+        return;
+
+    if (!(_a0 > sead::Mathf::epsilon())) {
+        for (u32 i = 0; i != num_layers; ++i) {
+            _20[i] = 0;
+            _60[i] = 0;
+        }
+        return;
+    }
+
+    const u32 count = _a0 * _a0 * _8->_a4;
+    if (_10 != count) {
+        freeBufferMaybe();
+        if (s32(count) > 0) {
+            if (auto* buffer = new (heap, 8, std::nothrow) Entry[s32(count)]) {
+                _10 = count;
+                _18 = buffer;
+            }
+        }
+    }
+
+    u32 start = 0;
+    num_layers = _8->_a8.size();
+    if (num_layers != 0) {
+        f32 total = 0.0f;
+        for (u32 j = 0; j != num_layers; ++j)
+            total += _8->_a8(j)->weight;
+        u32 offset = 0;
+        for (u32 i = 0; i != num_layers; ++i) {
+            _20[i] = offset;
+            offset += u32(static_cast<f32>(count) * (_8->_a8(s32(i))->weight / total));
+            _60[i] = 0;
+        }
+        start = _8->_a8.size();
+        if (start > 15)
+            return;
+    }
+    for (u32 i = start; i != 16; ++i) {
+        _20[i] = 0;
+        _60[i] = 0;
+    }
+}
+
 }  // namespace ksys::tera
 
 s32 Unk_710250dbc8::m4() {
