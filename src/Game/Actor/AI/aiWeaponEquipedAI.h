@@ -29,6 +29,7 @@ public:
     void sub_7100E1D7A8();
     void sub_7100E1D884();
     void sub_7100E1D9F0();
+    void sub_7100E1DD30();
     // 0x7100e1e104: emits the "SpearAttack" effect for a weapon whose m233() holds
     void sub_7100E1E104();
     // 0x7100e1e024: fades the second effect handle (_50), like sub_7100E1DC50 does for _40

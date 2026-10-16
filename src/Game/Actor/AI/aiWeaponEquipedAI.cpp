@@ -173,6 +173,24 @@ void WeaponEquipedAI::leave_() {
     }
 }
 
+// 0x7100e1dd30 (placeholder name): when the weapon's m233 holds and it has a parent, calls sub_7100E1E104 while the
+// parent's AS slot 3 query succeeds; otherwise kills the second effect (_50) when m184 holds
+void WeaponEquipedAI::sub_7100E1DD30() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon || !weapon->m233())
+        return;
+    auto* parent = weapon->getParentActor();
+    if (!parent)
+        return;
+    if (parent->getASList() &&
+        parent->getASList()->x(3, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_710116383C, true)) {
+        sub_7100E1E104();
+        return;
+    }
+    if (weapon->m184())
+        xlink::kill(_50);
+}
+
 // 0x7100e1e024
 void WeaponEquipedAI::sub_7100E1E024() {
     if (_50.getEvent() && _50.getEvent()->getCreateId() == u32(_50.getCreateId()) &&
