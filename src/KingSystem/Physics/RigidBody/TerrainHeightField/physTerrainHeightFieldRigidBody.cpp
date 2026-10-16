@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
+#include <Havok/Common/Base/Types/Geometry/Sphere/hkSphere.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include <math/seadMathCalcCommon.h>
 #include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastOutput.h>
@@ -148,8 +149,20 @@ hkBool Unk_7102515a58::getTriangleFlipImpl() const {
     return false;
 }
 
-// TODO: 0x71012264c8 (368 bytes), not decompiled yet (inlines the sub_71015C3994 query per sphere).
-void Unk_7102515a58::collideSpheres(const CollideSpheresInput&, SphereCollisionOutput*) const {}
+// NON_MATCHING: the inlined sub_71015C3994 writes a 12-byte normal in the original (see there).
+void Unk_7102515a58::collideSpheres(const CollideSpheresInput& input,
+                                    SphereCollisionOutput* outputArray) const {
+    const hkSphere* sphere = input.m_spheres;
+    const hkSphere dummy({0, 1, 0}, hkSimdReal::getConstant<HK_QUADREAL_MAX>());
+    for (int i = input.m_numSpheres - 1; i >= 0; --i) {
+        *outputArray = dummy.getPositionAndRadius();
+        const hkVector4& pos = sphere->getPositionAndRadius();
+        const hkReal height = Unk_7102515a58::sub_71015C3994(pos(0), pos(2), *outputArray);
+        (*outputArray)(3) = (pos(1) - height) * m_intToFloatScale(1) - sphere->getRadius();
+        ++sphere;
+        ++outputArray;
+    }
+}
 
 // NON_MATCHING: the original reuses the query position slot for the output (stack coloring) and
 // stores the normal earlier.
@@ -260,8 +273,20 @@ Unk_7102515b40::Unk_7102515b40(const hkpSampledHeightFieldBaseCinfo& ci, tera::S
                                f32, f32 scale, s32 a, s32 b)
     : Unk_7102515a58(ci, system, offset, half_extents, center, circle_center, 0.0f, scale, a, b) {}
 
-// TODO: 0x7101226894 (292 bytes), not decompiled yet.
-void Unk_7102515b40::collideSpheres(const CollideSpheresInput&, SphereCollisionOutput*) const {}
+// NON_MATCHING: the inlined sub_71015C3994 writes a 12-byte normal in the original (see there).
+void Unk_7102515b40::collideSpheres(const CollideSpheresInput& input,
+                                    SphereCollisionOutput* outputArray) const {
+    const hkSphere* sphere = input.m_spheres;
+    const hkSphere dummy({0, 1, 0}, hkSimdReal::getConstant<HK_QUADREAL_MAX>());
+    for (int i = input.m_numSpheres - 1; i >= 0; --i) {
+        *outputArray = dummy.getPositionAndRadius();
+        const hkVector4& pos = sphere->getPositionAndRadius();
+        const hkReal height = Unk_7102515b40::sub_71015C3994(pos(0), pos(2), *outputArray);
+        (*outputArray)(3) = (pos(1) - height) * m_intToFloatScale(1) - sphere->getRadius();
+        ++sphere;
+        ++outputArray;
+    }
+}
 
 void Unk_7102515b40::castSphere(const hkpSphereCastInput& input, const hkpCdBody& cdBody,
                                 hkpRayHitCollector& collector) const {
