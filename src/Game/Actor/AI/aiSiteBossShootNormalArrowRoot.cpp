@@ -1,5 +1,6 @@
 #include "Game/Actor/AI/aiSiteBossShootNormalArrowRoot.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -207,6 +208,52 @@ void SiteBossShootNormalArrowRoot::m52(s32 idx) {
 
 bool SiteBossShootNormalArrowRoot::sub_7100588164(bool a1) {
     return _120.value <= sead::Mathf::epsilon();
+}
+
+// 0x7100587be4
+// NON_MATCHING: as SiteBossShootArrowRoot::sub_71005858E4: avoidance-vector stack slots and height-selection
+// scheduling.
+void SiteBossShootNormalArrowRoot::m38(bool side, bool no_horizon) {
+    if (_14a) {
+        const u32 percent = _149 ? 20 : 60;
+        side = sead::GlobalRandom::instance()->getU32(100) < percent;
+    } else {
+        _14a = true;
+    }
+    _149 = side;
+    const f32 distance = *mAvoidDist_s;
+    const f32 distance_range = *mAvoidDistRand_s;
+    const f32 avoid_distance = distance + distance_range * sead::GlobalRandom::instance()->getF32();
+    bool slerp = false;
+    sead::Vector3f target;
+    m45(&target);
+    sead::Vector3f avoid;
+    const bool horizon = sub_71002D2D9C(&avoid, &slerp, mActor, target, side, avoid_distance);
+    const f32 height = mActor->getMtx().getTranslation().y;
+    const s32 roll = static_cast<s32>(sead::GlobalRandom::instance()->getF32() * 100.0f);
+    const s32 rate = *mUpDownAvoidRate_s;
+    if (roll < rate) {
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        home += *mChaseDistOffset_s;
+        const f32 upper = mChaseDistOffset_s->y + home.y + mChaseDist_s->y;
+        const f32 lower = mChaseDistOffset_s->y + (home.y - mChaseDist_s->y);
+        const s32 half_rate = static_cast<s32>(static_cast<f32>(rate) * 0.5f);
+        const f32 scale = height < (upper + lower) * 0.5f ? 1.5f : 0.5f;
+        const s32 threshold = static_cast<s32>(static_cast<f32>(half_rate) * scale);
+        if (roll < threshold)
+            avoid.y += upper >= height + mChaseDist_s->y ? 0.25f : -0.25f;
+        else
+            avoid.y += lower > height - mChaseDist_s->y ? 0.25f : -0.25f;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    pack.addVec3(*mTargetPos_d, "PlayerPos", -1);
+    pack.addVec3(avoid, "AvoidVec", -1);
+    pack.addBool(horizon && !no_horizon, "IsAvoidHorizon", -1);
+    pack.addFloat(avoid_distance, "AvoidDist", -1);
+    pack.addBool(slerp, "IsSlerp", -1);
+    changeChild("回避", &pack);
 }
 
 }  // namespace uking::ai
