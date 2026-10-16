@@ -14,6 +14,7 @@
 #include <thread/seadMessageQueue.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
+#include <common/aglUniformBlock.h>
 #include <container/seadFreeList.h>
 #include <container/seadObjList.h>
 #include <gsys/gsysIModelProcedural.h>
@@ -198,14 +199,24 @@ struct ClusteredRendererData2 {
 class ClusteredRenderer : public gsys::IModelProcedural, public Unk_7102516df0 {
     SEAD_RTTI_OVERRIDE(ClusteredRenderer, gsys::IModelProcedural)
 public:
-    // Placeholder names: the objects that cell entries point to (layouts unknown).
-    struct Unk_CellNode;
+    // Placeholder names: the objects that cell entries point to. Unk_CellNode is a chain of pooled nodes
+    // (each holds a uniform block); Unk_CellNode2 is released by 0x710124a280.
+    struct Unk_CellNode {
+        u8 _0[0x58];
+        agl::UniformBlock mUniformBlock;
+        Unk_CellNode* mNext;
+    };
     struct Unk_CellNode2;
+
+    // 0x710124a280 (declaration only; placeholder name): releases a node (three display lists) into `list`.
+    static void sub_710124A280(Unk_CellNode2* node, sead::FreeList* list);
 
     // Placeholder name: a fixed ring of pointers; push writes at the write counter modulo N.
     template <typename T, s32 N>
     struct PtrQueue {
         void push(T* item) { mItems[mWrite++ % N] = item; }
+        T* pop() { return mItems[mRead++ % N]; }
+        bool isEmpty() const { return mRead == mWrite; }
 
         T* mItems[N];
         u32 mRead;

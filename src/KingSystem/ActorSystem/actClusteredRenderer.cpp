@@ -481,6 +481,22 @@ void ClusteredRenderer::sub_7101244038(const sead::Vector3f* pos) {
     mData._c40 = mData._c38;
 }
 
+// NON_MATCHING: Clang duplicates the queue compare after the node chain loop.
+void ClusteredRenderer::Cell::sub_710124749C(sead::FreeList* node_list, sead::FreeList* node2_list) {
+    while (!_1458.isEmpty()) {
+        for (Unk_CellNode* node = _1458.pop(); node;) {
+            Unk_CellNode* next = node->mNext;
+            node->~Unk_CellNode();
+            node_list->free(node);
+            node = next;
+        }
+    }
+    for (auto& queue : _16e8) {
+        while (!queue.isEmpty())
+            sub_710124A280(queue.pop(), node2_list);
+    }
+}
+
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
     sead::Heap* heap = renderer->mData._f8;
     renderer->sub_71012439BC();
