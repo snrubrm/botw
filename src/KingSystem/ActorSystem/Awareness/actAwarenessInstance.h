@@ -67,6 +67,30 @@ public:
     /* 0x51 */ bool _51;  // ignores the weather (sub_7100D8010C)
 };
 
+// Placeholder name (vtable 0x71024dcd68, RTTI static 0x7102600a60): the hearing sensor (`_260[1]` of
+// AwarenessInstance; its m4 fills Unk_71023e2750 requests). D1 is the base destructor (0x7100d7f7b4),
+// D0 0x7100d7f6f8; overrides m4 0x7100d7f3c8, m5 0x7100d7f488, m6 0x7100d7f52c, m12 0x7100d7f144 (declared
+// only) and m14 0x7100d7f740.
+class Unk_71024dcd68 : public Unk_71024dce08 {
+    SEAD_RTTI_OVERRIDE(Unk_71024dcd68, Unk_71024dce08)
+public:
+    // Declared first so that it is the key function (the vtable, RTTI functions and D0 are emitted with it);
+    // overrides take their base slots whatever their declaration order.
+    f32 m14() override;
+    bool m4(Unk_71023e2708* request) override;
+    bool m5(Unk_71023e2708* request) override;
+    bool m6(Unk_71023e2708* request) override;
+    void m12() override;
+
+    /* 0x54 */ f32 _54;  // m4 scales it by sub_7100D8010C into the request's _8
+    // m4 copies these to the request's _c-_1c.
+    /* 0x58 */ f32 _58;
+    /* 0x5c */ f32 _5c;
+    /* 0x60 */ f32 _60;
+    /* 0x64 */ f32 _64;
+    /* 0x68 */ f32 _68;
+};
+
 // Placeholder name (vtable 0x71024dc978, RTTI static 0x71025af288): abstract base of the awareness
 // entries (Unk_71024dc858, the first member of the awareness array elements Unk_7100d78e50); the
 // filters get them through this type.
