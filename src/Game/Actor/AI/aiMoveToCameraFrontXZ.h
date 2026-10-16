@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
     // 0x71004b38a8 (placeholder name)
     void changeToAvoidPlayerMove(const sead::Vector3f& a, const sead::Vector3f& b);
@@ -49,7 +50,7 @@ protected:
     const float* mReachableRadius_s{};
     // static_param at offset 0x78
     const bool* mIsSuccessByLineReachable_s{};
-    int _80{};
+    f32 _80{};  // reverse timer (Timer::update(f32*, f32) counts it)
     int _84{};
     sead::Vector3f _88{0, 0, 0};
 };
