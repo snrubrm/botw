@@ -6,6 +6,12 @@
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <algorithm>
+#include <limits>
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -45,8 +51,71 @@ void SiteBossShieldBashAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: the up vector is kept in registers until after the epsilon check in the original.
 void SiteBossShieldBashAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    const sead::Vector3f gravity = controller->get70();
+    const f32 gravity_len = gravity.length();
+    sead::Vector3f up = -gravity;
+    if (gravity_len > 0.0f)
+        up *= 1.0f / gravity_len;
+    if (gravity_len < std::numeric_limits<f32>::epsilon())
+        up = sead::Vector3f::ey;
+
+    sub_710073FA94(&_5c, mActor);
+    sead::Vector3f dir = *mTargetPos_d;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    dir -= pos;
+    const f32 distance = dir.length();
+    if (distance > 0.0f)
+        dir *= 1.0f / distance;
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    sub_710074006C(&_5c, dir, up, true, 0.16f, sead::Mathf::pi2(), 0.0f);
+
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD798(mActor, 0xe, &query, 0, 0)) {
+        _50 *= 0.86f;
+        const f32 keep_dist = *mKeepDist_s;
+        if (keep_dist * 1.1f < distance) {
+            const f32 speed = sead::Mathf::min(distance * 0.8f, *mMoveSpeed_s);
+            _50.setToMax(speed);
+        } else if (keep_dist * 0.9f > distance) {
+            _50.setToMax(*mMoveSpeed_s);
+        }
+        _50.updateStats();
+        pos += dir * _50.value;
+    }
+    controller->sub_7100F5F938(sead::Matrix34f(_5c, pos));
+
+    if (sub_71005DD66C(mActor, &query, 0, 0)) {
+        m34(&query);
+    } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
+        m35();
+    }
+    if (_80 && sub_71005DD734(mActor, 0xe, &query, 0, 0)) {
+        _80 = false;
+        m32();
+    }
+
+    if (isFinishedAS(0, 0)) {
+        setFailed();
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+            boss->_1558.resetBit(2);
+        return;
+    }
+
+    _81 |= hasAttackInfo(mActor);
+    if (_81 && sub_71005DD798(mActor, 2, &query, 0, 0)) {
+        setFinished();
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+            boss->_1558.resetBit(2);
+    }
 }
 
 void SiteBossShieldBashAttack::m32() {}
