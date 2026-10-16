@@ -2434,6 +2434,11 @@ class Unk_71024fd448 : public ksys::snd::Unk_71025ce380 {
 public:
     explicit Unk_71024fd448(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd448() override;
+    // 0x7101000360: runs the message sound ducking while _190 is set.
+    void m5() override;
+    bool m10() override;
+    // 0x7101000374: restarts the BGM after a stop (state 3 -> 1, 4 -> 2).
+    void m12(f32 fade_sec) override;
     // 0x710100064c / 0x7101000b00 (declared only)
     void hm14() override;
     void hm15() override;
@@ -2465,6 +2470,8 @@ public:
     void sub_7101002274();
     // 0x7101002244: in state 3 / 4 with _160[1] above the info's VolumeNormal.
     bool m10() override;
+    bool m11() override;
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     // 0x7101002290 (declared only)
     void hm14() override;
@@ -2495,6 +2502,7 @@ public:
     // Called by the BGM controllers on their kind 19 BGM.
     void sub_71010029B8();
     void sub_71010029CC();
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
     // 0x7101002a24 (declared only; 772 B)
@@ -2526,6 +2534,7 @@ public:
     // Called by the BGM controllers on their kind 20 BGM.
     void sub_71010038AC();
     void sub_71010038C0();
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
     // 0x710100390c (declared only; 360 B)

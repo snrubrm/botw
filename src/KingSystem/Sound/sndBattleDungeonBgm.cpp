@@ -674,6 +674,25 @@ Unk_71024fd448::Unk_71024fd448(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd448::~Unk_71024fd448() = default;
 
+void Unk_71024fd448::m5() {
+    if (_190)
+        _1a0.calc();
+}
+
+bool Unk_71024fd448::m10() {
+    return _190 != 0;
+}
+
+void Unk_71024fd448::m12(f32 fade_sec) {
+    if (_190 == 4)
+        _190 = 2;
+    else if (_190 == 3)
+        _190 = 1;
+    else
+        return;
+    sub_710101D9D8();
+}
+
 namespace {
 sead::SafeString sStr_DungeonBattleBgm = "DungeonBattleBgm";
 }  // namespace
@@ -741,6 +760,16 @@ Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
 
+bool Unk_71024fd6c8::m11() {
+    return mState == 2;
+}
+
+void Unk_71024fd6c8::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    _1ec = 0;
+    mState = 0;
+}
+
 bool Unk_71024fd6c8::m10() {
     if (_124 != 3 && _124 != 4)
         return false;
@@ -768,6 +797,10 @@ Unk_71024fd808::Unk_71024fd808(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd808::~Unk_71024fd808() = default;
 
+void Unk_71024fd808::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+}
+
 void Unk_71024fd808::hm14() {
     _1bc = 0;
     _1ac = 0;
@@ -791,6 +824,10 @@ Unk_71024fd948::Unk_71024fd948(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 }
 
 Unk_71024fd948::~Unk_71024fd948() = default;
+
+void Unk_71024fd948::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+}
 
 void Unk_71024fd948::hm14() {
     _19c = 0;
