@@ -44,7 +44,11 @@ public:
     // 0x710071cae8 / 0x710071cb94
     Unk_7102451070();
     virtual ~Unk_7102451070();
+    // 0x710071ce44 (placeholder name): with flag 0, keeps the centre _10 within sUnk_7102450fa0 of the arena centre;
+    // runs the timer _20 and calls sub_710071CFF0 at 0
     void sub_710071CE44();
+    // 0x710071cff0 (declared only; 1836 bytes)
+    void sub_710071CFF0();
     // 0x710071cb98 (placeholder name): takes the unit and the settings and clears the entries
     void sub_710071CB98(const InitArg& arg);
     // 0x710071cc4c (placeholder name): adds an entry for member `idx` (with its actor) unless there is one
@@ -57,6 +61,9 @@ public:
     // inline-only in the original; name is a guess (sub_710071CB98 changes bit 1 through one stack temporary, the
     // same shape as Unk_7102451050::setFlag / resetFlag)
     void changeFlag(Flag flag, bool on) { _328.changeBit(flag, on); }
+    // inline-only in the original; names are guesses (sub_710071CE44 tests and resets bit 0 through stack temporaries)
+    bool isFlagOn(Flag flag) const { return _328.isOnBit(flag); }
+    void resetFlag(Flag flag) { _328.resetBit(flag); }
 
 private:
     friend class uking::ai::PriestBossPhaseSecond;

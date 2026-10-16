@@ -290,3 +290,27 @@ void Unk_7102451070::sub_710071CC4C(s32 idx) {
         }
     }
 }
+
+// NON_MATCHING: scheduling of the clamped centre stores and one fmul
+// 0x710071ce44
+void Unk_7102451070::sub_710071CE44() {
+    if (!_8 || _38.size() == 0)
+        return;
+    if (isFlagOn(Flag::_0)) {
+        _10.y = sUnk_71025c8cf8.y;
+        sead::Vector3f offset = _10 - sUnk_71025c8cf8;
+        const f32 radius = sUnk_7102450fa0;
+        if (offset.x * offset.x + offset.z * offset.z > radius * radius) {
+            const f32 length = offset.length();
+            if (length > 0)
+                offset *= radius / length;
+            _10 = offset + sUnk_71025c8cf8;
+        }
+        resetFlag(Flag::_0);
+    }
+    _20 -= ksys::VFR::instance()->getDeltaTime();
+    if (_20 <= 0) {
+        _20 = _1c;
+        sub_710071CFF0();
+    }
+}
