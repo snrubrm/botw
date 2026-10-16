@@ -50,6 +50,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/gameHeroSoul.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
@@ -614,6 +615,21 @@ void Player::m310(f32 target) {
     const f32 step = rate * _20ec * VFR::instance()->getDeltaFrame();
     sead::Mathf::chase(&value, target, step);
     m309(value);
+}
+
+void Player::sub_7100890098() {
+    auto* actor = ActorCreator::instance()->createActor(getEquipmentTypeName(5).cstr(),
+                                                        ActorHeapUtil::instance()->getBaseProcHeap(),
+                                                        nullptr, false, false);
+    if (!actor)
+        return;
+    const auto& key = _19f0[45];
+    sead::Matrix34f mtx;
+    mModel->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    const sead::Vector3f pos = mtx.getTranslation();
+    const sead::Matrix33f rot(mtx);
+    actor->sub_71011C7020(&pos, &rot, nullptr);
+    actor->setConnectedCalcParent(this, false);
 }
 
 f32 Player::sub_71008901D0() {

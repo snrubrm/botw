@@ -363,6 +363,9 @@ public:
     // "GuardJustHit" effect, and (with sub_710086DBA8 and without _c40 bit 15) sets _c40 bit 16 and starts the
     // GuardJustForceSlowTime timer _1d70.
     void sub_71008883B8();
+    // 0x7100890098 (placeholder name): creates the equipment type 5 actor (Item_Magnetglove) at bone key 45 and
+    // makes the player its connected calc parent.
+    void sub_7100890098();
     // 0x710085c55c: casts down through the water surface at _1770 and chases _1fa0 toward the surface's tilt along
     // the facing direction (0.01 per frame).
     void sub_710085C55C();
