@@ -1,5 +1,7 @@
 #include "Game/Actor/AI/aiPipeDrawing.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 
 namespace uking::ai {
 
@@ -40,5 +42,45 @@ void PipeDrawing::leave_() {
 }
 
 void PipeDrawing::loadParams_() {}
+
+// 0x71004f6298
+void PipeDrawing::sub_71004F6298() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    ksys::act::ai::InlineParamPack pack;
+    if (weapon) {
+        pack.addString(weapon->m164(), "NodeName", -1);
+        sead::Vector3f rot;
+        sead::Vector3f trans;
+        weapon->m165(&rot);
+        weapon->m166(&trans);
+        pack.addVec3(rot, "RotOffset", -1);
+        pack.addVec3(trans, "TransOffset", -1);
+    } else {
+        pack.addString("Root", "NodeName", -1);
+        pack.addVec3(sead::Vector3f::zero, "RotOffset", -1);
+        pack.addVec3(sead::Vector3f::zero, "TransOffset", -1);
+    }
+    changeChild("待機", &pack);
+}
+
+// 0x71004f6650
+void PipeDrawing::sub_71004F6650() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    ksys::act::ai::InlineParamPack pack;
+    if (weapon) {
+        pack.addString(weapon->m164(), "NodeName", -1);
+        sead::Vector3f rot;
+        sead::Vector3f trans;
+        weapon->m165(&rot);
+        weapon->m166(&trans);
+        pack.addVec3(rot, "RotOffset", -1);
+        pack.addVec3(trans, "TransOffset", -1);
+    } else {
+        pack.addString("Root", "NodeName", -1);
+        pack.addVec3(sead::Vector3f::zero, "RotOffset", -1);
+        pack.addVec3(sead::Vector3f::zero, "TransOffset", -1);
+    }
+    changeChild("鳴らす", &pack);
+}
 
 }  // namespace uking::ai
