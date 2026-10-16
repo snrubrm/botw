@@ -284,8 +284,7 @@ public:
     virtual ~Unk_SoundMgr38_8();
     // 0x710102c27c: deletes the forest shake handle, frees the speaker balance unifier and the positions.
     void sub_710102C27C();
-    // 0x710102c388 (declared only; needs a setter for aal::SpeakerBalanceUnifier::_149 in lib/aal): called with
-    // the heap right after construction (50 positions, the "ForestShake" unifier, the forest shake handle).
+    // 0x710102c388: called with the heap right after construction (50 positions, the "ForestShake" unifier, the forest shake handle).
     void sub_710102C388(sead::Heap* heap);
     // 0x710102c4b0: once the "EnvSoundTree" actor is ready, keeps it in mTree (NoDistanceCheck) and wakes it.
     void sub_710102C4B0();

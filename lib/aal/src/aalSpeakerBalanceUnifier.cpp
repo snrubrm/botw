@@ -42,7 +42,7 @@ SpeakerBalanceUnifier::SpeakerBalanceUnifier()
       mEnvFxReduction(0.0f), mFilterReduction(0.0f), mPriorityReduction(1.0f), mLpf(0.0f),
       mFilterReduction2(0.0f), mEnvFxFader(1.0f), mDistFilterFader(1.0f), mAttenuator(nullptr),
       mInteriorMask(0xffff), mInteriorNum(0), mSpeakerBalanceMoveStep(0.0f), mEnvFxMoveStep(0.0f),
-      mDistFilterMoveStep(0.0f), _130(0), _138(0), _140(0), _148(false), _149(false),
+      mDistFilterMoveStep(0.0f), _130(0), _138(0), _140(0), _148(false), mTotalVolumeLimitEnabled(false),
       mReductionVolumeMax(nullptr) {}
 
 // 0x7100b91c48 (D1) / 0x7100b91df8 (D0) and the thunks 0x7100b91dbc / 0x7100b91e38
@@ -241,7 +241,7 @@ void SpeakerBalanceUnifier::initParams_() {
     mInteriorMask = 0xffff;
     mAttenuator = nullptr;
     _148 = false;
-    _149 = false;
+    mTotalVolumeLimitEnabled = false;
     mInteriorNum = 0;
     mSpeakerBalanceMoveStep = 0.0f;
     mEnvFxMoveStep = 0.0f;

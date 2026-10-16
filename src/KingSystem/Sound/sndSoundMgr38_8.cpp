@@ -42,6 +42,24 @@ void Unk_SoundMgr38_8::sub_710102C27C() {
     mPositions.freeBuffer();
 }
 
+void Unk_SoundMgr38_8::sub_710102C388(sead::Heap* heap) {
+    mPositions.tryAllocBuffer(50, heap);
+    mUnifier =
+        aal::SystemAccessor::getSpeakerBalanceUnifierMgr()->allocSpeakerBalanceUnifier("ForestShake", nullptr);
+    if (mUnifier) {
+        mUnifier->initializeExtSounds(8, heap);
+        if (auto* mgr = aal::SystemAccessor::getAttenuationMgr()) {
+            auto* attenuator = mgr->getDefaultAttenuator();
+            mUnifier->setAttenuator(attenuator);
+        }
+        mUnifier->setSpeakerBalanceMoveStep(2.0f);
+        mUnifier->setEnvFxMoveStep(2.0f);
+        mUnifier->setDistFilterMoveStep(2.0f);
+        mUnifier->setTotalVolumeLimitEnabled(true);
+    }
+    _60 = new (heap) xlink2::HandleSLink;
+}
+
 void Unk_SoundMgr38_8::sub_710102C4B0() {
     if (!_68 || !mProcHandle.isAllocatedOrFailed())
         return;

@@ -69,6 +69,8 @@ public:
     void setSpeakerBalanceMoveStep(f32 step);
     void setEnvFxMoveStep(f32 step);
     void setDistFilterMoveStep(f32 step);
+    /// Inline in the original: ksys::snd 0x710102c388 stores 1 to +0x149 right after setDistFilterMoveStep.
+    void setTotalVolumeLimitEnabled(bool enabled) { mTotalVolumeLimitEnabled = enabled; }
     /// Called by the manager when the unifier is handed out / taken back.
     void execOnAllocated(const sead::SafeString& name, sead::Heap* heap);
     void execOnFree();
@@ -118,7 +120,9 @@ private:
     u64 _138;
     u64 _140;
     bool _148;
-    bool _149;
+    /// calcSpeakerBalance (0x7100b92f14) scales the channel volumes down to
+    /// UnifierSpeakerBalanceTable::getTotalVolumeMax when this is set. Name is descriptive.
+    bool mTotalVolumeLimitEnabled;
     sead::CriticalSection mCS;
     f32* mReductionVolumeMax;
 };
