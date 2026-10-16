@@ -338,6 +338,10 @@ public:
     // 0x7101131fd0 (placeholder name): takes `request` out of mList31c0 / mLists19c0 if it is linked and
     // queues it in mLists1c0.
     void sub_7101131FD0(Request* request);
+    // 0x7101136328 (declared only; placeholder name).
+    void sub_7101136328(Request* request, bool a2);
+    // 0x7101136950 (placeholder name): sub_7101136328 and sub_71011320B4 on every request of mList31c0.
+    void sub_7101136950();
     // 0x7101131d64 (placeholder name): branch to sub_7101131D68.
     bool sub_7101131D64();
     // 0x7101130e44 (placeholder name): writes "<dir>/<name>" to `out` (with mBaseDir as the directory if

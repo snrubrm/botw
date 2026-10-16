@@ -324,4 +324,12 @@ bool ImageResourceMgr::sub_7101130E44(sead::BufferedSafeString* out, const sead:
     return use_base;
 }
 
+// NON_MATCHING: the original walks mList31c0 through the +0 links (as in sub_71011311BC).
+void ImageResourceMgr::sub_7101136950() {
+    for (Request& request : mList31c0.robustRange()) {
+        sub_7101136328(&request, false);
+        sub_71011320B4(&request);
+    }
+}
+
 }  // namespace ksys::tera
