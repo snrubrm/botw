@@ -1,6 +1,9 @@
 #include "Game/Actor/Action/actionBeeDamaged.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actSwarm.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710072A944.h"
@@ -19,7 +22,45 @@ bool BeeDamaged::init_(sead::Heap* heap) {
 }
 
 void BeeDamaged::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
+    if (!swarm) {
+        setFailed();
+        return;
+    }
+    auto* manager = sead::DynamicCast<act::DamageManager>(mActor->getDamageMgr());
+    if (!manager) {
+        setFailed();
+        return;
+    }
+    sead::Vector3f pos;
+    if (!manager->getPosition(&pos))
+        mActor->getMtx().getTranslation(pos);
+
+    const s32 num_units = swarm->_14c8.size();
+    for (s32 i = 0; i < num_units; ++i) {
+        auto* unit = swarm->_14c8[i];
+        if (!unit)
+            continue;
+        sead::Vector3f dir = unit->_8.getTranslation() - pos;
+        dir.normalize();
+        if (dir.x == 0 && dir.y == 0 && dir.z == 0) {
+            dir = sead::Vector3f::ez;
+            ksys::util::sub_71011EF010(
+                &dir, sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f) * sead::Mathf::pi());
+            ksys::util::sub_71011EF070(
+                &dir, sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f) * sead::Mathf::pi());
+        }
+        const f32 speed = *mParams.mSubActorSpeed_s;
+        const sead::Vector3f velocity(dir.x * speed, dir.y * speed + *mParams.mAddYSpeed_s,
+                                      dir.z * speed);
+        unit->_38.value = velocity;
+        unit->_38.prev_value = velocity;
+    }
+    mTargetPos = pos;
+    mTimer = ksys::Timer(static_cast<f32>(*mParams.mTime_s), static_cast<f32>(*mParams.mTime_s));
+    sub_710072AAE4(mActor);
+    swarm->_1628 = 0;
+    swarm->_162c = 2;
 }
 
 void BeeDamaged::leave_() {
