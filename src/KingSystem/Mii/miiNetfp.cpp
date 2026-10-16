@@ -168,15 +168,53 @@ void sub_7100F5ADA8(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
     out->format("%s_%03d", sUnk_710260D480[type].cstr(), 0);
 }
 
-void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+namespace {
+// inline-only in the original; name is a guess. The same code with a different table is inlined into
+// 0x7100f5a550 for races 3, 5 and 6 (and is the body of 0x7100f5af44).
+inline void formatSinglePartName(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
+                                 const UMii& umii, const sead::SafeArray<sead::SafeString, 1>& names) {
     const s32 type = arg.type;
-    const char* part = sUnk_710260D510[type].cstr();
+    const char* part = names[type].cstr();
     if (type != 0) {
         out->format("%s", part);
         return;
     }
     out->format("%s%s_%s_%03d", part, sUnk_710260DB50[*umii.getBody().type].cstr(),
                 sUnk_710260D7A0[umii.getSexAge()].cstr(), *umii.getBody().number);
+}
+}  // namespace
+
+void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+    formatSinglePartName(out, arg, umii, sUnk_710260D510);
+}
+
+void sub_7100F5A550(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+    switch (*umii.getBody().race) {
+    case UMii::Body::Race_Hylian:
+        sub_7100F5A708(out, arg, umii);
+        return;
+    case UMii::Body::Race_Korok:
+        sub_7100F5AB68(out, arg, umii);
+        return;
+    case UMii::Body::Race_Goron:
+        sub_7100F5ADA8(out, arg, umii);
+        return;
+    case UMii::Body::Race_Sheikah:
+        formatSinglePartName(out, arg, umii, sUnk_710260D510);
+        return;
+    case UMii::Body::Race_Gerudo:
+        sub_7100F5B02C(out, arg, umii);
+        return;
+    case UMii::Body::Race_Zora:
+        formatSinglePartName(out, arg, umii, sUnk_710260D610);
+        return;
+    case UMii::Body::Race_Rito:
+        formatSinglePartName(out, arg, umii, sUnk_710260D630);
+        return;
+    default:
+        out->clear();
+        return;
+    }
 }
 
 // NON_MATCHING: the original tests the age for 2, then 1, then 0 (ours tests 0 first).

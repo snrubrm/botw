@@ -26,6 +26,15 @@ extern sead::SafeArray<sead::SafeString, 3> sUnk_710260D480;
 // 0x710260d510: a single part name (indexed by Arg type, which folds to entry 0; 0x7100f5af44).
 extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D510;
 
+// 0x710260d610 / 0x710260d630: single part names like sUnk_710260D510 (races 5 and 6).
+extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D610;
+extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D630;
+
+// 0x7100f5a550 (placeholder name): the model name of part `arg.type` for the race of `umii` (body.race).
+void sub_7100F5A550(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+// 0x7100f5b02c (declaration only; placeholder name): race 4.
+void sub_7100F5B02C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+
 // 0x7100f5ab68 / 0x7100f5ada8 / 0x7100f5af44 (placeholder names): model names of other part sets (the
 // first uses the Korok parameters). Same arguments as sub_7100F5A708.
 void sub_7100F5AB68(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
