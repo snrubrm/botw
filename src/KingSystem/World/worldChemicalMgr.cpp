@@ -19,6 +19,8 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Chemical/chmElement.h"
 #include "KingSystem/World/worldElementSpark.h"
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Map/mapObject.h"
@@ -575,6 +577,49 @@ ElementSpark* ksys::act::Unk_71024dd490::sub_71010C74A0(const ElementSparkCreate
         return nullptr;
     }
     auto* element = new (parent, std::nothrow_t()) ElementSpark(*arg, heap);
+    if (!element) {
+        elementEmitMaybe();
+        heap->destroy();
+        return nullptr;
+    }
+    if (mMaxElementHeapSize < heap->getSize())
+        mMaxElementHeapSize = heap->getSize();
+    if (!element->mHolder) {
+        elementEmitMaybe();
+        element->m32();
+        delete element;
+        return nullptr;
+    }
+    return element;
+}
+
+// NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
+// constructor, so no temporary ElementName is built there.
+Unk_710250c550::Unk_710250c550(ksys::phys::RigidBody* const& body, sead::Heap* heap)
+    : Unk_7102518688(ElementName(), heap, true) {
+    _50 = body;
+    ElementName name;
+    name.mName = "radial_wind";
+    emitWrap(name, ksys::world::Manager::instance()->getElementHolderMaybe());
+}
+
+Unk_710250c550* ksys::act::Unk_71024dd490::sub_71010C7BE0(phys::RigidBody* const* body) {
+    auto* chemical = ksys::chm::Chemical::instance();
+    if (!chemical)
+        return nullptr;
+    sead::Heap* parent = chemical->_78;
+    if (!parent)
+        return nullptr;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&chemical->_28);
+    auto* heap = sead::ExpHeap::tryCreate(0x2000, "ElementHolder", parent, 8,
+                                          sead::Heap::cHeapDirection_Forward, true);
+    if (!heap) {
+        if (!(chemical->_84 & 4))
+            elementEmitMaybe();
+        return nullptr;
+    }
+    auto* element = new (parent, std::nothrow_t()) Unk_710250c550(*body, heap);
     if (!element) {
         elementEmitMaybe();
         heap->destroy();

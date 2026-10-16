@@ -774,6 +774,8 @@ public:
 class Unk_710250c550 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c550, Unk_7102518688)
 public:
+    // lane1 s95: the "radial_wind" element; built by Unk_71024dd490::sub_71010C7BE0 (ctor inlined there).
+    Unk_710250c550(ksys::phys::RigidBody* const& body, sead::Heap* heap);
     ~Unk_710250c550() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -785,6 +787,8 @@ public:
     // lane1 s91: m29 adds this rigid body to the world.
     u8 _48[0x50 - 0x48];
     ksys::phys::RigidBody* _50;
+    // lane1 s95: the factory allocates 0x70 bytes; the rest is not known yet.
+    u8 _58[0x70 - 0x58];
 };
 
 // vtable 0x710250c6d8 (39 slots); placeholder generated from the vtable (genskel.py).

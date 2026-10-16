@@ -89659,7 +89659,7 @@ Address,Quality,Size,Name
 0x00000071010c760c,U,000488,ElementChemiFire::create
 0x00000071010c77f4,U,000488,ElementDirectionalWind::create
 0x00000071010c79dc,U,000516,ElementDirectionalWind::create_0
-0x00000071010c7be0,U,000472,ElementRadialWind::create
+0x00000071010c7be0,m,000472,_ZN4ksys3act14Unk_71024dd49014sub_71010C7BE0EPKPNS_4phys9RigidBodyE
 0x00000071010c7db8,U,000472,ElementChemiFire::create_0
 0x00000071010c7f90,U,000052,
 0x00000071010c7fc4,U,000004,nullsub_5566

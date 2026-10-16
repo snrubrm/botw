@@ -14,6 +14,10 @@
 #include "KingSystem/Utils/Types.h"
 
 class ElementSpark;
+class Unk_710250c550;
+namespace ksys::phys {
+class RigidBody;
+}
 struct ElementSparkCreateArg;
 class ElementWater;
 class ElementDirectionalWindOrGust;
@@ -111,6 +115,8 @@ public:
     ElementWater* sub_71010EA040(const ElementWaterCreateArg* arg);
     // lane1 s91 (declared only): 10F1BB0, the same factory for ElementDirectionalWindOrGust.
     ElementDirectionalWindOrGust* sub_71010F1BB0(const ElementDirectionalWindCreateArg* arg);
+    // lane1 s95: 10C7BE0, the same factory for the "radial_wind" element (Unk_710250c550).
+    ::Unk_710250c550* sub_71010C7BE0(phys::RigidBody* const* body);
     // Full factories 12FE4B4 / 12FE6E0 return the allocated lightning element.
     ElementLightningShockwave* sub_71012FE4B4(const ElementLightningCreateArg* arg);
     ElementLightningFire* sub_71012FE6E0(const ElementLightningCreateArg* arg);
