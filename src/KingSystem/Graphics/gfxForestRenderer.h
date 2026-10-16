@@ -17,6 +17,11 @@ class Model;
 class ModelUnit;
 }  // namespace gsys
 
+namespace ksys {
+class TaskPostRunResult;
+class TaskPostRunContext;
+}  // namespace ksys
+
 namespace ksys::map {
 class PlacementMgr;
 }
@@ -188,7 +193,16 @@ public:
     sead::Buffer<UnitEntry> mUnitEntries;
     sead::Buffer<TreeResMaybe> mTreeRes;
     ModelSet mModelSet;
-    u8 _1b4[0x220 - 0x1b4];
+
+    // Placeholder name: the object at 0x1b8, target of the post-run task delegate the ctor builds at 0x1c0.
+    struct Unk_1b8 {
+        // 0x7100f07818 (CSV ForestRenderer::invoked1): clears bit 0.
+        void invoked1(TaskPostRunResult* result, const TaskPostRunContext& context);
+
+        u32 mFlags;
+    };
+    Unk_1b8 _1b8;
+    u8 _1bc[0x220 - 0x1bc];
     u32 _220;
 };
 

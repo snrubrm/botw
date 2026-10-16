@@ -102,6 +102,10 @@ void ForestRenderer::Entry::sub_7100F07060() {
     std::memset(_78.getBufferPtr(), 0, _78.getByteSize());
 }
 
+void ForestRenderer::Unk_1b8::invoked1(TaskPostRunResult*, const TaskPostRunContext&) {
+    mFlags &= ~1u;
+}
+
 ForestRenderer::Item::~Item() {
     if (_8 == 0)
         return;
