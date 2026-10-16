@@ -15,6 +15,8 @@ class Unk_7102519a98 {
 public:
     explicit Unk_7102519a98(s32 value);
     virtual ~Unk_7102519a98();
+    // 0x71012a6f50 (placeholder name; called by Unk_7102519b90::parse_): stores the entry data and sets flag 0x200.
+    void sub_71012A6F50(s32 value, void* a, void* b, void* c, void* d);
     void sub_71012A734C();
     void sub_71012A7544();
     bool sub_71012A7738();

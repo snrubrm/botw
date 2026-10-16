@@ -5,6 +5,15 @@ namespace ksys::phys {
 
 Unk_7102519a98::Unk_7102519a98(s32 value) : _48(value) {}
 
+void Unk_7102519a98::sub_71012A6F50(s32 value, void* a, void* b, void* c, void* d) {
+    _48 = value;
+    _8 = a;
+    _28 = b;
+    _40 = c;
+    _20 = d;
+    _60.fetchOr(0x200);
+}
+
 Unk_7102519a98::~Unk_7102519a98() {
     // The pending pointer carries two tag bits, as in NavMeshObj2Maybe::sub_7100F8B538.
     auto* pending = reinterpret_cast<HavokAI*>(reinterpret_cast<uintptr_t>(_58.load()) & ~uintptr_t(3));
