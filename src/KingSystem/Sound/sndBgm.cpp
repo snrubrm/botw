@@ -140,4 +140,26 @@ void Unk_7100ff7444::sub_7100FF78A8(f32 fade_sec) {
         entry.bgm->m7(fade_sec);
 }
 
+void Unk_7100ff7444::sub_7100FF7920(BgmKind kind, sead::Heap* heap) {
+    auto lock = sead::makeScopedLock(mCS);
+    if (auto* entry = findEntry(kind)) {
+        ++entry->refs;
+        return;
+    }
+    sub_7100FF79D8({kind, Unk_710260f248Type::_0, heap});
+}
+
+void Unk_7100ff7444::sub_7100FF7BE0(BgmKind kind) {
+    auto lock = sead::makeScopedLock(mCS);
+    auto* entry = findEntry(kind);
+    if (entry && entry->refs != 0)
+        --entry->refs;
+}
+
+Bgm* Unk_7100ff7444::sub_7100FF7C74(BgmKind kind) {
+    auto lock = sead::makeScopedLock(mCS);
+    auto* entry = findEntry(kind);
+    return entry ? entry->bgm : nullptr;
+}
+
 }  // namespace ksys::snd

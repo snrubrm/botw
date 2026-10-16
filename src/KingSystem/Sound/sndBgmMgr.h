@@ -615,7 +615,7 @@ public:
     void sub_7100FF78A8(f32 fade_sec);
     // 0x7100ff7920 (184 B, CSV name snd::changeBgm): adds a reference to the entry of `kind`, or allocates the BGM.
     void sub_7100FF7920(BgmKind kind, sead::Heap* heap);
-    void sub_7100FF7BE0(Unk_7100FF7BE0 state);
+    void sub_7100FF7BE0(BgmKind kind);
     Bgm* sub_7100FF7C74(BgmKind kind);
 
 private:
@@ -624,6 +624,19 @@ private:
         Bgm* bgm;
         u32 refs;
     };
+
+    // inline-only in the original; name is a guess. Evidence: sub_7100FF7920, sub_7100FF7BE0 and sub_7100FF7C74
+    // repeat this search (the key is copied to the stack after the lock, the result tested for null).
+    Entry* findEntry(BgmKind kind) {
+        for (auto& entry : mEntries) {
+            if (int(entry.bgm->getKind()) == int(kind))
+                return &entry;
+        }
+        return nullptr;
+    }
+    // 0x7100ff79d8 (CSV callAllocBgm; declared only): allocates the BGM for `arg` and adds an entry for it.
+    void sub_7100FF79D8(const BgmInitArg& arg);
+
     sead::ObjList<Entry> mEntries;
 
 public:

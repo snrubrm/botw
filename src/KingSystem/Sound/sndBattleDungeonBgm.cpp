@@ -285,9 +285,9 @@ void Unk_710260f130::sub_7100FFA1E0(bool value) {
         return;
     _91 = value;
     if (value)
-        _8.sub_7100FF7BE0(Unk_7100FF7BE0{19});
+        _8.sub_7100FF7BE0(BgmKind::_19);
     else
-        _8.sub_7100FF7BE0(Unk_7100FF7BE0{20});
+        _8.sub_7100FF7BE0(BgmKind::_20);
 }
 
 Unk_710260f150::Unk_710260f150(BgmControllerType type) : _91(type == BgmControllerType::_3) {}
