@@ -1082,6 +1082,40 @@ void Unk_7102474bc8::sub_7100934308(s32 id, const sead::SafeString& text, s32 va
     sub_7100933FE0(entry);
 }
 
+// 0x7100933bdc
+void Unk_7102474bc8::sub_7100933BDC() {
+    _151 = 0;
+    if (!_150)
+        return;
+    if (_128) {
+        if (!sub_7100933E50())
+            return;
+    } else {
+        for (s32 i = 0; i < _8; ++i) {
+            const s32 index = _140[i]._124;
+            if (index < 0)
+                continue;
+            ScreenChild* target = _130[index].target;
+            if (!target || target->_104 != 0)
+                return;
+        }
+    }
+    for (s32 i = 0; i < _8; ++i) {
+        if (_140[i]._124 < 0)
+            continue;
+        sub_7100933EAC(_140[i]);
+        if (auto* target = _130[_140[i]._124].target)
+            target->m5(true);
+        auto& entry = _140[i];
+        entry._0 = -1;
+        entry._8.copy(sead::SafeString::cEmptyString);
+        entry._120 = 30;
+        entry._124 = -1;
+    }
+    _150 = 0;
+    _151 = 1;
+}
+
 // 0x7100933eac
 // NON_MATCHING: stack layout: the original reuses the MessageString's slot for the second SafeString temporary
 void Unk_7102474bc8::sub_7100933EAC(const UiStringEntry& entry) {
