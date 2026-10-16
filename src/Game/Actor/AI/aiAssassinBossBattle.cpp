@@ -47,6 +47,78 @@ void AssassinBossBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+void AssassinBossBattle::calcAnchorPos(sead::Vector3f* out) {
+    auto* self = mActor;
+    auto* life = self->getLife();
+    const s32 current_life = life ? *life : 1;
+    const bool dying = f32(current_life) < f32(self->getMaxLife()) * *mDyingLifeRatio_s ||
+                       (current_life <= 0 && *mDyingLifeRatio_s < 0.0f);
+    sub_71005DF270(out, self, mAnchorName_s, dying ? *mBattleDist_s : *mBattleDistSecond_s);
+}
+
+// NON_MATCHING: stack slots (as in enter_, the anchor position shares the param pack slot in the original)
+void AssassinBossBattle::calc_() {
+    if (auto* enemy = static_cast<act::Enemy*>(mActor))
+        enemy->_e68.rate = -1.0f;
+
+    const auto isFar = [this](const sead::Vector3f& anchor) {
+        const sead::Vector3f& pos = mActor->getMtx().getTranslation();
+        return sead::Vector2f(anchor.x - pos.x, anchor.z - pos.z).length() > *mHomeDist_s ||
+               sead::Mathf::abs(anchor.y - pos.y) > *mReturnHeight_s;
+    };
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("攻撃")) {
+            if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                enemy->startAttackInterval(*mIntervalIntensity_s);
+            sead::Vector3f anchor;
+            calcAnchorPos(&anchor);
+            if (isFar(anchor)) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(anchor, "TargetPos", -1);
+                changeChild("移動", &pack);
+            } else {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("様子見", &pack);
+            }
+            return;
+        }
+        if (isCurrentChild("様子見")) {
+            sead::Vector3f anchor;
+            calcAnchorPos(&anchor);
+            if (isFar(anchor)) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(anchor, "TargetPos", -1);
+                changeChild("移動", &pack);
+            } else {
+                setFailed();
+            }
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("様子見", &pack);
+        }
+    } else if (child->isChangeable() && !isCurrentChild("攻撃") && isCurrentChild("様子見")) {
+        auto* enemy = static_cast<act::Enemy*>(mActor);
+        if (enemy && enemy->_e68.value <= sead::Mathf::epsilon()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("攻撃", &pack);
+            return;
+        }
+    }
+
+    if (isCurrentChild("移動")) {
+        sead::Vector3f anchor;
+        calcAnchorPos(&anchor);
+        getCurrentChild()->setDynamicParam(anchor, "TargetPos");
+    } else {
+        getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    }
+}
+
 bool AssassinBossBattle::handleMessage_(const ksys::Message* message) {
     return false;
 }

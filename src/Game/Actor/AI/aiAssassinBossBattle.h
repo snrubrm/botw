@@ -16,8 +16,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
 protected:
+    // inline-only in the original; name is a guess (the same sequence is inlined in enter_ and three times in
+    // calc_): the anchor position at the battle distance (BattleDist while dying, else BattleDistSecond).
+    void calcAnchorPos(sead::Vector3f* out);
+
     // static_param at offset 0x38
     const int* mRetFrmDmgAtkTimer_s{};
     // static_param at offset 0x40
