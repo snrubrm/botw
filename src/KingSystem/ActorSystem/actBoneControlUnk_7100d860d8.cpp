@@ -390,6 +390,14 @@ void Unk_7100d860d8::sub_7100D88CF4(sead::Vector3f* out) const {
     }
 }
 
+s32 Unk_7100d860d8::sub_7100D89124(const sead::SafeString& name) const {
+    for (s32 i = 0; i < _18.size(); ++i) {
+        if (_18[i]._a8.getName() == name)
+            return i;
+    }
+    return -1;
+}
+
 void Unk_7100d860d8::sub_7100D89260(sead::Matrix34f* out) const {
     if (!(_d4 & 1))
         return;

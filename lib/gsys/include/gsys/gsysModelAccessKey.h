@@ -18,6 +18,10 @@ public:
     bool search();
     void remove();
 
+    // Inlined by ksys::act::Unk_7100d860d8::sub_7100D89124 0x7100d89124, which compares the name
+    // at handle +8 of each node with a SafeString.
+    const sead::SafeString& getName() const { return mName; }
+
     static constexpr size_t getListNodeOffset() { return offsetof(IModelAccesssHandle, mListNode); }
 
 protected:

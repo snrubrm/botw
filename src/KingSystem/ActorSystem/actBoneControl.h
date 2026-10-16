@@ -146,6 +146,8 @@ public:
     void sub_7100D88C5C();
     // 0x7100d88ce0: _d4 has both 2 and 4.
     bool sub_7100D88CE0() const;
+    // 0x7100d89124 (placeholder name): index of the node whose bone is named `name`, or -1.
+    s32 sub_7100D89124(const sead::SafeString& name) const;
     // 0x7100d89070: sets 0x10 in _d4 and, if `reset`, resets the nodes' offsets and bone matrices.
     void sub_7100D89070(bool reset);
     // 0x7100d89324: copies the target position _8 (if active).
