@@ -32,6 +32,7 @@
 #include <aal/aalDeviceType.h>
 #include <container/seadSafeArray.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/GameData/gdtFlagHandle.h"
 #include <gsys/gsysIModelProcedural.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglDrawContext.h>
@@ -2357,15 +2358,36 @@ public:
 };
 
 // vtable 0x71024fd0a8 (15 slots); placeholder generated from the vtable (genskel.py).
+// The animal master BGM's handles (vtable 0x71024fd010, 0x188 bytes; Unk_SpotBgmHandle's RTTI and D1, two extra
+// empty slots 0x7100ffd654 / 0x7100ffd658). Declared only.
+class Unk_71024fd010 : public Unk_SpotBgmHandle {
+public:
+    ~Unk_71024fd010() override;
+
+    /* 0x180 */ u32 _180;
+};
+
+// The animal master BGM (kind 4; "AnimalMaster_Appearance" flag).
 class Unk_71024fd0a8 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd0a8, ksys::snd::Bgm)
 public:
+    // 0x7100ffccf8
+    explicit Unk_71024fd0a8(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd0a8() override;
+    // 0x7100ffcd88 (declared only; 700 B): creates the two handles.
+    void init(const ksys::snd::BgmInitArg& arg);
+    // 0x7100ffd1a0 (declared only)
+    void m5() override;
+    bool m9() override { return true; }
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
 
-    u8 _10[0x20 - 0x10];
+    /* 0x10 */ Unk_71024fd010* _10 = nullptr;
+    /* 0x18 */ Unk_71024fd010* _18 = nullptr;
     // Set by Unk_710260f198::sub_7100FFBEA8 (BGM kind 4).
-    /* 0x20 */ bool _20;
+    /* 0x20 */ bool _20 = false;
+    /* 0x24 */ ksys::gdt::FlagHandle mAppearanceFlag = ksys::gdt::InvalidHandle;
 };
 
 // vtable 0x71024fd188 (17 slots); placeholder generated from the vtable (genskel.py).

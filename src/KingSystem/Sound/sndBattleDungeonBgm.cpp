@@ -1,3 +1,4 @@
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -556,9 +557,36 @@ void Unk_710260f1f8::m8(const Unk_BgmControllerM8Arg& arg) {
 
 }  // namespace ksys::snd
 
-// NON_MATCHING: placeholder destructor; the original (0x7100ffd044) also destroys members or bases
-// this class does not declare yet.
-Unk_71024fd0a8::~Unk_71024fd0a8() = default;
+// NON_MATCHING: member store order around the vtable store.
+Unk_71024fd0a8::Unk_71024fd0a8(const ksys::snd::BgmInitArg& arg) : Bgm(arg.kind) {
+    mAppearanceFlag = ksys::gdt::Manager::instance()->getBoolHandle("AnimalMaster_Appearance");
+    init(arg);
+}
+
+Unk_71024fd0a8::~Unk_71024fd0a8() {
+    _10->sub_710101D9A4();
+    if (_10)
+        delete _10;
+    _10 = nullptr;
+    _18->sub_710101D9A4();
+    if (_18)
+        delete _18;
+    _18 = nullptr;
+}
+
+void Unk_71024fd0a8::m12(f32 fade_sec) {
+    _10->sub_7101020BB0(fade_sec);
+    _18->sub_7101020BB0(fade_sec);
+}
+
+void Unk_71024fd0a8::m13(f32 fade_sec) {
+    auto* first = _10;
+    first->sub_710101D9F4(fade_sec);
+    first->_180 = 0;
+    auto* second = _18;
+    second->sub_710101D9F4(fade_sec);
+    second->_180 = 0;
+}
 
 namespace {
 sead::SafeString sStr_BigMazeBgm = "BigMazeBgm";
