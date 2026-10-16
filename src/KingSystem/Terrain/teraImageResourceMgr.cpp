@@ -614,7 +614,7 @@ bool ImageResourceMgr::sub_7101133AF8(System* system, Unk_7101106F44* area,
         mCS68.unlock();
         return true;
     }
-    mList31e8.pushFront(request);
+    mList31e8.pushBack(request);
     mCS68.unlock();
     return true;
 }
