@@ -6,4 +6,6 @@ target_sources(uking PRIVATE
   teraTerrain.cpp
   teraCore.cpp
   teraHeap.cpp
+  teraResourceNode.h
+  teraResourceNode.cpp
 )
