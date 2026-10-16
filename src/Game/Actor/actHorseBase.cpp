@@ -20,6 +20,7 @@
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseObject.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -227,6 +228,65 @@ s32 HorseBase::x() const {
     if (!unit)
         return 1;
     return unit->mRiddenAnimalType.ref();
+}
+
+// NON_MATCHING: the second flag merge and the accessor register differ.
+void HorseBase::sub_7100E66544() {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    bool hide_mane = false;
+    if (ksys::act::acquireActor(&_870, &accessor)) {
+        const auto* object = accessor.getGParamList()->getHorseObject();
+        hide_mane = object && object->mHideHorseMane.ref();
+    }
+    if (ksys::act::acquireActor(&_880, &accessor)) {
+        const auto* object = accessor.getGParamList()->getHorseObject();
+        if (!hide_mane && object)
+            hide_mane = object->mHideHorseMane.ref();
+    }
+    if (ksys::act::acquireActor(&_850, &accessor)) {
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800002),
+                    reinterpret_cast<void*>(uintptr_t(hide_mane)), true);
+    }
+}
+
+// NON_MATCHING: the original keeps the address of _b70 in a register across both updates.
+void HorseBase::sub_7100E6665C() {
+    const sead::SafeString* reins;
+    {
+        auto lock = sead::makeScopedLock(_890);
+        reins = &_8d0._f0;
+    }
+    if (*reins == "GameRomHorseReins_10")
+        _b70.setBitOn(9);
+    else
+        _b70.setBitOff(9);
+
+    const sead::SafeString* saddle;
+    {
+        auto lock = sead::makeScopedLock(_890);
+        saddle = &_8d0._148;
+    }
+    if (*saddle == "GameRomHorseSaddle_10")
+        _b70.setBitOn(10);
+    else
+        _b70.setBitOff(10);
+
+    loadReduceAncientEnemyDamageInfo();
+}
+
+bool HorseBase::sub_7100E667F8() {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_870, &accessor)) {
+        const auto* object = accessor.getGParamList()->getHorseObject();
+        if (object && object->mIsHorseClothDisable.ref())
+            return true;
+    }
+    if (ksys::act::acquireActor(&_880, &accessor)) {
+        const auto* object = accessor.getGParamList()->getHorseObject();
+        if (object && object->mIsHorseClothDisable.ref())
+            return true;
+    }
+    return false;
 }
 
 f32 HorseBase::sub_7100E668C0() const {

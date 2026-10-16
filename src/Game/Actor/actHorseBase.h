@@ -142,6 +142,15 @@ public:
     void sub_7100E6AD3C(f32 value);
     f32 sub_7100E6AD4C();
 
+    // 0x7100e66544 (placeholder name): tells the actor in _850 (message 0x3800002, user data = the flag) whether
+    // the reins actors in _870 / _880 hide the mane (GParam HorseObject HideHorseMane).
+    void sub_7100E66544();
+    // 0x7100e6665c (placeholder name): sets _b70 bits 9 / 10 when the reins / saddle names (_8d0, under _890)
+    // are GameRomHorseReins_10 / GameRomHorseSaddle_10, then calls slot 148.
+    void sub_7100E6665C();
+    // 0x7100e667f8 (placeholder name): whether one of the reins actors in _870 / _880 disables the horse
+    // cloth (GParam HorseObject IsHorseClothDisable).
+    bool sub_7100E667F8();
     // The reins actors linked in _860 / _870 / _880 (placeholder names; 0x7100e6ad5c / adf8 / af34, the
     // second pair 0x7100e6ae94 / afd0 passes no second argument to getProc). RideableHorse::m39 - m41.
     HorseReins* getReinsA();
