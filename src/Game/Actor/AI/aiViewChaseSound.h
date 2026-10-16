@@ -13,9 +13,13 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
+    // inline-only in the original; name is a guess. Evidence: enter_ 0x71005e37bc and calc_ 0x71005e3bf0 (three
+    // times) repeat the awareness request and sub_710072DEF0 test.
+    bool isTargetInViewMaybe() const;
     // 0x71005e3b00: changes to the "直線追跡" child when the target is reachable in a straight line, else to "追跡"
     // (unless it is already the current child and `force` is false)
     bool sub_71005E3B00(bool force);
