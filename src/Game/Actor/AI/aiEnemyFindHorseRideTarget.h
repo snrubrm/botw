@@ -18,7 +18,7 @@ public:
     // 0x710038d018 (placeholder name): the target is within the attack range / height band while the actor is
     // below AttackTargetSpeed
     bool sub_710038D018();
-    // 0x710038d124 (CSV name; declaration only)
+    // 0x710038d124 (CSV name): resets the chase timer _ac (ChaseTime + 0..4) and switches to 戦闘.
     void enemyFindHorseRideStuff();
     void calc_() override;
 

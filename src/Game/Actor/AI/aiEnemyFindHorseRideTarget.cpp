@@ -29,6 +29,13 @@ void EnemyFindHorseRideTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("追跡", &pack);
 }
 
+void EnemyFindHorseRideTarget::enemyFindHorseRideStuff() {
+    _ac = *mChaseTime_s + s32(sead::GlobalRandom::instance()->getU32(5));
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘", &pack);
+}
+
 // NON_MATCHING: scheduling / register allocation (timer address kept in a register, argument load order)
 void EnemyFindHorseRideTarget::calc_() {
     sub_71005DB248(mActor);
