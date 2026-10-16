@@ -11,6 +11,11 @@ class NpcShopData;
 
 namespace uking::ui {
 
+class PouchItem;
+
+// 0x7100a9127c (CSV shopBuyOrSellRupeeOrMamoStuff; declared only; placeholder name)
+void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count);
+
 // Placeholder declaration (name from the CSV: UiShopMgr::createInstance 0x7100980794, deleteInstance
 // 0x7100980910; instance pointer at 0x71025d7ae0; namespace is a guess). The shop UI manager; only
 // what the AI classes use is declared.
@@ -25,9 +30,19 @@ public:
     // The shop state (set by UiShopMgr::sub_7100982A44 & co.; 3 = ..., 4 = ..., 5 = NPC shop data set,
     // 6, 9, 10, 11-13, 14 are tested by the UI facade functions).
     s32 _30;
-    u8 _34[0xb4 - 0x34];
+    u8 _34[0x38 - 0x34];
+    /* 0x38 */ sead::FixedSafeString<64> _38;  // item name
+    u8 _90[0x98 - 0x90];
+    /* 0x98 */ s32 _98;  // unit price
+    u8 _9c[0xa0 - 0x9c];
+    /* 0xa0 */ s32 _a0;
+    u8 _a4[0xa8 - 0xa4];
+    /* 0xa8 */ PouchItem* _a8;
+    u8 _b0[0xb4 - 0xb0];
     bool _b4;
-    u8 _b5[0xcd - 0xb5];
+    u8 _b5[0xc5 - 0xb5];
+    /* 0xc5 */ bool _c5;
+    u8 _c6[0xcd - 0xc6];
     bool _cd;
     u8 _ce[0xd0 - 0xce];
     NpcShopData* _d0;

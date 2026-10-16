@@ -304,6 +304,8 @@ public:
     void removeItem(const sead::SafeString& name);
     void removeWeaponIfEquipped(const sead::SafeString& name);
     void removeArrow(const sead::SafeString& arrow_name, int count = 1);
+    // 0x710097d250 (CSV PauseMenuDataMgr::shopStuff_0; declared only): the shop sold `count` of `item`
+    void sub_710097D250(PouchItem* item, s32 count);
 
     int getItemCount(const sead::SafeString& name, bool count_equipped = true) const;
 
