@@ -2319,6 +2319,43 @@ const sead::Vector2f& ScreenAppPictureBookUnk::sub_710093F160(s32 index) {
     return sead::Vector2f::zero;
 }
 
+// NON_MATCHING: the original has a separate `return nullptr` block per early exit (ours shares one)
+// 0x7100943684
+Unk_7102474e38* ScreenAppPictureBookUnk::sub_7100943684(s32 index) {
+    if (index < 0)
+        return nullptr;
+    if (!mEntries.data())
+        return nullptr;
+    s32 rest = index;
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        const ScreenAppPictureBookEntry* entry = *it;
+        if (!entry)
+            continue;
+        if (rest - entry->mParams._29c >= 0) {
+            rest -= entry->mParams._29c;
+            continue;
+        }
+        const s32 entry_index = entry->_2f0;
+        if (entry_index < 0 || mEntries.size() < 1 || entry_index >= _2a8)
+            return nullptr;
+        for (auto& group : mEntries(entry_index)->mGroupList->mUnits) {
+            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                continue;
+            for (auto& unit : group.mUnits) {
+                if (!(unit._30 & 4))
+                    continue;
+                const ScreenAppPictureBookEntry* owner = unit._18->mEntry;
+                if (owner->_2f0 == entry_index &&
+                    unit._3c + unit._18->mRecord->_c * owner->mParams._2a0 * owner->mParams._2a4 == rest) {
+                    return &unit;
+                }
+            }
+        }
+        return nullptr;
+    }
+    return nullptr;
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
