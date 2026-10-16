@@ -5,6 +5,11 @@
 
 namespace uking {
 
+// createInstance is NON_MATCHING: store scheduling of the zeroed members in the inlined ctor.
+SEAD_SINGLETON_DISPOSER_IMPL(IceBlockMgr)
+
+IceBlockMgr::IceBlockMgr() = default;
+
 // NON_MATCHING: register allocation of the last link reset (the original keeps it in x20).
 IceBlockMgr::~IceBlockMgr() {
     _38.clear();
