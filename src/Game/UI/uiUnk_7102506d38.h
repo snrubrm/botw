@@ -27,6 +27,9 @@ public:
 
     void sub_710109E3F8(ksys::SeadController* controller);
     void sub_710109E5C0(ksys::SeadController* controller);
+    // 0x710109e5d0 (placeholder name): remembers the held direction buttons (0xff0000) in _34 and resets the box
+    // cursor mode while any is pressed
+    void sub_710109E5D0(ksys::SeadController* controller);
 
     /* 0x28 */ bool _28 = true;
     /* 0x2c */ u32 _2c = 0;

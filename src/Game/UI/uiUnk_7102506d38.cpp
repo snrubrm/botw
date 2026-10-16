@@ -104,4 +104,16 @@ void Unk_7102506d38::sub_710109E5C0(ksys::SeadController* controller) {
         sub_710109E3F8(controller);
 }
 
+// 0x710109e5d0
+void Unk_7102506d38::sub_710109E5D0(ksys::SeadController* controller) {
+    if (!controller)
+        return;
+    auto* box = eui::ScreenMgr::instance()->getBoxCursorMgr();
+    if (!box)
+        return;
+    _34 = controller->getHoldMask() & 0xff0000;
+    if (_34 != 0)
+        box->m4(eui::BoxCursorMgr::Mode::_0);
+}
+
 }  // namespace uking::ui
