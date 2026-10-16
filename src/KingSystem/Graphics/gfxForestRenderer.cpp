@@ -23,4 +23,11 @@ bool ForestRenderer::stopped() {
     return true;
 }
 
+void ForestRenderer::sub_7100F03B68() {
+    for (auto& entry : mEntries) {
+        for (auto& item : entry.mItems)
+            item._c.set(2);
+    }
+}
+
 }  // namespace ksys::gfx

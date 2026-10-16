@@ -1,7 +1,9 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 
 namespace ksys::map {
@@ -13,6 +15,23 @@ namespace ksys::gfx {
 // TODO: incomplete
 class ForestRenderer : public sead::hostio::Node {
 public:
+    // Placeholder names: the 0x88-byte entries of the buffer at 0xd0 and their 0x98-byte items.
+    struct Item {
+        u8 _0[0xc];
+        sead::BitFlag16 _c;
+        u8 _e[0x98 - 0xe];
+    };
+    static_assert(sizeof(Item) == 0x98);
+    struct Entry {
+        u8 _0[0x60];
+        sead::Buffer<Item> mItems;
+        u8 _70[0x88 - 0x70];
+    };
+    static_assert(sizeof(Entry) == 0x88);
+
+    // 0x7100f03b68 (placeholder name): sets bit 1 of every item's flags.
+    void sub_7100F03B68();
+
     virtual ~ForestRenderer();
 
     s32 x_7(const sead::Vector3f& vec);
@@ -34,7 +53,9 @@ public:
     s32 _54;
     u8 _58[0x60 - 0x58];
     s32 _60;
-    u8 _64[0x220 - 0x64];
+    u8 _64[0xd0 - 0x64];
+    sead::Buffer<Entry> mEntries;
+    u8 _e0[0x220 - 0xe0];
     u32 _220;
 };
 
