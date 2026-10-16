@@ -101,6 +101,10 @@ public:
 
         Target() : mFader(1.0f, FadeCurveType(0), 1.0f) {}
 
+        // inline-only in the original; name is a guess. ksys::snd 0x710103e020 rewrites _0 / _4 of
+        // each target's settings (+0x8 / +0xc) and reads _8 (+0x10).
+        TargetSettings& getSettings() { return mSettings; }
+
     private:
         friend class GroupDucker;
 
@@ -131,6 +135,9 @@ public:
     s32 getState() const { return mState; }
     s32 getTargetNum() const { return mTargets.size(); }
     Target* getTarget(s32 index) const { return mTargets.nth(index); }
+    // inline-only in the original; name is a guess. ksys::snd 0x710103e020 / 0x710103e2dc store
+    // settings _0 (+0xc).
+    Settings& getSettings() { return mSettings; }
 
 private:
     /// 0x7100b82c64 / 0x7100b82e30 (declared only)
