@@ -454,6 +454,14 @@ class Scene {
     void exportFileBinary();
 
 public:
+    // Placeholder type: passed by sub_710110234C to sub_71011021E4 (0x7101100330 reads _0 and _8).
+    struct Unk_276c {
+        u32 _0;
+        u32 _4;
+        u32 _8;
+        u8 _c[0x14 - 0xc];
+    };
+
     // 0x71011001d4 (declaration only; placeholder name): stores the two levels at 0x2940 / 0x2941
     // (clamped) and sets flag 4.
     void sub_71011001D4(int level, int type);
@@ -469,9 +477,13 @@ public:
     // 0x7101101964 (declaration only; placeholder name): refreshes the 19 words at 0x278c from the Terrain
     // and sets flag 4 if one changed.
     void sub_7101101964();
-    // 0x710110234c (declaration only; placeholder name): branches to 0x71011021e4 with this + 0x276c and
-    // true.
+    // 0x710110234c (placeholder name): sub_71011021E4 with _276c and true.
     void sub_710110234C(System* system);
+    // 0x71011021e4 (placeholder name): with `request_all`, sub_7101101578 for all four image types (inlined),
+    // then sub_7101100330.
+    void sub_71011021E4(System* system, const Unk_276c* arg, bool request_all);
+    // 0x7101100330 (declaration only; placeholder name and signature).
+    void sub_7101100330(System* system, const Unk_276c* arg, bool a, bool b);
     // Placeholder: an image type with its two request flags (sub_7101101578 builds four).
     struct Unk_7101101DFC {
         ImageTypeMaybe type;
@@ -497,7 +509,7 @@ public:
     Unk_710111F504 _0[9];
     // Set on every scene by System::sub_7101112C30.
     sead::Vector3f _2760;
-    u8 _276c[0x2780 - 0x276c];
+    Unk_276c _276c;
     s32 _2780;
     s32 _2784;
     u8 _2788[0x278c - 0x2788];
