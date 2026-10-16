@@ -166,6 +166,24 @@ sead::FixedSafeString<32>& OptionalWeapon::sub_7100EF13A4() {
 
 }  // namespace uking::act
 
+// NON_MATCHING: the original casts the owner to Actor twice (two RTTI checks).
+// Placeholder name: applies the opacity requested by sub_7100EF2290: the owner's m139() when `_994` is set,
+// else `_990` plus m139() clamped to [0, 1] (setting ActorFlag2::_20 when it is zero).
+void uking::act::OptionalWeapon::sub_7100EF1F30() {
+    if (!mModel || !_995)
+        return;
+    if (_994) {
+        if (auto* owner = sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))
+            sub_71011CCB1C(owner->m139());
+        return;
+    }
+    f32 alpha = sead::Mathf::clamp(_990 + m139(), 0.0f, 1.0f);
+    if (sead::Mathf::abs(alpha) <= sead::Mathf::epsilon())
+        mActorFlags2.set(ActorFlag2::_20);
+    sub_71011CCB1C(alpha);
+    _995 = false;
+}
+
 void uking::act::OptionalWeapon::sub_7100EF2290(f32 value, bool use_parent) {
     sead::ScopedLock<sead::CriticalSection> lock(&_950);
     _990 = value;
