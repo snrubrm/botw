@@ -23,10 +23,8 @@ const Unk_710250dbc8* Unk_7101108460::getA() const {
 Unk_7101106F44::Unk_7101106F44() {
     _8 = {1.0f, 0.0f};
     _10 = {1.0f, 0.0f};
-    _20 = {0.0f, 0.0f};
-    _28 = {0.0f, 0.0f};
-    _30 = {0.0f, 0.0f};
-    _38 = {0.0f, 0.0f};
+    for (auto*& child : mChildren)
+        child = nullptr;
 }
 
 Unk_7101106F44::~Unk_7101106F44() {
@@ -131,6 +129,43 @@ bool Unk_7101106F44::sub_71011074A0() {
 void Unk_7101106F44::sub_7101107768() {
     while (!sub_71011074A0())
         sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(1));
+}
+
+void Unk_7101106F44::sub_7101107F40(u32* max_depth, s32* index) {
+    mDepth = mParent ? mParent->mDepth + 1 : 0;
+    if (*max_depth < mDepth)
+        *max_depth = mDepth;
+    mIndex = *index;
+    ++*index;
+    for (auto* child : mChildren) {
+        if (child)
+            child->sub_7101107F40(max_depth, index);
+    }
+}
+
+void Unk_7101106F44::sub_7101108004(u32* max_depth, s32* index) {
+    *index = 0;
+    *max_depth = 0;
+    Unk_7101106F44* root = this;
+    while (root->mParent)
+        root = root->mParent;
+    root->sub_7101107F40(max_depth, index);
+}
+
+bool Unk_7101106F44::sub_7101108174(u16 id) const {
+    const Unk_7101106F44* area = this;
+    do {
+        const Unk_7101108460* node = area->findNodeMaybe(id);
+        if (node)
+            return node->sub_7101108624();
+        area = area->mParent;
+    } while (area);
+    return false;
+}
+
+void Unk_7101106F44::sub_7101108020(const ImageTypeMaybe& type, agl::TextureSampler* sampler,
+                                    const agl::GPUMemVoidAddr& addr, s32 mip_offset, bool flag) {
+    getImageMaybe(type)->m11(sampler, addr, mip_offset, flag);
 }
 
 }  // namespace ksys::tera

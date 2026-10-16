@@ -68,6 +68,18 @@ public:
         return const_cast<Unk_710250dcd8*>(static_cast<const Unk_7101106F44*>(this)->getImageMaybe(type));
     }
 
+    // 0x7101107f40 (placeholder name): numbers this node and its subtree in tree order (`index` counts up)
+    // and sets the depths; `max_depth` gets the largest depth.
+    void sub_7101107F40(u32* max_depth, s32* index);
+    // 0x7101108004 (placeholder name): sub_7101107F40 from the root with both counters reset.
+    void sub_7101108004(u32* max_depth, s32* index);
+    // 0x7101108174 (placeholder name): whether the nearest node with key `id` (here or in a parent) has a
+    // B value above epsilon.
+    bool sub_7101108174(u16 id) const;
+    // 0x7101108020 (placeholder name): sets up the image for `type` (its m11).
+    void sub_7101108020(const ImageTypeMaybe& type, agl::TextureSampler* sampler,
+                        const agl::GPUMemVoidAddr& addr, s32 mip_offset, bool flag);
+
     // 0x71011074a0 (placeholder name): marks all images unused; false if one is still referenced.
     bool sub_71011074A0();
     // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.
@@ -76,17 +88,16 @@ public:
     // 0x71011080d4 (placeholder name): releases the buffers of the image for `type` (slot 12).
     void sub_71011080D4(const ImageTypeMaybe& type);
 
-    u8 _0 = 0;
+    // Depth in the tree (0 for the root); set by sub_7101107F40.
+    u8 mDepth = 0;
     u8 _1 = 4;
-    u16 _2 = 0xffff;
+    // Index in tree order; set by sub_7101107F40.
+    u16 mIndex = 0xffff;
     s32 _4 = -1;
     sead::Vector2f _8{0.0f, 0.0f};
     sead::Vector2f _10{0.0f, 0.0f};
     Unk_7101106F44* mParent = nullptr;
-    sead::Vector2f _20{0.0f, 0.0f};
-    sead::Vector2f _28{0.0f, 0.0f};
-    sead::Vector2f _30{0.0f, 0.0f};
-    sead::Vector2f _38{0.0f, 0.0f};
+    Unk_7101106F44* mChildren[4]{};
     Unk_710250dc50 mImage0;
     Unk_710250dd60 mImage1;
     sead::TList<Unk_7101108460*> mNodes;

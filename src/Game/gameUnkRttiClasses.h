@@ -183,6 +183,11 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024efd58, 0x18);
 
+namespace agl {
+class TextureSampler;
+class GPUMemVoidAddr;
+}  // namespace agl
+
 // vtable 0x710250dcd8 (15 slots; m4 - m10 pure). Base of the terrain image resources Unk_710250db28,
 // Unk_710250dbc8, Unk_710250dc50 and Unk_710250dd60 (ksys::tera, see teraResourceNode.h).
 class Unk_710250dcd8 {
@@ -200,8 +205,10 @@ public:
     virtual u16 m8() = 0;
     virtual u32 m9() = 0;
     virtual s32 m10() = 0;
-    // 0x710110dce8 (declared only): sets flag 0x20000000, runs sub_710110DB28 and sets flag 8.
-    virtual void m11();
+    // 0x710110dce8 (declared only): sets flag 0x20000000, runs sub_710110DB28 (sets up `sampler` for the
+    // image at `addr`, with mipmaps at `mip_offset`) and sets flag 8.
+    virtual void m11(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr& addr, s32 mip_offset,
+                     bool flag);
     // 0x710110dd3c: clears bit 3 of the flags, destroys the sampler / texture pair at `_10` and nulls it.
     // Placeholder name.
     virtual void sub_710110DD3C();
