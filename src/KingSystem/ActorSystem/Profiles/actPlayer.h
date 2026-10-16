@@ -447,6 +447,10 @@ public:
     void m69_x_2();
     bool sub_7100863534();
     void m69_x_6();
+    void m69_x_5();
+    bool sub_710087B0CC();
+    bool sub_710087B1F0();
+    bool sub_710087B500();
     void showRuntimeTipForColdHotStatusEffects();
     void actionCommon();                                                // 0x86aa94
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the

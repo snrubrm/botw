@@ -12,6 +12,10 @@
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/Player/Action/actionPlayerBackJump.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -352,6 +356,54 @@ void Player::m74() {
     }
     Actor::m74();
     sub_7100887554();
+}
+
+// In this file because x_24 is out of line: a same-file call drops the 3.0 argument the original passes.
+// Placeholder name (CSV Player::m69_x_5): with m225() or m226(), while _d68 names the equipment of type 4:
+// on AS 0x53 hands the connected calc child to sub_71005DC208 at the bone _19f0[45] and sets _d11, then
+// sub_710088D654 on AS 0x45; otherwise sub_710088D654 on AS 0x53 / 0x54 / 0x45, and x_24(3) once AS slot 2 is done.
+void Player::m69_x_5() {
+    if (!m225() && !m226())
+        return;
+
+    if (_d68 == getEquipmentTypeName(4)) {
+        if (mASList->x(0x53, nullptr, 1, 1, &as::ASList::Unk2::sub_71011637EC, true)) {
+            if (auto* child = getConnectedCalcChild()) {
+                const auto& key = _19f0[45];
+                sead::Matrix34f mtx;
+                mModel->getUnits()[key.model_unit_index]->mModelUnit->getBoneWorldMatrix(
+                    &mtx, key.bone_index);
+                ActorLinkConstDataAccess accessor(child);
+                accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+                sub_71005DC208(this, static_cast<Actor*>(child), 0);
+                _d11 = true;
+            }
+        }
+        if (mASList->x(0x45, nullptr, 1, 1, &as::ASList::Unk2::sub_71011637EC, true))
+            sub_710088D654();
+        return;
+    }
+
+    if (mASList->x(0x53, nullptr, 2, 0, &as::ASList::Unk2::sub_71011637EC, true) ||
+        mASList->x(0x54, nullptr, 2, 0, &as::ASList::Unk2::sub_71011637EC, true) ||
+        mASList->x(0x45, nullptr, 1, 1, &as::ASList::Unk2::sub_71011637EC, true)) {
+        sub_710088D654();
+    }
+    if (mASList->x_4(2, 0))
+        x_24(3.0f);
+}
+
+// In this file because x_35 is out of line in the original (actPlayer.cpp inlines it).
+// Placeholder name: false with x_35(); true unless AS slot 1 (x_7) is busy or plays WaitUpper / MoveUpper /
+// SquatWaitUpper / SquatMoveUpper, else sub_71007D86B4.
+bool Player::sub_710087B1F0() {
+    if (x_35())
+        return false;
+    if (!mASList->x_7(1, 1, &as::ASList::Unk2::sub_710002E82C))
+        return true;
+    return mASList->x_1(1, 1) == "WaitUpper" || mASList->x_1(1, 1) == "MoveUpper" ||
+           mASList->x_1(1, 1) == "SquatWaitUpper" || mASList->x_1(1, 1) == "SquatMoveUpper" ||
+           sub_71007D86B4(this);
 }
 
 }  // namespace ksys::act

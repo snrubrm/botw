@@ -2119,6 +2119,17 @@ bool Player::sub_710087394C() {
     }
 }
 
+// Placeholder name: whether AS slot 0 plays Push or PushRoll.
+bool Player::sub_710087B0CC() {
+    return mASList->x_1(0, 0) == "Push" || mASList->x_1(0, 0) == "PushRoll";
+}
+
+// Placeholder name: whether AS slot 1 plays a horse call (HorseCall / CallComeon / CallStay).
+bool Player::sub_710087B500() {
+    return mASList->x_1(1, 1) == "HorseCall" || mASList->x_1(1, 1) == "CallComeon" ||
+           mASList->x_1(1, 1) == "CallStay";
+}
+
 void Player::sub_710087B6A8() {
     if (gdt::getFlag_Fire_Relic_YunboStopGo(false)) {
         if (gdt::getFlag_Fire_Relic_NPC020_Follow(false))
