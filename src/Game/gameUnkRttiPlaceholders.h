@@ -717,10 +717,19 @@ public:
     virtual void m45() {}
 };
 
+// lane1 s95: the request passed to Unk_71024dd490::sub_71010C760C.
+struct Unk_710250c118Arg {
+    u32 _0;
+    u32 _4;
+    ksys::phys::RigidBody* body;
+};
+
 // vtable 0x710250c118 (39 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250c118 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c118, Unk_7102518688)
 public:
+    // lane1 s95: a "chemi_fire" element; built by Unk_71024dd490::sub_71010C760C.
+    Unk_710250c118(const Unk_710250c118Arg& arg, sead::Heap* heap);
     ~Unk_710250c118() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -730,7 +739,8 @@ public:
     void m38() override {}
 
     // lane1 s91: m29 copies _54 to the holder's _1a and adds the rigid body _58 to the world.
-    u8 _48[0x54 - 0x48];
+    u8 _48[0x50 - 0x48];
+    u32 _50;
     u32 _54;
     ksys::phys::RigidBody* _58;
 };
@@ -795,6 +805,8 @@ public:
 class Unk_710250c6d8 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c6d8, Unk_7102518688)
 public:
+    // lane1 s95: a "chemi_fire" element on a rigid body; built by Unk_71024dd490::sub_71010C7DB8.
+    Unk_710250c6d8(ksys::phys::RigidBody* const& body, sead::Heap* heap);
     ~Unk_710250c6d8() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
