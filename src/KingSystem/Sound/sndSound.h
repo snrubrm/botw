@@ -390,6 +390,8 @@ public:
 };
 class Unk_SoundMgr38_50 {
 public:
+    // 0x7101036748
+    Unk_SoundMgr38_50();
     virtual ~Unk_SoundMgr38_50();
     // 0x7101036840: sub_7101036848(-1).
     void sub_7101036840();
@@ -400,16 +402,27 @@ public:
     // 0x71010367e8: resets the state and both faders.
     void sub_71010367E8();
 
-    u8 _8[0x38 - 0x8];
-    /* 0x38 */ u32 _38;
-    /* 0x3c */ bool _3c;
-    /* 0x40 */ u32 _40;
-    /* 0x44 */ s32 _44;
-    /* 0x48 */ u32 _48;
-    /* 0x50 */ aal::SimpleTimedFader _50;
-    /* 0x68 */ aal::SimpleTimedFader _68;
-    /* 0x80 */ u16 _80;
-    /* 0x84 */ u32 _84;
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ u32 _10 = 0;
+    /* 0x18 */ void* _18 = nullptr;
+    /* 0x20 */ u32 _20 = 0;
+    /* 0x28 */ void* _28 = nullptr;
+    /* 0x30 */ u32 _30 = 0;
+    u8 _34[4];
+    /* 0x38 */ u32 _38 = 0;
+    /* 0x3c */ bool _3c = false;
+    /* 0x40 */ u32 _40 = 0;
+    /* 0x44 */ s32 _44 = -1;
+    /* 0x48 */ u32 _48 = 0;
+    /* 0x50 */ aal::SimpleTimedFader _50{1.0f};
+    /* 0x68 */ aal::SimpleTimedFader _68{1.0f};
+    /* 0x80 */ u16 _80 = 0;
+    /* 0x84 */ u32 _84 = 0;
+    /* 0x88 */ bool _88 = false;
+    /* 0x8c */ f32 _8c = 50.0f;
+    /* 0x90 */ f32 _90 = 500.0f;
+    /* 0x94 */ bool _94 = false;
+    /* 0x98 */ u32 _98 = 0;
 };
 class Unk_SoundMgr38_58 {
 public:
