@@ -74,6 +74,8 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/gameStasisMgr.h"
+#include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 void sub_7100D2D424(uking::act::DamageManagerBase* manager);
@@ -1477,6 +1479,26 @@ void Player::m69_x_6() {
             controller->sub_7100F5F6FC(velocity);
         }
     }
+}
+
+void Player::m70() {
+    m69_x_0();
+    if (uking::ui::sub_7100AA8F10()) {
+        uking::RuneMgr::instance()->sub_71006757B8();
+        if (auto* stasis_mgr = uking::StasisMgr::instance())
+            stasis_mgr->_44 = 0;
+    }
+    if (!sub_710084A6B8() && getASList()->x_1(1, 1) == "ItemScopeReady")
+        x_18(true);
+    if (_16f0)
+        sub_710085A6B8();
+    if (j_eventMgrHasActiveEventMaybe(this)) {
+        if (uking::RuneMgr::instance()->_90 & 0x20)
+            uking::RuneMgr::instance()->sub_7100675FF0(this);
+        if ((uking::RuneMgr::instance()->_90 & 0x10) && uking::RuneMgr::instance()->isSelectedRune(5))
+            uking::RuneMgr::instance()->sub_7100675980(this);
+    }
+    _14c0 = false;
 }
 
 // Placeholder name (CSV Player::m71_x): resizes the Tgt cylinder by _cec bit 2 and moves the AreaCheck sensor to

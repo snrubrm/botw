@@ -110,6 +110,24 @@ void RuneMgr::sub_710067594C() {
     setLockedFlag(_170);
 }
 
+void RuneMgr::sub_7100675980(act::PlayerBase* player) {
+    if (ksys::gdt::getFlag_ItemLockStartUp_Demo() || !(_90 & 0x10))
+        return;
+    if (!ksys::gdt::getFlag_ItemLockStartUp_Demo()) {
+        if (_90 & 0x10)
+            _94 |= 0x20;
+        _90 &= ~0x11u;
+        _94 &= ~7u;
+        _90 |= 2;
+    }
+    const s32 rune = _248;
+    const s32 prev_rune = _24c;
+    if (!player && act::PlayerInfo::instance())
+        player = act::PlayerInfo::instance()->getPlayer();
+    x(rune, prev_rune);
+    _90 |= 0x40;
+}
+
 void RuneMgr::setFlag1F8() {
     setLockedFlag(_1b8);
 }
@@ -117,6 +135,22 @@ void RuneMgr::setFlag1F8() {
 s32 RuneMgr::getCurrentItem() {
     const auto lock = sead::makeScopedLock(_200);
     return _240;
+}
+
+void RuneMgr::sub_7100675FF0(act::PlayerBase* player) {
+    if (ksys::gdt::getFlag_ItemLockStartUp_Demo() || !(_90 & 0x20))
+        return;
+    if (!ksys::gdt::getFlag_ItemLockStartUp_Demo()) {
+        if (_90 & 0x20)
+            _94 |= 0x80;
+        _90 &= ~0x20u;
+    }
+    const s32 rune = _248;
+    const s32 prev_rune = _24c;
+    if (!player && act::PlayerInfo::instance())
+        player = act::PlayerInfo::instance()->getPlayer();
+    x(rune, prev_rune);
+    _90 |= 0x40;
 }
 
 void RuneMgr::setCurrentItem(s32 item) {

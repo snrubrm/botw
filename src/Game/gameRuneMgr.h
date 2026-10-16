@@ -98,6 +98,14 @@ public:
     // _408 while _90 bit 8 is set, nothing while bit 7 is set, else _410. StasisMgr::__auto1 uses it as
     // the stasis target candidate.
     ksys::act::Actor* sub_71006752AC();
+    // 0x7100675a28 (CSV RuneMgr::x; declaration only, 1480 B): applies the rune selection `rune` /
+    // `prev_rune` (graphics settings at _250, ...); nothing while _90 bit 6 is set.
+    void x(s32 rune, s32 prev_rune);
+    // 0x7100675980 / 0x7100675ff0 (CSV __auto13 / __auto8; placeholder names): unless ItemLockStartUp_Demo
+    // is set, leave the rune state of _90 bit 4 (camera) / bit 5, re-apply the selection (x) and set
+    // _90 bit 6. `player` defaults to the PlayerInfo player (the lookup result is unused).
+    void sub_7100675980(act::PlayerBase* player);
+    void sub_7100675FF0(act::PlayerBase* player);
     // 0x71006752f0 (CSV name; declaration only): updates _408 / _410 from the object at _258 (calls
     // sead::MemUtil::checkFillType and compares the result with 2, which our sead declares as bool).
     void x_0();

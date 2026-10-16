@@ -469,6 +469,9 @@ public:
     void updateResistHotVal();
     void updateResistColdVal();
     void updateStatusEffectAttackUp();
+    // 0x71008850e8 (CSV Player::m69_x_0; declaration only, 584 B): adds the pending heal amounts (_e70) to the
+    // player life and regenerates stamina; called first by m70.
+    void m69_x_0();
     void m69_x_1();
     void m69_x_2();
     bool sub_7100863534();
