@@ -279,6 +279,38 @@ bool Unk_71012eb6e8::isValid(System* const* systems, const Unk_7101106F44* entry
     return false;
 }
 
+// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
+// smaller), so mMode / mFlags sit 0x10 lower in ours.
+Unk_71012EBDBC::Unk_71012EBDBC() = default;
+
+// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
+// smaller), so mMode / mFlags sit 0x10 lower in ours.
+Unk_71012EBDBC::~Unk_71012EBDBC() {
+    if (mFlags & 1) {
+        Terrain::instance()->_428->tryClose(&mHandle);
+        mFlags &= ~1u;
+    }
+}
+
+// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
+// smaller), so mMode / mFlags sit 0x10 lower in ours.
+bool Unk_71012EBDBC::open(const char* path, u32 mode) {
+    mMode = mode;
+    mPath = path;
+    if (!Terrain::instance()->_428->tryOpen(&mHandle, path,
+                                             sead::FileDevice::FileOpenFlag(mode < 2 ? mode : 2), 0))
+        return false;
+    mFlags |= 1;
+    return true;
+}
+
+// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
+// smaller), so mMode / mFlags sit 0x10 lower in ours.
+bool Unk_71012EBDBC::write(const u8* data, u32 size) {
+    u32 written = 0;
+    return Terrain::instance()->_428->tryWrite(&written, &mHandle, data, size);
+}
+
 }  // namespace ksys::tera
 
 // NON_MATCHING: placeholder destructor; the original (0x7100155198) also destroys members or bases

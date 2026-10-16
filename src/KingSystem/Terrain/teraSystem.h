@@ -16,6 +16,7 @@
 #include <hostio/seadHostIONode.h>
 #include <container/seadOffsetList.h>
 #include <container/seadTreeMap.h>
+#include <filedevice/seadFileDevice.h>
 #include <prim/seadXmlDocument.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadReadWriteLock.h>
@@ -1077,6 +1078,23 @@ struct Unk_71012eb6e8 {
     u16 mKey;
     u32 mId;
     s32 mIndex;
+};
+
+// Placeholder: a file written on Terrain::_428 (ImageResourceMgr::sub_7101136328 dumps image data with it).
+// 0x71012ebdbc constructs it, 0x71012ebdf4 closes and destroys it.
+struct Unk_71012EBDBC {
+    Unk_71012EBDBC();
+    ~Unk_71012EBDBC();
+    // 0x71012ebe70 (placeholder name): opens `path` (mode clamped to 2); sets flag 1 on success.
+    bool open(const char* path, u32 mode);
+    // 0x71012ebef0 (placeholder name).
+    bool write(const u8* data, u32 size);
+
+    const char* mPath = "";
+    sead::FileHandle mHandle;
+    u32 mMode = 2;
+    // Bit 0: open.
+    u32 mFlags = 0;
 };
 
 struct ImageResourceMgr::Request {

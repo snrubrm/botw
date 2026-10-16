@@ -17,7 +17,9 @@ struct DebugMessage {
         // gives the same (s64)((f32)cFrequency * s).
         void setDisplayTime(f32 seconds) { display_time = sead::TickSpan::makeFromSeconds(1) * seconds; }
 
-        u8 _0[0x30];
+        u8 _0[0x28];
+        // uking::action::TerrainHideCenter::calc_ 0x7100e176d0 stores 100 here.
+        s64 _28;
         u32 _30;
         sead::TickSpan display_time;
         u32 _40;
