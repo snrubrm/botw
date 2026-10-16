@@ -32,7 +32,9 @@ extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D630;
 
 // 0x7100f5a550 (placeholder name): the model name of part `arg.type` for the race of `umii` (body.race).
 void sub_7100F5A550(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
-// 0x7100f5b02c (declaration only; placeholder name): race 4.
+// 0x710260d530: Gerudo part names, by Arg type (6 entries; 0x7100f5b02c).
+extern sead::SafeArray<sead::SafeString, 6> sUnk_710260D530;
+// 0x7100f5b02c (placeholder name): race 4 (Gerudo parameters).
 void sub_7100F5B02C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 
 // 0x7100f5ab68 / 0x7100f5ada8 / 0x7100f5af44 (placeholder names): model names of other part sets (the

@@ -217,6 +217,55 @@ void sub_7100F5A550(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
     }
 }
 
+void sub_7100F5B02C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+    const auto& body = umii.getBody();
+    const auto& gerudo = umii.getGerudo();
+    switch (arg.type) {
+    case 0:
+        out->format("%s%s_%s_%03d", sUnk_710260D530[arg.type].cstr(),
+                    sUnk_710260DB50[*body.type].cstr(), sUnk_710260D7A0[umii.getSexAge()].cstr(),
+                    *body.number);
+        return;
+    case 1:
+        if (umii.getAge() == UMii::Personal::Age_Adult && *body.type == UMii::Body::Type_C) {
+            out->format("%s_C_%03d", sUnk_710260D530[arg.type].cstr(), *gerudo.hair);
+            return;
+        }
+        if (umii.getAge() != UMii::Personal::Age_Child) {
+            out->clear();
+            return;
+        }
+        out->format("%s_G_%03d", sUnk_710260D530[arg.type].cstr(), *gerudo.hair);
+        return;
+    case 2:
+        if (umii.getAge() == UMii::Personal::Age_Adult && *body.type == UMii::Body::Type_C &&
+            *gerudo.glass != 0) {
+            out->format("%s_%s_%03d", sUnk_710260D530[arg.type].cstr(),
+                        sUnk_710260D7A0[umii.getSexAge()].cstr(), *gerudo.glass);
+            return;
+        }
+        out->clear();
+        return;
+    case 3:
+        if (*umii.getCommon().backpack != 0) {
+            out->clear();
+            return;
+        }
+        out->format("%s_%03d", sUnk_710260D530[arg.type].cstr(), 0);
+        return;
+    case 5:
+        if (*gerudo.glass == 0) {
+            out->clear();
+            return;
+        }
+        out->format("%s", sUnk_710260D530[arg.type].cstr());
+        return;
+    default:
+        out->format("%s", sUnk_710260D530[arg.type].cstr());
+        return;
+    }
+}
+
 // NON_MATCHING: the original tests the age for 2, then 1, then 0 (ours tests 0 first).
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii) {
     const auto& body = umii.getBody();
