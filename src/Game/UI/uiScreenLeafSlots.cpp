@@ -122,6 +122,26 @@ void ScreenAppPictureBook::m160() {
         _3660->sub_710093F594(false);
 }
 
+// 0x71009fa3fc: waits until every texture controller is loaded
+void ScreenAppPictureBook::m89() {
+    bool ready = true;
+    for (auto it = sUnk_71025eb5c0.begin(), end = sUnk_71025eb5c0.end(); it != end; ++it) {
+        if (it->sub_71009CBEAC()) {
+            it->sub_71009CC3A0();
+            ready = false;
+        }
+        ready &= it->sub_71009CBFA4();
+    }
+    if (ready)
+        _292 |= 0x20;
+}
+
+// 0x71009fa478
+void ScreenAppPictureBook::m128() {
+    for (auto& controller : sUnk_71025eb5c0)
+        controller.sub_71009CC970();
+}
+
 // 0x71009fa2f8
 void ScreenAppPictureBook::m100() {
     if (_3658)

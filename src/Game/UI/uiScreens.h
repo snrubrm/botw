@@ -2751,8 +2751,16 @@ struct ScreenAppPictureBookUnk {
     /* 0x340 */ s32 _340;
 };
 
+class Unk_71009cb0c8;
+// 0x71025eb5c0 (placeholder name): the AppPictureBook screen's texture controllers
+extern sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
+
 class ScreenAppPictureBook : public ScreenEx {
 public:
+    // 0x71009fa3fc
+    void m89() override;
+    // 0x71009fa478
+    void m128() override;
     void m100() override;
     void m106(eui::AnimButton*) override;
     bool isEnableControl() const override;
