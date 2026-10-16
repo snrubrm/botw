@@ -25,6 +25,8 @@ public:
     // 0x710047a374 (placeholder name; CSV calc_x): whether calc_ should switch to the reaction child (death,
     // just guard, damage reactions, or an active ShockWave part attack).
     bool sub_710047A374(act::LastBoss* boss);
+    // 0x7100479f74 (placeholder name; CSV calc_x_0): picks the barrier / damage / wait animation.
+    void sub_7100479F74(act::LastBoss* boss, bool update_wait);
 
 protected:
     // static_param at offset 0x38

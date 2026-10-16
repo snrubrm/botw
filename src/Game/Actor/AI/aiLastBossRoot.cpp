@@ -149,6 +149,56 @@ void LastBossRoot::loadParams_() {
 
 namespace uking::ai {
 
+// NON_MATCHING: the two flag bit tests of _14e8 are merged into one mask compare in our build
+void LastBossRoot::sub_7100479F74(act::LastBoss* boss, bool update_wait) {
+    auto* life = boss->getLife();
+    if (life && *life == 0 && !_b4) {
+        auto* as_list = mActor->getASList();
+        if (!as_list)
+            return;
+        if (as_list->x_1(1, 0) == "Barrier_Off_Damage_Last" || as_list->x_1(1, 0) == "Damage_Last_Material")
+            return;
+        if (boss->_14e8.isOnBit(17))
+            changeAS("Barrier_Off_Damage_Last", true, 1, 0);
+        else
+            changeAS("Damage_Last_Material", true, 1, 0);
+        return;
+    }
+
+    if (!boss->_14e8.isOnBit(1) || !boss->_14f8._30.isOnBit(0)) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->x_1(1, 0) == "Barrier_Off" || as_list->x_1(1, 0) == "Barrier_Off_AtSlow") {
+                if (!update_wait)
+                    return;
+            }
+            if (auto* damage_mgr = boss->getDamageMgr()) {
+                if (s32(damage_mgr->getDamage()) >= 1)
+                    changeAS("Damage", false, 1, 0);
+            }
+        }
+    }
+
+    if (!update_wait)
+        return;
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    const auto& flags = boss->_14e8;
+    if (flags.isOnBit(1)) {
+        if (!flags.isOnBit(10) && (boss->_14f8._30.getDirect() & 0x11) == 1 && as_list->x_1(0, 0) != "Miss") {
+            auto* boss_life = boss->getLife();
+            if (!boss_life || *boss_life != 0) {
+                boss->x();
+                return;
+            }
+        }
+    }
+    if (boss->_14f8._30.isOnBit(4) || boss->_14e8.isOnBit(10) || boss->_14e8.isOnBit(11))
+        changeAS("DownWaitMaterial", false, 1, 0);
+    else
+        changeAS("Wait_Battle_Material", false, 1, 0);
+}
+
 bool LastBossRoot::sub_710047A374(act::LastBoss* boss) {
     auto* child = getCurrentChild();
     if (!child)
