@@ -176,6 +176,17 @@ void Unk_71024754c0::m29(Unk_710095192c* entry) {
     _58 = entry;
 }
 
+// 0x7100951e0c
+void Unk_71024754c0::m26() {
+    if (!_58 || !_58->_8)
+        return;
+    eui::MessageString message;
+    if (getLocationMarker(_58->_8, &message) != 0)
+        return;
+    sead::FixedSafeString<64> name;
+    sub_71010BA648(&name, message);
+}
+
 void Unk_71024754c0::m30() {
     auto* entry = _58;
     if (entry && entry->_10 && *entry->_10)
