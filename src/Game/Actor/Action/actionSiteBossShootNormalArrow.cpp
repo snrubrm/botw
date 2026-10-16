@@ -2,6 +2,8 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include <gsys/gsysModel.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -45,6 +47,40 @@ void SiteBossShootNormalArrow::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mIgniteActor_d, "IgniteActor");
     getDynamicParam(&mArrowHandle_d, "ArrowHandle");
+}
+
+// NON_MATCHING: the original keeps the front vector in memory across the sqrtf fallback (we keep it in d8 / d9).
+// Shoots an arrow from the base bone (or the actor) towards the target position.
+void SiteBossShootNormalArrow::sub_7100263C64() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    sead::FixedSafeString<32> bone_name;
+    m32(&bone_name);
+
+    sead::Matrix34f mtx;
+    auto* model = mActor->getModel();
+    gsys::BoneAccessKey key;
+    if (model && !bone_name.isEmpty() && (key = model->searchBone(bone_name)).isValid())
+        actor->getModel()->getBoneWorldMatrix(key, &mtx);
+    else
+        mtx = actor->getMtx();
+
+    sead::Vector3f front;
+    mtx.getBase(front, 0);
+    front.normalize();
+    const sead::Matrix33f rotation{mtx};
+
+    sead::Vector3f pos;
+    pos.setMul(mtx, *mIgniteOffset_s);
+
+    sead::Vector3f target = *mTargetPos_d;
+    target.y += *mTargetOffsetY_s;
+    sead::Vector3f velocity = target;
+    sub_71005DDF80(&velocity, &target, &pos, &front, mDirMinAngle_s, mDirMaxAngle_s, *mInitSpeed_s,
+                   0.0f, 0.0f);
+    m33(pos, rotation, velocity);
 }
 
 // NON_MATCHING: horizontal vectors use floating-point registers and different save slots.

@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(sead::Vector3f* dir) override;
 
     // static_param at offset 0x78
     const float* mFrontDirAngle_s{};
