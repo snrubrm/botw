@@ -12,6 +12,7 @@
 #include <heap/seadDisposer.h>
 #include <thread/seadThread.h>
 #include <heap/seadHeap.h>
+#include <hostio/seadHostIONode.h>
 #include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadThread.h>
@@ -629,6 +630,25 @@ bool checkTeraSystemStatus();
 // 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with
 // the tera system and every route of every map.
 void sub_71011190C8(void* tera_system, void* route);
+
+// Placeholder: vtable 0x710250fc48 (hostio::Node::getNodeClassType, D1 0x710114e904, D0 0x710114ea4c),
+// ctor 0x710114e714 (sets _8 = 0x1e000481). Held by the renderer that calls sub_710114EA70 (0x71012dafb8).
+class Unk_710250fc48 : public sead::hostio::Node {
+public:
+    virtual ~Unk_710250fc48();
+    // 0x710114ea70: bit 0 of _8 is set and Terrain's _a50 does not have bit 3 of its byte at 0x18 set.
+    bool sub_710114EA70() const;
+
+    u32 _8;
+};
+
+// Placeholder: the objects 0x7101154fc0 and six other unnamed callers pass to sub_7101152DC0.
+struct Unk_7101152DC0 {
+    u8 _0[0x130];
+    f32 _130;
+};
+// 0x7101152dc0: the larger of obj->_130 and tan(half of an angle in degrees, a TU static).
+f32 sub_7101152DC0(const Unk_7101152DC0* obj);
 
 }  // namespace ksys::tera
 

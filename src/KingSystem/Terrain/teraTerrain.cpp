@@ -2,6 +2,8 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 
 namespace ksys::tera {
 
@@ -194,6 +196,26 @@ void sub_7101128B24(f32 low, f32 high, f32 t_min, f32 t_max, sead::BoundBox3f* b
                  min.y * transform.scale + transform.offset.y});
     box->setMax({max.x * transform.scale + transform.offset.x, (high - low) * t_max + low,
                  max.y * transform.scale + transform.offset.y});
+}
+
+bool Unk_710250fc48::sub_710114EA70() const {
+    if (!(_8 & 1))
+        return false;
+    auto* terrain = Terrain::instance();
+    if (terrain && terrain->_a50 && (terrain->_a50->_18 & 8))
+        return false;
+    return true;
+}
+
+// 0x710250fc7c (placeholder name): a writable angle in degrees (initially 20) next to the
+// Unk_710250fc48 vtable. Nothing in our build writes it, so as a TU static it would be folded.
+f32 sUnk_710250FC7C = 20.0f;
+
+// NON_MATCHING: the original addresses sUnk_710250FC7C directly (a TU-local variable that is written
+// elsewhere) instead of through the GOT, which also moves the _130 load.
+f32 sub_7101152DC0(const Unk_7101152DC0* obj) {
+    return sead::Mathf::max(obj->_130,
+                            std::tan(sUnk_710250FC7C * sead::Mathf::pi2() / 360.0f * 0.5f));
 }
 
 }  // namespace ksys::tera
