@@ -114,26 +114,18 @@ void Unk_7101106F44::sub_71011080D4(const ImageTypeMaybe& type) {
     getImageMaybe(type)->sub_710110DD3C();
 }
 
-// NON_MATCHING: the original loads each image type as one word (the lookup looks like it takes the type by
-// value here, but by reference in sub_71011080D4).
 bool Unk_7101106F44::sub_71011074A0() {
     bool ok = true;
-    Unk_710250dcd8* image0 = getImageMaybe(sUnk_7101EC54AC);
-    if (!image0 || !image0->_18.tryMarkUnusedMaybe())
+    if (!tryMarkImageUnusedMaybe(sUnk_7101EC54AC))
         ok = false;
-    Unk_710250dcd8* image1 = getImageMaybe(sUnk_7101EC54B4);
-    if (!image1 || !image1->_18.tryMarkUnusedMaybe())
+    if (!tryMarkImageUnusedMaybe(sUnk_7101EC54B4))
         ok = false;
-
     for (Unk_7101108460* node : mNodes) {
-        Unk_710250dcd8* image = getImageMaybe(node->getImageType());
-        if (!image || !image->_18.tryMarkUnusedMaybe())
+        if (!tryMarkImageUnusedMaybe(node->getImageType()))
             ok = false;
     }
-
-    for (Unk_710250db28* image_ : mImages) {
-        Unk_710250dcd8* image = getImageMaybe(image_->getImageType());
-        if (!image || !image->_18.tryMarkUnusedMaybe())
+    for (Unk_710250db28* image : mImages) {
+        if (!tryMarkImageUnusedMaybe(image->getImageType()))
             ok = false;
     }
     return ok;
@@ -214,6 +206,15 @@ void Unk_7101106F44::sub_71011081D4(Unk_7101108460* node, sead::Heap* heap, u32 
     node->mA->init(ImageSizeMaybe(size));
     node->mB = new (heap) Unk_710110d278;
     node->mB->init({heap, node->mA, key, scaled});
+}
+
+void Unk_7101106F44::sub_710110736C(const ImageTypeMaybe& type) {
+    while (true) {
+        Unk_710250dcd8* image = getImageMaybe(type);
+        if (image && image->_18.tryMarkUnusedMaybe())
+            return;
+        sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(1));
+    }
 }
 
 }  // namespace ksys::tera

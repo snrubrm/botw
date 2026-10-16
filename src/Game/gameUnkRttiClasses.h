@@ -239,11 +239,7 @@ public:
         bool tryMarkUnusedMaybe() {
             if ((_4.load() >> 30) != 0)
                 return true;
-            do {
-                if (_4.load() != 0)
-                    return false;
-            } while (!_4.compareExchange(0, 0x40000000));
-            return true;
+            return _4.compareExchange(0, 0x40000000);
         }
 
         // Number of users (0x71011171d8 / 0x710111731c count it up and down).

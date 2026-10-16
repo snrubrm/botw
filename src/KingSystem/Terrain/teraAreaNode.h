@@ -90,8 +90,17 @@ public:
     // 0x71011081d4 (placeholder name): the same with `heap` and `size`; B gets `value` scaled down by the depth.
     void sub_71011081D4(Unk_7101108460* node, sead::Heap* heap, u32 size, f32 value);
 
+    // inline-only in the original; name is a guess. Repeated four times in 0x71011074a0, which loads each
+    // type as one word (taken by value).
+    bool tryMarkImageUnusedMaybe(ImageTypeMaybe type) {
+        Unk_710250dcd8* image = getImageMaybe(type);
+        return image && image->_18.tryMarkUnusedMaybe();
+    }
+
     // 0x71011074a0 (placeholder name): marks all images unused; false if one is still referenced.
     bool sub_71011074A0();
+    // 0x710110736c (placeholder name): waits (1 ms steps) until the image for `type` is marked unused.
+    void sub_710110736C(const ImageTypeMaybe& type);
     // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.
     void sub_7101107768();
 
