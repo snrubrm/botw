@@ -9,7 +9,7 @@ class Actor;
 // singleton at 0x71026064c0; its 0x180-byte allocation and members remain unrecovered.
 class Reaction {
 public:
-    // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc (declared only) sets its _110 to 2; the actor
+    // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {
         void sub_7100EC66FC(Actor* actor);
@@ -17,6 +17,9 @@ public:
         f32 sub_7100EC877C() const;
         s32 sub_7100EC87A4() const;
         s8 sub_7100EC89BC() const;
+
+        u8 _0[0x110];
+        /* 0x110 */ s32 _110;
     };
 
     static Reaction* instance() { return sInstance; }
