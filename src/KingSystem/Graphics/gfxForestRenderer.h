@@ -32,6 +32,20 @@ namespace ksys::gfx {
 // TODO: incomplete
 class ForestRenderer : public sead::hostio::Node {
 public:
+    // Placeholder name: a 4-byte grid cell (built on the stack by Entry::sub_7100F06CB0 with mFlags = bit 0 of
+    // Entry::_8).
+    struct GridCell {
+        // 0x7100f076d8 (placeholder name): the 1 km cell of `pos` (x + 5, z + 4) and, unless bit 0 of mFlags is set,
+        // the 250 m quarter-of-quarter mask inside it (0xff when it is set).
+        void sub_7100F076D8(const sead::Vector3f& pos);
+
+        u8 mFlags;
+        s8 mX;
+        s8 mZ;
+        u8 mMask;
+    };
+    static_assert(sizeof(GridCell) == 4);
+
     // Placeholder names: the 0x88-byte entries of the buffer at 0xd0 and their 0x98-byte items.
     struct Item {
         // 0x7100f0914c (declared only; placeholder name): updates the item for the changed record; true stops

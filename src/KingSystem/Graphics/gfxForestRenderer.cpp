@@ -129,6 +129,27 @@ void ForestRenderer::Entry::sub_7100F07060() {
     std::memset(_78.getBufferPtr(), 0, _78.getByteSize());
 }
 
+// NON_MATCHING: scheduling of the inlined floors (the original loads pos.z before the x floor compares) and
+// of the mask bits.
+void ForestRenderer::GridCell::sub_7100F076D8(const sead::Vector3f& pos) {
+    mX = sead::Mathf::floor(pos.x / 1000.0f) + 5;
+    mZ = sead::Mathf::floor(pos.z / 1000.0f) + 4;
+    if (mFlags & 1) {
+        mMask = 0xff;
+        return;
+    }
+
+    const s32 cell_x = sead::Mathf::floor(pos.x / 1000.0f);
+    const s32 cell_z = sead::Mathf::floor(pos.z / 1000.0f);
+    f32 x = pos.x - cell_x * 1000.0f;
+    f32 z = pos.z - cell_z * 1000.0f;
+    const bool right = x >= 500.0f;
+    x -= right ? 500.0f : 0.0f;
+    const bool bottom = z >= 500.0f;
+    z -= bottom ? 500.0f : 0.0f;
+    mMask = (right << 2) | (bottom << 3) | (x >= 250.0f) | ((z >= 250.0f) << 1);
+}
+
 void ForestRenderer::Unk_1b8::invoked1(TaskPostRunResult*, const TaskPostRunContext&) {
     mFlags &= ~1u;
 }
