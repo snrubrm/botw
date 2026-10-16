@@ -22,6 +22,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100178498 (declaration only; 1116 B): ignites pillar `index`.
+    void sub_7100178498(s32 index);
     s32 sub_71001788F4();
     bool sub_7100178AA0();
     void sub_7100178DC4(s32 index, ksys::act::ActorLinkConstDataAccess* accessor);

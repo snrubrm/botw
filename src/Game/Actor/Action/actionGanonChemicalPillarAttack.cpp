@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include <limits>
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -138,8 +140,86 @@ void GanonChemicalPillarAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: the original branches straight to the shared tail where this keeps a "created" flag, and
+// compares the pillar index unsigned.
 void GanonChemicalPillarAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_b8) {
+        _b8 = false;
+        return;
+    }
+
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    controller->sub_7100F5F6FC(sead::Vector3f::zero);
+    controller->sub_7100F5FB24(sead::Vector3f::zero);
+    sub_71005D7444(mActor, *mTargetPos_d, true, true);
+
+    if (_b9) {
+        _e4.update();
+        if (_e4.value <= std::numeric_limits<f32>::epsilon()) {
+            sub_7100178498(_bc);
+            ++_bc;
+            if (_bc < *mPillarNum_s / 2)
+                playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+            if (_bc < *mPillarNum_s)
+                _e4 = ksys::Timer(*mIgnitionInterval_s, *mIgnitionInterval_s);
+            else
+                _b9 = false;
+        }
+    }
+
+    if (sub_71005DD780(mActor, 0x47, nullptr, 0, 0)) {
+        _ba = true;
+        _d0 = f32(*mPillarInterval_s);
+        return;
+    }
+    if (!_ba)
+        return;
+
+    if (isFinishedAS(0, 0))
+        playAS(mWaitASName_s.cstr(), false, 0, 0, -1.0f);
+
+    const f32 prev = _d0;
+    ksys::Timer::update(&_d0, -1.0f);
+    if (_d0 > 0.0f)
+        return;
+
+    if (prev > 0.0f) {
+        sub_71001788F4();
+        bool created = true;
+        if (_c0 <= 18) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            sub_7100178DC4(_c0, &accessor);
+            if (accessor.isStateCalc()) {
+                mActor->sendMessage(*accessor.getMessageTransceiverId(),
+                                    ksys::MessageType(0x800005b), nullptr, true);
+            } else {
+                created = false;
+            }
+        }
+        if (created) {
+            _d4 = 120.0f;
+            ++_c0;
+        } else {
+            ksys::Timer::update(&_d4, -2.0f);
+            if (_d4 < 0.0f)
+                setFinished();
+        }
+        if (_c0 < _c4) {
+            _ba = true;
+            _d0 = f32(*mPillarInterval_s);
+            return;
+        }
+    } else if (_c0 < _c4) {
+        return;
+    }
+
+    ksys::Timer::update(&_d4, -1.0f);
+    if (sub_7100178AA0() || _d4 < 0.0f)
+        setFinished();
 }
 
 }  // namespace uking::action
