@@ -12,10 +12,28 @@ class LimitHingeCs : public Constraint {
 public:
     ~LimitHingeCs() override;
 
+    // 0x7100f6e300 .. 0x7100f6e358 (placeholder names): limit and friction accessors of the hinge data.
+    void sub_7100F6E300(f32 angle);
+    void sub_7100F6E314(f32 min_angle, f32 max_angle);
+    void sub_7100F6E328(f32 torque);
+    void sub_7100F6E334(f32 tau_factor);
+    f32 sub_7100F6E340() const;
+    f32 sub_7100F6E34C() const;
+    f32 sub_7100F6E358() const;
+
 private:
-    // Factory and frame setter 0x7100f6e584 establish a pointer at this
-    // offset; the library data interface remains unresolved.
-    u8 _b8[8];
+    // Placeholder: the library limited-hinge constraint data (factory and frame setter 0x7100f6e584 store
+    // it here). Only the fields the accessors use are modelled; the names follow the Havok limited-hinge atoms.
+    struct Data {
+        u8 _0[0xe8];
+        f32 mMaxFrictionTorque;
+        u8 _ec[0xf8 - 0xec];
+        f32 mMinAngle;
+        f32 mMaxAngle;
+        f32 mAngularLimitsTauFactor;
+    };
+
+    Data* mData;
 };
 KSYS_CHECK_SIZE_NX150(LimitHingeCs, 0xc0);
 
