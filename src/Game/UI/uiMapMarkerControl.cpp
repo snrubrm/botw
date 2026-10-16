@@ -304,6 +304,55 @@ void Unk_71024783b0::m10() {
         _8->mPane->SetPosition(nn::util::Float3{_18->_34.x + _30.x, _18->_34.y + _30.y, 0.0f});
 }
 
+// 0x710098d444: opens or closes the marker for the entry's state bits
+// NON_MATCHING: block placement of the last (neither bit 0x10 nor 0x20, flags & 3 != 3) branch only.
+void Unk_71024783b0::m11() {
+    if (!_18 || !_8)
+        return;
+    const s32 flags = _18->_3c;
+    if (!(flags & 1)) {
+        if ((flags & 3) == 2)
+            _8->startAnimCloseImpl_(false, true);
+        return;
+    }
+
+    switch (flags & 0x30) {
+    case 0x30:
+        sub_710098D2B0();
+        if (UiSubsys1::instance()->is848Zero())
+            _8->startAnimCloseImpl_(false, true);
+        else if (UiSubsys1::instance()->is898Zero())
+            _8->startAnimCloseImpl_(false, true);
+        else
+            _8->sub_7100BDDE7C(false, 0, true);
+        break;
+    case 0x20:
+        if (UiSubsys1::instance()->is848Zero())
+            _8->startAnimCloseImpl_(false, true);
+        else if (UiSubsys1::instance()->is898Zero())
+            _8->startAnimCloseImpl_(false, true);
+        else
+            _8->startAnimCloseImpl_(false, false);
+        break;
+    default:
+        if ((flags & 3) == 3) {
+            sub_710098D2B0();
+            if (UiSubsys1::instance()->is848Zero())
+                _8->startAnimCloseImpl_(false, true);
+            else if (UiSubsys1::instance()->is898Zero())
+                _8->startAnimCloseImpl_(false, true);
+            else
+                _8->sub_7100BDDE7C(false, 1, true);
+        } else if (!UiSubsys1::instance()->is848Zero() && !UiSubsys1::instance()->is898Zero()) {
+            if (_8->_91 == 0)
+                _8->sub_7100BDDE7C(false, 1, true);
+        } else if (_8->_91 == 2) {
+            _8->startAnimCloseImpl_(false, true);
+        }
+        break;
+    }
+}
+
 void Unk_71024783b0::m13() {
     if (!_18 || (_18->_3c & 3) != 3 || !_8)
         return;
