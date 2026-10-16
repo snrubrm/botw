@@ -20,7 +20,6 @@ void AwnHearingParamChange::loadParams() {
     getStaticParam(&mWarnRatio_s, "WarnRatio");
 }
 
-// NON_MATCHING: the original copies the request fields in descending order (`_18`, `_10`, `_8`/`_c`) after the vptr
 void AwnHearingParamChange::enter() {
     if (auto* awareness = mActor->getAwareness()) {
         if (auto* sensor = awareness->_260[1])
@@ -28,9 +27,9 @@ void AwnHearingParamChange::enter() {
 
         Unk_71023e2750 request = _38;
         if (*mNoticeRatio_s >= 0)
-            request._1c = *mNoticeRatio_s;
+            request.params.noticeRatio = *mNoticeRatio_s;
         if (*mWarnRatio_s >= 0)
-            request._18 = *mWarnRatio_s;
+            request.params.warnRatio = *mWarnRatio_s;
         awareness->sub_7100D7E6F4(&request, 1);
     }
 }

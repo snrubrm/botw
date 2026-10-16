@@ -8,6 +8,7 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -83,12 +84,8 @@ public:
     void m12() override;
 
     /* 0x54 */ f32 _54;  // m4 scales it by sub_7100D8010C into the request's _8
-    // m4 copies these to the request's _c-_1c.
-    /* 0x58 */ f32 _58;
-    /* 0x5c */ f32 _5c;
-    /* 0x60 */ f32 _60;
-    /* 0x64 */ f32 _64;
-    /* 0x68 */ f32 _68;
+    // Copied to / from the request's params (0xc-0x20) as one block.
+    /* 0x58 */ Unk_71023e2750::Params _58;
 };
 
 // Placeholder name (vtable 0x71024dcea8, RTTI static 0x7102600a40): the sight sensor (`_260[0]`; Unk_71023e26d8

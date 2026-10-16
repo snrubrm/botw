@@ -45,6 +45,37 @@ f32 Unk_71024dcd68::m14() {
     return _54;
 }
 
+// NON_MATCHING: ours inlines sub_7100D8010C (as Unk_71024dd070::m4).
+bool Unk_71024dcd68::m4(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e2750>(request);
+    if (!req)
+        return false;
+    req->params = _58;
+    req->_8 = _54 * sub_7100D8010C();
+    return true;
+}
+
+// NON_MATCHING: the original copies 0x54-0x6c as 8 + 8 + 4 + 4 bytes; ours copies _54 and the
+// block separately (exact member split unknown).
+bool Unk_71024dcd68::m5(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e2750>(request);
+    if (!req)
+        return false;
+    req->_8 = _54;
+    req->params = _58;
+    return true;
+}
+
+// NON_MATCHING: as m5.
+bool Unk_71024dcd68::m6(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e2750>(request);
+    if (!req)
+        return false;
+    _54 = req->_8;
+    _58 = req->params;
+    return true;
+}
+
 f32 Unk_71024dcfd0::m14() {
     return _54;
 }

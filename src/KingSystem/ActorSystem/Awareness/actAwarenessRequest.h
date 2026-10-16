@@ -18,10 +18,8 @@ public:
     // its vtable pointer (and is inlined into the derived destructors).
     virtual ~Unk_71023e2708() { ; }
 
-    /* 0x08 */ f32 _8 = 0;
-    // No initializer (the original request construction only stores _8: HiddenOctarockSearchTarget /
-    // HiddenOctarockFindPlayer store just the vtable and _8; _c is always set explicitly before use).
-    /* 0x0c */ f32 _c;
+    // 0x08: the derived requests start here: `_8` / `_c` are declared in each of them (the hearing
+    // sensor copies Unk_71023e2750's 0x8-0x20 as one block).
 };
 
 // Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). `_c` is the interest level (output of the sensor's
@@ -34,6 +32,11 @@ public:
     // The original has a separate out-of-line D1 per request type that only stores the base vtable (the base
     // destructor inlined): written as `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     ~Unk_71023e26d8() override { ; }
+
+    /* 0x08 */ f32 _8 = 0;
+    // No initializer (the original request construction only stores _8: HiddenOctarockSearchTarget /
+    // HiddenOctarockFindPlayer store just the vtable and _8; _c is always set explicitly before use).
+    /* 0x0c */ f32 _c;
 
     // Sensor m4 D81348 scales these separately; m5 D814F8 / m6 D815D0 copy both floats.
     /* 0x10 */ f32 _10 = 0;
@@ -62,9 +65,18 @@ public:
     // destructor inlined): written as `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     ~Unk_71023e2750() override { ; }
 
-    /* 0x10 */ u64 _10 = 0;
-    /* 0x18 */ f32 _18 = 0;  // AwnHearingParamChange: warn ratio
-    /* 0x1c */ f32 _1c = 0;  // AwnHearingParamChange: notice ratio
+    // The hearing sensor (Unk_71024dcd68) copies `params` as one block (m4 0x7100d7f3c8: its
+    // 0x58-0x6c; m5 / m6 also copy _8 to / from its _54).
+    struct Params {
+        f32 _0;
+        f32 _4 = 0;
+        f32 _8 = 0;
+        f32 warnRatio = 0;    // AwnHearingParamChange
+        f32 noticeRatio = 0;  // AwnHearingParamChange
+    };
+
+    /* 0x08 */ f32 _8 = 0;  // range: read by DistanceLostCheck / WaitNearTargetAwarenessRange
+    /* 0x0c */ Params params;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e2750, 0x20);
 
@@ -73,6 +85,9 @@ class Unk_71023e2780 : public Unk_71023e2708 {
     SEAD_RTTI_OVERRIDE(Unk_71023e2780, Unk_71023e2708)
 public:
     ~Unk_71023e2780() override { ; }
+
+    /* 0x08 */ f32 _8 = 0;
+    /* 0x0c */ f32 _c;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e2780, 0x10);
 
