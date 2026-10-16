@@ -345,6 +345,44 @@ void ElementDirectionalWindOrGust::m33(bool a, bool fixed) {
     _68.fade();
 }
 
+void ElementDirectionalWindOrGust::updateSLink() {
+    if (mArg.flags & 0x20)
+        return;
+    if (!_68.isActive() && _78)
+        doEmitSLink();
+    if (!_68.isActive())
+        return;
+
+    if (_88) {
+        if (_80) {
+            const sead::Vector3f vector = mArg.position - _80->getMatrix().getTranslation();
+            _80->setVector(vector);
+        }
+    } else {
+        _68.setPosition(mArg.position);
+    }
+
+    if (!_68.isActive())
+        return;
+    auto* executor = static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    auto* source = executor->getHandle()->getSoundSource();
+    if (!source)
+        return;
+    aal::Handle handle = source->getUnifiedSoundHandle();
+    auto* unified = handle.getSoundSource();
+    if (!unified)
+        return;
+    if (unified->mState <= 2)
+        unified->setReleaseTime(2.0f);
+    auto* supplier = unified->mSpeakerBalanceSupplier;
+    if (!supplier)
+        return;
+    if (sead::IsDerivedFrom<aal::SpeakerBalanceUnifier>(supplier))
+        static_cast<aal::SpeakerBalanceUnifier*>(supplier)->setSpeakerBalanceMoveStep(0.25f);
+}
+
 s32 ElementDirectionalWindOrGust::m26() {
     return (mArg.flags & 0x40 ? 1 : 0) + 1;
 }

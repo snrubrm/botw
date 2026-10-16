@@ -58,6 +58,9 @@ public:
     void doEmitELink();
     // 0x71010efdb4 (CSV name): emits the windEmit sound (SLink _68) with the shape _80 and the position.
     void doEmitSLink();
+    // 0x71010f0ba0 (CSV x_0): emits the SLink if needed, moves it with the position (or points the shape _80
+    // at it), and sets the unified sound's release time / speaker balance move step.
+    void updateSLink();
 
     /* 0x48 */ ksys::phys::RigidBody* _48 = nullptr;
     /* 0x50 */ bool _50 = false;
