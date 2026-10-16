@@ -16,8 +16,15 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {
+
+// 0x71025bc6e0 (.bss, after the SiteBossRecognizeRoot RTTI statics): when set, SiteBossRoot::enter_ sets bit 10 of
+// SiteBoss::_1558 (cleared otherwise). Only read there; no writer found.
+bool sUnk_71025BC6E0 = false;
 
 SiteBossRoot::SiteBossRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -75,8 +82,82 @@ bool SiteBossRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original reads sUnk_71025BC6E0 directly (adrp + ldrb; ours through the GOT), keeps the position
+// copy at sp + 0x10 and stores _e8 after _f0
 void SiteBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    if (!_d9) {
+        mActor->emitBasicSigOff();
+        mActor->emitSignalAxisY_0();
+        _d9 = true;
+    }
+    ui::sub_7100A9B5B0(true);
+    {
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        ui::sub_7100A9B584(&pos);
+    }
+
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (!boss->get1a0() &&
+            !(boss->getMapObject() && boss->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+            boss->sub_71002D39D8();
+        }
+        boss->_e90 = 1;
+        if (checkHpRate(boss, 0.5f) && !boss->get1a0() &&
+            !(boss->getMapObject() && boss->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000)) &&
+            boss->_1558.isOnBit(8)) {
+            boss->_1558.resetBit(7);
+            boss->_1558.setBit(9);
+        }
+        boss->_1558.resetBit(26);
+        if (auto* damage_mgr = boss->getDamageMgr()) {
+            if (!boss->_14c8.mDamageManager)
+                damage_mgr->addDamageCallback(4, &boss->_14c8);
+        }
+        if (*mOffFlagIndexAtClipping_s != -1)
+            boss->_1544 = *mOffFlagIndexAtClipping_s;
+        boss->_1558.changeBit(10, sUnk_71025BC6E0);
+    }
+
+    _dc.value = 30.0f;
+    _dc.previous_value = 30.0f;
+    _dc.rate = -1.0f;
+    _f0 = 1.0f;
+    _f4 = 0;
+    _d8 = false;
+    _e8 = 0;
+    _ec = 0;
+    _da = true;
+
+    if (!mIsPlayed_DemoFlagName_s.isEmpty() && mActor->getMapObject() &&
+        !ksys::gdt::getBoolByKey(mIsPlayed_DemoFlagName_s, false)) {
+        changeChild("出現デモ待ち");
+        return;
+    }
+
+    if (testRootAiFlag(ksys::act::ai::RootAiFlag::_7))
+        sub_71007A3540(mActor);
+    if (testRootAiFlag(ksys::act::ai::RootAiFlag::_7) && !checkHpRate(mActor, 0.5f)) {
+        if (auto* as_list = mActor->getASList())
+            as_list->sub_710115BAF8("Root");
+        changeChild("出現デモ終了直後");
+        sub_7100739918(mActor);
+        return;
+    }
+
+    auto* actor = mActor;
+    if (!actor->get1a0() &&
+        !(actor->getMapObject() && actor->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+        if (auto* as_list = actor->getASList())
+            as_list->sub_710115CD0C();
+    }
+    const s32* life = mActor->getLife();
+    if (life && *life <= 0)
+        changeChild("リアクション");
+    else
+        changeChild("通常");
 }
 
 void SiteBossRoot::leave_() {
