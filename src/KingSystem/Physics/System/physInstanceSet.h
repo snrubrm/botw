@@ -168,6 +168,8 @@ public:
     // 0x7100fbb18c: called with the actor's "Tgt" body set (actActorSensorUtil sub_71007A3800).
     bool sub_7100FBB18C(RigidBodySet* set);
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
+    // 0x7100fba568 (CSV ActorPhysics::setMtx_x; placeholder name; declared only): called by setMtxAndScale.
+    void sub_7100FBA568(const sead::Matrix34f& mtx, bool a2, bool a3, bool a4);
     // 0x7100fbb4b4: whether the ragdoll contact point info (_a8) has any contact (declaration only).
     bool sub_7100FBB4B4() const;
     // 0x7100fbbaa0: find `a2` in the rigid body set named `a1` (null if absent).

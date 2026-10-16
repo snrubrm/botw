@@ -1,4 +1,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include <limits>
+#include <gsys/gsysModel.h>
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <basis/seadNew.h>
 #include <resource/seadArchiveRes.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -561,6 +564,82 @@ void InstanceSet::sub_7100FBD3EC(bool on) {
 void InstanceSet::sub_7100FBD410(const sead::Vector3f* vec) {
     if (mClothSet)
         mClothSet->_64 = *vec;
+}
+
+// NON_MATCHING: the original reloads _e8 before the second ragdoll test, keeps the scale test inside the
+// first rigid body loop and stores the navmesh vectors per component.
+void InstanceSet::setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale) {
+    const bool same_scale = sead::Mathf::equalsEpsilon(mScale, scale);
+    auto* support_bone = _e8;
+
+    const bool ragdoll_in_world =
+        mRagdollInstance &&
+        mRagdollInstance->getWorldState() == RagdollInstance::WorldState::AddedToWorld;
+    if (mModel && (support_bone || ragdoll_in_world || mLinkMatricesMaybe.size() > 0 || mClothSet)) {
+        mModel->setMatrix(mtx);
+        mModel->safeUpdateWorldMatrix();
+    }
+
+    const bool ragdoll_in_world2 =
+        mRagdollInstance &&
+        mRagdollInstance->getWorldState() == RagdollInstance::WorldState::AddedToWorld;
+    if ((_e8 || ragdoll_in_world2) && _f0)
+        _f0->copyModelPoseToHavok(ModelBoneAccessor::EnableScale(!ragdoll_in_world2));
+
+    if (mRigidBodySets.size() != 0) {
+        if (a2) {
+            for (auto it = mRigidBodySets.begin(), end = mRigidBodySets.end(); it != end; ++it) {
+                it->removeFromWorld();
+                it->setTransform(mtx);
+                if (!same_scale)
+                    it->setScale(scale);
+            }
+        } else if (!same_scale) {
+            for (auto it = mRigidBodySets.begin(), end = mRigidBodySets.end(); it != end; ++it) {
+                it->setTransform(mtx);
+                it->setScale(scale);
+            }
+        } else {
+            for (auto it = mRigidBodySets.begin(), end = mRigidBodySets.end(); it != end; ++it)
+                it->setTransform(mtx);
+        }
+    }
+
+    sub_7100FBA568(mtx, a2, a3, false);
+
+    if (mRagdollInstance) {
+        if (a2)
+            mRagdollInstance->removeFromWorld();
+        mRagdollInstance->setTransform(mtx);
+        if (!same_scale)
+            mRagdollInstance->setScale(scale / mScale);
+    }
+
+    if (mCharacterController) {
+        mCharacterController->sub_7100F60500(mtx);
+        if (!same_scale)
+            mCharacterController->sub_7100F5E95C(scale);
+    }
+
+    if (mNavMeshCharacter) {
+        mNavMeshCharacter->sub_7100F765E8(sead::Vector3f(mtx(0, 3), mtx(1, 3), mtx(2, 3)));
+        mNavMeshCharacter->sub_7100F76694(sead::Vector3f(mtx(0, 2), mtx(1, 2), mtx(2, 2)));
+        if (!same_scale && !std::isnan(scale) &&
+            !(sead::Mathf::abs(scale) > std::numeric_limits<f32>::max())) {
+            auto* nav = mNavMeshCharacter;
+            if (nav->_2ac != scale) {
+                auto lock = sead::makeScopedLock(nav->_1e0);
+                nav->_2ac = scale;
+                nav->_220 |= 0x10;
+            }
+        }
+    }
+
+    if (mClothSet)
+        mFlags.set(Flag::DisableDraw);
+    mScale = scale;
+    mFlags.reset(Flag::_2);
+    mFlags.set(Flag::_8);
 }
 
 void InstanceSet::sub_7100FBD284(const sead::Matrix34f& mtx) {
