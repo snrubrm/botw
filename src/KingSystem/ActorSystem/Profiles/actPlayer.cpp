@@ -489,6 +489,26 @@ bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& e
     return sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0.0f);
 }
 
+bool Player::sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
+                            sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                            bool check_normal) {
+    uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
+    ray.sub_710090D73C();
+    if (!check_normal)
+        ray.mQuery.setNormalCheckingMode(phys::RayCast::NormalCheckingMode::_0);
+    ray.setStart(start);
+    ray.setEnd(end);
+    ray.worldRayCast();
+    if (!ray.hasHit())
+        return false;
+
+    if (hit_pos)
+        ray.getHitPosition(hit_pos);
+    if (hit_normal)
+        ray.getHitNormal(hit_normal);
+    return true;
+}
+
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
                             sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
     uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
@@ -1676,6 +1696,38 @@ namespace ksys::act {
 void Player::initControllerMaybe() {
     _17d0 = sead::DynamicCast<uking::Unk_710246d058>(
         uking::MaskController::instance()->getController(uking::MaskController::ControllerIdx::_1));
+}
+
+void Player::sub_710087B444() {
+    if (mASList->x_7(0, 1, &as::ASList::Unk2::sub_710002E82C))
+        return;
+
+    if (m199() && ((!m359() && m179() && !_c40.isOnBit(30)) || (_c44.isOnBit(8) && _d11 == 0)))
+        sub_7100855BB4("SquatBowTurn", false, -1.0f);
+    else
+        sub_7100855BB4("TurnAttention", false, -1.0f);
+}
+
+// NON_MATCHING: the original computes the sin/cos table entry address once; ours recomputes it for the sine.
+void Player::sub_710086989C(const Unk1& angle, u8* out) {
+    const f32 c = sead::Mathf::cosIdx(angle.value);
+    if (c >= 0.866f) {
+        *out = 0;
+    } else if (c < -0.866f) {
+        *out = 1;
+    } else {
+        const f32 s = sead::Mathf::sinIdx(angle.value);
+        if (s > 0.0f)
+            *out = 2;
+        else if (s < 0.0f)
+            *out = 3;
+    }
+}
+
+Player::Unk1 Player::sub_710087CEEC(const Unk1& angle) {
+    const Unk1 diff = util::angleDiff(_1c8c, angle);
+    const f32 c = sead::Mathf::cosIdx(diff.value);
+    return Unk1(util::sUnk_7101EC6BA0 & s64(-(static_cast<f32>(_1c90) * c)));
 }
 
 }  // namespace ksys::act

@@ -309,6 +309,9 @@ public:
     void sub_7100855AF8();
     // 0x7100855bb4 (declared only; PlayerKokkoGlide::enter_ with "ParashawlGlide").
     void sub_7100855BB4(const char* name, bool a2, f32 a3);
+    // 0x710087b444: unless AS slot 0 bank 1 is busy, plays "SquatBowTurn" (squatting with the bow) or
+    // "TurnAttention" through sub_7100855BB4.
+    void sub_710087B444();
     // All 33 callers pass -1.0f in s0, which x_19 does not use.
     void x_19(f32 a1);                                                  // 0x855d40
     // All callers pass -1.0f in s0 (unused, like x_19).
@@ -333,6 +336,11 @@ public:
     // 0x7100867fe0: applies a relative Y rotation in angle-index units.
     // PlayerSitStart and PlayerDoorPushOpen pass the difference from x_5().
     void sub_7100867FE0(const Unk1& angle);
+    // 0x710087ceec: `-_1c90 * cos(_1c8c - angle)` as an angle index (PlayerFrontRoll::calc_, PlayerJump).
+    Unk1 sub_710087CEEC(const Unk1& angle);
+    // 0x710086989c: classifies a turn angle for _d1c (sub_71008911F0): 0 ahead (cos >= 0.866), 1 behind
+    // (cos < -0.866), else 2 / 3 by the sign of the sine (unchanged when it is 0).
+    void sub_710086989C(const Unk1& angle, u8* out);
     // 0x7100877bd8: stores the anim-driven speed (ASList::sub_710115D2D4) in _20bc / _20c0 and its
     // direction relative to x_5() in _1c68 (~18 player actions call it).
     void sub_7100877BD8();
@@ -586,6 +594,9 @@ public:
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
     // 0x710087f29c: sets _1c84 from the direction to the object at _1870->_c8.
     void sub_710087F29C();
+    // 0x87f37c: ground layers; without `check_normal` the cast uses normal checking mode 0.
+    bool sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
+                        sead::Vector3f* hit_pos, sead::Vector3f* hit_normal, bool check_normal);
     // 0x87f43c: ground and water layers.
     bool sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
@@ -666,7 +677,10 @@ public:
     /* 0x1c78 */ u8 _1c78[0x1c84 - 0x1c78];
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
     /* 0x1c88 */ Unk1 _1c88;  // x_5() (sub_710087CF54)
-    /* 0x1c8c */ u8 _1c8c[0x1ca4 - 0x1c8c];
+    /* 0x1c8c */ u32 _1c8c;  // an angle index (sub_710087CEEC)
+    /* 0x1c90 */ u32 _1c90;  // an angle index magnitude (sub_710087CEEC, sub_7100892098)
+    /* 0x1c94 */ u32 _1c94;
+    /* 0x1c98 */ u8 _1c98[0x1ca4 - 0x1c98];
     /* 0x1ca4 */ s32 _1ca4;
     /* 0x1ca8 */ s32 _1ca8;
     /* 0x1cac */ u8 _1cac[0x1cb0 - 0x1cac];
