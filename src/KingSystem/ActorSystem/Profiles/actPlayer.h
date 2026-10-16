@@ -864,7 +864,11 @@ public:
     /* 0x1d08 */ f32 _1d08;
     /* 0x1d0c */ f32 _1d0c;
     /* 0x1d10 */ ksys::Timer _1d10;  // set by PlayerBackJump::enter_ (NoDamageTime)
-    /* 0x1d1c */ u8 _1d1c[0x1d34 - 0x1d1c];
+    // Life auto-recovery interval timer (m69_x_0: reset from GParam AutoRecoverIntervalMin / Max).
+    /* 0x1d1c */ ksys::Timer _1d1c;
+    // m69_x_0 recovers nothing while this is above epsilon.
+    /* 0x1d28 */ f32 _1d28;
+    /* 0x1d2c */ u8 _1d2c[0x1d34 - 0x1d2c];
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
@@ -1002,7 +1006,7 @@ public:
     /* 0x20d4 */ f32 _20d4;  // water surface height (PlayerSwimJump)
     /* 0x20d8 */ u8 _20d8[0x20e4 - 0x20d8];
     /* 0x20e4 */ f32 _20e4;  // zeroed by PlayerSlide::enter_ (lane3 s84)
-    /* 0x20e8 */ u8 _20e8[0x20ec - 0x20e8];
+    /* 0x20e8 */ f32 _20e8;  // m69_x_0 divides the recovered life by it in slow time
     /* 0x20ec */ f32 _20ec;  // set to 1 by m229
 
     /* 0x20f0 */ f32 _20f0;

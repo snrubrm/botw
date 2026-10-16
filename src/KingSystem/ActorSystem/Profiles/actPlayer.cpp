@@ -74,6 +74,8 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/System/Timer.h"
+#include <mc/seadCoreInfo.h>
 #include "Game/gameStasisMgr.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -2065,6 +2067,56 @@ void Player::updateStatusEffectAttackUp() {
     eco::StatusEffectInfo info;
     eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_AttackUp, _2004 + _2040, &info);
     _208c = info.val._f32;
+}
+
+// NON_MATCHING: register allocation of the interval lerp.
+void Player::m69_x_0() {
+    s32 heal = 0;
+    for (u32 i = 0; i < sead::CoreInfo::getNumCores(); ++i) {
+        heal += _e70[i];
+        _e70[i] = 0;
+    }
+    if (heal != 0) {
+        s32 life = uking::act::PlayerInfo::instance()->getLifeFromPlayerActor() + heal;
+        if (life > uking::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor())
+            life = uking::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor();
+        uking::act::PlayerInfo::instance()->setLifeForPlayerActor(life);
+    }
+
+    if (_c44.isOnBit(20)) {
+        const f32 stamina = uking::act::PlayerInfo::instance()->getStaminaCurrentMax();
+        if (stamina != uking::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor())
+            return;
+    }
+    if ((_2550._8.getDirect() & 0x79f) != 0 || !(_1d28 <= sead::Mathf::epsilon()) || _cec.isOnBit(19) ||
+        _cf0.isOnBit(8)) {
+        return;
+    }
+    if (uking::act::PlayerInfo::instance()->getLifeFromPlayerActor() < 1)
+        return;
+
+    const f32 rate = -(_2098 * _1608);
+    if (_1d1c.value <= sead::Mathf::epsilon() && !m204()) {
+        const f32 stamina = std::min(uking::act::PlayerInfo::instance()->getStaminaCurrentMax(), 1000.0f) / 1000.0f;
+        const auto* params = getParam()->getRes().mGParamList->getPlayer();
+        const f32 min = params->mAutoRecoverIntervalMin.ref();
+        const f32 max = params->mAutoRecoverIntervalMax.ref();
+        const f32 interval = min + stamina * (max - min);
+        _1d1c.rate = rate;
+        _1d1c.value = interval;
+        _1d1c.previous_value = interval;
+        const bool slow_time = isSlowTime();
+        f32 amount = getParam()->getRes().mGParamList->getPlayer()->mAutoRecoverNum.ref() * _15c0;
+        if (slow_time)
+            amount /= _20e8;
+        const s32 recovered = s32(amount);
+        s32 life = uking::act::PlayerInfo::instance()->getLifeFromPlayerActor() + recovered;
+        if (life > uking::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor())
+            life = uking::act::PlayerInfo::instance()->getMaxLifeFromPlayerActor();
+        uking::act::PlayerInfo::instance()->setLifeForPlayerActor(life);
+    }
+    _1d1c.rate = rate;
+    _1d1c.update();
 }
 
 void Player::showRuntimeTipForColdHotStatusEffects() {

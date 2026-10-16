@@ -511,7 +511,13 @@ protected:
     /* 0x14d4 */ u8 _14d4[0x1530 - 0x14d4];
     /* 0x1530 */ sead::CriticalSection _1530;
     /* 0x1570 */ ksys::act::BaseProcLink _1570;
-    /* 0x1580 */ u8 _1580[0x1610 - 0x1580];
+    /* 0x1580 */ u8 _1580[0x15c0 - 0x1580];
+    // Life auto-recovery rate factor (Player::m69_x_0 multiplies GParam AutoRecoverNum by it).
+    /* 0x15c0 */ f32 _15c0;
+    /* 0x15c4 */ u8 _15c4[0x1608 - 0x15c4];
+    // Player::m69_x_0: the auto-recovery timer rate is -(Player::_2098 * _1608).
+    /* 0x1608 */ f32 _1608;
+    /* 0x160c */ u8 _160c[0x1610 - 0x160c];
     /* 0x1610 */ sead::CriticalSection _1610;
     /* 0x1650 */ bool _1650;  // set under _1610 together with _1654 (Player::sub_710084BA90)
     /* 0x1651 */ u8 _1651[3];
