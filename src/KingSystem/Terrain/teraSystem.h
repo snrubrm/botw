@@ -338,11 +338,20 @@ public:
     // 0x7101131fd0 (placeholder name): takes `request` out of mList31c0 / mLists19c0 if it is linked and
     // queues it in mLists1c0.
     void sub_7101131FD0(Request* request);
+    // 0x7101131d64 (placeholder name): branch to sub_7101131D68.
+    bool sub_7101131D64();
+    // 0x7101130e44 (placeholder name): writes "<dir>/<name>" to `out` (with mBaseDir as the directory if
+    // `use_base_dir` and flag 1 of _6473); true if mBaseDir was used.
+    bool sub_7101130E44(sead::BufferedSafeString* out, const sead::SafeString& dir,
+                        const sead::SafeString& name, bool use_base_dir);
 
     u8 _0[0x28];
     sead::CriticalSection mCS28;
     sead::CriticalSection mCS68;
-    u8 _a8[0x1c0 - 0xa8];
+    // Directory used instead of the given one when flag 1 of _6473 is set (0x7101130e44); the real
+    // string type (a FixedSafeString?) is not known.
+    sead::SafeString mBaseDir;
+    u8 _b8[0x1c0 - 0xb8];
     // Indexed by Request::_50.
     sead::OffsetList<Request> mLists1c0[0x100];
     sead::OffsetList<Request> mLists19c0[0x100];
@@ -368,6 +377,9 @@ public:
     u64 _6318;
     u64 _6320;
     agl::GPUMemBlock<u8> mMemBlock6328;
+    u8 _6360[0x6473 - 0x6360];
+    // Bit 0: use mBaseDir; bit 3: mMemBlock6328 has a buffer.
+    u8 _6473;
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.

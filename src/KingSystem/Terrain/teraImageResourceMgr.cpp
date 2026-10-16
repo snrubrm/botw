@@ -304,4 +304,24 @@ void ImageResourceMgr::sub_7101131FD0(Request* request) {
     mCS68.unlock();
 }
 
+bool ImageResourceMgr::sub_7101131D64() {
+    return sub_7101131D68();
+}
+
+// NON_MATCHING: the length is used unsigned and the inlined copy differs (one cstr call in the original).
+bool ImageResourceMgr::sub_7101130E44(sead::BufferedSafeString* out, const sead::SafeString& dir,
+                                      const sead::SafeString& name, bool use_base_dir) {
+    bool use_base = false;
+    const sead::SafeString* directory = &dir;
+    if (use_base_dir) {
+        use_base = _6473 & 1;
+        if (use_base)
+            directory = &mBaseDir;
+    }
+    const s32 length = out->format("%s/", directory->cstr());
+    sead::BufferedSafeString rest(out->getBuffer() + length, out->getBufferSize() - length);
+    rest.copy(name);
+    return use_base;
+}
+
 }  // namespace ksys::tera
