@@ -263,4 +263,11 @@ void Unk_71024fdb00::sub_7101005698() {
     }
 }
 
+s32 Unk_71025ce350::getDistanceOfCheckingActiveEnemyMaybe() const {
+    const auto* info = mInfo;
+    if (!info)
+        info = static_cast<EnvBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::EnvBgm));
+    return info->mDistanceOfCheckingActiveEnemy.ref();
+}
+
 }  // namespace ksys::snd

@@ -660,6 +660,8 @@ public:
 
     // 0x710100454c (declared only; 536 B): switches between the day and night handles.
     void sub_710100454C();
+    // 0x7101004a14: the info's DistanceOfCheckingActiveEnemy (from the registered EnvBgm info when mInfo is not set).
+    s32 getDistanceOfCheckingActiveEnemyMaybe() const;
 
 private:
     EnvBgmInfo* mInfo = nullptr;
