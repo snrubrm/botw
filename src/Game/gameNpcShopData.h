@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
 
 namespace sead {
@@ -38,9 +39,19 @@ public:
     // 0x710091d6d8 (declared only; placeholder name): the same with two more flags (NPCMakeItem with IncludePorch).
     bool sub_710091D6D8(const ksys::res::Shop* shop, const sead::SafeString& table_name, bool a, bool b);
 
-    s32 _28 = 0;
-    void* _30 = nullptr;
-    s32 _38 = 0;
+    // An item of the shop table (0x48 bytes; lane3 s86, from NPCGiveReward::enter_).
+    struct Item {
+        sead::SafeString name;
+        u8 _10[0x3c - 0x10];
+        s32 count;
+        u8 _40[4];
+        s32 price;
+    };
+    static_assert(sizeof(Item) == 0x48);
+
+    // The items (the buffer that sub_710091BA3C frees) and how many are in use.
+    sead::Buffer<Item> mItems;
+    s32 mNumItems = 0;
 };
 static_assert(sizeof(NpcShopData) == 0x20);
 
