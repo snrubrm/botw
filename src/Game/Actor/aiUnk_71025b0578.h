@@ -26,8 +26,12 @@ public:
 // `this`): the data of the reference-position vibrate checker. It is a (non-polymorphic) base of
 // Unk_71025b0578: its inline constructor runs before the derived vtable store.
 struct Unk_7100716408 {
-    // 0x7100716408 (not decompiled): feeds a sample position.
+    // 0x7100716408: feeds a sample position (scaled by the frame delta).
     void sub_7100716408(const sead::Vector3f& pos);
+    // 0x71007164ac / 0x7100716738 (declared only): the two update steps sub_7100716408 runs (the first only
+    // once _8c is set).
+    void sub_71007164AC(const sead::Vector3f& pos, f32 delta);
+    void sub_7100716738(const sead::Vector3f& pos, f32 delta);
     // 0x71007169cc: whether the sampled positions have been collected (_8c) and the largest extent
     // of their bounding box is below `threshold`.
     bool sub_71007169CC(f32 threshold) const;

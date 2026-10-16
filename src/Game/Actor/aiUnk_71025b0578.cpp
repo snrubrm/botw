@@ -3,6 +3,14 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/VFR.h"
 
+// 0x7100716408
+void Unk_7100716408::sub_7100716408(const sead::Vector3f& pos) {
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    if (_8c)
+        sub_71007164AC(pos, delta);
+    sub_7100716738(pos, delta);
+}
+
 // 0x71007169cc.
 // NON_MATCHING: the original keeps the result in w8 and returns through a shared `mov w0, w8`
 bool Unk_7100716408::sub_71007169CC(f32 threshold) const {
