@@ -7,6 +7,8 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -138,5 +140,35 @@ void Player::m229() {
     fadeSlowEffect();
     _20ec = 1.0f;
 }
+
+// Out of line in the original: sub_7100884FCC (actPlayer.cpp) calls both.
+// NON_MATCHING: the two magnitude comparisons share a branch before selecting the signed angle side.
+u8 Player::sub_7100869814(Unk1 a, Unk1 b) {
+    const s64 magnitude_a = util::sub_71011EE4C0(a.value);
+    const s64 magnitude_b = util::sub_71011EE4C0(b.value);
+    const s64 opposite_b = util::sub_71011EE4C0(s64(b.value) - 0x80000000LL);
+    if (magnitude_a > opposite_b)
+        return 1;
+    if (magnitude_a >= magnitude_b && s32(a.value) >= 0)
+        return 2;
+    if (magnitude_a >= magnitude_b && s32(a.value) < 0)
+        return 3;
+    return 0;
+}
+
+sead::Vector3f Player::sub_710087386C() {
+    sead::Vector3f dir = sead::Vector3f::zero;
+    if (auto* manager = sub_710072BA90(this))
+        manager->m30(&dir);
+    return dir;
+}
+
+// Out of line in the original: m287 tail-calls it.
+bool Player::sub_710088873C() {
+    if (!m225() && !m226())
+        return false;
+    return _d68 == getEquipmentTypeName(7);
+}
+
 
 }  // namespace ksys::act

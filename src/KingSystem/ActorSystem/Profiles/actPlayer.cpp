@@ -1065,6 +1065,42 @@ void Player::updateStatusEffectMasterSwordAttackUp() {
     _2090 = info.val._f32;
 }
 
+// NON_MATCHING: stack layout only: the original reuses one temporary slot and keeps x_5()'s result at sp
+// (frame 0x40, ours 0x50).
+void Player::sub_7100884FCC() {
+    const sead::Vector3f dir = sub_710087386C();
+    const u32 angle = sead::Mathf::atan2Idx(dir.x, dir.z);
+    const Unk1 current = x_5();
+    _d1c = sub_7100869814(util::angleDiff(angle, current),
+                          Unk1(util::sUnk_7101EC6BA0 & 0x20000000));
+    _1c68 = Unk1(angle);
+    getASList()->x_6(9, 0,
+                     util::sub_71011EE4B8(util::angleDiff(angle, current)) * util::sUnk_7101EC6BA4);
+}
+
+// NON_MATCHING: the original copies the velocity onto its own stack slot after each sub_7100F5F598 call
+// (a by-value temporary, source form unknown).
+void Player::sub_7100881DFC(f32 y, bool a2) {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+    if (controller->sub_7100F609CC().getFloorCode() == phys::FloorCode::Attach) {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        if (velocity.y > 0.0f) {
+            velocity.y = 0.0f;
+            controller->sub_7100F5F6FC(velocity);
+        }
+    } else {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        if ((velocity.y > 0.0f && a2) || (y < 0.9f && velocity.y > 0.0f && velocity.y < 10.0f)) {
+            velocity.y = 0.0f;
+            controller->sub_7100F5F6FC(velocity);
+        }
+    }
+}
+
 bool Player::sub_71008840C4() {
     return _c40.isOffBit(18);
 }
@@ -1302,20 +1338,6 @@ void Player::sub_7100867DEC(const sead::Vector3<u32>& rotation) {
 void Player::sub_7100867FE0(const Unk1& angle) {
     const sead::Vector3<u32> rotation(0, angle.value, 0);
     sub_7100867DEC(rotation);
-}
-
-// NON_MATCHING: the two magnitude comparisons share a branch before selecting the signed angle side.
-u8 Player::sub_7100869814(Unk1 a, Unk1 b) {
-    const s64 magnitude_a = util::sub_71011EE4C0(a.value);
-    const s64 magnitude_b = util::sub_71011EE4C0(b.value);
-    const s64 opposite_b = util::sub_71011EE4C0(s64(b.value) - 0x80000000LL);
-    if (magnitude_a > opposite_b)
-        return 1;
-    if (magnitude_a >= magnitude_b && s32(a.value) >= 0)
-        return 2;
-    if (magnitude_a >= magnitude_b && s32(a.value) < 0)
-        return 3;
-    return 0;
 }
 
 // NON_MATCHING: the movement temporary shares the output stack slot, reducing the frame by 16 bytes.
@@ -1768,13 +1790,6 @@ f32 Player::sub_710086D138() {
 bool Player::sub_71008744D4() {
     auto* root = uking::Root4::instance();
     return root && !root->checkFlag(uking::Root4::FlagIdx::_1);
-}
-
-sead::Vector3f Player::sub_710087386C() {
-    sead::Vector3f dir = sead::Vector3f::zero;
-    if (auto* manager = sub_710072BA90(this))
-        manager->m30(&dir);
-    return dir;
 }
 
 bool Player::sub_71008738BC() {
