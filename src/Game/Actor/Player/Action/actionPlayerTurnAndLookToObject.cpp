@@ -2,6 +2,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
@@ -51,6 +53,28 @@ void PlayerTurnAndLookToObject::enter_(ksys::act::ai::InlineParamPack* params) {
         break;
     }
     m40();
+}
+
+void PlayerTurnAndLookToObject::m33() {
+    PlayerLookAtObject::m33();
+    _d8 = false;
+    _d9 = false;
+    if (mActor->getPlayerRideInfo() && mActor->getPlayerRideInfo()->_30 & 1) {
+        _d8 = true;
+        if (_34 == 0) {
+            static_cast<ksys::act::Player*>(mActor)->sub_7100859FC0(_45);
+            setFailed();
+        }
+    }
+    _e0 = mActor->getASList()->x_1(0, 0);
+    if (_e0.isEmpty()) {
+        if (mActor->get1a0() || (mActor->getMapObject() &&
+                             mActor->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+            _e0 = "DemoWait";
+        } else {
+            _e0 = "Wait";
+        }
+    }
 }
 
 void PlayerTurnAndLookToObject::leave_() {
