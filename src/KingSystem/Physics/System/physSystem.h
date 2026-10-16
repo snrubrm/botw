@@ -98,6 +98,13 @@ public:
     // 0x71012163f0 (CSV PhysicsMemSys::__auto7; placeholder name): unless _61 is set, locks the sensor world and
     // lets the rigid body request manager process its requests.
     void sub_71012163F0();
+    // 0x7101216648 (CSV PhysicsMemSys::__auto2; placeholder name): unless paused, runs
+    // RigidBodyRequestMgr::x_13 under the entity world lock.
+    void sub_7101216648();
+    // 0x710121624c / 0x7101216328 (CSV PhysicsMemSys::__auto1 / __auto5; placeholder names): the first two steps of
+    // the physics frame (time step smoothing and request processing, then the multithreaded step start).
+    void sub_710121624C();
+    void sub_7101216328();
     // 0x7101216790 (CSV PhysicsMemSys::__auto17; placeholder name): sets _61 when called from a thread whose
     // priority is at most sead::Thread::cDefaultPriority.
     void sub_7101216790(bool value);

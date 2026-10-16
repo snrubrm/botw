@@ -58,6 +58,10 @@ public:
     // 0x7100fa6438 (CSV x_0; declared only): processes the queued requests (System::sub_71012163F0 passes
     // true and System::mPaused).
     void x_0(bool a, bool paused);
+    // 0x7100fa83ac (CSV x_13; declared only): called by System::sub_7101216648 under the entity world lock.
+    void x_13();
+    // 0x7100fa79b8 (CSV x_2; declared only): called at the end of System::sub_7101216328.
+    void x_2();
     struct Config {
         float _0 = 0.6;
         float _4 = 0.7;

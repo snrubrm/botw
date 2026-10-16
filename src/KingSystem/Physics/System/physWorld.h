@@ -23,6 +23,8 @@ public:
     void lockCS(const char* description, int b, OnlyLockIfNeeded only_lock_if_needed);
     void unlockCS(const char* description, int b, OnlyLockIfNeeded only_lock_if_needed);
 
+    // 0x71012b3f50 (declared only; placeholder name): starts a multithreaded Havok step (hkpWorld::initMtStep).
+    void sub_71012B3F50(f32 delta_time);
     void sub_71012B3FB0();
     void sub_71012B3FC8();
 

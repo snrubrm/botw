@@ -1,4 +1,6 @@
 #include "KingSystem/Physics/System/physSystem.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/Physics/Ragdoll/physRagdollInstanceMgr.h"
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physWorld.h"
@@ -240,6 +242,49 @@ hkpWorld* System::getHavokWorld(ContactLayerType type) const {
     return mWorlds(int(type))->getHavokWorld();
 }
 
+void System::sub_710121624C() {
+    if (_61)
+        return;
+
+    if (_70 < _64) {
+        _70 += _70 * 0.1f;
+        _70 = sead::Mathf::clampMax(_70, _64);
+    } else if (_70 > _64) {
+        _70 += _70 * -0.1f;
+        _70 = sead::Mathf::clampMin(_70, _64);
+    }
+
+    if (!mPaused) {
+        if (mStaticCompoundMgr)
+            mStaticCompoundMgr->processUpdates();
+        _68 = _64;
+        mContactMgr->clearContactPoints();
+        _150->sub_71012A6B48();
+    }
+    _62 = true;
+    mRigidBodyRequestMgr->x_0(false, mPaused);
+    mRagdollInstanceMgr->calc();
+    _62 = false;
+}
+
+void System::sub_7101216328() {
+    if (_61)
+        return;
+
+    if (!mPaused)
+        mWorlds[int(ContactLayerType::Entity)]->sub_71012B3F50(_64);
+    if (!mPaused)
+        mContactMgr->processImpulseEntries();
+    mRigidBodyRequestMgr->calc1(ContactLayerType::Entity, mPaused);
+    mRagdollInstanceMgr->calc1();
+    if (mPaused)
+        return;
+    mRayCastRequestMgr->scheduleRequestProcessing();
+    mContactListeners[int(ContactLayerType::Entity)]->clearTable();
+    _150->sub_71012A6BB0();
+    mRigidBodyRequestMgr->x_2();
+}
+
 void System::sub_71012163F0() {
     if (_61)
         return;
@@ -247,6 +292,14 @@ void System::sub_71012163F0() {
     _62 = true;
     mRigidBodyRequestMgr->x_0(true, mPaused);
     _62 = false;
+}
+
+void System::sub_7101216648() {
+    if (mPaused)
+        return;
+    lockWorld(ContactLayerType::Entity);
+    mRigidBodyRequestMgr->x_13();
+    unlockWorld(ContactLayerType::Entity);
 }
 
 void System::sub_71012165F8(ContactLayerType type) {

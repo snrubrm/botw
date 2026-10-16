@@ -42,6 +42,10 @@ public:
     // 0x71012a6aa4 / 0x71012a6af8: adds / removes an entry of the list at +0x20 (guarded by the mutex at +0x88).
     void sub_71012A6AA4(ItemB* item);
     void sub_71012A6AF8(ItemB* item);
+    // 0x71012a6b48 / 0x71012a6bb0 (declared only; placeholder names): called by the System step functions
+    // (0x71012a6b48 clears a counter of every list B entry under mMutexA).
+    void sub_71012A6B48();
+    void sub_71012A6BB0();
 
     /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ sead::OffsetList<ItemA> mListA;
