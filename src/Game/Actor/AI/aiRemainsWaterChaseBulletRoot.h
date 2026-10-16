@@ -25,7 +25,7 @@ protected:
     // 0x7100549f6c / 0x710054a100 / 0x710054a2cc / 0x710054a6c0 / 0x710054a930 (declared only; called by calc_).
     bool sub_7100549F6C();
     void sub_710054A100();
-    void sub_710054A2CC();
+    bool sub_710054A2CC();
     bool sub_710054A6C0();
     void sub_710054A930();
     bool _38 = false;

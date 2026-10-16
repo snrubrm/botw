@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiRemainsWaterChaseBulletRoot.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -195,6 +196,68 @@ void RemainsWaterChaseBulletRoot::sub_710054A100() {
             _3b = true;
         }
     }
+}
+
+// NON_MATCHING: register allocation of the result flag and the tag hashes
+// 0x710054a2cc (placeholder name): true when touching a body without an actor or another water bullet. Bursts (_39) when the bullet touches another water bullet (which is told to
+// burst too unless it already is) or an ice maker block (which is told as well)
+bool RemainsWaterChaseBulletRoot::sub_710054A2CC() {
+    auto* body = mActor->getMainBody();
+    if (!body || !body->isAddedToWorld())
+        return false;
+
+    bool hit = false;
+    auto* info = body->getCollisionInfo();
+    if (info && info->getCollidingBodies().size() != 0) {
+        auto* bodies = info->getCollidingBodies().front();
+        info->lock();
+        for (; bodies; bodies = info->getCollidingBodies().next(bodies)) {
+            auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(bodies->bodies[1]->getUserTag());
+            if (!tag) {
+                hit = true;
+                continue;
+            }
+            ksys::act::ActorLinkConstDataAccess accessor;
+            tag->acquireActor(&accessor);
+            if (accessor.hasTag(ksys::act::tags::IsRemainsWaterBullet)) {
+                if (!accessor.sub_7100D10FB8())
+                    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
+                hit = true;
+                _39 = true;
+            }
+            if (accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
+                _39 = true;
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
+            }
+        }
+        info->unlock();
+    }
+
+    auto* points = body->getContactPointInfo();
+    if (points && points->getNumContactPoints() != 0 && !points->begin().isEnd()) {
+        auto it = points->begin();
+        const auto end = points->end();
+        for (; it != end; ++it) {
+            auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>((*it)->body_b->getUserTag());
+            if (!tag) {
+                hit = true;
+                continue;
+            }
+            ksys::act::ActorLinkConstDataAccess accessor;
+            tag->acquireActor(&accessor);
+            if (accessor.hasTag(ksys::act::tags::IsRemainsWaterBullet)) {
+                if (!accessor.sub_7100D10FB8())
+                    sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
+                hit = true;
+                _39 = true;
+            }
+            if (accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
+                _39 = true;
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr);
+            }
+        }
+    }
+    return hit;
 }
 
 // NON_MATCHING: the original sets the result after the accessor destructor in a shared block; epilogue layout
