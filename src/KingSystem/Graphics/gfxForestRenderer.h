@@ -109,11 +109,19 @@ public:
         u8 _c[0x10 - 0xc];
         sead::Heap* mHeap;
         sead::Buffer<Record> mRecords;
-        sead::Buffer<u8> _28;
+        // Placeholder: the 0x38-byte elements of the buffer at 0x28; x_4 stores in _0 the sum of the _2
+        // counts of the elements before it.
+        struct Unk_28 {
+            u16 _0;
+            u16 _2;
+            u8 _4[0x38 - 0x4];
+        };
+        sead::Buffer<Unk_28> _28;
         u8 _38[0x60 - 0x38];
         sead::Buffer<Item> mItems;
         s32 mNumRecords;
-        u8 _74[0x78 - 0x74];
+        // The largest _2 count of the elements of _28 (x_4).
+        s32 _74;
         sead::Buffer<u16> _78;
     };
     static_assert(sizeof(Entry) == 0x88);
@@ -167,6 +175,8 @@ public:
     // 0x7100f06798 (CSV x_8): `idx` from x_7 (entry << 16 | record). With `b` it clears record flags 1, 2 and 6;
     // otherwise it sets / clears flag 2 (`a` clears) and lets the entry's items react.
     void x_8(s32 idx, bool a, bool b);
+    // 0x7100f06864 (placeholder name): sets flag 0x40 of the record `idx` (as for x_8).
+    void sub_7100F06864(s32 idx);
     // 0x7100f03c18 (declaration only; placeholder name)
     void sub_710F03C18(const sead::Vector3f* pos);
     // 0x7100f06904 (placeholder name; the arguments are unused): flushes the UBOs of every unit's draw array.
@@ -180,6 +190,9 @@ public:
     bool x_3(const sead::SafeString& name, const sead::Vector3f& pos, const sead::Vector3f& rotate,
              f32 scale);
     // 0x7100f07000 (CSV x_5): updates the terrain tree object and allocates every entry's buffers; state 4.
+    // 0x7100f06e28 (CSV x_4): sums the counts of every entry's _28 elements, frees the u16 tables and adds up
+    // the record counts in _220; state 3.
+    void x_4();
     void x_5();
     // 0x7100f07150 (CSV x_6): passes a placed tree to every entry (PlacementMapMgr::initForestRendererFiles).
     bool x_6(const sead::SafeString& name, const sead::Vector3f& pos, const sead::Vector3f& rotate,

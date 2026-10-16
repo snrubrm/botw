@@ -122,6 +122,8 @@ public:
         void sub_71010827DC();
         // 0x7101082824 (declared only): unless flag bit 2 is set, handles a tree placed at `pos` by name.
         void sub_7101082824(const sead::SafeString& name, const sead::Vector3f& pos);
+        // 0x7101083028 (declared only): calls 0x7101084e78 on both sub-objects.
+        void sub_7101083028();
         // 0x7101083060 (declared only; 400 B): sets flag bit 1 unless bit 2 is set and builds the tables.
         void sub_7101083060();
     };

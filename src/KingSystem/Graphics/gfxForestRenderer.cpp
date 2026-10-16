@@ -226,6 +226,24 @@ bool ForestRenderer::x_3(const sead::SafeString& name, const sead::Vector3f& pos
     return true;
 }
 
+void ForestRenderer::x_4() {
+    tera::Terrain::instance()->sub_710114DE70()->sub_7101083028();
+    for (auto& entry : mEntries) {
+        entry._74 = 0;
+        u32 offset = 0;
+        for (auto& element : entry._28) {
+            entry._74 = sead::Mathi::max(entry._74, element._2);
+            element._0 = offset;
+            offset += element._2;
+        }
+        entry._78.freeBuffer();
+    }
+    _220 = 0;
+    for (auto& entry : mEntries)
+        _220 += entry.mNumRecords;
+    _54 = 3;
+}
+
 void ForestRenderer::x_5() {
     tera::Terrain::instance()->sub_710114DE70()->sub_7101083060();
     for (auto& entry : mEntries)
@@ -265,6 +283,13 @@ void ForestRenderer::x_8(s32 idx, bool a, bool b) {
         if (item.sub_7100F0914C(&record, a, false))
             break;
     }
+}
+
+void ForestRenderer::sub_7100F06864(s32 idx) {
+    const u32 entry_idx = u32(idx) >> 16;
+    if (entry_idx > 1)
+        return;
+    mEntries[entry_idx].mRecords[idx & 0xffff]._4.set(0x40);
 }
 
 }  // namespace ksys::gfx
