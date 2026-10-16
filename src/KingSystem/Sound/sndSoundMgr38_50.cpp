@@ -19,6 +19,10 @@ void Unk_SoundMgr38_50::sub_71010367E8() {
     _68.setValueImmediate(0.0f);
 }
 
+void Unk_SoundMgr38_50::sub_7101036840() {
+    sub_7101036848(-1);
+}
+
 // Empty in the release build.
 void Unk_SoundMgr38_50::sub_7101036A68() {}
 

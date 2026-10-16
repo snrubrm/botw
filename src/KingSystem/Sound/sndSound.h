@@ -391,7 +391,10 @@ public:
 class Unk_SoundMgr38_50 {
 public:
     virtual ~Unk_SoundMgr38_50();
+    // 0x7101036840: sub_7101036848(-1).
     void sub_7101036840();
+    // 0x7101036848 (declared only; 544 B)
+    void sub_7101036848(s32 value);
     // 0x7101036a68 (empty in the release build): called before deletion.
     void sub_7101036A68();
     // 0x71010367e8: resets the state and both faders.
