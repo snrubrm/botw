@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::action {
 
@@ -50,8 +51,39 @@ void PlayerWaterFall::loadParams_() {
     getDynamicParam(&mFrontDir_d, "FrontDir");
 }
 
+// NON_MATCHING: stack slot of the velocity vector (the original places it below the contact iterators).
 void PlayerWaterFall::calc_() {
-    PlayerAction::calc_();
+    if (!_38.sub_7100EEBB74()) {
+        setFailed();
+        return;
+    }
+
+    if ((_38._30.sub_7100EEB370() - static_cast<ksys::act::Player*>(mActor)->_1770).length() <
+        static_cast<ksys::act::Player*>(mActor)->_20f0)
+        _38.x(static_cast<ksys::act::Player*>(mActor)->_20f0 * 0.5f);
+
+    sead::Vector3f dir = _38._30.sub_7100EEB370() - static_cast<ksys::act::Player*>(mActor)->_1770;
+    dir.normalize();
+    const sead::Vector3f velocity = dir * (*mSpeedClimb_s * 30.0f);
+
+    if (_38.m3())
+        setFinished();
+
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(velocity);
+        controller->sub_7100F5FC8C(static_cast<ksys::act::Player*>(mActor)->_1b18);
+        if (auto* info = controller->sub_7100F635D8()) {
+            if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+                for (const auto* point : *info) {
+                    auto* body = point->body_b;
+                    if (body && (body->getContactLayer() == ksys::phys::ContactLayer::EntityObject ||
+                                 body->getContactLayer() == ksys::phys::ContactLayer::EntityGroundObject ||
+                                 body->getContactLayer() == ksys::phys::ContactLayer::EntityTree))
+                        setFailed();
+                }
+            }
+        }
+    }
 }
 
 bool PlayerWaterFall::isChangeable() const {
