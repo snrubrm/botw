@@ -58,4 +58,25 @@ void System::sub_710111F644(void* value) {
         mScenes[i].scene->_2948->_afc0 = value;
 }
 
+// NON_MATCHING: the original keeps the comparison result in a register before the binary search step
+// and checks the found index after the search.
+System::Entry* System::sub_7101115080(u32 id) const {
+    if (_1018.size() == 0) {
+        for (s32 i = 0; i < _fa8.size(); ++i) {
+            if (_fa8.getBufferPtr()[i]->mId == id)
+                return _fa8.getBufferPtr()[i];
+        }
+        return nullptr;
+    }
+
+    const s32 idx = _1018.binarySearchC([id](const Entry* entry) {
+        if (entry->mId < id)
+            return -1;
+        return entry->mId > id ? 1 : 0;
+    });
+    if (idx >= 0 && _1018.isIndexValid(idx))
+        return _1018.getBufferPtr()[idx];
+    return nullptr;
+}
+
 }  // namespace ksys::tera

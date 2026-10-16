@@ -1,4 +1,5 @@
 #include "Game/gameUnkRttiClasses.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include <nn/font/font_Util.h>
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAlignPane.h"
@@ -250,6 +251,33 @@ Unk_710249a0e0::~Unk_710249a0e0() = default;
 Unk_710249a120::~Unk_710249a120() = default;
 
 Unk_710251d230::~Unk_710251d230() = default;
+
+namespace ksys::tera {
+
+// 0x71012eb6e8 / 0x71012eb70c follow Unk_710251d230 in the original.
+void Unk_71012eb6e8::set(System* system, const System::Entry* entry, u16 key) {
+    mSystem = system;
+    mId = entry->mId;
+    mIndex = entry->mIndex;
+    mKey = key;
+    mGeneration = system->_1334;
+}
+
+// NON_MATCHING: the original reads the slot index with a byte load and branches on the final compare.
+bool Unk_71012eb6e8::isValid(System* const* systems, const System::Entry* entry, u16 key) const {
+    if (mKey != key)
+        return false;
+    System* system = systems[mGeneration & 7];
+    if (mSystem != system || mGeneration != system->_1334)
+        return false;
+    if (system->_fa8[mIndex] == entry)
+        return true;
+    if (system->sub_7101115080(mId) == entry)
+        return true;
+    return false;
+}
+
+}  // namespace ksys::tera
 
 // NON_MATCHING: placeholder destructor; the original (0x7100155198) also destroys members or bases
 // this class does not declare yet.

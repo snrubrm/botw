@@ -31,6 +31,10 @@ void Terrain::sub_710114D73C() {
         _360->sub_710130085C();
 }
 
+bool Terrain::sub_710114D7C8() const {
+    return _a40->mThread == sead::ThreadMgr::instance()->getCurrentThread();
+}
+
 void Terrain::sub_710114DEAC(bool visible) {
     _360->sub_7101300AAC(visible);
 }

@@ -10,6 +10,7 @@
 #include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
 #include <heap/seadDisposer.h>
+#include <thread/seadThread.h>
 #include <heap/seadHeap.h>
 #include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
@@ -172,6 +173,8 @@ public:
     void sub_710114D73C();
     // 0x710114deac (CSV Terrain::__auto0; placeholder name): forwards to Core::sub_7101300AAC.
     void sub_710114DEAC(bool visible);
+    // 0x710114d7c8 (placeholder name): whether the calling thread is the one stored in _a40.
+    bool sub_710114D7C8() const;
     void sub_710114D8C0(sead::Heap* heap, System* system);
     void sub_710114D8C8(sead::Heap* heap);
     void sub_710114D804(bool enabled, const sead::Matrix44f* projection,
@@ -254,7 +257,13 @@ public:
     u8 _404[0x680 - 0x404];
     sead::Matrix44f mProjectionMatrix;
     sead::Matrix34f mViewMatrix;
-    u8 _6f0[0xa48 - 0x6f0];
+    u8 _6f0[0xa40 - 0x6f0];
+    // Placeholder type (zeroed by the ctor): sub_710114D7C8 compares its thread at 0x750 with the current thread.
+    struct Unk_a40 {
+        u8 _0[0x750];
+        sead::Thread* mThread;
+    };
+    Unk_a40* _a40;
     f64 _a48;
     // Placeholder type: ForestRenderer::requestDraw 0x7100f03964 draws nothing when bit 5 of its byte at
     // 0x18 is set.
@@ -546,6 +555,21 @@ public:
     u8 _1335[0x1338 - 0x1335];
     // sub_7101112A74 clears bit 3 (8).
     u32 _1338;
+};
+
+// Placeholder: a handle to a System::Entry (set by 0x71012eb6e8, checked by 0x71012eb70c; ImageResourceMgr
+// keeps them at +0x40 of its requests and +0x20 of other objects).
+struct Unk_71012eb6e8 {
+    void set(System* system, const System::Entry* entry, u16 key);
+    // Whether the handle still refers to `entry`: same key, its system is systems[generation & 7] with the same
+    // generation, and the entry at mIndex (or with id mId) is `entry`.
+    bool isValid(System* const* systems, const System::Entry* entry, u16 key) const;
+
+    System* mSystem;
+    u16 mGeneration;
+    u16 mKey;
+    u32 mId;
+    s32 mIndex;
 };
 class Water {
     void setUpAttributeTable();
