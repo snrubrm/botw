@@ -14,6 +14,7 @@ public:
     bool isChangeable() const override { return true; }
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
 
     void sub_7100E1C850();

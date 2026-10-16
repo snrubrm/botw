@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiWeaponEquipedAI.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -52,6 +54,68 @@ void WeaponEquipedAI::enter_(ksys::act::ai::InlineParamPack* params) {
     if (weapon && weapon->isParentPlayer())
         _3c = 0;
     _38 = false;
+}
+
+// 0x7100e1d350
+void WeaponEquipedAI::calc_() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon)
+        return;
+    if (weapon->m188()) {
+        sub_7100E1D7A8();
+        weapon->deleteAndEmit(0);
+        return;
+    }
+    sub_7100E1D884();
+
+    if (isCurrentChild("納刀")) {
+        if (!weapon->m153()) {
+            sub_7100E1CB40();
+            if (!weapon->isWeaponType3())
+                xlinkSearchAndEmit(mActor, "Equip", 2, nullptr);
+            return;
+        }
+        bool skip = false;
+        if (ksys::evt::Manager::instance()->hasActiveEvent() && weapon->isParentPlayer()) {
+            ksys::gdt::Manager::instance()->getParam().get().getBool(&skip,
+                                                                     "100enemy_Sheath_BindUpdateSkip");
+            if (skip)
+                return;
+        }
+        sub_7100E1D9F0();
+        return;
+    }
+
+    if (!isCurrentChild("抜刀"))
+        return;
+    auto* chemical = mActor->getChemicalStuff();
+    if (chemical && chemical->_c0 == 2) {
+        auto* current = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+        if (current && current->m194()) {
+            sub_7100E1D7A8();
+            sub_7100E1DB34(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                           ksys::phys::ContactLayer::SensorHitOnlyInDoor);
+        }
+    }
+    if (weapon->m153()) {
+        sub_7100E1C850();
+        if (!weapon->isWeaponType3())
+            xlinkSearchAndEmit(mActor, "UnEquip", 2, nullptr);
+        xlink::kill(_40);
+        return;
+    }
+    sub_7100E1D9F0();
+    auto* current = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (current && current->m218()) {
+        if (!_40.getEvent() || _40.getEvent()->getCreateId() != u32(_40.getCreateId()) ||
+            _40.getEvent()->getBitFlag().isOnBit(4)) {
+            _40 = ksys::eft::searchAndEmitELink(mActor, "FireGuard");
+        }
+    } else {
+        sub_7100E1DC50();
+    }
+    if (_3c == 0)
+        sub_7100E1DD30();
 }
 
 void WeaponEquipedAI::sub_7100E1C850() {
