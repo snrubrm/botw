@@ -53,6 +53,7 @@ private:
 KSYS_CHECK_SIZE_NX150(Unk_7102451070, 0x330);
 
 class Unk_7102451050 {
+    SEAD_RTTI_BASE(Unk_7102451050)
 public:
     // Argument of sub_710071BFE4 (placeholder)
     struct InitArg {
@@ -78,8 +79,17 @@ public:
     // 0x710071bfe4 (placeholder name): takes the unit and the settings; with arg._e also starts (sub_710071C034)
     void sub_710071BFE4(const InitArg& arg);
     bool sub_710071C550(const ksys::Message& message);
-    // 0x710071c034 (declared only; 388 bytes)
+    // 0x710071c034 (placeholder name): one step: counts the sleeping members (state 1 -> 2 when _1c sleep), runs
+    // the timer (sub_710071C33C), handles the queued requests in state 4 and checks for the end (sub_710071C440)
     void sub_710071C034();
+    // 0x710071c33c (placeholder name): in state 2, advances the timer _18; at _14 (or with flag 0) sets the unit's
+    // flag 3 and goes to state 3
+    void sub_710071C33C();
+    // 0x710071c440 (placeholder name): in state 5, once every member entry is set and done, resets to state 1
+    void sub_710071C440();
+    // 0x710071c730 / 0x710071c89c (declared only): handle a queued request of type 2 / 3
+    void sub_710071C730();
+    void sub_710071C89C();
     // 0x710071c1b8 (placeholder name): sets flag 0 if the unit's flag 1 is set or a member (2 .. 9) sleeps, then
     // resets the state and the member list and calls the unit's sub_71007199A8
     void sub_710071C1B8();
@@ -89,6 +99,8 @@ public:
 
     // inline-only in the original; name is a guess (see PriestBossPhaseSecond::resetStateFlag)
     void resetFlag(Flag flag) { _200.resetBit(flag); }
+    // inline-only in the original; name is a guess (sub_710071C33C tests the bit through a stack temporary)
+    bool isFlagOn(Flag flag) const { return _200.isOnBit(flag); }
     // inline-only in the original; name is a guess (sub_710071BFE4 / sub_710071C1B8 set the bit through a stack
     // temporary, like resetFlag)
     void setFlag(Flag flag) { _200.setBit(flag); }
@@ -96,11 +108,17 @@ public:
     /* 0x008 */ Unk_7102450fa8* _8 = nullptr;  // the meta AI unit
     /* 0x010 */ s32 _10 = 1;
     /* 0x014 */ f32 _14 = -1.0f;
-    /* 0x018 */ s32 _18 = 0;
-    /* 0x01c */ u16 _1c = 1;
-    /* 0x01e */ u16 _1e = 0;
+    /* 0x018 */ f32 _18 = 0;  // timer
+    /* 0x01c */ s16 _1c = 1;  // members that must sleep
+    /* 0x01e */ s16 _1e = 0;
     /* 0x020 */ sead::FixedRingBuffer<Request, 6> _20;
-    /* 0x0f8 */ sead::FixedObjArray<s16, 9> _f8;
+    // An entry of _f8 (8 bytes).
+    struct Member {
+        s32 id;
+        bool done;
+    };
+
+    /* 0x0f8 */ sead::FixedObjArray<Member, 9> _f8;
     /* 0x1a8 */ Unk_7102450948 _1a8;
     /* 0x200 */ sead::BitFlag32 _200;
     u32 _204;
