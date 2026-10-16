@@ -347,6 +347,8 @@ public:
     // 0x7100877bd8: stores the anim-driven speed (ASList::sub_710115D2D4) in _20bc / _20c0 and its
     // direction relative to x_5() in _1c68 (~18 player actions call it).
     void sub_7100877BD8();
+    // 0x7100877ca4: same with the anim movement offset by _1fe0 towards the angle _1c98 (relative to x_5()).
+    void sub_7100877CA4();
     // 0x7100884fcc (lane3 s71; declared only): stores the angle index of sub_710087386C() in _1c68 and
     // the result of sub_7100869814 in _d1c, then ASList::x_6(9, 0, ...) with the angle difference from x_5().
     void sub_7100884FCC();
@@ -820,7 +822,8 @@ public:
     /* 0x1c8c */ u32 _1c8c;  // an angle index (sub_710087CEEC)
     /* 0x1c90 */ u32 _1c90;  // an angle index magnitude (sub_710087CEEC, sub_7100892098)
     /* 0x1c94 */ u32 _1c94;
-    /* 0x1c98 */ u8 _1c98[0x1ca4 - 0x1c98];
+    /* 0x1c98 */ u32 _1c98;  // angle index (sub_7100877CA4 offsets the anim movement by _1fe0 towards it)
+    /* 0x1c9c */ u8 _1c9c[0x1ca4 - 0x1c9c];
     /* 0x1ca4 */ s32 _1ca4;
     /* 0x1ca8 */ s32 _1ca8;
     /* 0x1cac */ u8 _1cac[0x1cb0 - 0x1cac];
@@ -922,7 +925,9 @@ public:
     /* 0x1fc0 */ u8 _1fc0[0x1fd4 - 0x1fc0];
     /* 0x1fd4 */ f32 _1fd4;  // set by sub_710086DCF8 (PlayerSpAttack::enter_, PlayerNormal::calc_)
     /* 0x1fd8 */ f32 _1fd8;  // added to _2024 for the quietness level (sub_710086DD00)
-    /* 0x1fdc */ u8 _1fdc[0x1fe8 - 0x1fdc];
+    /* 0x1fdc */ u8 _1fdc[0x1fe0 - 0x1fdc];
+    /* 0x1fe0 */ f32 _1fe0;  // distance added to the anim movement (sub_7100877CA4)
+    /* 0x1fe4 */ u8 _1fe4[0x1fe8 - 0x1fe4];
     /* 0x1fe8 */ f32 _1fe8;  // knock-back correction (sub_7100893F1C)
     /* 0x1fec */ f32 _1fec;  // x_27: probe distance factor
     /* 0x1ff0 */ s32 _1ff0;

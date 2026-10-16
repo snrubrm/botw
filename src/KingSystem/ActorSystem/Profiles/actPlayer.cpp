@@ -981,6 +981,26 @@ void Player::sub_7100877BD8() {
     _1c68.value = (x_5().value + angle) & util::sUnk_7101EC6BA0;
 }
 
+// NON_MATCHING: the original selects the stored speed in an integer register (as in sub_7100877BD8).
+void Player::sub_7100877CA4() {
+    const sead::Vector3f& translation = getASList()->sub_710115D2D4();
+    const sead::Vector3f offset(_1fe0 * sead::Mathf::sinIdx(util::angleDiff(_1c98, x_5()).value), 0.0f,
+                                _1fe0 * sead::Mathf::cosIdx(util::angleDiff(_1c98, x_5()).value));
+    const sead::Vector3f move = translation + offset;
+    f32 speed = move.length();
+    if (speed < 0.001f)
+        speed = 0.0f;
+    f32 value = speed;
+    if (_cf4.isOnBit(27))
+        value = 0.0f;
+    _20bc.value = value;
+    _20bc.prev_value = value;
+    if (speed == 0.0f)
+        return;
+    const u32 angle = sead::Mathf::atan2Idx(move.x, move.z);
+    _1c68.value = (x_5().value + angle) & util::sUnk_7101EC6BA0;
+}
+
 void Player::sub_71008697E4() {
     _20bc.value = 0;
     _20bc.prev_value = 0;
