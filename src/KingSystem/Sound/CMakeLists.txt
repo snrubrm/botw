@@ -2,6 +2,7 @@ add_subdirectory(Actor)
 
 target_sources(uking PRIVATE
   sndBattleDungeonBgm.cpp
+  sndRemainsBossBgm.cpp
   sndSpotBgmController.cpp
   sndBgm.cpp
   sndBgmEntry.cpp
