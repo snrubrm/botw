@@ -561,9 +561,14 @@ Unk_710249c588::~Unk_710249c588() {
     _60 = -1;
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a80550) also destroys members or bases
-// this class does not declare yet.
+// 0x7100a80550
 Unk_710249c630::~Unk_710249c630() = default;
+
+sead::DirectResource* Unk_710249c630::newResource_(sead::Heap* heap_, s32 alignment) {
+    sead::Heap* heap = ksys::util::getHeapOrCurrentHeap(heap_);
+    sead::ScopedCurrentHeapSetter setter{heap};
+    return new (heap, alignment, std::nothrow_t{}) Unk_710247e8c0;
+}
 
 
 

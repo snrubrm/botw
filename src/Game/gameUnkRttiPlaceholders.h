@@ -2276,6 +2276,10 @@ public:
     ~Unk_710249c630() override;
     u32 getResourceSize() const override { return 96; }
     u32 getLoadDataAlignment() const override { return 8192; }
+    // 0x7100a806c0: as EntryFactory<T>::newResource_ (this class is laid out like EntryFactory<Unk_710247e8c0>)
+    sead::DirectResource* newResource_(sead::Heap* heap_, s32 alignment) override;
+
+    /* 0x80 */ Unk_710247e8c0 mResource;
 };
 
 // vtable 0x710249ce90 (127 slots); placeholder generated from the vtable (genskel.py).
