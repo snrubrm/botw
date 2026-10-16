@@ -462,11 +462,15 @@ public:
     Unk_710247e8c0();
     ~Unk_710247e8c0() override;
     s32 getLoadDataAlignment() const override { return 8192; }
+    // 0x71009cab84: whether doCreate_ has set up the texture
+    bool m2_() override;
+    // 0x71009caad4: releases the g3d resource file
+    void onDestroy_() override;
 
     // A UI texture resource (the item icons, e.g. UI/StockItem/*.bitemico): the parse step (0x71009caa34) sets up
     // the texture from the g3d resource file and stores its size in mTexInfo.
     /* 0x38 */ nn::ui2d::ExternalTextureInfo mTexInfo;
-    /* 0x50 */ void* _50 = nullptr;  // nn::g3d::ResFile
+    /* 0x50 */ nn::g3d::ResFile* _50 = nullptr;
     /* 0x58 */ bool _58 = false;
 };
 

@@ -1,3 +1,6 @@
+#include <nn/g3d/ResFile.h>
+#include <g3d/aglNW4FToNN.h>
+#include "KingSystem/Resource/resResourceFileUtil.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiCapturePane.h"
@@ -1106,6 +1109,19 @@ Unk_710247e0c8::~Unk_710247e0c8() = default;
 Unk_710247e8c0::Unk_710247e8c0() = default;
 
 Unk_710247e8c0::~Unk_710247e8c0() = default;
+
+bool Unk_710247e8c0::m2_() {
+    return _58;
+}
+
+void Unk_710247e8c0::onDestroy_() {
+    if (!_50)
+        return;
+    _50->ReleaseTexture();
+    agl::g3d::ResFile::Cleanup(_50);
+    ksys::res::sub_7100FDDB70(_50);
+    _50 = nullptr;
+}
 
 // 0x71009cafd4
 Unk_710247e960::~Unk_710247e960() {
