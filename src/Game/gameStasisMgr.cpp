@@ -27,10 +27,28 @@ s32 StasisMgr::m0(ksys::act::Actor* actor, void* request) {
     return 0;
 }
 
-// NON_MATCHING: the original recomputes each entry address from the index (as m2 / m4).
+void StasisMgr::sub_710067F9A8() {
+    _40 = 0;
+    _41 = false;
+    _42 = false;
+    _43 = 0;
+    _44 = 0;
+    _48 = 0;
+    _4c = 0;
+    _54 = 1.0f;
+    _58 = 1.0f;
+    for (auto& entry : mEntries) {
+        entry.link.reset();
+        entry._2a8.kill();
+        entry.damage.sub_71006D99F4();
+    }
+    for (auto& effect : mEffects)
+        effect.kill();
+    _32e0.reset();
+}
+
 void StasisMgr::sub_7100680368(bool on_processing_thread) {
-    for (s32 i = 0; i < mEntries.size(); ++i) {
-        auto& entry = mEntries[i];
+    for (auto& entry : mEntries) {
         if (entry.link.hasProc()) {
             ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&entry.link, &accessor);
@@ -53,12 +71,7 @@ void StasisMgr::sub_7100680368(bool on_processing_thread) {
         if (time <= 1.0f)
             time = 1.0f;
         _58 = 1.0f / time;
-        f32 progress = 0.0f;
-        if (_42) {
-            progress = _48 * _54;
-            if (progress <= 0.0f)
-                progress = 0.0f;
-        }
+        const f32 progress = _42 ? std::max(_48 * _54, 0.0f) : 0.0f;
         time *= 1.0f - progress;
         if (time <= 1.0f)
             time = 1.0f;
@@ -83,17 +96,14 @@ void StasisMgr::sub_7100680920(ksys::act::Actor* actor) {
     }
 }
 
-// NON_MATCHING: our build unrolls the 16-entry loop.
 void* StasisMgr::m4(ksys::act::Actor* actor) {
-    for (s32 i = 0; i < mEntries.size(); ++i) {
-        if (mEntries[i].link.hasProcById(actor))
-            return &mEntries[i]._2c8;
+    for (auto it = mEntries.begin(); it != mEntries.end(); ++it) {
+        if (it->link.hasProcById(actor))
+            return &it->_2c8;
     }
     return nullptr;
 }
 
-// NON_MATCHING: the original recomputes the handle address from the index each iteration; ours
-// keeps a pointer.
 void StasisMgr::sub_7100680AC8(Entry* entry, ksys::act::BaseProc* proc) {
     entry->link.acquire(proc, false);
     entry->damage.sub_71006D99F4();
@@ -102,10 +112,10 @@ void StasisMgr::sub_7100680AC8(Entry* entry, ksys::act::BaseProc* proc) {
 
 s32 StasisMgr::m2(const sead::Matrix34f& mtx) {
     s32 index = 0;
-    for (s32 i = 0; i < mEffects.size(); ++i) {
-        if (!mEffects[i].isActive()) {
-            mEffects[i] = ksys::eft::searchAndEmitELink(ksys::act::Reaction::instance()->_30,
-                                                        "BitaLocked_Trace");
+    for (auto& effect : mEffects) {
+        if (!effect.isActive()) {
+            effect = ksys::eft::searchAndEmitELink(ksys::act::Reaction::instance()->_30,
+                                                   "BitaLocked_Trace");
             return m3(mtx, index);
         }
         ++index;
@@ -134,11 +144,10 @@ f32 StasisMgr::sub_7100681570() const {
     return std::max(_44 * _58, 0.0f);
 }
 
-// NON_MATCHING: our build unrolls the 16-entry loop (as m4).
 act::DamageManagerUnk220* StasisMgr::sub_7100681588(ksys::act::Actor* actor) {
-    for (s32 i = 0; i < mEntries.size(); ++i) {
-        if (mEntries[i].link.hasProcById(actor))
-            return &mEntries[i].damage;
+    for (auto it = mEntries.begin(); it != mEntries.end(); ++it) {
+        if (it->link.hasProcById(actor))
+            return &it->damage;
     }
     return nullptr;
 }
