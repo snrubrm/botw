@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace ksys::act {
+struct Unk_7100d78e50;
+}
+
 namespace uking::ai {
 
 class NPCMove : public ksys::act::ai::Ai {
@@ -30,6 +34,9 @@ protected:
     void sub_71004D4CA4();
     // 0x71004d44b0: starts the "meeting" state: sets the NPC flags and updates them from the selected state value (_e8 / _ec / _f0 / _f4)
     void sub_71004D44B0(bool a1, bool a2);
+    // 0x71004d4b98 (placeholder name): the awareness entry of a door to open (same code as
+    // NPCScheduleMove::sub_71004DFA90); sets actor flag 0x34 when one is close
+    ksys::act::Unk_7100d78e50* sub_71004D4B98();
     // 0x71004cfc88 (placeholder name): plays the move AS _120[7] (_120[8] when it rains and _60 is set) on AS slots
     // 55 and 56; true when slot 55 was playing another AS
     bool sub_71004CFC88();

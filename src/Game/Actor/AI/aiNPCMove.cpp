@@ -1,4 +1,7 @@
 #include "Game/Actor/AI/aiNPCMove.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -132,6 +135,32 @@ bool NPCMove::sub_71004CFC88() {
     mActor->getASList()->goLimpFromHeadShotMaybe(55, name, 0);
     mActor->getASList()->goLimpFromHeadShotMaybe(56, name, 0);
     return changed;
+}
+
+// NON_MATCHING: as NPCScheduleMove::sub_71004DFA90 (the second distance threshold is a GOT-loaded readonly float)
+// 0x71004d4b98
+ksys::act::Unk_7100d78e50* NPCMove::sub_71004D4B98() {
+    if (_78 <= sead::Mathf::epsilon())
+        mActor->setFlag(ksys::act::Actor::ActorFlag::_34, false);
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return nullptr;
+    Unk_71024513d0 filter;
+    f32 distance = 5.0f;
+    auto* global = ksys::act::GlobalParameter::instance();
+    if (global && global->getGlobalParam())
+        distance = global->getGlobalParam()->mNPCOpenDoorDistance.ref();
+    auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    if (entry) {
+        if (entry->_a8 < distance) {
+            mActor->setFlag(ksys::act::Actor::ActorFlag::_34, true);
+        } else {
+            if (entry->_a8 <= 4.0f)
+                mActor->setFlag(ksys::act::Actor::ActorFlag::_34, true);
+            entry = nullptr;
+        }
+    }
+    return entry;
 }
 
 // 0x71004d11f4
