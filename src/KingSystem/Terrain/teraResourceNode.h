@@ -84,6 +84,10 @@ enum class ImageSizeMaybe : u32 {};
 
 // 0x710114a63c (placeholder name): the size for `size`.
 u32 getImageSizeMaybe(const ImageSizeMaybe& size);
+// 0x710114add4 (declared only; placeholder name; 5176 B): writes two sizes for an image of `type` (cached
+// in function-local statics per type and `c`); called twice by 0x7101132fe0 with the image's m9 / m10 and
+// then m4 or m5.
+void sub_710114ADD4(u32* out_a, u32* out_b, const ImageTypeMaybe& type, s32 a, u32 b, s32 c);
 
 // Placeholder (ctor 0x710110d278, init 0x710110d2c4; size 0xa8). _8 points to the key the managers
 // search by (first u16 is its id); _a0 is compared with epsilon by 0x7101108624.

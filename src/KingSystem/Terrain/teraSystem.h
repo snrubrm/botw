@@ -367,34 +367,11 @@ class ImageResourceMgr {
     void procUnloadResidualRequest();
 
 public:
-    // Placeholder: a load / unload request for one image of an area node.
-    struct Request {
-        u8 _0[0x10];
-        // Link in mList31c0.
-        sead::ListNode mNode10;
-        // 1: queued at the front of mList3200.
-        s32 _20;
-        // Low byte: index of the list in mKindLists.
-        u32 _24;
-        u8 _28[0x38 - 0x28];
-        void* _38;
-        Unk_7101106F44* area;
-        ImageTypeMaybe type;
-        // Bit 0: queued in mLists1c0; bit 1: in mList31c0; bit 2: the data is ready (passed to the image
-        // set-up); bit 3: set up.
-        u8 _4c;
-        u8 _4d[0x50 - 0x4d];
-        // Name hash of the area; the low byte indexes mLists1c0 / mLists19c0.
-        u32 _50;
-        u8 _54[0x64 - 0x54];
-        u32 _64;
-        u8 _68[0x6c - 0x68];
-        u32 _6c;
-        u8 _70[0x88 - 0x70];
-        agl::GPUMemVoidAddr* addr;
-        u8 _90[0xb0 - 0x90];
-        agl::TextureSampler sampler;
-    };
+    // Placeholder: a load / unload request for one image of an area node (defined after System).
+    struct Request;
+    // Placeholder: a queued load task for one image of an area node (defined after System). Filled by
+    // sub_7101132FE0, queued in mList3200 / mKindLists by sub_7101133274; free tasks wait in mList31e8.
+    struct LoadTask;
 
     // 0x7101132270 (declared only; placeholder name).
     bool sub_7101132270(Request* request);
@@ -407,7 +384,7 @@ public:
     // false when no request is free.
     bool sub_7101133AF8(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type);
     // 0x7101132fe0 (declaration only; placeholder name).
-    void sub_7101132FE0(Request* request, System* system, Unk_7101106F44* area,
+    void sub_7101132FE0(LoadTask* task, System* system, Unk_7101106F44* area,
                         const ImageTypeMaybe& type);
     // 0x710113625c (placeholder name): under the manager lock (0x68), runs sub_7101135F34 and, with flag 2
     // of _6473, finishes the matching request of mLists19c0 (sub_7101136328 first if `a4`).
@@ -425,10 +402,10 @@ public:
     // 0x71011320b4 (declared only; placeholder name; 444 B).
     void sub_71011320B4(Request* request);
     // 0x710113333c (declared only; placeholder name): looks for a matching queued request.
-    s32 sub_710113333C(Request* request, bool a3);
+    s32 sub_710113333C(LoadTask* task, bool a3);
     // 0x7101133274 (placeholder name): queues `request` unless sub_710113333C finds a match (returns its
     // result) and wakes the loader thread if the queue was empty.
-    s32 sub_7101133274(Request* request);
+    s32 sub_7101133274(LoadTask* task);
     // 0x71011315bc (placeholder name): publishes the queue size and wakes the loader thread if it is not
     // zero.
     void sub_71011315BC();
@@ -438,7 +415,7 @@ public:
     // 0x71011334b4 (placeholder name): moves the kind-1 requests to the front of the queue.
     void sub_71011334B4();
     // 0x71011355e8 (declared only; placeholder name).
-    void sub_71011355E8(Request* request);
+    void sub_71011355E8(LoadTask* task);
     // 0x7101131d68 (placeholder name): moves every request of mList4a18 to mList31e8 (running
     // sub_71011355E8 on kind 0); false if there was none.
     bool sub_7101131D68();
@@ -452,8 +429,16 @@ public:
     // 0x7101136328 (declared only; placeholder name).
     // The second argument is a pointer (null-checked and passed on; sub_710113625C forwards its a5).
     void sub_7101136328(Request* request, void* a2);
-    // 0x7101135f34 (declaration only; placeholder name).
+    // 0x7101135f34 (placeholder name): under the manager lock, clears the image's pending state for `type`
+    // (sub_710110DD20(false), flag 2), queues a kind-1 load task for it (sub_710113333C) and hands it to
+    // sub_7101136188.
     void sub_7101135F34(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type);
+    // 0x7101136188 (placeholder name): under the manager lock, finds the request in mLists1c0 matching
+    // `task`, releases its image when its handle is still valid and runs sub_7101133588 on it. Returns 8
+    // if the task's handle is stale, 3 if no request matches, 1 otherwise.
+    s32 sub_7101136188(LoadTask* task);
+    // 0x7101133588 (declared only; placeholder name).
+    void sub_7101133588(Request* request);
     // 0x7101136950 (placeholder name): sub_7101136328 and sub_71011320B4 on every request of mList31c0.
     void sub_7101136950();
     // 0x7101131d64 (placeholder name): branch to sub_7101131D68.
@@ -480,14 +465,14 @@ public:
     sead::OffsetList<Request> mLists19c0[0x100];
     sead::OffsetList<Request> mList31c0;
     u8 _31d8[0x31e8 - 0x31d8];
-    sead::OffsetList<Request> mList31e8;
+    sead::OffsetList<LoadTask> mList31e8;
     // Pending requests (insertion order depends on the request kind); its size is published in _62a0.
-    sead::OffsetList<Request> mList3200;
-    // Indexed by the low byte of Request::_24.
-    sead::OffsetList<Request> mKindLists[0x100];
-    sead::OffsetList<Request> mList4a18;
+    sead::OffsetList<LoadTask> mList3200;
+    // Indexed by the low byte of LoadTask::_24.
+    sead::OffsetList<LoadTask> mKindLists[0x100];
+    sead::OffsetList<LoadTask> mList4a18;
     // Indexed like mKindLists (0x7101131d68).
-    sead::OffsetList<Request> mKindLists2[0x100];
+    sead::OffsetList<LoadTask> mKindLists2[0x100];
     // Destroyed by 0x7101130df0.
     agl::GPUMemBlock<u8> mMemBlock6230;
     u8 _6268[0x6270 - 0x6268];
@@ -500,7 +485,10 @@ public:
     u64 _6318;
     u64 _6320;
     agl::GPUMemBlock<u8> mMemBlock6328;
-    u8 _6360[0x6473 - 0x6360];
+    u8 _6360[0x6470 - 0x6360];
+    // Key passed to Unk_71012eb6e8::set / isValid for the tasks and requests (0x7101132fe0, 0x7101136188).
+    u16 _6470;
+    u8 _6472;
     // Bit 0: use mBaseDir; bit 3: mMemBlock6328 has a buffer.
     u8 _6473;
 };
@@ -767,7 +755,9 @@ public:
     // The system's image directory (ImageResourceMgr::sub_7101130FBC copies it through a virtual cstr
     // call, so it is a buffered string; its buffer is not known).
     sead::BufferedSafeString _1050;
-    u8 _1068[0x1334 - 0x1068];
+    u8 _1068[0x1330 - 0x1068];
+    // Copied into ImageResourceMgr load tasks (0x7101132fe0, 0x7101135f34).
+    u32 _1330;
     // Two bytes copied together into handles (0x71012eb6e8 ldrh/strh; 0x71012eb70c compares with ldrh).
     // The init function 0x71011113d4 clears both with one strh. 0x7101112714 increments 0x1335 alone
     // with ldrb/strb, and 0x7101131cdc reads 0x1334 alone with ldrb, so these are two byte fields.
@@ -795,6 +785,61 @@ struct Unk_71012eb6e8 {
     u16 mKey;
     u32 mId;
     s32 mIndex;
+};
+
+struct ImageResourceMgr::Request {
+    u8 _0[0x10];
+    // Link in mList31c0.
+    sead::ListNode mNode10;
+    // Checked with isValid against mSystems / _6470 (0x7101131290, 0x7101136188).
+    Unk_71012eb6e8 _20;
+    void* _38;
+    Unk_7101106F44* area;
+    ImageTypeMaybe type;
+    // Bit 0: queued in mLists1c0; bit 1: in mList31c0; bit 2: the data is ready (passed to the image
+    // set-up); bit 3: set up.
+    u8 _4c;
+    u8 _4d[0x50 - 0x4d];
+    // Name hash of the area; the low byte indexes mLists1c0 / mLists19c0.
+    u32 _50;
+    u8 _54[0x64 - 0x54];
+    u32 _64;
+    u8 _68[0x6c - 0x68];
+    u32 _6c;
+    u8 _70[0x88 - 0x70];
+    agl::GPUMemVoidAddr* addr;
+    u8 _90[0xb0 - 0x90];
+    agl::TextureSampler sampler;
+};
+
+// Layout from 0x7101132fe0 (fills it), 0x710113333c (compares _24 / _28 / _30 / _38 and checks _40) and
+// 0x7101135f34 (builds one on the stack: 0x88 bytes).
+struct ImageResourceMgr::LoadTask {
+    // Two list links (only these are cleared in the stack task of 0x7101135f34).
+    sead::ListNode mNode0;
+    sead::ListNode mNode10;
+    // 1: queued at the front of mList3200.
+    s32 _20;
+    // Name hash of the area; the low byte indexes mKindLists.
+    u32 _24;
+    System* system;
+    Unk_7101106F44* area;
+    ImageTypeMaybe type;
+    // System::_1330.
+    u32 _3c;
+    Unk_71012eb6e8 handle;
+    u16 _58;
+    u8 _5a;
+    u32 _5c;
+    u32 _60;
+    u32 _64;
+    u32 _68;
+    u32 _6c;
+    u32 _70;
+    u32 _74;
+    u32 _78;
+    u32 _7c;
+    void* _80;
 };
 class Water {
     void setUpAttributeTable();

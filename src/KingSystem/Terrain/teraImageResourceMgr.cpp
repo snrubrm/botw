@@ -79,7 +79,78 @@ void ImageResourceMgr::sub_71011311BC() {
     mCS28.unlock();
 }
 
-s32 ImageResourceMgr::sub_7101133274(Request* request) {
+// NON_MATCHING: the sign test of the rounding picks with lt instead of ge (csel operands swapped).
+void ImageResourceMgr::sub_7101132FE0(LoadTask* task, System* system, Unk_7101106F44* area,
+                                      const ImageTypeMaybe& type) {
+    Unk_710250dcd8* image = area->getImageMaybe(type);
+    const u32 a = image->m9();
+    const u32 b = image->m10();
+    const s32 c0 = image->m4();
+    const s32 c1 = image->m5();
+    const u16 alignment = image->m8();
+
+    u32 size0_a = 0, size0_b = 0, size1_a = 0, size1_b = 0;
+    sub_710114ADD4(&size0_a, &size0_b, type, a, b, c0);
+    sub_710114ADD4(&size1_a, &size1_b, type, a, b, c1);
+    const s32 max_a = size0_a > size1_a ? size0_a : size1_a;
+    const s32 max_b = size0_b > size1_b ? size0_b : size1_b;
+
+    task->_20 = 0;
+    task->_24 = area->mNameHash;
+    task->handle.set(system, area, _6470);
+    task->system = system;
+    task->area = area;
+    task->type = type;
+    task->_3c = system->_1330;
+    task->_58 = alignment;
+    task->_5a = 0;
+    task->_64 = c0;
+    task->_68 = size0_a;
+    task->_6c = size0_b;
+    task->_70 = c1;
+    task->_74 = size1_a;
+    task->_78 = size1_b;
+    task->_5c = 0;
+    task->_60 = 0;
+    task->_7c = 0;
+    task->_80 = nullptr;
+
+    const s32 n = alignment;
+    task->_5c = alignment > 0x400 ? alignment : sead::Mathu::roundUp(0x400, alignment);
+    s32 size = max_a < 0 ? max_a - n + 1 : max_a + n - 1;
+    task->_60 = task->_5c + size - size % n;
+    task->_7c = (max_b + task->_60 + 0x3f) & ~0x3f;
+}
+
+s32 ImageResourceMgr::sub_710113333C(LoadTask* task, bool a3) {
+    sead::OffsetList<LoadTask>& list = mKindLists[u8(task->_24)];
+    for (LoadTask& other : list) {
+        if (task->_24 != other._24 || task->system != other.system || task->area != other.area ||
+            task->type.raw != other.type.raw) {
+            continue;
+        }
+
+        s32 result;
+        if (!other.handle.isValid(mSystems, task->area, _6470)) {
+            result = 0;
+        } else if (other._20 != task->_20) {
+            result = 2;
+        } else {
+            result = 1;
+            if (!a3)
+                return result;
+        }
+        mList3200.erase(&other);
+        list.erase(&other);
+        mCS68.lock();
+        mList31e8.pushBack(&other);
+        mCS68.unlock();
+        return result;
+    }
+    return 0;
+}
+
+s32 ImageResourceMgr::sub_7101133274(LoadTask* request) {
     const s32 result = sub_710113333C(request, false);
     if (result != 0)
         return result;
@@ -119,8 +190,8 @@ bool ImageResourceMgr::sub_7101131CDC(System* system) {
 
 void ImageResourceMgr::sub_71011334B4() {
     mCS68.lock();
-    Request* first = nullptr;
-    for (Request& request : mList3200.reverseRobustRange()) {
+    LoadTask* first = nullptr;
+    for (LoadTask& request : mList3200.reverseRobustRange()) {
         if (request._20 != 1)
             continue;
         if (first) {
@@ -141,7 +212,7 @@ bool ImageResourceMgr::sub_7101131D68() {
 
     mCS68.lock();
     while (mList4a18.size() != 0) {
-        Request* request = mList4a18.popFront();
+        LoadTask* request = mList4a18.popFront();
         mKindLists2[u8(request->_24)].erase(request);
         if (request->_20 == 0)
             sub_71011355E8(request);
@@ -226,6 +297,46 @@ ImageResourceMgr::Request* ImageResourceMgr::sub_7101131E7C(sead::OffsetList<Req
     return nullptr;
 }
 
+void ImageResourceMgr::sub_7101135F34(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type) {
+    LoadTask task;
+    mCS68.lock();
+    if (Unk_710250dcd8* image = area->getImageMaybe(type))
+        image->sub_710110DD20(false);
+    if (Unk_710250dcd8* image = area->getImageMaybe(type))
+        image->_8 &= ~2;
+    task._20 = 1;
+    task._24 = area->mNameHash;
+    task.handle.set(owner, area, _6470);
+    task.system = owner;
+    task.area = area;
+    task.type = type;
+    task._3c = owner->_1330;
+    sub_710113333C(&task, true);
+    mCS68.unlock();
+    sub_7101136188(&task);
+}
+
+// NON_MATCHING: argument setup order for sub_7101131E7C (scheduling).
+s32 ImageResourceMgr::sub_7101136188(LoadTask* task) {
+    mCS68.lock();
+    s32 result;
+    if (!task->handle.isValid(mSystems, task->area, _6470)) {
+        result = 8;
+    } else if (Request* request =
+                   sub_7101131E7C(mLists1c0, task->system, task->area, task->type)) {
+        if (request->_20.isValid(mSystems, request->area, _6470)) {
+            request->area->sub_710110736C(request->type);
+            sub_71011339D0(request);
+        }
+        sub_7101133588(request);
+        result = 1;
+    } else {
+        result = 3;
+    }
+    mCS68.unlock();
+    return result;
+}
+
 bool ImageResourceMgr::sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                                       bool a4, void* a5) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS68);
@@ -251,7 +362,7 @@ bool ImageResourceMgr::sub_7101133AF8(System* system, Unk_7101106F44* area,
     }
 
     mCS68.lock();
-    Request* request = mList31e8.popBack();
+    LoadTask* request = mList31e8.popBack();
     if (!request) {
         mCS68.unlock();
         mCS68.unlock();
