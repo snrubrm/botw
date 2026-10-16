@@ -459,6 +459,7 @@ public:
     void sub_710086DD00();
     void sub_7100882478();
     void sub_71008821BC();
+    bool sub_7100883220(bool force);
     void sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
     void sub_71008822EC();
     void sub_71008823AC();
@@ -778,7 +779,9 @@ public:
     u8 _1cbd;
     /* 0x1cbe */ u8 _1cbe;
     /* 0x1cbf */ u8 _1cbf;
-    /* 0x1cc0 */ u8 _1cc0[0x1cc8 - 0x1cc0];
+    /* 0x1cc0 */ u8 _1cc0;
+    /* 0x1cc1 */ bool _1cc1;  // cleared when sub_7100883220 starts the bow slow time
+    /* 0x1cc2 */ u8 _1cc2[0x1cc8 - 0x1cc2];
     /* 0x1cc8 */ s32 _1cc8;
     /* 0x1ccc */ s32 _1ccc;
     /* 0x1cd0 */ s32 _1cd0;
@@ -797,7 +800,8 @@ public:
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
-    /* 0x1d40 */ u8 _1d40[0x1d4c - 0x1d40];
+    /* 0x1d40 */ f32 _1d40;  // sub_7100883220 does nothing while it is positive
+    /* 0x1d44 */ u8 _1d44[0x1d4c - 0x1d44];
     /* 0x1d4c */ u32 _1d4c;  // cleared by sub_71008822EC
     /* 0x1d50 */ u32 _1d50;  // cleared by sub_71008822EC
     /* 0x1d54 */ f32 _1d54;  // -1 from sub_71008822EC

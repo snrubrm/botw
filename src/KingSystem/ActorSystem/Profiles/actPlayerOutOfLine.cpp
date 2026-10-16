@@ -412,4 +412,46 @@ void Player::sub_710086DD00() {
     _2094 = getStatusEffectQuietness(s32(_1fd8 + static_cast<f32>(_2024)));
 }
 
+// In this file because sub_710086DB94 is out of line in the original.
+// NON_MATCHING: argument setup order of the first x_3 call in the x_30() branch (scheduling only).
+// Placeholder name: bow reload start (controller check 18 or `force`): plays BowReload and sets the AS rates, with
+// the bow slow time (BowSlowRateDiam / BowSlowMaxTime) when x_30() allows it.
+bool Player::sub_7100883220(bool force) {
+    if (_c44.isOnBit(9)) {
+        if (_17d0->playerCheckController(18))
+            return false;
+        _c44.resetBit(9);
+    }
+    if (_1d40 <= sead::Mathf::epsilon() && (_17d0->playerCheckController(18) || force)) {
+        _c50.setBit(5);
+        x_23("BowReload", false, -1.0f);
+        if (isSlowTime()) {
+            f32 rate = 1.0f;
+            if (isSlowTime() && _cf4.isOnBit(17))
+                rate = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+            mASList->x_3(1, 1, &as::ASList::Unk2::sub_71011631BC, rate);
+            return true;
+        }
+        if (!x_30())
+            return true;
+
+        mASList->x_3(1, 1, &as::ASList::Unk2::sub_71011631BC,
+                     getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref());
+        const f32 rate = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+        mASList->x_3(0, 0, &as::ASList::Unk2::sub_71011631BC, rate);
+        mASList->x_3(1, 0, &as::ASList::Unk2::sub_71011631BC, rate);
+        mASList->x_3(2, 0, &as::ASList::Unk2::sub_71011631BC,
+                     getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref());
+        if (!isSlowTime()) {
+            _c50.setBit(11);
+            _1cc1 = false;
+            const f32 time =
+                sub_710086DB94(getParam()->getRes().mGParamList->getPlayer()->mBowSlowMaxTime.ref());
+            _1d70.reset(time);
+        }
+        return true;
+    }
+    return false;
+}
+
 }  // namespace ksys::act
