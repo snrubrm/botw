@@ -94,12 +94,39 @@ sead::Vector2f ScreenPauseMenuUnk3a00::sub_71009B01B4() const {
     return {position.x, position.y};
 }
 
+// 0x71009b01c4
+void ScreenPauseMenuUnk3a00::sub_71009B01C4(f32 x) {
+    auto* pane = mLayout->mPane;
+    nn::util::Float3 position = pane->GetPosition();
+    position.x = x;
+    position.z = 0.0f;
+    pane->SetPosition(position);
+}
+
+// 0x71009b0190
+void ScreenPauseMenuUnk3a00::sub_71009B0190(s32 index, bool a2) {
+    if (a2)
+        mButtons[index].sub_710098923C();
+    else
+        mButtons[index].sub_71009892B0();
+}
+
+// 0x71009b00e0
+void ScreenPauseMenuUnk3a00::sub_71009B00E0(s32 index) {
+    _c78[index] = -1;
+    mButtons[index].sub_71009896D8();
+    mButtons[index].sub_710098993C(true, false);
+    _cc8.unload(index);
+}
+
 // 0x71009b0224
 void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
     if (_130 == -1)
         return;
     for (auto& button : mButtons.mBuffer)
         button.sub_7100989968(enabled);
+    for (s32 i = 0; i < mButtons.size(); ++i)
+        mButtons[i].sub_7100989968(enabled);
 }
 
 // 0x71009b0468
@@ -144,6 +171,30 @@ ScreenChildEx* ScreenChildEx::sub_71009B064C(s32 group, s32 index) {
 void ScreenChildEx::m54(sead::Heap* heap) {
     _128 = sead::DynamicCast<ScreenEx>(mLayout->mScreen);
     ScreenChild::m54(heap);
+}
+
+// 0x71009b0f3c
+void Unk_710247a6d8::sub_71009B0F3C(bool on) {
+    if (!_138)
+        return;
+    if (on)
+        _138->StopAtMax();
+    else
+        _138->StopAtMin();
+}
+
+// 0x71009b0f60
+void Unk_710247a6d8::sub_71009B0F60(bool on) {
+    if (!_140)
+        return;
+    if (on) {
+        _140->StopAtMin();
+        return;
+    }
+    _140->StopAtMax();
+    if (_130)
+        _130->Stop(0.0f);
+    _1d8.sub_71009C697C();
 }
 
 // 0x71009b0818

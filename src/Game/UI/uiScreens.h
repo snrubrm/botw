@@ -282,9 +282,13 @@ class Unk_710247a6d8 : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247a6d8(eui::LayoutEx* layout);
-    /* 0x130 */ void* _130 = nullptr;
-    /* 0x138 */ void* _138 = nullptr;
-    /* 0x140 */ void* _140 = nullptr;
+    // 0x71009b0f3c: stops _138 at its end (true) or start (false)
+    void sub_71009B0F3C(bool on);
+    // 0x71009b0f60: stops _140 at its start (true); otherwise at its end, resets _130 and closes the _1d8 layout
+    void sub_71009B0F60(bool on);
+    /* 0x130 */ eui::Animator* _130 = nullptr;
+    /* 0x138 */ eui::Animator* _138 = nullptr;
+    /* 0x140 */ eui::Animator* _140 = nullptr;
     /* 0x148 */ void* _148 = nullptr;
     /* 0x150 */ void* _150 = nullptr;
     /* 0x158 */ Unk_710247ade8 _158;
