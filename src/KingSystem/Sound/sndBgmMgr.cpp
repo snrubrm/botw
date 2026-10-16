@@ -1,11 +1,18 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Sound/sndMusicDefinition.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 
 namespace ksys::snd {
+
+// The TU's static initialiser is 0x7100ff8c18.
+static util::InitTimeInfo sInitTimeInfo;
+// 0x710260f090
+static const sead::SafeString sMusicListPath = "Sound/Music/MusicList.bmscdef";
 
 // NON_MATCHING: the original skips the m4 call for an unknown type instead of testing the current _48.
 // NON_MATCHING: store order of the FixedObjList setup (the original stores the list head before _a0)
@@ -34,6 +41,17 @@ Unk_SoundMgr30::~Unk_SoundMgr30() {
     }
     mEntryPool.freeBuffer();
     mSpeakerBalanceSuppliers.freeBuffer();
+}
+
+// NON_MATCHING: the original reaches sMusicListPath at +0x20 of the TU's static block; 0x710260f080..0x710260f090 holds
+// another static (a zero u64, then 920.0f / 480.0f) whose type and use are unknown, so ours is at +0x10.
+void Unk_SoundMgr30::sub_7100FF8338(sead::Heap* heap) {
+    _8 = sead::DynamicCast<MusicDefinition>(
+        SoundMgr::instance()->_60->tryLoadResource(sMusicListPath, nullptr, 4));
+    _10 = new (heap) Unk_SoundMgr30_10;
+    _10->init(heap);
+    _18 = new (heap) Unk_SoundMgr30_18;
+    _18->init(heap);
 }
 
 void Unk_SoundMgr30::sub_7100FF8464(sead::Heap* heap, BgmControllerType type) {
@@ -409,5 +427,7 @@ Unk_710260f248Entry* Unk_SoundMgr30::sub_7100FF89A0() {
     }
     return nullptr;
 }
+
+Unk_SoundMgr30_18::~Unk_SoundMgr30_18() = default;
 
 }  // namespace ksys::snd

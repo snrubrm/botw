@@ -26,6 +26,7 @@ target_sources(uking PRIVATE
   sndMiiSound.cpp
   sndSound.cpp
   sndResourceManager.cpp
+  sndSoundResourceMgr.cpp
   sndSound.h
   sndSoundCalcThread.cpp
   sndSoundCalcThread.h

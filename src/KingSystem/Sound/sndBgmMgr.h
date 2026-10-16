@@ -605,13 +605,19 @@ private:
 
 // Placeholder name (`SoundMgr::_30->_10`, see sub_7100FFD754): the manager the spot BGM handles register with.
 struct Unk_SoundMgr30_10 {
+    // 0x710101ce5c (declared only; 176 B). Created by Unk_SoundMgr30::sub_7100FF8338 (0xd0 bytes).
+    Unk_SoundMgr30_10();
     // Deleted through slot 1 by Unk_SoundMgr30's destructor (declared only).
     virtual ~Unk_SoundMgr30_10();
+    // 0x710101cfa4 (declared only; 72 B): creates the 0x3e0-byte object at _8 on `heap` and initializes it.
+    void init(sead::Heap* heap);
     // 0x710101d5ec (declared only; 300 B) / 0x710101d718 (declared only; 96 B)
     void sub_710101D5EC(Unk_SpotBgmHandle* handle);
     void sub_710101D718(Unk_SpotBgmHandle* handle);
     // 0x710101cfec (declared only; 1536 B): per-frame update.
     void sub_710101CFEC();
+
+    u8 _8[0xd0 - 0x8];
 };
 
 
@@ -964,10 +970,12 @@ struct Unk_SoundMgr30_18 {
     // spilled enum whose stack slot is shared with later temporaries).
     MusicInfo* getInfo(MusicInfoType type) const { return mInfos[type]; }
 
-    // Deleted through slot 1 by Unk_SoundMgr30's destructor (vtable 0x71024fc..., declared only).
+    // vtable 0x71024fc950: D1 0x7100ff8c08 (empty), D0 0x7100ff8c0c.
     virtual ~Unk_SoundMgr30_18();
+    // 0x710101b79c (declared only; 176 B): creates and initializes the 27 music infos.
+    void init(sead::Heap* heap);
 
-    sead::SafeArray<MusicInfo*, 27> mInfos;
+    sead::SafeArray<MusicInfo*, 27> mInfos{};
 };
 
 struct Unk_SoundMgr30_240;
@@ -977,7 +985,7 @@ struct Unk_SoundMgr30_240;
 struct Unk_SoundMgr30 {
     Unk_SoundMgr30();
     virtual ~Unk_SoundMgr30();
-    // 0x7100ff8338 (declared only; 300 B): loads the music definition and creates _10 and _18 on `heap`.
+    // 0x7100ff8338: loads the music definition (Sound/Music/MusicList.bmscdef) and creates _10 and _18 on `heap`.
     virtual void sub_7100FF8338(sead::Heap* heap);
 
     // 0x7100ff8464 (CSV sound::x_1): creates the BGM controller for `type` at _48 and initializes it.

@@ -51,6 +51,7 @@ KSYS_CHECK_SIZE_NX150(SoundResource, 0x40);
 }  // namespace ksys::snd
 
 namespace sead {
+class DirectResource;
 class Thread;
 }
 
@@ -778,8 +779,16 @@ struct Unk_SoundMgr60 {
     // 0x7101059354 (declared only; CSV Curl_protocol_getsock is wrong): calls vtable slot 2 of `obj` if set (the
     // object type is not modelled).
     void sub_7101059354(void* obj);
+    // 0x7101058198 (CSV sound::tryLoadResource): loadDirectResource into a local; null when it fails.
+    sead::DirectResource* tryLoadResource(const sead::SafeString& path, sead::Heap* heap, s32 alignment);
+    // 0x7101059248 (CSV soundStuff_2): loads `path` through ResourceMgrTask (on mHeap when `heap` is null) and stores
+    // the resource in `out` when it is a sead::DirectResource.
+    bool loadDirectResource(sead::DirectResource** out, const sead::SafeString& path, sead::Heap* heap,
+                            s32 alignment);
 
-    u8 _0[0x20];
+    u8 _0[0x18];
+    // The default heap of loadDirectResource.
+    /* 0x18 */ sead::Heap* mHeap;
     OverlayArena* mArena;
     u8 mSlinkResources[8];
     u8 _30[0xe0];
