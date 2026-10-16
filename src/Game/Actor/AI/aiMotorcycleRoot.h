@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <prim/seadEnum.h>
 #include "Game/Actor/AI/aiHorseRiddenStatusSelector.h"
+#include "Game/Actor/aiFlagByte.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +18,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x71004ad5c8 (CSV AI_AI_MotorcycleRoot::x; placeholder name): updates the AS flags 0x2c (energy left),
+    // 0x1a (no rider state) and 0x29 (energy empty) of the AS flag parameter 0x42.
+    void updateASFlags();
+
+    // Placeholder (bits of _81; the bit index goes through the stack like a SEAD_ENUM).
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5)
 
 protected:
     // static_param at offset 0x38
@@ -32,9 +42,9 @@ protected:
     // static_param at offset 0x68
     const float* mForestFogRatioForDisappear_s{};
     void* _70{};
-    void* _78{};
+    sead::Matrix34f* _78{};  // set by message 0x380001d, applied by enter_
     bool _80{};
-    bool _81{};
+    FlagByte<Flag> _81;
     u32 _84 = 0;
 };
 
