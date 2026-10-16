@@ -121,6 +121,7 @@ bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
     return (sub_7101150C24(&arg) & 1) != 0;
 }
 
+const sead::Vector2f sUnk_7101EC503C[4] = {{-0.5f, -0.5f}, {0.5f, -0.5f}, {-0.5f, 0.5f}, {0.5f, 0.5f}};
 const ImageTypeMaybe sUnk_7101EC54AC = {{0, 0}};
 const ImageTypeMaybe sUnk_7101EC54B4 = {{1, 0}};
 

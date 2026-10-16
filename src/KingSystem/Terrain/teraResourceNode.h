@@ -47,6 +47,11 @@ inline ImageTypeMaybe makeImageTypeMaybe(u16 type, u16 index) {
     return key;
 }
 
+// Offsets of the four children of an area node, in units of the child size (x right for bit 0, y for
+// bit 1).
+// 0x7101ec503c
+extern const sead::Vector2f sUnk_7101EC503C[4];
+
 // Constants passed by address to many terrain functions (CreateTeraSystem, 0x71011074a0, ...).
 // 0x7101ec54ac
 extern const ImageTypeMaybe sUnk_7101EC54AC;

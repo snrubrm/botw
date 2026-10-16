@@ -391,9 +391,19 @@ public:
     };
 
     u8 _0[0x8];
-    // Checked by sub_710110B4A4 (no query without it).
-    void* _8;
-    u8 _10[0xd8 - 0x10];
+    // 0x7101115218 (placeholder name): from the current area node, climbs to the one containing `pos` and
+    // descends at most `levels` (plus the levels climbed) towards it; returns that node and writes its
+    // centre and size.
+    Unk_7101106F44* sub_7101115218(sead::Vector2f* out_center, f32* out_size, const sead::Vector2f& pos,
+                                   u32 levels);
+
+    // Current area node (quadtree, see teraAreaNode.h). Checked by sub_710110B4A4 (no query without it).
+    Unk_7101106F44* _8;
+    u8 _10[0x1c - 0x10];
+    // Centre and size of _8.
+    sead::Vector2f _1c;
+    f32 _24;
+    u8 _28[0xd8 - 0x28];
     sead::Buffer<SceneSlot> mScenes;
     u8 _e8[0x1338 - 0xe8];
     // sub_7101112A74 clears bit 3 (8).
