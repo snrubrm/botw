@@ -2067,6 +2067,31 @@ void ScreenAppPictureBookUnk::sub_710093E258(s32 entry_index, s32 index, s32 col
     *out += offset;
 }
 
+// NON_MATCHING: the original tests the down states as (mState | 1) != 5 (ours: (mState & ~1) != 4)
+// 0x71009439b0
+void ScreenAppPictureBookUnk::sub_71009439B0() {
+    eui::BoxCursorNode* node = nullptr;
+    if (!_328 && (_28 & 0x100))
+        node = mScreen->mActiveCursorNode;
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            for (auto& unit : group.mUnits) {
+                eui::AnimButton* button = unit._10;
+                if (!button)
+                    continue;
+                if (node && node->mButton == button) {
+                    button->ForceOff();
+                    if (auto* cursor = eui::ScreenMgr::instance()->getScreen(ScreenId::BoxCursorTV))
+                        cursor->close(-4);
+                } else if (!(button->mFlags & 0x10) && button->mState != eui::ButtonBase::kDown &&
+                           button->mState != eui::ButtonBase::kStartDown && button->IsDowning()) {
+                    button->ForceOff();
+                }
+            }
+        }
+    }
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
