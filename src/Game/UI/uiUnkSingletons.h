@@ -1340,7 +1340,13 @@ private:
     /* 0x310 */ sead::PtrArray<UiSubsys1Marker> _310;
     u8 _320[0x378 - 0x320];
     /* 0x378 */ UiSubsys1Unk378* _378;
-    u8 _380[0x478 - 0x380];
+    u8 _380[0x3a0 - 0x380];
+
+public:
+    /* 0x3a0 */ void* _3a0;  // passed to sub_7100A9AC84 by sub_71009F2204
+
+private:
+    u8 _3a8[0x478 - 0x3a8];
     /* 0x478 */ Unk_7102476548* _478;
     u8 _480[0x4bc - 0x480];
     /* 0x4bc */ sead::Vector3f _4bc;

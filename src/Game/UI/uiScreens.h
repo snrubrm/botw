@@ -3377,6 +3377,11 @@ public:
 void sub_71009F1E9C();
 void sub_71009F1F64();
 void sub_71009F202C();
+// 0x71009f2204 (placeholder name; ScreenAppMap TU): when the open app system window has no pending result, passes
+// UiSubsys1::_3a0 to the pause menu child, sets PauseMenuDataMgr::_444fc to 2 and calls Manager::sub_7100A7C8D4
+void sub_71009F2204();
+// 0x7100a9ac84 (defined in uiScreenFacade.cpp)
+void sub_7100A9AC84(void* a1);
 
 class ScreenPauseMenuMantan : public ScreenEx {
 public:

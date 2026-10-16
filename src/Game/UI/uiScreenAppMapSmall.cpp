@@ -1,3 +1,5 @@
+#include "Game/UI/uiManager.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiMessageMgr.h"
@@ -198,6 +200,19 @@ void sub_71009F202C() {
         eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
     if (screen)
         screen->m154(7);
+}
+
+// 0x71009f2204
+void sub_71009F2204() {
+    auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (!screen || screen->isClosed())
+        return;
+    if (ScreenAppSystemWindow::sub_71009FC4A0() != 0)
+        return;
+    sub_7100A9AC84(UiSubsys1::instance()->_3a0);
+    PauseMenuDataMgr::instance()->_444fc = 2;
+    Manager::instance()->sub_7100A7C8D4();
 }
 
 }  // namespace uking::ui
