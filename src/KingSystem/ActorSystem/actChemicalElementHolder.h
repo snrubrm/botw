@@ -99,7 +99,7 @@ public:
     void sub_7100D9AA84();
     void sub_7100D9AAE4();
     s32 sub_7100D9A1C4() const;
-    // 0x7100d99fd0..0x7100d9a1b8: getters for the world parameters in sWorldParams (0x71024dd4c0); the getters of the floats at 0x71024dd450..0x71024dd488 are not decompiled.
+    // 0x7100d99fd0..0x7100d9a1b8: getters for the world parameters in sWorldParams (0x71024dd4c0); the floats at 0x71024dd450..0x71024dd488 have their own getters (below).
     f32 sub_7100D99FD0() const;
     f32 sub_7100D99FDC() const;
     f32 sub_7100D99FF8() const;
@@ -120,6 +120,23 @@ public:
     f32 sub_7100D9A17C() const;
     f32 sub_7100D9A18C() const;
     f32 sub_7100D9A19C() const;
+    // 0x7100d99fec .. 0x7100d9a1b8 (placeholder names): the floats sUnk_71024DD450 ..
+    // sUnk_71024DD488 (.data, read only by these getters).
+    f32 sub_7100D99FEC() const;
+    f32 sub_7100D9A02C() const;
+    f32 sub_7100D9A068() const;
+    f32 sub_7100D9A074() const;
+    f32 sub_7100D9A0A0() const;
+    f32 sub_7100D9A10C() const;
+    f32 sub_7100D9A128() const;
+    f32 sub_7100D9A134() const;
+    f32 sub_7100D9A140() const;
+    f32 sub_7100D9A14C() const;
+    f32 sub_7100D9A158() const;
+    f32 sub_7100D9A164() const;
+    f32 sub_7100D9A170() const;
+    f32 sub_7100D9A1AC() const;
+    f32 sub_7100D9A1B8() const;
     // 10C74A0 constructs a 0x90-byte ElementSpark with this holder and the request.
     ElementSpark* sub_71010C74A0(const ElementSparkCreateArg* arg);
     // lane1 s91 (declared only): 10EA040, the same factory for a 0x1b0-byte ElementWater.

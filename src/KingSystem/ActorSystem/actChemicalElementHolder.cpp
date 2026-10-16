@@ -12,6 +12,26 @@ WorldParams sWorldParams = {24.0f, 2.0f, -5.0f, 0.3f, 0.3f, 30.0f, 300.0f, 0.5f,
 
 }  // namespace
 
+// Read only by the getters 0x7100d99fec .. 0x7100d9a1b8 (one each, in order); nothing in the binary writes them, so they are
+// non-static and hidden (as sUnk_710243C148 in gameGearMgr.cpp) to keep clang from folding the loads.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD450 = 64.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD454 = 0.8f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD458 = 0.06f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD45C = 400.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD460 = 100.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD464 = 0.5f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD468 = 2.1f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD46C = 0.247f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD470 = 193.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD474 = 1400.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD478 = 0.05f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD47C = 0.25f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD480 = 0.5f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD484 = 10.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD488 = 0.3f;
+// Read only by 0x7100d9a1c4 (.bss).
+KSYS_VISIBILITY_HIDDEN s32 sUnk_7102600F70;
+
 Unk_71024dd490::CreateArg::CreateArg()
     : _0(0x400), _4(0x400), worldName(sead::SafeString::cEmptyString), _18(nullptr) {}
 
@@ -165,6 +185,70 @@ f32 Unk_71024dd490::sub_7100D9A18C() const {
 
 f32 Unk_71024dd490::sub_7100D9A19C() const {
     return sWorldParams.offensiveRigidRadius;
+}
+
+f32 Unk_71024dd490::sub_7100D99FEC() const {
+    return sUnk_71024DD450;
+}
+
+f32 Unk_71024dd490::sub_7100D9A02C() const {
+    return sUnk_71024DD454;
+}
+
+f32 Unk_71024dd490::sub_7100D9A068() const {
+    return sUnk_71024DD458;
+}
+
+f32 Unk_71024dd490::sub_7100D9A074() const {
+    return sUnk_71024DD45C;
+}
+
+f32 Unk_71024dd490::sub_7100D9A0A0() const {
+    return sUnk_71024DD460;
+}
+
+f32 Unk_71024dd490::sub_7100D9A10C() const {
+    return sUnk_71024DD464;
+}
+
+f32 Unk_71024dd490::sub_7100D9A128() const {
+    return sUnk_71024DD468;
+}
+
+f32 Unk_71024dd490::sub_7100D9A134() const {
+    return sUnk_71024DD46C;
+}
+
+f32 Unk_71024dd490::sub_7100D9A140() const {
+    return sUnk_71024DD470;
+}
+
+f32 Unk_71024dd490::sub_7100D9A14C() const {
+    return sUnk_71024DD474;
+}
+
+f32 Unk_71024dd490::sub_7100D9A158() const {
+    return sUnk_71024DD478;
+}
+
+f32 Unk_71024dd490::sub_7100D9A164() const {
+    return sUnk_71024DD47C;
+}
+
+f32 Unk_71024dd490::sub_7100D9A170() const {
+    return sUnk_71024DD480;
+}
+
+f32 Unk_71024dd490::sub_7100D9A1AC() const {
+    return sUnk_71024DD484;
+}
+
+f32 Unk_71024dd490::sub_7100D9A1B8() const {
+    return sUnk_71024DD488;
+}
+
+s32 Unk_71024dd490::sub_7100D9A1C4() const {
+    return sUnk_7102600F70;
 }
 
 }  // namespace ksys::act
