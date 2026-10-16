@@ -1948,6 +1948,29 @@ f32 Player::sub_7100867D68() {
     return sead::Mathf::atan2(dir.x, dir.z);
 }
 
+// NON_MATCHING: same arithmetic; the original keeps the quaternion and the 3x3 rotation in registers (ours
+// goes through the stack) and schedules the product differently.
+// Turns the up axis of _1b18 towards `target_up`, at most `rate * _20f0` per frame.
+void Player::someFloatCalc(f32 rate, const sead::Vector3f& target_up) {
+    sead::Vector3f up;
+    _1b18.getBase(up, 1);
+    up.normalize();
+    const f32 max_step = _20f0 * rate * VFR::instance()->getDeltaFrame();
+    sead::Vector3f diff = target_up - up;
+    const f32 distance = diff.length();
+    sead::Vector3f new_up;
+    if (distance <= max_step)
+        new_up = target_up;
+    else
+        new_up = up + diff * max_step * (1.0f / distance);
+
+    sead::Quatf rotation;
+    rotation.makeVectorRotation(up, new_up);
+    sead::Matrix33f rotation_mtx;
+    rotation_mtx.fromQuat(rotation);
+    _1b18.setMul(rotation_mtx, _1b18);
+}
+
 // NON_MATCHING: the Matrix33 multiplication is outlined instead of inlined.
 void Player::sub_7100867DEC(const sead::Vector3<u32>& rotation) {
     const u32 factor = static_cast<u32>(_20f0);
