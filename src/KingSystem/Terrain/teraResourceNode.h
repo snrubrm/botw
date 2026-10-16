@@ -63,6 +63,9 @@ extern const sead::Vector2f sUnk_7101EC503C[4];
 extern const ImageTypeMaybe sUnk_7101EC54AC;
 // 0x7101ec54b4
 extern const ImageTypeMaybe sUnk_7101EC54B4;
+// 0x7101ec54b8 / 0x7101ec54bc: type 3 index 0 (grass) / 1 (water).
+extern const ImageTypeMaybe sUnk_7101EC54B8;
+extern const ImageTypeMaybe sUnk_7101EC54BC;
 // 0x7101ec54a8: type 0xff (no image); System::x resets the ring entries to it.
 extern const ImageTypeMaybe sUnk_7101EC54A8;
 

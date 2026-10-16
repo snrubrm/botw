@@ -146,6 +146,8 @@ const sead::Vector2f sUnk_7101EC503C[4] = {{-0.5f, -0.5f}, {0.5f, -0.5f}, {-0.5f
 const ImageTypeMaybe sUnk_7101EC54A8 = {{0xff, 0}};
 const ImageTypeMaybe sUnk_7101EC54AC = {{0, 0}};
 const ImageTypeMaybe sUnk_7101EC54B4 = {{1, 0}};
+const ImageTypeMaybe sUnk_7101EC54B8 = {{3, 0}};
+const ImageTypeMaybe sUnk_7101EC54BC = {{3, 1}};
 
 s32 ImageTypeMaybe::sub_710114A5A0() const {
     return 1;

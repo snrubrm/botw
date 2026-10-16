@@ -1,4 +1,5 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include <prim/seadScopedLock.h>
 #include <container/seadSafeArray.h>
 
 namespace ksys::tera {
@@ -61,6 +62,22 @@ void Scene::sub_7101101AA0(void* a, void* b, void* c) {
     _2930[0] = a;
     _2930[2] = b;
     _2930[1] = c;
+}
+
+void Scene::sub_7101101578(System* system, u32 flags) {
+    const Unk_7101101DFC entries[] = {
+        {sUnk_7101EC54AC, 0x10000, 0x100000},
+        {sUnk_7101EC54B4, 0x20000, 0x200000},
+        {sUnk_7101EC54B8, 0x40000, 0x400000},
+        {sUnk_7101EC54BC, 0x80000, 0x800000},
+    };
+    sead::ScopedLock<sead::CriticalSection> lock(&_2950);
+    for (s32 i = 0; i < 4; ++i) {
+        const u32 flag_a = 0x10000 << i;
+        const u32 flag_b = 0x100000 << i;
+        if (flags & (flag_a | flag_b))
+            sub_7101101DFC(system, entries[i], 0, flags & flag_a, flags & flag_b);
+    }
 }
 
 void Scene::sub_7101101914(const sead::SafeArray<s32, 19>& levels) {

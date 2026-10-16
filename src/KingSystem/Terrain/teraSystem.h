@@ -472,8 +472,18 @@ public:
     // 0x710110234c (declaration only; placeholder name): branches to 0x71011021e4 with this + 0x276c and
     // true.
     void sub_710110234C(System* system);
-    // 0x7101101578 (declaration only; placeholder name and signature): System::x passes 0xff0000.
+    // Placeholder: an image type with its two request flags (sub_7101101578 builds four).
+    struct Unk_7101101DFC {
+        ImageTypeMaybe type;
+        u32 flag_a;
+        u32 flag_b;
+    };
+    // 0x7101101578 (placeholder name): under _2950, calls sub_7101101DFC for each of the four image types
+    // (0, 1, grass, water) whose flags are in `flags` (System::x passes 0xff0000).
     void sub_7101101578(System* system, u32 flags);
+    // 0x7101101dfc (declaration only; placeholder name and signature): picks the per-type data
+    // (0x15e0 / 0x8c0 / 0xd20 / 0x1180) by entry.type.
+    void sub_7101101DFC(System* system, const Unk_7101101DFC& entry, s32 a3, bool a, bool b);
     // 0x71010ffe70 (placeholder name): when (a, b) differ from _2780 / _2784, stores them,
     // rebuilds through _2948 and sets flags 0xff00.
     void sub_71010FFE70(s32 a, s32 b);
@@ -517,7 +527,9 @@ public:
         void* _afc0;
     };
     Unk_2948* _2948;
-    u8 _2950[0x2998 - 0x2950];
+    // Locked by sub_7101101578.
+    sead::CriticalSection _2950;
+    u8 _2950_end[0x2998 - 0x2950 - sizeof(sead::CriticalSection)];
     // Flags: 4 set when the levels change, 8 read by System::sub_710111F618.
     u32 _2998;
 };
