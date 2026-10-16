@@ -12,6 +12,9 @@
 #include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Event/evtManager.h"
+#include "Game/gameEventDelegate.h"
+#include "KingSystem/Event/evtQuery.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 
 namespace uking::ui {
 void sub_7100A941DC();
@@ -36,6 +39,18 @@ EventSystem::~EventSystem() = default;
 
 int EventSystem::handleMessage(const Message& message) {
     return 1;
+}
+
+// 0x71008aa8b4
+// NON_MATCHING: scheduling (the original stores the argument's vtable and transceiver separately)
+void EventSystem::init(sead::Heap* heap) {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return;
+    mTxTransceiver = new (heap) MessageTransceiverTxOnly(this);
+    _58.sub_710089CA04(Unk_710246bdc8(&mTransceiver));
+    manager->setDelegate(new (heap) uking::EventDelegate);
+    setEventSystemQueryHandler(&uking::eventSystemQueryHandler);
 }
 
 // 0x71008aa970

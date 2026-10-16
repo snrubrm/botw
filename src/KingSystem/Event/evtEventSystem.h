@@ -66,6 +66,8 @@ public:
     bool x_0(void* arg);
     // 0x71008aab4c (CSV x_1; not decompiled): takes the actor's +0x108 word
     bool x_1(void* arg);
+    // 0x71008aa8b4: creates the transceiver, registers it with the debug board and installs the game's event delegate
+    void init(sead::Heap* heap);
     // 0x71008aa970: per-frame speaker and UI update.
     void x();
     // 0x71008aa9a0: applies pending input/control flags; declaration only.

@@ -27,4 +27,8 @@ public:
     void m8(s32 value, s32 count) override;
 };
 
+// 0x71008acbac (CSV evt::eventSystemQueryHandler; declared only): the event system's query handler (set by
+// EventSystem::init)
+int eventSystemQueryHandler(const evfl::QueryArg& arg);
+
 }  // namespace uking

@@ -163,6 +163,8 @@ public:
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
     // inline-only in the original; name is a guess
     ManagerDelegate* getDelegate() const { return _1d2c8; }
+    // inline-only in the original; name is a guess (EventSystem::init stores the game's delegate)
+    void setDelegate(ManagerDelegate* delegate) { _1d2c8 = delegate; }
 
     void setNoDeleteCurrentActor(bool no_delete);
 
