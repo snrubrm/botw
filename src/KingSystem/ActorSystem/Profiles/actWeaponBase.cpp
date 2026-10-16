@@ -11,6 +11,9 @@
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actOptionalWeapon.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -637,6 +640,98 @@ void WeaponBase::m168(sead::Vector3f* out) {
     sead::Vector3f extra = sead::Vector3f::zero;
     m245(&extra);
     *out += extra;
+}
+
+// NON_MATCHING: the drop-velocity scaling and the _910 copies are scheduled differently.
+bool WeaponBase::m199() {
+    mDrawDistanceFlags.set(1);
+    sead::Vector3f pos;
+    pos.x = mMtx(0, 3);
+    pos.y = mMtx(1, 3);
+    pos.z = mMtx(2, 3);
+
+    if (_936) {
+        if (auto* body = mMainBody.load()) {
+            sead::Matrix34f mtx = body->getTransform();
+            mtx.setTranslation(_928);
+            body->setTransform(mtx, phys::PropagateToLinkedMotions(true));
+            setMtx(mtx, false, true);
+            pos = mtx.getTranslation();
+            if (mPhysics)
+                mPhysics->setMtxAndScale(mtx, false, false, mScale.x);
+            body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+            body->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+        }
+        _936 = false;
+    }
+
+    bool result;
+    if (!_934) {
+        if (!_922) {
+            if (_924) {
+                f32 speed = sead::Mathf::deg2rad(30.0f);
+                if (GlobalParameter::instance() && GlobalParameter::instance()->getGlobalParam())
+                    speed = sead::Mathf::deg2rad(
+                        GlobalParameter::instance()->getGlobalParam()->mWeaponDropRotSpd.ref());
+                sub_7100EE5A14(this, -(sead::Vector3f(0, 1, 0) * speed));
+            }
+            sub_7100EE5980(this, _910);
+            sub_7100EE6AFC();
+            const sead::Vector3f vel = _910;
+            result = sub_7100EF7208(pos, vel, false);
+        } else {
+            if (!_935)
+                m209(_910);
+            else
+                sub_7100EE5980(this, _910);
+            m207();
+            _922 = false;
+            _935 = false;
+            sub_7100EE6AFC();
+            if (isParentPlayer()) {
+                sead::Vector3f vel = _910;
+                if (auto* body = static_cast<phys::RigidBody*>(m221())) {
+                    body->getLinearVelocity(&vel);
+                    vel *= 1.0f / 30.0f;
+                }
+                result = sub_7100EF7208(pos, vel, true);
+            } else {
+                result = false;
+            }
+        }
+    } else {
+        if (auto* body = mMainBody.load()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            sead::Matrix34f mtx = accessor.getActorMtx();
+            mtx.setTranslation(_928);
+            m249(&mtx, this);
+            body->setTransform(mtx, phys::PropagateToLinkedMotions(true));
+            setMtx(mtx, false, true);
+            pos = mtx.getTranslation();
+            if (mPhysics)
+                mPhysics->setMtxAndScale(mtx, false, false, mScale.x);
+            body->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+            body->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+        }
+        _934 = false;
+        if (isMasterSword())
+            masterSwordReturnToForest();
+        sub_7100EE5980(this, _910);
+        sub_7100EE6AFC();
+        result = false;
+    }
+
+    if (auto* parent = sead::DynamicCast<Actor>(_938.getProc(nullptr, this))) {
+        if (auto* weapons = parent->getWeapons())
+            weapons->resetBaseProcLinkForActor(this);
+    }
+    _938.reset();
+    _958.reset();
+    if (mExtraActorHandle.isAllocatedOrFailed())
+        mExtraActorHandle.deleteProc();
+    _920 = 0xff;
+    return result;
 }
 
 bool WeaponBase::m201() {

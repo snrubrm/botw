@@ -145,10 +145,13 @@ public:
     virtual bool m196(sead::SafeString* out);
     virtual bool m197(sead::SafeString* out);
     virtual bool m198();
-    virtual void m199();
+    // 0x7100ef6d58: drops the weapon from its parent; returns sub_7100EF7208's result (false when it was not run).
+    virtual bool m199();
     virtual void m200();
     // 0x7100ee6afc (CSV WeaponBase::x_0): called by m200 (clears actor flags 0x21 and updates the model).
     void sub_7100EE6AFC();
+    // 0x7100ef7208 (4500 B; declared only, lane4 s102): the drop placement from `pos` with `vel` (m199).
+    bool sub_7100EF7208(const sead::Vector3f& pos, const sead::Vector3f& vel, bool from_player);
     // Original weapon update helpers at 0xef345c and 0xef3664.
     void sub_7100EF345C();
     void sub_7100EF3664();
@@ -165,7 +168,8 @@ public:
     // calls it out of line).
     bool hasCanPullGiantObjectTag();
     virtual void m208();
-    virtual void m209() {}
+    // lane4 s102: m199 passes _910.
+    virtual void m209(const sead::Vector3f& pos) {}
     virtual bool m210() { return false; }
     virtual bool m211() { return false; }
     virtual bool m212() { return false; }
