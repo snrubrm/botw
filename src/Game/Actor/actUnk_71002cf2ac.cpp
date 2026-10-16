@@ -1,5 +1,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 
 namespace {
 // 2026-10-07: static initializer 0x710066e034 creates this record and registers
@@ -45,6 +47,12 @@ void SiteBoss::Unk_71002cf2ac::sub_710066DABC(ksys::act::BaseProc* proc, s32 idx
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         link.acquire(proc, false);
     }
+}
+
+bool SiteBoss::Unk_71002cf2ac::sub_710066BFEC(s32 index, const char* name,
+                                               ksys::act::InstParamPack* params, bool flag) {
+    _98 = flag;
+    return sub_710073DB94(name, &_a0[index], params, ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
 }
 
 void SiteBoss::Unk_71002cf2ac::sub_710066C13C(ksys::act::BaseProcLink* target, int idx) {
