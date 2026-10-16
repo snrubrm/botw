@@ -105,6 +105,11 @@ public:
     // the physics frame (time step smoothing and request processing, then the multithreaded step start).
     void sub_710121624C();
     void sub_7101216328();
+    // 0x710121652c (CSV PhysicsMemSys::__auto3; placeholder name): runs the physics frame steps under the world locks.
+    void sub_710121652C();
+    // 0x7101216454 (CSV PhysicsMemSys::__auto8; declared only): sensor world step end, then the object at _f0 and
+    // the static compound transforms.
+    void sub_7101216454();
     // 0x7101216790 (CSV PhysicsMemSys::__auto17; placeholder name): sets _61 when called from a thread whose
     // priority is at most sead::Thread::cDefaultPriority.
     void sub_7101216790(bool value);

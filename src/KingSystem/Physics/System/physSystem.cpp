@@ -294,6 +294,17 @@ void System::sub_71012163F0() {
     _62 = false;
 }
 
+void System::sub_710121652C() {
+    if (_61)
+        return;
+    mWorlds[int(ContactLayerType::Entity)]->getCS().lock();
+    sub_710121624C();
+    sub_7101216328();
+    mWorlds[int(ContactLayerType::Entity)]->getCS().unlock();
+    sub_71012163F0();
+    sub_7101216454();
+}
+
 void System::sub_7101216648() {
     if (mPaused)
         return;
