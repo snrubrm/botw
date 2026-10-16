@@ -2212,6 +2212,9 @@ static_assert(offsetof(ScreenAppMapWidget, _b290) == 0xb290);
 
 class ScreenAppMap : public ScreenEx {
 public:
+    // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
+    // closes the screen
+    void sub_71009F273C();
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
@@ -3391,6 +3394,12 @@ void sub_71009F202C();
 // 0x71009f2204 (placeholder name; ScreenAppMap TU): when the open app system window has no pending result, passes
 // UiSubsys1::_3a0 to the pause menu child, sets PauseMenuDataMgr::_444fc to 2 and calls Manager::sub_7100A7C8D4
 void sub_71009F2204();
+// 0x71009e3b84 (placeholder name; ScreenAppMapDungeon TU): when the app system window of type 8 has closed with no
+// pending result, stores the dungeon exit map / destination in the Manager and calls Manager::sub_7100A7C9C0
+void sub_71009E3B84();
+// 0x7100a9eea4 / 0x7100a9eef4 (defined in uiManagerFacade.cpp)
+const char* sub_7100A9EEA4();
+const char* sub_7100A9EEF4();
 // 0x7100a9ac84 (defined in uiScreenFacade.cpp)
 void sub_7100A9AC84(void* a1);
 // 0x7100aa8784 (CSV checkFlagsAndSetCurrentRuneStuff; declared only)
@@ -4201,6 +4210,9 @@ public:
 
 class ScreenAppMapDungeon : public ScreenEx {
 public:
+    // 0x71009e70b8 (placeholder name; called by Unk_710247c010::sub_71009BE4E8): Unk_71025d69f0::sub_710094E064, then
+    // closes this screen and the map screen
+    void sub_71009E70B8();
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     bool sub_71009E0DF8() const;
     void m100() override;

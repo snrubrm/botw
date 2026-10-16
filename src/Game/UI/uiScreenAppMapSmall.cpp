@@ -228,4 +228,30 @@ void sub_71009F2204() {
     Manager::instance()->sub_7100A7C8D4();
 }
 
+// 0x71009e3b84
+void sub_71009E3B84() {
+    auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (!screen || screen->_3610 != 8 || !screen->isClosedOrClosing())
+        return;
+    if (ScreenAppSystemWindow::sub_71009FC4A0() != 0)
+        return;
+    Manager::instance()->setWarpDestination(sub_7100A9EEA4(), sub_7100A9EEF4());
+    Manager::instance()->sub_7100A7C9C0();
+}
+
+// 0x71009e70b8
+void ScreenAppMapDungeon::sub_71009E70B8() {
+    Unk_71025d69f0::instance()->sub_710094E064();
+    close(-1);
+    if (auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap)))
+        screen->close(-1);
+}
+
+// 0x71009f273c
+void ScreenAppMap::sub_71009F273C() {
+    Unk_71025d69f0::instance()->sub_710094E064();
+    close(-1);
+}
+
 }  // namespace uking::ui

@@ -89,6 +89,12 @@ public:
     void sub_7100A7C9AC();
     void sub_7100A7CA68();
     void sub_7100A7C9C0();
+    // inline-only in the original; name is a guess: 0x71009e3b84 and 0x7100990690 (twice: fixed strings and computed
+    // ones) store both values together before calling sub_7100A7C9C0
+    void setWarpDestination(const char* map, const char* point) {
+        _65180 = map;
+        _65188 = point;
+    }
     void sub_7100A7CACC();
     void sub_7100A7A1A8();
     void sub_7100A7E590();
@@ -211,7 +217,11 @@ public:
     u8 _65130[0x65160 - 0x650f8 - sizeof(sead::CriticalSection)];
     /* 0x65160 */ u64 _65160;
     /* 0x65168 */ s32 _65168;
-    u8 _6516c[0x651ac - 0x6516c];
+    u8 _6516c[0x65180 - 0x6516c];
+    // map name / escape destination for the dungeon exit (set by sub_71009E3B84)
+    /* 0x65180 */ const char* _65180;
+    /* 0x65188 */ const char* _65188;
+    u8 _65190[0x651ac - 0x65190];
     /* 0x651ac */ UiTimer _651ac;
     /* 0x651c4 */ bool _651c4;
     u8 _651c5[3];
