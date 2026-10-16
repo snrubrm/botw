@@ -558,6 +558,18 @@ bool Unk_7102474fd8::sub_7100945D98() const {
     return _10 && _10->_6c;
 }
 
+// 0x7100946604
+void Unk_7102474fd8::sub_7100946604(u8 alpha) {
+    if (_8 && _8->mPane)
+        _8->mPane->SetAlpha(alpha);
+}
+
+// 0x710094661c
+void Unk_7102474fd8::sub_710094661C(f32 scale) {
+    if (_8 && _8->mPane)
+        _8->mPane->SetScale({scale, scale});
+}
+
 // 0x7100946664
 void Unk_7102474fd8::sub_7100946664(bool max) {
     if (!_50)

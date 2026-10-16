@@ -336,6 +336,9 @@ public:
     void sub_7100945D70();
     // 0x7100945d98 (placeholder name): the trace gauge's _6c flag (false without one)
     bool sub_7100945D98() const;
+    // 0x7100946604 / 0x710094661c (placeholder names): set the alpha / uniform scale of the layout's root pane
+    void sub_7100946604(u8 alpha);
+    void sub_710094661C(f32 scale);
     // 0x7100946664 (placeholder name): stops the _50 animator at its maximum (`max`) or minimum
     void sub_7100946664(bool max);
     // 0x7100946898 / 0x71009468ac (placeholder names): play the _28 / _58 animator
