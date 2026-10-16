@@ -31,7 +31,7 @@ public:
              ksys::act::ai::InlineParamPack* params) override;
     // 0x710041f990 / 0x71004201a4 (declared only; placeholder names): called by m35.
     bool sub_710041F990(bool from_player);
-    // `unused` (w4) is never read; m35 leaves the register unset in the original.
+    // `unused` (w4) is never read (callers in this TU leave the register unset, as clang passes undef).
     void sub_71004201A4(const sead::SafeString& name, s32 a, s32 b, s32 unused, s32 e);
 protected:
     // static_param at offset 0x68

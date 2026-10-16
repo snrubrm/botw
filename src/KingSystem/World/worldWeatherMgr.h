@@ -32,6 +32,9 @@ public:
     void loadInfo();
     WeatherType rollNewWeather(Climate climate);
     bool x_0();
+    // 0x71010eb4bc (CSV wm::WeatherMgr::calcNewWeathers): shifts every climate's weather table by one cycle and
+    // rolls the six new entries (not in the test stage).
+    void calcNewWeathers();
     WeatherType getWeather() const;
 
     // UI weather setup/frame callbacks pass the WeatherMgr receiver and use a float result.

@@ -198,7 +198,7 @@ void GuardianMiniReaction::m42(ksys::act::ai::InlineParamPack* params) {
 }
 
 
-// NON_MATCHING: same as m35 (unset w4 for sub_71004201A4, child name branch layout).
+// NON_MATCHING: same as m35 (argument scheduling, child name branch layout).
 bool GuardianMiniReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
     if (!damage_mgr)
         return false;
@@ -279,8 +279,7 @@ bool GuardianMiniReaction::m34(act::DamageManagerBase* damage_mgr, int damage_ty
     return EnemyDefaultReaction::m34(damage_mgr, damage_type);
 }
 
-// NON_MATCHING: the original leaves w4 (the unused fourth argument of sub_71004201A4) unset; the final child
-// name choice is laid out differently.
+// NON_MATCHING: scheduling of the sub_71004201A4 arguments and the layout of the final child name choice.
 void GuardianMiniReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
                                ksys::act::ai::InlineParamPack* params) {
     if (u32(damage_type - 7) < 2) {

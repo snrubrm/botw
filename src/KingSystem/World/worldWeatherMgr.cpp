@@ -111,6 +111,22 @@ bool WeatherMgr::isExposureZero() {
     return env_mgr->getExposure() == 0.0f;
 }
 
+// NON_MATCHING: the original passes `this` to every rollNewWeather call; ours does not because our
+// rollNewWeather never reads it (clang passes undef for an unused argument of a function in the same TU).
+void WeatherMgr::calcNewWeathers() {
+    if (Manager::instance()->getStageType() == StageType::OpenWorldTest)
+        return;
+
+    for (int i = 0; i < int(NumClimates); ++i) {
+        auto& weathers = _2a[i];
+        for (int j = 0; j < 12; ++j)
+            weathers[j] = weathers[j + 6];
+        for (int j = 12; j < 18; ++j)
+            weathers[j] = rollNewWeather(Climate(i));
+    }
+    x_0();
+}
+
 WeatherType WeatherMgr::rollNewWeather(Climate climate) {
     auto* wm = Manager::instance();
     int random = sead::GlobalRandom::instance()->getU32(99);
