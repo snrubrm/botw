@@ -289,7 +289,9 @@ public:
             u8 _748[0x878 - 0x748];
             // Read by index by 0x7101123224.
             sead::Buffer<sead::Vector4f> _878;
-            u8 _888[0xf88 - 0x888];
+            // Read by Unk370::sub_710113F34C.
+            bool _888;
+            u8 _889[0xf88 - 0x889];
         };
         // Placeholder: the object at 0xf98 (see Unk_10).
         class Unk_f98 {
@@ -313,14 +315,22 @@ public:
         u8 _f98[0x3910 - 0xf98];
         u32 _3910;
         IndexPair* _3918;
+        u8 _3920[0x3ad8 - 0x3920];
+        // Read by Unk370::sub_710113F34C.
+        bool _3ad8;
     };
     struct Unk370 {
+        // 0x710113f34c (placeholder name): _4ae0->_10._888 and _4ae0->_3ad8.
+        bool sub_710113F34C() const;
+
         u8 _0[0x4ae0];
         Unk4ae0* _4ae0;
     };
     // 0x710114de10 (CSV Terrain::__auto9) / 0x710114de3c (CSV Terrain::__auto6) / 0x710114de20 (placeholder names).
     void* sub_710114DE10() const;
     s32 sub_710114DE3C() const;
+    // 0x710114d920 (placeholder name): _370->sub_710113F34C().
+    bool sub_710114D920() const;
     // The name of terrain material `index` (DragonMoveTo searches it for "雪").
     const char* sub_710114DE20(s32 index) const;
 

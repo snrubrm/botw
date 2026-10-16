@@ -83,6 +83,11 @@ const char* Terrain::sub_710114DE20(s32 index) const {
     return _370->_4ae0->_10.mMaterialNames->mNames[index]->name;
 }
 
+// NON_MATCHING: Unk370::sub_710113F34C is inlined here (the original calls it from another TU).
+bool Terrain::sub_710114D920() const {
+    return _370->sub_710113F34C();
+}
+
 s32 Terrain::sub_710114DE3C() const {
     return _370->_4ae0->_10._700;
 }
@@ -160,6 +165,13 @@ bool Core::Grass::sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b) {
 bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
     const Unk_7101150c24 arg{1, pos, radius, 10.0f, false, false, true, false, true};
     return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+bool Terrain::Unk370::sub_710113F34C() const {
+    const Unk4ae0* data = _4ae0;
+    if (!data->_10._888)
+        return false;
+    return data->_3ad8;
 }
 
 nn::gfx::ResTexture* MaterialTextureMaybe::getTexture() const {
