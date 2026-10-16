@@ -28,6 +28,9 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 using ksys::act::Actor;
 using ksys::act::BaseProc;
@@ -327,6 +330,28 @@ void ArmorBase::m148() {
 }
 
 // NON_MATCHING: the original merges the exits with a boolean flag and branches around the Actor cast
+// NON_MATCHING: the profile compare skips cstr() in the original, and sead::Buffer<Unk1>::size() is an out-of-line
+// call there (0x710115f0b4).
+// Placeholder name: for non-head armor, passes the owner's temperature (its chemical, else the world
+// TempMgr) to AS slot 0x18 and copies the owner's AS slot 2 or 4 (2 when the owner has ActorFlag2 0x200).
+void ArmorBase::sub_7100E29F3C() {
+    if (getProfile() == "ArmorHead")
+        return;
+    auto* owner = getOwner();
+    if (!owner)
+        return;
+    if (auto* chemical = owner->getChemicalStuff()) {
+        mASList->x_6(0x18, 0, chemical->sub_7100D91958());
+    } else if (auto* world = ksys::world::Manager::instance()) {
+        if (auto* temp_mgr = world->getTempMgr())
+            mASList->x_6(0x18, 0, temp_mgr->get_40());
+    }
+    auto* owner_list = owner->getASList();
+    const int slot = owner->getActorFlags2().isOn(ActorFlag2::_200) ? 2 : 4;
+    if (owner_list->mSlots.size() > slot)
+        mASList->sub_710115F158(owner_list, 0, slot, 0, 0);
+}
+
 ksys::act::Actor* ArmorBase::getOwner() {
     if (!_840.hasProc())
         return nullptr;
