@@ -721,7 +721,7 @@ public:
     // 0x71010252c0 / 0x7101025388 (declared only): add / remove a spot BGM instance (`started`: the controller runs).
     void sub_71010252C0(Unk_SpotBgmInstance* instance, bool started);
     void sub_7101025388(Unk_SpotBgmInstance* instance);
-    // 0x71010255d0 (declared only; 28 B): clears _80 and resets the volume of the sound at _78 to 1.
+    // 0x71010255d0: clears _80 and resets the volume of mGroup to 1.
     void sub_71010255D0();
 
     ~Unk_710260f1a8() override;
@@ -739,6 +739,10 @@ public:
     /* 0x30 */ sead::SpinLock mLock;
     u8 _40[0x60 - 0x40];
     /* 0x60 */ sead::Buffer<void*> _60;
+    u8 _70[0x78 - 0x70];
+    // The "EnvNoisy" group (0x7101024ad4).
+    /* 0x78 */ aal::Group* mGroup;
+    /* 0x80 */ f32 _80;
 };
 
 // Four-byte practice-state argument, passed by reference to sub_71010267A8.

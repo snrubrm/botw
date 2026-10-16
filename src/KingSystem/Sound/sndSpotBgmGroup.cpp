@@ -1,3 +1,4 @@
+#include <aal/aalGroup.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/Actor/Action/actionSpotBgmTriggerAction.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -27,6 +28,12 @@ void Unk_710260f1a8::m13(f32 fade_sec) {
             instance->sub_710102418C(fade_sec);
     }
     _28 = 0;
+}
+
+void Unk_710260f1a8::sub_71010255D0() {
+    _80 = 0;
+    if (mGroup)
+        mGroup->getParam().setVolume(1.0f);
 }
 
 }  // namespace ksys::snd

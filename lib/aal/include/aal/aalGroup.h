@@ -105,6 +105,8 @@ public:
 
     const SoundParam* getAggregatedParam() const { return mAggregatedParam; }
     f32 getDuckingVolume() const { return mDuckingVolume; }
+    /// Inline in the original: ksys::snd 0x71010255d0 and 0x7100ffb7e8 call SoundParam::setVolume on group +0xe0.
+    SoundParam& getParam() { return mCurrentParam; }
 
 protected:
     sead::TTreeNode<Group*>& treeNode() { return *this; }
