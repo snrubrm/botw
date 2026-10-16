@@ -23,6 +23,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/gameSceneSubsys14.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"

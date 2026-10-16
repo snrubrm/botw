@@ -783,7 +783,7 @@ public:
     /* 0x1c6c */ u8 _1c6c[0x1c70 - 0x1c6c];
     /* 0x1c70 */ u32 _1c70;  // an angle index (0x80000000 = reset by PlayerLadderDownStart::leave_)
     /* 0x1c74 */ u32 _1c74;  // an angle index (PlayerLand::enter_)
-    /* 0x1c78 */ u8 _1c78[0x1c7c - 0x1c78];
+    /* 0x1c78 */ u32 _1c78;  // _1c74 copied by x_27
     /* 0x1c7c */ u32 _1c7c;  // an angle index (sub_71008902B4)
     /* 0x1c80 */ u8 _1c80[0x1c84 - 0x1c80];
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
@@ -893,7 +893,7 @@ public:
     /* 0x1fd8 */ f32 _1fd8;  // added to _2024 for the quietness level (sub_710086DD00)
     /* 0x1fdc */ u8 _1fdc[0x1fe8 - 0x1fdc];
     /* 0x1fe8 */ f32 _1fe8;  // knock-back correction (sub_7100893F1C)
-    /* 0x1fec */ u8 _1fec[0x1ff0 - 0x1fec];
+    /* 0x1fec */ f32 _1fec;  // x_27: probe distance factor
     /* 0x1ff0 */ s32 _1ff0;
     /* 0x1ff4 */ s32 _1ff4;  // swim status level (getSwimMoveSpeed)
     /* 0x1ff8 */ s32 _1ff8;
