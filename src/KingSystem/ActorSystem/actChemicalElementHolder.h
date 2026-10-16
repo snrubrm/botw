@@ -6,6 +6,8 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include <heap/seadExpHeap.h>
+#include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Utils/Types.h"
 
 class ElementSpark;
@@ -85,6 +87,16 @@ public:
     KSYS_CHECK_SIZE_NX150(PositionEntry, 0x10);
     sead::SafeArray<PositionEntry, 10> _1cc;
     s32 _26c;
+    u8 _270[0x28c - 0x270];
+    // lane1 s91: the largest element heap size seen by the element factories.
+    u32 mMaxElementHeapSize;
+
+    // 0x7100d9cef8 (CSV elementEmitMaybe; declared only): prints the holder status once.
+    void elementEmitMaybe();
+
+    // The element factories (0x71010c74a0, 0x71010ea040, 0x71010f1bb0, 0x71012fe4b4, 0x71012fe6e0 and
+    // ksys::world::sub_71010CBF7C) each repeat the same body: an "ElementHolder" ExpHeap from the chemical
+    // system heap, the element constructed in it, and cleanup when the element got no holder.
 };
 
 Unk_71024dd490* sub_7100D9A1D0(const Unk_71024dd490::CreateArg& arg, sead::Heap* heap);

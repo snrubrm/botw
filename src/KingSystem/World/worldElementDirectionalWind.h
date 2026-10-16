@@ -68,5 +68,7 @@ public:
     /* 0xdc */ u16 _dc = 0;
     /* 0xe0 */ sead::Vector3f _e0 = sead::Vector3f::ex;
     /* 0xec */ sead::Vector3f _ec = sead::Vector3f::ey;
+    // Not set by the constructor; the factory allocates 0x138 bytes.
+    /* 0xf8 */ u8 _f8[0x138 - 0xf8];
 };
-KSYS_CHECK_SIZE_NX150(ElementDirectionalWindOrGust, 0xf8);
+KSYS_CHECK_SIZE_NX150(ElementDirectionalWindOrGust, 0x138);

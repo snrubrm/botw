@@ -8,9 +8,15 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::act { class Chemical; }
+namespace ksys::act { class Chemical; class Unk_71024dd490; }
 class Element;
 class Unk_7102518688;
+class Unk_71025187d0;
+
+namespace ksys::world {
+struct Unk_ChemicalMgrM2Arg;
+Unk_71025187d0* sub_71010CBF7C(act::Unk_71024dd490* holder, Unk_ChemicalMgrM2Arg* arg);
+}  // namespace ksys::world
 
 namespace ksys::chm {
 
@@ -35,6 +41,10 @@ private:
     // lane1 s90: the elements read the heap and the watch flags.
     friend class ::Element;
     friend class ::Unk_7102518688;
+    // lane1 s91: the element factories (Unk_71024dd490::createElement) use the heap, lock and flags.
+    friend class act::Unk_71024dd490;
+    friend ::Unk_71025187d0* world::sub_71010CBF7C(act::Unk_71024dd490* holder,
+                                                  world::Unk_ChemicalMgrM2Arg* arg);
     sead::PtrArray<act::Chemical> _68;
     sead::Heap* _78 = nullptr;
     // Original d9979c obtains a unique id with a relaxed exclusive increment.

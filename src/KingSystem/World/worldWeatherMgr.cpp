@@ -381,3 +381,36 @@ f32 ElementWater::m20(ksys::act::Chemical* chemical) {
     const f32 radius = chemical->_34;
     return sead::Mathf::clamp((radius - (distance * sin - mArg._20)) / (radius + radius), 0.0f, 1.0f);
 }
+
+ElementWater* ksys::act::Unk_71024dd490::sub_71010EA040(const ElementWaterCreateArg* arg) {
+    auto* chemical = ksys::chm::Chemical::instance();
+    if (!chemical)
+        return nullptr;
+    sead::Heap* parent = chemical->_78;
+    if (!parent)
+        return nullptr;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&chemical->_28);
+    auto* heap = sead::ExpHeap::tryCreate(0x2000, "ElementHolder", parent, 8,
+                                          sead::Heap::cHeapDirection_Forward, true);
+    if (!heap) {
+        if (!(chemical->_84 & 4))
+            elementEmitMaybe();
+        return nullptr;
+    }
+    auto* element = new (parent, std::nothrow_t()) ElementWater(*arg, heap);
+    if (!element) {
+        elementEmitMaybe();
+        heap->destroy();
+        return nullptr;
+    }
+    if (mMaxElementHeapSize < heap->getSize())
+        mMaxElementHeapSize = heap->getSize();
+    if (!element->mHolder) {
+        elementEmitMaybe();
+        element->m32();
+        delete element;
+        return nullptr;
+    }
+    return element;
+}

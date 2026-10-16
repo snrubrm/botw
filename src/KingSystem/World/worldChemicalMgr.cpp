@@ -17,6 +17,8 @@
 #include "KingSystem/ActorSystem/actChemicalUserTag.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/Chemical/chmElement.h"
+#include "KingSystem/World/worldElementSpark.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Map/mapObject.h"
@@ -521,4 +523,70 @@ bool ChemicalMgr::x_6(map::Object* object, const sead::Vector3f& position) {
     return false;
 }
 
+Unk_71025187d0* sub_71010CBF7C(act::Unk_71024dd490* holder, Unk_ChemicalMgrM2Arg* arg) {
+    auto* chemical = ksys::chm::Chemical::instance();
+    if (!chemical)
+        return nullptr;
+    sead::Heap* parent = chemical->_78;
+    if (!parent)
+        return nullptr;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&chemical->_28);
+    auto* heap = sead::ExpHeap::tryCreate(0x2000, "ElementHolder", parent, 8,
+                                          sead::Heap::cHeapDirection_Forward, true);
+    if (!heap) {
+        if (!(chemical->_84 & 4))
+            holder->elementEmitMaybe();
+        return nullptr;
+    }
+    auto* element = new (parent, std::nothrow_t()) Unk_71025187d0(*arg, heap);
+    if (!element) {
+        holder->elementEmitMaybe();
+        heap->destroy();
+        return nullptr;
+    }
+    if (holder->mMaxElementHeapSize < heap->getSize())
+        holder->mMaxElementHeapSize = heap->getSize();
+    if (!element->mHolder) {
+        holder->elementEmitMaybe();
+        element->m32();
+        delete element;
+        return nullptr;
+    }
+    return element;
+}
+
 }  // namespace ksys::world
+
+ElementSpark* ksys::act::Unk_71024dd490::sub_71010C74A0(const ElementSparkCreateArg* arg) {
+    auto* chemical = ksys::chm::Chemical::instance();
+    if (!chemical)
+        return nullptr;
+    sead::Heap* parent = chemical->_78;
+    if (!parent)
+        return nullptr;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&chemical->_28);
+    auto* heap = sead::ExpHeap::tryCreate(0x2000, "ElementHolder", parent, 8,
+                                          sead::Heap::cHeapDirection_Forward, true);
+    if (!heap) {
+        if (!(chemical->_84 & 4))
+            elementEmitMaybe();
+        return nullptr;
+    }
+    auto* element = new (parent, std::nothrow_t()) ElementSpark(*arg, heap);
+    if (!element) {
+        elementEmitMaybe();
+        heap->destroy();
+        return nullptr;
+    }
+    if (mMaxElementHeapSize < heap->getSize())
+        mMaxElementHeapSize = heap->getSize();
+    if (!element->mHolder) {
+        elementEmitMaybe();
+        element->m32();
+        delete element;
+        return nullptr;
+    }
+    return element;
+}
