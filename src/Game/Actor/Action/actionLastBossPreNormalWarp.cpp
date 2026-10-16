@@ -1,5 +1,10 @@
 #include "Game/Actor/Action/actionLastBossPreNormalWarp.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include <limits>
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -10,6 +15,8 @@
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 
+// 0x71002c65c8 (declaration only).
+void sub_71002C65C8(ksys::act::Actor* actor, bool a2, bool a3);
 // 0x71002c67e8 (declaration only).
 void sub_71002C67E8(f32 a1, ksys::act::Actor* actor, bool a3);
 // 0x71002c67e8 (declared only): Actor::x_3(value) then the follow-up with the value or 0 (as the flag says).
@@ -46,10 +53,10 @@ void LastBossPreNormalWarp::enter_(ksys::act::ai::InlineParamPack* params) {
     _68 = 30.0f;
     _6c = false;
     _6e = false;
-    _64 = -1.0f;
+    _5c.rate = -1.0f;
     _6d = actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20);
-    _5c = 30.0f;
-    _60 = 30.0f;
+    _5c.value = 30.0f;
+    _5c.previous_value = 30.0f;
     if (auto* boss = sead::DynamicCast<act::LastBoss>(actor))
         boss->_14c8 = ksys::eft::searchAndEmitELink(boss, "WarpCharge");
 }
@@ -66,8 +73,60 @@ void LastBossPreNormalWarp::loadParams_() {
     getDynamicParam(&mIsPartsWarpEffectSync_d, "IsPartsWarpEffectSync");
 }
 
+// NON_MATCHING: regalloc only (the original keeps the _6c load live across the _6e check).
 void LastBossPreNormalWarp::calc_() {
-    ksys::act::ai::Action::calc_();
+    const auto check_warp_start = [this] {
+        ksys::as::ASList::Unk4 query;
+        if (sub_71005DD5B0(mActor, 8, &query, 0, 0)) {
+            m32();
+            m33();
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000);
+            _68 = query._10;
+            _5c = ksys::Timer(_68, _68);
+        }
+    };
+
+    _50.update();
+    if (!_6c && _50.value <= std::numeric_limits<f32>::epsilon()) {
+        _6c = true;
+        if (_6d || mASName_s.isEmpty())
+            return;
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+        _6e = true;
+        _5c = ksys::Timer(30.0f, 30.0f);
+        _68 = 30.0f;
+        check_warp_start();
+        return;
+    }
+
+    if (_6e) {
+        check_warp_start();
+        if (sub_71005DD798(mActor, 8, nullptr, 0, 0)) {
+            _5c.update();
+            const f32 rate = sead::Mathf::clamp(1.0f - _5c.value / _68, 0.0f, 1.0f);
+            m34(rate, mActor, *mIsPartsWarpEffectSync_d);
+        }
+    }
+
+    if (_6c && (!_6e || isFinishedAS(0, 0))) {
+        setFinished();
+        if (!_6d) {
+            sub_71002C65C8(mActor, true, *mIsPartsWarpEffectSync_d);
+            if (*mIsDeleteEffect_s) {
+                if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+                    boss->_14c8.fade();
+                ksys::eft::searchAndEmitELink(mActor, "WarpFlash");
+            }
+            m32();
+            m33();
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000);
+        }
+    }
+
+    if (auto* controller = mActor->getCharacterController()) {
+        sub_71007377D4(controller, *mPosReduce_s);
+        controller->sub_7100F5FB24(sead::Vector3f(0.0f, 0.0f, 0.0f));
+    }
 }
 
 void LastBossPreNormalWarp::m33() {

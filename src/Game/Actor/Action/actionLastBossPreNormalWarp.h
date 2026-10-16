@@ -33,9 +33,7 @@ protected:
     // dynamic_param at offset 0x48
     bool* mIsPartsWarpEffectSync_d{};
     ksys::Timer _50;
-    float _5c = 0.0f;
-    float _60 = 0.0f;
-    float _64 = 0.0f;
+    ksys::Timer _5c;
     float _68 = 30.0f;
     bool _6c = false;
     bool _6d = false;
