@@ -773,7 +773,7 @@ public:
     void m5() override {}
     void m12(f32 fade_sec) override;
     void m13(f32 fade_sec) override;
-    // 0x7101026924 (declared only; 240 B)
+    // 0x7101026924: prints the state when the debug flag sUnk_7102610448 is set.
     void m14(sead::TextWriter& writer) override;
     void hm14() override;
     void hm15() override;
@@ -782,6 +782,13 @@ public:
     void sub_71010267A8(const Unk_71010267A8& state);
     // 0x7101026888 (called by Unk_710260f218::m10).
     void sub_7101026888();
+
+    // The states of mState (enum text "停止,再生,変更待ち,アウトロ待ち,アウトロ"; text_ is 0x7101026d10) and the
+    // lessons of mLesson (enum text "cLesson1 , cLesson2 , cLesson3 , cLesson4"; text_ is 0x71010270a4).
+    // clang-format off
+    SEAD_ENUM(State,停止,再生,変更待ち,アウトロ待ち,アウトロ)
+    SEAD_ENUM(Lesson,cLesson1 , cLesson2 , cLesson3 , cLesson4)
+    // clang-format on
 
 private:
     TutorialDungeonBattleBgmInfo* mInfo = nullptr;

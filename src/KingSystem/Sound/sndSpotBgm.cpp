@@ -1,3 +1,4 @@
+#include <gfx/seadTextWriter.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
@@ -88,6 +89,19 @@ void Unk_710260f228::hm15() {
     default:
         break;
     }
+}
+
+// 0x7102610448: debug flag (never written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_7102610448;
+
+void Unk_710260f228::m14(sead::TextWriter& writer) {
+    if (!sUnk_7102610448)
+        return;
+    writer.printf("----チュートリアル戦闘BGM----\n");
+    writer.printf("処理        :%s\n", mActive ? "有効" : "無効");
+    writer.printf("状態        :%s\n", State::text(mState) ? State::text(mState) : "不明");
+    writer.printf("再生待ち秒  :%.3f\n", mTimer);
+    writer.printf("段階        :%s\n", Lesson::text(mLesson.value) ? Lesson::text(mLesson.value) : "不明");
 }
 
 void Unk_710260f228::m12(f32 fade_sec) {
