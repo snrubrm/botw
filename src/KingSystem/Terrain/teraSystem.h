@@ -231,9 +231,20 @@ public:
             u32* mValues;
         };
         MaterialValueTable* _730;
-        u8 _738[0x888 - 0x738];
+        u8 _738[0x748 - 0x738];
+        // Placeholder: pairs read by sub_710110C134 / sub_710110B7A4 (-1 when out of range).
+        struct IndexPair {
+            s32 a;
+            s32 b;
+        };
+        u32 _748;
+        IndexPair* _750;
+        u8 _758[0x888 - 0x758];
         // Read by index by 0x7101123224.
         sead::Buffer<sead::Vector4f> _888;
+        u8 _898[0x3910 - 0x898];
+        u32 _3910;
+        IndexPair* _3918;
     };
     struct Unk370 {
         u8 _0[0x4ae0];
@@ -749,6 +760,9 @@ u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vecto
 // Full 110C1E4 looks up the texture name and writes its indexed 32-bit value.
 // GolemRootBase 402194 consumes the unsigned output for model and XLink state.
 bool sub_710110C1E4(u32* out, const sead::SafeString& name);
+// 0x710110c134 / 0x710110b7a4 (placeholder names): the pair `index` of Unk4ae0::_750 / _3918, or -1.
+void sub_710110C134(s32* out_a, s32* out_b, s32 index);
+void sub_710110B7A4(s32* out_a, s32* out_b, s32 index);
 // 0x710110c1a4 (placeholder name): the u32 value of terrain material `index`; false if out of range.
 bool sub_710110C1A4(u32* out, u32 index);
 

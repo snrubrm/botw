@@ -213,6 +213,20 @@ s32 Unk_7101106F44::sub_710111FD70(sead::BufferedSafeString* out, const ImageTyp
     return end - out->cstr();
 }
 
+void sub_710110C134(s32* out_a, s32* out_b, s32 index) {
+    const auto* data = Terrain::instance()->_370->_4ae0;
+    *out_a = index < data->_748 ? data->_750[index].a : -1;
+    data = Terrain::instance()->_370->_4ae0;
+    *out_b = index < data->_748 ? data->_750[index].b : -1;
+}
+
+void sub_710110B7A4(s32* out_a, s32* out_b, s32 index) {
+    const auto* data = Terrain::instance()->_370->_4ae0;
+    *out_a = index < data->_3910 ? data->_3918[index].a : -1;
+    data = Terrain::instance()->_370->_4ae0;
+    *out_b = index < data->_3910 ? data->_3918[index].b : -1;
+}
+
 bool sub_710110C1A4(u32* out, u32 index) {
     const auto* data = Terrain::instance()->_370->_4ae0;
     if (u32(data->_710) <= index)
