@@ -2,7 +2,9 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace aal {
 class Shape;
@@ -15,6 +17,8 @@ class RigidBody;
 namespace ksys::act {
 class Actor;
 }
+
+class Unk_710250c118;
 
 namespace sead {
 class Heap;
@@ -39,20 +43,29 @@ public:
     void sub_71010C3A1C(f32 radius);
     // 0x71010c3b18 (declared only; ExpandSensor::enter_ passes the capsule length `_d4`).
     void sub_71010C3B18(f32 length);
-    // 0x71010c3d70 (declared only; ExpandSensor::leave_ passes 0 after resetting the length to 0).
-    void sub_71010C3D70(int mode);
-    // 0x71010c3c44 (declared only; ExpandSensorSlowly passes 2 when it starts expanding).
+    // 0x71010c3d70: deletes the chemi_fire element, removes the body from the world (and resets its
+    // links when `reset_links`) and fades the effect. ExpandSensor::leave_ passes false.
+    void sub_71010C3D70(bool reset_links);
+    // 0x71010c3c44: adds the body to the world, creates the chemi_fire element (with `mode`) and emits the
+    // FirePillar effect. ExpandSensorSlowly passes 2 when it starts expanding.
     void sub_71010C3C44(int mode);
 
-    /* 0x08 */ void* _8 = nullptr;
+    // lane1 s95: the effect update shared by 0x71010c38f4 / 3a1c / 3b18 / 3c44 (inlined in each).
+    void updateEffect() {
+        if (_60.isActive()) {
+            _60.setMatrix(_28);
+            sub_71012412E4(_20, 0x19, _58, false);
+        }
+    }
+
+    /* 0x08 */ Unk_710250c118* _8 = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;
     /* 0x18 */ u32 _18 = 0;
-    /* 0x20 */ void* _20 = nullptr;
+    /* 0x20 */ ksys::act::Actor* _20 = nullptr;
     /* 0x28 */ sead::Matrix34f _28 = sead::Matrix34f::ident;
     /* 0x58 */ f32 _58 = 1.0f;
     /* 0x5c */ f32 _5c = 1.0f;
-    /* 0x60 */ void* _60 = nullptr;
-    /* 0x68 */ u32 _68 = 0;
+    /* 0x60 */ xlink2::HandleELink _60;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710250c260, 0x70);
 

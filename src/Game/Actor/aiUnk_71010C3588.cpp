@@ -11,6 +11,10 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldChemicalMgr.h"
 
 Unk_710250c260::Unk_710250c260() = default;
 
@@ -21,6 +25,67 @@ Unk_710250c260::~Unk_710250c260() {
         delete mBody;
         mBody = nullptr;
     }
+}
+
+void Unk_710250c260::sub_71010C38F4(const sead::Matrix34f* mtx) {
+    _28 = *mtx;
+    if (mBody) {
+        if (auto* body = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(mBody))
+            body->changePositionAndRotation(_28, sead::Mathf::epsilon());
+    }
+    updateEffect();
+}
+
+void Unk_710250c260::sub_71010C3A1C(f32 radius) {
+    _5c = radius;
+    if (mBody) {
+        if (auto* body = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(mBody))
+            body->setRadius(_5c);
+    }
+    updateEffect();
+}
+
+void Unk_710250c260::sub_71010C3B18(f32 length) {
+    _58 = length;
+    if (mBody) {
+        if (auto* body = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(mBody))
+            body->setVertices(sead::Vector3f::zero, sead::Vector3f::ey * _58);
+    }
+    updateEffect();
+}
+
+// NON_MATCHING: the handle copy stores the id before the event pointer in the original.
+void Unk_710250c260::sub_71010C3C44(int mode) {
+    if (!mBody)
+        return;
+    if (!mBody->isAddedToWorld() || mBody->isRemovingBodyFromWorld())
+        mBody->addToWorld();
+    if (!_8) {
+        Unk_710250c118Arg arg;
+        arg.body = mBody;
+        arg._4 = mode;
+        arg._0 = _18;
+        auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
+        _8 = holder ? holder->sub_71010C760C(&arg) : nullptr;
+    }
+    auto* actor = _20;
+    if (actor || (actor = ksys::act::Reaction::instance()->_38))
+        _60 = ksys::eft::searchAndEmitELink(actor, "FirePillar");
+    updateEffect();
+}
+
+void Unk_710250c260::sub_71010C3D70(bool reset_links) {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+    if (mBody && (mBody->isAddedToWorld() || mBody->isAddingBodyToWorld())) {
+        if (reset_links)
+            mBody->removeFromWorldAndResetLinks();
+        else
+            mBody->removeFromWorld();
+    }
+    _60.fade();
 }
 
 Unk_710250c3c8::Unk_710250c3c8() = default;
