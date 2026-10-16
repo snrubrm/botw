@@ -36,6 +36,12 @@ void setIsGetItem(const sead::SafeString& actor, bool value, bool debug = false)
 bool isGetItem2(const sead::SafeString& actor, bool debug = false);
 void setIsGetItem2(const sead::SafeString& actor, bool value, bool debug = false);
 
+// 0x71008ff2a4: the IsGet flag of the actor's same-group name (or of the actor itself).
+bool isGetSameGroupActorName(const sead::SafeString& actor_name, bool debug = false);
+// 0x71008ff2ac (CSV setIsGetFlag): sets that IsGet flag.
+void setIsGetFlag(const sead::SafeString& actor_name, bool value, bool debug = false);
+// 0x71008ff2b8 (CSV gdt::isGetSameGroupActorName_actor): the same for an actor.
+bool isGetSameGroupActorName(act::Actor* actor, bool debug = false);
 f32 getF32ByKey(const sead::SafeString& flag, bool debug = false);
 void getStr64ByKey(const char** value, const sead::SafeString& flag, bool debug = false);
 void getVec3fByKey(sead::Vector3f* value, const sead::SafeString& flag, bool debug = false);

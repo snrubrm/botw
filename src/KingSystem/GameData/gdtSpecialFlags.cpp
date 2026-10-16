@@ -3,6 +3,11 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtFlagUtils.h"
 
+// Defined in actIsGetUtil.cpp (0x7100ee9e8c / 0x7100eea178 / 0x7100eea4e4).
+bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode);
+void setIsGetSameGroup(const sead::SafeString& actor_name, bool value, bool mode);
+bool checkIsGetSameGroupActor(ksys::act::Actor* actor, bool mode);
+
 namespace ksys::gdt {
 
 const char* str_Dungeon = "Dungeon";
@@ -157,6 +162,18 @@ void setDungeonEntered(const sead::SafeString& map, bool cleared, bool debug) {
     sead::FixedSafeString<32> flag{sDungeonEnterFlagPrefix};
     flag.append(map, 32 - sizeof("Enter_"));
     setBoolByKey(cleared, flag, debug);
+}
+
+bool isGetSameGroupActorName(const sead::SafeString& actor_name, bool debug) {
+    return checkIsGetSameGroupActorName(actor_name, debug);
+}
+
+void setIsGetFlag(const sead::SafeString& actor_name, bool value, bool debug) {
+    setIsGetSameGroup(actor_name, value, debug);
+}
+
+bool isGetSameGroupActorName(act::Actor* actor, bool debug) {
+    return checkIsGetSameGroupActor(actor, debug);
 }
 
 f32 getF32ByKey(const sead::SafeString& flag, bool debug) {
