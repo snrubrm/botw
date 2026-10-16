@@ -371,6 +371,8 @@ protected:
 
 public:
     // State flags; also read and written directly by action code (inlined accesses).
+    // Byte 0xc41 (read by the UI gauge m10s) is bits 8-15 of _c40. The f32 virtual at vtable offset
+    // 0x458 they call is Actor::m139 (slot 139).
     /* 0xc40 */ sead::BitFlag32 _c40;
     /* 0xc44 */ sead::BitFlag32 _c44;
     /* 0xc48 */ sead::BitFlag32 _c48;
@@ -394,8 +396,10 @@ public:
     // Public: AI actions reset bits directly (PlayerGuardBreak::calc_).
     /* 0xcec */ sead::BitFlag32 _cec;
     // Public: AI actions set bits directly (PlayerStepAttack::enter_).
+    // The UI gauge code (0x71009469b4) tests byte 0xcf2 bit 3: `_cf0.isOnBit(19)`.
     /* 0xcf0 */ sead::BitFlag32 _cf0;
     // Public: AI actions set bits directly (PlayerDrown::enter_).
+    // Byte 0xcf5 (read by the UI gauge m10s) is bits 8-15 of _cf4.
     /* 0xcf4 */ sead::BitFlag32 _cf4;
     // Public: AI actions set bits directly (PlayerCutHorseJump::enter_).
     /* 0xcf8 */ sead::BitFlag32 _cf8;
