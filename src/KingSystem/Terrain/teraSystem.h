@@ -749,6 +749,10 @@ public:
     void sub_7101115158(bool update);
     // 0x7101115bac (declaration only; placeholder name).
     void sub_7101115BAC();
+    // 0x7101119278 (CSV ksys::tera::System::x_0; placeholder name): sets the image directory _1050 from
+    // `path` (copied, or through sub_7101123258 with '/' when `split`), _1168 to its last component, and
+    // bit 31 of _1338 if it contains ':'.
+    void sub_7101119278(const sead::SafeString& path, bool split);
     // 0x7101117048 (placeholder name): under the write lock, runs Scene::sub_71011021E4 on scene `index`
     // and then sub_7101115BAC (only with Terrain flags 2 and 4).
     void sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_all);
@@ -865,7 +869,10 @@ public:
     // The system's image directory (ImageResourceMgr::sub_7101130FBC copies it through a virtual cstr
     // call, so it is a buffered string; its buffer is not known).
     sead::BufferedSafeString _1050;
-    u8 _1068[0x1330 - 0x1068];
+    u8 _1068[0x1168 - 0x1068];
+    // The last component of _1050 (set by sub_7101119278).
+    sead::SafeString _1168;
+    u8 _1178[0x1330 - 0x1178];
     // Copied into ImageResourceMgr load tasks (0x7101132fe0, 0x7101135f34).
     u32 _1330;
     // Two bytes copied together into handles (0x71012eb6e8 ldrh/strh; 0x71012eb70c compares with ldrh).
@@ -1037,6 +1044,10 @@ u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
 u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
                    System* system);
 
+// 0x7101123258 (declaration only; placeholder name): forwards to 0x7101372840 (a path helper outside
+// tera) with the flag masked to one bit.
+void sub_7101123258(sead::BufferedSafeString* out, const sead::SafeString& path, char separator,
+                    bool flag);
 // Full 110C1E4 looks up the texture name and writes its indexed 32-bit value.
 // GolemRootBase 402194 consumes the unsigned output for model and XLink state.
 bool sub_710110C1E4(u32* out, const sead::SafeString& name);

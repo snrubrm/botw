@@ -683,6 +683,20 @@ void System::sub_71011176BC(Unk_7101106F44* area, bool flag) {
 }
 
 // NON_MATCHING: `area` and `type` swap callee-saved registers.
+// NON_MATCHING: register allocation (the _1050 address is kept in a callee-saved register here).
+void System::sub_7101119278(const sead::SafeString& path, bool split) {
+    if (!split)
+        _1050.copy(path);
+    else
+        sub_7101123258(&_1050, path, '/', false);
+    const s32 slash = _1050.rfindIndex("/");
+    _1168 = _1050.getPart(slash + 1);
+    if (_1050.findIndex(":") == -1)
+        _1338 &= ~0x80000000;
+    else
+        _1338 |= 0x80000000;
+}
+
 void System::sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_all) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;
