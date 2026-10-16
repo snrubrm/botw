@@ -34,6 +34,27 @@ void UiShopMgr::sub_7100984BE8() {
     _c5 = true;
 }
 
+// 0x710098425c
+// NON_MATCHING: the state compare is `hs` against 5 instead of `hi` against 4, and _30 is reloaded through a
+// pre-indexed register (regalloc)
+void UiShopMgr::sub_710098425C(s32 a1, s32 a2) {
+    if (_c0 == 2)
+        return;
+    if (_b4) {
+        const bool same = _b0 == a2;
+        _b4 = false;
+        if (same)
+            return;
+    }
+    _b0 = a2;
+    sub_7100983E48(a1, a2, &_38);
+    sub_7100982C90();
+    if (_30 != 9 && _30 != 11 && _30 != 12 && _30 != 13)
+        sub_7100980F48(&_38);
+    if (u32(_30 - 11) <= 2)
+        _c7 = false;
+}
+
 // 0x71009854fc
 bool UiShopMgr::sub_71009854FC(ksys::act::BaseProc* proc) {
     return _140.acquire(proc, false);

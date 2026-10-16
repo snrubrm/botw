@@ -38,11 +38,15 @@ public:
     /* 0xa0 */ s32 _a0;
     u8 _a4[0xa8 - 0xa4];
     /* 0xa8 */ PouchItem* _a8;
-    u8 _b0[0xb4 - 0xb0];
+    /* 0xb0 */ s32 _b0;  // the last value passed to sub_710098425C
     bool _b4;
-    u8 _b5[0xc5 - 0xb5];
+    u8 _b5[0xc0 - 0xb5];
+    /* 0xc0 */ s32 _c0;
+    u8 _c4;
     /* 0xc5 */ bool _c5;
-    u8 _c6[0xcd - 0xc6];
+    u8 _c6;
+    /* 0xc7 */ bool _c7;
+    u8 _c8[0xcd - 0xc8];
     bool _cd;
     u8 _ce[0xd0 - 0xce];
     NpcShopData* _d0;
@@ -59,6 +63,10 @@ public:
     // 0x710098425c (156 bytes, declared only; placeholder name)
     // 0x710098425c: the shop list entries pass (Unk_7102474e38::sub_7100939C68(), sub_7100939C78())
     void sub_710098425C(s32 a1, s32 a2);
+    // 0x7100983e48 / 0x7100982c90 / 0x7100980f48 (CSV unnamed; not decompiled): called by sub_710098425C
+    void sub_7100983E48(s32 a1, s32 a2, sead::BufferedSafeString* name);
+    void sub_7100982C90();
+    void sub_7100980F48(sead::BufferedSafeString* name);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
     bool sub_7100982A60(s32 state, s32 value);
     // 0x71009843ac (1.5 KB, declared only): `out` receives a bool
