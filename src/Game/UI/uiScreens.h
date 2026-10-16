@@ -3263,6 +3263,8 @@ public:
     ~ScreenAmiiboWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAmiiboWindow, ScreenEx)
 
+    // 0x71009d0c84: finds the layouts, buttons and animators
+    void m93(sead::Heap* heap) override;
     void m98() override;
     void m99() override;
     void m100() override;

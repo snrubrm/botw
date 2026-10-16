@@ -155,6 +155,25 @@ void ScreenAmiiboWindow::m154(s32 type, bool flag) {
     open(1);
 }
 
+// 0x71009d0c84
+void ScreenAmiiboWindow::m93(sead::Heap*) {
+    _3618 = mLayout;
+    _3620 = sub_7100BEAFB0("Pa_BtnC_00");
+    _3628 = sub_7100BEAFB0("Pa_BtnC_01");
+    _3630 = sub_7100BEAFB0("Pa_BtnL_00");
+    _3638 = sub_7100BEAFB0("Pa_BtnR_00");
+    _3640 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnC_00"));
+    _3648 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnC_01"));
+    _3650 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnL_00"));
+    _3658 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnR_00"));
+    _3670 = mLayout->tryCreateAnimatorAuto("Type", true);
+    _3678 = mLayout->tryCreateAnimatorAuto("ToCheck", true);
+    _3680 = mLayout->tryCreateAnimatorAuto("Illust", true);
+    eui::ButtonGroup* group = mButtonGroup;
+    for (eui::ListNode* node = group->mButtons.next; node != &group->mButtons; node = node->next)
+        static_cast<eui::ButtonBase*>(eui::ControlBase::fromNode(node))->mFlags |= 0x20;
+}
+
 // 0x71009d0ee4
 void ScreenAmiiboWindow::m98() {
     _3610 = 4;
