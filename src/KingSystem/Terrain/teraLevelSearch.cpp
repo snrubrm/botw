@@ -4,7 +4,7 @@
 namespace ksys::tera {
 
 s32 Unk_71010FEDBC::sub_71010FEDBC(const sead::Vector2f& pos, u32 count, f32 margin) const {
-    const f32 range = _18 * static_cast<f32>(1 << (_1e >> 5)) * 4.5f;
+    const f32 range = _18 * static_cast<f32>(1 << mLevel) * 4.5f;
     while (count != 0) {
         --count;
         const Area& area = mAreas[count];
@@ -31,7 +31,7 @@ bool Unk_71010FEDBC::sub_71010FE920(Result* result, const sead::Vector2f& pos, u
     const f32 inv_size = 1.0f / area.size;
     const f32 x = (pos.x - area.origin.x) * inv_size;
     const f32 y = (pos.y - area.origin.y) * inv_size;
-    const s32 level = 1 << (_1e >> 5);
+    const s32 level = 1 << mLevel;
     const u32 num = level + 1;
     const u32 offset_x = area.mOffsetIndex & 0xf;
     const u32 offset_y = area.mOffsetIndex >> 4;
@@ -62,6 +62,15 @@ bool Unk_71010FEDBC::sub_71010FE920(Result* result, const sead::Vector2f& pos, u
                         y - margin <= static_cast<f32>(rect.maxY) * Scale);
     }
     return true;
+}
+
+// NON_MATCHING: the two 1000000 stores are merged into one 64-bit store here.
+void Unk_71010FEDBC::sub_71010FEB94(s32 start) {
+    for (s32 i = start; i < mNumAreas; ++i) {
+        mAreas[u32(i)].sub_71010FE480();
+        _14 = 1000000.0f;
+        _10 = 1000000.0f;
+    }
 }
 
 }  // namespace ksys::tera

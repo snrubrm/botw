@@ -270,6 +270,9 @@ struct Unk_710110AC74Table {
 // three bits of _1e.
 struct Unk_71010FEDBC {
     struct Area {
+        // 0x71010fe480 (declaration only; placeholder name; 372 B): resets the area.
+        void sub_71010FE480();
+
         // Placeholder: fixed-point (1 / 8192) bounds of a cell.
         struct Rect {
             s16 minX;
@@ -335,13 +338,20 @@ struct Unk_71010FEDBC {
     // position relative to the area and the data of the cell it falls in.
     bool sub_71010FE920(Result* result, const sead::Vector2f& pos, u32 index) const;
 
+    // 0x71010feb94 (placeholder name): resets the areas from `start` on (sub_71010FE480) and sets _10 / _14
+    // to 1000000.
+    void sub_71010FEB94(s32 start);
+
     u8 _0[0x8];
     Area* mAreas;
-    u8 _10[0x18 - 0x10];
+    f32 _10;
+    f32 _14;
     f32 _18;
     // Scene::sub_7101100260 writes it for eight of the Scene records.
     u16 _1c;
-    s8 _1e;
+    // Signed bitfields: the area count (0x71010feb94 sign-extends the low five bits) and the level.
+    s8 mNumAreas : 5;
+    s8 mLevel : 3;
     u8 _1f;
     // The query helpers receive a pointer to this sub-object; its table is at +0x438 (record + 0x458).
     Unk_7101108AE8Flags _20;
