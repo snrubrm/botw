@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiSiteBossSpearRoot.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
@@ -86,6 +87,18 @@ bool SiteBossSpearRoot::m35(act::SiteBoss* boss) {
         }
     }
     return false;
+}
+
+// 0x7100591264
+bool SiteBossSpearRoot::sub_7100591264(ksys::phys::RigidBody* body) {
+    if (!body || !body->getUserTag())
+        return false;
+    const auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag());
+    if (!tag)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    tag->acquireActor(&accessor);
+    return accessor.hasTag(0x0f42c303);
 }
 
 }  // namespace uking::ai

@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::ai {
 
 class SiteBossSpearRoot : public SiteBossRoot {
@@ -19,6 +23,9 @@ public:
     void loadParams_() override;
 
     bool m35(act::SiteBoss* boss) override;
+    // 0x7100591264 (placeholder name): whether `body` belongs to an actor with tag 0x0f42c303 (calc_'s helper
+    // 0x710058e11c does not pass `this`, which this function does not use)
+    bool sub_7100591264(ksys::phys::RigidBody* body);
 
 protected:
     // static_param at offset 0xf8
