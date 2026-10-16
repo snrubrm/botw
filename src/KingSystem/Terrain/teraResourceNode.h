@@ -338,7 +338,10 @@ struct Unk_71010FEDBC {
     u8 _23[0x28 - 0x23];
     u8 _28;
     u8 _29;
-    u8 _2a[0x458 - 0x2a];
+    u8 _2a[0x438 - 0x2a];
+    // Material table (0x710110b38c), like _458.
+    const Unk_710110AC74Table* _438;
+    u8 _440[0x458 - 0x440];
     // Copied by 0x71011094a0 into the argument of 0x7101108c44.
     const struct Unk_710110AC74Table* _458;
 };

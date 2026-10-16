@@ -185,6 +185,31 @@ f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, u32 level) 
     return top + texel.fy * ((h10 + texel.fx * (h11 - h10)) - top);
 }
 
+// NON_MATCHING: stack layout and the table is kept in a register (the original reloads it from `arg`).
+u32 sub_710110B38C(u32* out, const sead::Vector2f* xz, const Unk_7101108AE8Flags* info_20,
+                   const Unk_71010FEDBC* info) {
+    s32 area = 0;
+    sead::Vector2f pos = sead::Vector2f::zero;
+    const u32 result = sub_7101108AE8(&pos, &area, *xz, *info_20, *info, -1);
+    if (result != 0) {
+        Unk_7101108C44Arg arg;
+        arg.table = info->_438;
+        arg.index = area;
+        arg._c = false;
+        TexelPosMaybe texel;
+        sub_710110AC74(pos.x, pos.y, &arg, &texel, 0);
+        const u32 x = texel.fx < 0.5f ? texel.x : texel.x + 1;
+        const u32 y = texel.fy < 0.5f ? texel.y : texel.y + 1;
+        const Unk_710110AC74Table* table = arg.table;
+        const u32 max = table->levels[0].size - 1;
+        const u8* data = table->areas[arg.index].levels[0] +
+                         (sead::Mathu::min(y, max) * table->levels[0].pitch +
+                          sead::Mathu::min(x, max) * table->texel_size);
+        *out = data[7] << 8 | data[6];
+    }
+    return result;
+}
+
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system) {
     if (!system->_8)
