@@ -53,7 +53,23 @@ void Unk_710245a0e0::m2(Actor* actor) {
                              nullptr, material1, material2);
 }
 
+// NON_MATCHING: stack slot assignment; the original copies the second vector onto itself before the call.
+void Unk_710245a000::m2(Actor* actor) {
+    auto* controller = actor->getCharacterController();
+    if (!controller || !controller->sub_7100F5F14C())
+        return;
+    ++mNum;
+    sead::Vector3f position;
+    controller->sub_7100F5F234(&position);
+    const phys::MaterialMask material2(18u);
+    const phys::MaterialMask material1(1u);
+    sead::Vector3f normal;
+    controller->sub_7100F5F6E0(&normal);
+    mEntries[0].sub_710079F508(normal, position, nullptr, material1, material2);
+}
+
 Unk_710245a0b8::~Unk_710245a0b8() = default;
+Unk_710245a000::~Unk_710245a000() = default;
 Unk_710245a0e0::~Unk_710245a0e0() = default;
 
 }  // namespace ksys::act

@@ -82,17 +82,15 @@ public:
     };
     // vtable 0x7102459e88 (derived: 0x710245a028, 0x710245a000); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e88 {
-        struct Unk1 {
-            sead::Vector3f _0;  // copied as a ground position by OnEnterSwapActorBase
-            sead::Vector3f _c;  // dotted with the gravity (KeeseDieSelect::m34)
-            BaseProcLink _18;  // compared with Actor::getCreateArgBaseProcLink() (isBgGroundHit)
-            // Destroyed by the array dtor 0x710079d4c8 (same layout as Unk_7102459e60::Unk1).
-            phys::MaterialMask _28;
-            phys::MaterialMask _40;
-        };
+        // Same layout as Unk_7102459e60::Unk1 but its own type (the array dtor 0x710079d4c8 is a second
+        // SafeArray instantiation; the derived m2s call Unk_7102459e60::Unk1::sub_710079F508 on these entries).
+        // _0: ground position (OnEnterSwapActorBase), _c: normal (KeeseDieSelect::m34), _18: hit actor link
+        // (isBgGroundHit).
+        struct Unk1 : Unk_7102459e60::Unk1 {};
 
-        // D2 0x710079d480 / D0 0x710079d494 (keep the base vtable store; GameDataFlagSelector precedent).
-        virtual ~Unk_7102459e88();
+        // D2 0x710079d480 / D0 0x710079d494. Empty-body precedent: GameDataFlagSelector::~GameDataFlagSelector(),
+        // commit 96101229 (the derived destructors keep this base table store before the array destruction).
+        virtual ~Unk_7102459e88() { ; }
         // lane4 s85: slot 2 (Unk_7102459df8::m8 calls it with the actor; overridden by 0x710245a028 / 0x710245a000).
         virtual void m2(Actor* actor) = 0;
         void sub_710079FE9C();
@@ -169,6 +167,14 @@ bool sub_710079F598(phys::RigidBody* body);
 class Unk_710245a0b8 : public Unk_7102459df8::Unk_7102459e60 {
 public:
     ~Unk_710245a0b8() override;
+    void m2(Actor* actor) override;
+};
+
+// vtable 0x710245a000 (D1 0x71007a03d0, D0 0x71007a03e4, m2 0x71007a0108). The Unk_7102459e88 sensors at
+// 0x7102459fd8 and 0x710245a028 (whose m2 falls back to this one) are not declared yet.
+class Unk_710245a000 : public Unk_7102459df8::Unk_7102459e88 {
+public:
+    ~Unk_710245a000() override;
     void m2(Actor* actor) override;
 };
 
