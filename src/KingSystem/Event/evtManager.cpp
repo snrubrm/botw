@@ -252,6 +252,13 @@ void Manager::setNoDeleteCurrentActor(bool no_delete) {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
+// 0x7100db1a0c. The thunks at 0x7100db1a88 / 1b00 / 1bf8 / 1c84 are m (vtable store scheduling).
+Manager::~Manager() {
+    if (mEventHeap)
+        mEventHeap->destroy();
+    mEventHeap = nullptr;
+}
+
 f32 Manager::sub_7100DB1138(int idx) const {
     if (idx == -99)
         return 0.0f;
@@ -333,28 +340,27 @@ act::BaseProcLink* Manager::getBaseProcLinkForActorOrActiveLink(act::BaseProc* p
 }
 
 // 0x7100db0ea0
-bool Manager::sub_7100DB0EA0(const Message* message) {
-    if (message) {
-        const u32 type = message->getType();
-        if (type - 0x800001 <= 1 && message->getUserData()) {
-            if (auto* link = static_cast<BaseProcLinkForEvent*>(message->getUserData())) {
-                auto* actor = link->acquireActor();
-                if (!actor || !actor->isDeletedOrDeleting()) {
-                    CallArg arg;
-                    arg._40 = nullptr;
-                    arg.proc = actor;
-                    arg.metadata = &link->mMetadata;
-                    s32 result = 0x1ff;
-                    if (doCallEvent(arg, &result)) {
-                        if (result != 500)
-                            _1d2f4 |= 0x100;
-                        link->reset();
-                    }
+// NON_MATCHING: the original tests the message address against null (cbz); a reference parameter lets clang drop it
+int Manager::handleMessage(const Message& message) {
+    const u32 type = message.getType();
+    if (type - 0x800001 <= 1 && message.getUserData()) {
+        if (auto* link = static_cast<BaseProcLinkForEvent*>(message.getUserData())) {
+            auto* actor = link->acquireActor();
+            if (!actor || !actor->isDeletedOrDeleting()) {
+                CallArg arg;
+                arg._40 = nullptr;
+                arg.proc = actor;
+                arg.metadata = &link->mMetadata;
+                s32 result = 0x1ff;
+                if (doCallEvent(arg, &result)) {
+                    if (result != 500)
+                        _1d2f4 |= 0x100;
+                    link->reset();
                 }
             }
         }
     }
-    return true;
+    return 1;
 }
 
 // 0x7100db235c

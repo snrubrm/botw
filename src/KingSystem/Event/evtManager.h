@@ -2,6 +2,7 @@
 
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
@@ -120,10 +121,18 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(EventSysActors, 0x288);
 
-class Manager {
+// Placeholder for the polymorphic base at Manager + 0 (vtable 0x71024ddd90 has three sub-vtables, at +0, +0x8
+// and +0x10; the +0 part has the destructors and Manager's own entries). Neither the constructor nor the
+// destructor calls anything for it, so it is assumed to only have an inline virtual destructor.
+class ManagerBase {
+public:
+    virtual ~ManagerBase() = default;
+};
+
+class Manager : public ManagerBase, public ActorMessageTransceiver::IHandler {
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
-    virtual ~Manager();
+    ~Manager() override;
 
 public:
     void init(sead::Heap* heap);
@@ -215,8 +224,9 @@ public:
     // 0x7100db0ea0 (CSV EventMgr::callEvent_0): message handler: calls the event described by the
     // BaseProcLinkForEvent in the user data of the message types 0x800001 / 0x800002
     // The primary vtable contains the acknowledgement handler and this event-message callback.
-    virtual void handleAck(const MessageAck& ack);
-    virtual bool sub_7100DB0EA0(const Message* message);
+    // These two get entries in the primary vtable (slots 2 / 3) and thunks at +0x8 / +0x10.
+    void handleAck(const MessageAck& ack) override;
+    int handleMessage(const Message& message) override;
     // 0x7100db0fb0 (CSV EventMgr::__auto14; declared only): sends `type` with `user_data` to `dest` through the
     // manager's message transceiver (at +0x38; on the processing thread if called from it)
     bool sub_7100DB0FB0(const MesTransceiverId& dest, MessageType type, void* user_data);
@@ -261,15 +271,14 @@ private:
     // reads and writes the flag word at 0x1d1b0 (the original accessed it directly)
     friend class uking::ui::Unk_710247af10;
 
-    u8 pad_28[0x38 - 0x28];
-
 public:
     // The event manager actor's message transceiver (0x38 - 0x90; its id is read by SleepBedRoot::calc_ and
     // ResidentEvent::sendMessageToEventMgrActor as the destination of Actor::sendMessage).
     /* 0x38 */ ActorMessageTransceiver mTransceiver;
 
 private:
-    u8 pad_90[0x1d100 - 0x90];
+    /* 0x90 */ sead::CriticalSection _90;
+    u8 pad_d0[0x1d100 - 0xd0];
 
 public:
     // The camera actor (set by ksys::sub_7100F40428).
@@ -288,7 +297,8 @@ public:
     /* 0x1d129 */ bool _1d129;
 
 private:
-    u8 pad_1d12a[0x1d170 - 0x1d12a];
+    u8 pad_1d12a[0x1d130 - 0x1d12a];
+    /* 0x1d130 */ sead::CriticalSection _1d130;
     /* 0x1d170 */ s32 mAliveEventFlowCount;
 
 public:
