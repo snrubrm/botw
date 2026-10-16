@@ -2388,6 +2388,32 @@ void ScreenAppPictureBookUnk::sub_710093FEAC() {
     }
 }
 
+// NON_MATCHING: the clamp of the overall index (the original selects with csel) and register allocation; the same
+// sequence is inlined at the end of sub_710093EC3C / sub_710093EE8C
+// 0x710093e4b4
+bool ScreenAppPictureBookUnk::sub_710093E4B4(s32 index, s32 entry_index, s32 mode) {
+    if (!mEntries.data())
+        return sub_710093DAFC(-1, -1, mode);
+    s32 overall = 0;
+    for (s32 i = 0; i < entry_index; ++i) {
+        if (const ScreenAppPictureBookEntry* entry = mEntries[i])
+            overall += entry->_2f4;
+    }
+    if (mEntries.size() == 0)
+        return sub_710093DAFC(-1, -1, mode);
+    overall += index;
+    s32 rest = overall < 0 ? 0 : sead::Mathi::min(_2ac - 1, overall);
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        const ScreenAppPictureBookEntry* entry = *it;
+        if (!entry)
+            continue;
+        if (rest - entry->_2f4 < 0)
+            return sub_710093DAFC(rest, entry->_2f0, mode);
+        rest -= entry->_2f4;
+    }
+    return sub_710093DAFC(-1, -1, mode);
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
