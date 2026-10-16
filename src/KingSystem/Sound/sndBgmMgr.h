@@ -1002,6 +1002,12 @@ public:
     // 0x7100ffafbc / 0x7100ffb2d4 (declared only): the two BGM delegates.
     void sub_7100FFAFBC(Bgm* bgm);
     void sub_7100FFB2D4(Bgm* bgm);
+    // 0x7100ffbd44 / 0x7100ffbdc0 / 0x7100ffbe0c / 0x7100ffbe38: as Unk_710260f0c0's entry functions, on the kind 17
+    // (Unk_71024feae8, `use_a0`) or kind 16 (Unk_71024fefe8) BGM; the first one also allocates that BGM.
+    void sub_7100FFBD44(s32 id, bool use_a0);
+    void sub_7100FFBDC0(s32 id, bool use_a0);
+    void sub_7100FFBE0C(s32 a, bool b, s32 id, bool use_a0);
+    void sub_7100FFBE38(bool a, s32 id, bool use_a0);
     // 0x7100ffbbe4 (SpotBgmTriggerAction::enter_) / 0x7100ffbca0 (leave_): declared only.
     void sub_7100FFBBE4(Unk_SpotBgmInstance* instance);
     void sub_7100FFBCA0(Unk_SpotBgmInstance* instance);
@@ -1013,8 +1019,8 @@ public:
     void sub_7100FFB7E8();
 
     /* 0x90 */ Unk_71024fe958* mBossBgms = nullptr;
-    /* 0x98 */ void* _98 = nullptr;
-    /* 0xa0 */ void* _a0 = nullptr;
+    /* 0x98 */ Unk_71024fefe8* _98 = nullptr;
+    /* 0xa0 */ Unk_71024feae8* _a0 = nullptr;
     /* 0xa8 */ void* _a8;
     /* 0xb0 */ void* _b0 = nullptr;
     /* 0xb8 */ aal::Group* mGroup = nullptr;

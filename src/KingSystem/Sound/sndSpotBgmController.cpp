@@ -2,6 +2,7 @@
 #include <aal/aalSystemAccessor.h>
 #include <math/seadVector.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
@@ -91,6 +92,54 @@ void Unk_710260f198::m10() {
     auto* bgm = sead::DynamicCast<Unk_71024fe368>(_8.sub_7100FF7C74(3));
     if (bgm)
         bgm->_224 = true;
+}
+
+void Unk_710260f198::sub_7100FFBD44(s32 id, bool use_a0) {
+    auto* heap = map::PlacementMgr::instance()->mDynamicHeap;
+    if (use_a0) {
+        _8.sub_7100FF7920(17, heap);
+        if (_a0)
+            _a0->sub_710100F798(id);
+    } else {
+        _8.sub_7100FF7920(16, heap);
+        if (_98)
+            _98->sub_71010121D8(id);
+    }
+}
+
+void Unk_710260f198::sub_7100FFBDC0(s32 id, bool use_a0) {
+    if (use_a0) {
+        if (_a0)
+            _a0->sub_710100F860(id);
+        _8.sub_7100FF7BE0(17);
+    } else {
+        if (_98)
+            _98->sub_71010122A0(id);
+        _8.sub_7100FF7BE0(16);
+    }
+}
+
+void Unk_710260f198::sub_7100FFBE0C(s32 a, bool b, s32 id, bool use_a0) {
+    if (use_a0) {
+        if (_a0)
+            _a0->sub_710100F900(b, id);
+    } else if (_98) {
+        _98->sub_7101012340(a, b, id);
+    }
+}
+
+void Unk_710260f198::sub_7100FFBE38(bool a, s32 id, bool use_a0) {
+    if (use_a0) {
+        if (_a0)
+            _a0->sub_710100F8B0(a, id);
+    } else if (_98) {
+        _98->sub_71010122F0(a, id);
+    }
+    if (a && (_ec & 2)) {
+        if (!(_ec & 1))
+            _ec |= 4;
+        _ec &= ~2;
+    }
 }
 
 void Unk_710260f198::sub_7100FFBBE4(Unk_SpotBgmInstance* instance) {
