@@ -62,7 +62,8 @@ public:
         /* 0xb0 */ Swarm* _b0;  // the owner (Swarm::sub_71002D484C)
         /* 0xb8 */ u16 _b8;  // state flags (bit 1: active; bits 1-3 are rewritten by the two functions below)
         /* 0xbc */ f32 _bc;  // model opacity, initialized to 1 by the unit constructor
-        u8 _c0[0xd4 - 0xc0];
+        u8 _c0[0xd0 - 0xc0];
+        /* 0xd0 */ s32 _d0;  // cleared by m6
 
         // 0x71002daa98 (SwarmPatternMovingSphere::m8): unless bit 1 is set, replaces bits 2 / 3 with 8.
         void sub_71002DAA98();

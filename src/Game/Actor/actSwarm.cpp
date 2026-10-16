@@ -392,6 +392,16 @@ Unk_71023d0e08::~Unk_71023d0e08() {
 }
 
 // NON_MATCHING: vector addition changes register allocation and load scheduling.
+// Resets the unit: state flags, full opacity, identity pose, and re-registers its model with the owner.
+void uking::act::Swarm::Unit::m6() {
+    _b8 = 0;
+    _bc = 1.0f;
+    _8 = sead::Matrix34f::ident;
+    _d0 = 0;
+    _b0->sub_71011CED70(_78);
+    _b0->sub_71011C5630(_78);
+}
+
 void uking::act::Swarm::Unit::m8() {
     _38.updateStats();
     _8.setTranslation(_38.mean + _8.getTranslation());
