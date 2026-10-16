@@ -69,6 +69,9 @@ public:
     struct Unk3 {
         u8 _0[0x74];
         /* 0x74 */ u8 _74;
+        u8 _75[0xd8 - 0x75];
+        // Passed as the ground position by Unk_710245a028::m2 when bit 1 of _74 is set.
+        /* 0xd8 */ sead::Vector3f _d8;
     };
 
     struct Unk2 {
@@ -166,7 +169,9 @@ public:
     /* 0x154 */ f32 _154;
     /* 0x158 */ f32 _158;
     /* 0x15c */ f32 _15c;
-    u8 _160[0x188 - 0x160];
+    u8 _160[0x16c - 0x160];
+    /* 0x16c */ u8 _16c;  // Unk_710245a028::m2 counts a ground hit when set (player flag bit 19)
+    u8 _16d[0x188 - 0x16d];
     /* 0x188 */ sead::Matrix34f _188;
     /* 0x1b8 */ f32 _1b8;
     /* 0x1bc */ f32 _1bc;

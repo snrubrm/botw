@@ -170,11 +170,19 @@ public:
     void m2(Actor* actor) override;
 };
 
-// vtable 0x710245a000 (D1 0x71007a03d0, D0 0x71007a03e4, m2 0x71007a0108). The Unk_7102459e88 sensors at
-// 0x7102459fd8 and 0x710245a028 (whose m2 falls back to this one) are not declared yet.
+// vtable 0x710245a000 (D1 0x71007a03d0, D0 0x71007a03e4, m2 0x71007a0108). The Unk_7102459e88 sensor at
+// 0x7102459fd8 is not declared yet.
 class Unk_710245a000 : public Unk_7102459df8::Unk_7102459e88 {
 public:
     ~Unk_710245a000() override;
+    void m2(Actor* actor) override;
+};
+
+// vtable 0x710245a028 (D1 0x71007a0418, D0 0x71007a042c, m2 0x71007a01c0): the player version; falls back to
+// Unk_710245a000::m2 for ordinary ground.
+class Unk_710245a028 : public Unk_710245a000 {
+public:
+    ~Unk_710245a028() override;
     void m2(Actor* actor) override;
 };
 

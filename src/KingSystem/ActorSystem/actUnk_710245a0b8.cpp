@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -68,7 +71,44 @@ void Unk_710245a000::m2(Actor* actor) {
     mEntries[0].sub_710079F508(normal, position, nullptr, material1, material2);
 }
 
+// NON_MATCHING: the original computes the position address before the counter update; stack slots.
+void Unk_710245a028::m2(Actor* actor) {
+    auto* player = sead::DynamicCast<uking::act::PlayerBase>(actor);
+    if (!player)
+        return;
+
+    if (player->_cec.isOnBit(19)) {
+        if (player->getAttachedTargetActor2()->_16c)
+            ++mNum;
+        return;
+    }
+    if (player->_cec.isOnBit(17)) {
+        auto* unk = player->getAttachedTargetActor2()->_c0;
+        if (unk && unk->_60.isOnBit(1))
+            ++mNum;
+        return;
+    }
+    if (!player->sub_710084CD90() || player->m194()) {
+        Unk_710245a000::m2(actor);
+        return;
+    }
+
+    auto* controller = actor->getCharacterController();
+    if (!controller)
+        return;
+    auto* unk3 = player->getAttachedTargetActor2()->_b8;
+    if (!unk3 || !(unk3->_74 & 2))
+        return;
+    ++mNum;
+    const phys::MaterialMask material2(18u);
+    const phys::MaterialMask material1(1u);
+    sead::Vector3f normal;
+    controller->sub_7100F5F6E0(&normal);
+    mEntries[0].sub_710079F508(normal, unk3->_d8, nullptr, material1, material2);
+}
+
 Unk_710245a0b8::~Unk_710245a0b8() = default;
+Unk_710245a028::~Unk_710245a028() = default;
 Unk_710245a000::~Unk_710245a000() = default;
 Unk_710245a0e0::~Unk_710245a0e0() = default;
 
