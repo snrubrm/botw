@@ -80,7 +80,8 @@ public:
     Unk_710260f248* mOwner;
     xlink2::HandleSLink mHandle;
     f32 _20;
-    u32 _24;
+    // Pan (-1..1); passed to the speaker balance supplier.
+    f32 mPan;
     f32 mVolumes[4];
     bool _38;
     sead::ListNode mNode;
@@ -99,8 +100,8 @@ struct Unk_710260f248M3Arg {
 // first one whose handle at +0x10 is inactive). Declared only.
 class Unk_SoundMgr30_30 : public aal::ISpeakerBalanceSupplier {
 public:
-    // Set from Unk_710260f248Entry::_24 by 0x7100ff6c1c.
-    u32 _8;
+    // The pan, set from Unk_710260f248Entry::mPan by 0x7100ff6c1c.
+    f32 _8;
     // 0x7100ff8c74 (76 B): copies the handle and reads a byte of its asset info into `_c`.
     void sub_7100FF8C74(const aal::Handle& handle);
     // Declared only (address unknown).

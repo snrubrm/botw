@@ -16,7 +16,7 @@ void Unk_710260f248Entry::sub_7100FF6A18(Unk_710260f248* owner, const xlink2::Ha
     mOwner = owner;
     mHandle = handle;
     _20 = 1.0;
-    _24 = 0.0;
+    mPan = 0.0;
     mVolumes[0] = 1.0;
     mVolumes[1] = 1.0;
     mVolumes[2] = 1.0;
@@ -61,7 +61,7 @@ bool Unk_710260f248Entry::sub_7100FF6C1C(Unk_710260f248* owner) {
             for (s32 track = 0; track < 4 && track < track_num; ++track)
                 handle->setTrackVolume(1u << track, mVolumes[track]);
             if (auto* supplier = static_cast<Unk_SoundMgr30_30*>(source->mSpeakerBalanceSupplier))
-                supplier->_8 = _24;
+                supplier->_8 = mPan;
             if (source->isVirtualized() && !_50) {
                 aal::SystemAccessor::getArbiter()->dumpActiveSoundSource();
                 virtualized = true;

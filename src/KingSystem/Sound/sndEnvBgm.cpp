@@ -1,4 +1,6 @@
 #include "KingSystem/Sound/sndEnvBgm.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/World/worldManager.h"
@@ -79,6 +81,37 @@ Unk_71024fdb00::~Unk_71024fdb00() {
     for (s32 i = 0; i < mProperties.size(); ++i)
         delete mProperties[i];
     mProperties.freeBuffer();
+}
+
+// NON_MATCHING: wait_count and part are kept in swapped callee-saved registers (regalloc).
+void Unk_71024fdb00::sub_7101005874(const sead::SafeString& name, s32 wait_count, u8 part, f32 volume,
+                                    f32 pan) {
+    if (!_1ac)
+        return;
+
+    if (wait_count == 0) {
+        auto* entry = sub_71010209FC(name);
+        if (!entry)
+            return;
+        entry->_20 = std::fmax(volume, 0.0f);
+        if (pan != 0.0f)
+            entry->mPan = sead::Mathf::clamp(pan, -1.0f, 1.0f);
+        return;
+    }
+
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        auto* entry = mEntries.get(i);
+        if (entry->wait_count == 0) {
+            entry->name.clear();
+            entry->name.append(name);
+            entry->part = part;
+            entry->wait_count = wait_count;
+            entry->wait_count_init = wait_count;
+            entry->volume = volume;
+            entry->pan = pan;
+            break;
+        }
+    }
 }
 
 Unk_71024fdb98::Unk_71024fdb98(Unk_71024fdb00* owner, const sead::SafeString& name, u8 part,
