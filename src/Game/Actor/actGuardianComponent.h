@@ -85,6 +85,7 @@ public:
     void initMaybe() override;
     void updateMtxFromPhysics() override;
     void m63() override;
+    void calcMaybe() override;
     void updatePositionMaybe() override;
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
     void m147(sead::PtrArray<ksys::act::Actor>* actors) override;

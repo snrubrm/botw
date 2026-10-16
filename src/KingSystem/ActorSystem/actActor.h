@@ -497,6 +497,7 @@ public:
 
     // 0x71011d0204 / 0x71011d0228 (lane1 s22; unnamed in the CSV): set / clear `flags` in mStasisFlags;
     // when that changes something they also set ActorFlag2 0x400000. Placeholder names.
+    const sead::TypedBitFlag<StasisFlag>& getStasisFlags() const { return mStasisFlags; }
     void sub_71011D0204(u32 flags);
     void sub_71011D0228(u32 flags);
     void clearFlag(ActorFlag flag);

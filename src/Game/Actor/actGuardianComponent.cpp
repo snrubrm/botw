@@ -4,6 +4,8 @@
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -97,6 +99,31 @@ void GuardianComponent::m63() {
     }
     DynamicActor::m63();
     _ba8->m9();
+}
+
+// CSV m69. While linked to its Guardian, mirrors the Guardian's stasis flag 0x10 and state 12 (into the damage
+// manager) and runs the bind's m11; without a Guardian, flags the drop data and deletes itself.
+void GuardianComponent::calcMaybe() {
+    DynamicActor::calcMaybe();
+    if (!_b90.hasProc()) {
+        if (auto* drop = sead::DynamicCast<ksys::act::DropData>(getDropData()))
+            drop->_c |= 1;
+        if (!isDeletedOrDeleting())
+            deleteAndEmit(0);
+        return;
+    }
+
+    Guardian* guardian = sub_710003D2B4();
+    if (guardian && guardian->getStasisFlags().getDirect() & 0x10)
+        sub_71011D0204(0x10);
+    else
+        sub_71011D0228(0x10);
+    auto* damage_mgr = getDamageMgr();
+    if (guardian && damage_mgr)
+        damage_mgr->mField_34 = guardian->_14d8 == 12;
+    mActorFlags2.set(ActorFlag2::_1000000);
+    if (_ba8)
+        _ba8->m11();
 }
 
 void GuardianComponent::updatePositionMaybe() {
