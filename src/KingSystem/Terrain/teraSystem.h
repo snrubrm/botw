@@ -16,6 +16,7 @@
 #include <hostio/seadHostIONode.h>
 #include <container/seadOffsetList.h>
 #include <container/seadTreeMap.h>
+#include <prim/seadBitFlag.h>
 #include <filedevice/seadFileDevice.h>
 #include <prim/seadXmlDocument.h>
 #include <thread/seadCriticalSection.h>
@@ -1088,13 +1089,18 @@ struct Unk_71012EBDBC {
     // 0x71012ebe70 (placeholder name): opens `path` (mode clamped to 2); sets flag 1 on success.
     bool open(const char* path, u32 mode);
     // 0x71012ebef0 (placeholder name).
-    bool write(const u8* data, u32 size);
+    void write(const u8* data, u32 size);
 
     const char* mPath = "";
     sead::FileHandle mHandle;
+    // Set by ImageResourceMgr::sub_7101136328 before writing (the size, then 1, 1, 1).
+    s32 _48 = 0;
+    u32 _4c = 0;
+    u32 _50 = 0;
+    u32 _54 = 0;
     u32 mMode = 2;
-    // Bit 0: open.
-    u32 mFlags = 0;
+    // Bit 0: open; bit 1 set by ImageResourceMgr::sub_7101136328.
+    sead::BitFlag32 mFlags;
 };
 
 struct ImageResourceMgr::Request {

@@ -279,36 +279,31 @@ bool Unk_71012eb6e8::isValid(System* const* systems, const Unk_7101106F44* entry
     return false;
 }
 
-// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
-// smaller), so mMode / mFlags sit 0x10 lower in ours.
+// NON_MATCHING: the mode and flag stores are merged into one in ours.
 Unk_71012EBDBC::Unk_71012EBDBC() = default;
 
-// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
-// smaller), so mMode / mFlags sit 0x10 lower in ours.
 Unk_71012EBDBC::~Unk_71012EBDBC() {
-    if (mFlags & 1) {
+    if (mFlags.isOnBit(0)) {
         Terrain::instance()->_428->tryClose(&mHandle);
-        mFlags &= ~1u;
+        mFlags.resetBit(0);
     }
 }
 
-// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
-// smaller), so mMode / mFlags sit 0x10 lower in ours.
+// NON_MATCHING: scheduling of the path store and the mode clamp.
 bool Unk_71012EBDBC::open(const char* path, u32 mode) {
     mMode = mode;
     mPath = path;
     if (!Terrain::instance()->_428->tryOpen(&mHandle, path,
                                              sead::FileDevice::FileOpenFlag(mode < 2 ? mode : 2), 0))
         return false;
-    mFlags |= 1;
+    mFlags.setBit(0);
     return true;
 }
 
-// NON_MATCHING: sead::FileHandle is 0x50 bytes in the original (0x40 in lib/sead: HandleBuffer is 0x10
-// smaller), so mMode / mFlags sit 0x10 lower in ours.
-bool Unk_71012EBDBC::write(const u8* data, u32 size) {
+// NON_MATCHING: the zero store of `written` is scheduled before the device load in ours.
+void Unk_71012EBDBC::write(const u8* data, u32 size) {
     u32 written = 0;
-    return Terrain::instance()->_428->tryWrite(&written, &mHandle, data, size);
+    Terrain::instance()->_428->tryWrite(&written, &mHandle, data, size);
 }
 
 }  // namespace ksys::tera
