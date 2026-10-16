@@ -2825,13 +2825,6 @@ public:
     ~Unk_71025028c0() override;
 };
 
-// vtable 0x71025159b0 (15 slots); placeholder generated from the vtable (genskel.py).
-// No RTTI of its own: the vtable reuses ksys::phys::TerrainHeightFieldRigidBody's RTTI functions.
-class Unk_71025159b0 : public ksys::phys::TerrainHeightFieldRigidBody {
-public:
-    ~Unk_71025159b0() override;
-};
-
 // vtable 0x710251b810 (13 slots); placeholder generated from the vtable (genskel.py).
 // No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
 class Unk_710251b810 : public aal::ISpeakerBalanceSupplier {

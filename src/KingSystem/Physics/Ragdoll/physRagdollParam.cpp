@@ -18,4 +18,3 @@ void RagdollParam::postRead_() {
 
 }  // namespace ksys::phys
 
-Unk_71025159b0::~Unk_71025159b0() = default;

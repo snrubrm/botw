@@ -78,6 +78,26 @@ u32 TerrainHeightFieldRigidBody::getCollisionMasks(CollisionMasks* masks, const 
     return 0;
 }
 
+Unk_71025159b0::~Unk_71025159b0() = default;
+
+// NON_MATCHING: stack slots and the fallback branches differ (as in the base class version).
+u32 Unk_71025159b0::getCollisionMasks(CollisionMasks* masks, const u32* shape_key,
+                                      const sead::Vector3f& contact_point) {
+    Material material = Material::Undefined;
+    s32 submaterial = 0;
+    const sead::Vector2f xz{contact_point.x, contact_point.z};
+    if (!tera::sub_710110B6A4(&material, &submaterial, &xz, mTerrainSystem)) {
+        if (int(material) == -1)
+            submaterial = 0;
+        material = Material::Undefined;
+    }
+    masks->material_mask =
+        MaterialMask(material, submaterial, FloorCode::None, WallCode::None, true).getRawData();
+    masks->collision_filter_info = 6;
+    masks->ignored_layers = getIgnoredLayers().getDirect();
+    return 0;
+}
+
 // NON_MATCHING: one commuted operand of the max add (register allocation).
 void Unk_7102515a58::getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb& out) const {
     hkVector4 center;

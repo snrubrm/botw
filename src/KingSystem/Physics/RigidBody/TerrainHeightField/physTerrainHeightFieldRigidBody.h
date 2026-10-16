@@ -64,11 +64,22 @@ public:
                           const sead::Vector3f& contact_point) override;
     bool getD8() const { return _d8; }
 
-private:
+protected:
     tera::System* mTerrainSystem{};
     bool _d8 = false;
 };
 KSYS_CHECK_SIZE_NX150(TerrainHeightFieldRigidBody, 0xe0);
+
+// vtable 0x71025159b0 (placeholder name): the terrain rigid body Unk_71025158e8::sub_71012238E4 builds for
+// height field type 6 (shape Unk_7102515b40). It shares TerrainHeightFieldRigidBody's RTTI and D1 and only
+// changes the collision masks (material from tera::sub_710110B6A4, filter 6).
+class Unk_71025159b0 : public TerrainHeightFieldRigidBody {
+public:
+    ~Unk_71025159b0() override;
+    u32 getCollisionMasks(RigidBody::CollisionMasks* masks, const u32* shape_key,
+                          const sead::Vector3f& contact_point) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025159b0, 0xe0);
 
 // vtable 0x7102515a58 (placeholder name): a terrain height field shape (heights from
 // tera::sub_71011094A0, with an optional circular hole). Built by Unk_71025158e8::sub_71012238E4 with a
