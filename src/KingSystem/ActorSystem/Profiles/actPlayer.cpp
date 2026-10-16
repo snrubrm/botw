@@ -3103,3 +3103,15 @@ void Player::updateSupportTimerRates() {
 void Player::sub_7100887554() {}
 
 }  // namespace ksys::act
+
+// 0x71024eed20 (placeholder name): a flag set by sub_7100E9CF78 (S7EventFlow setup, initBeforeStageGen) and read by
+// sub_7100E9CF8C (ASList::Unk2).
+bool sUnk_71024eed20;
+
+void sub_7100E9CF78(bool value) {
+    sUnk_71024eed20 = value;
+}
+
+bool sub_7100E9CF8C() {
+    return sUnk_71024eed20;
+}
