@@ -109,6 +109,10 @@ public:
     // 0x7100e89dac (placeholder name; does not use `this`): sets the bool flag `handle` to whether the actor in `link`
     // is a non-map-object actor that is in the calc state (or `flag`), or `flag` without an actor.
     void sub_7100E89DAC(ksys::act::BaseProcLink* link, bool flag, ksys::gdt::FlagHandle handle);
+    // 0x7100e88e44 (descriptive name): the actor linked in _30 (the horse being registered), or null.
+    ksys::act::Actor* getRegisteringHorseActor() const;
+    // 0x7100e88edc (CSV name): whether one of the ten Horse_UsedAmiiboUidHash entries is `uid_hash`.
+    bool isAmiiboUsed(const sead::SafeString& uid_hash);
     // 0x7100e88720 (descriptive name): the owned horse (mOwnedHorse) as a HorseBase, or null.
     act::HorseBase* getOwnedHorseBase() const;
     // 0x7100e8883c (name is a guess): the same for the dead horses (no selected index, no lock).

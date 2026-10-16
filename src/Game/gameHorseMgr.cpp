@@ -16,6 +16,22 @@ bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
     return actor && _30.hasProcById(actor);
 }
 
+ksys::act::Actor* HorseMgr::getRegisteringHorseActor() const {
+    return sead::DynamicCast<ksys::act::Actor>(_30.getProc(nullptr));
+}
+
+// NON_MATCHING: the original shares one stack slot between the two SafeString temporaries.
+bool HorseMgr::isAmiiboUsed(const sead::SafeString& uid_hash) {
+    for (s32 i = 0; i < 10; ++i) {
+        const char* hash = nullptr;
+        if (ksys::gdt::Manager::instance()->getParam().get().getStr64(&hash, "Horse_UsedAmiiboUidHash", i) &&
+            uid_hash == hash) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
 bool HorseMgr::sub_7100E84AB8(ksys::act::Actor* actor) {
     return actor && mOwnedHorse.hasProcById(actor);
