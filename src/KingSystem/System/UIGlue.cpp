@@ -48,14 +48,14 @@ void sub_7100EDC334() {
         sSub_7100EDC334Handler();
 }
 
-using SCallCheckWeaponFreeSlotHandlerMaybeHandlerFn = s32 (*)(const sead::SafeString&, s32);
+using SCallCheckWeaponFreeSlotHandlerMaybeHandlerFn = bool (*)(const sead::SafeString&, s32);
 SCallCheckWeaponFreeSlotHandlerMaybeHandlerFn sCallCheckWeaponFreeSlotHandlerMaybeHandler;
 
 // 0x7100edc34c
-s32 callCheckWeaponFreeSlotHandlerMaybe(const sead::SafeString& name, s32 value) {
+bool callCheckWeaponFreeSlotHandlerMaybe(const sead::SafeString& name, s32 value) {
     if (sCallCheckWeaponFreeSlotHandlerMaybeHandler)
         return sCallCheckWeaponFreeSlotHandlerMaybeHandler(name, value);
-    return 0;
+    return false;
 }
 
 using SCallIncreasePouchNumHandlerFn = void (*)(const sead::SafeString&, s32);

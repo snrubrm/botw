@@ -18,7 +18,7 @@ void applyScreenFade(float progress);
 // 0x7100edc2e4 (declared only)
 bool sub_7100EDC2E4(bool a1);
 void sub_7100EDC334();
-s32 callCheckWeaponFreeSlotHandlerMaybe(const sead::SafeString& name, s32 value);
+bool callCheckWeaponFreeSlotHandlerMaybe(const sead::SafeString& name, s32 value);
 void callIncreasePouchNum(const sead::SafeString& name, s32 value);
 int checkVacancyItem();
 s32 sub_7100EDC3D0(void* a1);

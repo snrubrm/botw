@@ -23,6 +23,7 @@
 #include "Game/gameMaskController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -730,6 +731,18 @@ void Player::sub_7100893F1C() {
     _1fe8 = distance;
     if (distance > uking::sUnk_7101e7c25c)
         _1fe8 = uking::sUnk_7101e7c25c;
+}
+
+void Player::sub_710085AA70(f32 value) {
+    Unk_710260af28::instance()->sub_7100F1EAF8(mModel, value);
+}
+
+f32 Player::sub_710086DB94(f32 value) {
+    return uking::sUnk_7101e7c1dc * value;
+}
+
+void Player::sub_710086DCF8(f32 value) {
+    _1fd4 = value;
 }
 
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,

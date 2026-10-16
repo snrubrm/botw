@@ -1,3 +1,5 @@
+#include "Game/UI/uiUtils.h"
+#include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/System/SeadController.h"
@@ -202,6 +204,14 @@ bool PlayerBase::runeMgrCheckCanUseSquareBomb() {
 
 bool PlayerBase::runeMgrCheckCanUseMagnesis() {
     return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(2, this);
+}
+
+bool PlayerBase::sub_71008494B8() {
+    return ui::sub_7100A9BC0C(0);
+}
+
+bool PlayerBase::sub_71008494C0() {
+    return ui::sub_7100A9BAEC(0);
 }
 
 bool PlayerBase::runeMgrCheckCanUseCryonis() {
@@ -567,6 +577,21 @@ void PlayerBase::x_1(bool a, const sead::SafeString& name, ksys::act::BaseProc* 
         player->_1278 = a;
         player->_1280.acquire(proc, false);
         player->_1290 = name;
+    }
+}
+
+void PlayerBase::sub_710084D088(f32 target, f32 rate) const {
+    if (auto* player = getPlayerBase()) {
+        const auto lock = sead::makeScopedLock(player->_16b0);
+        player->_16f4 = target;
+        if (rate == -1.0f) {
+            if (player->m139() < target)
+                rate = uking::sUnk_7101e7c268;
+            else
+                rate = uking::sUnk_7101e7c26c;
+        }
+        player->_16f8 = rate;
+        player->_16f0 = true;
     }
 }
 

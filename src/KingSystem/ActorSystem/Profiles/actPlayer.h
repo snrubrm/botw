@@ -521,6 +521,11 @@ public:
     bool sub_7100878044();
     // 0x71008902b4 (unnamed in the CSV): _209c > 0.05 and both turn angles past the TurnEnable limits.
     bool sub_71008902B4();
+    // 0x710085aa70 (PlayerIce): Unk_710260af28::sub_7100F1EAF8(mModel, value).
+    void sub_710085AA70(f32 value);
+    // 0x710086db94: value * sUnk_7101e7c1dc (0.05).
+    f32 sub_710086DB94(f32 value);
+    void sub_710086DCF8(f32 value);
     // 0x7100892f1c (lane4 s48; placeholder name): 0 while `_d24` is set or if |_1f98| < 0xf8000001, else 1 / 2 by the sign of
     // `_1f98`.
     s32 sub_7100892F1C();
@@ -803,7 +808,9 @@ public:
     /* 0x1fb0 */ f32 _1fb0;  // compared with RoofCrashVel (sub_7100881418)
     /* 0x1fb4 */ u8 _1fb4[0x1fbc - 0x1fb4];
     /* 0x1fbc */ f32 _1fbc;
-    /* 0x1fc0 */ u8 _1fc0[0x1fe8 - 0x1fc0];
+    /* 0x1fc0 */ u8 _1fc0[0x1fd4 - 0x1fc0];
+    /* 0x1fd4 */ f32 _1fd4;  // set by sub_710086DCF8 (PlayerSpAttack::enter_, PlayerNormal::calc_)
+    /* 0x1fd8 */ u8 _1fd8[0x1fe8 - 0x1fd8];
     /* 0x1fe8 */ f32 _1fe8;  // knock-back correction (sub_7100893F1C)
     /* 0x1fec */ u8 _1fec[0x1ff4 - 0x1fec];
     /* 0x1ff4 */ s32 _1ff4;  // swim status level (getSwimMoveSpeed)

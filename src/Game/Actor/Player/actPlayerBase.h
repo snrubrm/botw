@@ -338,6 +338,9 @@ public:
     bool runeMgrCheckCanUseSquareBomb();     // 0x84ccdc
     bool runeMgrCheckCanUseMagnesis();       // 0x84ccf8
     bool runeMgrCheckCanUseCryonis();        // 0x84cd14
+    // 0x71008494b8 / 0x71008494c0 (placeholder names): ui::sub_7100A9BC0C(0) / ui::sub_7100A9BAEC(0).
+    bool sub_71008494B8();
+    bool sub_71008494C0();
     bool runeMgrCheckCanUseCamera();         // 0x84cd30
     bool runeMgrCheckIsCameraSelected();     // 0x84cd4c
     bool sub_710084A6B8();                   // 0x84a6b8 (RuneMgr flag bit 5; unnamed in the CSV)
@@ -493,7 +496,12 @@ protected:
     /* 0x1698 */ bool _1698;
     /* 0x169c */ sead::Vector3f _169c;
     /* 0x16a8 */ f32 _16a8;
-    /* 0x16ac */ u8 _16ac[0x1700 - 0x16ac];
+    /* 0x16ac */ u8 _16ac[0x16b0 - 0x16ac];
+    /* 0x16b0 */ sead::CriticalSection _16b0;
+    /* 0x16f0 */ bool _16f0;  // set under _16b0 with _16f4 / _16f8 (acc::PlayerBase::sub_710084D088)
+    /* 0x16f4 */ f32 _16f4;  // target value
+    /* 0x16f8 */ f32 _16f8;  // chase rate
+    /* 0x16fc */ u8 _16fc[0x1700 - 0x16fc];
     /* 0x1700 */ sead::CriticalSection _1700;
     /* 0x1740 */ sead::Matrix34f _1740;
 public:
@@ -526,6 +534,9 @@ namespace ksys::act::acc {
 class PlayerBase : public PlayerOrEnemy {
 public:
     bool getPlayerFromPlayerInfo();
+    // 0x710084d088 (CSV act::acc::PlayerBase::x; placeholder name): under the player's _16b0 lock stores a target
+    // and a rate (rate -1: 0.05 up / 0.1 down from m139(), as in Player::m310) and sets _16f0.
+    void sub_710084D088(f32 target, f32 rate) const;
     bool isMainWeaponHitEnemy() const;
     // 0x710084d958 (declared only, CSV name `act::acc::PlayerBase::x_5`; lane2 s20: called by
     // RemainsFireRoot::calc_)
