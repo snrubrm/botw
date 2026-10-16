@@ -21,7 +21,8 @@ sead::SafeString sStr_GuardianFixedBgmMain = "main";
 Unk_71024feae8::Unk_71024feae8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     auto* heap = arg.heap;
     Unk_SpotBgmHandle::init(heap, sStr_GuardianFixedBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GuardianFixedBgm);
+    mInfo = static_cast<ksys::snd::GuardianFixedBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GuardianFixedBgm));
     mEntries.tryAllocBuffer(64, heap);
 }
 
@@ -43,12 +44,48 @@ void Unk_71024feae8::hm15() {
     sub_710101D9F4(0.0);
 }
 
+bool Unk_71024feae8::m10() {
+    if (_124 != 3 && _124 != 4)
+        return false;
+    return _160[1] >= mInfo->mFeelPlayingSec.ref();
+}
+
+bool Unk_71024feae8::m11() {
+    return mState == 2;
+}
+
+void Unk_71024feae8::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mState = 0;
+    _1dc = 0;
+    _1e0 = 0;
+    _1e4 = 0;
+    _1e8 = 0;
+}
+
 Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, "GanonBeastBgm", nullptr);
     mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GanonBeastBgm);
 }
 
 Unk_71024fec18::~Unk_71024fec18() = default;
+
+void Unk_71024fec18::m5() {
+    if (_198 != 0 && _124 == 0)
+        sub_710101D9D8();
+    _1b0.calc();
+}
+
+bool Unk_71024fec18::m10() {
+    return _198 != 0;
+}
+
+void Unk_71024fec18::m12(f32 fade_sec) {
+    if (_198 != 1 && _198 != 2)
+        return;
+    _198 = 1;
+    sub_710101D9D8();
+}
 
 // NON_MATCHING: regalloc (entry count / buffer registers swapped).
 void Unk_71024feae8::sub_710100F798(s32 id) {

@@ -449,6 +449,7 @@ class MazeForestBgmInfo;
 class BigMazeBgmInfo;
 class DungeonBattleBgmInfo;
 class DungeonNormalBgmInfo;
+class GuardianFixedBgmInfo;
 class DungeonRewardBgmInfo;
 class FieldBattleBgmInfo;
 class TutorialDungeonBattleBgmInfo;

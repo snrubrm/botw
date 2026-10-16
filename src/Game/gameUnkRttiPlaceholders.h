@@ -2649,6 +2649,9 @@ public:
     void sub_710100F8B0(bool value, s32 id);
     void sub_710100F900(bool value, s32 id);
     void m14(sead::TextWriter& writer) override {}
+    bool m10() override;
+    bool m11() override;
+    void m13(f32 fade_sec) override;
     void hm14() override;
     void hm15() override;
 
@@ -2661,7 +2664,7 @@ public:
         bool _5 = false;
     };
 
-    ksys::snd::MusicInfo* mInfo = nullptr;
+    ksys::snd::GuardianFixedBgmInfo* mInfo = nullptr;
     s32 mState = 0;
     aal::TimedFader _1a0{1.0, aal::FadeCurveType::Linear, 1.0};
     sead::Buffer<Entry> mEntries;
@@ -2683,12 +2686,16 @@ class Unk_71024fec18 : public ksys::snd::Unk_71025ce380 {
 public:
     explicit Unk_71024fec18(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fec18() override;
+    void m5() override;
+    bool m10() override;
+    void m12(f32 fade_sec) override;
     // 0x710100fff4 / 0x710101011c (declared only)
     void hm14() override;
     void hm15() override;
 
     ksys::snd::MusicInfo* mInfo = nullptr;
-    u64 _198 = 0;
+    u32 _198 = 0;
+    u32 _19c = 0;
     u32 _1a0;
     u32 _1a4 = 0;
     u64 _1a8 = 0;
