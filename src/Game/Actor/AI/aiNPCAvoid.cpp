@@ -1,4 +1,7 @@
 #include "Game/Actor/AI/aiNPCAvoid.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/aiUnk_71024f1658.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -113,6 +116,30 @@ void NPCAvoid::sub_71004C25D4(bool skip_clear_message) {
             npc->_9d8.copy(npc->_840->sub_7100EEEE88(mActor));
     }
     changeChild("脅威解除");
+}
+
+// 0x71004c15dc
+void NPCAvoid::sub_71004C15DC(const sead::Vector3f& target) {
+    ksys::act::setEnabledTalkAndLockOn(mActor, false);
+    _ac = ksys::Timer(1800.0f, 1800.0f);
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x3b, "", 0);
+
+    ksys::act::ai::InlineParamPack pack;
+    auto* npc = sead::DynamicCast<act::NPC>(mActor);
+    if (npc && npc->_fe8 & 0x8000000) {
+        if (sub_71004C2A4C()) {
+            npc->_fe8 |= 0x10000000;
+            changeChild("潜る");
+            return;
+        }
+        pack.addVec3(target, "TargetPos", -1);
+        pack.addVec3(*mTargetVel_d, "TargetVel", -1);
+        changeChild("泳いで逃げる", &pack);
+    } else {
+        pack.addVec3(target, "TargetPos", -1);
+        pack.addVec3(*mTargetVel_d, "TargetVel", -1);
+        changeChild("逃走", &pack);
+    }
 }
 
 }  // namespace uking::ai

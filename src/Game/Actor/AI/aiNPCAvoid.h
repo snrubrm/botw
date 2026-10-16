@@ -29,6 +29,8 @@ protected:
     void sub_71004C22D4();
     // 0x71004c25d4: switches to the threat-cleared child (and resets the NPC's travel state).
     void sub_71004C25D4(bool skip_clear_message);
+    // 0x71004c15dc: starts fleeing from `target` (swimming or diving in water).
+    void sub_71004C15DC(const sead::Vector3f& target);
     // static_param at offset 0x38
     const int* mTargetTerrorLevel_s{};
     // static_param at offset 0x40
