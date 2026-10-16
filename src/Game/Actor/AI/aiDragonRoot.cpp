@@ -1,5 +1,9 @@
 #include "Game/Actor/AI/aiDragonRoot.h"
 #include "Game/Actor/actDragon.h"
+#include "Game/gameSceneSubsys14.h"
+#include "Game/Actor/Damage/dmgDamageCallback.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -108,6 +112,24 @@ bool DragonRoot::init_(sead::Heap* heap) {
 
 void DragonRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ControlRailRoot::enter_(params);
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+
+    _248 = dragon->x_0() * (1.0f / ksys::VFR::instance()->getDeltaFrame());
+    if (!dragon->_1f70.isOnBit(28))
+        setDamageCallbackTiming(dragon, 0, &_98);
+    if (!isRootAiParamINot5())
+        return;
+
+    if (!dragon->_1f70.isOnBit(28)) {
+        if (auto* bgm = ksys::snd::sub_7100FFE094()) {
+            bgm->_58 = true;
+            bgm->sub_7101001808(dragon->sub_710000FE10());
+        }
+    }
+    dragon->sub_710000E500(mDefaultMaterialAnmName_s);
+    dragon->sub_710000EA88(mHornAnmName_s);
 }
 
 bool DragonRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
@@ -151,7 +173,29 @@ void DragonRoot::sub_710036F80C() {
     }
 }
 
+// NON_MATCHING: the original computes &_1f0 once before the payload lock and reuses it for the send.
 void DragonRoot::leave_() {
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        isActorDeletedOrDeleting();
+        if (!dragon->_1f70.isOnBit(28)) {
+            sub_71005DA114(mActor, &_98);
+            if (isActorDeletedOrDeleting()) {
+                if (auto* bgm = ksys::snd::sub_7100FFE094())
+                    bgm->_58 = false;
+                if (_24c.isOnBit(0)) {
+                    {
+                        sead::ScopedLock<sead::JobQueueLock> lock(&_1f0._18.mLock);
+                        _1f0._18._0 = false;
+                    }
+                    if (!isActorDeletedOrDeleting()) {
+                        _1f0.sub_710070DBB0(*GameSceneSubsys14::instance()->mTransceiver.getId(),
+                                            true);
+                    }
+                    _24c.resetBit(0);
+                }
+            }
+        }
+    }
     ControlRailRoot::leave_();
 }
 
