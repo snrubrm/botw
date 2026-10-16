@@ -37,10 +37,14 @@
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/StateMachine.h"
 #include "Game/UI/uiScreenChildMessage.h"
+#include "Game/UI/uiUtils.h"
+#include <controller/seadControllerBase.h>
+#include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace eui {
 class CapturePane;
+class PartsEx;
 }
 
 namespace sead {
@@ -483,11 +487,48 @@ public:
 
 // An item of ScreenEx's button helper (placeholder; no RTTI: vtable slots D1 = nullsub 0x92f36c, D0 = delete
 // 0x92f370). 0x92f374 (1.2 KB, not decompiled) updates it.
+// Vtable 0x7102474690; created by Unk_71024746b0::initialize (0xb8 bytes).
 class Unk_71024746b0Item {
 public:
     virtual ~Unk_71024746b0Item() = default;
     // 0x710092f374 (declared only)
     void sub_710092F374(bool a1);
+
+    /* 0x08 */ Screen* mScreen{};
+    /* 0x10 */ eui::PartsEx* mParts{};
+    /* 0x18 */ u32 _18{};
+    /* 0x1c */ u8 _1c{};
+    /* 0x20 */ sead::Vector2f _20 = sead::ControllerBase::cInvalidPointer;
+    /* 0x28 */ sead::Vector2f _28 = sead::ControllerBase::cInvalidPointer;
+    /* 0x30 */ sead::Vector2f _30 = sead::ControllerBase::cInvalidPointer;
+    /* 0x38 */ sead::Vector2f _38 = sead::ControllerBase::cInvalidPointer;
+    /* 0x40 */ sead::Vector2f _40 = sead::ControllerBase::cInvalidPointer;
+    /* 0x48 */ sead::Vector2f _48 = sead::ControllerBase::cInvalidPointer;
+    /* 0x50 */ f32 _50 = 100.0f;
+    /* 0x54 */ f32 _54 = 10.0f;
+    /* 0x58 */ sead::Vector2f _58 = sead::ControllerBase::cInvalidPointer;
+    /* 0x60 */ sead::Vector2f _60 = sead::ControllerBase::cInvalidPointer;
+    /* 0x68 */ u64 _68{};
+    /* 0x70 */ f32 _70 = 1.0f;
+    /* 0x74 */ s32 _74{};
+    /* 0x78 */ u64 _78{};
+    /* 0x80 */ s32 _80 = 4;
+    /* 0x84 */ s32 _84{};
+    /* 0x88 */ f32 _88 = 0.2f;
+    /* 0x8c */ f32 _8c = 0.1f;
+    /* 0x90 */ u16 _90{};
+    /* 0x94 */ sead::BoundBox2f _94;
+    /* 0xa4 */ u16 _a4{};
+    /* 0xa6 */ u8 _a6{};
+    /* 0xa8 */ s32 _a8{};
+    /* 0xac */ f32 _ac = 10.0f;
+    /* 0xb0 */ f32 _b0 = 10.0f;
+};
+static_assert(sizeof(Unk_71024746b0Item) == 0xb8);
+
+// The pane path of each button of a screen (ScreenEx::m143; five path levels per button).
+struct ButtonPanePath {
+    WidgetPathEntry entries[5];
 };
 
 // ScreenEx's helper at+0x330. The constructor0x92fc8c and destructor0x92fcb4 prove
@@ -498,14 +539,14 @@ public:
     virtual ~Unk_71024746b0();
 
     void setHeap(sead::Heap* heap);
-    void initialize(Screen* screen, eui::LayoutEx* layout, void* config);
+    void initialize(Screen* screen, eui::LayoutEx* layout, const sead::Buffer<ButtonPanePath>* config);
     void update();
     // 0x71009301f4 (placeholder name): the item `index` (null when there is no buffer or the index is out of range)
     Unk_71024746b0Item* sub_71009301F4(s32 index);
 
     /* 0x08 */ sead::Heap* mHeap{};
     /* 0x10 */ Screen* mScreen{};
-    /* 0x18 */ void* mConfig{};
+    /* 0x18 */ const sead::Buffer<ButtonPanePath>* mConfig{};
     /* 0x20 */ sead::Buffer<Unk_71024746b0Item*> mItems;
     /* 0x30 */ bool _30 = true;
 };
@@ -597,7 +638,7 @@ public:
     virtual void m140(void* a1, void* a2);
     virtual s32 m141(const ksys::Message& message);
     virtual s32 m142(const ksys::Message& message);
-    virtual void* m143();
+    virtual const sead::Buffer<ButtonPanePath>* m143();
     // m144 - m153: call the hook m131 - m140 of the same argument(s), then forward the call to the slots 95 - 104
     // of every child that is a ScreenChildEx
     virtual void m144(void* a1);

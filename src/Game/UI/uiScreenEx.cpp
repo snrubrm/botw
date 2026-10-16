@@ -55,7 +55,7 @@ s32 ScreenEx::m142(const ksys::Message&) {
     return 0;
 }
 
-void* ScreenEx::m143() {
+const sead::Buffer<ButtonPanePath>* ScreenEx::m143() {
     return nullptr;
 }
 
