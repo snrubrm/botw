@@ -143,6 +143,28 @@ bool Dragon::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
 }
 
+// NON_MATCHING: the second bone key / model loads are scheduled differently.
+void Unk_7102357188::m0() {
+    for (s32 i = 0; i < numParts; ++i)
+        parts[i].handle._68 = sead::Matrix34f::ident;
+
+    sead::Matrix34f mtx0;
+    sead::Matrix34f mtx1;
+    sead::Vector3f scale;
+    auto* model = actor->getModel();
+    const auto& key0 = _10[0].getKey();
+    model->getUnits()(key0.model_unit_index)->mModelUnit->getBoneLocalMatrix(&mtx0, &scale,
+                                                                              key0.bone_index);
+    const auto& key1 = _10[1].getKey();
+    actor->getModel()->getUnits()(key1.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+        &mtx1, &scale, key1.bone_index);
+    parts[0]._e4 = mtx0;
+    parts[1]._e4 = mtx1;
+}
+
+// TODO: not decompiled yet (W, 1412 B). Defined so that the vtable (keyed on m0) links.
+void Unk_7102357188::m1() {}
+
 bool Dragon::startPreparingForPreDelete_() {
     if (!_1f70.isOn(0x4000000)) {
         if (_14c8._930 & 8)

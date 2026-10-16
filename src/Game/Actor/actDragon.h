@@ -67,8 +67,8 @@ public:
     }
 
     /* 0x08 */ ksys::act::Actor* actor;
-    // Element type unknown (0x71000102b8 reads s16 bone indices at +0x30 / +0x32 of the first).
-    /* 0x10 */ sead::Buffer<u8> _10;
+    // Bone keys (0x38 bytes: Unk_7102357188::m0 reads the model unit / bone index of the first two).
+    /* 0x10 */ sead::Buffer<gsys::BoneAccessKeyEx> _10;
     /* 0x20 */ sead::Buffer<Unk_71007237d0Part> parts;
     /* 0x30 */ s32 numParts;
     /* 0x34 */ bool attached;
