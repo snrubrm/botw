@@ -777,6 +777,21 @@ bool Player::sub_71008902B4() {
     return std::abs(_1f98) < limit;
 }
 
+// NON_MATCHING: as sub_71008902B4 (inlined here): the angle mask is loaded after both angle fields in the original.
+// Placeholder name: turn-brake start: when the turn checks of sub_71008902B4 pass and the speed exceeds
+// TurnEnableSpeed, takes the stick angle as the turn target and plays Brake.
+bool Player::sub_7100891F64() {
+    if (!sub_71008902B4())
+        return false;
+    if (!(_20bc.value > getParam()->getRes().mGParamList->getPlayer()->mTurnEnableSpeed.ref()))
+        return false;
+    _1c7c = _1c70;
+    switchToAnimSequenceMaybe("Brake", true, -1.0f);
+    if (!sub_7100890394())
+        x_18(true);
+    return true;
+}
+
 // NON_MATCHING: the original keeps the bone position in registers across the ray constructor and gives it its own
 // stack slot (ours reuses the matrix slot); one multiply is scheduled differently.
 void Player::sub_7100893F1C() {
