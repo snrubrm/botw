@@ -760,7 +760,7 @@ struct Unk_SoundMgr30_10 {
     virtual ~Unk_SoundMgr30_10();
     // 0x710101cfa4: creates the 0x3e0-byte object at _8 on `heap` and initializes it.
     void init(sead::Heap* heap);
-    // 0x710101d5ec (declared only; 300 B): adds the handle to mHandles.
+    // 0x710101d5ec adds the handle to mHandles (front) unless linked.
     void sub_710101D5EC(Unk_SpotBgmHandle* handle);
     // 0x710101d718: removes the handle from mHandles if it is linked.
     void sub_710101D718(Unk_SpotBgmHandle* handle);
