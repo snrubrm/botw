@@ -31,11 +31,27 @@ public:
     };
     static_assert(sizeof(Slot) == 0x10);
 
+    // inline-only in the original; name is a guess (WildHorseDefWanderAI::calc_ repeats it four times): queues
+    // `client` for postCalc with priority 0; true if it already holds its slot (a stale slot index is cleared).
+    bool requestSlot(Client* client) {
+        client->priority = 0;
+        const s32 idx = mNumPending.increment();
+        if (u32(idx) >= 32)
+            return false;
+        mPending[idx] = client;
+        if (client->slot < 0)
+            return false;
+        if (mSlots[client->slot].client == client)
+            return true;
+        client->slot = -1;
+        return false;
+    }
+
     // 0x7100e8c2c4 (not decompiled)
     void postCalc(u32 flags);
 
     /* 0x20 */ sead::Atomic<s32> mBusy = 0;  // atomically set by the AI that may use the horse loop target (HorseLoopTargetAndWaitAI)
-    /* 0x24 */ u32 mNumPending = 0;
+    /* 0x24 */ sead::Atomic<s32> mNumPending = 0;  // incremented with ldxr / stxr (WildHorseDefWanderAI::calc_)
     /* 0x28 */ sead::SafeArray<Slot, 4> mSlots;  // indexed by Client::slot (the original clamps the index like SafeArray)
     /* 0x68 */ Client* mPending[32];
 };

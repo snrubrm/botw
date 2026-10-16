@@ -1,5 +1,6 @@
 #include "Game/Actor/Horse/AI/aiWildHorseDefWanderAI.h"
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -31,6 +32,67 @@ void WildHorseDefWanderAI::leave_() {
     } else {
         _54.slot = -1;
     }
+}
+
+// NON_MATCHING: the original tests the state as 2, 1, then 0 (ldrsb; ours tests 0 first) and allocates other registers
+// Alternates between waiting ("待機", for a random time) and moving ("移動"); moving needs one of the
+// WildHorseMgr slots.
+void WildHorseDefWanderAI::calc_() {
+    auto* mgr = WildHorseMgr::instance();
+    auto* child = getCurrentChild();
+    ksys::Timer::update(&_50, -1.0f);
+
+    if (!child || child->isFinished() || child->isFailed()) {
+        if (mgr && !mgr->requestSlot(&_54)) {
+            startWait(mgr);
+            return;
+        }
+        const f32 rate = *mChangeWaitRate_s;
+        if (sead::GlobalRandom::instance()->getF32() < rate) {
+            startWait(mgr);
+            return;
+        }
+        _56 = 2;
+        changeChild("移動");
+        return;
+    }
+
+    if (!child->isChangeable())
+        return;
+
+    switch (_56) {
+    case 2:
+        if (!mgr || mgr->requestSlot(&_54))
+            return;
+        startWait(mgr);
+        return;
+    case 1:
+        if (mgr && !mgr->requestSlot(&_54))
+            return;
+        break;
+    case 0: {
+        if (!(_50 <= 0.0f))
+            return;
+        const f32 rate = *mChangeWaitRate_s / 5.0f;
+        if (sead::GlobalRandom::instance()->getF32() < rate) {
+            const f32 min = *mMinWaitTime_s;
+            const f32 max = *mMaxWaitTime_s;
+            _50 = sead::GlobalRandom::instance()->getF32Range(min, max);
+            return;
+        }
+        if (mgr) {
+            mgr->requestSlot(&_54);
+            _56 = 1;
+            return;
+        }
+        break;
+    }
+    default:
+        return;
+    }
+
+    _56 = 2;
+    changeChild("移動");
 }
 
 void WildHorseDefWanderAI::loadParams_() {
