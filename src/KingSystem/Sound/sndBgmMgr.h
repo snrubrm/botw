@@ -303,6 +303,7 @@ void sub_7100FFF0E4(Unk_710260ecf8* bgm);
 SEAD_ENUM(BgmKind, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35)
 
 class MusicInfo;
+class CastleBgmInfo;
 class HorseBgmInfo;
 class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
@@ -1036,3 +1037,47 @@ Unk_SoundMgr30_240* sub_7100FFF124();
 Unk_71010073f4* sub_7100FFD784();
 
 }  // namespace ksys::snd
+
+// vtable 0x71024ff268 (17 slots): the castle BGM ("CastleBgm"; constructor 0x710101320c, 0x210 bytes; its TU
+// 0x710101320c..0x7101013c4c is sndBgmCastle.cpp).
+class Unk_71024ff268 : public ksys::snd::Unk_71025ce380 {
+    SEAD_RTTI_OVERRIDE(Unk_71024ff268, ksys::snd::Unk_71025ce380)
+public:
+    explicit Unk_71024ff268(const ksys::snd::BgmInitArg& arg);
+    ~Unk_71024ff268() override;
+    // 0x710101330c (CSV snd::BgmCastle::m5; declared only, 900 B)
+    void m5() override;
+    bool m10() override;
+    void m13(f32 fade_sec) override;
+    void m14(sead::TextWriter& writer) override {}
+    void hm14() override;
+    void hm15() override;
+
+    // Applies the two faders to the volumes of the "Castle" entry's three parts (inlined into hm14 / hm15).
+    void updateEntryVolumes() {
+        if (!mEntry || !mEntry->sub_7100FF6DF4(this))
+            return;
+        const f32 inside = _1d0.getValue();
+        mEntry->sub_7100FF6A50(0, 1.0f - inside);
+        mEntry->sub_7100FF6A50(1, inside);
+        mEntry->sub_7100FF6A50(2, _1f0.getValue());
+    }
+
+    ksys::snd::CastleBgmInfo* mInfo = nullptr;
+    // Play state (0 stopped, 1 playing, 2 waiting to fade out, 3 fading out) driven by _1a8.
+    u32 _198 = 0;
+    // Inside mix state (0 outside, 1 waiting, 2 fading in, 3 inside, 4 fading out).
+    u32 _19c = 0;
+    ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
+    bool _1a8 = false;
+    f32 _1ac = 0;
+    f32 _1b0 = 0;
+    aal::SimpleTimedFader _1b8{1.0};
+    aal::SimpleTimedFader _1d0{0.0};
+    // Battle request count and battle part state (0 off, 1 fading in, 2 on, 3 fading out).
+    s32 _1e8 = 0;
+    u32 _1ec = 0;
+    aal::SimpleTimedFader _1f0{0.0};
+    f32 _208 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024ff268, 0x210);

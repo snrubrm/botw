@@ -28,6 +28,9 @@ public:
     // 0x7101055ffc (D1) / 0x7101056068 (D0)
     virtual ~OcclusionMgr();
 
+    // Placeholder name: the castle BGM (Unk_71024ff268::hm14) switches to its inside mix while this is set.
+    bool isInsideMaybe() const { return _a; }
+
 private:
     /* 0x08 */ u16 _8 = 0;
     /* 0x0a */ u8 _a = 0;

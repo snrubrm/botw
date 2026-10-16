@@ -203,8 +203,6 @@ Unk_71024fefe8::~Unk_71024fefe8() {
     mEntries.freeBuffer();
 }
 
-Unk_71024ff268::~Unk_71024ff268() = default;
-
 namespace ksys::snd {
 
 Unk_710260f278::Unk_710260f278(const BgmInitArg& arg) : Unk_71025ce380(arg) {

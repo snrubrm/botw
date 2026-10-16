@@ -2352,14 +2352,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 
-// vtable 0x71024ff268 (17 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024ff268 : public ksys::snd::Unk_71025ce380 {
-    SEAD_RTTI_OVERRIDE(Unk_71024ff268, ksys::snd::Unk_71025ce380)
-public:
-    ~Unk_71024ff268() override;
-    void m14(sead::TextWriter& writer) override {}
-};
-
+// vtable 0x71024ff268: the castle BGM, declared in KingSystem/Sound/sndBgmMgr.h.
 // vtable 0x71025008d0 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71025008d0 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71025008d0, ksys::snd::Unk_71025ce380)
