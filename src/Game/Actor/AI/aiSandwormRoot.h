@@ -5,6 +5,7 @@
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::ai {
 
@@ -30,6 +31,11 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
+    void calc_() override;
+
+    // 0x710055e304 (unnamed in the CSV; called at the end of calc_): shows the life gauge while the player is within
+    // the Sandworm GParamList ShowLifeGageDist (hides it beyond ShowLifeGageDist + ShowLifeGageOffset).
+    void sub_710055E304();
 
 protected:
     // static_param at offset 0x1d8
@@ -37,9 +43,8 @@ protected:
     // static_param at offset 0x1e0
     const float* mWeakPointDamageRate_s{};
     Unk_710240dd68 _1e8;
-    ksys::act::Actor* _238 = mActor;
-    u64 _240 = 0;
-    f32 _248 = 0;
+    // calc_ updates it with Unk_7100d3bce4::sub_7100D3BCE4 (0x710055e090) and restarts it at 8.
+    ksys::act::Unk_7100d3bce4 _238{mActor, 0.0f};
     Unk_710241c6c0 _250;
     Unk_7102451120 _278;
     u32 _288 = 0;

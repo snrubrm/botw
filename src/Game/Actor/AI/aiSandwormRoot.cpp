@@ -7,10 +7,21 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h"
+#include <gsys/gsysModel.h>
 #include <limits>
 
 // 0x71002ccc20 (free function, declared only): one of the SiteBoss / Enemy part names by index (a static table).
 const sead::SafeString& sub_71002CCC20(s32 idx);
+
+namespace uking::ui {
+// 0x7100a96310 (defined in uiScreenFacade.cpp, not declared in a header).
+s32 sub_7100A96310();
+}  // namespace uking::ui
 
 namespace uking::ai {
 
@@ -45,8 +56,7 @@ void SandwormRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     sub_71007A397C(actor);
     _1e8.x();
-    _240 = 0;
-    _248 = -1.0f;
+    _238.mTimer.reset(0.0f);
     _278.sub_7100721380(std::numeric_limits<f32>::infinity(), mActor);
 }
 
@@ -132,6 +142,127 @@ bool SandwormRoot::handleMessage_(const ksys::Message* message) {
         }
     }
     return true;
+}
+
+// Bombs held by the two parts actors follow the "Spine_4" bone; when the weak-point timer runs out, the sleeping
+// "RemoteBomb" parts are placed there and hit the Sandworm with their attack power (damage type 22).
+void SandwormRoot::calc_() {
+    auto* actor = mActor;
+    if (!sub_71005D8F28(actor) && sub_7100720038(actor))
+        sub_710072009C(actor);
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor))
+        sandworm->sub_71002CDDE8();
+
+    if (_1e8._30) {
+        sub_710072009C(actor);
+        _1e8.x();
+        if (_238.mTimer.value <= sead::Mathf::epsilon())
+            _238.mTimer.reset(8.0f);
+    } else if (!(_238.mTimer.value <= sead::Mathf::epsilon())) {
+        _238.sub_7100D3BCE4();
+        if (_238.mTimer.value <= sead::Mathf::epsilon()) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+                sead::Matrix34f mtx = enemy->getMtx();
+                ksys::act::ActorLinkConstDataAccess accessor;
+                auto* manager = enemy->getDamageMgr();
+                for (s32 i = 0; i < 2; ++i) {
+                    if (!ksys::act::acquireActor(&enemy->getActorPartsActor(sub_71002CCC20(i)), &accessor))
+                        continue;
+                    if (!accessor.isStateSleep())
+                        continue;
+                    if (accessor.getName().findIndex("RemoteBomb") == -1)
+                        continue;
+
+                    if (auto* model = enemy->getModel()) {
+                        const auto key = model->searchBone("Spine_4");
+                        if (key.isValid())
+                            model->getBoneWorldMatrix(key, &mtx);
+                    }
+                    accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 7, -1);
+                    sub_7100720A00(enemy, nullptr);
+                    if (manager) {
+                        act::Struct20_2 damage;
+                        damage.mField_8 = accessor.getAttackPower();
+                        damage.mField_14 = 4;
+                        damage.mField_18 = 22;
+                        if (manager->mStruct20_a) {
+                            manager->mField_30.lock();
+                            manager->mStruct20_a->combineMaybe(&damage);
+                            manager->mField_30.unlock();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    EnemyRoot::calc_();
+    sub_710055E304();
+}
+
+// NON_MATCHING: the original adds the squared components as y + x then z + (y + x) and loads the player x alone
+// (ours: x + y, z; one ldp)
+void SandwormRoot::sub_710055E304() {
+    auto* actor = mActor;
+    if (isCurrentChild("リアクション")) {
+        const s32* life = actor->getLife();
+        if (life && *life <= 0) {
+            if (_288 != 0) {
+                auto* a = mActor;
+                sub_7100720140(a);
+                sub_7100720A70(a);
+            }
+            _288 = 0;
+            return;
+        }
+    }
+
+    if (sub_710072B8E4()) {
+        const sead::Vector3f& player_pos = getPlayerPosition();
+        const auto* param = actor->getParam()->getRes().mGParamList->getSandworm();
+        if (param) {
+            const f32 dist = (actor->getMtx().getTranslation() - player_pos).length();
+            const bool flag = sub_71005D8F28(actor);
+            switch (_288) {
+            case 0:
+                if (flag) {
+                    auto* a = mActor;
+                    sub_71007200B8(a);
+                    sub_7100720A30(a);
+                    _288 = 2;
+                } else if (dist < param->mShowLifeGageDist.ref()) {
+                    auto* a = mActor;
+                    sub_71007200B8(a);
+                    sub_7100720A30(a);
+                    _288 = 1;
+                }
+                break;
+            case 1:
+                if (flag)
+                    _288 = 2;
+                else if (dist > param->mShowLifeGageDist.ref() + param->mShowLifeGageOffset.ref())
+                    goto hide;
+                break;
+            case 2:
+                if (flag)
+                    break;
+                if (dist > param->mShowLifeGageDist.ref() + param->mShowLifeGageOffset.ref())
+                    goto hide;
+                _288 = 1;
+                break;
+            hide: {
+                auto* a = mActor;
+                sub_7100720140(a);
+                sub_7100720A70(a);
+                _288 = 0;
+                break;
+            }
+            }
+        }
+    }
+
+    if (_288 != 0)
+        ui::sub_7100A96310();
 }
 
 }  // namespace uking::ai

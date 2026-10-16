@@ -10,10 +10,22 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 
 void sub_7100720140(ksys::act::Actor* actor) {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor))
         enemy->_e90 = 1;
+}
+
+bool sub_7100720038(ksys::act::Actor* actor) {
+    auto* manager = sub_710072BA90(actor);
+    if (manager && manager->_216.isOn(2)) {
+        if ((manager->getFlags2() & 0xffff0000) == 0x10000)
+            return true;
+        manager->getFlags2();
+    }
+    return false;
 }
 
 void sub_710072009C(ksys::act::Actor* actor) {
@@ -125,6 +137,11 @@ void sub_7100721670(void* unused, ksys::act::Actor* actor, const sead::SafeStrin
     body->setFlag200();
     body->setContactAll();
     body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+}
+
+// NON_MATCHING: the original passes the 3 in an 8-byte-aligned stack slot (sp + 8; same as BossBgm::enter); ours x29 - 4
+void sub_7100720A30(ksys::act::Actor* actor) {
+    uking::act::DamageInfoMgr::instance()->get450().sub_710065D428(actor, 3);
 }
 
 void sub_7100720A70(ksys::act::Actor* actor) {

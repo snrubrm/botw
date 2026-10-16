@@ -63,12 +63,17 @@ void sub_7100720140(ksys::act::Actor* actor);
 // 0x7100720a70: forwards the actor to a method (0x710065d5d4) of the object at +0x450 of a singleton
 // (GOT 0x7102579100).
 void sub_7100720A70(ksys::act::Actor* actor);
+// 0x7100720a30: DamageInfoMgr::Unk450::sub_710065D428(actor, 3) (paired with sub_7100720A70 by SandwormRoot).
+void sub_7100720A30(ksys::act::Actor* actor);
 
 // lane4 s49 (declaration-only native helpers of the same TU; source namespaces unknown): 0x710072009c
 // (`sub_71005D8DE8(actor, PlayerInfo::instance()->getPlayerLink(), nullptr, nullptr)`), 0x71007200b8 (`Enemy::_e90 = 4`, like
 // sub_7100720140 which sets 1), 0x71007201c8 / 0x71007201fc (the "Atk" body `name`: activate / deactivate), 0x710072022c
 // / 0x7100720254 (all "Atk" bodies), 0x7100720330 (clears bits 3 / 4 of the attack sensor's _20), 0x71007209e8 /
 // 0x7100720a00 / 0x7100720a18 (xlinkSearchAndEmit(actor, "BombEat" / "InsideBomb" / "BombNotEat", 2, arg)).
+// 0x7100720038: the actor's DamageManager has bit 1 of _216 set and damage kind (getFlags2 high half) 1. The
+// original calls getFlags2 a second time and discards it on the false path.
+bool sub_7100720038(ksys::act::Actor* actor);
 void sub_710072009C(ksys::act::Actor* actor);
 void sub_71007200B8(ksys::act::Actor* actor);
 // 0x7100720354 (name-based classification: "All" -> 0, "Tail" -> 1, else 2), 0x7100720454 (enables contacts of the
