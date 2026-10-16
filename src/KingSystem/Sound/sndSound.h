@@ -835,7 +835,11 @@ public:
     u8 _34[4];
     // Faded by 0x710104f030 together with mFilter.
     /* 0x38 */ xlink2::HandleSLink _38;
-    u8 _48[0xa8 - 0x48];
+    // Groups whose volume / pitch / filter follow the slow motion state (0x710104ebbc).
+    /* 0x48 */ sead::Buffer<aal::Group*> _48;
+    u8 _58[0x98 - 0x58];
+    /* 0x98 */ aal::Group* _98;
+    u8 _a0[0xa8 - 0xa0];
     // 0x710104f4c4 / 0x710104f614 / 0x710104f740 store searchAndEmit("Filter") here; the larger
     // 0x710104f518 family reads the resource and create id back.
     /* 0xa8 */ xlink2::HandleSLink mFilter;  // 16 bytes

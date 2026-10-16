@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndSound.h"
+#include <aal/aalGroup.h>
 #include <prim/seadScopedLock.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -168,7 +169,37 @@ void Unk_710104e5b4::sub_710104EA7C() {
     }
 }
 
-KSYS_VISIBILITY_HIDDEN f32 sUnk_7102502500[2] = {1.6f, 0.05f};
+// [2..5]: the volume, pitch, biquad filter and bus volume of the slowed groups (0x710104ebbc).
+KSYS_VISIBILITY_HIDDEN f32 sUnk_7102502500[6] = {1.6f, 0.05f, 0.8f, 0.7f, 0.3f, 0.65f};
+
+// NON_MATCHING: the original walks the buffer with an end pointer (sign-extended size) and schedules the last
+// filter argument differently.
+void Unk_710104e5b4::sub_710104EBBC() {
+    for (auto& group : _48) {
+        if (_30 == 2) {
+            group->getParam().setVolume(1.0f);
+            group->getParam().setPitch(1.0f);
+            group->getParam().setBiquadFilter(-1, 0.0f);
+            group->getParam().setBusVolume(aal::BusType::AuxB, 0.0f);
+        } else {
+            group->getParam().setVolume(sUnk_7102502500[2]);
+            group->getParam().setPitch(sUnk_7102502500[3]);
+            group->getParam().setBiquadFilter(2, sUnk_7102502500[4]);
+            group->getParam().setBusVolume(aal::BusType::AuxB, sUnk_7102502500[5]);
+        }
+    }
+    if (!_98)
+        return;
+    if (_30 == 2) {
+        _98->getParam().setVolume(1.0f);
+        _98->getParam().setBiquadFilter(-1, 0.0f);
+        _98->getParam().setBusVolume(aal::BusType::AuxB, 0.0f);
+    } else {
+        _98->getParam().setVolume(sUnk_7102502500[2]);
+        _98->getParam().setBiquadFilter(2, sUnk_7102502500[4]);
+        _98->getParam().setBusVolume(aal::BusType::AuxB, sUnk_7102502500[5]);
+    }
+}
 
 void Unk_710104e5b4::sub_710104FD4C() {
     _250 = 1;
