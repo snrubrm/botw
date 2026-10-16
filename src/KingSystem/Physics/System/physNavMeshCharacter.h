@@ -1,6 +1,9 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <container/seadBuffer.h>
 #include <limits>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
@@ -18,6 +21,10 @@ class hkaiStreamingCollection;
 
 namespace sead {
 class Heap;
+}
+
+namespace gsys {
+class Model;
 }
 
 namespace ksys::phys {
@@ -363,6 +370,55 @@ public:
     /* 0x2d4 */ f32 _2d4;
     /* 0x2d8 */ u8 _2d8[0x2e0 - 0x2d8];
     /* 0x2e0 */ NavMeshCharacterQuery* _2e0;  // navmesh query (released through HavokAI::sub_7100F83A94)
+};
+
+// Placeholder (vtable 0x71024f67c8: only D1 0x7100f73bec / D0 0x7100f73c30; set up by 0x7100f72ca0 /
+// 0x7100f73714): a chain of model bones (entries of 0xc0 bytes) with three extra bone keys. Defined next
+// to NavMeshCharacter (its address neighbour); handed over from lane4.
+class Unk_71024f67c8 {
+public:
+    struct Entry {
+        u8 _0[0x10];
+        gsys::BoneAccessKeyEx mBone;
+        sead::Vector3f mScale;
+        sead::Vector3f _54;
+        sead::Matrix34f _60;
+        sead::Matrix34f _90;
+    };
+    static_assert(sizeof(Entry) == 0xc0);
+
+    virtual ~Unk_71024f67c8();
+
+    // 0x7100f73b7c (placeholder name): frees the entries and deletes this object.
+    void sub_7100F73B7C();
+    // 0x7100f74e20 (placeholder name): stores `value` clamped to [0, 1] in _108.
+    void sub_7100F74E20(f32 value);
+    // 0x7100f74e44 / 0x7100f74e68 / 0x7100f74e8c / 0x7100f74eb0 (placeholder names): _90 of the
+    // entries _c8 / _cc / _d0 / _d4.
+    sead::Matrix34f* sub_7100F74E44();
+    sead::Matrix34f* sub_7100F74E68();
+    sead::Matrix34f* sub_7100F74E8C();
+    sead::Matrix34f* sub_7100F74EB0();
+    // 0x7100f74ed4 (placeholder name): sets the local matrix of entry _d0 (translation divided by its
+    // scale) and applies it to the model.
+    void sub_7100F74ED4(const sead::Matrix34f& matrix);
+    // 0x7100f74f44 (placeholder name): _60 of entry _d4.
+    sead::Matrix34f* sub_7100F74F44();
+    // 0x7100f74f68 (placeholder name): applies the local matrix of entry `index` to the model.
+    void sub_7100F74F68(s32 index);
+
+    gsys::Model* mModel;
+    u8 _10[0x20 - 0x10];
+    gsys::BoneAccessKeyEx _20;
+    gsys::BoneAccessKeyEx _58;
+    gsys::BoneAccessKeyEx _90;
+    s32 _c8;
+    s32 _cc;
+    s32 _d0;
+    s32 _d4;
+    u8 _d8[0xf8 - 0xd8];
+    sead::Buffer<Entry> mEntries;
+    f32 _108;
 };
 
 }  // namespace ksys::phys

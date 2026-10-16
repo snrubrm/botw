@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include <gsys/gsysModel.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -375,6 +376,53 @@ void NavMeshObjMaybe::sub_7100F7FB0C(bool on) {
         auto* havok_ai = _98 ? _98 : HavokAI::instance();
         havok_ai->sub_7100F832B4(this, on);
     }
+}
+
+Unk_71024f67c8::~Unk_71024f67c8() = default;
+
+void Unk_71024f67c8::sub_7100F73B7C() {
+    mEntries.freeBuffer();
+    delete this;
+}
+
+// NON_MATCHING: the original clamps with compares and selects (fcsel / fccmp), ours with fmin.
+void Unk_71024f67c8::sub_7100F74E20(f32 value) {
+    _108 = sead::Mathf::clamp(value, 0.0f, 1.0f);
+}
+
+sead::Matrix34f* Unk_71024f67c8::sub_7100F74E44() {
+    return &mEntries[_c8]._90;
+}
+
+sead::Matrix34f* Unk_71024f67c8::sub_7100F74E68() {
+    return &mEntries[_cc]._90;
+}
+
+sead::Matrix34f* Unk_71024f67c8::sub_7100F74E8C() {
+    return &mEntries[_d0]._90;
+}
+
+sead::Matrix34f* Unk_71024f67c8::sub_7100F74EB0() {
+    return &mEntries[_d4]._90;
+}
+
+// NON_MATCHING: the original loads the scale components with ldp and divides in a different order.
+void Unk_71024f67c8::sub_7100F74ED4(const sead::Matrix34f& matrix) {
+    Entry& entry = mEntries[_d0];
+    entry._60 = matrix;
+    entry._60.m[0][3] /= entry.mScale.x;
+    entry._60.m[1][3] /= entry.mScale.y;
+    entry._60.m[2][3] /= entry.mScale.z;
+    mModel->setBoneLocalMatrix(entry.mBone.getKey(), entry._60, entry.mScale);
+}
+
+sead::Matrix34f* Unk_71024f67c8::sub_7100F74F44() {
+    return &mEntries[_d4]._60;
+}
+
+void Unk_71024f67c8::sub_7100F74F68(s32 index) {
+    Entry& entry = mEntries[index];
+    mModel->setBoneLocalMatrix(entry.mBone.getKey(), entry._60, entry.mScale);
 }
 
 }  // namespace ksys::phys
