@@ -3,6 +3,7 @@
 #include "Game/gameGraphics.h"
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/System/LayerMgrTask.h"
+#include <layer/aglLayer.h>
 #include <layer/aglRenderer.h>
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -777,6 +778,14 @@ void sub_7100AA86EC(u32 index, bool flag) {
     if (!vlt::LayerMgrTask::sInstance)
         return;
     Graphics::instance()->sub_7100F35F50(agl::lyr::Renderer::instance()->mLayers[index], flag);
+}
+
+void sub_7100AA873C(u32 index, s32 value) {
+    if (!vlt::LayerMgrTask::sInstance)
+        return;
+    auto* layer = agl::lyr::Renderer::instance()->mLayers[index];
+    if (layer->_9b != value)
+        layer->_9b = value;
 }
 
 bool sub_7100AA8F74() {

@@ -300,6 +300,9 @@ void sub_7100A9B2D0();
 // 0x7100aa86ec (placeholder name; declared only, not decompiled): sets a flag of a layer of the agl layer renderer
 // through Graphics (index clamped to the layer count; nothing happens without the global at 0x7102652458).
 void sub_7100AA86EC(u32 index, bool flag);
+// 0x7100aa873c: sets the byte +0x9b of renderer layer `index` while the LayerMgrTask exists (the value is a
+// word: the original compares and stores it without a bool conversion).
+void sub_7100AA873C(u32 index, s32 value);
 
 // 0x7100aa8fcc (placeholder name): `*out = clamp(value / max, 0, 1) * 100`; returns whether the ratio was inside [0, 1].
 bool sub_7100AA8FCC(f32* out, f32 value, f32 max);
