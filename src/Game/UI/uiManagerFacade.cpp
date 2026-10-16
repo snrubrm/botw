@@ -1,3 +1,4 @@
+#include "Game/UI/uiScreens.h"
 #include "Game/Cooking/cookManager.h"
 #include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -589,6 +590,18 @@ bool sub_7100A9C12C(s32 value) {
     if (manager->_d0 != value)
         return false;
     return manager->_d4 != value;
+}
+
+// 0x7100a9c15c (placeholder name): with the camera app open, whether the camera rune is selected and its
+// _4080 flag is set; otherwise bit 5 of the Manager's flag byte at 0x64c35
+bool sub_7100A9C15C() {
+    auto* screen =
+        sead::DynamicCast<ScreenAppCamera>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppCamera));
+    if (!screen)
+        return (Manager::instance()->_64c30_bytes[5] >> 5) & 1;
+    if (!isSelectedRuneEqualToItemType(3))
+        return false;
+    return screen->_4080 != 0;
 }
 
 // 0x7100a9e200
