@@ -4,6 +4,7 @@
 #include "Game/Actor/aiUnk_71007320F0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -37,6 +38,85 @@ void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* nav = _78->_0)
         nav->sub_7100F7604C(nav->getRadiusMaybe());
     m34();
+}
+
+namespace {
+
+// The face callback of m34 (vtable right after GiantNavMoveTarget's; placeholder name): takes the first face whose
+// sub material is usable and writes its position to `mOut`.
+class EscapeFaceCallback : public ksys::phys::NavMeshFaceCallback {
+public:
+    EscapeFaceCallback(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav) : mOut(out), mNav(nav) {}
+
+    // 0x71003f9260
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face) override {
+        const s32 material = face.sub_7100F7EEE4();
+        if (material == 5 || material == 10)
+            return false;
+        if (!mNav->isMaterialUsableMaybe(material))
+            return false;
+        if (mOut)
+            face.sub_7100F7EB60(mOut);
+        return true;
+    }
+
+    // 0x71003f9318
+    void* m1() override { return nullptr; }
+
+private:
+    sead::Vector3f* mOut;
+    ksys::phys::NavMeshCharacter* mNav;
+};
+
+}  // namespace
+
+// NON_MATCHING: stack layout (the original shares the target / point vector and the two parameter packs).
+void GiantNavMoveTarget::m34() {
+    if (auto* nav = mActor->m45()) {
+        if ((nav->_2a4 & 0xffff) != 0x17) {
+            const s32 material = nav->_2a4 & 0xffff;
+            if (material != 5 && material != 10 && nav->isMaterialUsableMaybe(material)) {
+                auto* actor = mActor;
+                auto* target_pos = mTargetPos_d;
+                if (sub_710072CB78(actor, *target_pos, nullptr,
+                                   sead::Mathf::clampMin(sub_71007320F0(actor, *mWeaponIdx_s), 0.0f) +
+                                       *mReachTargetArea_s,
+                                   -1)) {
+                    changeToGoStraight();
+                    return;
+                }
+
+                if (_78->_8 == 1) {
+                    const f32 time = *mRepathTime_s;
+                    _80.value = time;
+                    _80.previous_value = time;
+                    _80.rate = -1.0f;
+
+                    const sead::Vector3f target = *mTargetPos_d;
+                    ksys::act::ai::InlineParamPack pack;
+                    pack.addVec3(target, "TargetPos", -1);
+                    changeChild("移動", &pack);
+                    return;
+                }
+
+                sub_71003F7DA8();
+                changeChild("見まわす", nullptr);
+                return;
+            }
+        }
+    }
+
+    if (auto* nav = mActor->m45()) {
+        sead::Vector3f point;
+        EscapeFaceCallback callback(&point, nav);
+        if (nav->sub_7100F76168(nav->getRadiusMaybe(), false, &callback)) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(point, "TargetPos", -1);
+            changeChild("脱出", &pack);
+            return;
+        }
+    }
+    changeChild("見まわす", nullptr);
 }
 
 void GiantNavMoveTarget::changeToLookAround() {

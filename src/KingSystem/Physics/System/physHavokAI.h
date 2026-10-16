@@ -421,7 +421,7 @@ public:
     // 0x7100f87594 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F76168 / sub_7100F761C8 forward here
     // (`pos` may be null; `radius` is the character's `_2a8 * _2ac`).
     bool sub_7100F87594(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 value, bool flag,
-                        void* out);
+                        NavMeshFaceCallback* callback);
     // 0x7100f87334 (declared only; 304 B): the face search of NavMeshFaceQuery::process (`pos` may be null;
     // `radius` is the character's `_2a8 * _2ac`).
     void sub_7100F87334(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 search_radius,

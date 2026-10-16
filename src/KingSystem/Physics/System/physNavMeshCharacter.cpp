@@ -116,20 +116,21 @@ Unk_7100f7e9f0 NavMeshCharacter::sub_7100F760F0(sead::Vector3f* out, const sead:
     return ai->sub_7100F88FD0(this, out, to, value);
 }
 
-bool NavMeshCharacter::sub_7100F76168(f32 value, bool flag, void* out) {
+bool NavMeshCharacter::sub_7100F76168(f32 value, bool flag, NavMeshFaceCallback* callback) {
     if (sead::Mathf::isNan(value))
         return false;
 
     auto* ai = _18 ? _18 : HavokAI::instance();
-    return ai->sub_7100F87594(this, nullptr, getRadiusMaybe(), value, flag, out);
+    return ai->sub_7100F87594(this, nullptr, getRadiusMaybe(), value, flag, callback);
 }
 
-bool NavMeshCharacter::sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag, void* out) {
+bool NavMeshCharacter::sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag,
+                                      NavMeshFaceCallback* callback) {
     if (pos.isNan() || sead::Mathf::isNan(value))
         return false;
 
     auto* ai = _18 ? _18 : HavokAI::instance();
-    return ai->sub_7100F87594(this, &pos, getRadiusMaybe(), value, flag, out);
+    return ai->sub_7100F87594(this, &pos, getRadiusMaybe(), value, flag, callback);
 }
 
 void NavMeshCharacter::sub_7100F76260(const sead::Vector3f& pos) {

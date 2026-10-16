@@ -25,6 +25,20 @@ class HavokAI;
 struct NavMeshObjMaybe;
 class Unk_7102372790;
 class NavMeshCharacterQuery;
+class NavMeshFaceCallback;
+class NavMeshCharacter;
+
+// Placeholder: the object at NavMeshCharacter::_58 (a face material filter; when it is null the per-type cost
+// table of NavMeshCharacter::sub_7100F74FD8 decides). Only slot 4 is known.
+class NavMeshCharacterUnk58 {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    // Whether a face with the sub material `material` is usable (callers pass 0 and nullptr).
+    virtual bool m4(NavMeshCharacter* nav, s32 material, s32 a, void* b);
+};
 class Unk_7100f7e9f0Event;
 
 // Placeholder name (ctor 0x7100f7e9f0, dtor 0x7100f7eb14; 0x18 bytes): result returned by value
@@ -151,8 +165,8 @@ public:
     // 0x7100f760f0 / 0x7100f76168 / 0x7100f761c8 (placeholder names): forward to HavokAI (the `_18` of the character, or
     // the singleton) after the NaN checks of the arguments; the last two pass the radius `_2a8 * _2ac`.
     Unk_7100f7e9f0 sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to, f32 value);
-    bool sub_7100F76168(f32 value, bool flag, void* out);
-    bool sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag, void* out);
+    bool sub_7100F76168(f32 value, bool flag, NavMeshFaceCallback* callback);
+    bool sub_7100F761C8(const sead::Vector3f& pos, f32 value, bool flag, NavMeshFaceCallback* callback);
     // 0x7100f76260 (placeholder name): stores `pos` in _1b8 (unless it contains NaN), sets bit 0x2000 and clears 0x20000 of _220.
     void sub_7100F76260(const sead::Vector3f& pos);
     // 0x7100f76344 (placeholder name): sets / clears bit 1 of the flags `_10->_170`.
@@ -222,6 +236,21 @@ public:
     // GiantNavMoveTarget and LynelNavMoveNoStop (no out-of-line copy).
     f32 getRadiusMaybe() const { return _2a8 * _2ac; }
 
+    // 0x7100f74fd8 (declared only; placeholder name): the cost of the face sub material `material` for the
+    // character type `type` (a table at 0x7101ec22ec plus special cases).
+    static f32 sub_7100F74FD8(s32 type, s32 material);
+
+    // Inline-only in the original; name is a guess. GiantNavMoveTarget::m34 0x71003f7904 and its face callback
+    // 0x71003f9260, and the face callbacks of HorseMoveToSafePos (0x71001a27b8) and HorseSwimAction
+    // (0x7100e58340) repeat it: asks the filter at _58, or else accepts a material cost of at most 0.3.
+    bool isMaterialUsableMaybe(s32 material) {
+        if (_58)
+            return _58->m4(this, material, 0, nullptr);
+        if (sead::Mathf::abs(sub_7100F74FD8(_1d8, material)) > 0.3f)
+            return false;
+        return true;
+    }
+
     // Inline-only in the original (lane1 s21; name is a placeholder): sets the three vectors at
     // 0x194 / 0x1a0 / 0x1ac to NaN under _1e0 (seen after inlineReset() in AnimalRoamCheckWater,
     // HorseMoveToTargetAction::enter_ and others).
@@ -273,7 +302,7 @@ public:
     // request (compared against `ai | 1`).
     /* 0x020 */ sead::Atomic<HavokAI*> _20;
     /* 0x028 */ u8 _28[0x58 - 0x28];
-    /* 0x058 */ void* _58 = nullptr;
+    /* 0x058 */ NavMeshCharacterUnk58* _58 = nullptr;
     /* 0x060 */ void* _60 = nullptr;
     /* 0x068 */ sead::CriticalSection _68;
     /* 0x0a8 */ sead::SafeArray<u32, 10> _a8;  // BaseProc ids (up to 10 entries, count in _d0)
