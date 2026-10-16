@@ -15,6 +15,33 @@ void ScreenAppMapUnk3c90::sub_71009C117C() {
     _140->StopAtMin();
 }
 
+// 0x71009c1198 (placeholder name): while _130 is 2, stops the _150 animation on the frame given by the type
+void ScreenAppMapUnk3c90::sub_71009C1198(s32 type) {
+    if (_130 == 2) {
+        switch (type) {
+        case 0:
+            _150->Stop(0.0f);
+            break;
+        case 1:
+            _150->Stop(1.0f);
+            break;
+        case 2:
+            _150->Stop(2.0f);
+            break;
+        }
+    }
+    sub_71009C1218(0);
+}
+
+// 0x71009c1888 (placeholder name): for type 1, once the close animation has ended and _148 has reached
+// frame 15, restarts the layout
+void ScreenAppMapUnk3c90::sub_71009C1888(s32 type) {
+    if (type != 1 || !_134 || !mLayout || !mLayout->isAnimCloseEnd(false))
+        return;
+    if (_148 && _148->mFrame >= 15.0f)
+        mLayout->sub_7100BDDE7C(false, 0, true);
+}
+
 // 0x71009c18fc / 0x71009c1a5c: native forwarding hooks, callees remain undecompiled.
 void ScreenAppMapUnk3c90::m24(sead::Heap*) {
     sub_71009C1900();
