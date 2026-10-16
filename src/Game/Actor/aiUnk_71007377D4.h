@@ -462,6 +462,9 @@ void sub_71007394E8(ksys::act::Actor* actor);
 /// 0x7100732afc / 0x7100732b0c / 0x7100732ad0 (placeholder names): classifications of the damage type
 /// (DamageManagerBase::getField54: 11 - 13 / 9, 10, 14 / 15, 17, 21 - 23, 27, 30, 31, 34).
 bool sub_7100732AFC(s32 damage_type);
+// 0x7100732864 (placeholder name): classifies the actor's current damage into `flags` (cleared first): 2 for a
+// reacting damage kind (or kind 0), 1 in addition when the damage manager allows item flag checks.
+void sub_7100732864(sead::BitFlag8* flags, ksys::act::Actor* actor);
 bool sub_7100732B0C(s32 damage_type);
 bool sub_7100732AD0(s32 damage_type);
 

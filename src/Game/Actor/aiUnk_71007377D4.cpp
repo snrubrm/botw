@@ -1002,6 +1002,55 @@ void sub_7100739108(ksys::act::AttackSensor* sensor) {
         sensor->_20 = 0xffff;
 }
 
+// NON_MATCHING: the type 20 check is merged with the flag test (orr) instead of branching.
+void sub_7100732864(sead::BitFlag8* flags, ksys::act::Actor* actor) {
+    flags->makeAllZero();
+    auto* base = sead::DynamicCast<uking::act::DamageManagerBase>(actor->getDamageMgr());
+    if (!base)
+        return;
+
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(base);
+    s32 type;
+    bool flag12;
+    if (mgr && mgr->sub_71006D82D4()) {
+        type = mgr->sub_71006D8340();
+        flag12 = mgr->sub_71006D83B8(12);
+    } else {
+        type = base->getField54();
+        flag12 = base->checkDamageFlags(12);
+    }
+
+    if (type == 0) {
+        flags->set(2);
+        return;
+    }
+
+    bool hit = false;
+    if (sub_7100732AD0(type) || type == 1 || type == 2 || type == 5 || sub_7100732AFC(type) ||
+        sub_7100732B0C(type)) {
+        hit = true;
+    } else if (mgr && type == 18) {
+        if (mgr->getDamageType() == 4 || mgr->getDamageType() == 2)
+            hit = true;
+    } else if (type == 3 || type == 4) {
+        flags->set(2);
+        if (mgr && (mgr->_218 & 0xf)) {
+            if (!base->isDamageItemFlagCheckDisabled())
+                flags->set(1);
+            return;
+        }
+    } else if (mgr && type == 20) {
+        if (mgr->_218 & 0xf)
+            hit = true;
+    }
+
+    if (!hit && !flag12)
+        return;
+    flags->set(2);
+    if (!base->isDamageItemFlagCheckDisabled())
+        flags->set(1);
+}
+
 bool sub_7100732AFC(s32 damage_type) {
     return u32(damage_type - 11) < 3;
 }
