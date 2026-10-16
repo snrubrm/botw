@@ -1,7 +1,10 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include <aal/aalHandle.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2EventSLink.h>
 #include <xlink2/xlink2ResourceAccessorSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -57,8 +60,39 @@ void Unk_71024fe970::sub_710100E0C4() {
 
 void Unk_71024fe970::sub_710100E108() {
     mFlags |= 4;
-    _1e1 = true;
-    _229 = true;
+    _1a0._41 = true;
+    _1e8._41 = true;
+}
+
+namespace {
+// 0x71024feaa0
+const char* sPriestBossBgmLevelNames[] = {"Level1", "Level2", "Level3", "Level4", "Transform"};
+}  // namespace
+
+// NON_MATCHING: the level name and the SafeString vtable are loaded in another order around the stores.
+void Unk_71024fe970::sub_710100E6A8() {
+    mFlags = (mFlags & ~0x88) | 0x80;
+    _1a0.reset();
+    _1e8.reset();
+    auto* entry = sub_71010209FC(sPriestBossBgmLevelNames[_198]);
+    if (!entry || !entry->sub_7100FF6DF4(this))
+        return;
+    _1a0.sub_710100D9FC(entry);
+    if (!entry->mHandle.isActive())
+        return;
+    auto* executor = static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    auto* marker = executor->getHandle()->getMarkerController();
+    if (mFlags & 0x100)
+        _1a0.sub_710100DB1C(2.5f);
+    if (marker)
+        marker->setMarkerCallback(markerCallback, -32000, this);
+}
+
+void Unk_71024fe970::markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {
+    if (user)
+        static_cast<Unk_71024fe970*>(user)->sub_710100EAD8(info);
 }
 
 bool Unk_71024fe970::m10() {

@@ -60,6 +60,7 @@
 #include "Game/Actor/actUnk_7102366570.h"
 #include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
 #include <aal/aalISpeakerBalanceSupplier.h>
+#include <aal/aalMarkerController.h>
 
 namespace aal {
 class Shape;
@@ -2949,16 +2950,52 @@ public:
     void sub_710100E0C4();
     // 0x710100e108: sets bit 2 of mFlags and the flags _1e1 / _229.
     void sub_710100E108();
+    // 0x710100ead8 (declared only): handles a marker of the playing level.
+    void sub_710100EAD8(const aal::MarkerController::MarkerCallbackInfo& info);
+    // 0x710100eac0: the marker callback set by sub_710100E6A8.
+    static void markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user);
 
     u8 _190[0x198 - 0x190];
     /* 0x198 */ s32 _198;
     /* 0x19c */ s32 _19c;
-    u8 _1a0[0x1e1 - 0x1a0];
-    // Set by sub_710100E108 (cleared by the constructor 0x710100dd4c).
-    /* 0x1e1 */ bool _1e1;
-    u8 _1e2[0x229 - 0x1e2];
-    /* 0x229 */ bool _229;
-    u8 _22a[0x238 - 0x22a];
+    // Placeholder (0x48 bytes): a playing level entry with its fader; two at 0x1a0 / 0x1e8 (constructor
+    // 0x710100dd4c).
+    struct Slot {
+        Slot();
+
+        // inline-only in the original; name is a guess (the same sequence runs on both slots in 0x710100e6a8).
+        void reset() {
+            if (mEntry) {
+                mEntry->sub_7100FF6A64(0.0f);
+                mEntry = nullptr;
+            }
+            mFader.setValueImmediate(0.0f);
+            _30 = -1;
+            _34 = -1;
+            _3c = 0;
+            _40 = true;
+        }
+        // 0x710100d9fc (declared only): takes `entry` and sets its stream region callback.
+        void sub_710100D9FC(ksys::snd::Unk_710260f248Entry* entry);
+        // 0x710100db1c (declared only)
+        void sub_710100DB1C(f32 value);
+
+        ksys::snd::Unk_710260f248Entry* mEntry;
+        aal::TimedFader mFader;
+        s32 _30;
+        s32 _34;
+        s32 _38;
+        s32 _3c;
+        bool _40;
+        // Set by sub_710100E108.
+        bool _41;
+        s32 _44;
+    };
+    static_assert(sizeof(Slot) == 0x48);
+
+    /* 0x1a0 */ Slot _1a0;
+    /* 0x1e8 */ Slot _1e8;
+    u8 _230[0x238 - 0x230];
     // States queued by sub_710100E124 during a transition (freed by the destructor 0x710100df48).
     /* 0x238 */ sead::RingBuffer<s32> mStateQueue;
     u8 _250[0x288 - 0x250];
