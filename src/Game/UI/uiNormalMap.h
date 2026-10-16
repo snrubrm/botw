@@ -65,8 +65,12 @@ public:
     // 0x71009a63f4 / 0x71009a6f34 (CSV unnamed; not decompiled): called by ScreenAppMapWidget::m31 / m21
     void sub_71009A63F4();
     void sub_71009A6F34();
+    // 0x71009a61dc (placeholder name): sizes the map view (_10) from the first tile pane
+    void sub_71009A61DC();
 
-    u8 _8[0x28 - 8];
+    u8 _8[0x10 - 8];
+    /* 0x10 */ Unk_71024753a8* _10;
+    u8 _18[0x28 - 0x18];
     /* 0x28 */ Unk_7102479bb0 mEntries[120];
     /* 0x12e8 */ Unk_7102479bf0 mTiles[240];
     u8 _a8e8[0xa8eb - 0xa8e8];
@@ -76,7 +80,9 @@ public:
     /* 0xa8f0 */ nn::ui2d::ExternalTextureInfo _a8f0;
     u8 _a908[0xa9a0 - 0xa908];
     /* 0xa9a0 */ UiTimer _a9a0;
-    u8 _a9b8[0xaa48 - 0xa9b8];
+    u8 _a9b8[0xa9f0 - 0xa9b8];
+    /* 0xa9f0 */ nn::ui2d::Pane** _a9f0;
+    u8 _a9f8[0xaa48 - 0xa9f8];
 };
 static_assert(sizeof(Unk_7102479c10) == 0xaa48);
 

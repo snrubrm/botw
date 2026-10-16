@@ -300,6 +300,8 @@ public:
     sead::BoundBox2f* get70();
     sead::BoundBox2f* get90();
     void set68(f32 width, f32 height);
+    // 0x7100950408 (CSV unnamed; not decompiled; called by Unk_7102479c10::sub_71009A61DC)
+    void sub_7100950408();
     void set50(const sead::Vector2f& value);
     void set58(const sead::Vector2f& value);
     sead::Vector2f* get58();

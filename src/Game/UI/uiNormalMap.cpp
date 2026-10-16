@@ -76,6 +76,30 @@ void Unk_7102479bf0::sub_71009A524C() {
 // 0x71009a5bc8
 Unk_7102479c10::~Unk_7102479c10() = default;
 
+// 0x71009a61dc
+// NON_MATCHING: the store of value.x is scheduled after the second division in the original
+void Unk_7102479c10::sub_71009A61DC() {
+    if (!_a9f0 || !_10)
+        return;
+    auto* pane = _a9f0[0];
+    if (!pane)
+        return;
+    const f32 width = pane->GetSize().width;
+    const f32 height = pane->GetSize().height;
+    _10->set68(width, height);
+    sead::Vector2f value(width * 12.0f, height * 10.0f);
+    _10->set50(value);
+    value.x = width * 10.0f;
+    value.y = height * 8.0f;
+    _10->set58(value);
+    _10->sub_7100950408();
+    value.set(0.0f, 0.0f);
+    const sead::Vector2f range = *_10->get58();
+    value.x = range.x / 10000.0f;
+    value.y = range.y / 8000.0f;
+    _10->set60(value);
+}
+
 // 0x71009a6f34
 void Unk_7102479c10::sub_71009A6F34() {
     for (s32 i = 0; i < 240; ++i) {
