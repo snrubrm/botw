@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionBoomerangMove.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -100,6 +102,14 @@ sead::Vector3f BoomerangMove::m32() {
         result += *mTargetPos_d;
     }
     return result;
+}
+
+void sub_71000CB074(sead::Vector3f* dir, sead::Vector3f* target, f32 rate) {
+    if (*dir == sead::Vector3f(0, 0, 0) || *target == sead::Vector3f(0, 0, 0)) {
+        ksys::VFR::lerp(dir, *target, rate);
+        return;
+    }
+    ksys::util::sub_71011EE6FC(dir, target, ksys::VFR::getLerpFactor(rate));
 }
 
 }  // namespace uking::action

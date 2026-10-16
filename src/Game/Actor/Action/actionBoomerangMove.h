@@ -63,4 +63,8 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(BoomerangMove, 0xf0);
 
+// 0x71000cb074 (placeholder name): turns `dir` toward `target` by the frame-rate scaled `rate` (spherical
+// through ksys::util::sub_71011EE6FC, linear when either vector is zero).
+void sub_71000CB074(sead::Vector3f* dir, sead::Vector3f* target, f32 rate);
+
 }  // namespace uking::action
