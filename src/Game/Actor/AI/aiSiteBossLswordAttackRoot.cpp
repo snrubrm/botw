@@ -12,6 +12,9 @@
 
 // 0x71002d2a80 (declared only; SiteBoss TU).
 bool sub_71002D2A80();
+// 0x71002d2b5c (declared only; SiteBoss TU).
+bool sub_71002D2B5C(bool* side, ksys::act::Actor* actor, const gsys::BoneAccessKeyEx& key, f32 angle,
+                    f32 scale);
 
 namespace uking::ai {
 
@@ -61,6 +64,89 @@ void SiteBossLswordAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         sub_7100579FA4();
     else
         sub_710057A348(pos, false);
+}
+
+// 0x710057a444
+void SiteBossLswordAttackRoot::calc_() {
+    sead::Vector3f pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+            pos = sub_71005D9330(actor);
+        else
+            pos = getPlayerPosition();
+    }
+
+    auto* child = getCurrentChild();
+    if (!child) {
+        sub_710057A810(pos);
+        return;
+    }
+
+    sead::Vector3f look_pos = pos;
+    look_pos.y += 1.0f;
+    sub_71005DB068(mActor, look_pos);
+    child->setDynamicParam(pos, "TargetPos");
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("攻撃前待機")) {
+            if (!child->isFailed()) {
+                sub_7100579FA4();
+                return;
+            }
+            if (!_99 && checkHpRate(mActor, *mChemicalPlusHPRate_s) &&
+                sead::GlobalRandom::instance()->getU32(100) < 20) {
+                sub_710057A908(pos);
+                return;
+            }
+        } else if (isCurrentChild("待機")) {
+            if (!_99 && !*mIsCancelAttack_d) {
+                setFinished();
+                return;
+            }
+        } else {
+            _98 = true;
+            sub_710057A810(pos);
+            return;
+        }
+        setFailed();
+        return;
+    }
+
+    if (!isCurrentChild("攻撃前待機") && !isCurrentChild("待機"))
+        return;
+    _fc.update();
+    if (!(_fc.value <= sead::Mathf::epsilon()))
+        return;
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || !boss->sub_71002D33D0(90.0f))
+        return;
+    bool side = false;
+    if (!sub_71002D2B5C(&side, mActor, _b8, 0.2617994f, 1.2f))
+        return;
+
+    if (checkHpRate(mActor, *mChemicalPlusHPRate_s)) {
+        if (_99) {
+            setFailed();
+            return;
+        }
+        sub_710057AB3C(pos);
+        _99 = true;
+        return;
+    }
+    if (!isCurrentChild("攻撃前待機")) {
+        if (isCurrentChild("待機"))
+            sub_710057A348(pos, false);
+        return;
+    }
+    if (_99) {
+        setFailed();
+        return;
+    }
+    if (sead::GlobalRandom::instance()->getU32(100) > 2)
+        return;
+    sub_7100579E30(pos, false);
+    _99 = true;
 }
 
 void SiteBossLswordAttackRoot::leave_() {
