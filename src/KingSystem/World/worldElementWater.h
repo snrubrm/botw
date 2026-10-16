@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Chemical/chmElement.h"
@@ -8,6 +9,10 @@
 
 namespace ksys::act {
 class Actor;
+}
+
+namespace ksys::phys {
+class ContactPointInfo;
 }
 
 // The request ElementWater::create copies (WaterEmitter::calc_ and WaterExplode fill it on the stack).
@@ -34,25 +39,21 @@ public:
     // 0x71010e8668
     ElementWater(const ElementWaterCreateArg& arg, sead::Heap* heap);
     ~ElementWater() override;
+    f32 m17() override;
+    f32 m20() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
     void m33() override;
-    void m34() override;
     void m35() override;
     void m36() override {}
     bool m37() override { return true; }
     void m38() override {}
 
     /* 0x48 */ u64 _48 = 0;
-    /* 0x50 */ u64 _50 = 0;
-    /* 0x58 */ u64 _58 = 0;
-    /* 0x60 */ u64 _60 = 0;
-    /* 0x68 */ u64 _68 = 0;
-    /* 0x70 */ u32 _70 = 0;
-    /* 0x78 */ u64 _78 = 0;
-    /* 0x80 */ u32 _80 = 0;
+    /* 0x50 */ ksys::phys::RigidBody* _50 = nullptr;
+    /* 0x58 */ ksys::phys::RigidBody* _58 = nullptr;
+    /* 0x60 */ ksys::phys::ContactPointInfo* _60 = nullptr;
+    /* 0x68 */ xlink2::HandleELink _68;
+    /* 0x78 */ xlink2::HandleELink _78;
     /* 0x88 */ ElementWaterCreateArg mArg;
     /* 0xb8 */ ksys::act::BaseProcHandle mHandle;
     /* 0xc8 */ ksys::act::InstParamPack mParamPack;

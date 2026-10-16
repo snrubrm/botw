@@ -13,6 +13,7 @@
 #include "KingSystem/World/worldTimeMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/World/worldElementWater.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace ksys::world {
 
@@ -342,4 +343,24 @@ ElementWater::ElementWater(const ElementWaterCreateArg& arg, sead::Heap* heap)
     emitWrap(name, ksys::world::Manager::instance()->getElementHolderMaybe());
 }
 
-ElementWater::~ElementWater() = default;
+ElementWater::~ElementWater() {
+    if (_50) {
+        _50->resetLinkedRigidBody();
+        delete _50;
+        _50 = nullptr;
+    }
+    if (_58) {
+        if (_58->isAddedToWorld())
+            _58->removeFromWorldImmediately(nullptr);
+        delete _58;
+        _58 = nullptr;
+    }
+    if (_60) {
+        ksys::phys::ContactPointInfo::free(_60);
+        _60 = nullptr;
+    }
+    if (!(mArg.flags & 2)) {
+        _68.fade();
+        _78.fade();
+    }
+}
