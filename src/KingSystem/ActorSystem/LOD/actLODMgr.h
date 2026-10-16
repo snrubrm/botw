@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadObjList.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
@@ -11,15 +12,21 @@ namespace ksys::act {
 class LodState;
 
 // Placeholder name (ctor 0x71011086dc, dtor 0x71011086f0, init 0x7101108774; size 0x30): created by
-// LODMgr::init (LODMgr + 0x21b8). Not decompiled yet.
-class Unk_71011086dc {
+// LODMgr::init (LODMgr + 0x21b8). A sead::ObjList of 0x20-byte entries: the dtor is ObjList::freeBuffer and
+// the init allocates the node pool (nodes of 0x30 bytes, list node at +0x20). Defined in the terrain TU
+// (teraResourceNode.cpp).
+struct Unk_71011086dcEntry {
+    u8 _0[0x20];
+};
+
+class Unk_71011086dc : public sead::ObjList<Unk_71011086dcEntry> {
 public:
     Unk_71011086dc();
     ~Unk_71011086dc();
+    // 0x7101108774: allocates room for Terrain::_3d0 * sqrt(2) + 1 entries.
     void sub_7101108774(const sead::Heap* const& heap);
-
-    u8 _0[0x30];
 };
+static_assert(sizeof(Unk_71011086dc) == 0x30);
 
 // Name from the CSV (LODMgr::createInstance 0x710125184c, instance pointer 0x71026531b8; size 0x2a60;
 // TU 0x7101250ed8 - 0x7101252xxx together with LodState's later methods). Only a few members are

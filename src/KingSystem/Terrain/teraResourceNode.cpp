@@ -4,6 +4,7 @@
 #include <codec/seadHashCRC32.h>
 #include <thread/seadThread.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -343,3 +344,18 @@ bool Unk_7101106F44::init(const InitArg& arg) {
 
 
 }  // namespace ksys::tera
+
+namespace ksys::act {
+
+Unk_71011086dc::Unk_71011086dc() = default;
+
+Unk_71011086dc::~Unk_71011086dc() {
+    freeBuffer();
+}
+
+void Unk_71011086dc::sub_7101108774(const sead::Heap* const& heap) {
+    const s32 count = u32(static_cast<f32>(tera::Terrain::instance()->_3d0) * 1.41421354f + 1.0f);
+    tryAllocBuffer(count, const_cast<sead::Heap*>(heap));
+}
+
+}  // namespace ksys::act
