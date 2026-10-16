@@ -1,3 +1,4 @@
+#include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAnimator.h"
@@ -493,6 +494,38 @@ int Manager::handleMessage(const ksys::Message* message) {
 
 // 0x7100945364
 Unk_7102474fd8::Unk_7102474fd8() = default;
+
+// 0x7100945c98
+void Unk_7102474fd8::sub_7100945C98(bool a1) {
+    if (_8 && (_8->_91 == 1 || _8->_91 == 2))
+        _8->startAnimCloseImpl_(false, false);
+    if (a1 && _8 && _8->_91 != 0)
+        _8->startAnimCloseImpl_(false, true);
+}
+
+// 0x7100945d84
+void Unk_7102474fd8::sub_7100945D84(bool value) {
+    if (_10)
+        _10->_6c = value;
+}
+
+// 0x7100946864
+s32 Unk_7102474fd8::sub_7100946864() const {
+    s32 count = 1;
+    if (_8c > 1000.0f) {
+        f32 rest = _8c;
+        do {
+            rest += -1000.0f;
+            ++count;
+        } while (rest > 1000.0f);
+    }
+    return count;
+}
+
+// 0x71009468e0
+void Unk_7102474fd8::sub_71009468E0(f32 frame) {
+    _58->Stop(frame);
+}
 
 // 0x71009479c4
 Unk_7102474fd8::~Unk_7102474fd8() {

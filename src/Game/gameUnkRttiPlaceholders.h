@@ -320,6 +320,15 @@ public:
 
     // 0x7100945364 (inlined into the ScreenMainScreen3D / ScreenPauseMenuInfo constructors as well)
     Unk_7102474fd8();
+    // 0x7100945c98 (placeholder name): closes the layout if it is open or opening; with `a1`, also when it is not
+    // closed
+    void sub_7100945C98(bool a1);
+    // 0x7100945d84 (placeholder name): sets the trace gauge's _6c flag
+    void sub_7100945D84(bool value);
+    // 0x7100946864 (placeholder name): 1 + the number of whole 1000s above 1000 in _8c
+    s32 sub_7100946864() const;
+    // 0x71009468e0 (placeholder name): stops the _58 animator at `frame`
+    void sub_71009468E0(f32 frame);
 
     // Layout from the constructor (0x8 .. 0x80 zeroed as one block) and the gauge updates 0x7100945f78 /
     // 0x7100946318 (placeholder types: the slots used are eui::Animator / TraceGaugeControl virtuals).
