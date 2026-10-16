@@ -68,4 +68,25 @@ void Unk_7101118B34::sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& 
         pushEntryMaybe(area, type);
 }
 
+void Unk_7101118B34::sub_7101118908(Unk_7101106F44* area, u16 id) {
+    const Unk_7101108460* node = area->findNodeMaybe(id);
+    if (!node->sub_7101108624())
+        return;
+
+    s32 count = 0;
+    for (const Unk_7101106F44* child : area->mChildren) {
+        if (!child)
+            continue;
+        const Unk_7101108460* child_node = child->findNodeMaybe(id);
+        if (child_node)
+            count += child_node->sub_7101108624();
+    }
+
+    if (count == 4) {
+        Terrain::instance()->mImageResourceMgr->sub_710113625C(this, area, makeImageTypeMaybe(2, id),
+                                                               false, nullptr);
+        area->sub_7101108298(const_cast<Unk_7101108460*>(node));
+    }
+}
+
 }  // namespace ksys::tera

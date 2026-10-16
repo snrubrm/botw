@@ -151,6 +151,8 @@ void sub_71011501C8(Core::Grass* grass);
 
 // Terrain is the CSV name of the singleton at 0x7102620698 (a sead singleton: createInstance 0x710114961c
 // builds the disposer at 0x300). Its ctor 0x71011496a4 also constructs bases at 0x20 (ctor 0x710107e724) and
+class ImageResourceMgr;
+
 // 0x58 (vtable group 0x710250faa8); those and the remaining members are not modeled yet.
 class Terrain : public sead::IDisposer {
 public:
@@ -224,7 +226,8 @@ public:
     Core* _360;
     u8 _368[0x370 - 0x368];
     Unk370* _370;
-    u8 _378[0x3c8 - 0x378];
+    ImageResourceMgr* mImageResourceMgr;
+    u8 _380[0x3c8 - 0x380];
     f32 _3c8;
     // Passed by sub_710110B4A4 to sub_710110AA5C.
     f32 _3cc;
@@ -254,6 +257,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);
 class Unk_7101106F44;
+class Unk_7101118B34;
 
 class ImageResourceMgr {
     void procUnloadResidualRequest();
@@ -266,6 +270,9 @@ public:
         ImageTypeMaybe type;
     };
 
+    // 0x710113625c (declared only; placeholder name): called under the manager lock (0x68).
+    bool sub_710113625C(Unk_7101118B34* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
+                        bool a4, void* a5);
     // 0x71011339d0 (placeholder name): releases the image of `request` if its flag 8 is set.
     void sub_71011339D0(Request* request);
 };

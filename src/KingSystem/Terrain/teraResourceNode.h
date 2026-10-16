@@ -38,6 +38,15 @@ union ImageTypeMaybe {
     u32 raw;
 };
 
+// inline-only in the original; name is a guess. Builds a key as one word (0x7101118908, and the
+// getImageType helpers).
+inline ImageTypeMaybe makeImageTypeMaybe(u16 type, u16 index) {
+    ImageTypeMaybe key;
+    key.type = type;
+    key.index = index;
+    return key;
+}
+
 // Constants passed by address to many terrain functions (CreateTeraSystem, 0x71011074a0, ...).
 // 0x7101ec54ac
 extern const ImageTypeMaybe sUnk_7101EC54AC;

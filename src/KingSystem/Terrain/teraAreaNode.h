@@ -163,6 +163,9 @@ public:
     // 0x71011176bc (placeholder name): runs sub_71011171D8 (or sub_710111731C if `flag` is false) on
     // every image of `area`.
     void sub_71011176BC(Unk_7101106F44* area, bool flag);
+    // 0x7101118908 (placeholder name): when the node with key `id` here and in all four children has a B
+    // value above epsilon, hands the type-2 image to the image resource manager and rebuilds the node.
+    void sub_7101118908(Unk_7101106F44* area, u16 id);
     // 0x71011171d8 / 0x710111731c (placeholder names): add / remove a user of the image for `type`; the
     // first user / the last one queues the image.
     void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
