@@ -146,6 +146,27 @@ Unk_7102500a00::~Unk_7102500a00() {
     }
 }
 
+namespace {
+// 0x7102500b30: the part names for _1a0 != 1 (_1a0 == 1 plays mPartNames[_1a4]).
+const char* const sUnk_7102500B30[] = {"A", "B", "Z"};
+}  // namespace
+
+// NON_MATCHING: the address of _20c is computed once for both flag branches here (as Unk_71024fe970::hm14).
+void Unk_7102500a00::hm14() {
+    if (mType == ksys::snd::Unk_710260f248Type::_3 || (_68._18 & 3))
+        _20c &= ~8;
+    else
+        _20c |= 8;
+    if (_20c & 8)
+        return;
+    if (_1a0 == 1)
+        _1b8 = sub_71010209FC(*mPartNames[_1a4]);
+    else
+        _1b8 = sub_71010209FC(sUnk_7102500B30[_1a0]);
+    _20c &= ~4;
+    _1e0.setValueImmediate(1.0f);
+}
+
 Unk_7102500e08::~Unk_7102500e08() {
     if (_18) {
         _18->sub_710101D9A4();
