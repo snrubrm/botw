@@ -236,6 +236,19 @@ struct Unk_7101108AE8Flags {
     u8 _2;
 };
 
+// Placeholder: what Unk_71010FEDBC::_458 points to: per level a texel count (_1a) and a coordinate offset
+// (_1c), stride 0xc from 0x18 (0x710110ac74).
+struct Unk_710110AC74Table {
+    struct Level {
+        u16 _0;
+        u16 size;
+        f32 offset;
+        u32 _8;
+    };
+    u8 _0[0x18];
+    Level levels[1];
+};
+
 // Placeholder (callers 0x7101108ae8, 0x7101109bd8, 0x710110a468, 0x710110a740, 0x7101105b2c,
 // 0x7100f289f0): an array of 0x528-byte areas at _8 with a base size at _18 and a level in the top
 // three bits of _1e.
@@ -320,7 +333,7 @@ struct Unk_71010FEDBC {
     u8 _29;
     u8 _2a[0x458 - 0x2a];
     // Copied by 0x71011094a0 into the argument of 0x7101108c44.
-    u64 _458;
+    const struct Unk_710110AC74Table* _458;
 };
 // The same objects as the nine 0x460-byte records at the start of a Scene (System::sub_710111F4F0 /
 // sub_710111F504 return one; 0x71011094a0 passes one as both arguments of 0x7101108ae8).

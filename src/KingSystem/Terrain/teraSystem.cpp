@@ -30,7 +30,7 @@ u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s3
     const u32 result = sub_7101108AE8(&pos, &area, *xz, areas->_20, *areas, index);
     if (result != 0) {
         Unk_7101108C44Arg arg;
-        arg._0 = areas->_458;
+        arg.table = areas->_458;
         arg.index = area;
         arg._c = false;
         *out_height = scale * sub_7101108C44(pos, &arg, height_flag) + 0.0f;
@@ -134,6 +134,32 @@ u32 sub_710110B814(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level) {
     const f32 value = top + fy * ((a10 + fx * (a11 - a10)) - top);
     const u32 blended = value >= 0.0f ? u32(s32(sead::Mathf::min(value, 1.0f) * 255.0f + 0.5f)) << 8 : 0;
     return u32(nearest[0]) << 24 | u32(nearest[1]) << 16 | nearest[3] | blended;
+}
+
+// NON_MATCHING: the [0, 1] wrap is compiled to selects here (branches with a shared add in the original).
+void sub_710110AC74(f32 x, f32 y, const Unk_7101108C44Arg* arg, TexelPosMaybe* out, u32 level) {
+    const Unk_710110AC74Table* table = arg->table;
+    if (arg->_c) {
+        sub_710110C3E8(table, out, arg->index, level);
+        return;
+    }
+    const auto& info = table->levels[level];
+    x -= info.offset;
+    y -= info.offset;
+    if (x < 0.0f)
+        x += 1.0f;
+    else if (x > 1.0f)
+        x += -1.0f;
+    if (y < 0.0f)
+        y += 1.0f;
+    else if (y > 1.0f)
+        y += -1.0f;
+
+    const f32 size = info.size;
+    x *= size;
+    y *= size;
+    out->fx = wrapTexelMaybe(&out->x, x, size);
+    out->fy = wrapTexelMaybe(&out->y, y, size);
 }
 
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
