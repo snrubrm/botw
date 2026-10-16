@@ -2285,6 +2285,40 @@ void ScreenAppPictureBookUnk::sub_7100943D5C(s32 state) {
     }
 }
 
+// NON_MATCHING: the original keeps the zero result address in x0 from the start (block layout, register allocation)
+// 0x710093f160
+const sead::Vector2f& ScreenAppPictureBookUnk::sub_710093F160(s32 index) {
+    if (!mEntries.data())
+        return sead::Vector2f::zero;
+    s32 rest = index;
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        const ScreenAppPictureBookEntry* entry = *it;
+        if (!entry)
+            continue;
+        if (rest - entry->mParams._29c >= 0) {
+            rest -= entry->mParams._29c;
+            continue;
+        }
+        if (rest == -1 || entry->_2f0 == -1)
+            return sead::Vector2f::zero;
+
+        const s32 entry_index = entry->_2f0;
+        _2fc = sead::Vector2f::zero;
+        ScreenAppPictureBookEntry* target = mEntries[entry_index];
+        if (!target)
+            return _2fc;
+        const s32 a4 = target->mParams._2a4;
+        const s32 per_page = a4 * target->mParams._2a0;
+        const s32 page = rest / per_page;
+        const s32 in_page = rest - page * per_page;
+        const s32 col = in_page / a4;
+        _2fc = sub_7100944BC4(page, col, in_page - col * a4, entry_index);
+        _2fc -= _304 + target->mGroupList->_28;
+        return _2fc;
+    }
+    return sead::Vector2f::zero;
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
