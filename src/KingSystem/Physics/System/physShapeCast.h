@@ -63,6 +63,9 @@ public:
 
     void setLayerMasks(const LayerMaskBuilder& mask_builder);
 
+    // Read by Player::sub_710087F654 after executeQuery (name unknown).
+    bool get40() const { return _40; }
+
     void setColors(const sead::Color4f& color1, const sead::Color4f& color2,
                    const sead::Color4f& color3, bool enabled = true);
 

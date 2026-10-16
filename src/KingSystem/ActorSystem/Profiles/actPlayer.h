@@ -597,6 +597,16 @@ public:
     // 0x87f37c: ground layers; without `check_normal` the cast uses normal checking mode 0.
     bool sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal, bool check_normal);
+    // 0x87f654: sphere cast of `radius` from `start` to `end` against the ground, tree, object and air wall
+    // layers (+ water with `water`). With `check_actor`, a hit only counts when a contact belongs to an actor
+    // that sub_71002C802C accepts.
+    bool sub_710087F654(const sead::Vector3f& start, const sead::Vector3f& end, phys::GroundHit ground_hit,
+                        phys::SystemGroupHandler* group_handler, bool water, bool check_actor, f32 radius);
+    // 0x7100881b14: no ground within `depth` + 0.1 below the position (cast from 1 above it, actors that
+    // sub_71002C802C accepts only).
+    bool sub_7100881B14(f32 depth);
+    // 0x7100881d8c: ground within 1 below the position.
+    bool sub_7100881D8C();
     // 0x87f43c: ground and water layers.
     bool sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);

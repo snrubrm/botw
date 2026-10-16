@@ -41,6 +41,11 @@
 #include "KingSystem/System/StageInfo.h"
 #include "Game/gameHeroSoul.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physShapeCastWithInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 bool sub_71002EFEC0(const ksys::act::ActorLinkConstDataAccess& accessor);
@@ -62,6 +67,8 @@ bool playerIsGuardJust(ksys::act::Actor* actor) {
 
 // Source namespace unknown (0x710084ca64); declaration only.
 bool isPlayingBeastGanonDeadEventFlow();
+
+bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 namespace ksys::act {
 
@@ -507,6 +514,65 @@ bool Player::sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& e
     if (hit_normal)
         ray.getHitNormal(hit_normal);
     return true;
+}
+
+// NON_MATCHING: block order in the contact loop (the accepted-actor exit is placed after the loop).
+bool Player::sub_710087F654(const sead::Vector3f& start, const sead::Vector3f& end,
+                            phys::GroundHit ground_hit, phys::SystemGroupHandler* group_handler,
+                            bool water, bool check_actor, f32 radius) {
+    phys::SphereCast cast{phys::ContactLayer::EntityPlayer,
+                          ground_hit,
+                          group_handler,
+                          0x80,
+                          phys::ShapeCast::Mode::_0,
+                          sead::Vector3f::zero,
+                          radius,
+                          sead::SafeString::cEmptyString,
+                          phys::LowPriority::No};
+    auto* info = cast.getContactPointInfo();
+    info->subscribeLayer(phys::ContactLayer::EntityGround);
+    info->subscribeLayer(phys::ContactLayer::EntityGroundSmooth);
+    info->subscribeLayer(phys::ContactLayer::EntityGroundRough);
+    info->subscribeLayer(phys::ContactLayer::EntityGroundObject);
+    info->subscribeLayer(phys::ContactLayer::EntityTree);
+    info->subscribeLayer(phys::ContactLayer::EntityObject);
+    info->subscribeLayer(phys::ContactLayer::EntityAirWall);
+    if (water)
+        info->subscribeLayer(phys::ContactLayer::EntityWater);
+
+    cast.setStartAndEnd(start, end);
+    // called through a pointer in the original (not devirtualised)
+    (&cast)->executeQuery(phys::ShapeCast::WeldClosestPoints::Yes);
+    const bool hit = cast.get40();
+    if (!hit)
+        return false;
+    if (!check_actor)
+        return true;
+
+    for (auto it = cast.getContactPointInfo()->begin(), it_end = cast.getContactPointInfo()->end();
+         it != it_end; ++it) {
+        ActorLinkConstDataAccess accessor;
+        getCollidedActorMaybe(&accessor, it.getPoint()->body_b);
+        if (sub_71002C802C(accessor))
+            return true;
+    }
+    return false;
+}
+
+bool Player::sub_7100881B14(f32 depth) {
+    sead::Vector3f start = _1770;
+    start.y += 1.0f;
+    sead::Vector3f end = _1770;
+    end.y -= depth + 0.1f;
+    return !sub_710087F654(start, end, phys::GroundHit::Player, sub_710072E804(this, 0), false, true,
+                           0.1f);
+}
+
+bool Player::sub_7100881D8C() {
+    const sead::Vector3f start = _1770;
+    sead::Vector3f end = _1770;
+    end.y += -1.0f;
+    return sub_710087F654(start, end, phys::GroundHit::Player, nullptr, false, false, 0.1f);
 }
 
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
