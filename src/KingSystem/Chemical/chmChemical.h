@@ -22,6 +22,8 @@ namespace ksys::chm {
 
 // D997B4 combines each component, keeping the larger magnitude when the signs agree.
 void sub_7100D997B4(sead::Vector3f* out, const sead::Vector3f& value);
+f32 sub_7100D99B74(f32 value);
+const char* sub_7100D99CD4(f32 value);
 
 // Name from Chemical::createInstance in the CSV. Allocation and both destructors prove this layout.
 class Chemical : public sead::hostio::Node {
