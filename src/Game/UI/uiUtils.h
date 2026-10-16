@@ -160,6 +160,10 @@ bool sub_7100AA7290(const act::WeaponModifierInfo& modifier, bool is_bow, f32* o
 bool sub_7100AA8F30();
 // 0x7100aa8e5c (uiGdtFacade.cpp): bit 21 of the Manager's flag word
 bool sub_7100AA8E5C();
+// 0x7100a9b830 / 0x7100a9b89c (uiManagerFacade.cpp): the heading in degrees of the manager's direction / of the
+// look-at camera
+f32 sub_7100A9B830();
+f32 sub_7100A9B89C();
 s32 sub_7100AA6E4C(const PouchItem& item);
 // 0x7100aa6d54 (placeholder name): whether the actor `name` (a weapon, bow or shield; not an arrow) has a capacity parameter
 bool sub_7100AA6D54(const sead::SafeString& name);

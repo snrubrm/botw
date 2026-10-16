@@ -827,6 +827,46 @@ void Unk_7102478e30::m8() {
 
 Unk_7102478c68::~Unk_7102478c68() = default;
 
+// 0x710098f068: turns the camera light and the player arrow while the map screen is open
+void Unk_7102478c68::m8() {
+    Unk_7102477fc0::m8();
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (screen && screen->isClosedOrClosing())
+        return;
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (_50) {
+        const f32 heading = sub_7100A9B89C();
+        const f32 angle = UiSubsys1::instance()->sub_7100965EE0(heading);
+        _50->SetRotation(nn::util::Float3{0.0f, 0.0f, angle});
+    }
+    if (_48) {
+        const f32 heading = sub_7100A9B830();
+        const f32 angle = UiSubsys1::instance()->sub_7100965EE0(heading);
+        _48->SetRotation(nn::util::Float3{0.0f, 0.0f, angle});
+    }
+}
+
+// 0x710098f194
+void Unk_7102478c68::m11() {
+    Unk_7102477fc0::m11();
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (screen && screen->isClosedOrClosing())
+        return;
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    if (_50) {
+        const f32 heading = sub_7100A9B89C();
+        const f32 angle = UiSubsys1::instance()->sub_7100965EE0(heading);
+        _50->SetRotation(nn::util::Float3{0.0f, 0.0f, angle});
+    }
+    if (_48) {
+        const f32 heading = sub_7100A9B830();
+        const f32 angle = UiSubsys1::instance()->sub_7100965EE0(heading);
+        _48->SetRotation(nn::util::Float3{0.0f, 0.0f, angle});
+    }
+}
+
 void Unk_7102478c68::m6(eui::LayoutEx* layout) {
     if (layout) {
         _48 = layout->mPane->FindPaneByName("N_PlayerRotate_00", true);
