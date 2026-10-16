@@ -247,4 +247,20 @@ Unk_71024fdc88::Unk_71024fdc88(Unk_71024fdb00* owner, const sead::SafeString& na
     mName.append(name);
 }
 
+void Unk_71024fdb00::sub_7101005698() {
+    _1bc = 0;
+    if (mUserInstance)
+        mUserInstance->setPropertyValue(1, 0);
+    _1b4 = Section::A;
+    if (mUserInstance)
+        mUserInstance->setPropertyValue(0, 0);
+    _1a8 = 0;
+    _1b0 = 0;
+    _1ac = true;
+    for (auto* machine : mPartMachines) {
+        if (machine)
+            machine->reset();
+    }
+}
+
 }  // namespace ksys::snd

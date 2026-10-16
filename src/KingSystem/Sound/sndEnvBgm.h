@@ -31,6 +31,8 @@ public:
 
     // 0x7101004a54: creates the xlink2 properties and the node graph of the four parts (placeholder name).
     void sub_7101004A54(sead::Heap* heap, EnvBgmInfo::EnvTimeEnum type, EnvBgmInfo* info);
+    // 0x7101005698: resets the section and part properties, the counters and the four part machines.
+    void sub_7101005698();
 
     // The xlink2 property names (text 0x7101006b14) and the values of the first property (0x7101006cc0); the
     // second property's 16 value names come from 0x7101006e6c (sub_7101006E6C).
@@ -56,9 +58,10 @@ public:
     sead::PtrArray<xlink2::PropertyDefinition> mProperties;
     u32 mBpm;
     f32 mBeatSec;
-    u8 _1a8[0x1ac - 0x1a8];
+    u32 _1a8;
     bool _1ac;
-    u8 _1ad[0x1b4 - 0x1ad];
+    u8 _1ad[0x1b0 - 0x1ad];
+    u32 _1b0;
     // The branch taken by Unk_71024fdd28.
     Section _1b4;
     s32 _1b8;
