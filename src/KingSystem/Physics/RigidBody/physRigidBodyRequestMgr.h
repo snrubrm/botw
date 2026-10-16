@@ -55,6 +55,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f7e10, 0x830);
 
 class RigidBodyRequestMgr : public sead::hostio::Node {
 public:
+    // 0x7100fa6438 (CSV x_0; declared only): processes the queued requests (System::sub_71012163F0 passes
+    // true and System::mPaused).
+    void x_0(bool a, bool paused);
     struct Config {
         float _0 = 0.6;
         float _4 = 0.7;

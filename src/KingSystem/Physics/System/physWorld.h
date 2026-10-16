@@ -18,6 +18,7 @@ public:
     virtual ~World();
 
     hkpWorld* getHavokWorld() const { return mHavokWorld; }
+    sead::CriticalSection& getCS() { return mCS; }
 
     void lockCS(const char* description, int b, OnlyLockIfNeeded only_lock_if_needed);
     void unlockCS(const char* description, int b, OnlyLockIfNeeded only_lock_if_needed);

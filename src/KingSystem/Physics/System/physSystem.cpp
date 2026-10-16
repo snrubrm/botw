@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/Cloth/physClothResource.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyRequestMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h"
@@ -237,6 +238,28 @@ bool System::isHavokMainHeapOom() const {
 
 hkpWorld* System::getHavokWorld(ContactLayerType type) const {
     return mWorlds(int(type))->getHavokWorld();
+}
+
+void System::sub_71012163F0() {
+    if (_61)
+        return;
+    mWorlds[int(ContactLayerType::Sensor)]->getCS().lock();
+    _62 = true;
+    mRigidBodyRequestMgr->x_0(true, mPaused);
+    _62 = false;
+}
+
+void System::sub_71012165F8(ContactLayerType type) {
+    mWorlds[int(type)]->getCS().lock();
+}
+
+void System::sub_7101216620(ContactLayerType type) {
+    mWorlds[int(type)]->getCS().unlock();
+}
+
+void System::sub_7101216790(bool value) {
+    if (sead::ThreadMgr::instance()->getCurrentThread()->getPriority() <= sead::Thread::cDefaultPriority)
+        _61 = value;
 }
 
 void System::lockWorld(ContactLayerType type, const char* description, int b,

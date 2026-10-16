@@ -91,6 +91,16 @@ public:
     // there is room) / remove it.
     void sub_7101215358(CharacterController* controller);
     void sub_71012153B4(CharacterController* controller);
+    // 0x71012165f8 / 0x7101216620 (CSV PhysicsMemSys::x / __auto6; placeholder names): lock / unlock the critical
+    // section of the world of `type` directly.
+    void sub_71012165F8(ContactLayerType type);
+    void sub_7101216620(ContactLayerType type);
+    // 0x71012163f0 (CSV PhysicsMemSys::__auto7; placeholder name): unless _61 is set, locks the sensor world and
+    // lets the rigid body request manager process its requests.
+    void sub_71012163F0();
+    // 0x7101216790 (CSV PhysicsMemSys::__auto17; placeholder name): sets _61 when called from a thread whose
+    // priority is at most sead::Thread::cDefaultPriority.
+    void sub_7101216790(bool value);
     // 0x7101214b04: StaticCompoundMgr::resetExtraTransformsAndApply() if there is one.
     void waitForResourceCreation();
     // 0x7101216c58
