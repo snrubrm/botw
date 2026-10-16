@@ -1,6 +1,8 @@
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -23,6 +25,20 @@ s32 StasisMgr::m0(ksys::act::Actor* actor, void* request) {
     return 0;
 }
 
+void StasisMgr::sub_7100680920(ksys::act::Actor* actor) {
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
+        if (_42) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&mEntries[0].link, &accessor);
+            mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
+                                     ksys::MessageType(0x3000004), nullptr, true);
+        }
+    } else if (!_42 && ksys::act::canBeStasised(actor, false)) {
+        mTransceiver.sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x3000003),
+                                 nullptr, true);
+    }
+}
+
 // NON_MATCHING: our build unrolls the 16-entry loop.
 void* StasisMgr::m4(ksys::act::Actor* actor) {
     for (s32 i = 0; i < mEntries.size(); ++i) {
@@ -34,6 +50,12 @@ void* StasisMgr::m4(ksys::act::Actor* actor) {
 
 // NON_MATCHING: the original recomputes the handle address from the index each iteration; ours
 // keeps a pointer.
+void StasisMgr::sub_7100680AC8(Entry* entry, ksys::act::BaseProc* proc) {
+    entry->link.acquire(proc, false);
+    entry->damage.sub_71006D99F4();
+    entry->_2a8.kill();
+}
+
 s32 StasisMgr::m2(const sead::Matrix34f& mtx) {
     s32 index = 0;
     for (s32 i = 0; i < mEffects.size(); ++i) {
@@ -62,6 +84,19 @@ void StasisMgr::sendMessage(ksys::act::Actor* actor, ksys::MessageType type,
                                                    true);
     else
         mTransceiver.sendMessage(*actor->getMesTransceiverId(), type, nullptr, true);
+}
+
+f32 StasisMgr::sub_7100681570() const {
+    return std::max(_44 * _58, 0.0f);
+}
+
+// NON_MATCHING: our build unrolls the 16-entry loop (as m4).
+act::DamageManagerUnk220* StasisMgr::sub_7100681588(ksys::act::Actor* actor) {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        if (mEntries[i].link.hasProcById(actor))
+            return &mEntries[i].damage;
+    }
+    return nullptr;
 }
 
 }  // namespace uking

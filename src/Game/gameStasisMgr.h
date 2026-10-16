@@ -72,6 +72,18 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0x318);
 
+    // 0x7100680920 (placeholder name): asks `actor` (or, while _42 is set and the actor is already
+    // stasised, the actor in the first entry) to leave / enter stasis through messages 0x3000003 /
+    // 0x3000004.
+    void sub_7100680920(ksys::act::Actor* actor);
+    // 0x7100680ac8 (placeholder name; does not use `this`): links `entry` to `proc`, clears its
+    // damage records and kills its first effect.
+    void sub_7100680AC8(Entry* entry, ksys::act::BaseProc* proc);
+    // 0x7100681570 (CSV StasisMgr::__auto2): _44 * _58, at least 0.
+    f32 sub_7100681570() const;
+    // 0x7100681588 (CSV StasisMgr::__auto5): the damage records of the entry linked to `actor`.
+    act::DamageManagerUnk220* sub_7100681588(ksys::act::Actor* actor);
+
     /* 0x040 */ u8 _40 = 0;
     /* 0x041 */ bool _41 = false;
     /* 0x042 */ bool _42 = false;
