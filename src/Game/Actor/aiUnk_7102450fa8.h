@@ -201,7 +201,7 @@ public:
         u32 _4;
     };
     /* 0x3f0 */ sead::FixedRingBuffer<Unk4, 6> _3f0;
-    /* 0x438 */ u8 _438[0x43c - 0x438];
+    /* 0x438 */ f32 _438;  // iron ball speed threshold (PriestBossIronBallRoot::sub_7100521870)
     /* 0x43c */ f32 _43c;  // PriestBossIronBallRoot::m38: attack power (int-converted)
     /* 0x440 */ f32 _440;  // PriestBossIronBallRoot::m38(true): attack power
     /* 0x444 */ bool _444;  // PriestBossActorGiantFouthRoot::m46 (cleared when read)

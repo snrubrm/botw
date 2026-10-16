@@ -41,6 +41,8 @@ public:
 
     void sub_7100520874(ksys::act::Unk_71006dc134* arg);
     void sub_71005221EC(bool value);
+    // 0x7100521870
+    void sub_7100521870();
 
 protected:
     // static_param at offset 0x40
@@ -66,9 +68,7 @@ protected:
         this, &PriestBossIronBallRoot::sub_7100520874};
     /* 0x268 */ f32 _268 = -1.0f;  // mass of the main body
     /* 0x26c */ bool _26c;
-    /* 0x270 */ f32 _270 = 0;
-    /* 0x274 */ f32 _274 = 0;
-    /* 0x278 */ f32 _278 = 0;
+    /* 0x270 */ ksys::Timer _270;  // set to 5 when the ball is grabbed fast enough (sub_7100521870)
     /* 0x27c */ u32 _27c = 0;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossIronBallRoot, 0x280);

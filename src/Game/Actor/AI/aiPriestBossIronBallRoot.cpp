@@ -106,6 +106,41 @@ void PriestBossIronBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: the original stores the timer value and previous value separately (ours merges them).
+// Grab check: starts a 5 s timer when the grabbed ball moves faster than the unit's threshold, and restores the
+// ball once it is slow again after the timer.
+void PriestBossIronBallRoot::sub_7100521870() {
+    const f32 speed = mActor->getMainBody()->getLinearVelocity().length() * mActor->m38();
+    auto* unit = sub_7100505BE4();
+    if (_26c) {
+        _270.update();
+        if (unit && speed < unit->_438 && _270.value <= sead::Mathf::epsilon()) {
+            m37();
+            if (_27c != 0) {
+                m36();
+                sub_71005221EC(false);
+                if (auto* body = mActor->getMainBody(); body && _268 > 0.0f)
+                    body->setMass(_268);
+            }
+            _26c = false;
+        }
+        return;
+    }
+
+    auto* grab = mActor->m128();
+    if (!grab || !grab->m2())
+        return;
+    if (unit) {
+        if (!(speed > unit->_438))
+            return;
+        m38(false);
+        _270.reset(5.0f);
+    } else {
+        m38(false);
+    }
+    _26c = true;
+}
+
 void PriestBossIronBallRoot::leave_() {
     PriestBoss::leave_();
     m35();
@@ -168,10 +203,10 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message* message) {
                     }
                     m38(true);
                     sub_71005221EC(true);
-                    _270 = 5.0f;
-                    _274 = 5.0f;
+                    _270.value = 5.0f;
+                    _270.previous_value = 5.0f;
                     _26c = true;
-                    _278 = -1.0f;
+                    _270.rate = -1.0f;
                 } else if (auto* body = mActor->getMainBody(); body && _268 > 0) {
                     body->setMass(_268);
                 }
