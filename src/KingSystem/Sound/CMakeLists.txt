@@ -16,6 +16,7 @@ target_sources(uking PRIVATE
   sndMazeForestBgm.cpp
   sndBgmMgr.h
   sndBgmMgr.cpp
+  sndBgmSpeakerBalanceSupplier.cpp
   sndEnvBgm.cpp
   sndEnvBgm.h
   sndDuckingMgr.cpp
