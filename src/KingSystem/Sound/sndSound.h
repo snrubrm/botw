@@ -257,8 +257,18 @@ public:
     // 0x710102c388 (declared only): called with the heap right after construction.
     void sub_710102C388(sead::Heap* heap);
     void sub_710102C81C();
+    // 0x710102c594: runs the update 0x710102c5ac while _68 is set and there is a proc (_18).
+    void sub_710102C594();
+    // 0x710102c5ac (declared only)
+    void sub_710102C5AC();
+    // 0x710102c8f8: deletes the proc and clears _18 / _68.
+    void sub_710102C8F8();
 
-    u8 _8[0xb8 - 0x8];
+    /* 0x08 */ act::BaseProcHandle mProcHandle;
+    /* 0x18 */ void* _18;
+    u8 _20[0x68 - 0x20];
+    /* 0x68 */ bool _68;
+    u8 _69[0xb8 - 0x69];
 };
 class Unk_SoundMgr38_10 {
 public:

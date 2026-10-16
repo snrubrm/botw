@@ -267,6 +267,17 @@ void Unk_SoundMgr38::sub_710102B11C() {
 
 // NON_MATCHING: only the schedule (the original loads both vectors up front and keeps the six results in
 // registers before the stores).
+void Unk_SoundMgr38_8::sub_710102C594() {
+    if (_68 && _18)
+        sub_710102C5AC();
+}
+
+void Unk_SoundMgr38_8::sub_710102C8F8() {
+    mProcHandle.deleteProc();
+    _18 = nullptr;
+    _68 = false;
+}
+
 void Unk_SoundMgr38_28::sub_7101037ED8(const sead::Vector3f* pos, const sead::Vector3f* size) {
     const sead::Vector3f half = *size * 0.5f;
     mBoxMin = *pos - half;
