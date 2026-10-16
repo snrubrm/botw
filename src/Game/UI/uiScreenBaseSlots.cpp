@@ -400,6 +400,16 @@ void Screen::sub_71010AB490(eui::LayoutEx* layout) {
         sub_71010AB490(nn::font::DynamicCast<eui::LayoutEx>(part.layout));
 }
 
+// 0x71010ac7c8
+s32 Screen::sub_71010AC7C8(eui::LayoutEx* layout, const sead::SafeString& name) {
+    s32 count = layout->GetAnimResourceData(name.cstr()) && layout->tryCreateAnimatorAuto(name.cstr(), false);
+    for (auto& part : layout->mPartsLayoutList) {
+        if (auto* child = nn::font::DynamicCast<eui::LayoutEx>(part.layout))
+            count += sub_71010AC7C8(child, name);
+    }
+    return count;
+}
+
 // 0x71010abe68
 void Screen::sub_71010ABE68(eui::AnimButton* button) {
     m108(button);
