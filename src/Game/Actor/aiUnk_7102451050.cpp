@@ -181,3 +181,55 @@ void Unk_7102451050::sub_710071C89C(const Request& request) {
         return;
     }
 }
+
+// NON_MATCHING: the original fills the next ring buffer slot in place (type, _18, link); ours pushes a Request copy
+// 0x710071c550
+bool Unk_7102451050::sub_710071C550(const ksys::Message& message) {
+    if (!_1a8.m2(message))
+        return false;
+    const auto& payload = _1a8._38;
+    switch (payload._0) {
+    case 1:
+        if (_10 != 4) {
+            if (_10 != 3)
+                return true;
+            _8->_78.resetBit(Unk_7102450fa8::Flag::_3);
+            _8->_78.setBit(Unk_7102450fa8::Flag::_4);
+            _10 = 4;
+        }
+        ++_1e;
+        break;
+    case 2:
+    case 3: {
+        if (_1e < 1)
+            return true;
+        Request request;
+        request.type = payload._0;
+        request._18 = payload._18;
+        request.link = payload.mLink;
+        _20.pushBack(request);
+        return true;
+    }
+    case 4: {
+        const s32 id = _8->sub_71007195B0(payload.mLink);
+        for (s32 i = 0; i < _f8.size(); ++i) {
+            if (_f8[i]->id == id) {
+                _f8[i]->done = true;
+                return true;
+            }
+        }
+        return true;
+    }
+    case 5:
+        if (_10 != 4)
+            return true;
+        _1e = sead::Mathi::max(_1e - 1, 0);
+        break;
+    case 6:
+        setFlag(Flag::_0);
+        return true;
+    default:
+        return true;
+    }
+    return true;
+}
