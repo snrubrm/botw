@@ -15,7 +15,9 @@ public:
         // static_param NecklaceTgtName%d / NecklaceWeaponIdx%d (StalGiantEnemyRoot::loadParams_)
         /* 0x00 */ sead::SafeString mNecklaceTgtName_s;
         /* 0x10 */ const int* mNecklaceWeaponIdx_s;
-        u64 _18[(0xd0 - 0x18) / sizeof(u64)];
+        /* 0x18 */ s32 _18;  // set to -1 by StalGiantEnemyRoot::enter_ when the attachment bones are missing
+        u32 _1c;
+        u64 _20[(0xd0 - 0x20) / sizeof(u64)];
         Unk_71024511a8 mAttachment;
     };
     Entry mEntries[3];
@@ -56,8 +58,8 @@ protected:
     sead::SafeString mActorNameRib4_s{};
     // static_param at offset 0x810
     const bool* mIsDamageToEnemy_s{};
-    Unk_7102451120 _818;
-    Unk_7102451148 _828;
+    // sub_71007214A0 target (enter_), as in ForestGiantRoot / PriestBossGiantEnemyRoot.
+    Unk_71007214A0 _818;
 };
 
 KSYS_CHECK_SIZE_NX150(StalGiantEnemyRoot, 0x838);

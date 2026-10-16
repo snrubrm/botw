@@ -4,6 +4,12 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_7100724C64.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7102451120.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Actor/actEnemy.h"
@@ -33,7 +39,42 @@ bool StalGiantEnemyRoot::init_(sead::Heap* heap) {
 }
 
 void StalGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_EntitySensor().cstr())) {
+        for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+            auto* body = set->getRigidBodies().at(i);
+            if (body && !body->isAddedToWorld() && !body->isAddingBodyToWorld())
+                body->addToWorld();
+        }
+    }
+    if (auto* set = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr())) {
+        for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+            if (auto* body = set->getRigidBodies().at(i))
+                body->clearEntityMotionFlag10(false);
+        }
+    }
+    if (*mIsDamageToEnemy_s)
+        getActorAttackSensor(mActor)->_20 |= 0x18;
+    if (auto* sensor = sub_71007A2844(mActor))
+        sensor->_18 |= 0x800;
+
     StalEnemyRoot::enter_(params);
+
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
+        for (auto& entry : _340.mEntries) {
+            if (entry.mAttachment._30.isValid() && entry.mAttachment._78.isValid())
+                giant->_1570.append(&entry.mAttachment);
+            else
+                entry._18 = -1;
+        }
+        sub_7100727AA0(giant, 1);
+        sub_7100727AA0(giant, 3);
+        sub_7100727AA0(giant, 4);
+        sub_7100727AA0(giant, 5);
+    }
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    sub_71007214A0(&_818, mActor, "BodyDynamic", "Body", "BgSensor", sead::Mathf::infinity());
+    sub_71005E1AE8(mActor);
 }
 
 void StalGiantEnemyRoot::leave_() {
