@@ -17,6 +17,32 @@ u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system) {
 }
 
 // NON_MATCHING: the original stores area = 0 after loading Vector2f::zero (scheduling).
+// NON_MATCHING: the original inlines sub_710110AC74 (ours calls it, as in sub_7101108C44).
+u32 sub_71011091DC(f32 a, f32 b, f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   const Unk_7101108AE8Flags* info_20, const Unk_71010FEDBC* info, s32 index,
+                   s32 level) {
+    s32 area = 0;
+    sead::Vector2f pos = sead::Vector2f::zero;
+    const u32 result = sub_7101108AE8(&pos, &area, *xz, *info_20, *info, index);
+    if (result != 0) {
+        Unk_7101108C44Arg arg;
+        arg.table = info_20->table;
+        arg.index = area;
+        arg._c = false;
+        TexelPosMaybe texel;
+        sub_710110AC74(pos.x, pos.y, &arg, &texel, level);
+        const sead::Vector3f value = sub_710110C930(&arg, &texel, level);
+        out_normal->set(-value.x, 1.0f, -value.y);
+        const f32 scale = static_cast<f32>(info_20->_e) / info->mAreas[area].size;
+        out_normal->x = scale * out_normal->x;
+        out_normal->y = 1.0f / (b - a);
+        out_normal->z = scale * out_normal->z;
+        out_normal->normalize();
+        *out_height = (b - a) * value.z + a;
+    }
+    return result;
+}
+
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index, s32 flag) {
     if (!system->_8)
         return 0;
@@ -627,6 +653,32 @@ bool sub_710110C1A4(u32* out, u32 index) {
         return false;
     *out = data->_730->mValues[index];
     return true;
+}
+
+// NON_MATCHING: the two-byte reads are combined differently (and converted unsigned in the original);
+// scheduling.
+sead::Vector3f sub_710110C930(const Unk_7101108C44Arg* arg, const TexelPosMaybe* texel, u32 level) {
+    const Unk_710110AC74Table* table = arg->table;
+    const u32 max = table->levels[level].size - 1;
+    const u32 pitch = table->levels[level].pitch;
+    const u32 texel_size = table->texel_size;
+    const u8* data = table->areas[arg->index].levels[level];
+    const auto read = [](const u8* texel) { return u16(texel[0] | texel[1] << 8) / 65535.0f; };
+    const u32 row0 = sead::Mathu::min(texel->y, max) * pitch;
+    const u32 col0 = sead::Mathu::min(texel->x, max) * texel_size;
+    const f32 h00 = read(data + (row0 + col0));
+    const u32 col1 = sead::Mathu::min(texel->x + 1, max) * texel_size;
+    const f32 h01 = read(data + (row0 + col1));
+    const u32 row1 = sead::Mathu::min(texel->y + 1, max) * pitch;
+    const f32 h10 = read(data + (row1 + col0));
+    const f32 h11 = read(data + (row1 + col1));
+    const f32 dx0 = h01 - h00;
+    const f32 dx1 = h11 - h10;
+    const f32 dz0 = h10 - h00;
+    const f32 dz1 = h11 - h01;
+    const f32 top = h00 + texel->fx * dx0;
+    return {dx0 + (dx1 - dx0) * 0.0f, dz0 + (dz1 - dz0) * 0.0f,
+            top + texel->fy * ((h10 + texel->fx * dx1) - top)};
 }
 
 // NON_MATCHING: register allocation; the not-found return is a separate block in ours.
