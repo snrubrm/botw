@@ -156,6 +156,19 @@ void Unk_71024fe368::hm14() {
     _248->start();
 }
 
+void Unk_71024fe368::sub_710100B7E0(const sead::SafeString& name, s32 value, bool flag) {
+    for (s32 i = 0; i < mEntries4.size(); ++i) {
+        auto* entry = mEntries4.get(i);
+        if (entry->_98 == -1) {
+            entry->name.clear();
+            entry->name.append(name);
+            entry->_98 = value;
+            entry->_9c = flag;
+            return;
+        }
+    }
+}
+
 void Unk_71024fe368::hm16(s32 arg) {
     if (arg == 2)
         _248->_18 = 0;

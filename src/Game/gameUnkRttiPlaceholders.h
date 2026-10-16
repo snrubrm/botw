@@ -2529,6 +2529,8 @@ public:
     void hm16(s32 arg) override;
     // 0x710100b350 (copy for the handle base 0x710100b3cc): resets the state and starts the node machine.
     void hm14() override;
+    // 0x710100b7e0: fills the first free entry (_98 == -1) with `name`, `value` and `flag` (placeholder name).
+    void sub_710100B7E0(const sead::SafeString& name, s32 value, bool flag);
 
     /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
     /* 0x198 */ sead::PtrArray<const xlink2::PropertyDefinition> mProperties;
