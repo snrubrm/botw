@@ -228,8 +228,8 @@ public:
     aal::TimedFader _138{1.0, aal::FadeCurveType(1), 1.0};
     // [1] is the playing time (0x710101da4c adds the frame time to it in states 3 and 4).
     f32 _160[2]{};
-    u64 _168 = 0;
-    u64 _170 = 0;
+    // Link in Unk_SoundMgr30_10's handle list (0x710101d5ec / 0x710101d718).
+    sead::ListNode mListNode;
     bool _178 = false;
     bool _179 = true;
     bool _17a = false;
@@ -741,21 +741,45 @@ private:
 };
 
 // Placeholder name (`SoundMgr::_30->_10`, see sub_7100FFD754): the manager the spot BGM handles register with.
-struct Unk_SoundMgr30_10 {
-    // 0x710101ce5c (declared only; 176 B). Created by Unk_SoundMgr30::sub_7100FF8338 (0xd0 bytes).
-    Unk_SoundMgr30_10();
-    // Deleted through slot 1 by Unk_SoundMgr30's destructor (declared only).
-    virtual ~Unk_SoundMgr30_10();
-    // 0x710101cfa4 (declared only; 72 B): creates the 0x3e0-byte object at _8 on `heap` and initializes it.
+// Placeholder (constructor 0x710101e140, init 0x710101e758, 0x3e0 bytes; deleted through slot 1): created by
+// Unk_SoundMgr30_10::init. Declared only.
+class Unk_710101E140 {
+public:
+    Unk_710101E140();
+    virtual ~Unk_710101E140();
     void init(sead::Heap* heap);
-    // 0x710101d5ec (declared only; 300 B) / 0x710101d718 (declared only; 96 B)
+
+    u8 _8[0x3e0 - 0x8];
+};
+
+// TU 0x710101ce5c..0x710101d77c (static initialiser) in the original: sndSoundMgr30_10.cpp.
+struct Unk_SoundMgr30_10 {
+    // 0x710101ce5c. Created by Unk_SoundMgr30::sub_7100FF8338 (0xd0 bytes).
+    Unk_SoundMgr30_10();
+    // Deleted through slot 1 by Unk_SoundMgr30's destructor.
+    virtual ~Unk_SoundMgr30_10();
+    // 0x710101cfa4: creates the 0x3e0-byte object at _8 on `heap` and initializes it.
+    void init(sead::Heap* heap);
+    // 0x710101d5ec (declared only; 300 B): adds the handle to mHandles.
     void sub_710101D5EC(Unk_SpotBgmHandle* handle);
+    // 0x710101d718: removes the handle from mHandles if it is linked.
     void sub_710101D718(Unk_SpotBgmHandle* handle);
     // 0x710101cfec (declared only; 1536 B): per-frame update.
     void sub_710101CFEC();
 
-    u8 _8[0xd0 - 0x8];
+    /* 0x08 */ Unk_710101E140* _8 = nullptr;
+    /* 0x10 */ sead::OffsetList<Unk_SpotBgmHandle> mHandles;
+    /* 0x28 */ bool _28 = false;
+    /* 0x30 */ sead::CriticalSection mCS;
+    /* 0x70 */ u32 _70 = 0;
+    /* 0x78 */ sead::FixedSafeString<32> _78;
+    /* 0xb0 */ void* _b0 = nullptr;
+    /* 0xb8 */ void* _b8 = nullptr;
+    /* 0xc0 */ void* _c0 = nullptr;
+    /* 0xc8 */ bool _c8 = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr30_10, 0xd0);
+
 
 
 class Unk_7100ff7444 {
