@@ -1,7 +1,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <basis/seadNew.h>
 #include <heap/seadHeap.h>
+#include "KingSystem/System/DebugMessage.h"
+#include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace ksys::tera {
 
@@ -9,6 +12,156 @@ void Unk_7101108AE8Flags::sub_71010F94F4(bool free_memory) {
     if (free_memory)
         _20.deleteGPUMemBlock();
     _0 &= ~2;
+}
+
+// NON_MATCHING: 1928 bytes against 1968; regalloc and stack slots.
+bool Unk_71010FEDBC::sub_71010FA87C(CellRangeList* out, CellRangeBuffer* buffer,
+                                    const ImageTypeMaybe& type, u32 index) {
+    constexpr f32 Scale = 1.0f / 8192.0f;
+    const auto to_fixed = [](f32 value) -> s16 {
+        const s32 fixed = s32(value * 8192.0f);
+        return fixed < -0x8000 ? -0x8000 : (fixed > 0x7ffe ? 0x7fff : fixed);
+    };
+
+    out->owner = this;
+    out->count = 0;
+    out->ranges = nullptr;
+
+    Area& area = mAreas[index];
+    const u32 num = (1 << mLevel) + 1;
+    for (u32 y = 0; y < num; ++y) {
+        for (u32 x = 0; x < num; ++x) {
+            u8& flags = area.mCellFlags[y][x];
+            if (flags & 0xf) {
+                const u32 low = (flags & 0xf) + 1;
+                flags = (flags & 0xf0) | ((low < 0xf ? low : 0xf) & 0xf);
+            }
+            if (flags >> 4) {
+                const u32 high = (flags >> 4) + 1;
+                flags = (flags & 0xf) | ((high < 0xf ? high : 0xf) << 4);
+            }
+        }
+    }
+
+    if (area._35 & 0xf) {
+        const u8 count = (area._35 & 0xf) + 1;
+        area._35 = (area._35 & 0xf0) | ((count < 0xf ? count : 0xf) & 0xf);
+        return false;
+    }
+
+    const s32 start = buffer->count;
+    const Area* prev = index != 0 ? &mAreas[index - 1] : nullptr;
+    for (u32 y = 0; y < num; ++y) {
+        for (u32 x = 0; x < num; ++x) {
+            const Area::Cell& cell = area.mCells[y][x];
+            switch (cell._8) {
+            case 0:
+                continue;
+            case 3: {
+                const u32 x0 = cell._9 & 0xf;
+                const u32 x1 = cell._9 >> 4;
+                const u32 y0 = cell._a & 0xf;
+                const u32 y1 = cell._a >> 4;
+                if (prev->mCells[y0][x0]._8 != 0 || prev->mCells[y0][x1]._8 != 0 ||
+                    prev->mCells[y1][x0]._8 != 0 || prev->mCells[y1][x1]._8 != 0) {
+                    continue;
+                }
+                break;
+            }
+            case 2:
+                if (!cell._10->isImageFlagSetMaybe(type, 4))
+                    continue;
+                break;
+            default:
+                break;
+            }
+
+            const Area::Offset& offset_x = area.mOffsetsX[x];
+            const Area::Offset& offset_y = area.mOffsetsY[y];
+            bool added = false;
+            if (static_cast<f32>(offset_x._0) * Scale < static_cast<f32>(offset_x._2) * Scale &&
+                static_cast<f32>(cell._4) * Scale < static_cast<f32>(cell._6) * Scale) {
+                CellRange& range = buffer->ranges[buffer->count++];
+                range.rangeX = offset_x;
+                range.rangeY = {cell._4, cell._6};
+                range.x = x;
+                range.y = y;
+                range.area = index;
+                range.kind = 3;
+                added = true;
+            }
+
+            const f32 cell_x0 = static_cast<f32>(cell._0) * Scale;
+            const f32 cell_x1 = static_cast<f32>(cell._2) * Scale;
+            if (cell_x0 < cell_x1) {
+                const f32 range_y0 = static_cast<f32>(offset_y._0) * Scale;
+                const f32 range_y1 = static_cast<f32>(offset_y._2) * Scale;
+                if (range_y0 < range_y1) {
+                    const f32 cell_y0 = static_cast<f32>(cell._4) * Scale;
+                    const f32 cell_y1 = static_cast<f32>(cell._6) * Scale;
+                    Area::Offset rx = {cell._0, cell._2};
+                    Area::Offset ry = offset_y;
+                    if (cell_y0 < cell_y1) {
+                        const f32 x0 = static_cast<f32>(offset_x._0) * Scale;
+                        const f32 x1 = static_cast<f32>(offset_x._2) * Scale;
+                        u32 mask_x;
+                        if (sead::Mathf::abs(x0 - cell_x0) <= 0.001f)
+                            mask_x = 1;
+                        else
+                            mask_x = sead::Mathf::abs(x1 - cell_x1) <= 0.001f ? 2 : 0;
+                        u32 mask_y;
+                        if (sead::Mathf::abs(cell_y0 - range_y0) <= 0.001f)
+                            mask_y = 4;
+                        else
+                            mask_y = sead::Mathf::abs(cell_y1 - range_y1) <= 0.001f ? 8 : 0;
+
+                        const u32 mask = mask_x | mask_y;
+                        if (mask == 9 || mask == 10) {
+                            rx = {to_fixed(cell_x0), to_fixed(cell_x1)};
+                            ry = {to_fixed(range_y0), to_fixed(cell_y0)};
+                        } else if (mask == 5 || mask == 6) {
+                            rx = {to_fixed(cell_x0), to_fixed(cell_x1)};
+                            ry = {to_fixed(cell_y1), to_fixed(range_y1)};
+                        } else if (auto* debug = Terrain::instance()->_a50) {
+                            auto entry = debug->_70.log(
+                                "おかしい！ [ cur  1st = u : %f, %f @ v : %f, %f | 2nd = u : %f, %f @ v : %f, %f ]",
+                                x0, x1, cell_y0, cell_y1, cell_x0, cell_x1, range_y0, range_y1);
+                            if (entry.buffer)
+                                entry.buffer->setDisplayTime(10.0f);
+                        }
+                    }
+
+                    if (static_cast<f32>(rx._0) * Scale < static_cast<f32>(rx._2) * Scale &&
+                        static_cast<f32>(ry._0) * Scale < static_cast<f32>(ry._2) * Scale) {
+                        CellRange& range = buffer->ranges[buffer->count++];
+                        range.rangeX = rx;
+                        range.rangeY = ry;
+                        range.x = x;
+                        range.y = y;
+                        range.area = index;
+                        range.kind = 3;
+                        continue;
+                    }
+                }
+            }
+
+            if (!added) {
+                CellRange& range = buffer->ranges[buffer->count++];
+                range.rangeX = {0x2000, 0};
+                range.rangeY = {0x2000, 0};
+                range.x = x;
+                range.y = y;
+                range.area = index;
+                range.kind = 2;
+            }
+        }
+    }
+
+    if (start == buffer->count)
+        return false;
+    out->ranges = &buffer->ranges[start];
+    out->count = buffer->count - start;
+    return true;
 }
 
 void Unk_71010FEDBC::sub_71010FCB04() {

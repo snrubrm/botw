@@ -26,6 +26,7 @@ class Unk_710250dc50;
 class Unk_710250dd60;
 
 namespace ksys::tera {
+class Unk_7101106F44;
 
 // Placeholder name: the kind of a terrain image (type 0 - 3, and an index for type 3). The
 // resources Unk_710250db28 / dbc8 / dc50 / dd60 answer their virtuals m4 - m8 through it.
@@ -302,7 +303,8 @@ struct Unk_71010FEDBC {
             u8 _9;
             u8 _a;
             u8 _b[0x10 - 0xb];
-            void* _10;
+            // The area node of a type-2 cell (0x71010fa87c checks its image flags).
+            Unk_7101106F44* _10;
             sead::Vector2f _18;
         };
         struct Offset {
@@ -367,6 +369,35 @@ struct Unk_71010FEDBC {
         f32 _18;
     };
 
+    // Placeholder: a cell range collected by sub_71010FA87C (12 bytes; fixed-point bounds like Rect).
+    struct CellRange {
+        u8 x;
+        u8 y;
+        u8 area;
+        // 3: bounds from the cell, 2: the full cell.
+        u8 kind : 2;
+        Area::Offset rangeX;
+        Area::Offset rangeY;
+    };
+    // Placeholder: the shared output buffer of sub_71010FA87C (it appends at `count`).
+    struct CellRangeBuffer {
+        u32 _0;
+        s32 count;
+        CellRange* ranges;
+    };
+    // Placeholder: the ranges sub_71010FA87C added for one area.
+    struct CellRangeList {
+        Unk_71010FEDBC* owner;
+        s32 count;
+        CellRange* ranges;
+    };
+    // 0x71010fa87c (placeholder name): ages the cell counters of area `index`; unless its _35 counter is
+    // running (then counts it up and returns false), appends a range to `buffer` for each cell that is
+    // usable (type 1, type 2 with flag 4 on the node's image for `type`, type 3 when the four matching
+    // cells of the previous area are empty) and writes them to `out`. True if any was added.
+    bool sub_71010FA87C(CellRangeList* out, CellRangeBuffer* buffer, const ImageTypeMaybe& type,
+                        u32 index);
+
     // 0x71010fcb20 (placeholder name): allocates 16 position records and `num_areas` areas from `heap`
     // and resets the areas; _18 = 1 / `size`.
     void sub_71010FCB20(sead::Heap* heap, u8 num_areas, u32 size, s8 level);
@@ -390,7 +421,7 @@ struct Unk_71010FEDBC {
     // The query helpers receive a pointer to this sub-object; its table is at +0x438 (record + 0x458).
     Unk_7101108AE8Flags _20;
 };
-// The same objects as the nine 0x460-byte records at the start of a ApertureMapsCollector (System::sub_710111F4F0 /
+// The same objects as the nine 0x460-byte records at the start of an ApertureMapsCollector (System::sub_710111F4F0 /
 // sub_710111F504 return one; 0x71011094a0 passes one as both arguments of 0x7101108ae8).
 KSYS_CHECK_SIZE_NX150(Unk_71010FEDBC, 0x460);
 
