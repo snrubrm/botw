@@ -121,6 +121,19 @@ void Unk_7102474d30::sub_71009372E8(s32 index, s32 count) {
 }
 
 // NON_MATCHING: the arrow layout address (_3e0) is computed in a different place
+// 0x7100937368
+void Unk_7102474d30::sub_7100937368() {
+    Unk_7102474e38* found = sub_7100943684(_2dc);
+    if (!found)
+        return;
+    auto* unit = sead::DynamicCast<Unk_7102474c68>(found);
+    if (!unit || !unit->_10)
+        return;
+    unit->_10->ForceOn();
+    unit->mActive = true;
+    unit->_10->Down();
+}
+
 // 0x7100937790
 void Unk_7102474d30::m7() {
     if (!(_2c & 1))

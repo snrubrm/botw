@@ -21,6 +21,8 @@ public:
     void sub_7100936EEC();
 
 private:
+    friend class Unk_7102474d30;
+
     /* 0x48 */ nn::ui2d::ArchiveHandle mArchive;
     /* 0xf0 */ UiTexSlots mTextures;
     /* 0x1c0 */ bool mActive = false;
