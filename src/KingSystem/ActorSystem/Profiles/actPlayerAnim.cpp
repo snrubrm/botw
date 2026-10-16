@@ -6,6 +6,14 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtEventSystem.h"
+#include "Game/Actor/actCamera.h"
+#include "Game/Actor/actCameraUtil.h"
+#include "Game/gameRuneMgr.h"
+#include "Game/Actor/aiUnk_7101e7c5d0.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
+#include "KingSystem/System/VFR.h"
 
 namespace ksys::act {
 
@@ -160,6 +168,65 @@ f32 Player::sub_7100885630(s32 level) {
     eco::StatusEffectInfo info;
     eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ArmorChargeAttackAddLevel, level, &info);
     return info.val._f32;
+}
+
+// NON_MATCHING: the original reloads _16f4 for the fade chase and shares one chase tail between the camera and
+// the final branch.
+// Placeholder name: updates the model alpha: 0 with _c48 bit 23; a requested fade (_16f0: towards _16f4 at rate
+// _16f8, capped at ItemUseModelAlpha while a camera rune is out); the camera's player alpha rate; ItemUseModelAlpha
+// while a camera rune is out; otherwise back towards 1.
+void Player::sub_710085A6B8() {
+    if (_c48.isOnBit(23)) {
+        sub_71011CCB1C(0.0f);
+        return;
+    }
+
+    if (_16f0) {
+        _16f0 = false;
+        const f32 target = _16f4;
+        auto* rune = uking::RuneMgr::instance();
+        if (((rune->_90 >> 4 & 1) && rune->isSelectedRune(2)) ||
+            ((rune->_90 >> 4 & 1) && rune->isSelectedRune(3)) ||
+            ((rune->_90 >> 4 & 1) && rune->isSelectedRune(4))) {
+            const f32 alpha = getParam()->getRes().mGParamList->getPlayer()->mItemUseModelAlpha.ref();
+            if (alpha < target) {
+                sub_71011CCB1C(alpha);
+                return;
+            }
+        }
+        f32 value = m139();
+        sead::Mathf::chase(&value, _16f4, _16f8 * _20ec * VFR::instance()->getDeltaFrame());
+        sub_71011CCB1C(value);
+        return;
+    }
+
+    if (_ce0.isOnBit(1)) {
+        act::acc::Camera camera;
+        sub_710092DAE8(&camera);
+        const f32 target = camera.getPlayerAlphaRate() * uking::sUnk_7101e7c264;
+        f32 value = m139();
+        sead::Mathf::chase(&value, target, uking::sUnk_7101e7c26c * _20ec * VFR::instance()->getDeltaFrame());
+        sub_71011CCB1C(value);
+        return;
+    }
+
+    auto* rune = uking::RuneMgr::instance();
+    if (((rune->_90 >> 4 & 1) && rune->isSelectedRune(2)) ||
+        ((rune->_90 >> 4 & 1) && rune->isSelectedRune(3)) ||
+        ((rune->_90 >> 4 & 1) && rune->isSelectedRune(4))) {
+        const f32 value = m139();
+        const f32 alpha = getParam()->getRes().mGParamList->getPlayer()->mItemUseModelAlpha.ref();
+        if (value == alpha)
+            return;
+        sub_71011CCB1C(alpha);
+        return;
+    }
+
+    f32 value = m139();
+    if (value >= 1.0f)
+        return;
+    sead::Mathf::chase(&value, 1.0f, uking::sUnk_7101e7c268 * _20ec * VFR::instance()->getDeltaFrame());
+    sub_71011CCB1C(value);
 }
 
 }  // namespace ksys::act

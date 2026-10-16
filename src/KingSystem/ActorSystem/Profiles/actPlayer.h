@@ -518,6 +518,8 @@ public:
     void sub_7100881154();
     // 0x7100891f64 (unnamed): starts the Brake turn when sub_71008902B4 allows it and _20bc exceeds TurnEnableSpeed.
     bool sub_7100891F64();
+    // 0x710085a6b8 (unnamed; called by m70): updates the model alpha (m139 / sub_71011CCB1C).
+    void sub_710085A6B8();
     // 0x710088cec8 (unnamed): puts away whatever _d68 / _d30 hold (sub_710088A220, sub_710088B2EC or x_33).
     void sub_710088CEC8();
     void sub_71008931C4();             // 0x71008931c4

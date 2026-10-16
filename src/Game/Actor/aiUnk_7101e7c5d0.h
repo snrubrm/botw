@@ -19,6 +19,8 @@ extern const f32 sUnk_7101e7c5bc;
 extern const f32 sUnk_7101e7c1dc;
 // 0x7101e7c25c: 100.0f (Player::sub_7100893F1C, the cap of _1fe8).
 extern const f32 sUnk_7101e7c25c;
+// 0x7101e7c264: 0.4f (Player::sub_710085A6B8, factor on the camera player alpha rate).
+extern const f32 sUnk_7101e7c264;
 // 0x7101e7c268 / 0x7101e7c26c: 0.05f / 0.1f (Player::m310 chase rates up / down).
 extern const f32 sUnk_7101e7c268;
 extern const f32 sUnk_7101e7c26c;
