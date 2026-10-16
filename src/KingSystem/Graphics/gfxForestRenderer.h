@@ -48,11 +48,20 @@ public:
             u8 _5[0x1c - 0x5];
         };
 
-        u8 _0[0x18];
+        // 0x7100f07060 (placeholder name): allocates and clears the record buffer (_70 records) and the
+        // u16 table (80 entries if bit 0 of _8 is set, else 1280).
+        void sub_7100F07060();
+
+        u8 _0[0x8];
+        u32 _8;
+        u8 _c[0x10 - 0xc];
+        sead::Heap* mHeap;
         sead::Buffer<Record> mRecords;
         u8 _28[0x60 - 0x28];
         sead::Buffer<Item> mItems;
-        u8 _70[0x88 - 0x70];
+        s32 mNumRecords;
+        u8 _74[0x78 - 0x74];
+        sead::Buffer<u16> _78;
     };
     static_assert(sizeof(Entry) == 0x88);
     // Placeholder: the 0x60-byte entries of the buffer at 0xe8. requestDraw hands the draw array of

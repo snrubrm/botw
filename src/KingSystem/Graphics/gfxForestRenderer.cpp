@@ -1,4 +1,5 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
+#include <cstring>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitDrawArray.h>
@@ -88,6 +89,17 @@ bool ForestRenderer::stopped() {
             return _54 == 6 && (_50 & 1) != 0 && _60 > 3;
     }
     return true;
+}
+
+void ForestRenderer::Entry::sub_7100F07060() {
+    const s32 table_size = (_8 & 1) ? 80 : 1280;
+    const s32 num_records = mNumRecords;
+    if (num_records != 0) {
+        mRecords.tryAllocBuffer(num_records, mHeap);
+        std::memset(mRecords.getBufferPtr(), 0, mRecords.getByteSize());
+    }
+    _78.tryAllocBuffer(table_size, mHeap);
+    std::memset(_78.getBufferPtr(), 0, _78.getByteSize());
 }
 
 bool ForestRenderer::x_6(const sead::SafeString& name, const sead::Vector3f& pos,
