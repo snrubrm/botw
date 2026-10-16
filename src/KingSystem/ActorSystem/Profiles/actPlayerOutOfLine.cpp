@@ -822,4 +822,43 @@ void Player::x_33() {
     }
 }
 
+// NON_MATCHING: the original spills `target` before isSurfingOnGround and forms &_20bc once; ours later / twice.
+// In this file because isSurfingOnGround is out of line in the original.
+// Placeholder name: moves the speed _20bc towards the target speed _20c8 (times _209c squared unless _c40 bit 1,
+// reduced in water by MoveMaxDecRateByWater): accelerates by `accel` up to the target, or slows down by at most
+// `max_step`.
+void Player::sub_7100869930(f32 accel, f32 max_step) {
+    f32 target = _20c8;
+    if (!_c40.isOnBit(1))
+        target = _209c * (target * _209c);
+
+    if (isSurfingOnGround() && _20d4 > _1770.y) {
+        const auto* param = getParam()->getRes().mGParamList->getPlayer();
+        const f32 depth = _20d4 - _1770.y - param->mMoveIgnoreWaterHeight.ref();
+        f32 factor;
+        if (depth > 0.0f) {
+            factor = sead::Mathf::min(
+                1.0f - depth / (1.4f - param->mMoveIgnoreWaterHeight.ref()) * param->mMoveMaxDecRateByWater.ref(),
+                1.0f);
+        } else {
+            factor = 1.0f;
+        }
+        target = factor * target;
+    }
+
+    f32 goal = 0.0f;
+    if (target == 0.0f || target < _20bc.value) {
+        const f32 diff = sead::Mathf::abs(_20bc.value - target);
+        max_step = diff > max_step ? max_step : diff;
+        accel = 0.0f;
+        goal = target;
+    }
+    if (accel == 0.0f) {
+        _20bc.chase(goal, max_step);
+    } else {
+        _20bc += accel;
+        _20bc.setToMin(target);
+    }
+}
+
 }  // namespace ksys::act

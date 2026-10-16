@@ -506,6 +506,8 @@ public:
     void sub_7100881418();
     // 0x710086a554 (CSV Player::x_4; declared only, 1344 B): called by PlayerBow::calc_ unless _1f88 == 5.
     void x_4();
+    // 0x7100869930 (unnamed): moves the speed _20bc towards _20c8 (scaled by _209c and the water depth).
+    void sub_7100869930(f32 accel, f32 max_step);
     // 0x71008893b8: bow draw / equip request on the bow button (controller 18); true once handled.
     bool sub_71008893B8(bool held);
     // 0x7100889810 (CSV Player::x_14; declared only): equips the equipment type `type`.
