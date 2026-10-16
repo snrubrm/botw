@@ -1,4 +1,6 @@
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include <math/seadMathCalcCommon.h>
 
 #include <cmath>
 
@@ -249,6 +251,29 @@ void SupportBoneResource::BaseBone::postRead_() {
 
     base_rotate->normalize();
     reverse_rotate.setInverse(*base_rotate);
+}
+
+// In this TU in the original (0x710122ad34 follows the SupportBoneResource functions); defining it next
+// to sub_7101226E44 inlines it there.
+// NON_MATCHING: float register allocation (the sin table value is spilled in the original).
+bool SupportBoneInstanceMaybe::sub_710122AD34(sead::Quatf* out, const MainBoneWork& work,
+                                              const sead::Vector3f& aim, const sead::Vector3f& up,
+                                              const sead::Vector3f& side) {
+    f32 roll_sin, roll_cos;
+    sead::Mathf::sinCosIdx(&roll_sin, &roll_cos, sead::Mathf::rad2idx(work._0.z) / 2);
+
+    const f32 tan_h = std::tan(work._0.x * 0.5f);
+    const f32 tan_v = std::tan(work._0.y * 0.5f);
+    const f32 scale = 2.0f / (tan_h * tan_h + tan_v * tan_v + 1.0f);
+    sead::Vector3f dir = aim * (scale - 1.0f) + up * (tan_v * scale) - side * (tan_h * scale);
+
+    sead::Quatf rotate;
+    if (!rotate.makeVectorRotation(aim, dir))
+        return false;
+
+    const sead::Quatf roll(roll_cos, aim.x * roll_sin, aim.y * roll_sin, aim.z * roll_sin);
+    out->setMul(rotate, roll);
+    return true;
 }
 
 }  // namespace ksys::phys
