@@ -342,6 +342,8 @@ public:
     bool sub_7100945D98() const;
     // 0x7100946604 / 0x710094661c (placeholder names): set the alpha / uniform scale of the layout's root pane
     void sub_7100946604(u8 alpha);
+    // 0x71009465d8 (placeholder name): moves the root pane to `position` (z = 0)
+    void sub_71009465D8(const sead::Vector2f& position);
     void sub_710094661C(f32 scale);
     // 0x7100946664 (placeholder name): stops the _50 animator at its maximum (`max`) or minimum
     void sub_7100946664(bool max);

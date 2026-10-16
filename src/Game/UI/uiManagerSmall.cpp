@@ -566,6 +566,12 @@ void Unk_7102474fd8::sub_7100946604(u8 alpha) {
         _8->mPane->SetAlpha(alpha);
 }
 
+// 0x71009465d8
+void Unk_7102474fd8::sub_71009465D8(const sead::Vector2f& position) {
+    if (_8 && _8->mPane)
+        _8->mPane->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
+}
+
 // 0x710094661c
 void Unk_7102474fd8::sub_710094661C(f32 scale) {
     if (_8 && _8->mPane)
