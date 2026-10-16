@@ -760,6 +760,7 @@ struct Unk_710250c280Arg {
 class Unk_710250c280 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c280, Unk_7102518688)
 public:
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
     // lane1 s95: a "directional_wind" element; built by Unk_71024dd490::sub_71010C77F4.
     Unk_710250c280(const Unk_710250c280Arg& arg, sead::Heap* heap);
     ~Unk_710250c280() override;
@@ -821,6 +822,7 @@ public:
 class Unk_710250c550 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c550, Unk_7102518688)
 public:
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
     // lane1 s95: the "radial_wind" element; built by Unk_71024dd490::sub_71010C7BE0 (ctor inlined there).
     Unk_710250c550(ksys::phys::RigidBody* const& body, sead::Heap* heap);
     ~Unk_710250c550() override;
@@ -834,8 +836,11 @@ public:
     // lane1 s91: m29 adds this rigid body to the world.
     u8 _48[0x50 - 0x48];
     ksys::phys::RigidBody* _50;
-    // lane1 s95: the factory allocates 0x70 bytes; the rest is not known yet.
-    u8 _58[0x70 - 0x58];
+    // lane1 s95: m14 pulls towards the centre _58 with strength _64 inside radius _68.
+    sead::Vector3f _58;
+    f32 _64;
+    f32 _68;
+    u8 _6c[0x70 - 0x6c];
 };
 
 // vtable 0x710250c6d8 (39 slots); placeholder generated from the vtable (genskel.py).

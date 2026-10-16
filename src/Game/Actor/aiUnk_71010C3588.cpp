@@ -204,6 +204,24 @@ void Unk_710250c280::m33(bool a, bool fixed) {
         mArg.body->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
 }
 
+f32 Unk_710250c280::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = mArg._4;
+    return mArg._0;
+}
+
+// NON_MATCHING: the _64 load is scheduled one instruction earlier.
+f32 Unk_710250c550::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = pos - _58;
+    f32 distance = out->length();
+    if (distance > 0.0f)
+        *out *= 1.0f / distance;
+    f32 t = sead::Mathf::clamp(distance / _68, 0.0f, 1.0f);
+    t *= t;
+    const f32 falloff = 1.0f - t * t;
+    const f32 falloff2 = falloff * falloff;
+    return _64 * falloff2;
+}
+
 bool Unk_710250c550::m29(const ElementName& name, sead::Heap* heap) {
     if (mHolder)
         mHolder->_18 |= 0x100;
