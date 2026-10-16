@@ -4,6 +4,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 
 namespace uking::ai {
 
@@ -67,6 +69,78 @@ bool GuardianMiniReaction::m36(int damage_type) {
 
 void GuardianMiniReaction::m39(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m39(params);
+}
+
+void sub_7100428358(ksys::act::Actor* actor, bool enabled, s32 slot);
+
+// NON_MATCHING: stack slots of the child name temporaries in the second shock-name test.
+void GuardianMiniReaction::calc_() {
+    if (getCurrentChild()->isFinishedOrFailed() &&
+        (isCurrentChild("弾かれ") || isCurrentChild("左手弾かれ"))) {
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_4);
+        setFinished();
+        return;
+    }
+
+    if (getCurrentChild()->isFinishedOrFailed() &&
+        (isCurrentChild("超ショック") || isCurrentChild("左手超ショック") ||
+         isCurrentChild("後ろ手超ショック") || isCurrentChild("ショック") ||
+         isCurrentChild("左手ショック") || isCurrentChild("後ろ手ショック"))) {
+        setFinished();
+        return;
+    }
+
+    if (getCurrentChild()->isFinishedOrFailed() && isCurrentChild("チャンス")) {
+        setFinished();
+        return;
+    }
+
+    if (getCurrentChild()->isFinishedOrFailed() && isCurrentChild("武器切替")) {
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_0);
+        setFinished();
+        return;
+    }
+
+    if (getCurrentChild()->isFinishedOrFailed() && isCurrentChild("ガード")) {
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_1);
+    } else {
+        if (getCurrentChild()->isFinishedOrFailed() && isCurrentChild("ふっとび") &&
+            *mGuardianMiniChanceTimeState_a == 2) {
+            changeToDying();
+            *mGuardianMiniChanceTimeState_a = -1;
+            return;
+        }
+        if (*mIsChangeWeapon_s && !sub_71005D8B60(mActor) &&
+            getCurrentChild()->isFinishedOrFailed() && isCurrentChild("ふっとび")) {
+            auto* actor = mActor;
+            if (actor && actor->getModel() && actor->getASList()) {
+                actor->getASList()->sub_710115C11C();
+                actor->getASList()->sub_710115BED4(true);
+            }
+            changeChild("武器切替");
+            return;
+        }
+    }
+
+    if (_fc >= 0 && (isCurrentChild("超ショック") || isCurrentChild("左手超ショック") ||
+                     isCurrentChild("後ろ手超ショック"))) {
+        auto* as_list = mActor->getASList();
+        if (as_list && as_list->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+            sub_7100428358(mActor, false, _fc);
+            if (_100.hasProc()) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&_100, &accessor);
+                sead::Vector3f dir;
+                accessor.getActorMtx().getBase(dir, 0);
+                getCurrentChild()->setDynamicParam(dir, "DropDir");
+            }
+        }
+    }
+
+    if (isCurrentChild("チャンス"))
+        getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+
+    EnemyDefaultReaction::calc_();
 }
 
 void GuardianMiniReaction::changeToChance() {

@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -53,7 +54,7 @@ protected:
     bool _f8;
     bool _f9;
     bool _fa;
-    u32 _fc = 0;
+    s32 _fc = 0;
     ksys::act::BaseProcLink _100;
 };
 
