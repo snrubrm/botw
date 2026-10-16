@@ -94,8 +94,9 @@ public:
     struct UnitEntry {
         u8 _0[0x8];
         s32 mState;
-        u8 _c[0x20 - 0xc];
-        void** mUnits;
+        u8 _c[0x18 - 0xc];
+        // Two blocks of 0x400 unit pointers (requestDraw reads the buffer through data()).
+        sead::PtrArrayImpl mUnits;
         u32 mIndex;
         u32 mCount;
         u32 mPrevCount;

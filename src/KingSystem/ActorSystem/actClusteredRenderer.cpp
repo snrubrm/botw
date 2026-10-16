@@ -258,8 +258,6 @@ void ClusteredRenderer::sub_71012439BC() {
         mData._f8 = nullptr;
 }
 
-// NON_MATCHING: the original walks the list nodes (next loaded before the match test); the ObjList
-// iterator walks items.
 void ClusteredRenderer::sub_7101244210(s32 x, s32 z) {
     const u32 keep = sub_7101244C58(x, z);
     auto lock = sead::makeScopedLock(mData._198);
@@ -272,11 +270,9 @@ void ClusteredRenderer::sub_7101244210(s32 x, s32 z) {
         res::Handle* handle = mData._f0->mHandles[i];
         region->_90 = 0;
         if (region->mState != 2 || region->mState != 3) {
-            for (auto it = mData._168.begin(); it != mData._168.end();) {
-                auto& item = *it;
-                ++it;
-                if (item.mRegion == region && item.mHandle == handle)
-                    mData._168.erase(&item);
+            for (auto it = mData._168.robustBegin(); it != mData._168.robustEnd(); ++it) {
+                if (it->mRegion == region && it->mHandle == handle)
+                    mData._168.erase(&*it);
             }
         }
         handle->requestUnload();
@@ -379,13 +375,12 @@ u64 ClusteredRenderer::sub_7101244C58(s32 x, s32 z) {
     return keep;
 }
 
-// NON_MATCHING: list walk (the original uses a robust node iterator; lib sead::ObjList has none).
+// NON_MATCHING: exchange(3): ours moves the constant 3 into the ldxr retry loop (one instruction moved).
 void ClusteredRenderer::sub_71012443AC() {
     auto lock = sead::makeScopedLock(mData._198);
 
-    for (auto it = mData._168.begin(); it != mData._168.end();) {
+    for (auto it = mData._168.robustBegin(), end = mData._168.robustEnd(); it != end; ++it) {
         auto& item = *it;
-        ++it;
         ClusteredRendererRegion* region = item.mRegion;
         res::Handle* handle = item.mHandle;
 
@@ -487,6 +482,15 @@ void ClusteredRenderer::sub_7101244038(const sead::Vector3f* pos) {
         }
     }
     mData._c40 = mData._c38;
+}
+
+void ClusteredRenderer::sub_710124A280(Unk_CellNode2* node, sead::FreeList* list) {
+    node->mDisplayLists[0].freeBuffer();
+    node->mDisplayLists[1].freeBuffer();
+    node->mDisplayLists[2].freeBuffer();
+    node->~Unk_CellNode2();
+    list->free(node);
+    node->_720 = 0;
 }
 
 // NON_MATCHING: Clang duplicates the queue compare after the node chain loop.

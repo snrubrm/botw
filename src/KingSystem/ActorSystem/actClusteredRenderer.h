@@ -12,6 +12,7 @@
 #include <thread/seadCriticalSection.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadMessageQueue.h>
+#include <common/aglDisplayList.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
 #include <common/aglUniformBlock.h>
@@ -211,9 +212,14 @@ public:
         agl::UniformBlock mUniformBlock;
         Unk_CellNode* mNext;
     };
-    struct Unk_CellNode2;
+    // 0x710124a280 frees the three display lists, destroys them (last first), returns the node to its free
+    // list and clears _720.
+    struct Unk_CellNode2 {
+        agl::DisplayList mDisplayLists[3];
+        u32 _720;
+    };
 
-    // 0x710124a280 (declaration only; placeholder name): releases a node (three display lists) into `list`.
+    // 0x710124a280 (placeholder name): releases a node (three display lists) into `list`.
     static void sub_710124A280(Unk_CellNode2* node, sead::FreeList* list);
 
     // Placeholder name: a fixed ring of pointers; push writes at the write counter modulo N.
