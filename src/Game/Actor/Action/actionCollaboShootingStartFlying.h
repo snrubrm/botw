@@ -19,6 +19,9 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71000e1384 (placeholder name; same as ShootingStartFlying::sub_71002502E8): whether the actor is in front of
+    // the camera and inside the centre of the screen.
+    bool sub_71000E1384();
 
     // static_param at offset 0x20
     const float* mInitialVelocityMax_s{};

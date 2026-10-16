@@ -1,8 +1,15 @@
 #include "Game/Actor/Action/actionCollaboShootingStartFlying.h"
 #include <codec/seadHashCRC32.h>
+#include <gfx/seadCamera.h>
+#include <gfx/seadProjection.h>
+#include <gfx/seadViewport.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+// 0x7100d8aed0 (declared only): fills `projection` from the camera manager's current projection settings.
+void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
 
 namespace uking::action {
 
@@ -48,6 +55,29 @@ void CollaboShootingStartFlying::loadParams_() {
 
 void CollaboShootingStartFlying::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool CollaboShootingStartFlying::sub_71000E1384() {
+    auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return false;
+    sead::Vector3f look;
+    camera->getLookVectorByMatrix(&look);
+    if ((mActor->getMtx().getTranslation() - camera->getPos()).dot(look) < 0) {
+        if (auto* viewport = ksys::CameraMgr::instance()->sub_7100D8C4C8()) {
+            sead::PerspectiveProjection projection;
+            sub_7100D8AED0(camera, &projection);
+            sead::Vector2f screen;
+            camera->projectByMatrix(&screen, mActor->getMtx().getTranslation(), projection,
+                                    *viewport);
+            screen.x /= viewport->getSizeX();
+            screen.y /= viewport->getSizeY();
+            if (!(screen.x > -0.5f && screen.x < 0.5f))
+                return false;
+            return screen.y > -0.5f && screen.y < 0.5f;
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::action
