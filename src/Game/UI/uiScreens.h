@@ -2917,7 +2917,8 @@ struct PictureBookGroupList {
     /* 0x18 */ sead::Vector2f _18 = sead::Vector2f::ones;
     // Layout sizes read and written by ScreenAppPictureBookEntry 93bb48 / 93bdfc / 93c040.
     /* 0x20 */ sead::Vector2f _20 = sead::Vector2f::zero;
-    u8 _28[0x30 - 0x28];
+    // the list's origin (sub_7100944BC4)
+    /* 0x28 */ sead::Vector2f _28;
     /* 0x30 */ sead::Vector2f _30 = sead::Vector2f::zero;
     /* 0x38 */ sead::Vector2f _38 = sead::Vector2f::zero;
     /* 0x40 */ sead::Vector2f _40 = sead::Vector2f::zero;
@@ -3026,6 +3027,9 @@ struct ScreenAppPictureBookUnk {
     void sub_7100943FE0(sead::Heap* heap, s32 count);
     // 0x71009419e0 (declared only; 592 bytes): the position of item `index` of entry `entry` (zero when invalid)
     void sub_71009419E0(s32 index, s32 entry, sead::Vector2f* out);
+    // 0x7100944bc4 (placeholder name): the position of the unit at (`col`, `row`) of item `index` of entry
+    // `entry_index` (zero when there is none)
+    sead::Vector2f sub_7100944BC4(s32 index, s32 col, s32 row, s32 entry_index);
     // 0x7100944d18 (placeholder name): the column / row of item `index` of `entry` for the item order modes _64 / _68
     void sub_7100944D18(const ScreenAppPictureBookEntry* entry, s32 index, s32* x, s32* y) const;
     // 0x7100941c30 (placeholder name): the item (and its entry) whose box, moved by `offset`, contains the origin;
@@ -3078,7 +3082,9 @@ struct ScreenAppPictureBookUnk {
     /* 0x2e8 */ s32 _2e8;
     /* 0x2ec */ s32 _2ec;
     /* 0x2f0 */ s32 _2f0;
-    u8 _2f4[0x30c - 0x2f4];
+    u8 _2f4[0x304 - 0x2f4];
+    // added to the item positions (sub_7100944BC4)
+    /* 0x304 */ sead::Vector2f _304;
     /* 0x30c */ s32 _30c;
     /* 0x310 */ s32 _310;
     /* 0x318 */ PictureBookItem* _318;

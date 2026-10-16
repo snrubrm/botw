@@ -788,6 +788,29 @@ void ScreenAppPictureBookUnk::sub_71009418D0(f32 delta, s32 mode) {
         sub_7100941D70(mode != 2);
 }
 
+// NON_MATCHING: the original adds the item offset first and copies Vector2f::zero as one 64-bit value; register
+// allocation
+// 0x7100944bc4
+sead::Vector2f ScreenAppPictureBookUnk::sub_7100944BC4(s32 index, s32 col, s32 row, s32 entry_index) {
+    sead::Vector2f pos = sead::Vector2f::zero;
+    if (entry_index < 0 || mEntries.size() < 1 || entry_index >= _2a8)
+        return pos;
+    sub_71009419E0(index, entry_index, &pos);
+    ScreenAppPictureBookEntry* entry = mEntries(entry_index);
+    PictureBookGroupList* list = entry->mGroupList;
+    if (list->mUnits.size() >= 1) {
+        const s32 count = entry->mParams._2a0 * entry->mParams._2a4;
+        for (s32 i = 0; i < count; ++i) {
+            Unk_7102474e38* unit = list->mUnits(0)->mUnits.at(i);
+            if (unit->_40 == col && unit->_44 == row) {
+                return list->_28 + _304 + (pos + unit->_34 + _2c0);
+            }
+        }
+    }
+    pos = sead::Vector2f::zero;
+    return pos;
+}
+
 // 0x7100944d18
 void ScreenAppPictureBookUnk::sub_7100944D18(const ScreenAppPictureBookEntry* entry, s32 index, s32* x,
                                              s32* y) const {
