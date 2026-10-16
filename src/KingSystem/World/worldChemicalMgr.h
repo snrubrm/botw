@@ -15,6 +15,9 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/World/worldJob.h"
 
+class ElementName;
+class Unk_71025187d0;
+
 namespace ksys::world {
 class ChemicalMgr;
 }
@@ -278,7 +281,7 @@ KSYS_CHECK_SIZE_NX150(Unk_71010cb1f0, 0x70);
 class Unk_710250cac8 {
 public:
     virtual ~Unk_710250cac8();
-    virtual void* m2(void* arg) { return nullptr; }
+    virtual void* m2(const ElementName* name) { return nullptr; }
     virtual void m3(const sead::Vector3f* pos) {}
     virtual void m4() {}
 };
@@ -296,7 +299,7 @@ public:
     // sub_71010CBF7C with the element holder `_ae8` (null without one).
     void m3(const sead::Vector3f* pos) override;
     void m4() override;
-    void* m2(void* arg) override;
+    void* m2(const ElementName* name) override;
 
     JobType getType() const override { return JobType::Chemical; }
 
@@ -365,9 +368,9 @@ KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);
 
 // 0x71010cbf7c (declaration only): called by ChemicalMgr::m2 with (`_ae8`, {arg, `_ae8`}).
 struct Unk_ChemicalMgrM2Arg {
-    void* arg;
+    const ElementName* name;
     act::Unk_71024dd490* holder;
 };
-void* sub_71010CBF7C(act::Unk_71024dd490* holder, Unk_ChemicalMgrM2Arg* arg);
+Unk_71025187d0* sub_71010CBF7C(act::Unk_71024dd490* holder, Unk_ChemicalMgrM2Arg* arg);
 
 }  // namespace ksys::world

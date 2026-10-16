@@ -347,10 +347,10 @@ inline void ChemicalMgr::m4() {
     _b10 = 0;
 }
 
-inline void* ChemicalMgr::m2(void* arg) {
+inline void* ChemicalMgr::m2(const ElementName* name) {
     if (!_ae8)
         return nullptr;
-    Unk_ChemicalMgrM2Arg m2_arg{arg, _ae8};
+    Unk_ChemicalMgrM2Arg m2_arg{name, _ae8};
     return sub_71010CBF7C(_ae8, &m2_arg);
 }
 

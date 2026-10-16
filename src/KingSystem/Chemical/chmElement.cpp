@@ -168,3 +168,47 @@ void Unk_7102518688::setRigidBody(ksys::phys::RigidBody* body, bool add_to_world
     m8();
     updateRadius();
 }
+
+Unk_71025187d0::Unk_71025187d0(const ksys::world::Unk_ChemicalMgrM2Arg& arg, sead::Heap* heap)
+    : Unk_7102518688(*arg.name, heap, false) {
+    emitWrap(*arg.name, arg.holder);
+}
+
+Unk_71025187d0::~Unk_71025187d0() {
+    notifyChemicalMaybe();
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+    _50 = nullptr;
+}
+
+void Unk_71025187d0::m35() {
+    if (mHolder->_18 & 4)
+        _50 = nullptr;
+
+    const bool added = _48->isAddedToWorld() || _48->isAddingBodyToWorld();
+    if (_50) {
+        if (_50->hasFlag(ksys::phys::RigidBody::Flag::_4)) {
+            notifyChemicalMaybe();
+            _48->removeFromWorldAndResetLinks();
+            return;
+        }
+        if (!_50->isAddedToWorld() && !_50->isAddingBodyToWorld()) {
+            if (added) {
+                notifyChemicalMaybe();
+                _48->removeFromWorld();
+            }
+            return;
+        }
+    }
+    if (!added)
+        _48->addToWorld();
+}
+
+void Unk_71025187d0::m36() {
+    if (mHolder->_18 & 4)
+        _50 = nullptr;
+    else if (_50)
+        sub_710127DB28();
+}

@@ -195,3 +195,30 @@ public:
     /* 0x44 */ f32 mRadius = 1.0f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102518688, 0x48);
+
+namespace ksys::world {
+struct Unk_ChemicalMgrM2Arg;
+}
+
+// vtable 0x71025187d0: an element with a second rigid body; created by ksys::world::sub_71010CBF7C
+// (ChemicalMgr::m2) in a 0x2000-byte "ElementHolder" heap. Functions 0x710127d1d4 .. 0x710127e230.
+class Unk_71025187d0 : public Unk_7102518688 {
+    SEAD_RTTI_OVERRIDE(Unk_71025187d0, Unk_7102518688)
+public:
+    // 0x710127d1d4
+    Unk_71025187d0(const ksys::world::Unk_ChemicalMgrM2Arg& arg, sead::Heap* heap);
+    ~Unk_71025187d0() override;
+    bool m29(const ElementName& name, sead::Heap* heap) override;
+    void m33() override;
+    void m35() override;
+    void m36() override;
+
+    // 0x710127db28 (declared only; 820 bytes).
+    void sub_710127DB28();
+
+    /* 0x48 */ ksys::phys::RigidBody* _48 = nullptr;
+    /* 0x50 */ ksys::phys::RigidBody* _50 = nullptr;
+    /* 0x58 */ void* _58;
+    /* 0x60 */ void* _60;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025187d0, 0x68);

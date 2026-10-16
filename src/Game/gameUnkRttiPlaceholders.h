@@ -1038,23 +1038,6 @@ public:
     virtual void m4();
 };
 
-// vtable 0x71025187d0 (39 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71025187d0 : public Unk_7102518688 {
-    SEAD_RTTI_OVERRIDE(Unk_71025187d0, Unk_7102518688)
-public:
-    ~Unk_71025187d0() override;
-    bool m29(const ElementName& name, sead::Heap* heap) override;
-    void m30() override;
-    bool m31() override;
-    void m32() override;
-    void m33() override;
-    void m34() override;
-    void m35() override;
-    void m36() override;
-    bool m37() override { return true; }
-    void m38() override {}
-};
-
 // vtable 0x71025193e8 (13 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71025193e8 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025193e8, Unk_7102519378)
