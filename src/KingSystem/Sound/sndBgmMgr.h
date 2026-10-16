@@ -1099,7 +1099,9 @@ public:
     /* 0x98 */ Unk_71024fefe8* _98 = nullptr;
     /* 0xa0 */ Unk_71024feae8* _a0 = nullptr;
     /* 0xa8 */ void* _a8;
-    /* 0xb0 */ void* _b0 = nullptr;
+    // 0x7100ffb7e8: 0 = no source volume, 1 = following the source, 2 = source lost (timer _b4 running).
+    /* 0xb0 */ u32 _b0 = 0;
+    /* 0xb4 */ f32 _b4 = 0.0f;
     /* 0xb8 */ aal::Group* mGroup = nullptr;
     /* 0xc0 */ aal::Handle _c0;
     /* 0xd0 */ aal::SimpleTimedFader _d0{0.0f};

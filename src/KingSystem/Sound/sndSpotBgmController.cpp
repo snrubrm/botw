@@ -1,4 +1,7 @@
+#include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
+#include <aal/aalSoundSource.h>
+#include <math/seadMathCalcCommon.h>
 #include <aal/aalSystemAccessor.h>
 #include <math/seadVector.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -57,6 +60,60 @@ void Unk_710260f198::m5() {
         mBossBgms->sub_710100D694();
     _8.sub_7100FF7698();
     sub_7100FFB7E8();
+}
+
+// 0x710260f1d8: the fade curve 0x7100ffb7e8 applies to the source volume (never written; hidden so that it is not
+// folded to its initial value).
+KSYS_VISIBILITY_HIDDEN aal::FadeCurveType sUnk_710260F1D8;
+
+// 0x71024fce78: how long (seconds) the source may be lost before the volume fades out, and the fade time.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024FCE78[2] = {2.0f, 1.0f};
+
+// NON_MATCHING: the original reads the curve type from this TU's merged statics (0x710260f1d0 + 8) and keeps the
+// fader address in a register.
+// Follows the spatial volume of the sound source of _c0 with the group volume, holding it for a while when the
+// source is lost and limiting each step to 0.1.
+void Unk_710260f198::sub_7100FFB7E8() {
+    if (!mGroup)
+        return;
+    bool found = false;
+    if (auto* source = _c0.getSoundSource()) {
+        if (auto* result = source->getSpatialCalcResult(0)) {
+            _d0.setValueImmediate(result->volume);
+            found = true;
+        }
+    }
+    switch (_b0) {
+    case 0:
+        if (found)
+            _b0 = 1;
+        break;
+    case 1:
+        if (!found) {
+            _b0 = 2;
+            _b4 = 0.0f;
+        }
+        break;
+    case 2:
+        if (found) {
+            _b0 = 1;
+            _b4 = 0.0f;
+            break;
+        }
+        _b4 += sub_710105E3A4();
+        if (_b4 >= sUnk_71024FCE78[0]) {
+            _b4 = sUnk_71024FCE78[0];
+            _d0.moveTo(0.0f, sUnk_71024FCE78[1]);
+            _b0 = 0;
+        }
+        break;
+    }
+    _d0.calc();
+    const f32 volume = aal::SimpleTimedFader::toCurvedValue(sUnk_710260F1D8,
+                                                            sead::Mathf::clamp(1.0f - _d0.getValue(), 0.0f, 1.0f));
+    const f32 new_volume = sead::Mathf::clamp(volume, _e8 - 0.1f, _e8 + 0.1f);
+    mGroup->getParam().setVolume(new_volume);
+    _e8 = new_volume;
 }
 
 void Unk_710260f198::m6(f32 fade_sec) {
