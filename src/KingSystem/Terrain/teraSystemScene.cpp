@@ -1,6 +1,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include <prim/seadStringUtil.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
 
 namespace ksys::tera {
@@ -103,6 +104,37 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
 }
 
 // NON_MATCHING: bit 7 of the debug byte is tested through a sign-extending load in ours.
+// NON_MATCHING: stack layout of the token iterator and the string.
+bool System::sub_710111B16C(const sead::SafeString& version) {
+    u32 major = -1;
+    u32 minor = -1;
+    auto it = version.tokenBegin(".");
+    sead::FixedSafeString<64> token;
+    it.getAndForward(&token);
+    sead::StringUtil::tryParseU32(&major, token, sead::StringUtil::CardinalNumber::BaseAuto);
+    it.getAndForward(&token);
+    sead::StringUtil::tryParseU32(&minor, token, sead::StringUtil::CardinalNumber::BaseAuto);
+
+    if (major == 10) {
+        if (minor == 0)
+            return true;
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log("【データロード】マイナーバージョンの不一致");
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        return false;
+    }
+    if (major == 9 && minor == 1)
+        return true;
+    if (auto* debug = Terrain::instance()->_a50) {
+        auto entry = debug->_70.log("【データロード】メジャーバージョンの不一致");
+        if (entry.buffer)
+            entry.buffer->setDisplayTime(10.0f);
+    }
+    return false;
+}
+
 void System::sub_7101115584(s32 index, Unk_7101115584Arg* arg) {
     if (!_8)
         return;

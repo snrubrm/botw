@@ -838,6 +838,9 @@ public:
     bool parseSceneXmlMaybe(sead::Heap* heap, sead::XmlElement* element);
     // 0x7101114cc8 (declaration only; CSV name).
     void x_3();
+    // 0x710111b16c (placeholder name): whether the scene version "<major>.<minor>" is 10.0 or 9.1; logs
+    // a major / minor version mismatch otherwise. Called by parseSceneXmlMaybe (`this` is not used).
+    bool sub_710111B16C(const sead::SafeString& version);
     // 0x7101115584 (placeholder name): under the read lock, marks scene `index` (_88) and runs its
     // sub_7101100F08 with `arg`, then sub_7101115338 (if arg->_198 and the debug bit allows) and
     // sub_7101115674.
