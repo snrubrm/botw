@@ -506,6 +506,8 @@ public:
     void m30() override;
     void m31() override;
     void m32() override;
+    // 0x71009520d4 (CSV unnamed; not decompiled): called at the end of m29
+    void sub_71009520D4();
 
     sead::SafeString _68;
     ksys::gdt::FlagHandle _78;

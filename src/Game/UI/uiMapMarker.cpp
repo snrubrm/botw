@@ -140,6 +140,40 @@ void Unk_71024754c0::m12() {
     _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
 }
 
+// 0x7101e7ce54: two display values per marker type (46 types; the default type is 45)
+struct MarkerTypeInfo {
+    s32 _0;
+    s32 _4;
+};
+static const MarkerTypeInfo sUnk_7101e7ce54[46] = {
+    {0, 0},   {1, 1},   {2, 2},   {3, 3},   {4, 4},   {5, 5},   {6, 6},   {7, 7},   {7, 8},   {7, 9},
+    {7, 10},  {8, 11},  {8, 12},  {8, 13},  {8, 14},  {8, 15},  {9, 16},  {11, 18}, {12, 19}, {13, 20},
+    {14, 21}, {15, 22}, {16, 23}, {17, 24}, {18, 25}, {19, 26}, {20, 27}, {21, 28}, {21, 28}, {21, 28},
+    {21, 28}, {21, 28}, {21, 28}, {21, 28}, {21, 28}, {21, 28}, {21, 28}, {22, 29}, {22, 29}, {22, 29},
+    {22, 29}, {22, 29}, {23, 30}, {10, 17}, {24, 31}, {25, 33},
+};
+
+// inline-only in the original; name is a guess: the m29 of Unk_71024754c0 / Unk_71024755d8 / Unk_7102475808
+// (0x710095192c / 0x7100951ff8 / 0x71009535a0) each clamp the type and index the table twice
+static const MarkerTypeInfo& getMarkerTypeInfo(s32 type) {
+    return sUnk_7101e7ce54[sead::Mathi::clamp(type, 0, 45)];
+}
+
+// 0x710095192c
+// NON_MATCHING: the original stores the type to the stack and reloads it before the compare with _1c.
+void Unk_71024754c0::m29(Unk_710095192c* entry) {
+    const s32 type = entry->_48;
+    if (type != _1c) {
+        _3c |= 0x4000;
+        _1c = type;
+    }
+    _20 = getMarkerTypeInfo(entry->_48)._0;
+    _24 = getMarkerTypeInfo(entry->_48)._4;
+    updateDistrictFromPos(&entry->_38);
+    _3c = entry->_8 ? _3c | 0x800 : _3c & ~0x800;
+    _58 = entry;
+}
+
 void Unk_71024754c0::m30() {
     auto* entry = _58;
     if (entry && entry->_10 && *entry->_10)
@@ -199,6 +233,13 @@ Unk_71024755d8::~Unk_71024755d8() {
     _84 = ksys::gdt::InvalidHandle;
 }
 
+// 0x7100951ff8
+// NON_MATCHING: as Unk_71024754c0::m29 (the type is spilled to the stack in the original).
+void Unk_71024755d8::m29(Unk_710095192c* entry) {
+    Unk_71024754c0::m29(entry);
+    sub_71009520D4();
+}
+
 void Unk_71024755d8::m9() {
     if (!(_3c & 8))
         _3c &= ~0x7566;
@@ -254,6 +295,24 @@ void Unk_71024755d8::m32() {
 Unk_7102475808::~Unk_7102475808() {
     _64 = false;
     _68 = ksys::gdt::InvalidHandle;
+}
+
+// 0x71025d6f08 (in the TU's merged static block at 0x71025d6c70)
+static sead::SafeString sUnk_71025d6f08 = "MapTower_";
+
+// 0x7100953684
+// NON_MATCHING: the original reaches sUnk_71025d6f08 through the TU's merged static block (+0x298).
+void Unk_7102475808::m30() {
+    Unk_71024754c0::m30();
+    sead::FormatFixedSafeString<64> name("%s%02d", sUnk_71025d6f08.cstr(), _44 + 1);
+    _68 = ksys::gdt::Manager::instance()->getBoolHandle(name);
+}
+
+// 0x71009535a0
+// NON_MATCHING: as Unk_71024754c0::m29 (the type is spilled to the stack in the original).
+void Unk_7102475808::m29(Unk_710095192c* entry) {
+    Unk_71024754c0::m29(entry);
+    m30();
 }
 
 void Unk_7102475808::m9() {
