@@ -157,13 +157,18 @@ public:
     // 0x7102501140: the sizes that separate the four unifiers.
     static f32 sSizeThresholds[3];
 
+    // 0x7101027554 (declared only)
+    SpeakerBalanceUnifierMgr();
     virtual ~SpeakerBalanceUnifierMgr();
+    // 0x71010276f0 (declared only): called with the heap right after construction.
+    void sub_71010276F0(sead::Heap* heap);
 
     // 0x710102780c obtains this actor through the handle; 0x7101027ce8 clears both.
     act::BaseProcHandle mHandle;
     act::Actor* mActor;
     /* 0x20 */ sead::CriticalSection mCS;
     /* 0x60 */ sead::PtrArray<aal::SpeakerBalanceUnifier> mUnifiers;
+    u8 _70[0xb0 - 0x70];
 };
 
 // Placeholder name (SoundMgr::_38::_28; lane5 s6): the occlusion volume state of the sound manager, used by the
@@ -246,28 +251,58 @@ public:
 // the method that Unk_SoundMgr38::sub_710102AEC4 calls on each is declared (all declared only).
 class Unk_SoundMgr38_8 {
 public:
+    // 0x710102c1d8 (declared only)
+    Unk_SoundMgr38_8();
     virtual ~Unk_SoundMgr38_8();
+    // 0x710102c388 (declared only): called with the heap right after construction.
+    void sub_710102C388(sead::Heap* heap);
     void sub_710102C81C();
+
+    u8 _8[0xb8 - 0x8];
 };
 class Unk_SoundMgr38_10 {
 public:
+    // 0x7101031010 (declared only)
+    Unk_SoundMgr38_10();
     virtual ~Unk_SoundMgr38_10();
+    // 0x71010317b4 (declared only): called with the heap right after construction.
+    void sub_71010317B4(sead::Heap* heap);
     void sub_71010333F0();
+
+    u8 _8[0x1950 - 0x8];
 };
 class Unk_SoundMgr38_18 {
 public:
+    // 0x710102cfdc (declared only)
+    Unk_SoundMgr38_18();
     virtual ~Unk_SoundMgr38_18();
+    // 0x710102d9c0 (declared only): called with the heap right after construction.
+    void sub_710102D9C0(sead::Heap* heap);
     void sub_710102EE60();
+
+    u8 _8[0xa828 - 0x8];
 };
 class Unk_SoundMgr38_38 {
 public:
+    // 0x7101039f00 (declared only)
+    Unk_SoundMgr38_38();
     virtual ~Unk_SoundMgr38_38();
+    // 0x710103a034 (declared only): called with the heap right after construction.
+    void sub_710103A034(sead::Heap* heap);
     void sub_710103A084();
+
+    u8 _8[0xd8 - 0x8];
 };
 class Unk_SoundMgr38_40 {
 public:
+    // 0x71012be294 (declared only)
+    Unk_SoundMgr38_40();
     virtual ~Unk_SoundMgr38_40();
+    // 0x71012be5f4 (declared only): called with the heap right after construction.
+    void sub_71012BE5F4(sead::Heap* heap);
     void sub_71012BEC28();
+
+    u8 _8[0x2f0 - 0x8];
 };
 class Unk_SoundMgr38_50 {
 public:
@@ -301,6 +336,8 @@ public:
     void sub_710102B4B8();
     // 0x710102aec4: stops the sub-managers (only while _70 is set) and the xlink2 user's events.
     void sub_710102AEC4();
+    // 0x710102a28c: creates the sub-managers _8 / _10 / _18 / _20 / _30 / _38 / _40 on `heap`.
+    void init(sead::Heap* heap);
 
     Unk_SoundMgr38_8* _8 = nullptr;
     Unk_SoundMgr38_10* _10 = nullptr;

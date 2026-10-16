@@ -184,6 +184,25 @@ Unk_SoundMgr38::~Unk_SoundMgr38() {
     _138 = nullptr;
 }
 
+// NON_MATCHING: our build inlines the Unk_SoundMgr38_20 constructor (defined above in this TU)
+void Unk_SoundMgr38::init(sead::Heap* heap) {
+    _8 = new (heap) Unk_SoundMgr38_8;
+    _8->sub_710102C388(heap);
+    _10 = new (heap) Unk_SoundMgr38_10;
+    _10->sub_71010317B4(heap);
+    _18 = new (heap) Unk_SoundMgr38_18;
+    _18->sub_710102D9C0(heap);
+    _20 = new (heap) Unk_SoundMgr38_20;
+    _20->sub_7101029958(heap);
+    _30 = new (heap) SpeakerBalanceUnifierMgr;
+    _30->sub_71010276F0(heap);
+    _38 = new (heap) Unk_SoundMgr38_38;
+    _38->sub_710103A034(heap);
+    _40 = new (heap) Unk_SoundMgr38_40;
+    _40->sub_71012BE5F4(heap);
+    _70 = false;
+}
+
 void Unk_SoundMgr38::sub_710102AEC4() {
     if (_70) {
         if (_8)
