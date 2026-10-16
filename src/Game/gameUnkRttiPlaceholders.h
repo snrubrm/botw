@@ -1183,13 +1183,6 @@ public:
     u64 _40 = 0;
 };
 
-// vtable 0x7102516b30 (84 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102516b30 : public Unk_71024f4720 {
-    SEAD_RTTI_OVERRIDE(Unk_7102516b30, Unk_71024f4720)
-public:
-    ~Unk_7102516b30() override;
-};
-
 // vtable 0x7102516f88 (11 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102516f88 : public ksys::act::ActorBind {
     SEAD_RTTI_OVERRIDE(Unk_7102516f88, ksys::act::ActorBind)
@@ -1804,8 +1797,10 @@ public:
 };
 
 // vtable 0x710251f878 (85 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710251f878 : public Unk_71024f4720 {
-    SEAD_RTTI_OVERRIDE(Unk_710251f878, Unk_71024f4720)
+// Its D2 0x71012ff93c ends with ~IModelProcedural: a direct subclass (its RTTI type is
+// RuntimeTypeInfo::Derive<gsys::IModelProcedural>, shared with ksys::act::ClusteredRenderer).
+class Unk_710251f878 : public gsys::IModelProcedural {
+    SEAD_RTTI_OVERRIDE(Unk_710251f878, gsys::IModelProcedural)
 public:
     ~Unk_710251f878() override;
 };

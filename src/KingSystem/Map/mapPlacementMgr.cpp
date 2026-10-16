@@ -367,7 +367,7 @@ bool PlacementMgr::sub_71011EB32C(u32 idx) const {
 
 bool PlacementMgr::sub_71011EB37C() const {
     if (mClusteredRenderer)
-        return (mClusteredRenderer->_c9c & 0xc) != 8;
+        return (mClusteredRenderer->mData2._c9c & 0xc) != 8;
     return true;
 }
 
@@ -477,14 +477,14 @@ void PlacementMgr::clusteredRendererRequestDraw() {
     if (!mClusteredRenderer)
         return;
 
-    if (!(mClusteredRenderer->_c9c & 0x20)) {
+    if (!(mClusteredRenderer->mData2._c9c & 0x20)) {
         mClusteredRenderer->requestDraw();
         return;
     }
 
-    mClusteredRenderer->_c9c &= ~0x20;
+    mClusteredRenderer->mData2._c9c &= ~0x20;
     mClusteredRenderer->requestDraw();
-    mClusteredRenderer->_c9c |= 0x20;
+    mClusteredRenderer->mData2._c9c |= 0x20;
 }
 
 void PlacementMgr::updateTimeDivisionFlags(bool on) {
