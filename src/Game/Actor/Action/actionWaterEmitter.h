@@ -2,6 +2,7 @@
 
 #include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71002b464c (placeholder name): `offset` in world space, relative to the bind bone if found, else to the actor.
+    sead::Vector3f sub_71002B464C(const sead::Vector3f& offset) const;
 
     // static_param at offset 0x20
     const int* mEffectType_s{};
@@ -33,8 +36,8 @@ protected:
     const sead::Vector3f* mOffset_s{};
     // static_param at offset 0x58
     const sead::Vector3f* mVelocityDir_s{};
-    u64 _60 = 0;
-    f32 _68 = 0.0f;
+    // Emission interval timer (value / previous value cleared in enter_ and after each emission; rate 1).
+    ksys::Timer mTimer;
     u8 _6c[0x4];
     gsys::BoneAccessKeyEx _70;
 };
