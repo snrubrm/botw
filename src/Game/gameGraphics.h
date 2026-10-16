@@ -281,8 +281,21 @@ public:
     Unk_a98* getUnk_a98() const { return _a98; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
 
+public:
+    // Placeholder: the object at 0x118 (SkyMgr::sub_71010E37C8 copies the sky light direction to _1c0).
+    struct Unk_118 {
+        u8 _0[0x1c0];
+        sead::Vector3f _1c0;
+    };
+
 private:
-    u8 _0[0x150];
+    u8 _0[0x118];
+
+public:
+    /* 0x118 */ Unk_118* _118;
+
+private:
+    u8 _120[0x150 - 0x120];
 
 public:
     // 0x150: the model scenes (lane5 s3: SystemApplyEnvSetAction::enter_).

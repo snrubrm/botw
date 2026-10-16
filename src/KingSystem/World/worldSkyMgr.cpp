@@ -491,6 +491,11 @@ void SkyMgr::sub_71010E50B0(f32 x, f32 y) {
     _3f20.y = y;
 }
 
+void SkyMgr::sub_71010E37C8() {
+    if (auto* unk = Graphics::instance()->_118)
+        unk->_1c0 = _3f08;
+}
+
 void SkyMgr::onTimeUpdate() {
     const f32 time = Manager::instance()->getTimeMgr()->getTimeForSkyEnv();
     _3f30 = 0;

@@ -159,6 +159,8 @@ public:
     int getWeatherStormRate(Climate climate) const;
 
     void calc1(sead::WorkerMgr* mgr);
+    // 0x71010f7a78 (CSV WorldMgr::x; placeholder name): SkyMgr::sub_71010E37C8.
+    void sub_71010F7A78();
     void calc2(sead::WorkerMgr* mgr);
     void calc3(sead::WorkerMgr* mgr);
 

@@ -1022,6 +1022,10 @@ act::Unk_71024dd490* Manager::getChemicalMgrFieldAE8() const {
     return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8))->_ae8;
 }
 
+void Manager::sub_71010F7A78() {
+    getSkyMgr()->sub_71010E37C8();
+}
+
 void Manager::sub_71010F7904(bool enabled) {
     if (auto* holder = getChemicalMgrUnchecked()->_ae8) {
         holder->_c8 = enabled ? holder->_c8 | 0x200000 : holder->_c8 & ~0x200000;

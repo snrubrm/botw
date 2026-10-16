@@ -140,6 +140,8 @@ public:
 
     void reset();
     void onTimeUpdate();
+    // 0x71010e37c8 (CSV wm::CloudMgr::x; placeholder name): copies the light direction _3f08 to Graphics::_118.
+    void sub_71010E37C8();
     // 0x71010e2468 / 0x71010e2908: wind/cloud and sun-direction updates (declarations only).
     void sub_71010E2468();
     void sub_71010E2908();
