@@ -1,4 +1,7 @@
 #include "Game/Actor/Action/actionSwarmGullMove.h"
+#include <aal/aalListener.h>
+#include <aal/aalListenerMgr.h>
+#include <aal/aalSystemAccessor.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
@@ -48,6 +51,38 @@ void SwarmGullMove::loadParams_() {
 
 void SwarmGullMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool SwarmGullMove::sub_71002870D4(const sead::Vector3f& pos) {
+    f32 distance = 0.0f;
+    if (auto* listener_mgr = aal::SystemAccessor::getListenerMgr()) {
+        if (auto* listener = listener_mgr->getListener(0)) {
+            distance = listener->calcLocalDistance(pos);
+            if (distance > 60.0f)
+                return false;
+        }
+    }
+
+    if (!_1b0.isFull()) {
+        if (auto* point = _1b0.emplaceBack()) {
+            point->distance = distance;
+            point->pos = pos;
+            return true;
+        }
+    }
+
+    _1b0.insertionSort(
+        [](const CryPoint* a, const CryPoint* b) { return a->distance > b->distance; });
+
+    if (_1b0.size() > 0) {
+        auto* farthest = _1b0.back();
+        if (farthest && farthest->distance > distance) {
+            farthest->distance = distance;
+            farthest->pos = pos;
+            return true;
+        }
+    }
+    return false;
 }
 
 void SwarmGullMove::sub_7100287290() {

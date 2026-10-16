@@ -43,6 +43,9 @@ protected:
     void sub_71002868BC();
     // 0x7100287830 (declared only; 488 B): releases the gull's resources before its object is told to stop.
     void sub_7100287830(Gull* gull);
+    // 0x71002870d4 (placeholder name): queues a cry sound position unless the listener is farther than 60; when
+    // the queue is full, it replaces the farthest queued position if the new one is nearer.
+    bool sub_71002870D4(const sead::Vector3f& pos);
     // 0x7100287290 (placeholder name): emits the "flap" sound at every queued position, then clears the queue.
     void sub_7100287290();
 
@@ -76,8 +79,11 @@ protected:
     Gull _70[10];
     // Queued cry sound positions (sub_71002870D4 keeps the nearest ones; sub_7100287290 plays "flap" at each).
     struct CryPoint {
+        // User-provided: 0x71002870d4 constructs a queue entry without zeroing it first.
+        CryPoint() {}
+
         f32 distance = std::numeric_limits<f32>::max();
-        sead::Vector3f pos = {0, 0, 0};
+        sead::Vector3f pos = sead::Vector3f::zero;
     };
     sead::ObjList<CryPoint> _1b0;
     s32 _1e0 = 0;
