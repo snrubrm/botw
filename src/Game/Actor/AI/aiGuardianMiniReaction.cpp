@@ -2,6 +2,14 @@
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007091AC.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -185,6 +193,113 @@ void GuardianMiniReaction::m42(ksys::act::ai::InlineParamPack* params) {
     if (auto* lod = mActor->getLodState())
         lod->mFlags26.set(1);
     EnemyDefaultReaction::m42(params);
+}
+
+
+// NON_MATCHING: the original leaves w4 (the unused fourth argument of sub_71004201A4) unset; the final child
+// name choice is laid out differently.
+void GuardianMiniReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
+                               ksys::act::ai::InlineParamPack* params) {
+    if (u32(damage_type - 7) < 2) {
+        const bool from_player = damage_mgr && ksys::act::isPlayerProfile(damage_mgr->getAttacker());
+        if (sub_710041F990(from_player))
+            return;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("ショック", &pack);
+        mActor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+        return;
+    }
+
+    const char* child;
+    switch (damage_type) {
+    case 6: {
+        s32 a, b, c;
+        s32 side;
+        auto* actor = mActor;
+        if (actor && actor->getASList() && actor->getASList()->x_1(1, 0) == "AttackSpin") {
+            a = 0;
+            b = 1;
+            c = 2;
+            auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+            if (!enemy) {
+                side = -1;
+            } else {
+                auto* weapon =
+                    sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(0));
+                if (weapon && hasAttackInfo(weapon)) {
+                    side = 0;
+                } else {
+                    weapon = sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(1));
+                    if (weapon && hasAttackInfo(weapon)) {
+                        side = 1;
+                    } else {
+                        weapon =
+                            sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(2));
+                        if (weapon && hasAttackInfo(weapon))
+                            side = 2;
+                        else
+                            side = -1;
+                    }
+                }
+            }
+        } else {
+            sub_71007091AC(mActor, &a, &b, &c);
+            if (!mActor->getASList()) {
+                side = -1;
+            } else {
+                const sead::SafeString name = mActor->getASList()->x_1(0, 0);
+                if (name == mPreAttackASRight_s)
+                    side = 0;
+                else if (name == mPreAttackASLeft_s)
+                    side = 1;
+                else
+                    side = -1;
+            }
+        }
+        sub_71004201A4("Wait", a, b, c, -1);
+        switch (side) {
+        case 2:
+            changeChild("後ろ手弾かれ");
+            break;
+        case 1:
+            changeChild("左手弾かれ");
+            break;
+        default:
+            changeChild("弾かれ");
+            break;
+        }
+        const sead::SafeString anim = "MissWait";
+        auto* target = mActor;
+        if (!target)
+            return;
+        auto* as_list = target->getASList();
+        if (!as_list || !sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(target))
+            return;
+        as_list->startAnimationMaybe(-1.0f, -1.0f, anim.cstr(), 0, 0, true);
+        return;
+    }
+    case 9:
+    case 11:
+    case 14: {
+        s32 a, b, c;
+        sub_71007091AC(mActor, &a, &b, &c);
+        sub_71004201A4("Wait", a, b, c, -1);
+        child = "ガードブレイク";
+        break;
+    }
+    case 12: {
+        s32 a, b, c;
+        sub_71007091AC(mActor, &a, &b, &c);
+        sub_71004201A4("Wait", a, b, c, -1);
+        child = "ガード";
+        break;
+    }
+    default:
+        EnemyDefaultReaction::m35(damage_mgr, damage_type, x, params);
+        return;
+    }
+    changeChild(child);
 }
 
 }  // namespace uking::ai
