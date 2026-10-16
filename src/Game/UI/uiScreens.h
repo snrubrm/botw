@@ -1018,12 +1018,15 @@ public:
     void m90() override;
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
+    // 0x7100a19c7c
+    void m84() override;
     // 0x7100a19d78
     void m98() override;
 
     u8 _pad_3610[0x3620 - 0x3610];
     /* 0x3620 */ void* _3620;
-    u8 _pad_3628[0x3638 - 0x3628];
+    /* 0x3628 */ eui::Animator* _3628;  // stopped at the main screen mode frame (m84)
+    u8 _pad_3630[0x3638 - 0x3630];
     // The screen's children (indices 0 - 6 of sub_7100A1A3C8 / sub_7100A1A460 are 3638, 3640, 3648, 3678, 3650, 3660,
     // 3658)
     /* 0x3638 */ ScreenChild* _3638;
@@ -1032,7 +1035,8 @@ public:
     /* 0x3650 */ ScreenChild* _3650;
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
     /* 0x3660 */ ScreenChild* _3660;
-    u8 _pad_3668[8];
+    u8 _pad_3668[4];
+    /* 0x366c */ s32 _366c;  // the frame _3628 was last stopped at
     /* 0x3670 */ bool _3670;
     u8 _pad_3671[7];
     /* 0x3678 */ Unk_7102474c08 _3678;  // 0x38 bytes (0x7100a1ab68 / 0x7100a1ab94 call into it)
@@ -1064,6 +1068,8 @@ public:
     /* 0x3ce8 */ Unk_710248ea70 mGaugeHelper;
     // Full ctor A17AF8 and setup A18464 group 7 cast through native RTTI 25DAC48.
     /* 0x3d68 */ Unk_710247c368* _3d68;
+    u8 _pad_3d70[0x3dca - 0x3d70];
+    /* 0x3dca */ bool _3dca;  // set by m84 while the main screen is on
 
     void sub_7100A1AC14();
     void sub_7100A1AC24(bool stop);

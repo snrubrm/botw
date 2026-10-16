@@ -21,6 +21,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/UI/uiManager.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameRoot1.h"
 #include "Game/gameRuneMgr.h"
@@ -418,6 +419,37 @@ void ScreenPauseMenuInfo::sub_7100A31BE0() {
         _3904 = 2;
     if (_391c == 1)
         _391c = 2;
+}
+
+// 0x7100a19c7c
+// NON_MATCHING: the original sets the frame and runs the _3628 / _366c update in each branch (tail-merged), so the
+// state-5 condition branches instead of using a csel
+void ScreenMainScreen::m84() {
+    if (_3628 && !sub_7100AA8F10()) {
+        s32 frame;
+        const s32 state = Manager::instance()->_64c38;
+        switch (state) {
+        case 5:
+            if (ksys::gdt::getFlag_IsInHyruleCastleArea() || sub_7100A9C110(1) || getMainScreenOnOff())
+                frame = 2;
+            else
+                frame = 0;
+            break;
+        case 6:
+        case 7:
+            frame = 1;
+            break;
+        default:
+            frame = u32(state) < 5 ? 2 : 0;
+            break;
+        }
+        if (_3628 && _366c != frame) {
+            _366c = frame;
+            _3628->Stop(frame);
+        }
+    }
+    if (getMainScreenOnOff())
+        _3dca = true;
 }
 
 // 0x7100a19d78
