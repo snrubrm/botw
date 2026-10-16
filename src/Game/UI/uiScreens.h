@@ -2517,8 +2517,23 @@ struct ScreenPauseMenuUnk3a00 {
     /* 0x138 */ sead::SafeArray<ScreenButton_7100989968, 20> mButtons;
     // per button value (returned by sub_71009B0484)
     /* 0xc78 */ sead::SafeArray<s32, 20> _c78;
+    /* 0xcc8 */ UiTexSlots _cc8;  // one texture per button (sub_71009B00E0 unloads one)
     // 0x71009b0224 (CSV unnamed; declared only)
     void sub_71009B0224(bool a1);
+    // 0x71009b01b4: x and y of the layout's root pane position
+    sead::Vector2f sub_71009B01B4() const;
+    // 0x71009b01c4: moves the layout's root pane to x (z = 0; y is kept)
+    void sub_71009B01C4(f32 x);
+    // 0x71009b01e4: moves the layout's root pane by dx (z = 0; y is kept)
+    void sub_71009B01E4(f32 dx);
+    // 0x71009b020c: shows or hides the layout's root pane
+    void sub_71009B020C(bool visible);
+    // 0x71009aff68: _130 = -1
+    void sub_71009AFF68();
+    // 0x71009b0190: runs one of two button updates on button `index`
+    void sub_71009B0190(s32 index, bool a2);
+    // 0x71009b00e0: clears button `index` (value -1, reset, disabled) and unloads its texture
+    void sub_71009B00E0(s32 index);
     // 0x71009b0468 / 0x71009b0484 (placeholder names): the button slot of item `index` (-1 when it is not shown) /
     // that slot's _c78 value (-1 when it is not shown)
     s32 sub_71009B0468(s32 index) const;
