@@ -23,6 +23,9 @@
 
 namespace eui {
 
+// 0x71009e719c (uiScreenAppMapSmall.cpp)
+Animator* sub_71009E719C(nn::ui2d::AnimTransform* anim);
+
 // 0x7100bdd16c
 LayoutEx::LayoutEx(Screen* screen) : mScreen(screen) {}
 
@@ -210,6 +213,28 @@ void LayoutEx::sub_7100BDDE7C(bool recursive, s32 mode, bool force) {
 LayoutEx* LayoutEx::findPartsLayout(const char* name) {
     nn::ui2d::Parts* parts = FindPartsPaneByName(name);
     return parts ? static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout) : nullptr;
+}
+
+// 0x7100bdddf8
+Animator* LayoutEx::sub_7100BDDDF8(const char* name) {
+    for (auto& anim : mAnimTransformList) {
+        Animator* animator = sub_71009E719C(&anim);
+        if (!animator)
+            continue;
+        const char* animator_name = animator->mName;
+        bool equal = true;
+        for (s32 i = 0; i < 64; ++i) {
+            if (animator_name[i] != name[i]) {
+                equal = false;
+                break;
+            }
+            if (animator_name[i] == '\0')
+                break;
+        }
+        if (equal)
+            return animator;
+    }
+    return nullptr;
 }
 
 // NON_MATCHING: StringBuilder initialization and virtual-call argument loads are scheduled differently.

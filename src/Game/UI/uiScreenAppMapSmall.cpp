@@ -431,3 +431,13 @@ void ScreenAppMapDungeon::sub_71009E5CA8(s32 index) {
 }
 
 }  // namespace uking::ui
+
+namespace eui {
+
+// 0x71009e719c (placeholder name): the out-of-line DynamicCast of an animation to eui::Animator (used by
+// LayoutEx::sub_7100BDDDF8)
+Animator* sub_71009E719C(nn::ui2d::AnimTransform* anim) {
+    return nn::font::DynamicCast<Animator>(anim);
+}
+
+}  // namespace eui

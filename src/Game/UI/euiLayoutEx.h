@@ -78,6 +78,8 @@ public:
 
     void setDrawTargetAnim(DrawTarget target);
     LayoutEx* findPartsLayout(const char* name);
+    // 0x7100bdddf8 (placeholder name): the animator of this layout whose name equals `name` (up to 64 characters)
+    Animator* sub_7100BDDDF8(const char* name);
     const void* GetAnimResourceData(const char* name);
     bool isScalableFontTextBox_(const nn::ui2d::ResTextBox*, const nn::ui2d::ResTextBox*,
                                 const nn::ui2d::BuildArgSet&);
