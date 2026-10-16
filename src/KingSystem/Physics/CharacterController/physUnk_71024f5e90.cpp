@@ -1,3 +1,4 @@
+#include "KingSystem/Physics/physConversions.h"
 #include <Havok/Physics2012/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>
 #include <algorithm>
 #include "KingSystem/Physics/CharacterController/physCharacterFormSet.h"
@@ -33,6 +34,19 @@ void Unk_71024f5e90::m4() {
 }
 
 Unk_71024f5e90::~Unk_71024f5e90() = default;
+
+// NON_MATCHING: instruction scheduling (the y sums and the offset.z load are ordered differently)
+void Unk_71024f5e90::m6(const sead::Vector3f& offset) {
+    mOffset = offset;
+    for (s32 i = 0; i < 2; ++i) {
+        const hkVector4f top = toHkVec4(_2c[i] + offset);
+        const hkVector4f bottom = toHkVec4(offset + _44[i]);
+        // mShapes holds const shape pointers; the capsules were created by make().
+        auto* shape = const_cast<hkpCapsuleShape*>(static_cast<const hkpCapsuleShape*>(mShapes[i]._0));
+        shape->setVertex(0, bottom);
+        shape->setVertex(1, top);
+    }
+}
 
 const sead::Vector3f& Unk_71024f5e90::m7() const {
     return mOffset;

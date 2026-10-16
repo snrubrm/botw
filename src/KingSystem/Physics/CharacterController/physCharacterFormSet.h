@@ -74,8 +74,8 @@ public:
 
     static Unk_71024f5e90* make(const Param& param, sead::Heap* heap);
     void m4() override;
-    // m6 (0x7100f67444, sets mOffset and moves both capsules' vertices) is not declared yet:
-    // it needs hkpCapsuleShape::setVertex, which lib/hkStubs does not define.
+    // Sets mOffset and moves both capsules' vertices by it.
+    void m6(const sead::Vector3f& offset) override;
     const sead::Vector3f& m7() const override;
 
     /* 0x1c */ f32 mRadius[2] = {1.0f, 1.0f};
