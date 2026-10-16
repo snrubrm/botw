@@ -103,7 +103,30 @@ public:
     void finalize();
     // Placeholder type: the initialization packet built by 0x710128247C and 0x7100041784.
     // Its vectors and scalar settings are consumed by 0x7100F750BC / 0x7100F75680.
-    struct InitArg;
+    // lane1 s91: layout from 0x710128247C (fills a stack copy) and Motorcycle::m164; names unknown.
+    struct InitArg {
+        sead::Vector3f _0;   // sead::Vector3f::zero in 0x710128247C
+        sead::Vector3f _c;   // sead::Vector3f::ez
+        f32 _18;             // 1.0
+        f32 _1c;             // 1.75
+        s32 _20;             // 16
+        f32 _24;             // 3.0
+        f32 _28;             // 3.0
+        f32 _2c;             // 1e6 (a global constant)
+        f32 _30;
+        f32 _34;
+        f32 _38;             // 1.0
+        f32 _3c;             // 1.0
+        f32 _40;             // 100.0
+        f32 _44;             // 1.0
+        f32 _48;             // 0.01
+        s32 _4c;             // 0
+        s32 _50;             // 4
+        s32 _54;             // 0
+        u8 _58;
+        u8 _59;
+    };
+    static_assert(sizeof(InitArg) == 0x5c);
     void init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
     // Actual implementation reached by the original init tail call (declared only).
     void sub_7100F75680(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
