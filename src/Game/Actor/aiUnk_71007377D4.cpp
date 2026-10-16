@@ -1145,6 +1145,50 @@ void sub_7100732B28(DamageReactionInfo* info, ksys::act::Actor* actor) {
     info->_29 = kind9;
 }
 
+namespace ksys::act {
+
+// NON_MATCHING: the original masks the getFlags2() result as 32-bit (our getFlags2 returns u64).
+void Actor::x_2() {
+    auto* drop = sead::DynamicCast<DropData>(getDropData());
+    if (drop && (drop->_8 == 1 || drop->_8 == 2))
+        return;
+
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
+    if (!mgr)
+        return;
+
+    const s32 type = mgr->sub_71006D82D4() ? mgr->sub_71006D8340() : mgr->getField54();
+    mgr->applyDamage(*getLife());
+    const res::DamageParam* damage_param = mActorParam ? mActorParam->getRes().mDamageParam : nullptr;
+    if (type != -1) {
+        sead::BitFlag8 flags;
+        sub_7100732864(&flags, this);
+        if (!flags.isZero()) {
+            DamageReactionInfo info;
+            sub_7100732B28(&info, this);
+            if (flags.isOnBit(0))
+                sub_7100733418(this, &info, nullptr);
+        }
+    }
+
+    drop = sead::DynamicCast<DropData>(getDropData());
+    if (drop && drop->_8 == 1)
+        return;
+    if (sub_7100733C24(this))
+        return;
+    if (!damage_param || !*damage_param->mBreakable || *getLife() >= 1)
+        return;
+
+    *getLife() = 0;
+    if (auto* data = sead::DynamicCast<DropData>(getDropData()))
+        data->sub_71006DA914(mgr, false);
+    if (auto* unk3 = m135(); unk3 && u16(mgr->getFlags2()) == 5)
+        unk3->_4 = 4;
+    callDeleteAndCreateDropAndEmit(this, 0);
+}
+
+}  // namespace ksys::act
+
 bool sub_7100732AD0(s32 damage_type) {
     switch (damage_type) {
     case 15:
