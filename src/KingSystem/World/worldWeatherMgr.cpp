@@ -364,3 +364,20 @@ ElementWater::~ElementWater() {
         _78.fade();
     }
 }
+
+f32 ElementWater::m17(ksys::act::Chemical* chemical) {
+    const f32 distance = (chemical->_18->m5() - mArg.position).length();
+    if (distance < mArg._20)
+        return mArg._24;
+    return 0.0f;
+}
+
+// NON_MATCHING: regalloc in the last expression (s0 / s1 swapped).
+f32 ElementWater::m20(ksys::act::Chemical* chemical) {
+    sead::Vector3f dir = chemical->sub_7100D9155C() - mArg.position;
+    const f32 distance = dir.normalize();
+    const f32 cos = dir.dot(mArg.direction);
+    const f32 sin = std::sqrt(sead::Mathf::clamp(1.0f - cos * cos, 0.0f, 1.0f));
+    const f32 radius = chemical->_34;
+    return sead::Mathf::clamp((radius - (distance * sin - mArg._20)) / (radius + radius), 0.0f, 1.0f);
+}

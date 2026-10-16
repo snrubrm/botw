@@ -149,7 +149,7 @@ f32 Element::m15(sead::Vector3f* out) {
     return mHolder->_44;
 }
 
-f32 Element::m17() {
+f32 Element::m17(ksys::act::Chemical* chemical) {
     if (!mHolder)
         return 0.0f;
     return mHolder->_34;

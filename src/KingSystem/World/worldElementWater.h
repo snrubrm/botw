@@ -39,8 +39,8 @@ public:
     // 0x71010e8668
     ElementWater(const ElementWaterCreateArg& arg, sead::Heap* heap);
     ~ElementWater() override;
-    f32 m17() override;
-    f32 m20() override;
+    f32 m17(ksys::act::Chemical* chemical) override;
+    f32 m20(ksys::act::Chemical* chemical) override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33() override;
     void m35() override;

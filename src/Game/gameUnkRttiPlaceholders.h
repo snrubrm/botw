@@ -771,7 +771,7 @@ public:
     bool m37() override { return true; }
     void m38() override {}
     bool m18() override { return true; }
-    f32 m20() override { return 0.0f; }
+    f32 m20(ksys::act::Chemical* chemical) override { return 0.0f; }
 };
 
 // vtable 0x710250c3e8 (39 slots); placeholder generated from the vtable (genskel.py).

@@ -68,10 +68,10 @@ public:
             return mHolder->_80->sub_7100D912AC();
         return 1.0f;
     }
-    virtual f32 m17();
+    virtual f32 m17(ksys::act::Chemical* chemical);
     virtual bool m18() { return false; }
     virtual f32 m19(ksys::act::Chemical* chemical) { return 1.0f; }
-    virtual f32 m20() { return 1.0f; }
+    virtual f32 m20(ksys::act::Chemical* chemical) { return 1.0f; }
     virtual f32 m21(ksys::act::Chemical* chemical) { return 1.0f; }
     virtual f32 m22() { return 1.0f; }
     virtual f32 m23() { return 1.0f; }
@@ -155,7 +155,7 @@ public:
     f32 m16() override;
     f32 m19(ksys::act::Chemical* chemical) override;
     f32 m21(ksys::act::Chemical* chemical) override;
-    f32 m20() override { return 1.0f; }
+    f32 m20(ksys::act::Chemical* chemical) override { return 1.0f; }
     f32 m22() override;
     f32 m23() override;
     f32 m24() override { return mRadius; }
