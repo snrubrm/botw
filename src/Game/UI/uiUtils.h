@@ -45,7 +45,10 @@ class TexMap;
 }
 
 namespace eui {
+class PartsEx;
 void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map);
+// 0x7100945088 (uiPaneCasts.cpp): DynamicCast of the pane to PartsEx
+PartsEx* sub_7100945088(nn::ui2d::Pane* pane);
 }
 
 namespace xlink2 {
@@ -155,6 +158,8 @@ bool sub_7100AA4ACC(s32 effect, f32* out);
 bool sub_7100AA7290(const act::WeaponModifierInfo& modifier, bool is_bow, f32* out);
 // 0x7100aa8f30 (uiGdtFacade.cpp): bit 13 of the Manager's flag word
 bool sub_7100AA8F30();
+// 0x7100aa8e5c (uiGdtFacade.cpp): bit 21 of the Manager's flag word
+bool sub_7100AA8E5C();
 s32 sub_7100AA6E4C(const PouchItem& item);
 // 0x7100aa6d54 (placeholder name): whether the actor `name` (a weapon, bow or shield; not an arrow) has a capacity parameter
 bool sub_7100AA6D54(const sead::SafeString& name);

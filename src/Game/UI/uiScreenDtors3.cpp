@@ -51,15 +51,9 @@ ScreenAppAlbum::~ScreenAppAlbum() {
 }
 ScreenAppPictureBook::~ScreenAppPictureBook() = default;
 ScreenAppMapDungeon::~ScreenAppMapDungeon() = default;
-// 0x7100a3eff4 (D1): returns the slots to the free list
+// 0x7100a3eff4 (D1): destroys the windows
 ScreenPickUp::~ScreenPickUp() {
-    for (s32 i = 0; i < _3650.size(); ++i) {
-        Slot* slot = _3650(i);
-        delete slot->_a8;
-        slot->mNext = _3660;
-        _3660 = slot;
-    }
-    _3650.clear();
+    mWins.clear();
 }
 ScreenMessageTipsRunTime::~ScreenMessageTipsRunTime() = default;
 

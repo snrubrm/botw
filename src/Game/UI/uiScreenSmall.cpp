@@ -6,6 +6,13 @@
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include <gfx/seadGraphics.h>
+#include "Game/UI/euiPartsEx.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEvent.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 // Small leaf screen methods (named after their CSV address).
@@ -219,6 +226,328 @@ void ScreenPickUp::setItemAndOpen(const sead::SafeString& item, bool show) {
     open(3);
     if (show)
         sub_7100A3F450(item, 5.0f);
+}
+
+// 0x71025f1a28 (initialised by the TU's static initialiser 0x7100a406dc)
+static sead::SafeString sPickUpLayoutName = "PickUpWin_00";
+
+// 0x7100a3f768
+// NON_MATCHING: the original addresses the string from the TU's merged-static base (+0x148); ours has other
+// statics around it (+0x10).
+const char* ScreenPickUp::getLayoutName_() const {
+    return sPickUpLayoutName.cstr();
+}
+
+// 0x7100a3f450
+// NON_MATCHING: the original null-checks the found window pointer (the loop exits to the unlock instead of a csel);
+// it matches with `if (it->mOrder >= 0) continue; if (PickUpWin* win = it.operator->()) {...} break;`.
+void ScreenPickUp::sub_7100A3F450(const sead::SafeString& item, f32 time) {
+    mCS.lock();
+    PickUpWin* win = nullptr;
+    for (auto& entry : mWins) {
+        if (entry.mOrder < 0) {
+            win = &entry;
+            break;
+        }
+    }
+    if (win) {
+        for (auto& entry : mWins) {
+            if (entry.mOrder >= 0)
+                ++entry.mOrder;
+        }
+        win->mTimer.init(time);
+        win->setItem(item);
+        if (win->mLayout) {
+            nn::ui2d::Pane* pane = win->mLayout->GetPane();
+            nn::ui2d::Pane* parent = pane->GetParent();
+            parent->RemoveChild(pane);
+            parent->AppendChild(pane);
+            win->mLayout->GetPane()->SetAlpha(255);
+            win->mLayout->sub_7100BDDE7C(false, 0, true);
+            if (win->mFlashAnim)
+                win->mFlashAnim->PlayAuto(1.0f);
+            win->mOrder = 0;
+            win->mClosing = false;
+        }
+    }
+    mCS.unlock();
+}
+
+// 0x7100a3f5ac
+void ScreenPickUp::PickUpWin::setItem(const sead::SafeString& item) {
+    mName = item;
+    mType = PauseMenuDataMgr::getType(item);
+    updateCompareAnim();
+    eui::MessageString message;
+    sub_7100AA2BDC(mName, &message);
+    setWidgetString(mLayout, "T_ItemName_00", message);
+    sead::FixedSafeString<128> path;
+    sub_7100AA3B50(item, &path, -1);
+    requestTexture(path);
+}
+
+// 0x7100a3f79c
+void ScreenPickUp::m93(sead::Heap* heap) {
+    sead::SafeString first_name = "Pa_PickUpWin_00";
+    sead::SafeString prefix = "Pa_PickUpWin_";
+    if (PickUpWin* win = mWins.emplaceBack()) {
+        win->mScreen = this;
+        win->mLayout = sub_7100BEAFB0("Pa_PickUpWin_00");
+        win->init(heap);
+    }
+    for (s32 i = 6; i > 0; --i) {
+        if (PickUpWin* win = mWins.emplaceBack()) {
+            sead::FormatFixedSafeString<32> name("%s%02d", prefix.cstr(), i);
+            win->mScreen = this;
+            eui::PartsEx* parts = eui::sub_7100945088(sub_7100A48104(first_name, nullptr));
+            win->mLayout = sub_7100A47A5C(
+                heap, 1, parts ? static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout) : nullptr, name,
+                parts, true, true);
+            win->init(heap);
+        }
+    }
+}
+
+// 0x7100a3fab4
+void ScreenPickUp::PickUpWin::init(sead::Heap* heap) {
+    mResHandle = new (heap) ksys::res::Handle;
+    mColorAnim = mLayout->tryCreateAnimatorAuto("Color", false);
+    if (mColorAnim)
+        mColorAnim->StopAtMin();
+    mGuideOutAnim = mLayout->tryCreateAnimatorAuto("GuideOut", false);
+    if (mGuideOutAnim)
+        mGuideOutAnim->StopAtMin();
+    mGuideOffAnim = mLayout->tryCreateAnimatorAuto("GuideOff", false);
+    if (mGuideOffAnim)
+        mGuideOffAnim->StopAtMin();
+    mFlashAnim = mLayout->tryCreateAnimatorAuto("Flash", false);
+    if (mFlashAnim)
+        mFlashAnim->StopAtMin();
+    const auto& pos = mLayout->GetPane()->GetPosition();
+    mBasePos.x = pos.x;
+    mBasePos.y = pos.y;
+    mBasePos.z = pos.z;
+    mPos = mBasePos;
+    mLayout->startAnimCloseImpl_(false, true);
+    if (mLayout && mResHandle) {
+        if (nn::ui2d::Pane* pane = mLayout->GetPane()->FindPaneByName("P_CaptureItem_00", true)) {
+            if (nn::ui2d::Material* material = pane->GetMaterial())
+                eui::SetTextureInfoFromTexMap(&mTexInfo, material->GetTexMapArray()[0]);
+        }
+    }
+}
+
+// 0x7100a3fc10
+void ScreenPickUp::m94() {
+    bool visible = false;
+    if (sub_7100AA948C()) {
+        visible = true;
+        if (sub_7100AA8F10() && ksys::evt::Manager::instance()) {
+            auto* event = ksys::evt::Manager::instance()->getActiveEvent();
+            if (event && event->mEventName == "Demo049_0")
+                visible = false;
+        }
+    }
+    sub_7100AA94C4(mLayout, visible);
+    if (sub_7100AA8E5C() || sub_7100AA8F30())
+        return;
+    mCS.lock();
+    for (auto& win : mWins) {
+        if (win.mOrder >= 0)
+            win.update();
+    }
+    mCS.unlock();
+}
+
+// NON_MATCHING: three spots of scheduling: case 0 keeps &mBasePos in a register across the timer call, case 1 / 2
+// load mScreen and &mPos.y after the float constants, and the original computes the alpha before it loads the root
+// pane (it matches with a local `const u8 alpha = ...;` before `mLayout->GetPane()->SetAlpha(alpha)`).
+// 0x7100a3fd44: moves the window to its place for mOrder (0: shown, 1 / 2: pushed down; later ones slide out
+// and fade)
+void ScreenPickUp::PickUpWin::update() {
+    if (mTextureRequested) {
+        if (mResHandle->requestedLoad() && mResHandle->isSuccess() && mResHandle->getResource()) {
+            applyTexture();
+            mTextureRequested = false;
+        } else if (mResHandle->checkLoadStatus() &&
+                   mResHandle->getStatus() == ksys::res::Handle::Status::_1) {
+            mResHandle->requestUnload2();
+            ksys::res::LoadRequest request;
+            request.mRequester = "uiPickUpWin_00Screen";
+            mResHandle->requestLoad("UI/StockItem/NoImage.bitemico", &request, nullptr);
+        }
+    }
+
+    if (mLayout && (mLayout->isAnimCloseEnd(false) || mFadedOut) && mClosing) {
+        close();
+        return;
+    }
+
+    switch (mOrder) {
+    case 0:
+        if (mTimer.updateAndCheckEnded() && mLayout && !mClosing) {
+            mLayout->startAnimCloseImpl_(false, false);
+            mClosing = true;
+        }
+        mPos = mBasePos;
+        if (mGuideOffAnim && mGuideOffAnim->mFrame == 0.0f && ksys::act::hasTag(mName, ksys::act::tags::Rupee))
+            mGuideOffAnim->PlayAuto(1.0f);
+        break;
+    case 1:
+        if (mTimer.updateAndCheckEnded() && mLayout && !mClosing) {
+            mLayout->startAnimCloseImpl_(false, false);
+            mClosing = true;
+        }
+        sub_7100AA2350(mScreen, &mPos.y, mBasePos.y + -75.0f, 0.2f, 500.0f, 0.1f);
+        if (mGuideOutAnim && mGuideOutAnim->mFrame == 0.0f)
+            mGuideOutAnim->PlayAuto(1.0f);
+        break;
+    case 2:
+        if (mTimer.updateAndCheckEnded() && mLayout && !mClosing) {
+            mLayout->startAnimCloseImpl_(false, false);
+            mClosing = true;
+        }
+        sub_7100AA2350(mScreen, &mPos.y, mBasePos.y + -150.0f, 0.2f, 500.0f, 0.1f);
+        if (mGuideOutAnim && mGuideOutAnim->mFrame == 0.0f)
+            mGuideOutAnim->PlayAuto(1.0f);
+        break;
+    default: {
+        mWasInPlace = mInPlace;
+        const f32 limit = mBasePos.y + -150.0f;
+        sub_7100AA2350(mScreen, &mPos.y, mBasePos.y + -225.0f, 0.2f, 500.0f, 0.1f);
+        mInPlace = mPos.y <= limit;
+        if (mInPlace) {
+            mArrived = !mWasInPlace;
+            if (mWasInPlace) {
+                if (mTimer.updateAndCheckEnded())
+                    mFadedOut = true;
+            } else {
+                mTimer.init(0.3f);
+            }
+            if (mLayout)
+                mLayout->GetPane()->SetAlpha(s32((1.0f - mTimer.getProgress()) * 255.0f));
+        } else {
+            mArrived = false;
+        }
+        if (!mClosing)
+            mClosing = true;
+        if (mGuideOutAnim && mGuideOutAnim->mFrame == 0.0f)
+            mGuideOutAnim->PlayAuto(1.0f);
+        break;
+    }
+    }
+
+    if (mLayout) {
+        nn::ui2d::Pane* pane = mLayout->GetPane();
+        pane->SetPosition(mPos);
+    }
+}
+
+// 0x7100a400e0
+void ScreenPickUp::m86() {
+    mCS.lock();
+    for (auto& win : mWins)
+        win.close();
+    close(-4);
+    mCS.unlock();
+}
+
+// 0x7100a4014c
+void ScreenPickUp::m83() {
+    mCS.lock();
+    for (auto& win : mWins)
+        win.close();
+    close(-4);
+    mCS.unlock();
+}
+
+// 0x7100a401b8
+void ScreenPickUp::m91() {
+    mCS.lock();
+    for (auto& win : mWins)
+        win.close();
+    close(-4);
+    mCS.unlock();
+}
+
+// 0x7100a40224
+// NON_MATCHING: regalloc only (x8 / x9 swapped for the texture map and &mTexInfo).
+void ScreenPickUp::PickUpWin::close() {
+    mClosing = false;
+    mInPlace = false;
+    mWasInPlace = false;
+    mArrived = false;
+    mFadedOut = false;
+    mOrder = -1;
+    if (mGuideOutAnim)
+        mGuideOutAnim->StopAtMin();
+    if (mGuideOffAnim)
+        mGuideOffAnim->StopAtMin();
+    mLayout->startAnimCloseImpl_(false, true);
+    if (mResHandle->requestedLoad() && mResHandle->isSuccess() && mResHandle->getResource()) {
+        mResHandle->parseResource(nullptr);
+        nn::ui2d::Pane* pane = mLayout->GetPane()->FindPaneByName("P_CaptureItem_00", true);
+        if (!pane)
+            return;
+        nn::ui2d::Material* material = pane->GetMaterial();
+        if (!material)
+            return;
+        sead::Graphics::instance()->lockDrawContext();
+        material->GetTexMapArray()[0].ReplaceTextureInfo(&mTexInfo);
+        sead::Graphics::instance()->unlockDrawContext();
+        mResHandle->requestUnload2();
+    }
+}
+
+// 0x7100a40328
+void ScreenPickUp::m80(bool visible) {
+    if (visible)
+        sub_7100AA94C4(mLayout, sub_7100AA948C());
+    else
+        sub_7100AA94C4(mLayout, false);
+}
+
+// 0x7100a40470
+void ScreenPickUp::PickUpWin::updateCompareAnim() {
+    if (!isPouchItemWeapon(mType) || mType == PouchItemType::Arrow) {
+        mColorAnim->Stop(0.0f);
+        return;
+    }
+    const PouchItem* equipped = PauseMenuDataMgr::instance()->getEquippedItem(mType);
+    if (!equipped || !equipped->isInInventory()) {
+        mColorAnim->Stop(0.0f);
+        return;
+    }
+    const PouchItem* item = PauseMenuDataMgr::instance()->getLastAddedItem();
+    f32 frame;
+    if (item->isInInventory() && item->isEquipped()) {
+        frame = 1.0f;
+    } else {
+        const s32 equipped_value = sub_7100AA7AC8(*equipped);
+        const s32 value = item->isInInventory() ? sub_7100AA7AC8(*item) : 0;
+        if (equipped_value == value)
+            frame = 3.0f;
+        else if (equipped_value < value)
+            frame = 1.0f;
+        else if (equipped_value > value)
+            frame = 2.0f;
+        else
+            frame = 0.0f;
+    }
+    mColorAnim->Stop(frame);
+}
+
+// 0x7100a4055c
+void ScreenPickUp::PickUpWin::requestTexture(const sead::SafeString& path) {
+    if (mResHandle) {
+        if (mResHandle->requestedLoad())
+            mResHandle->requestUnload2();
+        ksys::res::Handle::Status status{};
+        ksys::res::LoadRequest request;
+        request.mRequester = "uiPickUpWin_00Screen";
+        mResHandle->requestLoad(path, &request, &status);
+    }
+    mTextureRequested = true;
 }
 
 struct RuntimeTip {

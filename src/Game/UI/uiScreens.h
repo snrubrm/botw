@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadFreeList.h>
+#include <container/seadObjArray.h>
 #include <container/seadObjList.h>
 #include <container/seadPtrArray.h>
 #include <container/seadRingBuffer.h>
@@ -17,6 +18,8 @@
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiTimer.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/System/DebugBoard.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
@@ -4009,24 +4012,64 @@ public:
     // 0x7100a3f3f4 (CSV ScreenPickUp::setItemAndOpen): opens the screen (option 3); with `show` it also shows the item
     // for 5 seconds (the argument type is a guess)
     void setItemAndOpen(const sead::SafeString& item, bool show);
-    // 0x7100a3f450 (CSV unnamed; not decompiled)
+    // 0x7100a3f450: shows `item` in the oldest free window for `time` seconds; the other shown windows move one
+    // place down (mOrder)
     void sub_7100A3F450(const sead::SafeString& item, f32 time);
 
-    // One pickup-item slot (0xe8 bytes; the D1 at 0x7100a3f450 walks the list, checks the busy bit at +0xe5
-    // and calls UiTimer::init on the slot). Only the link matters here.
-    struct Slot {
-        Slot* mNext;
-        u8 _8[0xa8 - 8];
-        /* 0xa8 */ eui::ControlBase* _a8;  // deleted when the slot is released (virtual deleting destructor)
-        u8 _b0[0xe8 - 0xb0];
-    };
+    const char* getLayoutName_() const override;
+    void m80(bool visible) override;
+    void m83() override;
+    void m86() override;
+    void m91() override;
+    void m93(sead::Heap* heap) override;
+    void m94() override;
 
-    /* 0x3610 */ sead::CriticalSection _3610;
-    /* 0x3650 */ sead::PtrArray<Slot> _3650;
-    /* 0x3660 */ Slot* _3660;
-    /* 0x3668 */ Slot* _3668;
-    /* 0x3670 */ Slot _3670[7];
-    /* 0x3cc8 */ void* _3cc8[7];
+    // One pickup window (0xe8 bytes; the layout pane is Pa_PickUpWin_00 .. 06). Its resources are requested by
+    // the name "uiPickUpWin_00Screen".
+    struct PickUpWin {
+        PickUpWin() {}
+        ~PickUpWin() { delete mResHandle; }
+
+        // 0x7100a3fab4
+        void init(sead::Heap* heap);
+        // 0x7100a3f5ac
+        void setItem(const sead::SafeString& item);
+        // 0x7100a3fd44
+        void update();
+        // 0x7100a40224
+        void close();
+        // 0x7100a40360
+        void applyTexture();
+        // 0x7100a40470: compares the item with the equipped one (frame 0 - 3 of the Color animation)
+        void updateCompareAnim();
+        // 0x7100a4055c
+        void requestTexture(const sead::SafeString& path);
+
+        /* 0x00 */ UiTimer mTimer;
+        /* 0x18 */ sead::FixedSafeString<64> mName;
+        /* 0x70 */ PouchItemType mType = PouchItemType::Invalid;
+        /* 0x78 */ ScreenPickUp* mScreen = nullptr;
+        /* 0x80 */ eui::LayoutEx* mLayout = nullptr;
+        /* 0x88 */ eui::Animator* mColorAnim = nullptr;
+        /* 0x90 */ eui::Animator* mGuideOutAnim = nullptr;
+        /* 0x98 */ eui::Animator* mGuideOffAnim = nullptr;
+        /* 0xa0 */ eui::Animator* mFlashAnim = nullptr;
+        /* 0xa8 */ ksys::res::Handle* mResHandle = nullptr;
+        /* 0xb0 */ nn::ui2d::ExternalTextureInfo mTexInfo;
+        /* 0xc8 */ nn::util::Float3 mPos{};
+        /* 0xd4 */ nn::util::Float3 mBasePos{};
+        /* 0xe0 */ bool mInPlace = false;
+        /* 0xe1 */ bool mWasInPlace = false;
+        /* 0xe2 */ bool mArrived = false;
+        /* 0xe3 */ bool mFadedOut = false;
+        /* 0xe4 */ bool mTextureRequested = false;
+        /* 0xe5 */ s8 mOrder = -1;  // -1: free
+        /* 0xe6 */ bool mClosing = false;
+    };
+    static_assert(sizeof(PickUpWin) == 0xe8);
+
+    /* 0x3610 */ sead::CriticalSection mCS;
+    /* 0x3650 */ sead::FixedObjArray<PickUpWin, 7> mWins;
 };
 
 class ScreenAppHome : public ScreenEx {
