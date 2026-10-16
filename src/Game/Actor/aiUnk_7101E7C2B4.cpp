@@ -3,6 +3,7 @@
 namespace uking {
 extern const f32 sUnk_7101e7c244 = 5.0f;
 extern const f32 sUnk_7101e7c248 = 0.5f;
+extern const f32 sUnk_7101e7c24c = 0.3f;
 extern const f32 sUnk_7101e7c280 = 9.0f;
 extern const f32 sUnk_7101e7c284 = 9.0f;
 extern const f32 sUnk_7101e7c288 = 9.0f;

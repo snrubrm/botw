@@ -10,6 +10,8 @@ namespace uking {
 // 0x7101e7c244 / 0x7101e7c248 (5.0, 0.5): read by Player::m69_x_6 (push-down vector from _216c).
 extern const f32 sUnk_7101e7c244;
 extern const f32 sUnk_7101e7c248;
+// 0x7101e7c24c (0.3): read by Player::actionCommon (character controller rate, divided by _20f0 in slow time).
+extern const f32 sUnk_7101e7c24c;
 // 0x7101e7c280 - 0x7101e7c29c (9, 9, 9, 9, 3, 3, 3, 3): the champion ability Plus support timer rates inside / outside
 // Hyrule Castle (wind, fire, electric, water; Player::updateSupportTimerRates).
 extern const f32 sUnk_7101e7c280;

@@ -23,6 +23,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -713,6 +714,64 @@ bool Player::sub_7100888D24() {
         x_18(true);
     }
     return true;
+}
+
+// NON_MATCHING: the original builds the controller centre in the stack slot of the someFloatCalc argument; ours
+// keeps it in a register.
+// In this file because isSurfingOnGround is out of line in the original.
+// Per-frame character controller update shared by the player actions: caps the move speed in the air, sets the
+// controller speed (from _20bc, or the velocity along the controller direction), its up vector and its centre.
+void Player::actionCommon() {
+    if (isRidingHorse())
+        return;
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+
+    if (!isSurfingOnGround() && !_cf4.isOnBit(25)) {
+        const f32 max_speed =
+            getParam()->getRes().mGParamList->getPlayer()->mMaxSpeedInAir.ref() + _20b4 / 30.0f;
+        if (_20bc.value > max_speed) {
+            _20bc.value = max_speed;
+            _20bc.prev_value = max_speed;
+        }
+    }
+
+    const f32 rate = m188() ? getStatusEffectSpeed() : 1.0f;
+    f32 speed;
+    if (!m200() || !_d11 || controller->mFlags.isOnBit(0) || m196()) {
+        speed = rate * (_20bc.value * 30.0f);
+    } else {
+        speed = controller->_64.dot(mVelocity);
+        if (speed < 0.0f)
+            speed = 0.0f;
+        else if (speed > _20bc.value)
+            speed = _20bc.value;
+        speed *= 30.0f;
+    }
+    controller->sub_7100F5E7F0(speed);
+
+    sead::Vector3f dir{0, 0, 0};
+    util::sub_71011EEE2C(&dir, _1c68.value, 1.0f);
+    if (!m222())
+        sub_710072C1B4(controller, dir);
+
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    sead::Vector3f center;
+    if (dir.y < 0.01f && !m188()) {
+        someFloatCalc(2.0f, {0, 1, 0});
+        center = {0, 0, 0};
+    } else {
+        if (isSlowTime())
+            someFloatCalc(uking::sUnk_7101e7c24c / _20f0, {0, 1, 0});
+        else
+            someFloatCalc(uking::sUnk_7101e7c24c, {0, 1, 0});
+        center = {0, 1.4f, 0};
+    }
+    controller->sub_7100F62E64(center);
+    if (!m222())
+        controller->sub_7100F5FC8C(_1b18);
 }
 
 }  // namespace ksys::act
