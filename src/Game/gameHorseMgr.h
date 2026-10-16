@@ -35,11 +35,19 @@ bool sub_7100E6EAAC(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e821e4, postCalc 0x7100e8789c, createHorse, ...; instance pointer at 0x7102603c90; namespace
 // is a guess). The manager of the owned horse; only what the AI actions use is declared.
 // TODO: incomplete.
+class HorseMgr;
+
 // Placeholder (ctor 0x7100e8a080; HorseMgr::_270): a navmesh query with a linked actor and a matrix.
 struct Unk_7100e8a080 {
     Unk_7100e8a080();
     // 0x7100e8a0c4 (placeholder name): destroys the query and resets the link.
     void sub_7100E8A0C4();
+    // 0x7100e8a100 (placeholder name): unless busy (_4c, a query, or the timer _48 running), checks horseStuff and
+    // then links `proc` and restarts the timer (66); false if horseStuff fails.
+    bool sub_7100E8A100(HorseMgr* mgr, ksys::act::BaseProc* proc);
+    // 0x7100e8a16c (CSV horseStuff; declaration only, 664 B; does not use `this`): game data checks on the owned horse
+    // of `mgr` (IsGet_PlayerStole2, IsInHyruleCastleArea, IsPlayed_Demo14x flags).
+    bool horseStuff(HorseMgr* mgr);
 
     /* 0x00 */ ksys::phys::NavMeshQuery* mQuery = nullptr;
     /* 0x08 */ ksys::act::BaseProcLink _8;
