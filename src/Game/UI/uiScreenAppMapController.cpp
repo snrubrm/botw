@@ -47,6 +47,11 @@ void ScreenAppMapUnk3c90::m24(sead::Heap*) {
     sub_71009C1900();
 }
 
+// 0x71009c107c
+void ScreenAppMapUnk3c90::sub_71009C107C() {
+    sub_71009C1080();
+}
+
 void ScreenAppMapUnk3c90::m31() {
     sub_71009C1080();
 }

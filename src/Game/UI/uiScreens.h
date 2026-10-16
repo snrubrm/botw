@@ -2235,6 +2235,8 @@ struct ScreenAppMapUnk3c90 : ScreenChildEx {
     void m27() override;
     void m31() override;
     void m34() override;
+    // 0x71009c107c: forwards to sub_71009C1080 (called by the map screen)
+    void sub_71009C107C();
     void sub_71009C1080();
     void sub_71009C117C();
     void sub_71009C1198(s32 type);
