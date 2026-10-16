@@ -64,6 +64,7 @@ class SpeakerBalanceUnifier;
 
 namespace xlink2 {
 class HandleSLink;
+class IUser;
 class UserInstanceSLink;
 }
 
@@ -950,6 +951,15 @@ struct Unk_SoundMgr60 {
     Unk_SoundMgr60_828 _828;
 };
 
+// Placeholder: the property definition source passed to sub_710105E3D0 (it reads the definitions and their
+// count through vtable slots 3 and 4).
+class Unk_710105E3D0Arg;
+// 0x710105e3d0 (declaration only; placeholder name): creates an SLink user instance `name` on `heap`
+// (null when sound is disabled).
+xlink2::UserInstanceSLink* sub_710105E3D0(const char* name, sead::Heap* heap,
+                                          aal::IAssetInfoReadable* reader, xlink2::IUser* user,
+                                          Unk_710105E3D0Arg* defs);
+
 // Placeholder name = vtable address (0x7102502410; only the destructor pair). A buffer of shared xlink user
 // instances (the members built by the Unk_SoundMgr38_* constructors: 0x710102eba0, 0x71012c153c, ...).
 class Unk_7102502410 {
@@ -958,7 +968,8 @@ public:
     struct Entry {
         // 0x7101049660 / 0x71010496e8 (vtable 0x71025023f0).
         virtual ~Entry() { finalize(); }
-        // 0x7101049778 (declaration only; placeholder name): per-frame update of the entry.
+        // 0x7101049778 (placeholder name): once the bars are loaded, attaches the asset info reader (_18 = 2),
+        // or frees it when loading failed.
         void sub_7101049778();
         // 0x7101049824 (placeholder name): loads the bars of the user instance's user name into a new asset
         // info reader once (_18 becomes 1).
@@ -968,10 +979,11 @@ public:
         // both free the asset info reader and destroy the user instance this way.
         void finalize();
 
-        /* 0x08 */ xlink2::UserInstanceSLink* mUserInstance;
-        /* 0x10 */ Unk_7102502950* mAssetInfoReader;
-        /* 0x18 */ u32 _18;
-        /* 0x1c */ s32 mRefCount;
+        /* 0x08 */ xlink2::UserInstanceSLink* mUserInstance = nullptr;
+        /* 0x10 */ Unk_7102502950* mAssetInfoReader = nullptr;
+        // 0: not loaded, 1: bars loading (sub_7101049824), 2: asset info reader attached (sub_7101049778).
+        /* 0x18 */ u32 _18 = 0;
+        /* 0x1c */ s32 mRefCount = 0;
         /* 0x20 */ sead::CriticalSection mCS;
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0x60);
@@ -984,6 +996,11 @@ public:
     void sub_710104993C();
     // 0x7101049c60 (placeholder name): updates every entry and runs preCalc / postCalc of the referenced ones.
     void sub_7101049C60();
+    // 0x7101049af8 (placeholder name): once, creates one entry per name with a sleeping SLink user instance.
+    void sub_7101049AF8(const sead::Buffer<const char*>& names, Unk_710105E3D0Arg* defs, sead::Heap* heap);
+    // 0x7101049cec (placeholder name): the entry whose user name is `name`, with a new reference (the first
+    // one activates the user instance and starts loading its bars); null when there is none.
+    Entry* sub_7101049CEC(const sead::SafeString& name);
 
     sead::Buffer<Entry> mEntries;
 };
@@ -997,10 +1014,16 @@ public:
     Unk_7102502430();
     // 0x710104a014 / 0x710104a058
     virtual ~Unk_7102502430();
-    // 0x710104a098 (placeholder name): stores `owner` and `name` once.
-    void sub_710104A098(void* owner, const sead::SafeString& name);
     // 0x710104a0d4 (placeholder name): releases the entry and clears the owner.
-    void sub_710104A0D4();
+    virtual void sub_710104A0D4();
+    // 0x710104a1b8 (placeholder name): when _10 is set and the handle is no longer active, takes a reference
+    // to the owner's entry named _10; once that entry is ready, emits mName on its user instance.
+    virtual void sub_710104A1B8();
+    // 0x710104a964 / 0x710104a968 (empty): called before / after the emit.
+    virtual void m4(xlink2::UserInstanceSLink* user_instance) {}
+    virtual void m5(xlink2::UserInstanceSLink* user_instance, xlink2::HandleSLink* handle) {}
+    // 0x710104a098 (placeholder name): stores `owner` and `name` once.
+    void sub_710104A098(Unk_7102502410* owner, const sead::SafeString& name);
     // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
     // and puts the user instance to sleep.
     void sub_710104A108();
@@ -1011,19 +1034,12 @@ public:
     // 0x710104a8ac (placeholder name): no entry referenced and _10 empty.
     bool sub_710104A8AC() const;
 
-    // Placeholder: the object at _80 (only its counter at 0x20 is read).
-    struct Unk80 {
-        u8 _0[0x20];
-        u32 _20;
-    };
-
     /* 0x08 */ bool mIsSet = false;
     /* 0x10 */ sead::FixedSafeString<64> _10{sead::SafeString::cEmptyString};
     /* 0x68 */ u8 _68 = 0;
     /* 0x70 */ sead::SafeString mName{sead::SafeString::cEmptyString};
-    /* 0x80 */ const Unk80* _80 = nullptr;
-    /* 0x88 */ u32 _88 = 0;
-    /* 0x90 */ void* mOwner = nullptr;
+    /* 0x80 */ xlink2::HandleSLink mHandle;
+    /* 0x90 */ Unk_7102502410* mOwner = nullptr;
     /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502430, 0xa0);
