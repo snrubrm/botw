@@ -45,6 +45,21 @@ void Unk_71025d69f0::sub_710094E480() {
     sub_710094E1C0(false);
 }
 
+// NON_MATCHING: the original does not pass `this` to sub_710094E570 (that function, in this TU, never uses it, so
+// LLVM drops the argument at the call); should match once sub_710094E570 is decompiled here
+// 0x710094e488
+bool Unk_71025d69f0::sub_710094E488() {
+    auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome));
+    if (!screen)
+        return false;
+    bool flag = false;
+    if (!screen->isOpened())
+        return false;
+    if (!sub_710094E570(_28, &flag))
+        return false;
+    return !flag;
+}
+
 // 0x710094e064
 void Unk_71025d69f0::sub_710094E064() {
     const s32 prev = _28;

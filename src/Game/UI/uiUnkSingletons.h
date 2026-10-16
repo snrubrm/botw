@@ -382,6 +382,11 @@ public:
     bool sub_710094E920();
     void sub_710094E1C0(bool value);
     void sub_710094E480();
+    // 0x710094e488 (placeholder name): whether the open home screen allows mode _28 (sub_710094E570 succeeds without
+    // setting its flag)
+    bool sub_710094E488();
+    // 0x710094e570 (declared only; 944 bytes): checks mode `mode` (0 .. 3) against the screens; `out` is cleared first
+    bool sub_710094E570(s32 mode, bool* out);
     void sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4);
     void sub_710094DCC4(s32 a1, s32 a2);
     // 0x710094e064 (placeholder name): sets _28 to 3, then forwards to sub_710094DCC4 with the change
