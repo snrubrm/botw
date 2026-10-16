@@ -4983,6 +4983,8 @@ public:
     // 0x7100a5e0b8 / 0x7100a5e1b0: as Screen::m73 / m76 but open(1) / close(-1)
     void m73(f32 value) override;
     void m76() override;
+    // 0x7100a5e58c
+    void m101() override;
     // EventPlayUiStaffRollImage supplies event duration and the image range, then elapsed time.
     void sub_7100A5E1C4(f32 duration, s32 start, s32 end);
     void sub_7100A5E42C(f32 time);
@@ -5025,6 +5027,9 @@ public:
     bool isEnableControl() const override;
     ~ScreenStaffRollDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenStaffRollDLC, ScreenEx)
+    // 0x7100a58c5c / 0x7100a58cc8: as ScreenStaffRoll::m73 / m76
+    void m73(f32 value) override;
+    void m76() override;
 
     /* 0x3610 */ u32 _3610 = 0;
     /* 0x3614 */ u32 _3614 = 0;

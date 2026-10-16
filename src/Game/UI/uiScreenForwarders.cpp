@@ -1,3 +1,4 @@
+#include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreens.h"
 
 // Overrides that only forward to ScreenBase's version (the original has a 4-byte `b` for each of them).
@@ -73,6 +74,23 @@ void ScreenStaffRoll::m73(f32 value) {
 
 // 0x7100a5e1b0
 void ScreenStaffRoll::m76() {
+    _270 = 0;
+    close(-1);
+}
+
+// 0x7100a5e58c
+void ScreenStaffRoll::m101() {
+    sub_7100AA86EC(1, true);
+}
+
+// 0x7100a58c5c
+void ScreenStaffRollDLC::m73(f32 value) {
+    _270 = value;
+    open(1);
+}
+
+// 0x7100a58cc8
+void ScreenStaffRollDLC::m76() {
     _270 = 0;
     close(-1);
 }
