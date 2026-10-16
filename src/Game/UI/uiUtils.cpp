@@ -244,6 +244,46 @@ const char* getDecimalSeparator(bool a1) {
     return ",";
 }
 
+// 0x71025f6b20: the separator between hours, minutes and seconds
+static sead::SafeString sUnk_71025f6b20 = ":";
+
+// 0x7100aa3914
+// NON_MATCHING: the original reaches sUnk_71025f6b20 through the TU's merged globals; the 359999 constant is
+// rematerialised instead of kept in a register
+void sub_7100AA3914(eui::LayoutEx* layout, const sead::SafeString& widget_name, s32 format, s32 time,
+                    s32 fraction) {
+    sead::FixedSafeString<32> text;
+    switch (format) {
+    case 0:
+        text.format("%d", time);
+        break;
+    case 1: {
+        const s32 clamped = time > 5999 ? 5999 : time;
+        const s32 minutes = clamped / 60;
+        const s32 seconds = clamped % 60;
+        text.format("%02d%s%02d", minutes, sUnk_71025f6b20.cstr(), seconds);
+        if (time >= 6000 && fraction >= 0)
+            fraction = 99;
+        break;
+    }
+    case 2: {
+        const s32 clamped = time > 359999 ? 359999 : time;
+        const s32 hours = clamped / 3600;
+        const s32 rest = clamped % 3600;
+        const s32 minutes = rest / 60;
+        const s32 seconds = rest % 60;
+        text.format("%02d%s%02d%s%02d", hours, sUnk_71025f6b20.cstr(), minutes, sUnk_71025f6b20.cstr(),
+                    seconds);
+        if (time > 359999 && fraction >= 0)
+            fraction = 99;
+        break;
+    }
+    }
+    if (fraction >= 0)
+        text.appendWithFormat("%s%02d", getDecimalSeparator(true), fraction);
+    setWidgetString(layout, widget_name, text);
+}
+
 // 0x7100aa256c
 s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
                     const eui::MessageString& message) {
