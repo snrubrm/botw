@@ -32,6 +32,8 @@ protected:
     void sub_7100204E40();
     void sub_7100206280();
     bool sub_71002065FC();
+    // 0x7100205ba8 (placeholder name): true once the NPC has been stuck against a wall for WallHitTime seconds.
+    bool sub_7100205BA8();
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
@@ -59,7 +61,9 @@ protected:
     u8 _99[0xe4 - 0x99];
     // Whole enter_ initializes all three fields; the rain helper resets and updates this timer.
     ksys::Timer _e4;
-    u8 _f0[0x178 - 0xf0];
+    // Stuck timer: runs while the NPC barely moves against a wall (sub_7100205BA8).
+    ksys::Timer _f0;
+    u8 _fc[0x178 - 0xfc];
 };
 
 }  // namespace uking::action

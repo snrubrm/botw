@@ -5,6 +5,8 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
@@ -119,6 +121,27 @@ sead::SafeString NPCTargetMove::m35() {
 s32 NPCTargetMove::m32(RandomMovePoints* points) {
     points->add(*mTargetPos_d);
     return *mUpdateTargetPosInterval_s;
+}
+
+// NON_MATCHING: the original shares the final `return false` between the reset branch and the failed tests
+bool NPCTargetMove::sub_7100205BA8() {
+    auto* actor = mActor;
+    const sead::Vector3f front = actor->getMtx().getBase(2);
+    bool stuck = false;
+    if (sub_71007A4178(actor, true) ||
+        (isLandedMaybe(actor, false) &&
+         (_f0.value > 0.0f ||
+          (sub_71007A471C(actor, 0) && front.dot(sub_71007A471C(actor, 0)->_c) < 0.0f)))) {
+        if (mActor->getVelocity().length() < 0.03f) {
+            _f0.update();
+            const f32 limit = *mWallHitTime_s * 30.0f;
+            if (!(limit < 0.0f) && _f0.value > limit)
+                stuck = true;
+        }
+    } else {
+        _f0.reset(0.0f, 1.0f);
+    }
+    return stuck;
 }
 
 }  // namespace uking::action
