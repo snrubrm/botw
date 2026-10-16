@@ -1,3 +1,5 @@
+#include "Game/gameSaveSystem.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiSwkbdMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -87,6 +89,39 @@ ScreenOptionWindow::~ScreenOptionWindow() {
     for (s32 i = 0, n = _3698.size(); i < n; ++i)
         delete _3698.at(i);
     _3698.freeBuffer();
+}
+// 0x7100a2abb8
+ScreenOptionWindow::Settings::Settings() {
+    balloonText = ksys::gdt::getFlag_BalloonTextOnOff();
+    cameraUpDownReverse = ksys::gdt::getFlag_CameraUpDownReverse();
+    cameraRLReverse = ksys::gdt::getFlag_CameraRLReverse();
+    jumpButtonChange = ksys::gdt::getFlag_JumpButtonChange();
+    gyro = ksys::gdt::getFlag_GyroOnOff();
+    textRuby = ksys::gdt::getFlag_TextRubyOnOff();
+    miniMapDirection = ksys::gdt::getFlag_MiniMapDirection();
+    stickSensitivity = ksys::gdt::getFlag_StickSensitivity();
+    mainScreen = ksys::gdt::getFlag_MainScreenOnOff();
+    amiiboItem = ksys::gdt::getFlag_AmiiboItemOnOff();
+    textWindowChange = ksys::gdt::getFlag_TextWindowChange();
+    voiceLanguage = ksys::gdt::getFlag_VoiceLanguage();
+}
+
+// 0x7100a2ac88
+void ScreenOptionWindow::m100() {
+    checkFlagsAndSetCurrentRuneStuff();
+    if (!_36c0)
+        return;
+    const Settings current;
+    const Settings& saved = *_36c0;
+    if (current.balloonText != saved.balloonText || current.cameraUpDownReverse != saved.cameraUpDownReverse ||
+        current.cameraRLReverse != saved.cameraRLReverse ||
+        current.jumpButtonChange != saved.jumpButtonChange || current.gyro != saved.gyro ||
+        current.textRuby != saved.textRuby || current.miniMapDirection != saved.miniMapDirection ||
+        current.stickSensitivity != saved.stickSensitivity || current.mainScreen != saved.mainScreen ||
+        current.amiiboItem != saved.amiiboItem || current.textWindowChange != saved.textWindowChange ||
+        current.voiceLanguage != saved.voiceLanguage) {
+        SaveSystem::instance()->sub_71009145F8();
+    }
 }
 // NON_MATCHING: lib/agl declares agl::TextureData::~TextureData out of line; the original inlines it (only the
 // NVNtexture_ member destructor at 0x4910 is called)

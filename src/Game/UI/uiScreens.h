@@ -3386,6 +3386,8 @@ void sub_71009F202C();
 void sub_71009F2204();
 // 0x7100a9ac84 (defined in uiScreenFacade.cpp)
 void sub_7100A9AC84(void* a1);
+// 0x7100aa8784 (CSV checkFlagsAndSetCurrentRuneStuff; declared only)
+void checkFlagsAndSetCurrentRuneStuff();
 
 class ScreenPauseMenuMantan : public ScreenEx {
 public:
@@ -4599,6 +4601,30 @@ public:
     // 0x7100a28cd0 (placeholder name; the _36c8 callback): sets bit 1 of _36e8
     void sub_7100A28CD0();
 
+    // The option values read from the game data flags (0x1c bytes; m93 allocates one at _36c0, m100 builds one on the
+    // stack to compare).
+    struct Settings {
+        // 0x7100a2abb8
+        Settings();
+
+        bool balloonText;
+        bool cameraUpDownReverse;
+        bool cameraRLReverse;
+        bool jumpButtonChange;
+        bool gyro;
+        bool textRuby;
+        bool miniMapDirection;
+        s32 stickSensitivity;
+        s32 mainScreen;
+        bool amiiboItem;
+        s32 textWindowChange;
+        s32 voiceLanguage;
+    };
+    static_assert(sizeof(Settings) == 0x1c);
+
+    // 0x7100a2ac88: saves (SaveSystem::sub_71009145F8) when the flags differ from the copy taken by m93
+    void m100() override;
+
     /* 0x3610 */ Unk_7102474df8 _3610;
     /* 0x3698 */ sead::PtrArray<Unk_OptionWindowEntry> _3698;
     /* 0x36a8 */ s32 _36a8 = 3;
@@ -4607,7 +4633,7 @@ public:
     /* 0x36bc */ bool _36bc = false;
     /* 0x36bd */ bool _36bd = false;
     /* 0x36be */ bool _36be = false;
-    /* 0x36c0 */ u64 _36c0 = 0;
+    /* 0x36c0 */ Settings* _36c0 = nullptr;
     /* 0x36c8 */ sead::Delegate<ScreenOptionWindow> _36c8;
     /* 0x36e8 */ sead::Atomic<u32> _36e8 = 0;
 };
