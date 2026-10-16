@@ -446,6 +446,62 @@ void Player::m372() {
     _1d3c = -1.0f;
 }
 
+// 0x7100886198: the player's damage update (shield guard power, then the damage reaction).
+void Player::m160() {
+    auto* damage_mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
+    if (!damage_mgr)
+        return;
+
+    sub_71008846A8();
+    getWeapons();
+    s32 guard_power = 0;
+    for (s32 i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && weapon->_cf0 == 4) {
+            const s32 power = weapon->getShieldGuardPower();
+            if (guard_power <= power)
+                guard_power = power;
+        }
+    }
+    damage_mgr->_70 = guard_power;
+
+    const s32 type = damage_mgr->getField54();
+    const s32 field50 = damage_mgr->getField50();
+    if (type == -1)
+        return;
+
+    const bool use_mask = sub_7100732AFC(type) || sub_7100732B0C(type) || type == 11;
+    sead::BitFlag8 flags;
+    sub_7100732864(&flags, this);
+    if (!flags.isOnBit(0))
+        return;
+
+    ksys::phys::MaterialMask mask(0x13u);
+    const s32 slot = playerWeapons_return1();
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(slot)))
+        weapon->sub_71002ED4CC(&mask);
+
+    DamageReactionInfo info;
+    info._0 = damage_mgr->getField50();
+    info._4 = type;
+    info._8 = damage_mgr->getDamage();
+    info._10 = damage_mgr->m37();
+    info._19 = damage_mgr->checkDamageFlags(0);
+    info._1a = damage_mgr->checkDamageFlags(7);
+    info._18 = damage_mgr->checkDamageFlags(9);
+    info._1f = damage_mgr->checkDamageFlags(10);
+    info._20 = damage_mgr->checkDamageFlags(12);
+    info._1b = damage_mgr->sub_71006E0D24();
+    info._1c = damage_mgr->sub_71006E0E78();
+    info._1d = damage_mgr->sub_71006E0FB4();
+    info._30 = use_mask ? &mask : nullptr;
+    info._38 = damage_mgr->getAttackOtherMaterialMask();
+    info._1e = getActorFlags2().isOn(ActorFlag2::_40);
+    info._21 = damage_mgr->getDamageType() == 4 || field50 == 6;
+    info._22 = damage_mgr->checkDamageFlags(1);
+    sub_7100733418(this, &info, nullptr);
+}
+
 bool Player::m183() {
     return mASList->x_1(1, 1) == "HorseBowEndUpper";
 }

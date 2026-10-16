@@ -493,6 +493,8 @@ public:
     // (ASList::x_1 on the equipment type names, Player::x_23); called by PlayerMove / PlayerWait /
     // PlayerAtnWait::calc_, which ignore any result.
     void sub_7100890594();
+    // 0x71008846a8 (2092 B, declaration only; placeholder name): called first by m160 (damage update).
+    void sub_71008846A8();
     void sub_7100861858();
     void sub_710088C5A4();
     void sub_710088A388();
