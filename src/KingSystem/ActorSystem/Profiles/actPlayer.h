@@ -461,6 +461,9 @@ public:
     void sub_71008821BC();
     bool sub_7100883220(bool force);
     void sub_710088349C();
+    void sub_71008562CC();
+    void sub_710085603C();
+    void sub_71008564CC();
     void sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
     void sub_71008822EC();
     void sub_71008823AC();

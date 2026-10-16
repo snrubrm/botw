@@ -2088,12 +2088,49 @@ void Player::sub_7100855F80(const char* animation) {
     }
 }
 
+// Placeholder name: plays FaceDefault on AS slot 3 bank 0 (clearing _c48 bit 30) and, unless bank 2 is busy,
+// blends to bank 1 while it plays another face.
+void Player::sub_710085603C() {
+    mASList->startAnimationMaybe(-1.0f, -1.0f, "FaceDefault", 3, 0, true);
+    if (_c48.isOnBit(30))
+        _c48.resetBit(30);
+    if (mASList->x_7(3, 2, &as::ASList::Unk2::sub_710002E82C))
+        return;
+    if (mASList->x_7(3, 1, &as::ASList::Unk2::sub_710002E82C) && mASList->x_1(3, 1) != "FaceDefault") {
+        mASList->sub_710115F2EC(3, 0, 0.0f);
+        mASList->sub_710115F2EC(3, 1, 1.0f);
+        mASList->sub_710115F4A0(false, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+        mASList->sub_710115F4A0(true, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+    } else {
+        mASList->sub_710115F2EC(3, 0, 1.0f);
+        mASList->sub_710115F2EC(3, 1, 0.0f);
+        mASList->sub_710115F4A0(false, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+    }
+}
+
 void Player::sub_7100856210(const char* animation) {
     mASList->startAnimationMaybe(-1.0f, -1.0f, animation, 3, 1, true);
     if (!mASList->x_7(3, 2, &as::ASList::Unk2::sub_710002E82C)) {
         mASList->sub_710115F2EC(3, 0, 0.0f);
         mASList->sub_710115F2EC(3, 1, 1.0f);
         mASList->sub_710115F4A0(false, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+    }
+}
+
+// Placeholder name: plays FaceDefault on AS slot 3 (also bank 0 when _c48 bit 30 was set) and resets the slot 3
+// blend weights unless bank 2 is busy.
+void Player::sub_71008562CC() {
+    auto* list = mASList;
+    list->startAnimationMaybe(-1.0f, -1.0f, "FaceDefault", 3, 1, true);
+    if (_c48.isOnBit(30)) {
+        _c48.resetBit(30);
+        list->startAnimationMaybe(-1.0f, -1.0f, "FaceDefault", 3, 0, true);
+    }
+    if (!mASList->x_7(3, 2, &as::ASList::Unk2::sub_710002E82C)) {
+        mASList->sub_710115F2EC(3, 0, 1.0f);
+        mASList->sub_710115F2EC(3, 1, 0.0f);
+        mASList->sub_710115F4A0(true, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+        mASList->sub_710115F4A0(false, 3, 1, &as::ASList::Unk2::sub_7100507A64);
     }
 }
 
@@ -2104,6 +2141,26 @@ void Player::sub_71008563F0(const char* animation) {
     mASList->sub_710115F2EC(3, 2, 1.0f);
     mASList->sub_710115F4A0(false, 3, 0, &as::ASList::Unk2::sub_7100507A64);
     mASList->sub_710115F4A0(false, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+}
+
+// Placeholder name: stops AS slot 3 bank 2 if it is busy, then blends slot 3 to bank 1 while it plays another face
+// than FaceDefault, else back to bank 0.
+void Player::sub_71008564CC() {
+    if (mASList->x_7(3, 2, &as::ASList::Unk2::sub_710002E82C)) {
+        mASList->sub_710115B01C(3, 2, true);
+        mASList->sub_710115F2EC(3, 2, 0.0f);
+    }
+    if (mASList->x_7(3, 1, &as::ASList::Unk2::sub_710002E82C) && mASList->x_1(3, 1) != "FaceDefault") {
+        mASList->sub_710115F2EC(3, 0, 0.0f);
+        mASList->sub_710115F2EC(3, 1, 1.0f);
+        mASList->sub_710115F4A0(false, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+        mASList->sub_710115F4A0(true, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+    } else {
+        mASList->sub_710115F2EC(3, 0, 1.0f);
+        mASList->sub_710115F2EC(3, 1, 0.0f);
+        mASList->sub_710115F4A0(true, 3, 0, &as::ASList::Unk2::sub_7100507A64);
+        mASList->sub_710115F4A0(false, 3, 1, &as::ASList::Unk2::sub_7100507A64);
+    }
 }
 
 bool Player::sub_710086D168() {
