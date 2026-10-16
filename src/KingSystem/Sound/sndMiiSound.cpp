@@ -126,12 +126,15 @@ bool Unk_710251b710::sub_71012CE4D8(Unk_710251b6f0* sound) {
 
 Unk_710251ba58::~Unk_710251ba58() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71012d455c) also destroys members or bases
-// this class does not declare yet.
-Unk_710251bb98::~Unk_710251bb98() = default;
+// NON_MATCHING: the original zeroes the last buffer with one 16-byte store (stp xzr, xzr at 0x78).
+Unk_710251bb98::~Unk_710251bb98() {
+    _38.freeBuffer();
+    _48.freeBuffer();
+    _58.freeBuffer();
+    _68.freeBuffer();
+    _78.freeBuffer();
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x71012d9e94) also destroys members or bases
-// this class does not declare yet.
 Unk_710251bf80::~Unk_710251bf80() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x71012da034) also destroys members or bases

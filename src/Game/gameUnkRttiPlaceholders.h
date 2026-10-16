@@ -1334,8 +1334,18 @@ public:
 class Unk_710251bb98 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251bb98, Unk_710251d230)
 public:
+    // 0x71012da6bc (Unk_710251bf80's destructor is an alias of it): frees the five buffers.
     ~Unk_710251bb98() override;
     virtual void m7();
+
+    // Not modelled yet (the base's data or this class's first fields).
+    u8 _8[0x38 - 0x8];
+    // Five buffers freed by the destructor (element types unknown; trivially destructible).
+    sead::Buffer<u8> _38;
+    sead::Buffer<u8> _48;
+    sead::Buffer<u8> _58;
+    sead::Buffer<u8> _68;
+    sead::Buffer<u8> _78;
 };
 
 // vtable 0x710251bf80 (37 slots); placeholder generated from the vtable (genskel.py).
