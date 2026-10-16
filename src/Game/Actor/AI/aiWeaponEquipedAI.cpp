@@ -203,6 +203,49 @@ void WeaponEquipedAI::sub_7100E1D7A8() {
     }
 }
 
+// NON_MATCHING: the original loads _38 before testing the freeze signal and branches into the restore path
+// 0x7100e1d884 (placeholder name): while the parent actor is frozen (freeze placement link and signal), switches
+// the weapon to the no-hit layers and sets the physics / xlink freeze flags; restores them afterwards
+void WeaponEquipedAI::sub_7100E1D884() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon)
+        return;
+    auto* parent = weapon->getParentActor();
+    if (parent && parent->hasPlacementLinkWithTypeFreeze() && parent->checkFreezeSignal()) {
+        if (!_38) {
+            sub_7100E1DB34(ksys::phys::ContactLayer::EntityNoHit, ksys::phys::ContactLayer::SensorNoHit);
+            ksys::act::sub_7100EE5624(mActor);
+            if (auto* physics = mActor->getPhysics())
+                physics->getFlags().set(ksys::phys::InstanceSet::Flag::_20000);
+            if (auto* xlink = mActor->getXLink())
+                xlink->_cc.set(0x800);
+            _38 = true;
+        }
+    } else if (_38) {
+        sub_7100E1DB34(ksys::phys::ContactLayer::EntityHitOnlyWater, ksys::phys::ContactLayer::SensorChemical);
+        ksys::act::sub_7100EE544C(mActor);
+        if (auto* physics = mActor->getPhysics())
+            physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_20000);
+        if (auto* xlink = mActor->getXLink())
+            xlink->_cc.reset(0x800);
+        _38 = false;
+    }
+}
+
+// 0x7100e1d9f0 (placeholder name): when the weapon's m227 holds, passes its rotation and translation offsets to
+// the child
+void WeaponEquipedAI::sub_7100E1D9F0() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (!weapon || !weapon->m227())
+        return;
+    sead::Vector3f rotation;
+    weapon->m165(&rotation);
+    getCurrentChild()->setDynamicParam(rotation, "RotOffset");
+    sead::Vector3f translation;
+    weapon->m166(&translation);
+    getCurrentChild()->setDynamicParam(translation, "TransOffset");
+}
+
 // 0x7100e1db34
 void WeaponEquipedAI::sub_7100E1DB34(ksys::phys::ContactLayer main_layer, ksys::phys::ContactLayer chemical_layer) {
     auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
