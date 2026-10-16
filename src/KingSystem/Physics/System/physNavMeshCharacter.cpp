@@ -380,6 +380,12 @@ void NavMeshObjMaybe::sub_7100F7FB0C(bool on) {
 
 Unk_71024f67c8::~Unk_71024f67c8() = default;
 
+Unk_71024f67c8* Unk_71024f67c8::sub_7100F73640(const InitArg& arg, sead::Heap* heap) {
+    auto* chain = new (heap) Unk_71024f67c8;
+    chain->sub_7100F73714(arg, heap);
+    return chain;
+}
+
 void Unk_71024f67c8::sub_7100F73B7C() {
     mEntries.freeBuffer();
     delete this;

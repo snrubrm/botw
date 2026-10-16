@@ -387,7 +387,29 @@ public:
     };
     static_assert(sizeof(Entry) == 0xc0);
 
+    // Read by init 0x7100f73714 (placeholder names; bone names of the three keys and an optional one).
+    struct InitArg {
+        gsys::Model* model;
+        sead::Vector3f _8;
+        const char* bone_20;
+        const char* bone_58;
+        const char* bone_90;
+        const char* bone_extra;
+        f32 _38;
+        f32 _3c;
+        u8 _40;
+        bool _41;
+        f32 _44;
+        f32 _48;
+        f32 _4c;
+    };
+
     virtual ~Unk_71024f67c8();
+
+    // 0x7100f73640 (placeholder name): creates and initialises a chain.
+    static Unk_71024f67c8* sub_7100F73640(const InitArg& arg, sead::Heap* heap);
+    // 0x7100f73714 (declaration only; placeholder name): looks up the bones and builds the entries.
+    bool sub_7100F73714(const InitArg& arg, sead::Heap* heap);
 
     // 0x7100f73c7c (placeholder name): reads every entry's local bone matrix and scale from the model
     // (after clearing the local matrices if `reset`), scales its translation by the previous entry's
@@ -413,18 +435,29 @@ public:
     // 0x7100f74f68 (placeholder name): applies the local matrix of entry `index` to the model.
     void sub_7100F74F68(s32 index);
 
-    gsys::Model* mModel;
-    u8 _10[0x20 - 0x10];
+    gsys::Model* mModel = nullptr;
+    sead::Vector3f _10;
+    u8 _1c[0x20 - 0x1c];
     gsys::BoneAccessKeyEx _20;
     gsys::BoneAccessKeyEx _58;
     gsys::BoneAccessKeyEx _90;
-    s32 _c8;
-    s32 _cc;
-    s32 _d0;
-    s32 _d4;
-    u8 _d8[0xf8 - 0xd8];
+    s32 _c8 = -1;
+    s32 _cc = -1;
+    s32 _d0 = -1;
+    s32 _d4 = -1;
+    s32 _d8 = -1;
+    sead::Vector3f _dc = sead::Vector3f::zero;
+    u8 _e8[0xf8 - 0xe8];
     sead::Buffer<Entry> mEntries;
-    f32 _108;
+    f32 _108 = 1.0f;
+    f32 _10c = 1.0f;
+    f32 _110 = 1.0f;
+    f32 _114 = 0.0f;
+    f32 _118 = sead::Mathf::pi();
+    bool _11c = false;
+    f32 _120 = 0.0f;
+    f32 _124 = sead::Mathf::pi();
 };
+static_assert(sizeof(Unk_71024f67c8) == 0x128);
 
 }  // namespace ksys::phys
