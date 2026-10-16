@@ -10,6 +10,7 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadSpinLock.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Sound/sndSound.h"
 
@@ -682,6 +683,22 @@ public:
     void sub_7101025388(Unk_SpotBgmInstance* instance);
     // 0x71010255d0 (declared only; 28 B): clears _80 and resets the volume of the sound at _78 to 1.
     void sub_71010255D0();
+
+    ~Unk_710260f1a8() override;
+    // 0x7101024cc0 (declared only)
+    void m5() override;
+    bool m9() override { return true; }
+    void m14(sead::TextWriter& writer) override {}
+    // 0x71010251a4 / 0x7101025230: fade in / out every instance (under mLock).
+    void m12(f32 fade_sec) override;
+    void m13(f32 fade_sec) override;
+
+    /* 0x10 */ sead::Buffer<Unk_SpotBgmInstance*> mInstances;
+    u8 _20[0x28 - 0x20];
+    /* 0x28 */ u64 _28;
+    /* 0x30 */ sead::SpinLock mLock;
+    u8 _40[0x60 - 0x40];
+    /* 0x60 */ sead::Buffer<void*> _60;
 };
 
 // Four-byte practice-state argument, passed by reference to sub_71010267A8.

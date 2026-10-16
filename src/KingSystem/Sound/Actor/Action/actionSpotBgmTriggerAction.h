@@ -9,6 +9,9 @@ class Unk_SpotBgmInstance {
 public:
     // 0x7101023050 (declared only; 532 B)
     explicit Unk_SpotBgmInstance(bool a);
+    // 0x710102413c / 0x710102418c (declared only): fade in / fade out (Unk_710260f1a8::m12 / m13).
+    void sub_710102413C(f32 fade_sec);
+    void sub_710102418C(f32 fade_sec);
     // 0x71010242c8 (placeholder name): if flag 4 is set, clears flags 0xc and stores 1.0 in `_260` when flag
     // 0x8000 is set (0.0 otherwise).
     void sub_71010242C8();
