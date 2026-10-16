@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadPtrUtil.h>
 #include <prim/seadSafeString.h>
 #include <codec/seadHashCRC32.h>
 #include <thread/seadThread.h>
@@ -215,6 +216,29 @@ u32 sub_7101108AE8(sead::Vector2f* out_pos, s32* out_index, const sead::Vector2f
         *out_index = areas.sub_71010FEDBC(pos, *out_index - 1, 0.0f);
     }
     return 0;
+}
+
+// NON_MATCHING: the original inlines sub_710110AC74 here (it must be visible to this TU, e.g. an inline
+// function in a header); ours calls it. Kept next to sub_7101108AE8, its address neighbour.
+f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, u32 level) {
+    TexelPosMaybe texel;
+    sub_710110AC74(pos.x, pos.y, arg, &texel, level);
+
+    const Unk_710110AC74Table* table = arg->table;
+    const auto& info = table->levels[level];
+    const u32 max = info.size - 1;
+    const u32 row0 = sead::Mathu::min(texel.y, max) * info.pitch;
+    const u32 col0 = sead::Mathu::min(texel.x, max) * table->texel_size;
+    const u8* data = table->areas[arg->index].levels[level];
+    const u32 col1 = sead::Mathu::min(texel.x + 1, max) * table->texel_size;
+    const u32 row1 = sead::Mathu::min(texel.y + 1, max) * info.pitch;
+
+    const f32 h00 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row0 + col0)) / 65535.0f;
+    const f32 h10 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row1 + col0)) / 65535.0f;
+    const f32 h01 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row0 + col1)) / 65535.0f;
+    const f32 h11 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row1 + col1)) / 65535.0f;
+    const f32 top = h00 + texel.fx * (h01 - h00);
+    return top + texel.fy * ((h10 + texel.fx * (h11 - h10)) - top);
 }
 
 void Unk_7101106F44::sub_71011080D4(const ImageTypeMaybe& type) {

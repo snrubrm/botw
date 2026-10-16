@@ -962,7 +962,7 @@ u32 sub_710110BD78(MaterialRecordMaybe* out, const sead::Vector2f* xz, System* s
 // Full 110C02C writes material and submaterial; independent 1224C1C consumes both.
 u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
                     System* system, bool flag);
-// Placeholder: the argument of 0x7101108c44 (0x71011094a0 fills it from the area record's _458 and the
+// Placeholder: the argument of 0x7101108c44 (0x71011094a0 fills it from the area record's table (_20.table) and the
 // area index).
 struct Unk_7101108C44Arg {
     const Unk_710110AC74Table* table;

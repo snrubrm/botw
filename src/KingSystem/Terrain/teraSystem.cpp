@@ -31,7 +31,7 @@ u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s3
     const u32 result = sub_7101108AE8(&pos, &area, *xz, areas->_20, *areas, index);
     if (result != 0) {
         Unk_7101108C44Arg arg;
-        arg.table = areas->_458;
+        arg.table = areas->_20.table;
         arg.index = area;
         arg._c = false;
         *out_height = scale * sub_7101108C44(pos, &arg, height_flag) + 0.0f;
@@ -163,27 +163,6 @@ void sub_710110AC74(f32 x, f32 y, const Unk_7101108C44Arg* arg, TexelPosMaybe* o
     out->fy = wrapTexelMaybe(&out->y, y, size);
 }
 
-// NON_MATCHING: the original inlines sub_710110AC74 here; ours calls it.
-f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, u32 level) {
-    TexelPosMaybe texel;
-    sub_710110AC74(pos.x, pos.y, arg, &texel, level);
-
-    const Unk_710110AC74Table* table = arg->table;
-    const auto& info = table->levels[level];
-    const u32 max = info.size - 1;
-    const u32 row0 = sead::Mathu::min(texel.y, max) * info.pitch;
-    const u32 col0 = sead::Mathu::min(texel.x, max) * table->texel_size;
-    const u8* data = table->areas[arg->index].levels[level];
-    const u32 col1 = sead::Mathu::min(texel.x + 1, max) * table->texel_size;
-    const u32 row1 = sead::Mathu::min(texel.y + 1, max) * info.pitch;
-
-    const f32 h00 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row0 + col0)) / 65535.0f;
-    const f32 h10 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row1 + col0)) / 65535.0f;
-    const f32 h01 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row0 + col1)) / 65535.0f;
-    const f32 h11 = *static_cast<const u16*>(sead::PtrUtil::addOffset(data, row1 + col1)) / 65535.0f;
-    const f32 top = h00 + texel.fx * (h01 - h00);
-    return top + texel.fy * ((h10 + texel.fx * (h11 - h10)) - top);
-}
 
 // NON_MATCHING: scheduling and register allocation (as in sub_710110B38C).
 u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz,
@@ -193,7 +172,7 @@ u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz,
     u32 result = sub_7101108AE8(&pos, &area, *xz, *info_20, *info, -1);
     if (result != 0) {
         Unk_7101108C44Arg arg;
-        arg.table = info->_438;
+        arg.table = info_20->table;
         arg.index = area;
         arg._c = false;
         TexelPosMaybe texel;
@@ -245,7 +224,7 @@ u32 sub_710110B0E8(f32 scale, sead::Vector2f* out, const sead::Vector2f* xz,
     const u32 result = sub_7101108AE8(&pos, &area, *xz, *info_20, *info, -1);
     if (result != 0) {
         Unk_7101108C44Arg arg;
-        arg.table = info->_438;
+        arg.table = info_20->table;
         arg.index = area;
         arg._c = false;
         TexelPosMaybe texel;
@@ -291,7 +270,7 @@ u32 sub_710110B38C(u32* out, const sead::Vector2f* xz, const Unk_7101108AE8Flags
     const u32 result = sub_7101108AE8(&pos, &area, *xz, *info_20, *info, -1);
     if (result != 0) {
         Unk_7101108C44Arg arg;
-        arg.table = info->_438;
+        arg.table = info_20->table;
         arg.index = area;
         arg._c = false;
         TexelPosMaybe texel;

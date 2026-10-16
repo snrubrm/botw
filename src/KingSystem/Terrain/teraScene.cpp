@@ -8,7 +8,7 @@ namespace ksys::tera {
 void Scene::sub_71011001D4(int level, int type) {
     _2940 = level;
     _2941 = type;
-    const u32 max = _0[0]._29 + _2780 + _0[0]._28;
+    const u32 max = _0[0]._20._9 + _2780 + _0[0]._20._8;
     if (_2941 > max)
         _2941 = max;
     if (_2940 > _2941)

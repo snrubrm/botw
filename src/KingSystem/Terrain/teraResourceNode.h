@@ -234,9 +234,18 @@ struct Unk_7101108AE8Flags {
     u8 _0;
     u8 _1;
     u8 _2;
+    u8 _3[0x8 - 0x3];
+    u8 _8;
+    u8 _9;
+    u8 _a[0xe - 0xa];
+    // Texel count of the area table (0x710110adf8 divides it by an area's _18).
+    u16 _e;
+    u8 _10[0x438 - 0x10];
+    // The area texel table (Unk_71010FEDBC + 0x458; 0x71011094a0, 0x710110b38c, 0x710110aa5c).
+    const struct Unk_710110AC74Table* table;
 };
 
-// Placeholder: what Unk_71010FEDBC::_458 points to: per level a row pitch, a texel count and a
+// Placeholder: what Unk_7101108AE8Flags::table (record + 0x458) points to: per level a row pitch, a texel count and a
 // coordinate offset (0x710110ac74, 0x7101108c44), then the texel data of each area per level.
 struct Unk_710110AC74Table {
     struct Level {
@@ -334,16 +343,8 @@ struct Unk_71010FEDBC {
     u16 _1c;
     s8 _1e;
     u8 _1f;
+    // The query helpers receive a pointer to this sub-object; its table is at +0x438 (record + 0x458).
     Unk_7101108AE8Flags _20;
-    u8 _23[0x28 - 0x23];
-    u8 _28;
-    u8 _29;
-    u8 _2a[0x438 - 0x2a];
-    // Material table (0x710110b38c), like _458.
-    const Unk_710110AC74Table* _438;
-    u8 _440[0x458 - 0x440];
-    // Copied by 0x71011094a0 into the argument of 0x7101108c44.
-    const struct Unk_710110AC74Table* _458;
 };
 // The same objects as the nine 0x460-byte records at the start of a Scene (System::sub_710111F4F0 /
 // sub_710111F504 return one; 0x71011094a0 passes one as both arguments of 0x7101108ae8).
