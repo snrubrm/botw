@@ -116,6 +116,9 @@ public:
     bool sub_71011074A0();
     // 0x710110736c (placeholder name): waits (1 ms steps) until the image for `type` is marked unused.
     void sub_710110736C(const ImageTypeMaybe& type);
+    // 0x71011077c8 (placeholder name): spins until the image for `type` exists and its unused / unloading
+    // state bits are clear (clearing them itself).
+    void sub_71011077C8(const ImageTypeMaybe& type);
     // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.
     void sub_7101107768();
 

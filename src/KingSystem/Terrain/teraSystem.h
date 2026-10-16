@@ -15,6 +15,7 @@
 #include <hostio/seadHostIONode.h>
 #include <container/seadOffsetList.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadReadWriteLock.h>
 #include <thread/seadThread.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
@@ -460,6 +461,9 @@ public:
     // 0x7101101964 (declaration only; placeholder name): refreshes the 19 words at 0x278c from the Terrain
     // and sets flag 4 if one changed.
     void sub_7101101964();
+    // 0x710110234c (declaration only; placeholder name): branches to 0x71011021e4 with this + 0x276c and
+    // true.
+    void sub_710110234C(System* system);
     // 0x71010ffe70 (placeholder name): when (a, b) differ from _2780 / _2784, stores them,
     // rebuilds through _2948 and sets flags 0xff00.
     void sub_71010FFE70(s32 a, s32 b);
@@ -536,6 +540,12 @@ public:
     // 0x7101112c94 (placeholder name): destroys `area` and its subtree (children first): waits until its
     // images are unused, tells `listener`, releases its images from the image resource manager and deletes it.
     void sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener);
+    // 0x7101115158 (placeholder name): with a current area node: if `update`, runs Scene::sub_710110234C
+    // on every scene under the write lock, sets flag 0x10000 and runs sub_7101115BAC; otherwise only sets
+    // flags 0x10002.
+    void sub_7101115158(bool update);
+    // 0x7101115bac (declaration only; placeholder name).
+    void sub_7101115BAC();
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
     s32 sub_71011188E4() const;
     void allocateApertureMapsCollectorImage(sead::Heap* heap);

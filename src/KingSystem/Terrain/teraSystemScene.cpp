@@ -33,6 +33,22 @@ void System::sub_7101112C30(const sead::Vector3f& vec) {
     }
 }
 
+void System::sub_7101115158(bool update) {
+    if (!_8)
+        return;
+
+    if (update) {
+        mLock.writeLock();
+        for (s32 i = 0; i < mScenes.size(); ++i)
+            mScenes[i].scene->sub_710110234C(this);
+        _1338 |= 0x10000;
+        sub_7101115BAC();
+        mLock.writeUnlock();
+    } else {
+        _1338 |= 0x10002;
+    }
+}
+
 void System::sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener) {
     area->sub_7101107768();
     for (auto* child : area->mChildren) {

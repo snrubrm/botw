@@ -13,6 +13,19 @@ Unk_710110d278* Unk_7101108460::getB() const {
     return mB;
 }
 
+void Unk_7101106F44::sub_71011077C8(const ImageTypeMaybe& type) {
+    while (true) {
+        Unk_710250dcd8* image = getImageMaybe(type);
+        if (!image)
+            continue;
+        const u32 state = image->_18._4.load();
+        if ((state >> 30) == 0)
+            return;
+        if (image->_18._4.compareExchange(state, state + 0xc0000000))
+            return;
+    }
+}
+
 Unk_710250dbc8* Unk_7101108460::getA() {
     return mA;
 }
