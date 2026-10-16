@@ -4,9 +4,13 @@ target_sources(uking PRIVATE
   sndBattleDungeonBgm.cpp
   sndBgm.cpp
   sndBgmEntry.cpp
-  sndBgmList.cpp
   sndNamedBgmList.cpp
+  sndBgmList.cpp
+  sndPriestBossBgm.cpp
+  sndGuardianFixedBgm.cpp
+  sndHorseBgm.cpp
   sndBgmCastle.cpp
+  sndMazeForestBgm.cpp
   sndBgmMgr.h
   sndBgmMgr.cpp
   sndDuckingMgr.cpp
