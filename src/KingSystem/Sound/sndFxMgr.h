@@ -27,6 +27,8 @@ public:
     void sub_710105034C();
     void sub_7101051078();
     void sub_71010511D4();
+    // 0x7101051154 (declared only): sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.
+    void sub_7101051154(f32 gain);
     // 0x710105126c (declared only): sets the out gain of the two delay effects at +0x68 / +0x70 (1.0, 0.1).
     void sub_710105126C();
     void sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,

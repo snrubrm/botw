@@ -91,6 +91,28 @@ void Unk_710104e5b4::sub_710104F4A0() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
+// 0x71025024f0: the FX delay gain restored when the slow motion ends.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71025024F0 = 0.7f;
+
+void Unk_710104e5b4::sub_710104EE64() {
+    if (_30 == 2)
+        return;
+    _38.fade();
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cSlowBgm, false);
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cSlowSe, false);
+    if (auto* fx = SoundMgr::instance()->_50)
+        fx->sub_7101051154(sUnk_71025024F0);
+    _30 = 2;
+    _2a0.set(1);
+    sead::ScopedLock<sead::CriticalSection> lock(&mHandleCS);
+    for (auto it = mHandles.robustBegin(); it != mHandles.robustEnd(); ++it) {
+        if (!it->isActive())
+            mHandles.erase(&*it);
+        else if (_2a0.isOn(1))
+            sub_710104FB40(&*it);
+    }
+}
+
 void Unk_710104e5b4::sub_710104EE50() {
     if (_30 != 2)
         sub_710104EE64();
