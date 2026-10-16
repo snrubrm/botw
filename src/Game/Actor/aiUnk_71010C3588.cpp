@@ -12,6 +12,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldChemicalMgr.h"
@@ -25,6 +27,28 @@ Unk_710250c260::~Unk_710250c260() {
         delete mBody;
         mBody = nullptr;
     }
+}
+
+// NON_MATCHING: scheduling (the matrix pointer is moved to a callee-saved register earlier).
+void Unk_710250c260::sub_71010C36A4(f32 length, f32 radius, const sead::Matrix34f* mtx, sead::Heap* heap,
+                                    ksys::act::Actor* actor) {
+    _20 = actor;
+    ksys::phys::CapsuleParam param;
+    param.vertex_a = sead::Vector3f::zero;
+    param.vertex_b.setRotated(*mtx, sead::Vector3f::ey * length);
+    param.radius = radius;
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.name = "FireCapsule";
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    mBody = ksys::phys::CapsuleRigidBody::make(&param, heap);
+    if (!mBody)
+        return;
+    _28 = *mtx;
+    _58 = length;
+    _5c = radius;
+    mBody->setTransform(*mtx, ksys::phys::PropagateToLinkedMotions(true));
+    if (actor && actor->getChemicalContainer())
+        _18 = actor->getChemicalContainer()->_68;
 }
 
 void Unk_710250c260::sub_71010C38F4(const sead::Matrix34f* mtx) {
