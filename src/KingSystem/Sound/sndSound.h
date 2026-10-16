@@ -544,6 +544,9 @@ public:
         void deactivateMaybe(bool suspend);
         // 0x710103e2c4: activateMaybe() and resets mDucker's state.
         void activateAndResetMaybe();
+        // 0x710103df60 (declared only; needs aal::GroupDucker's private mInitialized): per-frame update while
+        // active or ducking.
+        void calc();
 
         u8 _8[0x60];
         /* 0x68 */ aal::GroupDucker mDucker;
@@ -559,6 +562,8 @@ public:
     // 0x7101042db4: stops the ducker called `type` (`suspend`: also suspends its aal::GroupDucker).
     void sub_7101042DB4(const sead::SafeString& type, bool suspend);
     // 0x7101042024: starts the ducker `type`.
+    // 0x7101041fec: updates every ducker.
+    void calc();
     Ducker* sub_7101042024(DuckerType type);
     // 0x7101042d6c: clears bit 0 of the ducker `type`'s flags byte (+0xc8) and suspends its aal::GroupDucker if
     // `suspend`.

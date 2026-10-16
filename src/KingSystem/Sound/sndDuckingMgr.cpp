@@ -41,6 +41,11 @@ bool DuckingMgr::Ducker::sub_710103E368() const {
     return false;
 }
 
+void DuckingMgr::calc() {
+    for (auto& ducker : mDuckers)
+        ducker.calc();
+}
+
 DuckingMgr::Ducker* DuckingMgr::sub_7101042024(DuckerType type) {
     Ducker& ducker = mDuckers[type];
     ducker._c8 |= 1;
