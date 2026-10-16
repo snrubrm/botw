@@ -577,6 +577,9 @@ public:
     // `task`, releases its image when its handle is still valid and runs sub_7101133588 on it. Returns 8
     // if the task's handle is stale, 3 if no request matches, 1 otherwise.
     s32 sub_7101136188(LoadTask* task);
+    // 0x710113400c (CSV teraImageResourceMgrStuff; declaration only; placeholder name; 5596 bytes): runs a
+    // kind-0 (load) task; procUnloadResidualRequest switches on its result (1 - 17).
+    s32 sub_710113400C(LoadTask* task);
     // 0x7101133588 (declared only; placeholder name).
     void sub_7101133588(Request* request);
     // 0x7101136950 (placeholder name): sub_7101136328 and sub_71011320B4 on every request of mList31c0.

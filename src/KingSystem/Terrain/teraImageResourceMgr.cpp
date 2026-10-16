@@ -762,4 +762,157 @@ void* ImageResourceMgr::sub_71011369D0(u32 size, s32 alignment) {
     return nullptr;
 }
 
+// NON_MATCHING: block layout; the image checks before the hand-off are not laid out as in the original
+// (2744 bytes against 2664).
+s32 ImageResourceMgr::procUnloadResidualRequest() {
+    if (mList3200.size() == 0)
+        return 0;
+
+    mCS28.lock();
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    s32 result = 0;
+    if (mList3200.size() == 0) {
+        mCS28.unlock();
+        return result;
+    }
+
+    mCS68.lock();
+    LoadTask* task = mList3200.popFront();
+    if (!task) {
+        mCS68.unlock();
+        mCS28.unlock();
+        return result;
+    }
+    mKindLists[u8(task->_24)].erase(task);
+
+    if (!task->handle.isValid(mSystems, task->area, _6470)) {
+        result = 8;
+    } else if (task->_20 == 0 && (!task->area->hasImageMaybe(task->type) ||
+                                  !task->area->isImageFlagSetMaybe(task->type, 2))) {
+        result = 6;
+    } else if (task->_20 == 0 && task->area->isImageFlagSetMaybe(task->type, 8)) {
+        result = 4;
+    } else if (task->_20 == 1 && task->area->hasImageMaybe(task->type) &&
+               task->area->isImageFlagSetMaybe(task->type, 2)) {
+        result = 6;
+    } else {
+        if (task->_20 == 1) {
+            const u32 frame = task->system->_1330;
+            const u32 now = task->_3c <= frame ? frame : frame - 15;
+            if (now - task->_3c <= 1) {
+                mList3200.pushBack(task);
+                mKindLists[u8(task->_24)].pushBack(task);
+                mCS68.unlock();
+                mCS28.unlock();
+                return 2;
+            }
+        }
+
+        mCS68.unlock();
+        if (task->_20 == 0)
+            result = sub_710113400C(task);
+        else if (task->_20 == 1)
+            result = sub_7101136188(task);
+        else
+            result = 1;
+        mCS68.lock();
+    }
+
+    switch (result) {
+    case 1:
+        if (task->_20 == 0 && sub_710113333C(task, true) == 2) {
+            if (Request* request = task->_80) {
+                if (request->_20.isValid(mSystems, request->area, _6470)) {
+                    request->area->sub_710110736C(request->type);
+                    sub_71011339D0(request);
+                }
+                sub_7101133588(request);
+            }
+            mList31e8.pushFront(task);
+        } else {
+            mList4a18.pushFront(task);
+            mKindLists2[u8(task->_24)].pushFront(task);
+        }
+        break;
+    case 3:
+        if (task->_20 == 1) {
+            mList31e8.pushFront(task);
+        } else if (task->_20 == 0) {
+            if (sub_710113333C(task, true) == 2) {
+                if (Request* request = task->_80) {
+                    if (request->_20.isValid(mSystems, request->area, _6470)) {
+                        request->area->sub_710110736C(request->type);
+                        sub_71011339D0(request);
+                    }
+                    sub_7101133588(request);
+                }
+                mList31e8.pushFront(task);
+            } else {
+                mList4a18.pushFront(task);
+                mKindLists2[u8(task->_24)].pushFront(task);
+            }
+        }
+        break;
+    case 4:
+    case 6:
+    case 8:
+        mList31e8.pushFront(task);
+        break;
+    case 5:
+        if (sub_710113333C(task, true) == 2) {
+            mList31e8.pushFront(task);
+        } else {
+            mList3200.pushBack(task);
+            mKindLists[u8(task->_24)].pushBack(task);
+            sub_71011334B4();
+        }
+        break;
+    case 7:
+        if (sub_710113333C(task, false) == 0) {
+            mList3200.pushFront(task);
+            mKindLists[u8(task->_24)].pushFront(task);
+        } else {
+            mList31e8.pushFront(task);
+        }
+        break;
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log(
+                "[tera::ImageResourceMgr::procUnloadResidualRequest] 不明なエラーがでました。Error Code = %d",
+                result - 9);
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        if (sub_710113333C(task, false) != 0) {
+            mList31e8.pushFront(task);
+        } else {
+            mList3200.pushFront(task);
+            mKindLists[u8(task->_24)].pushFront(task);
+        }
+        break;
+    case 17:
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log(
+                "[tera::ImageResourceMgr::procUnloadResidualRequest] ハンドルされていないエラーが出ました。");
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        mList31e8.pushFront(task);
+        break;
+    default:
+        break;
+    }
+
+    mCS68.unlock();
+    mCS28.unlock();
+    return result;
+}
+
 }  // namespace ksys::tera
