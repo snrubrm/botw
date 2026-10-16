@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "Game/gameStage.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -15,6 +18,73 @@
 namespace ksys::eft {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Effect)
+
+// NON_MATCHING: the water-disable region test is branchy here (the original evaluates the four bound
+// compares together, as in map::sub_7100EDB6E0) and the ray cast vectors sit 8 bytes higher on the stack.
+bool Effect::sub_71011B2A34(const sead::Vector3f* pos, f32* out_depth, f32* out_height,
+                            phys::Material* material, s32* submaterial, sead::Vector3f* out_normal,
+                            bool use_raycast) {
+    if (out_depth)
+        *out_depth = 0.0f;
+    if (out_height)
+        *out_height = -99999.0f;
+
+    auto* placement_mgr = map::PlacementMgr::instance();
+    if (!placement_mgr)
+        return false;
+    tera::System* system = placement_mgr->mTeraSystem;
+    if (!system)
+        return false;
+
+    const sead::Vector2f xz{pos->x, pos->z};
+    f32 water_height = -9999.0f;
+    f32 terrain_height = -9999.0f;
+    tera::sub_71011094A0(&terrain_height, &xz, system, -1, 0);
+
+    if (use_raycast) {
+        phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+        query.enableLayer(phys::ContactLayer::EntityWater);
+        query.setStart(*pos + sead::Vector3f(0.0f, 1.0f, 0.0f));
+        query.setEnd(*pos + sead::Vector3f(0.0f, -600.0f, 0.0f));
+        if (query.worldRayCast(phys::ContactLayerType::Entity)) {
+            sead::Vector3f hit;
+            query.getHitPosition(&hit);
+            water_height = hit.y;
+            if (out_normal)
+                query.getHitNormal(out_normal);
+        }
+    } else if (!(pos->y <= uking::sTeraWaterDisableHeight &&
+                 uking::sTeraWaterDisableBounds.isInside(sead::Vector2f(pos->x, pos->z)))) {
+        if (out_normal)
+            tera::sub_710110B52C(&water_height, out_normal, &xz, system);
+        else
+            tera::sub_710110B4A4(&water_height, &xz, system);
+    }
+
+    bool has_water;
+    if (water_height > terrain_height) {
+        if (out_height)
+            *out_height = water_height;
+        has_water = true;
+    } else if ((uking::sUnk_7102606938 - sead::Vector2f(pos->x, pos->z)).length() <
+               uking::sMapStaticScale) {
+        if (out_height)
+            *out_height = water_height;
+        has_water = true;
+    } else {
+        if (out_height)
+            *out_height = terrain_height;
+        has_water = false;
+    }
+    if (out_depth)
+        *out_depth = water_height - terrain_height;
+
+    if (material && submaterial && !tera::sub_710110B6A4(material, submaterial, &xz, system)) {
+        *material = phys::Material::Undefined;
+        *submaterial = 0;
+    }
+    return has_water;
+}
 
 void Unk_EffectActorTable::sub_7100DA2118() {
     // NON_MATCHING: SDK range iteration uses a different counter instead of the native paired loop.

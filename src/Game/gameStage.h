@@ -36,6 +36,8 @@ extern sead::BoundBox2f sTeraWaterDisableBounds;
 extern f32 sTeraWaterDisableHeight;
 // 0x7102606940: map static scale (set by OpenWorldStage::init, cleared by m13).
 extern f32 sMapStaticScale;
+// 0x7102606938: XZ centre that ksys::eft::Effect::sub_71011B2A34 measures against sMapStaticScale (as a radius).
+extern sead::Vector2f sUnk_7102606938;
 
 // State of the startup save check (0x18 bytes, vtable 0x710245c470: a sead::hostio node).
 struct StartupSaveCheckState {

@@ -6,6 +6,7 @@
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Effect/eftEffectModelMgr.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -60,6 +61,13 @@ public:
     // MCMgr::invoked3.
     void calcMostProbably();
     void calcMostProbably2();
+
+    // 0x71011b2a34 (placeholder name; `this` is not read): water height at `pos` (a water-layer ray cast or the
+    // terrain water query) against the terrain height. Writes the water height (or the terrain height when
+    // there is no water) and water depth; returns whether `pos` has water above the terrain.
+    bool sub_71011B2A34(const sead::Vector3f* pos, f32* out_depth, f32* out_height,
+                        phys::Material* material, s32* submaterial, sead::Vector3f* out_normal,
+                        bool use_raycast);
 
     void setFlags(u32 mask) { mFlags |= mask; }
     void clearFlags(u32 mask) { mFlags &= ~mask; }
