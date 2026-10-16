@@ -450,6 +450,15 @@ void Screen::sub_71010ABDA8(eui::AnimButton* button) {
         child.m66(button);
 }
 
+// 0x71010aac10 (CSV Screen::m75)
+// NON_MATCHING: scheduling: the original loads _270 before the animator pointers
+void Screen::m75(f32 progress, const sead::SafeString& name) {
+    if (_270 < progress)
+        m76();
+    if (auto* parts = mLayout->findPartsLayout(name.cstr()))
+        sub_71010B6638(parts->mOpenAnimator, parts->mCloseAnimator, parts->_70, _270, progress);
+}
+
 // 0x71010aacc0 (CSV Screen::m77)
 void Screen::m77(const sead::SafeString& anim) {
     _288 = mLayout->sub_7100BDDDF8(anim.cstr());

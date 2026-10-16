@@ -285,6 +285,10 @@ ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control);
 
 struct ChildControlCreatorEntry;
 
+// 0x71010b6638 (placeholder name; declared only): drives a parts layout's open / close / loop animators between two
+// progress values
+void sub_71010B6638(eui::Animator* open, eui::Animator* close, eui::Animator* loop, f32 from, f32 to);
+
 class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
 public:
     // 0x71010aa3b0 (CSV Screen::ctor; declared only)
@@ -386,7 +390,9 @@ public:
     virtual s32 m72();
     virtual void m73(f32 value);
     virtual void m74(f32 progress);
-    virtual void m75();
+    // 0x71010aac10: calls m76 when `progress` passes _270, then hands the open / close / loop animators of the parts
+    // layout `name` to sub_71010B6638
+    virtual void m75(f32 progress, const sead::SafeString& name);
     virtual void m76();
     // 0x71010aacc0: looks up the animation `anim` (field +0x30 helper) and stores it at +0x288.
     virtual void m77(const sead::SafeString& anim);
