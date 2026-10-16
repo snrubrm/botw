@@ -2,6 +2,7 @@
 #include <cmath>
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
@@ -77,6 +78,199 @@ void LandHumEnemyFindPlayer::m44() {
         child->setDynamicParam(pos, "TargetPos");
     } else {
         EnemyBaseFindPlayer::m44();
+    }
+}
+
+// NON_MATCHING: block layout; the original re-tests the chemical child names after the first
+// four-name check and keeps &_1dc in a register.
+void LandHumEnemyFindPlayer::calc_() {
+    const bool has_weapon = sub_71005DA5AC(mActor, m53());
+    if (!has_weapon && _1e1)
+        _1d8 = 60.0f;
+    _1e1 = has_weapon;
+    if (_1d8 >= 0.0f && !mActor->get68f() &&
+        !sub_71005D91A0(mActor, *mParams.mNoBurnWaterDepth_s)) {
+        ksys::Timer::update(&_1d8, -1.0f);
+    }
+
+    auto* child = getCurrentChild();
+    if (isCurrentChild("対象見張り台")) {
+        if (child->isFinished() || child->isFailed()) {
+            if (sub_710037EEAC())
+                setFailed();
+            else if (m35())
+                m40();
+            else if (*mParams.mNearScaffoldDist_s <= 0.0f || sub_71005D9744(mActor) != 3)
+                setFailed();
+            else
+                sub_710037EDA4();
+            return;
+        }
+        if (!child->isChangeable())
+            return;
+        m44();
+        if (*mParams.mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3)
+            return;
+        if (sub_710037EEAC())
+            setFailed();
+        else if (m35())
+            m40();
+        else
+            sub_710037EDA4();
+        return;
+    }
+
+    const bool grab_wall = isCurrentChild("対象壁つかまり");
+    const bool done = child->isFinished() || child->isFailed();
+    if (grab_wall) {
+        if (done) {
+            if (sub_710037EEAC()) {
+                setFailed();
+                return;
+            }
+            if (m35()) {
+                m40();
+                return;
+            }
+            if (sub_7100461B74()) {
+                _1dc = 15.0f;
+                sub_710037EDA4();
+                return;
+            }
+            ksys::Timer::update(&_1dc, -1.0f);
+            if (_1dc < 0.0f) {
+                _1dc = 0.0f;
+                setFailed();
+            } else if (_1dc > 0.0f) {
+                sub_710037EDA4();
+            } else {
+                setFailed();
+            }
+            return;
+        }
+        if (!child->isChangeable())
+            return;
+        m44();
+        if (sub_7100461B74()) {
+            _1dc = 15.0f;
+            return;
+        }
+        ksys::Timer::update(&_1dc, -1.0f);
+        if (_1dc < 0.0f)
+            _1dc = 0.0f;
+        else if (_1dc > 0.0f)
+            return;
+        if (sub_710037EEAC())
+            setFailed();
+        else if (m35())
+            m40();
+        else
+            sub_710037EDA4();
+        return;
+    }
+
+    if (done && (isCurrentChild("危険回避") || isCurrentChild("武器投げ") ||
+                 isCurrentChild("ケミカル仲間招来") || isCurrentChild("武器ケミカル付与"))) {
+        if (child->isFailed() &&
+            (isCurrentChild("ケミカル仲間招来") || isCurrentChild("武器ケミカル付与"))) {
+            _1e0 = true;
+        }
+        if (sub_710037EEAC())
+            setFailed();
+        else if (m35())
+            m40();
+        else
+            sub_710037EDA4();
+        act::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
+        return;
+    }
+
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("戦闘")) {
+        if (child->isFinished())
+            m40();
+        else if (!m51())
+            sub_71003803E8();
+        return;
+    }
+
+    if (child->isChangeable() && isCurrentChild("危険回避"))
+        return;
+
+    if (isCurrentChild("武器投げ")) {
+        child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+        const sead::Vector3f pos = sub_71005D960C(mActor);
+        sub_71005DB068(mActor, pos);
+        return;
+    }
+
+    EnemyBaseFindPlayer::calc_();
+    if (getCurrentChild() != child || !child->isChangeable())
+        return;
+
+    if (isCurrentChild("戦闘") || isCurrentChild("威嚇")) {
+        if (sub_7100461990())
+            return;
+        if (sub_7100461B74()) {
+            changeToGrabTargetWall();
+            return;
+        }
+    }
+
+    if (isCurrentChild("気づき") || isCurrentChild("戦闘")) {
+        if (!sub_710046096C())
+            return;
+        if (ksys::act::isEnemyProfile(&_1c8))
+            changeToSummonChemicalAllies();
+        else
+            changeToApplyWeaponChemical();
+        return;
+    }
+
+    if (isCurrentChild("ケミカル仲間招来")) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_1c8, &accessor);
+        if (auto* weapon = sub_71005DA374(mActor, *mWeaponIdx_s)) {
+            if ((accessor.sub_7100D13654(-1) ||
+                 accessor.sub_7100D12FCC(weapon->getChemicalStuff())) &&
+                _1c8.hasProc()) {
+                return;
+            }
+        }
+        if (!sub_710046096C()) {
+            sub_710037EDA4();
+            act::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
+        } else if (ksys::act::isEnemyProfile(&_1c8)) {
+            child->setDynamicParam(_1c8, "TargetActor");
+        } else {
+            changeToApplyWeaponChemical();
+        }
+        return;
+    }
+
+    if (isCurrentChild("武器ケミカル付与")) {
+        if (sub_7100461D74()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_1c8, &accessor);
+            if (!accessor.sub_7100D10E6C(29) && !accessor.sub_7100D10E6C(30))
+                return;
+            if (!sub_710046096C()) {
+                sub_710037EDA4();
+                act::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
+            } else if (ksys::act::isEnemyProfile(&_1c8)) {
+                changeToSummonChemicalAllies();
+            } else {
+                child->setDynamicParam(_1c8, "TargetActor");
+            }
+            return;
+        }
+        if (!sub_710046096C()) {
+            sub_710037EDA4();
+            act::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
+        } else if (ksys::act::isEnemyProfile(&_1c8)) {
+            changeToSummonChemicalAllies();
+        } else {
+            child->setDynamicParam(_1c8, "TargetActor");
+        }
     }
 }
 
