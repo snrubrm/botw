@@ -45,7 +45,36 @@ void CameraAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CameraAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_7100922070();
+    bool has_camera = false;
+    act::Unk_710079a8e8* state = nullptr;
+    if (auto* camera = getCamera()) {
+        state = &camera->_860;
+        state->_4f8.copy(getClassName());
+        has_camera = true;
+    }
+
+    if (has_camera && state->_804.sub_710079AE50(0x80000)) {
+        act::Unk_71009214b8 states[6];
+        sub_710074B590(states);
+        m35();
+        sub_710074B838(states);
+    } else {
+        m35();
+    }
+
+    if (has_camera) {
+        state->_72c._0 = 0;
+        state->_804.sub_710079AE40(0x4000);
+    }
+    sub_710074BCB4();
+
+    if (m38() == 1) {
+        if (auto* sound = ksys::snd::SoundMgr::instance()) {
+            if (sound->_58)
+                sound->_58->_80 = 0;
+        }
+    }
 }
 
 void CameraAction::loadParams_() {
