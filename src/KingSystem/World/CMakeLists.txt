@@ -6,6 +6,8 @@ target_sources(uking PRIVATE
   worldDofMgr.cpp
   worldDofMgr.h
   worldElementLightning.cpp
+  worldGrassFire.cpp
+  worldGrassFire.h
   worldElementSpark.cpp
   worldElementSpark.h
   worldEnvMgr.cpp
