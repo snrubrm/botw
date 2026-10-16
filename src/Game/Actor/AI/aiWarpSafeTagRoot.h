@@ -14,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -21,7 +22,7 @@ protected:
     /* 0x38 */ ksys::VFRValue _38;
     /* 0x48 */ Unk_71012419b4 _48;
     /* 0x68 */ bool _68 = false;
-    /* 0x69 */ bool _69 = false;
+    /* 0x69 */ u8 _69 = 0;  // 0 / 1: the return fog is shown
     /* 0x6a */ bool _6a = false;
 };
 KSYS_CHECK_SIZE_NX150(WarpSafeTagRoot, 0x70);

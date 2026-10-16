@@ -617,6 +617,8 @@ public:
     void hm15() override {}
     // 0x7101013fe0 (called by SceneBgmCtrlAction::oneShot_): plays the "GetLost" entry while _124 is 3 or 4.
     void playGetLostMaybe();
+    // 0x7101013f70 (declared only; called by WarpSafeTagRoot::calc_ with the mist on / off): fades the BGM.
+    void sub_7101013F70(bool on);
 
 private:
     MazeForestBgmInfo* mInfo = nullptr;

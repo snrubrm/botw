@@ -22,7 +22,10 @@ public:
     // EventSysActors::loadEventSystemActors / finishedLoading compare the result with 1.
     virtual Unk6 m6();
 
-    char _8[0x3dc - 0x8];
+    char _8[0x3d8 - 0x8];
+    // WarpSafeTagRoot::calc_ (0x71005eb1a0) skips its mist / fog updates while this byte is true.
+    bool _3d8;
+    char _3d9[0x3dc - 0x3d9];
     // VillagerMgr::init (0x7100d5e7f4) disables its updates when this byte is true.
     bool _3dc;
     bool _3dd;
