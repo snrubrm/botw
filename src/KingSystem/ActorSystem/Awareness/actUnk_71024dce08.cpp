@@ -37,6 +37,10 @@ f32 Unk_71024dce08::sub_7100D8010C() const {
     return _4c;
 }
 
+sead::BitFlag8* Unk_71024dcea8::m16() {
+    return &_68;
+}
+
 f32 Unk_71024dcd68::m14() {
     return _54;
 }

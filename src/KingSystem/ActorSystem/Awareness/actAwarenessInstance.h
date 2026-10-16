@@ -91,6 +91,19 @@ public:
     /* 0x68 */ f32 _68;
 };
 
+// Placeholder name (vtable 0x71024dcea8, RTTI static 0x7102600a40): the sight sensor (`_260[0]`; Unk_71023e26d8
+// requests). Overrides every slot: D1 0x7100d81ab8 / D0 0x7100d81b84 (not matched: they free a buffer of
+// 0x128-byte entries at _58 that is not modelled), m4-m15 and m17 (declaration only), m16 0x7100d81dc8.
+class Unk_71024dcea8 : public Unk_71024dce08 {
+    SEAD_RTTI_OVERRIDE(Unk_71024dcea8, Unk_71024dce08)
+public:
+    // Declared first as the key function (see Unk_71024dcd68).
+    sead::BitFlag8* m16() override;
+
+    u8 _52[0x68 - 0x52];
+    /* 0x68 */ sead::BitFlag8 _68;  // EnemyNormal::m41 clears bit 0
+};
+
 // Placeholder name (vtable 0x71024dcfd0, RTTI static 0x7102600a70): another awareness sensor. D1 is the base destructor
 // (0x7100d7f7b4), D0 0x7100d8271c; overrides m4 0x7100d82400, m5 0x7100d824b4, m6 0x7100d8254c, m12 0x7100d82158 (declared only) and
 // m14 0x7100d82740 (returns _54, declared first as the key function).
