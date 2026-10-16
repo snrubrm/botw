@@ -14,9 +14,21 @@
 
 Unk_71024fe808::~Unk_71024fe808() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710100df48) also destroys members or bases
-// this class does not declare yet.
-Unk_71024fe970::~Unk_71024fe970() = default;
+// NON_MATCHING: the original's RingBuffer::freeBuffer also zeroes head and size before the delete[] (our sead
+// zeroes them after).
+Unk_71024fe970::~Unk_71024fe970() {
+    mStateQueue.freeBuffer();
+}
+
+// NON_MATCHING: the address of mFlags is computed once for both branches here.
+void Unk_71024fe970::hm14() {
+    if (mType == ksys::snd::Unk_710260f248Type::_3 || (_68._18 & 3))
+        mFlags &= ~2;
+    else
+        mFlags |= 2;
+    if (!(mFlags & 2))
+        sub_710100E6A8();
+}
 
 bool Unk_71024fe970::m10() {
     return mFlags & 1;

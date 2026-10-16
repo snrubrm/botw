@@ -4,6 +4,7 @@
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include <container/seadPtrArray.h>
+#include <container/seadRingBuffer.h>
 
 #include <prim/seadRuntimeTypeInfo.h>
 #include <nn/ui2d/TextureInfo.h>
@@ -2683,11 +2684,21 @@ public:
     void m12(f32 fade_sec) override;
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
+    // 0x710100e664 (copy for the handle base 0x710100e804): bit 1 of mFlags is set while the asset is not
+    // ready; once it is, sub_710100E6A8 runs.
+    void hm14() override;
+    // 0x710100e84c (declared only; 620 B; handle base thunk 0x710100eab8).
+    void hm15() override;
+    // 0x710100e6a8 (declared only).
+    void sub_710100E6A8();
 
     u8 _190[0x198 - 0x190];
     /* 0x198 */ s32 _198;
     /* 0x19c */ s32 _19c;
-    u8 _1a0[0x288 - 0x1a0];
+    u8 _1a0[0x238 - 0x1a0];
+    // States queued by sub_710100E124 during a transition (freed by the destructor 0x710100df48).
+    /* 0x238 */ sead::RingBuffer<s32> mStateQueue;
+    u8 _250[0x288 - 0x250];
     // Bit 0: playing; bits 3..6: transition states (0x710100f0c0); bit 8 set on start / stop.
     /* 0x288 */ u16 mFlags;
 };
