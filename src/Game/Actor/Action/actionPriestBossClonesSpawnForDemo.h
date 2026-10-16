@@ -22,7 +22,7 @@ protected:
     bool sub_7100066884();
     // 0x7100066ce4: stores the delay in _54; for a positive delay runs sub_71000668A0(0) and sets Actor flag2 _20.
     void sub_7100066CE4(int delay);
-    // 0x71000668a0 (declared only; 724 B)
+    // 0x71000668a0: places the actor at the meta unit's linked actor, offset by _60 (rotated, scaled by t).
     void sub_71000668A0(f32 t);
     void calc_() override;
 

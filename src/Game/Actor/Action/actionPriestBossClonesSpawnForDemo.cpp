@@ -3,6 +3,9 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include <math/seadQuat.h>
 
 namespace uking::action {
 
@@ -54,6 +57,22 @@ f32 PriestBossClonesSpawnForDemo::m33(f32 t) {
 
 bool PriestBossClonesSpawnForDemo::sub_7100066884() {
     return _5c >= f32(*mDurationFrame_d);
+}
+
+void PriestBossClonesSpawnForDemo::sub_71000668A0(f32 t) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (sub_71000664E4()->sub_71007194D4(_50, &accessor)) {
+        const sead::Matrix34f& base_mtx = accessor.getActorMtx();
+        const sead::Vector3f offset = _60;
+        sead::Quatf rotation;
+        base_mtx.toQuat(rotation);
+        rotation.normalize();
+        sead::Vector3f rotated;
+        rotated.setRotated(rotation, offset);
+        sead::Matrix34f mtx;
+        mtx.makeQT(rotation, base_mtx.getTranslation() + rotated * t);
+        ksys::act::sub_7100EE58C0(mActor, mtx);
+    }
 }
 
 void PriestBossClonesSpawnForDemo::sub_7100066CE4(int delay) {
