@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -20,8 +21,20 @@ class Actor;
 // Only its destructor (0x7100f72b94, which frees the buffer) is used here; declared only.
 class Unk_7100F72BF8 {
 public:
+    // Placeholder element (0xb0 bytes).
+    struct Entry {
+        u8 _0[0x18];
+        gsys::BoneAccessKeyEx _18;
+        u8 _50[0xb0 - 0x50];
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0xb0);
+
     ~Unk_7100F72BF8();
+
+    /* 0x00 */ u64 _0;
+    /* 0x08 */ sead::Buffer<Entry> _8;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7100F72BF8, 0x18);
 
 class Unk_7100710078 : public ksys::act::BoneHandleBase {
 public:
