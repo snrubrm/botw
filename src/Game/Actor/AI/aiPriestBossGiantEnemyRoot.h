@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actActorAtk.h"
+
 #include <xlink2/xlink2HandleSLink.h>
 #include <prim/seadDelegate.h>
 #include "Game/Actor/AI/aiPriestBossActorEnemyRoot.h"
@@ -22,7 +24,13 @@ class Unk_71024137d0 : public act::DamageCallback {
 public:
     ~Unk_71024137d0() override;
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) override;
+    // 0x710051a000: classifies the hit into _24 (0 none, 1 hat hit, 2 / 3 hat hit by the iron ball (3: thrown back by
+    // the owner, sub_710051A53C), 4 / 5 damage kind 3 (5: attacker tagged 0x5e27ef10), 6 iron ball elsewhere).
     void sub_710051A000(u32 kind);
+    // 0x710051a434: the attack info of the current damage (sub_71007A255C(enemy, DamageManager::_6c)), or null.
+    ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_710051A434();
+    // 0x710051a53c: whether the attacker of `info` is one of the owner's units 11 - 18 whose bit is set in _28.
+    bool sub_710051A53C(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info);
 
     s32 _24 = 0;
     u32 _28 = 0;

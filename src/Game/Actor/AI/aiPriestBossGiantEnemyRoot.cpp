@@ -22,7 +22,9 @@ bool sub_710071EB88(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
+static const sead::SafeString sUnk_7102413920 = "Hat";
 static const sead::SafeString sUnk_7102413930 = "Priest_Boss_IronBall";
+static const sead::SafeString sUnk_7102413940 = "PriestBossThunder";
 static const sead::SafeString sUnk_7102413950 = "ironball_attack";
 
 // D1 0x7100519da4
@@ -77,6 +79,93 @@ void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     }
     if (!(_30.value <= sead::Mathf::epsilon()))
         _30.update();
+}
+
+// NON_MATCHING: the original branches for 3 / 2 and 5 / 4 (ours csel / cinc) and keeps the thunder result in a register
+void Unk_71024137d0::sub_710051A000(u32 kind) {
+    auto* info = sub_710051A434();
+    if (!info)
+        return;
+
+    s32 type;
+    if (info->_c0 && info->_c0->getHkBodyName() == sUnk_7102413920) {
+        bool iron_ball;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&info->_d8, &accessor);
+            iron_ball = accessor.getName() == sUnk_7102413930;
+        }
+        if (iron_ball) {
+            if (sub_710051A53C(info))
+                type = 3;
+            else
+                type = 2;
+        } else {
+            bool thunder;
+            {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&info->_d8, &accessor);
+                thunder = accessor.getName() == sUnk_7102413940;
+            }
+            if (thunder) {
+                _24 = 0;
+                return;
+            }
+            type = 1;
+        }
+    } else if (kind == 3) {
+        bool tagged;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&info->_e8, &accessor);
+            tagged = accessor.hasTag(0x5e27ef10);
+        }
+        if (tagged)
+            type = 5;
+        else
+            type = 4;
+    } else {
+        bool iron_ball;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&info->_d8, &accessor);
+            iron_ball = accessor.getName() == sUnk_7102413930;
+        }
+        if (!iron_ball)
+            return;
+        type = 6;
+    }
+    _24 = type;
+}
+
+ksys::act::ActorAtk::Unk_710079e64c::Unk1* Unk_71024137d0::sub_710051A434() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mDamageManager->mActor)) {
+        if (auto* manager = sead::DynamicCast<act::DamageManager>(mDamageManager))
+            return sub_71007A255C(enemy, manager->_6c);
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: the original stores the bit index (i - 11) to the accessor's stack slot and reloads it before the shift
+bool Unk_71024137d0::sub_710051A53C(ksys::act::ActorAtk::Unk_710079e64c::Unk1* info) {
+    auto* unit = _60();
+    if (!unit)
+        return false;
+    for (s32 i = 11; i - 11 < 8; ++i) {
+        if (!(_28 & (1 << (i - 11))))
+            continue;
+        bool same;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            unit->sub_71007194D4(i, &accessor);
+            ksys::act::BaseProcLink link;
+            accessor.linkAcquire(&link);
+            same = link == info->_d8;
+        }
+        if (same)
+            return true;
+    }
+    return false;
 }
 
 void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
