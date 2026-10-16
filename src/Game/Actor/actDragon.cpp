@@ -374,6 +374,36 @@ void Dragon::m113(f32* a1, s32* a2) {
 }  // namespace uking::act
 
 namespace uking::act {
+// Placeholder name: with _1f70 bit 19, reopens eye `idx` (clears its closed bit and plays GrudgeEye_Open in AS slot
+// idx + 1) unless it is already open or blocked (bit 11 + idx).
+void Dragon::sub_710000F36C(s32 idx) {
+    if (!_1f70.isOnBit(19) || !_1f70.isOn(0x8000u << idx) || _1f70.isOn(0x800u << idx))
+        return;
+    _1f70.reset(0x8000u << idx);
+    switch (idx) {
+    case 0:
+        if (mASList->x_1(1, 0).findIndex("GrudgeEye_Open") != -1)
+            return;
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Open", 1, 0, true);
+        break;
+    case 1:
+        if (mASList->x_1(2, 0).findIndex("GrudgeEye_Open") != -1)
+            return;
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Open", 2, 0, true);
+        break;
+    case 2:
+        if (mASList->x_1(3, 0).findIndex("GrudgeEye_Open") != -1)
+            return;
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Open", 3, 0, true);
+        break;
+    case 3:
+        if (mASList->x_1(4, 0).findIndex("GrudgeEye_Open") != -1)
+            return;
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "GrudgeEye_Open", 4, 0, true);
+        break;
+    }
+}
+
 void Dragon::sub_710000F52C(s32 idx) {
     if (_1f70.isOn(0x8000u << idx) || _1f70.isOn(0x800u << idx))
         return;
