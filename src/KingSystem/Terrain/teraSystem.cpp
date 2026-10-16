@@ -85,4 +85,14 @@ void Unk_7101106F44::sub_7101120598(Unk_7101106F44** node, sead::Vector2f* cente
     *node = area;
 }
 
+void Unk_7101106F44::sub_7101120594(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                                    const ImageTypeMaybe& type) {
+    sub_7101120374(node, center, size, type);
+}
+
+void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                                    const ImageTypeMaybe& type) {
+    sub_7101120598(node, center, size, type);
+}
+
 }  // namespace ksys::tera

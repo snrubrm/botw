@@ -144,6 +144,13 @@ public:
     static void sub_7101120374(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
                                const ImageTypeMaybe& type);
 
+    // 0x71011206e4 / 0x7101120594 (placeholder names): branch to sub_7101120598 / sub_7101120374 (the
+    // callers, e.g. 0x7101108860, use these).
+    static void sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                               const ImageTypeMaybe& type);
+    static void sub_7101120594(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
+                               const ImageTypeMaybe& type);
+
     // 0x71011080d4 (placeholder name): releases the buffers of the image for `type` (slot 12).
     void sub_71011080D4(const ImageTypeMaybe& type);
 
