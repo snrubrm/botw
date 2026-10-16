@@ -1,10 +1,18 @@
 #pragma once
 
 #include <container/seadListImpl.h>
+#include <container/seadTList.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class Heap;
+}
+
+class Unk_710250db28;
 class Unk_710250dbc8;
+class Unk_710250dc50;
+class Unk_710250dd60;
 
 namespace ksys::tera {
 
@@ -49,18 +57,34 @@ public:
     struct Key {
         u16 id;
     };
+    struct InitArg {
+        sead::Heap* heap;
+        Unk_710250dbc8* image;
+        Key* key;
+        u32 _18;
+    };
 
-    u8 _0[0x8];
-    Key* _8;
-    u8 _10[0xa0 - 0x10];
-    f32 _a0;
+    // 0x710110d278
+    Unk_710110d278();
+    // 0x710110d2c4 (declared only)
+    void init(const InitArg& arg);
+
+    Unk_710250dbc8* mImage = nullptr;
+    Key* _8 = nullptr;
+    // Freed by init (count, then buffer).
+    u32 _10 = 0;
+    void* _18 = nullptr;
+    u8 _20[0xa0 - 0x20];
+    f32 _a0 = 0.0f;
     u8 _a4[0xa8 - 0xa4];
 };
 
 // Placeholder name (inline ctor in the factory 0x7101108460; size 0x30): a list node that is its own
 // list data; the factory links it into the list at +0x88 of its owner.
-class Unk_7101108460 : public sead::ListNode {
+class Unk_7101108460 : public sead::TListNode<Unk_7101108460*> {
 public:
+    Unk_7101108460() : sead::TListNode<Unk_7101108460*>(this) {}
+
     // 0x7101107e90
     Unk_710250dbc8* getA();
     // 0x710110860c
@@ -72,10 +96,8 @@ public:
     // 0x7101108624 (placeholder name): B's _a0 is above epsilon.
     bool sub_7101108624() const;
 
-    Unk_7101108460* mData;
-    void* mList;
-    Unk_710250dbc8* mA;
-    Unk_710110d278* mB;
+    Unk_710250dbc8* mA = nullptr;
+    Unk_710110d278* mB = nullptr;
 };
 
 }  // namespace ksys::tera

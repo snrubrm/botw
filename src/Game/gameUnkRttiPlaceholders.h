@@ -1106,6 +1106,8 @@ public:
 class Unk_710250dc50 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dc50, Unk_710250dcd8)
 public:
+    // 0x710110d860
+    Unk_710250dc50();
     ~Unk_710250dc50() override;
     s32 m4() override;
     s32 m5() override;
@@ -1121,6 +1123,8 @@ public:
 class Unk_710250dd60 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dd60, Unk_710250dcd8)
 public:
+    // 0x710110e0f4
+    Unk_710250dd60();
     ~Unk_710250dd60() override;
     s32 m4() override;
     s32 m5() override;
@@ -1131,7 +1135,7 @@ public:
     s32 m10() override { return 1; }
     void m13(void* unused, const void* src, u32 size) override;
 
-    ksys::tera::ImageSizeMaybe mSize;
+    ksys::tera::ImageSizeMaybe mSize = ksys::tera::ImageSizeMaybe(10);
 };
 
 // vtable 0x710250e490 (9 slots); placeholder generated from the vtable (genskel.py).

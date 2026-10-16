@@ -7,6 +7,8 @@ target_sources(uking PRIVATE
   teraCore.cpp
   teraHeap.cpp
   teraResourceNode.h
+  teraAreaNode.h
   teraResourceNode.cpp
+  teraImageResource.cpp
   teraLevelSearch.cpp
 )
