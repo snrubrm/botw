@@ -759,6 +759,40 @@ void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out
     }
 }
 
+// NON_MATCHING: register allocation (the two zero results of the search and the clamp temporaries)
+// 0x7100941354
+f32 ScreenAppPictureBookUnk::sub_7100941354(s32 index) {
+    s32 item = 0;
+    s32 entry_value = 0;
+    if (mEntries.data() && mEntries.size() != 0) {
+        ScreenAppPictureBookEntry** end = mEntries.data() + mEntries.size();
+        for (ScreenAppPictureBookEntry** p = mEntries.data(); p != end; ++p) {
+            ScreenAppPictureBookEntry* entry = *p;
+            if (entry) {
+                const s32 rest = index - entry->_2f4;
+                if (rest < 0) {
+                    item = index;
+                    entry_value = entry->_2f0;
+                    break;
+                }
+                index = rest;
+            }
+        }
+    }
+    sead::Vector2f pos = sead::Vector2f::zero;
+    sub_71009419E0(item, entry_value, &pos);
+    pos.x = sead::Mathf::clamp(-pos.x, _2b0.getMin().x, _2b0.getMax().x);
+    pos.y = sead::Mathf::clamp(-pos.y, _2b0.getMin().y, _2b0.getMax().y);
+    switch (mConfig._58) {
+    case 0:
+        return _2d0.x - pos.x;
+    case 1:
+        return _2d0.y - pos.y;
+    default:
+        return 0;
+    }
+}
+
 // 0x710093a008
 void Unk_7102474f10::sub_710093A008(s32 mode) {
     switch (mode) {

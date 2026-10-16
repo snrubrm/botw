@@ -3015,6 +3015,11 @@ struct ScreenAppPictureBookUnk {
     bool sub_710093E42C(s32 index, s32 mode);
     // 0x7100943fe0 (placeholder name): allocates room for `count` group lists
     void sub_7100943FE0(sead::Heap* heap, s32 count);
+    // 0x71009419e0 (declared only; 592 bytes): the position of item `index` of entry `entry` (zero when invalid)
+    void sub_71009419E0(s32 index, s32 entry, sead::Vector2f* out);
+    // 0x7100941354 (placeholder name): how far the list must scroll (along the config direction) to show item
+    // `index` (its position clamped to _2b0)
+    f32 sub_7100941354(s32 index);
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
     // Template (placeholder name): sets up entry `index` with `params`, its group list and (once per group list) its
@@ -3040,7 +3045,12 @@ struct ScreenAppPictureBookUnk {
     /* 0x298 */ sead::PtrArray<PictureBookGroupList> mGroupLists;
     /* 0x2a8 */ s32 _2a8;
     /* 0x2ac */ s32 _2ac;
-    u8 _2b0[0x2d8 - 0x2b0];
+    // scroll limits (the constructor sets an empty box: min FLT_MAX, max -FLT_MAX)
+    /* 0x2b0 */ sead::BoundBox2f _2b0;
+    /* 0x2c0 */ sead::Vector2f _2c0;
+    /* 0x2c8 */ sead::Vector2f _2c8;
+    // scroll position (sub_7100941354)
+    /* 0x2d0 */ sead::Vector2f _2d0;
     /* 0x2d8 */ s32 _2d8;
     u8 _2dc[0x2e4 - 0x2dc];
     /* 0x2e4 */ s32 _2e4;
