@@ -6,6 +6,12 @@
 
 namespace ksys::act {
 
+// NON_MATCHING: ours inlines ObjArray::freeBuffer (the original calls it, 0x7100d78c98, after a buffer check).
+Unk_71024dce08::~Unk_71024dce08() {
+    _8.freeBuffer();
+    _28.freeBuffer();
+}
+
 // 2026-10-07: the sensor clear method calls entry destruction out of line.
 bool Unk_71024dce08::m7() { return true; }
 void Unk_71024dce08::m8() {}

@@ -56,7 +56,8 @@ public:
     f32 sub_7100D8010C() const;
 
     /* 0x08 */ sead::ObjArray<Unk_7100d78e50> _8;
-    /* 0x28 */ u8 _28[0x38 - 0x28];
+    // Entries freed by the D1 0x7100d7f7b4 (0xb8 bytes each).
+    /* 0x28 */ sead::Buffer<Unk_7100d78e50> _28;
     /* 0x38 */ s32 _38;
     /* 0x3c */ u32 _3c;
     /* 0x40 */ u8 _40[0x48 - 0x40];
