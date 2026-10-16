@@ -293,7 +293,11 @@ public:
     ~Unk_7102478048() override;
     // 0x710098fd5c (declared only; the destructor calls it first)
     void sub_710098FD5C();
+    void m16() override;
     void m31() override;
+    void m34() override;
+    // 0x7100994e98 (CSV unnamed; not decompiled): called at the end of m34
+    void sub_7100994E98();
     // 0x710099e384 / 0x71009919cc / 0x7100991b90 / 0x710099e49c (CSV unnamed; not decompiled): called by m31
     void sub_710099E384();
     void sub_71009919CC(bool a1);

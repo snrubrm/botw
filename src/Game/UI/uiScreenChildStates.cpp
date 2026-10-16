@@ -1074,6 +1074,20 @@ Unk_7102477110::~Unk_7102477110() {
 // NON_MATCHING: the original stores 0x350 before the memset of 0x130.
 Unk_7102478048::Unk_7102478048(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
+// 0x710099ec7c
+void Unk_7102478048::m16() {
+    for (auto* entry : UiSubsys1::instance()->_5d8)
+        entry->m22();
+}
+
+// 0x7100993c08
+void Unk_7102478048::m34() {
+    for (auto* entry : UiSubsys1::instance()->_5d8)
+        entry->m22();
+    UiSubsys1::instance()->_5d8.clear();
+    sub_7100994E98();
+}
+
 // 0x7100993bc0
 void Unk_7102478048::m31() {
     sub_710099E384();

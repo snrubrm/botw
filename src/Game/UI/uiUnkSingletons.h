@@ -1135,6 +1135,7 @@ class UiSubsys1 {
     friend class Unk_7102476830;
     friend class Unk_7102476738;
     friend class Unk_7102476928;
+    friend class Unk_7102478048;  // m16 / m34 walk _5d8
 public:
     static UiSubsys1* instance() { return sInstance; }
 
