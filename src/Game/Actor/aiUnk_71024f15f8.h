@@ -5,6 +5,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::map {
+class Rail;
+}
+
 // Unnamed object (vtable 0x71024f15f8, ctor 0x7100eebf70; its functions are in the same TU as
 // Unk_71024f15c0's, 0x7100eeb800-0x7100eefc00). Embedded in HorseEscapeRouteRailAI (+0x50).
 // Placeholder layout from the constructor.
@@ -18,14 +22,17 @@ public:
     // Inline only (like Unk_71024f15c0::x); placeholder name.
     void x(f32 distance) { m4(distance, nullptr, nullptr); }
 
-    void* _8 = nullptr;
-    void* _10 = nullptr;
-    void* _18 = nullptr;
+    // 0x7100eebf24 (placeholder name): the route id of _28 when it is a rail route (Rail::x_20), else null.
+    const char* sub_7100EEBF24() const;
+    // 0x7100eebfbc (placeholder name): resets the positions, the rail, the counters and the name.
+    void sub_7100EEBFBC();
+
+    sead::Vector3f _8{0, 0, 0};
+    sead::Vector3f _14{0, 0, 0};
     u32 _20 = 0;
-    void* _28 = nullptr;
-    void* _30 = nullptr;
-    void* _38 = nullptr;
-    void* _40 = nullptr;
+    ksys::map::Rail* _28 = nullptr;
+    sead::Vector3f _30{0, 0, 0};
+    sead::Vector3f _3c{0, 0, 0};
     u32 _48 = 0;
     void* _50 = nullptr;
     bool _58 = true;
