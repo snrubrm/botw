@@ -361,7 +361,8 @@ public:
     // up), marks it in use and counts it.
     void sub_7101133724(Request* request);
 
-    // 0x710113625c (declared only; placeholder name): called under the manager lock (0x68).
+    // 0x710113625c (placeholder name): under the manager lock (0x68), runs sub_7101135F34 and, with flag 2
+    // of _6473, finishes the matching request of mLists19c0 (sub_7101136328 first if `a4`).
     bool sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                         bool a4, void* a5);
     // 0x7101130df0
@@ -401,7 +402,10 @@ public:
     Request* sub_7101131E7C(sead::OffsetList<Request>* lists, void* a2, Unk_7101106F44* area,
                             const ImageTypeMaybe& type);
     // 0x7101136328 (declared only; placeholder name).
-    void sub_7101136328(Request* request, bool a2);
+    // The second argument is a pointer (null-checked and passed on; sub_710113625C forwards its a5).
+    void sub_7101136328(Request* request, void* a2);
+    // 0x7101135f34 (declaration only; placeholder name).
+    void sub_7101135F34(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type);
     // 0x7101136950 (placeholder name): sub_7101136328 and sub_71011320B4 on every request of mList31c0.
     void sub_7101136950();
     // 0x7101131d64 (placeholder name): branch to sub_7101131D68.
