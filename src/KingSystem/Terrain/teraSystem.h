@@ -102,6 +102,9 @@ public:
     void sub_7101300BF0();
     void sub_710130085C();
     void sub_710130089C();
+    // 0x7101300aac (declared only; 160 B): sets the visibility mask of the units of the model _f8 (all bits
+    // for true).
+    void sub_7101300AAC(bool visible);
     void sub_71013008E4(sead::Heap* heap, System* system);
     void sub_71013009C4(sead::Heap* heap);
     bool sub_7101300D50(u32 index, bool a, bool b);
@@ -137,6 +140,11 @@ public:
     static Terrain* instance() { return sInstance; }
 
     void setPauseState(bool paused);
+    // 0x710114d73c (CSV Terrain::__auto21; placeholder name): Core::sub_710130085C while bits 1 and 2 of _a58 are
+    // set.
+    void sub_710114D73C();
+    // 0x710114deac (CSV Terrain::__auto0; placeholder name): forwards to Core::sub_7101300AAC.
+    void sub_710114DEAC(bool visible);
     void sub_710114D8C0(sead::Heap* heap, System* system);
     void sub_710114D8C8(sead::Heap* heap);
     void sub_710114D804(bool enabled, const sead::Matrix44f* projection,
@@ -165,9 +173,36 @@ public:
     sead::Vector2f sub_710114D8E4(const Unk_710114D8E4* params);
     f32 sub_710114D8F8(const Unk_710114D8E4* params);
 
+    // Placeholders for the chain Terrain::_370->_4ae0 (0x710114de10 / 0x710114de20 / 0x710114de3c).
+    struct MaterialName {
+        u16 _0;
+        char name[1];
+    };
+    struct MaterialNameTable {
+        u8 _0[8];
+        MaterialName** mNames;
+    };
+    struct Unk4ae0 {
+        void* _0;
+        u8 _8[0x710 - 0x8];
+        s32 _710;
+        MaterialNameTable* mMaterialNames;
+    };
+    struct Unk370 {
+        u8 _0[0x4ae0];
+        Unk4ae0* _4ae0;
+    };
+    // 0x710114de10 (CSV Terrain::__auto9) / 0x710114de3c (CSV Terrain::__auto6) / 0x710114de20 (placeholder names).
+    void* sub_710114DE10() const;
+    s32 sub_710114DE3C() const;
+    // The name of terrain material `index` (DragonMoveTo searches it for "雪").
+    const char* sub_710114DE20(s32 index) const;
+
     u8 _0[0x360];
     Core* _360;
-    u8 _368[0x60];
+    u8 _368[0x370 - 0x368];
+    Unk370* _370;
+    u8 _378[0x3c8 - 0x378];
     f32 _3c8;
     // Passed by sub_710110B4A4 to sub_710110AA5C.
     f32 _3cc;

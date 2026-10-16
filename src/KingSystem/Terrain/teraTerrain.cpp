@@ -24,6 +24,27 @@ void Terrain::sub_710114D804(bool enabled, const sead::Matrix44f* projection,
     mViewMatrix = *view;
 }
 
+void Terrain::sub_710114D73C() {
+    if ((~_a58 & 6) == 0)
+        _360->sub_710130085C();
+}
+
+void Terrain::sub_710114DEAC(bool visible) {
+    _360->sub_7101300AAC(visible);
+}
+
+void* Terrain::sub_710114DE10() const {
+    return _370->_4ae0->_0;
+}
+
+const char* Terrain::sub_710114DE20(s32 index) const {
+    return _370->_4ae0->mMaterialNames->mNames[index]->name;
+}
+
+s32 Terrain::sub_710114DE3C() const {
+    return _370->_4ae0->_710;
+}
+
 void Terrain::sub_710114DDF8(u32 index, const sead::Vector3f* position, bool update) {
     _360->sub_7101300B4C(index, position, update);
 }
