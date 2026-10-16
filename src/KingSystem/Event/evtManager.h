@@ -163,8 +163,6 @@ public:
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
     // inline-only in the original; name is a guess
     ManagerDelegate* getDelegate() const { return _1d2c8; }
-    // inline-only in the original; name is a guess (EventSystem::init stores the game's delegate)
-    void setDelegate(ManagerDelegate* delegate) { _1d2c8 = delegate; }
 
     void setNoDeleteCurrentActor(bool no_delete);
 
@@ -258,6 +256,7 @@ public:
 
 private:
     friend class ksys::OverlayArenaSystemS1;
+    friend class EventSystem;  // init stores the game's delegate in _1d2c8
     friend class uking::SystemPauseMgr;  // clearHideMainLayerAndResumeEvents clears bit 1 of _1d1b0
     // reads and writes the flag word at 0x1d1b0 (the original accessed it directly)
     friend class uking::ui::Unk_710247af10;

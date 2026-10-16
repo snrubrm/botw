@@ -49,7 +49,7 @@ void EventSystem::init(sead::Heap* heap) {
         return;
     mTxTransceiver = new (heap) MessageTransceiverTxOnly(this);
     _58.sub_710089CA04(Unk_710246bdc8(&mTransceiver));
-    manager->setDelegate(new (heap) uking::EventDelegate);
+    manager->_1d2c8 = new (heap) uking::EventDelegate;
     setEventSystemQueryHandler(&uking::eventSystemQueryHandler);
 }
 
