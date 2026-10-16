@@ -360,6 +360,12 @@ public:
     void sub_71010AC920(sead::PtrArray<eui::Animator>* animators, eui::LayoutEx* layout, const sead::SafeString& name);
     // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
     ksys::SeadController* sub_71010AA9D0();
+    // inline-only in the original; name is a guess: the `(_292 & 0x40) && controller && isTrig(mask)` test repeats in
+    // ScreenMessageTips::m94 (three times, the mask loaded before the controller call), ScreenPauseMenuMantan::m94,
+    // ScreenPauseMenuEiketsu::m94 and ScreenChild::sub_71010A9064
+    bool isTrigMaybe(u32 mask) {
+        return (_292 & 0x40) && sub_71010AA9D0() && mUIController && mUIController->isTrig(mask);
+    }
 
     // Overrides of the eui::Screen callbacks (CSV Screen::doAfterBuildLayout etc.)
     void doAfterBuildLayout_(sead::Heap* heap) override;
@@ -1157,6 +1163,9 @@ public:
     ~ScreenMessageTips() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTips, Screen)
     void m93(sead::Heap* heap) override;
+    // 0x71010a88e4: tip-type sounds, opens the A button, closes the tips on the decide trigger (or when the type
+    // changed)
+    void m94() override;
     void m98() override;
     void m100() override;
     // 0x71010a8afc

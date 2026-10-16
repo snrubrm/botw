@@ -1,3 +1,5 @@
+#include "KingSystem/System/UIGlue.h"
+#include "Game/UI/euiUIController.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAnimator.h"
@@ -36,6 +38,44 @@ void ScreenMessageTips::m93(sead::Heap*) {
     _300 = sub_7100BEAFB0("Pa_ABtn_00");
     if (_300)
         _308 = _300->tryCreateAnimatorAutoWithWarning("DecideOut", true);
+}
+
+// 0x71010a88e4
+// NON_MATCHING: the original tests the {5, 8, 21} set with a bit mask before the sound switch; ours compares directly
+void ScreenMessageTips::m94() {
+    switch (_3a8) {
+    case 5:
+        ksys::ui::sub_7100EDC458();
+        break;
+    case 8:
+        ksys::ui::sub_7100EDC470();
+        break;
+    case 21:
+        ksys::ui::sub_7100EDC488();
+        break;
+    default:
+        break;
+    }
+    if (!isOpened())
+        return;
+    if (_300 && !_310) {
+        _300->sub_7100BDDE7C(false, 0, true);
+        _310 = true;
+    }
+    if (!isTrigMaybe(_3b0) && _3a8 != _3ac)
+        return;
+    if (_3a8 == 5 || _3a8 == 8 || _3a8 == 21) {
+        if (isTrigMaybe(0x400))
+            ksys::ui::sub_7100EDC4D0();
+    } else if (_3a8 == 17) {
+        if (isTrigMaybe(0x200))
+            ksys::ui::sub_7100EDC4E8();
+    }
+    if (_300 && _308) {
+        _300->sub_7100BDDE7C(false, 1, true);
+        _308->PlayAuto(1.0f);
+    }
+    close(-1);
 }
 
 // 0x71010a8aa0
