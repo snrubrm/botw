@@ -31,14 +31,14 @@ void Chemical::createChmresAndHeap(sead::Heap* heap) {
                                sead::Heap::cHeapDirection_Forward, true);
 }
 
-void Chemical::sub_7100D99738(act::Chemical* chemical) {
-    _68.pushBack(chemical);
+void Chemical::sub_7100D99738(act::Unk_71024dd490* holder) {
+    _68.pushBack(holder);
 }
 
-void Chemical::sub_7100D99760(act::Chemical* chemical) {
+void Chemical::sub_7100D99760(act::Unk_71024dd490* holder) {
     s32 index = 0;
     for (auto it = _68.dataBegin(), end = _68.dataEnd(); it != end; ++it, ++index) {
-        if (*it == chemical) {
+        if (*it == holder) {
             _68.erase(index);
             return;
         }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <limits>
 #include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
@@ -75,6 +76,9 @@ public:
     };
     static_assert(sizeof(CreateArg) == 0x20);
 
+    Unk_71024dd490();
+    // Removes the holder from the chemical system and deletes it (pairs with sub_7100D9A1D0).
+    static void sub_7100D9A8F8(Unk_71024dd490* holder);
     virtual ~Unk_71024dd490();
     void sub_7100D9A384(const CreateArg& arg, sead::Heap* heap);
     void sub_7100D9AA84();
@@ -113,12 +117,12 @@ public:
     // lane1 s90 (declared only): 0x7100d9afd8 queues a chemical holder (sets its flag 0x20).
     bool sub_7100D9AFD8(Unk_71024dd1c8* holder);
 
-    u8 _8[0x48 - 0x8];
+    sead::CriticalSection _8;
     sead::CriticalSection _48;
-    u8 _88[0xc8 - 0x88];
-    u32 _c8;
-    u8 _cc[0xd0 - 0xcc];
-    const chm::SystemConfig::World* mWorld;
+    sead::CriticalSection _88;
+    u32 _c8 = 0;
+    u32 _cc = 0;
+    const chm::SystemConfig::World* mWorld = nullptr;
     // D9A384 allocates this Chemical array; D9AA84/D9AAE4 dispatch Chemical methods on it.
     sead::PtrArray<Chemical> mChemicals;
     sead::PtrArrayImpl _e8;
@@ -139,31 +143,42 @@ public:
                 buffer.fill(nullptr);
         }
         sead::Buffer<void*> buffer;
-        s32 _10;
-        s32 _14;
+        s32 _10 = 0;
+        s32 _14 = 0;
     };
     PtrBuffer _118;
     PtrBuffer _130;
     PtrBuffer _148;
-    u8 _160[0x168 - 0x160];
-    void* _168;
-    u8 _170[0x198 - 0x170];
+    s32 _160 = 0;
+    s32 _164 = 2;
+    void* _168 = nullptr;
+    void* _170 = nullptr;
+    void* _178 = nullptr;
+    void* _180 = nullptr;
+    u8 _188[0x194 - 0x188];
+    s32 _194 = 0;
     // D9A1D0 clears these; D9C0CC selects a Chemical and activates the request.
-    bool _198;
-    u8 _199[0x1b0 - 0x199];
-    Chemical* _1b0;
+    bool _198 = false;
+    s32 _19c = 0;
+    f32 _1a0 = std::numeric_limits<f32>::quiet_NaN();
+    u8 _1a4[0x1b0 - 0x1a4];
+    Chemical* _1b0 = nullptr;
     u8 _1b8[0x1cc - 0x1b8];
     // Full D9B8C8 fills up to ten positions and flags; D9A1D0 clears them.
     struct PositionEntry {
-        sead::Vector3f position;
-        bool _c;
+        sead::Vector3f position = {0, 0, 0};
+        bool _c = false;
     };
     KSYS_CHECK_SIZE_NX150(PositionEntry, 0x10);
     sead::SafeArray<PositionEntry, 10> _1cc;
-    s32 _26c;
-    u8 _270[0x28c - 0x270];
+    s32 _26c = 0;
+    s32 _270 = 0;
+    f32 _274 = 10.0f;
+    f32 _278 = 0.75f;
+    u16 _27c = 0xffff;
+    u8 _27e[0x28c - 0x27e];
     // lane1 s91: the largest element heap size seen by the element factories.
-    u32 mMaxElementHeapSize;
+    u32 mMaxElementHeapSize = 0;
 
     // 0x7100d9cef8 (CSV elementEmitMaybe; declared only): prints the holder status once.
     void elementEmitMaybe();

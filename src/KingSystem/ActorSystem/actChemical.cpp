@@ -137,11 +137,6 @@ void Chemical::sub_7100D93B84() {
     _1b8 = 0.0f;
 }
 
-void Chemical::sub_7100D9A8F8(Chemical* chemical) {
-    chm::Chemical::instance()->sub_7100D99760(chemical);
-    delete chemical;
-}
-
 // NON_MATCHING: the returned vector uses paired loads instead of the original component addresses.
 sead::Vector3f Chemical::sub_7100D9155C() const {
     return _18 ? _18->m5() : sead::Vector3f::zero;

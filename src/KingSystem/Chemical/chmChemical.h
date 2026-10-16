@@ -31,8 +31,9 @@ class Chemical : public sead::hostio::Node {
 
 public:
     void createChmresAndHeap(sead::Heap* heap);
-    void sub_7100D99738(act::Chemical* chemical);
-    void sub_7100D99760(act::Chemical* chemical);
+    // Adds / removes an element holder (act::Unk_71024dd490).
+    void sub_7100D99738(act::Unk_71024dd490* holder);
+    void sub_7100D99760(act::Unk_71024dd490* holder);
     s32 sub_7100D9979C();
 
 private:
@@ -45,7 +46,7 @@ private:
     friend class act::Unk_71024dd490;
     friend ::Unk_71025187d0* world::sub_71010CBF7C(act::Unk_71024dd490* holder,
                                                   world::Unk_ChemicalMgrM2Arg* arg);
-    sead::PtrArray<act::Chemical> _68;
+    sead::PtrArray<act::Unk_71024dd490> _68;
     sead::Heap* _78 = nullptr;
     // Original d9979c obtains a unique id with a relaxed exclusive increment.
     sead::Atomic<s32> _80 = 1;

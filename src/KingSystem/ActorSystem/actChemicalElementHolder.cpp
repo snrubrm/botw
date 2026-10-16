@@ -15,6 +15,31 @@ WorldParams sWorldParams = {24.0f, 2.0f, -5.0f, 0.3f, 0.3f, 30.0f, 300.0f, 0.5f,
 Unk_71024dd490::CreateArg::CreateArg()
     : _0(0x400), _4(0x400), worldName(sead::SafeString::cEmptyString), _18(nullptr) {}
 
+Unk_71024dd490::Unk_71024dd490() = default;
+
+Unk_71024dd490::~Unk_71024dd490() {
+    mChemicals.freeBuffer();
+    _e8.freeBuffer();
+    _f8.freeBuffer();
+    _108.freeBuffer();
+    _118.buffer.freeBuffer();
+    _130.buffer.freeBuffer();
+    _148.buffer.freeBuffer();
+}
+
+// NON_MATCHING: the inlined constructor merges and orders its zero stores differently
+Unk_71024dd490* sub_7100D9A1D0(const Unk_71024dd490::CreateArg& arg, sead::Heap* heap) {
+    auto* holder = new (heap) Unk_71024dd490;
+    holder->sub_7100D9A384(arg, heap);
+    chm::Chemical::instance()->sub_7100D99738(holder);
+    return holder;
+}
+
+void Unk_71024dd490::sub_7100D9A8F8(Unk_71024dd490* holder) {
+    chm::Chemical::instance()->sub_7100D99760(holder);
+    delete holder;
+}
+
 // NON_MATCHING: the two counter stores of each PtrBuffer::clear are merged into one 64-bit store
 void Unk_71024dd490::sub_7100D9A384(const CreateArg& arg, sead::Heap* heap) {
     mWorld = &chm::SystemConfig::instance()->getWorld(arg.worldName);

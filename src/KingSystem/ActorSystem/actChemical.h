@@ -117,8 +117,6 @@ public:
     Chemical();
     virtual ~Chemical();
 
-    // 2026-10-07: removes the pointer from the watch array, then invokes Chemical's D0.
-    static void sub_7100D9A8F8(Chemical* chemical);
 
     void sub_7100D8EAB4(int value);
     void sub_7100D8EEE0();
