@@ -1352,19 +1352,33 @@ public:
     // 0x71010a53f0 (slot 101): starts the close animation of the three layouts at 0x9d0 / 0x9d8 / 0x9e0
     void m101() override;
 
-    /* 0x2fc */ s32 _2fc;
-    /* 0x300 */ s32 _300;
-    /* 0x304 */ s32 _304;
-    u8 _pad_308[0x9d0 - 0x308];
-    /* 0x9d0 */ eui::LayoutEx* _9d0;
-    /* 0x9d8 */ eui::LayoutEx* _9d8;
-    /* 0x9e0 */ eui::LayoutEx* _9e0;
-    // 0x71010a4560 initializes these pointers; setup 10a4f8c and update 10a506c use them.
-    /* 0x9e8 */ eui::TagProcessor* _9e8;
-    /* 0x9f0 */ eui::CapturePane* _9f0;
-    /* 0x9f8 */ eui::CapturePane* _9f8;
-    /* 0xa00 */ eui::CapturePane* _a00;
-    /* 0xa08 */ eui::CapturePane* _a08;
+    // 0x71010a4560 (CSV ScreenMainDungeon::ctor)
+    ScreenMainDungeon();
+
+    // A message and two strings (one per layout: message, title, location name)
+    struct Entry {
+        eui::MessageString message;
+        sead::FixedSafeString<256> _10;
+        sead::FixedSafeString<256> _128;
+    };
+    static_assert(sizeof(Entry) == 0x240);
+
+    /* 0x2fc */ s32 _2fc = 3;
+    /* 0x300 */ s32 _300 = 3;
+    /* 0x304 */ s32 _304 = 3;
+    /* 0x308 */ s32 _308 = 0;
+    /* 0x310 */ Entry _310;
+    /* 0x550 */ Entry _550;
+    /* 0x790 */ Entry _790;
+    /* 0x9d0 */ eui::LayoutEx* _9d0 = nullptr;
+    /* 0x9d8 */ eui::LayoutEx* _9d8 = nullptr;
+    /* 0x9e0 */ eui::LayoutEx* _9e0 = nullptr;
+    // setup 10a4f8c and update 10a506c use these pointers.
+    /* 0x9e8 */ eui::TagProcessor* _9e8 = nullptr;
+    /* 0x9f0 */ eui::CapturePane* _9f0 = nullptr;
+    /* 0x9f8 */ eui::CapturePane* _9f8 = nullptr;
+    /* 0xa00 */ eui::CapturePane* _a00 = nullptr;
+    /* 0xa08 */ eui::CapturePane* _a08 = nullptr;
 };
 
 // The fade screen (id 78): a full-screen fade that can also show a loading tip; its tip texts are queued in a ring
