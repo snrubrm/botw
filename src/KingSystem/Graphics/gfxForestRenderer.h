@@ -23,6 +23,9 @@ public:
     };
     static_assert(sizeof(Item) == 0x98);
     struct Entry {
+        // 0x7100f0663c (declaration only; placeholder name): index of the item at `pos`, or -1.
+        s32 sub_7100F0663C(const sead::Vector3f& pos);
+
         u8 _0[0x60];
         sead::Buffer<Item> mItems;
         u8 _70[0x88 - 0x70];

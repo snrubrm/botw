@@ -30,4 +30,17 @@ void ForestRenderer::sub_7100F03B68() {
     }
 }
 
+s32 ForestRenderer::x_7(const sead::Vector3f& vec) {
+    if (_54 >= 5) {
+        u32 index = 0;
+        for (auto& entry : mEntries) {
+            const s32 item = entry.sub_7100F0663C(vec);
+            if (item != -1)
+                return item | index;
+            index += 0x10000;
+        }
+    }
+    return -1;
+}
+
 }  // namespace ksys::gfx
