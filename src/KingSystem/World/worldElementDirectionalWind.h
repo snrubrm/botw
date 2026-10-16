@@ -70,13 +70,15 @@ public:
     /* 0x80 */ aal::Shape* _80 = nullptr;
     /* 0x88 */ bool _88 = false;
     /* 0x90 */ ElementDirectionalWindCreateArg mArg;
-    /* 0xd0 */ u64 _d0 = 0;
-    /* 0xd8 */ u16 _d8 = 0;
-    /* 0xda */ u16 _da = 0;
+    // The position when emitted (m29 0x71010ef754; zeroed by the constructor with _dc).
+    /* 0xd0 */ sead::Vector3f _d0{0, 0, 0};
     /* 0xdc */ u16 _dc = 0;
+    /* 0xde */ u16 _de;
+    // m29: _e0 = direction x ey, _ec = _e0 x direction.
     /* 0xe0 */ sead::Vector3f _e0 = sead::Vector3f::ex;
     /* 0xec */ sead::Vector3f _ec = sead::Vector3f::ey;
-    // Not set by the constructor; the factory allocates 0x138 bytes.
-    /* 0xf8 */ u8 _f8[0x138 - 0xf8];
+    // Not set by the constructor; m29 sets all five to the position. The factory allocates 0x138 bytes.
+    /* 0xf8 */ sead::Vector3f _f8[5];
+    /* 0x134 */ u8 _134[0x138 - 0x134];
 };
 KSYS_CHECK_SIZE_NX150(ElementDirectionalWindOrGust, 0x138);

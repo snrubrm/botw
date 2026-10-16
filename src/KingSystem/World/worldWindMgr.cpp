@@ -11,7 +11,12 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldElementDirectionalWind.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldTempMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Utils/Types.h"
 #include <utility/aglPrimitiveTexture.h>
 #include <g3d/aglTextureUtilG3D.h>
@@ -276,6 +281,87 @@ ElementDirectionalWindOrGust::~ElementDirectionalWindOrGust() {
 f32 ElementDirectionalWindOrGust::m22() {
     const f32 radius = mArg._20;
     return sead::Mathf::pi() * radius * radius + (radius * 0.75f + mArg._24);
+}
+
+// NON_MATCHING: scheduling of the matrix and parameter stores; 1580 bytes against 1632.
+bool ElementDirectionalWindOrGust::m29(const ElementName& name, sead::Heap* heap) {
+    if (mArg._24 == 0.0f) {
+        sead::Matrix34f mtx;
+        mtx.makeT(mArg.position);
+        ksys::phys::SphereParam param;
+        param.name = "DirectionalWind(Sphere)";
+        param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+        param.motion_type = ksys::phys::MotionType::Keyframed;
+        param.radius = mArg._20 + 1.0f;
+        _48 = ksys::phys::SphereRigidBody::make(&param, heap);
+        if (!_48)
+            return false;
+        _48->setTransform(mtx, ksys::phys::PropagateToLinkedMotions(true));
+
+        if (!(mArg.flags & 0x20) && !_88) {
+            _80 = aal::ShapeSphere::create("WindEmitter(Oneshot:Sphere)", heap);
+            if (!_80)
+                return false;
+            _80->mFlags.setBit(aal::Shape::KeepPosition);
+            _80->mFlags.setBit(aal::Shape::KeepRotation);
+            _80->setRadius(mArg._20);
+        }
+    } else {
+        sead::Matrix34f mtx;
+        mtx.makeT(mArg.position);
+        ksys::phys::CapsuleParam param;
+        param.name = "DirectionalWind(Capsule)";
+        param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+        param.motion_type = ksys::phys::MotionType::Keyframed;
+        param.vertex_a = {0, 0, 0};
+        param.vertex_b = mArg.direction * mArg._24;
+        param.radius = mArg._20 + 1.0f;
+        _48 = ksys::phys::CapsuleRigidBody::make(&param, heap);
+        if (!_48)
+            return false;
+        _48->setTransform(mtx, ksys::phys::PropagateToLinkedMotions(true));
+
+        if (!(mArg.flags & 0x20) && !_88) {
+            _80 = aal::ShapeCapsule::create("WindEmitter(Oneshot:Capsule)", heap);
+            if (!_80)
+                return false;
+            _80->mFlags.setBit(aal::Shape::KeepPosition);
+            _80->mFlags.setBit(aal::Shape::KeepRotation);
+            _80->setRadius(mArg._20);
+            _80->setVector(mArg.direction * mArg._24);
+        }
+    }
+
+    if (!(mArg.flags & 0x20) && _88) {
+        _80 = aal::ShapeCapsule::create("WindEmitter(Continuous)", heap);
+        if (!_80)
+            return false;
+        _80->mFlags.resetBit(aal::Shape::KeepPosition);
+        _80->mFlags.resetBit(aal::Shape::KeepRotation);
+        _80->setPosition(mArg.position);
+        _80->setRadius(mArg._20);
+        _80->setVector({0, 0, 0});
+    }
+
+    setRigidBody(_48, true);
+    mHolder->_3c = mArg._28;
+    mHolder->_1c = mArg.direction;
+    mHolder->_30 = (mArg.flags & 1) ? ksys::world::Manager::instance()->getTempMgr()->get_3c() :
+                                      mArg._30;
+    if (!(mArg.flags & 8))
+        _50 = true;
+    if (!(mArg.flags & 0x20)) {
+        _78 = true;
+        doEmitSLink();
+    }
+
+    _d0 = mArg.position;
+    _dc = 0;
+    _e0.setCross(mArg.direction, sead::Vector3f::ey);
+    _ec.setCross(_e0, mArg.direction);
+    for (auto& pos : _f8)
+        pos = mArg.position;
+    return true;
 }
 
 // NON_MATCHING: register allocation (one more callee-saved register keeps &_68).
