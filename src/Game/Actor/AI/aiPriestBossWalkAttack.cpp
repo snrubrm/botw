@@ -54,8 +54,8 @@ void PriestBossWalkAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _98 = false;
 }
 
-// NON_MATCHING: the original keeps both path state reads in stack slots (str / ldr, like a SEAD_ENUM value; a
-// SEAD_ENUM helper did not reproduce it) and lays out the "移動" state branches the other way round
+// NON_MATCHING: the state 2 / 3 tests compile to `(state | 1) == 3` instead of `state - 2 < 2`, and the "移動"
+// branches are laid out the other way round
 // Walks to TargetPos ("移動"), turning first ("回転") when the target is too far to the side, and attacks with the
 // AS-driven attack sensor; finishes when the nav mesh path ends (state 2 / 3).
 void PriestBossWalkAttack::calc_() {
@@ -67,9 +67,7 @@ void PriestBossWalkAttack::calc_() {
     child->setDynamicParam(*mTargetPos_d, "TargetPos");
     if (isCurrentChild("待機")) {
         if (!_98) {
-            nav->_1e0.lock();
-            const u8 state = nav->_294;
-            nav->_1e0.unlock();
+            const int state = nav->getPathState();
             if (state == 2 || state == 3) {
                 setFinished();
             } else if (state == 1) {
@@ -87,9 +85,7 @@ void PriestBossWalkAttack::calc_() {
             const f32 dz = pos.z - player_pos.z;
             mActor->getASList()->x_6(0x10, 0, std::sqrt(dx * dx + dz * dz));
         }
-        nav->_1e0.lock();
-        const u8 state = nav->_294;
-        nav->_1e0.unlock();
+        const int state = nav->getPathState();
         if (state == 2 || state == 3) {
             setFinished();
             ksys::act::ai::InlineParamPack pack;

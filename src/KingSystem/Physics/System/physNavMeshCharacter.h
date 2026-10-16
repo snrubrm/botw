@@ -5,6 +5,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
 #include <container/seadSafeArray.h>
@@ -27,6 +28,10 @@ class Unk_7102372790;
 class NavMeshCharacterQuery;
 class NavMeshFaceCallback;
 class NavMeshCharacter;
+
+// Placeholder value names: the path state _294 of a NavMeshCharacter (0 after inlineReset; AI actions finish
+// on 2 / 3 and keep moving on 1).
+SEAD_ENUM(NavMeshPathState, State0, State1, State2, State3)
 
 // Placeholder: the object at NavMeshCharacter::_58 (a face material filter; when it is null the per-type cost
 // table of NavMeshCharacter::sub_7100F74FD8 decides). Only slot 4 is known.
@@ -213,6 +218,13 @@ public:
     s32 sub_7100F7D1CC(const NavMeshCharacter* other);
     s32 sub_7100F7D234(const NavMeshObjMaybe* other);
     void sub_7100F7D298(s32 index, const NavMeshCharacter* other);
+
+    // inline-only in the original; name is a guess (PriestBossWalkAttack::calc_ (x2) and Enemy::Unk_12d0 read
+    // _294 under _1e0 and pass it through a stack slot, as a SEAD_ENUM value does).
+    NavMeshPathState getPathState() {
+        auto lock = sead::makeScopedLock(_1e0);
+        return NavMeshPathState(_294);
+    }
 
     // Inline-only in the original (no out-of-line copy; inlined at ~45 call sites: enemy / animal /
     // horse AI actions and NavMeshCharacter's own TU); the name is a placeholder. Under _1e0: flags
