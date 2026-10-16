@@ -10,6 +10,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <math/seadVector.h>
+#include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -4421,8 +4422,22 @@ public:
     virtual void m164();
     virtual s32 m165();
 
+    // 0x71009e62fc (placeholder name): whether the layer 1 camera looks along the current dungeon's direction
+    // (the look vector of the camera target minus _3668)
+    bool sub_71009E62FC() const;
+    // 0x71009e65d4 (placeholder name): moves _3680 to look at its target along the layer 1 camera direction, keeping
+    // its distance, and stores the resulting pitch and yaw
+    void sub_71009E65D4();
+
     // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
-    u8 _3610[0x36e4 - 0x3610];
+    u8 _3610[0x3658 - 0x3610];
+    /* 0x3658 */ f32 _3658;  // camera pitch
+    /* 0x365c */ f32 _365c;  // camera yaw
+    u8 _3660[0x3668 - 0x3660];
+    /* 0x3668 */ sead::Vector3f _3668;
+    u8 _3674[0x3680 - 0x3674];
+    /* 0x3680 */ sead::LookAtCamera _3680;
+    u8 _36e0[0x36e4 - 0x36e0];
     /* 0x36e4 */ bool _36e4;
     u8 _36e5[0x11518 - 0x36e5];
     /* 0x11518 */ ScreenAppMapUnk3c90* _11518;

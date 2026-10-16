@@ -17,6 +17,8 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiAnimator.h"
+#include <layer/aglLayer.h>
+#include <layer/aglRenderer.h>
 
 namespace uking::ui {
 
@@ -457,6 +459,63 @@ void ScreenAppMapDungeon::sub_71009E5CA8(s32 index) {
         if (auto* animator = _11798[base + index]->animator)
             animator->PlayAuto(1.0f);
     }
+}
+
+// 0x71009e62fc
+bool ScreenAppMapDungeon::sub_71009E62FC() const {
+    const s32 index = getDungeonTableIndex();
+    auto* camera = agl::lyr::Renderer::instance()->mLayers[1]->sub_7100B60CE0();
+    if (!camera)
+        return true;
+    sead::Vector3f dir = _3680.getAt() - _3668;
+    camera->getLookVectorByMatrix(&dir);
+    switch (index) {
+    case 0:
+        return dir.x > 0.0f;
+    case 1:
+        return dir.z < 0.0f;
+    case 2:
+        return dir.z > 0.0f;
+    case 3:
+        return dir.x > 0.0f;
+    case 4:
+        return dir.z > 0.0f;
+    case 5:
+        return dir.z < 0.0f;
+    default:
+        return true;
+    }
+}
+
+// 0x71009e65d4
+void ScreenAppMapDungeon::sub_71009E65D4() {
+    auto* layer_camera = agl::lyr::Renderer::instance()->mLayers[1]->sub_7100B60CE0();
+    if (!layer_camera)
+        return;
+
+    sead::Vector3f pos;
+    sead::Vector3f up;
+    _3680.getUpVectorByMatrix(&up);
+    _3680.getWorldPosByMatrix(&pos);
+    sead::Vector3f look = _3680.getAt() - pos;
+    const f32 distance = look.normalize();
+    layer_camera->getLookVectorByMatrix(&look);
+    pos = _3680.getAt() + look * distance;
+    _3680.setPos(pos);
+    _3680.setUp(sead::Vector3f::ey);
+    _3680.normalizeUp();
+    _3680.updateViewMatrix();
+
+    const f32 horizontal =
+        sead::Mathf::clamp(sead::Mathf::sqrt(look.x * look.x + look.z * look.z), -1.0f, 1.0f);
+    const f32 pitch = std::acos(sead::Mathf::abs(horizontal));
+    _3658 = -pitch;
+    if (look.y < 0.0f)
+        _3658 = pitch;
+    const f32 yaw = std::acos(sead::Mathf::clamp(look.z / horizontal, -1.0f, 1.0f));
+    _365c = yaw;
+    if (look.x < 0.0f)
+        _365c = -yaw;
 }
 
 }  // namespace uking::ui
