@@ -47,4 +47,23 @@ void ReflectableEscape::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// 0x710053d0b8
+// NON_MATCHING: register allocation (the original keeps the normalised front x / z in integer registers).
+bool ReflectableEscape::sub_710053D0B8() {
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f front = mtx.getBase(2);
+    front.y = 0.0f;
+    const f32 x = mtx(0, 3);
+    const f32 z = mtx(2, 3);
+    front.normalize();
+    sead::Vector3f to_target(mTargetPos_d->x - x, 0.0f, mTargetPos_d->z - z);
+    to_target.normalize();
+    const f32 min_cos = sead::Mathf::cos(sead::Mathf::deg2rad(60.0f));
+    if (!(front.dot(to_target) >= min_cos))
+        return false;
+    sead::Vector3f to_escape(_58.x - x, 0.0f, _58.z - z);
+    to_escape.normalize();
+    return to_target.dot(to_escape) >= min_cos;
+}
+
 }  // namespace uking::ai

@@ -17,6 +17,9 @@ public:
     void loadParams_() override;
 
     void sub_710053C804(sead::Vector3f* out, const sead::Vector3f& target, f32 dist);
+    // 0x710053d0b8: whether the target is within 60 degrees ahead and the escape point _58 lies within
+    // 60 degrees of the target direction (on the XZ plane).
+    bool sub_710053D0B8();
 
 protected:
     // static_param at offset 0x38
