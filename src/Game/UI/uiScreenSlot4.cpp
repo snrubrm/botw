@@ -1,3 +1,4 @@
+#include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -338,6 +339,49 @@ void ScreenMainScreen::sub_7100A1AB94() {
 
 }  // namespace uking::ui
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a4b6ac) also destroys members or bases
-// this class does not declare yet.
+// 0x7100a4b6ac
 Unk_7102496f70::~Unk_7102496f70() = default;
+
+// 0x7100a4b7ec
+void Unk_7102496f70::m6() {
+    _d8.sub_7100A816D8();
+}
+
+// 0x7100a4b7f4
+void Unk_7102496f70::m7() {
+    sub_7100A4B7F8();
+}
+
+// 0x7100a4b9a0
+void Unk_7102496f70::m8() {
+    _48.sub_71009896D8();
+    _48.sub_710098993C(true, false);
+    _d8.unload(0);
+}
+
+// 0x7100a4b9e0
+void Unk_7102496f70::m13() {
+    sub_7100A4B7F8();
+}
+
+// 0x7100a4b9e4
+void Unk_7102496f70::m14() {
+    _48.sub_71009896D8();
+    _48.sub_710098993C(true, false);
+    _d8.unload(0);
+}
+
+// 0x7100a4ba24
+void Unk_7102496f70::m15(eui::AnimButton* button) {
+    uking::ui::UiShopMgr::instance()->sub_710098425C(sub_7100939C68(), sub_7100939C78());
+}
+
+// 0x7100a4ba70
+void Unk_7102496f70::m19(eui::AnimButton* button) {
+    bool value = false;
+    uking::ui::UiShopMgr::instance()->sub_71009843AC(&value);
+    if (value) {
+        sub_7100A4B7F8();
+        uking::ui::UiShopMgr::instance()->sub_710098425C(sub_7100939C68(), sub_7100939C78());
+    }
+}

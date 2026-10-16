@@ -528,10 +528,23 @@ protected:
 KSYS_CHECK_SIZE_NX150(Unk_710247edc8, 0x60);
 
 // vtable 0x7102496f70 (23 slots); placeholder generated from the vtable (genskel.py).
+// A shop list entry with a button and a texture slot set (uiScreenSlot4.cpp).
 class Unk_7102496f70 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_7102496f70, uking::ui::Unk_7102474e38)
 public:
     ~Unk_7102496f70() override;
+    void m6() override;
+    void m7() override;
+    void m8() override;
+    void m13() override;
+    void m14() override;
+    void m15(eui::AnimButton* button) override;
+    void m19(eui::AnimButton* button) override;
+    // 0x7100a4b7f8 (CSV unnamed; not decompiled)
+    void sub_7100A4B7F8();
+
+    /* 0x48 */ uking::ui::ScreenButton_7100989968 _48;
+    /* 0xd8 */ uking::ui::UiTexSlots _d8;
 };
 
 // vtable 0x71024993a0 (6 slots); placeholder generated from the vtable (genskel.py).
