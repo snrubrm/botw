@@ -4,8 +4,12 @@
 #include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>
 #include "KingSystem/Event/evtInfoData.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::snd {
+
+// The TU's static initialiser is 0x710105ce74 (`_GLOBAL__sub_I_sndEmitterControl.cpp`).
+static util::InitTimeInfoEx sInitTimeInfo;
 
 Unk_710105abc0::Unk_710105abc0(sead::Heap* heap)
     : _8(nullptr), _38(0), _39(false), _3c(0.891f) {
