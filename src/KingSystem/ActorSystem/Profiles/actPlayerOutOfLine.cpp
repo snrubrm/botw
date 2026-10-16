@@ -509,4 +509,32 @@ void Player::sub_710088C5A4() {
     }
 }
 
+// Placeholder name: item equip animation follow-up (ItemEquipLeftOn / ItemEquipRight) for weapon slots 0 / 1.
+void Player::sub_710088A388() {
+    if (mASList->x_1(2, 0) == "ItemEquipLeftOn" && _d68 != getEquipmentTypeName(6) &&
+        _d68 != getEquipmentTypeName(0)) {
+        getWeapons()->mWeapons[1]._10 = true;
+        _c40.resetBit(3);
+        sub_7100888278();
+        snd::Unk_7102502138::instance()->sub_710103B430(false);
+        return;
+    }
+
+    x_16();
+    getWeapons()->mWeapons[0]._10 = true;
+    snd::Unk_7102502138::instance()->sub_710103B41C(false);
+    if (mASList->x_1(2, 0) == "ItemEquipRight")
+        return;
+    if (!_c40.isOnBit(3) || !sub_71008921A8() || _cf0.isOnBit(23))
+        return;
+    if (mASList->x_1(0, 0) == "WeaponThrow" || mASList->x_1(1, 1) == "WeaponThrow")
+        return;
+    if (_cf0.isOnBit(25) && _d68 == getEquipmentTypeName(0))
+        return;
+    getWeapons()->mWeapons[1]._10 = true;
+    _c40.resetBit(3);
+    sub_7100888278();
+    snd::Unk_7102502138::instance()->sub_710103B430(false);
+}
+
 }  // namespace ksys::act
