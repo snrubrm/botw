@@ -379,6 +379,11 @@ public:
     void sub_7101136950();
     // 0x7101131d64 (placeholder name): branch to sub_7101131D68.
     bool sub_7101131D64();
+    // 0x7101130fbc (placeholder name): writes "<dir>/<file name>" for the image of `area` for `type` to
+    // `out`; dir is system->_1050, or mBaseDir when the image has flag 0x40 and flag 1 of _6473 is set
+    // (then returns true).
+    bool sub_7101130FBC(sead::BufferedSafeString* out, System* system, Unk_7101106F44* area,
+                        const ImageTypeMaybe& type);
     // 0x7101130e44 (placeholder name): writes "<dir>/<name>" to `out` (with mBaseDir as the directory if
     // `use_base_dir` and flag 1 of _6473); true if mBaseDir was used.
     bool sub_7101130E44(sead::BufferedSafeString* out, const sead::SafeString& dir,
