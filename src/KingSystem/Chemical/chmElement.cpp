@@ -87,6 +87,33 @@ void Unk_7102518688::m11() {
 
 void Unk_7102518688::m12() {}
 
+// The direction of the element's effect at `pos` (by effect type: none, the holder's direction, or
+// away from the element) and its strength.
+f32 Unk_7102518688::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = sead::Vector3f::ex;
+    auto* holder = mHolder;
+    switch (holder->_8->effect_type.ref()) {
+    case 0:
+        return holder->_3c;
+    case 1: {
+        const f32 length = holder->_1c.length();
+        if (length > 0.0f)
+            out->setScale(holder->_1c, 1.0f / length);
+        return mHolder->_3c;
+    }
+    case 2: {
+        *out = pos - m6();
+        const f32 length = out->normalize();
+        f32 value = mHolder->_3c;
+        if (length > 1.0f)
+            value /= length * length;
+        return value;
+    }
+    default:
+        return 0.0f;
+    }
+}
+
 f32 Unk_7102518688::m16() {
     if (!mRigidBody)
         return 0.0f;
