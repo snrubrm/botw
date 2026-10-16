@@ -166,6 +166,11 @@ public:
     // 0x7101118908 (placeholder name): when the node with key `id` here and in all four children has a B
     // value above epsilon, hands the type-2 image to the image resource manager and rebuilds the node.
     void sub_7101118908(Unk_7101106F44* area, u16 id);
+    // 0x7101118c40 (placeholder name): makes sure `area` has a type-2 node for `key` with image size
+    // `size`, creating parents' nodes first and splitting the image to the children when they cannot all
+    // provide it. True if the node is ready.
+    bool sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, u32 size,
+                        bool check, f32 value);
     // 0x71011171d8 / 0x710111731c (placeholder names): add / remove a user of the image for `type`; the
     // first user / the last one queues the image.
     void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
