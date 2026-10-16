@@ -393,6 +393,8 @@ public:
     // (after clearing the local matrices if `reset`), scales its translation by the previous entry's
     // scale (_54) and stores it in _60 and _90.
     void sub_7100F73C7C(bool reset);
+    // 0x7100f73e50 (placeholder name): chains the local matrices: _90 = parent _90 * _60.
+    void sub_7100F73E50();
     // 0x7100f73b7c (placeholder name): frees the entries and deletes this object.
     void sub_7100F73B7C();
     // 0x7100f74e20 (placeholder name): stores `value` clamped to [0, 1] in _108.

@@ -410,6 +410,15 @@ void Unk_71024f67c8::sub_7100F73C7C(bool reset) {
     }
 }
 
+void Unk_71024f67c8::sub_7100F73E50() {
+    sead::Matrix34f parent = sead::Matrix34f::ident;
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        Entry& entry = mEntries[i];
+        entry._90.setMul(parent, entry._60);
+        parent = entry._90;
+    }
+}
+
 // NON_MATCHING: the original clamps with compares and selects (fcsel / fccmp), ours with fmin.
 void Unk_71024f67c8::sub_7100F74E20(f32 value) {
     _108 = sead::Mathf::clamp(value, 0.0f, 1.0f);
