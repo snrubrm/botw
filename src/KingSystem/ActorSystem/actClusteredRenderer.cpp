@@ -7,11 +7,19 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadDelegateThread.h>
 #include <thread/seadThreadUtil.h>
+#include "KingSystem/ActorSystem/actDebug.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::act {
+
+namespace {
+// 0x7101e7dc54 (placeholder name): the grid offsets of the four regions.
+const sead::Vector2i sRegionOffsets[4] = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
+}  // namespace
 
 // NON_MATCHING: the original computes the FixedSafeString buffer pointers (0x110 / 0x124) before the
 // memset (scheduling / register allocation only).
@@ -530,6 +538,47 @@ void ClusteredRenderer::sub_71012475EC(Cell* cell, const ClusteredRendererRegion
             }
         }
     }
+}
+
+// NON_MATCHING: stack slot assignment of the three strings and the load request.
+void ClusteredRenderer::loadX(ClusteredRendererCells* cells, s32 index) {
+    ClusteredRendererRegion* region = cells->mRegions[index];
+    res::Handle* handle = cells->mHandles[index];
+    const u32 x = sRegionOffsets[index].x + mData._e8;
+    const u32 z = sRegionOffsets[index].y + mData._ec;
+
+    sead::FixedSafeString<256> path;
+    const u32 letter = (x >> 1) + 'A';
+    const u32 number = (z >> 1) + 1;
+    sead::FixedSafeString<32> area{sead::FormatFixedSafeString<32>("%c-%d", letter, number)};
+    sead::FixedSafeString<32> name{
+        sead::FormatFixedSafeString<32>("%c-%d.%d%d", letter, number, x & 1, z & 1)};
+    path.format("%s/%s/%s/%s_%s.%s", "Map", mData._110.cstr(), area.cstr(), name.cstr(),
+                ActorDebug::instance() &&
+                        ActorDebug::instance()->hasFlag(ActorDebug::Flag::_10000000) ?
+                    "ClusteringPast" :
+                    "Clustering",
+                "blwp");
+
+    res::LoadRequest req;
+    req.mLaneId = 2;
+    req.mRequester = "act::ClusteredRenderer";
+    req._22 = true;
+    if (aoc::Manager::instance())
+        req.mAocFileDevice = aoc::Manager::instance()->getFileDeviceForMapFile(path);
+    handle->requestLoad(path, &req, nullptr);
+
+    auto* item = mData._168.emplaceBack();
+    item->mRegion = region;
+    item->mHandle = handle;
+    item->mFrame = mData._c38;
+    region->mCellX = x;
+    region->mCellZ = z;
+    region->mOrigin.x = static_cast<f32>(s32(x - 10)) * 500.0f;
+    region->mOrigin.y = static_cast<f32>(s32(z - 8)) * 500.0f;
+    region->_7c.exchange(1);
+    region->_94 = 0;
+    region->mState.exchange(2);
 }
 
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {

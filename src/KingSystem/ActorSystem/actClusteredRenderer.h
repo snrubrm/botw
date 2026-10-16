@@ -98,13 +98,16 @@ struct ClusteredRendererRegion {
     sead::Heap* mHeap;
     // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
     sead::Atomic<s32> mState;
-    u8 _6c[0x74 - 0x6c];
+    // The region's grid cell (set by loadX).
+    u32 mCellX;
+    u32 mCellZ;
     // The x / z origin of the region's 25 m grid.
     sead::Vector2f mOrigin;
     sead::Atomic<s32> _7c;
     u8 _80[0x88 - 0x80];
     u8* _88;
     sead::Atomic<u32> _90;
+    u32 _94;
 };
 // Placeholder: the second base of ClusteredRenderer (at 0xe0; its vtable 0x7102516df0 in ClusteredRenderer's
 // vtable group has only the destructor thunks 0x71012427dc / 0x71012428c4).
@@ -290,7 +293,8 @@ public:
     void sub_7101244210(s32 x, s32 z);
     // 0x7101244c58 (declaration only; placeholder name): bit i set = region i stays loaded for (x, z) (returned in a 64-bit register).
     u64 sub_7101244C58(s32 x, s32 z);
-    // 0x7101244ea8 (CSV ClusteredRenderer::loadX; declaration only)
+    // 0x7101244ea8 (CSV ClusteredRenderer::loadX): requests the cluster file of region `region` (grid cell
+    // _e8 / _ec plus the region's offset) and queues the region in the list at 0x168.
     void loadX(ClusteredRendererCells* cells, s32 region);
     // 0x71012443ac (placeholder name): finishes loading regions and queues the ones that are ready.
     void sub_71012443AC();
