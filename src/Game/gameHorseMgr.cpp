@@ -122,6 +122,32 @@ void HorseMgr::sub_7100E89A44() {
     setFlagOff(Flag::_4);
 }
 
+void HorseMgr::sub_7100E89A70(s32 seconds, bool selected) {
+    s32 index;
+    if (selected) {
+        index = _d0;
+        if (index < 0)
+            return;
+    } else {
+        index = 5;
+    }
+    s32 time = 0;
+    if (ksys::gdt::Manager::instance()->getParam().get().getS32(&time, "Horse_RideTimeSec", index))
+        ksys::gdt::Manager::instance()->setS32(time + seconds, "Horse_RideTimeSec", index);
+}
+
+void HorseMgr::sub_7100E89DAC(ksys::act::BaseProcLink* link, bool flag, ksys::gdt::FlagHandle handle) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(link, &accessor)) {
+        if (accessor.getMapObject())
+            ksys::gdt::Manager::instance()->setBool(false, handle);
+        else
+            ksys::gdt::Manager::instance()->setBool(flag || accessor.isStateCalc(), handle);
+    } else {
+        ksys::gdt::Manager::instance()->setBool(flag, handle);
+    }
+}
+
 // 0x7100e89b20: the DeadHorse_* flags of dead horse `index` (no `this`).
 bool HorseMgr::sub_7100E89B20(HorseData* data, s32 index) {
     using ksys::gdt::Manager;
