@@ -29,6 +29,7 @@ bool IgnitedThrown::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original loads mActor before the AS check (register allocation).
 void IgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
     _70 = true;
