@@ -7,6 +7,7 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
+#include <aal/aalSpeakerBalanceUnifier.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
 // Address placeholder for the original kind-name text lookup; its enum type is not recovered.
@@ -270,6 +271,15 @@ void Unk_SoundMgr38::sub_710102B11C() {
 void Unk_SoundMgr38_8::sub_710102C594() {
     if (_68 && _18)
         sub_710102C5AC();
+}
+
+void Unk_SoundMgr38_8::sub_710102C9E8(void* handle) {
+    if (!handle || !mPositions.isBufferReady())
+        return;
+    auto* position = static_cast<Unk_71025018c0*>(handle);
+    auto lock = sead::makeScopedLock(mCS);
+    mUnifier->removeUnifiable(position);
+    mPositions.erase(position);
 }
 
 void Unk_SoundMgr38_8::sub_710102C8F8() {

@@ -19,6 +19,7 @@
 #include <aal/aalListenerPoser.h>
 #include <container/seadFreeList.h>
 #include <aal/aalTimedFader.h>
+#include <aal/aalUnifiablePosition.h>
 #include <aal/aalAssetInfo.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
@@ -249,6 +250,10 @@ public:
 
 // Placeholder names (SoundMgr::_38 members at +0x8 / +0x10 / +0x18 / +0x38 / +0x40 / +0x50 / +0x58 / +0x60): only
 // the method that Unk_SoundMgr38::sub_710102AEC4 calls on each is declared (all declared only).
+// vtable 0x71025018c0: the pooled unifiable position of Unk_SoundMgr38_8 (D1 is aal::IUnifiable's, D0 is in
+// this TU, calcUnifiablePositions is aal::UnifiablePosition's).
+class Unk_71025018c0 : public aal::UnifiablePosition {};
+
 class Unk_SoundMgr38_8 {
 public:
     // 0x710102c1d8 (declared only)
@@ -269,9 +274,14 @@ public:
 
     /* 0x08 */ act::BaseProcHandle mProcHandle;
     /* 0x18 */ void* _18;
-    u8 _20[0x68 - 0x20];
+    // 50 positions (0x710102c388); handed out by 0x710102c924 and taken back by sub_710102C9E8.
+    /* 0x20 */ sead::ObjList<Unk_71025018c0> mPositions;
+    u8 _50[0x58 - 0x50];
+    /* 0x58 */ aal::SpeakerBalanceUnifier* mUnifier;
+    u8 _60[0x68 - 0x60];
     /* 0x68 */ bool _68;
-    u8 _69[0xb8 - 0x69];
+    /* 0x70 */ sead::CriticalSection mCS;
+    u8 _b0[0xb8 - 0xb0];
 };
 class Unk_SoundMgr38_10 {
 public:
