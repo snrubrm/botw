@@ -2816,6 +2816,12 @@ public:
     u8 _pad_3610[0x3658 - 0x3610];
     /* 0x3658 */ ScreenAppPictureBookUnk* _3658;
     /* 0x3660 */ ScreenAppPictureBookUnk* _3660;
+    u8 _pad_3668[0x3ab8 - 0x3668];
+    /* 0x3ab8 */ bool _3ab8;  // set by sub_71009F9F30 when the sensor target changes
+
+    // 0x71009f9f30 (placeholder name; called by m155 / m163): with the Sheikah Sensor+ obtained, sets the sensor target
+    // (ActorName_SeakSensor_Slot0) to `name` and marks _3ab8 when it differs from the previous one
+    void sub_71009F9F30(const sead::SafeString& name);
 
     virtual void m154();
     virtual void m155();

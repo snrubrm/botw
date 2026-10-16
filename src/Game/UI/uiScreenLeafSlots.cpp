@@ -148,6 +148,18 @@ void ScreenSousaGuide::doBuildLayout_(const sead::SafeString& name, nn::ui2d::Re
     sub_71010ABF8C(creator.getEntries());
 }
 
+// 0x71009f9f30
+void ScreenAppPictureBook::sub_71009F9F30(const sead::SafeString& name) {
+    if (!ksys::gdt::getFlag_IsGet_Obj_SheikSensorLv2())
+        return;
+    const char* previous;
+    ksys::gdt::getFlag_ActorName_SeakSensor_Slot0(&previous);
+    ksys::gdt::setFlag_ActorName_SeakSensor_Slot0(name);
+    if (name == previous && UiSubsys1::instance()->get38a8() == 1)
+        return;
+    _3ab8 = true;
+}
+
 // 0x71009ea064
 // NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
 // the stack slots / load order around it differ.
