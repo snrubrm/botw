@@ -10,6 +10,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiTimer.h"
+#include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -41,13 +42,24 @@ void sub_7100A6C0EC(sead::Controller* controller, f32 value);
 // instance pointer 0x71025f5ee0, size 0x653b0, disposer at +0x18). Only the fields that are used
 // by the UI facade functions / read inline by AI code are declared (offsets from the original);
 // the namespace and class name are guesses.
-class Manager {
-    u8 _8[0x10];  // vptr at 0 (lane2 s47: the destructor is virtual); two more vtable pointers / padding
+// Placeholder for the polymorphic base at Manager + 0 (the vtable at 0x710249c4e0 has sub-vtables at +0x8 / +0x10 for
+// ActorMessageTransceiver::IHandler; neither the constructor nor the destructor calls anything for this base).
+class ManagerBase {
+public:
+    virtual ~ManagerBase() = default;
+};
+
+class Manager : public ManagerBase, public ksys::ActorMessageTransceiver::IHandler {
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
 
 public:
-    virtual ~Manager();
+    ~Manager() override;
+
+    // 0x7100a7b994 (thunk 0x7100a7bb14): messages with a broker id of 2 - 4 go to sub_7100A7B9E8
+    int handleMessage(const ksys::Message& message) override;
+    // 0x7100a7b9e8 (CSV unnamed; not decompiled)
+    int sub_7100A7B9E8(const ksys::Message& message);
 
     // 0x7100a7b5d8 (CSV uiManager::createAndLoadScreenIfNeeded)
     void createAndLoadScreenIfNeeded(s32 id);

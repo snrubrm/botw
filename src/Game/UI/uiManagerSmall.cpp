@@ -1,3 +1,4 @@
+#include "KingSystem/Utils/Thread/Message.h"
 #include "Game/UI/uiManager.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/UI/uiScreens.h"
@@ -462,6 +463,14 @@ bool Manager::sub_7100A7FDAC() {
 // 0x7100a7a4c0
 void Manager::sub_7100A7A4C0() {
     sub_7100A7A4C4();
+}
+
+// 0x7100a7b994
+int Manager::handleMessage(const ksys::Message& message) {
+    const u32 broker = message.getBrokerId();
+    if (broker - 2 <= 2)
+        return sub_7100A7B9E8(message);
+    return 0;
 }
 
 }  // namespace uking::ui
