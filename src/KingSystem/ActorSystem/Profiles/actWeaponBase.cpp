@@ -13,12 +13,17 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool a1);
@@ -259,6 +264,184 @@ void WeaponBase::m92(phys::RigidBody* body) {
     if (hasParentActor())
         return;
     Actor::m92(body);
+}
+
+// NON_MATCHING: the NPC switch (the original zero-extends the index and adds the full field offset per
+// case; ours shares the +0x18 of Parameter::ref()).
+void WeaponBase::m165(sead::Vector3f* out) {
+    if (m153()) {
+        m167(out);
+        return;
+    }
+
+    if (isParentPlayer() || sub_7100EFD8E4(getParentActor())) {
+        if (m231()) {
+            *out = getParam()->getRes().mGParamList->getSmallSword()->mPlayerEquipRotOffset.ref();
+        } else if (m232()) {
+            *out = getParam()->getRes().mGParamList->getLargeSword()->mPlayerEquipRotOffset.ref();
+        } else if (m233()) {
+            *out = getParam()->getRes().mGParamList->getSpear()->mPlayerEquipRotOffset.ref();
+        } else if (isWeaponType4()) {
+            m248(out);
+            *out += getParam()->getRes().mGParamList->getShield()->mPlayerEquipRotOffset.ref();
+        } else if (isWeaponType3()) {
+            *out = getParam()->getRes().mGParamList->getBow()->mPlayerEquipRotOffset.ref();
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+    } else if (isParentNpc()) {
+        auto* parent = getParentActor();
+        const res::GParamList* list;
+        const res::GParamListObjectNpcEquipment* equipment;
+        if (!parent || !(list = parent->getParam()->getRes().mGParamList) ||
+            !(equipment = list->getNpcEquipment())) {
+            *out = sead::Vector3f::zero;
+            return;
+        }
+        const sead::Vector3f* offset;
+        switch (_9f8) {
+        case 0:
+            offset = &equipment->mEquipRotOffset1.ref();
+            break;
+        case 1:
+            offset = &equipment->mEquipRotOffset2.ref();
+            break;
+        case 2:
+            offset = &equipment->mEquipRotOffset3.ref();
+            break;
+        case 3:
+            offset = &equipment->mEquipRotOffset4.ref();
+            break;
+        default:
+            offset = &sead::Vector3f::zero;
+            break;
+        }
+        *out = *offset;
+    } else if (m142()) {
+        if (getParam()->getRes().mActorLink->hasTag(0x2b533845)) {
+            *out = GlobalParameter::instance()->getGlobalParam()->mTreeWeaponEquipRotOffset.ref();
+        } else if (m231()) {
+            *out = getParam()->getRes().mGParamList->getSmallSword()->mEnemyEquipRotOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponRotOffsetSmallSword.ref();
+        } else if (m232()) {
+            *out = getParam()->getRes().mGParamList->getLargeSword()->mEnemyEquipRotOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponRotOffsetLargeSword.ref();
+        } else if (m233()) {
+            *out = getParam()->getRes().mGParamList->getSpear()->mEnemyEquipRotOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponRotOffsetSpear.ref();
+        } else if (isWeaponType4()) {
+            *out = getParam()->getRes().mGParamList->getShield()->mEnemyEquipRotOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponRotOffsetShield.ref();
+        } else if (isWeaponType3()) {
+            *out = getParam()->getRes().mGParamList->getBow()->mEnemyEquipRotOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponRotOffsetBow.ref();
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+// NON_MATCHING: the NPC switch (the original zero-extends the index and adds the full field offset per
+// case; ours shares the +0x18 of Parameter::ref()).
+void WeaponBase::m166(sead::Vector3f* out) {
+    if (m153()) {
+        m168(out);
+        return;
+    }
+
+    if (isParentPlayer() || sub_7100EFD8E4(getParentActor())) {
+        if (m231()) {
+            *out = getParam()->getRes().mGParamList->getSmallSword()->mPlayerEquipTransOffset.ref();
+        } else if (m232()) {
+            *out = getParam()->getRes().mGParamList->getLargeSword()->mPlayerEquipTransOffset.ref();
+        } else if (m233()) {
+            *out = getParam()->getRes().mGParamList->getSpear()->mPlayerEquipTransOffset.ref();
+        } else if (isWeaponType4()) {
+            m247(out);
+            *out += getParam()->getRes().mGParamList->getShield()->mPlayerEquipTransOffset.ref();
+        } else if (isWeaponType3()) {
+            *out = getParam()->getRes().mGParamList->getBow()->mPlayerEquipTransOffset.ref();
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+    } else if (isParentNpc()) {
+        auto* parent = getParentActor();
+        const res::GParamList* list;
+        const res::GParamListObjectNpcEquipment* equipment;
+        if (!parent || !(list = parent->getParam()->getRes().mGParamList) ||
+            !(equipment = list->getNpcEquipment())) {
+            *out = sead::Vector3f::zero;
+        } else {
+            const sead::Vector3f* offset;
+            switch (_9f8) {
+            case 0:
+                offset = &equipment->mEquipTransOffset1.ref();
+                break;
+            case 1:
+                offset = &equipment->mEquipTransOffset2.ref();
+                break;
+            case 2:
+                offset = &equipment->mEquipTransOffset3.ref();
+                break;
+            case 3:
+                offset = &equipment->mEquipTransOffset4.ref();
+                break;
+            default:
+                offset = &sead::Vector3f::zero;
+                break;
+            }
+            *out = *offset;
+        }
+    } else if (m142()) {
+        if (getParam()->getRes().mActorLink->hasTag(0x2b533845)) {
+            *out = GlobalParameter::instance()->getGlobalParam()->mTreeWeaponEquipTransOffset.ref();
+        } else if (m231()) {
+            *out = getParam()->getRes().mGParamList->getSmallSword()->mEnemyEquipTransOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponTransOffsetSmallSword.ref();
+        } else if (m232()) {
+            *out = getParam()->getRes().mGParamList->getLargeSword()->mEnemyEquipTransOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponTransOffsetLargeSword.ref();
+        } else if (m233()) {
+            *out = getParam()->getRes().mGParamList->getSpear()->mEnemyEquipTransOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponTransOffsetSpear.ref();
+        } else if (isWeaponType4()) {
+            *out = getParam()->getRes().mGParamList->getShield()->mEnemyEquipTransOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponTransOffsetShield.ref();
+        } else if (isWeaponType3()) {
+            *out = getParam()->getRes().mGParamList->getBow()->mEnemyEquipTransOffset.ref();
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out += accessor.getGParamList()->getEnemyRace()->mWeaponTransOffsetBow.ref();
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+
+    sead::Vector3f extra = sead::Vector3f::zero;
+    m244(&extra);
+    *out += extra;
 }
 
 void WeaponBase::m169(sead::Vector3f* out) {

@@ -203,7 +203,8 @@ public:
     virtual void m241(sead::Vector3f* out) {}
     virtual void m242(sead::Vector3f* out) {}
     virtual void m243(sead::Vector3f* out) {}
-    virtual void m244() {}
+    // lane4 s102: m166 passes a zeroed vector and adds the result to its offset.
+    virtual void m244(sead::Vector3f* out) {}
     // lane4 s51: Weapon writes the SquatPlayerHold{Trans,Rot}AddOffset of its weapon type (m245: Trans, m246: Rot).
     virtual void m245(sead::Vector3f* out) {}
     virtual void m246(sead::Vector3f* out) {}
