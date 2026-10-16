@@ -23,6 +23,9 @@ public:
     ~BAndSCs() override;
 
     void sub_7100F6B144(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b);
+    // 0x7100f6b198 (placeholder name): sets both pivots from one world-space pivot.
+    void sub_7100F6B198(const sead::Matrix34f& body_a_mtx, const sead::Matrix34f& body_b_mtx,
+                        const sead::Vector3f& pivot);
     // 0x7100f6b394 (placeholder name): reads back the two body-space pivots.
     void sub_7100F6B394(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const;
 

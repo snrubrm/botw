@@ -1,5 +1,12 @@
 #include <Havok/Physics/Constraint/Data/BallAndSocket/hkpBallAndSocketConstraintData.h>
 
+void hkpBallAndSocketConstraintData::setInWorldSpace(const hkTransform& bodyATransform,
+                                                     const hkTransform& bodyBTransform,
+                                                     const hkVector4& pivot) {
+    m_atoms.m_pivots.m_translationA._setTransformedInversePos(bodyATransform, pivot);
+    m_atoms.m_pivots.m_translationB._setTransformedInversePos(bodyBTransform, pivot);
+}
+
 void hkpBallAndSocketConstraintData::sub_71015F47C8(const hkVector4& pivotA,
                                                  const hkVector4& pivotB) {
     m_atoms.m_pivots.m_translationA = pivotA;

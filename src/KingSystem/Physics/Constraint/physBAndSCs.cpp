@@ -44,6 +44,17 @@ void BAndSCs::sub_7100F6B144(const sead::Vector3f& pivot_a, const sead::Vector3f
     mData->sub_71015F47C8(toHkVec4(pivot_a), toHkVec4(pivot_b));
 }
 
+void BAndSCs::sub_7100F6B198(const sead::Matrix34f& body_a_mtx,
+                             const sead::Matrix34f& body_b_mtx, const sead::Vector3f& pivot) {
+    hkTransform transform_a;
+    toHkTransform(&transform_a, body_a_mtx);
+    hkTransform transform_b;
+    toHkTransform(&transform_b, body_b_mtx);
+    hkVector4 pivot_hk;
+    loadFromVec3(&pivot_hk, pivot);
+    mData->setInWorldSpace(transform_a, transform_b, pivot_hk);
+}
+
 void BAndSCs::sub_7100F6B394(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const {
     storeToVec3(pivot_a, mData->m_atoms.m_pivots.m_translationA);
     storeToVec3(pivot_b, mData->m_atoms.m_pivots.m_translationB);

@@ -22,6 +22,11 @@ public:
     // The unresolved base runtime slot order remains unchanged.
     void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const override;
 
+    // Native 0x71015f471c (172 bytes): full BAndSCs 0x7100f6b198 passes two body transforms and
+    // a world pivot; stores each body-space pivot at +0x30/+0x40.
+    void setInWorldSpace(const hkTransform& bodyATransform, const hkTransform& bodyBTransform,
+                         const hkVector4& pivot);
+
     // Native20-byte body-space setter; full BAndSCs factory and independent F6B144 call it.
     void sub_71015F47C8(const hkVector4& pivotA, const hkVector4& pivotB);
 

@@ -70,3 +70,16 @@ template <int I>
 inline const hkVector4& hkpCapsuleShape::getVertex() const {
     return getVertices()[I];
 }
+
+// Inlined by Unk_71024f5e90::m6 0x7100f67444: each vertex is stored whole, then its w lane is set
+// to the shape radius (+0x18).
+inline void hkpCapsuleShape::setVertex(int i, const hkVector4& position) {
+    hkVector4* vertices = &m_vertexA;
+    vertices[i] = position;
+    vertices[i](3) = m_radius;
+}
+
+template <int I>
+inline void hkpCapsuleShape::setVertex(hkVector4Parameter position) {
+    setVertex(I, position);
+}

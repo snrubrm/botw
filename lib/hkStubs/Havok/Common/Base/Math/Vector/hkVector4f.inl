@@ -455,6 +455,35 @@ inline void hkVector4f::_setTransformedPos(const hkTransformf& a, hkVector4fPara
     setAdd(t, a.getTranslation());
 }
 
+inline void hkVector4f::_setRotatedInverseDir(const hkMatrix3f& a, hkVector4fParameter b) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    const auto c0 = a.m_col0.v;
+    const auto c1 = a.m_col1.v;
+    const auto c2 = a.m_col2.v;
+    // Transpose the three columns (the w lanes of the rows are unused).
+    const auto r2 = vcombine_f32(vzip1_f32(vget_high_f32(c0), vget_high_f32(c1)), vget_high_f32(c2));
+    const auto r0 = vcombine_f32(vzip1_f32(vget_low_f32(c0), vget_low_f32(c1)), vget_low_f32(c2));
+    const auto r1 = vcombine_f32(vzip2_f32(vget_low_f32(c0), vget_low_f32(c1)),
+                                 vset_lane_f32(vgetq_lane_f32(c2, 1), vget_high_f32(c2), 0));
+    auto row0 = vmulq_laneq_f32(r0, b.v, 0);
+    auto row1 = vmulq_laneq_f32(r1, b.v, 1);
+    auto row2 = vmulq_laneq_f32(r2, b.v, 2);
+    v = row0 + row1 + row2;
+#else
+    hkVector4f r;
+    for (int i = 0; i < 3; ++i)
+        r(i) = a.m_col0(i) * b(0) + a.m_col1(i) * b(1) + a.m_col2(i) * b(2);
+    r(3) = 0;
+    *this = r;
+#endif
+}
+
+inline void hkVector4f::_setTransformedInversePos(const hkTransformf& a, hkVector4fParameter b) {
+    hkVector4f t;
+    t.setSub(b, a.getTranslation());
+    _setRotatedInverseDir(a.getRotation(), t);
+}
+
 #ifdef HK_VECTOR4F_AARCH64_NEON
 template <int N>
 HK_FORCE_INLINE hkSimdFloat32 hkVector4f::dot(hkVector4fParameter a) const {
