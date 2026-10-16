@@ -1,4 +1,5 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include <cstring>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadEndian.h>
 #include <prim/seadPtrUtil.h>
@@ -375,6 +376,24 @@ bool System::sub_710111F618(s32 index) {
 void System::sub_710111F644(void* value) {
     for (s32 i = 0; i < mScenes.size(); ++i)
         mScenes[i].scene->_2948->_afc0 = value;
+}
+
+void System::sub_7101114BA8() {
+    if (!_8)
+        return;
+    mLock.readLock();
+    _1c = Terrain::instance()->sub_710114D8E4(this);
+    _24 = Terrain::instance()->sub_710114D8F8(this);
+    for (s32 i = 0; i < mScenes.size(); ++i)
+        mScenes[i]._88 = false;
+    if (_1338 & 1) {
+        _1338 &= ~1u;
+        x_3();
+    }
+    for (s32 i = 0; i < mScenes.size(); ++i)
+        mScenes[i].scene->sub_710110028C();
+    std::memset(_1008.getBufferPtr(), 0, u32(_1008.size()));
+    mLock.readUnlock();
 }
 
 // NON_MATCHING: the original keeps the comparison result in a register before the binary search step

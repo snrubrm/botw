@@ -728,6 +728,8 @@ class Scene {
     void exportFileBinary();
 
 public:
+    // 0x710110028c (declaration only; placeholder name): range checks under Terrain::_a50 debug flags.
+    void sub_710110028C();
     // 0x7101100f08 (declaration only; placeholder name and signature; 1648 bytes).
     void sub_7101100F08(System* system, Unk_7101115584Arg* arg, bool flag);
     // Placeholder type: passed by sub_710110234C to sub_71011021E4 (0x7101100330 reads _0 and _8).
@@ -925,6 +927,10 @@ public:
     bool parseSceneXmlMaybe(sead::Heap* heap, sead::XmlElement* element);
     // 0x7101114cc8 (declaration only; CSV name).
     void x_3();
+    // 0x7101114ba8 (placeholder name): under the read lock, refreshes the scaled bounds (_1c / _24), clears
+    // every slot's _88, runs x_3 once if bit 0 of _1338 is set (clearing it), then sub_710110028C on every
+    // scene, and clears the node flags _1008.
+    void sub_7101114BA8();
     // 0x710111a2b8 (placeholder name): creates the root area node from the "scale" / "x" / "y" attributes of
     // `element` (setting _10 / _18 / _1c / _24), then a node for each child element (read by
     // sub_71011194C4). True if one of the children failed.
