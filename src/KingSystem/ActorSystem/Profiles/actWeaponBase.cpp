@@ -444,6 +444,201 @@ void WeaponBase::m166(sead::Vector3f* out) {
     *out += extra;
 }
 
+// NON_MATCHING: the original loads out->x / y before the ride-horse offset in each branch; NPC switch as in m165.
+void WeaponBase::m167(sead::Vector3f* out) {
+    if (isParentPlayer() || sub_7100EFD8E4(getParentActor())) {
+        if (m231()) {
+            *out = getParam()->getRes().mGParamList->getSmallSword()->mPlayerHoldRotOffset.ref();
+            if (m154())
+                *out += getParam()->getRes().mGParamList->getSmallSword()->mRideHorsePlayerHoldRotOffset.ref();
+        } else if (m232()) {
+            *out = getParam()->getRes().mGParamList->getLargeSword()->mPlayerHoldRotOffset.ref();
+            if (m154())
+                *out += getParam()->getRes().mGParamList->getLargeSword()->mRideHorsePlayerHoldRotOffset.ref();
+        } else if (m233()) {
+            const bool grab = m155();
+            const auto* spear = getParam()->getRes().mGParamList->getSpear();
+            if (grab)
+                *out = spear->mGrabPlayerHoldRotOffset.ref();
+            else
+                *out = spear->mPlayerHoldRotOffset.ref();
+            if (m154())
+                *out += getParam()->getRes().mGParamList->getSpear()->mRideHorsePlayerHoldRotOffset.ref();
+        } else if (isWeaponType4()) {
+            *out = getParam()->getRes().mGParamList->getShield()->mPlayerHoldRotOffset.ref();
+            sead::Vector3f offset;
+            m240(&offset);
+            *out += offset;
+        } else if (isWeaponType3()) {
+            *out = getParam()->getRes().mGParamList->getBow()->mPlayerHoldRotOffset.ref();
+            sead::Vector3f offset;
+            m242(&offset);
+            *out += offset;
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+        sead::Vector3f squat_offset;
+        m246(&squat_offset);
+        *out += squat_offset;
+        return;
+    }
+
+    if (isParentNpc()) {
+        auto* parent = getParentActor();
+        const res::GParamList* list;
+        const res::GParamListObjectNpcEquipment* equipment;
+        const sead::Vector3f* offset = &sead::Vector3f::zero;
+        if (parent && (list = parent->getParam()->getRes().mGParamList) &&
+            (equipment = list->getNpcEquipment())) {
+            switch (_9f8) {
+            case 0:
+                offset = &equipment->mHoldRotOffset1.ref();
+                break;
+            case 1:
+                offset = &equipment->mHoldRotOffset2.ref();
+                break;
+            case 2:
+                offset = &equipment->mHoldRotOffset3.ref();
+                break;
+            case 3:
+                offset = &equipment->mHoldRotOffset4.ref();
+                break;
+            default:
+                break;
+            }
+        }
+        *out = *offset;
+        return;
+    }
+
+    if (m142()) {
+        if (m231()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldRotOffsetSmallSword.ref();
+        } else if (m232()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldRotOffsetLargeSword.ref();
+        } else if (m233()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldRotOffsetSpear.ref();
+        } else if (isWeaponType4()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldRotOffsetShield.ref();
+        } else if (isWeaponType3()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldRotOffsetBow.ref();
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+        return;
+    }
+    *out = sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the original loads out->x / y before the ride-horse offset in each branch; NPC switch as in m165.
+void WeaponBase::m168(sead::Vector3f* out) {
+    if (isParentPlayer() || sub_7100EFD8E4(getParentActor())) {
+        if (m231()) {
+            *out = getParam()->getRes().mGParamList->getSmallSword()->mPlayerHoldTransOffset.ref();
+            if (m154())
+                *out += getParam()->getRes().mGParamList->getSmallSword()->mRideHorsePlayerHoldTransOffset.ref();
+        } else if (m232()) {
+            *out = getParam()->getRes().mGParamList->getLargeSword()->mPlayerHoldTransOffset.ref();
+            if (m154())
+                *out += getParam()->getRes().mGParamList->getLargeSword()->mRideHorsePlayerHoldTransOffset.ref();
+        } else if (m233()) {
+            const bool grab = m155();
+            const auto* spear = getParam()->getRes().mGParamList->getSpear();
+            if (grab)
+                *out = spear->mGrabPlayerHoldTransOffset.ref();
+            else
+                *out = spear->mPlayerHoldTransOffset.ref();
+            if (m154())
+                *out += getParam()->getRes().mGParamList->getSpear()->mRideHorsePlayerHoldTransOffset.ref();
+        } else if (isWeaponType4()) {
+            *out = getParam()->getRes().mGParamList->getShield()->mPlayerHoldTransOffset.ref();
+            sead::Vector3f offset;
+            m241(&offset);
+            *out += offset;
+        } else if (isWeaponType3()) {
+            *out = getParam()->getRes().mGParamList->getBow()->mPlayerHoldTransOffset.ref();
+            sead::Vector3f offset;
+            m243(&offset);
+            *out += offset;
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+        sead::Vector3f squat_offset;
+        m245(&squat_offset);
+        *out += squat_offset;
+        return;
+    }
+
+    if (isParentNpc()) {
+        auto* parent = getParentActor();
+        const res::GParamList* list;
+        const res::GParamListObjectNpcEquipment* equipment;
+        const sead::Vector3f* offset = &sead::Vector3f::zero;
+        if (parent && (list = parent->getParam()->getRes().mGParamList) &&
+            (equipment = list->getNpcEquipment())) {
+            switch (_9f8) {
+            case 0:
+                offset = &equipment->mHoldTransOffset1.ref();
+                break;
+            case 1:
+                offset = &equipment->mHoldTransOffset2.ref();
+                break;
+            case 2:
+                offset = &equipment->mHoldTransOffset3.ref();
+                break;
+            case 3:
+                offset = &equipment->mHoldTransOffset4.ref();
+                break;
+            default:
+                break;
+            }
+        }
+        *out = *offset;
+    } else {
+        if (!m142()) {
+            *out = sead::Vector3f::zero;
+            return;
+        }
+        if (m231()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldTransOffsetSmallSword.ref();
+        } else if (m232()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldTransOffsetLargeSword.ref();
+        } else if (m233()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldTransOffsetSpear.ref();
+        } else if (isWeaponType4()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldTransOffsetShield.ref();
+        } else if (isWeaponType3()) {
+            ActorLinkConstDataAccess accessor;
+            acquireActor(&_938, &accessor);
+            *out = accessor.getGParamList()->getEnemyRace()->mWeaponHoldTransOffsetBow.ref();
+        } else {
+            *out = sead::Vector3f::zero;
+        }
+    }
+
+    sead::Vector3f extra = sead::Vector3f::zero;
+    m245(&extra);
+    *out += extra;
+}
+
 void WeaponBase::m169(sead::Vector3f* out) {
     if (getParentActor() && !m153() && (!sub_7100EFD700(getParentActor()) || m159().isEmpty())) {
         *out = sead::Vector3f::zero;
