@@ -35,6 +35,10 @@ namespace ksys::map {
 struct Unk_71012497f8Entry;
 }
 
+namespace ksys::xlink {
+class XLink;
+}
+
 namespace ksys::act {
 
 class ClusteredRenderer;
@@ -67,7 +71,9 @@ struct ClusteredRendererRegion {
         sead::Buffer<u8[0x44]> _38;
     };
     struct ModelEntry {
-        u8 _0[0x38];
+        u8 _0[0x8];
+        xlink::XLink* mXLink;
+        u8 _10[0x38 - 0x10];
     };
     struct ResEntry {
         void* _0;
@@ -87,7 +93,9 @@ struct ClusteredRendererRegion {
     sead::Heap* mHeap;
     // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
     sead::Atomic<s32> mState;
-    u8 _6c[0x88 - 0x6c];
+    u8 _6c[0x7c - 0x6c];
+    s32 _7c;
+    u8 _80[0x88 - 0x80];
     u8* _88;
     sead::Atomic<u32> _90;
 };

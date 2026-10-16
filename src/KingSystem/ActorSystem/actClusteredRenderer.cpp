@@ -8,6 +8,7 @@
 #include <thread/seadDelegateThread.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::act {
@@ -441,6 +442,17 @@ void ClusteredRenderer::sub_7101244980(ClusteredRendererRegion* region, bool unl
     region->_40.freeBuffer();
     region->mTextures.freeBuffer();
     region->mHeap->freeAll();
+}
+
+void ClusteredRenderer::sub_7101244598() {
+    for (auto* region : mData._f0->mRegions) {
+        if (region && region->_7c == 0 && region->mState == 1) {
+            for (s32 i = 0; i < region->mModels.size(); ++i) {
+                if (region->mModels[i].mXLink)
+                    region->mModels[i].mXLink->sub_7101231500();
+            }
+        }
+    }
 }
 
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
