@@ -2823,6 +2823,9 @@ struct ScreenAppPictureBookEntry {
     // (item, units, record link)
     void sub_710093B9F4(PictureBookGroupRecord* record);
     void sub_710093AF74();
+    // 0x710093cb64 (declared only; 444 bytes): resets the entry's records (run by
+    // ScreenAppPictureBookUnk::sub_710094004C)
+    void sub_710093CB64();
     // 0x710093b684 / 0x710093b830 (declared only): per-record steps run by ScreenAppPictureBookUnk::Update while the
     // list scrolls
     void sub_710093B684(PictureBookGroupRecord* record);
@@ -3132,6 +3135,8 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     // 0x710093ec3c (declared only; 384 bytes): selects the overall item `index` (finds its entry and page, then
     // sub_710093DAFC with `mode`)
     void sub_710093EC3C(s32 index, s32 mode);
+    // 0x710093ee8c (declared only; 464 bytes): selects item `index` of entry `entry_index` (like sub_710093DAFC)
+    void sub_710093EE8C(s32 index, s32 entry_index, s32 mode);
     // Callees of Update (declared only; not decompiled)
     void sub_7100942AE0();
     s32 sub_7100942D78();

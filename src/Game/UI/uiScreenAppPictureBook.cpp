@@ -1924,6 +1924,45 @@ void ScreenAppPictureBookUnk::sub_7100944290(sead::Heap* heap) {
     sub_710093F594(false);
 }
 
+// NON_MATCHING: the first-unlocked-entry loop is laid out differently (loop rotation)
+// 0x710094004c
+void ScreenAppPictureBookUnk::sub_710094004C() {
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        if (*it)
+            (*it)->sub_710093CB64();
+    }
+
+    for (auto& list : mGroupLists) {
+        for (auto it = list.mUnits.begin(), end = list.mUnits.end(); it != end; ++it) {
+            it->mEntry = nullptr;
+            it->mRecord = nullptr;
+            if (it->_8)
+                it->_8->mPane->SetVisible(false);
+            const auto& units = it->mUnits;
+            const s32 num_units = units.size();
+            for (s32 i = 0; i < num_units; ++i) {
+                Unk_7102474e38* unit = units(i);
+                unit->_30 = 0;
+                unit->_8->mPane->SetVisible(false);
+                if (unit->_10)
+                    unit->_10->setFlag10(false);
+            }
+        }
+    }
+
+    // the first entry that is not locked
+    s32 first = 0;
+    if (mEntries(0)->_38d) {
+        for (s32 i = 1; i < _2a8; ++i) {
+            first = i;
+            const ScreenAppPictureBookEntry* entry = mEntries[i];
+            if (!entry->_38c && !entry->_38d)
+                break;
+        }
+    }
+    sub_710093EE8C(0, first, 2);
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
