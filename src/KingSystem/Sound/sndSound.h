@@ -904,17 +904,11 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 // Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
 // (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.
 struct Unk_SoundMgr60 {
-    // Bars file list filled by loadBars (lane4 finding): a buffer of 0x50-byte entries and a flags byte.
-    struct BarsList {
-        u8 _0[8];
-        /* 0x08 */ s32 count;
-        /* 0x10 */ void* data;
-        /* 0x18 */ u8 flags;
-    };
-
     // 0x7101058c44 (declared only; CSV SoundResourceMgrMaybe::loadBars): loads the bars file `name`
-    // into `list` (lane4 finding; the two bools are unknown).
-    bool loadBars(const sead::SafeString& name, BarsList* list, sead::Heap* heap, bool a4, bool a5,
+    // into `reader` (lane4 finding; the two bools are unknown). The list lane4 described (a buffer of 0x50-byte
+    // entries at +8 and a flags byte at +0x18) is the asset info reader Unk_7102502950 (its res::Handle buffer),
+    // which is also the type of EventXlinkInfo::_a0.
+    bool loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool a4, bool a5,
                   res::Handle* pack);
     // 0x7101058734 (declared only; 248 B): loads the asset info of `name` into `reader`.
     void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
