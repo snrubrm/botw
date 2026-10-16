@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 
 namespace ksys::tera {
@@ -119,6 +120,10 @@ bool Core::Grass::sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b) {
 bool Core::Grass::sub_710115101C(const sead::Vector3f* pos, f32 radius) {
     const Unk_7101150c24 arg{1, pos, radius, 10.0f, false, false, true, false, true};
     return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+nn::gfx::ResTexture* MaterialTextureMaybe::getTexture() const {
+    return agl::g3d::ResMaterial::GetTexture(material, index);
 }
 
 const sead::Vector2f sUnk_7101EC503C[4] = {{-0.5f, -0.5f}, {0.5f, -0.5f}, {-0.5f, 0.5f}, {0.5f, 0.5f}};

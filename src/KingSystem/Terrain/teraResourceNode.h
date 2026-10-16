@@ -8,6 +8,12 @@
 namespace sead {
 class Heap;
 }
+namespace nn::g3d {
+class ResMaterial;
+}
+namespace nn::gfx {
+class ResTexture;
+}
 
 class Unk_710250db28;
 class Unk_710250dbc8;
@@ -57,6 +63,16 @@ extern const sead::Vector2f sUnk_7101EC503C[4];
 extern const ImageTypeMaybe sUnk_7101EC54AC;
 // 0x7101ec54b4
 extern const ImageTypeMaybe sUnk_7101EC54B4;
+
+// Placeholder: a material and a texture index (returned by a virtual of the object at
+// Terrain::_370->_4ae0 + 0x10; getters at 0x7101140610 - 0x710114065c).
+struct MaterialTextureMaybe {
+    // 0x7101140610 (placeholder name)
+    nn::gfx::ResTexture* getTexture() const;
+
+    nn::g3d::ResMaterial* material;
+    s32 index;
+};
 
 // Placeholder name: an index into a table of image sizes (32 - 1024).
 enum class ImageSizeMaybe : u32 {};
