@@ -485,8 +485,10 @@ class Unk_710247ada8 {
 public:
     Unk_710247ada8();
     virtual ~Unk_710247ada8();
+    // 0x71009b2010: closes the layout when it is open or opening
+    void sub_71009B2010();
 
-    /* 0x08 */ void* _8 = nullptr;
+    /* 0x08 */ eui::LayoutEx* mLayout = nullptr;
     /* 0x10 */ void* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ void* _20 = nullptr;

@@ -628,6 +628,12 @@ void Unk_710247adc8::sub_71009B2380(u32 category, s32 old_value, s32 value, s32 
     }
 }
 
+// 0x71009b2010
+void Unk_710247ada8::sub_71009B2010() {
+    if (mLayout && (mLayout->_91 == 1 || mLayout->_91 == 2))
+        mLayout->startAnimCloseImpl_(false, true);
+}
+
 Unk_710247adc8::~Unk_710247adc8() = default;
 
 // 0x71009b2ee0

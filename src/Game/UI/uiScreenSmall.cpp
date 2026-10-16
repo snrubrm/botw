@@ -189,6 +189,17 @@ void Unk_710247a6d8::sub_71009B0EEC(u32 frame) {
         _1d8.sub_71009C697C();
 }
 
+// 0x71009b10ec
+void Unk_710247a6d8::sub_71009B10EC(s32 value) {
+    if (_150) {
+        f32 ratio = 0.0f;
+        sub_7100AA8FCC(&ratio, f32(value), 120.0f);
+        _150->setTracingSpeed(ratio);
+        _150->set50(ratio);
+    }
+    _190.sub_71009B2010();
+}
+
 // 0x71009b0f3c
 void Unk_710247a6d8::sub_71009B0F3C(bool on) {
     if (!_138)
