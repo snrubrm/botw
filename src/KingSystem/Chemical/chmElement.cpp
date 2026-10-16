@@ -1,5 +1,6 @@
 #include "KingSystem/Chemical/chmElement.h"
 #include <cmath>
+#include <gfx/seadColor.h>
 #include <math/seadBoundBox.h>
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadThread.h>
@@ -60,6 +61,28 @@ bool Unk_7102518688::m10() {
     if (mRigidBody && mRigidBody->isAddedToWorld() && mHolder)
         return true;
     return false;
+}
+
+// Debug colours of the element rigid bodies, indexed by the element type (0x7101ec72f4 / 0x7101ec7384).
+static const sead::Color4f sUnk_7101ec72f4[9] = {
+    {1.0f, 0.0f, 0.0f, 0.6f}, {0.0f, 0.8f, 0.4f, 0.6f}, {0.0f, 0.4f, 1.0f, 0.6f},
+    {1.0f, 1.0f, 0.0f, 0.6f}, {1.0f, 1.0f, 1.0f, 0.4f}, {0.5f, 1.0f, 0.0f, 0.6f},
+    {1.0f, 1.0f, 0.0f, 0.4f}, {0.0f, 0.8f, 0.4f, 0.6f}, {1.0f, 1.0f, 0.0f, 0.4f},
+};
+static const sead::Color4f sUnk_7101ec7384[9] = {
+    {1.0f, 0.6f, 0.0f, 0.3f}, {0.0f, 1.0f, 0.6f, 0.3f}, {0.0f, 0.6f, 1.0f, 0.3f},
+    {1.0f, 1.0f, 0.0f, 0.3f}, {1.0f, 1.0f, 1.0f, 0.2f}, {0.5f, 1.0f, 0.0f, 0.3f},
+    {0.0f, 1.0f, 1.0f, 0.2f}, {0.0f, 1.0f, 0.6f, 0.3f}, {1.0f, 0.6f, 0.0f, 0.2f},
+};
+
+void Unk_7102518688::m11() {
+    if (!mRigidBody || !mHolder || !m10())
+        return;
+    sead::Color4f color = sUnk_7101ec72f4[u32(mHolder->_8->type.ref())];
+    sead::Color4f color2 = sUnk_7101ec7384[u32(mHolder->_8->type.ref())];
+    if (mHolder->_18 & 0x100)
+        color2.a = 0.1f;
+    mRigidBody->setColor(color, &color2, true);
 }
 
 void Unk_7102518688::m12() {}
