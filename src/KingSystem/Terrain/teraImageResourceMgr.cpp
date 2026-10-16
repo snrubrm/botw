@@ -1,3 +1,4 @@
+#include <cstring>
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
@@ -174,6 +175,27 @@ s32 Unk_7101106F44::sub_7101108860(Unk_7101106F44** out_area, sead::Vector2f* ce
         area = area->mParent;
     } while (area);
     return 0;
+}
+
+// NON_MATCHING: operand order of one add.
+void ImageResourceMgr::sub_7101133724(Request* request) {
+    const Unk_7101106F44* area = request->area;
+    const Unk_710250dcd8* current = area->getImageMaybe(request->type);
+    if (current && current->_8 & 8)
+        return;
+
+    if (sub_7101132270(request) || !(request->_4c & 4))
+        request->addr->flushCPUCache(request->_6c + request->_64);
+    const s32 mip_offset = request->_6c != 0 ? request->_64 : 0;
+
+    std::memset(&request->sampler, 0, sizeof(request->sampler));
+    request->area->sub_7101108020(request->type, &request->sampler, *request->addr, mip_offset,
+                                  request->_4c >> 2 & 1);
+    request->_4c |= 8;
+    if (Unk_710250dcd8* image = request->area->getImageMaybe(request->type))
+        image->_18.markUsedMaybe();
+    request->_4c |= 4;
+    ++_6270;
 }
 
 }  // namespace ksys::tera

@@ -185,7 +185,7 @@ KSYS_CHECK_SIZE_NX150(Unk_71024efd58, 0x18);
 
 namespace agl {
 class TextureSampler;
-class GPUMemVoidAddr;
+struct GPUMemVoidAddr;
 }  // namespace agl
 
 // vtable 0x710250dcd8 (15 slots; m4 - m10 pure). Base of the terrain image resources Unk_710250db28,
@@ -240,6 +240,14 @@ public:
             if ((_4.load() >> 30) != 0)
                 return true;
             return _4.compareExchange(0, 0x40000000);
+        }
+
+        // inline-only in the original; name is a guess (0x7101133724): clears the unused / unloading
+        // state bits if set.
+        void markUsedMaybe() {
+            const u32 state = _4.load();
+            if ((state >> 30) != 0)
+                _4.compareExchange(state, state + 0xc0000000);
         }
 
         // Number of users (0x71011171d8 / 0x710111731c count it up and down).

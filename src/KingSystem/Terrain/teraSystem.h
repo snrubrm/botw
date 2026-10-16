@@ -10,6 +10,8 @@
 #include <thread/seadAtomic.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadHeap.h>
+#include <common/aglGPUMemAddr.h>
+#include <common/aglTextureSampler.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -268,13 +270,32 @@ public:
         u8 _0[0x40];
         Unk_7101106F44* area;
         ImageTypeMaybe type;
+        // Bit 2: the data is ready (passed to the image set-up); bit 3: set up.
+        u8 _4c;
+        u8 _4d[0x64 - 0x4d];
+        u32 _64;
+        u8 _68[0x6c - 0x68];
+        u32 _6c;
+        u8 _70[0x88 - 0x70];
+        agl::GPUMemVoidAddr* addr;
+        u8 _90[0xb0 - 0x90];
+        agl::TextureSampler sampler;
     };
+
+    // 0x7101132270 (declared only; placeholder name).
+    bool sub_7101132270(Request* request);
+    // 0x7101133724 (placeholder name): sets up the image of `request` from its data (unless already set
+    // up), marks it in use and counts it.
+    void sub_7101133724(Request* request);
 
     // 0x710113625c (declared only; placeholder name): called under the manager lock (0x68).
     bool sub_710113625C(Unk_7101118B34* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                         bool a4, void* a5);
     // 0x71011339d0 (placeholder name): releases the image of `request` if its flag 8 is set.
     void sub_71011339D0(Request* request);
+
+    u8 _0[0x6270];
+    s32 _6270;
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
