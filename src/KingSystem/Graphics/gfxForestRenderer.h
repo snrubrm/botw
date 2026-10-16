@@ -91,8 +91,11 @@ public:
     // Placeholder: the 0x60-byte entries of the buffer at 0xe8. requestDraw hands the draw array of
     // mModelUnit one of two blocks of 0x400 unit pointers (mUnits[mIndex * 0x400], mCount used) when
     // mState is 3, then flips mIndex.
+    // vtable 0x71024f38d8.
     struct UnitEntry {
-        u8 _0[0x8];
+        // 0x7100f09374: deletes the model unit, resets the fields and frees the unit buffer.
+        virtual ~UnitEntry();
+
         s32 mState;
         u8 _c[0x18 - 0xc];
         // Two blocks of 0x400 unit pointers (requestDraw reads the buffer through data()).
@@ -102,9 +105,21 @@ public:
         u32 mPrevCount;
         u8 _34[0x38 - 0x34];
         gsys::ModelUnit* mModelUnit;
-        u8 _40[0x60 - 0x40];
+        u64 _40;
+        s32 _48;
+        s32 _4c;
+        u64 _50;
+        u8 _58[0x60 - 0x58];
     };
     static_assert(sizeof(UnitEntry) == 0x60);
+
+    // Placeholder name (vtable 0x71024f38f8): the holder of the unit entries at 0xe0.
+    struct UnitEntryBuffer {
+        // 0x7100f0942c: frees the entry buffer.
+        virtual ~UnitEntryBuffer();
+
+        sead::Buffer<UnitEntry> mEntries;
+    };
 
     // 0x7100f06474 (CSV name): clears bit 2 of every record and sets bit 1 of every item.
     void x_1();
@@ -190,8 +205,7 @@ public:
     s32 _60;
     u8 _64[0xd0 - 0x64];
     sead::Buffer<Entry> mEntries;
-    u8 _e0[0xe8 - 0xe0];
-    sead::Buffer<UnitEntry> mUnitEntries;
+    UnitEntryBuffer mUnitEntries;
     sead::Buffer<TreeResMaybe> mTreeRes;
     ModelSet mModelSet;
 

@@ -43,7 +43,7 @@ void ForestRenderer::requestDraw() {
     case 10:
     case 16:
         mModelSet.mCurrent = 1 - mModelSet.mCurrent;
-        for (auto& entry : mUnitEntries) {
+        for (auto& entry : mUnitEntries.mEntries) {
             if (entry.mState != 3)
                 continue;
             entry.mModelUnit->getDrawArray()->setUnits(&entry.mUnits.data()[entry.mIndex * 0x400], entry.mCount);
@@ -130,6 +130,22 @@ ForestRenderer::ModelSlot::~ModelSlot() {
     finalize();
 }
 
+ForestRenderer::UnitEntry::~UnitEntry() {
+    if (mModelUnit) {
+        delete mModelUnit;
+        mModelUnit = nullptr;
+    }
+    _48 = -1;
+    _4c = -1;
+    _50 = 0;
+    _40 = 0;
+    mUnits.freeBuffer();
+}
+
+ForestRenderer::UnitEntryBuffer::~UnitEntryBuffer() {
+    mEntries.freeBuffer();
+}
+
 ForestRenderer::ModelSet::~ModelSet() {
     for (auto& slot : mSlots)
         slot.finalize();
@@ -160,7 +176,7 @@ void ForestRenderer::x_1() {
 
 void ForestRenderer::sub_710F06904(map::PlacementMgr* mgr, bool a) {
     auto lock = sead::makeScopedLock(mCS);
-    for (auto& entry : mUnitEntries) {
+    for (auto& entry : mUnitEntries.mEntries) {
         if (!entry.mModelUnit)
             continue;
         auto* draw_array = entry.mModelUnit->getDrawArray();
