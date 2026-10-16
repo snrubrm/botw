@@ -15,6 +15,42 @@ void Scene::sub_71011001D4(int level, int type) {
     _2998 |= 4;
 }
 
+void Scene::sub_7101100234(bool a, bool b) {
+    _2998 = a ? _2998 | 8 : _2998 & ~8u;
+    _2998 = b ? _2998 | 0x10 : _2998 & ~0x10u;
+}
+
+void Scene::sub_7101101A10(void* a, void* b, void* c, void* d, void* e) {
+    _2910[0] = a;
+    _2910[1] = b;
+    _2910[2] = c;
+    _2910[4] = d;
+    _2910[3] = e;
+}
+
+void Scene::sub_7101101A7C(void* a, void* b) {
+    _2920[0] = a;
+    _2920[1] = b;
+}
+
+void Scene::sub_7101101AA0(void* a, void* b, void* c) {
+    _2930[0] = a;
+    _2930[2] = b;
+    _2930[1] = c;
+}
+
+void Scene::sub_7101101914(const sead::SafeArray<s32, 19>& levels) {
+    bool changed = false;
+    for (s32 i = 0; i < levels.size(); ++i) {
+        if (levels[i] != -1 && levels[i] != _278c[i]) {
+            changed = true;
+            _278c[i] = levels[i];
+        }
+    }
+    if (changed)
+        _2998 |= 4;
+}
+
 // NON_MATCHING: we unroll both loops and keep the levels in registers; the original keeps the 19-entry
 // stack array and two loops.
 void Scene::sub_7101101964() {
@@ -29,15 +65,7 @@ void Scene::sub_7101101964() {
         levels[i] = level;
     }
 
-    bool changed = false;
-    for (s32 i = 0; i < levels.size(); ++i) {
-        if (levels[i] != -1 && levels[i] != _278c[i]) {
-            changed = true;
-            _278c[i] = levels[i];
-        }
-    }
-    if (changed)
-        _2998 |= 4;
+    sub_7101101914(levels);
 }
 
 }  // namespace ksys::tera

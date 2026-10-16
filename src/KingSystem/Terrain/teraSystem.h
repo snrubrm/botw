@@ -4,6 +4,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
@@ -205,6 +206,15 @@ public:
     // 0x71011001d4 (declaration only; placeholder name): stores the two levels at 0x2940 / 0x2941
     // (clamped) and sets flag 4.
     void sub_71011001D4(int level, int type);
+    // 0x7101100234 (placeholder name): sets flag 8 from `a` and flag 0x10 from `b`.
+    void sub_7101100234(bool a, bool b);
+    // 0x7101101914 (placeholder name): copies the levels that are not -1 into _278c; flag 4 if one changed.
+    void sub_7101101914(const sead::SafeArray<s32, 19>& levels);
+    // 0x7101101a10 / 0x7101101a7c / 0x7101101aa0 (placeholder names): store pointers into the buffers at
+    // 0x2910 / 0x2920 / 0x2930.
+    void sub_7101101A10(void* a, void* b, void* c, void* d, void* e);
+    void sub_7101101A7C(void* a, void* b);
+    void sub_7101101AA0(void* a, void* b, void* c);
     // 0x7101101964 (declaration only; placeholder name): refreshes the 19 words at 0x278c from the Terrain
     // and sets flag 4 if one changed.
     void sub_7101101964();
@@ -221,7 +231,11 @@ public:
     s32 _2780;
     u8 _2784[0x278c - 0x2784];
     s32 _278c[19];
-    u8 _27d8[0x2940 - 0x27d8];
+    u8 _27d8[0x2910 - 0x27d8];
+    sead::Buffer<void*> _2910;
+    // Element types unknown (pointer-sized).
+    sead::Buffer<void*> _2920;
+    sead::Buffer<void*> _2930;
     u8 _2940;
     u8 _2941;
     u8 _2942[0x2946 - 0x2942];
