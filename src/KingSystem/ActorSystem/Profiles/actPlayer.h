@@ -455,6 +455,7 @@ public:
     bool sub_710086DBA8();
     void sub_710086DD00();
     void sub_7100882478();
+    void sub_71008821BC();
     void sub_71008822EC();
     void sub_71008823AC();
     void sub_7100884618();
@@ -986,6 +987,9 @@ KSYS_CHECK_SIZE_NX150(Player, 0x2ec0);
 bool playerIsReloadingBow(Player* player);
 bool playerIsChargingBow(Player* player);
 bool playerIsReloadingOrChargingOrShootingBow(Player* player);
+// 0x7100882000 / 0x7100882128 (placeholder names): BowWait / SquatBowWait; that or the other bow states.
+bool sub_7100882000(Player* player);
+bool sub_7100882128(Player* player);
 
 // 0x710086b194 (declaration only; placeholder name, no `this`): the Attention target type (0x1800000 if the
 // current target's accessor fails sub_7100D10FB8, else Attention::sub_7100D74880()).

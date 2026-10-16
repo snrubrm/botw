@@ -20,6 +20,17 @@ bool playerIsChargingBow(Player* player) {
            player->getASList()->x_1(0, 0) == "WallBowChargeR";
 }
 
+// Placeholder names: AS slot 1 plays BowWait / SquatBowWait; the bow states including that wait.
+bool sub_7100882000(Player* player) {
+    return player->getASList()->x_1(1, 1) == "BowWait" ||
+           player->getASList()->x_1(1, 1) == "SquatBowWait";
+}
+
+bool sub_7100882128(Player* player) {
+    return playerIsReloadingBow(player) || playerIsChargingBow(player) || sub_7100882000(player) ||
+           player->isShootingBow();
+}
+
 bool playerIsReloadingOrChargingOrShootingBow(Player* player) {
     return playerIsReloadingBow(player) || playerIsChargingBow(player) || player->isShootingBow();
 }

@@ -800,6 +800,19 @@ void Player::sub_710086DCF8(f32 value) {
     _1fd4 = value;
 }
 
+// Placeholder name: sub_71008822EC, then sets _c44 bit 12, clears the weapon slot 2 flag and calls the sound
+// helper with true; with m178() and controller check 18 also clears _c40 bit 1.
+void Player::sub_71008821BC() {
+    sub_71008822EC();
+    _c44.setBit(12);
+    getWeapons()->mWeapons[2]._10 = false;
+    snd::Unk_7102502138::instance()->sub_710103B444(true);
+    if (m178() && _17d0->playerCheckController(18)) {
+        _c40.resetBit(1);
+        _c44.setBit(12);
+    }
+}
+
 // Placeholder name: resets _1d4c / _1d50 / _1d54 / _1f88 and the _c40 / _c44 / _c50 bits, then sends request 3 to
 // weapon slot 2.
 void Player::sub_71008822EC() {
