@@ -1,3 +1,4 @@
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiScreens.h"
 
 // The trivial destructors of the Screen<Name> classes (defaulted: they tail-call ScreenEx's). Defining them here
@@ -21,6 +22,23 @@ void ScreenMainHorse::m101() {
     _3810->disableKeepLinked();
     _3818->disableKeepLinked();
     _3820->disableKeepLinked();
+}
+
+// 0x7100a102cc
+void ScreenMainHorse::sub_7100A102CC() {
+    if (isClosed())
+        return;
+    if (ksys::gdt::getFlag_Horse_IsOnChargePenalty()) {
+        for (s32 i = 0; i < _3868; ++i)
+            _3718[i]->Stop(1.0f);
+        _386c = 0;
+        _3850.init(1.0f);
+    } else if (_3868 != ksys::gdt::getFlag_Horse_CurrentChargeNum()) {
+        _3850.init(1.0f);
+    } else if (_3850.isDone()) {
+        close(-1);
+    }
+    _3850.update();
 }
 ScreenReadyGo::~ScreenReadyGo() = default;
 ScreenKeyNum::~ScreenKeyNum() = default;

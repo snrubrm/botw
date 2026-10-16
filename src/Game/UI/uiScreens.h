@@ -3066,7 +3066,7 @@ public:
     u8 _pad_3610[0x3678 - 0x3610];
     /* 0x3678 */ eui::Animator* _3678[10];
     /* 0x36c8 */ eui::Animator* _36c8[10];
-    /* 0x3718 */ eui::Animator* _3718[10];
+    /* 0x3718 */ sead::SafeArray<eui::Animator*, 10> _3718;
     u8 _pad_3768[0x3808 - 0x3768];
     /* 0x3808 */ eui::Animator* _3808;
     /* 0x3810 */ eui::Animator* _3810;
@@ -3075,6 +3075,13 @@ public:
     u8 _pad_3828[0x3840 - 0x3828];
     /* 0x3840 */ eui::Animator* _3840;
     /* 0x3848 */ eui::Animator* _3848;
+    /* 0x3850 */ UiTimer _3850;
+    /* 0x3868 */ s32 _3868;  // number of charge animators in _3718
+    /* 0x386c */ s32 _386c;
+
+    // 0x7100a102cc (placeholder name; called by Manager 0x7100a790cc): stops the charge animators while the horse has
+    // the charge penalty and closes the screen once the charge count is stable for one second
+    void sub_7100A102CC();
 };
 
 class ScreenKeyNum : public ScreenEx {
