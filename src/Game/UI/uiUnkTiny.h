@@ -780,6 +780,8 @@ public:
     // 0x7100933fe0 (declared only; 35 callers) / 0x7100934308 (32 callers): adds a string record (id, text, value)
     void sub_7100933FE0(const UiStringEntry& entry);
     void sub_7100934308(s32 id, const sead::SafeString& text, s32 value);
+    // 0x7100933eac (placeholder name): shows the record's guide message and icon in its slot's screen child
+    void sub_7100933EAC(const UiStringEntry& entry);
 
     /* 0x8 */ s32 _8 = 0;
     /* 0x10 */ sead::FixedSafeString<256> _10;

@@ -1082,6 +1082,18 @@ void Unk_7102474bc8::sub_7100934308(s32 id, const sead::SafeString& text, s32 va
     sub_7100933FE0(entry);
 }
 
+// 0x7100933eac
+// NON_MATCHING: stack layout: the original reuses the MessageString's slot for the second SafeString temporary
+void Unk_7102474bc8::sub_7100933EAC(const UiStringEntry& entry) {
+    if (entry._124 > 0 && !_130[entry._124].target)
+        return;
+    eui::MessageString message;
+    getMessage(_10, entry._8, &message);
+    setWidgetString(_130[entry._124].target->mLayout, "T_Guide_00", message);
+    sub_7100AA34A4(_130[entry._124].target->mLayout, "T_Icon_00", entry._120);
+    _130[entry._124]._8 = entry._0;
+}
+
 // 0x71009348d0
 void Unk_7102474bc8::sub_71009348D0(bool flag) {
     for (s32 i = 0; i < _8; ++i) {
