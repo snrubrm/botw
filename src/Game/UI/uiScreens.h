@@ -3271,9 +3271,11 @@ public:
     void m107(eui::AnimButton* button) override;
     /* 0x3610 */ s32 _3610 = 4;
     s32 _3614 = 3;
-    /* 0x3618 */ eui::LayoutEx* _3618{};  // T_Text_00
+    /* 0x3618 */ eui::LayoutEx* _3618{};  // T_Text_00 (T_Text_01 / T_Text_02 in the five-message mode)
     /* 0x3620 */ eui::LayoutEx* _3620{};  // T_Btn_00
-    u8 _3628[0x18]{};
+    /* 0x3628 */ eui::LayoutEx* _3628{};  // T_Btn_00 of the three-button mode
+    /* 0x3630 */ eui::LayoutEx* _3630{};
+    /* 0x3638 */ eui::LayoutEx* _3638{};
     /* 0x3640 */ eui::AnimButton* _3640{};
     eui::AnimButton* _3648{};
     eui::AnimButton* _3650{};
@@ -3297,8 +3299,8 @@ public:
     // 0x71009d0898: sets the text and button messages (labels "%04d" in LayoutMsg/AmiiboWindow_00) and enables only
     // the first button
     void sub_71009D0898(s32 text_id, s32 button_id);
-    // 0x71009d09ec (declared only): formats and applies five state strings
-    void sub_71009D09EC(s32, s32, s32, s32, s32);
+    // 0x71009d09ec: the five-message mode (two texts and three buttons; enables the last two buttons)
+    void sub_71009D09EC(s32 text1_id, s32 text2_id, s32 button1_id, s32 button2_id, s32 button3_id);
 };
 
 class ScreenSystemWindowNoBtn : public ScreenEx {

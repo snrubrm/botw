@@ -2461,6 +2461,45 @@ void ScreenAmiiboWindow::sub_71009D0898(s32 text_id, s32 button_id) {
         _3658->setFlag10(false);
 }
 
+// 0x71009d09ec
+// NON_MATCHING: as sub_71009D0898 (the message-file SafeString is merged with other statics of this file)
+void ScreenAmiiboWindow::sub_71009D09EC(s32 text1_id, s32 text2_id, s32 button1_id, s32 button2_id,
+                                        s32 button3_id) {
+    sead::FormatFixedSafeString<64> text1_label("%04d", text1_id);
+    sead::FormatFixedSafeString<64> text2_label("%04d", text2_id);
+    sead::FormatFixedSafeString<64> button1_label("%04d", button1_id);
+    sead::FormatFixedSafeString<64> button2_label("%04d", button2_id);
+    sead::FormatFixedSafeString<64> button3_label("%04d", button3_id);
+    eui::MessageString text1;
+    eui::MessageString text2;
+    eui::MessageString button1;
+    eui::MessageString button2;
+    eui::MessageString button3;
+    getMessage(sAmiiboWindowMsg, text1_label, &text1);
+    getMessage(sAmiiboWindowMsg, text2_label, &text2);
+    getMessage(sAmiiboWindowMsg, button1_label, &button1);
+    getMessage(sAmiiboWindowMsg, button2_label, &button2);
+    getMessage(sAmiiboWindowMsg, button3_label, &button3);
+    if (_3618) {
+        setWidgetString(_3618, "T_Text_01", text1);
+        setWidgetString(_3618, "T_Text_02", text2);
+    }
+    if (_3628)
+        setWidgetString(_3628, "T_Btn_00", button1);
+    if (_3630)
+        setWidgetString(_3630, "T_Btn_00", button2);
+    if (_3638)
+        setWidgetString(_3638, "T_Btn_00", button3);
+    if (_3640)
+        _3640->setFlag10(false);
+    if (_3648)
+        _3648->setFlag10(false);
+    if (_3650)
+        _3650->setFlag10(true);
+    if (_3658)
+        _3658->setFlag10(true);
+}
+
 // 0x71009d06f4 (slot 154)
 // NON_MATCHING: the _3660 / _3668 stores rematerialise the field load through an address phi
 // (extra mov/add and a reload) where the original keeps the loaded value in a register.
