@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -15,6 +16,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    // 0x710048f5a0 (placeholder name): 3 without a target, else 0 / 1 / 2 when the target is beyond the speed-up
+    // distance / in between / closer than the slow-down distance along the actor's front axis.
+    s32 sub_710048F5A0();
 
 protected:
     // static_param at offset 0x38
@@ -27,8 +33,7 @@ protected:
     const float* mOutDist_s{};
     // static_param at offset 0x58
     const float* mCloseStartDist_s{};
-    ksys::act::Actor* _60 = mActor;
-    ksys::Timer _68;
+    ksys::act::Unk_7100d3bce4 _60{mActor};
 };
 
 }  // namespace uking::ai
