@@ -46,6 +46,9 @@ public:
     // 0x7100dc96a0 / 0x7100dc9780 (CSV EventXlinkInfo::x_1 / x_0; not decompiled)
     void x_1(EventFlowBase* flow);
     void x_0();
+    // 0x7100dc8ee8 (CSV EventXlinkInfo::init): reads elink_user / slink_user from `iter`, loads the SLink bars into
+    // _a0 and requests Effect/<elink_user>.esetlist
+    void init(bool a1, const al::ByamlIter& iter, sead::Heap* heap, res::Handle* pack);
     // 0x7100dc9208 (CSV EventXlinkInfo::finishLoad; not decompiled)
     bool finishLoad(bool a1);
     // 0x7100dc9628: the XLink of the linked actor (null without an acquirable actor)

@@ -5,6 +5,9 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::evt {
 
@@ -19,6 +22,40 @@ EventXlinkInfo::~EventXlinkInfo() {
     _8.deleteProc();
     _28.freeBuffer();
     _38.freeBuffer();
+}
+
+// 0x7100dc8ee8
+void EventXlinkInfo::init(bool a1, const al::ByamlIter& iter, sead::Heap* heap, res::Handle* pack) {
+    const char* elink_user = "";
+    iter.tryGetStringByKey(&elink_user, "elink_user");
+    const sead::SafeString elink = elink_user;
+    const char* slink_user = "";
+    iter.tryGetStringByKey(&slink_user, "slink_user");
+    const sead::SafeString slink = slink_user;
+
+    if (elink.isEmpty() && slink.isEmpty())
+        return;
+
+    mHeap = heap ? heap : act::BaseProcHeapMgr::instance()->getHeap();
+    _180 = a1;
+    _48 = slink;
+    _c8 = elink;
+
+    if (!slink.isEmpty()) {
+        snd::SoundMgr::instance()->_60->loadBars(slink, &_a0, heap, false, false, pack);
+        _c0 = true;
+    }
+
+    if (!elink.isEmpty()) {
+        res::LoadRequest req;
+        req.mLoadDataAlignment = 0x4000;
+        req.mRequester = elink;
+        req.mPackHandle = pack;
+        sead::FormatFixedSafeString<128> path("Effect/%s.esetlist", elink.cstr());
+        _120.requestLoad(path, &req);
+        _170 = true;
+    }
+    _181 = true;
 }
 
 // NON_MATCHING: block placement (the original moves the XLink reader block after the shared return and masks the
