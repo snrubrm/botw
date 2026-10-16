@@ -16,6 +16,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Utils/Types.h"
 #include <utility/aglPrimitiveTexture.h>
@@ -357,6 +358,7 @@ bool ElementDirectionalWindOrGust::m29(const ElementName& name, sead::Heap* heap
 
     _d0 = mArg.position;
     _dc = 0;
+    _dd = 0;
     _e0.setCross(mArg.direction, sead::Vector3f::ey);
     _ec.setCross(_e0, mArg.direction);
     for (auto& pos : _f8)
@@ -430,6 +432,102 @@ void ElementDirectionalWindOrGust::m33(bool a, bool fixed) {
     }
     _68.fade();
 }
+
+// NON_MATCHING: the probe end point is kept on the stack (the original keeps it in registers); 1952
+// bytes against 1828.
+void ElementDirectionalWindOrGust::m35(f32 delta_frame) {
+    _dc = u8(_dc + 1) > 4 ? 0 : _dc + 1;
+    if (!(_dd & (1 << _dc))) {
+        sead::Vector3f end = sead::Vector3f::zero;
+        switch (_dc) {
+        case 1:
+            end += _e0 * mArg._20 * 0.5f;
+            break;
+        case 2:
+            end -= _e0 * mArg._20 * 0.5f;
+            break;
+        case 3:
+            end += _ec * mArg._20 * 0.5f;
+            break;
+        case 4:
+            end -= _ec * mArg._20 * 0.5f;
+            break;
+        default:
+            break;
+        }
+        end += mArg.direction * mArg._24 * 0.5f + mArg.position;
+
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+        query.setGroundHit(ksys::phys::GroundHit::Bomb);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+        query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+        query.setStart(_f8[_dc]);
+        query.setEnd(end);
+        bool hit = query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+        if (!hit) {
+            query.setStart(end);
+            query.setEnd(_f8[_dc]);
+            hit = query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+        }
+        if (hit)
+            _dd |= 1 << _dc;
+        _f8[_dc] = end;
+    }
+
+    if (sead::BitFlagUtil::countOnBit(_dd) < 5) {
+        const f32 strength = mHolder->_3c;
+        const f32 speed = strength > mArg._2c && mArg._2c > 0.0f ? mArg._2c : strength;
+        mArg.position += mArg.direction * (speed / 30.0f * delta_frame);
+        mArg._28 = strength - 0.2f;
+        mHolder->_3c = mArg._28;
+        if (mArg._28 < 10.0f) {
+            _58.fade();
+            if (_68.isActive()) {
+                if (auto* executor =
+                        static_cast<xlink2::EventSLink*>(_68.getEvent())->getAliveAssetExecutor())
+                    if (auto* source = executor->getHandle()->getSoundSource())
+                        if (auto* calculator = source->mSpatialCalculator)
+                            calculator->detachShape(true);
+            }
+            _68.fade();
+            _78 = false;
+        }
+
+        doEmitELink();
+        updateSLink();
+
+        if (_48 && _48->isAddedToWorld()) {
+            if (_58.isActive()) {
+                const sead::Vector3f& dir = mArg.direction;
+                const sead::Vector3f& up =
+                    sead::Mathf::abs(dir.dot(sead::Vector3f::ey)) > 0.999f ? sead::Vector3f::ex :
+                                                                             sead::Vector3f::ey;
+                sead::Vector3f x;
+                x.setCross(up, dir);
+                x.normalize();
+                sead::Vector3f y;
+                y.setCross(dir, x);
+                y.normalize();
+                sead::Matrix34f mtx;
+                mtx.setBase(0, x);
+                mtx.setBase(1, y);
+                mtx.setBase(2, dir);
+                mtx.setTranslation(mArg.position);
+                _58.setMatrix(mtx, {mArg._20, mArg._20, mArg._20});
+            }
+            sead::Matrix34f mtx;
+            mtx.makeT(mArg.position);
+            _48->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+        }
+
+        if (mArg._28 > 5.0f && (_d0 - mArg.position).length() <= mArg._38)
+            return;
+    }
+    x();
+}
+
 
 void ElementDirectionalWindOrGust::updateSLink() {
     if (mArg.flags & 0x20)
