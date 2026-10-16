@@ -8,7 +8,8 @@ namespace ksys::mii {
 
 class UMii;
 
-// Part name tables defined (and filled by a static initializer) in another TU; placeholder names.
+// Part name tables, filled by sinitUmiiStrings2 0x7100f5cc00 (the static initializer at the end of this
+// TU; not decompiled, so they are only declared here). Placeholder names.
 // 0x710260d1a0: one name per ModelCreator::Arg type (14 part types).
 extern sead::SafeArray<sead::SafeString, 14> sUnk_710260D1A0;
 // 0x710260d7a0: indexed by UMii::Personal::sex_age (6 values).
@@ -30,7 +31,9 @@ extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D510;
 void sub_7100F5AB68(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 void sub_7100F5ADA8(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
-// 0x7100f5ba04 (declaration only; placeholder name): part type 2 of sub_7100F5ADA8.
+// 0x710260dca0: indexed by UMii::getAge() (3 entries; 0x7100f5ba04).
+extern sead::SafeArray<sead::SafeString, 3> sUnk_710260DCA0;
+// 0x7100f5ba04 (placeholder name): part type 2 of sub_7100F5ADA8 (from the hat parameter).
 void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
 
 // 0x7100f5b5b8 / 0x7100f5b774 (placeholder names): the model names of part types 0 (body) and 8 (hat).

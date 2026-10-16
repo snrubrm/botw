@@ -224,4 +224,20 @@ void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii) {
     }
 }
 
+// NON_MATCHING: sUnk_710260DCA0 is TU-local in the original (addressed directly; filled by
+// sinitUmiiStrings2 0x7100f5cc00, whose strings are not recovered yet), ours goes through the GOT.
+void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii) {
+    const auto& common = umii.getCommon();
+    if (*common.hat == 0) {
+        out->format("%s_%s_%03d", sUnk_710260D480[2].cstr(), sUnk_710260DCA0[umii.getAge()].cstr(),
+                    *common.hat);
+        return;
+    }
+    if (*common.hat > 0) {
+        out->format("%s_C_%03d", sUnk_710260D480[2].cstr(), *common.hat);
+        return;
+    }
+    out->clear();
+}
+
 }  // namespace ksys::mii
