@@ -23,7 +23,7 @@ public:
 protected:
     void calc_() override;
 
-    // 0x71002beddc (declared only; 832 B): updates _f8 (the actor matrix moved to the summon position).
+    // 0x71002beddc: _f8 = the actor matrix moved to the weapon tip (pulled back to 0.6 before a wall).
     void sub_71002BEDDC();
 
     // static_param at offset 0xd0
