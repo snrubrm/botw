@@ -33,15 +33,15 @@ void GameSceneSubsys15::m3() {
 }
 
 // 0x7100894b80
-// NON_MATCHING: the original copies the controller's _94 through a stack slot before the switch (an enum
-// wrapper type?).
+// NON_MATCHING: the original tail-calls the counter getter in the first branch (ours converts it to bool).
 bool GameSceneSubsys15::m4() {
     if (ksys::snd::sub_7100FFDBD4())
         return ksys::gdt::getFlag_Counter_TerminalFinalTrial();
     auto* controller = ksys::snd::sub_7100FFD878();
     if (!controller)
         return false;
-    switch (controller->_94) {
+    const auto type = controller->_94;
+    switch (type) {
     case 0:
         return ksys::gdt::getFlag_Counter_TerminalWind();
     case 1:
@@ -56,15 +56,14 @@ bool GameSceneSubsys15::m4() {
 }
 
 // 0x7100894c14
-// NON_MATCHING: the original copies the controller's _94 through a stack slot before the switch (an enum
-// wrapper type?).
 bool GameSceneSubsys15::m5() {
     if (ksys::snd::sub_7100FFDBD4())
         return false;
     auto* controller = ksys::snd::sub_7100FFD878();
     if (!controller)
         return false;
-    switch (controller->_94) {
+    const auto type = controller->_94;
+    switch (type) {
     case 0:
         return ksys::gdt::getFlag_Die_PGanonWind();
     case 1:
@@ -79,15 +78,14 @@ bool GameSceneSubsys15::m5() {
 }
 
 // 0x7100894c9c
-// NON_MATCHING: the original copies the controller's _94 through a stack slot before the switch (an enum
-// wrapper type?).
 bool GameSceneSubsys15::m6() {
     if (ksys::snd::sub_7100FFDBD4())
         return true;
     auto* controller = ksys::snd::sub_7100FFD878();
     if (!controller)
         return false;
-    switch (controller->_94) {
+    const auto type = controller->_94;
+    switch (type) {
     case 0:
         return ksys::gdt::getFlag_IsPlayed_Demo704_0();
     case 1:
