@@ -26,6 +26,88 @@ void Unk_7101106F44::sub_71011077C8(const ImageTypeMaybe& type) {
     }
 }
 
+// NON_MATCHING: the original does not tail-call the delegate and orders the result checks differently.
+s32 Unk_7101106F44::sub_7101107898(WalkDelegate* delegate) {
+    s32 result = 0;
+    if (mParent) {
+        result = mParent->sub_7101107898(delegate);
+        if (result == 2)
+            return 2;
+        if (result == 1) {
+            delegate->invoke(this);
+            return 1;
+        }
+    }
+    if (result == 0)
+        result = delegate->invoke(this);
+    return result;
+}
+
+s32 Unk_7101106F44::sub_7101107914(WalkDelegate* delegate) {
+    s32 result = delegate->invoke(this);
+    if (result != 0)
+        return result;
+    for (auto* child : mChildren) {
+        if (!child)
+            continue;
+        const s32 child_result = child->sub_7101107914(delegate);
+        if (child_result == 2)
+            return 2;
+        if (child_result == 1)
+            result = 1;
+    }
+    return result;
+}
+
+// NON_MATCHING: the original checks the last child result for 1 before 2 (block layout).
+s32 Unk_7101106F44::sub_7101107A04(WalkDelegate* delegate) {
+    s32 result = 0;
+    for (auto* child : mChildren) {
+        if (!child)
+            continue;
+        const s32 child_result = child->sub_7101107A04(delegate);
+        if (child_result == 2)
+            return 2;
+        if (child_result == 1)
+            result = 1;
+    }
+    if (result != 0) {
+        delegate->invoke(this);
+        return 1;
+    }
+    return delegate->invoke(this);
+}
+
+s32 Unk_7101106F44::sub_7101107DB0(u32 order, WalkDelegate* delegate) {
+    switch (order) {
+    case 0:
+    {
+        Unk_7101106F44* node = this;
+        do {
+            const s32 result = delegate->invoke(node);
+            if (result == 2)
+                return 2;
+            if (result != 0)
+                return result;
+            node = node->mParent;
+        } while (node);
+        return 0;
+    }
+    case 1:
+        return sub_7101107898(delegate);
+    case 2:
+        return sub_7101107914(delegate);
+    case 3:
+        return sub_7101107A04(delegate);
+    case 4:
+        return sub_7101107B14(delegate);
+    case 5:
+        return delegate->invoke(this);
+    default:
+        return 0;
+    }
+}
+
 Unk_710250dbc8* Unk_7101108460::getA() {
     return mA;
 }

@@ -3,6 +3,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadTList.h>
 #include <math/seadVector.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -119,6 +120,22 @@ public:
     // 0x71011077c8 (placeholder name): spins until the image for `type` exists and its unused / unloading
     // state bits are clear (clearing them itself).
     void sub_71011077C8(const ImageTypeMaybe& type);
+    // Tree walks calling `delegate` on nodes. The delegate returns 0 to continue, 1 to skip (the
+    // subtree in a pre-order walk) and 2 to stop; the walks return 2 when stopped, 1 when something
+    // was skipped.
+    using WalkDelegate = sead::IDelegate1R<Unk_7101106F44*, s32>;
+    // 0x7101107db0 (placeholder name): 0: this node and its parents; 1: sub_7101107898; 2:
+    // sub_7101107914; 3: sub_7101107A04; 4: sub_7101107B14; 5: this node only.
+    s32 sub_7101107DB0(u32 order, WalkDelegate* delegate);
+    // 0x7101107898 (placeholder name): the parents from the root down, then this node.
+    s32 sub_7101107898(WalkDelegate* delegate);
+    // 0x7101107914 (placeholder name): pre-order.
+    s32 sub_7101107914(WalkDelegate* delegate);
+    // 0x7101107a04 (placeholder name): post-order.
+    s32 sub_7101107A04(WalkDelegate* delegate);
+    // 0x7101107b14 (declaration only; placeholder name): breadth-first with a heap-allocated queue.
+    s32 sub_7101107B14(WalkDelegate* delegate);
+
     // 0x7101107768 (placeholder name): waits (1 ms steps) until sub_71011074A0 succeeds.
     void sub_7101107768();
 
