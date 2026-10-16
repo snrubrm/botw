@@ -385,6 +385,31 @@ void Unk_71024f67c8::sub_7100F73B7C() {
     delete this;
 }
 
+// NON_MATCHING: the original builds the identity on the stack before the loop body and orders the
+// scale copies differently (scheduling / regalloc).
+void Unk_71024f67c8::sub_7100F73C7C(bool reset) {
+    if (reset)
+        mModel->getUnits()(0)->mModelUnit->clearBoneLocalMatrix();
+
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        const sead::Matrix34f base = sead::Matrix34f::ident;
+        Entry& entry = mEntries[i];
+        sead::Matrix34f local;
+        const auto& key = entry.mBone.getKey();
+        mModel->getUnits()(key.model_unit_index)
+            ->mModelUnit->getBoneLocalMatrix(&local, &entry.mScale, key.bone_index);
+        if (i == 0)
+            entry._54 = sead::Vector3f::ones;
+        else
+            entry._54 = mEntries[i - 1].mScale;
+        local.m[0][3] *= entry._54.x;
+        local.m[1][3] *= entry._54.y;
+        local.m[2][3] *= entry._54.z;
+        entry._60 = local;
+        entry._90.setMul(base, local);
+    }
+}
+
 // NON_MATCHING: the original clamps with compares and selects (fcsel / fccmp), ours with fmin.
 void Unk_71024f67c8::sub_7100F74E20(f32 value) {
     _108 = sead::Mathf::clamp(value, 0.0f, 1.0f);
