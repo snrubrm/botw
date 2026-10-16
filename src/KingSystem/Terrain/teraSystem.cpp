@@ -434,6 +434,34 @@ Unk_7101106F44* System::sub_7101115218(sead::Vector2f* out_center, f32* out_size
     return node;
 }
 
+// NON_MATCHING: bit 7 of the debug byte is tested through a sign-extending load in ours.
+void System::sub_7101115584(s32 index, Unk_7101115584Arg* arg) {
+    if (!_8)
+        return;
+    mLock.readLock();
+    SceneSlot& slot = mScenes[index];
+    slot._88 = true;
+    slot.scene->sub_7101100F08(this, arg,
+                               (_1338 & 2) || (Terrain::instance()->_a50->_1d >> 4 & 1));
+    if (arg->_198) {
+        auto* debug = Terrain::instance()->_a50;
+        if (!debug || !(debug->_18 >> 7 & 1))
+            sub_7101115338(arg->_0, _8, _1c, _24);
+    }
+    sub_7101115674(arg);
+    mLock.readUnlock();
+}
+
+// NON_MATCHING: regalloc and operand order in the inlined sub_7101115218 (which is m itself).
+void System::sub_7101115674(Unk_7101115584Arg* arg) {
+    sead::Vector2f center;
+    f32 size;
+    for (Unk_7101106F44* node = sub_7101115218(&center, &size, {arg->_14.x, arg->_14.z}, 0xffff); node;
+         node = node->mParent) {
+        _1008[node->mIndex] |= 2;
+    }
+}
+
 // NON_MATCHING: the original loads the offset pair with one ldp before multiplying.
 void Unk_7101106F44::sub_7101120374(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
                                     const ImageTypeMaybe& type) {

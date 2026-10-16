@@ -716,7 +716,10 @@ struct SceneBinaryMaybe {
 // System::sub_7101115584 (the object at _0 and the flag at 0x198 are read there).
 struct Unk_7101115584Arg {
     void* _0;
-    u8 _8[0x198 - 0x8];
+    u8 _8[0x14 - 0x8];
+    // Its x / z select the area node marked by System::sub_7101115674.
+    sead::Vector3f _14;
+    u8 _20[0x198 - 0x20];
     bool _198;
     u8 _199[0x1a0 - 0x199];
 };
@@ -926,8 +929,10 @@ public:
     // sub_7101100F08 with `arg`, then sub_7101115338 (if arg->_198 and the debug bit allows) and
     // sub_7101115674.
     void sub_7101115584(s32 index, Unk_7101115584Arg* arg);
-    // 0x7101115338 / 0x7101115674 (declaration only; placeholder names and signatures).
+    // 0x7101115338 (declaration only; placeholder name and signature).
     void sub_7101115338(void* a, Unk_7101106F44* area, const sead::Vector2f& center, f32 size);
+    // 0x7101115674 (placeholder name): sets bit 1 of _1008 for the deepest node at the x / z of
+    // arg->_14 and all its parents (sub_7101115218 inlined with 0xffff levels).
     void sub_7101115674(Unk_7101115584Arg* arg);
     // 0x710111e960 (placeholder name): loadScene for a binary scene ("TSCB", parsed by sub_710111DD0C).
     // `size` (x3) is not used.
@@ -1047,7 +1052,8 @@ public:
     sead::Buffer<Unk_7101106F44*> _fa8;
     u8 _fb8[0xff8 - 0xfb8];
     sead::Buffer<u8> _ff8;
-    u8 _1008[0x1018 - 0x1008];
+    // Per-node flags by Unk_7101106F44::mIndex (bit 1 set by sub_7101115674).
+    sead::Buffer<u8> _1008;
     // The area nodes sorted by mId.
     sead::Buffer<Unk_7101106F44*> _1018;
     u8 _1028[0x1038 - 0x1028];
