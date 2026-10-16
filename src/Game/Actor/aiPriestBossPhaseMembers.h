@@ -33,20 +33,43 @@ public:
         bool _14;
     };
 
+    // An entry of _38 (0x28 bytes): a member id, its actor and a position.
+    struct Entry {
+        s32 id;
+        ksys::act::BaseProcLink link;
+        sead::Vector3f pos;
+    };
+
     // 0x710071cae8 / 0x710071cb94
     Unk_7102451070();
-    ~Unk_7102451070();
+    virtual ~Unk_7102451070();
     void sub_710071CE44();
-    // 0x710071cb98 / 0x710071cc4c (placeholder names; not decompiled)
+    // 0x710071cb98 (placeholder name): takes the unit and the settings and clears the entries
     void sub_710071CB98(const InitArg& arg);
+    // 0x710071cc4c (placeholder name; not decompiled)
     void sub_710071CC4C(s32 idx);
+    // 0x710071cdcc (placeholder name): the position of the entry `id`; false if there is none
+    bool sub_710071CDCC(sead::Vector3f* out, s32 id);
+
+    // Bits of _328 (set / reset through a stack temporary, SEAD_ENUM style).
+    SEAD_ENUM(Flag, _0, _1)
+    // inline-only in the original; name is a guess (sub_710071CB98 changes bit 1 through one stack temporary, the
+    // same shape as Unk_7102451050::setFlag / resetFlag)
+    void changeFlag(Flag flag, bool on) { _328.changeBit(flag, on); }
 
 private:
     friend class uking::ai::PriestBossPhaseSecond;
     friend class uking::ai::PriestBossPhaseFourth;
-    u64 _0[2];
-    /* 0x10 */ sead::Vector3f _10;
-    u8 _1c[0x328 - 0x1c];
+    /* 0x008 */ Unk_7102450fa8* _8 = nullptr;
+    /* 0x010 */ sead::Vector3f _10;
+    /* 0x01c */ f32 _1c = 0;
+    /* 0x020 */ s32 _20 = 0;
+    /* 0x024 */ f32 _24 = 0;
+    /* 0x028 */ f32 _28 = sead::Mathf::pi2();
+    /* 0x02c */ f32 _2c = 0;
+    /* 0x030 */ f32 _30 = 0;
+    /* 0x038 */ sead::FixedObjArray<Entry, 10> _38;
+    u8 _238[0x328 - 0x238];
     /* 0x328 */ sead::BitFlag32 _328;
     u8 _32c[4];
 };

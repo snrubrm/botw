@@ -233,3 +233,37 @@ bool Unk_7102451050::sub_710071C550(const ksys::Message& message) {
     }
     return true;
 }
+
+// NON_MATCHING: _1c / _20 are stored as one 64-bit value in the original, and the vtable is loaded later
+// 0x710071cae8
+Unk_7102451070::Unk_7102451070() = default;
+
+// 0x710071cb94
+Unk_7102451070::~Unk_7102451070() = default;
+
+// 0x710071cb98
+void Unk_7102451070::sub_710071CB98(const InitArg& arg) {
+    _8 = arg.unit;
+    _1c = arg._8;
+    _20 = 0;
+    _2c = arg._c;
+    _30 = arg._10;
+    changeFlag(Flag::_1, arg._14);
+    _38.clear();
+}
+
+// NON_MATCHING: the original copies the position as 8 + 4 bytes (our sead Vector3 copies per float) and lays out
+// the search differently
+// 0x710071cdcc
+bool Unk_7102451070::sub_710071CDCC(sead::Vector3f* out, s32 id) {
+    for (s32 i = 0; i < _38.size(); ++i) {
+        if (_38(i)->id == id) {
+            if (const Entry* entry = _38[i]) {
+                *out = entry->pos;
+                return true;
+            }
+            return false;
+        }
+    }
+    return false;
+}
