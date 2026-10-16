@@ -455,6 +455,32 @@ void ClusteredRenderer::sub_7101244598() {
     }
 }
 
+void ClusteredRenderer::sub_7101244038(const sead::Vector3f* pos) {
+    ++mData._c38;
+    if (!(mData2._c9c & 1))
+        return;
+
+    if ((mData2._c9c & 0x4000001a) == 0x1a && isValidCoord(pos->x) && isValidCoord(pos->y) &&
+        isValidCoord(pos->z)) {
+        const s32 x = sead::Mathi::clamp(s32((pos->x - 250.0f) / 500.0f + 10.0f), 0, 18);
+        const s32 z = sead::Mathi::clamp(s32((pos->z - 250.0f) / 500.0f + 8.0f), 0, 14);
+        if (mData._e8 != x || mData._ec != z)
+            sub_7101244210(x, z);
+    }
+
+    if (mData._168.size() != 0)
+        sub_71012443AC();
+
+    if (!(mData2._c9c & 0x40000000)) {
+        if (mData.mQueues[0].mRead != mData.mQueues[0].mWrite ||
+            mData.mQueues[1].mRead != mData.mQueues[1].mWrite ||
+            mData.mQueues[2].mRead != mData.mQueues[2].mWrite) {
+            mData.mThread->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
+        }
+    }
+    mData._c40 = mData._c38;
+}
+
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
     sead::Heap* heap = renderer->mData._f8;
     renderer->sub_71012439BC();

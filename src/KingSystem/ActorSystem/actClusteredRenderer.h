@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cmath>
+#include <limits>
+#include <math/seadMathCalcCommon.h>
+
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
@@ -290,8 +294,16 @@ public:
     // 0x710124929c (declaration only; placeholder name; the same arguments as sub_71012497F8)
     void sub_710124929C(const sead::Vector3f* pos, f32 radius, bool x,
                         sead::IDelegate1R<map::Unk_71012497f8Entry*, bool>* callback);
-    // 0x7101244038 (declaration only; placeholder name)
+    // 0x7101244038 (placeholder name): per-frame update with the camera position: switches the grid cell
+    // (500 m cells, 19 x 15) when it changed, queues finished loads and wakes the loader thread.
     void sub_7101244038(const sead::Vector3f* pos);
+
+    // inline-only in the original; name is a guess. sub_7101244038 (x, y, z) and postCalcWorld 0x71012481f8
+    // repeat it: not NaN, finite and within the s32 range.
+    static bool isValidCoord(f32 value) {
+        return !std::isnan(value) && !(sead::Mathf::abs(value) > std::numeric_limits<f32>::max()) &&
+               !(sead::Mathf::abs(value) > 2147483648.0f);
+    }
     // 0x7101243b70 (declaration only; placeholder name)
     void sub_7101243B70();
     // 0x71012497f8: calls `callback` for every cluster entry within `radius` of `pos`.
