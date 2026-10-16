@@ -66,6 +66,65 @@ void Unk_710260f2a8::m4(sead::Heap* heap) {
 }
 
 // NON_MATCHING: the first size test is inverted (cmp #0 / b.le instead of cmp #1 / b.ge to the shared return).
+// NON_MATCHING: the original copies the dragon index _30 to a stack slot before each parameter lookup (an
+// enum-typed copy, e.g. a DragonEnum by value); ours indexes directly.
+void Unk_710260f2a8::m5() {
+    if (!mActive)
+        return;
+
+    bool near = false;
+    if (_58)
+        near = _5c < _10->mParamPerTypes[_30].mDistanceThreshold.ref();
+
+    switch (_34) {
+    case 0:
+        if (!near) {
+            _50 = 0;
+            break;
+        }
+        _50 += sub_710105E3A4();
+        if (_50 <= _10->mParamPerTypes[_30].mPlayWaitSec.ref())
+            break;
+        _28 = mHandles[_60];
+        _30 = _60;
+        _50 = _10->mParamPerTypes[_30].mPlayWaitSec.ref();
+        _38.setValueImmediate(0.0f);
+        _38.moveTo(1.0f, _10->mParamPerTypes[_30].mFadeInSec.ref());
+        _54 = 0;
+        _28->sub_710101D9D8();
+        _34 = 1;
+        break;
+    case 1:
+        if (near) {
+            _54 = 0;
+            break;
+        }
+        _54 += sub_710105E3A4();
+        if (_54 <= _10->mParamPerTypes[_30].mFadeWaitSec.ref())
+            break;
+        _38.moveTo(0.0f, _10->mParamPerTypes[_30].mFadeOutSec.ref());
+        _34 = 2;
+        break;
+    case 2:
+        if (near) {
+            _38.moveTo(1.0f, 1.0f);
+            _34 = 1;
+        }
+        // fallthrough
+    case 3:
+        if (_38.getValue() == _38.getTarget()) {
+            _28->sub_710101D9F4(0.0f);
+            _50 = 0;
+            _54 = 0;
+            _34 = 0;
+        }
+        break;
+    }
+
+    _38.calc();
+    _28->_a4 = _38.getValue();
+}
+
 bool Unk_710260f2a8::m9() {
     DragonBgmInfo::DragonEnum type = DragonBgmInfo::DragonEnum::DragonBgm;
     if (mHandles[type] && mHandles[type]->mEntries.size() >= 1)
