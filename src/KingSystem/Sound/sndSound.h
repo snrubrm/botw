@@ -157,7 +157,8 @@ public:
     // 0x7102501140: the sizes that separate the four unifiers.
     static f32 sSizeThresholds[3];
 
-    u8 _0[8];
+    virtual ~SpeakerBalanceUnifierMgr();
+
     // 0x710102780c obtains this actor through the handle; 0x7101027ce8 clears both.
     act::BaseProcHandle mHandle;
     act::Actor* mActor;
@@ -180,7 +181,9 @@ public:
     // 0x710103920c (declared only)
     void sub_710103920C();
 
-    u8 _0[0x328];
+    virtual ~Unk_SoundMgr38_28();
+
+    u8 _8[0x328 - 0x8];
     /* 0x328 */ bool _328;
     /* 0x32c */ sead::Vector3f mBoxMin;
     /* 0x338 */ sead::Vector3f mBoxMax;
@@ -232,6 +235,7 @@ KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_20, 0x88);
 // at +0x1d58) used by the GrudgeEyeball AI.
 class Unk_SoundMgr38_48 {
 public:
+    virtual ~Unk_SoundMgr38_48();
     // 0x7101035b50 (declared only): adds `actor` to the list (if it has room).
     void sub_7101035B50(ksys::act::Actor* actor);
     // 0x7101035c50 (declared only): removes the entry of the actor with id `id` / hash id `hash_id`.
@@ -242,39 +246,51 @@ public:
 // the method that Unk_SoundMgr38::sub_710102AEC4 calls on each is declared (all declared only).
 class Unk_SoundMgr38_8 {
 public:
+    virtual ~Unk_SoundMgr38_8();
     void sub_710102C81C();
 };
 class Unk_SoundMgr38_10 {
 public:
+    virtual ~Unk_SoundMgr38_10();
     void sub_71010333F0();
 };
 class Unk_SoundMgr38_18 {
 public:
+    virtual ~Unk_SoundMgr38_18();
     void sub_710102EE60();
 };
 class Unk_SoundMgr38_38 {
 public:
+    virtual ~Unk_SoundMgr38_38();
     void sub_710103A084();
 };
 class Unk_SoundMgr38_40 {
 public:
+    virtual ~Unk_SoundMgr38_40();
     void sub_71012BEC28();
 };
 class Unk_SoundMgr38_50 {
 public:
+    virtual ~Unk_SoundMgr38_50();
     void sub_7101036840();
 };
 class Unk_SoundMgr38_58 {
 public:
+    virtual ~Unk_SoundMgr38_58();
     void sub_71010289CC();
 };
 class Unk_SoundMgr38_60 {
 public:
+    virtual ~Unk_SoundMgr38_60();
     void sub_71012C17B4();
 };
 
-// Placeholder name (SoundMgr::_38).
-struct Unk_SoundMgr38 {
+// Placeholder name (SoundMgr::_38; vtable 0x7102501880 with D1 / D0 only, ctor 0x7101029fe0).
+class Unk_SoundMgr38 {
+public:
+    Unk_SoundMgr38();
+    virtual ~Unk_SoundMgr38();
+
     // 0x710102c104: returns `_28`.
     Unk_SoundMgr38_28* sub_710102C104() const;
     // 0x710102c10c: unavailable while the manager's mode byte is set.
@@ -286,26 +302,49 @@ struct Unk_SoundMgr38 {
     // 0x710102aec4: stops the sub-managers (only while _70 is set) and the xlink2 user's events.
     void sub_710102AEC4();
 
-    u8 _0[0x8];
-    Unk_SoundMgr38_8* _8;
-    Unk_SoundMgr38_10* _10;
-    Unk_SoundMgr38_18* _18;
-    /* 0x20 */ Unk_SoundMgr38_20* _20;
-    /* 0x28 */ Unk_SoundMgr38_28* _28;
-    /* 0x30 */ SpeakerBalanceUnifierMgr* _30;
-    Unk_SoundMgr38_38* _38;
-    Unk_SoundMgr38_40* _40;
-    /* 0x48 */ Unk_SoundMgr38_48* _48;
-    Unk_SoundMgr38_50* _50;
-    Unk_SoundMgr38_58* _58;
-    Unk_SoundMgr38_60* _60;
-    xlink2::UserInstanceSLink* _68;
+    Unk_SoundMgr38_8* _8 = nullptr;
+    Unk_SoundMgr38_10* _10 = nullptr;
+    Unk_SoundMgr38_18* _18 = nullptr;
+    /* 0x20 */ Unk_SoundMgr38_20* _20 = nullptr;
+    /* 0x28 */ Unk_SoundMgr38_28* _28 = nullptr;
+    /* 0x30 */ SpeakerBalanceUnifierMgr* _30 = nullptr;
+    Unk_SoundMgr38_38* _38 = nullptr;
+    Unk_SoundMgr38_40* _40 = nullptr;
+    /* 0x48 */ Unk_SoundMgr38_48* _48 = nullptr;
+    Unk_SoundMgr38_50* _50 = nullptr;
+    Unk_SoundMgr38_58* _58 = nullptr;
+    Unk_SoundMgr38_60* _60 = nullptr;
+    xlink2::UserInstanceSLink* _68 = nullptr;
     // Read by 0x710102c10c and the cleanup operation 0x710102af84.
-    /* 0x70 */ bool _70;
-    u8 _71[0x130 - 0x71];
-    // Whole ctor 1029fe0 clears this word; whole 102b120 passes it as a float to 1036a6c.
-    f32 _130;
-    u8 _134[0x160 - 0x134];
+    /* 0x70 */ bool _70 = false;
+    u32 _74 = 0;
+    u32 _78 = 0;
+    u32 _7c = 0;
+    // Released through SoundMgr::_60 (0x7101059354) by the destructor.
+    /* 0x80 */ void* _80 = nullptr;
+    /* 0x88 */ u32 _88 = 0;
+    u32 _8c = 0;
+    u32 _90 = 0;
+    /* 0x98 */ u64 _98 = 0;
+    /* 0xa0 */ u8 _a0 = 0;
+    /* 0xa4 */ u32 _a4 = 0;
+    /* 0xa8 */ u32 _a8 = 0x80000000;
+    /* 0xac */ u32 _ac = 0x80000000;
+    /* 0xb0 */ aal::TimedFader _b0{1.0f, aal::FadeCurveType(0), 1.0f};
+    /* 0xd8 */ aal::TimedFader _d8{1.0f, aal::FadeCurveType(0), 1.0f};
+    /* 0x100 */ u16 _100 = 2;
+    /* 0x108 */ aal::TimedFader _108{1.0f, aal::FadeCurveType(0), 1.0f};
+    // Whole 102b120 passes it as a float to 1036a6c.
+    /* 0x130 */ f32 _130 = 0;
+    u32 _134 = 0;
+    /* 0x138 */ void* _138 = nullptr;
+    /* 0x140 */ f32 _140 = -1.0f;
+    /* 0x144 */ s32 _144 = -1;
+    /* 0x148 */ u8 _148 = 0;
+    /* 0x14c */ u32 _14c = 0;
+    /* 0x150 */ u32 _150 = 0;
+    /* 0x154 */ f32 _154 = 50.0f;
+    /* 0x158 */ f32 _158 = 500.0f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38, 0x160);
 
@@ -652,6 +691,9 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 struct Unk_SoundMgr60 {
     // 0x7101058734 (declared only; 248 B): loads the asset info of `name` into `reader`.
     void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
+    // 0x7101059354 (declared only; CSV Curl_protocol_getsock is wrong): calls vtable slot 2 of `obj` if set (the
+    // object type is not modelled).
+    void sub_7101059354(void* obj);
 
     u8 _0[0x20];
     OverlayArena* mArena;

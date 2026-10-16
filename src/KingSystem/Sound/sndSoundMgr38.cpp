@@ -119,6 +119,71 @@ void Unk_SoundMgr38_20::sub_7101029D3C(sead::OffsetList<uking::act::EnvSeEmitPoi
 
 // NON_MATCHING: our build inlines Unk_SoundMgr38_20::sub_7101029BA0 (same file); the original calls it, which
 // suggests the _20 class is in another TU.
+Unk_SoundMgr38::Unk_SoundMgr38() = default;
+
+Unk_SoundMgr38::~Unk_SoundMgr38() {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+    if (_10) {
+        delete _10;
+        _10 = nullptr;
+    }
+    if (_18) {
+        delete _18;
+        _18 = nullptr;
+    }
+    if (_20) {
+        delete _20;
+        _20 = nullptr;
+    }
+    if (_80) {
+        SoundMgr::instance()->_60->sub_7101059354(_80);
+        if (_68)
+            _68->setAssetInfoReader(nullptr);
+        _80 = nullptr;
+        _88 = 0;
+    }
+    if (_68) {
+        _68->destroy();
+        _68 = nullptr;
+    }
+    if (_28) {
+        delete _28;
+        _28 = nullptr;
+    }
+    if (_30) {
+        delete _30;
+        _30 = nullptr;
+    }
+    if (_38) {
+        delete _38;
+        _38 = nullptr;
+    }
+    if (_40) {
+        delete _40;
+        _40 = nullptr;
+    }
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+    if (_50) {
+        delete _50;
+        _50 = nullptr;
+    }
+    if (_58) {
+        delete _58;
+        _58 = nullptr;
+    }
+    if (_60) {
+        delete _60;
+        _60 = nullptr;
+    }
+    _138 = nullptr;
+}
+
 void Unk_SoundMgr38::sub_710102AEC4() {
     if (_70) {
         if (_8)
