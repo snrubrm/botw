@@ -29,6 +29,18 @@ Unk_71024fed48::Unk_71024fed48(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fed48::~Unk_71024fed48() = default;
 
+void Unk_71024fed48::sub_7101010B20() {
+    if (mState == 1 || mState == 2)
+        return;
+    mState = 1;
+    sub_710101D9D8();
+    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+        if (mgr->_50)
+            mgr->_50->_a8 = 1;
+    }
+}
+
 void Unk_71024fed48::sub_7101010C58(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     mState = mState == 1 ? 3 : mState == 2 ? 4 : 0;

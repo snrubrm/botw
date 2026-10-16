@@ -2539,7 +2539,8 @@ public:
     // Full native lookups and member bodies establish this existing BGM owner.
     void sub_71010003A4();
     void sub_7101000838(f32 value);
-    // 0x7101000514 (declared only): called by ksys::snd::sub_7100FFEBE0 (BgmCtrlBehavior::enter).
+    // 0x7101000514: called by ksys::snd::sub_7100FFEBE0 (BgmCtrlBehavior::enter); stops the BGM in 1 s, the
+    // ducking and the ducker request (with hold) and resets the FX mode.
     void sub_7101000514();
 
     u32 _190 = 0;
@@ -2910,6 +2911,9 @@ public:
     void hm14() override;
     // 0x7101010eb8 (copy for the handle base 0x7101011060)
     void hm15() override {}
+    // 0x7101010b20: unless playing (state 1 or 2), starts the first half, requests the ducker at
+    // Unk_710104e5b4 +0x294 and sets the FX mode 1.
+    void sub_7101010B20();
     // 0x7101010c58: stops the BGM like m13, releases the ducker at Unk_710104e5b4 +0x294 (with hold) and resets
     // the FX mode.
     void sub_7101010C58(f32 fade_sec);
