@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/Actor/actWeapon.h"
+
 #include "Game/Actor/Action/actionEquipedAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -20,6 +22,22 @@ protected:
     // 0x710010ecc0 / 0x710010ee64 (CSV names): the wind speed (per second) and flying distance, the Large
     // values scaled by the attack count rate when the weapon's attack flags have bit 1 or 2.
     f32 getWindSpeedRate();
+    // inline-only in the original; name is a guess. Evidence: the same "large wind" test (the weapon's attack
+    // flags, as in Arrow::sub_710046A9EC, with bit 1 or 2) is inlined twice into m36 and into
+    // getWindSpeedRate / getWindFlyingDist.
+    bool isLargeWind() const {
+        auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+        if (!weapon)
+            return false;
+        u32 flags;
+        if ((weapon->_af8._0 | 1) == 7)
+            flags = weapon->_af8._4;
+        else if (weapon->_d08)
+            flags = weapon->_cf4;
+        else
+            flags = weapon->_c20._4;
+        return flags & 6;
+    }
     f32 getWindFlyingDist();
     // 0x710010f4b4 (CSV name): the attack position (Weapon::getAttackPosMaybe for request type 9, else the
     // actor position).

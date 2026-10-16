@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionEquipedDefaultWindWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/World/worldElementDirectionalWind.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -135,6 +137,66 @@ void EquipedDefaultWindWeapon::getAttackPosMaybe(sead::Vector3f* pos) {
         *pos = *weapon->getAttackPosMaybe();
     else
         weapon->getMtx().getTranslation(*pos);
+}
+
+// NON_MATCHING: branch shape of the two Large / normal parameter selections (csel vs a conditional reload).
+void EquipedDefaultWindWeapon::m36(bool x) {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    auto* parent = weapon->getParentActor();
+    if (!parent)
+        return;
+
+    sead::Vector3f dir;
+    getAttackDirMaybe(&dir);
+    sead::Vector3f pos;
+    getAttackPosMaybe(&pos);
+    ElementDirectionalWindCreateArg arg;
+    arg.actor = parent;
+    arg.position = pos;
+    arg.direction = dir;
+
+    arg._20 = *(isLargeWind() ? mWindRadiusLarge_s : mWindRadius_s);
+    arg._28 = getWindSpeedRate();
+    arg._24 = *mWindLength_s;
+    arg._2c = *mCapsuleMaxSpeed_s * 30.0f;
+    arg._34 = *(isLargeWind() ? mWindReduceRateLarge_s : mWindReduceRate_s);
+    arg._38 = getWindFlyingDist();
+    arg.flags = x ? 0x38 : 0x30;
+    ElementDirectionalWindOrGust::create(&arg);
+}
+
+// NON_MATCHING: same branch shape differences as m36.
+void EquipedDefaultWindWeapon::m37() {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!weapon)
+        return;
+    auto* parent = weapon->getParentActor();
+    if (!parent)
+        return;
+
+    sead::Vector3f dir;
+    getAttackDirMaybe(&dir);
+    sead::Vector3f pos;
+    getAttackPosMaybe(&pos);
+    ElementDirectionalWindCreateArg arg;
+    arg.actor = parent;
+    arg.position = pos;
+    arg.direction = dir;
+    arg._20 = *(isLargeWind() ? mWindRadiusLarge_s : mWindRadius_s);
+    arg._28 = getWindSpeedRate();
+    arg._24 = *mWindLength_s;
+    arg._2c = *mCapsuleMaxSpeed_s * 30.0f;
+    arg._34 = *(isLargeWind() ? mWindReduceRateLarge_s : mWindReduceRate_s);
+    arg._38 = getWindFlyingDist();
+    arg.flags = 3;
+    if (weapon->isParentPlayer()) {
+        auto* player = sead::DynamicCast<ksys::act::Player>(parent);
+        if (player && player->armorEffectHasWakeWindEffect())
+            arg.flags |= 0x40;
+    }
+    ElementDirectionalWindOrGust::create(&arg);
 }
 
 void EquipedDefaultWindWeapon::calc_() {
