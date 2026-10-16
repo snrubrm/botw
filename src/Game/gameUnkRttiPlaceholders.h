@@ -180,21 +180,6 @@ public:
     const sead::SafeString& getSpineNodeName() const;
 };
 
-// vtable 0x7102450fe0 (12 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102450fe0 {
-    SEAD_RTTI_BASE(Unk_7102450fe0)
-public:
-    virtual ~Unk_7102450fe0();
-    virtual void* m4() { return nullptr; }
-    virtual void m5();
-    virtual void m6();
-    virtual void m7() {}
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-};
-
 // vtable 0x7102451c48 (5 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102451c48 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451c48, uking::act::DamageCallback)

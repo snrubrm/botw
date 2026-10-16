@@ -38,7 +38,7 @@ bool Unk_7102450fa8::sub_710071A020(sead::Vector3f* out, s32 idx) {
 }
 
 s32 Unk_7102450fa8::sub_710071A048(s32 idx) {
-    return _88 ? *_88->_b8[idx - 2] : -1;
+    return _88 ? *_88->_b0(idx - 2) : -1;
 }
 
 bool Unk_7102450fa8::sub_7100719978(s32 idx) const {
@@ -169,7 +169,3 @@ void Unk_7102450fa8::sub_7100719ED0() {
 Unk_7102450fa8::~Unk_7102450fa8() {
     _8.freeBuffer();
 }
-
-// NON_MATCHING: placeholder destructor; the original (0x710071ab84) also destroys members or bases
-// this class does not declare yet.
-Unk_7102450fe0::~Unk_7102450fe0() = default;

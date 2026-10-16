@@ -1,6 +1,8 @@
 #pragma once
 
 #include <container/seadObjArray.h>
+#include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "Game/Actor/AI/aiPriestBossPhase.h"
 #include "Game/Actor/aiPriestBossPhaseMembers.h"
 #include "Game/Actor/aiUnk_7102357210.h"
@@ -11,6 +13,11 @@ namespace uking::ai {
 class PriestBossPhaseSecond : public PriestBossPhase {
     SEAD_RTTI_OVERRIDE(PriestBossPhaseSecond, PriestBossPhase)
 public:
+    // Bits of _bb0 (tested through a stack temporary, SEAD_ENUM style).
+    SEAD_ENUM(StateFlag, _0, _1, _2)
+    // Argument of sub_710052B4D0 (stored to the stack on entry, SEAD_ENUM style).
+    SEAD_ENUM(Mode, _0, _1, _2)
+
     explicit PriestBossPhaseSecond(const InitArg& arg);
     ~PriestBossPhaseSecond() override;
 
@@ -18,6 +25,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     void m34() override {}
     bool m36() override { return PriestBossPhase::m36(); }
@@ -26,6 +34,15 @@ public:
     void m39() override;
     void m40() override;
     virtual void m41();
+
+    // 0x710052b4d0
+    void sub_710052B4D0(Mode mode);
+
+    // inline-only in the original; names are guesses (sub_710052B4D0 and handleMessage_: the flag index
+    // temporaries share one stack slot, as inlined by-value parameters do)
+    bool isStateFlagOn(StateFlag flag) const { return _bb0.isOnBit(flag); }
+    void setStateFlag(StateFlag flag) { _bb0.setBit(flag); }
+    void resetStateFlag(StateFlag flag) { _bb0.resetBit(flag); }
 
 protected:
     // static_param at offset 0x80
@@ -77,18 +94,17 @@ protected:
     /* 0x158 */ Unk_7102451070 _158;
     /* 0x488 */ Unk_7102451050 _488;
     struct PhaseRecord {
-        s32 id;
-        f32 value;
-        void* data;
+        s32 id = 0;
+        f32 value = 0;
+        void* data = nullptr;
     };
     /* 0x690 */ sead::ObjArray<PhaseRecord> mRecords;
     /* 0x6b0 */ s32 _6b0 = 0;
-    /* 0x6b8 */ void* _6b8 = nullptr;
+    /* 0x6b8 */ Unk_7102450fe0* _6b8 = nullptr;  // current formation (_6c0 or _958; handleMessage_ forwards to m9)
     /* 0x6c0 */ Unk_7102450e00 _6c0;
-    u8 _8a0[0x958 - 0x8a0];
     /* 0x958 */ Unk_7102450ed8 _958;
     /* 0xb58 */ Unk_71024508e8 _b58;
-    /* 0xbb0 */ u32 _bb0 = 0;
+    /* 0xbb0 */ sead::BitFlag32 _bb0;
 };
 
 KSYS_CHECK_SIZE_NX150(PriestBossPhaseSecond, 0xbb8);

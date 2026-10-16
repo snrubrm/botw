@@ -3,7 +3,10 @@
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <container/seadSafeArray.h>
+#include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys { class Message; }
@@ -64,32 +67,77 @@ public:
     void sub_710071BFE4(const InitArg& arg);
     bool sub_710071C550(const ksys::Message& message);
     void sub_710071C034();
+    // 0x710071c1b8 (placeholder name; not decompiled)
+    void sub_710071C1B8();
 
-private:
-    u64 _0[0x208 / sizeof(u64)];
+    // Bits of _200 (set / tested through a stack temporary, SEAD_ENUM style).
+    SEAD_ENUM(Flag, _0, _1)
+
+    // inline-only in the original; name is a guess (see PriestBossPhaseSecond::resetStateFlag)
+    void resetFlag(Flag flag) { _200.resetBit(flag); }
+
+    u64 _0;
+    /* 0x008 */ Unk_7102450fa8* _8;  // the meta AI unit (read by 0x710071c1b8)
+    u8 _10[0x200 - 0x10];
+    /* 0x200 */ sead::BitFlag32 _200;
+    u32 _204;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102451050, 0x208);
 
-// Declared-only polymorphic phase controllers. Their RTTI pair precedes the
-// virtual destructors in the original vtables; payloads remain opaque.
-class Unk_7102450e00 {
-public:
-    virtual bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface*) const;
-    virtual const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const;
-    Unk_7102450e00();
-    virtual ~Unk_7102450e00();
-private:
-    u64 _8[(0x1e0 - 8) / sizeof(u64)];
-};
-KSYS_CHECK_SIZE_NX150(Unk_7102450e00, 0x1e0);
+// PriestBossPhaseSecond's two formation controllers (its _6c0 / _958; the current one is at _6b8).
+// Constructors 0x7100716a18 / 0x7100717328; base Unk_7102450fe0.
 
-class Unk_7102450ed8 {
+// vtable 0x7102450e00: circle formation (CircleFormRange is written to _1d8 by PriestBossPhaseSecond::enter_).
+class Unk_7102450e00 : public Unk_7102450fe0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102450e00, Unk_7102450fe0)
 public:
-    virtual bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface*) const;
-    virtual const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const;
+    // Per-member target: an angle on the circle around the player, or a fixed position.
+    struct Slot {
+        f32 angle;
+        sead::Vector3f pos;
+        bool use_angle;
+    };
+    KSYS_CHECK_SIZE_NX150(Slot, 0x14);
+
+    Unk_7102450e00();
+    ~Unk_7102450e00() override;
+    Unk_7102450fa8::Phase m4() override { return Unk_7102450fa8::Phase::_1; }
+    // 0x7100716a74
+    void m7(sead::Vector3f* out, s32 idx) override;
+    // 0x7100716ae0
+    void m8() override;
+    // 0x7100717024
+    void m10() override;
+    // 0x7100716f90
+    virtual void m12(sead::Vector3f* out, f32 angle);
+
+    /* 0x1d8 */ f32 _1d8 = 0;  // radius
+    /* 0x1dc */ f32 _1dc = 0;  // random start angle (m10)
+    /* 0x1e0 */ sead::SafeArray<Slot, 9> _1e0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102450e00, 0x298);
+
+// vtable 0x7102450ed8: line formation (LineFormSpace / LineFormDistFromPlayer go to _1d8 / _1dc).
+class Unk_7102450ed8 : public Unk_7102450fe0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102450ed8, Unk_7102450fe0)
+public:
     Unk_7102450ed8();
-    virtual ~Unk_7102450ed8();
-private:
-    u64 _8[(0x200 - 8) / sizeof(u64)];
+    ~Unk_7102450ed8() override;
+    Unk_7102450fa8::Phase m4() override { return Unk_7102450fa8::Phase::_2; }
+    // 0x71007173b4
+    void m7(sead::Vector3f* out, s32 idx) override;
+    // 0x710071741c
+    void m8() override;
+    // 0x7100717d88
+    void m10() override;
+
+    // 0x7100717440
+    void sub_7100717440();
+
+    /* 0x1d8 */ f32 _1d8 = 0;
+    /* 0x1dc */ f32 _1dc = 0;
+    /* 0x1e0 */ sead::Vector3f _1e0 = sead::Vector3f::zero;  // line origin
+    /* 0x1ec */ sead::Vector3f _1ec = sead::Vector3f::zero;  // line direction
+    /* 0x1f8 */ u32 _1f8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450ed8, 0x200);

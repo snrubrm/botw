@@ -37,28 +37,14 @@ class ActorLinkConstDataAccess;
 class BaseProc;
 }  // namespace ksys::act
 
+class Unk_7102450fa8;
+
+class Unk_7102450fe0;
+
 // Unnamed class of the object shared by the PriestBoss* AI trees through the
 // "PriestBossMetaAIUnit" AI tree variable. Created by PriestBossMetaAIRoot::init_ (create 0x7100718360,
 // ctor 0x7100717eec, init 0x71007183a4); its functions live at 0x7100717000-0x710071c000.
 // Placeholder name = vtable address. Only the members used by its users are declared.
-// Placeholder (lane4 s50; vtable unknown): the object at Unk_7102450fa8::_88. Only what the wrappers use is declared:
-// virtual slots 6 / 7 and the fields `_ac` / `_b8` (an array of pointers to s16 values, indexed by phase - 2).
-struct Unk_PriestBossObject {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-    virtual void m5();
-    virtual s32 m6(s32 idx);
-    virtual void m7(sead::Vector3f* out, s32 idx);
-
-    u8 _8[0xa8 - 0x8];
-    /* 0xa8 */ s32 _a8;
-    /* 0xac */ s32 _ac;
-    u8 _b0[0xb8 - 0xb0];
-    /* 0xb8 */ s16** _b8;
-};
 
 class Unk_7102450fa8 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_7102450fa8, Unk_71025afb58)
@@ -104,6 +90,10 @@ public:
     // markers); only that one call site is known, the same shape appears in the other PriestBoss*
     // flag tests (IronBallRoot::m41, BananaMode).
     bool isFlagOn(Flag flag) const { return _78.isOnBit(flag); }
+    // inline-only in the original; names are guesses. Same evidence as isFlagOn: in PriestBossPhaseSecond leave_,
+    // sub_710052B4D0 and handleMessage_ every flag index temporary shares one stack slot with the other locals.
+    void setFlag(Flag flag) { _78.setBit(flag); }
+    void resetFlag(Flag flag) { _78.resetBit(flag); }
     // 0x7100719fe4: `_88 ? _88->vslot6(idx) : 3` (unnamed object at 0x88).
     s32 sub_7100719FE4(s32 idx);
     // 0x7100719978: `idx != 2 && idx - 2 <= 8 && (_80 >> idx & 1)`. Placeholder name.
@@ -172,7 +162,7 @@ public:
     /* 0x07c */ u8 _7c[0x80 - 0x7c];
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
     /* 0x084 */ u8 _84[0x88 - 0x84];
-    /* 0x088 */ Unk_PriestBossObject* _88;
+    /* 0x088 */ Unk_7102450fe0* _88;
     /* 0x090 */ Unk_7102451070* _90;  // set by PriestBossPhaseFourth::enter_ (its _98)
     /* 0x098 */ u32 _98;
     /* 0x09c */ sead::JobQueueLock _9c;
@@ -216,6 +206,96 @@ public:
     /* 0x445 */ u8 _445[0x448 - 0x445];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450fa8, 0x448);
+
+// vtable 0x7102450fe0: base class of the two PriestBossPhaseSecond formation controllers (Unk_7102450e00,
+// Unk_7102450ed8) and the object at Unk_7102450fa8::_88. Layout from the constructor 0x710071a92c and
+// the destructor 0x710071ab84. Own TU 0x710071a92c .. 0x710071bd38 (aiUnk_7102450fe0.cpp).
+class Unk_7102450fe0 {
+    SEAD_RTTI_BASE(Unk_7102450fe0)
+public:
+    SEAD_ENUM(Flag, _0, _1, _2)
+    // Index into the m11 table (passed by value through the stack, as a SEAD_ENUM).
+    SEAD_ENUM(Step, _0, _1, _2, _3, _4, _5, _6, _7, _8)
+
+    // One per formation member (index = member id - 2). Reset field by field in 0x710071ac54 / 0x710071aecc.
+    struct Entry {
+        void reset(s32 state) {
+            _0 = state;
+            _4 = 0;
+            _8 = 0;
+            _c = false;
+        }
+
+        s32 _0 = 0;  // state (index into the m11 table)
+        s32 _4 = 0;  // last state value reported by the member's message (m9)
+        f32 _8;      // time in the state (sub_710071B6A4)
+        bool _c;     // state done
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x10);
+
+    // Element of the static table returned by m11 (0x710071b4d0; 9 entries of 0x18 bytes).
+    struct State {
+        // The table is built by a guarded dynamic initialiser, so this is not an aggregate.
+        State(void (*func_)(Unk_7102450fe0*, s32), s32 a, s32 b, bool c, bool d)
+            : func(func_), _8(a), _c(b), _10(c), _11(d) {}
+
+        void (*func)(Unk_7102450fe0* self, s32 idx);
+        s32 _8;
+        s32 _c;
+        bool _10;
+        bool _11;
+    };
+    KSYS_CHECK_SIZE_NX150(State, 0x18);
+
+    Unk_7102450fe0();
+    virtual ~Unk_7102450fe0();
+    virtual Unk_7102450fa8::Phase m4() { return Unk_7102450fa8::Phase::_0; }
+    // 0x710071ac54
+    virtual void m5(s32 a8, f32 x, f32 y);
+    // 0x71007171b0 (emitted in the Unk_7102450e00 TU)
+    virtual s32 m6(s32 idx) { return _8[idx - 2]._0; }
+    virtual void m7(sead::Vector3f* out, s32 idx) {}
+    // 0x710071aea0
+    virtual void m8();
+    // 0x710071b2ac
+    virtual bool m9(const ksys::Message& message);
+    // 0x710071b3a4
+    virtual void m10();
+    // 0x710071b4d0
+    virtual const State* m11(Step step);
+
+    bool isFlagOn(Flag flag) const { return _1d0.isOnBit(flag); }
+
+    // 0x710071b5ec / 0x710071b6a4: m11 table callbacks (per member update).
+    static void sub_710071B5EC(Unk_7102450fe0* self, s32 idx);
+    static void sub_710071B6A4(Unk_7102450fe0* self, s32 idx);
+
+    // 0x710071b37c
+    void sub_710071B37C(Unk_7102450fa8* unit);
+    // 0x710071aecc
+    void sub_710071AECC();
+
+    // inline-only in the original; name is a guess (the constructor 0x710071a92c and m10 0x710071b3a4 repeat it)
+    void resetOrder() {
+        _b0.clear();
+        for (s32 i = 0; i < 9; ++i)
+            _b0.emplaceBack(i);
+    }
+
+    /* 0x008 */ sead::SafeArray<Entry, 9> _8;
+    /* 0x098 */ f32 _98 = 0.1f;
+    /* 0x0a0 */ Unk_7102450fa8* _a0 = nullptr;
+    /* 0x0a8 */ s32 _a8 = 0;
+    /* 0x0ac */ s32 _ac = 0;  // counter, wraps at 10000 (m5)
+    /* 0x0b0 */ sead::FixedObjArray<s16, 9> _b0;  // member order (shuffled by m10)
+    /* 0x160 */ sead::Vector3f _160 = sead::Vector3f::zero;
+    /* 0x16c */ f32 _16c = 0;
+    /* 0x170 */ f32 _170 = 0;
+    /* 0x178 */ Unk_7102450888 _178;
+    /* 0x1d0 */ sead::BitFlag32 _1d0;
+    /* 0x1d4 */ u32 _1d4 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102450fe0, 0x1d8);
 
 // Global Vector3f in the unit's TU (0x71025c8cf8), set to {0, 0, 900} by the TU's static initialiser
 // (0x710071a7b4); copied to PriestBossGiantStageRotRoot's FacePos. Placeholder name.
