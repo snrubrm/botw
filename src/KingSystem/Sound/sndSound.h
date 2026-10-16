@@ -1027,6 +1027,10 @@ public:
     // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
     // and puts the user instance to sleep.
     void sub_710104A108();
+    // 0x710104a5e8 (placeholder name): when the entry is ready, fades a looping emit and emits mName again.
+    void sub_710104A5E8();
+    // 0x710104a76c (placeholder name): fades the emitted event over `frame` frames and clears _10.
+    void sub_710104A76C(s32 frame);
     // 0x710104a2e8 (placeholder name): whether the referenced entry's state _18 is 2.
     bool sub_710104A2E8() const;
     // 0x710104a858 (placeholder name)

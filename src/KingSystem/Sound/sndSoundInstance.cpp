@@ -157,6 +157,27 @@ void Unk_7102502430::sub_710104A1B8() {
     }
 }
 
+void Unk_7102502430::sub_710104A5E8() {
+    if (!_98 || _98->_18 != 2)
+        return;
+    mHandle.fadeIfLoopSound();
+    _10.clear();
+    _68 = 0;
+    if (_98 && !mName.isEmpty()) {
+        if (auto* user_instance = _98->mUserInstance) {
+            m4(user_instance);
+            mHandle = user_instance->searchAndEmit(mName.cstr());
+            m5(user_instance, &mHandle);
+        }
+    }
+}
+
+void Unk_7102502430::sub_710104A76C(s32 frame) {
+    mHandle.fade(frame);
+    _10.clear();
+    _68 = 0;
+}
+
 bool Unk_7102502430::sub_710104A2E8() const {
     return _98 && _98->_18 == 2;
 }
