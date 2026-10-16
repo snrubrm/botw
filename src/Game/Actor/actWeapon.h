@@ -431,6 +431,9 @@ public:
     // weapon, its optional weapon and, for weapon type 3 with _d54 1 or 2, its connected calc child (each only
     // with a model).
     void sub_71002E9CD0(f32 alpha);
+    // 0x71002e2320 (CSV Weapon::x_5): applies the chemical reset requested through sub_71002EDB3C (_b88 type 0 / 2 / 3)
+    // once and clears _b8c.
+    void x_5();
     // 0x71002e9ac8 / 0x71002e9be0 / 0x71002e9e04 (placeholder names): the same for a model colour (stored in _1018,
     // gfx sub_7100F1E2F4), the opacity without sub_71011CCB38, and a model value (gfx sub_7100F1EAF8, stored in
     // _1028; also sets physics flag 0x20000 while it is non-zero). Only on change for the colour and the value.

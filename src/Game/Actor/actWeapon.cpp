@@ -141,6 +141,26 @@ void Weapon::sub_71002E1748() {
         mPhysics->sub_7100FC012C(nullptr);
 }
 
+// NON_MATCHING: the original tests type 0 first (cbz); clang orders the comparisons 3, 2, 0.
+void Weapon::x_5() {
+    if (!_b8c)
+        return;
+    if (auto* chemical = getChemicalStuff()) {
+        if (_b88 == 0) {
+            chemical->sub_7100D93B84();
+        } else if (_b88 == 3) {
+            auto* current = getChemicalStuff();
+            if (current && (current->mMaterial->attribute.ref() & 1) && !(current->_be & 1)) {
+                if (auto* target = getChemicalStuff())
+                    target->sub_7100D90858(false, 2, false, true, false);
+            }
+        } else if (_b88 == 2) {
+            chemical->sub_7100D8EEE0();
+        }
+    }
+    _b8c = false;
+}
+
 void Weapon::sub_71002E5BB4() {
     auto* chemical = getChemicalStuff();
     if (!chemical)
