@@ -65,6 +65,8 @@ public:
     virtual s32 getMinDmg() { return mMinDmg; }
     virtual s32 getField50() { return mField_50; }
     virtual s32 getField54() { return mField_54; }
+    // Read by BlownOff::m38 (non-virtual load).
+    s32 getField40() const { return mField_40; }
     virtual bool checkDamageFlags(s32 bit) { return false; }
     // lane4 s48: returns u64 (callers mask it with 64-bit instructions: ForceDispLifeGage; PlayerBase::getDeathReason
     // truncates it to 32 bits and widens it again: `and x0, x0, #0xffffffff`).

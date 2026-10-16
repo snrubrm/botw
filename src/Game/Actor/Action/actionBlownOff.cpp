@@ -5,6 +5,8 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 
 namespace uking::action {
 
@@ -65,6 +67,38 @@ void BlownOff::calc_() {
 
 bool BlownOff::isChangeable() const {
     return _ec == 1;
+}
+
+void BlownOff::m38() {
+    auto* actor = mActor;
+    auto* manager = sub_710072BA90(actor);
+    if (manager && manager->checkDamageFlags(21)) {
+        Ragdoll::m38();
+        return;
+    }
+    sub_7100227134();
+    if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
+        ksys::act::Unk_71006ED100Arg arg;
+        arg._5e = !isBgGroundHit(dynamic_actor, false);
+        if (manager) {
+            manager->m35(&arg._0);
+            arg._5f = manager->m41();
+            arg._30 = m41(manager);
+            arg._34 = manager->getField54();
+            manager->m40(&arg._38);
+            manager->m32(&arg._40);
+            arg._40 *= *mParams.mImpulseRatio_s;
+            manager->getPosition(&arg._4c);
+            arg._3c = manager->getField40();
+            arg._5c = manager->sub_71006EE2B0();
+            arg._5d = *manager->getAttacker() == *manager->m37();
+            arg._61 = manager->checkDamageFlags(0);
+            arg._62 = manager->checkDamageFlags(10);
+            arg._58 = arg._62 ? 1.0f : manager->sub_71006D8DE8();
+        }
+        dynamic_actor->sub_71006DD8F8(arg);
+    }
+    sub_7100227184();
 }
 
 s32 BlownOff::m40() {

@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionTurnAndLookAtToObjectNow.h"
+#include <math/seadQuat.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
@@ -124,6 +125,27 @@ void TurnAndLookAtToObjectNow::m40() {
         controller->sub_7100F5E7F0(0.0f);
         controller->sub_7100F5FB24(sead::Vector3f::zero);
     }
+}
+
+// NON_MATCHING: the original keeps the identity rows in a stack matrix across the sqrt call; ours rematerialises them.
+void TurnAndLookAtToObjectNow::m41(ksys::phys::CharacterController* controller) {
+    sead::Matrix34f rotation;
+    rotation.makeIdentity();
+    sead::Vector3f dir(_38.x, 0.0f, _38.z);
+    dir.normalize();
+    sead::Quatf q;
+    if (q.makeVectorRotation(sead::Vector3f(0.0f, 0.0f, 1.0f), dir)) {
+        sead::Matrix34f q_mtx;
+        q_mtx.fromQuat(q);
+        rotation = q_mtx * rotation;
+    }
+    sead::Matrix34f scale;
+    scale.makeS(mActor->getScale());
+    sead::Matrix34f translation;
+    translation.makeT(mActor->getMtx().getTranslation());
+    const sead::Matrix34f mtx = translation * (rotation * scale);
+    mActor->setMtx(mtx, false, true);
+    setFinished();
 }
 
 }  // namespace uking::action
