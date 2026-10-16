@@ -35,9 +35,10 @@ public:
 
     // An entry of _38 (0x28 bytes): a member id, its actor and a position.
     struct Entry {
-        s32 id;
+        s32 id = -1;
         ksys::act::BaseProcLink link;
-        sead::Vector3f pos;
+        sead::Vector3f pos{0, 0, 0};
+        f32 _24 = 0;
     };
 
     // 0x710071cae8 / 0x710071cb94
@@ -46,7 +47,7 @@ public:
     void sub_710071CE44();
     // 0x710071cb98 (placeholder name): takes the unit and the settings and clears the entries
     void sub_710071CB98(const InitArg& arg);
-    // 0x710071cc4c (placeholder name; not decompiled)
+    // 0x710071cc4c (placeholder name): adds an entry for member `idx` (with its actor) unless there is one
     void sub_710071CC4C(s32 idx);
     // 0x710071cdcc (placeholder name): the position of the entry `id`; false if there is none
     bool sub_710071CDCC(sead::Vector3f* out, s32 id);
@@ -63,7 +64,7 @@ private:
     /* 0x008 */ Unk_7102450fa8* _8 = nullptr;
     /* 0x010 */ sead::Vector3f _10;
     /* 0x01c */ f32 _1c = 0;
-    /* 0x020 */ s32 _20 = 0;
+    /* 0x020 */ f32 _20 = 0;  // timer (counts down to 0, then restarts at _1c)
     /* 0x024 */ f32 _24 = 0;
     /* 0x028 */ f32 _28 = sead::Mathf::pi2();
     /* 0x02c */ f32 _2c = 0;

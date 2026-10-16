@@ -234,7 +234,6 @@ bool Unk_7102451050::sub_710071C550(const ksys::Message& message) {
     return true;
 }
 
-// NON_MATCHING: _1c / _20 are stored as one 64-bit value in the original, and the vtable is loaded later
 // 0x710071cae8
 Unk_7102451070::Unk_7102451070() = default;
 
@@ -266,4 +265,28 @@ bool Unk_7102451070::sub_710071CDCC(sead::Vector3f* out, s32 id) {
         }
     }
     return false;
+}
+
+// NON_MATCHING: the found-entry test is laid out differently and the new entry is built in another order
+// 0x710071cc4c
+void Unk_7102451070::sub_710071CC4C(s32 idx) {
+    if (!_8)
+        return;
+    for (s32 i = 0; i < _38.size(); ++i) {
+        if (_38(i)->id == idx) {
+            if (_38[i])
+                return;
+            break;
+        }
+    }
+    if (auto* entry = _38.emplaceBack()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (_8->sub_71007194D4(idx, &accessor)) {
+            entry->id = idx;
+            accessor.linkAcquire(&entry->link);
+            entry->_24 = 0;
+        } else {
+            _38.erase(_38.size() - 1);
+        }
+    }
 }
