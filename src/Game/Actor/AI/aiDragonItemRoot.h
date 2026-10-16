@@ -28,6 +28,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
 protected:
     void sub_710036CE54(ksys::act::Actor* actor);
@@ -67,15 +68,13 @@ protected:
     bool* mIsInsideObserverArea_a{};
     ksys::phys::RigidBody* _128{};
     sead::Vector3f _130;
-    f32 _13c;
-    f32 _140;
-    f32 _144;
+    sead::Vector3f _13c;  // fly target
     f32 _148 = 0;
     sead::BitFlag8 _14c;
     f32 _150 = 0;
     f32 _154 = 0;
     f32 _158 = 0;
-    f32 _15c = 0;
+    s32 _15c = 0;  // frames until deletion after the activation
 };
 KSYS_CHECK_SIZE_NX150(DragonItemRoot, 0x160);
 
