@@ -1,4 +1,5 @@
 #include "Game/Actor/actHorseStrings.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actRideableHorse.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseBase.h"
@@ -143,6 +144,15 @@ void RideableHorse::m43() {
 bool RideableHorse::m10(const ksys::Message& message) {
     message.getType();
     return Rideable::m10(message);
+}
+
+Rideable::Gear RideableHorse::m23() {
+    const auto& anim = RideableBase::mActor->getASList()->x_1(0, 0);
+    if (anim == sUnk_7102603160 || anim == sUnk_7102603170)
+        return Gear(3);
+    if (anim == sUnk_7102603120 || anim == sUnk_7102603130)
+        return Gear(2);
+    return Rideable::m23();
 }
 
 f32 RideableHorse::m12() {

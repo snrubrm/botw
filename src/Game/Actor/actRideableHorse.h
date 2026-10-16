@@ -61,6 +61,7 @@ public:
     void m6() override;
     void m7() override;
     void m8() override;
+    Gear m23() override;
 
     bool m10(const ksys::Message& message) override;
     f32 m12() override;
