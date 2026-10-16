@@ -200,6 +200,14 @@ void Unk_710247a6d8::sub_71009B10EC(s32 value) {
     _190.sub_71009B2010();
 }
 
+// 0x71009c28d0
+void Unk_710247ca18::sub_71009C28D0() {
+    if (_130 && _130->mFrame != 0.0f)
+        _130->StopAtMin();
+    if (_138)
+        _138->Stop(0.0f);
+}
+
 // 0x71009b0f3c
 void Unk_710247a6d8::sub_71009B0F3C(bool on) {
     if (!_138)

@@ -341,7 +341,11 @@ static_assert(sizeof(Unk_710247a028) == 0xd98);
 class Unk_710247ca18 : public ScreenChildEx {
 public:
     explicit Unk_710247ca18(eui::LayoutEx* layout);
-    u8 _130[0x1e8 - 0x130];
+    // 0x71009c28d0: stops _130 at its start and _138 at frame 0
+    void sub_71009C28D0();
+    /* 0x130 */ eui::Animator* _130;
+    /* 0x138 */ eui::Animator* _138;
+    u8 _140[0x1e8 - 0x140];
 };
 static_assert(sizeof(Unk_710247ca18) == 0x1e8);
 
