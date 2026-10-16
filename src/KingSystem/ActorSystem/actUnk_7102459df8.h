@@ -26,8 +26,12 @@ class Actor;
 class ActorLinkConstDataAccess;
 
 // Placeholder (RTTI static 0x71025ca5f8): the optional argument of Unk_71025b08f8::m4 (checked with
-// a DynamicCast; its member at +0x8 is compared with 1).
-class Unk_71025ca5f8;
+// a DynamicCast; its member at +0x8 is compared with 1: the player variant of the sensors).
+class Unk_71025ca5f8 {
+    SEAD_RTTI_BASE(Unk_71025ca5f8)
+public:
+    /* 0x8 */ s32 _8;
+};
 
 // Placeholder name (RTTI static 0x71025b08f8; no vtable of its own in the binary). Abstract base of
 // Unk_7102459df8 and the type returned by Actor vtable slot 126 (callers DynamicCast the result to
@@ -64,8 +68,8 @@ public:
                               const phys::MaterialMask& material2);
 
             // Native array constructor 79D0F0 initializes all eight records.
-            sead::Vector3f _0 = sead::Vector3f::zero;
-            sead::Vector3f _c = sead::Vector3f::ez;
+            sead::Vector3f _0{0.0f, 0.0f, 0.0f};
+            sead::Vector3f _c{0.0f, 0.0f, 1.0f};
             BaseProcLink _18;
             phys::MaterialMask _28;
             phys::MaterialMask _40;
@@ -96,7 +100,7 @@ public:
         void sub_710079FE9C();
 
         sead::SafeArray<Unk1, 8> mEntries;
-        s32 mNum;
+        s32 mNum = 0;
     };
     // dtor 0x710079d5a0; 8 entries of 0xb0 bytes
     struct Unk_710079d5a0 {
@@ -119,12 +123,12 @@ public:
         void sub_710079F66C(sead::Buffer<u8>* buffer, Actor* actor);
 
         sead::SafeArray<Unk1, 8> mEntries;
-        s16 mNum;
-        u8 _582;
+        s16 mNum = 0;
+        u8 _582 = 0;
         // callback set by BeltConveyor::enter_ (0x71000c4560, the third argument is unused there),
         // cleared by BeltConveyor::leave_
         using Callback = void (*)(Actor*, const ActorLinkConstDataAccess*, void*, phys::RigidBody*);
-        Callback _588;
+        Callback _588 = nullptr;
     };
 
     explicit Unk_7102459df8(Actor* actor) : Unk_71025b08f8(actor) {}
@@ -138,6 +142,9 @@ public:
     bool m9() override;
     void m10() override;
 
+    // 0x710079c9a0 (declared only; 904 B): sets up the remaining sensor data on `heap` (finds bodies of the
+    // actor's InstanceSet by name).
+    bool sub_710079C9A0(sead::Heap* heap);
     bool sub_710079CE78() const;
     s32 sub_710079CE98() const;
     bool sub_710079CEB0() const;
