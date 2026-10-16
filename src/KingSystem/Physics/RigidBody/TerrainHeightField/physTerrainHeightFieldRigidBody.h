@@ -5,6 +5,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
+namespace ksys::act {
+class Unk_71011086dc;
+}
+
 namespace ksys::tera {
 class System;
 }
@@ -90,13 +94,16 @@ public:
     hkReal sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const override;
     hkUint32 m28(const hkVector4& position) const override;
 
+    // 0x7101224944 (placeholder name): creates the object at 0x98 on `heap` (called by sub_71012238E4).
+    void sub_7101224944(sead::Heap* heap);
+
 protected:
     bool isInHole(f32 x, f32 z) const {
         return mRadiusSq > 0.0f && (sead::Vector2f(x, z) - mCircleCenter).squaredLength() < mRadiusSq;
     }
 
     tera::System* mSystem;
-    void* _98 = nullptr;
+    act::Unk_71011086dc* _98 = nullptr;
     sead::Vector3f mOffset;
     sead::Vector3f mHalfExtents;
     sead::Vector3f mCenter;

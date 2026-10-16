@@ -3,6 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <Havok/Physics2012/Collide/Shape/Query/hkpShapeRayCastOutput.h>
 #include <Havok/Physics2012/Collide/Query/hkpRayHitCollector.h>
+#include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -115,6 +116,12 @@ Unk_7102515a58::Unk_7102515a58(const hkpSampledHeightFieldBaseCinfo& ci, tera::S
     m_extents.set(half_extents.x + half_extents.x, half_extents.y + half_extents.y,
                   half_extents.z + half_extents.z);
     m_heightCenter = 0;
+}
+
+// NON_MATCHING: the original stores `heap` to its stack slot before operator new (scheduling).
+void Unk_7102515a58::sub_7101224944(sead::Heap* heap) {
+    _98 = new (heap, 8) act::Unk_71011086dc;
+    _98->sub_7101108774(heap);
 }
 
 hkBool Unk_7102515a58::getTriangleFlipImpl() const {
