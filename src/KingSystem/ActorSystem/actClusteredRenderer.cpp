@@ -107,7 +107,9 @@ void ClusteredRenderer::startThread() {
     mData2._c9c &= ~0x40000000u;
     mData.mThread->setAffinity(sead::CoreIdMask(sead::CoreId::cSub1));
     mData.mThread->start();
-    if (mData._558 != mData._55c || mData._860 != mData._864 || mData._b68 != mData._b6c)
+    if (mData.mQueues[0].mRead != mData.mQueues[0].mWrite ||
+        mData.mQueues[1].mRead != mData.mQueues[1].mWrite ||
+        mData.mQueues[2].mRead != mData.mQueues[2].mWrite)
         mData.mThread->sendMessage(1, sead::MessageQueue::BlockType::NonBlocking);
 
     auto lock = sead::makeScopedLock(mData._1d8);
@@ -278,6 +280,55 @@ u64 ClusteredRenderer::sub_7101244C58(s32 x, s32 z) {
         break;
     }
     return keep;
+}
+
+// NON_MATCHING: list walk (the original uses a robust node iterator; lib sead::ObjList has none).
+void ClusteredRenderer::sub_71012443AC() {
+    auto lock = sead::makeScopedLock(mData._198);
+
+    for (auto it = mData._168.begin(); it != mData._168.end();) {
+        auto& item = *it;
+        ++it;
+        ClusteredRendererRegion* region = item.mRegion;
+        res::Handle* handle = item.mHandle;
+
+        const s32 state = region->mState;
+        if (state != 3) {
+            if (state != 2)
+                continue;
+            if (handle->isBusy())
+                continue;
+            handle->parseResource(nullptr);
+            if (!handle->requestedLoad() || !handle->isSuccess()) {
+                region->mState.exchange(7);
+                mData._168.erase(&item);
+                continue;
+            }
+            region->mState.exchange(3);
+        }
+
+        const u32 frame = mData._c38;
+        if (frame < 4 || frame - item.mFrame < 4)
+            continue;
+        region->_90 = item.mFrame;
+
+        auto& queue = mData.mQueues[0];
+        while (queue.mRead != queue.mWrite) {
+            auto& entry = queue.mItems[queue.mRead % 32];
+            if (entry.mFrame == entry.mRegion->_90)
+                break;
+            entry.mRegion = nullptr;
+            queue.mRead.increment();
+        }
+
+        auto& slot = queue.mItems[queue.mWrite % 32];
+        if (slot.mRegion)
+            continue;
+        slot = item;
+        queue.mWrite.increment();
+        region->mState.exchange(4);
+        mData._168.erase(&item);
+    }
 }
 
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {

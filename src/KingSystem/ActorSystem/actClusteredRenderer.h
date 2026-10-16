@@ -80,23 +80,21 @@ struct ClusteredRendererData {
     struct ListItem {
         ClusteredRendererRegion* mRegion;
         res::Handle* mHandle;
-        u8 _10[0x18 - 0x10];
+        u32 mFrame;
+        u32 _14;
     };
     sead::ObjList<ListItem> _168;
     sead::CriticalSection _198;
     sead::CriticalSection _1d8;
     sead::CriticalSection _218;
-    // Three rings of 32 entries of 0x18 bytes (read by 0x7101246fbc with atomic read counters).
-    u8 _258[0x558 - 0x258];
-    // startThread compares these three pairs (sends a message to the thread when one differs).
-    sead::Atomic<s32> _558;
-    sead::Atomic<s32> _55c;
-    u8 _560[0x860 - 0x560];
-    sead::Atomic<s32> _860;
-    sead::Atomic<s32> _864;
-    u8 _868[0xb68 - 0x868];
-    sead::Atomic<s32> _b68;
-    sead::Atomic<s32> _b6c;
+    // Placeholder: a ring of 32 list items; 0x7101246fbc reads with atomic read counters.
+    struct Queue {
+        ListItem mItems[32];
+        sead::Atomic<u32> mRead;
+        sead::Atomic<u32> mWrite;
+    };
+    // startThread compares the counters (sends a message to the thread when a queue is not empty).
+    Queue mQueues[3];
     agl::GPUMemBlock<u8> _b70;
     // Two free lists whose work buffers come from the heap at 0xf8.
     sead::FreeList _ba8;
@@ -202,6 +200,8 @@ public:
     u64 sub_7101244C58(s32 x, s32 z);
     // 0x7101244ea8 (CSV ClusteredRenderer::loadX; declaration only)
     void loadX(ClusteredRendererCells* cells, s32 region);
+    // 0x71012443ac (placeholder name): finishes loading regions and queues the ones that are ready.
+    void sub_71012443AC();
     // 0x7101243cd8 (declaration only; placeholder name): releases the cell object.
     void sub_7101243CD8(ClusteredRendererCells* cells);
 
