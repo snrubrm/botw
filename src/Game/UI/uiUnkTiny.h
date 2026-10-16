@@ -821,6 +821,9 @@ public:
 
     // 0x7100933e50 / 0x7100933fb8 (placeholder names): `_130` holds `_8` slots (16 bytes each).
     bool sub_7100933E50() const;
+    // 0x7100934478 (placeholder name): per slot, shows (flag false) or drops (flag true) the pending string records;
+    // with _128 set and `flag` every slot is closed
+    void sub_7100934478(bool flag);
     // 0x71009348d0 (declared only; not decompiled): takes one bool
     void sub_71009348D0(bool flag);
     // 0x7100933bdc (declared only; 628 bytes): the per-frame update

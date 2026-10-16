@@ -1176,6 +1176,65 @@ void Unk_7102474bc8::sub_7100933EAC(const UiStringEntry& entry) {
     _130[entry._124]._8 = entry._0;
 }
 
+// NON_MATCHING: register allocation (which callee-saved registers hold -1 and 0x128)
+// 0x7100934478
+void Unk_7102474bc8::sub_7100934478(bool flag) {
+    for (s32 i = 0; i < _8; ++i) {
+        auto& entry = _140[i];
+        if (entry._0 != -1) {
+            if (_128 && flag) {
+                for (s32 j = 0; j < _8; ++j) {
+                    if (auto* target = _130[j].target)
+                        target->m6(true);
+                    _130[j]._8 = -1;
+                }
+                _150 = 1;
+                return;
+            }
+            const s32 slot = entry._124;
+            if (slot >= 0) {
+                if (!flag) {
+                    sub_7100933EAC(_140[i]);
+                    if (auto* target = _130[_140[i]._124].target)
+                        target->m5(false);
+                    auto& done = _140[i];
+                    done._0 = -1;
+                    done._8.copy(sead::SafeString::cEmptyString);
+                    done._120 = 30;
+                    done._124 = -1;
+                    _151 = 1;
+                    continue;
+                }
+                bool changed = false;
+                for (s32 j = 0; j < _8; ++j) {
+                    const auto& other = _140[j];
+                    if (other._124 >= 0 && other._124 <= slot) {
+                        const bool differs = _130[other._124]._8 != other._0;
+                        changed |= differs;
+                        if (differs)
+                            break;
+                    }
+                }
+                if (changed) {
+                    if (auto* target = _130[slot].target)
+                        target->m6(true);
+                    _130[slot]._8 = -1;
+                    _150 = 1;
+                    continue;
+                }
+                entry._0 = -1;
+                entry._8.copy(sead::SafeString::cEmptyString);
+                entry._120 = 30;
+                entry._124 = -1;
+                continue;
+            }
+        }
+        if (auto* target = _130[i].target)
+            target->m6(flag);
+        _130[i]._8 = -1;
+    }
+}
+
 // 0x71009348d0
 void Unk_7102474bc8::sub_71009348D0(bool flag) {
     for (s32 i = 0; i < _8; ++i) {
