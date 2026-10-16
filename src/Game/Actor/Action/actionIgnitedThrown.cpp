@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionIgnitedThrown.h"
+#include <algorithm>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiXlinkHandle.h"
@@ -49,19 +50,11 @@ void IgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
         level = *mReactionLevel_s;
         if (level < 0) {
             const s32 ipower = static_cast<s32>(power);
-            s32 v = ipower - 1;
-            v = v < 0 ? ipower + 2 : v;
-            v >>= 2;
-            v = v < 2 ? v : 2;
-            level = ipower < -2 ? 0 : v;
+            level = ipower < -2 ? 0 : std::min((ipower - 1) / 4, 2);
         }
     } else if (liftable->mThrowReactionLevel.ref() < 0) {
         const s32 ipower = static_cast<s32>(power);
-        s32 v = ipower - 1;
-        v = v < 0 ? ipower + 2 : v;
-        v >>= 2;
-        v = v < 2 ? v : 2;
-        level = ipower < -2 ? 0 : v;
+        level = ipower < -2 ? 0 : std::min((ipower - 1) / 4, 2);
     } else {
         level = *mReactionLevel_s;
     }
