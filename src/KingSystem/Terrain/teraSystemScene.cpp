@@ -1,5 +1,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadScopedLock.h>
+#include "KingSystem/Terrain/teraAreaNode.h"
 
 namespace ksys::tera {
 
@@ -29,6 +31,33 @@ void System::sub_7101112C30(const sead::Vector3f& vec) {
         scene->_2760 = vec;
         scene->_2998 |= 4;
     }
+}
+
+void System::sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener) {
+    area->sub_7101107768();
+    for (auto* child : area->mChildren) {
+        if (child)
+            sub_7101112C94(child, listener);
+    }
+    if (listener)
+        listener->m0(area, 5);
+
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&Terrain::instance()->mImageResourceMgr->mCS68);
+        Terrain::instance()->mImageResourceMgr->sub_710113625C(this, area, sUnk_7101EC54AC, false,
+                                                               nullptr);
+        Terrain::instance()->mImageResourceMgr->sub_710113625C(this, area, sUnk_7101EC54B4, false,
+                                                               nullptr);
+        for (auto* node : area->mNodes) {
+            const ImageTypeMaybe type = node->getImageType();
+            Terrain::instance()->mImageResourceMgr->sub_710113625C(this, area, type, false, nullptr);
+        }
+        for (auto* image : area->mImages) {
+            const ImageTypeMaybe type = image->getImageType();
+            Terrain::instance()->mImageResourceMgr->sub_710113625C(this, area, type, false, nullptr);
+        }
+    }
+    delete area;
 }
 
 s32 System::sub_71011188E4() const {

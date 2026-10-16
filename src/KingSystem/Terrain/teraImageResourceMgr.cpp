@@ -14,7 +14,7 @@ void ImageResourceMgr::sub_71011339D0(Request* request) {
 }
 
 // NON_MATCHING: the original keeps the list node and reloads the found node from it.
-bool Unk_7101118B34::sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area,
+bool System::sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area,
                                     Unk_710110d278::Key* key, bool check) {
     Unk_7101108460* found = nullptr;
     for (Unk_7101108460* node : area->mNodes) {
@@ -42,9 +42,9 @@ bool Unk_7101118B34::sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area,
 }
 
 // NON_MATCHING: two registers swapped in the type-3 loop.
-void Unk_7101118B34::sub_71011176BC(Unk_7101106F44* area, bool flag) {
-    void (Unk_7101118B34::*fn)(Unk_7101106F44*, const ImageTypeMaybe&) =
-        flag ? &Unk_7101118B34::sub_71011171D8 : &Unk_7101118B34::sub_710111731C;
+void System::sub_71011176BC(Unk_7101106F44* area, bool flag) {
+    void (System::*fn)(Unk_7101106F44*, const ImageTypeMaybe&) =
+        flag ? &System::sub_71011171D8 : &System::sub_710111731C;
 
     (this->*fn)(area, sUnk_7101EC54AC);
     (this->*fn)(area, sUnk_7101EC54B4);
@@ -55,7 +55,7 @@ void Unk_7101118B34::sub_71011176BC(Unk_7101106F44* area, bool flag) {
 }
 
 // NON_MATCHING: `area` and `type` swap callee-saved registers.
-void Unk_7101118B34::sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type) {
+void System::sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type) {
     Unk_710250dcd8* image = area->getImageMaybe(type);
     if (!image)
         return;
@@ -64,7 +64,7 @@ void Unk_7101118B34::sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& 
 }
 
 // NON_MATCHING: `area` and `type` swap callee-saved registers.
-void Unk_7101118B34::sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type) {
+void System::sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type) {
     Unk_710250dcd8* image = area->getImageMaybe(type);
     if (!image)
         return;
@@ -72,7 +72,7 @@ void Unk_7101118B34::sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& 
         pushEntryMaybe(area, type);
 }
 
-void Unk_7101118B34::sub_7101118908(Unk_7101106F44* area, u16 id) {
+void System::sub_7101118908(Unk_7101106F44* area, u16 id) {
     const Unk_7101108460* node = area->findNodeMaybe(id);
     if (!node->sub_7101108624())
         return;
@@ -94,7 +94,7 @@ void Unk_7101118B34::sub_7101118908(Unk_7101106F44* area, u16 id) {
 }
 
 // NON_MATCHING: register allocation; the control flow matches.
-bool Unk_7101118B34::sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area,
+bool System::sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area,
                                     Unk_710110d278::Key* key, u32 size, bool check, f32 value) {
     const u16 id = key->id;
     Unk_7101108460* node = const_cast<Unk_7101108460*>(area->findNodeMaybe(id));

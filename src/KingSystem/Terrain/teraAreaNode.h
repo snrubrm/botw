@@ -6,6 +6,7 @@
 #include <thread/seadAtomic.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -182,62 +183,19 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101106F44, 0xc8);
 
-// Placeholder: the owner of 0x7101118b34 (its `this` is only passed on to the recursive call; called by
-// 0x7101118c40).
-class Unk_7101118B34 {
-public:
-    // Placeholder: an image change queued by sub_71011171D8 / sub_710111731C.
-    struct Entry {
-        Unk_7101106F44* area;
-        ImageTypeMaybe type;
-    };
-
-    // inline-only in the original; name is a guess. The same ring buffer push is inlined into
-    // 0x71011171d8 and 0x710111731c.
-    void pushEntryMaybe(Unk_7101106F44* area, const ImageTypeMaybe& type) {
-        const u32 index = mWriteIndex.increment();
-        mEntries[s32(index % mNumEntries)] = {area, type};
-    }
-
-    // 0x7101118b34 (placeholder name): makes sure `area` and its parents have a type-2 node for `key`
-    // (creating missing ones); with `check`, an existing node only counts if Terrain flag 0x400 is
-    // clear or its image has flag 1, and new nodes get flag 1.
-    bool sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, bool check);
-    // 0x71011176bc (placeholder name): runs sub_71011171D8 (or sub_710111731C if `flag` is false) on
-    // every image of `area`.
-    void sub_71011176BC(Unk_7101106F44* area, bool flag);
-    // 0x7101118908 (placeholder name): when the node with key `id` here and in all four children has a B
-    // value above epsilon, hands the type-2 image to the image resource manager and rebuilds the node.
-    void sub_7101118908(Unk_7101106F44* area, u16 id);
-    // 0x7101118c40 (placeholder name): makes sure `area` has a type-2 node for `key` with image size
-    // `size`, creating parents' nodes first and splitting the image to the children when they cannot all
-    // provide it. True if the node is ready.
-    bool sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, u32 size,
-                        bool check, f32 value);
-    // 0x71011171d8 / 0x710111731c (placeholder names): add / remove a user of the image for `type`; the
-    // first user / the last one queues the image.
-    void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
-    void sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type);
-
-    u8 _0[0x1038];
-    u32 mNumEntries;
-    Entry* mEntries;
-    sead::Atomic<u32> mWriteIndex;
-};
-
 // Placeholder (owner unknown; functions at 0x7101088b24 / 0x7101088bb4): a list of area images
-// (Unk_7101118B34::Entry) whose users are added or removed together, and how many of them are not
+// (System::Entry) whose users are added or removed together, and how many of them are not
 // ready yet.
 class Unk_7101088B24 {
 public:
     // 0x7101088b24 (placeholder name): adds (`add`) or removes a user of every image through `system`
     // (sub_71011171D8 / sub_710111731C) and remembers which.
-    void sub_7101088B24(Unk_7101118B34* system, bool add);
+    void sub_7101088B24(System* system, bool add);
     // 0x7101088bb4 (placeholder name): moves the images that are now ready (flag 4) behind the first
     // mNumPending entries; true when all are ready.
     bool sub_7101088BB4();
 
-    sead::PtrArray<Unk_7101118B34::Entry> mEntries;
+    sead::PtrArray<System::Entry> mEntries;
     u8 _10[0x20 - 0x10];
     u16 mNumPending;
     // 0x7101088b24 stores one bit with bfi.

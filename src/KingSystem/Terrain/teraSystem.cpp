@@ -96,7 +96,7 @@ void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* cente
     sub_7101120598(node, center, size, type);
 }
 
-void Unk_7101088B24::sub_7101088B24(Unk_7101118B34* system, bool add) {
+void Unk_7101088B24::sub_7101088B24(System* system, bool add) {
     if (add) {
         for (auto& entry : mEntries)
             system->sub_71011171D8(entry.area, entry.type);

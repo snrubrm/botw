@@ -277,7 +277,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);
 class Unk_7101106F44;
-class Unk_7101118B34;
 
 // Placeholder: a 2D scale and offset (0x7101128b24).
 struct Unk_7101128B24Transform {
@@ -336,7 +335,7 @@ public:
     void sub_7101133724(Request* request);
 
     // 0x710113625c (declared only; placeholder name): called under the manager lock (0x68).
-    bool sub_710113625C(Unk_7101118B34* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
+    bool sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                         bool a4, void* a5);
     // 0x7101130df0
     ~ImageResourceMgr();
@@ -504,6 +503,13 @@ public:
     u32 _2998;
 };
 
+// Placeholder: the listener System::sub_7101112C94 notifies (slot 0, event 5) before an area node is
+// destroyed (passed through from System::x 0x7101112714).
+class Unk_7101112C94Listener {
+public:
+    virtual void m0(Unk_7101106F44* area, s32 event) = 0;
+};
+
 class System {
 public:
     static System* instance();
@@ -522,12 +528,51 @@ public:
     void sub_7101112B80(s32 a, s32 b, s32 c, s32 d);
     // 0x7101112c30 (placeholder name): stores `vec` in every scene (_2760) and sets its flag 4.
     void sub_7101112C30(const sead::Vector3f& vec);
+    // 0x7101112c94 (placeholder name): destroys `area` and its subtree (children first): waits until its
+    // images are unused, tells `listener`, releases its images from the image resource manager and deletes it.
+    void sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener);
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
     s32 sub_71011188E4() const;
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
     // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
     bool sub_710111F618(s32 index);
+
+    // Renamed from the placeholder System (lane1 s101): the owner of the image change ring at
+    // 0x1038; ImageResourceMgr::sub_710113625C and the System method 0x7101112c94 take it as the System,
+    // and its slot bits (_1334) index ImageResourceMgr::mSystems.
+    // Placeholder: an image change queued by sub_71011171D8 / sub_710111731C.
+    struct Entry {
+        Unk_7101106F44* area;
+        ImageTypeMaybe type;
+    };
+
+    // inline-only in the original; name is a guess. The same ring buffer push is inlined into
+    // 0x71011171d8 and 0x710111731c.
+    void pushEntryMaybe(Unk_7101106F44* area, const ImageTypeMaybe& type) {
+        const u32 index = mWriteIndex.increment();
+        mEntries[s32(index % mNumEntries)] = {area, type};
+    }
+
+    // 0x7101118b34 (placeholder name): makes sure `area` and its parents have a type-2 node for `key`
+    // (creating missing ones); with `check`, an existing node only counts if Terrain flag 0x400 is
+    // clear or its image has flag 1, and new nodes get flag 1.
+    bool sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, bool check);
+    // 0x71011176bc (placeholder name): runs sub_71011171D8 (or sub_710111731C if `flag` is false) on
+    // every image of `area`.
+    void sub_71011176BC(Unk_7101106F44* area, bool flag);
+    // 0x7101118908 (placeholder name): when the node with key `id` here and in all four children has a B
+    // value above epsilon, hands the type-2 image to the image resource manager and rebuilds the node.
+    void sub_7101118908(Unk_7101106F44* area, u16 id);
+    // 0x7101118c40 (placeholder name): makes sure `area` has a type-2 node for `key` with image size
+    // `size`, creating parents' nodes first and splitting the image to the children when they cannot all
+    // provide it. True if the node is ready.
+    bool sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, u32 size,
+                        bool check, f32 value);
+    // 0x71011171d8 / 0x710111731c (placeholder names): add / remove a user of the image for `type`; the
+    // first user / the last one queues the image.
+    void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
+    void sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type);
 
     // 0x90-byte entries; only the scene pointer at +0 is known.
     struct SceneSlot {
