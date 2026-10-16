@@ -4329,7 +4329,13 @@ public:
     bool sub_71009D3DA0() const;
     bool sub_71009D3DC0() const;
     void m128() override;
-    u8 _3610[0x3630 - 0x3610];
+    void m94() override;
+    // 0x71009d5100 (CSV unnamed; not decompiled): called at the end of m94
+    void sub_71009D5100();
+    u8 _3610[0x3618 - 0x3610];
+    /* 0x3618 */ nn::ui2d::Pane* _3618;
+    /* 0x3620 */ nn::ui2d::Pane* _3620;
+    u8 _3628[0x3630 - 0x3628];
     /* 0x3630 */ eui::Animator* _3630;
     /* 0x3638 */ ScreenAppPictureBookUnk* _3638;
     /* 0x3640 */ ScreenAppPictureBookUnk* _3640;

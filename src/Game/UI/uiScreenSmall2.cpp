@@ -80,6 +80,18 @@ Unk_710248ea70::~Unk_710248ea70() {
 }
 
 
+// 0x71009d5088
+void ScreenAppAlbum::m94() {
+    if (_3618 && _3620) {
+        const auto& root = mLayout->GetPane()->GetPosition();
+        const nn::util::Float3 position{-root.x, -root.y, 0.0f};
+        _3618->SetPosition(position);
+        _3620->SetPosition(position);
+    }
+    getStateMachine().run();
+    sub_71009D5100();
+}
+
 // 0x71009d5980
 void ScreenAppAlbum::m128() {
     for (auto* controller : sUnk_71025dc5e0)
