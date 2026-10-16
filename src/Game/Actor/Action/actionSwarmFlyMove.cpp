@@ -1,7 +1,9 @@
 #include "Game/Actor/Action/actionSwarmFlyMove.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_710072A944.h"
+#include "Game/Actor/AI/aiAddSwarmMove.h"
 #include "Game/Actor/actSwarm.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -49,6 +51,48 @@ void SwarmFlyMove::loadParams_() {
     getStaticParam(&mSubAccRateMax_s, "SubAccRateMax");
     getStaticParam(&mMaterialAnimFrame_s, "MaterialAnimFrame");
     getStaticParam(&mMaterialAnimName_s, "MaterialAnimName");
+}
+
+// NON_MATCHING: the original stores the three lerped components one by one (no stp) in a different order.
+bool SwarmFlyMove::sub_7100285AD8() {
+    auto* actor = mActor;
+    sead::Vector3f next;
+    s32 flag = 0;
+    const bool ok = sub_7100729D18(actor, &next, _11c, *mParams.mSpeed_s, &flag, false);
+    if (flag)
+        _128.reset();
+    else
+        _128.update();
+
+    if (_128.value <= 0.0f)
+        _11c = sead::Vector3f::zero;
+    else
+        _11c = next;
+
+    if (!ok && _10c.value >= f32(*mIgnoreSensorTime_s))
+        return false;
+
+    _10c.update();
+    sub_710072A108(static_cast<act::Swarm*>(actor), sead::Vector3f::ey);
+
+    sead::Vector3f target;
+    FlyMoveBase::m32(&target);
+    target += next;
+    _f0 = ksys::util::lerp(_f0, target, 0.2f);
+
+    f32 dist;
+    sead::Vector3f dir;
+    FlyMoveBase::m33(&dir, &dist);
+    _108 = dist;
+    if (next.x <= 0.001f && next.x >= -0.001f && next.y <= 0.001f && next.y >= -0.001f &&
+        next.z <= 0.001f && next.z >= -0.001f) {
+        _fc = ksys::util::lerp(_fc, dir, 1.0f);
+    } else {
+        dir += next;
+        dir.normalize();
+        _fc = ksys::util::lerp(_fc, dir, 0.01f);
+    }
+    return true;
 }
 
 void SwarmFlyMove::calc_() {
