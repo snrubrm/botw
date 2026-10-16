@@ -956,10 +956,15 @@ class Unk_7102502410 {
 public:
     // 0x60-byte entry: a reference-counted SLink user instance with its asset info reader.
     struct Entry {
+        // 0x7101049660 / 0x71010496e8 (vtable 0x71025023f0).
+        virtual ~Entry() { finalize(); }
         // 0x7101049778 (declaration only; placeholder name): per-frame update of the entry.
         void sub_7101049778();
 
-        u8 _0[0x8];
+        // inline-only in the original; name is a guess. The destructor and Unk_7102502410::sub_710104993C
+        // both free the asset info reader and destroy the user instance this way.
+        void finalize();
+
         /* 0x08 */ xlink2::UserInstanceSLink* mUserInstance;
         /* 0x10 */ Unk_7102502950* mAssetInfoReader;
         /* 0x18 */ u32 _18;
@@ -985,6 +990,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7102502410, 0x18);
 // Unk_7102502410::Entry (12 owners destroy it inline).
 class Unk_7102502430 {
 public:
+    // 0x7101049ea0
+    Unk_7102502430();
     // 0x710104a014 / 0x710104a058
     virtual ~Unk_7102502430();
     // 0x710104a098 (placeholder name): stores `owner` and `name` once.
@@ -995,13 +1002,16 @@ public:
     // and puts the user instance to sleep.
     void sub_710104A108();
 
-    /* 0x08 */ bool mIsSet;
-    u8 _9[0x70 - 0x9];
-    /* 0x70 */ sead::SafeString mName;
-    u8 _80[0x90 - 0x80];
-    /* 0x90 */ void* mOwner;
-    /* 0x98 */ Unk_7102502410::Entry* _98;
+    /* 0x08 */ bool mIsSet = false;
+    /* 0x10 */ sead::FixedSafeString<64> _10{sead::SafeString::cEmptyString};
+    /* 0x68 */ u8 _68 = 0;
+    /* 0x70 */ sead::SafeString mName{sead::SafeString::cEmptyString};
+    /* 0x80 */ u64 _80 = 0;
+    /* 0x88 */ u32 _88 = 0;
+    /* 0x90 */ void* mOwner = nullptr;
+    /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102502430, 0xa0);
 
 // Placeholder name: the sound instances the AreaActionBase family (Shielding / Occlusion / Reverb) get from
 // SoundMgr::_a8.
@@ -1172,6 +1182,21 @@ public:
     // Whole allocator 11FC348 passes the heap at 278 to new and the thread constructor.
     sead::Heap* _278;
 };
+
+// Defined here because it needs SoundMgr.
+inline void Unk_7102502410::Entry::finalize() {
+    if (mAssetInfoReader) {
+        SoundMgr::instance()->_60->sub_7101059354(mAssetInfoReader);
+        if (mUserInstance)
+            mUserInstance->setAssetInfoReader(nullptr);
+        mAssetInfoReader = nullptr;
+        _18 = 0;
+    }
+    if (mUserInstance) {
+        mUserInstance->destroy();
+        mUserInstance = nullptr;
+    }
+}
 
 // Sound helper 105DF10 forwards a label to the dialogue sound user instance.
 xlink2::HandleSLink sub_710105DF10(const sead::SafeString& label);

@@ -13,6 +13,14 @@ Unk_7102502410::~Unk_7102502410() {
     sub_710104993C();
 }
 
+void Unk_7102502410::sub_710104993C() {
+    if (!mEntries.isBufferReady())
+        return;
+    for (s32 i = 0; i < mEntries.size(); ++i)
+        mEntries[i].finalize();
+    mEntries.freeBuffer();
+}
+
 void Unk_7102502410::sub_7101049C60() {
     for (s32 i = 0; i < mEntries.size(); ++i) {
         Entry& entry = mEntries[i];
@@ -25,6 +33,8 @@ void Unk_7102502410::sub_7101049C60() {
         }
     }
 }
+
+Unk_7102502430::Unk_7102502430() = default;
 
 Unk_7102502430::~Unk_7102502430() {
     sub_710104A0D4();
