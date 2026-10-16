@@ -805,3 +805,28 @@ Unk_710250c6d8* ksys::act::Unk_71024dd490::sub_71010C7DB8(phys::RigidBody* const
     }
     return element;
 }
+
+namespace ksys::world {
+
+void ChemicalMgr::x_2(const sead::Vector3f* dir, f32* value, act::Unk_71024dd1c8* holder,
+                      act::Chemical* chemical) {
+    if (!holder || !chemical)
+        return;
+    auto* element = sead::DynamicCast<Unk_7102518688>(holder->_10);
+    auto* owner = sead::DynamicCast<act::Unk_71024e6428>(chemical->_18);
+    if (!element || !owner || !element->mRigidBody || !owner->_278(0).body)
+        return;
+
+    sead::BoundBox3f element_box;
+    element->mRigidBody->getAabbInWorld(&element_box);
+    sead::BoundBox3f owner_box;
+    owner->_278(0).body->getAabbInWorld(&owner_box);
+    const f32 height = sead::Mathf::clamp(element_box.getMax().y - owner_box.getMin().y, 0.0f, 2.0f);
+    const f32 base = height * 0.5f;
+    const f32 t = _cf0 * 3.0f;
+    const f32 wave = std::sin(t * 3.0f) * std::sin(t * 50.0f) * std::sin(t * 7.0f) + 2.0f;
+    const f32 exponent = wave > 0.0f ? wave : -wave;
+    *value *= std::pow(base, exponent);
+}
+
+}  // namespace ksys::world

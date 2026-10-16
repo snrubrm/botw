@@ -295,6 +295,10 @@ public:
     ChemicalMgr();
     ~ChemicalMgr() override;
 
+    // lane1 s95: 0x71010cc38c (CSV wm::ChemicalMgr::x_2). Scales *value by how far the element body
+    // reaches above the chemical owner's first body (flickering with _cf0). `dir` is not used.
+    void x_2(const sead::Vector3f* dir, f32* value, act::Unk_71024dd1c8* holder, act::Chemical* chemical);
+
     // m3: sets the position of the actor at `_d88`; m4: `_b10 = 0`; m2: forwards `arg` to
     // sub_71010CBF7C with the element holder `_ae8` (null without one).
     void m3(const sead::Vector3f* pos) override;
@@ -356,7 +360,10 @@ public:
     Unk_71010cb39c _b20;
     Unk_71010cb0b8 _b98;
     Unk_71010cb1f0 _c10;
-    u8 _c80[0xcf8 - 0xc80];
+    u8 _c80[0xcf0 - 0xc80];
+    // lane1 s95: a time value; x_2 uses it to flicker the result.
+    f32 _cf0;
+    u8 _cf4[0xcf8 - 0xcf4];
     WorldMgrStruct0_8_a _cf8;
     // The actor whose chemical state is put to sleep on unload (acquireActor in unload2).
     act::BaseProcLink _d88;
