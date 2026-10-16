@@ -785,4 +785,12 @@ ScreenChild* sub_7100A32F3C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247b428(layout_ex);
 }
 
+// 0x7100a33134
+ScreenChild* sub_7100A33134(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247a028(layout_ex);
+}
+
 }  // namespace uking::ui

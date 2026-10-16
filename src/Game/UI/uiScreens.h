@@ -273,6 +273,56 @@ public:
 };
 static_assert(sizeof(ScreenChildEx) == 0x130);
 
+// ScreenChildEx children made by the control creators below (placeholder classes named after their vtables; the
+// constructors are not decompiled, only their sizes are known).
+// sub_7100A233EC creates it (0x1f0 bytes, ctor 0x71009b0818).
+class Unk_710247a6d8 : public ScreenChildEx {
+public:
+    explicit Unk_710247a6d8(eui::LayoutEx* layout);
+    u8 _130[0x1f0 - 0x130];
+};
+static_assert(sizeof(Unk_710247a6d8) == 0x1f0);
+
+// sub_7100A2C3D8 creates it (0x130 bytes, ctor 0x71009b17a4).
+class Unk_710247aa50 : public ScreenChildEx {
+public:
+    explicit Unk_710247aa50(eui::LayoutEx* layout);
+};
+static_assert(sizeof(Unk_710247aa50) == 0x130);
+
+// sub_7100A2C4D4 creates it (0x170 bytes, ctor 0x71009bc268).
+class Unk_710247b960 : public ScreenChildEx {
+public:
+    explicit Unk_710247b960(eui::LayoutEx* layout);
+    u8 _130[0x170 - 0x130];
+};
+static_assert(sizeof(Unk_710247b960) == 0x170);
+
+// sub_7100A33134 creates it (0xd98 bytes, ctor 0x71009af944).
+class Unk_710247a028 : public ScreenChildEx {
+public:
+    explicit Unk_710247a028(eui::LayoutEx* layout);
+    u8 _130[0xd98 - 0x130];
+};
+static_assert(sizeof(Unk_710247a028) == 0xd98);
+
+// sub_7100A513A4 creates it (0x1e8 bytes, ctor 0x71009c1edc).
+class Unk_710247ca18 : public ScreenChildEx {
+public:
+    explicit Unk_710247ca18(eui::LayoutEx* layout);
+    u8 _130[0x1e8 - 0x130];
+};
+static_assert(sizeof(Unk_710247ca18) == 0x1e8);
+
+// sub_7100A5159C creates it (0x140 bytes, ctor 0x71009c2a40).
+class Unk_710247cd70 : public ScreenChildEx {
+public:
+    explicit Unk_710247cd70(eui::LayoutEx* layout);
+    u8 _130[0x140 - 0x130];
+};
+static_assert(sizeof(Unk_710247cd70) == 0x140);
+
+
 
 // A state of Unk_710247af10's state machine (a plain StateBase object; uiScreenChildStates.h).
 extern const ksys::StateBase sUnk_71025d9960;

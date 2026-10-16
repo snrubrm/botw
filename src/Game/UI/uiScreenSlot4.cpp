@@ -1,3 +1,5 @@
+#include "Game/UI/uiScreenControlCreators.h"
+#include "Game/UI/uiShopItemElementChildren.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
@@ -125,6 +127,14 @@ bool ScreenShopBtnList20::sub_7100A4CEF0() const {
 // 0x7100a51368
 bool ScreenShopHorse::isEnableControl() const {
     return 1;
+}
+
+// 0x7100a514a0
+ScreenChild* sub_7100A514A0(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247d0c8(layout_ex);
 }
 
 // 0x7100a00048
@@ -335,6 +345,22 @@ f32 ScreenMainScreen::sub_7100A1AB68() const {
 // 0x7100a1ab94
 void ScreenMainScreen::sub_7100A1AB94() {
     _3678.sub_7100936254(getAnimationStep_(), false);
+}
+
+// 0x7100a513a4
+ScreenChild* sub_7100A513A4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247ca18(layout_ex);
+}
+
+// 0x7100a5159c
+ScreenChild* sub_7100A5159C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247cd70(layout_ex);
 }
 
 }  // namespace uking::ui

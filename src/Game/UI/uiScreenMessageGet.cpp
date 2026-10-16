@@ -1,3 +1,4 @@
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiTagProcessor.h"
 
@@ -24,6 +25,14 @@ namespace uking::ui {
 // the game's TagProcessor, placeholder name)
 TagProcessor* sub_7100A23ED8(nn::font::TagProcessorBase<u16>* processor) {
     return nn::font::DynamicCast<TagProcessor>(processor);
+}
+
+// 0x7100a233ec
+ScreenChild* sub_7100A233EC(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
+    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
+    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
+        return nullptr;
+    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247a6d8(layout_ex);
 }
 
 }  // namespace uking::ui
