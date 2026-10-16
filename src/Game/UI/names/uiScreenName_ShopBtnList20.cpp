@@ -25,7 +25,5 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102496ec8(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102496f20::getEntries() const {
     return &sUnk_7102496ec8;
 }
-// 0x7100a4b688
-Unk_7102496f20::~Unk_7102496f20() = default;
 
 }  // namespace uking::ui

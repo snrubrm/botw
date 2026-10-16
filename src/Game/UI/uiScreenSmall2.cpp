@@ -2901,8 +2901,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248e3b0(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248e4e0::getEntries() const {
     return &sUnk_710248e3b0;
 }
-// 0x7100a1713c
-Unk_710248e4e0::~Unk_710248e4e0() = default;
 
 ScreenChild* sub_7100A17160(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
@@ -2965,8 +2963,6 @@ ScreenChild* sub_7100A17844(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248ea90::getEntries() const {
     return nullptr;
 }
-// 0x7100a1ec2c
-Unk_710248ea90::~Unk_710248ea90() = default;
 
 }  // namespace uking::ui
 

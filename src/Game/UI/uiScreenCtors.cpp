@@ -273,8 +273,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102480a88(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102480ab0::getEntries() const {
     return &sUnk_7102480a88;
 }
-// 0x71009dbe54
-Unk_7102480ab0::~Unk_7102480ab0() = default;
 
 // ScreenShopInfo creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_71024981e8[] = {
@@ -288,8 +286,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_71024981d8(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102498248::getEntries() const {
     return &sUnk_71024981d8;
 }
-// 0x7100a51380
-Unk_7102498248::~Unk_7102498248() = default;
 
 // ScreenSkip creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_7102498840[] = {
@@ -300,8 +296,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102498830(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102498858::getEntries() const {
     return &sUnk_7102498830;
 }
-// 0x7100a53584
-Unk_7102498858::~Unk_7102498858() = default;
 
 // ScreenSousaGuide creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_7102498e00[] = {
@@ -312,7 +306,5 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102498df0(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102498e18::getEntries() const {
     return &sUnk_7102498df0;
 }
-// 0x7100a5397c
-Unk_7102498e18::~Unk_7102498e18() = default;
 
 }  // namespace uking::ui

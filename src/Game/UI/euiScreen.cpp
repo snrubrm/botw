@@ -25,15 +25,15 @@
 namespace eui {
 
 // 0x7100bead1c
-// NON_MATCHING: result counter initialization, temporary placement and the out-of-line creator destructor call differ.
+// NON_MATCHING: the original inlines the creator destructor; an inline ControlCreator destructor drops the
+// out-of-line D1 at 0x7100bd8c20 (clang aliases it to the SDK base D2).
 void Screen::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     ControlCreator creator(mButtonGroup, &mControls, &_50);
-    auto* messages = mMgr->getMessageMgr();
-    TextSearcher searcher(messages->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = mMgr->getMessageMgr()->getLayoutMessageSet(getMessageName_());
+    TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
 }
 
 // 0x7100be8f80

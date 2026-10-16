@@ -37,7 +37,8 @@ ScreenChild* sub_7100A5159C(const nn::ui2d::ControlSrc&, eui::LayoutEx*);
 class Unk_71024803b8 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_71024803b8() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_71024803b8() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -45,7 +46,8 @@ public:
 class Unk_7102480ab0 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102480ab0() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_7102480ab0() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -62,7 +64,8 @@ public:
 class Unk_7102481828 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102481828() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_7102481828() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -70,7 +73,8 @@ public:
 class Unk_710248d2a8 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_710248d2a8() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_710248d2a8() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -78,7 +82,8 @@ public:
 class Unk_710248e4e0 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_710248e4e0() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_710248e4e0() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -86,7 +91,8 @@ public:
 class Unk_710248ea90 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_710248ea90() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_710248ea90() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -94,7 +100,8 @@ public:
 class Unk_710248f740 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_710248f740() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_710248f740() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -102,7 +109,8 @@ public:
 class Unk_71024923e0 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_71024923e0() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_71024923e0() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -110,7 +118,8 @@ public:
 class Unk_71024934f8 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_71024934f8() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_71024934f8() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -118,7 +127,8 @@ public:
 class Unk_7102496f20 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102496f20() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_7102496f20() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -126,7 +136,8 @@ public:
 class Unk_7102498248 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102498248() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_7102498248() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -134,7 +145,8 @@ public:
 class Unk_7102498858 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102498858() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_7102498858() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 
@@ -142,7 +154,8 @@ public:
 class Unk_7102498e18 : public Unk_7102485000 {
 public:
     using Unk_7102485000::Unk_7102485000;
-    ~Unk_7102498e18() override;
+    // Inline: the doBuildLayout_ that uses it calls the base destructor directly.
+    ~Unk_7102498e18() override = default;
     const sead::Buffer<const ChildControlCreatorEntry>* getEntries() const override;
 };
 

@@ -23,15 +23,13 @@
 namespace uking::ui {
 
 // 0x71009d9c40
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenAppCamera::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_71024803b8 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
@@ -149,8 +147,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102481758(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481828::getEntries() const {
     return &sUnk_7102481758;
 }
-// 0x71009e7f3c
-Unk_7102481828::~Unk_7102481828() = default;
 
 ScreenChild* sub_71009E7F60(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);

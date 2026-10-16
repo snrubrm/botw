@@ -19,132 +19,112 @@ namespace uking::ui {
 
 // ScreenAppMap
 // 0x71009dc5a8
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenAppHome::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102480ab0 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a11dbc
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenMainScreen3D::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_710248d2a8 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a1fad4
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenMainShortCut::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_710248ea90 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a2424c
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenMessageGet::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_710248f740 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a2cd50
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenPauseMenuInfo::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_71024923e0 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a350e0
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenPauseMenu::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_71024934f8 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a4bdec
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenShopBtnList20::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102496f20 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a51a98
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenShopInfo::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102498248 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a536b4
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenSkip::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102498858 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a54040
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenSousaGuide::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102498e18 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
@@ -197,28 +177,24 @@ void ScreenAppMap::sub_71009EAB28() {
 }
 
 // 0x71009ea064
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenAppMap::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_7102481828 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
 // 0x7100a18350
-// NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
-// the stack slots / load order around it differ.
 void ScreenMainScreen::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_710248e4e0 creator(mButtonGroup, &mControls, &_50);
-    eui::TextSearcher searcher(eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_()), mTagProcessor);
-    auto* device = sead::GraphicsNvn::instance()->getNnDevice();
-    nn::ui2d::Layout::BuildOption options{};
+    auto* messages = eui::MessageMgr::instance()->getLayoutMessageSet(getMessageName_());
+    eui::TextSearcher searcher(messages, mTagProcessor);
     nn::ui2d::BuildResultInformation result;
-    mLayout->BuildWithName(&result, device, accessor, &creator, &searcher, options, name.cstr(), false);
+    mLayout->BuildWithName(&result, sead::GraphicsNvn::instance()->getNnDevice(), accessor, &creator, &searcher,
+                           nn::ui2d::Layout::BuildOption{}, name.cstr(), false);
     sub_71010ABF8C(creator.getEntries());
 }
 
@@ -585,8 +561,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102480378(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024803b8::getEntries() const {
     return &sUnk_7102480378;
 }
-// 0x71009d7174
-Unk_71024803b8::~Unk_71024803b8() = default;
 
 // 0x71009d7198
 ScreenChild* sub_71009D7198(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {

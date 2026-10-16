@@ -797,8 +797,6 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_71024934a0(sUnk_7
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024934f8::getEntries() const {
     return &sUnk_71024934a0;
 }
-// 0x7100a32f18
-Unk_71024934f8::~Unk_71024934f8() = default;
 
 // 0x7100a32f3c
 ScreenChild* sub_7100A32F3C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
