@@ -450,6 +450,21 @@ void Screen::sub_71010ABDA8(eui::AnimButton* button) {
         child.m66(button);
 }
 
+// 0x71010aaaac (CSV Screen::m74)
+// NON_MATCHING: regalloc: the original reloads the animator pointer from the array after the cast
+void Screen::m74(f32 progress) {
+    if (_270 < progress)
+        m76();
+    if (_278.size() >= 1) {
+        for (auto& animator : _278) {
+            if (auto* layout = nn::font::DynamicCast<eui::LayoutEx>(animator.mLayout))
+                sub_71010B6638(&animator, nullptr, layout->_70, _270 + 1.0f, progress + 1.0f);
+        }
+    } else {
+        sub_71010B6638(mLayout->mOpenAnimator, mLayout->mCloseAnimator, mLayout->_70, _270, progress);
+    }
+}
+
 // 0x71010aac10 (CSV Screen::m75)
 // NON_MATCHING: scheduling: the original loads _270 before the animator pointers
 void Screen::m75(f32 progress, const sead::SafeString& name) {

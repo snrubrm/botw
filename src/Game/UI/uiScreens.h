@@ -389,6 +389,7 @@ public:
     virtual void m71();
     virtual s32 m72();
     virtual void m73(f32 value);
+    // 0x71010aaaac: like m75 for the screen layout, or for each animator of _278 (one frame later)
     virtual void m74(f32 progress);
     // 0x71010aac10: calls m76 when `progress` passes _270, then hands the open / close / loop animators of the parts
     // layout `name` to sub_71010B6638
