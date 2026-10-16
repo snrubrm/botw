@@ -199,6 +199,28 @@ void sub_7100FFEBE0(const RemainsBossBgmType& type) {
         boss_bgm->sub_7101000514();
 }
 
+void sub_7100FFECB0(const RemainsBossBgmType& type) {
+    Bgm* bgm;
+    switch (type) {
+    case RemainsBossBgmType::Wind:
+        bgm = getControllerBgm(BgmKind::_27);
+        break;
+    case RemainsBossBgmType::Fire:
+        bgm = getControllerBgm(BgmKind::_29);
+        break;
+    case RemainsBossBgmType::Elec:
+        bgm = getControllerBgm(BgmKind::_28);
+        break;
+    case RemainsBossBgmType::Water:
+        bgm = getControllerBgm(BgmKind::_30);
+        break;
+    default:
+        return;
+    }
+    if (auto* boss_bgm = sead::DynamicCast<Unk_71024fd448>(bgm))
+        boss_bgm->sub_71010007B4();
+}
+
 bool sub_7100FFED80() {
     auto* sound = SoundMgr::instance();
     if (!sound)

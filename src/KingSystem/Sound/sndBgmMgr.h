@@ -485,6 +485,8 @@ class TutorialDungeonBattleBgmInfo;
 SEAD_ENUM(RemainsBossBgmType, Wind, Fire, Elec, Water)
 // 0x7100ffebe0: calls Unk_71024fd448::sub_7101000514 on the Remains boss BGM of `type` (kinds 27..30).
 void sub_7100FFEBE0(const RemainsBossBgmType& type);
+// 0x7100ffecb0: calls Unk_71024fd448::sub_71010007B4 (stop) on the Remains boss BGM of `type`.
+void sub_7100FFECB0(const RemainsBossBgmType& type);
 
 // The argument of allocBgm (0x7100ff6e2c, which switches on `kind` and passes it on to the constructors).
 struct BgmInitArg {
