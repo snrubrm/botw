@@ -97,6 +97,47 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
     mLock.writeUnlock();
 }
 
+// NON_MATCHING: the original's inlined image lookup calls the non-const getA (0x7101107e90; our non-const
+// getImageMaybe goes through the const one, which sub_71011339D0 needs) and register allocation differs.
+bool System::Unk_710111E168::sub_710111E168(Unk_7101106F44* area) {
+    System* sys = system;
+    if (!area->sub_710111FAFC(sUnk_7101EC54AC, no_child)) {
+        if (auto* image = area->getImageMaybe(sUnk_7101EC54AC))
+            image->_8 |= 0x40;
+    } else if (!Terrain::instance()->sub_710114D928(sys, area, sUnk_7101EC54AC)) {
+        if (auto* image = area->getImageMaybe(sUnk_7101EC54AC))
+            image->_8 |= 0x40;
+    }
+    if (!area->sub_710111FAFC(sUnk_7101EC54B4, no_child)) {
+        if (auto* image = area->getImageMaybe(sUnk_7101EC54B4))
+            image->_8 |= 0x40;
+    } else if (!Terrain::instance()->sub_710114D928(sys, area, sUnk_7101EC54B4)) {
+        if (auto* image = area->getImageMaybe(sUnk_7101EC54B4))
+            image->_8 |= 0x40;
+    }
+    for (auto* node : area->mNodes) {
+        const ImageTypeMaybe type = makeImageTypeMaybe(2, node->sub_7101108614());
+        if (!area->sub_710111FAFC(type, no_child)) {
+            if (auto* image = area->getImageMaybe(type))
+                image->_8 |= 0x40;
+        } else if (!Terrain::instance()->sub_710114D928(sys, area, type)) {
+            if (auto* image = area->getImageMaybe(type))
+                image->_8 |= 0x40;
+        }
+    }
+    for (auto* image3 : area->mImages) {
+        const ImageTypeMaybe type = image3->getImageType();
+        if (!area->sub_710111FAFC(type, no_child)) {
+            if (auto* image = area->getImageMaybe(type))
+                image->_8 |= 0x40;
+        } else if (!Terrain::instance()->sub_710114D928(sys, area, type)) {
+            if (auto* image = area->getImageMaybe(type))
+                image->_8 |= 0x40;
+        }
+    }
+    return false;
+}
+
 void System::sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener) {
     area->sub_7101107768();
     for (auto* child : area->mChildren) {

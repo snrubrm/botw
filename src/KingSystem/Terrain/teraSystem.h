@@ -608,6 +608,17 @@ public:
     void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
     void sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type);
 
+    // Placeholder: the context loadScene 0x710111e04c and 0x710111e960 pass (as a member-function
+    // delegate) to the area tree walk 0x7101107db0.
+    struct Unk_710111E168 {
+        // 0x710111e168 (placeholder name): flags (0x40) every image of `area` that the node or its
+        // children cannot provide or whose file is missing. Always returns false (keep walking).
+        bool sub_710111E168(Unk_7101106F44* area);
+
+        System* system;
+        bool no_child;
+    };
+
     // 0x90-byte entries; only the scene pointer at +0 is known.
     struct SceneSlot {
         Scene* scene;
