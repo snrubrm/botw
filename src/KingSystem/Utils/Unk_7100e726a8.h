@@ -23,3 +23,20 @@ struct Unk_7100e726a8 {
     f32 _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e726a8, 0x40);
+
+// Placeholder name: like Unk_7100e726a8 with the six settings stored inline (0x7100e72478);
+// HorseRiddenByPlayer keeps one at +0x210.
+struct Unk_7100e72478 {
+    f32 sub_7100E72478(f32 value);
+
+    f32 _0;
+    f32 _4;
+    f32 _8;
+    f32 _c;
+    f32 _10;
+    f32 _14;
+    f32 _18;
+    f32 _1c;
+    f32 _20;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100e72478, 0x24);

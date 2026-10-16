@@ -12,3 +12,14 @@ struct Unk_7100e7277c {
     f32 _8;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e7277c, 0x10);
+
+// Placeholder name: a scalar smoother with an inline coefficient (0x7100e726e0); HorseRiddenByPlayer
+// keeps one at +0x234.
+struct Unk_7100e726e0 {
+    // Moves _4 towards `target` by the frame-rate independent factor (1 - _0) ^ delta.
+    void sub_7100E726E0(f32 target);
+
+    f32 _0;
+    f32 _4;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100e726e0, 0x8);
