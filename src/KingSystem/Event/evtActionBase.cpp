@@ -1,6 +1,7 @@
 #include "KingSystem/Event/evtAction.h"
 #include "KingSystem/Event/evtActionContext.h"
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/Event/evtEventFlow.h"
 
 namespace ksys::evt {
 
@@ -20,6 +21,14 @@ void ActionBase::m5(ActionContext* context, const evfl::ActionArg& arg) {
     context->setStatus1(arg);
     context->x_3(&mActor->mLink);
     _718 = 0;
+}
+
+// 0x7100da6cb4
+void ActionBase::m6(ActionContext* context, const evfl::ActionArg& arg) {
+    context->setStatus1_0(arg);
+    if (mActor->mActorSet->mFlow->m10(arg))
+        context->_af4 |= 8;
+    context->sub_7100DA53E4(&mActor->mLink);
 }
 
 // 0x7100da6fe8

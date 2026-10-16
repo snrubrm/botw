@@ -65,8 +65,8 @@ void* EventFlowBase::m7() {
 void EventFlowBase::m8() {}
 
 // 0x7100db8cac (CSV evt::EventFlowBase::m10)
-s32 EventFlowBase::m10() {
-    return 0;
+bool EventFlowBase::m10(const evfl::ActionArg& arg) {
+    return false;
 }
 
 // 0x7100db627c
@@ -279,6 +279,11 @@ f32 EventFlowTimeline::getFrameCount() const {
     if (!_628)
         return 0.0f;
     return _628->GetTime();
+}
+
+// 0x7100dbd388: whether the action's clip ends at or after the end of the timeline
+bool EventFlowTimeline::m10(const evfl::ActionArg& arg) {
+    return arg.res.clip->start_time + arg.res.clip->duration >= _628->GetTimeline()->duration;
 }
 
 // 0x7100dbccd8 (CSV evt::EventFlowTimeline::start)

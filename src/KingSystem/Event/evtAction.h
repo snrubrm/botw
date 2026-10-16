@@ -30,8 +30,8 @@ public:
     virtual void m4(Slot* slot, const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) = 0;
     // 0x7100da6c58 (CSV evt::ActionBase::m5)
     virtual void m5(ActionContext* context, const evfl::ActionArg& arg);
-    // 0x7100da6cb4 (CSV evt::ActionBase::m6). Not decompiled.
-    virtual void m6(ActionContext* context, const evfl::ActionArg& arg) = 0;
+    // 0x7100da6cb4 (CSV evt::ActionBase::m6)
+    virtual void m6(ActionContext* context, const evfl::ActionArg& arg);
     // 0x7100da7ed4 (CSV evt::ActionBase::m7_null)
     virtual void m7();
     // 0x7100da6d24 (CSV evt::ActionBase::play). Not decompiled.

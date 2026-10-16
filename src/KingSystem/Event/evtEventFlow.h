@@ -139,7 +139,9 @@ public:
     virtual void* m7();                        // returns nullptr
     virtual void m8();                         // empty
     virtual void printStatus(sead::BufferedSafeString* out);
-    virtual s32 m10();  // returns 0 (EventFlowTimeline overrides it with an argument)
+    // returns false (EventFlowTimeline compares the action's time with the timeline's); ActionBase::m6 sets bit 3 of
+    // the context's _af4 when it is true
+    virtual bool m10(const evfl::ActionArg& arg);
     virtual void m11() = 0;
     virtual void m12() = 0;
     virtual void m13() = 0;  // start
@@ -264,6 +266,7 @@ public:
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
     void* m7() override;
+    bool m10(const evfl::ActionArg& arg) override;
     void m13() override;
     bool m14() override;
     void m15() override;
