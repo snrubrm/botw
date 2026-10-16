@@ -23,12 +23,18 @@ public:
     // 0x7100f06904 (declaration only; placeholder name)
     void sub_710F06904(map::PlacementMgr* mgr, bool a);
     bool x_9();
+    // 0x7100f03af0 (CSV ForestRenderer::stopped): true unless the renderer has reached state 5 with _220 set in
+    // a non-debug, non-dungeon stage (or the final trial); in state 6 it is true if bit 0 of _50 is set and
+    // _60 > 3.
+    bool stopped();
 
     sead::CriticalSection mCS;
     u64 _48;
     u32 _50;
     s32 _54;
-    u8 _58[0x220 - 0x58];
+    u8 _58[0x60 - 0x58];
+    s32 _60;
+    u8 _64[0x220 - 0x64];
     u32 _220;
 };
 

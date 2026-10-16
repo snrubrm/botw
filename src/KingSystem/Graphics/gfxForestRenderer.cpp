@@ -13,4 +13,14 @@ bool ForestRenderer::x_9() {
     return false;
 }
 
+// NON_MATCHING: the original copies this to x8 and sets the false result in w0 before the state 6 test.
+bool ForestRenderer::stopped() {
+    if (_54 >= 5 && _220 != 0) {
+        const bool stage = StageInfo::sIsNotDebugStageAndNotDungeon | StageInfo::sIsFinalTrial;
+        if (stage)
+            return _54 == 6 && (_50 & 1) != 0 && _60 > 3;
+    }
+    return true;
+}
+
 }  // namespace ksys::gfx
