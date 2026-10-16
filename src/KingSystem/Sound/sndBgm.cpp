@@ -11,7 +11,7 @@ sead::SafeString sStr_AssassinBossBgmMain = "main";
 
 Unk_710260f048::Unk_710260f048(const BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_AssassinBossBgm, nullptr);
-    mInfo = static_cast<AssassinSeniorBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_12));
+    mInfo = static_cast<AssassinSeniorBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::AssassinSeniorBgm));
 }
 
 void Unk_710260f048::m5() {

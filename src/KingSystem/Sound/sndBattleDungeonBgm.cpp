@@ -568,7 +568,7 @@ sead::SafeString sStr_maze = "maze";
 Unk_71024fd188::Unk_71024fd188(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_BigMazeBgm, nullptr);
     mInfo = static_cast<ksys::snd::BigMazeBgmInfo*>(
-        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_6));
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::BigMazeBgm));
 }
 
 Unk_71024fd188::~Unk_71024fd188() = default;
@@ -676,7 +676,7 @@ void Unk_710260f2a8::m13(f32 fade_sec) {
 Unk_71024fd6c8::Unk_71024fd6c8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonBattleBgm, nullptr);
     mInfo = static_cast<ksys::snd::DungeonBattleBgmInfo*>(
-        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_21));
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonBattleBgm));
 }
 
 Unk_71024fd6c8::~Unk_71024fd6c8() = default;
@@ -703,7 +703,7 @@ Unk_71024fd808::Unk_71024fd808(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
     _1b8 = 0.8108108f;
     _198 = 9.72973f;
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonNormalBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_19);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonNormalBgm);
 }
 
 Unk_71024fd808::~Unk_71024fd808() = default;
@@ -727,7 +727,7 @@ Unk_71024fd948::Unk_71024fd948(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
     _1ac = 0.8108108f;
     _198 = 9.72973f;
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonRewardBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_20);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonRewardBgm);
 }
 
 Unk_71024fd948::~Unk_71024fd948() = default;

@@ -40,7 +40,8 @@ private:
     // TODO: 0x7101015628, requires `Sound` and `snd::ResourceMgr`
     sead::DirectResource* loadMusic();
 
-protected:
+public:
+    // Set to the MusicInfoType name by Unk_SoundMgr30_18::init.
     sead::SafeString mBgmTypeName;
 };
 

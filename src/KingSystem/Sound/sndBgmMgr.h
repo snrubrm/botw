@@ -470,9 +470,11 @@ class Bgm;
 // 0x7100ff6e2c (declared only; 1500 B)
 Bgm* allocBgm(const BgmInitArg& arg);
 
-// Index of the music info table of Unk_SoundMgr30_18 (the factory 0x710101b84c creates 0 EnvBgmInfo, 1 HorseBgmInfo,
-// 3 SpotBgmInfo, ...). Spilled and reloaded like a SEAD_ENUM; enumerator names are unknown.
-SEAD_ENUM(MusicInfoType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26)
+// Index of the music info table of Unk_SoundMgr30_18 (the factory 0x710101b84c creates one info per type). Names
+// from the SEAD_ENUM text at 0x7101e246f5 (text function 0x710101caa8; a space before each comma).
+// clang-format off
+SEAD_ENUM(MusicInfoType,EnvBgm ,HorseBgm ,TemperatureBgm ,SpotBgm ,MazeForestBgm ,CastleBgm ,BigMazeBgm ,AnimalMasterBgm ,FieldBattleBgm ,GolemBgm ,GiantBgm ,SandwormBgm ,AssassinSeniorBgm ,GuardianBgm ,GuardianFixedBgm ,DragonBgm ,GanonGrudgeBattleBgm ,EventBgmRemainsElecBattle ,EventBgmRemainsFireBattle ,DungeonNormalBgm ,DungeonRewardBgm ,DungeonBattleBgm ,RemainsNormalBgm ,TutorialDungeonBattleBgm ,GanonBeastBgm ,FinalTrialBossBattleBgm ,EnvPaletteReactiveBgm)
+// clang-format on
 
 // RTTI root at 0x71025ce360; primary vtable at 0x71024fc8a0.
 class Bgm {
@@ -1132,11 +1134,15 @@ struct Unk_SoundMgr30_18 {
     // inline-only in the original; name is a guess (the Bgm constructors 0x7101012918, ... index the table with a
     // spilled enum whose stack slot is shared with later temporaries).
     MusicInfo* getInfo(MusicInfoType type) const { return mInfos[type]; }
+    // inline-only in the original; name is a guess (init 0x710101b79c spills the type for the store like getInfo).
+    void setInfo(MusicInfoType type, MusicInfo* info) { mInfos[type] = info; }
 
     // vtable 0x71024fc950: D1 0x7100ff8c08 (empty), D0 0x7100ff8c0c.
     virtual ~Unk_SoundMgr30_18();
-    // 0x710101b79c (declared only; 176 B): creates and initializes the 27 music infos.
+    // 0x710101b79c: creates and initializes the 27 music infos.
     void init(sead::Heap* heap);
+    // 0x710101b84c (declared only; 1372 B): creates the music info object of `type`.
+    MusicInfo* createInfo(sead::Heap* heap, MusicInfoType type);
 
     sead::SafeArray<MusicInfo*, 27> mInfos{};
 };

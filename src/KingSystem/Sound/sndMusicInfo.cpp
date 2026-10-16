@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndMusicInfo.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 namespace ksys::snd {
 
@@ -522,6 +523,17 @@ void EnvPaletteReactiveBgmInfo::init(sead::Heap* heap) {
                                                      EnvPaletteReactiveBgmEnum(i).text()));
     }
     applySoundResource();
+}
+
+// NON_MATCHING: the original does not set x0 for the createInfo call (x1 = heap, w2 = type), so the factory
+// 0x710101b84c probably is not a member taking `this`; its real form is unknown.
+void Unk_SoundMgr30_18::init(sead::Heap* heap) {
+    for (const auto type : MusicInfoType()) {
+        auto* info = createInfo(heap, type);
+        info->mBgmTypeName = type.text();
+        info->init(heap);
+        setInfo(type, info);
+    }
 }
 
 }  // namespace ksys::snd

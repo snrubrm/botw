@@ -170,7 +170,7 @@ void Unk_71025ce3a0::m6(bool started) {
 
 Unk_710260f2c8::Unk_710260f2c8(const BgmInitArg& arg)
     : Unk_71025ce3a0(arg.handle_type, 2),
-      mInfo(static_cast<EventBgmRemainsElecBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_17))) {
+      mInfo(static_cast<EventBgmRemainsElecBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::EventBgmRemainsElecBattle))) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsElecBattleBgm", nullptr);
 }
 
@@ -222,7 +222,7 @@ void Unk_710260f2c8::hm15() {
 
 Unk_71025ce390::Unk_71025ce390(const BgmInitArg& arg)
     : Unk_71025ce3a0(arg.handle_type, 1),
-      mInfo(static_cast<EventBgmRemainsFireBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_18))) {
+      mInfo(static_cast<EventBgmRemainsFireBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::EventBgmRemainsFireBattle))) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsFireBattleBgm", nullptr);
 }
 

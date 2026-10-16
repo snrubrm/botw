@@ -27,7 +27,7 @@ bool sUnk_710260FD98 = false;
 Unk_71024ff268::Unk_71024ff268(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_CastleBgm, nullptr);
     mInfo = static_cast<ksys::snd::CastleBgmInfo*>(
-        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_5));
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::CastleBgm));
 }
 
 Unk_71024ff268::~Unk_71024ff268() = default;

@@ -14,7 +14,7 @@ const char* sLessonNames[] = {"Lesson1", "Lesson2", "Lesson3", "Lesson4"};
 
 Unk_710260f228::Unk_710260f228(const BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, "DungeonTutorialBgm", nullptr);
-    mInfo = static_cast<TutorialDungeonBattleBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_23));
+    mInfo = static_cast<TutorialDungeonBattleBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::TutorialDungeonBattleBgm));
 }
 
 bool Unk_710260f228::m10() {

@@ -22,7 +22,7 @@ sead::SafeString sStr_GuardianFixedBgmMain = "main";
 Unk_71024feae8::Unk_71024feae8(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     auto* heap = arg.heap;
     Unk_SpotBgmHandle::init(heap, sStr_GuardianFixedBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_14);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GuardianFixedBgm);
     mEntries.tryAllocBuffer(64, heap);
 }
 
@@ -46,7 +46,7 @@ void Unk_71024feae8::hm15() {
 
 Unk_71024fec18::Unk_71024fec18(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, "GanonBeastBgm", nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::_24);
+    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::GanonBeastBgm);
 }
 
 Unk_71024fec18::~Unk_71024fec18() = default;

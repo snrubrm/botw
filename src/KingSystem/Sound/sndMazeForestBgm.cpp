@@ -22,7 +22,7 @@ sead::SafeString sStr_MazeForestBgmGetLost = "GetLost";
 
 Unk_710260f288::Unk_710260f288(const BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_MazeForestBgm, nullptr);
-    mInfo = static_cast<MazeForestBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::_4));
+    mInfo = static_cast<MazeForestBgmInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::MazeForestBgm));
 }
 
 // 0x710260fdf0: the original reads it PC-relative (a TU-local static that something else in the TU writes; no
