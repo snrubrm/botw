@@ -127,6 +127,7 @@ bool Unk_710251b710::sub_71012CE4D8(Unk_710251b6f0* sound) {
 Unk_710251ba58::~Unk_710251ba58() = default;
 
 // NON_MATCHING: the original zeroes the last buffer with one 16-byte store (stp xzr, xzr at 0x78).
+// NON_MATCHING: the original clears the last buffer with one 16-byte store (its size field may be 64-bit).
 Unk_710251bb98::~Unk_710251bb98() {
     _38.freeBuffer();
     _48.freeBuffer();
