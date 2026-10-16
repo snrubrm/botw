@@ -151,6 +151,13 @@ public:
     static void sub_7101120594(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
                                const ImageTypeMaybe& type);
 
+    // 0x7101108860 (placeholder name): finds the node for `pos` (through `system`), then the nearest node
+    // up the tree whose image for `type` is ready and not being unloaded, and takes a reference on that
+    // image. Returns 2 if it is the starting node, 1 for a parent, 0 if none.
+    static s32 sub_7101108860(Unk_7101106F44** out_area, sead::Vector2f* center, f32* size,
+                              const sead::Vector2f& pos, System* system, const ImageTypeMaybe& type,
+                              u32 levels);
+
     // 0x71011080d4 (placeholder name): releases the buffers of the image for `type` (slot 12).
     void sub_71011080D4(const ImageTypeMaybe& type);
 

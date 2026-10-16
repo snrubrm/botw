@@ -147,4 +147,33 @@ bool Unk_7101118B34::sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area,
     return true;
 }
 
+// NON_MATCHING: block order of the failed-reference path.
+s32 Unk_7101106F44::sub_7101108860(Unk_7101106F44** out_area, sead::Vector2f* center, f32* size,
+                                   const sead::Vector2f& pos, System* system,
+                                   const ImageTypeMaybe& type, u32 levels) {
+    *out_area = nullptr;
+    Unk_7101106F44* start = system->sub_7101115218(center, size, pos, levels);
+    sub_71011206E4(&start, center, size, type);
+    if (!start)
+        return 0;
+
+    Unk_7101106F44* area = start;
+    do {
+        sub_7101120594(&area, center, size, type);
+        if (!area)
+            return 0;
+
+        Unk_710250dcd8* image = area->getImageMaybe(type);
+        if (image && (image->_18._4.increment() >> 30) == 0) {
+            *out_area = area;
+            return area == start ? 2 : 1;
+        }
+        if (Unk_710250dcd8* image_ = area->getImageMaybe(type))
+            image_->_18._4.decrement();
+
+        area = area->mParent;
+    } while (area);
+    return 0;
+}
+
 }  // namespace ksys::tera
