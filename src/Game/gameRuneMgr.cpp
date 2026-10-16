@@ -9,6 +9,19 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(RuneMgr)
 
+// NON_MATCHING: the original zeroes each UiTimer as 8-byte blocks before setting `direction` (UiTimer's
+// constructor shape differs from ours).
+RuneMgr::RuneMgr() {
+    _240 = -1;
+    _98.mFlag = false;
+    _e0.mFlag = false;
+    _128.mFlag = false;
+    _170.mFlag = false;
+    _1b8.mFlag = false;
+    _400 = nullptr;
+    _3f8 = nullptr;
+}
+
 RuneMgr::~RuneMgr() {
     if (&_250 == Graphics::instance()->sub_7100F35E54()) {
         Graphics::instance()->sub_7100F2F1E8(&_250);

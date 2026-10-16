@@ -110,23 +110,27 @@ public:
     /* 0x170 */ LockedFlag _170;
     /* 0x1b8 */ LockedFlag _1b8;
     /* 0x200 */ sead::CriticalSection _200;
-    /* 0x240 */ s32 _240;  // current item (guarded by `_200`)
+    /* 0x240 */ s32 _240 = 0;  // current item (guarded by `_200`)
     /* 0x244 */ u8 _244[4];
-    /* 0x248 */ s32 _248;  // selected rune (-1: none)
-    /* 0x24c */ s32 _24c;
+    /* 0x248 */ s32 _248 = -1;  // selected rune (-1: none)
+    /* 0x24c */ s32 _24c = -1;
     // Constructed by the RuneMgr ctor; the dtor unregisters it from Graphics (sub_7100F2F1E8) when
     // it is the current one. _30 is returned by sub_71006754A4, _4c by sub_710067549C; _3c / _40
     // are set with _2a0 by sub_710067623C.
     /* 0x250 */ Unk_7100f35df8 _250;
-    /* 0x2a0 */ sead::Vector2f _2a0;
+    /* 0x2a0 */ sead::Vector2f _2a0{0, 0};
     // The remote bomb tracker (constructed at +0x2a8 by the RuneMgr constructor 0x7100675000).
     /* 0x2a8 */ Unk_710243c698 _2a8;
     // The two UiTimers set by sub_71006757B8 (0x18 bytes each).
     /* 0x3c8 */ ui::UiTimer _3c8[2];
-    /* 0x3f8 */ u8 _3f8[0x408 - 0x3f8];
-    /* 0x408 */ void* _408;  // cleared by the dtor
-    /* 0x410 */ void* _410;  // cleared by the dtor
-    /* 0x418 */ u8 _418[0x428 - 0x418];
+    // Set by the ctor body (no initializer).
+    /* 0x3f8 */ void* _3f8;
+    /* 0x400 */ void* _400;
+    /* 0x408 */ void* _408 = nullptr;  // cleared by the dtor
+    /* 0x410 */ void* _410 = nullptr;  // cleared by the dtor
+    /* 0x418 */ f32 _418 = -1.0f;
+    /* 0x41c */ f32 _41c = -1.0f;
+    /* 0x420 */ f32 _420 = -1.0f;
 };
 KSYS_CHECK_SIZE_NX150(RuneMgr, 0x428);
 
