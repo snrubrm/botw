@@ -319,7 +319,7 @@ bool Unk_7101106F44::init(const InitArg& arg) {
     if (arg.parent && !arg.parent->sub_7101107318(arg.slot, this))
         return false;
 
-    _4 = arg._18;
+    mId = arg._18;
     mDepth = arg.depth;
 
     sead::FixedSafeString<32> name;

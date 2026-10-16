@@ -97,7 +97,7 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
             entry.area = nullptr;
             entry.type = sUnk_7101EC54A8;
         }
-        ++_1335;
+        ++_1334.generation;
     }
     mLock.writeUnlock();
 }
@@ -198,7 +198,7 @@ void System::sub_710111F644(void* value) {
 
 // NON_MATCHING: the original keeps the comparison result in a register before the binary search step
 // and checks the found index after the search.
-System::Entry* System::sub_7101115080(u32 id) const {
+Unk_7101106F44* System::sub_7101115080(u32 id) const {
     if (_1018.size() == 0) {
         for (s32 i = 0; i < _fa8.size(); ++i) {
             if (_fa8.getBufferPtr()[i]->mId == id)
@@ -207,7 +207,7 @@ System::Entry* System::sub_7101115080(u32 id) const {
         return nullptr;
     }
 
-    const s32 idx = _1018.binarySearchC([id](const Entry* entry) {
+    const s32 idx = _1018.binarySearchC([id](const Unk_7101106F44* entry) {
         if (entry->mId < id)
             return -1;
         return entry->mId > id ? 1 : 0;

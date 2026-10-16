@@ -237,7 +237,8 @@ public:
     u8 _1 = 4;
     // Index in tree order; set by sub_7101107F40.
     u16 mIndex = 0xffff;
-    s32 _4 = -1;
+    // Searched by System::sub_7101115080 (unsigned compares).
+    u32 mId = 0xffffffff;
     sead::Vector2f _8{0.0f, 0.0f};
     sead::Vector2f _10{0.0f, 0.0f};
     Unk_7101106F44* mParent = nullptr;

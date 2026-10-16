@@ -1,5 +1,6 @@
 #include "Game/gameUnkRttiClasses.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Terrain/teraAreaNode.h"
 #include <nn/font/font_Util.h>
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAlignPane.h"
@@ -255,7 +256,7 @@ Unk_710251d230::~Unk_710251d230() = default;
 namespace ksys::tera {
 
 // 0x71012eb6e8 / 0x71012eb70c follow Unk_710251d230 in the original.
-void Unk_71012eb6e8::set(System* system, const System::Entry* entry, u16 key) {
+void Unk_71012eb6e8::set(System* system, const Unk_7101106F44* entry, u16 key) {
     mSystem = system;
     mId = entry->mId;
     mIndex = entry->mIndex;
@@ -264,7 +265,7 @@ void Unk_71012eb6e8::set(System* system, const System::Entry* entry, u16 key) {
 }
 
 // NON_MATCHING: the original compares the two id bytes with one ldrh and branches on the final compare.
-bool Unk_71012eb6e8::isValid(System* const* systems, const System::Entry* entry, u16 key) const {
+bool Unk_71012eb6e8::isValid(System* const* systems, const Unk_7101106F44* entry, u16 key) const {
     if (mKey != key)
         return false;
     System* system = systems[mSystemId.slot & 7];

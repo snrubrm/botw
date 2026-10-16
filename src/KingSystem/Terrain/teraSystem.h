@@ -697,22 +697,36 @@ public:
     f32 _24;
     u8 _28[0xd8 - 0x28];
     sead::Buffer<SceneSlot> mScenes;
-    // Placeholder: the resource entries in _fa8 / _1018 (0x71012eb6e8 copies mIndex and mId into a handle).
-    struct Entry {
-        u16 _0;
-        u16 mIndex;
-        u32 mId;
-    };
-    // 0x7101115080 (placeholder name): the entry with id `id`: a binary search of the sorted _1018 when it is not
-    // empty, else a linear search of _fa8.
-    Entry* sub_7101115080(u32 id) const;
+    // 0x7101115080 (placeholder name): the area node with id `id`: a binary search of the sorted _1018
+    // when it is not empty, else a linear search of _fa8.
+    Unk_7101106F44* sub_7101115080(u32 id) const;
 
-    u8 _e8[0xfa8 - 0xe8];
-    sead::Buffer<Entry*> _fa8;
-    u8 _fb8[0x1018 - 0xfb8];
-    // Sorted by Entry::mId.
-    sead::Buffer<Entry*> _1018;
-    u8 _1028[0x1334 - 0x1028];
+    u8 _e8[0xee9 - 0xe8];
+    u8 _ee9;
+    // Number of entries of _fa8 / _ff8 in use (sub_7101112714).
+    u16 _eea;
+    u8 _eec[0xef0 - 0xeec];
+    // Write-locked by System::x 0x7101112714 and sub_7101115158 around scene updates.
+    sead::ReadWriteLock mLock;
+    u8 _ef0_end[0xfa8 - 0xef0 - sizeof(sead::ReadWriteLock)];
+    // Area nodes and their flags (bit 0: sub_7101112714 removes their image users). 0x7101112714 passes
+    // the elements to sub_71011176BC; 0x7101115080 and 0x71012eb70c read their mIndex / mId.
+    sead::Buffer<Unk_7101106F44*> _fa8;
+    u8 _fb8[0xff8 - 0xfb8];
+    sead::Buffer<u8> _ff8;
+    u8 _1008[0x1018 - 0x1008];
+    // The area nodes sorted by mId.
+    sead::Buffer<Unk_7101106F44*> _1018;
+    u8 _1028[0x1038 - 0x1028];
+    // Image change ring (see pushEntryMaybe).
+    s32 mNumEntries;
+    Entry* mEntries;
+    sead::Atomic<u32> mWriteIndex;
+    u32 _104c;
+    // The system's image directory (ImageResourceMgr::sub_7101130FBC copies it through a virtual cstr
+    // call, so it is a buffered string; its buffer is not known).
+    sead::BufferedSafeString _1050;
+    u8 _1068[0x1334 - 0x1068];
     // Two bytes copied together into handles (0x71012eb6e8 ldrh/strh; 0x71012eb70c compares with ldrh).
     // The init function 0x71011113d4 clears both with one strh. 0x7101112714 increments 0x1335 alone
     // with ldrb/strb, and 0x7101131cdc reads 0x1334 alone with ldrb, so these are two byte fields.
@@ -727,13 +741,13 @@ public:
     u32 _1338;
 };
 
-// Placeholder: a handle to a System::Entry (set by 0x71012eb6e8, checked by 0x71012eb70c; ImageResourceMgr
+// Placeholder: a handle to an area node in System::_fa8 (set by 0x71012eb6e8, checked by 0x71012eb70c; ImageResourceMgr
 // keeps them at +0x40 of its requests and +0x20 of other objects).
 struct Unk_71012eb6e8 {
-    void set(System* system, const System::Entry* entry, u16 key);
+    void set(System* system, const Unk_7101106F44* entry, u16 key);
     // Whether the handle still refers to `entry`: same key, its system is systems[slot & 7] with the same
     // id, and the entry at mIndex (or with id mId) is `entry`.
-    bool isValid(System* const* systems, const System::Entry* entry, u16 key) const;
+    bool isValid(System* const* systems, const Unk_7101106F44* entry, u16 key) const;
 
     System* mSystem;
     System::Id mSystemId;
