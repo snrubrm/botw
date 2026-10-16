@@ -629,6 +629,15 @@ Unk_71024fd448* sub_7100FFE520(const ksys::snd::RemainsBossBgmType* type) {
     return sead::DynamicCast<Unk_71024fd448>(bgm);
 }
 
+Unk_7100ffe5ec* sub_7100FFE5EC() {
+    for (auto it = ksys::snd::RemainsBossBgmType::begin(); it != ksys::snd::RemainsBossBgmType::end(); ++it) {
+        const ksys::snd::RemainsBossBgmType type = *it;
+        if (auto* bgm = sub_7100FFE520(&type))
+            return bgm;
+    }
+    return nullptr;
+}
+
 Unk_71024fe970* sub_7100FFEB28() {
     return sead::DynamicCast<Unk_71024fe970>(ksys::snd::getControllerBgm(ksys::snd::BgmKind::_35));
 }
