@@ -5,6 +5,8 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
@@ -64,8 +66,68 @@ void SiteBossSwordAttackBase::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: register allocation (position x / z swapped between w23 and w25).
 void SiteBossSwordAttackBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    const sead::Vector3f up = sead::Vector3f::ey;
+    sub_710073FA94(&_ac, mActor);
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f dir = *mTargetPos_d;
+    dir -= pos;
+    dir.y = 0.0f;
+
+    if (sub_71005DD798(mActor, 0x29, nullptr, 0, 0)) {
+        _a0.lerp(*mRotSpd_s, 0.16f, *mRotSpd_s / 10.0f);
+        _a0.updateStats();
+        sub_710074006C(&_ac, dir, up, true, *mBaseRotRatio_s, _a0.value, _a0.value / 10.0f);
+        const f32 distance = dir.length();
+        if (distance > 0.0f)
+            dir *= 1.0f / distance;
+        const f32 keep_dist = *mKeepDistance_s;
+        if (distance > keep_dist * 1.1f) {
+            const f32 speed = *mMoveSpeed_s;
+            const f32 move = sead::Mathf::min(distance > keep_dist * 2 ? distance * 0.9f : speed, speed);
+            dir *= move * ksys::VFR::instance()->getDeltaFrame();
+            pos += dir;
+        } else if (distance < keep_dist * 0.9f) {
+            const f32 move = sead::Mathf::min(distance, *mMoveSpeed_s);
+            dir *= move * ksys::VFR::instance()->getDeltaFrame();
+            pos -= dir;
+        }
+        controller->sub_7100F5F938(sead::Matrix34f(_ac, pos));
+    } else {
+        sead::Vector3f linear_velocity;
+        sead::Vector3f velocity;
+        controller->sub_7100F635BC(&velocity);
+        velocity *= 0.75f;
+        controller->sub_7100F5FB24(velocity);
+        controller->sub_7100F5F598(&linear_velocity);
+        velocity = linear_velocity;
+        velocity *= *mPosReduceRatio_s;
+        controller->sub_7100F5F6FC(velocity);
+    }
+
+    sub_71005DAB2C(mActor, *mJustAvoidSideDist_s + 2.0f, *mJustAvoidBackDist_s + 2.0f,
+                   *mJustAvoidAngle_s, 0);
+
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0) || sub_71005DD780(mActor, 0x51, &query, 0, 0)) {
+        auto* actor = mActor;
+        const u32 attack_flags = m33();
+        const f32 power = f32(m34());
+        sub_71005D7ADC(actor, 0, attack_flags, &query.name, nullptr, m35(), 1, 0, 1, power, 1.0f);
+    } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
+        sub_71005D79AC(mActor, 0, act::Unk_71002edaec(1));
+    }
+
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool SiteBossSwordAttackBase::isChangeable() const {
