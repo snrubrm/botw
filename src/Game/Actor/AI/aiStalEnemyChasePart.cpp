@@ -29,6 +29,52 @@ void StalEnemyChasePart::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// 0x710059d270
+void StalEnemyChasePart::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("持たれパーツ追跡")) {
+            if (*mIsCarriedByPlayer_d) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("プレイヤ持たれパーツ待機", &pack);
+            } else {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("持たれパーツ待機", &pack);
+            }
+        } else if (isCurrentChild("通常パーツ追跡")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("通常パーツ待機", &pack);
+        } else {
+            setFinished();
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("通常パーツ追跡") || isCurrentChild("持たれパーツ追跡")) {
+            auto* mgr = uking::AutoPlacementMgr::instance();
+            if (mgr && mgr->isNonAutoPlacement(*mTargetPos_d, true)) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("パーツがエリア外", &pack);
+                return;
+            }
+        }
+        if (isCurrentChild("通常パーツ追跡") && *mIsCarried_d) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("持たれパーツ追跡", &pack);
+        } else if (isCurrentChild("持たれパーツ追跡") && !*mIsCarried_d) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("通常パーツ追跡", &pack);
+        }
+    }
+
+    if (!child->isFinished() && !child->isFailed())
+        child->setDynamicParam(*mTargetPos_d, "TargetPos");
+}
+
 void StalEnemyChasePart::leave_() {
     ksys::act::ai::Ai::leave_();
 }
