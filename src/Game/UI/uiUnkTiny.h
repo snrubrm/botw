@@ -472,9 +472,11 @@ class Unk_710247ade8 {
 public:
     Unk_710247ade8();
     virtual ~Unk_710247ade8();
+    // 0x71009b26a0: stops _10 at its start
+    void sub_71009B26A0();
 
     /* 0x08 */ void* _8 = nullptr;
-    /* 0x10 */ void* _10 = nullptr;
+    /* 0x10 */ eui::Animator* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ Unk_71024774c8 _20;
 };

@@ -293,6 +293,8 @@ public:
     void sub_71009B0C24(eui::TraceGaugeControl* gauge);
     // 0x71009b10ec: sets the gauge to `value` out of 120 and closes the _190 layout
     void sub_71009B10EC(s32 value);
+    // 0x71009b1024: forwards to _158.sub_71009B26A0
+    void sub_71009B1024();
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     /* 0x140 */ eui::Animator* _140 = nullptr;

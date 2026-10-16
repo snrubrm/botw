@@ -208,6 +208,12 @@ void Unk_710247a6d8::sub_71009B0EEC(u32 frame) {
         _1d8.sub_71009C697C();
 }
 
+// 0x71009b1024
+// NON_MATCHING: Unk_710247ade8::sub_71009B26A0 is defined in this file and gets inlined
+void Unk_710247a6d8::sub_71009B1024() {
+    _158.sub_71009B26A0();
+}
+
 // 0x71009b10ec
 void Unk_710247a6d8::sub_71009B10EC(s32 value) {
     if (_150) {
@@ -279,6 +285,12 @@ Unk_710247ade8::Unk_710247ade8() = default;
 
 // 0x71009b24e4
 Unk_710247ade8::~Unk_710247ade8() = default;
+
+// 0x71009b26a0
+void Unk_710247ade8::sub_71009B26A0() {
+    if (_10)
+        _10->StopAtMin();
+}
 
 // 0x71009b5fc8
 void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {
