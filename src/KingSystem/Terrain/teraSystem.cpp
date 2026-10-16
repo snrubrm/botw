@@ -233,7 +233,7 @@ u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz,
 
 // inline-only in the original; name is a guess: a 16-bit channel of a texel as 0 - 1 (the same load and
 // scale repeat in 0x7101108c44, 0x710110aa5c and 0x710110b0e8).
-inline f32 channel(const u8* texel, u32 offset) {
+inline f32 texelChannelMaybe(const u8* texel, u32 offset) {
     return *static_cast<const u16*>(sead::PtrUtil::addOffset(texel, offset)) / 65535.0f;
 }
 
@@ -262,14 +262,14 @@ u32 sub_710110B0E8(f32 scale, sead::Vector2f* out, const sead::Vector2f* xz,
         const u8* p10 = data + (row1 + col0);
         const u8* p11 = data + (row1 + col1);
 
-        f32 x0 = channel(p00, 2);
-        f32 x1 = channel(p10, 2);
-        x0 = x0 + (channel(p01, 2) - x0) * texel.fx;
-        f32 y0 = channel(p00, 4);
-        y0 = y0 + (channel(p01, 4) - y0) * texel.fx;
-        const f32 vx = x0 + texel.fy * ((x1 + (channel(p11, 2) - x1) * texel.fx) - x0);
-        const f32 y1 = channel(p10, 4);
-        const f32 vy = y0 + texel.fy * ((y1 + texel.fx * (channel(p11, 4) - y1)) - y0);
+        f32 x0 = texelChannelMaybe(p00, 2);
+        f32 x1 = texelChannelMaybe(p10, 2);
+        x0 = x0 + (texelChannelMaybe(p01, 2) - x0) * texel.fx;
+        f32 y0 = texelChannelMaybe(p00, 4);
+        y0 = y0 + (texelChannelMaybe(p01, 4) - y0) * texel.fx;
+        const f32 vx = x0 + texel.fy * ((x1 + (texelChannelMaybe(p11, 2) - x1) * texel.fx) - x0);
+        const f32 y1 = texelChannelMaybe(p10, 4);
+        const f32 vy = y0 + texel.fy * ((y1 + texel.fx * (texelChannelMaybe(p11, 4) - y1)) - y0);
 
         out->x = vx + vx + -1.0f;
         out->y = vy + vy + -1.0f;
