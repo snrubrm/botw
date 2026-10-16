@@ -3,6 +3,7 @@
 #include <container/seadRingBuffer.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
     void sub_71003D4414();
     // 0x71003d5108 (placeholder name)
@@ -47,9 +49,7 @@ protected:
     sead::FixedRingBuffer<sead::Vector3f, 3> _60;
     sead::Vector3f _98;
     bool _a4{};
-    f32 _a8{};
-    f32 _ac{};
-    f32 _b0{};
+    ksys::Timer _a8;
     u32 _b4{};
 };
 
