@@ -107,6 +107,7 @@ bool Unk_7102450fa8::sub_71007196EC(s32 idx, const sead::Vector3f& pos) {
     return false;
 }
 
+// NON_MATCHING: as sub_71007196EC (ours merges the member range test into one compare)
 // 0x710071984c
 bool Unk_7102450fa8::sub_710071984C(s32 idx, const sead::Matrix34f& mtx) {
     const u32 member = idx - 2;
