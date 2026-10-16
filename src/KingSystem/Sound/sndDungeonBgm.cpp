@@ -327,3 +327,22 @@ void Unk_71024fd948::sub_7101003A74() {
     }
     _1b4 |= 1;
 }
+
+// NON_MATCHING: scheduling of the two floor divisions; the original recomputes this + 0x10 per call.
+void Unk_71024fd948::hm15() {
+    if (_19c == 0.0f || sead::Mathf::floor(_160[1] / _198) != sead::Mathf::floor(_19c / _198)) {
+        if (_19c != 0.0f)
+            ++_1a0;
+        if (_68._18 & 1)
+            sub_71010209FC("Bell");
+        sub_7101003A74();
+        if (sead::GlobalRandom::instance()->getF32() * 100.0f < mInfo->mOddsPlayableString.ref()) {
+            if (_68._18 & 1)
+                sub_71010209FC("Strings");
+            _1b4 |= 2;
+        } else {
+            _1b4 &= ~2;
+        }
+    }
+    _19c = _160[1];
+}

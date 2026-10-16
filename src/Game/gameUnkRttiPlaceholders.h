@@ -2802,7 +2802,8 @@ public:
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
-    // 0x710100390c (declared only; 360 B)
+    // 0x710100390c: every _198 seconds of playing time, plays the bell, two piano parts and (by the info's odds)
+    // the strings.
     void hm15() override;
     // 0x7101003a74: plays two different random piano parts (Piano_00 .. Piano_07).
     void sub_7101003A74();
@@ -2812,7 +2813,8 @@ public:
 
     ksys::snd::DungeonRewardBgmInfo* mInfo = nullptr;
     f32 _198 = 0;
-    u32 _19c = 0;
+    // The playing time of the last hm15 (a new Bell / Piano round starts each _198 seconds).
+    f32 _19c = 0;
     u32 _1a0 = 0;
     u32 _1a4 = 0;
     f32 _1a8 = 0;
