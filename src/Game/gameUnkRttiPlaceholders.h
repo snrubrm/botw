@@ -2470,8 +2470,13 @@ public:
     virtual void m15() {}
     virtual void m16() {}
 
-    /* 0x180 */ sead::SafeString _180;
+    // 0x7101022dec (placeholder name): init with `name`, then stores the asset name `asset` in _180.
+    void sub_7101022DEC(sead::Heap* heap, const sead::SafeString& name, const sead::SafeString& asset);
+
+    // The constructor inlined in Unk_710260f2a8::sub_7101001194 builds a 32-character buffer here (0x1b8 bytes).
+    /* 0x180 */ sead::FixedSafeString<32> _180;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024fd3a0, 0x1b8);
 
 // The concentration (Blood Moon) BGM: one handle (vtable 0x71024fd3a0) and the ducker cBloody.
 class Unk_71024fd318 : public ksys::snd::Bgm {

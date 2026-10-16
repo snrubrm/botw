@@ -205,3 +205,10 @@ Unk_7102500e08::~Unk_7102500e08() {
         delete _28;
     }
 }
+
+void Unk_71024fd3a0::sub_7101022DEC(sead::Heap* heap, const sead::SafeString& name,
+                                    const sead::SafeString& asset) {
+    Unk_SpotBgmHandle::init(heap, name, nullptr);
+    _180.clear();
+    _180.append(asset);
+}
