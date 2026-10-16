@@ -35,7 +35,7 @@ public:
 
     void init(sead::Heap* heap);
     void calc();
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
 
     // Returns nullptr when there is no instance.
     static sead::Controller* getControllerSafe(ControllerIdx idx);

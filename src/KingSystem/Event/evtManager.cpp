@@ -377,22 +377,23 @@ act::BaseProcLink* Manager::getBaseProcLinkForActorOrActiveLink(act::BaseProc* p
 }
 
 // 0x7100db0ea0
-// NON_MATCHING: the original tests the message address against null (cbz); a reference parameter lets clang drop it
-int Manager::handleMessage(const Message& message) {
-    const u32 type = message.getType();
-    if (type - 0x800001 <= 1 && message.getUserData()) {
-        if (auto* link = static_cast<BaseProcLinkForEvent*>(message.getUserData())) {
-            auto* actor = link->acquireActor();
-            if (!actor || !actor->isDeletedOrDeleting()) {
-                CallArg arg;
-                arg._40 = nullptr;
-                arg.proc = actor;
-                arg.metadata = &link->mMetadata;
-                s32 result = 0x1ff;
-                if (doCallEvent(arg, &result)) {
-                    if (result != 500)
-                        _1d2f4 |= 0x100;
-                    link->reset();
+int Manager::handleMessage(const Message* message) {
+    if (message) {
+        const u32 type = message->getType();
+        if (type - 0x800001 <= 1 && message->getUserData()) {
+            if (auto* link = static_cast<BaseProcLinkForEvent*>(message->getUserData())) {
+                auto* actor = link->acquireActor();
+                if (!actor || !actor->isDeletedOrDeleting()) {
+                    CallArg arg;
+                    arg._40 = nullptr;
+                    arg.proc = actor;
+                    arg.metadata = &link->mMetadata;
+                    s32 result = 0x1ff;
+                    if (doCallEvent(arg, &result)) {
+                        if (result != 500)
+                            _1d2f4 |= 0x100;
+                        link->reset();
+                    }
                 }
             }
         }

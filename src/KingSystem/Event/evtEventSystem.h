@@ -60,7 +60,7 @@ public:
     // D1 0x71008aa6f4 (CSV x_5), D0 0x71008aa7e4, thunks 0x71008aa788 / 0x71008aa848
     ~EventSystem() override;
     // 0x71008abf28
-    int handleMessage(const Message& message) override;
+    int handleMessage(const Message* message) override;
 
     // 0x71008ab24c (CSV x_0; not decompiled): takes the actor's +0x108 word
     bool x_0(void* arg);

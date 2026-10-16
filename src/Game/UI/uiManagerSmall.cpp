@@ -479,10 +479,10 @@ void Manager::sub_7100A7A4C0() {
 }
 
 // 0x7100a7b994
-int Manager::handleMessage(const ksys::Message& message) {
-    const u32 broker = message.getBrokerId();
+int Manager::handleMessage(const ksys::Message* message) {
+    const u32 broker = message->getBrokerId();
     if (broker - 2 <= 2)
-        return sub_7100A7B9E8(message);
+        return sub_7100A7B9E8(*message);
     return 0;
 }
 

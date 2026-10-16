@@ -35,7 +35,7 @@ public:
     bool sub_7100EF1B70();
     bool sub_7100EF1308();
 
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
     Actor* m31() override;
     bool shouldUnload(s32* value) override;
     void initMaybe() override;

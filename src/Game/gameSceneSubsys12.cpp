@@ -86,7 +86,7 @@ GameSceneSubsys12::GameSceneSubsys12() : _27c(sUnk_710243bfd0._0) {
 
 GameSceneSubsys12::~GameSceneSubsys12() = default;
 
-int GameSceneSubsys12::handleMessage(const ksys::Message& message) {
+int GameSceneSubsys12::handleMessage(const ksys::Message* message) {
     return 1;
 }
 

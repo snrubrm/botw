@@ -543,7 +543,7 @@ void Screen::open(s32 option) {
 }
 
 // 0x7100a828f4 (primary slot111)
-int Screen::handleMessage(const ksys::Message&) {
+int Screen::handleMessage(const ksys::Message*) {
     return 0;
 }
 

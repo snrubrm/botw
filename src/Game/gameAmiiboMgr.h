@@ -60,7 +60,7 @@ class AmiiboMgr : public ksys::ActorMessageTransceiver::IHandler, public Unk_710
     ~AmiiboMgr() override;
 
 public:
-    int handleMessage(const ksys::Message& message) override { return 1; }
+    int handleMessage(const ksys::Message* message) override { return 1; }
 
     // 0x7100648e58 / 0x7100648e60 / 0x7100648e68 (CSV names): constant `false`.
     bool guaranteedBigHits() const;

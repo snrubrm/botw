@@ -12,7 +12,7 @@ public:
     class IHandler {
     public:
         virtual ~IHandler() = default;
-        virtual int handleMessage(const Message& message) = 0;
+        virtual int handleMessage(const Message* message) = 0;
     };
 
     explicit MessageTransceiverRxOnly(IHandler& handler);

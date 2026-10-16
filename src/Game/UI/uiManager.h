@@ -57,7 +57,7 @@ public:
     ~Manager() override;
 
     // 0x7100a7b994 (thunk 0x7100a7bb14): messages with a broker id of 2 - 4 go to sub_7100A7B9E8
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
     // 0x7100a7b9e8 (CSV unnamed; not decompiled)
     int sub_7100A7B9E8(const ksys::Message& message);
 

@@ -149,13 +149,13 @@ void uking::act::OptionalWeapon::sub_7100EF2290(f32 value, bool use_parent) {
     _995 = true;
 }
 
-int uking::act::OptionalWeapon::handleMessage(const ksys::Message& message) {
+int uking::act::OptionalWeapon::handleMessage(const ksys::Message* message) {
     if (isDelete() || isDeleteRequested())
         return 0;
-    if (message.getType() == 0x3000001) {
+    if (message->getType() == 0x3000001) {
         _83e |= 1;
         mActorFlags2.set(ActorFlag2::_20);
-    } else if (message.getType() == 0x3000002) {
+    } else if (message->getType() == 0x3000002) {
         _83e &= ~1;
         mActorFlags2.reset(ActorFlag2::_20);
     } else {

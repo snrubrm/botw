@@ -33,7 +33,7 @@ class OnUiActorMgr : public sead::hostio::Node,
 
 public:
     ~OnUiActorMgr() override;
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
 
     // 0x710090ab60
     ksys::act::Actor* getActor() const;

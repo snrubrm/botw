@@ -25,7 +25,7 @@ class GameSceneSubsys12 : public ksys::ActorMessageTransceiver::IHandler,
 
 public:
     // 0x7100665528
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
 
     // 0x7100662aec / 0x7100662b4c
     void init(sead::Heap* heap);

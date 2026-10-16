@@ -37,7 +37,7 @@ EventSystem::EventSystem() {
 
 EventSystem::~EventSystem() = default;
 
-int EventSystem::handleMessage(const Message& message) {
+int EventSystem::handleMessage(const Message* message) {
     return 1;
 }
 

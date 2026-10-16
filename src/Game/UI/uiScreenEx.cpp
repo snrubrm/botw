@@ -60,15 +60,15 @@ const sead::Buffer<ButtonPanePath>* ScreenEx::m143() {
 }
 
 // 0x7100a486a8 (primary); secondary RxOnly thunk0x7100a48728.
-int ScreenEx::handleMessage(const ksys::Message& message) {
-    switch (message.getBrokerId()) {
+int ScreenEx::handleMessage(const ksys::Message* message) {
+    switch (message->getBrokerId()) {
     case 2:
     case 3:
     case 4:
-        message.getType();
-        return m142(message);
+        message->getType();
+        return m142(*message);
     case u32(-1):
-        return m141(message);
+        return m141(*message);
     default:
         return 0;
     }

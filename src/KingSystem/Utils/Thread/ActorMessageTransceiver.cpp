@@ -52,7 +52,7 @@ ActorMessageTransceiver::Receiver::Receiver(IHandler& handler) : mHandler(handle
 ActorMessageTransceiver::Receiver::~Receiver() = default;
 
 int ActorMessageTransceiver::Receiver::handleMessage(const Message& message) {
-    return mHandler.handleMessage(message);
+    return mHandler.handleMessage(&message);
 }
 
 void ActorMessageTransceiver::Receiver::handleAck(const MessageAck& ack) {

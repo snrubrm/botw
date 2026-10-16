@@ -487,7 +487,7 @@ public:
     virtual void m108(eui::AnimButton*);
     virtual void m109(eui::AnimButton*);
     virtual void m110();
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
     virtual void m112(sead::Heap* heap);
     virtual void m113();
     virtual void m114(sead::Heap* heap);
@@ -648,7 +648,7 @@ public:
     void doButtonCancelStart_(eui::AnimButton* button) override;
     void doButtonCancelEnd_(eui::AnimButton* button) override;
 
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
     void m112(sead::Heap* heap) override;
     void m113() override;
     void m114(sead::Heap* heap) override;

@@ -95,7 +95,7 @@ class GameSceneSubsys14 : public ksys::ActorMessageTransceiver::IHandler, public
 
 public:
     // 0x7100904834 (CSV GameSceneSubsys14::m2; declared only).
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
 
     void init();
     // Original location setup at 0x7100903d00; body remains declared only.

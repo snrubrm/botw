@@ -623,7 +623,7 @@ public:
     // Order matters: these overrides of MessageReceiverEx virtuals get primary vtable slots 104 (handleAck)
     // and 105 (handleMessage) in the original.
     void handleAck(const MessageAck& ack) override;
-    int handleMessage(const Message& message) override;
+    int handleMessage(const Message* message) override;
     virtual bool m106();
     virtual void m107();
     virtual void m108();

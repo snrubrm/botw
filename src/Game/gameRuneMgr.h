@@ -32,7 +32,7 @@ class RuneMgr : public ksys::ActorMessageTransceiver::IHandler, public Unk_71024
     ~RuneMgr() override;
 
 public:
-    int handleMessage(const ksys::Message& message) override;
+    int handleMessage(const ksys::Message* message) override;
 
     // A flag that is set / read under its own critical section (the five at 0x98..0x1f8: 0x98 /
     // 0xe0 / 0x128 / 0x170 / 0x1b8; the sixth critical section at 0x200 guards the current item).

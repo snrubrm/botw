@@ -381,8 +381,8 @@ void Actor::handleAck(const MessageAck& ack) {
         mRootAi->handleAck(ack);
 }
 
-int Actor::handleMessage(const Message& message) {
-    const auto result = doHandleMessage_(message);
+int Actor::handleMessage(const Message* message) {
+    const auto result = doHandleMessage_(*message);
     switch (result) {
     default:
         return 0;

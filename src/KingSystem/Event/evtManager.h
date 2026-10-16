@@ -232,7 +232,7 @@ public:
     // The primary vtable contains the acknowledgement handler and this event-message callback.
     // These two get entries in the primary vtable (slots 2 / 3) and thunks at +0x8 / +0x10.
     void handleAck(const MessageAck& ack) override;
-    int handleMessage(const Message& message) override;
+    int handleMessage(const Message* message) override;
     // 0x7100db0fb0 (CSV EventMgr::__auto14; declared only): sends `type` with `user_data` to `dest` through the
     // manager's message transceiver (at +0x38; on the processing thread if called from it)
     bool sub_7100DB0FB0(const MesTransceiverId& dest, MessageType type, void* user_data);

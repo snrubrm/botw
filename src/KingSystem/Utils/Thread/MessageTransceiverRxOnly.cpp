@@ -17,7 +17,7 @@ MessageReceiverEx* MessageTransceiverRxOnly::getReceiver() {
 MessageTransceiverRxOnly::Receiver::~Receiver() = default;
 
 int MessageTransceiverRxOnly::Receiver::handleMessage(const Message& message) {
-    return mHandler.handleMessage(message);
+    return mHandler.handleMessage(&message);
 }
 
 }  // namespace ksys
