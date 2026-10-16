@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
 #include <container/seadTList.h>
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
@@ -222,6 +223,26 @@ public:
     u32 mNumEntries;
     Entry* mEntries;
     sead::Atomic<u32> mWriteIndex;
+};
+
+// Placeholder (owner unknown; functions at 0x7101088b24 / 0x7101088bb4): a list of area images
+// (Unk_7101118B34::Entry) whose users are added or removed together, and how many of them are not
+// ready yet.
+class Unk_7101088B24 {
+public:
+    // 0x7101088b24 (placeholder name): adds (`add`) or removes a user of every image through `system`
+    // (sub_71011171D8 / sub_710111731C) and remembers which.
+    void sub_7101088B24(Unk_7101118B34* system, bool add);
+    // 0x7101088bb4 (placeholder name): moves the images that are now ready (flag 4) behind the first
+    // mNumPending entries; true when all are ready.
+    bool sub_7101088BB4();
+
+    sead::PtrArray<Unk_7101118B34::Entry> mEntries;
+    u8 _10[0x20 - 0x10];
+    u16 mNumPending;
+    // 0x7101088b24 stores one bit with bfi.
+    u8 _22_0 : 2;
+    bool mAdded : 1;
 };
 
 }  // namespace ksys::tera

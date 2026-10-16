@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
+#include <utility>
 
 namespace ksys::tera {
 
@@ -93,6 +94,37 @@ void Unk_7101106F44::sub_7101120594(Unk_7101106F44** node, sead::Vector2f* cente
 void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* center, f32* size,
                                     const ImageTypeMaybe& type) {
     sub_7101120598(node, center, size, type);
+}
+
+void Unk_7101088B24::sub_7101088B24(Unk_7101118B34* system, bool add) {
+    if (add) {
+        for (auto& entry : mEntries)
+            system->sub_71011171D8(entry.area, entry.type);
+    } else {
+        for (auto& entry : mEntries)
+            system->sub_710111731C(entry.area, entry.type);
+    }
+    mAdded = add;
+}
+
+// NON_MATCHING: the original's swap skips out-of-range positions (two unsigned compares against the
+// size; our sead PtrArray::swap has no checks), which also changes the block layout.
+bool Unk_7101088B24::sub_7101088BB4() {
+    u32 count = mNumPending;
+    if (count == 0)
+        return true;
+
+    for (u32 i = 0; i < count; ++i) {
+        auto* entry = mEntries(i);
+        const Unk_710250dcd8* image = entry->area->getImageMaybe(entry->type);
+        if (image && (image->_8 & 4)) {
+            --count;
+            mEntries.swap(i, count);
+            --i;
+        }
+    }
+    mNumPending = count;
+    return mNumPending == 0;
 }
 
 }  // namespace ksys::tera
