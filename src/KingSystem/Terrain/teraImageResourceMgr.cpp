@@ -443,6 +443,24 @@ s32 ImageResourceMgr::sub_7101136188(LoadTask* task) {
     return result;
 }
 
+// NON_MATCHING: the original clears _98 and constructs the address in place; ours copies a temporary.
+s32 ImageResourceMgr::Unk_7101136B40::sub_7101136B40(s32 result, Request* request) {
+    if (!request->_20.isValid(mgr->mSystems, request->area, mgr->_6470)) {
+        mgr->sub_7101133588(request);
+        if (mgr->_6473 & 2)
+            mgr->sub_71011320B4(request);
+        return 8;
+    }
+    if (!request->addr) {
+        request->_98 = agl::GPUMemAddrBase(
+            mgr->mMemBlock6328,
+            s32(reinterpret_cast<uintptr_t>(request) + request->_60 - mgr->_6318));
+        request->addr = &request->_98;
+    }
+    mgr->sub_7101133724(request);
+    return result;
+}
+
 bool ImageResourceMgr::sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                                       bool a4, void* a5) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS68);

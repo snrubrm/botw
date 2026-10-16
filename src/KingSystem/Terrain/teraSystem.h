@@ -451,6 +451,16 @@ public:
         ImageResourceMgr* mgr;
     };
 
+    // Placeholder: like Unk_7101132878, a closure over the manager in 0x710113400c.
+    struct Unk_7101136B40 {
+        // 0x7101136b40 (placeholder name): if the request's handle is stale, unloads it (sub_7101133588,
+        // then sub_71011320B4 with flag 2 of _6473) and returns 8; otherwise gives it a GPU address in
+        // mMemBlock6328 (if it has none), sets up its image (sub_7101133724) and returns `result`.
+        s32 sub_7101136B40(s32 result, Request* request);
+
+        ImageResourceMgr* mgr;
+    };
+
     // 0x7101136188 (placeholder name): under the manager lock, finds the request in mLists1c0 matching
     // `task`, releases its image when its handle is still valid and runs sub_7101133588 on it. Returns 8
     // if the task's handle is stale, 3 if no request matches, 1 otherwise.
@@ -505,6 +515,7 @@ public:
     sead::FreeList mHandleFreeList;
     u8 _62b8[0x62d8 - 0x62b8];
     System* mSystems[8];
+    // CPU address of mMemBlock6328's buffer (0x7101136b40 turns request addresses into block offsets).
     u64 _6318;
     u64 _6320;
     agl::GPUMemBlock<u8> mMemBlock6328;
@@ -825,7 +836,9 @@ struct ImageResourceMgr::Request {
     u8 _4d[0x50 - 0x4d];
     // Name hash of the area; the low byte indexes mLists1c0 / mLists19c0.
     u32 _50;
-    u8 _54[0x64 - 0x54];
+    u8 _54[0x60 - 0x54];
+    // Offset of the image data from the request, inside mMemBlock6328 (0x7101136b40).
+    u32 _60;
     u32 _64;
     u8 _68[0x6c - 0x68];
     u32 _6c;
@@ -834,7 +847,8 @@ struct ImageResourceMgr::Request {
     // Resource handle taken from ImageResourceMgr::mHandleFreeList (0x710113400c); destroyed and returned
     // there by 0x7101133588.
     res::Handle* _90;
-    u8 _98[0xb0 - 0x98];
+    // GPU address of the image data; `addr` points here once set (0x7101136b40).
+    agl::GPUMemVoidAddr _98;
     agl::TextureSampler sampler;
 };
 
