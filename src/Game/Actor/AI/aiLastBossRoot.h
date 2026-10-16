@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace uking::act {
+class LastBoss;
+}
+
 namespace uking::ai {
 
 class LastBossRoot : public ksys::act::ai::Ai {
@@ -18,6 +22,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x710047a374 (placeholder name; CSV calc_x): whether calc_ should switch to the reaction child (death,
+    // just guard, damage reactions, or an active ShockWave part attack).
+    bool sub_710047A374(act::LastBoss* boss);
 
 protected:
     // static_param at offset 0x38

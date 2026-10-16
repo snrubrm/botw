@@ -6,6 +6,9 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_71007398C0.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -140,6 +143,78 @@ void LastBossRoot::loadParams_() {
     getStaticParam(&mAuraEntryName_s, "AuraEntryName");
     getStaticParam(&mAuraWallEntry_s, "AuraWallEntry");
     getStaticParam(&mAuraDemoDownEntry_s, "AuraDemoDownEntry");
+}
+
+}  // namespace uking::ai
+
+namespace uking::ai {
+
+bool LastBossRoot::sub_710047A374(act::LastBoss* boss) {
+    auto* child = getCurrentChild();
+    if (!child)
+        return false;
+    auto* damage_mgr = sub_710072BA90(mActor);
+    if (!damage_mgr)
+        return false;
+
+    const auto isDead = [this] {
+        auto* life = mActor->getLife();
+        return life && *life == 0;
+    };
+
+    if (!_b4 && isDead()) {
+        if (child->isFinished() || child->isFailed()) {
+            _b4 = true;
+            return true;
+        }
+    } else if (_b4 && isDead()) {
+        return false;
+    }
+
+    if (u32(damage_mgr->getField54() - 9) < 6)
+        return false;
+
+    if (child->isChangeable() && sub_71005D6E28(mActor)) {
+        bool react = true;
+        if (isCurrentChild("リアクション"))
+            react = child->isFinished() || child->isFailed();
+        const bool dead = isDead() && !_b4;
+        const bool result = react | dead | boss->_14f8._30.isOnBit(2);
+        if (dead && isSlowTimeMaybe()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&act::PlayerInfo::getSomeProcLink(), &accessor);
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000b2), nullptr);
+        }
+        if (!result)
+            return false;
+        _b4 |= dead;
+        return true;
+    }
+
+    if (!isCurrentChild("特殊リアクション") && boss->_14e4 == 0) {
+        if (damage_mgr->checkDamageFlags(1) && damage_mgr->getField50() == 3)
+            return true;
+        if (!_b4 && isDead()) {
+            _b4 = true;
+            return true;
+        }
+    }
+
+    if (sub_71005D6E28(mActor) && boss->_14f8._30.isOnBit(7))
+        return true;
+
+    if (!boss->getActorPartsActor("ShockWave").hasProcInCalcState())
+        return false;
+    auto* wave = sead::DynamicCast<ksys::act::Actor>(boss->getActorPartsActor("ShockWave").getProc(nullptr, nullptr));
+    if (!wave)
+        return false;
+    const s32 num = getNumAttackInfoMaybe(wave);
+    for (s32 i = 0; i < num; ++i) {
+        auto* info = getAttackInfo(wave, i);
+        if (info && (info->_18 & 2))
+            return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
