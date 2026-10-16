@@ -461,6 +461,38 @@ s32 ImageResourceMgr::Unk_7101136B40::sub_7101136B40(s32 result, Request* reques
     return result;
 }
 
+// NON_MATCHING: the original addresses both statics from one TU static block base; ours reloads it.
+bool ImageResourceMgr::Unk_7101136C10::sub_7101136C10(res::Handle* handle, LoadTask* task) {
+    static const sead::TickSpan sWaitSpan = sead::TickSpan::makeFromSeconds(1) * 0.03f;
+    static const sead::TickSpan sSleepSpan =
+        sead::TickSpan::makeFromSeconds(1) * (1.0f / 300.0f);
+
+    if (handle->waitForReady(sWaitSpan))
+        return true;
+
+    if (!task) {
+        do {
+            if (!(mgr->_6473 & 4)) {
+                _8 = false;
+                return false;
+            }
+            sead::Thread::sleep(sSleepSpan);
+        } while (!handle->waitForReady(sWaitSpan));
+        return true;
+    }
+
+    do {
+        if (!(mgr->_6473 & 4)) {
+            _8 = false;
+            return false;
+        }
+        if (!task->handle.isValid(mgr->mSystems, task->area, mgr->_6470))
+            return false;
+        sead::Thread::sleep(sSleepSpan);
+    } while (!handle->waitForReady(sWaitSpan));
+    return true;
+}
+
 bool ImageResourceMgr::sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                                       bool a4, void* a5) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS68);

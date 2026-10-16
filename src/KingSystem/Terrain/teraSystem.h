@@ -461,6 +461,17 @@ public:
         ImageResourceMgr* mgr;
     };
 
+    // Placeholder: a closure over the manager in 0x710113400c (with a flag it clears).
+    struct Unk_7101136C10 {
+        // 0x7101136c10 (placeholder name): waits for `handle` in 30 ms steps (sleeping 3.3 ms between
+        // tries) while flag 4 of _6473 is set and `task` (if any) is still valid. Clears _8 when the flag
+        // goes away; false if it stopped waiting.
+        bool sub_7101136C10(res::Handle* handle, LoadTask* task);
+
+        ImageResourceMgr* mgr;
+        bool _8;
+    };
+
     // 0x7101136188 (placeholder name): under the manager lock, finds the request in mLists1c0 matching
     // `task`, releases its image when its handle is still valid and runs sub_7101133588 on it. Returns 8
     // if the task's handle is stale, 3 if no request matches, 1 otherwise.
