@@ -46,7 +46,6 @@ class CompactedHeap;
 class Unk_710251A740;
 template <typename T>
 class EntryFactory;
-extern EntryFactory<Unk_710251A740> sUnk_710260E8A0;
 // Complete FE6E9C constructs this native factory within its global state.
 extern EntryFactory<Unk_710251A740> sUnk_710260EA08;
 class Unk_71024f9a08;

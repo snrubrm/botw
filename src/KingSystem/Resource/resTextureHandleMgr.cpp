@@ -27,8 +27,6 @@ Unk_71024f9bb8::~Unk_71024f9bb8() = default;
 
 namespace ksys::res {
 
-Unk_71024f9b08::~Unk_71024f9b08() = default;
-
 void TextureHandleMgr::ValidateArg::setPath(const sead::SafeString& path) {
     mPath = path;
     const s32 length = path.calcLength();
@@ -39,40 +37,6 @@ void TextureHandleMgr::ValidateArg::setPath(const sead::SafeString& path) {
 void TextureHandleMgr::ValidateArg::setHash(u32 hash) {
     mHash = hash;
 }
-
-void sub_7100FE0D98(Unk_71024f9a08* resource, Unk_71024F9D48* handle) {
-    resource->mCS.lock();
-    resource->mHandles.erase(handle);
-    resource->mCS.unlock();
-}
-
-bool sub_7100FE0F14(Unk_71024f9a08* resource) {
-    if (resource->mStatus == 2 || resource->mStatus == 5)
-        return true;
-    return resource->mFlags.isOnBit(2);
-}
-
-// NON_MATCHING: the original lowers this switch to a seven-entry jump table over mStatus 2..8
-// (cases 3, 5, 7 and the default all share the `mStatus == 5` block); clang 4 folds the
-// 2/4/8 cluster into a 0x134 bit test instead. Both case orders were tried; both give the bit test.
-bool sub_7100FE0F44(Unk_71024f9a08* resource) {
-    switch (resource->mStatus) {
-    case 2:
-    case 4:
-    case 8:
-        return true;
-    case 6:
-        return resource->mFlags.isOnBit(1);
-    default:
-        return resource->mStatus == 5;
-    }
-}
-
-nn::gfx::ResTexture* sub_7100FE0F8C(Unk_71024f9a08* resource) {
-    return sub_7100FDDC24(&resource->_1f8);
-}
-
-
 
 // FE2890 allocates 0x140 bytes; FE85E8 constructs ManagedTask and the 0x80-byte data.
 class Unk_71024f9da0 : public ManagedTask {
@@ -126,220 +90,7 @@ Unk_71024f9e28::~Unk_71024f9e28() = default;
 
 namespace ksys::res {
 
-Unk_71024f9a70::Unk_71024f9a70() = default;
-
-Unk_71024f9a70::~Unk_71024f9a70() {
-    mResFile = nullptr;
-    mFileDevice = nullptr;
-    if (mResource)
-        ResourceMgrTask::instance()->unloadSeadResource(mResource);
-    mHandle.requestUnload();
-    mPath.clear();
-    mFlags.reset(3);
-}
-
-bool Unk_71024f9a70::sub_7100FE15D8() const {
-    return mFlags.isOn(1);
-}
-
-bool Unk_71024f9a70::init(const InitArg& arg) {
-    mLoadParams.mFileDevice = arg.mFileDevice;
-    mLoadParams._0 = arg._0;
-    mLoadParams.mPath = mPath;
-    mPath = arg.mPath;
-    mFlags.set(1);
-    return true;
-}
-
-bool Unk_71024f9a70::load() {
-    LoadStatus status;
-    sub_7100FE1630(&status, mLoadParams);
-    if (!status.success)
-        return false;
-    mFlags.set(2);
-    return true;
-}
-
-bool Unk_71024f9a70::sub_7100FE1AF0() const {
-    return mFlags.isOn(2);
-}
-
-s32 Unk_71024f9a70::getTextureCount() const {
-    if (!mFlags.isOn(2))
-        return 0;
-    return agl::g3d::ResFile::GetTextureCount(mResFile);
-}
-
-sead::SafeString Unk_71024f9a70::getTextureName(s32 index) const {
-    return agl::g3d::ResFile::GetTextureName(mResFile, index);
-}
-
-bool Unk_71024f9a70::hasTexture(const sead::SafeString& name) const {
-    return agl::g3d::ResFile::sub_7100B33BF0(mResFile, name.cstr()) != nullptr;
-}
-
-// NON_MATCHING: native request initialization, context lifetimes and failure cleanup differ.
-void Unk_71024f9a70::sub_7100FE1630(LoadStatus* status, const LoadParams& params) {
-    TempResourceLoader loader;
-    TempResourceLoader::InitArg init_arg{nullptr};
-    ResourceMgrTask::instance()->initTempResourceLoader(&loader, init_arg);
-    u32 resource_size = 0;
-    if (ResourceMgrTask::instance()->returnTrue()) {
-        resource_size = ResourceMgrTask::instance()->getResourceSize(params.mPath, nullptr);
-    } else {
-        sead::FixedStringBuilder<129> path;
-        path.copy(params.mPath.cstr());
-        ResourceMgrTask::instance()->addSExtensionPrefix(path);
-        if (!ResourceMgrTask::instance()->getUncompressedSize(&resource_size, path.cstr(),
-                                                             params.mFileDevice))
-            stubbedLogFunction();
-    }
-    auto* thread = sead::ThreadMgr::instance()->getCurrentThread();
-    const bool resource_thread =
-        thread == ResourceMgrTask::instance()->getResourceMemoryThread() ||
-        thread == ResourceMgrTask::instance()->getResourceLoadingThread();
-    const u32 work_size = loader.getWorkHeapSize();
-    if (resource_thread || work_size < resource_size) {
-        stubbedLogFunction();
-        if (!resource_thread)
-            sead::FormatFixedSafeString<256>("↓↓↓\nテクスチャアーカイブサイズ : %u MB\n↑↑↑\n",
-                                             resource_size >> 20);
-        Unk_71024f9b08 context;
-        context.mFileDevice = params.mFileDevice;
-        context.mPath = params.mPath;
-        ResourceMgrTask::DirectLoadArg arg;
-        if (ResourceMgrTask::instance()->returnTrue())
-            arg.heap = ResourceMgrTask::instance()->getArenaForResourceL()->getHeap();
-        else
-            arg.heap = util::getDebugHeap();
-        arg.req._21 = false;
-        arg.req._22 = true;
-        arg.req._28 = false;
-        arg.req.mPath = params.mPath;
-        arg.req.mEntryFactory = &sUnk_710260E8A0;
-        arg.req.mAocFileDevice = params.mFileDevice;
-        arg.req._20 = false;
-        arg.req.mLoadDataAlignment = 0x2000;
-        arg.req.mRequester = params.mPath;
-        arg.req._68 = &context;
-        mResource = ResourceMgrTask::instance()->load(arg);
-        if (!mResource) {
-            status->success = false;
-            return;
-        }
-    } else {
-        Unk_71024f9b08 context;
-        context.mFileDevice = params.mFileDevice;
-        context.mPath = params.mPath;
-        TempResourceLoader::LoadArg arg;
-        arg.load_req._21 = false;
-        arg.load_req._22 = true;
-        arg.load_req._26 = params._0;
-        arg.load_req.mLoadDataAlignment = 0x2000;
-        arg.load_req._8 = true;
-        arg.load_req.mLoadCompressed = true;
-        arg.load_req._28 = false;
-        arg.load_req.mEntryFactory = &sUnk_710260E8A0;
-        arg.load_req.mAocFileDevice = params.mFileDevice;
-        arg.load_req.mPath = params.mPath;
-        arg.load_req.mRequester = params.mPath;
-        arg.load_req._68 = &context;
-        auto* loaded = sead::DynamicCast<sead::DirectResource>(loader.load(arg));
-        if (!loaded) {
-            stubbedLogFunction();
-            status->success = false;
-            status->_1 = loader.getHandleStatus() != Handle::Status::_1;
-            return;
-        }
-        SimplePackedLoadRequest request;
-        request._8 = true;
-        request.mRequester = params.mPath;
-        request.mLaneId = 2;
-        request.mPack = loader.getHandle();
-        if (!mHandle.load(params.mPath, &request)) {
-            status->success = false;
-            status->_1 = loader.getHandleStatus() != Handle::Status::_1;
-            return;
-        }
-    }
-    auto* resource = mResource ? mResource : mHandle.getResourceUnchecked();
-    mResFile = static_cast<Unk_710251A740*>(resource)->_38;
-    if (loader.getHandleFileDevice())
-        mFileDevice = loader.getHandleFileDevice();
-    else
-        mFileDevice = sead::FileDeviceMgr::instance()->getDefaultFileDevice();
-    status->success = true;
-    status->_1 = true;
-}
-
-// NON_MATCHING: request construction and binary-search comparison branch layout.
-bool Unk_71024f9a70::sub_7100FE1AFC(const TextureLoadArg& arg) {
-    auto* texture = agl::g3d::ResFile::sub_7100B33BF0(mResFile, arg.mName.cstr());
-    bool success;
-    if (texture) {
-        const u32 hash = sead::HashCRC32::calcStringHash(texture->GetName());
-        const s32 index = mTextureFlags.binarySearch<u32>(hash, [](const TextureFlag& item,
-                                                                  const u32& key) -> s32 {
-            if (item.hash > key)
-                return 1;
-            if (item.hash < key)
-                return -1;
-            return 0;
-        });
-        u32 flags = 0;
-        if (index != -1)
-            flags = mTextureFlags[index].flag;
-        Unk_71024f9a90 request;
-        request._12 = arg._0;
-        request._11 = arg._1;
-        request.mRequester = mPath;
-        request.mFileDevice = mFileDevice;
-        request.mCallback = arg.mCallback;
-        request.mTexture = texture;
-        request.mTextureFlags = flags;
-        success = arg.mHandle->sub_7100FE8074(&request);
-    } else {
-        Unk_71024f9ad8 request;
-        request.mCallback = arg.mCallback;
-        request.mPath = arg.mName;
-        if (!arg.mHandle->sub_7100FE8074(&request)) {
-            stubbedLogFunction();
-            return false;
-        }
-        success = true;
-    }
-    if (arg.mHandle->sub_7100FE8330() == 4 || arg.mHandle->sub_7100FE8330() == 3)
-        stubbedLogFunction();
-    return success;
-}
-
-// Full native initializer FE2398 and loader FE1630 prove this separate factory.
-// NON_MATCHING: namespace linkage uses GOT addressing instead of the native direct address.
-EntryFactory<Unk_710251A740> sUnk_710260E8A0;
-
 TextureHandleMgr* TextureHandleMgr::sInstance;
-TextureHandleMgr* sUnk_710260E858;
-
-void sub_7100FE11CC(TextureHandleMgr* manager) {
-    sUnk_710260E858 = manager;
-}
-
-// Complete FE4CF4 supplies converted textures; 12A5304 consumes the fallback.
-nn::gfx::ResTexture* sUnk_710260E868;
-const nn::util::BinaryBlockHeader* sUnk_710260E870;
-const nn::util::BinaryBlockHeader* sUnk_710260E878;
-nn::gfx::ResTexture* sUnk_710260E860;
-
-void sub_7100FE11F0(nn::gfx::ResTexture* texture, nn::gfx::ResTexture* fallback) {
-    sUnk_710260E868 = texture;
-    sUnk_710260E870 = sub_7100FDDBD8(texture);
-    sUnk_710260E878 = sub_7100FDDBD8(texture);
-    sUnk_710260E860 = fallback;
-}
-
-nn::gfx::ResTexture* sub_7100FE124C() {
-    return sUnk_710260E860;
-}
 
 void TextureHandleMgr::setInstance(TextureHandleMgr* mgr) {
     sInstance = mgr;
@@ -385,7 +136,6 @@ void TextureHandleMgr::calc() {
 }
 
 void TextureHandleMgr::preCalc() {}
-
 
 // NON_MATCHING: resource iterator and heap use exchanged registers.
 void TextureHandleMgr::sub_7100FE5190() {
