@@ -54,6 +54,9 @@ public:
     // SystemPauseMgr::waitForOnUiActorMgrAndBlockSaveMaybe / waitForOnUiActorMgr until
     // sub_710090AB4C() holds.
     void sub_710090941C();
+    // 0x71009079ec (placeholder name): turns the pause menu player's _c34 mode on / off (off also clears _c38) and
+    // mirrors it in bit 0x8 of _1f4
+    void sub_71009079EC(bool on);
     void sub_7100907A30();
     // 0x7100906e70 (CSV OnUiActorMgr::__auto3; placeholder name): releases the armors/actor/link actors
     void sub_7100906E70();

@@ -68,6 +68,19 @@ void OnUiActorMgr::sub_7100906E70() {
     _1f4.makeAllZero();
 }
 
+// 0x71009079ec
+void OnUiActorMgr::sub_71009079EC(bool on) {
+    if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
+        player->_c34 = on;
+        if (!on)
+            player->_c38 = 0;
+    }
+    if (on)
+        _1f4.set(8);
+    else
+        _1f4.reset(8);
+}
+
 // 0x71009070d0
 void OnUiActorMgr::x_4() {
     const s32 hot = ksys::gdt::getFlag_Item_HotLevelAdd(false);

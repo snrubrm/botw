@@ -10,11 +10,18 @@ struct Unk_71002eda38;
 struct Unk_71002edaec;
 }  // namespace uking::act
 
+namespace uking::ui {
+class OnUiActorMgr;
+}
+
 namespace ksys::act {
 
 // TODO: incomplete. The vtable has 177 slots.
 class PlayerOrEnemy : public DynamicActor {
     SEAD_RTTI_OVERRIDE(PlayerOrEnemy, DynamicActor)
+    // OnUiActorMgr::sub_71009079EC sets _c34 of the pause menu player
+    friend class uking::ui::OnUiActorMgr;
+
 public:
     explicit PlayerOrEnemy(const CreateArg& arg);
     ~PlayerOrEnemy() override;
