@@ -1,5 +1,9 @@
 #include "KingSystem/Sound/sndSound.h"
+#include <prim/seadScopedLock.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/Sound/sndFxMgr.h"
 
 namespace ksys::snd {
 
@@ -10,6 +14,31 @@ void Unk_710104e5b4::sub_710104F030() {
     _2a0.reset(8);
     mRemainsDucking.stop();
     _294.stop(false);
+}
+
+// NON_MATCHING: the original copies the argument as a 64-bit register (a 4-byte class type, like UiSoundKind?).
+void Unk_710104e5b4::sub_710104F1B8(s32 state) {
+    if (_30 != 2)
+        return;
+    _38 = _28->searchAndEmit("Slow");
+    auto* ducking = SoundMgr::instance()->mDuckingMgr;
+    ducking->sub_7101042024(DuckingMgr::DuckerType::cSlowSe);
+    if (!sub_7100FFDA7C()) {
+        auto* bgm = sub_7100FFE468();
+        if (!bgm || bgm->_124 == 0)
+            ducking->sub_7101042024(DuckingMgr::DuckerType::cSlowBgm);
+    }
+    if (auto* fx = SoundMgr::instance()->_50)
+        fx->sub_710105126C();
+    _30 = state;
+    _2a0.set(1);
+    sead::ScopedLock<sead::CriticalSection> lock(&mHandleCS);
+    for (auto it = mHandles.robustBegin(); it != mHandles.robustEnd(); ++it) {
+        if (!it->isActive())
+            mHandles.erase(&*it);
+        else if (_2a0.isOn(1))
+            sub_710104FB40(&*it);
+    }
 }
 
 xlink2::HandleSLink Unk_710104e5b4::sub_710104F30C(const sead::SafeString& label) {
