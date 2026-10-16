@@ -231,6 +231,15 @@ public:
     void m12(int index) override;
     // Slot 13 (0x71008507a4): conditions 0, 1 and 5 only clear their bit, the others go to Unk_710244dd20::m13.
     void m13(int index) override;
+    // Slot 14 (0x7100850d08): PlayerBase::m200 of the actor.
+    bool m14() override;
+    // Slot 15 (0x7100850da4): the base check, or the actor has _1a0 or its map object has Flag0 bit 17.
+    bool m15() override;
+    // Slot 16 (0x7100850e64): kinds 4 / 3 are allowed once _144 / _148 run out.
+    bool m16(s32 kind) override;
+    // Slots 18 / 19 (0x71008507ec / 0x71008507f0): forward to the base.
+    void m18() override;
+    void m19() override;
 
     // 0x7100850ce4 / 0x7100850cf4 (lane4 s64; placeholder names): `_8` has a bit of 0x3 / 0x587 set.
     bool sub_7100850CE4() const;
@@ -238,8 +247,8 @@ public:
 
     /* 0x13c */ u32 _13c;
     /* 0x140 */ f32 _140;  // ShockTime (m12)
-    /* 0x144 */ u32 _144;
-    /* 0x148 */ u32 _148;
+    /* 0x144 */ f32 _144;
+    /* 0x148 */ f32 _148;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71008502cc, 0x150);
 
