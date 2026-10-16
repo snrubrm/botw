@@ -2,6 +2,10 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiAwarenessFilters.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -102,6 +106,138 @@ void EnemyRoot::m34(ksys::act::ai::InlineParamPack* params) {
     } else {
         m38();
     }
+}
+
+// NON_MATCHING: block layout; the original jumps from the dead-enemy test (life < 1) straight to the child
+// checks, ours keeps a flag and places the spread code after the child checks.
+void EnemyRoot::calc_() {
+    sub_71003B5644();
+    _1cc.sub_71007008E0(mActor);
+
+    if (isCurrentChild("奈落")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            _1c8 = false;
+            m38();
+            return;
+        }
+    } else if (_1c8) {
+        m42();
+        return;
+    }
+
+    if (_38) {
+        if (isCurrentChild("所持"))
+            _38->_14 |= 4;
+        else
+            _38->_14 &= ~4;
+        _38->sub_7100702384();
+    }
+
+    auto* actor = mActor;
+    m43();
+
+    if (auto* damage_mgr = sub_710072BA90(mActor); damage_mgr && damage_mgr->_216.isOnBit(1)) {
+        bool spread = true;
+        const float* spread_dist;
+        if (damage_mgr->checkDamageFlags(10)) {
+            auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
+            if (enemy && enemy->_e84.isOnBit(8)) {
+                auto* life = actor->getLife();
+                if (life && *life < 1)
+                    spread = false;
+            }
+            spread_dist = mSmallSpreadDist_s;
+        } else if (damage_mgr->checkDamageFlags(0)) {
+            spread_dist = mSmallSpreadDist_s;
+        } else {
+            spread_dist = mSpreadDist_s;
+        }
+
+        const f32 dist = *spread_dist;
+        if (spread && dist > 0.0f) {
+            sead::Matrix34f mtx;
+            damage_mgr->m35(&mtx);
+            if (damage_mgr->getAttacker()->hasProc()) {
+                auto* self = mActor;
+                auto* attacker = damage_mgr->getAttacker();
+                {
+                    sead::ScopedLock<sead::JobQueueLock> lock(&_128._18.mLock);
+                    _128._18._0.acquire(self, false);
+                    _128._18._10 = *attacker;
+                    _128._18._20 = mtx;
+                }
+
+                if (auto* awareness = mActor->getAwareness()) {
+                    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+                    Unk_7102451448 filter;
+                    while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+                        if ((entry->_58.getTranslation() - pos).squaredLength() < dist * dist) {
+                            ksys::act::ActorLinkConstDataAccess accessor;
+                            ksys::act::acquireActor(&entry->_0.mLink, &accessor);
+                            _128.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+                        }
+                    }
+                }
+
+                sead::Vector3f home;
+                mActor->getHomePos(&home);
+                if (sead::Vector2f(home.x - mActor->getMtx().m[0][3],
+                                   home.z - mActor->getMtx().m[2][3])
+                        .length() < dist) {
+                    sub_71005E1884(mActor, &_128, mFortressTag_s.cstr());
+                }
+            }
+        }
+    }
+
+    auto* child = getCurrentChild();
+    const bool done = child->isFinished() || child->isFailed();
+    if (done || !m36()) {
+        const bool in_water = m41();
+        const bool changeable = done || isChangeable();
+        if (m35()) {
+            m37();
+            return;
+        }
+        if (isCurrentChild("所持")) {
+            ksys::act::disableAttClient(mActor, "Grab");
+        } else {
+            if (in_water && changeable &&
+                !(*mInWaterDepth_s > 0.0f && mActor->get68f() &&
+                  mActor->get6f0() - mActor->getMtx().m[1][3] >
+                      *mInWaterDepth_s - *mOutOfWaterOffset_s)) {
+                if (_38 && (_38->_14 & 2))
+                    changeChild("落下");
+                else
+                    m38();
+                return;
+            }
+            if (!in_water && changeable && *mInWaterDepth_s > 0.0f && mActor->get68f() &&
+                mActor->get6f0() - mActor->getMtx().m[1][3] > *mInWaterDepth_s) {
+                m39();
+                return;
+            }
+            if (isCurrentChild("通常") && _38 && (_38->_14 & 2)) {
+                changeChild("落下");
+                return;
+            }
+            auto* ride_info = actor->getPlayerRideInfo();
+            if (ride_info && (ride_info->_30 & 1)) {
+                ksys::act::disableAttClient(mActor, "Grab");
+                if (!isCurrentChild("騎乗") &&
+                    (child->isChangeable() || child->isFinished() || child->isFailed())) {
+                    changeToRide();
+                    return;
+                }
+            }
+            if (sub_71003B5804(true))
+                return;
+        }
+    }
+
+    if (child->isFinished() || child->isFailed())
+        m38();
 }
 
 void EnemyRoot::leave_() {

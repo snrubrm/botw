@@ -368,11 +368,9 @@ public:
 class Unk_71023eaec8 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
-    void* m2() override { return _18; }
+    void* m2() override { return &_18; }
 
-    ksys::act::BaseProcLink _18[2];
-    sead::Matrix34f _38 = sead::Matrix34f::ident;
-    u32 _68 = 0;
+    Unk_71023eaec8_Payload _18;
 };
 
 // vtable 0x7102396ae0 (StalPartNormal); message 0x800001f

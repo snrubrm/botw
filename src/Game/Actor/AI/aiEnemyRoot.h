@@ -12,6 +12,9 @@ public:
     ~Unk_7100700834();
 
     bool sub_7100700844(const ksys::Message* message);
+    // 0x71007008e0: applies the stored mass values (_0 / _4) to the actor's character controller,
+    // depending on the ragdoll state.
+    void sub_71007008E0(ksys::act::Actor* actor);
 
     // The payload of message 0x80000ca (type 1: a positive float, 2: no value), as read by sub_7100700844.
     struct Payload {
@@ -19,7 +22,7 @@ public:
         s8 mType;
     };
 
-    u32 _0;
+    f32 _0;
     f32 _4;
     u8 _8;  // 0: nothing, 1: _4 is set, 2: set by payload type 2
 };

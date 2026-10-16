@@ -30,6 +30,39 @@ bool Unk_7100700834::sub_7100700844(const ksys::Message* message) {
     return true;
 }
 
+// NON_MATCHING: Unk_71006ecc78::sub_71006EE274 is declared to return u8 (the original caller tests it as a
+// bool: tbnz instead of and + cbnz).
+void Unk_7100700834::sub_71007008E0(ksys::act::Actor* actor) {
+    if (!actor || _8 == 0)
+        return;
+    auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor);
+    if (!dynamic_actor)
+        return;
+    auto* controller = actor->getCharacterController();
+    if (!controller)
+        return;
+    auto* ragdoll = dynamic_actor->_868;
+    if (!ragdoll)
+        return;
+
+    if ((ragdoll->sub_71006EE274() || ragdoll->sub_71006ED9EC() || ragdoll->sub_71006EDDD4()) &&
+        _8 != 2) {
+        if (_0 <= 0.0f)
+            _0 = controller->sub_7100F60390();
+        if (_4 != controller->sub_7100F60390())
+            controller->sub_7100F60378(_4);
+        return;
+    }
+
+    if (_0 > 0.0f && _0 != controller->sub_7100F60390())
+        controller->sub_7100F60378(_0);
+    if (_8 == 2) {
+        _8 = 0;
+        _0 = 0;
+        _4 = 0;
+    }
+}
+
 void Unk_7100702370::sub_7100702370() {
     _14 = 0;
     _10 = mActor->getMtx().m[1][3];
