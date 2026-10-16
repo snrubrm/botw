@@ -734,11 +734,17 @@ bool WeaponBase::m199() {
     return result;
 }
 
-// NON_MATCHING: the original's index search and swaps are bounds-checked (PtrArray::at / a checked swap);
-// our sead PtrArray::indexOf / swap are not.
+// NON_MATCHING: the index search now matches (explicit bounds checks as in PlayerOrEnemy::m147); the
+// profile comparisons in the loops are laid out differently.
 void WeaponBase::m147(sead::PtrArray<Actor>* actors) {
     const s32 num = actors->size();
-    s32 idx = actors->indexOf(this);
+    s32 idx = -1;
+    for (s32 i = 0; i < num; ++i) {
+        if (actors->at(i) == this) {
+            idx = i;
+            break;
+        }
+    }
     if (idx < 0)
         return;
 
@@ -750,7 +756,8 @@ void WeaponBase::m147(sead::PtrArray<Actor>* actors) {
                  weapon->getProfile() != "WeaponLargeSpear") ||
                 (actors->at(i) && actors->at(i)->getProfile() == "OptionalWeapon")) {
                 if (idx > i) {
-                    actors->swap(idx, i);
+                    if (u32(actors->size()) > u32(idx) && u32(actors->size()) > u32(i))
+                        actors->swap(idx, i);
                     idx = i;
                 }
             }
@@ -764,13 +771,15 @@ void WeaponBase::m147(sead::PtrArray<Actor>* actors) {
                                          weapon->getProfile() == "WeaponLargeSword" ||
                                          weapon->getProfile() == "WeaponLargeSpear");
         if (idx < i && is_sword) {
-            actors->swap(idx, i);
+            if (u32(actors->size()) > u32(idx) && u32(actors->size()) > u32(i))
+                actors->swap(idx, i);
             idx = i;
         }
         if (actors->at(i) && actors->at(i)->getProfile() == "OptionalWeapon") {
             const bool type3 = isWeaponType3();
             if (i < idx && type3) {
-                actors->swap(idx, i);
+                if (u32(actors->size()) > u32(idx) && u32(actors->size()) > u32(i))
+                    actors->swap(idx, i);
                 idx = i;
             }
         }
