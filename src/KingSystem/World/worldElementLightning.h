@@ -28,6 +28,10 @@ public:
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
     void m35(f32 delta_frame) override {}
+    // Own overrides in the original (vtable 0x710251f710 slots 36-38 point to 0x71010c6ca0 / ca4 / cac).
+    void m36() override {}
+    bool m37() override { return true; }
+    void m38() override {}
 
     /* 0x48 */ ksys::phys::RigidBody* mRigidBody2;
     /* 0x50 */ ElementLightningCreateArg mArg;
