@@ -211,6 +211,14 @@ void GameSceneSubsys5::sub_7100905F30() {
     _48 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::sInstance->_30, "MagneConnect");
 }
 
+void GameSceneSubsys5::sub_7100905F9C(const sead::Matrix34f& mtx, f32 value) {
+    if (!_48.isActive())
+        return;
+    _48.setMatrix(mtx);
+    _48.setDelayEmitParam0x78(value);
+    _48.setDelayEmitParamF8Value(_13c);
+}
+
 bool GameSceneSubsys5::sub_7100905B34() const {
     return _fc[_148];
 }
