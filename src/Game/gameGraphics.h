@@ -36,13 +36,18 @@ class EnvMgr;
 // Constructor 0x7100f35df8; the bounds and result fields are copied by Graphics::sub_7100F2E2A4.
 class Unk_7100f35df8 {
 public:
+    // Copied as one 16-byte block by Graphics::sub_7100F2E2A4 (placeholder name).
+    struct Unk_20 {
+        sead::Vector3f _0 = sead::Vector3f::zero;
+        f32 _c = 0;
+    };
+
     Unk_7100f35df8();
 
     bool _0 = false;
     u64 _8 = 0;
     sead::BoundBox2f _10;
-    sead::Vector3f _20 = sead::Vector3f::zero;
-    f32 _2c = 0;
+    Unk_20 _20;
     f32 _30 = 0;
     f32 _34 = 0;
     f32 _38 = 0;
@@ -77,7 +82,43 @@ private:
 // 12920C4 selects a signed buffer index and sets byte 1FF4 in its record.
 class Unk_710129175c {
 public:
+    // Placeholder: the block at _18 (Graphics::sub_7100F2E2A4 tests bit 1 of the byte at 0x1f91).
+    struct Unk_18 {
+        u8 _0[0x1f91];
+        u8 _1f91;
+    };
+    // The result that 0x710129276c fills (layout from Graphics::sub_7100F2E2A4, which copies it to the
+    // registered Unk_7100f35df8 settings).
+    struct Result {
+        u64 _0;
+        sead::BoundBox2f bounds;
+        f32 _18;
+        Unk_7100f35df8::Unk_20 _1c;
+        f32 _2c;
+    };
+
     void sub_71012920C4(s32 index);
+    // 0x710129276c (declaration only; placeholder name).
+    void sub_710129276C(s32 index, Result* result);
+
+    u8 _0[0x18];
+    Unk_18* _18;
+};
+
+// Declaration only: F2C140 constructs these (0x1010 bytes at 0x7100f185a4, stored at Graphics + 0x388;
+// 0x178 bytes at 0x7100efd9b8, stored at + 0x3a8) and the GrudgeRenderer at + 0x3a0 (0x2fb0 bytes; name from
+// the CSV, namespace unknown). Graphics::sub_7100F2E2A4 calls one method of each.
+class Unk_7100f185a4 {
+public:
+    void sub_7100F1AC58();
+};
+class Unk_7100efd9b8 {
+public:
+    void sub_7100EFE030();
+};
+class GrudgeRenderer {
+public:
+    void sub_710128F2A4();
 };
 
 // Declaration only: F2C140 allocates 0x6c0 bytes, constructs this object at 129421C and stores it at
@@ -156,6 +197,10 @@ public:
     // 0x7100f2af70 (placeholder name; CSV Graphics::__auto0): stores the map kind (byte at +0xf59) under
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
+
+    // 0x7100f2e2a4 (placeholder name; CSV Graphics::__auto1): refreshes the registered settings from the
+    // object at 0xb38 (if its flag is set), then updates the objects at 0x388 / 0x3a0 / 0x3a8.
+    void sub_7100F2E2A4();
 
     // 0x7100f2afac / 0x7100f2afe8 / 0x7100f2b024 (lane4 s64; placeholder names; CSV Graphics::__auto9 / __auto14 / x):
     // store a byte at +0xf5b / +0xf5d / +0xf5f under the lock at +0xf18 (values 0 .. 2 seen).
@@ -257,9 +302,13 @@ public:
     Unk_378* _378;
 
 private:
-    u8 _380[0x398 - 0x380];
+    u8 _380[0x388 - 0x380];
+    Unk_7100f185a4* _388;
+    u8 _390[0x398 - 0x390];
     Unk_7101293bac* _398;
-    u8 _3a0[0xa98 - 0x3a0];
+    GrudgeRenderer* _3a0;
+    Unk_7100efd9b8* _3a8;
+    u8 _3b0[0xa98 - 0x3b0];
     Unk_a98* _a98;
     u8 _aa0[0xaa8 - 0xaa0];
     Unk_aa8* _aa8;

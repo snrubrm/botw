@@ -99,6 +99,25 @@ void Graphics::sub_7100F2FF08(f32 ratio, f32 scale) {
     setEnvMaterialParamF32("uking_dynamic_world_shadow_off", shadowRatio * ((1.0f - _e8c) - 1.0f) + 1.0f);
 }
 
+void Graphics::sub_7100F2E2A4() {
+    if (_b38 && _ae0 && (_b38->_18->_1f91 & 2)) {
+        Unk_710129175c::Result result;
+        _b38->sub_710129276C(0, &result);
+        _ae0->_8 = result._0;
+        _ae0->_10 = result.bounds;
+        _ae0->_30 = result._18;
+        _ae0->_4c = result._2c;
+        _ae0->_20 = result._1c;
+        _ae0->_0 = true;
+    }
+    if (_388)
+        _388->sub_7100F1AC58();
+    if (_3a0)
+        _3a0->sub_710128F2A4();
+    if (_3a8)
+        _3a8->sub_7100EFE030();
+}
+
 void Graphics::sub_7100F2F1C8(Unk_7100f35df8* settings) {
     if (_ae0)
         return;
