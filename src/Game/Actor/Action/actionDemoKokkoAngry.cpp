@@ -29,8 +29,8 @@ void DemoKokkoAngry::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::gdt::setBoolByKey(true, "Kokko_Event_Running", false);
     _28 = ksys::Timer(*mWaitTime_s, *mWaitTime_s);
     _34 = 0;
-    if (auto* mgr = sub_710FFD7CC())
-        mgr->sub_710FFBEA8(true);
+    if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+        mgr->sub_7100FFBEA8(true);
 }
 
 void DemoKokkoAngry::leave_() {

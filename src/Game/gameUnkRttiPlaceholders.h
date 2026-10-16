@@ -2361,6 +2361,10 @@ class Unk_71024fd0a8 : public ksys::snd::Bgm {
 public:
     ~Unk_71024fd0a8() override;
     void m14(sead::TextWriter& writer) override {}
+
+    u8 _10[0x20 - 0x10];
+    // Set by Unk_710260f198::sub_7100FFBEA8 (BGM kind 4).
+    /* 0x20 */ bool _20;
 };
 
 // vtable 0x71024fd188 (17 slots); placeholder generated from the vtable (genskel.py).

@@ -31,6 +31,7 @@ class UserInstanceSLink;
 }  // namespace xlink2
 
 class Unk_SpotBgmHandle;
+class Unk_SpotBgmInstance;
 
 namespace sead {
 class TextWriter;
@@ -675,6 +676,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710260f048, 0x1c0);
 class Unk_710260f1a8 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_710260f1a8, Bgm)
 public:
+    // 0x71010252c0 / 0x7101025388 (declared only): add / remove a spot BGM instance (`started`: the controller runs).
+    void sub_71010252C0(Unk_SpotBgmInstance* instance, bool started);
+    void sub_7101025388(Unk_SpotBgmInstance* instance);
     // 0x71010255d0 (declared only; 28 B): clears _80 and resets the volume of the sound at _78 to 1.
     void sub_71010255D0();
 };
@@ -998,6 +1002,12 @@ public:
     // 0x7100ffafbc / 0x7100ffb2d4 (declared only): the two BGM delegates.
     void sub_7100FFAFBC(Bgm* bgm);
     void sub_7100FFB2D4(Bgm* bgm);
+    // 0x7100ffbbe4 (SpotBgmTriggerAction::enter_) / 0x7100ffbca0 (leave_): declared only.
+    void sub_7100FFBBE4(Unk_SpotBgmInstance* instance);
+    void sub_7100FFBCA0(Unk_SpotBgmInstance* instance);
+    // 0x7100ffbea8 (declared only; lane1 s46): sets the byte at +0x20 of the child 4 (KokkoAngry::~KokkoAngry passes
+    // false).
+    void sub_7100FFBEA8(bool value);
     // 0x7100ffb5b0 / 0x7100ffb7e8 (declared only; m5's update steps).
     void sub_7100FFB5B0();
     void sub_7100FFB7E8();

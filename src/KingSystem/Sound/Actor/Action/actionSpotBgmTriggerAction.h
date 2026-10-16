@@ -33,17 +33,7 @@ public:
     u8 _36c[0x3c0 - 0x36c];
 };
 
-// Placeholder name (SoundMgr::_30::_48).
-struct Unk_SpotBgmMgr {
-    // 0x710ffbbe4 (SpotBgmTriggerAction::enter_) / 0x710ffbca0 (leave_)
-    void sub_710FFBBE4(Unk_SpotBgmInstance* instance);
-    void sub_710FFBCA0(Unk_SpotBgmInstance* instance);
-    // 0x710ffbea8 (declared only; lane1 s46): sets the byte at +0x20 of the child 4 (KokkoAngry::~KokkoAngry passes false).
-    void sub_710FFBEA8(bool value);
-};
-
-// 0x710ffd7cc (172 B; declared only): SoundMgr::_30->_48, or null.
-Unk_SpotBgmMgr* sub_710FFD7CC();
+// The spot BGM manager the actions talk to is ksys::snd::Unk_710260f198 (ksys::snd::sub_7100FFD7CC).
 
 namespace ksys::act {
 class Actor;

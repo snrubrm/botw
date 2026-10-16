@@ -17,8 +17,8 @@ KokkoAngry::~KokkoAngry() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         if (enemy->_e84.isOnBit(6)) {
             ksys::gdt::setBoolByKey(false, "Kokko_Event_Running", false);
-            if (auto* mgr = sub_710FFD7CC())
-                mgr->sub_710FFBEA8(false);
+            if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+                mgr->sub_7100FFBEA8(false);
         }
     }
 }
@@ -43,8 +43,8 @@ void KokkoAngry::leave_() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->_e84.resetBit(6);
     ksys::gdt::setBoolByKey(false, "Kokko_Event_Running", false);
-    if (auto* mgr = sub_710FFD7CC())
-        mgr->sub_710FFBEA8(false);
+    if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+        mgr->sub_7100FFBEA8(false);
     CreateActorWithTarget::leave_();
 }
 

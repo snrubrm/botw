@@ -93,4 +93,19 @@ void Unk_710260f198::m10() {
         bgm->_224 = true;
 }
 
+void Unk_710260f198::sub_7100FFBBE4(Unk_SpotBgmInstance* instance) {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f1a8>(_8.sub_7100FF7C74(5)))
+        bgm->sub_71010252C0(instance, _ec & 1);
+}
+
+void Unk_710260f198::sub_7100FFBCA0(Unk_SpotBgmInstance* instance) {
+    if (auto* bgm = sead::DynamicCast<Unk_710260f1a8>(_8.sub_7100FF7C74(5)))
+        bgm->sub_7101025388(instance);
+}
+
+void Unk_710260f198::sub_7100FFBEA8(bool value) {
+    if (auto* bgm = sead::DynamicCast<Unk_71024fd0a8>(_8.sub_7100FF7C74(4)))
+        bgm->_20 = value;
+}
+
 }  // namespace ksys::snd

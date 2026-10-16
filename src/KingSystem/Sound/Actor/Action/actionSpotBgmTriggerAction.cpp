@@ -44,15 +44,15 @@ bool SpotBgmTriggerAction::init_(sead::Heap* heap) {
 
 void SpotBgmTriggerAction::enter_(ksys::act::ai::InlineParamPack* params) {
     if (_48) {
-        if (auto* mgr = sub_710FFD7CC())
-            mgr->sub_710FFBBE4(_48);
+        if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+            mgr->sub_7100FFBBE4(_48);
     }
 }
 
 void SpotBgmTriggerAction::leave_() {
     if (_48) {
-        if (auto* mgr = sub_710FFD7CC())
-            mgr->sub_710FFBCA0(_48);
+        if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+            mgr->sub_7100FFBCA0(_48);
     }
 }
 

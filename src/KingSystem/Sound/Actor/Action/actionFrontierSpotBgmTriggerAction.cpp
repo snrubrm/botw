@@ -29,15 +29,15 @@ bool FrontierSpotBgmTriggerAction::init_(sead::Heap* heap) {
 
 void FrontierSpotBgmTriggerAction::enter_(ksys::act::ai::InlineParamPack* params) {
     if (_60) {
-        if (auto* mgr = sub_710FFD7CC())
-            mgr->sub_710FFBBE4(_60);
+        if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+            mgr->sub_7100FFBBE4(_60);
     }
 }
 
 void FrontierSpotBgmTriggerAction::leave_() {
     if (_60) {
-        if (auto* mgr = sub_710FFD7CC())
-            mgr->sub_710FFBCA0(_60);
+        if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+            mgr->sub_7100FFBCA0(_60);
     }
 }
 
