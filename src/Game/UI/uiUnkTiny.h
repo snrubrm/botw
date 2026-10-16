@@ -820,8 +820,9 @@ struct UiStringEntry {
 class ScreenChild;
 // A slot of Unk_7102474bc8::_130: a screen child (opened / closed through slot 6, state _104) and an index.
 struct UiSlot {
-    ScreenChild* target;
-    s32 _8;
+    // default values from the slot array allocation in 0x71009339e4
+    ScreenChild* target = nullptr;
+    s32 _8 = -1;
 };
 
 // Member of ScreenSousaGuide (0x3618) and others: two sead::Buffers freed in the destructor (0x158 bytes).
@@ -831,6 +832,8 @@ public:
     Unk_7102474bc8();
     virtual ~Unk_7102474bc8();
 
+    // 0x71009339e4 (placeholder name): allocates `count` slots (_130) and string records (_140)
+    void sub_71009339E4(sead::Heap* heap, s32 count);
     // 0x7100933e50 / 0x7100933fb8 (placeholder names): `_130` holds `_8` slots (16 bytes each).
     bool sub_7100933E50() const;
     // 0x7100934478 (placeholder name): per slot, shows (flag false) or drops (flag true) the pending string records;

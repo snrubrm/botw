@@ -1213,6 +1213,15 @@ void Unk_7102474bc8::sub_7100934308(s32 id, const sead::SafeString& text, s32 va
     sub_7100933FE0(entry);
 }
 
+// 0x71009339e4
+void Unk_7102474bc8::sub_71009339E4(sead::Heap* heap, s32 count) {
+    if (!heap || count <= 0)
+        return;
+    _8 = count;
+    _130.tryAllocBuffer(count, heap);
+    _140.tryAllocBuffer(_8, heap);
+}
+
 // 0x7100933bdc
 void Unk_7102474bc8::sub_7100933BDC() {
     _151 = 0;
