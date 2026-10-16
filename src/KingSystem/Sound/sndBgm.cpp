@@ -124,19 +124,15 @@ Unk_7100ff7444::~Unk_7100ff7444() {
     mEntries.freeBuffer();
 }
 
-// NON_MATCHING: the original walks the list with a cached next node (a robust iterator, which our sead ObjList
-// does not have); ours goes through front() / next().
 void Unk_7100ff7444::sub_7100FF74D0() {
     auto lock = sead::makeScopedLock(mCS);
-    for (auto* entry = mEntries.front(); entry;) {
-        auto* next = mEntries.next(entry);
-        if (Bgm* bgm = entry->bgm) {
+    for (auto it = mEntries.robustBegin(), end = mEntries.robustEnd(); it != end; ++it) {
+        if (Bgm* bgm = it->bgm) {
             if (auto* child = sead::DynamicCast<Unk_71025ce380>(bgm))
                 child->sub_710101D9A4();
             delete bgm;
         }
-        mEntries.erase(entry);
-        entry = next;
+        mEntries.erase(&*it);
     }
 }
 

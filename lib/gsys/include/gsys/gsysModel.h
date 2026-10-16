@@ -208,6 +208,11 @@ public:
     void updateWorldMatrixModelUnit_(ModelInfo* info);
     // 0x7100bf8f48 (CSV name): applyAnimationTo(this, flags).
     void safeApplyAnimation(u32 flags);
+    // Inline-only in the original; names are guesses. Swarm::Unit::m9 (0x71002da340) sets bit 4 of
+    // _a0 after clearModelAccesssHandle, then tests bit 1 of _a1.
+    void setFlagsA0(u8 flags) { _a0 |= flags; }
+    bool testFlagsA1(u8 flags) const { return _a1 & flags; }
+
     // 0x7100bf7cf0 (CSV name; declared only): sets (`on`) or clears bit `bit` of the u16 flags at
     // +0xc of the model unit of each of the first min(mUnitPool.size(), mNumModels) pool entries.
     void x(bool on, int bit);

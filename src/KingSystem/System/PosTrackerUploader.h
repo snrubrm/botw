@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <nn/account.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadHeap.h>
 #include <prim/seadDelegate.h>
@@ -31,6 +32,9 @@ public:
     bool sub_7100A8C770(const void* buffer, u32 size, u64 nex_id, s32 block, bool hard_mode);
     bool sub_7100A8CC48(const void* buffer, u32 size, u64 nex_id, bool hard_mode);
     bool queueCleanUp();
+    // 0x7100a8d2fc (placeholder name): gets the network service account ID and loads its ID token
+    // (up to 0xc00 bytes) for the current user, refreshing the token cache first.
+    bool sub_7100A8D2FC(nn::account::NetworkServiceAccountId* id, char* token);
 
     sead::Heap* getHeap() const { return mHeap; }
     sead::Heap* getHeap2() const { return mHeap2; }

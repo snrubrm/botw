@@ -2,6 +2,7 @@
 #include <heap/seadExpHeap.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/System/Account.h"
 #include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 
 namespace ksys {
@@ -91,6 +92,32 @@ bool PosTrackerUploader::initHeaps(sead::Heap* parent, s32 value) {
     mHeap->destroy();
     mHeap = nullptr;
     return false;
+}
+
+bool PosTrackerUploader::sub_7100A8D2FC(nn::account::NetworkServiceAccountId* id, char* token) {
+    const nn::account::UserHandle& handle = *Account::instance()->getUserHandle();
+
+    bool available = false;
+    nn::account::IsNetworkServiceAccountAvailable(&available, handle);
+    if (!available || nn::account::GetNetworkServiceAccountId(id, handle).IsFailure())
+        return false;
+
+    nn::account::AsyncContext context;
+    if (nn::account::EnsureNetworkServiceAccountIdTokenCacheAsync(&context, handle).IsFailure())
+        return false;
+
+    {
+        nn::os::SystemEvent event;
+        context.GetSystemEvent(&event);
+        event.Wait();
+    }
+
+    if (context.GetResult().IsFailure())
+        return false;
+
+    u64 size;
+    return nn::account::LoadNetworkServiceAccountIdTokenCache(&size, token, 0xc00, handle)
+        .IsSuccess();
 }
 
 }  // namespace ksys

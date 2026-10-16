@@ -440,6 +440,16 @@ void uking::act::Swarm::Unit::m8() {
     _8.setTranslation(_38.mean + _8.getTranslation());
 }
 
+bool uking::act::Swarm::Unit::m9() {
+    if (_78) {
+        _78->clearModelAccesssHandle();
+        _78->setFlagsA0(0x10);
+        if (_78->testFlagsA1(2))
+            return false;
+    }
+    return true;
+}
+
 // NON_MATCHING: the owner notification is inlined.
 void uking::act::Swarm::Unit::m10() {
     _b0->sub_71002D484C(this);
