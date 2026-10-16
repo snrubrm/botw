@@ -144,4 +144,12 @@ void RideHorse::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+// NON_MATCHING: two loads swapped inside the inlined getRotation and the result register set early
+bool RideHorse::sub_710023A9E8() const {
+    sead::Vector3f rot;
+    _130.getRotation(rot);
+    return rot.x <= 0.001f && rot.x >= -0.001f && rot.y <= 0.001f && rot.y >= -0.001f &&
+           rot.z <= 0.001f && rot.z >= -0.001f;
+}
+
 }  // namespace uking::action

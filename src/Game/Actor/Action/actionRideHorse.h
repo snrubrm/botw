@@ -51,7 +51,8 @@ protected:
     sead::Matrix33f _6c;
     ksys::act::ModelBindInfo _90;
     // FIXME: fields not decompiled yet (written by calc_)
-    u8 _130[0x16c - 0x130];
+    sead::Matrix34f _130;
+    u8 _160[0x16c - 0x160];
     f32 _16c = 1.0f;
     f32 _170 = 0;
     f32 _174 = 0;
@@ -60,6 +61,8 @@ protected:
 
     // 0x710023a4c8 (declaration only)
     void sub_710023A4C8();
+    // 0x710023a9e8 (placeholder name): whether the rotation of _130 is zero (each angle within 0.001).
+    bool sub_710023A9E8() const;
     // 0x7100239f8c (placeholder name): starts the "HorseRideonMove" AS once and turns towards the target (the rotation
     // speed depends on the distance `_170` against `_174`).
     void sub_7100239F8C(ksys::phys::CharacterController* controller, ksys::act::BaseProcAccessor* accessor);
