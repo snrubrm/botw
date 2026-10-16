@@ -2,6 +2,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/Actor/aiUnk_7100FFD79C.h"
+#include "Game/Actor/aiUnk_7100FFDFDC.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/System/StageInfo.h"
@@ -605,6 +606,31 @@ ksys::snd::Unk_71024fca78* sub_7100FFD79C() {
     if (!sound || !sound->_30)
         return nullptr;
     return sound->_30->_48;
+}
+
+Unk_71024fd448* sub_7100FFE520(const ksys::snd::RemainsBossBgmType* type) {
+    ksys::snd::Bgm* bgm;
+    switch (*type) {
+    case ksys::snd::RemainsBossBgmType::Wind:
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_27);
+        break;
+    case ksys::snd::RemainsBossBgmType::Fire:
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_29);
+        break;
+    case ksys::snd::RemainsBossBgmType::Elec:
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_28);
+        break;
+    case ksys::snd::RemainsBossBgmType::Water:
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_30);
+        break;
+    default:
+        return nullptr;
+    }
+    return sead::DynamicCast<Unk_71024fd448>(bgm);
+}
+
+Unk_71024fe970* sub_7100FFEB28() {
+    return sead::DynamicCast<Unk_71024fe970>(ksys::snd::getControllerBgm(ksys::snd::BgmKind::_35));
 }
 
 void* sub_7100FFEAF4() {
