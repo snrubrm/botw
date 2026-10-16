@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
+#include <utility>
 #include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
 #include <heap/seadHeap.h>
@@ -161,7 +162,7 @@ void ClusteredRenderer::sub_71012439BC() {
 // NON_MATCHING: the original walks the list nodes (next loaded before the match test); the ObjList
 // iterator walks items.
 void ClusteredRenderer::sub_7101244210(s32 x, s32 z) {
-    const u32 keep = sub_7101244C58(x, z);
+    const u64 keep = sub_7101244C58(x, z);
     auto lock = sead::makeScopedLock(mData._198);
 
     for (s32 i = 0; i < 4; ++i) {
@@ -191,6 +192,92 @@ void ClusteredRenderer::sub_7101244210(s32 x, s32 z) {
     }
     if ((~keep & 0xf) != 0 && (mData2._c9c & 8))
         mData2._c9c &= ~4u;
+}
+
+u64 ClusteredRenderer::sub_7101244C58(s32 x, s32 z) {
+    u32 dx;
+    switch (x - mData._e8) {
+    case -1:
+        dx = 0;
+        break;
+    case 0:
+        dx = 1;
+        break;
+    case 1:
+        dx = 2;
+        break;
+    default:
+        dx = 0xf;
+        break;
+    }
+    const s32 dz = z - mData._ec;
+    u32 code;
+    if (dz == -1)
+        code = dx;
+    else if (dz == 0)
+        code = dx | 0x10;
+    else if (dz == 1)
+        code = dx | 0x20;
+    else
+        code = dx | 0xf0;
+
+    u64 keep = 0;
+    switch (code) {
+    case 0x00:
+        std::swap(mData._f0->mRegions[3], mData._f0->mRegions[0]);
+        std::swap(mData._f0->mHandles[3], mData._f0->mHandles[0]);
+        keep = 0b1000;
+        break;
+    case 0x01:
+        std::swap(mData._f0->mRegions[2], mData._f0->mRegions[0]);
+        std::swap(mData._f0->mHandles[2], mData._f0->mHandles[0]);
+        std::swap(mData._f0->mRegions[3], mData._f0->mRegions[1]);
+        std::swap(mData._f0->mHandles[3], mData._f0->mHandles[1]);
+        keep = 0b1100;
+        break;
+    case 0x02:
+        std::swap(mData._f0->mRegions[1], mData._f0->mRegions[2]);
+        std::swap(mData._f0->mHandles[1], mData._f0->mHandles[2]);
+        keep = 0b0100;
+        break;
+    case 0x10:
+        std::swap(mData._f0->mRegions[0], mData._f0->mRegions[1]);
+        std::swap(mData._f0->mHandles[0], mData._f0->mHandles[1]);
+        std::swap(mData._f0->mRegions[2], mData._f0->mRegions[3]);
+        std::swap(mData._f0->mHandles[2], mData._f0->mHandles[3]);
+        keep = 0b1010;
+        break;
+    case 0x11:
+        keep = 0b1111;
+        break;
+    case 0x12:
+        std::swap(mData._f0->mRegions[0], mData._f0->mRegions[1]);
+        std::swap(mData._f0->mHandles[0], mData._f0->mHandles[1]);
+        std::swap(mData._f0->mRegions[2], mData._f0->mRegions[3]);
+        std::swap(mData._f0->mHandles[2], mData._f0->mHandles[3]);
+        keep = 0b0101;
+        break;
+    case 0x20:
+        std::swap(mData._f0->mRegions[1], mData._f0->mRegions[2]);
+        std::swap(mData._f0->mHandles[1], mData._f0->mHandles[2]);
+        keep = 0b0010;
+        break;
+    case 0x21:
+        std::swap(mData._f0->mRegions[0], mData._f0->mRegions[2]);
+        std::swap(mData._f0->mHandles[0], mData._f0->mHandles[2]);
+        std::swap(mData._f0->mRegions[1], mData._f0->mRegions[3]);
+        std::swap(mData._f0->mHandles[1], mData._f0->mHandles[3]);
+        keep = 0b0011;
+        break;
+    case 0x22:
+        std::swap(mData._f0->mRegions[0], mData._f0->mRegions[3]);
+        std::swap(mData._f0->mHandles[0], mData._f0->mHandles[3]);
+        keep = 0b0001;
+        break;
+    default:
+        break;
+    }
+    return keep;
 }
 
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {

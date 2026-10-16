@@ -198,8 +198,8 @@ public:
     // 0x7101244210 (placeholder name): moves to grid cell (x, z) (stored in _e8 / _ec): unloads the
     // regions sub_7101244C58 does not keep and loads the others.
     void sub_7101244210(s32 x, s32 z);
-    // 0x7101244c58 (declaration only; placeholder name): bit i set = region i stays loaded for (x, z).
-    u32 sub_7101244C58(s32 x, s32 z);
+    // 0x7101244c58 (declaration only; placeholder name): bit i set = region i stays loaded for (x, z) (returned in a 64-bit register).
+    u64 sub_7101244C58(s32 x, s32 z);
     // 0x7101244ea8 (CSV ClusteredRenderer::loadX; declaration only)
     void loadX(ClusteredRendererCells* cells, s32 region);
     // 0x7101243cd8 (declaration only; placeholder name): releases the cell object.
