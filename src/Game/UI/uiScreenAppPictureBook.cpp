@@ -1850,6 +1850,67 @@ void ScreenAppPictureBookUnk::sub_710093EC3C(s32 index, s32 mode) {
     sub_710093E784(index);
 }
 
+// NON_MATCHING: branch layout and register allocation (same search as sub_710093EC3C)
+// 0x710093ee8c
+void ScreenAppPictureBookUnk::sub_710093EE8C(s32 index, s32 entry_index, s32 mode) {
+    // the overall unit index
+    s32 unit = 0;
+    if (mEntries.data()) {
+        for (s32 i = 0; i < entry_index; ++i) {
+            if (const ScreenAppPictureBookEntry* entry = mEntries[i])
+                unit += entry->mParams._29c;
+        }
+        unit += index;
+    }
+    // the entry and page of that unit
+    s32 entry_idx = entry_index;
+    s32 page = 0;
+    const auto find_page = [&] {
+        s32 rest = unit;
+        for (s32 i = 0; i < _2a8; ++i) {
+            const ScreenAppPictureBookEntry* entry = mEntries(i);
+            if (rest - entry->mParams._29c >= 0) {
+                rest -= entry->mParams._29c;
+                continue;
+            }
+            for (s32 p = 0; p < entry->_2f4; ++p) {
+                if (rest - entry->mParams._2a0 * entry->mParams._2a4 < 0) {
+                    entry_idx = i;
+                    page = p;
+                    return;
+                }
+                rest -= entry->mParams._2a0 * entry->mParams._2a4;
+            }
+        }
+    };
+    find_page();
+
+    s32 item = -1;
+    s32 entry_id = -1;
+    if (mEntries.data()) {
+        s32 overall = 0;
+        for (s32 i = 0; i < entry_idx; ++i) {
+            if (const ScreenAppPictureBookEntry* entry = mEntries[i])
+                overall += entry->_2f4;
+        }
+        if (mEntries.size() != 0) {
+            s32 rest = sead::Mathi::clamp(overall + page, 0, _2ac - 1);
+            for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+                const ScreenAppPictureBookEntry* entry = *it;
+                if (entry && rest - entry->_2f4 < 0) {
+                    item = rest;
+                    entry_id = entry->_2f0;
+                    break;
+                }
+                if (entry)
+                    rest -= entry->_2f4;
+            }
+        }
+    }
+    sub_710093DAFC(item, entry_id, mode);
+    sub_710093E784(unit);
+}
+
 // NON_MATCHING: the original copies Vector2f::zero as 64-bit values and tail-calls sub_710093F594
 // 0x7100944290
 void ScreenAppPictureBookUnk::sub_7100944290(sead::Heap* heap) {
