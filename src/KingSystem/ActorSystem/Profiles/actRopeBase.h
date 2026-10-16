@@ -61,7 +61,7 @@ public:
     // 0x7100ecdab8 (placeholder name): computes both end states and applies them (sub_7100ED2D4C); with _95b,
     // sets damping 0.25 / max velocity 15 on the bodies and PSI priority on the constraints.
     void sub_7100ECDAB8();
-    // 0x7100ed2c24 / 0x7100ed2d4c (296 / 1600 B, declaration only; placeholder names).
+    // 0x7100ed2c24 / 0x7100ed2d4c (placeholder names; 0x7100ed2d4c, 1600 B, declaration only).
     void sub_7100ED2C24(phys::Constraint* constraint, EndState* state);
     void sub_7100ED2D4C(EndState* first, EndState* last);
     // 0x7100ece61c (lane1 s41, declaration only; placeholder name): the point of the rope at `length` from its start.
@@ -84,6 +84,9 @@ public:
     f32 sub_7100ECE410(const sead::Vector3f& pos) const;
     // 0x7100ed68b4 (placeholder name): the segment index of `pos` (via sub_7100ECE410), clamped to 0 / _930.
     s32 sub_7100ED68B4(const sead::Vector3f& pos) const;
+    // 0x7100ed6910 (placeholder name; does not use `this`): acquires into `accessor` the actor owning the
+    // second body of `constraint` (through its PhysicsUserTag); false (and `accessor` cleared) otherwise.
+    bool sub_7100ED6910(ActorLinkConstDataAccess* accessor, const phys::Constraint* constraint) const;
     // 0x7100ed6878 (placeholder name): the rigid body `index` of the first list (null when index is negative or past _930).
     phys::RigidBody* sub_7100ED6878(s32 index) const;
 
@@ -117,7 +120,9 @@ protected:
     f32 _938;  // length of one rope segment (lane1 s41)
     f32 _93c;  // scale of the (1 - dot) term in sub_7100ECE410
     f32 _940;  // sub_7100ED68B4 multiplies the rope position by this to get a segment index
-    u8 _944[0x955 - 0x944];
+    u8 _944[0x950 - 0x944];
+    f32 _950;  // default end weight (sub_7100ED2C24)
+    u8 _954;
     // 2026-10-07: ECAA68 clears this flag; ED4A80 sets it together with _956 after detachment.
     bool _955;
     u8 _956;

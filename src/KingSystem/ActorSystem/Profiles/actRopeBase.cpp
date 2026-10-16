@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapTypes.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -164,6 +165,52 @@ s32 RopeBase::sub_7100ED68B4(const sead::Vector3f& pos) const {
     if (index < 0 || index > _930)
         return value < 0.0f ? 0 : _930;
     return index;
+}
+
+// NON_MATCHING: our build does not pass `this` to sub_7100ED6910 (which does not use it).
+void RopeBase::sub_7100ED2C24(phys::Constraint* constraint, EndState* state) {
+    if (!constraint || !state)
+        return;
+
+    state->_0 = _950;
+    state->_4 = false;
+    state->_5 = false;
+    if (!(constraint->_50 & 1) && !constraint->sub_7100F6ACE8())
+        return;
+
+    auto* body = constraint->x_0(1);
+    if (constraint->sub_7100F6AC68()) {
+        if (body)
+            return;
+    } else if (body->getMotionType() == phys::MotionType::Dynamic) {
+        state->_0 = body->getMass() * 0.8f;
+        state->_5 = true;
+        ActorLinkConstDataAccess accessor;
+        if (sub_7100ED6910(&accessor, constraint)) {
+            if (!_956 && accessor.hasTag(0xff2ecb67)) {
+                state->_6 = true;
+                if (accessor.sub_7100D10E6C(30))
+                    state->_7 = true;
+            }
+            if (accessor.sub_7100D13BB8())
+                state->_8 = true;
+        }
+    }
+    state->_4 = true;
+}
+
+bool RopeBase::sub_7100ED6910(ActorLinkConstDataAccess* accessor,
+                              const phys::Constraint* constraint) const {
+    if (constraint && !constraint->sub_7100F6AC68()) {
+        if (auto* body = constraint->x_0(1)) {
+            if (auto* tag = sead::DynamicCast<PhysicsUserTag>(body->getUserTag())) {
+                tag->acquireActor(accessor);
+                return accessor->hasProc();
+            }
+        }
+    }
+    accessor->acquire(nullptr);
+    return false;
 }
 
 phys::RigidBody* RopeBase::sub_7100ED6878(s32 index) const {
