@@ -160,6 +160,30 @@ void ScreenAppPictureBook::sub_71009F9F30(const sead::SafeString& name) {
     _3ab8 = true;
 }
 
+// 0x71009e0c28
+bool ScreenAppMapDungeon::sub_71009E0C28() {
+    if (mSensorChild) {
+        const s32 state = mSensorChild->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && !((state - 1) & 1)))
+            return false;
+    }
+    if (sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        return false;
+    return _36e4;
+}
+
+// 0x71009e0d14
+bool ScreenAppMapDungeon::sub_71009E0D14() {
+    if (mSensorChild) {
+        const s32 state = mSensorChild->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && !((state - 1) & 1)))
+            return false;
+    }
+    return !sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+}
+
 // 0x71009e2584
 void ScreenAppMapDungeon::sub_71009E2584() {
     _11518 = nn::font::DynamicCast<ScreenAppMapUnk3c90>(nn::font::DynamicCast<ScreenChildEx>(getChild(1, 0)));

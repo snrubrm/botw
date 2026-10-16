@@ -4390,7 +4390,9 @@ public:
     virtual s32 m165();
 
     // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
-    u8 _3610[0x11518 - 0x3610];
+    u8 _3610[0x36e4 - 0x3610];
+    /* 0x36e4 */ bool _36e4;
+    u8 _36e5[0x11518 - 0x36e5];
     /* 0x11518 */ ScreenAppMapUnk3c90* _11518;
     /* 0x11520 */ Unk_710247c010* mSensorChild;
     u8 _11528[0x11530 - 0x11528];
@@ -4427,6 +4429,10 @@ public:
     void sub_71009E5868(s32 index);
     // 0x71009e2584 (placeholder name): looks up the two screen children (group 1 and group 0)
     void sub_71009E2584();
+    // 0x71009e0c28 / 0x71009e0d14 (placeholder names): false while the sensor child is opening or closing or the
+    // system window is open; then _36e4 / true
+    bool sub_71009E0C28();
+    bool sub_71009E0D14();
     // 0x71009e5ca8 (placeholder name): like sub_71009E5868, also resetting the other entries and playing the
     // per-dungeon animators of _11798
     void sub_71009E5CA8(s32 index);
