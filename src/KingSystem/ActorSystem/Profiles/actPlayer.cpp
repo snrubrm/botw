@@ -1549,7 +1549,8 @@ f32 Player::sub_7100885818(s32) {
     return 1.0f;
 }
 
-void Player::sub_7100887B68() {
+// The f32 argument is unused (sub_710088D654 passes -1).
+void Player::sub_7100887B68(f32) {
     x_23("GrabWait", false, -1.0f);
 }
 

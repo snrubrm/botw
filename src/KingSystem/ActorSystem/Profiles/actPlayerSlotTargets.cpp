@@ -9,6 +9,8 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 
 namespace ksys::act {
 
@@ -146,6 +148,48 @@ void Player::x_27() {
     if (x_44())
         rate *= getParam()->getRes().mGParamList->getPlayer()->mStickDiamTired.ref();
     mASList->sub_710115EFD0(0, false, false, rate);
+}
+
+// In this file because the original calls x_7, x_10, sub_71008821BC and sub_7100887B68 out of line.
+// Finishes the equip change requested in _d68: runs the per-type follow-up (sword, shield, bow, bomb grab, rune
+// item), then makes _d68 the current type in _d30 (type 7 becomes type 0) and resets _d68.
+void Player::sub_710088D654() {
+    if (m225() || m226()) {
+        if (_d68 == getEquipmentTypeName(7) && _1e3c.value <= sead::Mathf::epsilon()) {
+            const f32 time = getParam()->getRes().mGParamList->getPlayer()->mNoEnergyDashInterval.ref();
+            _1e3c = ksys::Timer(time, time);
+        }
+    }
+
+    x_8(false, false);
+    if (_d68 == getEquipmentTypeName(1)) {
+        x_10(false);
+    } else if (_d68 == getEquipmentTypeName(2)) {
+        x_7();
+        _d68 = getEquipmentTypeName(0);
+        return;
+    } else if (_d68 == getEquipmentTypeName(3)) {
+        sub_71008821BC();
+    } else if (_d68 == getEquipmentTypeName(4)) {
+        if (auto* child = static_cast<Actor*>(getConnectedCalcChild())) {
+            sub_71005DC41C(child);
+            mASList->x_6(0x11, 0, 0.0f);
+            sub_7100887B68(-1.0f);
+            _c48.resetBit(10);
+            mASList->goLimpFromHeadShotMaybe(
+                0x31, child->getParam()->getRes().mGParamList->getLiftable()->mLiftType.ref(), 0);
+        }
+    } else if (_d68 == getEquipmentTypeName(5)) {
+    } else if (_d68 == getEquipmentTypeName(6)) {
+        if (_17d0->playerCheckController(13) && !m202() && !_c44.isOnBit(13) && !m178())
+            _c44.setBit(10);
+    }
+
+    if (_d68 == getEquipmentTypeName(7))
+        _d30 = getEquipmentTypeName(0);
+    else
+        _d30 = _d68;
+    _d68 = getEquipmentTypeName(0);
 }
 
 }  // namespace ksys::act

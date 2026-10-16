@@ -388,7 +388,7 @@ public:
     void sub_7100881DFC(f32 y, bool a2);
     void sub_7100892F5C(ksys::as::ASList::Unk4* query);
     // 0x7100887b68 (lane4 s45, unnamed in the CSV): starts the animation sequence "GrabWait".
-    void sub_7100887B68();
+    void sub_7100887B68(f32 unused);
     // 0x710086cab8 / 0x71008697c0 (lane4 s45, unnamed in the CSV): !x_44() / |_20bc| < 0.01.
     bool sub_710086CAB8();
     // 0x71008927d8 (lane4 s45, unnamed in the CSV): the AS list has the bits 0x24 and 0x26 of slot 0x42.
@@ -857,7 +857,9 @@ public:
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
     /* 0x1e24 */ f32 _1e24;  // Master Sword recover time
-    /* 0x1e28 */ u8 _1e28[0x1e60 - 0x1e28];
+    /* 0x1e28 */ u8 _1e28[0x1e3c - 0x1e28];
+    /* 0x1e3c */ ksys::Timer _1e3c;  // NoEnergyDashInterval (sub_710088D654)
+    /* 0x1e48 */ u8 _1e48[0x1e60 - 0x1e48];
     /* 0x1e60 */ ksys::Timer _1e60;  // set to PostureContinueTime by sub_7100878044
     // set to 15 by PlayerAtnMove::enter_, counted down by PlayerAtnMove::calc_
     /* 0x1e6c */ ksys::Timer _1e6c;
