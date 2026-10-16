@@ -121,6 +121,25 @@ void Unk_710260f228::m13(f32 fade_sec) {
 
 }  // namespace ksys::snd
 
+void Unk_SpotBgmInstance::sub_710102413C(f32 fade_sec) {
+    if (_368 & 1)
+        return;
+    _8.sub_7101020BB0(fade_sec);
+    if (_368 & 4)
+        _368 |= 8;
+    else
+        _260 = 0;
+    _368 |= 0x4001;
+}
+
+void Unk_SpotBgmInstance::sub_710102418C(f32 fade_sec) {
+    if (!(_368 & 1))
+        return;
+    if (_368 & 2)
+        _8.sub_710101D9F4(fade_sec);
+    _368 &= ~0x10023u;
+}
+
 void Unk_SpotBgmInstance::sub_71010242C8() {
     if (!(_368 & 4))
         return;
