@@ -3,6 +3,9 @@
 #include <math/seadVector.h>
 #include <cmath>
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -81,6 +84,67 @@ bool ViewWaitRiskAvoid::sub_71005E6B84(const sead::Vector3f& target) {
     sead::Vector3f cross;
     cross.setCross(front, dir);
     return std::atan2(cross.length(), dir.dot(front)) < *mFrontAngle_s;
+}
+
+// NON_MATCHING: stack slots / registers (the original keeps two stack copies of the target position) and the first
+// loop's size test (cmp 0 / b.le)
+// Starts a sideways avoid move away from a burning fire (m43) or from the nearby awareness entries (sensor 2, then
+// enemies), weighting each by sub_71005E6D10.
+bool ViewWaitRiskAvoid::m42() {
+    auto* actor = mActor;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const sead::Vector3f target = sub_71005D9330(actor);
+    sead::Vector3f dir = target - pos;
+    dir.y = 0.0f;
+    const f32 dist = dir.normalize();
+
+    sead::Vector3f fire;
+    if (m43(&fire)) {
+        if (sub_71005E6B84(fire)) {
+            m40();
+            return true;
+        }
+        const sead::Vector3f& self = sub_71005D9330(mActor);
+        sead::Vector3f away{self.x - fire.x, 0.0f, self.z - fire.z};
+        away.normalize();
+        m41(away.cross(dir).y >= 0.0f ? 1 : -1);
+        return true;
+    }
+
+    if (*mSpaceAngle_s <= 0.0f)
+        return false;
+
+    f32 side = 0.0f;
+    auto* awareness = actor->getAwareness();
+    for (s32 i = 0; i < 5; ++i) {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || sensor->_8.size() <= i)
+            break;
+        auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, i);
+        if (!entry)
+            break;
+        sub_71005E6D10(&side, dir, entry->_58, false, 4.0f, dist);
+    }
+    for (s32 i = 0; i < 10; ++i) {
+        if (awareness->_8.size() <= i)
+            break;
+        auto* entry = ksys::act::sub_7100D78E30(&awareness->_8, i);
+        if (!entry || !ksys::act::isEnemyProfile(&entry->_0.mLink))
+            break;
+        sub_71005E6D10(&side, dir, entry->_58, false, 2.0f, dist);
+    }
+
+    if (sead::Mathf::abs(side) < 0.7f)
+        return false;
+
+    const s8 rot = side <= 0.0f ? 1 : -1;
+    sead::Vector3f perp{-(target.z - pos.z), 0.0f, target.x - pos.x};
+    perp.normalize();
+    const sead::Vector3f goal = pos + perp * (*mSpaceDist_s * rot);
+    if (!sub_710072FAB0(actor, goal, nullptr, -1, -1.0f, -1.0f))
+        return false;
+    m41(rot);
+    return true;
 }
 
 // NON_MATCHING: scheduling / registers, and the original tests `force` with eor + tbnz

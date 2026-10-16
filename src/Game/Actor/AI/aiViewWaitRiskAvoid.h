@@ -22,7 +22,7 @@ public:
 
     bool m35() override;
 
-    // Not decompiled (0x7100e63c8 / 0x71005e651c / 0x71005e66d0 / 0x71005e6ee0).
+    // 0x71005e66d0: m42 (decompiled, m).
     virtual void m40();
     // 0x71005e651c: starts (or retargets) the sideways avoid move; `dir` is -1 / 1 (RotDir).
     virtual void m41(s8 dir);
