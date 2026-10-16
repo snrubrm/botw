@@ -10,4 +10,6 @@ namespace uking {
 extern const s32 sUnk_7101e7c2b0;
 extern const f32 sUnk_7101e7c2b4;
 extern const f32 sUnk_7101e7c2b8;
+// 0x7101e7c2f8 (49.5, degrees): read by Player::sub_7100892098 / sub_710086D5B8 / PlayerSlide::calc_.
+extern const f32 sUnk_7101e7c2f8;
 }  // namespace uking

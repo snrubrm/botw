@@ -605,6 +605,9 @@ public:
     // 0x7100881b14: no ground within `depth` + 0.1 below the position (cast from 1 above it, actors that
     // sub_71002C802C accepts only).
     bool sub_7100881B14(f32 depth);
+    // 0x7100881bac: no ground within `depth` + 0.1 below the position, probing both ahead (by the forward speed
+    // _20bc) and straight down; false when the character controller's _116 bit 2 is set.
+    bool sub_7100881BAC(f32 depth);
     // 0x7100881d8c: ground within 1 below the position.
     bool sub_7100881D8C();
     // 0x87f43c: ground and water layers.

@@ -40,6 +40,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/gameHeroSoul.h"
+#include "Game/Actor/aiUnk_7101e7c5d0.h"
+#include "Game/Actor/aiUnk_7101E7C2B4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
@@ -568,11 +570,45 @@ bool Player::sub_7100881B14(f32 depth) {
                            0.1f);
 }
 
+bool Player::sub_7100881BAC(f32 depth) {
+    auto* controller = getCharacterController();
+    if (controller && controller->isBit2Of116())
+        return false;
+
+    sead::Vector3f start = _1770;
+    start.y += 1.0f;
+    sead::Vector3f end = _1770;
+    const f32 distance = depth + 0.1f;
+    end.y -= distance;
+
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    end += dir * _20bc.value * 5.0f;
+
+    auto* group_handler = sub_710072E804(this, 0);
+    if (!sub_710087F654(start, end, phys::GroundHit::Player, group_handler, true, false,
+                        uking::sUnk_7101e7c5c4)) {
+        return true;
+    }
+
+    end = _1770;
+    end.y -= distance;
+    return !sub_710087F654(start, end, phys::GroundHit::Player, group_handler, true, false,
+                           uking::sUnk_7101e7c5c4);
+}
+
 bool Player::sub_7100881D8C() {
     const sead::Vector3f start = _1770;
     sead::Vector3f end = _1770;
     end.y += -1.0f;
     return sub_710087F654(start, end, phys::GroundHit::Player, nullptr, false, false, 0.1f);
+}
+
+// NON_MATCHING: the original converts the limit after the first call and ends with a branch instead of cset.
+bool Player::sub_7100892098() {
+    const u32 limit = u32(s64(uking::sUnk_7101e7c2f8 * (0x80000000u / 180.0f)));
+    return util::sub_71011EE4C0(_1c90) > limit && util::sub_71011EE4C0(_1c94) > limit;
 }
 
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
