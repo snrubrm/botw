@@ -1670,6 +1670,91 @@ void ScreenAppPictureBookUnk::sub_7100944004(ScreenEx* screen, const PictureBook
     mName = _348.cstr();
 }
 
+// NON_MATCHING: the original copies Vector2f::zero as one 64-bit value, merges the `*axis += value` tails of the
+// switches and counts the page loop down in one register
+// 0x71009419e0
+void ScreenAppPictureBookUnk::sub_71009419E0(s32 index, s32 entry_index, sead::Vector2f* out) {
+    if ((index | entry_index) < 0)
+        return;
+    *out = sead::Vector2f::zero;
+    const auto add = [](f32* axis, f32 value) { *axis += value; };
+    // moves `out` by one page of `entry` along the list direction (0: down, 1: up, 2: left, 3: right)
+    const auto move_page = [&](const ScreenAppPictureBookEntry* entry) {
+        f32* axis;
+        f32 value;
+        switch (mConfig._60) {
+        case 0:
+            axis = &out->y;
+            value = entry->_340.y;
+            break;
+        case 1:
+            axis = &out->y;
+            value = -entry->_340.y;
+            break;
+        case 2:
+            axis = &out->x;
+            value = -entry->_340.x;
+            break;
+        case 3:
+            axis = &out->x;
+            value = entry->_340.x;
+            break;
+        default:
+            return;
+        }
+        add(axis, value);
+    };
+    // moves `out` from the entry `a` to the next entry `b` (half of each layout plus the spacing between them)
+    const auto move_between = [&](const ScreenAppPictureBookEntry* a, const ScreenAppPictureBookEntry* b) {
+        f32* axis;
+        f32 value;
+        switch (mConfig._60) {
+        case 0:
+            axis = &out->y;
+            value = mConfig._6c.y + (a->mGroupList->_20.y * 0.5f + b->mGroupList->_20.y * 0.5f);
+            break;
+        case 1:
+            axis = &out->y;
+            value = -(mConfig._6c.y + (a->mGroupList->_20.y * 0.5f + b->mGroupList->_20.y * 0.5f));
+            break;
+        case 2:
+            axis = &out->x;
+            value = -(mConfig._6c.x + (a->mGroupList->_20.x * 0.5f + b->mGroupList->_20.x * 0.5f));
+            break;
+        case 3:
+            axis = &out->x;
+            value = mConfig._6c.x + (a->mGroupList->_20.x * 0.5f + b->mGroupList->_20.x * 0.5f);
+            break;
+        default:
+            return;
+        }
+        add(axis, value);
+    };
+    ScreenAppPictureBookEntry* prev = nullptr;
+    for (s32 i = 0; i < _2a8; ++i) {
+        ScreenAppPictureBookEntry* entry = mEntries[i];
+        if (entry->_38d)
+            continue;
+        if (prev)
+            move_between(prev, entry);
+        const s32 num_pages = entry->_2f4;
+        if (num_pages > 0) {
+            if (i == entry_index) {
+                for (s32 page = 0; page < num_pages; ++page) {
+                    if (page == index)
+                        return;
+                    if (page != num_pages - 1)
+                        move_page(entry);
+                }
+            } else {
+                for (s32 page = num_pages - 1; page != 0; --page)
+                    move_page(entry);
+            }
+        }
+        prev = entry;
+    }
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)
