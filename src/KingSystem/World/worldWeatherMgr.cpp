@@ -1,3 +1,4 @@
+#include <cmath>
 #include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actReaction.h"
@@ -17,6 +18,8 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/World/worldElementWater.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 
 namespace ksys::world {
 
@@ -397,6 +400,92 @@ ElementWater::~ElementWater() {
         _68.fade();
         _78.fade();
     }
+}
+
+// 0x710250d120: two floats in .data; m29 copies the first to _1ac and 0x71010e9368 takes the address.
+// Nothing writes them, so they are non-static and hidden to keep the load.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710250D120[2] = {0.5f, 2.5f};
+
+// NON_MATCHING: the original builds both SphereParams in one stack slot and stores the mass clamp
+// conditionally (ours: fmin); 1664 bytes against 1752.
+bool ElementWater::m29(const ElementName& name, sead::Heap* heap) {
+    sead::Matrix34f mtx;
+    mtx.makeT(mArg.position);
+
+    {
+        ksys::phys::SphereParam param;
+        param.name = "WaterChemicalSensor";
+        param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+        param.radius = mArg._20;
+        param.motion_type = ksys::phys::MotionType::Keyframed;
+        _50 = ksys::phys::SphereRigidBody::make(&param, heap);
+    }
+    if (!_50)
+        return false;
+    _50->setTransform(mtx, ksys::phys::PropagateToLinkedMotions(true));
+    setRigidBody(_50, true);
+
+    const f32 half = mArg._20 * 0.5f;
+    mHolder->_38 = half * half * sead::Mathf::pi();
+    mHolder->_3c = mArg._24;
+    mHolder->_1c = mArg.direction;
+    mHolder->_30 = (mArg.flags & 1) ? ksys::world::Manager::instance()->getTempMgr()->get_3c() :
+                                      mArg._28;
+
+    _60 = ksys::phys::ContactPointInfo::make(heap, 0x80, sead::SafeString::cEmptyString, 0, 0, 0);
+    if (!_60)
+        return false;
+    _60->subscribeLayer(ksys::phys::ContactLayer::EntityObject);
+    _60->subscribeLayer(ksys::phys::ContactLayer::EntityGround);
+    _60->subscribeLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    _60->subscribeLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    _60->subscribeLayer(ksys::phys::ContactLayer::EntityWater);
+
+    {
+        ksys::phys::SphereParam param;
+        param.name = "Water Core Entity";
+        param.motion_type = ksys::phys::MotionType::Dynamic;
+        param.toi = true;
+        param.radius = 0.15f;
+        param.common.material = ksys::phys::Material::Water;
+        param.common.sub_material = "Water";
+        param.contact_layer = ksys::phys::ContactLayer::EntityObject;
+        const f32 volume = std::pow(mArg._20, 3.0f) * 4.1887903f;
+        param.mass = volume * ksys::world::Manager::instance()->getElementHolderMaybe()->sub_7100D9A074();
+        if (param.mass > 210.0f)
+            param.mass = 210.0f;
+        _58 = ksys::phys::SphereRigidBody::make(&param, heap);
+    }
+    if (!_58)
+        return false;
+
+    _58->setUserTag(nullptr);
+    _58->setContactPointInfo(_60);
+    _58->setFlag200();
+    _58->setFlag1000000();
+    _58->clearFlag2000000(false);
+    _58->setTransform(mtx, ksys::phys::PropagateToLinkedMotions(true));
+    _58->setLinearVelocity(mArg.direction * mArg._24, sead::Mathf::epsilon());
+    _58->addToWorld();
+    _50->setLinkedRigidBody(_58);
+
+    if (!(mArg.flags & 2)) {
+        const char* effect;
+        if (mArg.flags & 8)
+            effect = "Chemical_Water_Ibutsu";
+        else if (mArg.flags & 0x10)
+            effect = "Chemical_Water_Ibutsu_2";
+        else if (mArg.flags & 0x20)
+            effect = "Chemical_Water_Ibutsu_3";
+        else
+            effect = "Chemical_Water";
+        _68 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::instance()->_38, effect);
+        _68.setMatrix(mtx);
+    }
+
+    _1a8 = mArg._20 * 0.03f;
+    _1ac = sUnk_710250D120[0];
+    return true;
 }
 
 void ElementWater::m33(bool a, bool fixed) {
