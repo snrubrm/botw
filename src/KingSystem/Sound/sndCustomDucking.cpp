@@ -15,11 +15,11 @@ Unk_710103b76c::Unk_710103b76c() = default;
 
 Unk_710103b704::~Unk_710103b704() = default;
 
-// NON_MATCHING: the original clamps the entry index to 0..7 (see sub_710103D324).
 void Unk_710103b704::sub_710103D0D8(UiSoundKind kind) {
     if (_5c8 < 0)
         return;
-    auto& entry = _8._0[_5c8];
+    // The entries are bounds-checked like a SafeArray: an index past the end falls back to the first.
+    auto& entry = _8._0[u32(_5c8) < 8 ? _5c8 : 0];
     if (entry._0 == "GotoZoraVillage" && entry._58 == "ZoraArrival3") {
         auto* event = evt::Manager::instance()->getActiveEvent();
         if (!event || !(event->getFrameCount() > 300.0f))
@@ -37,15 +37,13 @@ void Unk_710103b704::sub_710103D0D8(UiSoundKind kind) {
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cScreenFadeS);
 }
 
-// NON_MATCHING: the original clamps the entry index to 0..7 (as a SafeArray would); with a SafeArray here the
-// Unk_710103b76c constructor no longer matches.
 void Unk_710103b704::sub_710103D324(UiSoundKind kind) {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEventSkip, _5d9);
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cEventSkipBeam, _5d9);
     _5d9 = false;
     if (_5c8 < 0)
         return;
-    if (_8._0[_5c8]._0 == "Demo346_4")
+    if (_8._0[u32(_5c8) < 8 ? _5c8 : 0]._0 == "Demo346_4")
         _620 = kind.value == 1 ? 1.0f : 0.5f;
 }
 
