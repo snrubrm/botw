@@ -1,4 +1,5 @@
 #include <gsys/gsysModelResource.h>
+#include <gsys/gsysG3dResModelEx.h>
 #include <nn/g3d/ResFile.h>
 
 namespace gsys {
@@ -12,5 +13,9 @@ void ModelResource::sub_7100C0B764(ModelResource* resource) {
 
 size_t ModelResource::getResFileSize() const {
     return mResFile->GetFileSize();
+}
+
+G3dResModelEx* ModelResource::getResModelEx(s32 index) const {
+    return &mResModelExs[index];
 }
 }  // namespace gsys

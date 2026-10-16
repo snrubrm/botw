@@ -73,10 +73,14 @@ public:
     // inline-only in the original; name is a guess. Resource creation c0b8ec stores +38;
     // model creation bf66b0 and getResFileSize c0c264 independently read it.
     nn::g3d::ResFile* getResFile() const { return mResFile; }
+    // 0x7100c0c26c (name is a guess): the G3dResModelEx of model `index` (array at +0x40, stride 0x3f0;
+    // ksys::tera 0x71011413b4 passes a ResFile::FindModelIndex result).
+    G3dResModelEx* getResModelEx(s32 index) const;
 
 private:
     // ModelResourceMgr c0c80c records the intrusive node offset as +28.
     sead::ListNode mResourceListNode;
     nn::g3d::ResFile* mResFile;
+    G3dResModelEx* mResModelExs;
 };
 }  // namespace gsys

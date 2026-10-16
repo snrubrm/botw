@@ -18,6 +18,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelSceneComponent.h
   include/gsys/gsysModelSceneEnv.h
   include/gsys/gsysModelSceneConfig.h
+  include/gsys/gsysG3dResMaterialEx.h
   include/gsys/gsysG3dResModelEx.h
   include/gsys/gsysG3dResShapeEx.h
   include/gsys/gsysModelShaderVariationKey.h
