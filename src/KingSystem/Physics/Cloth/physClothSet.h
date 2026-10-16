@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <cstddef>
+#include <Havok/Common/Base/Container/String/hkStringPtr.h>
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
 
@@ -29,8 +30,15 @@ public:
     struct ClothUnk2 {
         ClothUnk3* _0;
     };
+    // Placeholder: the object holding the cloth's name (a Havok string pointer).
+    struct ClothUnk4 {
+        u8 _0[0x10];
+        hkStringPtr mName;
+    };
     struct ClothUnk1 {
-        u8 _0[0x20];
+        u8 _0[0x10];
+        ClothUnk4* _10;
+        u8 _18[0x20 - 0x18];
         ClothUnk2* _20;
     };
 
