@@ -232,4 +232,46 @@ s32 ImageResourceMgr::sub_7101133274(Request* request) {
     return 0;
 }
 
+void ImageResourceMgr::sub_71011315BC() {
+    _62a0.exchange(mList3200.size());
+    if (_62a0.load() != 0)
+        mThread->sendMessage(1, sead::MessageQueue::BlockType::Blocking);
+}
+
+bool ImageResourceMgr::sub_7101131CDC(System* system) {
+    mCS28.lock();
+    mCS68.lock();
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    bool registered;
+    System*& slot = mSystems[system->_1334 & 7];
+    if (slot) {
+        registered = false;
+    } else {
+        slot = system;
+        registered = true;
+    }
+    mCS68.unlock();
+    mCS28.unlock();
+    return registered;
+}
+
+// NON_MATCHING: the original walks the queue backwards (prev links).
+void ImageResourceMgr::sub_71011334B4() {
+    mCS68.lock();
+    Request* first = nullptr;
+    for (Request& request : mList3200.robustRange()) {
+        if (request._20 != 1)
+            continue;
+        if (first) {
+            if (first == &request)
+                break;
+        } else {
+            first = &request;
+        }
+        mList3200.erase(&request);
+        mList3200.pushFront(&request);
+    }
+    mCS68.unlock();
+}
+
 }  // namespace ksys::tera

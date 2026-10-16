@@ -313,6 +313,14 @@ public:
     // 0x7101133274 (placeholder name): queues `request` unless sub_710113333C finds a match (returns its
     // result) and wakes the loader thread if the queue was empty.
     s32 sub_7101133274(Request* request);
+    // 0x71011315bc (placeholder name): publishes the queue size and wakes the loader thread if it is not
+    // zero.
+    void sub_71011315BC();
+    // 0x7101131cdc (placeholder name): registers `system` in the slot given by the low three bits of its
+    // _1334 (false if taken).
+    bool sub_7101131CDC(System* system);
+    // 0x71011334b4 (placeholder name): moves the kind-1 requests to the front of the queue.
+    void sub_71011334B4();
 
     u8 _0[0x28];
     sead::CriticalSection mCS28;
@@ -329,6 +337,8 @@ public:
     u8 _6274[0x6298 - 0x6274];
     sead::Thread* mThread;
     sead::Atomic<s32> _62a0;
+    u8 _62a4[0x62d8 - 0x62a4];
+    System* mSystems[8];
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
@@ -459,7 +469,10 @@ public:
     f32 _24;
     u8 _28[0xd8 - 0x28];
     sead::Buffer<SceneSlot> mScenes;
-    u8 _e8[0x1338 - 0xe8];
+    u8 _e8[0x1334 - 0xe8];
+    // Low three bits: slot in ImageResourceMgr::mSystems.
+    u8 _1334;
+    u8 _1335[0x1338 - 0x1335];
     // sub_7101112A74 clears bit 3 (8).
     u32 _1338;
 };
