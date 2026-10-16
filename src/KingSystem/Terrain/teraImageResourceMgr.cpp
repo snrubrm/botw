@@ -6,6 +6,38 @@
 
 namespace ksys::tera {
 
+// NON_MATCHING: the list head address is computed once up front (the original builds it in the loop).
+void ImageResourceMgr::sub_7101130C80() {
+    if (!(_6473 & 4))
+        return;
+
+    const s32 status = procUnloadResidualRequest();
+    _62a0.exchange(mList3200.size());
+    if (_62a0.load() != 0)
+        mThread->sendMessage(1, sead::MessageQueue::BlockType::Blocking);
+
+    if (status == 2) {
+        if (_6472 < 0x10) {
+            ++_6472;
+        } else {
+            mCS68.lock();
+            for (LoadTask& task : mList3200) {
+                if (task._20 != 1)
+                    break;
+                task._3c -= 2;
+            }
+            mCS68.unlock();
+        }
+    } else {
+        _6472 = 0;
+    }
+
+    if (status == 5 || status == 2)
+        sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(33));
+    else
+        sead::Thread::yield();
+}
+
 ImageResourceMgr::~ImageResourceMgr() = default;
 
 void ImageResourceMgr::sub_7101133588(Request* request) {

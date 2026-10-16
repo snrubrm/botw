@@ -369,7 +369,8 @@ void sub_7101128B24(f32 low, f32 high, f32 t_min, f32 t_max, sead::BoundBox3f* b
 sead::Vector4f sub_7101123224(s32 index);
 
 class ImageResourceMgr {
-    void procUnloadResidualRequest();
+    // 0x7101136d7c (declaration only; 2664 B). Returns a status (2: busy, 5: idle; see sub_7101130C80).
+    s32 procUnloadResidualRequest();
 
 public:
     // Placeholder: a load / unload request for one image of an area node (defined after System).
@@ -395,6 +396,10 @@ public:
     // of _6473, finishes the matching request of mLists19c0 (sub_7101136328 first if `a4`).
     bool sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
                         bool a4, void* a5);
+    // 0x7101130c80 (CSV tera::ImageResourceMgr::a; placeholder name): one step of the loader thread with
+    // flag 4 of _6473: unloads residual requests, publishes the queue size (waking the thread), and
+    // sleeps 33 ms or yields; after 16 busy steps, lowers _3c of the queued kind-1 tasks by 2.
+    void sub_7101130C80();
     // 0x7101130df0
     ~ImageResourceMgr();
     // 0x71011339d0 (placeholder name): releases the image of `request` if its flag 8 is set.
@@ -537,6 +542,7 @@ public:
     u8 _6360[0x6470 - 0x6360];
     // Key passed to Unk_71012eb6e8::set / isValid for the tasks and requests (0x7101132fe0, 0x7101136188).
     u16 _6470;
+    // Busy step counter of sub_7101130C80.
     u8 _6472;
     // Bit 0: use mBaseDir; bit 3: mMemBlock6328 has a buffer.
     u8 _6473;
