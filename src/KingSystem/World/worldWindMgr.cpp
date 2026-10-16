@@ -369,7 +369,7 @@ f32 ElementDirectionalWindOrGust::m13(f32* out, const sead::Vector3f& pos,
 }
 
 // NON_MATCHING: the original copies the direction as 8 + 4 bytes and loads mArg._24 before the length.
-f32 ElementDirectionalWindOrGust::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+f32 ElementDirectionalWindOrGust::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
     *out = mArg.direction;
     sead::Vector3f diff = pos - mArg.position;
     f32 distance = diff.length();

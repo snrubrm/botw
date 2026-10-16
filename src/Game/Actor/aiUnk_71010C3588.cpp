@@ -201,6 +201,23 @@ Unk_710250c3e8::~Unk_710250c3e8() {
     }
 }
 
+f32 Unk_710250c3e8::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
+    *out = sead::Vector3f::ey * mArg._8;
+    if (chemical && !(chemical->_c & 0x8000)) {
+        const sead::Vector3f body_pos = mArg.body->getPosition();
+        sead::Vector3f dir(pos.x - body_pos.x, 0.0f, pos.z - body_pos.z);
+        dir.normalize();
+        *out += dir * 0.75f;
+    }
+    f32 length = out->normalize();
+    auto* mgr = ksys::world::Manager::instance();
+    if (mgr->getChemicalMgr())
+        mgr->getChemicalMgr()->x_2(out, &length, mHolder, chemical);
+    if (!_68)
+        length = 0.0f;
+    return length;
+}
+
 bool Unk_710250c3e8::m29(const ElementName& name, sead::Heap* heap) {
     _68 = true;
     if (mHolder) {
@@ -337,13 +354,13 @@ void Unk_710250c280::m33(bool a, bool fixed) {
         mArg.body->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
 }
 
-f32 Unk_710250c280::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+f32 Unk_710250c280::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
     *out = mArg._4;
     return mArg._0;
 }
 
 // NON_MATCHING: the _64 load is scheduled one instruction earlier.
-f32 Unk_710250c550::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+f32 Unk_710250c550::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
     *out = pos - _58;
     f32 distance = out->length();
     if (distance > 0.0f)

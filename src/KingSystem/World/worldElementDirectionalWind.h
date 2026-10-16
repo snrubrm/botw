@@ -45,7 +45,7 @@ public:
     ~ElementDirectionalWindOrGust() override;
     bool m9() override { return true; }
     f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
-    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     bool m18() override { return true; }
     f32 m20(ksys::act::Chemical* chemical) override;
     f32 m22() override;

@@ -76,7 +76,7 @@ public:
     virtual void m11() {}
     virtual void m12() {}
     virtual f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical);
-    virtual f32 m14(sead::Vector3f* out, const sead::Vector3f& pos);
+    virtual f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical);
     // lane1 s95: the real signature (0x710127cab4 uses all four arguments).
     virtual f32 m15(f32 radius, sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical);
     virtual f32 m16() {
@@ -167,7 +167,7 @@ public:
     // m13 / m15 / m19 / m21 done in s95,
     // m21 0x710127ceb0 (unnamed helpers 0x7100e40814 / e412d0 / e40b7c / e40d94).
     f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
-    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     f32 m15(f32 radius, sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     f32 m16() override;
     f32 m19(ksys::act::Chemical* chemical) override;

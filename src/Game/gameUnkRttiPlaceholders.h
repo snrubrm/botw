@@ -760,7 +760,7 @@ struct Unk_710250c280Arg {
 class Unk_710250c280 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c280, Unk_7102518688)
 public:
-    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     // lane1 s95: a "directional_wind" element; built by Unk_71024dd490::sub_71010C77F4.
     Unk_710250c280(const Unk_710250c280Arg& arg, sead::Heap* heap);
     ~Unk_710250c280() override;
@@ -795,6 +795,7 @@ public:
     // Unk_71024dd490::sub_71010C79DC.
     Unk_710250c3e8(const Unk_710250c3e8Arg& arg, sead::Heap* heap);
     ~Unk_710250c3e8() override;
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
     void m35(f32 delta_frame) override;
@@ -822,7 +823,7 @@ public:
 class Unk_710250c550 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c550, Unk_7102518688)
 public:
-    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos) override;
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     // lane1 s95: the "radial_wind" element; built by Unk_71024dd490::sub_71010C7BE0 (ctor inlined there).
     Unk_710250c550(ksys::phys::RigidBody* const& body, sead::Heap* heap);
     ~Unk_710250c550() override;

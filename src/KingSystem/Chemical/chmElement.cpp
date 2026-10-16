@@ -92,7 +92,7 @@ void Unk_7102518688::m12() {}
 
 // The direction of the element's effect at `pos` (by effect type: none, the holder's direction, or
 // away from the element) and its strength.
-f32 Unk_7102518688::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+f32 Unk_7102518688::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
     *out = sead::Vector3f::ex;
     auto* holder = mHolder;
     switch (holder->_8->effect_type.ref()) {

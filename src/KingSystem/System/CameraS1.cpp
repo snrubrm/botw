@@ -134,7 +134,7 @@ s32 Element::m25() {
     return mHolder->_78;
 }
 
-f32 Element::m14(sead::Vector3f* out, const sead::Vector3f& pos) {
+f32 Element::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
     *out = mHolder->_1c;
     return mHolder->_3c;
 }
