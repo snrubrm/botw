@@ -953,7 +953,7 @@ void Manager::setTemperatureNight(float temp) {
     mTempDirectNightTimer = 4;
 }
 
-// NON_MATCHING: register allocation and the operand order of one fadd in the distance.
+// NON_MATCHING: the original loads pos.x before mIgnitedCenter.y.
 int Manager::getIgnitedLevel(const sead::Vector3f& pos) const {
     if (mWorldInfoLoadStatus == WorldInfoLoadStatus::NotLoaded)
         return 0;
@@ -972,9 +972,10 @@ int Manager::getIgnitedLevel(const sead::Vector3f& pos) const {
     }
 
     if (mIgnitedTimer > 0) {
+        sead::Vector3f target = pos;
+        target.y = mIgnitedCenter.y;
         const bool outside =
-            mIgnitedRadius >= 0.0f &&
-            (mIgnitedCenter - sead::Vector3f(pos.x, mIgnitedCenter.y, pos.z)).length() > mIgnitedRadius;
+            mIgnitedRadius >= 0.0f && (mIgnitedCenter - target).length() > mIgnitedRadius;
         if (!outside)
             level = mIgnitedLevel;
     }
