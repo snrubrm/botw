@@ -53,7 +53,7 @@ void SiteBossPierceBulletAttack::m37() {
     params.addVec3(target, "TargetPos", -1);
     params.addPointer(nullptr, "ArrowHandle", ksys::AIDefParamType::BaseProcHandle, -1);
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
-        params.addActor(*boss->_1560.sub_710066DE04(), "IgniteActor", -1);
+        params.addActor(*boss->_1560.sub_710066DE04(0), "IgniteActor", -1);
         params.addInt(_144, "Index", -1);
         params.addInt(m44(), "AtAttr", -1);
         changeChild("弾発射", &params);
@@ -68,7 +68,7 @@ void SiteBossPierceBulletAttack::m39() {
         return;
     boss->_1560.sub_710066C568(nullptr, 20);
     auto* actor = mActor;
-    auto* link = boss->_1560.sub_710066DE04();
+    auto* link = boss->_1560.sub_710066DE04(0);
     if (!link->hasProc())
         return;
 

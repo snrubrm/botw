@@ -51,7 +51,7 @@ void PlayerStopInAir::enter_(ksys::act::ai::InlineParamPack* params) {
 
     if (static_cast<ksys::act::Player*>(mActor)->_17f0) {
         static_cast<ksys::act::Player*>(mActor)->_cec.set(0x8000);
-        auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+        auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
         if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
             actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
             sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000024), nullptr);

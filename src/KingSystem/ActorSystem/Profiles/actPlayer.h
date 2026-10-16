@@ -1004,7 +1004,9 @@ public:
     /* 0x22f4 */ sead::Vector3f _22f4;  // ladder related (PlayerLadderDownStart / PlayerLadderUpStart)
     /* 0x2300 */ u8 _2300[0x230c - 0x2300];
     /* 0x230c */ sead::Vector3f _230c;
-    /* 0x2318 */ u8 _2318[0x2390 - 0x2318];
+    /* 0x2318 */ u8 _2318[0x2324 - 0x2318];
+    /* 0x2324 */ Unk1 _2324;  // facing angle saved with _230c (sub_710086D5B8)
+    /* 0x2328 */ u8 _2328[0x2390 - 0x2328];
     // lane3 s84: faded by PlayerElectric::leave_ ("HandleELink::fade(%s)").
     /* 0x2390 */ xlink2::HandleELink _2390;
     /* 0x23a0 */ u8 _23a0[0x23e0 - 0x23a0];

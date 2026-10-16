@@ -41,7 +41,7 @@ void PlayerDemoAirWait::enter_(ksys::act::ai::InlineParamPack* params) {
             }
             static_cast<ksys::act::Player*>(mActor)->_17f0 = 1;
         } else {
-            auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+            auto* proc = static_cast<ksys::act::Player*>(mActor)->mResidentActors[0].getProc(nullptr, nullptr);
             if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
                 actor->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
             if (!static_cast<ksys::act::Player*>(mActor)->m194()) {

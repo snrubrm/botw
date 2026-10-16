@@ -177,4 +177,7 @@ bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f&
 // its ground ray cast and ignores the result.
 bool sub_710000AE6C();
 
+// 0x710000aecc (CSV dragon::isWithin1kmOfHyruleCastle): false within 1000 (XZ) of Hyrule Castle in the open world.
+bool isWithin1kmOfHyruleCastle();
+
 }  // namespace uking::act
