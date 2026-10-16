@@ -957,16 +957,20 @@ public:
     /* 0x2040 */ s32 _2040;
     /* 0x2044 */ s32 _2044;  // armor charge-attack status index, passed to Ecosystem
     /* 0x2048 */ s32 _2048;  // MaterSwordAttackUp status effect level (updateStatusEffectMasterSwordAttackUp)
-    /* 0x204c */ u8 _204c[0x2054 - 0x204c];
+    /* 0x204c */ u8 _204c[0x2050 - 0x204c];
+    /* 0x2050 */ s32 _2050;  // moving status level (getStatusEffectSpeed)
     /* 0x2054 */ s32 _2054;  // swim status level (getSwimMoveSpeed)
-    /* 0x2058 */ u8 _2058[0x2060 - 0x2058];
+    /* 0x2058 */ s32 _2058;  // climbing status level (getStatusEffectSpeed)
+    /* 0x205c */ u8 _205c[0x2060 - 0x205c];
     /* 0x2060 */ s32 _2060;  // passed to sub_7100885818 by m233 (types 0 - 4)
     /* 0x2064 */ s32 _2064;
     /* 0x2068 */ s32 _2068;
     /* 0x206c */ s32 _206c;
     /* 0x2070 */ s32 _2070;
     /* 0x2074 */ f32 _2074;
-    /* 0x2078 */ u8 _2078[0x207e - 0x2078];
+    /* 0x2078 */ s32 _2078;  // > 0: climbing on an attachment (getStatusEffectSpeed)
+    /* 0x207c */ bool _207c;
+    /* 0x207d */ bool _207d;
     /* 0x207e */ bool _207e;
     /* 0x207f */ bool _207f;
     /* 0x2080 */ bool _2080;  // m74 passes the predicted turn to _1870 and clears it

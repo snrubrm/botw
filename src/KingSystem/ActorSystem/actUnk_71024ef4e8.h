@@ -60,6 +60,8 @@ public:
         /* 0x140 */ sead::Vector3f _140;
         u8 _14c[0x158 - 0x14c];
         BaseProcLink mTargetLink;
+        u8 _168[0x180 - 0x168];
+        /* 0x180 */ sead::Vector3f _180;  // velocity of the attachment (Player::getStatusEffectSpeed)
     };
 
     // Placeholder (object at `_c8`, size unknown): only the members Player::sub_710087CF54 reads are modelled.

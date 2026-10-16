@@ -218,6 +218,25 @@ bool Player::sub_710088873C() {
 }
 
 
+// Out of line in the original: getStatusEffectSpeed calls them.
+f32 Player::getStatusEffectMovingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_MovingSpeed, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectSwimingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SwimingSpeed, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectClimbingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ClimbingSpeed, level, &info);
+    return info.val._f32;
+}
+
 // Out of line in the original: getSwimMoveSpeed tail-calls it.
 f32 Player::getStatusEffectSwimingAnimRate(s32 level) {
     eco::StatusEffectInfo info;

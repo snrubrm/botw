@@ -34,4 +34,6 @@ extern const f32 sUnk_7101e7c2d8;
 extern const f32 sUnk_7101e7c2dc;
 // 0x7101e7c2f8 (49.5, degrees): read by Player::sub_7100892098 / sub_710086D5B8 / PlayerSlide::calc_.
 extern const f32 sUnk_7101e7c2f8;
+// 0x7101e7c2fc (1.7): the largest climbing speed factor on a moving attachment (Player::getStatusEffectSpeed).
+extern const f32 sUnk_7101e7c2fc;
 }  // namespace uking

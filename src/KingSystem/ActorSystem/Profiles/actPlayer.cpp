@@ -7,6 +7,9 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/gameRumble.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include "KingSystem/World/worldTimeMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
@@ -1264,6 +1267,77 @@ void Player::sub_7100881418() {
     }
 }
 
+// NON_MATCHING: the original tests _1ca8 against 0x16 first and shares the sand-rate block, and loads
+// sUnk_7101e7c2fc before the acos call.
+f32 Player::getStatusEffectSpeed() {
+    if (_cf4.isOnBit(23))
+        return 1.0f;
+
+    f32 rate = 1.0f;
+    bool ignore_sand;
+    switch (_1ca8) {
+    case 0x16:
+        ignore_sand = _207d;
+        break;
+    case 0xd:
+        ignore_sand = _207c;
+        break;
+    default:
+        ignore_sand = true;
+        break;
+    }
+    if (!ignore_sand && _cf4.isOnBit(14))
+        rate = getParam()->getRes().mGParamList->getPlayer()->mVelDiamSand.ref();
+    if (x_44() && _cf4.isOnBit(14))
+        rate *= getParam()->getRes().mGParamList->getPlayer()->mVelDiamTired.ref();
+
+    f32 speed = 1.0f;
+    if (m188()) {
+        if (mASList->x_1(0, 0) == "SwimMove") {
+            if (_c44.isOnBit(5)) {
+                speed = getParam()->getRes().mGParamList->getPlayer()->mArmorCompNakedSwimSpeedRate.ref();
+            } else {
+                const f32 level = _2054 + _1ff4;
+                speed = getStatusEffectSwimingSpeed(level);
+            }
+        }
+    } else if (m186()) {
+        if (mASList->x_1(0, 0) == "ClimbMove") {
+            const f32 level = _2058 + _1ff8;
+            speed = getStatusEffectClimbingSpeed(level);
+            if (_2078 > 0) {
+                auto* target = getAttachedTargetActor();
+                if (target && target->mAttachInfo) {
+                    sead::Vector3f dir = mVelocity * 30.0f - target->mAttachInfo->_180;
+                    const f32 length = dir.normalize();
+                    if (length > sead::Mathf::epsilon()) {
+                        sead::Vector3f side;
+                        mMtx.getBase(side, 0);
+                        const f32 cos = sead::Mathf::clamp(dir.dot(side), -1.0f, 1.0f);
+                        const f32 t = sead::Mathf::clamp(
+                            sead::Mathf::abs(std::acos(cos) / (sead::Mathf::pi() / 2) - 1.0f), 0.0f, 1.0f);
+                        speed *= (uking::sUnk_7101e7c2fc - 1.0f) * t + 1.0f;
+                    }
+                }
+            }
+        }
+    } else if (_cf4.isOnBit(14)) {
+        const f32 level = _2050 + _1ff0;
+        f32 moving = getStatusEffectMovingSpeed(level);
+        if (_23e0.sub_7100E2F61C()->isOnBit(6)) {
+            auto* world = world::Manager::instance();
+            if (world && world->getTimeMgr() &&
+                (world->getTimeMgr()->getTimeDivision() == world::TimeDivision::Night_A ||
+                 world->getTimeMgr()->getTimeDivision() == world::TimeDivision::Night_B)) {
+                moving *= getParam()->getRes().mGParamList->getPlayer()->mArmorCompNightSpeedRate.ref();
+            }
+        }
+        const f32 max_speed = getStatusEffectMovingSpeed(3);
+        speed = moving > max_speed ? max_speed : moving;
+    }
+    return rate * speed;
+}
+
 f32 Player::getSwimMoveSpeed() {
     if (m188() && mASList->x_1(0, 0) == "SwimMove") {
         if (_c44.isOnBit(5))
@@ -1529,24 +1603,6 @@ s32 Player::m291() {
     if (acquireActor(&getPlayerRideInfo()->_18, &accessor))
         result = s32(accessor.sub_7100D14598());
     return result;
-}
-
-f32 Player::getStatusEffectMovingSpeed(s32 level) {
-    eco::StatusEffectInfo info;
-    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_MovingSpeed, level, &info);
-    return info.val._f32;
-}
-
-f32 Player::getStatusEffectSwimingSpeed(s32 level) {
-    eco::StatusEffectInfo info;
-    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SwimingSpeed, level, &info);
-    return info.val._f32;
-}
-
-f32 Player::getStatusEffectClimbingSpeed(s32 level) {
-    eco::StatusEffectInfo info;
-    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ClimbingSpeed, level, &info);
-    return info.val._f32;
 }
 
 s32 Player::getStatusEffectDefenseUp(s32 level) {

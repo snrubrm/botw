@@ -20,4 +20,5 @@ extern const f32 sUnk_7101e7c2b8 = 50.0f;
 extern const f32 sUnk_7101e7c2d8 = -0.4f;
 extern const f32 sUnk_7101e7c2dc = 0.2f;
 extern const f32 sUnk_7101e7c2f8 = 49.5f;
+extern const f32 sUnk_7101e7c2fc = 1.7f;
 }  // namespace uking
