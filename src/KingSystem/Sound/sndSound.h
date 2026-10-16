@@ -789,6 +789,9 @@ public:
     void sub_710104EA7C();
     void sub_710104EE50();
     void sub_710104EE64();
+    // 0x710104f030: fades the two SLink handles out, clears _b8 and bit 3 of _2a0 and releases the Remains and
+    // Ganon ducking requests.
+    void sub_710104F030();
     // Whole F1B8 transitions from state 2 to the supplied scalar after emitting sound;
     // VFR 11C16EC supplies 0 for index 0 and 1 for index 4. Factory E5B4 starts at 2.
     void sub_710104F1B8(s32 state);
@@ -821,7 +824,10 @@ public:
     /* 0x28 */ xlink2::UserInstanceSLink* _28;
     // Whole factory 104E5B4 initializes 2; whole EE64 reads and sets the state.
     s32 _30;
-    u8 _34[0xa8 - 0x34];
+    u8 _34[4];
+    // Faded by 0x710104f030 together with mFilter.
+    /* 0x38 */ xlink2::HandleSLink _38;
+    u8 _48[0xa8 - 0x48];
     // 0x710104f4c4 / 0x710104f614 / 0x710104f740 store searchAndEmit("Filter") here; the larger
     // 0x710104f518 family reads the resource and create id back.
     /* 0xa8 */ xlink2::HandleSLink mFilter;  // 16 bytes

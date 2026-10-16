@@ -3,6 +3,15 @@
 
 namespace ksys::snd {
 
+void Unk_710104e5b4::sub_710104F030() {
+    _38.fade(0);
+    mFilter.fade(0);
+    _b8 = 0;
+    _2a0.reset(8);
+    mRemainsDucking.stop();
+    _294.stop(false);
+}
+
 xlink2::HandleSLink Unk_710104e5b4::sub_710104F30C(const sead::SafeString& label) {
     return _28->searchAndEmit(label.cstr());
 }
