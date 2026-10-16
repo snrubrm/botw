@@ -149,6 +149,8 @@ public:
     // attaches `shape` to its sound source.
     xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
     void sub_7101027CE8();
+    // 0x7101027bf8 (declared only)
+    void sub_7101027BF8();
     static sead::SafeString sUnk_7102610618[4];
     static sead::SafeString sUnk_7102610658[4];
 
@@ -175,6 +177,8 @@ public:
     void sub_7101037F64(bool enabled);
     // 0x7101037f7c: stores `value` in the byte at +0x39c.
     void sub_7101037F7C(bool value);
+    // 0x710103920c (declared only)
+    void sub_710103920C();
 
     u8 _0[0x328];
     /* 0x328 */ bool _328;
@@ -234,6 +238,41 @@ public:
     void sub_7101035C50(u32 id, u32 hash_id);
 };
 
+// Placeholder names (SoundMgr::_38 members at +0x8 / +0x10 / +0x18 / +0x38 / +0x40 / +0x50 / +0x58 / +0x60): only
+// the method that Unk_SoundMgr38::sub_710102AEC4 calls on each is declared (all declared only).
+class Unk_SoundMgr38_8 {
+public:
+    void sub_710102C81C();
+};
+class Unk_SoundMgr38_10 {
+public:
+    void sub_71010333F0();
+};
+class Unk_SoundMgr38_18 {
+public:
+    void sub_710102EE60();
+};
+class Unk_SoundMgr38_38 {
+public:
+    void sub_710103A084();
+};
+class Unk_SoundMgr38_40 {
+public:
+    void sub_71012BEC28();
+};
+class Unk_SoundMgr38_50 {
+public:
+    void sub_7101036840();
+};
+class Unk_SoundMgr38_58 {
+public:
+    void sub_71010289CC();
+};
+class Unk_SoundMgr38_60 {
+public:
+    void sub_71012C17B4();
+};
+
 // Placeholder name (SoundMgr::_38).
 struct Unk_SoundMgr38 {
     // 0x710102c104: returns `_28`.
@@ -244,15 +283,23 @@ struct Unk_SoundMgr38 {
     void sub_710102B11C();
     void sub_710102AF84();
     void sub_710102B4B8();
+    // 0x710102aec4: stops the sub-managers (only while _70 is set) and the xlink2 user's events.
     void sub_710102AEC4();
 
-    u8 _0[0x20];
+    u8 _0[0x8];
+    Unk_SoundMgr38_8* _8;
+    Unk_SoundMgr38_10* _10;
+    Unk_SoundMgr38_18* _18;
     /* 0x20 */ Unk_SoundMgr38_20* _20;
     /* 0x28 */ Unk_SoundMgr38_28* _28;
     /* 0x30 */ SpeakerBalanceUnifierMgr* _30;
-    u8 _38[0x48 - 0x38];
+    Unk_SoundMgr38_38* _38;
+    Unk_SoundMgr38_40* _40;
     /* 0x48 */ Unk_SoundMgr38_48* _48;
-    u8 _50[0x70 - 0x50];
+    Unk_SoundMgr38_50* _50;
+    Unk_SoundMgr38_58* _58;
+    Unk_SoundMgr38_60* _60;
+    xlink2::UserInstanceSLink* _68;
     // Read by 0x710102c10c and the cleanup operation 0x710102af84.
     /* 0x70 */ bool _70;
     u8 _71[0x130 - 0x71];

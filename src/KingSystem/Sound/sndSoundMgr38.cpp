@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndSound.h"
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/Actor/actEnvSeEmitPoint.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -114,6 +115,37 @@ void Unk_SoundMgr38_20::sub_7101029D3C(sead::OffsetList<uking::act::EnvSeEmitPoi
                              const uking::act::EnvSeEmitPoint* b) {
         return !(a->_840 <= b->_840);
     });
+}
+
+// NON_MATCHING: our build inlines Unk_SoundMgr38_20::sub_7101029BA0 (same file); the original calls it, which
+// suggests the _20 class is in another TU.
+void Unk_SoundMgr38::sub_710102AEC4() {
+    if (_70) {
+        if (_8)
+            _8->sub_710102C81C();
+        if (_10)
+            _10->sub_71010333F0();
+        if (_18)
+            _18->sub_710102EE60();
+    }
+    if (_20)
+        _20->sub_7101029BA0();
+    if (_28)
+        _28->sub_710103920C();
+    if (_30)
+        _30->sub_7101027BF8();
+    if (_68)
+        _68->stopAllEvent(30);
+    if (_38)
+        _38->sub_710103A084();
+    if (_40)
+        _40->sub_71012BEC28();
+    if (_50)
+        _50->sub_7101036840();
+    if (_58)
+        _58->sub_71010289CC();
+    if (_60)
+        _60->sub_71012C17B4();
 }
 
 // NON_MATCHING: local vector and terrain-height stack layout differs.
