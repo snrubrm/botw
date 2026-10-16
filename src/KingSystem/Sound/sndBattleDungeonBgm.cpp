@@ -152,30 +152,33 @@ Unk_71024fee78* sub_7100FFEA3C() {
     return sead::DynamicCast<Unk_71024fee78>(controller ? controller->_8.sub_7100FF7C74(26) : nullptr);
 }
 
-// NON_MATCHING: the original's kind table holds 8-byte entries (the kind as passed in a register); ours 4-byte.
+// inline-only in the original; name is a guess. The controller BGM lookup `SoundMgr::_30->_48 ? ->_8.sub_7100FF7C74(kind)
+// : nullptr` is inlined in sub_7100FFDD38, sub_7100FFE094, sub_7100FFE7A4, sub_7100FFEA3C and sub_7100FFEBE0.
+static Bgm* getControllerBgm(BgmKind kind) {
+    auto* controller = SoundMgr::instance()->_30->_48;
+    return controller ? controller->_8.sub_7100FF7C74(kind) : nullptr;
+}
+
 void sub_7100FFEBE0(const RemainsBossBgmType& type) {
-    BgmKind kind;
+    Bgm* bgm;
     switch (type) {
     case RemainsBossBgmType::Wind:
-        kind = BgmKind::_27;
+        bgm = getControllerBgm(BgmKind::_27);
         break;
     case RemainsBossBgmType::Fire:
-        kind = BgmKind::_29;
+        bgm = getControllerBgm(BgmKind::_29);
         break;
     case RemainsBossBgmType::Elec:
-        kind = BgmKind::_28;
+        bgm = getControllerBgm(BgmKind::_28);
         break;
     case RemainsBossBgmType::Water:
-        kind = BgmKind::_30;
+        bgm = getControllerBgm(BgmKind::_30);
         break;
     default:
         return;
     }
-    auto* controller = SoundMgr::instance()->_30->_48;
-    auto* bgm =
-        sead::DynamicCast<Unk_71024fd448>(controller ? controller->_8.sub_7100FF7C74(kind) : nullptr);
-    if (bgm)
-        bgm->sub_7101000514();
+    if (auto* boss_bgm = sead::DynamicCast<Unk_71024fd448>(bgm))
+        boss_bgm->sub_7101000514();
 }
 
 bool sub_7100FFED80() {
