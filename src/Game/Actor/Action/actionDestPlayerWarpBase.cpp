@@ -18,16 +18,14 @@ bool DestPlayerWarpBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original copies _4c (ones, then the player scale) as 8 + 4 bytes; Vector3f::operator= copies
-// per element.
 void DestPlayerWarpBase::enter_(ksys::act::ai::InlineParamPack* params) {
     _1c = sead::Matrix34f::ident;
-    _4c = sead::Vector3f::ones;
+    _4c.set(sead::Vector3f::ones);
     _58 = false;
     _59 = false;
 
     auto* player = uking::act::PlayerInfo::instance()->getPlayer();
-    _4c = player->getScale();
+    _4c.set(player->getScale());
     m32();
 
     {
