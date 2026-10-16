@@ -29,16 +29,30 @@ public:
     explicit Unk_710247e0c8(eui::LayoutEx* layout);
     ~Unk_710247e0c8() override;
 
+    // 0x71009c9420 (placeholder name): clears _1c8 .. _1e0
+    void sub_71009C9420();
+    // 0x71009c9438 / 0x71009c9450 / 0x71009c9540 / 0x71009c9554 (placeholder names): set _1ac and _1c0 / _1b0 /
+    // _1b8 / _1bc and mark them (bits 0x1 / 0x2 / 0x4 / 0x8 of _1c4)
+    void sub_71009C9438(f32 value, s32 count);
+    void sub_71009C9450(f32 x, f32 y);
+    void sub_71009C9540(s32 value);
+    void sub_71009C9554(s32 value);
+    // 0x71009c9568 / 0x71009c9580 (placeholder names): set bit 0x10 (unless _1a8) / 0x20 of _1c4
+    void sub_71009C9568();
+    void sub_71009C9580();
+
     // Initial values from the ctor 0x9c81cc.
     u8 _130[100]{};
     /* 0x198 */ void* _198 = nullptr;
     /* 0x1a0 */ void* _1a0 = nullptr;
     /* 0x1a8 */ bool _1a8 = false;
-    /* 0x1ac */ sead::Vector2f _1ac{0, 0};
-    /* 0x1b4 */ sead::Vector2f _1b4{0, 0};
+    /* 0x1ac */ f32 _1ac = 0;
+    /* 0x1b0 */ sead::Vector2f _1b0{0, 0};
+    /* 0x1b8 */ s32 _1b8 = 0;
     /* 0x1bc */ s32 _1bc = 2;
     /* 0x1c0 */ s32 _1c0 = 0;
-    /* 0x1c4 */ bool _1c4 = false;
+    // which of the values above were set since the last update (bits 0x1 .. 0x20, see the setters)
+    /* 0x1c4 */ u8 _1c4 = 0;
     /* 0x1c8 */ void* _1c8 = nullptr;
     /* 0x1d0 */ void* _1d0 = nullptr;
     /* 0x1d8 */ s32 _1d8 = 2;

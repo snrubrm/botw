@@ -1142,6 +1142,52 @@ Unk_710247e0c8::Unk_710247e0c8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247e0c8::~Unk_710247e0c8() = default;
 
+// 0x71009c9420
+void Unk_710247e0c8::sub_71009C9420() {
+    _1c8 = nullptr;
+    _1d0 = nullptr;
+    _1d8 = 2;
+    _1dc = 0;
+    _1e0 = false;
+}
+
+// 0x71009c9438
+void Unk_710247e0c8::sub_71009C9438(f32 value, s32 count) {
+    _1ac = value;
+    _1c0 = count;
+    _1c4 |= 1;
+}
+
+// 0x71009c9450
+void Unk_710247e0c8::sub_71009C9450(f32 x, f32 y) {
+    _1b0.x = x;
+    _1b0.y = y;
+    _1c4 |= 2;
+}
+
+// 0x71009c9540
+void Unk_710247e0c8::sub_71009C9540(s32 value) {
+    _1b8 = value;
+    _1c4 |= 4;
+}
+
+// 0x71009c9554
+void Unk_710247e0c8::sub_71009C9554(s32 value) {
+    _1bc = value;
+    _1c4 |= 8;
+}
+
+// 0x71009c9568
+void Unk_710247e0c8::sub_71009C9568() {
+    if (!_1a8)
+        _1c4 |= 0x10;
+}
+
+// 0x71009c9580
+void Unk_710247e0c8::sub_71009C9580() {
+    _1c4 |= 0x20;
+}
+
 }  // namespace uking::ui
 
 // 0x71009ca980
