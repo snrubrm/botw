@@ -115,6 +115,56 @@ void ClusteredRenderer::startThread() {
         sub_7101243EEC(&mData._f0->mCells[i]);
 }
 
+void ClusteredRenderer::sub_71012439BC() {
+    if (mData._f8)
+        mData._f8->mFlag.setBit(sead::Heap::Flag::cDisposing);
+
+    sub_7101243B70();
+
+    mData.mHeap->destroy();
+    mData.mHeap = nullptr;
+    sub_7101243BD8(true);
+    mData2._c9c &= ~0x4008000bu;
+
+    if (mData._f0) {
+        sub_7101243CD8(mData._f0);
+        mData._f0 = nullptr;
+    }
+
+    mData._168.freeBuffer();
+
+    if (mData._108) {
+        gsys::Model::sub_7100BF69F8(mData._108);
+        mData._108 = nullptr;
+    }
+
+    if (mData._f8) {
+        if (mData._ba8.work()) {
+            mData._f8->free(mData._ba8.work());
+            mData._ba8.reset();
+        }
+        if (mData._bb8.work()) {
+            mData._f8->free(mData._bb8.work());
+            mData._bb8.reset();
+        }
+    }
+
+    if (mData._bd8.isValid()) {
+        mData._bd8.deleteGPUMemBlock();
+        mData._bd8.invalidate();
+    }
+
+    if (mData._f8)
+        mData._f8 = nullptr;
+}
+
+void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
+    sead::Heap* heap = renderer->mData._f8;
+    renderer->sub_71012439BC();
+    delete renderer;
+    heap->destroy();
+}
+
 void ClusteredRenderer::sub_7101243BD8(bool release) {
     auto lock = sead::makeScopedLock(mData._1d8);
     if ((mData2._c9c & 0x40000) == 0)
@@ -156,7 +206,7 @@ void ClusteredRenderer::sub_7101243EEC(Cell* cell) {
             }
         }
     }
-    cell->sub_710124749C(&mData._ba8, mData._bb8);
+    cell->sub_710124749C(&mData._ba8, &mData._bb8);
 }
 
 void ClusteredRenderer::sub_7101243B70() {

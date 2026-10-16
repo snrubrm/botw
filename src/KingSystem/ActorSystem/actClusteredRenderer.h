@@ -10,7 +10,8 @@
 #include <thread/seadMessageQueue.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
-#include <container/seadListImpl.h>
+#include <container/seadFreeList.h>
+#include <container/seadObjList.h>
 #include <gsys/gsysIModelProcedural.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resTextureHandleList.h"
@@ -69,13 +70,15 @@ struct ClusteredRendererData {
     s32 _e8;
     s32 _ec;
     ClusteredRendererCells* _f0;
-    u8 _f8[0x108 - 0xf8];
+    sead::Heap* _f8;
+    u8 _100[0x108 - 0x100];
     gsys::Model* _108;
     sead::FixedSafeString<64> _110;
-    sead::ListImpl _168;
-    u64 _180 = 0;
-    u64 _188 = 0;
-    u32 _190 = 0;
+    // Placeholder item type (0x18 bytes; the list node follows at 0x18).
+    struct ListItem {
+        u8 _0[0x18];
+    };
+    sead::ObjList<ListItem> _168;
     sead::CriticalSection _198;
     sead::CriticalSection _1d8;
     sead::CriticalSection _218;
@@ -91,9 +94,9 @@ struct ClusteredRendererData {
     sead::Atomic<s32> _b68;
     sead::Atomic<s32> _b6c;
     agl::GPUMemBlock<u8> _b70;
-    void* _ba8 = nullptr;
-    u64 _bb0 = 0;
-    u64 _bb8[2]{};
+    // Two free lists whose work buffers come from the heap at 0xf8.
+    sead::FreeList _ba8;
+    sead::FreeList _bb8;
     sead::Vector3f _bc8;
     agl::GPUMemAddrBase _bd8;
     sead::Heap* _bf0;
@@ -155,7 +158,7 @@ public:
         static_assert(sizeof(Entry) == 0x40);
 
         // 0x710124749c (declaration only; placeholder name): drains the queues below.
-        void sub_710124749C(void** freeList, void* unk);
+        void sub_710124749C(sead::FreeList* node_list, sead::FreeList* node2_list);
 
         Entry mEntries[9][9];
         u8 _1440[0x1454 - 0x1440];
@@ -183,6 +186,13 @@ public:
     void sub_7101246FBC();
     // 0x7101242720 (placeholder name): delegate _c48.
     void sub_7101242720(res::TextureHandleList::Entry* entry);
+
+    // 0x71012439bc (placeholder name): stops the thread and releases everything init set up.
+    void sub_71012439BC();
+    // 0x7101243ea8 (placeholder name): finalizes and deletes `renderer`, then destroys its heap.
+    static void sub_7101243EA8(ClusteredRenderer* renderer);
+    // 0x7101243cd8 (declaration only; placeholder name): releases the cell object.
+    void sub_7101243CD8(ClusteredRendererCells* cells);
 
     // 0x7101243bd8 (placeholder name): resets every cell and releases the heap at 0xbf0 (destroys it when
     // flag bit 17 is set, else frees all of it) if flag bit 18 is set.
