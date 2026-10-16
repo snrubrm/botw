@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <random/seadGlobalRandom.h>
 #include <gfx/seadCamera.h>
 #include "KingSystem/Camera/CameraMgr.h"
@@ -315,6 +316,8 @@ ksys::world::WeatherMgr* getWeatherMgr() {
 
 }  // namespace wm
 
+// 0x7102620128 (placeholder name): when set, fixing a water element also kills its effects (m33).
+bool sUnk_7102620128;
 // 0x710262012c (placeholder name): when set, new water elements get flag 2.
 bool sUnk_710262012C;
 
@@ -362,6 +365,24 @@ ElementWater::~ElementWater() {
     if (!(mArg.flags & 2)) {
         _68.fade();
         _78.fade();
+    }
+}
+
+// NON_MATCHING: the original reads sUnk_7102620128 directly (non-preemptible symbol); ours goes through the GOT.
+void ElementWater::m33(bool a, bool fixed) {
+    if (_50)
+        _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+    if (_58)
+        _58->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+    if (!(mArg.flags & 4) && ksys::snd::SoundMgr::instance()) {
+        if (auto* mgr = ksys::snd::SoundMgr::instance()->_38) {
+            if (auto* occlusion = mgr->sub_710102C104())
+                occlusion->sub_7101037F7C(a);
+        }
+    }
+    if (sUnk_7102620128 && a && fixed) {
+        _68.kill();
+        _78.kill();
     }
 }
 
