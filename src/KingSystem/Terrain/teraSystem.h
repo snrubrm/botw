@@ -464,6 +464,8 @@ public:
     // 0x710110234c (declaration only; placeholder name): branches to 0x71011021e4 with this + 0x276c and
     // true.
     void sub_710110234C(System* system);
+    // 0x7101101578 (declaration only; placeholder name and signature): System::x passes 0xff0000.
+    void sub_7101101578(System* system, u32 flags);
     // 0x71010ffe70 (placeholder name): when (a, b) differ from _2780 / _2784, stores them,
     // rebuilds through _2948 and sets flags 0xff00.
     void sub_71010FFE70(s32 a, s32 b);
@@ -546,6 +548,10 @@ public:
     void sub_7101115158(bool update);
     // 0x7101115bac (declaration only; placeholder name).
     void sub_7101115BAC();
+    // 0x7101112714 (CSV System::x; placeholder name): under the write lock, resets every scene, removes
+    // the image users of the flagged _fa8 nodes, destroys the area tree (telling `listener`) and clears
+    // the image change ring.
+    void sub_7101112714(Unk_7101112C94Listener* listener);
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
     s32 sub_71011188E4() const;
     void allocateApertureMapsCollectorImage(sead::Heap* heap);

@@ -49,6 +49,39 @@ void System::sub_7101115158(bool update) {
     }
 }
 
+void System::sub_7101112714(Unk_7101112C94Listener* listener) {
+    if (!_8)
+        return;
+
+    mLock.writeLock();
+    for (s32 i = 0; i < mScenes.size(); ++i)
+        mScenes[i].scene->sub_7101101578(this, 0xff0000);
+
+    for (u32 i = 0; i < _eea; ++i) {
+        if (_ff8[i] & 1) {
+            _ff8[i] &= ~1;
+            sub_71011176BC(_fa8[i], false);
+        }
+    }
+    sub_7101115BAC();
+
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&Terrain::instance()->mImageResourceMgr->mCS68);
+        sub_7101112C94(_8, listener);
+        _8 = nullptr;
+        _ee9 = 0;
+        mWriteIndex = 0;
+        _104c = 0;
+        for (s32 i = 0; i < mNumEntries; ++i) {
+            Entry& entry = mEntries[i];
+            entry.area = nullptr;
+            entry.type = sUnk_7101EC54A8;
+        }
+        ++_1335;
+    }
+    mLock.writeUnlock();
+}
+
 void System::sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener) {
     area->sub_7101107768();
     for (auto* child : area->mChildren) {

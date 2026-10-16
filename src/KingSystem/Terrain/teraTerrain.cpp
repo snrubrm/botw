@@ -133,6 +133,7 @@ nn::gfx::ResTexture* MaterialTextureMaybe::getTexture() const {
 }
 
 const sead::Vector2f sUnk_7101EC503C[4] = {{-0.5f, -0.5f}, {0.5f, -0.5f}, {-0.5f, 0.5f}, {0.5f, 0.5f}};
+const ImageTypeMaybe sUnk_7101EC54A8 = {{0xff, 0}};
 const ImageTypeMaybe sUnk_7101EC54AC = {{0, 0}};
 const ImageTypeMaybe sUnk_7101EC54B4 = {{1, 0}};
 

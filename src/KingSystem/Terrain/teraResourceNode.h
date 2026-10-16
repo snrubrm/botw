@@ -63,6 +63,8 @@ extern const sead::Vector2f sUnk_7101EC503C[4];
 extern const ImageTypeMaybe sUnk_7101EC54AC;
 // 0x7101ec54b4
 extern const ImageTypeMaybe sUnk_7101EC54B4;
+// 0x7101ec54a8: type 0xff (no image); System::x resets the ring entries to it.
+extern const ImageTypeMaybe sUnk_7101EC54A8;
 
 // Placeholder: a material and a texture index (returned by a virtual of the object at
 // Terrain::_370->_4ae0 + 0x10; getters at 0x7101140610 - 0x710114065c).
