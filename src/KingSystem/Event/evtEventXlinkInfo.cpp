@@ -4,6 +4,19 @@
 
 namespace ksys::evt {
 
+// 0x7100dc8ca8
+EventXlinkInfo::EventXlinkInfo() = default;
+
+// 0x7100dc8db4
+EventXlinkInfo::~EventXlinkInfo() {
+    auto* proc = _18.getProc(nullptr);
+    if (sead::IsDerivedFrom<act::Actor>(proc))
+        proc->deleteLater(act::BaseProc::DeleteReason::_0);
+    _8.deleteProc();
+    _28.freeBuffer();
+    _38.freeBuffer();
+}
+
 // 0x7100dc96a0
 void EventXlinkInfo::x_1(EventFlowBase* flow) {
     if (auto* actor = sead::DynamicCast<act::Actor>(_18.getProc(nullptr))) {

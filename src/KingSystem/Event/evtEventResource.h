@@ -12,6 +12,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 
 namespace sead {
@@ -37,7 +38,9 @@ class ResourceTimeline;
 // Event xlink information (CSV EventXlinkInfo; helper at EventResource + 0x1b8)
 class EventXlinkInfo {
 public:
-    // 0x7100dc8db4 / 0x7100dc8ec4 (CSV unnamed; not decompiled)
+    // 0x7100dc8ca8 (CSV EventXlinkInfo::ctor)
+    EventXlinkInfo();
+    // 0x7100dc8db4 / 0x7100dc8ec4: deletes the linked actor
     virtual ~EventXlinkInfo();
 
     // 0x7100dc96a0 / 0x7100dc9780 (CSV EventXlinkInfo::x_1 / x_0; not decompiled)
@@ -48,10 +51,30 @@ public:
     // 0x7100dc9628: the XLink of the linked actor (null without an acquirable actor)
     xlink::XLink* sub_7100DC9628();
 
-    // Only the members used by x_0 / x_1 are known; the extent is not recovered.
+    // An element of the two arrays allocated by init2 (0x7100dc9828; three strings each)
+    struct Entry {
+        sead::SafeString _0;
+        sead::SafeString _10;
+        sead::SafeString _20;
+    };
+    static_assert(sizeof(Entry) == 0x30);
+
     /* 0x08 */ act::BaseProcHandle _8;
     /* 0x18 */ act::BaseProcLink _18;
+    /* 0x28 */ sead::Buffer<Entry> _28;
+    /* 0x38 */ sead::Buffer<Entry> _38;
+    /* 0x48 */ sead::FixedSafeString<64> _48;
+    /* 0xa0 */ snd::Unk_7102502950 _a0;
+    /* 0xc0 */ bool _c0 = false;
+    /* 0xc8 */ sead::FixedSafeString<64> _c8;
+    /* 0x120 */ res::Handle _120;
+    /* 0x170 */ bool _170 = false;
+    /* 0x178 */ sead::Heap* mHeap = nullptr;  // set by init (0x7100dc8ee8)
+    /* 0x180 */ bool _180 = false;
+    /* 0x181 */ bool _181 = false;
+    /* 0x182 */ bool _182 = false;
 };
+static_assert(sizeof(EventXlinkInfo) == 0x188);
 
 // The event camera data of a resource (CSV CameraSystem; at EventResource + 0x148; ctor 0x7100da3b8c, init
 // 0x7100da3fe0, not decompiled).
