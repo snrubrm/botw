@@ -73,8 +73,60 @@ void SiteBossLswordAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: stack frame layout only (the original also saves x28 and places the up vector lower).
 void SiteBossLswordAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    const sead::Vector3f up = sead::Vector3f::ey;
+    sub_710073FA94(&_bc, mActor);
+    sead::Vector3f dir = *mTargetPos_d;
+    sub_71005D7444(mActor, dir, true, true);
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    dir -= pos;
+    sead::Vector3f velocity = sead::Vector3f::zero;
+    m33(&velocity);
+    if (sub_71005DD798(mActor, 0x29, nullptr, 0, 0)) {
+        _b0.lerp(*mRotSpd_s, 0.08f, 0.01f, 0.001f);
+        _b0.updateStats();
+        sub_710074006C(&_bc, dir, up, true, *mBaseRotRatio_s, _b0.value, _b0.value / 10.0f);
+        pos += velocity;
+    }
+    controller->sub_7100F5F938(sead::Matrix34f(_bc, pos));
+
+    sub_71005DAB2C(mActor, *mJustAvoidSideDist_s + 7.0f, *mJustAvoidBackDist_s + 7.0f,
+                   *mJustAvoidAngle_s, 0);
+
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0) || sub_71005DD780(mActor, 0x51, &query, 0, 0)) {
+        _e0 = true;
+        {
+            auto* actor = mActor;
+            const u32 attack_flags = m34();
+            const f32 power = f32(m35());
+            sub_71005D7ADC(actor, 0, attack_flags, &query.name, nullptr, m36(), 1, 0, 1, power,
+                           1.0f);
+        }
+        if (auto* chemical = mActor->sub_71011D8A44(1))
+            chemical->sub_7100D91098(true);
+        auto* actor = mActor;
+        const u32 attack_flags = m34();
+        const f32 power = f32(m35());
+        sub_71005D7ADC(actor, 0, attack_flags, &query.name, nullptr, m36(), 1, 0, 1, power, 1.0f);
+    } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
+        sub_71005D79AC(mActor, 0, act::Unk_71002edaec(1));
+        if (auto* chemical = mActor->sub_71011D8A44(1))
+            chemical->sub_7100D91098(false);
+        if (_e0)
+            mFlags.set(Flag::Changeable);
+    }
+
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool SiteBossLswordAttack::isChangeable() const {
