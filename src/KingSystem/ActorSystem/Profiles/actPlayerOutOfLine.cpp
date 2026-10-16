@@ -8,7 +8,10 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include <devenv/seadGameConfig.h>
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
@@ -903,6 +906,30 @@ void Player::sub_7100881154() {
         _1c90 = util::sUnk_7101EC6BA0 & ((util::sUnk_7101EC6BA0 & 0x40000000) - pitch);
         mASList->sub_710115F024(normal, 0);
     }
+// NON_MATCHING: block order (the original places the early return after the stamina-max check).
+void Player::decreaseStaminaForActionMaybe(f32 value) {
+    if (value == 0.0f || sead::GameConfig::instance()->get_80a())
+        return;
+
+    if (_c44.isOnBit(20)) {
+        const f32 currentMax = uking::act::PlayerInfo::instance()->getStaminaCurrentMax();
+        const f32 max = uking::act::PlayerInfo::instance()->getMaxStaminaFromPlayerActor();
+        if (value > 0.0f && currentMax != max)
+            return;
+    }
+
+    if (!sead::GameConfig::instance()->get_80b()) {
+        const f32 temperature = getChemicalStuff()->sub_7100D91958();
+        f32 excess;
+        if (temperature > 0.0f)
+            excess = temperature - m326();
+        else
+            excess = m327() - temperature;
+        excess *= getParam()->getRes().mGParamList->getPlayer()->mTempEnergyDecDiamAdd.ref();
+        value *= std::max(excess, 0.0f) + 1.0f;
+    }
+
+    setStaminaDelta(-value);
 }
 
 }  // namespace ksys::act
