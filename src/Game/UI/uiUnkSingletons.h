@@ -1470,4 +1470,7 @@ private:
     u8 _3906[0x3920 - 0x3906];
 };
 
+// 0x7100965960: entry 0-3 of the float buffer at 0x71025d6e58, -1 otherwise
+f32 sub_7100965960(s32 index);
+
 }  // namespace uking::ui
