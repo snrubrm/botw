@@ -213,4 +213,12 @@ s32 Unk_7101106F44::sub_710111FD70(sead::BufferedSafeString* out, const ImageTyp
     return end - out->cstr();
 }
 
+bool sub_710110C1A4(u32* out, u32 index) {
+    const auto* data = Terrain::instance()->_370->_4ae0;
+    if (u32(data->_710) <= index)
+        return false;
+    *out = data->_730->mValues[index];
+    return true;
+}
+
 }  // namespace ksys::tera

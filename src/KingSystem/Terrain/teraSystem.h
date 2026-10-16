@@ -224,7 +224,14 @@ public:
         u8 _8[0x710 - 0x8];
         s32 _710;
         MaterialNameTable* mMaterialNames;
-        u8 _720[0x888 - 0x720];
+        u8 _720[0x730 - 0x720];
+        // Placeholder: one u32 per material (read by sub_710110C1A4).
+        struct MaterialValueTable {
+            u8 _0[8];
+            u32* mValues;
+        };
+        MaterialValueTable* _730;
+        u8 _738[0x888 - 0x738];
         // Read by index by 0x7101123224.
         sead::Buffer<sead::Vector4f> _888;
     };
@@ -522,7 +529,9 @@ public:
     u8 _2940;
     u8 _2941;
     s8 _2942;
-    u8 _2943[0x2946 - 0x2943];
+    // Set (at least 0) by System::sub_71011126C4.
+    u8 _2943;
+    u8 _2944[0x2946 - 0x2944];
     s8 _2946;
     u8 _2947[0x2948 - 0x2947];
     // Placeholder type: System::sub_710111F644 writes its _afc0.
@@ -566,6 +575,8 @@ public:
     void sub_710111F518(int level, int type);
     // 0x710111f598 (placeholder name): Scene::sub_7101100234(a, b) on every scene.
     void sub_710111F598(bool a, bool b);
+    // 0x71011126c4 (placeholder name): stores `value` (at least 0) in _2943 of every scene.
+    void sub_71011126C4(s32 value);
     // 0x71011129cc (placeholder name): unless bit 3 of _1338 is set (and not `force`), passes `levels` to
     // every scene; `force` then sets bit 3.
     void sub_71011129CC(const sead::SafeArray<s32, 19>& levels, bool force);
@@ -738,6 +749,8 @@ u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vecto
 // Full 110C1E4 looks up the texture name and writes its indexed 32-bit value.
 // GolemRootBase 402194 consumes the unsigned output for model and XLink state.
 bool sub_710110C1E4(u32* out, const sead::SafeString& name);
+// 0x710110c1a4 (placeholder name): the u32 value of terrain material `index`; false if out of range.
+bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
 

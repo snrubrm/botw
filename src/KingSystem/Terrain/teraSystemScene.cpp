@@ -22,6 +22,11 @@ void System::sub_71011129CC(const sead::SafeArray<s32, 19>& levels, bool force) 
         _1338 |= 8;
 }
 
+void System::sub_71011126C4(s32 value) {
+    for (s32 i = 0; i < mScenes.size(); ++i)
+        mScenes[i].scene->_2943 = sead::Mathi::max(value, 0);
+}
+
 void System::sub_710111F598(bool a, bool b) {
     for (s32 i = 0; i < mScenes.size(); ++i)
         mScenes[i].scene->sub_7101100234(a, b);
