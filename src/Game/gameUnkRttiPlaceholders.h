@@ -2883,6 +2883,17 @@ public:
     void hm14() override;
     // 0x7101010eb8 (copy for the handle base 0x7101011060)
     void hm15() override {}
+    // 0x7101010c58: stops the BGM like m13, releases the ducker at Unk_710104e5b4 +0x294 (with hold) and resets
+    // the FX mode.
+    void sub_7101010C58(f32 fade_sec);
+    // 0x7101010cd0: prints the state when the debug flag sUnk_710260FBB8 is set.
+    void m14(sead::TextWriter& writer) override;
+
+    // The states of mState (enum text "停止,前半再生中,後半再生中,前半中断中,後半中断中": stopped, playing the first /
+    // second half, first / second half interrupted; text_ is 0x7101011064).
+    // clang-format off
+    SEAD_ENUM(State,停止,前半再生中,後半再生中,前半中断中,後半中断中)
+    // clang-format on
 
     /* 0x190 */ u32 mState = 0;
     /* 0x198 */ ksys::snd::Unk_710260f248Entry* mEntry;

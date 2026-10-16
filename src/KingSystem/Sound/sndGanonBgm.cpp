@@ -5,6 +5,7 @@
 #include <xlink2/xlink2ResourceAccessorSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/World/worldEnvMgr.h"
@@ -27,6 +28,28 @@ Unk_71024fed48::Unk_71024fed48(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 }
 
 Unk_71024fed48::~Unk_71024fed48() = default;
+
+void Unk_71024fed48::sub_7101010C58(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mState = mState == 1 ? 3 : mState == 2 ? 4 : 0;
+    ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+    if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+        if (mgr->_50)
+            mgr->_50->_a8 = 0;
+    }
+}
+
+// 0x710260fbb8: debug flag (never written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FBB8;
+
+void Unk_71024fed48::m14(sead::TextWriter& writer) {
+    if (!sUnk_710260FBB8)
+        return;
+    writer.printf("---- 不完全体ガノン戦BGM ----\n");
+    writer.printf("処理             :%s\n", mActive ? "有効" : "無効");
+    if (State::text(mState))
+        writer.printf("状態             :%s\n", State::text(mState));
+}
 
 void Unk_71024fed48::hm14() {
     if (mState == 1)
