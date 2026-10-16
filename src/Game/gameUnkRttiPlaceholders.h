@@ -2522,6 +2522,11 @@ public:
     // 0x710100064c / 0x7101000b00 (declared only)
     void hm14() override;
     void hm15() override;
+    // 0x7101000ab8: stops the BGM (state 1 -> 3, 2 -> 4, else 0) and the message ducking.
+    void m13(f32 fade_sec) override;
+    // 0x71010007b4: stops the BGM in 3 s like m13, releases the ducker request at Unk_710104e5b4 +0x294 and resets
+    // the FX mode.
+    void sub_71010007B4();
     // 0x71010008a8: prints the state when the debug flag sUnk_710260F3F8 is set.
     void m14(sead::TextWriter& writer) override;
 
