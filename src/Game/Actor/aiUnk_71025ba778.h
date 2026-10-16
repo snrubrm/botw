@@ -44,6 +44,9 @@ public:
     bool m3(gsys::Model* model, bool sorted) override;
     const gsys::BoneAccessKey* m4() override;
 
+    // 0x7100710124 (declared only; placeholder name): sets up the bone key `_20` for the bone `name` of `model`.
+    void sub_7100710124(sead::Heap* heap, gsys::Model* model, const sead::SafeString& name);
+
     // The constructor is inline in the original (LynelRoot's constructor inlines it).
     /* 0x20 */ gsys::BoneAccessKeyEx _20;
     /* 0x58 */ sead::SafeString _58;
@@ -65,6 +68,8 @@ public:
     // Inline in the original (the owner's destructor inlines it; the out-of-line copies sit after LynelRoot's).
     ~Unk_71025ba778() override = default;
 
+    // 0x710070f32c (placeholder name): clears `_8` and sets up the bone handle `_18` for `bone` on the actor's model.
+    bool sub_710070F32C(sead::Heap* heap, ksys::act::Actor* actor, const sead::SafeString& bone);
     // 0x710070f350 (lane1 s47): LynelRoot::enter_ calls it: attaches the bone handle `_18` to the actor (unless `_100` is
     // attached) and sets bit 0 of `_8`.
     void sub_710070F350(ksys::act::Actor* actor);

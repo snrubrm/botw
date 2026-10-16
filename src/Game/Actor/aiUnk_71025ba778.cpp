@@ -5,6 +5,12 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+bool Unk_71025ba778::sub_710070F32C(sead::Heap* heap, ksys::act::Actor* actor, const sead::SafeString& bone) {
+    _8 = 0;
+    _18.sub_7100710124(heap, actor->getModel(), bone);
+    return true;
+}
+
 void Unk_71025ba778::sub_710070F350(ksys::act::Actor* actor) {
     if (!actor)
         return;

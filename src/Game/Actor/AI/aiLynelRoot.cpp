@@ -1,4 +1,9 @@
 #include "Game/Actor/AI/aiLynelRoot.h"
+#include "Game/Actor/actUnk_7100d3cd74.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/actRideable.h"
@@ -39,8 +44,75 @@ LynelRoot::~LynelRoot() {
     }
 }
 
+// NON_MATCHING: the original keeps three separate `return false` blocks and orders the SafeString temporaries of
+// setAITreeVariable differently.
 bool LynelRoot::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap))
+        return false;
+
+    auto* parts = mActor->m101();
+    if (!parts)
+        return false;
+
+    if (!mBreathActorName_s.isEmpty()) {
+        if (!parts->sub_7100D3CED8(mBreathPartsKey0_s, heap) ||
+            !parts->sub_7100D3CED8(mBreathPartsKey1_s, heap) ||
+            !parts->sub_7100D3CED8(mBreathPartsKey2_s, heap)) {
+            return false;
+        }
+
+        ksys::act::InstParamPack pack;
+        ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+        const sead::SafeString* keys = &mBreathPartsKey0_s;
+        for (s32 i = 0; i < 3; ++i) {
+            auto* actor = ksys::act::ActorCreator::instance()->createActor(
+                mBreathActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack,
+                true, false);
+            if (actor) {
+                if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
+                    bullet->_bd0._0.acquire(mActor, false);
+                    bullet->sub_71000048BC(mActor);
+                    bullet->sub_710000497C(mActor);
+                    bullet->getRootAi()->getMapUnitParams().setAITreeVariable(
+                        "IsReuseActor", ksys::AIDefParamType::Bool, true);
+                }
+                parts->sub_7100D3D108(keys[i], actor);
+            } else if (!sub_71005D6D10()) {
+                return false;
+            }
+        }
+    }
+
+    if (!mRoarFlameActorName_s.isEmpty()) {
+        if (!parts->sub_7100D3CED8(mRoarFlamePartsKey_s, heap))
+            return false;
+
+        ksys::act::InstParamPack pack;
+        ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+        auto* actor = ksys::act::ActorCreator::instance()->createActor(
+            mRoarFlameActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+            false);
+        if (actor) {
+            if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
+                bullet->_bd0._0.acquire(mActor, false);
+                bullet->sub_71000048BC(mActor);
+                bullet->sub_710000497C(mActor);
+                bullet->getRootAi()->getMapUnitParams().setAITreeVariable(
+                    "IsReuseActor", ksys::AIDefParamType::Bool, true);
+                bullet->getRootAi()->getMapUnitParams().setAITreeVariable(
+                    "ScaleTime", ksys::AIDefParamType::Float, 10.0f);
+            }
+            parts->sub_7100D3D108(mRoarFlamePartsKey_s, actor);
+        } else if (!sub_71005D6D10()) {
+            return false;
+        }
+    }
+
+    _2c8.sub_710070F32C(heap, mActor, mStandBoneName_s);
+    _2c8._10 = *mBoneStandAddRatio_s;
+    *static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a) = &_2c8;
+    *static_cast<Unk_71025c89e8**>(mLynelMoveParam_a) = &_278;
+    return true;
 }
 
 // NON_MATCHING: the original reloads `mActor` at the top of each iteration of the weapon loop and once more after it;
