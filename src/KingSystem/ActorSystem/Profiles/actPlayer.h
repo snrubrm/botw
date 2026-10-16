@@ -350,6 +350,9 @@ public:
     // 0x7100884fcc (lane3 s71; declared only): stores the angle index of sub_710087386C() in _1c68 and
     // the result of sub_7100869814 in _d1c, then ASList::x_6(9, 0, ...) with the angle difference from x_5().
     void sub_7100884FCC();
+    // 0x7100878110 (8524 B, declared only): picks the event start-wait animation from ASList slot 1 / 0
+    // (called by PlayerEventStartWait::enter_).
+    void sub_7100878110();
     // 0x710085c55c: casts down through the water surface at _1770 and chases _1fa0 toward the surface's tilt along
     // the facing direction (0.01 per frame).
     void sub_710085C55C();

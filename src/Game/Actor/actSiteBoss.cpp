@@ -10,6 +10,7 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -467,6 +468,15 @@ int getNumberOfClearedRemains() {
     if (ksys::gdt::getFlag_Clear_RemainsElectric())
         ++count;
     return count;
+}
+
+bool sub_71006DEBEC(const ksys::act::ActorLinkConstDataAccess& accessor, int mask);
+
+// 0x71002d2a80: true when the player is not in state x_12 and sub_71006DEBEC(player, 8) is false.
+bool sub_71002D2A80() {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    return !player.x_12() && !sub_71006DEBEC(player, 8);
 }
 
 void uking::act::SiteBoss::m73() {
