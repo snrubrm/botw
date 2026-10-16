@@ -2833,6 +2833,8 @@ public:
     void m5() override;
     bool m10() override;
     void m12(f32 fade_sec) override;
+    // 0x7101010250: prints the state when the debug flag sUnk_710260FAE4 is set.
+    void m14(sead::TextWriter& writer) override;
     // 0x710100fff4: starts the entry of the current level once it exists (state 1 -> playing).
     void hm14() override;
     // 0x710101011c: after the delay _1a0 in state 2, fades out the current entry and starts the level _1a4.
@@ -2848,6 +2850,9 @@ public:
     // The levels (enum text "Level1,Level2,Level3"; text_ is 0x71010106dc).
     // clang-format off
     SEAD_ENUM(Level,Level1,Level2,Level3)
+    // The states of _198 (enum text "停止,再生,変更待ち": stopped, playing, waiting for a change; text_ is
+    // 0x7101010888).
+    SEAD_ENUM(State,停止,再生,変更待ち)
     // clang-format on
 
     ksys::snd::GanonBeastBgmInfo* mInfo = nullptr;

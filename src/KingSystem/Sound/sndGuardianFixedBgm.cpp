@@ -136,6 +136,19 @@ void Unk_71024fec18::sub_710100FF38() {
     startWaitDucking();
 }
 
+// 0x710260fae4: debug flag (never written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FAE4;
+
+void Unk_71024fec18::m14(sead::TextWriter& writer) {
+    if (!sUnk_710260FAE4)
+        return;
+    writer.printf("----暴走体ガノン戦闘BGM----\n");
+    writer.printf("処理        :%s\n", mActive ? "有効" : "無効");
+    writer.printf("状態        :%s\n", State::text(_198) ? State::text(_198) : "不明");
+    writer.printf("再生待ち秒  :%.3f\n", _19c);
+    writer.printf("段階        :%s\n", Level::text(_1a4) ? Level::text(_1a4) : "不明");
+}
+
 void Unk_71024fec18::hm14() {
     if (_198 != 1)
         return;
