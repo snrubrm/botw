@@ -215,13 +215,9 @@ public:
     f64 sub_710114D9E8();
     void* sub_710114DED4();
     void* sub_710114D8D0();
-    struct Unk_710114D8E4 {
-        u8 _0[0x10];
-        sead::Vector2f _10;
-        f32 _18;
-    };
-    sead::Vector2f sub_710114D8E4(const Unk_710114D8E4* params);
-    f32 sub_710114D8F8(const Unk_710114D8E4* params);
+    // The callers (System::x_3, parseSceneXmlMaybe, sub_710111DD0C, 0x71013019bc) pass a System.
+    sead::Vector2f sub_710114D8E4(const System* system);
+    f32 sub_710114D8F8(const System* system);
     // 0x710114d928 (CSV Terrain::a; placeholder name): whether the image file of `area` for `type` exists
     // on _428.
     bool sub_710114D928(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type);
@@ -256,6 +252,10 @@ public:
             virtual void m10();
             virtual void m11();
             virtual const MaterialTextureMaybe* m12(s32 index);
+
+            // 0x71011406cc (declaration only; placeholder name): stores `count` at 0x700 of this object
+            // (Unk4ae0::_710).
+            void sub_71011406CC(u32 count);
 
             void* _8;
         };
@@ -631,6 +631,50 @@ struct Unk_7101102B58 {
 };
 static_assert(offsetof(Unk_7101102B58, mSampler) == 0x2c0);
 
+// Placeholder: a self-relative offset in the "TSCB" scene file (null when 0; 0x710111dd0c).
+template <typename T>
+struct SceneOffsetMaybe {
+    T* get() const {
+        return offset != 0 ? static_cast<T*>(sead::PtrUtil::addOffset(this, offset)) : nullptr;
+    }
+    s32 offset;
+};
+
+// Placeholder: the "TSCB" binary scene read by System::sub_710111DD0C (version 10.0). From _10 on, the
+// words are byte-swapped in place unless `swapped` is 1.
+struct SceneBinaryMaybe {
+    // Copied into System::_e8.
+    struct Material {
+        u32 value;
+        f32 _4;
+        f32 _8;
+        f32 _c;
+        f32 _10;
+    };
+    struct Area {
+        sead::Vector2f pos;
+        f32 size;
+    };
+
+    char magic[4];
+    u8 version_major;
+    u8 version_minor;
+    u8 _6[2];
+    u32 swapped;
+    // Bytes from _10 to swap.
+    u32 swap_size;
+    // Terrain::_3c8 / _3cc.
+    f32 _10;
+    f32 _14;
+    u32 num_materials;
+    u32 num_areas;
+    // System::_10 / _18.
+    sead::Vector2f _20;
+    f32 _28;
+    SceneOffsetMaybe<SceneOffsetMaybe<Material>> materials;
+    SceneOffsetMaybe<SceneOffsetMaybe<Area>> areas;
+};
+
 // Placeholder: 0x1a0-byte elements of a buffer at 0x158 of 0x71013019bc's third argument, passed to
 // System::sub_7101115584 (the object at _0 and the flag at 0x198 are read there).
 struct Unk_7101115584Arg {
@@ -850,10 +894,17 @@ public:
     void sub_7101115674(Unk_7101115584Arg* arg);
     // 0x710111e960 (placeholder name): loadScene for a binary scene ("TSCB", parsed by sub_710111DD0C).
     // `size` (x3) is not used.
-    bool sub_710111E960(sead::Heap* heap, const u8* data, size_t size, const sead::SafeString& dir,
+    bool sub_710111E960(sead::Heap* heap, SceneBinaryMaybe* data, size_t size, const sead::SafeString& dir,
                         bool keep_flags);
-    // 0x710111dd0c (declaration only; placeholder name): parses a "TSCB" binary scene (version 10).
-    bool sub_710111DD0C(sead::Heap* heap, const u8* data);
+    // 0x710111dd0c (placeholder name): reads a "TSCB" binary scene (version 10.0; byte-swapped in place
+    // unless already done): terrain scales, the material table (into _e8) and the area nodes.
+    bool sub_710111DD0C(sead::Heap* heap, SceneBinaryMaybe* data);
+    // 0x7101117a08 (declaration only; placeholder name and signature; 3336 bytes): the area node of
+    // `size` at `pos` (created on `heap`).
+    Unk_7101106F44* sub_7101117A08(f32 size, sead::Heap* heap, const sead::Vector2f* pos, u32 a4,
+                                   void* a5);
+    // 0x710111dab8 (declaration only; placeholder name and signature): sets up `node` from `area`.
+    void sub_710111DAB8(sead::Heap* heap, Unk_7101106F44* node, const SceneBinaryMaybe::Area* area);
     // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
     bool sub_710111F618(s32 index);
 
@@ -922,7 +973,10 @@ public:
 
     // Current area node (quadtree, see teraAreaNode.h). Checked by sub_710110B4A4 (no query without it).
     Unk_7101106F44* _8;
-    u8 _10[0x1c - 0x10];
+    // Scaled by Terrain::_3c8 into _1c / _24 (Terrain::sub_710114D8E4 / sub_710114D8F8); set from the
+    // scene file (sub_710111DD0C).
+    sead::Vector2f _10;
+    f32 _18;
     // Centre and size of _8.
     sead::Vector2f _1c;
     f32 _24;
@@ -938,7 +992,8 @@ public:
         u32 value;
         f32 _4;
         f32 _8;
-        u8 _c[0x14 - 0xc];
+        f32 _c;
+        f32 _10;
         f32 scale;
     };
     MaterialUVWMaybe _e8[149];

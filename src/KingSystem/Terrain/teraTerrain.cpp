@@ -125,10 +125,10 @@ bool Terrain::sub_710114DD40() { return false; }
 f64 Terrain::sub_710114D9E8() { return _a48; }
 void* Terrain::sub_710114DED4() { return _360->_f0; }
 void* Terrain::sub_710114D8D0() { return _360 ? _360->_168 : nullptr; }
-sead::Vector2f Terrain::sub_710114D8E4(const Unk_710114D8E4* params) {
-    return params->_10 * _3c8;
+sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
+    return system->_10 * _3c8;
 }
-f32 Terrain::sub_710114D8F8(const Unk_710114D8E4* params) { return params->_18 * _3c8; }
+f32 Terrain::sub_710114D8F8(const System* system) { return system->_18 * _3c8; }
 
 bool Core::Grass::sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value) {
     const Unk_7101150c24 arg{1, pos, radius, value, true, true, true, false, false};

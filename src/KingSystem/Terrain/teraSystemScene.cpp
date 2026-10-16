@@ -1,5 +1,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadEndian.h>
+#include <prim/seadPtrUtil.h>
 #include <prim/seadScopedLock.h>
 #include <prim/seadStringUtil.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
@@ -177,9 +179,73 @@ bool System::loadScene(sead::Heap* heap, const sead::XmlDocument* doc, const sea
     return ok;
 }
 
+// NON_MATCHING: the byte swap loop keeps a separate pointer to _10 in the original.
+bool System::sub_710111DD0C(sead::Heap* heap, SceneBinaryMaybe* data) {
+    if (data->magic[0] != 'T' || data->magic[1] != 'S' || data->magic[2] != 'C' || data->magic[3] != 'B') {
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log("[tscb 読み込み失敗] シグネチャが違います");
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        return false;
+    }
+    if (data->version_major != 10 || data->version_minor != 0) {
+        if (auto* debug = Terrain::instance()->_a50) {
+            auto entry = debug->_70.log(
+                "[tscb 読み込み失敗] ファイルのバージョンが違います : require %d.%d - exist %d.%d", 10, 0,
+                data->version_major, data->version_minor);
+            if (entry.buffer)
+                entry.buffer->setDisplayTime(10.0f);
+        }
+        return false;
+    }
+
+    if (data->swapped != 1) {
+        data->swapped = sead::Endian::swapU32(data->swapped);
+        data->swap_size = sead::Endian::swapU32(data->swap_size);
+        for (u32 i = 0; i < data->swap_size; i += 4) {
+            auto* word = static_cast<u32*>(sead::PtrUtil::addOffset(&data->_10, i));
+            *word = sead::Endian::swapU32(*word);
+        }
+    }
+
+    Terrain::instance()->_3c8 = data->_10;
+    Terrain::instance()->_3cc = data->_14;
+    _10 = data->_20;
+    _18 = data->_28;
+    _1c = Terrain::instance()->sub_710114D8E4(this);
+    _24 = Terrain::instance()->sub_710114D8F8(this);
+
+    const SceneOffsetMaybe<SceneBinaryMaybe::Material>* materials = data->materials.get();
+    if (Terrain::instance()->_a58 & 1)
+        Terrain::instance()->_370->_4ae0->_10.sub_71011406CC(data->num_materials);
+    const u32 num_materials =
+        sead::Mathu::min(data->num_materials, u32(Terrain::instance()->_370->_4ae0->_710));
+    for (u32 i = 0; i < num_materials; ++i) {
+        const SceneBinaryMaybe::Material* material = materials[i].get();
+        MaterialUVWMaybe& entry = _e8[s32(i)];
+        entry.value = material->value;
+        entry._4 = material->_4;
+        entry._8 = material->_8;
+        entry._c = material->_c;
+        entry._10 = material->_10;
+    }
+
+    const SceneOffsetMaybe<SceneBinaryMaybe::Area>* areas = data->areas.get();
+    for (u32 i = 0; i < data->num_areas; ++i) {
+        const SceneBinaryMaybe::Area* area = areas[i].get();
+        const f32 scale = Terrain::instance()->_3c8;
+        const sead::Vector2f pos = {area->pos.x * scale, area->pos.y * scale};
+        Unk_7101106F44* node = sub_7101117A08(area->size, heap, &pos, 0, nullptr);
+        sub_710111DAB8(heap, node, area);
+        _10 = data->_20;
+    }
+    return true;
+}
+
 // NON_MATCHING: as loadScene.
-bool System::sub_710111E960(sead::Heap* heap, const u8* data, size_t size, const sead::SafeString& dir,
-                            bool keep_flags) {
+bool System::sub_710111E960(sead::Heap* heap, SceneBinaryMaybe* data, size_t size,
+                            const sead::SafeString& dir, bool keep_flags) {
     mLock.writeLock();
     sub_7101112714(nullptr);
     Terrain::instance()->_380->sub_71011382EC();
