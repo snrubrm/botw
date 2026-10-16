@@ -1,4 +1,10 @@
 #include "Game/Actor/AI/aiSiteBossSwordAttackRoot.h"
+#include <prim/seadSafeString.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -255,6 +261,51 @@ void SiteBossSwordAttackRoot::sub_7100595808(const sead::Vector3f& pos, s32 atta
         changeChild("近接攻撃2", &pack);
     else
         changeChild("近接攻撃", &pack);
+}
+
+// 0x71005947ac
+// NON_MATCHING: scheduling of the _cf4 store around the "AttackLevel" key setup only.
+void SiteBossSwordAttackRoot::sub_71005947AC(s32 index) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    const s32 power = *mThrowAttackPower_s;
+    s32 dead_blights = getNumberOfDeadBlights();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        const u32 kind = boss->_1534 & ~3u;
+        if (kind == 4)
+            dead_blights = 3;
+        else if (kind == 8)
+            dead_blights = 4;
+    }
+    const s32 add_power = *mAddAttackPower_s * dead_blights;
+    const s32 attack_power = add_power + power;
+    const s32 min_damage = *mThrowMinDamage_s + add_power;
+
+    ksys::act::InstParamPack pack;
+    pack->add(attack_power, "AttackPower");
+    pack->add(*mElectricBallScaleTime_s, "ScaleTime");
+    ksys::act::ActorCreator::addScale(pack, *mElectricBallScale_s);
+    pack->add(*mElectricBallRange_s, "Range");
+    pack->add(sead::SafeString("AtkEnemyBody"), "RigidBodyName");
+    pack->add(min_damage, "AtMinDamage");
+    auto* actor = ksys::act::ActorCreator::instance()->createActor(
+        mThrowActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false);
+    if (!actor)
+        return;
+
+    sead::FormatFixedSafeString<32> name("ElectricBall%d", index);
+    enemy->_1128.sub_7100D3D108(name, actor);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor)) {
+        bullet->sub_710000497C(mActor);
+        if (auto* body = bullet->getMainBody())
+            body->setGravityFactor(0.0f);
+        bullet->_cf4 |= 8;
+        bullet->getRootAi()->getMapUnitParams().setAITreeVariable("AttackLevel", ksys::AIDefParamType::Int, 2);
+    }
 }
 
 }  // namespace uking::ai
