@@ -59,6 +59,15 @@ public:
     virtual hkReal getHeightAtImpl(int x, int z) const;
     virtual hkBool getTriangleFlipImpl() const;
 
+    // Slots 26-28 of vtable 0x710253c9f0 follow getTriangleFlipImpl; their names are unknown.
+    // 0x71015c398c and 0x71015c3994 return 0 and slot 28 is pure. The terrain shapes (vtables
+    // 0x7102515a58 / 0x7102515b40) override all three: the height at a float position
+    // (0x71012266dc), the height and the normal there (0x7101226768), and a hkUint32 for a
+    // position (0x7101224c1c, built from the terrain material).
+    virtual hkReal sub_71015C398C(hkReal x, hkReal z) const;
+    virtual hkReal sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const;
+    virtual hkUint32 m28(const hkVector4& position) const = 0;
+
     using RayCastInternalFunc = void (hkpSampledHeightFieldShape::*)(const hkpShapeRayCastInput&,
                                                                      const hkpCdBody&,
                                                                      hkpRayHitCollector&) const;

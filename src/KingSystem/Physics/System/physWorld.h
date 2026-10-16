@@ -7,6 +7,8 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Utils/Types.h"
 
+class hkJobQueue;
+class hkThreadPool;
 class hkpWorld;
 
 namespace ksys::phys {
@@ -40,7 +42,7 @@ public:
     void lockCS(const char* description, int b, OnlyLockIfNeeded only_lock_if_needed);
     void unlockCS(const char* description, int b, OnlyLockIfNeeded only_lock_if_needed);
 
-    // 0x71012b3f50 (declared only; placeholder name): starts a multithreaded Havok step (hkpWorld::initMtStep).
+    // 0x71012b3f50 (placeholder name): runs a multithreaded Havok step on the thread pool.
     void sub_71012B3F50(f32 delta_time);
     void sub_71012B3FB0();
     void sub_71012B3FC8();
@@ -49,8 +51,9 @@ private:
     hkpWorld* mHavokWorld{};
     ContactListener* mContactListener{};
     GroupFilter* mGroupFilter{};
-    u64 _20{};
-    u64 _28{};
+    // Created by sub_71012B37A4 (0x1af8-byte pool from 0x710132084c, 0x340-byte job queue).
+    hkThreadPool* mThreadPool{};
+    hkJobQueue* mJobQueue{};
     sead::CriticalSection mCS;
     u32 _70{};
     sead::Atomic<s32> _74{0};

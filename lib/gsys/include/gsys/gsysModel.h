@@ -12,6 +12,8 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitGroup.h>
 
 namespace uking::ai {
@@ -170,6 +172,11 @@ public:
     void setBoneLocalRTMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix);
     // 0x7100bf7c84 (declared only)
     void setBoneWorldMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix);
+    // Inline only: SiteBossShootNormalArrow 0x7100263c64 and ForkASTrgShootArrowWithBaseBone::m32
+    // 0x710014449c read the unit through mUnitAccess (+0x40) and call ModelUnit slot 0x70.
+    void getBoneWorldMatrix(const BoneAccessKey& key, sead::Matrix34f* matrix) const {
+        mUnitAccess(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(matrix, key.bone_index);
+    }
     // 0x7100bf7bb4 (CSV name)
     BoneAccessKey searchBone(const sead::SafeString& name) const;
     // 0x7100bf82e8 (CSV name; declared only)

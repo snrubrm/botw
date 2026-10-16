@@ -104,6 +104,8 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/System/StackTracer/hkStackTracer.h
 
   Havok/Common/Base/Thread/Atomic/hkAtomicPrimitives.h
+  Havok/Common/Base/Thread/JobQueue/hkJobQueue.h
+  Havok/Common/Base/Thread/Pool/hkThreadPool.h
   Havok/Common/Base/Thread/Thread/hkThreadLocalData.h
 
   Havok/Common/Base/Types/hkBaseDefs.h

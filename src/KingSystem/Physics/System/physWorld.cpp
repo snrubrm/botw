@@ -1,4 +1,7 @@
 #include "KingSystem/Physics/System/physWorld.h"
+#include <Havok/Common/Base/Thread/JobQueue/hkJobQueue.h>
+#include <Havok/Common/Base/Thread/Pool/hkThreadPool.h>
+#include <Havok/Physics2012/Dynamics/World/hkpWorld.h>
 #include <thread/seadThread.h>
 
 namespace ksys::phys {
@@ -30,6 +33,14 @@ void World::unlockCS(const char* description, int b, OnlyLockIfNeeded only_lock_
         return;
     }
     mCS.unlock();
+}
+
+void World::sub_71012B3F50(f32 delta_time) {
+    mHavokWorld->initMtStep(mJobQueue, delta_time);
+    mThreadPool->processAllJobs(mJobQueue);
+    mJobQueue->processAllJobs();
+    mThreadPool->waitForCompletion();
+    mHavokWorld->finishMtStep(mJobQueue, mThreadPool);
 }
 
 void World::sub_71012B3FB0() {
