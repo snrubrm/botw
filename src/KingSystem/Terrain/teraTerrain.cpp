@@ -5,6 +5,10 @@
 #include <cmath>
 #include <filedevice/seadFileDevice.h>
 #include <math/seadMathCalcCommon.h>
+#include <common/aglDrawContext.h>
+#include <gfx/seadViewport.h>
+#include <mc/seadCoreInfo.h>
+#include <thread/seadThread.h>
 
 namespace ksys::tera {
 
@@ -17,6 +21,23 @@ bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTy
     bool exists = false;
     _428->tryIsExistFile(&exists, path);
     return exists;
+// NON_MATCHING: our sead::Viewport destructor is out of line (the original has no destructor call).
+void Terrain::sub_710114C648(agl::DrawContext* context) {
+    RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
+    set.mRenderBuffer.bind(context);
+    sead::Viewport viewport(set.mRenderBuffer);
+    set.mRenderBuffer.fastClear(
+        context, 0, 2, sead::Color4f::cBlack, 1.0f, 0, viewport,
+        !(_a58 & 0x8000) || _a40->mThread != sead::ThreadMgr::instance()->getCurrentThread());
+}
+
+void Terrain::sub_710114C9D0(agl::DrawContext* context) {
+    RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
+    if (set.mColorFlags & 1)
+        set.mColorTargets[0].invalidateGPUCache(context);
+    if (set.mColorFlags & 2)
+        set.mColorTargets[1].invalidateGPUCache(context);
+    set.mColorFlags = 0;
 }
 
 void Terrain::sub_710114D8C0(sead::Heap* heap, System* system) {

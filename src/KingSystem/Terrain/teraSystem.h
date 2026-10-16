@@ -22,6 +22,13 @@
 #include <common/aglTextureSampler.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Utils/Types.h"
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
+#include <common/aglTextureSampler.h>
+
+namespace agl {
+class ShaderProgram;
+}
 
 namespace gsys {
 class Model;
@@ -30,6 +37,7 @@ class Model;
 namespace sead {
 class FileDevice;
 class Heap;
+class Thread;
 class ExpHeap;
 }
 
