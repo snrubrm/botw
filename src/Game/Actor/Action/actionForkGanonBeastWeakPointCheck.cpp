@@ -14,6 +14,18 @@ s32 sub_71007028F8(ksys::act::Actor* actor, ksys::phys::RigidBody* body);
 
 namespace uking::action {
 
+// NON_MATCHING: the original recomputes the entry address from the index for each access (smaddl / madd) and
+// keeps the string constants out of the hoisted registers
+void Unk_GanonBeastWeakPointXLinkHandles::sub_71001552E4() {
+    for (s32 i = 0; i < 4; ++i) {
+        if (mEntries[i].mIndex < 0)
+            continue;
+        mEntries[i].mIndex = -1;
+        mEntries[i].mEffect.kill();
+        mEntries[i].mSound.fade();
+    }
+}
+
 // NON_MATCHING: point-mask calculation is scheduled after the RTTI query.
 void Unk_710238b078::call(s32* damage, s32*, u32*, u32*, s32* reaction,
                          act::DamageCallbackInfo*) {

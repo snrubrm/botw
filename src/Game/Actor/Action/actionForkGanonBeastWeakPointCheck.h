@@ -8,6 +8,22 @@ namespace uking::action {
 
 class ForkGanonBeastWeakPointCheck;
 
+// Placeholder type of the AI tree variable GanonBeastWeakPointXLinkHandle: an effect / sound handle pair for each of
+// the four weak points (`mIndex` < 0 when unused).
+struct Unk_GanonBeastWeakPointXLinkHandles {
+    struct Entry {
+        xlink2::HandleELink mEffect;
+        xlink2::HandleSLink mSound;
+        s32 mIndex = -1;
+    };
+
+    // 0x71001552e4 (placeholder name): kills the effects and fades out the sounds of the used entries.
+    void sub_71001552E4();
+
+    Entry mEntries[4];
+};
+KSYS_CHECK_SIZE_NX150(Unk_GanonBeastWeakPointXLinkHandles, 0xa0);
+
 // Native tables share DamageCallback's RTTI and complete destructor slots.
 class Unk_710238b078 : public act::DamageCallback {
 public:
