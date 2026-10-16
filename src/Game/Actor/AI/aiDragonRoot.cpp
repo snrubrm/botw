@@ -1,5 +1,8 @@
 #include "Game/Actor/AI/aiDragonRoot.h"
 #include "Game/Actor/actDragon.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -173,6 +176,128 @@ void DragonRoot::sub_710036F80C() {
     }
 }
 
+// NON_MATCHING: calls the non-const Rail::getPoint (the original uses the const overload; the rail
+// pointer is non-const here).
+void DragonRoot::calc_() {
+    ControlRailRoot::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+
+    if (!dragon->_1f70.isOnBit(30))
+        dragon->setGameDataFlag(true, "Appearance_Today", -1);
+    if (!dragon->_1f70.isOnBit(28)) {
+        if (auto* bgm = ksys::snd::sub_7100FFE094())
+            bgm->_5c = dragon->_1f6c;
+    }
+    if (_250.isProcReady()) {
+        _250.releaseAndWakeProc();
+        _24c.set(0x80);
+    }
+
+    m42();
+    m43();
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("レールに向かう")) {
+            if (child->isFinished())
+                m41();
+            else
+                m40(-1.0f);
+        } else if (isCurrentChild("帰還")) {
+            dragon->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            setFinished();
+        }
+    } else if (child->isChangeable()) {
+        if (m47()) {
+            ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+            query.enableLayer(ksys::phys::ContactLayer::EntityHitOnlyGround);
+            query.enableLayer(ksys::phys::ContactLayer::EntityWater);
+            sead::Vector3f dir;
+            sub_7100010168(dragon, &dir);
+            query.setStartAndDisplacementScaled(dragon->getMtx().getTranslation(), dir, 60.0f);
+            query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+            if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity) && dragon->_1e0c != 3 &&
+                !isCurrentChild("帰還")) {
+                changeChild("帰還");
+            }
+            act::sub_710000AE6C();
+        }
+
+        if (isCurrentChild("移動") && sub_7100357268(0.5f))
+            changeChild("帰還");
+
+        if (!dragon->_1f70.isOnBit(28)) {
+            auto* damage_mgr = sub_710072BA90(dragon);
+            if (damage_mgr && s32(damage_mgr->getDamage()) >= 1) {
+                m45(damage_mgr);
+                const s32 max_life = dragon->getMaxLife();
+                if (auto* life = dragon->getLife())
+                    *life = max_life;
+            }
+        }
+
+        if (dragon->_1e0c != 3) {
+            if (!(_1e0 > f32(*mReturnTime_s))) {
+                ksys::Timer::update(&_1e0, 1.0f);
+            } else if (!dragon->_1f70.isOnBit(28)) {
+                if (!isCurrentChild("帰還"))
+                    changeChild("帰還");
+            } else if (!m46()) {
+                dragon->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            }
+        }
+    }
+
+    if (!dragon->_1f70.isOnBit(28) && hasAttackInfo(dragon)) {
+        if (auto* info = getAttackInfo(mActor, 0))
+            m44(info->_0);
+    }
+
+    if (_24c.isOn(4)) {
+        if (!_24c.isOn(8) && _1d8-- < 0) {
+            if (_24c.isOn(0x10))
+                dragon->sub_710000EC50();
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+            mActor->get68c() = 0;
+            _24c.set(8);
+        }
+    } else if (_24c.isOn(8) && _1d8-- < 0) {
+        mActor->get68c() = 1;
+        _24c.reset(8);
+    }
+
+    if (_24c.isOn(8)) {
+        ksys::Timer::update(&_1dc, 1.0f);
+        if (_1dc > 30.0f) {
+            const bool was_on = dragon->_1f70.isOnBit(28);
+            dragon->_1f70.setBit(21);
+            if (!was_on) {
+                sub_71007A458C(mActor, true);
+                sub_710036F80C();
+            }
+        }
+    }
+
+    f32 scale;
+    if (auto* point = _38._8.rail->getPoint(s32(_38._30.progress))) {
+        sead::Vector3f point_scale;
+        point->getIter().getScale(&point_scale);
+        scale = point_scale.x;
+    } else {
+        scale = 1.0f;
+    }
+    _248 = _248 + (scale * *mSpeed_s - _248) * 0.05f;
+}
+
 // NON_MATCHING: the original computes &_1f0 once before the payload lock and reuses it for the send.
 void DragonRoot::leave_() {
     if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
@@ -299,13 +424,13 @@ void DragonRoot::m43() {
 void DragonRoot::m44(const sead::Vector3f& pos) {}
 
 // NON_MATCHING: the flag at bit 8 is tested before the BaseProcHandle pointer.
-void DragonRoot::m45(ksys::act::Actor* actor) {
+void DragonRoot::m45(act::DamageManager* damage_mgr) {
     auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
     if (!dragon || _24c.isOnBit(5) || _250.getUnit() || _24c.isOnBit(8) || _250.hasFailed())
         return;
     dragon->_1f70.setBit(29);
     _230 = 0.0f;
-    spawnDrop(dragon, actor, sead::Vector3f::zero, sead::Vector3f::zero);
+    spawnDrop(dragon, damage_mgr, sead::Vector3f::zero, sead::Vector3f::zero);
 }
 
 // NON_MATCHING: the four screen-bounds compares are chained in a different order (fccmp sequence).

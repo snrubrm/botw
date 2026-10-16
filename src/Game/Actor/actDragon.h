@@ -68,6 +68,8 @@ public:
     void sub_710000E500(const sead::SafeString& name);
     // 0x710000ea88 (declared by lane1 s95; placeholder name): DragonRoot::enter_ passes HornAnmName.
     void sub_710000EA88(const sead::SafeString& name);
+    // 0x710000ec50 (declared by lane1 s95; placeholder name): starts an AS (5, 2) on the dragon's ASList.
+    void sub_710000EC50();
     // 0x710000c440: the dragon's map object: Actor::mMapObject when _1f70 bit 28 is set, otherwise a lookup
     // by dragon kind (_1e0c) (declared only; DragonFireRoot::sub_71003687B4).
     ksys::map::Object* sub_710000C440() const;
@@ -153,7 +155,7 @@ public:
     // updatePositionMaybe compares the actor's horizontal distance to this point with 350.
     /* 0x1f54 */ sead::Vector3f _1f54;
     /* 0x1f60 */ sead::Vector3f _1f60;  // m34
-    /* 0x1f6c */ u32 _1f6c = 0;
+    /* 0x1f6c */ f32 _1f6c = 0;  // copied to the dragon BGM (DragonRoot::calc_)
     /* 0x1f70 */ sead::BitFlag32 _1f70;  // ~45 AI accesses
     // B214 stores capacity 16 at +1f88 and the buffer pointer +1f8c at +1f80.
     /* 0x1f78 */ sead::FixedSafeString<16> _1f78;
@@ -171,4 +173,8 @@ public:
 KSYS_CHECK_SIZE_NX150(Dragon, 0x22c0);
 
 bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f& current_pos);
+// 0x710000ae6c (declared by lane1 s95; placeholder name): returns false. DragonRoot::calc_ calls it after
+// its ground ray cast and ignores the result.
+bool sub_710000AE6C();
+
 }  // namespace uking::act
