@@ -524,6 +524,21 @@ void Player::sub_710088A220() {
         _c44.setBit(10);
 }
 
+// Placeholder name: while _d68 is equipment type 0 or 2, switches it to type 7, resets the bone keys, clears AS
+// slot 0x2c and plays WeaponEquipOff.
+void Player::sub_710088B2EC() {
+    if (_d68 != getEquipmentTypeName(0) && _d68 != getEquipmentTypeName(2))
+        return;
+    _d68 = getEquipmentTypeName(7);
+    x_25();
+    x_27();
+    mASList->goLimpFromHeadShotMaybe(0x2c, "", 0);
+    x_26("WeaponEquipOff", 0.0f);
+    _1cdc = -1;
+    if (_17d0->playerCheckController(13))
+        _c44.setBit(10);
+}
+
 // Placeholder name: item equip animation follow-up (ItemEquipLeftOn / ItemEquipRight) for weapon slots 0 / 1.
 void Player::sub_710088A388() {
     if (mASList->x_1(2, 0) == "ItemEquipLeftOn" && _d68 != getEquipmentTypeName(6) &&
