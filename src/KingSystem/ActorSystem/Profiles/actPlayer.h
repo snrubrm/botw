@@ -514,6 +514,8 @@ public:
     void x_14(u32 type);
     // 0x7100889154 (unnamed): equips the weapon in slot 0 (WeaponEquipOn with its profile).
     void sub_7100889154();
+    // 0x710088cec8 (unnamed): puts away whatever _d68 / _d30 hold (sub_710088A220, sub_710088B2EC or x_33).
+    void sub_710088CEC8();
     void sub_71008931C4();             // 0x71008931c4
     // 0x710088b5b8 (placeholder name keeps a typo of the address; used by lane3 action files): with the shield-type item (equipment type 2)
     // in _d68 and m226(), x_24(-1) and resets _d68 to equipment type 0's name.

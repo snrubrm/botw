@@ -175,4 +175,25 @@ void Player::x_8(bool, bool) {
     _d30 = getEquipmentTypeName(0);
 }
 
+// In this file because the original calls sub_710088A220, sub_710088B2EC and x_33 out of line.
+// Placeholder name: puts the equipment away, depending on the current (_d30) and requested (_d68) types.
+void Player::sub_710088CEC8() {
+    if (_d68 == getEquipmentTypeName(7))
+        return;
+    if (_d30 == getEquipmentTypeName(1) || _d68 == getEquipmentTypeName(1)) {
+        sub_710088A220();
+        return;
+    }
+    if (_c40.isOnBit(3) || _d68 == getEquipmentTypeName(2)) {
+        sub_710088B2EC();
+        return;
+    }
+    if ((_d30 != getEquipmentTypeName(0) || _c40.isOnBit(3)) && _d30 != getEquipmentTypeName(4)) {
+        x_33();
+        return;
+    }
+    if (_d68 != getEquipmentTypeName(0) && _d68 != getEquipmentTypeName(4))
+        x_33();
+}
+
 }  // namespace ksys::act
