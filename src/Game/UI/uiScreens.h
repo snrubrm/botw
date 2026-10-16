@@ -5016,6 +5016,9 @@ void sub_7100AA930C(eui::LayoutEx* layout, const sead::SafeString& pane_name, s3
 
 // 0x7100aa948c (declared only)
 bool sub_7100AA948C();
+// 0x7100a1b9d0 (placeholder name; ScreenMainScreen TU): opens the DLC energy meter while the Master Cycle is out
+// (unless the pause menu info screen exists) and closes it otherwise
+void sub_7100A1B9D0();
 
 // 0x7100aa0dc0 / 0x7100aa1260 (declared only): resolve a slash separated pane path inside a layout
 nn::ui2d::Pane* sub_7100AA0DC0(eui::LayoutEx* layout, const sead::SafeString& path, nn::ui2d::Pane** parent);

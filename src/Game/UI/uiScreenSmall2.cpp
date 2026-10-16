@@ -1,3 +1,4 @@
+#include "Game/gameMotorcycleMgr.h"
 #include "Game/AOC/aocHardModeManager.h"
 #include <algorithm>
 #include <thread/seadThread.h>
@@ -2486,6 +2487,37 @@ void ScreenControllerWindow::m100() {
     mButtonGroup->_38 &= ~2;
     if (_3610._8)
         _3610._8->sub_710093F594(false);
+}
+
+// 0x7100a1b9d0
+void sub_7100A1B9D0() {
+    auto* motorcycle = MotorcycleMgr::instance();
+    auto* screen = sead::DynamicCast<ScreenEnergyMeterDLC>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::EnergyMeterDLC));
+    if (!motorcycle)
+        return;
+    const bool flag = sub_7100AA948C();
+    if (flag && motorcycle->x_0()) {
+        if (!screen) {
+            if (eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))
+                return;
+            createAndLoadScreenIfNeededImpl(ScreenId::EnergyMeterDLC, nullptr);
+            screen = sead::DynamicCast<ScreenEnergyMeterDLC>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::EnergyMeterDLC));
+            if (!screen)
+                return;
+        }
+        if (screen->isClosedOrClosing() || screen->isClosed())
+            screen->open(1);
+        return;
+    }
+    if (!screen)
+        return;
+    if (screen->isOpening() || screen->isOpened()) {
+        if (!flag)
+            screen->sub_7100A094F8();
+        screen->close(-4);
+    }
 }
 
 s32 ScreenPauseMenuMantan::sResult = 5;
