@@ -5030,6 +5030,10 @@ public:
     // 0x7100a58c5c / 0x7100a58cc8: as ScreenStaffRoll::m73 / m76
     void m73(f32 value) override;
     void m76() override;
+    // 0x7100a58c70: updates the roll, then closes the screen once `progress` passes _270
+    void m74(f32 progress) override;
+    // 0x7100a58508 (CSV unnamed; not decompiled)
+    void sub_7100A58508(f32 progress, f32 end);
 
     /* 0x3610 */ u32 _3610 = 0;
     /* 0x3614 */ u32 _3614 = 0;

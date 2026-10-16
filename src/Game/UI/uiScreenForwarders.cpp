@@ -89,6 +89,13 @@ void ScreenStaffRollDLC::m73(f32 value) {
     open(1);
 }
 
+// 0x7100a58c70
+void ScreenStaffRollDLC::m74(f32 progress) {
+    sub_7100A58508(progress, _270);
+    if (_270 < progress)
+        m76();
+}
+
 // 0x7100a58cc8
 void ScreenStaffRollDLC::m76() {
     _270 = 0;
