@@ -88,6 +88,8 @@ s32 sub_71009661BC(s32 value);
 // 0x7100a9b6d0 / 0x7100a9b710 (defined in uiManagerFacade.cpp)
 f32 sub_7100A9B6D0();
 f32 sub_7100A9B710();
+// 0x7100a9b800 (defined in uiManagerFacade.cpp)
+void sub_7100A9B800(sead::Vector3f* out);
 
 // 0x7100a94bac: refreshes the pause menu information after a preview animation event.
 void sub_7100A94BAC();

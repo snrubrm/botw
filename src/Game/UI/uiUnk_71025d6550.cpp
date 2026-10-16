@@ -1,3 +1,4 @@
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadMemUtil.h>
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUtils.h"
@@ -14,8 +15,9 @@ void Unk_71025d6550::sub_71009482FC() {
     _b6c = 1;
     _b70 = 0;
     _b74 = -1;
-    _d38 = 0;
-    _d3a = 0;
+    _d38 = false;
+    _d39 = false;
+    _d3a = false;
     _d3c = 0;
     _d40 = 0;
     _d44 = 0;
@@ -201,6 +203,25 @@ void Unk_71025d6550::sub_710094852C() {
     _b38 = 10;
 }
 
+// 0x7100948664
+void Unk_71025d6550::sub_7100948664() {
+    sead::Vector3f pos{0, 0, 0};
+    sub_7100A9B800(&pos);
+    _34 = pos;
+    _9c = _80;
+    sub_71009486F0();
+    switch (_b3c) {
+    case 3:
+        sub_71009487C0();
+        break;
+    case 4:
+        sub_7100948914();
+        break;
+    default:
+        break;
+    }
+}
+
 // 0x71009486f0
 void Unk_71025d6550::sub_71009486F0() {
     for (s32 row = 0; row < 3; ++row) {
@@ -209,6 +230,40 @@ void Unk_71025d6550::sub_71009486F0() {
             if (static_cast<u32>(entry._8 - 2) <= 2 && entry._28 != -1)
                 entry._c = entry._3c;
         }
+    }
+}
+
+// 0x71009487c0
+void Unk_71025d6550::sub_71009487C0() {
+    if (!_d38 && _b80[0].valid && _c60[0].valid) {
+        const sead::Vector3f& from = _b80[0].pos;
+        const sead::Vector3f& to = _c60[0].pos;
+        const f32 angle =
+            360.0f - sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(to.x - from.x, to.y - from.y)));
+        _d38 = true;
+        _d48 = 0;
+        _d3c = angle;
+        _d54[0] = 0;
+    }
+    if (!_d39 && _b80[1].valid && _c60[1].valid) {
+        const sead::Vector3f& from = _b80[1].pos;
+        const sead::Vector3f& to = _c60[1].pos;
+        const f32 angle =
+            360.0f - sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(to.x - from.x, to.y - from.y)));
+        _d39 = true;
+        _d4c = 0;
+        _d40 = angle;
+        _d54[1] = 0;
+    }
+    if (!_d3a && _b80[2].valid && _c60[2].valid) {
+        const sead::Vector3f& from = _b80[2].pos;
+        const sead::Vector3f& to = _c60[2].pos;
+        const f32 angle =
+            360.0f - sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(to.x - from.x, to.y - from.y)));
+        _d3a = true;
+        _d50 = 0;
+        _d44 = angle;
+        _d54[2] = 0;
     }
 }
 

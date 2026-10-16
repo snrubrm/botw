@@ -261,6 +261,10 @@ public:
     void sub_71009485EC();
     // 0x71009486f0 (placeholder name): for every entry in state 2..4 with a target, copies the position at 0x3c to 0xc
     void sub_71009486F0();
+    // 0x7100948664 (placeholder name): updates _34 / _9c and the entries, then the state 3 / 4 handler
+    void sub_7100948664();
+    // 0x71009487c0 (declared only; 340 bytes): the state 3 counterpart of sub_7100948914
+    void sub_71009487C0();
     // 0x7100948914 (placeholder name): follows the state at 0xd64 with the gear manager's flag (while screen state 27 is active)
     void sub_7100948914();
     // 0x710094852c (placeholder name): `_b38` = the index of the first entry of the first row whose pointer at 0x50 is null (10 if none)
@@ -277,9 +281,15 @@ public:
     void sub_7100948F0C(const f32* values);
     void sub_7100948F48(f32 value);
 
-    u8 _0[0x80];
+    u8 _0[0x34];
+    // set from uking::ui::sub_7100A9B800 by sub_7100948664
+    /* 0x34 */ sead::Vector3f _34;
+    u8 _40[0x80 - 0x40];
     /* 0x80 */ sead::Vector3f _80;
-    u8 _8c[0xe8 - 0x8c];
+    u8 _8c[0x9c - 0x8c];
+    // copy of _80 (sub_7100948664)
+    /* 0x9c */ sead::Vector3f _9c;
+    u8 _a8[0xe8 - 0xa8];
     /* 0xe8 */ sead::SafeArray<sead::SafeArray<Unk_71025d6550Entry, 10>, 3> _e8;
     /* 0xb38 */ s32 _b38;  // number of used entries of the first row
     /* 0xb3c */ u32 _b3c;
@@ -301,13 +311,25 @@ public:
         u8 _1d[0x38 - 0x1d];
     };
     /* 0xb80 */ Pin _b80[3];
-    u8 _c28[0xd38 - 0xc28];
-    /* 0xd38 */ u16 _d38;
-    /* 0xd3a */ u8 _d3a;
+    u8 _c28[0xc60 - 0xc28];
+    // Targets matching the pins (placeholder layout; sub_71009487C0 reads the position at 0x20 and the flag at 0x40)
+    struct Target {
+        u8 _0[0x20];
+        /* 0x20 */ sead::Vector3f pos;
+        u8 _2c[0x40 - 0x2c];
+        /* 0x40 */ bool valid;
+        u8 _41[0x48 - 0x41];
+    };
+    static_assert(sizeof(Target) == 0x48);
+    /* 0xc60 */ Target _c60[3];
+    // set once the angle from pin i to target i is stored in _d3c / _d40 / _d44 (sub_71009487C0)
+    /* 0xd38 */ bool _d38;
+    /* 0xd39 */ bool _d39;
+    /* 0xd3a */ bool _d3a;
     u8 _d3b;
-    /* 0xd3c */ s32 _d3c;
-    /* 0xd40 */ s32 _d40;
-    /* 0xd44 */ s32 _d44;
+    /* 0xd3c */ f32 _d3c;
+    /* 0xd40 */ f32 _d40;
+    /* 0xd44 */ f32 _d44;
     /* 0xd48 */ s32 _d48;
     /* 0xd4c */ s32 _d4c;
     /* 0xd50 */ s32 _d50;
