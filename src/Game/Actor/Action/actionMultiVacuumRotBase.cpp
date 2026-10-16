@@ -1,4 +1,7 @@
 #include "Game/Actor/Action/actionMultiVacuumRotBase.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -35,7 +38,22 @@ void MultiVacuumRotBase::loadParams_() {
 }
 
 void MultiVacuumRotBase::calc_() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
     MultiVacuumBase::calc_();
+    sub_710073FA94(&_1d8, mActor);
+    const sead::Vector3f up = getUpDir(getGravity(mActor));
+    sead::Vector3f dir = *mParams.mTargetPos_d;
+    dir -= mActor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.normalize();
+    ksys::VFR::lerp(&_1fc, *mParams.mRotSpd_s, 0.16f, *mParams.mRotSpd_s / 10.0f);
+    sub_710074006C(&_1d8, dir, up, true, 0.16f, _1fc, _1fc / 10.0f);
+    sub_7100740E04(_1d8, controller);
+    sub_7100738488(mActor, *mParams.mPosReduceRatio_s, -sead::Vector3f::ey);
 }
 
 }  // namespace uking::action
