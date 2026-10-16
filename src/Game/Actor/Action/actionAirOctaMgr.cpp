@@ -7,6 +7,13 @@
 
 namespace uking::action {
 
+namespace {
+class Unk_7102362ed0 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+}  // namespace
+
 AirOctaMgr::AirOctaMgr(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 AirOctaMgr::~AirOctaMgr() {
@@ -54,7 +61,6 @@ void AirOctaMgr::calc_() {
     sub_7100086484();
 }
 
-// NON_MATCHING: the existing filter vtable uses GOT addressing instead of a direct address.
 void AirOctaMgr::sub_71000874E8(ksys::act::AwarenessInstance* awareness) {
     if (!awareness)
         return;

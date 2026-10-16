@@ -17,10 +17,12 @@ namespace uking::ai {
 
 // Native calc 4ecffc constructs this 8-byte contact filter with vtable 240da18.
 // The vtable has invoke, clone and isNoDummy slots of the existing delegate interface.
+namespace {
 class Unk_710240da18 : public sead::IDelegate2R<ksys::phys::RigidBody*, ksys::phys::RigidBody*, bool> {
 public:
     bool invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) override;
 };
+}  // namespace
 KSYS_CHECK_SIZE_NX150(Unk_710240da18, 8);
 
 // 0x71004ed34c: accept contact with a player actor.
@@ -57,8 +59,6 @@ void OctarockOptionRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         sub_71005DD1CC(mActor, false, 1.0f, 5.0f);
 }
 
-// NON_MATCHING: the original builds the filter vtable address directly (adrp/add: a TU-local vtable); ours goes
-// through the GOT
 void OctarockOptionRoot::calc_() {
     SimpleLiftable::calc_();
 
