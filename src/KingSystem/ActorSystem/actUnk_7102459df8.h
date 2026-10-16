@@ -114,7 +114,11 @@ public:
             /* 0x60 */ sead::Matrix34f _60 = sead::Matrix34f::ident;
             /* 0x90 */ sead::Vector3f _90 = sead::Vector3f::zero;
             /* 0x9c */ sead::Vector3f _9c = sead::Vector3f::ez;
-            /* 0xa8 */ u32 _a8 = 0;
+            /* 0xa8 */ f32 _a8 = 0;  // mass of the hit body (sub_710079F66C)
+
+            // 0x710079fc50 (declared only; 588 B; placeholder name): updates the entry from the hit body's
+            // angular velocity.
+            void sub_710079FC50(phys::RigidBody* body);
         };
         KSYS_CHECK_SIZE_NX150(Unk1, 0xb0);
 

@@ -27,6 +27,7 @@ class Actor;
 class AttackSensor;
 class AttackSensor2;
 class AttackSensor2Listener;
+class PhysicsUserTag;
 
 // CSV name (ctor 0x7a0460, resetFlags 0x7a0498, operator= 0x7a0b0c): the common 0x50-byte head of
 // the attack / contact info entries (ActorAtk::Struct7::AttackInfo, ActorAtk::Unk_710079e64c::Unk1,
@@ -36,6 +37,11 @@ struct Struct8Base {
     Struct8Base& operator=(const Struct8Base& other);
 
     void resetFlags();
+    // 0x71007a04a0 (CSV Struct8Base::beamLevelStuff; declared only, 1644 B): stores the hit position, normal
+    // and material masks, then classifies the hit using the two optional user tags' actors.
+    void beamLevelStuff(const sead::Vector3f& position, const sead::Vector3f& normal,
+                        const phys::MaterialMask& material1, const phys::MaterialMask& material2,
+                        const PhysicsUserTag* tag1, const PhysicsUserTag* tag2);
 
     /* 0x00 */ sead::Vector3f _0{0, 0, 0};
     // Position (copied out by DamageMgrSword::getAttackPos for AttackInfo 0).
