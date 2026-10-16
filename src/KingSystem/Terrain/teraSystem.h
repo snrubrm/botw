@@ -925,6 +925,12 @@ public:
     bool parseSceneXmlMaybe(sead::Heap* heap, sead::XmlElement* element);
     // 0x7101114cc8 (declaration only; CSV name).
     void x_3();
+    // 0x710111a2b8 (placeholder name): creates the root area node from the "scale" / "x" / "y" attributes of
+    // `element` (setting _10 / _18 / _1c / _24), then a node for each child element (read by
+    // sub_71011194C4). True if one of the children failed.
+    bool sub_710111A2B8(sead::Heap* heap, const sead::XmlElement* element);
+    // 0x71011194c4 (declaration only; placeholder name; 3572 bytes): reads area `node` from `element`.
+    bool sub_71011194C4(sead::Heap* heap, Unk_7101106F44* node, const sead::XmlElement* element);
     // 0x710111b16c (placeholder name): whether the scene version "<major>.<minor>" is 10.0 or 9.1; logs
     // a major / minor version mismatch otherwise. Called by parseSceneXmlMaybe (`this` is not used).
     bool sub_710111B16C(const sead::SafeString& version);

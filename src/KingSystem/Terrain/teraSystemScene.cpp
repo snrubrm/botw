@@ -4,6 +4,7 @@
 #include <prim/seadPtrUtil.h>
 #include <prim/seadScopedLock.h>
 #include <prim/seadStringUtil.h>
+#include <prim/seadXmlElement.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
 
 namespace ksys::tera {
@@ -103,6 +104,32 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
         ++_1334.generation;
     }
     mLock.writeUnlock();
+}
+
+// NON_MATCHING: stack layout of the attribute strings and the child loop.
+bool System::sub_710111A2B8(sead::Heap* heap, const sead::XmlElement* element) {
+    const f32 scale = sead::StringUtil::parseF32(element->findAttributeValue("scale"));
+    const f32 x = sead::StringUtil::parseF32(element->findAttributeValue("x"));
+    const f32 y = sead::StringUtil::parseF32(element->findAttributeValue("y"));
+    sead::Vector2f pos = {x * Terrain::instance()->_3c8, y * Terrain::instance()->_3c8};
+    sub_7101117A08(scale, heap, &pos, 0, nullptr);
+    _10 = {x, y};
+    _18 = scale;
+    _1c = Terrain::instance()->sub_710114D8E4(this);
+    _24 = Terrain::instance()->sub_710114D8F8(this);
+
+    bool failed = false;
+    for (const sead::XmlElement* child = element->getFirstChild(); child;
+         child = child->getNextSibling()) {
+        const f32 child_scale = sead::StringUtil::parseF32(child->findAttributeValue("scale"));
+        const f32 child_x = sead::StringUtil::parseF32(child->findAttributeValue("x"));
+        const f32 child_y = sead::StringUtil::parseF32(child->findAttributeValue("y"));
+        pos = {child_x * Terrain::instance()->_3c8, child_y * Terrain::instance()->_3c8};
+        Unk_7101106F44* node = sub_7101117A08(child_scale, heap, &pos, 0, nullptr);
+        _10.set(x, y);
+        failed |= !sub_71011194C4(heap, node, child);
+    }
+    return failed;
 }
 
 // NON_MATCHING: stack layout of the token iterator and the string.
