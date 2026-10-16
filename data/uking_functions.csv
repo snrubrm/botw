@@ -84000,7 +84000,7 @@ Address,Quality,Size,Name
 0x0000007100fa7610,O,000140,_ZN4ksys4phys19RigidBodyRequestMgr24deregisterMotionAccessorEPNS0_14MotionAccessorE
 0x0000007100fa769c,O,000060,_ZN4ksys4phys19RigidBodyRequestMgr4x_10Eff
 0x0000007100fa76d8,m,000384,_ZN4ksys4phys19RigidBodyRequestMgr3x_9Eb
-0x0000007100fa7858,U,000352,phys::RigidBodyRequestMgr::x_11
+0x0000007100fa7858,m,000352,_ZN4ksys4phys19RigidBodyRequestMgr13someFunction2ERKNS0_21LayerContactPointInfo12ContactEventE
 0x0000007100fa79b8,U,000748,phys::RigidBodyRequestMgr::x_2
 0x0000007100fa7ca4,U,001800,phys::RigidBodyRequestMgr::x_12
 0x0000007100fa83ac,U,000560,phys::RigidBodyRequestMgr::x_13

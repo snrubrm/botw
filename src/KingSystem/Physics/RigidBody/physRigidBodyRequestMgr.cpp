@@ -21,6 +21,8 @@ Unk_71024f7e10::~Unk_71024f7e10() {
 
 static RigidBodyRequestMgr::Config sRigidBodyRequestMgrConfig;
 static bool sEnableLinearVelocityChecks;
+// 0x71024f7db0: read directly by someFunction2; nothing in the binary writes it.
+static bool sEnableContactFlags = true;
 
 RigidBodyRequestMgr::RigidBodyRequestMgr() = default;
 
@@ -164,6 +166,42 @@ void RigidBodyRequestMgr::removeRigidBody(ContactLayerType type, RigidBody* body
     }
 
     body->mFlags.reset(RigidBody::Flag::_400);
+}
+
+// NON_MATCHING: sEnableContactFlags is folded away (the original reads the byte), and the material is
+// not round-tripped through the stack before the compare.
+bool RigidBodyRequestMgr::someFunction2(const LayerContactPointInfo::ContactEvent& event) {
+    if (!sEnableContactFlags)
+        return false;
+
+    if (event.layer_a != ContactLayer::EntityWater) {
+        Material material = MaterialMask(event.material_a.raw).getMaterial();
+        if (material != Material::Water)
+            return false;
+        if (event.body_b->hasFlag(RigidBody::Flag::_10000))
+            return false;
+        event.body_b->mFlags.set(RigidBody::Flag::_10000);
+        return true;
+    }
+
+    if (event.body_a->getType() == RigidBody::Type::TerrainHeightField) {
+        if (event.body_b->hasFlag(RigidBody::Flag::_2000))
+            return false;
+        event.body_b->mFlags.set(RigidBody::Flag::_2000);
+        return true;
+    }
+
+    MaterialMask mask{event.material_a.raw};
+    if (mask.getData().getFloorCode() == FloorCode::Fall) {
+        if (event.body_b->hasFlag(RigidBody::Flag::_8000))
+            return false;
+        event.body_b->mFlags.set(RigidBody::Flag::_8000);
+    } else {
+        if (event.body_b->hasFlag(RigidBody::Flag::_4000))
+            return false;
+        event.body_b->mFlags.set(RigidBody::Flag::_4000);
+    }
+    return true;
 }
 
 bool RigidBodyRequestMgr::pushRigidBody(ContactLayerType type, RigidBody* body) {
