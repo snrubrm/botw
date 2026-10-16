@@ -2,12 +2,17 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/UI/uiUtils.h"
 
 bool sub_71002D17D4(ksys::act::Actor* actor, const sead::Vector3f* home,
                   const sead::Vector3f* target, const sead::Vector3f* distance,
                   const sead::Vector3f* offset, bool special);
 
 namespace uking::ai {
+
+// 0x71025bc6c8: only read by calc_ (a debug switch whose drawing code is compiled out; placeholder name).
+bool sUnk_71025bc6c8 = false;
 
 // 0x710058196c
 bool SiteBossRecognizeRoot::sub_710058196C() {
@@ -40,6 +45,55 @@ void SiteBossRecognizeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
     LastBossRecognizeRoot::enter_(params);
+}
+
+// 0x7100581540
+// NON_MATCHING: the original reads sUnk_71025bc6c8 directly (TU-local, not through the GOT) and allocates the loop
+// registers differently
+void SiteBossRecognizeRoot::calc_() {
+    LastBossRecognizeRoot::calc_();
+
+    if (*mIsCheckChildDevice_s) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            for (s32 i = 0; i < 20; ++i) {
+                if (boss->_1560._9c & (1 << i))
+                    boss->_1560.sub_710066C13C(nullptr, i);
+            }
+        }
+    }
+
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        getCurrentChild()->setDynamicParam(!boss->_1558.isOnBit(0), "IsPartsActorTgOn");
+
+    if (isCurrentChild("ワープ移動")) {
+    } else if (isCurrentChild("自身範囲外ワープ")) {
+        if (getCurrentChild()) {
+            auto* child = getCurrentChild();
+            if (child->isFinished() || child->isFailed())
+                siteBossStuff();
+        }
+    } else if (isCurrentChild("プレイヤー範囲外ワープ")) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+            boss->_1558.setBit(17);
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            setFailed();
+    } else {
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        ui::sub_7100A9B584(&pos);
+        sead::Vector3f target;
+        sub_7100478F78(&target);
+        sub_71005DB068(mActor, target);
+        if (isCurrentChild("戦闘"))
+            getCurrentChild()->setDynamicParam(!sub_710058196C(), "IsCancelAttack");
+    }
+
+    if (sUnk_71025bc6c8) {
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        sead::DynamicCast<act::SiteBoss>(mActor);
+    }
 }
 
 void SiteBossRecognizeRoot::leave_() {

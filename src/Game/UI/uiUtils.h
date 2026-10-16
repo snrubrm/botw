@@ -115,6 +115,8 @@ void sub_7100A94AF0();
 void sub_7100A9B2AC();
 bool sub_7100A96688();
 s32 sub_7100A968B4();
+// 0x7100a9b584 (uiMiscFacade.cpp): stores the position in Unk_71025d6550::_80 (SiteBossRecognizeRoot::calc_).
+void sub_7100A9B584(const sead::Vector3f* a0);
 // 0x7100a9a4bc (uiMiscFacade.cpp; declaration added by lane4 s44 for CanMarkMapPin).
 bool sub_7100A9A4BC();
 // 0x7100a9d03c (uiMiscFacade.cpp): the number of obtained runes (remote bombs count twice).
