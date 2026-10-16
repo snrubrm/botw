@@ -328,6 +328,15 @@ public:
     // 0x7100945ea4 (placeholder name): follows the trace gauge: stores its speed in _98 while it is not tracing,
     // otherwise stops tracing at _98 (or once it has caught up)
     void sub_7100945EA4();
+    // 0x7100945d70 (placeholder name): sets the trace gauge's tracing speed to its _50
+    void sub_7100945D70();
+    // 0x7100945d98 (placeholder name): the trace gauge's _6c flag (false without one)
+    bool sub_7100945D98() const;
+    // 0x7100946664 (placeholder name): stops the _50 animator at its maximum (`max`) or minimum
+    void sub_7100946664(bool max);
+    // 0x7100946898 / 0x71009468ac (placeholder names): play the _28 / _58 animator
+    void sub_7100946898();
+    void sub_71009468AC();
     // 0x7100945d84 (placeholder name): sets the trace gauge's _6c flag
     void sub_7100945D84(bool value);
     // 0x7100946864 (placeholder name): 1 + the number of whole 1000s above 1000 in _8c
@@ -341,7 +350,7 @@ public:
     /* 0x10 */ eui::TraceGaugeControl* _10 = nullptr;
     /* 0x18 */ eui::Animator* _18 = nullptr;
     /* 0x20 */ eui::Animator* _20 = nullptr;
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ eui::Animator* _28 = nullptr;
     /* 0x30 */ eui::Animator* _30 = nullptr;
     /* 0x38 */ eui::Animator* _38 = nullptr;
     /* 0x40 */ eui::Animator* _40 = nullptr;
@@ -389,6 +398,10 @@ public:
     void sub_71009461B8();
     // 0x7100946318 (declared only; 304 bytes): sets the animators _50 / _40 / _20 from the player's state
     void sub_7100946318();
+    // 0x710094574c / 0x71009457b4 (placeholder names): set the trace gauge's tracing speed / _50 from `value`
+    // (scaled against m8 by uking::ui::sub_7100AA8FCC)
+    void sub_710094574C(f32 value);
+    void sub_71009457B4(f32 value);
     // 0x7100946740 (placeholder name): opens the layout (and with `update`, refreshes the gauge first) if it is
     // closed or closing; with `a1` also when it is not open
     void sub_7100946740(bool a1, bool update);
@@ -410,6 +423,8 @@ public:
     f32 m9(f32 value) override;
     // 0x71009469b4 (not decompiled)
     bool m10() override;
+    // 0x7100946a5c (placeholder name): whether the timer _c8 is still running
+    bool sub_7100946A5C() const;
     // 0x7100946688: restarts the timer while the value changes; plays _30 once the value is stable
     void m11() override;
     // 0x71009467d8: closes the layout once the value is stable and the state is sub_710094581C

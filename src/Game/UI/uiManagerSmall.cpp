@@ -519,6 +519,55 @@ void Unk_7102474fd8::sub_7100945EA4() {
     sub_7100945D84(false);
 }
 
+// 0x7100945d70
+void Unk_7102474fd8::sub_7100945D70() {
+    if (_10)
+        _10->setTracingSpeed(_10->_50);
+}
+
+// 0x7100945d98
+bool Unk_7102474fd8::sub_7100945D98() const {
+    return _10 && _10->_6c;
+}
+
+// 0x7100946664
+void Unk_7102474fd8::sub_7100946664(bool max) {
+    if (!_50)
+        return;
+    if (max)
+        _50->StopAtMax();
+    else
+        _50->StopAtMin();
+}
+
+// 0x7100946898
+void Unk_7102474fd8::sub_7100946898() {
+    _28->PlayAuto(1.0f);
+}
+
+// 0x71009468ac
+void Unk_7102474fd8::sub_71009468AC() {
+    _58->PlayAuto(1.0f);
+}
+
+// 0x710094574c
+void Unk_7102474fd8Gauge::sub_710094574C(f32 value) {
+    if (_10) {
+        f32 speed = 0;
+        uking::ui::sub_7100AA8FCC(&speed, value, m8());
+        _10->setTracingSpeed(speed);
+    }
+}
+
+// 0x71009457b4
+void Unk_7102474fd8Gauge::sub_71009457B4(f32 value) {
+    if (_10) {
+        f32 shown = 0;
+        uking::ui::sub_7100AA8FCC(&shown, value, m8());
+        _10->set50(shown);
+    }
+}
+
 // 0x7100945d84
 void Unk_7102474fd8::sub_7100945D84(bool value) {
     if (_10)
@@ -621,6 +670,11 @@ void Unk_7102475050::m4() {
             _c0->StopAtMax();
     }
     _c8.setToEnd();
+}
+
+// 0x7100946a5c
+bool Unk_7102475050::sub_7100946A5C() const {
+    return !_c8.isDone();
 }
 
 // 0x7100946688
