@@ -1,7 +1,9 @@
 #pragma once
 
 #include <cmath>
+#include <gfx/seadColor.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 
 namespace ksys::phys {
 class RigidBody;
@@ -19,6 +21,8 @@ f32 perpendicularPart(sead::Vector3f* out, const sead::Vector3f& a, const sead::
 // 0x71002c86dc: `parallel = b * dot(a, b); perpendicular = a - parallel`.
 f32 splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpendicular,
                                const sead::Vector3f& a, const sead::Vector3f& b);
+// 0x71002c8764 (placeholder name): debug text at `pos`; only the text's cstr() call is left in the release build.
+void sub_71002C8764(const sead::Vector3f* pos, const sead::SafeString& text, const sead::Color4f& color);
 // 0x71002c8774 / 0x71002c87e0: adds (x, y, z) to the linear / angular velocity of the body.
 void addLinearVelocity(ksys::phys::RigidBody* body, f32 x, f32 y, f32 z);
 void addAngularVelocity(ksys::phys::RigidBody* body, f32 x, f32 y, f32 z);

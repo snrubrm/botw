@@ -32,6 +32,10 @@ f32 splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpend
     return dot;
 }
 
+void sub_71002C8764(const sead::Vector3f* pos, const sead::SafeString& text, const sead::Color4f& color) {
+    text.cstr();
+}
+
 // NON_MATCHING: the original adds `x + velocity.x` (argument first), every source form gives `velocity.x + x`
 void addLinearVelocity(ksys::phys::RigidBody* body, f32 x, f32 y, f32 z) {
     body->setLinearVelocity(sead::Vector3f(x, y, z) + body->getLinearVelocity());

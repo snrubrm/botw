@@ -355,6 +355,20 @@ void Unk_710006ba9c::sub_710006BA9C(bool flag) {
     }
 }
 
+// NON_MATCHING: scheduling of the gear time / pitch arithmetic.
+void Unk_710006ba9c::sub_710006BC7C(const sead::Vector3f* pos) {
+    sead::FixedSafeString<256> text;
+    if (_0 > 0.0f) {
+        const f32 ratio = (_18 - _10 * sGearEndTimes[_c - 1]) /
+                          (_10 * sGearEndTimes[_c] - _10 * sGearEndTimes[_c - 1]);
+        text.format("Time:%.3f\nTimeRatio:%.2f\nSection:%d\nValRatio:%.2f\nVal:%.2f", _18, _10, _c, _14,
+                    _14 * sGearPitches[_c] * ratio + _14 * sGearPitches[_c - 1] * (1.0f - ratio));
+    } else {
+        text.format("無効");
+    }
+    sub_71002C8764(pos, text, sead::Color4f::cWhite);
+}
+
 // NON_MATCHING: the original keeps the pitch controller rates as two branches reached from several arms
 // (the arms whose rpm / flag are known jump straight to the 0x28 / 0x2c rates); we merge them into
 // selects. Also operand order / register allocation in the gear pitch interpolation.

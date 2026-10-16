@@ -95,7 +95,7 @@ struct Unk_710006ba9c : Unk_71002c8e10 {
 
     // 0x710006ba9c: steps the ramp (flag: the engine is revving up) and advances the gears.
     void sub_710006BA9C(bool flag);
-    // 0x710006bc7c (not decompiled): builds the debug text (Time / TimeRatio / Section / ValRatio / Val)
+    // 0x710006bc7c: builds the debug text (Time / TimeRatio / Section / ValRatio / Val)
     // and passes it on together with the position.
     void sub_710006BC7C(const sead::Vector3f* pos);
 
