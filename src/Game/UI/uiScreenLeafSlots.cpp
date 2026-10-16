@@ -160,6 +160,18 @@ void ScreenAppPictureBook::sub_71009F9F30(const sead::SafeString& name) {
     _3ab8 = true;
 }
 
+// 0x71009e2584
+void ScreenAppMapDungeon::sub_71009E2584() {
+    _11518 = nn::font::DynamicCast<ScreenAppMapUnk3c90>(nn::font::DynamicCast<ScreenChildEx>(getChild(1, 0)));
+    mSensorChild = nn::font::DynamicCast<Unk_710247c010>(nn::font::DynamicCast<ScreenChildEx>(getChild(0, 0)));
+}
+
+// 0x71009eab28
+void ScreenAppMap::sub_71009EAB28() {
+    _3c90 = nn::font::DynamicCast<ScreenAppMapUnk3c90>(nn::font::DynamicCast<ScreenChildEx>(getChild(4, 0)));
+    _3c98 = nn::font::DynamicCast<Unk_710247c010>(nn::font::DynamicCast<ScreenChildEx>(getChild(5, 0)));
+}
+
 // 0x71009ea064
 // NON_MATCHING: as eui::Screen::doBuildLayout_: our BuildResultInformation is zero-initialised (one extra stp) and
 // the stack slots / load order around it differ.

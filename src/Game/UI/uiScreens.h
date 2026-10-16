@@ -2215,6 +2215,8 @@ public:
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
+    // 0x71009eab28 (placeholder name): looks up the two screen children (group 4 and group 5)
+    void sub_71009EAB28();
     // 0x71009eb0e0 (placeholder name; called by m94): toggles the UiSubsys1 map flags 0x38c8 / 0x6e4 and plays the
     // animator at 0x3630 forwards or backwards
     void sub_71009EB0E0();
@@ -4277,7 +4279,8 @@ public:
     virtual s32 m165();
 
     // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
-    u8 _3610[0x11520 - 0x3610];
+    u8 _3610[0x11518 - 0x3610];
+    /* 0x11518 */ ScreenAppMapUnk3c90* _11518;
     /* 0x11520 */ Unk_710247c010* mSensorChild;
     u8 _11528[0x11530 - 0x11528];
     // 11 parts layouts with four animators each (set up by 0x71009e1518)
@@ -4303,6 +4306,8 @@ public:
 
     // 0x71009e5868 (placeholder name): selects entry `index` (-1: none), playing its animators backwards / forwards
     void sub_71009E5868(s32 index);
+    // 0x71009e2584 (placeholder name): looks up the two screen children (group 1 and group 0)
+    void sub_71009E2584();
 };
 static_assert(sizeof(ScreenAppMapDungeon) == 0x11938);
 
