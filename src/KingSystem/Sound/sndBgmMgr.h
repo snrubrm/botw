@@ -448,6 +448,8 @@ class AssassinSeniorBgmInfo;
 class MazeForestBgmInfo;
 class BigMazeBgmInfo;
 class DungeonBattleBgmInfo;
+class DungeonNormalBgmInfo;
+class DungeonRewardBgmInfo;
 class FieldBattleBgmInfo;
 class TutorialDungeonBattleBgmInfo;
 

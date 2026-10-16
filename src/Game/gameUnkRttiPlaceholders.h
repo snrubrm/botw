@@ -2502,6 +2502,8 @@ public:
     // Called by the BGM controllers on their kind 19 BGM.
     void sub_71010029B8();
     void sub_71010029CC();
+    // 0x7101002924: starts the BGM once the title delay has passed (state 2) or when it is idle.
+    void m5() override;
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
@@ -2511,7 +2513,7 @@ public:
     // The dungeon BGM ("DungeonNormalBgm"; 0x1c0 bytes, constructor 0x7101002850).
     explicit Unk_71024fd808(const ksys::snd::BgmInitArg& arg);
 
-    ksys::snd::MusicInfo* mInfo = nullptr;
+    ksys::snd::DungeonNormalBgmInfo* mInfo = nullptr;
     f32 _198 = 0;
     u32 _19c = 0;
     u32 _1a0 = 0;
@@ -2520,7 +2522,8 @@ public:
     u16 _1a8 = 0;
     u16 _1aa = 0;
     u16 _1ac = 0;
-    u64 _1b0 = 0;
+    u32 _1b0 = 0;
+    f32 _1b4 = 0;
     f32 _1b8 = 0;
     u32 _1bc = 0;
 };
@@ -2534,6 +2537,8 @@ public:
     // Called by the BGM controllers on their kind 20 BGM.
     void sub_71010038AC();
     void sub_71010038C0();
+    // 0x7101003820: as Unk_71024fd808::m5.
+    void m5() override;
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     void hm14() override;
@@ -2543,12 +2548,12 @@ public:
     // The dungeon reward BGM ("DungeonRewardBgm"; 0x1b8 bytes, constructor 0x7101003750).
     explicit Unk_71024fd948(const ksys::snd::BgmInitArg& arg);
 
-    ksys::snd::MusicInfo* mInfo = nullptr;
+    ksys::snd::DungeonRewardBgmInfo* mInfo = nullptr;
     f32 _198 = 0;
     u32 _19c = 0;
     u32 _1a0 = 0;
     u32 _1a4 = 0;
-    u32 _1a8 = 0;
+    f32 _1a8 = 0;
     f32 _1ac = 0;
     u32 _1b0 = 0;
     bool _1b4 = false;

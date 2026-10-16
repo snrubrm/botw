@@ -792,10 +792,27 @@ Unk_71024fd808::Unk_71024fd808(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
     _1b8 = 0.8108108f;
     _198 = 9.72973f;
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonNormalBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonNormalBgm);
+    mInfo = static_cast<ksys::snd::DungeonNormalBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonNormalBgm));
 }
 
 Unk_71024fd808::~Unk_71024fd808() = default;
+
+void Unk_71024fd808::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+    if (_1b0 == 2) {
+        _1b4 += ksys::snd::sub_710105E3A4();
+        const f32 delay = mInfo->mTitleDelaySec.ref();
+        if (_1b4 > delay) {
+            _1b4 = delay;
+            sub_710101D9D8();
+            _1b0 = 0;
+        }
+    } else if (_1b0 == 0 && _124 == 0) {
+        sub_710101D9D8();
+    }
+}
 
 void Unk_71024fd808::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
@@ -820,10 +837,27 @@ Unk_71024fd948::Unk_71024fd948(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
     _1ac = 0.8108108f;
     _198 = 9.72973f;
     Unk_SpotBgmHandle::init(arg.heap, sStr_DungeonRewardBgm, nullptr);
-    mInfo = ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonRewardBgm);
+    mInfo = static_cast<ksys::snd::DungeonRewardBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::DungeonRewardBgm));
 }
 
 Unk_71024fd948::~Unk_71024fd948() = default;
+
+void Unk_71024fd948::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+    if (_1a4 == 2) {
+        _1a8 += ksys::snd::sub_710105E3A4();
+        const f32 delay = mInfo->mTitleDelaySec.ref();
+        if (_1a8 > delay) {
+            _1a8 = delay;
+            sub_710101D9D8();
+            _1a4 = 0;
+        }
+    } else if (_1a4 == 0 && _124 == 0) {
+        sub_710101D9D8();
+    }
+}
 
 void Unk_71024fd948::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
