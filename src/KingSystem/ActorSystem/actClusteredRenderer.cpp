@@ -497,6 +497,41 @@ void ClusteredRenderer::Cell::sub_710124749C(sead::FreeList* node_list, sead::Fr
     }
 }
 
+// NON_MATCHING: Clang hoists the row (z) test out of the inner loop; the original tests it per entry.
+void ClusteredRenderer::sub_71012475EC(Cell* cell, const ClusteredRendererRegion* region, bool reset) {
+    const s32 cx = sead::Mathf::floor((cell->mPos.x - region->mOrigin.x) / 25.0f);
+    const s32 cz = sead::Mathf::floor((cell->mPos.z - region->mOrigin.y) / 25.0f);
+    for (s32 dz = -4; dz <= 4; ++dz) {
+        for (s32 dx = -4; dx <= 4; ++dx) {
+            const s32 x = cx + dx;
+            const s32 z = cz + dz;
+            if (u32(z) >= 20 || u32(x) >= 20 || x + z * 20 < 0)
+                continue;
+
+            Cell::Entry& entry = cell->mEntries[(dz + 0x1000000 + cell->_1444) % 9]
+                                               [(dx + 0x1000000 + cell->_1440) % 9];
+            if (entry._8 == 0)
+                continue;
+            if (reset) {
+                entry._0 = 0;
+                entry._8 = 0;
+                entry._18 = -1;
+                entry._10 = sead::Vector2i::zero;
+                if (entry._20) {
+                    cell->_1458.push(entry._20);
+                    entry._20 = nullptr;
+                }
+            }
+            for (s32 i = 0; i < 3; ++i) {
+                if (entry._28[i]) {
+                    cell->_16e8[cell->_1454].push(entry._28[i]);
+                    entry._28[i] = nullptr;
+                }
+            }
+        }
+    }
+}
+
 void ClusteredRenderer::sub_7101243EA8(ClusteredRenderer* renderer) {
     sead::Heap* heap = renderer->mData._f8;
     renderer->sub_71012439BC();

@@ -98,8 +98,10 @@ struct ClusteredRendererRegion {
     sead::Heap* mHeap;
     // 2 and 3 are loading states (sub_7101244210 drops pending list items unless both tests pass).
     sead::Atomic<s32> mState;
-    u8 _6c[0x7c - 0x6c];
-    s32 _7c;
+    u8 _6c[0x74 - 0x6c];
+    // The x / z origin of the region's 25 m grid.
+    sead::Vector2f mOrigin;
+    sead::Atomic<s32> _7c;
     u8 _80[0x88 - 0x80];
     u8* _88;
     sead::Atomic<u32> _90;
@@ -239,7 +241,10 @@ public:
         void sub_710124749C(sead::FreeList* node_list, sead::FreeList* node2_list);
 
         Entry mEntries[9][9];
-        u8 _1440[0x1454 - 0x1440];
+        // The grid cell of mEntries[0][0] (x, z; entries wrap modulo 9) and the cell's position.
+        s32 _1440;
+        s32 _1444;
+        sead::Vector3f mPos;
         s32 _1454;
         PtrQueue<Unk_CellNode, 81> _1458;
         PtrQueue<Unk_CellNode2, 243> _16e8[2];
@@ -295,6 +300,9 @@ public:
     // 0x7101243bd8 (placeholder name): resets every cell and releases the heap at 0xbf0 (destroys it when
     // flag bit 17 is set, else frees all of it) if flag bit 18 is set.
     void sub_7101243BD8(bool release);
+    // 0x71012475ec (placeholder name): for the 9 x 9 entries around the cell's position in `region`'s grid,
+    // queues the attached nodes for release (and with `reset`, clears the entries).
+    void sub_71012475EC(Cell* cell, const ClusteredRendererRegion* region, bool reset);
     // 0x7101243eec (placeholder name): resets the entries of a cell.
     void sub_7101243EEC(Cell* cell);
 
