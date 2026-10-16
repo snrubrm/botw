@@ -435,6 +435,7 @@ public:
 class Unk_SoundMgr38_60 {
 public:
     virtual ~Unk_SoundMgr38_60();
+    // 0x71012c17b4 (empty in the release build)
     void sub_71012C17B4();
     // 0x71012c167c (declared only): called before deletion.
     void sub_71012C167C();

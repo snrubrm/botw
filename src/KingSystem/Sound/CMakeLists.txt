@@ -44,6 +44,7 @@ target_sources(uking PRIVATE
   sndSoundMgr38_28.cpp
   sndDuckingRequest.cpp
   sndSoundMgr38_40.cpp
+  sndSoundMgr38_60.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp
   sndStreamPath.cpp
