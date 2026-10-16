@@ -138,6 +138,55 @@ bool Dragon::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
 }
 
+ksys::act::BaseProc::PreDeletePrepareResult Dragon::prepareForPreDelete_() {
+    auto* mgr = ksys::map::PlacementMgr::instance();
+    if (mgr && mgr->mPlacementActors) {
+        ksys::map::Object* obj;
+        bool has_obj = true;
+        if (_1f70.isOnBit(28)) {
+            obj = getMapObject();
+        } else {
+            switch (_1e0c) {
+            case 0:
+                obj = mgr->mPlacementActors->mDragonObjects[0];
+                break;
+            case 1:
+                obj = mgr->mPlacementActors->mDragonObjects[1];
+                break;
+            case 2:
+                obj = mgr->mPlacementActors->mDragonObjects[2];
+                break;
+            case 3:
+                obj = getMapObject();
+                break;
+            default:
+                has_obj = false;
+                break;
+            }
+        }
+        if (has_obj && obj) {
+            if (_1f70.isOnBit(28)) {
+                sead::Vector3f pos;
+                if (_1e0c == 3) {
+                    getHomePos(&pos);
+                } else {
+                    const auto translate = obj->getTranslate();
+                    pos.set(translate.x, -500.0f, translate.z);
+                }
+                obj->setTranslate(pos);
+                if (auto* lod = obj->findPlacementLODLinkObject_0(nullptr))
+                    lod->setTranslate(pos);
+            } else if (_1f70.isOnBit(29)) {
+                if (auto* lod = obj->sub_7100D4C890()) {
+                    if (auto* actor = lod->tryGetActor(false))
+                        actor->deleteLater(DeleteReason::_0);
+                }
+            }
+        }
+    }
+    return Actor::prepareForPreDelete_();
+}
+
 // Placeholder name: switches the horn animation (AS slot 5) to `name` when it changes, then sub_710000D474.
 void Dragon::sub_710000EA88(const sead::SafeString& name) {
     if (name.isEmpty())
