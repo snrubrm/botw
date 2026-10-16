@@ -261,7 +261,7 @@ public:
     // 0x7101101964 (declaration only; placeholder name): refreshes the 19 words at 0x278c from the Terrain
     // and sets flag 4 if one changed.
     void sub_7101101964();
-    // 0x71010ffe70 (declaration only; placeholder name): when (a, b) differ from _2780 / _2784, stores them,
+    // 0x71010ffe70 (placeholder name): when (a, b) differ from _2780 / _2784, stores them,
     // rebuilds through _2948 and sets flags 0xff00.
     void sub_71010FFE70(s32 a, s32 b);
     // 0x7101100260 (placeholder name): stores the four values as u16 into the sub-objects of
@@ -274,7 +274,8 @@ public:
     sead::Vector3f _2760;
     u8 _276c[0x2780 - 0x276c];
     s32 _2780;
-    u8 _2784[0x278c - 0x2784];
+    s32 _2784;
+    u8 _2788[0x278c - 0x2788];
     s32 _278c[19];
     u8 _27d8[0x2910 - 0x27d8];
     sead::Buffer<void*> _2910;
@@ -288,6 +289,11 @@ public:
     u8 _2947[0x2948 - 0x2947];
     // Placeholder type: System::sub_710111F644 writes its _afc0.
     struct Unk_2948 {
+        // 0x710112727c (declaration only; placeholder name): called by sub_71010FFE70 with the first four
+        // sub-objects and the two new values.
+        void sub_710112727C(Unk_710111F504* a, Unk_710111F504* b, Unk_710111F504* c, Unk_710111F504* d, s32 x,
+                            s32 y);
+
         u8 _0[0xafc0];
         void* _afc0;
     };
