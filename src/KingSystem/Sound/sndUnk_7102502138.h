@@ -124,17 +124,33 @@ public:
         // 0x710104dd7c (12 B): `_568 = value`, then forwards `value` to the object at +0x480 (Unk_71012C5034::sub_71012C5034).
         void sub_710104DD7C(s32 value);
 
+        // Placeholder: the objects at 0x528..0x558 (only their part object at 0x98 is read).
+        struct Part {
+            u8 _0[0x98];
+            Unk_71012C5034* _98;
+        };
+
         u8 _8[0xbc - 0x8];
         /* 0xbc */ bool _bc;
-        u8 _bd[0x15c - 0xbd];
+        /* 0xc0 */ Unk_71012C5034* _c0;
+        u8 _c8[0x15c - 0xc8];
         /* 0x15c */ bool _15c;
-        u8 _15d[0x1fc - 0x15d];
+        /* 0x160 */ Unk_71012C5034* _160;
+        u8 _168[0x1fc - 0x168];
         /* 0x1fc */ bool _1fc;
-        u8 _1fd[0x480 - 0x1fd];
+        /* 0x200 */ Unk_71012C5034* _200;
+        u8 _208[0x480 - 0x208];
         /* 0x480 */ Unk_71012C5034* _480;
         u8 _488[0x520 - 0x488];
         /* 0x520 */ Unk_71012C5034* _520;
-        u8 _528[0x568 - 0x528];
+        /* 0x528 */ Part* _528;
+        /* 0x530 */ Part* _530;
+        /* 0x538 */ Part* _538;
+        /* 0x540 */ Part* _540;
+        /* 0x548 */ Part* _548;
+        /* 0x550 */ Part* _550;
+        /* 0x558 */ Part* _558;
+        u8 _560[0x568 - 0x560];
         /* 0x568 */ s32 _568;
         /* 0x56c */ u16 _56c;
         u8 _56e[0x578 - 0x56e];

@@ -36,6 +36,35 @@ void Unk_7102502138::Unk68::sub_710104DD88(bool flag) {
     _56c |= 0xc;
 }
 
+// NON_MATCHING: the last level choice is a select here (the original branches).
+void Unk_7102502138::Unk68::sub_710104DF54(f32 value) {
+    s32 level = value > 0.25f ? 0 : value > 0.18f ? 1 : value > 0.1f ? 2 : 3;
+    _538->_98->sub_71012C3888(&level);
+    _540->_98->sub_71012C3888(&level);
+    if (!_15c)
+        _160->sub_71012C3888(&level);
+    if (!_1fc)
+        _200->sub_71012C3888(&level);
+}
+
+// NON_MATCHING: the last level choice is a select here (the original branches).
+void Unk_7102502138::Unk68::sub_710104E004(f32 value) {
+    s32 level = value > 0.25f ? 0 : value > 0.18f ? 1 : value > 0.1f ? 2 : 3;
+    _528->_98->sub_71012C3888(&level);
+    _530->_98->sub_71012C3888(&level);
+    if (!_bc)
+        _c0->sub_71012C3888(&level);
+}
+
+void Unk_7102502138::Unk68::sub_710104E0A0(void* arg) {
+    if (_548)
+        _548->_98->sub_71012C38F8(arg);
+    if (_550)
+        _550->_98->sub_71012C38F8(arg);
+    if (_558)
+        _558->_98->sub_71012C38F8(arg);
+}
+
 void Unk_7102502138::Unk68::sub_710104D398(bool flag) {
     _15c = flag;
     _56c |= 8;
