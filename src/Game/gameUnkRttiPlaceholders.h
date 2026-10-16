@@ -759,7 +759,13 @@ public:
 class Unk_71025046d0 : public Unk_7102504470 {
     SEAD_RTTI_OVERRIDE(Unk_71025046d0, Unk_7102504470)
 public:
+    // 0x7101087a48 (D1; the CSV had it as an nn::nex destructor): destroys the lock, then the
+    // Unk_710251d230 base (Unk_7102504470's destructor is trivial).
     ~Unk_71025046d0() override;
+
+    // Not modelled yet (base data or this class's first fields).
+    u8 _8[0x68 - 0x8];
+    sead::CriticalSection mCS;
 };
 
 // vtable 0x7102504850 (46 slots); placeholder generated from the vtable (genskel.py).
