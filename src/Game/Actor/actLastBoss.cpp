@@ -12,6 +12,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 bool fadeSlowEffect();
 
@@ -300,6 +301,21 @@ bool LastBoss::isGuardJust() {
 
 bool LastBoss::sub_71002C6210(f32 value) const {
     return _14f0 < value;
+}
+
+// Enables or disables the "WeaponChemical" chemical (and the actor's own chemical) and _14e8 bit 8; when
+// disabling a chemical whose material has attribute bit 0 and without _be bit 0, also calls sub_7100D90B78.
+void LastBoss::sub_71002C6220(bool enabled) {
+    auto* weapon_chemical = sub_71011D8A54("WeaponChemical");
+    if (!weapon_chemical)
+        return;
+    if (auto* chemical = getChemicalStuff())
+        chemical->sub_7100D90F60(!enabled);
+    weapon_chemical->sub_7100D90F60(!enabled);
+    weapon_chemical->sub_7100D91098(false);
+    _14e8.changeBit(8, enabled);
+    if ((weapon_chemical->mMaterial->attribute.ref() & 1) && !(weapon_chemical->_be & 1) && !enabled)
+        weapon_chemical->sub_7100D90B78();
 }
 
 bool LastBoss::m140() {
