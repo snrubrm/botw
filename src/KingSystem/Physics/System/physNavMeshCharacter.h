@@ -57,6 +57,13 @@ struct NavMeshCharacterUnk8A0 {
     /* 0x10 */ f32 _10;
     /* 0x14 */ u8 _14[0x24 - 0x14];
     /* 0x24 */ f32 _24;
+    /* 0x28 */ u8 _28[0x64 - 0x28];
+    // Per-type values (NavMeshCharacter::sub_7100F7E624).
+    /* 0x64 */ f32 _64;
+    /* 0x68 */ f32 _68;
+    /* 0x6c */ u8 _6c[0x70 - 0x6c];
+    /* 0x70 */ f32 _70;
+    /* 0x74 */ f32 _74;
 };
 
 // Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed fields are modelled).
@@ -131,6 +138,8 @@ public:
     // 0x7100f7e598 (placeholder name): sets the per-type parameters _38 / _3c / _40 / _48 of `arg` from a table and
     // the type-specific flags (_58 / _59 for Player, _54 = 10 for Horse and NPC / NPCGoron / NPCSwimmer).
     static void sub_7100F7E598(InitArg* arg, NavMeshCharacterType type);
+    // 0x7100f7e624 (placeholder name): copies the same per-type table values into `obj`.
+    static void sub_7100F7E624(NavMeshCharacterUnk8A0* obj, s32 type);
     void init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);
     // Actual implementation reached by the original init tail call (declared only).
     void sub_7100F75680(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai);

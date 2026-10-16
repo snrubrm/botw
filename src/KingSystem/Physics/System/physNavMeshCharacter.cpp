@@ -292,6 +292,14 @@ void NavMeshCharacter::sub_7100F7E598(InitArg* arg, NavMeshCharacterType type) {
     }
 }
 
+void NavMeshCharacter::sub_7100F7E624(NavMeshCharacterUnk8A0* obj, s32 type) {
+    const auto& params = sTypeParams[type];
+    obj->_64 = params._38;
+    obj->_70 = params._3c;
+    obj->_74 = params._40;
+    obj->_68 = params._48;
+}
+
 void NavMeshCharacter::sub_7100F7D1B4(const NavMeshCharacter* other) {
     _a8[0] = other->_8->_98;
     _d0 = 1;
