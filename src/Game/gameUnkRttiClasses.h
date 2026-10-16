@@ -239,7 +239,8 @@ public:
             return true;
         }
 
-        u32 _0 = 0;
+        // Number of users (0x71011171d8 / 0x710111731c count it up and down).
+        sead::Atomic<s32> _0 = 0;
         sead::Atomic<u32> _4 = 0x40000000;
     };
     RefCount _18;

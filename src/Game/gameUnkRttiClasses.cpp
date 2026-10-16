@@ -59,7 +59,6 @@ Unk_71024dcf80::~Unk_71024dcf80() {
 }
 
 
-// NON_MATCHING: scheduling (the original stores _18 after the vtable).
 Unk_710250dcd8::Unk_710250dcd8() = default;
 
 Unk_710250dcd8::~Unk_710250dcd8() = default;

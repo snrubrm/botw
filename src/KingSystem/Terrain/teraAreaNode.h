@@ -2,6 +2,7 @@
 
 #include <container/seadTList.h>
 #include <math/seadVector.h>
+#include <thread/seadAtomic.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include "KingSystem/Utils/Types.h"
@@ -24,6 +25,16 @@ public:
     // 0x7101108564 (placeholder name): creates a type-3 image and links it.
     Unk_710250db28* sub_7101108564(sead::Heap* heap, u32 index, u32 size);
 
+    // inline-only in the original; name is a guess. The type-2 node with key id `index` (or null).
+    const Unk_7101108460* findNodeMaybe(u16 index) const {
+        auto it = mNodes.begin();
+        for (; it != mNodes.end(); ++it) {
+            if ((*it)->getB()->_8->id == index)
+                break;
+        }
+        return it != mNodes.end() ? *it : nullptr;
+    }
+
     // inline-only in the original; name is a guess. The image for `type`: the same search is inlined
     // into 0x71011080d4, 0x7101108860 and 0x71011339d0 (type 2 dereferences a missing node).
     const Unk_710250dcd8* getImageMaybe(const ImageTypeMaybe& type) const {
@@ -33,14 +44,7 @@ public:
         case 1:
             return &mImage1;
         case 2: {
-            const Unk_7101108460* found = nullptr;
-            for (const Unk_7101108460* node : mNodes) {
-                if (node->getB()->_8->id == type.index) {
-                    found = node;
-                    break;
-                }
-            }
-            return found->getA();
+            return findNodeMaybe(type.index)->getA();
         }
         case 3: {
             const Unk_710250db28* found = nullptr;
@@ -95,6 +99,19 @@ KSYS_CHECK_SIZE_NX150(Unk_7101106F44, 0xc8);
 // 0x7101118c40).
 class Unk_7101118B34 {
 public:
+    // Placeholder: an image change queued by sub_71011171D8 / sub_710111731C.
+    struct Entry {
+        Unk_7101106F44* area;
+        ImageTypeMaybe type;
+    };
+
+    // inline-only in the original; name is a guess. The same ring buffer push is inlined into
+    // 0x71011171d8 and 0x710111731c.
+    void pushEntryMaybe(Unk_7101106F44* area, const ImageTypeMaybe& type) {
+        const u32 index = mWriteIndex.increment();
+        mEntries[s32(index % mNumEntries)] = {area, type};
+    }
+
     // 0x7101118b34 (placeholder name): makes sure `area` and its parents have a type-2 node for `key`
     // (creating missing ones); with `check`, an existing node only counts if Terrain flag 0x400 is
     // clear or its image has flag 1, and new nodes get flag 1.
@@ -102,9 +119,15 @@ public:
     // 0x71011176bc (placeholder name): runs sub_71011171D8 (or sub_710111731C if `flag` is false) on
     // every image of `area`.
     void sub_71011176BC(Unk_7101106F44* area, bool flag);
-    // 0x71011171d8 / 0x710111731c (declared only; placeholder names).
+    // 0x71011171d8 / 0x710111731c (placeholder names): add / remove a user of the image for `type`; the
+    // first user / the last one queues the image.
     void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);
     void sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type);
+
+    u8 _0[0x1038];
+    u32 mNumEntries;
+    Entry* mEntries;
+    sead::Atomic<u32> mWriteIndex;
 };
 
 }  // namespace ksys::tera

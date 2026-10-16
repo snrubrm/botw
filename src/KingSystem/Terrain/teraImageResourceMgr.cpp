@@ -3,7 +3,6 @@
 
 namespace ksys::tera {
 
-// NON_MATCHING: the type-2 search keeps the list node and calls getA from two places in the original.
 void ImageResourceMgr::sub_71011339D0(Request* request) {
     const Unk_710250dcd8* image = request->area->getImageMaybe(request->type);
     if (image && image->_8 & 8)
@@ -49,6 +48,24 @@ void Unk_7101118B34::sub_71011176BC(Unk_7101106F44* area, bool flag) {
         (this->*fn)(area, node->getImageType());
     for (Unk_710250db28* image : area->mImages)
         (this->*fn)(area, image->getImageType());
+}
+
+// NON_MATCHING: `area` and `type` swap callee-saved registers.
+void Unk_7101118B34::sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type) {
+    Unk_710250dcd8* image = area->getImageMaybe(type);
+    if (!image)
+        return;
+    if (image->_18._0.increment() == 0)
+        pushEntryMaybe(area, type);
+}
+
+// NON_MATCHING: `area` and `type` swap callee-saved registers.
+void Unk_7101118B34::sub_710111731C(Unk_7101106F44* area, const ImageTypeMaybe& type) {
+    Unk_710250dcd8* image = area->getImageMaybe(type);
+    if (!image)
+        return;
+    if (image->_18._0.decrement() == 1)
+        pushEntryMaybe(area, type);
 }
 
 }  // namespace ksys::tera
