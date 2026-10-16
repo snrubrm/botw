@@ -15,6 +15,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -31,7 +32,8 @@ protected:
     sead::Vector3f* mDestPos_d{};
     // dynamic_param at offset 0x48
     ksys::act::BaseProcLink* mTargetActor_d{};
-    u8 _50[0x78 - 0x50];  // not used by this class
+    /* 0x50 */ sead::Matrix33f _50;  // the turning rotation (calc_)
+    u8 _74[0x78 - 0x74];
     ksys::act::BaseProcHandle _78;
     ksys::Timer _88{0, 0, 0};
 };
