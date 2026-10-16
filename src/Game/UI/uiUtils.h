@@ -480,6 +480,8 @@ void sub_7100A9D168(float x, float y, float z);
 bool sub_7100A9D1C0();
 bool sub_7100A9D1E8();
 int sub_7100A9D290();
+// 0x7100a9d2b0 (uiMiscFacade.cpp)
+void sub_7100A9D2B0(const void* a0);
 void sub_7100A9D1A0(const float* levels);
 void sub_7100A9D210(float x, float y);
 void sub_7100A9D748();

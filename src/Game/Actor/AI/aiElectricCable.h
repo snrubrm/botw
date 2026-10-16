@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::act {
+class Actor;
 class Chemical;
 }
 
@@ -14,6 +15,15 @@ class Rail;
 
 namespace uking::ai {
 
+// Passed (as const void*) to ui::sub_7100A9D2B0 by ElectricCable::calc_ 0x710037c998, which fills it on the stack.
+struct ElectricCableUiInfo {
+    sead::Vector3f start;
+    sead::Vector3f center;
+    sead::Vector3f end;
+    bool energized;
+    ksys::act::Actor* actor;
+};
+
 class ElectricCable : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(ElectricCable, ksys::act::ai::Ai)
 public:
@@ -22,6 +32,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
