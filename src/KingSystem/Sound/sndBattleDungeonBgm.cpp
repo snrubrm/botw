@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/Actor/aiUnk_7100FFD79C.h"
 #include "Game/Actor/aiUnk_7100FFDFDC.h"
+#include "Game/Actor/AI/aiChangeWeatherTagRoot.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/System/StageInfo.h"
@@ -115,6 +116,18 @@ Unk_710260f2b8* sub_7100FFE204() {
         return nullptr;
     return sead::DynamicCast<Unk_710260f2b8>(list->find("RemainsWindBattleBgm"));
 }
+
+}  // namespace ksys::snd
+
+// NON_MATCHING: the original sets up the stack frame before the null check of the list (ours after it).
+ksys::snd::Unk_710260f2c8* getRemainsElecBattleBgmMaybe() {
+    auto* list = ksys::snd::SoundMgr::instance()->_30->_78;
+    if (!list)
+        return nullptr;
+    return sead::DynamicCast<ksys::snd::Unk_710260f2c8>(list->find("RemainsElecBattleBgm"));
+}
+
+namespace ksys::snd {
 
 // NON_MATCHING: the original sets up the stack frame before the null check of the list (ours after it).
 Unk_71025ce390* sub_7100FFE39C() {
