@@ -165,7 +165,7 @@ void NPCTargetMove::sub_7100205CE4() {
     sead::Vector3f axis;
     f32 angle;
     ksys::util::sub_71011EEB08(&axis, &angle, front, dir, sead::Vector3f::ey);
-    mActor->getASList()->x_6(9, 0, angle * 57.29578f * axis.y);
+    mActor->getASList()->x_6(9, 0, angle * 57.295776f * axis.y);
 }
 
 }  // namespace uking::action
