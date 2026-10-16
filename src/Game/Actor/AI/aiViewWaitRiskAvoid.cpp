@@ -1,6 +1,8 @@
 #include "Game/Actor/AI/aiViewWaitRiskAvoid.h"
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
+#include <cmath>
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -79,6 +81,29 @@ bool ViewWaitRiskAvoid::sub_71005E6B84(const sead::Vector3f& target) {
     sead::Vector3f cross;
     cross.setCross(front, dir);
     return std::atan2(cross.length(), dir.dot(front)) < *mFrontAngle_s;
+}
+
+// NON_MATCHING: scheduling / registers, and the original tests `force` with eor + tbnz
+void ViewWaitRiskAvoid::sub_71005E6D10(f32* side, const sead::Vector3f& dir, const sead::Matrix34f& mtx, bool force,
+                                       f32 amount, f32 dist) {
+    const sead::Vector3f trans = mtx.getTranslation();
+    const sead::Vector3f& pos = sub_71005D9330(mActor);
+    sead::Vector3f to{pos.x - trans.x, 0.0f, pos.z - trans.z};
+    const f32 len = to.normalize();
+    if (len > dist + 1.0f && !force)
+        return;
+
+    const f32 angle = std::acos(sead::Mathf::clamp(to.dot(dir), -0.999f, 0.999f));
+    const f32 space = *mSpaceAngle_s;
+    if (to.cross(dir).y < 0.0f) {
+        if (angle > space)
+            amount *= sead::Mathf::clamp((angle - space) * -3.0f / space + 1.0f, 0.0f, 1.0f);
+        *side += amount;
+    } else {
+        if (angle > space)
+            amount *= sead::Mathf::clamp((angle - space) * -3.0f / space + 1.0f, 0.0f, 1.0f);
+        *side -= amount;
+    }
 }
 
 bool ViewWaitRiskAvoid::m43(sead::Vector3f* out) {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "Game/Actor/AI/aiViewWait.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
@@ -30,6 +32,11 @@ public:
 protected:
     // 0x71005e6b84: the angle between the direction to `target` and the front (both flattened) is below FrontAngle
     bool sub_71005E6B84(const sead::Vector3f& target);
+    // 0x71005e6d10 (unnamed in the CSV; used by m42): adds `amount` to `*side` (subtracts it when the actor at `mtx` is
+    // on the other side of `dir`), scaled down to 0 once the angle between `dir` and the flattened direction from
+    // `mtx` to the actor exceeds SpaceAngle. Skipped beyond `dist` + 1 unless `force`.
+    void sub_71005E6D10(f32* side, const sead::Vector3f& dir, const sead::Matrix34f& mtx, bool force, f32 amount,
+                        f32 dist);
     // static_param at offset 0x60
     const int* mAvoidFrame_s{};
     // static_param at offset 0x68
