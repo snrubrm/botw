@@ -2,7 +2,9 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/World/worldManager.h"
 
@@ -16,8 +18,42 @@ bool DestPlayerWarpBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original copies _4c (ones, then the player scale) as 8 + 4 bytes; Vector3f::operator= copies
+// per element.
 void DestPlayerWarpBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = sead::Matrix34f::ident;
+    _4c = sead::Vector3f::ones;
+    _58 = false;
+    _59 = false;
+
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
+    _4c = player->getScale();
+    m32();
+
+    {
+        const sead::Vector3f pos = _1c.getTranslation();
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+        sead::Vector3f start{pos.x, pos.y + 1.0f, pos.z};
+        const sead::Vector3f end{pos.x, pos.y + -1.0f, pos.z};
+        query.setStartAndEnd(start, end);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            query.getHitPosition(&start);
+            _1c.setTranslation(start);
+        }
+    }
+
+    player->setNewPlayerMtx(_1c);
+    if (player->isRidingHorse()) {
+        auto* proc = uking::act::PlayerInfo::instance()->getHorseLink().getProc(nullptr);
+        if (auto* horse = sead::DynamicCast<ksys::act::Actor>(proc))
+            horse->setMtx(_1c, false, true);
+        auto* ride_info = sead::DynamicCast<ksys::act::Player::RideInfo>(player->getPlayerRideInfo());
+        ride_info->setFlagOn(ksys::act::Player::RideInfo::Flag::_1);
+    }
+    _5c = 10.0f;
 }
 
 void DestPlayerWarpBase::leave_() {
