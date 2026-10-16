@@ -1,3 +1,4 @@
+#include <atomic>
 #include <cstring>
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -196,6 +197,24 @@ void ImageResourceMgr::sub_7101133724(Request* request) {
         image->_18.markUsedMaybe();
     request->_4c |= 4;
     ++_6270;
+}
+
+// NON_MATCHING: the original walks _31c0 backwards (prev links; sead::OffsetList has no reverse robust
+// iterator in lib yet).
+void ImageResourceMgr::sub_71011311BC() {
+    mCS28.lock();
+    mCS68.lock();
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    sub_7101131290();
+    for (Request& request : mList31c0.robustRange())
+        sub_71011320B4(&request);
+
+    _62a0.exchange(mList3200.size());
+    if (_62a0.load() != 0)
+        mThread->sendMessage(1, sead::MessageQueue::BlockType::Blocking);
+
+    mCS68.unlock();
+    mCS28.unlock();
 }
 
 }  // namespace ksys::tera

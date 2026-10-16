@@ -10,6 +10,9 @@
 #include <thread/seadAtomic.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadHeap.h>
+#include <container/seadOffsetList.h>
+#include <thread/seadCriticalSection.h>
+#include <thread/seadThread.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglTextureSampler.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
@@ -293,9 +296,27 @@ public:
                         bool a4, void* a5);
     // 0x71011339d0 (placeholder name): releases the image of `request` if its flag 8 is set.
     void sub_71011339D0(Request* request);
+    // 0x71011311bc (placeholder name): under both locks, runs sub_7101131290 and sub_71011320B4 on every
+    // request of _31c0, then publishes the queue size and wakes the loader thread if it is not zero.
+    void sub_71011311BC();
+    // 0x7101131290 (declared only; placeholder name).
+    void sub_7101131290();
+    // 0x71011320b4 (declared only; placeholder name; 444 B).
+    void sub_71011320B4(Request* request);
 
-    u8 _0[0x6270];
+    u8 _0[0x28];
+    sead::CriticalSection mCS28;
+    sead::CriticalSection mCS68;
+    u8 _a8[0x31c0 - 0xa8];
+    sead::OffsetList<Request> mList31c0;
+    u8 _31d8[0x3200 - 0x31d8];
+    // Pending requests (insertion order depends on the request kind); its size is published in _62a0.
+    sead::OffsetList<Request> mList3200;
+    u8 _3218[0x6270 - 0x3218];
     s32 _6270;
+    u8 _6274[0x6298 - 0x6274];
+    sead::Thread* mThread;
+    sead::Atomic<s32> _62a0;
 };
 class ResourceHolder;
 // Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
