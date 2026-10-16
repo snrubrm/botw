@@ -199,8 +199,8 @@ void ScreenAppPictureBookEntry::sub_710093BB48() {
         if (mParams._2a8.y != std::numeric_limits<f32>::max())
             mGroupList->_38.y = mParams._2a8.y;
     } else {
-        Unk_7102474f10** it = mGroupList->_8;
-        Unk_7102474f10** end = it + mGroupList->_0;
+        Unk_7102474f10** it = mGroupList->mUnits.data();
+        Unk_7102474f10** end = it + mGroupList->mUnits.size();
         for (; it != end; ++it) {
             Unk_7102474f10* group = *it;
             for (s32 i = 0; i < group->mUnits.size(); ++i) {
@@ -440,6 +440,61 @@ Unk_7102474f10::~Unk_7102474f10() {
     _40 = nullptr;
 }
 
+// NON_MATCHING: the original copies _2a8 as one 64-bit value (ours: two floats, like the other vectors)
+// 0x7100938f28
+void ScreenAppPictureBookEntry::Params::sub_7100938F28(const Params& other) {
+    _28 = other._28;
+    _80 = other._80;
+    _d8 = other._d8;
+    _130 = other._130;
+    _188 = other._188;
+    _1e0 = other._1e0;
+    _238 = other._238;
+    _240 = other._240;
+    _298 = other._298;
+    _29c = other._29c;
+    _2a0 = other._2a0;
+    _2a4 = other._2a4;
+    _2a8 = other._2a8;
+    _2b0 = other._2b0;
+    _2b8 = other._2b8;
+    _2c0 = other._2c0;
+    _2c8 = other._2c8;
+    _2c9 = other._2c9;
+    _2ca = other._2ca;
+    _2cb = other._2cb;
+    _2cc = other._2cc;
+    _2cd = other._2cd;
+    _2d0 = other._2d0;
+}
+
+// NON_MATCHING: the not-found -1 goes through w2 instead of w1 (register allocation)
+// 0x710093e42c
+bool ScreenAppPictureBookUnk::sub_710093E42C(s32 index, s32 mode) {
+    s32 entry_index = -1;
+    s32 entry = -1;
+    if (mEntries.data()) {
+        const s32 count = mEntries.size();
+        if (count != 0) {
+            s32 rest = sead::Mathi::clamp(index, 0, _2ac - 1);
+            ScreenAppPictureBookEntry** end = mEntries.data() + count;
+            for (ScreenAppPictureBookEntry** p = mEntries.data(); p != end; ++p) {
+                ScreenAppPictureBookEntry* e = *p;
+                if (e) {
+                    const s32 next = rest - e->mParams._29c;
+                    if (next < 0) {
+                        entry_index = rest;
+                        entry = e->_2f0;
+                        break;
+                    }
+                    rest = next;
+                }
+            }
+        }
+    }
+    return sub_710093DAFC(entry_index, entry, mode);
+}
+
 // 0x710093e428
 u32 ScreenAppPictureBookUnk::sub_710093E428(s32 index) {
     return sub_710093E784(index);
@@ -582,13 +637,13 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
     while (true) {
         if (lim > i) {
             PictureBookGroupList* group = _2a0[i];
-            if (group && group->_0 >= 1) {
-                u32 count = group->_0;
+            if (group && group->mUnits.size() >= 1) {
+                u32 count = group->mUnits.size();
                 u64 last = u64(count) - 1;
                 u64 j = 0;
                 while (true) {
                     if (count > j) {
-                        Unk_7102474f10* g = group->_8[j];
+                        Unk_7102474f10* g = group->mUnits.data()[j];
                         if (g) {
                             ScreenAppPictureBookEntry* entry = g->mEntry;
                             s32 rb = -1;
@@ -621,7 +676,7 @@ void ScreenAppPictureBookUnk::sub_710093F670() {
                         }
                     }
                     if (last != j) {
-                        count = group->_0;
+                        count = group->mUnits.size();
                         ++j;
                         continue;
                     }
@@ -649,10 +704,10 @@ void ScreenAppPictureBookUnk::sub_710093F7F8(bool flag) {
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
-        s64 n = o->_0;
+        s64 n = o->mUnits.size();
         if (n == 0)
             continue;
-        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** group = o->mUnits.data();
         Unk_7102474f10** gend = group + n;
         for (; group != gend; ++group) {
             Unk_7102474f10* g = *group;
@@ -690,10 +745,10 @@ s32 ScreenAppPictureBookUnk::sub_710093FBF0(eui::BoxCursorNode* node) {
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
-        s64 n = o->_0;
+        s64 n = o->mUnits.size();
         if (n == 0)
             continue;
-        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** group = o->mUnits.data();
         Unk_7102474f10** gend = group + n;
         for (; group != gend; ++group) {
             Unk_7102474f10* g = *group;
@@ -937,10 +992,10 @@ void ScreenAppPictureBookUnk::sub_71009401E4() {
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
-        s64 n = o->_0;
+        s64 n = o->mUnits.size();
         if (n == 0)
             continue;
-        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** group = o->mUnits.data();
         Unk_7102474f10** gend = group + n;
         for (; group != gend; ++group) {
             for (Unk_7102474e38& u : (*group)->mUnits) {
@@ -961,10 +1016,10 @@ void ScreenAppPictureBookUnk::sub_7100940288() {
     PictureBookGroupList** end = outer + count;
     for (; outer != end; ++outer) {
         PictureBookGroupList* o = *outer;
-        s64 n = o->_0;
+        s64 n = o->mUnits.size();
         if (n == 0)
             continue;
-        Unk_7102474f10** group = o->_8;
+        Unk_7102474f10** group = o->mUnits.data();
         Unk_7102474f10** gend = group + n;
         for (; group != gend; ++group) {
             for (Unk_7102474e38& u : (*group)->mUnits) {

@@ -2687,6 +2687,8 @@ struct ScreenAppPictureBookEntry {
     struct Params {
         Params();
         ~Params();
+        // 0x7100938f28 (placeholder name): copies every member of `other` (returns nothing, so not operator=)
+        void sub_7100938F28(const Params& other);
 
         sead::FixedSafeString<64> _28;
         sead::FixedSafeString<64> _80;
@@ -2808,18 +2810,24 @@ struct PictureBookItem {
 };
 
 // Placeholder for a photo-group list of sub_710093FBF0 (count + group array).
+// 0x71025d5ce8 (placeholder name): (FLT_MAX, FLT_MAX), "no value" for the picture book spacings
+KSYS_VISIBILITY_HIDDEN extern sead::Vector2f sUnk_71025D5CE8;
+
+// 0x50 bytes, allocated by ScreenAppPictureBookEntry::sub_710093A2F8.
 struct PictureBookGroupList {
-    /* 0x0 */ s32 _0;
-    u8 _4[0x8 - 0x4];
-    /* 0x8 */ Unk_7102474f10** _8;
-    u8 _10[0x20 - 0x10];
+    /* 0x0 */ sead::PtrArray<Unk_7102474f10> mUnits;
+    /* 0x10 */ sead::Vector2f _10 = sUnk_71025D5CE8;
+    /* 0x18 */ sead::Vector2f _18 = sead::Vector2f::ones;
     // Layout sizes read and written by ScreenAppPictureBookEntry 93bb48 / 93bdfc / 93c040.
-    /* 0x20 */ sead::Vector2f _20;
+    /* 0x20 */ sead::Vector2f _20 = sead::Vector2f::zero;
     u8 _28[0x30 - 0x28];
-    /* 0x30 */ sead::Vector2f _30;
-    /* 0x38 */ sead::Vector2f _38;
-    /* 0x40 */ sead::Vector2f _40;
+    /* 0x30 */ sead::Vector2f _30 = sead::Vector2f::zero;
+    /* 0x38 */ sead::Vector2f _38 = sead::Vector2f::zero;
+    /* 0x40 */ sead::Vector2f _40 = sead::Vector2f::zero;
+    // set once the units are set up (ScreenAppPictureBook::sub_71009F95C4)
+    /* 0x48 */ bool _48 = false;
 };
+static_assert(sizeof(PictureBookGroupList) == 0x50);
 
 struct ScreenAppPictureBookUnk {
     // 0x7100943e80: allocates and initializes the entry list.
@@ -2866,6 +2874,11 @@ struct ScreenAppPictureBookUnk {
     // that are being pressed)
     void sub_71009401E4();
     void sub_7100940288();
+    // 0x710093dafc (declared only; 704 bytes): selects item `index` of entry `entry` (clamped; mode 2 also for a
+    // locked entry); false when there is nothing to select
+    bool sub_710093DAFC(s32 index, s32 entry, s32 mode);
+    // 0x710093e42c (placeholder name): selects the overall item `index` (clamped to _2ac) through sub_710093DAFC
+    bool sub_710093E42C(s32 index, s32 mode);
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
 
@@ -2893,7 +2906,8 @@ struct ScreenAppPictureBookUnk {
     u8 _29c[0x2a0 - 0x29c];
     /* 0x2a0 */ PictureBookGroupList** _2a0;
     /* 0x2a8 */ s32 _2a8;
-    /* 0x2ac */ u8 _2ac[0x2d8 - 0x2ac];
+    /* 0x2ac */ s32 _2ac;
+    u8 _2b0[0x2d8 - 0x2b0];
     /* 0x2d8 */ s32 _2d8;
     u8 _2dc[0x2e4 - 0x2dc];
     /* 0x2e4 */ s32 _2e4;
