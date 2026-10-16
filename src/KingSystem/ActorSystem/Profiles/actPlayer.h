@@ -935,7 +935,9 @@ public:
     /* 0x20cc */ u8 _20cc[0x20d0 - 0x20cc];
     /* 0x20d0 */ f32 _20d0;
     /* 0x20d4 */ f32 _20d4;  // water surface height (PlayerSwimJump)
-    /* 0x20d8 */ u8 _20d8[0x20ec - 0x20d8];
+    /* 0x20d8 */ u8 _20d8[0x20e4 - 0x20d8];
+    /* 0x20e4 */ f32 _20e4;  // zeroed by PlayerSlide::enter_ (lane3 s84)
+    /* 0x20e8 */ u8 _20e8[0x20ec - 0x20e8];
     /* 0x20ec */ f32 _20ec;  // set to 1 by m229
 
     /* 0x20f0 */ f32 _20f0;
