@@ -14,6 +14,17 @@ u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system) {
     return sub_710110AA5C(0.0f, Terrain::instance()->_3cc, out_height, xz, &info->_20, info);
 }
 
+u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   System* system) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    auto* info = system->sub_710111F504();
+    return sub_710110ADF8(0.0f, Terrain::instance()->_3cc, out_height, out_normal, xz, &info->_20,
+                          info);
+}
+
 u32 sub_710110B5BC(sead::Vector2f* out, const sead::Vector2f* xz, System* system) {
     if (!system->_8)
         return 0;
@@ -231,11 +242,51 @@ s32 Unk_7101106F44::sub_710111FD70(sead::BufferedSafeString* out, const ImageTyp
     return end - out->cstr();
 }
 
+u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
+                   System* system, bool flag) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    MaterialRecordMaybe record;
+    record.raw = 0xff;
+    const u32 result = sub_710110BD78(&record, xz, system, flag);
+    if (result == 0)
+        return result;
+
+    const u32 index = record._1 >= 0 ? record._3 : record._2;
+    const auto* data = Terrain::instance()->_370->_4ae0;
+    *material = data->_748 > index ? data->_750[index].a : -1;
+    data = Terrain::instance()->_370->_4ae0;
+    *submaterial = data->_748 > index ? data->_750[index].b : -1;
+    return int(*material) == -1 ? 0 : result;
+}
+
 void sub_710110C134(s32* out_a, s32* out_b, s32 index) {
     const auto* data = Terrain::instance()->_370->_4ae0;
     *out_a = index < data->_748 ? data->_750[index].a : -1;
     data = Terrain::instance()->_370->_4ae0;
     *out_b = index < data->_748 ? data->_750[index].b : -1;
+}
+
+u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
+                   System* system) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    auto* info = system->sub_710111F504();
+    u32 value;
+    const u32 result = sub_710110B38C(&value, xz, &info->_20, info);
+    value >>= 8;
+    if (result == 0)
+        return result;
+
+    const auto* data = Terrain::instance()->_370->_4ae0;
+    *material = data->_3910 > value ? data->_3918[value].a : -1;
+    data = Terrain::instance()->_370->_4ae0;
+    *submaterial = data->_3910 > value ? data->_3918[value].b : -1;
+    return int(*material) == -1 ? 0 : result;
 }
 
 void sub_710110B7A4(s32* out_a, s32* out_b, s32 index) {

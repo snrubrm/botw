@@ -904,6 +904,9 @@ class Water {
 // 0x710110aa5c (declaration only, 536 bytes): height query used by sub_710110B4A4.
 u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz, const u8* info_20,
                    const Unk_710111F504* info);
+// 0x710110adf8 (declaration only, 752 bytes; placeholder name): sub_710110AA5C that also writes the normal.
+u32 sub_710110ADF8(f32 a, f32 b, f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   const u8* info_20, const Unk_710111F504* info);
 // 0x710110b0e8 / 0x710110b38c (declaration only; placeholder names): queries like sub_710110AA5C that
 // write a 2D value / a u32.
 u32 sub_710110B0E8(f32 a, sead::Vector2f* out, const sead::Vector2f* xz, const u8* info_20,
@@ -916,6 +919,20 @@ u32 sub_710110B634(u32* out, const sead::Vector2f* xz, System* system);
 // CreateTeraSystem passes the System created at 0x71011113d4 to PlacementMgr.
 // 0x710110b4a4: 0 without a scene (System+0x8) or unless Terrain flags 2 and 4 are both set.
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system);
+// Placeholder: the four-byte terrain material record written by 0x710110bd78 (0x710110c02c starts it as
+// {0xff, 0, 0, 0}; when _1 has its top bit set, _2 is the material index, otherwise _3).
+// 0x710110bd78 stores it as one word.
+union MaterialRecordMaybe {
+    u32 raw;
+    struct {
+        u8 _0;
+        s8 _1;
+        u8 _2;
+        u8 _3;
+    };
+};
+// 0x710110bd78 (declaration only, 692 bytes; placeholder name): looks up the material record at `xz`.
+u32 sub_710110BD78(MaterialRecordMaybe* out, const sead::Vector2f* xz, System* system, bool flag);
 // Full 110C02C writes material and submaterial; independent 1224C1C consumes both.
 u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
                     System* system, bool flag);
@@ -926,7 +943,7 @@ u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s3
 // 0x71011096d0 (declaration only): like sub_71011094A0, also writes the terrain normal.
 u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system, s32 index, s32 flag);
-// 0x710110b52c (declaration only): like sub_710110B4A4, also writes the terrain normal.
+// 0x710110b52c: like sub_710110B4A4, also writes the terrain normal (sub_710110ADF8).
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system);
 // 0x710110b6a4 (declaration only): like sub_710110C02C without the flag.
