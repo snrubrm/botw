@@ -64,14 +64,45 @@ void ItemAmiiboCreateFromDropTable::loadParams_() {
     getStaticParam(&mNotFlagActor_0_s, "NotFlagActor_0");
     getStaticParam(&mNotFlagActor_1_s, "NotFlagActor_1");
     getStaticParam(&mCreateOffset_s, "CreateOffset");
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parsePairActor @ 0x71001bfa64
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parsePairActor @ 0x71001bfa64
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parsePairActor @ 0x71001bfa64
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parseFlagActor @ 0x71001bfe54
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parseFlagActor @ 0x71001bfe54
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parseFlagActor @ 0x71001bfe54
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parseFlagActor @ 0x71001bfe54
-    // FIXME: CALL AI_Action_ItemAmiiboCreateFromDropTable__parseFlagActor @ 0x71001bfe54
+    parsePairActor(&mPairActors[0], mPairActor_0_s);
+    parsePairActor(&mPairActors[1], mPairActor_1_s);
+    parsePairActor(&mPairActors[2], mPairActor_2_s);
+    parseFlagActor(&mFlagActors[0], mFlagActor_0_s);
+    parseFlagActor(&mFlagActors[1], mFlagActor_1_s);
+    parseFlagActor(&mFlagActors[2], mFlagActor_2_s);
+    parseFlagActor(&mFlagActors[3], mNotFlagActor_0_s);
+    parseFlagActor(&mFlagActors[4], mNotFlagActor_1_s);
+}
+
+void ItemAmiiboCreateFromDropTable::parsePairActor(PairActor* out, const sead::SafeString& names) {
+    s32 i = 0;
+    auto it = names.tokenBegin(",");
+    const auto end = names.tokenEnd(",");
+    for (; end != it; ++it, ++i) {
+        sead::FixedSafeString<64> token;
+        it.get(&token);
+        if (i == 0)
+            out->first = token;
+        else if (i == 1)
+            out->second = token;
+    }
+}
+
+void ItemAmiiboCreateFromDropTable::parseFlagActor(FlagActor* out, const sead::SafeString& names) {
+    s32 i = 0;
+    auto it = names.tokenBegin(",");
+    const auto end = names.tokenEnd(",");
+    for (; end != it; ++it, ++i) {
+        if (i == 0) {
+            sead::FixedSafeString<128> token;
+            it.get(&token);
+            out->actor = token;
+        } else if (i == 1) {
+            sead::FixedSafeString<64> token;
+            it.get(&token);
+            out->flag = token;
+        }
+    }
 }
 
 void ItemAmiiboCreateFromDropTable::calc_() {

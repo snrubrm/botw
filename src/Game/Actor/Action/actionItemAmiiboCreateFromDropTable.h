@@ -25,6 +25,20 @@ protected:
     // 0x71001bbdec (placeholder name): fills _8d0 with random offsets and clears _a60.
     void sub_71001BBDEC();
 
+    // Filled from the PairActor_N / FlagActor_N / NotFlagActor_N strings by parsePairActor / parseFlagActor
+    // (layout not decompiled yet).
+    struct PairActor {
+        sead::FixedSafeString<64> first;
+        sead::FixedSafeString<64> second;
+    };
+    struct FlagActor {
+        sead::FixedSafeString<128> actor;
+        sead::FixedSafeString<64> flag;
+    };
+    // 0x71001bfa64 / 0x71001bfe54 (CSV names): split a comma-separated PairActor / FlagActor string.
+    void parsePairActor(PairActor* out, const sead::SafeString& names);
+    void parseFlagActor(FlagActor* out, const sead::SafeString& names);
+
     // static_param at offset 0x20
     const int* mCreateInterval_s{};
     // static_param at offset 0x28
@@ -77,7 +91,9 @@ protected:
     sead::SafeString mNotFlagActor_1_s{};
     // static_param at offset 0x128
     const sead::Vector3f* mCreateOffset_s{};
-    u8 _130[0x8d0 - 0x130];
+    u8 _130[0x210 - 0x130];
+    PairActor mPairActors[3];
+    FlagActor mFlagActors[5];
     // Random drop offsets in [-1, 1]^2, each at least 0.5 away from the three before it (sub_71001BBDEC).
     sead::Vector2f _8d0[50];
     bool _a60;
