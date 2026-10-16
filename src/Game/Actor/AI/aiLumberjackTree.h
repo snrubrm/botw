@@ -6,6 +6,7 @@
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace ksys::act {
 class PhysicsUserTag;
@@ -41,6 +42,10 @@ public:
     // 0x7100e18ec4 (declared only; placeholder name): LumberjackTree::handleMessage_ tests it before
     // forwarding a 0x8000018 message.
     bool sub_7100E18EC4();
+
+    u8 _8[0x18 - 0x8];
+    ksys::act::BaseProcHandle _18;
+    ksys::act::BaseProcHandle _28;
 };
 
 // Placeholder name (vtable 0x7102404020). `_70` of LumberjackTree; registered as an attack sensor

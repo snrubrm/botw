@@ -301,3 +301,18 @@ bool Unk_7102404060::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
+
+// 0x7100e18ec4 (its own TU in the original, far from LumberjackTree; kept with its only known user)
+// True once both handles have finished creating their procs (ready or failed).
+// NON_MATCHING: the original computes &_18 after the first test; ours hoists it (ldr pre-index)
+bool uking::ai::Unk_71024e1b58::sub_7100E18EC4() {
+    if (_18.isAllocatedOrFailed() || _28.isAllocatedOrFailed()) {
+        if (_18.isProcReady() || _18.hasProcCreationFailed()) {
+            if (_28.isProcReady())
+                return true;
+            if (_28.hasProcCreationFailed())
+                return true;
+        }
+    }
+    return false;
+}
