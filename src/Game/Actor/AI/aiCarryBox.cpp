@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -84,6 +85,96 @@ void CarryBox::sub_7100343FD0(ksys::phys::RigidBody* body, ksys::phys::ContactPo
         }
         scene->sub_7100664484(2, &_80);
     }
+}
+
+void CarryBox::sub_71003440A8(ksys::phys::RigidBody* body, ksys::phys::ContactPointInfo* info,
+                              bool has_contacts) {
+    auto* actor = mActor;
+    auto* scene = GameSceneSubsys12::instance();
+    if (!scene) {
+        callDeleteAndCreateDropAndEmit(actor, 0);
+        return;
+    }
+
+    if (!_79 && (sub_71005DC4C8(actor) ||
+                 (sub_71005DC4F4(actor) &&
+                  !sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent())))) {
+        changeChild("通常", nullptr);
+        sub_710034461C(body, has_contacts);
+        _79 = true;
+        return;
+    }
+
+    if ((_79 || sub_71005DC4F4(actor)) && has_contacts) {
+        changeChild("通常", nullptr);
+        sub_710034461C(body, has_contacts);
+        scene->sub_7100664484(2, &_80);
+        _79 = true;
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && !isCurrentChild("通常") &&
+        !(scene->_a78 & 2)) {
+        if (!_79 && _7c >= 9) {
+            changeChild("通常", nullptr);
+            sub_710034461C(body, has_contacts);
+            _79 = true;
+            return;
+        }
+        changeChild("通常", nullptr);
+        scene->sub_7100664484(8, &_80);
+        return;
+    }
+
+    ++_7c;
+    if (sub_71005DC4F4(actor)) {
+        if (!_7a) {
+            scene->sub_7100664484(1, &_80);
+            _7a = true;
+            if ((scene->_a78 & 0x80) && body) {
+                if (auto* contact_info = body->getContactPointInfo()) {
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityGround);
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundRough);
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityGroundObject);
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityObject);
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityTree);
+                    contact_info->subscribeLayer(ksys::phys::ContactLayer::EntityAirWall);
+                }
+            }
+        }
+    } else if (_7c <= 5) {
+        if (has_contacts) {
+            scene->sub_7100664484(3, &_80);
+            return;
+        }
+    } else if (body && _7c == 10) {
+        if (auto* contact_info = body->getContactPointInfo())
+            contact_info->unsubscribeAllLayers();
+    }
+
+    if (isCurrentChild("通常")) {
+        auto* map_object = actor->getMapObject();
+        if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) || _38._30 ||
+            actor->get1a0() ||
+            (map_object && map_object->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) {
+            auto* held = mActor;
+            if (auto* physics = held->getPhysics())
+                physics->sub_7100FBADDC();
+            ksys::act::disableAllAttClients(held);
+            _38.x();
+            changeChild("所持", nullptr);
+            return;
+        }
+        if (!_78) {
+            scene->sub_7100664BC4(actor);
+            _78 = true;
+        }
+    }
+
+    if (isCurrentChild("所持") && getCurrentChild()->isFailed() && (scene->_a78 & 2))
+        callDeleteAndCreateDropAndEmit(actor, 0);
 }
 
 // NON_MATCHING: the original calls sub_71003440A8 without loading its second argument (x2 is left as it was), so the

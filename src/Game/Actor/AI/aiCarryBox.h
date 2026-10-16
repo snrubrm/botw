@@ -48,7 +48,7 @@ protected:
     /* 0x78 */ u8 _78{};
     /* 0x79 */ bool _79{};
     /* 0x7a */ bool _7a{};
-    /* 0x7c */ u32 _7c{};
+    /* 0x7c */ s32 _7c{};
     /* 0x80 */ ActorContextStuff _80{mActor};
     /* 0x7e0 */ Unk_71023dcd70 _7e0;
 };

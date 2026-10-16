@@ -68,6 +68,8 @@ public:
     void sub_71006633E4();
     // 0x7100664484: handles the carried-context state transition (declaration only).
     void sub_7100664484(s32 state, ActorContextStuff* context);
+    // 0x7100664bc4 (CSV nullsub_2162; empty): called once by CarryBox::sub_71003440A8 for a box at rest.
+    void sub_7100664BC4(ksys::act::Actor* actor);
     // 0x7100664a64: removes a matching entry from the embedded carried context.
     bool sub_7100664A64(ksys::act::BaseProcLink* link, bool immediately);
     // 0x7100664acc: returns the carried actor's fade progress.

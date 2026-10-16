@@ -180,6 +180,8 @@ void GameSceneSubsys12::sub_7100665304() {
         _310->sub_710065F9AC();
 }
 
+void GameSceneSubsys12::sub_7100664BC4(ksys::act::Actor* actor) {}
+
 ksys::act::BaseProcLink* GameSceneSubsys12::sub_7100664BC8(s32 index) {
     sead::ScopedLock<sead::CriticalSection> lock(&_38);
     if (_300.hasProc() && _310)
