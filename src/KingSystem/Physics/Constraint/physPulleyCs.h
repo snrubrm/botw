@@ -11,9 +11,23 @@ class PulleyCs : public Constraint {
     SEAD_RTTI_OVERRIDE(PulleyCs, Constraint)
 public:
     ~PulleyCs() override;
+
+    // 0x7100f6f7f0 / 0x7100f6f7fc / 0x7100f6f808 (placeholder names): rope length and leverage of the
+    // pulley data.
+    void sub_7100F6F7F0(f32 length);
+    void sub_7100F6F7FC(f32 leverage);
+    f32 sub_7100F6F808() const;
+
 private:
-    // The factory stores its library data pointer here; its interface is unresolved.
-    u8 _b8[8];
+    // Placeholder: the library pulley constraint data stored by the factory. Only the pulley atom's rope
+    // length and leverage (names from the Havok pulley atom) are modelled.
+    struct Data {
+        u8 _0[0x80];
+        f32 mRopeLength;
+        f32 mLeverageOnBodyB;
+    };
+
+    Data* mData;
 };
 KSYS_CHECK_SIZE_NX150(PulleyCs, 0xc0);
 
