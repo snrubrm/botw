@@ -49,6 +49,7 @@
 namespace eui {
 class CapturePane;
 class PartsEx;
+class TraceGaugeControl;
 }
 
 namespace sead {
@@ -286,11 +287,15 @@ public:
     void sub_71009B0F3C(bool on);
     // 0x71009b0f60: stops _140 at its start (true); otherwise at its end, resets _130 and closes the _1d8 layout
     void sub_71009B0F60(bool on);
+    // 0x71009b0eec: stops _130 at frame `frame`; closes the _1d8 layout unless the frame is 2
+    void sub_71009B0EEC(u32 frame);
+    // 0x71009b0c24: sets the gauge _150 and clears its byte at 0x6c
+    void sub_71009B0C24(eui::TraceGaugeControl* gauge);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     /* 0x140 */ eui::Animator* _140 = nullptr;
     /* 0x148 */ void* _148 = nullptr;
-    /* 0x150 */ void* _150 = nullptr;
+    /* 0x150 */ eui::TraceGaugeControl* _150 = nullptr;
     /* 0x158 */ Unk_710247ade8 _158;
     /* 0x190 */ Unk_710247ada8 _190;
     /* 0x1c8 */ void* _1c8 = nullptr;

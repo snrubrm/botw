@@ -1,3 +1,4 @@
+#include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAlignPane.h"
@@ -171,6 +172,21 @@ ScreenChildEx* ScreenChildEx::sub_71009B064C(s32 group, s32 index) {
 void ScreenChildEx::m54(sead::Heap* heap) {
     _128 = sead::DynamicCast<ScreenEx>(mLayout->mScreen);
     ScreenChild::m54(heap);
+}
+
+// 0x71009b0c24
+void Unk_710247a6d8::sub_71009B0C24(eui::TraceGaugeControl* gauge) {
+    _150 = gauge;
+    if (gauge)
+        gauge->_6c = false;
+}
+
+// 0x71009b0eec
+void Unk_710247a6d8::sub_71009B0EEC(u32 frame) {
+    if (_130)
+        _130->Stop(f32(frame));
+    if (frame != 2)
+        _1d8.sub_71009C697C();
 }
 
 // 0x71009b0f3c
