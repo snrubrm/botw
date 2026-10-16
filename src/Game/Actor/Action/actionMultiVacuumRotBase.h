@@ -21,12 +21,15 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x1c0
-    const float* mRotSpd_s{};
-    // static_param at offset 0x1c8
-    const float* mPosReduceRatio_s{};
-    // dynamic_param at offset 0x1d0
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x1c0
+        const float* mRotSpd_s{};
+        // static_param at offset 0x1c8
+        const float* mPosReduceRatio_s{};
+        // dynamic_param at offset 0x1d0
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     sead::Matrix33f _1d8;
     float _1fc = 0;
 };

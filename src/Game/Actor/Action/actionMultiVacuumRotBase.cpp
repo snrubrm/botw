@@ -29,9 +29,9 @@ void MultiVacuumRotBase::leave_() {
 
 void MultiVacuumRotBase::loadParams_() {
     MultiVacuumBase::loadParams_();
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mPosReduceRatio_s, "PosReduceRatio");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mPosReduceRatio_s, "PosReduceRatio");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void MultiVacuumRotBase::calc_() {

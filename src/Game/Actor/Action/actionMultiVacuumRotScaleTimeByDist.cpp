@@ -14,7 +14,7 @@ bool MultiVacuumRotScaleTimeByDist::init_(sead::Heap* heap) {
 
 void MultiVacuumRotScaleTimeByDist::enter_(ksys::act::ai::InlineParamPack* params) {
     MultiVacuumRotBase::enter_(params);
-    const float dist = (mActor->getMtx().getTranslation() - *mTargetPos_d).length();
+    const float dist = (mActor->getMtx().getTranslation() - *MultiVacuumRotBase::mParams.mTargetPos_d).length();
     if (dist < *mMaxTimeDist_s)
         _1b8 = dist * _1b8 / *mMaxTimeDist_s;
 }
