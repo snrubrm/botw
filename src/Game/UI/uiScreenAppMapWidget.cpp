@@ -127,6 +127,13 @@ void ScreenAppMapWidget::sub_71009AEF88() {
     }
 }
 
+// 0x71009a8be8
+void ScreenAppMapWidget::m14() {
+    for (s32 i = 120; i < 240; ++i)
+        mNormalMap.mTiles[i].mTexture.mState = 1;
+    mNormalMap._a9a0.reset();
+}
+
 // 0x71009a9380
 void ScreenAppMapWidget::m21() {
     mNormalMap.sub_71009A6F34();

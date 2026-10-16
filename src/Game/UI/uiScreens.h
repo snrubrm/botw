@@ -2247,6 +2247,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009aef88 (placeholder name): clears _b4ec / _b4f0 and decodes the packed signed (x, y) word at `_b370` into _b4b8 / _b4bc
     void sub_71009AEF88();
 
+    // 0x71009a8be8 (slot 14): sets the second half of the map tiles' textures to state 1, resets the map timer
+    void m14() override;
     // 0x71009a9380 / 0x71009a9280 (slots 21 / 31)
     void m21() override;
     void m31() override;
