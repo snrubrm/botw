@@ -2,6 +2,7 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/actLastBoss.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -97,6 +98,26 @@ bool Unk_710244ebc8::m8(const ksys::Message& message) {
     _40._30 = true;
     _40._18 = message.getSource();
     return true;
+}
+
+void Unk_710244ebc8::m10() {
+    if (_40._30) {
+        sub_71006E3060();
+        _40._30 = false;
+        _40._8.reset();
+        // called through a pointer in the original (not devirtualised)
+        (&_40)->m3();
+    }
+    sub_71006E2A3C();
+    if (!_8.isOn(0x5c))
+        return;
+    ksys::Timer::update(&_1c, -1.0f);
+    if (_1c <= 0.0f) {
+        if (_8.isOnBit(2) && !sub_71006E2CA0())
+            m13(2);
+        if (_8.isOnBit(4) && !sub_71006E2E38())
+            m13(4);
+    }
 }
 
 void Unk_710244ebc8::m13(int index) {

@@ -291,6 +291,11 @@ public:
 
     void sub_71006E2BAC();
     void sub_71006E3060();
+    // 0x71006e2a3c / 0x71006e2ca0 / 0x71006e2e38 (declared only): m10's per-frame step and the two checks run
+    // when the _1c timer runs out (bit 2 / bit 4 of _8).
+    void sub_71006E2A3C();
+    bool sub_71006E2CA0();
+    bool sub_71006E2E38();
 
     /* 0x1c */ f32 _1c = 0;
     /* 0x20 */ Unk_71012419b4 _20;
