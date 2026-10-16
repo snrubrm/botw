@@ -51,7 +51,7 @@ void Unk_710247d0c8::m24(sead::Heap*) {
 void Unk_710247d0c8::sub_71009C3138(s32 value, u32 frame) {
     sead::FixedStringBuilder<32> text;
     eui::Grammar::formatNumberWithDelimiter(&text, value);
-    setWidgetString(mLayout, "T_Num_00", text.cstr());
+    setWidgetString(mLayout, "T_Num_00", sead::SafeString(text.cstr()));
     if (mAnimator)
         mAnimator->Stop(frame);
 }

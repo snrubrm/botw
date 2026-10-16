@@ -121,7 +121,7 @@ void ScreenAppPictureBookEntry::sub_710093AC7C() {
 void ScreenAppPictureBookEntry::sub_710093AE60(const sead::Vector2f& position) {
     const auto low = position + _368;
     const auto high = position + _370;
-    switch (mController->_c8) {
+    switch (mController->mConfig._60) {
     case 0:
         _378 = low.y > 0.0f ? low : high.y < 0.0f ? high : sead::Vector2f::zero;
         break;
@@ -205,9 +205,9 @@ void ScreenAppPictureBookEntry::sub_710093BB48() {
             Unk_7102474f10* group = *it;
             for (s32 i = 0; i < group->mUnits.size(); ++i) {
                 s32 index;
-                switch (mController->_cc) {
+                switch (mController->mConfig._64) {
                 case 0:
-                    switch (mController->_d0) {
+                    switch (mController->mConfig._68) {
                     case 1:
                         index = (i % mParams._2a4) * mParams._2a0 + i / mParams._2a4;
                         break;
@@ -219,7 +219,7 @@ void ScreenAppPictureBookEntry::sub_710093BB48() {
                     }
                     break;
                 case 1:
-                    switch (mController->_d0) {
+                    switch (mController->mConfig._68) {
                     case 3:
                         index = (mParams._2a0 - 1 - i / mParams._2a4) * mParams._2a4 + i % mParams._2a4;
                         break;
@@ -231,7 +231,7 @@ void ScreenAppPictureBookEntry::sub_710093BB48() {
                     }
                     break;
                 case 2:
-                    switch (mController->_d0) {
+                    switch (mController->mConfig._68) {
                     case 2:
                         index = i + mParams._2a4 - 2 * (i % mParams._2a4) - 1;
                         break;
@@ -243,7 +243,7 @@ void ScreenAppPictureBookEntry::sub_710093BB48() {
                     }
                     break;
                 case 3:
-                    switch (mController->_d0) {
+                    switch (mController->mConfig._68) {
                     case 2:
                         index = (mParams._2a0 - 1 - i / mParams._2a4) * mParams._2a4 +
                                 (mParams._2a4 - 1 - i % mParams._2a4);
@@ -339,19 +339,19 @@ void ScreenAppPictureBookEntry::sub_710093C040() {
     if (gaps < 0)
         return;
 
-    if (mController->_c0 == 0) {
+    if (mController->mConfig._58 == 0) {
         _338.x = pages * list->_20.x + gaps * mParams._2a8.x;
         _338.y = list->_20.y;
-    } else if (mController->_c0 == 1) {
+    } else if (mController->mConfig._58 == 1) {
         _338.x = list->_20.x;
         _338.y = list->_20.y * pages + mParams._2a8.y * gaps;
     }
 
     if (pages > 1) {
-        if (mController->_c0 == 0) {
+        if (mController->mConfig._58 == 0) {
             _340.x = list->_20.x + mParams._2a8.x;
             _340.y = 0.0f;
-        } else if (mController->_c0 == 1) {
+        } else if (mController->mConfig._58 == 1) {
             _340.x = 0.0f;
             _340.y = list->_20.y + mParams._2a8.y;
         }
@@ -363,7 +363,7 @@ void ScreenAppPictureBookEntry::sub_710093C040() {
                             mParams._2b0.y + height + _2f8.getSizeY());
 
     sead::Vector2f scroll = center;
-    switch (mController->_c8) {
+    switch (mController->mConfig._60) {
     case 0:
         scroll.y = -(_340.y * gaps);
         break;
@@ -591,6 +591,99 @@ void ScreenAppPictureBookEntry::Params::sub_7100938F28(const Params& other) {
     _2cc = other._2cc;
     _2cd = other._2cd;
     _2d0 = other._2d0;
+}
+
+// NON_MATCHING: the original zeroes the strings with one memset before constructing them (value-initialised;
+// ours has none) and schedules the stores differently
+// 0x710093952c
+PictureBookListConfig::PictureBookListConfig() {
+    _0.clear();
+    _74 = {0.28f, 300.0f};
+    _7c = 0.1f;
+    _58 = 0;
+    _5c = 0;
+    _64 = 0;
+    _68 = 3;
+    _60 = 3;
+    _6c = {0, 0};
+    _a0 = 0x4000000;
+    _a4 = 0x8000000;
+    _80 = 0;
+    _88 = 0;
+    _8c = 0;
+    _a8 = 0;
+    _90 = 0x2000;
+    _94 = 0x4000;
+    _98 = 0;
+    _9c = 0;
+    mStrings._b0.clear();
+    mStrings._108.clear();
+    mStrings._160.clear();
+    mStrings._1b8.clear();
+    _210 = true;
+    _218 = false;
+    _214 = 30;
+}
+
+// 0x71009396ec
+void PictureBookListConfig::sub_71009396EC() {
+    _0.clear();
+    _58 = -1;
+    _5c = 0;
+    _60 = -1;
+    _64 = -1;
+    _68 = -1;
+    _6c = {0, 0};
+    _74 = {0, 0};
+    _7c = 0;
+    _80 = 0;
+    _88 = 0;
+    _8c = 0;
+    _90 = 0;
+    _94 = 0;
+    _98 = 0;
+    _9c = 0;
+    _a0 = 0;
+    _a4 = 0;
+    _a8 = 0;
+    mStrings._b0.clear();
+    mStrings._108.clear();
+    mStrings._160.clear();
+    mStrings._1b8.clear();
+    _210 = false;
+    _218 = false;
+    _214 = 30;
+}
+
+// NON_MATCHING: the original copies _6c, _74 and _80 as 64-bit values (ours: float by float)
+// 0x7100939764
+void PictureBookListConfig::sub_7100939764(const PictureBookListConfig& other) {
+    _0 = other._0;
+    _58 = other._58;
+    _5c = other._5c;
+    _60 = other._60;
+    _64 = other._64;
+    _68 = other._68;
+    _6c = other._6c;
+    _7c = other._7c;
+    _74 = other._74;
+    _80 = other._80;
+    _88 = other._88;
+    _8c = other._8c;
+    _90 = other._90;
+    _94 = other._94;
+    _98 = other._98;
+    _9c = other._9c;
+    _a0 = other._a0;
+    _a4 = other._a4;
+    _a8 = other._a8;
+    mStrings._b0 = other.mStrings._b0;
+    mStrings._108 = other.mStrings._108;
+    mStrings._160 = other.mStrings._160;
+    mStrings._1b8 = other.mStrings._1b8;
+    _210 = other._210;
+    _214 = other._214;
+    _218 = other._218;
 }
 
 // 0x7100943fe0
@@ -941,7 +1034,7 @@ const s64 sUnk_7101E79C80[4] = {1, 0, 3, 2};
 void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
     if (!flag && (_28 & 0x30) == 0)
         return;
-    s64 c = _c8;
+    s64 c = mConfig._60;
     _30 = 0;
     eui::LayoutEx* layout_a;
     eui::LayoutEx* layout_b;

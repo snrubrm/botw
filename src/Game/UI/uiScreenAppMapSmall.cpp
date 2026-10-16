@@ -371,6 +371,35 @@ bool sub_71009E5530() {
     }
 }
 
+// NON_MATCHING: block layout (the original places the state 5 block before the de182 test)
+// 0x71009e6b5c
+bool sub_71009E6B5C() {
+    if (sUnk_71025de180 & 1)
+        return true;
+    const s32 state = Manager::instance()->_64c38;
+    if (u32(state) <= 4) {
+        if (sUnk_71025de182 & 1)
+            return true;
+        switch (state) {
+        case 0:
+            return ksys::gdt::getFlag_IsGet_App_WindRelic();
+        case 1:
+            return ksys::gdt::getFlag_IsGet_App_FireRelic();
+        case 2:
+            return ksys::gdt::getFlag_IsGet_App_WaterRelic();
+        case 3:
+            return ksys::gdt::getFlag_IsGet_App_ElectricRelic();
+        case 4:
+            return ksys::gdt::getFlag_IsGet_App_FinalTrial() &&
+                   !ksys::gdt::getFlag_FinalTrial_InBossBattleArea();
+        }
+    } else if (state == 5) {
+        auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::WolfLinkHeartGauge);
+        return ksys::gdt::getFlag_IsInHyruleCastleArea() && !screen;
+    }
+    return false;
+}
+
 // 0x71009e5868
 void ScreenAppMapDungeon::sub_71009E5868(s32 index) {
     const s32 prev = _118ac;

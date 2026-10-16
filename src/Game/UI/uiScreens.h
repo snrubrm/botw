@@ -2849,6 +2849,52 @@ struct PictureBookGroupList {
 };
 static_assert(sizeof(PictureBookGroupList) == 0x50);
 
+// The setup of a picture book list (0x220 bytes; ScreenAppPictureBookUnk + 0x68). The masks at 0x90 .. 0xa4 look like
+// controller button masks. Names are placeholders after the offsets.
+struct PictureBookListConfig {
+    // 0x710093952c
+    PictureBookListConfig();
+    // 0x71009396ec (placeholder name): clears the strings and resets the values (-1 / 0)
+    void sub_71009396EC();
+    // 0x7100939764 (placeholder name): copies every member of `other`
+    void sub_7100939764(const PictureBookListConfig& other);
+
+    // value-initialised together (one memset in the constructor)
+    struct Strings {
+        sead::FixedSafeString<64> _b0;
+        sead::FixedSafeString<64> _108;
+        sead::FixedSafeString<64> _160;
+        sead::FixedSafeString<64> _1b8;
+    };
+
+    /* 0x000 */ sead::FixedSafeString<64> _0;
+    // Layout direction of the entry pages (0: horizontal, 1: vertical; read by 93c040).
+    /* 0x058 */ s32 _58 = -1;
+    /* 0x05c */ s32 _5c = 0;
+    /* 0x060 */ s32 _60 = -1;
+    // Item order modes read by 93bb48 (_64 0-3 with _68).
+    /* 0x064 */ s32 _64 = -1;
+    /* 0x068 */ s32 _68 = -1;
+    /* 0x06c */ sead::Vector2f _6c{0, 0};
+    /* 0x074 */ sead::Vector2f _74{0.28f, 300.0f};
+    /* 0x07c */ f32 _7c = 0.1f;
+    /* 0x080 */ u64 _80;
+    /* 0x088 */ u32 _88 = 0;
+    /* 0x08c */ u32 _8c = 0;
+    /* 0x090 */ u32 _90 = 0;
+    /* 0x094 */ u32 _94 = 0;
+    /* 0x098 */ u32 _98 = 0;
+    /* 0x09c */ u32 _9c = 0;
+    /* 0x0a0 */ u32 _a0 = 0;
+    /* 0x0a4 */ u32 _a4 = 0;
+    /* 0x0a8 */ s32 _a8 = 0;
+    /* 0x0b0 */ Strings mStrings{};
+    /* 0x210 */ bool _210;
+    /* 0x214 */ s32 _214;
+    /* 0x218 */ bool _218;
+};
+static_assert(sizeof(PictureBookListConfig) == 0x220);
+
 struct ScreenAppPictureBookUnk {
     // 0x7100943e80: allocates and initializes the entry list.
     void sub_7100943E80(sead::Heap* heap, s32 count);
@@ -2913,15 +2959,7 @@ struct ScreenAppPictureBookUnk {
     /* 0x038 */ void* _38;
     /* 0x040 */ eui::LayoutEx* _40[4];
     /* 0x060 */ ScreenEx* mScreen;
-    u8 _68[0xc0 - 0x68];
-    // Layout direction of the entry pages (0: horizontal, 1: vertical; read by 93c040).
-    /* 0x0c0 */ s32 _c0;
-    u8 _c4[0xc8 - 0xc4];
-    /* 0x0c8 */ s32 _c8;
-    // Item order modes read by 93bb48 (_cc 0-3 with _d0).
-    /* 0x0cc */ s32 _cc;
-    /* 0x0d0 */ s32 _d0;
-    u8 _d4[0x288 - 0xd4];
+    /* 0x068 */ PictureBookListConfig mConfig;
     // Full producer 943e80 calls PtrArrayImpl::allocBuffer at +288 then pushes 0x398 entries.
     /* 0x288 */ sead::PtrArray<ScreenAppPictureBookEntry> mEntries;
     // the group lists shared by the entries (sub_7100943FE0 allocates them; ScreenAppPictureBookEntry::sub_710093A2F8
@@ -3592,6 +3630,13 @@ extern u16 sUnk_71025de180;
 // while bit 0 of sUnk_71025de180 is set or the curse flag is on in states 0 - 3; per state the Divine Beast boss
 // appeared-and-died flags, the gear manager timer in state 4, false in state 5, true otherwise
 bool sub_71009E5530();
+// 0x71025de182 (uiAppStateGlobals.cpp; read with adrp + ldrb, so hidden): bit 0 makes sub_71009E6B5C true in
+// states 0 - 4
+KSYS_VISIBILITY_HIDDEN extern u8 sUnk_71025de182;
+// 0x71009e6b5c (placeholder name; ScreenAppMapDungeon TU): per manager state (_64c38) whether the dungeon's app
+// (Divine Beast relic, Final Trial) is available: true while bit 0 of sUnk_71025de180 or sUnk_71025de182 is set; in
+// state 5 the Hyrule Castle area flag with no WolfLinkHeartGauge screen
+bool sub_71009E6B5C();
 // 0x7100a9eea4 / 0x7100a9eef4 (defined in uiManagerFacade.cpp)
 const char* sub_7100A9EEA4();
 const char* sub_7100A9EEF4();

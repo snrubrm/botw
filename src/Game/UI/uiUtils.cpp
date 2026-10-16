@@ -263,6 +263,17 @@ s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
     return 0;
 }
 
+// 0x7100aa275c
+s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const char* text) {
+    sead::FixedSafeString<64> text_copy(text);
+    sead::WFixedSafeString<128> buffer;
+    sead::StringUtil::convertUtf8ToUtf16(buffer.getBuffer(), buffer.getBufferSize(), text_copy.cstr(), -1);
+    eui::MessageString message(buffer.calcLength(), buffer.cstr());
+    if (layout)
+        return layout->setMessageStringForEachId(widget_name.cstr(), message, true, nullptr);
+    return 0;
+}
+
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap*) {
     Manager::instance()->createAndLoadScreenIfNeeded(id);
 }

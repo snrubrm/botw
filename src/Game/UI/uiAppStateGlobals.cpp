@@ -7,6 +7,8 @@ namespace uking::ui {
 
 // 0x71025de180 (used by the ScreenAppMapDungeon functions): flag bits
 u16 sUnk_71025de180;
+// 0x71025de182
+KSYS_VISIBILITY_HIDDEN u8 sUnk_71025de182;
 // 0x71025eb5b8 / 0x71025eb5b4: mode set by sub_71009F8420
 s32 sUnk_71025eb5b8;
 u8 sUnk_71025eb5b4;

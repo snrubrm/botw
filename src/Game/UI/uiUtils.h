@@ -422,6 +422,8 @@ void increasePouchNumImpl(const sead::SafeString& name, s32 count);
 
 // 0x7100aa25d4: sets matching widgets and returns their count.
 s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const sead::SafeString& text);
+// 0x7100aa275c: as above for a plain C string (copied into a 64-character string first).
+s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const char* text);
 // 0x7100aa256c: the existing message-string overload.
 s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
                     const eui::MessageString& message);
