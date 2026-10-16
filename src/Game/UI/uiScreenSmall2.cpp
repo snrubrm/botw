@@ -2677,16 +2677,12 @@ bool ScreenAppMap::sub_71009E9F48() {
         return true;
     if (_3618 && _3618->sub_71009C5B68())
         return true;
-    if (!_3c98)
-        return false;
-    const s32 state = _3c98->_104;
-    if (state == 7)
-        return true;
-    if (u32(state - 1) > 4)
-        return false;
-    if ((state - 1) & 1)
-        return false;
-    return true;
+    if (_3c98) {
+        const s32 state = _3c98->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && !((state - 1) & 1)))
+            return true;
+    }
+    return false;
 }
 
 // 0x71009e9f20
