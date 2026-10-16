@@ -68,7 +68,8 @@ protected:
     // Placeholder names. 0x710025b4b0: ray-casts the ground below emit position `index` into _1b8.
     bool sub_710025B4B0(int index);
     void sub_710025B7CC();
-    void sub_710025B95C(int index);
+    // 0x710025b95c: wakes the first sleeping emit parts actor at ground position `index`.
+    void sub_710025B95C(u32 index);
 
     bool _188 = false;
     bool _189 = false;

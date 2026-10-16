@@ -264,3 +264,54 @@ void SiteBossLswordAtkWithChemical::sub_710025B7CC() {
 }
 
 }  // namespace uking::action
+
+namespace uking::action {
+
+// Places the first sleeping emit parts actor on ground position `index` with the emit speed and scale.
+// NON_MATCHING: register allocation and float scheduling of the matrix products.
+void SiteBossLswordAtkWithChemical::sub_710025B95C(u32 index) {
+    if (sub_710072B7C4() || _189)
+        return;
+    if (!_1a8[index])
+        return;
+
+    sead::Vector3f pos;
+    m37(&pos);
+    sead::Matrix33f mtx(mActor->getMtx());
+    m38();
+    const f32 i = f32(index);
+    sead::Quatf rotation;
+    rotation.setAxisRadian(sead::Vector3f::ey, *mEmitAngleFromParent_s + i * *mEmitIntervalRotate_s);
+    sead::Matrix34f rotation_mtx;
+    rotation_mtx.fromQuat(rotation);
+    const sead::Vector3f scale{*mEmitScale_s, *mEmitScale_s, *mEmitScale_s};
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || *mEmitNum_s < 1)
+        return;
+
+    for (s32 n = 0; n < *mEmitNum_s * 2; ++n) {
+        const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), n);
+        if (!enemy->getActorPartsActor(name).hasProc())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+        if (!accessor.isStateSleep())
+            continue;
+
+        if (u32(m39()) <= index)
+            mtx.setMul(mtx, rotation_mtx);
+        const sead::Matrix34f emit_mtx(mtx, _1b8[index]);
+        sead::Vector3f velocity = *mEmitActorSpeed_s;
+        velocity.rotate(emit_mtx);
+        sead::Quatf speed_rotation;
+        speed_rotation.setAxisRadian(sead::Vector3f::ey, i * *mEmitActorSpeedRotate_s);
+        sead::Matrix34f speed_mtx;
+        speed_mtx.fromQuat(speed_rotation);
+        velocity.rotate(speed_mtx);
+        accessor.setProperties(emit_mtx, &velocity, nullptr, &scale, false, 0, -1);
+        return;
+    }
+}
+
+}  // namespace uking::action
