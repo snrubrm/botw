@@ -10,10 +10,10 @@ namespace uking::ui {
 
 // Initialized as two FLT_MAX components by native 9384e4; read as the
 // optional layout size by 93bb48 and copied by both parameter lifetime bodies.
-sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
+KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
 
 // 0x7100938c94
-// NON_MATCHING: Vector2 component copies and global addressing differ.
+// NON_MATCHING: Vector2 component copies differ (the original copies sUnk_71025D5CE8 as one 64-bit value).
 ScreenAppPictureBookEntry::Params::Params() {
     _28.clear();
     _80.clear();
@@ -41,7 +41,7 @@ ScreenAppPictureBookEntry::Params::Params() {
 }
 
 // 0x7100938e9c
-// NON_MATCHING: Vector2 component copies and global addressing differ.
+// NON_MATCHING: Vector2 component copies differ (the original copies sUnk_71025D5CE8 as one 64-bit value).
 ScreenAppPictureBookEntry::Params::~Params() {
     _28.clear();
     _80.clear();

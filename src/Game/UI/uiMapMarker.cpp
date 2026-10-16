@@ -20,7 +20,7 @@
 
 namespace uking::ui {
 
-extern bool sUnk_71025d6a98;
+KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025d6a98;
 
 // Written by the native marker initializer at 0x94F9E4.
 static sead::Vector3f sUnk_71025d6cf4{0.2f, 0.0f, -0.2f};
@@ -1407,8 +1407,7 @@ Unk_7102476640::~Unk_7102476640() {
         _60.reset();
 }
 
-// NON_MATCHING: sUnk_71025d6a98 is read through the GOT (defined in uiSubsys1.cpp; one TU in the original);
-// the 0x6e0 compare is scheduled after the vtable load in the original.
+// NON_MATCHING: the 0x6e0 compare is scheduled after the vtable load in the original.
 void Unk_7102476738::m19() {
     auto* subsys = UiSubsys1::instance();
     if (subsys->_6d4 <= _28.x && _28.x <= subsys->_6dc && subsys->_6d8 <= _28.z && _28.z <= subsys->_6e0)
@@ -1445,8 +1444,7 @@ void Unk_7102476830::m5() {
         _68.update();
 }
 
-// NON_MATCHING: sUnk_71025d6a98 is read through the GOT (defined in uiSubsys1.cpp; one TU in the original);
-// the 0x6e0 compare is scheduled after the vtable load in the original.
+// NON_MATCHING: the 0x6e0 compare is scheduled after the vtable load in the original.
 void Unk_7102476830::m19() {
     auto* subsys = UiSubsys1::instance();
     if (subsys->_6d4 <= _28.x && _28.x <= subsys->_6dc && subsys->_6d8 <= _28.z && _28.z <= subsys->_6e0)
