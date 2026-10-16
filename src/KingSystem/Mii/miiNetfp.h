@@ -18,6 +18,21 @@ extern sead::SafeArray<sead::SafeString, 5> sUnk_710260DB50;
 // 0x710260dc50: indexed by UMii::sub_7100F4BF0C() (mouth names).
 extern sead::SafeArray<sead::SafeString, 3> sUnk_710260DC50;
 
+// 0x710260d3a0: Korok part names, by ModelCreator::Arg type (6 entries; 0x7100f5ab68).
+extern sead::SafeArray<sead::SafeString, 6> sUnk_710260D3A0;
+// 0x710260d480: part names by Arg type (3 entries; 0x7100f5ada8).
+extern sead::SafeArray<sead::SafeString, 3> sUnk_710260D480;
+// 0x710260d510: a single part name (indexed by Arg type, which folds to entry 0; 0x7100f5af44).
+extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D510;
+
+// 0x7100f5ab68 / 0x7100f5ada8 / 0x7100f5af44 (placeholder names): model names of other part sets (the
+// first uses the Korok parameters). Same arguments as sub_7100F5A708.
+void sub_7100F5AB68(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+void sub_7100F5ADA8(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+// 0x7100f5ba04 (declaration only; placeholder name): part type 2 of sub_7100F5ADA8.
+void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
+
 // 0x7100f5b5b8 / 0x7100f5b774 (placeholder names): the model names of part types 0 (body) and 8 (hat).
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii);
 void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii);
