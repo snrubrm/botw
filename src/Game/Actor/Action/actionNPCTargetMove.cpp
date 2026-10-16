@@ -15,9 +15,22 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
+extern const f32 sUnk_7101EC1934;
+extern const f32 sUnk_7101EC1938;
+extern const f32 sUnk_7101EC193C;
+
+static const f32 sUnk_7101E79B74 = 0.6f;
+static const f32 sUnk_7101E79B78 = 0.15f;
+static const f32 sUnk_7101E79B7C = 0.002f;
+static const f32 sUnk_7101E79B80 = 0.4f;
+
 namespace uking::action {
 
-NPCTargetMove::NPCTargetMove(const InitArg& arg) : RandomMoveAction(arg) {}
+NPCTargetMove::NPCTargetMove(const InitArg& arg)
+    : RandomMoveAction(arg), _120(1.309f), _124(1.0f),
+      _128{&sUnk_7101E79B74, &sUnk_7101E79B78, &sUnk_7101E79B7C,
+           &sUnk_7101EC1934, &sUnk_7101EC1938, &sUnk_7101EC193C, 0.0f, 0.0f, 0.0f},
+      _168{&sUnk_7101E79B80, 0.0f} {}
 
 NPCTargetMove::~NPCTargetMove() = default;
 

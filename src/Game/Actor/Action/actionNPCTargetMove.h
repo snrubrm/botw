@@ -1,5 +1,8 @@
 #pragma once
 
+#include "KingSystem/Utils/Unk_7100e726a8.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
+
 #include "Game/Actor/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
@@ -59,14 +62,20 @@ protected:
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
     // 0x98-0x178: state (not yet decompiled; enter_/calc_ use it)
-    uking::act::NPC* _90;
+    uking::act::NPC* _90{};
     sead::BitFlag8 _98;
-    u8 _99[0xe4 - 0x99];
+    sead::FixedSafeString<32> _a0;
+    u8 _d8[0xe4 - 0xd8]{};
     // Whole enter_ initializes all three fields; the rain helper resets and updates this timer.
-    ksys::Timer _e4;
+    ksys::Timer _e4{};
     // Stuck timer: runs while the NPC barely moves against a wall (sub_7100205BA8).
-    ksys::Timer _f0;
-    u8 _fc[0x178 - 0xfc];
+    ksys::Timer _f0{};
+    u8 _fc[0x120 - 0xfc]{};
+    f32 _120;
+    f32 _124;
+    // Same swim helpers and defaults as NpcSwimMove (_a0 / _e0 there).
+    Unk_7100e726a8 _128;
+    Unk_7100e7277c _168;
 };
 
 }  // namespace uking::action
