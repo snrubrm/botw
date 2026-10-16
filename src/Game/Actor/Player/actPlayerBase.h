@@ -305,6 +305,7 @@ public:
     bool x_48();                             // 0x84a988
     bool x_2();                              // 0x84bce8
     // 0x84b580 (CSV PlayerBase::x_2; lane4 s45): 0 unless _cf4 bit 15 is set; then 1 if `_d24` is 0, else 2 if m227().
+    const sead::SafeString& sub_710084A608(s32 slot);
     bool sub_710084B41C();
     bool sub_710084BE3C();
     bool sub_710084BEF0();

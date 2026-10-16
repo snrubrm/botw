@@ -1,3 +1,5 @@
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
+#include "Game/Actor/aiUnk_7100EDD26C.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -1515,6 +1517,16 @@ s32 sub_710084A570(ksys::act::BaseProc* proc) {
 }
 
 namespace uking::act {
+
+// Placeholder name: the grab node for equipment slot `slot` (sub_7100EDD258); slot 1 (the shield) uses the Grab
+// Slot4Node while _cec bit 17, shield surfing (盾サーフィン) or _cf0 bit 23 is active.
+const sead::SafeString& PlayerBase::sub_710084A608(s32 slot) {
+    if (slot != 1)
+        return sub_7100EDD258(this, slot);
+    if (_cec.isOnBit(17) || getRootAi()->isCurrentAction("盾サーフィン") || _cf0.isOnBit(23))
+        return getParam()->getRes().mGParamList->getGrab()->mSlot4Node.ref();
+    return sub_7100EDD258(this, 1);
+}
 
 s32 PlayerBase::sub_710084ACF0(f32 stamina) {
     if (stamina < 0.0f)
