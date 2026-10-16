@@ -759,6 +759,35 @@ void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out
     }
 }
 
+// NON_MATCHING: the operands of the running-sum add are swapped (one instruction)
+// 0x71009418d0
+void ScreenAppPictureBookUnk::sub_71009418D0(f32 delta, s32 mode) {
+    if (sead::Mathf::equalsEpsilon(0.0f, delta))
+        return;
+    switch (mConfig._58) {
+    case 0:
+        _2d0.x += delta;
+        break;
+    case 1:
+        _2d0.y += delta;
+        break;
+    }
+    sub_7100941C30(_2d0, &_2f0, &_2e8);
+    const s32 index = _2f0;
+    const s32 entry_count = _2e8;
+    _2dc = 0;
+    if (mEntries.data()) {
+        for (s32 i = 0; i < entry_count; ++i) {
+            if (ScreenAppPictureBookEntry* entry = mEntries.at(i))
+                _2dc += entry->_2f4;
+        }
+        _2dc += index;
+    }
+    _338 = mode;
+    if (mode == 1 || mode == 2)
+        sub_7100941D70(mode != 2);
+}
+
 // NON_MATCHING: the original branches on one fccmp chain for isInside; ours materialises the four compares
 // 0x7100941c30
 void ScreenAppPictureBookUnk::sub_7100941C30(const sead::Vector2f& offset, s32* out_index, s32* out_entry) {

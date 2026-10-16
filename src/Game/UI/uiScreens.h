@@ -3020,6 +3020,11 @@ struct ScreenAppPictureBookUnk {
     // 0x7100941c30 (placeholder name): the item (and its entry) whose box, moved by `offset`, contains the origin;
     // the outputs are left alone when there is none
     void sub_7100941C30(const sead::Vector2f& offset, s32* out_index, s32* out_entry);
+    // 0x71009418d0 (placeholder name): scrolls by `delta` along the config direction, updates the item under the
+    // scroll position (_2f0 / _2e8 / _2dc) and, for modes 1 and 2, runs sub_7100941D70
+    void sub_71009418D0(f32 delta, s32 mode);
+    // 0x7100941d70 (declared only; 940 bytes)
+    void sub_7100941D70(bool flag);
     // 0x7100941354 (placeholder name): how far the list must scroll (along the config direction) to show item
     // `index` (its position clamped to _2b0)
     f32 sub_7100941354(s32 index);
@@ -3055,7 +3060,9 @@ struct ScreenAppPictureBookUnk {
     // scroll position (sub_7100941354)
     /* 0x2d0 */ sead::Vector2f _2d0;
     /* 0x2d8 */ s32 _2d8;
-    u8 _2dc[0x2e4 - 0x2dc];
+    // the overall index of the item at the scroll position (sub_71009418D0)
+    /* 0x2dc */ s32 _2dc;
+    u8 _2e0[0x2e4 - 0x2e0];
     /* 0x2e4 */ s32 _2e4;
     /* 0x2e8 */ s32 _2e8;
     /* 0x2ec */ s32 _2ec;
@@ -3068,7 +3075,9 @@ struct ScreenAppPictureBookUnk {
     u8 _324[0x328 - 0x324];
     // returned by Unk_710247b2c8::m10 (type unknown)
     /* 0x328 */ void* _328;
-    u8 _330[0x33c - 0x330];
+    u8 _330[0x338 - 0x330];
+    // the scroll mode passed to sub_71009418D0
+    /* 0x338 */ s32 _338;
     /* 0x33c */ s32 _33c;
     /* 0x340 */ s32 _340;
 };
