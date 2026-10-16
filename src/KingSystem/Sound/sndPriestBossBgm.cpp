@@ -414,6 +414,96 @@ s32 Unk_71024fe970::sub_710100E2FC(const s32& state, s32 position) {
     return _230;
 }
 
+// NON_MATCHING: slot selection registers and the entry handle pointer select (as in sub_710100E194).
+void Unk_71024fe970::sub_710100EAD8(const aal::MarkerController::MarkerCallbackInfo& info) {
+    const sead::SafeString name = info.name;
+    if (name.findIndex("[NW]") != -1)
+        return;
+    if (name == "ReEntryPoint")
+        return;
+    _250 = name;
+    if ((mFlags & 0x68) != 8)
+        return;
+    if (name == "73")
+        return;
+    if (((mFlags & 0x80) ? _1e8 : _1a0)._3c != 0)
+        return;
+
+    auto* entry = sub_71010209FC(sPriestBossBgmLevelNames[_19c]);
+    Slot& next = (mFlags & 0x80) ? _1e8 : _1a0;
+    if (!entry || !entry->sub_7100FF6DF4(this))
+        return;
+    if (next._3c != 0)
+        return;
+    next.sub_710100D9FC(entry);
+    if (!entry->mHandle.isActive())
+        return;
+    auto* entry_executor =
+        static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!entry_executor)
+        return;
+    auto* marker = entry_executor->getHandle()->getMarkerController();
+    if (!marker)
+        return;
+    marker->setMarkerCallback(markerCallback, -32000, this);
+
+    const Slot& current = (mFlags & 0x80) ? _1a0 : _1e8;
+    if (current._3c == 0)
+        return;
+    if (!current.mEntry || !current.mEntry->mHandle.isActive())
+        return;
+    auto* executor =
+        static_cast<xlink2::EventSLink*>(current.mEntry->mHandle.getEvent())->getAliveAssetExecutor();
+    if (!executor)
+        return;
+    auto* handle = executor->getHandle();
+    if (!handle->isActive())
+        return;
+    const s32 start = ksys::snd::sub_710105E6CC(info.sample_position, handle->getAssetInfo());
+    _230 = start;
+
+    f32 fade_sec;
+    aal::FadeCurveType curve;
+    if (!mInfo) {
+        fade_sec = 1.0f;
+        curve = aal::FadeCurveType::Square;
+    } else {
+        if (u32(_19c) < 3)
+            fade_sec = mInfo->mFadeSecFromTransformDemo.ref();
+        else if (_19c == 3)
+            fade_sec = mInfo->mFadeSeLevel3To4.ref();
+        else if (_19c == 4)
+            fade_sec = mInfo->mFadeSecToTransformDemo.ref();
+        else
+            fade_sec = 1.0f;
+
+        if (u32(_19c) < 3)
+            curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeFromTransformDemo.ref());
+        else if (_19c == 3)
+            curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeLevel3To4.ref());
+        else if (_19c == 4)
+            curve = mInfo->toFadeCurveTypeMaybe(mInfo->mCurveTypeToTransformDemo.ref());
+        else
+            curve = aal::FadeCurveType::Square;
+    }
+
+    if (next.mEntry && next.mEntry->mHandle.isActive()) {
+        if (auto* next_executor =
+                static_cast<xlink2::EventSLink*>(next.mEntry->mHandle.getEvent())->getAliveAssetExecutor()) {
+            if (auto* next_source = next_executor->getHandle()->getSoundSource()) {
+                next_source->setStartSamplePos(start);
+                next_source->prepare(true);
+                next._34 = start;
+                next._38 = fade_sec;
+                next._3c = 1;
+                next.mFader.setValueImmediate(0.0f);
+                next.mFader.setCurveType(curve);
+            }
+        }
+    }
+    mFlags = (mFlags & ~0x28) | 0x20;
+}
+
 void Unk_71024fe970::markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {
     if (user)
         static_cast<Unk_71024fe970*>(user)->sub_710100EAD8(info);
