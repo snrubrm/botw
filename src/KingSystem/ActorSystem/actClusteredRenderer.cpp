@@ -162,7 +162,7 @@ void ClusteredRenderer::sub_71012439BC() {
 // NON_MATCHING: the original walks the list nodes (next loaded before the match test); the ObjList
 // iterator walks items.
 void ClusteredRenderer::sub_7101244210(s32 x, s32 z) {
-    const u64 keep = sub_7101244C58(x, z);
+    const u32 keep = sub_7101244C58(x, z);
     auto lock = sead::makeScopedLock(mData._198);
 
     for (s32 i = 0; i < 4; ++i) {
