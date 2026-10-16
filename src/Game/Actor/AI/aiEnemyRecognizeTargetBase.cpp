@@ -6,7 +6,11 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+
+// 0x71005d70c8 (declaration only; placeholder name)
+bool sub_71005D70C8(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -45,8 +49,74 @@ bool EnemyRecognizeTargetBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original loads the entry distance and SpreadDist before destroying the awareness filter and
+// compares after it (frame layout differs accordingly)
 void EnemyRecognizeTargetBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+
+    const auto changeToDisadvantage = [this] {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("戦況不利", &pack);
+    };
+    const auto changeToContactOrDiscover = [this] {
+        if (m35())
+            changeToContact();
+        else
+            changeToDiscover();
+    };
+    const auto changeFromEnemyState = [&] {
+        auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+        if (!enemy || !(enemy->_e74 > 0.0f)) {
+            changeToNotice();
+        } else if (m34()) {
+            changeToContactOrDiscover();
+        } else if (sub_71005D70C8(mActor)) {
+            changeToDisadvantage();
+        } else {
+            changeToDiscover();
+        }
+    };
+
+    bool team_blocked = false;
+    if (auto* team = sub_71005D9D68(actor)) {
+        auto& link = sub_71005D94AC(mActor);
+        if (team->sub_71002DC9E8(link, 8, false) && !enemyTeamStuff(mActor, &link))
+            team_blocked = true;
+    }
+
+    if (team_blocked) {
+        changeFromEnemyState();
+    } else if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000)) {
+        if (m34())
+            changeToContactOrDiscover();
+        else if (sub_71005D70C8(mActor))
+            changeToDisadvantage();
+        else
+            changeToDiscover();
+    } else if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_1000000)) {
+        if (sub_71005D70C8(mActor))
+            changeToDisadvantage();
+        else if (m34())
+            changeToContactOrDiscover();
+        else if (*mSpreadDist_s > 0.0f && sub_71005D9E68(mActor))
+            changeToContact();
+        else
+            changeToDiscover();
+    } else {
+        changeFromEnemyState();
+    }
+
+    if (auto* awareness = mActor->getAwareness()) {
+        Unk_7102451448 filter;
+        if (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+            if (entry->_a8 < *mSpreadDist_s)
+                _120 = 2;
+        }
+    }
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    _124 = false;
 }
 
 bool EnemyRecognizeTargetBase::isChangeable() const {
