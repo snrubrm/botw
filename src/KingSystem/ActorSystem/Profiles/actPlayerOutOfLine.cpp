@@ -906,6 +906,8 @@ void Player::sub_7100881154() {
         _1c90 = util::sUnk_7101EC6BA0 & ((util::sUnk_7101EC6BA0 & 0x40000000) - pitch);
         mASList->sub_710115F024(normal, 0);
     }
+}
+
 // NON_MATCHING: block order (the original places the early return after the stamina-max check).
 void Player::decreaseStaminaForActionMaybe(f32 value) {
     if (value == 0.0f || sead::GameConfig::instance()->get_80a())
