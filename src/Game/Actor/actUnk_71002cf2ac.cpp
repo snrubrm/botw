@@ -139,7 +139,8 @@ s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
 }
 
 
-ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE04() {
+// The int argument is unused.
+ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE04(int) {
     return &_360;
 }
 

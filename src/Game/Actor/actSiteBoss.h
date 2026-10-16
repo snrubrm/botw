@@ -234,7 +234,7 @@ public:
         // 0x710066de24: &_3b0[idx] (out-of-line).
         ksys::act::BaseProcLink* sub_710066DE24(int idx);
         // 0x710066de04 / 0x710066ddec / 0x710066de0c (placeholder names): `&_360`, `&_320[idx]`, `&_370[idx]`.
-        ksys::act::BaseProcLink* sub_710066DE04();
+        ksys::act::BaseProcLink* sub_710066DE04(int unused);
         ksys::act::BaseProcLink* sub_710066DDEC(int idx);
         ksys::act::BaseProcLink* sub_710066DE0C(int idx);
 

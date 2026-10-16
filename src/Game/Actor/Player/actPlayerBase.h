@@ -411,8 +411,13 @@ public:
     // Public: read by PlayerLand::calc_.
     /* 0xd11 */ u8 _d11;
 
+public:
+    // Public: set by Player::sub_710088755C (grabbed remote bomb sphere / cube).
+    /* 0xd12 */ bool _d12;
+    /* 0xd13 */ bool _d13;
+
 protected:
-    /* 0xd12 */ u8 _d12[0xd18 - 0xd12];
+    /* 0xd14 */ u8 _d14[0xd18 - 0xd14];
 public:
     // Public: written by PlayerDrown::leave_ / PlayerHellStartWait::enter_.
     /* 0xd18 */ s32 _d18;
