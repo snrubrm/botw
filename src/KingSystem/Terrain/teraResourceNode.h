@@ -66,6 +66,8 @@ public:
 
     // 0x710110d278
     Unk_710110d278();
+    // 0x710110d28c
+    ~Unk_710110d278();
     // 0x710110d2c4 (declared only)
     void init(const InitArg& arg);
 
@@ -84,6 +86,14 @@ public:
 class Unk_7101108460 : public sead::TListNode<Unk_7101108460*> {
 public:
     Unk_7101108460() : sead::TListNode<Unk_7101108460*>(this) {}
+    // Inlined into 0x7101106fd0.
+    ~Unk_7101108460() {
+        if (mA) {
+            delete mA;
+            mA = nullptr;
+        }
+        delete mB;
+    }
 
     // 0x7101107e90
     Unk_710250dbc8* getA();

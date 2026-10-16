@@ -29,6 +29,19 @@ Unk_7101106F44::Unk_7101106F44() {
     _38 = {0.0f, 0.0f};
 }
 
+Unk_7101106F44::~Unk_7101106F44() {
+    for (auto& node : mNodes.robustRange()) {
+        Unk_7101108460* data = node.mData;
+        mNodes.erase(&node);
+        delete data;
+    }
+    for (auto& node : mImages.robustRange()) {
+        Unk_710250db28* data = node.mData;
+        mImages.erase(&node);
+        delete data;
+    }
+}
+
 Unk_7101108460* Unk_7101106F44::sub_7101108460(sead::Heap* heap, Unk_710110d278::Key* key) {
     auto* node = new (heap) Unk_7101108460;
     node->mA = new (heap) Unk_710250dbc8;

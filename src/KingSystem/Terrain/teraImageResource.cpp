@@ -50,6 +50,14 @@ namespace ksys::tera {
 
 Unk_710110d278::Unk_710110d278() = default;
 
+Unk_710110d278::~Unk_710110d278() {
+    if (_10 && _18) {
+        delete[] static_cast<u8*>(_18);
+        _18 = nullptr;
+        _10 = 0;
+    }
+}
+
 }  // namespace ksys::tera
 
 s32 Unk_710250dbc8::m4() {

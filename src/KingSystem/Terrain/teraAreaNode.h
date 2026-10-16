@@ -20,6 +20,9 @@ class Unk_7101106F44 {
 public:
     Unk_7101106F44();
 
+    // 0x7101106fd0: unlinks and destroys all type-2 nodes and type-3 images.
+    ~Unk_7101106F44();
+
     // 0x7101108460 (placeholder name): creates a type-2 node (image size 1, key `key`) and links it.
     Unk_7101108460* sub_7101108460(sead::Heap* heap, Unk_710110d278::Key* key);
     // 0x7101108564 (placeholder name): creates a type-3 image and links it.
