@@ -433,6 +433,19 @@ public:
     // (sub_710110DD20(false), flag 2), queues a kind-1 load task for it (sub_710113333C) and hands it to
     // sub_7101136188.
     void sub_7101135F34(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type);
+    // Placeholder: holds only the manager (x0 of 0x7101132878 is loaded as a pointer to it); probably a
+    // lambda closure in teraImageResourceMgrStuff 0x710113400c.
+    struct Unk_7101132878 {
+        // 0x7101132878 (placeholder name): with `load`, drops the queued kind-0 tasks (kind 2 and stale
+        // ones directly) after clearing their image's flag 2 and updating their system; with `unload`, the
+        // same for kind 1 / 3, setting flag 2 and waiting for the image (sub_71011077C8) instead. Dropped
+        // tasks leave `queue` and `kind_lists` and go back to mList31e8.
+        void sub_7101132878(sead::OffsetList<LoadTask>* queue, sead::OffsetList<LoadTask>* kind_lists,
+                            bool load, bool unload);
+
+        ImageResourceMgr* mgr;
+    };
+
     // 0x7101136188 (placeholder name): under the manager lock, finds the request in mLists1c0 matching
     // `task`, releases its image when its handle is still valid and runs sub_7101133588 on it. Returns 8
     // if the task's handle is stale, 3 if no request matches, 1 otherwise.
@@ -839,7 +852,8 @@ struct ImageResourceMgr::LoadTask {
     u32 _74;
     u32 _78;
     u32 _7c;
-    void* _80;
+    // The request this task feeds (0x71011355e8).
+    Request* _80;
 };
 class Water {
     void setUpAttributeTable();

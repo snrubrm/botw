@@ -79,6 +79,59 @@ void ImageResourceMgr::sub_71011311BC() {
     mCS28.unlock();
 }
 
+// NON_MATCHING: regalloc; the manager pointer is reloaded after the lock and the getA lookups are laid out
+// differently (same calls).
+void ImageResourceMgr::Unk_7101132878::sub_7101132878(sead::OffsetList<LoadTask>* queue,
+                                                      sead::OffsetList<LoadTask>* kind_lists,
+                                                      bool load, bool unload) {
+    if (load) {
+        for (LoadTask& task : queue->robustRange()) {
+            if (task._20 != 2) {
+                if (task._20 != 0)
+                    continue;
+                if (task.handle.isValid(mgr->mSystems, task.area, mgr->_6470)) {
+                    if (task.area->isImageFlagSetMaybe(task.type, 2)) {
+                        if (Unk_710250dcd8* image = task.area->getImageMaybe(task.type))
+                            image->_8 &= ~2;
+                    }
+                    task.system->sub_7101115158(false);
+                }
+            }
+            queue->erase(&task);
+            kind_lists[u8(task._24)].erase(&task);
+            mgr->mCS68.lock();
+            mgr->mList31e8.pushBack(&task);
+            mgr->mCS68.unlock();
+        }
+    }
+
+    if (unload) {
+        for (LoadTask& task : queue->robustRange()) {
+            if (task._20 != 3) {
+                if (task._20 != 1)
+                    continue;
+                if (task.handle.isValid(mgr->mSystems, task.area, mgr->_6470)) {
+                    if (!task.area->isImageFlagSetMaybe(task.type, 2)) {
+                        if (Unk_710250dcd8* image = task.area->getImageMaybe(task.type))
+                            image->_8 |= 2;
+                        if (task.area->isImageFlagSetMaybe(task.type, 8)) {
+                            if (Unk_710250dcd8* image = task.area->getImageMaybe(task.type))
+                                image->sub_710110DD20(true);
+                        }
+                        task.area->sub_71011077C8(task.type);
+                    }
+                    task.system->sub_7101115158(false);
+                }
+            }
+            queue->erase(&task);
+            kind_lists[u8(task._24)].erase(&task);
+            mgr->mCS68.lock();
+            mgr->mList31e8.pushBack(&task);
+            mgr->mCS68.unlock();
+        }
+    }
+}
+
 // NON_MATCHING: the sign test of the rounding picks with lt instead of ge (csel operands swapped).
 void ImageResourceMgr::sub_7101132FE0(LoadTask* task, System* system, Unk_7101106F44* area,
                                       const ImageTypeMaybe& type) {
@@ -202,6 +255,28 @@ void ImageResourceMgr::sub_71011334B4() {
         }
         mList3200.erase(&request);
         mList3200.pushFront(&request);
+    }
+    mCS68.unlock();
+}
+
+void ImageResourceMgr::sub_71011355E8(LoadTask* task) {
+    mCS68.lock();
+    Request* request = task->_80;
+    if (!request && !(_6473 & 2)) {
+        if (!task->handle.isValid(mSystems, task->area, _6470)) {
+            if (Unk_710250dcd8* image = task->area->getImageMaybe(task->type))
+                image->_8 |= 0x80000000;
+        }
+    } else {
+        Unk_7101106F44* area = task->area;
+        const bool flag = (request->_4c & 8) && area->isImageFlagSetMaybe(task->type, 2);
+        if (Unk_710250dcd8* image = area->getImageMaybe(task->type))
+            image->sub_710110DD20(flag);
+        request->_4c |= 0x10;
+        if (task->area->isImageFlagSetMaybe(task->type, 0x40000000)) {
+            if (Unk_710250dcd8* image = task->area->getImageMaybe(task->type))
+                image->_8 &= ~0x40000000;
+        }
     }
     mCS68.unlock();
 }
