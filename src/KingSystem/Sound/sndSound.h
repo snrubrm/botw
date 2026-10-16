@@ -686,8 +686,12 @@ KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 // Placeholder name (0x710103ac60 / 0x710103ac84, in the sndSoundMgr38.cpp TU): a ducking request at
 // Unk_710104e5b4 +0x28c, held by the Remains battle BGMs while they play (Unk_71025ce3a0::m6).
-// 0x710103aa3c's owner (placeholder): ducks while a message sound (SoundMgr::_48) plays.
-struct Unk_710103AA3C {
+// Ducks while a message sound (SoundMgr::_48) plays (owned by value by the Remains boss and dungeon BGMs).
+class Unk_710103AB10 {
+public:
+    explicit Unk_710103AB10(s32 type) : mType(DuckingMgr::DuckerType::ValueType(type)) {}
+    // 0x710103ab10: stops the ducker if it is active.
+    ~Unk_710103AB10();
     // 0x710103aa3c: starts the ducker while a message sound plays and stops it afterwards.
     void calc();
 
@@ -695,8 +699,6 @@ struct Unk_710103AA3C {
 };
 
 struct Unk_710103AC60 {
-    // 0x710103ab10: stops the ducker if it is active.
-    void sub_710103AB10();
     // 0x710103ab98: while requested, the ducker runs except during events.
     void calc();
     // 0x710103ac60: unless already active, requests cFieldRemainsFire (kind 1) or cFieldRemainsOrGanon.

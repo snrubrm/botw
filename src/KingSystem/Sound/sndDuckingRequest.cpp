@@ -16,7 +16,7 @@ namespace ksys::snd {
 // The TU's static initialiser is 0x710103ae20 (`_GLOBAL__sub_I_sndDuckingRequest.cpp`).
 static util::InitTimeInfoEx sInitTimeInfo;
 
-void Unk_710103AA3C::calc() {
+void Unk_710103AB10::calc() {
     auto* message = SoundMgr::instance()->_48;
     const bool playing = message->_18.isActive() || message->_28.isActive();
     const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive();
@@ -28,7 +28,7 @@ void Unk_710103AA3C::calc() {
     }
 }
 
-void Unk_710103AC60::sub_710103AB10() {
+Unk_710103AB10::~Unk_710103AB10() {
     if (SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive())
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
 }
