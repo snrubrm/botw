@@ -49,6 +49,10 @@ class GParamListObjectGuardian;
 
 namespace uking::act {
 
+class DamageCallbackInfo;
+class DamageManager;
+
+
 class Guardian;
 
 // Placeholder name (vtable 0x710235a078; inherits DamageCallback's RTTI). Guardian::_18c8.
@@ -110,6 +114,11 @@ public:
     void sub_710003B41C();
     // 0x710003b554 (lane1 s47, declaration only; placeholder name): returns a static flag (`sFlag & 1`).
     bool sub_710003B554() const;
+    // 0x710003b564 (placeholder name): damage callback of the GuardianComponent parts (`part`): a hit of an
+    // AncientWeapon (attacker of `damage_mgr`) with condition a4 == 3 deals the full max life to parts 0 / 1
+    // (cannon, weak point) and a third of it (rounded up) to the other parts.
+    void sub_710003B564(s32* damage, s32* a2, u32* a3, u32* a4, s32* a5, DamageCallbackInfo* a6,
+                        DamageManager* damage_mgr, s32 part);
     // 0x7100034514: sets or clears bit 4 of _14c8.
     void sub_7100034514(bool on);
     // 0x7100035a90: switches the state _14d8 (no-op if equal; state 5 sends message 0x800000d to the

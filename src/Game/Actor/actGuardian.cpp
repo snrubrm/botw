@@ -1,6 +1,8 @@
 #include "Game/Actor/actGuardian.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/Damage/dmgDamageCallback.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -151,6 +153,21 @@ bool Guardian::sub_710003B4C8() const {
     if (!_c48._8.hasProc())
         return true;
     return (_c48._18 - getMtx().getTranslation()).length() > 25.0f;
+}
+
+void Guardian::sub_710003B564(s32* damage, s32*, u32*, u32* a4, s32* a5, DamageCallbackInfo*,
+                              DamageManager* damage_mgr, s32 part) {
+    if (*a5 == -1 || *a4 != 3)
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(damage_mgr->getAttacker(), &accessor);
+    if (!accessor.hasTag(ksys::act::tags::AncientWeapon))
+        return;
+    const bool full = (part | 1) == 1;
+    s32 value = getMaxLife();
+    if (!full)
+        value = sead::Mathf::ceil(value / 3.0f);
+    *damage = value;
 }
 
 void Guardian::sub_710003B41C() {
