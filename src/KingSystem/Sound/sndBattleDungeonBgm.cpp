@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
+#include <random/seadGlobalRandom.h>
 
 namespace ksys::snd {
 
@@ -852,12 +853,38 @@ void Unk_71024fd808::m13(f32 fade_sec) {
 void Unk_71024fd808::hm14() {
     _1bc = 0;
     _1ac = 0;
+    _1ad = 0;
     _1a4 = 0;
     _1a6 = 0;
     _1a8 = 0;
     _1aa = 0;
     _19c = 0;
     _1a0 = 0;
+}
+
+// NON_MATCHING: the original keeps the two parts in a stack pair and reloads them after the calls.
+void Unk_71024fd808::sub_7101003198() {
+    Part::ValueType first;
+    Part::ValueType second;
+    switch (sead::GlobalRandom::instance()->getU32(3)) {
+    case 0:
+        first = Part::Bass;
+        second = Part::Strings;
+        break;
+    case 1:
+        first = Part::Bass;
+        second = Part::Arp;
+        break;
+    default:
+        first = Part::Strings;
+        second = Part::Arp;
+        break;
+    }
+    if (_68._18 & 1) {
+        sub_71010209FC(Part::text(second));
+        sub_71010209FC(Part::text(first));
+    }
+    _1ac |= (1 << second) | (1 << first);
 }
 
 namespace {

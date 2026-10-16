@@ -2584,6 +2584,14 @@ public:
     // The dungeon BGM ("DungeonNormalBgm"; 0x1c0 bytes, constructor 0x7101002850).
     explicit Unk_71024fd808(const ksys::snd::BgmInitArg& arg);
 
+    // The music parts (enum text "Arp,Strings,Bass,Lead"; text_ is 0x71010035a4).
+    // clang-format off
+    SEAD_ENUM(Part,Arp,Strings,Bass,Lead)
+    // clang-format on
+    // 0x7101003198: picks two random parts (Bass + Strings, Bass + Arp or Strings + Arp), starts them when the
+    // asset info is loaded and marks them in _1ac.
+    void sub_7101003198();
+
     ksys::snd::DungeonNormalBgmInfo* mInfo = nullptr;
     f32 _198 = 0;
     u32 _19c = 0;
@@ -2592,7 +2600,9 @@ public:
     u16 _1a6 = 0;
     u16 _1a8 = 0;
     u16 _1aa = 0;
-    u16 _1ac = 0;
+    // Bit flags of the started parts (bit = Part index).
+    u8 _1ac = 0;
+    u8 _1ad = 0;
     u32 _1b0 = 0;
     f32 _1b4 = 0;
     f32 _1b8 = 0;
