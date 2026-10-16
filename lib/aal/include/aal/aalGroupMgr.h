@@ -75,6 +75,9 @@ public:
     SoundGroup* findSoundGroup(const sead::SafeString& name) const;
     /// The default sound group if there is no sound group with that name.
     SoundGroup* findSoundGroupOrDefault(const sead::SafeString& name) const;
+    // inline-only in the original; name is a guess. ksys::snd 0x710104ed9c reads the root at +0x10
+    // and calls its allowEmit / pauseAllSound slots.
+    Group* getRootGroup() const { return mRootGroup; }
     /// 0x7100b8148c: the name of the placeholder group (a child that is inserted after is not moved).
     static const sead::SafeString& getDummyGroupName();
 
