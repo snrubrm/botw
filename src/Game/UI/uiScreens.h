@@ -821,6 +821,11 @@ public:
     s32 _3684 = -1;
 
     void sub_7100A268AC(s32, s32);
+    // 0x7100a26954 (CSV ScreenMessageTipsRunTime::x; placeholder name): takes the requested tip, and after 15 frames
+    // shows it (or drops it while sub_7100AA8F10 holds)
+    void sub_7100A26954();
+    // 0x7100a26a5c (CSV ScreenMessageTipsRunTime::x_0; declared only): sets up the tip `index`
+    void sub_7100A26A5C(s32 index);
 };
 
 class ScreenDoCommand : public ScreenEx {

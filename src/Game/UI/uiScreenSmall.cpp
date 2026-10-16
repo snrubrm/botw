@@ -701,6 +701,37 @@ bool getRuntimeTipFlag(s32 index) {
     return ksys::gdt::getBoolByKey(sUnk_71025EFC08[index].flag, false);
 }
 
+// 0x7100a26954
+void ScreenMessageTipsRunTime::sub_7100A26954() {
+    if (_3658 != -1) {
+        if (_3658 != _3660) {
+            _3660 = _3658;
+            _3664 = _365c;
+            _3684 = 0;
+        }
+        _3658 = -1;
+        _365c = false;
+    }
+    if (_3664 && sub_7100AA8F10())
+        return;
+    if (!(_292 & 2) || _3684 == -1)
+        return;
+    if (++_3684 != 15)
+        return;
+    _3684 = -1;
+    _3680 = 0;
+    if (sub_7100AA8F10()) {
+        _3660 = -1;
+    } else {
+        sub_7100A26A5C(_3660);
+        if (mState == 1 || mState == 2)
+            open(2);
+        else
+            open(1);
+    }
+    _3664 = false;
+}
+
 // NON_MATCHING: the independent Buffer produces different global field offsets.
 void ScreenMessageTipsRunTime::sub_7100A268AC(s32 index, s32 force) {
     _3618.lock();
