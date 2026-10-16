@@ -2542,6 +2542,9 @@ public:
     // 0x7101000514: called by ksys::snd::sub_7100FFEBE0 (BgmCtrlBehavior::enter); stops the BGM in 1 s, the
     // ducking and the ducker request (with hold) and resets the FX mode.
     void sub_7101000514();
+    // 0x7101000598: unless playing, starts the second half and requests the ducker; the FX mode is 2 for the Wind
+    // and Fire bosses inside a "Remains" map, else 1.
+    void sub_7101000598();
 
     u32 _190 = 0;
     u64 _198 = 0;

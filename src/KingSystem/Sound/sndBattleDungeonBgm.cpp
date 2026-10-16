@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndFxMgr.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include <gfx/seadTextWriter.h>
 #include <random/seadGlobalRandom.h>
@@ -746,6 +747,30 @@ void Unk_71024fd448::sub_71010007B4() {
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 0;
+    }
+}
+
+void Unk_71024fd448::sub_7101000598() {
+    if (_190 == 1 || _190 == 2)
+        return;
+    _190 = 2;
+    sub_710101D9D8();
+    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+        if (auto* fx = mgr->_50) {
+            s32 mode = 1;
+            if (ksys::StageInfo::getCurrentMapName().findIndex("Remains") != -1) {
+                switch (mType) {
+                case ksys::snd::RemainsBossBgmType::Wind:
+                case ksys::snd::RemainsBossBgmType::Fire:
+                    mode = 2;
+                    break;
+                default:
+                    break;
+                }
+            }
+            fx->_a8 = mode;
+        }
     }
 }
 
