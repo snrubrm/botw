@@ -618,6 +618,8 @@ void Unk_71024fd188::m13(f32 fade_sec) {
     _198 = 0;
 }
 
+Unk_71024fd3a0::~Unk_71024fd3a0() = default;
+
 Unk_71024fd318::~Unk_71024fd318() {
     if (_10) {
         _10->sub_710101D9A4();

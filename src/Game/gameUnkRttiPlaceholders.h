@@ -2415,6 +2415,22 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024fd188, 0x1d0);
 
 // vtable 0x71024fd318 (15 slots); placeholder generated from the vtable (genskel.py).
+// The Blood Moon BGM's handle (vtable 0x71024fd3a0; Unk_SpotBgmHandle's RTTI). Placeholder; constructor not
+// decompiled.
+class Unk_71024fd3a0 : public Unk_SpotBgmHandle {
+public:
+    using Unk_SpotBgmHandle::Unk_SpotBgmHandle;
+    // 0x71010001f0 / 0x71010001f4
+    ~Unk_71024fd3a0() override;
+    // 0x7101000218: emits the asset named by _180.
+    virtual void m14() { sub_71010209FC(_180); }
+    // 0x7101000220 / 0x7101000224 (empty)
+    virtual void m15() {}
+    virtual void m16() {}
+
+    /* 0x180 */ sead::SafeString _180;
+};
+
 // The concentration (Blood Moon) BGM: one handle (vtable 0x71024fd3a0) and the ducker cBloody.
 class Unk_71024fd318 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd318, ksys::snd::Bgm)
@@ -2427,7 +2443,7 @@ public:
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
 
-    /* 0x10 */ Unk_SpotBgmHandle* _10;
+    /* 0x10 */ Unk_71024fd3a0* _10;
     /* 0x18 */ f32 _18;
     /* 0x1c */ u32 _1c;
 };
