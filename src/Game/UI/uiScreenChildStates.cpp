@@ -1126,6 +1126,35 @@ Unk_710247dc90::Unk_710247dc90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247dc90::~Unk_710247dc90() = default;
 
+// 0x71009c7850
+// NON_MATCHING: Unk_71009cb0c8::sub_71009CBD48 is defined in this file and gets inlined; the original calls it
+void Unk_710247dc90::m24(sead::Heap* heap) {
+    _408.sub_71009CBD48(heap, mLayout, "P_CaptureNow_00");
+    if (auto* pane = mLayout->mPane->FindPaneByName("P_CaptureNew_00", true))
+        _130 = pane->GetMaterial();
+    if (auto* pane = mLayout->mPane->FindPaneByName("P_Album_00", true))
+        _138 = pane->GetMaterial();
+    mFirstCapture = mLayout->tryCreateAnimatorAuto("FirstCapture", false);
+    mChooseNow = mLayout->tryCreateAnimatorAuto("ChooseNow", false);
+    mChooseNew = mLayout->tryCreateAnimatorAuto("ChooseNew", false);
+    mContentCross = mLayout->tryCreateAnimatorAuto("ContentCross", false);
+    mAlbumSaveOut = mLayout->tryCreateAnimatorAuto("AlbumSaveOut", false);
+    if (auto* screen = sead::DynamicCast<ScreenEx>(_128)) {
+        mBtnL01 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnL_01");
+        mBtnR01 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnR_01");
+        if (mBtnL01)
+            mBtnL01->setFlag10(false);
+        if (mBtnR01)
+            mBtnR01->setFlag10(false);
+        mBtnL00 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnL_00");
+        mBtnR00 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnR_00");
+        if (mBtnL00)
+            mBtnL00->setFlag10(false);
+        if (mBtnR00)
+            mBtnR00->setFlag10(false);
+    }
+}
+
 // 0x71009c7ae8
 void Unk_710247dc90::m31() {
     getStateMachine().changeState(&sUnk_710261ee00);
@@ -1141,6 +1170,19 @@ void Unk_710247dc90::m28() {
     getStateMachine().changeState(&sUnk_71025db820);
     sub_7100AA86EC(1, false);
     _128->mButtonGroup->_38 |= 2;
+}
+
+// 0x71009c7b54
+void Unk_710247dc90::m29() {
+    if (mBtnL00)
+        mBtnL00->setFlag10(false);
+    if (mBtnR00)
+        mBtnR00->setFlag10(false);
+    if (mBtnL01)
+        mBtnL01->setFlag10(false);
+    if (mBtnR01)
+        mBtnR01->setFlag10(false);
+    sub_7100AA86EC(1, true);
 }
 
 // 0x71009c7bd8

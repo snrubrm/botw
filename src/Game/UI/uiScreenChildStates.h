@@ -248,7 +248,9 @@ class Unk_710247dc90 : public ScreenChildEx {
 public:
     explicit Unk_710247dc90(eui::LayoutEx* layout);
     ~Unk_710247dc90() override;
+    void m24(sead::Heap* heap) override;
     void m28() override;
+    void m29() override;
     void m30() override;
     void m31() override;
     void m34() override;
@@ -256,7 +258,17 @@ public:
     void m82() override;
 
     // Members from the ctor 0x9c69a4 and D1 0x9c6a2c.
-    u8 _130[0x188 - 0x130]{};
+    /* 0x130 */ nn::ui2d::Material* _130 = nullptr;  // P_CaptureNew_00
+    /* 0x138 */ nn::ui2d::Material* _138 = nullptr;  // P_Album_00
+    /* 0x140 */ eui::Animator* mFirstCapture = nullptr;
+    /* 0x148 */ eui::Animator* mChooseNow = nullptr;
+    /* 0x150 */ eui::Animator* mChooseNew = nullptr;
+    /* 0x158 */ eui::Animator* mContentCross = nullptr;
+    /* 0x160 */ eui::Animator* mAlbumSaveOut = nullptr;
+    /* 0x168 */ eui::ButtonBase* mBtnL01 = nullptr;
+    /* 0x170 */ eui::ButtonBase* mBtnR01 = nullptr;
+    /* 0x178 */ eui::ButtonBase* mBtnL00 = nullptr;
+    /* 0x180 */ eui::ButtonBase* mBtnR00 = nullptr;
     /* 0x188 */ nn::ui2d::ExternalTextureInfo _188;
     /* 0x1a0 */ nn::ui2d::ExternalTextureInfo _1a0;
     /* 0x1b8 */ agl::TextureData _1b8;
