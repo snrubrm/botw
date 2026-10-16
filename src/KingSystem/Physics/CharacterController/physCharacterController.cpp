@@ -581,6 +581,25 @@ void CharacterController::sub_7100F62DD0(f32 scale) {
     }
 }
 
+void CharacterController::sub_7100F62790(UserTag::Unk5* arg) {
+    u16 flag;
+    if (arg->_c == 2) {
+        _116 |= 0x10;
+        _168 = arg->_0.y * 0.7f;
+        arg->_0.y = 0;
+        if (auto* tag = mRigidBody->getUserTag())
+            tag->m5(arg);
+        _1c8 = *arg;
+        flag = 0x80;
+    } else {
+        sub_7100F628BC(arg);
+        if (arg->_d != 4)
+            return;
+        flag = 0x3000;
+    }
+    _116 |= flag;
+}
+
 void CharacterController::sub_7100F63604(CollisionInfo* info) {
     if (!(_114 & 0x2000))
         return;

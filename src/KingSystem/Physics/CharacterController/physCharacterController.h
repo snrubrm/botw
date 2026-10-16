@@ -169,6 +169,8 @@ public:
     // RigidBodyRequestMgr FA7CA4 builds this collision record and dispatches it
     // through CharacterControllerRigidBody F6391C; F62790 passes it to UserTag::m5.
     void sub_7100F62790(UserTag::Unk5* arg);
+    // 0x7100f628bc (declared only; placeholder name): handles the other collision record types.
+    void sub_7100F628BC(UserTag::Unk5* arg);
     // 0x7100f63604: sets the collision info of every body of _288 (if _114 has 0x2000).
     void sub_7100F63604(CollisionInfo* info);
     // 0x7100f6367c: the collision info of the first body of _288 (null without 0x2000 / a body).
@@ -504,7 +506,9 @@ public:
     u8 _18c;
     u8 _18d[0x194 - 0x18d];
     f32 _194;
-    u8 _198[0x210 - 0x198];
+    u8 _198[0x1c8 - 0x198];
+    // The last collision record of type 2 (copied by sub_7100F62790).
+    UserTag::Unk5 _1c8;
     f32 _210;
     f32 _214;
     f32 _218;
