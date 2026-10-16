@@ -47,35 +47,35 @@ Unk_710250c6d8::~Unk_710250c6d8() = default;
 
 bool Unk_710250c118::m29(const ElementName& name, sead::Heap* heap) {
     if (mHolder)
-        mHolder->_1a = u8(_54);
-    setRigidBody(_58, true);
+        mHolder->_1a = u8(mArg._4);
+    setRigidBody(mArg.body, true);
     return true;
 }
 
 void Unk_710250c118::m33(bool a, bool fixed) {
-    if (_58)
-        _58->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+    if (mArg.body)
+        mArg.body->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
 }
 
 bool Unk_710250c280::m29(const ElementName& name, sead::Heap* heap) {
     if (mHolder) {
-        mHolder->_3c = _50;
-        mHolder->_1c = _54;
+        mHolder->_3c = mArg._0;
+        mHolder->_1c = mArg._4;
     }
-    setRigidBody(_60, true);
+    setRigidBody(mArg.body, true);
     return true;
 }
 
 void Unk_710250c280::m35(f32 delta_frame) {
     if (mHolder) {
-        mHolder->_3c = _50;
-        mHolder->_1c = _54;
+        mHolder->_3c = mArg._0;
+        mHolder->_1c = mArg._4;
     }
 }
 
 void Unk_710250c280::m33(bool a, bool fixed) {
-    if (_60)
-        _60->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+    if (mArg.body)
+        mArg.body->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
 }
 
 bool Unk_710250c550::m29(const ElementName& name, sead::Heap* heap) {

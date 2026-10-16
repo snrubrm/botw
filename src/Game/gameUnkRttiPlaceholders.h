@@ -738,17 +738,24 @@ public:
     bool m37() override { return true; }
     void m38() override {}
 
-    // lane1 s91: m29 copies _54 to the holder's _1a and adds the rigid body _58 to the world.
+    // lane1 s91: m29 copies mArg._4 to the holder's _1a and adds the rigid body to the world.
     u8 _48[0x50 - 0x48];
-    u32 _50;
-    u32 _54;
-    ksys::phys::RigidBody* _58;
+    Unk_710250c118Arg mArg;
+};
+
+// lane1 s95: the request passed to Unk_71024dd490::sub_71010C77F4.
+struct Unk_710250c280Arg {
+    f32 _0;
+    sead::Vector3f _4;
+    ksys::phys::RigidBody* body;
 };
 
 // vtable 0x710250c280 (39 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250c280 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710250c280, Unk_7102518688)
 public:
+    // lane1 s95: a "directional_wind" element; built by Unk_71024dd490::sub_71010C77F4.
+    Unk_710250c280(const Unk_710250c280Arg& arg, sead::Heap* heap);
     ~Unk_710250c280() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -759,11 +766,9 @@ public:
     bool m18() override { return true; }
     f32 m20(ksys::act::Chemical* chemical) override { return 0.0f; }
 
-    // lane1 s91: m29 / m35 copy _50 / _54 to the holder's _3c / _1c.
+    // lane1 s91: m29 / m35 copy mArg._0 / _4 to the holder's _3c / _1c.
     u8 _48[0x50 - 0x48];
-    f32 _50;
-    sead::Vector3f _54;
-    ksys::phys::RigidBody* _60;
+    Unk_710250c280Arg mArg;
 };
 
 // vtable 0x710250c3e8 (39 slots); placeholder generated from the vtable (genskel.py).

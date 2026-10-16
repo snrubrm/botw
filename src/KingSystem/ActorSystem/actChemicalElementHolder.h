@@ -15,6 +15,8 @@
 
 class ElementSpark;
 class Unk_710250c550;
+class Unk_710250c280;
+struct Unk_710250c280Arg;
 class Unk_710250c118;
 struct Unk_710250c118Arg;
 class Unk_710250c6d8;
@@ -124,6 +126,8 @@ public:
     ::Unk_710250c6d8* sub_71010C7DB8(phys::RigidBody* const* body);
     // lane1 s95: 10C760C, the same factory for a "chemi_fire" element (Unk_710250c118).
     ::Unk_710250c118* sub_71010C760C(const ::Unk_710250c118Arg* arg);
+    // lane1 s95: 10C77F4, the same factory for a "directional_wind" element (Unk_710250c280).
+    ::Unk_710250c280* sub_71010C77F4(const ::Unk_710250c280Arg* arg);
     // Full factories 12FE4B4 / 12FE6E0 return the allocated lightning element.
     ElementLightningShockwave* sub_71012FE4B4(const ElementLightningCreateArg* arg);
     ElementLightningFire* sub_71012FE6E0(const ElementLightningCreateArg* arg);
