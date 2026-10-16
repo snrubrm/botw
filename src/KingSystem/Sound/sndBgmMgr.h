@@ -597,6 +597,12 @@ public:
     // 0x7101001808 (declared only; placeholder name): sets _60 (DragonReleaseGrudgeForDemo::calc_ clears it).
     void sub_7101001808(bool on);
 
+    // The states of _34 (enum text "停止中,再生中,フェードアウト中,怨念切替停止": stopped, playing, fading out,
+    // stopped for the grudge switch; text_ is 0x7101001d24).
+    // clang-format off
+    SEAD_ENUM(State,停止中,再生中,フェードアウト中,怨念切替停止)
+    // clang-format on
+
     // The DragonBgm music info (set by sub_7101001194).
     DragonBgmInfo* _10 = nullptr;
     // Indexed by DragonBgmInfo::DragonEnum (DragonBgm, GrudgeDragonBgm).
@@ -605,7 +611,9 @@ public:
     u32 _30 = 0;
     u32 _34 = 0;
     aal::SimpleTimedFader _38{1.0};
-    u64 _50 = 0;
+    // The play / stop wait counters (m14).
+    f32 _50 = 0;
+    f32 _54 = 0;
     bool _58 = false;
     f32 _5c = 800.0;
     bool _60 = true;

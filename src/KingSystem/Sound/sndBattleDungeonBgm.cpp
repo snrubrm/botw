@@ -791,7 +791,30 @@ void Unk_710260f2a8::m13(f32 fade_sec) {
     mHandles[type]->sub_710101D9F4(fade_sec);
     _28->sub_710101D9F4(0.0);
     _50 = 0;
+    _54 = 0;
     _34 = 0;
+}
+
+// 0x710260f4d8: debug flag (never written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F4D8;
+// 0x71024fd5f8: the debug text position.
+KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71024FD5F8{360.0f, 80.0f};
+
+void Unk_710260f2a8::m14(sead::TextWriter& writer) {
+    if (!sUnk_710260F4D8)
+        return;
+    writer.setCursorFromTopLeft(sUnk_71024FD5F8);
+    writer.printf("---- ドラゴンBGM ----\n");
+    writer.printf("処理              :%s\n", mActive ? "有効" : "無効");
+    writer.printf("ドラゴン存在?     :%s\n", _58 ? "Yes" : "No");
+    writer.printf("ドラゴン怨念付?   :%s\n", _60 ? "Yes" : "No");
+    writer.printf("ドラゴンとの距離  :%f\n", _5c);
+    writer.printf("現在のBGM種別     :%s\n",
+                  DragonBgmInfo::DragonEnum::text(_30) ? DragonBgmInfo::DragonEnum::text(_30) : "不明");
+    writer.printf("状態              :%s\n", State::text(_34) ? State::text(_34) : "不明");
+    writer.printf("再生待ちカウンタ  :%f\n", _50);
+    writer.printf("停止待ちカウンタ  :%f\n", _54);
+    writer.printf("フェーダボリューム:%f\n", _38.getValue());
 }
 
 }  // namespace ksys::snd
