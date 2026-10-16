@@ -342,6 +342,19 @@ void Chemical::sub_7100D8EA50(sead::Heap* heap) {
     _90 = _88;
 }
 
+bool Chemical::sub_7100D8E87C() {
+    if (!(_8 & 4)) {
+        if (_18)
+            notifyWatch_();
+        _8 |= 4;
+        notifyWatch_();
+    } else if (_18) {
+        notifyWatch_();
+    }
+    sub_7100D8EA9C();
+    return true;
+}
+
 void Chemical::sub_7100D8EA9C() {
     if (_60)
         sub_7100D9B158(_60, this);

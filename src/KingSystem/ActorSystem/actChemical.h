@@ -119,6 +119,9 @@ public:
 
 
     void sub_7100D8EAB4(int value);
+    // 0x7100d8e87c (placeholder name): sets bit 2 of _8 (notifying the chemical world), then registers with
+    // the world holder _60 (sub_7100D8EA9C). Called on every chemical by Swarm::prepareInit_.
+    bool sub_7100D8E87C();
     void sub_7100D8EEE0();
     // 0x7100d8ea50: allocates the 0x80-byte _88 element buffer on `heap` and points _90 at it.
     void sub_7100D8EA50(sead::Heap* heap);
