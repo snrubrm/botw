@@ -80,6 +80,10 @@ bool sub_7100725960(ksys::act::Actor* actor, const sead::SafeString& material, b
 // The same operation on the formatted "%s_Seal" material name (native 0x7101dc12a6).
 bool sub_71007259CC(ksys::act::Actor* actor, const sead::SafeString& material, bool visible);
 
+// 0x71007266f0 (CSV aiStalEnemyRootStuff; declared only): finds the Stalfos' head actor (written to `out`).
+// Placeholder name; the meaning of `flag` is unknown.
+void sub_71007266F0(ksys::act::Actor* actor, ksys::act::BaseProcLink* out, bool flag);
+
 // Whether the Stalfos part `part` still has its parts actor (true if the actor isn't a Stalfos-parts
 // Enemy). CSV aiStalEnemyRootStuff_1.
 bool sub_7100726004(ksys::act::Actor* actor, u32 part);

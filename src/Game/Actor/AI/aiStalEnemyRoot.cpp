@@ -89,6 +89,42 @@ void StalEnemyRoot::sub_71005A0534() {
         awareness->enable();
 }
 
+// 0x71005a0780
+// NON_MATCHING: the original updates both _2e8._8 flags in a register and stores the byte once.
+void StalEnemyRoot::sub_71005A0780() {
+    auto* actor = mActor;
+    auto* awareness = actor->getAwareness();
+    if (awareness && !awareness->sub_7100D7E964())
+        awareness->enable();
+
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    ksys::act::BaseProcLink head;
+    sub_71007266F0(actor, &head, false);
+    const bool has_head = head.hasProc();
+    if (getCurrentChild() && (has_head & isCurrentChild("頭部無し"))) {
+        changeChild("怒り");
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::ai::InlineParamPack pack;
+        bool active = false;
+        if (ksys::act::acquireActor(&head, &accessor)) {
+            accessor.getActorMtx().getTranslation(position);
+            active = accessor.getName() == _230 || accessor.sub_7100D10E6C(0x19);
+        }
+        _2e8._8.change(0x40, active);
+        _2e8._8.change(0x80, has_head);
+        pack.addBool(_2e8._8.isOn(0x40), "IsExistActiveActor", -1);
+        pack.addBool(_2e8._8.isOn(0x80), "IsExistLivingHead", -1);
+        pack.addVec3(position, "TargetPos", -1);
+        _20c = ksys::Timer(*mDeadCheckFrame_s, *mDeadCheckFrame_s);
+        _218 = 0;
+        changeChild("待機", &pack);
+    }
+
+    if (awareness && !awareness->sub_7100D7E964())
+        awareness->enable();
+}
+
 void StalEnemyRoot::leave_() {
     sub_71005DA114(mActor, &_38);
 }
