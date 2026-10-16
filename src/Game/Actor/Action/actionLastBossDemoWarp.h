@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include <math/seadMatrix.h>
 
 namespace uking::action {
 
@@ -24,12 +26,11 @@ protected:
     const bool* mIsUpdateHomePos_s{};
     // static_param at offset 0x30
     sead::SafeString mWarpAnchorUniqName_s{};
-    float _40 = 0.0f;
-    int _44 = 0;
-    int _48 = 0;
+    ksys::Timer _40{0, 0, 0};
     float _4c = 0.0f;
     float _50 = 0.0f;
-    u8 _54[0xa8 - 0x54];
+    sead::Matrix34f _54;
+    sead::Matrix33f _84;
 };
 
 }  // namespace uking::action
