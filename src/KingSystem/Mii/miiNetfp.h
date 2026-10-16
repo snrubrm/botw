@@ -30,6 +30,9 @@ extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D510;
 extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D610;
 extern sead::SafeArray<sead::SafeString, 1> sUnk_710260D630;
 
+// 0x7100f5a39c (placeholder name): the bfres path ("Model/<name>.bfres") of part `arg.type` of `umii`;
+// empty when the Mii does not have that part.
+void sub_7100F5A39C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 // 0x7100f5a550 (placeholder name): the model name of part `arg.type` for the race of `umii` (body.race).
 void sub_7100F5A550(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 // 0x710260d530: Gerudo part names, by Arg type (6 entries; 0x7100f5b02c).

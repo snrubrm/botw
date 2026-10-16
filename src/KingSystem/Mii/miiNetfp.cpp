@@ -194,6 +194,15 @@ void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
     formatSinglePartName(out, arg, umii, sUnk_710260D510);
 }
 
+void sub_7100F5A39C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+    sead::FixedSafeString<64> name{sead::SafeString::cEmptyString};
+    sub_7100F5A550(&name, arg, umii);
+    if (name.isEmpty())
+        out->clear();
+    else
+        out->format("Model/%s.bfres", name.cstr());
+}
+
 void sub_7100F5A550(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
     switch (*umii.getBody().race) {
     case UMii::Body::Race_Hylian:
