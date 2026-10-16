@@ -82,8 +82,6 @@ target_sources(uking PRIVATE
   gamePlayerResetPosMgr.cpp
   gameUnkRttiClasses.cpp
   gameWolfLinkMgr.cpp
-  gameRuneMgrStructX.cpp
-  gameRuneMgrStructX.h
   gameUnkRttiClasses.h
   gameUnkRttiPlaceholders.h
   gamePlayReport.cpp

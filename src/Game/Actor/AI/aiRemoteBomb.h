@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/gameRuneMgrStructX.h"
+#include "Game/gameUnk_710243c698.h"
 
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -37,7 +37,7 @@ protected:
     Unk_7102450798 _d0;
     Unk_7102450b58 _108;
     Unk_71023da100 _148;
-    Unk_710067e0a8* _198{};  // RuneMgr::StructX (remote bomb slots)
+    Unk_710243c698* _198{};  // RuneMgr::StructX (remote bomb tracker)
     bool _1a0 = false;
 };
 KSYS_CHECK_SIZE_NX150(RemoteBomb, 0x1a8);

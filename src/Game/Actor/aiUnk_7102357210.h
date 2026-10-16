@@ -12,7 +12,7 @@ class Actor;
 }
 
 namespace uking {
-class Unk_710067e0a8;
+class Unk_710243c698;
 }
 
 namespace uking::act {
@@ -453,7 +453,7 @@ public:
     void m3() override {}
 
     // The sender's remote bomb slot object (RuneMgr::StructX sends message 0x800003c; its ctor stores the type).
-    uking::Unk_710067e0a8* _38 = nullptr;
+    uking::Unk_710243c698* _38 = nullptr;
 };
 
 // vtable 0x7102450888 (message 0x80000d3)
