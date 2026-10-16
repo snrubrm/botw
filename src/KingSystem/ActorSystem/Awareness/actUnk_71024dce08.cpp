@@ -40,6 +40,14 @@ f32 Unk_71024dcd68::m14() {
     return _54;
 }
 
+f32 Unk_71024dcfd0::m14() {
+    return _54;
+}
+
+f32 Unk_71024dd070::m14() {
+    return _54;
+}
+
 }  // namespace ksys::act
 
 // NON_MATCHING: placeholder destructor; the original (0x7100d81f74) also destroys members or bases

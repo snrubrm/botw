@@ -91,6 +91,36 @@ public:
     /* 0x68 */ f32 _68;
 };
 
+// Placeholder name (vtable 0x71024dcfd0, RTTI static 0x7102600a70): another awareness sensor. D1 is the base destructor
+// (0x7100d7f7b4), D0 0x7100d8271c; overrides m4 0x7100d82400, m5 0x7100d824b4, m6 0x7100d8254c, m12 0x7100d82158 (declared only) and
+// m14 0x7100d82740 (returns _54, declared first as the key function).
+class Unk_71024dcfd0 : public Unk_71024dce08 {
+    SEAD_RTTI_OVERRIDE(Unk_71024dcfd0, Unk_71024dce08)
+public:
+    f32 m14() override;
+    bool m4(Unk_71023e2708* request) override;
+    bool m5(Unk_71023e2708* request) override;
+    bool m6(Unk_71023e2708* request) override;
+    void m12() override;
+
+    /* 0x54 */ f32 _54;
+};
+
+// Placeholder name (vtable 0x71024dd070, RTTI static 0x7102600a80): another awareness sensor. D1 is the base destructor
+// (0x7100d7f7b4), D0 0x7100d82b48; overrides m4 0x7100d82844, m5 0x7100d828f0, m6 0x7100d82988, m12 0x7100d82748 (declared only) and
+// m14 0x7100d82b6c (returns _54, declared first as the key function).
+class Unk_71024dd070 : public Unk_71024dce08 {
+    SEAD_RTTI_OVERRIDE(Unk_71024dd070, Unk_71024dce08)
+public:
+    f32 m14() override;
+    bool m4(Unk_71023e2708* request) override;
+    bool m5(Unk_71023e2708* request) override;
+    bool m6(Unk_71023e2708* request) override;
+    void m12() override;
+
+    /* 0x54 */ f32 _54;
+};
+
 // Placeholder name (vtable 0x71024dc978, RTTI static 0x71025af288): abstract base of the awareness
 // entries (Unk_71024dc858, the first member of the awareness array elements Unk_7100d78e50); the
 // filters get them through this type.
