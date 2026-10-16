@@ -109,3 +109,7 @@ f32 sub_7100D8C8BC() {
 }  // namespace ksys
 
 ElementName::ElementName() = default;
+
+// The original keeps the vtable store; written like upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+ElementName::~ElementName() { ; }
