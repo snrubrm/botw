@@ -385,8 +385,12 @@ public:
     // 0x18 is set.
     struct Unk_a50 {
         u8 _0[0x18];
+        // Bit 7: sub_7101115584 skips sub_7101115338.
         u8 _18;
-        u8 _19[0x70 - 0x19];
+        u8 _19[0x1d - 0x19];
+        // Bit 4: passed to Scene::sub_7101100F08 by sub_7101115584 (unless System::_1338 bit 1).
+        u8 _1d;
+        u8 _1e[0x70 - 0x1e];
         // Debug log targets. 0x71011320b4 logs to _110 when its enabled flag (_88, at 0x198) is set.
         DebugMessage _70;
         u8 _100[0x110 - 0x100];
@@ -627,10 +631,21 @@ struct Unk_7101102B58 {
 };
 static_assert(offsetof(Unk_7101102B58, mSampler) == 0x2c0);
 
+// Placeholder: 0x1a0-byte elements of a buffer at 0x158 of 0x71013019bc's third argument, passed to
+// System::sub_7101115584 (the object at _0 and the flag at 0x198 are read there).
+struct Unk_7101115584Arg {
+    void* _0;
+    u8 _8[0x198 - 0x8];
+    bool _198;
+    u8 _199[0x1a0 - 0x199];
+};
+
 class Scene {
     void exportFileBinary();
 
 public:
+    // 0x7101100f08 (declaration only; placeholder name and signature; 1648 bytes).
+    void sub_7101100F08(System* system, Unk_7101115584Arg* arg, bool flag);
     // Placeholder type: passed by sub_710110234C to sub_71011021E4 (0x7101100330 reads _0 and _8).
     struct Unk_276c {
         u32 _0;
@@ -823,6 +838,13 @@ public:
     bool parseSceneXmlMaybe(sead::Heap* heap, sead::XmlElement* element);
     // 0x7101114cc8 (declaration only; CSV name).
     void x_3();
+    // 0x7101115584 (placeholder name): under the read lock, marks scene `index` (_88) and runs its
+    // sub_7101100F08 with `arg`, then sub_7101115338 (if arg->_198 and the debug bit allows) and
+    // sub_7101115674.
+    void sub_7101115584(s32 index, Unk_7101115584Arg* arg);
+    // 0x7101115338 / 0x7101115674 (declaration only; placeholder names and signatures).
+    void sub_7101115338(void* a, Unk_7101106F44* area, const sead::Vector2f& center, f32 size);
+    void sub_7101115674(Unk_7101115584Arg* arg);
     // 0x710111e960 (placeholder name): loadScene for a binary scene ("TSCB", parsed by sub_710111DD0C).
     // `size` (x3) is not used.
     bool sub_710111E960(sead::Heap* heap, const u8* data, size_t size, const sead::SafeString& dir,
@@ -882,7 +904,10 @@ public:
     // 0x90-byte entries; only the scene pointer at +0 is known.
     struct SceneSlot {
         Scene* scene;
-        u8 _8[0x90 - 0x8];
+        u8 _8[0x88 - 0x8];
+        // Set by sub_7101115584.
+        bool _88;
+        u8 _89[0x90 - 0x89];
     };
 
     u8 _0[0x8];

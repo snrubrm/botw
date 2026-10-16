@@ -102,6 +102,24 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
     mLock.writeUnlock();
 }
 
+// NON_MATCHING: bit 7 of the debug byte is tested through a sign-extending load in ours.
+void System::sub_7101115584(s32 index, Unk_7101115584Arg* arg) {
+    if (!_8)
+        return;
+    mLock.readLock();
+    SceneSlot& slot = mScenes[index];
+    slot._88 = true;
+    slot.scene->sub_7101100F08(this, arg,
+                               (_1338 & 2) || (Terrain::instance()->_a50->_1d >> 4 & 1));
+    if (arg->_198) {
+        auto* debug = Terrain::instance()->_a50;
+        if (!debug || !(debug->_18 >> 7 & 1))
+            sub_7101115338(arg->_0, _8, _1c, _24);
+    }
+    sub_7101115674(arg);
+    mLock.readUnlock();
+}
+
 // NON_MATCHING: the delegate set-up is scheduled differently.
 bool System::loadScene(sead::Heap* heap, const sead::XmlDocument* doc, const sead::SafeString& dir,
                        bool keep_flags) {
