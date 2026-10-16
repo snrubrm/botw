@@ -87,6 +87,9 @@ public:
     virtual void m5() {}
 
 protected:
+    // Unk_71024fdde8 (the node machine) sets and clears this flag (0x7101014320 / 0x7101014450).
+    friend struct Unk_71024fdde8;
+
     bool _8 = false;
 };
 

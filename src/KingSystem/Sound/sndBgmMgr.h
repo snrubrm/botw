@@ -145,6 +145,12 @@ struct Unk_71024fdde8 {
 
     // 0x7101014300: makes `_8` the current node and sets `_18`, once.
     void start();
+    // 0x7101014320 (declared only): runs the current node and follows the chain.
+    void sub_7101014320();
+    // 0x7101014450: clears the started flag of the current node and goes back to the first one.
+    void reset();
+    // 0x7101014468: true when there is no first node, or the first node is current and not started.
+    bool isAtStartMaybe() const;
 
     Unk_EnvBgmNode* _8 = nullptr;
     Unk_EnvBgmNode* _10 = nullptr;

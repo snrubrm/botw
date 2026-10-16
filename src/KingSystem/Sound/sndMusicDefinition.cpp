@@ -1,5 +1,6 @@
 #include "KingSystem/Sound/sndMusicDefinition.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/Sound/sndEnvBgm.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resSystem.h"
 
@@ -13,6 +14,18 @@ void Unk_71024fdde8::start() {
         _10 = _8;
         _18 = 1;
     }
+}
+
+void Unk_71024fdde8::reset() {
+    if (_10)
+        _10->_8 = false;
+    _10 = _8;
+}
+
+bool Unk_71024fdde8::isAtStartMaybe() const {
+    if (!_8)
+        return true;
+    return _8 == _10 && !_8->_8;
 }
 
 MusicDefinition::MusicDefinition() : agl::utl::IParameterIO(".bmscdef", 0) {}

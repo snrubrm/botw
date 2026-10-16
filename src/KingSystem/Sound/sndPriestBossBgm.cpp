@@ -50,6 +50,17 @@ void Unk_71024fe970::hm14() {
         sub_710100E6A8();
 }
 
+void Unk_71024fe970::sub_710100E0C4() {
+    mFlags = (mFlags & ~0x101) | 1;
+    sub_710101D9D8();
+}
+
+void Unk_71024fe970::sub_710100E108() {
+    mFlags |= 4;
+    _1e1 = true;
+    _229 = true;
+}
+
 bool Unk_71024fe970::m10() {
     return mFlags & 1;
 }

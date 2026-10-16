@@ -2945,11 +2945,20 @@ public:
     void hm15() override;
     // 0x710100e6a8 (declared only).
     void sub_710100E6A8();
+    // 0x710100e0c4: marks the BGM playing (clears bit 8) and starts it.
+    void sub_710100E0C4();
+    // 0x710100e108: sets bit 2 of mFlags and the flags _1e1 / _229.
+    void sub_710100E108();
 
     u8 _190[0x198 - 0x190];
     /* 0x198 */ s32 _198;
     /* 0x19c */ s32 _19c;
-    u8 _1a0[0x238 - 0x1a0];
+    u8 _1a0[0x1e1 - 0x1a0];
+    // Set by sub_710100E108 (cleared by the constructor 0x710100dd4c).
+    /* 0x1e1 */ bool _1e1;
+    u8 _1e2[0x229 - 0x1e2];
+    /* 0x229 */ bool _229;
+    u8 _22a[0x238 - 0x22a];
     // States queued by sub_710100E124 during a transition (freed by the destructor 0x710100df48).
     /* 0x238 */ sead::RingBuffer<s32> mStateQueue;
     u8 _250[0x288 - 0x250];
