@@ -201,6 +201,11 @@ void HavokAI::sub_7100F8185C() {
 
 }  // namespace ksys::phys
 
-// NON_MATCHING: placeholder destructor; the original (0x7100f83f48) also destroys members or bases
-// this class does not declare yet.
 Unk_71024f6f70::~Unk_71024f6f70() = default;
+
+// As res::EntryFactory<T>::newResource_.
+sead::DirectResource* Unk_71024f6f70::newResource_(sead::Heap* heap_, s32 alignment) {
+    sead::Heap* heap = ksys::util::getHeapOrCurrentHeap(heap_);
+    sead::ScopedCurrentHeapSetter setter{heap};
+    return new (heap, alignment, std::nothrow_t{}) ksys::phys::Unk_7102519b90;
+}

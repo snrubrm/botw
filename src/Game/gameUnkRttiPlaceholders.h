@@ -39,6 +39,7 @@
 #include "resource/seadArchiveRes.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Physics/Ragdoll/physUnk_7102519b90.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <aal/aalAuxBusDataSerialCtrl.h>
 #include "framework/nx/seadGameFrameworkNx.h"
@@ -2342,12 +2343,18 @@ public:
 };
 
 // vtable 0x71024f6f70 (10 slots); placeholder generated from the vtable (genskel.py).
+// This is res::EntryFactory<phys::Unk_7102519b90> (the "hknm2" factory; HavokAI::init 0x7100f80f38 creates it
+// with (1.0, 0xb28) and registers it). Kept as a placeholder until HavokAI::init is decompiled (it is the
+// only place that instantiates the template).
 class Unk_71024f6f70 : public ksys::res::EntryFactoryBase {
     SEAD_RTTI_OVERRIDE(Unk_71024f6f70, ksys::res::EntryFactoryBase)
 public:
     ~Unk_71024f6f70() override;
     u32 getResourceSize() const override { return 72; }
     u32 getLoadDataAlignment() const override { return 4; }
+    sead::DirectResource* newResource_(sead::Heap* heap_, s32 alignment) override;
+
+    ksys::phys::Unk_7102519b90 mResource;
 };
 
 // vtable 0x71024fd0a8 (15 slots); placeholder generated from the vtable (genskel.py).
