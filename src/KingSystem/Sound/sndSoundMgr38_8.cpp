@@ -137,6 +137,27 @@ void Unk_SoundMgr38_8::sub_710102C8F8() {
 
 Unk_7102501910::~Unk_7102501910() = default;
 
+void Unk_7102501910::calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                                  s32 index_b, f32 spread) {
+    *volume = mVolumes[device][index_b];
+    for (auto& v : volume->volume)
+        v *= spread;
+}
+
 Unk_7102501980::~Unk_7102501980() = default;
 
+void Unk_7102501980::calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                                  s32 index_b, f32 spread) {
+    *volume = mVolumes[device][index_b];
+    for (auto& v : volume->volume)
+        v *= spread;
+}
+
 Unk_7102501f10::~Unk_7102501f10() = default;
+
+void Unk_7102501f10::calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                                  s32 index_b, f32 spread) {
+    *volume = mVolumes[device][index_b];
+    for (auto& v : volume->volume)
+        v *= spread;
+}

@@ -28,6 +28,9 @@
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
 #include <aal/aalSpatialCalculator.h>
+#include <aal/aalSpeakerChannelVolume.h>
+#include <aal/aalDeviceType.h>
+#include <container/seadSafeArray.h>
 #include <gsys/gsysIModelProcedural.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglDrawContext.h>
@@ -2798,10 +2801,28 @@ public:
 };
 
 // vtable 0x7102501910 (11 slots); placeholder generated from the vtable (genskel.py).
+// Speaker balance suppliers of the SoundMgr38 forest sound TU (0x710102c1d8..0x71010349dc): a volume per
+// index and fixed reductions (slot 4 is an empty override, 0x7101030c70 / 0x7101030c74 / 0x71010349d8).
 // No RTTI of its own: the vtable reuses aal::ISpeakerBalanceSupplier's RTTI functions.
 class Unk_7102501910 : public aal::ISpeakerBalanceSupplier {
 public:
     ~Unk_7102501910() override;
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index,
+                            f32 spread) override {}
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                            s32 index_b, f32 spread) override;
+    f32 getEnvFxReduction() const override { return mEnvFxReduction; }
+    f32 getFilterReduction() const override { return mFilterReduction; }
+    f32 getPriorityReduction() const override { return mPriorityReduction; }
+    f32 getLpf() const override { return mLpf; }
+
+    // Per device (DeviceType has one value) and index.
+    sead::SafeArray<sead::SafeArray<aal::SpeakerChannelVolume, 2>, 1> mVolumes;
+    u8 _38[0x50 - 0x38];
+    f32 mEnvFxReduction;
+    f32 mFilterReduction;
+    f32 mPriorityReduction;
+    f32 mLpf;
 };
 
 // vtable 0x7102501980 (11 slots); placeholder generated from the vtable (genskel.py).
@@ -2809,6 +2830,21 @@ public:
 class Unk_7102501980 : public aal::ISpeakerBalanceSupplier {
 public:
     ~Unk_7102501980() override;
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index,
+                            f32 spread) override {}
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                            s32 index_b, f32 spread) override;
+    f32 getEnvFxReduction() const override { return mEnvFxReduction; }
+    f32 getFilterReduction() const override { return mFilterReduction; }
+    f32 getPriorityReduction() const override { return mPriorityReduction; }
+    f32 getLpf() const override { return mLpf; }
+
+    // Per device (DeviceType has one value) and index.
+    sead::SafeArray<sead::SafeArray<aal::SpeakerChannelVolume, 2>, 1> mVolumes;
+    f32 mEnvFxReduction;
+    f32 mFilterReduction;
+    f32 mPriorityReduction;
+    f32 mLpf;
 };
 
 // vtable 0x7102501f10 (11 slots); placeholder generated from the vtable (genskel.py).
@@ -2816,6 +2852,21 @@ public:
 class Unk_7102501f10 : public aal::ISpeakerBalanceSupplier {
 public:
     ~Unk_7102501f10() override;
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index,
+                            f32 spread) override {}
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                            s32 index_b, f32 spread) override;
+    f32 getEnvFxReduction() const override { return mEnvFxReduction; }
+    f32 getFilterReduction() const override { return mFilterReduction; }
+    f32 getPriorityReduction() const override { return mPriorityReduction; }
+    f32 getLpf() const override { return mLpf; }
+
+    // Per device (DeviceType has one value) and index.
+    sead::SafeArray<sead::SafeArray<aal::SpeakerChannelVolume, 2>, 1> mVolumes;
+    f32 mEnvFxReduction;
+    f32 mFilterReduction;
+    f32 mPriorityReduction;
+    f32 mLpf;
 };
 
 // vtable 0x71025028c0 (11 slots); placeholder generated from the vtable (genskel.py).
