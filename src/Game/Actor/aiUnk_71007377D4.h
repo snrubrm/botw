@@ -381,6 +381,10 @@ void sub_710073953C(ksys::act::Actor* actor);
 
 /// 0x710072c494 (placeholder name): the terrain height at the (x, z) of `pos` (a nonzero result on success, 0 without a terrain system; the return type is not bool: the result is passed on unmasked).
 u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos);
+/// 0x710072c4e8 (placeholder name): a drop position near `pos`: snapped to the ground below `pos`, then moved
+/// back towards the player by the first hit of a ray from the player (0.25 along the player-to-pos direction).
+/// False (out = the ground position or `pos`) when the second ray hits nothing.
+bool sub_710072C4E8(sead::Vector3f* out, const sead::Vector3f& pos);
 /// 0x710072c278 (lane1 s47, placeholder name; declared only): terrain query at the (x, z) of `pos` (a similar one to sub_710072C494; 1 when the position is on grass / a special surface, with the height in `out`).
 u32 sub_710072C278(f32* out, const sead::Vector3f* pos);
 /// 0x710072c388 (placeholder name; declared only): terrain material at the (x, z) of `pos`: 0 unless the

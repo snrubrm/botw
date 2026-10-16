@@ -1131,6 +1131,44 @@ u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos) {
     return ksys::tera::sub_710110B4A4(out_height, &xz, tera_system);
 }
 
+// NON_MATCHING: the original adds 0.0f to every ray y coordinate (source form unknown).
+bool sub_710072C4E8(sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = pos;
+    sead::Vector3f dir = sead::Vector3f::zero;
+    sead::Vector3f player_pos = sead::Vector3f::zero;
+    if (sub_710084D068()) {
+        auto* info = uking::act::PlayerInfo::instance();
+        player_pos = info ? info->getPlayerPos() : sead::Vector3f::zero;
+        dir = pos - player_pos;
+        dir.normalize();
+    }
+
+    sead::Vector3f target = pos;
+    target.y -= 0.5f;
+    {
+        const sead::Vector3f start(pos.x, pos.y + 0.5f, pos.z);
+        ksys::phys::RayCastBodyQuery ray_cast(nullptr, ksys::phys::GroundHit::HitAll);
+        ksys::act::sub_7100EEAD7C(&ray_cast);
+        ray_cast.setStartAndEnd(start, target);
+        if (ray_cast.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            ray_cast.getHitPosition(&target);
+            target.y += 0.005f;
+            *out = target;
+        }
+    }
+
+    const sead::Vector3f start(player_pos.x, player_pos.y + 0.5f, player_pos.z);
+    ksys::phys::RayCastBodyQuery ray_cast(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEAD7C(&ray_cast);
+    ray_cast.setStartAndEnd(start, target);
+    if (!ray_cast.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    sead::Vector3f hit;
+    ray_cast.getHitPosition(&hit);
+    *out = hit - dir * 0.25f;
+    return true;
+}
+
 u32 sub_710072C1B8(f32* out, const sead::Vector3f* pos) {
     auto* terrain = ksys::tera::Terrain::instance();
     if (!terrain)
