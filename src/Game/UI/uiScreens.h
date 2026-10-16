@@ -3705,11 +3705,31 @@ public:
     void m99() override;
     void m100() override;
 
-    u8 _pad_3610[0x3618 - 0x3610];
-    /* 0x3618 */ ScreenAppPictureBookUnk* _3618;
-    u8 _pad_3620[0x3850 - 0x3620];
-    /* 0x3850 */ u8 _3850;
-    /* 0x3851 */ u8 _3851;
+    // 0x7100a01a54 (CSV ScreenControllerWindow::ctor)
+    ScreenControllerWindow();
+
+    // A callback and a name (delegate vtable 0x7102480298, shared with other delegate instantiations).
+    struct Entry {
+        sead::Delegate<ScreenControllerWindow> callback;
+        sead::FixedSafeString<128> name;
+    };
+    static_assert(sizeof(Entry) == 0xb8);
+    // value-initialised in the ctor (one 0x240-byte memset before the member constructors)
+    struct Entries {
+        u64 _0;
+        ScreenAppPictureBookUnk* _8;
+        u64 _10;
+        Entry entries[3];
+    };
+
+    /* 0x3610 */ Entries _3610;
+    /* 0x3850 */ u8 _3850{};
+    /* 0x3851 */ u8 _3851{};
+    /* 0x3858 */ sead::FixedObjArray<u64, 29> _3858;
+    /* 0x3a48 */ s32 _3a48 = -1;
+    /* 0x3a50 */ u64 _3a50{};
+    /* 0x3a58 */ u64 _3a58{};
+    /* 0x3a60 */ u64 _3a60{};
 };
 
 // The DLC window's tip unit (vtable 0x71024872a0, 0x50 bytes). The ScreenDLCWindow function at

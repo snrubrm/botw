@@ -234,6 +234,9 @@ ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
     _36a0 = 0;
 }
 
+// 0x7100a01a54
+ScreenControllerWindow::ScreenControllerWindow() : ScreenEx(), _3610() {}
+
 // 0x7100a51698
 // NON_MATCHING: init order only (all offsets/values/calls match: the delegate bind, the
 // FixedSafeString<64> build and the u64 store are identical). Two differences remain: our lib sead

@@ -2476,16 +2476,16 @@ void ScreenControllerWindow::m99() {
         close(-1);
     } else if (!_3850) {
         mButtonGroup->_38 |= 2;
-        if (_3618)
-            _3618->sub_710093F594(true);
+        if (_3610._8)
+            _3610._8->sub_710093F594(true);
     }
 }
 
 // 0x7100a02cec
 void ScreenControllerWindow::m100() {
     mButtonGroup->_38 &= ~2;
-    if (_3618)
-        _3618->sub_710093F594(false);
+    if (_3610._8)
+        _3610._8->sub_710093F594(false);
 }
 
 s32 ScreenPauseMenuMantan::sResult = 5;
