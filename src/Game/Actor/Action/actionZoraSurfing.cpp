@@ -103,6 +103,20 @@ void ZoraSurfing::sub_71002C2AD0(f32 wait_time) {
     _80 = 0;
 }
 
+// NON_MATCHING: same as sub_71002C2AD0 (the rail-position member address is hoisted before the branch).
+void ZoraSurfing::sub_71002C2770() {
+    if (_20._8.rail)
+        _20._8.rail->calcTranslate(&_88, s32(_20._30.progress));
+    else
+        _88 = _20._8.sub_7100EEB370();
+    _94 = _20._8.sub_7100EEB370();
+    sead::Vector3f direction = _20._8.sub_7100EEB370();
+    direction -= _20._30.sub_7100EEB370();
+    direction.normalize();
+    _a0 = direction;
+    _80 = 2;
+}
+
 bool ZoraSurfing::m37() {
     return true;
 }

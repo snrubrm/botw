@@ -28,6 +28,8 @@ protected:
     virtual void m38();
     virtual const sead::SafeString* m39();
     void sub_71002C2AD0(f32 wait_time);
+    // 0x71002c2770 (placeholder name): like sub_71002C2AD0 but _94 is the current rail position; state 2.
+    void sub_71002C2770();
 
     // FIXME: remove this
     /* 0x20 */ Unk_71024f15c0 _20;
