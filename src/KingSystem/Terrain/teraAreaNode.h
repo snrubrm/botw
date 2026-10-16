@@ -25,6 +25,8 @@ public:
 
     // 0x7101108460 (placeholder name): creates a type-2 node (image size 1, key `key`) and links it.
     Unk_7101108460* sub_7101108460(sead::Heap* heap, Unk_710110d278::Key* key);
+    // 0x7101108334 (placeholder name): as sub_7101108460 with an image size and a B value divided by 2^depth.
+    Unk_7101108460* sub_7101108334(sead::Heap* heap, Unk_710110d278::Key* key, u32 size, f32 value);
     // 0x7101108564 (placeholder name): creates a type-3 image and links it.
     Unk_710250db28* sub_7101108564(sead::Heap* heap, u32 index, u32 size);
 

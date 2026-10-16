@@ -50,6 +50,19 @@ Unk_7101108460* Unk_7101106F44::sub_7101108460(sead::Heap* heap, Unk_710110d278:
     return node;
 }
 
+// NON_MATCHING: two register moves swapped.
+Unk_7101108460* Unk_7101106F44::sub_7101108334(sead::Heap* heap, Unk_710110d278::Key* key, u32 size,
+                                               f32 value) {
+    auto* node = new (heap) Unk_7101108460;
+    const f32 scaled = value / static_cast<f32>(1 << mDepth);
+    node->mA = new (heap) Unk_710250dbc8;
+    node->mA->init(ImageSizeMaybe(size));
+    node->mB = new (heap) Unk_710110d278;
+    node->mB->init({heap, node->mA, key, scaled});
+    mNodes.pushBack(node);
+    return node;
+}
+
 Unk_710250db28* Unk_7101106F44::sub_7101108564(sead::Heap* heap, u32 index, u32 size) {
     auto* image = new (heap) Unk_710250db28;
     image->init({index, size});
