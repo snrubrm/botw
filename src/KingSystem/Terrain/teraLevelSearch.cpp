@@ -3,6 +3,29 @@
 
 namespace ksys::tera {
 
+void Unk_71010FEDBC::sub_71010FCB04() {
+    _0 = nullptr;
+    mAreas = nullptr;
+    _10 = 1000000.0f;
+    _14 = 1000000.0f;
+    _18 = 1.0f;
+    _1c = 0;
+    mNumAreas = 0;
+    mLevel = 0;
+    _1f = 0;
+}
+
+bool Unk_71010FEDBC::sub_71010FCFD0(u32 index) const {
+    constexpr f32 cEpsilon = 1.0f / 524288.0f;
+    if ((_0[index]._8 - mAreas[index]._8).squaredLength() > cEpsilon)
+        return true;
+    const sead::Vector2f& pos = _0[index].pos;
+    const f32 distance = (pos - mAreas[index].center).squaredLength();
+    const f32 scale = sead::Mathf::max(
+        sead::Mathf::max(pos.x > 0.0f ? pos.x : -pos.x, pos.y > 0.0f ? pos.y : -pos.y), 1.0f);
+    return distance > scale * cEpsilon;
+}
+
 s32 Unk_71010FEDBC::sub_71010FEDBC(const sead::Vector2f& pos, u32 count, f32 margin) const {
     const f32 range = _18 * static_cast<f32>(1 << mLevel) * 4.5f;
     while (count != 0) {

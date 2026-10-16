@@ -294,7 +294,7 @@ struct Unk_71010FEDBC {
         };
 
         sead::Vector2f center;
-        u8 _8[0x10 - 0x8];
+        sead::Vector2f _8;
         sead::Vector2f origin;
         f32 size;
         // low nibble: a type (< 4 has bounds in mRects), high nibble: another value.
@@ -342,7 +342,20 @@ struct Unk_71010FEDBC {
     // to 1000000.
     void sub_71010FEB94(s32 start);
 
-    u8 _0[0x8];
+    // Placeholder: per-area positions (0x1c bytes each) compared with the areas by 0x71010fcfd0.
+    struct AreaPos {
+        sead::Vector2f pos;
+        sead::Vector2f _8;
+        u8 _10[0x1c - 0x10];
+    };
+
+    // 0x71010fcb04 (placeholder name): clears the record (_10 / _14 = 1000000, _18 = 1).
+    void sub_71010FCB04();
+    // 0x71010fcfd0 (placeholder name): whether area `index` has moved away from its position record
+    // (squared distances against 2^-19, the second one scaled by the largest coordinate, at least 1).
+    bool sub_71010FCFD0(u32 index) const;
+
+    AreaPos* _0;
     Area* mAreas;
     f32 _10;
     f32 _14;
