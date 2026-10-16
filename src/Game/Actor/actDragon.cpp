@@ -215,6 +215,30 @@ void Dragon::Unk_710000b710::sub_71006FB3FC(const sead::Matrix34f& matrix) {
     }
 }
 
+void Dragon::Unk_710000b710::sub_71006FB7F8() {
+    if (!(_930 & 4))
+        return;
+    if (_930 & 8)
+        sub_71006FB8A8();
+    _850.freeBuffer();
+    _8.freeBuffer();
+    _930 &= ~4;
+}
+
+void Dragon::Unk_710000b710::sub_71006FB8A8() {
+    if ((_930 & 0xc) != 0xc)
+        return;
+    mActor->sub_71011DA868(&_5d0.handle);
+    mActor->sub_71011DA868(&_338.handle);
+    mActor->sub_71011DA868(&_b8.handle);
+    for (s32 i = 0, n = _850.size(); i < n; ++i) {
+        auto& part = _850[i];
+        if (part._170.isValid() && !part._170.getName().isEmpty())
+            mActor->sub_71011DA868(&part.handle);
+    }
+    _930 &= ~8;
+}
+
 void Dragon::Unk_710000b710::sub_71006FD830(f32 start_frame, f32 end_frame) {
     if (start_frame < 0.0f) {
         if (_930 & 0x100) {
@@ -226,12 +250,12 @@ void Dragon::Unk_710000b710::sub_71006FD830(f32 start_frame, f32 end_frame) {
         return;
     }
     _8ac = 1.0f;
-    _5c0 = _400;
-    _5bc = _3f0;
-    _5cc = _b0;
-    _5c4 = _90;
-    _5b8 = _3e0;
-    _5c8 = _a0;
+    _5c0 = _338.handle._9c.m[2][3];
+    _5bc = _338.handle._9c.m[1][3];
+    _5cc = _84.m[2][3];
+    _5c4 = _84.m[0][3];
+    _5b8 = _338.handle._9c.m[0][3];
+    _5c8 = _84.m[1][3];
     _8a4 = start_frame;
     _8a8 = end_frame;
     _930 |= 0x100;
@@ -304,7 +328,6 @@ bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f&
 
 namespace uking::act {
 
-// NON_MATCHING: member types incomplete
 Dragon::~Dragon() = default;
 
 void Dragon::m76(ksys::VFR::ScopedDeltaSetter* setter) {

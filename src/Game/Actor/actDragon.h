@@ -4,6 +4,8 @@
 
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <container/seadBuffer.h>
+#include <container/seadRingBuffer.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
@@ -13,6 +15,35 @@ class Object;
 }
 
 namespace uking::act {
+
+// Bone handle with vtable 0x7102450330 (D1 0x7100700400, D0 0x7100700404, m2 0x71006ffa14 not decompiled;
+// m3 / m4 inherited). Built inline by the Dragon part constructor 0x710000b710; its members start in the tail
+// padding of Unk_71024512e8.
+class Unk_7102450330 : public Unk_71024512e8 {
+public:
+    Unk_7102450330() { _98 = true; }
+
+    void m2(gsys::Model* model) override;
+
+    /* 0x9c */ sead::Matrix34f _9c = sead::Matrix34f::ident;
+    /* 0xcc */ sead::Vector3f _cc = sead::Vector3f::ones;
+    /* 0xd8 */ sead::Matrix34f _d8 = sead::Matrix34f::ident;
+    /* 0x108 */ sead::Matrix34f _108 = sead::Matrix34f::ident;
+    /* 0x138 */ sead::Matrix34f _138 = sead::Matrix34f::ident;
+    /* 0x168 */ f32 _168 = 1.0f;
+    /* 0x16c */ f32 _16c = 1.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102450330, 0x170);
+
+// 0x280-byte bone part of Dragon::Unk_710000b710 (three inline, more in its _850 buffer). Not polymorphic:
+// array delete runs ~BoneAccessKeyEx(+0x170) then ~Unk_71024512e8 directly. 0x1a8-0x280 is never
+// initialised by the constructor.
+struct Unk_710000b710Part {
+    /* 0x000 */ Unk_7102450330 handle;
+    /* 0x170 */ gsys::BoneAccessKeyEx _170;
+    /* 0x1a8 */ u8 _1a8[0x280 - 0x1a8];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710000b710Part, 0x280);
 
 // Name from the CSV (Dragon::*): the three dragons. vtable 0x7102356b28 (181 slots, no new
 // virtuals), RTTI static 0x71025ae7c0 (parent: Enemy). ctor 0x710000b214 (CSV Dragon::ctor),
@@ -99,21 +130,25 @@ public:
         // FF8C supplies a normalized matrix; 6FB3FC copies it to the existing matrix20.
         void sub_71006FB3FC(const sead::Matrix34f& matrix);
 
-        u8 _0[0x20];
-        /* 0x20 */ sead::Matrix34f _20;
-        u8 _50[0x90 - 0x50];
-        /* 0x90 */ f32 _90;
-        u8 _94[0xa0 - 0x94];
-        /* 0xa0 */ f32 _a0;
-        u8 _a4[0xb0 - 0xa4];
-        /* 0xb0 */ f32 _b0;
-        u8 _b4[0x3e0 - 0xb4];
-        /* 0x3e0 */ f32 _3e0;
-        u8 _3e4[0x3f0 - 0x3e4];
-        /* 0x3f0 */ f32 _3f0;
-        u8 _3f4[0x400 - 0x3f4];
-        /* 0x400 */ f32 _400;
-        u8 _404[0x5b8 - 0x404];
+        // 0x71006fb8a8 (placeholder name): with flags 2 and 3 set, detaches the three bone parts and every
+        // valid named part of _850 from the actor (Actor::sub_71011DA868), then clears flag 3.
+        void sub_71006FB8A8();
+        // 0x71006fb7f8 (placeholder name): with flag 2 set, detaches the parts (flag 3), frees _850 and
+        // _8, then clears flag 2. Called by the Dragon destructor.
+        void sub_71006FB7F8();
+
+        ~Unk_710000b710() { sub_71006FB7F8(); }
+
+        /* 0x000 */ ksys::act::Actor* mActor = nullptr;
+        /* 0x008 */ sead::RingBuffer<u8> _8;  // element type unknown (trivial: freed without destructors)
+        /* 0x020 */ sead::Matrix34f _20 = sead::Matrix34f::ident;
+        /* 0x050 */ sead::Matrix34f _50 = sead::Matrix34f::ident;
+        /* 0x080 */ f32 _80 = 1.0f;
+        // _90 / _a0 / _b0 (read by sub_71006FD830) are the translation of this matrix.
+        /* 0x084 */ sead::Matrix34f _84 = sead::Matrix34f::ident;
+        /* 0x0b8 */ Unk_710000b710Part _b8;
+        // _3e0 / _3f0 / _400 (read by sub_71006FD830) are the translation of _338.handle._9c.
+        /* 0x338 */ Unk_710000b710Part _338;
         // lane4 s46: snapshot of the values above taken by sub_71006FD830.
         /* 0x5b8 */ f32 _5b8;
         /* 0x5bc */ f32 _5bc;
@@ -121,7 +156,9 @@ public:
         /* 0x5c4 */ f32 _5c4;
         /* 0x5c8 */ f32 _5c8;
         /* 0x5cc */ f32 _5cc;
-        u8 _5d0[0x8a4 - 0x5d0];
+        /* 0x5d0 */ Unk_710000b710Part _5d0;
+        /* 0x850 */ sead::Buffer<Unk_710000b710Part> _850;
+        u8 _860[0x8a4 - 0x860];
         /* 0x8a4 */ f32 _8a4;  // start frame (-1: none)
         /* 0x8a8 */ f32 _8a8;  // end frame
         /* 0x8ac */ f32 _8ac;
@@ -145,7 +182,7 @@ public:
     /* 0x1e58 */ sead::Matrix34f _1e58;
     // gsys::BoneAccessKeyEx at 0x1e88, object with ctor 0x71010f122c at 0x1ec0, two
     // FixedSafeString<20> at 0x1ef0 / 0x1f18
-    /* 0x1e88 */ u8 _1e88[0x1ec0 - 0x1e88];
+    /* 0x1e88 */ gsys::BoneAccessKeyEx _1e88;
     /* 0x1ec0 */ Unk_710250d530 _1ec0;
     /* 0x1ef0 */ sead::FixedSafeString<20> _1ef0;
     /* 0x1f18 */ sead::FixedSafeString<20> _1f18;  // current horn animation (sub_710000EA88)
