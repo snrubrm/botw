@@ -39,6 +39,13 @@ void Unk_71024fe808::hm14() {
     sub_71010209FC(sStr_Main);
 }
 
+Unk_71024fe970::Unk_71024fe970(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
+    Unk_SpotBgmHandle::init(arg.heap, "FinalTrialBossBgm", nullptr);
+    mStateQueue.tryAllocBuffer(8, arg.heap);
+    mInfo = static_cast<ksys::snd::FinalTrialBossBattleBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::FinalTrialBossBattleBgm));
+}
+
 // NON_MATCHING: the original's RingBuffer::freeBuffer also zeroes head and size before the delete[] (our sead
 // zeroes them after).
 Unk_71024fe970::~Unk_71024fe970() {

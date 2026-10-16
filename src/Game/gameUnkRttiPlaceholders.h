@@ -2932,6 +2932,8 @@ public:
 class Unk_71024fe970 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe970, ksys::snd::Unk_71025ce380)
 public:
+    // 0x710100dd4c: the final trial boss ("FinalTrialBossBgm") BGM.
+    explicit Unk_71024fe970(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fe970() override;
     // 0x710100e124 (declaration only): requests the signed state, queuing it during a transition.
     void sub_710100E124(const s32& state);
@@ -2962,14 +2964,12 @@ public:
     // 0x710100eac0: the marker callback set by sub_710100E6A8.
     static void markerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user);
 
-    ksys::snd::FinalTrialBossBattleBgmInfo* mInfo;
-    /* 0x198 */ s32 _198;
-    /* 0x19c */ s32 _19c;
+    ksys::snd::FinalTrialBossBattleBgmInfo* mInfo = nullptr;
+    /* 0x198 */ s32 _198 = 0;
+    /* 0x19c */ s32 _19c = 0;
     // Placeholder (0x48 bytes): a playing level entry with its fader; two at 0x1a0 / 0x1e8 (constructor
     // 0x710100dd4c).
     struct Slot {
-        Slot();
-
         // inline-only in the original; name is a guess (the same sequence runs on both slots in 0x710100e6a8).
         void reset() {
             if (mEntry) {
@@ -2993,30 +2993,31 @@ public:
         // 0x710100dd48: the empty marker callback that sub_710100DC60 installs (replacing markerCallback).
         static void emptyMarkerCallback(const aal::MarkerController::MarkerCallbackInfo& info, void* user);
 
-        ksys::snd::Unk_710260f248Entry* mEntry;
-        aal::TimedFader mFader;
-        s32 _30;
-        s32 _34;
+        ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
+        aal::TimedFader mFader{0.0f, aal::FadeCurveType::Sin, 1.0f};
+        s32 _30 = -1;
+        s32 _34 = -1;
         // The fade-in time of sub_710100D8B8.
-        f32 _38;
-        s32 _3c;
-        bool _40;
+        f32 _38 = 0.1f;
+        s32 _3c = 0;
+        bool _40 = true;
         // Set by sub_710100E108.
-        bool _41;
-        s32 _44;
+        bool _41 = false;
+        s32 _44 = 0;
     };
     static_assert(sizeof(Slot) == 0x48);
 
     /* 0x1a0 */ Slot _1a0;
     /* 0x1e8 */ Slot _1e8;
     // The start position (samples) of the prepared level (sub_710100E2FC).
-    /* 0x230 */ s32 _230;
-    u8 _234[0x238 - 0x234];
+    /* 0x230 */ s32 _230 = 0;
+    u32 _234 = 0;
     // States queued by sub_710100E124 during a transition (freed by the destructor 0x710100df48).
     /* 0x238 */ sead::RingBuffer<s32> mStateQueue;
-    u8 _250[0x288 - 0x250];
+    // Never written by the decompiled code (constructor 0x710100dd4c).
+    /* 0x250 */ sead::FixedSafeString<32> _250;
     // Bit 0: playing; bits 3..6: transition states (0x710100f0c0); bit 8 set on start / stop.
-    /* 0x288 */ u16 mFlags;
+    /* 0x288 */ u16 mFlags = 0;
 };
 
 // vtable 0x71024feae8 (17 slots); placeholder generated from the vtable (genskel.py).
