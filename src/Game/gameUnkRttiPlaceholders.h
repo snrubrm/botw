@@ -2855,6 +2855,8 @@ public:
     void sub_7101012340(s32 value, bool flag, s32 id);
     bool m10() override;
     bool m11() override;
+    // 0x710101214c: stops the handle and resets the play state.
+    void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
     // 0x71010123ac / 0x71010124f4 (declared only)
     void hm14() override;
@@ -2874,10 +2876,22 @@ public:
     // Not declared yet: fields up to 0x200, a FixedSafeString<8>-based object at 0x200 and fields to 0x240.
     // Spin lock of mEntries (0x71010121d8).
     /* 0x1d8 */ sead::Atomic<s32> mEntriesLock;
-    u8 _1dc[0x1ec - 0x1dc];
+    // 0x1dc..0x1e8 and 0x1f4..0x228 are reset by m13 (0x710101214c); meanings unknown.
+    /* 0x1dc */ u32 _1dc;
+    /* 0x1e0 */ u8 _1e0;
+    /* 0x1e1 */ u8 _1e1;
+    /* 0x1e2 */ u8 _1e2;
+    /* 0x1e3 */ u8 _1e3;
+    /* 0x1e4 */ u32 _1e4;
+    /* 0x1e8 */ u8 _1e8;
     /* 0x1ec */ s32 _1ec;
     /* 0x1f0 */ bool _1f0;
-    u8 _1f1[0x240 - 0x1f1];
+    /* 0x1f4 */ u32 _1f4;
+    u8 _1f8[0x1fc - 0x1f8];
+    /* 0x1fc */ s32 _1fc;
+    /* 0x200 */ sead::FixedSafeString<8> _200;
+    /* 0x220 */ u64 _220;
+    u8 _228[0x240 - 0x228];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 

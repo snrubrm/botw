@@ -18,6 +18,23 @@ Unk_71024fefe8::~Unk_71024fefe8() {
     mEntries.freeBuffer();
 }
 
+// NON_MATCHING: store scheduling (the original writes _1f4 after both merged zero stores).
+void Unk_71024fefe8::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    _1dc = 0;
+    _1e0 = 0;
+    _1e1 = 0;
+    _1e2 = 0;
+    _1e3 = 0;
+    _1e4 = 0;
+    _1e8 = 0;
+    _1f4 = 0;
+    _1fc = -1;
+    _200.clear();
+    _220 = 0;
+    mState = 0;
+}
+
 // NON_MATCHING: regalloc (as Unk_71024feae8::sub_710100F798).
 void Unk_71024fefe8::sub_71010121D8(s32 id) {
     while (mEntriesLock.load() == 1) {
