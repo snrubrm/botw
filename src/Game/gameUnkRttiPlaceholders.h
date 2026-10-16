@@ -2935,6 +2935,8 @@ public:
     ~Unk_71024fe970() override;
     // 0x710100e124 (declaration only): requests the signed state, queuing it during a transition.
     void sub_710100E124(const s32& state);
+    // 0x710100e0e0: stops the BGM with the info's StopFadeSec (called by PriestBossPhaseFinish::enter_).
+    void sub_710100E0E0();
     // 0x710100e194: switches to `state` at the play position plus the wait time (TransformDemoWaitSec for the
     // transform state 4, else one second).
     void sub_710100E194(const s32& state);

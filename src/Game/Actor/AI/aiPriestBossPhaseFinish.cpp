@@ -5,9 +5,6 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/Actor/aiUnk_7100FFDFDC.h"
 
-// Declared only (placeholder name): the original passes the returned BGM object to this helper.
-void sub_710100E0E0(void* object);
-
 namespace uking::ai {
 
 PriestBossPhaseFinish::PriestBossPhaseFinish(const InitArg& arg) : PriestBossPhase(arg) {}
@@ -21,8 +18,8 @@ bool PriestBossPhaseFinish::init_(sead::Heap* heap) {
 void PriestBossPhaseFinish::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
     _90.value = _90.previous_value = *mStartDemoDelayFrames_s;
-    if (auto* object = sub_7100FFEB28())
-        sub_710100E0E0(object);
+    if (auto* bgm = sub_7100FFEB28())
+        bgm->sub_710100E0E0();
 }
 
 void PriestBossPhaseFinish::calc_() {

@@ -103,6 +103,11 @@ void Unk_71024fe970::sub_710100E0C4() {
     sub_710101D9D8();
 }
 
+void Unk_71024fe970::sub_710100E0E0() {
+    mFlags = (mFlags & ~0x119) | 0x100;
+    sub_710101D9F4(mInfo->mStopFadeSec.ref());
+}
+
 void Unk_71024fe970::sub_710100E108() {
     mFlags |= 4;
     _1a0._41 = true;
