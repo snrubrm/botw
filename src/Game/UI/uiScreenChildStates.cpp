@@ -1126,6 +1126,16 @@ Unk_710247dc90::Unk_710247dc90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247dc90::~Unk_710247dc90() = default;
 
+// 0x71009c7bd8
+void Unk_710247dc90::m30() {
+    _408.sub_71009CC3A0();
+}
+
+// 0x71009c7d94
+void Unk_710247dc90::m82() {
+    _408.sub_71009CC970();
+}
+
 // 0x71009c81cc
 // NON_MATCHING: the original stores 0x1ac / 0x1b4 before the memset of 0x130 and orders the later stores differently.
 Unk_710247e0c8::Unk_710247e0c8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}

@@ -245,6 +245,8 @@ class Unk_710247dc90 : public ScreenChildEx {
 public:
     explicit Unk_710247dc90(eui::LayoutEx* layout);
     ~Unk_710247dc90() override;
+    void m30() override;
+    void m82() override;
 
     // Members from the ctor 0x9c69a4 and D1 0x9c6a2c.
     u8 _130[0x188 - 0x130]{};
