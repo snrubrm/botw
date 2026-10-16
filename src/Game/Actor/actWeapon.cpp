@@ -1,5 +1,6 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actOptionalWeapon.h"
+#include "Game/Actor/Damage/dmgDamageMgrWeapon.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -698,6 +699,18 @@ bool Weapon::x_0() {
 bool Weapon::isThrowingBreakWeapon() {
     const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
     return param && param->mIsThrowingBreakWeapon.ref();
+}
+
+bool Weapon::x_1() {
+    if (sead::DynamicCast<PlayerBase>(getParentActor())) {
+        if (auto* damage_mgr = sead::DynamicCast<DamageMgrWeapon>(getDamageMgr())) {
+            const s32* life = getLife();
+            const s32 value = life ? *life : 1;
+            if (value <= damage_mgr->m51())
+                return true;
+        }
+    }
+    return false;
 }
 
 bool Weapon::bowHasArrowName() {

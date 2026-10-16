@@ -285,6 +285,9 @@ public:
     f32 getShieldSurfingFriction();
     s32 getAttackPower();
     bool isThrowingBreakWeapon();
+    // 0x71002e8b88 (CSV Weapon::x_1): held by a player and its life (1 without one) is at most the damage
+    // manager's m51() (the damage that breaks it).
+    bool x_1();
     bool bowHasArrowName();
     bool bowIsUsedByPlayerAndHasArrowName();
     // Bow modifier helpers (placeholder names, lane4 s45). The bow param's IsLeadShot / LeadShotNum /
