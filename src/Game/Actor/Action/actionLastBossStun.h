@@ -1,6 +1,9 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -24,11 +27,14 @@ protected:
     const float* mAddStunTime_s{};
     // static_param at offset 0x30
     const float* mShockWaveDownTime_s{};
-    int _38 = 0;
-    float _3c = 0.0f;
-    float _40 = 0.0f;
-    int _44 = 0;
-    u8 _48[0x88 - 0x48];
+    bool _38 = false;
+    bool _39 = false;
+    bool _3a = false;
+    bool _3b = false;
+    ksys::Timer _3c;
+    sead::Vector3f _48;
+    u8 _54[0x60 - 0x54];
+    sead::Matrix33f _60;
 };
 
 }  // namespace uking::action
