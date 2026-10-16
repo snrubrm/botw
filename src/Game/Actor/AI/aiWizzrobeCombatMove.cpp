@@ -23,8 +23,8 @@ namespace uking::ai {
 
 // 0x71025bd620 (.bss, between the WizzrobeCombat and WizzrobeCombatMove RTTI statics): a flag that keeps the
 // Wizzrobe model visible while it is hidden by sub_71005FC9C0. Only read there; no writer found (debug option?).
-// Declared extern (not static): see sub_71005FC9C0.
-bool sUnk_71025BD620 = false;
+// Hidden visibility: read with adrp + ldrb (no GOT), as gdtCommonFlags.h and the worldWindMgr.cpp constants.
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025BD620 = false;
 
 WizzrobeCombatMove::WizzrobeCombatMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -140,8 +140,6 @@ void WizzrobeCombatMove::calc_() {
 
 // Hides the Wizzrobe (undone by sub_71005FD0AC): attack clients off, model hidden unless sUnk_71025BD620 is set,
 // chemical and character controller disabled.
-// NON_MATCHING: the original reads sUnk_71025BD620 directly (adrp + ldrb: a TU-local symbol); ours through the GOT. A
-// `static` flag with no writer is folded to false by clang.
 void WizzrobeCombatMove::sub_71005FC9C0() {
     if (_c8)
         return;

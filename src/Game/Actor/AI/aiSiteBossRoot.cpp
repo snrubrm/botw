@@ -24,7 +24,8 @@ namespace uking::ai {
 
 // 0x71025bc6e0 (.bss, after the SiteBossRecognizeRoot RTTI statics): when set, SiteBossRoot::enter_ sets bit 10 of
 // SiteBoss::_1558 (cleared otherwise). Only read there; no writer found.
-bool sUnk_71025BC6E0 = false;
+// Hidden visibility: read with adrp + ldrb (no GOT), as gdtCommonFlags.h and the worldWindMgr.cpp constants.
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025BC6E0 = false;
 
 SiteBossRoot::SiteBossRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -82,8 +83,7 @@ bool SiteBossRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original reads sUnk_71025BC6E0 directly (adrp + ldrb; ours through the GOT), keeps the position
-// copy at sp + 0x10 and stores _e8 after _f0
+// NON_MATCHING: the original keeps the position copy at sp + 0x10 and stores _e8 after _f0
 void SiteBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F5F458(ksys::act::MotionType::Hover);
