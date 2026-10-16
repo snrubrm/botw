@@ -514,6 +514,8 @@ public:
     void x_14(u32 type);
     // 0x7100889154 (unnamed): equips the weapon in slot 0 (WeaponEquipOn with its profile).
     void sub_7100889154();
+    // 0x7100881154 (unnamed): ground probe behind the player; sets _cfc bit 0 and the slope angles _1c8c / _1c90.
+    void sub_7100881154();
     // 0x710088cec8 (unnamed): puts away whatever _d68 / _d30 hold (sub_710088A220, sub_710088B2EC or x_33).
     void sub_710088CEC8();
     void sub_71008931C4();             // 0x71008931c4

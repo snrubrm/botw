@@ -22,6 +22,8 @@ extern const f32 sUnk_7101e7c25c;
 // 0x7101e7c268 / 0x7101e7c26c: 0.05f / 0.1f (Player::m310 chase rates up / down).
 extern const f32 sUnk_7101e7c268;
 extern const f32 sUnk_7101e7c26c;
+// 0x7101e7c5c0: 1.8f (Player::sub_7100881154, ground probe depth).
+extern const f32 sUnk_7101e7c5c0;
 extern const f32 sUnk_7101e7c5c4;  // 0.35f
 extern const f32 sUnk_7101e7c5c8;  // 1.4f
 extern const f32 sUnk_7101e7c5d0;

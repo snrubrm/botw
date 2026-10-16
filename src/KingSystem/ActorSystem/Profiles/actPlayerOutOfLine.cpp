@@ -23,6 +23,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -858,6 +859,49 @@ void Player::sub_7100869930(f32 accel, f32 max_step) {
     } else {
         _20bc += accel;
         _20bc.setToMin(target);
+    }
+}
+
+// NON_MATCHING: ours folds `start + dir * -0.35` into a subtraction and loads the 0.35 global later.
+// In this file because the original calls sub_71008840C4 and sub_710087F37C out of line.
+// Placeholder name: probes the ground just behind the player (lower when not on the ground); on a flat enough hit,
+// sets _cfc bit 0 and stores the slope direction / angle in _1c8c / _1c90 for the AS list.
+void Player::sub_7100881154() {
+    if (_cf0.isOnBit(21))
+        return;
+
+    sead::Vector3f start = _1770 + sead::Vector3f(0.0f, 0.3f, 0.0f);
+    sead::Vector3f end = _1770 + sead::Vector3f(0.0f, 0.0f, 0.0f);
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    const sead::Vector3f offset = dir * -uking::sUnk_7101e7c5c4;
+    start += offset;
+    end += offset;
+    if (!_cec.isOnBit(7)) {
+        start += sead::Vector3f(0.0f, -uking::sUnk_7101e7c5c0, 0.0f);
+        end += sead::Vector3f(0.0f, -uking::sUnk_7101e7c5c0, 0.0f);
+    } else if (sub_71008840C4()) {
+        end += sead::Vector3f(0.0f, -1.0f, 0.0f);
+    }
+
+    sead::Vector3f hit_pos;
+    sead::Vector3f normal;
+    if (sub_710072E928(start, end, &hit_pos, &normal, nullptr, 0.0f)) {
+        if (normal.y > 0.5f)
+            _cfc.setBit(0);
+    } else if (_cec.isOnBit(7)) {
+        start = _1770 + sead::Vector3f(0.0f, 0.1f, 0.0f);
+        end = _1770 + sead::Vector3f(0.0f, -0.1f, 0.0f);
+        if (sub_710087F37C(start, end, &hit_pos, &normal, true) && normal.y > 0.7f)
+            _cfc.setBit(0);
+    }
+
+    if (_cfc.isOnBit(0)) {
+        _1c8c = sead::Mathf::atan2Idx(normal.x, normal.z);
+        const u32 pitch = sead::Mathf::atan2Idx(normal.y, sead::Vector2f(normal.x, normal.z).length());
+        _1c90 = util::sUnk_7101EC6BA0 & ((util::sUnk_7101EC6BA0 & 0x40000000) - pitch);
+        mASList->sub_710115F024(normal, 0);
     }
 }
 
