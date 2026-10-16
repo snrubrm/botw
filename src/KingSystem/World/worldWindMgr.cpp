@@ -1,4 +1,6 @@
 #include "KingSystem/World/worldWindMgr.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 #include <aal/aalHandle.h>
 #include <aal/aalShape.h>
 #include <aal/aalSoundSource.h>
@@ -273,6 +275,36 @@ ElementDirectionalWindOrGust::~ElementDirectionalWindOrGust() {
 f32 ElementDirectionalWindOrGust::m22() {
     const f32 radius = mArg._20;
     return sead::Mathf::pi() * radius * radius + (radius * 0.75f + mArg._24);
+}
+
+// NON_MATCHING: scheduling (the original reads _50 before the handle test and the arg fields in another order).
+void ElementDirectionalWindOrGust::doEmitELink() {
+    const bool active = _58.isActive();
+    if (!_50) {
+        if (active) {
+            _58.fade();
+            _58.reset();
+        }
+        return;
+    }
+    if (active)
+        return;
+
+    const sead::Vector3f pos = mArg.position;
+    const sead::Vector3f dir = mArg.direction;
+    const f32 length = mArg._24;
+    const char* name;
+    if (mArg.flags & 0x10)
+        name = "Chemical_Uchiwa";
+    else if (mArg.flags & 2)
+        name = "Chemical_Gust";
+    else
+        name = "Chemical_Wind";
+    _58 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::instance()->_38, name);
+    const sead::Matrix34f mtx(1, 0, 0, pos.x + length * dir.x * 0.5f,  //
+                              0, 1, 0, pos.y + length * dir.y * 0.5f,  //
+                              0, 0, 1, pos.z + length * dir.z * 0.5f);
+    _58.setMatrix(mtx);
 }
 
 void ElementDirectionalWindOrGust::m33(bool a, bool fixed) {
