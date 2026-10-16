@@ -6,6 +6,7 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/gameRumble.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
@@ -831,12 +832,6 @@ f32 Player::sub_710086DB94(f32 value) {
 }
 
 // Placeholder name: false while slow time is active, else the App_Slowtimer_OnOff flag.
-bool Player::sub_710086DBA8() {
-    if (isSlowTime())
-        return false;
-    return gdt::getFlag_App_Slowtimer_OnOff(false);
-}
-
 void Player::sub_710086DCF8(f32 value) {
     _1fd4 = value;
 }
@@ -1258,6 +1253,26 @@ bool Player::m151(u16 bit) {
 
 bool Player::m83() {
     return !m359();
+}
+
+// NON_MATCHING: the original loads mModel before the m312 call (as in m318).
+// The bone matrix of key 24 is computed but not used (the call is in the original).
+void Player::sub_71008883B8() {
+    uking::ui::showRuntimeTip(0);
+    if (auto* damage_mgr = sub_710072BA90(this)) {
+        // C++14 evaluation order: the original evaluates the destination first
+        _1280.operator=(*damage_mgr->getAttacker());
+    }
+    uking::Rumble::instance()->sub_7100897FE4(2, 1);
+    const auto key = m312(24);
+    sead::Matrix34f mtx;
+    mModel->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    eft::searchAndEmitELink(this, "GuardJustHit");
+    if (sub_710086DBA8() && !_c40.isOnBit(15)) {
+        const f32 time = getParam()->getRes().mGParamList->getPlayer()->mGuardJustForceSlowTime.ref();
+        _c40.setBit(16);
+        _1d70.reset(time);
+    }
 }
 
 bool Player::isGuardJust() {

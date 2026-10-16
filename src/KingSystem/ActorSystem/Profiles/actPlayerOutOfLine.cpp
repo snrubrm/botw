@@ -42,6 +42,13 @@ bool fadeSlowEffect();
 
 namespace ksys::act {
 
+// In this file so that sub_71008883B8 calls it out of line, as in the original.
+bool Player::sub_710086DBA8() {
+    if (isSlowTime())
+        return false;
+    return gdt::getFlag_App_Slowtimer_OnOff(false);
+}
+
 // Own file: the original calls these out of line (x_5 from sub_7100877BD8, stillAlive from m375); a
 // same-file definition would be inlined into the callers.
 // NON_MATCHING: operand order of the XZ length addition (z*z + x*x in the original)

@@ -359,6 +359,10 @@ public:
     // 0x7100883c14: _209c > 0.05 and either the facing differs from the camera direction (sub_710092DBA4) by more
     // than 90 degrees or the left stick points forward.
     bool sub_7100883C14();
+    // 0x71008883b8 (placeholder name): guard-just hit: runtime tip 0, stores the attacker link in _1280, rumble,
+    // "GuardJustHit" effect, and (with sub_710086DBA8 and without _c40 bit 15) sets _c40 bit 16 and starts the
+    // GuardJustForceSlowTime timer _1d70.
+    void sub_71008883B8();
     // 0x710085c55c: casts down through the water surface at _1770 and chases _1fa0 toward the surface's tilt along
     // the facing direction (0.01 per frame).
     void sub_710085C55C();
