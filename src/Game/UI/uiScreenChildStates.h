@@ -293,6 +293,12 @@ public:
     ~Unk_7102478048() override;
     // 0x710098fd5c (declared only; the destructor calls it first)
     void sub_710098FD5C();
+    void m31() override;
+    // 0x710099e384 / 0x71009919cc / 0x7100991b90 / 0x710099e49c (CSV unnamed; not decompiled): called by m31
+    void sub_710099E384();
+    void sub_71009919CC(bool a1);
+    void sub_7100991B90();
+    void sub_710099E49C();
 
     // Members from the ctor 0x98fc08.
     u8 _130[0x211]{};

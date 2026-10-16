@@ -1312,6 +1312,8 @@ public:
     void sub_7100963C70();
     // 0x71009638f8 (CSV unnamed; not decompiled)
     void sub_71009638F8();
+    // 0x7100960ad8 (CSV unnamed; not decompiled; called by Unk_7102478048::m31)
+    void sub_7100960AD8();
     // 0x71009641d4 / 0x71009641e4 / 0x71009645a0 / 0x7100964a40 / 0x7100964ba4 (placeholder names)
     bool is38e0Equal(s32 value) const;
     s32 sub_71009641E4() const;

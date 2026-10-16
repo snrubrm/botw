@@ -1074,6 +1074,15 @@ Unk_7102477110::~Unk_7102477110() {
 // NON_MATCHING: the original stores 0x350 before the memset of 0x130.
 Unk_7102478048::Unk_7102478048(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
+// 0x7100993bc0
+void Unk_7102478048::m31() {
+    sub_710099E384();
+    sub_71009919CC(true);
+    UiSubsys1::instance()->sub_7100960AD8();
+    sub_7100991B90();
+    sub_710099E49C();
+}
+
 // 0x710098fc90
 // NON_MATCHING: the inlined ScreenChild member teardown differs in scheduling only.
 Unk_7102478048::~Unk_7102478048() {
