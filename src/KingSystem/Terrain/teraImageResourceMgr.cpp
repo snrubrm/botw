@@ -8,8 +8,7 @@ namespace ksys::tera {
 ImageResourceMgr::~ImageResourceMgr() = default;
 
 void ImageResourceMgr::sub_71011339D0(Request* request) {
-    const Unk_710250dcd8* image = request->area->getImageMaybe(request->type);
-    if (image && image->_8 & 8)
+    if (request->area->isImageFlagSetMaybe(request->type, 8))
         request->area->sub_71011080D4(request->type);
 }
 
@@ -242,6 +241,47 @@ bool ImageResourceMgr::sub_710113625C(System* owner, Unk_7101106F44* area, const
             sub_7101136328(request, a5);
         sub_71011320B4(request);
     }
+    return true;
+}
+
+// NON_MATCHING: block layout of the flag 8 branch (the original re-dispatches on the type) and regalloc.
+bool ImageResourceMgr::sub_7101133AF8(System* system, Unk_7101106F44* area,
+                                      const ImageTypeMaybe& type) {
+    mCS68.lock();
+    if (area->isImageFlagSetMaybe(type, 2)) {
+        mCS68.unlock();
+        return true;
+    }
+
+    mCS68.lock();
+    Request* request = mList31e8.popBack();
+    if (!request) {
+        mCS68.unlock();
+        mCS68.unlock();
+        return false;
+    }
+    mCS68.unlock();
+
+    sub_7101132FE0(request, system, area, type);
+    if (Unk_710250dcd8* image = area->getImageMaybe(type))
+        image->_8 |= 2;
+
+    const s32 result = sub_7101133274(request);
+    if (result == 2) {
+        if (area->isImageFlagSetMaybe(type, 8)) {
+            if (Unk_710250dcd8* image = area->getImageMaybe(type))
+                image->sub_710110DD20(true);
+            area->sub_71011077C8(type);
+        } else {
+            if (Unk_710250dcd8* image = area->getImageMaybe(type))
+                image->sub_710110DD20(false);
+        }
+    } else if (result != 1) {
+        mCS68.unlock();
+        return true;
+    }
+    mList31e8.pushFront(request);
+    mCS68.unlock();
     return true;
 }
 

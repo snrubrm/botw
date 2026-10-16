@@ -102,8 +102,7 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
     mLock.writeUnlock();
 }
 
-// NON_MATCHING: the original's inlined image lookup calls the non-const getA (0x7101107e90; our non-const
-// getImageMaybe goes through the const one, which sub_71011339D0 needs) and register allocation differs.
+// NON_MATCHING: register allocation.
 s32 System::Unk_710111E168::sub_710111E168(Unk_7101106F44* area) {
     System* sys = system;
     if (!area->sub_710111FAFC(sUnk_7101EC54AC, no_child)) {

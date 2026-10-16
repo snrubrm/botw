@@ -82,8 +82,46 @@ public:
         }
     }
 
+    // inline-only in the original; name is a guess. The non-const lookup calls the non-const getA
+    // (0x7101107e90), e.g. in 0x710111e168 and 0x7101133af8.
+    Unk_7101108460* findNodeMaybe(u16 index) {
+        auto it = mNodes.begin();
+        for (; it != mNodes.end(); ++it) {
+            if ((*it)->getB()->_8->id == index)
+                break;
+        }
+        return it != mNodes.end() ? *it : nullptr;
+    }
+
     Unk_710250dcd8* getImageMaybe(const ImageTypeMaybe& type) {
-        return const_cast<Unk_710250dcd8*>(static_cast<const Unk_7101106F44*>(this)->getImageMaybe(type));
+        switch (type.type) {
+        case 0:
+            return &mImage0;
+        case 1:
+            return &mImage1;
+        case 2: {
+            return findNodeMaybe(type.index)->getA();
+        }
+        case 3: {
+            Unk_710250db28* found = nullptr;
+            for (Unk_710250db28* image : mImages) {
+                if (image->mIndex == type.index) {
+                    found = image;
+                    break;
+                }
+            }
+            return found;
+        }
+        default:
+            return nullptr;
+        }
+    }
+
+    // inline-only in the original; name is a guess. Whether the image for `type` has `flag` set; the
+    // const lookup is inlined into 0x71011339d0 (flag 8) and twice into 0x7101133af8 (flags 2 and 8).
+    bool isImageFlagSetMaybe(const ImageTypeMaybe& type, u32 flag) const {
+        const Unk_710250dcd8* image = getImageMaybe(type);
+        return image && (image->_8 & flag);
     }
 
     // 0x7101107f40 (placeholder name): numbers this node and its subtree in tree order (`index` counts up)

@@ -361,6 +361,13 @@ public:
     // up), marks it in use and counts it.
     void sub_7101133724(Request* request);
 
+    // 0x7101133af8 (placeholder name): unless the image for `type` is already requested (flag 2), takes a free
+    // request from mList31e8, fills it (sub_7101132FE0), marks the image and runs sub_7101133274; returns
+    // false when no request is free.
+    bool sub_7101133AF8(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type);
+    // 0x7101132fe0 (declaration only; placeholder name).
+    void sub_7101132FE0(Request* request, System* system, Unk_7101106F44* area,
+                        const ImageTypeMaybe& type);
     // 0x710113625c (placeholder name): under the manager lock (0x68), runs sub_7101135F34 and, with flag 2
     // of _6473, finishes the matching request of mLists19c0 (sub_7101136328 first if `a4`).
     bool sub_710113625C(System* owner, Unk_7101106F44* area, const ImageTypeMaybe& type,
