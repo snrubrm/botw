@@ -1,6 +1,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
+#include <aal/aalSettings.h>
 #include <aal/aalSystemAccessor.h>
 #include <heap/seadHeap.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -58,3 +59,27 @@ Unk_7102504850::~Unk_7102504850() = default;
 // NON_MATCHING: placeholder destructor; the original (0x7101087d00) also destroys members or bases
 // this class does not declare yet.
 Unk_71025049d0::~Unk_71025049d0() = default;
+
+// Unk_71025028c0 sits after the Unk_SoundMgr48 functions (0x7101055e48) in the original.
+Unk_71025028c0::~Unk_71025028c0() = default;
+
+// NON_MATCHING: clang merges the left / right stores into indexed stores; the original keeps the branches (likely
+// named channel members in SpeakerChannelVolume, which lib/aal declares as an array).
+void Unk_71025028c0::calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device,
+                                        s32 index_a, s32 index_b, f32 spread) {
+    if (aal::SystemAccessor::getSettings()->mOutputModes[device] == aal::OutputMode::Surround) {
+        const f32 rear = _c * ksys::snd::SoundMgr::instance()->sub_71011FC310();
+        const f32 front = _8 * spread;
+        if (index_b) {
+            volume->volume[1] = front;
+            volume->volume[3] = rear * spread;
+        } else {
+            volume->volume[0] = front;
+            volume->volume[2] = rear * spread;
+        }
+    } else if (index_b) {
+        volume->volume[1] = spread;
+    } else {
+        volume->volume[0] = spread;
+    }
+}

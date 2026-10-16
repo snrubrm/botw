@@ -2874,6 +2874,15 @@ public:
 class Unk_71025028c0 : public aal::ISpeakerBalanceSupplier {
 public:
     ~Unk_71025028c0() override;
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index,
+                            f32 spread) override {}
+    // 0x7101055e50: front volume (_8) and, in surround mode, rear volume (_c, scaled by SoundMgr::sub_71011FC310)
+    // on the left (index 0) or right side.
+    void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
+                            s32 index_b, f32 spread) override;
+
+    f32 _8;
+    f32 _c;
 };
 
 // vtable 0x710251b810 (13 slots); placeholder generated from the vtable (genskel.py).

@@ -948,6 +948,7 @@ struct SoundMgr {
 
     virtual ~SoundMgr();
 
+public:
     f32 sub_71011FC31C();
     f32 sub_71011FC310();
     bool sub_71011FC2DC();
