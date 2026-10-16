@@ -253,6 +253,8 @@ public:
 
     u8 _8[0x60 - 0x8];
     /* 0x60 */ sead::PtrArrayImpl _60;
+    u8 _70[0x8c - 0x70];
+    /* 0x8c */ f32 _8c;
 };
 
 // vtable 0x7102475050 (13 slots); placeholder generated from the vtable (genskel.py).
@@ -260,10 +262,13 @@ class Unk_7102475050 : public Unk_7102474fd8 {
     SEAD_RTTI_OVERRIDE(Unk_7102475050, Unk_7102474fd8)
 public:
     ~Unk_7102475050() override;
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
+    // the gauge values from the UI Manager (uking::ui::sub_7100A9B6D0 / sub_7100A9B6F0)
+    virtual f32 m6();
+    virtual f32 m7();
+    // 3000 (the default limit set by uking::ui::sub_7100945320)
+    virtual f32 m8();
+    // (value - 1000) / 2000 clamped to [0, 1]
+    virtual f32 m9(f32 value);
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -275,10 +280,14 @@ class Unk_71024750c8 : public Unk_7102474fd8 {
     SEAD_RTTI_OVERRIDE(Unk_71024750c8, Unk_7102474fd8)
 public:
     ~Unk_71024750c8() override;
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
+    // the gauge value from the UI Manager (uking::ui::sub_7100A9B710)
+    virtual f32 m6();
+    // 1000 or 2000 depending on m6() (0 while it is not positive)
+    virtual f32 m7();
+    // 2000 (the default limit set by uking::ui::sub_7100945344)
+    virtual f32 m8();
+    // how many 1000 steps _8c is above 1000 (the parameter is unused)
+    virtual f32 m9(f32 value);
     virtual void m10();
     virtual void m11() {}
     virtual void m12() {}

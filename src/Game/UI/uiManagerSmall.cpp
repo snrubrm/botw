@@ -471,6 +471,60 @@ Unk_7102474fd8::~Unk_7102474fd8() {
     _60.freeBuffer();
 }
 
+// 0x7100946968
+f32 Unk_7102475050::m6() {
+    return uking::ui::sub_7100A9B6D0();
+}
+
+// 0x710094696c
+f32 Unk_7102475050::m7() {
+    return uking::ui::sub_7100A9B6F0();
+}
+
+// 0x7100946970
+f32 Unk_7102475050::m8() {
+    return 3000.0f;
+}
+
+// 0x710094697c
+// NON_MATCHING: the clamp compiles to branches instead of fcsel / fccmp
+f32 Unk_7102475050::m9(f32 value) {
+    const f32 rate = (value + -1000.0f) / 2000.0f;
+    return rate < 0.0f ? 0.0f : (rate > 1.0f ? 1.0f : rate);
+}
+
+// 0x71009472cc
+f32 Unk_71024750c8::m6() {
+    return uking::ui::sub_7100A9B710();
+}
+
+// 0x7100947288
+// NON_MATCHING: compare scheduling (the original selects without a branch)
+f32 Unk_71024750c8::m7() {
+    static const f32 sLimits[] = {1000.0f, 2000.0f};
+    const f32 value = m6();
+    return value > 0.0f ? sLimits[!(value <= 1000.0f)] : 0.0f;
+}
+
+// 0x710094727c
+f32 Unk_71024750c8::m8() {
+    return 2000.0f;
+}
+
+// 0x71009472d0
+f32 Unk_71024750c8::m9(f32 value) {
+    if (_8c > 1000.0f) {
+        s32 count = 1;
+        f32 rest = _8c;
+        do {
+            rest += -1000.0f;
+            ++count;
+        } while (rest > 1000.0f);
+        return static_cast<f32>(count) - 1.0f;
+    }
+    return 0.0f;
+}
+
 // 0x710094784c
 Unk_7102475050::~Unk_7102475050() = default;
 

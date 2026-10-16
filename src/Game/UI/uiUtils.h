@@ -83,6 +83,9 @@ bool isE3DemoMode();
 int getPorchNum(const sead::SafeString& name);
 // 0x7100a9b6f0: cached UI Manager float at +0x54 (zero without the manager).
 f32 sub_7100A9B6F0();
+// 0x7100a9b6d0 / 0x7100a9b710 (defined in uiManagerFacade.cpp)
+f32 sub_7100A9B6D0();
+f32 sub_7100A9B710();
 
 // 0x7100a94bac: refreshes the pause menu information after a preview animation event.
 void sub_7100A94BAC();
