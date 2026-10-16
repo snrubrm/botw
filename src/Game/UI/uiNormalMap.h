@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <nn/ui2d/TextureInfo.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/uiUnkTiny.h"
@@ -36,6 +37,8 @@ public:
     virtual ~Unk_7102479bf0();
     // 0x71009a55a0: advances a completed texture request, or prepares its path for another request.
     void sub_71009A55A0(u32 level);
+    // 0x71009a524c (CSV unnamed; not decompiled)
+    void sub_71009A524C();
 
     /* 0x08 */ s32 mType = -1;
     u8 _c[4];
@@ -66,7 +69,10 @@ public:
     /* 0x12e8 */ Unk_7102479bf0 mTiles[240];
     u8 _a8e8[0xa8eb - 0xa8e8];
     /* 0xa8eb */ u8 _a8eb;  // ScreenAppMapWidget::sub_71009A9438 / sub_71009AF37C read it
-    u8 _a8ec[0xa9a0 - 0xa8ec];
+    u8 _a8ec[0xa8f0 - 0xa8ec];
+    // the texture the tiles show while unloaded (sub_71009A6F34)
+    /* 0xa8f0 */ nn::ui2d::ExternalTextureInfo _a8f0;
+    u8 _a908[0xa9a0 - 0xa908];
     /* 0xa9a0 */ UiTimer _a9a0;
     u8 _a9b8[0xaa48 - 0xa9b8];
 };

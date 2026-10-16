@@ -1,4 +1,6 @@
 #include "Game/UI/uiNormalMap.h"
+#include <nn/ui2d/Material.h>
+#include <gfx/seadGraphics.h>
 #include "KingSystem/Resource/resHandle.h"
 
 namespace uking::ui {
@@ -21,6 +23,27 @@ Unk_7102479bf0::~Unk_7102479bf0() = default;
 
 // 0x71009a5bc8
 Unk_7102479c10::~Unk_7102479c10() = default;
+
+// 0x71009a6f34
+void Unk_7102479c10::sub_71009A6F34() {
+    for (s32 i = 0; i < 240; ++i) {
+        auto& tile = mTiles[i];
+        auto& texture = tile.mTexture;
+        if (texture.mMaterial) {
+            sead::Graphics::instance()->lockDrawContext();
+            texture.mMaterial->GetTexMapArray()[0].ReplaceTextureInfo(&_a8f0);
+            sead::Graphics::instance()->unlockDrawContext();
+            if (texture.mHandle) {
+                if (texture.mHandle->requestedLoad())
+                    texture.mHandle->requestUnload2();
+                texture.mIndex = -1;
+            }
+            texture.mPath.clear();
+            texture.mState = 6;
+        }
+        tile.sub_71009A524C();
+    }
+}
 
 // 0x71009a55a0
 // NON_MATCHING: conditional path-level selection uses csel instead of the original branches.
