@@ -460,4 +460,21 @@ bool PlayerOrEnemy::m165(sead::BufferedSafeString* out) {
     return false;
 }
 
+// Moves this actor in front of its listed weapons: when it comes after the first listed weapon, the two swap.
+void PlayerOrEnemy::m147(sead::PtrArray<Actor>* actors) {
+    const s32 num = actors->size();
+    s32 index = -1;
+    for (s32 i = 0; i < num; ++i) {
+        if (actors->at(i) == this) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return;
+    const s32 weapon = mWeapons.sub_7100EFD524(actors);
+    if (index > weapon && u32(actors->size()) > u32(index) && u32(actors->size()) > u32(weapon))
+        actors->swap(weapon, index);
+}
+
 }  // namespace ksys::act
