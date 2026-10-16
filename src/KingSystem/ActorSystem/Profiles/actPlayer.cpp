@@ -520,6 +520,28 @@ bool Player::sub_7100888618() {
     return _d30 == getEquipmentTypeName(5);
 }
 
+void Player::sub_7100893130(sead::Vector3f* vec) {
+    sead::Vector3f dir = *vec;
+    dir.normalize();
+    dir.y = 0.0f;
+    *vec += dir * 0.0f;
+}
+
+void Player::sub_710084AD5C(f32 value, bool a2) {
+    f32 delta = value * (1.0f / 30.0f);
+    if (!a2 && VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f)
+        delta *= uking::sUnk_7101e7c1d8;
+    _e7c[sead::CoreInfo::getCurrentCoreId()] += delta;
+}
+
+void Player::m310(f32 target) {
+    f32 value = m139();
+    const f32 rate = value < target ? uking::sUnk_7101e7c268 : uking::sUnk_7101e7c26c;
+    const f32 step = rate * _20ec * VFR::instance()->getDeltaFrame();
+    sead::Mathf::chase(&value, target, step);
+    m309(value);
+}
+
 bool Player::sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
                             sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                             bool check_normal) {

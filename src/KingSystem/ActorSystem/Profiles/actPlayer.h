@@ -610,6 +610,8 @@ public:
     void sub_71008838FC(sead::Vector3f* out);
     // 0x7100888618: _d30 is the name of equipment type 5.
     bool sub_7100888618();
+    // 0x7100893130: adds the horizontal part of the normalised `vec` scaled by 0 to it (a disabled offset).
+    void sub_7100893130(sead::Vector3f* vec);
     // 0x710087f0b4: no ground hit 0.55 ahead (direction _1c84) of the ladder point _22f4 at height _1770.y + 0.35,
     // casting up by 4 ladder steps (sUnk_7101e7c5d0).
     bool sub_710087F0B4();
