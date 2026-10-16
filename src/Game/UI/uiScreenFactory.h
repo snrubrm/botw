@@ -10,7 +10,7 @@ class ScreenFactory : public eui::ScreenTargetMgr {
 public:
     ~ScreenFactory() override;
     // 0x7100a81f34 (CSV ScreenFactory::create; not decompiled)
-    void m2() override;
+    eui::Screen* m2(sead::Heap* heap, s32 id) override;
     // 0x7100a82830 (CSV ScreenFactory::getName): the layout name of screen `id` (ids above 98 give the last name)
     const char* m3(s32 id) override;
     // 0x7100a82840 (CSV ScreenFactory::getCount)

@@ -4,6 +4,7 @@
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiNwAllocator.h"
 #include <gfx/nin/seadGraphicsNvn.h>
+#include <heap/seadFrameHeap.h>
 #include <heap/seadHeapMgr.h>
 
 namespace eui {
@@ -46,6 +47,29 @@ void ScreenMgr::unloadScreen(s32 id) {
     resetScreenId(id);
     if (screen->isOwnInitializeHeap())
         screen->getInitializeHeap()->destroy();
+}
+
+// 0x7100bec88c
+Screen* ScreenMgr::loadScreenImpl_(sead::Heap* heap, s32 id, s8 target, bool a4,
+                                   sead::FrameHeap* frame_heap) {
+    const char* name = mTargetMgr->m3(id);
+    if (!frame_heap) {
+        frame_heap = sead::DynamicCast<sead::FrameHeap>(heap);
+        if (!frame_heap) {
+            frame_heap = sead::FrameHeap::create(0, name, heap, 8, sead::Heap::cHeapDirection_Forward, false);
+            frame_heap->enableWarning(false);
+        }
+    }
+    Screen* screen = mTargetMgr->m2(frame_heap, id);
+    screen->initialize(this, frame_heap, name, id, target, a4);
+    if (frame_heap == heap) {
+        screen->setOwnInitializeHeap(false);
+    } else {
+        frame_heap->freeTail();
+        frame_heap->adjust();
+    }
+    mScreens[id] = screen;
+    return screen;
 }
 
 // 0x7100bec7e8

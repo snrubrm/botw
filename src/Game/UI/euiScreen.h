@@ -320,8 +320,8 @@ KSYS_CHECK_SIZE_NX150(Screen, 0x108);
 class ScreenTargetMgr {
 public:
     virtual ~ScreenTargetMgr() = default;
-    // 0x7100a81f34 (CSV create; not decompiled)
-    virtual void m2();
+    // 0x7100a81f34 (CSV create; not decompiled): creates screen `id` on `heap` (ScreenMgr::loadScreenImpl_)
+    virtual Screen* m2(sead::Heap* heap, s32 id);
     // 0x18: the name of screen `id` (the name of the screen's frame heap, see uking::ui::createAndLoadScreen)
     virtual const char* m3(s32 id);
     // The number of screens
@@ -361,8 +361,8 @@ public:
     // 0x7100bec794 / 0x7100bec724 / 0x7100bec7e8 / 0x7100bec808
     void resetScreenId(s32 id);
     void unloadScreen(s32 id);
-    // 0x7100bec88c (declared only)
-    void loadScreenImpl_(sead::Heap* heap, s32 id, s8 target, bool a4, sead::FrameHeap* frame_heap);
+    // 0x7100bec88c
+    Screen* loadScreenImpl_(sead::Heap* heap, s32 id, s8 target, bool a4, sead::FrameHeap* frame_heap);
     void inactivateScreen(s32 id);
     void activateScreen(s32 id);
     // 0x7100bec4c0 / 0x7100bec534 / 0x7100bec690
