@@ -3412,6 +3412,12 @@ void sub_71009F2204();
 // 0x71009e3b84 (placeholder name; ScreenAppMapDungeon TU): when the app system window of type 8 has closed with no
 // pending result, stores the dungeon exit map / destination in the Manager and calls Manager::sub_7100A7C9C0
 void sub_71009E3B84();
+// 0x71025de180 (uiAppStateGlobals.cpp): flag bits of the AppMapDungeon screen functions
+extern u16 sUnk_71025de180;
+// 0x71009e5530 (placeholder name; ScreenAppMapDungeon TU): a dungeon-state check: false
+// while bit 0 of sUnk_71025de180 is set or the curse flag is on in states 0 - 3; per state the Divine Beast boss
+// appeared-and-died flags, the gear manager timer in state 4, false in state 5, true otherwise
+bool sub_71009E5530();
 // 0x7100a9eea4 / 0x7100a9eef4 (defined in uiManagerFacade.cpp)
 const char* sub_7100A9EEA4();
 const char* sub_7100A9EEF4();

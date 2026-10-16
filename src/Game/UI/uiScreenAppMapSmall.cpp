@@ -1,3 +1,5 @@
+#include "Game/gameGearMgr.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
@@ -298,6 +300,43 @@ void ScreenAppMap::sub_71009F1CA4(eui::LayoutEx* layout) {
         sead::FixedSafeString<128> text;
         wm::formatTimeString(&text);
         setWidgetString(layout, "T_Time_00", text);
+    }
+}
+
+// 0x71009e5530
+bool sub_71009E5530() {
+    if (sUnk_71025de180 & 1)
+        return false;
+    auto* manager = Manager::instance();
+    if (!manager)
+        return true;
+    if (u32(manager->_64c38) <= 3 && ksys::gdt::getFlag_IsBattle_CurseR())
+        return false;
+    switch (manager->_64c38) {
+    case 0:
+        if (!ksys::gdt::getFlag_Appear_PGanonWind())
+            return true;
+        return ksys::gdt::getFlag_Die_PGanonWind();
+    case 1:
+        if (!ksys::gdt::getFlag_Appear_PGanonFire())
+            return true;
+        return ksys::gdt::getFlag_Die_PGanonFire();
+    case 2:
+        if (!ksys::gdt::getFlag_Appear_PGanonWater())
+            return true;
+        return ksys::gdt::getFlag_Die_PGanonWater();
+    case 3:
+        if (!ksys::gdt::getFlag_Appear_PGanonElectric())
+            return true;
+        return ksys::gdt::getFlag_Die_PGanonElectric();
+    case 4:
+        if (Manager::instance()->_64c30 & 0x800000000000)
+            return true;
+        return GearMgr::instance()->_10d0.value <= sead::Mathf::epsilon();
+    case 5:
+        return false;
+    default:
+        return true;
     }
 }
 
