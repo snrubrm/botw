@@ -113,6 +113,15 @@ Unk_710250dbc8* Unk_7101108460::getA() {
     return mA;
 }
 
+// NON_MATCHING: operand order of the first multiply (commutative; not source-controlled here).
+void Unk_7101106F44::sub_7101107E98(sead::BoundBox3f* box, const sead::Vector2f& pos, f32 size) const {
+    const f32 half = size * 0.5f;
+    const f32 scale = Terrain::instance()->_3cc;
+    const f32 min_height = sead::Mathf::min(_8.x * scale + 0.0f, _10.x * scale + 0.0f);
+    const f32 max_height = sead::Mathf::max(_8.y * scale + 0.0f, _10.y * scale + 0.0f);
+    box->set(pos.x - half, min_height, pos.y - half, pos.x + half, max_height, pos.y + half);
+}
+
 const Unk_710250dbc8* Unk_7101108460::getA() const {
     return mA;
 }

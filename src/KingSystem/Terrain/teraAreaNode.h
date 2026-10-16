@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
+
 #include <container/seadPtrArray.h>
 #include <container/seadTList.h>
 #include <math/seadVector.h>
@@ -127,6 +129,9 @@ public:
     // 0x7101107f40 (placeholder name): numbers this node and its subtree in tree order (`index` counts up)
     // and sets the depths; `max_depth` gets the largest depth.
     void sub_7101107F40(u32* max_depth, s32* index);
+    // 0x7101107e98 (placeholder name): the box of side `size` around `pos` spanning the node's height
+    // range (_8.x / _10.x to _8.y / _10.y, scaled by Terrain::_3cc).
+    void sub_7101107E98(sead::BoundBox3f* box, const sead::Vector2f& pos, f32 size) const;
     // 0x7101108004 (placeholder name): sub_7101107F40 from the root with both counters reset.
     void sub_7101108004(u32* max_depth, s32* index);
     // 0x7101108174 (placeholder name): whether the nearest node with key `id` (here or in a parent) has a
