@@ -237,7 +237,9 @@ public:
         u8 _8[0x710 - 0x8];
         s32 _710;
         MaterialNameTable* mMaterialNames;
-        u8 _720[0x730 - 0x720];
+        u8 _720[0x728 - 0x720];
+        // Names searched by sub_710110C1E4 (same layout as mMaterialNames; indexes _730).
+        MaterialNameTable* _728;
         // Placeholder: one u32 per material (read by sub_710110C1A4).
         struct MaterialValueTable {
             u8 _0[8];

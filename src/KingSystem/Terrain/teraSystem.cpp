@@ -629,6 +629,18 @@ bool sub_710110C1A4(u32* out, u32 index) {
     return true;
 }
 
+// NON_MATCHING: register allocation; the not-found return is a separate block in ours.
+bool sub_710110C1E4(u32* out, const sead::SafeString& name) {
+    const u32 count = Terrain::instance()->_370->_4ae0->_710;
+    for (u32 i = 0; i < count; ++i) {
+        if (sead::SafeString(Terrain::instance()->_370->_4ae0->_728->mNames[s32(i)]->name) == name) {
+            *out = Terrain::instance()->_370->_4ae0->_730->mValues[i];
+            return true;
+        }
+    }
+    return false;
+}
+
 // NON_MATCHING: the original keeps the list node and reloads the found node from it.
 bool System::sub_7101118B34(sead::Heap* heap, Unk_7101106F44* area,
                                     Unk_710110d278::Key* key, bool check) {
