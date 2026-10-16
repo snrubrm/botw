@@ -359,6 +359,9 @@ public:
         struct Item;
         // 0x71011382ec (placeholder name): returns every item of mList to mFreeList.
         void sub_71011382EC();
+        // 0x7101138494 (declaration only; placeholder name): the item of mList whose name (SafeString at +0x8)
+        // is `name`, or null. System::sub_71011194C4 passes the result to sub_7101118C40 as the key.
+        Unk_710110d278::Key* sub_7101138494(const sead::SafeString& name);
 
         sead::FreeList mFreeList;
         sead::OffsetList<Item> mList;
@@ -1015,6 +1018,11 @@ public:
     // provide it. True if the node is ready.
     bool sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area, Unk_710110d278::Key* key, u32 size,
                         bool check, f32 value);
+    // 0x7101118fc0 (placeholder name): makes sure `area` (and its parents first) has the type-3 image
+    // `index`; a new image gets flag 1 with `check`, and `listener` is told (event 3). With `check` and
+    // Terrain flag 0x400, an existing image counts only with flag 1.
+    bool sub_7101118FC0(sead::Heap* heap, Unk_7101106F44* area, u32 index, bool check,
+                        Unk_7101112C94Listener* listener);
     // 0x71011171d8 / 0x710111731c (placeholder names): add / remove a user of the image for `type`; the
     // first user / the last one queues the image.
     void sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type);

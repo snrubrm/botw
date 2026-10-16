@@ -917,4 +917,23 @@ bool System::sub_7101118C40(sead::Heap* heap, Unk_7101106F44* area,
     return true;
 }
 
+// NON_MATCHING: the index compare zero-extends the u16 (the original compares the full register).
+bool System::sub_7101118FC0(sead::Heap* heap, Unk_7101106F44* area, u32 index, bool check,
+                            Unk_7101112C94Listener* listener) {
+    const Unk_710250dcd8* image = area->getImageMaybe(makeImageTypeMaybe(3, index));
+    if (image) {
+        if (check && Terrain::instance()->_a58 & 0x400)
+            return image->_8 & 1;
+        return true;
+    }
+
+    if (area->mParent && !sub_7101118FC0(heap, area->mParent, index, check, listener))
+        return false;
+    if (Unk_710250db28* created = area->sub_7101108564(heap, index, 1); created && check)
+        created->_8 |= 1;
+    if (listener)
+        listener->m0(area, 3);
+    return true;
+}
+
 }  // namespace ksys::tera

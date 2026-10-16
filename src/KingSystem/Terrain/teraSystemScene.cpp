@@ -108,6 +108,151 @@ void System::sub_7101112714(Unk_7101112C94Listener* listener) {
 }
 
 // NON_MATCHING: stack layout of the attribute strings and the child loop.
+// NON_MATCHING: 3632 bytes against 3572; the original reads file_base (cstr) before building the name
+// buffer and copies a plain string, and the stack slots differ.
+bool System::sub_71011194C4(sead::Heap* heap, Unk_7101106F44* node, const sead::XmlElement* element) {
+    const f32 value = _24;
+    const sead::SafeString file_base = element->findAttributeValue("file_base");
+    if (!file_base.isEmpty()) {
+        sead::BufferedSafeString name(node->mName, sizeof(node->mName));
+        node->mNameLength = name.copy(file_base);
+        node->mNameHash = sead::HashCRC32::calcHash(node->mName, node->mNameLength);
+    }
+
+    f32 max = 0;
+    f32 min = 0;
+    bool ok;
+    if (sead::StringUtil::tryParseF32(&min, element->findAttributeValue("area_min_height_ground")) &&
+        sead::StringUtil::tryParseF32(&max, element->findAttributeValue("area_max_height_ground"))) {
+        ok = true;
+        node->_8 = {min, max};
+    } else {
+        ok = false;
+    }
+    if (sead::StringUtil::tryParseF32(&min, element->findAttributeValue("area_min_height_water")) &&
+        sead::StringUtil::tryParseF32(&max, element->findAttributeValue("area_max_height_water"))) {
+        node->_10 = {min, max};
+    } else {
+        ok = false;
+    }
+
+    for (const sead::XmlElement* child = element->getFirstChild(); child;
+         child = child->getNextSibling()) {
+        if (child->getName() == "height") {
+            const sead::SafeString edited = child->findAttributeValue("edited");
+            if (!edited.isEmpty()) {
+                if (edited == "true")
+                    node->mImage0._8 |= 0x10;
+                else
+                    node->mImage0._8 &= ~0x10;
+            }
+        } else if (child->getName() == "material") {
+            const sead::SafeString edited = child->findAttributeValue("edited");
+            if (!edited.isEmpty()) {
+                if (edited == "true")
+                    node->mImage1._8 |= 0x10;
+                else
+                    node->mImage1._8 &= ~0x10;
+            }
+        } else if (child->getName() == "extra") {
+            const sead::SafeString ref = child->findAttributeValue("ref_extra");
+            const s32 width =
+                sead::StringUtil::parseU32(child->findAttributeValue("tex_width"),
+                                           sead::StringUtil::CardinalNumber::BaseAuto);
+            Unk_710110d278::Key* key = Terrain::instance()->_380->sub_7101138494(ref);
+            if (!key)
+                continue;
+
+            u32 size;
+            switch (width) {
+            case 0x20:
+                size = 0;
+                break;
+            case 0x40:
+                size = 1;
+                break;
+            case 0x60:
+                size = 2;
+                break;
+            case 0x80:
+                size = 3;
+                break;
+            case 0xc0:
+                size = 4;
+                break;
+            case 0x100:
+                size = 5;
+                break;
+            case 0x180:
+                size = 6;
+                break;
+            case 0x200:
+                size = 7;
+                break;
+            case 0x300:
+                size = 8;
+                break;
+            case 0x400:
+                size = 9;
+                break;
+            default:
+                size = 10;
+                break;
+            }
+            sub_7101118C40(heap, node, key, size, false, value);
+
+            Unk_7101108460* found = nullptr;
+            for (Unk_7101108460* entry : node->mNodes) {
+                if (entry->getB()->_8 == key) {
+                    found = entry;
+                    break;
+                }
+            }
+            const sead::SafeString edited = child->findAttributeValue("edited");
+            if (!edited.isEmpty()) {
+                Unk_710250dbc8* image = found->getA();
+                if (edited == "true")
+                    image->_8 |= 0x10;
+                else
+                    image->_8 &= ~0x10;
+            }
+        } else if (child->getName() == "extended") {
+            const sead::SafeString type = child->findAttributeValue("type");
+            u8 index;
+            if (type == "grass")
+                index = 0;
+            else if (type == "water")
+                index = 1;
+            else
+                index = 0xff;
+            // The width is parsed but not used (discarded call in the original).
+            sead::StringUtil::parseU32(child->findAttributeValue("tex_width"),
+                                       sead::StringUtil::CardinalNumber::BaseAuto);
+            if (index == 0xff) {
+                if (auto* debug = Terrain::instance()->_a50) {
+                    auto entry = debug->_70.log(
+                        "【イメージデータ】拡張マップタイプが見つかりません : %s", type.cstr());
+                    if (entry.buffer)
+                        entry.buffer->setDisplayTime(10.0f);
+                }
+                continue;
+            }
+
+            if (!node->getImageMaybe(makeImageTypeMaybe(3, index)))
+                sub_7101118FC0(heap, node, index, false, nullptr);
+            Unk_710250dcd8* image = node->getImageMaybe(makeImageTypeMaybe(3, index));
+            const sead::SafeString edited = child->findAttributeValue("edited");
+            if (!edited.isEmpty()) {
+                if (edited == "true")
+                    image->_8 |= 0x10;
+                else
+                    image->_8 &= ~0x10;
+            }
+        }
+    }
+    return ok;
+}
+
 bool System::sub_710111A2B8(sead::Heap* heap, const sead::XmlElement* element) {
     const f32 scale = sead::StringUtil::parseF32(element->findAttributeValue("scale"));
     const f32 x = sead::StringUtil::parseF32(element->findAttributeValue("x"));
