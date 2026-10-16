@@ -5,6 +5,20 @@ namespace ksys::snd {
 
 // TU around 0x71012c167c in the original (far from the other sub-managers).
 
+Unk_SoundMgr38_60::~Unk_SoundMgr38_60() = default;
+
+void Unk_SoundMgr38_60::sub_71012C167C() {
+    for (auto& entry : mEntries) {
+        // called through a pointer in the original (not devirtualised)
+        (&entry)->sub_710104A0D4();
+    }
+    if (mInstances) {
+        mInstances->sub_710104993C();
+        delete mInstances;
+        mInstances = nullptr;
+    }
+}
+
 // Empty in the release build.
 void Unk_SoundMgr38_60::sub_71012C17B4() {}
 
