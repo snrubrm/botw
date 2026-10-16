@@ -4290,7 +4290,15 @@ public:
         u8 _28[0x38 - 0x28];
     };
     /* 0x11530 */ sead::SafeArray<PartsEntry, 11> _11530;
-    u8 _11798[0x11818 - 0x11798];
+    struct Entry11798 {
+        u8 _0[0x18];
+        /* 0x18 */ eui::Animator* animator;
+    };
+    // indexed by _117b0[getDungeonTableIndex()] + entry
+    /* 0x11798 */ Entry11798** _11798;
+    u8 _117a0[0x117b0 - 0x117a0];
+    /* 0x117b0 */ sead::SafeArray<s32, 6> _117b0;
+    u8 _117c8[0x11818 - 0x117c8];
     struct Entry11818 {
         eui::Animator* animator;
         u8 _8[0x30 - 0x8];
@@ -4308,6 +4316,9 @@ public:
     void sub_71009E5868(s32 index);
     // 0x71009e2584 (placeholder name): looks up the two screen children (group 1 and group 0)
     void sub_71009E2584();
+    // 0x71009e5ca8 (placeholder name): like sub_71009E5868, also resetting the other entries and playing the
+    // per-dungeon animators of _11798
+    void sub_71009E5CA8(s32 index);
 };
 static_assert(sizeof(ScreenAppMapDungeon) == 0x11938);
 

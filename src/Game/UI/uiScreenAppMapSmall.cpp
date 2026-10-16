@@ -363,4 +363,65 @@ void ScreenAppMapDungeon::sub_71009E5868(s32 index) {
         animator->PlayAuto(1.0f);
 }
 
+// inline-only in the original; name is a guess: the same switch on Manager::_64c38 (lookup table 0x7101e7e640)
+// repeats in 0x71009e62fc and twice in 0x71009e5ca8
+static s32 getDungeonTableIndex() {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return 6;
+    switch (manager->_64c38) {
+    case 0:
+        return 2;
+    case 1:
+        return 1;
+    case 2:
+        return 3;
+    case 3:
+        return 0;
+    case 4:
+        return 5;
+    case 5:
+        return 4;
+    default:
+        return 6;
+    }
+}
+
+// 0x71009e5ca8
+// NON_MATCHING: the original loads _118ac once before the loop (reloading it only after the StopAtMin call) and
+// reuses that value after the loop; ours reloads it every iteration
+void ScreenAppMapDungeon::sub_71009E5CA8(s32 index) {
+    for (s32 i = 0; i < 11; ++i) {
+        if (i == index || i == _118ac)
+            continue;
+        if (auto* animator = _11530[i].animators[2])
+            animator->StopAtMin();
+    }
+    const s32 prev = _118ac;
+    if (prev != -1) {
+        _118ac = -1;
+        if (auto* animator = _11530[prev].animators[2])
+            animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        const s32 base = _117b0[getDungeonTableIndex()];
+        if (base != -1) {
+            if (auto* animator = _11798[base + prev]->animator)
+                animator->PlayAuto(-1.0f);
+        }
+    }
+    _118ac = index;
+    if (index == -1) {
+        if (_11918)
+            _11918->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        return;
+    }
+    _118d0 = index;
+    if (auto* animator = _11530[index].animators[2])
+        animator->PlayAuto(1.0f);
+    const s32 base = _117b0[getDungeonTableIndex()];
+    if (base != -1) {
+        if (auto* animator = _11798[base + index]->animator)
+            animator->PlayAuto(1.0f);
+    }
+}
+
 }  // namespace uking::ui
