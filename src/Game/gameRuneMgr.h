@@ -94,6 +94,13 @@ public:
 
     // 0x710067525c (CSV __auto6): byte flag at 0x250.
     bool sub_710067525C() const;
+    // 0x71006752ac (CSV RuneMgr::__auto11; placeholder name): updates the target actors (x_0), then returns
+    // _408 while _90 bit 8 is set, nothing while bit 7 is set, else _410. StasisMgr::__auto1 uses it as
+    // the stasis target candidate.
+    ksys::act::Actor* sub_71006752AC();
+    // 0x71006752f0 (CSV name; declaration only): updates _408 / _410 from the object at _258 (calls
+    // sead::MemUtil::checkFillType and compares the result with 2, which our sead declares as bool).
+    void x_0();
 
     // 0x71006757f8 (CSV __auto15; placeholder name): whether UiTimer _3c8[idx]
     // (idx clamped to 0-1) is done.
@@ -126,8 +133,9 @@ public:
     // Set by the ctor body (no initializer).
     /* 0x3f8 */ void* _3f8;
     /* 0x400 */ void* _400;
-    /* 0x408 */ void* _408 = nullptr;  // cleared by the dtor
-    /* 0x410 */ void* _410 = nullptr;  // cleared by the dtor
+    // Actors from the object at _258 (x_0 0x71006752f0 tests them with hasTag; the dtor clears both).
+    /* 0x408 */ ksys::act::Actor* _408 = nullptr;
+    /* 0x410 */ ksys::act::Actor* _410 = nullptr;
     /* 0x418 */ f32 _418 = -1.0f;
     /* 0x41c */ f32 _41c = -1.0f;
     /* 0x420 */ f32 _420 = -1.0f;

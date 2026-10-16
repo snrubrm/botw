@@ -168,6 +168,15 @@ bool RuneMgr::sub_710067525C() const {
     return _250._0;
 }
 
+ksys::act::Actor* RuneMgr::sub_71006752AC() {
+    x_0();
+    if (_90 & 0x100)
+        return _408;
+    if (_90 & 0x80)
+        return nullptr;
+    return _410;
+}
+
 bool RuneMgr::__auto15(int idx) {
     s64 i = u32(idx) < 2 ? idx : 0;
     return !_3c8[i].isDone();

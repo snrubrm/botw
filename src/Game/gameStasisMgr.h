@@ -22,6 +22,10 @@ namespace ksys::map {
 struct ObjectLinkArray;
 }
 
+namespace uking::act {
+class PlayerBase;
+}
+
 namespace uking {
 
 // StasisMgr's secondary interface at +0x10, stored in ActorSystem at +0xc8.
@@ -92,6 +96,10 @@ public:
     // 0x7100680368 (placeholder name): releases every target (message 0x3000004), kills their
     // effects and resets the countdown state from the player's stop timer reload time.
     void sub_7100680368(bool on_processing_thread);
+    // 0x7100680660 (CSV StasisMgr::__auto1; placeholder name): per-frame update: the countdown, then (while
+    // the stasis rune is aimed, _40) links the RuneMgr target candidate in _32e0 (messages 0x3000005 /
+    // 0x3000006) and stasises it on input; releases _32e0 otherwise.
+    void sub_7100680660(act::PlayerBase* player);
     // 0x7100680920 (placeholder name): asks `actor` (or, while _42 is set and the actor is already
     // stasised, the actor in the first entry) to leave / enter stasis through messages 0x3000003 /
     // 0x3000004.

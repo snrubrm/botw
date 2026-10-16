@@ -338,6 +338,76 @@ void StasisMgr::sub_7100680368(bool on_processing_thread) {
     _48 = 0;
 }
 
+// NON_MATCHING: same logic, different block layout of the target branches.
+void StasisMgr::sub_7100680660(act::PlayerBase* player) {
+    updateStasisCountdownStuff();
+    _43 = 0;
+
+    bool keep_target = false;
+    if (auto* rune_mgr = RuneMgr::instance()) {
+        if (!_40) {
+            if (!(std::max(_44 * _58, 0.0f) > 0.0f) &&
+                rune_mgr->checkIsSelectedRuneAndCanUse(3, player) && (rune_mgr->_90 & 0x10)) {
+                _40 = 1;
+            }
+        } else {
+            ksys::act::Actor* target = nullptr;
+            if (rune_mgr->sub_710067525C() && !(std::max(_44 * _58, 0.0f) > 0.0f)) {
+                target = rune_mgr->sub_71006752AC();
+                if (target && ksys::act::canBeStasised(target, false)) {
+                    if (_32e0.hasProcById(target)) {
+                        keep_target = true;
+                    } else {
+                        ksys::act::ActorLinkConstDataAccess accessor;
+                        ksys::act::acquireActor(&_32e0, &accessor);
+                        _3558.clear();
+                        mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
+                                                 ksys::MessageType(0x3000006), nullptr, true);
+                        _32e0.reset();
+
+                        bool can_link = !_42;
+                        if (!can_link) {
+                            for (auto& entry : mEntries) {
+                                if (entry.link.hasProcById(target)) {
+                                    can_link = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (can_link) {
+                            _32e0.acquire(target, false);
+                            _3348.clear();
+                            keep_target = true;
+                            mTransceiver.sendMessage(*target->getMesTransceiverId(),
+                                                     ksys::MessageType(0x3000005), nullptr, true);
+                        } else {
+                            target = nullptr;
+                            _43 = 1;
+                        }
+                    }
+                }
+            }
+            if (!(rune_mgr->_90 & 0x10)) {
+                _40 = 0;
+            } else if (target && (rune_mgr->_94 & 4)) {
+                _40 = 0;
+                sub_7100680920(target);
+            }
+        }
+    }
+    if (keep_target)
+        return;
+
+    if (_32e0.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_32e0, &accessor);
+        _3558.clear();
+        mTransceiver.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000006),
+                                 nullptr, true);
+        _32e0.reset();
+    }
+}
+
 void StasisMgr::sub_7100680920(ksys::act::Actor* actor) {
     if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
         if (_42) {
