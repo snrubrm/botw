@@ -1,4 +1,11 @@
 #include "Game/Actor/AI/aiMotorcycleRoot.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Event/evtMetadata.h"
+#include "KingSystem/Event/evtManager.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/gameSceneSubsys12.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actMotorcycle.h"
@@ -104,6 +111,55 @@ void MotorcycleRoot::loadParams_() {
     getStaticParam(&mNoiseThrottleClose_s, "NoiseThrottleClose");
     getStaticParam(&mNoiseThrottleOpen_s, "NoiseThrottleOpen");
     getStaticParam(&mForestFogRatioForDisappear_s, "ForestFogRatioForDisappear");
+}
+
+// NON_MATCHING: the original tests the event manager before the motorcycle manager and keeps !x() as a value
+// (eor + tbz); ours swaps the two null tests.
+bool MotorcycleRoot::handleMessage_(const ksys::Message* message) {
+    switch (message->getType()) {
+    case 0x3800029:
+        if (auto* motorcycle = sead::DynamicCast<act::Motorcycle>(mActor))
+            motorcycle->x_9(true);
+        return true;
+    case 0x380001d:
+        _78 = static_cast<sead::Matrix34f*>(message->getUserData());
+        _80 = true;
+        return true;
+    case 0x1800027: {
+        if (ksys::ui::sub_7100EDC4B8())
+            return true;
+        if (_81.isOnBit(Flag::_5))
+            return true;
+        if (_81.isOnBit(Flag::_2))
+            return true;
+
+        auto* subsys = GameSceneSubsys12::instance();
+        if (!subsys)
+            return true;
+        auto* motorcycle_mgr = MotorcycleMgr::instance();
+        auto* event_mgr = ksys::evt::Manager::instance();
+        if (!subsys->sub_71006652C8())
+            return true;
+        const bool x = subsys->x();
+        if (!event_mgr || !motorcycle_mgr || x)
+            return true;
+
+        motorcycle_mgr->sub_710067A7E4(nullptr, nullptr);
+        ksys::evt::Metadata metadata("Demo649_0", "Demo649_0", "");
+        ksys::evt::CallArg arg;
+        arg.metadata = &metadata;
+        arg.proc = mActor;
+        if (event_mgr->callEvent(arg)) {
+            ui::PauseMenuDataMgr::instance()->removeGrabbedItems();
+            _81.setBit(Flag::_2);
+        } else {
+            subsys->_a78.fetchAnd(~1u);
+        }
+        return true;
+    }
+    default:
+        return false;
+    }
 }
 
 }  // namespace uking::ai

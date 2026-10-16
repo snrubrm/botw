@@ -18,6 +18,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // 0x71004ad5c8 (CSV AI_AI_MotorcycleRoot::x; placeholder name): updates the AS flags 0x2c (energy left),
     // 0x1a (no rider state) and 0x29 (energy empty) of the AS flag parameter 0x42.

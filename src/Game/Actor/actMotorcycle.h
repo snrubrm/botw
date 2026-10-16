@@ -340,6 +340,8 @@ public:
     void sub_710007A798(const sead::Vector3f& direction);
     // 0x710007a4a8: 0 while flag bits 17 and 37 are both set, _e4c otherwise.
     f32 sub_710007A4A8() const;
+    // 0x710007a4cc (CSV Motorcycle::x_9; declared by lane1 s95): toggles bits 0 / 8 of _f88 unless bits 8-9 are set.
+    void x_9(bool on);
     // 0x710007a6e8: flag bit 25 while bit 8 or 9 is set.
     bool sub_710007A6E8() const;
     // 0x710007a74c: stores `value` in _112c and sets _1128 (under the _10e8 lock).
