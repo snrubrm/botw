@@ -619,3 +619,13 @@ void Unk_71024826c0::m14() {
 
 // 0x71009f47f8
 Unk_7102482790::~Unk_7102482790() = default;
+
+// The picture book entry setup for this unit type (template in uiScreens.h)
+// 0x71009f95c4
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_71024826c0>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// NON_MATCHING (createUnits<Unk_7102482790>, 0x71009fb6fc): the original keeps the second memset's address in a
+// callee-saved register and spills the end iterator; same code otherwise
+// 0x71009fb62c
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_7102482790>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);

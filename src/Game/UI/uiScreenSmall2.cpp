@@ -3051,3 +3051,14 @@ void Unk_71024975d0::m19(eui::AnimButton* button) {
     if (value)
         sub_7100A4D41C();
 }
+
+// The picture book entry setup for this unit type (template in uiScreens.h)
+// 0x71009d6e9c
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_710247fbc0>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// 0x71009d4fb8
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_710247faf0>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// 0x7100a4e5dc
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_71024975d0>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);

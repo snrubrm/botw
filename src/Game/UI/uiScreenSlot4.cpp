@@ -2,6 +2,7 @@
 #include "Game/UI/uiShopItemElementChildren.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiShortcutIconButton.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/gameMotorcycleMgr.h"
@@ -411,3 +412,21 @@ void Unk_7102496f70::m19(eui::AnimButton* button) {
         uking::ui::UiShopMgr::instance()->sub_710098425C(sub_7100939C68(), sub_7100939C78());
     }
 }
+
+// The picture book entry setup for this unit type (template in uiScreens.h)
+// 0x7100a066d8
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<uking::ui::Unk_71024872a0>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// 0x7100a033a8
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<uking::ui::Unk_7102485670>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// 0x7100a031e4
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_71024855a8>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// 0x7100a4c638
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_7102496f70>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// Unk_7102474c68's constructor is out of line in another TU (0x7100936ce4)
+// 0x7100a223e0
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<uking::ui::Unk_7102474c68>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);

@@ -1322,3 +1322,11 @@ void Unk_710247b2c8::m9() {
 void* Unk_710247b2c8::m10() {
     return _18->_328;
 }
+
+// The picture book entry setup for this unit type (template in uiScreens.h)
+// 0x71009b91b0
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<uking::ui::Unk_7102474e38>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+// 0x71009b6df0
+template void uking::ui::ScreenAppPictureBookUnk::setupEntry<uking::ui::Unk_710247ae48>(
+    sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);

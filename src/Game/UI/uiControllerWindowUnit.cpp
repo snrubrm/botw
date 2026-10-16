@@ -7,8 +7,7 @@
 
 namespace uking::ui {
 
-// 0x7100a030d8 (D0)
-Unk_7102485670::~Unk_7102485670() = default;
+// 0x7100a030d8: the implicit D0
 
 // 0x7100a01730
 void Unk_7102485670::m4(sead::Heap*) {
@@ -55,8 +54,7 @@ void Unk_7102485670::m6() {
         sub_7100A01918();
 }
 
-// 0x7100a065c8 (D0)
-Unk_71024872a0::~Unk_71024872a0() = default;
+// 0x7100a065c8: the implicit D0
 
 // 0x7100a05314
 void Unk_71024872a0::m4(sead::Heap*) {

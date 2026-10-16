@@ -2800,6 +2800,11 @@ struct ScreenAppPictureBookEntry {
     // 0x710093c660 (placeholder name): binds the units of every group to their parts layouts ("<_d8>NN"), buttons and
     // cursor nodes
     void sub_710093C660();
+    // Template (placeholder name): allocates mParams._2a0 * _2a4 units of type T for every group of the group list.
+    // One copy per unit type in the original (e.g. 0x71009fb528 for Unk_71024826c0); defined after
+    // ScreenAppPictureBookUnk.
+    template <typename T>
+    void createUnits(sead::Heap* heap);
     void sub_710093A500(sead::Heap* heap);
     void sub_710093A5C0(sead::Heap* heap);
     void sub_710093A758();
@@ -3012,6 +3017,11 @@ struct ScreenAppPictureBookUnk {
     void sub_7100943FE0(sead::Heap* heap, s32 count);
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
+    // Template (placeholder name): sets up entry `index` with `params`, its group list and (once per group list) its
+    // units of type T. The original has 12 identical copies, one per unit type (e.g. 0x71009f95c4 for
+    // Unk_71024826c0, 0x71009b91b0 for Unk_7102474e38).
+    template <typename T>
+    void setupEntry(sead::Heap* heap, s32 index, const ScreenAppPictureBookEntry::Params& params);
 
     /* 0x000 */ u8 _0[0x28];
     /* 0x028 */ u8 _28;
@@ -3049,6 +3059,42 @@ struct ScreenAppPictureBookUnk {
     /* 0x33c */ s32 _33c;
     /* 0x340 */ s32 _340;
 };
+
+template <typename T>
+void ScreenAppPictureBookEntry::createUnits(sead::Heap* heap) {
+    if (!mGroupList)
+        return;
+    const s32 count = mParams._2a0 * mParams._2a4;
+    if (count < 1)
+        return;
+    for (auto it = mGroupList->mUnits.begin(), end = mGroupList->mUnits.end(); it != end; ++it) {
+        it->mUnits.allocBuffer(count, heap);
+        for (s32 i = 0; i < count; ++i)
+            it->mUnits.pushBack(new (heap) T);
+    }
+}
+
+template <typename T>
+void ScreenAppPictureBookUnk::setupEntry(sead::Heap* heap, s32 index,
+                                         const ScreenAppPictureBookEntry::Params& params) {
+    if (!mEntries.isBufferReady() || index >= mEntries.size())
+        return;
+    ScreenAppPictureBookEntry* entry = mEntries.at(index);
+    if (!entry)
+        return;
+    entry->mController = this;
+    entry->mParams.sub_7100938F28(params);
+    entry->_2f0 = index;
+    entry->sub_710093A2F8(heap, &mGroupLists);
+    if (entry->mGroupList && !entry->mGroupList->_48) {
+        entry->sub_710093C24C(heap);
+        entry->createUnits<T>(heap);
+        entry->sub_710093C304(heap);
+        entry->sub_710093C660();
+        entry->mGroupList->_48 = true;
+    }
+    entry->sub_710093A500(heap);
+}
 
 class Unk_71009cb0c8;
 // 0x71025eb5c0 (placeholder name): the AppPictureBook screen's texture controllers
@@ -4040,7 +4086,7 @@ class Unk_7102485670 : public Unk_7102474e38 {
 public:
     SEAD_RTTI_OVERRIDE(Unk_7102485670, Unk_7102474e38)
     Unk_7102485670() = default;
-    ~Unk_7102485670() override;
+    // no destructor of its own: the vtable's D1 slot is Unk_7102474e38's D1 (the implicit one is aliased to it)
     void m4(sead::Heap*) override;
     void m6() override;
     // 0x7100a01918 (not decompiled; m6 tail-calls it)
@@ -4096,7 +4142,7 @@ class Unk_71024872a0 : public Unk_7102474e38 {
 public:
     SEAD_RTTI_OVERRIDE(Unk_71024872a0, Unk_7102474e38)
     Unk_71024872a0() = default;
-    ~Unk_71024872a0() override;
+    // no destructor of its own: the vtable's D1 slot is Unk_7102474e38's D1 (the implicit one is aliased to it)
     void m4(sead::Heap*) override;
     void m6() override;
 

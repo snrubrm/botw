@@ -87,6 +87,18 @@ public:
     void m14() override;
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
+    // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009d6d8c; 0x380 bytes)
+    /* 0x330 */ u64 _330 = 0;
+    /* 0x338 */ u64 _338 = 0;
+    /* 0x340 */ bool _340 = false;
+    /* 0x341 */ bool _341 = false;
+    /* 0x348 */ u64 _348 = 0;
+    /* 0x350 */ u64 _350 = 0;
+    /* 0x358 */ u64 _358 = 0;
+    /* 0x360 */ u64 _360 = 0;
+    /* 0x368 */ u64 _368 = 0;
+    /* 0x370 */ u64 _370 = 0;
+    /* 0x378 */ u64 _378 = 0;
 };
 
 // vtable 0x710247fbc0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -98,6 +110,13 @@ public:
     void m7() override;
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
+    // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009d6f6c; 0x358 bytes)
+    /* 0x330 */ u64 _330 = 0;
+    /* 0x338 */ u64 _338 = 0;
+    /* 0x340 */ bool _340 = false;
+    /* 0x341 */ bool _341 = false;
+    /* 0x348 */ u64 _348 = 0;
+    /* 0x350 */ u64 _350 = 0;
 };
 
 // vtable 0x71024826c0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -110,6 +129,11 @@ public:
     void m14() override;
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
+    // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb528; 0x350 bytes)
+    /* 0x330 */ void* _330 = nullptr;
+    /* 0x338 */ void* _338 = nullptr;
+    /* 0x340 */ void* _340 = nullptr;
+    /* 0x348 */ void* _348 = nullptr;
 };
 
 // vtable 0x7102482790 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -119,6 +143,10 @@ public:
     ~Unk_7102482790() override;
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
+    // zeroed by the constructor with two memsets (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb6fc;
+    // 0x4f0 bytes)
+    /* 0x330 */ u8 _330[0x147]{};
+    /* 0x478 */ u64 _478[15]{};
 };
 
 // vtable 0x71024855a8 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -146,7 +174,14 @@ public:
     // 0x7100a4d41c (CSV unnamed; not decompiled)
     void sub_7100A4D41C();
 
-    u8 _48[0x80 - 0x48];
+    // 0x48 .. 0x78 are zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x7100a4e6ac)
+    /* 0x48 */ u64 _48 = 0;
+    /* 0x50 */ u64 _50 = 0;
+    /* 0x58 */ u64 _58 = 0;
+    /* 0x60 */ u64 _60 = 0;
+    /* 0x68 */ u64 _68 = 0;
+    /* 0x70 */ u64 _70 = 0;
+    /* 0x78 */ u64 _78 = 0;
     /* 0x80 */ uking::ui::UiTexSlots _80;
 };
 
