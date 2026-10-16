@@ -49,8 +49,6 @@ void Unk_7102451050::sub_710071C1B8() {
     _8->sub_71007199A8();
 }
 
-// NON_MATCHING: our sead RingBuffer::popFront returns the request by value (copies it); the original pops without a
-// copy
 // 0x710071c034
 void Unk_7102451050::sub_710071C034() {
     if (!_8)
@@ -73,11 +71,11 @@ void Unk_7102451050::sub_710071C034() {
     if (_10 == 4) {
         while (!_20.empty()) {
             const Request& request = _20.front();
-            if (request.type == 3)
-                sub_710071C89C(request);
-            else if (request.type == 2)
+            if (request.type == 2)
                 sub_710071C730(request);
-            _20.popFront();
+            else if (request.type == 3)
+                sub_710071C89C(request);
+            _20.dropFront();
         }
         if (_1e == 0)
             _10 = 5;
@@ -182,7 +180,8 @@ void Unk_7102451050::sub_710071C89C(const Request& request) {
     }
 }
 
-// NON_MATCHING: the original fills the next ring buffer slot in place (type, _18, link); ours pushes a Request copy
+// NON_MATCHING: the original passes the flag bit numbers in case 1 and case 6 through stack temporaries; ours uses
+// immediates
 // 0x710071c550
 bool Unk_7102451050::sub_710071C550(const ksys::Message& message) {
     if (!_1a8.m2(message))
@@ -203,11 +202,11 @@ bool Unk_7102451050::sub_710071C550(const ksys::Message& message) {
     case 3: {
         if (_1e < 1)
             return true;
-        Request request;
-        request.type = payload._0;
-        request._18 = payload._18;
-        request.link = payload.mLink;
-        _20.pushBack(request);
+        if (Request* request = _20.reserveBack()) {
+            request->type = payload._0;
+            request->_18 = payload._18;
+            request->link = payload.mLink;
+        }
         return true;
     }
     case 4: {
