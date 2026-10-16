@@ -308,11 +308,21 @@ public:
 };
 static_assert(sizeof(Unk_71024756f0) == 0x88);
 
-// vtable 0x7102475920 (33 slots); placeholder generated from the vtable (genskel.py).
+// vtable 0x7102475920 (33 slots): a map marker with a name and one bool flag handle (defined in uiMapMarker.cpp).
 class Unk_7102475920 : public uking::ui::Unk_71024754c0 {
     SEAD_RTTI_OVERRIDE(Unk_7102475920, uking::ui::Unk_71024754c0)
 public:
     ~Unk_7102475920() override;
+    void m9() override;
+    void m21() override;
+    void m29(uking::ui::Unk_710095192c* entry) override;
+    void m31() override;
+    void m32() override;
+    // 0x7100953b50 (CSV unnamed; not decompiled): called at the end of m29
+    void sub_7100953B50();
+
+    sead::SafeString _68;
+    ksys::gdt::FlagHandle _78;
 };
 
 // vtable 0x7102475a38 (33 slots); placeholder generated from the vtable (genskel.py).

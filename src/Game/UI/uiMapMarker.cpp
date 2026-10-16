@@ -375,6 +375,50 @@ void Unk_71024756f0::m21() {
         sub_710095156C((_3c & 0x20000) != 0);
 }
 
+// 0x710095394c
+// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+Unk_7102475920::~Unk_7102475920() {
+    _68 = "";
+    _78 = ksys::gdt::InvalidHandle;
+}
+
+// 0x7100953a74
+// NON_MATCHING: as Unk_71024754c0::m29 (the type is spilled to the stack in the original).
+void Unk_7102475920::m29(uking::ui::Unk_710095192c* entry) {
+    Unk_71024754c0::m29(entry);
+    sub_7100953B50();
+}
+
+void Unk_7102475920::m9() {
+    if (!(_3c & 8))
+        _3c &= ~0x7566;
+    _3c &= ~0x50008;
+}
+
+void Unk_7102475920::m31() {
+    Unk_71024754c0::m31();
+    _3c &= ~0x40000;
+    if (_78 != ksys::gdt::InvalidHandle)
+        _3c = ksys::gdt::getFlagGenericBool(_78) ? _3c | 0x20000 : _3c & ~0x20000;
+}
+
+void Unk_7102475920::m32() {
+    Unk_71024754c0::m32();
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBuffer0()->hasCopiedBoolFlags())
+        return;
+    if (_78 != ksys::gdt::InvalidHandle) {
+        bool value = ksys::gdt::getFlagGenericBool(_78);
+        _3c = (value != ((_3c & 0x20000) != 0)) ? _3c | 0x40000 : _3c & ~0x40000;
+        if (_3c & 0x40000)
+            _3c = value ? _3c | 0x20000 : _3c & ~0x20000;
+    }
+}
+
+void Unk_7102475920::m21() {
+    if (_3c & 1)
+        sub_710095156C((_3c & 0x20000) != 0);
+}
+
 namespace uking::ui {
 
 // NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.
