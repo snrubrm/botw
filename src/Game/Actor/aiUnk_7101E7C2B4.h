@@ -20,6 +20,8 @@ extern const f32 sUnk_7101e7c290;
 extern const f32 sUnk_7101e7c294;
 extern const f32 sUnk_7101e7c298;
 extern const f32 sUnk_7101e7c29c;
+// 0x7101e7c2a0 (5.27): speed limit (per second) of the ridden actor in PlayerBase::sub_7100849198.
+extern const f32 sUnk_7101e7c2a0;
 // 0x7101e7c2a8 (3.2): read by Player::x_30 (bow slow invalid height with PlayerBase::x_48).
 extern const f32 sUnk_7101e7c2a8;
 extern const s32 sUnk_7101e7c2b0;

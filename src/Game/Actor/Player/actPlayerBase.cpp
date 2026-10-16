@@ -1,3 +1,5 @@
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "Game/Actor/aiUnk_7101E7C2B4.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "Game/Actor/aiUnk_7100EDD26C.h"
 #include "Game/UI/uiUtils.h"
@@ -1517,6 +1519,43 @@ s32 sub_710084A570(ksys::act::BaseProc* proc) {
 }
 
 namespace uking::act {
+
+// NON_MATCHING: block layout and stack slots (the original shares one exit for the accessor destructors).
+// Placeholder name: while riding a horse (ride info flag 0, ridden actor type 11) that moves slower than
+// sUnk_7101e7c2a0 / 30 per frame: true when the attention action is 0x1800001 / 0x1800003 on an NPC, or
+// 0x1800010 without m230().
+bool PlayerBase::sub_7100849198() {
+    auto* info = getPlayerRideInfo();
+    if (!info || !(info->_30 & 1))
+        return false;
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (!ksys::act::acquireActor(&info->_18, &accessor) ||
+            accessor.sub_7100D14598() != ksys::act::Unk_7100d14598::_11) {
+            return false;
+        }
+    }
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&getPlayerRideInfo()->_18, &accessor))
+        return false;
+    const auto& velocity = accessor.getVelocity();
+    const f32 max_speed = uking::sUnk_7101e7c2a0 / 30.0f;
+    if (velocity.x * velocity.x + velocity.z * velocity.z > max_speed * max_speed)
+        return false;
+    switch (ksys::act::Attention::instance()->sub_7100D74880()) {
+    case 0x1800001:
+    case 0x1800003: {
+        ksys::act::ActorLinkConstDataAccess target;
+        if (ksys::act::Attention::instance()->x(&target) && target.isNPCProfile())
+            return true;
+        return false;
+    }
+    case 0x1800010:
+        return !m230();
+    default:
+        return false;
+    }
+}
 
 // Placeholder name: the grab node for equipment slot `slot` (sub_7100EDD258); slot 1 (the shield) uses the Grab
 // Slot4Node while _cec bit 17, shield surfing (盾サーフィン) or _cf0 bit 23 is active.
