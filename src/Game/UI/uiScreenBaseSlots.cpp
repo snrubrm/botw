@@ -450,6 +450,11 @@ void Screen::sub_71010ABDA8(eui::AnimButton* button) {
         child.m66(button);
 }
 
+// 0x71010aacc0 (CSV Screen::m77)
+void Screen::m77(const sead::SafeString& anim) {
+    _288 = mLayout->sub_7100BDDDF8(anim.cstr());
+}
+
 // 0x71010ab490
 void Screen::sub_71010AB490(eui::LayoutEx* layout) {
     if (!layout)
