@@ -11,6 +11,8 @@
 namespace ksys::phys {
 
 class SupportBoneResource : public sead::DirectResource, agl::utl::IParameterIO {
+    friend class SupportBoneInstanceMaybe;
+
 public:
     struct Bone : public agl::utl::ParameterObj {
         ~Bone();

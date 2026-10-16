@@ -11,6 +11,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/Rig/physBoneAccessor.h"
 
 namespace gsys {
 class Model;
@@ -56,12 +57,17 @@ class UserTag;
 // Placeholder runtime support bone object owned by InstanceSet::_e8 (name is a guess).
 class SupportBoneInstanceMaybe : public sead::hostio::Node {
 public:
+    // Defaults from init 0x7101226bb4 (which allocates one per support bone).
     struct State {
-        bool enabled;
-        bool _1;
-        bool _2;
+        bool enabled = true;
+        bool _1 = true;
+        bool _2 = true;
         u8 _3;
-        f32 weight;
+        f32 weight = 1.0f;
+    };
+    // An element of _28 (0x1c bytes, one per main bone; filled by 0x7101226e44).
+    struct MainBoneWork {
+        u8 _0[0x1c];
     };
     KSYS_CHECK_SIZE_NX150(State, 8);
 
@@ -70,6 +76,11 @@ public:
     virtual ~SupportBoneInstanceMaybe();
     // 0x71012273a8 (placeholder name): the support bone index of `name`, -1 without a resource.
     s32 sub_71012273A8(const sead::SafeString& name) const;
+    // 0x7101226bb4 (placeholder name): looks up the model bone of every bone of `resource` and allocates the main
+    // and support bone work buffers. False without an accessor / resource or when the work buffer allocation fails.
+    bool init(BoneAccessor* accessor, SupportBoneResource* resource, sead::Heap* heap);
+    // 0x7101226e44 (declaration only): sets up _28 from the main bones.
+    void sub_7101226E44();
 
     // inline-only in the original; name is a guess: the same frees open the destructor 0x7101226ae0 and the
     // init function 0x7101226bb4.
@@ -85,13 +96,12 @@ public:
         _48.freeBuffer();
     }
 
-    void* _8{};  // a bone accessor (init 0x7101226bb4 calls BoneAccessor::getBoneIndex on it)
+    BoneAccessor* _8{};
     SupportBoneResource* mResource{};
-    sead::Buffer<s32> _18;  // bone indices, one per support bone (filled with -1 by init)
-    s32 _28 = 0;
-    u64 _30 = 0;
-    u32* _38 = nullptr;
-    s32 _40 = 0;
+    sead::Buffer<BoneAccessor::Indices> _18;  // the model bone of each resource bone
+    sead::Buffer<MainBoneWork> _28;           // in _38
+    u8* _38 = nullptr;
+    u32 _40 = 0;  // size of _38
     s32 _44 = 1;
     sead::Buffer<State> _48;
 };

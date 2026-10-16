@@ -19,6 +19,8 @@ public:
     enum class Propagate : bool { Yes = true, No = false };
 
     struct Indices {
+        // SupportBoneInstanceMaybe::init 0x7101226bb4 allocates a Buffer<Indices> whose elements start as -1.
+        Indices() : unk(-1), havok_index(-1) {}
         Indices(s16 unk_, s16 havok_index) : unk(unk_), havok_index(havok_index) {}
 
         s16 unk;
