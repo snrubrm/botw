@@ -1261,6 +1261,52 @@ Unk_7102474dd0::Unk_7102474dd0() = default;
 // 0x7100937d9c
 Unk_7102474dd0::~Unk_7102474dd0() = default;
 
+// 0x7100937da4
+void Unk_7102474dd0::sub_7100937DA4(bool reset) {
+    auto* list = _8;
+    if (!list)
+        return;
+    f32 pos;
+    f32 min;
+    f32 max;
+    switch (list->_34) {
+    case 0:
+        pos = _18.y + list->_30;
+        min = 0;
+        max = list->_44.y - list->_3c.y;
+        break;
+    case 1:
+        pos = _18.y + list->_30;
+        min = -(list->_44.y - list->_3c.y);
+        max = 0;
+        break;
+    case 2:
+        pos = _18.x + list->_30;
+        min = -(list->_44.x - list->_3c.x);
+        max = 0;
+        break;
+    case 3:
+        pos = _18.x + list->_30;
+        min = 0;
+        max = list->_44.x - list->_3c.x;
+        break;
+    default:
+        pos = 0;
+        min = 0;
+        max = 0;
+        break;
+    }
+    f32 delta = pos < min ? pos - min : 0.0f;
+    if (max < pos)
+        delta = pos - max;
+    list->_30 -= delta;
+    if (reset) {
+        list->_2c = list->_30;
+        list->_5c = {0, 0};
+        list->_70 = nullptr;
+    }
+}
+
 // 0x7100937e9c
 void Unk_7102474dd0::m2(const sead::Vector2f& a, const sead::Vector2f& b) {
     _20 = _18;

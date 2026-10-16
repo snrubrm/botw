@@ -863,6 +863,9 @@ public:
     virtual ~Unk_7102474dd0();
     // 0x7100937e9c
     virtual void m2(const sead::Vector2f& a, const sead::Vector2f& b);
+    // 0x7100937da4 (placeholder name): scrolls the owning list (_8) so that this entry lies inside its visible range;
+    // with `reset` the scroll stops there
+    void sub_7100937DA4(bool reset);
 
     // set to the owning Unk_7102474df8 by 0x7100938408
     Unk_7102474df8* _8 = nullptr;
