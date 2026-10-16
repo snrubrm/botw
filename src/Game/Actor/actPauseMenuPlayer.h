@@ -26,6 +26,12 @@ public:
     void m114(bool, bool) override;
     bool m165(sead::BufferedSafeString* out) override;
     void coldHotStatusEffectStuff();
+    // 0x71006ea2d4 (placeholder name): sets AS slot 66 to the flame-resistance variant while the burn resistance
+    // level (armor + _c44) is below _c48
+    void sub_71006EA2D4();
+    // 0x71006ea348 (placeholder name): hides the Mt_Belt_A / Mt_Belt_C materials until the Sheikah Slate
+    // (PortableUnit) is obtained
+    void sub_71006EA348();
     void sub_71006EA6B8(s32 bit);
     void sub_71006E9E24();
 

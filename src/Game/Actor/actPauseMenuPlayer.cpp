@@ -2,6 +2,10 @@
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiUtils.h"
 #include <basis/seadNew.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
@@ -145,6 +149,34 @@ void PauseMenuPlayer::sub_71006E9E24() {
     _c3c = 0;
     _c40 = 0;
     _c44 = 0;
+}
+
+void PauseMenuPlayer::sub_71006EA2D4() {
+    auto* mgr = uking::ui::OnUiActorMgr::instance();
+    if (!mgr || !mgr->getArmors()) {
+        mASList->x_2(66, 2, false, false);
+        return;
+    }
+    const s32 level = _c44 + mgr->getArmors()->getArmorEffectLevelResistBurn();
+    if (level < _c48)
+        mASList->x_2(66, 2, true, false);
+    else
+        mASList->x_2(66, 2, false, false);
+}
+
+void PauseMenuPlayer::sub_71006EA348() {
+    if (ksys::gdt::getFlag_IsGet_PortableUnit(false))
+        return;
+    {
+        auto* model = mModel;
+        const auto key = model->searchMaterial("Mt_Belt_A");
+        model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(key.material_index, false);
+    }
+    {
+        auto* model = mModel;
+        const auto key = model->searchMaterial("Mt_Belt_C");
+        model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(key.material_index, false);
+    }
 }
 
 void PauseMenuPlayer::sub_71006EA6B8(s32 bit) {
