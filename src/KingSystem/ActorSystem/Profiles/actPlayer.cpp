@@ -560,6 +560,22 @@ void Player::x_38(u32 type) {
     sub_710088D654();
 }
 
+bool Player::sub_7100888C40() {
+    return _d30 == getEquipmentTypeName(1);
+}
+
+// NON_MATCHING: the inlined sub_71008569B8 swaps the x / z float registers (same issue as that function).
+bool Player::sub_7100856A7C() {
+    if (!_d10)
+        return false;
+    if (_cec.isOnBit(0) && !sub_7100856B74())
+        return false;
+
+    Unk1 angle = sub_71008569B8();
+    sub_7100857014(-1.0f, &angle, -1, -1);
+    return true;
+}
+
 bool Player::sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
                             sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                             bool check_normal) {

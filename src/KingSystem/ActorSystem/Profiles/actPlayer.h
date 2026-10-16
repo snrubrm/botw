@@ -481,7 +481,11 @@ public:
     // 0x710084ad5c (declared only; lane3 s22): adds `value` (scaled) to one of the three slots at +0xe7c (stamina recovery).
     void sub_710084AD5C(f32 value, bool a2);
     void x_37();  // 0x71008efa0
-    void sub_7100856A7C();             // 0x7100856a7c (declared only)
+    // 0x7100856a7c: with _d10 set (and sub_7100856B74 when _cec bit 0 is set), turns towards the attention target
+    // (sub_71008569B8, inlined) through sub_7100857014.
+    bool sub_7100856A7C();
+    // 0x7100856b74 (declared only; 1184 B).
+    bool sub_7100856B74();
     // 0x710086fab0 (CSV nullsub_2601): empty.
     void nullsub_2601();
     // Targets of the slot thunks m256 / m257 / m268 / m270 / m287 / m295 / m296 / m298 (declared only;
