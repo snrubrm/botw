@@ -5,6 +5,7 @@
 #include <thread/seadCriticalSection.h>
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleELink.h>
+#include "KingSystem/Effect/eftEffectModelMgr.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -66,6 +67,10 @@ public:
     // Read by UKingEmitEffectLoopAction::calc_ (compared with 2); name unknown.
     s32 get193e0() const { return _193e0; }
     Unk_EffectActorTable& getActorTable9FE0() { return _9fe0; }
+    EffectModelMgr& getModelMgr() { return mModelMgr; }
+
+    // 0x71011b7404: a printf-style debug log whose body is compiled out (only the va_list spill is left).
+    void debugLog(const char* format, ...);
 
 private:
     u8 _38[0x9fb8 - 0x38];
@@ -78,7 +83,8 @@ public:
 private:
     u8 _9fc8[0x9fe0 - 0x9fc8];
     Unk_EffectActorTable _9fe0;
-    u8 _9fe0_end[0x192f4 - 0x9fe0 - sizeof(Unk_EffectActorTable)];
+    EffectModelMgr mModelMgr;
+    u8 _a628_end[0x192f4 - 0xa628 - sizeof(EffectModelMgr)];
     u32 mFlags;
     u8 _192f8[0x193e0 - 0x192f8];
     s32 _193e0;

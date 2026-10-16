@@ -75779,8 +75779,8 @@ Address,Quality,Size,Name
 0x0000007100d9fcfc,U,000232,EffectModelData::addEffectModel
 0x0000007100d9fde4,U,000196,EffectModelData::finalize
 0x0000007100d9fea8,U,001224,EffectModelMgr::entry
-0x0000007100da0370,U,000216,EffectModelMgr::requestDeleteModel
-0x0000007100da0448,U,000208,EffectModelMgr::release
+0x0000007100da0370,O,000216,_ZN4ksys3eft14EffectModelMgr18requestDeleteModelEPNS_3act5ActorEPNS0_15EffectModelDataE
+0x0000007100da0448,O,000208,_ZN4ksys3eft14EffectModelMgr7releaseEPNS_3act5ActorEPNS0_15EffectModelDataE
 0x0000007100da0518,U,000132,
 0x0000007100da059c,U,000220,
 0x0000007100da0678,U,000040,_ZN6xlink27HoldMgr10genMessageEPN4sead6hostio7ContextE
