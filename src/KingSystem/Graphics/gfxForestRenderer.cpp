@@ -25,6 +25,15 @@ u32* ForestRenderer::sub_7100F01AC0() {
 
 ForestRenderer::ForestRenderer() = default;
 
+void ForestRenderer::Entry::sub_7100F02C40() {
+    mRecords.freeBuffer();
+    mHeap = nullptr;
+    for (auto& item : mItems)
+        item.finalize();
+    mItems.freeBuffer();
+    _28.freeBuffer();
+}
+
 // NON_MATCHING: Clang duplicates the `_50 |= 8` store into the state 6 path (jump threading on bit 0)
 // and biases the loop pointer at mModelUnit instead of the unit buffer.
 void ForestRenderer::requestDraw() {
@@ -109,19 +118,11 @@ void ForestRenderer::Unk_1b8::invoked1(TaskPostRunResult*, const TaskPostRunCont
 }
 
 ForestRenderer::Item::~Item() {
-    if (_8 == 0)
-        return;
-    _20.freeBuffer();
-    _c.makeAllZero();
-    _10 = 0;
-    _18 = 0;
-    _30 = 0;
-    _38 = 0;
-    _3d = 0xff;
-    _3c = 0xff;
-    _3b = 0xff;
-    _40 = 0;
-    _8 = 0;
+    finalize();
+}
+
+ForestRenderer::Entry::~Entry() {
+    sub_7100F02C40();
 }
 
 ForestRenderer::TreeResMaybe::~TreeResMaybe() {

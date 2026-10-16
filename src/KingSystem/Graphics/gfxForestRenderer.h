@@ -41,6 +41,24 @@ public:
         // 0x7100f078a4 (vtable 0x71024f38b8): releases the item's pointer array and resets it if _8 is set.
         virtual ~Item();
 
+        // inline-only in the original; name is a guess. ~Item and Entry::sub_7100F02C40 (before freeing the
+        // item buffer) repeat it.
+        void finalize() {
+            if (_8 == 0)
+                return;
+            _20.freeBuffer();
+            _c.makeAllZero();
+            _10 = 0;
+            _18 = 0;
+            _30 = 0;
+            _38 = 0;
+            _3d = 0xff;
+            _3c = 0xff;
+            _3b = 0xff;
+            _40 = 0;
+            _8 = 0;
+        }
+
         u32 _8;
         sead::BitFlag16 _c;
         u8 _e[0x10 - 0xe];
@@ -77,12 +95,18 @@ public:
         // u16 table (80 entries if bit 0 of _8 is set, else 1280).
         void sub_7100F07060();
 
-        u8 _0[0x8];
+        // 0x7100f09738 / D0 0x7100f0974c (vtable 0x71024f3958).
+        virtual ~Entry();
+        // 0x7100f02c40 (placeholder name): frees the record buffer, resets and frees the items and frees the
+        // buffer at 0x28.
+        void sub_7100F02C40();
+
         u32 _8;
         u8 _c[0x10 - 0xc];
         sead::Heap* mHeap;
         sead::Buffer<Record> mRecords;
-        u8 _28[0x60 - 0x28];
+        sead::Buffer<u8> _28;
+        u8 _38[0x60 - 0x38];
         sead::Buffer<Item> mItems;
         s32 mNumRecords;
         u8 _74[0x78 - 0x74];
