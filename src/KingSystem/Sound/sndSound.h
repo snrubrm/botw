@@ -86,6 +86,9 @@ class EnvSeEmitPoint;
 class SoundProxy;
 }
 
+// gameUnkRttiPlaceholders.h (the bars resource).
+class Unk_7102502978;
+
 namespace ksys::snd {
 
 class Unk_7102502950;
@@ -934,6 +937,10 @@ struct Unk_SoundMgr60 {
                   res::Handle* pack);
     // 0x7101058734 (declared only; 248 B): loads the asset info of `name` into `reader`.
     void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
+    // 0x710105844c: loads "Sound/Resource/<name>" into `handle` (on the audio arena when `use_audio_arena`, lane 2
+    // when `lane2`) and returns it as a bars resource; once it is loaded (status 4) its file name is set.
+    Unk_7102502978* sub_710105844C(res::Handle* handle, const sead::SafeString& name, bool use_audio_arena,
+                                   bool lane2);
     // 0x7101059354 (CSV Curl_protocol_getsock was wrong): deletes the asset info reader (vtable slot 2 is its D0).
     void sub_7101059354(Unk_7102502950* reader);
     // 0x7101058198 (CSV sound::tryLoadResource): loadDirectResource into a local; null when it fails.
