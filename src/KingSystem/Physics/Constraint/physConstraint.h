@@ -37,7 +37,7 @@ struct ConstraintUnk18 {
     hkpBreakableConstraintData* _8 = nullptr;
     hkpConstraintInstance* _10 = nullptr;
 
-    // 0x7100f6c658
+    // 0x7100f6c658 (placeholder name): whether the breakable constraint has broken.
     bool sub_7100F6C658() const;
     // 0x7100f6c64c: stores `value` in the object at +8 (+0x44).
     void sub_7100F6C64C(f32 value);

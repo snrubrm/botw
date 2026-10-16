@@ -182,10 +182,15 @@ public:
     hkUint8 m_whoIsMaster;
     hkEnum<hkpConstraintInstance::InstanceType, hkUint8> m_constraintType;
 
+    // Unidentified eight bytes: breakable setBroken 0x7101619288 and ConstraintUnk18 0x7100f6c658
+    // read the runtime at +0x38, and 0x71016139a4 writes the slave index at +0x42.
+    hkUint8 _30[8];
     hkpConstraintRuntime* m_runtime;
     hkUint16 m_runtimeSize;
     hkObjectIndex m_slaveIndex;
 };
+static_assert(offsetof(hkConstraintInternal, m_runtime) == 0x38);
+static_assert(offsetof(hkConstraintInternal, m_slaveIndex) == 0x42);
 
 inline const hkpConstraintData* hkpConstraintInstance::getData() const {
     return m_data;

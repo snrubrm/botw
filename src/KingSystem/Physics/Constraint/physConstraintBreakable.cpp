@@ -24,6 +24,10 @@ ConstraintUnk18* ConstraintUnk18::sub_7100F6C5B4(hkpConstraintData* data, const 
     return holder;
 }
 
+bool ConstraintUnk18::sub_7100F6C658() const {
+    return _8->getIsBroken(_10);
+}
+
 void ConstraintUnk18::sub_7100F6C64C(f32 value) {
     _8->m_solverResultLimit = value;
 }

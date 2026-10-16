@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Physics/Constraint/Data/hkpWrappedConstraintData.h>
+#include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 
 // Reflection 16221a8 proves the wrapped parent and extent 0x50; game allocation
 // f6c5fc independently requests 0x50 before invoking constructor 1618dc0.
@@ -13,6 +14,20 @@ public:
     // Native 16194c8 returns the two reflected runtime sizes. Constructor/field
     // consumers do not dispatch through the unresolved base runtime slot.
     void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo& infoOut) const override;
+
+    // The breakable runtime follows the wrapped constraint's runtime (m_childRuntimeSize bytes in).
+    // ConstraintUnk18 0x7100f6c658 reads its first byte as the broken flag.
+    struct Runtime {
+        hkBool m_isBroken;
+    };
+
+    Runtime* getRuntime(hkpConstraintRuntime* runtime) const {
+        return reinterpret_cast<Runtime*>(reinterpret_cast<hkUlong>(runtime) + m_childRuntimeSize);
+    }
+
+    hkBool getIsBroken(const hkpConstraintInstance* instance) const {
+        return getRuntime(instance->getRuntime())->m_isBroken;
+    }
 
 private:
     // Reflected atoms occupy +20..40; their contents are not modeled here.
