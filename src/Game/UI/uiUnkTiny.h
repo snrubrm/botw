@@ -832,7 +832,15 @@ public:
 
 // Element of ScreenOptionWindow::_3698 (owned by the screen; `delete` destroys the member at 0x70).
 struct Unk_OptionWindowEntry {
-    u8 _0[0x70];
+    // 0x7100a2b76c (placeholder name): enables and shows the button of `mode` (0: _18, 1: _20, 2: _28), disables and
+    // hides the other two
+    void sub_7100A2B76C(s32 mode);
+
+    u8 _0[0x18];
+    /* 0x18 */ eui::ButtonBase* _18;
+    /* 0x20 */ eui::ButtonBase* _20;
+    /* 0x28 */ eui::ButtonBase* _28;
+    u8 _30[0x70 - 0x30];
     Unk_7102474dd0 _70;
 };
 

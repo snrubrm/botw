@@ -1,3 +1,5 @@
+#include "Game/UI/euiLayoutEx.h"
+#include <nn/ui2d/Pane.h>
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiSwkbdMgr.h"
@@ -90,6 +92,54 @@ ScreenOptionWindow::~ScreenOptionWindow() {
         delete _3698.at(i);
     _3698.freeBuffer();
 }
+// 0x7100a2b76c
+void Unk_OptionWindowEntry::sub_7100A2B76C(s32 mode) {
+    switch (mode) {
+    case 0:
+        if (auto* button = _18) {
+            button->setFlag10(true);
+            button->mLayout->GetPane()->SetVisible(true);
+        }
+        if (auto* button = _20) {
+            button->setFlag10(false);
+            button->mLayout->GetPane()->SetVisible(false);
+        }
+        if (auto* button = _28) {
+            button->setFlag10(false);
+            button->mLayout->GetPane()->SetVisible(false);
+        }
+        break;
+    case 1:
+        if (auto* button = _18) {
+            button->setFlag10(false);
+            button->mLayout->GetPane()->SetVisible(false);
+        }
+        if (auto* button = _20) {
+            button->setFlag10(true);
+            button->mLayout->GetPane()->SetVisible(true);
+        }
+        if (auto* button = _28) {
+            button->setFlag10(false);
+            button->mLayout->GetPane()->SetVisible(false);
+        }
+        break;
+    case 2:
+        if (auto* button = _18) {
+            button->setFlag10(false);
+            button->mLayout->GetPane()->SetVisible(false);
+        }
+        if (auto* button = _20) {
+            button->setFlag10(false);
+            button->mLayout->GetPane()->SetVisible(false);
+        }
+        if (auto* button = _28) {
+            button->setFlag10(true);
+            button->mLayout->GetPane()->SetVisible(true);
+        }
+        break;
+    }
+}
+
 // 0x7100a2abb8
 ScreenOptionWindow::Settings::Settings() {
     balloonText = ksys::gdt::getFlag_BalloonTextOnOff();
