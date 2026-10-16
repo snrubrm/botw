@@ -168,8 +168,7 @@ ScreenTitle::ScreenTitle() : ScreenEx() {
 }
 
 // 0x7100a3ef2c
-// NON_MATCHING: store/scheduling order only (original zeroes mPtrs first and keeps the s0-s4 link
-// order with x2 set before the last two links; ours sinks the mPtrs zero and delays x2).
+// NON_MATCHING: scheduling only (the original sets w1 = 7 before the last two free-list links).
 ScreenPickUp::ScreenPickUp() : ScreenEx() {}
 
 
@@ -242,6 +241,10 @@ ScreenStaffRollDLC::ScreenStaffRollDLC() : ScreenEx() {
 // its memset covered them), and the original hoists the 0x68-byte memset above the member
 // constructions (bl) while ours runs it last (tail b).
 ScreenDLCWindow::ScreenDLCWindow() : ScreenEx(), _3610() {}
+
+// 0x7100a4bae4: matches as `ScreenShopBtnList20::ScreenShopBtnList20() : ScreenEx(), _3610() {}`, but not defined:
+// our build emits a separate sead::Delegate<ScreenShopBtnList20> vtable where the original shares the ICF-folded
+// one at 0x7102480298 with ScreenDLCWindow (datarefs conflict).
 
 ScreenMessageGet::ScreenMessageGet() : ScreenEx(), _3750(this, &ScreenMessageGet::sub_7100A238C8) {}
 

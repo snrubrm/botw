@@ -1583,13 +1583,13 @@ void ScreenShopBtnList20::sub_7100A4CC98() {
 // 0x7100a4c9e0
 void ScreenShopBtnList20::m98() {
     _3864 = 0;
-    if (_3610) {
-        const s32 index = _3610->_2e4;
-        if (!_3610->sub_710093FE74(index)) {
+    if (_3610.controller) {
+        const s32 index = _3610.controller->_2e4;
+        if (!_3610.controller->sub_710093FE74(index)) {
             UiShopMgr::instance()->sub_710098425C(index, false);
             UiShopMgr::instance()->_b4 = true;
         }
-        _3610->sub_710093E900(0, index);
+        _3610.controller->sub_710093E900(0, index);
     }
 }
 
@@ -1649,49 +1649,49 @@ void ScreenShopBtnList20::sub_7100A4CC28(s32 mode) {
 
 // 0x7100a4ccb0
 void ScreenShopBtnList20::sub_7100A4CCB0(s32 category, s32 first, s32 last) {
-    if (!_3610)
+    if (!_3610.controller)
         return;
-    const s32 count = _3610->_2a8;
+    const s32 count = _3610.controller->_2a8;
     for (s32 i = 0; i < count; ++i) {
         if (i < first || i > last)
-            _3610->sub_710093FDCC(i);
+            _3610.controller->sub_710093FDCC(i);
     }
-    _3610->sub_710093E4B4(0, category, 1);
-    _3610->sub_710093E900(0, category);
+    _3610.controller->sub_710093E4B4(0, category, 1);
+    _3610.controller->sub_710093E900(0, category);
 }
 
 // 0x7100a4cd80
 // NON_MATCHING: call-argument evaluation caches the receiver before the count query.
 void ScreenShopBtnList20::sub_7100A4CD80(s32 index) {
-    if (!_3610)
+    if (!_3610.controller)
         return;
-    const s32 category = _3610->_2e4;
+    const s32 category = _3610.controller->_2e4;
     const s32 count = sub_7100A82D3C(PouchCategory(category));
-    _3610->sub_710093F278(sead::Mathi::max(sub_7100A82DB8(category), 1) * count, category);
-    _3610->sub_710093E4B4(count > 0 ? index / count : 0, category, 1);
-    _3610->sub_710093E900(index, category);
-    _3610->sub_71009401E4();
+    _3610.controller->sub_710093F278(sead::Mathi::max(sub_7100A82DB8(category), 1) * count, category);
+    _3610.controller->sub_710093E4B4(count > 0 ? index / count : 0, category, 1);
+    _3610.controller->sub_710093E900(index, category);
+    _3610.controller->sub_71009401E4();
 }
 
 // 0x7100a4cd5c
 void ScreenShopBtnList20::sub_7100A4CD5C(bool value) {
-    if (_3610)
-        _3610->sub_710093F594(value);
+    if (_3610.controller)
+        _3610.controller->sub_710093F594(value);
 }
 
 // 0x7100a4cd70
 void ScreenShopBtnList20::sub_7100A4CD70() {
-    if (_3610)
-        _3610->sub_710093FEAC();
+    if (_3610.controller)
+        _3610.controller->sub_710093FEAC();
 }
 
 // 0x7100a4ce28
 s32 ScreenShopBtnList20::sub_7100A4CE28() {
-    if (!_3610)
+    if (!_3610.controller)
         return -1;
-    if (_3610->sub_710093FE74(_3610->_2e4))
+    if (_3610.controller->sub_710093FE74(_3610.controller->_2e4))
         return -1;
-    return _3610->_2e4;
+    return _3610.controller->_2e4;
 }
 
 // 0x7100a4ce68

@@ -3481,17 +3481,32 @@ public:
     // 0x7100a4ce68 (placeholder name): plays the sound event of a carry action (0: decide, 1: prohibited, 2: sort, 3: carry,
     // 4: carry end)
     void sub_7100A4CE68(s32 action);
-    /* 0x3610 */ ScreenAppPictureBookUnk* _3610;
-    u8 _pad_3618[0x3840 - 0x3618];
+    // 0x7100a4bae4 (CSV ScreenShopBtnList20::ctor)
+    ScreenShopBtnList20();
+
+    // A callback and a name (delegate vtable 0x7102480298, shared with other delegate instantiations), as in
+    // ScreenDLCWindow.
+    struct Entry {
+        sead::Delegate<ScreenShopBtnList20> callback;
+        sead::FixedSafeString<128> name;
+    };
+    static_assert(sizeof(Entry) == 0xb8);
+    // value-initialised in the ctor (one 0x230-byte memset before the member constructors)
+    struct Unk3610 {
+        ScreenAppPictureBookUnk* controller;
+        Entry entries[3];
+    };
+
+    /* 0x3610 */ Unk3610 _3610;
     // Producer A4C708 creates this animator and casts the three getChild results to ScreenChildEx.
-    /* 0x3840 */ eui::Animator* _3840;
-    /* 0x3848 */ ScreenChildEx* _3848;
-    /* 0x3850 */ ScreenChildEx* _3850;
-    /* 0x3858 */ ScreenChildEx* _3858;
-    /* 0x3860 */ s32 _3860;
-    /* 0x3864 */ u8 _3864;
+    /* 0x3840 */ eui::Animator* _3840 = nullptr;
+    /* 0x3848 */ ScreenChildEx* _3848 = nullptr;
+    /* 0x3850 */ ScreenChildEx* _3850 = nullptr;
+    /* 0x3858 */ ScreenChildEx* _3858 = nullptr;
+    /* 0x3860 */ s32 _3860 = 0;
+    /* 0x3864 */ u8 _3864 = 0;
     u8 _pad_3865[0x3868 - 0x3865];
-    eui::AnimButton* _3868;
+    eui::AnimButton* _3868 = nullptr;
 };
 
 class ScreenTime : public ScreenEx {
