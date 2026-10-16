@@ -1424,6 +1424,58 @@ void Player::sub_7100881DFC(f32 y, bool a2) {
     }
 }
 
+// NON_MATCHING: block order of the midpoint selection and the _1cbc checks, register allocation of the last part.
+// Placeholder name: from three ladder points, _22f4 = the midpoint of the two closest in height (y replaced by the
+// lowest / highest point for _1cbc 4 / 5, else _1770.y) and _2100 = the highest y (lowered for _1cbc 5).
+void Player::sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c) {
+    const f32 ab = sead::Mathf::abs(a.y - b.y);
+    const f32 bc = sead::Mathf::abs(b.y - c.y);
+    const f32 ca = sead::Mathf::abs(c.y - a.y);
+    const sead::Vector3f* p;
+    const sead::Vector3f* q;
+    if (ab < bc && ab < ca) {
+        p = &a;
+        q = &b;
+    } else if (bc < ca) {
+        p = &b;
+        q = &c;
+    } else {
+        p = &c;
+        q = &a;
+    }
+    _22f4 = (*p + *q) * 0.5f;
+
+    f32 y;
+    if (_1cbc == 4) {
+        if (a.y <= b.y && a.y <= c.y) {
+            y = a.y;
+        } else {
+            const f32 by = b.y;
+            const f32 cy = c.y;
+            y = by <= cy ? by : cy;
+        }
+    } else if (_1cbc == 5) {
+        if (a.y >= b.y && a.y >= c.y) {
+            y = a.y;
+        } else {
+            const f32 by = b.y;
+            const f32 cy = c.y;
+            y = by >= cy ? by : cy;
+        }
+    } else {
+        y = _1770.y;
+    }
+    _22f4.y = y;
+
+    const sead::Vector3f* top = b.y >= c.y ? &b : &c;
+    if (a.y >= c.y && a.y >= b.y)
+        top = &a;
+    const f32 top_y = top->y;
+    _2100 = top_y;
+    if (_1cbc == 5)
+        _2100 = top_y - uking::sUnk_7101e7c5d0;
+}
+
 bool Player::sub_71008840C4() {
     return _c40.isOffBit(18);
 }
