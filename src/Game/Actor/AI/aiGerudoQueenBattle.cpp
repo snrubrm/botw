@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiGerudoQueenBattle.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include "Game/Actor/actNPC.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadDelegate.h>
 #include "Game/Actor/aiUnk_710070435C.h"
@@ -118,8 +122,50 @@ bool GerudoQueenBattle::init_(sead::Heap* heap) {
     return _80 != nullptr;
 }
 
+// NON_MATCHING: stack slots of the search / delegate locals, and `_80->_8 = mActor` loads _80 first in the
+// original (C++14 evaluation order).
 void GerudoQueenBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* mgr = ksys::act::BaseProcMgr::instance()) {
+        sub_71003F3E44(mgr);
+        ksys::act::BaseProc* result = nullptr;
+        ksys::act::ActorNearestSearch search("Thunder_Relic02", mActor, &result, sead::Vector3f::zero);
+        sead::Delegate1<ksys::act::ActorNearestSearch, ksys::act::BaseProc*> callback(
+            &search, &ksys::act::ActorNearestSearch::sub_7100EDC9E8);
+        mgr->forEachProc("RemainsElectric", callback,
+                        ksys::act::BaseProcMgr::ProcFilter::SkipAccessCheck);
+        if (result)
+            _70.acquire(result, false);
+    }
+
+    _8c = mActor->getMtx();
+    if (auto* controller = mActor->getCharacterController())
+        controller->physicsXXXGetMtx_1(&_bc);
+
+    auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (child && !_50.hasProcById(child)) {
+        mActor->resetConnectedCalcChild(false);
+        child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_50, &accessor);
+    accessor.setThisActorAsChild(mActor, false);
+    accessor.sub_7100D15038(mActor);
+    _80->_8 = mActor;
+
+    _40 = ksys::eft::searchAndEmitELink(mActor, "SafetyZone");
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags26.set(1);
+    _ec = 1.0f;
+    _f0 = 1.0f;
+    _f4 = 0.2f;
+    _10c = ksys::Timer(*mRetireFrame_s, *mRetireFrame_s, -1.0f);
+    _88 = false;
+    _89 = false;
+    mActor->emitBasicSigOff();
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+        npc->_1060 = 0;
+    changeChild("通常");
 }
 
 void GerudoQueenBattle::leave_() {
