@@ -10,6 +10,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -137,6 +138,75 @@ void ZoraHeroRelicBattleNormal::sub_7100612D98(const sead::Vector3f& pos) {
 
 // NON_MATCHING: only the order of the argument copies at the start (the original moves `pos` after the two floats)
 // 0x7100613404
+bool ZoraHeroRelicBattleNormal::sub_7100612E84(f32 top, f32 bottom, const sead::Vector3f& pos, bool direct,
+                                               sead::Vector3f* out) {
+    sead::Vector3f hit;
+    if (!sub_7100613404(top, bottom, pos, &hit))
+        return false;
+
+    auto* nav = mActor->m45();
+    if (!nav) {
+        out->set(hit);
+        return true;
+    }
+
+    sead::Vector3f reach;
+    const auto path = nav->sub_7100F76078(&reach, hit, 3.0f);
+    const bool found = path.sub_7100F7EB40();
+    if (direct) {
+        if (found && sub_7100613404(3.0f, -3.0f, reach, &hit)) {
+            out->set(hit);
+            return true;
+        }
+        return false;
+    }
+
+    if (!found)
+        return false;
+
+    if (path.sub_7100F7ED6C(nullptr) > 5.0f) {
+        sead::Vector3f next;
+        sead::Vector3f start = reach;
+        path.sub_7100F7EB60(&next);
+        if (sead::Vector2f(next.x - start.x, next.z - start.z).length() > 1.0f) {
+            sead::Vector3f dir{next.x - start.x, 0.0f, next.z - start.z};
+            dir.normalize();
+            start += dir;
+            if (sub_7100613404(3.0f, -3.0f, start, &hit)) {
+                out->set(hit);
+                return true;
+            }
+        }
+    }
+
+    if (_a0.isNan())
+        return false;
+    out->set(_a0);
+    return true;
+}
+
+// NON_MATCHING: the original keeps branches per anchor where ours selects (csel / fcsel) and merges conditions
+s32 ZoraHeroRelicBattleNormal::sub_71006130C4(f32 max_dist, const sead::Vector3f& pos) {
+    const f32 max_dist_sq = max_dist * max_dist;
+    s32 best = -1;
+    f32 best_dist_sq = -1.0f;
+    for (s32 i = 0; i < 5; ++i) {
+        const auto& anchor = _38[i];
+        if (!anchor._c)
+            continue;
+        const f32 dx = anchor.pos.x - pos.x;
+        const f32 dz = anchor.pos.z - pos.z;
+        const f32 dist_sq = dx * dx + dz * dz;
+        if (max_dist > 0.0f && dist_sq > max_dist_sq)
+            continue;
+        if (best < 0 || dist_sq < best_dist_sq) {
+            best = i;
+            best_dist_sq = dist_sq;
+        }
+    }
+    return best;
+}
+
 bool ZoraHeroRelicBattleNormal::sub_7100613404(f32 top, f32 bottom, const sead::Vector3f& pos,
                                                sead::Vector3f* hit_pos) {
     ksys::phys::RayCastBodyQuery query(
