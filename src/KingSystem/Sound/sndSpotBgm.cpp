@@ -192,18 +192,38 @@ void Unk_7102500a00::hm14() {
 }
 
 Unk_7102500e08::~Unk_7102500e08() {
-    if (_18) {
-        _18->sub_710101D9A4();
-        delete _18;
+    if (mHandles[0]) {
+        mHandles[0]->sub_710101D9A4();
+        delete mHandles[0];
     }
-    if (_20) {
-        _20->sub_710101D9A4();
-        delete _20;
+    if (mHandles[1]) {
+        mHandles[1]->sub_710101D9A4();
+        delete mHandles[1];
     }
-    if (_28) {
-        _28->sub_710101D9A4();
-        delete _28;
+    if (mHandles[2]) {
+        mHandles[2]->sub_710101D9A4();
+        delete mHandles[2];
     }
+}
+
+namespace {
+const char* sTemperatureBgmAssetNames[] = {"Bgm_TemperatureCold", "Bgm_TemperatureHot",
+                                           "Bgm_TemperatureBurn"};
+}  // namespace
+
+void Unk_7102500e08::sub_7101025840(const ksys::snd::BgmInitArg& arg) {
+    using ksys::snd::TemperatureBgmInfo;
+    sead::Heap* heap = arg.heap;
+    for (s32 i = 0; i < TemperatureBgmInfo::TemperatureEnum::size(); ++i) {
+        const char* name = TemperatureBgmInfo::TemperatureEnum::text(i);
+        const TemperatureBgmInfo::TemperatureEnum type = i;
+        auto* handle = new (heap, 8) Unk_71024fd3a0(arg.handle_type);
+        handle->sub_7101022DEC(heap, name, sTemperatureBgmAssetNames[type]);
+        handle->sub_710101D970();
+        mHandles[type] = handle;
+    }
+    mInfo = static_cast<TemperatureBgmInfo*>(
+        ksys::snd::sub_7100FFD76C()->getInfo(ksys::snd::MusicInfoType::TemperatureBgm));
 }
 
 void Unk_71024fd3a0::sub_7101022DEC(sead::Heap* heap, const sead::SafeString& name,

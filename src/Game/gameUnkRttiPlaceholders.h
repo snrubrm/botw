@@ -2483,6 +2483,8 @@ class Unk_71024fd318 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd318, ksys::snd::Bgm)
 public:
     ~Unk_71024fd318() override;
+    // 0x7100fffcf0 (placeholder name): creates the "OmenOfBloodyMoonBgm" handle (asset "Omen").
+    void sub_7100FFFCF0(const ksys::snd::BgmInitArg& arg);
     // 0x7100fffe88 (declared only)
     void m5() override;
     bool m9() override;
@@ -2990,10 +2992,13 @@ public:
     ~Unk_7102500e08() override;
     void m14(sead::TextWriter& writer) override {}
 
-    u8 _10[0x18 - 0x10];
-    /* 0x18 */ Unk_SpotBgmHandle* _18;
-    /* 0x20 */ Unk_SpotBgmHandle* _20;
-    /* 0x28 */ Unk_SpotBgmHandle* _28;
+    // 0x7101025840 (placeholder name; end of the constructor 0x7101025764): creates one handle per
+    // TemperatureEnum value ("Bgm_TemperatureCold" / "Hot" / "Burn") and gets the TemperatureBgm music info.
+    void sub_7101025840(const ksys::snd::BgmInitArg& arg);
+
+    /* 0x10 */ ksys::snd::TemperatureBgmInfo* mInfo;
+    // Indexed by TemperatureBgmInfo::TemperatureEnum.
+    /* 0x18 */ sead::SafeArray<Unk_SpotBgmHandle*, 3> mHandles;
 };
 
 // vtable 0x7102502640 (18 slots); placeholder generated from the vtable (genskel.py).

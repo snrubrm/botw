@@ -620,6 +620,15 @@ void Unk_71024fd188::m13(f32 fade_sec) {
 
 Unk_71024fd3a0::~Unk_71024fd3a0() = default;
 
+void Unk_71024fd318::sub_7100FFFCF0(const ksys::snd::BgmInitArg& arg) {
+    sead::Heap* heap = arg.heap;
+    _10 = new (heap, 8) Unk_71024fd3a0(arg.handle_type);
+    if (_10) {
+        _10->sub_7101022DEC(heap, "OmenOfBloodyMoonBgm", "Omen");
+        _10->sub_710101D970();
+    }
+}
+
 Unk_71024fd318::~Unk_71024fd318() {
     if (_10) {
         _10->sub_710101D9A4();

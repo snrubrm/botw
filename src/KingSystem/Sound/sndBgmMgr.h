@@ -45,7 +45,6 @@ class TextWriter;
 }
 
 class Unk_7102500a00;
-class DragonBgmInfo;
 class Unk_71024fefe8;
 class Unk_71024fe808;
 class Unk_71024feae8;
@@ -56,6 +55,9 @@ class Unk_71024fd6c8;
 class Unk_71024fd948;
 
 namespace ksys::snd {
+
+class DragonBgmInfo;
+class TemperatureBgmInfo;
 
 class Unk_710260f248;
 class Unk_EnvBgmNode;
