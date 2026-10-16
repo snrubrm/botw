@@ -146,6 +146,17 @@ Unk_7102500a00::~Unk_7102500a00() {
     }
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x7101025acc) also destroys members or bases
-// this class does not declare yet.
-Unk_7102500e08::~Unk_7102500e08() = default;
+Unk_7102500e08::~Unk_7102500e08() {
+    if (_18) {
+        _18->sub_710101D9A4();
+        delete _18;
+    }
+    if (_20) {
+        _20->sub_710101D9A4();
+        delete _20;
+    }
+    if (_28) {
+        _28->sub_710101D9A4();
+        delete _28;
+    }
+}

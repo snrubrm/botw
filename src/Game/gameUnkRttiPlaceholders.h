@@ -2889,8 +2889,14 @@ public:
 class Unk_7102500e08 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_7102500e08, ksys::snd::Bgm)
 public:
+    // 0x7101025acc: stops and deletes the three handles.
     ~Unk_7102500e08() override;
     void m14(sead::TextWriter& writer) override {}
+
+    u8 _10[0x18 - 0x10];
+    /* 0x18 */ Unk_SpotBgmHandle* _18;
+    /* 0x20 */ Unk_SpotBgmHandle* _20;
+    /* 0x28 */ Unk_SpotBgmHandle* _28;
 };
 
 // vtable 0x7102502640 (18 slots); placeholder generated from the vtable (genskel.py).
