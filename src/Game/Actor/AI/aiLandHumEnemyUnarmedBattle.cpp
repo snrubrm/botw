@@ -229,6 +229,67 @@ bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) co
     return (pos - self).squaredLength() < reach * reach;
 }
 
+// NON_MATCHING: the original keeps a second copy of the sub_710046D718 test after _108.reset() (ours is
+// tail-merged with the first one).
+void LandHumEnemyUnarmedBattle::m39() {
+    switch (_148) {
+    case 0: {
+        if (!_108.hasProcInCalcState()) {
+            auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+            if (enemy && enemy->_e80.isOnBit(*mParams.mEquipItemSearchIdx_s)) {
+                sub_710046ED70();
+                return;
+            }
+            if (sub_710046D718()) {
+                _148 = 0;
+                return;
+            }
+        } else {
+            auto* actor = sead::DynamicCast<ksys::act::Actor>(_108.getProc(nullptr, nullptr));
+            if (!sead::DynamicCast<act::Weapon>(actor)) {
+                setFailed();
+                return;
+            }
+            if (!sub_71005DEC08(&_108, mActor, 1000.0f, 1000.0f, sead::Mathf::pi())) {
+                if (sub_7100470ED4(_108)) {
+                    ksys::act::ai::InlineParamPack pack;
+                    pack.addActor(_108, "TargetWeapon", -1);
+                    changeChild("武器発見", &pack);
+                    return;
+                }
+                changeToBattle();
+                return;
+            }
+            auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+            if (enemy && enemy->_e80.isOnBit(*mParams.mEquipItemSearchIdx_s)) {
+                sub_710046ED70();
+                return;
+            }
+            if (auto* enemy2 = sead::DynamicCast<act::Enemy>(mActor))
+                enemy2->sub_7100019D38(_108);
+            _108.reset();
+            if (sub_710046D718()) {
+                _148 = 0;
+                return;
+            }
+        }
+        if (!sub_710046E57C()) {
+            changeToBattle();
+            return;
+        }
+        _148 = 1;
+        break;
+    }
+    case 1:
+        if (sub_7100470D54(&_118, false)) {
+            changeToFindItem();
+            return;
+        }
+        changeToBattle();
+        break;
+    }
+}
+
 void LandHumEnemyUnarmedBattle::loadParams_() {
     NavMove::loadParams_();
     getStaticParam(&mParams.mLostTimer_s, "LostTimer");
