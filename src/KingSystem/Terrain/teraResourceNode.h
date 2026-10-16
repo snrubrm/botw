@@ -186,6 +186,13 @@ public:
 
 namespace ksys::tera {
 
+// Placeholder: the flags 0x7101108ae8 reads (both low bits of _0 must be set; _2 is a level limit).
+struct Unk_7101108AE8Flags {
+    u8 _0;
+    u8 _1;
+    u8 _2;
+};
+
 // Placeholder (callers 0x7101108ae8, 0x7101109bd8, 0x710110a468, 0x710110a740, 0x7101105b2c,
 // 0x7100f289f0): an array of 0x528-byte areas at _8 with a base size at _18 and a level in the top
 // three bits of _1e.
@@ -248,16 +255,22 @@ struct Unk_71010FEDBC {
     Area* mAreas;
     u8 _10[0x18 - 0x10];
     f32 _18;
-    u8 _1c[0x1e - 0x1c];
+    // Scene::sub_7101100260 writes it for eight of the Scene records.
+    u16 _1c;
     s8 _1e;
+    u8 _1f;
+    Unk_7101108AE8Flags _20;
+    u8 _23[0x28 - 0x23];
+    u8 _28;
+    u8 _29;
+    u8 _2a[0x458 - 0x2a];
+    // Copied by 0x71011094a0 into the argument of 0x7101108c44.
+    u64 _458;
 };
+// The same objects as the nine 0x460-byte records at the start of a Scene (System::sub_710111F4F0 /
+// sub_710111F504 return one; 0x71011094a0 passes one as both arguments of 0x7101108ae8).
+KSYS_CHECK_SIZE_NX150(Unk_71010FEDBC, 0x460);
 
-// Placeholder: the flags 0x7101108ae8 reads (both low bits of _0 must be set; _2 is a level limit).
-struct Unk_7101108AE8Flags {
-    u8 _0;
-    u8 _1;
-    u8 _2;
-};
 
 // 0x7101108ae8 (placeholder name): searches the areas from the highest usable level down for one
 // whose position for `pos` is in [-1, 2); returns 2 (or 1 if its _10 is set) and writes the position

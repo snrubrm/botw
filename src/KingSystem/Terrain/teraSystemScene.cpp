@@ -174,11 +174,11 @@ s32 System::sub_71011188E4() const {
     return sead::Mathi::max(scene->_2946 - 1 - scene->_2780, 0);
 }
 
-void* System::sub_710111F4F0() {
+Unk_71010FEDBC* System::sub_710111F4F0() {
     return &mScenes(0).scene->_0[5];
 }
 
-Unk_710111F504* System::sub_710111F504() {
+Unk_71010FEDBC* System::sub_710111F504() {
     return &mScenes(0).scene->_0[8];
 }
 

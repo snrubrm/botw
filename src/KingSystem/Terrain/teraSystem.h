@@ -542,19 +542,6 @@ public:
     u8 _6473;
 };
 class ResourceHolder;
-// Placeholder: the object System::sub_710111F504 returns (`*_e0 + 0x2300`); sub_710110AA5C reads it and its +0x20.
-// The nine 0x460-byte objects at the start of a Scene (Scene::sub_7101100260 writes _1c of eight of them).
-struct Unk_710111F504 {
-    u8 _0[0x1c];
-    u16 _1c;
-    u8 _1e[0x20 - 0x1e];
-    u8 _20;
-    u8 _21[0x28 - 0x21];
-    u8 _28;
-    u8 _29;
-    u8 _2a[0x460 - 0x2a];
-};
-KSYS_CHECK_SIZE_NX150(Unk_710111F504, 0x460);
 
 // The objects System keeps in its 0x90-byte scene slots (name from the CSV row at 0x7101111650).
 class Scene {
@@ -613,7 +600,7 @@ public:
     void sub_7101100260(s32 a, s32 b, s32 c, s32 d);
 
     // [5] is returned by System::sub_710111F4F0, [8] by System::sub_710111F504.
-    Unk_710111F504 _0[9];
+    Unk_71010FEDBC _0[9];
     // Set on every scene by System::sub_7101112C30.
     sead::Vector3f _2760;
     Unk_276c _276c;
@@ -638,7 +625,7 @@ public:
     struct Unk_2948 {
         // 0x710112727c (declaration only; placeholder name): called by sub_71010FFE70 with the first four
         // sub-objects and the two new values.
-        void sub_710112727C(Unk_710111F504* a, Unk_710111F504* b, Unk_710111F504* c, Unk_710111F504* d, s32 x,
+        void sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c, Unk_71010FEDBC* d, s32 x,
                             s32 y);
 
         // 0x7101128ba0 (declaration only; placeholder name)
@@ -666,9 +653,9 @@ class System {
 public:
     static System* instance();
     // 0x710111f504: `*_e0 + 0x2300`.
-    Unk_710111F504* sub_710111F504();
+    Unk_71010FEDBC* sub_710111F504();
     // 0x710111f4f0 (placeholder name): `*_e0 + 0x15e0`.
-    void* sub_710111F4F0();
+    Unk_71010FEDBC* sub_710111F4F0();
     // 0x710111f644 (placeholder name): stores `value` in _2948->_afc0 of every scene.
     void sub_710111F644(void* value);
     // 0x710111f518 (placeholder name): sub_71011001D4(level, type) on every scene.
@@ -902,16 +889,16 @@ class Water {
 };
 
 // 0x710110aa5c (declaration only, 536 bytes): height query used by sub_710110B4A4.
-u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz, const u8* info_20,
-                   const Unk_710111F504* info);
+u32 sub_710110AA5C(f32 a, f32 b, f32* out_height, const sead::Vector2f* xz, const Unk_7101108AE8Flags* info_20,
+                   const Unk_71010FEDBC* info);
 // 0x710110adf8 (declaration only, 752 bytes; placeholder name): sub_710110AA5C that also writes the normal.
 u32 sub_710110ADF8(f32 a, f32 b, f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
-                   const u8* info_20, const Unk_710111F504* info);
+                   const Unk_7101108AE8Flags* info_20, const Unk_71010FEDBC* info);
 // 0x710110b0e8 / 0x710110b38c (declaration only; placeholder names): queries like sub_710110AA5C that
 // write a 2D value / a u32.
-u32 sub_710110B0E8(f32 a, sead::Vector2f* out, const sead::Vector2f* xz, const u8* info_20,
-                   const Unk_710111F504* info);
-u32 sub_710110B38C(u32* out, const sead::Vector2f* xz, const u8* info_20, const Unk_710111F504* info);
+u32 sub_710110B0E8(f32 a, sead::Vector2f* out, const sead::Vector2f* xz, const Unk_7101108AE8Flags* info_20,
+                   const Unk_71010FEDBC* info);
+u32 sub_710110B38C(u32* out, const sead::Vector2f* xz, const Unk_7101108AE8Flags* info_20, const Unk_71010FEDBC* info);
 // 0x710110b5bc / 0x710110b634 (placeholder names): sub_710110B0E8 (with 50) / sub_710110B38C for
 // `system`, under the same conditions as sub_710110B4A4.
 u32 sub_710110B5BC(sead::Vector2f* out, const sead::Vector2f* xz, System* system);
@@ -936,11 +923,24 @@ u32 sub_710110BD78(MaterialRecordMaybe* out, const sead::Vector2f* xz, System* s
 // Full 110C02C writes material and submaterial; independent 1224C1C consumes both.
 u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
                     System* system, bool flag);
+// Placeholder: the argument of 0x7101108c44 (0x71011094a0 fills it from the area record's _458 and the
+// area index).
+struct Unk_7101108C44Arg {
+    u64 _0;
+    s32 index;
+    bool _c;
+};
+// 0x7101108c44 (declaration only, 712 bytes; placeholder name): the height at `pos` in the area of `arg`.
+f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, s32 flag);
 // Returns query status 0/1/2; the final argument preserves a full integer flag.
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
                     s32 flag);
 
-// 0x71011096d0 (declaration only): like sub_71011094A0, also writes the terrain normal.
+// 0x71011091dc (declaration only; placeholder name): height and normal query used by sub_71011096D0.
+u32 sub_71011091DC(f32 a, f32 b, f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   const Unk_7101108AE8Flags* info_20, const Unk_71010FEDBC* info, s32 index,
+                   s32 flag);
+// 0x71011096d0: like sub_71011094A0, also writes the terrain normal.
 u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system, s32 index, s32 flag);
 // 0x710110b52c: like sub_710110B4A4, also writes the terrain normal (sub_710110ADF8).

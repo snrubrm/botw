@@ -14,6 +14,41 @@ u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system) {
     return sub_710110AA5C(0.0f, Terrain::instance()->_3cc, out_height, xz, &info->_20, info);
 }
 
+// NON_MATCHING: the original stores area = 0 after loading Vector2f::zero (scheduling).
+u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index, s32 flag) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    const s32 height_flag = flag != 0 && (system->mScenes(0).scene->_2998 & 0x20) ? flag : 0;
+
+    auto* areas = system->sub_710111F4F0();
+    const f32 scale = Terrain::instance()->_3cc;
+    s32 area = 0;
+    sead::Vector2f pos = sead::Vector2f::zero;
+    const u32 result = sub_7101108AE8(&pos, &area, *xz, areas->_20, *areas, index);
+    if (result != 0) {
+        Unk_7101108C44Arg arg;
+        arg._0 = areas->_458;
+        arg.index = area;
+        arg._c = false;
+        *out_height = scale * sub_7101108C44(pos, &arg, height_flag) + 0.0f;
+    }
+    return result;
+}
+
+u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
+                   System* system, s32 index, s32 flag) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    const s32 height_flag = flag != 0 && (system->mScenes(0).scene->_2998 & 0x20) ? flag : 0;
+    auto* areas = system->sub_710111F4F0();
+    return sub_71011091DC(0.0f, Terrain::instance()->_3cc, out_height, out_normal, xz, &areas->_20,
+                          areas, index, height_flag);
+}
+
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system) {
     if (!system->_8)
