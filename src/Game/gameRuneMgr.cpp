@@ -160,4 +160,9 @@ s32 RuneMgr::sub_7100676104() {
     return _240 = _24c = _248 = u32(type) > 7 ? -1 : type;
 }
 
+void RuneMgr::sub_710067623C(const sead::Vector2f& value) {
+    _2a0 = value;
+    _28c = _2a0;
+}
+
 }  // namespace uking
