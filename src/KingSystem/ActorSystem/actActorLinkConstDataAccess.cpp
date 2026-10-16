@@ -1028,6 +1028,21 @@ bool ActorLinkConstDataAccess::sub_7100D10F0C() const {
 
 // 0x7100d12f08: Chemical::sub_7100D9108C() of the chemical `idx` (the actor's first chemical if idx < 0).
 // NON_MATCHING: the original evaluates `index < 0 || count < index` into a bool before the ChemicalMgr lookup.
+bool ActorLinkConstDataAccess::sub_7100D12640(Chemical* chemical, int a) const {
+    if (!mProc)
+        return false;
+    if (auto* actor = sead::DynamicCast<Actor>(mProc)) {
+        if (auto* chemicals = actor->getChemicalContainer()) {
+            const s32 count = chemicals->_58.size() + chemicals->_80;
+            for (s32 i = 0; i < count; ++i) {
+                world::Manager::instance()->getChemicalMgr()->sub_71010CBDCC(
+                    actor->sub_71011D8A34(i), chemical, a);
+            }
+        }
+    }
+    return false;
+}
+
 bool ActorLinkConstDataAccess::sub_7100D12758(Chemical* chemical, int flags, int index) const {
     auto* actor = getActor();
     if (!actor)
