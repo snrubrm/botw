@@ -170,3 +170,16 @@ struct alignas(16) hkpAngConstraintAtom : hkpConstraintAtom {
 };
 static_assert(sizeof(hkpAngConstraintAtom) == 0x10);
 static_assert(offsetof(hkpAngConstraintAtom, m_constrainedAxes) == 2);
+
+// hkpPulleyConstraintData constructor 0x71015f7640 writes type 20 at data +0x50 and zeroes both
+// fixed pivots (+0x60/+0x70), rope length (+0x80) and sets leverage (+0x84) to 1;
+// Unk_71024f65c8::m0 0x7100f6fbb4 reads them.
+struct hkpPulleyConstraintAtom : hkpConstraintAtom {
+    hkUint8 m_padding[14];
+    hkVector4 m_fixedPivotAinWorld;
+    hkVector4 m_fixedPivotBinWorld;
+    hkReal m_ropeLength;
+    hkReal m_leverageOnBodyB;
+};
+static_assert(sizeof(hkpPulleyConstraintAtom) == 0x40);
+static_assert(offsetof(hkpPulleyConstraintAtom, m_ropeLength) == 0x30);
