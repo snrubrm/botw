@@ -63,6 +63,12 @@ public:
     using BoneCallbackStorage = sead::AnyDelegate1<BoneCallbackArg*>;
 
     const nn::g3d::SkeletonObj* getSkeletonObj() const { return mModelObj.GetSkeleton(); }
+    // Graphics 0x7100f2e0f4 reads the material array of the model object at +0xe0.
+    nn::g3d::ModelObj* getModelObj() { return &mModelObj; }
+
+    // 0x7100c03df8 / 0x7100c04230 (declaration only): mark the display lists of all shapes / one shape dirty.
+    void setDisplayListDirty();
+    void setDisplayListDirty(int shape_idx);
 
     // ModelUnit overrides (0x7100c06d30 / 0x7100c06dd8).
     sead::SafeString getBoneName(int bone_idx) const override;

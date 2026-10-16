@@ -3,21 +3,10 @@
 #include <container/seadBuffer.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
+#include "gsys/gsysModelRenderUnit.h"
 #include "gsys/gsysModelUnit.h"
 
-namespace sead {
-class Heap;
-}
-
 namespace gsys {
-
-// Abstract base of the render units (vtable 0x71024d1f48): D2 0x7100c82cbc is empty, D0 0x7100c82cc0
-// deletes, slot 2 is initialize 0x7100c82cc4.
-class ModelRenderUnit {
-public:
-    virtual ~ModelRenderUnit();
-    virtual void initialize(const ModelUnit* unit, int index, sead::Heap* heap);
-};
 
 // Destructor 0x7100c7fc2c installs vtable 0x71024d1af8 and ends with ~ModelUnit. Its RTTI functions
 // 0x7100c1444c / 0x7100c14518 are shared by the game subclass with vtable 0x71024f4720.
@@ -39,7 +28,7 @@ public:
         ~RenderUnit() override {}
 
     private:
-        u8 _8[0x38 - 0x8];
+        u8 _18[0x38 - 0x18];
     };
     static_assert(sizeof(RenderUnit) == 0x38);
 

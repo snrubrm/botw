@@ -1,5 +1,10 @@
 #include "Game/gameGraphics.h"
 #include <prim/seadScopedLock.h>
+#include <g3d/aglNW4FToNN.h>
+#include <gsys/gsysModelNW.h>
+#include <gsys/gsysModelRenderUnit.h>
+#include <nn/g3d/ModelObj.h>
+#include <nn/g3d/ResMaterial.h>
 #include <layer/aglLayer.h>
 #include <math/seadMathCalcCommon.h>
 
@@ -97,6 +102,26 @@ void Graphics::sub_7100F2FF08(f32 ratio, f32 scale) {
     setEnvMaterialParamF32("uking_dynamic_depth_shadow_off", 1.0f - shadowRatio);
     setEnvMaterialParamF32("uking_dynamic_depth_shadow_scale", 1.0f - scale);
     setEnvMaterialParamF32("uking_dynamic_world_shadow_off", shadowRatio * ((1.0f - _e8c) - 1.0f) + 1.0f);
+}
+
+void Graphics::sub_7100F2E0F4(gsys::ModelNW* model, const nn::gfx::ResTexture* texture) {
+    if (!texture) {
+        model->setDisplayListDirty();
+        return;
+    }
+
+    auto* model_obj = model->getModelObj();
+    for (s32 i = 0; i < model_obj->GetNumMaterials(); ++i) {
+        auto* material = model_obj->GetMaterial(i);
+        for (s32 j = 0; j < material->GetResource()->_a9; ++j) {
+            if (agl::g3d::MaterialObj::GetResTexture(material, j) != texture)
+                continue;
+            for (s32 k = 0; k < model_obj->GetNumShapes(); ++k) {
+                if (model->getModelRenderUnit(k)->getMaterialIndex() == i)
+                    model->setDisplayListDirty(k);
+            }
+        }
+    }
 }
 
 void Graphics::sub_7100F2E2A4() {
