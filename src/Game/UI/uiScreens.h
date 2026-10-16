@@ -3026,6 +3026,8 @@ struct ScreenAppPictureBookUnk {
     void sub_7100943FE0(sead::Heap* heap, s32 count);
     // 0x71009419e0 (declared only; 592 bytes): the position of item `index` of entry `entry` (zero when invalid)
     void sub_71009419E0(s32 index, s32 entry, sead::Vector2f* out);
+    // 0x7100944d18 (placeholder name): the column / row of item `index` of `entry` for the item order modes _64 / _68
+    void sub_7100944D18(const ScreenAppPictureBookEntry* entry, s32 index, s32* x, s32* y) const;
     // 0x7100941c30 (placeholder name): the item (and its entry) whose box, moved by `offset`, contains the origin;
     // the outputs are left alone when there is none
     void sub_7100941C30(const sead::Vector2f& offset, s32* out_index, s32* out_entry);

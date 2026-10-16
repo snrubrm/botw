@@ -788,6 +788,51 @@ void ScreenAppPictureBookUnk::sub_71009418D0(f32 delta, s32 mode) {
         sub_7100941D70(mode != 2);
 }
 
+// 0x7100944d18
+void ScreenAppPictureBookUnk::sub_7100944D18(const ScreenAppPictureBookEntry* entry, s32 index, s32* x,
+                                             s32* y) const {
+    const s32 cols = entry->mParams._2a0;
+    const s32 rows = entry->mParams._2a4;
+    switch (mConfig._64) {
+    case 0:
+        if (mConfig._68 == 3) {
+            *x = index / rows;
+            *y = index % rows;
+        } else if (mConfig._68 == 1) {
+            *x = index % cols;
+            *y = index / cols;
+        }
+        break;
+    case 1:
+        if (mConfig._68 == 3) {
+            *x = cols - 1 - index / rows;
+            *y = index % rows;
+        } else if (mConfig._68 == 0) {
+            *x = cols - 1 - index % cols;
+            *y = index / cols;
+        }
+        break;
+    case 2:
+        if (mConfig._68 == 2) {
+            *x = index / rows;
+            *y = rows - 1 - index % rows;
+        } else if (mConfig._68 == 1) {
+            *x = index % cols;
+            *y = rows - 1 - index / cols;
+        }
+        break;
+    case 3:
+        if (mConfig._68 == 2) {
+            *x = cols - 1 - index / rows;
+            *y = rows - 1 - index % rows;
+        } else if (mConfig._68 == 0) {
+            *x = cols - 1 - index % cols;
+            *y = rows - 1 - index / cols;
+        }
+        break;
+    }
+}
+
 // NON_MATCHING: the original branches on one fccmp chain for isInside; ours materialises the four compares
 // 0x7100941c30
 void ScreenAppPictureBookUnk::sub_7100941C30(const sead::Vector2f& offset, s32* out_index, s32* out_entry) {
