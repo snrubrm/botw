@@ -496,6 +496,24 @@ void SkyMgr::sub_71010E37C8() {
         unk->_1c0 = _3f08;
 }
 
+void SkyMgr::sub_71010E2AAC() {
+    sub_71010E2B44();
+    switch (Manager::instance()->getStageType()) {
+    case StageType::Invalid:
+    case StageType::Indoor:
+    case StageType::Viewer:
+        break;
+    default:
+        sub_71010E386C();
+        sub_71010E3AF8();
+        sub_71010E49A0();
+        sub_71010E4CE8();
+        break;
+    }
+    sub_71010E35D8();
+    sub_71010E37C8();
+}
+
 void SkyMgr::onTimeUpdate() {
     const f32 time = Manager::instance()->getTimeMgr()->getTimeForSkyEnv();
     _3f30 = 0;

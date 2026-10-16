@@ -142,6 +142,18 @@ public:
     void onTimeUpdate();
     // 0x71010e37c8 (CSV wm::CloudMgr::x; placeholder name): copies the light direction _3f08 to Graphics::_118.
     void sub_71010E37C8();
+    // 0x71010e2aac (CSV wm::CloudPr::calcEntryJob; placeholder name): the sky / cloud update steps (the cloud steps
+    // are skipped for invalid, indoor and viewer stages), then the light direction.
+    void sub_71010E2AAC();
+    // 0x71010e2b44 / 0x71010e386c / 0x71010e3af8 / 0x71010e49a0 (CSV wm::CloudPr::calcEntryJob_x, _x_0, _x_1, _x_2;
+    // declared only; placeholder names).
+    void sub_71010E2B44();
+    void sub_71010E386C();
+    void sub_71010E3AF8();
+    void sub_71010E49A0();
+    // 0x71010e4ce8 / 0x71010e35d8 (declared only; called without an object).
+    static void sub_71010E4CE8();
+    static void sub_71010E35D8();
     // 0x71010e2468 / 0x71010e2908: wind/cloud and sun-direction updates (declarations only).
     void sub_71010E2468();
     void sub_71010E2908();
