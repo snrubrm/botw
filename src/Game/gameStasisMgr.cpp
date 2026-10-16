@@ -152,4 +152,16 @@ act::DamageManagerUnk220* StasisMgr::sub_7100681588(ksys::act::Actor* actor) {
     return nullptr;
 }
 
+f32 StasisMgr::sub_7100681B90() {
+    return 2.0f;
+}
+
+s32 StasisMgr::sub_7100681B98() {
+    return 1;
+}
+
+f32 StasisMgr::sub_7100681BA0() {
+    return 0.7f;
+}
+
 }  // namespace uking

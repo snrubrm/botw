@@ -90,6 +90,12 @@ public:
     // 0x7100681588 (CSV StasisMgr::__auto5): the damage records of the entry linked to `actor`.
     act::DamageManagerUnk220* sub_7100681588(ksys::act::Actor* actor);
 
+    // 0x7100681b90 / 0x7100681b98 / 0x7100681ba0 (placeholder names): constants read by the stasis damage
+    // records (DamageManagerUnk220, 0x71006d9c34 / 0x71006da02c): 2.0, 1, 0.7.
+    static f32 sub_7100681B90();
+    static s32 sub_7100681B98();
+    static f32 sub_7100681BA0();
+
     /* 0x040 */ u8 _40 = 0;
     /* 0x041 */ bool _41 = false;
     /* 0x042 */ bool _42 = false;
