@@ -3,6 +3,18 @@
 
 namespace uking::ui {
 
+// Message strings (set up by the TU's static init 0x7100a0d770; addressed directly, so internal).
+// The original merges them with the TU's other statics (base 0x71025eea50, the strings from + 0x148), so every
+// user loads them at other offsets from one base: those functions are m.
+static const sead::SafeString sUnk_71025eeb98 = "StaticMsg/HardMode";
+static const sead::SafeString sUnk_71025eeba8 = "LayoutMsg/SystemWindow_00";
+static const sead::SafeString sUnk_71025eebc8 = "0001";
+static const sead::SafeString sUnk_71025eebd8 = "0002";
+static const sead::SafeString sUnk_71025eebe8 = "0005";
+static const sead::SafeString sUnk_71025eebf8 = "0003";
+static const sead::SafeString sUnk_71025eec08 = "0013";
+static const sead::SafeString sUnk_71025eec18 = "0014";
+
 // 0x7100a0bc24
 void ScreenHardMode::m93(sead::Heap*) {
     _3610 = mLayout->createAnimatorAuto("Type", true);
@@ -292,6 +304,264 @@ void ScreenHardMode::m191() {
         close(-1);
         break;
     }
+}
+
+// NON_MATCHING: merged static string offsets; the widget name temporary is placed above the FixedSafeString
+// in the original's frame
+// 0x7100a0c084
+void ScreenHardMode::sub_7100A0C084(const sead::SafeString& text, const sead::SafeString& left,
+                                    const sead::SafeString& right) {
+    sead::FixedSafeString<128> message_set(sUnk_71025eeb98);
+    if (!_3668.isEmpty()) {
+        message_set = _3668;
+        _3668.clear();
+    }
+    eui::MessageString text_msg;
+    eui::MessageString left_msg;
+    eui::MessageString right_msg;
+    getMessage(message_set, text, &text_msg);
+    getMessage(message_set, left, &left_msg);
+    getMessage(message_set, right, &right_msg);
+    setWidgetString(_3648, "T_Text_00", text_msg);
+    setWidgetString(_3660, "T_Btn_00", left_msg);
+    setWidgetString(_3658, "T_Btn_00", right_msg);
+}
+
+// NON_MATCHING: as sub_7100A0C084
+// 0x7100a0c368
+void ScreenHardMode::sub_7100A0C368(const sead::SafeString& text, const sead::SafeString& button) {
+    sead::FixedSafeString<128> message_set(sUnk_71025eeb98);
+    if (!_3668.isEmpty()) {
+        message_set = _3668;
+        _3668.clear();
+    }
+    eui::MessageString text_msg;
+    eui::MessageString button_msg;
+    getMessage(message_set, text, &text_msg);
+    getMessage(message_set, button, &button_msg);
+    setWidgetString(_3648, "T_Text_00", text_msg);
+    setWidgetString(_3650, "T_Btn_00", button_msg);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0c614
+void ScreenHardMode::m154() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0c6ac
+void ScreenHardMode::m158() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0c738
+void ScreenHardMode::m162() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0c7d0
+void ScreenHardMode::m166() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084("0009", sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0c8b8
+void ScreenHardMode::m171() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+    switch (_3718) {
+    case 0x90:
+        _3708 = 3;
+        getStateMachine().changeState(&sUnk_71025ee750);
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0c970
+void ScreenHardMode::m174() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0ca2c
+void ScreenHardMode::m179() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0cadc
+void ScreenHardMode::m182() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0cb74
+void ScreenHardMode::m186() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0cc00
+void ScreenHardMode::m190() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0cc8c
+void ScreenHardMode::m194() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084("0010", sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0cd74
+void ScreenHardMode::m199() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0ce24
+void ScreenHardMode::m202() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0cee0
+void ScreenHardMode::m207() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0d03c
+void ScreenHardMode::m218() {
+    _3710 = getStateMachine().getState();
+    sub_7100A0BFC8(1);
+    sub_7100A0C084("0011", sUnk_71025eec18, sUnk_71025eec08);
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0d124
+void ScreenHardMode::m223() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0012", sUnk_71025eebc8, sUnk_71025eebd8);
+    switch (_3718) {
+    case 0x90:
+        getStateMachine().changeState(&sUnk_71025ee870);
+        break;
+    case 0x8f:
+        getStateMachine().changeState(&sUnk_71025ee8d0);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0d1f0
+void ScreenHardMode::m227() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+    switch (_3718) {
+    case 0x90:
+        _3708 = 4;
+        getStateMachine().changeState(&sUnk_71025ee6f0);
+        break;
+    case 0x8f:
+        getStateMachine().changeState(&sUnk_71025ee8d0);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0d2c4
+void ScreenHardMode::m231() {
+    // 0x57 bit 1 of the ContentOut animator
+    if (_3620->mFlags & 2)
+        sub_7100A0C084("0011", sUnk_71025eec18, sUnk_71025eec08);
+    switch (_3718) {
+    case 0x90:
+        _3704 = 5;
+        getStateMachine().changeState(&sUnk_71025ee930);
+        break;
+    case 0x8f:
+        getStateMachine().changeState(&sUnk_71025ee810);
+        break;
+    }
+}
+
+// NON_MATCHING: offsets of the merged static strings (see the note at the top)
+// 0x7100a0d3d0
+void ScreenHardMode::m239() {
+    if (_3620->mFlags & 2) {
+        _3668 = sUnk_71025eeba8;
+        sub_7100A0C368("0066", "0067");
+    }
+    if (_3718 == 0x8e)
+        _3704 = 6;
 }
 
 void ScreenHardMode::m156() {}

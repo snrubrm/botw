@@ -3025,6 +3025,9 @@ extern const ksys::StateBase sUnk_71025ee5d0;
 extern const ksys::StateBase sUnk_71025ee930;
 extern const ksys::StateBase sUnk_71025ee810;
 extern const ksys::StateBase sUnk_71025ee7b0;
+extern const ksys::StateBase sUnk_71025ee6f0;
+extern const ksys::StateBase sUnk_71025ee870;
+extern const ksys::StateBase sUnk_71025ee8d0;
 
 class ScreenHardMode : public ScreenEx {
 public:
@@ -3146,7 +3149,7 @@ public:
     /* 0x3638 */ eui::AnimButton* _3638;
     /* 0x3640 */ eui::AnimButton* _3640;
     /* 0x3648 */ eui::LayoutEx* _3648;
-    u8 _3650[0x3658 - 0x3650];
+    /* 0x3650 */ eui::LayoutEx* _3650;
     /* 0x3658 */ eui::LayoutEx* _3658;
     /* 0x3660 */ eui::LayoutEx* _3660;
     /* 0x3668 */ sead::FixedSafeString<128> _3668;
@@ -3162,6 +3165,12 @@ public:
 
     // 0x7100a0bfc8 (CSV unnamed; placeholder name): selects the state's animation `index` (-1: none)
     void sub_7100A0BFC8(s32 index);
+    // 0x7100a0c084 (placeholder name): sets the text and the two button labels from the messages
+    // `text`, `left` and `right` of the message set _3668 (StaticMsg/HardMode when empty; clears _3668)
+    void sub_7100A0C084(const sead::SafeString& text, const sead::SafeString& left,
+                        const sead::SafeString& right);
+    // 0x7100a0c368 (placeholder name): as sub_7100A0C084 with one button (layout _3650)
+    void sub_7100A0C368(const sead::SafeString& text, const sead::SafeString& button);
 };
 
 // Screens without members of their own that are modelled yet: only the (trivial, tail-calling)
