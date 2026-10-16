@@ -220,6 +220,9 @@ KSYS_CHECK_SIZE_NX150(Unk_7102450fa8, 0x448);
 // Global Vector3f in the unit's TU (0x71025c8cf8), set to {0, 0, 900} by the TU's static initialiser
 // (0x710071a7b4); copied to PriestBossGiantStageRotRoot's FacePos. Placeholder name.
 extern sead::Vector3f sUnk_71025c8cf8;
+// Global Vector3f right after sUnk_71025c8cf8 (0x71025c8d04); PriestBossActorNormalRoot::m35 spawns the boss's
+// weapons there. Placeholder name.
+extern sead::Vector3f sUnk_71025c8d04;
 // Global in the unit's TU (0x7102450fa0, right before its vtable): 50.0 (the default arena
 // radius, see Unk3::_c). Placeholder name.
 extern f32 sUnk_7102450fa0;

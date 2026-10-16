@@ -1,6 +1,11 @@
 #include "Game/Actor/AI/aiPriestBossActorNormalRoot.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -73,6 +78,35 @@ void PriestBossActorNormalRoot::leave_() {
 void PriestBossActorNormalRoot::loadParams_() {
     PriestBossActorRoot::loadParams_();
     getAITreeVariable(&mEquipWeaponBufIndex_a, "EquipWeaponBufIndex");
+}
+
+// NON_MATCHING: the original skips the null test of mActor before the Enemy cast and passes the flag bit through a
+// stack slot
+// 0x710050e284: drops the boss's two equipped weapons and equips a new bow and sword
+void PriestBossActorNormalRoot::m35() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    for (s32 i = 0; i < 2; ++i) {
+        if (enemy->getWeapons()->getEquippedWeapon(i)) {
+            enemy->getWeapons()->getEquippedWeapon(i)->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            enemy->dropWeapon(i, sead::Vector3f::zero, false, false, nullptr, false);
+            _80.setBit(i + 1);
+        }
+    }
+
+    const sead::SafeString names[] = {"Weapon_Bow_029", "Weapon_Sword_015"};
+    ksys::act::InstParamPack params;
+    params->addPosition(sUnk_71025c8d04);
+    params->add(-1, "Life");
+    params->add(false, "IsPlayerPut");
+    for (s32 i = 0; i < 2; ++i) {
+        auto* actor = ksys::act::ActorCreator::instance()->createActor(
+            names[i].cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &params, true, false);
+        if (auto* weapon = sead::DynamicCast<act::Weapon>(actor))
+            enemy->sub_7100015438(i, weapon);
+        else
+            actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    *mEquipWeaponBufIndex_a = -1;
 }
 
 // NON_MATCHING: the return value of the last isFailed() test is folded into `!x` (mvn / and) where
