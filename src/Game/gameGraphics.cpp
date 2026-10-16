@@ -1,6 +1,7 @@
 #include "Game/gameGraphics.h"
 #include <prim/seadScopedLock.h>
 #include <layer/aglLayer.h>
+#include <math/seadMathCalcCommon.h>
 
 Unk_7100f35df8::Unk_7100f35df8() = default;
 
@@ -66,6 +67,25 @@ f32 Graphics::sub_7100F35F38() const {
 void Graphics::sub_7100F32AC8(sead::Camera* camera, void* unk) {
     _e08 = camera;
     _e10 = unk;
+}
+
+void Graphics::sub_7100F2FAAC(f32 exposure, bool force) {
+    if (force || _f5a != 4)
+        setEnvMaterialParamF32("uking_dynamic_exposure", exposure);
+}
+
+void Graphics::sub_7100F2FB6C(f32 ratio) {
+    _e84 = ratio;
+    setEnvMaterialParamF32("uking_dynamic_proj_shadow_off", 1.0f - ratio);
+}
+
+void Graphics::sub_7100F2FC24(f32 ratio) {
+    _e80 = ratio;
+    setEnvMaterialParamF32("uking_dynamic_base_light_change_ratio", 1.0f - ratio);
+}
+
+void Graphics::setDynamicCloudRatio(f32 ratio) {
+    setEnvMaterialParamF32("uking_dynamic_cloud_ratio", sead::Mathf::clamp(1.0f - ratio, 0.0f, 1.0f));
 }
 
 void Graphics::sub_7100F2F1C8(Unk_7100f35df8* settings) {

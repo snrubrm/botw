@@ -11,6 +11,9 @@
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysModelUnit.h>
+#include <prim/seadSafeString.h>
+#include <prim/seadScopedLock.h>
 
 namespace nn::gfx {
 class ResTexture;
@@ -162,6 +165,34 @@ public:
     // 0x7100f35de8 (declaration only; placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C
     void sub_7100F35DE8();
 
+    // 0x7100f2fb6c (placeholder name; CSV Graphics::__auto6): stores the ratio at 0xe84 and sets
+    // uking_dynamic_proj_shadow_off to 1 - ratio.
+    void sub_7100F2FB6C(f32 ratio);
+    // 0x7100f2fc24 (placeholder name): stores the ratio at 0xe80 and sets
+    // uking_dynamic_base_light_change_ratio to 1 - ratio.
+    void sub_7100F2FC24(f32 ratio);
+    // 0x7100f2fe38 (CSV Graphics::getDynamicCloudRatio; it sets the value): sets uking_dynamic_cloud_ratio to
+    // 1 - ratio clamped to [0, 1].
+    void setDynamicCloudRatio(f32 ratio);
+    // 0x7100f2faac (placeholder name): sets uking_dynamic_exposure unless the byte at 0xf5a is 4 (force skips the test).
+    void sub_7100F2FAAC(f32 exposure, bool force);
+
+    // inline-only in the original; name is a guess: the same lock / searchMaterialParamIndex /
+    // setMaterialParamF32 sequence is inlined in 0x7100f2fb6c, 0x7100f2fc24, 0x7100f2fcdc, 0x7100f2fe38,
+    // 0x7100f2ff08, 0x7100f2faac and 0x7100f2e5cc.
+    // inline-only in the original; name is a guess (searches a material parameter by name and sets it; part of
+    // setEnvMaterialParamF32 below, same functions).
+    static void setMaterialParamF32(gsys::ModelUnit* unit, s32 material, const sead::SafeString& name,
+                                    f32 value) {
+        const s32 index = unit->searchMaterialParamIndex(material, name);
+        if (index != -1)
+            unit->setMaterialParamF32(material, index, value);
+    }
+    void setEnvMaterialParamF32(const char* name, f32 value) {
+        auto lock = sead::makeScopedLock(_ed8);
+        setMaterialParamF32(_ea8, _f58, name, value);
+    }
+
     // 0x7100f35e54: settings currently registered by the rune / magnesis managers.
     Unk_7100f35df8* sub_7100F35E54() const;
 
@@ -238,10 +269,18 @@ public:
 
 private:
     void* _e10;
-    u8 _e18[0xf18 - 0xe18];
+    u8 _e18[0xe80 - 0xe18];
+    f32 _e80;
+    f32 _e84;
+    u8 _e88[0xea8 - 0xe88];
+    // The environment model unit whose material parameters the uking_dynamic_* setters change.
+    gsys::ModelUnit* _ea8;
+    u8 _eb0[0xed8 - 0xeb0];
+    sead::CriticalSection _ed8;
     // Lock for the map kind below (placeholder name).
     sead::CriticalSection _f18;
-    u8 _f58;
+    // Material index used by setEnvMaterialParamF32.
+    s8 _f58;
     u8 _f59;  // map kind (Graphics::sub_7100F2AF70)
     u8 _f5a;
     u8 _f5b;  // sub_7100F2AFAC
