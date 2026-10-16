@@ -1,6 +1,13 @@
 #include "Game/Actor/Action/actionZoraSurfing.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/System/VFR.h"
 
@@ -29,7 +36,29 @@ bool ZoraSurfing::init_(sead::Heap* heap) {
 }
 
 void ZoraSurfing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    ksys::act::disableAllAttClients(actor);
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "Body")) {
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorAttackEnemy);
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorAttackPlayer);
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorAttackCommon);
+    }
+    if (auto* child = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcChild()))
+        sub_7100738D28(actor, child);
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    actor->emitBasicSigOn();
+    ksys::gdt::setFlag_Water_Relic_firstPrinceRide(true);
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        auto* body = set->findBodyByHavokName("Body");
+        if (!body && set->getRigidBodies().size() >= 1)
+            body = set->getRigidBodies()[0];
+        if (body)
+            body->setFlag200();
+    }
+    _20.sub_7100EEBAE0(m33(), 0.0f);
+    _20.sub_7100EEBE9C(1);
+    m35();
 }
 
 void ZoraSurfing::leave_() {
