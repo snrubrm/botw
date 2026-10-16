@@ -957,8 +957,7 @@ void Player::sub_7100892A98() {
         sub_7100855BB4("CutChargeMoveLower", false, -1.0f);
 }
 
-// NON_MATCHING: sub_7100F63210 returns u8 here (the original tests bit 0: bool)
-// (the epsilon test form is the one in aiUnk_7102433970.cpp / aiMessage3DText.cpp).
+// The epsilon test form is the one in aiUnk_7102433970.cpp / aiMessage3DText.cpp.
 void Player::sub_7100881418() {
     auto* controller = getCharacterController();
     if (!controller || !controller->sub_7100F63210() || _cf0.isOnBit(25))
