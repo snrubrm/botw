@@ -80,11 +80,11 @@ void* Terrain::sub_710114DE10() const {
 }
 
 const char* Terrain::sub_710114DE20(s32 index) const {
-    return _370->_4ae0->mMaterialNames->mNames[index]->name;
+    return _370->_4ae0->_10.mMaterialNames->mNames[index]->name;
 }
 
 s32 Terrain::sub_710114DE3C() const {
-    return _370->_4ae0->_710;
+    return _370->_4ae0->_10._700;
 }
 
 void Terrain::sub_710114DDF8(u32 index, const sead::Vector3f* position, bool update) {
@@ -172,6 +172,38 @@ u32 MaterialTextureMaybe::getWidthMaybe() const {
 
 // NON_MATCHING: loop counter kept as 64-bit in ours (the original sign-extends a 32-bit counter); first lookup
 // becomes a select.
+void Terrain::Unk4ae0::Unk_10::setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
+                                                        const AttributeMap* sub_map) {
+    _738.tryAllocBuffer(_728->mCount, heap);
+
+    const u32 count = _728->mCount;
+    for (s32 i = 0; i < count; ++i) {
+        const sead::SafeString main_name = _728->mNames[i]->name;
+        const sead::SafeString sub_name = _730->mNames[i]->name;
+        const s32* main = nullptr;
+        if (const auto* node = main_map->find(main_name))
+            main = &node->value();
+        const s32* sub = nullptr;
+        if (const auto* node = sub_map->find(sub_name))
+            sub = &node->value();
+
+        if (!main || !sub) {
+            if (auto* debug = Terrain::instance()->_a50) {
+                auto entry = debug->_70.log(
+                    "マテリアルの対応アトリビュートが見つかりません -> No : %d | ファイル : %s | アトリビュート(Main) : %s | アトリビュート(Sub) : %s",
+                    i, _718->mNames[i]->name, main_name.cstr(), sub_name.cstr());
+                if (entry.buffer)
+                    entry.buffer->setDisplayTime(10.0f);
+            }
+        }
+
+        _738[i].a = main ? *main : -1;
+        _738[i].b = sub ? *sub : -1;
+    }
+}
+
+// NON_MATCHING: loop counter kept as 64-bit in ours (the original sign-extends a 32-bit counter); first lookup
+// becomes a select.
 void Water::setUpAttributeTable(sead::Heap* heap, const AttributeMap* main_map, const AttributeMap* sub_map) {
     mAttributes.tryAllocBuffer(_710->mCount, heap);
 
@@ -198,6 +230,38 @@ void Water::setUpAttributeTable(sead::Heap* heap, const AttributeMap* main_map, 
 
         mAttributes[i].main = main ? *main : -1;
         mAttributes[i].sub = sub ? *sub : -1;
+    }
+}
+
+// NON_MATCHING: loop counter kept as 64-bit in ours (the original sign-extends a 32-bit counter); first lookup
+// becomes a select.
+void Terrain::Unk4ae0::Unk_f98::setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
+                                                         const AttributeMap* sub_map) {
+    _718.tryAllocBuffer(_708->mCount, heap);
+
+    const u32 count = _708->mCount;
+    for (s32 i = 0; i < count; ++i) {
+        const sead::SafeString main_name = _708->mNames[i]->name;
+        const sead::SafeString sub_name = _710->mNames[i]->name;
+        const s32* main = nullptr;
+        if (const auto* node = main_map->find(main_name))
+            main = &node->value();
+        const s32* sub = nullptr;
+        if (const auto* node = sub_map->find(sub_name))
+            sub = &node->value();
+
+        if (!main || !sub) {
+            if (auto* debug = Terrain::instance()->_a50) {
+                auto entry = debug->_70.log(
+                    "マテリアルの対応アトリビュートが見つかりません -> No : %d | ファイル : %s | アトリビュート(Main) : %s | アトリビュート(Sub) : %s",
+                    i, _6f8->mNames[i]->name, main_name.cstr(), sub_name.cstr());
+                if (entry.buffer)
+                    entry.buffer->setDisplayTime(10.0f);
+            }
+        }
+
+        _718[i].a = main ? *main : -1;
+        _718[i].b = sub ? *sub : -1;
     }
 }
 
@@ -256,7 +320,7 @@ u32 getImageSizeMaybe(const ImageSizeMaybe& size) {
 }
 
 sead::Vector4f sub_7101123224(s32 index) {
-    return Terrain::instance()->_370->_4ae0->_888[index];
+    return Terrain::instance()->_370->_4ae0->_10._878[index];
 }
 
 // NON_MATCHING: the original stores each coordinate separately (x / z of both corners first, then the

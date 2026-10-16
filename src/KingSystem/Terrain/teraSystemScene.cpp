@@ -220,7 +220,7 @@ bool System::sub_710111DD0C(sead::Heap* heap, SceneBinaryMaybe* data) {
     if (Terrain::instance()->_a58 & 1)
         Terrain::instance()->_370->_4ae0->_10.sub_71011406CC(data->num_materials);
     const u32 num_materials =
-        sead::Mathu::min(data->num_materials, u32(Terrain::instance()->_370->_4ae0->_710));
+        sead::Mathu::min(data->num_materials, u32(Terrain::instance()->_370->_4ae0->_10._700));
     for (u32 i = 0; i < num_materials; ++i) {
         const SceneBinaryMaybe::Material* material = materials[i].get();
         MaterialUVWMaybe& entry = _e8[s32(i)];

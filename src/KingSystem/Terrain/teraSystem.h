@@ -233,9 +233,22 @@ public:
         // Read by Water::setUpAttributeTable 0x7101144834.
         u32 mCount;
     };
+    // Placeholder: pairs read by sub_710110C134 / sub_710110B7A4 (-1 when out of range); the main / sub
+    // attribute of a material (setUpAttributeTable 0x7101140aa8 / 0x7101141e5c / 0x7101144834).
+    struct IndexPair {
+        s32 a;
+        s32 b;
+    };
+    using AttributeMap = sead::TreeMap<sead::SafeString, s32>;
+    // Placeholder: one u32 per material (read by sub_710110C1A4).
+    struct MaterialValueTable {
+        u8 _0[8];
+        u32* mValues;
+    };
     struct Unk4ae0 {
-        // Placeholder: the object at 0x10. Slot 0x60 returns the material texture of an index
-        // (System::x_2 0x71011178e4 calls it with 0 when _8 is set).
+        // Placeholder: the object at 0x10 (0x710113e9fc sets it up, with the objects at 0xf98 and 0x1e80
+        // (Water)). Slot 0x60 returns the material texture of an index (System::x_2 0x71011178e4 calls
+        // it with 0 when _8 is set).
         class Unk_10 {
         public:
             // Declared only (never constructed here).
@@ -253,40 +266,49 @@ public:
             virtual void m11();
             virtual const MaterialTextureMaybe* m12(s32 index);
 
-            // 0x71011406cc (declaration only; placeholder name): stores `count` at 0x700 of this object
-            // (Unk4ae0::_710).
+            // 0x71011406cc (declaration only; placeholder name): stores `count` in _700.
             void sub_71011406CC(u32 count);
+            // 0x7101140aa8 (placeholder name): the same as Water::setUpAttributeTable for this object's
+            // tables (file names _718, main _728, sub _730; result in _738).
+            void setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
+                                          const AttributeMap* sub_map);
 
             void* _8;
+            u8 _10[0x700 - 0x10];
+            s32 _700;
+            MaterialNameTable* mMaterialNames;
+            u8 _710[0x718 - 0x710];
+            // Names searched by sub_710110C1E4 (indexes _720); the file names in the attribute table log.
+            MaterialNameTable* _718;
+            MaterialValueTable* _720;
+            MaterialNameTable* _728;
+            MaterialNameTable* _730;
+            sead::Buffer<IndexPair> _738;
+            u8 _748[0x878 - 0x748];
+            // Read by index by 0x7101123224.
+            sead::Buffer<sead::Vector4f> _878;
+            u8 _888[0xf88 - 0x888];
+        };
+        // Placeholder: the object at 0xf98 (see Unk_10).
+        class Unk_f98 {
+        public:
+            // 0x7101141e5c (placeholder name): the same as Water::setUpAttributeTable for this object's
+            // tables (file names _6f8, main _708, sub _710; result in _718).
+            void setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
+                                          const AttributeMap* sub_map);
+
+            u8 _0[0x6f8];
+            MaterialNameTable* _6f8;
+            u8 _700[0x708 - 0x700];
+            MaterialNameTable* _708;
+            MaterialNameTable* _710;
+            sead::Buffer<IndexPair> _718;
         };
 
         void* _0;
         u8 _8[0x10 - 0x8];
         Unk_10 _10;
-        u8 _20[0x710 - 0x20];
-        s32 _710;
-        MaterialNameTable* mMaterialNames;
-        u8 _720[0x728 - 0x720];
-        // Names searched by sub_710110C1E4 (same layout as mMaterialNames; indexes _730).
-        MaterialNameTable* _728;
-        // Placeholder: one u32 per material (read by sub_710110C1A4).
-        struct MaterialValueTable {
-            u8 _0[8];
-            u32* mValues;
-        };
-        MaterialValueTable* _730;
-        u8 _738[0x748 - 0x738];
-        // Placeholder: pairs read by sub_710110C134 / sub_710110B7A4 (-1 when out of range).
-        struct IndexPair {
-            s32 a;
-            s32 b;
-        };
-        u32 _748;
-        IndexPair* _750;
-        u8 _758[0x888 - 0x758];
-        // Read by index by 0x7101123224.
-        sead::Buffer<sead::Vector4f> _888;
-        u8 _898[0x3910 - 0x898];
+        u8 _f98[0x3910 - 0xf98];
         u32 _3910;
         IndexPair* _3918;
     };

@@ -606,18 +606,18 @@ u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vecto
         return result;
 
     const u32 index = record._1 >= 0 ? record._3 : record._2;
-    const auto* data = Terrain::instance()->_370->_4ae0;
-    *material = data->_748 > index ? data->_750[index].a : -1;
-    data = Terrain::instance()->_370->_4ae0;
-    *submaterial = data->_748 > index ? data->_750[index].b : -1;
+    const auto* data = &Terrain::instance()->_370->_4ae0->_10;
+    *material = data->_738.isIndexValid(index) ? data->_738(index).a : -1;
+    data = &Terrain::instance()->_370->_4ae0->_10;
+    *submaterial = data->_738.isIndexValid(index) ? data->_738(index).b : -1;
     return int(*material) == -1 ? 0 : result;
 }
 
 void sub_710110C134(s32* out_a, s32* out_b, s32 index) {
-    const auto* data = Terrain::instance()->_370->_4ae0;
-    *out_a = index < data->_748 ? data->_750[index].a : -1;
-    data = Terrain::instance()->_370->_4ae0;
-    *out_b = index < data->_748 ? data->_750[index].b : -1;
+    const auto* data = &Terrain::instance()->_370->_4ae0->_10;
+    *out_a = data->_738.isIndexValid(index) ? data->_738(index).a : -1;
+    data = &Terrain::instance()->_370->_4ae0->_10;
+    *out_b = data->_738.isIndexValid(index) ? data->_738(index).b : -1;
 }
 
 u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
@@ -649,9 +649,9 @@ void sub_710110B7A4(s32* out_a, s32* out_b, s32 index) {
 
 bool sub_710110C1A4(u32* out, u32 index) {
     const auto* data = Terrain::instance()->_370->_4ae0;
-    if (u32(data->_710) <= index)
+    if (u32(data->_10._700) <= index)
         return false;
-    *out = data->_730->mValues[index];
+    *out = data->_10._720->mValues[index];
     return true;
 }
 
@@ -683,10 +683,10 @@ sead::Vector3f sub_710110C930(const Unk_7101108C44Arg* arg, const TexelPosMaybe*
 
 // NON_MATCHING: register allocation; the not-found return is a separate block in ours.
 bool sub_710110C1E4(u32* out, const sead::SafeString& name) {
-    const u32 count = Terrain::instance()->_370->_4ae0->_710;
+    const u32 count = Terrain::instance()->_370->_4ae0->_10._700;
     for (s32 i = 0; i < count; ++i) {
-        if (sead::SafeString(Terrain::instance()->_370->_4ae0->_728->mNames[s32(i)]->name) == name) {
-            *out = Terrain::instance()->_370->_4ae0->_730->mValues[i];
+        if (sead::SafeString(Terrain::instance()->_370->_4ae0->_10._718->mNames[s32(i)]->name) == name) {
+            *out = Terrain::instance()->_370->_4ae0->_10._720->mValues[i];
             return true;
         }
     }
@@ -785,10 +785,10 @@ void System::x_2() {
         }
     }
 
-    const u32 count = Terrain::instance()->_370->_4ae0->_710;
+    const u32 count = Terrain::instance()->_370->_4ae0->_10._700;
     for (s32 i = 0; i < count; ++i) {
         MaterialUVWMaybe& entry = _e8[i];
-        entry.value = Terrain::instance()->_370->_4ae0->_730->mValues[i];
+        entry.value = Terrain::instance()->_370->_4ae0->_10._720->mValues[i];
         entry.scale = width * sead::Mathf::max(entry._4, entry._8);
     }
 }
