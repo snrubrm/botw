@@ -387,6 +387,14 @@ public:
     bool m197(sead::SafeString* out) override;
     // Slot 217 (0x71002ecc08): the parent player's string for slot _9f0 (PlayerBase::sub_710084A608), else empty.
     bool m217(sead::SafeString* out) override;
+    // Slot 167 (0x71002ef3f4): with a parent tagged 0xbc723f22, the PlayerHoldRotOffset of the weapon type's
+    // GParam object (zero for other types); otherwise WeaponBase::m167.
+    void m167(sead::Vector3f* out) override;
+    // Slots 165 / 166 / 168 (0x71002ef044 / 0x71002ef21c / 0x71002ef5a0): the same for StandEquipRotOffset /
+    // StandEquipTransOffset / PlayerHoldTransOffset (165 / 166 also defer to WeaponBase while m153() holds).
+    void m165(sead::Vector3f* out) override;
+    void m166(sead::Vector3f* out) override;
+    void m168(sead::Vector3f* out) override;
     // Slot 223 (0x71002ececc): the porch count of the owner's arrow name (m165), minus one while m222() holds.
     bool m223(s32* out) override;
     void updateMtxFromPhysics() override;

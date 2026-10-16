@@ -349,6 +349,82 @@ bool Weapon::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(a1);
 }
 
+void Weapon::m167(sead::Vector3f* out) {
+    if (!ksys::act::hasTag(&getParentLink(), 0xbc723f22)) {
+        WeaponBase::m167(out);
+        return;
+    }
+    if (m231())
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mPlayerHoldRotOffset.ref();
+    else if (m232())
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mPlayerHoldRotOffset.ref();
+    else if (m233())
+        *out = getParam()->getRes().mGParamList->getSpear()->mPlayerHoldRotOffset.ref();
+    else if (isWeaponType4())
+        *out = getParam()->getRes().mGParamList->getShield()->mPlayerHoldRotOffset.ref();
+    else if (isWeaponType3())
+        *out = getParam()->getRes().mGParamList->getBow()->mPlayerHoldRotOffset.ref();
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void Weapon::m165(sead::Vector3f* out) {
+    if (m153() || !ksys::act::hasTag(&getParentLink(), 0xbc723f22)) {
+        WeaponBase::m165(out);
+        return;
+    }
+    if (m231())
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mStandEquipRotOffset.ref();
+    else if (m232())
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mStandEquipRotOffset.ref();
+    else if (m233())
+        *out = getParam()->getRes().mGParamList->getSpear()->mStandEquipRotOffset.ref();
+    else if (isWeaponType4())
+        *out = getParam()->getRes().mGParamList->getShield()->mStandEquipRotOffset.ref();
+    else if (isWeaponType3())
+        *out = getParam()->getRes().mGParamList->getBow()->mStandEquipRotOffset.ref();
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void Weapon::m166(sead::Vector3f* out) {
+    if (m153() || !ksys::act::hasTag(&getParentLink(), 0xbc723f22)) {
+        WeaponBase::m166(out);
+        return;
+    }
+    if (m231())
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mStandEquipTransOffset.ref();
+    else if (m232())
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mStandEquipTransOffset.ref();
+    else if (m233())
+        *out = getParam()->getRes().mGParamList->getSpear()->mStandEquipTransOffset.ref();
+    else if (isWeaponType4())
+        *out = getParam()->getRes().mGParamList->getShield()->mStandEquipTransOffset.ref();
+    else if (isWeaponType3())
+        *out = getParam()->getRes().mGParamList->getBow()->mStandEquipTransOffset.ref();
+    else
+        *out = sead::Vector3f::zero;
+}
+
+void Weapon::m168(sead::Vector3f* out) {
+    if (!ksys::act::hasTag(&getParentLink(), 0xbc723f22)) {
+        WeaponBase::m168(out);
+        return;
+    }
+    if (m231())
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mPlayerHoldTransOffset.ref();
+    else if (m232())
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mPlayerHoldTransOffset.ref();
+    else if (m233())
+        *out = getParam()->getRes().mGParamList->getSpear()->mPlayerHoldTransOffset.ref();
+    else if (isWeaponType4())
+        *out = getParam()->getRes().mGParamList->getShield()->mPlayerHoldTransOffset.ref();
+    else if (isWeaponType3())
+        *out = getParam()->getRes().mGParamList->getBow()->mPlayerHoldTransOffset.ref();
+    else
+        *out = sead::Vector3f::zero;
+}
+
 bool Weapon::m196(sead::SafeString* out) {
     if (!out)
         return false;
