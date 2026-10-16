@@ -1,16 +1,11 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 
-// Placeholder name: the spot BGM object of the Remains electric battle (a DynamicCast of the BGM that
-// getRemainsElecBattleBgmMaybe finds by name; only the byte at 0x1e8 is used).
-struct Unk_RemainsElecBattleBgm {
-    u8 _0[0x1e8];
-    /* 0x1e8 */ bool _1e8;
-};
-
-// 0x7100ffe2d0 (CSV getRemainsElecBattleBgmMaybe, 204 B; declared only): SoundMgr::_30->_78's BGM found by name, or null.
-Unk_RemainsElecBattleBgm* getRemainsElecBattleBgmMaybe();
+// 0x7100ffe2d0 (CSV getRemainsElecBattleBgmMaybe, 204 B; declared only): SoundMgr::_30->_78's BGM named
+// "RemainsElecBattleBgm", cast to ksys::snd::Unk_710260f2c8 (typeinfo 0x710260f2c8), or null.
+ksys::snd::Unk_710260f2c8* getRemainsElecBattleBgmMaybe();
 
 namespace uking::ai {
 

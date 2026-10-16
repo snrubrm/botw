@@ -21,8 +21,8 @@ public:
     // inline-only in the original; name is a guess (the same sequence is inlined into calc and enter).
     void applyLevelMaybe() {
         if (*mLevel_s != -1) {
-            Unk_BgmLevel level;
-            level.value = *mLevel_s == 3 ? 2 : *mLevel_s == 2;
+            Unk_71024fec18::Level level;
+            level = *mLevel_s == 3 ? 2 : *mLevel_s == 2;
             if (auto* bgm = sub_7100FFE468())
                 bgm->sub_710100FE0C(&level);
         } else if (auto* bgm = sub_7100FFE468()) {

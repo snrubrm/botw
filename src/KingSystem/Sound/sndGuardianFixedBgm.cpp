@@ -101,12 +101,12 @@ inline void Unk_71024fec18::startWaitDucking() {
 }
 
 // NON_MATCHING: the original selects the transition delay with branches instead of a select.
-void Unk_71024fec18::sub_710100FE0C(const s32* level) {
+void Unk_71024fec18::sub_710100FE0C(const Level* level) {
     m8(true);
     if (_1a8 && _1a8->sub_7100FF6DF4(this) && _1a4 == u32(*level))
         return;
     sub_710101D9D8();
-    if (*level == 0) {
+    if (*level == Level::Level1) {
         if (_1a8 && _1a8->sub_7100FF6DF4(this))
             _1a8->sub_7100FF6A64(0.1f);
         _1a4 = *level;

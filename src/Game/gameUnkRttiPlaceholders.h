@@ -3022,13 +3022,6 @@ public:
     // 0x710101011c: after the delay _1a0 in state 2, fades out the current entry and starts the level _1a4.
     void hm15() override;
 
-    // 0x710100fe0c: switches to the level `*level` (0 restarts with the start delay and requests the ducker).
-    void sub_710100FE0C(const s32* level);
-    // 0x710100ff38: unless the current entry plays, waits the retry delay for level 0 and requests the ducker.
-    void sub_710100FF38();
-    // inline-only in the original; name is a guess (the same sequence ends 0x710100fe0c and 0x710100ff38).
-    inline void startWaitDucking();
-
     // The levels (enum text "Level1,Level2,Level3"; text_ is 0x71010106dc).
     // clang-format off
     SEAD_ENUM(Level,Level1,Level2,Level3)
@@ -3036,6 +3029,14 @@ public:
     // 0x7101010888).
     SEAD_ENUM(State,停止,再生,変更待ち)
     // clang-format on
+
+    // 0x710100fe0c: switches to the level `*level` (0 restarts with the start delay and requests the ducker).
+    void sub_710100FE0C(const Level* level);
+    // 0x710100ff38: unless the current entry plays, waits the retry delay for level 0 and requests the ducker.
+    void sub_710100FF38();
+    // inline-only in the original; name is a guess (the same sequence ends 0x710100fe0c and 0x710100ff38).
+    inline void startWaitDucking();
+
 
     ksys::snd::GanonBeastBgmInfo* mInfo = nullptr;
     u32 _198 = 0;

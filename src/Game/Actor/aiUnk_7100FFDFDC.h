@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 
 // Placeholder classes (types unknown): the BGM controller objects returned by the BGM manager lookups at
@@ -21,35 +22,9 @@ public:
 };
 Unk_7100ffdea8* sub_7100FFDEA8();
 
-// Placeholder: the level argument of Unk_7100ffe468::sub_710100FE0C is a one-member aggregate (the original's stack
-// temporary is 8-byte aligned, like an enum class / SEAD_ENUM wrapper), not a plain s32.
-struct Unk_BgmLevel {
-    s32 value = 0;
-};
-
-// 0x7100ffe468: entry 0x20 (the Ganon BGM; virtual slot 10 returns a bool).
-class Unk_7100ffe468 {
-public:
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual bool m10();
-
-    // 0x710100fe0c
-    void sub_710100FE0C(const Unk_BgmLevel* level);
-    // 0x710100ff38
-    void sub_710100FF38();
-    // 0x71010101ec
-    void sub_71010101EC(f32 value);
-};
-Unk_7100ffe468* sub_7100FFE468();
+// 0x7100ffe468: entry 0x20, the Ganon beast BGM Unk_71024fec18 (ksys::snd::sub_7100FFE468, sndBgmMgr.h).
+using Unk_7100ffe468 = Unk_71024fec18;
+using ksys::snd::sub_7100FFE468;
 
 // FFE520/FFE5EC both cast to the existing Remains boss BGM RTTI owner.
 class Unk_71024fd448;
@@ -57,13 +32,9 @@ using Unk_7100ffe5ec = Unk_71024fd448;
 Unk_71024fd448* sub_7100FFE520(const ksys::snd::RemainsBossBgmType* type);
 Unk_7100ffe5ec* sub_7100FFE5EC();
 
-// 0x7100ffe6ec: entry 0x1f.
-class Unk_7100ffe6ec {
-public:
-    // 0x7101010c58
-    void sub_7101010C58(f32 value);
-};
-Unk_7100ffe6ec* sub_7100FFE6EC();
+// 0x7100ffe6ec: entry 0x1f, the Ganon BGM Unk_71024fed48 (ksys::snd::sub_7100FFE6EC, sndBgmMgr.h).
+using Unk_7100ffe6ec = Unk_71024fed48;
+using ksys::snd::sub_7100FFE6EC;
 
 
 // 0x7100ffeb28 (declaration only): BGM kind 35, RTTI-checked as the priest boss BGM.
