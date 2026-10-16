@@ -443,6 +443,10 @@ struct UiSubsys1Entry {
     void sub_7100951388(bool enabled);
     void sub_710095156C(bool enabled);
     bool sub_7100951048() const;
+    // 0x7100951058: whether the kind _24 is one of 0-31 other than 23 and 24
+    bool sub_7100951058() const;
+    // 0x7100951074: whether the kind _24 is below 18
+    bool sub_7100951074() const;
 
     /* 0x08 */ Unk_7102477fc0* _8;
     /* 0x10 */ void* _10;
