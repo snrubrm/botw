@@ -39,6 +39,7 @@ class TextWriter;
 
 class Unk_7102500a00;
 class Unk_71024fefe8;
+class Unk_71024fe808;
 class Unk_71024feae8;
 class Unk_71024fe368;
 class Unk_71024fee78;
@@ -952,6 +953,9 @@ Unk_710260f130* sub_7100FFD9D0();
 // BGM table of the spot BGM controller (Unk_710260f198::_90). Defined in sndPriestBossBgm.cpp (its TU).
 class Unk_71024fe958 {
 public:
+    // Index of the boss BGM table (1..3: Golem, Giant, Sandworm; spilled like a SEAD_ENUM). Names unknown.
+    SEAD_ENUM(Index, _0, _1, _2, _3, _4, _5)
+
     // 0x710100d5bc
     Unk_71024fe958();
     virtual ~Unk_71024fe958();
@@ -963,8 +967,8 @@ public:
     // 0x710100d694 (declared only; 460 B)
     void sub_710100D694();
     // 0x710100d860: clears _1c and _8.
-    // 0x710100d874 (declared only; the index is an enum wrapper): stores the BGM and gives it the matching info.
-    void sub_710100D874(s32 idx, Bgm* bgm);
+    // 0x710100d874: stores the BGM and gives it the matching info.
+    void sub_710100D874(Index idx, Unk_71024fe808* bgm);
     void sub_710100D860();
 
     /* 0x08 */ bool _8 = false;
@@ -973,7 +977,7 @@ public:
     /* 0x14 */ u16 _14 = 0;
     /* 0x18 */ u32 _18 = 0;
     /* 0x1c */ u32 _1c = 0;
-    /* 0x20 */ sead::SafeArray<Bgm*, 6> mBgms{};
+    /* 0x20 */ sead::SafeArray<Unk_71024fe808*, 6> mBgms{};
     /* 0x50 */ sead::SafeArray<MusicInfo*, 6> mInfos{};
     u8 _80[8];
 };
@@ -1001,7 +1005,7 @@ public:
     void* m11() override { return _a8; }
     void m12() override {}
 
-    // 0x7100ffafbc (declared only) / 0x7100ffb2d4: the BGM delegates (0x7100ffb2d4 forgets a deleted BGM).
+    // 0x7100ffafbc / 0x7100ffb2d4: the BGM delegates (keep / forget a created / deleted BGM).
     void sub_7100FFAFBC(Bgm* bgm);
     void sub_7100FFB2D4(Bgm* bgm);
     // 0x7100ffbd44 / 0x7100ffbdc0 / 0x7100ffbe0c / 0x7100ffbe38: as Unk_710260f0c0's entry functions, on the kind 17

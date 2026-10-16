@@ -40,4 +40,10 @@ void Unk_71024fe958::sub_710100D860() {
     _8 = false;
 }
 
+void Unk_71024fe958::sub_710100D874(Index idx, Unk_71024fe808* bgm) {
+    mBgms[idx] = bgm;
+    if (bgm)
+        bgm->mInfo = mInfos[idx];
+}
+
 }  // namespace ksys::snd

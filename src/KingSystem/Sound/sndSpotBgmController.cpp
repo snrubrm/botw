@@ -101,6 +101,33 @@ void Unk_710260f198::m10() {
         bgm->_224 = true;
 }
 
+void Unk_710260f198::sub_7100FFAFBC(Bgm* bgm) {
+    bgm->m8(_ec & 1);
+    switch (bgm->getKind()) {
+    case 5:
+        _a8 = sead::DynamicCast<Unk_710260f1a8>(bgm);
+        break;
+    case 11:
+        if (mBossBgms)
+            mBossBgms->sub_710100D874(Unk_71024fe958::Index::_1, sead::DynamicCast<Unk_71024fe808>(bgm));
+        break;
+    case 12:
+        if (mBossBgms)
+            mBossBgms->sub_710100D874(Unk_71024fe958::Index::_2, sead::DynamicCast<Unk_71024fe808>(bgm));
+        break;
+    case 13:
+        if (mBossBgms)
+            mBossBgms->sub_710100D874(Unk_71024fe958::Index::_3, sead::DynamicCast<Unk_71024fe808>(bgm));
+        break;
+    case 16:
+        _98 = sead::DynamicCast<Unk_71024fefe8>(bgm);
+        break;
+    case 17:
+        _a0 = sead::DynamicCast<Unk_71024feae8>(bgm);
+        break;
+    }
+}
+
 // NON_MATCHING: the original has a separate return block for the default case (block layout only).
 void Unk_710260f198::sub_7100FFB2D4(Bgm* bgm) {
     switch (bgm->getKind()) {
@@ -109,15 +136,15 @@ void Unk_710260f198::sub_7100FFB2D4(Bgm* bgm) {
         break;
     case 11:
         if (mBossBgms)
-            mBossBgms->sub_710100D874(1, nullptr);
+            mBossBgms->sub_710100D874(Unk_71024fe958::Index::_1, nullptr);
         break;
     case 12:
         if (mBossBgms)
-            mBossBgms->sub_710100D874(2, nullptr);
+            mBossBgms->sub_710100D874(Unk_71024fe958::Index::_2, nullptr);
         break;
     case 13:
         if (mBossBgms)
-            mBossBgms->sub_710100D874(3, nullptr);
+            mBossBgms->sub_710100D874(Unk_71024fe958::Index::_3, nullptr);
         break;
     case 16:
         _98 = nullptr;

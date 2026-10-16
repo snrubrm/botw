@@ -2573,6 +2573,9 @@ class Unk_71024fe808 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe808, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fe808() override;
+
+    // Set by Unk_71024fe958::sub_710100D874 (the Golem / Giant / Sandworm BGM info).
+    /* 0x190 */ ksys::snd::MusicInfo* mInfo;
 };
 
 // vtable 0x71024fe970 (17 slots); placeholder generated from the vtable (genskel.py).
