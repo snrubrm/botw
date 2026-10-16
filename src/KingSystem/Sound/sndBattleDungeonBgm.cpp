@@ -155,6 +155,16 @@ Unk_7102500a00* sub_7100FFE7A4() {
     return nullptr;
 }
 
+Unk_71024fec18* sub_7100FFE468() {
+    auto* controller = SoundMgr::instance()->_30->_48;
+    return sead::DynamicCast<Unk_71024fec18>(controller ? controller->_8.sub_7100FF7C74(32) : nullptr);
+}
+
+Unk_71024fed48* sub_7100FFE6EC() {
+    auto* controller = SoundMgr::instance()->_30->_48;
+    return sead::DynamicCast<Unk_71024fed48>(controller ? controller->_8.sub_7100FF7C74(31) : nullptr);
+}
+
 Unk_71024fee78* sub_7100FFEA3C() {
     auto* controller = SoundMgr::instance()->_30->_48;
     return sead::DynamicCast<Unk_71024fee78>(controller ? controller->_8.sub_7100FF7C74(26) : nullptr);

@@ -50,6 +50,8 @@ class Unk_71024fe808;
 class Unk_71024feae8;
 class Unk_71024fe368;
 class Unk_71024fee78;
+class Unk_71024fec18;
+class Unk_71024fed48;
 class Unk_71024fd448;
 class Unk_71024fd6c8;
 class Unk_71024fd948;
@@ -442,6 +444,10 @@ Unk_71025ce390* sub_7100FFE39C();
 Unk_7102500a00* sub_7100FFE7A4();
 // 0x7100ffea3c: the BGM of kind 26 of the controller at SoundMgr::_30->_48, cast to Unk_71024fee78.
 Unk_71024fee78* sub_7100FFEA3C();
+// 0x7100ffe468 / 0x7100ffe6ec: the BGM of kind 32 / 31 of that controller, cast to Unk_71024fec18 (Ganon beast) /
+// Unk_71024fed48 (Ganon).
+Unk_71024fec18* sub_7100FFE468();
+Unk_71024fed48* sub_7100FFE6EC();
 
 // 0x7100ffee14 (declared only): creates the BGM object for `name` (dedicated classes for four names).
 NamedBgm* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
