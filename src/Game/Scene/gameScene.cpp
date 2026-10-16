@@ -464,6 +464,32 @@ void GameScene::initGlobalParamE3TipsActorAndPlacement() {
         act::DamageInfoMgr::instance()->sub_7100673D8C();
 }
 
+// 0x71025cb334 (placeholder name): counts the calls of areResourcesReadyMaybe (nothing else reads it).
+KSYS_VISIBILITY_HIDDEN s32 sUnk_71025cb334;
+
+bool GameScene::areResourcesReadyMaybe() {
+    ++sUnk_71025cb334;
+    if (auto* parameters = ksys::act::GlobalParameter::instance()) {
+        if (!parameters->isActorPackReady())
+            return false;
+    }
+    if (!E3Mgr::instance()->resIsReady())
+        return false;
+    if (!TipsMgr::instance()->areResourcesReady())
+        return false;
+    if (!ResidentActorMgr::instance()->resIsReady())
+        return false;
+    if (!uking::AutoPlacementFlowMgr::instance()->resAreReady())
+        return false;
+    if (auto* damage = act::DamageInfoMgr::instance()) {
+        if (!damage->isReady())
+            return false;
+    }
+    if (ksys::StarterPackMgr::instance()->failedLoadTitlePack() &&
+        !ksys::StarterPackMgr::instance()->isTitlePackReady())
+        return false;
+    return true;
+}
 
 }  // namespace uking
 

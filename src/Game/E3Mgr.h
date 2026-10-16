@@ -40,7 +40,7 @@ public:
     void setDemoMode(s32 demoMode);
 
     void setTimerMaybe(s32 a2);
-    s32 resIsReady();
+    bool resIsReady();
 
     s32 get2C() const;
     s32 getDemoStage() const;

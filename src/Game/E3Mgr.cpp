@@ -123,7 +123,7 @@ void E3Mgr::loadBuildTimeStubbed() {
     req.mPath = "System/BuildTime.txt";
 }
 
-s32 E3Mgr::resIsReady() {
+bool E3Mgr::resIsReady() {
     return true;
 }
 

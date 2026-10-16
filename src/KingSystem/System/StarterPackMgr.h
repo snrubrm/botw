@@ -41,7 +41,7 @@ public:
     void setPackToTitlePack();
     void setPackToTitleBGPack();
     void unloadTitleBGAndAocMainFieldPacksAndStuff();
-    void failedLoadTitlePack();
+    bool failedLoadTitlePack();
     res::Handle* getBootupLangPack();
     res::Handle* getTitleBGLangPack();
 

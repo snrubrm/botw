@@ -217,8 +217,8 @@ void StarterPackMgr::unloadTitleBGAndAocMainFieldPacksAndStuff() {
     }
 }
 
-void StarterPackMgr::failedLoadTitlePack() {
-    mTitlePack.requestedLoad();
+bool StarterPackMgr::failedLoadTitlePack() {
+    return mTitlePack.requestedLoad();
 }
 
 res::Handle* StarterPackMgr::getTitleBGLangPack() {

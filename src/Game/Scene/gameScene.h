@@ -148,6 +148,9 @@ public:
     // 0x71007b0d88 (CSV GameScene::commonRun, declared only): shared body of the Run states.
     void commonRun(bool a1, bool a2);
     void initGlobalParamE3TipsActorAndPlacement();
+    // 0x71007a8e94 (placeholder name; frm::System::isReady forwards to it): counts the calls and returns whether
+    // the resources of the managers initGlobalParamE3TipsActorAndPlacement loads (and the title pack) are ready.
+    bool areResourcesReadyMaybe();
 
     void setFadeType(s32 type);
     bool hasStageBinder() const;
