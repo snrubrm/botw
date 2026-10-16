@@ -230,6 +230,76 @@ bool LandHumEnemyUnarmedBattle::sub_7100470ED4(ksys::act::BaseProcLink& link) co
     return (pos - self).squaredLength() < reach * reach;
 }
 
+// NON_MATCHING: the weapon cast result is kept with a csel in the original; slot-reset block placement and
+// matrix load order differ.
+void LandHumEnemyUnarmedBattle::m37() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100019D38(_108);
+    _108.reset();
+    sub_71004703E8();
+    const f32 repath_time = *mParams.mRepathTime_s;
+    _788 = -1.0f;
+    _780 = repath_time;
+    _784 = repath_time;
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_c38[*mParams.mEquipItemSearchIdx_s].hasProcInCalcState()) {
+        auto* weapon = sead::DynamicCast<act::Weapon>(
+            enemy->_c38[*mParams.mEquipItemSearchIdx_s].getProc(nullptr, nullptr));
+        if (weapon) {
+            bool skip = false;
+            if (sead::IsDerivedFrom<act::Weapon>(weapon)) {
+                const s32 type = weapon->_cf0;
+                if (type == 4 || !enemy->_f54.isOnBit(type)) {
+                    const s32 idx = *mParams.mEquipItemSearchIdx_s;
+                    enemy->_c38[idx].reset();
+                    enemy->_e80.resetBit(idx);
+                    skip = true;
+                } else if (type == 3) {
+                    const auto& target_pos = sub_71005D9330(mActor);
+                    const sead::Vector2f distance(target_pos.x - mActor->getMtx()(0, 3),
+                                                  target_pos.z - mActor->getMtx()(2, 3));
+                    if (!(distance.length() >= *mParams.mSearchBowTargetDist_s))
+                        skip = true;
+                }
+            }
+            if (!skip) {
+                auto* actor = mActor;
+                auto* nav = actor->m45();
+                if (sub_710072F944(actor, weapon->getMtx().getTranslation(), nullptr,
+                                   (nav ? nav->getRadiusMaybe() : 0.0f) + 0.0f, 5.0f)) {
+                    const sead::Vector2f distance(
+                        weapon->getMtx()(0, 3) - enemy->getMtx()(0, 3),
+                        weapon->getMtx()(2, 3) - enemy->getMtx()(2, 3));
+                    if (distance.length() <= *mParams.mSearchWeaponDist_s) {
+                        if (auto* enemy2 = sead::DynamicCast<act::Enemy>(mActor)) {
+                            enemy2->sub_7100019D38(_108);
+                            enemy2->sub_71000198E4(weapon);
+                        }
+                        _108.acquire(weapon, false);
+                        _148 = 0;
+                        startMoveToTargetMaybe(weapon->getMtx().getTranslation());
+                        return;
+                    }
+                }
+            }
+        }
+    } else {
+        auto* enemy2 = sead::DynamicCast<act::Enemy>(mActor);
+        if (enemy2 && enemy2->_e80.isOnBit(*mParams.mEquipItemSearchIdx_s)) {
+            sub_710046ED70();
+            return;
+        }
+    }
+
+    if (sub_710046D718())
+        _148 = 0;
+    else if (sub_710046E57C())
+        _148 = 1;
+    else
+        changeToBattle();
+}
+
 // NON_MATCHING: the original keeps a second copy of the sub_710046D718 test after _108.reset() (ours is
 // tail-merged with the first one).
 void LandHumEnemyUnarmedBattle::m39() {
