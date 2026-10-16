@@ -452,6 +452,40 @@ void System::sub_7101115584(s32 index, Unk_7101115584Arg* arg) {
     mLock.readUnlock();
 }
 
+// NON_MATCHING: the original copies `pos` as two words and stores it once before the call; ours
+// stores it early and again after the loop.
+void System::sub_7101115338(const agl::cull::ViewFrustumCulling* culling, Unk_7101106F44* area,
+                            const sead::Vector2f& center, f32 size) {
+    {
+        sead::Vector2f pos = center;
+        sead::BoundBox3f box;
+        if (area->mParent) {
+            f32 scale = size / (1 << area->mDepth);
+            f32 x = pos.x;
+            f32 y = pos.y;
+            for (Unk_7101106F44* node = area; node->mParent; node = node->mParent) {
+                y += scale * sUnk_7101EC503C[node->_1].y;
+                x += scale * sUnk_7101EC503C[node->_1].x;
+                scale += scale;
+            }
+            pos = {x, y};
+        }
+        area->sub_7101107E98(&box, pos, size / (1 << area->mDepth));
+        if (!culling->isInside(box.getMin(), box.getMax()))
+            return;
+    }
+
+    _1008[area->mIndex] |= 1;
+    size *= 0.5f;
+    for (s32 i = 0; i < 4; ++i) {
+        if (Unk_7101106F44* child = area->mChildren[i]) {
+            const sead::Vector2f child_center(size * sUnk_7101EC503C[i].x + center.x,
+                                              size * sUnk_7101EC503C[i].y + center.y);
+            sub_7101115338(culling, child, child_center, size);
+        }
+    }
+}
+
 // NON_MATCHING: regalloc and operand order in the inlined sub_7101115218 (which is m itself).
 void System::sub_7101115674(Unk_7101115584Arg* arg) {
     sead::Vector2f center;
