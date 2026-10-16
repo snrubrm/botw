@@ -143,6 +143,31 @@ bool sub_7100FFEDC8() {
 
 void sub_7100FFEE10() {}
 
+Unk_710260ecf8::Unk_710260ecf8(const BgmInitArg& arg, const sead::SafeString& name)
+    : NamedBgm(arg.handle_type) {
+    Unk_SpotBgmHandle::init(arg.heap, name, nullptr);
+}
+
+// NON_MATCHING: the original stores the kind and handle type of the init arg as one 64-bit constant.
+NamedBgm* bgmStuff(const sead::SafeString& name, sead::Heap* heap) {
+    const BgmInitArg arg{BgmKind::_33, Unk_710260f248Type::_0, heap};
+    NamedBgm* bgm;
+    if (name == "RemainsWindBattleBgm")
+        bgm = new (heap) Unk_710260f2b8(arg);
+    else if (name == "RemainsElecBattleBgm")
+        bgm = new (heap) Unk_710260f2c8(arg);
+    else if (name == "RemainsFireBattleBgm")
+        bgm = new (heap) Unk_71025ce390(arg);
+    else if (name == "RemainsWaterBattleBgm")
+        bgm = new (heap) Unk_710260f848(arg);
+    else
+        bgm = new (heap) Unk_710260ecf8(arg, name);
+
+    if (bgm)
+        bgm->sub_710101D970();
+    return bgm;
+}
+
 void sub_7100FFF0E4(NamedBgm* bgm) {
     if (!bgm)
         return;

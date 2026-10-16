@@ -282,7 +282,8 @@ KSYS_CHECK_SIZE_NX150(NamedBgm, 0x1a0);
 class Unk_710260ecf8 : public NamedBgm {
     SEAD_RTTI_OVERRIDE(Unk_710260ecf8, Unk_71025ce3b0)
 public:
-    using NamedBgm::NamedBgm;
+    // Inlined in bgmStuff 0x7100ffee14 (defined there).
+    Unk_710260ecf8(const BgmInitArg& arg, const sead::SafeString& name);
     // 0x7101008738 (D1, shared with the Remains classes) / 0x7101009688 (D0)
     ~Unk_710260ecf8() override;
 
