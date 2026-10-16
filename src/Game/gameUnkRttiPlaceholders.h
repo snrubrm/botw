@@ -475,6 +475,13 @@ class Unk_710247e960 : public ksys::res::Context {
     SEAD_RTTI_OVERRIDE(Unk_710247e960, ksys::res::Context)
 public:
     ~Unk_710247e960() override;
+
+    sead::FixedSafeString<64> _8;
+    sead::FixedSafeString<64> _60;
+    sead::SafeString _b8;
+    s32 _c8;
+    u16 _cc;
+    s32 _d0;
 };
 
 // vtable 0x710247e990 (4 slots); placeholder generated from the vtable (genskel.py).

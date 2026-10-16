@@ -1107,9 +1107,15 @@ Unk_710247e8c0::Unk_710247e8c0() = default;
 
 Unk_710247e8c0::~Unk_710247e8c0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71009cafd4) also destroys members or bases
-// this class does not declare yet.
-Unk_710247e960::~Unk_710247e960() = default;
+// 0x71009cafd4
+Unk_710247e960::~Unk_710247e960() {
+    _8.clear();
+    _60.clear();
+    _b8 = sead::SafeString();
+    _c8 = 8;
+    _cc = 0;
+    _d0 = 100;
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x71009cc7c4) also destroys members or bases
 // this class does not declare yet.

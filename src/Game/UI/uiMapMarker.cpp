@@ -238,9 +238,9 @@ void Unk_71024754c0::m22() {
     _50 = nullptr;
 }
 
-// NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_71024755d8::~Unk_71024755d8() {
-    _68 = "";
+    _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
     _7c = ksys::gdt::InvalidHandle;
     _80 = ksys::gdt::InvalidHandle;
@@ -308,9 +308,9 @@ void Unk_71024755d8::m32() {
 }  // namespace uking::ui
 
 // 0x71009529f8
-// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_71024756f0::~Unk_71024756f0() {
-    _68 = "";
+    _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
     _7c = ksys::gdt::InvalidHandle;
     _80 = ksys::gdt::InvalidHandle;
@@ -376,9 +376,9 @@ void Unk_71024756f0::m21() {
 }
 
 // 0x710095394c
-// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475920::~Unk_7102475920() {
-    _68 = "";
+    _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
 }
 
@@ -421,11 +421,11 @@ void Unk_7102475920::m21() {
 }
 
 // 0x71009540e4
-// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475a38::~Unk_7102475a38() {
     if (_68.hasProc())
         _68.reset();
-    _78 = "";
+    _78 = sead::SafeString();
     _88 = ksys::gdt::InvalidHandle;
     _8c = ksys::gdt::InvalidHandle;
     _90 = false;
@@ -488,9 +488,9 @@ void Unk_7102475a38::m21() {
 }
 
 // 0x71009550f8
-// NON_MATCHING: as Unk_71024755d8's destructor (inherited vector resets, SafeString empty text).
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475b50::~Unk_7102475b50() {
-    _68 = "";
+    _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
 }
 
@@ -534,7 +534,7 @@ void Unk_7102475b50::m21() {
 
 namespace uking::ui {
 
-// NON_MATCHING: inherited vector resets use component copies; SafeString empty text uses a direct address.
+// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475808::~Unk_7102475808() {
     _64 = false;
     _68 = ksys::gdt::InvalidHandle;
