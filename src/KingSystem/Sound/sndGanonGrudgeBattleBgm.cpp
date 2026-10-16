@@ -1,3 +1,4 @@
+#include <gfx/seadTextWriter.h>
 #include <math/seadVector.h>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -47,6 +48,25 @@ bool Unk_71024fee78::m10() {
 
 bool Unk_71024fee78::m11() {
     return mState == 2;
+}
+
+void Unk_71024fee78::sub_710101157C(const ksys::snd::Unk_BgmControllerM8Arg& arg) {
+    _1d0 = arg._0;
+}
+
+// 0x710260fca8: debug flag (never written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FCA8;
+
+// NON_MATCHING: sUnk_710260FD38 has a different offset in the merged TU statics (see the static initialiser).
+void Unk_71024fee78::m14(sead::TextWriter& writer) {
+    if (!sUnk_710260FCA8)
+        return;
+    writer.setCursorFromTopLeft(sUnk_710260FD38);
+    writer.printf("---- 神獣内通常戦闘BGM ----\n");
+    writer.printf("処理            :%s\n", mActive ? "有効" : "無効");
+    writer.printf("戦闘中?         :%s\n", (_1d4 & 3) != 1 && _1d0 > 0 ? "Yes" : "No");
+    writer.printf("状態            :%s\n", State::text(mState) ? State::text(mState) : "不明");
+    writer.printf("フェード音量    :%.2f\n", _1a0.getValue());
 }
 
 void Unk_71024fee78::m13(f32 fade_sec) {

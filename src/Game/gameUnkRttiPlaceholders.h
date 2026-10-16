@@ -2915,13 +2915,21 @@ public:
     void hm14() override;
     // 0x7101011544 (copy for the handle base 0x7101011548)
     void hm15() override {}
+    // 0x7101011588: prints the state when the debug flag sUnk_710260FCA8 is set.
+    void m14(sead::TextWriter& writer) override;
+
+    // The states of mState (enum text "停止,本体再生中,フェードアウト": stopped, playing the main part, fading out;
+    // text_ is 0x7101011980).
+    // clang-format off
+    SEAD_ENUM(State,停止,本体再生中,フェードアウト)
+    // clang-format on
 
     /* 0x190 */ ksys::snd::GanonGrudgeBattleBgmInfo* mInfo;
     /* 0x198 */ s32 mState = 0;
     /* 0x1a0 */ aal::TimedFader _1a0{1.0, aal::FadeCurveType(0), 1.0};
     /* 0x1c8 */ ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
-    // Set by sub_710101157C.
-    /* 0x1d0 */ u32 _1d0 = 0;
+    // Set by sub_710101157C (Unk_BgmControllerM8Arg::_0; m14 shows "in battle" when it is positive).
+    /* 0x1d0 */ s32 _1d0 = 0;
     // Bit 1: set by uking::behavior::BgmCtrlBehavior::enter; the constructor sets it from
     // Unk_710246be38::m5 (SoundMgr::_c8).
     /* 0x1d4 */ u8 _1d4 = 0;
