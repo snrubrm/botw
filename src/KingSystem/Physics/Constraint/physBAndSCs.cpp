@@ -55,6 +55,11 @@ u32 sub_7100F6B100(bool breakable) {
 
 BAndSLimitAngYCs::~BAndSLimitAngYCs() = default;
 
+void BAndSLimitAngYCs::sub_7100F6C254(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const {
+    storeToVec3(pivot_a, mData->m_transforms.m_transformA.getTranslation());
+    storeToVec3(pivot_b, mData->m_transforms.m_transformB.getTranslation());
+}
+
 u32 sub_7100F6BD48(bool breakable) {
     return sub_7100F6ACF4(breakable) + 0x1c0;
 }

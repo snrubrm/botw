@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Havok/Physics/Constraint/Atom/hkpConstraintAtom.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -12,9 +13,18 @@ class BAndSLimitAngYCs : public Constraint {
 public:
     ~BAndSLimitAngYCs() override;
 
+    // 0x7100f6c254 (placeholder name): reads back the translations of the two local transforms.
+    void sub_7100F6C254(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const;
+
 private:
-    // The factory stores its library data pointer here; its interface is unresolved.
-    u8 _b8[8];
+    // Placeholder: the 0xe0-byte library constraint data the factory stores at _b8 (only the local
+    // transforms atom at 0x20 is modelled; its class is unresolved).
+    struct Data {
+        u8 _0[0x20];
+        hkpSetLocalTransformsConstraintAtom m_transforms;
+    };
+
+    Data* mData;
 };
 KSYS_CHECK_SIZE_NX150(BAndSLimitAngYCs, 0xc0);
 

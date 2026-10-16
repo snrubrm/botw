@@ -6,6 +6,10 @@ namespace ksys::phys {
 
 // Adjacent constraint lifetime families at 0x7100f6ee80 and 0x7100f6f7c8.
 MotorcycleType1Cs::~MotorcycleType1Cs() = default;
+
+void MotorcycleType1Cs::sub_7100F6F1B4(f32 value) {
+    mData->_b4 = value;
+}
 PulleyCs::~PulleyCs() = default;
 Unk_71024f65c8::~Unk_71024f65c8() = default;
 
