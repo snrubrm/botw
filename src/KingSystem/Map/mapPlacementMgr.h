@@ -2,11 +2,13 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
+#include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadTypedBitFlag.h>
+#include <thread/seadCriticalSection.h>
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -42,7 +44,8 @@ class MassRenderer {
 public:
     // 0x71011e3d6c (804 B): updates the object's entry after its render flag changed.
     void x_2(PlacementMgr* mgr, Object* obj);
-    // 0x71011e4090 / 0x71011e1ffc / 0x71011e264c (CSV unnamed / MassRenderer::setup / MassRenderer::update; declaration
+    // 0x71011e4090: flushes the UBOs of the draw arrays of every active entry's model unit (`a` is unused).
+    // 0x71011e1ffc / 0x71011e264c (CSV unnamed / MassRenderer::setup / MassRenderer::update; declaration
     // only; placeholder names and parameters).
     void sub_71011E4090(PlacementMgr* mgr, bool a);
     void sub_71011E1FFC(const void* traverse_results, const sead::Vector3f* camera_pos, f32 distance);
@@ -62,10 +65,22 @@ public:
         u8 _40[0x70 - 0x40];
     };
 
-    u8 _0[0x78];
+    // Placeholder: an entry of _18 (one per mass-rendered model).
+    struct Entry {
+        u16 mActorDataIdx;
+        u8 _2[4];
+        bool _6;
+    };
+
+    u8 _0[0x18];
+    /* 0x18 */ sead::PtrArray<Entry> _18;
+    u8 _28[0x38 - 0x28];
+    /* 0x38 */ sead::CriticalSection _38;
     /* 0x78 */ s32 _78;
     u8 _7c[0x90 - 0x7c];
     /* 0x90 */ Slot _90[3];
+    u8 _1e0[0x210 - 0x1e0];
+    /* 0x210 */ sead::CriticalSection _210;
 };
 
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of

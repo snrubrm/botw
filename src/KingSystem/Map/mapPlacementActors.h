@@ -14,6 +14,10 @@
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace gsys {
+class ModelUnit;
+}
+
 namespace ksys::map {
 
 class Object;
@@ -112,7 +116,10 @@ public:
     u8 _9 = 0;
     u8 _a = 0xff;
     u8 _b = 0;
-    u8 _c[0x20 - 0xc];
+    u8 _c[0x10 - 0xc];
+    // The mass-rendered model (MassRenderer 0x71011e4090 flushes its draw array).
+    gsys::ModelUnit* _10;
+    u8 _18[0x20 - 0x18];
     res::Unk_71024f9958 _20;
     res::Unk_71024f9938 _58;
     res::ResDerived mRes;
