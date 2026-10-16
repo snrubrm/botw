@@ -260,15 +260,16 @@ void Unk_71012eb6e8::set(System* system, const System::Entry* entry, u16 key) {
     mId = entry->mId;
     mIndex = entry->mIndex;
     mKey = key;
-    mGeneration = system->_1334;
+    mSystemId = system->_1334;
 }
 
-// NON_MATCHING: the original reads the slot index with a byte load and branches on the final compare.
+// NON_MATCHING: the original compares the two id bytes with one ldrh and branches on the final compare.
 bool Unk_71012eb6e8::isValid(System* const* systems, const System::Entry* entry, u16 key) const {
     if (mKey != key)
         return false;
-    System* system = systems[mGeneration & 7];
-    if (mSystem != system || mGeneration != system->_1334)
+    System* system = systems[mSystemId.slot & 7];
+    if (mSystem != system || mSystemId.slot != system->_1334.slot ||
+        mSystemId.generation != system->_1334.generation)
         return false;
     if (system->_fa8[mIndex] == entry)
         return true;

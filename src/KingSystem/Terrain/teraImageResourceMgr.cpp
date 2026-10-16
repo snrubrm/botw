@@ -245,7 +245,7 @@ bool ImageResourceMgr::sub_7101131CDC(System* system) {
     mCS68.lock();
     std::atomic_thread_fence(std::memory_order_seq_cst);
     bool registered;
-    System*& slot = mSystems[system->_1334 & 7];
+    System*& slot = mSystems[system->_1334.slot & 7];
     if (slot) {
         registered = false;
     } else {
