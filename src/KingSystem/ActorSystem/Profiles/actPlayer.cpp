@@ -23,6 +23,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actOptionalWeapon.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
+#include "KingSystem/ActorSystem/actUnk_71024eed28.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
@@ -3107,6 +3108,20 @@ void Player::sub_7100887554() {}
 // 0x71024eed20 (placeholder name): a flag set by sub_7100E9CF78 (S7EventFlow setup, initBeforeStageGen) and read by
 // sub_7100E9CF8C (ASList::Unk2).
 bool sUnk_71024eed20;
+
+namespace ksys::act {
+
+Unk_71024eed28::Unk_71024eed28(s32 a) : _8(a) {}
+
+void Unk_71024eed28::sub_7100E9CF3C(const sead::Matrix34f& mtx, bool flag, f32 value,
+                                    phys::SystemGroupHandler* handler) {
+    if (!sUnk_71024eed20)
+        return;
+    mtx.getTranslation(_20);
+    m5(mtx, flag, value, handler);
+}
+
+}  // namespace ksys::act
 
 void sub_7100E9CF78(bool value) {
     sUnk_71024eed20 = value;

@@ -139,6 +139,18 @@ bool sub_71011F10F4(const sead::Matrix34f& mtx) {
     return false;
 }
 
+void sub_71011EFB40(sead::Vector3f* vec, const sead::Vector3f& rotation) {
+    sead::Vector3f axis = rotation;
+    const f32 angle = axis.normalize();
+    if (angle > 0.001f) {
+        sead::Quatf quaternion;
+        quaternion.setAxisRadian(axis, angle);
+        sead::Matrix33f rotation_matrix;
+        rotation_matrix.fromQuat(quaternion);
+        vec->setMul(rotation_matrix, *vec);
+    }
+}
+
 void sub_71011EFCA8(sead::Matrix34f* matrix, const sead::Vector3f& rotation) {
     sead::Vector3f axis = rotation;
     const f32 angle = axis.normalize();
