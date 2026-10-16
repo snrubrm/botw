@@ -2513,6 +2513,14 @@ public:
     // 0x710100064c / 0x7101000b00 (declared only)
     void hm14() override;
     void hm15() override;
+    // 0x71010008a8: prints the state when the debug flag sUnk_710260F3F8 is set.
+    void m14(sead::TextWriter& writer) override;
+
+    // The states of _190 (enum text "停止,前半再生中,後半再生中,前半中断中,後半中断中", as Unk_71024fed48::State;
+    // text_ is 0x7101000d10).
+    // clang-format off
+    SEAD_ENUM(State,停止,前半再生中,後半再生中,前半中断中,後半中断中)
+    // clang-format on
 
     // Full native lookups and member bodies establish this existing BGM owner.
     void sub_71010003A4();

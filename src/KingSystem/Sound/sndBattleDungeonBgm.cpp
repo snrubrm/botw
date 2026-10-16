@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
+#include <gfx/seadTextWriter.h>
 #include <random/seadGlobalRandom.h>
 
 namespace ksys::snd {
@@ -705,6 +706,17 @@ void Unk_71024fd448::m12(f32 fade_sec) {
     else
         return;
     sub_710101D9D8();
+}
+
+// 0x710260f3f8: debug flag (never written).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F3F8;
+
+void Unk_71024fd448::m14(sead::TextWriter& writer) {
+    if (!sUnk_710260F3F8)
+        return;
+    writer.printf("---- カースガノン戦BGM ----\n");
+    writer.printf("処理             :%s\n", mActive ? "有効" : "無効");
+    writer.printf("状態             :%s\n", State::text(_190) ? State::text(_190) : "不明");
 }
 
 namespace {
