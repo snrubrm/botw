@@ -9,8 +9,16 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::act {
+
+// The TU's static initialiser is 0x710105a6bc (`_GLOBAL__sub_I_actSoundProxy.cpp`).
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
+
 
 SoundProxy::SoundProxy(const CreateArg& arg)
     : Actor(arg), mShape(nullptr), _848(sead::Vector3f::zero), _854(sead::Vector3f::zero),

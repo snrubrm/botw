@@ -8,7 +8,8 @@
 
 // The TU statics at 0x710260da0 (_GLOBAL__sub_I_sndBgmCastle.cpp is NON_MATCHING: GlobalMerge orders them differently).
 namespace {
-ksys::util::InitTimeInfoEx sInitTimeInfo;
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
 // 0x710260ddb8 (placeholder name; unused by the functions decompiled so far).
 sead::Vector2f sUnk_710260DDB8{360.0f, 320.0f};
 sead::SafeString sStr_CastleBgm = "CastleBgm";
@@ -23,7 +24,6 @@ bool sUnk_710260FD90 = false;
 bool sUnk_710260FD94 = false;
 bool sUnk_710260FD98 = false;
 
-// NON_MATCHING: GlobalMerge places sStr_CastleBgm at another offset from the merged statics' base.
 Unk_71024ff268::Unk_71024ff268(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, sStr_CastleBgm, nullptr);
     mInfo = static_cast<ksys::snd::CastleBgmInfo*>(
