@@ -1,6 +1,7 @@
 #include "Game/Actor/AI/aiGiantEscapeFromDamageWater.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -80,6 +81,76 @@ void GiantEscapeFromDamageWater::enter_(ksys::act::ai::InlineParamPack* params) 
     sub_71003F6CF0();
     _38 = ksys::Timer(60, 60);
     changeChild("初回探索");
+}
+
+// NON_MATCHING: the original keeps the nav target in registers until the NaN checks pass and then copies it to
+// the stack; ours stores it while it is read under the lock.
+void GiantEscapeFromDamageWater::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        if (!child->isChangeable())
+            return;
+        if (isCurrentChild("移動"))
+            return;
+        if (!isCurrentChild("初回探索") && !isCurrentChild("待機"))
+            return;
+
+        auto* holder = sub_71005E2BCC(mActor);
+        if (!holder || holder->_8 == 0)
+            return;
+
+        if (holder->_8 == 1) {
+            auto* nav = mActor->m45();
+            if (!nav)
+                return;
+            sead::Vector3f target;
+            {
+                auto lock = sead::makeScopedLock(nav->_1e0);
+                target = nav->_194;
+            }
+            if (target.isNan())
+                return;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(target, "TargetPos", -1);
+            changeChild("移動", &pack);
+        } else {
+            _38.update();
+            if (_38.value <= sead::Mathf::epsilon()) {
+                sub_71003F73D8();
+                _38 = ksys::Timer(60, 60);
+            }
+        }
+        return;
+    }
+
+    if (isCurrentChild("移動")) {
+        if (!child->isFailed()) {
+            setFinished();
+            return;
+        }
+    } else if (isCurrentChild("初回探索")) {
+        auto* holder = sub_71005E2BCC(mActor);
+        if (holder && holder->_8 == 1) {
+            if (auto* nav = mActor->m45()) {
+                sead::Vector3f target;
+                {
+                    auto lock = sead::makeScopedLock(nav->_1e0);
+                    target = nav->_194;
+                }
+                if (!target.isNan()) {
+                    ksys::act::ai::InlineParamPack pack;
+                    pack.addVec3(target, "TargetPos", -1);
+                    changeChild("移動", &pack);
+                    return;
+                }
+            }
+        }
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("待機", &pack);
+        return;
+    }
+    setFailed();
 }
 
 void GiantEscapeFromDamageWater::leave_() {
