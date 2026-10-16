@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadObjList.h>
+#include <limits>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
@@ -42,6 +43,8 @@ protected:
     void sub_71002868BC();
     // 0x7100287830 (declared only; 488 B): releases the gull's resources before its object is told to stop.
     void sub_7100287830(Gull* gull);
+    // 0x7100287290 (placeholder name): emits the "flap" sound at every queued position, then clears the queue.
+    void sub_7100287290();
 
     struct Params {
         // static_param at offset 0x20
@@ -71,7 +74,12 @@ protected:
         s32 _18 = -1;
     };
     Gull _70[10];
-    sead::ObjList<sead::Vector3f> _1b0;
+    // Queued cry sound positions (sub_71002870D4 keeps the nearest ones; sub_7100287290 plays "flap" at each).
+    struct CryPoint {
+        f32 distance = std::numeric_limits<f32>::max();
+        sead::Vector3f pos = {0, 0, 0};
+    };
+    sead::ObjList<CryPoint> _1b0;
     s32 _1e0 = 0;
 };
 

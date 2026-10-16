@@ -1,4 +1,9 @@
 #include "Game/Actor/Action/actionSwarmGullMove.h"
+#include <xlink2/xlink2HandleSLink.h>
+#include <xlink2/xlink2Locator.h>
+#include <xlink2/xlink2UserInstanceSLink.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::action {
 
@@ -43,6 +48,24 @@ void SwarmGullMove::loadParams_() {
 
 void SwarmGullMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void SwarmGullMove::sub_7100287290() {
+    if (_1b0.size() == 0)
+        return;
+    if (auto* xlink = mActor->getXLink()) {
+        if (auto* user = xlink->_50) {
+            xlink2::Locator locator;
+            if (user->searchAsset(&locator, "flap")) {
+                for (auto& point : _1b0) {
+                    xlink2::HandleSLink handle;
+                    user->emit(locator, &handle);
+                    handle.setPosition(point.pos);
+                }
+            }
+        }
+    }
+    _1b0.clear();
 }
 
 }  // namespace uking::action
