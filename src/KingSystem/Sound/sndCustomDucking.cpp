@@ -9,6 +9,8 @@ namespace ksys::snd {
 Unk_710103b704::Unk_710103b704(sead::Heap* heap)
     : _5c8(-1), _5cc(false), _5d0(6), _5d4(3), _5d8(false), _5d9(false), _5e0(heap), _620(0) {}
 
+Unk_710103b76c::Unk_710103b76c() = default;
+
 Unk_710103b704::~Unk_710103b704() = default;
 
 void Unk_710103b704::sub_710103BA44() {

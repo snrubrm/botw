@@ -429,9 +429,17 @@ KSYS_CHECK_SIZE_NX150(Unk_710105abc0, 0x40);
 // initializes the fixed strings; the remaining layout is still opaque.
 class Unk_710103b76c {
 public:
+    // 0x710103b76c: only the strings are initialised.
     Unk_710103b76c();
+
 private:
-    u8 _0[0x5c0];
+    struct Entry {
+        sead::FixedSafeString<64> _0;
+        sead::FixedSafeString<64> _58;
+        u8 _b0[8];
+    };
+
+    Entry _0[8];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b76c, 0x5c0);
 
