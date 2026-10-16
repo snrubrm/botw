@@ -39,7 +39,7 @@ public:
     // 0x7100447d70 (placeholder name): the player hits the roof while touching this block's main body and
     // ActorLinkConstDataAccess::sub_7100D110E4 is at least 2.
     bool sub_7100447D70();
-    // 0x7100446448 (placeholder name; declared only, 608 B): the block scale (y: growth ratio).
+    // 0x7100446448 (placeholder name): the block scale (y: growth ratio between the two bones).
     sead::Vector3f sub_7100446448();
     // 0x71004473a8 (placeholder name)
     void sub_71004473A8();

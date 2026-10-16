@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiIceMakerBlock.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
@@ -162,6 +164,40 @@ IceMakerBlock::~IceMakerBlock() {
 }
 
 // NON_MATCHING: stack allocation of the mask, parameter strings and local message data.
+sead::Vector3f IceMakerBlock::sub_7100446448() {
+    if (isCurrentChild("生成中")) {
+        if (auto* as_list = mActor->getASList()) {
+            auto* child = getCurrentChild();
+            if (child->isFinished() || child->isFailed())
+                return {1.0f, 1.0f, 1.0f};
+            const f32 frame = as_list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_71011632F8);
+            if (frame <= 2.5f)
+                return {0.1f, 0.05f, 0.1f};
+            if (as_list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_710116323C) <= frame)
+                return {1.0f, 1.0f, 1.0f};
+        }
+    }
+
+    auto* model = mActor->getModel();
+    if (!model || !_b0.isValid() || !_e8.isValid())
+        return {1.0f, 1.0f, 1.0f};
+
+    sead::Matrix34f mtx;
+    const auto& key = _b0.getKey();
+    model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    sead::Vector3f axis;
+    mtx.getBase(axis, 2);
+    const f32 width = axis.length();
+    const f32 depth = axis.length();
+    sead::Vector3f top;
+    mtx.getTranslation(top);
+    const auto& key2 = _e8.getKey();
+    model->getUnits().unsafeAt(key2.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key2.bone_index);
+    sead::Vector3f bottom;
+    mtx.getTranslation(bottom);
+    return {width, (top - bottom).length() / _138.y, depth};
+}
+
 bool IceMakerBlock::init_(sead::Heap* heap) {
     auto* actor = mActor;
     if (!actor->getPhysics())
