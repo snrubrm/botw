@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 // 0x71011d75cc (declaration only; sends message 0x12... through the actor system; name unknown).
@@ -76,6 +78,28 @@ bool OptionalWeapon::sub_7100EF1ADC() {
     _898._40[0].reset();
     _898._60 = 1;
     return true;
+}
+
+// NON_MATCHING: stack slot order of the locals and `count < 4` compiled as cmp #3 / b.gt.
+// Placeholder name: for a Bow owner, sets the AS rate to the arrows missing from 4 and tells the sound unit.
+void OptionalWeapon::sub_7100EF0FAC() {
+    ksys::act::ActorLinkConstDataAccess owner;
+    ksys::act::acquireActor(&_850, &owner);
+    if (owner.getProfile().findIndex("Bow") == -1)
+        return;
+    s32 count = 0;
+    {
+        ksys::act::acc::WeaponBase weapon;
+        ksys::act::acquireActor(&_850, &weapon);
+        if (weapon.hasProc())
+            weapon.m223(&count);
+    }
+    if (count < 4)
+        mASList->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163298, 4.0f - count);
+    else
+        mASList->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163298, 0.0f);
+    if (auto* sound = ksys::snd::Unk_7102502138::instance())
+        sound->sub_710103B474(count);
 }
 
 void OptionalWeapon::sub_7100EF10BC() {
