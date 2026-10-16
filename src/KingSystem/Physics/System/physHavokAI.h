@@ -114,7 +114,7 @@ public:
     void x_2();
     // 0x7100f8a670 (CSV NavMeshLoadMgr::x_3; declared only): called with the same handle twice.
     void x_3(TileHandle* a, TileHandle* b);
-    // Complete F8AA78 updates the selected resource's extra transform; declaration only.
+    // 0x7100f8aa78 (placeholder name): updates the transform of the entry `index` + 1 of the loaded resource.
     void sub_7100F8AA78(s32 index, const sead::Matrix34f& transform);
 
     /* 0x008 */ u32 _8;
@@ -320,6 +320,8 @@ public:
     // 0x7100f81ee0 (declaration only; placeholder name): under the lock, removes `obj` from the query pool and
     // its pending requests (unless `queued`), then unregisters it if flags 0x3c00 are set.
     void sub_7100F81EE0(Unk_7102519a98* obj, bool queued);
+    // 0x7100f81a00 (declaration only; placeholder name): updates the transform of an added entry.
+    void sub_7100F81A00(Unk_7102519a98* obj, const sead::Matrix34f& transform);
 
     // 0x7100f84194 (placeholder name; CSV guess HavokAI::getNavMeshLoadMgr): walks the +0x118 offset list and
     // the +0x28 object's +0xe0 array. Called by NavMeshSystemThread::sub_7100F8962C on timeout (declared only).

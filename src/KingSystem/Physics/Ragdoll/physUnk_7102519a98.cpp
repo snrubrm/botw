@@ -27,4 +27,11 @@ Unk_7102519a98::~Unk_7102519a98() {
     _60.load();
 }
 
+void Unk_7102519a98::sub_71012A7324(const sead::Matrix34f& transform) {
+    if (_50)
+        _50->sub_7100F81A00(this, transform);
+    else
+        sub_71012A705C(transform);
+}
+
 }  // namespace ksys::phys

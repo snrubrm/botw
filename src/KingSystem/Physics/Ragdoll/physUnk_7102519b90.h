@@ -17,6 +17,10 @@ public:
     virtual ~Unk_7102519a98();
     // 0x71012a6f50 (placeholder name; called by Unk_7102519b90::parse_): stores the entry data and sets flag 0x200.
     void sub_71012A6F50(s32 value, void* a, void* b, void* c, void* d);
+    // 0x71012a705c (declaration only; placeholder name): applies `transform` directly (not added to a HavokAI).
+    void sub_71012A705C(const sead::Matrix34f& transform);
+    // 0x71012a7324 (placeholder name): through the HavokAI the entry was added to, else directly.
+    void sub_71012A7324(const sead::Matrix34f& transform);
     void sub_71012A734C();
     void sub_71012A7544();
     bool sub_71012A7738();
@@ -50,6 +54,7 @@ public:
     ~Unk_7102519b90() override;
 
     const sead::Buffer<Unk_7102519a98>& getEntries() const { return mEntries; }
+    sead::Buffer<Unk_7102519a98>& getEntries() { return mEntries; }
 
 protected:
     bool needsParse() const override { return true; }

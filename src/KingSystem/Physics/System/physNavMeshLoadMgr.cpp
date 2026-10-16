@@ -29,6 +29,23 @@ void NavMeshObj2Maybe::sub_7100F8B584(hkaiStreamingCollection* collection) {
     sub_7100F8B59C(nullptr, collection, -1);
 }
 
+// NON_MATCHING: register allocation (entry index and count swap registers)
+void NavMeshLoadMgr::sub_7100F8AA78(s32 index, const sead::Matrix34f& transform) {
+    if (_190)
+        return;
+    auto lock = sead::makeScopedLock(_130);
+    if (!_10 || (_178.x | _178.y) != 0)
+        return;
+    auto* resource = sead::DynamicCast<Unk_7102519b90>(_10->getResource());
+    if (index < 0 || !resource)
+        return;
+    auto& entries = resource->getEntries();
+    const s32 i = index + 1;
+    if (entries.size() <= i || !entries.getBufferPtr()[i]._8)
+        return;
+    entries.get(i)->sub_71012A7324(transform);
+}
+
 // NON_MATCHING: boolean return materialization, tile-size loads and saved registers differ.
 bool NavMeshLoadMgr::x_0(const sead::Vector3f* pos) {
     if (_190)
