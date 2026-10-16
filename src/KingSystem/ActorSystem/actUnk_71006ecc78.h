@@ -37,7 +37,7 @@ public:
     u8 _d0[4];
     /* 0xd4 */ f32 _d4;  // lane4 s64: sub_71006EE148 returns it / 30
     u8 _d8[4];
-    /* 0xdc */ u8 _dc;  // sub_71006EE274
+    /* 0xdc */ bool _dc;  // sub_71006EE274
     /* 0xdd */ u8 _dd[0xe8 - 0xdd];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e9d810, 0xe8);
@@ -112,7 +112,7 @@ public:
     void sub_71006EE128(sead::Vector3f* out) const;
     // 0x71006ee148 / 0x71006ee274 (lane4 s64; placeholder names): `_8->_d4 / 30` / `_8->_dc`.
     f32 sub_71006EE148() const;
-    u8 sub_71006EE274() const;
+    bool sub_71006EE274() const;
     // 0x71006ee15c / 0x71006ee1a4
     bool sub_71006EE15C() const;
     bool sub_71006EE1A4() const;

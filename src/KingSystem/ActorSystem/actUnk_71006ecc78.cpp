@@ -128,7 +128,7 @@ f32 Unk_71006ecc78::sub_71006EE148() const {
     return _8->_d4 / 30.0f;
 }
 
-u8 Unk_71006ecc78::sub_71006EE274() const {
+bool Unk_71006ecc78::sub_71006EE274() const {
     return _8->_dc;
 }
 
