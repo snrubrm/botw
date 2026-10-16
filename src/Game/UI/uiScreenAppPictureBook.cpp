@@ -1362,6 +1362,293 @@ void ScreenAppPictureBookUnk::sub_710093F924(bool flag) {
         layout_b->sub_7100BDDE7C(false, 0, true);
     }
 }
+// 0x710093d628
+ScreenAppPictureBookUnk::ScreenAppPictureBookUnk() = default;
+
+// NON_MATCHING: when mEntries has no buffer the original jumps straight to the config reset (ours tests mEntries
+// again; one branch target)
+// 0x710093d76c
+ScreenAppPictureBookUnk::~ScreenAppPictureBookUnk() {
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            for (auto& unit : group.mUnits)
+                unit.m5();
+        }
+    }
+
+    if (mGroupLists.data() && mEntries.data()) {
+        const s32 count = mGroupLists.size();
+        for (s32 i = 0; i < count; ++i) {
+            PictureBookGroupList* list = mGroupLists[i];
+            ScreenAppPictureBookEntry* entry = mEntries[i];
+            if (!list || !entry)
+                continue;
+            const s32 num_units = entry->mParams._2a0 * entry->mParams._2a4;
+            for (s32 j = 0; j < entry->mParams._298; ++j) {
+                Unk_7102474f10* group = list->mUnits[j];
+                if (!group)
+                    continue;
+                for (s32 k = 0; k < num_units; ++k)
+                    delete group->mUnits[k];
+                group->mUnits.freeBuffer();
+                delete group;
+            }
+            list->mUnits.freeBuffer();
+            delete list;
+        }
+        mGroupLists.freeBuffer();
+    }
+
+    if (mEntries.data()) {
+        for (s32 i = 0; i < _2a8; ++i) {
+            ScreenAppPictureBookEntry* entry = mEntries[i];
+            if (!entry)
+                continue;
+            for (s32 j = 0; j < entry->mParams._298; ++j)
+                delete entry->mRecords[j];
+            entry->mRecords.freeBuffer();
+            delete entry;
+        }
+        mEntries.freeBuffer();
+    }
+
+    mConfig.sub_71009396EC();
+}
+
+// 0x71025d6054: the colour of the scroll limit box drawn by Update (in a block of TU statics at 0x71025d5fd0; type is
+// a guess)
+KSYS_VISIBILITY_HIDDEN sead::Color4f sUnk_71025D6054;
+
+// NON_MATCHING: written from the binary, not tuned (the record search, loop shapes and register allocation differ)
+// 0x710094211c
+void ScreenAppPictureBookUnk::Update(f32 dt) {
+    _28 = 0;
+    _34 = 0;
+    sub_7100942AE0();
+
+    if (u32(_340 - 1) < 2) {
+        bool enabled = false;
+        if (_2e8 >= 0 && mEntries.size() > _2e8) {
+            ScreenAppPictureBookEntry* entry = mEntries[_2e8];
+            if (entry) {
+                for (auto& record : entry->mRecords) {
+                    if (record._c == _2f0) {
+                        enabled = (record._0 & 1) != 0;
+                        break;
+                    }
+                }
+            }
+        }
+        if (enabled)
+            _28 |= 0x200;
+        else
+            _28 &= ~0x200u;
+    }
+
+    if (_2c & 1) {
+        if (eui::ScreenMgr::instance()->getBoxCursorMgr() && mScreen->mActiveCursorNode &&
+            sub_710093FBF0(mScreen->mActiveCursorNode) >= 0)
+            _28 |= 0x100;
+        else
+            _28 &= ~0x100u;
+        _34 = sub_7100942D78();
+        if (!sub_7100943080())
+            sub_710094033C();
+    }
+
+    if (_2e0 != _2dc)
+        _28 |= _2dc < _2d8 ? 0x20 : 0x10;
+
+    if (_338 == 0 && (_28 & 0x30) && _3a0) {
+        if (_2e4 == _2e8)
+            _3a0->_0.mDelegate(_3a0->_0.mName.cstr());
+        else
+            _3a0->_b8.mDelegate(_3a0->_b8.mName.cstr());
+    }
+
+    const sead::Vector2f prev = _2c0;
+    if (_2d0 != _2c0)
+        sub_7100AA21F4(mScreen, &_2c0, _2d0, mConfig._74.x, mConfig._74.y, mConfig._7c);
+    _2c0.x = sead::Mathf::clamp(_2c0.x, _2b0.getMin().x, _2b0.getMax().x);
+    _2c0.y = sead::Mathf::clamp(_2c0.y, _2b0.getMin().y, _2b0.getMax().y);
+    const sead::Vector2f delta = prev - _2c0;
+    sub_7100943520(delta);
+    sub_7100941C30(_2c0, &_2ec, &_2e4);
+
+    _2d8 = 0;
+    if (mEntries.data()) {
+        for (s32 i = 0; i < _2e4; ++i) {
+            ScreenAppPictureBookEntry* entry = mEntries[i];
+            if (entry)
+                _2d8 += entry->_2f4;
+        }
+        _2d8 += _2ec;
+    }
+
+    s32 direction = -1;
+    if (_2c0 != _2c8 && _2c8 != sead::ControllerBase::cInvalidPointer &&
+        _2c0 != sead::ControllerBase::cInvalidPointer) {
+        if (mConfig._58 == 1) {
+            const f32 diff = _2c0.y - _2c8.y;
+            if (diff > 0)
+                direction = 0;
+            else if (diff < 0)
+                direction = 1;
+        } else if (mConfig._58 == 0) {
+            const f32 diff = _2c0.x - _2c8.x;
+            if (diff > 0)
+                direction = 3;
+            else if (diff < 0)
+                direction = 2;
+        }
+    }
+    _334 = direction;
+    if (direction == -1) {
+        if (_330 != 1)
+            _28 |= 0x80;
+        _330 = 1;
+    } else {
+        if (_330 != 0)
+            _28 |= 0x40;
+        _330 = 0;
+    }
+    _338 = -_330;
+
+    sub_710093F924(false);
+
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        if (*it)
+            (*it)->sub_710093AD60(_2c0);
+    }
+
+    if (_330 != 1) {
+        for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+            ScreenAppPictureBookEntry* entry = *it;
+            if (!entry)
+                continue;
+            for (s32 i = 0; i < sead::Mathi::min(entry->mParams._298, entry->_2f4); ++i)
+                entry->sub_710093B684(entry->mRecords[i]);
+            for (s32 i = 0; i < sead::Mathi::min(entry->mParams._298, entry->_2f4); ++i)
+                entry->sub_710093B830(entry->mRecords[i]);
+        }
+    }
+
+    sub_710093F670();
+    _328 = nullptr;
+
+    if (_2c & 1) {
+        if (_30c != _310) {
+            Unk_7102474e38* unit = sub_7100943684(_310);
+            if (unit) {
+                ScreenAppPictureBookEntry* entry = unit->_18->mEntry;
+                if ((unit->_30 & 2) && ((unit->_30 & 1) || entry->mParams._2ca) && !entry->_38c &&
+                    !entry->_38d) {
+                    if (unit->_28)
+                        _30c = _310;
+                } else {
+                    _30c = -1;
+                    _310 = -1;
+                }
+            }
+        }
+        if (_310 == -1 && (_28 & 0x100) && mScreen->mActiveCursorNode) {
+            const s32 index = sub_710093FBF0(mScreen->mActiveCursorNode);
+            if (index >= 0)
+                _310 = index;
+        }
+
+        if (_30c == _310) {
+            Unk_7102474e38* unit = sub_7100943684(_30c);
+            eui::BoxCursorMgr* mgr = eui::ScreenMgr::instance()->getBoxCursorMgr();
+            if (unit && unit->_28 && mgr) {
+                eui::BoxCursorNode* node = unit->_28;
+                mgr->m5(node);
+                _328 = node;
+
+                s32 index = _30c;
+                for (s32 i = 0; i < _2a8; ++i) {
+                    ScreenAppPictureBookEntry* entry = mEntries(i);
+                    if (index - entry->mParams._29c >= 0) {
+                        index -= entry->mParams._29c;
+                        continue;
+                    }
+                    const s32 per_page = entry->mParams._2a0 * entry->mParams._2a4;
+                    for (s32 page = 0; page < entry->_2f4; ++page) {
+                        if (index - per_page < 0) {
+                            sub_7100944D18(mEntries[i], index, &_2f4, &_2f8);
+                            goto found;
+                        }
+                        index -= per_page;
+                    }
+                }
+            found:
+                if (_320 == u32(mConfig._214))
+                    m10();
+                if (_320 <= u32(mConfig._214))
+                    ++_320;
+            }
+        }
+        sub_71009437C8();
+    }
+
+    if (!_3a8)
+        _3b0 = 0;
+    if (_3c4 & 1)
+        sub_7100AA9A40(_2b0, mScreen, sUnk_71025D6054, false, false, false);
+
+    if (mEntries.data()) {
+        for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+            if (*it)
+                (*it)->sub_710093CD20();
+        }
+    }
+
+    _2c8 = _2c0;
+    _2e0 = _2dc;
+    m7();
+
+    for (auto& list : mGroupLists) {
+        for (auto& group : list.mUnits) {
+            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                continue;
+            if (group._40)
+                group._40->m6();
+            for (auto& unit : group.mUnits) {
+                if (unit._30 & 4)
+                    unit.m6();
+            }
+        }
+    }
+
+    if (_330 != 1) {
+        for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+            ScreenAppPictureBookEntry* entry = *it;
+            if (!entry)
+                continue;
+            for (s32 i = 0; i < sead::Mathi::min(entry->mParams._298, entry->_2f4); ++i)
+                entry->sub_710093B9F4(entry->mRecords[i]);
+        }
+
+        for (auto& list : mGroupLists) {
+            for (auto& group : list.mUnits) {
+                if (!group._8)
+                    continue;
+                if (group.mEntry && group.mRecord && group.mRecord->_c >= 0) {
+                    const nn::util::Float3 pos = {
+                        list._10.x + group.mEntry->_378.x + group.mRecord->mPosition.x,
+                        list._10.y + group.mEntry->_378.y + group.mRecord->mPosition.y, 0.0f};
+                    group._8->mPane->SetPosition(pos);
+                    group._8->mPane->SetVisible(true);
+                } else {
+                    group._8->mPane->SetVisible(false);
+                }
+            }
+        }
+    }
+
+    sub_71009439B0();
+}
+
 // 0x710093dad4
 void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
     if (_33c <= value)

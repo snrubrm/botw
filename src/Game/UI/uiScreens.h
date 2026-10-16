@@ -8,6 +8,7 @@
 #include <container/seadRingBuffer.h>
 #include <math/seadBoundBox.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadEnum.h>
 #include <math/seadVector.h>
 #include <gfx/seadCamera.h>
@@ -2819,6 +2820,12 @@ struct ScreenAppPictureBookEntry {
     // (item, units, record link)
     void sub_710093B9F4(PictureBookGroupRecord* record);
     void sub_710093AF74();
+    // 0x710093b684 / 0x710093b830 (declared only): per-record steps run by ScreenAppPictureBookUnk::Update while the
+    // list scrolls
+    void sub_710093B684(PictureBookGroupRecord* record);
+    void sub_710093B830(PictureBookGroupRecord* record);
+    // 0x710093cd20 (declared only; run for every entry at the end of ScreenAppPictureBookUnk::Update)
+    void sub_710093CD20();
     void sub_710093BB48();
     void sub_710093BDFC();
     void sub_710093C040();
@@ -2973,7 +2980,44 @@ struct PictureBookListConfig {
 };
 static_assert(sizeof(PictureBookListConfig) == 0x220);
 
-struct ScreenAppPictureBookUnk {
+// Placeholder: the class whose methods the ScreenAppPictureBookUnk callbacks (_3a0) call.
+class PictureBookCallbackTargetMaybe {};
+
+// Placeholder (pointed to by ScreenAppPictureBookUnk::_3a0): two named callbacks. ScreenAppPictureBookUnk::Update
+// calls one of them (`_0` when _2e4 == _2e8, else `_b8`) with the name when the list starts moving.
+struct PictureBookCallbacksMaybe {
+    struct Callback {
+        sead::Delegate1<PictureBookCallbackTargetMaybe, const char*> mDelegate;
+        sead::FixedSafeString<128> mName;
+    };
+    /* 0x00 */ Callback _0;
+    /* 0xb8 */ Callback _b8;
+};
+static_assert(sizeof(PictureBookCallbacksMaybe::Callback) == 0xb8);
+
+// vtable 0x7102474f50 (RTTI 0x7100944ff4, D1 0x710093d76c, D0 0x710093dab0, Update 0x710094211c; m5 .. m14 are
+// empty). Subclassed by the classes with vtables 0x7102474d30 and 0x7102497690 (they share Update and the empty slots).
+struct ScreenAppPictureBookUnk : eui::ControlBase {
+    NN_RUNTIME_TYPEINFO(eui::ControlBase)
+    // 0x710093d628
+    ScreenAppPictureBookUnk();
+    // 0x710093d76c
+    ~ScreenAppPictureBookUnk() override;
+    // 0x710094211c (declared only; 2500 bytes)
+    void Update(f32 dt) override;
+    virtual void m5() {}
+    virtual void m6() {}
+    // 0x7100945084 (the subclass at 0x7102474d30 overrides it)
+    virtual void m7() {}
+    virtual void m8() {}
+    // called first by sub_710093FF88
+    virtual void m9() {}
+    virtual void m10() {}
+    virtual void m11() {}
+    virtual void m12() {}
+    virtual void m13() {}
+    virtual void m14() {}
+
     // 0x7100943e80: allocates and initializes the entry list.
     void sub_7100943E80(sead::Heap* heap, s32 count);
     // 0x710093ff88: releases active units across the existing group lists (undecompiled).
@@ -3043,6 +3087,14 @@ struct ScreenAppPictureBookUnk {
     // 0x7100941354 (placeholder name): how far the list must scroll (along the config direction) to show item
     // `index` (its position clamped to _2b0)
     f32 sub_7100941354(s32 index);
+    // Callees of Update (declared only; not decompiled)
+    void sub_7100942AE0();
+    s32 sub_7100942D78();
+    bool sub_7100943080();
+    void sub_710094033C();
+    void sub_7100943520(const sead::Vector2f& delta);
+    void sub_71009437C8();
+    void sub_71009439B0();
     // 0x7100943684 (CSV placeholder): find the unit covering `index` (reads _288/_290/_2a8).
     Unk_7102474e38* sub_7100943684(s32 index);
     // Template (placeholder name): sets up entry `index` with `params`, its group list and (once per group list) its
@@ -3051,53 +3103,68 @@ struct ScreenAppPictureBookUnk {
     template <typename T>
     void setupEntry(sead::Heap* heap, s32 index, const ScreenAppPictureBookEntry::Params& params);
 
-    /* 0x000 */ u8 _0[0x28];
-    /* 0x028 */ u8 _28;
-    u8 _29[0x2c - 0x29];
-    /* 0x02c */ u32 _2c;
-    /* 0x030 */ u32 _30;
-    u8 _34[0x38 - 0x34];
-    /* 0x038 */ void* _38;
-    /* 0x040 */ eui::LayoutEx* _40[4];
-    /* 0x060 */ ScreenEx* mScreen;
+    // state flags rebuilt by Update (0x10 / 0x20: the item at the scroll position changed, 0x40 / 0x80: the list
+    // started / stopped moving, 0x100: the cursor is on one of the units, 0x200: the selected record is enabled)
+    /* 0x028 */ u32 _28 = 0;
+    /* 0x02c */ u32 _2c = 0;
+    /* 0x030 */ u32 _30 = 0;
+    /* 0x034 */ s32 _34 = 0;
+    /* 0x038 */ void* _38 = nullptr;
+    /* 0x040 */ eui::LayoutEx* _40[4]{};
+    /* 0x060 */ ScreenEx* mScreen = nullptr;
     /* 0x068 */ PictureBookListConfig mConfig;
     // Full producer 943e80 calls PtrArrayImpl::allocBuffer at +288 then pushes 0x398 entries.
     /* 0x288 */ sead::PtrArray<ScreenAppPictureBookEntry> mEntries;
     // the group lists shared by the entries (sub_7100943FE0 allocates them; ScreenAppPictureBookEntry::sub_710093A2F8
     // adds them)
     /* 0x298 */ sead::PtrArray<PictureBookGroupList> mGroupLists;
-    /* 0x2a8 */ s32 _2a8;
-    /* 0x2ac */ s32 _2ac;
+    /* 0x2a8 */ s32 _2a8 = 1;
+    /* 0x2ac */ s32 _2ac = 0;
     // scroll limits (the constructor sets an empty box: min FLT_MAX, max -FLT_MAX)
     /* 0x2b0 */ sead::BoundBox2f _2b0;
-    /* 0x2c0 */ sead::Vector2f _2c0;
-    /* 0x2c8 */ sead::Vector2f _2c8;
+    /* 0x2c0 */ sead::Vector2f _2c0 = sead::Vector2f::zero;
+    /* 0x2c8 */ sead::Vector2f _2c8 = sead::Vector2f::zero;
     // scroll position (sub_7100941354)
-    /* 0x2d0 */ sead::Vector2f _2d0;
-    /* 0x2d8 */ s32 _2d8;
+    /* 0x2d0 */ sead::Vector2f _2d0 = sead::Vector2f::zero;
+    /* 0x2d8 */ s32 _2d8 = -1;
     // the overall index of the item at the scroll position (sub_71009418D0)
-    /* 0x2dc */ s32 _2dc;
-    u8 _2e0[0x2e4 - 0x2e0];
-    /* 0x2e4 */ s32 _2e4;
-    /* 0x2e8 */ s32 _2e8;
-    /* 0x2ec */ s32 _2ec;
-    /* 0x2f0 */ s32 _2f0;
-    u8 _2f4[0x304 - 0x2f4];
-    // added to the item positions (sub_7100944BC4)
+    /* 0x2dc */ s32 _2dc = -1;
+    /* 0x2e0 */ s32 _2e0 = -1;
+    /* 0x2e4 */ s32 _2e4 = -1;
+    /* 0x2e8 */ s32 _2e8 = -1;
+    /* 0x2ec */ s32 _2ec = -1;
+    /* 0x2f0 */ s32 _2f0 = -1;
+    /* 0x2f4 */ s32 _2f4 = -1;
+    /* 0x2f8 */ s32 _2f8 = -1;
+    /* 0x2fc */ sead::Vector2f _2fc = sead::Vector2f::zero;
+    // added to the item positions (sub_7100944BC4; not set by the constructor)
     /* 0x304 */ sead::Vector2f _304;
-    /* 0x30c */ s32 _30c;
-    /* 0x310 */ s32 _310;
-    /* 0x318 */ PictureBookItem* _318;
-    /* 0x320 */ s32 _320;
+    /* 0x30c */ s32 _30c = -1;
+    /* 0x310 */ s32 _310 = -1;
+    /* 0x318 */ PictureBookItem* _318 = nullptr;
+    /* 0x320 */ u32 _320 = 0;
     u8 _324[0x328 - 0x324];
     // returned by Unk_710247b2c8::m10 (type unknown)
-    /* 0x328 */ void* _328;
-    u8 _330[0x338 - 0x330];
+    /* 0x328 */ void* _328 = nullptr;
+    /* 0x330 */ s32 _330 = 1;
+    /* 0x334 */ s32 _334 = -1;
     // the scroll mode passed to sub_71009418D0
-    /* 0x338 */ s32 _338;
-    /* 0x33c */ s32 _33c;
-    /* 0x340 */ s32 _340;
+    /* 0x338 */ s32 _338 = -1;
+    /* 0x33c */ s32 _33c = -1;
+    /* 0x340 */ s32 _340 = -1;
+    /* 0x348 */ sead::FixedSafeString<64> _348;
+    // the constructor zeroes 0x3a0 .. 0x3ae as one block
+    /* 0x3a0 */ PictureBookCallbacksMaybe* _3a0 = nullptr;
+    /* 0x3a8 */ bool _3a8 = false;
+    u8 _3a9[0x3ae - 0x3a9]{};
+    /* 0x3b0 */ u32 _3b0 = 0;
+    /* 0x3b4 */ u32 _3b4 = 0;
+    /* 0x3b8 */ void* _3b8 = nullptr;
+    /* 0x3c0 */ u32 _3c0 = 0;
+    // bit 0: Update calls sub_7100AA9A40 on _2b0
+    /* 0x3c4 */ u32 _3c4 = 0;
 };
+static_assert(sizeof(ScreenAppPictureBookUnk) == 0x3c8);
 
 template <typename T>
 void ScreenAppPictureBookEntry::createUnits(sead::Heap* heap) {

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <gfx/seadColor.h>
+#include <math/seadBoundBox.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actWeapon.h"
 #include "Game/Cooking/cookManager.h"
@@ -231,6 +233,10 @@ bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 m
 // 0x7100aa21f4 (placeholder name): sub_7100AA2350 for a 2D position (the step is scaled to the distance)
 bool sub_7100AA21F4(eui::Screen* screen, sead::Vector2f* value, const sead::Vector2f& target, f32 rate,
                     f32 max_step, f32 min_step);
+// 0x7100aa9a40 (declared only; placeholder name): draws `box` on the screen's draw target (debug display; the colour
+// type is a guess)
+void sub_7100AA9A40(const sead::BoundBox2f& box, eui::Screen* screen, const sead::Color4f& color, bool a4, bool a5,
+                    bool a6);
 // 0x7100aa6c84 (uiUtils.cpp)
 bool sub_7100AA6C84(const sead::SafeString& name);
 // 0x7100aa170c (uiUtils.cpp)
