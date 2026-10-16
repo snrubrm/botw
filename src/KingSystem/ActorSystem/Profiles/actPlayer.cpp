@@ -7,6 +7,7 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/Actor/aiUnk_7100FFDFDC.h"
 #include "Game/gameRoot4.h"
@@ -91,6 +92,23 @@ bool Player::x_49() {
                      (1 << sead::Controller::cPadIdx_Right)))
         return false;
     return _17d0->controllerCheckPressedMaybe(28);
+}
+
+bool Player::m157(sead::Heap* heap) {
+    auto* manager = new (heap, 8) uking::act::DamageMgrPlayer(this);
+    mDamageMgr = manager;
+    if (!manager)
+        return false;
+    const s32 num_callbacks = manager->getNumCallbacks();
+    if (num_callbacks != 0) {
+        manager->mCallbacks.tryAllocBuffer(num_callbacks, heap);
+        manager->mCallbacks.fill(nullptr);
+        if (!manager->mCallbacks.getBufferPtr())
+            return false;
+    }
+    if (!manager->allocStruct20(heap))
+        return false;
+    return manager->initCallbacks(heap);
 }
 
 void Player::m158() {
@@ -2107,6 +2125,11 @@ void Player::x_36() {
         return;
     x_23("ItemCommonReady", false, -1.0f);
     _c44.setBit(12);
+}
+
+bool Player::x_52() {
+    return mASList->x_1(1, 1) == "GrabWait" || mASList->x_1(1, 1) == "GrabPouchUpper" ||
+           mASList->x_1(1, 1) == "GrabThrowCharge";
 }
 
 }  // namespace ksys::act

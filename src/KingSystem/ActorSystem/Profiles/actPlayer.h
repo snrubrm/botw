@@ -297,6 +297,8 @@ public:
     void x_0(const char* animation);  // 0x856950
     void x_26(const char* animation, f32 value);  // 0x855dc0
     // Parameter names are unknown; the order of float vs. integer parameters is a guess.
+    // 0x7100855320 (CSV name): sets _c40 bit 7 and resets AS slots 1 and 2 with the bone keys _19f0[0 / 2 / 25 / 50].
+    void x_31();
     void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
     void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
     void x_18(bool a1);                                                 // 0x855a6c
@@ -347,6 +349,8 @@ public:
     // 0x7100884fcc (lane3 s71; declared only): stores the angle index of sub_710087386C() in _1c68 and
     // the result of sub_7100869814 in _d1c, then ASList::x_6(9, 0, ...) with the angle difference from x_5().
     void sub_7100884FCC();
+    // 0x710085c55c: casts down through the water surface at _1770 and chases _1fa0 toward the surface's tilt along
+    // the facing direction (0.01 per frame).
     void sub_710085C55C();
     f32 x_39();                                                         // 0x867cd4
     void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990
@@ -496,6 +500,8 @@ public:
     bool x_30();
     // 0x710088c0a4 (CSV name): starts ItemCommonReady on slot 1 (and sets _c44 bit 12) for runes 2, 3, 4, 6, 7.
     void x_36();
+    // 0x7100887878 (CSV name): whether slot 1 plays GrabWait, GrabPouchUpper or GrabThrowCharge.
+    bool x_52();
     bool sub_7100881EDC();
     bool isASItemBombReadyOrStart();
     bool sub_710088873C();
@@ -810,7 +816,8 @@ public:
     /* 0x1f90 */ s32 _1f90;  // cut-turn count (PlayerCutTurn effect name "Kaitengiri_%d")
     /* 0x1f94 */ u8 _1f94[4];
     /* 0x1f98 */ s64 _1f98;  // read by sub_7100892F1C (|_1f98| range test)
-    /* 0x1fa0 */ u8 _1fa0[8];
+    /* 0x1fa0 */ f32 _1fa0;  // slope tilt toward the facing direction at the water surface (sub_710085C55C)
+    /* 0x1fa4 */ u8 _1fa4[4];
     /* 0x1fa8 */ f32 _1fa8;
     /* 0x1fac */ u8 _1fac[0x1fb0 - 0x1fac];
     /* 0x1fb0 */ f32 _1fb0;  // compared with RoofCrashVel (sub_7100881418)

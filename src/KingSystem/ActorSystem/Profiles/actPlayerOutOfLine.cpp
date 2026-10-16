@@ -238,4 +238,20 @@ bool Player::x_30() {
     return sub_7100881B14(height);
 }
 
+// Here, not in actPlayer.cpp: the original calls sub_7100867D68 out of line.
+void Player::sub_710085C55C() {
+    sead::Vector3f start = _1770;
+    start.y = _20d4;
+    sead::Vector3f end = start;
+    start.y += 1.0f;
+    end.y -= 1.0f;
+    sead::Vector3f normal = sead::Vector3f::ey;
+    sub_710087F4F8(start, end, nullptr, &normal);
+    const f32 normal_yaw = std::atan2(normal.x, normal.z);
+    const f32 factor = std::cos(sub_7100867D68() - normal_yaw);
+    const f32 pitch = std::atan2(normal.y, std::sqrt(normal.x * normal.x + normal.z * normal.z));
+    const f32 target = factor * (sead::Mathf::piHalf() - pitch);
+    sead::Mathf::chase(&_1fa0, target, VFR::instance()->getDeltaFrame() * 0.01f);
+}
+
 }  // namespace ksys::act
