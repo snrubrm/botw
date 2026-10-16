@@ -4478,6 +4478,13 @@ public:
 
 // 0x710249ad74 (placeholder name; a mode of the system window: 1 / 2 close the window without saving)
 extern s32 sUnk_710249ad74;
+// 0x710249ad68 / 0x710249ad6c / 0x710249ad70 / 0x71025f5740 / 0x71025f5741 (placeholder names): more of the
+// system window's global state (reset by ScreenSystemWindow01::sub_7100A6670C)
+extern s32 sUnk_710249ad68;
+extern s32 sUnk_710249ad6c;
+extern s32 sUnk_710249ad70;
+extern bool sUnk_71025f5740;
+extern bool sUnk_71025f5741;
 
 // Polymorphic loader embedded in Unk_71009cb0c8 at 0x80 (vtable 0x710247e990; ctor 9cc648 and D1 9cc7c4 are not
 // decompiled). Queue count/state are consumed by 9cc3a0 / 9cc970; 9cbcc0 reads the task handle at 0x200 under the
@@ -4541,8 +4548,19 @@ public:
     void m128() override;
     void m129() override;
 
+    // 0x7100a68010
+    void m98() override;
+    // 0x7100a680a8
+    void m99() override;
+    // 0x7100a6670c (placeholder name): resets the window's global state
+    static void sub_7100A6670C();
+    // 0x7100a66760 (placeholder name): the save window result (-1: none; 0 in the E3 demo outside the RID demo)
+    static s32 sub_7100A66760();
+
     // Members from the ctor 0x7100a65ff0 and D1 0x7100a66208.
-    u8 _pad_3610[0x3730 - 0x3610];
+    /* 0x3610 */ eui::ButtonBase* _3610{};
+    /* 0x3618 */ eui::ButtonBase* _3618{};
+    u8 _pad_3620[0x3730 - 0x3620];
     /* 0x3730 */ nn::ui2d::ExternalTextureInfo _3730;
     /* 0x3748 */ Unk_71009cb0c8 _3748[6];
     /* 0x48b8 */ agl::TextureData _48b8;
@@ -4552,6 +4570,10 @@ public:
     /* 0x4b5c */ bool _4b5c;
     u8 _pad_4b5d[0x4b60 - 0x4b5d];
     /* 0x4b60 */ bool _4b60;
+    /* 0x4b61 */ bool _4b61;
+    /* 0x4b62 */ bool _4b62;
+    /* 0x4b64 */ UiTimer _4b64;
+    /* 0x4b7c */ UiTimer _4b7c;
     // 0x7100a6641c (CSV unnamed; not decompiled)
     bool sub_7100A6641C();
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)

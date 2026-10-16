@@ -6,6 +6,7 @@
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/gameSaveSystem.h"
 #include <gfx/seadGraphics.h>
 #include "Game/UI/euiPartsEx.h"
 #include "KingSystem/Event/evtManager.h"
@@ -208,7 +209,69 @@ bool ScreenPauseMenu::sub_7100A34A10() {
     return _3bb4 != 0;
 }
 
-s32 sUnk_710249ad74;
+s32 sUnk_710249ad68 = -1;
+s32 sUnk_710249ad6c = -1;
+s32 sUnk_710249ad70 = -1;
+s32 sUnk_710249ad74 = 3;
+bool sUnk_71025f5740;
+bool sUnk_71025f5741;
+
+// 0x7100a6670c
+void ScreenSystemWindow01::sub_7100A6670C() {
+    sUnk_710249ad68 = -1;
+    sUnk_710249ad6c = -1;
+    sUnk_710249ad70 = -1;
+    sUnk_71025f5740 = false;
+    sUnk_71025f5741 = false;
+    sUnk_710249ad74 = 3;
+}
+
+// 0x7100a66760
+s32 ScreenSystemWindow01::sub_7100A66760() {
+    if (isE3DemoMode() && !isRIDDemo())
+        return 0;
+    if (!sUnk_71025f5740)
+        return -1;
+    auto* save = SaveSystem::instance();
+    if (!save)
+        return -1;
+    if (sUnk_710249ad6c < 0)
+        return -1;
+    if (sUnk_710249ad74 != 0)
+        return sUnk_710249ad6c;
+    return save->isFinishedSavingMaybe() ? sUnk_710249ad6c : -1;
+}
+
+// 0x7100a68010
+void ScreenSystemWindow01::m98() {
+    sUnk_710249ad68 = -1;
+    sUnk_710249ad6c = -1;
+    sUnk_71025f5740 = false;
+    sUnk_71025f5741 = false;
+    _4b61 = false;
+    _4b62 = false;
+    _4b7c.init(0.0f);
+    x_2();
+    if (sUnk_710249ad74)
+        _4b60 = !sub_7100A6641C();
+}
+
+// 0x7100a680a8
+void ScreenSystemWindow01::m99() {
+    mButtonGroup->_38 |= 2;
+    s32 tag;
+    if (sUnk_710249ad74) {
+        _3610->setFlag10(false);
+        _3618->setFlag10(false);
+        tag = 0x62;
+    } else {
+        _3610->setFlag10(true);
+        _3618->setFlag10(true);
+        tag = 0x60;
+    }
+    setReservedBoxCursorNode(findBoxCursorNodeByTag(tag));
+    mActiveCursorNode = nullptr;
+}
 
 // 0x7100a6814c (CSV ScreenSystemWindow01::m100)
 void ScreenSystemWindow01::m100() {
