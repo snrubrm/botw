@@ -4548,6 +4548,8 @@ public:
     void m128() override;
     void m129() override;
 
+    // 0x7100a67704
+    void m89() override;
     // 0x7100a68010
     void m98() override;
     // 0x7100a680a8
@@ -4556,6 +4558,8 @@ public:
     static void sub_7100A6670C();
     // 0x7100a66760 (placeholder name): the save window result (-1: none; 0 in the E3 demo outside the RID demo)
     static s32 sub_7100A66760();
+    // 0x7100a667ec (placeholder name): sUnk_710249ad70 (0 in the E3 demo outside the RID demo)
+    static s32 sub_7100A667EC();
 
     // Members from the ctor 0x7100a65ff0 and D1 0x7100a66208.
     /* 0x3610 */ eui::ButtonBase* _3610{};

@@ -242,6 +242,27 @@ s32 ScreenSystemWindow01::sub_7100A66760() {
     return save->isFinishedSavingMaybe() ? sUnk_710249ad6c : -1;
 }
 
+// 0x7100a667ec
+s32 ScreenSystemWindow01::sub_7100A667EC() {
+    if (isE3DemoMode() && !isRIDDemo())
+        return 0;
+    return sUnk_710249ad70;
+}
+
+// 0x7100a67704: waits until every texture controller is loaded
+void ScreenSystemWindow01::m89() {
+    bool ready = true;
+    for (auto& controller : _3748) {
+        if (controller.sub_71009CBEAC()) {
+            controller.sub_71009CC3A0();
+            ready = false;
+        }
+        ready &= controller.sub_71009CBFA4();
+    }
+    if (ready)
+        _292 |= 0x20;
+}
+
 // 0x7100a68010
 void ScreenSystemWindow01::m98() {
     sUnk_710249ad68 = -1;
