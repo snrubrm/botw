@@ -102,6 +102,10 @@ public:
     // 0x7100e89a70 (placeholder name): adds `seconds` to Horse_RideTimeSec of the selected horse (`selected`) or
     // of record 5.
     void sub_7100E89A70(s32 seconds, bool selected);
+    // 0x7100e89864 / 0x7100e898f8 (CSV names): link `horse` in _40 / _50, deleting the horse linked there before.
+    // The original also builds RiddenAnimalType values (horse->x() and 6 / 3) on the stack without using them.
+    void x_0(act::HorseBase* horse);
+    void x_2(act::HorseBase* horse);
     // 0x7100e89dac (placeholder name; does not use `this`): sets the bool flag `handle` to whether the actor in `link`
     // is a non-map-object actor that is in the calc state (or `flag`), or `flag` without an actor.
     void sub_7100E89DAC(ksys::act::BaseProcLink* link, bool flag, ksys::gdt::FlagHandle handle);
@@ -162,7 +166,9 @@ public:
 
     /* 0x20 */ ksys::act::BaseProcLink mOwnedHorse;
     /* 0x30 */ ksys::act::BaseProcLink _30;  // the horse being registered / received (NPCRegisterHorse)
-    u8 _40[0x20];
+    // Horse links replaced by x_0 / x_2 (the previous horse is deleted).
+    /* 0x40 */ ksys::act::BaseProcLink _40;
+    /* 0x50 */ ksys::act::BaseProcLink _50;
     /* 0x60 */ ksys::act::BaseProcLink _60;  // RideHorseForEventAction::calc_
     // 2026-10-07: ctor E821E4 constructs this link; registration E8527C assigns it.
     /* 0x70 */ ksys::act::BaseProcLink _70;

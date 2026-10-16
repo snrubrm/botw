@@ -118,6 +118,28 @@ void HorseMgr::sub_7100E8998C(s32 mode) {
     setFlagOn(Flag::_4);
 }
 
+// NON_MATCHING: the original also stores the unused RiddenAnimalType values (the x() result, 6) on the stack.
+void HorseMgr::x_0(act::HorseBase* horse) {
+    horse->x();
+    if (_40.hasProcById(horse))
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_40, &accessor))
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _40.acquire(horse, false);
+}
+
+// NON_MATCHING: the original also stores the unused RiddenAnimalType values (the x() result, 3) on the stack.
+void HorseMgr::x_2(act::HorseBase* horse) {
+    horse->x();
+    if (_50.hasProcById(horse))
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_50, &accessor))
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _50.acquire(horse, false);
+}
+
 void HorseMgr::sub_7100E89A44() {
     setFlagOff(Flag::_4);
 }
