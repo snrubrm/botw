@@ -11,6 +11,11 @@ namespace uking {
 // 0x7101e7c1dc: 0.05f (the slow-time scale read by getNoSlowTimeRatio).
 // 0x7101e7c1d8: 1.0f (stamina recovery factor in slow time, Player::sub_710084AD5C).
 extern const f32 sUnk_7101e7c1d8;
+// 0x7101e7c184 / 0x7101e7c1a4 (0.13f each), 0x7101e7c2e0 (0.19f), 0x7101e7c5bc (1.5f): Player::sub_71008901D0.
+extern const f32 sUnk_7101e7c184;
+extern const f32 sUnk_7101e7c1a4;
+extern const f32 sUnk_7101e7c2e0;
+extern const f32 sUnk_7101e7c5bc;
 extern const f32 sUnk_7101e7c1dc;
 // 0x7101e7c268 / 0x7101e7c26c: 0.05f / 0.1f (Player::m310 chase rates up / down).
 extern const f32 sUnk_7101e7c268;

@@ -542,6 +542,24 @@ void Player::m310(f32 target) {
     m309(value);
 }
 
+f32 Player::sub_71008901D0() {
+    if ((_17d0->playerCheckController(13) && !m202() && !_c44.isOnBit(13) && !m178()) || m224() ||
+        playerIsReloadingOrChargingOrShootingBow(this) || m202()) {
+        if (_d10)
+            return uking::sUnk_7101e7c184;
+        return uking::sUnk_7101e7c1a4;
+    }
+
+    if (_c40.isOnBit(1))
+        return uking::sUnk_7101e7c2e0 * uking::sUnk_7101e7c5bc;
+    return uking::sUnk_7101e7c2e0;
+}
+
+void Player::x_38(u32 type) {
+    _d68 = getEquipmentTypeName(type);
+    sub_710088D654();
+}
+
 bool Player::sub_710087F37C(const sead::Vector3f& start, const sead::Vector3f& end,
                             sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                             bool check_normal) {

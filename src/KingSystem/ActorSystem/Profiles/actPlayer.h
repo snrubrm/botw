@@ -628,6 +628,8 @@ public:
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
     // 0x88d564: called when _d30 differs from getEquipmentTypeName(type) (PlayerStepAttack: type 1).
     void x_38(u32 type);
+    // 0x88d654 (declared only; 2532 B): called by x_38 after it stores the equipment type name in _d68.
+    void sub_710088D654();
     // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).
     s32 playerWeapons_return0();
     // 0x8883b0 / 0x881ff8 (CSV playerWeapons_return1 / _return2): weapon slot indices 1 / 2.
