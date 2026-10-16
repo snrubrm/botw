@@ -2,6 +2,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAlignPane.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
@@ -80,6 +81,28 @@ void ScreenChildEx::m54(sead::Heap* heap) {
     _128 = sead::DynamicCast<ScreenEx>(mLayout->mScreen);
     ScreenChild::m54(heap);
 }
+
+// 0x71009b0818
+// NON_MATCHING: the ScreenChildEx constructor above is inlined here; the original calls it
+Unk_710247a6d8::Unk_710247a6d8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x71009b1a6c
+Unk_710247ada8::Unk_710247ada8() = default;
+
+// 0x71009b1a90
+Unk_710247ada8::~Unk_710247ada8() {
+    if (_30) {
+        delete[] _30;
+        _30 = nullptr;
+        _28 = 0;
+    }
+}
+
+// 0x71009b24c4
+Unk_710247ade8::Unk_710247ade8() = default;
+
+// 0x71009b24e4
+Unk_710247ade8::~Unk_710247ade8() = default;
 
 // 0x71009b5fc8
 void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {

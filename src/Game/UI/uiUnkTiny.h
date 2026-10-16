@@ -465,6 +465,34 @@ public:
     u8 _30[0x10];
 };
 
+// Constructed at 0x71009b24c4 (vtable 0x710247ade8); a member of Unk_710247a6d8 / Unk_710247ca18.
+class Unk_710247ade8 {
+public:
+    Unk_710247ade8();
+    virtual ~Unk_710247ade8();
+
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ void* _10 = nullptr;
+    /* 0x18 */ void* _18 = nullptr;
+    /* 0x20 */ Unk_71024774c8 _20;
+};
+static_assert(sizeof(Unk_710247ade8) == 0x38);
+
+// Constructed at 0x71009b1a6c (vtable 0x710247ada8); owns a new[] array of Unk_71024774c8.
+class Unk_710247ada8 {
+public:
+    Unk_710247ada8();
+    virtual ~Unk_710247ada8();
+
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ void* _10 = nullptr;
+    /* 0x18 */ void* _18 = nullptr;
+    /* 0x20 */ void* _20 = nullptr;
+    /* 0x28 */ s32 _28 = 0;
+    /* 0x30 */ Unk_71024774c8* _30 = nullptr;
+};
+static_assert(sizeof(Unk_710247ada8) == 0x38);
+
 class Unk_710247ae08 {
 public:
     virtual ~Unk_710247ae08();
