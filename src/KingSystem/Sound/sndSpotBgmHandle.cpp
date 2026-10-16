@@ -8,7 +8,7 @@ Unk_SpotBgmHandle::Unk_SpotBgmHandle(ksys::snd::Unk_710260f248Type type) : Unk_7
 Unk_SpotBgmHandle::~Unk_SpotBgmHandle() { ; }
 
 void Unk_SpotBgmHandle::init(sead::Heap* heap, const sead::SafeString& name,
-                            const sead::PtrArray<const xlink2::PropertyDefinition>* properties) {
+                            const sead::PtrArray<xlink2::PropertyDefinition>* properties) {
     Unk_710260f248::init(heap, name, properties);
     if (auto* definition = ksys::snd::sub_7100FFD73C()) {
         const auto& category = definition->getMusicCategoryByName(name);

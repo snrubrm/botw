@@ -65,8 +65,6 @@ void Unk_71025ce350::m13(f32 fade_sec) {
     _2c = 0;
 }
 
-// NON_MATCHING: the original deletes the properties with the same pointer loop as the nodes (a range-for), but
-// sead::PtrArray<const T> cannot be iterated here (PtrArray::data() casts away const), so an index loop is used.
 Unk_71024fdb00::~Unk_71024fdb00() {
     for (auto*& machine : mPartMachines) {
         if (machine) {
@@ -78,8 +76,8 @@ Unk_71024fdb00::~Unk_71024fdb00() {
         delete &node;
     mNodes.freeBuffer();
     mEntries.freeBuffer();
-    for (s32 i = 0; i < mProperties.size(); ++i)
-        delete mProperties[i];
+    for (auto& property : mProperties)
+        delete &property;
     mProperties.freeBuffer();
 }
 

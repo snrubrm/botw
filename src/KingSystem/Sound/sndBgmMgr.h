@@ -172,7 +172,7 @@ public:
     virtual ~Unk_710260f248();
     // 0x710102052c: copies `name`, reads the music definition and creates the xlink2 user instance.
     virtual void init(sead::Heap* heap, const sead::SafeString& name,
-                     const sead::PtrArray<const xlink2::PropertyDefinition>* properties);
+                     const sead::PtrArray<xlink2::PropertyDefinition>* properties);
     // 0x7101020898
     virtual void calc();
     // 0x7101020e40
@@ -220,7 +220,7 @@ public:
     explicit Unk_SpotBgmHandle(ksys::snd::Unk_710260f248Type type);
     ~Unk_SpotBgmHandle() override;
     void init(sead::Heap* heap, const sead::SafeString& name,
-             const sead::PtrArray<const xlink2::PropertyDefinition>* properties) override;
+             const sead::PtrArray<xlink2::PropertyDefinition>* properties) override;
     void calc() override;
     // 0x7100ff67ec
     f32 getVolume() override { return _138.getValue() * Unk_710260f248::getVolume(); }

@@ -40,7 +40,7 @@ public:
 
     u32 mTimeType;
     EnvBgmInfo* mInfo;
-    sead::PtrArray<const xlink2::PropertyDefinition> mProperties;
+    sead::PtrArray<xlink2::PropertyDefinition> mProperties;
     u32 mBpm;
     f32 mBeatSec;
     u8 _1a8[0x1ac - 0x1a8];

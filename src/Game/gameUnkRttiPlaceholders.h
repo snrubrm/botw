@@ -2592,7 +2592,7 @@ public:
     void sub_710100B7E0(const sead::SafeString& name, s32 value, bool flag);
 
     /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
-    /* 0x198 */ sead::PtrArray<const xlink2::PropertyDefinition> mProperties;
+    /* 0x198 */ sead::PtrArray<xlink2::PropertyDefinition> mProperties;
     /* 0x1a8 */ s32 mState;
     /* 0x1b0 */ aal::TimedFader _1b0;
     /* 0x1d8 */ ksys::snd::Unk_BgmControllerM8Arg _1d8;
