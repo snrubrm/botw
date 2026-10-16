@@ -84,4 +84,17 @@ bool Unk_710105abc0::sub_710105B090() {
     return true;
 }
 
+// NON_MATCHING: the original walks the list by entry pointers (node - 0xa8) and null-checks the result.
+void Unk_SoundMgr60_828::sub_710105C96C(const sead::SafeString& name) {
+    Entry* found = nullptr;
+    for (auto& entry : mEntries) {
+        if (entry.mName == name) {
+            found = &entry;
+            break;
+        }
+    }
+    if (found)
+        found->_a0 = true;
+}
+
 }  // namespace ksys::snd

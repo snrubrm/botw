@@ -8,6 +8,7 @@
 #include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
 #include <container/seadOffsetList.h>
+#include <nn/util/util_IntrusiveList.h>
 #include <container/seadObjArray.h>
 #include <container/seadObjList.h>
 #include <aal/aalHandle.h>
@@ -902,6 +903,25 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 
 // Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
 // (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.
+// Placeholder (the member at Unk_SoundMgr60 +0x828, built by the ResourceManager constructor 0x7101057c4c):
+// a list of named sound resources (0x710105c3d0 adds entries; 0x710105c70c / ca84 / cd4c walk the list).
+struct Unk_SoundMgr60_828 {
+    struct Entry {
+        sead::FixedSafeString<40> mName;
+        res::Handle mHandle;
+        aal::Handle mSoundHandle;
+        bool _a0;
+        nn::util::IntrusiveListNode mNode;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0xb8);
+
+    // 0x710105c96c (placeholder name): sets _a0 of the entry named `name`.
+    void sub_710105C96C(const sead::SafeString& name);
+
+    u8 _0[0x8];
+    nn::util::IntrusiveList<Entry, nn::util::IntrusiveListMemberNodeTraits<Entry, &Entry::mNode>> mEntries;
+};
+
 struct Unk_SoundMgr60 {
     // 0x7101058c44 (declared only; CSV SoundResourceMgrMaybe::loadBars): loads the bars file `name`
     // into `reader` (lane4 finding; the two bools are unknown). The list lane4 described (a buffer of 0x50-byte
@@ -927,6 +947,7 @@ struct Unk_SoundMgr60 {
     u8 mSlinkResources[8];
     u8 _30[0xe0];
     Unk_710251b710 mMiiSoundRequests;
+    Unk_SoundMgr60_828 _828;
 };
 
 // Placeholder name: the sound instances the AreaActionBase family (Shielding / Occlusion / Reverb) get from
