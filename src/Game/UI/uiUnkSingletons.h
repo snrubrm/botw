@@ -19,6 +19,7 @@
 
 namespace ksys::qst {
 struct IndicatorActor;
+class Quest;
 }
 
 namespace ksys::map {
@@ -1306,6 +1307,11 @@ public:
     s32 returnFF() const;
     u8 get12c() const;
     void set6e4(s32 value);
+    // 0x71009638f0 / 0x7100963c70 (placeholder names): set / clear the quest at _3a0, then sub_71009638F8
+    void sub_71009638F0(ksys::qst::Quest* quest);
+    void sub_7100963C70();
+    // 0x71009638f8 (CSV unnamed; not decompiled)
+    void sub_71009638F8();
     // 0x71009641d4 / 0x71009641e4 / 0x71009645a0 / 0x7100964a40 / 0x7100964ba4 (placeholder names)
     bool is38e0Equal(s32 value) const;
     s32 sub_71009641E4() const;
@@ -1343,7 +1349,8 @@ private:
     u8 _380[0x3a0 - 0x380];
 
 public:
-    /* 0x3a0 */ void* _3a0;  // passed to sub_7100A9AC84 by sub_71009F2204
+    // the quest picked for the map (passed to sub_7100A9AC84 by sub_71009F2204)
+    /* 0x3a0 */ ksys::qst::Quest* _3a0;
 
 private:
     u8 _3a8[0x478 - 0x3a8];

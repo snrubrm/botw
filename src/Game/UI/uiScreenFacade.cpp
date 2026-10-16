@@ -1,3 +1,5 @@
+#include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
 #include <prim/seadRuntimeTypeInfo.h>
@@ -1301,6 +1303,26 @@ void sub_7100A9F960(bool open) {
         screen->open(1);
     } else if (screen->isOpened() || screen->isOpening()) {
         screen->close(-1);
+    }
+}
+
+// 0x7100a9fd10 (placeholder name): drops the map quest when it is not available with the installed DLC version
+void sub_7100A9FD10() {
+    auto* subsys = UiSubsys1::instance();
+    auto* quest = subsys->_3a0;
+    if (!quest)
+        return;
+    u32 mask;
+    auto* aoc = ksys::aoc::Manager::instance();
+    if (!aoc->hasAoc2())
+        mask = 6;
+    else if (!aoc->hasAoc3())
+        mask = 4;
+    else
+        return;
+    if (quest->mAocVersionFlags & mask) {
+        subsys->sub_7100963C70();
+        ksys::gdt::setFlag_QuestIndexSetPointGuide(-1, false);
     }
 }
 

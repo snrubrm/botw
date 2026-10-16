@@ -654,6 +654,18 @@ void UiSubsys1::set6e4(s32 value) {
     _6e4 = value;
 }
 
+// 0x71009638f0
+void UiSubsys1::sub_71009638F0(ksys::qst::Quest* quest) {
+    _3a0 = quest;
+    sub_71009638F8();
+}
+
+// 0x7100963c70
+void UiSubsys1::sub_7100963C70() {
+    _3a0 = nullptr;
+    sub_71009638F8();
+}
+
 // 0x71009641d4
 bool UiSubsys1::is38e0Equal(s32 value) const {
     return _38e0 == value;
