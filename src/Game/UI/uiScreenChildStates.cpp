@@ -1102,6 +1102,9 @@ Unk_710247e0c8::~Unk_710247e0c8() = default;
 
 }  // namespace uking::ui
 
+// 0x71009ca980
+Unk_710247e8c0::Unk_710247e8c0() = default;
+
 Unk_710247e8c0::~Unk_710247e8c0() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x71009cafd4) also destroys members or bases

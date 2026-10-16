@@ -4,6 +4,7 @@
 #include <container/seadPtrArray.h>
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <nn/ui2d/TextureInfo.h>
 #include "Game/Actor/aiUnk_71025afb58.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -347,8 +348,16 @@ public:
 class Unk_710247e8c0 : public ksys::res::Resource {
     SEAD_RTTI_OVERRIDE(Unk_710247e8c0, ksys::res::Resource)
 public:
+    // 0x71009ca980 (CSV unnamed)
+    Unk_710247e8c0();
     ~Unk_710247e8c0() override;
     s32 getLoadDataAlignment() const override { return 8192; }
+
+    // A UI texture resource (the item icons, e.g. UI/StockItem/*.bitemico): the parse step (0x71009caa34) sets up
+    // the texture from the g3d resource file and stores its size in mTexInfo.
+    /* 0x38 */ nn::ui2d::ExternalTextureInfo mTexInfo;
+    /* 0x50 */ void* _50 = nullptr;  // nn::g3d::ResFile
+    /* 0x58 */ bool _58 = false;
 };
 
 // vtable 0x710247e960 (4 slots); placeholder generated from the vtable (genskel.py).

@@ -11,6 +11,7 @@
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEvent.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -497,6 +498,27 @@ void ScreenPickUp::PickUpWin::close() {
         sead::Graphics::instance()->unlockDrawContext();
         mResHandle->requestUnload2();
     }
+}
+
+// 0x7100a40360
+// NON_MATCHING: regalloc only (x8 / x9 swapped for the texture map and the texture info, as in close()).
+void ScreenPickUp::PickUpWin::applyTexture() {
+    if (!mLayout || !mResHandle)
+        return;
+    mResHandle->parseResource(nullptr);
+    nn::ui2d::Pane* pane = mLayout->GetPane()->FindPaneByName("P_CaptureItem_00", true);
+    if (!pane)
+        return;
+    nn::ui2d::Material* material = pane->GetMaterial();
+    if (!material)
+        return;
+    auto* resource = mResHandle->getResource();
+    if (!resource)
+        return;
+    auto* texture = sead::DynamicCast<Unk_710247e8c0>(resource);
+    sead::Graphics::instance()->lockDrawContext();
+    material->GetTexMapArray()[0].ReplaceTextureInfo(&texture->mTexInfo);
+    sead::Graphics::instance()->unlockDrawContext();
 }
 
 // 0x7100a40328
