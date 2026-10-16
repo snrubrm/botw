@@ -10,6 +10,7 @@ public:
     explicit EventIncreasePorchItemAction(const InitArg& arg);
     ~EventIncreasePorchItemAction() override;
 
+    bool oneShot_() override;
     void loadParams_() override;
 
 protected:
