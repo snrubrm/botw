@@ -111,7 +111,11 @@ private:
     friend class RigidBody;
 
     struct Unk1;
-    struct Unk3;
+    // Only the body field is known: removeRigidBody (0x7100fa6ebc) compares it.
+    struct Unk3 {
+        u8 _0[0x20];
+        RigidBody* body;
+    };
 
     // FA742C produces these 0x10-byte queue records. FA6438 independently
     // reads the body, advances both frame bytes and restores the saved gravity.

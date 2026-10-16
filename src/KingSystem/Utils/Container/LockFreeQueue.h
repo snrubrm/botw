@@ -89,6 +89,17 @@ public:
         }
     }
 
+    /// Erases every live entry (not null or erased) for which pred returns true.
+    /// @warning Not thread safe!
+    template <typename Pred>
+    void eraseIf(const Pred& pred) {
+        for (u32 i = mReadIdx; i < mWriteIdx; ++i) {
+            T*& value = get(i);
+            if (uintptr_t(value) + 1 > 1 && pred(value))
+                value = reinterpret_cast<T*>(uintptr_t(-1));
+        }
+    }
+
 private:
     T*& get(u32 idx) { return mBuffer(moduloCapacity(idx)); }
     const T*& get(u32 idx) const { return mBuffer(moduloCapacity(idx)); }

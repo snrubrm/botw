@@ -127,6 +127,45 @@ void RigidBodyRequestMgr::processOobRigidBodyEntries(ContactLayerType layer_type
     }
 }
 
+// NON_MATCHING: the constraint loop is not rotated like the original (block order only).
+void RigidBodyRequestMgr::removeRigidBody(ContactLayerType type, RigidBody* body) {
+    auto lock = sead::makeScopedLock(mCriticalSections[int(type)]);
+
+    mRigidBodies1[int(type)].erase(body);
+    mOobRigidBodies[int(type)].erase(body);
+
+    if (type != ContactLayerType::Entity)
+        return;
+
+    _b0.eraseIf([body](Unk3* entry) { return entry->body == body; });
+
+    if (body->hasFlag(RigidBody::Flag::_400)) {
+        _c8.eraseIf([body](Unk4* entry) { return entry->body == body; });
+    }
+
+    mImpulseEntries.eraseIf([body](ImpulseEntry* entry) {
+        return entry->body_a == body || entry->body_b == body;
+    });
+
+    if (body->hasFlag(RigidBody::Flag::_800000)) {
+        _38.eraseIf([body](Constraint* constraint) {
+            if (!constraint->sub_7100F6A2E0())
+                return false;
+            Constraint::BodyIndex index;
+            if (constraint->mPendingBodies[0] == body)
+                index = Constraint::BodyIndex::_0;
+            else if (constraint->mPendingBodies[1] == body)
+                index = Constraint::BodyIndex::_1;
+            else
+                return false;
+            constraint->sub_7100F6A69C(index);
+            return true;
+        });
+    }
+
+    body->mFlags.reset(RigidBody::Flag::_400);
+}
+
 bool RigidBodyRequestMgr::pushRigidBody(ContactLayerType type, RigidBody* body) {
     static_cast<void>(mRigidBodies1[int(type)].getSize());
     return mRigidBodies1[int(type)].push(body);
