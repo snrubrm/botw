@@ -28,6 +28,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
@@ -607,3 +608,17 @@ void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const s
 // NON_MATCHING: placeholder destructor; the original (0x710001b33c) also destroys members or bases
 // this class does not declare yet.
 Unk_7102357ab0::~Unk_7102357ab0() = default;
+
+const sead::SafeString& Unk_7102357ab0::getRootNodeName() const {
+    const auto* rider = mActor->getParam()->getRes().mGParamList->getHorseRider();
+    if (!rider)
+        return sead::SafeString::cEmptyString;
+    return rider->mRootNode.ref();
+}
+
+const sead::SafeString& Unk_7102357ab0::getSpineNodeName() const {
+    const auto* rider = mActor->getParam()->getRes().mGParamList->getHorseRider();
+    if (!rider)
+        return sead::SafeString::cEmptyString;
+    return rider->mSpineNode.ref();
+}

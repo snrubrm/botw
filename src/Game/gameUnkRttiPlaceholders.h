@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
 
 #include <prim/seadRuntimeTypeInfo.h>
@@ -157,6 +158,11 @@ class Unk_7102357ab0 : public uking::act::Unk_710244eaa0 {
     SEAD_RTTI_OVERRIDE(Unk_7102357ab0, uking::act::Unk_710244eaa0)
 public:
     ~Unk_7102357ab0() override;
+
+    // 0x710001ba54 / 0x710001ba90: the RootNode / SpineNode bone names from the rider's HorseRider GParam object
+    // (empty string without one).
+    const sead::SafeString& getRootNodeName() const;
+    const sead::SafeString& getSpineNodeName() const;
 };
 
 // vtable 0x7102450fe0 (12 slots); placeholder generated from the vtable (genskel.py).

@@ -63,6 +63,15 @@ public:
 // The three board components (no RTTI; vtables 0x710246c458 / 0x710246c498 / 0x710246c4d8 with the destructor pair
 // only). Each holds the transceiver it registered (+8) and deregisters it from its broker in the destructor. The base
 // classes (vtables 0x710246c478 / c4b8 / c4f8) only have an empty virtual destructor.
+// Placeholder (name unknown): the argument ScreenEx::m113 passes to the board components' register functions, a
+// polymorphic temporary holding the transceiver (three derived types with empty destructors, vtables 0x710245b458 /
+// 0x710246bdc8 / 0x710246bde8).
+class DebugBoardTransceiverArgMaybe {
+public:
+    virtual ~DebugBoardTransceiverArgMaybe() = default;
+    ksys::MessageTransceiverBase* mTransceiver;
+};
+
 class Unk_710246c478 {
 public:
     virtual ~Unk_710246c478() = default;
@@ -72,6 +81,8 @@ class Unk_710246c458 : public Unk_710246c478 {
 public:
     Unk_710246c458();
     ~Unk_710246c458() override;
+    // 0x710089c664: keeps the transceiver and registers it with the board's broker (false without one).
+    bool sub_710089C664(const DebugBoardTransceiverArgMaybe& arg);
     ksys::MessageTransceiverBase* mTransceiver;
 };
 
@@ -84,6 +95,8 @@ class Unk_710246c498 : public Unk_710246c4b8 {
 public:
     Unk_710246c498();
     ~Unk_710246c498() override;
+    // 0x710089c88c: keeps the transceiver and registers it with the board's broker (false without one).
+    bool sub_710089C88C(const DebugBoardTransceiverArgMaybe& arg);
     ksys::MessageTransceiverBase* mTransceiver;
 };
 
@@ -96,5 +109,7 @@ class Unk_710246c4d8 : public Unk_710246c4f8 {
 public:
     Unk_710246c4d8();
     ~Unk_710246c4d8() override;
+    // 0x710089ca04: keeps the transceiver and registers it with the board's broker (false without one).
+    bool sub_710089CA04(const DebugBoardTransceiverArgMaybe& arg);
     ksys::MessageTransceiverBase* mTransceiver;
 };
