@@ -1,5 +1,6 @@
 #include "Game/Actor/Action/actionPriestBossFastWarpMove.h"
 #include "Game/Actor/aiUnk_710073fa90.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -118,8 +119,63 @@ void PriestBossFastWarpMove::loadParams_() {
     getDynamicParam(&mAfterImage1Pos_d, "AfterImage1Pos");
 }
 
+// NON_MATCHING: the original keeps the sqrtf of the unused distance to MoveDstPos (as in enter_).
 void PriestBossFastWarpMove::calc_() {
     PriestBossCloneFastWarp::calc_();
+
+    for (auto& entry : _80) {
+        if (entry.pending) {
+            mActor->sendMessage(entry.destination, ksys::MessageType(0x800004d), &entry.payload, true);
+            entry.pending = false;
+        }
+    }
+
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    if (_200 > 0) {
+        if (--_200 == 0) {
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+            sub_71007A36BC(mActor);
+        }
+        return;
+    }
+
+    sub_710073FA94(&_238, mActor);
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    const sead::Vector3f up = sead::Vector3f::ey;
+    sead::Vector3f direction = sub_71005D9330(mActor);
+    direction -= *mMoveDstPos_d;
+    ksys::util::sub_71011EFA00(&direction, direction, up);
+    direction.normalize();
+    sub_710074006C(&_238, direction, up, true, 0.66f, 0.36f, 0.001f);
+    [[maybe_unused]] const f32 distance = (*mMoveDstPos_d - position).length();
+
+    _204.update();
+    if (_204.value >= *mAppearFrame_s)
+        setFinished();
+    else
+    {
+        const sead::Vector3f dst = *mMoveDstPos_d;
+        controller->sub_7100F5F938(sead::Matrix34f(_238, dst));
+    }
+
+    if (*mCurrentFrame_d < *mAfterImage0AppearFrame_s && !(_228 & (1 << 2)) &&
+        _204.value >= *mAfterImage0AppearFrame_s - 5.0f) {
+        sub_7100222070(2, _22c, *mAfterImage0Pos_d, *mAfterImage0AppearFrame_s - _204.value);
+    }
+    if (*mCurrentFrame_d < *mAfterImage1AppearFrame_s && !(_228 & (1 << 3)) &&
+        _204.value >= *mAfterImage1AppearFrame_s - 5.0f) {
+        sub_7100222070(3, *mAfterImage0Pos_d, *mAfterImage1Pos_d,
+                       *mAfterImage1AppearFrame_s - *mCurrentFrame_d);
+    }
+    if (*mCurrentFrame_d < *mAppearFrame_s && !(_228 & (1 << 4)) &&
+        _204.value >= *mAppearFrame_s - 5.0f) {
+        sub_7100222070(4, *mAfterImage1Pos_d, *mMoveDstPos_d, *mAppearFrame_s - *mCurrentFrame_d);
+    }
 }
 
 }  // namespace uking::action
