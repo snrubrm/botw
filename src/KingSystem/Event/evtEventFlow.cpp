@@ -300,6 +300,18 @@ void EventFlowTimeline::m13() {
     }
 }
 
+// 0x7100dbd154
+s32 EventFlowTimeline::sub_7100DBD154() {
+    const f32 frame = getFrameCount();
+    const auto* timeline = _628->GetTimeline();
+    const auto* cuts = timeline->cuts.Get();
+    for (s32 i = timeline->num_cuts - 1; i >= 0; --i) {
+        if (cuts[i].start_time <= frame)
+            return i;
+    }
+    return 0;
+}
+
 // 0x7100dbd318 (CSV evt::EventFlowTimeline::update)
 // NON_MATCHING: same logic, but the original computes `(time >= duration) & !(flag & 8)` as tst / cset eq / and where
 // every source form gives `bic w0, w9, w8, lsr #3` (or a branch for `&&`); register numbers differ as well.

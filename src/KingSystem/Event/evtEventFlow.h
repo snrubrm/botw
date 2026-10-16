@@ -274,6 +274,10 @@ public:
     void m16() override;
     void m17() override;
 
+    // 0x7100dbd154 (placeholder name): index of the last cut of the first timeline that starts at or before the
+    // current frame (0 if none)
+    s32 sub_7100DBD154();
+
     /* 0x620 */ s32 _620;
     u8 _624[4];
     /* 0x628 */ evfl::TimelineObj* _628;  // with _620: a buffer of timelines (freed by the destructor)
