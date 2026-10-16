@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiGuardianMiniReaction.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -381,6 +383,86 @@ void GuardianMiniReaction::m35(act::DamageManagerBase* damage_mgr, int damage_ty
         return;
     }
     changeChild(child);
+}
+
+
+// NON_MATCHING: stack slots of the names (as in GuardianMiniViewWait::sub_7100429D14). Same bone binding as GuardianMiniViewWait::sub_7100429D14, then plays
+// `name` on the AS slots 1 to 3 except the one of the side `e` (0: right, 1: left).
+void GuardianMiniReaction::sub_71004201A4(const sead::SafeString& name, s32 a, s32 b, s32 unused,
+                                          s32 e) {
+    auto* actor = mActor;
+    if (!actor || !actor->getModel())
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+
+    sead::SafeString root = mRootNodeName_s;
+    sead::SafeString arms[3];
+    if (a == 2 && b == 0) {
+        arms[2] = mArm3NodeName_s;
+        arms[1] = mArm1NodeName_s;
+        arms[0] = mArm2NodeName_s;
+    } else if (a == 1 && b == 2) {
+        arms[2] = mArm2NodeName_s;
+        arms[1] = mArm3NodeName_s;
+        arms[0] = mArm1NodeName_s;
+    } else {
+        arms[2] = mArm1NodeName_s;
+        arms[1] = mArm2NodeName_s;
+        arms[0] = mArm3NodeName_s;
+    }
+
+    const auto root_key = actor->getModel()->searchBone(root);
+    const auto right_key = actor->getModel()->searchBone(arms[2]);
+    const auto left_key = actor->getModel()->searchBone(arms[1]);
+    const auto back_key = actor->getModel()->searchBone(arms[0]);
+    if (!root_key.isValid() || !right_key.isValid() || !left_key.isValid() || !back_key.isValid())
+        return;
+
+    as_list->sub_710115C9E0(0);
+    as_list->mSlots[0].sub_7101165008(root_key, 0, true);
+    as_list->mSlots[0].sub_7101165008(right_key, 3, true);
+    as_list->mSlots[0].sub_7101165008(left_key, 3, true);
+    as_list->mSlots[0].sub_7101165008(back_key, 3, true);
+    as_list->mSlots[0].sub_7101164E38(false);
+
+    const s32 right_slot = *mASSlotRight_s;
+    as_list->sub_710115C9E0(right_slot);
+    as_list->mSlots[right_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[right_slot].sub_7101165008(right_key, 0, true);
+    as_list->mSlots[right_slot].sub_7101164E38(false);
+
+    const s32 left_slot = *mASSlotLeft_s;
+    as_list->sub_710115C9E0(left_slot);
+    as_list->mSlots[left_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[left_slot].sub_7101165008(left_key, 0, true);
+    as_list->mSlots[left_slot].sub_7101164E38(false);
+
+    const s32 back_slot = *mASSlotBack_s;
+    as_list->sub_710115C9E0(back_slot);
+    as_list->mSlots[back_slot].sub_7101165008(root_key, 3, true);
+    as_list->mSlots[back_slot].sub_7101165008(back_key, 0, true);
+    as_list->mSlots[back_slot].sub_7101164E38(false);
+
+    s32 skip = 0;
+    if (e == 1)
+        skip = *mASSlotLeft_s;
+    else if (e == 0)
+        skip = *mASSlotRight_s;
+
+    for (s32 slot = 1; slot != 4; ++slot) {
+        if (slot == skip)
+            continue;
+        const sead::SafeString anim = name.cstr();
+        auto* target = mActor;
+        if (!target)
+            continue;
+        auto* list = target->getASList();
+        if (!list || !sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(target))
+            continue;
+        list->startAnimationMaybe(-1.0f, -1.0f, anim, slot, 0, true);
+    }
 }
 
 }  // namespace uking::ai
