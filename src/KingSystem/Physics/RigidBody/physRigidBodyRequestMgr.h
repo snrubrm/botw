@@ -57,7 +57,12 @@ class RigidBodyRequestMgr : public sead::hostio::Node {
 public:
     // 0x7100fa6438 (CSV x_0; declared only): processes the queued requests (System::sub_71012163F0 passes
     // true and System::mPaused).
-    void x_0(bool a, bool paused);
+    // 0x7100fa6438: under the layer's lock and world lock: for Entity, prepares the queued constraints
+    // (_38 -> _50) and steps the gravity fade entries of _c8; then processes the update requests of the
+    // layer's queued bodies (flushing the add / remove batches) and copies motion (Sensor) or, after the
+    // queued constraints' second step, transforms (Entity) to the linked bodies of every motion accessor.
+    // `paused` is not read.
+    void x_0(ContactLayerType layer_type, bool paused);
     // 0x7100fa83ac (CSV x_13; declared only): called by System::sub_7101216648 under the entity world lock.
     void x_13();
     // 0x7100fa79b8 (CSV x_2; declared only): called at the end of System::sub_7101216328.
@@ -176,7 +181,8 @@ private:
 
     sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mRigidBodies1;
     util::LockFreeQueue<Constraint> _38;
-    util::LockFreeQueue<Unk1> _50;
+    // Constraints prepared by x_0 (sub_7100F6A1D8) and finished there (sub_7100F6A228).
+    util::LockFreeQueue<Constraint> _50;
     /// Rigid bodies that are out of bounds.
     sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mOobRigidBodies;
     util::LockFreeQueue<ImpulseEntry> mImpulseEntries;

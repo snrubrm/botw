@@ -4,6 +4,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyMotionEntity.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -98,6 +99,70 @@ void RigidBodyRequestMgr::init(sead::Heap* heap) {
     mWaterIceSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Ice");
     mWaterHotSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Hot");
     mWaterPoisonSubmatIdx = MaterialMask::getSubMaterialIdx(Material::Water, "Water_Poison");
+}
+
+// NON_MATCHING: block order of the inlined LockFreeQueue pop / push loops (1540 bytes against 1636).
+void RigidBodyRequestMgr::x_0(ContactLayerType layer_type, bool paused) {
+    auto lock = sead::makeScopedLock(mCriticalSections[int(layer_type)]);
+    ScopedWorldLock world_lock{layer_type};
+
+    if (layer_type == ContactLayerType::Entity) {
+        while (auto* constraint = _38.pop()) {
+            constraint->sub_7100F6A1D8();
+            _50.push(constraint);
+        }
+
+        Unk4* last = _c8.pop();
+        _c8.push(last);
+        while (auto* entry = _c8.pop()) {
+            RigidBody* body = entry->body;
+            if ((body->isAddedToWorld() || body->isAddingBodyToWorld()) &&
+                entry->frames < entry->duration) {
+                body->setGravityFactor(static_cast<f32>(entry->frames) /
+                                       static_cast<f32>(entry->duration) * entry->gravity_factor);
+                _c8.push(entry);
+                ++entry->frames;
+            } else {
+                body->setGravityFactor(entry->gravity_factor);
+                entry->body->mFlags.reset(RigidBody::Flag::_400);
+                entry->body = nullptr;
+                entry->frames = 0;
+                entry->duration = 0;
+                entry->gravity_factor = 1.0f;
+                _e0.push(entry);
+            }
+            if (entry == last)
+                break;
+        }
+    }
+
+    Unk_71024f7e10 motion_batch{layer_type};
+    Unk_71024f7df0 entity_batch{layer_type};
+    while (auto* body = mRigidBodies1[int(layer_type)].pop()) {
+        body->processUpdateRequests(&entity_batch, &motion_batch);
+        body->mFlags.reset(RigidBody::Flag::_800);
+        body->mFlags.reset(RigidBody::Flag::_1000);
+        body->mFlags.reset(RigidBody::Flag::_4000);
+        body->mFlags.reset(RigidBody::Flag::_8000);
+        body->mFlags.reset(RigidBody::Flag::_2000);
+        body->mFlags.reset(RigidBody::Flag::_10000);
+    }
+    motion_batch.flush();
+    entity_batch.flush();
+
+    if (layer_type == ContactLayerType::Sensor) {
+        auto accessors_lock = sead::makeScopedLock(mCS);
+        for (int i = 0; i < mMotionAccessors.size(); ++i)
+            static_cast<RigidBodyMotionEntity*>(mMotionAccessors[i])->copyMotionToAllLinkedBodies();
+    }
+
+    if (layer_type == ContactLayerType::Entity) {
+        while (auto* constraint = _50.pop())
+            constraint->sub_7100F6A228();
+        auto accessors_lock = sead::makeScopedLock(mCS);
+        for (int i = 0; i < mMotionAccessors.size(); ++i)
+            static_cast<RigidBodyMotionEntity*>(mMotionAccessors[i])->copyTransformToAllLinkedBodies();
+    }
 }
 
 void RigidBodyRequestMgr::calc1(ContactLayerType layer_type, bool paused) {

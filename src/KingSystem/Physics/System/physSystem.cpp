@@ -295,7 +295,7 @@ void System::sub_710121624C() {
         _150->sub_71012A6B48();
     }
     _62 = true;
-    mRigidBodyRequestMgr->x_0(false, mPaused);
+    mRigidBodyRequestMgr->x_0(ContactLayerType::Entity, mPaused);
     mRagdollInstanceMgr->calc();
     _62 = false;
 }
@@ -323,7 +323,7 @@ void System::sub_71012163F0() {
         return;
     mWorlds[int(ContactLayerType::Sensor)]->getCS().lock();
     _62 = true;
-    mRigidBodyRequestMgr->x_0(true, mPaused);
+    mRigidBodyRequestMgr->x_0(ContactLayerType::Sensor, mPaused);
     _62 = false;
 }
 
