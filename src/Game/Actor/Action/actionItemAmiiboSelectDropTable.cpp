@@ -7,6 +7,20 @@
 
 namespace uking::action {
 
+// NON_MATCHING (both value array constructors): the original loads the array through the GOT and does not
+// tail-call the unlock.
+SEAD_ENUM_EX_VALUES(ItemAmiiboSelectDropTable::AmiiboId, 0xffffff, 0x10000, 0x10001, 0x10100, 0x10101, 0x10201,
+                    0x10300, 0x10500, 0x10800, 0x10700, 0x10600, 0x14000, 0x14100)
+
+// NON_MATCHING: the original returns the enum in memory (x8), as if the enum type had a non-trivial copy.
+ItemAmiiboSelectDropTable::CharacterId
+ItemAmiiboSelectDropTable::sub_71001C17A4(const AmiiboId& id) {
+    return CharacterId((id.value() >> 8) & 0xffff);
+}
+
+SEAD_ENUM_EX_VALUES(ItemAmiiboSelectDropTable::CharacterId, 0xffff, 0x100, 0x101, 0x102, 0x103, 0x105, 0x108,
+                    0x107, 0x106, 0x140, 0x141)
+
 ItemAmiiboSelectDropTable::ItemAmiiboSelectDropTable(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 

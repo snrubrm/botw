@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadEnum.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -7,6 +8,18 @@ namespace uking::action {
 class ItemAmiiboSelectDropTable : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(ItemAmiiboSelectDropTable, ksys::act::ai::Action)
 public:
+    // Placeholders (SEAD_ENUM_EX; no enum text in the binary, value names unknown). AmiiboId: value array built by
+    // 0x71001c08ac (13 values, character id << 8 | variant, 0xffffff = none); CharacterId: value array built by
+    // 0x71001c1eec (11 values, 0xffff = none). sub_71001C0E60 converts the first to the second.
+    SEAD_ENUM_EX(AmiiboId, _0 = 0xffffff, _1 = 0x10000, _2 = 0x10001, _3 = 0x10100, _4 = 0x10101, _5 = 0x10201,
+                 _6 = 0x10300, _7 = 0x10500, _8 = 0x10800, _9 = 0x10700, _10 = 0x10600, _11 = 0x14000,
+                 _12 = 0x14100)
+    SEAD_ENUM_EX(CharacterId, _0 = 0xffff, _1 = 0x100, _2 = 0x101, _3 = 0x102, _4 = 0x103, _5 = 0x105,
+                 _6 = 0x108, _7 = 0x107, _8 = 0x106, _9 = 0x140, _10 = 0x141)
+
+    // 0x71001c17a4: the character of an amiibo id (the id's bits 8..23), or the first value if it is unknown.
+    static CharacterId sub_71001C17A4(const AmiiboId& id);
+
     explicit ItemAmiiboSelectDropTable(const InitArg& arg);
     ~ItemAmiiboSelectDropTable() override;
 
