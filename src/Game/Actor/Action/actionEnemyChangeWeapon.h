@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include "Game/Actor/aiUnk_7100D3D3A8.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -27,8 +28,8 @@ protected:
     int* mEquipWeaponBufIndex_a{};
     // aitree_variable at offset 0x28
     void* mPriestBossMetaAIUnit_a{};
-    Unk_7100d3d3a8 _30;
-    Unk_7100d3d3a8 _50;
+    // indexed by weapon slot (sub_7100106D24 clamps the index to 0 when it is out of range)
+    sead::SafeArray<Unk_7100d3d3a8, 2> _30;
     s32 _70 = -1;
     s32 _74 = -1;
     s32 _78 = 0;

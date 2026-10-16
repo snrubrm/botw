@@ -5,6 +5,7 @@
 
 namespace ksys::act {
 class Actor;
+class BaseProc;
 class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
@@ -17,6 +18,8 @@ struct Unk_7100d3d3a8 {
     // Placeholder names (out of line, no names known; signatures from Kick::sub_71001C8A10).
     // 0x7100d3d3c4: if `_3` is 0: `_0 = a`, `_2 = c`, `_8 = *vec` and, when `b` is given, `_14 = *b`.
     void sub_7100D3D3C4(int a, const sead::Vector3f* vec, const sead::Vector3f* b, u8 c);
+    // 0x7100d3d40c: the same as sub_7100D3D49C with an accessor built from `proc`.
+    void sub_7100D3D40C(ksys::act::Actor* actor, ksys::act::BaseProc* proc, bool flag);
     // 0x7100d3d49c: `_4 = flag`, sends message 0x3000014 (payload = this) from `actor` to the accessor's actor, sets `_3`.
     void sub_7100D3D49C(ksys::act::Actor* actor, ksys::act::ActorLinkConstDataAccess* accessor, bool flag);
 
