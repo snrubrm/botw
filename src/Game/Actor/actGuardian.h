@@ -197,6 +197,10 @@ public:
         void sub_7100042B48();
         // 0x7100042338 (placeholder name): forwards to the owner's sub_71000370B4.
         bool sub_7100042338() const;
+        // 0x71000418b8 / 0x71000418c4 (placeholder names; identical bodies): the owner's main rigid body
+        // (0x71000499f0 applies an impulse to it, 0x7100044b68 transforms a point with it).
+        ksys::phys::RigidBody* sub_71000418B8() const;
+        ksys::phys::RigidBody* sub_71000418C4() const;
 
         u8 _0[0x8];
         Guardian* _8;  // the owner (sub_7100042338)

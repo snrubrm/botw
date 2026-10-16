@@ -2,6 +2,14 @@
 
 namespace uking::act {
 
+ksys::phys::RigidBody* Guardian::Unk1::sub_71000418B8() const {
+    return _8->getMainBody();
+}
+
+ksys::phys::RigidBody* Guardian::Unk1::sub_71000418C4() const {
+    return _8->getMainBody();
+}
+
 // Separate TU: the original keeps this out of line (Guardian::sub_710003B3FC tail-calls it).
 bool Guardian::Unk1::sub_7100042338() const {
     return _8->sub_71000370B4();
