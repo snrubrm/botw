@@ -157,8 +157,10 @@ void Unk_7102515a58::collideSpheres(const CollideSpheresInput& input,
     for (int i = input.m_numSpheres - 1; i >= 0; --i) {
         *outputArray = dummy.getPositionAndRadius();
         const hkVector4& pos = sphere->getPositionAndRadius();
-        const hkReal height = Unk_7102515a58::sub_71015C3994(pos(0), pos(2), *outputArray);
-        (*outputArray)(3) = (pos(1) - height) * m_intToFloatScale(1) - sphere->getRadius();
+        hkReal normal[3];
+        const hkReal height = Unk_7102515a58::sub_71015C3994(pos(0), pos(2), normal);
+        outputArray->set(normal[0], normal[1], normal[2],
+                         (pos(1) - height) * m_intToFloatScale(1) - sphere->getRadius());
         ++sphere;
         ++outputArray;
     }
@@ -236,21 +238,24 @@ hkReal Unk_7102515a58::sub_71015C398C(hkReal x, hkReal z) const {
     return height;
 }
 
-// NON_MATCHING: the original writes a 12-byte normal (a sead::Vector3f, not the hkVector4 that
-// hkpSampledHeightFieldShape declares for this slot).
-hkReal Unk_7102515a58::sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const {
+// NON_MATCHING: the 12-byte normal is written as three floats; the original's store order differs.
+hkReal Unk_7102515a58::sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]) const {
     f32 height = 0;
     sead::Vector3f normal = sead::Vector3f::ey;
     const f32 px = mOffset.x + x;
     const f32 pz = mOffset.z + z;
     if (isInHole(px, pz)) {
-        normalOut.set(0, 1, 0);
+        normalOut[0] = 0;
+        normalOut[1] = 1;
+        normalOut[2] = 0;
         return 0.0f;
     }
     const sead::Vector2f pos(px, pz);
     if (tera::sub_71011096D0(&height, &normal, &pos, mSystem, -1, 0) == 0)
         return 0.0f;
-    normalOut.set(normal.x, normal.y, normal.z);
+    normalOut[0] = normal.x;
+    normalOut[1] = normal.y;
+    normalOut[2] = normal.z;
     return height;
 }
 
@@ -281,8 +286,10 @@ void Unk_7102515b40::collideSpheres(const CollideSpheresInput& input,
     for (int i = input.m_numSpheres - 1; i >= 0; --i) {
         *outputArray = dummy.getPositionAndRadius();
         const hkVector4& pos = sphere->getPositionAndRadius();
-        const hkReal height = Unk_7102515b40::sub_71015C3994(pos(0), pos(2), *outputArray);
-        (*outputArray)(3) = (pos(1) - height) * m_intToFloatScale(1) - sphere->getRadius();
+        hkReal normal[3];
+        const hkReal height = Unk_7102515b40::sub_71015C3994(pos(0), pos(2), normal);
+        outputArray->set(normal[0], normal[1], normal[2],
+                         (pos(1) - height) * m_intToFloatScale(1) - sphere->getRadius());
         ++sphere;
         ++outputArray;
     }
@@ -312,14 +319,16 @@ hkReal Unk_7102515b40::sub_71015C398C(hkReal x, hkReal z) const {
 }
 
 // NON_MATCHING: see Unk_7102515a58::sub_71015C3994 (12-byte normal).
-hkReal Unk_7102515b40::sub_71015C3994(hkReal x, hkReal z, hkVector4& normalOut) const {
+hkReal Unk_7102515b40::sub_71015C3994(hkReal x, hkReal z, hkReal (&normalOut)[3]) const {
     f32 height = 0;
     sead::Vector3f normal = sead::Vector3f::ey;
     const sead::Vector2f pos(mOffset.x + x, mOffset.z + z);
     const u32 status = tera::sub_710110B52C(&height, &normal, &pos, mSystem);
     if (status == 0 || status == 0xffffffff)
         return 0.0f;
-    normalOut.set(normal.x, normal.y, normal.z);
+    normalOut[0] = normal.x;
+    normalOut[1] = normal.y;
+    normalOut[2] = normal.z;
     return height;
 }
 
