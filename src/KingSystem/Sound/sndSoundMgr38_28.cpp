@@ -12,6 +12,10 @@
 
 namespace ksys::snd {
 
+Unk_SoundMgr38_28::~Unk_SoundMgr38_28() {
+    sub_71010375CC();
+}
+
 void Unk_SoundMgr38_28::sub_7101037ED8(const sead::Vector3f* pos, const sead::Vector3f* size) {
     const sead::Vector3f half = *size * 0.5f;
     mBoxMin = *pos - half;

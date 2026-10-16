@@ -196,9 +196,14 @@ public:
     void sub_710103937C();
     void sub_71010375CC();
 
+    // 0x710103757c: runs 0x71010375cc first.
     virtual ~Unk_SoundMgr38_28();
 
-    u8 _8[0x328 - 0x8];
+    /* 0x008 */ act::BaseProcHandle mProcHandle;
+    u8 _18[0x268 - 0x18];
+    /* 0x268 */ sead::CriticalSection _268;
+    /* 0x2a8 */ sead::CriticalSection _2a8;
+    /* 0x2e8 */ sead::CriticalSection _2e8;
     /* 0x328 */ bool _328;
     /* 0x32c */ sead::Vector3f mBoxMin;
     /* 0x338 */ sead::Vector3f mBoxMax;
