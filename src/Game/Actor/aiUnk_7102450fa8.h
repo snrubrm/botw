@@ -137,6 +137,8 @@ public:
     bool sub_710071962C(sead::Vector3f* out);
     // 0x71007196ec: places the sleeping member `idx` at `pos` and gives it the next side offset
     bool sub_71007196EC(s32 idx, const sead::Vector3f& pos);
+    // 0x710071984c (declared only; 300 bytes): wakes the sleeping member `idx` (2 .. 10) at `mtx`
+    bool sub_710071984C(s32 idx, const sead::Matrix34f& mtx);
     // 0x71007199a8: zeroes `_50`..`_70` and `_80`. Placeholder name.
     void sub_71007199A8();
     // 0x7100719f70: `_88 ? _88->m4() : 0` (result goes through a Phase temporary). Placeholder name.

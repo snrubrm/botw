@@ -72,11 +72,11 @@ void Unk_7102451050::sub_710071C034() {
     sub_710071C33C();
     if (_10 == 4) {
         while (!_20.empty()) {
-            const s32 type = _20.front().type;
-            if (type == 3)
-                sub_710071C89C();
-            else if (type == 2)
-                sub_710071C730();
+            const Request& request = _20.front();
+            if (request.type == 3)
+                sub_710071C89C(request);
+            else if (request.type == 2)
+                sub_710071C730(request);
             _20.popFront();
         }
         if (_1e == 0)
@@ -120,4 +120,64 @@ void Unk_7102451050::sub_710071C440() {
     _20.clear();
     _f8.clear();
     _8->_3f0.clear();
+}
+
+// NON_MATCHING: the phase cases are laid out the other way round, the position is stored pair-wise and the new
+// member is zeroed before its id is set
+// 0x710071c730
+void Unk_7102451050::sub_710071C730(const Request& request) {
+    ksys::act::ActorLinkConstDataAccess leader;
+    switch (_8->_3c) {
+    case Unk_7102450fa8::Phase::_3:
+        _8->sub_71007194D4(1, &leader);
+        break;
+    case Unk_7102450fa8::Phase::_1:
+        _8->sub_71007194D4(2, &leader);
+        break;
+    default:
+        break;
+    }
+    if (!leader.hasProc())
+        return;
+    const sead::Vector3f pos = leader.getActorMtx().getTranslation();
+    for (s32 i = 0; i < 9; ++i) {
+        if (i == 0)
+            continue;
+        const s32 idx = i + 2;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (_8->sub_71007194D4(idx, &accessor) && accessor.isStateSleep()) {
+            auto* member = _f8.emplaceBack();
+            if (!member)
+                break;
+            _8->sub_71007196EC(idx, pos);
+            member->id = idx;
+            member->done = request._18;
+        }
+    }
+}
+
+// NON_MATCHING: the new member is zeroed before its id is set (Member's initialisers) and the index add is
+// scheduled differently
+// 0x710071c89c
+void Unk_7102451050::sub_710071C89C(const Request& request) {
+    for (s32 i = 0; i < 9; ++i) {
+        if (i == 0)
+            continue;
+        const s32 idx = i + 2;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (!_8->sub_71007194D4(idx, &accessor) || !accessor.isStateSleep())
+            continue;
+        ksys::act::ActorLinkConstDataAccess actor;
+        if (!ksys::act::acquireActor(&request.link, &actor))
+            continue;
+        if (_f8.isFull()) {
+            actor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        } else if (auto* member = _f8.emplaceBack()) {
+            _8->sub_710071984C(idx, actor.getActorMtx());
+            _8->sub_710071A1C0(_8->sub_71007195B0(request.link), idx);
+            member->id = idx;
+            member->done = request._18;
+        }
+        return;
+    }
 }

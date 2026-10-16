@@ -87,9 +87,12 @@ public:
     void sub_710071C33C();
     // 0x710071c440 (placeholder name): in state 5, once every member entry is set and done, resets to state 1
     void sub_710071C440();
-    // 0x710071c730 / 0x710071c89c (declared only): handle a queued request of type 2 / 3
-    void sub_710071C730();
-    void sub_710071C89C();
+    // 0x710071c730 (placeholder name): request type 2: places the first sleeping member (2 .. 9) at the leader
+    // (member 1 or 2, by the unit's phase) and records it
+    void sub_710071C730(const Request& request);
+    // 0x710071c89c (placeholder name): request type 3: brings the request's actor in as the first sleeping member
+    // (or puts it to sleep when the member list is full)
+    void sub_710071C89C(const Request& request);
     // 0x710071c1b8 (placeholder name): sets flag 0 if the unit's flag 1 is set or a member (2 .. 9) sleeps, then
     // resets the state and the member list and calls the unit's sub_71007199A8
     void sub_710071C1B8();
@@ -114,8 +117,8 @@ public:
     /* 0x020 */ sead::FixedRingBuffer<Request, 6> _20;
     // An entry of _f8 (8 bytes).
     struct Member {
-        s32 id;
-        bool done;
+        s32 id = -1;
+        bool done = false;
     };
 
     /* 0x0f8 */ sead::FixedObjArray<Member, 9> _f8;
