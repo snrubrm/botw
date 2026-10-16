@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Utils/Unk_7100e726a8.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 #include "Game/Actor/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
@@ -35,14 +37,14 @@ protected:
     /* 0x20 */ Unk_71024f15c0 _20;
     // Constructor 0x71002c1354 and the adjacent movement transitions establish
     // this state and the three position/direction vectors.
-    s32 _80;
-    bool _84;
-    bool _85;
+    s32 _80 = 3;
+    bool _84 = true;
+    bool _85 = true;
     u8 _86[2];
-    sead::Vector3f _88;
-    sead::Vector3f _94;
-    sead::Vector3f _a0;
-    f32 _ac;
+    sead::Vector3f _88 = sead::Vector3f::zero;
+    sead::Vector3f _94 = sead::Vector3f::zero;
+    sead::Vector3f _a0 = sead::Vector3f::zero;
+    f32 _ac = 0;
     // static_param at offset 0xb0
     const float* mRotRadPerSec_s{};
     // static_param at offset 0xb8
@@ -80,8 +82,15 @@ protected:
     // dynamic_param at offset 0x148
     sead::SafeString mUniqueName_d{};
     /* 0x158 */ ksys::act::CCAccessor _158;
-    // Not modelled yet (static string pointers and floats, see the W constructor at 0x71002c1354).
-    u8 _160[0x1d5 - 0x160];
+    // Same swim helpers and defaults as NpcSwimMove (_a0 / _e0 there).
+    Unk_7100e726a8 _160;
+    Unk_7100e7277c _1a0;
+    sead::Vector3f _1b0;
+    u8 _1bc[0xc];
+    f32 _1c8;
+    f32 _1cc;
+    f32 _1d0;
+    bool _1d4;
     u8 _1d5;
     u8 _1d6[2];
 };

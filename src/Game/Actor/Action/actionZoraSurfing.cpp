@@ -4,9 +4,23 @@
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/System/VFR.h"
 
+extern const f32 sUnk_7101EC1934;
+extern const f32 sUnk_7101EC1938;
+extern const f32 sUnk_7101EC193C;
+
+static const f32 sUnk_7101E79EC4 = 0.6f;
+static const f32 sUnk_7101E79EC8 = 0.15f;
+static const f32 sUnk_7101E79ECC = 0.002f;
+static const f32 sUnk_7101E79ED0 = 0.4f;
+
 namespace uking::action {
 
-ZoraSurfing::ZoraSurfing(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+ZoraSurfing::ZoraSurfing(const InitArg& arg)
+    : ksys::act::ai::Action(arg),
+      _160{&sUnk_7101E79EC4, &sUnk_7101E79EC8, &sUnk_7101E79ECC,
+           &sUnk_7101EC1934, &sUnk_7101EC1938, &sUnk_7101EC193C, 0.0f, 0.0f, 0.0f},
+      _1a0{&sUnk_7101E79ED0, 0.0f}, _1b0(0.0f, 0.0f, 0.0f), _1c8(1.309f), _1cc(1.0f), _1d0(0.0f),
+      _1d4(true), _1d5(0) {}
 
 ZoraSurfing::~ZoraSurfing() = default;
 
