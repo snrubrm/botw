@@ -529,6 +529,7 @@ public:
 
     int handleMessage(const ksys::Message& message) override;
     void m112(sead::Heap* heap) override;
+    void m113() override;
     void m114(sead::Heap* heap) override;
     void m115() override;
     eui::UIController* doCreateUIController_(sead::Heap* heap) override;

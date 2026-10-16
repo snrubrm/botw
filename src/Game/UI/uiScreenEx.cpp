@@ -74,6 +74,14 @@ int ScreenEx::handleMessage(const ksys::Message& message) {
     }
 }
 
+// 0x7100a48858
+// NON_MATCHING: scheduling (the original computes &_1e0 before &_300 and the vtable add before this + 0x310)
+void ScreenEx::m113() {
+    _300.sub_710089C664(Unk_710245b458(&_1e0));
+    _310.sub_710089CA04(Unk_710246bdc8(&_1e0));
+    _320.sub_710089C88C(Unk_710246bde8(&_1e0));
+}
+
 // 0x7100a488d4
 void ScreenEx::m114(sead::Heap* heap) {
     mButtonHelper.setHeap(heap);

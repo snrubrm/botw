@@ -83,6 +83,26 @@ public:
     ksys::MessageTransceiverBase* mTransceiver;
 };
 
+// The three argument types (placeholders; destructors at 0x71007c5888 / 0x710085e310 / 0x710085e30c, D0 at
+// 0x71007c6578 / 0x71008777b0 / 0x71008777b4).
+class Unk_710245b458 : public DebugBoardTransceiverArgMaybe {
+public:
+    explicit Unk_710245b458(ksys::MessageTransceiverBase* transceiver) { mTransceiver = transceiver; }
+    ~Unk_710245b458() override = default;
+};
+
+class Unk_710246bdc8 : public DebugBoardTransceiverArgMaybe {
+public:
+    explicit Unk_710246bdc8(ksys::MessageTransceiverBase* transceiver) { mTransceiver = transceiver; }
+    ~Unk_710246bdc8() override = default;
+};
+
+class Unk_710246bde8 : public DebugBoardTransceiverArgMaybe {
+public:
+    explicit Unk_710246bde8(ksys::MessageTransceiverBase* transceiver) { mTransceiver = transceiver; }
+    ~Unk_710246bde8() override = default;
+};
+
 class Unk_710246c478 {
 public:
     virtual ~Unk_710246c478() = default;
