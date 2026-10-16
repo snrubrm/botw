@@ -67,6 +67,18 @@ bool Dragon::sub_710000F70C(int idx) {
 }
 
 // NON_MATCHING: we merge the two adjacent -1.0f stores into one 64-bit store and schedule the copies' loads differently.
+void Dragon::Unk_710000b710::sub_71006FB3FC(const sead::Matrix34f& matrix) {
+    _20 = matrix;
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (sead::Mathf::isNan(_20.m[i][j])) {
+                _20.makeIdentity();
+                return;
+            }
+        }
+    }
+}
+
 void Dragon::Unk_710000b710::sub_71006FD830(f32 start_frame, f32 end_frame) {
     if (start_frame < 0.0f) {
         if (_930 & 0x100) {
