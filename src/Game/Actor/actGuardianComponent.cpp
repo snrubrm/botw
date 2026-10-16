@@ -3,6 +3,7 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_7102451120.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -96,6 +97,17 @@ void GuardianComponent::m63() {
     }
     DynamicActor::m63();
     _ba8->m9();
+}
+
+void GuardianComponent::updatePositionMaybe() {
+    if (auto* guardian = sub_710003D2B4()) {
+        auto* life = guardian->getLife();
+        if (life && *life <= 0)
+            sub_710073DE08(this);
+    }
+    if (!mActorFlags2.isOn(ActorFlag2::_40) && _ba8)
+        _ba8->m12();
+    DynamicActor::updatePositionMaybe();
 }
 
 bool GuardianComponent::canWakeUp_() {

@@ -85,6 +85,7 @@ public:
     void initMaybe() override;
     void updateMtxFromPhysics() override;
     void m63() override;
+    void updatePositionMaybe() override;
     ksys::act::Actor* m31() override;
     bool m55() override;
     bool shouldUnload(s32* reason) override;
