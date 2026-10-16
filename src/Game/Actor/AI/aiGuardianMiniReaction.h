@@ -26,6 +26,7 @@ public:
     // 0x710041ee9c (placeholder name)
     void changeToDying();
     void m40(ksys::act::ai::InlineParamPack* params) override;
+    bool m34(act::DamageManagerBase* damage_mgr, int damage_type) override;
     void m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
              ksys::act::ai::InlineParamPack* params) override;
     // 0x710041f990 / 0x71004201a4 (declared only; placeholder names): called by m35.

@@ -196,6 +196,87 @@ void GuardianMiniReaction::m42(ksys::act::ai::InlineParamPack* params) {
 }
 
 
+// NON_MATCHING: same as m35 (unset w4 for sub_71004201A4, child name branch layout).
+bool GuardianMiniReaction::m34(act::DamageManagerBase* damage_mgr, int damage_type) {
+    if (!damage_mgr)
+        return false;
+    if (u32(damage_type - 7) < 2) {
+        if (!sub_710041F990(ksys::act::isPlayerProfile(damage_mgr->getAttacker()))) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("ショック", &pack);
+            mActor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+            return true;
+        }
+    } else if (damage_type == 6) {
+        s32 a, b, c;
+        s32 side;
+        auto* actor = mActor;
+        if (actor && actor->getASList() && actor->getASList()->x_1(1, 0) == "AttackSpin") {
+            a = 0;
+            b = 1;
+            c = 2;
+            auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+            if (!enemy) {
+                side = -1;
+            } else {
+                auto* weapon =
+                    sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(0));
+                if (weapon && hasAttackInfo(weapon)) {
+                    side = 0;
+                } else {
+                    weapon = sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(1));
+                    if (weapon && hasAttackInfo(weapon)) {
+                        side = 1;
+                    } else {
+                        weapon =
+                            sead::DynamicCast<act::Weapon>(enemy->getWeapons()->getEquippedWeapon(2));
+                        if (weapon && hasAttackInfo(weapon))
+                            side = 2;
+                        else
+                            side = -1;
+                    }
+                }
+            }
+        } else {
+            sub_71007091AC(mActor, &a, &b, &c);
+            if (!mActor->getASList()) {
+                side = -1;
+            } else {
+                const sead::SafeString name = mActor->getASList()->x_1(0, 0);
+                if (name == mPreAttackASRight_s)
+                    side = 0;
+                else if (name == mPreAttackASLeft_s)
+                    side = 1;
+                else
+                    side = -1;
+            }
+        }
+        sub_71004201A4("Wait", a, b, c, -1);
+        switch (side) {
+        case 2:
+            changeChild("後ろ手弾かれ");
+            break;
+        case 1:
+            changeChild("左手弾かれ");
+            break;
+        default:
+            changeChild("弾かれ");
+            break;
+        }
+        const sead::SafeString anim = "MissWait";
+        auto* target = mActor;
+        if (!target)
+            return true;
+        auto* as_list = target->getASList();
+        if (!as_list || !sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(target))
+            return true;
+        as_list->startAnimationMaybe(-1.0f, -1.0f, anim.cstr(), 0, 0, true);
+        return true;
+    }
+    return EnemyDefaultReaction::m34(damage_mgr, damage_type);
+}
+
 // NON_MATCHING: the original leaves w4 (the unused fourth argument of sub_71004201A4) unset; the final child
 // name choice is laid out differently.
 void GuardianMiniReaction::m35(act::DamageManagerBase* damage_mgr, int damage_type, bool x,
