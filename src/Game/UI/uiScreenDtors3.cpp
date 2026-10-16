@@ -45,7 +45,11 @@ ScreenAppAlbum::~ScreenAppAlbum() {
     if (auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
         screen->sub_71009DC77C(2, nullptr);
 }
-ScreenAppPictureBook::~ScreenAppPictureBook() = default;
+// 0x71009f6d28 (D1): resets the ScreenAppHome slot 3
+ScreenAppPictureBook::~ScreenAppPictureBook() {
+    if (auto* screen = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        screen->sub_71009DC77C(3, nullptr);
+}
 ScreenAppMapDungeon::~ScreenAppMapDungeon() = default;
 // 0x7100a3eff4 (D1): destroys the windows
 ScreenPickUp::~ScreenPickUp() {
