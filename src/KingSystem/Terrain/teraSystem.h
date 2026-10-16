@@ -213,6 +213,9 @@ public:
         u8 _8[0x710 - 0x8];
         s32 _710;
         MaterialNameTable* mMaterialNames;
+        u8 _720[0x888 - 0x720];
+        // Read by index by 0x7101123224.
+        sead::Buffer<sead::Vector4f> _888;
     };
     struct Unk370 {
         u8 _0[0x4ae0];
@@ -264,6 +267,10 @@ public:
 KSYS_CHECK_SIZE_NX150(Terrain, 0xa60);
 class Unk_7101106F44;
 class Unk_7101118B34;
+
+// 0x7101123224 (placeholder name): entry `index` of Terrain::_370->_4ae0->_888 (the first one when out of
+// range).
+sead::Vector4f sub_7101123224(s32 index);
 
 class ImageResourceMgr {
     void procUnloadResidualRequest();

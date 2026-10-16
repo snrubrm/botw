@@ -177,4 +177,8 @@ u32 getImageSizeMaybe(const ImageSizeMaybe& size) {
     return sSizes[u32(size)];
 }
 
+sead::Vector4f sub_7101123224(s32 index) {
+    return Terrain::instance()->_370->_4ae0->_888[index];
+}
+
 }  // namespace ksys::tera
