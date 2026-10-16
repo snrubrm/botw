@@ -2909,6 +2909,43 @@ Unk_710247faf0::~Unk_710247faf0() = default;
 // this class does not declare yet.
 Unk_710247fbc0::~Unk_710247fbc0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a4d220) also destroys members or bases
-// this class does not declare yet.
+// 0x7100a4d220
 Unk_71024975d0::~Unk_71024975d0() = default;
+
+// 0x7100a4d410
+void Unk_71024975d0::m6() {
+    _80.sub_7100A816D8();
+}
+
+// 0x7100a4d418
+void Unk_71024975d0::m7() {
+    sub_7100A4D41C();
+}
+
+// 0x7100a4d918
+void Unk_71024975d0::m8() {
+    _80.unload(0);
+}
+
+// 0x7100a4d924
+void Unk_71024975d0::m13() {
+    sub_7100A4D41C();
+}
+
+// 0x7100a4d928
+void Unk_71024975d0::m14() {
+    _80.unload(0);
+}
+
+// 0x7100a4d934
+void Unk_71024975d0::m15(eui::AnimButton* button) {
+    uking::ui::UiShopMgr::instance()->sub_710098411C(sub_7100939C78());
+}
+
+// 0x7100a4d964
+void Unk_71024975d0::m19(eui::AnimButton* button) {
+    bool value = false;
+    uking::ui::UiShopMgr::instance()->sub_71009843AC(&value);
+    if (value)
+        sub_7100A4D41C();
+}

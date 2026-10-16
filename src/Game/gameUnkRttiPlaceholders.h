@@ -13,6 +13,7 @@
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiTexSlots.h"
 #include "Game/gameStageBinder.h"
 #include "Game/gameUnkRttiClasses.h"
 #include "Game/gameUnk_710246d058.h"
@@ -104,10 +105,23 @@ public:
 };
 
 // vtable 0x71024975d0 (23 slots); placeholder generated from the vtable (genskel.py).
+// A shop list entry with a texture slot set (uiScreenSmall2.cpp).
 class Unk_71024975d0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_71024975d0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_71024975d0() override;
+    void m6() override;
+    void m7() override;
+    void m8() override;
+    void m13() override;
+    void m14() override;
+    void m15(eui::AnimButton* button) override;
+    void m19(eui::AnimButton* button) override;
+    // 0x7100a4d41c (CSV unnamed; not decompiled)
+    void sub_7100A4D41C();
+
+    u8 _48[0x80 - 0x48];
+    /* 0x80 */ uking::ui::UiTexSlots _80;
 };
 
 // vtable 0x71024dcf48 (4 slots); placeholder generated from the vtable (genskel.py).
