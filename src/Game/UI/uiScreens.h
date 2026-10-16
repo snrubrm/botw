@@ -2239,19 +2239,20 @@ public:
     ~ScreenAppMap() override;
     SEAD_RTTI_OVERRIDE(ScreenAppMap, ScreenEx)
 
-    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    virtual void m154();
-    virtual void m155();
-    virtual void m156();
+    // Own virtual slots 154 - 165 (vtable 0x7102481868): main / sub / demo state callbacks, each group enter / run /
+    // leave and a fourth one returning a value.
+    virtual void mainEnter();
+    virtual void mainRun();
+    virtual void mainLeave();
     virtual s32 m157();
-    virtual void m158();
-    virtual void m159();
-    virtual void m160();
+    virtual void subEnter();
+    virtual void subRun();
+    virtual void subLeave();
     virtual s32 m161();
-    virtual void m162();
-    virtual void m163();
-    virtual void m164();
-    virtual s32 m165();
+    virtual void demoEnter();
+    virtual void demoRun();
+    virtual void demoLeave();
+    virtual s32 demoReenter();
 
     void sub_71009EF488(const sead::Vector3f* a1, s32 a2);
     void sub_71009EF51C(s32 a1);
@@ -2269,17 +2270,6 @@ public:
     void sub_71009EB72C();
     bool sub_71009E9F10();
 
-    // State callbacks (slots 154-165: main / sub / demo screens x enter / run / leave / a fourth one that returns 0)
-    virtual void mainEnter();
-    virtual void mainRun();
-    virtual void mainLeave();
-    virtual void subEnter();
-    virtual void subRun();
-    virtual void subLeave();
-    virtual void demoEnter();
-    virtual void demoRun();
-    virtual void demoLeave();
-    virtual s32 demoReenter();
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
     u8 _3618[0x3630 - 0x3618];

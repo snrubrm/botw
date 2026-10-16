@@ -65,9 +65,7 @@ ScreenMessageTipsRunTime::~ScreenMessageTipsRunTime() = default;
 Unk_7102481e30::~Unk_7102481e30() = default;
 
 // 0x71009e9de4
-// NON_MATCHING: the member teardown order and calls are right, but every secondary-vtable store in the
-// original uses offsets +0x550 / +0x568 / +0x590 while ours uses +0x5a0 / +0x5b8 / +0x5e0: our
-// ScreenAppMap vtable group is 10 slots (0x50) longer than the original's.
+// NON_MATCHING: scheduling only: the original computes the address of _3960 before destroying _39c8.
 ScreenAppMap::~ScreenAppMap() {
     if (auto* subsys = UiSubsys1::instance())
         subsys->sub_710095F944();
