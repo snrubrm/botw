@@ -22,7 +22,7 @@ public:
 
 protected:
     void calc_() override;
-    // 0x7100178498 (declaration only; 1116 B): ignites pillar `index`.
+    // 0x7100178498: places iron pile `index` (0: centre, 1-5: around it, else near the target) on the ground.
     void sub_7100178498(s32 index);
     s32 sub_71001788F4();
     bool sub_7100178AA0();

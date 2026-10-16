@@ -1,4 +1,8 @@
 #include "Game/Actor/Action/actionGanonChemicalPillarAttack.h"
+#include <math/seadQuat.h>
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
@@ -26,6 +30,64 @@ GanonChemicalPillarAttack::~GanonChemicalPillarAttack() {
                     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
                 }
                 enemy->sub_7100D3CFEC(name);
+            }
+        }
+    }
+}
+
+// NON_MATCHING: register allocation of the offset and the pile rotation products.
+void GanonChemicalPillarAttack::sub_7100178498(s32 index) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+
+    sead::Vector3f pos = _d8;
+    const f32 distance = *mAppearPosDist_s;
+    if (u32(index) >= 2) {
+        sead::Vector3f offset;
+        if (u32(index) >= 6) {
+            pos = *mTargetPos_d;
+            offset = sead::Vector3f::zero;
+            if (sub_710072B6C8()) {
+                const f32 x = sead::GlobalRandom::instance()->getF32Range(3.0f, 6.0f);
+                const f32 z = sead::GlobalRandom::instance()->getF32Range(3.0f, 6.0f);
+                const f32 sign_x = s32((sead::GlobalRandom::instance()->getU32() & 2) - 1);
+                const f32 sign_z = s32((sead::GlobalRandom::instance()->getU32() & 2) - 1);
+                offset.x = x * sign_x;
+                offset.z = z * sign_z;
+            }
+        } else {
+            sead::Quatf rotation;
+            rotation.setAxisRadian(sead::Vector3f::ey,
+                                   f32(u32(index - 1)) * (sead::Mathf::pi2() / 5));
+            sead::Matrix34f rotation_mtx;
+            rotation_mtx.fromQuat(rotation);
+            offset = {distance, 0, 0};
+            offset.rotate(rotation_mtx);
+        }
+        pos += offset;
+    } else if (index != 0) {
+        pos += sead::Vector3f(distance, 0, 0);
+    }
+    pos.y += *mAppearPosHeight_s;
+    query.setStartAndDisplacementScaled(pos, {0.0f, -1.0f, 0.0f}, *mAppearPosHeight_s);
+    sead::Vector3f hit_pos = pos;
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        query.getHitPosition(&hit_pos);
+        hit_pos.y += *mAppearPosHeight_s;
+    }
+    const sead::Matrix34f mtx(sead::Matrix33f::ident, hit_pos);
+
+    const sead::FormatFixedSafeString<64> name("IronPile%d",
+                                               index + (_c8 <= index && _c8 >= 0));
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->getActorPartsActor(name).hasProc()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+            if (accessor.isStateSleep()) {
+                const sead::Vector3f scale{*mPileScale_s, *mPileScale_s, *mPileScale_s};
+                accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 0, -1);
             }
         }
     }
