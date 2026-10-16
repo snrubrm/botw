@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
 namespace ksys {
@@ -15,8 +16,11 @@ public:
     virtual const void* m3();
     virtual const void* m4();
     virtual const void* m5();
+    // Placeholder enum (lane2's lead: `int(m6()) != 1` reproduces the stack spill in EventSysActors::
+    // loadEventSystemActors / finishedLoading, which compare the result with 1). Value names unknown.
+    SEAD_ENUM(Unk6, _0, _1)
     // EventSysActors::loadEventSystemActors / finishedLoading compare the result with 1.
-    virtual s32 m6();
+    virtual Unk6 m6();
 
     char _8[0x3dc - 0x8];
     // VillagerMgr::init (0x7100d5e7f4) disables its updates when this byte is true.
