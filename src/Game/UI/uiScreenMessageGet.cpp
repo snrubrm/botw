@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreenControlCreators.h"
+#include "Game/UI/uiTagProcessor.h"
 
 namespace uking::ui {
 
@@ -14,5 +15,15 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248f740::getEntries()
 }
 // 0x7100a233c8
 Unk_710248f740::~Unk_710248f740() = default;
+
+}  // namespace uking::ui
+
+namespace uking::ui {
+
+// 0x7100a23ed8 (CSV eui::LayoutEx::findPane<TextBoxEx>; the body is an out-of-line DynamicCast of a tag processor to
+// the game's TagProcessor, placeholder name)
+TagProcessor* sub_7100A23ED8(nn::font::TagProcessorBase<u16>* processor) {
+    return nn::font::DynamicCast<TagProcessor>(processor);
+}
 
 }  // namespace uking::ui
