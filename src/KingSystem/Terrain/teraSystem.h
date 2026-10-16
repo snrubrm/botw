@@ -214,14 +214,19 @@ public:
     u8 _29;
     u8 _2a[0x2300 - 0x2a];
     Unk_710111F504 _2300;
-    u8 _2321[0x2780 - 0x2321];
+    u8 _2321[0x2760 - 0x2321];
+    // Set on every scene by System::sub_7101112C30.
+    sead::Vector3f _2760;
+    u8 _276c[0x2780 - 0x276c];
     s32 _2780;
     u8 _2784[0x278c - 0x2784];
     s32 _278c[19];
     u8 _27d8[0x2940 - 0x27d8];
     u8 _2940;
     u8 _2941;
-    u8 _2942[0x2998 - 0x2942];
+    u8 _2942[0x2946 - 0x2942];
+    s8 _2946;
+    u8 _2947[0x2998 - 0x2947];
     // Flags: 4 set when the levels change, 8 read by System::sub_710111F618.
     u32 _2998;
 };
@@ -235,6 +240,10 @@ public:
     void sub_710111F518(int level, int type);
     // 0x7101112a74 (placeholder name): sub_7101101964 on every scene, then clears bit 3 of _1338.
     void sub_7101112A74();
+    // 0x7101112c30 (placeholder name): stores `vec` in every scene (_2760) and sets its flag 4.
+    void sub_7101112C30(const sead::Vector3f& vec);
+    // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
+    s32 sub_71011188E4() const;
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
     // 0x710111f618 (CSV TeraSystem::x_0): bit 3 of the flags of the `index`th scene (the first if out of range)
