@@ -2,10 +2,47 @@
 #include <math/seadBoundBox.h>
 #include <algorithm>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
 Reaction* Reaction::sInstance;
+
+xlink::XLink* Unk_7100ebf9e4::getXLink() const {
+    if (mActor)
+        return mActor->getXLink();
+    if (!mLink)
+        return nullptr;
+    ActorLinkConstDataAccess accessor;
+    acquireActor(mLink, &accessor);
+    return accessor.sub_7100D0F214();
+}
+
+s32 Unk_7100ebf9e4::getChemicalState() const {
+    if (mLink) {
+        ActorLinkConstDataAccess accessor;
+        acquireActor(mLink, &accessor);
+        return accessor.sub_7100D131D0(-1);
+    }
+    if (mActor) {
+        if (auto* chemical = mActor->getChemicalStuff())
+            return chemical->_c0;
+    }
+    return 0;
+}
+
+const sead::SafeString& Unk_7100ebf9e4::getName() const {
+    if (mLink) {
+        ActorLinkConstDataAccess accessor;
+        acquireActor(mLink, &accessor);
+        if (accessor.hasProc())
+            return accessor.getName();
+    } else if (mActor) {
+        return mActor->getName();
+    }
+    return sead::SafeString::cEmptyString;
+}
 
 void Reaction::Unk1::sub_7100EC66FC(Actor* actor) {
     _110 = 2;

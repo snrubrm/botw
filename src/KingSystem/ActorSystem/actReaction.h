@@ -1,9 +1,27 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
+
+namespace ksys::xlink {
+class XLink;
+}
 
 namespace ksys::act {
 class Actor;
+class BaseProcLink;
+
+// Placeholder name: an actor given either directly or through a proc link (the reaction code keeps one at
+// +0xa8 of its request objects; 0x7100ec545c / 0x7101284954 read it). Accessors 0x7100ebf9e4..0x7100ebfad4.
+struct Unk_7100ebf9e4 {
+    xlink::XLink* getXLink() const;
+    // Chemical::_c0 of the actor's chemical (0 if none).
+    s32 getChemicalState() const;
+    const sead::SafeString& getName() const;
+
+    Actor* mActor;
+    BaseProcLink* mLink;
+};
 
 // Partial declaration. Reaction::createInstance (0x7100ec0138) stores the
 // singleton at 0x71026064c0; its 0x180-byte allocation and members remain unrecovered.
