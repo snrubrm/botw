@@ -120,4 +120,26 @@ void Scene::sub_7101101964() {
     sub_7101101914(levels);
 }
 
+agl::TextureSampler* Unk_7101102B58::sub_7101102B58(u32 frame, u32 layer) {
+    if (!(_0 & 8)) {
+        if (mFrame != 0 || mLayer != 0) {
+            mSampler.applyTextureData(mTextures[0]);
+            mFrame = 0;
+            mLayer = 0;
+        }
+        return &mSampler;
+    }
+
+    agl::TextureData& texture = mTextures[layer];
+    const u32 offset = mLayerOffsets[layer];
+    const u32 frame_size = (mLayerOffsets[layer + 1] - offset) / mNumFrames;
+    texture.setImagePtr(agl::GPUMemAddrBase(mAddr, offset + frame_size * frame), 0);
+    if (mFrame != frame || mLayer != layer) {
+        mSampler.applyTextureData(mTextures[layer]);
+        mFrame = u8(frame);
+        mLayer = u8(layer);
+    }
+    return &mSampler;
+}
+
 }  // namespace ksys::tera

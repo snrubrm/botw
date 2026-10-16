@@ -544,6 +544,28 @@ public:
 class ResourceHolder;
 
 // The objects System keeps in its 0x90-byte scene slots (name from the CSV row at 0x7101111650).
+// Placeholder (0x7101102b58; callers 0x71011027a8, 0x71011041a4 and four more): a layered texture whose
+// frames are slices of one GPU buffer; keeps a sampler bound to the current layer / frame.
+struct Unk_7101102B58 {
+    // 0x7101102b58 (placeholder name): binds frame `frame` of layer `layer` (animated: bit 3 of _0) or
+    // the first texture to the sampler and returns it.
+    agl::TextureSampler* sub_7101102B58(u32 frame, u32 layer);
+
+    u8 _0;
+    u8 _1[0x8 - 0x1];
+    // Frames per layer.
+    u8 mNumFrames;
+    u8 _9[0x18 - 0x9];
+    agl::TextureData* mTextures;
+    agl::GPUMemVoidAddr mAddr;
+    // Start offset of each layer in mAddr (one more than the layer count).
+    u32 mLayerOffsets[(0x2c0 - 0x38) / 4];
+    agl::TextureSampler mSampler;
+    u16 mFrame;
+    u16 mLayer;
+};
+static_assert(offsetof(Unk_7101102B58, mSampler) == 0x2c0);
+
 class Scene {
     void exportFileBinary();
 
