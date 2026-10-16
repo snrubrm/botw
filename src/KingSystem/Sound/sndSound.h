@@ -914,21 +914,20 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105a6f0, 0x60);
 
-// Placeholder name (vtable 0x710246be38): game-side BGM condition queries (game data flags). A 0x30-byte singleton
-// created by 0x710089469c that stores itself at SoundMgr::_c8; its destructor 0x7100894740 clears that pointer.
-// Slot signatures from the bodies at 0x7100894aac..0x7100894de0 (m3 is not checked yet).
+// Placeholder name: game-side BGM condition queries (game data flags), implemented by GameSceneSubsys15
+// (vtable 0x710246be28, created by 0x710089469c, which stores itself at SoundMgr::_c8). The interface has no vtable
+// of its own in the binary.
 class Unk_710246be38 {
 public:
-    virtual ~Unk_710246be38();
-    virtual void m2();
-    virtual void m3();
-    virtual bool m4();
-    virtual bool m5();
-    virtual bool m6();
-    virtual bool m7();
-    virtual s32 m8();
-    // 0x7100894de0: returns gdt::getFlag_FinalTrial_FirstMessage(false).
-    virtual bool m9();
+    virtual ~Unk_710246be38() = default;
+    virtual void m2() = 0;
+    virtual void m3() = 0;
+    virtual bool m4() = 0;
+    virtual bool m5() = 0;
+    virtual bool m6() = 0;
+    virtual bool m7() = 0;
+    virtual s32 m8() = 0;
+    virtual bool m9() = 0;
 };
 
 // FIXME: incomplete
