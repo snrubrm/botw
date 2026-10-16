@@ -803,7 +803,9 @@ public:
     /* 0x1fb0 */ f32 _1fb0;  // compared with RoofCrashVel (sub_7100881418)
     /* 0x1fb4 */ u8 _1fb4[0x1fbc - 0x1fb4];
     /* 0x1fbc */ f32 _1fbc;
-    /* 0x1fc0 */ u8 _1fc0[0x1ff4 - 0x1fc0];
+    /* 0x1fc0 */ u8 _1fc0[0x1fe8 - 0x1fc0];
+    /* 0x1fe8 */ f32 _1fe8;  // knock-back correction (sub_7100893F1C)
+    /* 0x1fec */ u8 _1fec[0x1ff4 - 0x1fec];
     /* 0x1ff4 */ s32 _1ff4;  // swim status level (getSwimMoveSpeed)
     /* 0x1ff8 */ u8 _1ff8[4];
     /* 0x1ffc */ s32 _1ffc;

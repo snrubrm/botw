@@ -10,6 +10,7 @@ const f32 sUnk_7101e7c1d8 = 1.0f;
 const f32 sUnk_7101e7c2e0 = 0.19f;
 const f32 sUnk_7101e7c5bc = 1.5f;
 const f32 sUnk_7101e7c1dc = 0.05f;
+const f32 sUnk_7101e7c25c = 100.0f;
 const f32 sUnk_7101e7c268 = 0.05f;
 const f32 sUnk_7101e7c26c = 0.1f;
 const f32 sUnk_7101e7c5c4 = 0.35f;

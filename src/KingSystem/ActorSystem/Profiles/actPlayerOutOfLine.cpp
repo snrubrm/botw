@@ -8,6 +8,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/aiUnk_7101E7C2B4.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -197,6 +198,13 @@ bool Player::sub_7100878044() {
     if (!(_1e60.value <= sead::Mathf::epsilon()))
         return true;
     return !(_1e90 <= sead::Mathf::epsilon());
+}
+
+
+// Out of line in the original: sub_7100893F1C calls it.
+bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
+                            sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
+    return sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0.0f);
 }
 
 

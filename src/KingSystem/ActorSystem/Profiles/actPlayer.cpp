@@ -496,11 +496,6 @@ bool Player::isSurfingOnGround() const {
     return _cfc.isOnBit(0);
 }
 
-bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
-                            sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
-    return sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0.0f);
-}
-
 bool Player::sub_710087F0B4() {
     sead::Vector3f start = _22f4;
     start.y = _1770.y + 0.35f;
@@ -705,6 +700,36 @@ bool Player::sub_71008902B4() {
     if (dir <= limit)
         return false;
     return std::abs(_1f98) < limit;
+}
+
+// NON_MATCHING: the original keeps the bone position in registers across the ray constructor and gives it its own
+// stack slot (ours reuses the matrix slot); one multiply is scheduled differently.
+void Player::sub_7100893F1C() {
+    if (_d24 != 2)
+        return;
+    const auto& key = _19f0[47];
+    sead::Matrix34f mtx;
+    mModel->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+    sead::Vector3f bone;
+    mtx.getTranslation(bone);
+    uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
+    sead::Vector3f start = _1770;
+    start.y = bone.y;
+    sead::Vector3f hit;
+    if (!sub_710087F360(start, bone, &hit, nullptr))
+        return;
+    f32 distance = sead::Vector2f(hit.x - bone.x, hit.z - bone.z).length();
+    const f32 min_distance =
+        getParam()->getRes().mGParamList->getPlayer()->mCutKnockBackNoCrrDist.ref();
+    if (distance < min_distance) {
+        distance = 0.0f;
+    } else {
+        distance = (distance - min_distance) * 30.0f;
+        _cf4.setBit(27);
+    }
+    _1fe8 = distance;
+    if (distance > uking::sUnk_7101e7c25c)
+        _1fe8 = uking::sUnk_7101e7c25c;
 }
 
 bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
