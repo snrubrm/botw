@@ -236,6 +236,13 @@ void ASList::sub_710115C53C() {
     _163 |= 1;
 }
 
+// Original byte 0x7102620f38 (next to sUnk_7102620F39); placeholder name.
+bool sUnk_7102620F38;
+
+bool sub_7101160F78() {
+    return sUnk_7102620F38;
+}
+
 bool ASList::sub_7101160F88(const sead::SafeString& name,
                            gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key) {
     sead::SafeString resolved_name;

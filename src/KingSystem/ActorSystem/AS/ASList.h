@@ -650,4 +650,7 @@ s32 sub_710115E3A0(const u32* mask);
 // m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.
 extern ASList sNullASListMaybe;
 
+// 0x7101160f78 (placeholder name): returns the byte flag sUnk_7102620F38 (ASList.cpp).
+bool sub_7101160F78();
+
 }  // namespace ksys::as
