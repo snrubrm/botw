@@ -121,8 +121,8 @@ void Unk_7102502138::sub_710103B474(s32 value) {
 }
 
 // NON_MATCHING: the original computes both bytes before storing them
-void Unk_71012C5034::sub_71012C384C() {
-    const bool result = m2();
+void Unk_71012C5034::sub_71012C384C(const sead::SafeString& name) {
+    const bool result = m2(name);
     _c = result;
     _d = !result;
 }

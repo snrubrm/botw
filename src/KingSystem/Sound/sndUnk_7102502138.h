@@ -21,7 +21,8 @@ class Unk_71012C5034 {
 public:
     // Slots 0 / 1 are assumed to be the destructors; slots 2..6 are called by the functions below (names unknown).
     virtual ~Unk_71012C5034();
-    virtual bool m2();
+    // Called with a part name (Unk68::sub_710104DD20 passes "BaseEquip_Quiver").
+    virtual bool m2(const sead::SafeString& name);
     virtual bool m3();
     virtual void m4(void* arg);
     virtual void m5(void* arg);
@@ -29,8 +30,8 @@ public:
 
     // 0x71012c5034 (declared only)
     void sub_71012C5034(s32 value);
-    // 0x71012c384c (placeholder name): _c = m2(), _d = !_c.
-    void sub_71012C384C();
+    // 0x71012c384c (placeholder name): _c = m2(name), _d = !_c.
+    void sub_71012C384C(const sead::SafeString& name);
     // 0x71012c3888 / 0x71012c38f8 (placeholder names): if _d is set, first _c = m3() (clearing _d); then m4 / m5
     // while _c is set.
     void sub_71012C3888(void* arg);
@@ -116,6 +117,8 @@ public:
         void sub_710104D84C(const sead::SafeString& name);
         void sub_710104D9E8(const sead::SafeString& name);
         void sub_710104DB84(const sead::SafeString& name);
+        // 0x710104dd20 / 0x710104dd88 (placeholder names): set / clear bit 0 (bit 1) of _56c and pass
+        // "BaseEquip_Quiver" to _480 ("BaseEquip_Belt" to _520, then mark bits 2 and 3 dirty).
         void sub_710104DD20(bool flag);
         void sub_710104DD88(bool flag);
         // 0x710104dd7c (12 B): `_568 = value`, then forwards `value` to the object at +0x480 (Unk_71012C5034::sub_71012C5034).
@@ -129,7 +132,9 @@ public:
         /* 0x1fc */ bool _1fc;
         u8 _1fd[0x480 - 0x1fd];
         /* 0x480 */ Unk_71012C5034* _480;
-        u8 _488[0x568 - 0x488];
+        u8 _488[0x520 - 0x488];
+        /* 0x520 */ Unk_71012C5034* _520;
+        u8 _528[0x568 - 0x528];
         /* 0x568 */ s32 _568;
         /* 0x56c */ u16 _56c;
         u8 _56e[0x578 - 0x56e];

@@ -25,6 +25,17 @@ bool Unk_7102502138::Unk68::sub_710104D204(const sead::SafeString& name,
     return name == "None" || name == "No_Sound" || name == "Dummy" || name == current;
 }
 
+void Unk_7102502138::Unk68::sub_710104DD20(bool flag) {
+    _56c = flag ? _56c | 1 : _56c & ~1;
+    _480->sub_71012C384C("BaseEquip_Quiver");
+}
+
+void Unk_7102502138::Unk68::sub_710104DD88(bool flag) {
+    _56c = flag ? _56c | 2 : _56c & ~2;
+    _520->sub_71012C384C("BaseEquip_Belt");
+    _56c |= 0xc;
+}
+
 void Unk_7102502138::Unk68::sub_710104D398(bool flag) {
     _15c = flag;
     _56c |= 8;
