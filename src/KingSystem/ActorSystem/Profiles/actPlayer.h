@@ -460,6 +460,7 @@ public:
     void sub_7100882478();
     void sub_71008821BC();
     bool sub_7100883220(bool force);
+    void sub_710088349C();
     void sub_7100883F48(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c);
     void sub_71008822EC();
     void sub_71008823AC();
@@ -800,8 +801,8 @@ public:
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
-    /* 0x1d40 */ f32 _1d40;  // sub_7100883220 does nothing while it is positive
-    /* 0x1d44 */ u8 _1d44[0x1d4c - 0x1d44];
+    /* 0x1d40 */ ksys::Timer _1d40;  // bow shot cooldown: set by sub_710088349C, sub_7100883220 waits for it
+
     /* 0x1d4c */ u32 _1d4c;  // cleared by sub_71008822EC
     /* 0x1d50 */ u32 _1d50;  // cleared by sub_71008822EC
     /* 0x1d54 */ f32 _1d54;  // -1 from sub_71008822EC
@@ -957,7 +958,9 @@ public:
     /* 0x22a8 */ sead::Vector3f _22a8;
     /* 0x22b4 */ sead::Vector3f _22b4;
     /* 0x22c0 */ sead::Vector3f _22c0;
-    /* 0x22cc */ u8 _22cc[0x22e8 - 0x22cc];
+    /* 0x22cc */ u8 _22cc[0x22d8 - 0x22cc];
+    /* 0x22d8 */ BaseProcLink _22d8;  // passed to sub_71005D80FC by sub_710088349C
+
     /* 0x22e8 */ sead::Vector3f _22e8;
     /* 0x22f4 */ sead::Vector3f _22f4;  // ladder related (PlayerLadderDownStart / PlayerLadderUpStart)
     /* 0x2300 */ u8 _2300[0x230c - 0x2300];

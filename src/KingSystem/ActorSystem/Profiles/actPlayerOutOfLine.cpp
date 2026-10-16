@@ -1,3 +1,4 @@
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -422,7 +423,7 @@ bool Player::sub_7100883220(bool force) {
             return false;
         _c44.resetBit(9);
     }
-    if (_1d40 <= sead::Mathf::epsilon() && (_17d0->playerCheckController(18) || force)) {
+    if (_1d40.value <= sead::Mathf::epsilon() && (_17d0->playerCheckController(18) || force)) {
         _c50.setBit(5);
         x_23("BowReload", false, -1.0f);
         if (isSlowTime()) {
@@ -452,6 +453,34 @@ bool Player::sub_7100883220(bool force) {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: the original calls getPosCopyMagnesis() separately in each branch of the draw ratio and passes
+// constant flags (block layout).
+// Placeholder name: fires the bow (weapon slot 2 request with the aim position; the draw ratio when _1f88 is 2), starts
+// the _1d40 cooldown and plays BowShoot. In this file because sub_7100883698 is out of line in the original.
+void Player::sub_710088349C() {
+    if (_1cb0 == 0x47)
+        uking::ui::sub_7100A95F5C(0x47);
+    const bool charged = _1f88 == 2;
+    const sead::Vector3f* target = m245();
+    f32 ratio = 0.0f;
+    if (charged) {
+        ratio = (mASList->x_5(1, 1, &as::ASList::Unk2::sub_71011632F8) -
+                 mASList->x_5(1, 1, &as::ASList::Unk2::sub_71011630A4)) /
+                (mASList->x_5(1, 1, &as::ASList::Unk2::sub_710116323C) -
+                 mASList->x_5(1, 1, &as::ASList::Unk2::sub_71011630A4));
+    }
+    sub_71005D80FC(this, 2, *target, charged, ratio, getPosCopyMagnesis(), &_22d8);
+    _1d40.reset(sub_7100883698());
+    _c50.setBit(6);
+    x_23("BowShoot", false, -1.0f);
+    if (isSlowTime()) {
+        f32 rate = 1.0f;
+        if (isSlowTime() && _cf4.isOnBit(17))
+            rate = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+        mASList->x_3(1, 1, &as::ASList::Unk2::sub_71011631BC, rate);
+    }
 }
 
 }  // namespace ksys::act
