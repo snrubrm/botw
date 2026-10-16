@@ -107,6 +107,9 @@ public:
     // 0x7100dc77d4 (CSV EventSysActors::ctor)
     EventSysActors();
 
+    // 0x7100dc7960
+    void loadEventSystemActors(sead::Heap* heap);
+
     // 0x7100dc7c84 (CSV EventSysActors::finishedLoading)
     bool finishedLoading();
     // 0x7100dc7e84: the Actor linked in the current thread's event-system slot.

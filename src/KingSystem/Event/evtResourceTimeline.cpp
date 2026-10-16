@@ -12,6 +12,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 #include <mc/seadCoreInfo.h>
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/System/GameConfig.h"
 
 namespace ksys::evt {
 
@@ -186,6 +189,30 @@ EventSysActors::EventSysActors() = default;
 
 EventSysActors::Unk78::Unk78() = default;
 
+// 0x7100dc7960
+// NON_MATCHING: the original spills the GameConfig::m6() result to the stack before comparing it with 1
+void EventSysActors::loadEventSystemActors(sead::Heap* heap) {
+    if (GameConfig::getInstance()->m6() != 1)
+        return;
+
+    act::InstParamPack params;
+    params->addSystemBits();
+    for (auto& handle : mThreadActors) {
+        act::ActorCreator::instance()->requestCreateActor("EventSystemActor", heap, &handle.handle, &params,
+                                                          nullptr, 1);
+    }
+
+    _78.sets[0].actor_name = "EventSystemActor";
+    _78.sets[1].actor_name = "SceneSoundCtrlTag";
+    _78.sets[2].actor_name = "SoundTriggerTag";
+    for (auto& set : _78.sets) {
+        for (auto& handle : set.handles) {
+            act::ActorCreator::instance()->requestCreateActor(set.actor_name.cstr(), heap, &handle.handle,
+                                                              &params, nullptr, 1);
+        }
+    }
+}
+
 void EventSysActors::ActorHandle::ready() {
     if (link.hasProc())
         return;
@@ -195,6 +222,30 @@ void EventSysActors::ActorHandle::ready() {
     link.acquire(actor, false);
     actor->getActorFlags2().set(act::Actor::ActorFlag2::NoDistanceCheck);
     _20 = true;
+}
+
+// 0x7100dc7c84
+// NON_MATCHING: the original spills the GameConfig::m6() result to the stack before comparing it with 1
+bool EventSysActors::finishedLoading() {
+    if (GameConfig::getInstance()->m6() != 1)
+        return true;
+
+    bool done = true;
+    for (auto& handle : mThreadActors) {
+        if (!handle.link.hasProc()) {
+            handle.ready();
+            done = false;
+        }
+    }
+    for (auto& set : _78.sets) {
+        for (auto& handle : set.handles) {
+            if (!handle.link.hasProc()) {
+                handle.ready();
+                done = false;
+            }
+        }
+    }
+    return done;
 }
 
 act::Actor* EventSysActors::sub_7100DC7E84() {
