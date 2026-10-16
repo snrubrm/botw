@@ -708,6 +708,14 @@ public:
     void sub_7101115158(bool update);
     // 0x7101115bac (declaration only; placeholder name).
     void sub_7101115BAC();
+    // 0x7101117048 (placeholder name): under the write lock, runs Scene::sub_71011021E4 on scene `index`
+    // and then sub_7101115BAC (only with Terrain flags 2 and 4).
+    void sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_all);
+    // 0x71011170f4 (CSV TeraSystem::x; placeholder name): Scene::sub_71011020C0 of scene `index` (true
+    // unless Terrain flags 2 and 4 are set).
+    bool sub_71011170F4(s32 index, u32 level);
+    // 0x710111713c (CSV TeraSystem::x_1; placeholder name): Scene::_276c of scene `index`.
+    Scene::Unk_276c* sub_710111713C(s32 index);
     // 0x7101112714 (CSV System::x; placeholder name): under the write lock, resets every scene, removes
     // the image users of the flagged _fa8 nodes, destroys the area tree (telling `listener`) and clears
     // the image change ring.

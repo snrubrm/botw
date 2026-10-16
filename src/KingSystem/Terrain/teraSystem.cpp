@@ -381,6 +381,25 @@ void System::sub_71011176BC(Unk_7101106F44* area, bool flag) {
 }
 
 // NON_MATCHING: `area` and `type` swap callee-saved registers.
+void System::sub_7101117048(s32 index, const Scene::Unk_276c* arg, bool request_all) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    mLock.writeLock();
+    mScenes[index].scene->sub_71011021E4(this, arg, request_all);
+    sub_7101115BAC();
+    mLock.writeUnlock();
+}
+
+bool System::sub_71011170F4(s32 index, u32 level) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return true;
+    return mScenes[index].scene->sub_71011020C0(level);
+}
+
+Scene::Unk_276c* System::sub_710111713C(s32 index) {
+    return &mScenes[index].scene->_276c;
+}
+
 void System::sub_71011171D8(Unk_7101106F44* area, const ImageTypeMaybe& type) {
     Unk_710250dcd8* image = area->getImageMaybe(type);
     if (!image)
