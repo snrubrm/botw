@@ -70,6 +70,8 @@ public:
     f32 getSampleRate() const {
         return mReader.mData ? static_cast<f32>(mReader.getAssetBlock_()->sample_rate) : 0.0f;
     }
+    /// inline-only in the original; name is ours (0x7100ff8c74, 0x7101055b88): 0 if the asset has no description.
+    u8 getChannelNum() const { return mReader.mData ? mReader.getAssetBlock_()->channel_num : 0; }
     bool getMarkerInfo(MarkerInfo* info) const;
     /// Adds the offset to the position and keeps the result inside of the loop of the asset (if it is looped).
     s32 addOffsetToPosition(s32 position, s32 offset, s32 wrap) const;

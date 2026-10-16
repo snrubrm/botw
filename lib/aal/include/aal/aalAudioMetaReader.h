@@ -41,7 +41,9 @@ private:
         u32 stream_name_offset;
         u8 _c[4];
         u8 _10;
-        u8 _11[2];
+        /// Compared with 2 by 0x7101055b88 (name is a guess: the AMTA data block channel count).
+        u8 channel_num;
+        u8 _12;
         /// Bit 2: the asset is looped.
         u8 flags;
         u8 _14[4];
