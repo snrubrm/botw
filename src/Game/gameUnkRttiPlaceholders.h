@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include <aal/aalAudioResource.h>
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include <container/seadPtrArray.h>
@@ -879,6 +880,10 @@ public:
     void sub_7101057588(const sead::SafeString& name);
     s32 getLoadDataAlignment() const override { return 128; }
     bool needsParse() const override { return true; }
+
+    u8 _38[8];
+    /* 0x40 */ aal::AudioResource* mAudioResource = nullptr;
+    /* 0x48 */ sead::FixedSafeString<48> mFileName;
 };
 
 // vtable 0x7102504260 (19 slots); placeholder generated from the vtable (genskel.py).

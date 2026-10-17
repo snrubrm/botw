@@ -47,6 +47,11 @@ OcclusionMgr::~OcclusionMgr() {
 // this class does not declare yet.
 Unk_7102502978::~Unk_7102502978() = default;
 
+void Unk_7102502978::sub_7101057588(const sead::SafeString& name) {
+    mFileName.copy(name);
+    mAudioResource->setFilename(&mFileName);
+}
+
 // NON_MATCHING: placeholder destructor; the original (0x7101059518) also destroys members or bases
 // this class does not declare yet.
 Unk_7102502b50::~Unk_7102502b50() = default;
