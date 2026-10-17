@@ -300,7 +300,7 @@ public:
     sead::BoundBox2f* get70();
     sead::BoundBox2f* get90();
     void set68(f32 width, f32 height);
-    // 0x7100950408 (CSV unnamed; not decompiled; called by Unk_7102479c10::sub_71009A61DC)
+    // 0x7100950408: centers _70 on the map origin with the map's half size
     void sub_7100950408();
     void set50(const sead::Vector2f& value);
     void set58(const sead::Vector2f& value);
@@ -321,6 +321,12 @@ private:
     u8 _a0[8];
 };
 static_assert(sizeof(Unk_71024753a8) == 0xa8);
+// Map parameters, written by sinitMapStrings (0x710094f9e4); +0x3c is the map size in world units.
+struct Unk_71025d6c70 {
+    u8 _00[0x3c];
+    sead::Vector2f size;
+};
+extern Unk_71025d6c70 sUnk_71025d6c70;
 
 class Unk_7102476a80 {
 public:

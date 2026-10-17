@@ -741,9 +741,9 @@ void ScreenPauseMenu::sub_7100A39464(bool a2) {
     if (mPauseMenuDataMgr->getNextGrabbedItemIndex() >= 1) {
         mPauseMenuDataMgr->unholdGrabbedItems();
         sub_7100AA9838();
-        showTabPage(wrapTab(_3a18 - 1), _3644 - 1);
+        showTabPage(wrapTab(s8(_3a18) - 1), _3644 - 1);
         showTabPage(wrapTab(_3a18), _3644);
-        showTabPage(wrapTab(_3a18 + 1), _3644 + 1);
+        showTabPage(wrapTab(s8(_3a18) + 1), _3644 + 1);
         sub_7100AA9848();
     }
     if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(

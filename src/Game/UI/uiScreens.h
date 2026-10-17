@@ -2679,9 +2679,13 @@ public:
     // 0x7100a38a48 (CSV unnamed, declared only): shows `page` in the tab control `tab`
     void sub_7100A38A48(s32 tab, s32 page);
     // inline-only in the original; names are guesses (0x7100a39464 inlines the wrap and the page check)
-    static s8 wrapTab(u8 tab) {
-        const s8 index = s8(tab);
-        return index < 0 ? 2 : (index > 2 ? 0 : index);
+    static s32 wrapTab(u8 tab) {
+        s32 index = s8(tab);
+        if (index < 0)
+            index = 2;
+        if (index > 2)
+            index = 0;
+        return index;
     }
     void showTabPage(s32 tab, s32 page) {
         if (page >= 0 && _3624 > page && _3624 > 0)

@@ -25,6 +25,9 @@ namespace uking::ui {
 // parameter globals in actCameraUtil.cpp; KSYS_VISIBILITY_HIDDEN).
 KSYS_VISIBILITY_HIDDEN float sScrollConsts[] = {0.6f, 0.35f, 50.0f, 100.0f, 100.0f};
 
+// Map parameters written by sinitMapStrings. Hidden so that readers use adrp + add like the original.
+KSYS_VISIBILITY_HIDDEN Unk_71025d6c70 sUnk_71025d6c70;
+
 // 0x7100934a6c
 UiStringEntry::UiStringEntry() {}
 
@@ -1549,6 +1552,12 @@ sead::Vector2f* Unk_71024753a8::get58() {
 
 void Unk_71024753a8::set60(const sead::Vector2f& value) {
     _60 = value;
+}
+
+// 0x7100950408
+void Unk_71024753a8::sub_7100950408() {
+    const sead::Vector2f half_size(sUnk_71025d6c70.size.x * 0.5f, sUnk_71025d6c70.size.y * 0.5f);
+    _70 = sead::BoundBox2f(sead::Vector2f::zero - half_size, sead::Vector2f::zero + half_size);
 }
 
 void Unk_71024753a8::sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result) {
