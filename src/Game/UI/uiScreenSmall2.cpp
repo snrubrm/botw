@@ -43,6 +43,9 @@
 
 namespace uking::ui {
 
+// 0x71025f2eb0: the save transfer's static block; hidden so the adrp + add form is reproduced
+KSYS_VISIBILITY_HIDDEN Unk_71025f2eb0 sUnk_71025f2eb0;
+
 // 0x7100a1964c
 // NON_MATCHING: the original loads mLayout before name.cstr() but its root pane after it (as if a helper took
 // (layout, name)); ours loads both first.
@@ -2809,6 +2812,12 @@ void ScreenSaveTransferWindow::m219() {
         getStateMachine().changeState(&sUnk_71025f2d80);
         break;
     }
+}
+
+// 0x7100a44be4
+void ScreenSaveTransferWindow::m240() {
+    SwkbdMgr::instance()->sub_7100985C4C();
+    _3678 &= ~(1 << Flag(Flag::_0));
 }
 
 // 0x7100a44928

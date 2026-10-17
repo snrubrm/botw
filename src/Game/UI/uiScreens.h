@@ -5181,6 +5181,13 @@ extern const ksys::StateBase sUnk_71025dc3c0;
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;
+// The save transfer's static state block (0x71025f2eb0): the transfer state at +0xc and its mode at +0x10.
+struct Unk_71025f2eb0 {
+    u8 _0[0xc];
+    /* 0xc */ s32 _c;
+    /* 0x10 */ s32 _10;
+};
+extern Unk_71025f2eb0 sUnk_71025f2eb0;
 extern const ksys::StateBase sUnk_71025f1fa0;
 extern const ksys::StateBase sUnk_71025f2000;
 extern const ksys::StateBase sUnk_71025f2240;
@@ -5258,6 +5265,8 @@ public:
     void sub_7100A44544();
     void sub_7100A44458();
     void sub_7100A44878();
+    // 0x7100a4473c (declared only; 240 bytes): the save transfer's per-frame step, tail-called by m223
+    void sub_7100A4473C();
     void sub_7100A45080();
     // NetworkCalcThread's Delegate2 callback (a44a34); its arguments are unused.
     void sub_7100A44B80(sead::Thread* thread, s64 message);
