@@ -1,4 +1,5 @@
 #include "KingSystem/Effect/eftEffect.h"
+#include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -25,6 +26,16 @@ void Effect::initBeforeStageGenB() {
     _9fc8 = 0x1e;
     if (mUserInstance)
         mUserInstance->reset();
+}
+
+void Effect::searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle) {
+    if (!mUserInstance)
+        return;
+    auto* user = static_cast<xlink2::UserInstanceELink*>(mUserInstance);
+    if (handle)
+        user->searchAndEmit(name.cstr(), handle);
+    else
+        user->searchAndEmit(name.cstr());
 }
 
 void Effect::addDemoResourceId(u32 id) {

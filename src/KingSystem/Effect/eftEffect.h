@@ -85,6 +85,8 @@ public:
     void addDemoResourceId(u32 id);
     // 0x71011b8950: removes a demo resource id from the table (XLink::resolveDeleteVfxResource).
     void removeDemoResourceId(u32 id);
+    // 0x71011b872c: searches and emits an ELink event through the xlink user instance.
+    void searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle);
 
 private:
     u8 _38[0x9fb8 - 0x38];
