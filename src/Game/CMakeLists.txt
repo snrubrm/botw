@@ -23,6 +23,8 @@ target_sources(uking PRIVATE
   gameEventMgrMiniGame.h
   gameGearMgr.cpp
   gameGearMgr.h
+  gameNavMeshSystem.cpp
+  gameNavMeshSystem.h
   gameGraphics.cpp
   gameUnk_710129175c.cpp
   gameGraphics.h
