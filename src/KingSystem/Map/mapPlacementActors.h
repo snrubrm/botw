@@ -27,6 +27,7 @@ class EffectModelData;
 namespace ksys::map {
 
 class Object;
+class Placement18;
 class Unk_7100D4D998;
 class PlacementMap;
 class PlacementAreaMgr;
@@ -181,6 +182,9 @@ public:
 
 class PlacementActors {
 public:
+    // 0x7100d51f04 (CSV PlacementActors::ctor; placeholder parameter names): heap, effect heap, actor data
+    // capacity and an init argument.
+    PlacementActors(sead::Heap* heap, void* a, u32 b, void* c);
     virtual ~PlacementActors();
 
     u32 getNumStaticObjs() const;
@@ -256,7 +260,9 @@ public:
 
     u8 _8[8];
     sead::Heap* mEffectHeap;
-    u8 _18[0x28 - 0x18];
+    u8 _18[8];
+    // Set by PlacementMgr::createMapsAndInitAndStartPlacementThread.
+    Placement18* mPlacement18;
     sead::ReadWriteLock mLock;
     PlacementAreaMgr* mStruct1;
     u32 _e8;

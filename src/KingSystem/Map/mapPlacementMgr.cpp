@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actBaseProcCreateTask.h"
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/ActorSystem/actFarActorMerge.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -30,6 +31,13 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::map {
+
+// 0x71026002b8 (file-local in the original): the placement map manager the worker uses.
+PlacementMapMgr* sPlacementMapMgrMaybe;
+
+// 0x7100d2b07c (CSV nullsub_3745): an empty hook called with the actor debug instance before the map manager
+// is published.
+void nullsub_3745(ksys::act::ActorDebug* debug, void* a);
 
 // NON_MATCHING: the coordinate stores and region-test branches differ.
 s32 sub_7100EDB6E0(bool* out_below, f32* out_height, tera::System* system,
@@ -351,6 +359,31 @@ void PlacementMgr::loadAllPreactors(const sead::Vector3f& pos, bool a2) {
     mThread->sendMessage(msg, sead::MessageQueue::BlockType::NonBlocking);
 
     mFlags.set(MgrFlag::_200);
+}
+
+void PlacementMgr::createMapsAndInitAndStartPlacementThread(sead::Heap* heap, void* a3, void* a4, void* a5,
+                                                            void* a6, void* a7, u32 a8) {
+    mFlags.set(MgrFlag::_800);
+
+    auto* actors = new (heap, 8) PlacementActors(heap, a4, a8, a7);
+    mPlacementActors = actors;
+
+    auto* p18 = new (heap, 8) Placement18(heap, a7);
+    mPlacement18 = p18;
+    mPlacementActors->mPlacement18 = p18;
+
+    auto* map_mgr = new (heap, 8) PlacementMapMgr(heap, a5, mPlacementActors, mPlacement18);
+    mPlacementMapMgr = map_mgr;
+
+    if (ksys::act::ActorDebug::instance()) {
+        nullsub_3745(ksys::act::ActorDebug::instance(), a5);
+        map_mgr = mPlacementMapMgr;
+    }
+    sPlacementMapMgrMaybe = map_mgr;
+
+    map_mgr->initStaticMaps(heap);
+
+    initAndStartPlacementThread(mPlacementActors, mPlacementMapMgr, mPlacement18, heap, a3, a4, a5, a6, a7);
 }
 
 void PlacementMgr::requestDraw() {

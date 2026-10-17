@@ -9,7 +9,7 @@ namespace ksys::map {
 extern u32 sRailTypeRouteHash;
 extern u32 sRailTypeConnectableHash;
 
-Placement18::Placement18(sead::Heap* heap) : _0(nullptr), _8(nullptr), _10(nullptr) {
+Placement18::Placement18(sead::Heap* heap, void* a) : _0(nullptr), _8(nullptr), _10(nullptr) {
     if (!Placement18a::instance())
         Placement18a::createInstance(heap);
 

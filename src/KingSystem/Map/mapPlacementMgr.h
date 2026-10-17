@@ -132,6 +132,13 @@ public:
     // 0x71011e9e04: clamps the camera position, finds the placement tree cell and tells the worker to load the
     // pre-actors around it.
     void loadAllPreactors(const sead::Vector3f& pos, bool a2);
+    // 0x71011e57ec (CSV createMapsAndInitAndStartPlacementThread; placeholder parameters): allocates the
+    // placement actors / maps and starts the worker thread.
+    void createMapsAndInitAndStartPlacementThread(sead::Heap* heap, void* a3, void* a4, void* a5, void* a6,
+                                                  void* a7, u32 a8);
+    // 0x71011e5944 (CSV initAndStartPlacementThread; declaration only; placeholder parameters).
+    void initAndStartPlacementThread(PlacementActors* actors, PlacementMapMgr* map_mgr, Placement18* p18,
+                                     sead::Heap* heap, void* a3, void* a4, void* a5, void* a6, void* a7);
     void incrementCounter();
     void x();
     void auto5();
@@ -245,6 +252,7 @@ public:
         _2 = 0x2,
         _4 = 0x4,
         _200 = 0x200,
+        _800 = 0x800,
         _2000 = 0x2000,
         _20 = 0x20,
         _40 = 0x40,

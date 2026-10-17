@@ -30,7 +30,8 @@ KSYS_CHECK_SIZE_NX150(Placement18a, 0x20);
 
 class Placement18 {
 public:
-    Placement18(sead::Heap* heap);
+    // 0x7100d4764c: the second argument is unused by the modelled body (the original passes it).
+    Placement18(sead::Heap* heap, void* a);
     // 0x0000007100d4782c
     ~Placement18();
 

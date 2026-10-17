@@ -45,8 +45,11 @@ class PlacementMapMgr {
     KSYS_CHECK_SIZE_NX150(PlacementMapArray, 0x98);
 
 public:
-    PlacementMapMgr() = default;
+    // 0x7100d44358 (CSV PlacementMapMgr::ctor; placeholder parameter names).
+    PlacementMapMgr(sead::Heap* heap, void* a, PlacementActors* actors, Placement18* p18);
     ~PlacementMapMgr();
+    // 0x7100d466c8 (CSV initStaticMaps)
+    void initStaticMaps(sead::Heap* heap);
 
     bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
     // Read inline by ActorSystem::onBaseProcMgrCalc (name is a guess).
