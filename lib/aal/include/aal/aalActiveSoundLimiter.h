@@ -33,6 +33,11 @@ public:
     /// come first are kept).
     void calcLimit(sead::OffsetList<SoundSource>* sound_sources);
 
+    // ksys::snd::FxMgr 0x7101050070 copies the system pause flag into mActiveSoundLimiter +0x14;
+    // the meaning of that byte is not known.
+    bool get_14() const { return _14; }
+    void set_14(bool value) { _14 = value; }
+
 protected:
     friend class GroupLimiter;
 

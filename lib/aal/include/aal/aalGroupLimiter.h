@@ -138,6 +138,9 @@ public:
     // inline-only in the original; name is a guess. ksys::snd 0x710103e020 / 0x710103e2dc store
     // settings _0 (+0xc).
     Settings& getSettings() { return mSettings; }
+    // Inline-only in the original; name is a guess. ksys::snd::DuckingMgr::Ducker 0x710103df60
+    // checks whether setup ran before its per-frame update.
+    bool isInitialized() const { return mInitialized; }
 
 private:
     /// 0x7100b82c64 / 0x7100b82e30 (declared only)

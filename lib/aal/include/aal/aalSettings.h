@@ -30,6 +30,9 @@ public:
     SpeakerBalanceMode getSpeakerBalanceMode(OutputMode output_mode) const {
         return mSpeakerBalanceModes[output_mode];
     }
+    // Inline-only in the original; name is ours. ksys::snd::SoundMgr 0x71011fb5ac reads
+    // mOutputModes[0] through it (the SEAD_ENUM to int conversion is a stack round-trip there).
+    OutputMode getOutputMode(DeviceType device) const { return mOutputModes[device]; }
 
     /// Ignored if `fps` is not positive.
     void setBaseFPS(f32 fps);
