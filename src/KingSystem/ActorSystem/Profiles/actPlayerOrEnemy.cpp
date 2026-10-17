@@ -53,6 +53,19 @@ bool PlayerOrEnemy::hasNoWeaponActors() {
     return true;
 }
 
+bool PlayerOrEnemy::sub_710000759C() {
+    getWeapons();
+    for (s32 i = 0; i < 6; ++i) {
+        acc::Weapon weapon;
+        auto& link = getWeapons()->mWeapons[i].link;
+        if (link.hasProc())
+            ksys::act::acquireActor(&link, &weapon);
+        if (weapon.isShield())
+            return true;
+    }
+    return false;
+}
+
 void PlayerOrEnemy::m176() {
     getWeapons();
     ksys::act::ActorLinkConstDataAccess accessor;
