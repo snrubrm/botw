@@ -61,6 +61,10 @@ public:
     s32 getNumMaps() const { return mMaps.size(); }
     // 0x7100d474f4 (CSV postPlaceActorsRouteStuff): passes every route of every map to 0x71011190c8 (declaration only).
     void postPlaceActorsRouteStuff(void* tera_system);
+    // 0x7100d46774 / 0x7100d470dc (CSV; declaration only): the map-array pointers for the camera cell and the
+    // counts of maps that still need their dynamic data.
+    void updateMapArrayPtrsForPosition(s32 col, s32 row);
+    void updateNeedLoadDynMapCounts(s32 x, s32 z);
     // 0x7100d46ef8 (CSV updateHkscLoadStatusesMaybe)
     void updateHkscLoadStatusesMaybe();
     void unloadMapsThatAreTooFar();

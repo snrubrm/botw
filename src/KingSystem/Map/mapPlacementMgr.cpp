@@ -290,6 +290,118 @@ void PlacementMgr::sub_71011E6EE0() {
         fr->sub_710F03C18(&mCameraPos);
 }
 
+// NON_MATCHING: the map-cell division, the sqrt NaN fallback and the event-object guard are scheduled in a
+// different order (1100 vs 1120 bytes); the flag and call sequence is the same.
+void PlacementMgr::threadFn(sead::Thread* thread, sead::MessageQueue::Element msg) {
+    if (sFlags.isOn(MgrStaticFlags::_8)) {
+        mRequestedMsg &= ~u16(1 << msg);
+        return;
+    }
+
+    mMessage = u32(msg);
+    mJobType = 0;
+
+    if (mFlags.isOn(MgrFlag::_2)) {
+        mRequestedMsg &= ~u16(1 << msg);
+        return;
+    }
+
+    if (!mFlags.isOn(MgrFlag::_40000)) {
+        auto* system = phys::System::instance();
+        sead::INamable thread_name("placement_mgr");
+        system->runJobsMaybe(&thread_name);
+        mFlags.set(MgrFlag::_40000);
+    }
+    mFlags.set(MgrFlag::_20);
+
+    bool spawn = false;
+    switch (msg) {
+    case 1:
+        mJobType = 1;
+        threadTraverse(mTraverseResultIdx);
+        mFlags.set(MgrFlag::_200000);
+        mFlags.set(MgrFlag::_400000);
+        _690 |= 1;
+        spawn = true;
+        break;
+    case 2:
+        threadLoadUnloadCheck(0, false);
+        break;
+    case 3:
+    case 4: {
+        mPlacementMapMgr->updateMapArrayPtrsForPosition((s32(mCameraPos.x) + 5000) / 1000,
+                                                        (s32(mCameraPos.z) + 4000) / 1000);
+        mPlacementMapMgr->unloadMapsThatAreTooFar();
+        threadLoadUnloadCheck(0, true);
+        mPlacementMapMgr->updateHkscLoadStatusesMaybe();
+        threadTraverse(mTraverseResultIdx);
+        const s32 idx = mTraverseResultIdx;
+        mTraverseResultIdx = 1 - idx;
+        if (msg == 3) {
+            mPlacementActors->threadSpawnGenGroupActors(mCameraPos, &mTraverseResults[idx].actors);
+            _30 = 4;
+            threadLoadUnloadCheck(1, false);
+        }
+        mFlags.reset(MgrFlag::_200);
+        break;
+    }
+    case 5:
+        mPlacementActors->reinitActorDataEntryForTreeBuild();
+        mPlacementActors->rebuildTree(mPlacementTree);
+        break;
+    }
+
+    const f32 dx = mPrevPlayerPos.x - mPlayerPos.x;
+    const f32 dy = mPrevPlayerPos.y - mPlayerPos.y;
+    const f32 dz = mPrevPlayerPos.z - mPlayerPos.z;
+    const f32 distance = sead::Mathf::sqrt(dx * dx + dy * dy + dz * dz);
+
+    const s32 idx = spawn ? mTraverseResultIdx : 1 - mTraverseResultIdx;
+
+    bool cond;
+    if (_2c == 5) {
+        cond = true;
+    } else {
+        cond = distance > 2.0f && _2c == 0;
+        if (_2c == 4) {
+            mFlags.set(MgrFlag::_200000);
+            mFlags.set(MgrFlag::_400000);
+        }
+    }
+
+    if (!mFlags.isOn(MgrFlag::_80000) && !mFlags.isOn(MgrFlag::_100000)) {
+        if (!(mNumEventObjs < 1 && !(spawn || cond || _30 == 3)))
+            threadHandleChecksAndDirectActorGen(idx);
+    }
+
+    if (mFlags.isOn(MgrFlag::_200000)) {
+        mJobType = 2;
+        if (!(_690 & 8))
+            mMassRenderer->sub_71011E1FFC(&mTraverseResults[idx], &mCameraPos, 1000.0f);
+        mFlags.reset(MgrFlag::_200000);
+    }
+
+    if (mFlags.isOn(MgrFlag::_400000)) {
+        mJobType = 3;
+        if (!(_690 & 8))
+            mMassRenderer->sub_71011E264C(this);
+        mFlags.reset(MgrFlag::_400000);
+    }
+
+    if (spawn)
+        mFlags.set(MgrFlag::_400);
+
+    if (mFlags.isOn(MgrFlag::_100000)) {
+        mFlags.set(MgrFlag::_80000);
+        mFlags.reset(MgrFlag::_100000);
+    }
+
+    mRequestedMsg &= ~u16(1 << msg);
+    mMessage = 0;
+    mJobType = 0;
+    mFlags.reset(MgrFlag::_20);
+}
+
 void PlacementMgr::threadHandleChecksAndDirectActorGen(s32 idx) {
     if (!mFlags.isOn(MgrFlag::_2000)) {
         mJobType = 9;

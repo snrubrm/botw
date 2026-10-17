@@ -239,6 +239,11 @@ public:
     void sub_71011EC01C(Object* obj);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
+    // 0x71011e7200 (CSV threadTraverse; declaration only): the worker's traverse step for result `idx`.
+    void threadTraverse(s32 idx);
+    // 0x71011e8e84 (CSV threadLoadUnloadCheck; declaration only; `a` picks the pre-actor mode, `b` waits for
+    // the dynamic maps): loads / unloads the maps around the camera and the actors of the tree.
+    void threadLoadUnloadCheck(s32 a, bool b);
     // 0x71011e70ec: the per-frame worker step that runs the initializer checks and the generation-group
     // spawn pass for traverse result `idx`.
     void threadHandleChecksAndDirectActorGen(s32 idx);
@@ -252,6 +257,7 @@ public:
         _2 = 0x2,
         _4 = 0x4,
         _200 = 0x200,
+        _400 = 0x400,
         _800 = 0x800,
         _2000 = 0x2000,
         _20 = 0x20,
