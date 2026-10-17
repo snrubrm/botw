@@ -173,6 +173,9 @@ private:
     PlacementThing mThing3{true};
     void* mX;
     sead::Buffer<ObjectRef> mObjectRefs;
+    // 0x8b00: number of used mObjectRefs entries (incremented by sub_710064DA80, read by 0x710064DE34).
+    s32 mNumObjectRefs = 0;
+    u8 _8b04[4];
 };
 
 }  // namespace uking

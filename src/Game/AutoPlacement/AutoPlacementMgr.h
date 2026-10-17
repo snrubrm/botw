@@ -10,6 +10,7 @@
 #include <thread/seadCriticalSection.h>
 
 #include "KingSystem/Utils/Types.h"
+#include "Game/AutoPlacement/AutoPlacement.h"
 
 namespace sead {
 class DelegateThread;
@@ -71,6 +72,12 @@ public:
     bool auto0(const sead::Vector3f& pos, u32 placement_type);
     // 0x0000007100659350
     bool auto11(const sead::Vector3f& pos);
+    // 0x71006551f0: steps the raycasts of the near placement, the 32 registered actor placements and
+    // the nine group placements.
+    void preCalc();
+    // 0x7100655118: the worker request callback: 0 increments the count and steps the raycasts, 2
+    // decrements it (clamped at zero), anything else reports whether the count is still positive.
+    bool invoked3(int arg);
     // 0x000000710065946c (CSV name). With `a2`, true while the s8 at 0x171e6e is positive
     // (after a discarded dlc::isPlayingOneHitObliteratorQuest() call); otherwise asks the
     // AutoPlacementInfo at 0x171ef0 (AutoPlacementInfo::x(pos, true, 0x40, nullptr)). Not decompiled
@@ -85,7 +92,7 @@ public:
         sead::Matrix34f mtx;
         sead::Vector3f scale;
         u32 is_box;
-        u8 _58[0x8b60 - 0x58];
+        AutoPlacement placement;
         u16 count;
         bool _8b62;
         u8 _8b63[0x8b68 - 0x8b63];
@@ -96,13 +103,16 @@ public:
     /* 0x30 */ sead::DelegateR<AutoPlacementMgr, bool> mDelegate;
     /* 0x50 */ sead::Atomic<s32> _50;
     // TODO
-    u8 _54[0x5b0d8 - 0x54];
+    u8 _54[0x41f8 - 0x54];
+    AutoPlacement mWorks[9];
+    AutoPlacement mNearWork;
+    u8 _5b048[0x5b0d8 - 0x5b048];
     sead::CriticalSection mCS;
     sead::SafeArray<Unk1, 32> _5b118;
     u8 _171e18[0x171e46 - 0x171e18];
     bool _171e46;
     u8 _171e47;
-    s32 _171e48;
+    sead::Atomic<s32> _171e48;
     sead::SafeArray<sead::Atomic<s32>, 7> _171e4c;
     sead::SafeArray<s8, 7> _171e68;
     u8 _171e6f[0x171ef0 - 0x171e6f];

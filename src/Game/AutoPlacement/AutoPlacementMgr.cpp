@@ -36,6 +36,33 @@ bool AutoPlacementMgr::isNonAutoPlacement(const sead::Vector3f& pos, bool a2) {
     return _171ef0.x(pos, true, 0x40, nullptr);
 }
 
+void AutoPlacementMgr::preCalc() {
+    mNearWork.stepAllRaycasts();
+    for (auto& entry : _5b118)
+        entry.placement.stepAllRaycasts();
+    for (auto& work : mWorks)
+        work.stepAllRaycasts();
+}
+
+// NON_MATCHING: the original tests `arg == 2` first (cmp 2 / b.eq / cbnz); clang 4 always makes the
+// `arg == 0` path the fall-through here, in every if/switch order tried.
+bool AutoPlacementMgr::invoked3(int arg) {
+    if (arg == 2) {
+        const s32 old = _171e48--;
+        if (old == 0)
+            _171e48 = 0;
+        return old == 1;
+    } else if (arg != 0) {
+        if (!mThread || _171e48 < 1)
+            return true;
+        return _50 == 3;
+    } else {
+        ++_171e48;
+        preCalc();
+        return true;
+    }
+}
+
 bool AutoPlacementMgr::auto9() {
     return _171e48 > 0;
 }
