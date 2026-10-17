@@ -1154,14 +1154,10 @@ void SaveMgr::sub_7100E05D30() {
 
     gdt::Manager::ResetEvent event;
     event.param = _f98;
-    auto it = mCallbacks3.begin();
-    if (it != mCallbacks3.end()) {
-        do {
-            auto* callback = *it;
-            if (callback->mDelegate)
-                (*callback->mDelegate)(&event);
-            ++it;
-        } while (it != mCallbacks3.end());
+    for (auto it = mCallbacks3.begin(); it != mCallbacks3.end(); ++it) {
+        auto* callback = *it;
+        if (callback->mDelegate)
+            (*callback->mDelegate)(&event);
     }
 
     for (s32& value : _14c)

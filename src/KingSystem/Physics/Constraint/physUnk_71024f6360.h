@@ -19,6 +19,6 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f6360, 0xc0);
 
-u32 sub_7100F6CC8C(bool breakable);
+u32 sub_7100F6CC8C(bool breakable, bool extra);
 
 }  // namespace ksys::phys

@@ -47,6 +47,6 @@ private:
 KSYS_CHECK_SIZE_NX150(HingeCs, 0xc0);
 
 // 0x7100f6dc48 adds the hinge data extent to the shared allocation size.
-u32 sub_7100F6DC48(bool breakable);
+u32 sub_7100F6DC48(bool breakable, bool extra);
 
 }  // namespace ksys::phys

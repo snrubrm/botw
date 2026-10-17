@@ -28,6 +28,6 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(BAndSLimitAngYCs, 0xc0);
 
-u32 sub_7100F6BD48(bool breakable);
+u32 sub_7100F6BD48(bool breakable, bool extra);
 
 }  // namespace ksys::phys

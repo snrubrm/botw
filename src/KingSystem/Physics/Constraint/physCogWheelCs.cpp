@@ -4,7 +4,7 @@ namespace ksys::phys {
 
 Unk_71024f6360::~Unk_71024f6360() = default;
 
-u32 sub_7100F6CC8C(bool breakable) {
+u32 sub_7100F6CC8C(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x1a0;
 }
 

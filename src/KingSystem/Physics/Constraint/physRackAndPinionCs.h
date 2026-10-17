@@ -19,6 +19,6 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(RackAndPinionCs, 0xc0);
 
-u32 sub_7100F703FC(bool breakable);
+u32 sub_7100F703FC(bool breakable, bool extra);
 
 }  // namespace ksys::phys

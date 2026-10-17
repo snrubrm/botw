@@ -60,7 +60,7 @@ void BAndSCs::sub_7100F6B394(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) c
     storeToVec3(pivot_b, mData->m_atoms.m_pivots.m_translationB);
 }
 
-u32 sub_7100F6B100(bool breakable) {
+u32 sub_7100F6B100(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x150;
 }
 
@@ -71,7 +71,7 @@ void BAndSLimitAngYCs::sub_7100F6C254(sead::Vector3f* pivot_a, sead::Vector3f* p
     storeToVec3(pivot_b, mData->m_transforms.m_transformB.getTranslation());
 }
 
-u32 sub_7100F6BD48(bool breakable) {
+u32 sub_7100F6BD48(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x1c0;
 }
 

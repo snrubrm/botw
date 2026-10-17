@@ -8,7 +8,7 @@ namespace ksys::phys {
 RackAndPinionCs::~RackAndPinionCs() = default;
 Unk_71024f6640::~Unk_71024f6640() = default;
 
-u32 sub_7100F703FC(bool breakable) {
+u32 sub_7100F703FC(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x1a0;
 }
 

@@ -8,7 +8,7 @@
 
 namespace ksys::phys {
 
-u32 sub_7100F6D3DC(bool breakable) {
+u32 sub_7100F6D3DC(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x1c0;
 }
 

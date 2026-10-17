@@ -8,6 +8,15 @@
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Physics/Constraint/physBAndSCs.h"
+#include "KingSystem/Physics/Constraint/physBAndSLimitAngYCs.h"
+#include "KingSystem/Physics/Constraint/physHingeCs.h"
+#include "KingSystem/Physics/Constraint/physLimitHingeCs.h"
+#include "KingSystem/Physics/Constraint/physPulleyCs.h"
+#include "KingSystem/Physics/Constraint/physRackAndPinionCs.h"
+#include "KingSystem/Physics/Constraint/physSliderCs.h"
+#include "KingSystem/Physics/Constraint/physUnk_71024f6360.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
 #include "KingSystem/Map/mapRail.h"
 
 namespace ksys::map {
@@ -659,6 +668,51 @@ ObjectLink* ObjectLinkArray::findLinkWithType_0(MapLinkDefType type) {
             return &*it;
     }
     return nullptr;
+}
+
+// 0x7100d3e26c (CSV PlacementLinkData::getConstaintLinkDataSizesForActorHeap; placeholder name): the actor
+// heap sizes of the constraint links of the group, eight bytes of link data per link.
+s32 ObjectLinkData::getConstaintLinkDataSizesForActorHeap() {
+    const s32 num_links = mLinksCs.links.size();
+    if (num_links < 1)
+        return 0;
+
+    s32 size = num_links * 8;
+    for (s32 i = 0; i < num_links; ++i) {
+        const auto& link = mLinksCs.links[i];
+        switch (link.type) {
+        case MapLinkDefType::FixedCs:
+            size += phys::sub_7100F6D3DC(false, true);
+            break;
+        case MapLinkDefType::HingeCs:
+            size += phys::sub_7100F6DC48(false, true);
+            break;
+        case MapLinkDefType::LimitHingeCs:
+            size += phys::sub_7100F6E2A0(false, true);
+            break;
+        case MapLinkDefType::SliderCs:
+            size += phys::sub_7100F70FB4(false, true);
+            break;
+        case MapLinkDefType::PulleyCs:
+            size += phys::sub_7100F6F790(false, true);
+            break;
+        case MapLinkDefType::BAndSCs:
+            size += phys::sub_7100F6B100(false, true);
+            break;
+        case MapLinkDefType::BAndSLimitAngYCs:
+            size += phys::sub_7100F6BD48(false, true);
+            break;
+        case MapLinkDefType::CogWheelCs:
+            size += phys::sub_7100F6CC8C(false, true);
+            break;
+        case MapLinkDefType::RackAndPinionCs:
+            size += phys::sub_7100F703FC(false, true);
+            break;
+        default:
+            break;
+        }
+    }
+    return size;
 }
 
 }  // namespace ksys::map

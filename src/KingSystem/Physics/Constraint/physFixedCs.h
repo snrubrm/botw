@@ -14,6 +14,9 @@ namespace ksys::phys {
 
 class RigidBody;
 
+// 0x7100f6d3dc: the Havok data size of a fixed constraint (+0x1c0), shared with the link data size computation.
+u32 sub_7100F6D3DC(bool breakable, bool extra);
+
 // Name from the CSV ("FixedCs::make", 0x7100f6d070): a fixed constraint between two rigid bodies
 // (a Constraint subclass of size 0xc0 whose Havok constraint data is at +0xb8).
 class FixedCs : public Constraint {

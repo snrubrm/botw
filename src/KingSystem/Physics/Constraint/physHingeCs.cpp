@@ -49,7 +49,7 @@ sead::Vector3f HingeCs::sub_7100F6DF30() const {
     return axis;
 }
 
-u32 sub_7100F6DC48(bool breakable) {
+u32 sub_7100F6DC48(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x1c0;
 }
 

@@ -109,6 +109,9 @@ public:
     void sub_7100D4FB78(Object* obj);
     bool checkCreateLinkObjRevival() const;
     bool checkDeleteLinkObjRevival() const;
+    // 0x7100d3e26c (CSV PlacementLinkData::getConstaintLinkDataSizesForActorHeap; placeholder name): the
+    // actor heap sizes of the constraint links of the group.
+    s32 getConstaintLinkDataSizesForActorHeap();
 
     // 0x7100d4efa4: object with the given name among mObjects (declaration only).
     Object* sub_7100D4EFA4(const sead::SafeString& name);
