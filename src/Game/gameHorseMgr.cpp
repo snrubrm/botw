@@ -563,6 +563,11 @@ const sead::SafeString* sub_7100E82094(HorseMgr::RiddenAnimalType type, sead::Ra
     return &sUnk_7102603C98[value < sUnk_7101DA2364 ? 2 : 0];
 }
 
+// 0x7100e8208c / 0x7100e82090 (CSV nullsub_3996 / nullsub_3997): the no-op destructors the mane name group
+// initializer (0x7100e89eec) registers with __cxa_atexit.
+void nullsub_3996() {}
+void nullsub_3997() {}
+
 const sead::SafeString& getHorseManeName(HorseMgr::RiddenAnimalType type) {
     const u32 index = u32(type) - 1;
     if (index < 10)
