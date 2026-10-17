@@ -6,12 +6,14 @@
 #include <math/seadVector.h>
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 #include <gfx/seadCamera.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnit.h>
+#include <common/aglTextureSampler.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 
@@ -311,11 +313,23 @@ public:
     // `_284` to `value`, then marks the settings dirty (`_280 |= 1`).
     void sub_7100F35FA4(bool value, bool second);
 
-    // Placeholder name: the block that Graphics + 0xab0 points to (lane2 s47: only the flag word at 0xe48 that
-    // NPCMamonoShopRoot::onPreDelete sets is modeled).
-    struct Unk_ab0 {
-        u8 _0[0xe48];
-        /* 0xe48 */ u32 _e48;
+    // Graphics +0xab0, constructed at 0x7100f26b00. The five samplers at +0x18
+    // and the mapping fields below are read by the height-map sampling path.
+    struct Unk_ab0 : public sead::hostio::Node {
+        bool sub_7100F29EB4(f32* height, const sead::Vector2f& pos);
+
+        u8 _8[0x18 - 0x8];
+        agl::TextureSampler mSamplers[5];
+        u8 _748[0x750 - 0x748];
+        f32 mMapSize;
+        f32 _754;
+        f32 mHeightScale;
+        u8 _75c[0x76c - 0x75c];
+        sead::Vector2f mMapCenter;
+        u8 _774[0xe10 - 0x774];
+        s32 mCurrentSampler;
+        u8 _e14[0xe48 - 0xe14];
+        u32 _e48;
     };
 
     // Placeholder name: the block that Graphics + 0xaa8 points to; ksys::act::sub_7100EEAFDC casts along the vector at
@@ -327,6 +341,8 @@ public:
     Unk_aa8* getUnk_aa8() const { return _aa8; }
 
     // Only a pointer to the (separately allocated) shadow settings is modeled.
+    ksys::gfx::LocationalLightMgr* getLocationalLightMgr() const { return _aa0; }
+    Unk_7100efd9b8* getFarModelRendererMaybe() const { return _3a8; }
     Unk_a98* getUnk_a98() const { return _a98; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
 
@@ -377,7 +393,7 @@ private:
     Unk_7100efd9b8* _3a8;
     u8 _3b0[0xa98 - 0x3b0];
     Unk_a98* _a98;
-    u8 _aa0[0xaa8 - 0xaa0];
+    ksys::gfx::LocationalLightMgr* _aa0;
     Unk_aa8* _aa8;
     Unk_ab0* _ab0;
     // EnvMgr reset/update and mode dispatch access this native field directly.

@@ -1,6 +1,10 @@
 target_sources(uking PRIVATE
   gfxForestRenderer.cpp
   gfxForestRenderer.h
+  gfxHeightMap.cpp
+  gfxLocationalLightMgr.cpp
+  gfxLocationalLightMgr.h
+  gfxObjectLight.cpp
   gfxUnk_710260af28.cpp
   gfxUnk_710260af28.h
 )

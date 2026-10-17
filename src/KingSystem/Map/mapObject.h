@@ -19,6 +19,10 @@ class BaseProcInitializer;
 class BaseProcCreateTask;
 }  // namespace ksys::act
 
+namespace ksys::gfx {
+class LocationalLightMgr;
+}
+
 namespace ksys::map {
 
 class ObjectLinkData;
@@ -32,6 +36,7 @@ class LinkTag;
 
 class Object {
     friend class PlacementActors;
+    friend class ksys::gfx::LocationalLightMgr;  // ObjectLight::detachObject clears the binding at +0x50.
     friend bool shouldSpawn(Object* obj);
     friend class GenGroup;
     friend class ObjectLinkData;
