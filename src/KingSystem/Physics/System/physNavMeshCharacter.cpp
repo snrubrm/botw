@@ -120,6 +120,8 @@ void NavMeshCharacter::finalize() {
         _10->removeReference();
     if (_8)
         _8->removeReference();
+    // The original ends with an acquire load of the pending request slot.
+    (void)_20.load();
 }
 
 void NavMeshCharacter::sub_7100F75AB8() {
