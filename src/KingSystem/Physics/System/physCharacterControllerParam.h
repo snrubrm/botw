@@ -54,8 +54,10 @@ struct CharacterControllerParam : agl::utl::ParameterList, ICharacterControllerP
     // TODO: types
     CharacterController* createController(const sead::SafeString& name, void* ctrl, void* x, bool y,
                                           sead::Heap* heap);
-    NavMeshCharacter* createNavMeshCharacter(const sead::SafeString& name, sead::Heap* heap,
-                                             const sead::Vector3f& scale);
+    // 0x710128247c: the nav mesh character of the type named by nav_mesh_character_type, with the
+    // radius / height / speed limits scaled by `scale`; null unless that type exists and the radius
+    // and height are set. The original also passes (name, 0) to the NavMeshCharacter constructor.
+    NavMeshCharacter* createNavMeshCharacter(const sead::SafeString& name, sead::Heap* heap, f32 scale);
 
     int findFormIdx(const sead::SafeString& form_type) const;
     bool parse(agl::utl::ResParameterList res_list, sead::Heap* heap);

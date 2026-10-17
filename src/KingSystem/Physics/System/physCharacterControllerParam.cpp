@@ -10,9 +10,69 @@
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
+
+// NON_MATCHING: the original compares the type name with one virtual terminate call; our
+// SafeStringBase::isEqual terminates both operands. It also passes (name, 0) to the
+// NavMeshCharacter constructor, which our declaration (no arguments) does not.
+// 0x710128247c: see the header.
+NavMeshCharacter* CharacterControllerParam::createNavMeshCharacter(const sead::SafeString& name,
+                                                                 sead::Heap* heap, f32 scale) {
+    if (!use_nav_mesh_character.ref())
+        return nullptr;
+
+    NavMeshCharacter::InitArg arg;
+    arg._0 = sead::Vector3f::zero;
+    arg._c = sead::Vector3f::ez;
+    arg._18 = 1.0f;
+    arg._1c = 1.75f;
+    arg._20 = 16;
+    arg._24 = 3.0f;
+    arg._28 = 3.0f;
+    arg._2c = sUnk_7101ec27f4;
+    arg._30 = sUnk_7101ec27f4;
+    arg._34 = sUnk_7101ec27f4;
+    arg._38 = 1.0f;
+    arg._3c = 1.0f;
+    arg._40 = 100.0f;
+    arg._44 = 1.0f;
+    arg._48 = 0.01f;
+    arg._4c = 0;
+    arg._50 = 4;
+    arg._54 = 0;
+    arg._58 = 0;
+    arg._59 = 0;
+
+    if (!(nav_mesh_character_radius.ref() > 0.0f))
+        return nullptr;
+    arg._18 = nav_mesh_character_radius.ref() * scale;
+    if (!(nav_mesh_character_height.ref() > 0.0f))
+        return nullptr;
+    arg._1c = nav_mesh_character_height.ref() * scale;
+    if (nav_mesh_character_avoidance_priority.ref() != 0)
+        arg._20 = nav_mesh_character_avoidance_priority.ref();
+    if (nav_mesh_character_max_speed.ref() > 0.0f)
+        arg._28 = nav_mesh_character_max_speed.ref();
+    if (nav_mesh_character_max_acceleration.ref() > 0.0f)
+        arg._2c = nav_mesh_character_max_acceleration.ref();
+    if (nav_mesh_character_max_angular_velocity.ref() > 0.0f)
+        arg._34 = nav_mesh_character_max_angular_velocity.ref();
+
+    for (s32 i = 0; i < 0x15; ++i) {
+        if (nav_mesh_character_type.ref() == sead::SafeString(NavMeshCharacterType::text(i))) {
+            arg._50 = i;
+            NavMeshCharacter::sub_7100F7E598(&arg, NavMeshCharacterType(i));
+            auto* nav = new (heap, 8) NavMeshCharacter();
+            nav->init(arg, heap, HavokAI::instance());
+            return nav;
+        }
+    }
+    return nullptr;
+}
 
 bool navMeshCharacterTypeFromText(NavMeshCharacterType& value, const sead::SafeString& text) {
     for (auto type : NavMeshCharacterType()) {
