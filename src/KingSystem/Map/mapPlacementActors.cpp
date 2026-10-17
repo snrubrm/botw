@@ -1,5 +1,8 @@
 #include "KingSystem/Map/mapPlacementActors.h"
 #include <algorithm>
+#include <thread/seadThread.h>
+#include <gsys/gsysModelNW.h>
+#include "Game/gameGraphics.h"
 #include <prim/seadMemUtil.h>
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -501,6 +504,41 @@ bool PlacementActors::removeInnerData2() {
         if (start.diffToNow().toMilliSeconds() > 9)
             return false;
     }
+}
+
+void PlacementActors::deleteActorData(ActorData* data) {
+    while (data->_b == 1)
+        sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(1));
+    Graphics::instance()->getLocationalLightMgr()->sub_7100F13420(data->_10);
+    data->_58.sub_7100FDCF20();
+    data->_20.sub_7100FDD264();
+    releaseEffectModel(data);
+    data->mFlags.resetBit(ActorData::Flag::_4);
+    data->mFlags.resetBit(ActorData::Flag::_1);
+    data->mFlags.resetBit(ActorData::Flag::_2);
+    data->mFlags.resetBit(ActorData::Flag::_7);
+    data->mFlags.resetBit(ActorData::Flag::_58);
+    data->mFlags.resetBit(ActorData::Flag::_59);
+    data->mFlags.resetBit(ActorData::Flag::_5);
+    data->mFlags.resetBit(ActorData::Flag::_3);
+    data->mFlags.resetBit(ActorData::Flag::_6);
+    data->_b = 0;
+    if (data->_18) {
+        delete data->_18;
+        data->_18 = nullptr;
+    }
+    if (data->_10)
+        delete data->_10;
+    data->_10 = nullptr;
+    if (data->mEffectEntry)
+        delete data->mEffectEntry;
+    data->mEffectEntry = nullptr;
+    data->mRes.requestUnload();
+    data->_9 = 0;
+    data->_a = 0xff;
+    if (data->mObjectLight)
+        Graphics::instance()->getLocationalLightMgr()->sub_7100F13368(data->mObjectLight);
+    data->mObjectLight = nullptr;
 }
 
 void PlacementActors::releaseEffectModel(ActorData* data) {

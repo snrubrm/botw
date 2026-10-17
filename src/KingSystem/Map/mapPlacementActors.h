@@ -15,9 +15,15 @@
 #include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 
 namespace gsys {
 class ModelUnit;
+class ModelNW;
+}
+
+namespace ksys::gfx {
+class LocationalLightMgr;
 }
 
 namespace ksys::eft {
@@ -126,7 +132,8 @@ public:
     u8 _c[0x10 - 0xc];
     // The mass-rendered model (MassRenderer 0x71011e4090 flushes its draw array).
     gsys::ModelUnit* _10;
-    u8 _18[0x20 - 0x18];
+    // PlacementMgr::invoked2_ builds a second ModelNW for distant rendering.
+    gsys::ModelNW* _18;
     res::Unk_71024f9958 _20;
     res::Unk_71024f9938 _58;
     res::ResDerived mRes;
@@ -139,7 +146,8 @@ public:
     /* 0xf8 */ eft::EffectModelData* mEffectModelData;
     u8 _100[0x10c - 0x100];
     f32 _10c;
-    u8 _110[0x148 - 0x110];
+    u8 _110[0x140 - 0x110];
+    gfx::LocationalLightMgr::ObjectLight* mObjectLight;
     sead::FixedSafeString<64> mActorName;
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
