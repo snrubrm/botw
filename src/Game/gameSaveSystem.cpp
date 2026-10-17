@@ -475,6 +475,29 @@ bool SaveSystem::isFirstLaunch() const {
     return !(_38 & 4);
 }
 
+// NON_MATCHING: block layout differs (clang lays the hard-mode block out of line here, the original keeps it inline
+// and branches to the null / normal-mode block); counts and flag tests are the same.
+u32 SaveSystem::sub_71009154A8(s32 hard_mode) {
+    if (!(_38 & 1))
+        return 0;
+
+    u32 count = 0;
+    if (hard_mode & 1) {
+        for (s32 i = 0; i < 7; ++i)
+            count += _40[i]._300;
+    } else {
+        auto* hard_mode_mgr = aoc::HardModeManager::instance();
+        const bool hard = hard_mode_mgr && hard_mode_mgr->checkFlag(aoc::HardModeManager::Flag::EnableHardMode);
+        for (s32 i = 0; i < 7; ++i) {
+            if (_40[i]._301 == hard)
+                count += _40[i]._300;
+        }
+        if (_40[7]._301 != hard)
+            return count;
+    }
+    return count + _40[7]._300;
+}
+
 s32 SaveSystem::sub_7100915F58(s32 idx) {
     return _1880.sub_710090C954(idx);
 }

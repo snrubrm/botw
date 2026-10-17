@@ -132,7 +132,7 @@ public:
     bool sub_7100914CE4() const;
     bool sub_7100914504() const;
     // 0x71009154a8 / 0x7100914dc8 (declared only; lane2 s46): the number of slots / the slot `index`.
-    s32 sub_71009154A8(s32 a);
+    u32 sub_71009154A8(s32 hard_mode);
     // The slot `index` after sub_7100914E20 (the default slot when there is no such slot).
     SaveSlot* sub_7100914DC8(s32 index, bool a);
     // 0x7100914e20 (1672 bytes, declared only): maps the slot number to the index into _40 (sorting the used
