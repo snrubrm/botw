@@ -506,4 +506,56 @@ bool Unk_7100e8a080::sub_7100E8A100(HorseMgr* mgr, ksys::act::BaseProc* proc) {
     return true;
 }
 
+namespace {
+// Horse tack names of 0x7100e89eec (placeholder names = addresses): the tables the getters below index.
+const sead::SafeString sUnk_7102603CF8 = "Horse_Link_Mane_Grabbed";
+const sead::SafeString sUnk_7102603D08 = "Horse_Link_Mane_Grabbed_Large";
+const sead::SafeString sUnk_7102603D18 = "Horse_Link_Mane_Grabbed_Nushi";
+const sead::SafeString sUnk_7102603D28 = "Horse_Link_Mane_Grabbed_Bone";
+const sead::SafeString sUnk_7102603D38 = "GameRomHorseReins_00";
+const sead::SafeString sUnk_7102603D48 = "GameRomHorseReins_00L";
+const sead::SafeString sUnk_7102603D58 = "GameRomHorseReins_06";
+const sead::SafeString sUnk_7102603D68 = "GameRomHorseSaddle_00";
+const sead::SafeString sUnk_7102603D78 = "GameRomHorseSaddle_00L";
+const sead::SafeString sUnk_7102603D88 = "GameRomHorseSaddle_00S";
+const sead::SafeString sUnk_7102603D98 = "GameRomHorseSaddle_06";
+
+const sead::SafeString* sManeNames[10] = {
+    &sUnk_7102603CF8, &sead::SafeString::cEmptyString, &sUnk_7102603CF8, &sUnk_7102603CF8,
+    &sUnk_7102603D28, &sUnk_7102603D08, &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString,
+    &sUnk_7102603D18, &sead::SafeString::cEmptyString,
+};
+const sead::SafeString* sReinsNames[10] = {
+    &sUnk_7102603D38, &sUnk_7102603D38, &sUnk_7102603D38, &sUnk_7102603D58,
+    &sead::SafeString::cEmptyString, &sUnk_7102603D48, &sead::SafeString::cEmptyString,
+    &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString,
+};
+const sead::SafeString* sSaddleNames[10] = {
+    &sUnk_7102603D68, &sUnk_7102603D68, &sUnk_7102603D68, &sUnk_7102603D98,
+    &sead::SafeString::cEmptyString, &sUnk_7102603D78, &sUnk_7102603D88,
+    &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString,
+};
+}  // namespace
+
+const sead::SafeString& getHorseManeName(HorseMgr::RiddenAnimalType type) {
+    const u32 index = u32(type) - 1;
+    if (index < 10)
+        return *sManeNames[s32(index)];
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& getHorseReinsName(HorseMgr::RiddenAnimalType type) {
+    const u32 index = u32(type) - 1;
+    if (index < 10)
+        return *sReinsNames[s32(index)];
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& getHorseSaddleName(HorseMgr::RiddenAnimalType type) {
+    const u32 index = u32(type) - 1;
+    if (index < 10)
+        return *sSaddleNames[s32(index)];
+    return sead::SafeString::cEmptyString;
+}
+
 }  // namespace uking
