@@ -61,7 +61,10 @@ public:
     hkArray<hkInt32> m_ownedFaceData;
     hkArray<hkInt32> m_ownedEdgeData;
     hkUint32 m_sectionUid;
-    hkUint8 _1a4[0x1c0 - 0x1a4];
+    // Reflection 255df68 names the signed runtimeId. Game f82278/f83848
+    // use this index for an edge whose external-opposite flag is clear.
+    hkInt32 m_runtimeId;
+    hkUint8 _1a8[0x1c0 - 0x1a8];
 };
 static_assert(sizeof(hkaiNavMeshInstance) == 0x1c0);
 static_assert(offsetof(hkaiNavMeshInstance, m_originalEdges) == 0x20);
@@ -84,6 +87,7 @@ static_assert(offsetof(hkaiNavMeshInstance, m_originalEdgeData) == 0x50);
 static_assert(offsetof(hkaiNavMeshInstance, m_edgeDataStriding) == 0x58);
 static_assert(offsetof(hkaiNavMeshInstance, m_instancedEdgeData) == 0x170);
 static_assert(offsetof(hkaiNavMeshInstance, m_ownedEdgeData) == 0x190);
+static_assert(offsetof(hkaiNavMeshInstance, m_runtimeId) == 0x1a4);
 
 // Explicit-array edge copy-on-write helper. Caller 15235e0 passes these
 // instance fields individually; originalEdges is edge storage, not a receiver.
