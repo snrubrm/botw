@@ -1,6 +1,7 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
 #include <time/seadTickTime.h>
 #include "KingSystem/Map/mapPlacement18.h"
+#include "KingSystem/Map/mapRail.h"
 #include "KingSystem/Resource/resPlacement.h"
 #include "KingSystem/Map/mapMapProperties.h"
 #include "KingSystem/ActorSystem/actFarActorMerge.h"
@@ -28,11 +29,7 @@ PlacementMapMgr::~PlacementMapMgr() {
     mMapArray.mMaps.freeBuffer();
     mMapArray.mPtrs.freeBuffer();
 
-    if (mMapArray._90) {
-        operator delete[](mMapArray._90);
-        mMapArray._90 = nullptr;
-        mMapArray._88 = 0;
-    }
+    mMapArray.mRoutePoints.freeBuffer();
 
     if (mFarActorMerge)
         delete mFarActorMerge;
@@ -139,6 +136,33 @@ void PlacementMapMgr::parseStaticMaps_(sead::Heap* heap) {
     }
     if (mMapArray.mP18)
         mMapArray.mP18->x(heap);
+}
+
+// NON_MATCHING: point-loop induction and initialization-argument stores are scheduled differently.
+tera::Unk_710110e390* PlacementMapMgr::parseRoute(sead::Heap* heap, const u32* value,
+                                                const RailRoute* rail) {
+    if (!rail->isRenderEnabled())
+        return nullptr;
+    const u32 num_points = rail->getNumPoints();
+    if (s32(num_points) < 2)
+        return nullptr;
+    for (u32 i = 0; i < num_points; ++i) {
+        auto& point = mMapArray.mRoutePoints[i];
+        point.translate = rail->getPointTranslate(i);
+        point.control_points[0] = rail->getControlPoint(i, 0);
+        point.control_points[1] = rail->getControlPoint(i, 1);
+        point.scale = rail->getPointSRT(i).scale.x;
+    }
+    auto* curve = new (heap, 8) tera::Unk_710110e390;
+    tera::Unk_710110e390::InitArg arg;
+    arg.heap = heap;
+    arg._8 = *value;
+    arg.name = sead::SafeString::cEmptyString;
+    arg.points = mMapArray.mRoutePoints.getBufferPtr();
+    arg.num_points = num_points;
+    arg._2c = false;
+    curve->sub_710110E4A8(arg);
+    return curve;
 }
 
 void PlacementMapMgr::initStaticMaps(sead::Heap* heap) {

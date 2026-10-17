@@ -7,6 +7,7 @@
 #include "KingSystem/Map/mapPlacementMap.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Terrain/teraRoute.h"
 
 namespace ksys::res {
 class CompactionMgr;
@@ -24,6 +25,7 @@ class Placement18;
 class PlacementActors;
 
 class PlacementMap;
+class RailRoute;
 
 /* NOT WORKING */
 class PlacementMapMgr {
@@ -39,9 +41,7 @@ class PlacementMapMgr {
         res::Placement* mPlacementRes;
         res::Handle mRes;
         Placement18* mP18;
-        s32 _88;
-        s32 _8c;
-        void* _90;
+        sead::Buffer<tera::Unk_710110e390::Point> mRoutePoints;
     };
     KSYS_CHECK_SIZE_NX150(PlacementMapArray, 0x98);
 
@@ -68,6 +68,7 @@ public:
     // 0x7100d475a0 (CSV routeStuff; placeholder parameter): the same loop as postPlaceActorsRouteStuff, with the
     // tera route handler 0x710111911c.
     void routeStuff(void* tera_system);
+    tera::Unk_710110e390* parseRoute(sead::Heap* heap, const u32* value, const RailRoute* rail);
     // 0x7100d46774 / 0x7100d470dc (CSV; declaration only): the map-array pointers for the camera cell and the
     // counts of maps that still need their dynamic data.
     void updateMapArrayPtrsForPosition(s32 col, s32 row);
