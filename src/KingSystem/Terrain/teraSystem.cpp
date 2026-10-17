@@ -1086,3 +1086,67 @@ struct Unk_7100FDDC28Maybe {
 void sub_7100FDDC28(Unk_7100FDDC28Maybe* record, u64 value) {
     record->_60 = value - 2;
 }
+
+// Empty and delete-thunk virtuals in the graphics / framework address range (placeholder names).
+void sub_7100F41920() {}
+void sub_7100F41924(void* p) { ::operator delete(p); }
+void sub_7100F41928() {}
+void sub_7100F4192C() {}
+void sub_7100F41930() {}
+void sub_7100F42BA8() {}
+void sub_7100F42BAC(void* p) { ::operator delete(p); }
+void sub_7100F42EB8() {}
+void sub_7100F45A20() {}
+void sub_7100F45A24(void* p) { ::operator delete(p); }
+void sub_7100F4C574() {}
+void sub_7100F4C578() {}
+void sub_7100F59D50(void* p) { ::operator delete(p); }
+void sub_7100F5A350() {}
+void sub_7100F5A354() {}
+void sub_7100F5A358() {}
+void sub_7100F5A35C() {}
+void sub_7100F63D38() {}
+void sub_7100F676C8() {}
+void sub_7100F67A38() {}
+void sub_7100F67ABC() {}
+void sub_7100F67C1C() {}
+void sub_7100F69014() {}
+void sub_7100F7D02C() {}
+void sub_7100F7D030() {}
+void sub_7100F7D034() {}
+void sub_7100F7D08C() {}
+void sub_7100F7D0E8() {}
+void sub_7100F7D0EC() {}
+void sub_7100F7D0F0() {}
+void sub_7100F7E468() {}
+void sub_7100F80860() {}
+void sub_7100F80EB4() {}
+void sub_7100F83B94() {}
+void sub_7100F83B98() {}
+void sub_7100F83B9C() {}
+void sub_7100F83BA0() {}
+void sub_7100F83BA4() {}
+void sub_7100F83BA8() {}
+void sub_7100F83BAC() {}
+void sub_7100F83BB0() {}
+void sub_7100F83BB4() {}
+void sub_7100F83BB8() {}
+void sub_7100F83BBC() {}
+void sub_7100F83BC0() {}
+void sub_7100F83BC4() {}
+void sub_7100F8775C() {}
+void sub_7100F894A0(void* p) { ::operator delete(p); }
+void sub_7100F8B4D4() {}
+void sub_7100FA5A6C() {}
+void sub_7100FA8C44(void* p) { ::operator delete(p); }
+void sub_7100FB7F28(void* p) { ::operator delete(p); }
+void sub_7100FD0684() {}
+void sub_7100FD0688() {}
+void sub_7100FD068C(void* p) { ::operator delete(p); }
+void sub_7100FD0690() {}
+void sub_7100FD0694(void* p) { ::operator delete(p); }
+void sub_7100FD0698(void* p) { ::operator delete(p); }
+void sub_7100FD3A4C() {}
+void sub_7100FDDC34() {}
+void sub_7100FDF4CC() {}
+void sub_7100FDF4D0() {}
