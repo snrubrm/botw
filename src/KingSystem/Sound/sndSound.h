@@ -93,6 +93,10 @@ namespace ksys::snd {
 
 class Unk_7102502950;
 class FxMgr;
+class Unk_710104e5b4;
+
+// 0x710104ee4c (CSV nullsub_4416, 4 bytes): empty hook called by Sound::__auto3.
+void nullsub_4416(Unk_710104e5b4* sound, bool a);
 
 f32 sub_710105E3A4();
 const char* sub_710105E7B4(bool* flag);
@@ -1334,6 +1338,8 @@ public:
     void sub_71011FC17C(UiSoundKind kind, s32 bit);
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
+    // 0x71011fbd58 (CSV Sound::__auto3; placeholder name): stops the sound work and marks state 1.
+    void sub_71011FBD58(bool a);
     bool calc();
     void sub_71011FBDA8();
     sead::Thread* sub_71011FC348();
