@@ -1,6 +1,10 @@
 project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
+  Havok/Ai/Pathfinding/NavMesh/Query/hkaiNavMeshQueryMediator.h
+  Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h
+  Havok/Ai/Pathfinding/World/hkaiWorld.cpp
+  Havok/Ai/Pathfinding/World/hkaiWorld.h
   Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h
   Havok/Ai/Pathfinding/Silhouette/hkaiConvexSilhouetteSet.h
   Havok/Ai/Pathfinding/Silhouette/hkaiSilhouetteGenerationParameters.h
