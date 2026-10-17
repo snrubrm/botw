@@ -315,6 +315,9 @@ struct Unk_71025df330 {
     /* 0x1e0 */ sead::Buffer<sead::SafeString> mDlcCursorAnimatorNames;
     // the map mode index of the four mode animators
     /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
+    /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
+    u8 _210[0x240 - 0x210];
+    /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
 };
 KSYS_VISIBILITY_HIDDEN Unk_71025df330 sUnk_71025df330;
 
@@ -595,6 +598,102 @@ void ScreenAppMap::sub_71009EEF98() {
                                                      false);
             }
         }
+    }
+}
+
+// 0x71009ef5d0
+void ScreenAppMap::sub_71009EF5D0() {
+    if (_3ae8) {
+        _3af0 = _3ae8->tryCreateAnimatorAuto(sUnk_71025df330.mHintAnimatorNames[0].cstr(), false);
+        if (_3ae8) {
+            _3af8 = _3ae8->tryCreateAnimatorAuto(sUnk_71025df330.mHintAnimatorNames[1].cstr(), false);
+            if (_3ae8) {
+                _3b00 = _3ae8->tryCreateAnimatorAuto(sUnk_71025df330.mHintAnimatorNames[2].cstr(), false);
+                if (_3ae8)
+                    _3b08 =
+                        _3ae8->tryCreateAnimatorAuto(sUnk_71025df330.mHintAnimatorNames[3].cstr(), false);
+            }
+        }
+    }
+}
+
+// 0x71009f0668
+void ScreenAppMap::sub_71009F0668() {
+    if (_3bf8) {
+        _3c00 = _3bf8->tryCreateAnimatorAuto(sUnk_71025df330.mCursorAnimatorNames[0].cstr(), false);
+        if (_3bf8) {
+            _3c08 = _3bf8->tryCreateAnimatorAuto(sUnk_71025df330.mCursorAnimatorNames[1].cstr(), false);
+            if (_3bf8) {
+                _3c10 =
+                    _3bf8->tryCreateAnimatorAuto(sUnk_71025df330.mCursorAnimatorNames[2].cstr(), false);
+                if (_3bf8) {
+                    _3c18 =
+                        _3bf8->tryCreateAnimatorAuto(sUnk_71025df330.mCursorAnimatorNames[3].cstr(), false);
+                    if (_3bf8) {
+                        _3c20 =
+                            _3bf8->tryCreateAnimatorAuto(sUnk_71025df330.mCursorAnimatorNames[4].cstr(),
+                                                         false);
+                        if (_3bf8)
+                            _3c28 =
+                                _3bf8->tryCreateAnimatorAuto(sUnk_71025df330.mCursorAnimatorNames[5].cstr(),
+                                                             false);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 0x71009ec054
+// NON_MATCHING: the zero set6e4 argument is passed as 32 bits instead of the original 64.
+void ScreenAppMap::m98() {
+    if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0 &&
+        !UiSubsys1::instance()->sub_7100960DF8() && UiSubsys1::instance()->is848EqualTo1()) {
+        UiSubsys1::instance()->sub_7100966A74();
+    }
+    UiSubsys1::instance()->sub_7100960A1C();
+    _3af0->StopAtMin();
+    if (sub_7100A9C110(0)) {
+        UiSubsys1::instance()->set38b8();
+        UiSubsys1::instance()->clear38c8();
+        UiSubsys1::instance()->set6e4(1);
+        _3628[1]->StopAtMax();
+        if (_3c68)
+            _3c68->startAnimCloseImpl_(false, true);
+    } else {
+        UiSubsys1::instance()->clear38b8();
+        UiSubsys1::instance()->set38c8();
+        UiSubsys1::instance()->set6e4(0);
+        _3628[1]->StopAtMin();
+        if (_3c68)
+            _3c68->sub_7100BDDE7C(false, 1, true);
+    }
+    UiSubsys1::instance()->copy38b8To38b9();
+    if (UiSubsys1::instance()->is848EqualTo1())
+        sub_71009EACC0(1);
+    else
+        sub_71009EACC0(0);
+}
+
+// 0x71009ec1c8
+void ScreenAppMap::m101() {
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC77C(1, nullptr);
+        const auto& position = sead::Vector2f::zero;
+        mLayout->mPane->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
+    }
+    getStateMachine().changeState(&sUnk_71025df180);
+    UiSubsys1::instance()->clear38c8();
+    UiSubsys1::instance()->sub_7100961008();
+    sead::Vector2f position;
+    UiSubsys1::instance()->sub_7100965EEC(UiSubsys1::instance()->_850.get28(), &position);
+    UiSubsys1::instance()->_850.set40(position);
+    UiSubsys1::instance()->set3884(false);
+    if (_3610) {
+        if (!(_3610->_b4ff & 1))
+            _3610->sub_71009AE3C8();
+        _3610->_b4a4 = -1;
     }
 }
 

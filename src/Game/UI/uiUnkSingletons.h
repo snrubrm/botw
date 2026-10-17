@@ -1193,6 +1193,10 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    // 0x7100960a1c: resets the map marker timer from the selected mode
+    void sub_7100960A1C();
+    // 0x7100965eec: clamps the negated map cursor position for the supplied scale
+    void sub_7100965EEC(f32 scale, sead::Vector2f* out);
     // 0x7100960758 (placeholder name): copies the Sheikah Sensor+ target name (ActorName_SeakSensor_Slot0) to `out`
     void sub_7100960758(sead::BufferedSafeString* out);
     bool sub_7100956C10(u32 index) const;
@@ -1216,7 +1220,8 @@ public:
     // 0x7100960dac (CSV uiSubsys1::__auto39; placeholder name): `index` is the lowest set bit of `_3860` (6: none)
     bool sub_7100960DAC(s32 index) const;
     // 0x710096101c / 0x7100961058 / 0x710096106c / 0x710096107c (placeholder names)
-    static void sub_7100961008();
+    // ScreenAppMap::m101 passes this even though the method only clears TU-local flags.
+    void sub_7100961008();
     void sub_710096101C();
     void copy38b8To38b9();
     void set38b8();

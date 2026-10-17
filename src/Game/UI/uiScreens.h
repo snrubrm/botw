@@ -2312,6 +2312,8 @@ static_assert(sizeof(ScreenAppMapUnk3c90) == 0x160);
 
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget : public ScreenChildEx {
+    // 0x71009ae3c8: toggles map selection mode and refreshes the AppHome screen
+    void sub_71009AE3C8();
     // Full native ctor 9a863c calls ScreenChildEx; factory 9e7f60 allocates 0xb538 bytes.
     explicit ScreenAppMapWidget(eui::LayoutEx* layout);
     ~ScreenAppMapWidget() override;
@@ -2386,7 +2388,7 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb499 */ u8 _b499;
     u8 _b49a[0xb4a0 - 0xb49a];
     /* 0xb4a0 */ s32 _b4a0;
-    u8 _b4a4[0xb4a8 - 0xb4a4];
+    /* 0xb4a4 */ s32 _b4a4;
     /* 0xb4a8 */ s32 _b4a8;
     /* 0xb4ac */ s32 _b4ac;
     /* 0xb4b0 */ f32 _b4b0;
@@ -2418,6 +2420,8 @@ static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
 
 class ScreenAppMap : public ScreenEx {
 public:
+    void m98() override;
+    void m101() override;
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
@@ -2458,6 +2462,10 @@ public:
     void sub_71009EA83C();
     void sub_71009EEE04();
     void sub_71009EEF98();
+    // 0x71009ef5d0 (placeholder name): creates the map hint layout's four animators
+    void sub_71009EF5D0();
+    // 0x71009f0668 (placeholder name): creates the map cursor layout's six animators
+    void sub_71009F0668();
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
     // 0x71009ed084 / 0x71009ed1e4 (placeholder names): play the map mode animators forward / backward
@@ -2575,14 +2583,25 @@ public:
     /* 0x3ad4 */ f32 _3ad4;
     /* 0x3ad8 */ f32 _3ad8;
     /* 0x3adc */ f32 _3adc;
-    u8 _3ae0[0x3b18 - 0x3ae0];
+    /* 0x3ae0 */ f32 _3ae0 = 0.0f;
+    u8 _3ae4[0x3ae8 - 0x3ae4];
+    // The map hint layout part and its animators (created by sub_71009EF5D0).
+    /* 0x3ae8 */ eui::LayoutEx* _3ae8 = nullptr;
+    /* 0x3af0 */ eui::Animator* _3af0 = nullptr;
+    /* 0x3af8 */ eui::Animator* _3af8 = nullptr;
+    /* 0x3b00 */ eui::Animator* _3b00 = nullptr;
+    /* 0x3b08 */ eui::Animator* _3b08 = nullptr;
+    u8 _3b10[0x3b18 - 0x3b10];
     /* 0x3b18 */ Unk_7102481e30 _3b18;
-    u8 _3bf0[0x3c00 - 0x3b18 - sizeof(Unk_7102481e30)];
+    u8 _3bf0[0x3bf8 - 0x3b18 - sizeof(Unk_7102481e30)];
+    // The map cursor layout part and its six animators (sub_71009F0668).
+    /* 0x3bf8 */ eui::LayoutEx* _3bf8 = nullptr;
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
-    u8 _3c10[8];
+    /* 0x3c10 */ eui::Animator* _3c10;
     /* 0x3c18 */ eui::Animator* _3c18;
-    u8 _3c20[0x3c30 - 0x3c20];
+    /* 0x3c20 */ eui::Animator* _3c20;
+    /* 0x3c28 */ eui::Animator* _3c28;
     // The icon area / map panes found by m93 (N_IconArea_00 / Pa_Map_00).
     /* 0x3c30 */ Unk_PaneTransform* _3c30;
     /* 0x3c38 */ Unk_PaneTransform* _3c38;
