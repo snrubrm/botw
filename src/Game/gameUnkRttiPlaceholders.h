@@ -2147,7 +2147,17 @@ public:
 class Unk_710249d608 : public sead::ArchiveRes {
     SEAD_RTTI_OVERRIDE(Unk_710249d608, sead::ArchiveRes)
 public:
+    struct Entry {
+        enum class Kind { File = 1, Directory = 2, End = 3 };
+        sead::SafeString name;
+        Kind kind{};
+        u32 size = 0;
+        const u8* next_header = nullptr;
+    };
+    static_assert(sizeof(Entry) == 0x20);
+
     ~Unk_710249d608() override;
+    bool sub_7100A9238C(Entry* entry, const void* data, s32 remaining) const;
     s32 getLoadDataAlignment() const override { return 64; }
 
 protected:
@@ -2163,7 +2173,11 @@ protected:
     u32 readDirectoryImpl_(sead::HandleBuffer* handle, sead::DirectoryEntry* entries,
                            u32 num) SEAD_ARCHIVERES_CONST_TOKEN override;
     bool prepareArchive_(const void* archive) override;
+
+private:
+    mutable u32 mError;
 };
+static_assert(sizeof(Unk_710249d608) == 0x28);
 
 // typeinfo 0x71025f89a8; the original has no vtable for this class (an abstract base: only its RTTI
 // checks remain). Placeholder generated from its children (genskel.py).
