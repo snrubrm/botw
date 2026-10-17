@@ -4,10 +4,64 @@
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include <limits>
 
 namespace ksys::phys {
 
 const f32 sUnk_7101ec27f4 = 1000000.0f;
+
+// 0x7101ec22ec (rodata; INFINITY marks a blocked material): the face cost of each material 0 - 14 for
+// each navmesh character type.
+static constexpr f32 kInf = std::numeric_limits<f32>::infinity();
+static const f32 sUnk_7101EC22EC[][15] = {
+    {1.0f, 1.0f, 2.0f, 1.0f, 1.0f, 1.0f, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, kInf, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, kInf, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 0.06f, kInf, 1.0f, 1.0f, 1.0f, kInf, kInf, kInf, 0.06f, 1.0f, 1.0f, 1.0f, kInf, kInf,},
+    {1.0f, 0.06f, kInf, 1.0f, 1.0f, 1.0f, kInf, kInf, 1.0f, 0.06f, 1.0f, 1.0f, 1.0f, kInf, kInf,},
+    {1.0f, 0.06f, kInf, 1.0f, 1.0f, 1.0f, 0.5f, kInf, 0.5f, 0.06f, 1.0f, 1.0f, 1.0f, 0.5f, kInf,},
+    {1.0f, 0.06f, kInf, 1.0f, 1.0f, 1.0f, kInf, kInf, kInf, 0.06f, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {kInf, kInf, kInf, kInf, kInf, kInf, 1.0f, kInf, kInf, kInf, kInf, kInf, kInf, 1.0f, kInf,},
+    {1.0f, 1.0f, kInf, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, kInf, 1.0f, 1.0f, 1.0f, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, 2.0f, kInf, 2.0f, kInf, 1.0f, 1.0f, 1.0f, 2.0f, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, 0.5f, kInf, 0.5f, kInf, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, 0.5f, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, 0.5f, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, kInf, kInf, kInf, kInf, kInf, kInf, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, kInf, 2.0f, kInf, 2.0f, kInf, kInf, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, kInf, kInf, kInf, kInf, kInf, 1.0f, 1.0f, 1.0f, kInf, 1.0f,},
+    {1.0f, 1.0f, 2.0f, kInf, 1.0f, 1.0f, kInf, kInf, kInf, kInf, 1.0f, kInf, 1.0f, kInf, 1.0f,},
+};
+
+// NON_MATCHING: the original reorders the special cases (it tests a type bitmask 0x80060000 and spills
+// `type`); the table and the result are the same.
+// Placeholder name: the cost of the face sub material `material` for the character type `type`.
+f32 NavMeshCharacter::sub_7100F74FD8(s32 type, s32 material) {
+    if (material <= 14)
+        return sUnk_7101EC22EC[type][material];
+
+    if ((type == 17 || type == 18 || type == 20) && material == 16)
+        return 1.0f;
+    if (type >= 4 && type <= 6) {
+        if (material == 18)
+            return 1.0f;
+    } else if (material == 18 && type == 7) {
+        return 1.0f;
+    }
+    if (type == 17) {
+        if (material == 20)
+            return 1.0f;
+    } else if (material == 20 || (material == 19 && type != 18)) {
+        return 1.0f;
+    }
+    return kInf;
+}
+
+
 
 // Counter at 0x710260ddd8 (placeholder name; used for the request ids stored in NavMeshCharacter::_290).
 sead::Atomic<u32> sUnk_710260ddd8;
