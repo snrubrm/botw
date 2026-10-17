@@ -985,4 +985,28 @@ bool System::sub_7101118FC0(sead::Heap* heap, Unk_7101106F44* area, u32 index, b
     return true;
 }
 
+// Constant virtuals (placeholder names).
+s32 sub_7101106B5C() { return 1; }
+s32 sub_7101106C90() { return 1; }
+s32 sub_7101106D2C() { return 1; }
+s32 sub_7101106DC8() { return 1; }
+s32 sub_7101106E64() { return 1; }
+s32 sub_7101106F00() { return 1; }
+s32 sub_71011086CC() { return 1; }
+s32 sub_710111FAF4() { return 1; }
+s32 sub_710112004C() { return 1; }
+s32 sub_710112F060() { return 1; }
+s32 sub_710112F068() { return 1; }
+s32 sub_710112F058() { return 2; }
+void* sub_7101106B64() { return nullptr; }
+void* sub_71011086D4() { return nullptr; }
+void* sub_710111FAE4() { return nullptr; }
+void* sub_7101120054() { return nullptr; }
+void* sub_710112F070() { return nullptr; }
+s32 sub_710111FAEC() { return 0; }
+s32 sub_710112ED24() { return 0; }
+void sub_710110D8B8() {}
+void sub_710111FAE0() {}
+void sub_710112F078() {}
+
 }  // namespace ksys::tera

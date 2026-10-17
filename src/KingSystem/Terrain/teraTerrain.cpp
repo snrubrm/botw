@@ -777,4 +777,25 @@ u8* sub_710114E708() {
     return &sUnk_7102620B68;
 }
 
+// Constant virtuals (placeholder names).
+void sub_71011475BC() {}
+void sub_71011478DC() {}
+void sub_7101147A58() {}
+void sub_7101147D20() {}
+void sub_7101147E44() {}
+void sub_7101147E48() {}
+void sub_7101148018() {}
+void sub_7101148484() {}
+
+// 0x7101147b24 / 0x7101147c34 (placeholder names): a 0x170-byte record at a negative offset.
+u8* sub_7101147B24(u8* self, s32 index) {
+    u8* record = &self[s64(index) * 0x170];
+    return record - 0x20d0;
+}
+
+u8* sub_7101147C34(u8* self, s32 index) {
+    u8* record = &self[s64(index) * 0x170];
+    return record - 0x1800;
+}
+
 }  // namespace ksys::tera

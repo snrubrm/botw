@@ -1348,4 +1348,34 @@ s32 ImageResourceMgr::sub_710113400C(LoadTask* task) {
     return 8;
 }
 
+// Placeholder: a terrain image node sorted by key (+0x40 -> u16 at +2) and value +0x48.
+struct TeraCompareNodeMaybe {
+    u8 _0[0x40];
+    struct Key {
+        u8 _0[2];
+        u16 _2;
+    }* _40;
+    u32 _48;
+};
+
+s32 sub_7101137D24(const TeraCompareNodeMaybe* a, const TeraCompareNodeMaybe* b) {
+    const u16 a_key = a->_40->_2;
+    const u16 b_key = b->_40->_2;
+    if (a_key < b_key)
+        return -1;
+    if (a_key > b_key)
+        return 1;
+    if (a->_48 < b->_48)
+        return -1;
+    return a->_48 > b->_48;
+}
+
+// Constant virtuals (placeholder names).
+s32 sub_71011307C0() { return 1; }
+s32 sub_7101137E58() { return 1; }
+void* sub_71011307C8() { return nullptr; }
+void* sub_7101137E60() { return nullptr; }
+void sub_7101130DEC() {}
+void sub_710113808C() {}
+
 }  // namespace ksys::tera
