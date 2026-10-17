@@ -4,6 +4,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnk_7102506d38.h"
+#include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/gameSceneSubsys12.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -717,6 +718,86 @@ void ScreenPauseMenu::m190() {
     sub_7100A3C2F0(_3a30, _3a34);
     if (auto* mgr = Unk_7102506d38::instance())
         mgr->sub_710109E5D0(mUIController);
+}
+
+// inline-only in the original; inlined four times in m191 (0x7100a3e7dc); name is a guess
+void ScreenPauseMenu::playInfoAnimator(eui::Animator* ScreenPauseMenuInfo::*animator) {
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        if (auto* a = info->*animator)
+            a->PlayAuto(1.0f);
+    }
+}
+
+// 0x7100a39464
+// NON_MATCHING: instruction selection inside the three inlined tab-index wraps (the original tests < 0 before
+// > 2 and keeps the zero-extended byte in the else arm); the block layout and every call match.
+void ScreenPauseMenu::sub_7100A39464(bool a2) {
+    if (!_3640)
+        return;
+    _3640 = false;
+    _3620 = mPauseMenuDataMgr->_44500;
+    sub_7100A392D8();
+    if (mPauseMenuDataMgr->getNextGrabbedItemIndex() >= 1) {
+        mPauseMenuDataMgr->unholdGrabbedItems();
+        sub_7100AA9838();
+        showTabPage(wrapTab(_3a18 - 1), _3644 - 1);
+        showTabPage(wrapTab(_3a18), _3644);
+        showTabPage(wrapTab(_3a18 + 1), _3644 + 1);
+        sub_7100AA9848();
+    }
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        info->sub_7100A30194();
+        if (a2)
+            info->sub_7100A3081C(mSelectedCategory, true);
+    }
+    if (auto* mgr = OnUiActorMgr::instance())
+        mgr->sub_71009079EC(false);
+}
+
+// 0x7100a3e7dc
+// NON_MATCHING: block layout only; the &_3ba8 address is hoisted to the entry and the two _36a8 play blocks are
+// not merged into one.
+void ScreenPauseMenu::m191() {
+    if (_3a34 == 1) {
+        if ((_3ba8 == 0 || _3bac == 0x200) && (_361c & 0x200) != 0) {
+            _3a38.sub_7100937C74();
+        } else if ((_3ba8 == 0 || _3bac == 0x100) && (_361c & 0x4100) == 0x4100) {
+            playInfoAnimator(&ScreenPauseMenuInfo::_36a0);
+            sub_7100A3C2F0(_3a34, 0);
+        }
+    } else {
+        const bool play_second =
+            (_3ba8 == 0 || _3bac == 0x200) && (_361c & 0x4200) == 0x4200;
+        if (_3a34 == 2) {
+            if (play_second) {
+                playInfoAnimator(&ScreenPauseMenuInfo::_36a8);
+                sub_7100A3C2F0(_3a34, 1);
+            } else if ((_3ba8 == 0 || _3bac == 0x100) && (_361c & 0x100) != 0) {
+                _3a38.sub_7100937C74();
+            }
+        } else if (play_second) {
+            playInfoAnimator(&ScreenPauseMenuInfo::_36a8);
+            sub_7100A3C2F0(_3a34, 1);
+        } else if (sub_7100AA0730() && (_3ba8 == 0 || _3bac == 0x100) &&
+                   (_361c & 0x100) != 0) {
+            _3a38.sub_7100937C74();
+        } else if ((_3ba8 == 0 || _3bac == 0x100) && (_361c & 0x4100) == 0x4100) {
+            playInfoAnimator(&ScreenPauseMenuInfo::_36a0);
+            sub_7100A3C2F0(_3a34, 2);
+        }
+    }
+
+    if (_3a38.sub_7100938294(70.0f)) {
+        _3a30 = _3a34;
+        if (_3a34 == 1)
+            getStateMachine().changeState(&sUnk_71025f0f90);
+        else if (_3a34 == 2)
+            getStateMachine().changeState(&sUnk_71025f0ff0);
+        else
+            getStateMachine().changeState(&sUnk_71025f0cf0);
+    }
 }
 
 // 0x7100a3e2d4

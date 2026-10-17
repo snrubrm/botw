@@ -918,6 +918,8 @@ public:
     void sub_7100A313A8(s32 page, bool a2);
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
     void sub_7100A31190(bool a2);
+    // 0x7100a30194 (CSV unnamed, declared only): resets the info panes before refilling them
+    void sub_7100A30194();
 
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ Unk_7102474c08 _3618;
@@ -2535,6 +2537,8 @@ public:
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
 extern const ksys::StateBase sUnk_71025f0cf0;
 extern const ksys::StateBase sUnk_71025f1050;
+extern const ksys::StateBase sUnk_71025f0f90;
+extern const ksys::StateBase sUnk_71025f0ff0;
 extern const ksys::StateBase sUnk_710261ee00;
 extern const ksys::StateBase sUnk_71025d98a0;
 extern const ksys::StateBase sUnk_71025d9e00;
@@ -2670,8 +2674,21 @@ public:
     void sub_7100A379BC(s32 tab);
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
-    // 0x7100a39464 (CSV unnamed, declared only)
+    // 0x7100a39464: after releasing the grabbed item, re-lays the three tab pages around the current one
     void sub_7100A39464(bool a2);
+    // 0x7100a38a48 (CSV unnamed, declared only): shows `page` in the tab control `tab`
+    void sub_7100A38A48(s32 tab, s32 page);
+    // inline-only in the original; names are guesses (0x7100a39464 inlines the wrap and the page check)
+    static s8 wrapTab(u8 tab) {
+        const s8 index = s8(tab);
+        return index < 0 ? 2 : (index > 2 ? 0 : index);
+    }
+    void showTabPage(s32 tab, s32 page) {
+        if (page >= 0 && _3624 > page && _3624 > 0)
+            sub_7100A38A48(tab, page);
+    }
+    // inline-only in the original; name is a guess (m191 inlines this four times around the info animators)
+    void playInfoAnimator(eui::Animator* ScreenPauseMenuInfo::*animator);
     // 0x7100a3c2f0 (CSV unnamed, declared only): shows / hides the info contents for the two mode fields
     void sub_7100A3C2F0(s32 a1, s32 a2);
     // 0x7100a3a920 (CSV unnamed, declared only): moves the three tab controls by the page offset
@@ -2683,7 +2700,7 @@ public:
     bool sub_7100A3A7FC(s32 page, s32 offset);
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
     void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
-    u8 _pad_3610[0x3618 - 0x3610];
+    /* 0x3610 */ PauseMenuDataMgr* mPauseMenuDataMgr{};  // PauseMenuDataMgr::instance(), set by the creator
     /* 0x3618 */ s32 _3618;
     union {
         /* 0x361c */ u32 _361c;
