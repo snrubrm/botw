@@ -368,6 +368,38 @@ bool HavokAI::sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& t
     return hit;
 }
 
+// Written by sub_7100F809BC (they sit next to the counter below in the original data).
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260DE48;
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260DE4C;
+// Defined in the NavMeshCharacter TU with the request id allocator.
+extern sead::Atomic<u32> sUnk_710260de50;
+
+// 0x7100f809bc (unnamed): resets the nav mesh id state (the counter the request ids come from).
+void sub_7100F809BC() {
+    sUnk_710260DE48 = 0;
+    sUnk_710260DE4C = 0xfe;
+    sUnk_710260de50 = 1;
+}
+
+bool HavokAI::sub_7100F86334(NavMeshCharacter* nav, const Unk2& query, const u32* tail,
+                            Unk1* result) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    bool hit = false;
+    if (_90.tryLock()) {
+        hit = sub_7100F8688C(nav, query, tail, result);
+        _90.unlock();
+    } else if (_c8.tryLock()) {
+        hit = sub_7100F864DC(nav, query, tail, result);
+        _c8.unlock();
+    }
+    return hit;
+}
+
 bool HavokAI::sub_7100F86324(NavMeshCharacter* nav, const Unk2& query, Unk1* result) {
     return sub_7100F86334(nav, query, &query._34, result);
 }

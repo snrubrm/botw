@@ -407,8 +407,11 @@ public:
     // tolerance); true if it hit.
     bool sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4);
 
-    // 0x7100f86334 (declared only; 424 B): sub_7100F8688C under _90, or sub_7100F864DC under _c8.
+    // 0x7100f86334 (424 B): sub_7100F8688C under _90, or sub_7100F864DC under _c8.
     bool sub_7100F86334(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
+    // 0x7100f8688c / 0x7100f864dc (unnamed, declared only): the query bodies under _90 / _c8.
+    bool sub_7100F8688C(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
+    bool sub_7100F864DC(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
 
     // 0x7100f87ed0 (CSV HavokAI::__auto3, declaration only): the HavokAI counterpart of
     // NavMeshCharacter::sub_7100F76078 (closest navmesh point to `to`, written to `out`).

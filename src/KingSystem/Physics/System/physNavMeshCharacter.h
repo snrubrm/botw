@@ -122,6 +122,9 @@ struct NavMeshCharacterMoveParam {
     /* 0x1c */ f32 _1c;
 };
 
+// 0x7100f809bc (unnamed): resets the nav mesh id state.
+void sub_7100F809BC();
+
 // Placeholder: object at NavMeshCharacter::_10 (only the accessed fields are modelled).
 struct NavMeshCharacterUnk10 : public hkReferencedObject {
     /* 0x010 */ u8 _0[0x68];
