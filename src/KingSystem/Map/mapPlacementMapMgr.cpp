@@ -35,6 +35,15 @@ bool PlacementMapMgr::isHkscResStatus3(const sead::Vector3f& pos, bool x) {
     return mMaps[u8(row + col * 8)].isDynamicLoaded(pos);
 }
 
+void PlacementMapMgr::initStaticMaps(sead::Heap* heap) {
+    loadStaticMaps_();
+    parseStaticMaps_(heap);
+
+    sead::FixedSafeString<64> map_type;
+    mMapProps->getMapType(&map_type);
+    mFarActorMerge->sub_710124ABC0(map_type, heap);
+}
+
 void PlacementMapMgr::updateNeedLoadDynMapCounts(s32 x, s32 z) {
     s32 count = 0;
     s32 physics_count = 0;

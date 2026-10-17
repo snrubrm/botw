@@ -50,6 +50,9 @@ public:
     ~PlacementMapMgr();
     // 0x7100d466c8 (CSV initStaticMaps)
     void initStaticMaps(sead::Heap* heap);
+    // 0x7100d461d0 / 0x7100d46424 (CSV; declaration only): the static map archive load and parse steps.
+    void loadStaticMaps_();
+    void parseStaticMaps_(sead::Heap* heap);
 
     bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
     // Read inline by ActorSystem::onBaseProcMgrCalc (name is a guess).
