@@ -42,16 +42,20 @@ class NavMeshCharacter;
 // on 2 / 3 and keep moving on 1).
 SEAD_ENUM(NavMeshPathState, State0, State1, State2, State3)
 
-// Placeholder: the object at NavMeshCharacter::_58 (a face material filter; when it is null the per-type cost
-// table of NavMeshCharacter::sub_7100F74FD8 decides). Only slot 4 is known.
+// Face material filter at NavMeshCharacter::_58. Enemy (0x71023572b8), Horse
+// (0x71024eb548) and Sandworm (0x71023cf690) tables all have destructor slots 0/1,
+// followed by the material checks. The shared m4 calls m3 at slot 3.
 class NavMeshCharacterUnk58 {
 public:
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    // Whether a face with the sub material `material` is usable (callers pass 0 and nullptr).
+    virtual ~NavMeshCharacterUnk58() = default;
+    virtual bool m2(NavMeshCharacter* nav, u32 material);
+    virtual f32 m3(NavMeshCharacter* nav, s32 material, s32 a, u32 b, f32 cost);
+    // Retain the existing opaque argument: callers pass nullptr. The shared
+    // implementation masks its low 32 bits before forwarding; its meaning is unknown.
     virtual bool m4(NavMeshCharacter* nav, s32 material, s32 a, void* b);
+    virtual bool m5(NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
+                    s32 other_a, u32 b);
+    virtual bool m6();
 };
 class Unk_7100f7e9f0Event;
 
