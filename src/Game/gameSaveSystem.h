@@ -160,6 +160,10 @@ public:
     // 0x71009161e8: stores a picture book page (state 0x12) and its "PictureBookSize" / "IsNewPictureBook"
     // flags; the path is "pict_book/%s.jpg".
     bool savePictureBook(void* data, const sead::SafeString& name, s32 size);
+    // 0x71009163c4: fills `mount` from the save mount string and `path` with "pict_book/%s.jpg"; returns the
+    // "PictureBookSize_%s" flag value, or -1.
+    s32 getPictureBookPath(sead::BufferedSafeString* mount, sead::BufferedSafeString* path,
+                           const sead::SafeString& name);
     // 0x710090fd08 / 0x7100914d1c / 0x71009167c8: request a reset of the game data flags (the first sets
     // BitFlag 8 and ResetFlag 8, the others BitFlag 8 and ResetFlag 2 / 4).
     void newDayCallback();

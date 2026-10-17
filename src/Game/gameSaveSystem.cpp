@@ -545,6 +545,28 @@ bool SaveSystem::savePictureBook(void* data, const sead::SafeString& name, s32 s
     return true;
 }
 
+s32 SaveSystem::getPictureBookPath(sead::BufferedSafeString* mount, sead::BufferedSafeString* path,
+                                   const sead::SafeString& name) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return -1;
+
+    s32 size = -1;
+    sead::FormatFixedSafeString<128> size_name("PictureBookSize_%s", name.cstr());
+    manager->getParam().get().getS32(&size, size_name);
+    if (size <= 0)
+        return -1;
+
+    path->format("pict_book/%s.jpg", name.cstr());
+
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return -1;
+
+    mount->copy(save_mgr->_80);
+    return size;
+}
+
 s32 SaveSystem::getAlbumPicturePath(sead::BufferedSafeString* mount, sead::BufferedSafeString* path, s32 idx) {
     const s32 pic_index = sub_7100915F58(idx);
     if (pic_index == -1)
