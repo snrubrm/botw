@@ -3,6 +3,7 @@
 #include <prim/seadMemUtil.h>
 #include <heap/seadHeap.h>
 #include <gfx/seadCamera.h>
+#include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/Camera/CameraMgr.h"
@@ -87,6 +88,53 @@ void LODMgr::sub_7101254734(LodState* state, const sead::Vector3f& center, f32 d
         if (x * x + z * z < 225.0f)
             state->mFlags8.resetBit(6);
     }
+}
+
+// NON_MATCHING: state stores and flag tests are folded differently; global flag access also differs.
+bool LODMgr::sub_7101254544(LodState* state, const sead::Vector3f& center, f32 radius,
+                            f32 distance) {
+    const bool inside = mFrustum.isInside(center, radius);
+    const f32 near_distance = state->_68 * 10.0f + radius;
+    auto* actor = state->mActor;
+    state->mFlags8.changeBit(29, inside);
+    const auto* object = actor->getMapObject();
+    state->mFlags8.resetBit(21);
+    if (near_distance * near_distance > distance) {
+        state->_1c = 0;
+        return state->mFlags8.isOnBit(29);
+    }
+    if (state->mFlags8.isOffBit(29)) {
+        state->_1c = object && state->mDispDistance * state->mDispDistance < distance ? 5 : 2;
+        return state->mFlags8.isOnBit(29);
+    }
+    if (object) {
+        if (state->mFlags26.isOffBit(4)) {
+            const f32 limit = state->mDispDistance + state->mDispDistance;
+            if (limit * limit < distance) {
+                state->_1c = 3;
+                return state->mFlags8.isOnBit(29);
+            }
+        } else if (mFrustum.get_f4() * std::sqrt(distance) >= state->_78) {
+            state->_1c = 3;
+            return state->mFlags8.isOnBit(29);
+        }
+    }
+    if (mNearFrustum.isInside(center, radius) && (sUnk_71026531A8 & 0x100) &&
+        state->mFlags14.isOnBit(25) && state->mOcclusionQueryCylinder && actor->getModel() &&
+        !actor->m39() && (state->mActor->mVillagerListNode.next() || 900.0f < distance ||
+                         state->mActor->mVillagerListNode.prev())) {
+        state->mFlags8.setBit(21);
+        if (state->sub_71012511FC())
+            return state->mFlags8.isOnBit(29);
+        if (state->sub_71012511C8()) {
+            state->mFlags8.setBit(28);
+            state->_1c = 4;
+            return state->mFlags8.isOnBit(29);
+        }
+        state->mFlags8.resetBit(28);
+    }
+    state->_1c = 1;
+    return state->mFlags8.isOnBit(29);
 }
 
 void LODMgr::init(sead::Heap* heap) {

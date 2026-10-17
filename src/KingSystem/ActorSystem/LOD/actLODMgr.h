@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <cull/aglViewFrustumCulling.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace gsys {
@@ -79,7 +80,10 @@ public:
     /* 0x1878 */ s32 _1878;
     /* 0x187c */ u8 _187c[0x1c80 - 0x187c];
     /* 0x1c80 */ u64 _1c80;
-    /* 0x1c88 */ u8 _1c88[0x2110 - 0x1c88];
+    /* 0x1c88 */ agl::cull::ViewFrustumCulling mFrustum;
+    /* 0x1ec0 */ agl::cull::ViewFrustumCulling mNearFrustum;
+    /* 0x20f8 */ sead::Vector3f mCameraDirection;
+    u8 _2104[0x2110 - 0x2104];
     /* 0x2110 */ sead::SafeArray<u32, 24> _2110;
     // The LOD debug counters that calc_x / calc_x_1 / the per-state helper increment.
     /* 0x2170 */ s32 _2170;
