@@ -15,6 +15,17 @@
 
 namespace ksys::tera {
 
+
+
+void Terrain::clearImageResourceMgrFlagMaybe() {
+    if (!mImageResourceMgr)
+        return;
+    auto& lock = mImageResourceMgr->mCS28;
+    lock.lock();
+    mImageResourceMgr->_6473 &= ~4;
+    lock.unlock();
+}
+
 void Core::Grass::sub_7101151A1C() {
     _c |= 1;
 }
@@ -475,13 +486,18 @@ bool Unk_710250fc48::sub_710114EA70() const {
 
 // 0x710250fc7c (placeholder name): a writable angle in degrees (initially 20) next to the
 // Unk_710250fc48 vtable. Nothing in our build writes it, so as a TU static it would be folded.
-f32 sUnk_710250FC7C = 20.0f;
+f32 sUnk_710250FC7C KSYS_VISIBILITY_HIDDEN = 20.0f;
 
 // NON_MATCHING: the original addresses sUnk_710250FC7C directly (a TU-local variable that is written
 // elsewhere) instead of through the GOT, which also moves the _130 load.
 f32 sub_7101152DC0(const Unk_7101152DC0* obj) {
     return sead::Mathf::max(obj->_130,
                             std::tan(sUnk_710250FC7C * sead::Mathf::pi2() / 360.0f * 0.5f));
+}
+
+// 0x7101152e10 (placeholder name): tan of the angle in 0x710250fc7c, converted from degrees.
+f32 sub_7101152E10() {
+    return std::tan(sUnk_710250FC7C * sead::Mathf::pi2() / 360.0f * 0.5f);
 }
 
 // ApertureMapsCollector::Unk_2948 code (0x7101127xxx) follows sub_7101123224; in teraScene.cpp it would inline into

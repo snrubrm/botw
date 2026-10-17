@@ -234,6 +234,9 @@ public:
     void sub_710114DEAC(bool visible);
     // 0x710114d7c8 (placeholder name): whether the calling thread is the one stored in _a40.
     bool sub_710114D7C8() const;
+    // 0x710114e0cc (CSV Terrain::__auto1; placeholder name): under mImageResourceMgr's 0x28 lock,
+    // clears bit 2 of its _6473.
+    void clearImageResourceMgrFlagMaybe();
     void sub_710114D8C0(sead::Heap* heap, System* system);
     void sub_710114D8C8(sead::Heap* heap);
     void sub_710114D804(bool enabled, const sead::Matrix44f* projection,
