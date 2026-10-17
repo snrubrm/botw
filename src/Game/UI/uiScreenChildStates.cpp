@@ -69,6 +69,24 @@ Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index) {
         nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
 }
 
+// 0x71009c5e4c
+// NON_MATCHING: the original lowers the five-way switch to a jump table (0,1 -> mode A, 2 -> no-op,
+// 3,4 -> mode B); clang 4 folds ours to two compares because there are only two distinct bodies.
+void sub_71009C5E4C(Unk_710247d8f8* child, s32 mode) {
+    switch (mode) {
+    case 0:
+    case 1:
+        child->sub_71009C5720();
+        break;
+    case 2:
+        break;
+    case 3:
+    case 4:
+        child->sub_71009C5A54();
+        break;
+    }
+}
+
 // 0x71009ed41c: the original calls this out of line from every map screen function, so it is in a
 // different translation unit from them.
 // NON_MATCHING: the original runs the ScreenChildEx cast twice (the second one through its cached

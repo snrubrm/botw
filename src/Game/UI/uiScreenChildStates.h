@@ -205,6 +205,9 @@ public:
     ~Unk_710247d8f8() override;
     // 0x71009c5b68 (placeholder name): _138
     bool sub_71009C5B68() const;
+    // 0x71009c5720 / 0x71009c5a54 (placeholder names): enter the two animation modes (called by sub_71009C5E4C)
+    void sub_71009C5720();
+    void sub_71009C5A54();
 
     // Members from the ctor 0x9c54e4 and D1 0x9c55b8.
     /* 0x130 */ void* _130 = nullptr;
