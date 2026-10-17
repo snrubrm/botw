@@ -32,7 +32,11 @@ static_assert(sizeof(Unk_7100BA1AEC) == 8);
 class IAssetInfoReadable {
 public:
     virtual bool readAssetInfo(AssetInfo* asset_info, const sead::SafeString& name, bool flag) = 0;
+    // ResourceBars' +0x38 sub-vtable has readAssetInfo followed by both
+    // adjusting destructor entries; standalone reader 2502950 agrees.
+    virtual ~IAssetInfoReadable() = default;
 };
+static_assert(sizeof(IAssetInfoReadable) == 8);
 
 /// The description of an audio asset (a view of the audio meta binary).
 class AssetInfo {
