@@ -12,6 +12,8 @@ namespace uking::act {
 class RideableEnemy : public Rideable {
     SEAD_RTTI_OVERRIDE(RideableEnemy, Rideable)
 public:
+    // 0x71002cb158 (CSV "RideableEnemy::ctor"; placeholder name): the factory.
+    static RideableEnemy* make(sead::Heap* heap);
     void m24() override;
     bool m44() override;
     // Slot 45: the override of Unk_7100e8b2b8::procLink13 (RiddenAnimalType-gated speed factor; its thunk

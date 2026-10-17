@@ -4,6 +4,10 @@
 
 namespace uking::act {
 
+RideableEnemy* RideableEnemy::make(sead::Heap* heap) {
+    return new (heap, std::nothrow) RideableEnemy;
+}
+
 void RideableEnemy::m24() {}
 
 bool RideableEnemy::m44() {
