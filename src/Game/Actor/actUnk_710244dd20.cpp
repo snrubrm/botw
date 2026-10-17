@@ -19,6 +19,8 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -737,6 +739,57 @@ bool Unk_710244dd20::sub_71006D0150() {
 }
 
 // NON_MATCHING: the actor load for the max-life query moves past the resource query.
+// NON_MATCHING: same-TU parameter and classifier helpers inline; request stack slots differ.
+void Unk_710244dd20::sub_71006D01A0(bool flag) {
+    auto* actor = _10;
+    if (m17(2))
+        return;
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mBurnable.ref())
+        return;
+    auto* chemical = actor->getChemicalStuff();
+    _30 = chemical && chemical->_c0 == 2 ? chemical->_182 : 3;
+    param = sub_71006DF5A4();
+    if (param && param->mBurnCritical.ref()) {
+        ConditionDamageInfo info;
+        info.mKind = 2;
+        info.mDamage = actor->getMaxLife();
+        info.mFlags = 2;
+        sub_71006DF5CC(info);
+    } else {
+        param = sub_71006DF5A4();
+        mBurnDuration = param ? f32(s32(f32(param->mBurnTime.ref()) * _cc)) : 0.0f;
+        if (!_8.isOnBit(2)) {
+            param = sub_71006DF5A4();
+            mBurnInterval = param ? f32(param->mBurnDamageInterval.ref()) : 0.0f;
+        }
+        Unk_7100739634Result request{};
+        request._14 = -1;
+        if (sub_71006D1AB0(&request) && request.kind == 2 && request._18) {
+            auto* source = _10;
+            if (sub_71006DF5A4())
+                ksys::act::sub_7100EDD308(source, _30);
+        } else {
+            auto* source = _10;
+            if (sub_71006DF5A4()) {
+                const s32 damage = s32(f32(ksys::act::sub_7100EDD308(source, _30)) * _cc);
+                if (damage > 0) {
+                    ConditionDamageInfo info;
+                    info.mKind = 2;
+                    info.mDamage = damage;
+                    param = sub_71006DF5A4();
+                    if (param && param->mBurnCritical.ref())
+                        info.mFlags = 2;
+                    if (flag)
+                        info.mFlags |= 0x40;
+                    sub_71006DF5CC(info);
+                }
+            }
+        }
+    }
+    _8.setBit(2);
+}
+
 void Unk_710244dd20::sub_71006D03C8() {
     auto* param = sub_71006DF5A4();
     if (!param || !*param->mWetAffect)
@@ -779,6 +832,106 @@ void Unk_710244dd20::sub_71006D0490() {
     }
     if (_40 >= 0.0f)
         _40 = 3.0f;
+}
+
+}  // namespace uking::act
+
+namespace uking::act {
+// NON_MATCHING: same-TU damage helpers inline and condition branches use different temporary storage.
+void Unk_710244dd20::sub_71006CF338() {
+    if (!_8.isOn(0x5c))
+        return;
+    auto* actor = _10;
+    if (_8.isOnBit(2)) {
+        auto* chemical = actor->getChemicalStuff();
+        auto* param = sub_71006DF5A4();
+        const s32 interval = param ? param->mBurnDamageInterval.ref() : 0;
+        Unk_7100739634Result request{};
+        request._14 = -1;
+        const bool attack = sub_71006D1AB0(&request) && request.kind == 2 && request._18;
+        bool refresh = attack;
+        s32 damage = 0;
+        if (attack) {
+            auto* source = _10;
+            if (sub_71006DF5A4())
+                ksys::act::sub_7100EDD308(source, _30);
+            if (request._c != 2)
+                damage = s32(f32(request._8) * _cc);
+        } else {
+            refresh = chemical && interval > 0 && (chemical->_b8 & 4);
+        }
+        if (refresh) {
+            ksys::Timer::update(&mBurnInterval, -1.0f);
+            param = sub_71006DF5A4();
+            mBurnDuration = param ? f32(s32(f32(param->mBurnTime.ref()) * _cc)) : 0.0f;
+            if (attack) {
+                ConditionDamageInfo info;
+                info.mKind = 2;
+                info.mDamage = damage;
+                if (interval > 0 && mBurnInterval <= 0.0f) {
+                    param = sub_71006DF5A4();
+                    info.mDamage += param ? s32(f32(param->mBurnContinuousDamage.ref()) * _cc) : 0;
+                    mBurnInterval = f32(interval);
+                }
+                param = sub_71006DF5A4();
+                if (param && param->mBurnCritical.ref())
+                    info.mFlags |= 2;
+                info.mFlags |= 8;
+                info._8 = request._10;
+                info._10 = request._14;
+                sub_71006DF5CC(info);
+            } else if (mBurnInterval <= 0.0f) {
+                ConditionDamageInfo info;
+                info.mKind = 2;
+                param = sub_71006DF5A4();
+                info.mDamage = param ? s32(f32(param->mBurnContinuousDamage.ref()) * _cc) : 0;
+                info.mFlags = 1;
+                sub_71006DF5CC(info);
+                mBurnInterval = f32(interval);
+            }
+        } else {
+            ksys::Timer::update(&mBurnDuration, -1.0f);
+            mBurnInterval = f32(interval);
+            if (mBurnDuration <= 0.0f)
+                m13(2);
+        }
+    }
+    if (_8.isOnBit(3)) {
+        auto* chemical = actor->getChemicalStuff();
+        if (_d0 <= 0.0f || _139.isOnBit(1)) {
+            _34 = 0.0f;
+            m13(3);
+        } else {
+            f32 rate = 1.0f;
+            if (sub_71006DF4F0(actor) ||
+                (chemical && ((chemical->_b8 & 4) || chemical->sub_7100D914C0() > 0))) {
+                if (auto* globals = ksys::act::GlobalParameter::instance()) {
+                    if (auto* param = globals->getGlobalParam())
+                        rate = param->mIceMeltSpeedOnContactFire.ref();
+                }
+            }
+            ksys::Timer::update(&_34, -(rate * _38));
+            if (_34 <= 0.0f)
+                m13(3);
+        }
+    }
+    if (_8.isOnBit(4)) {
+        Unk_7100739634Result request{};
+        request._14 = -1;
+        if (sub_71006D1AB0(&request) && request.kind == 4 && request._18) {
+            sub_71006DF5A4();
+            ConditionDamageInfo info;
+            info.mKind = 4;
+            info.mDamage = request._c == 2 ? 0 : s32(f32(request._8) * _d4);
+            info._8 = request._10;
+            info.mFlags = 8;
+            info._10 = request._14;
+            sub_71006DF5CC(info);
+        }
+        ksys::Timer::update(&_3c, -1.0f);
+        if (_3c <= 0.0f)
+            m13(4);
+    }
 }
 
 }  // namespace uking::act
