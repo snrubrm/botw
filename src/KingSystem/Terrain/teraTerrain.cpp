@@ -5,6 +5,8 @@
 #include <cmath>
 #include <filedevice/seadFileDevice.h>
 #include <nn/gfx/gfx_ResTexture.h>
+#include <nn/g3d/ResModel.h>
+#include <nn/g3d/ResMaterial.h>
 #include <math/seadMathCalcCommon.h>
 #include <common/aglDrawContext.h>
 #include <gfx/seadViewport.h>
@@ -12,6 +14,30 @@
 #include <thread/seadThread.h>
 
 namespace ksys::tera {
+
+s32 sub_710114190C(const nn::g3d::ResMaterial* material, const char* name);
+
+void Terrain::Unk4ae0::Unk_10::sub_710114161C() {
+    _490 = _8->FindMaterialIndex("OpaqueNear");
+    _494 = _8->FindMaterialIndex("OpaqueMiddle");
+    _498 = _8->FindMaterialIndex("OpaqueFar");
+    _49c = _8->FindMaterialIndex("Translucent");
+
+    _6ec = 11;
+    _6f0 = 12;
+    _6f4 = 13;
+    _6f8 = 5;
+    _6fc = 3;
+
+    const nn::g3d::ResMaterial* material = &_8->mMaterials[_490];
+    _6d0 = sub_710114190C(material, "tera_height");
+    _6d4 = sub_710114190C(material, "tera_normal");
+    _6d8 = sub_710114190C(material, "tera_material");
+    _6dc = sub_710114190C(material, "tera_material_linear");
+    _6e0 = sub_710114190C(material, "tera_water");
+    _6e4 = sub_710114190C(material, "_a0");
+    _6e8 = sub_710114190C(material, "_n0");
+}
 
 SEAD_SINGLETON_DISPOSER_IMPL(Terrain)
 

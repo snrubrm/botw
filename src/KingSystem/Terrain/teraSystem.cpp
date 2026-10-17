@@ -7,6 +7,21 @@
 
 namespace ksys::tera {
 
+struct TeraManagerMaybe {
+    u8 _0[0x58];
+    System* mSystem;
+};
+
+TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
+
+System* System::instance() {
+    return sUnk_710260B220.mSystem;
+}
+
+void Terrain::Unk4ae0::Unk_10::sub_71011406CC(u32 count) {
+    _700 = count;
+}
+
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system) {
     if (!system->_8)
         return 0;

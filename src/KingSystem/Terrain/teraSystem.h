@@ -41,6 +41,11 @@ class ShaderProgram;
 
 namespace gsys {
 class Model;
+class ModelResource;
+}
+
+namespace nn::g3d {
+class ResModel;
 }
 
 namespace sead {
@@ -117,6 +122,14 @@ public:
         // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
         u8 _0[8];
         u32 mFlags;
+        u8 _c[0x10 - 0xc];
+        // 0x7101150990 disables every entry of the array at _18 (stride 0x2c0).
+        u32 mCount;
+        u8 _14[0x18 - 0x14];
+        u8* mEntries;
+        u8 _20[0x28 - 0x20];
+        // 0x7101150ba4 / 0x7101150f08 query this object (0x7101069db8).
+        void* _28;
     };
     struct Unk_71013010d4 {
         s8 mIndex;
@@ -161,6 +174,13 @@ public:
         void sub_7101083028();
         // 0x7101083060 (declared only; 400 B): sets flag bit 1 unless bit 2 is set and builds the tables.
         void sub_7101083060();
+
+        u8 _0[8];
+        u32 _8;
+        u8 _c[0x14cd0 - 0xc];
+        // Both are passed to 0x7101084d04 / 0x7101084e78.
+        void* _14cd0;
+        void* _14cd8;
     };
 
     u8 _0[0xf0];
@@ -278,9 +298,32 @@ public:
             // tables (file names _718, main _728, sub _730; result in _738).
             void setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
                                           const AttributeMap* sub_map);
+            // 0x710114161c (placeholder name): looks up the four terrain materials of _8 and the shader
+            // parameter indices _6d0 - _6e8; stores the material table _6ec - _6fc.
+            void sub_710114161C();
 
-            void* _8;
-            u8 _10[0x700 - 0x10];
+            nn::g3d::ResModel* _8;
+            u8 _10[0x490 - 0x10];
+            // Material indices of _8 (0x710114161c): OpaqueNear / OpaqueMiddle / OpaqueFar / Translucent.
+            s32 _490;
+            s32 _494;
+            s32 _498;
+            s32 _49c;
+            u8 _4a0[0x6d0 - 0x4a0];
+            // Shader parameter indices (0x710114161c).
+            s32 _6d0;
+            s32 _6d4;
+            s32 _6d8;
+            s32 _6dc;
+            s32 _6e0;
+            s32 _6e4;
+            s32 _6e8;
+            // Constants 11 / 12 / 13 / 5 / 3 (0x710114161c).
+            s32 _6ec;
+            s32 _6f0;
+            s32 _6f4;
+            s32 _6f8;
+            s32 _6fc;
             s32 _700;
             MaterialNameTable* mMaterialNames;
             u8 _710[0x718 - 0x710];
@@ -1131,6 +1174,7 @@ public:
     u8 _1336[0x1338 - 0x1336];
     // sub_7101112A74 clears bit 3 (8).
     u32 _1338;
+
 };
 
 // Placeholder: a handle to an area node in System::_fa8 (set by 0x71012eb6e8, checked by 0x71012eb70c; ImageResourceMgr
@@ -1380,6 +1424,19 @@ void sub_710110B7A4(s32* out_a, s32* out_b, s32 index);
 bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
+
+// 0x7101084d04 / 0x7101084e78 (declaration only; placeholder signatures): reset / update the two
+// sub-objects of Core::Unk_140.
+void sub_7101084D04(void* object);
+void sub_7101084E78(void* object);
+// 0x7101069db8 (declaration only): a grass volume check at `xz`; the caller passes the grass manager
+// object (Core::Grass::_28) and the radius.
+u32 sub_7101069DB8(void* manager, const sead::Vector2f* xz, f32 radius);
+// 0x710106bc54 / 0x71012e258c (declaration only): release the two parts of one grass entry.
+void sub_710106BC54(void* entry);
+void sub_71012E258C(void* object);
+// 0x71012dc42c (declaration only): the object Core::Grass::_30 forwards to.
+void sub_71012DC42C(void* object);
 
 // 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with
 // the tera system and every route of every map.
