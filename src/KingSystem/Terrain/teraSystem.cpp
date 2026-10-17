@@ -18,9 +18,49 @@ u8* sub_710112F434(u8* self) {
 struct TeraManagerMaybe {
     u8 _0[0x58];
     System* mSystem;
+    u8 _60[0xa8 - 0x60];
+    void* _a8;
 };
 
 TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
+KSYS_VISIBILITY_HIDDEN void* sUnk_710260B190;
+KSYS_VISIBILITY_HIDDEN void* sUnk_710260B198;
+
+// Placeholder: a two-word physics record.
+struct Unk_7100F418C8Maybe {
+    u32 _0;
+    u32 _4;
+};
+
+void sub_7100F418A0(void* value) {
+    sUnk_710260B190 = value;
+}
+
+void sub_7100F418AC(void* value) {
+    sUnk_710260B198 = value;
+}
+
+void sub_7100F418B8(void* value) {
+    sUnk_710260B220._a8 = value;
+}
+
+void sub_7100F418C8(Unk_7100F418C8Maybe* obj) {
+    obj->_0 = 0;
+    obj->_4 = 0;
+}
+
+void sub_7100F418D0(Unk_7100F418C8Maybe* obj, u32 value) {
+    obj->_0 = 0;
+    obj->_4 = value;
+}
+
+u32 sub_7100F418F8(const Unk_7100F418C8Maybe* obj) {
+    return obj->_4;
+}
+
+void sub_7100F41934(void* obj) {
+    operator delete(static_cast<u8*>(obj) - 0x18);
+}
 
 System* System::instance() {
     return sUnk_710260B220.mSystem;
@@ -1018,3 +1058,5 @@ void sub_710111FAE0() {}
 void sub_710112F078() {}
 
 }  // namespace ksys::tera
+
+s32 sub_7100F419B0() { return 1; }

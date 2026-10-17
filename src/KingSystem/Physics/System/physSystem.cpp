@@ -407,3 +407,7 @@ void* sub_7100F6C47C() { return nullptr; }
 s32 sub_7100F6ECDC() { return 1; }
 s32 sub_7100F6B8B4() { return 20; }
 s32 sub_7100F6ECE4() { return 20; }
+
+void* sub_7100FA8C34() { return nullptr; }
+s32 sub_7100FA8C3C() { return 1; }
+s32 sub_7100FC0D94() { return 1; }
