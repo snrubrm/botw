@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking {
 
@@ -506,8 +507,15 @@ bool Unk_7100e8a080::sub_7100E8A100(HorseMgr* mgr, ksys::act::BaseProc* proc) {
     return true;
 }
 
+extern const sead::SafeString sUnk_7102603C98[4] = {
+    "Horse_Link_Mane", "Horse_Link_Mane_Reduction", "Horse_Link_Mane_01",
+    "Horse_Link_Mane_01_Reduction",
+};
+extern const sead::SafeString sUnk_7102603CD8[2] = {"Horse_Link_Mane_00L", "Horse_Link_Mane_00L_Reduction"};
+
 namespace {
 // Horse tack names of 0x7100e89eec (placeholder names = addresses): the tables the getters below index.
+const f32 sUnk_7101DA2364 = 0.1f;
 const sead::SafeString sUnk_7102603CF8 = "Horse_Link_Mane_Grabbed";
 const sead::SafeString sUnk_7102603D08 = "Horse_Link_Mane_Grabbed_Large";
 const sead::SafeString sUnk_7102603D18 = "Horse_Link_Mane_Grabbed_Nushi";
@@ -536,6 +544,24 @@ const sead::SafeString* sSaddleNames[10] = {
     &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString, &sead::SafeString::cEmptyString,
 };
 }  // namespace
+
+// 0x7100e82094 (placeholder name): the mane name group of the horse type (3 / 4: the normal group, 6: the
+// _00L group); otherwise the first or the _01 mane, picked with `random` (10%).
+// NON_MATCHING: ours folds the 3 / 4 tests into a range check and selects the default random with csel; the
+// original has one compare per case and a branch.
+const sead::SafeString* sub_7100E82094(HorseMgr::RiddenAnimalType type, sead::Random* random) {
+    const s32 t = type;
+    if (t == 6)
+        return sUnk_7102603CD8;
+    if (t == 4)
+        return sUnk_7102603C98;
+    if (t == 3)
+        return sUnk_7102603C98;
+    if (!random)
+        random = sead::GlobalRandom::instance();
+    const f32 value = random->getF32();
+    return &sUnk_7102603C98[value < sUnk_7101DA2364 ? 2 : 0];
+}
 
 const sead::SafeString& getHorseManeName(HorseMgr::RiddenAnimalType type) {
     const u32 index = u32(type) - 1;
