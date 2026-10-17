@@ -314,3 +314,7 @@ void ForestRenderer::sub_7100F06864(s32 idx) {
 }
 
 }  // namespace ksys::gfx
+
+s32 sub_7100F07590() { return 1680; }
+
+s32 sub_7100F0AC14() { return 4; }

@@ -756,3 +756,7 @@ void ClusteredRenderer::sub_7101249E6C() {
 
 }  // namespace ksys::act
 
+
+s32 sub_7101240FE0() { return 28; }
+
+s32 sub_7101241F64() { return 27; }
