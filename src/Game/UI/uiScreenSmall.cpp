@@ -68,7 +68,7 @@ void ScreenPauseMenu::sub_7100A392D8() {
 
     if (mSelectedCategory == -1)
         return;
-    const s32 idx = mSelectedCategory < 7 ? mSelectedCategory : 0;
+    const s32 idx = u32(mSelectedCategory) < 7 ? mSelectedCategory : 0;
     mTabControls.mEntries[idx].mGuide.sub_7100936BD4(show_first, show_second);
 }
 
