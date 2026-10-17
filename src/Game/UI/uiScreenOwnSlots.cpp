@@ -4,6 +4,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnk_7102506d38.h"
+#include "Game/gameSceneSubsys12.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/AOC/aocManager.h"
@@ -560,6 +561,38 @@ void ScreenPauseMenu::sub_7100A38028() {
                 unit->sub_71009B0224(true);
         }
         _3674 = 0;
+    }
+}
+
+// 0x7100a3c910
+// NON_MATCHING: the MessageType local sits at sp + 0xc here and at sp + 8 in the original; every other
+// instruction matches.
+void ScreenPauseMenu::m154() {
+    const ksys::MessageType type = ksys::MessageType(0x7800001);
+    sub_7100A48628(&type, nullptr);
+    if (_3674 == 0) {
+        const u32 idx = u32(_3a18) < 3 ? _3a18 : 0;
+        if (auto* unit = _3a00[idx])
+            unit->sub_71009B0224(true);
+    } else if (auto* button = mButtonGroup->FindButtonByTag(_3b80)) {
+        button->setFlag10(true);
+    }
+    moveBoxCursorByTag_(_3b80);
+    if (!sub_7100AA0730() && !GameSceneSubsys12::instance()->x()) {
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+            if (info->_36a0) {
+                info->_36a0->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+                _3a19 &= ~1;
+            }
+        }
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+            if (info->_36a8) {
+                info->_36a8->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+                _3a19 &= ~2;
+            }
+        }
     }
 }
 

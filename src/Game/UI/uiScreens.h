@@ -919,7 +919,10 @@ public:
 
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ Unk_7102474c08 _3618;
-    u8 _pad_3650[0x38f0 - 0x3650];
+    u8 _pad_3650[0x36a0 - 0x3650];
+    /* 0x36a0 */ eui::Animator* _36a0;
+    /* 0x36a8 */ eui::Animator* _36a8;
+    u8 _pad_36b0[0x38f0 - 0x36b0];
     /* 0x38f0 */ f32 _38f0;
     u8 _pad_38f4[0x3904 - 0x38f4];
     /* 0x3904 */ u8 _3904;
@@ -2694,7 +2697,8 @@ public:
     u8 _39fc[4];
     /* 0x3a00 */ ScreenPauseMenuUnk3a00* _3a00[3];
     /* 0x3a18 */ u8 _3a18;
-    u8 _pad_3a19[0x3a20 - 0x3a19];
+    /* 0x3a19 */ u8 _3a19;
+    u8 _pad_3a1a[0x3a20 - 0x3a1a];
     /* 0x3a20 */ eui::LayoutEx* mFirstGuideLayout;
     /* 0x3a28 */ eui::LayoutEx* mSecondGuideLayout;
     /* 0x3a30 */ s32 _3a30;
