@@ -143,6 +143,9 @@ public:
     bool sub_7100915A00();
     // 0x7100915f58 (CSV SaveSystem::__auto5): the album picture index flag `idx` (AlbumInfo at +0x1880).
     s32 sub_7100915F58(s32 idx);
+    // 0x7100915f64: fills `mount` from the save mount string (SaveMgr::_80) and `path` with
+    // "album/pict_%03d.jpg"; returns the picture's flag count, or -1.
+    s32 getAlbumPicturePath(sead::BufferedSafeString* mount, sead::BufferedSafeString* path, s32 idx);
     // 0x71009157d4 (CSV SaveSystem::isFirstLaunch): true while bit 2 of _38 is clear.
     bool isFirstLaunch() const;
     // 0x71009167f4 (CSV SaveSystem::noop)
@@ -151,6 +154,12 @@ public:
     void calc();
     // 0x7100915d40: stores a picture in a free album slot and saves the album flags for it.
     bool saveAlbumPicture(void* data, const sead::SafeString& name, s32 size);
+    // 0x71009160bc: removes the album picture index at `index` from AlbumPictureIndex and closes the gap up to
+    // the terminating -1, then writes the result into the current slot.
+    void removeAlbumPictureIndex(s32 index);
+    // 0x71009161e8: stores a picture book page (state 0x12) and its "PictureBookSize" / "IsNewPictureBook"
+    // flags; the path is "pict_book/%s.jpg".
+    bool savePictureBook(void* data, const sead::SafeString& name, s32 size);
     // 0x710090fd08 / 0x7100914d1c / 0x71009167c8: request a reset of the game data flags (the first sets
     // BitFlag 8 and ResetFlag 8, the others BitFlag 8 and ResetFlag 2 / 4).
     void newDayCallback();

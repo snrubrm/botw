@@ -478,6 +478,92 @@ s32 SaveSystem::sub_7100915F58(s32 idx) {
     return _1880.sub_710090C954(idx);
 }
 
+// NON_MATCHING: reads the index flags through buffer 1 like the original but keeps the destination pointer as an
+// address recomputed from `i` (the original strength-reduces it into an extra induction register); frame 0x60 vs 0x80.
+void SaveSystem::removeAlbumPictureIndex(s32 index) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+
+    s32 value = -1;
+    s32 i = index;
+    do {
+        if (i > 0x2e)
+            break;
+        manager->getParam().get().getBuffer1()->getS32(
+            &value, "AlbumPictureIndex", i + 1, manager->getParam().shouldCheckPermissions());
+        manager->setS32(value, "AlbumPictureIndex", i);
+        const s64 slot = _30 < 8 ? _30 : 0;
+        _40[slot].mAlbumIndices[i] = value;
+        ++i;
+    } while (value != -1);
+
+    const s64 slot = _30 < 8 ? _30 : 0;
+    _40[slot].mAlbumIndices[0x2f] = -1;
+    manager->setS32(-1, "AlbumPictureIndex", 0x2f);
+    _1880._0 = 0;
+}
+
+// NON_MATCHING: the original tests `_3c` before the size bound; ours schedules that load after it (same returns).
+bool SaveSystem::savePictureBook(void* data, const sead::SafeString& name, s32 size) {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr || save_mgr->get38() != 0 || _3c != 0 || u32(size) >> 12 >= 5)
+        return false;
+
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return false;
+
+    if (_30 == 8)
+        _30 = 0;
+
+    sead::FormatFixedSafeString<128> size_name("PictureBookSize_%s", name.cstr());
+    manager->setS32(size, size_name);
+
+    sead::FormatFixedSafeString<128> registered_name("IsRegisteredPictureBook_%s", name.cstr());
+    bool registered = false;
+    manager->getParam().get().getBool(&registered, registered_name);
+    if (!registered) {
+        manager->setBool(true, registered_name);
+        sead::FormatFixedSafeString<128> new_name("IsNewPictureBook_%s", name.cstr());
+        manager->setBool(true, new_name);
+    }
+
+    sead::FormatFixedSafeString<128> path("pict_book/%s.jpg", name.cstr());
+
+    save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return false;
+
+    _3c = 0x12;
+    _1a50 |= 0x400;
+    if (!save_mgr->saveAlbumPicture(path, data, size, 0x5000)) {
+        _3c = 0;
+        _1a50 &= ~0x400;
+        return false;
+    }
+    return true;
+}
+
+s32 SaveSystem::getAlbumPicturePath(sead::BufferedSafeString* mount, sead::BufferedSafeString* path, s32 idx) {
+    const s32 pic_index = sub_7100915F58(idx);
+    if (pic_index == -1)
+        return -1;
+
+    const s32 result = _1880.sub_710090C9B4(pic_index);
+    if (result <= 0)
+        return -1;
+
+    path->format("album/pict_%03d.jpg", pic_index);
+
+    auto* mgr = ksys::SaveMgr::instance();
+    if (!mgr)
+        return -1;
+
+    mount->copy(mgr->_80);
+    return result;
+}
+
 void SaveSystem::noop() {}
 
 void SaveSystem::newDayCallback() {

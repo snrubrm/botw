@@ -152,8 +152,9 @@ private:
     u32 _3c;
     u32 _40;
     u8 _44[0x80 - 0x44];
-    sead::SafeString _80;
-    u8 _90[0xf8 - 0x90];
+    // 0x80: the save mount string. The original calls cstr() through its vtable (0x7100915f64), so it is a buffered
+    // string; it ends at _f8 (0x78 bytes = 0x18 + 96).
+    sead::FixedSafeString<96> _80;
     bool _f8;
     u8 _f9[0x100 - 0xf9];
     sead::FileDevice* _100;
