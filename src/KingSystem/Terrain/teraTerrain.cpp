@@ -389,6 +389,23 @@ sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
 }
 f32 Terrain::sub_710114D8F8(const System* system) { return system->_18 * _3c8; }
 
+bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
+    void* manager = _28;
+    const sead::Vector2f xz(pos->x, pos->z);
+    return (sub_7101069DB8(manager, &xz, radius) & 1) != 0;
+}
+
+void Core::Grass::sub_7101150990(bool enabled) {
+    const u32 flags = mFlags;
+    const u32 set = flags | 0x4000;
+    const u32 clear = flags & ~0x4000u;
+    mFlags = enabled ? clear : set;
+    for (auto& entry : mEntries) {
+        sub_710106BC54(entry._0);
+        sub_71012E258C(entry._8);
+    }
+}
+
 bool Core::Grass::sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value) {
     const Unk_7101150c24 arg{1, pos, radius, value, true, true, true, false, false};
     return (sub_7101150C24(&arg) & 1) != 0;
