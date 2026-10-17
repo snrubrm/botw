@@ -15,6 +15,10 @@ namespace ksys::act {
 
 class LodState;
 
+// 0x71026531a8 (GOT 0x71025a2d40): the LOD debug / enable flag word. Only the LOD manager code
+// reads it; bit 5 / 6 / 13 / 14 gate the state updates and the debug counters.
+extern u32 sUnk_71026531A8;
+
 // Placeholder name (ctor 0x71011086dc, dtor 0x71011086f0, init 0x7101108774; size 0x30): created by
 // LODMgr::init (LODMgr + 0x21b8). A sead::ObjList of 0x20-byte entries: the dtor is ObjList::freeBuffer and
 // the init allocates the node pool (nodes of 0x30 bytes, list node at +0x20). Defined in the terrain TU
@@ -50,10 +54,17 @@ public:
     // 0x71012537e8 (CSV LODMgr::calc_x_0; placeholder name): takes back the queued slots of both
     // pools, at most 5 minus the slots the previous calc used, and clears their draw bit.
     void calc_x_0();
+    // 0x7101253b20 (CSV LODMgr::calc_x_1): copies the flags of each state's linked actor's LodState
+    // into the state and updates the neighbours.
+    void calc_x_1();
+    // 0x71012540ac (unnamed in the CSV; placeholder name): applies the manager flags and the actor's
+    // chemical / xlink state to one LodState, then updates the debug counters.
+    void sub_71012540AC(LodState* state);
 
-    /* 0x028 */ u8 _28[0x1028 - 0x28];
+    /* 0x0028 */ LodState* _28[0x200];  // the LodStates calc() walks
     /* 0x1028 */ s32 _1028;
-    /* 0x102c */ u8 _102c[0x1830 - 0x102c];
+    /* 0x102c */ u8 _102c[4];
+    /* 0x1030 */ LodState* _1030[0x100];  // the LodStates calc_x_1() walks (index masked to 8 bits)
     /* 0x1830 */ s32 _1830;
     /* 0x1838 */ sead::PtrArray<gsys::Model> _1838;
     /* 0x1848 */ u8 _1848[0x1878 - 0x1848];
@@ -62,9 +73,23 @@ public:
     /* 0x1c80 */ u64 _1c80;
     /* 0x1c88 */ u8 _1c88[0x2110 - 0x1c88];
     /* 0x2110 */ sead::SafeArray<u32, 24> _2110;
-    /* 0x2170 */ u8 _2170[0x21a0 - 0x2170];
+    // The LOD debug counters that calc_x / calc_x_1 / the per-state helper increment.
+    /* 0x2170 */ s32 _2170;
+    /* 0x2174 */ s32 _2174;
+    /* 0x2178 */ s32 _2178;
+    /* 0x217c */ s32 _217c;
+    /* 0x2180 */ s32 _2180;
+    /* 0x2184 */ s32 _2184;
+    /* 0x2188 */ u32 _2188;  // not reset by calc_x
+    /* 0x218c */ s32 _218c;
+    /* 0x2190 */ s32 _2190;
+    /* 0x2194 */ s32 _2194;
+    /* 0x2198 */ s32 _2198;
+    /* 0x219c */ s32 _219c;
     /* 0x21a0 */ s32 _21a0;
-    /* 0x21a4 */ u8 _21a4[0x21b8 - 0x21a4];
+    /* 0x21a4 */ s32 _21a4;
+    /* 0x21a8 */ s32 _21a8;
+    /* 0x21ac */ u8 _21ac[0x21b8 - 0x21ac];
     /* 0x21b8 */ Unk_71011086dc* _21b8;
     /* 0x21c0 */ u8 _21c0[0x2208 - 0x21c0];
 

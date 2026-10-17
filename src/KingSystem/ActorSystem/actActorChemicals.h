@@ -171,6 +171,9 @@ public:
 
     // 0x7100e39458: checks the current chemical elements (declaration only).
     bool sub_7100E39458();
+    // 0x7100e392fc: false when at least one active chemical element reports a state (the LOD debug
+    // helpers call it to decide whether the actor's chemical effects are running).
+    bool x_0();
 
     Chemical* getStuff(int idx);
     // 0x7100e3718c (lane1 s22, placeholder name): the element itself (not its Chemical), ~25 callers.

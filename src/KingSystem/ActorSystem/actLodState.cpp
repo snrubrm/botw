@@ -27,7 +27,7 @@ LodState::LodState(sead::Heap* heap, sead::BitFlag32 flags, Actor* actor,
     if (mActor->getName() == "GameRomHorseBone") {
         _24 = 1;
     }
-    _25 = _24;
+    _25.setDirect(_24);
 
     if (mActor->getMapObject()) {
         mDispDistance = mActor->getMapObject()->getDispDistance();

@@ -47,7 +47,7 @@ public:
     s32 _1c = 4;
     u32 mActorType = 9;
     u8 _24 = 0xff;
-    u8 _25;
+    sead::BitFlag8 _25;
     sead::BitFlag16 mFlags26;
     float _28 = 1.0;
     Actor* mActor = nullptr;
@@ -60,7 +60,7 @@ public:
     float mDispDistance = 0.0;
     float _58 = -1.0;
     int mDisableCalcSkipFrame = 0;
-    u32 _60 = 0;
+    s32 _60 = 0;
     int _64 = -3;
     float _68;
     float _6c;

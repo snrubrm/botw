@@ -154,6 +154,8 @@ public:
 protected:
     friend class BaseProcLinkDataMgr;
     friend class BaseProcMgr;
+    // The LOD manager's per-state helper toggles mSpecialJobTypesMask bits 1 / 4.
+    friend class LODMgr;
 
     enum class Flags : u32 {
         Initialized = 1,

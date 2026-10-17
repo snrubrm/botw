@@ -179,6 +179,10 @@ public:
     void sub_710123445C(const char* name, bool a, bool b);
     // 0x7101230e18 (declared only, lane5 s6): emits the "Disappear_Ancient" SLink asset and sets a flag (Vanish::enter_ when the die type is 3).
     void sub_7101230E18();
+    // 0x7101230e68 (unnamed in the CSV; declaration only): sets (true) / clears mask bit 2 of _73,
+    // sleeping through the xlink manager or waking both user instances. The LOD debug helpers call it
+    // with the actor's mXLink.
+    void sub_7101230E68(bool enable);
     // 0x710123051c (placeholder name): sets the asset info reader of the SLink user instance (if any).
     void sub_710123051C(aal::IAssetInfoReadable* reader);
     void prepareDelete();
