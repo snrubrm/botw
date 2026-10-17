@@ -475,6 +475,8 @@ public:
     void sub_7100F83580(NavMeshObj2Maybe* obj);
     void sub_7100F8363C(NavMeshObj2Maybe* obj);
     void sub_7100F83790(NavMeshObj2Maybe* obj, bool queued);
+    // Removes external reverse user-edge links from this entry's navmesh instance.
+    void sub_7100F82278(Unk_7102519a98* obj);
     void sub_7100F83848(const hkArray<hkaiUserEdgeUtils::UserEdgePair>* pairs);
 
     // 0x7100f82c88 (placeholder name): resets the character's path state (inlineReset) and queues it with bit 1
