@@ -7,6 +7,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
 
@@ -55,6 +56,21 @@ bool Unk_71010073f4::hold(const sead::SafeString& name, sead::Heap* heap) {
         return true;
     }
     auto* bgm = bgmStuff(name, heap);
+    if (!bgm)
+        return false;
+    bgm->m8();
+    bgm->mRefCount = 1;
+    mList.pushBack(bgm);
+    return true;
+}
+
+u32 Unk_71010073f4::sub_710100754C(const sead::SafeString& name) {
+    auto lock = sead::makeScopedLock(mCS);
+    if (auto* bgm = find(name)) {
+        ++bgm->mRefCount;
+        return true;
+    }
+    auto* bgm = bgmStuff(name, map::PlacementMgr::instance()->mDynamicHeap);
     if (!bgm)
         return false;
     bgm->m8();
