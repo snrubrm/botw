@@ -123,6 +123,17 @@ void Terrain::clearImageResourceMgrFlagMaybe() {
     lock.unlock();
 }
 
+void Terrain::startImageResourceMgrMaybe() {
+    if (!mImageResourceMgr)
+        return;
+    auto& lock = mImageResourceMgr->mCS28;
+    lock.lock();
+    ImageResourceMgr* mgr = mImageResourceMgr;
+    mgr->_6473 |= 4;
+    mgr->sub_71011315BC();
+    lock.unlock();
+}
+
 void Core::Grass::sub_7101151A1C() {
     _c |= 1;
 }

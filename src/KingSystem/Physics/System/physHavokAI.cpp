@@ -13,6 +13,17 @@ void NavMeshFaceQuery::process(HavokAI* ai) {
     ai->sub_7100F87334(mCharacter, mPos.isNan() ? nullptr : &mPos, radius, mRadius, _30, this);
 }
 
+// NON_MATCHING: the ring-buffer store loads the buffer pointer before the capacity (the original loads
+// the capacity first); the rest of the function matches.
+void HavokAI::sub_7100F81A00(Unk_7102519a98* obj, const sead::Matrix34f& transform) {
+    obj->_64 = transform;
+    obj->_60.fetchOr(0x100);
+    HavokAI* pending = obj->_58.exchange(this);
+    if (pending && pending != reinterpret_cast<HavokAI*>(uintptr_t(this) | 1))
+        return;
+    _40->_120.push(obj);
+}
+
 void HavokAI::sub_7100F83460(NavMeshObjMaybe* obj) {
     auto lock = sead::makeScopedLock(_50);
     if (obj->_98 != this && !obj->_98) {

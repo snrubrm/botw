@@ -257,6 +257,9 @@ public:
     // 0x710114e0cc (CSV Terrain::__auto1; placeholder name): under mImageResourceMgr's 0x28 lock,
     // clears bit 2 of its _6473.
     void clearImageResourceMgrFlagMaybe();
+    // 0x710114e074 (CSV Terrain::__auto2; placeholder name): under the image manager's lock, sets bit 2
+    // of its _6473 and refreshes it through sub_71011315BC.
+    void startImageResourceMgrMaybe();
     // 0x710114d858 (CSV name): 1, or 2 when the image manager's busy counter is above `threshold`.
     s32 resourceIsLoading(u32 threshold, bool update);
     // 0x710114d7b8 (placeholder name): refreshes the image resource manager.

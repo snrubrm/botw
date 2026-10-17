@@ -316,8 +316,10 @@ public:
     /* 0x048 */ sead::CriticalSection _48;
     /* 0x088 */ sead::CriticalSection _88;  // guards _150 (0x71012aa270)
     /* 0x0c8 */ sead::CriticalSection _c8;  // guards _168 (0x71012aa2f0)
-    /* 0x108 */ Unk_RequestQueue<NavMeshQuery> _108;
-    /* 0x120 */ Unk_RequestQueue<NavMeshQuery> _120;
+    // Untyped: 0x7100f81a00 pushes an Unk_7102519a98 and 0x7100f81ee0 removes it (both go through
+    // sub_71012aa118, which only compares pointers).
+    /* 0x108 */ Unk_RequestQueue<void> _108;
+    /* 0x120 */ Unk_RequestQueue<void> _120;
     /* 0x138 */ util::LockFreeQueue<NavMeshCharacter> _138;  // pushed by HavokAI::sub_7100F82BCC
     // The push loop of 0x7100f8305c etc. matches util::LockFreeQueue (same 0x18-byte layout as Unk_RequestQueue).
     /* 0x150 */ util::LockFreeQueue<NavMeshObjMaybe> _150;
