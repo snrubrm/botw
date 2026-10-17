@@ -57,6 +57,12 @@ s32 sub_7100A64304() {
     return result;
 }
 
+// 0x7100a6d3dc (CSV ui::getHeap): the original calls this out of line from its neighbours
+// (createAndLoadScreenIfNeeded 0x7100a7b5d8), so it is not defined in their TU.
+sead::Heap* getHeap() {
+    return sUnk_71025f59d0;
+}
+
 // 0x7100949ce8
 s32 sub_7100949CE8(u32 count) {
     return sead::Mathf::ceil(f32(count) * 0.25f);

@@ -460,8 +460,10 @@ bool sub_7100AA8334();
 void sub_7100AA3914(eui::LayoutEx* layout, const sead::SafeString& widget_name, s32 format, s32 time,
                     s32 fraction);
 
-// 0x7100a6d3dc (CSV ui::getHeap; declaration only)
+// 0x7100a6d3dc (CSV ui::getHeap; defined in uiUtils.cpp): the heap stored by createUiHeap
 sead::Heap* getHeap();
+// UI heap storage (0x71025f59d0), set by createUiHeap
+extern sead::Heap* sUnk_71025f59d0;
 void sub_7100AA9858(f32 value);
 // 0x7100a6d344 (CSV ui::createUiHeap; defined in uiManagerSmall.cpp)
 void createUiHeap(sead::Heap* parent);

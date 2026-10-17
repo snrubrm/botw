@@ -38,9 +38,12 @@ namespace uking::ui {
 namespace {
 struct ScreenLoadEntry {
     s32 id;
-    s32 _4;
-    s32 _8;
+    /* 0x4 */ char target;
+    /* 0x5 */ bool _5;
+    u8 _6[2];
+    /* 0x8 */ s32 mode;
 };
+KSYS_CHECK_SIZE_NX150(ScreenLoadEntry, 0xc);
 struct ScreenLoadLists {
     u8 _0[0x170];
     sead::Buffer<ScreenLoadEntry> mListA;  // 0x170
@@ -75,6 +78,50 @@ bool Manager::sub_7100A7B92C(s32 id) {
             return true;
     }
     return false;
+}
+
+// 0x7100a7b5d8
+// NON_MATCHING: only the two byte loads of the entry in the final lookup differ; the original reads the signed
+// target byte with ldrsb before the bool and ours reads the bool first with ldrb (the callee only uses the low byte).
+void Manager::createAndLoadScreenIfNeeded(s32 id) {
+    const s32 count = sUnk_71025F5F90.mListF.size();
+    if (count > 0) {
+        for (s32 i = 0; i < count; ++i) {
+            if (sUnk_71025F5F90.mListF[i] != id)
+                continue;
+            if (auto* map = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(42))) {
+                if (!map->isClosed())
+                    return;
+                if (!map->sub_71009EA030())
+                    return;
+            }
+            if (auto* dungeon =
+                    sead::DynamicCast<ScreenAppMapDungeon>(eui::ScreenMgr::instance()->getScreen(34))) {
+                if (!dungeon->sub_71009E0DF8())
+                    return;
+            }
+            for (s32 j = 0; j < count; ++j) {
+                const s32 other = sUnk_71025F5F90.mListF[j];
+                if (other != id) {
+                    if (sead::IsDerivedFrom<Screen>(eui::ScreenMgr::instance()->getScreen(other)))
+                        return;
+                }
+            }
+            break;
+        }
+    }
+
+    const s32 count2 = sUnk_71025F5F90.mListE.size();
+    if (count2 > 0) {
+        for (s32 i = 0; i < count2; ++i) {
+            if (sUnk_71025F5F90.mListE[i].id != id)
+                continue;
+            createAndLoadScreen(id, sUnk_71025F5F90.mListE[i].target,
+                                sUnk_71025F5F90.mListE[i]._5, getHeap(),
+                                sUnk_71025F5F90.mListE[i].mode);
+            return;
+        }
+    }
 }
 
 // 0x7100a7da38
@@ -129,10 +176,6 @@ bool Manager::checkLoadResource(ksys::res::Handle* handle, const sead::SafeStrin
 
 // UI heap storage; the name is a placeholder.
 sead::Heap* sUnk_71025f59d0;
-
-sead::Heap* getHeap() {
-    return sUnk_71025f59d0;
-}
 
 // 0x7100a6d344
 // NON_MATCHING: the original keeps the two region compares branchy (b.eq-big after the first,
