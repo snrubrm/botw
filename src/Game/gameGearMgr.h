@@ -42,6 +42,8 @@ class GearMgr {
 public:
     // 0x7100669ee0 (CSV GearMgr::postCalc): calls postCalc_.
     void postCalc();
+    // 0x7100669ee4 resets the actor links and releases the system group handler.
+    void sub_7100669EE4();
     // 0x7100669644 (CSV GearMgr::postCalc_; 620 B, declared only).
     void postCalc_();
     // 0x7100669ed8 (placeholder name): empty.

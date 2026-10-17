@@ -69,6 +69,9 @@ class Handle;
 
 namespace ksys::tera {
 
+// Existing terrain draw-state setter called by GearMgr teardown.
+void sub_7100F418B8(void* value);
+
 // ResourceHolder 1138A2C supplies a size, name, parent and heap direction.
 sead::ExpHeap* sub_7101120314(u32 size, const sead::SafeString& name, sead::Heap* parent,
                             sead::Heap::HeapDirection direction);
