@@ -100,18 +100,10 @@ public:
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
 };
-// 0x7100ebfea8: the footstep effect matrix (an identity matrix plus the two 1.0 vectors the
-// footstep reaction code starts from, 0x48 bytes).
-struct FootstepMatrix {
-    /* 0x00 */ sead::Matrix34f mtx;
-    /* 0x30 */ sead::Vector3f _30;
-    /* 0x3c */ sead::Vector3f mScale;
-};
-KSYS_CHECK_SIZE_NX150(FootstepMatrix, 0x48);
-
-// 0x7100ebfea8 (CSV unnamed; named by its address): builds the effect matrix from the contact
-// axis / up / position and copies `scale` into the three scale floats.
-void sub_7100EBFEA8(f32 scale, FootstepMatrix* out, const sead::Vector3f& axis,
+// 0x7100ebfea8 (CSV unnamed; named by its address): builds the matrix of a footstep reaction
+// request from the contact axis / up / position and copies `scale` into the three floats at
+// 0x3c / 0x40 / 0x44.
+void sub_7100EBFEA8(f32 scale, ::DamageReactionRequest* request, const sead::Vector3f& axis,
                     const sead::Vector3f& up, const sead::Vector3f& pos);
 
 }  // namespace ksys::act
