@@ -304,16 +304,18 @@ void GameSceneSubsys14::sub_7100904DD4(const Unk_7100903948::Slot& slot) {
     }
 }
 
-// NON_MATCHING: the active slot lookup retains an additional checked-array access.
+// NON_MATCHING: only the order of the two loop register initialisations differs (the original sets the
+// index before the changed flag). The removal uses the unchecked slot access, as the original does.
 bool GameSceneSubsys14::sub_7100904704() {
     bool changed = false;
     int count = mActiveSlots.size();
-    for (int i = 0; i < count;) {
+    int i = 0;
+    for (; i < count;) {
         if (mActiveSlots[i]->link.hasProc()) {
             ++i;
             continue;
         }
-        auto* slot = mActiveSlots[i];
+        auto* slot = mActiveSlots(i);
         slot->id = -1;
         slot->link.reset();
         mFreeSlots.pushBack(mActiveSlots[i]);
