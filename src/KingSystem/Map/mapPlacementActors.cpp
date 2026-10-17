@@ -163,6 +163,50 @@ bool PlacementActors::buildGenGroup(Object* obj, sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the two `return true` tails are tail-merged here (the original keeps them separate);
+// every check and the flag set match.
+bool shouldSpawn(Object* obj) {
+    auto* mgr = PlacementMgr::instance();
+    if (mgr->isFlagOn(PlacementMgr::MgrFlag::_2) ||
+        mgr->isFlagOn(PlacementMgr::MgrFlag::_10000))
+        return false;
+
+    if (obj->isNpcOrActiveOrMapPassiveOrFlag1())
+        return false;
+    // ActorCreated or _80000000.
+    if (obj->mFlags0.getDirect() & 0x80000200)
+        return false;
+    if (obj->getProc())
+        return false;
+    if (obj->mFlags0.isOn(Object::Flag0::_4000) ||
+        obj->mFlags0.isOn(Object::Flag0::_8000))
+        return false;
+
+    auto* link = obj->mLinkData;
+    if (link && link->x())
+        return false;
+
+    if (obj->mFlags0.getDirect() & 6) {
+        if (!obj->hasGenGroup())
+            return false;
+        if (obj->getProc())
+            return false;
+        if (!obj->mFlags0.isOn(Object::Flag0::_80))
+            return false;
+
+        if (obj->shouldSkipSpawn_(true))
+            return true;
+        if (link && link->hasCreateOrDeleteLinks())
+            return true;
+        obj->mFlags0.set(Object::Flag0::_400);
+        return true;
+    }
+
+    if (obj->shouldSkipSpawn_(false))
+        return obj->hasGenGroup();
+    return true;
+}
+
 bool PlacementActors::spawnGenGroupActor(Object* obj, Object* other) {
     if (other != obj && !obj->mFlags0.set(Object::Flag0::_10000))
         return false;

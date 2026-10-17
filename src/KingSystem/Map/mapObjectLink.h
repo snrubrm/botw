@@ -122,7 +122,7 @@ public:
     // 0x7100d4f7c8: allocates `mRails` (num + 1 pointers, the last one null).
     bool allocRails(s32 num, sead::Heap* heap);
     // 0x7100d4f8f8 (CSV x) / 0x7100d4f968 (x_8) / 0x7100d4f97c (x_3) / 0x7100d4f9b0 (x_7) / 0x7100d4fa3c (x_0)
-    void x();
+    bool x();
     bool x_8(bool a1);
     void x_3(bool a1);
     bool x_7(bool a1);

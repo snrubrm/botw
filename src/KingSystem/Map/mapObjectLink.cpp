@@ -329,9 +329,10 @@ bool ObjectLinkData::allocRails(s32 num, sead::Heap* heap) {
     return true;
 }
 
-void ObjectLinkData::x() {
+bool ObjectLinkData::x() {
     if (mGenGroup)
-        mGenGroup->sub_7100D50E00();
+        return mGenGroup->sub_7100D50E00();
+    return false;
 }
 
 bool ObjectLinkData::x_8(bool a1) {

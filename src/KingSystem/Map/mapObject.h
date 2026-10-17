@@ -23,12 +23,16 @@ namespace ksys::map {
 
 class ObjectLinkData;
 class Rail;
+class Object;
+// 0x7100d53660: placement spawn check (mapPlacementActors.cpp).
+bool shouldSpawn(Object* obj);
 struct ObjectLink;
 struct ObjectLinkArray;
 class LinkTag;
 
 class Object {
     friend class PlacementActors;
+    friend bool shouldSpawn(Object* obj);
     friend class GenGroup;
 
 public:
