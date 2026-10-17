@@ -6,6 +6,14 @@
 
 namespace ksys::qst {
 
+// NON_MATCHING: the two final u32 stores merge to an unaligned u64 store rather than stp.
+void Manager::prepareFirstTimeGenStage() {
+    _28 = _2c;
+    mFlags = 0;
+    _2c = 1;
+    _30 = 0;
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
 Manager::~Manager() {

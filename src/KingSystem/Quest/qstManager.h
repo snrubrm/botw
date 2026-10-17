@@ -24,6 +24,8 @@ public:
 
     void init(sead::Heap* heap);
     void cleanUp();
+    // 0x7100fd7898: resets the stage-generation state and quest flags.
+    void prepareFirstTimeGenStage();
 
     void auto0(act::Actor* actor);
     bool auto4(act::Actor* actor) const;
