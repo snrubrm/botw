@@ -1,4 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Framework/frmFramework.h"
+#include "Game/gameRoot38.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadPtrUtil.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
@@ -18,7 +20,10 @@ u8* sub_710112F434(u8* self) {
 struct TeraManagerMaybe {
     u8 _0[0x10];
     u32 _10;
-    u8 _14[0x58 - 0x14];
+    u8 _14[0x30 - 0x14];
+    void* _30;
+    u8 _38[0x50 - 0x38];
+    void* _50;
     System* mSystem;
     u8 _60[0xa8 - 0x60];
     void* _a8;
@@ -1170,5 +1175,17 @@ void setIsGenStage(u32 value) {
 namespace uking {
 void* sub_7100F41834() {
     return ksys::tera::sUnk_710260B220._f0;
+}
+}  // namespace uking
+
+namespace ksys::frm {
+Framework* Framework::instance() {
+    return static_cast<Framework*>(ksys::tera::sUnk_710260B220._30);
+}
+}  // namespace ksys::frm
+
+namespace uking {
+void Root38::setInstance2(Root38* value) {
+    ksys::tera::sUnk_710260B220._50 = value;
 }
 }  // namespace uking

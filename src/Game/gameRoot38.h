@@ -25,6 +25,8 @@ public:
     bool hasAnyFlag() const;
     // 0x71090c4e0 (declared only; CSV Root38::doNotFreezeScene).
     bool doNotFreezeScene() const;
+    // 0x7100f41808 (CSV name): stores the scene's Root38 pointer in the framework block.
+    static void setInstance2(Root38* value);
 };
 
 // 0x7100f41834 (CSV unnamed; placeholder name; declared only): returns the address of an unknown global

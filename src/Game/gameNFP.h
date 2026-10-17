@@ -31,7 +31,7 @@ public:
         s32 mWriteIndex;
     };
     /* 0x108 */ RequestQueue _108;
-    u8 _190[4];
+    /* 0x190 */ u32 _190;
     /* 0x194 */ u16 _194;  // flags; bits 9 and 11 (0x200 / 0x800) are tested / set by NFP
 };
 
@@ -66,6 +66,8 @@ public:
     // 0xf45e2c / 0xf45dd8 (placeholder names): thread fields 0x100 / bit 4 of 0x194.
     u32 getUnk100Maybe() const;
     bool isFlag4SetMaybe() const;
+    // 0xf45de8 (placeholder name): thread word 0x190 is not 2.
+    bool isNot2Maybe() const;
 
 private:
     static NFP* sInstance;

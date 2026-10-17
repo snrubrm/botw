@@ -64,3 +64,7 @@ u32 NFP::getUnk100Maybe() const {
 bool NFP::isFlag4SetMaybe() const {
     return (_30->_194 >> 4) & 1;
 }
+
+bool NFP::isNot2Maybe() const {
+    return _30->_190 != 2;
+}
