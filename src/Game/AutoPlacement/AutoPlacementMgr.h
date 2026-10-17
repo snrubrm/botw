@@ -75,6 +75,9 @@ public:
     // 0x71006551f0: steps the raycasts of the near placement, the 32 registered actor placements and
     // the nine group placements.
     void preCalc();
+    // 0x71006566e8: when the entries changed, resets the unused ones and sets the spawn info of the
+    // newly registered ones.
+    void cmd2_a();
     // 0x7100655118: the worker request callback: 0 increments the count and steps the raycasts, 2
     // decrements it (clamped at zero), anything else reports whether the count is still positive.
     bool invoked3(int arg);
@@ -95,7 +98,9 @@ public:
         AutoPlacement placement;
         u16 count;
         bool _8b62;
-        u8 _8b63[0x8b68 - 0x8b63];
+        // Set once setSpawnInfo ran for this entry (cmd2_a).
+        bool _8b63 = false;
+        u8 _8b64[0x8b68 - 0x8b64];
     };
     KSYS_CHECK_SIZE_NX150(Unk1, 0x8b68);
 
@@ -119,7 +124,9 @@ public:
     AutoPlacementInfo _171ef0;
     // Statistics pointers (StatisticsMgr::getStatsPointer results) used by sub_7100659230 / sub_71006592E8.
     void* _189db0;
-    u8 _189db8[0x189dd0 - 0x189db8];
+    u8 _189db8[0x189dc8 - 0x189db8];
+    // The statistics pointer used by auto11.
+    void* _189dc8;
     void* _189dd0;
     u8 _189dd8[0x189df8 - 0x189dd8];
     u8 _189df8[0x189e38 - 0x189df8];

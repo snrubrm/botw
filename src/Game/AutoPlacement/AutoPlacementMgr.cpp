@@ -46,6 +46,28 @@ void AutoPlacementMgr::preCalc() {
 
 // NON_MATCHING: the original tests `arg == 2` first (cmp 2 / b.eq / cbnz); clang 4 always makes the
 // `arg == 0` path the fall-through here, in every if/switch order tried.
+// NON_MATCHING: the original uses a 0x70-byte frame and recomputes `i * 0x8b68` for every field
+// access; ours keeps two entry pointers in registers and needs only 0x50 bytes.
+void AutoPlacementMgr::cmd2_a() {
+    auto lock = sead::makeScopedLock(mCS);
+    if (!_171e46)
+        return;
+
+    for (s32 i = 0; i < 0x20; ++i) {
+        if (_171e48 > 0)
+            return;
+        Unk1& entry = _5b118[i];
+        if (!entry.actor) {
+            entry.placement.sub_710064DA54();
+            entry.count = 0;
+        } else if (!entry._8b63) {
+            entry.placement.setSpawnInfo(entry.name, entry.count);
+            entry._8b63 = true;
+        }
+    }
+    _171e46 = false;
+}
+
 bool AutoPlacementMgr::invoked3(int arg) {
     if (arg == 2) {
         const s32 old = _171e48--;
