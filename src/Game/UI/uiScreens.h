@@ -2395,7 +2395,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb4e8 */ f32 _b4e8;
     /* 0xb4ec */ u32 _b4ec;
     /* 0xb4f0 */ u32 _b4f0;
-    u8 _b4f4[0xb4fc - 0xb4f4];
+    u8 _b4f4[0xb4fa - 0xb4f4];
+    /* 0xb4fa */ s8 _b4fa;
+    u8 _b4fb[0xb4fc - 0xb4fb];
     /* 0xb4fc */ s8 _b4fc;
     u8 _b4fd;
     /* 0xb4fe */ s8 _b4fe;
@@ -2553,7 +2555,7 @@ public:
     /* 0x3c88 */ eui::Animator* _3c88;
     /* 0x3c90 */ ScreenAppMapUnk3c90* _3c90;
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
-    u8 _3ca0[0x3cb0 - 0x3ca0];
+    /* 0x3ca0 */ xlink2::HandleSLink _3ca0;  // the map cursor movement sound (mc_CursorMove)
     /* 0x3cb0 */ u8 _3cb0;  // the camera rune was selected when m130 last ran
 };
 

@@ -18,6 +18,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiScreenSoundLinkUser.h"
 #include <layer/aglLayer.h>
 #include <layer/aglRenderer.h>
 
