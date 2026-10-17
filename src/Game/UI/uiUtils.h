@@ -635,6 +635,11 @@ void pouchDeleteCookResultFromFlow(const sead::SafeString& name, s32 effect_type
 void sub_7100A9E540(const sead::SafeString& name);
 void sub_7100A9D244(f32 value);
 
+// 0x7100a9c110: whether the UI Manager's _d0 equals `value`
+bool sub_7100A9C110(s32 value);
+// 0x7100a9b4c8: clamps the two gauge values; callers pass an unused third argument.
+void sub_7100A9B4C8(f32 a0, f32 a1, f32 unused);
+
 }  // namespace uking::ui
 
 namespace wm {
@@ -648,5 +653,3 @@ void formatTimeString(sead::BufferedSafeString* out);
 
 // 0x7100a95214 (uiPouchFacade.cpp; global namespace in the CSV)
 s32 sub_7100A95214();
-// 0x7100a9c110: whether the UI Manager's _d0 equals `value`
-bool sub_7100A9C110(s32 value);

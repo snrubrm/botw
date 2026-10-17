@@ -348,7 +348,8 @@ void updateStaminaAndMax(f32 stamina, f32 max_stamina, f32) {
 }
 
 // 0x7100a9b4c8
-void sub_7100A9B4C8(f32 a0, f32 a1) {
+// The third argument is passed by the callers but ignored.
+void sub_7100A9B4C8(f32 a0, f32 a1, f32) {
     if (Manager::instance())
         sub_7100945344(sead::Mathf::clampMin(a0, 0.0f), sead::Mathf::clampMin(a1, 0.0f));
 }
