@@ -893,6 +893,11 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
+    // 0x7100a3081c (1492 B, placeholder name): fills the info text records at _39f8 from the message set at
+    // 0x71025f0710 for mode `mode` and ends with sub_7100934478(a2); mode 4 uses the extra record when
+    // sub_7100A82E38() is true.
+    void sub_7100A3081C(s32 mode, bool a2);
+
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ Unk_7102474c08 _3618;
     u8 _pad_3650[0x38f0 - 0x3650];
@@ -2424,6 +2429,9 @@ public:
     bool sub_71009E9F10();
     // 0x71009f1dbc (CSV unnamed; not decompiled)
     void sub_71009F1DBC();
+    // 0x71009f08f8 (748 B, placeholder name): builds a message string from the map state for `mode` (-1: no mode)
+    // and sets T_Text_00 of the layout at 0x3bf8 with getMessage / setWidgetString.
+    void sub_71009F08F8(s32 mode);
 
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
