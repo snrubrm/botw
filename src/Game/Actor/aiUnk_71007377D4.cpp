@@ -1288,7 +1288,7 @@ void sub_7100735044(DamageReactionRequest* request, ksys::act::Actor* actor,
     request->_98 = target;
     request->_90 = kind;
     request->_a4 = a4_kind;
-    request->_b0 = info->_10;
+    request->mSource.mLink = info->_10;
     if (info->_28)
         request->_c4 |= 0x20;
     else
@@ -1931,7 +1931,7 @@ void sub_71006E3340(DamageReactionRequestResult* result, ksys::act::Actor* actor
         }
     }
 
-    result->request._b0 = &result->_c8;
+    result->request.mSource.mLink = &result->_c8;
     ksys::act::Reaction::instance()->sub_7100EC10B8(&result->request);
     result->_c8.reset();
     result->_d9 = false;

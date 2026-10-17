@@ -1,4 +1,14 @@
 #include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/XLink/xlinkManager.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include <xlink2/xlink2UserInstanceELink.h>
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadBoundBox.h>
 #include <algorithm>
@@ -284,6 +294,244 @@ void Reaction::sub_7100EC27FC(Actor* actor) {
         _a8->sub_7100EC8F78(10.0f, actor, &hit_pos, size, material, 2);
         _a0->sub_7101286868(1.0f, actor, &hit_pos, &hit_normal, size, material, 2);
     }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// Members of Reaction::Unk1. EC56D8 is a declared-only member taking XLink* and request.
+// NON_MATCHING: the request source getXLink helper inlines into the emitter.
+void Reaction::Unk1::sub_7100EC539C(DamageReactionRequest* request,
+                                  xlink2::HandleSLink* handle, const char* name) {
+    xlink2::Locator locator;
+    auto* xlink = request->mSource.getXLink();
+    if (!xlink || !xlink->_50)
+        return;
+    auto* user = xlink->_50;
+    if (!user->searchAsset(&locator, name))
+        return;
+    if (request->mSource.mActor || request->mSource.mLink) {
+        if (auto* source = request->mSource.getXLink())
+            sub_7100EC56D8(source, request);
+    }
+    user->emit(locator, handle);
+    ksys::eft::sub_710105E060(handle, request->mtx);
+}
+
+// NON_MATCHING: the request source getXLink helper inlines into the tracking test.
+void Reaction::Unk1::sub_7100EC447C(Actor* actor, DamageReactionRequest* request,
+                                  xlink2::HandleSLink* handle, const char* name) {
+    if (!actor)
+        return;
+    xlink2::Locator locator;
+    auto* xlink = actor->getXLink();
+    if (!xlink || !xlink->_50)
+        return;
+    auto* user = xlink->_50;
+    if (!user->searchAsset(&locator, name))
+        return;
+    if (auto* source = actor->getXLink())
+        sub_7100EC56D8(source, request);
+    user->emit(locator, handle);
+    ksys::eft::sub_710105E060(handle, request->mtx);
+    if (!handle->isActive())
+        return;
+    bool track = request->_98 == 1;
+    if (!track && u32(request->_90) < 29) {
+        const u32 mask = 1u << request->_90;
+        track = (mask & 0x180000c0) != 0;
+        if (!track && (mask & 0xc02)) {
+            if (auto* source = request->mSource.getXLink())
+                track = source->_cc.isOnBit(6);
+        }
+    }
+    if (track)
+        snd::Unk_710104e5b4::instance()->sub_710104FA78(*handle);
+}
+
+// NON_MATCHING: clamp, material and sound-handle branches use different temporary storage.
+bool Reaction::Unk1::sub_7100EC5C40(f32 speed, f32 value, Actor* actor,
+                                   const sead::Vector3f& position, s32 size, u32 flags,
+                                   const phys::MaterialMask* mask) {
+    if (!actor || actor->get4f8() > 0.0f)
+        return false;
+    if (actor->getActorFlags2().isOn(Actor::ActorFlag2::_1) ||
+        actor->getActorFlags2().isOn(Actor::ActorFlag2::_20))
+        return false;
+    const bool player = isPlayerProfile(actor);
+    if (player) {
+        if (auto* link = ActorSystem::instance()->getPlayerLink()) {
+            if (link->m186())
+                value = sead::Mathf::min(value, 0.15f);
+        }
+        if (mask && int(mask->getMaterial()) == 35) {
+            if (_118 > 0)
+                return false;
+            _118 = 2;
+        }
+    }
+    s32 material;
+    s32 submaterial;
+    if (mask) {
+        material = int(mask->getMaterial());
+        submaterial = phys::MaterialMask::getSubMaterialIdx(
+            mask->getMaterial(), mask->getSubMaterialName());
+    } else {
+        material = actor->get6fc();
+        submaterial = actor->get700();
+    }
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user = xlink->_50) {
+            user->setPropertyValue(0, material);
+            user->setPropertyValue(1, xlink::Manager::instance()->getSubMaterialIndex(material, submaterial));
+            user->setPropertyValue(10, speed / 30.0f);
+            user->setPropertyValue(4, speed);
+            user->setPropertyValue(5, value);
+            xlink2::HandleSLink handle;
+            if (!(flags & 1))
+                handle = user->searchAndEmit("ReactionWaterSink");
+            if ((flags & 1) || !handle.isActive())
+                handle = user->searchAndEmit("ReactionWaterHit");
+            if (handle.isActive()) {
+                handle.setPosition(position);
+                eft::sub_710105E114(&handle, actor);
+                return true;
+            }
+        }
+    }
+    auto* xlink = _8->getXLink();
+    if (!xlink || !xlink->_50)
+        return false;
+    auto* user = xlink->_50;
+    if (!player && mSLinkLimiter && !mSLinkLimiter->sub_7100EC9D84(3, position, false))
+        return false;
+    const f32 magnitude = speed > 0.0f ? speed : -speed;
+    if (magnitude < 0.1f)
+        return false;
+    user->setPropertyValue(9, speed / 30.0f);
+    user->setPropertyValue(4, speed);
+    user->setPropertyValue(6, size);
+    user->setPropertyValue(5, value);
+    user->setPropertyValue(0, material);
+    user->setPropertyValue(1, xlink::Manager::instance()->getSubMaterialIndex(material, submaterial));
+    auto handle = user->searchAndEmit("ReactionWaterHit");
+    if (!handle.isActive())
+        return false;
+    handle.setPosition(position);
+    eft::sub_710105E114(&handle, actor);
+    if (!player && mSLinkLimiter)
+        mSLinkLimiter->sub_7100ECA2A0(3, position, handle);
+    return true;
+}
+
+void Reaction::Unk1::sub_7100EC5B64(const sead::Vector3f& position) {
+    if (!_10)
+        return;
+    const f32 elapsed = eft::sub_710105E0AC(mGrassCutHandle);
+    if (!(elapsed >= 0.0f && elapsed <= 0.3f)) {
+        mGrassCutHandle = eft::searchAndEmitSLink(_10, "GrassCut", false);
+        mGrassCutHandle.setPosition(position);
+    }
+}
+
+bool Reaction::Unk1::sub_7100EC5C30(f32 speed, f32 value, Actor* actor,
+                                   const sead::Vector3f& position) {
+    return sub_7100EC5C40(speed, value, actor, position, 2, 1, nullptr);
+}
+
+// NON_MATCHING: submaterial extraction and the singleton load are scheduled differently.
+void Reaction::sub_7100EC29D0(Actor* actor) {
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    sead::Vector3f start = actor->getMtx().getTranslation();
+    start.y += 2.0f;
+    sead::Vector3f end = start;
+    end.y -= 10.0f;
+    query.setStart(start);
+    query.setEnd(end);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityWater);
+    query.enableLayer(phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return;
+    sead::Vector3f position;
+    query.getHitPosition(&position);
+    const auto& mask = query.getMaterialMask();
+    const s32 material = int(mask.getMaterial());
+    const s32 submaterial = xlink::Manager::instance()->getSubMaterialIndex(material, mask.getSubMaterialIdx());
+    if (auto* user = actor->getXLink()->_48) {
+        user->setPropertyValue(0, material);
+        user->setPropertyValue(1, submaterial);
+    }
+    if (auto* user = actor->getXLink()->_50) {
+        user->setPropertyValue(0, material);
+        user->setPropertyValue(1, submaterial);
+    }
+}
+
+// NON_MATCHING: shared reference-vector loads and matrix store scheduling differ.
+void sub_7100EBFB5C(f32 scale, DamageReactionRequest* request, const sead::Vector3f& up,
+                    const sead::Vector3f& position) {
+    sead::Vector3f axis = sead::Vector3f::ex;
+    if (sead::Mathf::abs(sead::Vector3f::ez.dot(up)) <= 0.999f)
+        axis = sead::Vector3f::ez;
+    sead::Vector3f front = up.cross(axis);
+    front.normalize();
+    sead::Vector3f side = front.cross(up);
+    side.normalize();
+    request->mtx.setBase(0, front);
+    request->mtx.setBase(1, up);
+    request->mtx.setBase(2, side);
+    request->mtx.setTranslation(position);
+    request->_3c = scale;
+    request->_40 = scale;
+    request->_44 = scale;
+}
+
+// NON_MATCHING: shared reference-vector loads and matrix store scheduling differ.
+void sub_7100EBFD08(f32 scale, DamageReactionRequest* request, const sead::Vector3f& up,
+                    const sead::Vector3f& position) {
+    sead::Vector3f axis = sead::Vector3f::ex;
+    if (sead::Mathf::abs(sead::Vector3f::ey.dot(up)) <= 0.999f)
+        axis = sead::Vector3f::ey;
+    sead::Vector3f front = axis.cross(up);
+    front.normalize();
+    sead::Vector3f side = up.cross(front);
+    side.normalize();
+    request->mtx.setBase(0, front);
+    request->mtx.setBase(1, side);
+    request->mtx.setBase(2, up);
+    request->mtx.setTranslation(position);
+    request->_3c = scale;
+    request->_40 = scale;
+    request->_44 = scale;
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+// NON_MATCHING: velocity length and translation-copy scheduling differ.
+void Reaction::Unk1::sub_7100EC6070(f32 value, DamageReactionRequest* request, bool flag) {
+    if (!_8 || !request->_b8)
+        return;
+    auto* xlink = _8->getXLink();
+    if (!xlink || !xlink->_50)
+        return;
+    auto* user = xlink->_50;
+    user->setPropertyValue(3, request->_b8->getVelocity().length());
+    user->setPropertyValue(18, value);
+    user->setPropertyValue(19, s32(flag));
+    const auto position = request->mtx.getTranslation();
+    if (mSLinkLimiter && !mSLinkLimiter->sub_7100EC9D84(10, position, false))
+        return;
+    auto handle = eft::searchAndEmitSLink(_8, "GrassTrack", false);
+    if (!handle.isActive())
+        return;
+    handle.setPosition(position);
+    eft::sub_710105E114(&handle, request->_b8);
+    if (mSLinkLimiter)
+        mSLinkLimiter->sub_7100ECA2A0(10, position, handle);
 }
 
 }  // namespace ksys::act
