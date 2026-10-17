@@ -38,8 +38,8 @@ private:
     u8 _0;
     u32 mUsedBits[14];
     s32 mIndices[0x30];
-    u8 _fc[0x180 - 0xfc];
+    // The album data block ends at 0xfc (sub_710090CD68 copies 0xc0 bytes from +0x3c into a SaveSlot).
 };
-KSYS_CHECK_SIZE_NX150(AlbumInfo, 0x180);
+KSYS_CHECK_SIZE_NX150(AlbumInfo, 0xFC);
 
 }  // namespace uking

@@ -46,6 +46,147 @@ void SaveSystem::gdmResetCallback2(ksys::gdt::Manager::ResetEvent* event) {
         _1dd8.release();
 }
 
+void SaveSystem::gdmResetCallback(ksys::gdt::Manager::ResetEvent* event) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+
+    auto* e3 = E3Mgr::instance();
+    if ((!e3 || !e3->isDemoMode()) && mOptions.mValid) {
+        ksys::gdt::setFlag_BalloonTextOnOff(mOptions.mBalloonTextOnOff, false);
+        ksys::gdt::setFlag_CameraUpDownReverse(mOptions.mCameraUpDownReverse, false);
+        ksys::gdt::setFlag_CameraRLReverse(mOptions.mCameraRLReverse, false);
+        ksys::gdt::setFlag_TextRubyOnOff(mOptions.mTextRubyOnOff, false);
+        ksys::gdt::setFlag_JumpButtonChange(mOptions.mJumpButtonChange, false);
+        ksys::gdt::setFlag_StickSensitivity(mOptions.mStickSensitivity, false);
+        ksys::gdt::setFlag_GyroOnOff(mOptions.mGyroOnOff, false);
+        ksys::gdt::setFlag_MiniMapDirection(mOptions.mMiniMapDirection, false);
+        ksys::gdt::setFlag_AmiiboItemOnOff(mOptions.mAmiiboItemOnOff, false);
+        ksys::gdt::setFlag_MainScreenOnOff(mOptions.mMainScreenOnOff, false);
+        ksys::gdt::setFlag_TextWindowChange(mOptions.mTextWindowChange, false);
+        ksys::gdt::setFlag_VoiceLanguage(mOptions.mVoiceLanguage, false);
+        ksys::gdt::setFlag_PlayReport_AllPlayTime(mOptions.mPlayReport_AllPlayTime, false);
+        ksys::gdt::setFlag_TrackBlockFileNumber(mOptions.mTrackBlockFileNumber, false);
+        ksys::gdt::setFlag_Option_LatestAoCVerPlayed(mOptions.mOption_LatestAoCVerPlayed, false);
+        ksys::gdt::setFlag_IsLastPlayHardMode(mOptions.mIsLastPlayHardMode, false);
+        ksys::gdt::setFlag_TrackBlockFileNumber_Hard(mOptions.mTrackBlockFileNumber_Hard, false);
+        ksys::gdt::setFlag_PlayReport_AudioChannel_Mono(mOptions.mPlayReport_AudioChannel_Mono,
+                                                      false);
+        ksys::gdt::setFlag_PlayReport_AudioChannel_Stereo(mOptions.mPlayReport_AudioChannel_Stereo,
+                                                         false);
+        ksys::gdt::setFlag_PlayReport_AudioChannel_5_1ch(mOptions.mPlayReport_AudioChannel_5_1ch,
+                                                        false);
+        ksys::gdt::setFlag_PlayReport_AudioChannel_Other(mOptions.mPlayReport_AudioChannel_Other,
+                                                         false);
+        ksys::gdt::setFlag_NexLastUploadSaveDataTime(mOptions.mNexLastUploadSaveDataTime, false);
+        ksys::gdt::setFlag_NexLastUploadTrackBlockTime(mOptions.mNexLastUploadTrackBlockTime, false);
+        ksys::gdt::setFlag_NexLastUploadTrackBlockHardIndex(
+            mOptions.mNexLastUploadTrackBlockHardIndex, false);
+        ksys::gdt::setFlag_NexLastUploadTrackBlockIndex(mOptions.mNexLastUploadTrackBlockIndex,
+                                                       false);
+        ksys::gdt::setFlag_NexUniqueID_Upper(mOptions.mNexUniqueID_Upper, false);
+        ksys::gdt::setFlag_NexUniqueID_Lower(mOptions.mNexUniqueID_Lower, false);
+        ksys::gdt::setFlag_NexIsPosTrackUploadAvailableCache(
+            mOptions.mNexIsPosTrackUploadAvailableCache, false);
+        ksys::gdt::setFlag_NexIsSaveDataUploadAvailableCache(
+            mOptions.mNexIsSaveDataUploadAvailableCache, false);
+        ksys::gdt::setFlag_NexPosTrackUploadIntervalHoursCache(
+            mOptions.mNexPosTrackUploadIntervalHoursCache, false);
+        ksys::gdt::setFlag_NexsSaveDataUploadIntervalHoursCache(
+            mOptions.mNexsSaveDataUploadIntervalHoursCache, false);
+        manager->setS32(mOptions.mPlayReport_CtrlMode_Free, "PlayReport_CtrlMode_Free");
+        manager->setS32(mOptions.mPlayReport_CtrlMode_Ext, "PlayReport_CtrlMode_Ext");
+        manager->setS32(mOptions.mPlayReport_CtrlMode_FullKey, "PlayReport_CtrlMode_FullKey");
+        manager->setS32(mOptions.mPlayReport_CtrlMode_Handheld, "PlayReport_CtrlMode_Handheld");
+        manager->setS32(mOptions.mPlayReport_CtrlMode_Console_Free,
+                        "PlayReport_CtrlMode_Console_Free");
+        manager->setS32(mOptions.mPlayReport_CtrlMode_Console_Ext,
+                        "PlayReport_CtrlMode_Console_Ext");
+        manager->setS32(mOptions.mPlayReport_CtrlMode_Console_FullKey,
+                        "PlayReport_CtrlMode_Console_FullKey");
+        manager->setS32(mOptions.mPlayReport_PlayTime_Handheld,
+                        "PlayReport_PlayTime_Handheld");
+        manager->setS32(mOptions.mPlayReport_PlayTime_Console, "PlayReport_PlayTime_Console");
+    }
+
+    _1d68.release();
+}
+
+void SaveSystem::loadOptions(bool force) {
+    if (mOptions.mValid && !force)
+        return;
+
+    mOptions.mValid = true;
+    mOptions.mBalloonTextOnOff = ksys::gdt::getFlag_BalloonTextOnOff();
+    mOptions.mCameraUpDownReverse = ksys::gdt::getFlag_CameraUpDownReverse();
+    mOptions.mCameraRLReverse = ksys::gdt::getFlag_CameraRLReverse();
+    mOptions.mTextRubyOnOff = ksys::gdt::getFlag_TextRubyOnOff();
+    mOptions.mJumpButtonChange = ksys::gdt::getFlag_JumpButtonChange();
+    mOptions.mStickSensitivity = ksys::gdt::getFlag_StickSensitivity();
+    mOptions.mGyroOnOff = ksys::gdt::getFlag_GyroOnOff();
+    mOptions.mMiniMapDirection = ksys::gdt::getFlag_MiniMapDirection();
+    mOptions.mAmiiboItemOnOff = ksys::gdt::getFlag_AmiiboItemOnOff();
+    mOptions.mMainScreenOnOff = ksys::gdt::getFlag_MainScreenOnOff();
+    mOptions.mTextWindowChange = ksys::gdt::getFlag_TextWindowChange();
+    mOptions.mVoiceLanguage = ksys::gdt::getFlag_VoiceLanguage();
+    mOptions.mPlayReport_AllPlayTime = ksys::gdt::getFlag_PlayReport_AllPlayTime();
+    mOptions.mTrackBlockFileNumber = ksys::gdt::getFlag_TrackBlockFileNumber();
+    mOptions.mOption_LatestAoCVerPlayed = ksys::gdt::getFlag_Option_LatestAoCVerPlayed();
+    mOptions.mIsLastPlayHardMode = ksys::gdt::getFlag_IsLastPlayHardMode();
+    mOptions.mTrackBlockFileNumber_Hard = ksys::gdt::getFlag_TrackBlockFileNumber_Hard();
+    mOptions.mPlayReport_AudioChannel_Mono = ksys::gdt::getFlag_PlayReport_AudioChannel_Mono();
+    mOptions.mPlayReport_AudioChannel_Stereo = ksys::gdt::getFlag_PlayReport_AudioChannel_Stereo();
+    mOptions.mPlayReport_AudioChannel_5_1ch =
+        ksys::gdt::getFlag_PlayReport_AudioChannel_5_1ch();
+    mOptions.mPlayReport_AudioChannel_Other = ksys::gdt::getFlag_PlayReport_AudioChannel_Other();
+    mOptions.mNexLastUploadSaveDataTime = ksys::gdt::getFlag_NexLastUploadSaveDataTime();
+    mOptions.mNexLastUploadTrackBlockTime = ksys::gdt::getFlag_NexLastUploadTrackBlockTime();
+    mOptions.mNexLastUploadTrackBlockHardIndex =
+        ksys::gdt::getFlag_NexLastUploadTrackBlockHardIndex();
+    mOptions.mNexLastUploadTrackBlockIndex = ksys::gdt::getFlag_NexLastUploadTrackBlockIndex();
+    mOptions.mNexUniqueID_Upper = ksys::gdt::getFlag_NexUniqueID_Upper();
+    mOptions.mNexUniqueID_Lower = ksys::gdt::getFlag_NexUniqueID_Lower();
+    mOptions.mNexIsPosTrackUploadAvailableCache =
+        ksys::gdt::getFlag_NexIsPosTrackUploadAvailableCache();
+    mOptions.mNexIsSaveDataUploadAvailableCache =
+        ksys::gdt::getFlag_NexIsSaveDataUploadAvailableCache();
+    mOptions.mNexPosTrackUploadIntervalHoursCache =
+        ksys::gdt::getFlag_NexPosTrackUploadIntervalHoursCache();
+    mOptions.mNexsSaveDataUploadIntervalHoursCache =
+        ksys::gdt::getFlag_NexsSaveDataUploadIntervalHoursCache();
+
+    if (auto* manager = ksys::gdt::Manager::instance()) {
+        auto param = manager->getParam().get();
+        s32 value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_Free"))
+            mOptions.mPlayReport_CtrlMode_Free = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_Ext"))
+            mOptions.mPlayReport_CtrlMode_Ext = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_FullKey"))
+            mOptions.mPlayReport_CtrlMode_FullKey = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_Handheld"))
+            mOptions.mPlayReport_CtrlMode_Handheld = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_Console_Free"))
+            mOptions.mPlayReport_CtrlMode_Console_Free = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_Console_Ext"))
+            mOptions.mPlayReport_CtrlMode_Console_Ext = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_CtrlMode_Console_FullKey"))
+            mOptions.mPlayReport_CtrlMode_Console_FullKey = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_PlayTime_Handheld"))
+            mOptions.mPlayReport_PlayTime_Handheld = value;
+        value = 0;
+        if (param.getS32(&value, "PlayReport_PlayTime_Console"))
+            mOptions.mPlayReport_PlayTime_Console = value;
+    }
+}
+
 void SaveSystem::sub_7100912EA4(bool a) {
     auto* manager = ksys::gdt::Manager::instance();
     if (manager) {
@@ -382,7 +523,7 @@ bool SaveSystem::sub_71009145F8() {
         _3c = 24;
     }
 
-    sub_7100913CC8(true);
+    loadOptions(true);
     return true;
 }
 

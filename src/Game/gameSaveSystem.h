@@ -124,8 +124,8 @@ public:
     // 0x71009145f8 (CSV SaveSystem::loadOptionsStart): starts loading the options save file (state 24 first when the
     // save manager asks for the track block file number); false when the save system is busy.
     bool sub_71009145F8();
-    // 0x7100913cc8 (CSV loadOptions; declared only)
-    void sub_7100913CC8(bool a);
+    // 0x7100913cc8: caches the game data option flags (again when `force` is set).
+    void loadOptions(bool force);
 
     // 0x7100914ce4 / 0x7100914504 (CSV SaveSystem::__auto3 / __auto4; the same test as isFinishedSavingMaybe,
     // separate copies called by the UI).
@@ -222,6 +222,56 @@ public:
     u32 _3c;
     sead::SafeArray<SaveSlot, 8> _40;
     AlbumInfo _1880;
+    // Snapshot of the game data option flags restored by gdmResetCallback (0x197c..0x1a00).
+    struct SaveOptionsCache {
+        bool mValid = false;
+        bool mBalloonTextOnOff = false;
+        u8 _2[1];
+        bool mCameraUpDownReverse = false;
+        bool mCameraRLReverse = false;
+        bool mTextRubyOnOff = false;
+        bool mJumpButtonChange = false;
+        u8 _7[1];
+        s32 mStickSensitivity = 0;
+        bool mGyroOnOff = false;
+        bool mMiniMapDirection = false;
+        bool mAmiiboItemOnOff = false;
+        bool mMainScreenOnOff = false;
+        s32 mTextWindowChange = 0;
+        s32 mVoiceLanguage = 0;
+        s32 mPlayReport_AllPlayTime = 0;
+        s32 mTrackBlockFileNumber = 0;
+        s32 mTrackBlockFileNumber_Hard = 0;
+        s32 mOption_LatestAoCVerPlayed = 0;
+        bool mIsLastPlayHardMode = false;
+        u8 _29[3];
+        s32 mPlayReport_AudioChannel_Mono = 0;
+        s32 mPlayReport_AudioChannel_Stereo = 0;
+        s32 mPlayReport_AudioChannel_5_1ch = 0;
+        s32 mPlayReport_AudioChannel_Other = 0;
+        s32 mPlayReport_CtrlMode_Free = 0;
+        s32 mPlayReport_CtrlMode_Ext = 0;
+        s32 mPlayReport_CtrlMode_FullKey = 0;
+        s32 mPlayReport_CtrlMode_Handheld = 0;
+        s32 mPlayReport_CtrlMode_Console_Free = 0;
+        s32 mPlayReport_CtrlMode_Console_Ext = 0;
+        s32 mPlayReport_CtrlMode_Console_FullKey = 0;
+        s32 mPlayReport_PlayTime_Handheld = 0;
+        s32 mPlayReport_PlayTime_Console = 0;
+        s32 mNexLastUploadSaveDataTime = 0;
+        s32 mNexLastUploadTrackBlockTime = 0;
+        s32 mNexLastUploadTrackBlockHardIndex = 0;
+        s32 mNexLastUploadTrackBlockIndex = 0;
+        s32 mNexUniqueID_Upper = 0;
+        s32 mNexUniqueID_Lower = 0;
+        bool mNexIsPosTrackUploadAvailableCache = false;
+        bool mNexIsSaveDataUploadAvailableCache = false;
+        u8 _7a[2];
+        s32 mNexPosTrackUploadIntervalHoursCache = 0;
+        s32 mNexsSaveDataUploadIntervalHoursCache = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(SaveOptionsCache, 0x84);
+    SaveOptionsCache mOptions;
     // Cache and its owning FrameHeap (state1E allocates it; state20 calls Heap::destroy).
     SaveFlagCache* _1a00;
     sead::Heap* _1a08;
