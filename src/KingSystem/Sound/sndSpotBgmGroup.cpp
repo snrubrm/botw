@@ -30,6 +30,32 @@ void Unk_710260f1a8::m13(f32 fade_sec) {
     _28 = 0;
 }
 
+void Unk_710260f1a8::sub_71010252C0(Unk_SpotBgmInstance* instance, bool started) {
+    if (!mInstances.isBufferReady())
+        return;
+    auto lock = sead::makeScopedLock(mLock);
+    for (s32 i = 0; i < mInstances.size(); ++i) {
+        if (!mInstances[i]) {
+            instance->_368 = started ? instance->_368 | 1 : instance->_368 & ~1u;
+            mInstances[i] = instance;
+            break;
+        }
+    }
+}
+
+void Unk_710260f1a8::sub_7101025388(Unk_SpotBgmInstance* instance) {
+    if (!mInstances.isBufferReady())
+        return;
+    auto lock = sead::makeScopedLock(mLock);
+    for (s32 i = 0; i < mInstances.size(); ++i) {
+        if (mInstances[i] == instance) {
+            instance->sub_7101024280();
+            mInstances[i] = nullptr;
+            break;
+        }
+    }
+}
+
 void Unk_710260f1a8::sub_71010255D0() {
     _80 = 0;
     if (mGroup)

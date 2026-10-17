@@ -144,6 +144,14 @@ void Unk_SpotBgmInstance::sub_71010242C8() {
     _260 = value;
 }
 
+void Unk_SpotBgmInstance::sub_7101024280() {
+    if (!(_368 & 2))
+        return;
+    if (_368 & 1)
+        _8.sub_710101D9F4(mInfo->mFadeOutSec.ref());
+    _368 &= ~0x22u;
+}
+
 void Unk_SpotBgmInstance::sub_71010242F0() {
     _308 = 1;
     _368 |= 0x200;

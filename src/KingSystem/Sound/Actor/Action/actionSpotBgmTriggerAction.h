@@ -18,6 +18,9 @@ public:
     // 0x71010242f0: SpotBgmTriggerAction::init_ calls it for a box area with
     // IsStopWithoutReductionY.
     void sub_71010242F0();
+    // 0x7101024280: stops the handle (with the info's fade out time) when it is playing, then clears
+    // the started / stopping flags.
+    void sub_7101024280();
     virtual ~Unk_SpotBgmInstance();
     // 0x71010233cc (declared only; 1500 B): `name` is the sound name parameter; `a3` is 1 for a box area, 0 otherwise.
     void sub_71010233CC(sead::Heap* heap, const sead::SafeString* name, u64 a3, ksys::act::Actor* actor);
@@ -25,7 +28,9 @@ public:
     // A base in the original (its vtable 0x7102500cb0 has the handle's slots at +0x40, plus Unk_71024fc7f8's three);
     // declared as a member until the instance is decompiled.
     Unk_SpotBgmHandle _8;
-    u8 _188[0x260 - 0x188];
+    u8 _188[0x190 - 0x188];
+    /* 0x190 */ ksys::snd::SpotBgmInfo* mInfo = nullptr;
+    u8 _198[0x260 - 0x198];
     /* 0x260 */ f32 _260;
     u8 _264[0x308 - 0x264];
     /* 0x308 */ s32 _308;
