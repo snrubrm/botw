@@ -62,6 +62,8 @@ public:
     // model matrix scale at 0x1e8 / 0x1f0, sets bit 4 of _1f4 and either applies a rotation to the actor's pose or
     // resets the 0x110 - 0x128 block
     void sub_7100906F18();
+    // inline-only in the original; name is a guess (ScreenPauseMenu::m180 flips bit 0 of _1f4)
+    void toggleFlag1f4Bit0() { _1f4.toggleBit(0); }
     // 0x7100906e70 (CSV OnUiActorMgr::__auto3; placeholder name): releases the armors/actor/link actors
     void sub_7100906E70();
     // 0x71009070d0 (CSV OnUiActorMgr::x_4): applies the heat/cold/burn resist levels to the player

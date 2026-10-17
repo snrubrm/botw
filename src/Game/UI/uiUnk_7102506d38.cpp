@@ -105,7 +105,7 @@ void Unk_7102506d38::sub_710109E5C0(ksys::SeadController* controller) {
 }
 
 // 0x710109e5d0
-void Unk_7102506d38::sub_710109E5D0(ksys::SeadController* controller) {
+void Unk_7102506d38::sub_710109E5D0(sead::ControllerBase* controller) {
     if (!controller)
         return;
     auto* box = eui::ScreenMgr::instance()->getBoxCursorMgr();

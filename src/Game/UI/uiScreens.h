@@ -906,6 +906,10 @@ public:
     // 0x71025f0710 for mode `mode` and ends with sub_7100934478(a2); mode 4 uses the extra record when
     // sub_7100A82E38() is true.
     void sub_7100A3081C(s32 mode, bool a2);
+    // 0x7100a30df0 (CSV unnamed, declared only): refreshes the info for the pause menu's current tab
+    void sub_7100A30DF0(bool a2);
+    // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
+    void sub_7100A31190(bool a2);
 
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ Unk_7102474c08 _3618;
@@ -2655,10 +2659,12 @@ public:
     void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ s32 _3618;
-    u8 _pad_361c[4];
+    /* 0x361c */ u32 _361c;
     /* 0x3620 */ s32 _3620;  // the shown guide page (-1: none)
     /* 0x3624 */ s32 _3624;  // the number of guide pages
-    u8 _pad_3628[0x3644 - 0x3628];
+    u8 _pad_3628[0x3640 - 0x3628];
+    /* 0x3640 */ bool _3640;  // read by m180 to choose the info mode
+    u8 _pad_3641[3];
     /* 0x3644 */ s32 _3644;  // guide page step of the first mode (_3674 == 0)
     /* 0x3648 */ s32 _3648;  // guide page step of the second mode
     u8 _pad_364c[0x3664 - 0x364c];

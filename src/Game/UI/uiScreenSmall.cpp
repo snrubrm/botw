@@ -7,6 +7,8 @@
 #include "Game/UI/uiScreenChildStates.h"
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiOnUiActorMgr.h"
+#include "Game/UI/uiUnk_7102506d38.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/gameSaveSystem.h"
 #include <gfx/seadGraphics.h>
@@ -256,6 +258,48 @@ void Unk_710247a6d8::sub_71009B10EC(s32 value) {
         _150->set50(ratio);
     }
     _190.sub_71009B2010();
+}
+
+// 0x7100a3df9c
+void ScreenPauseMenu::m179() {
+    if ((_361c & 0x24) == 0 || (_361c & 0x4000) == 0)
+        return;
+    if (auto* mgr = Unk_7102506d38::instance())
+        mgr->sub_710109E5D0(mUIController);
+    getStateMachine().changeState(&sUnk_71025f0cf0);
+}
+
+// 0x7100a3de4c
+void ScreenPauseMenu::m178() {
+    if (auto* mgr = OnUiActorMgr::instance())
+        mgr->toggleFlag1f4Bit0();
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+        info->sub_7100A31190(true);
+    if (mFirstGuideLayout && mSecondGuideLayout) {
+        if (u32(mFirstGuideLayout->_91 - 1) < 2)
+            mFirstGuideLayout->startAnimCloseImpl_(false, false);
+        if (u32(mSecondGuideLayout->_91 - 1) < 2)
+            mSecondGuideLayout->startAnimCloseImpl_(false, false);
+        if (mSelectedCategory != -1) {
+            const s32 idx = u32(mSelectedCategory) < 7 ? mSelectedCategory : 0;
+            mTabControls.mEntries[idx].mGuide.sub_7100936BD4(false, false);
+        }
+    }
+}
+
+// 0x7100a3e004
+void ScreenPauseMenu::m180() {
+    if (auto* mgr = OnUiActorMgr::instance())
+        mgr->toggleFlag1f4Bit0();
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        if (_3640)
+            info->sub_7100A30DF0(true);
+        else
+            info->sub_7100A3081C(mSelectedCategory, true);
+    }
+    sub_7100A392D8();
 }
 
 // 0x7100a21604
