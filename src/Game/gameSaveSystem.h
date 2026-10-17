@@ -147,6 +147,8 @@ public:
     bool isFirstLaunch() const;
     // 0x71009167f4 (CSV SaveSystem::noop)
     void noop();
+    // 0x7100915d40: stores a picture in a free album slot and saves the album flags for it.
+    bool saveAlbumPicture(void* data, const sead::SafeString& name, s32 size);
     // 0x710090fd08 / 0x7100914d1c / 0x71009167c8: request a reset of the game data flags (the first sets
     // BitFlag 8 and ResetFlag 8, the others BitFlag 8 and ResetFlag 2 / 4).
     void newDayCallback();

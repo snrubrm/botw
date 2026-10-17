@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/System/PlayReportMgr.h"
 
@@ -361,6 +362,62 @@ void SaveSystem::sub_7100912EA4(bool a) {
 }
 
 
+
+bool SaveSystem::saveAlbumPicture(void* data, const sead::SafeString& name, s32 size) {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr || save_mgr->get38() != 0 || _3c != 0)
+        return false;
+
+    if (_30 == 8)
+        _30 = 0;
+
+    s32 index = -1;
+    _1880.sub_710090CCC4(&index);
+    if (index == -1)
+        return false;
+
+    const u32 pic_index = _1880.getFreePictureIndexMaybe();
+    if (pic_index == -1)
+        return false;
+
+    _1880.sub_710090CD14(&index, pic_index);
+    _1880.sub_710090C960(index, pic_index);
+    _1880.sub_710090CCB8(pic_index, size);
+
+    sead::FormatFixedSafeString<32> path("album/pict_%03d.jpg", pic_index);
+
+    save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr)
+        return false;
+
+    ksys::gdt::setFlag_AlbumPictureActorName(name, pic_index, false);
+
+    auto* world = ksys::world::Manager::instance();
+    if (world->getStageType() == ksys::StageType::OpenWorld &&
+        world->getFieldType() == ksys::world::FieldType::AocField &&
+        world->getScalingMode() == ksys::world::ScalingMode::Disabled) {
+        ksys::gdt::setFlag_AlbumSaveLocationName("EnduranceDungeon", pic_index, false);
+    } else {
+        const char* location;
+        ksys::gdt::getFlag_SaveLocationName(&location, false);
+        if (location)
+            ksys::gdt::setFlag_AlbumSaveLocationName(location, pic_index, false);
+    }
+
+    const char* district;
+    ksys::gdt::getFlag_SaveDistrictName(&district, false);
+    if (district)
+        ksys::gdt::setFlag_AlbumSaveDistrictName(district, pic_index, false);
+
+    _3c = 0x10;
+    _1a50 |= 0x400;
+    const bool result = save_mgr->saveAlbumPicture(path, data, size, 0x10000);
+    if (!result) {
+        _3c = 0;
+        _1a50 &= ~0x400;
+    }
+    return result;
+}
 
 bool SaveSystem::isFinishedSavingMaybe() const {
     auto* mgr = ksys::SaveMgr::instance();
