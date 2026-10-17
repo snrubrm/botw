@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiRecipe.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -11,6 +12,36 @@
 // Shop tag-argument helpers (the 0x7100aa4b4c/0x7100aa4e70 tag resolvers live in this TU in the
 // original: the 16-byte forwarders sit right next to them).
 namespace uking::ui {
+
+// NON_MATCHING: FixedSafeString construction hoists the null-character load and changes register allocation.
+// 0x7100a91784
+void sub_7100A91784(RecipeItems* items, const sead::SafeString& actor) {
+    ksys::act::InfoData::RecipeInfo recipe;
+    ksys::act::InfoData::instance()->getRecipeInfo(actor.cstr(), recipe);
+    for (s32 i = 0; i < 3; ++i) {
+        (*items)[i].name = recipe.items[i].name;
+        (*items)[i].num = recipe.items[i].num;
+    }
+    sead::FixedSafeString<64> group_name;
+    for (s32 i = 0; i < recipe.num_items; ++i) {
+        if (ksys::act::getSameGroupActorName(&group_name, (*items)[i].name))
+            (*items)[i].name = group_name;
+    }
+}
+
+// 0x7100a90a34
+bool sub_7100A90A34(const RecipeItems& items) {
+    for (s32 i = 0; i < 3; ++i) {
+        s32 count = 0;
+        if (!items[i].name.isEmpty()) {
+            if (auto* mgr = PauseMenuDataMgr::instance())
+                count = mgr->getItemCount(items[i].name, true);
+        }
+        if (count < items[i].num)
+            return false;
+    }
+    return true;
+}
 
 namespace {
 
