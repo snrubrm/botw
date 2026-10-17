@@ -13,6 +13,8 @@
 #include <gfx/seadViewport.h>
 #include <mc/seadCoreInfo.h>
 #include <thread/seadThread.h>
+#include "KingSystem/Physics/System/physClosestPointQueryWithInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
 namespace ksys::tera {
 
@@ -388,6 +390,17 @@ sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
     return system->_10 * _3c8;
 }
 f32 Terrain::sub_710114D8F8(const System* system) { return system->_18 * _3c8; }
+
+// NON_MATCHING: stack slot layout only: the original keeps the position copy at sp+0x20 and the query at sp+0x30;
+// ours puts the copy in the red zone and the query at sp+0x20.
+bool teraGrassQueryForGroundObject(const sead::Vector3f* pos, f32 radius) {
+    const sead::Vector3f position = *pos;
+    phys::SphereBasedClosestPointQuery query(position, radius, phys::ContactLayer::EntityGroundObject,
+                                             phys::GroundHit::HitAll, nullptr, 1,
+                                             "teraGrass IsThereGroundObject", 1, phys::LowPriority::No);
+    query.getContactPointInfo()->subscribeLayer(phys::ContactLayer::EntityGroundObject);
+    return query.execute(false);
+}
 
 bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
     void* manager = _28;
