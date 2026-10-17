@@ -113,20 +113,33 @@ public:
         // 0x71011516d0 (declared only): grass amount at `xz` written to `out`; returns the terrain query result
         // (2 when the grass is disabled, 0 without terrain data).
         u32 sub_71011516D0(f32* out, const sead::Vector2f* xz);
-
-        void sub_7101150990(bool enabled);
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
         // 0x7101150be0 (placeholder name; ExpandChemicalField::calc_ with cut grass type 3).
         bool sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value);
+        // 0x7101150990 (placeholder name): sets or clears flag 0x4000 and releases every entry.
+        void sub_7101150990(bool enabled);
+        // 0x7101151a1c (placeholder name): sets bit 0 of _c.
+        void sub_7101151A1C();
+        // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
+        u8* sub_7101152DA0(s32 index);
 
         // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
         u8 _0[8];
         u32 mFlags;
-        u8 _c[0x10 - 0xc];
-        // 0x7101150990 disables every entry of the array at _18 (stride 0x2c0).
-        u32 mCount;
-        u8 _14[0x18 - 0x14];
-        u8* mEntries;
+        // 0x7101151a1c sets bit 0.
+        u8 _c;
+        u8 _d[3];
+        // One 0x2c0-byte grass entry.
+        struct Entry {
+            void* _0;
+            void* _8;
+            u8 _10[0x274 - 0x10];
+            u8 _274;
+            u8 _275[0x2c0 - 0x275];
+        };
+        static_assert(sizeof(Entry) == 0x2c0);
+        // At 0x10: size (0x10) and pointer (0x18), like sead::Buffer.
+        sead::Buffer<Entry> mEntries;
         u8 _20[0x28 - 0x20];
         // 0x7101150ba4 / 0x7101150f08 query this object (0x7101069db8).
         void* _28;
