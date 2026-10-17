@@ -7,6 +7,14 @@
 
 namespace ksys::tera {
 
+bool System::sub_71011171AC(s32 index) {
+    return (mScenes[index].collector->_2998 >> 1) & 1;
+}
+
+u8* sub_710112F434(u8* self) {
+    return self + 8;
+}
+
 struct TeraManagerMaybe {
     u8 _0[0x58];
     System* mSystem;

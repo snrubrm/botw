@@ -1041,6 +1041,8 @@ public:
     void sub_7101112714(Unk_7101112C94Listener* listener);
     // 0x71011188e4 (placeholder name): `_2946 - 1 - _2780` of the first scene, at least 0.
     s32 sub_71011188E4() const;
+    // 0x71011171ac (placeholder name): bit 1 of the collector flags of scene `index`.
+    bool sub_71011171AC(s32 index);
     // 0x71011188cc (placeholder name): orders area nodes by mId (x_3 0x7101114cc8 sorts _1018 with it
     // through 0x71011200e8).
     static s32 sub_71011188CC(const Unk_7101106F44* a, const Unk_7101106F44* b);
@@ -1488,6 +1490,8 @@ void sub_710110B7A4(s32* out_a, s32* out_b, s32 index);
 bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
+// 0x710112f434 (placeholder name): this + 8; a virtual shared by the nodes of several terrain vtables.
+u8* sub_710112F434(u8* self);
 
 // 0x7101084d04 / 0x7101084e78 (declaration only; placeholder signatures): reset / update the two
 // sub-objects of Core::Unk_140.
