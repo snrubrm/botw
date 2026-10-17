@@ -117,6 +117,32 @@ void GameSceneSubsys14::postCalc() {
     mSlotsChanged = false;
 }
 
+void GameSceneSubsys14::sub_7100904ACC(const Unk_GameSceneSubsys14Entry& entry) {
+    // `entry.name.isEmpty()`: the original inlines the check against cNullChar.
+    if (entry.name.getStringTop()[0] == sead::SafeStringBase<char>::cNullChar)
+        return;
+
+    const int count = _f80.size();
+    for (int i = 0; i < count; ++i) {
+        if (_f80[i]->link == entry.link)
+            return;
+    }
+
+    auto* dst = static_cast<Unk_GameSceneSubsys14Entry*>(_fe0.popBack());
+    if (!dst)
+        return;
+
+    dst->name = entry.name;
+    dst->id = entry.id;
+    dst->_11c = entry._11c;
+    // C++14 evaluation order: the original evaluates the destination first.
+    dst->link.operator=(entry.link);
+    if (dst->_11c == 0x2b)
+        dst->_11c = 0x11;
+    _f80.pushBack(dst);
+    _12e0 = true;
+}
+
 void GameSceneSubsys14::sub_7100904CA4(const Unk_GameSceneSubsys14Entry& entry) {
     const int count = _f80.size();
     for (int i = 0; i < count; ++i) {
