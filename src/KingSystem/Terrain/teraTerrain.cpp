@@ -18,25 +18,25 @@ namespace ksys::tera {
 s32 sub_710114190C(const nn::g3d::ResMaterial* material, const char* name);
 
 void Terrain::Unk4ae0::Unk_10::sub_710114161C() {
-    _490 = _8->FindMaterialIndex("OpaqueNear");
-    _494 = _8->FindMaterialIndex("OpaqueMiddle");
-    _498 = _8->FindMaterialIndex("OpaqueFar");
-    _49c = _8->FindMaterialIndex("Translucent");
+    _490[0] = _8->FindMaterialIndex("OpaqueNear");
+    _490[1] = _8->FindMaterialIndex("OpaqueMiddle");
+    _490[2] = _8->FindMaterialIndex("OpaqueFar");
+    _490[3] = _8->FindMaterialIndex("Translucent");
 
-    _6ec = 11;
-    _6f0 = 12;
-    _6f4 = 13;
-    _6f8 = 5;
-    _6fc = 3;
+    _6ec[0] = 11;
+    _6ec[1] = 12;
+    _6ec[2] = 13;
+    _6ec[3] = 5;
+    _6ec[4] = 3;
 
-    const nn::g3d::ResMaterial* material = &_8->mMaterials[_490];
-    _6d0 = sub_710114190C(material, "tera_height");
-    _6d4 = sub_710114190C(material, "tera_normal");
-    _6d8 = sub_710114190C(material, "tera_material");
-    _6dc = sub_710114190C(material, "tera_material_linear");
-    _6e0 = sub_710114190C(material, "tera_water");
-    _6e4 = sub_710114190C(material, "_a0");
-    _6e8 = sub_710114190C(material, "_n0");
+    const nn::g3d::ResMaterial* material = &_8->mMaterials[_490[0]];
+    _6d0[0] = sub_710114190C(material, "tera_height");
+    _6d0[1] = sub_710114190C(material, "tera_normal");
+    _6d0[2] = sub_710114190C(material, "tera_material");
+    _6d0[3] = sub_710114190C(material, "tera_material_linear");
+    _6d0[4] = sub_710114190C(material, "tera_water");
+    _6d0[5] = sub_710114190C(material, "_a0");
+    _6d0[6] = sub_710114190C(material, "_n0");
 }
 
 SEAD_SINGLETON_DISPOSER_IMPL(Terrain)
@@ -498,5 +498,118 @@ void Terrain::Unk_380::sub_71011382EC() {
         mFreeList.free(&item);
     }
 }
+
+}  // namespace ksys::tera
+
+// 0x7101147e4c / 0x7101147e54 / 0x7101147e5c / 0x710114a588 (placeholder names): constant helpers of the
+// terrain material classes; the CSV rows are unnamed.
+void* sub_7101147E4C() {
+    return nullptr;
+}
+
+s32 sub_7101147E54() {
+    return 0;
+}
+
+s32 sub_7101147E5C() {
+    return 1;
+}
+
+s32 sub_710114A588() {
+    return 0;
+}
+
+// Placeholder: the object accessed at 0x7101148ba4 / 0x7101148bac (two u32 getters at +0x30 / +0x34).
+struct Unk_7101148BA4Maybe {
+    u8 _0[0x30];
+    u32 _30;
+    u32 _34;
+};
+
+u32 sub_7101148BA4(const Unk_7101148BA4Maybe* self) {
+    return self->_30;
+}
+
+u32 sub_7101148BAC(const Unk_7101148BA4Maybe* self) {
+    return self->_34;
+}
+
+namespace ksys::tera {
+
+agl::TextureSampler* Terrain::Unk4ae0::Unk_10::getSamplerMaybe(s32 index) {
+    return &_40[index];
+}
+
+s32 Terrain::Unk4ae0::Unk_10::getMaterialIndexMaybe(s32 index) const {
+    return _490[index];
+}
+
+s32 Terrain::Unk4ae0::Unk_10::getShaderParamIndexMaybe(s32 index) const {
+    return _6d0[index];
+}
+
+s32 Terrain::Unk4ae0::Unk_10::getConstantIndexMaybe(s32 index) const {
+    return _6ec[index];
+}
+
+Terrain::Unk4ae0::Unk_10::TextureEntry* Terrain::Unk4ae0::Unk_10::getTextureEntryMaybe(s32 index) {
+    return &_10[index];
+}
+
+agl::TextureSampler* Terrain::Unk4ae0::Unk_f98::getSamplerMaybe(s32 index) {
+    return &_40[index];
+}
+
+s32 Terrain::Unk4ae0::Unk_f98::getMaterialIndexMaybe(s32 index) const {
+    return _480[index];
+}
+
+s32 Terrain::Unk4ae0::Unk_f98::getShaderParamIndexMaybe(s32 index) const {
+    return _6c8[index];
+}
+
+s32 Terrain::Unk4ae0::Unk_f98::getConstantIndexMaybe(s32 index) const {
+    return _6e4[index];
+}
+
+Terrain::Unk4ae0::Unk_f98::TextureEntry* Terrain::Unk4ae0::Unk_f98::getTextureEntryMaybe(s32 index) {
+    return &_10[index];
+}
+
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+u8* Unk_7101147678::getSamplerMaybe(s32 index) { return &_410[index * 0x170]; }
+s32 Unk_7101147678::getMaterialIndexMaybe(s32 index) const { return _47c[index]; }
+s32 Unk_7101147678::getShaderParamIndexMaybe(s32 index) const { return _6ac[index]; }
+s32 Unk_7101147678::getConstantIndexMaybe(s32 index) const { return _6c0[index]; }
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+TextureAccessorEntryMaybe* Unk_7101147678::getTextureEntryMaybe(s32 index) { return &_20[index]; }
+
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+agl::TextureSampler* Unk_71011477F4::getSamplerMaybe(s32 index) { return &_860[index]; }
+s32 Unk_71011477F4::getMaterialIndexMaybe(s32 index) const { return _474[index]; }
+s32 Unk_71011477F4::getShaderParamIndexMaybe(s32 index) const { return _6b8[index]; }
+s32 Unk_71011477F4::getConstantIndexMaybe(s32 index) const { return _74c[index]; }
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+TextureAccessorEntryMaybe* Unk_71011477F4::getTextureEntryMaybe(s32 index) { return &_50[index]; }
+
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+agl::TextureSampler* Unk_7101147970::getSamplerMaybe(s32 index) { return &_c60[index]; }
+s32 Unk_7101147970::getMaterialIndexMaybe(s32 index) const { return _bd8[index]; }
+s32 Unk_7101147970::getShaderParamIndexMaybe(s32 index) const { return _1118[index]; }
+s32 Unk_7101147970::getConstantIndexMaybe(s32 index) const { return _126c[index]; }
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+TextureAccessorEntryMaybe* Unk_7101147970::getTextureEntryMaybe(s32 index) { return &_80[index]; }
+
+s32 Unk_7101147B38::getMaterialIndexMaybe(s32 index) const { return _430[index]; }
+s32 Unk_7101147B38::getShaderParamIndexMaybe(s32 index) const { return _500[index]; }
+s32 Unk_7101147B38::getConstantIndexMaybe(s32 index) const { return _624[index]; }
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+TextureAccessorEntryMaybe* Unk_7101147B38::getTextureEntryMaybe(s32 index) { return &_160[index]; }
+
+s32 Unk_7101147C48::getMaterialIndexMaybe(s32 index) const { return _8ac[index]; }
+s32 Unk_7101147C48::getShaderParamIndexMaybe(s32 index) const { return _bb0[index]; }
+s32 Unk_7101147C48::getConstantIndexMaybe(s32 index) const { return _cb4[index]; }
+// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
+TextureAccessorEntryMaybe* Unk_7101147C48::getTextureEntryMaybe(s32 index) { return &_100[index]; }
 
 }  // namespace ksys::tera

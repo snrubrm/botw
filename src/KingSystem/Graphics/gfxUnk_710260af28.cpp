@@ -86,3 +86,17 @@ void Unk_710260af28::sub_7100F1CEF4(gsys::Model* model, f32 value) {
         }
     }
 }
+
+// 0x7100f1c774 / 0x7100f1ee98 / 0x7100f1eea0 (placeholder names): constant helpers of the model effect
+// manager TU; the CSV rows are unnamed and nothing calls them directly.
+s32 sub_7100F1C774() {
+    return 0;
+}
+
+s32 sub_7100F1EE98() {
+    return 22;
+}
+
+s32 sub_7100F1EEA0() {
+    return 0;
+}

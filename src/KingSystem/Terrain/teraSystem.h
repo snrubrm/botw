@@ -301,29 +301,31 @@ public:
             // 0x710114161c (placeholder name): looks up the four terrain materials of _8 and the shader
             // parameter indices _6d0 - _6e8; stores the material table _6ec - _6fc.
             void sub_710114161C();
+            // 0x7101147360 / 0x7101147370 / 0x710114737c / 0x7101147388 / 0x7101147394: per-index
+            // accessors (sampler, material index, shader parameter index, constant table, texture entry).
+            agl::TextureSampler* getSamplerMaybe(s32 index);
+            s32 getMaterialIndexMaybe(s32 index) const;
+            s32 getShaderParamIndexMaybe(s32 index) const;
+            s32 getConstantIndexMaybe(s32 index) const;
+            struct TextureEntry {
+                agl::TextureData* mTexture;
+                s32 mIndex;
+                u8 _c[4];
+            };
+            static_assert(sizeof(TextureEntry) == 0x10);
+            TextureEntry* getTextureEntryMaybe(s32 index);
 
             nn::g3d::ResModel* _8;
-            u8 _10[0x490 - 0x10];
+            // Filled by 0x7101140d84 (texture, index of the material).
+            TextureEntry _10[3];
+            agl::TextureSampler _40[3];
             // Material indices of _8 (0x710114161c): OpaqueNear / OpaqueMiddle / OpaqueFar / Translucent.
-            s32 _490;
-            s32 _494;
-            s32 _498;
-            s32 _49c;
+            s32 _490[4];
             u8 _4a0[0x6d0 - 0x4a0];
             // Shader parameter indices (0x710114161c).
-            s32 _6d0;
-            s32 _6d4;
-            s32 _6d8;
-            s32 _6dc;
-            s32 _6e0;
-            s32 _6e4;
-            s32 _6e8;
+            s32 _6d0[7];
             // Constants 11 / 12 / 13 / 5 / 3 (0x710114161c).
-            s32 _6ec;
-            s32 _6f0;
-            s32 _6f4;
-            s32 _6f8;
-            s32 _6fc;
+            s32 _6ec[5];
             s32 _700;
             MaterialNameTable* mMaterialNames;
             u8 _710[0x718 - 0x710];
@@ -347,8 +349,28 @@ public:
             // tables (file names _6f8, main _708, sub _710; result in _718).
             void setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
                                           const AttributeMap* sub_map);
+            // 0x71011474d8 / 0x71011474e8 / 0x71011474f4 / 0x7101147500 / 0x710114750c: the same
+            // per-index accessors as Unk_10, with this object's offsets.
+            agl::TextureSampler* getSamplerMaybe(s32 index);
+            s32 getMaterialIndexMaybe(s32 index) const;
+            s32 getShaderParamIndexMaybe(s32 index) const;
+            s32 getConstantIndexMaybe(s32 index) const;
+            struct TextureEntry {
+                agl::TextureData* mTexture;
+                s32 mIndex;
+                u8 _c[4];
+            };
+            static_assert(sizeof(TextureEntry) == 0x10);
+            TextureEntry* getTextureEntryMaybe(s32 index);
 
-            u8 _0[0x6f8];
+            u8 _0[0x10];
+            TextureEntry _10[3];
+            agl::TextureSampler _40[2];
+            u8 _320[0x480 - 0x320];
+            s32 _480[4];
+            u8 _490[0x6c8 - 0x490];
+            s32 _6c8[7];
+            s32 _6e4[5];
             MaterialNameTable* _6f8;
             u8 _700[0x708 - 0x700];
             MaterialNameTable* _708;
@@ -1460,6 +1482,107 @@ struct Unk_7101152DC0 {
 };
 // 0x7101152dc0: the larger of obj->_130 and tan(half of an angle in degrees, a TU static).
 f32 sub_7101152DC0(const Unk_7101152DC0* obj);
+
+// Placeholder: a terrain material object type whose per-index accessors sit in the block at
+// 0x7101147678. Each type has the same shape: an entry array, texture samplers, a material index
+// array, a shader parameter index array and a constant index array. The entries are opaque here.
+struct TextureAccessorEntryMaybe {
+    u8 _0[0x10];
+};
+
+// 0x7101147678
+struct Unk_7101147678 {
+    // Return type u8*: the 0x170-byte stride record overlaps the index array at 0x47c.
+    u8* getSamplerMaybe(s32 index);
+    s32 getMaterialIndexMaybe(s32 index) const;
+    s32 getShaderParamIndexMaybe(s32 index) const;
+    s32 getConstantIndexMaybe(s32 index) const;
+    TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
+
+    u8 _0[0x20];
+    TextureAccessorEntryMaybe _20[1];
+    u8 _30[0x410 - 0x30];
+    u8 _410[0x47c - 0x410];
+    s32 _47c[1];
+    u8 _480[0x6ac - 0x480];
+    s32 _6ac[1];
+    u8 _6b0[0x6c0 - 0x6b0];
+    s32 _6c0[1];
+};
+
+// 0x71011477f4
+struct Unk_71011477F4 {
+    agl::TextureSampler* getSamplerMaybe(s32 index);
+    s32 getMaterialIndexMaybe(s32 index) const;
+    s32 getShaderParamIndexMaybe(s32 index) const;
+    s32 getConstantIndexMaybe(s32 index) const;
+    TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
+
+    u8 _0[0x50];
+    TextureAccessorEntryMaybe _50[1];
+    u8 _60[0x474 - 0x60];
+    s32 _474[1];
+    u8 _478[0x6b8 - 0x478];
+    s32 _6b8[1];
+    u8 _6bc[0x74c - 0x6bc];
+    s32 _74c[1];
+    u8 _750[0x860 - 0x750];
+    agl::TextureSampler _860[1];
+};
+
+// 0x7101147970
+struct Unk_7101147970 {
+    agl::TextureSampler* getSamplerMaybe(s32 index);
+    s32 getMaterialIndexMaybe(s32 index) const;
+    s32 getShaderParamIndexMaybe(s32 index) const;
+    s32 getConstantIndexMaybe(s32 index) const;
+    TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
+
+    u8 _0[0x80];
+    TextureAccessorEntryMaybe _80[1];
+    u8 _90[0xbd8 - 0x90];
+    s32 _bd8[1];
+    u8 _bdc[0xc60 - 0xbdc];
+    agl::TextureSampler _c60[1];
+    u8 _dd0[0x1118 - 0xdd0];
+    s32 _1118[1];
+    u8 _111c[0x126c - 0x111c];
+    s32 _126c[1];
+};
+
+// 0x7101147b38 (no sampler accessor)
+struct Unk_7101147B38 {
+    s32 getMaterialIndexMaybe(s32 index) const;
+    s32 getShaderParamIndexMaybe(s32 index) const;
+    s32 getConstantIndexMaybe(s32 index) const;
+    TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
+
+    u8 _0[0x160];
+    TextureAccessorEntryMaybe _160[1];
+    u8 _170[0x430 - 0x170];
+    s32 _430[1];
+    u8 _434[0x500 - 0x434];
+    s32 _500[1];
+    u8 _504[0x624 - 0x504];
+    s32 _624[1];
+};
+
+// 0x7101147c48 (no sampler accessor)
+struct Unk_7101147C48 {
+    s32 getMaterialIndexMaybe(s32 index) const;
+    s32 getShaderParamIndexMaybe(s32 index) const;
+    s32 getConstantIndexMaybe(s32 index) const;
+    TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
+
+    u8 _0[0x100];
+    TextureAccessorEntryMaybe _100[1];
+    u8 _110[0x8ac - 0x110];
+    s32 _8ac[1];
+    u8 _8b0[0xbb0 - 0x8b0];
+    s32 _bb0[1];
+    u8 _bb4[0xcb4 - 0xbb4];
+    s32 _cb4[1];
+};
 
 }  // namespace ksys::tera
 
