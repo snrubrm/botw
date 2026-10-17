@@ -564,6 +564,15 @@ void ScreenPauseMenu::sub_7100A38028() {
     }
 }
 
+// 0x7100a3d668
+void ScreenPauseMenu::m162() {
+    mButtonGroup->_38 &= ~2u;
+    createAndLoadScreenIfNeededImpl(0x3b, nullptr);
+    if (auto* screen = sead::DynamicCast<ScreenPauseMenuRecipe>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuRecipe)))
+        screen->sub_7100A327B0(_3630);
+}
+
 // 0x7100a3c910
 // NON_MATCHING: the MessageType local sits at sp + 0xc here and at sp + 8 in the original; every other
 // instruction matches.

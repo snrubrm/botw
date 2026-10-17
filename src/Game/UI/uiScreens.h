@@ -2679,7 +2679,9 @@ public:
     /* 0x361c */ u32 _361c;
     /* 0x3620 */ s32 _3620;  // the shown guide page (-1: none)
     /* 0x3624 */ s32 _3624;  // the number of guide pages
-    u8 _pad_3628[0x3640 - 0x3628];
+    u8 _pad_3628[0x3630 - 0x3628];
+    /* 0x3630 */ void* _3630;  // the recipe screen's item argument
+    u8 _pad_3638[0x3640 - 0x3638];
     /* 0x3640 */ bool _3640;  // read by m180 to choose the info mode
     u8 _pad_3641[3];
     /* 0x3644 */ s32 _3644;  // current page
@@ -5519,6 +5521,9 @@ public:
 };
 
 class ScreenPauseMenuRecipe : public ScreenEx {
+public:
+    // 0x7100a327b0 (CSV unnamed, declared only): fills the recipe list from the argument
+    void sub_7100A327B0(void* arg);
 public:
     ScreenPauseMenuRecipe();
     const char* getLayoutName_() const override;
