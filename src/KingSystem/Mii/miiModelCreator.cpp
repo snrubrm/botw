@@ -1,5 +1,7 @@
 #include "KingSystem/Mii/miiModelCreator.h"
+#include <container/seadSafeArray.h>
 #include <prim/seadFormatPrint.h>
+#include <random/seadGlobalRandom.h>
 #include <resource/seadResource.h>
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
@@ -15,6 +17,27 @@ ModelCreator::~ModelCreator() {
     if (mConstructionInfoHandle.requestedLoad())
         mConstructionInfoHandle.unloadAndResetUnitFlag20000();
     delete mConstructionInfo;
+}
+
+
+// 0x710260c550 (bss; filled from Mii/UMiiConstructionInfo.byml): the Mii actor-name tables, indexed by
+// sead::SafeArray::operator[] (which falls back to element 0 on an out-of-range index).
+struct ModelCreatorNames {
+    u8 _0[0x578];
+    sead::SafeArray<sead::SafeString, 8> names8;
+    sead::SafeArray<sead::SafeString, 27> names27;
+};
+static ModelCreatorNames sUnk_710260C550;
+
+const sead::SafeString& ModelCreator::getActorName(const Arg& arg) const {
+    switch (arg.type) {
+    case 0:
+        return sUnk_710260C550.names27[sead::GlobalRandom::instance()->getU32(27)];
+    case 1:
+        return sUnk_710260C550.names8[sead::GlobalRandom::instance()->getU32(8)];
+    default:
+        return sead::SafeStringBase<char>::cEmptyString;
+    }
 }
 
 void ModelCreator::init(sead::Heap* heap) {
