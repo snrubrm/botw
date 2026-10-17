@@ -2358,6 +2358,67 @@ Unk_7102474e38* ScreenAppPictureBookUnk::sub_7100943684(s32 index) {
 
 // NON_MATCHING: the original selects the zero-matrix offset with csel before the pane null branch; ours keeps it in
 // each branch (the arithmetic and the 3x3 column lengths are the same).
+// NON_MATCHING: same checks and arithmetic; the original keeps the (max - min) * 0.5 recomputation in d0-d13, ours
+// needs one more float register and the CalcPaneBoundBox call is scheduled earlier.
+// 0x71009437c8 (placeholder name): closes the box cursor screen when the selected item's box cursor pane is not
+// fully inside the item's screen box (entry _318 scaled by the layout's RootPane scale)
+void ScreenAppPictureBookUnk::sub_71009437C8() {
+    const s32 index = _2e4;
+    if (index < 0)
+        return;
+    if (mEntries.size() <= index)
+        return;
+
+    const auto* entry = mEntries[index];
+    if (!entry)
+        return;
+
+    f32 width = entry->_318.getSizeX();
+    f32 height = entry->_318.getSizeY();
+
+    sead::Vector2f pos = sead::Vector2f::zero;
+    if (entry->mGroupList) {
+        pos.x = _304.x + entry->mGroupList->_28.x;
+        pos.y = _304.y + entry->mGroupList->_28.y;
+    }
+
+    if (mScreen) {
+        if (auto* root = static_cast<nn::ui2d::Pane*>(mScreen->sub_7100A48328("RootPane", nullptr))) {
+            const auto& scale = root->GetScale();
+            width *= scale.x;
+            height *= scale.y;
+        }
+    }
+
+    if (!_328) {
+        if (!_318)
+            return;
+        _328 = _318->m10();
+        if (!_328)
+            return;
+    }
+
+    const sead::Vector2f half(width * 0.5f, height * 0.5f);
+    const sead::Vector2f min = sead::Vector2f::zero - half;
+    const sead::Vector2f max = sead::Vector2f::zero + half;
+    const f32 half_w = (max.x - min.x) * 0.5f;
+    const f32 half_h = (max.y - min.y) * 0.5f;
+    const f32 left = pos.x - half_w;
+    const f32 right = pos.x + half_w;
+    const f32 bottom = pos.y - half_h;
+    const f32 top = pos.y + half_h;
+
+    sead::BoundBox2f box;
+    eui::CalcPaneBoundBox(&box, *_328->mButton->mBoxCursorPane);
+
+    if (box.getMin().y > top || left > box.getMin().x || box.getMin().x > right ||
+        bottom > box.getMin().y || left > box.getMax().x || box.getMax().x > right ||
+        bottom > box.getMax().y || box.getMax().y > top) {
+        if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::BoxCursorTV))
+            screen->close(-4);
+    }
+}
+
 // 0x7100943520 (placeholder name): the offset at 0x304 from the first unit's pane global matrix / position
 void ScreenAppPictureBookUnk::sub_7100943520(const sead::Vector2f& delta) {
     if (_330 == 2)

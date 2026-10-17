@@ -2925,10 +2925,13 @@ struct PictureBookItem {
     virtual void m7();
     virtual void m8(PictureBookItem* prev);
     virtual void m9();
+    // vtable slot 0x50 (placeholder name): the box cursor node the item uses (0x71009437c8 keeps it at _328)
+    virtual eui::BoxCursorNode* m10();
     // cleared after m5 by ScreenAppPictureBookEntry::sub_710093B9F4
     /* 0x8 */ void* _8;
     /* 0x10 */ bool _10;
 };
+
 
 // Placeholder for a photo-group list of sub_710093FBF0 (count + group array).
 // 0x71025d5ce8 (placeholder name): (FLT_MAX, FLT_MAX), "no value" for the picture book spacings
@@ -3213,8 +3216,8 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     /* 0x318 */ PictureBookItem* _318 = nullptr;
     /* 0x320 */ u32 _320 = 0;
     u8 _324[0x328 - 0x324];
-    // returned by Unk_710247b2c8::m10 (type unknown)
-    /* 0x328 */ void* _328 = nullptr;
+    // the active box cursor node (set by Update / by PictureBookItem::m10 in sub_71009437c8)
+    /* 0x328 */ eui::BoxCursorNode* _328 = nullptr;
     /* 0x330 */ s32 _330 = 1;
     /* 0x334 */ s32 _334 = -1;
     // the scroll mode passed to sub_71009418D0
