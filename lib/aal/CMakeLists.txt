@@ -43,7 +43,9 @@ add_library(aal OBJECT
   include/aal/aalFadeCurveType.h
   include/aal/aalFinalFxMgr.h
   include/aal/aalFxInitializeArg.h
+  include/aal/aalFxDelay.h
   include/aal/aalFxDelayInitializeArg.h
+  include/aal/aalFxReverbI3DL2.h
   include/aal/aalFxReverbI3DL2InitializeArg.h
   include/aal/aalFxReverbI3DL2ParamSetter.h
   include/aal/aalFxDelayParamSetter.h
