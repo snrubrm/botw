@@ -5,7 +5,11 @@
 
 namespace gsys {
 
-// TODO
+class ModelUnit;
+
+// ModelUnit::createDrawArray c3e524 allocates 0x88 bytes, constructs with
+// c49050 and retains the result at ModelUnit+28. Destructor c490c8 releases
+// the remaining owned arrays, which are not modelled yet.
 class ModelUnitDrawArray : public sead::hostio::Node {
 public:
     struct CreateArg {
@@ -17,6 +21,9 @@ public:
 
     // 0x7100c495e8: stores the size at +0x1c.
     void setSize(s32 size);
+    // 0x7100c4994c reads the same count. Graphics 0x7100f177f4 and the draw-array
+    // query 0x710128bbb4 obtain this object through ModelUnit::getDrawArray().
+    s32 getSize() const;
     // 0x7100c49954. ksys::gfx::ForestRenderer 0x7100f06904 calls it for every index below `_18`.
     void flushUBO(s32 index);
 
@@ -29,7 +36,8 @@ public:
     }
 
 private:
-    u8 _8[0x10 - 0x8];
+    // Initialization c49194 stores the owning ModelUnit; setSize uses it.
+    ModelUnit* mModelUnit;
     void** mUnits;
 
 public:
@@ -38,6 +46,8 @@ public:
 
 private:
     s32 mSize;
+    u8 _20[0x88 - 0x20];
 };
+static_assert(sizeof(ModelUnitDrawArray) == 0x88);
 
 }  // namespace gsys

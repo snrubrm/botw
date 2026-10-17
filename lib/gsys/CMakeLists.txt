@@ -55,6 +55,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelRenderUnit.cpp
   src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelUnitGroup.cpp
+  src/gsys/gsysModelUnitDrawArray.cpp
   src/gsys/gsysModelDrawObj.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysEffectModelDrawMgr.cpp

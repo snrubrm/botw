@@ -34,7 +34,12 @@ public:
     // game f7eee4 selects this storage and indexes stride-sized records.
     void* m_originalFaceData;
     hkInt32 m_faceDataStriding;
-    hkUint8 _4c[0x70 - 0x4c];
+    hkUint8 _4c[0x50 - 0x4c];
+    // Reflection 255dc98 / 255dcc0 fixes the borrowed edge-data pointer
+    // and signed word stride. Edge COW f83d20 copies stride int32 values.
+    void* m_originalEdgeData;
+    hkInt32 m_edgeDataStriding;
+    hkUint8 _5c[0x70 - 0x5c];
     hkaiReferenceFrame m_referenceFrame;
     // Reflected records 255dd38 / 255ddb0 / 255de00 / 255de28 identify
     // these actual hkArray fields and their element types.
@@ -51,9 +56,10 @@ public:
     // Reflection 255dea0 / 255def0 fixes the int32 element domains.
     // Game f7eee4 independently selects each array for mapped/owned faces.
     hkArray<hkInt32> m_instancedFaceData;
-    hkUint8 _170[0x180 - 0x170];
+    // Reflection 255dec8 / 255df18 identifies the matching edge arrays.
+    hkArray<hkInt32> m_instancedEdgeData;
     hkArray<hkInt32> m_ownedFaceData;
-    hkUint8 _190[0x1a0 - 0x190];
+    hkArray<hkInt32> m_ownedEdgeData;
     hkUint32 m_sectionUid;
     hkUint8 _1a4[0x1c0 - 0x1a4];
 };
@@ -74,3 +80,18 @@ static_assert(offsetof(hkaiNavMeshInstance, m_faceDataStriding) == 0x48);
 static_assert(offsetof(hkaiNavMeshInstance, m_referenceFrame) == 0x70);
 static_assert(offsetof(hkaiNavMeshInstance, m_instancedFaceData) == 0x160);
 static_assert(offsetof(hkaiNavMeshInstance, m_ownedFaceData) == 0x180);
+static_assert(offsetof(hkaiNavMeshInstance, m_originalEdgeData) == 0x50);
+static_assert(offsetof(hkaiNavMeshInstance, m_edgeDataStriding) == 0x58);
+static_assert(offsetof(hkaiNavMeshInstance, m_instancedEdgeData) == 0x170);
+static_assert(offsetof(hkaiNavMeshInstance, m_ownedEdgeData) == 0x190);
+
+// Explicit-array edge copy-on-write helper. Caller 15235e0 passes these
+// instance fields individually; originalEdges is edge storage, not a receiver.
+// The native scope/name is unknown. The last argument is a word-sized zero/
+// nonzero flag; a missing mapped edge returns null when copying is disabled.
+hkaiNavMesh::Edge* sub_7100F83D20(
+    const hkaiNavMesh::Edge* originalEdges, hkInt32 originalCount,
+    hkArray<hkaiNavMesh::Edge>* instancedEdges, hkArray<hkaiNavMesh::Edge>* ownedEdges,
+    const void* originalEdgeData, hkArray<hkInt32>* instancedEdgeData,
+    hkArray<hkInt32>* edgeMap, hkInt32 edgeIndex, hkInt32 edgeDataStriding,
+    hkInt32 copyIfNeeded);
