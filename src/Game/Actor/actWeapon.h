@@ -263,6 +263,9 @@ public:
     // 0x71002e04ac (CSV Weapon::ctor; declared only).
     explicit Weapon(const CreateArg& arg);
     ~Weapon() override;
+    // 0x71002e112c: releases the drop data, attack object, the two physics owners, the damage
+    // manager, the cloth object and the two allocated buffers.
+    void m20();
     // 0x71002df038 (CSV factory): a new 0x1038-byte weapon on `heap`; the same form as Sandworm::construct.
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     void sub_71002EE8B0();
@@ -523,7 +526,9 @@ public:
     /* 0xd10 */ u8 _d10[4];
     // The active attack count: doAttackMaybe_inner0_0 copies _c20._24 here, or resets it to 1.
     /* 0xd14 */ s32 _d14;
-    /* 0xd18 */ u8 _d18[0xd38 - 0xd18];  // TODO
+    /* 0xd18 */ ksys::act::BaseProcHandle _d18;
+    /* 0xd28 */ u8 _d28[0xd30 - 0xd28];  // TODO
+    /* 0xd30 */ ksys::act::BaseProcHandle* _d30 = nullptr;
     /* 0xd38 */ Unk_71002ef75c* _d38 = nullptr;
     /* 0xd40 */ u8 _d40[0xd4c - 0xd40];  // TODO
     // The signed life value returned by getLife; the original constructor initializes it to zero.

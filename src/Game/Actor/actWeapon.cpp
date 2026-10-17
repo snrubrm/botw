@@ -9,6 +9,9 @@
 #include "KingSystem/System/StageInfo.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/Event/evtOrderParam.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
@@ -106,11 +109,62 @@ void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
 namespace uking::act {
 
+// 0x7100d2d424 (unnamed in the CSV): unregisters the damage callbacks and frees the callback table.
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
+
 // 0x71002f18d4 (CSV "Weapon::dtor"): the member destruction also resets the two links, deletes the
 // two BaseProcHandles, frees the six critical sections and destroys the four Unk_7102357210 listeners.
 // NON_MATCHING: the original inlines the 0xe78 listener's destructor and calls BaseProcHandle::deleteProc
 // twice; our ActorAtk model also has a non-trivial destructor the target does not call here.
 Weapon::~Weapon() = default;
+
+// 0x71002e112c (CSV "Weapon::m20"): the cleanup of the weapon-owned objects. The handle at 0xd30 is
+// deleted with two deleteProc calls, like the original.
+// NON_MATCHING: _fe0 is a polymorphic class in the original (the target calls vtable slot 1 and clears
+// it); giving our Unk_Enemy1250 a virtual destructor breaks four matched functions, so the delete is
+// left out.
+void Weapon::m20() {
+    if (mDropData) {
+        ksys::act::DropData::sub_71006DB89C(mDropData);
+        mDropData = nullptr;
+    }
+    _da0.free();
+    if (_d90)
+        delete _d90;
+    _d90 = nullptr;
+    if (_d98) {
+        _d98->m6();
+        delete _d98;
+        _d98 = nullptr;
+    }
+    auto* damage_mgr = mDamageMgr;
+    if (damage_mgr) {
+        sub_7100D2D424(damage_mgr);
+        // called through a pointer in the original (not devirtualised)
+        damage_mgr->preDelete1();
+        damage_mgr->preDelete2();
+        delete mDamageMgr;
+        mDamageMgr = nullptr;
+    }
+    if (auto* handle = _d30) {
+        handle->deleteProc();
+        handle->deleteProc();
+        operator delete(handle);
+        _d30 = nullptr;
+    }
+    if (_d38) {
+        operator delete(_d38);
+        _d38 = nullptr;
+    }
+    if (_fd0) {
+        if (_fd0->isAddedToWorld())
+            _fd0->removeFromWorldImmediately(nullptr);
+        if (getPhysics()) {
+            getPhysics()->sub_7100FC0600(_fd0);
+            _fd0 = nullptr;
+        }
+    }
+}
 
 static const sead::SafeString sWeaponBoneNames[] = {"Weapon_R", "Weapon_L"};
 
