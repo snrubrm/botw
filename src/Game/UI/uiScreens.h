@@ -2490,7 +2490,9 @@ public:
     u8 _3bf0[0x3c00 - 0x3b18 - sizeof(Unk_7102481e30)];
     /* 0x3c00 */ eui::Animator* _3c00;
     /* 0x3c08 */ eui::Animator* _3c08;
-    u8 _3c10[0x3c48 - 0x3c10];
+    u8 _3c10[8];
+    /* 0x3c18 */ eui::Animator* _3c18;
+    u8 _3c20[0x3c48 - 0x3c20];
     /* 0x3c48 */ f32 _3c48;
     /* 0x3c4c */ f32 _3c4c;
     /* 0x3c50 */ s32 _3c50;  // the map scale level applied to _3610

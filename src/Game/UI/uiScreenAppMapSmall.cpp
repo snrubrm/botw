@@ -75,6 +75,19 @@ void ScreenAppMap::sub_71009F23A8() {
     UiSubsys1::instance()->set38e0(-1);
 }
 
+// 0x71009f2300
+void ScreenAppMap::sub_71009F2300(s32 mode) {
+    UiSubsys1::instance()->set38e0(mode);
+    const s32 value = mode == 0 ? 0 : (mode == 1 ? 1 : 5);
+    if (auto* child = getChildExMaybe(1, 0))
+        sub_710099EF18(child, value);
+    if (auto* child = sub_71009EA670(this, 3, 0))
+        sub_71009C5E4C(child, value);
+    sub_71009F1828(nullptr);
+    _3c18->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    sub_71009F08F8(6);
+}
+
 // 0x71009e0df8
 bool ScreenAppMapDungeon::sub_71009E0DF8() const {
     if (mSensorChild)
