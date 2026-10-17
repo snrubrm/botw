@@ -86,6 +86,7 @@ class ScreenEx;
 class UiSubsys1;
 class Unk_710247bcb8;
 class Unk_710247c368;
+class Unk_710247dc90;
 
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
 // names; the namespace is a guess). The chain eui::Screen <- ScreenBase <- Screen <- ScreenEx <-
@@ -4633,7 +4634,7 @@ public:
     ~ScreenAppCamera() override;
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
 
-    /* 0x3610 */ ScreenChild* _3610;
+    /* 0x3610 */ Unk_710247dc90* _3610;  // the photo capture child (m162 writes its _6f8 / _700)
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;
     /* 0x3628 */ eui::Animator* _3628;
@@ -4647,18 +4648,31 @@ public:
     u8 _pad_3698[0x36e8 - 0x3698];
     /* 0x36e8 */ s32 _36e8;
     /* 0x36ec */ s32 _36ec;  // frames counted by m159 while _3618 is stopped
-    u8 _pad_36f0[0x3b70 - 0x36f0];
+    u8 _pad_36f0[0x36f8 - 0x36f0];
+    // The two textures the photo is encoded into (m162 -> sub_71009DB9C8).
+    /* 0x36f8 */ agl::TextureData _36f8;
+    u8 _pad_3878[0x3b70 - 0x36f8 - sizeof(agl::TextureData)];
     /* 0x3b70 */ agl::GPUMemVoidAddr _3b70;  // the photo image memory (freed by m101)
-    u8 _pad_3b88[0x4018 - 0x3b88];
+    /* 0x3b88 */ agl::TextureData _3b88;
+    u8 _pad_3d08[0x4018 - 0x3b88 - sizeof(agl::TextureData)];
     /* 0x4018 */ bool _4018;
     /* 0x4019 */ bool _4019;  // set when the camera mode was entered from a state that must be left
-    u8 _pad_401a[0x4020 - 0x401a];
+    /* 0x401a */ bool _401a;
+    u8 _pad_401b[0x4020 - 0x401b];
     /* 0x4020 */ u8* _4020;
-    u8 _pad_4028[0x4030 - 0x4028];
+    /* 0x4028 */ s32 _4028;
+    u8 _pad_402c[4];
     /* 0x4030 */ u8* _4030;
-    u8 _pad_4038[0x4080 - 0x4038];
+    /* 0x4038 */ s32 _4038;
+    u8 _pad_403c[0x4040 - 0x403c];
+    /* 0x4040 */ u8 _4040[0x20];
+    /* 0x4060 */ u8 _4060[0x20];
     /* 0x4080 */ bool _4080;
-    u8 _pad_4081[0x44c8 - 0x4081];
+    u8 _pad_4081[0x4198 - 0x4081];
+    /* 0x4198 */ sead::SafeString _4198;
+    u8 _pad_41a8[0x4368 - 0x41a8];
+    /* 0x4368 */ Unk_7102474bc8 _4368;
+    u8 _pad_44c0[0x44c8 - 0x4368 - sizeof(Unk_7102474bc8)];
     /* 0x44c8 */ eui::Animator* _44c8;
     /* 0x44d0 */ eui::Animator* _44d0;
 

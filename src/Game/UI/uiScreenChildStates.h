@@ -303,11 +303,24 @@ public:
     /* 0x1a0 */ nn::ui2d::ExternalTextureInfo _1a0;
     /* 0x1b8 */ agl::TextureData _1b8;
     /* 0x2e0 */ agl::TextureData _2e0;
+    // The photo the camera screen hands over (0x71009c6bf4 reads it; 0x71009db9c8 fills the textures).
+    struct Request {
+        agl::TextureData* texture;
+        bool flag;
+        u8 _pad[7];
+        agl::TextureData* texture2;
+        sead::SafeString name;
+    };
+
     /* 0x408 */ Unk_71009cb0c8 _408;
     /* 0x6f0 */ u16 _6f0 = 0;
     /* 0x6f8 */ void* _6f8 = nullptr;
     /* 0x700 */ void* _700 = nullptr;
 };
+// 0x71009c6bf4 (placeholder name): sends `request` to the capture child
+void sub_71009C6BF4(Unk_710247dc90* child, const Unk_710247dc90::Request& request);
+// 0x71009db9c8: encodes `texture` into the JPEG buffers (`buffer` is the destination, `work` its zeroed copy)
+u32 sub_71009DB9C8(void* work, void* buffer, agl::TextureData* texture, u32 size);
 static_assert(sizeof(Unk_710247dc90) == 0x708);
 
 
