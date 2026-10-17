@@ -5,6 +5,7 @@
 #include <heap/seadDisposer.h>
 #include <mc/seadCoreInfo.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -39,7 +40,11 @@ class SaveMgr {
     virtual ~SaveMgr();
 
 public:
+    // Flag indexes use the SEAD enum conversion in the save-header readers.
+    SEAD_ENUM(Flag1058, _0, _1, _2, _3, _4)
+
     bool loadSaveFile(u32 idx);
+    void x_3(const res::GameSaveData::File* file);
     struct InitArg {
         sead::Heap* heap;
         u32 _8;
@@ -212,7 +217,9 @@ private:
     u32 _f78;
     u8 _f7c[4];
     void* _f80;
-    u8 _f88[0xf94 - 0xf88];
+    u32 _f88;
+    u32 _f8c;
+    s32 _f90;
     s32 _f94;
     gdt::TriggerParam* _f98;
     u8 _fa0[0xfa8 - 0xfa0];

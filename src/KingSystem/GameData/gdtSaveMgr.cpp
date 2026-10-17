@@ -1,5 +1,6 @@
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include <cstring>
+#include <prim/seadEndian.h>
 #include <filedevice/seadFileDeviceMgr.h>
 #include <filedevice/nin/seadNinSaveFileDeviceNin.h>
 #include <resource/seadResource.h>
@@ -57,6 +58,50 @@ bool SaveMgr::loadSaveFile(u32 idx) {
     request.mPackHandle = nullptr;
     request._22 = true;
     return mLoadHandle.load(path, &request, nullptr) != nullptr;
+}
+
+// NON_MATCHING: enum flag temporaries use different stack slots and byte-order branches differ.
+void SaveMgr::x_3(const res::GameSaveData::File* file) {
+    _f90 = 0;
+    u32 revision;
+    std::memcpy(&revision, _e08 + _e14, sizeof(revision));
+    if (_1058.isOnBit(Flag1058(Flag1058::_2))) {
+        if (revision <= 0xffff || (revision & 0xffff) == 0)
+            _1058.changeBit(Flag1058(Flag1058::_1), revision > 0xffff);
+    } else if (_1058.isOnBit(Flag1058(Flag1058::_0))) {
+        _1058.setBit(Flag1058(Flag1058::_1));
+    }
+    if (_1058.isOnBit(Flag1058(Flag1058::_1)))
+        revision = sead::Endian::swapU32(revision);
+    _e14 += 4;
+    _e18 -= 4;
+    if (_e00->mSaveInfo->revision != revision)
+        _f90 = 1;
+    if (!file->info->is_common_at_same_account) {
+        if (s32(revision) < 0x24e3)
+            _1059 = 0;
+        else if (s32(revision) < 0x24ef)
+            _1059 = 1;
+        else if (s32(revision) <= 0x3ef9)
+            _1059 = 2;
+        else
+            _1059 = 3;
+        _1058.changeBit(Flag1058(Flag1058::_4), s32(revision) < 0x36de);
+    }
+    std::memcpy(&_f88, _e08 + _e14, sizeof(_f88));
+    if (_1058.isOnBit(Flag1058(Flag1058::_1)))
+        _f88 = sead::Endian::swapU32(_f88);
+    _e14 += 4;
+    _e18 -= 4;
+    if (auto* manager = gdt::Manager::instance()) {
+        if (_f90 != 1 && manager->getParam().get().getBuffer1()->mResourceFlags != _f88)
+            _f90 = 1;
+    }
+    // The original converts this byte even though its result is unused.
+    if (_1058.isOnBit(Flag1058(Flag1058::_1)))
+        sead::Endian::swapU8(_e08[_e14]);
+    _e14 += 4;
+    _e18 -= 4;
 }
 
 void SaveMgr::loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer) {
@@ -434,15 +479,15 @@ bool SaveMgr::x(const sead::SafeString& path, void* buffer, u32 size) {
     return true;
 }
 
-// NON_MATCHING: byte-order flag operations fold the original temporary flag-index storage.
+// NON_MATCHING: the byte-order enum flag temporaries and branch scheduling differ.
 bool SaveMgr::x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swap) {
     _142 = _140;
     _140 = (_140 & 0x100) | (a ? 0x204 : 0x200);
     _105a = !a;
     if (byte_swap)
-        _1058.set(2);
+        _1058.setBit(Flag1058(Flag1058::_1));
     else
-        _1058.reset(2);
+        _1058.resetBit(Flag1058(Flag1058::_1));
     _10b0.copy(path);
     if (_38 != 0)
         return false;
@@ -1021,7 +1066,7 @@ bool SaveMgr::x_10() {
     _38 = 0;
     for (s32& value : _14c)
         value = -1;
-    _1058.reset(2);
+    _1058.resetBit(Flag1058(Flag1058::_1));
     return true;
 }
 
