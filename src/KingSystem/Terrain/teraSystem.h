@@ -239,6 +239,10 @@ public:
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
 
+// 0x7101128ac0 (unnamed): maps the two 2D points `a` and `b` by the scale / offset in `transform`
+// (transform[0], transform[2], transform[3]) into `out`.
+void sub_7101128AC0(f32* out, const f32* a, const f32* b, const f32* transform);
+
 // 0x7100f40780 (CSV name): points the terrain camera at `pos` (or at the patched position when the
 // terrain debug flag is set). Called by GameScene::loadTera.
 void terrainSetCameraLookAtPos(const sead::Vector3f* pos);
@@ -271,6 +275,9 @@ struct ExtraInfoNamePoolMaybe {
     ExtraInfoNameMaybe names[0x200];
     u8 _3000[8];
     u32 count;
+
+    // 0x7101140414 (placeholder name): appends `name`, returns the allocated buffer.
+    char* addName(sead::Heap* heap, const sead::SafeString& name);
 };
 
 // The definition 0x7101138390 creates per extra info name and 0x710111a4dc fills; only the fields

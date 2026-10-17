@@ -458,6 +458,24 @@ bool Terrain::Unk370::sub_710113F34C() const {
     return data->_3ad8;
 }
 
+// 0x7101140414 (placeholder name): appends `name` to the pool and returns the allocated copy. The
+// "allocated" flag lives at the start of the *next* record (the 8-byte tail holds the last one); the
+// System cleanup at 0x710113ecf4 reads it the same way.
+// NON_MATCHING: the original tests the buffer size itself and stores the flag through the advanced
+// record pointer; ours folds the test to the length's sign and recomputes the flag address.
+char* ExtraInfoNamePoolMaybe::addName(sead::Heap* heap, const sead::SafeString& name) {
+    const s32 index = s32(count++);
+    const s32 length = name.calcLength();
+    const s32 size = length + 1;
+    // sead's negative alignment: 1 << 4 = 16 bytes.
+    char* buffer = new (heap, -4) char[size];
+    sead::BufferedSafeString copy(buffer, size);
+    copy.copy(name, length);
+    names[index].name = buffer;
+    names[index + 1]._0[0] = 1;
+    return buffer;
+}
+
 nn::gfx::ResTexture* MaterialTextureMaybe::getTexture() const {
     return agl::g3d::ResMaterial::GetTexture(material, index);
 }

@@ -131,6 +131,13 @@ System* System::instance() {
 
 
 
+void sub_7101128AC0(f32* out, const f32* a, const f32* b, const f32* transform) {
+    out[0] = a[0] * transform[0] + transform[2];
+    out[1] = a[1] * transform[0] + transform[3];
+    out[2] = b[0] * transform[0] + transform[2];
+    out[3] = b[1] * transform[0] + transform[3];
+}
+
 void terrainSetCameraLookAtPos(const sead::Vector3f* pos) {
     Terrain* terrain = Terrain::instance();
     if (!terrain)
