@@ -5,6 +5,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 #include <math/seadMatrix.h>
 
@@ -21,6 +22,14 @@ enum class UnkFlag : u8 {
     _80 = 1 << 7
 };
 static sead::TypedBitFlag<UnkFlag> s_unk_flag;
+
+// The two game-data flag names read by getIsPlayedDemo145AndFirstInCastleBossRoom. The original LTO build merges
+// them (with the other file statics) into one block at 0x71025ffe90, so the accesses share one base register;
+// keep them in one array to get the same code.
+static const sead::SafeString sBossRoomFlagNames[2] = {
+    "FirstInHyruleCastleBossRoom",
+    "IsPlayed_Demo145_0",
+};
 
 static sead::SafeArray<float, 26> s_npc_scales = {
     {0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.85f, 0.6f, 0.75f, 0.6f, 0.6f,  0.6f, 0.6f,
@@ -658,6 +667,35 @@ void PlacementAreaMgr::unloadDemoCulling() {
     for (int i = 0; i < mOptAreasCount; ++i) {
         mOptAreas[i].parent_area->loaded = false;
     }
+}
+
+
+// NON_MATCHING: one callee-saved register fewer than the original (0x40 vs 0x50 frame): clang re-materialises the
+// flag-name base for setBool instead of keeping it live; same code otherwise.
+bool PlacementAreaMgr::getIsPlayedDemo145AndFirstInCastleBossRoom(ksys::gdt::Manager& gdm,
+                                                                 bool* first_in_ganon_boss_room,
+                                                                 bool* played_demo_145) {
+    const sead::SafeString& first_name = sBossRoomFlagNames[0];
+    const sead::SafeString& played_name = sBossRoomFlagNames[1];
+    bool first_in_castle = false;
+    bool played_demo = false;
+    const bool first_ok = gdm.getParamBypassPerm().get().getBuffer0()->getBool(
+        &first_in_castle, first_name, gdm.getParamBypassPerm().shouldCheckPermissions(), true);
+    const bool played_ok = gdm.getParamBypassPerm().get().getBuffer0()->getBool(
+        &played_demo, played_name, gdm.getParamBypassPerm().shouldCheckPermissions(), true);
+
+    if (first_in_ganon_boss_room && first_ok) {
+        if (played_ok && played_demo && !first_in_castle) {
+            first_in_castle = true;
+            gdm.setBool(true, first_name);
+        }
+        *first_in_ganon_boss_room = first_in_castle;
+    }
+
+    if (played_demo_145 && played_ok)
+        *played_demo_145 = played_demo;
+
+    return first_ok && played_ok;
 }
 
 }  // namespace ksys::map
