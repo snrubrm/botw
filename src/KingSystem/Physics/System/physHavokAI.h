@@ -479,6 +479,9 @@ public:
     // 0x7100f83a94 (CSV HavokAI::__auto4): hands the query back to the pool (NavMeshCharacter::finalize).
     void sub_7100F83A94(NavMeshQuery* query);
 
+    // 0x7100f82f38 (unnamed; 292 B, declared only): detaches the character from this HavokAI.
+    void sub_7100F82F38(NavMeshCharacter* character, bool unk);
+
     // 0x7100f83a84 / 0x7100f83a8c (CSV names).
     void destroyQuery(NavMeshQuery* query);
     bool submitQuery(NavMeshQuery* query);

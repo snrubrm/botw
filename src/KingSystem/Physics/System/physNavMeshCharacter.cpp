@@ -101,6 +101,27 @@ NavMeshCharacter::~NavMeshCharacter() {
     finalize();
 }
 
+void NavMeshCharacter::finalize() {
+    if (_1d0) {
+        delete[] _1d0;
+        _1d0 = nullptr;
+        _1c8 = 0;
+    }
+    if (_2e0) {
+        HavokAI::instance()->sub_7100F83A94(_2e0);
+        _2e0 = nullptr;
+    }
+    HavokAI* pending = reinterpret_cast<HavokAI*>(uintptr_t(_20.load()) & ~uintptr_t(3));
+    if (pending)
+        pending->sub_7100F82F38(this, false);
+    if (_18)
+        _18->sub_7100F82F38(this, false);
+    if (_10)
+        _10->removeReference();
+    if (_8)
+        _8->removeReference();
+}
+
 void NavMeshCharacter::sub_7100F75AB8() {
     if (_2e0) {
         HavokAI::instance()->sub_7100F83A94(_2e0);

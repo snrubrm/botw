@@ -17,6 +17,7 @@
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Utils/Types.h"
 #include <Havok/Common/Base/hkBase.h>
+#include <Havok/Common/Base/Object/hkReferencedObject.h>
 
 class hkaiStreamingCollection;
 
@@ -95,8 +96,8 @@ struct NavMeshCharacterUnk8A0 {
 };
 
 // Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed fields are modelled).
-struct NavMeshCharacterUnk8 {
-    /* 0x00 */ u8 _0[0x20];
+struct NavMeshCharacterUnk8 : public hkReferencedObject {
+    /* 0x010 */ u8 _0[0x10];
     // 0x7100f87334 / 0x7100f87464 use this as the position when the caller passes a null `pos` (16 bytes copied).
     /* 0x20 */ hkVector4f _20;
     /* 0x30 */ u8 _30[0x6c - 0x30];
@@ -122,8 +123,8 @@ struct NavMeshCharacterMoveParam {
 };
 
 // Placeholder: object at NavMeshCharacter::_10 (only the accessed fields are modelled).
-struct NavMeshCharacterUnk10 {
-    /* 0x000 */ u8 _0[0x78];
+struct NavMeshCharacterUnk10 : public hkReferencedObject {
+    /* 0x010 */ u8 _0[0x68];
     /* 0x078 */ NavMeshCharacterMoveParam* _78;
     /* 0x080 */ u8 _80[0x16c - 0x80];
     /* 0x16c */ u32 _16c;
@@ -341,7 +342,7 @@ public:
     /* 0x1b8 */ sead::Vector3f _1b8;
     /* 0x1c4 */ u32 _1c4;
     /* 0x1c8 */ u32 _1c8 = 0;
-    /* 0x1d0 */ u64 _1d0 = 0;
+    /* 0x1d0 */ u8* _1d0 = nullptr;
     /* 0x1d8 */ u8 _1d8 = 4;
     /* 0x1d9 */ u8 _1d9 = 4;
     /* 0x1da */ u8 _1da = 0;
