@@ -1,4 +1,6 @@
 #include "Game/AutoPlacement/AutoPlacement.h"
+#include <prim/seadScopedLock.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -149,6 +151,82 @@ bool PlacementThing::invoke() {
 
     mState = State::LayersDone;
     return true;
+}
+
+// NON_MATCHING: the random-point stores are scheduled differently (the original keeps the x result in
+// a register across the second random call) and the state dispatch lays the invoke block out of line.
+bool AutoPlacement::updateSpawnMaybe(const sead::Vector3f* pos) {
+    if (mThing1.mState == PlacementThing::State::Invalid) {
+        sead::Vector3f random_pos;
+        if (pos == nullptr) {
+            random_pos.x = (_4 + sead::GlobalRandom::instance()->getF32()) * 200.0f -
+                           5000.0f;
+            random_pos.y = 0.0f;
+            random_pos.z = (_5 + sead::GlobalRandom::instance()->getF32()) * 200.0f -
+                           4000.0f;
+            pos = &random_pos;
+        }
+        if (_d != 0) {
+            for (u32 i = 0; i < _d; ++i) {
+                if (u8(_c + 1) >= _d)
+                    _c = 0;
+                else
+                    _c = u8(_c + 1);
+                ActorSpawnInfo& info = mSpawnInfo[_c];
+                if (info._18 > info._19 && info._1c > info._1e && info.flow != nullptr) {
+                    if (!ksys::map::PlacementMgr::instance()->isStaticCompoundReady(*pos, false))
+                        return false;
+                    if (sub_710064EF24(&info, *pos)) {
+                        auto lock = sead::makeScopedLock(mThing1.mCS);
+                        if (!AutoPlacementMgr::instance()->auto9()) {
+                            if (mThing1.mState == PlacementThing::State::Invalid) {
+                                mThing1._8880 = 0;
+                                mThing1.mWaterQuery = -1.0f;
+                                mThing1.mUnderwater = 0;
+                                mThing1._8882 = 0;
+                                mThing1._8883 = 0;
+                                mThing1.mState = PlacementThing::State::Uninitialized;
+                                mThing1.mVec1 = *pos;
+                                mThing1._8945 = 0;
+                            } else if (mThing1.mState != PlacementThing::State::PlacementDone) {
+                                mThing1.mState = PlacementThing::State::PlacementDone;
+                            }
+                        }
+                        return false;
+                    }
+                    ++info._1e;
+                    return false;
+                }
+            }
+        }
+        _8 = 2;
+        return false;
+    }
+
+    if (mThing1.mState == PlacementThing::State::RaycastDone) {
+        if (sub_710064EAB4()) {
+            if (mThing1._8882 == 0)
+                return mThing1._8880 != 0;
+            if (_d != 0) {
+                for (u32 i = 0; i < _d; ++i) {
+                    if (u8(_c + 1) >= _d)
+                    _c = 0;
+                else
+                    _c = u8(_c + 1);
+                    ActorSpawnInfo& info = mSpawnInfo[_c];
+                    if (info._18 > info._19 && info._1c > info._1e && info.flow != nullptr) {
+                        ++info._1e;
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    if (mThing1.mState == PlacementThing::State::Initialized)
+        mThing1.invoke();
+    return false;
 }
 
 bool AutoPlacement::hasGroupNearMaybe(const sead::SafeString& name, const sead::Vector3f& pos,

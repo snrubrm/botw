@@ -79,6 +79,8 @@ private:
     ksys::phys::RayCastForRequest* mRaycast{};
     u8 _8880{};
     u8 mUnderwater{};
+    u8 _8882{};
+    u8 _8883{};
     sead::Vector3f mVec1{};
     sead::Vector3f mQueryVec{};
     u32 _889c{};
@@ -131,10 +133,15 @@ public:
     // 0x71006504fc (declared only; placeholder name): the pre-spawn check prepareSpawn runs (starts the
     // raycast / resets the state); true when the placement may spawn.
     bool sub_71006504FC();
+    // 0x710064eab4 (declared only; placeholder name): the raycast-result step updateSpawnMaybe runs in state 4.
+    bool sub_710064EAB4();
 
     // 0x710064ed60 (placeholder name): whether a registered group is named `name` and its position is
     // within the group radius of `pos`. `dist` caches the squared radius between calls (-1 at the start).
     bool hasGroupNearMaybe(const sead::SafeString& name, const sead::Vector3f& pos, f32* dist);
+    // 0x710064f244 (placeholder name; CSV unnamed): advances the work's placement state machine. With a
+    // null `pos` it picks a random point of its 200-unit cell.
+    bool updateSpawnMaybe(const sead::Vector3f* pos);
 
     void setSpawnInfo(const sead::SafeString& name, s32 count);
     void sub_710064DA54();
