@@ -2814,6 +2814,27 @@ void ScreenSaveTransferWindow::m219() {
     }
 }
 
+// 0x7100a44624
+void ScreenSaveTransferWindow::m222() {
+    if (sUnk_71025f2eb0._c == 0) {
+        close(-1);
+        return;
+    }
+    _366c = -1;
+    const s32 prev = _3668;
+    _3668 = 4;
+    _3798 = 0.0f;
+    if (prev == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a44be4
 void ScreenSaveTransferWindow::m240() {
     SwkbdMgr::instance()->sub_7100985C4C();
