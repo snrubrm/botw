@@ -2356,6 +2356,42 @@ Unk_7102474e38* ScreenAppPictureBookUnk::sub_7100943684(s32 index) {
     return nullptr;
 }
 
+// NON_MATCHING: the original selects the zero-matrix offset with csel before the pane null branch; ours keeps it in
+// each branch (the arithmetic and the 3x3 column lengths are the same).
+// 0x7100943520 (placeholder name): the offset at 0x304 from the first unit's pane global matrix / position
+void ScreenAppPictureBookUnk::sub_7100943520(const sead::Vector2f& delta) {
+    if (_330 == 2)
+        return;
+
+    _304 = sead::Vector2f{0.0f, 0.0f};
+
+    const s32 index = _2e4;
+    if (index < 0 || index >= mEntries.size())
+        return;
+
+    const auto* entry = mEntries[index];
+    const auto* group = entry->mGroupList;
+    if (!group || group->mUnits.size() == 0)
+        return;
+
+    const auto* layout = group->mUnits[0]->_8;
+    if (!layout)
+        return;
+
+    const nn::ui2d::Pane* pane = layout->mPane;
+    const auto& mtx = pane->GetMtx();
+    const sead::Vector2f scale =
+        pane ? sead::Vector2f(sead::Vector3f(mtx.m[0][0], mtx.m[0][1], mtx.m[0][2]).length(),
+                              sead::Vector3f(mtx.m[1][0], mtx.m[1][1], mtx.m[1][2]).length())
+             : sead::Vector2f::ones;
+    const sead::Vector2f offset =
+        pane ? sead::Vector2f(mtx.m[0][3], mtx.m[1][3]) : sead::Vector2f::zero;
+
+    const auto& pos = pane->GetPosition();
+    _304.y = offset.y - scale.y * (pos.y + delta.y - group->_10.y);
+    _304.x = offset.x - scale.x * (pos.x + delta.x - group->_10.x);
+}
+
 // 0x710093ff88
 void ScreenAppPictureBookUnk::sub_710093FF88() {
     m9();
