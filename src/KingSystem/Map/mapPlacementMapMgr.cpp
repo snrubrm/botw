@@ -15,6 +15,26 @@ PlacementMap* PlacementMapMgr::getMap(int idx) {
     return &mMaps[idx];
 }
 
+PlacementMapMgr::~PlacementMapMgr() {
+    removeInnerData();
+
+    // The maps are a new[] array, so this calls ~PlacementMap on every element through the array
+    // cookie before freeing it.
+    mMaps.freeBuffer();
+
+    mMapArray.mMaps.freeBuffer();
+    mMapArray.mPtrs.freeBuffer();
+
+    if (mMapArray._90) {
+        operator delete[](mMapArray._90);
+        mMapArray._90 = nullptr;
+        mMapArray._88 = 0;
+    }
+
+    if (mFarActorMerge)
+        delete mFarActorMerge;
+}
+
 // NON_MATCHING: the original compares `pz <= 7999` first and places the `return x` block before the index
 // computation; ours tests `px` first (instcombine orders the two compares by definition order).
 bool PlacementMapMgr::isHkscResStatus3(const sead::Vector3f& pos, bool x) {
