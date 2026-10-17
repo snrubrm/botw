@@ -114,4 +114,13 @@ AutoPlacementFlowRes* AutoPlacementFlowMgr::getFlow(const sead::SafeString& acto
     return nullptr;
 }
 
+void AutoPlacementFlowRes::start(AutoPlacement* placement, const char* unit_name,
+                                 sead::TypedBitFlag<ActorSpawnInfo::SpawnLocation>* a3) {
+    this->unit_name = unit_name;
+    _10a = a3->getDirect();
+    this->placement = placement;
+    if (flowchart_ctx.GetObjIdx() != -1 && flowchart_ctx.GetActiveEntryPointIdx() != -1)
+        flowchart_ctx.Start(nullptr);
+}
+
 }  // namespace uking
