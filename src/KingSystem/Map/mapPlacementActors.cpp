@@ -480,6 +480,7 @@ int PlacementActors::getNumGroups() const {
 
 // NON_MATCHING: the original stores -1 to _e8 before materialising the false return value; clang
 // emits the two instructions in the opposite order.
+// NON_MATCHING: only the order of the `_e8 = -1` store and the `return false` value (w0) differs.
 bool PlacementActors::removeInnerData2() {
     sead::TickTime start;
 
