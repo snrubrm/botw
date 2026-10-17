@@ -151,6 +151,30 @@ bool PlacementThing::invoke() {
     return true;
 }
 
+bool AutoPlacement::hasGroupNearMaybe(const sead::SafeString& name, const sead::Vector3f& pos,
+                                      f32* dist) {
+    for (s32 i = 0; i < _0; ++i) {
+        const PlacementGroup& grp = mGroups[i];
+        if (!grp._1e)
+            continue;
+        if (!name.isEqual(grp.a))
+            continue;
+
+        f32& d = *dist;
+        if (d <= 0.0f) {
+            d = grp._7c + grp._7c + 1.0f;
+            if (grp._1f & 4)
+                d *= 0.5f;
+            d = d * d;
+        }
+        if ((pos.x - grp._28.x) * (pos.x - grp._28.x) +
+                (pos.z - grp._28.z) * (pos.z - grp._28.z) <
+            d)
+            return true;
+    }
+    return false;
+}
+
 bool AutoPlacement::sub_7100650144(PlacementGroup* grp, bool check_exposure) {
     if (grp->_1d == 0xFF)
         return false;
@@ -229,7 +253,7 @@ s32 AutoPlacement::placeGroup(AutoPlacementFlowRes* res) {
     _b = 0xFF;
 
     auto& grp = mGroups[mGroupIdx];
-    if (grp.b.isEmpty()) {
+    if (grp.a.isEmpty()) {
         return -1;
     }
 

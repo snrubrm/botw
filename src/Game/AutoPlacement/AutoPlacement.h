@@ -37,17 +37,19 @@ struct PlacementGroup {
     u16 _22{};
     u8 _24;
     u8 _25{};
-    void* _28;
-    void* _30;
-    void* _38;
-    void* _40;
-    void* _48;
-    void* _50;
-    void* _58;
-    void* _60;
-    void* _68;
+    u8 _26;
+    u8 _27{};
+    // 0x28: the group's position; 0x7c: its radius (AutoPlacement::hasGroupNearMaybe).
+    sead::Vector3f _28;
+    u8 _34[0x68 - 0x34];
     sead::SafeString b;
+    u32 _78;
+    f32 _7c;
     u32 _80{};
+    u8 _84;
+    u8 _85;
+    u8 _86;
+    u8 _87;
 };
 KSYS_CHECK_SIZE_NX150(PlacementGroup, 0x88);
 
@@ -127,7 +129,9 @@ public:
     u32 sub_710064CD80(u32, u32);
     void sub_710064CF60(bool force);
 
-    bool sub_710064ED60(const sead::SafeString& name, const sead::Vector3f& distance);
+    // 0x710064ed60 (placeholder name): whether a registered group is named `name` and its position is
+    // within the group radius of `pos`. `dist` caches the squared radius between calls (-1 at the start).
+    bool hasGroupNearMaybe(const sead::SafeString& name, const sead::Vector3f& pos, f32* dist);
 
     void setSpawnInfo(const sead::SafeString& name, s32 count);
     void sub_710064DA54();

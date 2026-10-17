@@ -85,6 +85,15 @@ bool AutoPlacementMgr::invoked3(int arg) {
     }
 }
 
+bool AutoPlacementMgr::auto2(const sead::SafeString& name, const sead::Vector3f& pos) {
+    f32 dist = -1.0f;
+    for (auto& work : mWorks) {
+        if (work.hasGroupNearMaybe(name, pos, &dist))
+            return true;
+    }
+    return false;
+}
+
 bool AutoPlacementMgr::auto9() {
     return _171e48 > 0;
 }
