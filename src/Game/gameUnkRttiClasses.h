@@ -2,6 +2,7 @@
 
 #include <prim/seadRuntimeTypeInfo.h>
 #include <common/aglTextureData.h>
+#include <common/aglTextureSampler.h>
 #include <driver/aglNVNsampler.h>
 #include <thread/seadAtomic.h>
 #include <prim/seadSafeString.h>
@@ -213,8 +214,7 @@ public:
                      bool flag);
     // 0x710110db28 (declaration only; placeholder name; 448 bytes): builds the image's TextureData
     // (initialize_ from the image's virtuals), copies `addr` into it and applies it to `sampler`.
-    void sub_710110DB28(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr& addr, s32 mip_offset,
-                        s32 flag);
+    void sub_710110DB28(void* storage, const agl::GPUMemVoidAddr& addr, s32 mip_offset, s32 flag);
     // 0x710110dd3c: clears bit 3 of the flags, destroys the sampler / texture pair at `_10` and nulls it.
     // Placeholder name.
     virtual void sub_710110DD3C();
@@ -248,11 +248,17 @@ public:
     u32 _8 = 0;
 
 private:
-    Unk1* _10 = nullptr;
+    // The image's sampler block: raw storage for an agl::TextureSampler (sub_710110DB28 constructs the
+    // sampler in the storage the caller passes). The Unk1 view keeps the original's inlined ~TextureData.
+    void* _10 = nullptr;
 
 public:
+    // inline-only in the original; name is a guess. The sampler of the image (at _10).
+    agl::TextureSampler* getSamplerMaybe() const {
+        return static_cast<agl::TextureSampler*>(_10);
+    }
     // inline-only in the original; name is a guess. The texture data of the image, at _10 + 0x10.
-    const agl::TextureData& getTextureDataMaybe() const { return _10->mTextureData; }
+    const agl::TextureData& getTextureDataMaybe() const { return getSamplerMaybe()->getTextureData(); }
 
 public:
     // Placeholder: _4 is a reference count, 0x40000000 while unused (see 0x71011074a0, 0x7101108860).

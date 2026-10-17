@@ -12,6 +12,7 @@
 #include "Game/Actor/aiUnk_71025b2aa8.h"
 #include "Game/Actor/aiUnk_71025b2d88.h"
 #include "Game/Actor/aiUnk_710070F974.h"
+#include <common/aglTextureSampler.h>
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -73,6 +74,35 @@ void Unk_710250dcd8::m11(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr
     _8 |= 8;
 }
 
+// NON_MATCHING: lib agl::TextureData's destructor is out of line (the original inlines ~NVNtexture_ at
+// TextureData + 0x58), so ours calls ~TextureData and the stack slots of the image copy / texture are
+// swapped. Everything else follows the original instruction for instruction.
+// Placeholder name. Builds the image's TextureData from the image virtuals, constructs the sampler in
+// `sampler` (the caller passes unconstructed storage) and applies the texture data to it.
+void Unk_710250dcd8::sub_710110DB28(void* storage, const agl::GPUMemVoidAddr& addr, s32 mip_offset,
+                                    s32 flag) {
+    const s32 format = m6();
+    const s32 filter = m7();
+    const s32 size = m9();
+    const s32 mip_count = m10();
+    agl::TextureData texture;
+    new (storage) agl::TextureSampler;
+    _10 = storage;
+    texture.initialize_(agl::TextureType::cTextureType_2D, static_cast<agl::TextureFormat>(format),
+                        size, size, 1, mip_count,
+                        static_cast<agl::TextureAttribute>(m4() == 1),
+                        static_cast<agl::MultiSampleType>(0), true);
+    const agl::GPUMemVoidAddr image(addr);
+    texture.setImagePtr(image, 0);
+    if (mip_offset) {
+        agl::GPUMemAddrBase mip(addr, mip_offset);
+        texture.setMipPtr(mip);
+    }
+    getSamplerMaybe()->applyTextureData(texture);
+    getSamplerMaybe()->setWrap(7, 7, 7);
+    getSamplerMaybe()->setFilter(u8(filter), u8(filter), 1);
+}
+
 void Unk_710250dcd8::m13(void* unused, const void* src, u32 size) {
     const agl::TextureData& texture = getTextureDataMaybe();
     std::memcpy(texture.getImagePtr().getAddress(), src, size);
@@ -93,7 +123,7 @@ void Unk_710250dcd8::sub_710110DD20(bool on) {
 
 void Unk_710250dcd8::sub_710110DD3C() {
     _8 &= ~8;
-    _10->~Unk1();
+    static_cast<Unk1*>(_10)->~Unk1();
     _10 = nullptr;
 }
 

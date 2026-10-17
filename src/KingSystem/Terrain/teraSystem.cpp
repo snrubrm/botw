@@ -368,6 +368,51 @@ u32 sub_710110BA6C(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level) {
     return u32(nearest[0]) << 24 | u32(nearest[1]) << 16 | nearest[3] | blended;
 }
 
+// NON_MATCHING: register allocation (level stays in w20 in ours, the original copies it to w8;
+// the tail csel operands are swapped). The body follows the original instruction for instruction.
+// Placeholder name: the maximum of the four 16-bit heights around `x` / `y` (0 - 1) in the area of
+// `arg` at mip `level`; the max counterpart of sub_7101108C44 and the sampler of sub_71011095B8.
+f32 sub_7101108F0C(f32 x, f32 y, const Unk_7101108C44Arg* arg, u32 level) {
+    TexelPosMaybe texel;
+    if (arg->_c) {
+        sub_710110C3E8(arg->table, &texel, arg->index, level);
+    } else {
+        const f32 offset = arg->table->levels[0].offset;
+        f32 tx = x - offset;
+        f32 ty = y - offset;
+        if (tx < 0.0f)
+            tx += 1.0f;
+        else if (tx > 1.0f)
+            tx += -1.0f;
+        if (ty < 0.0f)
+            ty += 1.0f;
+        else if (ty > 1.0f)
+            ty += -1.0f;
+
+        const f32 size = arg->table->levels[level].size;
+        tx *= size;
+        ty *= size;
+        texel.fx = wrapTexelMaybe(&texel.x, tx, size);
+        texel.fy = wrapTexelMaybe(&texel.y, ty, size);
+    }
+
+    const u32 max = arg->table->levels[level].size - 1;
+    const u32 pitch = arg->table->levels[level].pitch;
+    const u32 texel_size = arg->table->texel_size;
+    const u8* data = arg->table->areas[arg->index].levels[level];
+    const auto read = [](const u8* texel) { return u16(texel[0] | texel[1] << 8) / 65535.0f; };
+    const u32 row0 = sead::Mathu::min(texel.y, max) * pitch;
+    const u32 col0 = sead::Mathu::min(texel.x, max) * texel_size;
+    const f32 h00 = read(data + (row0 + col0));
+    const u32 col1 = sead::Mathu::min(texel.x + 1, max) * texel_size;
+    const f32 h01 = read(data + (row0 + col1));
+    const u32 row1 = sead::Mathu::min(texel.y + 1, max) * pitch;
+    const f32 h10 = read(data + (row1 + col0));
+    const f32 h11 = read(data + (row1 + col1));
+    return sead::Mathf::max(sead::Mathf::max(h00, h01), sead::Mathf::max(h10, h11));
+}
+
+
 // NON_MATCHING: register allocation (the area index is kept across the call), as sub_710110BA6C.
 // Placeholder name: bilinear height (0 - 1) over the area texel data of an Unk_710110AC74Table at
 // mip `level` (the f32 counterpart of sub_710110BA6C). The texel coordinate comes from

@@ -1444,7 +1444,7 @@ u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vecto
 // area index).
 struct Unk_7101108C44Arg {
     const Unk_710110AC74Table* table;
-    s32 index;
+    u32 index;
     bool _c;
 };
 // Placeholder: the texel position 0x710110ac74 writes (indices, then the fractions).
@@ -1473,7 +1473,7 @@ void sub_710110C3E8(const Unk_710110AC74Table* table, TexelPosMaybe* out, s32 in
 f32 sub_7101108C44(sead::Vector2f pos, const Unk_7101108C44Arg* arg, u32 level);
 // 0x7101108f0c (declaration only; placeholder name; 720 bytes): the height (0 - 1) at `x` / `y` in
 // the area of `arg`; the sampler of sub_71011095B8 (levels up to `height_flag`).
-f32 sub_7101108F0C(f32 x, f32 y, const Unk_7101108C44Arg* arg, s32 height_flag);
+f32 sub_7101108F0C(f32 x, f32 y, const Unk_7101108C44Arg* arg, u32 level);
 // Returns query status 0/1/2; the final argument preserves a full integer flag.
 u32 sub_71011094A0(f32* out_height, const sead::Vector2f* xz, System* system, s32 index,
                     s32 flag);
