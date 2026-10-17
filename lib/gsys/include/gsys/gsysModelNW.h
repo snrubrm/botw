@@ -29,6 +29,9 @@ class ModelNW : public ModelUnit,
     SEAD_RTTI_OVERRIDE(ModelNW, ModelUnit)
 
 public:
+    // 0x7100c030dc (unnamed row): the unit constructor (ModelUnit base setup and vtable stores).
+    ModelNW();
+
     // Constructor c030bc and initialize wrapper c03308 prove this 0x20-byte argument.
     struct CreateArg {
         CreateArg();
@@ -73,6 +76,11 @@ public:
     // ModelUnit overrides (0x7100c06d30 / 0x7100c06dd8).
     sead::SafeString getBoneName(int bone_idx) const override;
     void clearBoneLocalMatrix() override;
+    // The remaining ModelUnit pure virtuals have unnamed implementations in the original; declared only.
+    int getMaterialNum() const override;
+    int getShapeNum() const override;
+    ModelRenderUnit* getModelRenderUnit(int idx) override;
+    const ModelRenderUnit* getModelRenderUnit(int idx) const override;
     // Native vtable AP24ca120 +70 is c04df8; +80 is c04e48, which
     // dispatches to +70. Both are distinct from the pointer-return slot +78.
     void getBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;

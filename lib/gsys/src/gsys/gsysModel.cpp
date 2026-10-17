@@ -5,6 +5,10 @@
 #include "gsys/gsysModelAutoAnimation.h"
 #include "gsys/gsysModelDebugInfo.h"
 #include "gsys/gsysModelNW.h"
+#include "gsys/gsysModelResource.h"
+#include "gsys/gsysMemAllocator.h"
+#include <nn/g3d/ResFile.h>
+#include <nn/g3d/ResModel.h>
 #include <math/seadMathCalcCommon.h>
 #include "gsys/gsysModelUnit.h"
 #include <prim/seadScopedLock.h>
@@ -29,6 +33,91 @@ void Model::sub_7100BF69F8(Model* model) {
 ModelUnit* Model::sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap) {
     sub_7100BF6EBC(unit, flag, heap);
     return unit;
+}
+
+// 0x7100bf67f8
+ModelUnit* Model::sub_7100BF67F8(ModelResource* resource, const sead::SafeString& name,
+                                 sead::Heap* heap) {
+    mResource = resource;
+
+    const nn::g3d::ResFile* file = resource->getResFile();
+    nn::g3d::ResModel* res_model = nullptr;
+    const s32 index = file->FindModelIndex(name.cstr());
+    if (index != -1)
+        res_model = &file->mModels[index];
+
+    MemAllocator allocator(heap);
+    auto* unit = static_cast<ModelNW*>(allocator.tryAlloc(sizeof(ModelNW), 0x20));
+    if (!unit)
+        return nullptr;
+
+    new (unit) ModelNW;
+    ModelNW::CreateArg arg;
+    arg.buffer_num = _a2;
+    arg.model = res_model;
+    arg._18 = (_a0 >> 1) & 1;
+    arg._19 = (_a0 >> 2) & 1;
+    if (!unit->initialize(arg, heap))
+        return nullptr;
+
+    sub_7100BF6EBC(unit, true, heap);
+    return unit;
+}
+
+// NON_MATCHING: the original reads the target access entry twice (two bounds-checked at() calls) and
+// reaches the end of the loop with a different block order; the body is otherwise identical.
+// 0x7100bf8544
+bool Model::sub_7100BF8544(ModelUnit* unit, const BoneAccessKey& key, bool flag) {
+    if (mNumModels == 0)
+        return false;
+
+    for (s32 i = 0; i < mNumModels; ++i) {
+        if (mUnitPool[i].mModelUnit != unit)
+            continue;
+
+        ModelInfo* const info = &mUnitPool[i];
+        const u8 flags = info->_1e;
+        info->_1e = flag ? (flags | 1) : (flags & ~1);
+
+        bool stored = false;
+        if (!key.isValid()) {
+            info->mBoneKey = key;
+            stored = true;
+        } else if (mUnitAccess[key.model_unit_index] == info) {
+            info->mBoneKey.reset();
+        } else {
+            ModelInfo* link = mUnitAccess[key.model_unit_index];
+            for (s32 n = 0;; ++n) {
+                if (!link->mBoneKey.isValid()) {
+                    info->mBoneKey = key;
+                    stored = true;
+                    break;
+                }
+                link = mUnitAccess[link->mBoneKey.model_unit_index];
+                if (n + 1 == mNumModels) {
+                    info->mBoneKey.reset();
+                    break;
+                }
+            }
+        }
+
+        _48.clear();
+        for (s32 depth = 0; mUnitAccess.size() != _48.size(); ++depth) {
+            for (ModelInfo& other : mUnitAccess) {
+                s32 link_depth = 0;
+                const ModelInfo* link = &other;
+                while (link->mBoneKey.isValid()) {
+                    link = mUnitAccess[link->mBoneKey.model_unit_index];
+                    ++link_depth;
+                }
+                if (link_depth == depth)
+                    _48.pushBack(&other);
+            }
+        }
+
+        return stored;
+    }
+    return false;
 }
 
 void Model::sub_7100BF713C() {

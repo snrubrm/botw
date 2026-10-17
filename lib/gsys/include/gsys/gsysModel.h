@@ -50,9 +50,10 @@ public:
     ModelUnit* mModelUnit;
     ModelInfo* _8;  // next unit of the reference LOD chain (0x7100bf8d70)
     void* _10;
-    u32 _18;
+    /// The unit this one follows for its bone / reference transform (0x7100bf8544 stores it here).
+    BoneAccessKey mBoneKey;
     s16 mAccessIndex;
-    u8 _1e;  // bit 3: the unit refers to the LOD of another unit
+    u8 _1e;  // bit 0: the bone key was set with its flag; bit 3: the unit refers to the LOD of another unit
     /// The rig objects attached to this model unit (0x7100bf9c08 / 0x7100bf9c58); the list offset is set by the
     /// creator.
     sead::OffsetList<IModelRigObj> mRigObjs;
@@ -285,7 +286,10 @@ private:
     u8 _e0[0xf0 - 0xe0];
     /// The scene the model is bound to (bind()).
     ModelScene* mScene;
-    u8 _f8[0x138 - 0xf8];
+    u8 _f8[0x100 - 0xf8];
+    /// The resource the model's units were created from (0x7100bf67f8 stores it here). Name is a guess.
+    ModelResource* mResource;
+    u8 _108[0x138 - 0x108];
     /// May be null (0x7100bf713c resets its edit model index).
     ModelDebugInfo* mDebugInfo;
     mutable sead::CriticalSection mCS;
