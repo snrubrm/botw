@@ -108,6 +108,36 @@ u32 Reaction::sub_7100EC2278(Actor* actor, bool* is_long) {
     return size;
 }
 
+// NON_MATCHING: the first / second basis vectors end up in the reverse register order
+// (s11,s10,s9 / s13,s12,s14 here vs s9,s10,s11 / s13,s14,s15 in the original); every other
+// instruction matches.
+void sub_7100EBFEA8(f32 scale, FootstepMatrix* out, const sead::Vector3f& axis,
+                    const sead::Vector3f& up, const sead::Vector3f& pos) {
+    sead::Vector3f right = sead::Vector3f::ex;
+    if (sead::Mathf::abs(axis.dot(up)) <= 0.999f)
+        right = axis;
+
+    sead::Vector3f front = up.cross(right);
+    front.normalize();
+
+    sead::Vector3f side = front.cross(up);
+    side.normalize();
+
+    out->mtx.m[0][0] = front.x;
+    out->mtx.m[0][1] = up.x;
+    out->mtx.m[0][2] = side.x;
+    out->mtx.m[0][3] = pos.x;
+    out->mtx.m[1][0] = front.y;
+    out->mtx.m[1][1] = up.y;
+    out->mtx.m[1][2] = side.y;
+    out->mtx.m[1][3] = pos.y;
+    out->mtx.m[2][0] = front.z;
+    out->mtx.m[2][1] = up.z;
+    out->mtx.m[2][2] = side.z;
+    out->mtx.m[2][3] = pos.z;
+    out->mScale = sead::Vector3f(scale, scale, scale);
+}
+
 bool Reaction::sub_7100EC2980(Actor* actor) {
     if (_b0 && _a8)
         return _a8->sub_7100EC6DD0(actor);
