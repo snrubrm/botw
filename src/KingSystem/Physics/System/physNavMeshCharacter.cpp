@@ -480,3 +480,26 @@ void Unk_71024f67c8::sub_7100F74F68(s32 index) {
 }
 
 }  // namespace ksys::phys
+
+// Constant virtuals in the physics address range (placeholder names, no data references).
+s32 sub_7100F7C5D0() { return 1; }
+s32 sub_7100F7C5D8() { return 0; }
+s32 sub_7100F7C6E0() { return 1; }
+s32 sub_7100F7C9A8() { return 1; }
+s32 sub_7100F7C9B0() { return 1; }
+s32 sub_7100F7D0F4() { return 1; }
+s32 sub_7100F7D0FC() { return 1; }
+s32 sub_7100F7E514() { return 1; }
+s32 sub_7100F7E51C() { return 1; }
+s32 sub_7100F7E524() { return 1; }
+s32 sub_7100F7E580() { return 1; }
+s32 sub_7100F7E588() { return 1; }
+s32 sub_7100F7E590() { return 1; }
+s32 sub_7100F84290() { return 1; }
+s32 sub_7100F84298() { return 1; }
+s32 sub_7100F842A0() { return 1; }
+s32 sub_7100F893C4() { return 1; }
+s32 sub_7100F89488() { return 1; }
+s32 sub_7100F89490() { return 1; }
+s32 sub_7100F89498() { return 1; }
+s32 sub_7100F80858() { return 160; }

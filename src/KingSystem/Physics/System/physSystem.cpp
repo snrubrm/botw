@@ -400,3 +400,10 @@ void System::sub_71012153B4(CharacterController* controller) {
 }
 
 }  // namespace ksys::phys
+
+// Constant virtuals in the physics address range (placeholder names, no data references).
+u8* sub_7100F66950(u8* self) { return self + 116; }
+void* sub_7100F6C47C() { return nullptr; }
+s32 sub_7100F6ECDC() { return 1; }
+s32 sub_7100F6B8B4() { return 20; }
+s32 sub_7100F6ECE4() { return 20; }
