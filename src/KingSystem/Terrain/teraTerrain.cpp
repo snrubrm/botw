@@ -176,8 +176,8 @@ void Terrain::sub_710114C648(agl::DrawContext* context) {
         !(_a58 & 0x8000) || _a40->mThread != sead::ThreadMgr::instance()->getCurrentThread());
 }
 
-// NON_MATCHING: our sead::Viewport destructor is out of line; the colour flag update is scheduled
-// differently.
+// NON_MATCHING: our sead::Viewport destructor is out of line (the original inlines it away), and the
+// colour flag update is scheduled differently.
 void Terrain::sub_710114C3C4(agl::DrawContext* context, const agl::TextureData& texture, u32 mip,
                              u32 layer, u32 index, u32 flags) {
     RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];

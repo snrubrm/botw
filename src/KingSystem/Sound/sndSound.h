@@ -785,6 +785,9 @@ public:
     // it was a separate placeholder `Unk_7102614cb0` before). Defined by the symbol map only.
     static Unk_710104e5b4* instance() { return sInstance; }
 
+    // 0x710104ed9c: re-enables emission in the root group, un-pauses it, stops the pause duckers and restores the
+    // stream fader (used when the pause menu / event pause ends).
+    void sub_710104ED9C();
     // 0x710104f86c: starts the dialogue ducker (SoundMgr::_80 ducker 0x10) while an event is active.
     void sub_710104F86C();
     // 0x710104f8c4: `suspend` the dialogue ducker (SoundMgr::_80 ducker 0x10).
@@ -796,6 +799,9 @@ public:
     // 0x710104f920: with `on`: stops the duckers 0x10 and 0xf and disables ducking (sets bit 2 of `_2a0`); else clears it.
     void sub_710104F920(bool on);
     void sub_710104FD4C();
+    // 0x710104fd68: collects into `groups` the groups of the `type` bit (bit `type` of aal::Group::_13c), or the
+    // leaves of `group`'s subtree when the bit is clear.
+    void sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group>* groups, s32 type);
     void sub_710104FD38(const xlink2::HandleSLink& handle);
     void sub_710104EA7C();
     // 0x710104e964: per-frame update (user instance calc, volume state, handles, duckers).

@@ -45,6 +45,21 @@ Unk_71024fd448::Unk_71024fd448(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
 
 Unk_71024fd448::~Unk_71024fd448() = default;
 
+void Unk_71024fd448::hm14() {
+    if (_190 == 1)
+        _198 = sub_71010209FC(sStr_Boss);
+    else if (_190 == 2)
+        _198 = sub_71010209FC(sStr_BossLatter);
+    if (_1a8 > 0.0f && _198 && _198->sub_7100FF6DF4(this))
+        _198->mHandle.setLpfScale(_1a8);
+}
+
+void Unk_71024fd448::sub_7101000838(f32 value) {
+    _1a8 = value;
+    if (_198 && _198->sub_7100FF6DF4(this))
+        _198->mHandle.setLpfScale(_1a8);
+}
+
 void Unk_71024fd448::m5() {
     if (_190)
         _1a0.calc();

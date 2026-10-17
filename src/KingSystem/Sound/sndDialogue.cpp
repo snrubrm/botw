@@ -1,5 +1,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSystemAccessor.h>
 #include <prim/seadScopedLock.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -199,6 +201,27 @@ void Unk_710104e5b4::sub_710104EBBC() {
         _98->getParam().setBiquadFilter(2, sUnk_7102502500[4]);
         _98->getParam().setBusVolume(aal::BusType::AuxB, sUnk_7102502500[5]);
     }
+}
+
+void Unk_710104e5b4::sub_710104ED9C() {
+    SoundMgr::instance()->_50->sub_7101050CCC();
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cPauseEvent, false);
+    SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cPauseIngame, false);
+    if (aal::GroupMgr* group_mgr = aal::SystemAccessor::getGroupMgr()) {
+        aal::Group* root = group_mgr->getRootGroup();
+        root->allowEmit(sead::BitFlag8(1), true);
+        root->pauseAllSound(sead::BitFlag8(1), false, 0.3f);
+    }
+    SoundMgr::instance()->_98->_5e0._20.moveTo(1.0f, 0.3f);
+}
+
+void Unk_710104e5b4::sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group>* groups, s32 type) {
+    if (group->get_13c() & (1 << type)) {
+        groups->pushBack(group);
+        return;
+    }
+    for (auto* node = group->treeNode().child(); node; node = node->next())
+        sub_710104FD68(node->value(), groups, type);
 }
 
 void Unk_710104e5b4::sub_710104FD4C() {

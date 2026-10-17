@@ -27,6 +27,8 @@ public:
     void sub_7101050348();
     // Whole 105034C updates effect state using only this.
     void sub_710105034C();
+    // 0x7101050ccc: applies the I3DL2 room of _18 to the two effects at +0x8 / +0x10.
+    void sub_7101050CCC();
     void sub_7101051078();
     void sub_71010511D4();
     // 0x7101051154: sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.

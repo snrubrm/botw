@@ -2703,10 +2703,10 @@ public:
     void sub_7101000598();
 
     u32 _190 = 0;
-    u64 _198 = 0;
+    ksys::snd::Unk_710260f248Entry* _198 = nullptr;
     ksys::snd::Unk_710103AB10 _1a0{10};
     ksys::snd::RemainsBossBgmType mType;
-    u32 _1a8 = 0;
+    f32 _1a8 = 0.0f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fd448, 0x1b0);
 
