@@ -2,6 +2,9 @@
 #include "Game/Actor/actCamera.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
+#include <gsys/gsysParticleMgr.h>
+#include <ptcl/seadPtclSystem.h>
+#include <cstring>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actReaction.h"
@@ -48,6 +51,23 @@ void Effect::sub_71011B7930() {
     mtx.setBase(2, forward);
     mtx.setTranslation(_9fc0->m148()->getMtx().getTranslation());
     mFieldEnvEffect.sub_7101241A44(mtx);
+}
+
+void Effect::kill_0() {
+    gsys::ParticleMgr::instance()->getSystem()->KillAllEmitterSet();
+}
+
+// NON_MATCHING: matrix copies use SIMD loads and stores and identity construction folds.
+void Effect::updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate) {
+    auto& camera = gsys::ParticleMgr::instance()->getSystem()->getCameraMatrix();
+    if (mFlags & 8) {
+        sead::Matrix34f identity;
+        identity.makeIdentity();
+        std::memcpy(&camera, identity.a.data(), sizeof(camera));
+    } else {
+        const auto& source = mFlags & 0x10 ? alternate : matrix;
+        std::memcpy(&camera, source.a.data(), sizeof(camera));
+    }
 }
 
 void Effect::searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle) {

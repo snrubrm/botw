@@ -93,6 +93,8 @@ public:
     void removeDemoResourceId(u32 id);
     // 0x71011b872c: searches and emits an ELink event through the xlink user instance.
     void searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle);
+    void kill_0();
+    void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
 
 private:
     u8 _38[0x9fb8 - 0x38];
