@@ -1272,6 +1272,14 @@ public:
     virtual bool m9() = 0;
 };
 
+// The status object at SoundMgr::_288 (snd::debugReportStatus 0x7101048b94 reads it; the environment BGM's
+// hm15 marks the playing part in the byte array at +8).
+class Unk_SoundMgrStatus {
+public:
+    u8 _0[8];
+    sead::SafeArray<u8, 8> mPlayingPart;
+};
+
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)
@@ -1339,6 +1347,8 @@ public:
     u8 _274[4];
     // Whole allocator 11FC348 passes the heap at 278 to new and the thread constructor.
     sead::Heap* _278;
+    u8 _280[8];
+    /* 0x288 */ Unk_SoundMgrStatus* _288;
 };
 
 // Defined here because it needs SoundMgr.

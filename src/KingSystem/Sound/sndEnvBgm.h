@@ -60,13 +60,13 @@ public:
     sead::PtrArray<xlink2::PropertyDefinition> mProperties;
     u32 mBpm = 0;
     f32 mBeatSec = 0;
-    u32 _1a8 = 0;
+    f32 _1a8 = 0;
     bool _1ac = true;
     u8 _1ad[0x1b0 - 0x1ad];
     u32 _1b0 = 0;
     // The branch taken by Unk_71024fdd28.
     Section _1b4;
-    s32 _1b8 = 0;
+    u32 _1b8 = 0;
     // 0..15; Unk_71024fdbe8::start multiplies the wait count by 2 or 3 for some values.
     u32 _1bc = 0;
     sead::Buffer<Entry> mEntries;

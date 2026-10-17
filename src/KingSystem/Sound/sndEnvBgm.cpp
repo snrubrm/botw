@@ -149,6 +149,69 @@ void Unk_71024fdb00::sub_7101005874(const sead::SafeString& name, s32 wait_count
     }
 }
 
+// The 25-beat section pattern of the environment BGM (table at 0x1ec2df0, indexed with the stored value
+// XOR 0x10; the upper half continues the same sequence).
+static const s32 sSectionTable[32] = {10, 11, 12, 13, 14, 14, 15, 15, 15, 0, 0, 0, 0, 0, 0, 0, 0,
+                                      1,  2,  3,  3,  4,  4,  5,  5,  6, 7, 7, 8, 8, 9, 9};
+
+// NON_MATCHING: the section assignment is a select here (the original branches) and the old property is
+// spilled instead of kept in a callee-saved register.
+void Unk_71024fdb00::hm15() {
+    const f32 prev = _1a8;
+    _1a8 += sub_710105E3A4();
+    if (prev == 0.0f || sead::Mathf::floor(_1a8 / mBeatSec) != sead::Mathf::floor(prev / mBeatSec)) {
+        if (prev != 0.0f)
+            ++_1b0;
+
+        const u32 old_property = _1bc;
+        _1bc = sSectionTable[(_1b0 / _1b8) % 25 ^ 0x10];
+        mUserInstance->setPropertyValue(1, s32(_1bc));
+        if (_1bc < 8)
+            _1b4 = Section::A;
+        else
+            _1b4 = _1bc >= 15 ? Section::C : Section::B;
+        mUserInstance->setPropertyValue(0, s32(_1b4));
+
+        if (old_property != _1bc && _1bc == 0) {
+            const s32 min = mInfo->mMasterBeatRate.mMin.ref();
+            const s32 max = mInfo->mMasterBeatRate.mMax.ref();
+            const s32 range = 1 - min + max;
+            const u32 random = sead::GlobalRandom::instance()->getU32();
+            _1b8 = (min + ((u64(random) * u32(range)) >> 32)) * mInfo->mMasterBeatBase.ref();
+            _1b0 = 0;
+        }
+
+        for (s32 i = 0; i < mEntries.size(); ++i) {
+            auto* entry = mEntries.get(i);
+            if (entry->wait_count == 0)
+                continue;
+            if (--entry->wait_count != 0)
+                continue;
+            auto* emitted = sub_71010209FC(entry->name);
+            if (!emitted)
+                continue;
+            f32 volume = entry->volume;
+            if (volume < 0.0f)
+                volume = 0.0f;
+            emitted->_20 = volume;
+            if (entry->pan != 0.0f) {
+                f32 pan = entry->pan;
+                if (pan < -1.0f)
+                    pan = -1.0f;
+                else if (pan > 1.0f)
+                    pan = 1.0f;
+                emitted->mPan = pan;
+            }
+        }
+
+        for (auto* machine : mPartMachines)
+            machine->sub_7101014320();
+    }
+
+    if (auto* status = SoundMgr::instance()->_288)
+        status->mPlayingPart[mTimeType ? 4 : 3] = 1;
+}
+
 // NON_MATCHING: written from the original's structure; not compared in detail (3140 B).
 void Unk_71024fdb00::sub_7101004A54(sead::Heap* heap, EnvBgmInfo::EnvTimeEnum type, EnvBgmInfo* info) {
     mTimeType = type;
