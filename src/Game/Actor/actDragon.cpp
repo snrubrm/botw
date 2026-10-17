@@ -651,4 +651,13 @@ void DragonBonePartGroup::destroy() {
     }
 }
 
+// NON_MATCHING: address generation while comparing the matrix elements.
+void sub_71006FAA34(sead::RingBuffer<sead::Matrix34f>& history, const sead::Matrix34f& matrix) {
+    if (history.size() > 0 && history.back() == matrix)
+        return;
+    if (history.size() >= history.capacity())
+        history.popFront();
+    history.pushBack(matrix);
+}
+
 }  // namespace uking::act

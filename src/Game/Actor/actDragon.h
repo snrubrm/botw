@@ -16,6 +16,9 @@ class Object;
 }
 
 namespace uking::act {
+// 0x71006faa34: append a changed transform, discarding the oldest when the ring is full.
+void sub_71006FAA34(sead::RingBuffer<sead::Matrix34f>& history, const sead::Matrix34f& matrix);
+
 
 // Bone handle with vtable 0x7102450330 (D1 0x7100700400, D0 0x7100700404, m2 0x71006ffa14 not decompiled;
 // m3 / m4 inherited). Built inline by the Dragon part constructor 0x710000b710; its members start in the tail
@@ -208,7 +211,7 @@ public:
         ~Unk_710000b710() { sub_71006FB7F8(); }
 
         /* 0x000 */ ksys::act::Actor* mActor = nullptr;
-        /* 0x008 */ sead::RingBuffer<u8> _8;  // element type unknown (trivial: freed without destructors)
+        /* 0x008 */ sead::RingBuffer<sead::Matrix34f> _8;  // transform history, appended by sub_71006FAA34
         /* 0x020 */ sead::Matrix34f _20 = sead::Matrix34f::ident;
         /* 0x050 */ sead::Matrix34f _50 = sead::Matrix34f::ident;
         /* 0x080 */ f32 _80 = 1.0f;
