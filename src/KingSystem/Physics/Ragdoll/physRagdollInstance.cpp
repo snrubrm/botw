@@ -30,6 +30,42 @@
 
 namespace ksys::phys {
 
+// 0x7102652bac (bss; placeholder name): when set, x_22 ignores its arguments.
+KSYS_VISIBILITY_HIDDEN bool sUnk_7102652BAC = false;
+
+// NON_MATCHING: the original keeps the clamp as branches (and clones the loop per clamp branch); ours
+// lowers it to selects.
+// Placeholder name: clamps `value` into [0, 1] and stores it in mBoneStuff2 (every entry when `index`
+// is negative), then updates flag 0x80 from whether the value is zero.
+void RagdollInstance::x_22(int index, float value) {
+    if (sUnk_7102652BAC)
+        return;
+
+    if (index < 0) {
+        f32 clamped = value;
+        if (clamped < 0.0f)
+            clamped = 0.0f;
+        else if (clamped > 1.0f)
+            clamped = 1.0f;
+        for (s32 i = 0; i < mBoneStuff2.size(); ++i)
+            mBoneStuff2[i] = clamped;
+    } else {
+        f32 clamped = value;
+        if (clamped < 0.0f)
+            clamped = 0.0f;
+        else if (clamped > 1.0f)
+            clamped = 1.0f;
+        mBoneStuff2[index] = clamped;
+    }
+
+    if (value != 0.0f)
+        mFlags.reset(Flag::_80);
+    else
+        mFlags.set(Flag::_80);
+}
+
+
+
 static u8 sRagdollInstanceUnk1 = 15;
 static RagdollInstance::Config sRagdollInstanceConfig;
 
