@@ -1389,7 +1389,7 @@ public:
     u32 _30 = 5;
     // Written by OpenWorldStage::calc (camera direction, lane1); the ctor sets {0, 0, 1}.
     sead::Vector3f _34{0, 0, 1};
-    u64 _40 = 0;
+    ksys::act::Actor* _40 = nullptr;  // PlayerInfo::getPlayer writer in OpenWorldStage::postInit.
     ksys::SeadController mController;
 };
 

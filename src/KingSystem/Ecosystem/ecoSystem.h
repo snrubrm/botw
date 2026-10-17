@@ -149,6 +149,16 @@ public:
 
     s32 getFieldMapArea(f32 x, f32 z) const { return getMapArea(mFieldMapArea, x, z); }
 
+    // Inline-only in the original; names are guesses. OpenWorldStage::postInit and
+    // unload update bit 0 of the ecosystem word at +0x220.
+    bool isFlag0Set() const { return (mFlags & 1) != 0; }
+    void setFlag0(bool value) {
+        if (value)
+            mFlags |= 1;
+        else
+            mFlags &= ~1u;
+    }
+
     void getAreaItems(s32 areaNum, AreaItemType type, AreaItemSet* out) const;
     void getStatusEffectInfo(StatusEffect statusEffectIdx, s32 idx, StatusEffectInfo* out) const;
     void getAreaNameByNum(s32 areaNum, const char** out) const;

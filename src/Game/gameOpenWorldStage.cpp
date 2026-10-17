@@ -25,6 +25,14 @@
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/gameGraphics.h"
+#include "Game/gameSceneStatusMgr.h"
+#include "Game/gameStageBinder.h"
+#include "Game/gameStruct30.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
+
 namespace uking {
 
 // NON_MATCHING: the original calls GameScene::sb::init (and stores the sb vtable) before the
@@ -32,6 +40,24 @@ namespace uking {
 // shorter). The members and base construction are otherwise identical.
 OpenWorldStage::OpenWorldStage() : mTransceiver(this, ksys::sUnk_710250bcd8) {
     mDrawMethods.init(1, &_110);
+}
+
+void OpenWorldStage::postInit(Unk_710245ac20* arg, Unk_710245abf0*) {
+    if (ksys::map::PlacementMgr::instance()) {
+        ksys::map::PlacementMgr::instance()->initClusteredRenderer();
+        if (auto* navi = ksys::map::PlacementMgr::instance()->mPlacementNavi)
+            navi->_40 = act::PlayerInfo::instance()->getPlayer();
+    }
+    Graphics::instance()->getUnk_ab0()->_e48 |= 2;
+    arg->_8 = true;
+    auto* ecosystem = ksys::eco::Ecosystem::instance();
+    if (!Struct30::instance()->isTitleMonitoringOrDemo())
+        ecosystem->setFlag0(false);
+    else
+        ecosystem->setFlag0(mMapType == "MainField");
+    if (auto* status = GameSceneStatusMgr::instance())
+        status->unregisterStatus(&mDebugStatus);
+    mDebugStatus.clear();
 }
 
 bool OpenWorldStage::getMapName(sead::BufferedSafeString* out, int col, int row) {
