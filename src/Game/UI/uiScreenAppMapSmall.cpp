@@ -323,6 +323,22 @@ void ScreenAppMap::m94() {
     }
 }
 
+// 0x71009eb178
+void ScreenAppMap::sub_71009EB178() {
+    if (!_3610 || !_3610->mNormalMap.sub_71009A82A8())
+        return;
+    if (_3628[3] && _3628[3]->mFrame != 0.0f)
+        _3628[3]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (_3628[4] && _3628[4]->mFrame != 0.0f)
+        _3628[4]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (_3628[5] && _3628[5]->mFrame != 0.0f)
+        _3628[5]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    eui::Animator* animator = _3628[6];
+    if (!animator || animator->mFrame == 0.0f)
+        return;
+    animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
 // 0x71009eb0e0
 // NON_MATCHING: the original materialises the 0 for set6e4 as `mov x1, xzr` (ours `mov w1, wzr`); same in m98
 void ScreenAppMap::sub_71009EB0E0() {
