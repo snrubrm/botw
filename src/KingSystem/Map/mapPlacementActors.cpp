@@ -43,6 +43,37 @@ void PlacementActors::threadSpawnGenGroupActors(const sead::Vector3f& pos, void*
     }
 }
 
+bool PlacementActors::spawnGenGroupActor(Object* obj, Object* other) {
+    if (other != obj && !obj->mFlags0.set(Object::Flag0::_10000))
+        return false;
+
+    // The original reads the flag word here and discards it (the load is in the target asm).
+    obj->mFlags0.getDirect();
+
+    bool result = false;
+    if (shouldSpawn(obj)) {
+        bool spawn = true;
+        if (obj->mActorFlags8.isOn(ActorFlag8::MapPassive)) {
+            const ActorData& data = mActorData[obj->mActorDataIdx];
+            const char* profile;
+            if (!ksys::act::InfoData::instance()->getActorProfile(&profile,
+                                                                  data.mActorName.cstr()) ||
+                (!data.mFlags.isOnBit(ActorData::Flag::_16) &&
+                 !obj->isEnemyOrNpcOrActiveOrMapPassive())) {
+                spawn = false;
+            } else {
+                obj->mFlags0.reset(Object::Flag0::_2000);
+            }
+        }
+        if (spawn)
+            result = spawnActor(obj);
+    }
+
+    if (other != obj)
+        obj->mFlags0.reset(Object::Flag0::_10000);
+    return result;
+}
+
 bool PlacementActors::doSpawn(Object* obj, bool set_flag, bool use_gen_group) {
     const ActorData& data = mActorData[obj->mActorDataIdx];
     const char* profile;
