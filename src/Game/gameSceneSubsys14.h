@@ -100,8 +100,12 @@ public:
     void init();
     // Original location setup at 0x7100903d00; body remains declared only.
     void initCurrentLocation();
-    // 0x7100903fbc (CSV GameSceneSubsys14::postCalc; declared only).
+    // 0x7100903fbc (CSV GameSceneSubsys14::postCalc).
     void postCalc();
+    // 0x7100904128 (placeholder name; 332 B): whether the stage data changed.
+    bool sub_7100904128();
+    // 0x7100904274 (placeholder name; 1168 B).
+    void sub_7100904274();
     void sub_7100904DD4(const Unk_7100903948::Slot& slot);
     bool sub_7100904704();
     // 0x7100904ed4-0x7100904f68: out-of-line flag getters (`__auto*` in the CSV; bit meanings unknown).
@@ -133,4 +137,5 @@ public:
     sead::FixedPtrArray<Unk_7100903948::Slot, 16> mFreeSlots;
     bool _12e0 = false;
     bool mSlotsChanged = false;
+    bool _12e2 = false;
 };

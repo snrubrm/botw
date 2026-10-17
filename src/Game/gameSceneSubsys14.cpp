@@ -1,4 +1,5 @@
 #include "Game/gameSceneSubsys14.h"
+#include "Game/UI/uiManager.h"
 
 // 0x710090325c. `.operator=(...)` for the link: C++14 evaluation order: the original evaluates the
 // destination first.
@@ -91,6 +92,30 @@ bool GameSceneSubsys14::sub_7100904F68() const {
 Unk_7100903948::Unk_7100903948() = default;
 
 Unk_7100903948::~Unk_7100903948() = default;
+
+void GameSceneSubsys14::postCalc() {
+    if (uking::ui::Manager::instance()->isPausedMaybe())
+        return;
+    if (!_12e2) {
+        if (sub_7100904128())
+            _12e0 = true;
+        if (_12e0)
+            sub_7100904274();
+    }
+    if (sub_7100904704())
+        mSlotsChanged = true;
+    else if (!mSlotsChanged)
+        return;
+
+    u32 flags = 0;
+    const s32 count = mActiveSlots.size();
+    for (s32 i = 0; i < count; ++i) {
+        const u32 id = mActiveSlots[i]->id;
+        flags |= id < 9 ? 1 << id : 0;
+    }
+    _16c = flags;
+    mSlotsChanged = false;
+}
 
 void GameSceneSubsys14::init() {
     initCurrentLocation();
