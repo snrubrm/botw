@@ -4,6 +4,27 @@
 
 namespace uking::ui {
 
+// 0x710260b150: the save tracker's progress object (block count at +0x19c, block total at +0x1a0)
+struct Unk_710260b150 {
+    u8 _0[0x19c];
+    /* 0x19c */ u32 _19c;
+    /* 0x1a0 */ s32 _1a0;
+};
+KSYS_VISIBILITY_HIDDEN Unk_710260b150* sUnk_710260b150;
+
+// 0x71009af058
+// NON_MATCHING: the original loads the tracker global through its GOT entry (one extra indirection)
+void ScreenAppMapWidget::sub_71009AF058(s8 count) {
+    if (count <= 0)
+        return;
+    const s32 value = (_b388 + _b499) / count;
+    _b4f8 = s16(value);
+    if (sUnk_710260b150 && _b4ac == 3) {
+        sUnk_710260b150->_19c = u32(value) & 0xffff;
+        sUnk_710260b150->_1a0 = count;
+    }
+}
+
 // The accessors below read the widget's zoom / cursor state (offsets 0xb4a0-0xb4ff).
 
 // 0x71009a9438

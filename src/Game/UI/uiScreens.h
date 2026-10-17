@@ -25,6 +25,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/System/DebugBoard.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiPictureEx.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
 #include "Game/UI/uiArchiveHandle.h"
@@ -2320,6 +2321,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009A995C();
     // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
     void sub_71009A99F0(s32 level);
+    // 0x71009af058 (placeholder name): stores the tracker progress (per-block percentage) and hands the block
+    // count to the save tracker object
+    void sub_71009AF058(s8 count);
     s32 sub_71009AEF7C() const;
     sead::Vector2f sub_71009AEFEC() const;
     bool sub_71009AF0B4() const;
@@ -2395,7 +2399,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb4e8 */ f32 _b4e8;
     /* 0xb4ec */ u32 _b4ec;
     /* 0xb4f0 */ u32 _b4f0;
-    u8 _b4f4[0xb4fa - 0xb4f4];
+    u8 _b4f4[0xb4f8 - 0xb4f4];
+    /* 0xb4f8 */ s16 _b4f8;  // save tracker progress written by sub_71009AF058
     /* 0xb4fa */ s8 _b4fa;
     u8 _b4fb[0xb4fc - 0xb4fb];
     /* 0xb4fc */ s8 _b4fc;
@@ -2447,6 +2452,12 @@ public:
     void sub_71009F2300(s32 mode);
     // 0x71009f1828 (CSV unnamed, declared only): applies a map child's selection to the map screen
     void sub_71009F1828(Unk_710247d8f8* child);
+    // 0x71009ea738 / 0x71009eee04 / 0x71009eef98 (placeholder names): find the DLC map layout parts and create
+    // their layout animators
+    void sub_71009EA738();
+    void sub_71009EA83C();
+    void sub_71009EEE04();
+    void sub_71009EEF98();
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
     // 0x71009ed084 / 0x71009ed1e4 (placeholder names): play the map mode animators forward / backward
@@ -2519,11 +2530,41 @@ public:
     u8 _3620[0x3628 - 0x3620];
     // Map-mode animators: [3] .. [6] are the four mode transitions.
     /* 0x3628 */ eui::Animator* _3628[11];
-    u8 _3680[0x3778 - 0x3680];
+    /* 0x3680 */ u32 _3680;
+    u8 _3684[0x3690 - 0x3684];
+    // The DLC map layout parts and their animators (created by sub_71009EEE04 / sub_71009EEF98).
+    /* 0x3690 */ eui::LayoutEx* _3690 = nullptr;
+    /* 0x3698 */ eui::Animator* _3698 = nullptr;
+    /* 0x36a0 */ eui::Animator* _36a0 = nullptr;
+    /* 0x36a8 */ eui::Animator* _36a8 = nullptr;
+    /* 0x36b0 */ eui::Animator* _36b0 = nullptr;
+    /* 0x36b8 */ eui::Animator* _36b8 = nullptr;
+    /* 0x36c0 */ nn::ui2d::Pane* _36c0 = nullptr;
+    /* 0x36c8 */ eui::LayoutEx* _36c8 = nullptr;
+    /* 0x36d0 */ eui::Animator* _36d0 = nullptr;
+    /* 0x36d8 */ eui::Animator* _36d8 = nullptr;
+    /* 0x36e0 */ eui::Animator* _36e0 = nullptr;
+    /* 0x36e8 */ eui::Animator* _36e8 = nullptr;
+    /* 0x36f0 */ nn::ui2d::Pane* _36f0 = nullptr;
+    /* 0x36f8 */ f32 _36f8 = 0.0f;
+    u8 _36fc[0x3700 - 0x36fc];
+    /* 0x3700 */ eui::LayoutEx* _3700 = nullptr;
+    /* 0x3708 */ eui::Animator* _3708 = nullptr;
+    /* 0x3710 */ eui::Animator* _3710 = nullptr;
+    /* 0x3718 */ eui::Animator* _3718 = nullptr;
+    /* 0x3720 */ eui::Animator* _3720 = nullptr;
+    /* 0x3728 */ nn::ui2d::Pane* _3728 = nullptr;
+    /* 0x3730 */ eui::LayoutEx* _3730 = nullptr;
+    /* 0x3738 */ eui::Animator* _3738 = nullptr;
+    /* 0x3740 */ nn::ui2d::Pane* _3740 = nullptr;
+    /* 0x3748 */ eui::LayoutEx* _3748 = nullptr;
+    /* 0x3750 */ nn::ui2d::Pane* _3750 = nullptr;
+    u8 _3758[0x3778 - 0x3758];
     /* 0x3778 */ agl::RenderBuffer _3778;
     u8 _3778pad[0x37e0 - 0x3778 - sizeof(agl::RenderBuffer)];
     /* 0x37e0 */ agl::TextureData _37e0;
-    u8 _37e0pad[0x3960 - 0x37e0 - sizeof(agl::TextureData)];
+    u8 _37e0pad[0x3958 - 0x37e0 - sizeof(agl::TextureData)];
+    /* 0x3958 */ eui::PictureEx* _3958 = nullptr;
     /* 0x3960 */ agl::driver::NVNsampler_ _3960;
     u8 _3960pad[0x39c8 - 0x3960 - sizeof(agl::driver::NVNsampler_)];
     /* 0x39c8 */ agl::driver::NVNtexture_ _39c8;

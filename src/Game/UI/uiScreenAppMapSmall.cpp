@@ -21,6 +21,8 @@
 #include "Game/UI/euiScreenSoundLinkUser.h"
 #include <layer/aglLayer.h>
 #include <layer/aglRenderer.h>
+#include <nn/font/font_Util.h>
+#include "Game/UI/euiPictureEx.h"
 
 namespace uking::ui {
 
@@ -300,9 +302,17 @@ KSYS_VISIBILITY_HIDDEN u32 sUnk_71025df310;
 
 // 0x71025df330: the map screen's static data block; m143 returns its button pane path buffer at +0x170
 struct Unk_71025df330 {
-    u8 _0[0x170];
+    u8 _0[0x10];
+    /* 0x10 */ f32 _10;  // the stop frame sub_71009EA83C passes to the DLC gauge animators
+    u8 _14[0x170 - 0x14];
     /* 0x170 */ sead::Buffer<ButtonPanePath> mButtonPanePaths;
-    u8 _180[0x1f0 - 0x180];
+    u8 _180[0x1a0 - 0x180];
+    // the animator names of the DLC map parts (sub_71009EEE04 / sub_71009EEF98)
+    /* 0x1a0 */ sead::Buffer<sead::SafeString> mDlcPlayerAnimatorNames;
+    /* 0x1b0 */ sead::Buffer<sead::SafeString> mDlcGaugeAnimatorNames;
+    /* 0x1c0 */ sead::Buffer<sead::SafeString> mDlcGaugePlayAnimatorNames;
+    u8 _1d0[0x1e0 - 0x1d0];
+    /* 0x1e0 */ sead::Buffer<sead::SafeString> mDlcCursorAnimatorNames;
     // the map mode index of the four mode animators
     /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
 };
@@ -472,6 +482,120 @@ bool ScreenAppMap::sub_71009ED860() {
             return false;
     }
     return true;
+}
+
+// 0x71009ea738
+void ScreenAppMap::sub_71009EA738() {
+    _3690 = sub_7100BEAFB0("Pa_MapIconPlayerDLC_00");
+    if (_3690)
+        _36c0 = _3690->GetPane();
+    _3730 = sub_7100BEAFB0("Pa_MapIconDeadDLC_00");
+    if (_3730)
+        _3740 = _3730->GetPane();
+    _3748 = sub_7100BEAFB0("Pa_CursorDLC_00");
+    if (_3748)
+        _3750 = sub_7100A48104(sead::SafeString("Pa_CursorDLC_00"), nullptr);
+    sub_71009EEE04();
+    if (_36d0 && _36d8 && _36e0) {
+        _3698->StopAtMin();
+        _36a0->StopAtMin();
+        _36a8->StopAtMin();
+    }
+    if (_3738)
+        _3738->StopAtMin();
+}
+
+// 0x71009ea83c
+// NON_MATCHING: the original calls the out-of-line nn::font::DynamicCast<PictureEx> instantiation; ours inlines it
+void ScreenAppMap::sub_71009EA83C() {
+    _36c8 = sub_7100BEAFB0("Pa_MapDLCGaugeL_00");
+    auto* layout = _3700;
+    if (_36c8) {
+        _36f0 = _36c8->GetPane()->FindPaneByName("N_All_00", true);
+        layout = _36c8->findPartsLayout("Pa_PlayIcon_00");
+        _3700 = layout;
+    }
+    if (layout)
+        _3728 = layout->GetPane()->FindPaneByName("N_All_00", true);
+    _3958 = nn::font::DynamicCast<eui::PictureEx>(
+        static_cast<nn::ui2d::Pane*>(sub_7100A48328(sead::SafeString("P_VisitMark_01"), nullptr)));
+    if (_3958) {
+        _3958->SetSize(nn::ui2d::Size{1280.0f, 720.0f});
+        _3958->SetScale(nn::util::Float2{1.0f, 1.0f});
+        _3958->SetAlpha(0xff);
+        _3958->SetVisible(true);
+    }
+    sub_71009EEF98();
+    if (_36d0 && _36d8 && _36e0) {
+        _36d0->StopAtMin();
+        _36d8->StopAtMax();
+        _36e0->StopAtMax();
+    }
+    if (_3708)
+        _3708->StopAtMin();
+    if (_36e8 && _3710) {
+        _36c8->_90 |= 2;
+        _3700->_90 |= 2;
+        _36e8->Stop(sUnk_71025df330._10);
+        _3710->Stop(sUnk_71025df330._10);
+    }
+}
+
+// 0x71009eee04
+void ScreenAppMap::sub_71009EEE04() {
+    if (_3690) {
+        _3698 = _3690->tryCreateAnimatorAuto(sUnk_71025df330.mDlcPlayerAnimatorNames[0].cstr(), false);
+        if (_3690) {
+            _36a0 = _3690->tryCreateAnimatorAuto(sUnk_71025df330.mDlcPlayerAnimatorNames[1].cstr(), false);
+            if (_3690) {
+                _36a8 = _3690->tryCreateAnimatorAuto(sUnk_71025df330.mDlcPlayerAnimatorNames[2].cstr(), false);
+                if (_3690) {
+                    _36b0 =
+                        _3690->tryCreateAnimatorAuto(sUnk_71025df330.mDlcPlayerAnimatorNames[3].cstr(), false);
+                    if (_3690)
+                        _36b8 =
+                            _3690->tryCreateAnimatorAuto(sUnk_71025df330.mDlcPlayerAnimatorNames[4].cstr(),
+                                                         false);
+                }
+            }
+        }
+    }
+    if (_3730)
+        _3738 = _3730->tryCreateAnimatorAuto(sUnk_71025df330.mDlcCursorAnimatorNames[0].cstr(), false);
+}
+
+// 0x71009eef98
+void ScreenAppMap::sub_71009EEF98() {
+    if (_36c8) {
+        _36d0 = _36c8->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugeAnimatorNames[0].cstr(), false);
+        if (_36c8) {
+            _36d8 = _36c8->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugeAnimatorNames[1].cstr(), false);
+            if (_36c8) {
+                _36e0 =
+                    _36c8->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugeAnimatorNames[2].cstr(), false);
+                if (_36c8)
+                    _36e8 =
+                        _36c8->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugeAnimatorNames[3].cstr(),
+                                                     false);
+            }
+        }
+    }
+    if (_3700) {
+        _3708 = _3700->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugePlayAnimatorNames[0].cstr(), false);
+        if (_3700) {
+            _3710 =
+                _3700->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugePlayAnimatorNames[1].cstr(), false);
+            if (_3700) {
+                _3718 =
+                    _3700->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugePlayAnimatorNames[2].cstr(),
+                                                 false);
+                if (_3700)
+                    _3720 =
+                        _3700->tryCreateAnimatorAuto(sUnk_71025df330.mDlcGaugePlayAnimatorNames[3].cstr(),
+                                                     false);
+            }
+        }
+    }
 }
 
 // 0x71009f05c0
