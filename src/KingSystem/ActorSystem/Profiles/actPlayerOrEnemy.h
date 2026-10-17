@@ -18,6 +18,12 @@ class OnUiActorMgr;
 namespace ksys::act {
 
 // TODO: incomplete. The vtable has 177 slots.
+class PlayerOrEnemy;
+// 0x71000083cc / 0x7100008468 (unnamed / CSV Player::updateResistThunderXXX): store the value in the
+// damage manager's _74 / _78; the player is the second argument in the original.
+void sub_71000083CC(f32 value, PlayerOrEnemy* player);
+void sub_7100008468(f32 value, PlayerOrEnemy* player);
+
 // 0x71002f06d0 (declaration only; CSV name): applies the weapon damage of the weapon in `accessor` to `actor`,
 // with an optional modifier; called by PlayerOrEnemy::m176 and the weapon code.
 void updateWeaponDamage(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::BaseProc* actor,

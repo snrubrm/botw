@@ -53,6 +53,16 @@ bool PlayerOrEnemy::hasNoWeaponActors() {
     return true;
 }
 
+void sub_71000083CC(f32 value, PlayerOrEnemy* player) {
+    if (auto* damage_mgr = sead::DynamicCast<uking::act::DamageManager>(player->getDamageMgr()))
+        damage_mgr->_74 = value;
+}
+
+void sub_7100008468(f32 value, PlayerOrEnemy* player) {
+    if (auto* damage_mgr = sead::DynamicCast<uking::act::DamageManager>(player->getDamageMgr()))
+        damage_mgr->_78 = value;
+}
+
 bool PlayerOrEnemy::sub_710000759C() {
     getWeapons();
     for (s32 i = 0; i < 6; ++i) {
