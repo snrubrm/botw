@@ -119,6 +119,32 @@ bool ForestRenderer::stopped() {
     return true;
 }
 
+// NON_MATCHING: the original rematerialises the conditional index for the second _28 access (its arms also
+// share the base/addend split); ours computes it once.
+s32 ForestRenderer::Entry::sub_7100F0663C(const sead::Vector3f& pos) {
+    GridCell cell;
+    cell.mFlags = _8 & 1;
+    cell.sub_7100F076D8(pos);
+    if (u32(cell.mX) > 9)
+        return -1;
+    if (u32(cell.mZ) > 7)
+        return -1;
+    if ((cell.mFlags & 1) == 0 && u32(cell.mMask) > 0xf)
+        return -1;
+    const s32 index = (cell.mFlags & 1) ? cell.mZ * 10 + cell.mX
+                                        : cell.mZ * 0xa0 + cell.mX * 0x10 + cell.mMask;
+    const u16 first = _28[index]._0;
+    const u16 count = _28[index]._2;
+    if (count == 0)
+        return -1;
+    for (s32 i = 0; i < count; ++i) {
+        const Record& record = mRecords[first + i];
+        if (pos.x == record.pos.x && pos.z == record.pos.z && pos.y == record.pos.y)
+            return first + i;
+    }
+    return -1;
+}
+
 void ForestRenderer::Entry::sub_7100F07060() {
     const s32 table_size = (_8 & 1) ? 80 : 1280;
     const s32 num_records = mNumRecords;

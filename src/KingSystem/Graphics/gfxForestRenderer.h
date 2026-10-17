@@ -42,7 +42,7 @@ public:
         u8 mFlags;
         s8 mX;
         s8 mZ;
-        u8 mMask;
+        s8 mMask;
     };
     static_assert(sizeof(GridCell) == 4);
 
@@ -106,8 +106,11 @@ public:
         struct Record {
             u8 _0[4];
             sead::BitFlag8 _4;
-            u8 _5[0x1c - 0x5];
+            u8 _5[0x10 - 0x5];
+            // The instance position, compared with the queried position.
+            sead::Vector3f pos;
         };
+        static_assert(sizeof(Record) == 0x1c);
 
         // 0x7100f07060 (placeholder name): allocates and clears the record buffer (_70 records) and the
         // u16 table (80 entries if bit 0 of _8 is set, else 1280).
