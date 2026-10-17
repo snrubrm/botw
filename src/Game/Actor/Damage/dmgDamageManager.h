@@ -29,14 +29,22 @@ namespace uking::act {
 // CSV: DamageMgr (vtable 0x710244ddf8, 57 slots; ctor 0x71006d23e0). RTTI static 0x71025ae600.
 // TODO: incomplete. Size 0x230 (the ctor's last store is at 0x228; Horse embeds one at 0xd20
 // followed by a member at 0xf50).
-// Placeholder (the object at DamageManager::_220; only the field read by sub_71006D8534).
+class DamageManager;
+
+// Placeholder (the object at DamageManager::_220). Filled by 0x71006d9c34 from the current damage of the manager
+// (`_0` - `_18`) and the actor-local vectors of the damage.
 struct DamageManagerHit {
-    /* 0x00 */ s32 _0;
-    /* 0x04 */ u8 _4[0xc];
-    /* 0x10 */ s32 _10;
-    /* 0x14 */ s32 _14;
-    /* 0x18 */ u32 _18 = 0;  // the only field DamageManagerUnk220's ctor (0x71006d99a8) initialises
-    /* 0x1c */ u8 _1c[0x4c - 0x1c];
+    /* 0x00 */ u32 _0;   // DamageManager::getDamage (accumulated when the buffer is full)
+    /* 0x04 */ s32 _4;   // getMinDmg
+    /* 0x08 */ s32 _8;   // getField48
+    /* 0x0c */ s32 _c;   // getField40
+    /* 0x10 */ s32 _10;  // getField50
+    /* 0x14 */ s32 _14;  // getField54 (the damage type; 0xf for some of them)
+    /* 0x18 */ u32 _18 = 0;  // DamageManager::_8c (the damage flags)
+    /* 0x1c */ sead::Vector3f _1c;  // position relative to the actor
+    /* 0x28 */ sead::Vector3f _28;  // damage direction
+    /* 0x34 */ sead::Vector3f _34;  // hit direction
+    /* 0x40 */ sead::Vector3f _40;  // impulse
 };
 KSYS_CHECK_SIZE_NX150(DamageManagerHit, 0x4c);
 
@@ -48,6 +56,10 @@ struct DamageManagerUnk220 {
     // `getter()` value of the actor (Actor::m38 / ActorLinkConstDataAccess::sub_7100D14114).
     f32 sub_71006D9A24(ksys::act::Actor* actor) const;
     f32 sub_71006D9B30(const ksys::act::ActorLinkConstDataAccess& accessor) const;
+    // 0x71006d9c34 (placeholder name): records the damage of `mgr` in a new hit record, or in the last one when the
+    // buffer is full, and returns true. Restarts the hit flash of the actor's model.
+    bool addDamageRecord(DamageManager* mgr, ksys::act::Actor* actor);
+
     // 0x71006da02c (placeholder name): the stasis hit flash of `model`: with `reset`, restarts the flash level
     // _294 from the StasisMgr constants, else fades it by 0.7 per frame (VFR delta frame; -1 when done); sets the model's
     // damage colour to the level (capped at 2.0).

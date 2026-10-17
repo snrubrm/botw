@@ -215,6 +215,74 @@ f32 DamageManagerUnk220::sub_71006D9B30(const ksys::act::ActorLinkConstDataAcces
     return sead::Mathf::max(ratio, 0.01f);
 }
 
+// 0x71006d9c34 (placeholder name): records the damage of `mgr` in a new hit record, or in the last one when the
+// buffer is full. Restarts the hit flash of the actor's model.
+bool DamageManagerUnk220::addDamageRecord(DamageManager* mgr, ksys::act::Actor* actor) {
+    DamageManagerHit* hit = mHits.reserveBack();
+    gsys::Model* model = actor->getModel();
+    if (model) {
+        const f32 max = StasisMgr::sub_7100681B90();
+        const f32 extra = static_cast<f32>(StasisMgr::sub_7100681B98() - 1);
+        _294 = max + StasisMgr::sub_7100681BA0() * extra;
+        const f32 value = _294 > max ? max : _294;
+        const sead::Color4f color{value, value, value, 0.0f};
+        Unk_710260af28::instance()->sub_7100F1E2F4(model, color);
+    }
+    if (hit) {
+        hit->_0 = 0;
+        hit->_4 = 0;
+        hit->_8 = 0;
+        hit->_c = 0;
+        hit->_10 = -1;
+        hit->_14 = 0xf;
+        hit->_18 = 0;
+        hit->_1c = sead::Vector3f::zero;
+        hit->_28 = sead::Vector3f::ez;
+        hit->_34 = sead::Vector3f::ez;
+        hit->_40 = sead::Vector3f::zero;
+        if (mgr) {
+            hit->_0 = mgr->getDamage();
+            hit->_4 = mgr->getMinDmg();
+            hit->_8 = mgr->getField48();
+            hit->_c = mgr->getField40();
+        }
+    } else if (mgr) {
+        hit = &mHits.back();
+        const u32 damage = mgr->getDamage();
+        const s32 min_dmg = mgr->getMinDmg();
+        const s32 field48 = mgr->getField48();
+        const s32 field40 = mgr->getField40();
+        hit->_0 += damage;
+        hit->_4 += min_dmg;
+        hit->_8 = sead::Mathi::max(hit->_8, field48);
+        hit->_c = sead::Mathi::max(hit->_c, field40);
+    }
+    if (model)
+        Unk_710260af28::instance()->sub_7100F1D9B4(model, sub_71006D9A24(actor), false);
+    if (mgr) {
+        hit->_10 = mgr->getField50();
+        hit->_14 = mgr->getField54();
+        if (u32(hit->_14) <= 0x16 && ((1 << hit->_14) & 0x620000))
+            hit->_14 = 0xf;
+        hit->_18 = mgr->_8c;
+        if (mgr->getPosition(&hit->_1c))
+            hit->_1c -= mgr->mActor->getMtx().getTranslation();
+        else
+            hit->_1c = sead::Vector3f::zero;
+        if (!mgr->getDamageDir(&hit->_28))
+            hit->_28 = sead::Vector3f::ez;
+        if (!mgr->getHitDirection(&hit->_34))
+            hit->_34 = sead::Vector3f::ez;
+        if (!mgr->getDamageImpulse(&hit->_40))
+            hit->_40 = sead::Vector3f::zero;
+    }
+    if (_27b) {
+        _27b = 0;
+        StasisMgr::instance()->sub_71006815FC(actor, this);
+    }
+    return true;
+}
+
 // NON_MATCHING: the chase result is tested with tbnz in the original (cbnz here).
 void DamageManagerUnk220::sub_71006DA02C(gsys::Model* model, bool reset) {
     const f32 max = StasisMgr::sub_7100681B90();
