@@ -2201,3 +2201,13 @@ void Weapon::lifePhysicsStuff() {
         _fd0->removeFromWorld();
 }
 }  // namespace uking::act
+
+bool sub_71002F1104(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    auto* weapon = getWeaponOfAccessor(accessor);
+    if (!weapon)
+        return false;
+    auto* chemical = weapon->getChemicalStuff();
+    if (!chemical || (*chemical->mMaterial->attribute & 8) == 0 || (chemical->_be & 4) != 0)
+        return false;
+    return !chemical->sub_7100D91080();
+}

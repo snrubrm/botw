@@ -6,6 +6,8 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+struct Unk_7100739634Result;
+
 namespace sead {
 class Heap;
 }
@@ -117,7 +119,8 @@ public:
     // members. Unk_710244dd20::m5 clears the word at 0x30 alone.
     void* _28 = nullptr;
     u32 _30 = 0;
-    u32 _34 = 0;
+    // Freeze duration, scaled by _d0 when starting condition 3 (0x71006d07e0).
+    f32 _34 = 0.0f;
 };
 
 // Placeholder name (vtable 0x710244dd20; ctor 0x71006cef7c, size 0x140). Horse::_1028 and the
@@ -140,7 +143,7 @@ public:
     bool m8(const ksys::Message& message) override;
     void m10() override;
     void m11(bool enable) override;
-    // Slot 12 (0x71006cfe18, not decompiled): starts the condition `index`.
+    // Slot 12 (0x71006cfe18): starts the condition `index`.
     void m12(int index) override;
     // Slot 13 (0x71006d05b0): ends the condition `index` (2 burn, 3 ice "Frozen_End", 4 electric, 6) and clears its
     // bit in _8.
@@ -161,6 +164,14 @@ public:
     f32 sub_71006CFBA0();
     // 0x71006d1c34 (not decompiled; placeholder name): used by sub_71006D19AC.
     bool sub_71006D1C34();
+    // Classifies the condition from the actor's attacks, then applies its damage-resource rules.
+    bool sub_71006D0150();
+    // 0x71006d01a0: starts burn damage; declared only.
+    void sub_71006D01A0(bool a1);
+    void sub_71006D03C8();
+    void sub_71006D0490();
+    bool sub_71006D1AB0(::Unk_7100739634Result* request);
+    bool sub_71006D1DC4(::Unk_7100739634Result* request, bool* special_attack);
 
     // New virtuals (slots 14-20, 0x71006d22ac / 0x71006cfcc0 / 0x71006d20cc / 0x71006d22b4 / 0x71006d094c /
     // 0x71006d0774 / 0x71006d0bdc); placeholder names, only m14 and m17 are decompiled.

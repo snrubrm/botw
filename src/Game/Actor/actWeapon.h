@@ -649,3 +649,6 @@ uking::act::WeaponModifierInfo* sub_71002F05D8(const ksys::act::ActorLinkConstDa
 bool sub_71002F0EE0(const ksys::act::ActorLinkConstDataAccess& accessor);
 // Source owner unknown; native Weapon neighbors wrap the AI weapon-subtype utility.
 const sead::SafeString& sub_71002EF884(const ksys::act::ActorLinkConstDataAccess& accessor);
+
+// 0x71002f1104: the accessor is an electrically active weapon whose chemical state is not blocked.
+bool sub_71002F1104(const ksys::act::ActorLinkConstDataAccess& accessor);
