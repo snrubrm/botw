@@ -26,6 +26,12 @@ void Unk_SoundMgr38_50::sub_7101036840() {
     sub_7101036848(-1);
 }
 
+void Unk_SoundMgr38_50::sub_7101036848(s32 value) {
+    _8.fade(value);
+    _18.fade(value);
+    _28.fade(value);
+}
+
 // Empty in the release build.
 void Unk_SoundMgr38_50::sub_7101036A68() {}
 

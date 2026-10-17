@@ -441,20 +441,17 @@ public:
     virtual ~Unk_SoundMgr38_50();
     // 0x7101036840: sub_7101036848(-1).
     void sub_7101036840();
-    // 0x7101036848 (declared only; 544 B)
+    // 0x7101036848: fades the three SLink handles.
     void sub_7101036848(s32 value);
     // 0x7101036a68 (empty in the release build): called before deletion.
     void sub_7101036A68();
     // 0x71010367e8: resets the state and both faders.
     void sub_71010367E8();
 
-    /* 0x08 */ void* _8 = nullptr;
-    /* 0x10 */ u32 _10 = 0;
-    /* 0x18 */ void* _18 = nullptr;
-    /* 0x20 */ u32 _20 = 0;
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ u32 _30 = 0;
-    u8 _34[4];
+    // The three SLink handles (mpResource / mCreateId pairs) at +0x8, +0x18, +0x28.
+    /* 0x08 */ xlink2::HandleSLink _8;
+    /* 0x18 */ xlink2::HandleSLink _18;
+    /* 0x28 */ xlink2::HandleSLink _28;
     /* 0x38 */ u32 _38 = 0;
     /* 0x3c */ bool _3c = false;
     /* 0x40 */ u32 _40 = 0;
