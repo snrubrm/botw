@@ -564,6 +564,39 @@ void ScreenPauseMenu::sub_7100A38028() {
     }
 }
 
+// 0x7100a3e144
+void ScreenPauseMenu::m183() {
+    if (!_3b90)
+        return;
+    if (_3b90->sub_71009BA010())
+        return;
+
+    const bool closing = !_3ba8 || _3bac == 0x100;
+    if (closing) {
+        if ((~_361c & 0x4100) == 0) {
+            if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+                if (info->_36a0)
+                    info->_36a0->PlayAuto(1.0f);
+            }
+            _3a34 = 0;
+            getStateMachine().changeState(&sUnk_71025f1050);
+            return;
+        }
+    }
+
+    if ((!_3ba8 || _3bac == 0x200) && (_361c_bytes[1] & 2)) {
+        _3a38.sub_7100937C74();
+        _3ba4 = 1;
+        if (auto* mgr = Unk_7102506d38::instance())
+            mgr->sub_710109E5D0(mUIController);
+        _3ba8 = false;
+        return;
+    }
+    if (_3ba4)
+        _3ba4 = false;
+}
+
 // 0x7100a3d668
 void ScreenPauseMenu::m162() {
     mButtonGroup->_38 &= ~2u;

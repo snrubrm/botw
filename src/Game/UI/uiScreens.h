@@ -2532,6 +2532,7 @@ public:
 
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
 extern const ksys::StateBase sUnk_71025f0cf0;
+extern const ksys::StateBase sUnk_71025f1050;
 extern const ksys::StateBase sUnk_710261ee00;
 extern const ksys::StateBase sUnk_71025d98a0;
 extern const ksys::StateBase sUnk_71025d9e00;
@@ -2542,6 +2543,8 @@ struct ScreenPauseMenuUnk3b90 {
     /* 0x80 */ ksys::StateMachine mStateMachine;
     // 0x71009b9f94 (CSV unnamed; declared only)
     bool sub_71009B9F94(bool a1);
+    // 0x71009ba010 (CSV unnamed; declared only): whether the state machine's current state id is the target
+    bool sub_71009BA010();
 };
 
 // Repeated 0x90-byte button records used by PauseMenu's three page controllers.
@@ -2676,7 +2679,10 @@ public:
     void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ s32 _3618;
-    /* 0x361c */ u32 _361c;
+    union {
+        /* 0x361c */ u32 _361c;
+        u8 _361c_bytes[4];
+    };
     /* 0x3620 */ s32 _3620;  // the shown guide page (-1: none)
     /* 0x3624 */ s32 _3624;  // the number of guide pages
     u8 _pad_3628[0x3630 - 0x3628];
@@ -2705,7 +2711,8 @@ public:
     /* 0x3a28 */ eui::LayoutEx* mSecondGuideLayout;
     /* 0x3a30 */ s32 _3a30;
     /* 0x3a34 */ s32 _3a34;
-    u8 _pad_3a38[0x3b80 - 0x3a38];
+    /* 0x3a38 */ Unk_7102474df8 _3a38;
+    u8 _pad_3ac0[0x3b80 - 0x3ac0];
     /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
     /* 0x3b88 */ s32 _3b88;
@@ -2714,7 +2721,11 @@ public:
     /* 0x3b98 */ ScreenPauseMenuUnk3b98* _3b98;
     u8 _pad_3ba0[0x3ba4 - 0x3ba0];
     /* 0x3ba4 */ u8 _3ba4;
-    u8 _pad_3ba5[0x3bb4 - 0x3ba5];
+    u8 _pad_3ba5[3];
+    /* 0x3ba8 */ bool _3ba8;
+    u8 _pad_3ba9[3];
+    /* 0x3bac */ s32 _3bac;
+    u8 _pad_3bb0[0x3bb4 - 0x3bb0];
     /* 0x3bb4 */ s32 _3bb4;
     /* 0x3bb8 */ UiTimer _3bb8;
     /* 0x3bd0 */ s32 _3bd0;  // button index in _3a00[_3a18] (m175)
