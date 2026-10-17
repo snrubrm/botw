@@ -987,9 +987,14 @@ bool SaveMgr::x_10() {
         manager->mBitFlags.reset(gdt::Manager::BitFlag::_1);
     }
 
-    for (auto* callback : mCallbacks) {
-        if (callback->mDelegate)
-            (*callback->mDelegate)(&event);
+    auto it = mCallbacks2.begin();
+    if (it != mCallbacks2.end()) {
+        do {
+            auto* callback = *it;
+            if (callback->mDelegate)
+                (*callback->mDelegate)(&event);
+            ++it;
+        } while (it != mCallbacks2.end());
     }
 
     _38 = 0;
@@ -1127,24 +1132,70 @@ bool SaveMgr::sub_7100E0C688() {
     return false;
 }
 
-// 0x7100e05080 / 0x7100e04df4 / 0x7100e04f24 (CSV SaveMgrThreadCmd1..3; placeholder names): the three
-// save thread command steps; only the manager is used.
-void SaveMgrThreadCmd1(SaveMgr* mgr);
-void SaveMgrThreadCmd2(SaveMgr* mgr);
-void SaveMgrThreadCmd3(SaveMgr* mgr);
+
+// NON_MATCHING: same size and logic; only the callback loop's block order / registers differ (the original
+// loads the next node before the delegate call, we load it after).
+// 0x7100e04f24 (CSV SaveMgrThreadCmd3; placeholder name): flushes the pending flag buffer and runs the
+// save state machine (the 0x140 flag word) before reloading the flag buffer.
+void SaveMgr::SaveMgrThreadCmd3() {
+    if (_105b) {
+        _f8 = false;
+        return sub_7100E05D30();
+    }
+
+    auto* manager = gdt::Manager::instance();
+    if (!manager)
+        return;
+
+    _f98 = manager->mFlagBuffer1;
+    gdt::Manager::ResetEvent event;
+    event.param = _f98;
+    auto it = mCallbacks2.begin();
+    if (it != mCallbacks2.end()) {
+        do {
+            auto* callback = *it;
+            if (callback->mDelegate)
+                (*callback->mDelegate)(&event);
+            ++it;
+        } while (it != mCallbacks2.end());
+    }
+
+    sub_7100E0BC7C();
+
+    if ((_140 & 0x11) == 0x11) {
+        if (!(_140 & 2)) {
+            _140 &= ~1u;
+            sub_7100E0BC7C();
+            _140 |= 1u;
+        }
+        if ((_140 & 0x140) == 0x100) {
+            _140 |= 0x80;
+            sub_7100E0BC7C();
+            _140 &= ~0x80;
+        }
+    }
+
+    sub_7100E05D30();
+
+    if (_140 & 0x200) {
+        _105a = false;
+        _10b0.clear();
+        _140 = _142;
+    }
+}
 
 // 0x7100e03d48 (CSV SaveMgrThread; placeholder name): the SaveMgr delegate thread entry, which
 // dispatches on the command number passed by the caller of the save thread.
-void SaveMgrThread(SaveMgr* mgr, void* arg, s64 cmd) {
+void SaveMgr::SaveMgrThread(void* arg, s64 cmd) {
     switch (cmd) {
     case 1:
-        SaveMgrThreadCmd1(mgr);
+        SaveMgrThreadCmd1();
         return;
     case 2:
-        SaveMgrThreadCmd2(mgr);
+        SaveMgrThreadCmd2();
         return;
     case 3:
-        SaveMgrThreadCmd3(mgr);
+        SaveMgrThreadCmd3();
         return;
     case 4:
         if (auto* callback = ui::sUnk_7102606a98Handler)

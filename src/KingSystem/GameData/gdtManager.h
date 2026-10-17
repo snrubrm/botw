@@ -243,8 +243,6 @@ public:
     struct ResetEvent {
         virtual ~ResetEvent() = default;
         TriggerParam* param = nullptr;
-        // Zeroed by the reset-event construction in SaveMgr::x_10 (size 0x18).
-        u64 _10 = 0;
     };
 
     struct ReinitEvent {

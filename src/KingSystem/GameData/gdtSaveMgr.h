@@ -112,6 +112,15 @@ public:
     void x_17(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     bool sub_7100E05560(const sead::SafeString& mount, const sead::SafeString& path, s32 mode, bool retry);
     void sub_7100E0BC7C();
+    // 0x7100e03d48 / 0x7100e05080 / 0x7100e04df4 / 0x7100e04f24 (placeholder names; the first two are
+    // declared only): the save thread's delegate entry and the three command steps it dispatches to.
+    void SaveMgrThread(void* arg, s64 cmd);
+    void SaveMgrThreadCmd1();
+    void SaveMgrThreadCmd2();
+    void SaveMgrThreadCmd3();
+    // 0x7100e05d30 (placeholder name; declaration only): one SaveMgr state-machine step, called at the
+    // end of the save thread commands.
+    void sub_7100E05D30();
     bool sub_7100E0C688();
     void sub_7100E07E3C(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void someCheck_0(gdt::FlagT<bool>* flag);
@@ -135,6 +144,7 @@ public:
 private:
     friend class uking::SaveSystem;
     friend class uking::StartupSaveCheckStage;
+
 
     struct Unk3 {
         u8 _0[1];
@@ -196,7 +206,10 @@ private:
     u8 _f88[0xf94 - 0xf88];
     s32 _f94;
     gdt::TriggerParam* _f98;
-    u8 _fa0[0x1008 - 0xfa0];
+    u8 _fa0[0xfa8 - 0xfa0];
+    // 0xfa8: the second callback list, traversed like mCallbacks by the save thread command.
+    sead::TList<Callback*> mCallbacks2;
+    u8 _fc0[0x1008 - 0xfc0];
     sead::TList<Callback*> mCallbacks;
     Unk1020* _1020;
     u8 _1028[0x103c - 0x1028];
