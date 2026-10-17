@@ -172,6 +172,9 @@ public:
         sead::Buffer<UnitEntry> mEntries;
     };
 
+    // 0x7100f074dc (CSV name): sets up the terrain tree object, records the "forest_density" stat and frees
+    // every entry's u16 table; state 5.
+    void x();
     // 0x7100f06474 (CSV name): clears bit 2 of every record and sets bit 1 of every item.
     void x_1();
     // 0x7100f03b68 (placeholder name): sets bit 1 of every item's flags.

@@ -197,6 +197,8 @@ public:
         void sub_7101083028();
         // 0x7101083060 (declared only; 400 B): sets flag bit 1 unless bit 2 is set and builds the tables.
         void sub_7101083060();
+        // 0x710108330c (declared only; 328 B; unnamed in the CSV): the setup ForestRenderer::x runs first.
+        void sub_710108330C();
 
         u8 _0[8];
         u32 _8;

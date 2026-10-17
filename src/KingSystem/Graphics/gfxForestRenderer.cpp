@@ -6,6 +6,7 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include "Game/gameStatisticsMgr.h"
 
 namespace ksys::gfx {
 
@@ -203,6 +204,22 @@ void ForestRenderer::sub_7100F03B68() {
         for (auto& item : entry.mItems)
             item._c.set(2);
     }
+}
+
+// 0x710260a220 (placeholder name): the statistics block later queried by 0x7100f07f84; index 4 (+0x20) is the
+// "forest_density" stat pointer.
+struct Unk_710260A220 {
+    u8 _0[0x20];
+    void* _20;
+};
+KSYS_VISIBILITY_HIDDEN Unk_710260A220 sUnk_710260A220;
+
+void ForestRenderer::x() {
+    tera::Terrain::instance()->sub_710114DE70()->sub_710108330C();
+    sUnk_710260A220._20 = uking::StatisticsMgr::instance()->getStatsPointer("forest_density");
+    for (auto& entry : mEntries)
+        entry._78.freeBuffer();
+    _54 = 5;
 }
 
 void ForestRenderer::x_1() {
