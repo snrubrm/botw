@@ -468,6 +468,21 @@ void ScreenAppCamera::m100() {
     getStateMachine().changeState(&sUnk_710261ee98);
 }
 
+// 0x71009d9a4c
+void ScreenAppCamera::m164() {
+    if (_3638)
+        _3638->StopAtMin();
+    sub_71009D80B8(_4080, 1);
+    delete[] _4020;
+    delete[] _4030;
+    _4020 = nullptr;
+    _4030 = nullptr;
+    if (_3b70.isValid()) {
+        _3b70.deleteGPUMemBlock();
+        _3b70.invalidate();
+    }
+}
+
 // 0x71009db888
 void ScreenAppCamera::m101() {
     if (_3b70.isValid()) {
