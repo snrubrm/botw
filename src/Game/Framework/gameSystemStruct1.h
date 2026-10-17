@@ -11,6 +11,8 @@ class SystemStruct1 {
 public:
     virtual ~SystemStruct1();
     static SystemStruct1* getInstance();
+    // 0x7100897a94 (16 B): stores the instance pointer.
+    static void setInstance(SystemStruct1* instance);
 
     // Constructor zeroes the complete vector; calcController copies all three input components.
     sead::Vector3f _8;
@@ -20,6 +22,8 @@ public:
     sead::Matrix33f _38;
 
 private:
+    static SystemStruct1* sInstance;
+
     u8 _5c[0x98 - 0x5c];
 };
 KSYS_CHECK_SIZE_NX150(SystemStruct1, 0x98);
