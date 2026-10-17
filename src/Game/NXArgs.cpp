@@ -13,6 +13,12 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(nxargs)
 
+nxargs::~nxargs() {
+    for (s32 i = 0; i < mEntries.size(); ++i)
+        mEntries[i].conditions.freeBuffer();
+    mEntries.freeBuffer();
+}
+
 void nxargs::init(sead::Heap* heap) {
     sead::Heap* nxargsheap = sead::ExpHeap::create(
         0x13E8, "nxargsHeap", heap, 8, sead::ExpHeap::HeapDirection::cHeapDirection_Reverse, false);
