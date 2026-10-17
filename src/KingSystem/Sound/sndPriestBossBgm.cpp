@@ -39,6 +39,72 @@ void Unk_71024fe808::hm14() {
     sub_71010209FC(sStr_Main);
 }
 
+void Unk_71024fe808::sub_710100D0B8(f32 wait_sec) {
+    if (mState == 0 || mState == 6) {
+        _19c = wait_sec;
+        _1a0 = 0;
+        mState = 1;
+    } else if (mState == 3) {
+        _1a8.moveTo(1.0f, 1.0f);
+        mState = 2;
+    }
+}
+
+void Unk_71024fe808::sub_710100D114(f32 fade_sec) {
+    switch (mState) {
+    case 1:
+        mState = 0;
+        break;
+    case 2:
+        if (_124 == 3 || _124 == 4) {
+            _1a8.moveTo(0.0f, fade_sec);
+            mState = 3;
+        } else {
+            sub_710101D9F4(0.0f);
+            mState = 0;
+        }
+        break;
+    case 3:
+        _1a8.moveTo(0.0f, fade_sec);
+        break;
+    case 6:
+        sub_710101D9F4(0.0f);
+        mState = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+void Unk_71024fe808::sub_710100D1A4(bool on, u32 value, f32 wait_sec) {
+    _1e0 = on;
+
+    if (mState != 2)
+        return;
+
+    if (wait_sec > 0.0f) {
+        _1d0 = wait_sec;
+        mState = 4;
+        return;
+    }
+
+    if (_124 == 3 || _124 == 4) {
+        sub_7101020C08(-1.0f);
+        _1d8 = sub_71010209FC("outro");
+        if (_1d8 && _1d8->sub_7100FF6DF4(this)) {
+            mState = 5;
+            return;
+        }
+    }
+
+    if (_1e0) {
+        sub_710101D9F4(0.0f);
+        mState = 0;
+    } else {
+        mState = 6;
+    }
+}
+
 Unk_71024fe970::Unk_71024fe970(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {
     Unk_SpotBgmHandle::init(arg.heap, "FinalTrialBossBgm", nullptr);
     mStateQueue.tryAllocBuffer(8, arg.heap);

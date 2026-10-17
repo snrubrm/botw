@@ -2941,6 +2941,13 @@ public:
     // Set by Unk_71024fe958::sub_710100D874 (the Golem / Giant / Sandworm BGM info, a BossBgmInfo).
     /* 0x190 */ ksys::snd::MusicInfo* mInfo;
     /* 0x198 */ s32 mState;
+    /* 0x19c */ f32 _19c;
+    /* 0x1a0 */ s32 _1a0;
+    u8 _1a4[4];
+    /* 0x1a8 */ aal::TimedFader _1a8{1.0f, aal::FadeCurveType(1), 1.0f};
+    /* 0x1d0 */ f32 _1d0;
+    /* 0x1d8 */ ksys::snd::Unk_710260f248Entry* _1d8 = nullptr;
+    /* 0x1e0 */ bool _1e0 = false;
 
     // Called by Unk_71024fe958::sub_710100D694 when the boss BGM index changes / the state allows the
     // outro; the argument is the info's fade / wait time (see that function).
