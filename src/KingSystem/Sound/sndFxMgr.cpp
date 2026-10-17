@@ -16,7 +16,17 @@ namespace ksys::snd {
 // parameters untouched.
 KSYS_VISIBILITY_HIDDEN bool sUnk_71026140CE0;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71026140CE4;
-KSYS_VISIBILITY_HIDDEN f32 sUnk_71026140CF0[5];
+// NON_MATCHING: the generated static initialiser stores the same four paths at the same offsets but
+// orders the string-address loads and the atexit arguments differently from the original.
+// The debug override floats and the four .fxparam paths share one object: in the original the
+// paths start at 0x71026140d08 = this + 0x18 (the compiler merged the two globals). [0]/[1] are
+// the directory and the effect name, [2]/[3] the field categories loaded by loadEnvFxParams.
+struct FxDebugGlobals {
+    FxDebugGlobals();
+    f32 reverb[5];
+    sead::SafeString paths[4];
+};
+KSYS_VISIBILITY_HIDDEN FxDebugGlobals sUnk_71026140CF0;
 
 // 0x7102502540: the five-float reverb preset rows (row 0 is the no-preset row; the rest are zero).
 KSYS_VISIBILITY_HIDDEN const f32 sUnk_7102502540[12][5] = {
@@ -27,6 +37,14 @@ KSYS_VISIBILITY_HIDDEN const f32 sUnk_7102502540[12][5] = {
     {0.144f, 0.0f, 0.543f, 610.0f, 500.0f},
     {0.144f, 0.0f, 0.543f, 610.0f, 1140.0f},
 };
+
+// The debug floats are left untouched (BSS zero) so that the static initialiser only builds the
+// four path strings.
+FxDebugGlobals::FxDebugGlobals()
+    : paths{"Sound/Settings/Fx", "EnvFx", "MainField", "CDungeon"} {}
+
+// User-provided so that ObjList::emplaceBack does not zero the pooled entry.
+FxMgrEntry::FxMgrEntry() : mName(sead::SafeString::cEmptyString) {}
 
 void FxMgr::sub_7101050104() {
     if (!_50)
@@ -40,11 +58,11 @@ void FxMgr::sub_7101050104() {
     f32 p3;
     f32 p4;
     if (sUnk_71026140CE0) {
-        p0 = sUnk_71026140CF0[0];
-        p1 = sUnk_71026140CF0[1];
-        p2 = sUnk_71026140CF0[2];
-        p3 = sUnk_71026140CF0[3];
-        p4 = sUnk_71026140CF0[4];
+        p0 = sUnk_71026140CF0.reverb[0];
+        p1 = sUnk_71026140CF0.reverb[1];
+        p2 = sUnk_71026140CF0.reverb[2];
+        p3 = sUnk_71026140CF0.reverb[3];
+        p4 = sUnk_71026140CF0.reverb[4];
     } else {
         p0 = _50->_60[0];
         p1 = _50->_60[1];
@@ -202,6 +220,30 @@ void FxMgr::sub_71010511DC(f32 gain) {
     setter.setRoom(s32(room), gain);
     _8->updateParam(setter);
     _10->updateParam(setter);
+}
+
+bool FxMgr::loadFxParam(FxMgrEntry* entry, sead::Heap* heap) {
+    sead::FixedSafeString<256> path;
+    path.format("%s/%s/%s.fxparam", sUnk_71026140CF0.paths[0].cstr(),
+                sUnk_71026140CF0.paths[1].cstr(), entry->mName.cstr());
+    auto* resource = sub_7101051410(path, heap);
+    if (!resource)
+        return false;
+    entry->mParams.setupByResource(resource->getRawData(), resource->getRawSize(), heap);
+    res::ResourceMgrTask::instance()->unloadSeadResource(resource);
+    return true;
+}
+
+// NON_MATCHING: our clang drops the unused `this` argument at the two loadFxParam call sites (the
+// callee never reads it); the original passes the manager in x0.
+bool FxMgr::loadEnvFxParams(sead::Heap* heap) {
+    auto* main_field = mUsed.emplaceBack();
+    main_field->mName = sUnk_71026140CF0.paths[2];
+    loadFxParam(main_field, heap);
+
+    auto* c_dungeon = mUsed.emplaceBack();
+    c_dungeon->mName = sUnk_71026140CF0.paths[3];
+    return loadFxParam(c_dungeon, heap);
 }
 
 void FxMgr::sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,

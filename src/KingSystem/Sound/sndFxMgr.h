@@ -3,6 +3,7 @@
 #include "KingSystem/Utils/Types.h"
 #include <basis/seadTypes.h>
 #include <aal/aalFxDelayParamSetter.h>
+#include <aal/aalFxReverbI3DL2ParamSetter.h>
 #include <container/seadObjList.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
@@ -35,11 +36,12 @@ SEAD_ENUM(FxPreset, _0, _1, _2, _3, _4, _5)
 
 class Unk_7101059888;
 
-// The preset entries of the pool at +0x40 (0x58 bytes each; ObjList appends its list node, so a
-// full pooled node is 0x68 bytes).
+// The preset entries of mUsed (0x58 bytes each; ObjList appends its list node, so a full pooled
+// node is 0x68 bytes). The name is the .fxparam file name ("MainField" / "CDungeon").
 struct FxMgrEntry {
-    FxMgrEntry* mNextFree;
-    u8 _8[0x50];
+    FxMgrEntry();
+    /* 0x00 */ sead::SafeString mName;
+    /* 0x10 */ aal::FxReverbI3DL2ParamSetter mParams;
 };
 KSYS_CHECK_SIZE_NX150(FxMgrEntry, 0x58);
 
@@ -65,8 +67,13 @@ public:
     // 0x71010511dc: applies the debug room offset of _18 (mRoom) plus the reverb gain to both reverb
     // effects at +0x8 / +0x10.
     void sub_71010511DC(f32 gain);
-    // 0x7101051410: loads a direct resource with the given path; `this` is not read.
+    // 0x7101051410: loads a direct resource with the given path; the original is a free function
+    // (the caller does not pass a this pointer).
     sead::DirectResource* sub_7101051410(const sead::SafeString& path, sead::Heap* heap);
+    // 0x71010512e4: loads the .fxparam resource of `entry` and sets it up on the entry's setter.
+    bool loadFxParam(FxMgrEntry* entry, sead::Heap* heap);
+    // 0x71010508b4: fills two pool entries from the "MainField" / "CDungeon" paths.
+    bool loadEnvFxParams(sead::Heap* heap);
     // 0x7101051154: sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.
     void sub_7101051154(f32 gain);
     // 0x710105126c: sets the out gain of the two delay effects at +0x68 / +0x70 (1.0, 0.1).
