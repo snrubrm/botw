@@ -31,6 +31,7 @@
 #include "Game/UI/uiArchiveHandle.h"
 #include "Game/UI/uiShopItemElement.h"
 #include "Game/UI/uiTexSlots.h"
+#include "Game/UI/uiTextureLoad.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiNormalMap.h"
 #include <common/aglRenderBuffer.h>
@@ -5598,22 +5599,6 @@ extern s32 sUnk_710249ad70;
 extern bool sUnk_71025f5740;
 extern bool sUnk_71025f5741;
 
-// Polymorphic loader embedded in Unk_71009cb0c8 at 0x80 (vtable 0x710247e990; ctor 9cc648 and D1 9cc7c4 are not
-// decompiled). Queue count/state are consumed by 9cc3a0 / 9cc970; 9cbcc0 reads the task handle at 0x200 under the
-// owner's lock.
-class Unk_710247e990 {
-public:
-    Unk_710247e990();
-    virtual ~Unk_710247e990();
-
-    /* 0x08 */ s32 mQueueCount;
-    u8 _c[0x48 - 0xc];
-    /* 0x48 */ s32 mQueueState;
-    u8 _4c[0x200 - 0x4c];
-    /* 0x200 */ ksys::ManagedTaskHandle* mTaskHandle;
-};
-static_assert(sizeof(Unk_710247e990) == 0x208);
-
 // Native ctor 9cb0c8 and D1 9cbcc0 establish this non-polymorphic 0x2e8-byte controller.
 // Queue count/state are also initialized by inner ctor 9cc648 and consumed by 9cc3a0 / 9cc970.
 class Unk_71009cb0c8 {
@@ -5630,20 +5615,26 @@ public:
     nn::ui2d::TextureInfo* sub_71009CBECC();
     void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
     void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
-    // 0x71009cbfc4: queue a texture load using the existing resource context. Body remains undecompiled.
+    // 0x71009cbfc4: queue a texture load using the existing resource context.
     void sub_71009CBFC4(const ::Unk_710247e960& request);
 
-    u8 _0[8];
-    /* 0x8 */ bool mApplied;
+    bool sub_71009CB188(void* user_data);
+    void sub_71009CB804(ksys::TaskPostRunResult* result, const ksys::TaskPostRunContext& context);
+    void sub_71009CBC64(const ksys::TaskRemoveCallbackContext& context);
+
+    /* 0x0 */ u32 mLastFrame = 0;
+    /* 0x4 */ s32 mRetryCount;
+    /* 0x8 */ bool mApplied = false;
     u8 _9[7];
-    /* 0x10 */ ksys::res::Handle* mTextureHandle;
-    /* 0x18 */ nn::ui2d::Material* mMaterial;
+    /* 0x10 */ ksys::res::Handle* mTextureHandle = nullptr;
+    /* 0x18 */ nn::ui2d::Material* mMaterial = nullptr;
     /* 0x20 */ nn::ui2d::ExternalTextureInfo mTexInfo;
-    /* 0x38 */ eui::Animator* mAnimator;
+    /* 0x38 */ eui::Animator* mAnimator = nullptr;
     /* 0x40 */ sead::CriticalSection mCS;
-    /* 0x80 */ Unk_710247e990 mLoader;
-    // Member delegates set up by the ctor 9cb0c8 (trivially destroyed).
-    u8 _288[0x2e8 - 0x288];
+    /* 0x080 */ ::Unk_710247e990 mLoader;
+    /* 0x288 */ ksys::TaskDelegateT<Unk_71009cb0c8> mTaskDelegate;
+    /* 0x2a8 */ ksys::TaskPostRunCallbackT<Unk_71009cb0c8> mPostRunCallback;
+    /* 0x2c8 */ ksys::TaskRemoveCallbackT<Unk_71009cb0c8> mRemoveCallback;
 };
 static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
 

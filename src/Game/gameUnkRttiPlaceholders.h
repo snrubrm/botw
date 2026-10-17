@@ -16,6 +16,7 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTextureLoad.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiTexSlots.h"
@@ -634,28 +635,7 @@ public:
     /* 0x58 */ bool _58 = false;
 };
 
-// vtable 0x710247e960 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710247e960 : public ksys::res::Context {
-    SEAD_RTTI_OVERRIDE(Unk_710247e960, ksys::res::Context)
-public:
-    // 0x71009caef4: two empty fixed strings, an empty name, size 8 and limit 100
-    Unk_710247e960();
-    ~Unk_710247e960() override;
 
-    sead::FixedSafeString<64> _8;
-    sead::FixedSafeString<64> _60;
-    sead::SafeString _b8;
-    s32 _c8;
-    u16 _cc;
-    s32 _d0;
-};
-
-// vtable 0x710247e990 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710247e990 : public ksys::TaskData {
-    SEAD_RTTI_OVERRIDE(Unk_710247e990, ksys::TaskData)
-public:
-    ~Unk_710247e990() override;
-};
 
 // vtable 0x710247ec28 (15 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710247ec28 : public ksys::res::ResourceJpg {

@@ -1380,9 +1380,18 @@ Unk_710247e960::~Unk_710247e960() {
     _d0 = 100;
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x71009cc7c4) also destroys members or bases
-// this class does not declare yet.
-Unk_710247e990::~Unk_710247e990() = default;
+// NON_MATCHING: the context count and flag stores are scheduled in a different order.
+// 0x71009cc648
+Unk_710247e990::Unk_710247e990() = default;
+
+// 0x71009cc7c4
+Unk_710247e990::~Unk_710247e990() {
+    mCommands.clear();
+    mQueueState = 13;
+    mPendingRequest.reset();
+    mCurrentRequest.reset();
+    mTaskHandle = nullptr;
+}
 
 Unk_710247b2c8::~Unk_710247b2c8() = default;
 
