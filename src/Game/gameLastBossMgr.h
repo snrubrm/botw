@@ -17,6 +17,8 @@ namespace uking {
 class LastBossMgr {
 public:
     static LastBossMgr* instance() { return sInstance; }
+    // Stage unload calls the static teardown at 0x710067775c.
+    static void deleteInstance();
 
     // 0x7100678108 (CSV LastBossMgr::postCalc; declared only).
     void postCalc();

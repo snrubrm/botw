@@ -20,7 +20,13 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/ActorSystem/actActorCaptureMgr.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include <gsys/gsysResourceEditor.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+
+// Stage unload passes the stage heap; the release body remains undecompiled.
+void nullsub_2452(sead::Heap* heap);
 
 namespace uking {
 
@@ -267,6 +273,35 @@ void StartupSaveCheckStage::calc() {
     }
     createTitleStageBinder(true, true);
 }
+
+// NON_MATCHING: callRoot4Stuff is inlined from this translation unit.
+void IndoorStage::unload() {
+    if (ksys::world::Manager::instance()) {
+        ksys::world::Manager::instance()->unload();
+        ksys::world::Manager::instance()->unload2();
+    }
+    callRoot4Stuff();
+    if (_160) {
+        delete _160;
+        _160 = nullptr;
+    }
+    if (auto* scene = Graphics::instance()->mModelScenes[0]) {
+        scene->mEnv.clearImpl(scene->mEnv.getDataSets(), false);
+        scene->sub_7100C13CB4(-1);
+    }
+    if (auto* scene = Graphics::instance()->mModelScenes[1])
+        scene->mEnv.clearImpl(scene->mEnv.getDataSets(), true);
+    nullsub_2452(mHeap);
+    gsys::ResourceEditor::instance()->sub_7100C5D3E0(nullptr, true);
+    ksys::act::BaseProcMgr::instance()->cancelInitializerTasks();
+    ksys::phys::HavokAI::instance()->_48->sub_7100F898E4();
+    if (ksys::tera::Terrain::instance()->isGrassEnabled())
+        ksys::tera::Terrain::instance()->sub_710114DE7C(true);
+    LastBossMgr::deleteInstance();
+    GearMgr::instance()->sub_7100669EE4();
+    GearMgr::deleteInstance();
+}
+
 
 void IndoorStage::postInit(Unk_710245ac20* a, Unk_710245abf0* b) {
     a->_8 = true;

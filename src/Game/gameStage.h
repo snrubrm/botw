@@ -14,6 +14,10 @@ namespace sead {
 class Camera;
 }
 
+namespace ksys::act {
+class ActorCaptureMgr;
+}
+
 namespace ksys::world {
 class EnvMgr;
 // 0x71010d6094 (CSV wm::SkyMgr::initForStageGen; declaration only): called by the stages' initForStageGen with the
@@ -134,7 +138,7 @@ private:
     /* 0x158 */ bool _158 = false;
     /* 0x159 */ bool _159 = false;
     /* 0x15a */ bool _15a = false;
-    /* 0x160 */ void* _160 = nullptr;
+    /* 0x160 */ ksys::act::ActorCaptureMgr* _160 = nullptr;
     /* 0x168 */ DebugStatus mDebugStatus{"IndoorStage初期化", 2};
 };
 static_assert(sizeof(IndoorStage) == 0x278);
