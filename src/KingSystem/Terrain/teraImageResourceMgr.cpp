@@ -1370,12 +1370,5 @@ s32 sub_7101137D24(const TeraCompareNodeMaybe* a, const TeraCompareNodeMaybe* b)
     return a->_48 > b->_48;
 }
 
-// Constant virtuals (placeholder names).
-s32 sub_71011307C0() { return 1; }
-s32 sub_7101137E58() { return 1; }
-void* sub_71011307C8() { return nullptr; }
-void* sub_7101137E60() { return nullptr; }
-void sub_7101130DEC() {}
-void sub_710113808C() {}
 
 }  // namespace ksys::tera

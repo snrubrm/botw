@@ -1490,8 +1490,6 @@ void sub_710110B7A4(s32* out_a, s32* out_b, s32 index);
 bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
-// 0x710112f434 (placeholder name): this + 8; a virtual shared by the nodes of several terrain vtables.
-u8* sub_710112F434(u8* self);
 
 // 0x7101084d04 / 0x7101084e78 (declaration only; placeholder signatures): reset / update the two
 // sub-objects of Core::Unk_140.

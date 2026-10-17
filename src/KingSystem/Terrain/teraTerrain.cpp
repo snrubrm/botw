@@ -622,24 +622,6 @@ void Terrain::Unk_380::sub_71011382EC() {
 
 }  // namespace ksys::tera
 
-// 0x7101147e4c / 0x7101147e54 / 0x7101147e5c / 0x710114a588 (placeholder names): constant helpers of the
-// terrain material classes; the CSV rows are unnamed.
-void* sub_7101147E4C() {
-    return nullptr;
-}
-
-s32 sub_7101147E54() {
-    return 0;
-}
-
-s32 sub_7101147E5C() {
-    return 1;
-}
-
-s32 sub_710114A588() {
-    return 0;
-}
-
 // Placeholder: the object accessed at 0x7101148ba4 / 0x7101148bac (two u32 getters at +0x30 / +0x34).
 struct Unk_7101148BA4Maybe {
     u8 _0[0x30];
@@ -732,31 +714,6 @@ s32 Unk_7101147C48::getShaderParamIndexMaybe(s32 index) const { return _bb0[inde
 s32 Unk_7101147C48::getConstantIndexMaybe(s32 index) const { return _cb4[index]; }
 // NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
 TextureAccessorEntryMaybe* Unk_7101147C48::getTextureEntryMaybe(s32 index) { return &_100[index]; }
-
-// Empty functions in the terrain TU (CSV nullsub_4571 .. nullsub_4583).
-void sub_710114A598() {}
-void sub_710114D638() {}
-void sub_710114D7C0() {}
-void sub_710114D7C4() {}
-void sub_710114DD48() {}
-void sub_710114DEEC() {}
-void sub_710114DEF4() {}
-void sub_7101152F30() {}
-void sub_71011531BC() {}
-
-s32 sub_710114D7A8() {
-    return 0;
-}
-
-// 0x710114d908 / 0x710114d914: constants from the terrain constants block.
-f32 sub_710114D908() {
-    return 105.9f;
-}
-
-f32 sub_710114D914() {
-    return 1792.0f;
-}
-
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102620B60;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102620B64;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102620B68;
@@ -777,28 +734,9 @@ u8* sub_710114E708() {
     return &sUnk_7102620B68;
 }
 
-// Constant virtuals (placeholder names).
-void sub_71011475BC() {}
-void sub_71011478DC() {}
-void sub_7101147A58() {}
-void sub_7101147D20() {}
-void sub_7101147E44() {}
-void sub_7101147E48() {}
-void sub_7101148018() {}
-void sub_7101148484() {}
 
 // 0x7101147b24 / 0x7101147c34 (placeholder names): a 0x170-byte record at a negative offset.
-u8* sub_7101147B24(u8* self, s32 index) {
-    u8* record = &self[s64(index) * 0x170];
-    return record - 0x20d0;
-}
 
-u8* sub_7101147C34(u8* self, s32 index) {
-    u8* record = &self[s64(index) * 0x170];
-    return record - 0x1800;
-}
 
 }  // namespace ksys::tera
 
-void sub_710114E380(void* p) { ::operator delete(p); }
-void sub_7101152F34(void* p) { ::operator delete(p); }

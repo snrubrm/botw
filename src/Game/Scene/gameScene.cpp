@@ -19,7 +19,6 @@
 #include "Game/gameSceneStateMachine.h"
 #include "Game/gameSceneMessage.h"
 
-void GameScene_Debug::fnStubbed() {}
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
@@ -788,10 +787,3 @@ template class sead::Delegate1Func<ksys::act::BaseProc*>;
 
 Unk_7102513d70::~Unk_7102513d70() = default;
 
-// Constant virtuals in the GameScene address range (placeholder names, no data references).
-s32 sub_71007A7590() { return 1; }
-void* sub_71007A7598() { return nullptr; }
-s32 sub_71007A7744() { return 1; }
-void* sub_71007A774C() { return nullptr; }
-s32 sub_71007A7808() { return 1; }
-void* sub_71007A7810() { return nullptr; }

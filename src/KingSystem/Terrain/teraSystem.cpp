@@ -13,10 +13,6 @@ bool System::sub_71011171AC(s32 index) {
     return (mScenes[index].collector->_2998 >> 1) & 1;
 }
 
-u8* sub_710112F434(u8* self) {
-    return self + 8;
-}
-
 struct TeraManagerMaybe {
     u8 _0[0x10];
     u32 _10;
@@ -69,10 +65,6 @@ void sub_7100F418D0(Unk_7100F418C8Maybe* obj, u32 value) {
 
 u32 sub_7100F418F8(const Unk_7100F418C8Maybe* obj) {
     return obj->_4;
-}
-
-void sub_7100F41934(void* obj) {
-    operator delete(static_cast<u8*>(obj) - 0x18);
 }
 
 System* System::instance() {
@@ -1058,33 +1050,9 @@ bool System::sub_7101118FC0(sead::Heap* heap, Unk_7101106F44* area, u32 index, b
     return true;
 }
 
-// Constant virtuals (placeholder names).
-s32 sub_7101106B5C() { return 1; }
-s32 sub_7101106C90() { return 1; }
-s32 sub_7101106D2C() { return 1; }
-s32 sub_7101106DC8() { return 1; }
-s32 sub_7101106E64() { return 1; }
-s32 sub_7101106F00() { return 1; }
-s32 sub_71011086CC() { return 1; }
-s32 sub_710111FAF4() { return 1; }
-s32 sub_710112004C() { return 1; }
-s32 sub_710112F060() { return 1; }
-s32 sub_710112F068() { return 1; }
-s32 sub_710112F058() { return 2; }
-void* sub_7101106B64() { return nullptr; }
-void* sub_71011086D4() { return nullptr; }
-void* sub_710111FAE4() { return nullptr; }
-void* sub_7101120054() { return nullptr; }
-void* sub_710112F070() { return nullptr; }
-s32 sub_710111FAEC() { return 0; }
-s32 sub_710112ED24() { return 0; }
-void sub_710110D8B8() {}
-void sub_710111FAE0() {}
-void sub_710112F078() {}
 
 }  // namespace ksys::tera
 
-s32 sub_7100F419B0() { return 1; }
 
 // Placeholder: the record 0x7100fddc28 writes (u64 at 0x60).
 struct Unk_7100FDDC28Maybe {
@@ -1096,69 +1064,6 @@ void sub_7100FDDC28(Unk_7100FDDC28Maybe* record, u64 value) {
     record->_60 = value - 2;
 }
 
-// Empty and delete-thunk virtuals in the graphics / framework address range (placeholder names).
-void sub_7100F41920() {}
-void sub_7100F41924(void* p) { ::operator delete(p); }
-void sub_7100F41928() {}
-void sub_7100F4192C() {}
-void sub_7100F41930() {}
-void sub_7100F42BA8() {}
-void sub_7100F42BAC(void* p) { ::operator delete(p); }
-void sub_7100F42EB8() {}
-void sub_7100F45A20() {}
-void sub_7100F45A24(void* p) { ::operator delete(p); }
-void sub_7100F4C574() {}
-void sub_7100F4C578() {}
-void sub_7100F59D50(void* p) { ::operator delete(p); }
-void sub_7100F5A350() {}
-void sub_7100F5A354() {}
-void sub_7100F5A358() {}
-void sub_7100F5A35C() {}
-void sub_7100F63D38() {}
-void sub_7100F676C8() {}
-void sub_7100F67A38() {}
-void sub_7100F67ABC() {}
-void sub_7100F67C1C() {}
-void sub_7100F69014() {}
-void sub_7100F7D02C() {}
-void sub_7100F7D030() {}
-void sub_7100F7D034() {}
-void sub_7100F7D08C() {}
-void sub_7100F7D0E8() {}
-void sub_7100F7D0EC() {}
-void sub_7100F7D0F0() {}
-void sub_7100F7E468() {}
-void sub_7100F80860() {}
-void sub_7100F80EB4() {}
-void sub_7100F83B94() {}
-void sub_7100F83B98() {}
-void sub_7100F83B9C() {}
-void sub_7100F83BA0() {}
-void sub_7100F83BA4() {}
-void sub_7100F83BA8() {}
-void sub_7100F83BAC() {}
-void sub_7100F83BB0() {}
-void sub_7100F83BB4() {}
-void sub_7100F83BB8() {}
-void sub_7100F83BBC() {}
-void sub_7100F83BC0() {}
-void sub_7100F83BC4() {}
-void sub_7100F8775C() {}
-void sub_7100F894A0(void* p) { ::operator delete(p); }
-void sub_7100F8B4D4() {}
-void sub_7100FA5A6C() {}
-void sub_7100FA8C44(void* p) { ::operator delete(p); }
-void sub_7100FB7F28(void* p) { ::operator delete(p); }
-void sub_7100FD0684() {}
-void sub_7100FD0688() {}
-void sub_7100FD068C(void* p) { ::operator delete(p); }
-void sub_7100FD0690() {}
-void sub_7100FD0694(void* p) { ::operator delete(p); }
-void sub_7100FD0698(void* p) { ::operator delete(p); }
-void sub_7100FD3A4C() {}
-void sub_7100FDDC34() {}
-void sub_7100FDF4CC() {}
-void sub_7100FDF4D0() {}
 
 s32 getSceneStatus() {
     return ksys::tera::sUnk_710260B220._10;
