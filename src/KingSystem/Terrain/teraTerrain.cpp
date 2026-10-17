@@ -15,6 +15,41 @@
 
 namespace ksys::tera {
 
+s32 Terrain::resourceIsLoading(u32 threshold, bool update) {
+    if ((~_a58 & 6) != 0)
+        return 0;
+    if (mImageResourceMgr->_62a0 == 0)
+        return 0;
+    if (update) {
+        mImageResourceMgr->sub_7101131D64();
+    }
+    return mImageResourceMgr->_626c > threshold ? 2 : 1;
+}
+
+bool Terrain::setPackModeMaybe(const ImageTypeMaybe& type, s32 index, u8 value) {
+    s32 offset;
+    switch (type.type) {
+    case 0:
+        offset = 0;
+        break;
+    case 1:
+        offset = 1;
+        break;
+    case 3:
+        if (type.index == 0)
+            offset = 2;
+        else if (type.index == 1)
+            offset = 3;
+        else
+            return false;
+        break;
+    default:
+        return false;
+    }
+    _388[offset][index] = value;
+    return true;
+}
+
 
 
 void Terrain::clearImageResourceMgrFlagMaybe() {

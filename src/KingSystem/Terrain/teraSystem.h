@@ -237,6 +237,11 @@ public:
     // 0x710114e0cc (CSV Terrain::__auto1; placeholder name): under mImageResourceMgr's 0x28 lock,
     // clears bit 2 of its _6473.
     void clearImageResourceMgrFlagMaybe();
+    // 0x710114d858 (CSV name): 1, or 2 when the image manager's busy counter is above `threshold`.
+    s32 resourceIsLoading(u32 threshold, bool update);
+    // 0x710114c35c (CSV Terrain::__auto3; placeholder name): stores `value` in _388[offset][index],
+    // where type 0 / 1 map to offset 0 / 1 and type 3 to offset 2 / 3 (index 0 / 1).
+    bool setPackModeMaybe(const ImageTypeMaybe& type, s32 index, u8 value);
     void sub_710114D8C0(sead::Heap* heap, System* system);
     void sub_710114D8C8(sead::Heap* heap);
     void sub_710114D804(bool enabled, const sead::Matrix44f* projection,
