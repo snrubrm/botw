@@ -17,6 +17,10 @@ class BaseProcAccessor;
 struct Unk117;
 }  // namespace ksys::act
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::map {
 
 class GenGroup;
@@ -132,6 +136,7 @@ public:
 
     // lane4 s30: forwarders to mGenGroup (names from the CSV; the GenGroup callees are placeholders).
     // 0x7100d4f7c8: allocates `mRails` (num + 1 pointers, the last one null).
+    void sub_7100D4F6FC(phys::RigidBody* body);
     bool allocRails(s32 num, sead::Heap* heap);
     // 0x7100d4f8f8 (CSV x) / 0x7100d4f968 (x_8) / 0x7100d4f97c (x_3) / 0x7100d4f9b0 (x_7) / 0x7100d4fa3c (x_0)
     bool x();

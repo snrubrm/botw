@@ -2,6 +2,8 @@
 #include "KingSystem/Map/mapLinkTag.h"
 #include "KingSystem/System/SystemTimers.h"
 #include <container/seadBuffer.h>
+#include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Map/mapObject.h"
@@ -439,6 +441,23 @@ bool ObjectLinkData::checkDeleteLinkObjRevival() const {
 void ObjectLinkData::sub_7100D4FB78(Object* obj) {
     if (mGenGroup)
         mGenGroup->sub_7100D5119C(obj);
+}
+
+void ObjectLinkData::sub_7100D4F6FC(phys::RigidBody* body) {
+    if (!body)
+        return;
+    if (!tera::checkTeraSystemStatus()) {
+        if (!sead::ThreadMgr::instance()->getCurrentThread()->isDefaultPriority())
+            return;
+        if (act::BaseProcMgr::instance()->isPushingJobs())
+            return;
+    }
+    for (auto& link : mLinksToSelf.links) {
+        if (u32(link.type) - u32(MapLinkDefType::FixedCs) < 9 && link.other_obj) {
+            if (auto* actor = link.other_obj->tryGetActor(false))
+                actor->getConstraints().sub_7100D40194(body);
+        }
+    }
 }
 
 bool ObjectLinkData::allocRails(s32 num, sead::Heap* heap) {
