@@ -7,6 +7,8 @@ namespace ksys::xlink {
 class XLink;
 }
 
+struct DamageReactionRequest;
+
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
@@ -41,6 +43,9 @@ public:
     };
 
     static Reaction* instance() { return sInstance; }
+    // 0x7100ec10b8 (CSV __auto6): passes `request` on to the reaction targets when the instance's
+    // +0xb0 flag is set (bits 2 / 1 of request->_c4 select 0x7101284954 / 0x7100ec313c); true.
+    bool sub_7100EC10B8(::DamageReactionRequest* request);
     static Reaction* sInstance;
     // Surface raycast/XLink update called by GolemRootBase::calc_; declaration only.
     void sub_7100EC29D0(Actor* actor);

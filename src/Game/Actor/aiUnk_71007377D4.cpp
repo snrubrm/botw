@@ -30,6 +30,7 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkInfoData.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -1908,4 +1909,30 @@ void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
         if (!target.sub_7100D12F08(-1))
             target.sub_7100D12758(chemical, flags, index);
     }
+}
+
+// NON_MATCHING: the original reads the accessor matrix (and its translation) through separate
+// getActorMtx calls, one of them discarded; ours reads it once into a reference and the resulting
+// frame / register allocation differs.
+void sub_71006E3340(DamageReactionRequestResult* result, ksys::act::Actor* actor) {
+    if (!result->_d9)
+        return;
+
+    if (result->_d8) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        sub_7100734E68(&accessor, actor);
+        if (accessor.hasProc()) {
+            const sead::Matrix34f& mtx = accessor.getActorMtx();
+            const f32 scale = accessor.getField418().x;
+            sead::Matrix34f transform;
+            transform.makeRT(sead::Vector3f(-sead::Mathf::piHalf(), 0, 0),
+                             sead::Vector3f(0.15f, -0.2f, 0) * scale);
+            result->request.mtx = mtx * transform;
+        }
+    }
+
+    result->request._b0 = &result->_c8;
+    ksys::act::Reaction::instance()->sub_7100EC10B8(&result->request);
+    result->_c8.reset();
+    result->_d9 = false;
 }
