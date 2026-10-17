@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/LOD/actLODMgr.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include <prim/seadMemUtil.h>
 #include <heap/seadHeap.h>
 #include <gfx/seadCamera.h>
@@ -26,8 +27,10 @@ void LODMgr::initBeforeStageGenB() {
     _1028 = 0;
     _1830 = 0;
     _21a0 = 0;
-    _2610 = 0;
-    _2a20 = 0;
+    mSlotPools[0].count = 0;
+    mSlotPools[0].index = 0;
+    mSlotPools[1].count = 0;
+    mSlotPools[1].index = 0;
     _1c80 = 0;
     _1878 = 0;
     _2110.fill(0);
@@ -45,6 +48,49 @@ void LODMgr::sub_7101251B08(sead::Vector3f* pos) {
     dir.normalize();
     *pos = camera->getPos();
     *pos += dir * 5.0f;
+}
+
+// 0x71012537e8 (placeholder name): the draw bit of a queued slot is cleared when its LodState is
+// taken back into the pool. Each pool may take at most 5 - the slots the previous calc used.
+// NON_MATCHING: clang reassociates the budget to `5 - used0 - used1` (the original adds the two used
+// counts first) and turns the countdown into an incrementing counter.
+void LODMgr::calc_x_0() {
+    s32 budget = 5 - (mSlotPools[0].used + mSlotPools[1].used);
+
+    if (mSlotPools[0].count != 0) {
+        s32 n = mSlotPools[0].count > budget ? budget : mSlotPools[0].count;
+        if (n < 2)
+            n = 1;
+        s32 i = n - 1;
+        if (i >= 0) {
+            do {
+                const s32 index = mSlotPools[0].index % mSlotPools[0].count;
+                mSlotPools[0].slots[u32(index) < 0x40 ? index : 0].state->mFlags8.reset(0x40);
+                ++mSlotPools[0].index;
+            } while (i-- != 0);
+        } else {
+            n = 0;
+        }
+        budget -= n;
+        mSlotPools[0].taken = n;
+    }
+
+    if (mSlotPools[1].count != 0) {
+        s32 n = mSlotPools[1].count > budget ? budget : mSlotPools[1].count;
+        if (n < 2)
+            n = 1;
+        s32 i = n - 1;
+        if (i >= 0) {
+            do {
+                const s32 index = mSlotPools[1].index % mSlotPools[1].count;
+                mSlotPools[1].slots[u32(index) < 0x40 ? index : 0].state->mFlags8.reset(0x40);
+                ++mSlotPools[1].index;
+            } while (i-- != 0);
+        } else {
+            n = 0;
+        }
+        mSlotPools[1].taken = n;
+    }
 }
 
 void LODMgr::requestDrawModels() {

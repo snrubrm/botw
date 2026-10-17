@@ -47,6 +47,9 @@ public:
     void sub_7101251B08(sead::Vector3f* pos);
     // 0x7101254328 (CSV name): requests a draw for every model in _1838.
     void requestDrawModels();
+    // 0x71012537e8 (CSV LODMgr::calc_x_0; placeholder name): takes back the queued slots of both
+    // pools, at most 5 minus the slots the previous calc used, and clears their draw bit.
+    void calc_x_0();
 
     /* 0x028 */ u8 _28[0x1028 - 0x28];
     /* 0x1028 */ s32 _1028;
@@ -63,10 +66,29 @@ public:
     /* 0x21a0 */ s32 _21a0;
     /* 0x21a4 */ u8 _21a4[0x21b8 - 0x21a4];
     /* 0x21b8 */ Unk_71011086dc* _21b8;
-    /* 0x21c0 */ u8 _21c0[0x2610 - 0x21c0];
-    /* 0x2610 */ u64 _2610;
-    /* 0x2618 */ u8 _2618[0x2a20 - 0x2618];
-    /* 0x2a20 */ u64 _2a20;
+    /* 0x21c0 */ u8 _21c0[0x2208 - 0x21c0];
+
+    // The two render-slot pools (0x410 bytes each, one per LOD group). calc_x queues a LodState with its
+    // distance in 0x710125316c; calc_x_0 takes the queued slots back and clears their bit 6.
+    struct Slot {
+        LodState* state;
+        f32 distance;
+        u32 _c;
+    };
+    static_assert(sizeof(Slot) == 0x10);
+    struct SlotPool {
+        // Slots the previous calc used (0x2208 / 0x2618).
+        s32 used;
+        // Slots calc_x_0 took (0x220c / 0x261c).
+        s32 taken;
+        Slot slots[0x40];
+        // Number of queued slots (0x2610 / 0x2a20).
+        s32 count;
+        // Ring index into `slots` (0x2614 / 0x2a24).
+        s32 index;
+    };
+    static_assert(sizeof(SlotPool) == 0x410);
+    /* 0x2208 */ SlotPool mSlotPools[2];
     /* 0x2a28 */ u8 _2a28[0x2a60 - 0x2a28];
 };
 KSYS_CHECK_SIZE_NX150(LODMgr, 0x2a60);
