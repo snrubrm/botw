@@ -342,3 +342,10 @@ void changeSceneForDungeonToMainField(int type, sead::BufferedSafeString* map_na
 // (ToCDungeon::enter_ passes ChangeSceneBase::_48 and 0).
 void changeSceneImpl(const sead::SafeString& map_name, const sead::SafeString& pos_name, int type,
                      int a4);
+
+// Placeholder: one empty function at 0x71007a7d9c next to GameScene's destructor. Non-virtual in our
+// build on purpose: the mangled name does not encode virtualness and no vtable is needed.
+class GameScene_Debug {
+public:
+    void fnStubbed();
+};

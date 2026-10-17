@@ -18,6 +18,8 @@
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "Game/gameSceneStateMachine.h"
 #include "Game/gameSceneMessage.h"
+
+void GameScene_Debug::fnStubbed() {}
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
