@@ -343,6 +343,108 @@ u32 sub_710110BA6C(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level) {
     return u32(nearest[0]) << 24 | u32(nearest[1]) << 16 | nearest[3] | blended;
 }
 
+// NON_MATCHING: register allocation (the area index is kept across the call), as sub_710110BA6C.
+// Placeholder name: bilinear height (0 - 1) over the area texel data of an Unk_710110AC74Table at
+// mip `level` (the f32 counterpart of sub_710110BA6C). The texel coordinate comes from
+// sub_710110C3E8 with arg->_c, otherwise it is wrapped around the level offset; the texels are
+// addressed with level 0's size and pitch.
+f32 sub_7101109968(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level) {
+    TexelPosMaybe texel;
+    if (arg->_c) {
+        sub_710110C3E8(arg->table, &texel, arg->index, level);
+    } else {
+        const auto& info = arg->table->levels[level];
+        f32 x = u - info.offset;
+        f32 y = v - info.offset;
+        if (x < 0.0f)
+            x += 1.0f;
+        else if (x > 1.0f)
+            x += -1.0f;
+        if (y < 0.0f)
+            y += 1.0f;
+        else if (y > 1.0f)
+            y += -1.0f;
+
+        const f32 size = info.size;
+        x *= size;
+        y *= size;
+        texel.fx = wrapTexelMaybe(&texel.x, x, size);
+        texel.fy = wrapTexelMaybe(&texel.y, y, size);
+    }
+
+    const u32 max = arg->table->levels[0].size - 1;
+    const u32 pitch = arg->table->levels[0].pitch;
+    const u8* data = arg->table->areas[arg->index].levels[level];
+    const u32 row0 = sead::Mathu::min(texel.y, max) * pitch;
+    const u32 col0 = sead::Mathu::min(texel.x, max) * arg->table->texel_size;
+    const u32 col1 = sead::Mathu::min(texel.x + 1, max) * arg->table->texel_size;
+    const u32 row1 = sead::Mathu::min(texel.y + 1, max) * pitch;
+    const f32 p00 = data[row0 + col0] / 255.0f;
+    const f32 p01 = data[row0 + col1] / 255.0f;
+    const f32 p10 = data[row1 + col0] / 255.0f;
+    const f32 p11 = data[row1 + col1] / 255.0f;
+    const f32 top = p00 + texel.fx * (p01 - p00);
+    const f32 bottom = p10 + texel.fx * (p11 - p10);
+    return top + texel.fy * (bottom - top);
+}
+
+// NON_MATCHING: stack slot layout and register allocation (as sub_710110BD78).
+// Placeholder name: the height (0 - 1) at `xz` from the type-3 image with index 0 of the
+// neighbouring area (the f32 counterpart of sub_710110BD78).
+u32 sub_7101109BD8(f32* out, const sead::Vector2f* xz, System* system, bool flag) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+
+    const ImageTypeMaybe& type = sUnk_7101EC54B8;
+    const auto* collector = system->mScenes(0).collector;
+    if (collector->_0[7]._20._0 & 4) {
+        if ((~collector->_0[7]._20._0 & 3) != 0)
+            return 0;
+        sead::Vector2f pos = sead::Vector2f::zero;
+        s32 index;
+        const u32 result =
+            sub_7101108AE8(&pos, &index, *xz, collector->_0[7]._20, collector->_0[7], 0xffffffff);
+        if (result != 0) {
+            Unk_7101108C44Arg arg;
+            arg.table = collector->_0[7]._20.table;
+            arg.index = index;
+            arg._c = false;
+            *out = sub_7101109968(pos.x, pos.y, &arg, 0);
+        }
+        return result;
+    }
+
+    const u32 index =
+        flag ? collector->_0[7].sub_71010FEDBC(*xz, collector->_0[7]._20._2, 0.0f) : 0xffffffff;
+    Unk_7101106F44* area;
+    sead::Vector2f center;
+    f32 size;
+    const u32 result =
+        Unk_7101106F44::sub_7101108860(&area, &center, &size, *xz, system, type, index);
+    if (result == 0)
+        return result;
+
+    const Unk_710250dcd8* image = area->getImageMaybe(type);
+    const f32 map_size = size;
+    const f32 half = map_size * 0.5f;
+    const f32 u = xz->x - (center.x - half);
+    const f32 v = xz->y - (center.y - half);
+    TextureMipTableMaybe table;
+    table.clearMaybe();
+    sub_710110DE64(&table, image->getTextureDataMaybe());
+    TextureSamplerArgMaybe arg;
+    arg.table = &table;
+    arg._8 = 0;
+    arg._c = true;
+    const f32 inv = 1.0f / map_size;
+    *out = sub_710110979C(u * inv, v * inv, &arg, 0);
+
+    area->releaseImageMaybe(type);
+    return result;
+}
+
 // NON_MATCHING: the [0, 1] wrap is compiled to selects here (branches with a shared add in the original).
 void sub_710110AC74(f32 x, f32 y, const Unk_7101108C44Arg* arg, TexelPosMaybe* out, u32 level) {
     const Unk_710110AC74Table* table = arg->table;
