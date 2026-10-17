@@ -16,11 +16,17 @@ namespace gsys {
 // sead::IDisposer at +0xe0 and a polymorphic base at +0x100) and the other members are not.
 class Model;
 
+class EffectModelDrawMgr;
+
 class ModelScene {
 public:
     // 0x7100c0ff48 / 0x7100c0ffe4 (CSV names; declared only): attach / detach a model.
     void bind_(Model* model);
     void unbind_(Model* model);
+
+    // OpenWorldStage::unload 0x71007c5d20 passes -1 to process every scene entry.
+    // 0x7100c13cb4 releases each entry's +0x3a0 object and clears flag 0x10 at +0x391.
+    void sub_7100C13CB4(s32 index);
 
     u8 _0[0x130];
 
@@ -32,7 +38,14 @@ public:
     // DepthOfField::setIndirectTextureData; 0x7100c11a80 copies context parameters into it.
     /* 0x3428 */ agl::pfx::DepthOfField* mDepthOfField;
 
-    u8 _3430[0x52e0 - 0x3430];
+    u8 _3430[0x3758 - 0x3430];
+
+    // Effect-model draw manager of the scene. EffectModelData::addEffectModel 0x7100d9f8ac reads it from
+    // the first Graphics model scene (`**(Graphics + 0x158)` = mModelScenes[0]) and calls
+    // EffectModelDrawMgr::requestDeleteModel / execDeleteModel on it (0x7100d9fcfc / 0x7100d9fde4).
+    /* 0x3758 */ EffectModelDrawMgr* mEffectModelDrawMgr;
+
+    u8 _3760[0x52e0 - 0x3760];
 
     // Placeholder type: the object at +0x52e0 (read by the accessor 0x7100c2ca78). Graphics::setRainRatio
     // 0x7100f2fcdc picks shader variation 2 when its byte at +0x230 is set.

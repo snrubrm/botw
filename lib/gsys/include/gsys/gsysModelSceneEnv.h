@@ -14,6 +14,13 @@ namespace gsys {
 // TODO: incomplete. Only functions that game code calls are declared; the members are not modeled yet.
 class ModelSceneEnv : public ModelSceneComponent {
 public:
+    struct DataSet;
+
+    // OpenWorldStage::unload 0x71007c5d20 passes the data-set array at +0xba0 to
+    // clearImpl 0x7100c25294. The constructor 0x7100c21f8c clears count +0xb98 and this pointer.
+    DataSet* getDataSets() const { return mDataSets; }
+    void clearImpl(DataSet* data_set, bool free_resource);
+
     // 0x7100c2859c (declared only): the index of the enabled env set called `name` in the data set
     // `data_set`, or -1 if there is none. (Descriptive name unknown.)
     int sub_7100C2859C(const sead::SafeString& name, u32 data_set);
@@ -23,7 +30,11 @@ public:
     void sub_7100C286EC(u32 env_set, bool reset, u32 data_set);
 
 private:
-    /* 0x250 */ u8 _250[0x1158 - 0x250];
+    /* 0x250 */ u8 _250[0xb98 - 0x250];
+    /* 0xb98 */ s32 mDataSetCount;
+    /* 0xb9c */ u8 _b9c[4];
+    /* 0xba0 */ DataSet* mDataSets;
+    /* 0xba8 */ u8 _ba8[0x1158 - 0xba8];
 };
 static_assert(sizeof(ModelSceneEnv) == 0x1158);
 

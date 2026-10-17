@@ -14,10 +14,12 @@ add_library(gsys OBJECT
   include/gsys/gsysModelAnimation.h
   include/gsys/gsysModelDynamicEnvInfo.h
   include/gsys/gsysModelNW.h
+  include/gsys/gsysModelDrawObj.h
   include/gsys/gsysModelScene.h
   include/gsys/gsysModelSceneComponent.h
   include/gsys/gsysModelSceneEnv.h
   include/gsys/gsysModelSceneConfig.h
+  include/gsys/gsysEffectModelDrawMgr.h
   include/gsys/gsysG3dResMaterialEx.h
   include/gsys/gsysG3dResModelEx.h
   include/gsys/gsysG3dResShapeEx.h
@@ -31,6 +33,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
   include/gsys/gsysORUtil.h
+  include/gsys/gsysParticleMgr.h
   include/gsys/gsysParticleConfig.h
   include/gsys/gsysPointLight.h
   include/gsys/gsysSpotLight.h
@@ -51,7 +54,10 @@ add_library(gsys OBJECT
   src/gsys/gsysModelRenderUnit.cpp
   src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelUnitGroup.cpp
+  src/gsys/gsysModelDrawObj.cpp
   src/gsys/gsysModelSceneConfig.cpp
+  src/gsys/gsysEffectModelDrawMgr.cpp
+  src/gsys/gsysParticleMgr.cpp
   src/gsys/gsysParticleConfig.cpp
 )
 
