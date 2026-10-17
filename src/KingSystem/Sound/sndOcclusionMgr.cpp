@@ -56,7 +56,7 @@ bool Unk_7102502978::readAssetInfo(aal::AssetInfo* info, const sead::SafeString&
     return mAudioResource->readAssetInfo(info, name);
 }
 
-// NON_MATCHING: IAssetInfoReadable still lacks its virtual destructor in the pinned library.
+// NON_MATCHING: the inlined data-size result uses an extra move before the arbiter call.
 Unk_7102502978::~Unk_7102502978() {
     if (mAudioResource) {
         if (auto* arbiter = aal::SystemAccessor::getArbiter()) {
