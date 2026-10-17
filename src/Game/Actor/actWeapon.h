@@ -593,6 +593,9 @@ public:
     bool isHitEnemy() const;
     // 0x71002f1228: Actor::checkForbidAttentionSignal() (false if not a weapon)
     bool sub_71002F1228() const;
+    // 0x71002f0a34 (unnamed in the CSV; placeholder name): the damage manager's m53 for a weapon with bit 9
+    // of _e50 set, else false.
+    bool sub_71002F0A34() const;
 
 protected:
     uking::act::Weapon* getWeapon() const;

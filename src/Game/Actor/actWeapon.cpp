@@ -3,6 +3,7 @@
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "Game/Actor/actOptionalWeapon.h"
 #include "Game/Actor/Damage/dmgDamageMgrWeapon.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/StageInfo.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -1796,6 +1797,16 @@ bool Weapon::sub_71002EF980() const {
     if (!weapon)
         return false;
     return weapon->hasParentActor();
+}
+
+bool Weapon::sub_71002F0A34() const {
+    auto* weapon = getWeapon();
+    if (!weapon || !(weapon->_e50 & 0x200))
+        return false;
+    auto* damage_mgr = sead::DynamicCast<uking::act::DamageMgrWeapon>(weapon->getDamageMgr());
+    if (!damage_mgr)
+        return false;
+    return damage_mgr->m53();
 }
 
 bool Weapon::sub_71002F1228() const {
