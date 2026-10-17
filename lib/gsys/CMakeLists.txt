@@ -32,6 +32,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelUnitGroup.h
   include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
+  include/gsys/gsysResourceEditor.h
   include/gsys/gsysORUtil.h
   include/gsys/gsysParticleMgr.h
   include/gsys/gsysParticleConfig.h
@@ -57,6 +58,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelDrawObj.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysEffectModelDrawMgr.cpp
+  src/gsys/gsysResourceEditor.cpp
   src/gsys/gsysParticleMgr.cpp
   src/gsys/gsysParticleConfig.cpp
 )

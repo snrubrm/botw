@@ -21,6 +21,10 @@ public:
     DataSet* getDataSets() const { return mDataSets; }
     void clearImpl(DataSet* data_set, bool free_resource);
 
+    // Constructor 0x7100c21f8c sets this true; destructor 0x7100c22124 clears it
+    // before finalization. load_ 0x7100c29658 and stage unload 0x71007c5d20 pass it to clearImpl.
+    bool get_b40() const { return m_b40; }
+
     // 0x7100c2859c (declared only): the index of the enabled env set called `name` in the data set
     // `data_set`, or -1 if there is none. (Descriptive name unknown.)
     int sub_7100C2859C(const sead::SafeString& name, u32 data_set);
@@ -30,7 +34,9 @@ public:
     void sub_7100C286EC(u32 env_set, bool reset, u32 data_set);
 
 private:
-    /* 0x250 */ u8 _250[0xb98 - 0x250];
+    /* 0x250 */ u8 _250[0xb40 - 0x250];
+    /* 0xb40 */ bool m_b40;
+    /* 0xb41 */ u8 _b41[0xb98 - 0xb41];
     /* 0xb98 */ s32 mDataSetCount;
     /* 0xb9c */ u8 _b9c[4];
     /* 0xba0 */ DataSet* mDataSets;
