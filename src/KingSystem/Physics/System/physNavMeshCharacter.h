@@ -426,6 +426,9 @@ public:
     static Unk_71024f67c8* sub_7100F73640(const InitArg& arg, sead::Heap* heap);
     // 0x7100f73714 (declaration only; placeholder name): looks up the bones and builds the entries.
     bool sub_7100F73714(const InitArg& arg, sead::Heap* heap);
+    // 0x7100f73f08: solves the bone chain towards the read-only target position.
+    // The three target components are supplied by 0x7100e958f4 / 0x7100e9888c.
+    void sub_7100F73F08(const sead::Vector3f& target);
 
     // 0x7100f73c7c (placeholder name): reads every entry's local bone matrix and scale from the model
     // (after clearing the local matrices if `reset`), scales its translation by the previous entry's
