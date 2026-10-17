@@ -8,7 +8,7 @@ Invoker2::Invoker2(Function function) {
 
 Invoker2::~Invoker2() {
     if (mCallable)
-        mCallable->~Callable();
+        mCallable->~CallableBase();
 }
 
 void Invoker2::Callable::invoke() {

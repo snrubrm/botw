@@ -18,22 +18,48 @@ class Invoker2 {
 public:
     using Function = void (*)();
 
-    // The only callable: stores a plain function pointer (vtable 0x710245bd98, no RTTI).
-    class Callable {
+    class CallableBase {
+    public:
+        virtual ~CallableBase() = default;
+        virtual void invoke() = 0;
+        virtual CallableBase* copyTo(void* storage) const = 0;
+    };
+
+    // Stores a plain function pointer (vtable 0x710245bd98, no RTTI).
+    class Callable : public CallableBase {
     public:
         explicit Callable(Function function) : mFunction(function) {}
-        virtual ~Callable() = default;
-        virtual void invoke();
-        virtual Callable* copyTo(void* storage) const;
+        ~Callable() override = default;
+        void invoke() override;
+        Callable* copyTo(void* storage) const override;
 
     private:
         Function mFunction;
     };
 
+    // The GameScene callable at 0x710245aab8 stores its receiver and a member pointer.
+    template <typename T>
+    class MemberCallable : public CallableBase {
+    public:
+        using MemberFunction = void (T::*)();
+        MemberCallable(T* object, MemberFunction function) : mObject(object), mFunction(function) {}
+        void invoke() override { (mObject->*mFunction)(); }
+        MemberCallable* copyTo(void* storage) const override {
+            return new (storage) MemberCallable(mObject, mFunction);
+        }
+    private:
+        T* mObject;
+        MemberFunction mFunction;
+    };
+
     explicit Invoker2(Function function);
+    template <typename T>
+    Invoker2(T* object, void (T::*function)()) {
+        mCallable = new (mStorage) MemberCallable<T>(object, function);
+    }
     ~Invoker2();
 
-    Callable* getCallable() const { return mCallable; }
+    CallableBase* getCallable() const { return mCallable; }
 
 private:
     friend class GameSceneTaskMgr;
@@ -41,7 +67,7 @@ private:
     Invoker2() = default;
 
     alignas(8) u8 mStorage[0x40]{};
-    Callable* mCallable{};
+    CallableBase* mCallable{};
 };
 KSYS_CHECK_SIZE_NX150(Invoker2, 0x48);
 

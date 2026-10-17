@@ -10,6 +10,7 @@
 #include <thread/seadCriticalSection.h>
 #include "Game/gameDebugStatus.h"
 #include "Game/gameScene320.h"
+#include "Game/gameSceneTaskMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnk_71024F9D48.h"
 #include "KingSystem/Utils/StateMachine.h"
@@ -151,6 +152,8 @@ public:
     // 0x71007b2554 (CSV GameScene::loadTera): loads the terrain scene of the current map type and points the
     // camera at the stage binder's initial position.
     bool loadTera();
+    void startBgProcessing();
+    void doTitleScreenBgProcessing();
 
     // 0x71007b0d88 (CSV GameScene::commonRun, declared only): shared body of the Run states.
     void commonRun(bool a1, bool a2);
@@ -231,7 +234,8 @@ private:
     /* 0x130 */ sead::FixedSafeString<0x3f> _130;
     u8 _188[0x1d0 - 0x188];
     /* 0x1d0 */ ksys::StateMachine _1d0;
-    u8 _1f8[0x279 - 0x1f8];
+    u8 _1f8[0x278 - 0x1f8];
+    bool _278;
     u8 _279;
     u8 _27a[0x280 - 0x27a];
     /* 0x280 */ sead::Heap* _280;
@@ -262,7 +266,10 @@ private:
     /* 0x8c9 */ bool _8c9;
     /* 0x8ca */ bool _8ca;
     /* 0x8cb */ bool _8cb;
-    u8 _8cc[0x93c - 0x8cc];
+    u8 _8cc[0x8d0 - 0x8cc];
+    ksys::Task* mBgTask;
+    GameSceneTaskMgr mBgTaskMgr;
+    u8 _938[0x93c - 0x938];
     s32 _93c;
     u8 _940[0x944 - 0x940];
     /* 0x944 */ sead::Atomic<u32> _944;

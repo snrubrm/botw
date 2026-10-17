@@ -43,6 +43,7 @@
 #include "Game/gameStage.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/Resource/resSystem.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -304,9 +305,13 @@ struct SceneStatics {
     u8 _6;
     u8 _7;
     bool _8;
-    u8 _9[0x2c - 9];
+    u8 _9[0xc - 9];
+    u8 _c;
+    u8 _d[0x2c - 0xd];
     s32 newSaveState_2c;
-    u8 _30[0x2c];
+    u8 _30[4];
+    u32 _34;
+    u8 _38[0x5c - 0x38];
     s32 newSaveState_5c;
     s32 _60;  // cleared by sub_71007B4C28
 };
@@ -794,6 +799,22 @@ bool GameScene::NewSaveReenter() {
 
 // 0x71025cb8a0 (a position that GameScene::initialize sets; placeholder name)
 sead::Vector3f sUnk_71025cb8a0;
+
+void GameScene::startBgProcessing() {
+    if (sSceneStatics._c & 1)
+        return;
+    _948 &= ~u32(2);
+    ksys::res::texHandleMgrSetSomeFlags(false);
+    sSceneStatics._7 = 1;
+    sSceneStatics._8 = false;
+    sSceneStatics._34 = 0;
+    ksys::act::BaseProcMgr::instance()->resumeInitializerMainThread();
+    _278 = false;
+    if (auto* quests = ksys::qst::Manager::instance())
+        quests->prepareFirstTimeGenStage();
+    mBgTask = mBgTaskMgr.submitRequest(Invoker2(this, &GameScene::doTitleScreenBgProcessing)).mTask;
+    sSceneStatics._c = 1;
+}
 
 // 0x71007b1110 (CSV name)
 // NON_MATCHING: the original branches on the first flag (`b.ne`) instead of selecting with `cset`
