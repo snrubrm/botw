@@ -201,6 +201,31 @@ u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
                           areas, index, height_flag);
 }
 
+// NON_MATCHING: one instruction moved (the zero store of `index` is scheduled earlier than the
+// original).
+// Placeholder name: the height at `xz` (like sub_71011094A0, from the sampler sub_7101108F0C).
+u32 sub_71011095B8(f32* out_height, const sead::Vector2f* xz, System* system, s32 level, s32 flag) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+    const s32 height_flag = flag != 0 && (system->mScenes(0).collector->_2998 & 0x20) ? flag : 0;
+
+    auto* areas = system->sub_710111F4F0();
+    const f32 scale = Terrain::instance()->_3cc;
+    s32 index = 0;
+    sead::Vector2f pos = sead::Vector2f::zero;
+    const u32 result = sub_7101108AE8(&pos, &index, *xz, areas->_20, *areas, level);
+    if (result != 0) {
+        Unk_7101108C44Arg arg;
+        arg.table = areas->_20.table;
+        arg.index = index;
+        arg._c = false;
+        *out_height = scale * sub_7101108F0C(pos.x, pos.y, &arg, height_flag) + 0.0f;
+    }
+    return result;
+}
+
 // inline-only in the original; name is a guess. Wraps a texel coordinate once into [0, size) and splits
 // it into the texel index and the fraction; inlined for both axes into 0x710110979c and 0x710110b814.
 inline f32 wrapTexelMaybe(u32* index, f32 coord, f32 size) {
