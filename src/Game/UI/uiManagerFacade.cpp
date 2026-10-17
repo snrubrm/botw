@@ -710,8 +710,8 @@ bool checkSomeFlagImpl() {
 }
 
 // 0x7100a9f950
-void return0_2() {
-    Manager::instance()->sub_7100A7FDAC();
+bool return0_2() {
+    return Manager::instance()->sub_7100A7FDAC();
 }
 
 // 0x7100a9b96c (placeholder name; getPlayerActor is out of line in the original)

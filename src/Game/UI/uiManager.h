@@ -99,8 +99,9 @@ public:
     void sub_7100A7A6C0(f32 value);
     // 0x7100a7ef28 (CSV uiManager::__auto7; placeholder name): stores 40.0f at 0x653a8 and applies it.
     void sub_7100A7EF28();
-    // 0x7100a79a04 / 0x7100a79b38 (CSV uiManager::__auto13 / __auto12; declared only)
-    void sub_7100A79A04();
+    // 0x7100a79a04: the pause callback: suspends the dialogue ducker, updates the map singleton and runs the
+    // pause / unpause side of the Root38, OnUiActorMgr and StageState flags; always true.
+    bool sub_7100A79A04();
     bool sub_7100A79B38();
     void sub_7100A79ED4();
     void sub_7100A7A4C0();

@@ -821,6 +821,9 @@ public:
     void sub_710104F8C4(bool suspend);
     // 0x710104f8e0: starts the ducker 0xf unless ducking is not allowed (bit 2 of `_2a0`).
     void sub_710104F8E0();
+    // 0x710104f98c (declared only; lane2 s106 evidence: ui::Manager::sub_7100A79A04 calls it on the singleton while
+    // the UI is paused): 236 bytes
+    void sub_710104F98C();
     // 0x710104f904: stops the ducker 0xf without suspending it.
     void sub_710104F904();
     // 0x710104f920: with `on`: stops the duckers 0x10 and 0xf and disables ducking (sets bit 2 of `_2a0`); else clears it.

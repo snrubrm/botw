@@ -465,6 +465,11 @@ sead::Heap* getHeap();
 // UI heap storage (0x71025f59d0), set by createUiHeap
 extern sead::Heap* sUnk_71025f59d0;
 void sub_7100AA9858(f32 value);
+// 0x7100a9ba28 / 0x7100a9e218 (defined in uiManagerFacade.cpp; placeholder names)
+void sub_7100A9BA28();
+void sub_7100A9E218();
+// 0x7100a9f950 (CSV ui::return0_2; defined in uiManagerFacade.cpp): Manager::sub_7100A7FDAC
+bool return0_2();
 // 0x7100a6d344 (CSV ui::createUiHeap; defined in uiManagerSmall.cpp)
 void createUiHeap(sead::Heap* parent);
 

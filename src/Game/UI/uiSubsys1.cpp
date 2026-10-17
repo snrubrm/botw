@@ -4,6 +4,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
@@ -438,6 +439,13 @@ bool Unk_71025d6ac0::get88() const {
 }
 
 // 0x7100968d78
+// 0x71009680dc: the original calls this out of line from ui::Manager (0x7100a79a04), so it is not in
+// the manager's translation unit.
+void Unk_71025d6ac0::sub_71009680DC() {
+    ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
+    ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
+}
+
 void Unk_71025d6ac0::clear88() {
     _88 = false;
 }

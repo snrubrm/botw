@@ -18,6 +18,10 @@
 #include "Game/UI/euiUIController.h"
 #include "Game/gameGraphics.h"
 #include "Game/gameRadarMgr.h"
+#include "Game/gameSceneSubsys12.h"
+#include "Game/gameStageStateMaybe.h"
+#include "Game/UI/uiOnUiActorMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -303,10 +307,6 @@ void Unk_71025d6ac0::sub_7100968040() {
     ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
 }
 
-void Unk_71025d6ac0::sub_71009680DC() {
-    ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
-    ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
-}
 
 // Complete child 9BFCC4 passes this singleton and consumes the two bool predicates.
 bool Unk_71025d6ac0::sub_71009684B4() const {
@@ -454,6 +454,37 @@ bool Unk_71025d6ac0::sub_71009686D8() const {
 void Manager::sub_7100A7FD64(nn::ui2d::Pane* pane) {
     if (pane && _652f0 < _652f4)
         _652f8[_652f0++] = pane;
+}
+
+// 0x7100a79a04
+bool Manager::sub_7100A79A04() {
+    if (isPausedMaybe()) {
+        if (auto* sound = ksys::snd::Unk_710104e5b4::instance())
+            sound->sub_710104F98C();
+    }
+    Unk_71025d6ac0::instance()->sub_71009680DC();
+    switch (_64c24) {
+    case 1:
+    case 2:
+        if (!Root38::instance()->hasAnyFlag()) {
+            if (auto* mgr = OnUiActorMgr::instance())
+                mgr->sub_7100906F18();
+            if (auto* scene = GameSceneSubsys12::instance()) {
+                if (scene->_a78.isBitOn(1))
+                    scene->sub_7100664484(0, nullptr);
+            }
+            sub_7100A9BA28();
+            sub_7100A9E218();
+        }
+        break;
+    case 3:
+        if (!Root38::instance()->hasAnyFlag())
+            sub_7100A9BA28();
+        if (StageStateMaybe::sInstance && return0_2())
+            StageStateMaybe::sInstance->_a00 &= ~0x10;
+        break;
+    }
+    return true;
 }
 
 // 0x7100a7fdb4
