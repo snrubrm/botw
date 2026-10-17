@@ -2,6 +2,7 @@
 
 #include <aal/aalShape.h>
 #include <aal/aalTimedFader.h>
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 
@@ -18,6 +19,9 @@ public:
 // The spot BGM instance a SpotBgmTriggerAction creates in init_ (size 0x3c0).
 class Unk_SpotBgmInstance : public Unk_SpotBgmInstanceBase, public ksys::snd::Unk_71024fc7f8 {
 public:
+    // The two sub-tracks of a spot BGM (the faders at 0x2d8 and the distance tables). The
+    // original loops over this enum with a SEAD_ENUM iterator in sub_7101024808.
+    SEAD_ENUM(SubTrack, _0, _1)
     // 0x7101023050
     explicit Unk_SpotBgmInstance(bool a);
     ~Unk_SpotBgmInstance() override;
@@ -64,15 +68,16 @@ public:
     u32 _26c = 0;
     /* 0x270 */ void* _270 = nullptr;
     /* 0x278 */ aal::SimpleTimedFader _278{1.0f};
-    /* 0x290 */ u64 _290 = 0;
+    // The playing entry the sub-track volumes (entry volume slots 1 / 2) are written to.
+    /* 0x290 */ ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
     /* 0x298 */ s32 _298 = 0;
     u32 _29c = 0;
     /* 0x2a0 */ aal::SimpleTimedFader _2a0{0.0f};
     /* 0x2b8 */ aal::SimpleTimedFader _2b8{0.0f};
     /* 0x2d0 */ u32 _2d0 = 0;
     /* 0x2d4 */ s32 _2d4 = -1;
-    /* 0x2d8 */ aal::SimpleTimedFader _2d8{1.0f};
-    /* 0x2f0 */ aal::SimpleTimedFader _2f0{1.0f};
+    /* 0x2d8 */ sead::SafeArray<aal::SimpleTimedFader, 2> mSubTrackFaders{
+        {aal::SimpleTimedFader(1.0f), aal::SimpleTimedFader(1.0f)}};
     /* 0x308 */ s32 _308 = 0;
     u32 _30c = 0;
     /* 0x310 */ aal::TimedFader _310{1.0f, aal::FadeCurveType(1), 1.0f};

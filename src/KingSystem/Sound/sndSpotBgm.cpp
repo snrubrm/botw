@@ -195,6 +195,76 @@ void Unk_SpotBgmInstance::sub_71010242F0() {
     _310.setValueImmediate(0.0f);
 }
 
+// A sub-track's distance and whether it overrides the value computed by Unk_710260f1a8::m5.
+struct SubTrackDistance {
+    SubTrackDistance() : distance(9999.0f), overridden(false) {}
+    SubTrackDistance(f32 d, bool o) : distance(d), overridden(o) {}
+
+    f32 distance;
+    bool overridden;
+};
+
+// 0x7102610350: the never-written debug distances (both flags stay false, so the computed values
+// below are used). 0x7102610360: the distances Unk_710260f1a8::m5 sets from the listener position.
+KSYS_VISIBILITY_HIDDEN SubTrackDistance sUnk_7102610350[2];
+sead::SafeArray<SubTrackDistance, 2> sUnk_7102610360;
+
+// 0x7101024314 / 0x710102432c: the per-frame distance of sub-track 0 / 1.
+void setSubTrack0DistanceMaybe(f32 distance) {
+    sUnk_7102610360[0].overridden = true;
+    sUnk_7102610360[0].distance = distance;
+}
+
+void setSubTrack1DistanceMaybe(f32 distance) {
+    sUnk_7102610360[1].overridden = true;
+    sUnk_7102610360[1].distance = distance;
+}
+
+// 0x7101024344: drops both computed distances again.
+void clearSubTrackDistancesMaybe() {
+    sUnk_7102610360[0].overridden = false;
+    sUnk_7102610360[1].overridden = false;
+}
+
+// 0x7101024808: fades the two sub-track faders from the sub-track distances (near distance is
+// volume 1, far distance volume 0) and writes the fader values to the playing entry's volumes.
+void sub_7101024808(Unk_SpotBgmInstance* instance) {
+    for (auto it = Unk_SpotBgmInstance::SubTrack::begin(); it != Unk_SpotBgmInstance::SubTrack::end();
+         ++it) {
+        const Unk_SpotBgmInstance::SubTrack idx = *it;
+        const SubTrackDistance* entry = sUnk_7102610350[idx].overridden
+                                            ? &sUnk_7102610350[idx]
+                                            : &sUnk_7102610360[idx];
+        if (!entry)
+            continue;
+
+        f32 value = 0.0f;
+        if (entry->overridden) {
+            const f32 near = instance->mInfo->mSubTrackNearDistance.ref();
+            const f32 far = instance->mInfo->mSubTrackFarDistance.ref();
+            if (near < far) {
+                value = (entry->distance - far) / (near - far);
+                if (value < 0.0f)
+                    value = 0.0f;
+                else if (value > 1.0f)
+                    value = 1.0f;
+            } else {
+                value = entry->distance < near ? 1.0f : 0.0f;
+            }
+        }
+
+        instance->mSubTrackFaders[*it].moveToTargetByStep(
+            value, instance->mInfo->mSubTrackVolumeMaxDelta.ref());
+        instance->mSubTrackFaders[*it].calc();
+
+        if (instance->mEntry && instance->mEntry->sub_7100FF6DF4(instance)) {
+            const s32 volume_index = *it + 1;
+            instance->mEntry->sub_7100FF6A50(volume_index,
+                                             instance->mSubTrackFaders[*it].getValue());
+        }
+    }
+}
+
 Unk_71025008d0::~Unk_71025008d0() = default;
 
 Unk_7102500a00::~Unk_7102500a00() {
