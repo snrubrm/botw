@@ -56,14 +56,22 @@ struct Unk_710123830c {
     void sub_71012370A8();
     void sub_71012381A8(const char* key, s32 duration);
     void sub_710123827C(bool value);
+    // 0x7101237dd0: turns the footstep reaction state on (bit 0) once the actor moves faster than
+    // 0.25, or queues it with the reaction receiver (bit 1) faster than 0.6; skipped while riding.
+    void sub_7101237DD0();
 
-    u8 _8[0x12 - 0x8];
+    // 123690C / 1237DD0 read the owning actor here (XLink::CreateArg supplies it).
+    /* 0x8 */ act::Actor* mActor;
+    u8 _10[0x12 - 0x10];
     // Setter 12381A8 and independent emission 12367FC decrement this halfword counter.
     u16 mOverrideDuration;
     u8 _14[2];
     // Initializer1235044 copies the halfword at argument+58;1236520/70A8 manipulate its flags.
     /* 0x16 */ sead::BitFlag16 _16;
-    /* 0x18 */ u8 _18[4];
+    // 1237DD0 writes this as one halfword: bit 0 (reaction started) / bit 1 (reaction queued).
+    /* 0x18 */ u16 _18;
+    // 123632C clears one bit per foot index here.
+    /* 0x1a */ u16 _1a;
     /* 0x1c */ sead::BitFlag16 _1c;
     u8 _1e[0x34 - 0x1e];
     // Initializer 1235044 supplies the signed reaction kind; updates restore it after an override.
@@ -75,7 +83,11 @@ struct Unk_710123830c {
     sead::FixedSafeString<32> mOverrideKey;
     // Initializer 1235044 supplies the bone-name array; 1237654 indexes it for Model::searchBone.
     const char* const* mBoneNames;
-    u8 _98[0xe8 - 0x98];
+    u8 _98[0xc8 - 0x98];
+    // 1237DD0 turns the reaction state on when these exceed 0.6 / 0.25.
+    /* 0xc8 */ f32 _c8;
+    /* 0xcc */ f32 _cc;
+    u8 _d0[0xe8 - 0xd0];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710123830c, 0xe8);
 

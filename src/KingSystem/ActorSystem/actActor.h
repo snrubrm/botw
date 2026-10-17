@@ -685,6 +685,8 @@ public:
     // lane3 s38 (FixedMagneStick::calc_); the type is a placeholder (only byte 0x8b is known).
     ActorUnk6b8* get6b8() const { return _6b8; }
     float get6f0() const { return _6f0; }
+    // The footstep reaction timer written by Reaction::sub_7100EC241C.
+    void set6e4(float value) { _6e4 = value; }
     int get6fc() const { return _6fc; }
     // The sub material index of _6fc (uking::act::sub_71006DF43C / sub_71006DF4F0).
     int get700() const { return _700; }

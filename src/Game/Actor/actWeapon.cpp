@@ -1,5 +1,6 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "Game/Actor/actOptionalWeapon.h"
 #include "Game/Actor/Damage/dmgDamageMgrWeapon.h"
@@ -15,7 +16,9 @@
 #include "Game/Actor/actArmorBase.h"
 #include "Game/Actor/actNPC.h"
 #include <algorithm>
+#include <math/seadBoundBox.h>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Utils/Thread/Message.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -132,6 +135,23 @@ bool Weapon::sub_71002EE7E8(ksys::act::BaseProcLink* out) {
     return true;
 }
 
+// NON_MATCHING: the three virtual calls are at slots 0x730 / 0x750 / 0x758 in the original; our
+// Weapon vtable has them at 0x4c8 / 0x4d8 / 0x4e0 because most WeaponBase virtuals are not modelled.
+void Weapon::sub_71002EE8B0() {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(_880.getProc(nullptr, nullptr));
+    if (!actor)
+        return;
+    if (!ksys::act::isPlayerProfile(actor))
+        return;
+
+    if (m153())
+        sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000013), nullptr, true);
+    else if (m155())
+        sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000014), nullptr, true);
+    else if (m156())
+        sendMessage(*actor->getMesTransceiverId(), ksys::MessageType(0x8000015), nullptr, true);
+}
+
 void Weapon::sub_71002E1748() {
     auto* body = getMainBody();
     if (!body)
@@ -176,6 +196,23 @@ void Weapon::sub_71002E5BB4() {
         ksys::act::acquireActor(&_938, &accessor);
         if (accessor.hasTag(0xf97d1393))
             chemical->sub_7100D90D7C(true);
+    }
+}
+
+// NON_MATCHING: the copy of the second vertex uses three 32-bit loads instead of the target's 8 + 4.
+void Weapon::sub_71002E5DDC(sead::Vector3f* out) {
+    auto* body = getMainBody();
+    if (auto* capsule = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(body)) {
+        sead::Vector3f a;
+        sead::Vector3f b;
+        capsule->getVertices(&a, &b);
+        *out = b;
+    } else {
+        sead::BoundBox3f aabb;
+        body->getAabbInLocal(&aabb);
+        out->z = aabb.getMax().z;
+        out->x = (aabb.getMin().x + aabb.getMax().x) * 0.5f;
+        out->y = (aabb.getMin().y + aabb.getMax().y) * 0.5f;
     }
 }
 

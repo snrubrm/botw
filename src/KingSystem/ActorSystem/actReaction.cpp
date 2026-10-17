@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::act {
 Reaction* Reaction::sInstance;
@@ -62,7 +63,7 @@ s8 Reaction::Unk1::sub_7100EC89BC() const {
 
 // NON_MATCHING: min / max operand order, the 2 / 3 choice becomes a csel, and the size is returned as a
 // 64-bit register move.
-s32 Reaction::sub_7100EC2278(Actor* actor, bool* is_long) {
+u32 Reaction::sub_7100EC2278(Actor* actor, bool* is_long) {
     if (auto* body = actor->getMainBody()) {
         sead::BoundBox3f aabb;
         body->getAabbInLocal(&aabb);
@@ -120,6 +121,45 @@ void Reaction::sub_7100EC299C(f32 value, DamageReactionRequest* request, bool fl
 void Reaction::sub_7100EC29B8(DamageReactionRequest* request) {
     if (_b0 && _a8)
         _a8->sub_7100EC61F8(request);
+}
+
+// NON_MATCHING: the actor size stays 64-bit and is zero-extended (target `mov x8,x0` / `and x23,
+// x8,#0xffffffff`); ours truncates to 32 bits when the u32 return is stored.
+void Reaction::sub_7100EC241C(Actor* actor, phys::UserTag::Unk5* info) {
+    if (!_b0)
+        return;
+
+    actor->set6e4(15.0f);
+
+    auto* body = info->_20;
+    if (body->getContactLayer() == phys::ContactLayer::EntityRagdoll)
+        return;
+
+    phys::MaterialMask mask;
+    switch (info->_d) {
+    case 2:
+        mask = phys::MaterialMask(u32(0xb));
+        break;
+    case 1:
+        mask = phys::MaterialMask(u32(0xc));
+        break;
+    default:
+        mask = phys::MaterialMask(u32(8));
+        break;
+    }
+
+    sead::Vector3f velocity = actor->getVelocity();
+    velocity.x *= info->_28.x;
+    velocity.y *= info->_28.y;
+    velocity.z *= info->_28.z;
+    const f32 speed = velocity.length();
+
+    const u64 size = Reaction::instance()->sub_7100EC2278(actor, nullptr);
+    if (_a8 && _a0) {
+        const u32 material = mask.getRawData() & 0x3f;
+        _a8->sub_7100EC8F78(speed, actor, &info->_10, size, material, 0);
+        _a0->sub_7101286868(speed, actor, &info->_10, &info->_28, size, material, 0);
+    }
 }
 
 }  // namespace ksys::act

@@ -11,6 +11,12 @@
 
 namespace uking::act {
 
+// 0x7100d2d424 (unnamed in the CSV): unregisters the damage callbacks and frees the callback table.
+void sub_7100D2D424(uking::act::DamageManagerBase* manager);
+// 0x7100e97d8c (unnamed in the CSV): frees the object returned by NPC::m119 (phantoms and the
+// physics helper arrays) and runs its deleting destructor.
+void sub_7100E97D8C(void* obj);
+
 bool NPC::isGoron(ksys::act::Actor* actor) {
     return actor && actor->getUMii() &&
            *actor->getUMii()->getBody().race == ksys::mii::UMii::Body::Race_Goron;
@@ -60,6 +66,30 @@ bool NPC::startPreparingForPreDelete_() {
 void NPC::onDeleteRequested_(DeleteReason reason) {
     Actor::onDeleteRequested_(reason);
     getWeapons()->sub_7100EFCC20(DeleteReason(0));
+}
+
+void NPC::preDelete2_(const PreDeleteArg& arg) {
+    NPCBase::preDelete2_(arg);
+    if (_cf8) {
+        _cf8->m6();
+        delete _cf8;
+        _cf8 = nullptr;
+    }
+    _c78.free();
+    sub_7100D2D424(&_da0);
+    // called through a pointer in the original (not devirtualised)
+    (&_da0)->preDelete1();
+    (&_da0)->preDelete2();
+    _f88.sub_710091BA3C();
+    if (_10b8) {
+        operator delete[](static_cast<u8*>(_10b8) - 8);
+        _10b8 = nullptr;
+        _10b0 = 0;
+    }
+    if (_10e0) {
+        sub_7100E97D8C(_10e0);
+        _10e0 = nullptr;
+    }
 }
 
 bool NPC::m148(s32 idx, Actor* weapon, bool a3, bool a4) {

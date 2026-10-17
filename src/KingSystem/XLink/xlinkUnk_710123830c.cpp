@@ -1,6 +1,14 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+
 namespace ksys::xlink {
+
+// The footstep reaction speed thresholds, directly before the bone-name array in .rodata
+// (0x7102516320). Defined in xlinkXLink.cpp with hidden visibility so the two uses load it.
+extern const f32 sUnk_7102516320[2] __attribute__((visibility("hidden")));
 
 namespace {
 const char* const sUnk_71025162F8[] = {"Toe_L", "Toe_R", "Wrist_L", "Wrist_R"};
@@ -78,5 +86,29 @@ void Unk_710123830c::sub_71012370A8() {
 }
 
 Unk_710123830c::~Unk_710123830c() = default;
+
+void Unk_710123830c::sub_7101237DD0() {
+    bool riding = false;
+    if (auto* link = mActor->m129())
+        riding = link->isRidingHorse();
+
+    if (!riding && mActor->getVelocity().length() > 0.001f) {
+        if (_cc > sUnk_7102516320[0]) {
+            _18 = (_18 & ~u16(3)) | 1;
+            return;
+        }
+        if (_c8 > sUnk_7102516320[1]) {
+            act::Reaction::instance()->sub_7100EC2980(mActor);
+            _18 = (_18 & ~u16(3)) | 2;
+            return;
+        }
+    }
+
+    const u16 flags = _18;
+    if ((flags & 1) == 0)
+        _18 = flags | 1;
+    else
+        _18 = flags & ~u16(2);
+}
 
 }  // namespace ksys::xlink

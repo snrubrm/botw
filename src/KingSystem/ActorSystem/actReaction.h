@@ -1,7 +1,10 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+
+#include "KingSystem/Physics/System/physUserTag.h"
 
 namespace ksys::xlink {
 class XLink;
@@ -27,6 +30,14 @@ struct Unk_7100ebf9e4 {
 
 // Partial declaration. Reaction::createInstance (0x7100ec0138) stores the
 // singleton at 0x71026064c0; its 0x180-byte allocation and members remain unrecovered.
+// Placeholder: the receiver at Reaction::_a0. 0x7101286868 emits the slanted water reaction
+// (ReactionWaterOut / ReactionWaterOut_Slant assets) for a footstep; called by 0x7100ec241c.
+class Unk_7101286868 {
+public:
+    void sub_7101286868(f32 speed, Actor* actor, const sead::Vector3f* pos,
+                        const sead::Vector3f* dir, u64 size, u64 material, u64 flag);
+};
+
 class Reaction {
 public:
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
@@ -43,6 +54,10 @@ public:
         void sub_7100EC6070(f32 value, ::DamageReactionRequest* request, bool flag);
         // 0x7100ec61f8: fills the receiver from `request` (position, link, xlink properties).
         void sub_7100EC61F8(::DamageReactionRequest* request);
+        // 0x7100ec8f78: emits the water reaction asset for a footstep on `actor` (sets xlink
+        // properties 4 / 6 / 0 / 9 or 10, 608 B, still U).
+        void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
+                            u64 material, u64 flag);
 
         u8 _0[0x110];
         /* 0x110 */ s32 _110;
@@ -62,7 +77,10 @@ public:
     // 0x7100ec2278 (placeholder name): size class 0-4 of the actor from the local AABB of its main body
     // (2 or 3 from the height alone without one). `is_long` (optional) is set when the body is longer than
     // 4.5 and much thinner in the other two directions.
-    s32 sub_7100EC2278(Actor* actor, bool* is_long);
+    u32 sub_7100EC2278(Actor* actor, bool* is_long);
+    // 0x7100ec241c: the footstep reaction of `actor` on contact `info`: stores 15.0 in the footstep
+    // timer, picks the material mask from the contact type and forwards the speed to the two receivers.
+    void sub_7100EC241C(Actor* actor, phys::UserTag::Unk5* info);
 
     // EC04D0 stores an Actor cast from the released handle; EC0D20 deletes the same actor.
     // EC04D0 releases the first handle and dynamically casts it to Actor here.
@@ -70,7 +88,8 @@ public:
     Actor* _28;
     Actor* _30;
     Actor* _38;
-    u8 _40[0xa8 - 0x40];
+    u8 _40[0xa0 - 0x40];
+    /* 0xa0 */ Unk_7101286868* _a0;
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
 };
