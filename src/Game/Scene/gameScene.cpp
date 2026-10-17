@@ -1,6 +1,10 @@
 #include "Game/Scene/gameScene.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/E3Mgr.h"
+#include "Game/gameSaveSystem.h"
+#include "Game/AOC/aocChampionBalladManager.h"
+#include "KingSystem/GameData/gdtSaveMgr.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "Game/gameTipsMgr.h"
 #include "Game/gameResidentActorMgr.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
@@ -796,6 +800,33 @@ void GameScene::setStageBinder(StageBinder* binder) {
 }
 
 // NON_MATCHING: the base pool cleanup inlines instead of remaining a separate call.
+bool GameScene::doGenStageStep6() {
+    _348 = &sUnk_71025CB0F0;
+    ksys::act::Awareness::instance()->setPaused(false);
+    ksys::evt::Manager::instance()->_1d12a = false;
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_1, false, 2);
+    Root4::instance()->sub_71008BCE5C(Root4::FlagIdx::_3, false, 2);
+    if (E3Mgr::instance()->isRidDemo() && _2a8->getType() == 3) {
+        ksys::SaveMgr::instance()->auto0();
+        SaveSystem::instance()->sub_7100915838();
+    }
+    if (auto* mgr = aoc::ChampionBalladManager::instance()) {
+        if (_2a8->getType() == 3) {
+            mgr->setBlightRematchCount(0, aoc::BlightType::Wind);
+            mgr->setBlightRematchCount(0, aoc::BlightType::Electric);
+            mgr->setBlightRematchCount(0, aoc::BlightType::Fire);
+            mgr->setBlightRematchCount(0, aoc::BlightType::Water);
+        }
+    }
+    if (_6e5)
+        ui::PauseMenuDataMgr::instance()->openItemCategoryIfNeeded();
+    _6e5 = false;
+    _6e6 = false;
+    if (!sUnk_710245a360 && !_8c9)
+        sub_71007B1C64();
+    return true;
+}
+
 Unk_710245a980::~Unk_710245a980() = default;
 
 }  // namespace uking

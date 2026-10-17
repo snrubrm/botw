@@ -303,9 +303,10 @@ private:
 public:
     // set by Context's destructor when a flow has the flags 0x40000 and 0x20000000000
     /* 0x1d129 */ bool _1d129;
+    /* 0x1d12a */ bool _1d12a;  // set by GameScene::initBeforeStageGen, cleared by doGenStageStep6
+    /* 0x1d12b */ bool _1d12b;
 
 private:
-    u8 pad_1d12a[0x1d12c - 0x1d12a];
     /* 0x1d12c */ bool _1d12c;
     u8 pad_1d12d[0x1d130 - 0x1d12d];
     /* 0x1d130 */ sead::CriticalSection _1d130;
