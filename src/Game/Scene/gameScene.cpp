@@ -27,6 +27,8 @@
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
+#include "Game/gameSceneSubsys7.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -526,14 +528,6 @@ bool isGameSceneInitialized() {
     return GameScene::sInstance3 != nullptr;
 }
 
-const sead::SafeString& GameScene::getCurrentMapType() {
-    return ksys::StageInfo::getCurrentMapType();
-}
-
-const sead::SafeString& GameScene::getCurrentMapName() {
-    return ksys::StageInfo::getCurrentMapName();
-}
-
 const sead::Vector3f& StageInfo::getPSavePosAngleForStageGen() {
     return sPSavePosAngleForStageGen;
 }
@@ -693,6 +687,25 @@ bool GameScene::initBeforeStageGen(s32 state) {
     ksys::act::ActorCreator::instance()->setEnableDistanceChecks(false);
     _121 = false;
     _4c0.setStatus("");
+    return true;
+}
+
+bool GameScene::loadTera() {
+    sead::SafeString map_type = "MainField";
+    if (getCurrentMapType() == "GameTestField")
+        map_type = "GameTestField";
+    else if (getCurrentMapType() == "AocField")
+        map_type = "AocField";
+
+    const s32 type = _2a8->getType();
+    GameSceneSubsys7::instance()->loadTscbMaybe(type, map_type);
+
+    InitialStagePosition initial;
+    setInitialPositionFromBinder(&initial, _2a8);
+
+    const sead::Vector3f camera_pos = initial.position + sead::Vector3f::ez;
+    if ((ksys::tera::Terrain::instance()->_a58 & 6) == 6)
+        ksys::tera::terrainSetCameraLookAtPos(&camera_pos);
     return true;
 }
 

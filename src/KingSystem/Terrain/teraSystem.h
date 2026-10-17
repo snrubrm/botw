@@ -238,6 +238,10 @@ public:
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
 
+// 0x7100f40780 (CSV name): points the terrain camera at `pos` (or at the patched position when the
+// terrain debug flag is set). Called by GameScene::loadTera.
+void terrainSetCameraLookAtPos(const sead::Vector3f* pos);
+
 // Terrain is the CSV name of the singleton at 0x7102620698 (a sead singleton: createInstance 0x710114961c
 // builds the disposer at 0x300). Its ctor 0x71011496a4 also constructs bases at 0x20 (ctor 0x710107e724) and
 class ImageResourceMgr;

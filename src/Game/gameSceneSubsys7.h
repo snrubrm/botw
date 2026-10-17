@@ -20,6 +20,9 @@ public:
     void init(sead::Heap* parent);
     // 0x71007d3d38
     void* getTeraSystem() const;
+    // 0x71007d3520 (declared only; CSV loadTscbMaybe): loads the TSCB of stage type `type` for `map_type`
+    // into the terrain system (GameScene::loadTera passes its binder's getType()).
+    void loadTscbMaybe(s32 type, const sead::SafeString& map_type);
 
 private:
     ksys::res::Handle _20;

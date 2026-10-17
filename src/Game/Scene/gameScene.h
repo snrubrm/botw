@@ -148,6 +148,10 @@ public:
     /// Get the current map name (e.g. RemainsWind, FinalTrial, ...)
     static const sead::SafeString& getCurrentMapName();
 
+    // 0x71007b2554 (CSV GameScene::loadTera): loads the terrain scene of the current map type and points the
+    // camera at the stage binder's initial position.
+    bool loadTera();
+
     // 0x71007b0d88 (CSV GameScene::commonRun, declared only): shared body of the Run states.
     void commonRun(bool a1, bool a2);
     void initGlobalParamE3TipsActorAndPlacement();
