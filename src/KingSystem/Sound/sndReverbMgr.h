@@ -19,6 +19,8 @@ namespace ksys::snd {
 // Own D1/D0 are 1059cfc/1059d00; whole manager 1059c00 dispatches slot 2
 // with a PrimitiveDrawer and two booleans. Manager 1059888 sets node offset 28.
 class Unk_7101059828 {
+    friend class Unk_7101059888;
+
 public:
     Unk_7101059828();
     // Inline in the original: SoundReverbAreaTagAction's own destructor only stores this subobject's vtable

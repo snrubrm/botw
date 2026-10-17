@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndReverbMgr.h"
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <cstring>
 #include <aal/aalDebugDrawUtil.h>
@@ -26,6 +27,35 @@ Unk_7101059888::Unk_7101059888() {
 Unk_7101059888::~Unk_7101059888() {
     auto lock = sead::makeScopedLock(_20);
     _8.clear();
+}
+
+void Unk_7101059888::sub_71010599AC() {
+    auto lock = sead::makeScopedLock(_20);
+
+    f32 v0 = -sead::Mathf::maxNumber();
+    f32 v1 = -sead::Mathf::maxNumber();
+    f32 v2 = -sead::Mathf::maxNumber();
+    f32 v3 = -sead::Mathf::maxNumber();
+    f32 v4 = -sead::Mathf::maxNumber();
+
+    for (auto& controller : _8) {
+        if (controller._24 > 0) {
+            --controller._24;
+            const bool useArea = (_74 & 0x20) != 0;
+            const f32 scale = controller._20;
+            v0 = sead::Mathf::max(scale * (useArea ? _78[0] : controller._8), v0);
+            v1 = sead::Mathf::max(scale * (useArea ? _78[1] : controller._c), v1);
+            v2 = sead::Mathf::max(scale * (useArea ? _78[2] : controller._10), v2);
+            v3 = sead::Mathf::max(scale * (useArea ? _78[3] : controller._14), v3);
+            v4 = sead::Mathf::max(scale * (useArea ? _78[4] : controller._18), v4);
+        }
+    }
+
+    _60[0] = sead::Mathf::max(0.0f, v0);
+    _60[1] = sead::Mathf::max(0.0f, v1);
+    _60[2] = sead::Mathf::max(0.0f, v2);
+    _60[3] = sead::Mathf::max(0.0f, v3);
+    _60[4] = sead::Mathf::max(0.0f, v4);
 }
 
 void Unk_7101059888::sub_710105999C(sead::Heap* heap) {
