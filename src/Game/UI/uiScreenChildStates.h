@@ -22,6 +22,7 @@ class CapturePane;
 }
 
 namespace uking::ui {
+class Unk_7102477fc0;
 
 // Temperature child: factory a1764c, full ctor 9c81cc and D1 9c8248.
 class Unk_710247e0c8 : public ScreenChildEx {
@@ -368,8 +369,13 @@ public:
     void sub_7100991B90();
     void sub_710099E49C();
 
+    // 0x71009952c4: builds the AlphaOut / Select map marker group.
+    void sub_71009952C4(sead::Heap* heap, const sead::SafeString& name, s32 count,
+                         const sead::SafeString& mass_name);
+
     // Members from the ctor 0x98fc08.
-    u8 _130[0x211]{};
+    /* 0x130 */ sead::PtrArray<Unk_7102477fc0> _130{};
+    u8 _140[0x341 - 0x140]{};
     /* 0x344 */ u32 _344[2]{};
     /* 0x34c */ bool _34c = false;
     /* 0x350 */ void* _350 = nullptr;

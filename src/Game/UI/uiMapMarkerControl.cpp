@@ -1,4 +1,6 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiScreenChildStates.h"
+#include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiMessageString.h"
@@ -1014,6 +1016,78 @@ Unk_71024793e0::~Unk_71024793e0() = default;
 Unk_7102479478::~Unk_7102479478() = default;
 
 Unk_7102479510::~Unk_7102479510() = default;
+
+// NON_MATCHING: DynamicCast failure paths merge differently; equivalent count tests use different immediates.
+// 0x71009952c4
+void Unk_7102478048::sub_71009952C4(sead::Heap* heap, const sead::SafeString& name,
+                                    s32 count, const sead::SafeString& mass_name) {
+    sead::FormatFixedSafeString<64> path("%s/%s%02d", "Pa_MapIcon_00", name.cstr(), 0);
+    auto* parts = eui::sub_7100945088(_128->sub_7100A48104(path, nullptr));
+    eui::MassDrawPane* mass = nullptr;
+    if (!mass_name.isEmpty()) {
+        sead::FormatFixedSafeString<64> mass_path("%s/%s", "Pa_MapIcon_00", mass_name.cstr());
+        mass = nn::font::DynamicCast<eui::MassDrawPane>(
+            static_cast<nn::ui2d::Pane*>(_128->sub_7100A48328(mass_path, nullptr)));
+    }
+    if (parts) {
+        if (count < 1) {
+            auto* pane = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout)->mPane;
+            if (auto* parent = pane->GetParent())
+                parent->RemoveChild(pane);
+            return;
+        }
+        if (mass) {
+            mass->SetVisible(true);
+            mass->sub_7100BDFA6C(heap, count);
+        }
+        while (count > 1) {
+            --count;
+            sead::FormatFixedSafeString<64> clone_name("%s%02d", name.cstr(), count);
+            UiSubsys1::instance()->sub_7100964BAC(heap);
+            auto* marker = new (heap) Unk_7102479050;
+            auto* layout = _128->sub_7100A47A5C(
+                heap, 1, static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout),
+                clone_name, parts, true, true);
+            if (marker && layout) {
+                marker->_28 = 0;
+                marker->m6(layout);
+                marker->_10 = mass;
+                marker->_18 = nullptr;
+                marker->_30 = layout->tryCreateAnimatorAuto("AlphaOut", true);
+                marker->_38 = layout->tryCreateAnimatorAuto("Select", true);
+                if (marker->_38)
+                    marker->_38->mFlags |= 0x10;
+                marker->_40 = nullptr;
+                _130.insert(0, marker);
+            }
+            UiSubsys1::instance()->sub_71009675D0(heap, marker);
+        }
+        auto* marker = new (heap) Unk_7102479050;
+        if (!marker)
+            return;
+        auto* layout = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout);
+        if (!layout)
+            return;
+        marker->_28 = 0;
+        marker->m6(layout);
+        marker->_10 = mass;
+        marker->_18 = nullptr;
+        marker->_30 = layout->tryCreateAnimatorAuto("AlphaOut", true);
+        marker->_38 = layout->tryCreateAnimatorAuto("Select", true);
+        if (marker->_38)
+            marker->_38->mFlags |= 0x10;
+        marker->_40 = nullptr;
+        _130.insert(0, marker);
+    } else if (count > 0 && mass) {
+        mass->SetVisible(true);
+        mass->sub_7100BDFA6C(heap, count);
+        do {
+            UiSubsys1::instance()->sub_7100964BAC(heap);
+            auto* marker = new (heap) Unk_7102479050;
+            UiSubsys1::instance()->sub_71009675D0(heap, marker);
+        } while (--count);
+    }
+}
 
 }  // namespace uking::ui
 

@@ -849,12 +849,12 @@ public:
     void sub_710098CB98(bool enabled);
     void sub_710098CF9C();
 
-    eui::LayoutEx* _8;
-    eui::MassDrawPane* _10;
-    UiSubsys1Entry* _18;
-    nn::ui2d::Pane* _20;
-    s32 _28;
-    bool _2c;
+    eui::LayoutEx* _8 = nullptr;
+    eui::MassDrawPane* _10 = nullptr;
+    UiSubsys1Entry* _18 = nullptr;
+    nn::ui2d::Pane* _20 = nullptr;
+    s32 _28 = 33;
+    bool _2c = false;
 };
 static_assert(sizeof(Unk_7102477fc0) == 0x30);
 
@@ -888,9 +888,9 @@ public:
     virtual void m15();
     virtual void m16();
 
-    eui::Animator* _30;
-    eui::Animator* _38;
-    eui::Animator* _40;
+    eui::Animator* _30 = nullptr;
+    eui::Animator* _38 = nullptr;
+    eui::Animator* _40 = nullptr;
 };
 static_assert(sizeof(Unk_71025d9170) == 0x48);
 
@@ -1192,6 +1192,9 @@ class UiSubsys1 {
 public:
     static UiSubsys1* instance() { return sInstance; }
 
+    // Marker factory hooks at 0x7100964bac / 0x71009675d0; bodies remain undecompiled.
+    void sub_7100964BAC(sead::Heap* heap);
+    void sub_71009675D0(sead::Heap* heap, Unk_7102477fc0* marker);
     bool sub_7100960DF8();
     // 0x7100960a1c: resets the map marker timer from the selected mode
     void sub_7100960A1C();
