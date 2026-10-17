@@ -1,6 +1,7 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacement18.h"
 #include <math/seadMathCalcCommon.h>
+#include <thread/seadMessageQueue.h>
 #include <thread/seadThreadUtil.h>
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -325,6 +326,31 @@ void PlacementMgr::loadModel(ActorData* data) {
     }
 
     data->mFlags.setBit(ActorData::Flag::_3);
+}
+
+void PlacementMgr::loadAllPreactors(const sead::Vector3f& pos, bool a2) {
+    sead::Vector3f clamped = pos;
+    clamped.x = sead::Mathf::clamp(clamped.x, -4999.0f, 4999.0f);
+    clamped.z = sead::Mathf::clamp(clamped.z, -3999.0f, 3999.0f);
+    mCameraPos = clamped;
+
+    mFlags.set(MgrFlag::_2000000);
+
+    const u32 cell = mPlacementTree->x_1(clamped, mPlacementTree->mBuffer.size() - 1);
+    const s32 cell_idx = s32(clamped.x) / 2 * 10000 + s32(clamped.z) / 2;
+    if (cell_idx != _220 || sead::Mathf::abs(_224 - clamped.y) > 2.0f) {
+        _220 = cell_idx;
+        _224 = clamped.y;
+    }
+    _7a8 = cell;
+
+    mPlacementActors->mStruct1->weirdSetup(&pos);
+
+    const u16 msg = a2 ? 3 : 4;
+    mRequestedMsg |= u16(1 << msg);
+    mThread->sendMessage(msg, sead::MessageQueue::BlockType::NonBlocking);
+
+    mFlags.set(MgrFlag::_200);
 }
 
 void PlacementMgr::requestDraw() {

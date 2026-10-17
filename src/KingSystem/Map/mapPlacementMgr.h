@@ -129,6 +129,9 @@ public:
     void printDebugInfo();
     // 0x71011ea08c: requests the actor's bfres model and stores its scale in the actor data.
     void loadModel(ActorData* data);
+    // 0x71011e9e04: clamps the camera position, finds the placement tree cell and tells the worker to load the
+    // pre-actors around it.
+    void loadAllPreactors(const sead::Vector3f& pos, bool a2);
     void incrementCounter();
     void x();
     void auto5();
@@ -314,7 +317,8 @@ public:
     Placement18* mPlacement18;
     u8 _210[8];
     uking::VillagerMgr* mVillagerMgr;
-    u8 TEMP2[8];
+    s32 _220;
+    f32 _224;
     s32 _228;
     u32 mNumStaticObjs;
     u32 mActorDataMapSize;
