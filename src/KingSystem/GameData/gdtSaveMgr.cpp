@@ -418,9 +418,9 @@ bool SaveMgr::x_1(s32 index, const sead::SafeString& path, bool a, bool byte_swa
     _140 = (_140 & 0x100) | (a ? 0x204 : 0x200);
     _105a = !a;
     if (byte_swap)
-        _1058 |= 2;
+        _1058.set(2);
     else
-        _1058 &= ~2;
+        _1058.reset(2);
     _10b0.copy(path);
     if (_38 != 0)
         return false;
@@ -994,7 +994,7 @@ bool SaveMgr::x_10() {
     _38 = 0;
     for (s32& value : _14c)
         value = -1;
-    _1058 &= ~2;
+    _1058.reset(2);
     return true;
 }
 

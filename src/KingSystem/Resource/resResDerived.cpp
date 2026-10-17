@@ -7,6 +7,10 @@ ResDerived::ResDerived() = default;
 
 ResDerived::~ResDerived() = default;
 
+sead::Resource* ResDerived::getResourceWithoutChecks_0() const {
+    return getResourceUnchecked();
+}
+
 BfRes* ResDerived::getModelRes() {
     return sead::DynamicCast<BfRes>(getResource());
 }

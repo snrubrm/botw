@@ -4,6 +4,7 @@
 #include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <mc/seadCoreInfo.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -125,6 +126,12 @@ public:
     };
     Unk1020* get1020() const { return _1020; }
 
+    // Read by saveTransferWaitForSaveSystemToComplete.
+    u32 get40() const { return _40; }
+    u32 get1050() const { return _1050; }
+    u32 get1054() const { return _1054; }
+    sead::BitFlag8 get1058() const { return _1058; }
+
 private:
     friend class uking::SaveSystem;
     friend class uking::StartupSaveCheckStage;
@@ -193,8 +200,10 @@ private:
     Unk1020* _1020;
     u8 _1028[0x103c - 0x1028];
     s32 _103c;
-    u8 _1040[0x1058 - 0x1040];
-    u8 _1058;
+    u8 _1040[0x1050 - 0x1040];
+    u32 _1050;
+    u32 _1054;
+    sead::BitFlag8 _1058;
     u8 _1059;
     bool _105a;
     bool _105b;

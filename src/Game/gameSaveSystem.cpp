@@ -1,5 +1,6 @@
 #include "Game/gameSaveSystem.h"
 #include <heap/seadFrameHeap.h>
+#include <time/seadTickSpan.h>
 #include "Game/AOC/aocHardModeManager.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameRoot38.h"
@@ -362,6 +363,36 @@ void SaveSystem::sub_7100912EA4(bool a) {
 }
 
 
+
+// NON_MATCHING: the original calls loadDone instead of inlining it and materialises the _1058
+// `1 << 3` mask through a stack slot (as in x_0 above); everything after the flag test matches.
+u32 saveTransferWaitForSaveSystemToComplete(u32* result) {
+    static const sead::TickSpan sSleepSpan = sead::TickSpan::makeFromMilliSeconds(10);
+
+    while (!SaveSystem::instance()->loadDone()) {
+        if (sead::ThreadMgr::instance()->isMainThread())
+            SaveSystem::instance()->calc();
+        sead::Thread::sleep(sSleepSpan);
+    }
+
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (save_mgr->get40() != 0 || (save_mgr->get1058() & 8) == 0) {
+        if (!result)
+            return 0;
+        *result = 0x18;
+    } else if (save_mgr->get1050() <= 0xa18b) {
+        if (!result)
+            return 0;
+        *result = 0x19;
+    } else if (save_mgr->get1054() >= 0x2711) {
+        if (!result)
+            return 0;
+        *result = 0x1a;
+    } else {
+        return 1;
+    }
+    return 0;
+}
 
 bool SaveSystem::saveAlbumPicture(void* data, const sead::SafeString& name, s32 size) {
     auto* save_mgr = ksys::SaveMgr::instance();

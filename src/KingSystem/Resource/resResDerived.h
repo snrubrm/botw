@@ -17,6 +17,8 @@ public:
 
     // 0x71011fc618 (CSV ResDerived::getModelRes): the loaded resource if it is a BfRes.
     BfRes* getModelRes();
+    // 0x71011fc6a8 (CSV Res::getResourceWithoutChecks_0): the loaded resource without the type check.
+    sead::Resource* getResourceWithoutChecks_0() const;
     // 0x71011fc6ac / 0x71011fc73c: the pointer at +0x50 of the BfRes (checked / without the type check).
     void* sub_71011FC6AC();
     void* sub_71011FC73C();
