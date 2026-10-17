@@ -205,12 +205,16 @@ public:
     }
 
     bool isDemo() const { return mIsDemo; }
+    bool isInFinalTrialBossBattleArea() const { return mInFinalTrialBossBattleArea; }
     StageType getStageType() const { return mStageType; }
     FieldType getFieldType() const { return mFieldType; }
     ScalingMode getScalingMode() const { return mScalingMode; }
     CalcType getCalcType() const { return mCalcType; }
 
     TimeMgr* getTimeMgr() const { return static_cast<TimeMgr*>(mMgrs[0]); }
+    // Inline-only in the original; name is a guess. Unk_710260f278::hm14 and
+    // Unk_71024fd318::m5 read slot 0 without a bounds check.
+    TimeMgr* getTimeMgrUnchecked() const { return static_cast<TimeMgr*>(mMgrs.unsafeAt(0)); }
     SkyMgr* getSkyMgr() const { return static_cast<SkyMgr*>(mMgrs[1]); }
     ShootingStarMgr* getShootingStarMgr() const { return static_cast<ShootingStarMgr*>(mMgrs[2]); }
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
