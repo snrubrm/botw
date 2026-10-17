@@ -103,6 +103,8 @@ target_sources(uking PRIVATE
   gameSceneSubsys13.cpp
   gameSceneSubsys15.cpp
   gameSceneSubsys15.h
+  gameStruct30.cpp
+  gameStruct30.h
   gameDungeonPackMgr.cpp
   gameDungeonPackMgr.h
   gameSceneSubsys7.cpp
