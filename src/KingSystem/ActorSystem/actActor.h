@@ -6,6 +6,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadAtomic.h>
 #include <xlink2/xlink2Handle.h>
@@ -1098,6 +1099,8 @@ public:
     // The link to the parent actor (_738; Stick::sub_710027D3AC reads it directly; the name is a guess).
     BaseProcLink& getParentLinkMaybe() { return _738; }
 
+    void setLifecycleCallbackMaybe(sead::IDelegate2<Actor*, s32>* callback) { _758 = callback; }
+
     // lane5 s5 (TurnToActor::m33 reads an actor matrix at its start; TurnToActorBase::enter_ tests it for null);
     // placeholder name, the type is not known.
     void* get7d0() const { return _7d0; }
@@ -1105,7 +1108,9 @@ public:
 protected:
     /* 0x738 */ BaseProcLink _738;
     /* 0x748 */ BaseProcLink mCreateArgBaseProcLink;
-    /* 0x758 */ void* _758 = nullptr;
+    // Invoked with this actor and event 0 on deletion (0x71011d78c8), or event 1 while
+    // checking placement deletion (0x71011d9c30). AutoPlacementMgr supplies a Delegate2.
+    /* 0x758 */ sead::IDelegate2<Actor*, s32>* _758 = nullptr;
     /* 0x760 */ xlink2::Handle _760;
     /* 0x770 */ xlink2::Handle _770;
     /* 0x780 */ xlink2::Handle mSwordBlurHandle;
