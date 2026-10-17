@@ -836,7 +836,7 @@ public:
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
     /* 0x1c88 */ Unk1 _1c88;  // x_5() (sub_710087CF54)
     /* 0x1c8c */ u32 _1c8c;  // an angle index (sub_710087CEEC)
-    /* 0x1c90 */ u32 _1c90;  // an angle index magnitude (sub_710087CEEC, sub_7100892098)
+    /* 0x1c90 */ util::Unk_7101EC6BAC _1c90;  // an angle index magnitude (sub_710087CEEC, sub_7100892098)
     /* 0x1c94 */ u32 _1c94;
     /* 0x1c98 */ u32 _1c98;  // angle index (sub_7100877CA4 offsets the anim movement by _1fe0 towards it)
     /* 0x1c9c */ u8 _1c9c[0x1ca4 - 0x1c9c];

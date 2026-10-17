@@ -949,7 +949,7 @@ void Player::sub_7100881154() {
     if (_cfc.isOnBit(0)) {
         _1c8c = sead::Mathf::atan2Idx(normal.x, normal.z);
         const u32 pitch = sead::Mathf::atan2Idx(normal.y, sead::Vector2f(normal.x, normal.z).length());
-        _1c90 = util::sUnk_7101EC6BA0 & ((util::sUnk_7101EC6BA0 & 0x40000000) - pitch);
+        _1c90.value = util::sUnk_7101EC6BA0 & ((util::sUnk_7101EC6BA0 & 0x40000000) - pitch);
         mASList->sub_710115F024(normal, 0);
     }
 }

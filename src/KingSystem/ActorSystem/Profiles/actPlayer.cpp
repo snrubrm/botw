@@ -98,6 +98,12 @@ bool playerIsGuardJust(ksys::act::Actor* actor) {
     return (info->_18 >> 1) & 1;
 }
 
+
+namespace {
+// 0x7101da236c / 0x7101da2b64: the speed scale of Player::sub_7100877E2C.
+const f32 sUnk_7101DA236C = 0.6f;
+const f32 sUnk_7101DA2B64 = 1.85f;
+}  // namespace
 namespace ksys::act {
 
 // Placeholder name: Urbosa's Fury strike. Counts down the remaining uses (_1ccc); when they run out, starts the
@@ -952,7 +958,7 @@ bool Player::sub_7100881D8C() {
 // NON_MATCHING: the original converts the limit after the first call and ends with a branch instead of cset.
 bool Player::sub_7100892098() {
     const u32 limit = u32(s64(uking::sUnk_7101e7c2f8 * (0x80000000u / 180.0f)));
-    return util::sub_71011EE4C0(_1c90) > limit && util::sub_71011EE4C0(_1c94) > limit;
+    return util::sub_71011EE4C0(_1c90.value) > limit && util::sub_71011EE4C0(_1c94) > limit;
 }
 
 // NON_MATCHING: the original loads the angle mask after both angle fields (scheduling only).
@@ -1175,6 +1181,20 @@ void Player::sub_7100877CA4() {
         return;
     const u32 angle = sead::Mathf::atan2Idx(move.x, move.z);
     _1c68.value = (x_5().value + angle) & util::sUnk_7101EC6BA0;
+}
+
+// 0x7100877e2c (placeholder name): the anim-driven speed scaled by the angle _1c90 (15 .. -15 degrees maps
+// to 1.0 .. 0.676), stored in _20bc.
+// NON_MATCHING: the original passes the address of _1c90 itself to util::sub_71011EE4B8; ours builds the by-value
+// parameter temporary on the stack (frame 0x30 instead of 0x20).
+void Player::sub_7100877E2C() {
+    const sead::Vector3f& velocity = getASList()->sub_710115D2D4();
+    const f32 speed = velocity.length();
+    f32 angle = static_cast<f32>(util::sub_71011EE4B8(_1c90)) * util::sUnk_7101EC6BA4;
+    angle = sead::Mathf::clamp(angle - 15.0f, 0.0f, 30.0f);
+    const f32 value = (angle / -30.0f * sUnk_7101DA236C + sUnk_7101DA2B64) / sUnk_7101DA2B64 * speed;
+    _20bc.value = value;
+    _20bc.prev_value = value;
 }
 
 void Player::sub_71008697E4() {
@@ -3128,7 +3148,7 @@ void Player::sub_710086989C(const Unk1& angle, u8* out) {
 Player::Unk1 Player::sub_710087CEEC(const Unk1& angle) {
     const Unk1 diff = util::angleDiff(_1c8c, angle);
     const f32 c = sead::Mathf::cosIdx(diff.value);
-    return Unk1(util::sUnk_7101EC6BA0 & s64(-(static_cast<f32>(_1c90) * c)));
+    return Unk1(util::sUnk_7101EC6BA0 & s64(-(static_cast<f32>(_1c90.value) * c)));
 }
 
 // Whether the current slot 1 animation is a rune item start (Magnesis or the common one) that has not ended.
