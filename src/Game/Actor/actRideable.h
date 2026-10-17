@@ -122,6 +122,10 @@ public:
     /* 0x38 */ f32 _38 = 0.0f;  // (read by res::AttCheckRideSpace::check as a height offset)
 };
 
+// Animal move types of the rideable animal AS names ("Ridden, Normal, Escape, Attack, EscapeEx, AttackEx";
+// the string table is built by the RideableBase S1 TU initializer 0x7100e7449c).
+SEAD_ENUM(AnimalMoveType, Ridden, Normal, Escape, Attack, EscapeEx, AttackEx)
+
 // Name from the CSV (RideableBase::*). vtable 0x71024eae60 (17 slots), size 0x180,
 // factory RideableBase::make. Returned by Actor vtable slot 132 (Enemy::_1168, HorseBase::_b10).
 // TODO: incomplete. Members are public: AI code reads them directly.

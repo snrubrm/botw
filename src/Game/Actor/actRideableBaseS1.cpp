@@ -2,6 +2,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "Game/Actor/actRideable.h"
+#include <prim/seadFormatPrint.h>
+#include "Game/Actor/actHorseStrings.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::act {
@@ -52,6 +54,27 @@ void RideableBase::S1::sub_7100E761A4(bool clear_gear, bool force) {
 
 
 // NON_MATCHING: bank-count checks are reordered and SafeString assignment is devirtualized.
+// 0x7100e74604 (CSV formatAnimalMoveString): the AS name of one animal move (`gear` 0 is the default
+// "Wait" name, move type 0 ignores the type name).
+// NON_MATCHING: same calls and order but the original keeps a separate StringPrintFormatter stack slot per branch
+// (0xd0 frame); ours reuses one (0x90). The original's sead::BufferedSafeStringBase::format is the inline
+// PrintFormatter version (see libwork), so the manual formatter is used here.
+void formatAnimalMoveString(sead::BufferedSafeString* out, int move_type, u32 gear) {
+    if (gear == 0) {
+        out->copy(sUnk_7102603110);
+    } else if (move_type == 0) {
+        sead::StringPrintFormatter formatter(out);
+        formatter << "Move_Gear%d";
+        formatter, gear;
+        formatter.flush();
+    } else {
+        sead::StringPrintFormatter formatter(out);
+        formatter << "Move_%s_Gear%d" << AnimalMoveType::text(move_type);
+        formatter, gear;
+        formatter.flush();
+    }
+}
+
 void RideableBase::S1::sub_7100E747E8(ksys::as::ASList* list) {
     _0 = list;
     if (list->mSlots.size() < 1 || list->mSlots[0]._20.size() < 3 ||

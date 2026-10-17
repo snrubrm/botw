@@ -43,8 +43,10 @@ f32 Unk_71024dce08::sub_7100D8010C() const {
         if (auto* manager = world::Manager::instance()) {
             if (auto* weather_mgr = manager->getWeatherMgr()) {
                 const auto weather = weather_mgr->getWeather();
+                const f32 value = _4c;
                 if (u32(weather) <= 8)
-                    return _4c * sub_7100D7A93C(_38, u32(weather));
+                    return value * sub_7100D7A93C(_38, u32(weather));
+                return value;
             }
         }
     }
