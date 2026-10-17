@@ -1,5 +1,8 @@
 #include "KingSystem/Sound/sndOcclusionMgr.h"
 #include <resource/seadResource.h>
+#include <aal/aalArbiter.h>
+#include <aal/aalSystemAccessor.h>
+#include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Sound/sndBarslistArchive.h"
@@ -47,9 +50,27 @@ OcclusionMgr::~OcclusionMgr() {
 
 }  // namespace ksys::snd
 
-// NON_MATCHING: placeholder destructor; the original (0x71010576a8) also destroys members or bases
-// this class does not declare yet.
-Unk_7102502978::~Unk_7102502978() = default;
+bool Unk_7102502978::readAssetInfo(aal::AssetInfo* info, const sead::SafeString& name, bool flag) {
+    if (!mAudioResource)
+        return false;
+    return mAudioResource->readAssetInfo(info, name);
+}
+
+// NON_MATCHING: IAssetInfoReadable still lacks its virtual destructor in the pinned library.
+Unk_7102502978::~Unk_7102502978() {
+    if (mAudioResource) {
+        if (auto* arbiter = aal::SystemAccessor::getArbiter()) {
+            const void* data;
+            u32 size;
+            mAudioResource->getDataAndSize(&data, &size);
+            arbiter->execOnDestroyWaveAsset(reinterpret_cast<u64>(data), size, true, true);
+        }
+        if (auto* manager = ksys::snd::SoundMgr::instance())
+            manager->_60->sub_7101059454(mAudioResource);
+        delete mAudioResource;
+        mAudioResource = nullptr;
+    }
+}
 
 void Unk_7102502978::sub_7101057588(const sead::SafeString& name) {
     mFileName.copy(name);

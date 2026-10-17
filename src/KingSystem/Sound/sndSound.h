@@ -57,6 +57,7 @@ class Thread;
 }
 
 namespace aal {
+class AudioResource;
 class Shape;
 class Emitter;
 class SpeakerBalanceUnifier;
@@ -1004,6 +1005,9 @@ struct Unk_SoundMgr60_828 {
 };
 
 struct Unk_SoundMgr60 {
+    // ResourceBars construction/destruction notifications (empty in the release build).
+    void sub_7101059450(aal::AudioResource* resource);
+    void sub_7101059454(aal::AudioResource* resource);
     // 0x7101058c44 (declared only; CSV SoundResourceMgrMaybe::loadBars): loads the bars file `name`
     // into `reader` (lane4 finding; the two bools are unknown). The list lane4 described (a buffer of 0x50-byte
     // entries at +8 and a flags byte at +0x18) is the asset info reader Unk_7102502950 (its res::Handle buffer),

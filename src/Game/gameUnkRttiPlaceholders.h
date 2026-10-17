@@ -879,20 +879,21 @@ public:
 // vtable 0x7102502978 (15 slots); placeholder generated from the vtable (genskel.py).
 // checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
 // line, so its parent chain is deeper than the one declared here.
-class Unk_7102502978 : public ksys::res::Resource {
+class Unk_7102502978 : public ksys::res::Resource, public aal::IAssetInfoReadable {
     SEAD_RTTI_OVERRIDE(Unk_7102502978, ksys::res::Resource)
 public:
     ~Unk_7102502978() override;
-    // 0x7101057588: copies `name` into the file name string at +0x48 and passes it to the
-    // aal::AudioResource at +0x40 (setFilename). Called by snd::Unk_710251b6f0::sub_71012CD614.
     void sub_7101057588(const sead::SafeString& name);
     s32 getLoadDataAlignment() const override { return 128; }
     bool needsParse() const override { return true; }
+    // Primary 0x7101057848 / secondary thunk 0x7101057860: delegate to the
+    // AudioResource two-argument reader; the interface flag is unused.
+    bool readAssetInfo(aal::AssetInfo* info, const sead::SafeString& name, bool flag) override;
 
-    u8 _38[8];
-    /* 0x40 */ aal::AudioResource* mAudioResource = nullptr;
-    /* 0x48 */ sead::FixedSafeString<48> mFileName;
+    aal::AudioResource* mAudioResource = nullptr;  // +0x40
+    sead::FixedSafeString<48> mFileName;          // +0x48
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102502978, 0x90);
 
 // vtable 0x7102504260 (19 slots); placeholder generated from the vtable (genskel.py).
 // checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
