@@ -87,6 +87,41 @@ void sub_71009C5E4C(Unk_710247d8f8* child, s32 mode) {
     }
 }
 
+// 0x71009c5720
+void Unk_710247d8f8::sub_71009C5720() {
+    ksys::ui::sub_7100EDC5F0();
+    for (s32 i = 0; i < 14; ++i) {
+        _388[i]->setFlag10(true);
+        _400->setFlag10(true);
+    }
+    if (_130)
+        _130->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    sub_71009C58D4();
+    if (auto* screen = sead::DynamicCast<ScreenAppMap>(
+            eui::ScreenMgr::instance()->getScreen(42)))
+        screen->invokeSoundLink2Event_("mc_openStampMenu");
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(44)))
+        home->sub_71009DD7A8();
+    _138 = true;
+}
+
+// 0x71009c5a54
+void Unk_710247d8f8::sub_71009C5A54() {
+    ksys::ui::sub_7100EDC5F0();
+    if (!_130)
+        return;
+    _130->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    for (s32 i = 0; i < 14; ++i) {
+        _388[i]->setFlag10(false);
+        _400->setFlag10(false);
+    }
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(44)))
+        home->sub_71009DE1C8();
+    _138 = false;
+}
+
 // 0x71009ed41c: the original calls this out of line from every map screen function, so it is in a
 // different translation unit from them.
 // NON_MATCHING: the original runs the ScreenChildEx cast twice (the second one through its cached

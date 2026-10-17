@@ -135,7 +135,7 @@ public:
         u8 _118[0x20];
     };
 
-    /* 0x130 */ void* _130 = nullptr;
+    /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ void* _138 = nullptr;
     /* 0x140 */ void* _140 = nullptr;
     /* 0x148 */ bool _148 = true;
@@ -208,13 +208,16 @@ public:
     // 0x71009c5720 / 0x71009c5a54 (placeholder names): enter the two animation modes (called by sub_71009C5E4C)
     void sub_71009C5720();
     void sub_71009C5A54();
+    // 0x71009c58d4 (CSV unnamed, declared only): layout the stamp buttons of the first mode
+    void sub_71009C58D4();
 
     // Members from the ctor 0x9c54e4 and D1 0x9c55b8.
-    /* 0x130 */ void* _130 = nullptr;
+    /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ bool _138 = false;
     /* 0x140 */ Unk_710247dc50 _140;
     /* 0x158 */ sead::SafeArray<Unk_710247d8d8, 14> _158;
-    /* 0x388 */ u8 _388[0x80]{};
+    /* 0x388 */ eui::ButtonBase* _388[15]{};
+    /* 0x400 */ eui::ButtonBase* _400{};
 };
 static_assert(sizeof(Unk_710247d8f8) == 0x408);
 
