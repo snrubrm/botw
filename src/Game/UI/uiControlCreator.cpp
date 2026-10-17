@@ -9,6 +9,15 @@ AnimButton* sub_7100A013E4(ControlBase* control);
 }
 
 namespace uking::ui {
+// 0x71025d5bc0
+KSYS_VISIBILITY_HIDDEN sead::Buffer<Unk_71025D5BC0Entry> sUnk_71025D5BC0;
+
+// 0x7100931d40 (the 0x91 upper bound is an immediate in the original)
+Unk_71025D5BC0Entry* sub_7100931D40(s32 index) {
+    index = u32(index) < 0x91 ? index : 0;
+    return &sUnk_71025D5BC0[index];
+}
+
 // 0x7100931d6c
 Unk_71024746d0::Unk_71024746d0(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 

@@ -655,6 +655,14 @@ struct ButtonPanePath {
     WidgetPathEntry entries[5];
 };
 
+// 0x71025d5bc0 (placeholder name): table of 0x58-byte records read by sub_7100931D40 (capacity 145).
+struct Unk_71025D5BC0Entry {
+    u8 _0[0x58];
+};
+KSYS_VISIBILITY_HIDDEN extern sead::Buffer<Unk_71025D5BC0Entry> sUnk_71025D5BC0;
+// 0x7100931d40 (placeholder name): record `index` of sUnk_71025D5BC0 (sead::Buffer clamping)
+Unk_71025D5BC0Entry* sub_7100931D40(s32 index);
+
 // ScreenEx's helper at+0x330. The constructor0x92fc8c and destructor0x92fcb4 prove
 // size0x38, heap+8, Screen*+0x10, config+0x18, item buffer+0x20 (a sead::Buffer of pointers) and boolean+0x30.
 class Unk_71024746b0 {
