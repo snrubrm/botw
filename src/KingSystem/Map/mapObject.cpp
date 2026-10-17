@@ -466,7 +466,7 @@ bool Object::x_18() const {
     return !id->sub_7100D30DF8(info, temp);
 }
 
-bool Object::setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap) {
+bool Object::setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap, bool) {
     if (mNumLinksPointingToMe == 0)
         return false;
 

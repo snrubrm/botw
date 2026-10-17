@@ -21,6 +21,7 @@ namespace ksys::map {
 
 class GenGroup;
 class Object;
+class PlacementActors;
 class Rail;
 
 enum class MapLinkDefType {
@@ -109,6 +110,9 @@ public:
     void sub_7100D4FB78(Object* obj);
     bool checkCreateLinkObjRevival() const;
     bool checkDeleteLinkObjRevival() const;
+    // 0x7100d4ead4 (CSV PlacementLinkData::setupLinks; placeholder name): links every object of the other
+    // links and the constraint links to `obj`.
+    bool setupLinks(const PlacementActors* pa, Object* obj, sead::Heap* heap, bool flag);
     // 0x7100d3e26c (CSV PlacementLinkData::getConstaintLinkDataSizesForActorHeap; placeholder name): the
     // actor heap sizes of the constraint links of the group.
     s32 getConstaintLinkDataSizesForActorHeap();

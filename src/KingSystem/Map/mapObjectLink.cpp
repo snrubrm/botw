@@ -715,4 +715,54 @@ s32 ObjectLinkData::getConstaintLinkDataSizesForActorHeap() {
     return size;
 }
 
+// NON_MATCHING: same logic and loops; the original tests the link count in the counter register (364 bytes), we
+// keep a separate copy for the entry test (372 bytes).
+// 0x7100d4ead4 (CSV PlacementLinkData::setupLinks; placeholder name): links every object of the other links
+// (and of the constraint links, when the object is not map passive) to `obj` through setupTargetLinks.
+bool ObjectLinkData::setupLinks(const PlacementActors* pa, Object* obj, sead::Heap* heap, bool flag) {
+    const bool is_link_tag = obj->getFlags().isOn(Object::Flag::IsLinkTag);
+
+    u64 num = u32(mLinksOther.links.size());
+    if (num != 0) {
+        auto* link = mLinksOther.links.getBufferPtr();
+        if (is_link_tag) {
+            do {
+                if (link->type <= MapLinkDefType::RackAndPinionCs && link->other_obj)
+                    link->other_obj->setupTargetLinks(obj, link, heap, flag);
+                ++link;
+            } while (--num != 0);
+        } else {
+            do {
+                if (link->type <= MapLinkDefType::RackAndPinionCs && link->other_obj &&
+                    (link->type > MapLinkDefType::OffWaitRevival ||
+                     link->other_obj->getFlags().isOn(Object::Flag::IsLinkTag)))
+                    link->other_obj->setupTargetLinks(obj, link, heap, flag);
+                ++link;
+            } while (--num != 0);
+        }
+    }
+
+    num = u32(mLinksCs.links.size());
+    if (num != 0) {
+        auto* link = mLinksCs.links.getBufferPtr();
+        if (is_link_tag) {
+            do {
+                if (link->type <= MapLinkDefType::RackAndPinionCs && link->other_obj)
+                    link->other_obj->isMapPassive(pa);
+                ++link;
+            } while (--num != 0);
+        } else {
+            do {
+                if (link->type <= MapLinkDefType::RackAndPinionCs && link->other_obj &&
+                    !link->other_obj->isMapPassive(pa) &&
+                    !link->other_obj->getFlags().isOn(Object::Flag::IsLinkTag))
+                    link->other_obj->setupTargetLinks(obj, link, heap, flag);
+                ++link;
+            } while (--num != 0);
+        }
+    }
+
+    return true;
+}
+
 }  // namespace ksys::map

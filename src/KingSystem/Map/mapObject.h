@@ -187,7 +187,7 @@ public:
 
     Rail** getRails() const;
     Rail** getRails_0() const;
-    bool setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap);
+    bool setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap, bool flag);
     bool allocLinkData(sead::Heap* heap);
     void incrementLinkNum();
     void decrementLinkNum();
