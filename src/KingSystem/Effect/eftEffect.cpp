@@ -1,4 +1,5 @@
 #include "KingSystem/Effect/eftEffect.h"
+#include "Game/Actor/actCamera.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -26,6 +27,27 @@ void Effect::initBeforeStageGenB() {
     _9fc8 = 0x1e;
     if (mUserInstance)
         mUserInstance->reset();
+}
+
+// NON_MATCHING: Camera basis calculations use different floating-point register allocation.
+void Effect::sub_71011B7930() {
+    if (!_192c8 || !_9fc0 || !_9fc0->m148())
+        return;
+    const auto* event = mFieldEnvEffect.mELink.getEvent();
+    if (!event || event->getCreateId() != mFieldEnvEffect.mELink.getCreateId()) {
+        xlinkSearchAndEmit(_9fc0->m148(), "FieldEnvEffect", 2, &mFieldEnvEffect);
+        return;
+    }
+    const auto& camera_mtx = _9fc0->m148()->getMtx();
+    sead::Vector3f forward(camera_mtx(0, 2), 0.0f, camera_mtx(2, 2));
+    forward.normalize();
+    const auto up = sead::Vector3f::ey;
+    sead::Matrix34f mtx;
+    mtx.setBase(0, up.cross(forward));
+    mtx.setBase(1, up);
+    mtx.setBase(2, forward);
+    mtx.setTranslation(_9fc0->m148()->getMtx().getTranslation());
+    mFieldEnvEffect.sub_7101241A44(mtx);
 }
 
 void Effect::searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle) {

@@ -149,7 +149,7 @@ void sub_7100F40428(void* camera) {
     if (auto* vibration = Vibration::instance())
         vibration->sub_71010BB85C(camera);
     if (auto* effect = eft::Effect::instance())
-        effect->_9fc0 = camera;
+        effect->_9fc0 = static_cast<uking::act::Unk_7102459cc0*>(camera);
 }
 
 }  // namespace ksys

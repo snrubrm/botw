@@ -7,11 +7,16 @@
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Effect/eftEffectModelMgr.h"
 #include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
 class Actor;
 class PlayerLink;
+}
+
+namespace uking::act {
+class Unk_7102459cc0;
 }
 
 namespace ksys::eft {
@@ -60,6 +65,7 @@ public:
     // 0x71011b63ac / 0x71011b7b0c (CSV calcMostProbably / calcMostProbably2; declaration only): called by
     // MCMgr::invoked3.
     void calcMostProbably();
+    void sub_71011B7930();
     void calcMostProbably2();
 
     // 0x71011b2a34 (placeholder name; `this` is not read): water height at `pos` (a water-layer ray cast or the
@@ -94,20 +100,24 @@ private:
 public:
     // The player link (set by ksys::setPlayerLink) and the camera actor (set by ksys::sub_7100F40428).
     /* 0x9fb8 */ act::PlayerLink* _9fb8;
-    /* 0x9fc0 */ void* _9fc0;
+    /* 0x9fc0 */ uking::act::Unk_7102459cc0* _9fc0;
 
 private:
     /* 0x9fc8 */ s32 _9fc8;
     u8 _9fcc[0x9fe0 - 0x9fcc];
     Unk_EffectActorTable _9fe0;
     EffectModelMgr mModelMgr;
-    u8 _a628_end[0x192f4 - 0xa628 - sizeof(EffectModelMgr)];
+    u8 _a628_end[0x192c8 - 0xa628 - sizeof(EffectModelMgr)];
+    bool _192c8;
+    u8 _192c9[0x192f4 - 0x192c9];
     u32 mFlags;
     u8 _192f8[0x19300 - 0x192f8];
     /* 0x19300 */ xlink2::UserInstance* mUserInstance = nullptr;
     u8 _19308[0x193e0 - 0x19308];
     s32 _193e0;
-    u8 _193e4[0x2a43c - 0x193e4];
+    u8 _193e4[0x19c38 - 0x193e4];
+    Unk_71012419b4 mFieldEnvEffect;
+    u8 _19c58[0x2a43c - 0x19c58];
     /// Demo resource ids (initialised to -1 by the constructor).
     /* 0x2a43c */ s32 mDemoResourceIds[32];
     u8 _2a4bc[4];
