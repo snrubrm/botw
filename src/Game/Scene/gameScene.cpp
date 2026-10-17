@@ -1,4 +1,5 @@
 #include "Game/Scene/gameScene.h"
+#include "Game/gameSceneSubsys14.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameTipsMgr.h"
 #include "Game/gameResidentActorMgr.h"
@@ -23,6 +24,7 @@
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -658,6 +660,23 @@ void GameScene::sub_71007B4C28() {
 bool GameScene::sub_71007B0D3C() const {
     // called through a pointer in the original (not devirtualised)
     return _1d0.getState()->getId() == (&sUnk_71025cb150)->getId();
+}
+
+void GameScene::doInitBeforeStageGen() {
+    const s32 type = _2a8->getType();
+    if (type != 3 && type != 4 && type != 5) {
+        InitialStagePosition initial;
+        setInitialPositionFromBinder(&initial, _2a8);
+        StageInfo::setPSavePosForStageGen(initial.position);
+        StageInfo::setPSavePosAngleForStageGen(initial.angle);
+    }
+    if (auto* mgr = PlayerResetPosMgr::instance())
+        mgr->clearResetPos();
+    if (auto* sys = ksys::act::ActorSystem::instance())
+        sys->set104(false);
+    GameSceneSubsys14::instance()->initCurrentLocation();
+    sead::Heap* actor_heap = ksys::act::ActorHeapUtil::instance()->getBaseProcHeap();
+    initBeforeStageGen(_2b8, type, _280, actor_heap);
 }
 
 bool GameScene::hasStageBinder() const {

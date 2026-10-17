@@ -180,6 +180,8 @@ public:
     void sub_71007B4C28();
     // 0x71007b0d3c (declared only): the current state of the state machine at 0x1d0 has the id of a global state.
     bool sub_71007B0D3C() const;
+    // 0x71007b1708: the position / manager setup before a stage gen (skipped for binder types 3..5).
+    void doInitBeforeStageGen();
     // 0x71007b8db4 (placeholder name): `sInstance3->_8c9 = true`.
     static void sub_71007B8DB4();
     // 0x71007bea6c (CSV name; the namespace is a guess)
@@ -223,7 +225,9 @@ private:
     /* 0x288 */ sead::Heap* _288;
     u8 _290[0x2a8 - 0x290];
     StageBinder* _2a8;
-    u8 _2b0[0x2c0 - 0x2b0];
+    u8 _2b0[0x2b8 - 0x2b0];
+    // The 8-byte context the stage-gen init passes as its (unused) first argument.
+    u8 _2b8[0x2c0 - 0x2b8];
     /* 0x2c0 */ ksys::res::Handle _2c0;  // the env archive
     u8 _310[0x320 - 0x310];
     /* 0x320 */ GameScene320 _320;
@@ -249,6 +253,16 @@ private:
 };
 
 // Free functions of the GameScene TU (CSV names; the namespace is a guess).
+// 0x71007b4e78 (declared only): writes the stage binder's initial position and angle for stage gen.
+struct InitialStagePosition {
+    sead::Vector3f position;
+    sead::Vector3f angle;
+};
+void setInitialPositionFromBinder(InitialStagePosition* out, StageBinder* binder);
+// 0x71007b80ac (declared only): the global half of the stage-gen init (actors, sound, UI, terrain, horse managers).
+// The first argument is not read by the original.
+void initBeforeStageGen(void* context, s32 state, sead::Heap* heap, void* a4);
+
 // 0x71007b8bec (declared only): creates the title stage binder.
 void createTitleStageBinder(bool a1, bool a2);
 bool sceneStartEventReady();
