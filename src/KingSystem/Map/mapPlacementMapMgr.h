@@ -10,6 +10,7 @@
 
 namespace ksys::res {
 class CompactionMgr;
+class Placement;
 }
 
 namespace ksys::act {
@@ -35,7 +36,7 @@ class PlacementMapMgr {
         sead::PtrArray<PlacementMap> mMaps;
         sead::PtrArray<PlacementMap> mPtrs;
         PlacementActors* mPa;
-        s64 _28;
+        res::Placement* mPlacementRes;
         res::Handle mRes;
         Placement18* mP18;
         s32 _88;

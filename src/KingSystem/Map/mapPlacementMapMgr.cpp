@@ -1,4 +1,7 @@
 #include "KingSystem/Map/mapPlacementMapMgr.h"
+#include <time/seadTickTime.h>
+#include "KingSystem/Map/mapPlacement18.h"
+#include "KingSystem/Resource/resPlacement.h"
 #include "KingSystem/Map/mapMapProperties.h"
 #include "KingSystem/ActorSystem/actFarActorMerge.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -81,6 +84,61 @@ void PlacementMapMgr::updateMapArrayPtrsForPosition(s32 col, s32 row) {
     mMapArray.mMaps.sort([](const PlacementMap* a, const PlacementMap* b) {
         return a->mDistanceToCurrentMapUnit - b->mDistanceToCurrentMapUnit;
     });
+}
+
+// NON_MATCHING: Buffer indexing and temporary strings use different stack allocation.
+void PlacementMapMgr::loadStaticMaps_() {
+    // The release build keeps the timing read after dropping its debug output.
+    sead::TickTime start;
+    sead::FixedSafeString<128> path;
+    sead::FixedSafeString<64> map_type;
+    mMapProps->getMapType(&map_type);
+    path.format("Placement/%s.bplacement", map_type.cstr());
+    for (s64 i = 0; i < mMaps.size(); ++i) {
+        auto& map = mMaps[i];
+        if (map.mStaticMapLoaded)
+            continue;
+        bool in_archive = false;
+        if (mMapArray.mPlacementRes) {
+            for (s64 j = 0; j < mMapArray.mPlacementRes->getNumEntries(); ++j) {
+                if (map.mMubinPath == sead::SafeString(mMapArray.mPlacementRes->getEntryName(j))) {
+                    in_archive = true;
+                    break;
+                }
+            }
+        }
+        if (!in_archive)
+            map.loadStaticMap_(false);
+    }
+}
+
+// NON_MATCHING: Buffer indexing and temporary strings use different stack allocation.
+void PlacementMapMgr::parseStaticMaps_(sead::Heap* heap) {
+    // The release build keeps the timing read after dropping its debug output.
+    sead::TickTime start;
+    for (s64 i = 0; i < mMaps.size(); ++i) {
+        auto& map = mMaps[i];
+        if (map.mStaticMapLoaded)
+            continue;
+        u8* data = nullptr;
+        if (mMapArray.mPlacementRes) {
+            for (s64 j = 0; j < mMapArray.mPlacementRes->getNumEntries(); ++j) {
+                if (map.mMubinPath == sead::SafeString(mMapArray.mPlacementRes->getEntryName(j))) {
+                    data = mMapArray.mPlacementRes->getEntryData(j);
+                    break;
+                }
+            }
+            if (!data) {
+                sead::FixedSafeString<128> path;
+                sead::FixedSafeString<64> map_type;
+                mMapProps->getMapType(&map_type);
+                path.format("Placement/%s.bplacement", map_type.cstr());
+            }
+        }
+        map.parseStaticMap_(heap, data);
+    }
+    if (mMapArray.mP18)
+        mMapArray.mP18->x(heap);
 }
 
 void PlacementMapMgr::initStaticMaps(sead::Heap* heap) {

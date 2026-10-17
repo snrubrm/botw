@@ -18,8 +18,8 @@ void Placement::registerFactory(sead::Heap* heap) {
 }
 
 void Placement::doCreate_(u8* buffer, u32 bufferSize, sead::Heap* heap) {
-    mUnknown1 = buffer;
-    mUnknown2 = buffer + 0x10;  // Unknown Constant / offset
+    mHeader = static_cast<Header*>(static_cast<void*>(buffer));
+    mEntries = static_cast<Entry*>(static_cast<void*>(buffer + sizeof(Header)));
 }
 
 }  // namespace ksys::res
