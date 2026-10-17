@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physNavMeshEdgeResult.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include <thread/seadAtomic.h>
 #include <thread/seadEvent.h>
 #include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h>
@@ -7,13 +8,7 @@
 
 namespace ksys::phys {
 
-// Placeholder: a sead::Event with a reference count (released by ~Unk_7100f7e9f0).
-class Unk_7100f7e9f0Event {
-public:
-    sead::Event mEvent;
-    sead::Atomic<s32> mRefCount;
-};
-static_assert(offsetof(Unk_7100f7e9f0Event, mRefCount) == 0x30);
+// Unk_7100f7e9f0Event is defined in physHavokAI.h (the HavokAI shared locks hold one).
 
 // NON_MATCHING: edge selection branches and address calculations differ.
 Unk_7100f7e64c::Unk_7100f7e64c(hkaiStreamingCollection* collection, s32 key,

@@ -35,6 +35,17 @@ class Handle;
 
 namespace ksys::phys {
 
+// The nav mesh face event: a sead::Event whose reference count (at +0x30) the HavokAI shared
+// locks use as their holder count, so a query result can keep the lock's event alive.
+// Defined here because HavokAI::SharedLock holds one by value.
+class Unk_7100f7e9f0Event {
+public:
+    sead::Event mEvent;
+    sead::Atomic<s32> mRefCount;
+};
+static_assert(offsetof(Unk_7100f7e9f0Event, mRefCount) == 0x30);
+
+
 enum class NavMeshSubMaterial;
 
 class HavokAI;
@@ -402,14 +413,29 @@ public:
     // 0x7100f87ed0 (CSV HavokAI::__auto3, declaration only): the HavokAI counterpart of
     // NavMeshCharacter::sub_7100F76078 (closest navmesh point to `to`, written to `out`).
     Unk_7100f7e9f0 sub_7100F87ED0(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
+    // 0x7100f87c40 / 0x7100f87d88 (unnamed, declared only): the bodies under _90 / _c8 of sub_7100F87ED0.
+    Unk_7100f7e9f0 sub_7100F87C40(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
+    Unk_7100f7e9f0 sub_7100F87D88(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
 
     // 0x7100f87a80 (declaration only): navmesh query between `from` and `to` (PriestBossMove::m35 passes the
     // point raised and lowered by 1), writing the hit point to `out`.
     Unk_7100f7e9f0 sub_7100F87A80(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to);
+    // 0x7100f87760 / 0x7100f878f0 (unnamed, declared only): the bodies under _90 / _c8 of sub_7100F87A80.
+    Unk_7100f7e9f0 sub_7100F87760(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to);
+    Unk_7100f7e9f0 sub_7100F878F0(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to);
 
     // 0x7100f88b1c (unnamed in the CSV; not decompiled): NavMeshCharacter::sub_7100F76078 forwards here.
     Unk_7100f7e9f0 sub_7100F88B1C(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
                                   f32 a3);
+    // 0x7100f8885c / 0x7100f889bc (unnamed, declared only): the bodies under _90 / _c8 of sub_7100F88B1C.
+    Unk_7100f7e9f0 sub_7100F8885C(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
+                                  f32 a3);
+    Unk_7100f7e9f0 sub_7100F889BC(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
+                                  f32 a3);
+    // 0x7100f88cf8 (unnamed, declared only, 728 B): the query body under _c8 for a character (the face
+    // event is the lock's event, which the result keeps).
+    Unk_7100f7e9f0 sub_7100F88CF8(sead::Vector3f* out, Unk_7100f7e9f0Event* event, hkaiWorld* world,
+                                  NavMeshCharacter* nav, const sead::Vector3f& to, f32 a3);
 
     // 0x7100f81ee0 (declaration only; placeholder name): under the lock, removes `obj` from the query pool and
     // its pending requests (unless `queued`), then unregisters it if flags 0x3c00 are set.
@@ -489,27 +515,29 @@ public:
     // inline-only in the original; name is a guess. A shared lock: up to 0x100 holders, the event is reset by the first
     // and signalled when the last one leaves. The same acquire / release sequence is inlined into 0x7100f857f4,
     // 0x7100f854c4 and 0x7100f8565c (for _90 and _c8).
+    // The shared lock: the face event itself. Its reference count at +0x30 is the number of
+    // holders, and the event is signalled when the last one leaves. The same object is handed to
+    // the query results (their dtor releases a reference).
     struct SharedLock {
         bool tryLock() {
             while (true) {
-                const u32 count = mCount.load();
+                const u32 count = mEvent.mRefCount.load();
                 if (count > 0xff)
                     return false;
-                if (!mCount.compareExchange(count, count + 1))
+                if (!mEvent.mRefCount.compareExchange(count, s32(count + 1)))
                     continue;
                 if (count == 0)
-                    mEvent.resetSignal();
+                    mEvent.mEvent.resetSignal();
                 return true;
             }
         }
 
         void unlock() {
-            if (mCount.decrement() == 1)
-                mEvent.setSignal();
+            if (mEvent.mRefCount.decrement() == 1)
+                mEvent.mEvent.setSignal();
         }
 
-        sead::Event mEvent;
-        sead::Atomic<u32> mCount;
+        Unk_7100f7e9f0Event mEvent;
     };
 
     // 0x7100f85c00 (696 B; declared only): the query sub_7100F86174 runs under _90 (sub_7100F85EB8 under _c8).

@@ -229,6 +229,101 @@ bool HavokAI::sub_7100F87464(NavMeshCharacter* nav, const sead::Vector3f* pos, f
     return hit;
 }
 
+// NON_MATCHING: one prologue copy is scheduled the other way round (the original moves `pos` before
+// `radius`); the body, both lock paths and the return value match.
+bool HavokAI::sub_7100F87594(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius,
+                             f32 search_radius, bool flag, NavMeshFaceCallback* callback) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    bool hit = false;
+    if (_90.tryLock()) {
+        hit = sub_7100F87334(nav, pos, radius, search_radius, flag, callback);
+        _90.unlock();
+    } else if (_c8.tryLock()) {
+        hit = sub_7100F87464(nav, pos, radius, search_radius, flag, callback);
+        _c8.unlock();
+    }
+    return hit;
+}
+
+Unk_7100f7e9f0 HavokAI::sub_7100F87A80(sead::Vector3f* out, const sead::Vector3f& from,
+                                       const sead::Vector3f& to) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    if (_90.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F87760(out, from, to);
+        _90.unlock();
+        return result;
+    }
+    if (_c8.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F878F0(out, from, to);
+        _c8.unlock();
+        return result;
+    }
+    return Unk_7100f7e9f0();
+}
+
+Unk_7100f7e9f0 HavokAI::sub_7100F87ED0(sead::Vector3f* out, const sead::Vector3f& to, f32 a3) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    if (_90.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F87C40(out, to, a3);
+        _90.unlock();
+        return result;
+    }
+    if (_c8.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F87D88(out, to, a3);
+        _c8.unlock();
+        return result;
+    }
+    return Unk_7100f7e9f0();
+}
+
+Unk_7100f7e9f0 HavokAI::sub_7100F88B1C(NavMeshCharacter* nav, sead::Vector3f* out,
+                                       const sead::Vector3f& to, f32 a3) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    if (_90.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F8885C(nav, out, to, a3);
+        _90.unlock();
+        return result;
+    }
+    if (_c8.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F889BC(nav, out, to, a3);
+        _c8.unlock();
+        return result;
+    }
+    return Unk_7100f7e9f0();
+}
+
+// NON_MATCHING: the original's callee call does not set x0 (its first argument slot is unused), so
+// ours has one extra "mov x0" before the call.
+Unk_7100f7e9f0 HavokAI::sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out,
+                                       const sead::Vector3f& to, f32 value) {
+    if (_c8.tryLock()) {
+        const Unk_7100f7e9f0 result = sub_7100F88CF8(out, &_c8.mEvent, _30, nav, to, value);
+        _c8.unlock();
+        return result;
+    }
+    return Unk_7100f7e9f0();
+}
+
 // NON_MATCHING: clang folds the shared 10.0f / flag branch into an fcsel and rematerialises the argument set-up
 // at the call; the original branches to one shared block that re-tests _2c.
 void Unk_7102372790::process(HavokAI* ai) {
