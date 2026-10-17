@@ -1,4 +1,5 @@
 #include "KingSystem/System/SeadController.h"
+#include <controller/seadControllerMgr.h>
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/System/ControllerSnapshot.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -6,6 +7,13 @@
 namespace ksys {
 
 static SeadController* sInstance;
+
+SeadController::SeadController(s64 id)
+    : sead::Controller(sead::ControllerMgr::instance()), mId(u32(id)), mTreeNode(this) {
+    _188 |= 0x13;
+    if (auto* controller = ::Controller::instance())
+        controller->sub_7100D9F7E4(this);
+}
 
 SeadController::~SeadController() {
     if (mTreeNode.parent())

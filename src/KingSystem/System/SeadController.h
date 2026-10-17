@@ -25,6 +25,9 @@ namespace ksys {
 class SeadController : public sead::Controller {
     SEAD_RTTI_OVERRIDE(SeadController, sead::Controller)
 public:
+    // 0x7100d9d628: `id` is stored at 0x19c (0 in three callers, 5 in one, 0xb from PlacementNavi; kind unknown).
+    // It arrives in a 64-bit register, so the parameter is declared 64-bit wide.
+    explicit SeadController(s64 id);
     ~SeadController() override;
 
     // Native slots 4 and 6 in table 0x71024dd518.
@@ -60,18 +63,24 @@ public:
 
 private:
     sead::ListNode mControllerNode;
-    u32 _188;
-    u8 _18c[4];
-    u32 _190;
-    u32 _194;
+    u32 _188 = 0;
+    u32 _18c = -1;
+    u32 _190 = -1;
+    u32 _194 = 0;
     // D9D628 zeros this word; D9D8E4 and D9DB20 accumulate the input mask here.
-    u32 _198;
-    u8 _19c[0x1a4 - 0x19c];
-    u32 _1a4;
+    u32 _198 = 0;
+    // The ctor argument (see above).
+    u32 mId;
+    u32 _1a0 = 0;
+    u32 _1a4 = 0;
     sead::TTreeNode<SeadController*> mTreeNode;
     Unk_71024dd588 _1d0;
     Unk_71024dd5a8 _1d8;
-    u8 _1e0[0x1f0 - 0x1e0];
+    u8 _1e0 = 0;
+    u8 _1e1[3];
+    u32 _1e4 = 0;
+    u32 _1e8 = 0;
+    u8 _1ec[4];
 };
 KSYS_CHECK_SIZE_NX150(SeadController, 0x1f0);
 
