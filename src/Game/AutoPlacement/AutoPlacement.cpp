@@ -364,7 +364,7 @@ void AutoPlacement::sub_710064F744(u8 a1, u8 a2) {
         return;
 
     auto& grp = mGroups[mGroupIdx];
-    if (!grp._80) {
+    if (!grp._80.load()) {
         grp._1a = a1;
         grp._1b = a2;
     }

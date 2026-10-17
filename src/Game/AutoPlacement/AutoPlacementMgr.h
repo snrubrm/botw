@@ -41,6 +41,18 @@ public:
 class AutoPlacementMgr {
     SEAD_SINGLETON_DISPOSER(AutoPlacementMgr)
 public:
+    struct SpawnRecord {
+        void onActorLifecycleEvent(ksys::act::Actor* actor, s32 event);
+        ksys::act::Actor* mActor = nullptr;
+        AutoPlacement* mPlacement = nullptr;
+        s32 mGeneration = 0;
+        u16 mGroupIndex = 0;
+        sead::Delegate2<SpawnRecord, ksys::act::Actor*, s32> mCallback{
+            this, &SpawnRecord::onActorLifecycleEvent};
+    };
+    KSYS_CHECK_SIZE_NX150(SpawnRecord, 0x38);
+
+    void actorCreateCallback(ksys::act::Actor* actor);
     AutoPlacementMgr();
     virtual ~AutoPlacementMgr();
 
@@ -123,7 +135,7 @@ public:
     // Flags word: bit 4 is tested by cmd2_c before it advances the near work, bit 0 is set by threadFn
     // after the physics jobs ran and bit 2 by cmd1 when it placed a group.
     u32 _54;
-    u8 _58[0x41f8 - 0x58];
+    sead::SafeArray<SpawnRecord, 300> mSpawnRecords;
     sead::SafeArray<AutoPlacement, 9> mWorks;
     AutoPlacement mNearWork;
     // Spawn counts per near-flow index, zeroed by cmd1 and the thread reset (0x5b048..0x5b058).
@@ -134,7 +146,10 @@ public:
     u8 _5b061[0x5b0d8 - 0x5b061];
     sead::CriticalSection mCS;
     sead::SafeArray<Unk1, 32> _5b118;
-    u8 _171e18[0x171e42 - 0x171e18];
+    u8 _171e18[0x171e30 - 0x171e18];
+    AutoPlacement* mPendingPlacement;
+    SpawnRecord* mPendingRecord;
+    u16 mPendingGroupIndex;
     // Near-grid column / row counts (cmd1); 0x171e44 enables the cmd2_c spawn step and 0x171e45 is
     // threadFn's reset request.
     u8 _171e42;

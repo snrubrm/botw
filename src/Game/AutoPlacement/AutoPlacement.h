@@ -5,6 +5,7 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadAtomic.h>
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -45,7 +46,8 @@ struct PlacementGroup {
     sead::SafeString b;
     u32 _78;
     f32 _7c;
-    u32 _80{};
+    // Actor lifecycle removal decrements this count atomically (0x710065a020).
+    sead::Atomic<s32> _80{0};
     u8 _84;
     u8 _85;
     u8 _86;

@@ -14,6 +14,55 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(AutoPlacementMgr)
 
+void AutoPlacementMgr::actorCreateCallback(ksys::act::Actor* actor) {
+    auto* placement = mPendingPlacement;
+    if (!placement)
+        return;
+    auto* record = mPendingRecord;
+    if (record) {
+        record->mGroupIndex = mPendingGroupIndex;
+        record->mActor = actor;
+        record->mPlacement = placement;
+        record->mGeneration = placement->_14;
+        actor->setLifecycleCallbackMaybe(&mPendingRecord->mCallback);
+    } else {
+        if (placement->mNearFlag != 0xff)
+            return;
+        actor->setFlag(ksys::act::Actor::ActorFlag::_2a);
+    }
+    actor->setFlag(ksys::act::Actor::ActorFlag::_29);
+}
+
+// NON_MATCHING: event branches, group bounds checks, and loop scheduling differ.
+void AutoPlacementMgr::SpawnRecord::onActorLifecycleEvent(ksys::act::Actor* actor, s32 event) {
+    if (event == 1) {
+        if (!mPlacement || mPlacement->mNearFlag == 0xff)
+            return;
+        if (mPlacement->_14 == mGeneration &&
+            !mPlacement->sub_7100650144(&mPlacement->mGroups[mGroupIndex], false))
+            return;
+        actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        return;
+    }
+    if (event != 0)
+        return;
+    if (mActor != actor) {
+        sead::FixedSafeString<1024> message;
+        if (mActor)
+            message.format("保持 %p:%s    ", mActor, mActor->getName().cstr());
+        else
+            message.format("保持 なし    ");
+    }
+    if (mPlacement && mPlacement->mNearFlag != 0xff && mPlacement->_14 == mGeneration) {
+        if (actor && actor->sub_71011D7790())
+            mPlacement->mGroups[mGroupIndex]._80.fetchSub(1);
+        else
+            ++mPlacement->mGroups[mGroupIndex]._24;
+    }
+    mActor = nullptr;
+    mPlacement = nullptr;
+}
+
 void AutoPlacementMgr::sub_7100659F94(ksys::act::Actor* actor) {
     auto lock = sead::makeScopedLock(mCS);
     for (auto& entry : _5b118) {

@@ -212,6 +212,8 @@ public:
         _21 = 0x21,
         _25 = 0x25,
         _29 = 0x29,
+        // AutoPlacementMgr::actorCreateCallback marks untracked placement actors.
+        _2a = 0x2a,
         _2b = 0x2b,
         _2c = 0x2c,
         _2d = 0x2d,
