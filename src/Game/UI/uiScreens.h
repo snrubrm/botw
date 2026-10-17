@@ -914,6 +914,8 @@ public:
     void sub_7100A30DF0(bool a2);
     // 0x7100a2effc (CSV unnamed, declared only): closes the info panel
     void sub_7100A2EFFC();
+    // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
+    void sub_7100A313A8(s32 page, bool a2);
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
     void sub_7100A31190(bool a2);
 
@@ -2618,10 +2620,14 @@ struct ScreenPauseMenuUnk3a00 {
 struct ScreenPauseMenuUnk3b98 {
     u8 _0[0x80];
     /* 0x80 */ ksys::StateMachine mStateMachine;
-    u8 _a8[0x1a0 - 0xa8];
+    u8 _a8[0x174 - 0xa8];
+    /* 0x174 */ s32 _174;
+    u8 _178[0x1a0 - 0x178];
     /* 0x1a0 */ s32 _1a0;
     // 0x71009b5fc8 (CSV unnamed; declared only)
     void sub_71009B5FC8(bool a1);
+    // 0x71009b6040 (CSV unnamed; declared only)
+    bool sub_71009B6040();
 };
 
 // Seven tab controls owned by ScreenPauseMenu (+0x3678); native ctor/dtor a341d0/a34434.
@@ -2719,7 +2725,7 @@ public:
     u8 _pad_3b8c[0x3b90 - 0x3b8c];
     /* 0x3b90 */ ScreenPauseMenuUnk3b90* _3b90;
     /* 0x3b98 */ ScreenPauseMenuUnk3b98* _3b98;
-    u8 _pad_3ba0[0x3ba4 - 0x3ba0];
+    /* 0x3ba0 */ s32 _3ba0;
     /* 0x3ba4 */ u8 _3ba4;
     u8 _pad_3ba5[3];
     /* 0x3ba8 */ bool _3ba8;
@@ -3921,6 +3927,9 @@ public:
 };
 
 class ScreenMessageTipsPauseMenu : public ScreenEx {
+public:
+    // 0x7100a25d9c (CSV unnamed, declared only)
+    void sub_7100A25D9C(s32 a1);
 public:
     ScreenMessageTipsPauseMenu();
     const char* getLayoutName_() const override;

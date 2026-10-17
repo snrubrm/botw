@@ -564,6 +564,50 @@ void ScreenPauseMenu::sub_7100A38028() {
     }
 }
 
+// 0x7100a3e35c
+void ScreenPauseMenu::m187() {
+    if (!_3b98)
+        return;
+    if (!_3b98->sub_71009B6040()) {
+        if (!_3ba8 || _3bac == 0x200) {
+            if ((~_361c & 0x4200) == 0) {
+                if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                        eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+                    if (info->_36a8)
+                        info->_36a8->PlayAuto(1.0f);
+                }
+                _3a34 = 0;
+                getStateMachine().changeState(&sUnk_71025f1050);
+                return;
+            }
+        }
+        if ((!_3ba8 || _3bac == 0x100) && (_361c_bytes[1] & 1)) {
+            _3a38.sub_7100937C74();
+            _3ba4 = 1;
+            if (auto* mgr = Unk_7102506d38::instance())
+                mgr->sub_710109E5D0(mUIController);
+            _3ba8 = false;
+        } else if (_3ba4) {
+            _3ba4 = false;
+        }
+    }
+
+    const s32 state = _3b98->_174;
+    if (state != _3ba0) {
+        _3ba0 = state;
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+            info->sub_7100A313A8(_3ba0, true);
+    }
+    if (_3c10 && _3c14.updateAndCheckEnded()) {
+        _3c10 = false;
+        createAndLoadScreenIfNeededImpl(0x33, nullptr);
+        if (auto* screen = sead::DynamicCast<ScreenMessageTipsPauseMenu>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTipsPauseMenu)))
+            screen->sub_7100A25D9C(0);
+    }
+}
+
 // 0x7100a3e144
 void ScreenPauseMenu::m183() {
     if (!_3b90)
