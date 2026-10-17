@@ -7,12 +7,17 @@
 #include "KingSystem/Effect/eftEffectModelMgr.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectEffect.h"
+#include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 
 namespace ksys::map {
+
+// The static SafeString the LinkTagNone comparisons use (0x71024db4b0 in the original, right before the
+// PlacementActors vtable; the original symbol name is stripped).
+static const sead::SafeString sLinkTagNone("LinkTagNone");
 
 s32 ActorData::sub_7100D4DF48() const {
     if (mFlags.isOnBit(Flag::_4) || mFlags.isOnBit(Flag::_7))
@@ -31,6 +36,73 @@ s32 ActorData::sub_7100D4DF48() const {
 
 // NON_MATCHING: the original keeps the link-count decrement in a 64-bit register (sub x21 / cbnz x21)
 // and schedules the pointer increment before it; ours uses the 32-bit counter and the other order.
+// NON_MATCHING: the three link loops keep their counter 64-bit in the original (sub x22); ours uses
+// the 32-bit counter. The traversal, the LinkTagNone bucket and the distance write match.
+void PlacementActors::addAllLinkedActorsToGenGroupRecursively(f32 max_dist, Object* obj,
+                                                             sead::PtrArray<Object>* group_objs,
+                                                             sead::PtrArray<Object>* link_tags) {
+    if (!obj)
+        return;
+
+    const bool link_tag_none =
+        obj->mFlags.isOn(Object::Flag::IsLinkTag) &&
+        sLinkTagNone == obj->getUnitConfigName();
+
+    if (obj->isMapPassive(this) ||
+        (obj->checkActorDataFlag(this, ActorData::Flag::MapConstPassive) &&
+         !obj->mActorFlags8.isOn(ActorFlag8::EnemyOrNpcOrActiveOrAreaOrAirWall) &&
+         (obj->mLinkData == nullptr ||
+          (obj->mLinkData->mLinksToSelf.links.size() == 0 &&
+           obj->mLinkData->mLinksOther.links.size() == 1 &&
+           obj->mLinkData->mLinksOther.links[0].type == MapLinkDefType::SyncLink)))) {
+        const f32 disp = obj->getDispDistance(this, false, false);
+        if (max_dist <= disp)
+            return;
+        if (!obj->checkActorDataFlag(this, ActorData::Flag::MapConstPassive))
+            return;
+        if (obj->checkActorDataFlag(this, ActorData::Flag::_47))
+            return;
+        obj->sub_7100D4AF3C(max_dist);
+        return;
+    }
+
+    if (group_objs->indexOf(obj) >= 0)
+        return;
+    if (link_tags->indexOf(obj) >= 0)
+        return;
+
+    auto* link_data = obj->mLinkData;
+    if (!link_data) {
+        if (obj->isNpcOrActiveOrMapPassiveOrFlag1())
+            return;
+        sead::FixedSafeString<128> path;
+        makeProjectMapMuuntPath(path, obj);
+        return;
+    }
+
+    if (link_tag_none)
+        link_tags->pushBack(obj);
+    else
+        group_objs->pushBack(obj);
+
+    const ObjectLink* link = link_data->mLinksOther.links.getBufferPtr();
+    for (s32 i = link_data->mLinksOther.links.size(); i != 0; --i, ++link) {
+        if (!ObjectLink::isPlacementLODOrForSaleLink(link->type))
+            addAllLinkedActorsToGenGroupRecursively(max_dist, link->other_obj, group_objs,
+                                                   link_tags);
+    }
+    link = link_data->mLinksCs.links.getBufferPtr();
+    for (s32 i = link_data->mLinksCs.links.size(); i != 0; --i, ++link) {
+        addAllLinkedActorsToGenGroupRecursively(max_dist, link->other_obj, group_objs, link_tags);
+    }
+    link = link_data->mLinksToSelf.links.getBufferPtr();
+    for (s32 i = link_data->mLinksToSelf.links.size(); i != 0; --i, ++link) {
+        if (!ObjectLink::isPlacementLODOrForSaleLink(link->type))
+            addAllLinkedActorsToGenGroupRecursively(max_dist, link->other_obj, group_objs,
+                                                   link_tags);
+    }
+}
+
 f32 PlacementActors::getMaxTraverseDistForGenGroupRecursively(Object* obj,
                                                              sead::PtrArray<Object>* visited) {
     f32 max_dist = 0.0f;

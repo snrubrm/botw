@@ -224,6 +224,11 @@ public:
     // 0x0000007100d50210: the largest display distance of `obj` and the objects reachable from its
     // links, skipping objects already in `visited` and the placement LOD / for-sale links.
     f32 getMaxTraverseDistForGenGroupRecursively(Object* obj, sead::PtrArray<Object>* visited);
+    // 0x7100d503dc: collects the objects reachable from `obj` into `group_objs` (or into `link_tags`
+    // for LinkTagNone objects), and sets the traverse distance of passive objects to `max_dist`.
+    void addAllLinkedActorsToGenGroupRecursively(f32 max_dist, Object* obj,
+                                                 sead::PtrArray<Object>* group_objs,
+                                                 sead::PtrArray<Object>* link_tags);
     // 0x0000007100d53d18
     void initActorDataEntry(ActorData* data, const char* name);
 
