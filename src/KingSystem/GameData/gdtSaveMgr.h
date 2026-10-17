@@ -165,9 +165,14 @@ private:
     u32 _3c;
     u32 _40;
     u8 _44[0x80 - 0x44];
-    // 0x80: the save mount string. The original calls cstr() through its vtable (0x7100915f64), so it is a buffered
-    // string; it ends at _f8 (0x78 bytes = 0x18 + 96).
-    sead::FixedSafeString<96> _80;
+    // 0x80: the album mount string (FixedSafeString<32>: the ctor stores the capacity 0x20 at +0x90). The original
+    // calls cstr() through its vtable (0x7100915f64).
+    sead::FixedSafeString<32> _80;
+    // 0xb8: device commit flags; sub_7100E05D30 tests bits 0-1.
+    u8 _b8 = 0;
+    u8 _b9[7];
+    // 0xc0: the device name string that sub_7100E05D30 looks up for its commit.
+    sead::FixedSafeString<32> _c0;
     bool _f8;
     u8 _f9[0x100 - 0xf9];
     sead::FileDevice* _100;
@@ -212,7 +217,10 @@ private:
     u8 _fa0[0xfa8 - 0xfa0];
     // 0xfa8: the second callback list, traversed like mCallbacks by the save thread command.
     sead::TList<Callback*> mCallbacks2;
-    u8 _fc0[0x1008 - 0xfc0];
+    u8 _fc0[0xfc8 - 0xfc0];
+    // 0xfc8: the third callback list, traversed by sub_7100E05D30.
+    sead::TList<Callback*> mCallbacks3;
+    u8 _fe0[0x1008 - 0xfe0];
     sead::TList<Callback*> mCallbacks;
     Unk1020* _1020;
     u8 _1028[0x103c - 0x1028];

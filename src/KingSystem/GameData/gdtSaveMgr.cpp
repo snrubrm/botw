@@ -1,6 +1,7 @@
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include <cstring>
 #include <filedevice/seadFileDeviceMgr.h>
+#include <filedevice/nin/seadNinSaveFileDeviceNin.h>
 #include <resource/seadResource.h>
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/GameData/gdtManager.h"
@@ -1135,6 +1136,40 @@ bool SaveMgr::sub_7100E0C688() {
 
 // NON_MATCHING: same size and logic; only the callback loop's block order / registers differ (the original
 // loads the next node before the delegate call, we load it after).
+// NON_MATCHING: same size and logic; the callback loop's rotation differs as in SaveMgrThreadCmd2/3.
+// 0x7100e05d30 (CSV unnamed; placeholder name): commits the save device once per request and then tells the
+// third callback list, resets the retry indices and clears the state bytes.
+void SaveMgr::sub_7100E05D30() {
+    if (!_f8) {
+        _f8 = true;
+    } else if (_3c == 0) {
+        if (auto* device_mgr = sead::FileDeviceMgr::instance()) {
+            if ((~_140 & 3) != 0 && (_b8 & 3) != 0) {
+                auto* device = static_cast<sead::NinSaveFileDevice*>(device_mgr->findDevice(_c0));
+                if (!device->tryCommit())
+                    _3c = 3;
+            }
+        }
+    }
+
+    gdt::Manager::ResetEvent event;
+    event.param = _f98;
+    auto it = mCallbacks3.begin();
+    if (it != mCallbacks3.end()) {
+        do {
+            auto* callback = *it;
+            if (callback->mDelegate)
+                (*callback->mDelegate)(&event);
+            ++it;
+        } while (it != mCallbacks3.end());
+    }
+
+    for (s32& value : _14c)
+        value = -1;
+    _e2c = false;
+    _38 = 0;
+}
+
 // NON_MATCHING: same logic; the 0x140 flag updates come out with a different operand order and one extra
 // u16 mask, and the 0x140 constant is kept in a callee-saved register (324 vs 304 bytes).
 // 0x7100e04df4 (CSV SaveMgrThreadCmd2; placeholder name): the save thread step that copies the save buffer
