@@ -2108,6 +2108,8 @@ public:
     void m83() override;
     void m90() override;
     void sub_7100A1F684(s32 index);
+    // 0x7100a21668 (CSV unnamed, declared only): builds the shortcut icon's text / icon from _3864
+    void sub_7100A21668();
     void m96() override;
     void m98() override;
     void m99() override;
@@ -2137,7 +2139,11 @@ public:
     /* 0x37a0 */ eui::Animator* _37a0;
     u8 _pad_37a8[0x3850 - 0x37a8];
     sead::Buffer<u8> _3850;  // element type not known
-    u8 _pad_3860[0x38c8 - 0x3860];
+    u8 _3860[4];
+    /* 0x3864 */ s32 _3864;
+    /* 0x3868 */ s32 _3868;
+    /* 0x386c */ s32 _386c[0x15];
+    u8 _pad_38c0[0x38c8 - 0x38c0];
     /* 0x38c8 */ s32 _38c8;
     /* 0x38cc */ u8 _38cc;
     u8 _pad_38cd[3];

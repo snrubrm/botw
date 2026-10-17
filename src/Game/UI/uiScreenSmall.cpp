@@ -258,6 +258,15 @@ void Unk_710247a6d8::sub_71009B10EC(s32 value) {
     _190.sub_71009B2010();
 }
 
+// 0x7100a21604
+void ScreenMainShortCut::sub_7100A21604(s32 index) {
+    if (u32(index) < 0x15 && _3720 != -1) {
+        _3864 = _386c[index];
+        sub_7100A21668();
+        invokeSoundLink2Event_("mc_ShortCut_Change");
+    }
+}
+
 // 0x71009c20f0
 void Unk_710247ca18::sub_71009C20F0(eui::TraceGaugeControl* gauge) {
     _170 = gauge;
