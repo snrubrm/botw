@@ -1,5 +1,9 @@
 #include "KingSystem/Sound/sndOcclusionMgr.h"
+#include <resource/seadResource.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Sound/sndBarslistArchive.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::snd {
 
@@ -55,3 +59,32 @@ void Unk_7102502978::sub_7101057588(const sead::SafeString& name) {
 // NON_MATCHING: placeholder destructor; the original (0x7101059518) also destroys members or bases
 // this class does not declare yet.
 Unk_7102502b50::~Unk_7102502b50() = default;
+
+namespace ksys::snd {
+
+BarslistArchive::BarslistArchive() = default;
+
+BarslistArchive::~BarslistArchive() {
+    if (mIter)
+        delete mIter;
+}
+
+// 4-byte tail call in the original.
+void BarslistArchive::loadRes(sead::Heap* heap) {
+    load(heap);
+}
+
+void BarslistArchive::load(sead::Heap* heap) {
+    res::LoadRequest req;
+    req.mRequester = "snd::BarslistArchive";
+    req._22 = true;
+    mHandle.load("Sound/ResourceList/BarslistInfo.byml", &req);
+
+    auto* resource = sead::DynamicCast<sead::DirectResource>(mHandle.getResource());
+
+    if (mIter)
+        delete mIter;
+    mIter = new (heap, 8) al::ByamlIter(resource->getRawData());
+}
+
+}  // namespace ksys::snd
