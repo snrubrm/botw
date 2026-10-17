@@ -564,6 +564,25 @@ void ScreenPauseMenu::sub_7100A38028() {
     }
 }
 
+// 0x7100a3d050
+void ScreenPauseMenu::m158() {
+    mButtonGroup->_38 &= ~2u;
+    createAndLoadScreenIfNeededImpl(0x3a, nullptr);
+    if (auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00)))
+        screen->m154(_3618, mDrawTarget, _3630);
+    if (mFirstGuideLayout && mSecondGuideLayout) {
+        if (u32(mFirstGuideLayout->_91 - 1) < 2)
+            mFirstGuideLayout->startAnimCloseImpl_(false, false);
+        if (u32(mSecondGuideLayout->_91 - 1) < 2)
+            mSecondGuideLayout->startAnimCloseImpl_(false, false);
+        if (mSelectedCategory != -1) {
+            const s32 idx = u32(mSelectedCategory) < 7 ? mSelectedCategory : 0;
+            mTabControls.mEntries[idx].mGuide.sub_7100936BD4(false, false);
+        }
+    }
+}
+
 // 0x7100a3e35c
 void ScreenPauseMenu::m187() {
     if (!_3b98)
