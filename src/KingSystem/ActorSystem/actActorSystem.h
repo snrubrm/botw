@@ -3,6 +3,7 @@
 #include <container/seadOffsetList.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/System/DebugMessage.h"
@@ -65,6 +66,8 @@ public:
     PlayerLink* getPlayerLink() const { return _c0; }
     // Read inline by Actor::sub_71011C75D4.
     bool get139() const { return _139; }
+    // 0x13b (bit flags; bit 0 is cleared by evt::Context): read by AutoPlacementMgr::cmd2_c.
+    sead::BitFlag8 get13b() const { return _13b; }
     // inline-only in the original; name is a guess (Swarm::m81, Guardian::m81).
     uking::Unk_710243c7c8* getStasisMessageSender() const { return _c8; }
     // Set by the StasisMgr ctor (0x710067f430) and cleared by its dtor.
@@ -118,7 +121,7 @@ private:
     bool _138 = false;
     bool _139 = true;
     bool _13a = true;
-    bool _13b = false;
+    sead::BitFlag8 _13b{};
     // 3 ActorMessageTransceiver::IHandler implementations (0x10 each)
     u8 _140[0x170 - 0x140];
     ActorMessageTransceiver _170;

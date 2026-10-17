@@ -5,6 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
+#include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
@@ -75,6 +76,14 @@ public:
     // 0x71006551f0: steps the raycasts of the near placement, the 32 registered actor placements and
     // the nine group placements.
     void preCalc();
+    // 0x7100656bc0: advances the near work and the active registered works one spawn step each,
+    // yielding between them; stops while the worker count is positive.
+    void cmd2_c();
+    // 0x7100658fec: advances one work's group placement by one step and spawns the group when it is done.
+    bool prepareSpawn(AutoPlacement* placement);
+    // 0x710065714c (declared only; placeholder parameter names): starts the actors of a placed group;
+    // returns true when it spawned any.
+    bool doSpawn(AutoPlacement* placement, s32 group_idx, s32 placement_type);
     // 0x71006566e8: when the entries changed, resets the unused ones and sets the spawn info of the
     // newly registered ones.
     void cmd2_a();
@@ -108,13 +117,27 @@ public:
     /* 0x30 */ sead::DelegateR<AutoPlacementMgr, bool> mDelegate;
     /* 0x50 */ sead::Atomic<s32> _50;
     // TODO
-    u8 _54[0x41f8 - 0x54];
-    AutoPlacement mWorks[9];
+    // Flags word: bit 4 is tested by cmd2_c before it advances the near work, bit 0 is set by threadFn
+    // after the physics jobs ran and bit 2 by cmd1 when it placed a group.
+    u32 _54;
+    u8 _58[0x41f8 - 0x58];
+    sead::SafeArray<AutoPlacement, 9> mWorks;
     AutoPlacement mNearWork;
-    u8 _5b048[0x5b0d8 - 0x5b048];
+    // Spawn counts per near-flow index, zeroed by cmd1 and the thread reset (0x5b048..0x5b058).
+    sead::Buffer<s16> _nearCounts;
+    // Read by cmd2_c only (writer unknown): a pointer and a byte that block the spawn step while set.
+    void* _5b058;
+    bool _5b060;
+    u8 _5b061[0x5b0d8 - 0x5b061];
     sead::CriticalSection mCS;
     sead::SafeArray<Unk1, 32> _5b118;
-    u8 _171e18[0x171e46 - 0x171e18];
+    u8 _171e18[0x171e42 - 0x171e18];
+    // Near-grid column / row counts (cmd1); 0x171e44 enables the cmd2_c spawn step and 0x171e45 is
+    // threadFn's reset request.
+    u8 _171e42;
+    u8 _171e43;
+    u8 _171e44;
+    u8 _171e45;
     bool _171e46;
     u8 _171e47;
     sead::Atomic<s32> _171e48;

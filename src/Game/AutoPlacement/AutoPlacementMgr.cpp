@@ -54,7 +54,7 @@ void AutoPlacementMgr::cmd2_a() {
         return;
 
     for (s32 i = 0; i < 0x20; ++i) {
-        if (_171e48 > 0)
+        if (auto9())
             return;
         Unk1& entry = _5b118[i];
         if (!entry.actor) {
@@ -66,6 +66,92 @@ void AutoPlacementMgr::cmd2_a() {
         }
     }
     _171e46 = false;
+}
+
+// NON_MATCHING: clang unrolls the nine-work loop here; the original keeps it rolled (madd /
+// cmp 9). The guards, the near-work step and the 32-work loop match.
+void AutoPlacementMgr::cmd2_c() {
+    if (_5b058 || _5b060)
+        return;
+    if (_171e47)
+        return;
+    if (!_171e44)
+        return;
+    if (ksys::act::ActorSystem::instance()->get13b().isOnBit(0))
+        return;
+
+    if (_54 & 0x10) {
+        if (prepareSpawn(&mNearWork))
+            return;
+    }
+
+    for (s32 i = 0; i < 0x20; ++i) {
+        if (auto9())
+            return;
+        Unk1& entry = _5b118[i];
+        if (entry._8b62 && prepareSpawn(&entry.placement))
+            return;
+        if (auto9())
+            return;
+        sead::Thread::yield();
+    }
+
+    AutoPlacement* const works = mWorks.mBuffer;
+    for (s32 i = 0; i < 9; ++i) {
+        if (auto9())
+            return;
+        if (prepareSpawn(&works[i]))
+            return;
+        if (auto9())
+            return;
+        sead::Thread::yield();
+    }
+}
+
+// NON_MATCHING: the original materialises `return true` in both branches after doSpawn (two orr/b
+// blocks); clang merges them here, and it places the negative-index block inline.
+bool AutoPlacementMgr::prepareSpawn(AutoPlacement* placement) {
+    const u8 near_flag = placement->mNearFlag;
+    if (!placement->sub_71006504FC())
+        return false;
+
+    const s32 group_idx = placement->sub_7100650908();
+    if (group_idx < 0) {
+        if (near_flag != 0xFF)
+            return false;
+        _nearCounts[group_idx] = 0;
+        return false;
+    }
+
+    AutoPlacementFlowRes* res;
+    if (near_flag == 0xFF)
+        res = AutoPlacementFlowMgr::instance()->getResource2(group_idx);
+    else
+        res = AutoPlacementFlowMgr::instance()->getResource1(group_idx);
+    const s32 placement_type = res->placement_type;
+
+    if (near_flag == 0xFF)
+        res = AutoPlacementFlowMgr::instance()->getResource2(group_idx);
+    else
+        res = AutoPlacementFlowMgr::instance()->getResource1(group_idx);
+
+    const s32 group = placement->placeGroup(res);
+    if (group < 0) {
+        placement->incrementGroup();
+        return false;
+    }
+
+    if (near_flag == 0xFF) {
+        s16& count = _nearCounts[group_idx];
+        if (count < placement->_6) {
+            count = u16(count) + 1;
+            return false;
+        }
+    }
+
+    if (!doSpawn(placement, group, placement_type))
+        placement->incrementGroup();
+    return true;
 }
 
 bool AutoPlacementMgr::invoked3(int arg) {

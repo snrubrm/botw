@@ -128,6 +128,9 @@ public:
     bool sub_710064CBFC(sead::Heap* heap, u8 flag, s32 num_spawn, s32 num_obj);
     u32 sub_710064CD80(u32, u32);
     void sub_710064CF60(bool force);
+    // 0x71006504fc (declared only; placeholder name): the pre-spawn check prepareSpawn runs (starts the
+    // raycast / resets the state); true when the placement may spawn.
+    bool sub_71006504FC();
 
     // 0x710064ed60 (placeholder name): whether a registered group is named `name` and its position is
     // within the group radius of `pos`. `dist` caches the squared radius between calls (-1 at the start).
@@ -148,6 +151,8 @@ public:
     void sub_7100650C28(ksys::phys::RigidBody* rb);
 
 private:
+    friend class AutoPlacementMgr;
+
     struct ObjectRef {
         ksys::map::Object* obj;
         void* _8;
@@ -157,7 +162,7 @@ private:
     s16 mGroupIdx = -1;
     u8 _4 = 0xFF;
     u8 _5 = 0xFF;
-    s16 _6 = 0;
+    u16 _6 = 0;
     u8 _8 = 0;
     u8 _9 = 2;
     sead::BitFlag<u8> mNearFlag{};

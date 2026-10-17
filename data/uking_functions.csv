@@ -39952,7 +39952,7 @@ Address,Quality,Size,Name
 0x0000007100656470,U,000632,AutoPlacementMgr::cmd3
 0x00000071006566e8,m,000300,_ZN5uking16AutoPlacementMgr6cmd2_aEv
 0x0000007100656814,U,000940,AutoPlacementMgr::cmd2_b
-0x0000007100656bc0,U,000356,AutoPlacementMgr::cmd2_c
+0x0000007100656bc0,m,000356,_ZN5uking16AutoPlacementMgr6cmd2_cEv
 0x0000007100656d24,O,000332,_ZN5uking16AutoPlacementMgr5auto2ERKN4sead14SafeStringBaseIcEERKNS1_7Vector3IfEE
 0x0000007100656e70,U,000732,autoplacement::spawnDragon
 0x000000710065714c,U,003040,AutoPlacementMgr::doSpawn
@@ -39960,7 +39960,7 @@ Address,Quality,Size,Name
 0x0000007100657ec4,U,001828,
 0x00000071006585e8,U,000716,
 0x00000071006588b4,U,001848,autoplacement::getRideHorseName
-0x0000007100658fec,U,000364,AutoPlacementMgr::prepareSpawn
+0x0000007100658fec,m,000364,_ZN5uking16AutoPlacementMgr12prepareSpawnEPNS_13AutoPlacementE
 0x0000007100659158,O,000048,_ZN5uking16AutoPlacementMgr14sub_7100659158Eib
 0x0000007100659188,O,000052,_ZN5uking16AutoPlacementMgr5auto0ERKN4sead7Vector3IfEEj
 0x00000071006591bc,m,000116,_ZN5uking16AutoPlacementMgr14sub_71006591BCEib
