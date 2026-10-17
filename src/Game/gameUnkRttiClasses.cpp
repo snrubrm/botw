@@ -1,4 +1,5 @@
 #include "Game/gameUnkRttiClasses.h"
+#include <cstring>
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include <nn/font/font_Util.h>
@@ -64,6 +65,27 @@ Unk_71024dcf80::~Unk_71024dcf80() {
 Unk_710250dcd8::Unk_710250dcd8() = default;
 
 Unk_710250dcd8::~Unk_710250dcd8() = default;
+
+void Unk_710250dcd8::m11(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr& addr,
+                         s32 mip_offset, bool flag) {
+    _8 |= 0x20000000;
+    sub_710110DB28(sampler, addr, mip_offset, flag);
+    _8 |= 8;
+}
+
+void Unk_710250dcd8::m13(void* unused, const void* src, u32 size) {
+    const agl::TextureData& texture = getTextureDataMaybe();
+    std::memcpy(texture.getImagePtr().getAddress(), src, size);
+    texture.getImagePtr().flushCPUCache(size);
+}
+
+u32 Unk_710250dcd8::m14(void* dst) {
+    const agl::TextureData& texture = getTextureDataMaybe();
+    const u32 size = texture.getImageByteSize();
+    if (dst)
+        std::memcpy(dst, texture.getImagePtr().getAddress(), size);
+    return size;
+}
 
 void Unk_710250dcd8::sub_710110DD20(bool on) {
     _8 = on ? _8 | 4 : _8 & ~4;

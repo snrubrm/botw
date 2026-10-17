@@ -211,6 +211,10 @@ public:
     // image at `addr`, with mipmaps at `mip_offset`) and sets flag 8.
     virtual void m11(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr& addr, s32 mip_offset,
                      bool flag);
+    // 0x710110db28 (declaration only; placeholder name; 448 bytes): builds the image's TextureData
+    // (initialize_ from the image's virtuals), copies `addr` into it and applies it to `sampler`.
+    void sub_710110DB28(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr& addr, s32 mip_offset,
+                        s32 flag);
     // 0x710110dd3c: clears bit 3 of the flags, destroys the sampler / texture pair at `_10` and nulls it.
     // Placeholder name.
     virtual void sub_710110DD3C();
