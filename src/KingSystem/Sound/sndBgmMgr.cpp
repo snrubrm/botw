@@ -22,6 +22,9 @@ sead::SafeString sMusicListPath = "Sound/Music/MusicList.bmscdef";
 
 // NON_MATCHING: the original skips the m4 call for an unknown type instead of testing the current _48.
 // NON_MATCHING: store order of the FixedObjList setup (the original stores the list head before _a0)
+// 0x7100ff8c04: an empty nullsub in the original (4-byte ret), next to the Unk_SoundMgr30 methods.
+void nullsub_4309(Unk_SoundMgr30*) {}
+
 Unk_SoundMgr30::Unk_SoundMgr30() = default;
 
 Unk_SoundMgr30::~Unk_SoundMgr30() {

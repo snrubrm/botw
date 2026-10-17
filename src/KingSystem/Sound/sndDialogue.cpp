@@ -136,6 +136,9 @@ void Unk_710104e5b4::sub_710104EE64() {
     updateHandles();
 }
 
+// 0x710104ee4c: an empty nullsub in the original (4-byte ret), next to the Unk_710104e5b4 methods.
+void nullsub_4416(Unk_710104e5b4*, bool) {}
+
 void Unk_710104e5b4::sub_710104EE50() {
     if (_30 != 2)
         sub_710104EE64();

@@ -58,6 +58,10 @@ class Unk_71024fd948;
 
 namespace ksys::snd {
 
+class Unk_SoundMgr30;
+// 0x7100ff8c04 (CSV nullsub_4309, 4 bytes): an empty hook called by Sound::postCalc.
+void nullsub_4309(Unk_SoundMgr30* sound);
+
 class DragonBgmInfo;
 class TemperatureBgmInfo;
 
