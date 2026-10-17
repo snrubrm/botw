@@ -96,6 +96,40 @@ s32 AlbumInfo::sub_710090C9B4(s32 value) {
     return -1;
 }
 
+// NON_MATCHING: the original keeps the `value >= 0 && value < 0x1b0` mark checks as a sign test plus
+// an unsigned compare; ours merges them, and its stack frame keeps x23 instead of x22.
+u32 AlbumInfo::getFreePictureIndexMaybe() {
+    if (!_0) {
+        if (ksys::gdt::Manager::instance() && SaveSystem::instance()) {
+            for (u32& bits : mUsedBits)
+                bits = 0;
+            for (s32 i = 0; i < 8; ++i) {
+                SaveSlot* slot = SaveSystem::instance()->sub_7100914DA0(i);
+                if (!slot->_300)
+                    continue;
+                for (s32 j = 0; j < 0x30; ++j)
+                    markUsed_(slot->mAlbumIndices[j]);
+            }
+            for (s32 i = 0; i < 0x30; ++i)
+                markUsed_(mIndices[i]);
+            _0 = true;
+        }
+    }
+
+    u32 index = 0xffffffff;
+    for (s32 i = 0; i < 14; ++i) {
+        const u32 bits = mUsedBits[i];
+        if (bits == 0xffffffff)
+            continue;
+        for (s32 b = 0; b < 32; ++b) {
+            if (!(bits & (1u << b)))
+                index = u32(i * 32 + b);
+        }
+        break;
+    }
+    return index < 0x1b0 ? index : 0xffffffff;
+}
+
 void AlbumInfo::sub_710090CD68(const SaveSlot* slot, bool a) {
     if (!a || slot->_300)
         std::memcpy(mIndices, slot->mAlbumIndices, sizeof(mIndices));

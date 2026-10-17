@@ -30,6 +30,9 @@ public:
     // 0x710090cd68 / 0x710090cd84: copy the data block from / to `slot` (when `a` is set only if the slot's flag is set).
     void sub_710090CD68(const SaveSlot* slot, bool a);
     void sub_710090CD84(SaveSlot* slot, bool a) const;
+    // 0x710090c6b0 (placeholder name): rebuilds the used-picture bits once, then returns the first free
+    // picture index (0xffffffff when the album is full).
+    u32 getFreePictureIndexMaybe();
 
 private:
     void markUsed_(s32 value) {
