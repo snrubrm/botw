@@ -2652,6 +2652,10 @@ public:
     void sub_7100A379BC(s32 tab);
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
+    // 0x7100a3a920 (CSV unnamed, declared only): moves the three tab controls by the page offset
+    void sub_7100A3A920(f32 offset);
+    // 0x7100a3772c (CSV unnamed, declared only): lays the tab controls out for the current page
+    void sub_7100A3772C();
     // 0x7100a3a7fc: moves the cursor to button tag (base tag of the page shown by `page` + offset); false if no
     // shown page matches or the tag is 0
     bool sub_7100A3A7FC(s32 page, s32 offset);
@@ -2665,9 +2669,14 @@ public:
     u8 _pad_3628[0x3640 - 0x3628];
     /* 0x3640 */ bool _3640;  // read by m180 to choose the info mode
     u8 _pad_3641[3];
-    /* 0x3644 */ s32 _3644;  // guide page step of the first mode (_3674 == 0)
-    /* 0x3648 */ s32 _3648;  // guide page step of the second mode
-    u8 _pad_364c[0x3664 - 0x364c];
+    /* 0x3644 */ s32 _3644;  // current page
+    /* 0x3648 */ s32 _3648;  // target page
+    /* 0x364c */ s32 _364c;  // pending page offset (-1: none)
+    /* 0x3650 */ f32 _3650;  // new page offset
+    /* 0x3654 */ f32 _3654;  // tab control position
+    u8 _pad_3658[0x3660 - 0x3658];
+    /* 0x3660 */ u16 _3660;
+    u8 _pad_3662[2];
     /* 0x3664 */ sead::BoundBox2f _3664;  // the box cursor must stay inside it while _3674 is set (adjstBoxCursor)
     /* 0x3674 */ s32 _3674;
     /* 0x3678 */ Unk_7100A341D0 mTabControls;

@@ -530,6 +530,38 @@ void ScreenPauseMenu::m175() {
     }
 }
 
+// 0x7100a38028
+// NON_MATCHING: the second getId() (on the static state 0x71025f0cf0) is devirtualised here; the original
+// calls it through the vtable like the state machine's current state.
+void ScreenPauseMenu::sub_7100A38028() {
+    if (_3648 == _3644) {
+        sub_7100A3A920(_3650);
+    } else {
+        if (_3a00[0])
+            _3a00[0]->sub_71009B01C4(_3654 - 490.0f);
+        if (_3a00[1])
+            _3a00[1]->sub_71009B01C4(_3654);
+        if (_3a00[2])
+            _3a00[2]->sub_71009B01C4(_3654 + 490.0f);
+        _3a18 = 1;
+        _3644 = _3648;
+        sub_7100A3772C();
+        sub_7100A3A7FC(_3644, _364c);
+    }
+    _364c = -1;
+    _3650 = 0.0f;
+    _3660 = 0;
+    if (_3674 != 0) {
+        const s32 state_id = getStateMachine().getState()->getId();
+        if (state_id == sUnk_71025f0cf0.getId()) {
+            const u32 idx = u32(_3a18) < 3 ? _3a18 : 0;
+            if (auto* unit = _3a00[idx])
+                unit->sub_71009B0224(true);
+        }
+        _3674 = 0;
+    }
+}
+
 // 0x7100a3e2d4
 void ScreenPauseMenu::m186() {
     if (_3674)
