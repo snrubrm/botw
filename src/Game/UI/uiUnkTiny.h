@@ -524,6 +524,11 @@ class Unk_710247d8d8 {
 public:
     Unk_710247d8d8();
     virtual ~Unk_710247d8d8();
+    // 0x71009c5338 / 0x71009c5350 / 0x71009c5368 (placeholder names): whether UiSubsys1 is in the two states for
+    // this record's _8, and _8 itself
+    bool sub_71009C5338() const;
+    bool sub_71009C5350() const;
+    s32 sub_71009C5368() const;
 
     /* 0x08 */ s32 _8 = -1;
     /* 0x10 */ void* _10 = nullptr;

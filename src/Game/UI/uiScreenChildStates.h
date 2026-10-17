@@ -216,8 +216,8 @@ public:
     /* 0x138 */ bool _138 = false;
     /* 0x140 */ Unk_710247dc50 _140;
     /* 0x158 */ sead::SafeArray<Unk_710247d8d8, 14> _158;
-    /* 0x388 */ eui::ButtonBase* _388[15]{};
-    /* 0x400 */ eui::ButtonBase* _400{};
+    /* 0x388 */ eui::AnimButton* _388[15]{};
+    /* 0x400 */ eui::AnimButton* _400{};
 };
 static_assert(sizeof(Unk_710247d8f8) == 0x408);
 

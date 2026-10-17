@@ -1,5 +1,6 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -1741,4 +1742,19 @@ void Unk_7102474be8::stopAnimator910(f32 frame) {
     _910->Stop(frame);
 }
 
+
+// 0x71009c5338
+bool Unk_710247d8d8::sub_71009C5338() const {
+    return UiSubsys1::instance()->sub_7100963538(_8);
+}
+
+// 0x71009c5350
+bool Unk_710247d8d8::sub_71009C5350() const {
+    return UiSubsys1::instance()->sub_7100963560(_8);
+}
+
+// 0x71009c5368
+s32 Unk_710247d8d8::sub_71009C5368() const {
+    return _8;
+}
 }  // namespace uking::ui

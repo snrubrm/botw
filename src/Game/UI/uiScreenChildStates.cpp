@@ -87,6 +87,28 @@ void sub_71009C5E4C(Unk_710247d8f8* child, s32 mode) {
     }
 }
 
+// 0x71009c58d4
+// NON_MATCHING: the original unswitches the loop on UiSubsys1::sub_7100964174 (two copies of the body);
+// ours keeps one loop with the flag in a register.
+void Unk_710247d8f8::sub_71009C58D4() {
+    const bool on = UiSubsys1::instance()->sub_7100964174();
+    for (s32 i = 0; i < 14; ++i) {
+        const auto& record = _158[i];
+        if (record.sub_71009C5338()) {
+            _388[i]->StopDisableAnim(!on);
+            _388[i]->mFlags &= 0xfff0;
+        } else if (record.sub_71009C5350()) {
+            if (sub_7100A9A4E8(record.sub_71009C5368() - 6)) {
+                _388[i]->StopDisableAnim(true);
+                _388[i]->mFlags &= 0xfff0;
+            } else {
+                _388[i]->StopDisableAnim(false);
+                _388[i]->mFlags |= 0xf;
+            }
+        }
+    }
+}
+
 // 0x71009c5720
 void Unk_710247d8f8::sub_71009C5720() {
     ksys::ui::sub_7100EDC5F0();

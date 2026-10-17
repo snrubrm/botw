@@ -468,6 +468,8 @@ void sub_7100AA9858(f32 value);
 // 0x7100a9ba28 / 0x7100a9e218 (defined in uiManagerFacade.cpp; placeholder names)
 void sub_7100A9BA28();
 void sub_7100A9E218();
+// 0x7100a9a4e8 (placeholder name; declared only): whether the stamp button index `value` is usable
+bool sub_7100A9A4E8(s32 value);
 // 0x7100aa0730 (defined in uiManagerFacade.cpp; placeholder name): true while the pause menu intro plays
 bool sub_7100AA0730();
 // 0x7100a9f950 (CSV ui::return0_2; defined in uiManagerFacade.cpp): Manager::sub_7100A7FDAC
