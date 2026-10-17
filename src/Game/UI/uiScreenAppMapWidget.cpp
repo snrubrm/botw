@@ -114,7 +114,7 @@ f32 ScreenAppMapWidget::sub_71009AF034() const {
 void ScreenAppMapWidget::sub_71009AEF88() {
     _b4ec = 0;
     _b4f0 = 0;
-    if (_b388 + _b499 >= 1) {
+    if (_b499 + _b388 >= 1) {
         const u32 packed = *_b370;
         s32 x = (packed >> 13) & 0x1fff;
         if (packed & 0x4000000)
@@ -128,6 +128,47 @@ void ScreenAppMapWidget::sub_71009AEF88() {
 }
 
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025D9610 = false;
+
+// NON_MATCHING: same work; the original passes a copy of the target vector to sub_7100966350 (ours passes the local
+// itself) and adds _b388 + _b499 in the other operand order.
+// 0x71009adef0
+void ScreenAppMapWidget::sub_71009ADEF0() {
+    f32 x = 0.0f;
+    f32 y = 0.0f;
+    if (_b499 + _b388 >= 1) {
+        const u32 packed = *_b370;
+        s32 px = (packed >> 13) & 0x1fff;
+        if (packed & 0x4000000)
+            px = -px;
+        s32 py = packed & 0xfff;
+        if (packed & 0x1000)
+            py = -py;
+        x = f32(px);
+        y = f32(py);
+    }
+
+    const sead::Vector3f position(x, 0.0f, y);
+    _b350 = 2;
+    sead::Vector2f target{0.0f, 0.0f};
+    _8e0->sub_7100950464(position, &target);
+
+    const sead::Vector2f* center = mSubsys->getVec3868();
+    mSubsys->sub_7100966350(target);
+    const f32 dx = center->x - target.x;
+    const f32 dy = center->y - target.y;
+    const f32 distance = sead::Mathf::sqrt(dx * dx + dy * dy);
+
+    _b51c = 0.15f;
+    _b520 = distance;
+    _b524 = 5.0f;
+    _b338 = true;
+    if (_b4fc > 0) {
+        --_b4fc;
+    } else {
+        _b4fc = 0x20;
+        setMode(2);
+    }
+}
 
 // 0x71009ae04c
 void ScreenAppMapWidget::setMode(s32 mode) {

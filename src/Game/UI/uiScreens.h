@@ -83,6 +83,7 @@ namespace uking::ui {
 
 class TagProcessor;
 class ScreenEx;
+class UiSubsys1;
 class Unk_710247bcb8;
 class Unk_710247c368;
 
@@ -2315,6 +2316,10 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
     // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
     void setMode(s32 mode);
+    // 0x71009adef0 (placeholder name): centers the map on the packed cursor position (sub_7100950464), stores the
+    // distance to the clamped cursor at 0xb520 and, once the 0xb4fc frame counter expires, resets it to 0x20 and
+    // calls setMode(2).
+    void sub_71009ADEF0();
 
     // 0x71009a8be8 (slot 14): sets the second half of the map tiles' textures to state 1, resets the map timer
     void m14() override;
@@ -2322,10 +2327,14 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void m21() override;
     void m31() override;
 
-    u8 _130[0x8e8 - 0x130];
+    u8 _130[0x8d8 - 0x130];
+    // the UI subsystem and the map position controller (sub_71009ADEF0)
+    /* 0x8d8 */ UiSubsys1* mSubsys = nullptr;
+    /* 0x8e0 */ Unk_71024753a8* _8e0 = nullptr;
     /* 0x8e8 */ bool _8e8;
     /* 0x8f0 */ Unk_7102479c10 mNormalMap;
-    u8 _b338[0xb33a - 0xb338];
+    /* 0xb338 */ bool _b338 = false;
+    u8 _b339;
     /* 0xb33a */ u8 _b33a;
     u8 _b33b;
     /* 0xb33c */ u8 _b33c;  // button callback sets it; constructor and update clear it
@@ -2359,7 +2368,11 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     u8 _b4fd;
     /* 0xb4fe */ s8 _b4fe;
     /* 0xb4ff */ u8 _b4ff;
-    u8 _b500[0xb538 - 0xb500];
+    u8 _b500[0xb51c - 0xb500];
+    /* 0xb51c */ f32 _b51c;
+    /* 0xb520 */ f32 _b520;
+    /* 0xb524 */ f32 _b524;
+    u8 _b528[0xb538 - 0xb528];
 };
 static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
 static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
