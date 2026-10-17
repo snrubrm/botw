@@ -129,8 +129,11 @@ public:
     void sub_7100A7F8D4();
     void sub_7100A7FBA4();
     bool sub_7100A7FDAC();
-    void sub_7100A7B8CC(s32 a1);
-    void sub_7100A7B92C(s32 a1);
+    // 0x7100a7b8cc / 0x7100a7b92c (placeholder names): whether the screen id is in one of the screen load /
+    // unload lists of the manager's static 0x71025f5f90 object (0x1b0 / 0x170); the second also returns true above
+    // ScreenId::PlainScreen (77).
+    bool sub_7100A7B8CC(s32 id);
+    bool sub_7100A7B92C(s32 id);
     // 0x7100a7041c (CSV uiManager::loadStaticInfo, 5.8 KB; declaration only)
     void loadStaticInfo(sead::Heap* heap);
 

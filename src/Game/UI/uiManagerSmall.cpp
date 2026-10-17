@@ -1,3 +1,4 @@
+#include <container/seadBuffer.h>
 #include "Game/UI/euiCapturePane.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -26,6 +27,50 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
+
+// The manager's static screen load / unload lists (native 0x71025f5f90; each list is a sead::Buffer of 12-byte
+// entries whose first word is the ScreenId). The manager destructor unloads these lists.
+namespace {
+struct ScreenLoadEntry {
+    s32 id;
+    s32 _4;
+    s32 _8;
+};
+struct ScreenLoadLists {
+    u8 _0[0x170];
+    sead::Buffer<ScreenLoadEntry> mListA;  // 0x170
+    sead::Buffer<ScreenLoadEntry> mListB;  // 0x180
+    sead::Buffer<ScreenLoadEntry> mListC;  // 0x190
+    sead::Buffer<ScreenLoadEntry> mListD;  // 0x1a0
+    sead::Buffer<ScreenLoadEntry> mListE;  // 0x1b0
+    sead::Buffer<s32> mListF;              // 0x1c0
+};
+ScreenLoadLists sUnk_71025F5F90;
+}  // namespace
+
+// 0x7100a7b8cc
+bool Manager::sub_7100A7B8CC(s32 id) {
+    const s32 count = sUnk_71025F5F90.mListE.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F5F90.mListE[i].id == id)
+            return true;
+    }
+    return false;
+}
+
+// 0x7100a7b92c
+bool Manager::sub_7100A7B92C(s32 id) {
+    const s32 count = sUnk_71025F5F90.mListA.size();
+    if (count < 1)
+        return false;
+    if (id > 0x4d)
+        return true;
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F5F90.mListA[i].id == id)
+            return true;
+    }
+    return false;
+}
 
 // 0x7100a7da38
 void Manager::sub_7100A7DA38() {
