@@ -34,7 +34,7 @@ void GameSceneSubsys15::m3() {
 
 // 0x7100894b80
 // NON_MATCHING: the original tail-calls the counter getter in the first branch (ours converts it to bool).
-bool GameSceneSubsys15::m4() {
+s32 GameSceneSubsys15::m4() {
     if (ksys::snd::sub_7100FFDBD4())
         return ksys::gdt::getFlag_Counter_TerminalFinalTrial();
     auto* controller = ksys::snd::sub_7100FFD878();

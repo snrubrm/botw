@@ -1295,7 +1295,7 @@ public:
     virtual ~Unk_710246be38() = default;
     virtual void m2() = 0;
     virtual void m3() = 0;
-    virtual bool m4() = 0;
+    virtual s32 m4() = 0;
     virtual bool m5() = 0;
     virtual bool m6() = 0;
     virtual bool m7() = 0;

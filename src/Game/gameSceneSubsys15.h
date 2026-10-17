@@ -16,7 +16,7 @@ public:
     void m2() override;
     void m3() override;
     // Terminal / Ganon state queries, selected by the battle dungeon BGM controller's dungeon index.
-    bool m4() override;
+    s32 m4() override;
     bool m5() override;
     bool m6() override;
     // 0x7100894d2c: inside the Eventide Island challenge.
