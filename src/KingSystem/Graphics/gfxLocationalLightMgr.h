@@ -9,6 +9,7 @@
 
 namespace gsys { class ModelUnit; }
 namespace ksys::map { class Object; }
+class Unk_7102519378;
 
 namespace ksys::gfx {
 
@@ -40,6 +41,12 @@ public:
     void sub_7100F134E8(map::Object* first, map::Object* last);
     // 0x7100f0ec30: removes the object's lights from the render layers, then releases its binding.
     void sub_7100F0EC30(map::Object* object);
+    // 0x7100f13a58: returns a typed light record to its pool after checking its RTTI.
+    bool sub_7100F13A58(Unk_7102519378* record);
+    // Record updates 0x7101296bc4 / 0x7101298558 pass their manager at +0x50.
+    // These read the manager's shared light thresholds, rather than record fields.
+    f32 sub_7100F143E4() const;
+    f32 sub_7100F143FC() const;
 
 private:
     sead::CriticalSection mCS;
