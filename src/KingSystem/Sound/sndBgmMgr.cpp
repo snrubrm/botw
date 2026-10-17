@@ -338,6 +338,36 @@ void Unk_710260f0c0::sub_7100FF92BC(Bgm* bgm) {
     }
 }
 
+// NON_MATCHING: the first comparison canonicalises to `<= 0` here (the original keeps `< 1`) and
+// the epilogue is duplicated.
+void Unk_710260f0c0::m8(const Unk_BgmControllerM8Arg& arg) {
+    if (arg._0 < 1) {
+        _a8->sub_710100B30C(arg);
+        _b0->sub_710100215C(arg);
+        _c4 = (_c4 & 0x10) == 0 ? u8(_c4 | 0x10) : u8(_c4 & 0xf7);
+        return;
+    }
+
+    if ((arg._c >> 24) != 0) {
+        if (_a8 && _a8->_124) {
+            Unk_BgmControllerM8Arg empty{};
+            _a8->sub_710100B30C(empty);
+        }
+        if (_b0)
+            _b0->sub_710100215C(arg);
+        _c4 = (_c4 & 0xe7) | 8;
+        return;
+    }
+
+    if (_b0 && _b0->_124) {
+        Unk_BgmControllerM8Arg empty{};
+        _b0->sub_710100215C(empty);
+    }
+    _c4 = (_c4 & 0x10) == 0 ? u8(_c4 | 0x10) : u8(_c4 & 0xf7);
+    if (_a8)
+        _a8->sub_710100B30C(arg);
+}
+
 void Unk_710260f0c0::m9(const Unk_BgmControllerM8Arg& arg) {
     auto* state = _90;
     if (!state)

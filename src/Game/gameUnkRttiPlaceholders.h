@@ -2941,6 +2941,12 @@ public:
     // Set by Unk_71024fe958::sub_710100D874 (the Golem / Giant / Sandworm BGM info, a BossBgmInfo).
     /* 0x190 */ ksys::snd::MusicInfo* mInfo;
     /* 0x198 */ s32 mState;
+
+    // Called by Unk_71024fe958::sub_710100D694 when the boss BGM index changes / the state allows the
+    // outro; the argument is the info's fade / wait time (see that function).
+    void sub_710100D114(f32 fade_sec);
+    void sub_710100D0B8(f32 wait_sec);
+    void sub_710100D1A4(bool on, u32 value, f32 wait_sec);
 };
 
 // vtable 0x71024fe970 (17 slots); placeholder generated from the vtable (genskel.py).

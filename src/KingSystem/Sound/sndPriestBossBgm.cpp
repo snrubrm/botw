@@ -542,6 +542,48 @@ void Unk_71024fe958::init(sead::Heap* heap) {
     mInfos[3] = sub_7100FFD76C()->getInfo(MusicInfoType::SandwormBgm);
 }
 
+// The debug override of the boss BGM index and the flag that forces the outro (never written in the release build).
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260FAB8;
+KSYS_VISIBILITY_HIDDEN u32 sUnk_710260FABC;
+
+// NON_MATCHING: register allocation and the safe-array index CSE differ (the original reloads the
+// index for every access).
+void Unk_71024fe958::sub_710100D694() {
+    if (!_8)
+        return;
+
+    const u32 next = sUnk_710260FABC ? sUnk_710260FABC : _1c;
+    if (next != _1c) {
+        if (mBgms[_1c]) {
+            f32 fade_sec = static_cast<BossBgmInfo*>(mInfos[_1c])->mFadeOutSec.ref();
+            if (mBgms[next])
+                fade_sec = static_cast<BossBgmInfo*>(mInfos[_1c])->mChangeTypeFadeOutSec.ref();
+            mBgms[_1c]->sub_710100D114(fade_sec);
+        }
+        if (mBgms[next]) {
+            mBgms[next]->sub_710100D0B8(
+                static_cast<BossBgmInfo*>(mInfos[next])->mPlayWaitSec.ref());
+        }
+        _1c = next;
+    }
+
+    if (mBgms[_1c]) {
+        const s32 state = mBgms[_1c]->mState;
+        if (state == 0) {
+            _1c = 0;
+        } else if (state == 2 && ((sUnk_710260FAB8 & 1) || (_14 >> 8))) {
+            mBgms[_1c]->sub_710100D1A4(
+                true, _18, static_cast<BossBgmInfo*>(mInfos[_1c])->mOutroWaitSec.ref());
+        }
+    }
+
+    _18 = 0;
+    _c = 0;
+    _10 = 0;
+    _14 = 0;
+    sUnk_710260FAB8 = 0;
+}
+
 void Unk_71024fe958::sub_710100D860() {
     if (!_8)
         return;
