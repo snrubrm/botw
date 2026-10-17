@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
+#include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
@@ -220,6 +221,9 @@ public:
     void releaseEffectModel(ActorData* data);
     // 0x7100d52500: deletes the actor data entries in order for at most 10 ms per call.
     bool removeInnerData2();
+    // 0x0000007100d50210: the largest display distance of `obj` and the objects reachable from its
+    // links, skipping objects already in `visited` and the placement LOD / for-sale links.
+    f32 getMaxTraverseDistForGenGroupRecursively(Object* obj, sead::PtrArray<Object>* visited);
     // 0x0000007100d53d18
     void initActorDataEntry(ActorData* data, const char* name);
 

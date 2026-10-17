@@ -29,6 +29,60 @@ s32 ActorData::sub_7100D4DF48() const {
 }
 
 
+// NON_MATCHING: the original keeps the link-count decrement in a 64-bit register (sub x21 / cbnz x21)
+// and schedules the pointer increment before it; ours uses the 32-bit counter and the other order.
+f32 PlacementActors::getMaxTraverseDistForGenGroupRecursively(Object* obj,
+                                                             sead::PtrArray<Object>* visited) {
+    f32 max_dist = 0.0f;
+    if (!obj)
+        return max_dist;
+
+    if (visited->indexOf(obj) >= 0)
+        return max_dist;
+
+    if (obj->isMapPassive(this))
+        return max_dist;
+
+    if (obj->checkActorDataFlag(this, ActorData::Flag::MapConstPassive) &&
+        !obj->mActorFlags8.isOn(ActorFlag8::EnemyOrNpcOrActiveOrAreaOrAirWall)) {
+        const auto* link_data = obj->mLinkData;
+        if (!link_data ||
+            (link_data->mLinksToSelf.links.size() == 0 &&
+             link_data->mLinksOther.links.size() == 1 &&
+             link_data->mLinksOther.links[0].type == MapLinkDefType::SyncLink))
+            return max_dist;
+    }
+
+    if (obj->mFlags.isOn(Object::Flag::IsLinkTag))
+        return max_dist;
+
+    max_dist = obj->getDispDistance(this, false, false);
+    auto* link_data = obj->mLinkData;
+    if (!link_data)
+        return max_dist;
+
+    visited->pushBack(obj);
+
+    const ObjectLink* link = link_data->mLinksOther.links.getBufferPtr();
+    for (s32 i = link_data->mLinksOther.links.size(); i != 0; --i, ++link) {
+        if (!ObjectLink::isPlacementLODOrForSaleLink(link->type))
+            max_dist = sead::Mathf::max(
+                max_dist, getMaxTraverseDistForGenGroupRecursively(link->other_obj, visited));
+    }
+    link = link_data->mLinksCs.links.getBufferPtr();
+    for (s32 i = link_data->mLinksCs.links.size(); i != 0; --i, ++link) {
+        max_dist = sead::Mathf::max(
+            max_dist, getMaxTraverseDistForGenGroupRecursively(link->other_obj, visited));
+    }
+    link = link_data->mLinksToSelf.links.getBufferPtr();
+    for (s32 i = link_data->mLinksToSelf.links.size(); i != 0; --i, ++link) {
+        if (!ObjectLink::isPlacementLODOrForSaleLink(link->type))
+            max_dist = sead::Mathf::max(
+                max_dist, getMaxTraverseDistForGenGroupRecursively(link->other_obj, visited));
+    }
+    return max_dist;
+}
+
 PlacementActors::~PlacementActors() {
     for (int i = 0; i < mActorData.size(); ++i)
         deleteActorData(&mActorData[i]);
