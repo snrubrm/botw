@@ -7,6 +7,10 @@
 #include "KingSystem/Physics/physConversions.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
+#include <prim/seadScopeGuard.h>
+
+#include <Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h>
+
 namespace ksys::phys {
 
 void NavMeshFaceQuery::process(HavokAI* ai) {
@@ -419,6 +423,84 @@ void HavokAI::sendStepMessageToNavMeshSysThread(f32 dt) {
 void HavokAI::sub_7100F8185C() {
     _38->_10c = false;
 }
+
+// NON_MATCHING: vector loads, the mediator result test and lock cleanup are scheduled differently.
+Unk_7100f7e9f0 HavokAI::sub_7100F87760(sead::Vector3f* out, const sead::Vector3f& from,
+                                      const sead::Vector3f& to) {
+    hkaiNavMeshQueryMediator::RaycastInput input;
+    loadFromVec3(&input.m_from, from);
+    loadFromVec3(&input.m_to, to);
+    auto& lock = _90;
+    if (!lock.tryLock())
+        return {};
+    auto unlock = sead::makeScopeGuard([&lock] { lock.unlock(); });
+    hkaiNavMeshQueryMediator::RaycastOutput hit;
+    if (!_28->getMediator()->castRay(input, hit))
+        return {};
+    out->x = from.x + (to.x - from.x) * hit.m_hitFraction;
+    out->y = from.y + (to.y - from.y) * hit.m_hitFraction;
+    out->z = from.z + (to.z - from.z) * hit.m_hitFraction;
+    // Construct the result before releasing our lock reference. Its ctor retains its own event ref.
+    return Unk_7100f7e9f0(_28->m_streamingCollection.val(), s32(hit.m_faceKey), &lock.mEvent);
+}
+
+// NON_MATCHING: vector loads, the mediator result test and lock cleanup are scheduled differently.
+Unk_7100f7e9f0 HavokAI::sub_7100F878F0(sead::Vector3f* out, const sead::Vector3f& from,
+                                      const sead::Vector3f& to) {
+    hkaiNavMeshQueryMediator::RaycastInput input;
+    loadFromVec3(&input.m_from, from);
+    loadFromVec3(&input.m_to, to);
+    auto& lock = _c8;
+    if (!lock.tryLock())
+        return {};
+    auto unlock = sead::makeScopeGuard([&lock] { lock.unlock(); });
+    hkaiNavMeshQueryMediator::RaycastOutput hit;
+    if (!_30->getMediator()->castRay(input, hit))
+        return {};
+    out->x = from.x + (to.x - from.x) * hit.m_hitFraction;
+    out->y = from.y + (to.y - from.y) * hit.m_hitFraction;
+    out->z = from.z + (to.z - from.z) * hit.m_hitFraction;
+    return Unk_7100f7e9f0(_30->m_streamingCollection.val(), s32(hit.m_faceKey), &lock.mEvent);
+}
+
+// NON_MATCHING: input-vector stores and shared-lock register allocation differ.
+Unk_7100f7e9f0 HavokAI::sub_7100F87C40(sead::Vector3f* out, const sead::Vector3f& to,
+                                      f32 radius) {
+    hkaiNavMeshQueryMediator::ClosestPointInput input;
+    toHkVec4(&input.m_position, to);
+    input.m_halfExtents.set(radius, radius, 0.0f, 0.0f);
+    auto& lock = _90;
+    if (!lock.tryLock())
+        return {};
+    auto unlock = sead::makeScopeGuard([&lock] { lock.unlock(); });
+    hkVector4 closest;
+    const hkUint32 key = _28->getMediator()->getClosestPoint(input, closest);
+    if (key == hkUint32(-1))
+        return {};
+    if (out)
+        storeToVec3(out, closest);
+    return Unk_7100f7e9f0(_28->m_streamingCollection.val(), s32(key), &lock.mEvent);
+}
+
+// NON_MATCHING: input-vector stores and shared-lock register allocation differ.
+Unk_7100f7e9f0 HavokAI::sub_7100F87D88(sead::Vector3f* out, const sead::Vector3f& to,
+                                      f32 radius) {
+    hkaiNavMeshQueryMediator::ClosestPointInput input;
+    toHkVec4(&input.m_position, to);
+    input.m_halfExtents.set(radius, radius, 0.0f, 0.0f);
+    auto& lock = _c8;
+    if (!lock.tryLock())
+        return {};
+    auto unlock = sead::makeScopeGuard([&lock] { lock.unlock(); });
+    hkVector4 closest;
+    const hkUint32 key = _30->getMediator()->getClosestPoint(input, closest);
+    if (key == hkUint32(-1))
+        return {};
+    if (out)
+        storeToVec3(out, closest);
+    return Unk_7100f7e9f0(_30->m_streamingCollection.val(), s32(key), &lock.mEvent);
+}
+
 
 }  // namespace ksys::phys
 
