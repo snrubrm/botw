@@ -957,6 +957,40 @@ void CharacterController::sub_7100F5F6E0(sead::Vector3f* position) const {
     (!mFlags.isOn(0x10000) ? mRigidBody : _298)->getPosition(position);
 }
 
+// NON_MATCHING: the original loads the velocity before the physics System (ours reads the time step
+// first) and keeps the hkVector4f temporary in its own stack slot; the rest matches instruction for
+// instruction and the size is equal.
+// Placeholder name: sets the character and rigid-body linear velocity (the character velocity is
+// converted from per-frame to per-second) and, when `update_speed`, updates the speed / direction
+// state from the horizontal velocity (zeroing y in the idle states).
+void CharacterController::sub_7100F5F774(const sead::Vector3f& velocity, bool update_speed, bool scale) {
+    sead::Vector3f character_velocity = velocity;
+    const f32 inv_time_step = 1.0f / ksys::phys::System::instance()->get64();
+    character_velocity *= inv_time_step;
+    _10->setLinearVelocity(toHkVec4(character_velocity));
+
+    sead::Vector3f body_velocity = velocity;
+    if (scale)
+        body_velocity *= _134;
+    mRigidBody->setLinearVelocity(body_velocity, sead::Mathf::deg2rad(10.0f));
+
+    if (!update_speed)
+        return;
+
+    sead::Vector3f direction = velocity;
+    if (_28->sub_710167785C() == 0 || _28->sub_710167785C() == 1)
+        direction.y = 0.0f;
+    const f32 speed = direction.normalize();
+    if (speed >= 0.0001f)
+        _64 = direction;
+    _60 = speed;
+    if (speed != 0.0f)
+        _114 |= 0x20;
+    _48->sub_7101674940(speed);
+    _50->sub_710167A220(speed);
+    _58->_c = speed;
+}
+
 void CharacterController::sub_7100F5F6FC(const sead::Vector3f& velocity) {
     sub_7100F5F774(velocity, true, false);
     if (mFlags.isOn(0x10000))
