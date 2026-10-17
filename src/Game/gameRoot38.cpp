@@ -61,3 +61,14 @@ void Root38::setField2F(bool value) {
 }
 
 }  // namespace uking
+
+namespace uking {
+
+void sub_710090BFD8(Root38* instance) {
+    Root38::setInstance2(instance);
+    sUnk_71025D1A10.mFlags.store(0);
+    sUnk_71025D1A10._0.store(0);
+    sUnk_71025D1A10._4.store(0);
+}
+
+}  // namespace uking
