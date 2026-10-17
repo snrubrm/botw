@@ -507,7 +507,10 @@ public:
         // 0x710113f34c (placeholder name): _4ae0->_10._888 and _4ae0->_3ad8.
         bool sub_710113F34C() const;
 
-        u8 _0[0x4ae0];
+        u8 _0[0x478];
+        // 0x710114cbf4 and 0x710113fdf4 select variants through ShaderProgram data.
+        agl::ShaderProgram* _478;
+        u8 _480[0x4ae0 - 0x480];
         Unk4ae0* _4ae0;
         // The terrain XML's name pool (read by ExtraInfoMaybe::addLayer / createLayer).
         ExtraInfoNamePoolMaybe* _4ae8;
