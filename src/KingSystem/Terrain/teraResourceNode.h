@@ -110,6 +110,14 @@ struct TextureMipTableMaybe {
     u32 _150;
     u32 _154;
     u32 num_levels;
+
+    // inline-only in the original; name is a guess. The terrain samplers clear these fields before
+    // sub_710110DE64 fills them (0x7101109bd8, 0x710110bd78).
+    void clearMaybe() {
+        _150 = 0;
+        _154 = 0;
+        num_levels = 0;
+    }
 };
 
 // Placeholder: what 0x710110979c samples (0x7101109bd8 builds it on the stack: {table, 0, true}).

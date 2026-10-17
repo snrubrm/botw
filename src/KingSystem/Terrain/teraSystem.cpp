@@ -204,17 +204,16 @@ u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
 // inline-only in the original; name is a guess. Wraps a texel coordinate once into [0, size) and splits
 // it into the texel index and the fraction; inlined for both axes into 0x710110979c and 0x710110b814.
 inline f32 wrapTexelMaybe(u32* index, f32 coord, f32 size) {
-    if (coord >= 0.0f) {
-        if (coord + 1.0f > size) {
-            if (coord >= size + size)
-                coord = size + -1.0f;
-            else
-                coord = coord - size;
-        }
-    } else if (coord > -size) {
-        coord = size + coord;
-    } else {
-        coord = 0.0f;
+    if (coord < 0.0f) {
+        if (coord > -size)
+            coord = size + coord;
+        else
+            coord = 0.0f;
+    } else if (coord + 1.0f > size) {
+        if (coord >= size + size)
+            coord = size + -1.0f;
+        else
+            coord = coord - size;
     }
     const s32 i = sead::Mathf::floor(coord);
     *index = i;
@@ -283,6 +282,63 @@ u32 sub_710110B814(f32 u, f32 v, const TextureSamplerArgMaybe* arg, u32 level) {
     const f32 a10 = sead::Mathf::min((p10[2] + 0.5f) / 255.0f, 1.0f);
     const f32 a11 = sead::Mathf::min((p11[2] + 0.5f) / 255.0f, 1.0f);
     const f32 value = top + fy * ((a10 + fx * (a11 - a10)) - top);
+    const u32 blended = value >= 0.0f ? u32(s32(sead::Mathf::min(value, 1.0f) * 255.0f + 0.5f)) << 8 : 0;
+    return u32(nearest[0]) << 24 | u32(nearest[1]) << 16 | nearest[3] | blended;
+}
+
+// NON_MATCHING: the area index is kept in a register across the sub_710110C3E8 call here; the original
+// reloads it (instruction order and register allocation).
+// Placeholder name: like sub_710110B814, over the area texel data of an Unk_710110AC74Table at mip `level`
+// (the caller 0x710110bd78 passes an Unk_7101108C44Arg). With arg->_c the texel position comes from
+// sub_710110C3E8; otherwise the coordinate is wrapped into [0, 1] around the level offset and scaled to the
+// level size. Bytes 0 / 1 / 3 come from the nearest texel, byte 2 is bilinearly filtered.
+u32 sub_710110BA6C(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level) {
+    TexelPosMaybe texel;
+    if (arg->_c) {
+        sub_710110C3E8(arg->table, &texel, arg->index, level);
+    } else {
+        const auto& info = arg->table->levels[level];
+        f32 x = u - info.offset;
+        f32 y = v - info.offset;
+        if (x < 0.0f)
+            x += 1.0f;
+        else if (x > 1.0f)
+            x += -1.0f;
+        if (y < 0.0f)
+            y += 1.0f;
+        else if (y > 1.0f)
+            y += -1.0f;
+
+        const f32 size = info.size;
+        x *= size;
+        y *= size;
+        texel.fx = wrapTexelMaybe(&texel.x, x, size);
+        texel.fy = wrapTexelMaybe(&texel.y, y, size);
+    }
+
+    const auto& info = arg->table->levels[level];
+    const u32 max = info.size - 1;
+    const s32 area = arg->index;
+    const u8* data = arg->table->areas[area].levels[level];
+    const u32 row0 = sead::Mathu::min(texel.y, max) * info.pitch;
+    const u32 col0 = sead::Mathu::min(texel.x, max) * arg->table->texel_size;
+    const u32 col1 = sead::Mathu::min(texel.x + 1, max) * arg->table->texel_size;
+    const u32 row1 = sead::Mathu::min(texel.y + 1, max) * info.pitch;
+    const u8* p00 = &data[row0 + col0];
+    const u8* p01 = &data[row0 + col1];
+    const u8* p10 = &data[row1 + col0];
+    const u8* p11 = &data[row1 + col1];
+
+    const u8* row = texel.fx >= 0.5f ? p01 : p00;
+    const u8* row_next = texel.fx >= 0.5f ? p11 : p10;
+    const u8* nearest = texel.fy >= 0.5f ? row_next : row;
+
+    const f32 a00 = sead::Mathf::min((p00[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 a01 = sead::Mathf::min((p01[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 top = a00 + texel.fx * (a01 - a00);
+    const f32 a10 = sead::Mathf::min((p10[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 a11 = sead::Mathf::min((p11[2] + 0.5f) / 255.0f, 1.0f);
+    const f32 value = top + texel.fy * ((a10 + texel.fx * (a11 - a10)) - top);
     const u32 blended = value >= 0.0f ? u32(s32(sead::Mathf::min(value, 1.0f) * 255.0f + 0.5f)) << 8 : 0;
     return u32(nearest[0]) << 24 | u32(nearest[1]) << 16 | nearest[3] | blended;
 }
@@ -789,6 +845,63 @@ s32 Unk_7101106F44::sub_710111FD70(sead::BufferedSafeString* out, const ImageTyp
     }
     }
     return end - out->cstr();
+}
+
+// NON_MATCHING: stack slot layout and register allocation in the sampler call (the 12 zero bytes of
+// the cleared mip table and the half size are the same).
+// Placeholder name: the material record at `xz`, sampled from the material image (type 1) of the
+// neighbouring area; the reference taken by sub_7101108860 is released again.
+u32 sub_710110BD78(MaterialRecordMaybe* out, const sead::Vector2f* xz, System* system, bool flag) {
+    if (!system->_8)
+        return 0;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return 0;
+
+    const ImageTypeMaybe& type = sUnk_7101EC54B4;
+    const auto* collector = system->mScenes(0).collector;
+    if (collector->_0[6]._20._0 & 4) {
+        if ((~collector->_0[6]._20._0 & 3) != 0)
+            return 0;
+        sead::Vector2f pos = sead::Vector2f::zero;
+        s32 index;
+        const u32 result =
+            sub_7101108AE8(&pos, &index, *xz, collector->_0[6]._20, collector->_0[6], 0xffffffff);
+        if (result != 0) {
+            Unk_7101108C44Arg arg;
+            arg.table = collector->_0[6]._20.table;
+            arg.index = index;
+            arg._c = false;
+            out->raw = sub_710110BA6C(pos.x, pos.y, &arg, 0);
+        }
+        return result;
+    }
+
+    const u32 index =
+        flag ? collector->_0[6].sub_71010FEDBC(*xz, collector->_0[6]._20._2, 0.0f) : 0xffffffff;
+    Unk_7101106F44* area;
+    sead::Vector2f center;
+    f32 size;
+    const u32 result =
+        Unk_7101106F44::sub_7101108860(&area, &center, &size, *xz, system, type, index);
+    if (result == 0)
+        return result;
+
+    const f32 map_size = size;
+    const f32 half = map_size * 0.5f;
+    const f32 u = xz->x - (center.x - half);
+    const f32 v = xz->y - (center.y - half);
+    TextureMipTableMaybe table;
+    table.clearMaybe();
+    sub_710110DE64(&table, area->mImage1.getTextureDataMaybe());
+    TextureSamplerArgMaybe arg;
+    arg.table = &table;
+    arg._8 = 0;
+    arg._c = true;
+    const f32 inv = 1.0f / map_size;
+    out->raw = sub_710110B814(u * inv, v * inv, &arg, 0);
+
+    area->releaseImageMaybe(type);
+    return result;
 }
 
 u32 sub_710110C02C(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,

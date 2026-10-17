@@ -1,6 +1,8 @@
 #pragma once
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <common/aglTextureData.h>
+#include <driver/aglNVNsampler.h>
 #include <thread/seadAtomic.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadDelegate.h>
@@ -221,14 +223,32 @@ public:
     void sub_710110DD20(bool on);
 
 private:
-    // Sampler (+0) and texture (+0x68) wrapper of the object at `_10` (defined in the .cpp).
-    struct Unk1;
+    // The sampler (+0) and the texture data (+0x10; its NVN texture is at +0x68) of the image. The
+    // texture data is passed by the terrain height queries (0x7101109bd8, 0x710110a468, 0x710110bd78).
+    // The union: the original inlines ~TextureData and destroys the NVN texture at +0x68 directly
+    // (0x710110dd3c), so the texture view and that member must share the storage.
+    struct Unk1 {
+        agl::driver::NVNsampler_ _0;
+        u8 _pad[0x10 - sizeof(agl::driver::NVNsampler_)];
+        union {
+            agl::TextureData mTextureData;
+            struct {
+                u8 _0[0x58];
+                agl::driver::NVNtexture_ _68;
+            } mRaw;
+        };
+        ~Unk1() { mRaw._68.~NVNtexture_(); }
+    };
 
 public:
     u32 _8 = 0;
 
 private:
     Unk1* _10 = nullptr;
+
+public:
+    // inline-only in the original; name is a guess. The texture data of the image, at _10 + 0x10.
+    const agl::TextureData& getTextureDataMaybe() const { return _10->mTextureData; }
 
 public:
     // Placeholder: _4 is a reference count, 0x40000000 while unused (see 0x71011074a0, 0x7101108860).

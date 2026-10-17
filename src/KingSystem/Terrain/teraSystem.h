@@ -1457,6 +1457,9 @@ struct TexelPosMaybe {
 // 0x710110ac74 (placeholder name): the texel position of `x` / `y` (wrapped into [0, 1) after the level's
 // offset) at mip `level`; with arg->_c set, sub_710110C3E8 instead.
 void sub_710110AC74(f32 x, f32 y, const Unk_7101108C44Arg* arg, TexelPosMaybe* out, u32 level);
+// 0x710110ba6c (placeholder name): four-byte texel of the area texel data of `arg` at mip `level`;
+// like sub_710110B814 over Unk_710110AC74Table.
+u32 sub_710110BA6C(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level);
 // 0x710110c930 (placeholder name): the bilinear 16-bit value (0 - 1, bytes 0 / 1 of each texel) at `texel`
 // on mip `level`, with its x / z differences (x, y) and the value (z). Called by 0x71011091dc.
 sead::Vector3f sub_710110C930(const Unk_7101108C44Arg* arg, const TexelPosMaybe* texel, u32 level);

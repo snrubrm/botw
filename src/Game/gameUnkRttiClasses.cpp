@@ -65,12 +65,6 @@ Unk_710250dcd8::Unk_710250dcd8() = default;
 
 Unk_710250dcd8::~Unk_710250dcd8() = default;
 
-struct Unk_710250dcd8::Unk1 {
-    agl::driver::NVNsampler_ _0;
-    u8 _pad[0x68 - sizeof(agl::driver::NVNsampler_)];
-    agl::driver::NVNtexture_ _68;
-};
-
 void Unk_710250dcd8::sub_710110DD20(bool on) {
     _8 = on ? _8 | 4 : _8 & ~4;
 }

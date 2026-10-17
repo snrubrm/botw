@@ -149,6 +149,15 @@ public:
     // 0x71011081d4 (placeholder name): the same with `heap` and `size`; B gets `value` scaled down by the depth.
     void sub_71011081D4(Unk_7101108460* node, sead::Heap* heap, u32 size, f32 value);
 
+    // inline-only in the original; name is a guess (0x710110bd78): releases the reference that
+    // sub_7101108860 took on the image for `type`. The original searches through the const lookup (its
+    // getA() const at 0x710110860c) and decrements the image's user count.
+    void releaseImageMaybe(const ImageTypeMaybe& type) {
+        const auto* self = this;
+        if (auto* image = const_cast<Unk_710250dcd8*>(self->getImageMaybe(type)))
+            --image->_18._0;
+    }
+
     // inline-only in the original; name is a guess. Repeated four times in 0x71011074a0, which loads each
     // type as one word (taken by value).
     bool tryMarkImageUnusedMaybe(ImageTypeMaybe type) {
