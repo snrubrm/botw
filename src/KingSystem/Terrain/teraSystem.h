@@ -216,7 +216,13 @@ public:
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
     sead::Buffer<Unk_7101300b4c> mPositions;
-    u8 _168[0x360 - 0x168];
+    u8 _168[0x180 - 0x168];
+    // Four 0x78-byte records (0x710114deb8 indexes them as 3 * b + a).
+    struct Record {
+        u8 _0[0x78];
+    };
+    Record mRecords[4];
+    static_assert(sizeof(Record) == 0x78);
     // Original 0x710130085c and 0x710130089c reset this word with exclusive-loop exchanges.
     sead::Atomic<u32> _360;
     u8 _364[0x18];
@@ -250,6 +256,10 @@ public:
     void clearImageResourceMgrFlagMaybe();
     // 0x710114d858 (CSV name): 1, or 2 when the image manager's busy counter is above `threshold`.
     s32 resourceIsLoading(u32 threshold, bool update);
+    // 0x710114d7b8 (placeholder name): refreshes the image resource manager.
+    bool sub_710114D7B8();
+    // 0x710114deb8 (placeholder name): record 3 * b + a of Core _360.
+    void* sub_710114DEB8(s32 a, s32 b);
     // 0x710114c35c (CSV Terrain::__auto3; placeholder name): stores `value` in _388[offset][index],
     // where type 0 / 1 map to offset 0 / 1 and type 3 to offset 2 / 3 (index 0 / 1).
     bool setPackModeMaybe(const ImageTypeMaybe& type, s32 index, u8 value);

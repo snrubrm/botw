@@ -16,6 +16,14 @@
 
 namespace ksys::tera {
 
+bool Terrain::sub_710114D7B8() {
+    return mImageResourceMgr->sub_7101131D64();
+}
+
+void* Terrain::sub_710114DEB8(s32 a, s32 b) {
+    return &_360->mRecords[b * 3 + a];
+}
+
 void sub_71012EB7DC(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b) {
     out->_18 = b->x - a->x;
     out->_1c = b->y - a->y;
