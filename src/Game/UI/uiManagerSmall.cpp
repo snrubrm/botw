@@ -20,6 +20,11 @@
 #include "Game/gameRadarMgr.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiSwkbdMgr.h"
+#include "Game/UI/uiUnk_71025d6560.h"
+#include <cstddef>
+#include <new>
 #include <devenv/seadEnvUtil.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
@@ -245,7 +250,7 @@ void Manager::sub_7100A7FDCC() {
 
 // 0x7100a7f918
 bool Manager::sub_7100A7F918() const {
-    return _651f8 > 0;
+    return mTaskList.size() > 0;
 }
 
 void Unk_71025d6ac0::sub_7100968040() {
@@ -537,6 +542,78 @@ int Manager::handleMessage(const ksys::Message* message) {
     if (broker - 2 <= 2)
         return sub_7100A7B9E8(*message);
     return 0;
+}
+
+// 0x7100a6e76c
+// NON_MATCHING: the screen-list unloads, the available singleton deletes, the texture / GPU memory frees and the
+// task-list clear are reproduced; the four singleton deletes whose deleteInstance is not defined in our build
+// (HorseColorInfoMgr, UiShopMgr, UiSubsys1, agl::detail::DynamicUniformBlock), the 0x65138 slot-0x20 call and the
+// two untyped pointer deletes at 0x65170 / 0x65178 are left out until their classes are modelled.
+Manager::~Manager() {
+    for (s32 i = 0; i < sUnk_71025F5F90.mListA.size(); ++i)
+        unloadScreen(sUnk_71025F5F90.mListA[i].id);
+    _64c30 &= ~u64(0x0E000000);
+
+    for (s32 i = 0; i < sUnk_71025F5F90.mListD.size(); ++i)
+        unloadScreen(sUnk_71025F5F90.mListD[i].id);
+    _64c30 &= ~u64(0x40000000);
+
+    for (s32 i = 0; i < sUnk_71025F5F90.mListB.size(); ++i)
+        unloadScreen(sUnk_71025F5F90.mListB[i].id);
+    _64c30 &= ~u64(0x400000000);
+
+    for (s32 i = 0; i < sUnk_71025F5F90.mListC.size(); ++i)
+        unloadScreen(sUnk_71025F5F90.mListC[i].id);
+    _64c30 &= ~u64(0x40000000000);
+
+    for (s32 i = 0; i < sUnk_71025F5F90.mListE.size(); ++i) {
+        if (sUnk_71025F5F90.mListE[i].id <= 0x4e)
+            sub_7100AA09D8(sUnk_71025F5F90.mListE[i].id);
+    }
+
+    if (UiLowPrioThreadMgr::instance())
+        UiLowPrioThreadMgr::deleteInstance();
+    if (Unk_71025d6578::instance())
+        Unk_71025d6578::deleteInstance();
+    if (SwkbdMgr::instance())
+        SwkbdMgr::deleteInstance();
+    if (Unk_71025d6560::instance())
+        Unk_71025d6560::deleteInstance();
+    if (PauseMenuDataMgr::instance())
+        PauseMenuDataMgr::deleteInstance();
+    if (Unk_71025d69f0::instance())
+        Unk_71025d69f0::deleteInstance();
+
+    if (mLocationResource.requestedLoad())
+        mLocationResource.requestUnload2();
+    if (_64bd0.requestedLoad())
+        _64bd0.requestUnload2();
+    _65140.deleteGPUMemBlock();
+    mTextureData.getImagePtr().deleteGPUMemBlock();
+    if (_65158) {
+        operator delete[](_65158);
+        _65158 = nullptr;
+    }
+    if (_65160) {
+        operator delete[](_65160);
+        _65160 = nullptr;
+    }
+
+    sead::ListNode* node = mTaskList.firstNode();
+    while (node) {
+        sead::ListNode* next = node->next();
+        mTaskList.eraseNode(node);
+        auto* entry = reinterpret_cast<ManagerTaskEntry*>(
+            reinterpret_cast<u8*>(node) - offsetof(ManagerTaskEntry, mNode));
+        entry->mNextFree = mTaskList.mFreeList;
+        mTaskList.mFreeList = entry;
+        node = next;
+    }
+    if (mTaskList.mBuffer)
+        operator delete[](mTaskList.mBuffer);
+    mTaskList.mCapacity = 0;
+    mTaskList.mFreeList = nullptr;
+    mTaskList.mBuffer = nullptr;
 }
 
 }  // namespace uking::ui
@@ -937,6 +1014,7 @@ sead::DirectResource* Unk_710249c630::newResource_(sead::Heap* heap_, s32 alignm
     sead::ScopedCurrentHeapSetter setter{heap};
     return new (heap, alignment, std::nothrow_t{}) Unk_710247e8c0;
 }
+
 
 
 

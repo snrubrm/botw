@@ -673,7 +673,7 @@ s32 sub_7100A9E228() {
 
 // 0x7100a9e244
 u64 sub_7100A9E244() {
-    return Manager::instance()->_65160;
+    return u64(Manager::instance()->_65160);
 }
 
 // 0x7100a9e260

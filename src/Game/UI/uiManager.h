@@ -4,12 +4,20 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 
 #include <container/seadSafeArray.h>
+#include <container/seadListImpl.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <common/aglGPUMemAddr.h>
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
+#include <common/aglTextureData.h>
+#include <common/aglTextureSampler.h>
 #include "Game/UI/uiTimer.h"
+#include "Game/UI/uiUnkTiny.h"
+#include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -37,6 +45,24 @@ struct Unk_UiPinInfo {
 // 0x7100a6c0ec (declaration only): stores `value` at controller + 0x4bc and forwards to
 // sead::ControllerBase::setLeftStickCrossThreshold with the default pair for the sign of `value`.
 void sub_7100A6C0EC(sead::Controller* controller, f32 value);
+
+// Pooled task list the manager destroys in its destructor (native 0x651e8 .. 0x65214). The nodes are
+// sead::ListNode members at entry + 0x20; erased entries are pushed on the free list at 0x18.
+struct ManagerTaskEntry {
+    ManagerTaskEntry* mNextFree;
+    u8 _8[0x18];
+    sead::ListNode mNode;
+};
+struct ManagerTaskList : sead::ListImpl {
+    sead::ListNode* firstNode() { return front(); }
+    void eraseNode(sead::ListNode* node) { erase(node); }
+
+    ManagerTaskEntry* mFreeList;
+    ManagerTaskEntry* mBuffer;
+    s32 mCapacity;
+    s32 _pad;
+};
+KSYS_CHECK_SIZE_NX150(ManagerTaskList, 0x30);
 
 // The UI manager singleton (CSV: uiManager::createInstance 0x7100a6e038, ctor 0x7100a6e0c4,
 // instance pointer 0x71025f5ee0, size 0x653b0, disposer at +0x18). Only the fields that are used
@@ -145,8 +171,10 @@ public:
         return u32(_64c24 - 1) < 4 || (_64c30 & 0x18) != 0 || _64c2c == 1;
     }
 
+    // The first member (destroyed last): a polymorphic object with a virtual destructor only.
     /* 0x38 */ u8 _38;
-    u8 _39[0x48 - 0x39];
+    u8 _39[0x40 - 0x39];
+    /* 0x40 */ Unk_710249c410 _40;
     /* 0x48 */ s32 _48;
     /* 0x4c */ s32 _4c;
     /* 0x50 */ f32 _50;
@@ -198,7 +226,13 @@ public:
         u8 _e[2];
     };
     /* 0x649f8 */ PadRepeat _649f8[6];
-    u8 _64a58[0x64b0c - 0x64a58];
+    u8 _64a58[0x64a80 - 0x64a58];
+    // The screen message transceiver and the three debug-board transceivers (destructor A6E76C).
+    /* 0x64a80 */ ksys::ActorMessageTransceiver _64a80;
+    /* 0x64ad8 */ Unk_710246c458 _64ad8;
+    /* 0x64ae8 */ Unk_710246c4d8 _64ae8;
+    /* 0x64af8 */ Unk_710246c498 _64af8;
+    u8 _64b08[0x64b0c - 0x64b08];
     /* 0x64b0c */ u32 _64b0c;
     /* 0x64b10 */ u32 _64b10;
     /* 0x64b14 */ u8 _64b14;
@@ -209,7 +243,8 @@ public:
     /* 0x64b40 */ Unk_710247ee68 _64b40;
     /* 0x64b60 */ Unk_710247ee68 _64b60;
     /* 0x64b80 */ ksys::res::Handle mLocationResource;
-    u8 _64bd0[0x64c24 - 0x64bd0];
+    /* 0x64bd0 */ ksys::res::Handle _64bd0;
+    u8 _64c20[0x64c24 - 0x64c20];
     /* 0x64c24 */ s32 _64c24;
     /* 0x64c28 */ s32 _64c28;
     /* 0x64c2c */ s32 _64c2c;
@@ -225,14 +260,23 @@ public:
     /* 0x64c4d */ u8 _64c4d;
     u8 _64c4e[0x64c68 - 0x64c4e];
     /* 0x64c68 */ bool _64c68;
-    u8 _64c69[0x650f0 - 0x64c69];
+    u8 _64c69[0x64c78 - 0x64c69];
+    // UI textures / render targets (the destructor frees the texture's image block first)
+    /* 0x64c78 */ agl::TextureData mTextureData;
+    /* 0x64da0 */ agl::RenderTargetColor mRenderTargetColor;
+    /* 0x64f18 */ agl::RenderBuffer mRenderBuffer;
+    /* 0x64f80 */ agl::TextureSampler mTextureSampler;
     /* 0x650f0 */ s32 _650f0;
-    u8 _650f4[0x650f8 - 0x650f4];
     /* 0x650f8 */ sead::CriticalSection _650f8;
-    u8 _65130[0x65160 - 0x650f8 - sizeof(sead::CriticalSection)];
-    /* 0x65160 */ u64 _65160;
+    // pointers released by the destructor (slot 0x20 / slot 0x8 virtual calls, delete[])
+    /* 0x65138 */ void* _65138;
+    /* 0x65140 */ agl::GPUMemVoidAddr _65140;
+    /* 0x65158 */ void* _65158;
+    /* 0x65160 */ void* _65160;
     /* 0x65168 */ s32 _65168;
-    u8 _6516c[0x65180 - 0x6516c];
+    u8 _6516c[0x65170 - 0x6516c];
+    /* 0x65170 */ void* _65170;
+    /* 0x65178 */ void* _65178;
     // map name / escape destination for the dungeon exit (set by sub_71009E3B84)
     /* 0x65180 */ const char* _65180;
     /* 0x65188 */ const char* _65188;
@@ -242,9 +286,8 @@ public:
     u8 _651c5[3];
     /* 0x651c8 */ UiTimer _651c8;
     /* 0x651e0 */ s32 _651e0;
-    u8 _651e4[0x651f8 - 0x651e4];
-    /* 0x651f8 */ s32 _651f8;
-    u8 _651fc[0x65218 - 0x651fc];
+    u8 _651e4[0x651e8 - 0x651e4];
+    /* 0x651e8 */ ManagerTaskList mTaskList;
     /* 0x65218 */ bool _65218;
     u8 _65219[0x652e8 - 0x65219];
     /* 0x652e8 */ u8 _652e8;
