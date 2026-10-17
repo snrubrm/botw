@@ -20,3 +20,11 @@ f32 Unk_7100e726a8::sub_7100E726A8(f32 value) {
 void Unk_7100e726e0::sub_7100E726E0(f32 target) {
     _4 = target + (_4 - target) * std::pow(1.0f - _0, ksys::VFR::instance()->getDeltaFrame());
 }
+
+// NON_MATCHING: the clamp's two frame-delta queries are scheduled in the reverse order.
+f32 Unk_7100e729c4::sub_7100E729C4(f32 target) {
+    mValue = sead::Mathf::clamp(target,
+                              mValue - mFallRate * ksys::VFR::instance()->getDeltaFrame(),
+                              mValue + mRiseRate * ksys::VFR::instance()->getDeltaFrame());
+    return mValue;
+}

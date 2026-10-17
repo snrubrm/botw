@@ -23,3 +23,14 @@ struct Unk_7100e726e0 {
     f32 _4;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e726e0, 0x8);
+
+// Placeholder name: scalar rate limiter, updated at 0x7100e729c4. Callers keep the
+// rise rate, fall rate and current value together (Motorcycle +0xe44, HorseRiddenByPlayer +0x298).
+struct Unk_7100e729c4 {
+    f32 sub_7100E729C4(f32 target);
+
+    f32 mRiseRate;
+    f32 mFallRate;
+    f32 mValue;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100e729c4, 0xc);
