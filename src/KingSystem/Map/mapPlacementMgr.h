@@ -51,6 +51,8 @@ public:
     // 0x71011e1ffc / 0x71011e264c (CSV unnamed / MassRenderer::setup / MassRenderer::update; declaration
     // only; placeholder names and parameters).
     void sub_71011E4090(PlacementMgr* mgr, bool a);
+    // 0x71011e3cd0 (CSV MassRenderer::requestDraw): queues the draw of the mass-rendered models.
+    void requestDraw(PlacementMgr* mgr, bool a);
     void sub_71011E1FFC(const void* traverse_results, const sead::Vector3f* camera_pos, f32 distance);
     void sub_71011E264C(PlacementMgr* mgr);
     // 0x71011e41f4: whether `p` is one of the three pointers at 0xc8 / 0x138 / 0x1a8 (the draw arrays; the type of `p`
@@ -226,6 +228,8 @@ public:
     void sub_71011EC01C(Object* obj);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
+    // 0x71011e6b3c: asks the clustered / mass / forest renderers and the far-actor merge to draw.
+    void requestDraw();
     // 0x00000071011eb4dc
     bool auto17(Object* obj);
 
@@ -330,8 +334,9 @@ public:
     bool _689 = false;
     bool _68a = false;
     u32 _68c;
-    u8 _690;  // bit 6 is tested by sub_71011E9DB0
-    u8 _691[3];
+    // Bit flags: bit 0 is cleared by requestDraw, bits 2 / 5 / 7 select the renderers it draws;
+    // bit 6 is tested by sub_71011E9DB0.
+    u32 _690;
     u32 mMessage = 0;
     u32 mJobType = 0;
     TraverseResults mTraverseResults[2];

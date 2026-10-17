@@ -402,4 +402,8 @@ private:
     // 0x7100f1d9b4 passes it as the second argument of fmodf).
     u8 _f60[0xf9c - 0xf60];
     /* 0xf9c */ f32 _f9c;
+
+public:
+    // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
+    u8 getMapStateMaybe() const { return _f5a; }
 };

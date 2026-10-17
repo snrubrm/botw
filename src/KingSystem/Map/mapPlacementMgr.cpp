@@ -6,8 +6,10 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcCreateTask.h"
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
+#include "KingSystem/ActorSystem/actFarActorMerge.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "Game/gameGraphics.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/gameStage.h"
 #include "Game/gameVillagerMgr.h"
@@ -275,6 +277,31 @@ void PlacementMgr::sub_71011E6EE0() {
         mClusteredRenderer->sub_7101244038(&mCameraPos);
     if (auto* fr = StagePreActorCache::instance()->getForestRenderer())
         fr->sub_710F03C18(&mCameraPos);
+}
+
+void PlacementMgr::requestDraw() {
+    const bool no_cluster_flag = !mFlags.isOn(MgrFlag::_40);
+    if (!mFlags.isOn(MgrFlag::_100)) {
+        auto* forest = StagePreActorCache::instance()->getForestRenderer();
+        bool draw_clustered;
+        if (!(_690 & 0x20))
+            draw_clustered = no_cluster_flag & (mClusteredRenderer != nullptr);
+        else
+            draw_clustered = false;
+        const bool draw_mass =
+            !(_690 & 0x4) && mMassRenderer != nullptr && ::Graphics::instance()->getMapStateMaybe() != 7;
+        const bool draw_forest =
+            !(_690 & 0x80) && forest != nullptr && ::Graphics::instance()->getMapStateMaybe() != 7;
+
+        if (draw_clustered)
+            mClusteredRenderer->requestDraw();
+        if (draw_mass)
+            mMassRenderer->requestDraw(this, !(_690 & 2));
+        if (draw_forest)
+            forest->requestDraw();
+        mPlacementMapMgr->mFarActorMerge->requestDraw();
+    }
+    _690 &= ~1u;
 }
 
 bool PlacementMgr::sub_71011E6C60() {
