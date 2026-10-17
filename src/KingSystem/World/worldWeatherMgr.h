@@ -88,7 +88,16 @@ public:
     u8 _2d4[0x2d8 - 0x2d4];
     float _2d8;  // Puddle::calc_
     float _2dc;
-    u8 _2e0[0x314 - 0x2e0];
+    u8 _2e0[4];
+    // calcType2_ interpolates these float values; the rainbow checks them for zero.
+    f32 _2e4;
+    f32 _2e8;
+    f32 _2ec;
+    f32 _2f0;
+    f32 _2f4;
+    f32 _2f8;
+    f32 _2fc;
+    u8 _300[0x314 - 0x300];
     int _314;
     float mTimeBlock;  // 0x318
     u32 mWeekDay;      // 0x31c
@@ -116,6 +125,8 @@ public:
     u8 _392[0x398 - 0x392];
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
+static_assert(offsetof(WeatherMgr, _2e4) == 0x2e4);
+static_assert(offsetof(WeatherMgr, _2fc) == 0x2fc);
 
 // 0x71010eb430 (CSV wm::isGetPlayerStole2): the TimeMgr's "plateau done" flag.
 bool isGetPlayerStole2();
