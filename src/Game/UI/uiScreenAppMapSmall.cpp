@@ -353,6 +353,36 @@ void ScreenAppMap::sub_71009F1B9C() {
     setWidgetString(_3c80, "T_Temp_00", text);
 }
 
+// 0x71009ed4e4
+void ScreenAppMap::sub_71009ED4E4(s32 mode) {
+    switch (mode) {
+    case 0:
+        sub_71009F2300(0);
+        return;
+    case 1:
+        sub_71009F2300(1);
+        return;
+    case 2: {
+        if (auto* child = getChildExMaybe(1, 0))
+            sub_710099EF18(child, 2);
+        const s32 map_mode = UiSubsys1::instance()->get38f4();
+        if (UiSubsys1::instance()->sub_7100966DE8(map_mode) == -1)
+            _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        else
+            sub_71009F0BE4();
+        return;
+    }
+    case 3:
+        sub_71009F23A8();
+        return;
+    case 4:
+        sub_71009F2430();
+        return;
+    default:
+        return;
+    }
+}
+
 // 0x71009f1dbc
 void ScreenAppMap::sub_71009F1DBC() {
     if (_3c68) {

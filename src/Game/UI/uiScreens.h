@@ -2438,6 +2438,11 @@ public:
     void sub_71009F2300(s32 mode);
     // 0x71009f1828 (CSV unnamed, declared only): applies a map child's selection to the map screen
     void sub_71009F1828(Unk_710247d8f8* child);
+    // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
+    void sub_71009ED4E4(s32 mode);
+    // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)
+    void sub_71009F0BE4();
+    void sub_71009F2430();
     // 0x71009ec780: x and y of the layout's root pane position
     void sub_71009EC780(sead::Vector2f* out) const;
     bool sub_71009EECD0() const;
