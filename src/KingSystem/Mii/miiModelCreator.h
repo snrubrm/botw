@@ -7,12 +7,15 @@
 #include "KingSystem/Resource/resBfRes.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
+#include <gsys/gsysModel.h>
 
 namespace al {
 class ByamlIter;
 }
 
 namespace ksys::mii {
+
+class UMii;
 
 extern sead::SafeArray<sead::SafeString, 4> s_rot_labels;
 
@@ -47,6 +50,24 @@ public:
     void loadUmiiBnetfp(sead::Heap* heap);
 
     const sead::SafeString& getActorName(const Arg& arg) const;
+    // 0x7100f4cb50: dispatches on the Mii's race (Body::race) to one of the seven createUmiiModelRaceN helpers.
+    gsys::Model* createUmiiModel(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                 gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    // 0x7100f4cc88 .. 0x7100f4d74c (declared only): the per-race Mii model builders.
+    gsys::Model* createUmiiModelRace0(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    gsys::Model* createUmiiModelRace1(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    gsys::Model* createUmiiModelRace2(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    gsys::Model* createUmiiModelRace3(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    gsys::Model* createUmiiModelRace4(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    gsys::Model* createUmiiModelRace5(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
+    gsys::Model* createUmiiModelRace6(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                      gsys::Model::CreateArg arg, void* out, sead::Heap* heap);
     // 0x7100f4c9fc (placeholder name; CSV ModelCreator::__auto2): looks up the "%03d" entry `index` in the Mouth
     // (type 1) or Hair (type 3) table of the construction info.
     bool sub_7100F4C9FC(const char** out, const s32& index, const Arg& arg) const;

@@ -1,4 +1,5 @@
 #include "KingSystem/Mii/miiModelCreator.h"
+#include "KingSystem/Mii/miiUMii.h"
 #include <container/seadSafeArray.h>
 #include <prim/seadFormatPrint.h>
 #include <random/seadGlobalRandom.h>
@@ -109,3 +110,29 @@ const char* getModelUMiiHyliaFaceEditBfresPath() {
 const char* getModelUMiiHyliaFaceBfresPath() {
     return "Model/UMii_Hylia_Face.Tex.bfres";
 }
+
+namespace ksys::mii {
+
+gsys::Model* ModelCreator::createUmiiModel(const UMii& umii, const sead::SafeString& name, void* part_names,
+                                           gsys::Model::CreateArg arg, void* out, sead::Heap* heap) {
+    switch (*umii.getBody().race) {
+    case UMii::Body::Race_Hylian:
+        return createUmiiModelRace0(umii, name, part_names, arg, out, heap);
+    case UMii::Body::Race_Korok:
+        return createUmiiModelRace1(umii, name, part_names, arg, out, heap);
+    case UMii::Body::Race_Goron:
+        return createUmiiModelRace2(umii, name, part_names, arg, out, heap);
+    case UMii::Body::Race_Sheikah:
+        return createUmiiModelRace3(umii, name, part_names, arg, out, heap);
+    case UMii::Body::Race_Gerudo:
+        return createUmiiModelRace4(umii, name, part_names, arg, out, heap);
+    case UMii::Body::Race_Zora:
+        return createUmiiModelRace5(umii, name, part_names, arg, out, heap);
+    case UMii::Body::Race_Rito:
+        return createUmiiModelRace6(umii, name, part_names, arg, out, heap);
+    default:
+        return nullptr;
+    }
+}
+
+}  // namespace ksys::mii
