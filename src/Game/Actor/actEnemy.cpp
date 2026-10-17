@@ -1,5 +1,7 @@
 #include "Game/Actor/actEnemy.h"
 #include <limits>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttackInterval.h"
 #include <geom/seadGeometry.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -661,3 +663,78 @@ const sead::SafeString& Unk_7102357ab0::getSpineNodeName() const {
         return sead::SafeString::cEmptyString;
     return rider->mSpineNode.ref();
 }
+
+namespace uking::act {
+
+// NON_MATCHING: random-kind selection and parameter value selection use different branch layouts.
+int Enemy::Unk_7100001aa4::sub_7100001AA4(f32 scale) {
+    auto* random = sead::GlobalRandom::instance();
+    if (_8 == 2) {
+        const u32 choice = random->getU32(3) + random->getU32(3);
+        if (choice < 2)
+            _8 = 1;
+        else if (choice < 4)
+            _8 = 0;
+        else
+            _8 = 2;
+    } else if (_8 == 0) {
+        _8 = random->getU32(2) + 1;
+    } else {
+        _8 = random->getU32(3);
+    }
+    const auto* param = mActor->getParam()->getRes().mGParamList->getAttackInterval();
+    s32 minimum;
+    s32 maximum;
+    switch (_8) {
+    case 0:
+        minimum = param->mShortAttackTimeMin.ref();
+        maximum = param->mShortAttackTimeMax.ref();
+        break;
+    case 1:
+        minimum = param->mMiddleAttackTimeMin.ref();
+        maximum = param->mMiddleAttackTimeMax.ref();
+        break;
+    case 2:
+        minimum = param->mLongAttackTimeMin.ref();
+        maximum = param->mLongAttackTimeMax.ref();
+        break;
+    default:
+        return 0;
+    }
+    const s32 time = minimum == maximum ? minimum : random->getS32Range(minimum, maximum);
+    return s32(f32(time) * scale);
+}
+
+bool Enemy::sub_71000198E4(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    s32 free_slot = -1;
+    for (s32 i = 0; i < _ea8.size(); ++i) {
+        if (_ea8[i].hasProcById(actor))
+            return true;
+        if (free_slot < 0 && !_ea8[i].hasProc())
+            free_slot = i;
+    }
+    if (free_slot < 0)
+        return false;
+    _ea8[free_slot].acquire(actor, false);
+    return true;
+}
+
+bool Enemy::sub_7100019A9C(const ksys::act::BaseProcLink& link) {
+    if (!link.hasProc())
+        return false;
+    s32 free_slot = -1;
+    for (s32 i = 0; i < _ea8.size(); ++i) {
+        if (_ea8[i] == link)
+            return true;
+        if (free_slot < 0 && !_ea8[i].hasProc())
+            free_slot = i;
+    }
+    if (free_slot < 0)
+        return false;
+    _ea8[free_slot] = link;
+    return true;
+}
+
+}  // namespace uking::act
