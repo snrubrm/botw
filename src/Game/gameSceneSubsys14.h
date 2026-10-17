@@ -74,8 +74,8 @@ public:
     u32 _34;
     bool _38 = true;
     u32 _3c;
-    s32 _40 = -1;
-    ksys::act::BaseProcLink _48;
+    // A slot at 0x40: the id and link of the last 0x8000083 message.
+    Unk_7100903948::Slot mSlot;
     s32 _58 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024735b0, 0x60);

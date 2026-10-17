@@ -35,9 +35,57 @@ bool Unk_71024735b0::m2(const ksys::Message& message) {
 
     sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
     _38 = payload->_0;
-    _40 = payload->_8;
-    _48.operator=(payload->_10);
+    mSlot.id = payload->_8;
+    mSlot.link.operator=(payload->_10);
     return true;
+}
+
+// NON_MATCHING: register allocation (the original keeps the lock address in x21 and the link
+// destination in x20 and loads the two unrolled entries with ldp); the structure matches.
+int GameSceneSubsys14::handleMessage(const ksys::Message* message) {
+    if (!_12e2) {
+        if (_1c8.m2(*message)) {
+            if (_1c8._38)
+                sub_7100904ACC(_1c8._40);
+            else
+                sub_7100904CA4(_1c8._40);
+
+            u32 mask = 0;
+            const s32 count = _f80.size();
+            for (s32 i = 0; i < count; ++i)
+                mask |= 1 << _f80[i]->_11c;
+            _168 = mask;
+            return 1;
+        }
+    }
+
+    if (message->getType() != 0x08830000)
+        return 0;
+
+    auto* payload = static_cast<Unk_71024735b0_Payload*>(message->getUserData());
+    if (!payload)
+        return 1;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _340._38 = payload->_0;
+        _340.mSlot.id = payload->_8;
+        _340.mSlot.link = payload->_10;
+    }
+
+    if (_340._38) {
+        if (_340.mSlot.id == -1)
+            return 1;
+        auto* slot = static_cast<Unk_7100903948::Slot*>(mFreeSlots.popBack());
+        if (!slot)
+            return 1;
+        *slot = _340.mSlot;
+        mActiveSlots.pushBack(slot);
+        mSlotsChanged = true;
+    } else {
+        sub_7100904DD4(_340.mSlot);
+    }
+    return 1;
 }
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys14)
