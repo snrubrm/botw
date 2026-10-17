@@ -6,6 +6,7 @@
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Effect/eftEffectModelMgr.h"
 #include "KingSystem/Map/mapObject.h"
+#include <codec/seadHashCRC32.h>
 #include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -186,6 +187,24 @@ void PlacementActors::addAllLinkedActorsToGenGroupRecursively(f32 max_dist, Obje
             addAllLinkedActorsToGenGroupRecursively(max_dist, link->other_obj, group_objs,
                                                    link_tags);
     }
+}
+
+// NON_MATCHING: the actor-flag clear goes through a stack temporary here (the original stores zero
+// directly) and the register allocation of the whole function differs. The map find / insert and the
+// actor data creation match.
+s32 PlacementActors::findOrInsertActorData(const char* name) {
+    const u32 hash = sead::HashCRC32::calcStringHash(name);
+    if (const auto* node = mActorDataMap.find(hash))
+        return node->value();
+
+    const s32 idx = mActorDataMapSize++;
+    ActorData& data = mActorData[idx];
+    data.mRes.requestedLoad();
+    data.mFlags.makeAllZero();
+    data._b = 0;
+    initActorDataEntry(&data, name);
+
+    return *mActorDataMap.insert(hash, s16(idx));
 }
 
 f32 PlacementActors::getMaxTraverseDistForGenGroupRecursively(Object* obj,

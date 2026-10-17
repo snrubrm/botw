@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
+#include <container/seadTreeMap.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
@@ -233,6 +234,8 @@ public:
     void releaseEffectModel(ActorData* data);
     // 0x7100d52500: deletes the actor data entries in order for at most 10 ms per call.
     bool removeInnerData2();
+    // 0x7100d574b4: the actor data index of `name`, creating the actor data entry when the name is new.
+    s32 findOrInsertActorData(const char* name);
     // 0x0000007100d50210: the largest display distance of `obj` and the objects reachable from its
     // links, skipping objects already in `visited` and the placement LOD / for-sale links.
     f32 getMaxTraverseDistForGenGroupRecursively(Object* obj, sead::PtrArray<Object>* visited);
@@ -255,7 +258,9 @@ public:
     Object* _f8[128];
     sead::Mutex mMutex;
     sead::SafeArray<ActorData, 6000> mActorData;
-    u8 _261b38[0x2a8058 - 0x261b38];
+    // Actor name hash -> actor data index.
+    sead::TreeMap<u32, s16> mActorDataMap;
+    u8 _261b58[0x2a8058 - 0x261b58];
     u32 mActorDataMapSize;
     u8 _2a805c[0x2a8060 - 0x2a805c];
     // The object list walked by x_7 (its link offset is the list's own mOffset).
