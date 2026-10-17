@@ -628,4 +628,27 @@ void Unk_7102450330::m2(gsys::Model* model) {
     Unk_71024512e8::m2(model);
 }
 
+void Dragon::preDelete2_(const PreDeleteArg& arg) {
+    Enemy::preDelete2_(arg);
+    _14c8.sub_71006FB7F8();
+    for (auto& group : _1fd0)
+        group.destroy();
+    _2270.destroy();
+}
+
+// NON_MATCHING: the original's element type has no destructible member at +0xa8, so its array
+// teardown does not call ~BoneAccessKeyEx for the part's key; our Unk_71007237d0Part does (the
+// Sandworm's parts use that key). Everything else matches.
+void DragonBonePartGroup::destroy() {
+    detachParts();
+    if (_10.getBufferPtr()) {
+        delete[] _10.getBufferPtr();
+        _10 = sead::Buffer<gsys::BoneAccessKeyEx>();
+    }
+    if (parts.getBufferPtr()) {
+        delete[] parts.getBufferPtr();
+        parts = sead::Buffer<Unk_71007237d0Part>();
+    }
+}
+
 }  // namespace uking::act

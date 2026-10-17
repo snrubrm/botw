@@ -53,6 +53,9 @@ class DragonBonePartGroup {
 public:
     virtual void m0() = 0;
     virtual void m1() = 0;
+    // 0x710000d2e4 out of line (shared by both derived classes): releases the parts' bone handles,
+    // then frees the two heap arrays.
+    void destroy();
 
     // inline-only in the original; name is a guess (Dragon::startPreparingForPreDelete_ repeats it
     // for all five groups): releases the parts' bone handles once.
