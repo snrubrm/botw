@@ -1142,6 +1142,66 @@ bool CharacterController::sub_7100F62FC0(f32* radius, sead::Vector3f* vertex_a,
     return true;
 }
 
+bool CharacterController::sub_7100F63024(f32* radius, f32* end, f32* ring1, f32* ring0,
+                                         sead::Vector3f* offset, int index) const {
+    Shape* shape = _30->mShapes[index]._8;
+    if (!shape)
+        return false;
+    auto* prism = sead::DynamicCast<CharacterPrismShape>(shape);
+    if (!prism)
+        return false;
+    if (radius)
+        *radius = prism->mRadius;
+    if (end)
+        *end = prism->mEndVertexDistance;
+    if (ring1)
+        *ring1 = prism->mRing1Distance;
+    if (ring0)
+        *ring0 = prism->mRing0Distance;
+    if (end)
+        *end = prism->mEndVertexDistance;
+    if (offset)
+        *offset = prism->mOffset;
+    return true;
+}
+
+// NON_MATCHING: scheduling only: the original stores the flag word before recomputing _114 and keeps the
+// 1.0f store between them; ours computes the _114 mask first.
+void CharacterController::sub_7100F60AE0() {
+    _64 = sead::Vector3f::ez;
+    if (!(_114 & 4)) {
+        _70 = System::instance()->getField48();
+        const f32 length = _70.length();
+        if (length > 0.0f) {
+            const f32 inv = 1.0f / length;
+            _7c.x = _70.x * inv;
+            _7c.y = _70.y * inv;
+            _7c.z = _70.z * inv;
+        }
+    }
+    _10c = 1000.0f;
+    mFlags.reset(1);
+    _fc = 1.0f;
+    _100 = 0;
+    _114 &= ~0x21;
+    _12c = 0;
+    _120.set(0.0f, 0.0f, 0.0f);
+    _130 = 1.0f;
+    _48->_58 = 1.0f;
+    _50->_1c = 1.0f;
+    mRigidBody->setMass(_138);
+    _170 = sead::Vector3f::zero;
+    _228.set(0.0f, 0.0f, 0.0f);
+    _d0 = 0;
+    _d4.set(0.0f, 0.0f, 0.0f);
+    _e0.set(0.0f, 0.0f, 0.0f);
+    _ec.set(0.0f, 0.0f, 0.0f);
+    sub_7100F60C58(_20, nullptr);
+    _50->_38 = 0;
+    _48->_94 = 0;
+    _238 = 0;
+}
+
 void CharacterController::sub_7100F63310(bool on) {
     if (on != ((mFlags.getDirect() >> 12) & 1)) {
         if (on) {

@@ -21,6 +21,8 @@ struct CharacterPrismShapeParam {
 /// between them.
 class CharacterPrismShape : public Shape {
     friend class CharacterFormSet;
+    // sub_7100F63024 reads the radius / ring distances / offset directly.
+    friend class CharacterController;
     SEAD_RTTI_OVERRIDE(CharacterPrismShape, Shape)
 
 public:

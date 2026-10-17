@@ -159,9 +159,12 @@ public:
     void sub_7100F5EC30();
     void sub_7100F5EC44();
     void sub_7100F60604();
-    // 0x7100f60ae0 (declared only): resets the controller's velocity / movement state (reads sead::Vector3f
-    // statics and the Havok world gravity).
+    // 0x7100f60ae0: resets the controller's velocity / movement state (reads sead::Vector3f statics and the
+    // Havok world gravity).
     void sub_7100F60AE0();
+    // 0x7100f60c58 (unnamed; 552 B): fills the character input (`_20`) from the controller state and writes
+    // the motion direction to `out` unless it is null.
+    void sub_7100F60C58(hkpCharacterInput* input, sead::Vector3f* out);
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
@@ -470,20 +473,25 @@ public:
     sead::Vector3f _88;  // zero in the ctor
     sead::Vector3f _94;  // zero in the ctor
     sead::Matrix34f _a0;  // ident in the ctor; PreyDead::enter_ reads its translation
-    u8 _d0[0xec - 0xd0];
+    // Set by the ctor to copies of the first vector of its matrix argument / zero in the reset.
+    /* 0xd0 */ f32 _d0;
+    /* 0xd4 */ sead::Vector3f _d4;
+    /* 0xe0 */ sead::Vector3f _e0;
     sead::Vector3f _ec;
     u8 _f8[0xfc - 0xf8];
     f32 _fc;
     f32 _100;
     f32 _104;
-    u8 _108[0x110 - 0x108];
+    u8 _108[4];
+    f32 _10c;
     f32 _110;
     u16 _114;  // flags
     u16 _116;  // bit 2: read by PlayerFall::enter_
     sead::BitFlag32 mFlags;
     f32 _11c;
     sead::Vector3f _120;
-    u8 _12c[4];
+    u8 _12c;
+    u8 _12d[3];
     f32 _130;
     f32 _134;
     f32 _138;
@@ -501,7 +509,8 @@ public:
     f32 _164;
     f32 _168;
     f32 _16c;
-    u8 _170[0x180 - 0x170];
+    sead::Vector3f _170;
+    u8 _17c[0x180 - 0x17c];
     sead::Vector3f _180;
     u8 _18c;
     u8 _18d[0x194 - 0x18d];
@@ -515,7 +524,8 @@ public:
     u8 _21c[0x220 - 0x21c];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
-    u8 _228[0x238 - 0x228];
+    sead::Vector3f _228;
+    u8 _234[4];
     u64 _238;
     sead::Vector3f _240;
     u8 _24c[0x250 - 0x24c];
