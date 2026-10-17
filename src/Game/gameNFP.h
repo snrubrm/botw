@@ -19,7 +19,9 @@ public:
 
     u8 _0[0xd4];
     /* 0xd4 */ s32 _d4;
-    u8 _d8[0x108 - 0xd8];
+    u8 _d8[0x100 - 0xd8];
+    /* 0x100 */ u32 _100;
+    u8 _104[0x108 - 0x104];
     // lane4 s64 (from NFP::sub_F45CF0 / sub_F45D5C): a ring buffer of 16 requests (2: sub_F45CF0, 3: sub_F45D5C)
     // written at `mWriteIndex` under the lock `mCS` of `_108`.
     struct RequestQueue {
@@ -61,6 +63,9 @@ public:
     // 0xf45dc8 / 0xf45dfc: bits 1 / 3 of the thread's flag byte +0x195.
     bool sub_F45DC8() const;
     bool sub_F45DFC() const;
+    // 0xf45e2c / 0xf45dd8 (placeholder names): thread fields 0x100 / bit 4 of 0x194.
+    u32 getUnk100Maybe() const;
+    bool isFlag4SetMaybe() const;
 
 private:
     static NFP* sInstance;

@@ -56,3 +56,11 @@ void NFP::sub_F45D5C() {
     queue.mWriteIndex = (index + 1) % 16;
     queue.mRequests[index] = 3;
 }
+
+u32 NFP::getUnk100Maybe() const {
+    return _30->_100;
+}
+
+bool NFP::isFlag4SetMaybe() const {
+    return (_30->_194 >> 4) & 1;
+}
