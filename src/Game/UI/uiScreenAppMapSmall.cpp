@@ -413,6 +413,24 @@ void ScreenAppMap::sub_71009EB72C() {
     sub_71009F1DBC();
 }
 
+// 0x71009f05c0
+// NON_MATCHING: the original loads the new position with one ldp and schedules the flag update between the two stores
+void ScreenAppMap::sub_71009F05C0() {
+    if (!_3c30)
+        return;
+    const sead::Vector2f view = *UiSubsys1::instance()->getVec3868();
+    const sead::Vector2f offset = *UiSubsys1::instance()->_850.get30();
+    const f32 x = view.x + offset.x;
+    const f32 y = view.y + offset.y;
+    const f32 scale = UiSubsys1::instance()->_850.get28();
+    sead::Vector2f pos(scale * x, scale * y);
+    UiSubsys1::instance()->set3878(pos);
+    auto* pane = _3c30;
+    pane->_30 = *UiSubsys1::instance()->getVec3878();
+    pane->_38 = 0.0f;
+    pane->_58 |= 0x10;
+}
+
 // 0x71009f1b18
 void ScreenAppMap::sub_71009F1B18(sead::Vector2f* v) const {
     v->normalize();

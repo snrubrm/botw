@@ -2431,6 +2431,9 @@ public:
     // 0x71009f1ca4 (placeholder name): plays the animator at 0x3638 and shows the time in `layout`
     void sub_71009F1CA4(eui::LayoutEx* layout);
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
+    // 0x71009f05c0 (placeholder name): positions the map pane (_3c30) at the map view position plus the view
+    // offsets, scaled by the map scale
+    void sub_71009F05C0();
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
     bool sub_71009EA030() const;

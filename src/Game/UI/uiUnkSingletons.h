@@ -1187,6 +1187,8 @@ class UiSubsys1 {
     friend class Unk_7102478048;  // m16 / m34 walk _5d8
     // Native 9A99F0 reads the map view object at 0x850 and its scale at +0x38 directly.
     friend class ScreenAppMapWidget;
+    // Native 9F05C0 reads the map view offsets (+0x30) and scale (+0x28) directly.
+    friend class ScreenAppMap;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
