@@ -1202,6 +1202,39 @@ void CharacterController::sub_7100F5FBE0(const sead::Vector3f& pos) {
         _114 |= 0x20;
 }
 
+// Placeholder name: sets the angular velocity that turns the body towards `dir` (a basis is built
+// from dir and the world up axis).
+void CharacterController::sub_7100F5FDF0(const sead::Vector3f& dir) {
+    sead::Vector3f linear_velocity;
+    sead::Vector3f angular_velocity;
+    sead::Matrix34f transform;
+    mRigidBody->getTransform(&transform);
+
+    // The basis is kept horizontal: the y of the up x dir cross product is cleared.
+    sead::Vector3f right = sead::Vector3f::ey.cross(dir);
+    right.y = 0.0f;
+    right.normalize();
+    sead::Vector3f forward = dir.cross(right);
+    forward.normalize();
+
+    sead::Matrix34f target;
+    target.setBase(0, right);
+    target.setBase(1, forward);
+    target.setBase(2, dir);
+    target.setTranslation(sead::Vector3f::zero);
+
+    if (mFlags.isOn(0x10000))
+        _298->computeVelocities(&linear_velocity, &angular_velocity, target);
+    else
+        mRigidBody->computeVelocities(&linear_velocity, &angular_velocity, target);
+
+    mRigidBody->setAngularVelocity(angular_velocity);
+    if (mFlags.isOn(0x10000))
+        _298->setAngularVelocity(angular_velocity);
+    if (angular_velocity.x != 0.0f || angular_velocity.y != 0.0f || angular_velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
 void CharacterController::sub_7100F5FD40(const sead::Quatf& rotation) {
     sead::Vector3f velocity;
     if (mFlags.isOn(0x10000))
