@@ -70,6 +70,12 @@ public:
     f32 getSampleRate() const {
         return mReader.mData ? static_cast<f32>(mReader.getAssetBlock_()->sample_rate) : 0.0f;
     }
+    /// The raw sample rate as stored in the asset block. Inline-only in the original; the sound code
+    /// 0x710105ae80 / 0x710105acec keeps it as an integer until the division and 0x710100e2fc
+    /// converts it with scvtf, so the f32 getter above cannot stand in for them.
+    u32 getSampleRateRaw() const {
+        return mReader.mData ? mReader.getAssetBlock_()->sample_rate : 0;
+    }
     /// inline-only in the original; name is ours (0x7100ff8c74, 0x7101055b88): 0 if the asset has no description.
     u8 getChannelNum() const { return mReader.mData ? mReader.getAssetBlock_()->channel_num : 0; }
     bool getMarkerInfo(MarkerInfo* info) const;
