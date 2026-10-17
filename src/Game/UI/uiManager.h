@@ -257,7 +257,11 @@ public:
         u8 _64c30_bytes[8];
     };
     /* 0x64c38 */ s32 _64c38;
-    u8 _64c3c[0x64c4d - 0x64c3c];
+    /* 0x64c3c */ s32 _64c3c;
+    /* 0x64c40 */ s32 _64c40;
+    /* 0x64c44 */ s32 _64c44;
+    /* 0x64c48 */ s32 _64c48;  // the debug board message's target (0: none)
+    u8 _64c4c[1];
     /* 0x64c4d */ u8 _64c4d;
     u8 _64c4e[0x64c68 - 0x64c4e];
     /* 0x64c68 */ bool _64c68;

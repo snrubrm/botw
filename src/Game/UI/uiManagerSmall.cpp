@@ -8,6 +8,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiAnimator.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include "Game/UI/uiManager.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/UI/uiScreens.h"
@@ -126,6 +127,36 @@ void Manager::createAndLoadScreenIfNeeded(s32 id) {
             return;
         }
     }
+}
+
+// 0x7100a7b9e8
+// NON_MATCHING: the message fields are laid out like the original (type first, the 8-byte sender at +8), but
+// clang keeps the sender's address in a second callee-saved register across the dispatcher call and tests
+// the _64c30 pause bits before the _64c24 state.
+int Manager::sub_7100A7B9E8(const ksys::Message& message) {
+    if (message.getType() != 0x6800007)
+        return 0;
+    _64c30 |= 0x80000;
+    if (isPausedMaybe()) {
+        sub_7100A7C71C();
+    } else {
+        _64c30 |= 0x100000;
+        struct Message {
+            ksys::MessageType type;
+            DebugBoardMessageSender sender;
+        } msg;
+        msg.type = ksys::MessageType(0x6800008);
+        _64c48 = 0;
+        sub_710089C6B0(&msg.sender);
+        const bool processing = ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread();
+        s32* target = _64c48 != 0 ? &_64c48 : nullptr;
+        if (processing)
+            sub_710089C754(&msg.sender, &_64a80, &msg.type, target, true);
+        else
+            sub_710089C6FC(&msg.sender, &_64a80, &msg.type, target, true);
+        sub_710089C6C4(&msg.sender);
+    }
+    return 1;
 }
 
 // 0x7100a7da38
