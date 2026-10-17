@@ -155,6 +155,61 @@ bool PlacementThing::invoke() {
 
 // NON_MATCHING: the random-point stores are scheduled differently (the original keeps the x result in
 // a register across the second random call) and the state dispatch lays the invoke block out of line.
+void AutoPlacement::updateSpawnInfosMaybe() {
+    ActorSpawnInfo* info = &mSpawnInfo[_c];
+    mX = &mThing1;
+
+    if (info->flow->placement_type != 1 || !mThing1._8883) {
+        _e = 0xFFFF;
+        _10 = 0xFF;
+        _b = 0xFF;
+        const s16 num_groups = _0;
+        info->flow->start(this, info->name.cstr(), &info->spawn_location);
+        if (num_groups != _0) {
+            ++info->_19;
+            ++info->_1e;
+            return;
+        }
+    }
+
+    if (_d != 0) {
+        for (s32 i = 0; i < _d; ++i) {
+            ActorSpawnInfo* next = nullptr;
+            for (s32 j = 0; j < _d; ++j) {
+                if (u8(_d) <= u8(_c + 1))
+                    _c = 0;
+                else
+                    _c = u8(_c + 1);
+                next = &mSpawnInfo[_c];
+                if (next->_18 > next->_19 && next->_1c > next->_1e && next->flow)
+                    break;
+                next = nullptr;
+            }
+            if (next == nullptr)
+                break;
+            if (next == info)
+                break;
+
+            ++next->_1e;
+            if (sub_710064EF24(next, mThing1.mQueryVec)) {
+                if (mThing1._8883 == 0 || next->flow->placement_type != 1) {
+                    _e = 0xFFFF;
+                    _10 = 0xFF;
+                    _b = 0xFF;
+                    const s16 num_groups = _0;
+                    next->flow->start(this, next->name.cstr(), &next->spawn_location);
+                    if (num_groups != _0) {
+                        ++next->_19;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    ++info->_1e;
+}
+
 bool AutoPlacement::updateSpawnMaybe(const sead::Vector3f* pos) {
     if (mThing1.mState == PlacementThing::State::Invalid) {
         sead::Vector3f random_pos;
@@ -168,7 +223,7 @@ bool AutoPlacement::updateSpawnMaybe(const sead::Vector3f* pos) {
         }
         if (_d != 0) {
             for (u32 i = 0; i < _d; ++i) {
-                if (u8(_c + 1) >= _d)
+                if (u8(_d) <= u8(_c + 1))
                     _c = 0;
                 else
                     _c = u8(_c + 1);
@@ -209,7 +264,7 @@ bool AutoPlacement::updateSpawnMaybe(const sead::Vector3f* pos) {
                 return mThing1._8880 != 0;
             if (_d != 0) {
                 for (u32 i = 0; i < _d; ++i) {
-                    if (u8(_c + 1) >= _d)
+                    if (u8(_d) <= u8(_c + 1))
                     _c = 0;
                 else
                     _c = u8(_c + 1);
@@ -321,12 +376,13 @@ void AutoPlacement::incrementGroup() {
     mGroupIdx++;
 }
 
+// NON_MATCHING: the u16 `tmp` the flow start writes sits at sp+0xc here, sp+0x8 in the original.
 s32 AutoPlacement::placeGroup(AutoPlacementFlowRes* res) {
     if (mGroupIdx < 0) {
         return -1;
     }
 
-    mThing2.mRaycast = mThing1.mRaycast;
+    mX = &mThing2;
     _6 = 0;
     _b = 0xFF;
 
@@ -336,8 +392,8 @@ s32 AutoPlacement::placeGroup(AutoPlacementFlowRes* res) {
     }
 
     _8868 = sead::SafeString::cEmptyString;
-    int tmp = 0;
-    res->start(this, grp.a, &tmp);
+    sead::TypedBitFlag<ActorSpawnInfo::SpawnLocation> tmp{};
+    res->start(this, grp.a.cstr(), &tmp);
     if (!_9)
         return -1;
     _9 = 0;

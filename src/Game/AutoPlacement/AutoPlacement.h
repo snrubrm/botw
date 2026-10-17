@@ -142,6 +142,9 @@ public:
     // 0x710064f244 (placeholder name; CSV unnamed): advances the work's placement state machine. With a
     // null `pos` it picks a random point of its 200-unit cell.
     bool updateSpawnMaybe(const sead::Vector3f* pos);
+    // 0x710064f02c (placeholder name; CSV unnamed): starts the flow of the current spawn info and then
+    // tries the other spawn infos (the one that starts a group is kept).
+    void updateSpawnInfosMaybe();
 
     void setSpawnInfo(const sead::SafeString& name, s32 count);
     void sub_710064DA54();
@@ -176,9 +179,11 @@ private:
     sead::BitFlag<u8> _b{};
     u8 _c = 0;
     u8 _d = 0;
-    u8 _e = 0;
-    u8 _f = 0;
+    u16 _e = 0;
     u8 _10 = 0;
+    u8 _11 = 0;
+    u8 _12 = 0;
+    u8 _13 = 0;
     s32 _14 = 0;
     sead::Buffer<ActorSpawnInfo> mSpawnInfo;
     sead::CriticalSection mCS{};

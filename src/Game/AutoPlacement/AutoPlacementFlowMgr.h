@@ -7,6 +7,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
+#include "Game/AutoPlacement/AutoPlacement.h"
 
 namespace uking {
 
@@ -18,10 +19,11 @@ void autoPlacementBfevflFree(void* ptr, void* userdata);
 
 struct AutoPlacementFlowRes {
     bool load(int idx, sead::Heap* heap);
-    // 0x71006516f4 (CSV autoPlacementFlowStuff) is the real start: it stores the placement and unit name,
-    // then starts the flowchart when the context's object and entry-point indices are set (both are private
-    // in our evfl, so the out-of-line body stays undecompiled for now).
-    void start(AutoPlacement* placement, const sead::SafeString& unit_name, int*);
+    // 0x71006516f4 (CSV autoPlacementFlowStuff) is the real start: it stores the placement, the unit name
+    // and the u16 the caller points at, then starts the flowchart when the context's object and
+    // entry-point indices are set (both are private in our evfl, so the body stays undecompiled for now).
+    void start(AutoPlacement* placement, const char* unit_name,
+               sead::TypedBitFlag<ActorSpawnInfo::SpawnLocation>* a3);
 
     ksys::res::Handle handle;
     sead::SafeString evfl_name;
