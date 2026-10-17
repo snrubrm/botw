@@ -972,7 +972,7 @@ void CharacterController::sub_7100F5F774(const sead::Vector3f& velocity, bool up
     sead::Vector3f body_velocity = velocity;
     if (scale)
         body_velocity *= _134;
-    mRigidBody->setLinearVelocity(body_velocity, sead::Mathf::deg2rad(10.0f));
+    mRigidBody->setLinearVelocity(body_velocity);
 
     if (!update_speed)
         return;
@@ -996,6 +996,34 @@ void CharacterController::sub_7100F5F6FC(const sead::Vector3f& velocity) {
     if (mFlags.isOn(0x10000))
         _298->setLinearVelocity(velocity);
     if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
+// Placeholder name: computes the velocities that move the body to `mtx` and applies them (with a
+// 10 degree epsilon); a matrix with a NaN is ignored.
+void CharacterController::sub_7100F5F938(const sead::Matrix34f& mtx) {
+    for (const f32 value : mtx.a) {
+        if (sead::Mathf::isNan(value))
+            return;
+    }
+
+    sead::Vector3f linear_velocity;
+    sead::Vector3f angular_velocity;
+    if (mFlags.isOn(0x10000))
+        _298->computeVelocities(&linear_velocity, &angular_velocity, mtx);
+    else
+        mRigidBody->computeVelocities(&linear_velocity, &angular_velocity, mtx);
+
+    sub_7100F5F774(linear_velocity, true, false);
+    if (mFlags.isOn(0x10000))
+        _298->setLinearVelocity(linear_velocity, sead::Mathf::epsilon());
+    if (linear_velocity.x != 0.0f || linear_velocity.y != 0.0f || linear_velocity.z != 0.0f)
+        _114 |= 0x20;
+
+    mRigidBody->setAngularVelocity(angular_velocity, sead::Mathf::epsilon());
+    if (mFlags.isOn(0x10000))
+        _298->setAngularVelocity(angular_velocity, sead::Mathf::epsilon());
+    if (angular_velocity.x != 0.0f || angular_velocity.y != 0.0f || angular_velocity.z != 0.0f)
         _114 |= 0x20;
 }
 
