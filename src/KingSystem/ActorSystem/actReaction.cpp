@@ -66,11 +66,13 @@ s32 Reaction::sub_7100EC2278(Actor* actor, bool* is_long) {
     if (auto* body = actor->getMainBody()) {
         sead::BoundBox3f aabb;
         body->getAabbInLocal(&aabb);
-        const f32 x = aabb.getMax().x - aabb.getMin().x;
-        const f32 y = aabb.getMax().y - aabb.getMin().y;
-        const f32 z = aabb.getMax().z - aabb.getMin().z;
-        const f32 min = std::min(std::min(x, y), z);
-        const f32 max = std::max(std::max(x, y), z);
+        const f32 x = aabb.getSizeX();
+        const f32 y = aabb.getSizeY();
+        const f32 z = aabb.getSizeZ();
+        const f32 min_xy = std::min(x, y);
+        const f32 max_xy = std::max(x, y);
+        const f32 min = std::min(min_xy, z);
+        const f32 max = std::max(max_xy, z);
 
         s32 size;
         if (max < 0.4f)
