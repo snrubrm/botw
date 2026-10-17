@@ -240,14 +240,12 @@ public:
     virtual ~Unk_7102475158();
 };
 
-// A small parameter block (size >= 0x68; placeholder layout and accessor names after the offsets: the CSV rows
-// 0x7100950244 - 0x71009502f0 are its non-virtual getters / setters).
+// A small parameter block (size 0x68; placeholder accessor names after the offsets: the CSV rows
+// 0x7100950244 - 0x71009502f0 are its non-virtual getters / setters). UiSubsys1 embeds it at 0x850 and writes
+// the fields without accessors, hence the friend declaration.
 class Unk_7102475368 {
 public:
-    struct Pair {
-        s32 a;
-        s32 b;
-    };
+    using Pair = sead::Vector2f;
 
     virtual ~Unk_7102475368();
 
@@ -260,7 +258,7 @@ public:
     f32 get28() const;
     void set2c(f32 value);
     f32 get2c() const;
-    u8* get30();
+    Pair* get30();
     void set38(f32 value);
     f32 get38() const;
     void set3c(f32 value);
@@ -268,22 +266,24 @@ public:
     void set40(const Pair& value);
     Pair* get40();
     s32 get48() const;
-    u8* get60();
+    Pair* get60();
 
 private:
+    friend class UiSubsys1;
+
     u8 _8[8];
     /* 0x10 */ u8 _10[8];
     /* 0x18 */ Pair _18;
     /* 0x20 */ Pair _20;
     /* 0x28 */ f32 _28;
     /* 0x2c */ f32 _2c;
-    /* 0x30 */ u8 _30[8];
+    /* 0x30 */ Pair _30;
     /* 0x38 */ f32 _38;
     /* 0x3c */ f32 _3c;
     /* 0x40 */ Pair _40;
     /* 0x48 */ s32 _48;
     u8 _4c[0x60 - 0x4c];
-    /* 0x60 */ u8 _60[8];
+    /* 0x60 */ Pair _60;
 };
 
 class Unk_7102475388 {

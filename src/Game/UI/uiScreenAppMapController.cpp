@@ -1,9 +1,21 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiMessageString.h"
 
 namespace uking::ui {
+
+// 0x71025db000: the map controller's static data block; its animator name buffer is at +0x148
+struct Unk_71025db000 {
+    u8 _0[0x148];
+    /* 0x148 */ sead::Buffer<sead::SafeString> mAnimatorNames;
+};
+KSYS_VISIBILITY_HIDDEN Unk_71025db000 sUnk_71025db000;
+
+// 0x71025daf90: the widget the map controller's name text goes into
+KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025daf90;
 
 // 0x71009c0ebc
 ScreenAppMapUnk3c90::ScreenAppMapUnk3c90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
@@ -50,6 +62,65 @@ void ScreenAppMapUnk3c90::m24(sead::Heap*) {
 // 0x71009c107c
 void ScreenAppMapUnk3c90::sub_71009C107C() {
     sub_71009C1080();
+}
+
+// 0x71009c1080
+void ScreenAppMapUnk3c90::sub_71009C1080() {
+    sub_71009C1218(0);
+    if (_130 != 2)
+        return;
+    if (mLayout) {
+        if (UiSubsys1::instance()->get38a4() == -1)
+            mLayout->startAnimCloseImpl_(false, true);
+        else
+            mLayout->sub_7100BDDE7C(false, 1, true);
+    }
+    const s32 state = UiSubsys1::instance()->get38a8();
+    switch (state) {
+    case 0:
+        _150->Stop(0.0f);
+        break;
+    case 1:
+        _150->Stop(1.0f);
+        break;
+    case 2:
+        _150->Stop(2.0f);
+        break;
+    }
+    _138->StopAtMin();
+    _158->StopAtMin();
+}
+
+// 0x71009c1218
+void ScreenAppMapUnk3c90::sub_71009C1218(s32 type) {
+    if (type != 0)
+        return;
+    if (UiSubsys1::instance()->get38a8() != 1)
+        return;
+    sead::FixedSafeString<64> name;
+    UiSubsys1::instance()->sub_7100960758(&name);
+    eui::MessageString message;
+    sub_7100AA2BDC(name, &message);
+    setWidgetString(mLayout, sUnk_71025daf90, message);
+}
+
+// 0x71009c1900
+void ScreenAppMapUnk3c90::sub_71009C1900() {
+    if (!mLayout)
+        return;
+    _138 = mLayout->createAnimatorAuto(sUnk_71025db000.mAnimatorNames[0].cstr(), false);
+    if (!mLayout)
+        return;
+    _140 = mLayout->createAnimatorAuto(sUnk_71025db000.mAnimatorNames[1].cstr(), false);
+    if (!mLayout)
+        return;
+    _148 = mLayout->createAnimatorAuto(sUnk_71025db000.mAnimatorNames[2].cstr(), false);
+    if (!mLayout)
+        return;
+    _150 = mLayout->createAnimatorAuto(sUnk_71025db000.mAnimatorNames[3].cstr(), false);
+    if (!mLayout)
+        return;
+    _158 = mLayout->createAnimatorAuto(sUnk_71025db000.mAnimatorNames[4].cstr(), false);
 }
 
 void ScreenAppMapUnk3c90::m31() {

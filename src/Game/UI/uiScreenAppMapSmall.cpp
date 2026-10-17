@@ -298,6 +298,18 @@ void ScreenAppMap::sub_71009F273C() {
 // 0x71025df310: the frame counter m94 uses to refresh the map hint every fifth frame
 KSYS_VISIBILITY_HIDDEN u32 sUnk_71025df310;
 
+// 0x71025df330: the map screen's static data block; m143 returns its button pane path buffer at +0x170
+struct Unk_71025df330 {
+    u8 _0[0x170];
+    /* 0x170 */ sead::Buffer<ButtonPanePath> mButtonPanePaths;
+};
+KSYS_VISIBILITY_HIDDEN Unk_71025df330 sUnk_71025df330;
+
+// 0x71009ec420 (CSV ScreenAppMap::m143)
+const sead::Buffer<ButtonPanePath>* ScreenAppMap::m143() {
+    return &sUnk_71025df330.mButtonPanePaths;
+}
+
 // 0x71009eafd4
 void ScreenAppMap::m94() {
     sub_71009EB0E0();

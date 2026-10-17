@@ -1438,8 +1438,7 @@ u8* Unk_7102475368::get10() {
 
 // 0x710095024c
 void Unk_7102475368::set18(const Pair& value) {
-    _18.a = value.a;
-    _18.b = value.b;
+    _18 = value;
 }
 
 // 0x7100950260
@@ -1449,8 +1448,7 @@ Unk_7102475368::Pair* Unk_7102475368::get18() {
 
 // 0x7100950268
 void Unk_7102475368::set20(const Pair& value) {
-    _20.a = value.a;
-    _20.b = value.b;
+    _20 = value;
 }
 
 // 0x710095027c
@@ -1479,8 +1477,8 @@ f32 Unk_7102475368::get2c() const {
 }
 
 // 0x71009502a4
-u8* Unk_7102475368::get30() {
-    return _30;
+Unk_7102475368::Pair* Unk_7102475368::get30() {
+    return &_30;
 }
 
 // 0x71009502ac
@@ -1505,8 +1503,7 @@ f32 Unk_7102475368::get3c() const {
 
 // 0x71009502cc
 void Unk_7102475368::set40(const Pair& value) {
-    _40.a = value.a;
-    _40.b = value.b;
+    _40 = value;
 }
 
 // 0x71009502e0
@@ -1520,8 +1517,8 @@ s32 Unk_7102475368::get48() const {
 }
 
 // 0x71009502f0
-u8* Unk_7102475368::get60() {
-    return _60;
+Unk_7102475368::Pair* Unk_7102475368::get60() {
+    return &_60;
 }
 
 // Native map-parameter leaf accessors following the shared parameter helpers.

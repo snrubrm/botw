@@ -11,6 +11,7 @@
 #include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/UI/uiTimer.h"
+#include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Task.h"
@@ -1184,6 +1185,8 @@ class UiSubsys1 {
     friend class Unk_7102476738;
     friend class Unk_7102476928;
     friend class Unk_7102478048;  // m16 / m34 walk _5d8
+    // Native 9A99F0 reads the map view object at 0x850 and its scale at +0x38 directly.
+    friend class ScreenAppMapWidget;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
@@ -1463,20 +1466,9 @@ private:
     /* 0x808 */ sead::CriticalSection _808;
     /* 0x848 */ s32 _848;
     /* 0x84c */ s32 _84c;  // read by sub_7100965EA8
-    // 0x850 .. 0x870: a 0x20 byte object (UiSubsys1::sub_7100965E58 returns its address)
-    u8 _850[0x870 - 0x850];
-    // The map view: position, scale, rotation (degrees) and the scale factors of the map widget.
-    /* 0x870 */ sead::Vector2f _870;
-    /* 0x878 */ f32 _878;
-    /* 0x87c */ f32 _87c;
-    /* 0x880 */ sead::Vector2f _880;
-    /* 0x888 */ f32 _888;  // a second scale (sub_7100966064)
-    u8 _88c[0x890 - 0x88c];
-    /* 0x890 */ sead::Vector2f _890;
-    /* 0x898 */ s32 _898;
-    u8 _89c[0x8b0 - 0x89c];
-    /* 0x8b0 */ f32 _8b0;
-    /* 0x8b4 */ f32 _8b4;
+    // 0x850: the map view parameters (position +0x20, scale +0x28, rotation +0x2c, offsets +0x30, a second
+    // scale +0x38, view size +0x40, mode +0x48, scale factors +0x60); sub_7100965E58 returns its address
+    /* 0x850 */ Unk_7102475368 _850;
     u8 _8b8[0x8c0 - 0x8b8];
     // The bounds of the map view (min / max corner)
     /* 0x8c0 */ sead::Vector2f _8c0;

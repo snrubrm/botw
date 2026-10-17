@@ -176,22 +176,22 @@ bool UiSubsys1::is848EqualTo1() const {
 
 // 0x7100965e68
 bool UiSubsys1::is898Zero() const {
-    return _898 == 0;
+    return _850._48 == 0;
 }
 
 // 0x7100965e78
 bool UiSubsys1::is898EqualTo3() const {
-    return _898 == 3;
+    return _850._48 == 3;
 }
 
 // 0x7100965e88
 bool UiSubsys1::is898Below3() const {
-    return _898 < 3;
+    return _850._48 < 3;
 }
 
 // 0x7100965e98
 bool UiSubsys1::is898Positive() const {
-    return _898 > 0;
+    return _850._48 > 0;
 }
 
 // 0x71025d6ca4: the layout screen size (written by the initialiser at 0x710094f9e4)
@@ -212,14 +212,14 @@ void sub_7100966018(sead::Vector2f* out) {
 // 0x710096603c
 // NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
 void UiSubsys1::sub_710096603C(sead::Vector2f* out) const {
-    const f32 scale = 1.0f / _878;
+    const f32 scale = 1.0f / _850._28;
     *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
 }
 
 // 0x7100966064
 // NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
 void UiSubsys1::sub_7100966064(sead::Vector2f* out) const {
-    const f32 scale = 1.0f / _888;
+    const f32 scale = 1.0f / _850._38;
     *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
 }
 
@@ -231,7 +231,7 @@ s32 UiSubsys1::sub_7100965EA8() const {
 // 0x7100965fec
 f32 UiSubsys1::sub_7100965FEC() const {
     static const sead::SafeArray<f32, 4> sValues{{6.0f, 7.5f, 8.5f, 9.5f}};
-    return sValues[_898];
+    return sValues[_850._48];
 }
 
 // 0x7100962d8c (CSV uiSubsys1::__auto9)
@@ -467,27 +467,27 @@ sead::Vector2f* UiSubsys1::getVec3878() {
 
 // 0x7100966684
 void UiSubsys1::sub_7100966684(const sead::Vector3f* pos) {
-    sead::Vector2f offset(pos->x * _8b0, -(pos->z * _8b4));
+    sead::Vector2f offset(pos->x * _850._60.x, -(pos->z * _850._60.y));
     sub_71009666C0(&offset);
 }
 
 // 0x7100965e58
 void* UiSubsys1::sub_7100965E58() {
-    return _850;
+    return &_850;
 }
 
 f32 UiSubsys1::sub_7100965EE0(f32 angle) const {
-    return sub_7100AA0B6C(_87c + angle);
+    return sub_7100AA0B6C(_850._2c + angle);
 }
 
-// NON_MATCHING: float register allocation and the order of the fnmul / fmul pair (target: s2 = 1 / _8b0, y computed before x)
+// NON_MATCHING: float register allocation and the order of the fnmul / fmul pair (target: s2 = 1 / _850._60.x, y computed before x)
 // 0x7100965d10
 void UiSubsys1::sub_7100965D10(sead::Vector2f* out) const {
-    const f32 inv_scale = 1.0f / _8b0;
-    const sead::Vector2f pos = _870;
+    const f32 inv_scale = 1.0f / _850._60.x;
+    const sead::Vector2f pos = _850._20;
     out->set(-(pos.x * inv_scale), pos.y * inv_scale);
-    sub_7100AA0BB0(out, _87c);
-    const f32 inv_zoom = 1.0f / _878;
+    sub_7100AA0BB0(out, _850._2c);
+    const f32 inv_zoom = 1.0f / _850._28;
     out->x = inv_zoom * out->x;
     out->y = inv_zoom * out->y;
 }
@@ -495,18 +495,18 @@ void UiSubsys1::sub_7100965D10(sead::Vector2f* out) const {
 // 0x71009659a4
 void UiSubsys1::sub_71009659A4(const sead::Vector2f* view) {
     sead::Vector2f offset;
-    if (_8b0 == 0 && _8b4 == 0)
+    if (_850._60.x == 0 && _850._60.y == 0)
         offset.set(0, 0);
     else
-        offset.set(-(_8b0 * view->x), -(_8b4 * view->y));
-    _880 = offset;
-    _890 = offset;
+        offset.set(-(_850._60.x * view->x), -(_850._60.y * view->y));
+    _850._30 = offset;
+    _850._40 = offset;
 }
 
 // 0x7100966d9c
 void UiSubsys1::set880(const sead::Vector2f& value) {
-    _880.x = value.x;
-    _880.y = value.y;
+    _850._30.x = value.x;
+    _850._30.y = value.y;
 }
 
 // 0x7100966dbc
@@ -773,7 +773,7 @@ s32 UiSubsys1::sub_7100965938() const {
 
 // 0x7100965994
 void UiSubsys1::set898(s32 value) {
-    _898 = value;
+    _850._48 = value;
 }
 
 // 0x710096599c

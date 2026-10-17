@@ -2462,6 +2462,7 @@ public:
     void m83() override;
     void m100() override;
     void m130() override;
+    const sead::Buffer<ButtonPanePath>* m143() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     s32 getSlink2LocalPropertyNum_() const override;

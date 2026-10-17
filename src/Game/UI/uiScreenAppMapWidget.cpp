@@ -16,6 +16,14 @@ void ScreenAppMapWidget::sub_71009A995C() {
     _b34c = 1;
 }
 
+// 0x71009a99f0: applies the map widget's scale level to the map view parameters
+void ScreenAppMapWidget::sub_71009A99F0(s32 level) {
+    mSubsys->_850.get28();
+    const f32 scale = sub_7100965960(level);
+    mSubsys->_850.set38(scale);
+    mSubsys->set898(level);
+}
+
 // 0x71009aef7c
 s32 ScreenAppMapWidget::sub_71009AEF7C() const {
     return _b4a0;
