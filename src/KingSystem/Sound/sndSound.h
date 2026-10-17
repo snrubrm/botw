@@ -337,7 +337,7 @@ public:
 };
 class Unk_SoundMgr38_10 {
 public:
-    // 0x7101032870 (declaration only; placeholder name): per-frame update (Unk_SoundMgr38::sub_710102C098).
+    // 0x7101032870: resets the positions when the manager is running and has a proc.
     void sub_7101032870();
     // 0x7101031010 (declared only)
     Unk_SoundMgr38_10();
@@ -345,15 +345,42 @@ public:
     // 0x71010317b4 (declared only): called with the heap right after construction.
     void sub_71010317B4(sead::Heap* heap);
     void sub_71010333F0();
-    // 0x710103362c (declared only): called by Unk_SoundMgr38::sub_710102AF84.
+    // 0x710103362c: stops the proc and resets the positions (called by Unk_SoundMgr38::sub_710102AF84).
     void sub_710103362C();
+    // 0x7101032940 (declared only; 2536 B): the per-frame position update called by sub_7101032870.
+    void sub_7101032940();
 
     // 0x71010333e0: sets _10c1 (Unk_SoundMgr38::sub_710102AE50).
     void sub_71010333E0();
 
-    u8 _8[0x10c1 - 0x8];
-    /* 0x10c1 */ bool _10c1;
-    u8 _10c2[0x1950 - 0x10c2];
+    /* 0x0008 */ act::BaseProcHandle mProcHandle;
+    /* 0x0018 */ void* _18 = nullptr;
+    /// The fixed positions handed to the speaker balance unifier.
+    /* 0x0020 */ aal::UnifiablePosition mPositions[32];
+    /* 0x0720 */ bool mPositionActive[32];
+    /* 0x0740 */ aal::SpeakerBalanceUnifier* mUnifier = nullptr;
+    u8 _748[0x10];
+    /* 0x0758 */ bool _758 = false;
+    /* 0x075c */ f32 _75c = 0.0f;
+    u8 _760[0x14];
+    /* 0x0774 */ f32 _774 = 0.0f;
+    u8 _778[0x10];
+    /// The per-position cache (0x38 bytes each); the three search results are at +0x28.
+    struct PositionCache {
+        u8 _0[0x28];
+        f32 _28[3];
+        u8 _34[4];
+    };
+    /* 0x0788 */ PositionCache _788[32];
+    /* 0x0e88 */ bool _e88[32];
+    u8 _ea8[0x10c0 - 0xea8];
+    /* 0x10c0 */ bool _10c0 = false;
+    /* 0x10c1 */ bool _10c1 = false;
+    u8 _10c2[0x18f8 - 0x10c2];
+    /* 0x18f8 */ bool _18f8 = false;
+    u8 _18f9[0x1900 - 0x18f9];
+    /* 0x1900 */ sead::CriticalSection mCS;
+    u8 _1940[0x1950 - 0x1940];
 };
 class Unk_SoundMgr38_18 {
 public:

@@ -164,6 +164,56 @@ void Unk_SoundMgr38_10::sub_71010333E0() {
     _10c1 = true;
 }
 
+// NON_MATCHING: the two reset loops are strength-reduced to pointer loops here (the original keeps an
+// index compare and a separately materialised float constant).
+void Unk_SoundMgr38_10::sub_7101032870() {
+    if (!_10c1 || !_18)
+        return;
+
+    sub_7101032940();
+
+    for (s32 i = 0; i < 32; ++i) {
+        mPositionActive[i] = false;
+        mUnifier->removeUnifiable(&mPositions[i]);
+    }
+
+    _75c = 0.0f;
+    _774 = 0.0f;
+    for (s32 i = 0; i < 32; ++i) {
+        _e88[i] = false;
+        _788[i]._28[0] = 100000000.0f;
+        _788[i]._28[1] = 100000000.0f;
+        _788[i]._28[2] = 100000000.0f;
+    }
+}
+
+// NON_MATCHING: same loop lowering as sub_7101032870.
+void Unk_SoundMgr38_10::sub_710103362C() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+
+    mProcHandle.deleteProc();
+    _18 = nullptr;
+    _758 = false;
+    _10c0 = false;
+    _18f8 = false;
+
+    for (s32 i = 0; i < 32; ++i) {
+        mPositionActive[i] = false;
+        mUnifier->removeUnifiable(&mPositions[i]);
+    }
+
+    _75c = 0.0f;
+    _774 = 0.0f;
+    for (s32 i = 0; i < 32; ++i) {
+        _e88[i] = false;
+        _788[i]._28[0] = 100000000.0f;
+        _788[i]._28[1] = 100000000.0f;
+        _788[i]._28[2] = 100000000.0f;
+    }
+
+    _10c1 = false;
+}
+
 }  // namespace ksys::snd
 
 Unk_7102501910::~Unk_7102501910() = default;
