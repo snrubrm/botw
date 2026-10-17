@@ -966,6 +966,38 @@ void SaveMgr::sub_7100E07E3C(const sead::ObjArray<gdt::TriggerParam::FlagCopyRec
     }
 }
 
+// NON_MATCHING: the ResetEvent store order and the `1 << 1` mask materialisation differ (ours builds
+// the mask directly); the callback list walk is otherwise the same.
+bool SaveMgr::x_10() {
+    if (_38)
+        return false;
+
+    if (auto* manager = gdt::Manager::instance())
+        manager->mFlagBuffer->copyChangedFlags(*manager->mRetryBuffer, true, false, false);
+
+    auto* manager = gdt::Manager::instance();
+    gdt::Manager::ResetEvent event;
+    event.param = _f98;
+    if (manager) {
+        manager->mBitFlags.reset(gdt::Manager::BitFlag::RequestResetAllFlagsToInitial);
+        manager->copyParamToParam1();
+        manager->mParamBypassPerm.setChangeOnlyOnce(false);
+        manager->mParam.setChangeOnlyOnce(false);
+        manager->mBitFlags.reset(gdt::Manager::BitFlag::_1);
+    }
+
+    for (auto* callback : mCallbacks) {
+        if (callback->mDelegate)
+            (*callback->mDelegate)(&event);
+    }
+
+    _38 = 0;
+    for (s32& value : _14c)
+        value = -1;
+    _1058 &= ~2;
+    return true;
+}
+
 void SaveMgr::x_7() {
     _f98 = gdt::Manager::instance()->mFlagBuffer;
     x_8(_f98->mCopiedBoolFlags);

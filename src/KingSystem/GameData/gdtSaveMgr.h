@@ -6,10 +6,12 @@
 #include <mc/seadCoreInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
 #include "KingSystem/Resource/resResourceGameSaveData.h"
 #include "KingSystem/Resource/resHandle.h"
 #include <container/seadSafeArray.h>
+#include <container/seadTList.h>
 #include <filedevice/seadFileDevice.h>
 
 namespace sead {
@@ -70,6 +72,9 @@ public:
     u32 get38() const { return _38; }
     bool auto0();
     bool enableGdtMgrChangeOnlyMode(s32 x);
+    // 0x7100e04cb0: copies the changed flags into the retry buffer and resets the change-only
+    // state, then tells the registered callbacks through a Manager::ResetEvent.
+    bool x_10();
     void auto5();
     bool x_6(u32 idx);
     bool auto6(s32 idx);
@@ -128,6 +133,12 @@ private:
         u8 _0[1];
     };
 
+    // Element of the callback list at 0x1008; its delegate at +0x40 is invoked with the ResetEvent.
+    struct Callback {
+        u8 _0[0x40];
+        sead::IDelegate1<gdt::Manager::ResetEvent*>* mDelegate = nullptr;
+    };
+
     sead::Heap* mHeap;
     sead::DelegateThread* _30;
     u32 _38;
@@ -177,7 +188,8 @@ private:
     u8 _f88[0xf94 - 0xf88];
     s32 _f94;
     gdt::TriggerParam* _f98;
-    u8 _fa0[0x1020 - 0xfa0];
+    u8 _fa0[0x1008 - 0xfa0];
+    sead::TList<Callback*> mCallbacks;
     Unk1020* _1020;
     u8 _1028[0x103c - 0x1028];
     s32 _103c;
