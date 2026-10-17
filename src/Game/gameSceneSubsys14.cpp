@@ -193,6 +193,53 @@ void GameSceneSubsys14::initCurrentLocation() {
     _12e0 = true;
 }
 
+// 0x71024734e0 (data; "MaronSpring"): the location name that sets _12e3.
+static const sead::SafeString sUnk_71024734E0("MaronSpring");
+
+// NON_MATCHING: two shift-amount guards (the original clears a negative id's bit) and some register
+// choices differ; the structure matches.
+// Placeholder name: rebuilds the active entries' id mask from _f80, selects the entry with the
+// largest id as the current location and copies it into _38 (or clears _38 when there is none).
+void GameSceneSubsys14::sub_7100904274() {
+    const s32 count = _f80.size();
+    u32 mask = 0;
+    bool equal = false;
+    Unk_GameSceneSubsys14Entry* latest = nullptr;
+
+    if (count >= 1) {
+        latest = _f80[0];
+        mask = 1 << latest->_11c;
+        equal = latest->name == sUnk_71024734E0;
+        for (s32 i = 1; i < count; ++i) {
+            if (!equal)
+                equal = _f80[i]->name == sUnk_71024734E0;
+            if (latest->id < _f80[i]->id)
+                latest = _f80[i];
+            mask |= 1 << _f80[i]->_11c;
+        }
+    }
+
+    if (latest) {
+        if (_38.name != latest->name)
+            ksys::gdt::setFlag_SaveLocationName(latest->name, false);
+        _38.name = latest->name;
+        _38.id = latest->id;
+        _38._11c = latest->_11c;
+        _38.link.operator=(latest->link);
+    } else {
+        if (_38.name.getStringTop()[0] != sead::SafeStringBase<char>::cNullChar)
+            ksys::gdt::setFlag_SaveLocationName(sead::SafeString(), false);
+        _38.name.clear();
+        _38.id = -1;
+        _38._11c = -1;
+        _38.link.reset();
+    }
+
+    _168 = mask;
+    _12e3 = equal;
+    _12e0 = false;
+}
+
 void GameSceneSubsys14::postCalc() {
     if (uking::ui::Manager::instance()->isPausedMaybe())
         return;
