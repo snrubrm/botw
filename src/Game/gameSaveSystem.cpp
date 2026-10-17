@@ -1,3 +1,4 @@
+#include <nn/util/util_Compression.h>
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include <filedevice/seadFileDevice.h>
@@ -576,6 +577,35 @@ void SaveArchiveWork::reset(bool free_data) {
     mState = 0;
     mData = nullptr;
     mSize = 0;
+}
+
+// NON_MATCHING: size-limit and error-result branches are shared differently.
+bool saveTransferDecompressArchive(void** out, u64* out_size, const void* data, u64 size,
+                                   sead::Heap* heap, s32* error) {
+    if (size >= 0x3c04b1b) {
+        if (error)
+            *error = 5100;
+        return false;
+    }
+    *out_size = nn::util::GetGzipDecompressedSize(data, size);
+    if (*out_size <= 0x3c00000) {
+        void* output = heap->tryAlloc(*out_size, 64);
+        if (output) {
+            void* work = heap->tryAlloc(0x1bf0, 8);
+            if (work && nn::util::DecompressGzip(output, *out_size, data, size, work, 0x1bf0)) {
+                heap->free(work);
+                *out = output;
+                return true;
+            }
+            if (error)
+                *error = 5200;
+            operator delete(output);
+            return false;
+        }
+    }
+    if (error)
+        *error = 5200;
+    return false;
 }
 
 // NON_MATCHING: Request construction uses a different store order and register allocation.

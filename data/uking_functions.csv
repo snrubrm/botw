@@ -54847,7 +54847,7 @@ Address,Quality,Size,Name
 0x000000710091a184,U,000572,
 0x000000710091a3c0,m,000364,_ZN5uking39saveTransferWaitForSaveSystemToCompleteEPj
 0x000000710091a52c,U,000360,
-0x000000710091a694,U,000320,_ZN5uking29saveTransferDecompressArchiveEPPvPmPKvmPN4sead4HeapEPi
+0x000000710091a694,m,000320,_ZN5uking29saveTransferDecompressArchiveEPPvPmPKvmPN4sead4HeapEPi
 0x000000710091a7d4,U,000524,
 0x000000710091a9e0,M,000328,_ZN5uking24save_file_stuff_internalEPN4sead10FileDeviceEPi
 0x000000710091ab28,U,000636,
