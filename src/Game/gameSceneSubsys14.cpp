@@ -117,6 +117,23 @@ void GameSceneSubsys14::postCalc() {
     mSlotsChanged = false;
 }
 
+void GameSceneSubsys14::sub_7100904CA4(const Unk_GameSceneSubsys14Entry& entry) {
+    const int count = _f80.size();
+    for (int i = 0; i < count; ++i) {
+        if (!(_f80[i]->link == entry.link))
+            continue;
+        auto* e = _f80[i];
+        e->name.clear();
+        e->id = -1;
+        e->_11c = -1;
+        e->link.reset();
+        _fe0.pushBack(_f80[i]);
+        _f80.erase(i);
+        _12e0 = true;
+        return;
+    }
+}
+
 void GameSceneSubsys14::init() {
     initCurrentLocation();
 }

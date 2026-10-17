@@ -106,6 +106,9 @@ public:
     bool sub_7100904128();
     // 0x7100904274 (placeholder name; 1168 B).
     void sub_7100904274();
+    // 0x7100904ca4 (CSV x_3; placeholder name; 304 B): removes the entry with `entry`'s link from
+    // _f80 (clearing its name and id) and returns it to _fe0.
+    void sub_7100904CA4(const Unk_GameSceneSubsys14Entry& entry);
     void sub_7100904DD4(const Unk_7100903948::Slot& slot);
     bool sub_7100904704();
     // 0x7100904ed4-0x7100904f68: out-of-line flag getters (`__auto*` in the CSV; bit meanings unknown).
