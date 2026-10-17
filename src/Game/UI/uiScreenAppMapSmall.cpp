@@ -302,6 +302,9 @@ KSYS_VISIBILITY_HIDDEN u32 sUnk_71025df310;
 struct Unk_71025df330 {
     u8 _0[0x170];
     /* 0x170 */ sead::Buffer<ButtonPanePath> mButtonPanePaths;
+    u8 _180[0x1f0 - 0x180];
+    // the map mode index of the four mode animators
+    /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
 };
 KSYS_VISIBILITY_HIDDEN Unk_71025df330 sUnk_71025df330;
 
@@ -411,6 +414,64 @@ void ScreenAppMap::sub_71009EB72C() {
         _3c50 = level;
     }
     sub_71009F1DBC();
+}
+
+// 0x71009ed084
+void ScreenAppMap::sub_71009ED084() {
+    if (!UiSubsys1::instance()->is898Below3())
+        return;
+    const s32 mode = UiSubsys1::instance()->_850.get48();
+    switch (mode) {
+    case 1:
+        _3628[5]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+        break;
+    case 2:
+        _3628[3]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+        break;
+    }
+    const s32 next = mode + 1;
+    if (next != sUnk_71025df330.mModeOrder[0])
+        _3628[3]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (next != sUnk_71025df330.mModeOrder[1])
+        _3628[4]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (next != sUnk_71025df330.mModeOrder[2])
+        _3628[5]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (next != sUnk_71025df330.mModeOrder[3])
+        _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
+// 0x71009ed1e4
+void ScreenAppMap::sub_71009ED1E4() {
+    if (!UiSubsys1::instance()->is898Positive())
+        return;
+    const s32 mode = UiSubsys1::instance()->_850.get48() - 1;
+    if (mode != sUnk_71025df330.mModeOrder[0])
+        _3628[3]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != sUnk_71025df330.mModeOrder[1])
+        _3628[4]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != sUnk_71025df330.mModeOrder[2])
+        _3628[5]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != sUnk_71025df330.mModeOrder[3])
+        _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
+// 0x71009ed860
+// NON_MATCHING: clang merges the state 7 check into the 1/3/5 set test here; the original keeps them apart
+bool ScreenAppMap::sub_71009ED860() {
+    auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (screen && (screen->isOpened() || screen->isOpening()))
+        return false;
+    if (_3618 && _3618->sub_71009C5B68())
+        return false;
+    if (_3c98) {
+        const s32 state = _3c98->_104;
+        if (state == 7)
+            return false;
+        if (state == 1 || state == 3 || state == 5)
+            return false;
+    }
+    return true;
 }
 
 // 0x71009f05c0

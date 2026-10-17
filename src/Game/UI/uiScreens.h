@@ -2449,6 +2449,11 @@ public:
     void sub_71009F1828(Unk_710247d8f8* child);
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
+    // 0x71009ed084 / 0x71009ed1e4 (placeholder names): play the map mode animators forward / backward
+    void sub_71009ED084();
+    void sub_71009ED1E4();
+    // 0x71009ed860 (placeholder name): whether the map may open (system window closed, no map child active)
+    bool sub_71009ED860();
     // 0x71009ed97c (CSV unnamed): plays the map-mode animators around the current mode
     void sub_71009ED97C();
     // 0x71009eda64 (CSV ScreenAppMap::x_2): the same animator change from get3900, called by x_1
