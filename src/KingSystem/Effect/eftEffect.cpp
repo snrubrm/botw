@@ -19,6 +19,36 @@ namespace ksys::eft {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Effect)
 
+void Effect::debugLog(const char* format, ...) {}
+
+void Effect::initBeforeStageGenB() {
+    _9fc8 = 0x1e;
+    if (mUserInstance)
+        mUserInstance->reset();
+}
+
+void Effect::addDemoResourceId(u32 id) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mDemoResourceCS);
+    for (s32 i = 0; i < 32; ++i) {
+        if (mDemoResourceIds[i] == -1) {
+            mDemoResourceIds[i] = s32(id);
+            return;
+        }
+    }
+    // The original builds this debug message before returning.
+    sead::FormatFixedSafeString<128> message("EFT_ERR[System::addDemoResourceId]");
+}
+
+void Effect::removeDemoResourceId(u32 id) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mDemoResourceCS);
+    for (s32 i = 0; i < 32; ++i) {
+        if (mDemoResourceIds[i] == s32(id)) {
+            mDemoResourceIds[i] = -1;
+            return;
+        }
+    }
+}
+
 // NON_MATCHING: the water-disable region test is branchy here (the original evaluates the four bound
 // compares together, as in map::sub_7100EDB6E0) and the ray cast vectors sit 8 bytes higher on the stack.
 bool Effect::sub_71011B2A34(const sead::Vector3f* pos, f32* out_depth, f32* out_height,

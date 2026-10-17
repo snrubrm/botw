@@ -79,6 +79,12 @@ public:
 
     // 0x71011b7404: a printf-style debug log whose body is compiled out (only the va_list spill is left).
     void debugLog(const char* format, ...);
+    // 0x71011b62e8: resets the effect level to 0x1e and the xlink user instance, if any.
+    void initBeforeStageGenB();
+    // 0x71011b88b0: adds a demo resource id to the fixed 32-entry table.
+    void addDemoResourceId(u32 id);
+    // 0x71011b8950: removes a demo resource id from the table (XLink::resolveDeleteVfxResource).
+    void removeDemoResourceId(u32 id);
 
 private:
     u8 _38[0x9fb8 - 0x38];
@@ -89,14 +95,22 @@ public:
     /* 0x9fc0 */ void* _9fc0;
 
 private:
-    u8 _9fc8[0x9fe0 - 0x9fc8];
+    /* 0x9fc8 */ s32 _9fc8;
+    u8 _9fcc[0x9fe0 - 0x9fcc];
     Unk_EffectActorTable _9fe0;
     EffectModelMgr mModelMgr;
     u8 _a628_end[0x192f4 - 0xa628 - sizeof(EffectModelMgr)];
     u32 mFlags;
-    u8 _192f8[0x193e0 - 0x192f8];
+    u8 _192f8[0x19300 - 0x192f8];
+    /* 0x19300 */ xlink2::UserInstance* mUserInstance = nullptr;
+    u8 _19308[0x193e0 - 0x19308];
     s32 _193e0;
-    u8 _193e4[0x2a750 - 0x193e4];
+    u8 _193e4[0x2a43c - 0x193e4];
+    /// Demo resource ids (initialised to -1 by the constructor).
+    /* 0x2a43c */ s32 mDemoResourceIds[32];
+    u8 _2a4bc[4];
+    /* 0x2a4c0 */ sead::CriticalSection mDemoResourceCS;
+    u8 _2a500[0x2a750 - 0x2a500];
 };
 static_assert(sizeof(Effect) == 0x2a750);
 
