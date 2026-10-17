@@ -766,5 +766,18 @@ u8* sub_710114E708() {
 // 0x7101147b24 / 0x7101147c34 (placeholder names): a 0x170-byte record at a negative offset.
 
 
+// 0x71011482b0: destructor of the block of eight samplers of the texture set-up objects (the
+// constructor 0x71011480b0 creates them at 0x90 + i * 0x170; the deleting destructor 0x7101148220
+// calls this on this + 0x90).
+// NON_MATCHING: all eight pairs match except the texture offset: the original destroys the
+// NVNtexture_ at sampler + 0x68 (TextureData at +0x10 with its texture at +0x58), our
+// agl::TextureData has it at +0.
+struct Unk_71011482B0 {
+    agl::TextureSampler mSamplers[8];
+    ~Unk_71011482B0();
+};
+static_assert(sizeof(Unk_71011482B0) == 8 * 0x170);
+Unk_71011482B0::~Unk_71011482B0() = default;
+
 }  // namespace ksys::tera
 
