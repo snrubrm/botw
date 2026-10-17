@@ -356,8 +356,9 @@ public:
     bool m142() override;
     bool m183() override;
     bool m184() override;
-    // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
-    // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
+    // 0x71002e5ff0: copies the drop info at `a4` (DynamicCast to Unk_7102376d50) into the weapon
+    // (parent link and the two flags at 0xf70 / 0xf71), sets bit 0 of the LOD state's flags and
+    // clears the optional weapon's damage colour.
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x71002e9a50 (lane1 s21): the chemical's state is 2 (false without a chemical).
     bool sub_71002E9A50();

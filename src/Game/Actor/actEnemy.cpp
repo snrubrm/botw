@@ -211,6 +211,27 @@ bool Enemy::m57() {
     return _1290._38 > 0.0f;
 }
 
+// 0x7100019e20: whether `body` belongs to this enemy or to one of its own weapons: the base check,
+// then the eight BaseProcLinks at 0xea8, then Weapon bit 0 of _e50.
+bool Enemy::m49(ksys::phys::RigidBody* body) {
+    if (PlayerOrEnemy::m49(body))
+        return true;
+
+    auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body->getUserTag());
+    if (!tag)
+        return false;
+
+    for (s32 i = 0; i < 8; ++i) {
+        if (_ea8[i].hasProcById(tag->getActor(nullptr, nullptr)))
+            return true;
+    }
+
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(tag->getActor(nullptr, nullptr));
+    if (weapon && (weapon->_e50 & 1))
+        return true;
+    return false;
+}
+
 bool Unk_7102357a08::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000b0)
         return false;

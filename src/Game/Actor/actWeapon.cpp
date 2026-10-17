@@ -35,6 +35,7 @@
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actLodState.h"
+#include "Game/Actor/actUnk_7102376d50.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -1035,6 +1036,34 @@ bool Weapon::sub_71002E9A7C() {
     return !(chemical->_be & 4);
 }
 
+// 0x71002e5ff0
+void Weapon::x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
+    if (auto* info = sead::DynamicCast<Unk_7102376d50>(static_cast<Unk_71025b1528*>(a4))) {
+        if (info->mFlags.isOnBit(0)) {
+            // C++14 evaluation order: the original evaluates the destination first.
+            _f60.operator=(getParentLink());
+        }
+        _f70[0] = info->mFlags.isOnBit(1);
+        _f70[1] = info->mFlags.isOnBit(2);
+    } else {
+        _f70[0] = _f70[1] = false;
+    }
+
+    if (_598)
+        _598->mFlags26.set(1);
+
+    if (auto* optional = m162()) {
+        if (optional->getModel()) {
+            Unk_710260af28::instance()->sub_7100F1E2F4(optional->getModel(),
+                                                      sead::Color4f(0.0f, 0.0f, 0.0f, 0.0f));
+            optional->sub_71011CCB1C(1.0f);
+            Unk_710260af28::instance()->sub_7100F1EAF8(optional->getModel(), 0.0f);
+            optional->x_3(0.0f);
+            optional->getActorFlags2().set(ActorFlag2::_20);
+        }
+    }
+}
+
 void Weapon::sub_71002E9AC8(const sead::Color4f& color) {
     if (_1018 == color)
         return;
@@ -1220,6 +1249,35 @@ f32 Weapon::getShieldSurfingFriction() {
     if (_f98.flags.isOn(WeaponModifier::AddSurfMaster))
         friction *= _f98.value / 1000.0f;
     return friction;
+}
+
+// 0x71002e88d8: the attack power scaled by the player's ancient / bone attack rates (only for a
+// weapon with the matching tag) and by the player's attack multiplier, plus the base attack power
+// of the actor or, when there is none, of the parent actor.
+s32 Weapon::getEffectiveAttackPower(ksys::act::Actor* actor) {
+    s32 power = getAttackPower();
+
+    if (auto* player = sead::DynamicCast<PlayerBase>(actor ? actor : getParentActor())) {
+        const f32 eps = sead::Mathf::epsilon();
+        f32 rate = player->getAncientAttackRate();
+        f32 diff = rate - 1.0f;
+        if (!(diff <= eps && diff >= -eps) && ksys::act::hasTag(this, 0x5e27ef10))
+            power = s32(f32(power) * rate);
+        rate = player->getBoneAttackRate();
+        diff = rate - 1.0f;
+        if (!(diff <= eps && diff >= -eps) && ksys::act::hasTag(this, 0x39ad2326))
+            power = s32(f32(power) * rate);
+        power = s32(player->getAtkMultiplier() * f32(power));
+    }
+
+    auto* player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(actor);
+    if (!player_or_enemy) {
+        player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor());
+        if (!player_or_enemy)
+            return power;
+    }
+    power += player_or_enemy->getBaseAtkPower();
+    return power;
 }
 
 // NON_MATCHING: fallback branches and resource loads are merged differently.

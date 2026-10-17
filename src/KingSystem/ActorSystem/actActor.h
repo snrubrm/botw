@@ -556,7 +556,8 @@ public:
     virtual void* m46();
     virtual bool m47();
     virtual Actor* m48();
-    virtual bool m49();
+    // 0x7100000940: no (false). Overrides take the other body of the contact.
+    virtual bool m49(phys::RigidBody* body);
     virtual bool m50();
     // Forwards to the Chemical (getChemicalStuff).
     virtual void m51(bool on);

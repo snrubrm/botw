@@ -1619,7 +1619,7 @@ Actor* Actor::m31() {
     return nullptr;
 }
 
-bool Actor::m49() {
+bool Actor::m49(phys::RigidBody*) {
     return false;
 }
 

@@ -58,7 +58,7 @@ protected:
 
 public:
     f32 getGuardableAngle() override { return sead::Mathf::deg2rad(100.0f); }
-    bool m49() override;
+    bool m49(phys::RigidBody* body) override;
     bool m50() override;
     void m51(bool on) override;
     bool m55() override { return true; }

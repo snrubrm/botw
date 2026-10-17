@@ -11,6 +11,8 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 
 namespace ksys::act {
@@ -242,6 +244,18 @@ void PlayerOrEnemy::sub_7100007844(s32 idx) {
 
 bool PlayerOrEnemy::isGuardJust() {
     return isGuard() && mActorFlags2.isOn(ActorFlag2::_10000000);
+}
+
+// 0x7100008af0: whether the atk object of this actor hit the actor of `body`. The DynamicCast
+// types are ActorAtk (Derive<Unk_71025ae640> static) and PhysicsUserTag (Derive<phys::UserTag>).
+bool PlayerOrEnemy::m49(phys::RigidBody* body) {
+    auto* atk = sead::DynamicCast<ActorAtk>(getAtk());
+    if (!atk)
+        return false;
+    auto* tag = sead::DynamicCast<PhysicsUserTag>(body->getUserTag());
+    if (!tag)
+        return false;
+    return atk->sub_710079E300(tag->getActor(nullptr, nullptr));
 }
 
 bool PlayerOrEnemy::m50() {
