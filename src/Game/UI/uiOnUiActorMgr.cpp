@@ -1,6 +1,8 @@
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <gsys/gsysModel.h>
+#include <layer/aglLayer.h>
+#include <layer/aglRenderer.h>
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actPauseMenuPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
@@ -103,6 +105,23 @@ void OnUiActorMgr::x_4() {
         }
     } else if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
         player->sub_71006E9E24();
+    }
+}
+
+// 0x7100907914
+void OnUiActorMgr::sub_7100907914(bool on) {
+    if (!on) {
+        _1f4.set(0x20);
+        if (_50.hasProc()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_50, &accessor);
+            accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        }
+        if (auto* layer = agl::lyr::Renderer::instance()->getLayer(10))
+            layer->sub_7100B60D60(false);
+    } else {
+        if (auto* layer = agl::lyr::Renderer::instance()->getLayer(10))
+            layer->sub_7100B60D60(true);
     }
 }
 
