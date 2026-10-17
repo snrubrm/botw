@@ -39,6 +39,7 @@ class SaveMgr {
     virtual ~SaveMgr();
 
 public:
+    bool loadSaveFile(u32 idx);
     struct InitArg {
         sead::Heap* heap;
         u32 _8;

@@ -6,6 +6,7 @@
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resEntryFactory.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/System/UIGlue.h"
 
@@ -37,6 +38,25 @@ bool SaveMgr::sub_7100E0402C(const sead::SafeString& path) {
     bool exists = false;
     device->tryIsExistFile(&exists, path);
     return exists;
+}
+
+// NON_MATCHING: The path strings and load request have different stack slots.
+bool SaveMgr::loadSaveFile(u32 idx) {
+    if (!_e00->mSaveInfo)
+        return false;
+    const s32 directory_count = _e00->mSaveInfo->directory_num;
+    auto* file = _e00->mFiles[idx];
+    sead::FormatFixedSafeString<256> name("%s", file->info->name.cstr());
+    if (directory_count >= 2 && !file->info->is_common_at_same_account)
+        name.format("%d/%s", _148, file->info->name.cstr());
+    sead::FormatFixedSafeString<256> path("%s/%s", _10b0.cstr(), name.cstr());
+    res::LoadRequest request;
+    request.mRequester = "ukingSaveMgr";
+    request.mPath = path;
+    request._26 = false;
+    request.mPackHandle = nullptr;
+    request._22 = true;
+    return mLoadHandle.load(path, &request, nullptr) != nullptr;
 }
 
 void SaveMgr::loadFlagValuesFromTriggerParam(gdt::TriggerParam* buffer) {
