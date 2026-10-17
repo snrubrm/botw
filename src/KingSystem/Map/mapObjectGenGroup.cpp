@@ -4,6 +4,8 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/Map/mapPlacementAreaMgr.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapLinkTag.h"
 #include "KingSystem/System/SystemTimers.h"
@@ -336,6 +338,63 @@ bool GenGroup::sub_7100D51E6C() {
             ++count;
     }
     return count == mObjects.size() - _18;
+}
+
+// NON_MATCHING: Candidate filtering and distance calculations use different register allocation.
+Object* GenGroup::sub_7100D514E8(const sead::Vector3f* pos) {
+    _30 = 1000.0f;
+    bool checked_area = false;
+    bool contains_event_tag = false;
+    bool has_saved_link_tag = false;
+    for (auto& obj : mObjects) {
+        if (sead::SafeString(obj.getUnitConfigName()) == "Area") {
+            if (!checked_area) {
+                const u32 mode = 0;
+                contains_event_tag = checkContainsObjWithName("EventTag", &mode);
+                for (auto& other : mObjects) {
+                    if (other.getFlags().isOn(Object::Flag::IsLinkTag) &&
+                        other.getRevivalGameDataFlagHash() != gdt::InvalidHandle) {
+                        has_saved_link_tag = true;
+                        break;
+                    }
+                }
+                checked_area = true;
+            }
+            if (!contains_event_tag && !has_saved_link_tag)
+                continue;
+        }
+        if (obj.getHardModeFlags().isOn(Object::HardModeFlag::ActorCreated) ||
+            obj.getActorData().mFlags.isOnBit(ActorData::Flag::Dragon) ||
+            obj.getActorFlags8().isOff(ActorFlag8::EnemyOrNpcOrActiveOrAreaOrAirWall) ||
+            obj.shouldSkipSpawn())
+            continue;
+        if (sead::SafeString(obj.getUnitConfigName()).endsWith("_Trunk") ||
+            sead::SafeString(obj.getUnitConfigName()).endsWith("_Stump") ||
+            sead::SafeString(obj.getUnitConfigName()).startsWith("Weapon_") ||
+            sead::SafeString(obj.getUnitConfigName()).startsWith("Animal_"))
+            continue;
+        if (obj.getActorData().mFlags.isOnBit(ActorData::Flag::IgnoreBoundingAtAreaCulling) &&
+            obj.getActorData().mFlags.isOffBit(ActorData::Flag::NpcOrNonGanonAndNonGuardianEnemy))
+            continue;
+        const auto translate = obj.getTranslate();
+        const f32 radius = obj.getActorData()._10c * obj.getScale().x;
+        if (PlacementMgr::instance()->mPlacementActors->mStruct1->boundsChecking(
+                translate, radius, &obj, false))
+            continue;
+        const f32 display_distance = obj.getDispDistance(false, false);
+        if (display_distance > 1000.0f || display_distance == 0.0f)
+            continue;
+        const f32 dx = pos->x - obj.getTranslate().x;
+        const f32 dz = pos->z - obj.getTranslate().z;
+        const f32 distance = sead::Mathf::sqrt(dx * dx + dz * dz) - obj.getTraverseDistInt();
+        if (distance <= 0.0f) {
+            _30 = 0.0f;
+            return &obj;
+        }
+        if (distance < _30)
+            _30 = distance;
+    }
+    return nullptr;
 }
 
 void GenGroup::sub_7100D510D0() {

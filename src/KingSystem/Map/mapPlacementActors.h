@@ -137,7 +137,9 @@ public:
     u8 _e8[0xf0 - 0xe8];
     Unk_7100D4D998* mEffectEntry;
     /* 0xf8 */ eft::EffectModelData* mEffectModelData;
-    u8 _100[0x148 - 0x100];
+    u8 _100[0x10c - 0x100];
+    f32 _10c;
+    u8 _110[0x148 - 0x110];
     sead::FixedSafeString<64> mActorName;
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);

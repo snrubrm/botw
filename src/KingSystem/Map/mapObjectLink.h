@@ -104,10 +104,15 @@ public:
 
     void deleteArrays();
     void release(Object* obj, bool a1);
+    bool allocLinks(s32 num_objects, s32 num_other, s32 num_to_self, sead::Heap* heap);
+    bool addLink(Object* dest, const sead::SafeString& name, bool skip_signals, Object* src,
+                 const MubinIter& iter);
+    void sub_7100D4FC0C(Object* unused, Object* obj);
     bool allocLinksToSelf(s32 num_links, sead::Heap* heap);
 
     bool sub_7100D4EC40(Object* src, ObjectLink* link, Object* dest);
     void sub_7100D4FB78(Object* obj);
+    Object* sub_7100D4FBBC(const sead::Vector3f* pos);
     bool checkCreateLinkObjRevival() const;
     bool checkDeleteLinkObjRevival() const;
     // 0x7100d4ead4 (CSV PlacementLinkData::setupLinks; placeholder name): links every object of the other

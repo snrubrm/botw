@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <math/seadVector.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -40,6 +41,7 @@ public:
     bool x(const u16* id);
     // 0x7100d51e6c (declared only).
     bool sub_7100D51E6C();
+    Object* sub_7100D514E8(const sead::Vector3f* pos);
     // 0x7100d50aa8 (placeholder name): called after `_4` was decremented by ObjectLinkData::sub_7100D4F884. Once the
     // group has no more pending users, resets the counters and the init state (the inconsistent ones are printed).
     void sub_7100D50AA8();
@@ -71,7 +73,7 @@ public:
     /* 0x20 */ u32 _20 = 0;
     /* 0x24 */ u32 _24 = 0;
     /* 0x28 */ u32 _28 = 0;  // SystemTimers::mFrameCounter at the time of sub_7100D510D0
-    /* 0x2c */ u8 _2c[4]{};
+    /* 0x2c */ u32 _2c = 0;
     /* 0x30 */ f32 _30 = 100.0f;
     /* 0x34 */ u8 _34[4]{};
     /* 0x38 */ sead::PtrArray<Object> mObjects;

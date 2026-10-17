@@ -193,7 +193,7 @@ public:
                              const int& idx);
     bool isPlayerInsideNpc(const sead::Vector3f& pos);
     // d21ddc
-    void boundsChecking();
+    bool boundsChecking(const sead::Vector3f& pos, const f32& radius, Object* obj, bool a);
     bool insideInnerHideCalc(const sead::Vector3f& pos, const float& dist_from_face,
                              const int& idx);
     bool insideAlphaBase(const sead::Vector3f& pos, const float& dist_from_face);

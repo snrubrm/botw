@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapLinkTag.h"
+#include "KingSystem/System/SystemTimers.h"
 #include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -283,6 +284,33 @@ void ObjectLinkData::deleteArrays() {
     mLinksToSelf.links.freeBuffer();
 }
 
+bool ObjectLinkData::allocLinks(s32 num_objects, s32 num_other, s32 num_to_self, sead::Heap* heap) {
+    if (num_objects >= 1) {
+        auto* objects = new (heap, 8, std::nothrow) Object*[num_objects];
+        if (!objects)
+            return false;
+        mObjects.setBuffer(num_objects, objects);
+        for (s32 i = 0; i < num_objects; ++i)
+            mObjects.getBufferPtr()[i] = nullptr;
+    }
+
+    if (num_other >= 1) {
+        auto* links = new (heap, 8, std::nothrow) ObjectLink[num_other];
+        if (!links)
+            return false;
+        mLinksOther.links.setBuffer(num_other, links);
+    }
+
+    if (num_to_self >= 1) {
+        auto* links = new (heap, 8, std::nothrow) ObjectLink[num_to_self];
+        if (!links)
+            return false;
+        mLinksCs.links.setBuffer(num_to_self, links);
+    }
+
+    return true;
+}
+
 bool ObjectLinkData::allocLinksToSelf(s32 num_links, sead::Heap* heap) {
     if (num_links >= 1) {
         mLinksToSelf.links.tryAllocBuffer(num_links, heap);
@@ -290,6 +318,89 @@ bool ObjectLinkData::allocLinksToSelf(s32 num_links, sead::Heap* heap) {
             return false;
     }
     return true;
+}
+
+// NON_MATCHING: The signal filter and free-link scan use different branch scheduling.
+bool ObjectLinkData::addLink(Object* dest, const sead::SafeString& name, bool skip_signals,
+                             Object* src, const MubinIter& iter) {
+    const auto type = ObjectLink::getTypeForName(name);
+    bool added = false;
+    if (type != MapLinkDefType::Invalid && !(type == MapLinkDefType::SyncLink && skip_signals)) {
+        if (type == MapLinkDefType::Reference) {
+            for (auto& obj : mObjects) {
+                if (!obj) {
+                    obj = dest;
+                    break;
+                }
+            }
+        } else {
+            if (dest && skip_signals) {
+                switch (type) {
+                case MapLinkDefType::Create:
+                case MapLinkDefType::Delete:
+                case MapLinkDefType::MtxCopyCreate:
+                case MapLinkDefType::SyncLink:
+                case MapLinkDefType::PlacementLOD:
+                case MapLinkDefType::Reference:
+                    break;
+                default:
+                    dest = nullptr;
+                    break;
+                }
+            }
+            auto& array = u32(type) - u32(MapLinkDefType::FixedCs) < 9 ? mLinksCs : mLinksOther;
+            if (type == MapLinkDefType::CopyWaitRevival && dest &&
+                src->mFlags.isOn(Object::Flag::IsLinkTag) && src->mFlags.isOff(Object::Flag::_8) &&
+                ((src->mFlags.getDirect() | dest->mFlags.getDirect()) &
+                 u16(Object::Flag::IncrementSave)) == 0) {
+                src->mFlags.set(Object::Flag::_8);
+                src->mRevivalGameDataFlagHash = dest->mRevivalGameDataFlagHash;
+            }
+            ObjectLink* available = nullptr;
+            for (auto& link : array.links) {
+                if (link.other_obj == dest && link.type == type)
+                    return false;
+                if (!link.other_obj && link.type == MapLinkDefType::Invalid) {
+                    available = &link;
+                    break;
+                }
+            }
+            if (!available) {
+                for (auto& link : array.links) {
+                    if (!link.other_obj && link.type == type) {
+                        available = &link;
+                        break;
+                    }
+                }
+            }
+            if (available) {
+                available->type = type;
+                available->other_obj = dest;
+                available->iter = iter;
+                added = available->type < MapLinkDefType::Reference;
+            }
+        }
+    }
+    return added;
+}
+
+Object* ObjectLinkData::sub_7100D4FBBC(const sead::Vector3f* pos) {
+    if (!mGenGroup)
+        return nullptr;
+    mGenGroup->_2c = SystemTimers::instance()->mFrameCounter;
+    return mGenGroup->sub_7100D514E8(pos);
+}
+
+// NON_MATCHING: The constexpr descriptions fold into direct string references.
+void ObjectLinkData::sub_7100D4FC0C(Object* unused, Object* obj) {
+    if (!mLinksOther.findLinkWithType(MapLinkDefType::ChangeAtnSig) ||
+        mLinksToSelf.findLinkWithType(MapLinkDefType::ForbidAttention))
+        return;
+    sead::FixedSafeString<128> message;
+    message.format("(%s)を使っていますが、(%s)が入力にありません",
+                   ObjectLink::getDescriptionForType(MapLinkDefType::ChangeAtnSig),
+                   ObjectLink::getDescriptionForType(MapLinkDefType::ForbidAttention));
+    printDebugMsg(obj, message, nullptr);
 }
 
 ObjectLink* ObjectLinkData::findLinkWithType(MapLinkDefType t) {

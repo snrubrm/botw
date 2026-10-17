@@ -34,6 +34,7 @@ class Object {
     friend class PlacementActors;
     friend bool shouldSpawn(Object* obj);
     friend class GenGroup;
+    friend class ObjectLinkData;
 
 public:
     // TODO: rename
