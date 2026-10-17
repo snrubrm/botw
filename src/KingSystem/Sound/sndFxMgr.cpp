@@ -9,6 +9,34 @@
 
 namespace ksys::snd {
 
+// NON_MATCHING: the original zeroes 0x98..0xad with two overlapping stores (0xa5 + 8, 0x98 + 16),
+// as if the block were one packed 21-byte aggregate; our separate fields also zero 0xa8.
+FxMgr::FxMgr() = default;
+
+FxMgr::~FxMgr() {
+    if (_8) {
+        delete _8;
+        _8 = nullptr;
+    }
+    if (_10) {
+        delete _10;
+        _10 = nullptr;
+    }
+    if (_68) {
+        delete _68;
+        _68 = nullptr;
+    }
+    if (_70) {
+        delete _70;
+        _70 = nullptr;
+    }
+    if (_50) {
+        delete _50;
+        _50 = nullptr;
+    }
+    mUsed.freeBuffer();
+}
+
 void FxMgr::sub_7101050348() {
     sub_710105034C();
 }
