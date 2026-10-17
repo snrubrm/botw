@@ -41,6 +41,8 @@ public:
 
 private:
     bool doUpload(void* arg);
+    // 0x7100a8c6b8 (CSV doCleanUp): the low priority job body queued by queueCleanUp.
+    bool doCleanUp(void* arg);
 
     /* 0x20 */ sead::Heap* mHeap = nullptr;
     /* 0x28 */ void* mBuffer = nullptr;

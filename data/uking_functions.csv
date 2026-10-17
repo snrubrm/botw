@@ -61461,7 +61461,7 @@ Address,Quality,Size,Name
 0x0000007100a8c368,O,000080,_ZN4ksys18PosTrackerUploader14sub_7100A8C368Ev
 0x0000007100a8c3b8,m,000248,_ZN4ksys18PosTrackerUploader11queueUploadEv
 0x0000007100a8c4b0,U,000248,PosTrackerUploader::doUpload
-0x0000007100a8c5a8,U,000272,_ZN4ksys18PosTrackerUploader12queueCleanUpEv
+0x0000007100a8c5a8,W,000272,_ZN4ksys18PosTrackerUploader12queueCleanUpEv
 0x0000007100a8c6b8,U,000184,PosTrackerUploader::doCleanUp
 0x0000007100a8c770,U,000736,_ZN4ksys18PosTrackerUploader14sub_7100A8C770EPKvjmib
 0x0000007100a8ca50,U,000104,

@@ -71,6 +71,38 @@ bool PosTrackerUploader::queueUpload() {
     return false;
 }
 
+// NON_MATCHING: only the store order / pairing of the delegate words and of the request's zero fields differs
+// (same as queueUpload).
+bool PosTrackerUploader::queueCleanUp() {
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS2);
+        if (_e0)
+            return false;
+        if (_f0 == 1)
+            return false;
+    }
+
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS1);
+        _f5 = false;
+    }
+
+    mUploadDelegate = sead::Delegate1R<PosTrackerUploader, void*, bool>(this, &PosTrackerUploader::doCleanUp);
+    _f0 = 1;
+
+    LowPrioThreadMgr::Request request;
+    request.lane_id = 1;
+    request.flags.setDirect(4);
+    request.delegate = &mUploadDelegate;
+    if (evt::submitLowPriorityRequest(request))
+        return true;
+
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS2);
+    _f0 = 2;
+    _e0 = nullptr;
+    return false;
+}
+
 // NON_MATCHING: only the schedule of the success path (the original materialises the return value 1 before the store
 // to +0x118).
 bool PosTrackerUploader::initHeaps(sead::Heap* parent, s32 value) {
