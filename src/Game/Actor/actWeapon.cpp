@@ -1251,6 +1251,32 @@ f32 Weapon::getShieldSurfingFriction() {
     return friction;
 }
 
+// 0x71002ee9e8: hands the damage amount to the damage manager as a Struct20: the life-multiplier
+// scaled damage for a DamageMgrWeapon, the plain amount for the generic manager.
+void Weapon::setDamage(u32 damage) {
+    if (auto* weapon_mgr = sead::DynamicCast<uking::act::DamageMgrWeapon>(mDamageMgr)) {
+        act::Struct20 info;
+        info.mField_8 = weapon_mgr->m51() * damage;
+        info.mField_14 = 5;
+        info.mField_18 = 15;
+        if (weapon_mgr->mStruct20_a) {
+            weapon_mgr->mField_30.lock();
+            weapon_mgr->mStruct20_a->combineMaybe(&info);
+            weapon_mgr->mField_30.unlock();
+        }
+    } else if (auto* mgr = sead::DynamicCast<uking::act::DamageManagerBase>(mDamageMgr)) {
+        act::Struct20 info;
+        info.mField_8 = damage;
+        info.mField_14 = 5;
+        info.mField_18 = 15;
+        if (mgr->mStruct20_a) {
+            mgr->mField_30.lock();
+            mgr->mStruct20_a->combineMaybe(&info);
+            mgr->mField_30.unlock();
+        }
+    }
+}
+
 // 0x71002e88d8: the attack power scaled by the player's ancient / bone attack rates (only for a
 // weapon with the matching tag) and by the player's attack multiplier, plus the base attack power
 // of the actor or, when there is none, of the parent actor.
