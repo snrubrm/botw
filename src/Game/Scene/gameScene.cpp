@@ -28,6 +28,9 @@
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Quest/qstManager.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
@@ -666,8 +669,34 @@ bool GameScene::sub_71007B0D3C() const {
     return _1d0.getState()->getId() == (&sUnk_71025cb150)->getId();
 }
 
-void GameScene::doInitBeforeStageGen() {
-    const s32 type = _2a8->getType();
+// NON_MATCHING: clang folds the 0x5f / 0x7f choice into and/lsl/eor; the original branches (4 bytes longer).
+bool GameScene::initBeforeStageGen(s32 state) {
+    _4c0.setStatus("ステージ生成前の初期化処理");
+    _8c8 = 0;
+    _279 &= ~u8(1);
+    const u16 mask = (state & 1) ? 0x5f : 0x7f;
+    ksys::act::BaseProcMgr::instance()->addSpecialJobTypes(mask);
+    ksys::act::BaseProcMgr::instance()->setMode(ksys::act::BaseProcMgr::Mode(4));
+    ksys::act::Awareness::instance()->setPaused(true);
+    if ((state & 1) == 0)
+        ksys::evt::Manager::instance()->_1d12a = true;
+    if (_2a8)
+        doInitBeforeStageGen();
+    if (_6e5) {
+        if (auto* save = SaveSystem::instance()) {
+            save->sub_7100912EA4(true);
+            if (auto* qst = ksys::qst::Manager::instance())
+                qst->setUnk5D(true);
+        }
+    }
+    TipsMgr::instance()->initBeforeStageGen();
+    ksys::act::ActorCreator::instance()->setEnableDistanceChecks(false);
+    _121 = false;
+    _4c0.setStatus("");
+    return true;
+}
+
+void GameScene::doInitBeforeStageGen() {    const s32 type = _2a8->getType();
     if (type != 3 && type != 4 && type != 5) {
         InitialStagePosition initial;
         setInitialPositionFromBinder(&initial, _2a8);
@@ -680,7 +709,7 @@ void GameScene::doInitBeforeStageGen() {
         sys->set104(false);
     GameSceneSubsys14::instance()->initCurrentLocation();
     sead::Heap* actor_heap = ksys::act::ActorHeapUtil::instance()->getBaseProcHeap();
-    initBeforeStageGen(_2b8, type, _280, actor_heap);
+    ::uking::initBeforeStageGen(_2b8, type, _280, actor_heap);
 }
 
 bool GameScene::hasStageBinder() const {

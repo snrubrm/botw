@@ -223,6 +223,8 @@ public:
 
     Status getStatus() const { return mStatus; }
     Mode getMode() const { return mMode; }
+    // 0x71007b15a8 (GameScene::initBeforeStageGen) stores 4 into mMode.
+    void setMode(Mode mode) { mMode = mode; }
     JobType getJobType() const { return mJobType; }
     u32 getNumJobTypes() const { return mJobLists.size(); }
     BaseProcJobLists& getJobLists(JobType type) { return mJobLists[u32(type)]; }

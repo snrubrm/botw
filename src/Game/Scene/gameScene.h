@@ -8,6 +8,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "Game/gameDebugStatus.h"
 #include "Game/gameScene320.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resUnk_71024F9D48.h"
@@ -58,6 +59,8 @@ class StageBinder;
 
 // 0x71025cb150 (a state object of the GameScene TU; only its id is read, by GameScene::m4 / sub_71007B0D3C).
 extern ksys::StateBase sUnk_71025cb150;
+
+// 0x710260e6a0 (ksys::qst::Manager::sInstance) is reached through the Quest manager's setUnk5D.
 
 // TODO
 class GameScene {
@@ -180,6 +183,9 @@ public:
     void sub_71007B4C28();
     // 0x71007b0d3c (declared only): the current state of the state machine at 0x1d0 has the id of a global state.
     bool sub_71007B0D3C() const;
+    // 0x71007b15a8: the per-scene half of the stage-gen init (`state` bit 0 selects the special job types and
+    // skips the event-manager flag).
+    bool initBeforeStageGen(s32 state);
     // 0x71007b1708: the position / manager setup before a stage gen (skipped for binder types 3..5).
     void doInitBeforeStageGen();
     // 0x71007b1aec: the last stage-gen step (resumes awareness, clears the event-manager flag, resets the
@@ -236,7 +242,10 @@ private:
     /* 0x320 */ GameScene320 _320;
     // 0x71025cb0f0 (placeholder name): a scene-TU global whose address doGenStageStep6 stores here.
     /* 0x348 */ void* _348;
-    u8 _350[0x6e0 - 0x350];
+    u8 _350[0x4c0 - 0x350];
+    // The debug status line of the scene TU; initBeforeStageGen sets its text twice.
+    /* 0x4c0 */ DebugStatus _4c0{"", 0};
+    u8 _5d0[0x6e0 - 0x5d0];
     /* 0x6e0 */ s32 _6e0;
     /* 0x6e4 */ bool _6e4;
     u8 _6e5;
@@ -244,7 +253,8 @@ private:
     /* 0x6e7 */ bool _6e7;
     u8 _6e8;
     /* 0x6e9 */ bool _6e9;
-    u8 _6ea[0x8c9 - 0x6ea];
+    u8 _6ea[0x8c8 - 0x6ea];
+    /* 0x8c8 */ u8 _8c8;
     /* 0x8c9 */ bool _8c9;
     /* 0x8ca */ bool _8ca;
     /* 0x8cb */ bool _8cb;

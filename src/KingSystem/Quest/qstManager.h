@@ -42,6 +42,8 @@ public:
 
     bool isQuestActor(act::Actor* actor) const;
     static act::BaseProc* sub_7100FD5848(const sead::SafeString& s1, const sead::SafeString& s2);
+    // 0x71007b15a8 / GameScene::unloadStage store the byte at +0x5d.
+    void setUnk5D(bool value) { mUnk5D = value; }
 
 private:
     u32 _28;
@@ -52,7 +54,10 @@ private:
     u32 _44;
     sead::PtrArray<const CameraTarget> _48;  // camera targets of all quest steps (sub_7100FD78F8)
     u32 _58;
-    u32 temp3;
+    u8 _5c;
+    // Set by GameScene::initBeforeStageGen and GameScene::unloadStage.
+    bool mUnk5D;
+    u8 _5e[2];
     u32 temp4;
     res::Handle mHandle;
     sead::ObjArray<Quest> mQuests;

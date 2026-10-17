@@ -44,6 +44,8 @@ public:
                             InstParamPack* params, map::Object* map_object, int task_lane_id);
 
     void enableDistanceUnloadChecks();
+    // 0x71007b15a8 (GameScene::initBeforeStageGen) clears mEnableDistanceChecks (byte at +0x58).
+    void setEnableDistanceChecks(bool enabled) { mEnableDistanceChecks = enabled; }
     void eraseActor(Actor* actor);
 
     void setActorFactory(IActorFactory* factory) { mActorFactory = factory; }
