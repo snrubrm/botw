@@ -2419,6 +2419,9 @@ public:
     // 0x71009eb0e0 (placeholder name; called by m94): toggles the UiSubsys1 map flags 0x38c8 / 0x6e4 and plays the
     // animator at 0x3630 forwards or backwards
     void sub_71009EB0E0();
+    // 0x71009eb178 / 0x71009eb250 (declared only): the map update's mode-1 and per-frame steps
+    void sub_71009EB178();
+    void sub_71009EB250();
     // 0x71009f1b18 (placeholder name): normalises `v` and scales it by _3c48 / _3c4c
     void sub_71009F1B18(sead::Vector2f* v) const;
     // 0x71009f1b9c (placeholder name): sets the animator at 0x3c88 to its max / min end and shows the temperature
@@ -2453,6 +2456,7 @@ public:
     bool sub_71009EECD0() const;
     s32 sub_71009EED10() const;
     void m92(sead::Heap*) override;
+    void m94() override;
     void m83() override;
     void m100() override;
     bool isEnableControl() const override;
@@ -2525,7 +2529,11 @@ public:
     /* 0x3c08 */ eui::Animator* _3c08;
     u8 _3c10[8];
     /* 0x3c18 */ eui::Animator* _3c18;
-    u8 _3c20[0x3c48 - 0x3c20];
+    u8 _3c20[0x3c30 - 0x3c20];
+    // The icon area / map panes found by m93 (N_IconArea_00 / Pa_Map_00).
+    /* 0x3c30 */ Unk_PaneTransform* _3c30;
+    /* 0x3c38 */ Unk_PaneTransform* _3c38;
+    /* 0x3c40 */ Unk_PaneTransform* _3c40;
     /* 0x3c48 */ f32 _3c48;
     /* 0x3c4c */ f32 _3c4c;
     /* 0x3c50 */ s32 _3c50;  // the map scale level applied to _3610

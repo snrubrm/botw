@@ -876,7 +876,11 @@ struct Unk_PaneTransform {
     u8 _0[0x30];
     sead::Vector2f _30;
     f32 _38;
-    u8 _3c[0x58 - 0x3c];
+    u8 _3c[0x48 - 0x3c];
+    /* 0x48 */ f32 _48;  // read by ScreenAppMap::m94 (Pa_Map_00)
+    /* 0x4c */ u8 _4c[4];
+    /* 0x50 */ f32 _50;  // read by ScreenAppMap::m94 (N_IconArea_00)
+    u8 _54[0x58 - 0x54];
     u8 _58;
 };
 

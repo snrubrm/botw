@@ -1283,6 +1283,11 @@ public:
     u8 get3904() const;
     u8 get3905() const;
     bool return0C() const;
+    // 0x7100961114 (CSV uiSubsys1::__auto26, declared only): the per-frame map hint step; 0x7100968900
+    // (CSV uiSubsys1::__auto2, declared only) takes 1 / 2 and returns whether the map mode accepts it
+    void sub_7100961088();
+    void sub_7100961114();
+    bool sub_7100968900(s32 value);
     // 0x7100966300 / 0x7100966e20 (placeholder names)
     void start388c();
     void sub_7100966E2C();

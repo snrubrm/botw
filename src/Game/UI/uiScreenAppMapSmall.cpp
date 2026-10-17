@@ -293,6 +293,36 @@ void ScreenAppMap::sub_71009F273C() {
     close(-1);
 }
 
+// 0x71025df310: the frame counter m94 uses to refresh the map hint every fifth frame
+KSYS_VISIBILITY_HIDDEN u32 sUnk_71025df310;
+
+// 0x71009eafd4
+void ScreenAppMap::m94() {
+    sub_71009EB0E0();
+    if (_3c38)
+        _3c48 = _3c38->_50 * 0.5f;
+    if (_3c40)
+        _3c4c = _3c40->_48;
+    if (UiSubsys1::instance()->get38f8() == 1)
+        sub_71009EB178();
+    getStateMachine().run();
+    UiSubsys1::instance()->sub_7100961088();
+    UiSubsys1::instance()->sub_7100961114();
+    sub_71009EB250();
+    if (UiSubsys1::instance()->return0C()) {
+        ++sUnk_71025df310;
+        if (sUnk_71025df310 % 5 == 0) {
+            UiSubsys1::instance()->sub_7100965E58();
+            sead::Vector2f offset(0.0f, 0.0f);
+            UiSubsys1::instance()->sub_710096603C(&offset);
+        }
+    }
+    if (UiSubsys1::instance()->return0A() && UiSubsys1::instance()->sub_7100960DF8()) {
+        UiSubsys1::instance()->getVec3834();
+        UiSubsys1::instance()->sub_7100968900(1);
+    }
+}
+
 // 0x71009eb0e0
 // NON_MATCHING: the original materialises the 0 for set6e4 as `mov x1, xzr` (ours `mov w1, wzr`); same in m98
 void ScreenAppMap::sub_71009EB0E0() {
