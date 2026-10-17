@@ -1,4 +1,5 @@
 #include "Game/gameSaveSystem.h"
+#include <filedevice/seadFileDevice.h>
 #include <heap/seadFrameHeap.h>
 #include <time/seadTickSpan.h>
 #include "Game/AOC/aocHardModeManager.h"
@@ -541,6 +542,39 @@ bool SaveSystem::savePictureBook(void* data, const sead::SafeString& name, s32 s
         _3c = 0;
         _1a50 &= ~0x400;
         return false;
+    }
+    return true;
+}
+
+// NON_MATCHING: this TU's getAlbumPicturePath is inlined here (604 vs 328 bytes); the original emits a call to
+// 0x7100915f64 (an LTO decision). The body is the natural one.
+// 0x710091a9e0: checks that the 0x30 album picture files exist on `device`; the first gap or missing file is
+// reported through `error` (0x15 / 0x16).
+bool save_file_stuff_internal(sead::FileDevice* device, s32* error) {
+    auto* save_system = SaveSystem::instance();
+    bool missing = false;
+    for (u32 i = 0; i < 0x30; ++i) {
+        sead::FixedSafeString<96> mount;
+        sead::FixedSafeString<96> path;
+        if (save_system->getAlbumPicturePath(&mount, &path, s32(i)) < 1) {
+            missing = true;
+        } else {
+            if (missing) {
+                if (!error)
+                    return false;
+                *error = 0x15;
+                return false;
+            }
+            bool exists = false;
+            device->tryIsExistFile(&exists, path);
+            missing = false;
+            if (!exists) {
+                if (!error)
+                    return false;
+                *error = 0x16;
+                return false;
+            }
+        }
     }
     return true;
 }
