@@ -63,6 +63,11 @@ public:
     // 0x7101218a90: called by GelEnemy::m79: clears _30 and bit 1 of every entry, sets bit 2, releases every
     // entry's hkArray through 0x7101409fc8, then clears the 8 bytes at 0x5c.
     void sub_7101218A90();
+    // 0x7101218bcc (unnamed in the CSV): enables (bit 0x2000 of _70) or, while _60 >= 1, disables every entry
+    // through 0x7101218c70.
+    void sub_7101218BCC(bool enabled);
+    // 0x7101218c70 (unnamed; declared only): updates entry `index` with the cloth `enabled` flag.
+    void sub_7101218C70(s32 index, bool enabled);
     // Full12193C4 and independent ForestGiant706818: signed cloth index, -1 when absent.
     s32 sub_71012193C4(const sead::SafeString& name);
     // Full121C26C bounds-checks both signed indices and stores value at the selected item+8.

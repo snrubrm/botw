@@ -1,6 +1,26 @@
 #include "KingSystem/Physics/Cloth/physClothSet.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
+
+// 0x71026520ba8 (placeholder name): read by sub_7101218BCC when it re-enables the entries.
+KSYS_VISIBILITY_HIDDEN bool sUnk_71026520BA8;
+
+// NON_MATCHING: the original loads the entry count after the flag word; ours hoists it above the bool
+// computation and is 4 bytes shorter.
+void ClothSet::sub_7101218BCC(bool enabled) {
+    const u32 flags = _70;
+    if (!enabled && _60 >= 1.0f) {
+        _70 = flags & ~u32(0x2000);
+        const bool cloth_enabled = ((flags & 0x4000) | u32(sUnk_71026520BA8)) != 0;
+        const s32 count = _18.size();
+        for (s32 i = 0; i < count; ++i)
+            sub_7101218C70(i, cloth_enabled);
+        return;
+    }
+    _70 = flags | 0x2000;
+    sub_7101218A90();
+}
 
 void ClothSet::sub_7101218A90() {
     const s32 count = _18.size();
