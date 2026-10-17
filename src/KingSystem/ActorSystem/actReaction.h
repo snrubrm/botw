@@ -16,6 +16,7 @@ struct DamageReactionRequest;
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
+class Unk_71024f02a8;
 
 // Placeholder name: an actor given either directly or through a proc link (the reaction code keeps one at
 // +0xa8 of its request objects; 0x7100ec545c / 0x7101284954 read it). Accessors 0x7100ebf9e4..0x7100ebfad4.
@@ -60,7 +61,9 @@ public:
         void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
                             u64 material, u64 flag);
 
-        u8 _0[0x110];
+        u8 _0[0xe8];
+        /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
+        u8 _f0[0x20];
         /* 0x110 */ s32 _110;
     };
 
