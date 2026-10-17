@@ -119,8 +119,35 @@ bool ForestRenderer::stopped() {
     return true;
 }
 
-// NON_MATCHING: the original rematerialises the conditional index for the second _28 access (its arms also
-// share the base/addend split); ours computes it once.
+// 0x7100f06cb0: counts a tree instance in the u16 table at 0x78; true if the entry handles that model.
+// NON_MATCHING: the original selects the index byte by address (a reference conditional) and saves its base
+// in x23; ours selects the value (csel) and is 8 bytes shorter.
+bool ForestRenderer::Entry::sub_7100F06CB0(const sead::SafeString& name, const sead::Vector3f& pos,
+                                           const sead::Vector3f& rotate, f32 scale) {
+    const u32 flags = _8 & 1;
+    const s32 model = sub_7100F00BB8(flags, name, rotate, scale);
+    if (model < 0)
+        return false;
+    const s32 stride = flags ? 0x50 : 0x500;
+    GridCell cell;
+    cell.mFlags = _8 & 1;
+    cell.sub_7100F076D8(pos);
+    const s32 index =
+        stride * model +
+        ((cell.mFlags & 1) ? cell.mZ * 10 : cell.mZ * 0xa0 + cell.mX * 0x10) +
+        ((cell.mFlags & 1) ? cell.mX : cell.mMask);
+    _78.getBufferPtr()[index] += 1;
+    mNumRecords += 1;
+    Unk_28& range = _28[((cell.mFlags & 1) ? cell.mZ * 10 : cell.mZ * 0xa0 + cell.mX * 0x10) +
+                        ((cell.mFlags & 1) ? cell.mX : cell.mMask)];
+    range._2 += 1;
+    range._8 |= 1ull << model;
+    range._4 |= 1 << (sUnk_710260A200.models[model].flags & 0x1f);
+    return true;
+}
+
+// 0x7100f0663c: the item index of the record at `pos` inside the cell's `_28` range, or -1.
+// NON_MATCHING: the original rematerialises the conditional index for the second _28 access; ours computes it once.
 s32 ForestRenderer::Entry::sub_7100F0663C(const sead::Vector3f& pos) {
     GridCell cell;
     cell.mFlags = _8 & 1;
@@ -239,6 +266,9 @@ struct Unk_710260A220 {
     void* _20;
 };
 KSYS_VISIBILITY_HIDDEN Unk_710260A220 sUnk_710260A220;
+
+// 0x710260a200 (placeholder name): the forest model definition block (see the header).
+KSYS_VISIBILITY_HIDDEN ForestModelTable sUnk_710260A200;
 
 void ForestRenderer::x() {
     tera::Terrain::instance()->sub_710114DE70()->sub_710108330C();

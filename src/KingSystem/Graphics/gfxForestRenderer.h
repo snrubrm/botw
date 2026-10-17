@@ -29,6 +29,22 @@ class PlacementMgr;
 
 namespace ksys::gfx {
 
+// 0x710260a200 (name is a guess): the model definition block. Its model table at +0x42c has 0x18-byte
+// entries (1280 when Entry::_8 bit 0 is clear, else 80); only the leading flags word is used here.
+struct ForestModelDef {
+    u32 flags;
+    u8 _4[0x18 - 4];
+};
+struct ForestModelTable {
+    u8 _0[0x42c];
+    ForestModelDef models[1280];
+};
+extern ForestModelTable sUnk_710260A200;
+
+// 0x7100f00bb8 (unnamed; 3836 B, declared only): the definition index of a tree model (name / rotate /
+// scale), or -1; `flags` is Entry::_8 bit 0.
+s32 sub_7100F00BB8(u32 flags, const sead::SafeString& name, const sead::Vector3f& rotate, f32 scale);
+
 // TODO: incomplete
 class ForestRenderer : public sead::hostio::Node {
 public:
@@ -131,7 +147,9 @@ public:
         struct Unk_28 {
             u16 _0;
             u16 _2;
-            u8 _4[0x38 - 0x4];
+            u32 _4;
+            u64 _8;
+            u8 _10[0x38 - 0x10];
         };
         sead::Buffer<Unk_28> _28;
         u8 _38[0x60 - 0x38];
