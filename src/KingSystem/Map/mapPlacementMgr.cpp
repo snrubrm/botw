@@ -750,3 +750,11 @@ Unk_7102513630::Unk_7102513630() : _34{0, 0, 1}, _40(0), mController(0xb) {
 // NON_MATCHING: ours tail-calls the SeadController dtor; the original makes a call and then writes the base vtable
 // (0x710259d9b0's) to +0. The deleting destructor D0 matches.
 Unk_7102513630::~Unk_7102513630() = default;
+
+const char* Unk_7102513630::getName() const {
+    return "PlacementNavi";
+}
+
+const char* Unk_7102513630::getJpName() const {
+    return "OpenWorldシーンのナビゲータです";
+}

@@ -1361,8 +1361,9 @@ class Unk_7102513630 {
     SEAD_RTTI_BASE(Unk_7102513630)
 public:
     virtual ~Unk_7102513630();
-    virtual void m4();
-    virtual void m5();
+    // Vtable slots 4 / 5 (0x71011ed3cc / 0x71011ed3d8): the name strings.
+    virtual const char* getName() const;
+    virtual const char* getJpName() const;
     virtual void m6() {}
     virtual void m7();
     virtual void m8();
