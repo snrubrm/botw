@@ -1,5 +1,6 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/gameGraphics.h"
 #include "Game/gameUnk_71008ba8d8.h"
 #include "KingSystem/System/LayerMgrTask.h"
@@ -525,6 +526,16 @@ void sub_7100AA1D5C(eui::LayoutEx* layout, eui::LayoutEx* other, bool a3) {
     }
     if (other && layout->_70 && other->_91 && other->_70)
         layout->_70->ContinueFrom(*other->_70);
+}
+
+// 0x7100aa1cdc (placeholder name): the ScreenChild twin of sub_7100AA1D5C
+void sub_7100AA1CDC(ScreenChild* child, ScreenChild* other, bool a3) {
+    if (!child)
+        return;
+    if (child->_104 == 0 || (u32(child->_104 - 2) < 5 && ((child->_104 - 2) & 1) == 0))
+        child->m7(a3);
+    if (other && child->mLayout->_70 && other->_104 && other->mLayout->_70)
+        child->mLayout->_70->ContinueFrom(*other->mLayout->_70);
 }
 
 // 0x7100aa16e8 (placeholder name): whether `pane` and all of its ancestors are visible (false for null)
