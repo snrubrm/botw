@@ -3,6 +3,8 @@
 #include <prim/seadMemUtil.h>
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Effect/eftEffect.h"
+#include "KingSystem/Effect/eftEffectModelMgr.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -85,6 +87,22 @@ void PlacementActors::rebuildTree(PlacementTree* tree) {
 
 int PlacementActors::getNumGroups() const {
     return mObjs->mGroups.size();
+}
+
+void PlacementActors::releaseEffectModel(ActorData* data) {
+    if (data->mEffectModelData) {
+        eft::Effect::instance()->getModelMgr().requestDeleteModel(nullptr, data->mEffectModelData);
+        eft::Effect::instance()->getModelMgr().release(nullptr, data->mEffectModelData);
+        data->mEffectModelData = nullptr;
+    }
+
+    if (data->mEffectEntry) {
+        _2a8078.lock();
+        _2a8060.erase(data->mEffectEntry);
+        _2a8078.unlock();
+        delete data->mEffectEntry;
+        data->mEffectEntry = nullptr;
+    }
 }
 
 void PlacementActors::sub_7100D52C0C() {}

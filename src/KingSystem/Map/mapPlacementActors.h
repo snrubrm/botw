@@ -18,6 +18,10 @@ namespace gsys {
 class ModelUnit;
 }
 
+namespace ksys::eft {
+class EffectModelData;
+}
+
 namespace ksys::map {
 
 class Object;
@@ -125,7 +129,8 @@ public:
     res::ResDerived mRes;
     u8 _d8[0xf0 - 0xd8];
     Unk_7100D4D998* mEffectEntry;
-    u8 _f8[0x148 - 0xf8];
+    /* 0xf8 */ eft::EffectModelData* mEffectModelData;
+    u8 _100[0x148 - 0x100];
     sead::FixedSafeString<64> mActorName;
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
@@ -211,6 +216,8 @@ public:
     int getNumGroups() const;
     // 0x0000007100d522bc
     void deleteActorData(ActorData* data);
+    // 0x7100d52708 (placeholder name): releases the effect model data and the effect entry of `data`.
+    void releaseEffectModel(ActorData* data);
     // 0x0000007100d53d18
     void initActorDataEntry(ActorData* data, const char* name);
 
