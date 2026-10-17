@@ -602,6 +602,39 @@ void Object::decrementLinkNum() {
         --mNumLinksPointingToMe;
 }
 
+Unk_7100D4D998::Unk_7100D4D998(ActorData* data, sead::Heap* heap) {
+    mNode = {};
+
+    if (data->_10) {
+        gsys::Model::CreateArg arg;
+        arg._0 = 1;
+        arg._4 = 1;
+        arg._8 = false;
+        arg._9 = false;
+        mModel = gsys::Model::postCreateModel_(gsys::Model::create_(data->mActorName, arg, heap),
+                                               nullptr, heap, true);
+        mModel->sub_7100BF7114(data->_10, false, heap);
+    } else {
+        mModel = nullptr;
+    }
+
+    xlink::XLink::CreateArg arg;
+    arg.model = mModel;
+    arg.actor = nullptr;
+    arg.actorName = data->mActorName;
+    arg.rootMtx = &mMatrix;
+    arg.flags = 1;
+    arg._38 = mModel ? &mModel->getScale() : &sead::Vector3f::ones;
+    mXLink = arg.build(heap);
+    if (mXLink)
+        mXLink->initAfterActorConstruct(heap);
+
+    mInitialized = false;
+    mObject = nullptr;
+    mValue = FLT_MAX;
+    _5c = 0;
+}
+
 Unk_7100D4D998::~Unk_7100D4D998() {
     if (mXLink) {
         mXLink->resetELinkEvents();

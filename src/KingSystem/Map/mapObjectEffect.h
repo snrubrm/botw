@@ -27,7 +27,7 @@ private:
     sead::Matrix34f mMatrix;
     Object* mObject;
     f32 mValue;
-    u8 _5c[4];
+    u32 _5c;
     bool mInitialized;
     u8 _61[7];
 };

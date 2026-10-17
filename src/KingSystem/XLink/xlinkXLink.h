@@ -95,7 +95,7 @@ public:
         sead::SafeString uniqueName;
         const sead::Matrix34f* rootMtx = nullptr;
         sead::Vector3f* scale = nullptr;
-        sead::Vector3f* _38 = nullptr;
+        const sead::Vector3f* _38 = nullptr;
         gsys::Model* model = nullptr;
         u32 flags = 0;
     };
