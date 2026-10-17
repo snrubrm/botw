@@ -15,8 +15,9 @@ public:
     virtual bool m2(sead::BufferedSafeString* out) = 0;
     virtual bool getMapName(sead::BufferedSafeString* out, int x, int z) = 0;
     virtual void m4(int* x, int* z, const sead::SafeString& name) = 0;
-    // 0x00000071007c1c24
-    virtual bool isOpenWorld();
+    // 0x00000071007c1c24. The original treats the result as an integer count (it is used as a loop
+    // bound with a signed compare), not as a boolean.
+    virtual s32 isOpenWorld();
     // 0x00000071007c1c48
     virtual void getMubinPath(sead::BufferedSafeString* out, int type);
     // 0x00000071007c1d80

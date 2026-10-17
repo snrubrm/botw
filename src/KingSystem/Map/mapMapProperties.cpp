@@ -3,7 +3,7 @@
 
 namespace ksys::map {
 
-bool MapProperties::isOpenWorld() {
+s32 MapProperties::isOpenWorld() {
     return m0() == 0;
 }
 

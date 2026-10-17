@@ -55,6 +55,60 @@ bool PlacementMapMgr::isHkscResStatus3(const sead::Vector3f& pos, bool x) {
     return mMaps[u8(row + col * 8)].isDynamicLoaded(pos);
 }
 
+// NON_MATCHING: same logic, but clang keeps one pointer induction variable in the sort's inner loops where the
+// original keeps an index and a byte offset (576 vs 632 bytes); the two column/row selects are also 64-bit here.
+void PlacementMapMgr::updateMapArrayPtrsForPosition(s32 col, s32 row) {
+    mMapArray.mMaps.clear();
+
+    const s32 c = mIsShrineOrDivineBeast ? 5 : col;
+    const s32 r = mIsShrineOrDivineBeast ? 4 : row;
+
+    // The maps are stored column-major: 8 rows of 0x400 bytes for each of the 10 columns.
+    for (s32 i = 0; i < 10; ++i) {
+        for (s32 j = 0; j < 8; ++j) {
+            auto& map = mMaps[i * 8 + j];
+            map.mDistanceToCurrentMapUnit =
+                sead::Mathi::max(sead::Mathi::abs(c - i), sead::Mathi::abs(r - j));
+            mMapArray.mMaps.pushBack(&map);
+        }
+    }
+
+    for (s32 i = 0; i < mMapProps->isOpenWorld(); ++i) {
+        auto& map = mMaps[_18 + i];
+        map.mDistanceToCurrentMapUnit = mMapProps->m9(i) == 1 ? 1 : -1;
+        mMapArray.mMaps.pushBack(&map);
+    }
+
+    // Cocktail sort by distance to the current map unit.
+    auto** maps = static_cast<PlacementMap**>(mMapArray.mMaps.data());
+    s32 lo = 0;
+    s32 hi = mMapArray.mMaps.size() - 1;
+    if (hi <= 0)
+        return;
+    for (;;) {
+        for (s32 i = lo; i < hi; ++i) {
+            if (maps[i]->mDistanceToCurrentMapUnit > maps[i + 1]->mDistanceToCurrentMapUnit) {
+                auto* tmp = maps[i + 1];
+                maps[i + 1] = maps[i];
+                maps[i] = tmp;
+                hi = i;
+            }
+        }
+        if (lo == hi)
+            return;
+        for (s32 i = hi; i > lo; --i) {
+            if (maps[i - 1]->mDistanceToCurrentMapUnit > maps[i]->mDistanceToCurrentMapUnit) {
+                auto* tmp = maps[i];
+                maps[i] = maps[i - 1];
+                maps[i - 1] = tmp;
+                lo = i;
+            }
+        }
+        if (lo == hi)
+            return;
+    }
+}
+
 void PlacementMapMgr::initStaticMaps(sead::Heap* heap) {
     loadStaticMaps_();
     parseStaticMaps_(heap);
