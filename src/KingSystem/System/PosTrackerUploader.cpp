@@ -1,11 +1,23 @@
 #include "KingSystem/System/PosTrackerUploader.h"
 #include <heap/seadExpHeap.h>
+#include <nn/nifm.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/System/Account.h"
 #include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 
 namespace ksys {
+
+NexThread::~NexThread() = default;
+
+void NexThread::calc_(sead::MessageQueue::Element msg) {
+    const bool available = nn::nifm::IsNetworkAvailable();
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+        mNetworkAvailable = available;
+    }
+    sleep(mInterval);
+}
 
 SEAD_SINGLETON_DISPOSER_IMPL(PosTrackerUploader)
 

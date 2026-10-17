@@ -6,9 +6,29 @@
 #include <heap/seadHeap.h>
 #include <prim/seadDelegate.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadThread.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
+
+// Name from the CSV. The uploader constructs a 0x150-byte thread at 0x7100a8d188;
+// calc_ polls network availability under the critical section at +0x110.
+class NexThread : public sead::Thread {
+public:
+    NexThread(const sead::SafeString& name, sead::Heap* heap)
+        : sead::Thread(name, heap, 16, sead::MessageQueue::BlockType::NonBlocking, 0x7fffffff,
+                       0x2000, 0x20),
+          mInterval(sead::TickSpan::makeFromSeconds(1).toS64() / 2) {}
+    ~NexThread() override;
+
+    /* 0x100 */ sead::TickSpan mInterval;
+    /* 0x108 */ bool mNetworkAvailable = false;
+    /* 0x110 */ sead::CriticalSection mCS;
+
+protected:
+    void calc_(sead::MessageQueue::Element msg) override;
+};
+KSYS_CHECK_SIZE_NX150(NexThread, 0x150);
 
 // Placeholder name and namespace (CSV PosTrackerUploader::*; singleton at 0x71025f64c8, size 0x130, the singleton
 // disposer is the first member). Uploads the player position tracking data through the NEX library (the heaps are
@@ -47,7 +67,7 @@ private:
     /* 0x20 */ sead::Heap* mHeap = nullptr;
     /* 0x28 */ void* mBuffer = nullptr;
     /* 0x30 */ sead::Heap* mHeap2 = nullptr;
-    /* 0x38 */ void* _38 = nullptr;
+    /* 0x38 */ NexThread* _38 = nullptr;
     /* 0x40 */ sead::Delegate1R<PosTrackerUploader, void*, bool> mUploadDelegate;
     /* 0x60 */ sead::CriticalSection mCS1;
     /* 0xa0 */ sead::CriticalSection mCS2;
