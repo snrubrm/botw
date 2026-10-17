@@ -1,4 +1,6 @@
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Mii/miiNetfp.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -20,6 +22,17 @@ bool NPC::isZora(ksys::act::Actor* actor) {
 
 ksys::act::BaseProc* NPC::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) NPC(arg);
+}
+
+// 0x71025aea70 (placeholder name): the NPC animation-driven speed resource handle.
+ksys::res::Handle sUnk_71025AEA70;
+
+// 0x710001c790 (CSV name): loads the shared NPC animation-driven speed table for the GameScene.
+void loadAnimationDrivenSpeedNPC() {
+    ksys::res::LoadRequest request;
+    request.mRequester = "GameNPC";
+    request.mLoadCompressed = false;
+    sUnk_71025AEA70.load("AnimationDrivenSpeed/NPCSpeed.byml", &request, nullptr);
 }
 
 // NON_MATCHING: member types are incomplete
