@@ -760,3 +760,39 @@ void ClusteredRenderer::sub_7101249E6C() {
 s32 sub_7101240FE0() { return 28; }
 
 s32 sub_7101241F64() { return 27; }
+
+s32 sub_71011F1F98() { return 1; }
+
+void* sub_71011F1FA0() { return nullptr; }
+
+s32 sub_71011F2ECC() { return 0; }
+
+s32 sub_71011F2ED4() { return 0; }
+
+s32 sub_71011F2F74() { return 0; }
+
+s32 sub_71011F3964() { return 1; }
+
+void* sub_71011F396C() { return nullptr; }
+
+u8* sub_71011F98E4(u8* self) { return self + 64; }
+
+u8* sub_71011F98EC(u8* self) { return self + 16; }
+
+u8* sub_71011F98F4(u8* self) { return self + 68; }
+
+u8* sub_71011F98FC(u8* self) { return self + 52; }
+
+u8* sub_71011F9904(u8* self) { return self + 76; }
+
+u8* sub_71011F990C(u8* self) { return self + 52; }
+
+s32 sub_71011FC4D0() { return 0; }
+
+s32 sub_71012347C0() { return 0; }
+
+void* sub_710123DD20() { return nullptr; }
+
+s32 sub_710123DD2C() { return 0; }
+
+s32 sub_710123DD40() { return 0; }

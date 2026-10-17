@@ -433,3 +433,8 @@ bool GameSceneSubsys5::sub_7100906218(ksys::act::BaseProcLink* link, const sead:
 void GameSceneSubsys5::sub_7100906044() {
     uking::xlink::fade(_48, -1);
 }
+
+// 0x710066b9a4 (placeholder name): returns the float the caller passed by pointer.
+f32 sub_710066B9A4(void* a, void* b, void* c, const f32* value) {
+    return *value;
+}
