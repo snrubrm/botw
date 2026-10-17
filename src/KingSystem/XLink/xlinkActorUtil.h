@@ -51,6 +51,8 @@ void xlinkSearchAndEmit(ksys::act::Actor* actor, const char* name, int kind,
 /// searchAndHold version of xlinkSearchAndEmit (CSV name).
 void flyingObjectEmitXlink(ksys::act::Actor* actor, const char* name, int kind,
                            Unk_71012419b4* handle);
+/// 0x7101241168 (CSV name): emits the ELink event `name` and plays the SLink event `name` as a sound.
+void playEffectMaybe(const char* name, Unk_71012419b4* handle);
 /// 0x710124127c: kills all ELink events / stops all SLink events.
 void sub_710124127C(ksys::act::Actor* actor, int kind);
 /// 0x71012412e4: sets an xlink property (if assigned, or always if `force`).

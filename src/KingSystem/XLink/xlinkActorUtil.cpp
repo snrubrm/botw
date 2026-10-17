@@ -1,7 +1,9 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 int sub_7101240FE8(ksys::act::Actor* actor) {
@@ -41,6 +43,12 @@ void xlinkSearchAndEmit(ksys::act::Actor* actor, const char* name, int kind,
     if (!actor || !actor->getXLink())
         return;
     sub_71012410C8(actor->getXLink(), name, kind, handle);
+}
+
+void playEffectMaybe(const char* name, Unk_71012419b4* handle) {
+    ksys::eft::Effect::instance()->searchAndEmit(name, &handle->mELink);
+    xlink2::HandleSLink* slink = handle == nullptr ? nullptr : &handle->mSLink;
+    uking::ui::playSound(name, slink);
 }
 
 void flyingObjectEmitXlink(ksys::act::Actor* actor, const char* name, int kind,
