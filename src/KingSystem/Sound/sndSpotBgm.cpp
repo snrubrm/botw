@@ -120,7 +120,7 @@ void Unk_710260f228::m13(f32 fade_sec) {
 void Unk_SpotBgmInstance::sub_710102413C(f32 fade_sec) {
     if (_368 & 1)
         return;
-    _8.sub_7101020BB0(fade_sec);
+    sub_7101020BB0(fade_sec);
     if (_368 & 4)
         _368 |= 8;
     else
@@ -132,7 +132,7 @@ void Unk_SpotBgmInstance::sub_710102418C(f32 fade_sec) {
     if (!(_368 & 1))
         return;
     if (_368 & 2)
-        _8.sub_710101D9F4(fade_sec);
+        sub_710101D9F4(fade_sec);
     _368 &= ~0x10023u;
 }
 
@@ -144,11 +144,48 @@ void Unk_SpotBgmInstance::sub_71010242C8() {
     _260 = value;
 }
 
+Unk_SpotBgmInstanceBase::~Unk_SpotBgmInstanceBase() = default;
+
+// NON_MATCHING: same vtable layout difference (secondary vptr +0x50 vs +0x40, one more live
+// register) and the _268 / _290 store order.
+Unk_SpotBgmInstance::Unk_SpotBgmInstance(bool a)
+    : Unk_71024fc7f8(ksys::snd::Unk_710260f248Type(a)) {
+    _368 |= 0x90;
+}
+
+// NON_MATCHING: the handle base's hm14 / hm15 overrides also go into our primary vtable, so our
+// secondary vptr is stored at +0x50 instead of +0x40; the four destructors are otherwise identical.
+Unk_SpotBgmInstance::~Unk_SpotBgmInstance() {
+    _188 = 0xdeadca11;
+    if (mShape) {
+        mShape->destroy();
+        mShape = nullptr;
+    }
+}
+
+void Unk_SpotBgmInstance::hm14() {
+    if (mEntries.size() != 0)
+        _368 |= 0x10000;
+    else
+        sub_7101024374(this);
+}
+
+void Unk_SpotBgmInstance::hm15() {
+    Unk_SpotBgmInstance::sub_71010246CC();
+}
+
+void Unk_SpotBgmInstance::sub_7101024358() {
+    if (mEntries.size() != 0)
+        _368 |= 0x10000;
+    else
+        sub_7101024374(this);
+}
+
 void Unk_SpotBgmInstance::sub_7101024280() {
     if (!(_368 & 2))
         return;
     if (_368 & 1)
-        _8.sub_710101D9F4(mInfo->mFadeOutSec.ref());
+        sub_710101D9F4(mInfo->mFadeOutSec.ref());
     _368 &= ~0x22u;
 }
 

@@ -9,7 +9,7 @@ FrontierSpotBgmTriggerAction::FrontierSpotBgmTriggerAction(const InitArg& arg)
 
 FrontierSpotBgmTriggerAction::~FrontierSpotBgmTriggerAction() {
     if (_60) {
-        _60->_8.sub_710101D9A4();
+        _60->sub_710101D9A4();
         delete _60;
         _60 = nullptr;
     }
@@ -22,7 +22,7 @@ bool FrontierSpotBgmTriggerAction::init_(sead::Heap* heap) {
             return false;
         _60->_368 |= 0x1000;
         _60->sub_71010233CC(heap, &mSound_m, 0, mActor);
-        _60->_8.sub_710101D970();
+        _60->sub_710101D970();
     }
     return true;
 }

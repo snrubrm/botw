@@ -9,7 +9,7 @@ SpotBgmTriggerAction::SpotBgmTriggerAction(const InitArg& arg) : ksys::act::ai::
 
 SpotBgmTriggerAction::~SpotBgmTriggerAction() {
     if (_48) {
-        _48->_8.sub_710101D9A4();
+        _48->sub_710101D9A4();
         delete _48;
         _48 = nullptr;
     }
@@ -35,7 +35,7 @@ bool SpotBgmTriggerAction::init_(sead::Heap* heap) {
         if (!_48)
             return false;
         _48->sub_71010233CC(heap, &mSound_m, is_box, mActor);
-        _48->_8.sub_710101D970();
+        _48->sub_710101D970();
         if (is_box && *mIsStopWithoutReductionY_m)
             _48->sub_71010242F0();
     }
