@@ -5,6 +5,7 @@
 #include <prim/seadSafeString.h>
 
 #include <basis/seadTypes.h>
+#include <container/seadObjArray.h>
 #include <container/seadBuffer.h>
 #include <container/seadFreeList.h>
 #include <container/seadSafeArray.h>
@@ -244,6 +245,56 @@ void terrainSetCameraLookAtPos(const sead::Vector3f* pos);
 
 // Terrain is the CSV name of the singleton at 0x7102620698 (a sead singleton: createInstance 0x710114961c
 // builds the disposer at 0x300). Its ctor 0x71011496a4 also constructs bases at 0x20 (ctor 0x710107e724) and
+// The 0x28-byte layer entries of an extra info definition (0x71012ff698 creates them): a name pool
+// id, the name copied from the pool and the slope parameters the terrain XML gives.
+struct ExtraInfoLayerMaybe {
+    s32 name_id;
+    sead::SafeString name;
+    f32 ratio;
+    f32 scale_min;
+    f32 range;
+    f32 _24;
+};
+KSYS_CHECK_SIZE_NX150(ExtraInfoLayerMaybe, 0x28);
+
+// One record of the name pool at Terrain::_370->_4ae8: eight unmodelled bytes (the System cleanup at
+// 0x710113ecf4 reads the next record's first byte as this record's "name buffer allocated" flag) and
+// the name.
+struct ExtraInfoNameMaybe {
+    u8 _0[8];
+    sead::SafeString name;
+};
+KSYS_CHECK_SIZE_NX150(ExtraInfoNameMaybe, 0x18);
+
+// The name pool itself: 512 names, the 8-byte tail that holds the last record's flag and the count.
+struct ExtraInfoNamePoolMaybe {
+    ExtraInfoNameMaybe names[0x200];
+    u8 _3000[8];
+    u32 count;
+};
+
+// The definition 0x7101138390 creates per extra info name and 0x710111a4dc fills; only the fields
+// those functions use are modelled.
+struct ExtraInfoMaybe {
+    u16 id;
+    u8 _2[6];
+    sead::BufferedSafeString name;
+    u8 _20[0x80];
+    f32 width;
+    f32 density;
+    sead::ObjArray<ExtraInfoLayerMaybe> layers;
+    u8 _c8[0x300];
+    u32 flags;
+
+    // 0x71012ff4f0 (placeholder name): adds a layer for the pool entry called `name` (id -1 when the
+    // name is not in the pool).
+    ExtraInfoLayerMaybe* addLayer(f32 ratio, f32 scale_min, f32 scale_max, const sead::SafeString& name);
+    // 0x71012ff698 (placeholder name): creates a layer entry with pool id `name_id`.
+    ExtraInfoLayerMaybe* createLayer(s32 name_id, f32 ratio, f32 scale_min, f32 scale_max);
+    // 0x71012ff810 (placeholder name): the index of `layer` in `layers`, -1 if absent.
+    s32 findLayerIndex(const ExtraInfoLayerMaybe* layer) const;
+};
+
 class ImageResourceMgr;
 
 // 0x58 (vtable group 0x710250faa8); those and the remaining members are not modeled yet.
@@ -451,6 +502,8 @@ public:
 
         u8 _0[0x4ae0];
         Unk4ae0* _4ae0;
+        // The terrain XML's name pool (read by ExtraInfoMaybe::addLayer / createLayer).
+        ExtraInfoNamePoolMaybe* _4ae8;
     };
     // 0x710114de10 (CSV Terrain::__auto9) / 0x710114de3c (CSV Terrain::__auto6) / 0x710114de20 (placeholder names).
     void* sub_710114DE10() const;
