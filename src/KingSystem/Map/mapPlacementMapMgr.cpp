@@ -4,6 +4,11 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
+namespace ksys::tera {
+// 0x710111911c (declaration only): the second route handler, next to 0x71011190c8 in teraSystem.h.
+void sub_710111911C(void* tera_system, void* route);
+}  // namespace ksys::tera
+
 namespace ksys::map {
 
 PlacementMap* PlacementMapMgr::getMap(int idx) {
@@ -28,6 +33,30 @@ bool PlacementMapMgr::isHkscResStatus3(const sead::Vector3f& pos, bool x) {
             return x;
     }
     return mMaps[u8(row + col * 8)].isDynamicLoaded(pos);
+}
+
+void PlacementMapMgr::updateNeedLoadDynMapCounts(s32 x, s32 z) {
+    s32 count = 0;
+    s32 physics_count = 0;
+    for (s32 i = 0; i < mMapArray.mMaps.size(); ++i) {
+        auto* map = mMapArray.mMaps[i];
+        if (map->mFolderAndFile.findIndex("_DistanceView") == -1 &&
+            map->mMubinPath.cstr()[0] != sead::SafeString::cNullChar &&
+            map->mDistanceToCurrentMapUnit < 2) {
+            if (map->mInitStatus < PlacementMap::InitStatus::DynamicLoaded)
+                ++count;
+
+            if (map->mInitStatus == PlacementMap::InitStatus::DynamicLoaded) {
+                for (s32 j = 0; j < 4; ++j) {
+                    if (map->x_1(j, f32(x), f32(z)) &&
+                        map->mRes[j].mStatus < PlacementMap::HkscRes::Status::_2)
+                        ++physics_count;
+                }
+            }
+        }
+    }
+    mNeedLoadDynMap = count;
+    mNeedLoadDynMapPhysics = physics_count;
 }
 
 void PlacementMapMgr::updateHkscLoadStatusesMaybe() {
@@ -71,6 +100,14 @@ void PlacementMapMgr::unloadMapsThatAreTooFar() {
             map->unload();
             map->mInitStatus = PlacementMap::InitStatus::StaticLoaded;
         }
+    }
+}
+
+void PlacementMapMgr::routeStuff(void* tera_system) {
+    for (s32 i = 0; i < mMaps.size(); ++i) {
+        auto& map = mMaps[i];
+        for (s32 j = 0; j < map.mNumRoutes; ++j)
+            tera::sub_710111911C(tera_system, map.mRoutes[j]);
     }
 }
 
