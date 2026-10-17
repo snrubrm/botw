@@ -4,6 +4,7 @@
 #include <basis/seadTypes.h>
 #include <aal/aalFxDelayParamSetter.h>
 #include <container/seadObjList.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
 namespace sead {
@@ -15,13 +16,23 @@ class Viewport;
 class DirectResource;
 }
 class Unk_710251b5c0;
-// The reverb setting _18 points at (constructor not found; only the signed room value at +0xc is read).
+// The reverb setting _18 points at (it is the +0x10 data of the preset entry init picks).
 struct FxReverbSetting {
     u8 _0[0xc];
-    s32 mRoom;
+    /* 0x0c */ s32 mRoom;
+    /* 0x10 */ s32 _10;
+    /* 0x14 */ f32 _14;
+    u8 _18[0xc];
+    /* 0x24 */ s32 _24;
+    u8 _28[0x18];
+    /* 0x40 */ f32 _40;
 };
 
 namespace ksys::snd {
+
+// The reverb preset row index of FxMgr::sub_7101050104 (0 = no preset). Enumerator names are unknown.
+SEAD_ENUM(FxPreset, _0, _1, _2, _3, _4, _5)
+
 class Unk_7101059888;
 
 // The preset entries of the pool at +0x40 (0x58 bytes each; ObjList appends its list node, so a
@@ -48,6 +59,12 @@ public:
     void sub_7101050CCC();
     void sub_7101051078();
     void sub_71010511D4();
+    // 0x7101050104: the per-frame reverb preset (the five _50->_60 values plus the preset table row and
+    // the debug overrides), the environment FX send and the I3DL2 parameters.
+    void sub_7101050104();
+    // 0x71010511dc: applies the debug room offset of _18 (mRoom) plus the reverb gain to both reverb
+    // effects at +0x8 / +0x10.
+    void sub_71010511DC(f32 gain);
     // 0x7101051410: loads a direct resource with the given path; `this` is not read.
     sead::DirectResource* sub_7101051410(const sead::SafeString& path, sead::Heap* heap);
     // 0x7101051154: sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.
@@ -81,9 +98,11 @@ public:
     /* 0xa4 */ f32 _a4 = 0.0f;
     // Whole calculation 1050104 uses this signed index for the five-float preset table.
     /* 0xa8 */ s32 _a8 = 0;
-    u8 _ac[4];
-    /* 0xb0 */ u32 _b0 = 0;
-    /* 0xb4 */ u16 _b4 = 0;
+    /* 0xac */ bool _ac = false;
+    u8 _ad[3];
+    /* 0xb0 */ f32 _b0 = 0.0f;
+    /* 0xb4 */ bool _b4 = false;
+    /* 0xb5 */ bool _b5 = false;
     /* 0xb6 */ bool _b6 = false;
     u8 _b7;
     /* 0xb8 */ u32 _b8 = 0;

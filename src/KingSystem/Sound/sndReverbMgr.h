@@ -51,10 +51,14 @@ KSYS_CHECK_SIZE_NX150(Unk_7101059828, 0x38);
 // Whole FxMgr::init 10504fc allocates 98 bytes and constructs this manager at +50.
 // Own complete table 2502bd8 has D1/D0; ctor and cleanup establish list and lock.
 class Unk_7101059888 {
+    friend class FxMgr;
+
 public:
     Unk_7101059888();
     virtual ~Unk_7101059888();
     void sub_710105999C(sead::Heap* heap);
+    // 0x71010599ac (declared only; 348 B): updates the reverb controllers' parameters.
+    void sub_71010599AC();
     void sub_7101059B08();
     // Whole SoundMgr draw caller 11FC428 passes the same four graphics arguments.
     void sub_7101059C00(sead::DrawContext* context, const sead::Camera& camera,
