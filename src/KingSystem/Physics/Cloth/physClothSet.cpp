@@ -55,7 +55,7 @@ void ClothSet::sub_71012189B8(bool enabled) {
 s32 ClothSet::sub_71012193C4(const sead::SafeString& name) {
     const s32 count = _18.size();
     for (s32 i = 0; i < count; ++i) {
-        if (name == sead::SafeString(_18[i]._0->_10->mName.cString()))
+        if (name == sead::SafeString(_18[i]._0->m_clothData->m_name.cString()))
             return i;
     }
     return -1;
@@ -64,9 +64,41 @@ s32 ClothSet::sub_71012193C4(const sead::SafeString& name) {
 void ClothSet::sub_710121C26C(s32 cloth_index, s32 item_index, f32 value) {
     if (cloth_index >= _18.size())
         return;
-    ClothDataUnk* data = _18[cloth_index]._0->_20->_0->_10;
-    if (item_index < data->mNumParticles)
-        data->mParticles[item_index]._8 = value;
+    hclSimClothData* data = _18[cloth_index]._0->m_simClothInstances[0]->m_simClothData;
+    if (item_index < data->m_particleDatas.getSize())
+        data->m_particleDatas[item_index].m_radius = value;
+}
+
+void ClothSet::sub_71012197E0(const sead::SafeString& name) {
+    const s32 count = _18.size();
+    for (s32 i = 0; i < count; ++i) {
+        hclClothInstance* cloth = _18[i]._0;
+        const s32 num_sim_cloths = cloth->m_simClothInstances.getSize();
+        bool in_world = true;
+        for (s32 j = 0; j < num_sim_cloths; ++j) {
+            const s32 num_collidables = _18[i]._8[j].mSavedCollidables.size();
+            Unk_71025335A8* sim_cloth = cloth->m_simClothInstances[j];
+            s32 index = -1;
+            for (s32 k = 0; k < num_collidables; ++k) {
+                hclCollidable* collidable = sim_cloth->m_collidables[k];
+                if (collidable != mDummyCollidable &&
+                    name == sead::SafeString(collidable->m_name.cString())) {
+                    index = k;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                if (in_world)
+                    mWorld->removeCloth(cloth);
+                in_world = false;
+                hclCollidable* collidable = sim_cloth->m_collidables[index];
+                sim_cloth->m_collidables[index] = mDummyCollidable;
+                _18[i]._8[j].mSavedCollidables[index] = collidable;
+            }
+        }
+        if (!in_world)
+            mWorld->addCloth(cloth);
+    }
 }
 
 }  // namespace ksys::phys

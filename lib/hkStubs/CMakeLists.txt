@@ -1,6 +1,14 @@
 project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
+  Havok/Cloth/Cloth/Collidable/hclCollidable.h
+  Havok/Cloth/Cloth/Collidable/hclCollidable.cpp
+  Havok/Cloth/Cloth/Shape/hclShape.h
+  Havok/Cloth/Cloth/Cloth/hclClothData.h
+  Havok/Cloth/Cloth/SimCloth/hclSimClothData.h
+  Havok/Cloth/Cloth/SimCloth/hclSimClothInstance.h
+  Havok/Cloth/Cloth/Cloth/hclClothInstance.h
+  Havok/Cloth/Cloth/World/hclWorld.h
   Havok/Ai/Pathfinding/NavMesh/Query/hkaiNavMeshQueryMediator.h
   Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h
   Havok/Ai/Pathfinding/World/hkaiWorld.cpp
