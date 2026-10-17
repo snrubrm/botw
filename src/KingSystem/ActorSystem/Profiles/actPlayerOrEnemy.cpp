@@ -302,6 +302,26 @@ bool PlayerOrEnemy::getWeapon(ActorLinkConstDataAccess* accessor, int idx) const
     return true;
 }
 
+s32 PlayerOrEnemy::getMirrorLevel() const {
+    auto* poe = getPlayerOrEnemy();
+    if (!poe)
+        return 0;
+    debugLog(0, "getMirrorLevel");
+
+    const s32 num = poe->getWeapons()->mWeapons.size();
+    s32 result = 0;
+    for (s32 i = 0; i < num; ++i) {
+        Weapon weapon;
+        auto& link = poe->getWeapons()->mWeapons[i].link;
+        if (link.hasProc())
+            act::acquireActor(&link, &weapon);
+        const s32 level = getShieldMirrorLevel(weapon);
+        if (weapon.isShield() && level > result)
+            result = level;
+    }
+    return result;
+}
+
 s32 PlayerOrEnemy::getNumWeaponSlots() const {
     auto* poe = getPlayerOrEnemy();
     if (!poe)

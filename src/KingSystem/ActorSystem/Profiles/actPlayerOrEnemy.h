@@ -157,6 +157,8 @@ public:
     // 0x7100009860 (lane4 s44; names are guesses): the number of weapon slots (the weapons object is fetched through
     // its virtual getter and discarded), 0 without a PlayerOrEnemy.
     s32 getNumWeaponSlots() const;
+    // 0x71000095a0 (CSV name): the highest shield mirror level among the player's weapons, 0 without one.
+    s32 getMirrorLevel() const;
     // 0x7100009aa8: the flag `_10` of the weapon slot `idx`.
     bool sub_7100009AA8(int idx) const;
 
