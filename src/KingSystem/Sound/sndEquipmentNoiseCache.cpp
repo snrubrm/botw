@@ -6,13 +6,9 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 namespace ksys::snd {
 
-// The startup record stores a 64-bit constant before its start tick and duration.
-struct EquipmentNoiseInitInfo {
-    u64 mConstants = 0x8004ef;
-    util::InitTimeInfo mTiming;
-};
-KSYS_CHECK_SIZE_NX150(EquipmentNoiseInitInfo, 0x18);
-static EquipmentNoiseInitInfo sEquipmentNoiseInitInfo;
+// NON_MATCHING: the supported timing model places 0x8004ef in the second constant word;
+// this initializer stores it in the first word, as in sndSoundResourceMgr.cpp.
+static util::InitTimeInfoEx sEquipmentNoiseInitInfo;
 Unk_710251b170 sEquipmentNoiseCache;
 
 Unk_710251b170::~Unk_710251b170() = default;
