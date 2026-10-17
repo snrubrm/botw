@@ -631,6 +631,18 @@ void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* cente
     sub_7101120598(node, center, size, type);
 }
 
+void Core::Unk_140::sub_71010827DC() {
+    if (_8 & 4)
+        _8 &= ~4u;
+    sub_7101084D04(_14cd0);
+    sub_7101084D04(_14cd8);
+}
+
+void Core::Unk_140::sub_7101083028() {
+    sub_7101084E78(_14cd0);
+    sub_7101084E78(_14cd8);
+}
+
 void Unk_7101088B24::sub_7101088B24(System* system, bool add) {
     if (add) {
         for (auto& entry : mEntries)
