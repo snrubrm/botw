@@ -1060,3 +1060,13 @@ void sub_710112F078() {}
 }  // namespace ksys::tera
 
 s32 sub_7100F419B0() { return 1; }
+
+// Placeholder: the record 0x7100fddc28 writes (u64 at 0x60).
+struct Unk_7100FDDC28Maybe {
+    u8 _0[0x60];
+    u64 _60;
+};
+
+void sub_7100FDDC28(Unk_7100FDDC28Maybe* record, u64 value) {
+    record->_60 = value - 2;
+}

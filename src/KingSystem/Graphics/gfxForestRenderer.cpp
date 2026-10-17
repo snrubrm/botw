@@ -318,3 +318,13 @@ void ForestRenderer::sub_7100F06864(s32 idx) {
 s32 sub_7100F07590() { return 1680; }
 
 s32 sub_7100F0AC14() { return 4; }
+
+// Placeholder: a ForestRenderer record whose u32 at 0x20 is stored by 0x7100f0c000.
+struct ForestRecordMaybe {
+    u8 _0[0x20];
+    u32 _20;
+};
+
+void sub_7100F0C000(ForestRecordMaybe* record, u32 value) {
+    record->_20 = value;
+}

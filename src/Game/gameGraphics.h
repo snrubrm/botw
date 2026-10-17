@@ -224,8 +224,11 @@ public:
     // 0x7100f2e06c (placeholder name): sets bit 22 of `_284`.
     void sub_7100F2E06C();
 
-    // 0x7100f35de8 (declaration only; placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C
+    // 0x7100f35de8 (placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C; sets a byte
+    // at +0x508 of _ad8.
     void sub_7100F35DE8();
+    // 0x7100f35db0 (placeholder name): sets flag 0x10000 of _284.
+    void sub_7100F35DB0();
 
     // 0x7100f2fb6c (placeholder name; CSV Graphics::__auto6): stores the ratio at 0xe84 and sets
     // uking_dynamic_proj_shadow_off to 1 - ratio.
@@ -354,7 +357,9 @@ private:
     // EnvMgr reset/update and mode dispatch access this native field directly.
     friend class ksys::world::EnvMgr;
     Unk_71012a20e0* _ab8;
-    u8 _ac0[0xae0 - 0xac0];
+    u8 _ac0[0xad8 - 0xac0];
+    // Pointer whose byte +0x508 is set by sub_7100F35DE8.
+    u8* _ad8;
     Unk_7100f35df8* _ae0;
     u8 _ae8[0xb38 - 0xae8];
     Unk_710129175c* _b38;

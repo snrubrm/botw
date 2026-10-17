@@ -251,3 +251,11 @@ void* sub_7100F36648() { return nullptr; }
 s32 sub_7100F366DC() { return 1; }
 
 s32 sub_7100F36770() { return 1; }
+
+void Graphics::sub_7100F35DE8() {
+    _ad8[0x508] = 1;
+}
+
+void Graphics::sub_7100F35DB0() {
+    _284.set(0x10000);
+}
