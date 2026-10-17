@@ -6,6 +6,7 @@
 
 namespace uking::act {
 class Weapon;
+struct WeaponModifierInfo;
 struct Unk_71002eda38;
 struct Unk_71002edaec;
 }  // namespace uking::act
@@ -17,6 +18,11 @@ class OnUiActorMgr;
 namespace ksys::act {
 
 // TODO: incomplete. The vtable has 177 slots.
+// 0x71002f06d0 (declaration only; CSV name): applies the weapon damage of the weapon in `accessor` to `actor`,
+// with an optional modifier; called by PlayerOrEnemy::m176 and the weapon code.
+void updateWeaponDamage(ksys::act::ActorLinkConstDataAccess* accessor, ksys::act::BaseProc* actor,
+                        const ::uking::act::WeaponModifierInfo* modifier);
+
 class PlayerOrEnemy : public DynamicActor {
     SEAD_RTTI_OVERRIDE(PlayerOrEnemy, DynamicActor)
     // OnUiActorMgr::sub_71009079EC sets _c34 of the pause menu player
@@ -66,6 +72,9 @@ public:
     bool m154() override;
     bool m155() override;
     void m160() override;
+    // 0x7100008338 (unnamed in the CSV; placeholder name): stores `value` in the damage manager's _68
+    // (the WolfLinkRoot timer). Called next to m160.
+    void sub_7100008338(s32 value);
 
     // FIXME: figure out return types, parameters and names
     virtual bool m163(int idx);

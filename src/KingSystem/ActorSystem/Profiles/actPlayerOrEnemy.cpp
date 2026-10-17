@@ -53,6 +53,27 @@ bool PlayerOrEnemy::hasNoWeaponActors() {
     return true;
 }
 
+void PlayerOrEnemy::m176() {
+    getWeapons();
+    ksys::act::ActorLinkConstDataAccess accessor;
+    for (s32 i = 0; i < 6; ++i) {
+        auto& weapon = getWeapons()->mWeapons[i];
+        if (weapon.link.hasProc()) {
+            ksys::act::acquireActor(&weapon.link, &accessor);
+            updateWeaponDamage(&accessor, this, nullptr);
+        }
+    }
+    updateWeaponDamageCopyInfo();
+    if (auto* weapons = getWeapons())
+        weapons->m3();
+}
+
+void PlayerOrEnemy::sub_7100008338(s32 value) {
+    auto* damage_mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
+    if (damage_mgr)
+        damage_mgr->_68 = value;
+}
+
 void PlayerOrEnemy::m160() {
     auto* damage_mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
     if (!damage_mgr)
