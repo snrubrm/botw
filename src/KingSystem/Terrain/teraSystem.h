@@ -16,7 +16,6 @@
 #include <thread/seadThread.h>
 #include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
-#include <container/seadOffsetList.h>
 #include <container/seadTreeMap.h>
 #include <prim/seadBitFlag.h>
 #include <filedevice/seadFileDevice.h>
@@ -1038,6 +1037,9 @@ public:
     bool sub_71011170F4(s32 index, u32 level);
     // 0x710111713c (CSV TeraSystem::x_1; placeholder name): ApertureMapsCollector::_276c of scene `index`.
     ApertureMapsCollector::Unk_276c* sub_710111713C(s32 index);
+    // 0x7101117874 (CSV eui::BoxCursorNode::clearRouteAll is a wrong owner): clears the terrain images
+    // of every scene through ApertureMapsCollector::sub_7101101578(this, 0xff0000).
+    void sub_7101117874();
     // 0x71011178e4 (CSV name; the debug message calls it Scene::setMaterialUVWInfo): sets each material's
     // value and scale (the first material texture's width times the larger of _4 / _8).
     void x_2();

@@ -126,6 +126,11 @@ void Terrain::Unk4ae0::Unk_10::sub_71011406CC(u32 count) {
     _700 = count;
 }
 
+void System::sub_7101117874() {
+    for (s32 i = 0; i < mScenes.size(); ++i)
+        mScenes[i].collector->sub_7101101578(this, 0xff0000);
+}
+
 u32 sub_710110B4A4(f32* out_height, const sead::Vector2f* xz, System* system) {
     if (!system->_8)
         return 0;
