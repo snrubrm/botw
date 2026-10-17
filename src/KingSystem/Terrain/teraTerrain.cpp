@@ -3,6 +3,7 @@
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <cmath>
+#include <prim/seadBitUtil.h>
 #include <filedevice/seadFileDevice.h>
 #include <nn/gfx/gfx_ResTexture.h>
 #include <nn/g3d/ResModel.h>
@@ -14,6 +15,20 @@
 #include <thread/seadThread.h>
 
 namespace ksys::tera {
+
+void sub_71012EB7DC(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b) {
+    out->_18 = b->x - a->x;
+    out->_1c = b->y - a->y;
+    out->_20 = (b->x - a->x) + (a->x + a->x) - 1.0f;
+    out->_24 = -((b->y - a->y) + (a->y + a->y) - 1.0f);
+}
+
+void sub_71012EB840(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b) {
+    out->_20 = b->x - a->x;
+    out->_24 = b->y - a->y;
+    out->_28 = sead::BitUtil::bitCast<u32>(a->x);
+    out->_2c = sead::BitUtil::bitCast<u32>(a->y);
+}
 
 // NON_MATCHING: the original addresses the _8 pointer (entry + 8) once and reads _0 through -8;
 // ours keeps the entry base instead (one ldur vs ldr difference).

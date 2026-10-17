@@ -1507,6 +1507,20 @@ public:
     u32 _8;
 };
 
+// Placeholder: a terrain cell quad record; 0x71012eb7dc / 0x71012eb840 fill its corner fields.
+struct CellQuadMaybe {
+    u8 _0[0x18];
+    f32 _18;
+    f32 _1c;
+    f32 _20;
+    f32 _24;
+    u32 _28;
+    u32 _2c;
+};
+// 0x71012eb7dc / 0x71012eb840 (placeholder names): write the two corners of a cell quad.
+void sub_71012EB7DC(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b);
+void sub_71012EB840(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b);
+
 // Placeholder: the objects 0x7101154fc0 and six other unnamed callers pass to sub_7101152DC0.
 struct Unk_7101152DC0 {
     u8 _0[0x130];
