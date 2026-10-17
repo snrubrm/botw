@@ -18,11 +18,9 @@ void Unk_7102502138::Unk68::sub_710104BEF0() {
     }
 }
 
-// NON_MATCHING: the original compares with `current` through an inline byte loop without the two
-// assureTermination calls; the form is unknown.
 bool Unk_7102502138::Unk68::sub_710104D204(const sead::SafeString& name,
                                            const sead::SafeString& current) const {
-    return name == "None" || name == "No_Sound" || name == "Dummy" || name == current;
+    return name == "None" || name == "No_Sound" || name == "Dummy" || name.startsWith(current);
 }
 
 void Unk_7102502138::Unk68::sub_710104DD20(bool flag) {
@@ -36,9 +34,18 @@ void Unk_7102502138::Unk68::sub_710104DD88(bool flag) {
     _56c |= 0xc;
 }
 
-// NON_MATCHING: the last level choice is a select here (the original branches).
+// NON_MATCHING: the store of `level` is sunk to the common branch and lands at sp+8 in the
+// original; ours keeps it at x29-4.
 void Unk_7102502138::Unk68::sub_710104DF54(f32 value) {
-    s32 level = value > 0.25f ? 0 : value > 0.18f ? 1 : value > 0.1f ? 2 : 3;
+    s32 level = 0;
+    if (value <= 0.25f) {
+        if (value > 0.18f)
+            level = 1;
+        else if (value > 0.1f)
+            level = 2;
+        else
+            level = 3;
+    }
     _538->_98->sub_71012C3888(&level);
     _540->_98->sub_71012C3888(&level);
     if (!_15c)
@@ -47,9 +54,17 @@ void Unk_7102502138::Unk68::sub_710104DF54(f32 value) {
         _200->sub_71012C3888(&level);
 }
 
-// NON_MATCHING: the last level choice is a select here (the original branches).
+// NON_MATCHING: same store-sinking / stack-slot difference as sub_710104DF54.
 void Unk_7102502138::Unk68::sub_710104E004(f32 value) {
-    s32 level = value > 0.25f ? 0 : value > 0.18f ? 1 : value > 0.1f ? 2 : 3;
+    s32 level = 0;
+    if (value <= 0.25f) {
+        if (value > 0.18f)
+            level = 1;
+        else if (value > 0.1f)
+            level = 2;
+        else
+            level = 3;
+    }
     _528->_98->sub_71012C3888(&level);
     _530->_98->sub_71012C3888(&level);
     if (!_bc)

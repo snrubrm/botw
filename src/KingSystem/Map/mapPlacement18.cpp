@@ -1,6 +1,7 @@
 #include "KingSystem/Map/mapPlacement18.h"
 #include "KingSystem/Map/mapRail.h"
 #include <random/seadGlobalRandom.h>
+#include <math/seadMathCalcCommon.h>
 
 namespace ksys::map {
 
@@ -140,5 +141,35 @@ void Placement18::sub_7100D49784(f32* min_dist, const RailPoint** closest, const
         }
     }
 }
+
+
+Rail* Placement18::sub_7100D48DE0(const sead::SafeString& name, const sead::Vector3f* pos) {
+    Rail* closest = nullptr;
+    f32 min_dist = sead::Mathf::maxNumber();
+    for (s32 i = 0; i < 80; ++i) {
+        const s32 count = _10->unsafeAt(i)->size();
+        for (s32 j = 0; j < count; ++j) {
+            Rail* rail = _10->at(i)->at(j);
+            const char* unique_name = rail->getUniqueName();
+            if (!unique_name)
+                continue;
+            if (name == sead::SafeString(unique_name)) {
+                const s32 num_points = rail->getNumPoints();
+                for (s32 k = 0; k < num_points; ++k) {
+                    const sead::Vector3f& point = rail->getPointTranslate(k);
+                    const f32 dx = pos->x - point.x;
+                    const f32 dz = pos->z - point.z;
+                    const f32 dist = dx * dx + dz * dz;
+                    if (dist < min_dist) {
+                        min_dist = dist;
+                        closest = rail;
+                    }
+                }
+            }
+        }
+    }
+    return closest;
+}
+
 
 }  // namespace ksys::map
