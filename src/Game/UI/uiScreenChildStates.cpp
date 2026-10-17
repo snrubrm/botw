@@ -1150,7 +1150,6 @@ Unk_7102477110::~Unk_7102477110() {
 }
 
 // 0x710098fc08
-// NON_MATCHING: the original stores 0x350 before the memset of 0x130.
 Unk_7102478048::Unk_7102478048(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x710099ec7c

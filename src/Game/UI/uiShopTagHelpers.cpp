@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/UI/euiGrammar.h"
 #include <cstring>
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 // Shop tag-argument helpers (the 0x7100aa4b4c/0x7100aa4e70 tag resolvers live in this TU in the
 // original: the 16-byte forwarders sit right next to them).
@@ -80,6 +82,53 @@ static ShopCookInfo sUnk_71025F6960{
       {CookEffectId::MovingSpeed, "AllSpeed"},
       {CookEffectId::Fireproof, "Fireproof"}},
 };
+
+// NON_MATCHING: the value test uses an equivalent compare immediate and register allocation differs.
+// 0x7100aa4354
+void sub_7100AA4354(const PouchItem* item, sead::BufferedSafeString* out) {
+    if (item->getValue() < 1) {
+        if (const char* icon = ksys::act::getMasterSwordSleepActorName(
+                ksys::act::InfoData::instance(), item->getName().cstr()))
+            out->copy(icon);
+    } else if (act::DamageInfoMgr::instance()->isTrueFormMasterSword()) {
+        if (const char* icon = ksys::act::getMasterSwordTrueFormActorName(
+                ksys::act::InfoData::instance(), item->getName().cstr()))
+            out->copy(icon);
+    }
+    if (out->isEmpty())
+        out->copy(item->getName());
+}
+
+// NON_MATCHING: the effect-table loop uses a different signed-bound conversion and branch schedule.
+// 0x7100aa3ea0
+void sub_7100AA3EA0(const PouchItem* item, sead::BufferedSafeString* out) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!item)
+        return;
+    al::ByamlIter iter;
+    if (!info || !info->getActorIter(&iter, item->getName().cstr(), true))
+        return;
+    const bool is_dye = info->hasTag(iter, ksys::act::tags::ArmorDye);
+    const bool is_medicine = info->hasTag(iter, ksys::act::tags::CookEMedicine);
+    sead::FixedSafeString<64> name(item->getName());
+    if (is_dye) {
+        sub_7100AA3B50(name, out, item->getValue());
+    } else if (is_medicine) {
+        for (s32 i = 0; i < sUnk_71025F6960.effects.size(); ++i) {
+            if (sUnk_71025F6960.effects[i].effect != item->getCookData().getEffect())
+                continue;
+            name.appendWithFormat("_%s", sUnk_71025F6960.effects[i].name.cstr());
+            break;
+        }
+        sead::FixedSafeString<128> path;
+        path.format("UI/StockItem/%s.bitemico", name.cstr());
+        out->copy(path);
+    } else {
+        if (item->getType() == PouchItemType::Sword && item->getName() == "Weapon_Sword_070")
+            sub_7100AA4354(item, &name);
+        sub_7100AA3B50(name, out, -1);
+    }
+}
 
 // 0x7100aa4e60
 u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out) {

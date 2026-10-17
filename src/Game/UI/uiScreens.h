@@ -75,6 +75,8 @@ namespace ksys::res {
 class Handle;
 }
 
+class Unk_710247e960;
+
 namespace uking {
 // 0x71025cb0eb (defined in gameScene.cpp)
 extern bool sForceEnableGlidingSurfingRupee;
@@ -4943,6 +4945,9 @@ u32 sub_7100AA2BDC(const sead::SafeString& actor_name, eui::MessageString* out);
 // (icon-actor lookup, Weapon_Sword_502/503 quirk, ".%02d" count suffix, ".bitemico" extension).
 void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<char>* out,
                     s32 count);
+// 0x7100aa3ea0 / 0x7100aa4354: inventory icon path and Master Sword state icon name.
+void sub_7100AA3EA0(const PouchItem* item, sead::BufferedSafeString* out);
+void sub_7100AA4354(const PouchItem* item, sead::BufferedSafeString* out);
 // 0x7100a91e40 (CSV unnamed): the item count for `name` (0 when the name is empty or there is
 // no pouch manager).
 s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped);
@@ -5625,6 +5630,8 @@ public:
     nn::ui2d::TextureInfo* sub_71009CBECC();
     void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
     void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
+    // 0x71009cbfc4: queue a texture load using the existing resource context. Body remains undecompiled.
+    void sub_71009CBFC4(const ::Unk_710247e960& request);
 
     u8 _0[8];
     /* 0x8 */ bool mApplied;
