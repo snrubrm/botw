@@ -550,6 +550,21 @@ struct DamageReactionRequest {
 };
 KSYS_CHECK_SIZE_NX150(DamageReactionRequest, 0xc8);
 
+/// The 0xe0-byte result of sub_7100733418 (NPC::_10e8; 0x71006e3340 reads and fills it): the reaction request
+/// copy, the weapon link sub_7100734E68 fills and the two flags.
+struct DamageReactionRequestResult {
+    /* 0x000 */ DamageReactionRequest request;
+    /* 0x0c8 */ ksys::act::BaseProcLink _c8;
+    /* 0x0d8 */ bool _d8 = false;
+    /* 0x0d9 */ bool _d9 = false;
+};
+KSYS_CHECK_SIZE_NX150(DamageReactionRequestResult, 0xe0);
+
+/// 0x71006e3340 (placeholder name; called by NPC::m73 with NPC::_10e8 and the NPC): applies a stored reaction
+/// request: links the actor's weapon (sub_7100734E68), builds its matrix and stores the result in `result`.
+void sub_71006E3340(DamageReactionRequestResult* result, ksys::act::Actor* actor);
+
+
 /// 0x7100735044 (placeholder name; called by sub_7100733418): fills the kinds and flags of `request` from
 /// `info`, the actor's xlink reaction settings, tags and profile, and four flags computed by the caller.
 void sub_7100735044(DamageReactionRequest* request, ksys::act::Actor* actor,

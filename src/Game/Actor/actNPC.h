@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actNPCBase.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/gameNpcShopData.h"
@@ -151,24 +152,7 @@ public:
     /* 0x10d0 */ void* _10d0 = nullptr;
     /* 0x10d8 */ u32 _10d8 = 0;
     /* 0x10e0 */ void* _10e0 = nullptr;  // m119
-    /* 0x10e8 */ sead::Matrix34f _10e8 = sead::Matrix34f::ident;
-    /* 0x1118 */ f32 _1118 = 0;
-    /* 0x111c */ f32 _111c = 1.0;
-    /* 0x1120 */ f32 _1120 = 0;
-    /* 0x1124 */ f32 _1124 = 1.0;
-    /* 0x1128 */ f32 _1128 = 1.0;
-    /* 0x112c */ f32 _112c = 1.0;
-    /* 0x1130 */ void* _1130 = nullptr;
-    /* 0x1138 */ void* _1138 = nullptr;
-    /* 0x1140 */ u32 _1140 = 0;
-    /* 0x1148 */ ksys::phys::MaterialMask _1148;
-    /* 0x1160 */ ksys::phys::MaterialMask _1160;
-    /* 0x1178 */ void* _1178[6]{};
-    /* 0x11a8 */ u32 _11a8 = 2;
-    /* 0x11ac */ u8 _11ac = 6;
-    /* 0x11b0 */ ksys::act::BaseProcLink _11b0;
-    /* 0x11c0 */ u16 _11c0 = 0;
-    /* 0x11c2 */ u8 _11c2[0x11c8 - 0x11c2];
+    /* 0x10e8 */ DamageReactionRequestResult _10e8;
     /* 0x11c8 */ u8 _11c8 = 0;
     /* 0x11cc */ u32 _11cc = 0;
     /* 0x11d0 */ sead::Vector3f _11d0 = sead::Vector3f::zero;

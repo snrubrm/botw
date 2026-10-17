@@ -1780,6 +1780,20 @@ void uking::act::Enemy::setDroppedWeaponFlag() {
 }
 
 
+bool uking::act::Enemy::isWeaponAlreadyDropped() {
+    if (!mMapObject)
+        return false;
+    auto* gdt = ksys::gdt::Manager::instance();
+    if (!gdt)
+        return false;
+    const u32 hash = mMapObject->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_WeaponDrop_%u", gdt->getMapName().cstr(), hash);
+    bool dropped = false;
+    auto& param = gdt->getParam();
+    param.get().getBuffer()->getBool(&dropped, name, param.shouldCheckPermissions(), false);
+    return dropped;
+}
+
 // NON_MATCHING: normal format arguments read the hash after map-name string termination.
 bool sub_7100731E70(const ksys::map::Object* object) {
     if (!object)

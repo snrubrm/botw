@@ -323,6 +323,9 @@ public:
     bool m165(sead::BufferedSafeString* out) override;
     bool isGuard() override;
     bool m169() override { return _e84.isOnBit(13); }
+    // 0x7100731dac (placeholder name; in the damage reaction TU): the "%s_WeaponDrop_%u" game data flag of
+    // the map object (its hash id), i.e. whether this enemy's map object already dropped its weapon.
+    bool isWeaponAlreadyDropped();
     bool weaponDroppedByEnemy() override;
     const char* getEquippedItem() override;
 

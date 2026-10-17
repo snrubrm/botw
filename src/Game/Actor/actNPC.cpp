@@ -169,6 +169,10 @@ void NPC::onPreDeleteStart_(PrepareArg& arg) {
     NPCBase::onPreDeleteStart_(arg);
 }
 
+void NPC::m73() {
+    sub_71006E3340(&_10e8, this);
+}
+
 void* NPC::m119() {
     return _10e0;
 }
