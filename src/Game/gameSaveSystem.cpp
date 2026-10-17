@@ -1,4 +1,5 @@
 #include "Game/gameSaveSystem.h"
+#include "KingSystem/Event/evtEventResource.h"
 #include <filedevice/seadFileDevice.h>
 #include <heap/seadFrameHeap.h>
 #include <time/seadTickSpan.h>
@@ -567,6 +568,77 @@ bool SaveSystem::savePictureBook(void* data, const sead::SafeString& name, s32 s
         return false;
     }
     return true;
+}
+
+void SaveArchiveWork::reset(bool free_data) {
+    if ((mState == 0 || mState == 3 || mState == 4) && free_data && mData)
+        mHeap->free(mData);
+    mState = 0;
+    mData = nullptr;
+    mSize = 0;
+}
+
+// NON_MATCHING: Request construction uses a different store order and register allocation.
+bool SaveArchiveWork::queue() {
+    if (mState != 0)
+        return false;
+    ksys::LowPrioThreadMgr::Request request;
+    request.lane_id = 1;
+    request.flags = 6;
+    request.delegate = &mWork;
+    if (!ksys::evt::submitLowPriorityRequest(request)) {
+        mResult = 1000;
+        return false;
+    }
+    mState = 1;
+    return true;
+}
+
+bool SaveArchiveWork::run(void* user_data) {
+    if (mState == 3)
+        return false;
+    mState = 2;
+    const bool success = saveTransferSaveArchiveWorkStuff(&mData, &mSize, mHeap, &mError, &mResult);
+    mState = success ? 3 : 4;
+    return success;
+}
+
+void LoadArchiveWork::reset(bool free_data) {
+    if ((mState == 0 || mState == 3 || mState == 4) && free_data && mData)
+        mHeap->free(mData);
+    mState = 0;
+    mData = nullptr;
+    mSize = 0;
+    mInput = nullptr;
+    mInputSize = 0;
+}
+
+// NON_MATCHING: Request construction uses a different store order and register allocation.
+bool LoadArchiveWork::queue(const void* data, u64 size) {
+    if (mState != 0)
+        return false;
+    mInput = data;
+    mInputSize = size;
+    ksys::LowPrioThreadMgr::Request request;
+    request.lane_id = 1;
+    request.flags = 6;
+    request.delegate = &mWork;
+    if (!ksys::evt::submitLowPriorityRequest(request)) {
+        mError = 5000;
+        return false;
+    }
+    mState = 1;
+    return true;
+}
+
+bool LoadArchiveWork::run(void* user_data) {
+    if (mState == 3)
+        return false;
+    mState = 2;
+    const bool success =
+        saveTransferDecompressArchive(&mData, &mSize, mInput, mInputSize, mHeap, &mError);
+    mState = success ? 3 : 4;
+    return success;
 }
 
 // NON_MATCHING: this TU's getAlbumPicturePath is inlined here (604 vs 328 bytes); the original emits a call to

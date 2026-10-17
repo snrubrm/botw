@@ -6,6 +6,8 @@
 #include <container/seadBuffer.h>
 #include <heap/seadHeap.h>
 #include <prim/seadSafeString.h>
+#include <prim/seadDelegate.h>
+#include <thread/seadAtomic.h>
 #include "Game/gameAlbumInfo.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -15,6 +17,47 @@ class Actor;
 }
 
 namespace uking {
+
+// Save-transfer archive tasks. State is shared between the UI and the low-priority worker:
+// 0 idle, 1 queued, 2 working, 3 complete, 4 failed.
+class SaveArchiveWork {
+public:
+    void reset(bool free_data);
+    bool queue();
+    bool run(void* user_data);
+
+    void* mData = nullptr;
+    u64 mSize = 0;
+    sead::Heap* mHeap = nullptr;
+    sead::Atomic<s32> mState = 0;
+    s32 mError = 0;
+    s32 mResult = 0;
+    sead::Delegate1R<SaveArchiveWork, void*, bool> mWork{this, &SaveArchiveWork::run};
+};
+KSYS_CHECK_SIZE_NX150(SaveArchiveWork, 0x48);
+
+class LoadArchiveWork {
+public:
+    void reset(bool free_data);
+    bool queue(const void* data, u64 size);
+    bool run(void* user_data);
+
+    const void* mInput = nullptr;
+    u64 mInputSize = 0;
+    void* mData = nullptr;
+    u64 mSize = 0;
+    sead::Heap* mHeap = nullptr;
+    sead::Atomic<s32> mState = 0;
+    s32 mError = 0;
+    sead::Delegate1R<LoadArchiveWork, void*, bool> mWork{this, &LoadArchiveWork::run};
+};
+KSYS_CHECK_SIZE_NX150(LoadArchiveWork, 0x50);
+
+// Archive construction / decompression workers used by the asynchronous tasks.
+bool saveTransferSaveArchiveWorkStuff(void** data, u64* size, sead::Heap* heap,
+                                      s32* error, s32* result);
+bool saveTransferDecompressArchive(void** out, u64* out_size, const void* data, u64 size,
+                                   sead::Heap* heap, s32* error);
 
 // The per-slot save data (0x308 bytes; only the flag at +0x300 is known: tested by AlbumInfo's copy helpers).
 struct SaveSlot {
