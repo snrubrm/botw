@@ -76,6 +76,9 @@ public:
     // 0x71006551f0: steps the raycasts of the near placement, the 32 registered actor placements and
     // the nine group placements.
     void preCalc();
+    // 0x7100656814: advances the nine works and the near work once, then the registered works from
+    // their matrices.
+    void cmd2_b();
     // 0x7100656bc0: advances the near work and the active registered works one spawn step each,
     // yielding between them; stops while the worker count is positive.
     void cmd2_c();

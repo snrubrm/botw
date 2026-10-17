@@ -1,5 +1,7 @@
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_7100736460.h"
 #include "Game/gameStatisticsMgr.h"
 #include <thread/seadDelegateThread.h>
@@ -70,6 +72,72 @@ void AutoPlacementMgr::cmd2_a() {
 
 // NON_MATCHING: clang unrolls the nine-work loop here; the original keeps it rolled (madd /
 // cmp 9). The guards, the near-work step and the 32-work loop match.
+// NON_MATCHING: the original recomputes the work pointer with madd each iteration and keeps a few
+// more values in registers; the random points, the group matrix transform and the calls match.
+void AutoPlacementMgr::cmd2_b() {
+    for (s32 i = 0; i < 9; ++i) {
+        if (auto9())
+            return;
+        AutoPlacement& work = mWorks[i];
+        if (work._8 == 0) {
+            if (work.updateSpawnMaybe(nullptr))
+                work.updateSpawnInfosMaybe();
+        }
+        if (auto9())
+            return;
+        sead::Thread::yield();
+    }
+
+    if (mNearWork._8 == 0) {
+        if (mNearWork.updateSpawnMaybe(nullptr))
+            mNearWork.updateSpawnInfosMaybe();
+    }
+
+    for (s32 i = 0; i < 0x20; ++i) {
+        if (auto9())
+            return;
+        Unk1& entry = _5b118[i];
+        if (entry._8b63 && entry.placement._8 == 0) {
+            auto* rng = sead::GlobalRandom::instance();
+            const f32 fx = entry.scale.x * rng->getF32() * (s32(rng->getU32() & 2) - 1);
+            const f32 fz = entry.scale.z * rng->getF32() * (s32(rng->getU32() & 2) - 1);
+
+            sead::Vector3f offset;
+            offset.x = fx;
+            offset.y = 0.0f;
+            offset.z = fz;
+
+            if (entry.is_box == 0) {
+                const f32 radius = entry.scale.x;
+                const f32 dist_sq = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+                if (dist_sq > radius * radius) {
+                    const f32 len = sead::Mathf::sqrt(dist_sq);
+                    if (len > 0.0f) {
+                        const f32 scale = radius * rng->getF32() / len;
+                        offset.x *= scale;
+                        offset.z *= scale;
+                    }
+                }
+            }
+
+            const auto& mtx = entry.mtx;
+            sead::Vector3f pos;
+            pos.x = mtx.m[0][3] + offset.x * mtx.m[0][0] + offset.y * mtx.m[0][1] +
+                    offset.z * mtx.m[0][2];
+            pos.y = mtx.m[1][3] + offset.x * mtx.m[1][0] + offset.y * mtx.m[1][1] +
+                    offset.z * mtx.m[1][2];
+            pos.z = mtx.m[2][3] + offset.x * mtx.m[2][0] + offset.y * mtx.m[2][1] +
+                    offset.z * mtx.m[2][2];
+
+            if (entry.placement.updateSpawnMaybe(&pos))
+                entry.placement.updateSpawnInfosMaybe();
+        }
+        if (auto9())
+            return;
+        sead::Thread::yield();
+    }
+}
+
 void AutoPlacementMgr::cmd2_c() {
     if (_5b058 || _5b060)
         return;
