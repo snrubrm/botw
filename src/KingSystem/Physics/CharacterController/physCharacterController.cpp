@@ -1366,6 +1366,12 @@ CharacterControllerRigidBody::CharacterControllerRigidBody(CharacterController* 
 
 CharacterControllerRigidBody::~CharacterControllerRigidBody() = default;
 
+CharacterController* CharacterControllerRigidBody::create(const CharacterControllerCreateArg& arg,
+                                                         const sead::SafeString& name,
+                                                         sead::Heap* heap) {
+    return sub_7100F5DC88(arg, name, heap);
+}
+
 void CharacterControllerRigidBody::sub_7100F6391C(UserTag::Unk5* arg) {
     mController->sub_7100F62790(arg);
 }

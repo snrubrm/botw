@@ -10,8 +10,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/CharacterController/physCharacterControllerRigidBody.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
@@ -72,6 +75,45 @@ NavMeshCharacter* CharacterControllerParam::createNavMeshCharacter(const sead::S
         }
     }
     return nullptr;
+}
+
+// 0x710128152c (CSV createControllerState): creates the controller and its rigid body from this
+// parameter list and applies the initial state and water settings. `ctrl` / `x` are stored in the
+// create argument at 0x48 / 0x58.
+CharacterController* CharacterControllerParam::createController(const sead::SafeString& name,
+                                                               void* ctrl, void* x, bool y,
+                                                               sead::Heap* heap) {
+    CharacterControllerCreateArg arg;
+    arg.mass = mass.ref();
+    arg.volume = volume.ref();
+    arg.state = initial_state.ref() == "Default" ? 1 : 3;
+    arg.contact_layer = contactLayerFromText(layer.ref());
+    arg.ground_hit = groundHitFromText(groundhit.ref());
+    arg._48 = ctrl;
+    arg._58 = x;
+    arg._60 = y;
+
+    CharacterController* controller = CharacterControllerRigidBody::create(arg, name, heap);
+    if (!controller)
+        return nullptr;
+
+    controller->sub_7100F5EED4(max_force.ref());
+    controller->sub_7100F62C14(max_impulse.ref());
+
+    if (initial_form.ref() == "Standing")
+        controller->sub_7100F62BB8();
+    else if (initial_form.ref() == "Crouching")
+        controller->sub_7100F62BB0();
+
+    controller->mFlags.change(0x4000, enable_force_fall_cliff_edge.ref());
+    controller->mFlags.change(0x8, enable_water_effect.ref());
+    controller->_140 = water_effective_height.ref();
+    controller->_150 = water_flow_effective_rate.ref();
+    controller->_154 = water_attn_effective_rate.ref();
+    controller->sub_7100F5E850(max_force_scale_NPC.ref());
+    controller->_14c = water_buoyancy_scale.ref();
+    controller->sub_7100F636A8(magne_mass_scaling_factor.ref());
+    return controller;
 }
 
 bool navMeshCharacterTypeFromText(NavMeshCharacterType& value, const sead::SafeString& text) {

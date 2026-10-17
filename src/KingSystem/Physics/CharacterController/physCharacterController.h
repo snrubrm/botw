@@ -496,13 +496,14 @@ public:
     f32 _134;
     f32 _138;
     u8 _13c[4];
-    // Water depth adjustment, initialized by the controller and set by FishRoot on entry.
+    // Water parameters, copied from the CharacterControllerParam by createControllerState
+    // (_140 / _14c / _150 / _154 are the four water rates; FishRoot sets _140 on entry).
     f32 _140;
     f32 _144;
     f32 _148;
-    u8 _14c[0x150 - 0x14c];
-    s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
-    u8 _154[4];
+    f32 _14c;
+    f32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active)
+    f32 _154;
     f32 _158;  // Slope angle in degrees, copied from init parameter +0x40.
     f32 _15c;
     f32 _160;

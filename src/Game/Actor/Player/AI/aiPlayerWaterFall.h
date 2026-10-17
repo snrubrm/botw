@@ -31,7 +31,7 @@ protected:
     sead::Vector3f _70{0.0f, 0.0f, 0.0f};
     sead::Vector3f _7c{0.0f, 0.0f, 0.0f};
     ksys::map::Rail* _88 = nullptr;
-    s32 _90 = 0;
+    f32 _90 = 0;  // the controller's water flow rate, saved while the action runs
 };
 KSYS_CHECK_SIZE_NX150(PlayerWaterFall, 0x98);
 
