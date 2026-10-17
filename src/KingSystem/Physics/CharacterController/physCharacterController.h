@@ -35,7 +35,6 @@ class MaterialMask;
 
 struct CharacterControllerUnk10;  // Legacy placeholder declaration.
 class CharacterRigidBody;
-struct CharacterControllerUnk20;
 class CharacterFormSet;
 struct CharacterControllerUnk38;
 struct CharacterControllerUnk40;
@@ -454,7 +453,8 @@ public:
     CharacterRigidBody* _10;
     // lane4 s64: the controller registers its ground state in it (0x7100f63140 calls sub_710167D718).
     hkpCharacterStateManager* _18;
-    CharacterControllerUnk20* _20;
+    // The character state input (0x7100f5f458 passes it to the context as hkpCharacterInput).
+    hkpCharacterInput* _20;
     // The character context (a ksys-derived hkpCharacterContext, constructor 0x71012a6634).
     hkpCharacterContext* _28;
     CharacterFormSet* _30;

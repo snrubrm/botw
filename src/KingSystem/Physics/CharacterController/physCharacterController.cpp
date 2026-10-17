@@ -47,15 +47,6 @@ void CharacterController::sub_7100F60648(Fixed fixed,
 
 class Shape;
 
-// Placeholder: object at CharacterController::_20.
-struct CharacterControllerUnk20 {
-    /* 0x00 */ u8 _0[0x40];
-    /* 0x40 */ u32 _40;
-    /* 0x44 */ u8 _44[0xc];
-    /* 0x50 */ hkVector4f _50;
-    /* 0x60 */ hkVector4f _60;
-};
-
 // Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
 struct CharacterControllerUnk38 {
     /* 0x00 */ u8 _0[0x18];
@@ -114,8 +105,8 @@ void CharacterController::sub_7100F60500(const sead::Matrix34f& mtx) {
         _298->setTransform(mtx);
     } else {
         mRigidBody->setTransform(mtx);
-        if (_20->_40 != 0)
-            _20->_50 = toHkVec4({-_7c.x, -_7c.y, -_7c.z});
+        if (_20->m_surfaceInfo.m_supportedState != 0)
+            _20->m_surfaceInfo.m_surfaceNormal = toHkVec4({-_7c.x, -_7c.y, -_7c.z});
     }
     if (_258)
         _258->invoke(this);
@@ -259,10 +250,10 @@ bool CharacterController::sub_7100F5F14C() const {
     // NON_MATCHING: regalloc/branch folding only — the original branches (b.pl) to the shared
     // return-false block and returns a constant 1; clang 4 folds the final compare into a cset.
     if (_28->sub_710167785C() == 3 || _28->sub_710167785C() == 2) {
-        if (_20->_40 == 0)
+        if (_20->m_surfaceInfo.m_supportedState == 0)
             return false;
         if (_40->_68 != 0) {
-            const hkVector4f& normal = _20->_50;
+            const hkVector4f& normal = _20->m_surfaceInfo.m_surfaceNormal;
             const f32 dot = normal.getX().val() * sead::Vector3f::ey.x +
                             normal.getY().val() * sead::Vector3f::ey.y +
                             normal.getZ().val() * sead::Vector3f::ey.z;
@@ -312,6 +303,35 @@ bool CharacterController::sub_7100F5F128() const {
 
 bool CharacterController::sub_7100F5F264() const {
     return _40->_69;
+}
+
+// NON_MATCHING: the original branches separately on the type and the state (ours folds them into
+// one ccmp) and keeps the type in a callee-saved register rather than spilling it.
+// Placeholder name: switches the character state to `type`; for the ground/walk states it also
+// updates the horizontal speed and the state objects before the context step.
+void CharacterController::sub_7100F5F458(act::MotionType type) {
+    const u32 type_value = u32(type);
+    const u32 state = _28->sub_710167785C();
+    if (type_value < 2) {
+        if ((state & ~1u) == 2) {
+            sead::Vector3f velocity;
+            mRigidBody->getLinearVelocity(&velocity);
+            velocity.y = 0.0f;
+            const f32 speed = velocity.normalize();
+            if (speed >= 0.0001f)
+                _64 = velocity;
+            _60 = speed;
+            if (speed != 0.0f)
+                _114 |= 0x20;
+            _48->sub_7101674940(speed);
+            _50->sub_710167A220(speed);
+            _58->_c = speed;
+        }
+    }
+    hkpCharacterOutput output;
+    _28->sub_7101677864(hkpCharacterStateType(type_value), *_20, output);
+    _120.set(0.0f, 0.0f, 0.0f);
+    _114 |= 0x20;
 }
 
 void CharacterController::sub_7100F5F670() {
@@ -761,8 +781,8 @@ bool CharacterController::sub_7100F63388(bool enable, s32 idx) {
     sead::Matrix34f mtx;
     _298->getTransform(&mtx);
     mRigidBody->setTransform(mtx);
-    if (_20->_40)
-        _20->_50 = toHkVec4(-_7c);
+    if (_20->m_surfaceInfo.m_supportedState)
+        _20->m_surfaceInfo.m_surfaceNormal = toHkVec4(-_7c);
     mRigidBody->addToWorld();
     _298->removeFromWorld();
     _298 = nullptr;
@@ -875,14 +895,14 @@ void CharacterController::sub_7100F5EDE8(const sead::Vector3f& value) {
 }
 
 void CharacterController::sub_7100F6353C(sead::Vector3f* out) const {
-    storeToVec3(out, _20->_60);
+    storeToVec3(out, _20->m_surfaceInfo.m_surfaceVelocity);
 }
 
 bool CharacterController::sub_7100F5F234(sead::Vector3f* out) const {
-    if (!_20->_40)
+    if (!_20->m_surfaceInfo.m_supportedState)
         return false;
     if (out)
-        storeToVec3(out, _20->_50);
+        storeToVec3(out, _20->m_surfaceInfo.m_surfaceNormal);
     return true;
 }
 
@@ -1151,8 +1171,8 @@ void CharacterController::warpActorToPosition(const sead::Vector3f& pos) {
         _298->setPosition(pos, PropagateToLinkedMotions(true));
     } else {
         mRigidBody->setPosition(pos, PropagateToLinkedMotions(true));
-        if (_20->_40 != 0)
-            _20->_50 = toHkVec4({-_7c.x, -_7c.y, -_7c.z});
+        if (_20->m_surfaceInfo.m_supportedState != 0)
+            _20->m_surfaceInfo.m_surfaceNormal = toHkVec4({-_7c.x, -_7c.y, -_7c.z});
     }
     if (_258)
         _258->invoke(this);
