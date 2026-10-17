@@ -1,6 +1,7 @@
 #pragma once
 
 #include <common/aglGPUMemAddr.h>
+#include <common/aglTextureSampler.h>
 #include <container/seadListImpl.h>
 #include <container/seadPtrArray.h>
 #include <container/seadTList.h>
@@ -233,8 +234,13 @@ public:
 
 namespace ksys::tera {
 
-// Placeholder: the flags 0x7101108ae8 reads (both low bits of _0 must be set; _2 is a level limit).
+// Placeholder: the layered terrain texture (this is the object at 0x7101102b58, formerly also declared as
+// Unk_7101102B58 in teraSystem.h: the two have the same layout, so they are one type).
+// Both low bits of _0 must be set for 0x7101108ae8; _2 is a level limit.
 struct Unk_7101108AE8Flags {
+    // 0x7101102b58 (placeholder name): binds frame `frame` of layer `layer` (animated: bit 3 of _0) or
+    // the first texture to the sampler and returns it.
+    agl::TextureSampler* sub_7101102B58(u32 frame, u32 layer);
     // 0x71010f919c (declaration only; placeholder name; 856 bytes): allocates the image memory from
     // `heap` (ApertureMapsCollector::allocateImage runs it on all nine records).
     void sub_71010F919C(sead::Heap* heap);
@@ -246,14 +252,21 @@ struct Unk_7101108AE8Flags {
     u8 _1;
     u8 _2;
     u8 _3[0x8 - 0x3];
+    // Frames per layer.
     u8 _8;
     u8 _9;
     u8 _a[0xe - 0xa];
     // Texel count of the area table (0x710110adf8 divides it by an area's _18).
     u16 _e;
-    u8 _10[0x20 - 0x10];
+    u8 _10[0x18 - 0x10];
+    agl::TextureData* _18;
     agl::GPUMemVoidAddr _20;
-    u8 _38[0x438 - 0x20 - sizeof(agl::GPUMemVoidAddr)];
+    // Start offset of each layer in _20 (one more than the layer count).
+    u32 _38[(0x2c0 - 0x38) / 4];
+    agl::TextureSampler _2c0;
+    u16 _430;
+    u16 _432;
+    u8 _434[0x438 - 0x434];
     // The area texel table (Unk_71010FEDBC + 0x458; 0x71011094a0, 0x710110b38c, 0x710110aa5c).
     const struct Unk_710110AC74Table* table;
 };

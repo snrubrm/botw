@@ -167,24 +167,24 @@ bool ApertureMapsCollector::sub_71011020C0(u32 level) const {
 
 agl::TextureSampler* Unk_7101102B58::sub_7101102B58(u32 frame, u32 layer) {
     if (!(_0 & 8)) {
-        if (mFrame != 0 || mLayer != 0) {
-            mSampler.applyTextureData(mTextures[0]);
-            mFrame = 0;
-            mLayer = 0;
+        if (_430 != 0 || _432 != 0) {
+            _2c0.applyTextureData(_18[0]);
+            _430 = 0;
+            _432 = 0;
         }
-        return &mSampler;
+        return &_2c0;
     }
 
-    agl::TextureData& texture = mTextures[layer];
-    const u32 offset = mLayerOffsets[layer];
-    const u32 frame_size = (mLayerOffsets[layer + 1] - offset) / mNumFrames;
-    texture.setImagePtr(agl::GPUMemAddrBase(mAddr, offset + frame_size * frame), 0);
-    if (mFrame != frame || mLayer != layer) {
-        mSampler.applyTextureData(mTextures[layer]);
-        mFrame = u8(frame);
-        mLayer = u8(layer);
+    agl::TextureData& texture = _18[layer];
+    const u32 offset = _38[layer];
+    const u32 frame_size = (_38[layer + 1] - offset) / _8;
+    texture.setImagePtr(agl::GPUMemAddrBase(_20, offset + frame_size * frame), 0);
+    if (_430 != frame || _432 != layer) {
+        _2c0.applyTextureData(_18[layer]);
+        _430 = u8(frame);
+        _432 = u8(layer);
     }
-    return &mSampler;
+    return &_2c0;
 }
 
 }  // namespace ksys::tera
