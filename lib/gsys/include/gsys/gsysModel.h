@@ -88,6 +88,18 @@ public:
     Model();
     // Native 0x7100bf738c creates and appends a 0x30-byte unit group.
     ModelUnitGroup* createUnitGroup(const ModelUnitGroup::CreateArg& arg, sead::Heap* heap);
+    // 0x7100bf67f8 (declared only; placeholder name): finds the model `name` in the ResFile of
+    // `resource` (resource +0x38, dictionary at ResFile +0x30), allocates a 0x308-byte ModelNW, sets
+    // its CreateArg from the model's flags (+0xa0 bits 1 / 2 and +0xa2) and registers it as the unit
+    // of this model. Stores `resource` at +0x100; returns the unit or null. Used by the seven
+    // ksys::mii::ModelCreator::createUmiiModelRaceN helpers (0x7100f4cc88 .. 0x7100f4d74c).
+    ModelUnit* sub_7100BF67F8(ModelResource* resource, const sead::SafeString& name, sead::Heap* heap);
+    // 0x7100bf8544 (declared only; placeholder name): finds the access entry whose ModelUnit is
+    // `unit`, stores `key` (the packed bone access key) at entry +0x18 when the entry reference
+    // chain does not reach the unit, sets bit 0 of entry +0x1e to `flag` and sorts the entries into
+    // the reference-depth array at +0x48 (count +0x48, capacity +0x4c, pointer +0x50). Returns
+    // whether the key was stored. Called with searchBone() results by the Mii race helpers.
+    bool sub_7100BF8544(ModelUnit* unit, const BoneAccessKey& key, bool flag);
     // Original BF7114 forwards registration and returns the supplied unit.
     ModelUnit* sub_7100BF7114(ModelUnit* unit, bool flag, sead::Heap* heap);
     void sub_7100BF9CA8(const sead::SafeString& name);
