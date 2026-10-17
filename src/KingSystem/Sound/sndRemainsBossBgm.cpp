@@ -1,5 +1,6 @@
 #include <gfx/seadTextWriter.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/Actor/aiUnk_7100FFDFDC.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/Sound/sndSound.h"
@@ -100,6 +101,41 @@ void Unk_71024fd448::sub_7101000514() {
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 0;
+    }
+}
+
+// NON_MATCHING: clang unrolls the four-type loop here; the original keeps the rotated loop.
+void Unk_71024fd448::sub_71010003A4() {
+    if (_190 - 1 < 2)
+        return;
+
+    for (s32 type = 0; type != 4; ++type) {
+        if (mType.value() == type)
+            continue;
+        ksys::snd::RemainsBossBgmType bgm_type = ksys::snd::RemainsBossBgmType(type);
+        auto* bgm = sub_7100FFE520(&bgm_type);
+        if (!bgm)
+            continue;
+        bgm->sub_710101D9F4(1.0f);
+        bgm->_190 = bgm->_190 == 1 ? 3 : bgm->_190 == 2 ? 4 : 0;
+        bgm->_1a0.stop();
+        ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+        if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+            if (mgr->_50)
+                mgr->_50->_a8 = 0;
+        }
+    }
+
+    _190 = 1;
+    sub_710101D9D8();
+    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    if (auto* mgr = ksys::snd::SoundMgr::instance()) {
+        if (auto* fx = mgr->_50) {
+            s32 mode = 1;
+            if (ksys::StageInfo::getCurrentMapName().findIndex("Remains") != -1 && mType.value() < 2)
+                mode = 2;
+            fx->_a8 = mode;
+        }
     }
 }
 
