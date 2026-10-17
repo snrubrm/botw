@@ -121,6 +121,9 @@ public:
     // 0x7100e05d30 (placeholder name; declaration only): one SaveMgr state-machine step, called at the
     // end of the save thread commands.
     void sub_7100E05D30();
+    // 0x7100e05e2c (placeholder name; declaration only): the save state-machine step that the second and
+    // third commands run around each flag update.
+    void sub_7100E05E2C();
     bool sub_7100E0C688();
     void sub_7100E07E3C(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void someCheck_0(gdt::FlagT<bool>* flag);

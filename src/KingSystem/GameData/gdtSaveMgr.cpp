@@ -1135,6 +1135,54 @@ bool SaveMgr::sub_7100E0C688() {
 
 // NON_MATCHING: same size and logic; only the callback loop's block order / registers differ (the original
 // loads the next node before the delegate call, we load it after).
+// NON_MATCHING: same logic; the 0x140 flag updates come out with a different operand order and one extra
+// u16 mask, and the 0x140 constant is kept in a callee-saved register (324 vs 304 bytes).
+// 0x7100e04df4 (CSV SaveMgrThreadCmd2; placeholder name): the save thread step that copies the save buffer
+// out and advances the 0x140 flag word.
+void SaveMgr::SaveMgrThreadCmd2() {
+    if (_105b) {
+        _3c = 0;
+        if (_f80)
+            memcpy(_f80, _e08, _e10);
+        _f8 = false;
+        return sub_7100E05D30();
+    }
+
+    _140 &= ~8u;
+    if ((_140 & 0x140) == 0x140)
+        _140 |= 0x80;
+
+    sub_7100E05E2C();
+
+    if ((_140 & 0x140) == 0x140)
+        _140 &= ~0x80u;
+
+    if ((_140 & 0x11) == 0x11) {
+        if (!(_140 & 2)) {
+            _140 &= ~1u;
+            sub_7100E05E2C();
+            _140 |= 1u;
+        }
+        if ((_140 & 0x140) == 0x100) {
+            _140 |= 0x80;
+            sub_7100E05E2C();
+            _140 &= ~0x80u;
+        }
+    }
+
+    sub_7100E05D30();
+
+    if (_140 & 8) {
+        _140 &= ~8u;
+        _100 = nullptr;
+    }
+    if (_140 & 0x200) {
+        _105a = false;
+        _10b0.clear();
+        _140 = _142;
+    }
+}
+
 // 0x7100e04f24 (CSV SaveMgrThreadCmd3; placeholder name): flushes the pending flag buffer and runs the
 // save state machine (the 0x140 flag word) before reloading the flag buffer.
 void SaveMgr::SaveMgrThreadCmd3() {
