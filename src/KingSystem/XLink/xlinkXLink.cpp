@@ -20,7 +20,7 @@
 
 namespace ksys::xlink {
 
-extern const f32 sUnk_7102516320[2] __attribute__((visibility("hidden"))) __attribute__((used)) = {0.25f, 0.6f};
+extern const f32 sUnk_7102516320[2] __attribute__((visibility("hidden"))) = {0.25f, 0.6f};
 
 XLink::CreateArg::CreateArg() = default;
 XLink::RebuildArg::RebuildArg() = default;
