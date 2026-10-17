@@ -2527,7 +2527,9 @@ public:
     /* 0x3c65 */ u8 _3c65;
     /* 0x3c66 */ u8 _3c66;
     u8 _3c67;
-    u8 _3c68[0x3c80 - 0x3c68];
+    /* 0x3c68 */ eui::LayoutEx* _3c68;
+    /* 0x3c70 */ eui::Animator* _3c70;
+    u8 _3c78[8];
     /* 0x3c80 */ eui::LayoutEx* _3c80;
     /* 0x3c88 */ eui::Animator* _3c88;
     /* 0x3c90 */ ScreenAppMapUnk3c90* _3c90;

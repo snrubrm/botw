@@ -353,6 +353,28 @@ void ScreenAppMap::sub_71009F1B9C() {
     setWidgetString(_3c80, "T_Temp_00", text);
 }
 
+// 0x71009f1dbc
+void ScreenAppMap::sub_71009F1DBC() {
+    if (_3c68) {
+        if (UiSubsys1::instance()->get38b8()) {
+            if (_3c68->_91 == 2)
+                _3c68->startAnimCloseImpl_(false, false);
+        } else if (_3c68->_91 == 0) {
+            _3c68->sub_7100BDDE7C(false, 0, true);
+        }
+    }
+    if (auto* animator = _3c70) {
+        f32 frame = 0.0f;
+        if (!ksys::gdt::getFlag_MiniMapDirection(false)) {
+            const f32 duration = 360.0f;
+            const f32 remaining = duration - sub_7100A9B89C();
+            const u16 frame_size = animator->GetFrameSize();
+            frame = remaining / duration * f32(frame_size);
+        }
+        animator->Stop(frame);
+    }
+}
+
 // 0x71009f1ca4
 void ScreenAppMap::sub_71009F1CA4(eui::LayoutEx* layout) {
     if (!layout)
