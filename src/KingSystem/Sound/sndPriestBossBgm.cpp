@@ -42,7 +42,7 @@ void Unk_71024fe808::hm14() {
 void Unk_71024fe808::sub_710100D0B8(f32 wait_sec) {
     if (mState == 0 || mState == 6) {
         _19c = wait_sec;
-        _1a0 = 0;
+        _1a0 = 0.0f;
         mState = 1;
     } else if (mState == 3) {
         _1a8.moveTo(1.0f, 1.0f);
@@ -103,6 +103,64 @@ void Unk_71024fe808::sub_710100D1A4(bool on, u32 value, f32 wait_sec) {
     } else {
         mState = 6;
     }
+}
+
+void Unk_71024fe808::m5() {
+    if (!mActive)
+        return;
+
+    switch (mState) {
+    case 1:
+        _1a0 += ksys::snd::sub_710105E3A4();
+        if (_1a0 >= _19c && (_68._18 & 1)) {
+            _1a0 = _19c;
+            _1a8.setValueImmediate(1.0f);
+            sub_710101D9D8();
+            mState = 2;
+        }
+        break;
+    case 3:
+        if (_1a8.getValue() != _1a8.getNextValue())
+            break;
+        sub_710101D9F4(0.0f);
+        mState = 0;
+        break;
+    case 4:
+        if (_1d0 > 0.0f)
+            _1d0 -= ksys::snd::sub_710105E3A4();
+        if (_1d0 <= 0.0f) {
+            if (_124 == 3 || _124 == 4) {
+                sub_7101020C08(-1.0f);
+                _1d8 = sub_71010209FC("outro");
+                if (_1d8 && _1d8->sub_7100FF6DF4(this)) {
+                    mState = 5;
+                    break;
+                }
+            }
+            if (!_1e0) {
+                mState = 6;
+            } else {
+                sub_710101D9F4(0.0f);
+                mState = 0;
+            }
+        }
+        break;
+    case 5:
+        if (_1d8 && _1d8->sub_7100FF6DF4(this))
+            break;
+        if (!_1e0) {
+            mState = 6;
+            break;
+        }
+        sub_710101D9F4(0.0f);
+        mState = 0;
+        break;
+    default:
+        break;
+    }
+
+    _1a8.calc();
+    _a4 = _1a8.getValue();
 }
 
 Unk_71024fe970::Unk_71024fe970(const ksys::snd::BgmInitArg& arg) : Unk_71025ce380(arg) {

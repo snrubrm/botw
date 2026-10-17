@@ -2919,7 +2919,7 @@ class Unk_71024fe808 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe808, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71024fe808() override;
-    // 0x710100cf20 (declared only; 408 B)
+    // 0x710100cf20
     void m5() override;
     // 0x710100d2a0: playing (handle state 3 or 4) for at least FeelPlayingSec.
     bool m10() override;
@@ -2942,7 +2942,7 @@ public:
     /* 0x190 */ ksys::snd::MusicInfo* mInfo;
     /* 0x198 */ s32 mState;
     /* 0x19c */ f32 _19c;
-    /* 0x1a0 */ s32 _1a0;
+    /* 0x1a0 */ f32 _1a0;
     u8 _1a4[4];
     /* 0x1a8 */ aal::TimedFader _1a8{1.0f, aal::FadeCurveType(1), 1.0f};
     /* 0x1d0 */ f32 _1d0;
