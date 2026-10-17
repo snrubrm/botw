@@ -26,6 +26,26 @@
 
 namespace uking::act {
 
+// NON_MATCHING: material and flag locals spill differently; the shared nav classifier narrows to u8.
+bool Unk_71024eb548::m2(ksys::phys::NavMeshCharacter* nav, u32 material) {
+    Flag flag = Flag::_0;
+    switch (material) {
+    case 0:
+        flag = Flag::_1;
+        break;
+    case 1:
+    case 2:
+    case 12:
+    case 13:
+    case 15:
+        break;
+    default:
+        return ksys::phys::NavMeshCharacter::sub_7100F74FA0(
+            ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
+    }
+    return _8.isOnBit(flag);
+}
+
 bool HorseBase::m67(sead::Heap* heap) {
     auto* model = getModel();
     _b90 = 0;

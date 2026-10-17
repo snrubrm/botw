@@ -9,6 +9,27 @@
 
 namespace uking::act {
 
+// Sandworm's material filter, vtable 0x71023cf690. The factory allocates only the vptr.
+class Unk_71023cf690 : public ksys::phys::NavMeshCharacterUnk58 {
+public:
+    ~Unk_71023cf690() override;
+    // NON_MATCHING: the shared nav classifier returns u8; the target retains its low 32 bits.
+    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, u32 b, f32 cost) override {
+        return ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+            ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
+    }
+    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
+            s32 other_a, u32 b) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023cf690, 0x8);
+
+// The original keeps its vptr store; { ; } follows GameDataFlagSelector (96101229).
+Unk_71023cf690::~Unk_71023cf690() { ; }
+
+ksys::phys::NavMeshCharacterUnk58* Sandworm::m179(sead::Heap* heap) {
+    return new (heap, 8) Unk_71023cf690;
+}
+
 Sandworm::Sandworm(const CreateArg& arg) : Enemy(arg) {
     _1c0 = 1;
 }

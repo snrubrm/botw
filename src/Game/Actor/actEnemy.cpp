@@ -9,6 +9,7 @@
 #include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actHorseBase.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -39,6 +40,23 @@
 bool sub_71002F0924(const ksys::act::ActorLinkConstDataAccess& accessor);
 
 namespace uking::act {
+
+// Enemy material filter, vtable 0x71023572b8. The factory stores its actor at +0x8.
+class Unk_71023572b8 : public ksys::phys::NavMeshCharacterUnk58 {
+public:
+    explicit Unk_71023572b8(ksys::act::Actor* actor) : mActor(actor) {}
+    // The original keeps its vptr store; { ; } follows GameDataFlagSelector (96101229).
+    ~Unk_71023572b8() override { ; }
+
+    ksys::act::Actor* mActor;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023572b8, 0x10);
+
+ksys::phys::NavMeshCharacterUnk58* Enemy::m179(sead::Heap* heap) {
+    if (ksys::act::isPreyOrSwarm(this))
+        return new (heap, 8) Unk_71024eb548;
+    return new (heap, 8) Unk_71023572b8(this);
+}
 
 // NON_MATCHING: the clearance comparison operands are reversed.
 bool Enemy::sub_710001A204(const sead::Vector3f& a, const sead::Vector3f& b,

@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace gsys {
 class ModelUnitGroup;
@@ -40,20 +41,18 @@ class HorseReins;
 // size 0x10). HorseBase::_b18; HorseBase::prepareInit_ registers it in the NavMeshCharacter (m45)
 // at +0x58.
 // TODO: incomplete.
-class Unk_71024eb548 {
+class Unk_71024eb548 : public ksys::phys::NavMeshCharacterUnk58 {
 public:
     // Placeholder (bits of _8; callers convert through the stack like a SEAD_ENUM).
     SEAD_ENUM(Flag, _0, _1, _2)
 
     Unk_71024eb548();
-    virtual ~Unk_71024eb548() = default;
+    ~Unk_71024eb548() override = default;
 
-    // FIXME: figure out return types, parameters and names
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
+    bool m2(ksys::phys::NavMeshCharacter* nav, u32 material) override;
+    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, u32 b, f32 cost) override;
+    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
+            s32 other_a, u32 b) override;
 
     /* 0x8 */ sead::BitFlag8 _8;  // = 4 (bit _2)
 };
