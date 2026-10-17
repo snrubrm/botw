@@ -595,9 +595,29 @@ public:
     agl::TextureSampler* sub_710114CA64(s32 index, u32 flags);
     // 0x710114ce48 (declaration only; placeholder name; x0 is not read): sets three uniforms of `program`,
     // activates `sampler` and the shared vertex attribute, then draws.
-    static void sub_710114CE48(agl::DrawContext* context, const agl::ShaderProgram* program,
+    void sub_710114CE48(agl::DrawContext* context, const agl::ShaderProgram* program,
                                const agl::TextureSampler* sampler, const sead::Vector4f* a,
                                const sead::Vector4f* b, const sead::Vector4f* c);
+    struct DrawArg {
+        const agl::TextureData* texture; // 00
+        u32 mip;                       // 08
+        u32 layer;                     // 0c
+        u32 _10;
+        f32 _14;
+        sead::Vector4f a;               // 18
+        bool bind_target;              // 28
+        bool invalidate;               // 29
+        u8 _2a[6];
+        const agl::TextureSampler* sampler; // 30
+        f32 _38;
+        f32 _3c;
+        sead::Vector4f c;               // 40
+        sead::Vector4f b;               // 50
+        u32 _60;
+        u32 program_id;                // 64
+    };
+    static_assert(sizeof(DrawArg) == 0x68);
+    u32 sub_710114CBF4(agl::DrawContext* context, const DrawArg* arg);
     sead::Buffer<RenderSet> mRenderSets;
     // Checked for image files by sub_710114D928.
     sead::FileDevice* _428;

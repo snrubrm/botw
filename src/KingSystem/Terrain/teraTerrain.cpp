@@ -10,6 +10,9 @@
 #include <nn/g3d/ResMaterial.h>
 #include <math/seadMathCalcCommon.h>
 #include <common/aglDrawContext.h>
+#include <common/aglShaderProgram.h>
+#include <utility/aglPrimitiveShape.h>
+#include <utility/aglVertexAttributeHolder.h>
 #include <gfx/seadViewport.h>
 #include <mc/seadCoreInfo.h>
 #include <thread/seadThread.h>
@@ -17,6 +20,57 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
 namespace ksys::tera {
+
+// NON_MATCHING: index stream reads and the native buffer-address call are scheduled differently.
+void Terrain::sub_710114CE48(agl::DrawContext* context, const agl::ShaderProgram* program,
+                            const agl::TextureSampler* sampler, const sead::Vector4f* a,
+                            const sead::Vector4f* b, const sead::Vector4f* c) {
+    const auto& c_location = program->getUniformLocation(2);
+    if (c_location.getLocation() != -1)
+        c_location.setUniformNVN(context, 4, c);
+    const auto& a_location = program->getUniformLocation(0);
+    if (a_location.getLocation() != -1)
+        a_location.setUniformNVN(context, 4, a);
+    const auto& b_location = program->getUniformLocation(1);
+    if (b_location.getLocation() != -1)
+        b_location.setUniformNVN(context, 4, b);
+    sampler->activate(context, program->getSamplerLocation(0), -1, false);
+    agl::utl::VertexAttributeHolder::instance()->getVertexAttribute(7).activate(context);
+    auto& stream = agl::utl::PrimitiveShape::instance()->getIndexStream();
+    if (stream.getIndexCount())
+        nvnCommandBufferDrawElements(context->getCommandBuffer()->ToData()->pNvnCommandBuffer,
+            stream.getPrimitiveType(), NVNindexType(stream.getFormat()), stream.getIndexCount(),
+            stream.getBufferAddress());
+}
+
+// NON_MATCHING: variation-data loads and uniform temporary stores are scheduled differently.
+u32 Terrain::sub_710114CBF4(agl::DrawContext* context, const DrawArg* arg) {
+    const auto* texture = arg->texture;
+    const auto* sampler = arg->sampler;
+    if (arg->bind_target)
+        sub_710114C3C4(context, *texture, arg->mip, arg->layer, 0, 3);
+    auto* root_program = _370->_478;
+    const u32 variation =
+        (sampler->getTextureData().getType() == agl::TextureType::cTextureType_2D_Array ? root_program->getVariationMacroMultiplier(0) : 0) +
+        (!(arg->_3c < 0.0f) ? root_program->getVariationMacroMultiplier(1) : 0);
+    auto* program = root_program->getVariation(variation);
+    const u32 id = variation + 0xf0000;
+    if (arg->program_id != id)
+        program->activate(context, !(_a58 & 0x8000) || !sub_710114D7C8());
+    sead::Vector4f uniform_data{f32(sead::Mathu::max(texture->getWidth(), 1u)), arg->_14, 0, 0};
+    const auto& dimensions_location = program->getUniformLocation(3);
+    if (dimensions_location.getLocation() != -1)
+        dimensions_location.setUniformNVN(context, 4, &uniform_data);
+    uniform_data = {arg->_38, arg->_3c, 0, 0};
+    const auto& params_location = program->getUniformLocation(4);
+    if (params_location.getLocation() != -1)
+        params_location.setUniformNVN(context, 4, &uniform_data);
+    sub_710114CE48(context, program, sampler, &arg->a, &arg->b, &arg->c);
+    if (arg->invalidate)
+        sub_710114C9D0(context);
+    return id;
+}
+
 
 bool Terrain::sub_710114D7B8() {
     return mImageResourceMgr->sub_7101131D64();
