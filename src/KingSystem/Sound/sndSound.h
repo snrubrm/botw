@@ -822,8 +822,7 @@ public:
     void sub_710104F8C4(bool suspend);
     // 0x710104f8e0: starts the ducker 0xf unless ducking is not allowed (bit 2 of `_2a0`).
     void sub_710104F8E0();
-    // 0x710104f98c (declared only; lane2 s106 evidence: ui::Manager::sub_7100A79A04 calls it on the singleton while
-    // the UI is paused): 236 bytes
+    // 0x710104f98c: pauses the ingame or event groups and fades the stream down.
     void sub_710104F98C();
     // 0x710104f904: stops the ducker 0xf without suspending it.
     void sub_710104F904();
@@ -899,7 +898,9 @@ public:
     // Whole constructor initializes ObjList at +0xc0 and CriticalSection at +0xf0.
     sead::ObjList<xlink2::HandleSLink> mHandles;
     sead::CriticalSection mHandleCS;
-    u8 _130[0x250 - 0x130];
+    // Pause groups: the factory binds 16 pointers to each embedded array.
+    /* 0x130 */ sead::FixedPtrArray<aal::Group, 16> mPauseIngameGroups;
+    /* 0x1c0 */ sead::FixedPtrArray<aal::Group, 16> mPauseEventGroups;
     /* 0x250 */ u32 _250;
     u8 _254[4];
     /* 0x258 */ aal::SimpleTimedFader _258;

@@ -7,6 +7,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndFxMgr.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::snd {
 
@@ -213,6 +214,20 @@ void Unk_710104e5b4::sub_710104ED9C() {
         root->pauseAllSound(sead::BitFlag8(1), false, 0.3f);
     }
     SoundMgr::instance()->_98->_5e0._20.moveTo(1.0f, 0.3f);
+}
+
+void Unk_710104e5b4::sub_710104F98C() {
+    SoundMgr::instance()->_50->sub_71010511DC(0.3f);
+    const bool event = evt::Manager::instance()->hasActiveEvent();
+    auto& groups = event ? mPauseEventGroups : mPauseIngameGroups;
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(
+        event ? DuckingMgr::DuckerType::cPauseEvent : DuckingMgr::DuckerType::cPauseIngame);
+    for (auto it = groups.begin(), end = groups.end(); it != end; ++it) {
+        if (it->get_13c() & 8)
+            it->allowEmit(sead::BitFlag8(1), false);
+        it->pauseAllSound(sead::BitFlag8(1), true, 0.3f);
+    }
+    SoundMgr::instance()->_98->_5e0._20.moveTo(0.0f, 0.3f);
 }
 
 void Unk_710104e5b4::sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group>* groups, s32 type) {
