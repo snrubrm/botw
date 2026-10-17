@@ -311,8 +311,8 @@ LodState::~LodState() {
 // NON_MATCHING: ????? reordering
 void LodState::initFlags() {
     _28 = 1.0;
-    _40 = 0.0;
     mFlags26.reset(2);
+    mFlags14.set(0x2000000);
     mFlags8.set(0xFFFFFFFF'00000000);
     if (!mFlags8.isOn(0x20000000)) {
         mFlags8.reset(0xEFFFFFFF);
@@ -325,7 +325,7 @@ void LodState::initFlags() {
     }
     mFlags8.reset(0x3C9F00);
     mFlags8.set(0x4000);
-    mFlags14.set(0x2000000);
+    _40 = 0.0;
     _60 = 0xFFFF;
     _64 = -3;
 }

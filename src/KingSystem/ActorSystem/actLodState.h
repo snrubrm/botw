@@ -49,7 +49,7 @@ public:
     u8 _24 = 0xff;
     sead::BitFlag8 _25;
     sead::BitFlag16 mFlags26;
-    float _28 = 1.0;
+    float _28;
     Actor* mActor = nullptr;
     OcclusionQueryCylinder* mOcclusionQueryCylinder = nullptr;
     float _40 = 0.0;
