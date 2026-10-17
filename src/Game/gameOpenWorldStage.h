@@ -4,6 +4,7 @@
 #include "Game/Scene/gameScene.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/System/DebugBoard.h"
+#include "KingSystem/System/StringBoard.h"
 #include "KingSystem/Map/mapMapProperties.h"
 
 namespace ksys {
@@ -60,16 +61,24 @@ public:
 
 private:
     /* 0x10 */ Unk_710245b4f8 mTransceiver;
-    u8 _d8[0xe0 - 0xd8];
-    /* 0xe0 */ ksys::act::Actor* mPlayer;
+    /* 0xd8 */ void* _d8 = nullptr;
+    /* 0xe0 */ ksys::act::Actor* mPlayer = nullptr;
     /* 0xe8 */ GameScene::sb mDrawMethods;
-    u8 _110[0x190 - 0x110];
-    /* 0x190 */ ksys::phys::RigidBodyDividedMeshShapeMgr* mDividedMeshShapeMgr;  // created by init
-    /* 0x198 */ ksys::phys::Unk_71024f8d68* _198;
+    // The sb init buffer (mDrawMethods.init(1, this + 0x110)).
+    u8 _110[0x178 - 0x110];
+    /* 0x178 */ u64 _178 = 0;
+    /* 0x180 */ u32 _180 = 0;
+    u8 _184[0x188 - 0x184];
+    /* 0x188 */ u64 _188 = 0;
+    /* 0x190 */ ksys::phys::RigidBodyDividedMeshShapeMgr* mDividedMeshShapeMgr = nullptr;  // created by init
+    /* 0x198 */ ksys::phys::Unk_71024f8d68* _198 = nullptr;
     /* 0x1a0 */ sead::FixedSafeString<32> mMapType;
-    /* 0x1d8 */ ksys::Unk_71024dd110* mCamera;
-    /* 0x1e0 */ u8 _1e0;
-    u8 _1e1[0x300 - 0x1e1];
+    /* 0x1d8 */ ksys::Unk_71024dd110* mCamera = nullptr;
+    /* 0x1e0 */ u8 _1e0 = 0xff;
+    /* 0x1e1 */ u8 _1e1 = 0;
+    u8 _1e2[0x1e8 - 0x1e2];
+    /* 0x1e8 */ DebugStatus mDebugStatus{"OpenWorldStage初期化", 2};
+    /* 0x2f8 */ ksys::StringBoard mStringBoard;
     /* 0x300 */ Unk_710246c458 _300;
 };
 static_assert(sizeof(OpenWorldStage) == 0x310);

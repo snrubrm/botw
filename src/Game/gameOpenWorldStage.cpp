@@ -27,6 +27,13 @@
 
 namespace uking {
 
+// NON_MATCHING: the original calls GameScene::sb::init (and stores the sb vtable) before the
+// member initializers; ours emits all member initializers first and the init call last (28 bytes
+// shorter). The members and base construction are otherwise identical.
+OpenWorldStage::OpenWorldStage() : mTransceiver(this, ksys::sUnk_710250bcd8) {
+    mDrawMethods.init(1, &_110);
+}
+
 bool OpenWorldStage::getMapName(sead::BufferedSafeString* out, int col, int row) {
     out->format("%c-%d/%c-%d", col + 'A', row + 1, col + 'A', row + 1);
     return true;
