@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -74,6 +75,32 @@ bool PlayerOrEnemy::sub_710000759C() {
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: the mask select and the range branch reuse one `cmp #4` in the original; clang emits a
+// second `cmp #3` for the branch (4 bytes, m).
+void PlayerOrEnemy::m73() {
+    DynamicActor::m73();
+
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
+    if (mgr) {
+        const s32 type = mgr->getField54();
+        const u32 type_index = u32(type - 9);
+        const u32 mask = type_index < 4 ? 0x1020202u >> (type_index * 8) : 3;
+        if (4u > type_index) {
+            if (!mgr->checkDamageFlags(10)) {
+                sub_7100732664(this, mgr->m37(), mgr->sub_71006D69F8(), mask,
+                               mgr->sub_71006D8130());
+            }
+        } else if (type != -1 && type != 0xd && !mgr->checkDamageFlags(10) &&
+                   (sub_7100732AD0(type) ||
+                    (u32(type) < 0x13 && ((1u << type) & 0x4003e) != 0))) {
+            sub_710073278C(this, mgr->m37(), mgr->sub_71006D69F8(), mask,
+                           mgr->sub_71006D8130());
+        }
+    }
+
+    m176();
 }
 
 void PlayerOrEnemy::m176() {

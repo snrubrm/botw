@@ -656,5 +656,9 @@ bool sub_710073068C(ksys::act::Actor* actor, f32 min_height, f32 max_height, f32
                     f32 angle, f32 ray_height);
 
 // Source owner is unknown; native AI utility neighbors select this free placeholder.
+/// 0x7100732664 (placeholder name; called by PlayerOrEnemy::m73): the damage reaction event for one damage
+/// type; `mask` selects the event bits (0x1020202 >> ((type - 9) * 8)).
+void sub_7100732664(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
+                    ksys::phys::RigidBody* body, u32 mask, s32 value);
 void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
                    ksys::phys::RigidBody* body, int flags, int index);
