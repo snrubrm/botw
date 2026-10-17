@@ -16,6 +16,7 @@
 #include <common/aglVertexAttribute.h>
 #include <common/aglIndexStream.h>
 #include <common/aglDrawContext.h>
+#include <common/aglDisplayList.h>
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -341,6 +342,23 @@ void Unk_710251d230::m6(agl::DrawContext* context, u32 index_offset, u32 count,
     } else {
         nvnCommandBufferDrawElements(command_buffer, primitive,
             NVNindexType(stream->getFormat()), count, index_address);
+    }
+}
+
+Unk_71011595fc::Unk_71011595fc() = default;
+
+void Unk_71011595fc::sub_7101159644(s32 count, sead::Heap* heap) {
+    mDisplayLists.tryAllocBuffer(count, heap);
+}
+
+void Unk_71011595fc::sub_71011597D4(sead::Heap* heap) {
+    if (_18 < mDisplayLists.size()) {
+        if (_0) {
+            mDisplayLists[_18].endDisplayListBuffer(heap);
+            _0 = false;
+        }
+        _20.freeBuffer();
+        ++_18;
     }
 }
 
