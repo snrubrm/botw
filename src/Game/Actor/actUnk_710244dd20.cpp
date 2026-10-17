@@ -625,7 +625,7 @@ bool Unk_710244dd20::sub_71006D1DC4(Unk_7100739634Result* request, bool* special
         if (previous < sub_71007A26AC(actor)) {
             auto* info = sub_71007A255C(actor, damage_mgr->_6c);
             if (!sub_71006D7038(actor, info) && sub_7100739634(request, chemical, info, flags)) {
-                request->_8 = u32(info->_b0);
+                request->_8 = info->mDamage;
                 request->_10 = info->_54;
                 request->_14 = previous;
                 *special_attack = ksys::act::hasTag(&info->_e8, 0xdf7c57f6);
@@ -640,7 +640,7 @@ bool Unk_710244dd20::sub_71006D1DC4(Unk_7100739634Result* request, bool* special
         auto* info = sub_71007A255C(actor, i);
         if (info->sub_71007A1F68(0x800) && !sub_71006D7038(actor, info) &&
             sub_7100739634(request, chemical, info, flags)) {
-            request->_8 = u32(info->_b0);
+            request->_8 = info->mDamage;
             request->_10 = info->_54;
             request->_14 = i;
             *special_attack = ksys::act::hasTag(&info->_e8, 0xdf7c57f6);

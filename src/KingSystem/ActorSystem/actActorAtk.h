@@ -129,8 +129,10 @@ public:
             /* 0x94 */ sead::Vector3f _94{0, 0, 1};  // a direction (DamageManager::m31)
             /* 0xa0 */ sead::Vector3f _a0{0, 0, 0};  // read as floats by AmbushableWeaponShoot::sub_7100300908
             /* 0xac */ u32 _ac = 0;
-            // Condition classification (0x71006d1ec4) copies the low word to its result.
-            /* 0xb0 */ u64 _b0 = 0;
+            // Contact producer 7A1904 copies the sensor's damage and shield-break power separately.
+            // Damage is scaled as a signed integer by 6D70EC.
+            /* 0xb0 */ s32 mDamage = 0;
+            /* 0xb4 */ u32 mShieldBreakPower = 0;
             /* 0xb8 */ s32 _b8 = 1;
             /* 0xbc */ s32 _bc = -1;
             /* 0xc0 */ phys::RigidBody* _c0 = nullptr;
