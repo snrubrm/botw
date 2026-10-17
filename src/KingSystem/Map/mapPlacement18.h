@@ -36,6 +36,9 @@ public:
     ~Placement18();
 
     void sub_7100D48034();
+    // 0x7100d47ef4 (CSV Placement18::x; placeholder name): for every rail of the two cell arrays, initializes
+    // the junctions of its first and last point.
+    void x(sead::Heap* heap);
 
     // 0x7100d48744 (a stub that tail-calls 0x7100d48254): finds a rail by its unique name
     // (inlined string compare against Rail::getUniqueName; null when there is none). Used by RailMove::enter_.

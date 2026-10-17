@@ -172,4 +172,29 @@ Rail* Placement18::sub_7100D48DE0(const sead::SafeString& name, const sead::Vect
 }
 
 
+// 0x7100d47ef4 (CSV Placement18::x; placeholder name): for every rail of the two 80-cell arrays, initializes
+// the junctions of its first and last point with the cell index and the rail type hash.
+void Placement18::x(sead::Heap* heap) {
+    const u32 route_hash = sRailTypeRouteHash;
+    const u32 connectable_hash = sRailTypeConnectableHash;
+
+    for (s32 i = 0; i < 80; ++i) {
+        auto* cell = _10->unsafeAt(i);
+        for (auto it = cell->begin(), end = cell->end(); it != end; ++it) {
+            static_cast<RailConnectablePoint*>((*it).getPoint(0))
+                ->parseJunctions(*this, i, connectable_hash, heap);
+            static_cast<RailConnectablePoint*>((*it).getPoint((*it).getNumPoints() - 1))
+                ->parseJunctions(*this, i, connectable_hash, heap);
+        }
+
+        auto* route_cell = _8->unsafeAt(i);
+        for (auto it = route_cell->begin(), end = route_cell->end(); it != end; ++it) {
+            static_cast<RailConnectablePoint*>((*it).getPoint(0))
+                ->parseJunctions(*this, i, route_hash, heap);
+            static_cast<RailConnectablePoint*>((*it).getPoint((*it).getNumPoints() - 1))
+                ->parseJunctions(*this, i, route_hash, heap);
+        }
+    }
+}
+
 }  // namespace ksys::map

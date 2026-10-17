@@ -177,7 +177,7 @@ public:
 
     Rail* getJunctionRail() const;
     RailConnectablePoint** getJunctionPoint() const;
-    void parseJunctions(Placement18 p18, s32 idx, u32 hash, sead::Heap* heap);
+    void parseJunctions(Placement18& p18, s32 idx, u32 hash, sead::Heap* heap);
 
 protected:
     Rail* mJunctionRail;
