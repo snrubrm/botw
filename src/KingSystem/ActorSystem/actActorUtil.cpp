@@ -1677,3 +1677,20 @@ void ActorNameSearch::sub_7100EDCED0(BaseProc* proc) {
 }
 
 }  // namespace ksys::act
+
+namespace wm {
+
+// 0x7100ee88ac: whether the weather is a thunderstorm, or it is raining / snowing (with `a1` skipping
+// the snow test). Uses the bounds-checked getWeatherMgr.
+bool isRainingOrSnowingOrThunderStorm(bool a1) {
+    auto* mgr = ksys::world::Manager::instance();
+    if (!mgr)
+        return false;
+    if (mgr->getWeatherMgr()->getWeather() == ksys::world::WeatherType::ThunderStorm)
+        return true;
+    if (mgr->getWeatherMgr()->isRaining())
+        return true;
+    return a1 && mgr->getWeatherMgr()->isSnowing();
+}
+
+}  // namespace wm
