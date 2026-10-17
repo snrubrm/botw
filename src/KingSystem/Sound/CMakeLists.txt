@@ -19,6 +19,8 @@ target_sources(uking PRIVATE
   sndBgmMgr.h
   sndBgmMgr.cpp
   sndBgmSpeakerBalanceSupplier.cpp
+  sndEquipmentNoiseCache.cpp
+  sndEquipmentNoiseCache.h
   sndEnvBgm.cpp
   sndEnvBgm.h
   sndDuckingMgr.cpp
