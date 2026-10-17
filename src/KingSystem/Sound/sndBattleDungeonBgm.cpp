@@ -8,6 +8,9 @@
 #include "KingSystem/Sound/sndFxMgr.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include <gfx/seadTextWriter.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/World/worldEnvMgr.h"
@@ -678,6 +681,32 @@ Unk_71024fd0a8::~Unk_71024fd0a8() {
     if (_18)
         delete _18;
     _18 = nullptr;
+}
+
+// NON_MATCHING: the area bit test is a branch here (the original selects it) and the no-player check
+// uses the inverted branch layout.
+bool animalMasterBgmStuff(Unk_71024fd0a8* bgm) {
+    sead::Vector3f pos;
+    const bool has_player = ksys::act::ActorSystem::instance()->getPlayerPosition(&pos);
+    bool appearance;
+    if (has_player && ksys::act::isInSatoriMountainArea(pos)) {
+        if (ksys::gdt::Manager::instance()->getBool(bgm->mAppearanceFlag, &appearance, true) &&
+            appearance)
+            return true;
+    }
+
+    auto* mgr = ksys::snd::SoundMgr::instance();
+    if (mgr->_c8) {
+        if (mgr->_c8->m7())
+            return true;
+        if (!has_player)
+            return true;
+    } else if (!has_player) {
+        return false;
+    }
+
+    const s32 offset = ksys::eco::Ecosystem::instance()->getFieldMapArea(pos.x, pos.z) - 35;
+    return offset <= 0x2c && ((0x120000000001ull >> offset) & 1);
 }
 
 void Unk_71024fd0a8::m12(f32 fade_sec) {
