@@ -636,6 +636,8 @@ public:
 class Unk_710247e960 : public ksys::res::Context {
     SEAD_RTTI_OVERRIDE(Unk_710247e960, ksys::res::Context)
 public:
+    // 0x71009caef4: two empty fixed strings, an empty name, size 8 and limit 100
+    Unk_710247e960();
     ~Unk_710247e960() override;
 
     sead::FixedSafeString<64> _8;

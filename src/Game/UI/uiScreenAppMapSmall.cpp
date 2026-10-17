@@ -431,6 +431,20 @@ void ScreenAppMap::sub_71009F05C0() {
     pane->_58 |= 0x10;
 }
 
+// 0x71009f1a64
+// NON_MATCHING: the original keeps the distance and scale products separate until after the get60 call
+bool ScreenAppMap::sub_71009F1A64(const sead::Vector3f* pos) {
+    const f32 px = pos->x;
+    const f32 pz = pos->z;
+    sead::Vector2f view(0.0f, 0.0f);
+    UiSubsys1::instance()->sub_7100965D10(&view);
+    const f32 dx = view.x - px;
+    const f32 dz = view.y - pz;
+    return sead::Mathf::sqrt(dx * dx + dz * dz) * UiSubsys1::instance()->_850.get28() *
+               UiSubsys1::instance()->sub_7100965E58()->get60()->x * _3c4c <
+           _3c48;
+}
+
 // 0x71009f1b18
 void ScreenAppMap::sub_71009F1B18(sead::Vector2f* v) const {
     v->normalize();

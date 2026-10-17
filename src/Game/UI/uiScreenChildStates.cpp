@@ -1363,6 +1363,14 @@ void Unk_710247e8c0::onDestroy_() {
     _50 = nullptr;
 }
 
+// 0x71009caef4
+// NON_MATCHING: the original stores the _60 vtable before loading the cNullChar used for _b8
+Unk_710247e960::Unk_710247e960() : _8(), _60(), _b8() {
+    _cc = 0;
+    _c8 = 8;
+    _d0 = 100;
+}
+
 // 0x71009cafd4
 Unk_710247e960::~Unk_710247e960() {
     _8.clear();

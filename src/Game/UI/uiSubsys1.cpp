@@ -472,7 +472,7 @@ void UiSubsys1::sub_7100966684(const sead::Vector3f* pos) {
 }
 
 // 0x7100965e58
-void* UiSubsys1::sub_7100965E58() {
+Unk_7102475368* UiSubsys1::sub_7100965E58() {
     return &_850;
 }
 
