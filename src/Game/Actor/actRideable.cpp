@@ -1,6 +1,8 @@
 #include <cstdarg>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actHorseStrings.h"
+#include <prim/seadFormatPrint.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -144,6 +146,35 @@ void sub_7100E7F4FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* 
     controller->sub_7100F5EDE0(b);
     controller->sub_7100F5EDBC(forward);
     controller->sub_7100F5E7F0(dominant * 30.0f * scale);
+}
+
+// 0x7100e74604 (CSV formatAnimalMoveString): the AS name of one animal move (`gear` 0 is the default
+// "Wait" name, move type 0 ignores the type name).
+// NON_MATCHING: same calls and order but the original keeps a separate StringPrintFormatter stack slot per branch
+// (0xd0 frame); ours reuses one (0x90). The original's sead::BufferedSafeStringBase::format is the inline
+// PrintFormatter version (see libwork), so the manual formatter is used here.
+void formatAnimalMoveString(sead::BufferedSafeString* out, int move_type, u32 gear) {
+    if (gear == 0) {
+        out->copy(sUnk_7102603110);
+    } else if (move_type == 0) {
+        sead::StringPrintFormatter formatter(out);
+        formatter << "Move_Gear%d";
+        formatter, gear;
+        formatter.flush();
+    } else {
+        sead::StringPrintFormatter formatter(out);
+        formatter << "Move_%s_Gear%d" << AnimalMoveType::text(move_type);
+        formatter, gear;
+        formatter.flush();
+    }
+}
+
+// 0x7100e74498 (CSV name): builds the animal move name table (called by loadAnimationDrivenSpeedAnimal).
+// In actRideable.cpp so the builder stays out of line (the original wrapper is a 4-byte tail call).
+void sub_7100E7449C();
+
+void formatAnimalMoveStrings() {
+    sub_7100E7449C();
 }
 
 }  // namespace uking::act

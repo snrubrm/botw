@@ -54,24 +54,23 @@ void RideableBase::S1::sub_7100E761A4(bool clear_gear, bool force) {
 
 
 // NON_MATCHING: bank-count checks are reordered and SafeString assignment is devirtualized.
-// 0x7100e74604 (CSV formatAnimalMoveString): the AS name of one animal move (`gear` 0 is the default
-// "Wait" name, move type 0 ignores the type name).
-// NON_MATCHING: same calls and order but the original keeps a separate StringPrintFormatter stack slot per branch
-// (0xd0 frame); ours reuses one (0x90). The original's sead::BufferedSafeStringBase::format is the inline
-// PrintFormatter version (see libwork), so the manual formatter is used here.
-void formatAnimalMoveString(sead::BufferedSafeString* out, int move_type, u32 gear) {
-    if (gear == 0) {
-        out->copy(sUnk_7102603110);
-    } else if (move_type == 0) {
-        sead::StringPrintFormatter formatter(out);
-        formatter << "Move_Gear%d";
-        formatter, gear;
-        formatter.flush();
-    } else {
-        sead::StringPrintFormatter formatter(out);
-        formatter << "Move_%s_Gear%d" << AnimalMoveType::text(move_type);
-        formatter, gear;
-        formatter.flush();
+// 0x7100e74604 (in actRideable.cpp): the AS name of one animal move.
+void formatAnimalMoveString(sead::BufferedSafeString* out, int move_type, u32 gear);
+
+// 0x7102603538 (placeholder name): the animal move AS name table (6 move types x 5 gears).
+sead::SafeArray<sead::SafeArray<sead::FixedSafeString<32>, 5>, 6> sAnimalMoveNames;
+
+// 0x7100e7449c (placeholder name): fills the animal move AS name table.
+// NON_MATCHING: same loop (AnimalMoveType iterator, so the index spills like the original) but the register
+// allocation and the second argument (reloaded from the slot here) differ.
+void sub_7100E7449C() {
+    for (AnimalMoveType::iterator it = AnimalMoveType::begin(); it != AnimalMoveType::end(); ++it) {
+        const AnimalMoveType type = *it;
+        formatAnimalMoveString(&sAnimalMoveNames[type][0], type, 0);
+        formatAnimalMoveString(&sAnimalMoveNames[type][1], type, 1);
+        formatAnimalMoveString(&sAnimalMoveNames[type][2], type, 2);
+        formatAnimalMoveString(&sAnimalMoveNames[type][3], type, 3);
+        formatAnimalMoveString(&sAnimalMoveNames[type][4], type, 4);
     }
 }
 
