@@ -190,7 +190,9 @@ public:
     // 0x710090fb5c (CSV finishLoadCb): the load finished: starts state 35 and applies the loaded game data fixes.
     void finishLoadCb();
     // 0x7100912c94 (CSV x; declared only)
-    void sub_7100912C94(s32 slot);
+    // 0x7100912c94: loads the album picture indices of `slot` from AlbumPictureIndex, shifting out the
+    // invalid ones, and writes the result back.
+    void loadAlbumIndices(s32 slot);
     // 0x710091453c (CSV triggerAutoSaveFromArea): an auto save requested by the area actor `actor` (not again for
     // the same map object while the cool down _1a24 runs).
     bool triggerAutoSaveFromArea(ksys::act::Actor* actor);

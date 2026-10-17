@@ -134,6 +134,57 @@ const sead::SafeString* SaveSystem::invokedGetMapName() {
     return &_1e68;
 }
 
+// 0x7100912c94
+// NON_MATCHING: `slot > 7` is tested unsigned in the original, and the _1058 bit test materialises
+// `1 << 4` through a stack slot; ours uses a signed compare and a bit-field extract.
+void SaveSystem::loadAlbumIndices(s32 slot) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (slot >= 8 || !manager)
+        return;
+
+    auto* save_mgr = ksys::SaveMgr::instance();
+    const bool compact = save_mgr && (save_mgr->_1058 & 0x10);
+
+    SaveSlot& out = _40[slot];
+    s32 value = 0;
+    if (compact) {
+        u32 count = 0;
+        for (s32 i = 0; i < 0x30; ++i) {
+            const bool ok = manager->getParam().get().getS32(&value, "AlbumPictureIndex", i);
+            s32 index = -1;
+            if (ok)
+                index = value;
+            if (!ok || value < 0x150) {
+                const bool wrapped = count > 0x2f;
+                const s32 dst = wrapped ? 0 : s32(count);
+                ++count;
+                out.mAlbumIndices[dst] = index;
+            }
+        }
+        if (count != 0x30) {
+            for (s32 i = 0; i < 0x30; ++i) {
+                s32 index;
+                if (i < count) {
+                    index = out.mAlbumIndices[i];
+                } else {
+                    index = -1;
+                    out.mAlbumIndices[i] = index;
+                }
+                manager->setS32(index, "AlbumPictureIndex", i);
+            }
+        }
+    } else {
+        for (s32 i = 0; i < 0x30; ++i) {
+            const bool ok = manager->getParam().get().getS32(&value, "AlbumPictureIndex", i);
+            out.mAlbumIndices[i] = ok ? value : -1;
+        }
+    }
+
+    _1880._0 = 0;
+    if (_1a45)
+        _1880.sub_710090CD68(&out, true);
+}
+
 void SaveSystem::loadOptions(bool force) {
     if (mOptions.mValid && !force)
         return;
@@ -561,7 +612,7 @@ void SaveSystem::finishLoadCb() {
     }
 
     _3c = 35;
-    sub_7100912C94(_30);
+    loadAlbumIndices(_30);
 
     if (E3Mgr::instance()) {
         bool is_demo;

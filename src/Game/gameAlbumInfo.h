@@ -11,6 +11,8 @@ struct SaveSlot;
 // system. Layout from the methods only: a bit set of the used picture values at +4 (0x1b0 bits), a block of 48 picture
 // indices that is copied from / to the save slots at +0x3c. The size is not known (0x1880 .. 0x1a00 is assumed).
 class AlbumInfo {
+    friend class SaveSystem;
+
 public:
     // 0x710090c954: the picture index flag `index`.
     s32 sub_710090C954(s32 index) const;
