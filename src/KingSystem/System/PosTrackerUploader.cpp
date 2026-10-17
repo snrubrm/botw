@@ -115,8 +115,68 @@ bool PosTrackerUploader::queueCleanUp() {
     return false;
 }
 
-// NON_MATCHING: only the schedule of the success path (the original materialises the return value 1 before the store
-// to +0x118).
+// NON_MATCHING: delegate member-pointer clearing folds to paired zero stores; lock pointers are reloaded.
+bool PosTrackerUploader::doCleanUp(void* arg) {
+    const bool result = cleanUpNex();
+    nn::nifm::CancelNetworkRequest();
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS1);
+        _f4 = false;
+        sead::ScopedLock<sead::CriticalSection> thread_lock(&_38->mCS);
+        _38->mNetworkAvailable = false;
+    }
+    x_0();
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&mCS2);
+        _f0 = result ? 3 : 2;
+        _e0 = nullptr;
+    }
+    return result;
+}
+
+bool PosTrackerUploader::doUpload(void* arg) {
+    if (!initNexThread())
+        return false;
+    if (doUpload1()) {
+        nn::account::NetworkServiceAccountId id{};
+        char token[0xc00]{};
+        if (sub_7100A8D2FC(&id, token) && doUpload2(&id, token) && doUpload3() && doUpload4()) {
+            sead::ScopedLock<sead::CriticalSection> lock(&mCS1);
+            {
+                sead::ScopedLock<sead::CriticalSection> state_lock(&mCS2);
+                _f0 = 3;
+                _e0 = nullptr;
+            }
+            _f5 = true;
+            return true;
+        }
+    }
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS2);
+    _f0 = 2;
+    _e0 = nullptr;
+    return false;
+}
+
+// NON_MATCHING: the network-thread critical-section pointer is reloaded before the final store.
+bool PosTrackerUploader::doUpload1() {
+    nn::nifm::SubmitNetworkRequest();
+    if (nn::nifm::IsNetworkRequestOnHold()) {
+        s32 count = 0;
+        do {
+            if (count++ >= 50)
+                return false;
+            sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(100));
+        } while (nn::nifm::IsNetworkRequestOnHold());
+    }
+    if (!nn::nifm::IsNetworkAvailable())
+        return false;
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS1);
+    _f4 = true;
+    sead::ScopedLock<sead::CriticalSection> thread_lock(&_38->mCS);
+    _38->mNetworkAvailable = true;
+    return true;
+}
+
 bool PosTrackerUploader::initHeaps(sead::Heap* parent, s32 value) {
     mHeap = sead::ExpHeap::tryCreate(0x100000, "NexHeap", parent, 8, sead::Heap::cHeapDirection_Forward, true);
     if (!mHeap)

@@ -61,6 +61,13 @@ public:
 
 private:
     bool doUpload(void* arg);
+    bool initNexThread();
+    bool doUpload1();
+    bool doUpload2(nn::account::NetworkServiceAccountId* id, const char* token);
+    bool doUpload3();
+    bool doUpload4();
+    bool cleanUpNex();
+    bool x_0();
     // 0x7100a8c6b8 (CSV doCleanUp): the low priority job body queued by queueCleanUp.
     bool doCleanUp(void* arg);
 
