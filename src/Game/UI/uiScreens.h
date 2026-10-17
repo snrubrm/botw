@@ -2546,6 +2546,7 @@ public:
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
 extern const ksys::StateBase sUnk_71025f0cf0;
 extern const ksys::StateBase sUnk_71025f1050;
+extern const ksys::StateBase sUnk_71025f0ed0;
 extern const ksys::StateBase sUnk_71025f0f90;
 extern const ksys::StateBase sUnk_71025f0ff0;
 extern const ksys::StateBase sUnk_710261ee00;
@@ -2769,6 +2770,10 @@ public:
     /* 0x3c10 */ u8 _3c10;
     u8 _pad_3c11[3];
     /* 0x3c14 */ UiTimer _3c14;
+    /* 0x3c2c */ bool _3c2c;  // blocks sub_7100A34A80 (set by m100's reset)
+
+    // inherited slot; the pause menu decides from it whether the state may settle
+    void m99() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -2816,6 +2821,8 @@ public:
 
     bool sub_7100A34A10();
     bool sub_7100A349F4();
+    // 0x7100a34a80: whether the pause selection may settle (the current state's own box test)
+    bool sub_7100A34A80();
 };
 
 class ScreenAppTool : public ScreenEx {

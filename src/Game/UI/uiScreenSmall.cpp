@@ -1,3 +1,4 @@
+#include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -8,6 +9,7 @@
 #include <container/seadBuffer.h>
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiOnUiActorMgr.h"
+#include "Game/UI/uiManager.h"
 #include "Game/UI/uiUnk_7102506d38.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/gameSaveSystem.h"
@@ -90,6 +92,46 @@ void ScreenPauseMenu::sub_7100A379BC(s32 tab) {
 // 0x7100a34a04
 void ScreenPauseMenu::sub_7100A34A04() {
     _3bb4 = 1;
+}
+
+// 0x7100a37d0c
+void ScreenPauseMenu::m99() {
+    if (_3664.isUndef()) {
+        if (auto* pane = findPane_("B_Page20_00"))
+            eui::CalcPaneBoundBox(&_3664, *pane);
+    }
+    if (Manager::instance()->_64c24 == 1) {
+        if (_3a30 == 0) {
+            if (_3bb4 == 1)
+                getStateMachine().changeState(&sUnk_71025f0ed0);
+            else
+                getStateMachine().changeState(&sUnk_71025f0cf0);
+        } else if (_3a30 == 2) {
+            getStateMachine().changeState(&sUnk_71025f0ff0);
+        } else {
+            getStateMachine().changeState(&sUnk_71025f0f90);
+        }
+    }
+    if (auto* mgr = OnUiActorMgr::instance())
+        mgr->sub_7100907914(true);
+}
+
+// 0x7100a34a80
+bool ScreenPauseMenu::sub_7100A34A80() {
+    if (!isOpened() || _3c2c)
+        return false;
+    if (getStateMachine().getState()->getId() == (&sUnk_71025f0cf0)->getId()) {
+        if (_3674 == 0)
+            return true;
+        const f32 offset = _3650 > 0.0f ? _3650 : -_3650;
+        return offset < 70.0f;
+    }
+    if (getStateMachine().getState()->getId() == (&sUnk_71025f0f90)->getId()) {
+        if (_3b90)
+            return !_3b90->sub_71009BA010();
+        return false;
+    }
+    return getStateMachine().getState()->getId() == (&sUnk_71025f0ff0)->getId();
 }
 
 // 0x7100a38994
