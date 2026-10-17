@@ -2,6 +2,7 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/System/Patrol.h"
+#include "Game/gameRuneMgr.h"
 #include "Game/gameGearMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiManager.h"
@@ -321,6 +322,26 @@ void ScreenAppMap::m94() {
         UiSubsys1::instance()->getVec3834();
         UiSubsys1::instance()->sub_7100968900(1);
     }
+}
+
+// 0x71009ec330
+void ScreenAppMap::m130() {
+    bool changed = false;
+    u8 selected = 0;
+    if (RuneMgr::instance()->_90 & 0x10) {
+        selected = RuneMgr::instance()->isSelectedRune(5);
+        if (selected)
+            changed = _3cb0 != 1;
+    }
+    if (UiSubsys1::instance()->is848Zero()) {
+        const bool closing = isClosedOrClosing() ? sub_7100AA8F50() : false;
+        const bool paused = (~u32(Manager::instance()->_64c30) & 0xa000) == 0;
+        if (closing | paused | changed) {
+            close(-4);
+            sub_7100AA9808(mLayout->GetPane());
+        }
+    }
+    _3cb0 = selected;
 }
 
 // 0x71009eb178

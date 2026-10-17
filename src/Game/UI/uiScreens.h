@@ -2459,6 +2459,7 @@ public:
     void m94() override;
     void m83() override;
     void m100() override;
+    void m130() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     s32 getSlink2LocalPropertyNum_() const override;
@@ -2552,6 +2553,8 @@ public:
     /* 0x3c88 */ eui::Animator* _3c88;
     /* 0x3c90 */ ScreenAppMapUnk3c90* _3c90;
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
+    u8 _3ca0[0x3cb0 - 0x3ca0];
+    /* 0x3cb0 */ u8 _3cb0;  // the camera rune was selected when m130 last ran
 };
 
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
