@@ -349,10 +349,10 @@ public:
     void sub_71009C28D0();
     // 0x71009c20f0: sets the gauge _170 and clears its byte at 0x6c
     void sub_71009C20F0(eui::TraceGaugeControl* gauge);
-    /* 0x130 */ eui::Animator* _130;
-    /* 0x138 */ eui::Animator* _138;
+    /* 0x130 */ eui::Animator* _130 = nullptr;
+    /* 0x138 */ eui::Animator* _138 = nullptr;
     u8 _140[0x170 - 0x140];
-    /* 0x170 */ eui::TraceGaugeControl* _170;
+    /* 0x170 */ eui::TraceGaugeControl* _170 = nullptr;
     u8 _178[0x1e8 - 0x178];
 };
 static_assert(sizeof(Unk_710247ca18) == 0x1e8);
@@ -2649,7 +2649,13 @@ public:
     void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ s32 _3618;
-    u8 _pad_361c[0x3664 - 0x361c];
+    u8 _pad_361c[4];
+    /* 0x3620 */ s32 _3620;  // the shown guide page (-1: none)
+    /* 0x3624 */ s32 _3624;  // the number of guide pages
+    u8 _pad_3628[0x3644 - 0x3628];
+    /* 0x3644 */ s32 _3644;  // guide page step of the first mode (_3674 == 0)
+    /* 0x3648 */ s32 _3648;  // guide page step of the second mode
+    u8 _pad_364c[0x3664 - 0x364c];
     /* 0x3664 */ sead::BoundBox2f _3664;  // the box cursor must stay inside it while _3674 is set (adjstBoxCursor)
     /* 0x3674 */ s32 _3674;
     /* 0x3678 */ Unk_7100A341D0 mTabControls;

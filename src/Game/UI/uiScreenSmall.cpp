@@ -29,6 +29,47 @@ Unk_7100A341D0::Unk_7100A341D0() = default;
 // NON_MATCHING: the compiler outlines the SafeArray member destructor.
 Unk_7100A341D0::~Unk_7100A341D0() = default;
 
+// 0x7100a392d8
+// NON_MATCHING: the two _3620 reads inside the else are hoisted before the two sub_7100A82D08
+// calls here (the original reloads the second one after them), and the dir checks take branches
+// instead of the original's two if-converted ands.
+void ScreenPauseMenu::sub_7100A392D8() {
+    if (!mFirstGuideLayout || !mSecondGuideLayout)
+        return;
+
+    const s32 dir = _3674 == 0 ? _3644 : _3648;
+    bool show_first;
+    bool show_second;
+    if (_3620 == -1) {
+        if (dir >= 1)
+            show_first = _3624 >= dir && _3624 > 0;
+        else
+            show_first = false;
+        if (dir >= -1)
+            show_second = _3624 > dir + 1 && _3624 > 0;
+        else
+            show_second = false;
+    } else {
+        show_first = _3620 == s32(sub_7100A82D08(dir - 1));
+        show_second = _3620 == s32(sub_7100A82D08(dir + 1));
+    }
+
+    if (show_first)
+        sub_7100AA1D5C(mFirstGuideLayout, mSecondGuideLayout, true);
+    else if (u8(mFirstGuideLayout->_91) - 1 < 2)
+        mFirstGuideLayout->startAnimCloseImpl_(false, false);
+
+    if (show_second)
+        sub_7100AA1D5C(mSecondGuideLayout, mFirstGuideLayout, true);
+    else if (u8(mSecondGuideLayout->_91) - 1 < 2)
+        mSecondGuideLayout->startAnimCloseImpl_(false, false);
+
+    if (mSelectedCategory == -1)
+        return;
+    const s32 idx = mSelectedCategory < 7 ? mSelectedCategory : 0;
+    mTabControls.mEntries[idx].mGuide.sub_7100936BD4(show_first, show_second);
+}
+
 // NON_MATCHING: the loop induction variable is widened in category comparisons.
 void ScreenPauseMenu::sub_7100A379BC(s32 tab) {
     mSelectedCategory = s32(sub_7100A82D08(tab));
