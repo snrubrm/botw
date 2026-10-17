@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
+#include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadVector.h>
@@ -79,10 +80,22 @@ public:
 
     // Three 0x70-byte render slots begin at +0xb8 (constructor 0x71011e151c).
     struct Slot {
+        // 0x71011e1b88 allocates 0x10-byte draw bindings and copies their first
+        // pointer into the parallel draw-object array.
+        struct DrawEntry {
+            gsys::ModelDrawObj* object;
+            u64 _8;
+        };
+        struct BoundsEntry {
+            u64 _0;
+            sead::BoundBox2f bounds;
+        };
         sead::Vector3f _0;
         u32 _c;
         gsys::Model* mModel;
-        u8 _18[0x48 - 0x18];
+        sead::Buffer<DrawEntry> draw_entries;
+        sead::Buffer<gsys::ModelDrawObj*> draw_objects;
+        sead::Buffer<BoundsEntry> entry_bounds;
         sead::Buffer<u32> bits;
         sead::BoundBox2f bounds;
         u32 _68;
@@ -99,8 +112,8 @@ public:
 
     sead::PtrArray<gsys::ModelUnit> mUnits;
     u8 _10[0x18 - 0x10];
-    /* 0x18 */ sead::PtrArray<Entry> _18;
-    u8 _28[0x38 - 0x28];
+    // Native teardown returns entries to the embedded free list and deletes its work buffer.
+    /* 0x18 */ sead::ObjArray<Entry> _18;
     /* 0x38 */ sead::CriticalSection _38;
     /* 0x78 */ s32 _78;
     u8 _7c[0x98 - 0x7c];
@@ -112,7 +125,10 @@ public:
     /* 0x208 */ s32 mCleanupIndex;
     u32 _20c;
     /* 0x210 */ sead::CriticalSection _210;
+    // The constructor clears +0x250; PlacementMgr allocates 0x258 bytes at 0x71011e5944.
+    u32 _250 = 0;
 };
+KSYS_CHECK_SIZE_NX150(MassRenderer, 0x258);
 
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
 // the cluster entry.

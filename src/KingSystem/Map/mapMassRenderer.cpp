@@ -1,11 +1,42 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelUnitDrawArray.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Map/mapPlacementActors.h"
 
 namespace ksys::map {
+
+MassRenderer::~MassRenderer() {
+    if (mCleanupIndex < 0) {
+        mUnits.freeBuffer();
+        for (auto& slot : mSlots) {
+            if (slot.mModel) {
+                gsys::Model::sub_7100BF69F8(slot.mModel);
+                slot.mModel = nullptr;
+            }
+        }
+    }
+    if (mWorkHeap)
+        sub_71011E1788(true);
+    _18.freeBuffer();
+}
+
+void MassRenderer::sub_71011E1788(bool free_heap) {
+    if (free_heap) {
+        mWorkHeap->mFlag.setBit(sead::Heap::Flag::cDisposing);
+        for (auto& slot : mSlots) {
+            slot.draw_entries.freeBuffer();
+            slot.draw_objects.freeBuffer();
+            slot.entry_bounds.freeBuffer();
+            slot.bits.freeBuffer();
+        }
+        mDrawObjects.freeBuffer();
+        mWorkHeap->destroy();
+    }
+    mWorkHeap = nullptr;
+}
 
 void MassRenderer::beginCleanup() {
     mCleanupIndex = 0;
