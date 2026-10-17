@@ -53,6 +53,8 @@ struct TeraManagerMaybe {
 TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B184;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B188;
+// Callback 0x7101200AC0 records terrain bit indices 0..9 here through sub_7100F3F84C.
+KSYS_VISIBILITY_HIDDEN u32 sUnk_710260B18C;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B190;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B198;
 
@@ -1697,3 +1699,9 @@ void Root38::setInstance2(Root38* value) {
     ksys::tera::sUnk_710260B220._50 = value;
 }
 }  // namespace uking
+
+// 0x7100F3F84C (CSV free function): records terrain bit index `index` in sUnk_710260B18C (indices 0..9
+// come from the material callback 0x7101200AC0; resBfRes passes 9 for an Independence shape).
+void sub_7100F3F84C(u32 index) {
+    ksys::tera::sUnk_710260B18C |= 1u << index;
+}

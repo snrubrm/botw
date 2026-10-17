@@ -84,10 +84,26 @@ class Unk_710129175c {
 public:
     // Placeholder: the 0x2088-byte records of the buffer at 0x10 (only the fields read through
     // sub_710129276C and Graphics::sub_7100F2E2A4 are modelled).
+    // sub_710129276C copies the fields at 0x1f98..0x1fdc into Result; sub_71012920C4 sets _1ff4.
     struct Record {
         u8 _0[0x1f91];
         u8 _1f91;  // Graphics::sub_7100F2E2A4 tests bit 1 of record 0
-        u8 _1f92[0x2088 - 0x1f92];
+        u8 _1f92[0x1f98 - 0x1f92];
+        u64 _1f98;
+        f32 _1fa0;
+        f32 _1fa4;
+        f32 _1fa8;
+        f32 _1fac;
+        u8 _1fb0[0x1fc8 - 0x1fb0];
+        f32 _1fc8;
+        f32 _1fcc;
+        f32 _1fd0;
+        f32 _1fd4;
+        f32 _1fd8;
+        f32 _1fdc;
+        u8 _1fe0[0x1ff4 - 0x1fe0];
+        u8 _1ff4;
+        u8 _1ff5[0x2088 - 0x1ff5];
     };
     static_assert(sizeof(Record) == 0x2088);
 
@@ -130,9 +146,19 @@ public:
 // Graphics + 0x370. Its source name is unknown.
 class Unk_710129421c {
 public:
+    // Placeholder: the 0x7e8-byte entries of the buffer at 0x1e0.
+    struct Entry {
+        u8 _0[0x7e4];
+        f32 _7e4;
+    };
+    static_assert(sizeof(Entry) == 0x7e8);
+
     // 0x71012955ac (placeholder name): stores value at +0x7e4 of entry index of the 0x7e8-byte entry
     // buffer at 0x1e0.
     void sub_71012955AC(f32 value, s32 index);
+
+    u8 _0[0x1e0];
+    sead::Buffer<Entry> mEntries;
 };
 
 // Partial declaration only: F2C140 constructs this 0x258-byte item filter at
