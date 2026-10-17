@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/Actor/Action/actionEnvSeEmitPointBirdPlayAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
@@ -15,8 +16,28 @@ EnvSeEmitPointBirdPlayAction::EnvSeEmitPointBirdPlayAction(const InitArg& arg)
 
 EnvSeEmitPointBirdPlayAction::~EnvSeEmitPointBirdPlayAction() = default;
 
+// NON_MATCHING: only the first case stores 0 directly in the original; we emit mov + the shared
+// store (4 bytes more).
 bool EnvSeEmitPointBirdPlayAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    const sead::SafeString& name = getActor()->getName();
+    if (name == "EnvSeEmitPointBirdTemperate") {
+        _38 = 0;
+        return true;
+    } else if (name == "EnvSeEmitPointBirdSubTropic")
+        _38 = 1;
+    else if (name == "EnvSeEmitPointBirdTropical")
+        _38 = 2;
+    else if (name == "EnvSeEmitPointBirdSubarctic")
+        _38 = 3;
+    else if (name == "EnvSeEmitPointBirdArctic")
+        _38 = 4;
+    else if (name == "EnvSeEmitPointBirdArd")
+        _38 = 5;
+    else if (name == "EnvSeEmitPointBirdWet")
+        _38 = 6;
+    else if (name == "EnvSeEmitPointBirdWetSubtropic")
+        _38 = 7;
+    return true;
 }
 
 void EnvSeEmitPointBirdPlayAction::enter_(ksys::act::ai::InlineParamPack* params) {
