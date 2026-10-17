@@ -261,6 +261,13 @@ class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
     void sub_71002EE8B0();
+    // 0x71002e36b0 (CSV name): turns the chemical's attack flag off while the damage info says so and runs the
+    // attack helpers of the main body (unless the body is on the no-hit sensor layer).
+    void doAttackMaybe();
+    // 0x71002ebb38 / 0x71002ec038 / 0x71002ec220 (CSV names or unnamed rows): the attack steps.
+    void doAttackMaybe_inner0();
+    void doAttackMaybe_inner0_0();
+    void sub_71002EC220();
     void onEnterDelete_() override;
     void lifePhysicsStuff();
     // 0x71002e1748 (placeholder name; called by m63): moves the main body to the actor's matrix, makes it collide with the

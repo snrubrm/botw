@@ -1963,6 +1963,23 @@ bool actorCheckIsGuardJust(ksys::act::Actor* actor) {
 
 namespace uking::act {
 
+// NON_MATCHING: the original branches on the damage info flag before the call (we compile the negation to
+// eor) and keeps the contact layer in a stack slot (m: codegen only).
+void Weapon::doAttackMaybe() {
+    if (auto* chemical = getChemicalStuff())
+        chemical->sub_7100D90E40(!DamageInfoMgr::sub_710067477C());
+
+    if (_d68) {
+        doAttackMaybe_inner0();
+        doAttackMaybe_inner0_0();
+        if (_d68) {
+            const ksys::phys::ContactLayer layer = _d68->getContactLayer();
+            if (layer != ksys::phys::ContactLayer::SensorNoHit)
+                sub_71002EC220();
+        }
+    }
+}
+
 bool Weapon::sub_71002E4374() {
     if (_e50 & 0x80)
         return true;

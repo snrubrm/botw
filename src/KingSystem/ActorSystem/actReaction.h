@@ -37,6 +37,12 @@ public:
         f32 sub_7100EC877C() const;
         s32 sub_7100EC87A4() const;
         s8 sub_7100EC89BC() const;
+        // 0x7100ec6dd0: queues `actor` for the reaction of the current core (0x710128810c); false when full.
+        bool sub_7100EC6DD0(Actor* actor);
+        // 0x7100ec6070: emits the GrassTrack effect and the xlink properties for `request`.
+        void sub_7100EC6070(f32 value, ::DamageReactionRequest* request, bool flag);
+        // 0x7100ec61f8: fills the receiver from `request` (position, link, xlink properties).
+        void sub_7100EC61F8(::DamageReactionRequest* request);
 
         u8 _0[0x110];
         /* 0x110 */ s32 _110;
@@ -46,6 +52,10 @@ public:
     // 0x7100ec10b8 (CSV __auto6): passes `request` on to the reaction targets when the instance's
     // +0xb0 flag is set (bits 2 / 1 of request->_c4 select 0x7101284954 / 0x7100ec313c); true.
     bool sub_7100EC10B8(::DamageReactionRequest* request);
+    // 0x7100ec2980 / 0x7100ec299c / 0x7100ec29b8: forwarded to the receiver at _a8 while _b0 is set.
+    bool sub_7100EC2980(Actor* actor);
+    void sub_7100EC299C(f32 value, ::DamageReactionRequest* request, bool flag);
+    void sub_7100EC29B8(::DamageReactionRequest* request);
     static Reaction* sInstance;
     // Surface raycast/XLink update called by GolemRootBase::calc_; declaration only.
     void sub_7100EC29D0(Actor* actor);
@@ -61,6 +71,7 @@ public:
     Actor* _30;
     Actor* _38;
     u8 _40[0xa8 - 0x40];
-    Unk1* _a8;
+    /* 0xa8 */ Unk1* _a8;
+    /* 0xb0 */ bool _b0;
 };
 }  // namespace ksys::act

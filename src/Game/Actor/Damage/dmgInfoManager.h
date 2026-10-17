@@ -65,6 +65,8 @@ public:
     static bool sub_7100674764();
     static bool sub_710067476C();
     static s8 sub_7100674774();
+    // 0x710067477c: the global byte at 0x710243C398 (true in the image).
+    static bool sub_710067477C();
     static f32 sub_7100674788();
     static f32 sub_7100674790();
     static bool sub_710067479C();

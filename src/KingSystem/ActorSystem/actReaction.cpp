@@ -103,4 +103,21 @@ s32 Reaction::sub_7100EC2278(Actor* actor, bool* is_long) {
         *is_long = false;
     return size;
 }
+
+bool Reaction::sub_7100EC2980(Actor* actor) {
+    if (_b0 && _a8)
+        return _a8->sub_7100EC6DD0(actor);
+    return false;
+}
+
+void Reaction::sub_7100EC299C(f32 value, DamageReactionRequest* request, bool flag) {
+    if (_b0 && _a8)
+        _a8->sub_7100EC6070(value, request, flag);
+}
+
+void Reaction::sub_7100EC29B8(DamageReactionRequest* request) {
+    if (_b0 && _a8)
+        _a8->sub_7100EC61F8(request);
+}
+
 }  // namespace ksys::act
