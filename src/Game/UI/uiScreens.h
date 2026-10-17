@@ -5197,6 +5197,11 @@ extern const ksys::StateBase sUnk_71025dc3c0;
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;
+// The save transfer's other states (sub_7100A4473C).
+extern const ksys::StateBase sUnk_71025f26c0;
+extern const ksys::StateBase sUnk_71025f2840;
+extern const ksys::StateBase sUnk_71025f2900;
+extern const ksys::StateBase sUnk_71025f2cc0;
 // The save transfer's static state block (0x71025f2eb0): the transfer state at +0xc and its mode at +0x10.
 struct Unk_71025f2eb0 {
     u8 _0[0xc];
@@ -5305,7 +5310,8 @@ public:
     u8 _367a;
     u8 _pad_367b[0x3760 - 0x367b];
     /* 0x3760 */ s32 _3760;
-    u8 _pad_3764[0x3798 - 0x3764];
+    u8 _pad_3764[0x3788 - 0x3764];
+    /* 0x3788 */ sead::SafeString _3788;
     /* 0x3798 */ f32 _3798;
     /* 0x379c */ s32 _379c;
     /* 0x37a0 */ s32 _37a0;
