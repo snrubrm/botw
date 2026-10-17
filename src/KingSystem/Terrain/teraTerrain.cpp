@@ -799,3 +799,6 @@ u8* sub_7101147C34(u8* self, s32 index) {
 }
 
 }  // namespace ksys::tera
+
+void sub_710114E380(void* p) { ::operator delete(p); }
+void sub_7101152F34(void* p) { ::operator delete(p); }

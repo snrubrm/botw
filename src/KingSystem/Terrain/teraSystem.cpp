@@ -16,12 +16,16 @@ u8* sub_710112F434(u8* self) {
 }
 
 struct TeraManagerMaybe {
-    u8 _0[0x58];
+    u8 _0[0x10];
+    u32 _10;
+    u8 _14[0x58 - 0x14];
     System* mSystem;
     u8 _60[0xa8 - 0x60];
     void* _a8;
     u8 _b0[0xc4 - 0xb0];
     sead::Vector3f _c4;
+    u8 _d0[0xf0 - 0xd0];
+    u8 _f0[0x100];
 };
 
 TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
@@ -1150,3 +1154,21 @@ void sub_7100FD3A4C() {}
 void sub_7100FDDC34() {}
 void sub_7100FDF4CC() {}
 void sub_7100FDF4D0() {}
+
+s32 getSceneStatus() {
+    return ksys::tera::sUnk_710260B220._10;
+}
+
+void setSceneFinalStatus(s32 status) {
+    ksys::tera::sUnk_710260B220._10 = status;
+}
+
+void setIsGenStage(u32 value) {
+    ksys::tera::sUnk_710260B184 = value & 1;
+}
+
+namespace uking {
+void* sub_7100F41834() {
+    return ksys::tera::sUnk_710260B220._f0;
+}
+}  // namespace uking
