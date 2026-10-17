@@ -204,6 +204,9 @@ public:
     // 0x7100912ea4 (CSV clearAllCbsAndResetFlagsToInitial; declared only)
     void sub_7100912EA4(bool a);
     void gdmResetCallback(ksys::gdt::Manager::ResetEvent* event);
+    // 0x7100910d58: the map type to save with: the empty string for the title menu / while the scene
+    // background loading runs, else `_1e68` or the current map type.
+    const sead::SafeString* invokedGetMapName();
     void gdmResetCallback2(ksys::gdt::Manager::ResetEvent* event);
     void sub_710091171C();
     // 0x7100912be0 (CSV x_1): true when saving is not possible right now (the demo was not played, saving is
@@ -301,7 +304,10 @@ public:
     u8 _1a52[0x1d68 - 0x1a52];
     ksys::gdt::Manager::ResetSignal::Slot _1d68;
     ksys::gdt::Manager::ResetSignal::Slot _1dd8;
-    u8 _1e48[0x1ef8 - 0x1e48];
+    // The map name returned by invokedGetMapName when it differs from the current map type.
+    u8 _1e48[0x1e68 - 0x1e48];
+    sead::SafeString _1e68;
+    u8 _1e78[0x1ef8 - 0x1e78];
 };
 KSYS_CHECK_SIZE_NX150(SaveSystem, 0x1ef8);
 

@@ -38,6 +38,9 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(SaveSystem)
 
+// 0x71007b1110: whether the scene background loading started and has not finished.
+bool gameSceneStartedBgProcessingAndNotFinished();
+
 void SaveSystem::gdmResetCallback2(ksys::gdt::Manager::ResetEvent* event) {
     if (_3c == 35 || _3c == 36)
         return;
@@ -110,6 +113,25 @@ void SaveSystem::gdmResetCallback(ksys::gdt::Manager::ResetEvent* event) {
     }
 
     _1d68.release();
+}
+
+
+// 0x71025d1d18: the all-zero slot returned for a slot that does not exist.
+static SaveSlot sUnk_71025D1D18;
+
+// 0x71025d1bf8: the empty map type returned by invokedGetMapName for the title menu.
+static sead::SafeString sUnk_71025D1BF8;
+
+// 0x71025d1c30: the title menu map type (compared by startLoad2; set up by the static initializer 0x7100917244).
+static sead::FixedSafeString<32> sTitleMenuMapType{"TitleMenu"};
+
+const sead::SafeString* SaveSystem::invokedGetMapName() {
+    const sead::SafeString& map_type = GameScene::getCurrentMapType();
+    if (map_type == sTitleMenuMapType || gameSceneStartedBgProcessingAndNotFinished())
+        return &sUnk_71025D1BF8;
+    if (_1e68.isEmpty())
+        return &map_type;
+    return &_1e68;
 }
 
 void SaveSystem::loadOptions(bool force) {
@@ -205,11 +227,6 @@ void SaveSystem::sub_7100912EA4(bool a) {
 }
 
 
-// 0x71025d1d18: the all-zero slot returned for a slot that does not exist.
-static SaveSlot sUnk_71025D1D18;
-
-// 0x71025d1c30: the title menu map type (compared by startLoad2; set up by the static initializer 0x7100917244).
-static sead::FixedSafeString<32> sTitleMenuMapType{"TitleMenu"};
 
 bool SaveSystem::isFinishedSavingMaybe() const {
     auto* mgr = ksys::SaveMgr::instance();
