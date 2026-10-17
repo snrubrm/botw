@@ -1,4 +1,7 @@
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include <thread/seadThread.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -61,6 +64,19 @@ void PhysicsConstraints::sub_7100D403A8() {
     for (auto* constraint : mConstraints) {
         if (constraint)
             constraint->sub_7100F6A21C();
+    }
+}
+
+void PhysicsConstraints::sub_7100D40194(phys::RigidBody* body) {
+    if (!tera::checkTeraSystemStatus()) {
+        if (!sead::ThreadMgr::instance()->getCurrentThread()->isDefaultPriority())
+            return;
+        if (BaseProcMgr::instance()->isPushingJobs())
+            return;
+    }
+    for (auto* constraint : mConstraints) {
+        if (constraint && constraint->x_0(1) == body)
+            constraint->sub_7100F6A92C(nullptr);
     }
 }
 

@@ -5,6 +5,7 @@
 
 namespace ksys::phys {
 class Constraint;
+class RigidBody;
 }
 
 namespace ksys::act {
@@ -19,6 +20,8 @@ public:
     bool initialize(Actor* actor, sead::Heap* heap);
     void finalize();
     void calc();
+    // 0x7100d40194: detach body 1 when it is `body`, while actor access is safe.
+    void sub_7100D40194(phys::RigidBody* body);
 
     s32 size() const { return mConstraints.size(); }
 
