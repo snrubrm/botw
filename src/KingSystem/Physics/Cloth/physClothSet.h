@@ -74,6 +74,8 @@ public:
     void sub_710121C26C(s32 cloth_index, s32 item_index, f32 value);
     // 0x71012189b8: updates each cloth entry's enabled flags.
     void sub_71012189B8(bool enabled);
+    // 0x71012197e0: temporarily replaces matching named cloth buffers with the dummy buffer.
+    void sub_71012197E0(const sead::SafeString& name);
 
     /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ void* _8;  // tested by ClothStiffnessMgr::sub_7100665A84
