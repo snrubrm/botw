@@ -20,7 +20,7 @@ struct Unk117;
 namespace ksys::phys {
 class RayCastBodyQuery;
 class CapsuleRigidBody;
-class Unk_7102372790;
+class Unk_710239b220;
 }
 
 namespace uking {
@@ -101,7 +101,7 @@ public:
     /* 0xc0 */ u64 _c0 = 0;
     /* 0xc8 */ f32 _c8 = 0;
     /* 0xd0 */ ksys::phys::CapsuleRigidBody* _d0 = nullptr;  // "MotorcycleShapeCast" (init)
-    /* 0xd8 */ ksys::phys::Unk_7102372790* _d8 = nullptr;  // the nav mesh query (HavokAI)
+    /* 0xd8 */ ksys::phys::Unk_710239b220* _d8 = nullptr;  // the nav mesh query (HavokAI)
     /* 0xe0 */ ksys::act::BaseProcHandle mProcHandle;
     /* 0xf0 */ sead::Matrix34f _f0 = sead::Matrix34f::ident;
     /* 0x120 */ sead::Vector3f _120 = sead::Vector3f::zero;

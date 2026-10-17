@@ -4,6 +4,7 @@
 #include <Havok/Ai/Pathfinding/World/hkaiWorld.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/physConversions.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
@@ -178,6 +179,79 @@ void HavokAI::sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox
         sub_7100F8565C(callback, aabb);
         _c8.unlock();
     }
+}
+
+// NON_MATCHING: scheduling only: the world load moves after the direction build, and the callee's unused this
+// argument costs an extra "mov x0" before the call.
+void HavokAI::sub_7100F85974(void* user, const sead::Vector3f* pos, bool flag, f32 a, f32 b, f32 c) {
+    if (!_90.tryLock())
+        return;
+
+    hkVector4f direction;
+    direction.set(pos->x, pos->y, pos->z, 0.0f);
+    sub_7100F85A78(_28, &direction, nullptr, flag, user, a, b + b, c);
+    _90.unlock();
+}
+
+// NON_MATCHING: register allocation only: the original keeps this in x23 / nav in x21, ours swaps the two.
+bool HavokAI::sub_7100F87334(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius,
+                            f32 search_radius, bool flag, NavMeshFaceCallback* callback) {
+    if (!_90.tryLock())
+        return false;
+
+    hkVector4f direction;
+    if (pos)
+        loadFromVec3(&direction, *pos);
+    else
+        direction = nav->_8->_20;
+
+    const bool hit = sub_7100F85A78(_28, &direction, nav, flag, callback, search_radius, radius + radius,
+                                    sUnk_7101ec27f8);
+    _90.unlock();
+    return hit;
+}
+
+// NON_MATCHING: register allocation only: as sub_7100F87334.
+bool HavokAI::sub_7100F87464(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius,
+                            f32 search_radius, bool flag, NavMeshFaceCallback* callback) {
+    if (!_c8.tryLock())
+        return false;
+
+    hkVector4f direction;
+    if (pos)
+        loadFromVec3(&direction, *pos);
+    else
+        direction = nav->_8->_20;
+
+    const bool hit = sub_7100F85A78(_30, &direction, nav, flag, callback, search_radius, radius + radius,
+                                    sUnk_7101ec27f8);
+    _c8.unlock();
+    return hit;
+}
+
+// NON_MATCHING: clang folds the shared 10.0f / flag branch into an fcsel and rematerialises the argument set-up
+// at the call; the original branches to one shared block that re-tests _2c.
+void Unk_7102372790::process(HavokAI* ai) {
+    f32 y = _28;
+    f32 z;
+    bool flag;
+    if (y > 0.0f) {
+        if (_2c >= 0 && _30 > 0.0f) {
+            z = _30;
+            flag = _2c != 0;
+        } else {
+            z = 10.0f;
+            if (_2c < 0)
+                flag = true;
+            else
+                flag = _2c != 0;
+        }
+    } else {
+        y = 0.0f;
+        z = 10.0f;
+        flag = true;
+    }
+    ai->sub_7100F85974(_10, &_18, flag, _24, y, z);
 }
 
 // NON_MATCHING: two argument copies in the prologue are scheduled the other way round

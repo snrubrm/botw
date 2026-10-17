@@ -81,17 +81,35 @@ public:
 };
 
 // Placeholder name (vtable 0x7102372790: D1 0x71000e43e8, D0 0x71000e4344, reset, process 0x71000e4350): a
-// query that WolfLinkAmiibo derives from (vtable 0x71024ed690) and MotorcycleMgr / CreateEpona use.
+// position query that WolfLinkAmiibo derives from (vtable 0x71024ed690) and CreateEpona / HorseSwimAction use.
+// The fields come from process: 0x10 is an 8-byte result slot passed to the ray query, 0x18 the query position.
 class Unk_7102372790 : public NavMeshQuery {
 public:
-    // 0x71000e4350 (declared only).
+    // 0x71000e4350
     void process(HavokAI* ai) override;
 
-    /* 0x0c */ sead::Vector3f _c;  // the result position (MotorcycleMgr::spawnMotorcycle_x; layout of the
-                                   // derived query class not modelled)
-    u8 _18[0x24 - 0x18];
-    /* 0x24 */ s32 _24;
+    /* 0x0a */ u8 _a[6];
+    /* 0x10 */ u8 _10[8];  // opaque result slot handed to the ray collector (this + 0x10)
+    /* 0x18 */ sead::Vector3f _18;
+    /* 0x24 */ f32 _24;
+    /* 0x28 */ f32 _28;
+    /* 0x2c */ s8 _2c;
+    u8 _2d[3];
+    /* 0x30 */ f32 _30;
 };
+
+// Placeholder name (vtable 0x710239b220, address point 0x710239b230, object size 0x28, process 0x71001a2f2c):
+// the spawn-position query MotorcycleMgr::sub_7100679B30 and HorseMoveToSafePos::sub_71001A25D4 allocate
+// (0x28 bytes, _8 zero, _c = the copied position, _24 = 0x17).
+class Unk_710239b220 : public NavMeshQuery {
+public:
+    /* 0x0a */ u8 _a[2];
+    /* 0x0c */ sead::Vector3f _c;
+    /* 0x18 */ u64 _18;
+    /* 0x20 */ u32 _20;
+    /* 0x24 */ u32 _24;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710239b220, 0x28);
 
 // Placeholder name: the callback interface of the face searches (HavokAI::sub_7100F87334). Its m1 / m2
 // defaults are 0x71000e43d0 / 0x71000e43e0 (not Unk_NavMeshCallback's out-of-line copies).
@@ -452,7 +470,7 @@ public:
                         NavMeshFaceCallback* callback);
     // 0x7100f87334 (declared only; 304 B): the face search of NavMeshFaceQuery::process (`pos` may be null;
     // `radius` is the character's `_2a8 * _2ac`).
-    void sub_7100F87334(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 search_radius,
+    bool sub_7100F87334(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 search_radius,
                         bool flag, NavMeshFaceCallback* callback);
 
     // 0x7100f83a9c (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F75AF0 forwards its query here.
@@ -498,6 +516,18 @@ public:
     // that answers whether something is in the way.
     bool sub_7100F85EB8(f32 radius, const sead::Vector3f* from, const sead::Vector3f* to, void* unused);
 
+    // 0x7100f85a78 (declared only): the ray query behind sub_7100F85974 / sub_7100F87334 / sub_7100F87464.
+    // `world` is _28 (under _90) or _30 (under _c8); `pos` is the 16-byte hkVector4f direction the caller builds;
+    // `obj` (x3) only supplies the navmesh id through obj->_8->_98 and is null for a plain position query; `flag`
+    // sets the query filter; `user` (x5) is the query payload / callback. The this pointer (x0) is not used.
+    bool sub_7100F85A78(hkaiWorld* world, const hkVector4f* pos, void* obj, bool flag, void* user,
+                        f32 a, f32 b, f32 c);
+    // 0x7100f85974 (declared only): runs sub_7100F85A78 under _90.
+    void sub_7100F85974(void* user, const sead::Vector3f* pos, bool flag, f32 a, f32 b, f32 c);
+    // 0x7100f87464 (declared only): like sub_7100F87334 but under _c8 and with the _30 world.
+    bool sub_7100F87464(NavMeshCharacter* nav, const sead::Vector3f* pos, f32 radius, f32 search_radius,
+                        bool flag, NavMeshFaceCallback* callback);
+
     // 0x7100f857f4 (placeholder name): visits the nav mesh nodes inside `aabb` with `callback` (0x7100f854c4 under _90, or 0x7100f8565c under _c8 if _90
     // is full). The callback is a caller-defined object (e.g. vtable 0x71023e7188).
     void sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
@@ -506,7 +536,8 @@ public:
     void sub_7100F8565C(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb);
 
     /* 0x28 */ hkaiWorld* _28;
-    u8 _30[8];
+    // 0x7100f87464 passes this where 0x7100f87334 passes _28 (the same ray query under the _c8 lock): a second world.
+    /* 0x30 */ hkaiWorld* _30;
     NavMeshSystemThread* _38;
     NavMeshQueryRequestPool* _40;
     NavMeshLoadMgr* _48;

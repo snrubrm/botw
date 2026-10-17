@@ -16,6 +16,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Utils/Types.h"
+#include <Havok/Common/Base/hkBase.h>
 
 class hkaiStreamingCollection;
 
@@ -95,7 +96,10 @@ struct NavMeshCharacterUnk8A0 {
 
 // Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed fields are modelled).
 struct NavMeshCharacterUnk8 {
-    /* 0x00 */ u8 _0[0x6c];
+    /* 0x00 */ u8 _0[0x20];
+    // 0x7100f87334 / 0x7100f87464 use this as the position when the caller passes a null `pos` (16 bytes copied).
+    /* 0x20 */ hkVector4f _20;
+    /* 0x30 */ u8 _30[0x6c - 0x30];
     /* 0x6c */ f32 _6c;
     /* 0x70 */ u8 _70[0x98 - 0x70];
     /* 0x98 */ u32 _98;
