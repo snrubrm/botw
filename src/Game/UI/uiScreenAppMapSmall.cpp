@@ -383,6 +383,23 @@ void ScreenAppMap::sub_71009ED4E4(s32 mode) {
     }
 }
 
+// 0x71009eda64
+void ScreenAppMap::x_2() {
+    const s32 mode = UiSubsys1::instance()->get3900();
+    if (mode == -1)
+        return;
+    const s32 index = u32(mode + 3) < 0xb ? mode + 3 : 0;
+    _3628[index]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    if (mode != 0)
+        _3628[3]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != 1)
+        _3628[4]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != 2)
+        _3628[5]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != 3)
+        _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
 // 0x71009ed97c
 void ScreenAppMap::sub_71009ED97C() {
     const s32 mode = UiSubsys1::instance()->get38fc();

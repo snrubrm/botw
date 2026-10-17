@@ -761,6 +761,27 @@ void Unk_7102474fd8::sub_7100945C98(bool a1) {
         _8->startAnimCloseImpl_(false, true);
 }
 
+// 0x7100945c34
+void Unk_7102474fd8::sub_7100945C34() {
+    if (_8) {
+        if (_8->_91 == 1 || _8->_91 == 2)
+            _8->startAnimCloseImpl_(false, false);
+        if (_8 && _8->_91 != 0)
+            _8->startAnimCloseImpl_(false, true);
+    }
+    uking::ui::sub_7100AA9808(_8->GetPane());
+}
+
+// 0x7100945d04
+void Unk_7102474fd8Gauge::sub_7100945D04(f32 value) {
+    if (_88 != _8c)
+        _88 = _8c;
+    _8c = value;
+    const f32 speed = m9(value);
+    const f32 frame_size = f32(_18->GetFrameSize());
+    _18->Stop(speed * frame_size);
+}
+
 // 0x7100945ea4
 void Unk_7102474fd8::sub_7100945EA4() {
     if (!_10)
@@ -813,6 +834,16 @@ void Unk_7102474fd8::sub_7100946664(bool max) {
         _50->StopAtMax();
     else
         _50->StopAtMin();
+}
+
+// 0x7100946640
+void Unk_7102474fd8::sub_7100946640(bool max) {
+    if (!_40)
+        return;
+    if (max)
+        _40->StopAtMax();
+    else
+        _40->StopAtMin();
 }
 
 // 0x7100946898

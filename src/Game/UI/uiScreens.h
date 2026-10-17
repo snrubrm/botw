@@ -2442,6 +2442,8 @@ public:
     void sub_71009ED4E4(s32 mode);
     // 0x71009ed97c (CSV unnamed): plays the map-mode animators around the current mode
     void sub_71009ED97C();
+    // 0x71009eda64 (CSV ScreenAppMap::x_2): the same animator change from get3900, called by x_1
+    void x_2();
     // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)
     void sub_71009F0BE4();
     void sub_71009F2430();

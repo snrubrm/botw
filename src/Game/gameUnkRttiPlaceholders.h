@@ -331,6 +331,10 @@ public:
     // 0x7100945c98 (placeholder name): closes the layout if it is open or opening; with `a1`, also when it is not
     // closed
     void sub_7100945C98(bool a1);
+    // 0x7100945c34 (placeholder name): closes the layout if it is open or opening and hides its root pane
+    void sub_7100945C34();
+    // 0x7100946640 (placeholder name): stops the _40 animator at its maximum (`max`) or minimum
+    void sub_7100946640(bool max);
     // 0x7100945db8 (placeholder name): resets the TU's gauge flags (unless sub_7100AA8F30 holds), flags the capture
     // panes of an open layout, runs the state function _a0 and clears _9d / _9e
     void sub_7100945DB8();
@@ -416,6 +420,8 @@ public:
     void sub_71009461B8();
     // 0x7100946318 (declared only; 304 bytes): sets the animators _50 / _40 / _20 from the player's state
     void sub_7100946318();
+    // 0x7100945d04 (placeholder name): stores the gauge value and stops the _18 animator at its scaled frame
+    void sub_7100945D04(f32 value);
     // 0x710094574c / 0x71009457b4 (placeholder names): set the trace gauge's tracing speed / _50 from `value`
     // (scaled against m8 by uking::ui::sub_7100AA8FCC)
     void sub_710094574C(f32 value);
