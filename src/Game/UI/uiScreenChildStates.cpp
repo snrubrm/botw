@@ -69,6 +69,14 @@ Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index) {
         nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
 }
 
+// 0x71009ed41c: the original calls this out of line from every map screen function, so it is in a
+// different translation unit from them.
+// NON_MATCHING: the original runs the ScreenChildEx cast twice (the second one through its cached
+// static); clang folds our two identical casts into one.
+ScreenChildEx* ScreenAppMap::getChildExMaybe(s32 group, s32 index) {
+    return nn::font::DynamicCast<ScreenChildEx>(getChild(group, index));
+}
+
 // 0x71009beb44
 bool sub_71009BEB44() {
     return UiSubsys1::instance()->get38ac();

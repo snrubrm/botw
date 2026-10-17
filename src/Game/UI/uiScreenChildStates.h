@@ -387,6 +387,11 @@ Unk_710247af10* sub_71009B43A4(Screen* screen, s32 group, s32 index);
 // 0x71009ea670 (placeholder name): the child `index` of the group `group` of `screen` as an Unk_710247d8f8 (null
 // if it is not one)
 Unk_710247d8f8* sub_71009EA670(Screen* screen, s32 group, s32 index);
+// 0x710099ef18 (placeholder name): tells the map screen's group 1 child to switch to `mode` (0 / 1, 2, 3, and 4
+// which reads the pointer at +0x420); declared only
+void sub_710099EF18(ScreenChildEx* child, s32 mode);
+// 0x71009c5e4c (placeholder name): tells the Unk_710247d8f8 map child to switch to `mode` (0 / 1, 3 / 4)
+void sub_71009C5E4C(Unk_710247d8f8* child, s32 mode);
 // 0x71009beb44 (placeholder name): UiSubsys1::get38ac of the UiSubsys1 instance
 bool sub_71009BEB44();
 

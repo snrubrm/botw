@@ -63,6 +63,18 @@ Unk_710247d8f8* sub_71009EA670(Screen* screen, s32 group, s32 index) {
         nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index)));
 }
 
+// 0x71009f23a8
+void ScreenAppMap::sub_71009F23A8() {
+    if (auto* child = getChildExMaybe(1, 0))
+        sub_710099EF18(child, 3);
+    if (auto* child = sub_71009EA670(this, 3, 0))
+        sub_71009C5E4C(child, 3);
+    sub_71009F08F8(5);
+    if (UiSubsys1::instance()->is38e0Equal(0))
+        UiSubsys1::instance()->set38e4(1);
+    UiSubsys1::instance()->set38e0(-1);
+}
+
 // 0x71009e0df8
 bool ScreenAppMapDungeon::sub_71009E0DF8() const {
     if (mSensorChild)

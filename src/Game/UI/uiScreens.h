@@ -2405,6 +2405,16 @@ public:
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
     bool sub_71009EA030() const;
+    // 0x71009ed41c (CSV Screen::x; placeholder name): the child of group / index cast to ScreenChildEx (the
+    // original runs the cast twice)
+    ScreenChildEx* getChildExMaybe(s32 group, s32 index);
+    // 0x71009f23a8 (CSV unnamed): resets the two map children to mode 3, shows map mode 5 and clears the 0x38e0 /
+    // 0x38e4 UI state
+    void sub_71009F23A8();
+    // 0x71009f2300 (CSV unnamed, declared only): map mode 0 / 1 / 5 for the two children, then shows map mode 6
+    void sub_71009F2300(s32 mode);
+    // 0x71009f1828 (CSV unnamed, declared only): applies a map child's selection to the map screen
+    void sub_71009F1828(Unk_710247d8f8* child);
     // 0x71009ec780: x and y of the layout's root pane position
     void sub_71009EC780(sead::Vector2f* out) const;
     bool sub_71009EECD0() const;
