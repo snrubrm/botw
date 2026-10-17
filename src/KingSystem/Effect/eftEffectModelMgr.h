@@ -3,6 +3,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Resource/resUnk_71024F9938.h"
 
 namespace ksys::act {
 class Actor;
@@ -16,8 +17,8 @@ class EffectModelData {
 public:
     // 0x7100d9fcfc / 0x7100d9fde4 (CSV names; declarations only). The first drops a reference and
     // asks gsys::EffectModelDrawMgr to delete the model when it reaches 0.
-    void addEffectModel();
-    void finalize();
+    s32 decRefCnt();
+    bool finalize();
 
     bool _0;
     bool _1;
@@ -25,7 +26,8 @@ public:
     s32 mRefCount;
     u8 _64[0x368 - 0x64];
     u32 mDrawModelId;
-    u8 _36c[0x3a8 - 0x36c];
+    u8 _36c[4];
+    res::Unk_71024f9958 mTextureLinks;
     void* mRes;
 };
 static_assert(offsetof(EffectModelData, mRefCount) == 0x60);

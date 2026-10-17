@@ -9,7 +9,7 @@ bool EffectModelMgr::requestDeleteModel(act::Actor* actor, EffectModelData* data
         return false;
 
     mCS.lock();
-    data->addEffectModel();
+    data->decRefCnt();
     mCS.unlock();
 
     if (mDebugLog) {
