@@ -1936,3 +1936,51 @@ void sub_71006E3340(DamageReactionRequestResult* result, ksys::act::Actor* actor
     result->_c8.reset();
     result->_d9 = false;
 }
+
+// NON_MATCHING: the shield scan has a different loop-exit layout.
+void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons) {
+        out->acquire(actor);
+        return;
+    }
+    ksys::act::acc::Weapon accessor;
+    for (const auto& weapon : weapons->mWeapons) {
+        if (weapon.link.hasProc()) {
+            ksys::act::acquireActor(&weapon.link, &accessor);
+            if (accessor.isShield()) {
+                out->acquireActor(accessor);
+                return;
+            }
+        }
+    }
+    out->acquire(actor);
+}
+
+// NON_MATCHING: source and target accessors occupy different stack slots.
+void sub_7100732664(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
+                    ksys::phys::RigidBody* body, u32 mask, s32 value) {
+    ksys::act::ActorLinkConstDataAccess target;
+    if (!link->hasProc())
+        return;
+    ksys::act::acquireActor(link, &target);
+    if (target.sub_7100D12F08(-1))
+        return;
+    ksys::act::ActorLinkConstDataAccess source;
+    sub_71007324E0(&source, actor);
+    if (!source.hasProc())
+        return;
+    ksys::act::Chemical* chemical = nullptr;
+    if (!source.hasProc(actor)) {
+        chemical = source.sub_7100D14E0C();
+    } else {
+        if (body)
+            chemical = actor->sub_71011D8A54(body->getHkBodyName());
+        if (!chemical)
+            chemical = actor->getChemicalStuff();
+        if (chemical && chemical->sub_7100D91080())
+            return;
+    }
+    if (chemical)
+        target.sub_7100D12758(chemical, mask, value);
+}
