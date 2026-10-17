@@ -1,4 +1,5 @@
 #include <atomic>
+#include <common/aglTextureTileConverter.h>
 #include <cstring>
 #include <filedevice/seadFileDeviceMgr.h>
 #include <resource/seadResource.h>
@@ -608,6 +609,52 @@ s32 ImageResourceMgr::sub_7101136188(LoadTask* task) {
 }
 
 // NON_MATCHING: the original clears _98 and constructs the address in place; ours copies a temporary.
+// 0x7101132548 (placeholder name): the copy half of the load: converts the staged copy in
+// mMemBlock6230 into the request's address inside mMemBlock6328 (created on first use).
+bool ImageResourceMgr::sub_7101132548(Request* request) {
+    if (request->_70 == request->_58)
+        return false;
+
+    Unk_710250dcd8* image = request->area->getImageMaybe(request->type);
+    const s32 format = image->m6();
+    const u32 size = image->m9();
+    const s32 mip_count = image->m10();
+
+    bool created = false;
+    if (!request->addr) {
+        request->_98 = agl::GPUMemAddrBase(
+            mMemBlock6328,
+            s32(reinterpret_cast<uintptr_t>(request) + request->_60 - _6318));
+        request->addr = &request->_98;
+        created = true;
+    }
+
+    // The request's address inside the block, and where its mip chain starts.
+    const u32 offset = request->_60;
+    const u32 src_offset = request->_74 - offset;
+    const u32 src_mip_size = request->_80 != 0 ? request->_78 - request->_74 : 0;
+
+    const agl::GPUMemAddrBase src(mMemBlock6230, 0);
+    std::memcpy(src.getAddress(), sead::PtrUtil::addOffset(request, offset),
+                request->_6c + request->_64);
+
+    const agl::GPUMemAddrBase dst(*request->addr, src_offset);
+    const agl::GPUMemAddrBase dst_mip(dst, src_mip_size);
+
+    agl::TextureTileConverter::sub_7100B3B26C(
+        dst, request->_7c, dst_mip, request->_80,
+        agl::TextureTileConverter::Mode(request->_70 < 3 ? request->_70 : 1),
+        agl::GPUMemAddrBase(mMemBlock6230, 0),
+        agl::GPUMemAddrBase(mMemBlock6230, src_mip_size),
+        agl::TextureTileConverter::Mode(request->_58 < 3 ? request->_58 : 1), agl::TextureType(1),
+        agl::TextureFormat(format), size, size, 1, mip_count);
+
+    if (created)
+        request->addr = nullptr;
+    request->_58 = request->_70;
+    return true;
+}
+
 s32 ImageResourceMgr::Unk_7101136B40::sub_7101136B40(s32 result, Request* request) {
     if (!request->_20.isValid(mgr->mSystems, request->area, mgr->_6470)) {
         mgr->sub_7101133588(request);
@@ -713,6 +760,41 @@ bool ImageResourceMgr::sub_7101133AF8(System* system, Unk_7101106F44* area,
     return true;
 }
 
+
+// 0x7101132270 (placeholder name): converts the staged copy of the request buffer to the image's
+// tile mode and uploads it to mMemBlock6230; does nothing (false) while both sizes are equal.
+bool ImageResourceMgr::sub_7101132270(Request* request) {
+    if (request->_5c == request->_58)
+        return false;
+
+    Unk_710250dcd8* image = request->area->getImageMaybe(request->type);
+    const s32 format = image->m6();
+    const u32 size = image->m9();
+    const s32 mip_count = image->m10();
+
+    agl::GPUMemAddrBase* const addr = request->addr;
+
+    // Height of the base level: where the mip chain of the source image starts.
+    const u32 mip_offset = request->_6c != 0 ? request->_64 - request->_60 : 0;
+    // The staged copy in mMemBlock6230 was made with the same step.
+    const s32 converted_mip_offset = request->_80 != 0 ? request->_78 - request->_74 : 0;
+    const void* src_ptr = sead::PtrUtil::addOffset(request, request->_74);
+
+    std::memcpy(agl::GPUMemAddrBase(mMemBlock6230, 0).getAddress(), src_ptr,
+                request->_78 + request->_80);
+
+    // The stored kinds are either a tile mode (0..2) or something else; the converter only accepts modes.
+    agl::TextureTileConverter::sub_7100B3B26C(
+        *addr, request->_68, agl::GPUMemAddrBase(*addr, mip_offset), request->_6c,
+        agl::TextureTileConverter::Mode(request->_5c < 3 ? request->_5c : 1),
+        agl::GPUMemAddrBase(mMemBlock6230, 0),
+        agl::GPUMemAddrBase(mMemBlock6230, converted_mip_offset),
+        agl::TextureTileConverter::Mode(request->_58 < 3 ? request->_58 : 1), agl::TextureType(1),
+        agl::TextureFormat(format), size, size, 1, mip_count);
+
+    request->_58 = request->_5c;
+    return true;
+}
 
 void ImageResourceMgr::sub_71011320B4(Request* request) {
     if (request->_20.isValid(mSystems, request->area, _6470) &&

@@ -720,8 +720,8 @@ public:
     // has flag 0x20 to "<dir>/<name>" (`name`, or the image's own file name under the system's
     // directory), then moves the image from flag 0x20 to 0x40; logs the save.
     void sub_7101136328(Request* request, const sead::SafeString* name);
-    // 0x7101132548 (declaration only; placeholder name; 816 bytes).
-    void sub_7101132548(Request* request);
+    // 0x7101132548 (placeholder name; 816 bytes): the copy half of the load.
+    bool sub_7101132548(Request* request);
     // 0x71011369d0 (placeholder name): allocates from mHeap, unloading the requests of mList31c0 until it
     // succeeds; on failure (or once _626c is set) logs the size, counts the failure in _626c and returns
     // null.
@@ -1414,12 +1414,14 @@ struct ImageResourceMgr::Request {
     u32 _7c;
     u32 _80;
     u8 _84[0x88 - 0x84];
-    agl::GPUMemVoidAddr* addr;
+    // Address of _98 once the request has one (0x7101136b40 / 0x7101132548 create it in place).
+    agl::GPUMemAddrBase* addr;
     // Resource handle taken from ImageResourceMgr::mHandleFreeList (0x710113400c); destroyed and returned
     // there by 0x7101133588.
     res::Handle* _90;
-    // GPU address of the image data; `addr` points here once set (0x7101136b40).
-    agl::GPUMemVoidAddr _98;
+    // GPU address of the image data; `addr` points here once set (0x7101136b40). The original
+    // constructs a GPUMemAddrBase here (the ctor at 0x7101132548 writes the three words in place).
+    agl::GPUMemAddrBase _98;
     agl::TextureSampler sampler;
 };
 
