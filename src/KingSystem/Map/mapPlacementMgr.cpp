@@ -741,10 +741,12 @@ Unk_71024f13f0::~Unk_71024f13f0() = default;
 Unk_71024f1358::~Unk_71024f1358() = default;
 
 // NON_MATCHING: the SeadController member is constructed from the initializer list, so its call lands after the
-// _34 / _40 stores; the original stores _28 / _30 first and only then constructs it (store order in the ctor).
+// _34 / _40 stores; the original stores _8.._30 first and only then constructs it (store order in the ctor).
 Unk_7102513630::Unk_7102513630() : _34{0, 0, 1}, _40(0), mController(0xb) {
     _28 = &mController;
     _30 &= ~8;
 }
 
+// NON_MATCHING: ours tail-calls the SeadController dtor; the original makes a call and then writes the base vtable
+// (0x710259d9b0's) to +0. The deleting destructor D0 matches.
 Unk_7102513630::~Unk_7102513630() = default;

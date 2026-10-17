@@ -1377,8 +1377,7 @@ public:
 
     // 0x71011ece14: constructs the SeadController at 0x48 with id 0xb; the dtor destroys it.
     Unk_7102513630();
-    // Layout from the ctor at 0x71011ece14 (getName 0x71011ed3cc returns "PlacementNavi"). The dtor also
-    // destroys the ksys::SeadController at 0x48 and restores the vtable of Unk_71024f13f0.
+    // Layout from the ctor at 0x71011ece14 (getName 0x71011ed3cc returns "PlacementNavi").
     u64 _8 = 0;
     u64 _10 = 0;
     u64 _18 = 0;
