@@ -177,6 +177,49 @@ const sead::SafeString* SaveSystem::invokedGetMapName() {
 // 0x7100912c94
 // NON_MATCHING: `slot > 7` is tested unsigned in the original, and the _1058 bit test materialises
 // `1 << 4` through a stack slot; ours uses a signed compare and a bit-field extract.
+bool SaveSystem::x_0(s32 slot, bool a3) {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr || save_mgr->get38() != 0 || _3c != 0)
+        return false;
+
+    _1a41 = 0;
+    _1a50 &= ~8;
+
+    if (a3) {
+        _1a45[0] = 0;
+        if (save_mgr->x_10()) {
+            loadAlbumIndices(_30);
+            _1a45[0] = 1;
+            if (auto* manager = ksys::gdt::Manager::instance()) {
+                manager->mBitFlags.set(ksys::gdt::Manager::BitFlag::_8);
+                manager->mResetFlags.set(ksys::gdt::Manager::ResetFlag::_2);
+            }
+            return true;
+        }
+        _1a45[0] = 1;
+    }
+
+    save_mgr->_f94 = 0;
+    if (!save_mgr->enableGdtMgrChangeOnlyMode(slot))
+        return false;
+
+    if (slot >= 0)
+        _2c = slot;
+
+    const s64 index = _30;
+    if (index != 8) {
+        const s64 valid_index = u64(index) < 8 ? index : 0;
+        _1880.sub_710090CD84(&_40[valid_index], false);
+    }
+
+    _3c = 5;
+    _30 = slot;
+    _38 &= ~2;
+    if (ksys::PlayReportMgr::instance())
+        ksys::PlayReportMgr::instance()->setPlayerTrackReporter29();
+    return true;
+}
+
 void SaveSystem::loadAlbumIndices(s32 slot) {
     auto* manager = ksys::gdt::Manager::instance();
     if (slot >= 8 || !manager)
