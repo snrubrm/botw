@@ -7,6 +7,9 @@ namespace ksys::ui {
 // Handler table entry 0x7102606a90 (placeholder name; see UIGlue.cpp).
 using SUnk_7102606a90HandlerFn = void (*)();
 extern SUnk_7102606a90HandlerFn sUnk_7102606a90Handler;
+// Handler table entry 0x7102606a98 (placeholder name; called by SaveMgrThread's fourth command).
+using SUnk_7102606a98HandlerFn = void (*)();
+extern SUnk_7102606a98HandlerFn sUnk_7102606a98Handler;
 
 int getPorchNum(const sead::SafeString& name);
 int getItemValue(const sead::SafeString& name);

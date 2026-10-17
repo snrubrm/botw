@@ -6,6 +6,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace ksys {
 
@@ -1124,6 +1125,32 @@ bool SaveMgr::sub_7100E0C688() {
         }
     }
     return false;
+}
+
+// 0x7100e05080 / 0x7100e04df4 / 0x7100e04f24 (CSV SaveMgrThreadCmd1..3; placeholder names): the three
+// save thread command steps; only the manager is used.
+void SaveMgrThreadCmd1(SaveMgr* mgr);
+void SaveMgrThreadCmd2(SaveMgr* mgr);
+void SaveMgrThreadCmd3(SaveMgr* mgr);
+
+// 0x7100e03d48 (CSV SaveMgrThread; placeholder name): the SaveMgr delegate thread entry, which
+// dispatches on the command number passed by the caller of the save thread.
+void SaveMgrThread(SaveMgr* mgr, void* arg, s64 cmd) {
+    switch (cmd) {
+    case 1:
+        SaveMgrThreadCmd1(mgr);
+        return;
+    case 2:
+        SaveMgrThreadCmd2(mgr);
+        return;
+    case 3:
+        SaveMgrThreadCmd3(mgr);
+        return;
+    case 4:
+        if (auto* callback = ui::sUnk_7102606a98Handler)
+            callback();
+        return;
+    }
 }
 
 }  // namespace ksys
