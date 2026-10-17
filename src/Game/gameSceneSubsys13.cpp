@@ -18,7 +18,7 @@ void GameSceneSubsys13::sub_71008A53E4() {
 
 // NON_MATCHING: `_34 < 0 ? _34 + 1 : 0` becomes add + and-with-sign-mask instead of cmp + csinc.
 void GameSceneSubsys13::setGameOverPosition(sead::Vector3f pos) {
-    _34 = _34 < 0 ? _34 + 1 : 0;
+    _34 = _34 >= 0 ? 0 : _34 + 1;
     if (_38 < 1)
         ++_38;
     _28 = pos;
