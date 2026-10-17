@@ -247,6 +247,9 @@ public:
     // 0x710114d73c (CSV Terrain::__auto21; placeholder name): Core::sub_710130085C while bits 1 and 2 of _a58 are
     // set.
     void sub_710114D73C();
+    // 0x7101149af0 (CSV Terrain::__auto11; placeholder name): under the image manager's lock, sets
+    // (clears) bit 18 of _a58 when it differs from `on`.
+    void sub_7101149AF0(bool on);
     // 0x710114deac (CSV Terrain::__auto0; placeholder name): forwards to Core::sub_7101300AAC.
     void sub_710114DEAC(bool visible);
     // 0x710114d7c8 (placeholder name): whether the calling thread is the one stored in _a40.

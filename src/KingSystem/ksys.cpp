@@ -30,6 +30,9 @@ static bool sInitBeforeStageGenDone = true;
 // 0x710260b180 (file-local in the original: addressed with adrp + offset, no GOT entry).
 static bool sIsGameOver;
 
+// 0x71024f4d48: the demo name set by setStartingDemoName (loaded through the GOT in the original).
+const char* sStartingDemoName;
+
 bool isGameOver() {
     return sIsGameOver;
 }
@@ -134,6 +137,10 @@ void setPlayerLink(act::PlayerLink* link) {
         evt_mgr->_1d108 = link;
     if (auto* report = PlayReportMgr::instance())
         report->mPlayerLink = link;
+}
+
+void setStartingDemoName(const char* name) {
+    sStartingDemoName = name;
 }
 
 void sub_7100F40428(void* camera) {

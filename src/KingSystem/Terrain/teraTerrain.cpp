@@ -293,6 +293,23 @@ void Terrain::sub_710114D73C() {
         _360->sub_710130085C();
 }
 
+void Terrain::sub_7101149AF0(bool on) {
+    if (((u32(on) ^ (_a58 >> 18)) & 1) == 0)
+        return;
+    if (mImageResourceMgr) {
+        auto& lock = mImageResourceMgr->mCS28;
+        lock.lock();
+        const u32 value = _a58;
+        _a58 = on ? value | 0x40000 : value & ~0x40000u;
+        lock.unlock();
+        return;
+    }
+    if (on)
+        _a58 |= 0x40000;
+    else
+        _a58 &= ~0x40000u;
+}
+
 bool Terrain::sub_710114D7C8() const {
     return _a40->mThread == sead::ThreadMgr::instance()->getCurrentThread();
 }

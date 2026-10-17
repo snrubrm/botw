@@ -16,14 +16,18 @@ bool System::sub_71011171AC(s32 index) {
 struct TeraManagerMaybe {
     u8 _0[0x10];
     u32 _10;
-    u8 _14[0x30 - 0x14];
+    // 0: not started, 7: not started (0x7100f406f4 returns true for every other value).
+    u32 _14;
+    u8 _18[0x30 - 0x18];
     void* _30;
     u8 _38[0x50 - 0x38];
     void* _50;
     System* mSystem;
     u8 _60[0xa8 - 0x60];
     void* _a8;
-    u8 _b0[0xc4 - 0xb0];
+    // The image manager; 0x7100f406f4 tests byte 0x13d09 of it.
+    void* _b0;
+    u8 _b8[0xc4 - 0xb8];
     sead::Vector3f _c4;
     u8 _d0[0xf0 - 0xd0];
     u8 _f0[0x100];
@@ -40,6 +44,14 @@ struct Unk_7100F418C8Maybe {
     u32 _0;
     u32 _4;
 };
+
+bool checkTeraSystemStatus() {
+    if (sUnk_710260B220._14 != 0 && sUnk_710260B220._14 != 7)
+        return true;
+    if (!sUnk_710260B220._b0)
+        return false;
+    return static_cast<u8*>(sUnk_710260B220._b0)[0x13d09] != 0;
+}
 
 void sub_7100F418A0(void* value) {
     sUnk_710260B190 = value;
