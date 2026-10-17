@@ -285,6 +285,26 @@ bool ActorLinkConstDataAccess::isPlayerOrEnemy() const {
     return sead::IsDerivedFrom<PlayerOrEnemy>(actor);
 }
 
+// NON_MATCHING: the original keeps the "result | 4" test as a 3-bit mask (and #7) and lays the loop
+// increment out on the skip path; ours folds it to a compare after the & 1.
+bool sub_7100007ED0(act::PlayerOrEnemy* player, act::Actor* arg) {
+    player->getWeapons();
+    for (u32 i = 0; i < 6; ++i) {
+        auto* weapons = player->getWeapons();
+        if (weapons->mWeapons[i]._10 == false) {
+            auto* weapon =
+                sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(i));
+            u32 result = 4;
+            if (weapon)
+                result = weapon->sub_71002EDCE8(arg) & 1;
+            if ((result | 4) != 4)
+                return true;
+        }
+    }
+    return false;
+}
+
+
 namespace acc {
 
 inline act::PlayerOrEnemy* PlayerOrEnemy::getPlayerOrEnemy() const {
@@ -323,6 +343,13 @@ bool PlayerOrEnemy::getWeapon(ActorLinkConstDataAccess* accessor, int idx) const
         return false;
     act::acquireActor(&link, accessor);
     return true;
+}
+
+bool PlayerOrEnemy::sub_710000975C(act::Actor* arg) const {
+    auto* poe = getPlayerOrEnemy();
+    if (!poe)
+        return false;
+    return ksys::act::sub_7100007ED0(poe, arg);
 }
 
 s32 PlayerOrEnemy::getMirrorLevel() const {

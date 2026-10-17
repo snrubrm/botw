@@ -268,6 +268,9 @@ public:
     // 0x71002e36b0 (CSV name): turns the chemical's attack flag off while the damage info says so and runs the
     // attack helpers of the main body (unless the body is on the no-hit sensor layer).
     void doAttackMaybe();
+    // 0x71002edce8 (unnamed in the CSV; placeholder name): the weapon-state check of the given actor slot
+    // used by PlayerOrEnemy's weapon search; true/false as its callers test it.
+    bool sub_71002EDCE8(ksys::act::Actor* actor);
     // 0x71002ebb38 / 0x71002ec038 / 0x71002ec220 (CSV names or unnamed rows): the attack steps.
     void doAttackMaybe_inner0();
     void doAttackMaybe_inner0_0();

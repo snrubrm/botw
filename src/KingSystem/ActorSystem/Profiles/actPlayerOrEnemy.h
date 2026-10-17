@@ -19,6 +19,10 @@ namespace ksys::act {
 
 // TODO: incomplete. The vtable has 177 slots.
 class PlayerOrEnemy;
+// 0x7100007ed0 (declaration only; unnamed in the CSV): the six-slot weapon-state search; `arg` is passed
+// to Weapon::sub_71002EDCE8.
+bool sub_7100007ED0(act::PlayerOrEnemy* player, act::Actor* arg);
+
 // 0x71000083cc / 0x7100008468 (unnamed / CSV Player::updateResistThunderXXX): store the value in the
 // damage manager's _74 / _78; the player is the second argument in the original.
 void sub_71000083CC(f32 value, PlayerOrEnemy* player);
@@ -165,6 +169,9 @@ public:
     s32 getNumWeaponSlots() const;
     // 0x71000095a0 (CSV name): the highest shield mirror level among the player's weapons, 0 without one.
     s32 getMirrorLevel() const;
+    // 0x710000975c (unnamed in the CSV; placeholder name): forwards to sub_7100007ED0 (the weapon-state
+    // check of 0x7100007ed0); false without a PlayerOrEnemy. The argument type is from the callee chain.
+    bool sub_710000975C(act::Actor* arg) const;
     // 0x7100009aa8: the flag `_10` of the weapon slot `idx`.
     bool sub_7100009AA8(int idx) const;
 
