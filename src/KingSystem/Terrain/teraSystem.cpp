@@ -389,6 +389,129 @@ f32 sub_7101109968(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level) {
 }
 
 // NON_MATCHING: stack slot layout and register allocation (as sub_710110BD78).
+// NON_MATCHING: stack slot layout and register allocation (as sub_710110BD78).
+// Placeholder name: the filtered channels at `xz` from the type-3 image with index 0 of the
+// neighbouring area (record 7); the Unk_710110AC74Table / TextureMipTableMaybe counterparts of
+// sub_710110A130 and sub_7101109EA8.
+void sub_710110A468(sead::Vector4f* out, const sead::Vector2f* xz, System* system, bool flag) {
+    if (!system->_8)
+        return;
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+
+    const ImageTypeMaybe& type = sUnk_7101EC54B8;
+    const auto* collector = system->mScenes(0).collector;
+    if (collector->_0[7]._20._0 & 4) {
+        if ((~collector->_0[7]._20._0 & 3) != 0)
+            return;
+        sead::Vector2f pos = sead::Vector2f::zero;
+        s32 index;
+        const u32 result =
+            sub_7101108AE8(&pos, &index, *xz, collector->_0[7]._20, collector->_0[7], 0xffffffff);
+        if (result != 0) {
+            Unk_7101108C44Arg arg;
+            arg.table = collector->_0[7]._20.table;
+            arg.index = index;
+            arg._c = false;
+            *out = sub_710110A130(pos.x, pos.y, &arg, 0);
+        }
+        return;
+    }
+
+    const u32 index =
+        flag ? collector->_0[7].sub_71010FEDBC(*xz, collector->_0[7]._20._2, 0.0f) : 0xffffffff;
+    Unk_7101106F44* area;
+    sead::Vector2f center;
+    f32 size;
+    const u32 result =
+        Unk_7101106F44::sub_7101108860(&area, &center, &size, *xz, system, type, index);
+    if (result == 0)
+        return;
+
+    const Unk_710250dcd8* image = area->getImageMaybe(type);
+    const f32 map_size = size;
+    const f32 half = map_size * 0.5f;
+    const f32 u = xz->x - (center.x - half);
+    const f32 v = xz->y - (center.y - half);
+    TextureMipTableMaybe table;
+    table.clearMaybe();
+    sub_710110DE64(&table, image->getTextureDataMaybe());
+    TextureSamplerArgMaybe arg;
+    arg.table = &table;
+    arg._8 = 0;
+    arg._c = true;
+    const f32 inv = 1.0f / map_size;
+    *out = sub_7101109EA8(u * inv, v * inv, &arg, 0);
+
+    area->releaseImageMaybe(type);
+}
+
+// NON_MATCHING: register allocation (as sub_7101109968).
+// Placeholder name: the three filtered channels (bytes 1 - 3) of the area texel data of `arg` at
+// mip `level`, as (x, y, z, 1). Same texel position and addressing as sub_7101109968.
+sead::Vector4f sub_710110A130(f32 u, f32 v, const Unk_7101108C44Arg* arg, u32 level) {
+    TexelPosMaybe texel;
+    if (arg->_c) {
+        sub_710110C3E8(arg->table, &texel, arg->index, level);
+    } else {
+        const auto& info = arg->table->levels[level];
+        f32 x = u - info.offset;
+        f32 y = v - info.offset;
+        if (x < 0.0f)
+            x += 1.0f;
+        else if (x > 1.0f)
+            x += -1.0f;
+        if (y < 0.0f)
+            y += 1.0f;
+        else if (y > 1.0f)
+            y += -1.0f;
+
+        const f32 size = info.size;
+        x *= size;
+        y *= size;
+        texel.fx = wrapTexelMaybe(&texel.x, x, size);
+        texel.fy = wrapTexelMaybe(&texel.y, y, size);
+    }
+
+    const u32 max = arg->table->levels[0].size - 1;
+    const u32 pitch = arg->table->levels[0].pitch;
+    const u8* data = arg->table->areas[arg->index].levels[level];
+    const u32 row0 = sead::Mathu::min(texel.y, max) * pitch;
+    const u32 col0 = sead::Mathu::min(texel.x, max) * arg->table->texel_size;
+    const u32 col1 = sead::Mathu::min(texel.x + 1, max) * arg->table->texel_size;
+    const u32 row1 = sead::Mathu::min(texel.y + 1, max) * pitch;
+    const u8* p00 = &data[row0 + col0];
+    const u8* p01 = &data[row0 + col1];
+    const u8* p10 = &data[row1 + col0];
+    const u8* p11 = &data[row1 + col1];
+
+    const f32 a0 = p00[1] / 255.0f;
+    const f32 a1 = p01[1] / 255.0f;
+    const f32 a2 = p10[1] / 255.0f;
+    const f32 a3 = p11[1] / 255.0f;
+    const f32 a_top = a0 + texel.fx * (a1 - a0);
+    const f32 a_bottom = a2 + texel.fx * (a3 - a2);
+    const f32 x = a_top + texel.fy * (a_bottom - a_top);
+
+    const f32 b0 = p00[2] / 255.0f;
+    const f32 b1 = p01[2] / 255.0f;
+    const f32 b2 = p10[2] / 255.0f;
+    const f32 b3 = p11[2] / 255.0f;
+    const f32 b_top = b0 + texel.fx * (b1 - b0);
+    const f32 b_bottom = b2 + texel.fx * (b3 - b2);
+    const f32 y = b_top + texel.fy * (b_bottom - b_top);
+
+    const f32 c0 = p00[3] / 255.0f;
+    const f32 c1 = p01[3] / 255.0f;
+    const f32 c2 = p10[3] / 255.0f;
+    const f32 c3 = p11[3] / 255.0f;
+    const f32 c_top = c0 + texel.fx * (c1 - c0);
+    const f32 c_bottom = c2 + texel.fx * (c3 - c2);
+    const f32 z = c_top + texel.fy * (c_bottom - c_top);
+
+    return {x, y, z, 1.0f};
+}
+
 // Placeholder name: the height (0 - 1) at `xz` from the type-3 image with index 0 of the
 // neighbouring area (the f32 counterpart of sub_710110BD78).
 u32 sub_7101109BD8(f32* out, const sead::Vector2f* xz, System* system, bool flag) {
