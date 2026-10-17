@@ -6,11 +6,18 @@
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadVector.h>
+#include <math/seadBoundBox.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadDelegateThread.h>
 #include "KingSystem/Utils/Types.h"
+
+namespace gsys {
+class ModelUnit;
+class Model;
+class ModelDrawObj;
+}
 
 namespace ksys::act {
 class Actor;
@@ -45,6 +52,13 @@ s32 sub_7100EDB6E0(bool* out_below, f32* out_height, tera::System* system,
 // Placeholder name (0x71011e3d6c, CSV MassRenderer::x_2; the class of PlacementMgr::mMassRenderer): declaration only.
 class MassRenderer {
 public:
+    // 0x71011e1694: releases the models and the entry pool.
+    ~MassRenderer();
+    // 0x71011e1904 / 0x71011e190c: begin and advance the three-model cleanup.
+    void beginCleanup();
+    bool cleanupModel();
+    void sub_71011E1788(bool free_heap);
+
     // 0x71011e3d6c (804 B): updates the object's entry after its render flag changed.
     void x_2(PlacementMgr* mgr, Object* obj);
     // 0x71011e4090: flushes the UBOs of the draw arrays of every active entry's model unit (`a` is unused).
@@ -61,14 +75,20 @@ public:
 
     // 0x71011eb32c (PlacementMgr forwards to this inline test): whether bit `idx` of the bit buffer of the active slot
     // is set.
-    bool isBitSet(u32 idx) const { return (_90[1 + _78].bits[idx >> 5] & (1u << (idx & 0x1f))) != 0; }
+    bool isBitSet(u32 idx) const { return (mSlots[_78].bits[idx >> 5] & (1u << (idx & 0x1f))) != 0; }
 
+    // Three 0x70-byte render slots begin at +0xb8 (constructor 0x71011e151c).
     struct Slot {
+        sead::Vector3f _0;
+        u32 _c;
+        gsys::Model* mModel;
+        u8 _18[0x48 - 0x18];
         sead::Buffer<u32> bits;
-        u8 _10[0x38 - 0x10];
-        /* 0x38 */ void* _38;
-        u8 _40[0x70 - 0x40];
+        sead::BoundBox2f bounds;
+        u32 _68;
+        u32 _6c;
     };
+    KSYS_CHECK_SIZE_NX150(Slot, 0x70);
 
     // Placeholder: an entry of _18 (one per mass-rendered model).
     struct Entry {
@@ -77,14 +97,20 @@ public:
         bool _6;
     };
 
-    u8 _0[0x18];
+    sead::PtrArray<gsys::ModelUnit> mUnits;
+    u8 _10[0x18 - 0x10];
     /* 0x18 */ sead::PtrArray<Entry> _18;
     u8 _28[0x38 - 0x28];
     /* 0x38 */ sead::CriticalSection _38;
     /* 0x78 */ s32 _78;
-    u8 _7c[0x90 - 0x7c];
-    /* 0x90 */ Slot _90[3];
-    u8 _1e0[0x210 - 0x1e0];
+    u8 _7c[0x98 - 0x7c];
+    // Initialised to 0.2 by the constructor; the traverse setup reads it.
+    f32 _98;
+    sead::Heap* mWorkHeap;
+    sead::Buffer<gsys::ModelDrawObj> mDrawObjects;
+    /* 0xb8 */ Slot mSlots[3];
+    /* 0x208 */ s32 mCleanupIndex;
+    u32 _20c;
     /* 0x210 */ sead::CriticalSection _210;
 };
 

@@ -1,10 +1,24 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnitDrawArray.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Map/mapPlacementActors.h"
 
 namespace ksys::map {
+
+void MassRenderer::beginCleanup() {
+    mCleanupIndex = 0;
+    mUnits.freeBuffer();
+}
+
+bool MassRenderer::cleanupModel() {
+    if (mSlots[mCleanupIndex].mModel) {
+        gsys::Model::sub_7100BF69F8(mSlots[mCleanupIndex].mModel);
+        mSlots[mCleanupIndex].mModel = nullptr;
+    }
+    return ++mCleanupIndex == 3;
+}
 
 void MassRenderer::sub_71011E4090(PlacementMgr* mgr, bool a) {
     auto lock = sead::makeScopedLock(_210);
@@ -27,8 +41,8 @@ void MassRenderer::sub_71011E4090(PlacementMgr* mgr, bool a) {
 }
 
 bool MassRenderer::sub_71011E41F4(const void* p) const {
-    for (const auto& slot : _90) {
-        if (slot._38 == p)
+    for (const auto& slot : mSlots) {
+        if (slot.mModel == p)
             return true;
     }
     return false;
