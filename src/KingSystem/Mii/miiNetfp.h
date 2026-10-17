@@ -14,6 +14,8 @@ namespace ksys::as {
 class ASList;
 }
 
+class Unk_710260af28;
+
 namespace ksys::mii {
 
 class UMii;
@@ -64,6 +66,11 @@ void sub_7100F5C128(gsys::Model* model, const UMii& umii, const f32* opacity, co
 // 0x7100f5bc74 / 0x7100f5bfe4 (placeholder names): apply the hat / hair opacities to the model's units.
 void sub_7100F5BC74(gsys::Model* model, ksys::as::ASList* as_list, const UMii& umii, const f32* opacity);
 void sub_7100F5BFE4(gsys::Model* model, const UMii& umii, const f32* opacity);
+// 0x7100f5bd3c (declaration only; placeholder name): applies the opacity animation `opacity` to the
+// material of `unit` (with the AS list for the fade), 680 B.
+void sub_7100F5BD3C(gsys::ModelUnit* unit, ksys::as::ASList* as_list, const f32* opacity);
+// 0x7100f1dd24 (declaration only): the model effects manager's per-unit material opacity setter.
+void sub_7100F1DD24(f32 opacity, ::Unk_710260af28* manager, gsys::ModelUnit* unit, s32 material);
 // 0x7100f5c394 (declaration only; placeholder name and signature).
 void sub_7100F5C394(gsys::Model* model, gsys::ModelUnit* unit, const UMii& umii, f32* opacity,
                     f32* opacity2, bool changed);

@@ -405,6 +405,51 @@ void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii) {
     out->clear();
 }
 
+void sub_7100F5BC74(gsys::Model* model, ksys::as::ASList* as_list, const UMii& umii,
+                    const f32* opacity) {
+    if (!model)
+        return;
+    sead::FixedSafeString<64> name;
+    sub_7100F5B4F0(&name, umii);
+    const s32 index = model->searchUnitIndex(name);
+    if (index == -1)
+        return;
+    auto* unit = model->getUnits()(index)->mModelUnit;
+    if (unit)
+        sub_7100F5BD3C(unit, as_list, opacity);
+}
+
+// NON_MATCHING: the 4-byte ModelCreator::Arg temporary lands at sp instead of sp + 4 (stack slot
+// allocation only).
+void sub_7100F5BFE4(gsys::Model* model, const UMii& umii, const f32* opacity) {
+    if (!model)
+        return;
+    sead::FixedSafeString<64> name;
+    sub_7100F5A708(&name, ModelCreator::Arg{4}, umii);
+    const s32 index = model->searchUnitIndex(name);
+    if (index == -1)
+        return;
+    auto* unit = model->getUnits()(index)->mModelUnit;
+    if (!unit)
+        return;
+
+    const f32 value = *opacity;
+    u16 flag;
+    if (value < 0.0f) {
+        sub_7100F1DD24(0.0f, ::Unk_710260af28::instance(), unit, 0);
+        flag = 0;
+    } else if (value > 1.0f) {
+        sub_7100F1DD24(1.0f, ::Unk_710260af28::instance(), unit, 0);
+        flag = 0xffff;
+    } else {
+        sub_7100F1DD24(value, ::Unk_710260af28::instance(), unit, 0);
+        flag = 0;
+        if (value > 0.0f)
+            flag = 0xffff;
+    }
+    *(u16*)((u8*)unit + 0xc) = flag;   // TODO: the u16 at ModelUnit+0xc is unmodelled
+}
+
 void sub_7100F5C8D4(gsys::Model* model) {
     if (!model)
         return;
