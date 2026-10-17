@@ -309,7 +309,9 @@ public:
     // The map name returned by invokedGetMapName when it differs from the current map type.
     u8 _1e48[0x1e68 - 0x1e48];
     sead::SafeString _1e68;
-    u8 _1e78[0x1ef8 - 0x1e78];
+    u8 _1e78[0x1ea0 - 0x1e78];
+    // The demo 2 save path ("%s%02d" with the stage number).
+    sead::FixedSafeString<64> _1ea0;
 };
 KSYS_CHECK_SIZE_NX150(SaveSystem, 0x1ef8);
 

@@ -125,6 +125,46 @@ static sead::SafeString sUnk_71025D1BF8;
 // 0x71025d1c30: the title menu map type (compared by startLoad2; set up by the static initializer 0x7100917244).
 static sead::FixedSafeString<32> sTitleMenuMapType{"TitleMenu"};
 
+// 0x71025d1c68 / 0x71025d1cc0: the demo save path prefixes (static initializer 0x7100917244).
+static sead::FixedSafeString<64> sUnk_71025D1C68{"Save/1stPlayable"};
+static sead::FixedSafeString<64> sUnk_71025D1CC0{"Save/THLPresen"};
+
+bool SaveSystem::sub_7100914A40() {
+    if (!E3Mgr::instance() || !E3Mgr::instance()->isDemoMode())
+        return false;
+    if (E3Mgr::instance() && E3Mgr::instance()->isDemoMode1AndNotStageSelect())
+        return true;
+
+    auto* save_mgr = ksys::SaveMgr::instance();
+    if (!save_mgr || save_mgr->get38() != 0 || _3c != 0)
+        return false;
+
+    save_mgr->_f94 = 0;
+
+    const sead::SafeString* path;
+    if (E3Mgr::instance() && E3Mgr::instance()->isDemoMode0AndNotStageSelect()) {
+        path = &sUnk_71025D1C68;
+    } else if (auto* e3 = E3Mgr::instance()) {
+        const s32 stage = e3->getDemoStage();
+        if (e3->isDemoMode2AndNotStageSelect()) {
+            _1ea0.format("%s%02d", sUnk_71025D1CC0.cstr(), stage + 1);
+            path = &_1ea0;
+        } else {
+            path = &sead::SafeString::cEmptyString;
+        }
+    } else {
+        path = &sead::SafeString::cEmptyString;
+    }
+
+    if (!save_mgr->x_1(0, *path, false, false))
+        return false;
+
+    _3c = 5;
+    _30 = 0;
+    _38 &= ~2;
+    return true;
+}
+
 const sead::SafeString* SaveSystem::invokedGetMapName() {
     const sead::SafeString& map_type = GameScene::getCurrentMapType();
     if (map_type == sTitleMenuMapType || gameSceneStartedBgProcessingAndNotFinished())
