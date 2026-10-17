@@ -99,6 +99,10 @@ void LODMgr::calc_x_0() {
 
 KSYS_VISIBILITY_HIDDEN u32 sUnk_71026531A8;
 
+void LODMgr::postCalc() {
+    sub_7101254984(this);
+}
+
 void LODMgr::calc_x_1() {
     for (s32 i = 0; i < _1830; ++i) {
         LodState* state = _1030[u32(i) < 0x100 ? i : 0];

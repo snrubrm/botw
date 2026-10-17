@@ -22,7 +22,7 @@ public:
     void setLayerMasks(const LayerMaskBuilder& builder);
     void setLayerMasksAndBodyCollisionFilterInfo(const LayerMaskBuilder& builder);
 
-    // 0x0000007100fb0850
+    // 0x0000007100fb0850: forwards to the still undecompiled implementation 0x7100fb0858.
     bool execute(bool unk);
     bool isSuccess() const;
 
@@ -35,5 +35,9 @@ protected:
     bool mIsSuccess = false;
     sead::Matrix34f mMtx = sead::Matrix34f::ident;
 };
+
+// 0x7100fb0858 (1160 B, still undecompiled): the ray-cast implementation behind
+// ClosestPointQuery::execute (declared only).
+bool sub_7100FB0858(ClosestPointQuery* self, bool unk);
 
 }  // namespace ksys::phys

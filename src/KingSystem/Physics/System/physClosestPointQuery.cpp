@@ -22,6 +22,10 @@ void ClosestPointQuery::setLayerMasks(const LayerMaskBuilder& builder) {
     mContactPointInfo->setLayerMasks(builder);
 }
 
+bool ClosestPointQuery::execute(bool unk) {
+    return sub_7100FB0858(this, unk);
+}
+
 bool ClosestPointQuery::isSuccess() const {
     return mIsSuccess;
 }

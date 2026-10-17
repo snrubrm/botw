@@ -60,6 +60,8 @@ public:
     // 0x71012540ac (unnamed in the CSV; placeholder name): applies the manager flags and the actor's
     // chemical / xlink state to one LodState, then updates the debug counters.
     void sub_71012540AC(LodState* state);
+    // 0x7101254980 (4-byte tail call): forwards to the still undecompiled helper 0x7101254984.
+    void postCalc();
 
     /* 0x0028 */ LodState* _28[0x200];  // the LodStates calc() walks
     /* 0x1028 */ s32 _1028;
@@ -117,5 +119,8 @@ public:
     /* 0x2a28 */ u8 _2a28[0x2a60 - 0x2a28];
 };
 KSYS_CHECK_SIZE_NX150(LODMgr, 0x2a60);
+
+// 0x7101254984 (1012 B, still undecompiled): the body behind LODMgr::postCalc.
+void sub_7101254984(LODMgr* self);
 
 }  // namespace ksys::act
