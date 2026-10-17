@@ -260,17 +260,19 @@ void Graphics::sub_7100F35DB0() {
     _284.set(0x10000);
 }
 
-KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B184;
-KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B188;
+namespace ksys::tera {
+extern u8 sUnk_710260B184 KSYS_VISIBILITY_HIDDEN;
+extern u8 sUnk_710260B188 KSYS_VISIBILITY_HIDDEN;
+}  // namespace ksys::tera
 
 u8 sub_7100F3A500() {
-    return sUnk_710260B184;
+    return ksys::tera::sUnk_710260B184;
 }
 
 u8 sub_7100F3A51C() {
-    return sUnk_710260B188;
+    return ksys::tera::sUnk_710260B188;
 }
 
 void sub_7100F3A528(u32 value) {
-    sUnk_710260B188 = value & 1;
+    ksys::tera::sUnk_710260B188 = value & 1;
 }

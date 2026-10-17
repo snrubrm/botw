@@ -20,9 +20,13 @@ struct TeraManagerMaybe {
     System* mSystem;
     u8 _60[0xa8 - 0x60];
     void* _a8;
+    u8 _b0[0xc4 - 0xb0];
+    sead::Vector3f _c4;
 };
 
 TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B184;
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B188;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B190;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B198;
 
@@ -64,6 +68,18 @@ void sub_7100F41934(void* obj) {
 
 System* System::instance() {
     return sUnk_710260B220.mSystem;
+}
+
+
+
+void terrainSetCameraLookAtPos(const sead::Vector3f* pos) {
+    Terrain* terrain = Terrain::instance();
+    if (!terrain)
+        return;
+    const sead::Vector3f* target = pos;
+    if (sUnk_710260B188)
+        target = &sUnk_710260B220._c4;
+    terrain->sub_710114DE04(0, target, false);
 }
 
 void Terrain::Unk4ae0::Unk_10::sub_71011406CC(u32 count) {
