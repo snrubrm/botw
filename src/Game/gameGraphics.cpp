@@ -235,3 +235,19 @@ void Unk_71012a20e0::sub_71012A2268(u32 mode) {
     if (reset)
         _190 = _194;
 }
+
+s32 sub_7100F36508() { return 1; }
+
+void* sub_7100F36510() { return nullptr; }
+
+s32 sub_7100F365A4() { return 1; }
+
+void* sub_7100F365AC() { return nullptr; }
+
+s32 sub_7100F36640() { return 1; }
+
+void* sub_7100F36648() { return nullptr; }
+
+s32 sub_7100F366DC() { return 1; }
+
+s32 sub_7100F36770() { return 1; }

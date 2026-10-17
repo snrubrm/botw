@@ -100,3 +100,11 @@ s32 sub_7100F1EE98() {
 s32 sub_7100F1EEA0() {
     return 0;
 }
+
+s32 sub_7100F1C3E8() { return 1; }
+
+s32 sub_7100F1FE1C() { return 2; }
+
+s32 sub_7100F1FE24() { return -7; }
+
+s32 sub_7100F1FE2C() { return -5; }
