@@ -238,6 +238,9 @@ public:
     void releaseEffectModel(ActorData* data);
     // 0x7100d52500: deletes the actor data entries in order for at most 10 ms per call.
     bool removeInnerData2();
+    // 0x7100d4fdb0: creates the generation group of `obj` and its linked objects; true when it built one or
+    // the object needs none.
+    bool buildGenGroup(Object* obj, sead::Heap* heap);
     // 0x7100d574b4: the actor data index of `name`, creating the actor data entry when the name is new.
     s32 findOrInsertActorData(const char* name);
     // 0x0000007100d50210: the largest display distance of `obj` and the objects reachable from its

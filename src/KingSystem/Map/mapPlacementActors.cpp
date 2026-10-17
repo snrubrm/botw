@@ -9,12 +9,18 @@
 #include <codec/seadHashCRC32.h>
 #include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/Map/mapDebug.h"
+#include "KingSystem/Map/mapObjectGenGroup.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 
 namespace ksys::map {
+
+// The static SafeString the LinkTagNone comparisons use (0x71024db4b0 in the original, right before the
+// PlacementActors vtable; the original symbol name is stripped).
+static const sead::SafeString sLinkTagNone("LinkTagNone");
+
 
 void PlacementActors::threadSpawnGenGroupActors(const sead::Vector3f& pos, void* traverse_results) {
     auto* objs = static_cast<sead::PtrArray<Object>*>(traverse_results);
@@ -42,6 +48,119 @@ void PlacementActors::threadSpawnGenGroupActors(const sead::Vector3f& pos, void*
 
         obj->mFlags0.reset(Object::Flag0::_10000);
     }
+}
+
+// NON_MATCHING: the inlined GenGroup constructor merges the zero stores differently (the original keeps
+// 0x18 / 0x1a / 0x1b separate) and the register allocation differs; the traversal, the group fill and
+// the create/delete-source checks match.
+bool PlacementActors::buildGenGroup(Object* obj, sead::Heap* heap) {
+    if (obj->mFlags.isOn(Object::Flag::IsLinkTag)) {
+        if (sLinkTagNone == obj->getUnitConfigName())
+            return true;
+    }
+
+    Object* objs_buf[0x200];
+    sead::PtrArray<Object> objs;
+    Object* link_tags_buf[0x20];
+    sead::PtrArray<Object> link_tags;
+
+    objs.setBuffer(0x200, objs_buf);
+    const f32 max_dist = getMaxTraverseDistForGenGroupRecursively(obj, &objs);
+    link_tags.setBuffer(0x20, link_tags_buf);
+
+    addAllLinkedActorsToGenGroupRecursively(max_dist, obj, &objs, &link_tags);
+
+    const s32 num_objs = objs.size();
+    if (num_objs < 2)
+        return true;
+
+    auto* group = new (heap, 8) GenGroup();
+    if (!group)
+        return false;
+
+    group->mNumPrepareDelete = num_objs;
+    if (!group->mObjects.tryAllocBuffer(num_objs, heap, 8)) {
+        group->mObjects.freeBuffer();
+        delete group;
+        return false;
+    }
+
+    s32 num_create_src = 0;
+    s32 num_delete_src = 0;
+    Object* create_src = nullptr;
+    Object* delete_src = nullptr;
+
+    for (Object& o : objs) {
+        if (o.mFlags.isOn(Object::Flag::IsLinkTag))
+            continue;
+
+        auto* link_data = o.mLinkData;
+        link_data->setGenGroup(group);
+        if (group->mObjects.indexOf(&o) < 0) {
+            if (group->mObjects.size() < group->mObjects.capacity())
+                group->mObjects.pushBack(&o);
+            if (o.mFlags.isOn(Object::Flag::IsLinkTag))
+                ++group->_18;
+        }
+
+        if (group->_1c == 0 && o.isEnemyOrNpc(this))
+            group->_1c = 1;
+
+        if (num_create_src >= 0) {
+            Object* src = link_data->mCreateLinksSrcObj;
+            if (create_src == nullptr) {
+                create_src = src;
+                if (src != nullptr)
+                    ++num_create_src;
+            } else if (create_src == src) {
+                ++num_create_src;
+            } else {
+                num_create_src = -1;
+            }
+        }
+        if (num_delete_src >= 0) {
+            Object* src = link_data->mDeleteLinksSrcObj;
+            if (delete_src == nullptr) {
+                delete_src = src;
+                if (src != nullptr)
+                    ++num_delete_src;
+            } else if (delete_src == src) {
+                ++num_delete_src;
+            } else {
+                num_delete_src = -1;
+            }
+        }
+    }
+
+    for (Object& o : objs) {
+        if (!o.mFlags.isOn(Object::Flag::IsLinkTag))
+            continue;
+
+        o.mLinkData->setGenGroup(group);
+        if (group->mObjects.indexOf(&o) < 0) {
+            if (group->mObjects.size() < group->mObjects.capacity())
+                group->mObjects.pushBack(&o);
+            if (o.mFlags.isOn(Object::Flag::IsLinkTag))
+                ++group->_18;
+        }
+    }
+
+    if (link_tags.size() == 1) {
+        Object* tag = link_tags[0];
+        if (tag->mLinkData) {
+            const s32 num_group_objs = num_objs - group->_18;
+            if (tag->mLinkData->mLinksToSelf.links.size() >= num_group_objs) {
+                if ((num_create_src != 0 && num_create_src != num_group_objs) ||
+                    (num_delete_src != 0 && num_delete_src != num_group_objs)) {
+                    group->mHasCreateOrDeleteLinks = 0;
+                } else {
+                    group->mHasCreateOrDeleteLinks = num_create_src > 0 || num_delete_src > 0;
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
 bool PlacementActors::spawnGenGroupActor(Object* obj, Object* other) {
@@ -100,10 +219,6 @@ bool PlacementActors::doSpawn(Object* obj, bool set_flag, bool use_gen_group) {
         return false;
     return (obj->mFlags0.getDirect() & 0x80) == 0;
 }
-
-// The static SafeString the LinkTagNone comparisons use (0x71024db4b0 in the original, right before the
-// PlacementActors vtable; the original symbol name is stripped).
-static const sead::SafeString sLinkTagNone("LinkTagNone");
 
 s32 ActorData::sub_7100D4DF48() const {
     if (mFlags.isOnBit(Flag::_4) || mFlags.isOnBit(Flag::_7))

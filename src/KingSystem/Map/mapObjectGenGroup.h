@@ -19,6 +19,8 @@ class Object;
 // size is unknown).
 class GenGroup {
 public:
+    // The original's inline constructor zeroes the counters and sets _30 to 100.0f.
+    GenGroup() {}
     // 0x0000007100d50778
     void sub_7100D50778(Object* obj);
     // 0x0000007100d5119c
@@ -59,17 +61,19 @@ public:
     /* 0x0c */ sead::Atomic<s32> _c;  // spawn lock (sub_7100D5119C)
     /* 0x10 */ sead::Atomic<s32> _10;
     /* 0x14 */ sead::Atomic<s32> _14;
-    /* 0x18 */ u16 _18;
-    /* 0x1a */ u8 mInitState;  // 2: complete, 3: state 3
-    /* 0x1b */ u8 mNumExecLinkTag;
-    /* 0x1c */ u8 _1c;
-    /* 0x1d */ u8 _1d;  // a frame stamp (_28) is valid
-    /* 0x1e */ u8 mHasCreateOrDeleteLinks;
-    /* 0x1f */ u8 _1f;
-    /* 0x20 */ u32 _20;
-    /* 0x24 */ u32 _24;
-    /* 0x28 */ u32 _28;  // SystemTimers::mFrameCounter at the time of sub_7100D510D0
-    /* 0x2c */ u8 _2c[0x38 - 0x2c];
+    /* 0x18 */ u16 _18 = 0;
+    /* 0x1a */ u8 mInitState = 0;  // 2: complete, 3: state 3
+    /* 0x1b */ u8 mNumExecLinkTag = 0;
+    /* 0x1c */ u8 _1c = 0;
+    /* 0x1d */ u8 _1d = 0;  // a frame stamp (_28) is valid
+    /* 0x1e */ u8 mHasCreateOrDeleteLinks = 0;
+    /* 0x1f */ u8 _1f = 0;
+    /* 0x20 */ u32 _20 = 0;
+    /* 0x24 */ u32 _24 = 0;
+    /* 0x28 */ u32 _28 = 0;  // SystemTimers::mFrameCounter at the time of sub_7100D510D0
+    /* 0x2c */ u8 _2c[4]{};
+    /* 0x30 */ f32 _30 = 100.0f;
+    /* 0x34 */ u8 _34[4]{};
     /* 0x38 */ sead::PtrArray<Object> mObjects;
 };
 
