@@ -796,3 +796,6 @@ void* sub_710123DD20() { return nullptr; }
 s32 sub_710123DD2C() { return 0; }
 
 s32 sub_710123DD40() { return 0; }
+
+void sub_7101240FDC(void* p) { ::operator delete(p); }
+void sub_7101241F60(void* p) { ::operator delete(p); }
