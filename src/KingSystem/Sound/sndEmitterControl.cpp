@@ -4,6 +4,8 @@
 #include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>
 #include "KingSystem/Event/evtInfoData.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::snd {
@@ -65,6 +67,42 @@ void Unk_710105abc0::sub_710105AF00(const sead::SafeString& name, bool skip_even
         bgm->sub_7100FF8AC4(fade_type);
         _38.set(2);
     }
+}
+
+// NON_MATCHING: the original keeps the sample rate as an integer until the division (lib
+// aal::AssetInfo::getSampleRate converts it first) and spills the SoundMgr state to the stack.
+void Unk_710105abc0::sub_710105ACEC() {
+    if (_20.getValue() != _20.getTarget())
+        _20.calc();
+
+    if (!_10.isActive())
+        return;
+
+    if (auto* mgr = SoundMgr::instance()) {
+        f32 volume = _20.getValue();
+        if (mgr->_ec != 2)
+            volume *= _3c;
+        _10.setVolume(volume);
+        _10.setTrackVolume(4, mgr->sub_71011FC31C());
+    }
+
+    auto* eventMgr = evt::Manager::instance();
+    if (!eventMgr)
+        return;
+    auto* event = eventMgr->getActiveEvent();
+    if (!event)
+        return;
+    if (event->getEventFlowType() != 2 || !event->isPlaying())
+        return;
+
+    const f32 event_frame = event->getFrameCount();
+
+    const f32 position = sub_710105AE80();
+
+    if (position - event_frame >= 4.0f)
+        _10.pause(sead::BitFlag8(0x40), true, 0.0f);
+    else
+        _10.pause(sead::BitFlag8(0x40), false, 0.0f);
 }
 
 void Unk_710105abc0::sub_710105B37C() {
