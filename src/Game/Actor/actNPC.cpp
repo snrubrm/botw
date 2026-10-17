@@ -1,4 +1,5 @@
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/Mii/miiNetfp.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"

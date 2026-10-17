@@ -10,6 +10,10 @@ class Model;
 class ModelUnit;
 }
 
+namespace ksys::as {
+class ASList;
+}
+
 namespace ksys::mii {
 
 class UMii;
@@ -57,6 +61,9 @@ void sub_7100F5BA04(sead::BufferedSafeString* out, const UMii& umii);
 // 0x7100f5c128 (placeholder name): applies the hat opacity (`opacity`, clamped) to the hat material
 // ("Mt_Kasa" for race 3 and HatSK hats) or, for plain Hylian hats, runs sub_7100F5C394.
 void sub_7100F5C128(gsys::Model* model, const UMii& umii, const f32* opacity, const f32* opacity2);
+// 0x7100f5bc74 / 0x7100f5bfe4 (placeholder names): apply the hat / hair opacities to the model's units.
+void sub_7100F5BC74(gsys::Model* model, ksys::as::ASList* as_list, const UMii& umii, const f32* opacity);
+void sub_7100F5BFE4(gsys::Model* model, const UMii& umii, const f32* opacity);
 // 0x7100f5c394 (declaration only; placeholder name and signature).
 void sub_7100F5C394(gsys::Model* model, gsys::ModelUnit* unit, const UMii& umii, f32* opacity,
                     f32* opacity2, bool changed);

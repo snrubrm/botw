@@ -1,4 +1,5 @@
 #include "Game/Actor/actNPCBase.h"
+#include "KingSystem/Mii/miiNetfp.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/Mii/miiUMii.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -79,6 +80,35 @@ void NPCBase::m63() {
 void NPCBase::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     if (mActorFlags2.isOn(ActorFlag2::_200))
         ksys::act::sub_7100EE9B68(this, setter);
+}
+
+// 0x71000217f8 (placeholder name): fades the NPC's UMii hat / hair opacities (`rate` is the model opacity).
+// NON_MATCHING: our compiler stores each of the two hat opacities as it computes it; the original keeps both in
+// registers and stores them with one stp.
+// In actNPCBase.cpp (not actNPC.cpp) because m61 has to keep tail-calling it: in the NPC TU our compiler
+// inlines the definition into m61, but the original m61 is a 4-byte tail call.
+void NPC::sub_71000217F8(f32 rate) {
+    auto* umii = getUMii();
+    if (!umii)
+        return;
+
+    {
+        const f32 value = _1074[2];
+        const f32 opacity = value * rate;
+        const f32 opacity2 = (1.0f - value) * rate;
+        ksys::mii::sub_7100F5C128(mModel, *umii, &opacity, &opacity2);
+    }
+
+    auto* model = mModel;
+    auto* as_list = sub_71011C9A88();
+    {
+        const f32 opacity = _1074[0] * rate;
+        ksys::mii::sub_7100F5BC74(model, as_list, *umii, &opacity);
+    }
+    {
+        const f32 opacity = _1074[1] * rate;
+        ksys::mii::sub_7100F5BFE4(model, *umii, &opacity);
+    }
 }
 
 }  // namespace uking::act
