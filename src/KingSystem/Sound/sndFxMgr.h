@@ -2,6 +2,7 @@
 
 #include "KingSystem/Utils/Types.h"
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 
 namespace sead {
 class Heap;
@@ -9,8 +10,14 @@ class DrawContext;
 class Camera;
 class Projection;
 class Viewport;
+class DirectResource;
 }
 class Unk_710251b5c0;
+// The reverb setting _18 points at (constructor not found; only the signed room value at +0xc is read).
+struct FxReverbSetting {
+    u8 _0[0xc];
+    s32 mRoom;
+};
 
 namespace ksys::snd {
 class Unk_7101059888;
@@ -31,6 +38,8 @@ public:
     void sub_7101050CCC();
     void sub_7101051078();
     void sub_71010511D4();
+    // 0x7101051410: loads a direct resource with the given path; `this` is not read.
+    sead::DirectResource* sub_7101051410(const sead::SafeString& path, sead::Heap* heap);
     // 0x7101051154: sets the out gain of the two delay effects at +0x68 / +0x70 from `gain`.
     void sub_7101051154(f32 gain);
     // 0x710105126c: sets the out gain of the two delay effects at +0x68 / +0x70 (1.0, 0.1).
@@ -38,7 +47,11 @@ public:
     void sub_71010514F4(sead::DrawContext* context, const sead::Camera& camera,
                       const sead::Projection& projection, const sead::Viewport& viewport);
 
-    u8 _8[0x50 - 8];
+    // The two reverb effects and their setting (read by sub_7101050CCC / sub_7101051078).
+    /* 0x8 */ Unk_710251b5c0* _8;
+    /* 0x10 */ Unk_710251b5c0* _10;
+    /* 0x18 */ FxReverbSetting* _18;
+    u8 _20[0x50 - 0x20];
     Unk_7101059888* _50;
     u8 _58[0x68 - 0x58];
     // The two aal::FxDelay effects (vtable 0x710251b5c0) created by init 0x71010504fc.
