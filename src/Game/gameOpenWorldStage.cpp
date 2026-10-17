@@ -334,3 +334,7 @@ void Unk_710245b690::exec6(void* arg) {
 Unk_710245b8a8::~Unk_710245b8a8() = default;
 
 Unk_710245b7a0::~Unk_710245b7a0() = default;
+
+// Constant WorldStage virtuals (placeholder names).
+s32 sub_71007C8E34() { return 1; }
+void* sub_71007C8E3C() { return nullptr; }
