@@ -108,7 +108,13 @@ public:
 
 class Unk_710246c478 {
 public:
-    virtual ~Unk_710246c478() = default;
+    Unk_710246c478();
+    virtual ~Unk_710246c478();
+    // Forward to the debug board's registered destination through the transceiver.
+    bool sub_710089C6FC(ksys::MessageTransceiverBase* transceiver,
+                       const ksys::MessageType* type, void* target, bool ack);
+    bool sub_710089C754(ksys::MessageTransceiverBase* transceiver,
+                       const ksys::MessageType* type, void* target, bool ack);
 };
 
 class Unk_710246c458 : public Unk_710246c478 {
@@ -148,20 +154,7 @@ public:
     ksys::MessageTransceiverBase* mTransceiver;
 };
 
-// The stack message the UI manager's debug board handler builds (0x7100a7b9e8): only its vtable is set.
-// Placeholder name.
-struct DebugBoardMessageSender {
-    /* 0x0 */ void* mVtable;
-};
+// The sender and the transceiver-registration helper share the base vtable at 0x710246c478.
+using DebugBoardMessageSender = Unk_710246c478;
 
-// 0x710089c6b0: stores the sender's vtable
-void sub_710089C6B0(DebugBoardMessageSender* sender);
-// 0x710089c6c4 (CSV nullsub_2613): the sender's empty destructor body
-void sub_710089C6C4(DebugBoardMessageSender* sender);
-// 0x710089c6fc / 0x710089c754 (lane4 asked; signatures from the 0x7100a7b9e8 call): forwards the message type
-// through virtual slot 2 / 3 of the transceiver (false without a transceiver). The second one is used when the
-// dispatcher is already processing on the current thread.
-bool sub_710089C6FC(DebugBoardMessageSender* sender, ksys::MessageTransceiverBase* transceiver,
-                    const ksys::MessageType* type, void* target, bool a5);
-bool sub_710089C754(DebugBoardMessageSender* sender, ksys::MessageTransceiverBase* transceiver,
-                    const ksys::MessageType* type, void* target, bool a5);
+extern ksys::MesTransceiverId sDebugBoardMessageTarget;

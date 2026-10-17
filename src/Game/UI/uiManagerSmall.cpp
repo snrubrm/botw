@@ -141,20 +141,15 @@ int Manager::sub_7100A7B9E8(const ksys::Message& message) {
         sub_7100A7C71C();
     } else {
         _64c30 |= 0x100000;
-        struct Message {
-            ksys::MessageType type;
-            DebugBoardMessageSender sender;
-        } msg;
-        msg.type = ksys::MessageType(0x6800008);
+        ksys::MessageType type = ksys::MessageType(0x6800008);
         _64c48 = 0;
-        sub_710089C6B0(&msg.sender);
+        DebugBoardMessageSender sender;
         const bool processing = ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread();
         s32* target = _64c48 != 0 ? &_64c48 : nullptr;
         if (processing)
-            sub_710089C754(&msg.sender, &_64a80, &msg.type, target, true);
+            sender.sub_710089C754(&_64a80, &type, target, true);
         else
-            sub_710089C6FC(&msg.sender, &_64a80, &msg.type, target, true);
-        sub_710089C6C4(&msg.sender);
+            sender.sub_710089C6FC(&_64a80, &type, target, true);
     }
     return 1;
 }

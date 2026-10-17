@@ -1,4 +1,5 @@
 #include "KingSystem/System/DebugBoard.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverBase.h"
 
 // 0x710089c5ac / 0x710089c5c0 (D1) / 0x710089c614 (D0)
 Unk_710246c458::Unk_710246c458() : mTransceiver(nullptr) {}
@@ -80,4 +81,23 @@ void DebugBoardMgr::sub_710089BA6C(bool on) {
         _4530[7] = 1;
     }
     _44b0 = on;
+}
+
+ksys::MesTransceiverId sDebugBoardMessageTarget;
+
+Unk_710246c478::Unk_710246c478() = default;
+Unk_710246c478::~Unk_710246c478() = default;
+
+bool Unk_710246c478::sub_710089C6FC(ksys::MessageTransceiverBase* transceiver,
+                                     const ksys::MessageType* type, void* target, bool ack) {
+    if (!transceiver)
+        return false;
+    return transceiver->sendMessage(sDebugBoardMessageTarget, ksys::MessageType(*type), target, ack);
+}
+
+bool Unk_710246c478::sub_710089C754(ksys::MessageTransceiverBase* transceiver,
+                                     const ksys::MessageType* type, void* target, bool ack) {
+    if (!transceiver)
+        return false;
+    return transceiver->sendMessageOnProcessingThread(sDebugBoardMessageTarget, ksys::MessageType(*type), target, ack);
 }
