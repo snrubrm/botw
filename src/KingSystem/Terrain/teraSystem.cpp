@@ -6,6 +6,7 @@
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResource.h"
+#include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/ksysDebugInput.h"
 #include <cstring>
@@ -16,6 +17,13 @@ namespace ksys::tera {
 bool System::sub_71011171AC(s32 index) {
     return (mScenes[index].collector->_2998 >> 1) & 1;
 }
+
+// Placeholder: the load context of the terrain model (the byte at +0xa is set by loadTerrainModel before the load).
+struct TeraContextMaybe : res::Context {
+    u8 _8[2];
+    bool _a = false;
+    u8 _b[0x30 - 0xb];
+};
 
 struct TeraManagerMaybe {
     u8 _0[0x10];
@@ -37,8 +45,8 @@ struct TeraManagerMaybe {
     u8 _f0[0x1c0 - 0xf0];
     // The terrain model resource: waitForTerrainModelReady waits on the handle and parses it with this
     // context; deleteInstanceForNFPAwarenessAndKingEditor requests its unload.
-    res::Context _1c0;
-    u8 _1f0[0x260 - 0x1c0 - sizeof(res::Context)];
+    TeraContextMaybe _1c0;
+    u8 _1f0[0x260 - 0x1c0 - sizeof(TeraContextMaybe)];
     res::Handle _260;
 };
 
@@ -59,6 +67,17 @@ void sub_7100F3DF74() {
 
 void updateInitialCameraPosMaybe(const sead::Vector3f* pos) {
     sUnk_710260B220._b8 = *pos;
+}
+
+// 0x7100f3f784 (CSV TeraResource::loadTerrainModel; the class name is a guess): starts the terrain model load.
+void loadTerrainModel() {
+    ksys::BasicProfiler::Scope profiler("TeraResource");
+    res::LoadRequest request(0, 1, false);
+    request._68 = &sUnk_710260B220._1c0;
+    request.mRequester = "ksys.cpp";
+    request._8 = true;
+    sUnk_710260B220._1c0._a = true;
+    sUnk_710260B220._260.requestLoad("Model/Terrain.bfres", &request, nullptr);
 }
 
 void waitForTerrainModelReady() {

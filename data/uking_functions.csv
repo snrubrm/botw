@@ -82246,7 +82246,7 @@ Address,Quality,Size,Name
 0x0000007100f3f290,O,000016,_Z19setSceneFinalStatusi
 0x0000007100f3f2a0,U,000696,
 0x0000007100f3f558,U,000556,resourceHotReloadStuff
-0x0000007100f3f784,U,000200,TeraResource::loadTerrainModel
+0x0000007100f3f784,O,000200,_ZN4ksys4tera16loadTerrainModelEv
 0x0000007100f3f84c,U,000028,_Z14sub_7100F3F84Cj
 0x0000007100f3f868,O,000052,_ZN4ksys4tera24waitForTerrainModelReadyEv
 0x0000007100f3f89c,U,002448,ksys::CreateTeraSystem
