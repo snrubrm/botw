@@ -134,6 +134,31 @@ void GameSceneSubsys14::sub_7100904CA4(const Unk_GameSceneSubsys14Entry& entry) 
     }
 }
 
+// 0x7100904128 (placeholder name): removes every entry of _f80 whose link lost its proc (clearing the
+// entry and returning it to _fe0); true if any was removed.
+bool GameSceneSubsys14::sub_7100904128() {
+    bool changed = false;
+    int count = _f80.size();
+    if (count < 1)
+        return false;
+    for (int i = 0; i < count;) {
+        if (_f80[i]->link.hasProc()) {
+            ++i;
+            continue;
+        }
+        auto* e = _f80[i];
+        e->name.clear();
+        e->id = -1;
+        e->_11c = -1;
+        e->link.reset();
+        _fe0.pushBack(_f80[i]);
+        _f80.erase(i);
+        count = _f80.size();
+        changed = true;
+    }
+    return changed;
+}
+
 void GameSceneSubsys14::init() {
     initCurrentLocation();
 }
