@@ -373,6 +373,23 @@ void OverlayArenaSystem::createMovieHeap() {
     res::stubbedLogFunction();
 }
 
+// NON_MATCHING: the original inlines sead::ExpHeap::isEmpty (a load of the use-list count at +0x108); our lib only
+// defines it out of line, so this is a direct call. libwork: move the body into seadExpHeap.h.
+void OverlayArenaSystem::x_4() {
+    res::stubbedLogFunction();
+    if (mTeraWorkHeap) {
+        if (!mTeraWorkHeap->isEmpty()) {
+            if (tera::System::instance())
+                tera::System::instance()->releaseApertureMapsCollectorImage(true);
+        } else {
+            res::stubbedLogFunction();
+        }
+        mTeraWorkHeap->destroy();
+        mTeraWorkHeap = nullptr;
+    }
+    res::stubbedLogFunction();
+}
+
 void OverlayArenaSystem::x_5() {
     res::stubbedLogFunction();
     if (mPlacementTreeHeap) {

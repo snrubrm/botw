@@ -11,6 +11,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
+class ExpHeap;
 class Heap;
 class ParallelSZSDecompressor;
 }  // namespace sead
@@ -68,7 +69,7 @@ public:
     sead::Heap* getGameDataWorkHeap() const { return mGameDataWorkHeap; }
     sead::Heap* getMovieHeap() const { return mMovieHeap; }
     sead::Heap* getPlacementTreeHeap() const { return mPlacementTreeHeap; }
-    sead::Heap* getTeraWorkHeap() const { return mTeraWorkHeap; }
+    sead::ExpHeap* getTeraWorkHeap() const { return mTeraWorkHeap; }
     sead::Heap* getSzsDecompressorInstHeap() const { return mSzsDecompressorInstHeap; }
     sead::Heap* getSzsHeap() const { return mSzsHeap; }
     sead::Heap* getTexArcWorkHeap() const { return mTexArcWorkHeap; }
@@ -99,6 +100,7 @@ private:
 
     void x_5();
     void x_6();
+    void x_4();
     void x_3();
     void x_2();
     void x_0();
@@ -112,7 +114,7 @@ private:
     sead::Heap* mGameDataWorkHeap = nullptr;
     sead::Heap* mMovieHeap = nullptr;
     sead::Heap* mPlacementTreeHeap = nullptr;
-    sead::Heap* mTeraWorkHeap = nullptr;
+    sead::ExpHeap* mTeraWorkHeap = nullptr;
     sead::Heap* mSzsDecompressorInstHeap = nullptr;
     sead::Heap* mSzsHeap = nullptr;
     sead::ParallelSZSDecompressor* mSzsDecompressor = nullptr;
