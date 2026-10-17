@@ -127,6 +127,45 @@ void ScreenAppMapWidget::sub_71009AEF88() {
     }
 }
 
+KSYS_VISIBILITY_HIDDEN bool sUnk_71025D9610 = false;
+
+// 0x71009ae04c
+void ScreenAppMapWidget::setMode(s32 mode) {
+    _b4a0 = mode;
+
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC99C(false);
+        home->x_2();
+    }
+
+    if (UiSubsys1::instance()->get38b8())
+        return;
+
+    switch (mode) {
+    case 0:
+        UiSubsys1::instance()->set38c8();
+        _b4ff &= 0xf;
+        _b4a8 = 0;
+        _b4fd = 0;
+        sUnk_71025D9610 = true;
+        break;
+    case 1:
+        UiSubsys1::instance()->clear38c8();
+        _b4ff &= ~1;
+        _b4ac = 0;
+        break;
+    case 2:
+        UiSubsys1::instance()->clear38c8();
+        _b4ff &= ~1;
+        break;
+    case 3:
+        UiSubsys1::instance()->clear38c8();
+        _b4ff &= ~1;
+        break;
+    }
+}
+
 // 0x71009a8be8
 void ScreenAppMapWidget::m14() {
     for (s32 i = 120; i < 240; ++i)

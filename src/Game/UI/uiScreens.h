@@ -2307,6 +2307,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     f32 sub_71009AF034() const;
     // 0x71009aef88 (placeholder name): clears _b4ec / _b4f0 and decodes the packed signed (x, y) word at `_b370` into _b4b8 / _b4bc
     void sub_71009AEF88();
+    // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
+    // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
+    void setMode(s32 mode);
 
     // 0x71009a8be8 (slot 14): sets the second half of the map tiles' textures to state 1, resets the map timer
     void m14() override;
@@ -5005,6 +5008,9 @@ public:
     // 0x71009de1c8 / 0x71009dcf18 (CSV unnamed; the second is declared only)
     void sub_71009DE1C8();
     void sub_71009DCF18(s32 a1);
+    // 0x71009dc99c (placeholder name): reads the page at 0x380c and tail-calls sub_71009DCF18 with the page's
+    // replacement value. The bool argument is unused in the body.
+    void sub_71009DC99C(bool a1);
     // 0x71009dd7a8 / 0x71009dd7ec / 0x71009dd800 (placeholder names): switch the page (12 keeping _3808 / 8 or 9 / 10 or 11)
     void sub_71009DD7A8();
     void sub_71009DD7D4();
