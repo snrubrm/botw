@@ -93,7 +93,10 @@ public:
         /* 0x20 */ xlink2::HandleSLink mGrassCutHandle;
         u8 _30[0xe8 - 0x30];
         /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
-        u8 _f0[0x20];
+        u8 _f0[0x101 - 0xf0];
+        // Player::m377 writes whether lower armor is Armor_Default_Lower; footstep assets use it.
+        /* 0x101 */ bool mIsPlayerBarefoot;
+        u8 _102[0x110 - 0x102];
         /* 0x110 */ s32 _110;
         u8 _114[4];
         /* 0x118 */ s32 _118;
@@ -141,6 +144,7 @@ static_assert(offsetof(Reaction::Unk1, _8) == 0x8);
 static_assert(offsetof(Reaction::Unk1, _10) == 0x10);
 static_assert(offsetof(Reaction::Unk1, mGrassCutHandle) == 0x20);
 static_assert(offsetof(Reaction::Unk1, mSLinkLimiter) == 0xe8);
+static_assert(offsetof(Reaction::Unk1, mIsPlayerBarefoot) == 0x101);
 static_assert(offsetof(Reaction::Unk1, _118) == 0x118);
 
 // 0x7100ebfea8 (CSV unnamed; named by its address): builds the matrix of a footstep reaction

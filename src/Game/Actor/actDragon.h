@@ -45,9 +45,20 @@ KSYS_CHECK_SIZE_NX150(Unk_7102450330, 0x170);
 struct Unk_710000b710Part {
     /* 0x000 */ Unk_7102450330 handle;
     /* 0x170 */ gsys::BoneAccessKeyEx _170;
-    /* 0x1a8 */ u8 _1a8[0x280 - 0x1a8];
+    /* 0x1a8 */ sead::Matrix34f _1a8;
+    /* 0x1d8 */ sead::Matrix34f _1d8;
+    /* 0x208 */ sead::Matrix34f _208;
+    /* 0x238 */ sead::Vector3f _238;
+    /* 0x244 */ sead::Vector3f _244;
+    /* 0x250 */ sead::Vector3f _250;
+    /* 0x25c */ sead::Vector3f _25c;
+    /* 0x268 */ sead::Vector3f _268;
+    /* 0x274 */ sead::Vector3f _274;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710000b710Part, 0x280);
+static_assert(offsetof(Unk_710000b710Part, _208) == 0x208);
+static_assert(offsetof(Unk_710000b710Part, _238) == 0x238);
+static_assert(offsetof(Unk_710000b710Part, _274) == 0x274);
 
 // Bone part group of the Dragon (four Unk_7102357168 at 0x1fd0, one Unk_7102357188 at 0x2270):
 // parts attached to bones of `actor`. Name is descriptive; the base has no vtable of its own in
@@ -192,6 +203,9 @@ public:
         void sub_71006FD830(f32 start_frame, f32 end_frame);
         // FF8C supplies a normalized matrix; 6FB3FC copies it to the existing matrix20.
         void sub_71006FB3FC(const sead::Matrix34f& matrix);
+        // Reset part snapshots, then place the segment chain from the transform history.
+        void sub_71006FB998();
+        void sub_71006FC6C8(const sead::Matrix34f& matrix);
 
         // 0x71006fb8a8 (placeholder name): with flags 2 and 3 set, detaches the three bone parts and every
         // valid named part of _850 from the actor (Actor::sub_71011DA868), then clears flag 3.
@@ -230,7 +244,8 @@ public:
         /* 0x5d0 */ Unk_710000b710Part _5d0;
         /* 0x850 */ sead::Buffer<Unk_710000b710Part> _850;
         /* 0x860 */ sead::Matrix34f _860 = sead::Matrix34f::ident;
-        u8 _890[0x8a4 - 0x890];
+        /* 0x890 */ f32 _890;  // spacing of consecutive history-driven segments
+        u8 _894[0x8a4 - 0x894];
         /* 0x8a4 */ f32 _8a4;  // start frame (-1: none)
         /* 0x8a8 */ f32 _8a8;  // end frame
         /* 0x8ac */ f32 _8ac;
