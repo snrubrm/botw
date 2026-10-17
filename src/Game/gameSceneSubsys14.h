@@ -141,7 +141,9 @@ public:
     // Constructor 0x7100903620 sets 16-entry buffers at +0x11d0 and +0x1260.
     sead::FixedPtrArray<Unk_7100903948::Slot, 16> mActiveSlots;
     sead::FixedPtrArray<Unk_7100903948::Slot, 16> mFreeSlots;
+    // The four flags at 0x12e0 - 0x12e3 (initCurrentLocation clears them with one word store).
     bool _12e0 = false;
     bool mSlotsChanged = false;
     bool _12e2 = false;
+    bool _12e3 = false;
 };

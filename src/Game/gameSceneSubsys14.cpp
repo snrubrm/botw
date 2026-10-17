@@ -1,5 +1,8 @@
 #include "Game/gameSceneSubsys14.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/UI/uiManager.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/StageInfo.h"
 
 // 0x710090325c. `.operator=(...)` for the link: C++14 evaluation order: the original evaluates the
 // destination first.
@@ -92,6 +95,55 @@ bool GameSceneSubsys14::sub_7100904F68() const {
 Unk_7100903948::Unk_7100903948() = default;
 
 Unk_7100903948::~Unk_7100903948() = default;
+
+// 0x7100903d00: resets the entry / slot tables and reads the saved location name (the current map
+// name in a dungeon). Placeholder name.
+void GameSceneSubsys14::initCurrentLocation() {
+    _12e0 = false;
+    mSlotsChanged = false;
+    _12e2 = false;
+    _12e3 = false;
+    _f80.clear();
+    _fe0.clear();
+
+    for (auto& entry : mEntries) {
+        entry.name.clear();
+        entry.id = -1;
+        entry._11c = -1;
+        entry.link.reset();
+        _fe0.pushBack(&entry);
+    }
+
+    _38.name.clear();
+    _38.id = -1;
+    _38._11c = -1;
+    _38.link.reset();
+    _168 = 0;
+    _16c = 0;
+
+    mActiveSlots.clear();
+    mFreeSlots.clear();
+    for (s32 i = 0; i < 16; ++i) {
+        auto& slot = _1040.slots[i];
+        slot.id = -1;
+        slot.link.reset();
+        mFreeSlots.pushBack(&slot);
+    }
+
+    if (ksys::StageInfo::sIsCDungeon || ksys::StageInfo::sIsMainFieldDungeon) {
+        _12e2 = true;
+        const sead::SafeString& name = uking::GameScene::getCurrentMapName();
+        _38.name = name;
+        ksys::gdt::setFlag_SaveLocationName(name, false);
+        return;
+    }
+
+    const char* saved = nullptr;
+    ksys::gdt::getFlag_SaveLocationName(&saved, false);
+    if (saved && _38.name.getStringTop() != saved)
+        _38.name = saved;
+    _12e0 = true;
+}
 
 void GameSceneSubsys14::postCalc() {
     if (uking::ui::Manager::instance()->isPausedMaybe())
