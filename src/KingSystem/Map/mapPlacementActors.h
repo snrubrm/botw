@@ -194,6 +194,12 @@ public:
     // 0x7100d52910 (CSV spawnActor; placeholder parameter names): creates the actor of `obj` and registers
     // its base proc; returns whether it was created.
     bool spawnActor(Object* obj);
+    // 0x7100d538b8: spawns the actors of the traverse results whose generation group needs them.
+    void threadSpawnGenGroupActors(const sead::Vector3f& pos, void* traverse_results);
+    // 0x7100d539e4 (declared only; CSV threadFn_x2_a): the per-frame traverse step the placement manager runs
+    // on one traverse result set. `results` is PlacementMgr::TraverseResults* (nested private, not modelable
+    // from this header), so it is passed as void*.
+    void threadFn_x2_a(const sead::Vector3f& pos, void* results);
     // 0x7100d527d8 (CSV PlacementMgrInvoked3_doSpawn): the placement manager's spawn delegate. Clears or sets
     // the object's spawn flag, then spawns the actor (or its generation group when asked).
     bool doSpawn(Object* obj, bool set_flag, bool use_gen_group);
@@ -262,6 +268,12 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
 
+// 0x7100d53660 (CSV PlacementObj::shouldSpawn; placeholder owner): whether the actor of `obj` may be
+// spawned by the placement thread.
+bool shouldSpawn(Object* obj);
+// 0x7100d4b1a8 (CSV PlacementObj::x_13; 4248 bytes, placeholder parameters): the spawn point of `obj`
+// for `pos`; the implementation is not decompiled yet.
+bool x_13(Object* obj, const sead::Vector3f& pos, void* a3, const void* a4);
 // 0x7100d57658 (CSV name): traverse distance of actor `name`: InfoData::getTraverseDist (x 0.7 for
 // "Enemy" / "NPC" profiles), or else derived from InfoData::getBoundingForTraverse (`a2` if that is not
 // positive) through two lookup tables (0x7101ec0b8c / 0x7101ec0c04). Not decompiled yet.

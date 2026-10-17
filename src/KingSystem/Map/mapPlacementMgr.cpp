@@ -1,11 +1,13 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacement18.h"
+#include <math/seadMathCalcCommon.h>
 #include <thread/seadThreadUtil.h>
 #include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcCreateTask.h"
 #include "KingSystem/ActorSystem/actClusteredRenderer.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actFarActorMerge.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -277,6 +279,30 @@ void PlacementMgr::sub_71011E6EE0() {
         mClusteredRenderer->sub_7101244038(&mCameraPos);
     if (auto* fr = StagePreActorCache::instance()->getForestRenderer())
         fr->sub_710F03C18(&mCameraPos);
+}
+
+void PlacementMgr::threadHandleChecksAndDirectActorGen(s32 idx) {
+    if (!mFlags.isOn(MgrFlag::_2000)) {
+        mJobType = 9;
+        mPlacementActors->threadFn_x2_a(mPlayerPos, &mTraverseResults[idx]);
+        mPrevPlayerPos = mPlayerPos;
+    }
+
+    if (!mFlags.isOn(MgrFlag::_200)) {
+        mJobType = 8;
+        act::BaseProcMgr::instance()->removeInitializerTasksIf(mInvoker);
+        mPlacementActors->threadSpawnGenGroupActors(mCameraPos, &mTraverseResults[idx].actors);
+
+        const f32 dx = mPrevCameraPos.x - mCameraPos.x;
+        const f32 dz = mPrevCameraPos.z - mCameraPos.z;
+        mDeltaCameraDistance = sead::Mathf::sqrt(dx * dx + dz * dz);
+        mPrevCameraPos = mCameraPos;
+    }
+
+    if (_2c == 5)
+        _2c = 0;
+    if (_30 == 3)
+        _30 = 4;
 }
 
 void PlacementMgr::requestDraw() {

@@ -15,6 +15,34 @@
 
 namespace ksys::map {
 
+void PlacementActors::threadSpawnGenGroupActors(const sead::Vector3f& pos, void* traverse_results) {
+    auto* objs = static_cast<sead::PtrArray<Object>*>(traverse_results);
+    auto* mgr = PlacementMgr::instance();
+    for (s32 i = 0; i < objs->size(); ++i) {
+        if (mgr->isFlagOn(PlacementMgr::MgrFlag::_2) ||
+            mgr->isFlagOn(PlacementMgr::MgrFlag::_10000))
+            return;
+
+        Object* obj = (*objs)[i];
+        if (!obj->mFlags0.set(Object::Flag0::_10000))
+            continue;
+
+        if (shouldSpawn(obj)) {
+            if (x_13(obj, pos, nullptr, nullptr) && !obj->mFlags.isOn(Object::Flag::IsLinkTag)) {
+                if (obj->mLinkData && obj->mLinkData->mGenGroup)
+                    obj->spawnGenGroupActorsIfNeeded(obj);
+                else
+                    spawnActor(obj);
+            }
+        } else {
+            if (obj->getProc() && obj->mLinkData && !obj->mLinkData->isGroupInitComplete())
+                obj->spawnGenGroupActorsIfNeeded(obj);
+        }
+
+        obj->mFlags0.reset(Object::Flag0::_10000);
+    }
+}
+
 bool PlacementActors::doSpawn(Object* obj, bool set_flag, bool use_gen_group) {
     const ActorData& data = mActorData[obj->mActorDataIdx];
     const char* profile;

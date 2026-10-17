@@ -228,6 +228,9 @@ public:
     void sub_71011EC01C(Object* obj);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
+    // 0x71011e70ec: the per-frame worker step that runs the initializer checks and the generation-group
+    // spawn pass for traverse result `idx`.
+    void threadHandleChecksAndDirectActorGen(s32 idx);
     // 0x71011e6b3c: asks the clustered / mass / forest renderers and the far-actor merge to draw.
     void requestDraw();
     // 0x00000071011eb4dc
@@ -237,6 +240,8 @@ public:
         _1 = 0x1,
         _2 = 0x2,
         _4 = 0x4,
+        _200 = 0x200,
+        _2000 = 0x2000,
         _20 = 0x20,
         _40 = 0x40,
         _4000 = 0x4000,
@@ -260,6 +265,8 @@ public:
     };
 
     bool isGrudgeMerge() const { return sFlags.isOn(MgrStaticFlags::GrudgeMerge); }
+    // Read by PlacementActors::threadSpawnGenGroupActors (worker pause flags).
+    bool isFlagOn(MgrFlag flag) const { return mFlags.isOn(flag); }
 
     static sead::TypedBitFlag<MgrStaticFlags, u16> sFlags;
 
