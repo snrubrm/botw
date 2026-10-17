@@ -129,7 +129,11 @@ public:
     res::Unk_71024f9958 _20;
     res::Unk_71024f9938 _58;
     res::ResDerived mRes;
-    u8 _d8[0xf0 - 0xd8];
+    u8 _d8[0xdc - 0xd8];
+    f32 _dc;
+    f32 _e0;
+    f32 _e4;
+    u8 _e8[0xf0 - 0xe8];
     Unk_7100D4D998* mEffectEntry;
     /* 0xf8 */ eft::EffectModelData* mEffectModelData;
     u8 _100[0x148 - 0x100];

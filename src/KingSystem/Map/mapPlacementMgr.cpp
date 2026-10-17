@@ -305,6 +305,28 @@ void PlacementMgr::threadHandleChecksAndDirectActorGen(s32 idx) {
         _30 = 4;
 }
 
+void PlacementMgr::loadModel(ActorData* data) {
+    ksys::act::InfoData::ModelInfo info;
+    ksys::act::InfoData::instance()->getModelInfo(data->mActorName.cstr(), info);
+
+    if (info.bfres) {
+        sead::FixedSafeString<64> path;
+        path.format("Model/%s.bfres", info.bfres);
+
+        data->_dc = info.baseScale.x;
+        data->_e0 = info.baseScale.y;
+        data->_e4 = info.baseScale.z;
+
+        res::LoadRequest req;
+        req.mRequester = "PlacementMgr";
+        req._22 = 1;
+        req._8 = true;
+        data->mRes.requestLoad(path, &req, nullptr);
+    }
+
+    data->mFlags.setBit(ActorData::Flag::_3);
+}
+
 void PlacementMgr::requestDraw() {
     const bool no_cluster_flag = !mFlags.isOn(MgrFlag::_40);
     if (!mFlags.isOn(MgrFlag::_100)) {

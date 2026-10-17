@@ -127,7 +127,8 @@ public:
     bool auto1();
     void x_0(sead::Vector3f* pos, act::InstParamPack* pack);
     void printDebugInfo();
-    void loadModel(Object* obj);
+    // 0x71011ea08c: requests the actor's bfres model and stores its scale in the actor data.
+    void loadModel(ActorData* data);
     void incrementCounter();
     void x();
     void auto5();
