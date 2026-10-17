@@ -106,6 +106,12 @@ void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
 namespace uking::act {
 
+// 0x71002f18d4 (CSV "Weapon::dtor"): the member destruction also resets the two links, deletes the
+// two BaseProcHandles, frees the six critical sections and destroys the four Unk_7102357210 listeners.
+// NON_MATCHING: the original inlines the 0xe78 listener's destructor and calls BaseProcHandle::deleteProc
+// twice; our ActorAtk model also has a non-trivial destructor the target does not call here.
+Weapon::~Weapon() = default;
+
 static const sead::SafeString sWeaponBoneNames[] = {"Weapon_R", "Weapon_L"};
 
 // Arrow initialization uses the returned string as its weapon binding name.

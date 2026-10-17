@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::act {
@@ -159,6 +160,96 @@ void Reaction::sub_7100EC241C(Actor* actor, phys::UserTag::Unk5* info) {
         const u32 material = mask.getRawData() & 0x3f;
         _a8->sub_7100EC8F78(speed, actor, &info->_10, size, material, 0);
         _a0->sub_7101286868(speed, actor, &info->_10, &info->_28, size, material, 0);
+    }
+}
+
+// NON_MATCHING: register naming (s13 / s14) and the stack slots of the two ray directions differ.
+void Reaction::sub_7100EC2598(Actor* actor) {
+    if (!_b0)
+        return;
+
+    actor->set6e4(15.0f);
+
+    auto* body = actor->getPhysicsMainBody();
+    if (!body)
+        return;
+    if (body->hasFlag(phys::RigidBody::Flag::_1000000))
+        return;
+    if (body->hasFlag(phys::RigidBody::Flag::FixedWithImpulsePreserved))
+        return;
+    if (actor->get4f8() > 0.0f)
+        return;
+
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const sead::Vector3f velocity = actor->getVelocity();
+    sead::Vector3f dir = velocity;
+    dir.normalize();
+
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityWater);
+    query.setStart(sead::Vector3f{pos.x + dir.x * 5.0f, pos.y + dir.y * 5.0f,
+                                  pos.z + dir.z * 5.0f});
+    query.setEnd(sead::Vector3f{pos.x - dir.x * 10.0f, pos.y - dir.y * 10.0f,
+                                pos.z - dir.z * 10.0f});
+
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return;
+
+    sead::Vector3f hit_pos;
+    query.getHitPosition(&hit_pos);
+    sead::Vector3f hit_normal;
+    query.getHitNormal(&hit_normal);
+
+    sead::Vector3f scaled{velocity.x * hit_normal.x, velocity.y * hit_normal.y,
+                          velocity.z * hit_normal.z};
+    const f32 speed = scaled.length();
+
+    const u64 size = Reaction::instance()->sub_7100EC2278(actor, nullptr);
+    if (_a8 && _a0) {
+        const u32 material = actor->get6fc();
+        _a8->sub_7100EC8F78(speed * 10.0f, actor, &hit_pos, size, material, 1);
+        _a0->sub_7101286868(speed, actor, &hit_pos, &hit_normal, size, material, 1);
+    }
+}
+
+// NON_MATCHING: the query object and the two temporary vectors land in different stack slots (frame 0x150
+// vs the target's 0x160) and the start / end stores are not paired.
+void Reaction::sub_7100EC27FC(Actor* actor) {
+    if (!_b0)
+        return;
+
+    actor->set6e4(15.0f);
+
+    auto* body = actor->getPhysicsMainBody();
+    if (!body)
+        return;
+    if (body->hasFlag(phys::RigidBody::Flag::_1000000))
+        return;
+    if (body->hasFlag(phys::RigidBody::Flag::FixedWithImpulsePreserved))
+        return;
+    if (actor->get4f8() > 0.0f)
+        return;
+
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityWater);
+    query.setStart(sead::Vector3f{pos.x, pos.y + 5.0f, pos.z});
+    query.setEnd(sead::Vector3f{pos.x, pos.y - 10.0f, pos.z});
+
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return;
+
+    sead::Vector3f hit_pos;
+    query.getHitPosition(&hit_pos);
+    sead::Vector3f hit_normal;
+    query.getHitNormal(&hit_normal);
+
+    const u64 size = Reaction::instance()->sub_7100EC2278(actor, nullptr);
+    if (_a8 && _a0) {
+        const u32 material = actor->get6fc();
+        _a8->sub_7100EC8F78(10.0f, actor, &hit_pos, size, material, 2);
+        _a0->sub_7101286868(1.0f, actor, &hit_pos, &hit_normal, size, material, 2);
     }
 }
 

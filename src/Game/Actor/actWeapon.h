@@ -262,6 +262,7 @@ class Weapon : public ksys::act::WeaponBase {
 public:
     // 0x71002e04ac (CSV Weapon::ctor; declared only).
     explicit Weapon(const CreateArg& arg);
+    ~Weapon() override;
     // 0x71002df038 (CSV factory): a new 0x1038-byte weapon on `heap`; the same form as Sandworm::construct.
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     void sub_71002EE8B0();
@@ -542,7 +543,9 @@ public:
     /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u16 _e52;
-    /* 0xe54 */ u8 _e54[0xeb0 - 0xe54];  // TODO
+    /* 0xe54 */ u8 _e54[0xe78 - 0xe54];  // TODO
+    // Message listener (vtable 0x7102450618); ctor 0x71002e04ac stores its vptr.
+    /* 0xe78 */ Unk_7102450618 _e78;
     /* 0xeb0 */ Unk_71023d2698 _eb0;
     /* 0xee8 */ Unk_71023d26c8 _ee8;
     /* 0xf20 */ Unk_71023d26f8 _f20;

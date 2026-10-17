@@ -78,6 +78,12 @@ public:
     // (2 or 3 from the height alone without one). `is_long` (optional) is set when the body is longer than
     // 4.5 and much thinner in the other two directions.
     u32 sub_7100EC2278(Actor* actor, bool* is_long);
+    // 0x7100ec2598: the moving water footstep reaction: casts 5 / 10 units along the velocity and
+    // forwards the speed along the hit normal with flag 1.
+    void sub_7100EC2598(Actor* actor);
+    // 0x7100ec27fc: the water footstep reaction: casts down 5 / 10 units on the water layer and
+    // forwards the hit position and normal to the two receivers with flag 2.
+    void sub_7100EC27FC(Actor* actor);
     // 0x7100ec241c: the footstep reaction of `actor` on contact `info`: stores 15.0 in the footstep
     // timer, picks the material mask from the contact type and forwards the speed to the two receivers.
     void sub_7100EC241C(Actor* actor, phys::UserTag::Unk5* info);

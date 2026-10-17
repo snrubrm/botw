@@ -687,6 +687,8 @@ public:
     float get6f0() const { return _6f0; }
     // The footstep reaction timer written by Reaction::sub_7100EC241C.
     void set6e4(float value) { _6e4 = value; }
+    // Read by Reaction::sub_7100EC27FC (skips the water footstep while it is set).
+    float get4f8() const { return _4f8; }
     int get6fc() const { return _6fc; }
     // The sub material index of _6fc (uking::act::sub_71006DF43C / sub_71006DF4F0).
     int get700() const { return _700; }
