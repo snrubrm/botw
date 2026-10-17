@@ -274,6 +274,10 @@ public:
     // 0x7100f35e54: settings currently registered by the rune / magnesis managers.
     Unk_7100f35df8* sub_7100F35E54() const;
 
+    // Placeholder name: read by Unk_710260af28::sub_7100F1D9B4 (0x7100f1d9b4) as the modulus of the
+    // uk_special_effect_A wrap.
+    f32 getSpecialEffectAWrapMaybe() const { return _f9c; }
+
     // 0x7100f35fa4 (lane2 request, s49; placeholder name): sets bit 12 (`second`) or 11 (not `second`) of
     // `_284` to `value`, then marks the settings dirty (`_280 |= 1`).
     void sub_7100F35FA4(bool value, bool second);
@@ -389,4 +393,8 @@ private:
     u8 _f5d;  // sub_7100F2AFE8
     u8 _f5e;
     u8 _f5f;  // sub_7100F2B024
+    // Placeholder name: the modulus of the uk_special_effect_A wrap (Unk_710260af28::sub_7100F1D9B4
+    // 0x7100f1d9b4 passes it as the second argument of fmodf).
+    u8 _f60[0xf9c - 0xf60];
+    /* 0xf9c */ f32 _f9c;
 };

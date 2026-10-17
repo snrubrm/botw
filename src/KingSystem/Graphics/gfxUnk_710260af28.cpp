@@ -1,7 +1,24 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include <cmath>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelNW.h>
 #include <gsys/gsysModelUnit.h>
+#include "Game/gameGraphics.h"
+
+void Unk_710260af28::sub_7100F1D9B4(gsys::Model* model, f32 value, bool negate) {
+    const f32 wrapped = std::fmod(value, Graphics::instance()->getSpecialEffectAWrapMaybe());
+    const f32 effect = negate ? -wrapped : wrapped;
+    for (s32 i = 0; i < model->getUnits().size(); ++i) {
+        auto* unit = model->getUnits()[i]->mModelUnit;
+        const s32 count = unit->getMaterialNum();
+        for (s32 material = 0; material < count; ++material) {
+            const sead::SafeString param_name("uk_special_effect_A");
+            const s32 param = unit->searchMaterialParamIndex(material, param_name);
+            if (param != -1)
+                unit->setMaterialParamF32(material, param, effect);
+        }
+    }
+}
 
 void Unk_710260af28::sub_7100F1ED28(gsys::Model* model, int mode) {
     for (s32 i = 0; i < model->getUnits().size(); ++i)
