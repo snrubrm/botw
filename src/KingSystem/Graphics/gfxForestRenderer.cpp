@@ -146,6 +146,63 @@ bool ForestRenderer::Entry::sub_7100F06CB0(const sead::SafeString& name, const s
     return true;
 }
 
+// 0x7100f071c4: adds a tree instance (name, position, rotation in degrees, scale) if the entry handles that
+// model; true if the instance was added.
+// NON_MATCHING: the conditional cell index is rematerialised for the _28 / _78 accesses in the original.
+bool ForestRenderer::Entry::sub_7100F071C4(const sead::SafeString& name, const sead::Vector3f& pos,
+                                           const sead::Vector3f& rotate, f32 scale) {
+    const u32 flags = _8 & 1;
+    const s32 model = sub_7100F00BB8(flags, name, rotate, scale);
+    if (model < 0)
+        return false;
+
+    f32 rot_x = rotate.x;
+    while (rot_x < 0.0f)
+        rot_x += 360.0f;
+    f32 rot_y = rotate.y;
+    while (rot_y < 0.0f)
+        rot_y += 360.0f;
+    f32 rot_z = rotate.z;
+    while (rot_z < 0.0f)
+        rot_z += 360.0f;
+
+    GridCell cell;
+    cell.mFlags = _8 & 1;
+    cell.sub_7100F076D8(pos);
+
+    const u16 first = _28[(cell.mFlags & 1) ? cell.mZ * 10 + cell.mX
+                                            : cell.mZ * 0xa0 + cell.mX * 0x10 + cell.mMask]._0;
+    u16* count = _78.get((cell.mFlags & 1) ? cell.mZ * 10 + cell.mX
+                                           : cell.mZ * 0xa0 + cell.mX * 0x10 + cell.mMask);
+    Unk_28& range = _28[(cell.mFlags & 1) ? cell.mZ * 10 + cell.mX
+                                          : cell.mZ * 0xa0 + cell.mX * 0x10 + cell.mMask];
+    const s32 bits = sead::BitFlagUtil::countRightOnBit64(range._8, model);
+    u16 slot = 0xffff;
+    if (bits <= 0x14) {
+        const u32 i = u32(bits - 1);
+        const s32 index = i < 0x14 ? s32(i) : 0;
+        slot = range._10[index]++;
+    }
+
+    Record& record = mRecords[*count + first];
+    record._0 = slot;
+    record._8 = u16(s32(rot_x / 360.0f * 65535.0f));
+    record._a = u16(s32(rot_y / 360.0f * 65535.0f));
+    record._c = u16(s32(rot_z / 360.0f * 65535.0f));
+    record._e = u16(s32(scale * 65535.0f * 0.5f));
+    record._4.set(1);
+    record._5 = u8(model);
+    record._6 = 0;
+    record.pos = pos;
+    *count += 1;
+
+    tera::Core::Unk_140* core = tera::Terrain::instance()->sub_710114DE70();
+    const u32 id = u32(
+        core->sub_71010832B0(name, pos, rotate, sead::Vector3f(scale, scale, scale), 0.0f));
+    record._2 = u16(id < 0xffff ? id : 0xffff);
+    return true;
+}
+
 // 0x7100f0663c: the item index of the record at `pos` inside the cell's `_28` range, or -1.
 // NON_MATCHING: the original rematerialises the conditional index for the second _28 access; ours computes it once.
 s32 ForestRenderer::Entry::sub_7100F0663C(const sead::Vector3f& pos) {

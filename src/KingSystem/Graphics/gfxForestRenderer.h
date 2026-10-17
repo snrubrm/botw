@@ -120,9 +120,16 @@ public:
 
         // Placeholder: the 0x1c-byte records of the buffer at 0x18.
         struct Record {
-            u8 _0[4];
+            u16 _0;
+            u16 _2;
             sead::BitFlag8 _4;
-            u8 _5[0x10 - 0x5];
+            u8 _5;  // the model definition index
+            u8 _6;  // cleared on add
+            u8 _7;
+            u16 _8;  // rotation / 360 * 65535 (x, y, z)
+            u16 _a;
+            u16 _c;
+            u16 _e;  // scale * 65535 * 0.5
             // The instance position, compared with the queried position.
             sead::Vector3f pos;
         };
@@ -149,8 +156,9 @@ public:
             u16 _2;
             u32 _4;
             u64 _8;
-            u8 _10[0x38 - 0x10];
+            u16 _10[0x14];  // per-model slot counters
         };
+        static_assert(sizeof(Unk_28) == 0x38);
         sead::Buffer<Unk_28> _28;
         u8 _38[0x60 - 0x38];
         sead::Buffer<Item> mItems;

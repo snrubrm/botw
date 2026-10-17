@@ -199,6 +199,10 @@ public:
         void sub_7101083060();
         // 0x710108330c (declared only; 328 B; unnamed in the CSV): the setup ForestRenderer::x runs first.
         void sub_710108330C();
+        // 0x71010832b0 (unnamed; 92 B, declared only): resolves a tree placed at `pos` (returns -1 unless
+        // (_8 & 6) == 2).
+        s32 sub_71010832B0(const sead::SafeString& name, const sead::Vector3f& pos,
+                           const sead::Vector3f& rotate, const sead::Vector3f& scale, f32 unk);
 
         u8 _0[8];
         u32 _8;
