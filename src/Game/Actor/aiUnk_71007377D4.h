@@ -529,7 +529,8 @@ struct DamageReactionRequest {
     /* 0x48 */ f32 _48;
     /* 0x4c */ f32 _4c;
     /* 0x50 */ u32 _50;
-    /* 0x54 */ u32 _54;
+    // Actor::reactionStuff stores powf(stasis blow power, Graphics exponent).
+    /* 0x54 */ f32 _54;
     /* 0x58 */ u32 _58;
     /* 0x60 */ ksys::phys::MaterialMask _60;
     /* 0x78 */ ksys::phys::MaterialMask _78;
@@ -551,6 +552,7 @@ struct DamageReactionRequest {
     /* 0xc4 */ u8 _c4;
 };
 KSYS_CHECK_SIZE_NX150(DamageReactionRequest, 0xc8);
+static_assert(offsetof(DamageReactionRequest, _54) == 0x54);
 static_assert(offsetof(DamageReactionRequest, mSource) == 0xa8);
 static_assert(offsetof(DamageReactionRequest, _b8) == 0xb8);
 

@@ -422,7 +422,7 @@ void StasisMgr::sub_7100680920(ksys::act::Actor* actor) {
     }
 }
 
-void* StasisMgr::m4(ksys::act::Actor* actor) {
+xlink2::HandleELink* StasisMgr::m4(ksys::act::Actor* actor) {
     for (auto it = mEntries.begin(); it != mEntries.end(); ++it) {
         if (it->link.hasProcById(actor))
             return &it->_2c8;

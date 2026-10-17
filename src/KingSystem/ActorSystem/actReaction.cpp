@@ -12,6 +12,8 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadBoundBox.h>
 #include <algorithm>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -532,6 +534,43 @@ void Reaction::Unk1::sub_7100EC6070(f32 value, DamageReactionRequest* request, b
     eft::sub_710105E114(&handle, request->_b8);
     if (mSLinkLimiter)
         mSLinkLimiter->sub_7100ECA2A0(10, position, handle);
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+// NON_MATCHING: bounding-box temporaries and delay-emission matrix stores differ.
+void Unk_7101286868::sub_7101286BF8(xlink2::HandleELink* handle,
+                                   DamageReactionRequest* request) {
+    auto* actor = request->_b8;
+    if (actor && actor->getXLink()) {
+        if (auto* user = actor->getXLink()->_48)
+            user->setPropertyValue(4, request->_54);
+        *handle = eft::searchAndEmitELink(actor, "BitaLocked_Start");
+    }
+    if (!handle->isActive()) {
+        auto* source = _38;
+        if (auto* user = source->getXLink()->_48)
+            user->setPropertyValue(4, request->_54);
+        *handle = eft::searchAndEmitELink(source, "BitaLocked_Start");
+    }
+    if (actor) {
+        const auto position = request->mtx.getTranslation();
+        f32 scale = 1.0f;
+        if (auto* model = actor->getModel()) {
+            if (auto* unit = model->getUnits()[0]->mModelUnit) {
+                sead::BoundBox3f bounds;
+                unit->calcBoundAABB(&bounds, false);
+                const auto size = bounds.getMax() - bounds.getMin();
+                scale = sead::Mathf::max(size.x, size.y);
+                scale = sead::Mathf::max(scale, size.z);
+            }
+        }
+        sead::Matrix34f matrix;
+        matrix.makeS(scale, scale, scale);
+        matrix.setTranslation(position);
+        handle->setMatrix(matrix);
+    }
 }
 
 }  // namespace ksys::act

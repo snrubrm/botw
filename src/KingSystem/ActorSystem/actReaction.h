@@ -9,6 +9,10 @@
 
 #include "KingSystem/Physics/System/physUserTag.h"
 
+namespace xlink2 {
+class HandleELink;
+}
+
 namespace ksys::phys {
 class MaterialMask;
 }
@@ -44,6 +48,10 @@ class Unk_7101286868 {
 public:
     void sub_7101286868(f32 speed, Actor* actor, const sead::Vector3f* pos,
                         const sead::Vector3f* dir, u64 size, u64 material, u64 flag);
+    void sub_7101286BF8(xlink2::HandleELink* handle, ::DamageReactionRequest* request);
+    u8 _0[0x38];
+    // Fallback actor used when the request actor has no emitted effect.
+    /* 0x38 */ Actor* _38;
 };
 
 class Reaction {
@@ -128,6 +136,7 @@ public:
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
 };
+static_assert(offsetof(Unk_7101286868, _38) == 0x38);
 static_assert(offsetof(Reaction::Unk1, _8) == 0x8);
 static_assert(offsetof(Reaction::Unk1, _10) == 0x10);
 static_assert(offsetof(Reaction::Unk1, mGrassCutHandle) == 0x20);

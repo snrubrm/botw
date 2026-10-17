@@ -606,6 +606,8 @@ public:
     virtual bool m83();
     virtual void updateMtxFromPhysics();
     void sub_71011CB390();
+    // 0x71011cb994: emits the queued damage or stasis reaction.
+    void reactionStuff();
     void sub_71011CAFBC(const sead::SafeString& name, bool enabled);
     void sub_71011CABA4(const sead::SafeString& name, bool enabled);
     virtual void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3);
