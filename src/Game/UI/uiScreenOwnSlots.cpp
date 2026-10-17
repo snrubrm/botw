@@ -3,6 +3,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnk_7102506d38.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/AOC/aocManager.h"
@@ -560,6 +561,24 @@ void ScreenPauseMenu::sub_7100A38028() {
         }
         _3674 = 0;
     }
+}
+
+// 0x7100a3e6c8
+// NON_MATCHING: block layout only; the original branches to the info block and falls through to the
+// shared tail, ours does the opposite.
+void ScreenPauseMenu::m190() {
+    if (_3a30 == 0) {
+        const ksys::MessageType type = ksys::MessageType(0x7800002);
+        sub_7100A48628(&type, nullptr);
+        sub_7100A39464(true);
+        sub_7100AA9678();
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+            info->sub_7100A2EFFC();
+    }
+    sub_7100A3C2F0(_3a30, _3a34);
+    if (auto* mgr = Unk_7102506d38::instance())
+        mgr->sub_710109E5D0(mUIController);
 }
 
 // 0x7100a3e2d4

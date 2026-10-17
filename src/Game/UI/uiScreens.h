@@ -226,6 +226,8 @@ public:
     /* 0x28 */ nn::util::IntrusiveListNode _28;
     /* 0x38 */ Unk_7102474a28<ScreenChild> mTransceiver;  // the state machine is at 0x80, the receiver at 0xa8, its adapter at 0xc8
     ksys::StateMachine& getStateMachine() { return mTransceiver.mReceiver.mMachine; }
+    // 0x7100a48628 (CSV unnamed): sends a debug board message of `type` with `user` data through the 0x1e0 transceiver
+    void sub_7100A48628(const ksys::MessageType* type, void* user);
 
     /* 0x100 */ u8 _100 = 0;  // lifecycle event flags, cleared by the update method
     /* 0x104 */ s32 _104 = 0;  // open / close state (7: ScreenMainScreen::sub_7100A1A460 checks it)
@@ -393,6 +395,8 @@ public:
     // The screen's state machine is mTransceiver.mReceiver.mMachine at 0x160 (the leaf classes' own virtual slots
     // 154+ are the callbacks of its states).
     ksys::StateMachine& getStateMachine() { return mTransceiver.mReceiver.mMachine; }
+    // 0x7100a48628 (CSV unnamed): sends a debug board message of `type` with `user` data through the 0x1e0 transceiver
+    void sub_7100A48628(const ksys::MessageType* type, void* user);
     const ksys::StateMachine& getStateMachine() const { return mTransceiver.mReceiver.mMachine; }
 
     /* 0x118 */ Unk_7102474a28<Screen> mTransceiver;
@@ -908,6 +912,8 @@ public:
     void sub_7100A3081C(s32 mode, bool a2);
     // 0x7100a30df0 (CSV unnamed, declared only): refreshes the info for the pause menu's current tab
     void sub_7100A30DF0(bool a2);
+    // 0x7100a2effc (CSV unnamed, declared only): closes the info panel
+    void sub_7100A2EFFC();
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
     void sub_7100A31190(bool a2);
 
@@ -2652,6 +2658,10 @@ public:
     void sub_7100A379BC(s32 tab);
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
+    // 0x7100a39464 (CSV unnamed, declared only)
+    void sub_7100A39464(bool a2);
+    // 0x7100a3c2f0 (CSV unnamed, declared only): shows / hides the info contents for the two mode fields
+    void sub_7100A3C2F0(s32 a1, s32 a2);
     // 0x7100a3a920 (CSV unnamed, declared only): moves the three tab controls by the page offset
     void sub_7100A3A920(f32 offset);
     // 0x7100a3772c (CSV unnamed, declared only): lays the tab controls out for the current page
@@ -2687,7 +2697,9 @@ public:
     u8 _pad_3a19[0x3a20 - 0x3a19];
     /* 0x3a20 */ eui::LayoutEx* mFirstGuideLayout;
     /* 0x3a28 */ eui::LayoutEx* mSecondGuideLayout;
-    u8 _pad_3a30[0x3b80 - 0x3a30];
+    /* 0x3a30 */ s32 _3a30;
+    /* 0x3a34 */ s32 _3a34;
+    u8 _pad_3a38[0x3b80 - 0x3a38];
     /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
     /* 0x3b88 */ s32 _3b88;
