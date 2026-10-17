@@ -122,6 +122,8 @@ public:
         void sub_7101151A1C();
         // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
         u8* sub_7101152DA0(s32 index);
+        // 0x710114ee5c (placeholder name): sets or clears bit 5 of both objects of every entry.
+        void sub_710114EE5C(bool on);
 
         // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
         u8 _0[8];
@@ -129,10 +131,19 @@ public:
         // 0x7101151a1c sets bit 0.
         u8 _c;
         u8 _d[3];
+        // The two objects of a grass entry (0x710114ee5c sets bit 5 of a word at +0x50 / +0x280).
+        struct EntryPart {
+            u8 _0[0x50];
+            u32 mFlags;
+        };
+        struct EntryPart2 {
+            u8 _0[0x280];
+            u32 mFlags;
+        };
         // One 0x2c0-byte grass entry.
         struct Entry {
-            void* _0;
-            void* _8;
+            EntryPart* _0;
+            EntryPart2* _8;
             u8 _10[0x274 - 0x10];
             u8 _274;
             u8 _275[0x2c0 - 0x275];

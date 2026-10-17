@@ -15,6 +15,45 @@
 
 namespace ksys::tera {
 
+// NON_MATCHING: the original addresses the _8 pointer (entry + 8) once and reads _0 through -8;
+// ours keeps the entry base instead (one ldur vs ldr difference).
+void Core::Grass::sub_710114EE5C(bool on) {
+    s32 count = mEntries.size();
+    if (count == 0)
+        return;
+    Entry* entry = &mEntries[0];
+    if (on) {
+        do {
+            entry->_8->mFlags |= 0x20;
+            entry->_0->mFlags |= 0x20;
+            ++entry;
+        } while (--count);
+    } else {
+        do {
+            entry->_8->mFlags &= ~0x20;
+            entry->_0->mFlags &= ~0x20;
+            ++entry;
+        } while (--count);
+    }
+}
+
+// Placeholder: the object whose float at 0x17ac and flag byte at 0xc 0x7101151a2c updates.
+struct Unk_7101151A2C {
+    u8 _0[0xc];
+    u8 _c;
+    u8 _d[0x17ac - 0xd];
+    f32 _17ac;
+};
+
+void sub_7101151A2C(Unk_7101151A2C* self) {
+    if (self->_17ac < 128.0f)
+        self->_17ac = 128.0f;
+    if (self->_c & 1) {
+        self->_17ac = 0.0f;
+        self->_c &= ~1;
+    }
+}
+
 s32 Terrain::resourceIsLoading(u32 threshold, bool update) {
     if ((~_a58 & 6) != 0)
         return 0;
