@@ -14,6 +14,7 @@ class Model;
 namespace ksys::act {
 
 class LodState;
+class Actor;
 
 // 0x71026531a8 (GOT 0x71025a2d40): the LOD debug / enable flag word. Only the LOD manager code
 // reads it; bit 5 / 6 / 13 / 14 gate the state updates and the debug counters.
@@ -62,6 +63,11 @@ public:
     void sub_71012540AC(LodState* state);
     // 0x7101254980 (4-byte tail call): forwards to the still undecompiled helper 0x7101254984.
     void postCalc();
+    // 0x7101254394: actor bounding sphere and scaled horizontal distance.
+    static void sub_7101254394(sead::Vector3f* center, f32* radius, f32* distance,
+                               Actor* actor, const sead::Vector3f* camera);
+    bool sub_7101254544(LodState* state, const sead::Vector3f& center, f32 radius, f32 distance);
+    void sub_7101254734(LodState* state, const sead::Vector3f& center, f32 distance);
 
     /* 0x0028 */ LodState* _28[0x200];  // the LodStates calc() walks
     /* 0x1028 */ s32 _1028;
@@ -69,7 +75,7 @@ public:
     /* 0x1030 */ LodState* _1030[0x100];  // the LodStates calc_x_1() walks (index masked to 8 bits)
     /* 0x1830 */ s32 _1830;
     /* 0x1838 */ sead::PtrArray<gsys::Model> _1838;
-    /* 0x1848 */ u8 _1848[0x1878 - 0x1848];
+    /* 0x1848 */ sead::SafeArray<sead::Vector3f, 4> _1848;
     /* 0x1878 */ s32 _1878;
     /* 0x187c */ u8 _187c[0x1c80 - 0x187c];
     /* 0x1c80 */ u64 _1c80;

@@ -9,6 +9,9 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include <gsys/gsysModel.h>
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::act {
 
@@ -18,6 +21,72 @@ LODMgr::~LODMgr() {
     if (_21b8)
         delete _21b8;
     _1838.freeBuffer();
+}
+
+void LODMgr::sub_7101254394(sead::Vector3f* center, f32* radius, f32* distance,
+                           Actor* actor, const sead::Vector3f* camera) {
+    if (!center || !radius || !distance || !actor)
+        return;
+    const auto* state = actor->getLodState();
+    if (!state)
+        return;
+    if (actor->m33()) {
+        actor->m34(center, radius);
+    } else {
+        actor->getMtx().getTranslation(*center);
+        const auto& bounds = actor->getAabb();
+        *radius = (bounds.getMin() - bounds.getMax()).length() * 0.5f;
+        if ((actor->mVillagerListNode.next() || actor->mVillagerListNode.prev()) &&
+            actor->isCalc() && actor->mStateFlags.isZero())
+            *radius += 0.05f;
+        *center += (bounds.getMin() + bounds.getMax()) * 0.5f;
+    }
+    const f32 inv_scale = 1.0f / state->mDistanceScale;
+    const f32 x = inv_scale * (camera->x - center->x);
+    const f32 z = inv_scale * (camera->z - center->z);
+    *distance = x * x + z * z;
+}
+
+// NON_MATCHING: the state-range predicate and flag branches are folded and scheduled differently.
+void LODMgr::sub_7101254734(LodState* state, const sead::Vector3f& center, f32 distance) {
+    if (state->mFlags10.isOnBit(6) || state->mFlags14.isOffBit(6))
+        return;
+    auto* actor = state->mActor;
+    if (actor->_718 > 0.0f || evt::Manager::instance()->_1d2f8 == 1 ||
+        (actor->getActorFlags2().getDirect() & 0x800000))
+        return;
+    if (state->mFlags14.isOnBit(16) && actor->getLife()) {
+        const auto* life = actor->getLife();
+        if (life && *life == 0) {
+            ++_2194;
+            return;
+        }
+    }
+    if (state->_1c != 2 && (state->_1c != 3 || actor->checkFlag(Actor::ActorFlag::_39)) &&
+        u32(state->_1c - 4) > 1) {
+        if (state->_1c != 1 || state->mFlags14.isOffBit(15) ||
+            (state->mFlags14.isOnBit(22) && !(sUnk_71026531A8 & 0x20000)) ||
+            (state->mFlags14.isOnBit(23) && distance <= 900.0f))
+            return;
+        state->mFlags8.setBit(6);
+        return;
+    }
+    if (state->mFlags14.isOffBit(15) && !actor->checkFlag(Actor::ActorFlag::_39) &&
+        state->mFlags26.isOffBit(2)) {
+        if (actor->m128() && actor->m128()->m2())
+            return;
+        if (actor->getPhysics() && actor->getPhysics()->sub_7100FBB420())
+            return;
+    }
+    if (state->_74 > distance)
+        return;
+    state->mFlags8.setBit(6);
+    for (s32 i = 0; i < _1878; ++i) {
+        const f32 x = _1848[i].x - center.x;
+        const f32 z = _1848[i].z - center.z;
+        if (x * x + z * z < 225.0f)
+            state->mFlags8.resetBit(6);
+    }
 }
 
 void LODMgr::init(sead::Heap* heap) {
