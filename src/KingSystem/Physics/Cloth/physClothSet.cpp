@@ -2,6 +2,20 @@
 
 namespace ksys::phys {
 
+void ClothSet::sub_7101218A90() {
+    const s32 count = _18.size();
+    for (s32 i = 0; i < count; ++i) {
+        _18[i]._30 = 0;
+        _18[i]._18 &= ~u32(2);
+        _18[i]._18 |= 4;
+        const s32 num = _18[i]._8.size();
+        for (s32 j = 0; j < num; ++j)
+            sub_1409FC8(_18[i]._8[j]._8);
+    }
+    _5c = 0;
+    _60 = 0;
+}
+
 void ClothSet::sub_71012189B8(bool enabled) {
     const s32 count = _18.size();
     for (s32 i = 0; i < count; ++i) {
