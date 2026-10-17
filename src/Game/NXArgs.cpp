@@ -1,6 +1,11 @@
 #include "Game/NXArgs.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Scene/gameScene.h"
+#include "Game/gameRoot4.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/DebugBoard.h"
+#include "KingSystem/System/StageInfo.h"
 
 // 0x7100901a90 sits just before nxargs::createInstance; its owner class is unknown.
 bool Unk_71025d1740::sub_7100901A90(bool value) {
@@ -17,6 +22,36 @@ nxargs::~nxargs() {
     for (s32 i = 0; i < mEntries.size(); ++i)
         mEntries[i].conditions.freeBuffer();
     mEntries.freeBuffer();
+}
+
+// NON_MATCHING: our sead isEqual calls the virtual assureTerminationImpl_ for each map-type comparison (the original
+// build has those calls removed / devirtualised), so this is 404 bytes instead of 320.
+void nxargs::handleArgs() {
+    if (mHasHandledArgs)
+        return;
+    if (DebugBoardMgr::instance()->hasLoadingScreenStarted())
+        return;
+    if (!uking::Root4::instance()->checkFlag(uking::Root4::FlagIdx::_1))
+        return;
+    if (ksys::evt::Manager::instance()->hasActiveEvent())
+        return;
+    if (mType == ArgsType::None)
+        return;
+
+    const sead::SafeString& map_type = GameScene::getCurrentMapType();
+    if (map_type == "TitleMenu")
+        return;
+    if (map_type == "STAGESELECT")
+        return;
+    if (map_type.isEmpty())
+        return;
+
+    if (ksys::gdt::getFlag_IsGet_PlayerStole2(false) && ksys::StageInfo::sIsMainField) {
+        if (!mHasHandledArgs)
+            spawnActors();
+    } else {
+        mHasHandledArgs = true;
+    }
 }
 
 void nxargs::init(sead::Heap* heap) {

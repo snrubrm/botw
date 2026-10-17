@@ -85,6 +85,8 @@ public:
     void init(sead::Heap* heap);
     void allocEntries(sead::Heap* heap, const u8* data);
     void handleArgs();
+    // 0x7100902450 (declaration only; 2848 bytes): creates the launch-parameter actors.
+    void spawnActors();
 
 private:
     u16 mResField4;
