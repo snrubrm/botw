@@ -188,6 +188,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71024efd58, 0x18);
 
 namespace agl {
 class TextureSampler;
+class VertexAttribute;
+class IndexStream;
+class DrawContext;
 struct GPUMemVoidAddr;
 }  // namespace agl
 
@@ -443,15 +446,33 @@ public:
     /* 0x18 */ eui::TextBoxEx* _18[3];
 };
 
-// vtable 0x710251d230 (7 slots)
+// Draw-command base. Constructor 0x71012eb44c initializes the attribute/index stream,
+// range fields and flags; setup 0x71012eb478 obtains the two derived draw counts.
 class Unk_710251d230 {
     SEAD_RTTI_BASE(Unk_710251d230)
 public:
+    Unk_710251d230();
     virtual ~Unk_710251d230();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
+    virtual void m4(agl::DrawContext* context);
+    virtual void m5(agl::DrawContext* context, u32 instances);
+    virtual void m6(agl::DrawContext* context, u32 index_offset, u32 count, u32 instances,
+                    u32 instance_offset);
+    virtual void m7() = 0;
+    virtual s32 m8() = 0;
+    virtual s32 m9() = 0;
+
+    void sub_71012EB478(u32 first_instance, u32 first_index);
+
+    agl::VertexAttribute* mAttribute = nullptr;
+    agl::IndexStream* mIndexStream = nullptr;
+    s32 mBaseVertex = 0;
+    u32 mFirstInstance = 0;
+    s32 _20 = 0;
+    u32 mFirstIndex = 0;
+    s32 mIndexCount = 0;
+    u32 mFlags = 1;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710251d230, 0x30);
 
 // vtable 0x71024f9bb8 (4 slots): derives from ksys::TaskRequest.
 class Unk_71024f9bb8 : public ksys::TaskRequest {

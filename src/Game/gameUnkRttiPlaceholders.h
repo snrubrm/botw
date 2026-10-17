@@ -937,7 +937,7 @@ public:
     ~Unk_71025046d0() override;
 
     // Not modelled yet (base data or this class's first fields).
-    u8 _8[0x68 - 0x8];
+    u8 _30[0x68 - 0x30];
     sead::CriticalSection mCS;
 };
 
@@ -948,8 +948,8 @@ class Unk_7102504850 : public Unk_71025046d0 {
     SEAD_RTTI_OVERRIDE(Unk_7102504850, Unk_71025046d0)
 public:
     ~Unk_7102504850() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual s32 m12() { return 20; }
@@ -995,8 +995,8 @@ class Unk_71025049d0 : public Unk_71025046d0 {
     SEAD_RTTI_OVERRIDE(Unk_71025049d0, Unk_71025046d0)
 public:
     ~Unk_71025049d0() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual s32 m12() { return 20; }
@@ -1559,7 +1559,7 @@ public:
     virtual void m7();
 
     // Not modelled yet (the base's data or this class's first fields).
-    u8 _8[0x38 - 0x8];
+    u8 _30[0x38 - 0x30];
     // Five buffers freed by the destructor (element types unknown; trivially destructible).
     sead::Buffer<u8> _38;
     sead::Buffer<u8> _48;
@@ -1573,8 +1573,8 @@ class Unk_710251bf80 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251bf80, Unk_710251bb98)
 public:
     ~Unk_710251bf80() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1609,8 +1609,8 @@ class Unk_710251c0b8 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c0b8, Unk_710251bb98)
 public:
     ~Unk_710251c0b8() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1645,8 +1645,8 @@ class Unk_710251c1f0 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c1f0, Unk_710251bb98)
 public:
     ~Unk_710251c1f0() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1681,8 +1681,8 @@ class Unk_710251c328 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c328, Unk_710251bb98)
 public:
     ~Unk_710251c328() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1717,8 +1717,8 @@ class Unk_710251c460 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c460, Unk_710251bb98)
 public:
     ~Unk_710251c460() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1753,8 +1753,8 @@ class Unk_710251c598 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c598, Unk_710251bb98)
 public:
     ~Unk_710251c598() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1789,8 +1789,8 @@ class Unk_710251c6d0 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c6d0, Unk_710251bb98)
 public:
     ~Unk_710251c6d0() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1825,8 +1825,8 @@ class Unk_710251c808 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c808, Unk_710251bb98)
 public:
     ~Unk_710251c808() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1861,8 +1861,8 @@ class Unk_710251c940 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251c940, Unk_710251bb98)
 public:
     ~Unk_710251c940() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1897,8 +1897,8 @@ class Unk_710251ca78 : public Unk_710251bb98 {
     SEAD_RTTI_OVERRIDE(Unk_710251ca78, Unk_710251bb98)
 public:
     ~Unk_710251ca78() override;
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -1993,10 +1993,10 @@ class Unk_710251cf40 : public Unk_710251d230 {
 public:
     ~Unk_710251cf40() override;
     virtual void m7() {}
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
 
-    u8 _8[0xd8 - 0x8];
+    u8 _30[0xd8 - 0x30];
     Unk_71011595fc _d8;
     Unk_71011595fc _2e0;
 };
@@ -2008,8 +2008,8 @@ class Unk_710251d160 : public Unk_710251d230 {
 public:
     ~Unk_710251d160() override;
     virtual void m7();
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -2312,8 +2312,8 @@ class Unk_710251d0e0 : public Unk_71026205b8 {
 public:
     ~Unk_710251d0e0() override;
     virtual void m7();
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
     virtual void m12();
@@ -2446,11 +2446,11 @@ class Unk_710251cfa0 : public Unk_71026205b8 {
 public:
     ~Unk_710251cfa0() override;
     virtual void m7();
-    virtual void m8();
-    virtual void m9();
+    s32 m8() override;
+    s32 m9() override;
     virtual void m10();
     virtual void m11();
-    void m5() override {}
+    void m5(agl::DrawContext*, u32) override {}
 };
 
 // vtable 0x710252e558 (5 slots); placeholder generated from the vtable (genskel.py).

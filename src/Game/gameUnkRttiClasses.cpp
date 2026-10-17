@@ -13,6 +13,7 @@
 #include "Game/Actor/aiUnk_71025b2d88.h"
 #include "Game/Actor/aiUnk_710070F974.h"
 #include <common/aglTextureSampler.h>
+#include <common/aglVertexAttribute.h>
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -297,7 +298,25 @@ Unk_710249a0e0::~Unk_710249a0e0() = default;
 
 Unk_710249a120::~Unk_710249a120() = default;
 
+// NON_MATCHING: the constructor groups its zero stores in a different order.
+Unk_710251d230::Unk_710251d230() = default;
 Unk_710251d230::~Unk_710251d230() = default;
+
+void Unk_710251d230::sub_71012EB478(u32 first_instance, u32 first_index) {
+    mFirstInstance = first_instance;
+    _20 = m8();
+    mFirstIndex = first_index;
+    mIndexCount = m9();
+    mFlags |= 0x40000000;
+}
+
+void Unk_710251d230::m4(agl::DrawContext* context) {
+    mAttribute->activate(context);
+}
+
+void Unk_710251d230::m5(agl::DrawContext* context, u32 instances) {
+    m6(context, 0, mIndexCount, instances, 0);
+}
 
 namespace ksys::tera {
 
