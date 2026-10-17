@@ -4,6 +4,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadPtrUtil.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
+#include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResource.h"
+#include "KingSystem/ActorSystem/LOD/actLODMgr.h"
+#include "KingSystem/ksysDebugInput.h"
 #include <cstring>
 #include <utility>
 
@@ -27,10 +31,15 @@ struct TeraManagerMaybe {
     void* _a8;
     // The image manager; 0x7100f406f4 tests byte 0x13d09 of it.
     void* _b0;
-    u8 _b8[0xc4 - 0xb8];
+    sead::Vector3f _b8;
     sead::Vector3f _c4;
     u8 _d0[0xf0 - 0xd0];
-    u8 _f0[0x100];
+    u8 _f0[0x1c0 - 0xf0];
+    // The terrain model resource: waitForTerrainModelReady waits on the handle and parses it with this
+    // context; deleteInstanceForNFPAwarenessAndKingEditor requests its unload.
+    res::Context _1c0;
+    u8 _1f0[0x260 - 0x1c0 - sizeof(res::Context)];
+    res::Handle _260;
 };
 
 TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
@@ -38,6 +47,24 @@ KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B184;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B188;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B190;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B198;
+
+void sub_7100F3DF74() {
+    if (sUnk_710260B220._14 != 0 && sUnk_710260B220._14 != 7)
+        return;
+    if (auto* mgr = act::LODMgr::instance())
+        mgr->requestDrawModels();
+    if (auto* input = DebugInput::instance())
+        input->update();
+}
+
+void updateInitialCameraPosMaybe(const sead::Vector3f* pos) {
+    sUnk_710260B220._b8 = *pos;
+}
+
+void waitForTerrainModelReady() {
+    sUnk_710260B220._260.waitForReady();
+    sUnk_710260B220._260.parseResource(&sUnk_710260B220._1c0);
+}
 
 // Placeholder: a two-word physics record.
 struct Unk_7100F418C8Maybe {

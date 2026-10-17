@@ -3,6 +3,7 @@
 #include <heap/seadHeap.h>
 #include <gfx/seadCamera.h>
 #include "KingSystem/Camera/CameraMgr.h"
+#include <gsys/gsysModel.h>
 
 namespace ksys::act {
 
@@ -44,6 +45,14 @@ void LODMgr::sub_7101251B08(sead::Vector3f* pos) {
     dir.normalize();
     *pos = camera->getPos();
     *pos += dir * 5.0f;
+}
+
+void LODMgr::requestDrawModels() {
+    const s32 count = _1838.size();
+    if (count < 1)
+        return;
+    for (s32 i = 0; i <= count - 1; ++i)
+        _1838[i]->requestDraw();
 }
 
 }  // namespace ksys::act

@@ -7,6 +7,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace gsys {
+class Model;
+}
+
 namespace ksys::act {
 
 class LodState;
@@ -41,12 +45,14 @@ public:
     void initBeforeStageGenB();
     // 0x7101251b08 (CSV LODMgr::__auto3): `pos` + 5 along the look direction of the look-at camera.
     void sub_7101251B08(sead::Vector3f* pos);
+    // 0x7101254328 (CSV name): requests a draw for every model in _1838.
+    void requestDrawModels();
 
     /* 0x028 */ u8 _28[0x1028 - 0x28];
     /* 0x1028 */ s32 _1028;
     /* 0x102c */ u8 _102c[0x1830 - 0x102c];
     /* 0x1830 */ s32 _1830;
-    /* 0x1838 */ sead::PtrArray<LodState> _1838;
+    /* 0x1838 */ sead::PtrArray<gsys::Model> _1838;
     /* 0x1848 */ u8 _1848[0x1878 - 0x1848];
     /* 0x1878 */ s32 _1878;
     /* 0x187c */ u8 _187c[0x1c80 - 0x187c];
