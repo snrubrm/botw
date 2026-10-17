@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -16,6 +17,30 @@ namespace ksys::act {
 uking::act::Weapon* PlayerOrEnemy::getWeaponActor(s32 idx) {
     auto* proc = getWeapons()->mWeapons[idx].link.getProc(nullptr, nullptr);
     return sead::DynamicCast<uking::act::Weapon>(sead::DynamicCast<WeaponBase>(proc));
+}
+
+// NON_MATCHING: the original builds the empty profile string only in the else branch and keeps the
+// equipped-weapon slot in a callee-saved register; ours schedules both differently.
+void PlayerOrEnemy::m116() {
+    auto* as_list = mASList;
+    auto* weapon =
+        sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(0));
+
+    sead::SafeString empty("");
+    const sead::SafeString* profile = &empty;
+    if (weapon && getWeapons()->mWeapons[0]._10 == false)
+        profile = &weapon->getProfile();
+    as_list->goLimpFromHeadShotMaybe(0x2c, *profile, 0);
+
+    const s32 idx = sub_71005DB96C(this);
+    bool has_weapon;
+    if (idx < 0) {
+        has_weapon = false;
+    } else {
+        const s32 i = idx < 6 ? idx : 0;
+        has_weapon = getWeapons()->mWeapons[i]._10 == false;
+    }
+    as_list->x_2(0x42, 0x1e, has_weapon, 0);
 }
 
 bool PlayerOrEnemy::hasNoWeaponActors() {
