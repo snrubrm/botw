@@ -19739,7 +19739,7 @@ Address,Quality,Size,Name
 0x00000071002dee34,U,000348,
 0x00000071002def90,U,000080,
 0x00000071002defe0,U,000088,
-0x00000071002df038,U,000068,Weapon::construct
+0x00000071002df038,O,000068,_ZN5uking3act6Weapon9constructERKN4ksys3act8BaseProc9CreateArgEPN4sead4HeapE
 0x00000071002df07c,m,000040,_ZN5uking3act18WeaponModifierInfoC1ERKNS_2ui9PouchItemE
 0x00000071002df0a4,m,000044,_ZN5uking3act18WeaponModifierInfo8fromItemERKNS_2ui9PouchItemE
 0x00000071002df0d0,O,000032,_ZNK5uking3act18WeaponModifierInfo10getAddLifeEv

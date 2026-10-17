@@ -1965,6 +1965,10 @@ namespace uking::act {
 
 // NON_MATCHING: the original branches on the damage info flag before the call (we compile the negation to
 // eor) and keeps the contact layer in a stack slot (m: codegen only).
+ksys::act::BaseProc* Weapon::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Weapon(arg);
+}
+
 void Weapon::doAttackMaybe() {
     if (auto* chemical = getChemicalStuff())
         chemical->sub_7100D90E40(!DamageInfoMgr::sub_710067477C());

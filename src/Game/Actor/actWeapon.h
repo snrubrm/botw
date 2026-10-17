@@ -260,6 +260,10 @@ KSYS_CHECK_SIZE_NX150(Unk_71002edaec, 0x2c);
 class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
+    // 0x71002e04ac (CSV Weapon::ctor; declared only).
+    explicit Weapon(const CreateArg& arg);
+    // 0x71002df038 (CSV factory): a new 0x1038-byte weapon on `heap`; the same form as Sandworm::construct.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     void sub_71002EE8B0();
     // 0x71002e36b0 (CSV name): turns the chemical's attack flag off while the damage info says so and runs the
     // attack helpers of the main body (unless the body is on the no-hit sensor layer).
@@ -567,6 +571,7 @@ public:
     /* 0x1014 */ u8 _1014;
     /* 0x1018 */ sead::Color4f _1018;  // colour last passed to sub_71002E9AC8
     /* 0x1028 */ f32 _1028;            // value last passed to sub_71002E9E04
+    /* 0x102c */ u8 _102c[0xc];         // TODO: size from the 0x1038-byte allocation in construct
 };
 
 }  // namespace uking::act
