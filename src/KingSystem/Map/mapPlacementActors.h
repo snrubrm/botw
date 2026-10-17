@@ -218,6 +218,8 @@ public:
     void deleteActorData(ActorData* data);
     // 0x7100d52708 (placeholder name): releases the effect model data and the effect entry of `data`.
     void releaseEffectModel(ActorData* data);
+    // 0x7100d52500: deletes the actor data entries in order for at most 10 ms per call.
+    bool removeInnerData2();
     // 0x0000007100d53d18
     void initActorDataEntry(ActorData* data, const char* name);
 

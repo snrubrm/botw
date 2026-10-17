@@ -89,6 +89,30 @@ int PlacementActors::getNumGroups() const {
     return mObjs->mGroups.size();
 }
 
+// NON_MATCHING: the original stores -1 to _e8 before materialising the false return value; clang
+// emits the two instructions in the opposite order.
+bool PlacementActors::removeInnerData2() {
+    sead::TickTime start;
+
+    if (s32(_e8) < 0) {
+        if (mObjs)
+            mObjs->freeObjects();
+        sead::MemUtil::fillZero(_f8, sizeof(_f8));
+        return true;
+    }
+
+    for (;;) {
+        deleteActorData(&mActorData[_e8]);
+        ++_e8;
+        if (_e8 == 6000) {
+            _e8 = u32(-1);
+            return false;
+        }
+        if (start.diffToNow().toMilliSeconds() > 9)
+            return false;
+    }
+}
+
 void PlacementActors::releaseEffectModel(ActorData* data) {
     if (data->mEffectModelData) {
         eft::Effect::instance()->getModelMgr().requestDeleteModel(nullptr, data->mEffectModelData);
