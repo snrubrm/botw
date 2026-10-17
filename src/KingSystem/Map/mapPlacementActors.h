@@ -191,6 +191,12 @@ public:
     void sub_7100D58028(ActorData* data);
     // 0x7100d52ca4 (declared; unnamed in the CSV): adds `obj` to the first free slot of `_f8` (the list x_9 handles).
     void sub_7100D52CA4(Object* obj);
+    // 0x7100d52910 (CSV spawnActor; placeholder parameter names): creates the actor of `obj` and registers
+    // its base proc; returns whether it was created.
+    bool spawnActor(Object* obj);
+    // 0x7100d527d8 (CSV PlacementMgrInvoked3_doSpawn): the placement manager's spawn delegate. Clears or sets
+    // the object's spawn flag, then spawns the actor (or its generation group when asked).
+    bool doSpawn(Object* obj, bool set_flag, bool use_gen_group);
     // 0x0000007100d53788 (CSV name; declared only): spawns the actor of `obj` for the generation group `other`
     // belongs to (parameter names are guesses).
     bool spawnGenGroupActor(Object* obj, Object* other);

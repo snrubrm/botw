@@ -15,6 +15,32 @@
 
 namespace ksys::map {
 
+bool PlacementActors::doSpawn(Object* obj, bool set_flag, bool use_gen_group) {
+    const ActorData& data = mActorData[obj->mActorDataIdx];
+    const char* profile;
+    if (!ksys::act::InfoData::instance()->getActorProfile(&profile, data.mActorName.cstr()))
+        return false;
+    if (!data.mFlags.isOnBit(ActorData::Flag::_16) && !obj->isEnemyOrNpcOrActiveOrMapPassive())
+        return false;
+
+    if (set_flag)
+        obj->mFlags0.set(Object::Flag0::_2000);
+    else
+        obj->mFlags0.reset(Object::Flag0::_2000);
+
+    if (!use_gen_group)
+        return spawnActor(obj);
+
+    if (!obj->mLinkData || !obj->mLinkData->mGenGroup)
+        spawnActor(obj);
+    else
+        obj->spawnGenGroupActorsIfNeeded(obj);
+
+    if ((obj->mFlags0.getDirect() & 6) == 0)
+        return false;
+    return (obj->mFlags0.getDirect() & 0x80) == 0;
+}
+
 // The static SafeString the LinkTagNone comparisons use (0x71024db4b0 in the original, right before the
 // PlacementActors vtable; the original symbol name is stripped).
 static const sead::SafeString sLinkTagNone("LinkTagNone");
