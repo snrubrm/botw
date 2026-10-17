@@ -60,9 +60,13 @@ public:
         void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
                             u64 material, u64 flag);
 
-        u8 _0[0x110];
+        u8 _0[0x101];
+        // Player::m377 writes 0/1 for Armor_Default_Lower; ec313c selects naked footsteps.
+        bool mIsPlayerBarefoot;
+        u8 _102[0x110 - 0x102];
         /* 0x110 */ s32 _110;
     };
+    static_assert(offsetof(Unk1, mIsPlayerBarefoot) == 0x101);
 
     static Reaction* instance() { return sInstance; }
     // 0x7100ec10b8 (CSV __auto6): passes `request` on to the reaction targets when the instance's

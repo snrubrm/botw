@@ -1,5 +1,8 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
 #include <aal/aalSystemAccessor.h>
@@ -120,6 +123,90 @@ bool Unk_710105abc0::sub_710105B090() {
                            SoundMgr::instance()->_30->_60.getTarget())
         return false;
     return true;
+}
+
+Unk_SoundMgr60_828::Unk_SoundMgr60_828() = default;
+Unk_SoundMgr60_828::~Unk_SoundMgr60_828() = default;
+
+// NON_MATCHING: path string construction and asset-name loads are scheduled differently.
+bool Unk_SoundMgr60_828::StreamPathResolver::sub_7100BA1AEC(sead::BufferedSafeString* path,
+                                                         aal::AssetInfo* info) {
+    if (!path || !info)
+        return false;
+    if (!aoc::Manager::instance())
+        return true;
+    sead::FixedSafeString<128> root("aoc:/");
+    path->format("%s/Sound/Resource/Stream/%s%s", root.cstr(), info->getAssetName(), ".bfstm");
+    return true;
+}
+
+// NON_MATCHING: list search and new-entry initialization use different register schedules.
+void Unk_SoundMgr60_828::sub_710105C3D0(const sead::SafeString& name, res::Handle* pack) {
+    for (auto& entry : mEntries) {
+        if (entry.mName == name) {
+            entry._a0 = false;
+            return;
+        }
+    }
+    auto* entry = mEntries.emplaceBack();
+    entry->mName.copy(name);
+    sead::FixedSafeString<64> path;
+    path.format("M_%s.bars", name.cstr());
+    SoundMgr::instance()->_60->requestLoadBars(&entry->mHandle, path, false, false, 0, pack);
+}
+
+// NON_MATCHING: list and resource-cast branches use different schedules.
+bool Unk_SoundMgr60_828::sub_710105C70C(const sead::SafeString& name) {
+    for (auto& entry : mEntries) {
+        if (entry.mName != name)
+            continue;
+        if (entry.mHandle.isReady())
+            return true;
+        if (!entry.mHandle.isReadyOrNeedsParse() || !entry.mHandle.parseResource(nullptr))
+            return false;
+        auto* bars = sead::DynamicCast<Unk_7102502978>(entry.mHandle.getResource());
+        if (entry.mHandle.isSuccess() && bars) {
+            sead::FixedSafeString<64> path;
+            path.format("M_%s.bars", entry.mName.cstr());
+            bars->sub_7101057588(path);
+        }
+        return true;
+    }
+    return true;
+}
+
+// NON_MATCHING: sound handle stores and the final list-search branch are scheduled differently.
+void Unk_SoundMgr60_828::sub_710105CD4C(const sead::SafeString& name, aal::Handle handle) {
+    for (auto& entry : mEntries) {
+        if (entry.mName == name) {
+            entry.mSoundHandle = handle;
+            return;
+        }
+    }
+}
+
+// NON_MATCHING: soundtrack format selection and list-search branches differ.
+bool Unk_SoundMgr60_828::sub_710105CA84(aal::AssetInfo* info, const sead::SafeString& name,
+                                      bool use_barefoot) {
+    for (auto& entry : mEntries) {
+        if (entry.mName != name)
+            continue;
+        if (!entry.mHandle.isSuccess())
+            return false;
+        auto* bars = sead::DynamicCast<Unk_7102502978>(entry.mHandle.getResource());
+        if (!bars)
+            return false;
+        sead::FixedSafeString<128> asset;
+        const bool barefoot = use_barefoot && act::Reaction::instance()->_a8 &&
+                              act::Reaction::instance()->_a8->mIsPlayerBarefoot;
+        asset.format(barefoot ? "%s_SoundTrack_bf" : "%s_SoundTrack", entry.mName.cstr());
+        if (!aal::Emitter::searchAssetInfo(info, bars, asset, false))
+            return false;
+        if (name.startsWith("Demo6"))
+            info->_18 = &mStreamPathResolver;
+        return true;
+    }
+    return false;
 }
 
 // NON_MATCHING: the original walks the list by entry pointers (node - 0xa8) and null-checks the result.

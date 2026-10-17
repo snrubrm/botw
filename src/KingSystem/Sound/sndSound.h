@@ -985,24 +985,37 @@ static_assert(sizeof(ListenerPoser) == 0xe0);
 // Placeholder (the member at Unk_SoundMgr60 +0x828, built by the ResourceManager constructor 0x7101057c4c):
 // a list of named sound resources (0x710105c3d0 adds entries; 0x710105c70c / ca84 / cd4c walk the list).
 struct Unk_SoundMgr60_828 {
+    Unk_SoundMgr60_828();
+    virtual ~Unk_SoundMgr60_828();
+
     struct Entry {
         sead::FixedSafeString<40> mName;
         res::Handle mHandle;
         aal::Handle mSoundHandle;
-        bool _a0;
-        nn::util::IntrusiveListNode mNode;
+        bool _a0 = false;
     };
-    KSYS_CHECK_SIZE_NX150(Entry, 0xb8);
+    KSYS_CHECK_SIZE_NX150(Entry, 0xa8);
+
+    class StreamPathResolver : public aal::Unk_7100BA1AEC {
+    public:
+        bool sub_7100BA1AEC(sead::BufferedSafeString* path, aal::AssetInfo* info) override;
+    };
 
     // 0x710105c96c (placeholder name): sets _a0 of the entry named `name`.
     void sub_710105C96C(const sead::SafeString& name);
     // 0x710105c3d0 (declared only; 828 B): adds an entry for `name` and loads "M_<name>.bars" (`pack` is passed
     // through to ResourceManager::loadBars).
     void sub_710105C3D0(const sead::SafeString& name, res::Handle* pack);
+    bool sub_710105C70C(const sead::SafeString& name);
+    bool sub_710105CA84(aal::AssetInfo* info, const sead::SafeString& name, bool use_barefoot);
+    void sub_710105CD4C(const sead::SafeString& name, aal::Handle handle);
 
-    u8 _0[0x8];
-    nn::util::IntrusiveList<Entry, nn::util::IntrusiveListMemberNodeTraits<Entry, &Entry::mNode>> mEntries;
+    // The constructor links 16 free slots of 0xb8 bytes at +0x34. Each slot
+    // contains the 0xa8-byte entry and the ObjList node at its end.
+    sead::FixedObjList<Entry, 16> mEntries;
+    StreamPathResolver mStreamPathResolver;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr60_828, 0xbc0);
 
 struct Unk_SoundMgr60 {
     // ResourceBars construction/destruction notifications (empty in the release build).
@@ -1014,6 +1027,9 @@ struct Unk_SoundMgr60 {
     // which is also the type of EventXlinkInfo::_a0.
     bool loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool a4, bool a5,
                   res::Handle* pack);
+    // 0x7101058d8c: requests a bars handle, optionally from a pack or the audio arena.
+    bool requestLoadBars(res::Handle* handle, const sead::SafeString& name, bool use_audio_arena,
+                         bool lane2, u32 buffer_size, res::Handle* pack);
     // 0x7101058734 (declared only; 248 B): loads the asset info of `name` into `reader`.
     void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
     // 0x710105844c: loads "Sound/Resource/<name>" into `handle` (on the audio arena when `use_audio_arena`, lane 2

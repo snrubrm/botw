@@ -53,6 +53,27 @@ void Unk_SoundMgr60::sub_7101059354(Unk_7102502950* reader) {
     delete reader;
 }
 
+// NON_MATCHING: the requester temporary uses a different stack slot.
+bool Unk_SoundMgr60::requestLoadBars(res::Handle* handle, const sead::SafeString& name,
+                                    bool use_audio_arena, bool lane2, u32 buffer_size,
+                                    res::Handle* pack) {
+    sead::FixedSafeString<128> path;
+    path.format("%s%s", sResourceDirectory.cstr(), name.cstr());
+    res::LoadRequest request;
+    request.mRequester = "Sound";
+    request.mLoadDataAlignment = 0x80;
+    request._22 = true;
+    request.mBufferSize = buffer_size;
+    request.mArena = use_audio_arena ? OverlayArenaSystem::instance()->getAudioArena() : mArena;
+    if (buffer_size != 0)
+        request._27 = false;
+    if (lane2)
+        request.mLaneId = 2;
+    if (pack)
+        request.mPackHandle = pack;
+    return handle->requestLoad(path, &request, nullptr);
+}
+
 sead::DirectResource* Unk_SoundMgr60::tryLoadResource(const sead::SafeString& path, sead::Heap* heap,
                                                       s32 alignment) {
     sead::DirectResource* resource = nullptr;
