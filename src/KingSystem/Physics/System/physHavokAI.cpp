@@ -218,3 +218,26 @@ sead::DirectResource* Unk_71024f6f70::newResource_(sead::Heap* heap_, s32 alignm
     sead::ScopedCurrentHeapSetter setter{heap};
     return new (heap, alignment, std::nothrow_t{}) ksys::phys::Unk_7102519b90;
 }
+
+// Placeholder: the objects whose +0x60 / +0xc0 / +0x48 / +0x9c fields the helpers below read.
+struct Unk_7100F7C274Maybe {
+    u8 _0[0x60];
+    void* _60;
+    u8 _68[0x9c - 0x68];
+    u8 _9c;
+    u8 _9d[0xc0 - 0x9d];
+    u32 _c0;
+    u8 _c4[0x48];
+};
+
+bool sub_7100F7C274(const Unk_7100F7C274Maybe* obj) {
+    return obj->_60 != nullptr;
+}
+
+u32 sub_7100F7C5E0(const Unk_7100F7C274Maybe* obj) {
+    return obj->_c0;
+}
+
+u32 sub_7100F8C540(const Unk_7100F7C274Maybe* obj) {
+    return obj->_9c;
+}

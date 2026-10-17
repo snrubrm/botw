@@ -76,3 +76,13 @@ bool ModelCreator::sub_7100F4C9FC(const char** out, const s32& index, const Arg&
 }
 
 }  // namespace ksys::mii
+
+// 0x7100f5a390 (CSV getModelUMiiHyliaFaceEditBfresPath; placeholder signature): the Hylia face edit model path.
+const char* getModelUMiiHyliaFaceEditBfresPath() {
+    return "Model/UMii_Hylia_Face_Edit.Tex.bfres";
+}
+
+// 0x7100f5a384 (placeholder name): the Hylia face model path.
+const char* getModelUMiiHyliaFaceBfresPath() {
+    return "Model/UMii_Hylia_Face.Tex.bfres";
+}

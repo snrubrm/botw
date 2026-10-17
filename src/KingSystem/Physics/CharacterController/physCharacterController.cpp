@@ -1293,3 +1293,46 @@ void CharacterController::sub_7100F6321C(bool on) {
 }
 
 }  // namespace ksys::phys
+
+// Placeholder: the record whose fields 0xb4 / 0xd3 / 0xd8 / 0xdc / 0x758 the helpers below use.
+struct Unk_7100F6B7F4Maybe {
+    u8 _0[0xb4];
+    f32 _b4;
+    u8 _b8[0xd3 - 0xb8];
+    u8 _d3;
+    u8 _d4[4];
+    f32 _d8;
+    u32 _dc;
+    u8 _e0[0x758 - 0xe0];
+    s32 _758;
+};
+
+void sub_7100F6B7F4(Unk_7100F6B7F4Maybe* obj, f32 value) {
+    obj->_d8 = value;
+}
+
+f32 sub_7100F6B7FC(const Unk_7100F6B7F4Maybe* obj) {
+    return obj->_d8;
+}
+
+f32 sub_7100F6B820(const Unk_7100F6B7F4Maybe* obj) {
+    return obj->_b4;
+}
+
+void sub_7100F6B828(Unk_7100F6B7F4Maybe* obj, u32 bit) {
+    obj->_d3 = 1 << bit;
+}
+
+u32 sub_7100F6B838(const Unk_7100F6B7F4Maybe* obj) {
+    return obj->_d3 >> 1;
+}
+
+void* sub_7100F6B8E8(const Unk_7100F6B7F4Maybe* obj, u32* out) {
+    *out = obj->_dc;
+    return nullptr;
+}
+
+s32 sub_7100F5B5A8(const Unk_7100F6B7F4Maybe* obj) {
+    const s32 value = obj->_758;
+    return value < 7 ? value : 0;
+}

@@ -162,3 +162,21 @@ void NavMeshLoadMgr::x_2() {
 // NON_MATCHING: placeholder destructor; the original (0x7100f8bba8) also destroys members or bases
 // this class does not declare yet.
 Unk_71024f7180::~Unk_71024f7180() = default;
+
+// Placeholder: a load record with a state word at 0x48.
+struct Unk_7100F894D0Maybe {
+    u8 _0[0x48];
+    s32 _48;
+};
+
+s32 sub_7100F894D0(const Unk_7100F894D0Maybe* obj) {
+    return obj->_48;
+}
+
+void sub_7100F894D8(Unk_7100F894D0Maybe* obj) {
+    obj->_48 = 0;
+}
+
+bool sub_7100F89504(const Unk_7100F894D0Maybe* obj) {
+    return obj->_48 > 7;
+}
