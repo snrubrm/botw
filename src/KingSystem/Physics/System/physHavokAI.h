@@ -114,11 +114,14 @@ public:
 // (0x28 bytes, _8 zero, _c = the copied position, _24 = 0x17).
 class Unk_710239b220 : public NavMeshQuery {
 public:
+    // 0x71001a2f2c: resolves the position and records its material.
+    void process(HavokAI* ai) override;
     /* 0x0a */ u8 _a[2];
-    /* 0x0c */ sead::Vector3f _c;
-    /* 0x18 */ u64 _18;
-    /* 0x20 */ u32 _20;
-    /* 0x24 */ u32 _24;
+    /* 0x0c */ sead::Vector3f _c{0, 0, 0};
+    /* 0x18 */ u32 _18 = 0;
+    /* 0x1c */ f32 _1c = 0;
+    /* 0x20 */ f32 _20 = 0;
+    /* 0x24 */ u32 _24 = 0x17;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710239b220, 0x28);
 
@@ -150,9 +153,12 @@ public:
     // 0x7100f809e4
     void process(HavokAI* ai) override;
 
-    /* 0x20 */ sead::Vector3f mPos;
-    /* 0x2c */ f32 mRadius;
-    /* 0x30 */ bool _30;
+    // Repeated in the HorseMoveToSafePos and HorseSwimAction query constructors.
+    /* 0x20 */ sead::Vector3f mPos{std::numeric_limits<f32>::quiet_NaN(),
+                                  std::numeric_limits<f32>::quiet_NaN(),
+                                  std::numeric_limits<f32>::quiet_NaN()};
+    /* 0x2c */ f32 mRadius = 0;
+    /* 0x30 */ bool _30 = false;
 };
 
 // Name from the CSV (NavMeshLoadMgr::a 0x7100f8a3b8 ... 0x7100f8bf64; lane1 s26: placeholder, only what callers use is declared;
@@ -492,6 +498,9 @@ public:
     // 0x7100f88fd0 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F760F0 forwards here.
     Unk_7100f7e9f0 sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
                                     f32 value);
+
+    // 0x7100f891c8: resolves a spawn position for the character type and returns its material.
+    s32 sub_7100F891C8(sead::Vector3f* pos, s32 type, f32 radius, f32 search_radius);
 
     // 0x7100f87594 (unnamed in the CSV; declaration only): NavMeshCharacter::sub_7100F76168 / sub_7100F761C8 forward here
     // (`pos` may be null; `radius` is the character's `_2a8 * _2ac`).
