@@ -230,11 +230,11 @@ void ScreenAppMap::demoLeave() {
 void ScreenAppMap::m83() {
     sub_71009EACC0(0);
     getStateMachine().changeState(&sUnk_71025df180);
-    if (_3638) {
+    if (_3628[2]) {
         if (wm::isFindDungeonActivated())
-            _3638->StopAtMin();
+            _3628[2]->StopAtMin();
         else
-            _3638->StopAtMax();
+            _3628[2]->StopAtMax();
     }
     if (_3c88) {
         if (wm::sub_7100A9D800())

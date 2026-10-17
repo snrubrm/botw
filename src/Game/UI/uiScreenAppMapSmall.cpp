@@ -300,11 +300,11 @@ void ScreenAppMap::sub_71009EB0E0() {
     if (subsys->is38b8And38b9Clear()) {
         UiSubsys1::instance()->clear38c8();
         UiSubsys1::instance()->set6e4(1);
-        _3630->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+        _3628[1]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
     } else if (UiSubsys1::instance()->sub_7100966E64()) {
         UiSubsys1::instance()->set38c8();
         UiSubsys1::instance()->set6e4(0);
-        _3630->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        _3628[1]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
     }
 }
 
@@ -383,6 +383,23 @@ void ScreenAppMap::sub_71009ED4E4(s32 mode) {
     }
 }
 
+// 0x71009ed97c
+void ScreenAppMap::sub_71009ED97C() {
+    const s32 mode = UiSubsys1::instance()->get38fc();
+    if (mode == -1)
+        return;
+    const s32 index = u32(mode + 3) < 0xb ? mode + 3 : 0;
+    _3628[index]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    if (mode != 0)
+        _3628[3]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != 1)
+        _3628[4]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != 2)
+        _3628[5]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    if (mode != 3)
+        _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
 // 0x71009f1dbc
 void ScreenAppMap::sub_71009F1DBC() {
     if (_3c68) {
@@ -412,9 +429,9 @@ void ScreenAppMap::sub_71009F1CA4(eui::LayoutEx* layout) {
     const s32 found = _3610->sub_71009AEF7C();
     if (wm::isFindDungeonActivated()) {
         if (!found)
-            _3638->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+            _3628[2]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
     } else if (!found) {
-        _3638->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+        _3628[2]->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
     }
     if (_3c65 || _3c64) {
         sead::FixedSafeString<128> text;

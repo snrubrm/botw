@@ -2440,6 +2440,8 @@ public:
     void sub_71009F1828(Unk_710247d8f8* child);
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
+    // 0x71009ed97c (CSV unnamed): plays the map-mode animators around the current mode
+    void sub_71009ED97C();
     // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)
     void sub_71009F0BE4();
     void sub_71009F2430();
@@ -2495,10 +2497,10 @@ public:
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
     /* 0x3618 */ Unk_710247d8f8* _3618;
-    u8 _3620[0x3630 - 0x3620];
-    /* 0x3630 */ eui::Animator* _3630;
-    /* 0x3638 */ eui::Animator* _3638;
-    u8 _3640[0x3778 - 0x3640];
+    u8 _3620[0x3628 - 0x3620];
+    // Map-mode animators: [3] .. [6] are the four mode transitions.
+    /* 0x3628 */ eui::Animator* _3628[11];
+    u8 _3680[0x3778 - 0x3680];
     /* 0x3778 */ agl::RenderBuffer _3778;
     u8 _3778pad[0x37e0 - 0x3778 - sizeof(agl::RenderBuffer)];
     /* 0x37e0 */ agl::TextureData _37e0;
