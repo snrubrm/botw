@@ -1,5 +1,9 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreenChildStates.h"
@@ -117,5 +121,68 @@ void ScreenPauseMenuInfo::sub_7100A2EFFC() {
     }
 }
 
+
+}  // namespace uking::ui
+
+namespace uking::ui {
+
+// Native parameter object 21 is Player; its EnergyTiredValue payload is at +0x1d0.
+static_assert(offsetof(ksys::res::GParamListObjectPlayer, mEnergyTiredValue) == 0x1b8);
+
+// 0x7100a31998
+// NON_MATCHING: flag-update branches and saved registers differ.
+void ScreenPauseMenuInfo::sub_7100A31998(f32 time, s32 effect, s32 level) {
+    if (_3610) {
+        if (_3610->sub_710094BE40()) {
+            _3618.sub_7100936254(getAnimationStep_(), false);
+            _3618.sub_71009368EC(getAnimationStep_());
+        }
+        _3610->sub_710094BD54();
+    }
+    if (_3904) {
+        _36e0.sub_71009457B4(_38f0);
+        _3810.sub_71009457B4(_38f8);
+        _3900 &= 0xf3;
+        _3904 = 0;
+        sub_7100A2DC30(_38f4);
+        sub_7100A2DCD8(_38fc);
+    }
+    if (!(_38f4 <= 0.01f && _38f4 >= -0.01f &&
+          _38fc <= 0.01f && _38fc >= -0.01f)) {
+        if (_38f4 > 0.0f)
+            _3900 |= 4;
+        else
+            _3900 &= ~4;
+        if (_38fc > 0.0f)
+            _3900 |= 8;
+        else
+            _3900 &= ~8;
+        _38f0 += _38f4;
+        _38f8 += _38fc;
+        _38f4 = 0.0f;
+        _38fc = 0.0f;
+        _3904 = 1;
+        _36e0.sub_71009468E0(0.0f);
+        _3810.sub_71009468E0(0.0f);
+        _3900 &= ~1;
+        bool below_tired = false;
+        if (_3900 & 2) {
+            if (auto* player = getPlayerActor(nullptr)) {
+                const auto* param = player->getParam()->getRes().mGParamList->getPlayer();
+                below_tired = _38f0 + _38f4 + _38f8 + _38fc < *param->mEnergyTiredValue;
+            }
+        }
+        if (below_tired)
+            _3900 |= 2;
+        else
+            _3900 &= ~2;
+    }
+    if (effect != -1) {
+        _3910 = effect;
+        _3914 = level;
+        _3918 = time;
+        _391c = 1;
+    }
+}
 
 }  // namespace uking::ui

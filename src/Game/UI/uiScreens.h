@@ -921,6 +921,7 @@ public:
     void sub_7100A30DF0(bool a2);
     // 0x7100a2effc: updates gauge deltas and the deferred effect display
     void sub_7100A2EFFC();
+    void sub_7100A31998(f32 time, s32 effect, s32 level);
     void sub_7100A2FEDC();
     void sub_7100A2E844();
     // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
