@@ -76132,10 +76132,10 @@ Address,Quality,Size,Name
 0x0000007100db8ce8,U,001348,evt::Context::ctor
 0x0000007100db922c,M,000420,_ZN4ksys3evt7ContextD2Ev
 0x0000007100db93d0,O,000036,_ZN4ksys3evt7ContextD0Ev
-0x0000007100db93f4,U,000268,evt::Context::loadChildrenEvents
+0x0000007100db93f4,O,000268,_ZN4ksys3evt7Context18loadChildrenEventsEv
 0x0000007100db9500,U,001600,evt::Context::calc
 0x0000007100db9b40,O,000092,_ZN4ksys3evt7Context1xEb
-0x0000007100db9b9c,U,000544,evt::Context::x_3
+0x0000007100db9b9c,O,000544,_ZNK4ksys3evt7Context3x_3ERKN4sead14SafeStringBaseIcEES6_
 0x0000007100db9dbc,O,000056,_ZN4ksys3evt7Context18updateEventsStatusEv
 0x0000007100db9df4,O,000056,_ZN4ksys3evt7Context8setFlag4Ev
 0x0000007100db9e2c,O,000012,_ZN4ksys3evt7Context20setActorBeingDeletedEv

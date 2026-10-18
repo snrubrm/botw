@@ -26,6 +26,9 @@ class Context {
 public:
     virtual ~Context();
 
+    void loadChildrenEvents();
+    s32 x_3(const sead::SafeString& event_name, const sead::SafeString& entry_point) const;
+
     // 0x7100db9e2c (CSV evt::Context::setActorBeingDeleted)
     void setActorBeingDeleted();
     // 0x7100db9df4 (CSV evt::Context::setFlag4)

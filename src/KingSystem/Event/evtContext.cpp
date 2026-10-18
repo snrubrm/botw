@@ -32,6 +32,35 @@ Context::~Context() {
     Manager::instance()->sub_7100DB3750();
 }
 
+// 0x7100db93f4
+void Context::loadChildrenEvents() {
+    if (!mChildFlows.isBufferReady())
+        return;
+    for (s32 i = 0; i < mChildFlows.size(); ++i) {
+        auto& child = mChildFlows[i];
+        if (child.flow)
+            continue;
+        if (i + 1 == mFlowStack[mStackTop]) {
+            child._8 = true;
+        } else if (!child._8) {
+            auto* flow = mFlows.at(i + 1);
+            if (!flow->hasFlag(EventFlowBase::Flag::_80000000000))
+                child.flow = Manager::instance()->getEventFlowMgr()->loadSimple(
+                        flow->mEventName, flow->mEntryPointName);
+        }
+    }
+}
+
+// 0x7100db9b9c
+s32 Context::x_3(const sead::SafeString& event_name, const sead::SafeString& entry_point) const {
+    for (s32 i = 0; i < mFlows.size(); ++i) {
+        if (mFlows.at(i)->mEventName == event_name &&
+            mFlows.at(i)->mEntryPointName == entry_point)
+            return i;
+    }
+    return -1;
+}
+
 // 0x7100db9e2c
 void Context::setActorBeingDeleted() {
     mActorBeingDeleted = true;
