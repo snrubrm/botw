@@ -5,6 +5,13 @@
 
 namespace ksys::gfx {
 
+// Shared light threshold read through the manager getter 0x7100f143fc.
+static f32 sUnk_71024F3CC8 = 0.007f;
+
+f32 LocationalLightMgr::sub_7100F143FC() const {
+    return sUnk_71024F3CC8;
+}
+
 void LocationalLightMgr::RigLightPool::init(s32 capacity, sead::Heap* heap) {
     mLights.tryAllocBuffer(capacity, heap, 8);
     mFreeLights.allocBuffer(capacity, heap, 8);

@@ -542,6 +542,34 @@ sead::Vector3f SkyMgr::sub_71010E4EE0() const {
     return dir * *mSunMoonDispDist + pos;
 }
 
+// NON_MATCHING: clamp results and vector components are stored in a different order from the
+// original.
+void SkyMgr::sub_71010E4CE8() {
+    const f32 time = Manager::instance()->getTimeMgr()->getTimeForSkyEnv();
+    const f32 hour = time / 360.0f * 24.0f;
+
+    sead::Vector3f value;
+    if (hour >= 5.5f && hour < 19.5f) {
+        const f32 a = sead::Mathf::clamp((12.5f - hour) / 7.0f, 0.0f, 1.0f);
+        const f32 b = sead::Mathf::clamp((hour - 12.5f) / 7.0f, 0.0f, 1.0f);
+        value.x = a;
+        value.z = b;
+        value.y = 1.0f - (a + b);
+    } else if (hour >= 2.0f && hour < 3.085f) {
+        value.set(0.0f, 0.0f, 1.0f);
+    } else if (hour >= 3.085f && hour < 22.085f) {
+        value.set(1.0f, 0.0f, 0.0f);
+    } else {
+        const f32 h = hour < 19.5f ? hour + 24.0f : hour;
+        const f32 a = sead::Mathf::clamp((24.0425f - h) / 1.9575005f, 0.0f, 1.0f);
+        const f32 b = sead::Mathf::clamp((h - 24.0425f) / 1.9575005f, 0.0f, 1.0f);
+        value.x = a;
+        value.z = b;
+        value.y = 1.0f - (a + b);
+    }
+    Graphics::instance()->sub_7100F3592C(value);
+}
+
 void SkyMgr::sub_71010E4FFC() {
     auto* mgr = Manager::instance();
     f32 target = 1.0f;

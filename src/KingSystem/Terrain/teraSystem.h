@@ -211,6 +211,15 @@ public:
     // +0x14cd0 / +0x14cd8.
     class Unk_140 {
     public:
+        // One 0x1a0-byte entry of the ten 8-entry tables at +0x30: 0x7101083060 stores its
+        // table / entry indices and 0x710108330c hands it the heap. The per-entry bodies stay U.
+        struct TableEntry {
+            void init(s32 table, s32 index);
+            void setup(sead::Heap* heap);
+            u8 _0[0x1a0];
+        };
+        static_assert(sizeof(TableEntry) == 0x1a0);
+
         // 0x71010827dc (declared only): clears flag bit 2 and resets both sub-objects (0x7101084d04).
         void sub_71010827DC();
         // 0x7101082824 (declared only): unless flag bit 2 is set, handles a tree placed at `pos` by name.
@@ -228,7 +237,12 @@ public:
 
         u8 _0[8];
         u32 _8;
-        u8 _c[0x14cd0 - 0xc];
+        // +0x28: heap passed to every table entry setup and to the two sub-objects.
+        u8 _c[0x28 - 0xc];
+        sead::Heap* _28;
+        // Ten tables of eight entries: table 0 / 1 at +0x30 / +0xd30 (0x7101083060 / 0x710108330c).
+        TableEntry mTables[10][8];
+        u8 _8230[0x14cd0 - 0x8230];
         // Both are passed to 0x7101084d04 / 0x7101084e78.
         void* _14cd0;
         void* _14cd8;
@@ -1626,10 +1640,12 @@ bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
 
-// 0x7101084d04 / 0x7101084e78 (declaration only; placeholder signatures): reset / update the two
-// sub-objects of Core::Unk_140.
+// 0x7101084d04 / 0x7101084e78 / 0x7101084f6c / 0x710108515c (declaration only; placeholder
+// signatures): reset / update / allocate the two sub-objects of Core::Unk_140.
 void sub_7101084D04(void* object);
 void sub_7101084E78(void* object);
+void sub_7101084F6C(void* object);
+void sub_710108515C(void* object, sead::Heap* heap);
 // 0x710106bc54 / 0x71012e258c (declaration only): release the two parts of one grass entry.
 void sub_710106BC54(void* entry);
 void sub_71012E258C(void* object);

@@ -1177,6 +1177,33 @@ void Core::Unk_140::sub_7101083028() {
     sub_7101084E78(_14cd8);
 }
 
+// NON_MATCHING: the two induction variables (entry index and byte offset) are initialised in the
+// opposite order from the original.
+void Core::Unk_140::sub_7101083060() {
+    if (!(_8 & 4)) {
+        _8 |= 2;
+        for (s32 index = 0; index < 8; ++index) {
+            for (s32 table = 0; table < 10; ++table)
+                mTables[table][index].init(table, index);
+        }
+        sub_7101084F6C(_14cd0);
+        sub_7101084F6C(_14cd8);
+    }
+}
+
+void Core::Unk_140::sub_710108330C() {
+    if (!(_8 & 4)) {
+        _8 &= ~2u;
+        for (s32 index = 0; index < 8; ++index) {
+            for (s32 table = 0; table < 10; ++table)
+                mTables[table][index].setup(_28);
+        }
+        sub_710108515C(_14cd0, _28);
+        sub_710108515C(_14cd8, _28);
+        _8 |= 4;
+    }
+}
+
 void Unk_7101088B24::sub_7101088B24(System* system, bool add) {
     if (add) {
         for (auto& entry : mEntries)

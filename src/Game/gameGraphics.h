@@ -248,6 +248,8 @@ public:
     f32 sub_7100F35F38() const;
     void sub_7100F35F50(agl::lyr::Layer* layer, bool value);
     void sub_7100F35F68(bool value);
+    // 0x7100f3592c (placeholder name): copies three floats to the object at 0xb70 + 0x110.
+    void sub_7100F3592C(const sead::Vector3f& value);
 
     // 0x7100f2e06c (placeholder name): sets bit 22 of `_284`.
     void sub_7100F2E06C();
