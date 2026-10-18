@@ -47,28 +47,45 @@ bool sub_7100A90A34(const RecipeItems& items) {
 
 namespace {
 
-// Cook-effect table: the global info block at 0x71025f6960 (filled by the 0x7100a9fd94 static
-// initializer). Only the effect-table members are modelled: the count + Buffer at +0x180/+0x188
-// and the 11 inline {CookEffectId, name} entries at +0x2e0 (selectors and strings read from the
-// init's stores; the MovingSpeed entry's string is "AllSpeed").
+// The global info block at 0x71025f6960 is filled by static initializer A9FD94.
+// Its effect and modifier buffers are at +0x180 / +0x190, with inline records at
+// +0x2e0 / +0x7c0. Unmodelled fields retain their storage. The MovingSpeed name is "AllSpeed".
 struct ShopCookEffectEntry {
     CookEffectId effect;
     sead::SafeString name;
 };
 static_assert(sizeof(ShopCookEffectEntry) == 0x18);
 
+// A9FD94 initializes 31 modifier records, each 0x20 bytes. The two final integers
+// are producer-backed metadata; the message lookup reads only id and name.
+struct ShopModifierEntry {
+    s32 id;
+    sead::SafeString name;
+    s32 _18;
+    s32 _1c;
+};
+static_assert(sizeof(ShopModifierEntry) == 0x20);
+
 struct ShopCookInfo {
     u8 _0[0x180];
     sead::Buffer<ShopCookEffectEntry> effects;
-    u8 _190[0x2e0 - 0x190];
+    sead::Buffer<ShopModifierEntry> modifiers;
+    u8 _1a0[0x2e0 - 0x1a0];
     ShopCookEffectEntry entries[11];
+    u8 _3e8[0x7c0 - 0x3e8];
+    ShopModifierEntry modifier_entries[31];
 };
+static_assert(offsetof(ShopCookInfo, effects) == 0x180);
+static_assert(offsetof(ShopCookInfo, modifiers) == 0x190);
+static_assert(offsetof(ShopCookInfo, entries) == 0x2e0);
+static_assert(offsetof(ShopCookInfo, modifier_entries) == 0x7c0);
 
 }  // namespace
 
 static ShopCookInfo sUnk_71025F6960{
     {},
     {11, sUnk_71025F6960.entries},
+    {31, sUnk_71025F6960.modifier_entries},
     {},
     {{CookEffectId::GutsRecover, "GutsRecover"},
       {CookEffectId::ExGutsMaxUp, "ExGutsMaxUp"},
@@ -81,6 +98,40 @@ static ShopCookInfo sUnk_71025F6960{
       {CookEffectId::Quietness, "Quietness"},
       {CookEffectId::MovingSpeed, "AllSpeed"},
       {CookEffectId::Fireproof, "Fireproof"}},
+    {},
+    {
+        {15, "ExGutsMaxUp", 0, 10},
+        {2, "LifeMaxUp", 1, -1},
+        {4, "ResistHot", 3, 2},
+        {5, "ResistCold", 2, 2},
+        {6, "ResistElectric", 4, 3},
+        {10, "AttackUp", 6, 3},
+        {11, "DefenseUp", 7, 3},
+        {12, "Quietness", 8, 3},
+        {13, "AllSpeed", 5, 3},
+        {14, "GutsRecover", 18, -1},
+        {16, "Fireproof", 19, 2},
+        {17, "ResistLightning", 33, 1},
+        {18, "SwimSpeedUp", 21, 3},
+        {19, "ClimbSpeedUp", 20, 3},
+        {20, "SandMoveSpeedUp", 9, 1},
+        {21, "SnowMovingSpeed", 12, 1},
+        {22, "ReduceAncientEnemyDamge", 11, 3},
+        {24, "AddPower", 15, -1},
+        {25, "AddLife", 16, -1},
+        {27, "AddGuard", 31, -1},
+        {26, "Critical", 17, -1},
+        {28, "AddPowerPlus", 23, -1},
+        {29, "AddLifePlus", 25, -1},
+        {30, "AddGuardPlus", 32, -1},
+        {31, "LongThrow", 26, -1},
+        {32, "SpreadFire", 27, -1},
+        {33, "ZoomRapid", 28, -1},
+        {34, "RapidFire", 29, -1},
+        {35, "SurfMaster", 30, -1},
+        {36, "", 34, 1},
+        {37, "ResistFreeze", 35, 1},
+    },
 };
 
 // NON_MATCHING: the value test uses an equivalent compare immediate and register allocation differs.
@@ -421,6 +472,24 @@ s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped) {
 }
 
 // Emits the Delegate2R vtable (0x71024987e0) + invoke (0x7100a534e8) + clone (0x7100a5351c).
+// 0x7100aa69b4
+// NON_MATCHING: the string copy hoists the null-character load and changes saved registers.
+s32 sub_7100AA69B4(s32 message_id, eui::MessageString* out) {
+    s32 index = -1;
+    const s32 count = sUnk_71025F6960.modifiers.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == message_id) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return 2;
+    sead::FixedSafeString<256> label(sUnk_71025F6960.modifiers[index].name);
+    label.append("_Name");
+    return getMessage("StaticMsg/SpecialStatus", label, out);
+}
+
 }  // namespace uking::ui
 
 template class sead::Delegate2R<uking::ui::ScreenShopInfo,
