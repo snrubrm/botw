@@ -6,6 +6,7 @@ add_library(aal OBJECT
   include/aal/aalArbiter.h
   include/aal/aalAudioFrameProcessMgr.h
   include/aal/aalAssetInfo.h
+  include/aal/aalAssetType.h
   include/aal/aalAuxBusMgr.h
   include/aal/aalAuxBusDataCtrl.h
   include/aal/aalAuxBusDataSerialCtrl.h
