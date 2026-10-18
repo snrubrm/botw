@@ -1,5 +1,7 @@
 #include "KingSystem/Effect/eftEffect.h"
+#include "KingSystem/Effect/eftAmbientEffect.h"
 #include "Game/Actor/actCamera.h"
+#include "Game/Scene/gameScene.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
 #include <gsys/gsysParticleMgr.h>
@@ -66,6 +68,26 @@ void Effect::sub_71011B7930() {
 void Effect::kill_0() {
     gsys::ParticleMgr::instance()->getSystem()->KillAllEmitterSet();
 }
+
+void Effect::calc() {
+    if (_96b0)
+        return;
+    if (getSceneStatus())
+        return;
+    if (!_192c8)
+        return;
+    if (!_9b98)
+        return;
+    // The original reads the flag through the singleton instance here, not through `this`.
+    if (Effect::instance()->mFlags & cFlag_Unk2000)
+        return;
+    if (!_9fc0)
+        return;
+    if (!_9fc0->m148())
+        return;
+    mAmbientEffectMgr->calc(this);
+}
+
 
 void Effect::kill() {
     _9b98 = false;

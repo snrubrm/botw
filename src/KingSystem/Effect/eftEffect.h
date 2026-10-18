@@ -67,6 +67,8 @@ public:
     static constexpr u32 cFlag_WaterSurfaceMaybe = 0x1000;
     // Tested by ItemConductor::calc_ (a byte load of bit 0 at +0x192f5); meaning unknown.
     static constexpr u32 cFlag_Unk100 = 0x100;
+    // Bit 13 (byte +0x192f5 bit 5) makes calc skip the ambient effect manager. Meaning unknown.
+    static constexpr u32 cFlag_Unk2000 = 0x2000;
 
     // 0x71011b63ac / 0x71011b7b0c (CSV calcMostProbably / calcMostProbably2; declaration only): called by
     // MCMgr::invoked3.
@@ -101,12 +103,17 @@ public:
     void searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle);
     void kill_0();
     void kill();
+    // 0x71011b630c: runs the ambient effect manager when the scene and camera are ready.
+    void calc();
     void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
     // 0x71011b87ac: queries the forest_density table selected during stage initialization.
     f32 queryForestDensity(const sead::Vector3f* position);
 
 private:
-    u8 _38[0x9b98 - 0x38];
+    u8 _38[0x96b0 - 0x38];
+    // Set to skip Effect::calc.
+    bool _96b0;
+    u8 _96b1[0x9b98 - 0x96b1];
     bool _9b98;
     u8 _9b99[0x9fb8 - 0x9b99];
 

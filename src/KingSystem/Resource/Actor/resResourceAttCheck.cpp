@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
+#include <algorithm>
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actRideable.h"
@@ -10,6 +11,18 @@
 #include "KingSystem/GameData/gdtManagerInline.h"
 
 namespace ksys::res {
+
+// 0x71012616c4 (placeholder name): writes the largest absolute z extent of the accessor's AABB and
+// returns whether the AABB was available.
+bool getAabbZExtent(const act::ActorLinkConstDataAccess& access, f32* extent) {
+    *extent = 0.0f;
+    sead::Vector3f min = sead::Vector3f::zero;
+    sead::Vector3f max = sead::Vector3f::zero;
+    if (!access.getAabb(&min, &max))
+        return false;
+    *extent = sead::Mathf::max(sead::Mathf::abs(min.z), sead::Mathf::abs(max.z));
+    return true;
+}
 
 void AttCheck::calcMtx(act::Actor*, sead::Matrix34f*) {}
 

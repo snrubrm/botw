@@ -92208,7 +92208,7 @@ Address,Quality,Size,Name
 0x00000071011b5fe8,U,000364,Effect::initBeforeStageGen
 0x00000071011b6154,U,000404,Effect::initParticleGroups
 0x00000071011b62e8,O,000036,_ZN4ksys3eft6Effect19initBeforeStageGenBEv
-0x00000071011b630c,U,000160,Effect::calc
+0x00000071011b630c,O,000160,_ZN4ksys3eft6Effect4calcEv
 0x00000071011b63ac,U,001284,_ZN4ksys3eft6Effect16calcMostProbablyEv
 0x00000071011b68b0,U,000664,
 0x00000071011b6b48,U,001200,Effect::calcGsysParallel
@@ -94894,7 +94894,7 @@ Address,Quality,Size,Name
 0x00000071012614c0,O,000004,_ZN4ksys2as8Selector3m38EPNS0_7ContextEPKNS_3res10ASResourceE
 0x00000071012614c4,O,000372,_ZN4ksys2as11IntSelector33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007101261638,O,000140,_ZNK4sead15RuntimeTypeInfo6DeriveIN4ksys2as8SelectorEE9isDerivedEPKNS0_9InterfaceE
-0x00000071012616c4,U,000152,
+0x00000071012616c4,O,000152,_ZN4ksys3res14getAabbZExtentERKNS_3act24ActorLinkConstDataAccessEPf
 0x000000710126175c,U,000224,
 0x000000710126183c,O,000516,_ZN4ksys3act23getAwarenessTerrorFlagsEj
 0x0000007101261a40,O,000136,_ZN4ksys3act23getAwarenessSensorFlagsEj
