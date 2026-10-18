@@ -16,6 +16,7 @@ class ManagedTaskHandle;
 }
 
 namespace eui {
+class MassDrawPane;
 class LetterAnimControl;
 class MessageString;
 class CapturePane;
@@ -373,14 +374,22 @@ public:
     void sub_71009952C4(sead::Heap* heap, const sead::SafeString& name, s32 count,
                          const sead::SafeString& mass_name);
 
-    // Members from the ctor 0x98fc08.
+    // 0x710099d618: builds the marker group attached to the mass-draw pane.
+    void sub_710099D618(sead::Heap* heap, const sead::SafeString& name, s32 count,
+                         const sead::SafeString& mass_name);
+
+    // Members from the ctor 0x98fc08; cleanup 98FD5C frees the array at +310.
     /* 0x130 */ sead::PtrArray<Unk_7102477fc0> _130{};
-    u8 _140[0x341 - 0x140]{};
+    u8 _140[0x310 - 0x140]{};
+    /* 0x310 */ sead::PtrArray<Unk_7102477fc0> _310{};
+    u8 _320[0x341 - 0x320]{};
     /* 0x344 */ u32 _344[2]{};
     /* 0x34c */ bool _34c = false;
     /* 0x350 */ void* _350 = nullptr;
     /* 0x358 */ f32 _358 = 1.0f;
-    /* 0x35c */ u8 _35c[0x428 - 0x35c]{};
+    /* 0x35c */ u8 _35c[0x370 - 0x35c]{};
+    /* 0x370 */ eui::MassDrawPane* _370 = nullptr;
+    u8 _378[0x428 - 0x378]{};
     /* 0x428 */ ksys::StringBoard _428[5];
 };
 static_assert(sizeof(Unk_7102478048) == 0x450);

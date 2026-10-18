@@ -1089,6 +1089,85 @@ void Unk_7102478048::sub_71009952C4(sead::Heap* heap, const sead::SafeString& na
     }
 }
 
+// 0x710099d618
+// NON_MATCHING: DynamicCast failure paths and marker stores merge differently; stack allocation differs.
+void Unk_7102478048::sub_710099D618(sead::Heap* heap, const sead::SafeString& name,
+                                  s32 count, const sead::SafeString& mass_name) {
+    sead::FormatFixedSafeString<64> path("%s/%s%02d", "Pa_MapIcon_00", name.cstr(), 0);
+    auto* parts = eui::sub_7100945088(_128->sub_7100A48104(path, nullptr));
+    eui::MassDrawPane* mass = nullptr;
+    if (!mass_name.isEmpty()) {
+        sead::FormatFixedSafeString<64> mass_path("%s/%s", "Pa_MapIcon_00", mass_name.cstr());
+        mass = nn::font::DynamicCast<eui::MassDrawPane>(
+            static_cast<nn::ui2d::Pane*>(_128->sub_7100A48328(mass_path, nullptr)));
+    }
+    if (parts) {
+        if (count < 1) {
+            auto* pane = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout)->mPane;
+            if (auto* parent = pane->GetParent())
+                parent->RemoveChild(pane);
+            return;
+        }
+        if (mass) {
+            mass->SetVisible(true);
+            mass->sub_7100BDFA6C(heap, count);
+        }
+        while (count > 1) {
+            --count;
+            sead::FormatFixedSafeString<64> clone_name("%s%02d", name.cstr(), count);
+            UiSubsys1::instance()->sub_7100964BAC(heap);
+            auto* marker = new (heap) Unk_7102478d98;
+            // The native call discards the cloned layout result.
+            _128->sub_7100A47A5C(heap, 1,
+                static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout),
+                clone_name, parts, true, true);
+            if (mass && marker) {
+                marker->_28 = 28;
+                marker->m6(nullptr);
+                marker->_10 = mass;
+                marker->_18 = nullptr;
+                marker->_30 = nullptr;
+                marker->_38 = nullptr;
+                marker->_40 = nullptr;
+                _310.insert(0, marker);
+                _370 = mass;
+            }
+            UiSubsys1::instance()->sub_71009675D0(heap, marker);
+        }
+        auto* marker = new (heap) Unk_7102478d98;
+        if (mass && marker) {
+            marker->_28 = 28;
+            marker->_18 = nullptr;
+            marker->_8 = nullptr;
+            marker->_10 = mass;
+            marker->_30 = nullptr;
+            marker->_38 = nullptr;
+            marker->_40 = nullptr;
+            _310.insert(0, marker);
+            _370 = mass;
+        }
+    } else if (count > 0 && mass) {
+        mass->SetVisible(true);
+        mass->sub_7100BDFA6C(heap, count);
+        do {
+            UiSubsys1::instance()->sub_7100964BAC(heap);
+            auto* marker = new (heap) Unk_7102478d98;
+            if (marker) {
+                marker->_28 = 28;
+                marker->_18 = nullptr;
+                marker->_8 = nullptr;
+                marker->_10 = mass;
+                marker->_30 = nullptr;
+                marker->_38 = nullptr;
+                marker->_40 = nullptr;
+                _310.insert(0, marker);
+                _370 = mass;
+            }
+            UiSubsys1::instance()->sub_71009675D0(heap, marker);
+        } while (--count);
+    }
+}
+
 }  // namespace uking::ui
 
 Unk_71024795a8::~Unk_71024795a8() = default;
