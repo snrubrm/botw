@@ -666,7 +666,7 @@ void LODMgr::x_2(const sead::Vector3f* camera) {
         }
 
         if ((sUnk_71026531A8 & 0x4000000) && actor._730 > 0) {
-            // B.GT skips the test for positive _718; NaN enters the test.
+            // Positive _718 skips the test; NaN enters the test.
             if (!(actor._718 > 0.0f) && !evt::Manager::instance()->_1d2b8 &&
                 evt::Manager::instance()->_1d2f8 != 1) {
                 const sead::Vector3f position = actor.getMtx().getTranslation();

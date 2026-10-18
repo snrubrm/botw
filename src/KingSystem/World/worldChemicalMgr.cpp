@@ -173,7 +173,6 @@ void WorldMgrStruct0_8_a::sub_71010C9210(sead::Heap* heap, ksys::world::Chemical
         entry.sub_71010C8748(heap, mgr);
 }
 
-// NON_MATCHING: indexOf uses a signed loop rather than the native pointer countdown.
 // NON_MATCHING: registry search and pointer-array index loops are scheduled differently.
 Unk_710250c840* WorldMgrStruct0_8_a::sub_71010C9790(ksys::map::Object* object,
                                                  const ksys::map::ActorData* data,
@@ -227,6 +226,7 @@ Unk_710250c840* WorldMgrStruct0_8_a::sub_71010C9790(ksys::map::Object* object,
     return nullptr;
 }
 
+// NON_MATCHING: indexOf uses a signed loop rather than the native pointer countdown.
 void WorldMgrStruct0_8_a::sub_71010C9A8C(Unk_710250c840* entry) {
     entry->_10.sub_7100E37788(0)->sub_7100D8F194();
     entry->_b8->removeFromWorld();
