@@ -87,6 +87,9 @@ public:
     bool x_6(u32 idx);
     // E063F0: the Flag callback records buffer offsets through its serialization helpers.
     void invoked(res::GameSaveData::Flag& flag);
+    // E0670C dispatches reset callbacks, then refreshes the named file through the const flag callback.
+    void sub_7100E0670C(const sead::SafeString& name);
+    void x_9(const res::GameSaveData::Flag& flag);
     bool auto6(s32 idx);
     bool x_0(s32 idx);
     // 0x7100e089f0 (CSV x_5; declared only): writes `value` at the saved position _103c of the buffer when it is set.

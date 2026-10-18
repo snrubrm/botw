@@ -1198,6 +1198,29 @@ bool SaveMgr::x_6(u32 idx) {
     return true;
 }
 
+// NON_MATCHING: callback traversal and filename comparison loops differ.
+void SaveMgr::sub_7100E0670C(const sead::SafeString& name) {
+    static_assert(offsetof(gdt::Manager, mFlagBuffer) == 0xc00);
+    _f98 = gdt::Manager::instance()->mFlagBuffer;
+    gdt::Manager::ResetEvent event;
+    event.param = _f98;
+    auto it = mCallbacks2.begin();
+    while (it != mCallbacks2.end()) {
+        auto* callback = *it;
+        ++it;  // The native walk retains the next node before invoking the callback.
+        if (callback->mDelegate)
+            (*callback->mDelegate)(&event);
+    }
+    for (s32 i = 0; i < _e00->getFiles().size(); ++i) {
+        auto* file = _e00->mFiles[i];
+        if (file->info->name == name) {
+            const sead::Delegate1<SaveMgr, const res::GameSaveData::Flag&> delegate(this, &SaveMgr::x_9);
+            _e00->mFiles[i]->forEachFlag(delegate);
+            return;
+        }
+    }
+}
+
 void SaveMgr::x_7() {
     _f98 = gdt::Manager::instance()->mFlagBuffer;
     x_8(_f98->mCopiedBoolFlags);
