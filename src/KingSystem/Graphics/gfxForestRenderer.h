@@ -62,11 +62,36 @@ public:
     };
     static_assert(sizeof(GridCell) == 4);
 
+    // Placeholder: the 0x1c-byte records of the buffer at 0x18.
+    struct Record {
+        u16 _0;
+        u16 _2;
+        sead::BitFlag8 _4;
+        u8 _5;  // the model definition index
+        u8 _6;  // cleared on add
+        u8 _7;
+        u16 _8;  // rotation / 360 * 65535 (x, y, z)
+        u16 _a;
+        u16 _c;
+        u16 _e;  // scale * 65535 * 0.5
+        // The instance position, compared with the queried position.
+        sead::Vector3f pos;
+    };
+    static_assert(sizeof(Record) == 0x1c);
+
     // Placeholder names: the 0x88-byte entries of the buffer at 0xd0 and their 0x98-byte items.
     struct Item {
-        // 0x7100f0914c (declared only; placeholder name): updates the item for the changed record; true stops
+        // Placeholder: 0x7100f0914c reads the u64 model mask at +0x8 and uses it to select the slot
+        // offset at +0x48 below.
+        struct Unk_40 {
+            u8 _0[8];
+            u64 mModelMask;
+        };
+        static_assert(sizeof(Unk_40) == 0x10);
+
+        // 0x7100f0914c (placeholder name): updates the item for the changed record; true stops
         // ForestRenderer::x_8's loop.
-        bool sub_7100F0914C(void* record, bool a, bool b);
+        bool sub_7100F0914C(Record* record, bool a, bool b);
 
         // 0x7100f078a4 (vtable 0x71024f38b8): releases the item's pointer array and resets it if _8 is set.
         virtual ~Item();
@@ -82,10 +107,10 @@ public:
             _18 = 0;
             _30 = 0;
             _38 = 0;
-            _3d = 0xff;
-            _3c = 0xff;
-            _3b = 0xff;
-            _40 = 0;
+            mCell.mMask = 0xff;
+            mCell.mZ = 0xff;
+            mCell.mX = 0xff;
+            _40 = nullptr;
             _8 = 0;
         }
 
@@ -97,13 +122,12 @@ public:
         sead::PtrArray<u8> _20;
         u64 _30;
         u16 _38;
-        u8 _3a;
-        u8 _3b;
-        u8 _3c;
-        u8 _3d;
+        GridCell mCell;
         u8 _3e[0x40 - 0x3e];
-        u64 _40;
-        u8 _48[0x98 - 0x48];
+        Unk_40* _40;
+        // Per-model offsets added to the record's u16 base (0x7100f0914c).
+        u16 mSlotOffsets[0x14];
+        u8 _70[0x98 - 0x70];
     };
     static_assert(sizeof(Item) == 0x98);
     struct Entry {
@@ -117,23 +141,6 @@ public:
         // instance in the u16 table at 0x78; true if the entry handles that model.
         bool sub_7100F06CB0(const sead::SafeString& name, const sead::Vector3f& pos,
                             const sead::Vector3f& rotate, f32 scale);
-
-        // Placeholder: the 0x1c-byte records of the buffer at 0x18.
-        struct Record {
-            u16 _0;
-            u16 _2;
-            sead::BitFlag8 _4;
-            u8 _5;  // the model definition index
-            u8 _6;  // cleared on add
-            u8 _7;
-            u16 _8;  // rotation / 360 * 65535 (x, y, z)
-            u16 _a;
-            u16 _c;
-            u16 _e;  // scale * 65535 * 0.5
-            // The instance position, compared with the queried position.
-            sead::Vector3f pos;
-        };
-        static_assert(sizeof(Record) == 0x1c);
 
         // 0x7100f07060 (placeholder name): allocates and clears the record buffer (_70 records) and the
         // u16 table (80 entries if bit 0 of _8 is set, else 1280).

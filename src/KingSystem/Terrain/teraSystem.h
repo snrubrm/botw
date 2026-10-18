@@ -234,6 +234,8 @@ public:
         // (_8 & 6) == 2).
         s32 sub_71010832B0(const sead::SafeString& name, const sead::Vector3f& pos,
                            const sead::Vector3f& rotate, const sead::Vector3f& scale, f32 unk);
+        // 0x7101083b78 (unnamed; declaration only): updates the table entry for a changed tree record.
+        void sub_7101083B78(u16 index, const sead::Vector3f& pos, bool b);
 
         u8 _0[8];
         u32 _8;

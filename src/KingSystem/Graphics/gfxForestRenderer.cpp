@@ -269,6 +269,51 @@ ForestRenderer::Item::~Item() {
     finalize();
 }
 
+// NON_MATCHING: the failure returns are not merged and the mask / vector scheduling differs.
+bool ForestRenderer::Item::sub_7100F0914C(Record* record, bool a, bool b) {
+    if (_8 != 3)
+        return false;
+
+    const sead::Vector3f pos = record->pos;
+    GridCell cell;
+    cell.mFlags = mCell.mFlags;
+    cell.sub_7100F076D8(pos);
+
+    if (u32(mCell.mX) > 9 || u32(mCell.mZ) > 7)
+        return false;
+
+    if ((mCell.mFlags & 1) == 0) {
+        if (cell.mMask != mCell.mMask)
+            return false;
+        if (u32(cell.mX) != u32(mCell.mX) || u32(cell.mZ) != u32(mCell.mZ) ||
+            u32(mCell.mMask) > 0xf)
+            return false;
+    } else {
+        if (u32(cell.mX) != u32(mCell.mX) || u32(cell.mZ) != u32(mCell.mZ))
+            return false;
+    }
+
+    const s32 count = sead::BitFlagUtil::countRightOnBit64(_40->mModelMask, record->_5);
+    if (count > 0) {
+        s32 slot = count - 1;
+        if (slot >= 0x14)
+            slot = 0;
+        const u32 offset = u32(record->_0 + mSlotOffsets[slot]);
+        if (offset < u32(_20.size())) {
+            u8* entry = _20[offset];
+            if (entry) {
+                if (a)
+                    entry[10] |= 1;
+                else
+                    entry[10] &= ~1;
+            }
+        }
+    }
+
+    tera::Terrain::instance()->sub_710114DE70()->sub_7101083B78(record->_2, pos, a);
+    return true;
+}
+
 ForestRenderer::Entry::~Entry() {
     sub_7100F02C40();
 }

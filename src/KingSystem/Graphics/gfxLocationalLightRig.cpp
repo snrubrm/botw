@@ -4,6 +4,13 @@
 
 namespace ksys::gfx {
 
+void LocationalLightRig::m11(int index, sead::Heap* heap) {
+    gsys::ModelRig::m11(index, heap);
+}
+
+// NON_MATCHING: the secondary-base vtable is one slot earlier than the original.
+LocationalLightRig::~LocationalLightRig() {}
+
 // NON_MATCHING: adjacent halfword stores merge and initialization is reordered.
 void LocationalLightRig::m24(gsys::Model* model, const gsys::BoneAccessKey& key,
                              const sead::SafeString& name) {
