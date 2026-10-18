@@ -44,4 +44,51 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024eed28, 0x40);
 
+// Placeholder name (vtable 0x7102359478; its RTTI static object is 0x71025af0d0, initialised with the
+// Derive<Unk_71024eed28> vtable at 0x71023594b8). The 0xf0-byte child at GiantEnemy::_1558 + 0x10:
+// created by 0x7100028c20 (called by the holder init 0x710002da1c) and filled by its init
+// 0x7100028cf0, which creates a phys::Unk_71024f67c8 from the arg's bone data ("Skl_Root", "Waist",
+// "Leg_1_L/R", "Ankle_L/R", "Arm_1_L/R", "Arm_2_L/R", "Wrist_L/R"). GiantEnemy::m119 and the
+// PullOut / GiantDoubleGroundPunch actions reach it through the holder's slot-7 getter (m7).
+// Fields from the factory's initialisation stores. Members are public: AI code reads them directly.
+class Unk_7102359478 : public Unk_71024eed28 {
+public:
+    ~Unk_7102359478() override;  // D1 0x7100028fd8, D0 0x7100029048; declared only.
+    void m4() override;          // 0x7100028e28 (104 B); declared only.
+    void m5(const sead::Matrix34f& mtx, bool flag, f32 value,
+            phys::SystemGroupHandler* handler) override;  // 0x7100028e90 (328 B); declared only.
+
+    /* 0x40 */ u8 _40 = 0;  // GiantDoubleGroundPunch keeps only the upper 6 bits (& 0xfc)
+    /* 0x41 */ u8 _41[3] = {};
+    /* 0x44 */ u32 _44 = 0;
+    /* 0x48 */ u32 _48 = 0;
+    /* 0x4c */ u32 _4c = 0;
+    /* 0x50 */ u32 _50 = 0;
+    /* 0x54 */ f32 _54 = 1.0f;
+    /* 0x58 */ void* _58 = nullptr;
+    /* 0x60 */ ksys::phys::Unk_71024f67c8* _60 = nullptr;  // created by the init 0x7100028cf0
+    /* 0x68 */ u64 _68[3] = {};
+    /* 0x80 */ void* _80 = nullptr;
+    /* 0x88 */ void* _88 = nullptr;
+    /* 0x90 */ u32 _90 = 0;
+    /* 0x94 */ u32 _94;  // not initialised by the factory
+    /* 0x98 */ u8 _98 = 0;  // flag byte; PullOut sets its bit 0 before writing _9c / _c8 / _d4
+    /* 0x9c */ u32 _9c = 0;
+    /* 0xa0 */ u32 _a0 = 0;
+    /* 0xa4 */ u32 _a4 = 0;
+    /* 0xa8 */ u32 _a8 = 0;
+    /* 0xac */ f32 _ac = 1.0f;
+    /* 0xb0 */ void* _b0 = nullptr;
+    /* 0xb8 */ u64 _b8[2] = {};
+    /* 0xc8 */ sead::Vector3f _c8 = sead::Vector3f::zero;
+    /* 0xd4 */ u32 _d4 = 0;
+    /* 0xd8 */ u32 _d8 = 0;
+    /* 0xdc */ u32 _dc = 0;
+    /* 0xe0 */ u32 _e0 = 0;
+    /* 0xe4 */ u32 _e4 = 0;
+    /* 0xe8 */ u32 _e8 = 0;
+    /* 0xec */ u8 _ec[4];  // not initialised by the factory
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102359478, 0xf0);
+
 }  // namespace ksys::act

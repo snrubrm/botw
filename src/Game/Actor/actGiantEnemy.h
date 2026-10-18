@@ -9,6 +9,10 @@ namespace ksys::phys {
 class RigidBody;
 }
 
+namespace ksys::act {
+class Unk_7102359478;
+}
+
 namespace uking::act {
 
 // Placeholder name (vtable 0x710235a050; inherits DamageCallback's RTTI; D1 0x710002ab28, `call`
@@ -31,7 +35,9 @@ public:
     virtual void m4();
     virtual void m5();
     virtual void m6();
-    virtual void m7();
+    // Slot 7 (0x710002e81c): returns the child at + 0x10 (the 0xf0-byte ksys::act::Unk_7102359478 created by
+    // 0x7100028c20). PullOut / GiantDoubleGroundPunch DynamicCast it to that class after this call.
+    virtual ksys::act::Unk_7102359478* m7();
     virtual void* m8();
 };
 
