@@ -630,6 +630,8 @@ public:
     class Callback : public aal::Unk_7100BA1AEC {
     public:
         bool sub_7100BA1AEC(sead::BufferedSafeStringBase<char>* path, aal::AssetInfo* info) override;
+        // 0x710105fe08: variadic formatter for this callback's actual path string.
+        void sub_710105FE08(const char* format, ...);
         sead::FixedSafeString<128> mString;
     };
     static_assert(sizeof(Callback) == 0xa0);
