@@ -333,10 +333,14 @@ class Unk_710247b960 : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247b960(eui::LayoutEx* layout);
-    /* 0x130 */ void* _130 = nullptr;
-    /* 0x138 */ void* _138 = nullptr;
-    /* 0x140 */ void* _140 = nullptr;
-    /* 0x148 */ void* _148 = nullptr;
+    ~Unk_710247b960() override;
+    void m24(sead::Heap* heap) override;
+    // 9BC874 hides the child and clears its effect selection/progress.
+    void sub_71009BC874();
+    /* 0x130 */ eui::Animator* _130 = nullptr;
+    /* 0x138 */ eui::Animator* _138 = nullptr;
+    // 9BC468 allocates three state animators; the destructor frees their pointer buffer.
+    /* 0x140 */ sead::PtrArray<eui::Animator> _140;
     /* 0x150 */ Unk_71024774c8 _150;
     /* 0x168 */ s32 _168 = -1;
     /* 0x16c */ s32 _16c = 0;

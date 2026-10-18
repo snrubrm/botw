@@ -484,8 +484,38 @@ void Unk_7102477c30::m25() {}
 Unk_7102477c30::~Unk_7102477c30() = default;
 
 
-// 0x71009bc9bc
+// 0x71009bc268
 Unk_710247b960::Unk_710247b960(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
+// 0x71009bc2b0 (D2), 0x71009bc388 (D0)
+// NON_MATCHING: inlined base teardown computes member addresses earlier.
+Unk_710247b960::~Unk_710247b960() {
+    _140.freeBuffer();
+}
+
+// 0x71009bc468
+// NON_MATCHING: unrolled pointer-array bounds tests use equivalent comparisons.
+void Unk_710247b960::m24(sead::Heap* heap) {
+    _130 = mLayout->createAnimatorAuto("Level", false);
+    _138 = mLayout->createAnimatorAuto("Gauge", false);
+    _140.allocBuffer(3, heap, 8);
+    sead::FixedSafeString<32> name;
+    for (s32 i = 0; i < 3; ++i) {
+        name.format("State%d", i + 1);
+        _140.insert(i, mLayout->createAnimatorAuto(name.cstr(), true));
+        if (auto* animator = _140.at(i))
+            animator->StopAtMin();
+    }
+    _150.sub_7100988EF0(mLayout->findPartsLayout("Pa_SpIcon_02"));
+}
+
+// 0x71009bc874
+void Unk_710247b960::sub_71009BC874() {
+    m6(true);  // native return discarded
+    _168 = -1;
+    _16c = 0;
+}
+
 
 Unk_710247bcb8::Unk_710247bcb8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
