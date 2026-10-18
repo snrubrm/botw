@@ -345,7 +345,9 @@ public:
     /* 0x1d2f8 */ s32 _1d2f8;
     u8 pad_1d2fc[0x1d378 - 0x1d2fc];
     /* 0x1d378 */ EventSysActors* _1d378;
-    u8 pad_1d380[0x1d3e0 - 0x1d380];
+    // DAF464 constructs this 64-character buffer at 1d394, capacity at 1d390.
+    /* 0x1d380 */ sead::FixedSafeString<64> _1d380;
+    u8 pad_1d3d8[0x1d3e0 - 0x1d3d8];
     /* 0x1d3e0 */ EventFlow* _1d3e0;
     /* 0x1d3e8 */ EventFlow* _1d3e8;
 };

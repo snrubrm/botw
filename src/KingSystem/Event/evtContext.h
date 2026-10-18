@@ -27,6 +27,7 @@ public:
     virtual ~Context();
 
     void loadChildrenEvents();
+    bool calc();
     s32 x_3(const sead::SafeString& event_name, const sead::SafeString& entry_point) const;
 
     // 0x7100db9e2c (CSV evt::Context::setActorBeingDeleted)
@@ -78,14 +79,18 @@ private:
     /* 0x1e8 */ sead::SafeArray<s8, 8> mFlowStack;
     /* 0x1f0 */ s32 mStackTop;
     /* 0x1f4 */ u8 _1f4;
-    u8 _1f5[0x1f7 - 0x1f5];
+    /* 0x1f5 */ u8 _1f5;
+    u8 _1f6;
     /* 0x1f7 */ bool _1f7;  // set by the constructor when the metadata's _160 < 500 (also sets ActorSystem::_13b bit 0)
     u8 _1f8;
     /* 0x1f9 */ bool mActorBeingDeleted;
     u8 _1fa[0x200 - 0x1fa];
     // made by the constructor through Manager::_1d2c8 (slot 0); type unknown
     /* 0x200 */ ContextUnk200* _200;
-    u8 _208[0x240 - 0x208];
+    u8 _208[0x238 - 0x208];
+    // DB8CE8 initializes this counter; calc increments it after updating the flow.
+    /* 0x238 */ s32 _238;
+    u8 _23c[4];
     /* 0x240 */ sead::Buffer<ChildFlow> mChildFlows;
 };
 

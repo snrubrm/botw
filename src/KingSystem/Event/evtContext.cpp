@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Event/evtManager.h"
 
@@ -59,6 +60,80 @@ s32 Context::x_3(const sead::SafeString& event_name, const sead::SafeString& ent
             return i;
     }
     return -1;
+}
+
+// String buffer extents are proved by DB58B8 and DAF464 initialization.
+static_assert(offsetof(EventFlowBase, _218) == 0x218);
+static_assert(offsetof(Manager, _1d380) == 0x1d380);
+
+// 0x7100db9500
+// NON_MATCHING: baseline SafeString termination calls and alias-chain bounds checks differ.
+bool Context::calc() {
+    if (!act::ActorSystem::instance()->getPlayer() &&
+        mProcLink.mMetadata.getEventName() != "Demo169_0") {
+        // The original formats this filename even though its result is not consumed.
+        sead::FixedSafeString<128> filename;
+        filename.format("%s.bfevfl", mProcLink.mMetadata.getEventName().cstr());
+        return true;
+    }
+    const bool finished = getCurrentFlow()->calc();
+    _1f5 = 0;
+    ++_238;
+    if (!finished)
+        return false;
+    if (Manager::instance()->_1d380 == getCurrentFlow()->mEventName) {
+        getCurrentFlow()->x(true);
+        _1f4 = true;
+    } else {
+        sead::SafeString next_name = getCurrentFlow()->_218;
+        bool has_next = !next_name.isEmpty();
+        if (has_next) {
+            s32 next_index;
+            if (getCurrentFlowUnchecked()->_340 & 0x100000) {
+                do {
+                    next_index = x_3(next_name.cstr(), next_name.cstr());
+                    auto* next = mFlows.at(next_index);
+                    if (!(next->_340 & 0x100000))
+                        break;
+                    next_name = next->_218;
+                    has_next = !next_name.isEmpty();
+                } while (has_next);
+            } else {
+                next_index = x_3(next_name.cstr(), next_name.cstr());
+            }
+            if (has_next) {
+                const u64 flags = getCurrentFlowUnchecked()->_340;
+                if (!(flags & 0x60)) {
+                    mFlowStack[mStackTop] = s8(next_index);
+                    if (flags & 0x8000000000)
+                        getCurrentFlowUnchecked()->_340 |= 0x8000000000;
+                    else
+                        getCurrentFlowUnchecked()->_340 &= ~u64(0x8000000000);
+                    if (flags & 0x4000000000)
+                        getCurrentFlowUnchecked()->_340 |= 0x4000000000;
+                    else
+                        getCurrentFlowUnchecked()->_340 &= ~u64(0x4000000000);
+                    getCurrentFlow()->initEventAndReport(false);
+                    _1f5 = 1;
+                    return false;
+                }
+            }
+        }
+    }
+    if (mStackTop == 0)
+        return true;
+    auto* finished_flow = getCurrentFlow();
+    --mStackTop;
+    if (finished_flow->_340 & 0x20)
+        getCurrentFlow()->x(false);
+    if (finished_flow->_340 & 0x40)
+        getCurrentFlow()->exitEventMaybe();
+    sUnk_7102601528 = getCurrentFlow();
+    getCurrentFlow()->x_5(finished_flow);
+    getCurrentFlowUnchecked()->_148.Invoke();
+    sUnk_7102601528 = nullptr;
+    _1f5 = 1;
+    return false;
 }
 
 // 0x7100db9e2c

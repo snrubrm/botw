@@ -221,7 +221,10 @@ public:
     /* 0x1d8 */ sead::Matrix34f mStartTransform;
     /* 0x208 */ EventFlowType mType;
     /* 0x20c */ f32 _20c;
-    /* 0x210 */ EventFlow* mSlot;    u8 _218[0x2c8 - 0x218];
+    /* 0x210 */ EventFlow* mSlot;
+    // DB58B8 constructs a 32-character buffer here, at 22c with capacity at 228.
+    /* 0x218 */ sead::FixedSafeString<32> _218;
+    u8 _250[0x2c8 - 0x250];
     /* 0x2c8 */ s32 _2c8;
     u8 _2cc[0x2e8 - 0x2cc];
     /* 0x2e8 */ res::Handle _2e8;
