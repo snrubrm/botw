@@ -91,6 +91,7 @@ class TagProcessor;
 class ScreenEx;
 class UiSubsys1;
 class Unk_710247bcb8;
+class Unk_710247e0c8;
 class Unk_710247c368;
 class Unk_710247dc90;
 
@@ -922,6 +923,8 @@ public:
     // 0x7100a2effc: updates gauge deltas and the deferred effect display
     void sub_7100A2EFFC();
     void sub_7100A31998(f32 time, s32 effect, s32 level);
+    // A2E510 combines equipment resistance with deferred effect fields 3910/3914.
+    void sub_7100A2E510(s32* hot, s32* cold, s32* fire);
     void sub_7100A2FEDC();
     void sub_7100A2E844();
     // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
@@ -959,7 +962,17 @@ public:
     /* 0x3914 */ s32 _3914;
     /* 0x3918 */ f32 _3918;
     /* 0x391c */ u8 _391c;
-    u8 _pad_391d[0x39e8 - 0x391d];
+    // Setup A2CE68 stores child 2; A2DDE4 writes temperature 39b8 and fire level 39bc.
+    u8 _pad_391d[0x39a0 - 0x391d];
+    /* 0x39a0 */ Unk_710247e0c8* _39a0;
+    /* 0x39a8 */ s32 _39a8;
+    /* 0x39ac */ s32 _39ac;
+    /* 0x39b0 */ s32 _39b0;
+    /* 0x39b4 */ s32 _39b4;
+    /* 0x39b8 */ f32 _39b8;
+    /* 0x39bc */ s32 _39bc;
+    /* 0x39c0 */ u8 _39c0;
+    u8 _pad_39c1[0x39e8 - 0x39c1];
     /* 0x39e8 */ eui::ControlBase* _39e8;  // the control whose layout shows the number (T_Num_00)
     u8 _pad_39f0[0x39f8 - 0x39f0];
     /* 0x39f8 */ Unk_7102474bc8 _39f8;

@@ -127,6 +127,8 @@ bool sub_7100A9A4BC();
 // 0x7100a9d03c (uiMiscFacade.cpp): the number of obtained runes (remote bombs count twice).
 // 0x7100aa901c / 0x7100aa90d0 (CSV ui::getResistHotVal / getResistColdVal; declared only): the heat / cold
 // resistance value of the cook effect level `level`
+// AA6040 writes the armor-set mask; callers pass a replacement actor name or cEmptyString.
+void sub_7100AA6040(u32* out, const sead::SafeString& actor);
 f32 getResistHotVal(s32 level);
 f32 getResistColdVal(s32 level);
 // 0x7100a9cf44 (CSV checkIsGetRune; declared only, 248 bytes): whether rune `rune` (0 - 7) is obtained; mode 1 reads

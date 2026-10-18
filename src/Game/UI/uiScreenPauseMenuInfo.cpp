@@ -44,9 +44,6 @@ ScreenChild* sub_7100A2C4D4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247b960(layout_ex);
 }
 
-}  // namespace uking::ui
-
-namespace uking::ui {
 // 0x7100a2dc30, 168 B
 void ScreenPauseMenuInfo::sub_7100A2DC30(f32 delta) {
     if (!(delta <= 0.01f && delta >= -0.01f)) {
@@ -80,9 +77,6 @@ void ScreenPauseMenuInfo::sub_7100A2DCD8(f32 delta) {
     }
     eui::Screen::x_2();
 }
-}
-
-namespace uking::ui {
 
 // 0x7100a2effc
 void ScreenPauseMenuInfo::sub_7100A2EFFC() {
@@ -122,9 +116,6 @@ void ScreenPauseMenuInfo::sub_7100A2EFFC() {
 }
 
 
-}  // namespace uking::ui
-
-namespace uking::ui {
 
 // Native parameter object 21 is Player; its EnergyTiredValue payload is at +0x1d0.
 static_assert(offsetof(ksys::res::GParamListObjectPlayer, mEnergyTiredValue) == 0x1b8);
@@ -183,6 +174,72 @@ void ScreenPauseMenuInfo::sub_7100A31998(f32 time, s32 effect, s32 level) {
         _3918 = time;
         _391c = 1;
     }
+}
+
+// A2CE68 supplies child 2; A2DDE4 writes the adjacent temperature and fire-level values.
+static_assert(offsetof(ScreenPauseMenuInfo, _39a0) == 0x39a0);
+static_assert(offsetof(ScreenPauseMenuInfo, _39b8) == 0x39b8);
+static_assert(offsetof(ScreenPauseMenuInfo, _39bc) == 0x39bc);
+static_assert(offsetof(ScreenPauseMenuInfo, _39e8) == 0x39e8);
+
+// 0x7100a2fedc
+// NON_MATCHING: byte-flag updates use different mask widths and register order.
+void ScreenPauseMenuInfo::sub_7100A2FEDC() {
+    if (!_39a0)
+        return;
+    sub_7100A2E510(&_39a8, &_39ac, &_39b0);
+    _39a0->sub_71009C9468(_39a8, _39ac);
+    _39a0->sub_71009C9568();
+    s32 display = 0;
+    s32 warning = 2;
+    switch (_39b4) {
+    case 1:
+        if (getResistHotVal(_39a8) < _39b8)
+            _39c0 |= 1;
+        else
+            _39c0 &= ~1;
+        warning = (_39c0 & 1) ? 0 : 2;
+        break;
+    case 2:
+        if (getResistColdVal(_39ac) > _39b8)
+            _39c0 |= 1;
+        else
+            _39c0 &= ~1;
+        warning = 2 - (_39c0 & 1);
+        break;
+    case 3:
+        if (!(_39c0 & 8)) {
+            if (_39b0 < _39bc) {
+                _39c0 |= 1;
+            } else if (!(_39c0 & 2)) {
+                _39c0 &= ~1;
+            } else {
+                u32 flags = 0;
+                sub_7100AA6040(&flags, sead::SafeString::cEmptyString);
+                if (!(flags & 0x10))
+                    _39c0 |= 1;
+                else
+                    _39c0 &= ~1;
+            }
+        }
+        display = _39c0 & 1;
+        break;
+    case 4:
+        if (_39c0 & 4) {
+            u32 flags = 0;
+            sub_7100AA6040(&flags, sead::SafeString::cEmptyString);
+            if (!(flags & 8))
+                _39c0 |= 1;
+            else
+                _39c0 &= ~1;
+        }
+        display = (_39c0 & 1) << 1;
+        break;
+    default:
+        break;
+    }
+    _39a0->sub_71009C9540(display);
+    _39a0->sub_71009C9554(warning);
 }
 
 }  // namespace uking::ui
