@@ -1,5 +1,6 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/gameGraphics.h"
 #include "Game/gameUnk_71008ba8d8.h"
@@ -417,6 +418,43 @@ int getItemHitPointRecover(const sead::SafeString& name) {
     }
 
     return value;
+}
+
+void sub_7100AA6040(u32* out, const sead::SafeString& actor) {
+    *out = 0;
+    auto* pmdm = PauseMenuDataMgr::instance();
+    if (!pmdm || !ksys::act::InfoData::instance())
+        return;
+
+    auto replaced = PouchItemType::Invalid;
+    if (!actor.isEmpty() && actor != "None")
+        replaced = PauseMenuDataMgr::getType(actor);
+
+    sead::FixedSafeString<64> name;
+    sead::FixedSafeString<32> series;
+    sead::FixedSafeString<32> other;
+    for (s32 i = s32(PouchItemType::ArmorHead); i <= s32(PouchItemType::ArmorLower); ++i) {
+        if (s32(replaced) == i) {
+            name = actor;
+        } else {
+            const auto* equipped = pmdm->getEquippedItemName(PouchItemType(i));
+            if (!equipped || equipped->isEmpty())
+                return;
+            name = *equipped;
+        }
+        if (!sub_7100EE98F0(name))
+            return;
+        if (i == s32(PouchItemType::ArmorHead)) {
+            sub_7100EE992C(&series, name);
+            if (series.isEmpty())
+                return;
+        } else {
+            sub_7100EE992C(&other, name);
+            if (other != series)
+                return;
+        }
+    }
+    getArmorSetFlags(out, series);
 }
 
 void getWeaponStats(const PouchItem& item, WeaponStats* stats) {
