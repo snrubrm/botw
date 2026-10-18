@@ -22,6 +22,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "Game/UI/uiManager.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/gameRoot1.h"
@@ -1098,6 +1099,15 @@ void ScreenMessageDialog::m101() {
 // NON_MATCHING: scheduling at the start (the original masks the bool argument before the Screen ctor and stores
 // _308 / _338 / _348 earlier).
 ScreenMessageDialog::ScreenMessageDialog(bool a1) : Screen(), _76a(a1) {}
+
+// 0x71010b2884
+// NON_MATCHING: output-bool normalization and stack placement differ.
+bool ScreenMessageDialog::sub_71010B2884(const char16* text, s32 length) {
+    sead::FixedSafeString<64> flag_name;
+    bool value = false;
+    flag_name.convertFromWideCharString(sead::WSafeString(text), u16(length));
+    return ksys::gdt::Manager::instance()->getParam().get().getBool(&value, flag_name) && value;
+}
 
 // 0x71010b2b30
 s32 ScreenMessageDialog::sub_71010B2B30(const sead::SafeString& set_name,
