@@ -9,6 +9,8 @@
 #include <math/seadVector.h>
 #include <math/seadBoundBox.h>
 #include <prim/seadDelegate.h>
+#include <prim/seadSafeString.h>
+#include <cstddef>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <thread/seadDelegateThread.h>
@@ -31,6 +33,10 @@ class Unk_7102513630;
 
 namespace uking {
 class VillagerMgr;
+}
+
+namespace ksys::xlink {
+class XLink;
 }
 
 namespace ksys::tera {
@@ -133,9 +139,19 @@ KSYS_CHECK_SIZE_NX150(MassRenderer, 0x258);
 // Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
 // the cluster entry.
 struct Unk_71012497f8Entry {
-    u8 _0[0x80];
-    bool _80;
+    // The query producer copies the model name, translation, XLink and active flag.
+    /* 0x00 */ sead::SafeString mName;
+    u8 _10[0x20 - 0x10];
+    /* 0x20 */ sead::Vector3f mPosition;
+    u8 _2c[0x78 - 0x2c];
+    /* 0x78 */ xlink::XLink* mXLink;
+    /* 0x80 */ bool _80;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71012497f8Entry, 0x88);
+static_assert(offsetof(Unk_71012497f8Entry, mName) == 0);
+static_assert(offsetof(Unk_71012497f8Entry, mPosition) == 0x20);
+static_assert(offsetof(Unk_71012497f8Entry, mXLink) == 0x78);
+static_assert(offsetof(Unk_71012497f8Entry, _80) == 0x80);
 class Placement18;
 class Rail;
 class RailConnectablePoint;
@@ -156,7 +172,8 @@ class PlacementMgr {
         sead::PtrArray<u32> _40;
         sead::PtrArray<u32> _50;
         sead::PtrArray<map::Object> dragon_item_drop_targets;
-        sead::PtrArray<u32> _70;
+        // PlacementTree::checkSpawnStuff pushes the traversed Object pointers here.
+        sead::PtrArray<Object> _70;
     };
     KSYS_CHECK_SIZE_NX150(TraverseResults, 0x80);
 

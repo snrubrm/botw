@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -24,6 +27,10 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+
+// Original enum ownership and source namespace are unknown; declaration only.
+// Existing FootstepReactionChanger callers use the same ABI.
+const char* sub_7100E367C0(s32 index);
 
 namespace ksys::act {
 Reaction* Reaction::sInstance;
@@ -668,6 +675,134 @@ void Reaction::Unk1::sub_7100EC56D8(xlink::XLink* xlink, DamageReactionRequest* 
     else
         wet = world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
     user->setPropertyValue(7, std::max(request->_9c, wet));
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: sound-handle active checks use a different branch layout.
+bool Reaction::Unk1::sub_7100EC64FC(f32 speed, xlink::XLink* xlink,
+                                  const sead::Vector3f& position) {
+    if (mSLinkLimiter && !mSLinkLimiter->sub_7100EC9D84(10, position, false))
+        return true;
+    xlink2::HandleSLink handle;
+    if (xlink) {
+        if (auto* user = xlink->_50) {
+            user->setPropertyValue(3, speed);
+            handle = user->searchAndEmit("BushTrack");
+            if (handle.isActive()) {
+                handle.setPosition(position);
+                eft::sub_710105E214(&handle, false);
+            }
+        }
+    }
+    if (!handle.isActive()) {
+        if (auto* user = _8->getXLink()->_50) {
+            user->setPropertyValue(3, speed);
+            handle = user->searchAndEmit("BushTrack");
+            if (handle.isActive()) {
+                handle.setPosition(position);
+                eft::sub_710105E214(&handle, false);
+            }
+        }
+    }
+    if (handle.isActive() && mSLinkLimiter)
+        mSLinkLimiter->sub_7100ECA2A0(10, position, handle);
+    return handle.isActive();
+}
+
+// NON_MATCHING: vector temporaries and return branches differ.
+bool Reaction::Unk1::sub_7100EC6408(map::Unk_71012497f8Entry* entry) {
+    if (mHasBushTrack)
+        return false;
+    if (InfoData::instance()->hasTag(entry->mName.cstr(), 0xe91ea5f6) &&
+        (entry->mPosition - mBushTrackPosition).length() < 1.0f && entry->_80) {
+        if (sub_7100EC64FC(mBushTrackSpeed, entry->mXLink, mBushTrackPosition)) {
+            mHasBushTrack = true;
+            return false;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: delegate storage and traversal use different temporaries.
+void Reaction::Unk1::sub_7100EC61F8(DamageReactionRequest* request) {
+    const auto position = request->mtx.getTranslation();
+    mBushTrackPosition = position;
+    mBushTrackSpeed = request->_b8->getVelocity().length();
+    mHasBushTrack = false;
+    if (auto* manager = map::PlacementMgr::instance()) {
+        sead::Delegate1R<Unk1, map::Unk_71012497f8Entry*, bool> callback(
+            this, &Unk1::sub_7100EC6408);
+        manager->sub_71011EB40C(&position, 0.5f, &callback);
+        if (mHasBushTrack)
+            return;
+    }
+    if (_110 > 0) {
+        if (sub_7100EC64FC(mBushTrackSpeed, nullptr, mBushTrackPosition)) {
+            mHasBushTrack = true;
+            return;
+        }
+        if (mHasBushTrack)
+            return;
+    }
+    if (auto* manager = map::PlacementMgr::instance()) {
+        const auto& objects = manager->mTraverseResults[1 - manager->mTraverseResultIdx]._70;
+        for (s32 i = 0; i < objects.size(); ++i) {
+            auto* object = objects[i];
+            if ((object->getTranslate() - mBushTrackPosition).length() <= 0.8f) {
+                ActorLinkConstDataAccess accessor;
+                object->getActorWithAccessor(accessor);
+                auto* xlink = accessor.sub_7100D0F214();
+                if (xlink && sub_7100EC64FC(mBushTrackSpeed, xlink, mBushTrackPosition)) {
+                    mHasBushTrack = true;
+                    return;
+                }
+            }
+        }
+    }
+}
+
+// NON_MATCHING: model position and tracking conditions use different branches.
+void Reaction::Unk1::sub_7100EC545C(xlink2::HandleSLink* handle,
+                                  DamageReactionRequest* request) {
+    xlink2::Locator locator;
+    auto* xlink = _10->getXLink();
+    if (!xlink || !xlink->_50)
+        return;
+    auto* user = xlink->_50;
+    if (!user->searchAsset(&locator, sub_7100E367C0(request->_90)))
+        return;
+    if (_10) {
+        if (auto* source = _10->getXLink())
+            sub_7100EC56D8(source, request);
+    }
+    user->emit(locator, handle);
+    if (!handle->isActive() || !request->_b8)
+        return;
+    auto* actor = request->_b8;
+    auto* model = actor->getModel();
+    if (!model || !model->getUnits()[0]->mModelUnit) {
+        handle->setPosition(actor->getMtx().getTranslation());
+    } else if (actor->getName() == "Enemy_Keese" && request->_90 == 0x1b) {
+        handle->setPosition(request->mtx.getTranslation());
+    } else {
+        handle->setPosition(*actor->getModel()->getUnits()[0]->mModelUnit->get50());
+    }
+    if (!handle->isActive())
+        return;
+    bool track = request->_98 == 1;
+    if (!track && u32(request->_90) < 29) {
+        const u32 mask = 1u << request->_90;
+        track = (mask & 0x180000c0) != 0;
+        if (!track && (mask & 0xc02)) {
+            if (auto* source = request->mSource.getXLink())
+                track = source->_cc.isOnBit(6);
+        }
+    }
+    if (track)
+        snd::Unk_710104e5b4::instance()->sub_710104FA78(*handle);
 }
 
 }  // namespace ksys::act

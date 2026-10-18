@@ -13,6 +13,10 @@ namespace xlink2 {
 class HandleELink;
 }
 
+namespace ksys::map {
+struct Unk_71012497f8Entry;
+}
+
 namespace ksys::phys {
 class MaterialMask;
 }
@@ -81,6 +85,9 @@ public:
         void sub_7100EC447C(Actor* actor, ::DamageReactionRequest* request,
                            xlink2::HandleSLink* handle, const char* name);
         void sub_7100EC56D8(xlink::XLink* xlink, ::DamageReactionRequest* request);
+        void sub_7100EC545C(xlink2::HandleSLink* handle, ::DamageReactionRequest* request);
+        bool sub_7100EC6408(map::Unk_71012497f8Entry* entry);
+        bool sub_7100EC64FC(f32 speed, xlink::XLink* xlink, const sead::Vector3f& position);
         void sub_7100EC5B64(const sead::Vector3f& position);
         bool sub_7100EC5C30(f32 speed, f32 value, Actor* actor, const sead::Vector3f& position);
         bool sub_7100EC5C40(f32 speed, f32 value, Actor* actor, const sead::Vector3f& position,
@@ -93,7 +100,10 @@ public:
         /* 0x20 */ xlink2::HandleSLink mGrassCutHandle;
         u8 _30[0xe8 - 0x30];
         /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
-        u8 _f0[0x101 - 0xf0];
+        // The BushTrack request producer stores its position, speed and emitted state here.
+        /* 0xf0 */ sead::Vector3f mBushTrackPosition;
+        /* 0xfc */ f32 mBushTrackSpeed;
+        /* 0x100 */ bool mHasBushTrack;
         // Player::m377 writes whether lower armor is Armor_Default_Lower; footstep assets use it.
         /* 0x101 */ bool mIsPlayerBarefoot;
         u8 _102[0x110 - 0x102];
@@ -144,6 +154,9 @@ static_assert(offsetof(Reaction::Unk1, _8) == 0x8);
 static_assert(offsetof(Reaction::Unk1, _10) == 0x10);
 static_assert(offsetof(Reaction::Unk1, mGrassCutHandle) == 0x20);
 static_assert(offsetof(Reaction::Unk1, mSLinkLimiter) == 0xe8);
+static_assert(offsetof(Reaction::Unk1, mBushTrackPosition) == 0xf0);
+static_assert(offsetof(Reaction::Unk1, mBushTrackSpeed) == 0xfc);
+static_assert(offsetof(Reaction::Unk1, mHasBushTrack) == 0x100);
 static_assert(offsetof(Reaction::Unk1, mIsPlayerBarefoot) == 0x101);
 static_assert(offsetof(Reaction::Unk1, _118) == 0x118);
 
