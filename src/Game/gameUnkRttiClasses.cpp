@@ -17,6 +17,7 @@
 #include <common/aglIndexStream.h>
 #include <common/aglDrawContext.h>
 #include <common/aglDisplayList.h>
+#include <nvn/nvn_FuncPtrInline.h>
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -360,6 +361,13 @@ void Unk_71011595fc::sub_71011597D4(sead::Heap* heap) {
         _20.freeBuffer();
         ++_18;
     }
+}
+
+void Unk_71011595fc::sub_7101159838(agl::DrawContext* context, s32 index) {
+    const auto& list = mDisplayLists[index];
+    if (list.hasRecordedCommands())
+        nvnCommandBufferCallCommands(context->getCommandBuffer()->ToData()->pNvnCommandBuffer,
+                                    1, &list.getCommandHandle());
 }
 
 namespace ksys::tera {
