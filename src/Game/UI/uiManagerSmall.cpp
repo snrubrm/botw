@@ -1324,6 +1324,93 @@ bool Unk_7102475050::sub_7100946A7C() {
     return done;
 }
 
+// 0x7100946be8
+// NON_MATCHING: pane-position loads and motion-completion branches use different registers.
+bool Unk_7102475050::sub_7100946BE8(eui::Animator* animator) {
+    if (!animator) {
+        _e8 = 4;
+        return true;
+    }
+    switch (_e8) {
+    case 0: {
+        sead::Vector2f position = sead::Vector2f::zero;
+        if (_8 && _8->mPane) {
+            const auto& root_position = _8->mPane->GetPosition();
+            position.x = root_position.x;
+            position.y = root_position.y;
+        }
+        const sead::Vector2f target = sead::Vector2f(-260.0f, 200.0f);
+        sead::Vector2f delta = target - position;
+        bool reached = false;
+        if (delta.length() <= 0.1f) {
+            position = target;
+            reached = true;
+        } else {
+            const f32 step = delta.length() * 0.28f;
+            if (step > 100.0f) {
+                const f32 length = delta.length();
+                if (length > 0.0f)
+                    delta *= 100.0f / length;
+            } else if (step < 0.1f) {
+                const f32 length = delta.length();
+                if (length > 0.0f)
+                    delta *= 0.1f / length;
+            } else {
+                delta *= 0.28f;
+            }
+            position += delta;
+        }
+        sub_71009465D8(position);
+        if (reached)
+            _e8 = 1;
+        return false;
+    }
+    case 3: {
+        sead::Vector2f position = sead::Vector2f::zero;
+        if (_8 && _8->mPane) {
+            const auto& root_position = _8->mPane->GetPosition();
+            position.x = root_position.x;
+            position.y = root_position.y;
+        }
+        const sead::Vector2f target = _e0;
+        sead::Vector2f delta = target - position;
+        bool reached = false;
+        if (delta.length() <= 0.1f) {
+            position = target;
+            reached = true;
+        } else {
+            const f32 step = delta.length() * 0.28f;
+            if (step > 100.0f) {
+                const f32 length = delta.length();
+                if (length > 0.0f)
+                    delta *= 100.0f / length;
+            } else if (step < 0.1f) {
+                const f32 length = delta.length();
+                if (length > 0.0f)
+                    delta *= 0.1f / length;
+            } else {
+                delta *= 0.28f;
+            }
+            position += delta;
+        }
+        sub_71009465D8(position);
+        if (reached)
+            _e8 = 4;
+        return false;
+    }
+    case 1:
+        animator->PlayAuto(1.0f);
+        _e8 = 2;
+        // fall through
+    case 2:
+        if (animator->mFrame == f32(animator->GetFrameSize()) || (animator->mFlags & 1))
+            _e8 = 3;
+        return false;
+    default:
+        return true;
+    }
+}
+
 // 0x7100946f88
 bool Unk_7102475050::sub_7100946F88() {
     if (!_c0)

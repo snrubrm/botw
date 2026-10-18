@@ -471,7 +471,6 @@ s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped) {
     return mgr->getItemCount(name, count_equipped);
 }
 
-// Emits the Delegate2R vtable (0x71024987e0) + invoke (0x7100a534e8) + clone (0x7100a5351c).
 // 0x7100aa69b4
 // NON_MATCHING: the string copy hoists the null-character load and changes saved registers.
 s32 sub_7100AA69B4(s32 message_id, eui::MessageString* out) {
@@ -492,6 +491,7 @@ s32 sub_7100AA69B4(s32 message_id, eui::MessageString* out) {
 
 }  // namespace uking::ui
 
+// Emits the Delegate2R vtable (0x71024987e0) + invoke (0x7100a534e8) + clone (0x7100a5351c).
 template class sead::Delegate2R<uking::ui::ScreenShopInfo,
                                 const sead::MessageSet<char16>::TagInfo*,
                                 sead::WBufferedSafeString*, u32>;
