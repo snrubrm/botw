@@ -15,6 +15,8 @@ add_library(gsys OBJECT
   include/gsys/gsysModelDynamicEnvInfo.h
   include/gsys/gsysModelNW.h
   include/gsys/gsysModelDrawObj.h
+  include/gsys/gsysModelRenderContext.h
+  include/gsys/gsysShaderContext.h
   include/gsys/gsysModelScene.h
   include/gsys/gsysModelSceneComponent.h
   include/gsys/gsysModelSceneEnv.h
@@ -57,6 +59,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelUnitGroup.cpp
   src/gsys/gsysModelUnitDrawArray.cpp
   src/gsys/gsysModelDrawObj.cpp
+  src/gsys/gsysModelRenderContext.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysEffectModelDrawMgr.cpp
   src/gsys/gsysResourceEditor.cpp
