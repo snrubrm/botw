@@ -8,6 +8,17 @@
 
 namespace ksys::snd {
 
+struct Unk_7102610960 {
+    u8 _0[0x28];
+    Unk_710103b704::StartParam mParam;
+};
+static_assert(offsetof(Unk_7102610960, mParam) == 0x28);
+
+// 0x7102610958 / 0x7102610960 (placeholder names): the custom ducking default start parameters. The
+// byte selects the defaults instead of the caller's parameters.
+[[gnu::visibility("hidden")]] bool sUnk_7102610958;
+[[gnu::visibility("hidden")]] Unk_7102610960 sUnk_7102610960;
+
 Unk_710103b704::Unk_710103b704(sead::Heap* heap)
     : _5c8(-1), _5cc(false), _5d0(6), _5d4(3), _5d8(false), _5d9(false), _5e0(heap), _620(0) {}
 
@@ -210,6 +221,17 @@ bool Unk_710103b704::sub_710103CE1C() {
 void Unk_710103b704::sub_710103CFE8(int bgm_type, int se_type) {
     _5d0 = bgm_type;
     _5d4 = se_type;
+}
+
+void Unk_710103b704::sub_710103CFF4(StartParam& param) {
+    StartParam& start = sUnk_7102610958 ? sUnk_7102610960.mParam : param;
+    auto* mgr = SoundMgr::instance()->mDuckingMgr;
+    if (!mgr->getDucker(DuckingMgr::DuckerType(0x30)).mDucker.isInitialized()) {
+        sub_71010421F0(mgr, DuckingMgr::DuckerType(0x30), start);
+        return;
+    }
+    if (!mgr->getDucker(DuckingMgr::DuckerType(0x31)).mDucker.isInitialized())
+        sub_71010421F0(mgr, DuckingMgr::DuckerType(0x31), start);
 }
 
 }  // namespace ksys::snd

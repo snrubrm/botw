@@ -798,6 +798,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 
+// 0x71010421f0 (declared only; 2940 B): starts the custom ducking of `type` on `mgr` from `param`. The
+// address neighbours are the DuckingMgr methods, but its first argument is the manager pointer.
+void sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type, Unk_710103b704::StartParam& param);
+
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 // Placeholder name (0x710103ac60 / 0x710103ac84, in the sndSoundMgr38.cpp TU): a ducking request at
