@@ -3,6 +3,8 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -29,6 +31,25 @@ void sub_7100A91784(RecipeItems* items, const sead::SafeString& actor) {
         if (ksys::act::getSameGroupActorName(&group_name, (*items)[i].name))
             (*items)[i].name = group_name;
     }
+}
+
+// 0x7100a90700: acquires `src` into `dst`, stores the source's value, and when the source has the
+// connected-calc tag also acquires its connected calc child into `dst`.
+bool sub_7100A90700(ksys::act::ActorLinkConstDataAccess* dst, ksys::act::BaseProcAccessor* out,
+                    s32* value, const ksys::act::ActorLinkConstDataAccess* src) {
+    dst->acquireActor(*src);
+    *value = src->sub_7100D15E50();
+
+    if (src->hasTag(0x4abb738e)) {
+        ksys::act::ActorLinkConstDataAccess child;
+        src->acquireConnectedCalcChild(&child);
+        if (!child.hasProc())
+            return false;
+        dst->acquireActor(child);
+    }
+
+    sub_7100EE27B4(out, *src);
+    return true;
 }
 
 // 0x7100a90a34

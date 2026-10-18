@@ -51,6 +51,7 @@
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace eui {
+class Animator;
 class CapturePane;
 class PartsEx;
 class TraceGaugeControl;
@@ -5734,11 +5735,22 @@ public:
     static s32 sub_7100A66760();
     // 0x7100a667ec (placeholder name): sUnk_710249ad70 (0 in the E3 demo outside the RID demo)
     static s32 sub_7100A667EC();
+    // 0x7100a684cc (CSV unnamed): fills the save-slot date and place texts for `slot_index`.
+    void sub_7100A684CC(s32 slot_index);
 
     // Members from the ctor 0x7100a65ff0 and D1 0x7100a66208.
     /* 0x3610 */ eui::ButtonBase* _3610{};
     /* 0x3618 */ eui::ButtonBase* _3618{};
-    u8 _pad_3620[0x3730 - 0x3620];
+    u8 _pad_3620[0x3680 - 0x3620];
+    // 0x7100a684cc passes this to setWidgetString; 0x3688 is the second layout used by m106.
+    /* 0x3680 */ eui::LayoutEx* _3680{};
+    u8 _pad_3688[0x3698 - 0x3688];
+    // Animators stopped by 0x7100a684cc (slots 24 / 26 of eui::Animator).
+    /* 0x3698 */ eui::Animator* _3698{};
+    /* 0x36a0 */ eui::Animator* _36a0{};
+    u8 _pad_36a8[0x36b8 - 0x36a8];
+    /* 0x36b8 */ eui::Animator* _36b8{};
+    u8 _pad_36c0[0x3730 - 0x36c0];
     /* 0x3730 */ nn::ui2d::ExternalTextureInfo _3730;
     /* 0x3748 */ Unk_71009cb0c8 _3748[6];
     /* 0x48b8 */ agl::TextureData _48b8;

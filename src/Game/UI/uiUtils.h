@@ -17,6 +17,10 @@ class CapturePane;
 class Screen;
 }
 
+namespace sead {
+class CalendarTime;
+}
+
 namespace uking::act {
 enum class CreateEquipmentSlot : u8;
 }
@@ -77,8 +81,7 @@ eui::CapturePane* sub_7100986FFC(eui::ControlBase* control, const sead::SafeStri
 // Native no-argument scale values used by UiSubsys1 0x71009645d0.
 // Namespace is inferred from the UI caller and neighboring child functions.
 f32 sub_7100986AAC();
-f32 sub_7100986AB4();
-f32 sub_7100986AC0();
+f32 sub_7100986AB4();f32 sub_7100986AC0();
 
 // 0x7100aa0700: E3 demo mode flag
 bool isE3DemoMode();
@@ -277,6 +280,8 @@ f32 sub_7100A9B94C();
 bool isOneHitObliteratorActorName(const sead::SafeString& name);
 int getItemGeneralLife(const char* name);
 bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out);
+// 0x7100a9e034: formats the calendar date in the region's order, then appends the time.
+void formatDate(const sead::CalendarTime& time, sead::BufferedSafeString* out);
 bool isSelectedRuneEqualToItemType(s32 type);
 bool sub_7100A9FA60();
 bool shouldUseWeaponSword503();

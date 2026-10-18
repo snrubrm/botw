@@ -62,14 +62,14 @@ bool saveTransferDecompressArchive(void** out, u64* out_size, const void* data, 
 // The per-slot save data (0x308 bytes; only the flag at +0x300 is known: tested by AlbumInfo's copy helpers).
 struct SaveSlot {
     s32 mAlbumIndices[0x30];  // the picture indices of the slot's album (copied by AlbumInfo)
-    // 0xc0 / 0x1d8: two 0x118-byte blocks (the size of a FixedSafeString<256>), but the static SaveSlot at
-    // 0x71025d1d18 has no static initialiser, so they are trivially constructible (plain data); SaveSystem
-    // 0x7100914154 copies only the first 0xc0 bytes (the album indices) between slots. Types unknown.
+    // 0xc0 / 0x1d8: two sead::FixedSafeString<256> objects (0x118 bytes each). Evidence: the static
+    // initializer 0x7100917244 stores the FixedSafeString<256> vtable, mStringTop = base+0x14 and buffer size
+    // 0x100 in both blocks, and 0x7100a684cc / 0x7100a6889c test their first character and pass them as
+    // SafeStrings. They stay byte arrays here because typing them as FixedSafeString changes the codegen of the
+    // already matched SaveSystem::sub_7100914DC8 (the static's address materialisation).
     /* 0x0c0 */ u8 _c0[0x118];
     /* 0x1d8 */ u8 _1d8[0x118];
-    // 0x2f0: the save time stamp, a sead::DateTime value (u64 unix time); 0x71009131b0 copies it into a
-    // sead::DateTime and calls diffToNow(). Kept as u64: sead::DateTime's constructor would need a static
-    // initialiser for the static slot.
+    // 0x2f0: a sead::DateTime (the static initializer 0x7100917244 calls DateTime(0) at +0x2f0).
     /* 0x2f0 */ u64 mTimestamp;
     /* 0x2f8 */ s32 _2f8;  // set from the UI manager when saving (initA / init1)
     /* 0x2fc */ s32 _2fc;  // returned by 0x71009131b0 when the slot was saved less than 60 s ago
