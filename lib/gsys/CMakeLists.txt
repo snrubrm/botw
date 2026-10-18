@@ -67,6 +67,7 @@ add_library(gsys OBJECT
   src/gsys/gsysResourceEditor.cpp
   src/gsys/gsysParticleMgr.cpp
   src/gsys/gsysParticleConfig.cpp
+  src/gsys/gsysORUtil.cpp
 )
 
 target_compile_options(gsys PRIVATE -fno-exceptions)

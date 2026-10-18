@@ -109,6 +109,11 @@ public:
 
     bool contains(const sead::SafeString& name) const;
 
+    // inline-only in the original; name is a guess. The nonnull data and
+    // signed positive count test repeats in contains 0x7100b96d0c, System
+    // 0x7100b7a044 and UserInstanceSLink 0x7100bbe8bc / UserResourceSLink 0x7100bc1434.
+    bool hasEntries() const { return mData && mData->num_hashes > 0; }
+
 private:
     struct Data {
         ResourceHeader header;

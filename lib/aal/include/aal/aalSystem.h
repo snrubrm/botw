@@ -31,6 +31,11 @@ class System {
 public:
     static System* sInstance;
 
+    // Native 0x7100b7a044 can return null for an empty selected dev reader.
+    // Const pointee is a source-contract inference from this const query and
+    // its read-only consumers; the dev-manager implementation remains unknown.
+    const LoopAssetListReader* getLoopAssetListReader() const;
+
     /// 0x7100b7a098
     void setLoopAssetListReader(LoopAssetListReader& reader);
 
