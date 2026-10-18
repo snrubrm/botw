@@ -62,4 +62,17 @@ void ModelRig::m23(Model* model) {
         }
     }
 }
+
+ModelRig::~ModelRig() = default;
+
+void ModelRig::m11(int, sead::Heap*) {}
+
+void ModelRig::sub_7100C83D44(sead::hostio::Context*) {}
+
+void ModelRig::m24(Model*, const BoneAccessKey&, const sead::SafeString&) {}
+
+void ModelRig::m25(Model*, const MaterialAccessKey&, const sead::SafeString&) {}
+
+void ModelRig::m26(Model*, int) {}
+
 }  // namespace gsys
