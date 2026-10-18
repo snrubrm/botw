@@ -1,6 +1,7 @@
 #include "gsys/gsysModelNW.h"
 #include "gsys/gsysModelDynamicEnvInfo.h"
 #include <nn/g3d/SkeletonObj.h>
+#include <nn/g3d/ResModel.h>
 
 namespace gsys {
 ModelNW::CreateArg::CreateArg() : model(nullptr), buffer_num(1), _c(-1), _10(nullptr), _18(true), _19(true) {}
@@ -46,6 +47,10 @@ agl::lght::LocalLightMapObj* ModelNW::getReferenceLocalLightMapObj() const {
     return mDynamicEnvInfo ? mDynamicEnvInfo->getReferenceLocalLightMapObj() : nullptr;
 }
 
+
+sead::SafeString ModelNW::getName() const {
+    return mModelObj.GetResource()->GetName();
+}
 
 // 0x7100c06d30
 sead::SafeString ModelNW::getBoneName(int bone_idx) const {
