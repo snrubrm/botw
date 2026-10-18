@@ -254,3 +254,40 @@ void AwarenessInstance::sub_7100D7EAE4(int idx) {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: null-check scheduling and sensor-kind branch ordering differ.
+void AwarenessInstance::sub_7100D7DEC4(s32 kind, const sead::Vector3f& position,
+                                     Unk_71024dc858* target,
+                                     const sead::Matrix34f& target_matrix, bool flag) {
+    if (_334 & 0x20)
+        return;
+    auto* sensor = _260[kind];
+    if (!sensor || !target || !sensor->_50)
+        return;
+    if (kind == 2) {
+        if (!(target->_3c & _318))
+            return;
+    } else {
+        if (kind == 0 && _2e8) {
+            auto* filter = _2e8;
+            do {
+                if (filter->m2(target))
+                    break;
+                // The callback can change the registered head; the original reloads it here.
+                filter = _2e8->_18;
+                if (!filter)
+                    return;
+            } while (true);
+        }
+        if (kind == 0 && !flag)
+            flag = !(_328 & target->_40);
+    }
+    const f32 level = target->m4(kind);
+    const auto& transform = _38[kind];
+    const auto& matrix = transform._68 ? transform._0 : _230;
+    _260[kind]->sub_7100D7F8E4(level, target, position, matrix, target_matrix, _2c8, flag);
+}
+
+}  // namespace ksys::act

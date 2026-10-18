@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <cstddef>
 #include <limits>
+#include <gsys/gsysModelAccessKey.h>
 #include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <container/seadSafeArray.h>
@@ -102,9 +103,9 @@ public:
     bool m5(Unk_71023e2708* request) override;
     bool m6(Unk_71023e2708* request) override;
     void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
-                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
-                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
-                     bool flag) override;
+             const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+             const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+             bool flag) override;
 
     /* 0x54 */ f32 _54;  // m4 scales it by sub_7100D8010C into the request's _8
     // Copied to / from the request's params (0xc-0x20) as one block.
@@ -120,9 +121,9 @@ public:
     // Declared first as the key function (see Unk_71024dcd68).
     sead::BitFlag8* m16() override;
     void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
-                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
-                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
-                     bool flag) override;
+             const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+             const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+             bool flag) override;
 
     u8 _52[0x68 - 0x52];
     /* 0x68 */ sead::BitFlag8 _68;  // EnemyNormal::m41 clears bit 0
@@ -139,9 +140,9 @@ public:
     bool m5(Unk_71023e2708* request) override;
     bool m6(Unk_71023e2708* request) override;
     void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
-                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
-                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
-                     bool flag) override;
+             const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+             const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+             bool flag) override;
 
     /* 0x54 */ f32 _54;
 };
@@ -157,9 +158,9 @@ public:
     bool m5(Unk_71023e2708* request) override;
     bool m6(Unk_71023e2708* request) override;
     void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
-                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
-                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
-                     bool flag) override;
+             const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+             const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+             bool flag) override;
 
     /* 0x54 */ f32 _54;
 };
@@ -397,6 +398,8 @@ public:
     void calcForEvent();
     void calc();
     void calc2();
+    void sub_7100D7DEC4(s32 kind, const sead::Vector3f& position, Unk_71024dc858* target,
+                       const sead::Matrix34f& target_matrix, bool flag);
 
     void sleep();
     void disable();
@@ -441,7 +444,20 @@ public:
     };
 
     /* 0x008 */ sead::ObjArray<Unk_7100d78e50> _8;  // awareness entries (allocBuffer 0x7100d78d44)
-    /* 0x028 */ u8 _28[0x230 - 0x28];
+    // Bone searches and transform updates use four records with a 0x70-byte stride.
+    struct SensorTransform {
+        /* 0x00 */ sead::Matrix34f _0;
+        /* 0x30 */ gsys::BoneAccessKeyEx _30;
+        /* 0x68 */ bool _68;
+    };
+    KSYS_CHECK_SIZE_NX150(SensorTransform, 0x70);
+    static_assert(offsetof(SensorTransform, _0) == 0);
+    static_assert(offsetof(SensorTransform, _30) == 0x30);
+    static_assert(offsetof(SensorTransform, _68) == 0x68);
+
+    /* 0x028 */ BaseProcLink _28;
+    /* 0x038 */ sead::SafeArray<SensorTransform, 4> _38;
+    /* 0x1f8 */ gsys::BoneAccessKeyEx _1f8;
     /* 0x230 */ sead::Matrix34f _230;  // base matrix of the awareness (the forward axis is read by BokoblinRestraint)
     sead::SafeArray<Unk_71024dce08*, 4> _260;
     /* 0x280 */ sead::Buffer<SortedEntry> _280;  // the entries ordered by distance (placeholder name)
@@ -471,5 +487,9 @@ public:
     u32 _338;
 };
 KSYS_CHECK_SIZE_NX150(AwarenessInstance, 0x340);
+static_assert(offsetof(AwarenessInstance, _28) == 0x28);
+static_assert(offsetof(AwarenessInstance, _38) == 0x38);
+static_assert(offsetof(AwarenessInstance, _1f8) == 0x1f8);
+static_assert(offsetof(AwarenessInstance, _230) == 0x230);
 
 }  // namespace ksys::act
