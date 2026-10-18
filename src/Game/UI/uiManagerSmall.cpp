@@ -797,21 +797,7 @@ Manager::~Manager() {
         _65160 = nullptr;
     }
 
-    sead::ListNode* node = mTaskList.firstNode();
-    while (node) {
-        sead::ListNode* next = node->next();
-        mTaskList.eraseNode(node);
-        auto* entry = reinterpret_cast<ManagerTaskEntry*>(
-            reinterpret_cast<u8*>(node) - offsetof(ManagerTaskEntry, mNode));
-        entry->mNextFree = mTaskList.mFreeList;
-        mTaskList.mFreeList = entry;
-        node = next;
-    }
-    if (mTaskList.mBuffer)
-        operator delete[](mTaskList.mBuffer);
-    mTaskList.mCapacity = 0;
-    mTaskList.mFreeList = nullptr;
-    mTaskList.mBuffer = nullptr;
+    mTaskList.freeBuffer();
 }
 
 // Constructed alongside the Manager TU statics at A6DD14..A6DE0C.

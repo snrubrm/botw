@@ -7,6 +7,7 @@
 
 #include <container/seadSafeArray.h>
 #include <container/seadListImpl.h>
+#include <container/seadObjList.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
@@ -52,23 +53,18 @@ struct Unk_UiPinInfo {
 // sead::ControllerBase::setLeftStickCrossThreshold with the default pair for the sign of `value`.
 void sub_7100A6C0EC(sead::Controller* controller, f32 value);
 
-// Pooled task list the manager destroys in its destructor (native 0x651e8 .. 0x65214). The nodes are
-// sead::ListNode members at entry + 0x20; erased entries are pushed on the free list at 0x18.
+// A795D4 constructs a task ID, a timer initialized to 60 seconds, and the
+// dismissal flag. ObjList appends its node at +0x20 (slot stride 0x30).
 struct ManagerTaskEntry {
-    ManagerTaskEntry* mNextFree;
-    u8 _8[0x18];
-    sead::ListNode mNode;
+    /* 0x00 */ s32 mId;
+    /* 0x04 */ UiTimer mTimer;
+    /* 0x1c */ bool mDismissed = false;
 };
-struct ManagerTaskList : sead::ListImpl {
-    sead::ListNode* firstNode() { return front(); }
-    void eraseNode(sead::ListNode* node) { erase(node); }
-
-    ManagerTaskEntry* mFreeList;
-    ManagerTaskEntry* mBuffer;
-    s32 mCapacity;
-    s32 _pad;
-};
+using ManagerTaskList = sead::ObjList<ManagerTaskEntry>;
+KSYS_CHECK_SIZE_NX150(ManagerTaskEntry, 0x20);
 KSYS_CHECK_SIZE_NX150(ManagerTaskList, 0x30);
+static_assert(offsetof(ManagerTaskEntry, mTimer) == 4);
+static_assert(offsetof(ManagerTaskEntry, mDismissed) == 0x1c);
 
 // The UI manager singleton (CSV: uiManager::createInstance 0x7100a6e038, ctor 0x7100a6e0c4,
 // instance pointer 0x71025f5ee0, size 0x653b0, disposer at +0x18). Only the fields that are used
@@ -144,6 +140,7 @@ public:
     bool sub_7100A7F2EC(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos);
     // 0x7100a7f930 (declared only; Unk_7102485670::sub_7100A01918 passes a message / tip id)
     bool sub_7100A7F930(s32 id);
+    void sub_7100A7FA78(s32 id);
     bool sub_7100A7F468(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
