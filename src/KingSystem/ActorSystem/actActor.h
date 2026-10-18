@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
+#include <gsys/gsysModelAnimation.h>
 #include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -502,6 +503,9 @@ public:
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
     Unk_7100d8557c* sub_71011D89F8();
+    // 0x71011c9c80: fills the existing animation creation counts; both callers pass CreateArg.
+    // Mutable-reference spelling is inferred from the ABI, not recovered original mangling.
+    void sub_71011C9C80(gsys::ModelAnimation::CreateArg& arg);
     // Refreshes the actor's model/UMii animation state; full callee is declaration only.
     bool sub_71011D573C(sead::Heap* heap);
     // Model resource setup passes the same heap through to Model::createAnimation.

@@ -50,6 +50,7 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceAnimInfo.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/Resource/Actor/resResourceBoneControl.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
@@ -1974,6 +1975,56 @@ void Actor::setModelDrawEnabled(bool enabled) {
 
 void* Actor::m119() {
     return nullptr;
+}
+
+// NON_MATCHING: operand order of the final signed minimum selection.
+void Actor::sub_71011C9C80(gsys::ModelAnimation::CreateArg& arg) {
+    auto* model_list = mActorParam->getRes().mModelList;
+    s32 skeletal_slots = 0;
+    s32 material_max = 0;
+    s32 partial_slots = 0;
+    for (s32 i = 0; i < model_list->getNumAnmTargets(); ++i) {
+        const s32 slots = model_list->getNumASSlot(i);
+        if (model_list->getAnmTargets()[i].target_type.ref() == 2) {
+            partial_slots += slots;
+        } else {
+            skeletal_slots += slots;
+            material_max = sead::Mathi::max(material_max, slots);
+        }
+    }
+    material_max += partial_slots;
+    skeletal_slots = sead::Mathi::max(skeletal_slots, 1);
+    material_max = sead::Mathi::max(material_max, 1);
+    auto* as_res = mActorParam->getRes().mASList;
+    if (as_res) {
+        s32 skeletal_multiplier = as_res->_2b0;
+        s32 material_multiplier = as_res->_2b1;
+        if (mASList != &as::sNullASListMaybe && mASList) {
+            s32 skeletal = 0;
+            s32 material = 0;
+            mASList->sub_710115E1D4(&skeletal, &material);
+            skeletal_multiplier = sead::Mathi::max(skeletal_multiplier, skeletal);
+            material_multiplier = sead::Mathi::max(material_multiplier, material);
+            if (material > 0)
+                ++material_max;
+        }
+        arg._0 = skeletal_multiplier * skeletal_slots;
+        if (as_res->getCFDefines().size() > 0 || as_res->_2b2)
+            arg._0 *= 3;
+        arg._4 = material_multiplier * material_max;
+        if (mActorFlags.isOnBit(ActorFlag::_8))
+            arg._4 += 2;
+        if (hasTag(this, 0x216a3a63))
+            arg._4 += 2;
+        arg._0 = sead::Mathi::min(arg._0, m109());
+    } else {
+        arg._0 = skeletal_slots;
+        arg._4 = material_max;
+    }
+    if (model_list->getControllerInfo().mVariationMatAnim.ref()[0] != '\0')
+        ++arg._4;
+    if (model_list->getControllerInfo().mVariationShaderAnim.ref()[0] != '\0')
+        ++arg._4;
 }
 
 as::ASList* Actor::sub_71011C9A88() const {

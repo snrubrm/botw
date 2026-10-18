@@ -7,6 +7,10 @@
 #include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/ParamIO.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace ksys::res {
 
 class AS;
@@ -91,6 +95,8 @@ protected:
     bool m7_() override;
 
 private:
+    friend class act::Actor;  // Animation creation reads the counts accumulated by addAS_.
+
     u8 _2b0 = 0;
     u8 _2b1 = 0;
     u8 _2b2 = 0;
