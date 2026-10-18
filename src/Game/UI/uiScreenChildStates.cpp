@@ -894,6 +894,25 @@ s32 Unk_710247b428::m152() { return 0; }
 
 Unk_710247b428::~Unk_710247b428() = default;
 
+// NON_MATCHING: the compiler merges the ten zero pointer stores into a memset; the original keeps them as stp pairs.
+// 0x71009c96a4
+Unk_710247e468::Unk_710247e468(eui::LayoutEx* layout) : ScreenChildEx(layout) {
+    _130 = nullptr;
+    _138 = nullptr;
+    _140 = nullptr;
+    _148 = nullptr;
+    _150 = nullptr;
+    mTexPatterns[0] = nullptr;
+    mTexPatterns[1] = nullptr;
+    mTexPatterns[2] = nullptr;
+    mTexPatterns[3] = nullptr;
+    mTexPatterns[4] = nullptr;
+    _180 = ksys::world::Climate(-1);
+    _184 = ksys::world::Climate(0);
+    _188 = false;
+    _18a = false;
+}
+
 // 0x71009c9878
 void Unk_710247e468::m24(sead::Heap*) {
     _130 = mLayout->tryCreateAnimatorAuto("Scroll", false);
