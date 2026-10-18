@@ -930,6 +930,9 @@ public:
     void sub_7100A300AC();
     void sub_7100A2E844();
     void sub_7100A30510(u32 mode);
+    // A30444 selects the tab endpoint; A306F4 animates the tab change.
+    void sub_7100A30444(u32 mode);
+    void sub_7100A306F4(s32 previous_mode, u32 mode);
     // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
     void sub_7100A313A8(s32 page, bool a2);
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
@@ -988,8 +991,8 @@ public:
     /* 0x39bc */ s32 _39bc;
     /* 0x39c0 */ u8 _39c0;
     u8 _pad_39c1[0x39c8 - 0x39c1];
-    // A2CE68 allocates this PtrArray for group 7 and inserts ScreenChildEx children.
-    /* 0x39c8 */ sead::PtrArray<ScreenChildEx> _39c8;
+    // A2CE68 checks ScreenChildEx then the leaf RTTI at 25da4a8 before inserting group 7 children.
+    /* 0x39c8 */ sead::PtrArray<Unk_710247b960> _39c8;
     u8 _pad_39d8[0x39e8 - 0x39d8];
     /* 0x39e8 */ ScreenChildEx* _39e8;  // the control whose layout shows the number (T_Num_00)
     /* 0x39f0 */ u8 _39f0;

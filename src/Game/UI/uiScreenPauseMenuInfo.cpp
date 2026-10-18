@@ -1,4 +1,6 @@
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiMessageString.h"
+#include "Game/gameSceneSubsys12.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiScreens.h"
@@ -345,6 +347,214 @@ void ScreenPauseMenuInfo::sub_7100A300AC() {
     if (_3b58)
         _3b58->m6(true);  // native result is discarded
     _39f0 = 1;
+}
+
+// Tables initialized by the PauseMenuInfo startup routine at 0x7100a2c5d8.
+struct PauseTabMessage {
+    sead::SafeString label;
+    u32 frame;
+};
+static PauseTabMessage sUnk_71025f06c0[] = {{"0014", 1}, {"0013", 2}, {"0012", 0}};
+static sead::Buffer<PauseTabMessage> sUnk_71025f0890(sUnk_71025f06c0);
+struct PauseInfoMessage {
+    s32 icon;
+    sead::SafeString label;
+};
+static PauseInfoMessage sUnk_71025f08b0[] = {
+    {6, "0003"}, {6, "0002"}, {7, "0004"}, {8, "0000"}, {9, "0005"},
+    {5, "0006"}, {4, "0009"}, {7, "0008"}, {6, "0015"},
+};
+static sead::Buffer<PauseInfoMessage> sUnk_71025f08a0(sUnk_71025f08b0);
+static sead::SafeString sUnk_71025f0870 = "LayoutMsg/PauseMenuInfo_00";
+static_assert(sizeof(PauseTabMessage) == 0x18);
+static_assert(sizeof(PauseInfoMessage) == 0x18);
+
+// 0x7100a30194
+// NON_MATCHING: temperature-state switch and callback flag branches differ.
+void ScreenPauseMenuInfo::sub_7100A30194() {
+    if (_39e8)
+        _39e8->m6(true);  // native return discarded
+    _36e0.sub_7100946740(false, false);
+    if (!(_38f8 <= 0.01f && _38f8 >= -0.01f))
+        _3810.sub_7100946740(false, false);
+    if (_39a0) {
+        _39a0->sub_71009C9468(_39a8, _39ac);
+        s32 level = 0;
+        s32 state = 2;
+        switch (_39b4) {
+        case 1: state = (_39c0 & 1) ? 0 : 2; break;
+        case 2: state = 2 - (_39c0 & 1); break;
+        case 3: level = 1; break;
+        case 4: level = 2; break;
+        default: break;
+        }
+        _39a0->sub_71009C9438(_39b8, level);
+        _39a0->sub_71009C9540((_39c0 & 1) ? level : 0);
+        _39a0->sub_71009C9554(state);
+        _39a0->sub_71009C9580();
+        _39a0->m5(true);  // native return discarded
+    }
+    const s32 count = _39c8.size();
+    for (s32 i = 0; i < count; ++i) {
+        auto* child = _39c8.at(i);
+        if (child && child->_168 != -1)
+            sub_7100AA1CDC(child, _3908, true);
+    }
+    if (_3b58 && _3b68)
+        _3b58->m5(true);  // native return discarded
+    _39f0 = 0;
+}
+
+// 0x7100a30510
+// NON_MATCHING: the original addresses the message tables from its merged-static base.
+void ScreenPauseMenuInfo::sub_7100A30510(u32 mode) {
+    u32 left = 3;
+    u32 right = 0;
+    if (mode == 0) {
+        left = 2;
+        right = 1;
+    } else if (mode == 1) {
+        left = 0;
+        right = 3;
+    }
+    eui::MessageString message;
+    getMessage(sUnk_71025f0870, sUnk_71025f0890[mode].label, &message);
+    setWidgetString(mLayout, "T_Title_00", message);
+    // AA0730 is called before testing mode==0 whenever left!=3; retain side effects.
+    if (left == 3 || (sub_7100AA0730() && mode == 0) || GameSceneSubsys12::instance()->x()) {
+        setWidgetString(mLayout, "T_LeftText_00", sead::SafeString::cEmptyString);
+    } else {
+        getMessage(sUnk_71025f0870, sUnk_71025f0890[left].label, &message);
+        setWidgetString(mLayout, "T_LeftText_00", message);
+    }
+    if (right == 3 || GameSceneSubsys12::instance()->x()) {
+        setWidgetString(mLayout, "T_RightText_00", sead::SafeString::cEmptyString);
+    } else {
+        getMessage(sUnk_71025f0870, sUnk_71025f0890[right].label, &message);
+        setWidgetString(mLayout, "T_RightText_00", message);
+    }
+}
+
+// 0x7100a30df0
+// NON_MATCHING: the original addresses the info Buffer from its merged-static base.
+void ScreenPauseMenuInfo::sub_7100A30DF0(bool flag) {
+    {
+        UiStringEntry entry;
+        entry._0 = 2;
+        entry._8.copy(sUnk_71025f08a0[2].label);
+        entry._124 = sUnk_71025f08a0[2].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    {
+        UiStringEntry entry;
+        entry._0 = 5;
+        entry._8.copy(sUnk_71025f08a0[5].label);
+        entry._124 = sUnk_71025f08a0[5].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    {
+        UiStringEntry entry;
+        entry._0 = 4;
+        entry._8.copy(sUnk_71025f08a0[4].label);
+        entry._124 = sUnk_71025f08a0[4].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    _39f8.sub_7100934478(flag);
+    if (_3b50)
+        _3b50->m6(true);  // native return discarded
+}
+
+// 0x7100a31190
+// NON_MATCHING: the original addresses the info Buffer and message set from its merged-static base.
+void ScreenPauseMenuInfo::sub_7100A31190(bool flag) {
+    {
+        UiStringEntry entry;
+        entry._0 = 7;
+        entry._8.copy(sUnk_71025f08a0[7].label);
+        entry._124 = sUnk_71025f08a0[7].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    _39f8.sub_7100934478(flag);
+    if (_3b50) {
+        eui::MessageString message;
+        getMessage(sUnk_71025f0870, sUnk_71025f08a0[6].label, &message);
+        setWidgetString(_3b50->mLayout, "T_Guide_00", message);
+        sub_7100AA34A4(_3b50->mLayout, "T_Icon_00", sUnk_71025f08a0[6].icon);
+        _3b50->m5(true);  // native return discarded
+        eui::Screen::x_2();
+    }
+}
+
+// 0x7100a313a8
+// NON_MATCHING: the original addresses the info Buffer from its merged-static base.
+void ScreenPauseMenuInfo::sub_7100A313A8(s32 page, bool flag) {
+    if (page == 2) {
+        UiStringEntry entry;
+        entry._0 = 1;
+        entry._8.copy(sUnk_71025f08a0[1].label);
+        entry._124 = sUnk_71025f08a0[1].icon;
+        _39f8.sub_7100933FE0(entry);
+    } else if (page == 1) {
+        UiStringEntry entry;
+        entry._0 = 8;
+        entry._8.copy(sUnk_71025f08a0[8].label);
+        entry._124 = sUnk_71025f08a0[8].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    {
+        UiStringEntry entry;
+        entry._0 = 2;
+        entry._8.copy(sUnk_71025f08a0[2].label);
+        entry._124 = sUnk_71025f08a0[2].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    _39f8.sub_7100934478(flag);
+}
+
+// 0x7100a30444
+// NON_MATCHING: tab-selection branches and merged-static addressing differ.
+void ScreenPauseMenuInfo::sub_7100A30444(u32 mode) {
+    if (_36c0) {
+        auto* animator = _36c0->select(mode > 1 ? 1 : 0);
+        if (animator) {
+            if (mode == 0)
+                animator->StopAtMin();
+            else
+                animator->StopAtMax();
+        }
+    }
+    if (_36d0)
+        _36d0->Stop(_36d8 * f32(sUnk_71025f0890[mode].frame));
+    sub_7100A30510(mode);
+    _36c8 = 3;
+}
+
+// 0x7100a306f4
+// NON_MATCHING: animation branch order and merged-static addressing differ.
+void ScreenPauseMenuInfo::sub_7100A306F4(s32 previous_mode, u32 mode) {
+    if (_36c0) {
+        u32 index = 1;
+        f32 speed = 1.0f;
+        if (mode == 1) {
+            index = 0;
+        } else if (mode == 0) {
+            index = previous_mode != 1;
+            speed = -1.0f;
+        }
+        auto* animator = _36c0->select(index);
+        if (animator) {
+            if (animator->mRate == 0.0f) {
+                if (_36c8 != 3)
+                    sub_7100A30510(_36c8);
+                animator->PlayAuto(speed);
+            } else {
+                animator->PlayFromCurrent(eui::Animator::PlayType(0), speed);
+            }
+            _36c8 = mode;
+        }
+    }
+    if (_36d0)
+        _36d0->Stop(_36d8 * f32(sUnk_71025f0890[mode].frame));
 }
 
 }  // namespace uking::ui
