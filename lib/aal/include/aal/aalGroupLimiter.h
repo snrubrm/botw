@@ -46,6 +46,9 @@ public:
     void setRequestSoundLimiter(RequestSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
     void setRequestIntervalLimiter(RequestIntervalLimiter* limiter);
     sead::OffsetList<SoundSource>* getRequestSoundLimitList() const { return mRequestSoundLimitList; }
+    /// Inline-only in the original; name is a guess. ksys::snd::FxMgr 0x7101050070 reads Group::mLimiter (+0x148),
+    /// then the active limiter (+0x18) and copies the system pause flag into ActiveSoundLimiter +0x14.
+    ActiveSoundLimiter* getActiveSoundLimiter() const { return mActiveSoundLimiter; }
 
 private:
     bool mInitialized;
