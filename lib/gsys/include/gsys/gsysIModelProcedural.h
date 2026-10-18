@@ -27,7 +27,9 @@ public:
     // vtable, then the name "Proc(unnamed)" (+0x20) and the word 1 (+0x30).
     class RenderUnit : public ModelRenderUnit {
     public:
-        ~RenderUnit() override {}
+        // `{ ; }` keeps the original's vtable store in D2/D0 (the defaulted body drops it);
+        // precedent: upstream GameDataFlagSelector::~GameDataFlagSelector().
+        ~RenderUnit() override { ; }
 
     private:
         sead::SafeString mName{"Proc(unnamed)"};
