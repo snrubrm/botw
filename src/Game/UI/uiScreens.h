@@ -21,6 +21,7 @@
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiTimer.h"
+#include "Game/UI/uiGauge.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/System/DebugBoard.h"
@@ -931,9 +932,19 @@ public:
     u8 _pad_3650[0x36a0 - 0x3650];
     /* 0x36a0 */ eui::Animator* _36a0;
     /* 0x36a8 */ eui::Animator* _36a8;
-    u8 _pad_36b0[0x38f0 - 0x36b0];
+    // 0x7100a2dc30 / 0x7100a2dcd8: preview heart / stamina changes in the pause menu.
+    void sub_7100A2DC30(f32 delta);
+    void sub_7100A2DCD8(f32 delta);
+
+    u8 _pad_36b0[0x36e0 - 0x36b0];
+    /* 0x36e0 */ ::Unk_7102475050 _36e0;
+    /* 0x3810 */ ::Unk_71024750c8 _3810;
     /* 0x38f0 */ f32 _38f0;
-    u8 _pad_38f4[0x3904 - 0x38f4];
+    u8 _pad_38f4[4];
+    /* 0x38f8 */ f32 _38f8;
+    u8 _pad_38fc[4];
+    /* 0x3900 */ u8 _3900;
+    u8 _pad_3901[3];
     /* 0x3904 */ u8 _3904;
     u8 _pad_3905[3];
     // Setup 0x7100a2ce68 casts child 1 to Unk_710247bcb8 before storing this pointer.

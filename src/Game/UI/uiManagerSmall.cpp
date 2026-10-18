@@ -1150,3 +1150,11 @@ sead::DirectResource* Unk_710249c630::newResource_(sead::Heap* heap_, s32 alignm
 
 
 
+
+bool Unk_7102474fd8::sub_71009468C0() const {
+    return _58->mRate != 0.0f;
+}
+f32 Unk_7102474fd8::sub_71009468D4() const {
+    return _58->mFrame;
+}
+

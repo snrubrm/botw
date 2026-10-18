@@ -1,4 +1,5 @@
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/UI/uiScreenControlCreators.h"
 
 namespace uking::ui {
@@ -37,3 +38,39 @@ ScreenChild* sub_7100A2C4D4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+// 0x7100a2dc30, 168 B
+void ScreenPauseMenuInfo::sub_7100A2DC30(f32 delta) {
+    if (!(delta <= 0.01f && delta >= -0.01f)) {
+        _36e0.sub_710094574C(_38f0 + delta);
+        _36e0.sub_71009468AC();
+        if (_3900 & 1)
+            _36e0.sub_7100946640(false);
+    } else {
+        _36e0.sub_7100945D70();
+        _36e0.sub_71009468E0(0.0f);
+        if (_3900 & 1)
+            _36e0.sub_7100946640(true);
+    }
+}
+// 0x7100a2dcd8, 264 B
+void ScreenPauseMenuInfo::sub_7100A2DCD8(f32 delta) {
+    if (!(delta <= 0.01f && delta >= -0.01f)) {
+        const f32 value = _38f8 + delta;
+        _3810.sub_710094574C(value);
+        _3810.sub_7100945D04(value);
+        _3810.sub_7100946740(false, false);
+        if (_36e0.sub_71009468C0() && _36e0.sub_71009468D4() > 0.0f)
+            _36e0.sub_71009468AC();
+        _3810.sub_71009468AC();
+    } else {
+        _3810.sub_7100945D04(_38f8);
+        _3810.sub_7100945D70();
+        _3810.sub_71009468E0(0.0f);
+        if (_38f8 <= 0.01f && _38f8 >= -0.01f)
+            _3810.sub_7100945C98(false);
+    }
+    eui::Screen::x_2();
+}
+}
