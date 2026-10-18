@@ -74,7 +74,7 @@ bool SmallFishEffectEmitter::getSpawnPosition(Effect* effect, const sead::Vector
     const bool valid = effect->sub_71011B2A34(&position, &depth, &height, &material,
                                             &submaterial, nullptr, false) &&
                        material == phys::Material::Water && submaterial == 0 &&
-                       !(depth <= mMinWaterDepth);
+                       depth > mMinWaterDepth;
     output.y = height;
     return valid;
 }
