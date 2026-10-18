@@ -48,6 +48,7 @@ class LODMgr {
 
 public:
     void init(sead::Heap* heap);
+    void printDebugInfo();
     void initBeforeStageGenB();
     // 0x7101251b08 (CSV LODMgr::__auto3): `pos` + 5 along the look direction of the look-at camera.
     void sub_7101251B08(sead::Vector3f* pos);
@@ -99,7 +100,9 @@ public:
     /* 0x1c88 */ agl::cull::ViewFrustumCulling mFrustum;
     /* 0x1ec0 */ agl::cull::ViewFrustumCulling mNearFrustum;
     /* 0x20f8 */ sead::Vector3f mCameraDirection;
-    u8 _2104[0x2110 - 0x2104];
+    s32 _2104;
+    s32 _2108;
+    s32 _210c;
     /* 0x2110 */ sead::SafeArray<u32, 24> _2110;
     // The LOD debug counters that calc_x / calc_x_1 / the per-state helper increment.
     /* 0x2170 */ s32 _2170;
@@ -117,13 +120,21 @@ public:
     /* 0x21a0 */ s32 _21a0;
     /* 0x21a4 */ s32 _21a4;
     /* 0x21a8 */ s32 _21a8;
-    /* 0x21ac */ u8 _21ac[0x21b8 - 0x21ac];
+    /* 0x21ac */ s32 _21ac;
+    s32 _21b0;
+    f32 _21b4;
     /* 0x21b8 */ Unk_71011086dc* _21b8;
     /* 0x21c0 */ sead::Vector3f _21c0;
-    u8 _21cc[0x21dc - 0x21cc];
+    u8 _21cc[0x21d8 - 0x21cc];
+    f32 _21d8;
     // calc_x suppresses distance-based requests when this byte is set.
     bool _21dc;
-    u8 _21dd[0x2200 - 0x21dd];
+    u8 _21dd[0x21e4 - 0x21dd];
+    f32 _21e4;
+    u8 _21e8[4];
+    f32 _21ec;
+    u8 _21f0[0x21fc - 0x21f0];
+    s32 _21fc;
     // calc computes this scale from the projection field of view.
     f32 _2200;
     u8 _2204[4];
@@ -144,7 +155,11 @@ public:
     };
     static_assert(sizeof(SlotPool) == 0x410);
     /* 0x2208 */ SlotPool mSlotPools[2];
-    /* 0x2a28 */ u8 _2a28[0x2a60 - 0x2a28];
+    /* 0x2a28 */ s32 _2a28;
+    s32 _2a2c;
+    f32 _2a30;
+    f32 _2a34;
+    u8 _2a38[0x2a60 - 0x2a38];
 };
 KSYS_CHECK_SIZE_NX150(LODMgr, 0x2a60);
 

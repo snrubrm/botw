@@ -272,6 +272,45 @@ void LODMgr::calc_x(const sead::Vector3f* camera) {
     }
 }
 
+// NON_MATCHING: floating-point varargs and counter loads are scheduled differently.
+void LODMgr::printDebugInfo() {
+    sead::FixedSafeString<512> text;
+    if (sUnk_71026531A8 & 2) {
+        text.format("LOD入力\nエントリ数:%3d (固定:%d)\n子供:%3d (固定:%d)", _1028, _2104, _1830, _2108);
+        text.format("XLink:%d クロス:%d アテンション:%d", _210c, _21ac, _21b0);
+        text.format("追加の計算源の数:%d", _1878);
+        text.format("LOD結果\nNear:%3d FrontView:%3d Outsideview:%3d Far:%3d Hide:%3d OutViewFar:%3d", _2110[0], _2110[1], _2110[2], _2110[3], _2110[4], _2110[5]);
+        text.format("計算:%3d 描画:%3d ビヘイビア:%3d クロス:%3d ラグドール:%3d", _2178, _217c, _2180, _2174, _2170);
+        text.format("XLinkSleep:%3d XLinkSkip:%3d HP0:%d Physical:%d Chmical:%d", _218c, _2190, _2194, _2198, _219c);
+        text.format("計算スキップ可能:%3d  リセット後:%d アテンション:%d", _21a4, _21a8, _2184);
+        text.format("画面外間引きレスキュー計算");
+        text.format("計算数 High:%d Low:%d  エントリ数 Hit:%d Low:%d", mSlotPools[0].used, mSlotPools[1].used, mSlotPools[0].count, mSlotPools[1].count);
+        text.format("救った数 High:%d Low:%d", mSlotPools[0].taken, mSlotPools[1].taken);
+        text.format("計算ジョブ詰め抑制 %d", _2188);
+    }
+    if (sUnk_71026531A8 & 3) {
+        const char* load = _21dc ? "重い" : "--";
+        text.format("ＣＰＵ負荷 %5.1f [%s] バランサ:%d", _21d8, load, _21fc);
+        text.format("表示距離 速度:%5.2f 表示距離:%3.2f", _21ec, _21e4);
+        text.format("騎乗スケール:%3.2f", _21b4);
+        text.format("[CPU] %3.2f(over:%3d) ", _2a30, _2a28);
+        text.format("[GPU] %3.2f(over:%3d)", _2a34, _2a2c);
+        text.format("FovScale:%f", _2200);
+    }
+    if (sUnk_71026531A8 & 4) {
+        text.format("アクタ負荷");
+        text.format("%s %3d %3d", "敵　　", _2110[6], _2110[15]);
+        text.format("%s %3d %3d", "巨敵　", _2110[7], _2110[16]);
+        text.format("%s %3d %3d", "ＮＰＣ", _2110[8], _2110[17]);
+        text.format("%s %3d %3d", "動物　", _2110[9], _2110[18]);
+        text.format("%s %3d %3d", "虫　　", _2110[10], _2110[19]);
+        text.format("%s %3d %3d", "魚　　", _2110[11], _2110[20]);
+        text.format("%s %3d %3d", "武器　", _2110[12], _2110[21]);
+        text.format("%s %3d %3d", "馬　　", _2110[13], _2110[22]);
+        text.format("%s %3d %3d", "その他", _2110[14], _2110[23]);
+    }
+}
+
 void LODMgr::init(sead::Heap* heap) {
     const sead::Heap* const heap_arg = heap;
     _21b8 = new (heap, 8) Unk_71011086dc();
