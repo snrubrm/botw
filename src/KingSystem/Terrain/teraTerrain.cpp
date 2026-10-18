@@ -15,6 +15,7 @@
 #include <utility/aglPrimitiveShape.h>
 #include <utility/aglVertexAttributeHolder.h>
 #include <gfx/seadViewport.h>
+#include <gfx/seadProjection.h>
 #include <mc/seadCoreInfo.h>
 #include <thread/seadThread.h>
 #include "KingSystem/Physics/System/physClosestPointQueryWithInfo.h"
@@ -195,8 +196,34 @@ void Core::Grass::sub_7101151A1C() {
     _c |= 1;
 }
 
-u8* Core::Grass::sub_7101152DA0(s32 index) {
-    return &mEntries[index]._274;
+// NON_MATCHING: vector normalization and matrix stores are scheduled differently.
+void Core::Grass::sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
+                                    const sead::Vector3f* target) {
+    mFlags |= 0x20000;
+    if (fovy <= 0.0f)
+        fovy = 0.7f;
+
+    auto& entry = *mEntries.getBufferPtr();
+    sead::Vector3f direction = *position - *target;
+    direction.normalize();
+    sead::Vector3f right = sead::Vector3f::ey.cross(direction);
+    right.normalize();
+    sead::Vector3f up = direction.cross(right);
+    up.normalize();
+    sead::Matrix34f camera;
+    camera.setBase(0, right);
+    camera.setBase(1, up);
+    camera.setBase(2, direction);
+    camera.setBase(3, *position);
+    sead::PerspectiveProjection projection;
+    projection.set(1.0f, 10000.0f, fovy, 1.7777778f);
+    entry.mFrustum.update(camera, projection);
+    entry.mCamera = camera;
+    entry.mPosition = *position;
+}
+
+sead::Vector3f* Core::Grass::sub_7101152DA0(s32 index) {
+    return &mEntries[index].mPosition;
 }
 
 s32 sub_710114190C(const nn::g3d::ResMaterial* material, const char* name);

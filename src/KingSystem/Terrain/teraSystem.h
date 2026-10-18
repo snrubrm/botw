@@ -126,7 +126,9 @@ public:
         // 0x7101151a1c (placeholder name): sets bit 0 of _c.
         void sub_7101151A1C();
         // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
-        u8* sub_7101152DA0(s32 index);
+        sead::Vector3f* sub_7101152DA0(s32 index);
+        void sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
+                               const sead::Vector3f* target);
         // 0x710114ee5c (placeholder name): sets or clears bit 5 of both objects of every entry.
         void sub_710114EE5C(bool on);
 
@@ -152,11 +154,18 @@ public:
             u8 _10[0x28 - 0x10];
             // 0x710114f978 stores the System passed by Core 0x71013019bc.
             System* mSystem;
-            u8 _30[0x274 - 0x30];
-            u8 _274;
-            u8 _275[0x2c0 - 0x275];
+            u8 _30[0x3c - 0x30];
+            // Camera setters 0x710114f978 and 0x7101152b3c update this frustum.
+            agl::cull::ViewFrustumCulling mFrustum;
+            sead::Vector3f mPosition;
+            u8 _280[0x28c - 0x280];
+            sead::Matrix34f mCamera;
+            u8 _2bc[4];
         };
         static_assert(sizeof(Entry) == 0x2c0);
+        static_assert(offsetof(Entry, mFrustum) == 0x3c);
+        static_assert(offsetof(Entry, mPosition) == 0x274);
+        static_assert(offsetof(Entry, mCamera) == 0x28c);
         // At 0x10: size (0x10) and pointer (0x18), like sead::Buffer.
         sead::Buffer<Entry> mEntries;
         u8 _20[0x28 - 0x20];
