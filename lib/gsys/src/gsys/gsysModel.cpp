@@ -1,4 +1,5 @@
 #include "gsys/gsysModel.h"
+#include "gsys/gsysModelRig.h"
 #include "gsys/gsysModelSceneEnv.h"
 #include "gsys/gsysModelAccessKey.h"
 #include "gsys/gsysModelAnimation.h"

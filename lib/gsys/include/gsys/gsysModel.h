@@ -13,6 +13,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysIModelRigObj.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitGroup.h>
 
@@ -24,7 +25,6 @@ namespace gsys {
 
 struct BoneAccessKey;
 class IModelAccesssHandle;
-class IModelRigObj;
 struct MaterialAccessKey;
 class ModelAnimation;
 class ModelBone;
