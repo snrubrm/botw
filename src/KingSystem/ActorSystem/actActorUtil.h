@@ -436,3 +436,6 @@ s32 getPlacedItemStockNum(ksys::act::Actor* actor,
 
 // Existing matched global definition; the original source owner remains unknown.
 bool sub_7100EE98F0(const sead::SafeString& actor);
+
+// Scope inferred (global like sub_7100EE98F0); the original's real scope is unknown.
+void sub_7100EE992C(sead::BufferedSafeString* out, const sead::SafeString& actor);

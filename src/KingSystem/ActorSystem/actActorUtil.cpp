@@ -72,6 +72,11 @@ bool sub_7100EE98F0(const sead::SafeString& actor) {
     return ksys::act::getSeriesArmorEnableCompBonus(ksys::act::InfoData::instance(), actor.cstr());
 }
 
+// Scope inferred (global like sub_7100EE98F0); the original's real scope is unknown.
+void sub_7100EE992C(sead::BufferedSafeString* out, const sead::SafeString& actor) {
+    out->copy(ksys::act::getSeriesArmorSeriesType(ksys::act::InfoData::instance(), actor.cstr()));
+}
+
 // Source owner unknown: both native sound consumers pass their actor and test the result.
 bool sub_7100EE8974(ksys::act::Actor* actor) {
     return actor && actor->getASList()->x_1(0, 0).findIndex("Sleep") != -1;
