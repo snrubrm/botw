@@ -45,7 +45,11 @@ public:
     virtual void m9();
     virtual bool m10();
     virtual bool m11();
-    virtual void m12() = 0;
+    // The wrapper and sight implementation establish the common sensor input arguments.
+    virtual void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+                     bool flag) = 0;
     virtual void m13();
     // 0x7100d7c494 multiplies its result with _4c (the interest level of the sensor).
     virtual f32 m14() = 0;
@@ -56,6 +60,10 @@ public:
     // EnemyNormal::m41 clears bit 0 of it.
     virtual sead::BitFlag8* m16();
     virtual void m17();
+
+    void sub_7100D7F8E4(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+                       const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+                       const sead::Vector3f& base_position, bool flag);
 
     struct Entry;
     // Insert or refresh a candidate, retaining the nearest update in the current pass.
@@ -83,8 +91,7 @@ public:
 
 // Placeholder name (vtable 0x71024dcd68, RTTI static 0x7102600a60): the hearing sensor (`_260[1]` of
 // AwarenessInstance; its m4 fills Unk_71023e2750 requests). D1 is the base destructor (0x7100d7f7b4),
-// D0 0x7100d7f6f8; overrides m4 0x7100d7f3c8, m5 0x7100d7f488, m6 0x7100d7f52c, m12 0x7100d7f144 (declared
-// only) and m14 0x7100d7f740.
+// D0 0x7100d7f6f8; overrides m4 0x7100d7f3c8, m5 0x7100d7f488, m6 0x7100d7f52c, m12 0x7100d7f144 and m14 0x7100d7f740.
 class Unk_71024dcd68 : public Unk_71024dce08 {
     SEAD_RTTI_OVERRIDE(Unk_71024dcd68, Unk_71024dce08)
 public:
@@ -94,7 +101,10 @@ public:
     bool m4(Unk_71023e2708* request) override;
     bool m5(Unk_71023e2708* request) override;
     bool m6(Unk_71023e2708* request) override;
-    void m12() override;
+    void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+                     bool flag) override;
 
     /* 0x54 */ f32 _54;  // m4 scales it by sub_7100D8010C into the request's _8
     // Copied to / from the request's params (0xc-0x20) as one block.
@@ -109,6 +119,10 @@ class Unk_71024dcea8 : public Unk_71024dce08 {
 public:
     // Declared first as the key function (see Unk_71024dcd68).
     sead::BitFlag8* m16() override;
+    void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+                     bool flag) override;
 
     u8 _52[0x68 - 0x52];
     /* 0x68 */ sead::BitFlag8 _68;  // EnemyNormal::m41 clears bit 0
@@ -124,7 +138,10 @@ public:
     bool m4(Unk_71023e2708* request) override;
     bool m5(Unk_71023e2708* request) override;
     bool m6(Unk_71023e2708* request) override;
-    void m12() override;
+    void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+                     bool flag) override;
 
     /* 0x54 */ f32 _54;
 };
@@ -139,7 +156,10 @@ public:
     bool m4(Unk_71023e2708* request) override;
     bool m5(Unk_71023e2708* request) override;
     bool m6(Unk_71023e2708* request) override;
-    void m12() override;
+    void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+                     const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+                     const sead::Vector3f& base_position, const sead::Vector3f& target_position,
+                     bool flag) override;
 
     /* 0x54 */ f32 _54;
 };

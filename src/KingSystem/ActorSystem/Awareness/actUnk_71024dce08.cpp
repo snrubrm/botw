@@ -1,9 +1,13 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include <cmath>
+#include <hostio/seadHostIOCurve.h>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 
@@ -190,6 +194,88 @@ bool Unk_71024dce08::sub_7100D7FCA0(s32 capacity, sead::Heap* heap) {
     if (!_28.isBufferReady())
         return false;
     return m7();
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: register allocation and fallback vector-store scheduling.
+void Unk_71024dce08::sub_7100D7F8E4(
+    f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+    const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+    const sead::Vector3f& base_position, bool flag) {
+    sead::Vector3f target_position;
+    if (target->m13() > 0.0f || !target->m7(&target_position)) {
+        target_position = target_matrix.getTranslation();
+        target_position.y += 0.2f;
+    }
+    sead::Vector3f velocity;
+    if (!target->m8(&velocity))
+        velocity = sead::Vector3f::zero;
+    m12(level, target, position, sensor_matrix, target_matrix, base_position,
+        target_position, flag);
+}
+
+// NON_MATCHING: the weather-factor helper is inlined.
+void Unk_71024dd070::m12(
+    f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+    const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+    const sead::Vector3f&, const sead::Vector3f&, bool) {
+    if (level <= 0.0f)
+        return;
+    const f32 range = _54 * sub_7100D8010C();
+    const f32 distance = (position - sensor_matrix.getTranslation()).length();
+    if (distance > range)
+        return;
+    sub_7100D7F9F8(level, position, target, target_matrix, sensor_matrix, 2);
+}
+
+// The Curve is followed by its float array, as in actMotorcycle speed curves.
+// The compiler folds this constructor into the static data at 0x71024dcd20.
+struct HearingCurve {
+    sead::hostio::Curve<f32> curve;
+    f32 floats[11];
+    HearingCurve() : floats{1.0f, 1.0f, 0.75f, 0.5f, 0.25f, 0, 0, 0, 0, 0, 0} {
+        curve.mFloats = floats;
+        curve.mInfo = {0, 4, 11, 6};
+    }
+};
+static_assert(sizeof(HearingCurve) == 0x48);
+static_assert(offsetof(HearingCurve, floats) == 0x18);
+static HearingCurve sUnk_71024dcd20;
+
+// NON_MATCHING: the weather-factor helper is inlined; vector and angle scheduling differ.
+void Unk_71024dcd68::m12(
+    f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
+    const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
+    const sead::Vector3f&, const sead::Vector3f&, bool) {
+    sead::Vector3f direction = position - sensor_matrix.getTranslation();
+    const f32 distance = direction.normalize();
+    if (target->m5(2) && GlobalParameter::instance() &&
+        GlobalParameter::instance()->getGlobalParam() &&
+        distance < GlobalParameter::instance()->getGlobalParam()->mLoudNoiseRadius.ref()) {
+        sub_7100D7F9F8(level, position, target, target_matrix, sensor_matrix, 2);
+        return;
+    }
+    const f32 range = _54 * sub_7100D8010C();
+    if (distance > range)
+        return;
+    const f32 cosine = (-sensor_matrix.getBase(2)).dot(direction);
+    const f32 angle = std::acos(sead::Mathf::clamp(cosine, -1.0f, 1.0f));
+    f32 weight = _58._8;
+    if (!(angle < _58._0)) {
+        if (angle > _58._4)
+            weight = 1.0f;
+        else if (!(_58._4 <= _58._0))
+            weight += ((angle - _58._0) / (_58._4 - _58._0)) * (1.0f - weight);
+    }
+    const f32 ratio = range > 0.0f ? sead::Mathf::clamp(distance / range, 0.0f, 1.0f) : 1.0f;
+    level = weight * level * sUnk_71024dcd20.curve.interpolateToF32(ratio);
+    if (level < _58.warnRatio)
+        return;
+    const s32 kind = level > _58.noticeRatio ? 2 : 1;
+    sub_7100D7F9F8(level, position, target, target_matrix, sensor_matrix, kind);
 }
 
 }  // namespace ksys::act
