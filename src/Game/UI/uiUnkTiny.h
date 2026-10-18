@@ -945,7 +945,14 @@ public:
     void sub_71010A7CA4(eui::LayoutEx* layout);
     void sub_71010A7EDC(eui::LayoutEx* layout, eui::Animator* animator);
 
-    u8 _8[0x70]{};
+    struct ImageEntry {
+        eui::LayoutEx* layout;
+        eui::Animator* tex_pattern;
+        eui::Animator* guide_in;
+    };
+    /* 0x08 */ eui::LayoutEx* mLayout{};
+    /* 0x10 */ eui::Animator* mSizeAnimator{};
+    /* 0x18 */ ImageEntry mImages[4]{};
     eui::LayoutEx* _78{};
     eui::Animator* _80{};
     eui::Animator* _88{};

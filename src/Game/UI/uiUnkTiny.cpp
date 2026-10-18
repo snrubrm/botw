@@ -1486,6 +1486,45 @@ Unk_7102509148::Unk_7102509148() = default;
 // 0x71010a7bf8
 Unk_7102509148::~Unk_7102509148() = default;
 
+// 0x71010a7ca4
+void Unk_7102509148::sub_71010A7CA4(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+
+    mLayout = layout;
+    mSizeAnimator = mLayout->createAnimatorAuto("Size", false);
+
+    sead::FixedSafeString<32> name;
+
+    name.format("Pa_Image_%02d", 0);
+    mImages[0].layout = mLayout->findPartsLayout(name.cstr());
+    if (mImages[0].layout) {
+        mImages[0].tex_pattern = mImages[0].layout->createAnimatorAuto("TexPattern", false);
+        mImages[0].guide_in = mImages[0].layout->createAnimatorAuto("GuideIn", false);
+    }
+
+    name.format("Pa_Image_%02d", 1);
+    mImages[1].layout = mLayout->findPartsLayout(name.cstr());
+    if (mImages[1].layout) {
+        mImages[1].tex_pattern = mImages[1].layout->createAnimatorAuto("TexPattern", false);
+        mImages[1].guide_in = mImages[1].layout->createAnimatorAuto("GuideIn", false);
+    }
+
+    name.format("Pa_Image_%02d", 2);
+    mImages[2].layout = mLayout->findPartsLayout(name.cstr());
+    if (mImages[2].layout) {
+        mImages[2].tex_pattern = mImages[2].layout->createAnimatorAuto("TexPattern", false);
+        mImages[2].guide_in = mImages[2].layout->createAnimatorAuto("GuideIn", false);
+    }
+
+    name.format("Pa_Image_%02d", 3);
+    mImages[3].layout = mLayout->findPartsLayout(name.cstr());
+    if (mImages[3].layout) {
+        mImages[3].tex_pattern = mImages[3].layout->createAnimatorAuto("TexPattern", false);
+        mImages[3].guide_in = mImages[3].layout->createAnimatorAuto("GuideIn", false);
+    }
+}
+
 // 0x71010a7edc
 void Unk_7102509148::sub_71010A7EDC(eui::LayoutEx* layout, eui::Animator* animator) {
     _78 = layout;
