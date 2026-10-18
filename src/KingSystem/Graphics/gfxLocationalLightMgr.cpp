@@ -7,6 +7,13 @@ namespace ksys::gfx {
 
 // Shared light threshold read through the manager getter 0x7100f143fc.
 static f32 sUnk_71024F3CC8 = 0.007f;
+// 0x71024f3cc4 (.data, 0.3f): the lower light threshold. External linkage keeps the load: the
+// original reads it as mutable data, it is not folded to the initial value.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024F3CC4 = 0.3f;
+
+f32 LocationalLightMgr::sub_7100F143E4() const {
+    return sUnk_71024F3CC4 < 0.001f ? 0.001f : sUnk_71024F3CC4;
+}
 
 f32 LocationalLightMgr::sub_7100F143FC() const {
     return sUnk_71024F3CC8;
@@ -33,6 +40,19 @@ LocationalLightMgr::ObjectLight::Light* LocationalLightMgr::RigLightPool::alloca
 // NON_MATCHING: the original walks the active array with a pointer loop; ours compares the
 // pointer range and index separately. Same result.
 bool LocationalLightMgr::RigLightPool::release(ObjectLight::Light* light) {
+    auto lock = sead::makeScopedLock(mCS);
+    s32 index = 0;
+    for (auto* it = mActiveLights.dataBegin(); it != mActiveLights.dataEnd(); ++it, ++index) {
+        if (*it == light) {
+            mActiveLights.erase(index);
+            mFreeLights.pushBack(light);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool LocationalLightMgr::RenderLightPool::release(Unk_7102519378* light) {
     auto lock = sead::makeScopedLock(mCS);
     s32 index = 0;
     for (auto* it = mActiveLights.dataBegin(); it != mActiveLights.dataEnd(); ++it, ++index) {

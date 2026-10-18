@@ -56,6 +56,20 @@ public:
     static_assert(offsetof(RigLightPool, mFreeLights) == 0x50);
     static_assert(offsetof(RigLightPool, mActiveLights) == 0x60);
 
+    // 0x7100f15b18: the same pooled release for the render-light records at +0x538. The
+    // destructors 0x7101296100 / 0x7101296178 hand it their record at +0x120, whose vtable is
+    // 0x71025193f8 (class Unk_7102519378).
+    class RenderLightPool {
+    public:
+        bool release(Unk_7102519378* light);
+
+        sead::CriticalSection mCS;
+        sead::Buffer<Unk_7102519378> mLights;
+        sead::PtrArray<Unk_7102519378> mFreeLights;
+        sead::PtrArray<Unk_7102519378> mActiveLights;
+    };
+    KSYS_CHECK_SIZE_NX150(RenderLightPool, 0x70);
+
     // 0x7100f13368: detach and return an active binding to the free list.
     bool sub_7100F13368(ObjectLight* light);
     // 0x7100f13420: remove the bindings of a model unit.
@@ -79,7 +93,8 @@ private:
     sead::Buffer<ObjectLight> mObjectLights;
     sead::PtrArray<ObjectLight> mFreeObjectLights;
     sead::PtrArray<ObjectLight> mActiveObjectLights;
-    u8 _538[0x18d8 - 0x538];
+    RenderLightPool mRenderLightPool;
+    u8 _5a8[0x18d8 - 0x5a8];
 };
 
 KSYS_CHECK_SIZE_NX150(LocationalLightMgr, 0x18d8);
