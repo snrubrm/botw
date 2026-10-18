@@ -131,6 +131,10 @@ public:
     void sub_7100D8EEE0();
     // 0x7100d8ea50: allocates the 0x80-byte _88 element buffer on `heap` and points _90 at it.
     void sub_7100D8EA50(sead::Heap* heap);
+    // E3AA34 and carried activation pass the shape and element owner. Read-only
+    // shape pointer/const source form is inferred; original mangling is unknown.
+    // Full body remains undecompiled.
+    void sub_7100D8EABC(const chm::IShape* shape, Unk_71024e6560* owner);
     // 0x7100d8ea9c: `sub_7100D9B158(_60, this)` when there is a chemical world.
     void sub_7100D8EA9C();
     // 0x7100d945bc (declaration only, lane1 s39; placeholder name): ChemicalGiantArmorRoot passes the charge

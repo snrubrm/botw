@@ -10,6 +10,9 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include <container/seadPtrArray.h>
+#include <heap/seadHeapMgr.h>
+#include "KingSystem/Resource/resResDerived.h"
+#include "KingSystem/Resource/resUnk_71024F9938.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -221,6 +224,10 @@ BaseProc* Actor::construct(const CreateArg& arg, sead::Heap* heap) {
 }
 
 Actor::Actor(const CreateArg& arg) : BaseProc(arg) {
+    static_assert(offsetof(Actor, mTextureCache) == 0x658);
+    static_assert(offsetof(Actor, mTextureBindings) == 0x660);
+    static_assert(offsetof(Actor, mModelResources) == 0x670);
+    static_assert(offsetof(Actor, _680) == 0x680);
     mJobHandlers[BaseProcMgr::getConstant0()] = &mJob0;
     mJobHandlers[BaseProcMgr::getConstant1()] = &mJob1;
     mJobHandlers[BaseProcMgr::getConstant2()] = &mJob2;
@@ -2626,6 +2633,40 @@ void Actor::sub_71011D57A8() {
     if (mASList != &as::sNullASListMaybe && mASList)
         mASList->sub_710115C92C();
     mModel->destroyAnimation_();
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: pointer-array initialization and loop pointer reloads differ.
+bool Actor::sub_71011D00AC(sead::Heap* heap) {
+    sead::PtrArray<res::BfRes> resources;
+    if (!resources.tryAllocBuffer(mModelResources.size(), heap, -8))
+        return false;
+    res::Unk_71024f9958::InitArg arg;
+    arg.resources = &resources;
+    for (s32 i = 0; i < mModelResources.size(); ++i)
+        resources.pushBack(mModelResources[i].getModelRes());
+    arg.model = mModel;
+    arg.heap = heap;
+    arg.name = getName();
+    mTextureBindings.getBufferPtr()[0]->sub_7100FDD4A8(arg);
+    {
+        sead::ScopedCurrentHeapSetter heap_setter(heap);
+        resources.freeBuffer();
+    }
+    return true;
+}
+
+bool Actor::sub_71011D573C(sead::Heap* heap) {
+    if (isDelete() || !sub_71011D4E88(heap))
+        return false;
+    if (mUMiiHylianInfo) {
+        mUMiiHylianInfo->sub_71012A504C(mModel->getAnimation());
+        mUMiiHylianInfo->sub_71012A5304(mModel->getAnimation(), mTextureCache, nullptr);
+    }
+    return true;
 }
 
 }  // namespace ksys::act

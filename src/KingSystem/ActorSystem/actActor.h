@@ -94,6 +94,9 @@ enum class MotionType;
 
 namespace res {
 class Handle;
+class ResDerived;
+class Unk_71024f9938;
+class Unk_71024f9958;
 }  // namespace res
 
 namespace xlink {
@@ -500,7 +503,11 @@ public:
     Unk_7100d860d8* sub_71011D8A10();
     Unk_7100d8557c* sub_71011D89F8();
     // Refreshes the actor's model/UMii animation state; full callee is declaration only.
-    bool sub_71011D573C();
+    bool sub_71011D573C(sead::Heap* heap);
+    // Model resource setup passes the same heap through to Model::createAnimation.
+    // Complete body remains undecompiled.
+    bool sub_71011D4E88(sead::Heap* heap);
+    bool sub_71011D00AC(sead::Heap* heap);
     // Clears the AS playback state and model animation unless deletion has started.
     void sub_71011D57A8();
     // 0x71011d57f8: the world matrix of the model bone `bone_name` (false without a model or bone).
@@ -1053,9 +1060,11 @@ protected:
     /* 0x640 */ u32 mHashId = 0;
     /* 0x648 */ map::MubinIter mMapObjIter;
 
-    /* 0x658 */ xlink2::Handle _658;
-    /* 0x668 */ xlink2::Handle _668;
-    /* 0x678 */ res::Handle* mModelResMaybe = nullptr;
+    // Model creation constructs the texture cache; the loader separately allocates
+    // bindings (8-byte pointer slots) and ResDerived resources (0x50-byte entries).
+    /* 0x658 */ res::Unk_71024f9938* mTextureCache = nullptr;
+    /* 0x660 */ sead::Buffer<res::Unk_71024f9958*> mTextureBindings;
+    /* 0x670 */ sead::Buffer<res::ResDerived> mModelResources;
     /* 0x680 */ u8 _680 = 0;
     /* 0x681 */ u8 _681 = 0;
     /* 0x682 */ u8 _682 = 0;

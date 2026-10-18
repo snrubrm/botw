@@ -17,6 +17,10 @@ namespace ksys::world {
 class ChemicalMgr;
 }
 
+namespace ksys::xlink {
+class XLink;
+}
+
 namespace ksys::phys {
 class RigidBody;
 class SystemGroupHandler;
@@ -132,7 +136,8 @@ public:
     };
 
     /* 0x008 */ Actor* mActor;
-    /* 0x010 */ u8 _10[0x18 - 0x10];
+    // E3AA34 and carried activation copy the placement EffectEntry's XLink here.
+    /* 0x010 */ xlink::XLink* mPlacementXLink;
     // 2026-10-07: setup E37224 passes Root's IRoot base to E39E8C; E3AA34 calls getShape.
     /* 0x018 */ const chm::IRoot* _18;
     /* 0x020 */ u8 _20[0x30 - 0x20];
@@ -152,6 +157,7 @@ public:
     /* 0x2c0 */ u8 _2c0[0x2d8 - 0x2c0];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024e6428, 0x2d8);
+static_assert(offsetof(Unk_71024e6428, mPlacementXLink) == 0x10);
 
 // Name from the CSV (ActorChemicals::*). Actor::mChemical (+0x6a8). ctor 0x7100e36ebc, vtable
 // 0x71024e63f0 (getNodeClassType, D1 0x7100e36f0c, D0 0x7100e37168).
