@@ -6,10 +6,6 @@
 
 namespace ksys::xlink {
 
-// The footstep reaction speed thresholds, directly before the bone-name array in .rodata
-// (0x7102516320). Defined in xlinkXLink.cpp with hidden visibility so the two uses load it.
-extern const f32 sUnk_7102516320[2] __attribute__((visibility("hidden")));
-
 namespace {
 const char* const sUnk_71025162F8[] = {"Toe_L", "Toe_R", "Wrist_L", "Wrist_R"};
 const char* const sUnk_7102516328[] = {"Ankle_L", "Ankle_R", "Wrist_L", "Wrist_R"};

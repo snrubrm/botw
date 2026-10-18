@@ -42,6 +42,10 @@ class Unk_710251b6f0;
 namespace ksys::xlink {
 class Unk_71025168a0;
 
+// The footstep reaction speed thresholds (0x7102516320, directly before the bone-name array in .rodata).
+// Defined in xlinkXLink.cpp; xlinkUnk_710123830c.cpp reads it directly, so it has hidden visibility.
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_7102516320[2];
+
 // Placeholder name (result of 0x710123830c, created from the actor's footstep proc type name in
 // ActorEffects::init; the XLink member at +0xa0 points to it): footstep settings. The FootstepSilencer
 // behavior sets / clears bit 4 of the flags.
