@@ -175,6 +175,9 @@ public:
     // 0x7100db0c44 (CSV EventMgr::callEvent)
     bool callEvent(const CallArg& arg);
 
+    // 0x7100db24d4
+    void loadResidentEvents(sead::Heap* heap);
+
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
     // inline-only in the original; name is a guess
     ManagerDelegate* getDelegate() const { return _1d2c8; }

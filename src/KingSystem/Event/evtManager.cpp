@@ -12,6 +12,9 @@
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Event/evtInfoData.h"
+#include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace ksys::evt {
 
@@ -324,6 +327,28 @@ void Manager::clearAllPendingEvents() {
 
 bool Manager::hasActiveEvent() const {
     return _1d2b8 != nullptr;
+}
+
+// 0x7100db24d4
+void Manager::loadResidentEvents(sead::Heap* heap) {
+    res::LoadRequest request;
+    request.mRequester = "EventManager";
+    request.mLoadCompressed = false;
+    res::Handle handle;
+    handle.load("Event/ResidentEvent.byml", &request);
+    auto* resource = sead::DynamicCast<sead::DirectResource>(handle.getResource());
+    al::ByamlIter iter(resource->getRawData());
+    for (s32 i = 0; i < iter.getSize(); ++i) {
+        al::ByamlIter child;
+        if (!iter.tryGetIterByIndex(&child, i))
+            continue;
+        const char* file = nullptr;
+        const char* entry = nullptr;
+        child.tryGetStringByKey(&file, "file");
+        child.tryGetStringByKey(&entry, "entry");
+        mEventFlowMgr->load(file, entry, true, true, nullptr);
+    }
+    _1d378->loadEventSystemActors(heap);
 }
 
 // 0x7100db199c
