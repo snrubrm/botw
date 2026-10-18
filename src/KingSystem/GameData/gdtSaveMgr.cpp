@@ -1,5 +1,6 @@
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include <cstring>
+#include <codec/seadHashCRC32.h>
 #include <prim/seadEndian.h>
 #include <filedevice/seadFileDeviceMgr.h>
 #include <filedevice/nin/seadNinSaveFileDeviceNin.h>
@@ -9,6 +10,7 @@
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/Resource/resResourceArchive.h"
 #include "KingSystem/System/UIGlue.h"
 
 namespace ksys {
@@ -336,6 +338,94 @@ void SaveMgr::unloadResources() {
     for (s32 i = 0; i < mSaveDataHandles.size(); ++i)
         mSaveDataHandles[i].requestUnload();
     mSaveDataArcHandle.requestUnload();
+}
+
+// NON_MATCHING: stack arrays, string insertion and grouped flag loops differ.
+void SaveMgr::loadSavedataformat(const sead::SafeString& path, sead::Heap* heap) {
+    static_assert(sizeof(sead::ArchiveFileDevice) == 0x88);
+    static_assert(offsetof(SaveMgr, mSaveDataDevice) == 0xd78);
+    static_assert(offsetof(SaveMgr, mSaveDataHandles) == 0x378);
+    static_assert(offsetof(SaveMgr, _e00) == 0xe00);
+    res::LoadRequest archive_request;
+    archive_request.mRequester = "SaveMgr";
+    archive_request._26 = false;
+    auto* archive = sead::DynamicCast<res::Archive>(
+        mSaveDataArcHandle.load(path, &archive_request, nullptr));
+    if (!archive)
+        return;
+    mSaveDataDevice.mArchive = archive;
+    sead::DirectoryHandle directory;
+    // The open result is discarded; native code tests the handle's current device.
+    mSaveDataDevice.tryOpenDirectory(&directory, "");
+    if (!directory.getDevice())
+        return;
+    sead::DirectoryEntry entry;
+    sead::FixedSafeString<256> names[32];
+    res::GameSaveData* resources[32]{};
+    s32 count = 0;
+    while (directory.read(&entry, 1) != 0) {
+        if (entry.is_directory)
+            continue;
+        {
+            res::LoadRequest request;
+            request.mRequester = "SaveMgr";
+            request._24 = true;
+            request._26 = false;
+            request.mFileDevice = &mSaveDataDevice;
+            auto* resource = sead::DynamicCast<res::GameSaveData>(
+                mSaveDataHandles[count].load(entry.name, &request, nullptr));
+            if (resource) {
+                resources[count] = resource;
+                names[count] = entry.name;
+            }
+            for (s32 i = 0; i < count; ++i) {
+                if (names[i] > entry.name) {
+                    for (s32 j = count; j > i; --j) {
+                        resources[j] = resources[j - 1];
+                        names[j] = names[j - 1];
+                    }
+                    resources[i] = resource;
+                    names[i] = entry.name;
+                    break;
+                }
+            }
+        }  // The per-file request is destroyed before the capacity-exit read.
+        if (++count >= 32) {
+            // The native capacity exit still reads one more entry and discards its count.
+            directory.read(&entry, 1);
+            break;
+        }
+    }
+    _e00 = new (heap, 8) res::GameSaveData;
+    if (!_e00)
+        return;
+    u32 hashes[32]{};
+    s32 flag_counts[32]{};
+    s32 unique_count = 0;
+    for (s32 i = 0; i < count; ++i) {
+        auto* file = resources[i]->mFiles[0];
+        const u32 hash = sead::HashCRC32::calcStringHash(file->info->name.cstr());
+        for (s32 j = 0; j < 32; ++j) {
+            if (hashes[j] == 0) {
+                hashes[j] = hash;
+                flag_counts[j] = file->flags.size();
+                ++unique_count;
+                break;
+            }
+            if (hashes[j] == hash) {
+                flag_counts[j] += file->flags.size();
+                break;
+            }
+        }
+    }
+    _e00->allocFiles(unique_count, heap);
+    for (s32 i = 0; i < unique_count; ++i) {
+        _e00->addFile(hashes[i], heap);
+        _e00->allocFlags(hashes[i], flag_counts[i], heap);
+    }
+    for (s32 i = 0; i < count; ++i)
+        _e00->copyFrom(*resources[i], heap);
+    _e00->sortFlags();
 }
 
 void SaveMgr::registerGameSavedataFactoryAndLoad() {

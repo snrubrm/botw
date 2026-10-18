@@ -15,6 +15,7 @@
 #include <container/seadSafeArray.h>
 #include <container/seadTList.h>
 #include <filedevice/seadFileDevice.h>
+#include <filedevice/seadArchiveFileDevice.h>
 
 namespace sead {
 class DelegateThread;
@@ -193,7 +194,9 @@ private:
     sead::FileHandle mFileHandle;
     res::Handle mSaveDataArcHandle;
     sead::SafeArray<res::Handle, 32> mSaveDataHandles;
-    u8 _d78[0xe00 - 0xd78];
+    // E0329C constructs this device with a null archive; E03624 tears it down.
+    // Its archive pointer at +0x80 is the native SaveMgr +0xdf8 field.
+    sead::ArchiveFileDevice mSaveDataDevice{nullptr};
     res::GameSaveData* _e00;
     u8* _e08;
     u32 _e10;
