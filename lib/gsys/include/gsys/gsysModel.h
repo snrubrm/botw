@@ -13,6 +13,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelAnimation.h>
 #include <gsys/gsysIModelRigObj.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitGroup.h>
@@ -127,6 +128,10 @@ public:
 
     /// The material / skeletal animation set of the model (created by createAnimation), or null.
     ModelAnimation* getAnimation() const { return mAnimation; }
+    // Named bf729c stores the created animation at +0xd0 and returns it after
+    // optional instrumentation. The CreateResult/instrumentation body stays U.
+    ModelAnimation* createAnimation(ModelResource** resources, int count,
+                                    const ModelAnimation::CreateArg& arg, sead::Heap* heap);
 
     void setAutoAnimationFrameRate(f32 frame_rate);
     /// Sets the current frame of the auto animation of each ModelNW unit that has one.
