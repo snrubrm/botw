@@ -92,6 +92,12 @@ public:
         bool sub_7100EC5C30(f32 speed, f32 value, Actor* actor, const sead::Vector3f& position);
         bool sub_7100EC5C40(f32 speed, f32 value, Actor* actor, const sead::Vector3f& position,
                            s32 size, u32 flags, const phys::MaterialMask* mask);
+        // EC6C00 forwards the same receiver to the puddle-sound emitter. Body remains
+        // undecompiled while the SLink property-pointer null-check protocol is unresolved.
+        bool sub_7100EC696C(f32 speed, Actor* actor, const sead::Vector3f& position,
+                           bool stone_bottom, bool flag);
+        // Two AI callers pass Reaction::_a8, their actor and its matrix translation.
+        void sub_7100EC6C00(Actor* actor, const sead::Vector3f& position);
 
         u8 _0[8];
         /* 0x08 */ Actor* _8;

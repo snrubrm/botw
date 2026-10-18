@@ -806,3 +806,29 @@ void Reaction::Unk1::sub_7100EC545C(xlink2::HandleSLink* handle,
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: the unused size-calculator receiver and size temporary are removed.
+void Reaction::Unk1::sub_7100EC6C00(Actor* actor, const sead::Vector3f& position) {
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(phys::ContactLayer::EntityGroundRough);
+    sead::Vector3f start = position;
+    start.y += 0.2f;
+    query.setStartAndDisplacement(start, sead::Vector3f::ey * -0.4f);
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return;
+    const auto& mask = query.getMaterialMask();
+    const bool stone_bottom = mask.getMaterial() == phys::Material::Water &&
+        sead::SafeString(mask.getSubMaterialName()) == "Water_StoneBottom";
+    sub_7100EC696C(10.0f, actor, position, stone_bottom, true);
+    if (mask.getMaterial() == phys::Material::GrudgeSlow) {
+        const s32 size = Reaction::instance()->sub_7100EC2278(actor, nullptr);
+        sub_7100EC5C40(-6.0f, 0.1f, actor, position, size, 1, &mask);
+    }
+}
+
+}  // namespace ksys::act
