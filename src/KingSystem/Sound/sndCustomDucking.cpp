@@ -26,7 +26,7 @@ void Unk_710103b704::sub_710103CEB0() {
             if (auto* group = groups->findGroup("SystemAcrossScene"))
                 group->stopAllSound(-1.0f);
         }
-        if (_5c8 >= 0 && _8._0[u32(_5c8) < 8 ? _5c8 : 0]._b0)
+        if (_5c8 >= 0 && _8.getEntry(_5c8)._b0)
             _5e0.sub_710105BA88();
     } else if (groups) {
         if (auto* group = groups->findGroup("DemoMixed"))
@@ -40,8 +40,7 @@ void Unk_710103b704::sub_710103CEB0() {
 void Unk_710103b704::sub_710103D0D8(UiSoundKind kind) {
     if (_5c8 < 0)
         return;
-    // The entries are bounds-checked like a SafeArray: an index past the end falls back to the first.
-    auto& entry = _8._0[u32(_5c8) < 8 ? _5c8 : 0];
+    auto& entry = _8.getEntry(_5c8);
     if (entry._0 == "GotoZoraVillage" && entry._58 == "ZoraArrival3") {
         auto* event = evt::Manager::instance()->getActiveEvent();
         if (!event || !(event->getFrameCount() > 300.0f))
@@ -65,7 +64,7 @@ void Unk_710103b704::sub_710103D324(UiSoundKind kind) {
     _5d9 = false;
     if (_5c8 < 0)
         return;
-    if (_8._0[u32(_5c8) < 8 ? _5c8 : 0]._0 == "Demo346_4")
+    if (_8.getEntry(_5c8)._0 == "Demo346_4")
         _620 = kind.value == 1 ? 1.0f : 0.5f;
 }
 

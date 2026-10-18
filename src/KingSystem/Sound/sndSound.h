@@ -707,10 +707,19 @@ public:
     static_assert(sizeof(Entry) == 0xb8);
     static_assert(offsetof(Entry, _b0) == 0xb0);
 
-    // Indexed by Unk_710103b704::_5c8.
+    // Eight records are constructed at 0x710103b76c; the source container identity is unknown.
     Entry _0[8];
+
+    // inline-only in the original; name is a guess. 0x710103ceb0 / 0x710103d0d8 /
+    // 0x710103d324 repeat this unsigned <8 check and index-0 fallback.
+    Entry& getEntry(s32 index) {
+        if (u32(index) < 8)
+            return _0[index];
+        return _0[0];
+    }
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b76c, 0x5c0);
+static_assert(offsetof(Unk_710103b76c, _0) == 0);
 
 // Placeholder (lane2 s46): the sound kind (0..5) the UI hands to SoundMgr (a 4-byte class: passed in a full register).
 struct UiSoundKind {
