@@ -8,6 +8,8 @@ namespace uking::ui {
 
 SEAD_SINGLETON_DISPOSER_IMPL(UI)
 
+Unk_710261EC00 sUnk_710261EC00;
+
 // D1 0x71010a5814, D0 0x71010a5828
 // The body keeps the vtable store of the original (as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }).
 UI::~UI() { ; }
@@ -17,6 +19,22 @@ void UI::x_0(bool flag) {
         eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));
     if (screen)
         screen->sub_71010AE7C0(flag);
+}
+
+// NON_MATCHING: result initialization and index / check register placement differ; the logic matches.
+// 0x71010a7c00
+bool sub_71010A7C00(s32 index) {
+    bool result = false;
+    auto* mgr = ksys::gdt::Manager::instance();
+    auto* param = mgr->getParam().get().getBuffer();
+    const bool check = mgr->getParam().shouldCheckPermissions();
+
+    if (index == 0x13) {
+        param->getBool(&result, "Guide_amiibo_f", check, true);
+    } else {
+        param->getBool(&result, sUnk_710261EC00.names[index], check, true);
+    }
+    return result;
 }
 
 // 0x71010a66cc

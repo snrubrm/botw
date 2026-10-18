@@ -205,6 +205,16 @@ s32 sub_7100AA6F90(const PouchItem& item);
 int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out);
 // 0x7100aa3294: chooses the dungeon or location-marker message set.
 int getLocationMarker(const sead::SafeString& name, eui::MessageString* out);
+// 0x710261ec00: the save-flag name table used by the UI save window; its names Buffer starts at +0x10.
+struct Unk_710261EC00 {
+    u8 _0[0x10];
+    sead::Buffer<sead::SafeString> names;
+};
+extern Unk_710261EC00 sUnk_710261EC00;
+
+// 0x71010a7c00: whether the save flag with index `index` is set (0x13 is the amiibo guide flag).
+bool sub_71010A7C00(s32 index);
+
 // 0x71010ba648 (CSV unnamed; not decompiled): converts the message to UTF-8 into `out`
 s32 sub_71010BA648(sead::BufferedSafeString* out, const eui::MessageString& message);
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
