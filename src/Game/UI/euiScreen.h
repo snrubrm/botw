@@ -373,6 +373,9 @@ public:
     void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
 
 private:
+    // Screen::update clears the target flag through its owning manager.
+    friend class Screen;
+
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
     sead::Buffer<Screen*> mScreens;
     /* 0x38 */ sead::Buffer<s8> mScreenTargets;  // draw target of each screen (-1: inactive)

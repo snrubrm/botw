@@ -100,6 +100,72 @@ TagProcessor* Screen::doCreateTagProcessor_(sead::Heap* heap) {
     return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
 }
 
+// 0x7100be9a54
+// NON_MATCHING: state-byte loads and callback branches are scheduled differently.
+void Screen::update() {
+    const s32 open_request = _fd;
+    const u8 paused = _103;
+    if (open_request > 0) {
+        _fd = 0;
+        if (open_request == 2 || mState == 3 || mState == 0) {
+            openStart_(open_request);
+            if (open_request == 4)
+                openEnd_();
+        } else if (open_request == 3 && mState == 1) {
+            mLayout->sub_7100BDDE7C(isPlayPartsInOut_(), 1, true);
+        }
+    }
+    if (mState == 1 && isOpenEnd_())
+        openEnd_();
+    if (!paused) {
+        doUpdate_();
+        updateButton_();
+    }
+    if (mButtonGroup->_28 && isDisallowHitLowerScreenOnButtonHit_())
+        mMgr->mTargetFlags[mMgr->mTargetMgr->getDrawTarget(mDrawTarget)] = false;
+    if (!paused)
+        updateControl_();
+    const s32 close_request = _fd;
+    if (close_request < 0) {
+        _fd = 0;
+        if (mState == 1 || mState == 2)
+            closeStart_(close_request);
+        else if (close_request == -4 && mState == 3)
+            mLayout->startAnimCloseImpl_(isPlayPartsInOut_(), true);
+    }
+    if (mState == 3 && isCloseEnd_() && _ff != 2) {
+        if (_ff == 0 && _fd <= 0)
+            mMgr->inactivateScreen(mId);
+        closeEnd_();
+    }
+    if (_e8)
+        _e8->m0();
+    if (!paused)
+        updateAnimator_();
+    if (_105 && (_107 & 0x10)) {
+        sub_7100BEE240(mLayout->GetPane());
+        _105 = 0;
+    }
+    if (!_101) {
+        mDrawInfo->_eb[6] |= 2;
+        mDrawInfo->_eb[6] |= 4;
+    }
+    // The virtual force-dirty query may change these fields; calculation uses the saved objects.
+    auto* layout = mLayout;
+    auto* draw_info = mDrawInfo;
+    const bool force_dirty = isForceGlbMtxDirty_();
+    layout->CalculateImpl(*draw_info, force_dirty);
+    if (!_101) {
+        mDrawInfo->_eb[6] &= ~2;
+        mDrawInfo->_eb[6] &= ~4;
+        _101 = 1;
+    }
+    if (_e8)
+        _e8->m1();
+    if (_f0)
+        _f0->m0();
+}
+
 // NON_MATCHING: native iterator copies and redundant end-node checks remain in different form.
 // 0x7100bea3d0
 void Screen::updateAnimator_() {
