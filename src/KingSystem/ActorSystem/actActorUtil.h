@@ -318,6 +318,8 @@ void sub_7100EE544C(Actor* actor);
 void sub_7100EE5624(Actor* actor);
 // 0x7100edd218 (declaration only): the actor's Liftable ThrownMass, or 1 without Liftable params.
 s32 sub_7100EDD218(Actor* actor);
+// Burn damage for level 1-5, falling back when a higher level is negative.
+s32 sub_7100EDD308(Actor* actor, s32 level);
 
 // Per-frame -> per-second (x30) forwarders to the character controller / rigid body setters
 // (0x7100ee60a0-0x7100ee62b0).

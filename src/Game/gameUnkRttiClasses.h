@@ -456,17 +456,17 @@ public:
     virtual void m4(agl::DrawContext* context);
     virtual void m5(agl::DrawContext* context, u32 instances);
     virtual void m6(agl::DrawContext* context, u32 index_offset, u32 count, u32 instances,
-                    u32 instance_offset);
+                    u32 vertex_offset);
     virtual void m7() = 0;
     virtual s32 m8() = 0;
     virtual s32 m9() = 0;
 
-    void sub_71012EB478(u32 first_instance, u32 first_index);
+    void sub_71012EB478(u32 base_vertex, u32 first_index);
 
     agl::VertexAttribute* mAttribute = nullptr;
     agl::IndexStream* mIndexStream = nullptr;
-    s32 mBaseVertex = 0;
-    u32 mFirstInstance = 0;
+    s32 mBaseInstance = 0;
+    u32 mBaseVertex = 0;
     s32 _20 = 0;
     u32 mFirstIndex = 0;
     s32 mIndexCount = 0;

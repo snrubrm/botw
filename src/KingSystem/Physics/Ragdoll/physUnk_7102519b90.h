@@ -5,6 +5,8 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Resource/resResource.h"
 
+class hkaiNavMeshInstance;
+
 namespace ksys::phys {
 
 class HavokAI;
@@ -26,7 +28,8 @@ public:
     bool sub_71012A7738();
 
     void* _8 = nullptr;
-    void* _10 = nullptr;
+    // 0x71012a7544 allocates and initializes a 0x1c0-byte navmesh instance here.
+    hkaiNavMeshInstance* _10 = nullptr;
     void* _18 = nullptr;
     void* _20 = nullptr;
     void* _28 = nullptr;

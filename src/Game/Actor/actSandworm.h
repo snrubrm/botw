@@ -108,9 +108,8 @@ public:
     bool m81(const ksys::Message& message) override;
     bool m146() override;
     bool weaponDroppedByEnemy() override;
-    // 0x71002cdfcc: creates an 8-byte Unk_710001adbc subclass (vtable GOT 0x7102584830) from `heap`. Body not
-    // written: the class is undefined.
-    Unk_710001adbc* m179(sead::Heap* heap) override;
+    // 0x71002cdfcc: creates an 8-byte material filter (vtable 0x71023cf690).
+    ksys::phys::NavMeshCharacterUnk58* m179(sead::Heap* heap) override;
 
     /* 0x14c8 */ s32 _14c8 = 2;
     /* 0x14cc */ s32 _14cc = 2;

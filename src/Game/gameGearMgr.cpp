@@ -3,10 +3,21 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Terrain/teraSystem.h"
 
 namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(GearMgr)
+
+void GearMgr::sub_7100669EE4() {
+    ksys::tera::sub_7100F418B8(nullptr);
+    for (size_t i = 0; i < 0x80; ++i)
+        mEntries[i].reset();
+    ksys::phys::System::instance()->removeSystemGroupHandler(_1050);
+    _1050 = nullptr;
+}
+
 
 // NON_MATCHING: the original zeroes `_10a4` with a word store (and uses the whole word in its read-modify-write
 // helpers: the field is probably a 32-bit flag word that other translation units test through a byte load);

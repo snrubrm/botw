@@ -1,3 +1,10 @@
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "Game/gameGraphics.h"
+#include "Game/gameStasisMgr.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -2558,3 +2565,55 @@ void ksys::act::Actor::sub_71011CED70(gsys::Model* model) {
     Unk_710260af28::instance()->sub_7100F1D058(model, flags);
     Unk_710260af28::instance()->sub_7100F1C77C(model, (flags & ~0x7000u) == 0 ? nullptr : &mUnk1);
 }
+
+namespace ksys::act {
+// NON_MATCHING: aggregate initialization calls the default material constructors and schedules request stores differently.
+void Actor::reactionStuff() {
+    if (!mActorFlags.isOnBit(ActorFlag::_9))
+        return;
+    mActorFlags.resetBit(ActorFlag::_9);
+    DamageReactionRequest request{};
+    request.mtx = sead::Matrix34f::ident;
+    request._34 = 1.0f;
+    request._3c = 1.0f;
+    request._40 = 1.0f;
+    request._44 = 1.0f;
+    request._b8 = this;
+    request._c0 = 2;
+    request._c4 = 6;
+    sead::Matrix34f transform;
+    sub_7100D36FA0(&transform, this);
+    xlink2::HandleELink* stasis_handle = nullptr;
+    if (!mActorFlags2.isOn(ActorFlag2::_40)) {
+        const auto position = transform.getTranslation();
+        request.mtx.setTranslation(position);
+        request._90 = 28;
+        if (getDamageMgr()) {
+            request._54 = std::pow(getDamageMgr()->getStasisBlowPowerRatio(),
+                                   Graphics::instance()->getSpecialEffectAWrapMaybe());
+            sead::Vector3f direction;
+            if (getDamageMgr()->m14(&direction)) {
+                direction.normalize();
+                sub_7100EBFD08(1.0f, &request, direction, position);
+            }
+        }
+    } else {
+        request._90 = 27;
+        stasis_handle = ActorSystem::instance()->getStasisMessageSender()->m4(this);
+        request.mtx = transform;
+    }
+    auto* reaction = Reaction::instance();
+    if (reaction && reaction->_b0) {
+        if (!stasis_handle) {
+            reaction->sub_7100EC10B8(&request);
+        } else {
+            reaction->_a0->sub_7101286BF8(stasis_handle, &request);
+            request._c4 &= ~4;
+            reaction->sub_7100EC10B8(&request);
+            if (auto* xlink = getXLink())
+                xlink->sub_7101230968();
+        }
+    }
+}
+
+}  // namespace ksys::act

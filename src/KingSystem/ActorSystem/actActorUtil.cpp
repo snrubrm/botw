@@ -38,6 +38,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
+#include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
@@ -602,6 +603,27 @@ s32 sub_7100EDD218(Actor* actor) {
             return liftable->mThrownMass.ref();
     }
     return 1;
+}
+
+// NON_MATCHING: the switch selects Parameter objects before loading their values; level update scheduling differs.
+s32 sub_7100EDD308(Actor* actor, s32 level) {
+    const auto* param = actor->getParam()->getRes().mDamageParam;
+    if (!param)
+        return 0;
+    for (;;) {
+        s32 damage;
+        switch (level) {
+        case 1: return param->mBurnDamage.ref();
+        case 2: damage = param->mBurnDamage2.ref(); break;
+        case 3: damage = param->mBurnDamage3.ref(); break;
+        case 4: damage = param->mBurnDamage4.ref(); break;
+        case 5: damage = param->mBurnDamage5.ref(); break;
+        default: return 0;
+        }
+        if (damage >= 0)
+            return damage;
+        --level;
+    }
 }
 
 void sub_7100EE53C4(Actor* actor) {

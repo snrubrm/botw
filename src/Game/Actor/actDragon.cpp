@@ -661,3 +661,69 @@ void sub_71006FAA34(sead::RingBuffer<sead::Matrix34f>& history, const sead::Matr
 }
 
 }  // namespace uking::act
+
+namespace uking::act {
+
+// NON_MATCHING: matrix snapshots and vector stores use different copy scheduling.
+void Dragon::Unk_710000b710::sub_71006FB998() {
+    for (s32 i = 0; i < _850.size(); ++i) {
+        auto& part = _850[i];
+        part._1a8 = part._208;
+        part._1d8 = part._208;
+    }
+    sub_71006FC6C8(_b8._1a8);
+    for (s32 i = 0; i < _850.size(); ++i) {
+        auto& part = _850[i];
+        part._268 = part._238;
+        part._250 = part._238;
+        part._25c = sead::Vector3f::zero;
+        part._274 = part._244;
+    }
+}
+
+// NON_MATCHING: history loop and vector temporaries produce different spills and block layout.
+void Dragon::Unk_710000b710::sub_71006FC6C8(const sead::Matrix34f& matrix) {
+    const s32 count = _850.size();
+    if (count <= 0)
+        return;
+    const f32 distance_squared = _890 * _890;
+    s32 history_index = 1;
+    sead::Vector3f previous = matrix.getTranslation();
+    for (s32 i = 0; i < count; ++i) {
+        bool found = false;
+        const s32 history_size = _8.size();
+        // Retain the last examined history sample for the next segment.
+        for (s32 candidate_index = history_index; candidate_index < history_size; ++candidate_index) {
+            history_index = candidate_index;
+            const sead::Matrix34f candidate = *_8.unsafeGet(history_size - 1 - candidate_index);
+            const auto position = candidate.getTranslation();
+            const f32 length_squared = (previous - position).squaredLength();
+            if (distance_squared < length_squared) {
+                const f32 distance = sead::Mathf::sqrt(length_squared);
+                const f32 ratio = (1.0f - distance / _890) + 1.0f;
+                auto direction = (previous + (position - previous) * ratio) - previous;
+                direction.normalize();
+                _850[i]._238 = previous + direction * _890;
+                _850[i]._244 = candidate.getBase(1);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            if (i == 0) {
+                _850[i]._238 = matrix.getTranslation() + matrix.getBase(0) * _890;
+                _850[i]._244 = matrix.getBase(1);
+            } else {
+                const auto before = i > 1 ? _850[i - 2]._238 : matrix.getTranslation();
+                auto direction = _850[i - 1]._238 - before;
+                direction.normalize();
+                _850[i]._238 = _850[i - 1]._238 + direction * _890;
+                _850[i]._244 = _850[i - 1]._244;
+            }
+            _930 &= ~2;
+        }
+        previous = _850[i]._238;
+    }
+}
+
+}  // namespace uking::act

@@ -2,6 +2,9 @@
 #include <thread/seadThread.h>
 #include <prim/seadScopedLock.h>
 #include <Havok/Ai/Pathfinding/World/hkaiWorld.h>
+#include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h>
+#include <Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h>
+#include "KingSystem/Physics/Ragdoll/physUnk_7102519b90.h"
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/physConversions.h"
@@ -12,6 +15,100 @@
 #include <Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h>
 
 namespace ksys::phys {
+
+// NON_MATCHING: face/edge traversal and remap selection use different induction registers.
+void HavokAI::sub_7100F82278(Unk_7102519a98* obj) {
+    if (!obj || !obj->_10)
+        return;
+    auto* instance = obj->_10;
+    for (s32 face_index = 0;
+         face_index < instance->m_originalFaces.m_size + instance->m_ownedFaces.getSize();
+         ++face_index) {
+        const hkaiNavMesh::Face* face;
+        if (face_index < instance->m_originalFaces.m_size) {
+            const s32 mapped = instance->m_faceMap.isEmpty() ? face_index : instance->m_faceMap[face_index];
+            face = mapped == -1 ? &instance->m_originalFaces.m_data[face_index] :
+                                 &instance->m_instancedFaces[mapped];
+        } else {
+            face = &instance->m_ownedFaces[face_index - instance->m_originalFaces.m_size];
+        }
+        const s32 edge_end = face->m_startUserEdgeIndex + face->m_numUserEdges;
+        for (s32 edge_index = face->m_startUserEdgeIndex; edge_index < edge_end; ++edge_index) {
+            const hkaiNavMesh::Edge* edge;
+            if (edge_index < instance->m_originalEdges.m_size) {
+                const s32 mapped = instance->m_edgeMap.isEmpty() ? edge_index : instance->m_edgeMap[edge_index];
+                edge = mapped == -1 ? &instance->m_originalEdges.m_data[edge_index] :
+                                     &instance->m_instancedEdges[mapped];
+            } else {
+                edge = &instance->m_ownedEdges[edge_index - instance->m_originalEdges.m_size];
+            }
+            if (edge->m_oppositeEdge == 0xffffffff)
+                continue;
+            const s32 section = edge->m_flags.anyIsSet(hkaiNavMesh::EDGE_EXTERNAL_OPPOSITE) ?
+                                    s32(edge->m_oppositeEdge >> 22) : instance->m_runtimeId;
+            if (section == instance->m_runtimeId)
+                continue;
+            auto* opposite = _28->m_streamingCollection->m_instances[section].m_instancePtr;
+            if (!opposite)
+                continue;
+            auto* opposite_edge = sub_7100F83D20(opposite->m_originalEdges.m_data,
+                opposite->m_originalEdges.m_size, &opposite->m_instancedEdges,
+                &opposite->m_ownedEdges, opposite->m_originalEdgeData,
+                &opposite->m_instancedEdgeData, &opposite->m_edgeMap,
+                edge->m_oppositeEdge & 0x3fffff, opposite->m_edgeDataStriding, 0);
+            if (opposite_edge) {
+                opposite_edge->m_oppositeEdge = 0xffffffff;
+                opposite_edge->m_oppositeFace = 0xffffffff;
+            }
+        }
+    }
+}
+
+// NON_MATCHING: remap branches and reverse-edge field stores are grouped differently.
+void HavokAI::sub_7100F83848(const hkArray<hkaiUserEdgeUtils::UserEdgePair>* pairs) {
+    auto lock = sead::makeScopedLock(_50);
+    for (const auto& pair : *pairs) {
+        const s32 section_a = _28->m_streamingCollection->sub_71015145D0(pair.m_instanceUidA);
+        const s32 section_b = _28->m_streamingCollection->sub_71015145D0(pair.m_instanceUidB);
+        if (section_a == -1 || section_b == -1)
+            continue;
+        auto* a = _28->m_streamingCollection->m_instances[section_a].m_instancePtr;
+        auto* b = _28->m_streamingCollection->m_instances[section_b].m_instancePtr;
+        if (!a || !b)
+            continue;
+        const hkaiNavMesh::Face* face;
+        if (pair.m_faceA < a->m_originalFaces.m_size) {
+            const s32 mapped = a->m_faceMap.isEmpty() ? pair.m_faceA : a->m_faceMap[pair.m_faceA];
+            face = mapped == -1 ? &a->m_originalFaces.m_data[pair.m_faceA] : &a->m_instancedFaces[mapped];
+        } else {
+            face = &a->m_ownedFaces[pair.m_faceA - a->m_originalFaces.m_size];
+        }
+        const s32 edge_end = face->m_startUserEdgeIndex + face->m_numUserEdges;
+        for (s32 edge_index = face->m_startUserEdgeIndex; edge_index < edge_end; ++edge_index) {
+            auto* edge = sub_7100F83D20(a->m_originalEdges.m_data, a->m_originalEdges.m_size,
+                &a->m_instancedEdges, &a->m_ownedEdges, a->m_originalEdgeData,
+                &a->m_instancedEdgeData, &a->m_edgeMap, edge_index, a->m_edgeDataStriding, 0);
+            if (!edge || edge->m_oppositeEdge == 0xffffffff)
+                continue;
+            const s32 opposite_section = edge->m_flags.anyIsSet(hkaiNavMesh::EDGE_EXTERNAL_OPPOSITE) ?
+                                            s32(edge->m_oppositeEdge >> 22) : a->m_runtimeId;
+            if (opposite_section != section_b || (edge->m_oppositeFace & 0x3fffff) != pair.m_faceB)
+                continue;
+            auto* opposite = sub_7100F83D20(b->m_originalEdges.m_data, b->m_originalEdges.m_size,
+                &b->m_instancedEdges, &b->m_ownedEdges, b->m_originalEdgeData,
+                &b->m_instancedEdgeData, &b->m_edgeMap, edge->m_oppositeEdge & 0x3fffff,
+                b->m_edgeDataStriding, 0);
+            if (!opposite)
+                continue;
+            edge->m_oppositeEdge = 0xffffffff;
+            edge->m_oppositeFace = 0xffffffff;
+            opposite->m_oppositeEdge = 0xffffffff;
+            opposite->m_oppositeFace = 0xffffffff;
+        }
+    }
+}
+
+
 
 void NavMeshFaceQuery::process(HavokAI* ai) {
     const f32 radius = mCharacter->getRadiusMaybe();

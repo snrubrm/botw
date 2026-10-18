@@ -1,10 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <cstddef>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 #include <prim/seadSafeString.h>
 
 namespace ksys::map {
@@ -527,7 +529,8 @@ struct DamageReactionRequest {
     /* 0x48 */ f32 _48;
     /* 0x4c */ f32 _4c;
     /* 0x50 */ u32 _50;
-    /* 0x54 */ u32 _54;
+    // Actor::reactionStuff stores powf(stasis blow power, Graphics exponent).
+    /* 0x54 */ f32 _54;
     /* 0x58 */ u32 _58;
     /* 0x60 */ ksys::phys::MaterialMask _60;
     /* 0x78 */ ksys::phys::MaterialMask _78;
@@ -540,15 +543,18 @@ struct DamageReactionRequest {
     /* 0x9c */ s32 _9c;
     /* 0xa0 */ s32 _a0;
     /* 0xa4 */ s32 _a4;
-    /* 0xa8 */ u64 _a8;
-    // DamageReactionInfo::_10 (attacker link).
-    /* 0xb0 */ ksys::act::BaseProcLink* _b0;
-    /* 0xb8 */ ksys::act::BaseProc* _b8;
+    // Actor or proc-link source read by the reaction sound/property helpers.
+    /* 0xa8 */ ksys::act::Unk_7100ebf9e4 mSource;
+    // Actor::reactionStuff (0x71011cb994) stores its own Actor pointer here.
+    /* 0xb8 */ ksys::act::Actor* _b8;
     /* 0xc0 */ s32 _c0;
     // Bit 1 / 2: Reaction::__auto6 passes the request on (0x7100ec313c / 0x7101284954).
     /* 0xc4 */ u8 _c4;
 };
 KSYS_CHECK_SIZE_NX150(DamageReactionRequest, 0xc8);
+static_assert(offsetof(DamageReactionRequest, _54) == 0x54);
+static_assert(offsetof(DamageReactionRequest, mSource) == 0xa8);
+static_assert(offsetof(DamageReactionRequest, _b8) == 0xb8);
 
 /// The 0xe0-byte result of sub_7100733418 (NPC::_10e8; 0x71006e3340 reads and fills it): the reaction request
 /// copy, the weapon link sub_7100734E68 fills and the two flags.
@@ -655,8 +661,11 @@ bool sub_71007304CC(ksys::act::Actor* actor, const sead::Vector3f& target, f32 m
 bool sub_710073068C(ksys::act::Actor* actor, f32 min_height, f32 max_height, f32 max_distance,
                     f32 angle, f32 ray_height);
 
-// Source owner is unknown; native AI utility neighbors select this free placeholder.
-/// 0x7100732664 (placeholder name; called by PlayerOrEnemy::m73): the damage reaction event for one damage
+// Declaration only: 0x71007324e0 selects the shield or source actor. Native argument order is
+// output accessor, Actor; original free/member/static scope is unresolved.
+void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor);
+// Original owner is unknown; this existing free declaration represents the native call ABI only.
+/// 0x7100732664 (declaration only; called by PlayerOrEnemy::m73): the damage reaction event for one damage
 /// type; `mask` selects the event bits (0x1020202 >> ((type - 9) * 8)).
 void sub_7100732664(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
                     ksys::phys::RigidBody* body, u32 mask, s32 value);

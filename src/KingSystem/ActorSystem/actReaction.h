@@ -1,11 +1,21 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <cstddef>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <xlink2/xlink2HandleSLink.h>
 
 #include "KingSystem/Physics/System/physUserTag.h"
+
+namespace xlink2 {
+class HandleELink;
+}
+
+namespace ksys::phys {
+class MaterialMask;
+}
 
 namespace ksys::xlink {
 class XLink;
@@ -16,6 +26,7 @@ struct DamageReactionRequest;
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
+class Unk_71024f02a8;
 
 // Placeholder name: an actor given either directly or through a proc link (the reaction code keeps one at
 // +0xa8 of its request objects; 0x7100ec545c / 0x7101284954 read it). Accessors 0x7100ebf9e4..0x7100ebfad4.
@@ -37,6 +48,10 @@ class Unk_7101286868 {
 public:
     void sub_7101286868(f32 speed, Actor* actor, const sead::Vector3f* pos,
                         const sead::Vector3f* dir, u64 size, u64 material, u64 flag);
+    void sub_7101286BF8(xlink2::HandleELink* handle, ::DamageReactionRequest* request);
+    u8 _0[0x38];
+    // Fallback actor used when the request actor has no emitted effect.
+    /* 0x38 */ Actor* _38;
 };
 
 class Reaction {
@@ -60,13 +75,33 @@ public:
         void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
                             u64 material, u64 flag);
 
-        u8 _0[0x101];
-        // Player::m377 writes 0/1 for Armor_Default_Lower; ec313c selects naked footsteps.
-        bool mIsPlayerBarefoot;
+        // Sound emission and property setup for the request source.
+        void sub_7100EC539C(::DamageReactionRequest* request, xlink2::HandleSLink* handle,
+                           const char* name);
+        void sub_7100EC447C(Actor* actor, ::DamageReactionRequest* request,
+                           xlink2::HandleSLink* handle, const char* name);
+        void sub_7100EC56D8(xlink::XLink* xlink, ::DamageReactionRequest* request);
+        void sub_7100EC5B64(const sead::Vector3f& position);
+        bool sub_7100EC5C30(f32 speed, f32 value, Actor* actor, const sead::Vector3f& position);
+        bool sub_7100EC5C40(f32 speed, f32 value, Actor* actor, const sead::Vector3f& position,
+                           s32 size, u32 flags, const phys::MaterialMask* mask);
+
+        u8 _0[8];
+        /* 0x08 */ Actor* _8;
+        /* 0x10 */ Actor* _10;
+        u8 _18[8];
+        /* 0x20 */ xlink2::HandleSLink mGrassCutHandle;
+        u8 _30[0xe8 - 0x30];
+        /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
+        u8 _f0[0x101 - 0xf0];
+        // Player::m377 writes whether lower armor is Armor_Default_Lower; footstep assets use it.
+        /* 0x101 */ bool mIsPlayerBarefoot;
         u8 _102[0x110 - 0x102];
         /* 0x110 */ s32 _110;
+        u8 _114[4];
+        /* 0x118 */ s32 _118;
+        u8 _11c[4];
     };
-    static_assert(offsetof(Unk1, mIsPlayerBarefoot) == 0x101);
 
     static Reaction* instance() { return sInstance; }
     // 0x7100ec10b8 (CSV __auto6): passes `request` on to the reaction targets when the instance's
@@ -104,9 +139,21 @@ public:
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
 };
+static_assert(offsetof(Unk_7101286868, _38) == 0x38);
+static_assert(offsetof(Reaction::Unk1, _8) == 0x8);
+static_assert(offsetof(Reaction::Unk1, _10) == 0x10);
+static_assert(offsetof(Reaction::Unk1, mGrassCutHandle) == 0x20);
+static_assert(offsetof(Reaction::Unk1, mSLinkLimiter) == 0xe8);
+static_assert(offsetof(Reaction::Unk1, mIsPlayerBarefoot) == 0x101);
+static_assert(offsetof(Reaction::Unk1, _118) == 0x118);
+
 // 0x7100ebfea8 (CSV unnamed; named by its address): builds the matrix of a footstep reaction
 // request from the contact axis / up / position and copies `scale` into the three floats at
 // 0x3c / 0x40 / 0x44.
+void sub_7100EBFB5C(f32 scale, ::DamageReactionRequest* request, const sead::Vector3f& up,
+                    const sead::Vector3f& position);
+void sub_7100EBFD08(f32 scale, ::DamageReactionRequest* request, const sead::Vector3f& up,
+                    const sead::Vector3f& position);
 void sub_7100EBFEA8(f32 scale, ::DamageReactionRequest* request, const sead::Vector3f& axis,
                     const sead::Vector3f& up, const sead::Vector3f& pos);
 

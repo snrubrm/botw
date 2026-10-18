@@ -40,7 +40,7 @@ public:
                              bool on_processing_thread) = 0;
     virtual s32 m2(const sead::Matrix34f& mtx) = 0;
     virtual s32 m3(const sead::Matrix34f& mtx, s32 index) = 0;
-    virtual void* m4(ksys::act::Actor* actor) = 0;
+    virtual xlink2::HandleELink* m4(ksys::act::Actor* actor) = 0;
 };
 
 // Name from the CSV (StasisMgr::createInstance 0x710067f3a8, ctor 0x710067f430). vtable 0x710243c748
@@ -61,7 +61,7 @@ public:
     // Emits "BitaLocked_Trace" into a free effect slot and places it at `mtx`; returns the slot.
     s32 m2(const sead::Matrix34f& mtx) override;
     s32 m3(const sead::Matrix34f& mtx, s32 index) override;
-    void* m4(ksys::act::Actor* actor) override;
+    xlink2::HandleELink* m4(ksys::act::Actor* actor) override;
     // 0x7100681bb4 (primary slot 7; the +8 vtable has its own empty copy 0x7100681bb8).
     void handleAck(const ksys::MessageAck& ack) override {}
     // 0x71006812d8 (primary slot 8).

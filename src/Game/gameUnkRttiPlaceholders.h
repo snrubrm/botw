@@ -43,6 +43,8 @@
 #include <gsys/gsysModelUnit.h>
 #include <common/aglDrawContext.h>
 #include <common/aglGPUMemBlock.h>
+
+namespace agl { class DisplayList; }
 #include "Game/gameUnk_71024739f8.h"
 #include "controller/seadControllerAddon.h"
 #include "framework/seadSingleScreenMethodTreeMgr.h"
@@ -1973,17 +1975,22 @@ public:
     ksys::phys::RigidBody* _50 = nullptr;
 };
 
-// vtable 0x710251cf40 (10 slots); placeholder generated from the vtable (genskel.py).
-// Placeholder name (ctor 0x71011595fc, declaration only): a GPU memory block and a draw context with a small
-// header; Unk_710251cf40 holds two of them.
+// Display-list recording owner (constructor 0x71011595fc). Allocation 0x7101159644
+// constructs 0x260-byte DisplayList entries; Unk_710251cf40 embeds two owners.
 struct Unk_71011595fc {
     Unk_71011595fc();
+    void sub_7101159644(s32 count, sead::Heap* heap);
+    // Begin-record sets this owner's context and returns it, or null if no slot remains.
+    agl::DrawContext* sub_71011596F4(sead::Heap* heap);
+    void sub_71011597D4(sead::Heap* heap);
+    // Replays a recorded DisplayList into the supplied context. Library flag/handle access pending.
+    void sub_7101159838(agl::DrawContext* context, s32 index);
 
-    u8 _0;
+    bool _0 = false;
     u8 _1[0x8 - 0x1];
-    u32 _8;
-    u64 _10;
-    u32 _18;
+    sead::Buffer<agl::DisplayList> mDisplayLists;
+    // The native recording functions use a signed index and signed capacity comparison.
+    s32 _18 = 0;
     agl::GPUMemBlock<u8> _20;
     agl::DrawContext _58;
 };

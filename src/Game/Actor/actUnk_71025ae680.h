@@ -117,7 +117,9 @@ public:
 
     // Named by their offsets in Unk_710244dd20 (0x28 / 0x30 / 0x34): `_8` / `_10` would hide the first base's
     // members. Unk_710244dd20::m5 clears the word at 0x30 alone.
-    void* _28 = nullptr;
+    // Burn timers, read as floats by burn start and its timer update.
+    f32 mBurnDuration = 0.0f;
+    f32 mBurnInterval = 0.0f;
     u32 _30 = 0;
     // Freeze duration, scaled by _d0 when starting condition 3 (0x71006d07e0).
     f32 _34 = 0.0f;
@@ -166,7 +168,7 @@ public:
     bool sub_71006D1C34();
     // Classifies the condition from the actor's attacks, then applies its damage-resource rules.
     bool sub_71006D0150();
-    // 0x71006d01a0: starts burn damage; declared only.
+    // 0x71006d01a0: starts burn damage.
     void sub_71006D01A0(bool a1);
     void sub_71006D03C8();
     void sub_71006D0490();

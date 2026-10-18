@@ -27,6 +27,7 @@
 
 namespace ksys::phys {
 class NavMeshCharacter;
+class NavMeshCharacterUnk58;
 }  // namespace ksys::phys
 
 namespace uking::action {
@@ -38,10 +39,6 @@ namespace uking::act {
 // Placeholders (lane4 s50): the object at Enemy::_1250 (used by Sandworm / SiteBoss / LastBoss) holds at +0x18 a polymorphic
 // object whose first two virtuals switch something on / off (SiteBoss::sub_71002CFD04, Sandworm::sub_71002CDAE4, the
 // initMaybe overrides). Names are guesses; declared only.
-// Placeholder name: base of the objects Enemy::m179 / Sandworm::m179 create from a heap and of
-// HorseBase::_b18 (Unk_71024eb548). All three vtables share slot 4 (0x710001adbc), named here. TODO: undefined.
-class Unk_710001adbc;
-
 // Placeholder name: the struct Enemy::m69 fills with 0x7100732b28 (unnamed) and passes to m180.
 // TODO: incomplete (only the MaterialMask pointer that GiantEnemy::m180 sets is known).
 struct Unk_7100732b28 {
@@ -341,8 +338,8 @@ public:
     virtual Unk_71025ae680* m178(sead::Heap* heap);
     void setNecklaceFlag(s32 index);
 
-    // 0x7100013ae8: creates an Unk_710001adbc from `heap` (a prey / swarm variant when isPreyOrSwarm).
-    virtual Unk_710001adbc* m179(sead::Heap* heap);
+    // 0x7100013ae8: creates a material filter (the Horse variant for prey / swarm actors).
+    virtual ksys::phys::NavMeshCharacterUnk58* m179(sead::Heap* heap);
     virtual void m180(Unk_7100732b28* arg) {}
 
     // Forwarders to the parts object _1128. Inline-only in the original; names are a guess (the

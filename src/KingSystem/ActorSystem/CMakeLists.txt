@@ -160,6 +160,8 @@ target_sources(uking PRIVATE
     actModelBindInfo.cpp
     actModelBindInfo.h
     actPlayerPosition.cpp
+    actReactionSLinkLimiter.cpp
+    actReactionSLinkLimiter.h
     actReaction.cpp
     actSchedule.cpp
     actSchedule.h
