@@ -426,6 +426,46 @@ void ScreenShopInfo::sub_7100A525C8(const sead::SafeString& name, bool a2) {
     _3678.sub_71009C68B8(value);
 }
 
+// NON_MATCHING: the CookingInfo default initialization is hoisted above the InfoData instance load;
+// the rest of the body matches.
+// 0x7100a527cc
+void ScreenShopInfo::sub_7100A527CC(PouchItem* item) {
+    if (!_3638)
+        return;
+    if (!item) {
+        _3638->sub_71009C28D0();
+        _3678.sub_71009C697C();
+        return;
+    }
+
+    _3788.str.clear();
+    _3788._58 = 0xffffffff;
+    _3788._5c = 1;
+
+    if (item->getType() == PouchItemType::Food) {
+        CookingInfo cook;
+        if (ksys::act::InfoData::instance() &&
+            ksys::act::InfoData::instance()->hasTag(item->getName().cstr(), 0x30a3552e)) {
+            sub_7100AA4810(*item, &cook);
+            _3788.str = item->getName();
+            _3788._58 = u32(cook.effect);
+            _3788._5c = u32(cook.level);
+        } else {
+            cookingStuff_0(item->getName(), &cook);
+        }
+
+        _3638->sub_71009C2828(cook);
+        if (_3618 && _3618->mFrame != 0.0f)
+            _3618->StopAtMin();
+        _3638->sub_71009C2274(item->getName());
+        _3678.sub_71009C697C();
+        return;
+    }
+
+    const bool flag = sub_7100A82E28(s32(item->getType())) ? item->isEquipped() : false;
+    sub_7100A525C8(item->getName(), flag);
+}
+
 // 0x7100a52c88
 void ScreenShopInfo::sub_7100A52C88(s32 mode, s32 a2, u32 a3) {
     if (mode < 2) {

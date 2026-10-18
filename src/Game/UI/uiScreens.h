@@ -95,6 +95,7 @@ class Unk_710247bcb8;
 class Unk_710247e0c8;
 class Unk_710247c368;
 class Unk_710247dc90;
+struct CookingInfo;
 
 // The game's UI screen classes (CSV: ScreenBase / Screen / ScreenEx / Screen<Name>, IDA placeholder
 // names; the namespace is a guess). The chain eui::Screen <- ScreenBase <- Screen <- ScreenEx <-
@@ -372,6 +373,8 @@ public:
     void sub_71009C2420(const sead::SafeString& name, const sead::SafeString& equipped, bool flag);
     // 0x71009c2718: shows the food / elixir item `name`; true when the gauge was set.
     bool sub_71009C2718(const sead::SafeString& name);
+    // 0x71009c2828: shows the cooking info in the effect / duration widgets.
+    void sub_71009C2828(const CookingInfo& cook);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     u8 _140[0x170 - 0x140];
@@ -5085,6 +5088,8 @@ public:
     void sub_7100A52C88(s32 mode, s32 a2, u32 a3);
     // 0x7100a525c8 (CSV unnamed): shows `name` (or the equipped armor name) and stops the 0x3618 animator.
     void sub_7100A525C8(const sead::SafeString& name, bool a2);
+    // 0x7100a527cc (CSV unnamed): shows a PouchItem (or its cooking info) in the shop info widgets.
+    void sub_7100A527CC(PouchItem* item);
     /* 0x3610 */ eui::Animator* _3610 = nullptr;
     /* 0x3618 */ eui::Animator* _3618 = nullptr;
     // 0x7100a52db0 (CSV placeholder): resolved by the Animator::Stop slot-24 call (vtable-proven)
