@@ -1,4 +1,8 @@
+#include <algorithm>
 #include <cstring>
+#include <nn/font/font_PrintContext.h>
+#include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/euiWindowEx.h"
 #include <driver/aglNVNMgr.h>
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
@@ -24,6 +28,53 @@
 #include "Game/UI/euiMessageString.h"
 
 namespace eui {
+
+// 0x7100bed2e0
+// NON_MATCHING: RTTI checks and size-bound calculations are scheduled differently.
+void AdjustPaneSizeToTextSize(nn::ui2d::Pane* pane, LayoutEx* layout) {
+    const auto* target = pane->FindExtUserDataByName("AdjustToTextOn");
+    if (!target)
+        return;
+    auto* text_box = nn::font::DynamicCast<TextBoxEx>(
+        layout->GetPane()->FindPaneByName(target->GetString(), true));
+    if (!text_box)
+        return;
+
+    f32 margin_x = 0.0f;
+    f32 margin_y = 0.0f;
+    bool keep_height = false;
+    if (const auto* margin = pane->FindExtUserDataByName("AdjustToTextMargin")) {
+        margin_x = margin->GetFloatArray()[0];
+        if (margin->GetCount() < 2)
+            keep_height = true;
+        else
+            margin_y = margin->GetFloatArray()[1];
+    }
+
+    f32 min_width = 0.0f;
+    f32 min_height = 0.0f;
+    if (const auto* window = nn::font::DynamicCast<WindowEx>(pane)) {
+        const f32 left = window->mContentMargins[0];
+        const f32 right = window->mContentMargins[1];
+        min_width = window->mWindowKind == 2 ? right + right : left + right;
+        min_height = f32(window->mContentMargins[2]) + f32(window->mContentMargins[3]);
+    }
+    if (const auto* minimum = pane->FindExtUserDataByName("AdjustToTextMinSize")) {
+        if (minimum->GetCount() != 0) {
+            min_width = std::max(minimum->GetFloatArray()[0], min_width);
+            if (minimum->GetCount() != 1)
+                min_height = std::max(minimum->GetFloatArray()[1], min_height);
+        }
+    }
+
+    const auto rect = text_box->GetTextDrawRect();
+    const f32 width = std::max(min_width, (margin_x + margin_x) + (rect.right - rect.left));
+    const f32 height = keep_height ? pane->GetSize().height :
+        std::max(min_height, (margin_y + margin_y) + (rect.top - rect.bottom));
+    pane->SetSize({width, height});
+    layout->_90 |= 1;
+}
+
 
 // NON_MATCHING: base-position branches fold into conditional selects; load scheduling differs.
 // 0x7100bed030
