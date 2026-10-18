@@ -4,6 +4,8 @@
 #include <math/seadMatrix.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
+namespace ksys::snd { class Unk_SoundMgr38_48; }
+
 namespace ksys::phys {
 
 class LayerMaskBuilder;
@@ -27,6 +29,9 @@ public:
     bool isSuccess() const;
 
 protected:
+    // Grudge sound's full query helper 1036530 checks this base query's execution status.
+    friend class ksys::snd::Unk_SoundMgr38_48;
+
     void reset();
 
     RigidBody* mBody{};

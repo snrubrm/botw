@@ -27,6 +27,8 @@
 #include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Sound/sndMiiSound.h"
 
+namespace ksys::phys { class SphereRigidBody; }
+
 namespace ksys::snd {
 
 // Placeholder name: a 46-entry SEAD_ENUM of voice kinds (text_ at 0x710105ec08; eft::sub_710105DFA4 emits the
@@ -284,12 +286,19 @@ public:
     void sub_7101035A50();
     // 0x7101035888 (declared only)
     void sub_7101035888();
+    // 1036530: completes a sphere query; writes the indoor result only after execution status 1.
+    bool sub_7101036530(bool* indoor, const sead::Vector3f& position);
 
     u8 _8[0x1dc0 - 0x8];
     /* 0x1dc0 */ u32 _1dc0;
-    u8 _1dc4[0x1e08 - 0x1dc4];
+    u8 _1dc4[0x1e00 - 0x1dc4];
+    // 1034A10 stores SphereRigidBody::make's result here; 1036530 borrows it for the query.
+    /* 0x1e00 */ phys::SphereRigidBody* mSphere;
     /* 0x1e08 */ sead::BitFlag8 _1e08;
+    // Allocation 102A3D0 is 0x1e20; 1034A10 initializes additional state in this tail.
+    u8 _1e09[0x1e20 - 0x1e09];
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_48, 0x1e20);
 
 // Placeholder names (SoundMgr::_38 members at +0x8 / +0x10 / +0x18 / +0x38 / +0x40 / +0x50 / +0x58 / +0x60): only
 // the method that Unk_SoundMgr38::sub_710102AEC4 calls on each is declared (all declared only).
