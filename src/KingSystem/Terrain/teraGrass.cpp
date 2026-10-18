@@ -127,3 +127,56 @@ u32 Unk_7102503a50::sub_7101069DB8(const sead::Vector2f* position, f32 radius) {
     }
     return 1;
 }
+
+void Unk_7102503a50::EventPool::sub_71010642AC(s32 count, sead::Heap* heap) {
+    mEvents.tryAllocBuffer(count, heap);
+    mFreeEvents.allocBuffer(count, heap);
+    mActiveEvents.allocBuffer(count, heap);
+    mRetiredEvents.allocBuffer(count, heap);
+    for (s32 i = 0; i < count; ++i)
+        mFreeEvents.pushBack(&mEvents[i]);
+}
+
+// NON_MATCHING: scan and count reloads differ; the restart after erasure is preserved.
+void Unk_7102503a50::EventPool::process(Unk_7102503ac0* callback) {
+    mCriticalSection.lock();
+    for (auto& event : mActiveEvents)
+        callback->update(&event);
+
+    s32 index = 0;
+    while (index < mActiveEvents.size()) {
+        Event* event = mActiveEvents(index);
+        if (callback->shouldRetire(event)) {
+            mRetiredEvents.pushBack(event);
+            mActiveEvents.erase(index);
+            index = 0;
+        } else if (callback->shouldDiscard(event)) {
+            mFreeEvents.pushBack(event);
+            mActiveEvents.erase(index);
+            index = 0;
+        } else {
+            ++index;
+        }
+    }
+    mCriticalSection.unlock();
+}
+
+void Unk_7102503ac0::update(Unk_7102503a50::Event* event) {
+    ++event->mAge;
+}
+
+bool Unk_7102503ac0::shouldRetire(Unk_7102503a50::Event* event) {
+    return (mCenter - event->mPosition).length() + event->mRadius < 256.0f;
+}
+
+bool Unk_7102503ac0::shouldDiscard(Unk_7102503a50::Event* event) {
+    return (mCenter - event->mPosition).length() > 512.0f;
+}
+
+bool Unk_7102503a50::sub_710106A2C4() {
+    for (const auto& record : mRecords) {
+        if (record.mEventPool.mFreeEvents.size() < 128)
+            return true;
+    }
+    return false;
+}

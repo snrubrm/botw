@@ -10,6 +10,7 @@
 #include <common/aglVertexBuffer.h>
 #include <utility/aglDebugTexturePage.h>
 #include <container/seadBuffer.h>
+#include <container/seadPtrArray.h>
 #include <gfx/seadGraphicsContext.h>
 #include <gfx/seadViewport.h>
 #include <math/seadVector.h>
@@ -17,6 +18,8 @@
 #include <cstddef>
 
 namespace ksys::phys { class ContactLayerCollisionInfoGroup; }
+
+class Unk_7102503ac0;
 
 // Grass initialization at 0x710114eab0 allocates this 0xbe0-byte object at +0x28.
 // Constructor 0x7101063728 installs table 0x7102503a50, which has only D1/D0 slots.
@@ -56,6 +59,36 @@ public:
     };
     static_assert(sizeof(NearCaches) == 0xd30);
 
+    // 0x71010642ac allocates count * 0x14 bytes and puts each entry in the free array.
+    struct Event {
+        sead::Vector2f mPosition;
+        f32 mRadius;
+        f32 mValue;
+        u8 mKind;
+        u8 mAge;
+        u8 _12[2];
+    };
+    static_assert(sizeof(Event) == 0x14);
+    static_assert(offsetof(Event, mRadius) == 8);
+    static_assert(offsetof(Event, mAge) == 0x11);
+
+    // Constructed within Record at +0x7258; initialized by 0x71010642ac.
+    struct EventPool {
+        void sub_71010642AC(s32 count, sead::Heap* heap);
+        void process(Unk_7102503ac0* callback);
+
+        sead::CriticalSection mCriticalSection;
+        sead::Buffer<Event> mEvents;
+        sead::PtrArray<Event> mFreeEvents;
+        sead::PtrArray<Event> mActiveEvents;
+        sead::PtrArray<Event> mRetiredEvents;
+    };
+    static_assert(sizeof(EventPool) == 0x80);
+    static_assert(offsetof(EventPool, mEvents) == 0x40);
+    static_assert(offsetof(EventPool, mFreeEvents) == 0x50);
+    static_assert(offsetof(EventPool, mActiveEvents) == 0x60);
+    static_assert(offsetof(EventPool, mRetiredEvents) == 0x70);
+
     // Initializer 0x7101063904 allocates records with an array cookie and a 0x7448 stride.
     // Constructor 0x710106a5d4 and destructor 0x710106ab30 remain declared only.
     struct Record {
@@ -75,9 +108,8 @@ public:
         u8 _7161[7];
         agl::UniformBlock _7168;
         agl::UniformBlock _71e0;
-        sead::CriticalSection _7258;
-        u32 _7298;
-        u8 _729c[0x72e8 - 0x729c];
+        EventPool mEventPool;                      // +7258
+        u8 _72d8[0x10];
         u8 _72e8[0x160];  // Second instance of the same uniform-block owner.
     };
     static_assert(sizeof(Record) == 0x7448);
@@ -85,6 +117,7 @@ public:
     static_assert(offsetof(Record, mFarRadius) == 0x11b0);
     static_assert(offsetof(Record, _11f0) == 0x11f0);
     static_assert(offsetof(Record, _70e0) == 0x70e0);
+    static_assert(offsetof(Record, mEventPool) == 0x7258);
     static_assert(offsetof(Record, _72e8) == 0x72e8);
 
     Unk_7102503a50();                                //1063728
@@ -95,6 +128,7 @@ public:
     f32 sub_71010699D0(const sead::Vector2f* position);
     f32 sub_7101069C44(const sead::Vector2f* position);
     u32 sub_7101069DB8(const sead::Vector2f* position, f32 radius);
+    bool sub_710106A2C4();
 
     sead::Heap* mHeap;                              // +8
     sead::Buffer<Record> mRecords;                  // +10
@@ -120,3 +154,16 @@ public:
     u8 _bdc[4];
 };
 static_assert(sizeof(Unk_7102503a50) == 0xbe0);
+
+// The stack object in 0x71010658e8 installs table 0x7102503ac0 and copies its
+// center to +8. The table has these three methods and no virtual destructor.
+class Unk_7102503ac0 {
+public:
+    virtual void update(Unk_7102503a50::Event* event);
+    virtual bool shouldRetire(Unk_7102503a50::Event* event);
+    virtual bool shouldDiscard(Unk_7102503a50::Event* event);
+
+    sead::Vector2f mCenter;
+};
+static_assert(sizeof(Unk_7102503ac0) == 0x10);
+static_assert(offsetof(Unk_7102503ac0, mCenter) == 8);
