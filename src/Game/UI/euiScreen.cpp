@@ -101,7 +101,6 @@ TagProcessor* Screen::doCreateTagProcessor_(sead::Heap* heap) {
 }
 
 // 0x7100be9390
-// NON_MATCHING: layout-name storage and control iteration are scheduled differently.
 void Screen::initialize(ScreenMgr* mgr, sead::Heap* heap, const char* name, s32 id,
                         s8 target, bool touch_device) {
     mMgr = mgr;
