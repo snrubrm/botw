@@ -5034,6 +5034,8 @@ void sub_71010B3484(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
 void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool a,
                     s16* out, bool b);
 
+class Unk_710247d0c8;
+
 class ScreenShopInfo : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
@@ -5065,6 +5067,8 @@ public:
     void sub_7100A5237C(const sead::SafeString& name, bool a2, s32 a3);
     // 0x7100a524b0 (CSV unnamed): as sub_7100A5237C but for a PouchItem.
     void sub_7100A524B0(const PouchItem* item, bool a2);
+    // 0x7100a52c88 (CSV unnamed): mode-based update of the two item elements and the T_Text_00 message.
+    void sub_7100A52C88(s32 mode, s32 a2, u32 a3);
     /* 0x3610 */ eui::Animator* _3610 = nullptr;
     u8 _pad_3618[0x3620 - 0x3618];
     // 0x7100a52db0 (CSV placeholder): resolved by the Animator::Stop slot-24 call (vtable-proven)
@@ -5072,7 +5076,9 @@ public:
     /* 0x3620 */ eui::Animator* _3620 = nullptr;
     /* 0x3628 */ eui::Animator* _3628 = nullptr;
     /* 0x3630 */ eui::Animator* _3630 = nullptr;
-    u8 _pad_3638[0x3650 - 0x3638];
+    /* 0x3638 */ Unk_710247ca18* _3638 = nullptr;
+    /* 0x3640 */ Unk_710247d0c8* _3640 = nullptr;
+    /* 0x3648 */ Unk_710247d0c8* _3648 = nullptr;
     // 0x7100a52db0 (CSV placeholder): the LetterAnimControl fed by sub_7100AA2E08 +
     // sub_7100BD9CDC / sub_7100BD9B5C (same tail as ScreenMessageDialog's 0x10b2b30).
     /* 0x3650 */ eui::LetterAnimControl* _3650 = nullptr;

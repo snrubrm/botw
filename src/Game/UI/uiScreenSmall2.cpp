@@ -6,6 +6,7 @@
 #include <prim/seadDelegate.h>
 #include <prim/seadStringUtil.h>
 #include "Game/UI/euiLetterAnimControl.h"
+#include "Game/UI/uiShopItemElementChildren.h"
 #include "Game/UI/uiSwkbdMgr.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
@@ -358,6 +359,35 @@ void ScreenShopInfo::sub_7100A524B0(const PouchItem* item, bool a2) {
     } else {
         if (_3630->mFrame != static_cast<f32>(_3630->GetFrameSize()))
             _3630->StopAtMax();
+    }
+}
+
+// NON_MATCHING: branch layout only (the original tests mode < 2 first and places the mode 3 block first).
+// 0x7100a52c88
+void ScreenShopInfo::sub_7100A52C88(s32 mode, s32 a2, u32 a3) {
+    if (mode < 2) {
+        if (_3640) {
+            _3640->sub_71009C3138(a2, a3);
+
+            eui::MessageString msg;
+            if (mode == 0)
+                getMessage("LayoutMsg/ShopInfo_00", "0014", &msg);
+            else
+                getMessage("LayoutMsg/ShopInfo_00", "0015", &msg);
+            setWidgetString(_3640->mLayout, "T_Text_00", msg);
+        }
+        if (_3648)
+            _3648->sub_71009C31D8();
+    } else if (mode == 2) {
+        if (_3648)
+            _3648->sub_71009C3138(a2, a3);
+        if (_3640)
+            _3640->sub_71009C31D8();
+    } else if (mode == 3) {
+        if (_3640)
+            _3640->sub_71009C31D8();
+        if (_3648)
+            _3648->sub_71009C31D8();
     }
 }
 
