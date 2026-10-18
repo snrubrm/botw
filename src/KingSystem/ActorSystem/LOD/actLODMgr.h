@@ -77,6 +77,15 @@ public:
         u32 _c;
     };
     static_assert(sizeof(Slot) == 0x10);
+    // 0x71012538ec sorts these slots, reads count at +0x400 and advances
+    // a separate round-robin index at +0x404.
+    struct OcclusionPool {
+        s32 sub_71012538EC(u32 flags);
+        sead::SafeArray<Slot, 0x40> slots;
+        s32 count;
+        s32 index;
+    };
+    static_assert(sizeof(OcclusionPool) == 0x408);
     /* 0x0028 */ sead::SafeArray<LodState*, 0x200> _28;  // the LodStates calc() walks
     /* 0x1028 */ s32 _1028;
     /* 0x102c */ u8 _102c[4];
@@ -86,8 +95,7 @@ public:
     /* 0x1848 */ sead::SafeArray<sead::Vector3f, 4> _1848;
     /* 0x1878 */ s32 _1878;
     /* 0x187c */ u8 _187c[4];
-    /* 0x1880 */ sead::SafeArray<Slot, 0x40> mOcclusionSlots;
-    /* 0x1c80 */ u64 _1c80;
+    /* 0x1880 */ OcclusionPool mOcclusionPool;
     /* 0x1c88 */ agl::cull::ViewFrustumCulling mFrustum;
     /* 0x1ec0 */ agl::cull::ViewFrustumCulling mNearFrustum;
     /* 0x20f8 */ sead::Vector3f mCameraDirection;

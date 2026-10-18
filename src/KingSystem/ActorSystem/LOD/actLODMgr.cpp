@@ -4,6 +4,7 @@
 #include <heap/seadHeap.h>
 #include <gfx/seadCamera.h>
 #include <cmath>
+#include <utility>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/Camera/CameraMgr.h"
@@ -141,6 +142,33 @@ bool LODMgr::sub_7101254544(LodState* state, const sead::Vector3f& center, f32 r
     return state->mFlags8.isOnBit(29);
 }
 
+// NON_MATCHING: sorting and selecting the first five entries are scheduled differently.
+s32 LODMgr::OcclusionPool::sub_71012538EC(u32 flags) {
+    for (s32 i = 0; i < count; ++i) {
+        for (s32 j = i + 1; j < count; ++j) {
+            if (slots[j].distance < slots[i].distance)
+                std::swap(slots[i], slots[j]);
+        }
+    }
+    s32 selected = 0;
+    for (; selected < 5 && selected < count; ++selected)
+        slots[selected].state->mFlags8.set(flags);
+    if (count > 5) {
+        Slot* candidates[0x40];
+        s32 num_candidates = 0;
+        for (s32 i = 5; i < count; ++i) {
+            if (slots[i].state->mFlags14.isOnBit(17))
+                candidates[num_candidates++] = &slots[i];
+        }
+        if (num_candidates > 0) {
+            candidates[index % num_candidates]->state->mFlags8.set(flags);
+            ++selected;
+        }
+    }
+    ++index;
+    return selected;
+}
+
 // NON_MATCHING: flag tests, slot writes and distance predicates are folded differently.
 void LODMgr::calc_x(const sead::Vector3f* camera) {
     for (s32 i = 0; i < 6; ++i)
@@ -191,17 +219,17 @@ void LODMgr::calc_x(const sead::Vector3f* camera) {
                     state->mFlags8.setBit(8);
                 if (inside && state->_48 > 0.0f && !_21dc) {
                     if (state->mFlags10.isOnBit(1)) {
-                        if (_1c80 < 0x40) {
-                            mOcclusionSlots[_1c80].state = state;
-                            mOcclusionSlots[_1c80].distance = 0.0f;
-                            ++_1c80;
+                        if (mOcclusionPool.count < 0x40) {
+                            mOcclusionPool.slots[mOcclusionPool.count].state = state;
+                            mOcclusionPool.slots[mOcclusionPool.count].distance = 0.0f;
+                            ++mOcclusionPool.count;
                         }
                     } else {
                         const f32 limit = state->_48 * _2200;
-                        if (distance < limit * limit && _1c80 < 0x40) {
-                            mOcclusionSlots[_1c80].state = state;
-                            mOcclusionSlots[_1c80].distance = distance;
-                            ++_1c80;
+                        if (distance < limit * limit && mOcclusionPool.count < 0x40) {
+                            mOcclusionPool.slots[mOcclusionPool.count].state = state;
+                            mOcclusionPool.slots[mOcclusionPool.count].distance = distance;
+                            ++mOcclusionPool.count;
                         }
                     }
                 }
@@ -260,7 +288,8 @@ void LODMgr::initBeforeStageGenB() {
     mSlotPools[0].index = 0;
     mSlotPools[1].count = 0;
     mSlotPools[1].index = 0;
-    _1c80 = 0;
+    mOcclusionPool.count = 0;
+    mOcclusionPool.index = 0;
     _1878 = 0;
     _2110.fill(0);
 }
