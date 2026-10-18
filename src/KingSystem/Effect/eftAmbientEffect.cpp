@@ -34,8 +34,9 @@ Unk_71012419b4* AmbientEffectEmitter::nextHandle() {
 // NON_MATCHING: vector normalization, position stores and floating-point registers differ.
 void AmbientEffectEmitter::calcPosition(Effect* effect, sead::Vector3f* output) {
     const auto camera_position = effect->_9fc0->m148()->getMtx().getTranslation();
-    const f32 angle = mAngle + 0.20943952f;
-    mAngle = angle <= 6.2831855f ? angle : 0.0f;
+    mAngle += 0.20943952f;
+    if (mAngle > 6.2831855f)
+        mAngle = 0.0f;
     const f32 radius = sead::GlobalRandom::instance()->getF32() * mRadius;
     sead::Vector3f player_position = sead::Vector3f::zero;
     if (effect->_9fb8)
