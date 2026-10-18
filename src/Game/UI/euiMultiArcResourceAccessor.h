@@ -48,7 +48,7 @@ public:
     const void* sub_7100BE022C(const char* layout_name, const char* animation_name, u32* size);
 
     // Declared only (0x7100be06b4 / 0x7100be0738 / 0x7100be07c0 / 0x7100be03f4 / 0x7100be050c / 0x7100be0540).
-    void RegisterTextureViewToDescriptorPool(TextureViewDescriptorCallback callback,
+    void RegisterTextureViewToDescriptorPool(TextureViewRegistrationCallback callback,
                                              void* user_data) override;
     void UnregisterTextureViewFromDescriptorPool(TextureViewDescriptorCallback callback,
                                                  void* user_data) override;

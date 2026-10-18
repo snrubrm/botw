@@ -98,7 +98,7 @@ void* MultiArcResourceAccessor::GetResource(size_t* size, u32 type, const char* 
 // the descriptor address is formed; ours hoists the address into a preincrement load).
 // 0x7100be06b4
 void MultiArcResourceAccessor::RegisterTextureViewToDescriptorPool(
-    TextureViewDescriptorCallback callback, void* user_data) {
+    TextureViewRegistrationCallback callback, void* user_data) {
     for (auto& link : mTextures) {
         nn::ui2d::TextureInfo& texture = link.texture;
         if (!texture.GetDescriptorSlot().IsValid())
