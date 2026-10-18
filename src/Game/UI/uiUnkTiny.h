@@ -679,6 +679,8 @@ public:
     virtual ~Unk_71024774a8();
     void sub_71009884A8(eui::LayoutEx* layout);
     void sub_71009884B0();
+    // A2D8C4 passes the existing embedded control at ScreenPauseMenuInfo +3b70.
+    void sub_7100988620();
     void sub_7100988AF4(bool open);
     f32 sub_7100988D00(s32 index) const;
     bool sub_7100988D1C(s32 index) const;
@@ -699,6 +701,8 @@ public:
     u8 _5d[3];
     /* 0x60 */ sead::FixedSafeString<64> _60;
 };
+
+KSYS_CHECK_SIZE_NX150(Unk_71024774a8, 0xb8);
 
 class Unk_71024810b8 {
 public:

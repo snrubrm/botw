@@ -73,6 +73,8 @@ public:
     void x_4();
 
 private:
+    // PauseMenuInfo state animation reads bit 0, as its native m94 does.
+    friend class ScreenPauseMenuInfo;
     friend class uking::act::PauseMenuPlayer;
     friend class uking::ai::PauseMenuPlayerRoot;
 

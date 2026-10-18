@@ -1,4 +1,6 @@
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiAnimator.h"
+#include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -240,6 +242,109 @@ void ScreenPauseMenuInfo::sub_7100A2FEDC() {
     }
     _39a0->sub_71009C9540(display);
     _39a0->sub_71009C9554(warning);
+}
+
+// A2C890 places the control at 3b70 and leaves 3c28 for EnergyMeterDLC.
+static_assert(offsetof(ScreenPauseMenuInfo, _3688) == 0x3688);
+static_assert(offsetof(ScreenPauseMenuInfo, _36c0) == 0x36c0);
+static_assert(offsetof(ScreenPauseMenuInfo, _3b70) == 0x3b70);
+static_assert(offsetof(ScreenPauseMenuInfo, _3c28) == 0x3c28);
+
+// 0x7100a2d8c4
+// NON_MATCHING: branch layout and gauge-call argument register setup differ.
+void ScreenPauseMenuInfo::m94() {
+    if (mState != 1 && mState != 2)
+        return;
+    if (_3610) {
+        _3610->sub_7100949EDC();
+        _3618.sub_7100936034(getAnimationStep_());
+        if (_3690) {
+            if (_3610->_28 == 0) {
+                if (_3690->mFrame != 0.0f)
+                    _3690->StopAtMin();
+            } else if (_3690->mFrame != f32(_3690->GetFrameSize())) {
+                _3690->StopAtMax();
+            }
+        }
+    }
+    if (_3904 == 3) {
+        if (!_36e0.sub_7100945D98() && !_3810.sub_7100945D98()) {
+            _3904 = 0;
+            sub_7100A2DC30(_38f4);
+            sub_7100A2DCD8(_38fc);
+        }
+    } else if (_3904 == 2) {
+        if (_3900 & 4) {
+            _36e0.sub_7100945D84(true);
+            _36e0.sub_7100946898();
+        }
+        if (_3900 & 8) {
+            _3810.sub_7100945D84(true);
+            _3810.sub_7100946898();
+            playSound("mc_ExtraGanbari_Up", nullptr);
+        }
+        _3904 = 3;
+    }
+    _36e0.sub_7100945DB8();
+    _3810.sub_7100945DB8();
+    const s32 gauge_state = _36e0.sub_7100946864();
+    if (_3698) {
+        if (gauge_state == 2)
+            _3698->Stop(1.0f);
+        else if (gauge_state == 3)
+            _3698->Stop(2.0f);
+        else
+            _3698->Stop(0.0f);
+    }
+    if (_391c == 2) {
+        if (_3910 != -1) {
+            if (_3908) {
+                _3908->sub_71009BCCA4(_3918, _3910, _3914);
+                _3908->m5(true);  // native result is discarded
+            }
+            sub_7100A2FEDC();
+            sub_7100A2E844();
+        }
+        _391c = 0;
+        invokeSoundLink2Event_("mc_StatusUp");
+    }
+    if (_3688) {
+        const auto* mgr = OnUiActorMgr::instance();
+        _3688->PlayFromCurrent(eui::Animator::PlayType(0),
+                              mgr && mgr->_1f4.isOnBit(0) ? 1.0f : -1.0f);
+    }
+    if (_36c8 != 3 && _36c0 && _36c0->mCurrent) {
+        const auto* animator = _36c0->mCurrent;
+        const bool crossed = animator->mRate < 0.0f ? animator->mFrame <= 4.0f :
+                                                     4.0f <= animator->mFrame;
+        if (crossed) {
+            sub_7100A30510(_36c8);
+            _36c8 = 3;
+        }
+    }
+    _39f8.sub_7100933BDC();
+    if (_39f8._151)
+        eui::Screen::x_2();
+    if (_3c28->mFrame == f32(_3c28->GetFrameSize()))
+        _3b70.sub_7100988620();
+}
+
+// 0x7100a300ac
+void ScreenPauseMenuInfo::sub_7100A300AC() {
+    if (_39e8)
+        _39e8->m5(true);  // native result is discarded
+    _36e0.sub_7100945C98(false);
+    _3810.sub_7100945C98(false);
+    if (_39a0)
+        _39a0->m6(true);  // native result is discarded
+    const s32 count = _39c8.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (auto* child = _39c8[i])
+            child->m6(true);  // native result is discarded
+    }
+    if (_3b58)
+        _3b58->m6(true);  // native result is discarded
+    _39f0 = 1;
 }
 
 }  // namespace uking::ui

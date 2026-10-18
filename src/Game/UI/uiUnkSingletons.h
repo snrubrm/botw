@@ -178,6 +178,8 @@ public:
     void sub_710094BB9C();
     void sub_710094BCDC();
     void sub_710094BD54();
+    // A2D8C4 passes its gauge singleton; native receiver fields are 28..70.
+    void sub_7100949EDC();
     void sub_7100949FBC();
     u32 sub_710094C094(u32 value) const;
     u32 sub_710094C0D4(u32 value) const;

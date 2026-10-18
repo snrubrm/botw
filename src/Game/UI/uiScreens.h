@@ -908,6 +908,7 @@ struct ScreenId {
 
 class ScreenPauseMenuInfo : public ScreenEx {
 public:
+    void m94() override;
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m96() override;
     ~ScreenPauseMenuInfo() override;
@@ -926,7 +927,9 @@ public:
     // A2E510 combines equipment resistance with deferred effect fields 3910/3914.
     void sub_7100A2E510(s32* hot, s32* cold, s32* fire);
     void sub_7100A2FEDC();
+    void sub_7100A300AC();
     void sub_7100A2E844();
+    void sub_7100A30510(u32 mode);
     // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
     void sub_7100A313A8(s32 page, bool a2);
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
@@ -937,14 +940,26 @@ public:
     // A2CE68 stores the gauge singleton here.
     /* 0x3610 */ Unk_71025d6578* _3610;
     /* 0x3618 */ Unk_7102474c08 _3618;
-    u8 _pad_3650[0x36a0 - 0x3650];
+    u8 _pad_3650[0x3688 - 0x3650];
+    // A2CE68 creates State, Pos and GanbariPos animators in this order.
+    /* 0x3688 */ eui::Animator* _3688;
+    /* 0x3690 */ eui::Animator* _3690;
+    /* 0x3698 */ eui::Animator* _3698;
     /* 0x36a0 */ eui::Animator* _36a0;
     /* 0x36a8 */ eui::Animator* _36a8;
     // 0x7100a2dc30 / 0x7100a2dcd8: preview heart / stamina changes in the pause menu.
     void sub_7100A2DC30(f32 delta);
     void sub_7100A2DCD8(f32 delta);
 
-    u8 _pad_36b0[0x36e0 - 0x36b0];
+    /* 0x36b0 */ eui::Animator* _36b0;
+    /* 0x36b8 */ eui::Animator* _36b8;
+    // A2CE68 creates an AnimatorSet from ChangeR/ChangeL, then SlidePoint.
+    /* 0x36c0 */ eui::AnimatorSet* _36c0;
+    /* 0x36c8 */ u32 _36c8;
+    u8 _pad_36cc[4];
+    /* 0x36d0 */ eui::Animator* _36d0;
+    /* 0x36d8 */ f32 _36d8;
+    u8 _pad_36dc[4];
     /* 0x36e0 */ ::Unk_7102475050 _36e0;
     /* 0x3810 */ ::Unk_71024750c8 _3810;
     /* 0x38f0 */ f32 _38f0;
@@ -972,10 +987,23 @@ public:
     /* 0x39b8 */ f32 _39b8;
     /* 0x39bc */ s32 _39bc;
     /* 0x39c0 */ u8 _39c0;
-    u8 _pad_39c1[0x39e8 - 0x39c1];
-    /* 0x39e8 */ eui::ControlBase* _39e8;  // the control whose layout shows the number (T_Num_00)
-    u8 _pad_39f0[0x39f8 - 0x39f0];
+    u8 _pad_39c1[0x39c8 - 0x39c1];
+    // A2CE68 allocates this PtrArray for group 7 and inserts ScreenChildEx children.
+    /* 0x39c8 */ sead::PtrArray<ScreenChildEx> _39c8;
+    u8 _pad_39d8[0x39e8 - 0x39d8];
+    /* 0x39e8 */ ScreenChildEx* _39e8;  // the control whose layout shows the number (T_Num_00)
+    /* 0x39f0 */ u8 _39f0;
+    u8 _pad_39f1[0x39f8 - 0x39f1];
     /* 0x39f8 */ Unk_7102474bc8 _39f8;
+    // A2CE68 casts children 5 and 4 to ScreenChildEx before these stores.
+    /* 0x3b50 */ ScreenChildEx* _3b50;
+    /* 0x3b58 */ ScreenChildEx* _3b58;
+    /* 0x3b60 */ eui::Animator* _3b60;
+    /* 0x3b68 */ u8 _3b68;
+    u8 _pad_3b69[0x3b70 - 0x3b69];
+    // A2CB00 constructs this control; its final string ends at the next animator.
+    /* 0x3b70 */ Unk_71024774a8 _3b70;
+    /* 0x3c28 */ eui::Animator* _3c28;
 
     // 0x7100a30380 (placeholder name): shows `value` in the number pane of the control at 0x39e8
     void sub_7100A30380(s32 value);
