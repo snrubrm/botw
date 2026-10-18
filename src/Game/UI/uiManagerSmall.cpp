@@ -869,6 +869,8 @@ bool Manager::parseMainFieldAreas() {
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64e8;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64ec;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6540;
+// Extra-energy threshold written by 947444 and read by 94745C / 947520.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d6544;
 
 // 0x71009452c4
 bool sub_71009452C4() {
@@ -1304,3 +1306,64 @@ f32 Unk_7102474fd8::sub_71009468D4() const {
     return _58->mFrame;
 }
 
+
+// 0x7100946a7c
+bool Unk_7102475050::sub_7100946A7C() {
+    if (!_b8)
+        return true;
+    const bool done = sub_7100946BE8(_b8);
+    f32 value = m7();
+    if (_e8 <= 2 && !(_b8->mFlags & 1))
+        value = sead::Mathf::max(value - 200.0f, 1000.0f);
+    sub_710094574C(value);
+    sub_71009457B4(value);
+    sub_7100945D04(value);
+    sub_7100946318();
+    if (_e8 >= 3)
+        _b8->StopAtMin();
+    return done;
+}
+
+// 0x7100946f88
+bool Unk_7102475050::sub_7100946F88() {
+    if (!_c0)
+        return true;
+    const bool done = sub_7100946BE8(_c0);
+    f32 value = m7();
+    if (_e8 <= 1)
+        value = sead::Mathf::min(value + 200.0f, 3000.0f);
+    sub_710094574C(value);
+    sub_71009457B4(value);
+    sub_7100945D04(value);
+    sub_7100946318();
+    return done;
+}
+
+// 0x7100947520
+// NON_MATCHING: the threshold uses its own address instead of the original merged-storage base.
+bool Unk_71024750c8::sub_7100947520() {
+    if (!_28)
+        return true;
+    switch (_b8) {
+    case 0:
+        uking::ui::playSound("mc_ExtraGanbari_Up", nullptr);
+        sub_7100945D04(m7());
+        sub_710094574C(m6());
+        sub_71009457B4(sUnk_71025d6544);
+        sub_7100945D84(false);
+        _28->PlayAuto(1.0f);
+        _b8 = 1;
+        return false;
+    case 1:
+        _b8 = 2;
+        sub_7100945D84(true);
+        return false;
+    case 2:
+        if (_10 && sead::Mathf::equalsEpsilon(_10->_50, _10->mTracingSpeed))
+            _b8 = 3;
+        return false;
+    default:
+        sUnk_71025d6540 = false;
+        return true;
+    }
+}

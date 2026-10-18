@@ -159,6 +159,8 @@ public:
     // No-argument bool callbacks bound by the native ScreenPauseMenuInfo constructor.
     bool sub_7100946A7C();
     bool sub_7100946F88();
+    // Both callbacks pass their Animator; the body updates this leaf's translation/state.
+    bool sub_7100946BE8(eui::Animator* animator);
 
     /* 0xb8 */ eui::Animator* _b8 = nullptr;
     /* 0xc0 */ eui::Animator* _c0 = nullptr;
