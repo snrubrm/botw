@@ -6,6 +6,10 @@
 #include "KingSystem/Effect/eftEffectUnkHelpers.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
+namespace ksys::map {
+struct Unk_71012497f8Entry;
+}
+
 namespace ksys::eft {
 
 class Effect;
@@ -88,6 +92,8 @@ public:
     void reset() override;
     bool getSpawnPosition(Effect* effect, const sead::Vector3f& position,
                           sead::Vector3f& output) override;
+    // 0x710126fa80: counts matching clustered flower entries for getSpawnPosition.
+    bool countFlower(map::Unk_71012497f8Entry* entry);
     f32 mMinFlowers;
     s32 mFlowerCount;
 };

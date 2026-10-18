@@ -1,10 +1,14 @@
 #include "KingSystem/Effect/eftAmbientEffect.h"
 #include <cmath>
 #include <random/seadGlobalRandom.h>
+#include <prim/seadDelegate.h>
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace ksys::eft {
 
@@ -188,6 +192,34 @@ void YellowDragonflyEffectRequest::emit(const sead::Vector3f& position) {
     xlinkSearchAndEmit(act::Reaction::instance()->_28, "Dragonfly_Yellow_Dummy", 2, &mHandle);
     mHandle.sub_71012419B4(position);
     mHandle.mELink.setDelayEmitParamF8Flags(6);
+}
+
+// NON_MATCHING: the singleton load and stack frame are scheduled differently.
+bool ButterflyEffectEmitter::countFlower(map::Unk_71012497f8Entry* entry) {
+    const char* name = entry->mName.cstr();
+    if (act::InfoData::instance()->hasTag(name, act::tags::UndispCut.getHash()) &&
+        sead::SafeString(name).findIndex("Flower") != -1)
+        ++mFlowerCount;
+    return true;
+}
+
+bool ButterflyEffectEmitter::getSpawnPosition(Effect* effect, const sead::Vector3f& position,
+                                             sead::Vector3f& output) {
+    sead::Vector3f ground_position = position;
+    f32 depth;
+    f32 height;
+    // Return value is discarded in the original; depth output is also supplied there.
+    effect->sub_71011B2A34(&position, &depth, &height, nullptr, nullptr, nullptr, false);
+    ground_position.y = height;
+    output = ground_position;
+    auto* mgr = map::PlacementMgr::instance();
+    if (!mgr)
+        return false;
+    sead::Delegate1R<ButterflyEffectEmitter, map::Unk_71012497f8Entry*, bool> callback{
+        this, &ButterflyEffectEmitter::countFlower};
+    mFlowerCount = 0;
+    mgr->sub_71011EB40C(&ground_position, 0.75f, &callback);
+    return mFlowerCount >= s32(mMinFlowers);
 }
 
 }  // namespace ksys::eft
