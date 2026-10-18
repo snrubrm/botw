@@ -280,8 +280,8 @@ public:
     bool cannotGetItem(const sead::SafeString& name, int n) const;
     // 0x710097d79c: declaration only.
     void dyeGoodsStuff();
-    // 0x710097c1d4 / 0x710097c7b0 (CSV x_37 / x_38; declared only).
-    // x_37 counts consecutive entries for the tab; x_38's result is currently unused.
+    // 0x710097c1d4 / 0x710097c7b0 (CSV x_37 / x_38).
+    // x_37 counts consecutive tabs for the category; x_38 remains declared only.
     s32 x_37(s32 a);
     void x_38(s32 a);
 

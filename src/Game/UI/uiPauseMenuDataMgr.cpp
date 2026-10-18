@@ -3133,4 +3133,42 @@ void PauseMenuDataMgr::dyeGoodsStuff() {
     saveToGameData(items);
 }
 
+// 0x710097c1d4
+// NON_MATCHING: category dispatch and tab search are shared rather than duplicated.
+s32 PauseMenuDataMgr::x_37(s32 category) {
+    if (u32(category) >= NumPouchCategories)
+        return 0;
+    const auto* head = mListHeads[category];
+    if (!head)
+        return 0;
+    s32 first = -1;
+    for (s32 i = 0; i < mTabs.size(); ++i) {
+        if (mTabs[i] == *head) {
+            first = i;
+            break;
+        }
+    }
+    if (first < 0)
+        return 0;
+    s32 count = 0;
+    while (const auto* item = mTabs[first + count]) {
+        const auto type = item->getType();
+        bool matches = false;
+        switch (PouchCategory(category)) {
+        case PouchCategory::Sword: matches = type == PouchItemType::Sword; break;
+        case PouchCategory::Bow: matches = type <= PouchItemType::Arrow; break;
+        case PouchCategory::Shield: matches = type == PouchItemType::Shield; break;
+        case PouchCategory::Armor: matches = type <= PouchItemType::ArmorLower; break;
+        case PouchCategory::Material: matches = type == PouchItemType::Material; break;
+        case PouchCategory::Food: matches = type == PouchItemType::Food; break;
+        case PouchCategory::KeyItem: matches = type == PouchItemType::KeyItem; break;
+        case PouchCategory::Invalid: break;
+        }
+        if (!matches)
+            break;
+        ++count;
+    }
+    return count;
+}
+
 }  // namespace uking::ui
