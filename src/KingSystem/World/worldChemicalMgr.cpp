@@ -27,6 +27,76 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 
+namespace {
+// Complete 31-entry table at 0x710261fb78, initialized by 0x71010c7fc8.
+// Vector construction keeps the normal static initialization of these records.
+const FarChemicalInfo sFarChemicalInfos[] = {
+    {0, true, false, false, true, 0.2f, {0.0f, 1.4f, 0.0f},
+     "FidObj_TorchStand_A_01"},
+    {0, false, false, false, true, 0.2f, {0.0f, 1.4f, 0.0f},
+     "FidObj_TorchStandOff_A_01"},
+    {0, true, false, false, true, 0.2f, {0.0f, 1.4f, 0.0f},
+     "FidObj_TorchStandOn_A_01"},
+    {0, false, false, false, true, 0.55f, {0.0f, 2.9f, 0.0f},
+     "TwnObj_Village_FishingFireTorchOff_A_01"},
+    {0, false, false, false, true, 0.7f, {0.0f, 3.8f, 1.6f},
+     "TwnObj_Village_FishingFireTorchOff_A_02"},
+    {0, true, false, false, true, 0.55f, {0.0f, 2.9f, 0.0f},
+     "TwnObj_Village_Fishing_FireTorchOn_A_01"},
+    {0, true, false, false, true, 0.7f, {0.0f, 3.8f, 1.6f},
+     "TwnObj_Village_Fishing_FireTorchOn_A_02"},
+    {1, true, true, true, true, 0.4f, {0.0f, 1.7f, 0.0f},
+     "TwnObj_AncientCandlePole_A_01"},
+    {1, false, true, true, true, 0.4f, {0.0f, 1.7f, 0.0f},
+     "TwnObj_AncientCandlePoleOff_A_01"},
+    {1, true, true, true, true, 0.4f, {0.0f, 1.8f, 0.0f},
+     "TwnObj_AncientCandlePoleRoof_A_01"},
+    {1, false, true, true, true, 0.4f, {0.0f, 1.8f, 0.0f},
+     "TwnObj_AncientCandlePoleRoofOff_A_01"},
+    {1, true, true, true, true, 0.4f, {0.0f, 0.55f, 0.0f},
+     "TwnObj_AncientReactorCore_A_01"},
+    {1, false, true, true, true, 0.4f, {0.0f, 0.55f, 0.0f},
+     "TwnObj_AncientReactorCoreOff_A_01"},
+    {0, true, false, false, true, 0.2f, {0.0f, 0.0f, 0.0f},
+     "Fire_For_MapObj_S"},
+    {0, true, false, false, true, 0.75f, {0.0f, 0.0f, 0.0f},
+     "Fire_For_MapObj_L"},
+    {0, true, false, false, true, 0.35f, {0.0f, 1.45f, 0.15f},
+     "TwnObj_City_GerudoTorchStand_A_01"},
+    {0, true, false, false, true, 0.4f, {0.0f, 0.9f, 0.2f},
+     "TwnObj_HyruleCastleObject_WallTorchOn_A_01"},
+    {0, false, false, false, true, 0.4f, {0.0f, 0.9f, 0.2f},
+     "TwnObj_HyruleCastleObject_WallTorch_A_01"},
+    {0, true, false, false, true, 0.3f, {0.0f, 0.5f, 0.75f},
+     "TwnObj_HyruleCastleObject_WallTorchOn_B_01"},
+    {0, false, false, false, true, 0.3f, {0.0f, 0.5f, 0.75f},
+     "TwnObj_HyruleCastleObject_WallTorch_B_01"},
+    {0, true, false, false, true, 0.3f, {0.0f, 1.82f, 0.0f},
+     "TwnObj_HyruleCastleObject_StandTorchOn_A_01"},
+    {0, false, false, false, true, 0.3f, {0.0f, 1.82f, 0.0f},
+     "TwnObj_HyruleCastleObject_StandTorch_A_01"},
+    {0, true, false, false, true, 0.6f, {0.0f, 1.1f, 0.0f},
+     "TwnObj_HyruleCastleObject_BigTorchOn_B_01"},
+    {0, false, false, false, true, 0.6f, {0.0f, 1.1f, 0.0f},
+     "TwnObj_HyruleCastleObject_BigTorch_B_01"},
+    {0, true, false, false, true, 0.25f, {0.0f, 0.9f, 0.0f},
+     "TwnObj_HyruleCastleObject_TableTorchOn_A_01"},
+    {0, false, false, false, true, 0.25f, {0.0f, 0.9f, 0.0f},
+     "TwnObj_HyruleCastleObject_TableTorch_A_01"},
+    {0, true, false, false, true, 0.2f, {0.0f, 1.4f, 0.0f},
+     "FldObj_TorchStandBone_A_01"},
+    {0, true, false, false, true, 0.65f, {0.0f, 5.8f, -0.1f},
+     "FldObj_TorchStandRiverside_A_01"},
+    {0, true, false, false, true, 0.2f, {0.0f, 1.5f, 0.0f},
+     "FidObj_SecretBase_TorchStand_A_01"},
+    {0, true, false, false, true, 0.2f, {0.0f, 1.4f, 0.0f},
+     "FidObj_TorchStand_A_01_100enemy"},
+    {0, true, false, false, true, 0.2f, {0.0f, 1.4f, 0.0f},
+     "FldObj_TorchStandBone_A_01_100enemy"},
+};
+static_assert(sizeof(sFarChemicalInfos) == 31 * 0x20);
+}  // namespace
+
 Unk_710250c840::~Unk_710250c840() {
     if (_d0) {
         delete _d0;
@@ -104,6 +174,59 @@ void WorldMgrStruct0_8_a::sub_71010C9210(sead::Heap* heap, ksys::world::Chemical
 }
 
 // NON_MATCHING: indexOf uses a signed loop rather than the native pointer countdown.
+// NON_MATCHING: registry search and pointer-array index loops are scheduled differently.
+Unk_710250c840* WorldMgrStruct0_8_a::sub_71010C9790(ksys::map::Object* object,
+                                                 const ksys::map::ActorData* data,
+                                                 const bool* state) {
+    const FarChemicalInfo* info = nullptr;
+    for (const auto& candidate : sFarChemicalInfos) {
+        if (data->mActorName == sead::SafeString(candidate.name)) {
+            info = &candidate;
+            break;
+        }
+    }
+    if (!info)
+        return nullptr;
+    for (auto& entry : _8._60) {
+        if (entry._b0 == object)
+            return nullptr;
+    }
+    for (auto& entry : _8._70) {
+        if (entry._b0 == object)
+            return nullptr;
+    }
+
+    Unk_710250c840* entry;
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+        entry = _8._50.popBack();
+        if (entry)
+            _8._60.pushBack(entry);
+    }
+    if (entry) {
+        if (entry->sub_71010C88F4(*info, object, state))
+            return entry;
+        sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+        const s32 index = _8._60.indexOf(entry);
+        if (index >= 0) {
+            _8._60.erase(index);
+            _8._70.pushBack(entry);
+        }
+    }
+    // This second lock/unlock is also present when the free pool was empty.
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&_8._0);
+        if (entry) {
+            const s32 index = _8._70.indexOf(entry);
+            if (index >= 0) {
+                _8._70.erase(index);
+                _8._50.pushBack(entry);
+            }
+        }
+    }
+    return nullptr;
+}
+
 void WorldMgrStruct0_8_a::sub_71010C9A8C(Unk_710250c840* entry) {
     entry->_10.sub_7100E37788(0)->sub_7100D8F194();
     entry->_b8->removeFromWorld();

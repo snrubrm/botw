@@ -100,6 +100,23 @@ namespace ksys::act {
 class ActorX6A0;
 }
 
+// Record type inferred from the 31-entry initializer 10C7FC8 and activation
+// 10C88F4. These are carried map-object chemical settings, not a virtual owner.
+struct FarChemicalInfo {
+    s32 shape_index;
+    bool _4;
+    bool _5;
+    bool _6;
+    bool _7;
+    f32 radius;
+    sead::Vector3f offset;
+    const char* name;
+};
+KSYS_CHECK_SIZE_NX150(FarChemicalInfo, 0x20);
+static_assert(offsetof(FarChemicalInfo, radius) == 8);
+static_assert(offsetof(FarChemicalInfo, offset) == 0xc);
+static_assert(offsetof(FarChemicalInfo, name) == 0x18);
+
 // Complete E0-byte producer 10C9274 embeds the existing chemicals, root/shape and tag.
 // 10C8748 supplies the body and ActorX6A0; independent actor-copy/reset paths use them.
 class Unk_710250c840 {
@@ -108,6 +125,10 @@ public:
     // Full 10C8748 receives the heap and owning ChemicalMgr from 10C9210 / ChemicalMgr::init_.
     void sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* mgr);
     void sub_71010C8E40();
+    // The full pool query passes descriptor, placement object and optional state.
+    // Native activation reads all three and returns success; no FP formals.
+    bool sub_71010C88F4(const FarChemicalInfo& info, ksys::map::Object* object,
+                       const bool* state);
     u32 _8 = 0;
     ksys::act::ActorChemicals _10;
     Unk_710250c8b0 _98{};
