@@ -24,6 +24,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 
@@ -121,6 +122,74 @@ void Unk_710250c840::sub_71010C8748(sead::Heap* heap, ksys::world::ChemicalMgr* 
     _10.sub_7100E3742C(&_98, _b8, mgr, heap);
     _10.init2(&_d0->_10);
     ++_8;
+}
+
+// NON_MATCHING: matrix/vector scheduling and optional-state branches differ.
+bool Unk_710250c840::sub_71010C88F4(const FarChemicalInfo& info,
+                                  ksys::map::Object* object, const bool* state) {
+    ksys::xlink::XLink* xlink = nullptr;
+    if (auto* mgr = ksys::map::PlacementMgr::instance()) {
+        if (mgr->mPlacementActors) {
+            if (auto* effect = object->getActorData().mEffectEntry)
+                xlink = effect->mXLink;
+        }
+    }
+    _b0 = object;
+    _d8[0] = info._5;
+    _d8[1] = info._6;
+    if (_d0) {
+        const f32 scale = object->getScale().x;
+        const auto rotate = object->getRotate();
+        sead::Matrix33f rotation;
+        rotation.makeR(rotate);
+        const auto pos = object->getTranslate() + rotation * (info.offset * scale);
+        _d0->sub_71010F21C4();
+        _d0->_5c = pos;
+        _d0->_68 = info.radius;
+        _d0->_8.set(0x10);
+        _d0->_8.set(0x20);
+    }
+    if (_b8) {
+        const f32 scale = object->getScale().x;
+        const auto rotate = object->getRotate();
+        sead::Matrix33f rotation;
+        rotation.makeR(rotate);
+        const auto pos = object->getTranslate() + rotation * (info.offset * scale);
+        if (auto* sphere = sead::DynamicCast<ksys::phys::SphereRigidBody>(_b8)) {
+            sphere->setRadius(scale * info.radius);
+            sphere->setPosition(pos, ksys::phys::PropagateToLinkedMotions{true});
+            sphere->addToWorld();
+        }
+    }
+    auto* element = _10.sub_7100E3718C(0);
+    if (!element)
+        return false;
+    _98._8._8 = info.shape_index;
+    auto* chemical = _10.sub_7100E37788(0);
+    chemical->sub_7100D8EABC(&_98._8, _10.sub_7100E3718C(0));
+    _10.sub_7100E37788(0)->_8 |= 0x20;
+    _10.sub_7100E37788(0)->_8 |= 0x40;
+    element->sub_7100E3E2E8();
+    _10.init2(&_d0->_10);
+    element->mPlacementXLink = xlink;
+    if (info._7)
+        element->_30 &= ~0x800;
+    else
+        element->_30 |= 0x800;
+    chemical = _10.sub_7100E37788(0);
+    chemical->sub_7100D8F124(ksys::world::Manager::instance()->getElementHolderMaybe());
+    const bool enabled = state ? *state : info._4;
+    // Native reads selected state first, then conditionally tests revival. No eager revival call.
+    bool activate = enabled;
+    if (info._6 && !enabled)
+        activate = object->checkRevivalFlag(ksys::map::ActorData::Flag::RevivalForUsed);
+    _d8[2] = 0;
+    if (activate) {
+        _10.sub_7100E37788(0)->sub_7100D90858(info._5, 2, false, true, false);
+        _d8[2] = 1;
+    }
+    ++_8;
+    return true;
 }
 
 // NON_MATCHING: chemical lookup is hoisted from both branches; flag loads and branches differ.
