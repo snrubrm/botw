@@ -25,13 +25,20 @@ public:
     struct Entry {
         u8 _0[0x18];
         gsys::BoneAccessKeyEx _18;
-        u8 _50[0xb0 - 0x50];
+        /* 0x50 */ sead::Matrix34f _50;
+        /* 0x80 */ sead::Matrix34f _80;
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0xb0);
+    static_assert(offsetof(Entry, _50) == 0x50);
+    static_assert(offsetof(Entry, _80) == 0x80);
 
     ~Unk_7100F72BF8();
+    void sub_7100F72FF4();
+    void sub_7100F73114(s32 index);
+    void sub_7100F731F8(s32 index, const sead::Matrix34f& matrix, bool update_cumulative,
+                       bool propagate);
 
-    /* 0x00 */ u64 _0;
+    /* 0x00 */ gsys::Model* _0;
     /* 0x08 */ sead::Buffer<Entry> _8;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100F72BF8, 0x18);
