@@ -202,9 +202,8 @@ void LODMgr::calc_x(const sead::Vector3f* camera) {
                         if (special || linked || state->_1c == 2) {
                             auto& pool = mSlotPools[group];
                             if (pool.count < 0x40) {
-                                const u32 index = pool.count;
-                                pool.slots[index < 0x40 ? index : 0].state = state;
-                                pool.slots[index < 0x40 ? index : 0].distance = distance;
+                                pool.slots[pool.count].state = state;
+                                pool.slots[pool.count].distance = distance;
                                 ++pool.count;
                             }
                         }
@@ -323,7 +322,7 @@ void LODMgr::calc_x_0() {
         if (i >= 0) {
             do {
                 const s32 index = mSlotPools[0].index % mSlotPools[0].count;
-                mSlotPools[0].slots[u32(index) < 0x40 ? index : 0].state->mFlags8.reset(0x40);
+                mSlotPools[0].slots[index].state->mFlags8.reset(0x40);
                 ++mSlotPools[0].index;
             } while (i-- != 0);
         } else {
@@ -341,7 +340,7 @@ void LODMgr::calc_x_0() {
         if (i >= 0) {
             do {
                 const s32 index = mSlotPools[1].index % mSlotPools[1].count;
-                mSlotPools[1].slots[u32(index) < 0x40 ? index : 0].state->mFlags8.reset(0x40);
+                mSlotPools[1].slots[index].state->mFlags8.reset(0x40);
                 ++mSlotPools[1].index;
             } while (i-- != 0);
         } else {

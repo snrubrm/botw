@@ -135,7 +135,8 @@ public:
         s32 used;
         // Slots calc_x_0 took (0x220c / 0x261c).
         s32 taken;
-        Slot slots[0x40];
+        // Both calc_x and calc_x_0 use the same bounds-checked 64-slot array.
+        sead::SafeArray<Slot, 0x40> slots;
         // Number of queued slots (0x2610 / 0x2a20).
         s32 count;
         // Ring index into `slots` (0x2614 / 0x2a24).
