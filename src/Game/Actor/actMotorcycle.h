@@ -56,9 +56,15 @@ struct MotorcycleStruct2 {
     /* 0x141 */ u8 _141[0x148 - 0x141];
     /* 0x148 */ ksys::phys::Constraint* _148;
     /* 0x150 */ ksys::phys::Constraint* _150;
-    /* 0x158 */ u8 _158[0x1b0 - 0x158];
+    // Released by 0x7100fd0464 (type unknown); Motorcycle::preDelete2_ destroys it with the wheel.
+    /* 0x158 */ void* _158 = nullptr;
+    u8 _160[0x1b0 - 0x160];
+    ~MotorcycleStruct2();
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleStruct2, 0x1b0);
+
+// 0x7100fd0464 (declared only): releases the object at MotorcycleStruct2::_158.
+void sub_7100FD0464(void* obj);
 
 // CSV MotorcycleUserTag (no namespace in the CSV; vtable 0x71023612c0, RTTI parent PhysicsUserTag, size
 // 0x60). Created inline by Motorcycle::prepareInit_ with the main body and both wheels; it records the
@@ -576,7 +582,7 @@ public:
     /* 0x1600 */ f32 _1600 = 0.0f;
     /* 0x1604 */ u16 _1604 = 1;
     /* 0x1608 */ sead::Vector3f _1608 = sead::Vector3f::zero;
-    /* 0x1618 */ void* _1618 = nullptr;
+    /* 0x1618 */ MotorcycleUserTag* _1618 = nullptr;  // created by prepareInit_ (0x7100070764)
     /* 0x1620 */ u32 _1620 = 0;
     /* 0x1628 */ Unk_71023618f8 _1628;
     /* 0x1630 */ Unk_71023618f8 _1630;

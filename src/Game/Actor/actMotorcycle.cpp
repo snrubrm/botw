@@ -1476,4 +1476,37 @@ void Motorcycle::applyDragMaybe() {
     _bb8->applyLinearImpulse(velocity);
 }
 
+MotorcycleStruct2::~MotorcycleStruct2() {
+    if (_148)
+        ksys::phys::Constraint::destroy(_148);
+    if (_150)
+        ksys::phys::Constraint::destroy(_150);
+    if (_158)
+        sub_7100FD0464(_158);
+}
+
+// NON_MATCHING: the original schedules the _dd8 load after the _dd0 = nullptr store; the two wheel
+// blocks and every call are identical.
+void Motorcycle::preDelete2_(const PreDeleteArg& arg) {
+    DynamicActor::preDelete2_(arg);
+    ksys::util::safeDelete(_1648);
+    ksys::util::safeDelete(_1650);
+    if (_1618) {
+        _bb8->setUserTag(nullptr);
+        _dd0->_0->setUserTag(nullptr);
+        _dd8->_0->setUserTag(nullptr);
+        ksys::util::safeDelete(_1618);
+    }
+    if (_de0) {
+        ksys::phys::Constraint::destroy(_de0);
+        _de0 = nullptr;
+    }
+    if (_de8) {
+        ksys::phys::Constraint::destroy(_de8);
+        _de8 = nullptr;
+    }
+    ksys::util::safeDelete(_dd0);
+    ksys::util::safeDelete(_dd8);
+}
+
 }  // namespace uking::act
