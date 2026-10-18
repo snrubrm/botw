@@ -90,6 +90,17 @@ public:
     // E0670C dispatches reset callbacks, then refreshes the named file through the const flag callback.
     void sub_7100E0670C(const sead::SafeString& name);
     void x_9(const res::GameSaveData::Flag& flag);
+    // Numeric/vector refresh serializers used by x_9; each returns lookup validity and updates
+    // the buffer error state independently. Array calls also consume the flag-name hash.
+    bool sub_7100E0AE0C(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E0AF38(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E0B0B8(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E0B28C(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0B3E0(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0B534(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0B688(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0B830(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0BA2C(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
     bool auto6(s32 idx);
     bool x_0(s32 idx);
     // 0x7100e089f0 (CSV x_5; declared only): writes `value` at the saved position _103c of the buffer when it is set.

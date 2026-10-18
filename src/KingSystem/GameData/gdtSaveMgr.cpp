@@ -1499,4 +1499,676 @@ void SaveMgr::SaveMgrThread(void* arg, s64 cmd) {
     }
 }
 
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0AE0C(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mVector2fFlags.size() || index < 0)
+        return false;
+    const auto* value = buffer->getVec2fFlag(index);
+    if (!value)
+        return false;
+    const u32 offset = entry._8;
+    bool success = false;
+    do {
+        if (offset + 4 >= _e10)
+            break;
+        const u32 hash0 = value->getHash();
+        std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+        if (offset + 8 >= _e10)
+            break;
+        const f32 component0 = value->getValueRef().x;
+        std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+        if (offset + 12 >= _e10)
+            break;
+        const u32 hash1 = value->getHash();
+        std::memcpy(_e08 + (offset + 8), &hash1, sizeof(hash1));
+        if (offset + 16 >= _e10)
+            break;
+        const f32 component1 = value->getValueRef().y;
+        std::memcpy(_e08 + (offset + 12), &component1, sizeof(component1));
+        success = true;
+    } while (false);
+    if (!success)
+        _3c = 3;
+    else if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0AF38(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mVector3fFlags.size() || index < 0)
+        return false;
+    const auto* value = buffer->getVec3fFlag(index);
+    if (!value)
+        return false;
+    const u32 offset = entry._8;
+    bool success = false;
+    do {
+        if (offset + 4 >= _e10)
+            break;
+        const u32 hash0 = value->getHash();
+        std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+        if (offset + 8 >= _e10)
+            break;
+        const f32 component0 = value->getValueRef().x;
+        std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+        if (offset + 12 >= _e10)
+            break;
+        const u32 hash1 = value->getHash();
+        std::memcpy(_e08 + (offset + 8), &hash1, sizeof(hash1));
+        if (offset + 16 >= _e10)
+            break;
+        const f32 component1 = value->getValueRef().y;
+        std::memcpy(_e08 + (offset + 12), &component1, sizeof(component1));
+        if (offset + 20 >= _e10)
+            break;
+        const u32 hash2 = value->getHash();
+        std::memcpy(_e08 + (offset + 16), &hash2, sizeof(hash2));
+        if (offset + 24 >= _e10)
+            break;
+        const f32 component2 = value->getValueRef().z;
+        std::memcpy(_e08 + (offset + 20), &component2, sizeof(component2));
+        success = true;
+    } while (false);
+    if (!success)
+        _3c = 3;
+    else if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0B0B8(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mVector4fFlags.size() || index < 0)
+        return false;
+    const auto* value = buffer->getVec4fFlag(index);
+    if (!value)
+        return false;
+    const u32 offset = entry._8;
+    bool success = false;
+    do {
+        if (offset + 4 >= _e10)
+            break;
+        const u32 hash0 = value->getHash();
+        std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+        if (offset + 8 >= _e10)
+            break;
+        const f32 component0 = value->getValueRef().x;
+        std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+        if (offset + 12 >= _e10)
+            break;
+        const u32 hash1 = value->getHash();
+        std::memcpy(_e08 + (offset + 8), &hash1, sizeof(hash1));
+        if (offset + 16 >= _e10)
+            break;
+        const f32 component1 = value->getValueRef().y;
+        std::memcpy(_e08 + (offset + 12), &component1, sizeof(component1));
+        if (offset + 20 >= _e10)
+            break;
+        const u32 hash2 = value->getHash();
+        std::memcpy(_e08 + (offset + 16), &hash2, sizeof(hash2));
+        if (offset + 24 >= _e10)
+            break;
+        const f32 component2 = value->getValueRef().z;
+        std::memcpy(_e08 + (offset + 20), &component2, sizeof(component2));
+        if (offset + 28 >= _e10)
+            break;
+        const u32 hash3 = value->getHash();
+        std::memcpy(_e08 + (offset + 24), &hash3, sizeof(hash3));
+        if (offset + 32 >= _e10)
+            break;
+        const f32 component3 = value->getValueRef().w;
+        std::memcpy(_e08 + (offset + 28), &component3, sizeof(component3));
+        success = true;
+    } while (false);
+    if (!success)
+        _3c = 3;
+    else if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0B28C(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getBoolArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mBoolArrayFlags.size() || index < 0)
+        return false;
+    if (count > 0) {
+        u32 base = entry._8;
+        auto* value = buffer->getBoolFlag(index, 0);
+        u32 element_offset = 0;
+        s32 next = 1;
+        while (value) {
+            const u32 offset = base + element_offset;
+            bool success = false;
+            do {
+                if (offset + 4 >= _e10)
+                    break;
+                const u32 hash0 = value->getHash();
+                std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+                if (offset + 8 >= _e10)
+                    break;
+                const u32 component0 = u32(value->getValue());
+                std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                break;
+            base = entry._8;
+            value = buffer->getBoolFlag(entry.kv.value, next);
+            element_offset += 8;
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0B3E0(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getS32ArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mS32ArrayFlags.size() || index < 0)
+        return false;
+    if (count > 0) {
+        u32 base = entry._8;
+        auto* value = buffer->getS32Flag(index, 0);
+        u32 element_offset = 0;
+        s32 next = 1;
+        while (value) {
+            const u32 offset = base + element_offset;
+            bool success = false;
+            do {
+                if (offset + 4 >= _e10)
+                    break;
+                const u32 hash0 = value->getHash();
+                std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+                if (offset + 8 >= _e10)
+                    break;
+                const s32 component0 = value->getValueRef();
+                std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                break;
+            base = entry._8;
+            value = buffer->getS32Flag(entry.kv.value, next);
+            element_offset += 8;
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0B534(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getF32ArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mF32ArrayFlags.size() || index < 0)
+        return false;
+    if (count > 0) {
+        u32 base = entry._8;
+        auto* value = buffer->getF32Flag(index, 0);
+        u32 element_offset = 0;
+        s32 next = 1;
+        while (value) {
+            const u32 offset = base + element_offset;
+            bool success = false;
+            do {
+                if (offset + 4 >= _e10)
+                    break;
+                const u32 hash0 = value->getHash();
+                std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+                if (offset + 8 >= _e10)
+                    break;
+                const f32 component0 = value->getValueRef();
+                std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                break;
+            base = entry._8;
+            value = buffer->getF32Flag(entry.kv.value, next);
+            element_offset += 8;
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0B688(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getVec2fArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mVector2fArrayFlags.size() || index < 0)
+        return false;
+    if (count > 0) {
+        u32 base = entry._8;
+        const auto* value = buffer->getVec2fFlag(index, 0);
+        u32 element_offset = 0;
+        s32 next = 1;
+        while (value) {
+            const u32 offset = base + element_offset;
+            bool success = false;
+            do {
+                if (offset + 4 >= _e10)
+                    break;
+                const u32 hash0 = value->getHash();
+                std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+                if (offset + 8 >= _e10)
+                    break;
+                const f32 component0 = value->getValueRef().x;
+                std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+                if (offset + 12 >= _e10)
+                    break;
+                const u32 hash1 = value->getHash();
+                std::memcpy(_e08 + (offset + 8), &hash1, sizeof(hash1));
+                if (offset + 16 >= _e10)
+                    break;
+                const f32 component1 = value->getValueRef().y;
+                std::memcpy(_e08 + (offset + 12), &component1, sizeof(component1));
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                break;
+            base = entry._8;
+            value = buffer->getVec2fFlag(entry.kv.value, next);
+            element_offset += 16;
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0B830(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getVec3fArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mVector3fArrayFlags.size() || index < 0)
+        return false;
+    if (count > 0) {
+        u32 base = entry._8;
+        const auto* value = buffer->getVec3fFlag(index, 0);
+        u32 element_offset = 0;
+        s32 next = 1;
+        while (value) {
+            const u32 offset = base + element_offset;
+            bool success = false;
+            do {
+                if (offset + 4 >= _e10)
+                    break;
+                const u32 hash0 = value->getHash();
+                std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+                if (offset + 8 >= _e10)
+                    break;
+                const f32 component0 = value->getValueRef().x;
+                std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+                if (offset + 12 >= _e10)
+                    break;
+                const u32 hash1 = value->getHash();
+                std::memcpy(_e08 + (offset + 8), &hash1, sizeof(hash1));
+                if (offset + 16 >= _e10)
+                    break;
+                const f32 component1 = value->getValueRef().y;
+                std::memcpy(_e08 + (offset + 12), &component1, sizeof(component1));
+                if (offset + 20 >= _e10)
+                    break;
+                const u32 hash2 = value->getHash();
+                std::memcpy(_e08 + (offset + 16), &hash2, sizeof(hash2));
+                if (offset + 24 >= _e10)
+                    break;
+                const f32 component2 = value->getValueRef().z;
+                std::memcpy(_e08 + (offset + 20), &component2, sizeof(component2));
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                break;
+            base = entry._8;
+            value = buffer->getVec3fFlag(entry.kv.value, next);
+            element_offset += 24;
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: bounds checks and repeated virtual value queries are scheduled differently.
+bool SaveMgr::sub_7100E0BA2C(const res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getVec4fArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    const s32 index = entry.kv.value;
+    if (index >= buffer->mVector4fArrayFlags.size() || index < 0)
+        return false;
+    if (count > 0) {
+        u32 base = entry._8;
+        const auto* value = buffer->getVec4fFlag(index, 0);
+        u32 element_offset = 0;
+        s32 next = 1;
+        while (value) {
+            const u32 offset = base + element_offset;
+            bool success = false;
+            do {
+                if (offset + 4 >= _e10)
+                    break;
+                const u32 hash0 = value->getHash();
+                std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+                if (offset + 8 >= _e10)
+                    break;
+                const f32 component0 = value->getValueRef().x;
+                std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+                if (offset + 12 >= _e10)
+                    break;
+                const u32 hash1 = value->getHash();
+                std::memcpy(_e08 + (offset + 8), &hash1, sizeof(hash1));
+                if (offset + 16 >= _e10)
+                    break;
+                const f32 component1 = value->getValueRef().y;
+                std::memcpy(_e08 + (offset + 12), &component1, sizeof(component1));
+                if (offset + 20 >= _e10)
+                    break;
+                const u32 hash2 = value->getHash();
+                std::memcpy(_e08 + (offset + 16), &hash2, sizeof(hash2));
+                if (offset + 24 >= _e10)
+                    break;
+                const f32 component2 = value->getValueRef().z;
+                std::memcpy(_e08 + (offset + 20), &component2, sizeof(component2));
+                if (offset + 28 >= _e10)
+                    break;
+                const u32 hash3 = value->getHash();
+                std::memcpy(_e08 + (offset + 24), &hash3, sizeof(hash3));
+                if (offset + 32 >= _e10)
+                    break;
+                const f32 component3 = value->getValueRef().w;
+                std::memcpy(_e08 + (offset + 28), &component3, sizeof(component3));
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                break;
+            base = entry._8;
+            value = buffer->getVec4fFlag(entry.kv.value, next);
+            element_offset += 32;
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: typed dispatch and array serialization loops are scheduled differently.
+void SaveMgr::x_9(const res::GameSaveData::Flag& entry) {
+    if (_3c == 3 || !gdt::Manager::instance() || !_f98)
+        return;
+    auto* buffer = _f98;
+    const u32 hash = entry.kv.name_hash;
+    switch (entry.type) {
+    case gdt::FlagType::Bool: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mBoolFlags.size() || index < 0)
+            return;
+        auto* value = buffer->getBoolFlag(index);
+        if (!value)
+            return;
+        const u32 offset = entry._8;
+        bool success = false;
+        do {
+            if (offset + 4 >= _e10)
+                break;
+            const u32 hash0 = value->getHash();
+            std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+            if (offset + 8 >= _e10)
+                break;
+            const u32 component0 = u32(value->getValue());
+            std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+            success = true;
+        } while (false);
+        if (!success)
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::S32: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mS32Flags.size() || index < 0)
+            return;
+        auto* value = buffer->getS32Flag(index);
+        if (!value)
+            return;
+        const u32 offset = entry._8;
+        bool success = false;
+        do {
+            if (offset + 4 >= _e10)
+                break;
+            const u32 hash0 = value->getHash();
+            std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+            if (offset + 8 >= _e10)
+                break;
+            const s32 component0 = value->getValueRef();
+            std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+            success = true;
+        } while (false);
+        if (!success)
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::F32: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mF32Flags.size() || index < 0)
+            return;
+        auto* value = buffer->getF32Flag(index);
+        if (!value)
+            return;
+        const u32 offset = entry._8;
+        bool success = false;
+        do {
+            if (offset + 4 >= _e10)
+                break;
+            const u32 hash0 = value->getHash();
+            std::memcpy(_e08 + (offset + 0), &hash0, sizeof(hash0));
+            if (offset + 8 >= _e10)
+                break;
+            const f32 component0 = value->getValueRef();
+            std::memcpy(_e08 + (offset + 4), &component0, sizeof(component0));
+            success = true;
+        } while (false);
+        if (!success)
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::String: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mStringFlags.size() || index < 0)
+            return;
+        const auto* value = buffer->getStrFlag(index);
+        if (!value)
+            return;
+        if (!sub_7100E081E4(entry, value, 32, entry._8))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::String64: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mString64Flags.size() || index < 0)
+            return;
+        const auto* value = buffer->getStr64Flag(index);
+        if (!value)
+            return;
+        if (!sub_7100E083AC(entry, value, 64, entry._8))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::String256: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mString256Flags.size() || index < 0)
+            return;
+        const auto* value = buffer->getStr256Flag(index);
+        if (!value)
+            return;
+        if (!sub_7100E08574(entry, value, 256, entry._8))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::Vector2f:
+        sub_7100E0AE0C(entry, buffer);
+        return;
+    case gdt::FlagType::Vector3f:
+        sub_7100E0AF38(entry, buffer);
+        return;
+    case gdt::FlagType::Vector4f:
+        sub_7100E0B0B8(entry, buffer);
+        return;
+    case gdt::FlagType::BoolArray:
+        sub_7100E0B28C(entry, buffer, hash);
+        return;
+    case gdt::FlagType::S32Array:
+        sub_7100E0B3E0(entry, buffer, hash);
+        return;
+    case gdt::FlagType::F32Array:
+        sub_7100E0B534(entry, buffer, hash);
+        return;
+    case gdt::FlagType::StringArray: {
+        s32 count = 0;
+        const bool found = buffer->getStrArraySizeByHash(&count, hash);
+        if (count == 0 || !found)
+            return;
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mStringArrayFlags.size() || index < 0 || count <= 0)
+            return;
+        u32 base = entry._8;
+        const auto* value = buffer->getStrFlag(index, 0);
+        u32 offset = 0;
+        s32 next = 1;
+        while (value) {
+            if (!sub_7100E081E4(entry, value, 32, base + offset))
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                return;
+            base = entry._8;
+            value = buffer->getStrFlag(entry.kv.value, next);
+            offset += 64;
+            ++next;
+        }
+        return;
+    }
+    case gdt::FlagType::String64Array: {
+        s32 count = 0;
+        const bool found = buffer->getStr64ArraySizeByHash(&count, hash);
+        if (count == 0 || !found)
+            return;
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mString64ArrayFlags.size() || index < 0 || count <= 0)
+            return;
+        u32 base = entry._8;
+        const auto* value = buffer->getStr64Flag(index, 0);
+        u32 offset = 0;
+        s32 next = 1;
+        while (value) {
+            if (!sub_7100E083AC(entry, value, 64, base + offset))
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                return;
+            base = entry._8;
+            value = buffer->getStr64Flag(entry.kv.value, next);
+            offset += 128;
+            ++next;
+        }
+        return;
+    }
+    case gdt::FlagType::String256Array: {
+        s32 count = 0;
+        const bool found = buffer->getStr256ArraySizeByHash(&count, hash);
+        if (count == 0 || !found)
+            return;
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mString256ArrayFlags.size() || index < 0 || count <= 0)
+            return;
+        u32 base = entry._8;
+        const auto* value = buffer->getStr256Flag(index, 0);
+        u32 offset = 0;
+        s32 next = 1;
+        while (value) {
+            if (!sub_7100E08574(entry, value, 256, base + offset))
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (count <= next)
+                return;
+            base = entry._8;
+            value = buffer->getStr256Flag(entry.kv.value, next);
+            offset += 512;
+            ++next;
+        }
+        return;
+    }
+    case gdt::FlagType::Vector2fArray:
+        sub_7100E0B688(entry, buffer, hash);
+        return;
+    case gdt::FlagType::Vector3fArray:
+        sub_7100E0B830(entry, buffer, hash);
+        return;
+    case gdt::FlagType::Vector4fArray:
+        sub_7100E0BA2C(entry, buffer, hash);
+        return;
+    default:
+        return;
+    }
+}
+
 }  // namespace ksys
