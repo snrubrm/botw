@@ -2139,6 +2139,8 @@ public:
     /* 0x3748 */ u8 _3748 = 0;
 
     void sub_7100A4EBA0(s32);
+    // 0x7100a50750: parses the two-digit frame from `param` and stops `animator` at it (clamped to its size).
+    void sub_7100A50750(eui::Animator* animator, const sead::SafeString& param);
 };
 
 // 0x7101eb6d7c / 0x7101eb6d80 (rodata words read by the ScreenShopHorse ctor; owner unknown)

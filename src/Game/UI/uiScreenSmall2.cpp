@@ -4,6 +4,7 @@
 #include <thread/seadThread.h>
 #include <thread/seadDelegateThread.h>
 #include <prim/seadDelegate.h>
+#include <prim/seadStringUtil.h>
 #include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/uiSwkbdMgr.h"
 #include "KingSystem/Quest/qstQuest.h"
@@ -151,6 +152,47 @@ bool ScreenAppAlbum::sub_71009D3DC0() const {
     return getStateMachine().getState()->getId() == (&sUnk_71025dc3c0)->getId();
 }
 
+// NON_MATCHING: the loop counter and the result are swapped between w19/w21, and the empty-string and
+// SaveSystem singleton bases between x22/x24.
+// 0x71009d3e40: the picture index whose album picture actor name matches `name` (-1 if none)
+s32 sub_71009D3E40(const sead::SafeString& name) {
+    s32 i = 0;
+    s32 result = -1;
+    for (; i <= 0x2f; ++i) {
+        const s32 idx = SaveSystem::instance()->sub_7100915F58(i);
+        if (idx < 0)
+            break;
+        const char* actor_name = "";
+        ksys::gdt::getFlag_AlbumPictureActorName(&actor_name, idx, false);
+        if (name == actor_name) {
+            result = i;
+            break;
+        }
+    }
+    return result;
+}
+
+
+// NON_MATCHING: the getPart temporary is at sp+8 instead of sp and x23 is saved unused; the rest matches.
+// 0x7100a50750
+void ScreenShopHorse::sub_7100A50750(eui::Animator* animator, const sead::SafeString& param) {
+    if (!animator)
+        return;
+
+    s32 frame = 0;
+    const s32 length = param.calcLength();
+    if (length > 1) {
+        if (sead::StringUtil::tryParseS32(&frame, param.getPart(length - 2),
+                                          sead::StringUtil::CardinalNumber::Base10)) {
+            const f32 value = static_cast<f32>(frame);
+            const f32 max = static_cast<f32>(animator->GetFrameSize());
+            animator->Stop(value > max ? max : value);
+            return;
+        }
+    }
+
+    animator->Stop(0.0f);
+}
 
 // 0x7100a41558
 void ScreenRupee::sub_7100A41558() {
