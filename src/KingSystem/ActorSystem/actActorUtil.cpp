@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/Actor/actArmorStrings.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -75,6 +76,78 @@ bool sub_7100EE98F0(const sead::SafeString& actor) {
 // Scope inferred (global like sub_7100EE98F0); the original's real scope is unknown.
 void sub_7100EE992C(sead::BufferedSafeString* out, const sead::SafeString& actor) {
     out->copy(ksys::act::getSeriesArmorSeriesType(ksys::act::InfoData::instance(), actor.cstr()));
+}
+
+// Scope inferred (global like sub_7100EE98F0); the original's real scope is unknown.
+// NON_MATCHING: Clang merges the flag ORs into one shared OR and store; the original does the OR in each branch.
+void getArmorSetFlags(u32* out, const sead::SafeString& series) {
+    const auto& s = ksys::act::sUnk_71026024c8;
+    if (series == s[0]) {
+        *out |= 0x1;
+        return;
+    }
+    if (series == s[1]) {
+        *out |= 0x2;
+        return;
+    }
+    if (series == s[2]) {
+        *out |= 0x4;
+        return;
+    }
+    if (series == s[3]) {
+        *out |= 0x8;
+        return;
+    }
+    if (series == s[4]) {
+        *out |= 0x10;
+        return;
+    }
+    if (series == s[5]) {
+        *out |= 0x40;
+        return;
+    }
+    if (series == s[6]) {
+        *out |= 0x80;
+        return;
+    }
+    if (series == s[7]) {
+        *out |= 0x400;
+        return;
+    }
+    if (series == s[8]) {
+        *out |= 0x100;
+        return;
+    }
+    if (series == s[9]) {
+        *out |= 0x20;
+        return;
+    }
+    if (series == s[10] || series == s[17]) {
+        *out |= 0x40000;
+        return;
+    }
+    if (series == s[11] || series == s[12] || series == s[13] || series == s[14] || series == s[15] || series == s[16]) {
+        *out |= 0x80000;
+        return;
+    }
+    if (series == s[18] || series == s[19]) {
+        *out |= 0x1040;
+        return;
+    }
+    if (series == s[20]) {
+        *out |= 0x1000;
+        return;
+    }
+    if (series == s[22]) {
+        *out |= 0x1080;
+        return;
+    }
+    if (series == s[23]) {
+        *out |= 0x40101;
+        return;
+    }
+    if (series == s[21])
+        *out |= 0x1;
 }
 
 // Source owner unknown: both native sound consumers pass their actor and test the result.
