@@ -4,6 +4,14 @@
 #include <common/aglUniformBlock.h>
 #include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
+#include <math/seadVector.h>
+
+namespace agl {
+class RenderBuffer;
+}
+namespace sead {
+class Viewport;
+}
 
 namespace agl::cull {
 class ViewFrustumCulling;
@@ -31,6 +39,9 @@ public:
     void calcGpuViewFlush(int index, const sead::Matrix34f& view,
                           const sead::Matrix44f& projection,
                           const agl::cull::ViewFrustumCulling& frustum, bool, bool);
+    void calcGpuRenderBuffer(const agl::RenderBuffer& buffer, const sead::Viewport& viewport);
+    void calcGpuDepthShadow(f32 a, f32 b, f32 c, f32 d, const sead::Vector2f& offset);
+    void calcGpuDepthShadowCascade(int index, const sead::Matrix44f& matrix);
 
 private:
     // initialize 0x7100c5d874 constructs a UniformBlock at +8 of each 0x80-byte
