@@ -75,7 +75,13 @@ void AutoPlacementMgr::sub_7100659F94(ksys::act::Actor* actor) {
 }
 
 bool AutoPlacementMgr::auto0(const sead::Vector3f& pos, u32 placement_type) {
-    return _171ef0.x(pos, true, 1 << placement_type, placement_type == 0 ? &_189df8 : nullptr);
+    return _171ef0.x(pos, true, 1 << placement_type, placement_type == 0 ? &mGeometryMargin : nullptr);
+}
+
+f32 AutoPlacementMgr::invoked4(const AutoPlacementInfo::Entry& entry) {
+    if (entry.shape == 0 && (entry.type_mask & 0x41) == 0x41)
+        return 50.0f;
+    return 0.0f;
 }
 
 bool AutoPlacementMgr::isNonAutoPlacement(const sead::Vector3f& pos, bool a2) {
@@ -299,40 +305,6 @@ bool AutoPlacementMgr::auto2(const sead::SafeString& name, const sead::Vector3f&
 
 bool AutoPlacementMgr::auto9() {
     return _171e48 > 0;
-}
-
-bool AutoPlacementInfo::x(const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a4) {
-    const int px = int(pos.x) + 5000;
-    int cx = px / 1000;
-    if (cx > 9)
-        cx = 9;
-    if (px < -999)
-        cx = 0;
-
-    const int pz = int(pos.z) + 4000;
-    int cz = pz / 1000;
-    if (cz > 7)
-        cz = 7;
-    if (pz < -999)
-        cz = 0;
-
-    if (x_0(1.0f, cx, cz, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx - 1, cz - 1, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx, cz - 1, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx + 1, cz - 1, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx - 1, cz, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx + 1, cz, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx - 1, cz + 1, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    if (x_0(1.0f, cx, cz + 1, pos, a2, type_mask, nullptr, a4) != -1)
-        return true;
-    return x_0(1.0f, cx + 1, cz + 1, pos, a2, type_mask, nullptr, a4) != -1;
 }
 
 void AutoPlacementMgr::stopThread() {

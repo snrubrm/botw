@@ -24,19 +24,63 @@ class Actor;
 namespace uking {
 
 // Placeholder (CSV AutoPlacementInfo::ctor 0x7100e8c60c, x 0x7100e8ce54 (pos -> grid cell lookup), x_0): embedded in the
-// AutoPlacementMgr at 0x171ef0 (size is a guess: up to the next member at 0x189df8; not decompiled).
+// AutoPlacementMgr at 0x171ef0. Its constructor initializes 0x590 bytes; the next
+// separate object starts at 0x172480. The base portion remains opaque.
 class AutoPlacementInfo {
 public:
-    // 0x7100e8ce54 (declared only; 720 bytes): `a4` is the optional extra buffer (the mgr passes its member at
-    // 0x189df8 for placement type 0).
-    bool x(const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a4);
-    // 0x7100e8d124 (CSV x_0; declaration only; placeholder parameter names): looks at one grid cell; -1 if there is
-    // no match.
-    int x_0(f32 scale, int cell_x, int cell_z, const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a7,
-            const void* a4);
+    // Geometry records in the pool and per-cell buffers (0x7100e8d124).
+    struct Entry {
+        f32 x;
+        f32 z;
+        f32 radius;
+        f32 half_depth;
+        f32 yaw;
+        u16 shape;
+        u16 type_mask;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x18);
+    static_assert(offsetof(Entry, shape) == 0x14);
+    static_assert(offsetof(Entry, type_mask) == 0x16);
 
-    u8 _0[0x189db0 - 0x171ef0];
+    struct Geometry {
+        sead::Vector3f position;
+        sead::Vector3f rotation;
+        sead::Vector3f scale;
+        u16 shape;
+        u16 type_mask;
+    };
+    KSYS_CHECK_SIZE_NX150(Geometry, 0x28);
+    static_assert(offsetof(Geometry, rotation) == 0xc);
+    static_assert(offsetof(Geometry, scale) == 0x18);
+    static_assert(offsetof(Geometry, shape) == 0x24);
+    static_assert(offsetof(Geometry, type_mask) == 0x26);
+    struct QueryResults {
+        sead::SafeArray<Geometry, 32> entries;
+        s32 count = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(QueryResults, 0x504);
+    static_assert(offsetof(QueryResults, count) == 0x500);
+    using MarginDelegate = sead::IDelegate1R<const Entry&, f32>;
+
+    bool x(const sead::Vector3f& pos, bool filter_types, u32 type_mask, MarginDelegate* margin);
+    // 0x7100e8d124 (CSV x_0): queries one grid cell and optionally appends matching geometry;
+    // returns the first matching index when no output is requested, or -1 after visiting all entries.
+    int x_0(f32 scale, int cell_x, int cell_z, const sead::Vector3f& pos, bool filter_types,
+            u32 type_mask, QueryResults* results, MarginDelegate* margin);
+
+    u8 _0[0x58];
+    sead::Buffer<Entry> mEntries;
+    sead::SafeArray<sead::SafeArray<sead::Buffer<Entry>, 8>, 10> mGridEntries;
+    u8 _568[0x10];
+    sead::Buffer<f32> mHeights;
+    bool mHasHeights;
+    u8 _589[7];
 };
+KSYS_CHECK_SIZE_NX150(AutoPlacementInfo, 0x590);
+static_assert(offsetof(AutoPlacementInfo, mEntries) == 0x58);
+static_assert(offsetof(AutoPlacementInfo, mGridEntries) == 0x68);
+static_assert(offsetof(AutoPlacementInfo, mHeights) == 0x578);
+static_assert(offsetof(AutoPlacementInfo, mHasHeights) == 0x588);
 
 class AutoPlacementMgr {
     SEAD_SINGLETON_DISPOSER(AutoPlacementMgr)
@@ -105,6 +149,7 @@ public:
     // 0x7100655118: the worker request callback: 0 increments the count and steps the raycasts, 2
     // decrements it (clamped at zero), anything else reports whether the count is still positive.
     bool invoked3(int arg);
+    f32 invoked4(const AutoPlacementInfo::Entry& entry);
     // 0x000000710065946c (CSV name). With `a2`, true while the s8 at 0x171e6e is positive
     // (after a discarded dlc::isPlayingOneHitObliteratorQuest() call); otherwise asks the
     // AutoPlacementInfo at 0x171ef0 (AutoPlacementInfo::x(pos, true, 0x40, nullptr)). Not decompiled
@@ -163,6 +208,8 @@ public:
     sead::SafeArray<s8, 7> _171e68;
     u8 _171e6f[0x171ef0 - 0x171e6f];
     AutoPlacementInfo _171ef0;
+    // The constructor initializes a separate object at +0x172480. Its model is unknown.
+    u8 _172480[0x189db0 - 0x172480];
     // Statistics pointers (StatisticsMgr::getStatsPointer results) used by sub_7100659230 / sub_71006592E8.
     void* _189db0;
     u8 _189db8[0x189dc8 - 0x189db8];
@@ -170,9 +217,14 @@ public:
     void* _189dc8;
     void* _189dd0;
     u8 _189dd8[0x189df8 - 0x189dd8];
-    u8 _189df8[0x189e38 - 0x189df8];
+    sead::Delegate1R<AutoPlacementMgr, const AutoPlacementInfo::Entry&, f32> mGeometryMargin{
+        this, &AutoPlacementMgr::invoked4};
+    u8 _189e18[0x189e38 - 0x189e18];
 };
 KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
+static_assert(offsetof(AutoPlacementMgr, _171ef0) == 0x171ef0);
+static_assert(offsetof(AutoPlacementMgr, _189db0) == 0x189db0);
+static_assert(offsetof(AutoPlacementMgr, mGeometryMargin) == 0x189df8);
 
 // 0x7100659298 (placeholder name and signature; called by the AutoPlacement queries apQueryTreeRate / apQueryRouteDistance): the
 // StatisticsMgr value of the statistics pointer `*stats` at `pos`, 0 if the query fails.
