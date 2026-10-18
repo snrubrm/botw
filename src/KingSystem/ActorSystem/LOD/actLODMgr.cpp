@@ -5,6 +5,9 @@
 #include <gfx/seadCamera.h>
 #include <cmath>
 #include <utility>
+#include <gfx/seadProjection.h>
+#include <layer/aglRenderer.h>
+#include <layer/aglLayer.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/Camera/CameraMgr.h"
@@ -311,6 +314,75 @@ void LODMgr::printDebugInfo() {
     }
 }
 
+// NON_MATCHING: frustum construction, copies and vector calculations are scheduled differently.
+void LODMgr::calc() {
+    if (!CameraMgr::instance())
+        return;
+    sead::Vector3f camera_pos;
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (camera) {
+        auto direction = camera->getAt() - camera->getPos();
+        direction.normalize();
+        camera_pos = camera->getPos() + direction * 5.0f;
+    }
+    _21c0 = camera_pos;
+    auto* renderer = agl::lyr::Renderer::instance();
+    auto* layer = renderer->getLayer(10);
+    if (!layer || !layer->mFlags.isOnAll(3)) {
+        layer = renderer->getLayer(1);
+        if (!layer)
+            return;
+    }
+    const auto* projection = layer->getRenderProjection();
+    if (!sead::IsDerivedFrom<sead::PerspectiveProjection>(projection))
+        return;
+    camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+    agl::cull::ViewFrustumCulling frustum;
+    frustum.update(camera->getMatrix(), *projection);
+    sead::PerspectiveProjection lod_projection;
+    lod_projection.set(frustum.getNear(), frustum.getFar(),
+                       frustum.getFovy() + 0.17453292f, frustum.getAspect());
+    agl::cull::ViewFrustumCulling adjusted;
+    adjusted.update(camera->getMatrix(), lod_projection);
+    mFrustum = adjusted;
+    lod_projection.setFovy_(frustum.getFovy() - 0.21816616f);
+    adjusted.update(camera->getMatrix(), lod_projection);
+    mNearFrustum = adjusted;
+    mCameraDirection = camera->getAt() - camera->getPos();
+    mCameraDirection.normalize();
+    f32 fov_factor = (frustum.getFovy() * 57.295776f - 30.0f) / 15.0f;
+    if (fov_factor < 0.0f)
+        fov_factor = 0.0f;
+    else if (fov_factor > 1.0f)
+        fov_factor = 1.0f;
+    _2200 = fov_factor + (1.0f - fov_factor) * 2.0f;
+    x_2(&camera_pos);
+    for (s32 i = 0; i < _1830; ++i) {
+        auto* state = _1030[i];
+        if (state->mFlags14.isOnBit(1)) {
+            auto* actor = state->mActor->m31();
+            if (actor) {
+                LodState* other;
+                do {
+                    other = actor->getLodState();
+                    actor = actor->m31();
+                } while (actor);
+                if (other && other->_48 < state->_44)
+                    other->_48 = state->_44;
+            }
+        }
+    }
+    calc_x(&camera_pos);
+    calc_x_0();
+    _2174 += mOcclusionPool.sub_71012538EC(6);
+    calc_x_1();
+    if (sUnk_71026531A8 & 7)
+        printDebugInfo();
+    ++_21a0;
+}
+
 void LODMgr::init(sead::Heap* heap) {
     const sead::Heap* const heap_arg = heap;
     _21b8 = new (heap, 8) Unk_71011086dc();
@@ -397,7 +469,7 @@ void LODMgr::postCalc() {
 
 void LODMgr::calc_x_1() {
     for (s32 i = 0; i < _1830; ++i) {
-        LodState* state = _1030[u32(i) < 0x100 ? i : 0];
+        LodState* state = _1030[i];
         Actor* actor = state->mActor;
         Actor* other = actor->m31();
         if (!other) {

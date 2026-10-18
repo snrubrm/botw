@@ -48,6 +48,8 @@ class LODMgr {
 
 public:
     void init(sead::Heap* heap);
+    void calc();
+    void x_2(const sead::Vector3f* camera);
     void printDebugInfo();
     void initBeforeStageGenB();
     // 0x7101251b08 (CSV LODMgr::__auto3): `pos` + 5 along the look direction of the look-at camera.
@@ -90,7 +92,7 @@ public:
     /* 0x0028 */ sead::SafeArray<LodState*, 0x200> _28;  // the LodStates calc() walks
     /* 0x1028 */ s32 _1028;
     /* 0x102c */ u8 _102c[4];
-    /* 0x1030 */ LodState* _1030[0x100];  // the LodStates calc_x_1() walks (index masked to 8 bits)
+    /* 0x1030 */ sead::SafeArray<LodState*, 0x100> _1030;  // the LodStates calc_x_1() walks (index masked to 8 bits)
     /* 0x1830 */ s32 _1830;
     /* 0x1838 */ sead::PtrArray<gsys::Model> _1838;
     /* 0x1848 */ sead::SafeArray<sead::Vector3f, 4> _1848;
