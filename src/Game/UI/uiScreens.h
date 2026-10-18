@@ -85,6 +85,7 @@ extern bool sForceEnableGlidingSurfingRupee;
 }  // namespace uking
 
 namespace uking::ui {
+class Unk_71025d6578;
 
 class TagProcessor;
 class ScreenEx;
@@ -918,8 +919,10 @@ public:
     void sub_7100A3081C(s32 mode, bool a2);
     // 0x7100a30df0 (CSV unnamed, declared only): refreshes the info for the pause menu's current tab
     void sub_7100A30DF0(bool a2);
-    // 0x7100a2effc (CSV unnamed, declared only): closes the info panel
+    // 0x7100a2effc: updates gauge deltas and the deferred effect display
     void sub_7100A2EFFC();
+    void sub_7100A2FEDC();
+    void sub_7100A2E844();
     // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
     void sub_7100A313A8(s32 page, bool a2);
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
@@ -927,7 +930,8 @@ public:
     // 0x7100a30194 (CSV unnamed, declared only): resets the info panes before refilling them
     void sub_7100A30194();
 
-    u8 _pad_3610[0x3618 - 0x3610];
+    // A2CE68 stores the gauge singleton here.
+    /* 0x3610 */ Unk_71025d6578* _3610;
     /* 0x3618 */ Unk_7102474c08 _3618;
     u8 _pad_3650[0x36a0 - 0x3650];
     /* 0x36a0 */ eui::Animator* _36a0;
@@ -940,16 +944,19 @@ public:
     /* 0x36e0 */ ::Unk_7102475050 _36e0;
     /* 0x3810 */ ::Unk_71024750c8 _3810;
     /* 0x38f0 */ f32 _38f0;
-    u8 _pad_38f4[4];
+    /* 0x38f4 */ f32 _38f4;
     /* 0x38f8 */ f32 _38f8;
-    u8 _pad_38fc[4];
+    /* 0x38fc */ f32 _38fc;
     /* 0x3900 */ u8 _3900;
     u8 _pad_3901[3];
     /* 0x3904 */ u8 _3904;
     u8 _pad_3905[3];
     // Setup 0x7100a2ce68 casts child 1 to Unk_710247bcb8 before storing this pointer.
     /* 0x3908 */ Unk_710247bcb8* _3908;
-    u8 _pad_3910[0x391c - 0x3910];
+    // A2C890 initializes the deferred effect to -1 and the level/time to zero.
+    /* 0x3910 */ s32 _3910;
+    /* 0x3914 */ s32 _3914;
+    /* 0x3918 */ f32 _3918;
     /* 0x391c */ u8 _391c;
     u8 _pad_391d[0x39e8 - 0x391d];
     /* 0x39e8 */ eui::ControlBase* _39e8;  // the control whose layout shows the number (T_Num_00)

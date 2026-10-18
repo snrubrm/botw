@@ -1,5 +1,8 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreenControlCreators.h"
 
 namespace uking::ui {
@@ -74,3 +77,45 @@ void ScreenPauseMenuInfo::sub_7100A2DCD8(f32 delta) {
     eui::Screen::x_2();
 }
 }
+
+namespace uking::ui {
+
+// 0x7100a2effc
+void ScreenPauseMenuInfo::sub_7100A2EFFC() {
+    if (_3610) {
+        _3610->sub_710094BF98(0, 0);
+        _3610->sub_710094BE84();
+        _3618.sub_7100936254(getAnimationStep_(), false);
+        _3618.sub_71009368EC(getAnimationStep_());
+    }
+    if (_3904) {
+        _36e0.sub_71009457B4(_38f0);
+        _3810.sub_71009457B4(_38f8);
+        _3904 = 0;
+    }
+    const s32 old_heart_delta = s32(_38f4);
+    const f32 hearts = sub_7100A9B6F0();
+    _38f4 = _38f0 + 0.0f > hearts ? hearts - _38f0 : 0.0f;
+    const f32 heart_change = f32(old_heart_delta) - _38f4;
+    if (!(heart_change >= -0.0001f && heart_change <= 0.0001f) && !_3904)
+        sub_7100A2DC30(_38f4);
+    const s32 old_stamina_delta = s32(_38fc);
+    _38fc = _38f8 < 0.0f ? 0.0f - _38f8 : 0.0f;
+    const f32 stamina_change = f32(old_stamina_delta) - _38fc;
+    if (!(stamina_change >= -0.0001f && stamina_change <= 0.0001f) && !_3904)
+        sub_7100A2DCD8(_38fc);
+    if (_391c) {
+        if (_3910 != -1) {
+            if (_3908) {
+                _3908->sub_71009BCCA4(_3918, _3910, _3914);
+                _3908->m5(true);  // native result is discarded
+            }
+            sub_7100A2FEDC();
+            sub_7100A2E844();
+        }
+        _391c = 0;
+    }
+}
+
+
+}  // namespace uking::ui
