@@ -63,7 +63,7 @@ void DragonChemicalBall::calc_() {
     if (f32(*mLife_s) < _50)
         mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     if (auto* manager = ksys::evt::Manager::instance()) {
-        if (manager->hasActiveEvent() || manager->_1d3e0)
+        if (manager->hasActiveEvent() || manager->_1d3e0[0])
             mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
     if (_54 < *mHomingTime_s) {

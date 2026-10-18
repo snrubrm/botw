@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadObjList.h>
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -177,6 +178,8 @@ public:
 
     // 0x7100db24d4
     void loadResidentEvents(sead::Heap* heap);
+    // 0x7100db34d0
+    void loadSceneChangeEventFlow(const sead::SafeString& flow, const sead::SafeString& entry);
 
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
     // inline-only in the original; name is a guess
@@ -351,8 +354,10 @@ public:
     // DAF464 constructs this 64-character buffer at 1d394, capacity at 1d390.
     /* 0x1d380 */ sead::FixedSafeString<64> _1d380;
     u8 pad_1d3d8[0x1d3e0 - 0x1d3d8];
-    /* 0x1d3e0 */ EventFlow* _1d3e0;
-    /* 0x1d3e8 */ EventFlow* _1d3e8;
+    /* 0x1d3e0 */ sead::SafeArray<EventFlow*, 2> _1d3e0;
+    u8 pad_1d3f0[0x1d400 - 0x1d3f0];
+    // 0x7100daf464 constructs this 32-character buffer at 1d414, capacity at 1d410.
+    /* 0x1d400 */ sead::FixedSafeString<32> mSceneChangeEventFlow;
 };
 
 }  // namespace ksys::evt

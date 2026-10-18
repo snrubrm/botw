@@ -165,13 +165,13 @@ bool Manager::sub_7100DB2A9C(const BaseProcLinkForEvent& link) const {
 // the address in each branch; ours recomputes the offsets per branch.
 // 0x7100db3750
 void Manager::sub_7100DB3750() {
-    if (_1d3e0) {
-        mEventFlowMgr->unload(_1d3e0);
-        _1d3e0 = nullptr;
+    if (_1d3e0[0]) {
+        mEventFlowMgr->unload(_1d3e0[0]);
+        _1d3e0[0] = nullptr;
     }
-    if (_1d3e8) {
-        mEventFlowMgr->unload(_1d3e8);
-        _1d3e8 = nullptr;
+    if (_1d3e0[1]) {
+        mEventFlowMgr->unload(_1d3e0[1]);
+        _1d3e0[1] = nullptr;
     }
 }
 
@@ -297,8 +297,8 @@ void Manager::residentMgrFinish() {
             context->x(false);
     }
     mEventFlowMgr->sub_7100DBF2B4(false);
-    _1d3e8 = nullptr;
-    _1d3e0 = nullptr;
+    _1d3e0[1] = nullptr;
+    _1d3e0[0] = nullptr;
     sead::ScopedLock<sead::CriticalSection> lock(&_90);
     for (auto it = mPendingEvents.begin(), end = mPendingEvents.end(); it != end;) {
         auto& event = *it;
@@ -349,6 +349,43 @@ void Manager::loadResidentEvents(sead::Heap* heap) {
         mEventFlowMgr->load(file, entry, true, true, nullptr);
     }
     _1d378->loadEventSystemActors(heap);
+}
+
+// NON_MATCHING: the traversal counter and the null-string pointer are allocated to the opposite registers (w24/w25),
+// and the array index is selected before the counter increment.
+// 0x7100db34d0
+void Manager::loadSceneChangeEventFlow(const sead::SafeString& flow,
+                                       const sead::SafeString& entry) {
+    if (*flow.getStringTop() != sead::SafeString::cNullChar) {
+        mSceneChangeEventFlow.copy(flow);
+        _1d3e0[0] = mEventFlowMgr->load(flow, entry, false, false, nullptr);
+        al::ByamlIter iter;
+        if (InfoData::instance()->getEntry(&iter, flow, entry)) {
+            al::ByamlIter child;
+            if (!iter.tryGetIterByKey(&child, "child"))
+                return;
+            if (child.getSize() < 1)
+                return;
+            s32 count = 1;
+            s32 i = 0;
+            do {
+                al::ByamlIter child_entry;
+                if (child.tryGetIterByIndex(&child_entry, i)) {
+                    if (count > 1)
+                        return;
+                    const char* file = nullptr;
+                    const char* entry_name = nullptr;
+                    if (child_entry.tryGetStringByKey(&file, "file") &&
+                        child_entry.tryGetStringByKey(&entry_name, "entry")) {
+                        _1d3e0[count] =
+                            mEventFlowMgr->load(file, entry_name, false, false, nullptr);
+                        ++count;
+                    }
+                }
+                ++i;
+            } while (i < child.getSize());
+        }
+    }
 }
 
 // 0x7100db199c
