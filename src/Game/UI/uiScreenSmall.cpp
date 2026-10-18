@@ -588,6 +588,46 @@ s32 ScreenSystemWindow01::sub_7100A667EC() {
     return sUnk_710249ad70;
 }
 
+// 0x7100a66c3c
+void ScreenSystemWindow01::sub_7100A66C3C() {
+    if (_36b0) {
+        _36b0->StopAtMin();
+        _36b0->disableKeepLinked();
+    }
+    if (_36a8)
+        _36a8->StopAtMin();
+    if (_3698)
+        _3698->StopAtMin();
+    if (_36a0)
+        _36a0->StopAtMin();
+    if (_36b8)
+        _36b8->StopAtMin();
+    if (_3690)
+        _3690->StopAtMin();
+    if (_3720)
+        _3720->StopAtMin();
+}
+
+// 0x7100a66d00
+void ScreenSystemWindow01::sub_7100A66D00() {
+    if (_3610)
+        _3610->setFlag10(false);
+    if (_3618)
+        _3618->setFlag10(false);
+    if (_3620)
+        _3620->setFlag10(false);
+    if (_3628)
+        _3628->setFlag10(false);
+    if (_3630)
+        _3630->setFlag10(false);
+    if (_3638)
+        _3638->setFlag10(false);
+    if (_3640)
+        _3640->setFlag10(false);
+    if (_3648)
+        _3648->setFlag10(false);
+}
+
 // 0x7100a67704: waits until every texture controller is loaded
 void ScreenSystemWindow01::m89() {
     bool ready = true;
