@@ -19,6 +19,18 @@ namespace gsys {
 
 Model::CreateArg::CreateArg() : _0(64), _4(1), _8(true), _9(true), _a(true), _b(true), _10(0) {}
 
+// 0x7100bf9b88
+void Model::requestDraw() {
+    if ((_a1 & 3) != 0)
+        return;
+    ModelScene* scene = mScene;
+    if ((scene->mFlags & 0x100) == 0)
+        return;
+    const s32 index = scene->mDrawRequestCount.fetchAdd(1);
+    scene->mDrawRequestModels[index] = this;
+    _a1 |= 2;
+}
+
 Model* Model::postCreateModel_(Model* model, ModelResource*, sead::Heap*, bool success) {
     if (model && !success) {
         delete model;

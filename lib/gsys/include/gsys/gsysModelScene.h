@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <thread/seadAtomic.h>
 #include <cstddef>
 #include "gsys/gsysModelSceneEnv.h"
 
@@ -55,7 +56,12 @@ public:
     };
     /* 0x52e0 */ Unk_52e0* _52e0;
 
-    u8 _52e8[0x5d80 - 0x52e8];
+    u8 _52e8[0x5630 - 0x52e8];
+    // Model::requestDraw 0x7100bf9b88 appends to this counter/array pair.
+    sead::Atomic<s32> mDrawRequestCount;
+    u8 _5634[4];
+    Model** mDrawRequestModels;
+    u8 _5640[0x5d80 - 0x5640];
 
     // Flags (0xa39 after construction). Game code sets bit 1 after it applied an env set (SystemApplyEnvSetAction)
     // and bit 13 when it creates the scene; ModelScene's own code reads bits 0, 1, 2, 5 and 8.
