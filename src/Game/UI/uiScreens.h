@@ -2867,6 +2867,10 @@ public:
     void sub_7100A3A920(f32 offset);
     // 0x7100a3772c (CSV unnamed, declared only): lays the tab controls out for the current page
     void sub_7100A3772C();
+    // 0x7100a3471c (CSV unnamed, declared only): the pause menu's per-frame page / animator step.
+    void sub_7100A3471C();
+    // 0x7100a34a28 (CSV unnamed): plays mc_Close once when opened, then runs the step.
+    void sub_7100A34A28();
     // 0x7100a3a7fc: moves the cursor to button tag (base tag of the page shown by `page` + offset); false if no
     // shown page matches or the tag is 0
     bool sub_7100A3A7FC(s32 page, s32 offset);
@@ -2884,7 +2888,9 @@ public:
     /* 0x3630 */ void* _3630;  // the recipe screen's item argument
     u8 _pad_3638[0x3640 - 0x3638];
     /* 0x3640 */ bool _3640;  // read by m180 to choose the info mode
-    u8 _pad_3641[3];
+    /* 0x3641 */ u8 _3641;
+    /* 0x3642 */ bool _3642;
+    /* 0x3643 */ u8 _3643;
     /* 0x3644 */ s32 _3644;  // current page
     /* 0x3648 */ s32 _3648;  // target page
     /* 0x364c */ s32 _364c;  // pending page offset (-1: none)

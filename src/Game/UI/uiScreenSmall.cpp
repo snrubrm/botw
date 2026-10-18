@@ -33,6 +33,14 @@ Unk_7100A341D0::Unk_7100A341D0() = default;
 // NON_MATCHING: the compiler outlines the SafeArray member destructor.
 Unk_7100A341D0::~Unk_7100A341D0() = default;
 
+// 0x7100a34a28
+void ScreenPauseMenu::sub_7100A34A28() {
+    if (isOpened() && !_3642)
+        invokeSoundLink2Event_("mc_Close");
+    sub_7100A3471C();
+    _3642 = false;
+}
+
 // 0x7100a392d8
 // NON_MATCHING: the two _3620 reads inside the else are hoisted before the two sub_7100A82D08
 // calls here (the original reloads the second one after them), and the dir checks take branches
