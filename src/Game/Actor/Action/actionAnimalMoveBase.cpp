@@ -73,4 +73,10 @@ bool AnimalMoveBase::m34(const sead::Vector3f& pos, float x) {
     return true;
 }
 
+// NON_MATCHING: original enum identities of the three integer movement arguments are unknown.
+bool AnimalMoveBase::m35(act::RideableBase* rideable, s32 gear_type, s32 gear,
+                         s32 min_gear_at_auto_down, const sead::Vector3f& direction) {
+    return rideable->sub_7100E63560(gear_type, gear, min_gear_at_auto_down, direction, 0);
+}
+
 }  // namespace uking::action

@@ -21,6 +21,8 @@ protected:
     void calc_() override;
 
     bool m34(const sead::Vector3f& pos, float x) override;
+    bool m35(act::RideableBase* rideable, s32 gear_type, s32 gear,
+             s32 min_gear_at_auto_down, const sead::Vector3f& direction) override;
 
     // static_param at offset 0x80
     const float* mTimeForCalcCheckCliffDist_s{};

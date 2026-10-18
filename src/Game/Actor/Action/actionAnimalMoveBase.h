@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::act {
+class RideableBase;
+}
+
 namespace uking::action {
 
 class AnimalMoveBase : public ksys::act::ai::Action {
@@ -20,6 +24,9 @@ protected:
     virtual sead::Vector3f* m32();
     virtual bool m33(float x);
     virtual bool m34(const sead::Vector3f& pos, float x);
+    // Movement request at slot35; signed modes follow the checked RideableBase interface.
+    virtual bool m35(act::RideableBase* rideable, s32 gear_type, s32 gear,
+                     s32 min_gear_at_auto_down, const sead::Vector3f& direction);
 
     // static_param at offset 0x20
     const int* mMinUseGear_s{};
