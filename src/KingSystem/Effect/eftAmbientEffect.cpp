@@ -4,6 +4,7 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Effect/eftEffect.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 
 namespace ksys::eft {
 
@@ -163,6 +164,30 @@ void AmbientEffectMgr::reset() {
     mDragonfly.reset();
     mBlueDragonfly.reset();
     mYellowDragonfly.reset();
+}
+
+void FireflyEffectRequest::emit(const sead::Vector3f& position) {
+    xlinkSearchAndEmit(act::Reaction::instance()->_28, "Firefly_Dummy", 2, &mHandle);
+    mHandle.sub_71012419B4(position);
+    mHandle.mELink.setDelayEmitParamF8Flags(6);
+}
+
+void DragonflyEffectRequest::emit(const sead::Vector3f& position) {
+    xlinkSearchAndEmit(act::Reaction::instance()->_28, "Dragonfly_Dummy", 2, &mHandle);
+    mHandle.sub_71012419B4(position);
+    mHandle.mELink.setDelayEmitParamF8Flags(6);
+}
+
+void BlueDragonflyEffectRequest::emit(const sead::Vector3f& position) {
+    xlinkSearchAndEmit(act::Reaction::instance()->_28, "Dragonfly_Blue_Dummy", 2, &mHandle);
+    mHandle.sub_71012419B4(position);
+    mHandle.mELink.setDelayEmitParamF8Flags(6);
+}
+
+void YellowDragonflyEffectRequest::emit(const sead::Vector3f& position) {
+    xlinkSearchAndEmit(act::Reaction::instance()->_28, "Dragonfly_Yellow_Dummy", 2, &mHandle);
+    mHandle.sub_71012419B4(position);
+    mHandle.mELink.setDelayEmitParamF8Flags(6);
 }
 
 }  // namespace ksys::eft
