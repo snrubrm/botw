@@ -203,6 +203,11 @@ public:
     void enableReverseCulling(bool enable);
     void updateQueueInfo();
     void updateQueueInfo_();
+    // 0x7100c3f720 (declared only): called by 0x7100c7fd68 with (-1, -1, mNumLods - 1).
+    void setLodThreshold(f32 threshold, int a, int b);
+    // 0x7100c3d634 (declared only; placeholder name): allocates the unit's buffer and calls
+    // setUpModelUnit; 0x7100c7fd68 calls it after creating the render units.
+    bool sub_7100C3D634(sead::Heap* heap);
 
     // Material record setters (names marked "guess" follow the visible effect only).
     void sub_7100C3E79C(int value);
@@ -242,7 +247,8 @@ protected:
 
     sead::TypedBitFlag<Flag, u8> mFlags;
     s8 mUnkIndex;
-    s8 mNumLods;
+    // Read with ldrb by 0x7100c7fd68 (the count is unsigned).
+    u8 mNumLods;
     sead::BitFlag16 mVisibilityMask;
     u8 mDepthShadowCascade;
     u16 mCalcWeight;

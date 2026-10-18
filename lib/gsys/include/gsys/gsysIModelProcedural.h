@@ -23,14 +23,22 @@ public:
 
     // The pass array elements: 0x38 bytes (array stride in the destructor), vtable 0x71024d1da8.
     // The destructor 0x7100c7fc2c inlines their destructor (vtable store, then the base D2).
+    // 0x7100c7fd68 constructs an array of these: base ModelRenderUnit ctor, the RenderUnit
+    // vtable, then the name "Proc(unnamed)" (+0x20) and the word 1 (+0x30).
     class RenderUnit : public ModelRenderUnit {
     public:
         ~RenderUnit() override {}
 
     private:
-        u8 _18[0x38 - 0x18];
+        sead::SafeString mName{"Proc(unnamed)"};
+        s32 _30 = 1;
+        u8 _34[0x38 - 0x34];
     };
     static_assert(sizeof(RenderUnit) == 0x38);
+
+    /// 0x7100c7fd68 (name is a guess): replaces the pass array with `count` render units and
+    /// initializes each with (this, index, heap); a non-positive count keeps the current array.
+    void initRenderUnits_(s32 count, s32 value, sead::Heap* heap);
 
 private:
     s32 _c8 = 1;

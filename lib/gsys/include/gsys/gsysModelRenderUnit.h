@@ -14,6 +14,9 @@ class ModelUnit;
 // deletes, slot 2 is initialize 0x7100c82cc4.
 class ModelRenderUnit {
 public:
+    // 0x7100c82ca0: zeroes mModelUnit, _10 and the byte at +0x18, then installs the vtable.
+    // The original emits this ctor out of line (IModelProcedural::RenderUnit's array ctor calls it).
+    ModelRenderUnit();
     virtual ~ModelRenderUnit();
     // 0x7100c82cc4: stores the unit at +8 and the index at +0x14 and +0x16; returns true.
     virtual bool initialize(const ModelUnit* unit, int index, sead::Heap* heap);
@@ -23,10 +26,13 @@ public:
     u16 getMaterialIndex() const { return mMaterialIndex; }
 
 protected:
-    const ModelUnit* mModelUnit;
-    u8 _10[0x14 - 0x10];
-    u16 mIndex;
-    u16 mMaterialIndex;
+    const ModelUnit* mModelUnit = nullptr;
+    u8 _10[0x14 - 0x10] = {};
+    u16 mIndex = 0;
+    u16 mMaterialIndex = 0;
+    // Zeroed by the ctor 0x7100c82ca0; the derived RenderUnit's first own byte follows it.
+    u8 _18 = 0;
 };
+static_assert(sizeof(ModelRenderUnit) == 0x20, "gsys::ModelRenderUnit size mismatch");
 
 }  // namespace gsys
