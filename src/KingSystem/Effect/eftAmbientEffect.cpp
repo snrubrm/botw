@@ -9,6 +9,10 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "Game/gameStatisticsMgr.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::eft {
 
@@ -220,6 +224,217 @@ bool ButterflyEffectEmitter::getSpawnPosition(Effect* effect, const sead::Vector
     mFlowerCount = 0;
     mgr->sub_71011EB40C(&ground_position, 0.75f, &callback);
     return mFlowerCount >= s32(mMinFlowers);
+}
+
+void SmallFishEffectEmitter::calc(Effect* effect) {
+    mTimer -= VFR::instance()->getIntervalRatio();
+    if (mTimer < 0.0f) {
+        mTimer = 0.0f;
+        mPending = true;
+    } else if (!mPending) {
+        return;
+    }
+    sead::Vector3f candidate;
+    sead::Vector3f position;
+    calcPosition(effect, &candidate);
+    if (getSpawnPosition(effect, candidate, position)) {
+        mPending = false;
+        mTimer = mInterval * 30.0f;
+        auto* handle = nextHandle();
+        xlinkSearchAndEmit(act::Reaction::instance()->_28, "SmallFish_Dummy", 2, handle);
+        handle->sub_71012419B4(position);
+        handle->mELink.setDelayEmitParamF8Flags(6);
+    }
+    // Native debug-path adjustment remains after emission; do not force its store with volatile.
+    if (effect->hasFlags(1u << 19))
+        candidate.y += 20.0f;
+}
+
+void FlyEffectEmitter::calc(Effect* effect) {
+    if (Effect::instance()->hasFlags(1u << 11))
+        return;
+    mTimer -= VFR::instance()->getIntervalRatio();
+    if (mTimer < 0.0f) {
+        mTimer = 0.0f;
+        mPending = true;
+    } else if (!mPending) {
+        return;
+    }
+    sead::Vector3f candidate;
+    sead::Vector3f position;
+    calcPosition(effect, &candidate);
+    if (getSpawnPosition(effect, candidate, position)) {
+        mPending = false;
+        mTimer = mInterval * 30.0f;
+        auto* handle = nextHandle();
+        xlinkSearchAndEmit(act::Reaction::instance()->_28, "Fly_Dummy", 2, handle);
+        handle->sub_71012419B4(position);
+        handle->mELink.setDelayEmitParamF8Flags(6);
+    }
+    if (effect->hasFlags(1u << 20))
+        candidate.y += 20.0f;
+}
+
+void ButterflyEffectEmitter::calc(Effect* effect) {
+    const f32 temperature = world::Manager::instance()->getTempMgr()->get_3c();
+    // Native out-of-range rejection permits unordered temperature; preserve the comparison form.
+    if (temperature < 12.0f || temperature > 30.0f)
+        return;
+    mTimer -= VFR::instance()->getIntervalRatio();
+    if (mTimer < 0.0f) {
+        mTimer = 0.0f;
+        mPending = true;
+    } else if (!mPending) {
+        return;
+    }
+    sead::Vector3f candidate;
+    sead::Vector3f position;
+    calcPosition(effect, &candidate);
+    if (getSpawnPosition(effect, candidate, position)) {
+        mPending = false;
+        mTimer = mInterval * 30.0f;
+        auto* handle = nextHandle();
+        xlinkSearchAndEmit(act::Reaction::instance()->_28, "Butterfly_Dummy", 2, handle);
+        handle->sub_71012419B4(position);
+        handle->mELink.setDelayEmitParamF8Flags(6);
+    }
+    if (effect->hasFlags(1u << 21))
+        candidate.y += 20.0f;
+}
+
+void Unk_7102512640::calc(Effect* effect) {
+    _8 -= VFR::instance()->getIntervalRatio();
+    if (_8 < 0.0f) {
+        const f32 time = world::Manager::instance()->getTimeMgrUnchecked()->getTime();
+        _8 = (_c + (_10 - _c) * sead::GlobalRandom::instance()->getF32()) * 30.0f;
+        if (((time >= 75.0f && time < 120.0f) || (time >= 255.0f && time < 300.0f)) &&
+            effect->_9fc0 && effect->_9fc0->m148() && effect->_9fc0->m148()->getXLink()) {
+            Unk_71012419b4 handle;
+            xlinkSearchAndEmit(effect->_9fc0->m148(), "Goose", 2, &handle);
+            handle.mELink.setDelayEmitParamF8Flags(6);
+        }
+    }
+}
+
+// NON_MATCHING: camera/position operations and branch layout are scheduled differently.
+void Unk_7102512658::calc(Effect* effect) {
+    _8 -= VFR::instance()->getIntervalRatio();
+    if (_8 < 0.0f) {
+        const f32 time = world::Manager::instance()->getTimeMgrUnchecked()->getTime();
+        _8 = (_c + (_10 - _c) * sead::GlobalRandom::instance()->getF32()) * 30.0f;
+        if (time >= 75.0f && time < 300.0f)
+            _14 = true;
+    }
+    auto* stats = uking::StatisticsMgr::instance();
+    if (!stats || !_14 || !effect->_9fc0 || !effect->_9fc0->m148()) {
+        _28 = -1.0f;
+        return;
+    }
+    _18 += 0.20943952f;
+    if (_18 > 6.2831855f)
+        _18 = 0.0f;
+    const f32 radius = _1c + _20 * sead::GlobalRandom::instance()->getF32();
+    sead::Vector3f position = effect->_9fc0->m148()->getMtx().getTranslation();
+    position.x += radius * std::sin(_18);
+    position.z += radius * std::cos(_18);
+    // Return value is discarded in the original; failure leaves the existing sampled value.
+    stats->query(&_28, 1, effect->mForestDensityStats, &position);
+    if (!(_28 > _24))
+        return;
+    auto* placement = map::PlacementMgr::instance();
+    const sead::Vector2f xz{position.x, position.z};
+    // Terrain query status is discarded in the original, which still supplies y as output.
+    tera::sub_71011094A0(&position.y, &xz, placement ? placement->mTeraSystem : nullptr, -1, 0);
+    position.y += 5.0f;
+    if (!effect->_9fc0 || !effect->_9fc0->m148() || !effect->_9fc0->m148()->getXLink())
+        return;
+    Unk_71012419b4 handle;
+    xlinkSearchAndEmit(act::Reaction::instance()->_28, "LittleBird_A_Dummy", 2, &handle);
+    handle.sub_71012419B4(position);
+    _14 = false;
+    handle.mELink.setDelayEmitParamF8Flags(6);
+}
+
+void AmbientEffectMgr::calc(Effect* effect) {
+    if (!effect->_9fc0 || !effect->_9fc0->m148())
+        return;
+    mGoose.calc(effect);
+    mLittleBird.calc(effect);
+    mMoth.calc(effect);
+    mSmallFish.calc(effect);
+    if (effect->hasFlags(1u << 19)) {
+        const auto player_position = effect->_9fb8->getPlayer()->getMtx().getTranslation();
+        for (s32 x = -16; x < 16; ++x) {
+            for (s32 z = -16; z < 16; ++z) {
+                const sead::Vector3f position{player_position.x + 2.0f * static_cast<f32>(x),
+                                              player_position.y + 0.0f,
+                                              player_position.z + 2.0f * static_cast<f32>(z)};
+                sead::Vector3f output;
+                // Called through a pointer in the original (not devirtualised); result discarded.
+                (&mSmallFish)->getSpawnPosition(effect, position, output);
+            }
+        }
+    }
+    mFly.calc(effect);
+    if (effect->hasFlags(1u << 20)) {
+        const auto player_position = effect->_9fb8->getPlayer()->getMtx().getTranslation();
+        for (s32 x = -16; x < 16; ++x) {
+            for (s32 z = -16; z < 16; ++z) {
+                const sead::Vector3f position{player_position.x + 2.0f * static_cast<f32>(x),
+                                              player_position.y + 0.0f,
+                                              player_position.z + 2.0f * static_cast<f32>(z)};
+                sead::Vector3f output;
+                // Called through a pointer in the original (not devirtualised); result discarded.
+                (&mFly)->getSpawnPosition(effect, position, output);
+            }
+        }
+    }
+    mButterfly.calc(effect);
+    if (effect->hasFlags(1u << 21)) {
+        const auto player_position = effect->_9fb8->getPlayer()->getMtx().getTranslation();
+        for (s32 x = -16; x < 16; ++x) {
+            for (s32 z = -16; z < 16; ++z) {
+                const sead::Vector3f position{player_position.x + 2.0f * static_cast<f32>(x),
+                                              player_position.y + 0.0f,
+                                              player_position.z + 2.0f * static_cast<f32>(z)};
+                sead::Vector3f output;
+                // Called through a pointer in the original (not devirtualised); result discarded.
+                (&mButterfly)->getSpawnPosition(effect, position, output);
+            }
+        }
+    }
+    mFirefly.calc();
+    if (mFirefly.mHasPosition && effect->_9fc0 && effect->_9fc0->m148()) {
+        const auto camera_position = effect->_9fc0->m148()->getMtx().getTranslation();
+        if ((mFirefly.mPosition - camera_position).length() > mFirefly.mDistance) {
+            mFirefly.mHandle.fadeXLink();
+            mFirefly.mHasPosition = false;
+        }
+    }
+    mDragonfly.calc();
+    if (mDragonfly.mHasPosition && effect->_9fc0 && effect->_9fc0->m148()) {
+        const auto camera_position = effect->_9fc0->m148()->getMtx().getTranslation();
+        if ((mDragonfly.mPosition - camera_position).length() > mDragonfly.mDistance) {
+            mDragonfly.mHandle.fadeXLink();
+            mDragonfly.mHasPosition = false;
+        }
+    }
+    mBlueDragonfly.calc();
+    if (mBlueDragonfly.mHasPosition && effect->_9fc0 && effect->_9fc0->m148()) {
+        const auto camera_position = effect->_9fc0->m148()->getMtx().getTranslation();
+        if ((mBlueDragonfly.mPosition - camera_position).length() > mBlueDragonfly.mDistance) {
+            mBlueDragonfly.mHandle.fadeXLink();
+            mBlueDragonfly.mHasPosition = false;
+        }
+    }
+    mYellowDragonfly.calc();
+    if (mYellowDragonfly.mHasPosition && effect->_9fc0 && effect->_9fc0->m148()) {
+        const auto camera_position = effect->_9fc0->m148()->getMtx().getTranslation();
+        if ((mYellowDragonfly.mPosition - camera_position).length() > mYellowDragonfly.mDistance) {
+            mYellowDragonfly.mHandle.fadeXLink();
+            mYellowDragonfly.mHasPosition = false;
+        }
+    }
 }
 
 }  // namespace ksys::eft

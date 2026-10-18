@@ -8,6 +8,8 @@
 
 namespace ksys::eft {
 
+class Effect;
+
 // Small helper classes of the Effect TU (functions 0x71011b8e5c .. 0x71011b9220). None of them has RTTI; the
 // names are placeholders (vtable addresses).
 
@@ -50,6 +52,8 @@ KSYS_CHECK_SIZE_NX150(Unk_71025125c8, 0x98);
 class Unk_7102512640 {
 public:
     virtual void reset();
+    // 0x710126ec50: ambient goose emission using these interval parameters.
+    void calc(Effect* effect);
 
     f32 _8;
     f32 _c;
@@ -60,6 +64,8 @@ public:
 class Unk_7102512658 {
 public:
     virtual void reset();
+    // 0x710126ee1c: pending bird emission after a forest-density sample.
+    void calc(Effect* effect);
 
     f32 _8;
     f32 _c;

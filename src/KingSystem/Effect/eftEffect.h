@@ -54,6 +54,8 @@ private:
 // the flags word used by game code is declared, at its original offset.
 class Effect {
     friend class Rainbow;
+    // The bird emitter queries the stage's forest-density table directly into its retained sample.
+    friend class Unk_7102512658;
     u8 _8[0x10];
     SEAD_SINGLETON_DISPOSER(Effect)
     Effect();
