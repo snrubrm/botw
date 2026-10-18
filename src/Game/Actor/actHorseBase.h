@@ -50,9 +50,10 @@ public:
     ~Unk_71024eb548() override = default;
 
     bool m2(ksys::phys::NavMeshCharacter* nav, u32 material) override;
-    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, u32 b, f32 cost) override;
-    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
-            s32 other_a, u32 b) override;
+    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+           ksys::phys::NavMeshCharacterType type, f32 cost) override;
+    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material, s32 other_a,
+            ksys::phys::NavMeshCharacterType type) override;
 
     /* 0x8 */ sead::BitFlag8 _8;  // = 4 (bit _2)
 };

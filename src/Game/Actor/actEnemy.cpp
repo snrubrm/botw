@@ -41,6 +41,64 @@
 
 bool sub_71002F0924(const ksys::act::ActorLinkConstDataAccess& accessor);
 
+// The Enemy filter Unk_71023572b8 does not override the shared material-filter virtuals, so the Enemy
+// TU holds the base class's out-of-line definitions (address neighbours of the Unk_71023572b8
+// destructors).
+bool ksys::phys::NavMeshCharacterUnk58::m2(ksys::phys::NavMeshCharacter* nav, u32 material) {
+    // NON_MATCHING: the original keeps `material` zero-extended in x19 across the F94 call
+    // (and x19, x2, then mov x1, x19); ours keeps the 32-bit value (mov w19, w2, then mov w1, w19).
+    // Same classifier call.
+    return ksys::phys::NavMeshCharacter::sub_7100F74FA0(
+        ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
+}
+
+f32 ksys::phys::NavMeshCharacterUnk58::m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+                                          ksys::phys::NavMeshCharacterType type, f32 cost) {
+    return ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+        ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
+}
+
+bool ksys::phys::NavMeshCharacterUnk58::m4(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+                                           ksys::phys::NavMeshCharacterType type) {
+    const f32 cost = m3(nav, material, a, type, ksys::phys::sUnk_7101ec296c);
+    return !(sead::Mathf::abs(cost) > std::numeric_limits<f32>::max());
+}
+
+bool ksys::phys::NavMeshCharacterUnk58::m6() {
+    return false;
+}
+
+// Shared m5: forwards to m4 with the other material after a few swimmer-type special cases that
+// accept the pair directly.
+// NON_MATCHING: register allocation of the prologue and the branch layout differ (the original keeps
+// `this` in x22 and the type in x6; ours spills the type to x21 first and branches on m4's false
+// result instead of its true result). Same checks, same calls.
+bool ksys::phys::NavMeshCharacterUnk58::m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+                                           s32 other_material, s32 other_a,
+                                           ksys::phys::NavMeshCharacterType type) {
+    if (nav) {
+        const ksys::phys::NavMeshCharacterType nav_type(nav->_1d8);
+        if (nav_type == ksys::phys::NavMeshCharacterType::PoorSwimmer ||
+            nav_type == ksys::phys::NavMeshCharacterType::GoodSwimmer ||
+            nav_type == ksys::phys::NavMeshCharacterType::IceSwimmer) {
+            if (material == 7) {
+                if (!m4(nav, 7, a, type))
+                    return true;
+            }
+        } else if (nav_type == ksys::phys::NavMeshCharacterType::GiantSwimmer) {
+            if (material == 7) {
+                if (!m4(nav, 7, a, type))
+                    return true;
+            } else if (material == 10) {
+                return true;
+            }
+        } else if (material == 5 && nav_type == ksys::phys::NavMeshCharacterType::TallEnemy) {
+            return true;
+        }
+    }
+    return m4(nav, other_material, other_a, type);
+}
+
 namespace uking::act {
 
 // Enemy material filter, vtable 0x71023572b8. The factory stores its actor at +0x8.

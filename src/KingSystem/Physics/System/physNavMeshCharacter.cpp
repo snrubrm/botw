@@ -10,6 +10,9 @@ namespace ksys::phys {
 
 const f32 sUnk_7101ec27f4 = 1000000.0f;
 
+// 0x7101ec296c (placeholder name): the material cost the shared NavMeshCharacterUnk58::m4 passes to m3.
+const f32 sUnk_7101ec296c = 10.01f;
+
 // 0x7101ec22ec (rodata; INFINITY marks a blocked material): the face cost of each material 0 - 14 for
 // each navmesh character type.
 static constexpr f32 kInf = std::numeric_limits<f32>::infinity();
@@ -40,22 +43,26 @@ static const f32 sUnk_7101EC22EC[][15] = {
 // NON_MATCHING: the original reorders the special cases (it tests a type bitmask 0x80060000 and spills
 // `type`); the table and the result are the same.
 // Placeholder name: the cost of the face sub material `material` for the character type `type`.
-f32 NavMeshCharacter::sub_7100F74FD8(s32 type, s32 material) {
+f32 NavMeshCharacter::sub_7100F74FD8(NavMeshCharacterType type, s32 material) {
     if (material <= 14)
-        return sUnk_7101EC22EC[type][material];
+        return sUnk_7101EC22EC[s32(type)][material];
 
-    if ((type == 17 || type == 18 || type == 20) && material == 16)
+    if ((type == NavMeshCharacterType::GiantEnemy || type == NavMeshCharacterType::GiantSwimmer ||
+         type == NavMeshCharacterType::Lynel) &&
+        material == 16)
         return 1.0f;
-    if (type >= 4 && type <= 6) {
+    if (type == NavMeshCharacterType::NPC || type == NavMeshCharacterType::NPCGoron ||
+        type == NavMeshCharacterType::NPCSwimmer) {
         if (material == 18)
             return 1.0f;
-    } else if (material == 18 && type == 7) {
+    } else if (material == 18 && type == NavMeshCharacterType::NPCGerudoPassable) {
         return 1.0f;
     }
-    if (type == 17) {
+    if (type == NavMeshCharacterType::GiantEnemy) {
         if (material == 20)
             return 1.0f;
-    } else if (material == 20 || (material == 19 && type != 18)) {
+    } else if (material == 20 ||
+               (material == 19 && type != NavMeshCharacterType::GiantSwimmer)) {
         return 1.0f;
     }
     return kInf;
@@ -79,18 +86,18 @@ u32 sub_7100F7F92C() {
     }
 }
 
-u8 NavMeshCharacter::sub_7100F74F94(const NavMeshCharacter* nav) {
+NavMeshCharacterType NavMeshCharacter::sub_7100F74F94(const NavMeshCharacter* nav) {
     if (!nav)
-        return 0;
+        return NavMeshCharacterType(0);
     return nav->_1d8;
 }
 
-bool NavMeshCharacter::sub_7100F74FA0(s32 type, s32 other) {
+bool NavMeshCharacter::sub_7100F74FA0(NavMeshCharacterType type, s32 material) {
     const NavMeshCharacterType character_type = type;
     if (character_type == NavMeshCharacterType::Player)
         return true;
     return int(character_type) != NavMeshCharacterType::SmallAnimal &&
-           other == NavMeshCharacterType::SmallAnimal;
+           material == NavMeshCharacterType::SmallAnimal;
 }
 
 void NavMeshCharacter::init(const InitArg& arg, sead::Heap* heap, HavokAI* havok_ai) {

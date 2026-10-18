@@ -45,16 +45,17 @@ SEAD_ENUM(NavMeshPathState, State0, State1, State2, State3)
 // Face material filter at NavMeshCharacter::_58. Enemy (0x71023572b8), Horse
 // (0x71024eb548) and Sandworm (0x71023cf690) tables all have destructor slots 0/1,
 // followed by the material checks. The shared m4 calls m3 at slot 3.
+// The trailing parameter and m2's second parameter are a NavMeshCharacterType by value: the shared
+// virtuals zero-extend them with `and x4, x4, #0xffffffff` when forwarding (the SEAD_ENUM by-value
+// ABI, as for sub_7100F74F94/FA0); the Horse filter's m2 switches on the same values 0/1/2/12/13/15.
 class NavMeshCharacterUnk58 {
 public:
     virtual ~NavMeshCharacterUnk58() = default;
     virtual bool m2(NavMeshCharacter* nav, u32 material);
-    virtual f32 m3(NavMeshCharacter* nav, s32 material, s32 a, u32 b, f32 cost);
-    // Retain the existing opaque argument: callers pass nullptr. The shared
-    // implementation masks its low 32 bits before forwarding; its meaning is unknown.
-    virtual bool m4(NavMeshCharacter* nav, s32 material, s32 a, void* b);
-    virtual bool m5(NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
-                    s32 other_a, u32 b);
+    virtual f32 m3(NavMeshCharacter* nav, s32 material, s32 a, NavMeshCharacterType type, f32 cost);
+    virtual bool m4(NavMeshCharacter* nav, s32 material, s32 a, NavMeshCharacterType type);
+    virtual bool m5(NavMeshCharacter* nav, s32 material, s32 a, s32 other_material, s32 other_a,
+                    NavMeshCharacterType type);
     virtual bool m6();
 };
 class Unk_7100f7e9f0Event;
@@ -115,6 +116,9 @@ struct NavMeshCharacterUnk8 : public hkReferencedObject {
 // 0x7101ec27f4 (placeholder name, read-only data; 1000000.0f): the replacement for an infinite value in
 // NavMeshCharacter::inlineSetField2C0.
 extern const f32 sUnk_7101ec27f4;
+
+// 0x7101ec296c (placeholder name, read-only data; 10.01): the material cost the shared m4 passes to m3.
+extern const f32 sUnk_7101ec296c;
 
 // 0x710260ddd8 (placeholder name): counter of the request ids stored in NavMeshCharacter::_290 (read through the GOT).
 extern sead::Atomic<u32> sUnk_710260ddd8;
@@ -267,20 +271,23 @@ public:
     // GiantNavMoveTarget and LynelNavMoveNoStop (no out-of-line copy).
     f32 getRadiusMaybe() const { return _2a8 * _2ac; }
 
-    // 0x7100f74fd8 (declared only; placeholder name): the cost of the face sub material `material` for the
-    // character type `type` (a table at 0x7101ec22ec plus special cases).
-    static f32 sub_7100F74FD8(s32 type, s32 material);
-    // 0x7100f74f94 (placeholder name): _1d8 of `character`, 0 without one.
-    static u8 sub_7100F74F94(const NavMeshCharacter* character);
-    // 0x7100f74fa0 (placeholder name): true for type 0, or when `material` is 10 and `type` is not.
-    static bool sub_7100F74FA0(s32 type, s32 material);
+    // 0x7100f74fd8 (placeholder name): the cost of the face sub material `material` for the character
+    // type `type` (a table at 0x7101ec22ec plus special cases). The type is NavMeshCharacterType by
+    // value (the body spills it for the operator int() reads).
+    static f32 sub_7100F74FD8(NavMeshCharacterType type, s32 material);
+    // 0x7100f74f94 (placeholder name): _1d8 of `character`, 0 without one. Returns NavMeshCharacterType
+    // by value: the callers zero-extend the 4-byte SEAD_ENUM object (and x0, x0, #0xffffffff).
+    static NavMeshCharacterType sub_7100F74F94(const NavMeshCharacter* character);
+    // 0x7100f74fa0 (placeholder name): true for type Player, or when `material` is SmallAnimal and
+    // `type` is not. `type` is NavMeshCharacterType by value (the body spills it).
+    static bool sub_7100F74FA0(NavMeshCharacterType type, s32 material);
 
     // Inline-only in the original; name is a guess. GiantNavMoveTarget::m34 0x71003f7904 and its face callback
     // 0x71003f9260, and the face callbacks of HorseMoveToSafePos (0x71001a27b8) and HorseSwimAction
     // (0x7100e58340) repeat it: asks the filter at _58, or else accepts any finite material cost.
     bool isMaterialUsableMaybe(s32 material) {
         if (_58)
-            return _58->m4(this, material, 0, nullptr);
+            return _58->m4(this, material, 0, NavMeshCharacterType::Player);
         if (sead::Mathf::abs(sub_7100F74FD8(_1d8, material)) > std::numeric_limits<f32>::max())
             return false;
         return true;

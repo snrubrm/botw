@@ -1,4 +1,5 @@
 #include "Game/Actor/actHorseBase.h"
+#include <limits>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actLodState.h"
@@ -26,24 +27,53 @@
 
 namespace uking::act {
 
-// NON_MATCHING: material and flag locals spill differently; the shared nav classifier narrows to u8.
+// NON_MATCHING: the stack slots for the type parameter and the Flag temporaries differ (the original
+// keeps the parameter at x29-4 and Flag::_0 at x29-8; ours reuses sp+0xc), and the and operands are
+// swapped. Same switch, same classifier call.
 bool Unk_71024eb548::m2(ksys::phys::NavMeshCharacter* nav, u32 material) {
-    Flag flag = Flag::_0;
     switch (material) {
     case 0:
-        flag = Flag::_1;
-        break;
+        return _8.isOnBit(Flag(Flag::_1));
     case 1:
     case 2:
     case 12:
     case 13:
     case 15:
-        break;
+        return _8.isOnBit(Flag(Flag::_0));
     default:
         return ksys::phys::NavMeshCharacter::sub_7100F74FA0(
             ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
     }
-    return _8.isOnBit(flag);
+}
+
+// The pair is usable when the first material is; otherwise the horse's bit 2 accepts it, and
+// materials 9 / 3 are retried with the other material.
+// NON_MATCHING: register allocation only (the original keeps this / nav / type in x21 / x22 / x23,
+// ours in x22 / x23 / x21). Same checks and calls.
+bool Unk_71024eb548::m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
+                        s32 other_a, ksys::phys::NavMeshCharacterType type) {
+    if (m4(nav, material, a, type))
+        return m4(nav, other_material, other_a, type);
+    if (_8.isOnBit(Flag(Flag::_2)))
+        return true;
+    if (material == 9 || material == 3)
+        return m4(nav, other_material, other_a, type);
+    return true;
+}
+
+// 0x7102603530 (placeholder name, .bss): the game-data flag that makes the horse's material 12
+// unusable while it is set (the FlagHandle unwrapHandle check is inlined in m3).
+ksys::gdt::FlagHandle sUnk_7102603530;
+
+f32 Unk_71024eb548::m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+                       ksys::phys::NavMeshCharacterType type, f32 cost) {
+    if (material == 12) {
+        bool value = false;
+        if (ksys::gdt::Manager::instance()->getBool(sUnk_7102603530, &value) && value)
+            return std::numeric_limits<f32>::infinity();
+    }
+    return ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+        ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
 }
 
 bool HorseBase::m67(sead::Heap* heap) {

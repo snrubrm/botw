@@ -13,18 +13,28 @@ namespace uking::act {
 class Unk_71023cf690 : public ksys::phys::NavMeshCharacterUnk58 {
 public:
     ~Unk_71023cf690() override;
-    // NON_MATCHING: the shared nav classifier returns u8; the target retains its low 32 bits.
-    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, u32 b, f32 cost) override {
+    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+           ksys::phys::NavMeshCharacterType type, f32 cost) override {
         return ksys::phys::NavMeshCharacter::sub_7100F74FD8(
             ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
     }
-    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
-            s32 other_a, u32 b) override;
+    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material, s32 other_a,
+            ksys::phys::NavMeshCharacterType type) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023cf690, 0x8);
 
 // The original keeps its vptr store; { ; } follows GameDataFlagSelector (96101229).
 Unk_71023cf690::~Unk_71023cf690() { ; }
+
+// Materials 5 and 10 are accepted directly; otherwise the pair is usable when the first material is.
+bool Unk_71023cf690::m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
+                        s32 other_a, ksys::phys::NavMeshCharacterType type) {
+    if (material == 5 || material == 10)
+        return true;
+    if (!m4(nav, material, a, type))
+        return true;
+    return m4(nav, other_material, other_a, type);
+}
 
 ksys::phys::NavMeshCharacterUnk58* Sandworm::m179(sead::Heap* heap) {
     return new (heap, 8) Unk_71023cf690;
