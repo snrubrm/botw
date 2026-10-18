@@ -5057,11 +5057,22 @@ public:
     // _3690/_3698/_3658, calls sub_7100AA2BDC + unnamed 0x9c2c28/2c44/2c8c/2d44 + sub_7100AA3B50).
     // Declared only so sub_7100A52DB0 can tail-call it.
     void sub_7100A52E60(ShopInfoTagData* data, u32 a2, s32 a3);
-    u8 _pad_3610[0x3620 - 0x3610];
+    // 0x7100a5233c / 0x7100a52358 (CSV unnamed): the two shop info animators.
+    void sub_7100A5233C(u32 value);
+    void sub_7100A52358(bool flag);
+    // 0x7100a5237c (CSV unnamed): sets the shop info texture from `name` and stops the 0x3630 animator at
+    // the matching end.
+    void sub_7100A5237C(const sead::SafeString& name, bool a2, s32 a3);
+    // 0x7100a524b0 (CSV unnamed): as sub_7100A5237C but for a PouchItem.
+    void sub_7100A524B0(const PouchItem* item, bool a2);
+    /* 0x3610 */ eui::Animator* _3610 = nullptr;
+    u8 _pad_3618[0x3620 - 0x3618];
     // 0x7100a52db0 (CSV placeholder): resolved by the Animator::Stop slot-24 call (vtable-proven)
     // and the sibling screens' `eui::Animator* _3620` at the same offset.
     /* 0x3620 */ eui::Animator* _3620 = nullptr;
-    u8 _pad_3628[0x3650 - 0x3628];
+    /* 0x3628 */ eui::Animator* _3628 = nullptr;
+    /* 0x3630 */ eui::Animator* _3630 = nullptr;
+    u8 _pad_3638[0x3650 - 0x3638];
     // 0x7100a52db0 (CSV placeholder): the LetterAnimControl fed by sub_7100AA2E08 +
     // sub_7100BD9CDC / sub_7100BD9B5C (same tail as ScreenMessageDialog's 0x10b2b30).
     /* 0x3650 */ eui::LetterAnimControl* _3650 = nullptr;

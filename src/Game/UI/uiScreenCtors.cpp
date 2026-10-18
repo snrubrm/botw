@@ -269,7 +269,7 @@ void ScreenOptionWindow::sub_7100A28CD0() {
 ScreenMessageGet::ScreenMessageGet() : ScreenEx(), _3750(this, &ScreenMessageGet::sub_7100A238C8) {}
 
 ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_7100A51790) {
-    memset(_pad_3610, 0, 0x68);
+    memset(&_3610, 0, 0x68);
 }
 
 

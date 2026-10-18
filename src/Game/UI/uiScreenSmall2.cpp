@@ -301,6 +301,66 @@ void ScreenShopInfo::m101() {
         _3690->startAnimCloseImpl_(false, true);
 }
 
+// 0x7100a5233c
+void ScreenShopInfo::sub_7100A5233C(u32 value) {
+    if (_3610)
+        _3610->Stop(static_cast<f32>(value));
+}
+
+// 0x7100a52358
+void ScreenShopInfo::sub_7100A52358(bool flag) {
+    if (!_3628)
+        return;
+    if (flag)
+        _3628->StopAtMin();
+    else
+        _3628->StopAtMax();
+}
+
+// NON_MATCHING: the original loads the 0x3630 mFrame inside each branch; ours hoists the load before the a2 test.
+// 0x7100a5237c
+void ScreenShopInfo::sub_7100A5237C(const sead::SafeString& name, bool a2, s32 a3) {
+    if (name.isEmpty()) {
+        _3698.unload(0);
+    } else {
+        sead::FixedSafeString<128> path;
+        sub_7100AA3B50(name, &path, a3);
+        _3698.sub_7100A81B1C(path, 0);
+    }
+
+    if (!_3630)
+        return;
+    if (a2) {
+        if (_3630->mFrame != 0.0f)
+            _3630->StopAtMin();
+    } else {
+        if (_3630->mFrame != static_cast<f32>(_3630->GetFrameSize()))
+            _3630->StopAtMax();
+    }
+}
+
+// NON_MATCHING: the original loads the 0x3630 mFrame inside each branch; ours hoists the load before the a2 test.
+// 0x7100a524b0
+void ScreenShopInfo::sub_7100A524B0(const PouchItem* item, bool a2) {
+    if (!item) {
+        _3698.unload(0);
+    } else {
+        sead::FixedSafeString<128> path;
+        sub_7100AA3EA0(item, &path);
+        _3698.sub_7100A81B1C(path, 0);
+    }
+
+    if (!_3630)
+        return;
+    if (a2) {
+        if (_3630->mFrame != 0.0f)
+            _3630->StopAtMin();
+    } else {
+        if (_3630->mFrame != static_cast<f32>(_3630->GetFrameSize()))
+            _3630->StopAtMax();
+    }
+}
+
 // 0x7100a52db0
 void ScreenShopInfo::sub_7100A52DB0(u32 mode, ShopInfoTagData* data) {
     if (_3620 == nullptr)
