@@ -8,6 +8,7 @@
 
 namespace nn::g3d {
 class AnimFrameCtrl;
+class ModelAnimObj;
 class ResSkeletalAnim;
 class ResFile;
 }
@@ -55,10 +56,17 @@ public:
     struct MaterialAnm {
         /// The animation currently set on the slot (invalid if none).
         AnimationAccessKey<MaterialAnmType> key;
-        u8 _4[0x30 - 4];
+        u8 _4[0x10 - 4];
+        // initializeMaterialAnm_ 0x7100bfae64 constructs the common ModelAnimObj
+        // here. Type 3 binds a MaterialAnimObj (0x7100bfe96c), while type 4 binds
+        // a BoneVisibilityAnimObj (0x7100bfeb28), so retain their true common base.
+        nn::g3d::ModelAnimObj* animObj;
+        u8 _18[0x30 - 0x18];
 
         AnimationAccessKey<MaterialAnmType> getKey() const { return key; }
     };
+
+    static_assert(sizeof(MaterialAnm) == 0x30);
 
     // initializeSkeletalAnm_ (bfa6e0) allocates 0xa8-byte slots at +0x40/+0x48.
     // BoneBlendState 0x7101257934 stores the blend weight at +0x10 after setSkeletalAnmByKey
