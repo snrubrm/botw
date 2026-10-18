@@ -1,6 +1,8 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadSafeString.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
@@ -36,6 +38,16 @@ class MotorcycleMgr {
     virtual ~MotorcycleMgr();
 
 public:
+    // The fuel calculation collects five actor-name hashes and returns the resulting energy.
+    struct EnergyCalculationArg {
+        sead::SafeArray<u32, 5> hashes{{0, 0, 0, 0, 0}};
+        f32 value = 0.0f;
+    };
+    KSYS_CHECK_SIZE_NX150(EnergyCalculationArg, 0x18);
+    static_assert(offsetof(EnergyCalculationArg, value) == 0x14);
+    f32 sub_710067ADCC(const sead::SafeString& actor_name);
+    f32 sub_710067A9DC(EnergyCalculationArg* arg);
+
     // 0x7100678BD4: updates spawn state, energy and motorcycle effects.
     void sub_7100678BD4();
 

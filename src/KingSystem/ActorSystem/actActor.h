@@ -499,6 +499,10 @@ public:
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
     Unk_7100d8557c* sub_71011D89F8();
+    // Refreshes the actor's model/UMii animation state; full callee is declaration only.
+    bool sub_71011D573C();
+    // Clears the AS playback state and model animation unless deletion has started.
+    void sub_71011D57A8();
     // 0x71011d57f8: the world matrix of the model bone `bone_name` (false without a model or bone).
     bool sub_71011D57F8(sead::Matrix34f* mtx, const sead::SafeString& bone_name) const;
 

@@ -29,6 +29,10 @@ namespace ksys::map {
 class Object;
 }
 
+namespace ksys::evt {
+class Context;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -41,6 +45,9 @@ class ActorSystem {
     ActorSystem();
 
 public:
+    // ActorSystem receiver is proved by callers; original constness is unknown.
+    // The nonconst declaration is an interface inference. Body remains undecompiled.
+    void sub_7100D5D808();
     // Selects the per-core transceiver through the polymorphic message interface.
     MessageTransceiverBase* sub_7100D5D80C();
     void onBaseProcMgrCalc();
@@ -107,6 +114,8 @@ private:
     void* _b0 = nullptr;
     void* _b8 = nullptr;
     friend void ksys::setPlayerLink(PlayerLink* link);
+    friend class LODMgr;
+    friend class ksys::evt::Context;
     PlayerLink* _c0 = nullptr;  // the player (set by setPlayerLink)
     uking::Unk_710243c7c8* _c8 = nullptr;
     sead::Heap* mEmergencyHeap = nullptr;

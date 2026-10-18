@@ -2617,3 +2617,15 @@ void Actor::reactionStuff() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+void Actor::sub_71011D57A8() {
+    if (isDeleting())
+        return;
+    if (mASList != &as::sNullASListMaybe && mASList)
+        mASList->sub_710115C92C();
+    mModel->destroyAnimation_();
+}
+
+}  // namespace ksys::act

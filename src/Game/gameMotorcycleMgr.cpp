@@ -1,6 +1,7 @@
 #include "Game/gameMotorcycleMgr.h"
 #include <algorithm>
 #include <math/seadMathCalcCommon.h>
+#include <codec/seadHashCRC32.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -245,6 +246,34 @@ MotorcycleMgr::~MotorcycleMgr() {
         }
         _148.fadeXLink();
     }
+}
+
+}  // namespace uking
+
+namespace uking {
+
+// NON_MATCHING: request initialization, accessor cleanup and loop scheduling differ.
+f32 MotorcycleMgr::sub_710067ADCC(const sead::SafeString& actor_name) {
+    EnergyCalculationArg arg;
+    s32 free_index = -1;
+    if (auto* scene = GameSceneSubsys12::instance()) {
+        for (s32 i = 0; i < 5; ++i) {
+            if (auto* link = scene->sub_7100664DBC(i)) {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                if (ksys::act::acquireActor(link, &accessor)) {
+                    arg.hashes[i] = sead::HashCRC32::calcStringHash(accessor.getName().cstr());
+                    continue;
+                }
+            }
+            if (free_index == -1)
+                free_index = i;
+        }
+    } else {
+        free_index = 0;
+    }
+    if (free_index != -1 && !actor_name.isEmpty())
+        arg.hashes[free_index] = sead::HashCRC32::calcStringHash(actor_name.cstr());
+    return sub_710067A9DC(&arg);
 }
 
 }  // namespace uking

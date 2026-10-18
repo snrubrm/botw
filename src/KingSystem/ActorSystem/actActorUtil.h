@@ -433,3 +433,6 @@ void sub_7100D36EE0(sead::Vector3f* out, ksys::act::Actor* actor);
 s32 getPlacedItemStockNum(ksys::act::Actor* actor,
                          const ksys::act::ActorLinkConstDataAccess& item, s32* total,
                          bool grouping);
+
+// Existing matched global definition; the original source owner remains unknown.
+bool sub_7100EE98F0(const sead::SafeString& actor);
