@@ -101,4 +101,35 @@ void ClothSet::sub_71012197E0(const sead::SafeString& name) {
     }
 }
 
+void ClothSet::sub_710121952C(const sead::SafeString& name) {
+    const s32 count = _18.size();
+    for (s32 i = 0; i < count; ++i) {
+        hclClothInstance* cloth = _18[i]._0;
+        const s32 num_sim_cloths = cloth->m_simClothInstances.getSize();
+        bool in_world = true;
+        for (s32 j = 0; j < num_sim_cloths; ++j) {
+            const s32 num_collidables = _18[i]._8[j].mSavedCollidables.size();
+            Unk_71025335A8* sim_cloth = cloth->m_simClothInstances[j];
+            s32 index = -1;
+            for (s32 k = 0; k < num_collidables; ++k) {
+                hclCollidable* collidable = _18[i]._8[j].mSavedCollidables[k];
+                if (collidable && name == sead::SafeString(collidable->m_name.cString())) {
+                    index = k;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                if (in_world)
+                    mWorld->removeCloth(cloth);
+                in_world = false;
+                hclCollidable* collidable = _18[i]._8[j].mSavedCollidables[index];
+                _18[i]._8[j].mSavedCollidables[index] = nullptr;
+                sim_cloth->m_collidables[index] = collidable;
+            }
+        }
+        if (!in_world)
+            mWorld->addCloth(cloth);
+    }
+}
+
 }  // namespace ksys::phys

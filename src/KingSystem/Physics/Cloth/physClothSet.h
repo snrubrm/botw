@@ -47,6 +47,8 @@ public:
     void sub_71012189B8(bool enabled);
     // 0x71012197e0: temporarily replaces matching named collidables with the dummy collidable.
     void sub_71012197E0(const sead::SafeString& name);
+    // 0x710121952c: restores saved collidables with this name to the cloth instances.
+    void sub_710121952C(const sead::SafeString& name);
 
     /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ void* _8;  // tested by ClothStiffnessMgr::sub_7100665A84
