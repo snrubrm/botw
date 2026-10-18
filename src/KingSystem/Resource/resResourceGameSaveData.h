@@ -75,7 +75,7 @@ public:
 
     struct File {
         void forEachFlag(const sead::Delegate1<SaveMgr, const Flag&>& delegate);
-        void forEachFlag(const sead::Delegate1<SaveMgr, const Flag&>& delegate, s32 start, s32 end);
+        void forEachFlag(const sead::Delegate1<SaveMgr, Flag&>& delegate, s32 start, s32 end);
         void forEachFlag(const sead::Delegate1<SaveMgr, Flag&>& delegate);
         s32 findFlagIndex(u32 flag_name_hash) const;
 

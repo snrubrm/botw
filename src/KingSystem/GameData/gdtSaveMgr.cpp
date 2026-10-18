@@ -1160,6 +1160,44 @@ bool SaveMgr::x_10() {
     return true;
 }
 
+// NON_MATCHING: header copies, delegate stack placement and file record updates differ.
+bool SaveMgr::x_6(u32 idx) {
+    static_assert(sizeof(Unk3) == 0xc);
+    if (_e44 == 0) {
+        _e48 = _e14;
+        const u32 revision = _e00->mSaveInfo->revision;
+        const u32 build_machine = _e00->mSaveInfo->is_build_machine;
+        const u32 resource_flags = gdt::Manager::instance()->getParam().get().getBuffer1()->mResourceFlags;
+        std::memcpy(_e08 + _e14, &revision, sizeof(revision));
+        std::memcpy(_e08 + _e14 + 4, &resource_flags, sizeof(resource_flags));
+        std::memcpy(_e08 + _e14 + 8, &build_machine, sizeof(build_machine));
+        _e14 += 12;
+    }
+    auto* file = _e00->mFiles[idx];
+    const s32 flag_count = file->flags.size();
+    const s32 end = s32(_e44) + 0x1800;
+    const sead::Delegate1<SaveMgr, res::GameSaveData::Flag&> delegate(this, &SaveMgr::invoked);
+    file->forEachFlag(delegate, s32(_e44), sead::Mathi::min(end, flag_count));
+    if (end < flag_count) {
+        _e44 += 0x1800;
+        return false;
+    }
+    if (file->info->is_save_secure_code) {
+        const u32 secure_code = 0xffffffff;
+        std::memcpy(_e08 + _e14, &secure_code, sizeof(secure_code));
+        _e14 += 4;
+    }
+    if (_3c == 3)
+        return true;
+    auto* record = _11c8.emplaceBack();
+    record->file_index = idx;
+    record->data_size = _e14 - _e48;
+    const u32 padding = 0x20 - (_e14 & 0x1f);
+    record->padding_size = padding;
+    _e14 += padding;
+    return true;
+}
+
 void SaveMgr::x_7() {
     _f98 = gdt::Manager::instance()->mFlagBuffer;
     x_8(_f98->mCopiedBoolFlags);

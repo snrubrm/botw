@@ -13,7 +13,7 @@ void GameSaveData::File::forEachFlag(const sead::Delegate1<SaveMgr, const Flag&>
         delegate(flag);
 }
 
-void GameSaveData::File::forEachFlag(const sead::Delegate1<SaveMgr, const Flag&>& delegate,
+void GameSaveData::File::forEachFlag(const sead::Delegate1<SaveMgr, Flag&>& delegate,
                                      s32 start, s32 end) {
     if (start == end)
         return;

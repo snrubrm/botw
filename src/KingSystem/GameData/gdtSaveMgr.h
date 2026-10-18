@@ -85,6 +85,8 @@ public:
     bool x_10();
     void auto5();
     bool x_6(u32 idx);
+    // E063F0: the Flag callback records buffer offsets through its serialization helpers.
+    void invoked(res::GameSaveData::Flag& flag);
     bool auto6(s32 idx);
     bool x_0(s32 idx);
     // 0x7100e089f0 (CSV x_5; declared only): writes `value` at the saved position _103c of the buffer when it is set.
@@ -156,9 +158,14 @@ private:
     friend class uking::StartupSaveCheckStage;
 
 
+    // E06214 writes these words; E05E2C/E0BDC0 consume them as a file index and byte sizes.
+    // E0329C builds 128 pool nodes with stride 0x10 (ObjArray's pointer-aligned node).
     struct Unk3 {
-        u8 _0[1];
+        u32 file_index;
+        u32 data_size;
+        u32 padding_size;
     };
+    KSYS_CHECK_SIZE_NX150(Unk3, 0xc);
 
     // Element of the callback list at 0x1008; its delegate at +0x40 is invoked with the ResetEvent.
     struct Callback {
