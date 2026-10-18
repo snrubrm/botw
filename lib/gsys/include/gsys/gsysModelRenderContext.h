@@ -40,7 +40,7 @@ private:
         agl::cull::ViewFrustumCulling frustum;
         u8 _298[0x390 - 0x298];
         // initialize 0x7100c0820c clears this byte after constructing each frustum.
-        bool _390 = false;
+        u8 _390 = 0;
         u8 _391[0x3a0 - 0x391];
     };
     static_assert(sizeof(ViewData) == 0x3a0);
