@@ -30,14 +30,17 @@ LocationalLightMgr::ObjectLight::Light* LocationalLightMgr::RigLightPool::alloca
     return light;
 }
 
-// NON_MATCHING: PtrArray index search loop and success branch differ.
+// NON_MATCHING: the original walks the active array with a pointer loop; ours compares the
+// pointer range and index separately. Same result.
 bool LocationalLightMgr::RigLightPool::release(ObjectLight::Light* light) {
     auto lock = sead::makeScopedLock(mCS);
-    const s32 index = mActiveLights.indexOf(light);
-    if (index >= 0) {
-        mActiveLights.erase(index);
-        mFreeLights.pushBack(light);
-        return true;
+    s32 index = 0;
+    for (auto* it = mActiveLights.dataBegin(); it != mActiveLights.dataEnd(); ++it, ++index) {
+        if (*it == light) {
+            mActiveLights.erase(index);
+            mFreeLights.pushBack(light);
+            return true;
+        }
     }
     return false;
 }
