@@ -20,6 +20,9 @@
 #include "Game/UI/euiCapturePane.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/gameGraphics.h"
@@ -363,6 +366,66 @@ void ScreenShopInfo::sub_7100A524B0(const PouchItem* item, bool a2) {
 }
 
 // NON_MATCHING: branch layout only (the original tests mode < 2 first and places the mode 3 block first).
+// NON_MATCHING: the name argument is set up a little earlier and the 0x3618 mFrame load is hoisted
+// before the flag test; the logic and the branch conditions match.
+// 0x7100a525c8
+void ScreenShopInfo::sub_7100A525C8(const sead::SafeString& name, bool a2) {
+    if (!_3638)
+        return;
+
+    auto* mgr = PauseMenuDataMgr::instance();
+    PouchItemType type;
+    if (!mgr) {
+        type = PouchItemType(-1);
+        _3638->sub_71009C21F0(name);
+    } else {
+        type = PauseMenuDataMgr::getType(name);
+        if (type == PouchItemType(8)) {
+            _3638->sub_71009C2274(name);
+            type = PouchItemType(8);
+        } else {
+            _3638->sub_71009C21F0(name);
+        }
+    }
+
+    _3788.str.clear();
+    _3788._58 = 0xffffffff;
+    _3788._5c = 1;
+
+    bool flag;
+    s32 value = 0;
+    if (u32(type) < 4 && type != PouchItemType(2)) {
+        _3638->sub_71009C22F8(name);
+        flag = true;
+    } else if (sub_7100A82E28(s32(type))) {
+        const sead::SafeString* equipped = mgr->getEquippedItemName(type);
+        if (equipped)
+            _3638->sub_71009C2420(name, *equipped, a2);
+        else
+            _3638->sub_71009C2420(name, sead::SafeString::cEmptyString, false);
+
+        if (auto* info = ksys::act::InfoData::instance())
+            value = ksys::act::getArmorStarNum(info, name.cstr());
+        flag = true;
+    } else if (u32(s32(type) - 7) <= 1) {
+        flag = _3638->sub_71009C2718(name);
+    } else {
+        _3638->sub_71009C28D0();
+        flag = false;
+    }
+
+    if (_3618) {
+        if (flag) {
+            if (_3618->mFrame != 0.0f)
+                _3618->StopAtMin();
+        } else {
+            if (_3618->mFrame != static_cast<f32>(_3618->GetFrameSize()))
+                _3618->StopAtMax();
+        }
+    }
+    _3678.sub_71009C68B8(value);
+}
+
 // 0x7100a52c88
 void ScreenShopInfo::sub_7100A52C88(s32 mode, s32 a2, u32 a3) {
     if (mode < 2) {

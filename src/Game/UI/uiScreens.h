@@ -364,6 +364,14 @@ public:
     void sub_71009C28D0();
     // 0x71009c20f0: sets the gauge _170 and clears its byte at 0x6c
     void sub_71009C20F0(eui::TraceGaugeControl* gauge);
+    // 0x71009c21f0 / 0x71009c2274 / 0x71009c22f8: show `name` in the T_Name_00 / detail widgets.
+    void sub_71009C21F0(const sead::SafeString& name);
+    void sub_71009C2274(const sead::SafeString& name);
+    void sub_71009C22F8(const sead::SafeString& name);
+    // 0x71009c2420: shows `name` and the equipped item name in the name / detail widgets.
+    void sub_71009C2420(const sead::SafeString& name, const sead::SafeString& equipped, bool flag);
+    // 0x71009c2718: shows the food / elixir item `name`; true when the gauge was set.
+    bool sub_71009C2718(const sead::SafeString& name);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     u8 _140[0x170 - 0x140];
@@ -5075,8 +5083,10 @@ public:
     void sub_7100A524B0(const PouchItem* item, bool a2);
     // 0x7100a52c88 (CSV unnamed): mode-based update of the two item elements and the T_Text_00 message.
     void sub_7100A52C88(s32 mode, s32 a2, u32 a3);
+    // 0x7100a525c8 (CSV unnamed): shows `name` (or the equipped armor name) and stops the 0x3618 animator.
+    void sub_7100A525C8(const sead::SafeString& name, bool a2);
     /* 0x3610 */ eui::Animator* _3610 = nullptr;
-    u8 _pad_3618[0x3620 - 0x3618];
+    /* 0x3618 */ eui::Animator* _3618 = nullptr;
     // 0x7100a52db0 (CSV placeholder): resolved by the Animator::Stop slot-24 call (vtable-proven)
     // and the sibling screens' `eui::Animator* _3620` at the same offset.
     /* 0x3620 */ eui::Animator* _3620 = nullptr;
