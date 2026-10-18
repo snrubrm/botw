@@ -11,6 +11,7 @@ class RigidBody;
 
 namespace ksys::act {
 class Unk_7102359478;
+class Unk_71024eed28;
 }
 
 namespace uking::act {
@@ -36,8 +37,9 @@ public:
     virtual void m5();
     virtual void m6();
     // Slot 7 (0x710002e81c): returns the child at + 0x10 (the 0xf0-byte ksys::act::Unk_7102359478 created by
-    // 0x7100028c20). PullOut / GiantDoubleGroundPunch DynamicCast it to that class after this call.
-    virtual ksys::act::Unk_7102359478* m7();
+    // 0x7100028c20) as a ksys::act::Unk_71024eed28*. PullOut / GiantDoubleGroundPunch DynamicCast it to that
+    // class after this call.
+    virtual ksys::act::Unk_71024eed28* m7();
     virtual void* m8();
 };
 

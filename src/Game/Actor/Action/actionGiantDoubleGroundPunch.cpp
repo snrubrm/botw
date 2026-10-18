@@ -1,9 +1,12 @@
 #include <prim/seadFormatPrint.h>
 #include "Game/Actor/Action/actionGiantDoubleGroundPunch.h"
+#include "Game/Actor/actGiantEnemy.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/ActorSystem/actUnk_71024eed28.h"
 
 namespace uking::action {
 
@@ -76,6 +79,21 @@ void GiantDoubleGroundPunch::loadParams_() {
 
 void GiantDoubleGroundPunch::calc_() {
     ForkSeqNoWeaponAttack::calc_();
+}
+
+void GiantDoubleGroundPunch::sub_710018823C() {
+    auto* enemy = sead::DynamicCast<uking::act::GiantEnemy>(mActor);
+    if (enemy) {
+        auto* child = enemy->_1558 ? enemy->_1558->m7() : nullptr;
+        auto* grab = sead::DynamicCast<ksys::act::Unk_7102359478>(child);
+        if (grab) {
+            // NON_MATCHING: the original loads both bytes before the two ands.
+            grab->_40 &= 0xfc;
+            grab->_98 &= 0xfc;
+        }
+    }
+    if (auto* control = mActor->sub_71011D8A10())
+        control->_d4 &= ~0x40u;
 }
 
 }  // namespace uking::action

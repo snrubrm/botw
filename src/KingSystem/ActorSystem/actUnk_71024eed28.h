@@ -8,6 +8,7 @@
 
 namespace ksys::phys {
 class SystemGroupHandler;
+class Unk_71024f67c8;
 }
 
 namespace ksys::act {
@@ -41,6 +42,9 @@ public:
     /* 0x20 */ sead::Vector3f _20 = sead::Vector3f::zero;
     /* 0x30 */ void* _30 = nullptr;
     /* 0x38 */ bool _38 = false;
+    // Never accessed; the two 0xf0-byte / 0x108-byte derived children start their own fields at 0x40,
+    // so the base's last member reaches 0x40 (the constructor only initialises _38).
+    /* 0x39 */ u8 _39[7];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024eed28, 0x40);
 
@@ -52,6 +56,7 @@ KSYS_CHECK_SIZE_NX150(Unk_71024eed28, 0x40);
 // PullOut / GiantDoubleGroundPunch actions reach it through the holder's slot-7 getter (m7).
 // Fields from the factory's initialisation stores. Members are public: AI code reads them directly.
 class Unk_7102359478 : public Unk_71024eed28 {
+    SEAD_RTTI_OVERRIDE(Unk_7102359478, Unk_71024eed28)
 public:
     ~Unk_7102359478() override;  // D1 0x7100028fd8, D0 0x7100029048; declared only.
     void m4() override;          // 0x7100028e28 (104 B); declared only.
@@ -81,9 +86,7 @@ public:
     /* 0xb0 */ void* _b0 = nullptr;
     /* 0xb8 */ u64 _b8[2] = {};
     /* 0xc8 */ sead::Vector3f _c8 = sead::Vector3f::zero;
-    /* 0xd4 */ u32 _d4 = 0;
-    /* 0xd8 */ u32 _d8 = 0;
-    /* 0xdc */ u32 _dc = 0;
+    /* 0xd4 */ sead::Vector3f _d4 = sead::Vector3f::zero;
     /* 0xe0 */ u32 _e0 = 0;
     /* 0xe4 */ u32 _e4 = 0;
     /* 0xe8 */ u32 _e8 = 0;
