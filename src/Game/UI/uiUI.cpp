@@ -2,6 +2,7 @@
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/System/UIGlue.h"
 
 namespace uking::ui {
 
@@ -16,6 +17,14 @@ void UI::x_0(bool flag) {
         eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));
     if (screen)
         screen->sub_71010AE7C0(flag);
+}
+
+// 0x71010a66cc
+void UI::x(const sead::SafeString& item_name) {
+    ksys::ui::sub_7100EDC530(ScreenId::MessageGet, nullptr);
+    _40.copy(item_name);
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageGet))
+        screen->open(1);
 }
 
 // 0x71010a582c
