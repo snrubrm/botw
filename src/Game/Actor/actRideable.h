@@ -205,7 +205,11 @@ public:
         // E6FA10 initializes these rates; E728F0 selects and dereferences them.
         const f32* _40;
         const f32* _48;
-        u8 _50[0x88 - 0x50];
+        u8 _50[0x7c - 0x50];
+        // Movement update and AnimalMoveBase independently read both states as signed.
+        /* 0x7c */ s16 _7c;
+        /* 0x7e */ s16 _7e;
+        u8 _80[0x88 - 0x80];
         /* 0x88 */ u16 _88 = 0;  // flags (bit 4 is tested by HorseRiddenByNPC::calc_)
         u8 _8a[0x90 - 0x8a];
     };
@@ -299,6 +303,10 @@ public:
     /* 0x178 */ s32 _178 = 0;  // number of rows of _170 (table header word / 4)
 };
 KSYS_CHECK_SIZE_NX150(RideableBase, 0x180);
+KSYS_CHECK_SIZE_NX150(RideableBase::S2, 0x90);
+static_assert(offsetof(RideableBase::S2, _7c) == 0x7c);
+static_assert(offsetof(RideableBase::S2, _7e) == 0x7e);
+static_assert(offsetof(RideableBase::S2, _88) == 0x88);
 
 // Native zero gear fallback. E63AD4 initializes both floats; E6CA70 / E6FF38 read speed / field 4.
 extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
