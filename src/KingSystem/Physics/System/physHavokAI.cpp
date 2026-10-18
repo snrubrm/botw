@@ -472,6 +472,10 @@ bool HavokAI::sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& t
 // Written by sub_7100F809BC (they sit next to the counter below in the original data).
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260DE48;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260DE4C;
+// 0x710260de10 (.bss): the query filter object whose address the closest-point queries
+// 0x7100f8885c / 0x7100f889bc store in QueryInput::_10. Its contents are not read by these
+// functions; the Havok mediator owns the filter definition.
+u8 sUnk_710260de10;
 // Defined in the NavMeshCharacter TU with the request id allocator.
 extern sead::Atomic<u32> sUnk_710260de50;
 
@@ -585,6 +589,49 @@ Unk_7100f7e9f0 HavokAI::sub_7100F87D88(sead::Vector3f* out, const sead::Vector3f
     hkaiNavMeshQueryMediator::ClosestPointInput input;
     toHkVec4(&input.m_position, to);
     input.m_halfExtents.set(radius, radius, 0.0f, 0.0f);
+    auto& lock = _c8;
+    if (!lock.tryLock())
+        return {};
+    auto unlock = sead::makeScopeGuard([&lock] { lock.unlock(); });
+    hkVector4 closest;
+    const hkUint32 key = _30->getMediator()->getClosestPoint(input, closest);
+    if (key == hkUint32(-1))
+        return {};
+    if (out)
+        storeToVec3(out, closest);
+    return Unk_7100f7e9f0(_30->m_streamingCollection.val(), s32(key), &lock.mEvent);
+}
+
+// NON_MATCHING: the input-vector setup is scheduled differently (the original loads the position
+// with lane loads and stores the half-extent lanes separately); the query and lock sequence match.
+Unk_7100f7e9f0 HavokAI::sub_7100F8885C(NavMeshCharacter* nav, sead::Vector3f* out,
+                                       const sead::Vector3f& to, f32 radius) {
+    hkaiNavMeshQueryMediator::ClosestPointInput input;
+    toHkVec4(&input.m_position, to);
+    input.m_halfExtents.set(radius, radius, 0.0f);
+    input._0 = nav->_8->_98;
+    input._10 = &sUnk_710260de10;
+    auto& lock = _90;
+    if (!lock.tryLock())
+        return {};
+    auto unlock = sead::makeScopeGuard([&lock] { lock.unlock(); });
+    hkVector4 closest;
+    const hkUint32 key = _28->getMediator()->getClosestPoint(input, closest);
+    if (key == hkUint32(-1))
+        return {};
+    if (out)
+        storeToVec3(out, closest);
+    return Unk_7100f7e9f0(_28->m_streamingCollection.val(), s32(key), &lock.mEvent);
+}
+
+// NON_MATCHING: as sub_7100F8885C (input-vector setup only).
+Unk_7100f7e9f0 HavokAI::sub_7100F889BC(NavMeshCharacter* nav, sead::Vector3f* out,
+                                       const sead::Vector3f& to, f32 radius) {
+    hkaiNavMeshQueryMediator::ClosestPointInput input;
+    toHkVec4(&input.m_position, to);
+    input.m_halfExtents.set(radius, radius, 0.0f);
+    input._0 = nav->_8->_98;
+    input._10 = &sUnk_710260de10;
     auto& lock = _c8;
     if (!lock.tryLock())
         return {};
