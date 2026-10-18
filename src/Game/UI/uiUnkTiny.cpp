@@ -3,6 +3,8 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/gameSceneSubsys12.h"
+#include <algorithm>
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiTextBoxEx.h"
@@ -869,6 +871,68 @@ void Unk_71024774a8::sub_71009884B0() {
 void Unk_71024774a8::sub_71009884A8(eui::LayoutEx* layout) {
     mLayout = layout;
     sub_71009884B0();
+}
+
+// 0x7100988620
+// NON_MATCHING: frame calculations, cap scheduling and callback branch layout differ.
+void Unk_71024774a8::sub_7100988620() {
+    _5c &= 0xf8;
+    auto* mgr = MotorcycleMgr::instance();
+    if (!mgr)
+        return;
+    const f32 ratio = mgr->mEnergy / 1000.0f;
+    const auto current_frame_size = mAnimators[1]->GetFrameSize();
+    const f32 energy_before_query = mgr->mEnergy;
+    const f32 default_energy = energy_before_query +
+            mgr->sub_710067ADCC(sead::SafeString::cEmptyString);
+    const auto default_frame_size = mAnimators[5]->GetFrameSize();
+    const sead::SafeString* name = &sead::SafeString::cEmptyString;
+    auto* scene = GameSceneSubsys12::instance();
+    if (scene && scene->sub_7100664D24() <= 4)
+        name = &_60;
+    const f32 preview_gain = mgr->sub_710067ADCC(*name);
+    const f32 capped_default_energy = std::min(default_energy, 1000.0f);
+    const f32 preview_base_energy = mgr->mEnergy;
+    const f32 current_frame = ratio * current_frame_size;
+    const auto preview_frame_size = mAnimators[5]->GetFrameSize();
+    if (mAnimators[1]) {
+        mAnimators[1]->Stop(current_frame);
+        if (current_frame <= 20.0f && _58 > 20.0f)
+            _5c |= 1;
+        _58 = current_frame;
+    }
+    if (mAnimators[2]) {
+        const f32 frame = mAnimators[2]->mFrame;
+        if (ratio == 0.0f && frame == mAnimators[2]->GetFrameSize()) {
+            mAnimators[2]->Play(eui::Animator::PlayType(0), -1.0f);
+            _5c |= 2;
+        } else if (ratio != 0.0f && mAnimators[2]->mFrame == 0.0f) {
+            mAnimators[2]->Play(eui::Animator::PlayType(0), 1.0f);
+        }
+    }
+    const f32 default_frame = default_frame_size * (capped_default_energy / 1000.0f);
+    if (mAnimators[4] && mAnimators[5]) {
+        if (current_frame == default_frame) {
+            mAnimators[4]->Stop(99.0f);
+            if (mAnimators[5])
+                mAnimators[5]->Stop(1.0f);
+        } else {
+            mAnimators[4]->Stop(current_frame);
+            mAnimators[5]->Stop(default_frame);
+        }
+    }
+    if (mAnimators[6] && mAnimators[7]) {
+        const f32 preview_frame = preview_frame_size *
+                (std::min(preview_gain + preview_base_energy, 1000.0f) / 1000.0f);
+        if (default_frame == preview_frame) {
+            mAnimators[6]->Stop(99.0f);
+            if (mAnimators[7])
+                mAnimators[7]->Stop(1.0f);
+        } else {
+            mAnimators[6]->Stop(default_frame);
+            mAnimators[7]->Stop(preview_frame);
+        }
+    }
 }
 
 void Unk_71024774a8::sub_7100988AF4(bool open) {
