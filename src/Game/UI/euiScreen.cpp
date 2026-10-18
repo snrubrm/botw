@@ -100,6 +100,53 @@ TagProcessor* Screen::doCreateTagProcessor_(sead::Heap* heap) {
     return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
 }
 
+// 0x7100be9390
+// NON_MATCHING: layout-name storage and control iteration are scheduled differently.
+void Screen::initialize(ScreenMgr* mgr, sead::Heap* heap, const char* name, s32 id,
+                        s8 target, bool touch_device) {
+    mMgr = mgr;
+    mInitializeHeap = heap;
+    mId = id;
+    mDrawTarget = target;
+    _c8 = sead::SafeString(name);
+    _100 = 1;
+    _104 = touch_device;
+    mDrawInfo = doCreateDrawInfoEx_(heap);
+    mButtonGroup = doCreateButtonGroup_(heap);
+    mButtonGroup->SetTouchDevice(touch_device);
+    NwAllocator::initialize(heap);
+    mLayout = doCreateLayout_(heap);
+    if (isEnableControl())
+        mUIController = doCreateUIController_(heap);
+    auto* accessor = doCreateResourceAccessor_(heap);
+    mTagProcessor = doCreateTagProcessor_(heap);
+
+    sead::Graphics::instance()->lockDrawContext();
+    {
+        sead::FixedSafeString<72> layout_name;
+        layout_name.format("%s.bflyt", getLayoutName_());
+        doBuildLayout_(layout_name, accessor);
+        accessor->RegisterTextureViewToDescriptorPool(RegisterSlotForTexture, nullptr);
+        doAfterBuildLayout_(heap);
+    }
+    sead::Graphics::instance()->unlockDrawContext();
+
+    u32 count = 0;
+    sub_7100BE9688(mLayout->GetPane(), mLayout, &count);
+    createSoundLink2User_(heap);
+    const f32 step = getAnimationStep_();
+    for (ListNode* node = _50.next; node != &_50; node = node->next)
+        ControlBase::fromNode(node)->Update(step);
+    doSetupDrawInfo_();
+    doLoadResource_(heap);
+    sead::Graphics::instance()->lockDrawContext();
+    doInitialize_(heap);
+    sead::Graphics::instance()->unlockDrawContext();
+    createEffectLinkUser_(heap, count);
+    accessor->RegisterTextureViewToDescriptorPool(RegisterSlotForTexture, nullptr);
+    NwAllocator::finalize();
+}
+
 // 0x7100be9a54
 // NON_MATCHING: state-byte loads and callback branches are scheduled differently.
 void Screen::update() {
