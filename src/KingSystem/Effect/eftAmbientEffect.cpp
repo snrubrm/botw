@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "Game/gameStatisticsMgr.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/World/worldManager.h"
@@ -224,6 +226,63 @@ bool ButterflyEffectEmitter::getSpawnPosition(Effect* effect, const sead::Vector
     mFlowerCount = 0;
     mgr->sub_71011EB40C(&ground_position, 0.75f, &callback);
     return mFlowerCount >= s32(mMinFlowers);
+}
+
+// NON_MATCHING: PtrArray bounds handling and vector/stack scheduling differ.
+void MothEffectEmitter::calc(Effect* effect) {
+    const f32 temp = world::Manager::instance()->getTempMgr()->get_3c();
+    if (temp < 12.0f || temp > 30.0f)
+        return;
+    const f32 time = world::Manager::instance()->getTimeMgrUnchecked()->getTime();
+    // The native time gate accepts unordered; ordered rejection preserves that behavior.
+    if (time > 60.0f && time < 330.0f)
+        return;
+    mTimer -= VFR::instance()->getIntervalRatio();
+    if (mTimer < 0.0f)
+        mPending = true;
+    else if (!mPending)
+        return;
+    mTimer = 0.0f;
+    auto* mgr = Graphics::instance()->getLocationalLightMgr();
+    if (!mgr || mgr->mActiveRigLights.size() < 1)
+        return;
+    mLightIndex = mLightIndex + 1 < mgr->mActiveRigLights.size() ? mLightIndex + 1 : 0;
+    auto* light = mgr->mActiveRigLights[mLightIndex];
+    if (!light->mRig || !light->mRig->mEnableEffectMoth.ref())
+        return;
+    const sead::Vector3f position = light->mPosition;
+    const auto camera = effect->_9fc0->m148()->getMtx().getTranslation();
+    if ((camera - position).length() < mDistance) {
+        sead::Vector3f player = sead::Vector3f::zero;
+        if (effect->_9fb8)
+            player = effect->_9fb8->getPlayer()->getMtx().getTranslation();
+        sead::Vector3f direction{player.x - camera.x, 0.0f, player.z - camera.z};
+        direction.normalize();
+        sead::Vector3f light_direction = position - camera;
+        light_direction.normalize();
+        const f32 dot = direction.z * light_direction.z +
+                        (direction.y * light_direction.y + direction.x * light_direction.x);
+        if (dot > 0.2f) {
+            f32 height = 0.0f;
+            const sead::Vector2f xz{position.x, position.z};
+            // Native status is discarded; keep the actual query and height output.
+            Graphics::instance()->getUnk_ab0()->sub_7100F29EB4(&height, xz);
+            if (position.y > height) {
+                mPending = false;
+                mTimer = mInterval * 30.0f;
+                auto* handle = nextHandle();
+                xlinkSearchAndEmit(act::Reaction::instance()->_28, "Moth_Dummy", 2, handle);
+                handle->sub_71012419B4(position);
+                handle->mELink.setDelayEmitParamF8Flags(6);
+            }
+        }
+    }
+    if (mPending && effect->hasFlags(1u << 22)) {
+        f32 height = 0.0f;
+        const sead::Vector2f xz{position.x, position.z};
+        // Actual second query, status/output both discarded. It mutates sampler state.
+        Graphics::instance()->getUnk_ab0()->sub_7100F29EB4(&height, xz);
+    }
 }
 
 void SmallFishEffectEmitter::calc(Effect* effect) {
