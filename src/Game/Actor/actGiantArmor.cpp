@@ -25,8 +25,8 @@ bool GiantArmor::sub_7100029E7C(Actor* owner, s32 index) {
 
 void GiantArmor::sub_7100029AF8(f32* out_scale, s32* out_level,
                                 const ai::Unk_71023f36d8::Info* info) {
-    if (_c10) {
-        _c10->m4(out_scale, out_level, info);
+    if (_c00._10) {
+        _c00._10->m4(out_scale, out_level, info);
         return;
     }
     const f32 scale = getParam()->getRes().mGParamList->getGiantArmor()->mDamageScale.ref();
@@ -41,7 +41,7 @@ void GiantArmor::sub_7100029AF8(f32* out_scale, s32* out_level,
 
 void GiantArmor::initMaybe() {
     _c18 = 0;
-    _c08 = 0;
+    _c00._8 = 0;
     DynamicActor::initMaybe();
 }
 
@@ -66,6 +66,13 @@ bool GiantArmor::canWakeUp_() {
     if (actor && actor->getState() != State::Calc)
         return false;
     return true;
+}
+
+void GiantArmor::sub_7100029AA8(Actor* actor) {
+    if (_b90._40.hasProcById(actor) || _be8.hasProcById(actor)) {
+        _c00.sub_7100029308(actor);
+        _c18 = 1;
+    }
 }
 
 }  // namespace uking::act

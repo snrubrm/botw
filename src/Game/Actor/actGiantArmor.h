@@ -48,11 +48,21 @@ public:
     /* 0xbe0 */ s32 _be0 = -1;
     /* 0xbe8 */ ksys::act::BaseProcLink _be8;
     /* 0xbf8 */ s32 _bf8 = -1;
-    /* 0xc00 */ GiantArmor* _c00 = this;
-    /* 0xc08 */ u16 _c08 = 0;
-    // GiantArmorAsWeakPoint::enter_ stores a pointer to its member at +0x38 here (a two-level vtable
-    // object), leave_ clears it.
-    /* 0xc10 */ ai::Unk_71023f36d8* _c10 = nullptr;  // non-owning; enter_/leave_ bind and clear it
+    // The object at 0xc00: a self pointer, a u16 and the weak point object. Its method takes &_c00 as
+    // `this`, so it is an embedded object rather than a bare self pointer.
+    struct Unk_c00 {
+        explicit Unk_c00(GiantArmor* owner) : mOwner(owner) {}
+        // 0x7100029308 (declared only): forwards `actor` to the weak point object.
+        void sub_7100029308(Actor* actor);
+
+        /* 0x00 */ GiantArmor* mOwner;
+        /* 0x08 */ u16 _8 = 0;
+        // GiantArmorAsWeakPoint::enter_ stores a pointer to its member at +0x38 here (a two-level
+        // vtable object), leave_ clears it.
+        /* 0x10 */ ai::Unk_71023f36d8* _10 = nullptr;  // non-owning; enter_/leave_ bind and clear it
+    };
+    KSYS_CHECK_SIZE_NX150(Unk_c00, 0x18);
+    /* 0xc00 */ Unk_c00 _c00{this};
     /* 0xc18 */ u8 _c18 = 0;
 };
 KSYS_CHECK_SIZE_NX150(GiantArmor, 0xc20);

@@ -46,7 +46,7 @@ bool GiantArmorAsWeakPoint::init_(sead::Heap* heap) {
 void GiantArmorAsWeakPoint::enter_(ksys::act::ai::InlineParamPack* params) {
     GiantArmorRoot::enter_(params);
     if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor))
-        armor->_c10 = &_38;
+        armor->_c00._10 = &_38;
 }
 
 void GiantArmorAsWeakPoint::calc_() {
@@ -55,7 +55,7 @@ void GiantArmorAsWeakPoint::calc_() {
 
 void GiantArmorAsWeakPoint::leave_() {
     if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor))
-        armor->_c10 = nullptr;
+        armor->_c00._10 = nullptr;
     GiantArmorRoot::leave_();
 }
 
