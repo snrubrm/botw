@@ -2,6 +2,7 @@
 #include <basis/seadNew.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -71,6 +72,75 @@ bool GiantArmor::canWakeUp_() {
     if (actor && actor->getState() != State::Calc)
         return false;
     return true;
+}
+
+// NON_MATCHING: the body matches; only the position of the cNullChar load differs (the original hoists
+// it above the first ASList query, this build loads it after the query).
+// 0x7100029bc8 (the calcMaybe override): when the linked actor has an animation name that this
+// armor's list also has, start it.
+void GiantArmor::calcMaybe() {
+    DynamicActor::calcMaybe();
+    auto* other = sead::DynamicCast<Actor>(_be8.getProc(nullptr, nullptr));
+    if (!other)
+        return;
+
+    ksys::as::ASList* other_list = other->getASList();
+    ksys::as::ASList* list = getASList();
+    const sead::SafeString& name0 = other_list->x_1(2, 2);
+    if (!name0.isEmpty() && list->sub_710115AA68(name0)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name0, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name1 = other_list->x_1(2, 1);
+    if (!name1.isEmpty() && list->sub_710115AA68(name1)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name1, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name2 = other_list->x_1(2, 0);
+    if (!name2.isEmpty() && list->sub_710115AA68(name2)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name2, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name3 = other_list->x_1(1, 2);
+    if (!name3.isEmpty() && list->sub_710115AA68(name3)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name3, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name4 = other_list->x_1(1, 1);
+    if (!name4.isEmpty() && list->sub_710115AA68(name4)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name4, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name5 = other_list->x_1(1, 0);
+    if (!name5.isEmpty() && list->sub_710115AA68(name5)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name5, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name6 = other_list->x_1(0, 2);
+    if (!name6.isEmpty() && list->sub_710115AA68(name6)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name6, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name7 = other_list->x_1(0, 1);
+    if (!name7.isEmpty() && list->sub_710115AA68(name7)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name7, 0, 0, true);
+        return;
+    }
+    const sead::SafeString& name8 = other_list->x_1(0, 0);
+    if (!name8.isEmpty() && list->sub_710115AA68(name8)) {
+        list->startAnimationMaybe(-1.0f, -1.0f, name8, 0, 0, true);
+        return;
+    }
+}
+
+void GiantArmor::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    DynamicActor::m76(setter);
+    if (!_c18)
+        _c00.sub_7100029308(nullptr);
+    _c18 = false;
+    // C++14 evaluation order: the original evaluates the destination first
+    _be8.operator=(_b90._40);
+    _bf8 = _be0;
 }
 
 void GiantArmor::sub_7100029AA8(Actor* actor) {
