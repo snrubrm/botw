@@ -15,6 +15,7 @@
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/UI/uiScreens.h"
 #include "KingSystem/System/SeadController.h"
+#include "KingSystem/System/StageInfo.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
@@ -43,14 +44,6 @@ namespace uking::ui {
 // The manager's static screen load / unload lists (native 0x71025f5f90; each list is a sead::Buffer of 12-byte
 // entries whose first word is the ScreenId). The manager destructor unloads these lists.
 namespace {
-struct ScreenLoadEntry {
-    s32 id;
-    /* 0x4 */ char target;
-    /* 0x5 */ bool _5;
-    u8 _6[2];
-    /* 0x8 */ s32 mode;
-};
-KSYS_CHECK_SIZE_NX150(ScreenLoadEntry, 0xc);
 struct ScreenLoadLists {
     u8 _0[0x170];
     sead::Buffer<ScreenLoadEntry> mListA;  // 0x170
@@ -85,6 +78,109 @@ bool Manager::sub_7100A7B92C(s32 id) {
             return true;
     }
     return false;
+}
+
+// 0x7100a73174
+void Manager::sub_7100A73174() {
+    _64c30 = (_64c30 & ~u64(0x06000000)) | 0x04000000;
+    sub_7100A7ACB0(sUnk_71025F5F90.mListA);
+    _64c30 = (_64c30 & ~u64(0x0c000000)) | 0x08000000;
+    const s32 count = sUnk_71025F5F90.mListA.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(
+                sUnk_71025F5F90.mListA[i].id)))
+            screen->m117();
+    }
+    sub_7100AA9858(4.5f);
+}
+
+// 0x7100a74460
+void Manager::sub_7100A74460() {
+    _64c30 = (_64c30 & ~u64(0x30000000)) | 0x20000000;
+    sub_7100A7ACB0(sUnk_71025F5F90.mListD);
+    _64c30 = (_64c30 & ~u64(0x60000000)) | 0x40000000;
+    const s32 count = sUnk_71025F5F90.mListD.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(
+                sUnk_71025F5F90.mListD[i].id)))
+            screen->m117();
+    }
+    sub_7100AA9858(4.5f);
+}
+
+// 0x7100a745ac
+void Manager::sub_7100A745AC() {
+    _64c30 = (_64c30 & ~u64(0x180000000)) | 0x100000000;
+    sub_7100A7ACB0(sUnk_71025F5F90.mListB);
+    _64c30 = (_64c30 & ~u64(0x300000000)) | 0x200000000;
+    const s32 count = sUnk_71025F5F90.mListB.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(
+                sUnk_71025F5F90.mListB[i].id)))
+            screen->m117();
+    }
+    sub_7100AA9858(4.5f);
+}
+
+// 0x7100a732c0
+// NON_MATCHING: buffer bounds and data pointers are reloaded across screen-byte stores.
+void Manager::sub_7100A732C0(s32 mode) {
+    if (mode == 3) {
+        if (_64c30 & (u64(1) << 33)) {
+            const s32 count = sUnk_71025F5F90.mListB.size();
+            for (s32 i = 0; i < count; ++i) {
+                if (auto* screen = eui::ScreenMgr::instance()->getScreen(
+                        sUnk_71025F5F90.mListB[i].id))
+                    screen->_102 = 1;
+            }
+        }
+        if (_64c30 & (u64(1) << 34)) {
+            const s32 count = sUnk_71025F5F90.mListC.size();
+            for (s32 i = 0; i < count; ++i) {
+                if (auto* screen = eui::ScreenMgr::instance()->getScreen(
+                        sUnk_71025F5F90.mListC[i].id))
+                    screen->_102 = 1;
+            }
+        }
+        const s32 count = sUnk_71025F5F90.mListE.size();
+        for (s32 i = 0; i < count; ++i) {
+            const s32 id = sUnk_71025F5F90.mListE[i].id;
+            auto* screen = eui::ScreenMgr::instance()->getScreen(id);
+            if (id < 79 && screen)
+                screen->_102 = 1;
+        }
+    } else if (!ksys::StageInfo::sIsDebugOrDevMap && ksys::StageInfo::sIsMainFieldDungeon &&
+               (_64c30 & (u64(1) << 34))) {
+        const s32 count = sUnk_71025F5F90.mListC.size();
+        for (s32 i = 0; i < count; ++i) {
+            if (auto* screen = eui::ScreenMgr::instance()->getScreen(
+                    sUnk_71025F5F90.mListC[i].id))
+                screen->_102 = 1;
+        }
+    }
+}
+
+// 0x7100a7acb0
+// NON_MATCHING: the input-policy tests split the loops differently and entry loads are reordered.
+void Manager::sub_7100A7ACB0(const sead::Buffer<ScreenLoadEntry>& entries) {
+    const bool keep_input = !sub_7100AA8E5C() && !(_64c30 & 0x18) && (_64c2c | 1) != 5;
+    const s32 count = entries.size();
+    if (keep_input) {
+        for (s32 i = 0; i < count; ++i) {
+            createAndLoadScreen(entries[i].id, entries[i].target, entries[i]._5, getHeap(),
+                                entries[i].mode);
+            // The native call checks the screen type and discards the result in this branch.
+            sead::IsDerivedFrom<Screen>(eui::ScreenMgr::instance()->getScreen(entries[i].id));
+        }
+    } else {
+        for (s32 i = 0; i < count; ++i) {
+            createAndLoadScreen(entries[i].id, entries[i].target, entries[i]._5, getHeap(),
+                                entries[i].mode);
+            if (auto* screen =
+                    sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(entries[i].id)))
+                screen->_292 &= ~0x40;
+        }
+    }
 }
 
 // 0x7100a7b5d8

@@ -80,6 +80,16 @@ public:
     virtual ~ManagerBase() = default;
 };
 
+// Screen loading records used by the static lists and A7ACB0; stride 0xc in all consumers.
+struct ScreenLoadEntry {
+    s32 id;
+    /* 0x4 */ char target;
+    /* 0x5 */ bool _5;
+    u8 _6[2];
+    /* 0x8 */ s32 mode;
+};
+KSYS_CHECK_SIZE_NX150(ScreenLoadEntry, 0xc);
+
 class Manager : public ManagerBase, public ksys::ActorMessageTransceiver::IHandler {
     SEAD_SINGLETON_DISPOSER(Manager)
     Manager();
@@ -94,6 +104,11 @@ public:
 
     // 0x7100a7b5d8 (CSV uiManager::createAndLoadScreenIfNeeded)
     void createAndLoadScreenIfNeeded(s32 id);
+    void sub_7100A7ACB0(const sead::Buffer<ScreenLoadEntry>& entries);
+    void sub_7100A73174();
+    void sub_7100A732C0(s32 mode);
+    void sub_7100A74460();
+    void sub_7100A745AC();
 
     // Placeholder-named members (the CSV calls them uiManager::__autoN / x_N or leaves them unnamed).
     void sub_7100A76180();  // CSV loadSaveForStageUnload's target
