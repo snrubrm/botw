@@ -53,4 +53,24 @@ void LocationalLightRig::m26(gsys::Model* model, int unit_index) {
     }
 }
 
+// NON_MATCHING: formatting temporaries occupy separate stack slots.
+void LocationalLightRig::genMessage(sead::hostio::Context* context) {
+    sub_7100C83D44(context);
+    sead::FormatFixedSafeString<256>("吊れたノード:%d", mLights.size());
+    sead::FormatFixedSafeString<256>("GroupHeader=%s", m16().cstr());
+    // Discarded calls are present at F17EBC/F17ED4 in the original.
+    mLightType.getLabel().cstr();
+    if (mLightType.ref() == 1) {
+        sead::FormatFixedSafeString<256>(
+            "“%s_○○”　～　“%s_○○_End”　を繋いだ直線状のライトを生成します。",
+            mBonePrefix.ref().cstr(), mBonePrefix.ref().cstr());
+    }
+    mColor.genMessageParameter(context, mColor.getMeta());
+    mIntensity.genMessageParameter(context, mIntensity.getMeta());
+    mInnerRadius.genMessageParameter(context, mInnerRadius.getMeta());
+    mFlickeringIntensityRate.genMessageParameter(context, mFlickeringIntensityRate.getMeta());
+    mFlickeringSpeed.genMessageParameter(context, mFlickeringSpeed.getMeta());
+    mEnableEffectMoth.genMessageParameter(context, mEnableEffectMoth.getMeta());
+}
+
 }  // namespace ksys::gfx
