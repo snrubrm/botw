@@ -90,6 +90,10 @@ public:
 
     ScalableFontMgr* getScalableFontMgr() const { return mScalableFontMgr; }
 
+    // 0x7100be3420
+    void initialize(sead::Heap* heap, void* data, u32 size,
+                    const sead::Buffer<const char*>& names, ScalableFontMgr* scalable_font_mgr);
+
     // 0x7100be38a4
     Font* tryGetFont(const sead::SafeString& name) const;
     // 0x7100be3930 / 0x7100be3914 (const; the same code)
