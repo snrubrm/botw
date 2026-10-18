@@ -74,6 +74,10 @@ namespace ksys::tera {
 // Existing terrain draw-state setter called by GearMgr teardown.
 void sub_7100F418B8(void* value);
 
+// 0x7101086ee0 maps world x/z coordinates into the 10-by-8 terrain cells.
+s32 sub_710107F9C4(f32 x);
+s32 sub_710107FA0C(f32 z);
+
 // ResourceHolder 1138A2C supplies a size, name, parent and heap direction.
 sead::ExpHeap* sub_7101120314(u32 size, const sead::SafeString& name, sead::Heap* parent,
                             sead::Heap::HeapDirection direction);

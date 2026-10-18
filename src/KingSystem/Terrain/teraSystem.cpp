@@ -14,6 +14,16 @@
 
 namespace ksys::tera {
 
+// NON_MATCHING: clamp comparisons and constant loads are scheduled differently.
+s32 sub_710107F9C4(f32 x) {
+    return sead::Mathi::clamp(sead::Mathf::floor(x / 1000.0f) + 5, 0, 9);
+}
+
+// NON_MATCHING: clamp comparisons and constant loads are scheduled differently.
+s32 sub_710107FA0C(f32 z) {
+    return sead::Mathi::clamp(sead::Mathf::floor(z / 1000.0f) + 4, 0, 7);
+}
+
 bool System::sub_71011171AC(s32 index) {
     return (mScenes[index].collector->_2998 >> 1) & 1;
 }

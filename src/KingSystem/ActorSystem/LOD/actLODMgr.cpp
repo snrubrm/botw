@@ -13,6 +13,10 @@
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/Map/mapPlacementAreaMgr.h"
 
 namespace ksys::act {
 
@@ -135,6 +139,110 @@ bool LODMgr::sub_7101254544(LodState* state, const sead::Vector3f& center, f32 r
     }
     state->_1c = 1;
     return state->mFlags8.isOnBit(29);
+}
+
+// NON_MATCHING: flag tests, slot writes and distance predicates are folded differently.
+void LODMgr::calc_x(const sead::Vector3f* camera) {
+    for (s32 i = 0; i < 6; ++i)
+        _2110[i] = 0;
+    _218c = _2190 = _2194 = _21a8 = 0;
+    _2170 = _2174 = _2178 = _217c = _2180 = _2184 = 0;
+    if (_1028 <= 0)
+        return;
+    auto* event = evt::Manager::instance()->_1d2b8;
+    for (s32 i = 0; i < _1028; ++i) {
+        auto* state = _28[i];
+        auto* actor = state->mActor;
+        sead::Vector3f center;
+        f32 radius, distance;
+        sub_7101254394(&center, &radius, &distance, actor, camera);
+        radius *= state->_50;
+        if (!(sUnk_71026531A8 & 8)) {
+            if (!(sUnk_71026531A8 & 0x400)) {
+                const bool inside = sub_7101254544(state, center, radius, distance);
+                sub_7101254734(state, center, distance);
+                state->mFlags8.changeBit(7, state->mFlags8.isOnBit(6));
+                if (actor->checkFlag(Actor::ActorFlag::_39) &&
+                    (state->_1c == 5 || state->_1c == 2) && state->_28 > 0.0f)
+                    state->mFlags8.resetBit(6);
+                const s8 group = state->_24;
+                if (group >= 0) {
+                    const bool linked = actor->mVillagerListNode.next() || actor->mVillagerListNode.prev();
+                    const bool special = state->_1c == 3 && state->mFlags26.isOnBit(5);
+                    if ((linked || distance < 2500.0f || state->mFlags14.isOnBit(26) || special) &&
+                        state->mFlags8.isOnBit(6)) {
+                        if (special || linked || state->_1c == 2) {
+                            auto& pool = mSlotPools[group];
+                            if (pool.count < 0x40) {
+                                const u32 index = pool.count;
+                                pool.slots[index < 0x40 ? index : 0].state = state;
+                                pool.slots[index < 0x40 ? index : 0].distance = distance;
+                                ++pool.count;
+                            }
+                        }
+                    } else {
+                        ++mSlotPools[group].used;
+                    }
+                }
+                if (!(sUnk_71026531A8 & 0x800) && state->mFlags14.isOnBit(8) && !event &&
+                    !(actor->getActorFlags2().getDirect() & 0x200) && state->_1c != 0 &&
+                    !(state->mActor->_718 > 0.0f) &&
+                    (center - *camera).dot(mCameraDirection) < radius + radius - 30.0f)
+                    state->mFlags8.setBit(8);
+                if (inside && state->_48 > 0.0f && !_21dc) {
+                    if (state->mFlags10.isOnBit(1)) {
+                        if (_1c80 < 0x40) {
+                            mOcclusionSlots[_1c80].state = state;
+                            mOcclusionSlots[_1c80].distance = 0.0f;
+                            ++_1c80;
+                        }
+                    } else {
+                        const f32 limit = state->_48 * _2200;
+                        if (distance < limit * limit && _1c80 < 0x40) {
+                            mOcclusionSlots[_1c80].state = state;
+                            mOcclusionSlots[_1c80].distance = distance;
+                            ++_1c80;
+                        }
+                    }
+                }
+                if (((state->mFlags14.getDirect() & 6) == 4 || state->mFlags8.isOnBit(32)) &&
+                    u32(state->_1c) < 2 && !_21dc && distance < 1600.0f)
+                    state->mFlags8.setBit(2);
+                if (state->mFlags14.isOnBit(3) &&
+                    !(map::PlacementMgr::instance()->mPlacementActors->mStruct1->_2d5c8 & 2) &&
+                    (u32(state->_1c) < 2 || actor->_1a0 ||
+                     (actor->getMapObject() && (actor->getMapObject()->getFlags0().getDirect() & 0x20000))))
+                    state->mFlags8.setBit(3);
+                if (u32(state->_1c) < 2)
+                    state->mFlags8.setBit(0);
+                if (state->_1c != 3 && state->_1c != 5)
+                    state->mFlags8.setBit(4);
+                if (!(sUnk_71026531A8 & 0x200) && state->mFlags14.isOnBit(12) &&
+                    state->_1c != 0 && state->mFlags10.isOffBit(12) && _21a0 % 4 != i % 4)
+                    state->mFlags8.setBit(12);
+                if ((radius + 30.0f) * (radius + 30.0f) < distance)
+                    state->mFlags8.setBit(9);
+                if ((radius + 20.0f) * (radius + 20.0f) < distance)
+                    state->mFlags8.setBit(11);
+                if (!(sUnk_71026531A8 & 0x8000) && actor->mAttention) {
+                    const f32 limit = actor->mAttention->_58 + 5.0f;
+                    if (limit * limit < distance)
+                        state->mFlags8.setBit(10);
+                }
+                if (distance > 1000000.0f)
+                    state->mFlags8.setBit(13);
+            } else if (actor->getProfile().findIndex("Player") != -1 ||
+                       actor->getProfile().findIndex("Armor") != -1) {
+                state->sub_7101251240();
+            } else if (state->mFlags14.isOnBit(6)) {
+                state->mFlags8.setBit(6);
+            }
+        } else if (state->mFlags14.isOnBit(6)) {
+            state->mFlags8.setBit(6);
+        }
+        ++_2110[state->_1c];
+        sub_71012540AC(state);
+    }
 }
 
 void LODMgr::init(sead::Heap* heap) {

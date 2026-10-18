@@ -56,6 +56,7 @@ public:
     // 0x71012537e8 (CSV LODMgr::calc_x_0; placeholder name): takes back the queued slots of both
     // pools, at most 5 minus the slots the previous calc used, and clears their draw bit.
     void calc_x_0();
+    void calc_x(const sead::Vector3f* camera);
     // 0x7101253b20 (CSV LODMgr::calc_x_1): copies the flags of each state's linked actor's LodState
     // into the state and updates the neighbours.
     void calc_x_1();
@@ -70,7 +71,13 @@ public:
     bool sub_7101254544(LodState* state, const sead::Vector3f& center, f32 radius, f32 distance);
     void sub_7101254734(LodState* state, const sead::Vector3f& center, f32 distance);
 
-    /* 0x0028 */ LodState* _28[0x200];  // the LodStates calc() walks
+    struct Slot {
+        LodState* state;
+        f32 distance;
+        u32 _c;
+    };
+    static_assert(sizeof(Slot) == 0x10);
+    /* 0x0028 */ sead::SafeArray<LodState*, 0x200> _28;  // the LodStates calc() walks
     /* 0x1028 */ s32 _1028;
     /* 0x102c */ u8 _102c[4];
     /* 0x1030 */ LodState* _1030[0x100];  // the LodStates calc_x_1() walks (index masked to 8 bits)
@@ -78,7 +85,8 @@ public:
     /* 0x1838 */ sead::PtrArray<gsys::Model> _1838;
     /* 0x1848 */ sead::SafeArray<sead::Vector3f, 4> _1848;
     /* 0x1878 */ s32 _1878;
-    /* 0x187c */ u8 _187c[0x1c80 - 0x187c];
+    /* 0x187c */ u8 _187c[4];
+    /* 0x1880 */ sead::SafeArray<Slot, 0x40> mOcclusionSlots;
     /* 0x1c80 */ u64 _1c80;
     /* 0x1c88 */ agl::cull::ViewFrustumCulling mFrustum;
     /* 0x1ec0 */ agl::cull::ViewFrustumCulling mNearFrustum;
@@ -103,16 +111,17 @@ public:
     /* 0x21a8 */ s32 _21a8;
     /* 0x21ac */ u8 _21ac[0x21b8 - 0x21ac];
     /* 0x21b8 */ Unk_71011086dc* _21b8;
-    /* 0x21c0 */ u8 _21c0[0x2208 - 0x21c0];
+    /* 0x21c0 */ sead::Vector3f _21c0;
+    u8 _21cc[0x21dc - 0x21cc];
+    // calc_x suppresses distance-based requests when this byte is set.
+    bool _21dc;
+    u8 _21dd[0x2200 - 0x21dd];
+    // calc computes this scale from the projection field of view.
+    f32 _2200;
+    u8 _2204[4];
 
     // The two render-slot pools (0x410 bytes each, one per LOD group). calc_x queues a LodState with its
     // distance in 0x710125316c; calc_x_0 takes the queued slots back and clears their bit 6.
-    struct Slot {
-        LodState* state;
-        f32 distance;
-        u32 _c;
-    };
-    static_assert(sizeof(Slot) == 0x10);
     struct SlotPool {
         // Slots the previous calc used (0x2208 / 0x2618).
         s32 used;
