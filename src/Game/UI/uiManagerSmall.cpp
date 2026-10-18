@@ -1,4 +1,6 @@
 #include <container/seadBuffer.h>
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "Game/UI/euiCapturePane.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -724,6 +726,140 @@ static MainFieldArea sUnk_71025f59f8;
 const MainFieldArea& Manager::sub_7100A7F2B0(s32 index) const {
     const auto* area = mMainFieldAreas.nth(index);
     return area ? *area : sUnk_71025f59f8;
+}
+
+// 0x7100a71eb4
+// NON_MATCHING: tile name decoding is outlined; list construction and string scheduling differ.
+bool Manager::parseMainFieldAreas() {
+    if (!_64bd0.requestedLoad() || !_64bd0.isSuccess())
+        return false;
+    auto* resource = sead::DynamicCast<sead::DirectResource>(_64bd0.getResource());
+    if (!resource)
+        return false;
+    const al::ByamlIter root(resource->getRawData());
+    if (!root.isValid())
+        return false;
+
+    mMainFieldAreas.clear();
+    al::ByamlIter lists;
+    root.tryGetIterByKey(&lists, "List");
+    if (!lists.isValid())
+        return false;
+    const s32 list_count = lists.getSize();
+    for (s32 i = 0; i < list_count; ++i) {
+        if (mMainFieldAreas.getMaxNum() < list_count)
+            break;
+        al::ByamlIter source;
+        lists.tryGetIterByIndex(&source, i);
+        if (!source.isValid())
+            return false;
+        if (auto* area = mMainFieldAreas.emplaceBack()) {
+            const s32 count = source.getSize();
+            for (s32 j = 0; j < count; ++j) {
+                if (area->getMaxNum() < count)
+                    break;
+                if (auto* tile = area->emplaceBack()) {
+                    const char* name = nullptr;
+                    if (source.tryGetStringByIndex(&name, j))
+                        tile->setName(name);
+                }
+            }
+        }
+    }
+
+    mMainFieldAreaMasks.clear();
+    al::ByamlIter masks;
+    root.tryGetIterByKey(&masks, "Mask");
+    if (!masks.isValid())
+        return false;
+    const s32 mask_count = mMainFieldAreaMasks.getMaxNum();
+    for (s32 i = 0; i < mask_count; ++i) {
+        if (mMainFieldAreaMasks.getMaxNum() < mask_count)
+            break;
+        if (auto* mask = mMainFieldAreaMasks.emplaceBack()) {
+            sead::FormatFixedSafeString<32> name(
+                "%c-%c", i % 12 ? i % 12 + '@' : 'Z', i / 12 + '0');
+            u32 value = 0;
+            if (masks.tryGetUIntByKey(&value, name.cstr())) {
+                mask->mMask = u16(value);
+            } else {
+                bool found = false;
+                for (s32 area_index = 0; area_index < 15 && !found; ++area_index) {
+                    MainFieldArea area = Manager::instance()->sub_7100A7F2B0(area_index);
+                    for (const auto& tile : area) {
+                        if (tile.mIndex == i) {
+                            mask->mMask = u16(1u << area_index);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    mMainFieldSubAreas.clear();
+    al::ByamlIter sublists;
+    root.tryGetIterByKey(&sublists, "SubList");
+    if (!sublists.isValid())
+        return false;
+    const s32 sublist_count = sublists.getSize();
+    for (s32 i = 0; i < sublist_count; ++i) {
+        if (mMainFieldSubAreas.getMaxNum() < sublist_count)
+            break;
+        al::ByamlIter source;
+        sublists.tryGetIterByIndex(&source, i);
+        if (!source.isValid())
+            return false;
+        if (auto* subarea = mMainFieldSubAreas.emplaceBack()) {
+            const char* flag_name = nullptr;
+            if (source.tryGetStringByKey(&flag_name, "FlagName")) {
+                subarea->mFlagName = flag_name;
+                subarea->mFlagHandle = ksys::gdt::Manager::instance()->getBoolHandle(flag_name);
+            }
+            subarea->mTargets.clear();
+            al::ByamlIter targets;
+            source.tryGetIterByKey(&targets, "Targets");
+            if (!targets.isValid())
+                return false;
+            const s32 count = targets.getSize();
+            for (s32 j = 0; j < count; ++j) {
+                if (subarea->mTargets.getMaxNum() < count)
+                    break;
+                if (auto* tile = subarea->mTargets.emplaceBack()) {
+                    const char* name = nullptr;
+                    if (targets.tryGetStringByIndex(&name, j))
+                        tile->setName(name);
+                }
+            }
+        }
+    }
+
+    mMainFieldSubMasks.clear();
+    al::ByamlIter submask_info;
+    root.tryGetIterByKey(&submask_info, "SubMaskInfo");
+    if (!submask_info.isValid())
+        return false;
+    const s32 submask_count = mMainFieldSubMasks.getMaxNum();
+    for (s32 i = 0; i < submask_count; ++i) {
+        if (mMainFieldSubMasks.getMaxNum() < submask_count)
+            break;
+        if (auto* mask = mMainFieldSubMasks.emplaceBack()) {
+            sead::FormatFixedSafeString<32> name(
+                "%c-%c", i % 12 ? i % 12 + '@' : 'Z', i / 12 + '0');
+            al::ByamlIter source;
+            if (!submask_info.tryGetIterByKey(&source, name.cstr())) {
+                mask->mFilter = 0;
+                mask->mSubMask = 0;
+            } else {
+                u32 filter = 0;
+                u32 submask = 0;
+                mask->mFilter = source.tryGetUIntByKey(&filter, "Filter") ? u16(filter) : 0;
+                mask->mSubMask = source.tryGetUIntByKey(&submask, "SubMask") ? u16(submask) : 0;
+            }
+        }
+    }
+    return true;
 }
 
 }  // namespace uking::ui

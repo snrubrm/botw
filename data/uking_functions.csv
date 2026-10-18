@@ -61173,7 +61173,7 @@ Address,Quality,Size,Name
 0x0000007100a702e8,O,000308,_ZN5uking2ui7Manager14sub_7100A702E8EPN3eui12UIControllerE
 0x0000007100a7041c,U,005840,_ZN5uking2ui7Manager14loadStaticInfoEPN4sead4HeapE
 0x0000007100a71aec,U,000968,_ZN5uking2ui7Manager14parseLocationsEv
-0x0000007100a71eb4,U,004800,uiManager::parseMainFieldAreas
+0x0000007100a71eb4,M,004800,_ZN5uking2ui7Manager19parseMainFieldAreasEv
 0x0000007100a73174,U,000332,uiManager::x_3
 0x0000007100a732c0,U,000536,uiManager::__auto9
 0x0000007100a734d8,U,002764,uiManager::initBeforeStageGen
