@@ -8,6 +8,7 @@ namespace agl {
 class RenderBuffer;
 }
 namespace sead {
+class DrawContext;
 class Viewport;
 }
 
@@ -30,6 +31,8 @@ public:
 
     void initialize(const CreateArg&, sead::Heap*);
     void calcGPU(bool flag) const;
+    // 0x7100c0887c (name is a guess): binds the render buffer, then applies the viewport to it.
+    void bind(sead::DrawContext* draw_context) const;
 
 private:
     // initialize allocates this buffer with 0x3a0-byte entries and constructs
