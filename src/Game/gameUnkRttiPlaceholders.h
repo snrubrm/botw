@@ -22,6 +22,7 @@
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/uiGauge.h"
+#include "Game/UI/uiLocationRecord.h"
 #include "Game/gameStageBinder.h"
 #include "Game/gameUnkRttiClasses.h"
 #include "Game/gameUnk_710246d058.h"
@@ -607,18 +608,6 @@ public:
     u8 _410[0x440 - 0x410];
     /* 0x440 */ uking::ui::Unk_710249c3d0 _440;
     /* 0x468 */ uking::ui::Unk_710249c3f0 _468;
-};
-
-// vtable 0x710249c5e8 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710249c5e8 {
-    SEAD_RTTI_BASE(Unk_710249c5e8)
-public:
-    virtual ~Unk_710249c5e8();
-
-    s64 _8;
-    void* _10;
-    void* _18;
-    s32 _20;
 };
 
 // vtable 0x710249c5b8 (4 slots); placeholder generated from the vtable (genskel.py).

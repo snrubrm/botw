@@ -824,6 +824,61 @@ const MainFieldArea& Manager::sub_7100A7F2B0(s32 index) const {
     return area ? *area : sUnk_71025f59f8;
 }
 
+// 0x7100a71aec
+// NON_MATCHING: record construction, list insertion and Byaml result scheduling differ.
+bool Manager::parseLocations() {
+    if (!mLocationResource.requestedLoad() || !mLocationResource.isSuccess())
+        return false;
+    auto* resource = sead::DynamicCast<sead::DirectResource>(mLocationResource.getResource());
+    if (!resource)
+        return false;
+    const al::ByamlIter root(resource->getRawData());
+    if (!root.isValid())
+        return false;
+
+    mLocations.clear();
+    const s32 count = root.getSize();
+    for (s32 i = 0; i < count; ++i) {
+        if (mLocations.getMaxNum() < count)
+            return true;
+        al::ByamlIter source;
+        root.tryGetIterByIndex(&source, i);
+        if (!source.isValid())
+            continue;
+        s32 show_level = -1;
+        s32 type = -1;
+        const char* message_id = nullptr;
+        sead::Vector3f position = {0, 0, 0};
+        if (!source.tryGetIntByKey(&show_level, "ShowLevel"))
+            show_level = -1;
+        if (!source.tryGetIntByKey(&type, "Type"))
+            type = -1;
+        if (!source.tryGetStringByKey(&message_id, "MessageID"))
+            message_id = nullptr;
+        if (!al::tryGetByamlV3f(&position, source, "Translate"))
+            position = {0, 0, 0};
+        if (!message_id)
+            continue;
+        auto* location = mLocations.emplaceBack();
+        if (!location)
+            return true;
+        location->mShowLevel = show_level;
+        location->mMessageId = message_id;
+        location->mPosition = position;
+        location->mType = type;
+        if (show_level == 4) {
+            location = mLocations.emplaceBack();
+            if (!location)
+                return true;
+            location->mShowLevel = 8;
+            location->mType = type;
+            location->mMessageId = message_id;
+            location->mPosition = position;
+        }
+    }
+    return true;
+}
+
 // 0x7100a71eb4
 // NON_MATCHING: tile name decoding is outlined; list construction and string scheduling differ.
 bool Manager::parseMainFieldAreas() {
@@ -1354,10 +1409,10 @@ Unk_71024750c8::~Unk_71024750c8() = default;
 
 // 0x7100a7f290
 Unk_710249c5e8::~Unk_710249c5e8() {
-    _8 = -1;
-    _10 = nullptr;
-    _18 = nullptr;
-    _20 = 0;
+    mShowLevel = -1;
+    mType = -1;
+    mMessageId = nullptr;
+    mPosition = {0, 0, 0};
 }
 
 // 0x7100a7ef58

@@ -2,6 +2,7 @@
 
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/UI/uiMainFieldArea.h"
+#include "Game/UI/uiLocationRecord.h"
 #include "KingSystem/Resource/resResourceJpg.h"
 
 #include <container/seadSafeArray.h>
@@ -237,7 +238,10 @@ public:
     const MainFieldArea& sub_7100A7F2B0(s32 index) const;
     bool parseMainFieldAreas();
 
-    u8 _e8[0x5dda8 - 0xe8];
+    u8 _e8[0x32d98 - 0xe8];
+    // A6CC5C constructs 1000 slots of stride 0x38, with the work buffer at +0x2c.
+    /* 0x32d98 */ sead::FixedObjList<Unk_710249c5e8, 1000> mLocations;
+    u8 _40888[0x5dda8 - 0x40888];
     // A6CC5C constructs this 15-element pool; A71EB4 fills it from the area resource.
     /* 0x5dda8 */ sead::FixedObjList<MainFieldArea, 15> mMainFieldAreas;
     // A6CC5C constructs capacities 120 / 10 / 120; A71EB4 fills these pools.
@@ -344,5 +348,8 @@ public:
     u8 _653ac[0x653b0 - 0x653ac];
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x653b0);
+static_assert(sizeof(sead::FixedObjList<Unk_710249c5e8, 1000>) == 0xdaf0);
+static_assert(offsetof(Manager, mLocations) == 0x32d98);
+static_assert(offsetof(Manager, _40888) == 0x40888);
 
 }  // namespace uking::ui
