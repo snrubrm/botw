@@ -1,6 +1,8 @@
 add_subdirectory(Actor)
 
 target_sources(uking PRIVATE
+  eftAmbientEffect.cpp
+  eftAmbientEffect.h
   eftEffect.cpp
   eftEffect.h
   eftEffectModelData.cpp

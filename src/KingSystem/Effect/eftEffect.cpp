@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "Game/gameStage.h"
+#include "Game/gameStatisticsMgr.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
@@ -30,6 +31,15 @@ void Effect::initBeforeStageGenB() {
     _9fc8 = 0x1e;
     if (mUserInstance)
         mUserInstance->reset();
+}
+
+// NON_MATCHING: the compiler shrink-wraps the frame and selects the failed-query result.
+f32 Effect::queryForestDensity(const sead::Vector3f* position) {
+    f32 value;
+    auto* mgr = uking::StatisticsMgr::instance();
+    if (mgr && mgr->query(&value, 1, mForestDensityStats, position))
+        return value;
+    return 0.0f;
 }
 
 // NON_MATCHING: Camera basis calculations use different floating-point register allocation.

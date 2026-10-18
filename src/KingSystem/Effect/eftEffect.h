@@ -22,6 +22,8 @@ class Unk_7102459cc0;
 
 namespace ksys::eft {
 
+class AmbientEffectMgr;
+
 // Effect + 0x9fe0 (placeholder name): a locked table of 32 actor slots (0x30 bytes each, the actor
 // pointer first), a count at +0x600 and the lock at +0x608.
 class Unk_EffectActorTable {
@@ -98,6 +100,8 @@ public:
     void kill_0();
     void kill();
     void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
+    // 0x71011b87ac: queries the forest_density table selected during stage initialization.
+    f32 queryForestDensity(const sead::Vector3f* position);
 
 private:
     u8 _38[0x9b98 - 0x38];
@@ -122,7 +126,11 @@ private:
     u32 mFlags;
     u8 _192f8[0x19300 - 0x192f8];
     /* 0x19300 */ xlink2::UserInstance* mUserInstance = nullptr;
-    u8 _19308[0x19370 - 0x19308];
+    u8 _19308[8];
+    void* mForestDensityStats;
+    u8 _19318[0x19328 - 0x19318];
+    AmbientEffectMgr* mAmbientEffectMgr;
+    u8 _19330[0x19370 - 0x19330];
     Rainbow mRainbow;
     s32 _193e0;
     u8 _193e4[0x19c38 - 0x193e4];
