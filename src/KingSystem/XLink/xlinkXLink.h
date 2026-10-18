@@ -9,6 +9,9 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
+// Property-definition collection; existing CSV name, opaque here.
+class XLinkPropDefinitions;
+
 namespace gsys {
 class Model;
 class ModelAnimation;
@@ -203,7 +206,9 @@ public:
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
     /* 0x58 */ Unk_71025168a0* mUser;
-    /* 0x60 */ u8 _60[0x70 - 0x60];
+    /* 0x60 */ u8 _60[8];
+    // 1233198 selects this collection from Manager's property table during initialization.
+    /* 0x68 */ XLinkPropDefinitions* mPropertyDefinitions;
     // Initializer122EDB0 allocates the corresponding slot arrays using signed byte counts.
     /* 0x70 */ s8 _70;
     /* 0x71 */ s8 _71;
@@ -223,5 +228,6 @@ public:
     /* 0x100 */ sead::ListNode mSleepNode;
 };
 KSYS_CHECK_SIZE_NX150(XLink, 0x110);
+static_assert(offsetof(XLink, mPropertyDefinitions) == 0x68);
 
 }  // namespace ksys::xlink

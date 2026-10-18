@@ -528,10 +528,12 @@ struct DamageReactionRequest {
     /* 0x44 */ f32 _44;
     /* 0x48 */ f32 _48;
     /* 0x4c */ f32 _4c;
-    /* 0x50 */ u32 _50;
+    // Footstep velocity producer copies Actor velocity.z here.
+    /* 0x50 */ f32 _50;
     // Actor::reactionStuff stores powf(stasis blow power, Graphics exponent).
     /* 0x54 */ f32 _54;
-    /* 0x58 */ u32 _58;
+    // Footstep setup stores the float returned by ASList::sub_710115EC98.
+    /* 0x58 */ f32 _58;
     /* 0x60 */ ksys::phys::MaterialMask _60;
     /* 0x78 */ ksys::phys::MaterialMask _78;
     // Damage kind (sub_7100735044; Reaction::__auto6 tests 1).
@@ -540,8 +542,9 @@ struct DamageReactionRequest {
     /* 0x94 */ s32 _94;
     // Target kind from the actor's xlink settings and profile (sub_7100735044; Reaction::__auto6 tests 5).
     /* 0x98 */ s32 _98;
-    /* 0x9c */ s32 _9c;
-    /* 0xa0 */ s32 _a0;
+    // Footstep setup stores weather wetness and the main chemical wetness.
+    /* 0x9c */ f32 _9c;
+    /* 0xa0 */ f32 _a0;
     /* 0xa4 */ s32 _a4;
     // Actor or proc-link source read by the reaction sound/property helpers.
     /* 0xa8 */ ksys::act::Unk_7100ebf9e4 mSource;
@@ -552,7 +555,11 @@ struct DamageReactionRequest {
     /* 0xc4 */ u8 _c4;
 };
 KSYS_CHECK_SIZE_NX150(DamageReactionRequest, 0xc8);
+static_assert(offsetof(DamageReactionRequest, _50) == 0x50);
 static_assert(offsetof(DamageReactionRequest, _54) == 0x54);
+static_assert(offsetof(DamageReactionRequest, _58) == 0x58);
+static_assert(offsetof(DamageReactionRequest, _9c) == 0x9c);
+static_assert(offsetof(DamageReactionRequest, _a0) == 0xa0);
 static_assert(offsetof(DamageReactionRequest, mSource) == 0xa8);
 static_assert(offsetof(DamageReactionRequest, _b8) == 0xb8);
 

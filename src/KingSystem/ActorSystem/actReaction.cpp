@@ -12,6 +12,10 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadBoundBox.h>
 #include <algorithm>
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -302,7 +306,6 @@ void Reaction::sub_7100EC27FC(Actor* actor) {
 
 namespace ksys::act {
 
-// Members of Reaction::Unk1. EC56D8 is a declared-only member taking XLink* and request.
 // NON_MATCHING: the request source getXLink helper inlines into the emitter.
 void Reaction::Unk1::sub_7100EC539C(DamageReactionRequest* request,
                                   xlink2::HandleSLink* handle, const char* name) {
@@ -571,6 +574,100 @@ void Unk_7101286868::sub_7101286BF8(xlink2::HandleELink* handle,
         matrix.setTranslation(position);
         handle->setMatrix(matrix);
     }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: rideable enum switches and vector temporaries use different layouts.
+void Reaction::Unk1::sub_7100EC56D8(xlink::XLink* xlink, DamageReactionRequest* request) {
+    static_assert(offsetof(xlink::Manager, mPropertyDefinitionSets) == 0x150);
+    auto* user = xlink->_50;
+    if (!user)
+        return;
+    switch (request->_90) {
+    case 0xc:
+    case 0xd:
+        if (request->_b8) {
+            if (auto* rideable = request->_b8->m132()) {
+                s32 type = 1;
+                switch (rideable->_18._a) {
+                case 0: type = 0; break;
+                case 1: type = 1; break;
+                case 2: type = 2; break;
+                case 3: type = 3; break;
+                }
+                user->setPropertyValue(17, type);
+                const u8 gear = rideable->_18._b ? rideable->_18._b : rideable->_18._9;
+                s32 value = 1;
+                switch (gear) {
+                case 0: value = 0; break;
+                case 1: value = 1; break;
+                case 2: value = 2; break;
+                case 3: value = 3; break;
+                case 4: value = 4; break;
+                }
+                user->setPropertyValue(16, value);
+            }
+        }
+        break;
+    case 0xf: {
+        user->setPropertyValue(10, request->_58);
+        auto direction = request->_b8->getVelocity();
+        const auto forward = request->_b8->getMtx().getBase(2);
+        direction.normalize();
+        user->setPropertyValue(15, forward.dot(direction));
+        break;
+    }
+    case 0x11:
+        if (request->_b8) {
+            if (auto* rideable = request->_b8->m132()) {
+                const u8 gear = rideable->_18._b ? rideable->_18._b : rideable->_18._9;
+                s32 value = 1;
+                switch (gear) {
+                case 2: value = 2; break;
+                case 3: value = 3; break;
+                case 4: value = 4; break;
+                }
+                user->setPropertyValue(16, value);
+                s32 type = 1;
+                switch (rideable->_18._a) {
+                case 0: type = 0; break;
+                case 2: type = 2; break;
+                case 3: type = 3; break;
+                }
+                user->setPropertyValue(17, type);
+            }
+        }
+        break;
+    case 0x18:
+        return;
+    }
+    auto* manager = xlink::Manager::instance();
+    if (xlink->mPropertyDefinitions == manager->mPropertyDefinitionSets[16])
+        user->setPropertyValue(25, request->_94);
+    else if (xlink->mPropertyDefinitions == manager->mPropertyDefinitionSets[26])
+        user->setPropertyValue(8, request->_94);
+    const sead::Vector3f velocity(request->_48, request->_4c, request->_50);
+    user->setPropertyValue(3, velocity.length());
+    user->setPropertyValue(4, request->_54);
+    user->setPropertyValue(6, request->_c0);
+    if (auto* actor = request->_b8) {
+        const f32 depth = actor->get68f() ? actor->get6f0() - actor->getMtx().getTranslation().y : 0.0f;
+        user->setPropertyValue(5, depth);
+    }
+    const s32 material = int(request->_78.getMaterial());
+    user->setPropertyValue(0, material);
+    user->setPropertyValue(1, manager->getSubMaterialIndex(material, request->_78.getSubMaterialIdx()));
+    f32 wet;
+    if (material == 8)
+        wet = 1.0f;
+    else if (request->_b8 && (request->_b8->_6a0->_10._8 & 8))
+        wet = 0.0f;
+    else
+        wet = world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+    user->setPropertyValue(7, std::max(request->_9c, wet));
 }
 
 }  // namespace ksys::act

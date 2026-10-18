@@ -9,6 +9,12 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+class XLinkPropDefinitions;
+
+namespace ksys::act {
+class Reaction;
+}
+
 namespace ksys::xlink {
 
 class XLink;
@@ -37,6 +43,8 @@ public:
     void removeTransform(XLink* xlink);
 
 private:
+    friend class act::Reaction;
+
     struct TransformRequest {
         XLink* xlink;
         sead::Matrix34f matrix;
@@ -44,7 +52,10 @@ private:
     };
     static_assert(sizeof(TransformRequest) == 0x40);
 
-    /* 0x0028 */ u8 _28[0x1a8 - 0x28];
+    /* 0x0028 */ u8 _28[0x150 - 0x28];
+    // 123E100 allocates 29 collection pointers; 1233198 selects one for each XLink.
+    /* 0x0150 */ XLinkPropDefinitions** mPropertyDefinitionSets;
+    /* 0x0158 */ u8 _158[0x1a8 - 0x158];
     /* 0x01a8 */ s32 mNumSubMaterials;
     /* 0x01b0 */ sead::FixedSafeString<64>* mSubMaterialNames;
     /* 0x01b8 */ s32* mSubMaterialOffsets;

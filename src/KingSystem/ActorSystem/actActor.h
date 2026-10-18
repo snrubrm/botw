@@ -891,6 +891,7 @@ public:
 
 protected:
     friend class ActorCreator;
+    friend class Reaction;  // Reaction property setup reads the existing ActorX6A0 state.
     friend class LODMgr;  // The LOD distance checks read _718 (0x7101254734).
     friend class DropMgr;  // D2C374 reads the existing mDeleteDistanceSq for drop creation.
     friend class ActorLinkConstDataAccess;
