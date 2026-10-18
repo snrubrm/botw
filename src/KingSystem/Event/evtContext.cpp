@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtContext.h"
+#include <utility>
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
@@ -6,8 +7,6 @@
 
 namespace ksys::evt {
 
-// NON_MATCHING: missing the last step: `if (_1f7)` the original clears bit 0 of ActorSystem::_13b (`and #0xfe`);
-// _13b is a private bool in ActorSystem (lane4 header), so that flag write is left out.
 Context::~Context() {
     constexpr u64 flags = 0x20000040000;
     for (int i = 0; i < mFlows.size(); ++i) {
@@ -31,6 +30,8 @@ Context::~Context() {
     }
 
     Manager::instance()->sub_7100DB3750();
+    if (_1f7)
+        act::ActorSystem::instance()->_13b.resetBit(0);
 }
 
 // 0x7100db93f4
@@ -134,6 +135,29 @@ bool Context::calc() {
     sUnk_7102601528 = nullptr;
     _1f5 = 1;
     return false;
+}
+
+// 0x7100db9f1c
+// NON_MATCHING: handler reset and move stores are scheduled differently.
+void Context::callDemoFromEventFlow(const sead::SafeString& event_name,
+                                    const sead::SafeString& entry_point, s32 mode,
+                                    evfl::ActionDoneHandler& handler) {
+    if (Manager::instance()->_1d380 == getCurrentFlow()->mEventName) {
+        getCurrentFlow()->x(true);
+        _1f4 = true;
+        handler.Reset();
+        return;
+    }
+    const s32 index = x_3(event_name.cstr(), entry_point.cstr());
+    getCurrentFlow()->_148 = std::move(handler);
+    ++mStackTop;
+    mFlowStack[mStackTop] = s8(index);
+    if (mode == 2)
+        getCurrentFlowUnchecked()->_340 |= 0x4000000000;
+    else if (mode == 1)
+        getCurrentFlowUnchecked()->_340 |= 0x8000000000;
+    getCurrentFlow()->initEventAndReport(false);
+    _1f5 = 1;
 }
 
 // 0x7100db9e2c

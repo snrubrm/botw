@@ -28,6 +28,10 @@ public:
 
     void loadChildrenEvents();
     bool calc();
+    // 0x7100db9f1c (CSV evt::Context::callDemoFromEventFlow)
+    void callDemoFromEventFlow(const sead::SafeString& event_name,
+                               const sead::SafeString& entry_point, s32 mode,
+                               evfl::ActionDoneHandler& handler);
     s32 x_3(const sead::SafeString& event_name, const sead::SafeString& entry_point) const;
 
     // 0x7100db9e2c (CSV evt::Context::setActorBeingDeleted)
