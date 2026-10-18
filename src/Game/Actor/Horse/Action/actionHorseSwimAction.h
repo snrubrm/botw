@@ -2,12 +2,27 @@
 
 #include "Game/Actor/Horse/Action/actionHorseSwim.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace ksys::phys {
 class Unk_7102372790;
 }
 
 namespace uking::action {
+
+// Placeholder name: the face query HorseSwimAction::calc_ allocates (0x58 bytes). m0 keeps a face whose
+// area and normal clear the two thresholds and whose material the horse can stand on.
+class HorseSwimFaceQuery : public ksys::phys::NavMeshFaceQuery {
+    SEAD_RTTI_OVERRIDE(HorseSwimFaceQuery, ksys::phys::NavMeshFaceQuery)
+public:
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face) override;
+
+    /* 0x34 */ f32 _34 = 0;
+    /* 0x38 */ f32 _38 = 0;
+    /* 0x40 */ ksys::phys::Unk_7100f7e9f0 _40;
+};
+KSYS_CHECK_SIZE_NX150(HorseSwimFaceQuery, 0x58);
 
 class HorseSwimAction : public HorseSwim {
     SEAD_RTTI_OVERRIDE(HorseSwimAction, HorseSwim)

@@ -5,6 +5,34 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the original tests the filter's m4 result in place; ours copies it and zeroes the
+// return register before the shared false branch.
+bool HorseSwimFaceQuery::m0(const ksys::phys::Unk_7100f7e9f0& face) {
+    sead::Vector3f normal = sead::Vector3f::zero;
+    if (!(face.sub_7100F7ED6C(&normal) > _34))
+        return false;
+    if (!(normal.y > _38))
+        return false;
+    sead::Vector3f position;
+    face.sub_7100F7EB60(&position);
+    auto* character = mCharacter;
+    auto* filter = character->_58;
+    const auto type = ksys::phys::NavMeshCharacterType(character->_1d8);
+    const s32 material = face.sub_7100F7EEE4();
+    if (filter) {
+        if (filter->m4(character, material, 0, ksys::phys::NavMeshCharacterType::Player)) {
+            _40 = face;
+            return true;
+        }
+        return false;
+    }
+    if (sead::Mathf::abs(ksys::phys::NavMeshCharacter::sub_7100F74FD8(type, material)) >
+        std::numeric_limits<f32>::max())
+        return false;
+    _40 = face;
+    return true;
+}
+
 HorseSwimAction::HorseSwimAction(const InitArg& arg) : HorseSwim(arg) {}
 
 HorseSwimAction::~HorseSwimAction() = default;
