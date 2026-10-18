@@ -71,6 +71,8 @@ public:
     void sub_7100D7F9F8(f32 level, const sead::Vector3f& position, Unk_71024dc978* target,
                        const sead::Matrix34f& matrix, const sead::Matrix34f& other_matrix, s32 kind);
     bool sub_7100D7FCA0(s32 capacity, sead::Heap* heap);
+    // Resets the candidate count, sets the delay count and calls slot 9.
+    void sub_7100D7FDDC(s32 delay);
 
     // 0x7100d8010c (placeholder name): _4c, times the weather factor of sensor kind _38
     // (sub_7100D7A93C) unless _51 is set.
@@ -127,7 +129,35 @@ public:
 
     u8 _52[0x68 - 0x52];
     /* 0x68 */ sead::BitFlag8 _68;  // EnemyNormal::m41 clears bit 0
+    /* 0x70 */ Actor* _70;
+    u8 _78[0x8c - 0x78];
+    // The setup producer supplies the sight ranges/angles; the setter caches their cosines.
+    /* 0x8c */ f32 _8c;
+    /* 0x90 */ f32 _90;
+    /* 0x94 */ f32 _94;
+    /* 0x98 */ f32 _98;
+    /* 0x9c */ f32 _9c;
+    /* 0xa0 */ f32 _a0;
+    /* 0xa4 */ f32 _a4;
+    /* 0xa8 */ f32 _a8;
+    /* 0xac */ f32 _ac;
+    /* 0xb0 */ f32 _b0;
+    /* 0xb4 */ f32 _b4;
+    /* 0xb8 */ f32 _b8;
+    /* 0xbc */ f32 _bc;
+    /* 0xc0 */ f32 _c0;
+    /* 0xc4 */ f32 _c4;
+    /* 0xc8 */ f32 _c8;
+    /* 0xcc */ bool _cc;
+    /* 0xd0 */ f32 _d0;
+    /* 0xd4 */ f32 _d4;
+    /* 0xd8 */ f32 _d8;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024dcea8, 0xe0);
+static_assert(offsetof(Unk_71024dcea8, _70) == 0x70);
+static_assert(offsetof(Unk_71024dcea8, _8c) == 0x8c);
+static_assert(offsetof(Unk_71024dcea8, _cc) == 0xcc);
+static_assert(offsetof(Unk_71024dcea8, _d8) == 0xd8);
 
 // Placeholder name (vtable 0x71024dcfd0, RTTI static 0x7102600a70): another awareness sensor. D1 is the base destructor
 // (0x7100d7f7b4), D0 0x7100d8271c; overrides m4 0x7100d82400, m5 0x7100d824b4, m6 0x7100d8254c, m12 0x7100d82158 (declared only) and
@@ -145,7 +175,12 @@ public:
              bool flag) override;
 
     /* 0x54 */ f32 _54;
+    /* 0x58 */ f32 _58;
+    /* 0x5c */ f32 _5c;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024dcfd0, 0x60);
+static_assert(offsetof(Unk_71024dcfd0, _58) == 0x58);
+static_assert(offsetof(Unk_71024dcfd0, _5c) == 0x5c);
 
 // Placeholder name (vtable 0x71024dd070, RTTI static 0x7102600a80): another awareness sensor. D1 is the base destructor
 // (0x7100d7f7b4), D0 0x7100d82b48; overrides m4 0x7100d82844, m5 0x7100d828f0, m6 0x7100d82988, m12 0x7100d82748 (declared only) and
@@ -391,6 +426,65 @@ Unk_7100d78e50* sub_7100D7EEE8(sead::ObjArray<Unk_7100d78e50>* array, Unk_71024d
 // methods "ActorAwareness::*".
 class AwarenessInstance {
 public:
+    // Actor::onEnterCalc builds this from the named Awareness resource parameters.
+    struct SetupArg {
+        const sead::SafeString* sight_base_node_name;
+        const sead::SafeString* hearing_base_node_name;
+        const sead::SafeString* sense_base_node_name;
+        const sead::SafeString* worry_base_node_name;
+        const sead::SafeString* _20;
+        const sead::SafeString* sense_target;
+        const sead::SafeString* awareness_target;
+        const sead::SafeString* base_node_name;
+        sead::Vector3f base_offset;
+        f32 system_radius;
+        f32 interest_lv1_radius;
+        f32 sight_radius;
+        f32 sight_angle;
+        f32 sight_height_max;
+        f32 sight_height_min;
+        f32 sight_height_near_max;
+        f32 sight_height_near_min;
+        f32 sight_alert_radius;
+        f32 sight_alert_angle;
+        f32 sight_alert_height_max;
+        f32 sight_alert_height_min;
+        f32 sight_alert_height_near_max;
+        f32 sight_alert_height_near_min;
+        f32 sight_ignore_grass_radius;
+        f32 sight_ray_check_range_max;
+        f32 sight_radius_far;
+        f32 sight_angle_far;
+        f32 hearing_radius;
+        f32 hearing_blind_angle;
+        f32 hearing_blind_margin_angle;
+        f32 hearing_reduce_ratio;
+        f32 hearing_notice_level;
+        f32 hearing_alert_level;
+        f32 sense_radius;
+        f32 sense_angle;
+        f32 worry_radius;
+        s32 sight_delay_time_max;
+        s32 hearing_delay_time_max;
+        s32 sense_delay_time_max;
+        s32 worry_delay_time_max;
+        s32 base_dir;
+        s32 up_dir;
+        bool is_bind_pos;
+        bool is_bind_rot;
+        bool invalidate_weather_ratio;
+        bool sight_far_use;
+    };
+    KSYS_CHECK_SIZE_NX150(SetupArg, 0xd8);
+    static_assert(offsetof(SetupArg, base_offset) == 0x40);
+    static_assert(offsetof(SetupArg, sight_radius) == 0x54);
+    static_assert(offsetof(SetupArg, hearing_radius) == 0x94);
+    static_assert(offsetof(SetupArg, sense_radius) == 0xac);
+    static_assert(offsetof(SetupArg, sight_delay_time_max) == 0xb8);
+    static_assert(offsetof(SetupArg, is_bind_pos) == 0xd0);
+    static_assert(offsetof(SetupArg, sight_far_use) == 0xd3);
+    void sub_7100D7C160(const SetupArg& arg);
+
     AwarenessInstance();
     virtual ~AwarenessInstance();
 
@@ -398,6 +492,7 @@ public:
     void calcForEvent();
     void calc();
     void calc2();
+    void sub_7100D7CF20();
     void sub_7100D7DEC4(s32 kind, const sead::Vector3f& position, Unk_71024dc858* target,
                        const sead::Matrix34f& target_matrix, bool flag);
 

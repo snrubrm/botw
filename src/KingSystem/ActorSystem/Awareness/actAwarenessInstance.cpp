@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
+#include <gsys/gsysModel.h>
+#include <cmath>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 
 namespace ksys::act {
@@ -288,6 +291,95 @@ void AwarenessInstance::sub_7100D7DEC4(s32 kind, const sead::Vector3f& position,
     const auto& transform = _38[kind];
     const auto& matrix = transform._68 ? transform._0 : _230;
     _260[kind]->sub_7100D7F8E4(level, target, position, matrix, target_matrix, _2c8, flag);
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: matrix/vector copies and temporary storage differ.
+void AwarenessInstance::sub_7100D7CF20() {
+    for (s32 i = 0; i < 4; ++i) {
+        auto& transform = _38[i];
+        if (!transform._68)
+            continue;
+        sead::Vector3f position;
+        if (_334 & 0x10)
+            position = transform._0.getTranslation();
+        sead::Matrix34f bone_matrix;
+        _2e0->getModel()->getBoneWorldMatrix(transform._30.getKey(), &bone_matrix);
+        transform._0 = _2e0->getMtx();
+        if (!(_334 & 0x10)) {
+            position.setRotated(_2e0->getMtx(), sead::Vector3f::zero);
+            position += bone_matrix.getTranslation();
+            if (i == 0)
+                _2c8 = position;
+        }
+        transform._0.setTranslation(position);
+    }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: parameter load grouping and scheduling around cosine calls differ.
+void AwarenessInstance::sub_7100D7C160(const SetupArg& arg) {
+    if (auto* sensor = sead::DynamicCast<Unk_71024dcea8>(_260[0])) {
+        sensor->sub_7100D7FDDC(arg.sight_delay_time_max);
+        sensor->_8c = arg.sight_radius;
+        sensor->_90 = arg.sight_angle;
+        sensor->_94 = arg.sight_height_max;
+        sensor->_98 = arg.sight_height_min;
+        sensor->_9c = arg.sight_height_near_max;
+        sensor->_a0 = arg.sight_height_near_min;
+        sensor->_a4 = std::cos(arg.sight_angle);
+        sensor->_a8 = arg.sight_alert_radius;
+        sensor->_ac = arg.sight_alert_angle;
+        sensor->_b0 = arg.sight_alert_height_max;
+        sensor->_b4 = arg.sight_alert_height_min;
+        sensor->_b8 = arg.sight_alert_height_near_max;
+        sensor->_bc = arg.sight_alert_height_near_min;
+        sensor->_c0 = std::cos(arg.sight_alert_angle);
+        sensor->_c4 = arg.sight_ignore_grass_radius;
+        sensor->_c8 = arg.sight_ray_check_range_max;
+        sensor->_cc = arg.sight_far_use;
+        sensor->_d0 = arg.sight_radius_far;
+        sensor->_d4 = arg.sight_angle_far;
+        sensor->_d8 = std::cos(arg.sight_angle_far);
+        sensor->_70 = _2e0;
+        sensor->_4c = 1.0f;
+        if (arg.invalidate_weather_ratio)
+            sensor->_51 = true;
+    }
+    if (auto* sensor = sead::DynamicCast<Unk_71024dcd68>(_260[1])) {
+        sensor->sub_7100D7FDDC(arg.hearing_delay_time_max);
+        sensor->_54 = arg.hearing_radius;
+        sensor->_58._0 = arg.hearing_blind_angle;
+        sensor->_58._4 = arg.hearing_blind_margin_angle;
+        sensor->_58._8 = arg.hearing_reduce_ratio;
+        sensor->_58.warnRatio = arg.hearing_alert_level;
+        sensor->_58.noticeRatio = arg.hearing_notice_level;
+        sensor->_4c = 1.0f;
+        if (arg.invalidate_weather_ratio)
+            sensor->_51 = true;
+    }
+    if (auto* sensor = sead::DynamicCast<Unk_71024dcfd0>(_260[2])) {
+        sensor->sub_7100D7FDDC(arg.sense_delay_time_max);
+        sensor->_54 = arg.sense_radius;
+        sensor->_58 = arg.sense_angle;
+        sensor->_5c = std::cos(arg.sense_angle);
+        sensor->_4c = 1.0f;
+        if (arg.invalidate_weather_ratio)
+            sensor->_51 = true;
+    }
+    if (auto* sensor = sead::DynamicCast<Unk_71024dd070>(_260[3])) {
+        sensor->sub_7100D7FDDC(arg.worry_delay_time_max);
+        sensor->_54 = arg.worry_radius;
+        sensor->_4c = 1.0f;
+        if (arg.invalidate_weather_ratio)
+            sensor->_51 = true;
+    }
 }
 
 }  // namespace ksys::act
