@@ -30,7 +30,7 @@
 namespace eui {
 
 // 0x7100bed2e0
-// NON_MATCHING: RTTI checks and size-bound calculations are scheduled differently.
+// NON_MATCHING: WindowEx static RTTI is inlined; size-bound calculations are scheduled differently.
 void AdjustPaneSizeToTextSize(nn::ui2d::Pane* pane, LayoutEx* layout) {
     const auto* target = pane->FindExtUserDataByName("AdjustToTextOn");
     if (!target)
