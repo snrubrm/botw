@@ -3367,8 +3367,9 @@ public:
     void calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::DeviceType device, s32 index_a,
                             s32 index_b, f32 spread) override;
 
-    f32 _8;
-    f32 _c;
+    // Native message-sound static initialization supplies these front/rear levels.
+    f32 _8 = 0.94f;
+    f32 _c = 0.34117445f;
 };
 
 // vtable 0x710251b810 (13 slots); placeholder generated from the vtable (genskel.py).

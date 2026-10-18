@@ -2,11 +2,22 @@
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
 #include <aal/aalSettings.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSoundSource.h>
+#include "KingSystem/Utils/InitTimeInfo.h"
 #include <aal/aalSystemAccessor.h>
 #include <heap/seadHeap.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::snd {
+
+// NON_MATCHING: the supplier is statically initialized; timing/string store layout differs.
+// 0x7101055f00 uses the established timing model and these message-sound globals.
+static util::InitTimeInfoEx sMessageSoundInitTimeInfo;
+sead::SafeString sVoiceDefault = "VoiceDefault";
+sead::SafeString sDemoDialog = "DemoDialog";
+Unk_71025028c0 sMessageSpeakerBalance;
+
 
 Unk_710105fe78::~Unk_710105fe78() {
     if (_8) {
@@ -38,6 +49,51 @@ void Unk_SoundMgr48::sub_710105590C(sead::Heap* heap) {
         if (_10)
             _10->mSpatialSetting.setPositioned(false);
     }
+}
+
+// NON_MATCHING: string formatting, handle setup and register scheduling differ.
+void Unk_SoundMgr48::sub_710105598C(const sead::SafeString& path,
+                                   const sead::SafeString& name, s32 suffix) {
+    if (!_10)
+        return;
+    aal::AssetInfo info;
+    bool found = false;
+    if (suffix <= 0)
+        found = _8->sub_7101060D14(&info, path, name);
+    if (suffix >= 0 && !found) {
+        static sead::FixedSafeString<64> numbered_name;
+        numbered_name.format("%s_%d", name.cstr(), suffix);
+        found = _8->sub_7101060D14(&info, path, numbered_name);
+    }
+    if (!found)
+        return;
+    if (_18.isEnabled())
+        _18.stop(0.1f, 0.0f);
+    aal::SoundSource::SetupInfo setup{};
+    setup.prepare_flags = 3;
+    if (auto* groups = aal::SystemAccessor::getGroupMgr())
+        setup.sound_group = groups->findSoundGroupOrDefault(sDemoDialog);
+    _18 = _10->emit(info, &setup, nullptr);
+    sub_7101055B88(&_18, false, 0.0f);
+}
+// NON_MATCHING: source-state branches and parameter scheduling differ.
+void Unk_SoundMgr48::sub_7101055B88(aal::Handle* handle, bool flag, f32 delay) {
+    if (!handle->isEnabled())
+        return;
+    const u8 channels = handle->getAssetInfo()->getChannelNum();
+    auto* source = handle->getSoundSource();
+    if (source && source->mState != 0 && source->mState != 7) {
+        if (channels >= 2) {
+            source->setSpeakerBalanceSupplier(&sMessageSpeakerBalance);
+        } else {
+            source->mSpatialSetting.setPositioned(false);
+            source->setInteriorNum(1);
+            source->setChannelSpeakerType(0, 0, aal::SpeakerChannel::FrontCenter);
+        }
+    }
+    handle->setVolume(0.708f);
+    if (delay > 0.0f)
+        handle->setStartDelayTime(delay);
 }
 
 }  // namespace ksys::snd

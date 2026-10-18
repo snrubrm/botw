@@ -617,6 +617,10 @@ class Unk_710105fe78 {
 public:
     Unk_710105fe78();
     virtual ~Unk_710105fe78();
+    // Native lookup/provider use this existing resource-cache receiver.
+    Unk_7102502978* sub_7101060C04(const sead::SafeString& name);
+    bool sub_7101060D14(aal::AssetInfo* info, const sead::SafeString& path,
+                        const sead::SafeString& asset);
     // Lookup 0x7101060C04 proves the hash/handle pair and sixteen-byte stride.
     struct Entry {
         u32 mHash;
@@ -643,6 +647,10 @@ public:
     virtual ~Unk_SoundMgr48();
     void sub_710105590C(sead::Heap* heap);
     void sub_7101055B44();
+    void sub_710105598C(const sead::SafeString& path, const sead::SafeString& name, s32 suffix);
+    // Outside-TU callers pass SoundMgr::_48. The unused bool and formal FP order
+    // are interface inferences from the handle / 0-or-1 / delay argument protocol.
+    void sub_7101055B88(aal::Handle* handle, bool flag, f32 delay);
     f32 sub_7101055E3C() const;
 
     /* 0x08 */ Unk_710105fe78* _8 = nullptr;
@@ -667,6 +675,8 @@ public:
     void sub_710105B37C();
     void sub_710105B394(const sead::SafeString& type);
     void sub_710105B8EC();
+    // 0x710105ba88: this control guard and the shared RelicBeamBgm stop path.
+    void sub_710105BA88();
 
     aal::Emitter* _8;
     aal::Handle _10;
@@ -689,8 +699,13 @@ public:
     struct Entry {
         sead::FixedSafeString<64> _0;
         sead::FixedSafeString<64> _58;
-        u8 _b0[8];
+        // 0x710103c03c stores the bit-0-normalized start argument here.
+        bool _b0;
+        u8 _b1[7];
     };
+
+    static_assert(sizeof(Entry) == 0xb8);
+    static_assert(offsetof(Entry, _b0) == 0xb0);
 
     // Indexed by Unk_710103b704::_5c8.
     Entry _0[8];
@@ -718,6 +733,7 @@ public:
     void setWorldMuteType(bool movie, const sead::SafeString& type);
     void sub_710103BD3C();
     bool sub_710103CE1C();
+    void sub_710103CEB0();
     void sub_710103C5F4(bool defer_bgm);
     virtual ~Unk_710103b704();
     struct StartParam {

@@ -15,6 +15,28 @@ Unk_710103b76c::Unk_710103b76c() = default;
 
 Unk_710103b704::~Unk_710103b704() = default;
 
+void Unk_710103b704::sub_710103CEB0() {
+    // Snapshot the control state before the external manager call, as in the original.
+    const bool mixed = _5e0._39;
+    auto* groups = aal::SystemAccessor::getGroupMgr();
+    if (!mixed) {
+        if (groups) {
+            if (auto* group = groups->findGroup("Demo"))
+                group->stopAllSound(-1.0f);
+            if (auto* group = groups->findGroup("SystemAcrossScene"))
+                group->stopAllSound(-1.0f);
+        }
+        if (_5c8 >= 0 && _8._0[u32(_5c8) < 8 ? _5c8 : 0]._b0)
+            _5e0.sub_710105BA88();
+    } else if (groups) {
+        if (auto* group = groups->findGroup("DemoMixed"))
+            group->stopAllSound(-1.0f);
+        if (auto* group = groups->findGroup("DemoDialog"))
+            group->stopAllSound(-1.0f);
+    }
+}
+
+
 void Unk_710103b704::sub_710103D0D8(UiSoundKind kind) {
     if (_5c8 < 0)
         return;
