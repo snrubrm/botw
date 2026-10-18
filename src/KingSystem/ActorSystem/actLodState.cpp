@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actLodState.h"
+#include <cmath>
 #include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -364,6 +365,30 @@ void LodState::sub_7101251280(float value) {
     _28 = value;
     if (old != value)
         mFlags8.set(0x8000000);
+}
+
+// NON_MATCHING: stack layout, registers and the existing signed label index differ.
+void LodState::printDebugInfo() const {
+    auto* actor = mActor;
+    bool is_parent = false;
+    while (actor) {
+        auto* state = actor->getLodState();
+        sead::FixedSafeString<256> name(actor->getName().cstr());
+        if (is_parent)
+            name.append("　【親】");
+        else
+            name.append("");
+        name.clear();
+        const char* labels[] = {"Near", "Front", "Outside", "Far", "Hide", "OutSideFar"};
+        name.format("(%s)", labels[_1c]);
+        if (state) {
+            sead::FixedSafeString<64> detail;
+            detail.format("BackScale:%f", state->_28);
+            detail.format("計算スキップ禁止距離:%f", std::sqrt(state->_74));
+        }
+        actor = actor->m31();
+        is_parent = true;
+    }
 }
 
 }  // namespace ksys::act
