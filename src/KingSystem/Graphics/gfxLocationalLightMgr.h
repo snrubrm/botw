@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
@@ -19,6 +20,7 @@ namespace ksys::gfx {
 class LocationalLightMgr : public sead::hostio::Node {
     // Native Moth126f160 selects records from this actual active light pool.
     friend class ksys::eft::MothEffectEmitter;
+    friend class LocationalLightRig;
 public:
     LocationalLightMgr();
     virtual ~LocationalLightMgr();
@@ -35,6 +37,24 @@ public:
         map::Object* mObject = nullptr;
     };
     KSYS_CHECK_SIZE_NX150(ObjectLight, 0x60);
+
+    // The subobject passed to F0CAF0/F15A00/F15A74 at manager +0x458.
+    // RigLightPool is an inferred name for this independently locked pool.
+    class RigLightPool {
+    public:
+        void init(s32 capacity, sead::Heap* heap);
+        ObjectLight::Light* allocate();
+        bool release(ObjectLight::Light* light);
+
+        sead::CriticalSection mCS;
+        sead::Buffer<ObjectLight::Light> mLights;
+        sead::PtrArray<ObjectLight::Light> mFreeLights;
+        sead::PtrArray<ObjectLight::Light> mActiveLights;
+    };
+    KSYS_CHECK_SIZE_NX150(RigLightPool, 0x70);
+    static_assert(offsetof(RigLightPool, mLights) == 0x40);
+    static_assert(offsetof(RigLightPool, mFreeLights) == 0x50);
+    static_assert(offsetof(RigLightPool, mActiveLights) == 0x60);
 
     // 0x7100f13368: detach and return an active binding to the free list.
     bool sub_7100F13368(ObjectLight* light);
@@ -54,12 +74,7 @@ public:
 private:
     sead::CriticalSection mCS;
     u8 _48[0x458 - 0x48];
-    // F0CAF0 allocates 0x88-byte Light records; F15A00/F15A74 move their
-    // pointers between these arrays under the independent pool mutex.
-    sead::CriticalSection mRigLightCS;
-    sead::Buffer<ObjectLight::Light> mRigLights;
-    sead::PtrArray<ObjectLight::Light> mFreeRigLights;
-    sead::PtrArray<ObjectLight::Light> mActiveRigLights;
+    RigLightPool mRigLightPool;
     sead::CriticalSection mObjectLightCS;
     sead::Buffer<ObjectLight> mObjectLights;
     sead::PtrArray<ObjectLight> mFreeObjectLights;

@@ -244,10 +244,10 @@ void MothEffectEmitter::calc(Effect* effect) {
         return;
     mTimer = 0.0f;
     auto* mgr = Graphics::instance()->getLocationalLightMgr();
-    if (!mgr || mgr->mActiveRigLights.size() < 1)
+    if (!mgr || mgr->mRigLightPool.mActiveLights.size() < 1)
         return;
-    mLightIndex = mLightIndex + 1 < mgr->mActiveRigLights.size() ? mLightIndex + 1 : 0;
-    auto* light = mgr->mActiveRigLights[mLightIndex];
+    mLightIndex = mLightIndex + 1 < mgr->mRigLightPool.mActiveLights.size() ? mLightIndex + 1 : 0;
+    auto* light = mgr->mRigLightPool.mActiveLights[mLightIndex];
     if (!light->mRig || !light->mRig->mEnableEffectMoth.ref())
         return;
     const sead::Vector3f position = light->mPosition;
