@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <cstddef>
+#include <limits>
 #include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <container/seadSafeArray.h>
@@ -18,6 +20,7 @@ namespace ksys::act {
 
 class Actor;
 class Unk_71024dc858;
+class Unk_71024dc978;
 struct Unk_7100d78e50;
 
 // Placeholder name (vtable 0x71024dce08): base class of the four sensor objects an
@@ -54,15 +57,21 @@ public:
     virtual sead::BitFlag8* m16();
     virtual void m17();
 
+    struct Entry;
+    // Insert or refresh a candidate, retaining the nearest update in the current pass.
+    void sub_7100D7F9F8(f32 level, const sead::Vector3f& position, Unk_71024dc978* target,
+                       const sead::Matrix34f& matrix, const sead::Matrix34f& other_matrix, s32 kind);
+    bool sub_7100D7FCA0(s32 capacity, sead::Heap* heap);
+
     // 0x7100d8010c (placeholder name): _4c, times the weather factor of sensor kind _38
     // (sub_7100D7A93C) unless _51 is set.
     f32 sub_7100D8010C() const;
 
     /* 0x08 */ sead::ObjArray<Unk_7100d78e50> _8;
     // Entries freed by the D1 0x7100d7f7b4 (0xb8 bytes each).
-    /* 0x28 */ sead::Buffer<Unk_7100d78e50> _28;
+    /* 0x28 */ sead::Buffer<Entry> _28;
     /* 0x38 */ s32 _38;
-    /* 0x3c */ u32 _3c;
+    /* 0x3c */ s32 _3c;
     // m15 uses _48 as the count when it is not negative, else _40.
     /* 0x40 */ s32 _40;
     /* 0x44 */ u32 _44;
@@ -248,6 +257,21 @@ struct Unk_7100d78e50 {
     /* 0xa8 */ f32 _a8;  // distance-like value compared by many AI functions (arrays sorted by it)
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100d78e50, 0xb0);
+
+// The sensor initializer constructs this prefix and resets the two trailing candidate values.
+// The base destructor and candidate update both use the same 0xb8-byte stride.
+struct Unk_71024dce08::Entry {
+    Unk_7100d78e50 entry;
+    /* 0xb0 */ f32 _b0 = std::numeric_limits<f32>::max();
+    /* 0xb4 */ bool _b4 = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024dce08::Entry, 0xb8);
+static_assert(offsetof(Unk_71024dce08::Entry, entry) == 0);
+static_assert(offsetof(Unk_71024dce08::Entry, _b0) == 0xb0);
+static_assert(offsetof(Unk_71024dce08::Entry, _b4) == 0xb4);
+static_assert(offsetof(Unk_71024dce08, _28) == 0x28);
+static_assert(offsetof(Unk_71024dce08, _3c) == 0x3c);
+
 
 class AwarenessInstance;
 class AITerror;

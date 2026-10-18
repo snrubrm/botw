@@ -130,3 +130,66 @@ bool Unk_71024dd070::m6(Unk_71023e2708* request) {
 // NON_MATCHING: placeholder destructor; the original (0x7100d81f74) also destroys members or bases
 // this class does not declare yet.
 Unk_71024dcf48::~Unk_71024dcf48() = default;
+
+namespace ksys::act {
+
+// NON_MATCHING: candidate copies and buffer indexing use different temporaries.
+void Unk_71024dce08::sub_7100D7F9F8(f32 level, const sead::Vector3f& position,
+                                   Unk_71024dc978* target, const sead::Matrix34f& matrix,
+                                   const sead::Matrix34f& other_matrix, s32 kind) {
+    sead::Vector3f velocity;
+    target->m8(&velocity);
+    const f32 distance = (other_matrix.getTranslation() - matrix.getTranslation()).length();
+    for (s32 i = 0; i < _3c; ++i) {
+        auto& slot = _28[i];
+        if (!slot.entry._0.m16(target))
+            continue;
+        if (slot._b4 && !(distance < slot.entry._a8))
+            return;
+        // called through a pointer in the original (not devirtualised)
+        (&slot.entry._0)->m14(target);
+        slot.entry._88 = position;
+        slot.entry._58 = matrix;
+        slot.entry._94 = velocity;
+        slot.entry._a0 = kind;
+        slot.entry._a4 = level;
+        slot.entry._a8 = distance;
+        slot._b4 = true;
+        return;
+    }
+    if (_3c >= _28.size())
+        return;
+    bool found = false;
+    for (s32 i = 0; i < _8.size(); ++i) {
+        if (sub_7100D78E30(&_8, i)->_0.m16(target)) {
+            found = true;
+            break;
+        }
+    }
+    const f32 count = found ? 0.0f : f32(m15(level, distance));
+    auto& slot = _28[_3c];
+    // called through a pointer in the original (not devirtualised)
+    (&slot.entry._0)->m14(target);
+    slot.entry._88 = position;
+    slot.entry._58 = matrix;
+    slot.entry._94 = velocity;
+    slot.entry._a0 = kind;
+    slot.entry._a4 = level;
+    slot.entry._a8 = distance;
+    slot._b0 = count;
+    slot._b4 = true;
+    ++_3c;
+}
+
+// NON_MATCHING: ObjArray allocation is inlined into the initializer.
+bool Unk_71024dce08::sub_7100D7FCA0(s32 capacity, sead::Heap* heap) {
+    _8.tryAllocBuffer(capacity, heap);
+    if (!_8.isBufferReady())
+        return false;
+    _28.tryAllocBuffer(capacity * 2, heap);
+    if (!_28.isBufferReady())
+        return false;
+    return m7();
+}
+
+}  // namespace ksys::act
