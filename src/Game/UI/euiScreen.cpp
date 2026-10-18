@@ -435,6 +435,83 @@ void Screen::doButtonCancelStart_(AnimButton*) {}
 // 0x7100beaeb8
 void Screen::doButtonCancelEnd_(AnimButton*) {}
 
+// 0x7100be9fa8
+// NON_MATCHING: branch layout and inlined RTTI traversal differ.
+void Screen::buttonStateChangeCallback(AnimButton* button, ButtonBase::State old_state,
+                                       ButtonBase::State new_state) {
+    switch (old_state) {
+    case ButtonBase::kStartOn:
+        doButtonOnEnd_(button);
+        break;
+    case ButtonBase::kStartOff:
+        doButtonOffEnd_(button);
+        break;
+    case ButtonBase::kStartDown:
+        doButtonDownEnd_(button);
+        break;
+    case ButtonBase::kCancel:
+        doButtonCancelEnd_(button);
+        break;
+    default:
+        break;
+    }
+
+    switch (new_state) {
+    case ButtonBase::kStartOn:
+        doButtonOnStart_(button);
+        if (_f0) {
+            if (!_106)
+                _106 = true;
+            else if (!button->IsDowning())
+                invokeSoundLink2ButtonEvent_(button, "_on");
+        }
+        break;
+    case ButtonBase::kStartOff:
+        doButtonOffStart_(button);
+        break;
+    case ButtonBase::kCancel:
+        doButtonCancelStart_(button);
+        break;
+    case ButtonBase::kStartDown: {
+        doButtonDownStart_(button);
+        if (!_f0)
+            break;
+        _f0->setButtonProperty(button->_39);
+        if (button->IsPlayDisableAnim()) {
+            invokeSoundLink2ButtonEvent_(button, "_noeffect");
+            break;
+        }
+
+        bool handled = false;
+        if (nn::font::DynamicCast<CheckKeepButton>(button)) {
+            invokeSoundLink2ButtonEvent_(button, "_check");
+            handled = true;
+        } else if (auto* check = nn::font::DynamicCast<CheckButton>(button)) {
+            if (check->mToggleable) {
+                invokeSoundLink2ButtonEvent_(button, check->mChecked ? "_check" : "_uncheck");
+                handled = true;
+            }
+        }
+
+        if (auto* unite = nn::font::DynamicCast<UniteButton>(button)) {
+            if (unite->mType == UniteButton::Type::CheckButton) {
+                invokeSoundLink2ButtonEvent_(button, unite->mChecked ? "_check" : "_uncheck");
+                break;
+            }
+            if (unite->mType == UniteButton::Type::CheckKeepButton && !unite->mChecked) {
+                invokeSoundLink2ButtonEvent_(button, "_check");
+                break;
+            }
+        }
+        if (!handled)
+            invokeSoundLink2ButtonEvent_(button, "_decide");
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 // 0x7100beaac8
 bool Screen::isEnableControl() const {
     return 0;

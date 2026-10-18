@@ -1,20 +1,18 @@
 #pragma once
 
 #include <xlink2/xlink2HandleSLink.h>
+#include <xlink2/xlink2IUser.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/UI/euiScreen.h"
 
 namespace eui {
 
-// Placeholder name: the first base of the sound link user object of a screen (a vtable only).
-class ScreenSoundLinkUserPrimary {
-public:
-    virtual void m0();
-};
-
-// Placeholder name: the 0x18-byte object created by Screen::createSoundLink2User_ (0x7100beb9b0): a primary vtable,
-// the ScreenSoundLinkUser base at +8 (the object `Screen::_f0` points to) and the xlink2 user instance at +0x10.
-class ScreenSoundLinkUserImpl : public ScreenSoundLinkUserPrimary, public ScreenSoundLinkUser {
+// Placeholder name: the 0x18-byte object allocated by Screen::createSoundLink2User_
+// (0x7100beb7e0). Initialization at 0x7100beb9b0 passes its primary base to
+// CreateArgSLink as IUser*. Screen::_f0 points to the secondary base at +8.
+// This remains a partial, abstract pointer model: the primary overrides and
+// their unresolved matrix-slot identities are not reconstructed here.
+class ScreenSoundLinkUserImpl : public xlink2::IUser, public ScreenSoundLinkUser {
 public:
     // inline-only in the original; name is a guess (Screen::invokeSoundLink2*Event* discard the result; the empty
     // handle is stored in the other arm)
@@ -26,5 +24,7 @@ public:
 
     xlink2::UserInstanceSLink* mUser;
 };
+static_assert(sizeof(ScreenSoundLinkUserImpl) == 0x18);
+static_assert(offsetof(ScreenSoundLinkUserImpl, mUser) == 0x10);
 
 }  // namespace eui

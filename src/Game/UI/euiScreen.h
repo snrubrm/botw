@@ -101,11 +101,14 @@ struct ScreenUnkA0 {
 
 class ScreenSoundLinkUser {
 public:
+    // The complete secondary table at 0x71024c91a0 has six entries. The first
+    // four update, destroy, activate and deactivate the associated xlink user.
     virtual void m0();
     virtual void m1();
     virtual void m2();
     virtual void m3();
     virtual void setDrawTarget(s32 target);
+    virtual void setButtonProperty(s32 property);
 };
 
 // Per-screen draw information; the base contains the layout matrices.
