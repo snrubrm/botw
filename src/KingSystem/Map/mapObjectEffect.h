@@ -7,6 +7,8 @@
 namespace sead { class Heap; }
 namespace gsys { class Model; }
 namespace ksys::xlink { class XLink; }
+namespace ksys::act { class Unk_71024e6428; }
+class Unk_710250c840;
 
 namespace ksys::map {
 
@@ -21,6 +23,11 @@ public:
     void sub_7100D4DB08();
 
 private:
+    // Carried activation 10C88F4 and element setup E3AA34 copy this XLink
+    // into the chemical element; construction and teardown establish its type.
+    friend class ::Unk_710250c840;
+    friend class ksys::act::Unk_71024e6428;
+
     sead::ListNode mNode;
     xlink::XLink* mXLink;
     gsys::Model* mModel;
