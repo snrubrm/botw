@@ -121,6 +121,32 @@ void AppendLayoutItemUniqueName(sead::StringBuilder* out, const char* name, cons
     out->append(name, -1);
 }
 
+// 0x7100bef498
+// NON_MATCHING: token iterator copies and delimiter scans are scheduled differently.
+void sub_7100BEF498(sead::StringBuilder* out, const char* name, const LayoutEx* layout) {
+    out->clear();
+    if (!name[0])
+        return;
+    if (name[0] == '/') {
+        out->copy(name + 1, -1);
+        out->replaceChar('/', '-');
+        return;
+    }
+
+    sead::FixedSafeString<64> token;
+    const sead::SafeString path(name);
+    auto it = path.tokenBegin("/");
+    const auto end = path.tokenEnd("/");
+    it.getAndForward(&token);
+    out->clear();
+    AppendLayoutItemUniqueName(out, token.cstr(), layout);
+    while (it != end) {
+        it.getAndForward(&token);
+        out->append("-", -1);
+        out->append(token.cstr(), -1);
+    }
+}
+
 // 0x7100bed2bc
 f32 GetRadAngleOfDirection(Direction direction) {
     switch (int(direction.value())) {
