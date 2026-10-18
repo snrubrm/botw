@@ -1,10 +1,15 @@
 #include "KingSystem/Graphics/gfxLocationalLightMgr.h"
+#include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Map/mapObject.h"
 
 namespace ksys::gfx {
 
 bool LocationalLightMgr::sub_7100F13368(ObjectLight* light) {
+    static_assert(offsetof(LocationalLightMgr, mRigLightCS) == 0x458);
+    static_assert(offsetof(LocationalLightMgr, mRigLights) == 0x498);
+    static_assert(offsetof(LocationalLightMgr, mFreeRigLights) == 0x4a8);
+    static_assert(offsetof(LocationalLightMgr, mActiveRigLights) == 0x4b8);
     if (light)
         light->detachObject();
     auto lock = sead::makeScopedLock(mObjectLightCS);

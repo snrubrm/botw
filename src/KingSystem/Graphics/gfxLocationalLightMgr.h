@@ -9,6 +9,7 @@
 
 namespace gsys { class ModelUnit; }
 namespace ksys::map { class Object; }
+namespace ksys::eft { class MothEffectEmitter; }
 class Unk_7102519378;
 
 namespace ksys::gfx {
@@ -16,6 +17,8 @@ namespace ksys::gfx {
 // Graphics +0xaa0: constructor 0x7100f0aca8, allocation size 0x18d8.
 // The light pools and shader resources outside this prefix are not modelled yet.
 class LocationalLightMgr : public sead::hostio::Node {
+    // Native Moth126f160 selects records from this actual active light pool.
+    friend class ksys::eft::MothEffectEmitter;
 public:
     LocationalLightMgr();
     virtual ~LocationalLightMgr();
@@ -50,7 +53,13 @@ public:
 
 private:
     sead::CriticalSection mCS;
-    u8 _48[0x4c8 - 0x48];
+    u8 _48[0x458 - 0x48];
+    // F0CAF0 allocates 0x88-byte Light records; F15A00/F15A74 move their
+    // pointers between these arrays under the independent pool mutex.
+    sead::CriticalSection mRigLightCS;
+    sead::Buffer<ObjectLight::Light> mRigLights;
+    sead::PtrArray<ObjectLight::Light> mFreeRigLights;
+    sead::PtrArray<ObjectLight::Light> mActiveRigLights;
     sead::CriticalSection mObjectLightCS;
     sead::Buffer<ObjectLight> mObjectLights;
     sead::PtrArray<ObjectLight> mFreeObjectLights;
