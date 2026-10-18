@@ -76,6 +76,50 @@ void AdjustPaneSizeToTextSize(nn::ui2d::Pane* pane, LayoutEx* layout) {
 }
 
 
+// 0x7100bed4f4
+// NON_MATCHING: TextBox static RTTI queries are inlined and float loads are scheduled differently.
+void CenteringPanePair(nn::ui2d::Pane* pane) {
+    const auto* left_name = pane->FindExtUserDataByName("CenteringPairLeft");
+    if (!left_name)
+        return;
+    const auto* right_name = pane->FindExtUserDataByName("CenteringPairRight");
+    if (!right_name)
+        return;
+    auto* left = pane->FindPaneByName(left_name->GetString(), true);
+    auto* right = pane->FindPaneByName(right_name->GetString(), true);
+    if (!left || !right)
+        return;
+
+    TextBoxEx* text_box;
+    nn::ui2d::Pane* other;
+    f32 direction;
+    if (auto* text = nn::font::DynamicCast<TextBoxEx>(right)) {
+        if (text->GetTextPositionH() != nn::ui2d::HorizontalPosition_Left)
+            return;
+        text_box = text;
+        other = left;
+        direction = 1.0f;
+    } else if (auto* text = nn::font::DynamicCast<TextBoxEx>(left)) {
+        if (text->GetTextPositionH() != nn::ui2d::HorizontalPosition_Right)
+            return;
+        text_box = text;
+        other = right;
+        direction = -1.0f;
+    } else {
+        return;
+    }
+
+    f32 margin = 0.0f;
+    if (const auto* data = pane->FindExtUserDataByName("CenteringPairMargin"))
+        margin = data->GetFloatArray()[0];
+    const auto rect = text_box->GetTextDrawRect();
+    const f32 text_width = rect.right - rect.left;
+    const f32 total_width = margin + (other->GetSize().width + text_width);
+    other->SetPositionX(direction * (other->GetSize().width - total_width) * 0.5f);
+    text_box->SetPositionX(direction * ((total_width + text_box->GetSize().width) * 0.5f - text_width));
+}
+
+
 // NON_MATCHING: base-position branches fold into conditional selects; load scheduling differs.
 // 0x7100bed030
 void CalcPaneBoundBox(sead::BoundBox2f* box, const nn::ui2d::Pane& pane) {
