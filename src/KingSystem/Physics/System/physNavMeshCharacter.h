@@ -45,9 +45,9 @@ SEAD_ENUM(NavMeshPathState, State0, State1, State2, State3)
 // Face material filter at NavMeshCharacter::_58. Enemy (0x71023572b8), Horse
 // (0x71024eb548) and Sandworm (0x71023cf690) tables all have destructor slots 0/1,
 // followed by the material checks. The shared m4 calls m3 at slot 3.
-// The trailing parameter and m2's second parameter are a NavMeshCharacterType by value: the shared
-// virtuals zero-extend them with `and x4, x4, #0xffffffff` when forwarding (the SEAD_ENUM by-value
-// ABI, as for sub_7100F74F94/FA0); the Horse filter's m2 switches on the same values 0/1/2/12/13/15.
+// The trailing parameter of m3/m4/m5 is a NavMeshCharacterType by value: the shared virtuals
+// zero-extend it with `and x4, x4, #0xffffffff` when forwarding (the SEAD_ENUM by-value ABI, as for
+// sub_7100F74F94/FA0); the Horse filter's m2 switches on the same type values 0/1/2/12/13/15.
 class NavMeshCharacterUnk58 {
 public:
     virtual ~NavMeshCharacterUnk58() = default;
