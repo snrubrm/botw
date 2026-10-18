@@ -20,6 +20,9 @@ public:
     MessageString(const MessageString& other);
     // 0x7100be50bc (CSV eui::MessageString::assign)
     void assign(const MessageString& other);
+    // 0x7100be50d0: copy text without message tags; false if the output buffer fills.
+    // Const spelling is inferred from the read-only receiver.
+    bool sub_7100BE50D0(sead::WBufferedSafeString* out) const;
 
     // inline-only in the original; names are guesses: both TextBoxEx message setters read these fields.
     const char16* getString() const { return mString; }

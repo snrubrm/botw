@@ -888,4 +888,13 @@ bool sub_7100AA8F74() {
     return sub_71008BA778();
 }
 
+// 0x71010ba648
+s32 sub_71010BA648(sead::BufferedSafeString* out, const eui::MessageString& message) {
+    sead::WFixedSafeString<128> text;
+    if (!message.sub_7100BE50D0(&text))
+        return -1;
+    return sead::StringUtil::convertUtf16ToUtf8(
+        out->getBuffer(), out->getBufferSize(), text.cstr(), -1);
+}
+
 }  // namespace uking::ui
