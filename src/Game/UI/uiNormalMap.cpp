@@ -1,4 +1,5 @@
 #include "Game/UI/uiNormalMap.h"
+#include "Game/UI/uiManager.h"
 #include <math/seadMathCalcCommon.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/Material.h>
@@ -160,6 +161,60 @@ void Unk_7102479bf0::sub_71009A55A0(u32 level) {
     mTexture.mState = 1;
     sead::FixedSafeString<64> path;
     sub_71009A5670(mMapEntry, mType != 0 ? 3 : level, &path);
+}
+
+// 0x71009a64e0, 660 B. Receiver already proven by current member declaration.
+void Unk_7102479c10::sub_71009A64E0() {
+    u32 seen[4]{};
+    for (s32 i = 0; i < 15; ++i) {
+        MainFieldArea area = Manager::instance()->sub_7100A7F2B0(i);
+        for (const auto& tile : area) {
+            if (u32(tile.mIndex) < 120)
+                seen[u32(tile.mIndex) >> 5] |= 1u << (u32(tile.mIndex) & 31);
+        }
+    }
+    for (s32 i = 0; i < 120; ++i) {
+        if (seen[i >> 5] & (1u << (i & 31)))
+            mTiles[i].mTexture.mState = 0;
+    }
+}
+
+// 0x71009a7cf0
+// NON_MATCHING: register allocation differs in the two-bank texture state loop.
+void Unk_7102479c10::sub_71009A7CF0() {
+    u32 seen[4]{};
+    for (s32 i = 0; i < 15; ++i) {
+        MainFieldArea area = Manager::instance()->sub_7100A7F2B0(i);
+        for (const auto& tile : area) {
+            if (u32(tile.mIndex) < 120)
+                seen[u32(tile.mIndex) >> 5] |= 1u << (u32(tile.mIndex) & 31);
+        }
+    }
+    for (s32 i = 0; i < 120; ++i) {
+        if (seen[i >> 5] & (1u << (i & 31))) {
+            mTiles[i].mTexture.mState = 0;
+            mTiles[i + 120].mTexture.mState = 1;
+        }
+    }
+    _a9a0.reset();
+}
+
+// 0x71009a80d0
+// NON_MATCHING: mode branches and the second-bank bounds check are arranged differently.
+void Unk_7102479c10::sub_71009A80D0(s32 mode, s32 area_index) {
+    MainFieldArea area = Manager::instance()->sub_7100A7F2B0(area_index);
+    if (mode == 0) {
+        for (const auto& tile : area) {
+            if (u32(tile.mIndex) < 120)
+                mTiles[tile.mIndex].mTexture.mState = 0;
+        }
+    } else if (mode == 1) {
+        for (const auto& tile : area) {
+            if (u32(tile.mIndex) < 120)
+                mTiles[tile.mIndex + 120].mTexture.mState = 1;
+        }
+        _a9a0.reset();
+    }
 }
 
 }  // namespace uking::ui

@@ -716,6 +716,16 @@ Manager::~Manager() {
     mTaskList.mBuffer = nullptr;
 }
 
+// Constructed alongside the Manager TU statics at A6DD14..A6DE0C.
+static MainFieldArea sUnk_71025f59f8;
+
+// 0x7100a7f2b0
+// NON_MATCHING: the equivalent null fallback uses an inverted csel condition.
+const MainFieldArea& Manager::sub_7100A7F2B0(s32 index) const {
+    const auto* area = mMainFieldAreas.nth(index);
+    return area ? *area : sUnk_71025f59f8;
+}
+
 }  // namespace uking::ui
 
 // 0x71025d64e8 / 0x71025d64ec / 0x71025d6540 (placeholder names): flags of the gauge TU (direct adrp loads:

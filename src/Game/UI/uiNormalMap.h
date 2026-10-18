@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <nn/ui2d/TextureInfo.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiTimer.h"
@@ -66,6 +67,9 @@ public:
     void sub_71009A63F4();
     // 0x71009a64e0 / 0x71009a6ff4 / 0x71009a75ac (placeholder names; not decompiled): called by sub_71009A63F4
     void sub_71009A64E0();
+    // 0x71009a7cf0 / 0x71009a80d0: queue tile textures for all areas / one area.
+    void sub_71009A7CF0();
+    void sub_71009A80D0(s32 mode, s32 area);
     void sub_71009A6FF4();
     void sub_71009A75AC();
     void sub_71009A6F34();
@@ -78,7 +82,8 @@ public:
     /* 0x10 */ Unk_71024753a8* _10;
     u8 _18[0x28 - 0x18];
     /* 0x28 */ Unk_7102479bb0 mEntries[120];
-    /* 0x12e8 */ Unk_7102479bf0 mTiles[240];
+    // 9A8224..9A822C retains the fixed-array bound check and index-zero fallback.
+    /* 0x12e8 */ sead::SafeArray<Unk_7102479bf0, 240> mTiles;
     u8 _a8e8[0xa8ea - 0xa8e8];
     /* 0xa8ea */ bool _a8ea;  // returned by sub_71009A82A8
     /* 0xa8eb */ u8 _a8eb;  // ScreenAppMapWidget::sub_71009A9438 / sub_71009AF37C read it

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Resource/resHandle.h"
+#include "Game/UI/uiMainFieldArea.h"
 #include "KingSystem/Resource/resResourceJpg.h"
 
 #include <container/seadSafeArray.h>
@@ -217,7 +218,13 @@ public:
     void setE0(const u64* value) { _e0 = *value; }
     void set64c68(bool value) { _64c68 = value; }
 
-    u8 _e8[0x649ec - 0xe8];
+    // 0x7100a7f2b0: indexed area list, with a shared empty list for an absent index.
+    const MainFieldArea& sub_7100A7F2B0(s32 index) const;
+
+    u8 _e8[0x5dda8 - 0xe8];
+    // A6CC5C constructs this 15-element pool; A71EB4 fills it from the area resource.
+    /* 0x5dda8 */ sead::FixedObjList<MainFieldArea, 15> mMainFieldAreas;
+    u8 _627e8[0x649ec - 0x627e8];
     /* 0x649ec */ sead::BitFlag8 _649ec;
     u8 _649ed[0x649f0 - 0x649ed];
     /* 0x649f0 */ sead::Controller* _649f0;  // the controller the screens' UIControllers are registered with
