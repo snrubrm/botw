@@ -16,6 +16,10 @@ public:
 
     s32 getTypeID() const override;
 
+    // Nonvirtual helper called by the game light owner 0x7100f17e50,
+    // which also passes this Context to ParameterBase::genMessageParameter.
+    void sub_7100C83D44(sead::hostio::Context* context);
+
     // Table 0x71024d1fd8, slots 23..26. The complete native traversal
     // 0x7100c8338c passes Model and its actual bone/material keys and names.
     virtual void m23(Model* model);
