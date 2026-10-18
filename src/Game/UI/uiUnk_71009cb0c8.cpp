@@ -1,5 +1,9 @@
 #include <nn/ui2d/Material.h>
 #include <nn/ui2d/Pane.h>
+#include <filedevice/seadFileDeviceMgr.h>
+#include "Game/UI/uiManager.h"
+#include "Game/gameSaveSystem.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
@@ -16,6 +20,148 @@ Unk_71009cb0c8::Unk_71009cb0c8()
     : mTaskDelegate(this, &Unk_71009cb0c8::sub_71009CB188),
       mPostRunCallback(this, &Unk_71009cb0c8::sub_71009CB804),
       mRemoveCallback(this, &Unk_71009cb0c8::sub_71009CBC64) {}
+
+// NON_MATCHING: the context lifetime uses out-of-line calls and the state switch has a different branch layout.
+// 0x71009cb188
+bool Unk_71009cb0c8::sub_71009CB188(void*) {
+    ::Unk_710247e960 request;
+    s32 state;
+    {
+        auto lock = sead::makeScopedLock(mCS);
+        state = mLoader.mQueueState;
+        request._8 = mLoader.mCurrentRequest._8;
+        request._60 = mLoader.mCurrentRequest._60;
+        request._b8 = mLoader.mCurrentRequest._b8;
+        request._c8 = mLoader.mCurrentRequest._c8;
+        request._cc = u8(mLoader.mCurrentRequest._cc);
+        request._d0 = mLoader.mCurrentRequest._d0;
+    }
+    s32 next = state;
+    switch (state) {
+    case 0:
+        if (SaveSystem::instance()->sub_7100914CE4()) {
+            ksys::res::LoadRequest load_request;
+            load_request.mRequester = request._b8;
+            load_request._26 = false;
+            load_request.mEntryFactory = Manager::instance()->_65170;
+            load_request.mAocFileDevice = sead::FileDeviceMgr::instance()->findDevice(request._8.cstr());
+            mTextureHandle->requestLoad(request._60, &load_request, nullptr);
+            mRetryCount = 0;
+            next = 1;
+        }
+        break;
+    case 1:
+        if (mTextureHandle->hasParsedResource())
+            next = mTextureHandle->isSuccess() ? 2 : 11;
+        if (mTextureHandle->isReadyOrNeedsParse())
+            mTextureHandle->parseResource(nullptr);
+        break;
+    case 2:
+        next = 3;
+        break;
+    case 3:
+        if (mTextureHandle->hasParsedResource()) {
+            auto* resource = sead::DynamicCast<ksys::res::Unk_710247eb88>(mTextureHandle->getResource());
+            if (resource) {
+                if (u8(request._cc) == 0) {
+                    if (resource->_38 || resource->sub_71009CD734(request._c8)) {
+                        next = 4;
+                        break;
+                    }
+                } else if (resource->_39 || resource->sub_71009CDAE0(request._c8)) {
+                    next = 4;
+                    break;
+                }
+            }
+        }
+        if (++mRetryCount < u32(request._d0)) {
+            next = 2;
+        } else {
+            mTextureHandle->requestUnload();
+            next = 11;
+        }
+        break;
+    case 4:
+        next = 5;
+        break;
+    case 6:
+        mLastFrame = Manager::instance()->mFrameNumber;
+        next = 7;
+        break;
+    case 7:
+        if (Manager::instance()->mFrameNumber - mLastFrame >= 2)
+            next = 8;
+        break;
+    case 8:
+        next = 9;
+        break;
+    case 9:
+        if (mTextureHandle->hasParsedResource()) {
+            auto* resource = sead::DynamicCast<ksys::res::Unk_710247eb88>(mTextureHandle->getResource());
+            if (resource) {
+                if (u8(request._cc) == 0) {
+                    if (resource->_38)
+                        resource->sub_71009CD5F8();
+                } else if (resource->_39) {
+                    resource->sub_71009CD66C();
+                }
+            }
+        }
+        next = 10;
+        break;
+    case 10:
+        if (mTextureHandle->requestedLoad() && mTextureHandle->hasParsedResource())
+            mTextureHandle->requestUnload();
+        next = 11;
+        break;
+    case 11:
+        if (!mTextureHandle->requestedLoad())
+            next = 12;
+        break;
+    }
+    {
+        auto lock = sead::makeScopedLock(mCS);
+        mLoader.mQueueState = next;
+    }
+    return true;
+}
+
+// NON_MATCHING: RTTI lookup and selected texture pointer use different registers.
+// 0x71009cbecc
+nn::ui2d::TextureInfo* Unk_71009cb0c8::sub_71009CBECC() {
+    if (mTextureHandle && mTextureHandle->hasParsedResource()) {
+        auto* resource = sead::DynamicCast<ksys::res::Unk_710247eb88>(mTextureHandle->getResource());
+        if (resource) {
+            auto lock = sead::makeScopedLock(mCS);
+            return u8(mLoader.mCurrentRequest._cc) ? &resource->_58 : &resource->_40;
+        }
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: resource RTTI lookup and reload scheduling differ.
+// 0x71009cc970
+void Unk_71009cb0c8::sub_71009CC970() {
+    ksys::ManagedTaskHandle* handle;
+    {
+        auto lock = sead::makeScopedLock(mCS);
+        mLoader.mCommands.clear();
+        handle = mLoader.mTaskHandle;
+        mLoader.mQueueState = 13;
+    }
+    if (handle && handle->hasTask())
+        handle->removeTaskFromQueue();
+    if (mMaterial)
+        mMaterial->GetTexMapArray()[0].ReplaceTextureInfo(&mTexInfo);
+    if (mAnimator)
+        mAnimator->Stop(0.0f);
+    mApplied = false;
+    if (mTextureHandle) {
+        if (auto* resource = sead::DynamicCast<ksys::res::Unk_710247eb88>(mTextureHandle->getResource()))
+            resource->sub_71009CDAE8();
+        mTextureHandle->requestUnload();
+    }
+}
 
 // 0x71009cbc64
 void Unk_71009cb0c8::sub_71009CBC64(const ksys::TaskRemoveCallbackContext&) {

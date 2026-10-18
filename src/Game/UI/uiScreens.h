@@ -5610,8 +5610,7 @@ public:
     bool sub_71009CBFA4() const;
     bool sub_71009CBEAC() const;
     void sub_71009CBE38();
-    // Full 216-byte native returns one of the resource's two texture records under the controller lock.
-    // Declaration only: resource access remains with its owner.
+    // Returns one of the resource's two texture records under the controller lock.
     nn::ui2d::TextureInfo* sub_71009CBECC();
     void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
     void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
@@ -5623,7 +5622,7 @@ public:
     void sub_71009CBC64(const ksys::TaskRemoveCallbackContext& context);
 
     /* 0x0 */ u32 mLastFrame = 0;
-    /* 0x4 */ s32 mRetryCount;
+    /* 0x4 */ u32 mRetryCount;
     /* 0x8 */ bool mApplied = false;
     u8 _9[7];
     /* 0x10 */ ksys::res::Handle* mTextureHandle = nullptr;

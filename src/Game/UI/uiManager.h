@@ -34,6 +34,10 @@ namespace nn::ui2d {
 class Pane;
 }
 
+namespace ksys::res {
+class EntryFactoryBase;
+}
+
 namespace uking::ui {
 
 // Placeholder: the object whose +0x20 field the manager's `_651e0` mirrors (the pin of the map / camera screens).
@@ -263,7 +267,10 @@ public:
     /* 0x64c48 */ s32 _64c48;  // the debug board message's target (0: none)
     u8 _64c4c[1];
     /* 0x64c4d */ u8 _64c4d;
-    u8 _64c4e[0x64c68 - 0x64c4e];
+    u8 _64c4e[0x64c60 - 0x64c4e];
+    // Updated each frame by A76424; texture requests wait for two elapsed frames.
+    /* 0x64c60 */ u32 mFrameNumber;
+    u8 _64c64[0x64c68 - 0x64c64];
     /* 0x64c68 */ bool _64c68;
     u8 _64c69[0x64c78 - 0x64c69];
     // UI textures / render targets (the destructor frees the texture's image block first)
@@ -280,7 +287,8 @@ public:
     /* 0x65160 */ void* _65160;
     /* 0x65168 */ s32 _65168;
     u8 _6516c[0x65170 - 0x6516c];
-    /* 0x65170 */ void* _65170;
+    // A6F194 constructs EntryFactory<Unk_710247eb88>; the texture worker passes it in LoadRequest.
+    /* 0x65170 */ ksys::res::EntryFactoryBase* _65170;
     /* 0x65178 */ void* _65178;
     // map name / escape destination for the dungeon exit (set by sub_71009E3B84)
     /* 0x65180 */ const char* _65180;

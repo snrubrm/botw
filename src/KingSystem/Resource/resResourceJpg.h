@@ -3,6 +3,10 @@
 #include <nn/ui2d/TextureInfo.h>
 #include "KingSystem/Resource/resResource.h"
 
+namespace uking::ui {
+class Unk_71009cb0c8;
+}
+
 namespace agl {
 class TextureData;
 }
@@ -64,6 +68,8 @@ public:
     bool sub_71009CDAE0(s32 denominator);
 
 protected:
+    // The controller selects the two textures and releases completed decodes in 9CB188 / 9CC970.
+    friend class uking::ui::Unk_71009cb0c8;
     bool sub_71009CD73C(s32 denominator, bool secondary);
     void sub_71009CDAE8();
 
