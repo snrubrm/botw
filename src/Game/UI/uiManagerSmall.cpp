@@ -777,8 +777,8 @@ bool Manager::parseMainFieldAreas() {
         if (mMainFieldAreaMasks.getMaxNum() < mask_count)
             break;
         if (auto* mask = mMainFieldAreaMasks.emplaceBack()) {
-            sead::FormatFixedSafeString<32> name(
-                "%c-%c", i % 12 ? i % 12 + '@' : 'Z', i / 12 + '0');
+            sead::FixedSafeString<32> name;
+            name.format("%c-%c", i % 12 ? i % 12 + '@' : 'Z', i / 12 + '0');
             u32 value = 0;
             if (masks.tryGetUIntByKey(&value, name.cstr())) {
                 mask->mMask = u16(value);
@@ -845,8 +845,8 @@ bool Manager::parseMainFieldAreas() {
         if (mMainFieldSubMasks.getMaxNum() < submask_count)
             break;
         if (auto* mask = mMainFieldSubMasks.emplaceBack()) {
-            sead::FormatFixedSafeString<32> name(
-                "%c-%c", i % 12 ? i % 12 + '@' : 'Z', i / 12 + '0');
+            sead::FixedSafeString<32> name;
+            name.format("%c-%c", i % 12 ? i % 12 + '@' : 'Z', i / 12 + '0');
             al::ByamlIter source;
             if (!submask_info.tryGetIterByKey(&source, name.cstr())) {
                 mask->mFilter = 0;

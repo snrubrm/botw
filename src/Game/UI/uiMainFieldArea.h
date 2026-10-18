@@ -47,7 +47,7 @@ static_assert(sizeof(MainFieldAreaTile) == 0x20);
 using MainFieldArea = sead::FixedObjList<MainFieldAreaTile, 25>;
 static_assert(sizeof(MainFieldArea) == 0x4e0);
 
-// A72538 resets the mask after list erasure, before returning its slot to the free pool.
+// A72520 resets the mask after list erasure, before returning its slot to the free pool.
 struct MainFieldAreaMask {
     ~MainFieldAreaMask() { mMask = 0; }
     u16 mMask = 0;
@@ -70,7 +70,7 @@ static_assert(sizeof(MainFieldSubArea) == 0x108);
 using MainFieldSubAreas = sead::FixedObjList<MainFieldSubArea, 10>;
 static_assert(sizeof(MainFieldSubAreas) == 0xb20);
 
-// A72F38 resets both halves at the item destructor position.
+// A72F54 resets both halves at the item destructor position.
 struct MainFieldSubMask {
     ~MainFieldSubMask() {
         mFilter = 0;
