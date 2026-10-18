@@ -1,4 +1,8 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include <limits>
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiButton.h"
@@ -2626,3 +2630,53 @@ void ScreenAppPictureBookUnk::sub_7100940288() {
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+// Picture-book TU objects initialized by 9F2EC0.
+static sead::SafeString sUnk_71025eb9f8 = "T_SubTextA_00";
+static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
+}  // namespace uking::ui
+
+// 0x71009f6220
+// NON_MATCHING: loop registers, string scheduling and TU-static address calculations differ.
+void Unk_7102482790::sub_71009F6220(const char* actor) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return;
+    s32 live_spots[2]{-1, -1};
+    al::ByamlIter actor_iter;
+    bool use_live_spots = false;
+    if (info->getActorIter(&actor_iter, actor, true)) {
+        live_spots[0] = ksys::act::getPictureBookLiveSpot1(actor_iter);
+        if (live_spots[0] > 0) {
+            live_spots[1] = ksys::act::getPictureBookLiveSpot2(actor_iter);
+            use_live_spots = true;
+        }
+    }
+    ksys::act::InfoData::HomeAreas homes;
+    info->getHomeAreas(actor, homes);
+    sead::WFixedSafeString<128> text;
+    for (s32 i = 0; i < 2; ++i) {
+        eui::MessageString message;
+        s32 result = 1;
+        if (use_live_spots) {
+            if (live_spots[i] <= 0)
+                continue;
+            sead::FormatFixedSafeString<16> label("%04d", live_spots[i]);
+            result = uking::ui::getMessage(uking::ui::sUnk_71025ebac8, label, &message);
+        } else {
+            // Native uses the home area itself as the format string, not a new "%s" wrapper.
+            sead::FormatFixedSafeString<64> area(homes.names[i]);
+            result = uking::ui::getMapAreaLocationString(area, &message);
+        }
+        if (result == 0) {
+            sead::WFixedSafeString<64> plain;
+            message.sub_7100BE50D0(&plain);  // native ignores the bool result
+            text.append(plain);
+            if (i < 1)
+                text.append(sead::WSafeString(u"\n"));
+        }
+    }
+    const eui::MessageString message(text.calcLength(), text.cstr());
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eb9f8, message);
+}

@@ -204,6 +204,16 @@ int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out) {
     return getMessage(file, label, out);
 }
 
+// 0x7100aa30ac
+// NON_MATCHING: SafeString argument evaluation is scheduled differently.
+s32 getMapAreaLocationString(const sead::SafeString& area, eui::MessageString* out) {
+    const sead::SafeString prefix("MapArea_");
+    const sead::SafeString group("StaticMsg/LocationMarker");
+    sead::FixedSafeString<256> label;
+    label.format("%s%s", prefix.cstr(), area.cstr());
+    return getMessage(group, label, out);
+}
+
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
                eui::MessageString* out) {
     auto* set = eui::MessageMgr::instance()->getMessageSet(message_set);
@@ -895,6 +905,60 @@ s32 sub_71010BA648(sead::BufferedSafeString* out, const eui::MessageString& mess
         return -1;
     return sead::StringUtil::convertUtf16ToUtf8(
         out->getBuffer(), out->getBufferSize(), text.cstr(), -1);
+}
+
+// 0x7100aa73e8
+// NON_MATCHING: flag-dispatch block layout and string scheduling differ.
+void sub_7100AA73E8(eui::LayoutEx* layout, const sead::SafeString& widget,
+                   const act::WeaponModifierInfo& modifier) {
+    using Modifier = act::WeaponModifier;
+    s32 id = -1;
+    const bool yellow = modifier.flags.isOn(Modifier::IsYellow);
+    if (modifier.flags.isOn(Modifier::AddAtk))
+        id = yellow ? 28 : 24;
+    else if (modifier.flags.isOn(Modifier::AddLife))
+        id = yellow ? 29 : 25;
+    else if (modifier.flags.isOn(Modifier::AddGuard))
+        id = yellow ? 30 : 27;
+    else if (modifier.flags.isOn(Modifier::AddCrit))
+        id = 26;
+    else if (modifier.flags.isOn(Modifier::AddThrow))
+        id = 31;
+    else if (modifier.flags.isOn(Modifier::AddSpreadFire))
+        id = 32;
+    else if (modifier.flags.isOn(Modifier::AddZoomRapid))
+        id = 33;
+    else if (modifier.flags.isOn(Modifier::AddRapidFire))
+        id = 34;
+    else if (modifier.flags.isOn(Modifier::AddSurfMaster))
+        id = 35;
+    if (id < 0) {
+        const auto& empty_string = sead::WSafeString::cEmptyString;
+        const eui::MessageString empty(empty_string.calcLength(), empty_string.cstr());
+        if (layout)
+            layout->setMessageStringForEachId(widget.cstr(), empty, true, nullptr);
+        return;
+    }
+    eui::MessageString message;
+    sub_7100AA69B4(id, &message);  // native ignores the status
+    if (id < 31 && (0x59000000u & (1u << id))) {
+        const s32 value = modifier.flags.isOn(Modifier::AddAtk) ||
+                          modifier.flags.isOn(Modifier::AddGuard) ? modifier.value : 0;
+        sead::FixedSafeString<8> number;
+        number.format("%d", value);
+        sead::WFixedSafeString<8> wide_number;
+        sead::StringUtil::convertUtf8ToUtf16(
+            wide_number.getBuffer(), wide_number.getBufferSize(), number.cstr(), -1);
+        sead::WFixedSafeString<128> text;
+        message.sub_7100BE50D0(&text);  // native ignores the bool result
+        text.append(sead::WSafeString(u" "));
+        text.append(wide_number);
+        const eui::MessageString result(text.calcLength(), text.cstr());
+        if (layout)
+            layout->setMessageStringForEachId(widget.cstr(), result, true, nullptr);
+    } else if (layout) {
+        layout->setMessageStringForEachId(widget.cstr(), message, true, nullptr);
+    }
 }
 
 }  // namespace uking::ui

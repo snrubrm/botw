@@ -151,6 +151,8 @@ class Unk_7102482790 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_7102482790, uking::ui::Unk_7102474e38)
 public:
     ~Unk_7102482790() override;
+    // 9F57C4 (m13) calls this on the same picture-book unit receiver.
+    void sub_71009F6220(const char* actor);
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
     // zeroed by the constructor with two memsets (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb6fc;
