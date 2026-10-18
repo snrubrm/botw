@@ -22,6 +22,12 @@
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include <prim/seadScopedLock.h>
+
 namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(LODMgr)
@@ -593,6 +599,194 @@ void LODMgr::requestDrawModels() {
         return;
     for (s32 i = 0; i <= count - 1; ++i)
         _1838[i]->requestDraw();
+}
+
+// NON_MATCHING: state traversal, bounds checks and flag branches are scheduled differently.
+void LODMgr::x_2(const sead::Vector3f* camera) {
+    _1028 = 0;
+    _1830 = 0;
+    _2104 = 0;
+    _2108 = 0;
+    _210c = 0;
+    _2198 = 0;
+    _219c = 0;
+    _21a4 = 0;
+    _21ac = 0;
+    _21b0 = 0;
+    _1878 = 0;
+    _2188 = 0;
+    mSlotPools[0].used = 0;
+    mSlotPools[0].taken = 0;
+    mSlotPools[0].count = 0;
+    mSlotPools[1].used = 0;
+    mSlotPools[1].taken = 0;
+    mSlotPools[1].count = 0;
+    mOcclusionPool.count = 0;
+    _1838.clear();
+    for (s32 i = 6; i < 24; ++i)
+        _2110[i] = 0;
+
+    auto* creator = ActorCreator::instance();
+    auto lock = sead::makeScopedLock(creator->getCS());
+    map::PlacementAreaMgr* area = nullptr;
+    if (map::PlacementMgr::instance() && map::PlacementMgr::instance()->mPlacementActors)
+        area = map::PlacementMgr::instance()->mPlacementActors->mStruct1;
+    const bool event_flag = evt::Manager::instance()->getActiveEvent() &&
+        (evt::Manager::instance()->getActiveEvent()->_340 & (u64(1) << 46));
+
+    if (sUnk_71026531A8 & 0x1000) {
+        bool found = false;
+        for (auto& actor : creator->getActorList()) {
+            if (actor.getLodState() && actor.getLodState()->mFlags14.isOnBit(31)) {
+                actor.getLodState()->printDebugInfo();
+                found = true;
+            }
+        }
+        if (!found)
+            sUnk_71026531A8 &= ~0x1000;
+    }
+
+    auto* system = ActorSystem::instance();
+    system->sub_7100D5D808();
+    for (auto& actor : system->mActiveActors) {
+        auto* state = actor.getLodState();
+        actor.setFlag(static_cast<Actor::ActorFlag>(0x1a), false);
+        if (actor.getName().startsWith("RemainsWater")) {
+            // The native re-fetches the placement singleton and area here.
+            auto* placement = map::PlacementMgr::instance();
+            if (placement && placement->mPlacementActors &&
+                placement->mPlacementActors->mStruct1 &&
+                (placement->mPlacementActors->mStruct1->_2d5c8 & 0x10)) {
+                actor.mSkippedJobTypesMask.set(0x17);
+                if (actor.getModel())
+                    _1838.pushBack(actor.getModel());
+                continue;
+            }
+            actor.mSkippedJobTypesMask.reset(0x17);
+        }
+
+        if ((sUnk_71026531A8 & 0x4000000) && actor._730 > 0) {
+            // B.GT skips the test for positive _718; NaN enters the test.
+            if (!(actor._718 > 0.0f) && !evt::Manager::instance()->_1d2b8 &&
+                evt::Manager::instance()->_1d2f8 != 1) {
+                const sead::Vector3f position = actor.getMtx().getTranslation();
+                if (!mFrustum.isInside(position, actor._730)) {
+                    actor.mSkippedJobTypesMask.set(0x17);
+                    continue;
+                }
+            }
+            actor.mSkippedJobTypesMask.reset(0x17);
+        }
+
+        if (!actor.checkFlag(Actor::ActorFlag::_39) &&
+            !actor.checkFlag(static_cast<Actor::ActorFlag>(0x13))) {
+            actor.mSkippedJobTypesMask.reset(0x17);
+            actor.setFlag(static_cast<Actor::ActorFlag>(0x1b), false);
+            if ((sUnk_71026531A8 & 0x80000) && actor.sub_71011CDDCC() &&
+                !(actor.mActorFlags2.getDirect() & 0x200) && !(actor._718 > 0.0f) &&
+                evt::Manager::instance()->_1d2f8 != 1 &&
+                !actor.checkFlag(Actor::ActorFlag::_2d) && !actor.mFieldBodyGroup) {
+                const f32 dx = camera->x - actor.getMtx().getTranslation().x;
+                const f32 dz = camera->z - actor.getMtx().getTranslation().z;
+                const f32 distance_squared = dx * dx + dz * dz;
+                auto* distance_state = actor.getLodState();
+                const u32 interval = distance_state ? distance_state->_70 : 60;
+                bool too_far = distance_squared > (distance_state ? distance_state->_6c : 250000.0f);
+                if (!(sUnk_71026531A8 & 0x200000) && actor.getMapObject() &&
+                    !actor.areMtxAndHomeMtxPosDesynced() && !actor.sub_71011C7990() &&
+                    !(actor.mActorFlags2.getDirect() & 0x800000)) {
+                    if (actor.getMapObject()->getFlags().getDirect() & 0x4000) {
+                        too_far = distance_squared > 25.0f;
+                    } else if (actor.getMapObject()->getActorFlags8().getDirect() & 1) {
+                        const f32 distance = map::PlacementMgr::instance()->getDispDistanceComplex(
+                            actor.getMapObject()) + 15.0f;
+                        too_far = distance_squared > distance * distance;
+                    }
+                }
+                // Native evaluates this check even when too_far is already true.
+                const bool skip_flag = actor.checkFlag(static_cast<Actor::ActorFlag>(0x12));
+                if ((too_far || skip_flag) &&
+                    !(sUnk_71026531A8 & 0x100000) &&
+                    (!state || !state->mFlags8.isOnBit(14)) && !actor.get1a0() &&
+                    (!actor.getMapObject() ||
+                     !(actor.getMapObject()->getFlags0().getDirect() & 0x20000)) &&
+                    !(actor.mActorFlags2.getDirect() & 0x100) &&
+                    !actor.checkFlag(Actor::ActorFlag::_18)) {
+                    actor.setFlag(static_cast<Actor::ActorFlag>(0x1b), true);
+                    // Both native divisions are modulo operations. Interval has
+                    // positive producers; retain unsigned ID and signed frame.
+                    if (actor.getId() % interval != _21a0 % s32(interval)) {
+                        actor.mSkippedJobTypesMask.set(7);
+                        if (actor.getXLink() && !actor.getXLink()->x_1() && state &&
+                            state->mFlags14.isOnBit(12))
+                            actor.mSkippedJobTypesMask.set(0x10);
+                        if (!tera::checkTeraSystemStatus() && actor.getModel() &&
+                            (!actor.getMapObject() ||
+                             !(actor.getMapObject()->getFlags0().getDirect() & 0x40)) &&
+                            !(actor.mActorFlags2.getDirect() & 0x21))
+                            _1838.pushBack(actor.getModel());
+                        ++_2188;
+                    }
+                }
+            }
+        }
+
+        if (!state || !actor.isCalc())
+            continue;
+        ++_2110[6 + state->mActorType];
+        if (state->mFlags8.isOffBit(6))
+            ++_2110[15 + state->mActorType];
+        if (state->mFlags14.isOnBit(31))
+            sUnk_71026531A8 |= 0x1000;
+        if (state->mFlags8.isOnBit(18) && _1878 < 4) {
+            _1848[_1878] = actor.getMtx().getTranslation();
+            ++_1878;
+        }
+        state->mFlags8.reset(0x3fff);
+        state->_48 = state->_44;
+        state->_25.setDirect(state->_24);
+
+        if (state->mFlags26.isOffBit(0) && !actor.get1a0() &&
+            (!actor.getMapObject() ||
+             !(actor.getMapObject()->getFlags0().getDirect() & 0x20000)) &&
+            !(sUnk_71026531A8 & 0x10) && area &&
+            !(actor.mActorFlags2.getDirect() & 0x100)) {
+            bool active = false;
+            if (!state->mFlags14.isOnBit(24) && !(sUnk_71026531A8 & 0x10000) &&
+                actor.sub_71011DAE0C())
+                active = true;
+            state->mFlags14.changeBit(15, active);
+            if (actor.m31()) {
+                state->mFlags26.set(2);
+                if (_1830 < 0x100)
+                    _1030[_1830++] = state;
+                if (active)
+                    ++_2108;
+            } else {
+                state->mFlags26.reset(2);
+                if (_1028 < 0x200)
+                    _28[_1028++] = state;
+                if (active)
+                    ++_2104;
+            }
+            if (actor.getXLink())
+                ++_210c;
+            if (state->mFlags14.isOnBit(6))
+                ++_21a4;
+            if (state->mFlags14.isOnBit(1))
+                ++_21ac;
+            if (actor.mAttention)
+                ++_21b0;
+        } else {
+            state->mFlags26.reset(2);
+            state->sub_7101251240();
+            if (event_flag && state->mFlags8.isOnBit(33))
+                state->mFlags8.reset(6);
+            if (area && (area->_2d5c8 & 2))
+                state->mFlags8.reset(8);
+            sub_71012540AC(state);
+        }
+    }
 }
 
 }  // namespace ksys::act
