@@ -869,5 +869,29 @@ u8* sub_710114E708() {
 // 0x7101147b24 / 0x7101147c34 (placeholder names): a 0x170-byte record at a negative offset.
 
 
-}  // namespace ksys::tera
+// NON_MATCHING: stack reuse, clamp scheduling and the normal-query result test differ.
+u32 Core::Grass::sub_71011516D0(f32* out, const sead::Vector2f* xz) {
+    if (!mEntries(0).mSystem)
+        return 0;
+    if (mFlags & 0x4000) {
+        *out = 0.0f;
+        return 2;
+    }
 
+    f32 height = 0.0f;
+    const sead::Vector2f position = *xz;
+    const u32 result = sub_7101109BD8(&height, &position, mEntries(0).mSystem, true);
+    const f32 level = height * 10.0f;
+    const f32 weight = sead::Mathf::clamp(level - 4.5f, 0.0f, 1.0f) * 0.3f +
+                       sead::Mathf::clamp(level - 6.5f, 0.0f, 1.0f) * 0.3f +
+                       sead::Mathf::clamp(level - 8.5f, 0.0f, 1.0f) * 0.4f;
+    const f32 first = _28->sub_7101069760(xz);
+    const f32 second = _28->sub_71010699D0(xz);
+    *out = weight * (first * second);
+    sead::Vector3f normal;
+    if (*out > 0.0f && sub_71011096D0(&height, &normal, xz, mEntries(0).mSystem, -1, 0) > 0)
+        *out *= sead::Mathf::clamp((normal.y - 0.62f) * 10.0f, 0.0f, 1.0f);
+    return result;
+}
+
+}  // namespace ksys::tera

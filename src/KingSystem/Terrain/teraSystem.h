@@ -149,7 +149,10 @@ public:
         struct Entry {
             EntryPart* _0;
             EntryPart2* _8;
-            u8 _10[0x274 - 0x10];
+            u8 _10[0x28 - 0x10];
+            // 0x710114f978 stores the System passed by Core 0x71013019bc.
+            System* mSystem;
+            u8 _30[0x274 - 0x30];
             u8 _274;
             u8 _275[0x2c0 - 0x275];
         };
@@ -1586,6 +1589,8 @@ u32 sub_71011091DC(f32 a, f32 b, f32* out_height, sead::Vector3f* out_normal, co
 // 0x71011096d0: like sub_71011094A0, also writes the terrain normal.
 u32 sub_71011096D0(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system, s32 index, s32 flag);
+// Existing normalized terrain-image query used by Grass::sub_71011516D0.
+u32 sub_7101109BD8(f32* out, const sead::Vector2f* xz, System* system, bool flag);
 // 0x710110b52c: like sub_710110B4A4, also writes the terrain normal (sub_710110ADF8).
 u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vector2f* xz,
                    System* system);
