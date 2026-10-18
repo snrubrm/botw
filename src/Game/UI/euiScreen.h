@@ -51,6 +51,7 @@ class TagProcessor;
 class UIController;
 class LayoutEx;
 class BoxCursorNode;
+class BoxCursorControl;
 class BoxCursorMgr;
 class ButtonGroup;
 class ScreenMgr;
@@ -375,6 +376,8 @@ public:
 private:
     // Screen::update clears the target flag through its owning manager.
     friend class Screen;
+    // The owned cursor searches the active screen buffers in selection order.
+    friend class BoxCursorControl;
 
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
     sead::Buffer<Screen*> mScreens;

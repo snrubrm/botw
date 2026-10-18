@@ -163,4 +163,109 @@ void BoxCursorControl::moveNode_(Direction direction) {
         next->mButton->ActivateByBoxCursor();
 }
 
+// 0x7100bdc2c8
+// NON_MATCHING: active-screen Buffer iteration differs from the original filtered iterator.
+void BoxCursorControl::selectActiveNode_() {
+    auto* mgr = mLayout->mScreen->mMgr;
+    const DrawTarget target = mLayout->mScreen->getDrawTarget();
+    BoxCursorNode* selected = nullptr;
+    if (mReservedActiveNode) {
+        if (mReservedActiveNode->isMovable(target))
+            selected = mReservedActiveNode;
+        mReservedActiveNode = nullptr;
+    }
+    if (!selected) {
+        for (auto it = mgr->mScreenTargets.begin(), end = mgr->mScreenTargets.end(); it != end; ++it) {
+            if (*it < 0)
+                continue;
+            auto* screen = mgr->mScreens[it.getIndex()];
+            const DrawTarget screen_target = screen->getDrawTarget();
+            if (screen_target != target)
+                continue;
+            auto* node = screen->mActiveCursorNode;
+            if (node && node->isMovable(screen_target)) {
+                selected = node;
+                break;
+            }
+            node = screen->_d8;
+            if (node && node->isMovable(screen_target)) {
+                selected = node;
+                break;
+            }
+        }
+    }
+    if (!selected) {
+        f32 best_distance = sead::Mathf::maxNumber();
+        for (auto it = mgr->mScreenTargets.begin(), end = mgr->mScreenTargets.end(); it != end; ++it) {
+            if (*it < 0)
+                continue;
+            auto* screen = mgr->mScreens[it.getIndex()];
+            for (auto& node : screen->mBoxCursorNodes) {
+                if (!node.isMovable(target))
+                    continue;
+                sead::Vector2f position;
+                node.getPosition(&position);
+                const f32 distance = (mPos - position).length();
+                if (distance < best_distance) {
+                    selected = &node;
+                    best_distance = distance;
+                }
+            }
+        }
+    }
+    auto* old = mActiveNode;
+    mActiveNode = selected;
+    if (old && old != selected)
+        old->mButton->InactivateByBoxCursor();
+    if (!selected)
+        return;
+    selected->getPosition(&mPos);
+    selected->mScreen->mActiveCursorNode = selected;
+    if (old != selected)
+        selected->mButton->ActivateByBoxCursor();
+}
+
+// 0x7100bdc700
+// NON_MATCHING: active-screen iteration and angle normalization lowering differ.
+BoxCursorNode* BoxCursorControl::getNodeByDirection_(Direction direction) {
+    const DrawTarget target = mLayout->mScreen->getDrawTarget();
+    auto* screen = mLayout->mScreen;
+    auto* mgr = screen->mMgr;
+    if (mActiveNode)
+        screen = mActiveNode->mScreen;
+    const f32 angle_limit = screen->_f8;
+    f32 best_distance = sead::Mathf::maxNumber();
+    BoxCursorNode* selected = nullptr;
+    for (auto it = mgr->mScreenTargets.begin(), end = mgr->mScreenTargets.end(); it != end; ++it) {
+        if (*it < 0)
+            continue;
+        auto* candidate_screen = mgr->mScreens[it.getIndex()];
+        for (auto& node : candidate_screen->mBoxCursorNodes) {
+            if (!node.isMovable(target) || &node == mActiveNode)
+                continue;
+            sead::Vector2f position;
+            node.getPosition(&position);
+            sead::Vector2f delta = position - mPos;
+            delta.normalize();
+            const f32 node_angle = sead::Mathf::atan2(delta.y, delta.x);
+            const f32 difference = GetRadAngleOfDirection(direction) - node_angle;
+            const f32 two_pi = 2.0f * sead::Mathf::pi();
+            f32 angle = difference - f32(sead::Mathf::floor(difference * (1.0f / two_pi))) * two_pi;
+            if (angle >= two_pi)
+                angle = 0.0f;
+            if (angle >= sead::Mathf::pi())
+                angle -= two_pi;
+            angle = sead::Mathf::abs(angle);
+            if (angle < angle_limit) {
+                const f32 distance = (mPos - position).length();
+                if (distance < best_distance) {
+                    selected = &node;
+                    best_distance = distance;
+                }
+            }
+        }
+    }
+    return selected;
+}
+
 }  // namespace eui
