@@ -167,6 +167,8 @@ public:
     // 0x710000eca4 (declared only; 584 B): the counterpart of sub_710000D474 (updatePositionMaybe calls it within
     // 350 of _1f54 when m139() >= 1).
     void sub_710000ECA4();
+    // Activates grudge body parts according to the four Dragon part flags.
+    void sub_710000EEEC();
     // 0x710000d51c (placeholder name): unless _1f70 bit 28 is set, `_1ec0.sub_71010F17FC(false)` (inlined in m63).
     void sub_710000D51C();
     bool sub_710000FE10();
@@ -190,7 +192,7 @@ public:
     void sub_710000FC70(s32 idx, bool start, bool secondary);
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
     // 0x710000bc38 (CSV name; lane1 s45): sets the game data flag `name` of the dragon (`idx` -1: the dragon's own).
-    void setGameDataFlag(bool value, const sead::SafeString& name, int idx);
+    bool setGameDataFlag(bool value, const sead::SafeString& name, int idx);
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
     // 0x710001014c: *_14c8.sub_71006FC514() (DragonMoveTo::enter_).
@@ -217,7 +219,7 @@ public:
         // 0x71006fbad4 (placeholder name): clears flag 0 and the translation of _860, then runs the reset steps
         // whose skip flags (0x800, 0x20, 0x10, 0x80) are clear. Called by startPreparingForPreDelete_.
         void sub_71006FBAD4();
-        // 0x71006fabc8 / 0x71006fb51c / 0x71006fbb64 (464 / 732 / 1696 B, declaration only; placeholder names).
+        // Attach the bone handles and reset their matrix snapshots and local transform chain.
         void sub_71006FABC8();
         void sub_71006FB51C();
         void sub_71006FBB64();
@@ -245,7 +247,10 @@ public:
         /* 0x850 */ sead::Buffer<Unk_710000b710Part> _850;
         /* 0x860 */ sead::Matrix34f _860 = sead::Matrix34f::ident;
         /* 0x890 */ f32 _890;  // spacing of consecutive history-driven segments
-        u8 _894[0x8a4 - 0x894];
+        // Interpolated as floats by sub_71006FD8AC and reset by sub_71006FBB64.
+        /* 0x894 */ f32 _894;
+        /* 0x898 */ f32 _898;
+        u8 _89c[0x8a4 - 0x89c];
         /* 0x8a4 */ f32 _8a4;  // start frame (-1: none)
         /* 0x8a8 */ f32 _8a8;  // end frame
         /* 0x8ac */ f32 _8ac;
@@ -296,6 +301,9 @@ public:
     /* 0x2270 */ Unk_7102357188 _2270;
 };
 KSYS_CHECK_SIZE_NX150(Dragon, 0x22c0);
+static_assert(offsetof(Dragon::Unk_710000b710, _894) == 0x894);
+static_assert(offsetof(Dragon::Unk_710000b710, _898) == 0x898);
+KSYS_CHECK_SIZE_NX150(Dragon::Unk_710000b710, 0x938);
 
 bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f& current_pos);
 // 0x710000ae6c (declared by lane1 s95; placeholder name): returns false. DragonRoot::calc_ calls it after

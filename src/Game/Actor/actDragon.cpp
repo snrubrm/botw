@@ -8,6 +8,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/gameDragonChallengeMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <basis/seadNew.h>
 #include <math/seadVector.h>
@@ -18,6 +19,7 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
 
@@ -723,6 +725,222 @@ void Dragon::Unk_710000b710::sub_71006FC6C8(const sead::Matrix34f& matrix) {
             _930 &= ~2;
         }
         previous = _850[i]._238;
+    }
+}
+
+}  // namespace uking::act
+
+namespace uking::act {
+
+// NON_MATCHING: zero-translation comparison and bone-name checks use different temporaries.
+void Dragon::Unk_710000b710::sub_71006FABC8() {
+    if ((_930 & 8) || !mActor->getModel())
+        return;
+    for (s32 i = _850.size() - 1; i >= 0; --i) {
+        auto& part = _850[i];
+        if (part._170.isValid() && !part._170.getName().isEmpty())
+            mActor->boneHandleStuff(&part.handle, false);
+        else
+            part._1a8.makeIdentity();
+    }
+    if (_5d0._170.isValid())
+        mActor->boneHandleStuff(&_5d0.handle, false);
+    if (_338._170.isValid())
+        mActor->boneHandleStuff(&_338.handle, false);
+    if (_b8._170.isValid())
+        mActor->boneHandleStuff(&_b8.handle, false);
+    if (_20.getTranslation() == sead::Vector3f::zero)
+        _20 = mActor->getMtx();
+    _930 |= 8;
+}
+
+void Dragon::Unk_710000b710::sub_71006FB51C() {
+    auto* model = mActor->getModel();
+    const s32 count = _850.size();
+    auto base = _b8.handle._9c;
+    if (_8b8 >= 1.0f || (_930 & 0x40))
+        base.setTranslation(sead::Vector3f::zero);
+    _b8._1a8.setMul(_20, base);
+    _50 = _b8._1a8;
+    _338._1a8.setMul(_50, _338.handle._9c);
+    for (s32 i = 0; i < count; ++i) {
+        auto& part = _850[i];
+        part._1a8.makeIdentity();
+        part._208.makeIdentity();
+        part._1d8.makeIdentity();
+        if (model && part._170.isValid())
+            model->getBoneWorldMatrix(part._170.getKey(), &part._208);
+    }
+    sub_71006FB998();
+}
+
+// NON_MATCHING: bone matrices are written directly to the part fields instead of copied from temporaries.
+void Dragon::Unk_710000b710::sub_71006FBB64() {
+    auto* model = mActor->getModel();
+    if (!model)
+        return;
+    const s32 count = _850.size();
+    for (s32 i = 0; i < count; ++i) {
+        auto& part = _850[i];
+        if (part._170.isValid() && !part._170.getName().isEmpty()) {
+            const auto& key = part._170.getKey();
+            model->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+                &part.handle._9c, &part.handle._cc, key.bone_index);
+        }
+    }
+    if (_5d0._170.isValid()) {
+        const auto& key = _5d0._170.getKey();
+        model->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &_5d0.handle._9c, &_5d0.handle._cc, key.bone_index);
+    }
+    if (_338._170.isValid()) {
+        const auto& key = _338._170.getKey();
+        model->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &_338.handle._9c, &_338.handle._cc, key.bone_index);
+    }
+    if (_b8._170.isValid()) {
+        const auto& key = _b8._170.getKey();
+        model->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &_b8.handle._9c, &_b8.handle._cc, key.bone_index);
+    }
+    if (_20.getTranslation() == sead::Vector3f::zero)
+        _20 = mActor->getMtx();
+    auto base = _b8.handle._9c;
+    if (_8b8 >= 1.0f || (_930 & 0x40))
+        base.setTranslation(sead::Vector3f::zero);
+    _84.setMul(_20, base);
+    _b8._1a8 = _84;
+    _338._1a8.setMul(_84, _338.handle._9c);
+    _5d0._1a8.setMul(_84, _5d0.handle._9c);
+    _894 = 1.0f;
+    _898 = 0.0f;
+    auto previous = _5d0._1a8;
+    for (s32 i = 0; i < count; ++i) {
+        auto& part = _850[i];
+        part._208.setMul(previous, part.handle._9c);
+        previous = part._208;
+    }
+    sub_71006FB998();
+    for (s32 i = 0; i < count; ++i)
+        _850[i]._1a8 = _850[i]._208;
+    _b8.handle._20 = _b8._1a8;
+    _338.handle._20 = _338._1a8;
+    _5d0.handle._20 = _5d0._1a8;
+    for (s32 i = 0; i < _850.size(); ++i)
+        _850[i].handle._20 = _850[i]._1a8;
+}
+
+// NON_MATCHING: the result branches use a different layout.
+bool Dragon::getGameDataFlag(const sead::SafeString& name, int idx) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return false;
+    sead::FixedSafeString<64> flag(getName());
+    if (_1e0c == 3)
+        flag = "Enemy_Dragon_Ice";
+    flag.replaceString("_Far", "");
+    flag.append("_");
+    flag.append(name);
+    bool value;
+    const bool success = idx < 0 ? manager->getParam().get().getBool(&value, flag) :
+                                  manager->getParam().get().getBool(&value, flag, idx);
+    return success && value;
+}
+
+bool Dragon::setGameDataFlag(bool value, const sead::SafeString& name, int idx) {
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return false;
+    sead::FixedSafeString<64> flag(getName());
+    if (_1e0c == 3)
+        flag = "Enemy_Dragon_Ice";
+    flag.replaceString("_Far", "");
+    flag.append("_");
+    flag.append(name);
+    if (idx < 0)
+        return manager->setBool(value, flag);
+    return manager->setBool(value, flag, idx);
+}
+
+// NON_MATCHING: iteration over the three body-group names uses different storage.
+void Dragon::sub_710000ECA4() {
+    if ((_1f70.getDirect() & 0x40600000) != 0x40200000)
+        return;
+    _1f70.set(0x400000);
+    const sead::SafeString* names[] = {&sBodyName, &sTgtName, &sAtkName};
+    for (const auto* name : names) {
+        auto* group = getRigidBodyByName(name->cstr());
+        if (!group)
+            continue;
+        for (s32 i = 0; i < group->getRigidBodies().size(); ++i) {
+            auto* body = group->getRigidBody(i);
+            if (!body || body->isAddingBodyToWorld() || body->isAddedToWorld())
+                continue;
+            if ((getMtx().getTranslation() - body->getPosition()).squaredLength() > 122500.0f)
+                body->setPosition(getMtx().getTranslation());
+            if (body->getHkBodyName().findIndex("角") != -1) {
+                switch (_1e0c) {
+                case 0:
+                    if (body->getHkBodyName().findIndex("炎") == -1)
+                        continue;
+                    break;
+                case 1:
+                case 3:
+                    if (body->getHkBodyName().findIndex("氷") == -1)
+                        continue;
+                    break;
+                case 2:
+                    if (body->getHkBodyName().findIndex("雷") == -1)
+                        continue;
+                    break;
+                default:
+                    continue;
+                }
+            }
+            body->addToWorld();
+        }
+    }
+    sub_710000EEEC();
+}
+
+// NON_MATCHING: iteration over the three body-group names uses different storage.
+void Dragon::sub_710000EEEC() {
+    if (!_1f70.isOn(0x200000))
+        return;
+    const sead::SafeString* names[] = {&sBodyName, &sTgtName, &sAtkName};
+    for (const auto* name : names) {
+        auto* group = getRigidBodyByName(name->cstr());
+        if (!group)
+            continue;
+        for (s32 i = 0; i < group->getRigidBodies().size(); ++i) {
+            auto* body = group->getRigidBody(i);
+            if (body->getHkBodyName().findIndex("怨念") == -1)
+                continue;
+            if (body->getHkBodyName().findIndex("頭部") != -1) {
+                if (_1f70.isOn(0x10))
+                    body->addToWorld();
+                else
+                    body->removeFromWorld();
+            }
+            if (body->getHkBodyName().findIndex("胴前方") != -1) {
+                if (_1f70.isOn(0x20))
+                    body->addToWorld();
+                else
+                    body->removeFromWorld();
+            }
+            if (body->getHkBodyName().findIndex("胴後方") != -1) {
+                if (_1f70.isOn(0x40))
+                    body->addToWorld();
+                else
+                    body->removeFromWorld();
+            }
+            if (body->getHkBodyName().findIndex("尻尾") != -1) {
+                if (_1f70.isOn(0x80))
+                    body->addToWorld();
+                else
+                    body->removeFromWorld();
+            }
+        }
     }
 }
 
