@@ -167,6 +167,7 @@ class Unk_71024855a8 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_71024855a8, uking::ui::Unk_7102474e38)
 public:
     ~Unk_71024855a8() override;
+    void m6() override;
 
     /* 0x48 */ uking::ui::Unk_7102509148 _48;
 };

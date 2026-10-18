@@ -1,3 +1,4 @@
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
@@ -65,3 +66,19 @@ void Unk_71024872a0::m4(sead::Heap*) {
 void Unk_71024872a0::m6() {}
 
 }  // namespace uking::ui
+
+// 0x7100a01644
+// NON_MATCHING: equivalent signed bounds comparison uses reversed operands.
+void Unk_71024855a8::m6() {
+    if (!sub_7100939CA0())
+        return;
+    auto* screen = sead::DynamicCast<uking::ui::ScreenControllerWindow>(sub_7100939C5C());
+    if (!screen)
+        return;
+    const s32 index = sub_7100939C78();
+    s32 id = 29;
+    if (index >= 0 && index < screen->_3858.size())
+        id = *screen->_3858.unsafeAt(index);
+    if (uking::ui::Manager::instance()->sub_7100A7F930(id))
+        uking::ui::Manager::instance()->sub_7100A7FA78(id);
+}

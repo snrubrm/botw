@@ -4650,12 +4650,15 @@ public:
     /* 0x3610 */ Entries _3610;
     /* 0x3850 */ u8 _3850{};
     /* 0x3851 */ u8 _3851{};
-    /* 0x3858 */ sead::FixedObjArray<u64, 29> _3858;
+    // A02A74 writes 32-bit task IDs; ObjArray free-list slots retain pointer alignment.
+    /* 0x3858 */ sead::FixedObjArray<s32, 29> _3858;
     /* 0x3a48 */ s32 _3a48 = -1;
     /* 0x3a50 */ u64 _3a50{};
     /* 0x3a58 */ u64 _3a58{};
     /* 0x3a60 */ u64 _3a60{};
 };
+static_assert(sizeof(sead::FixedObjArray<s32, 29>) == 0x1f0);
+static_assert(offsetof(ScreenControllerWindow, _3a48) == 0x3a48);
 
 // The DLC window's tip unit (vtable 0x71024872a0, 0x50 bytes). The ScreenDLCWindow function at
 // 0x7100a067a8 creates the units; each one looks up its Pa_DLCTips_00 parts layout.
