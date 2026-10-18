@@ -2,7 +2,7 @@
 
 // 0x710235b9f0: 70 motion/geometry constants shared by the Guardian helpers (only index 5 is used
 // here: the radius scale 4.0f).
-extern const f32 sUnk_710235b9f0[70] = {
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70] = {
     2.5f,          -0.1f,          0.1f,          0.9f,          -0.3f,          4.0f,
     0.1f,          0.01f,          1.3f,          1.0f,          1.0f,           30.0f,
     3.0f,          1.5f,           0.18f,         0.12f,         5.0f,           6.0f,
@@ -15,6 +15,17 @@ extern const f32 sUnk_710235b9f0[70] = {
     4.0f,          200.0f,         50.0f,         3.0f,          6.0f,           2.0f,
     0.0f,          0.03f,          0.4f,          0.0f,          12.0f,          20.0f,
     0.0f,          0.18f,          0.12f,         0.0f,
+};
+
+// 0x71025af300: BSS flags of the Guardian helpers (sub_710003B554 / sub_71000380A8).
+KSYS_VISIBILITY_HIDDEN u32 sUnk_71025af300 = 0;
+
+// 0x710235ada0: 30 floats shared by the Guardian helpers (m34 reads [28] / [29]).
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30] = {
+    30.0f,   15.0f,   0.05f,   0.9f,    300.0f, 150.0f, 105.0f, -0.2f,
+    0.9f,    60.0f,   30.0f,   20.0f,   1.5708f, 1.0472f, 90.0f, 60.0f,
+    0.2f,    42.0f,   0.5f,    60.0f,   0.75f,  0.4f,   0.2f,   30.0f,
+    0.4f,    0.025f,  1.0f,    0.5f,    15.0f,  5.0f,
 };
 
 namespace uking::act {

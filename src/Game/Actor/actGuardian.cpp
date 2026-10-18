@@ -10,7 +10,11 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 
-extern const f32 sUnk_710235b9f0[70];
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70];
+KSYS_VISIBILITY_HIDDEN extern u32 sUnk_71025af300;
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30];
+
+
 
 namespace uking::act {
 
@@ -218,9 +222,23 @@ void Guardian::m44(ksys::phys::NavMeshCharacter* nav) {
         Actor::m44(nav);
 }
 
-// NON_MATCHING: the original loads the 30.0 from rodata (adrp/ldr) instead of an fmov immediate
 bool Guardian::sub_71000370B4() const {
-    return _15cc < 30.0f;
+    return _15cc < sUnk_710235ada0[0];
+}
+
+bool Guardian::sub_710003B554() const {
+    return sUnk_71025af300 & 1;
+}
+
+bool Guardian::sub_71000380A8() const {
+    return (sUnk_71025af300 & 0x80) == 0;
+}
+
+void Guardian::m34(sead::Vector3f* pos, f32* value) {
+    if (_15a8) {
+        *pos = _15a8->_0 - sead::Vector3f::ey * sUnk_710235ada0[29];
+    }
+    *value = sUnk_710235ada0[28];
 }
 
 }  // namespace uking::act
