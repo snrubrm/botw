@@ -866,6 +866,272 @@ bool SaveMgr::sub_7100E08574(const res::GameSaveData::Flag&,
     return true;
 }
 
+bool SaveMgr::sub_7100E08E28(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    if (buffer->mBoolFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    const s32 index = entry.kv.value;
+    gdt::FlagBool* flag = buffer->getBoolFlag(index);
+    if (!flag)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const u32 hash = flag->getHash();
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash, sizeof(hash));
+    _e14 += 4;
+    const u32 value = u32(flag->getValue());
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &value, sizeof(value));
+    _e14 += 4;
+    if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+// NON_MATCHING: the buffer-selection address registers differ (regalloc only).
+bool SaveMgr::sub_7100E08F6C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    if (buffer->mVector2fFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    const gdt::FlagVector2f* flag = buffer->getVec2fFlag(entry.kv.value);
+    if (!flag)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const u32 hash0 = flag->getHash();
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash0, sizeof(hash0));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const f32 x = flag->getValueRef().x;
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &x, sizeof(x));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const u32 hash1 = flag->getHash();
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash1, sizeof(hash1));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const f32 y = flag->getValueRef().y;
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &y, sizeof(y));
+    _e14 += 4;
+    if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+// NON_MATCHING: the buffer-selection address registers differ (regalloc only).
+bool SaveMgr::sub_7100E09158(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    if (buffer->mVector3fFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    const gdt::FlagVector3f* flag = buffer->getVec3fFlag(entry.kv.value);
+    if (!flag)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const u32 hash0 = flag->getHash();
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash0, sizeof(hash0));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const f32 x = flag->getValueRef().x;
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &x, sizeof(x));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const u32 hash1 = flag->getHash();
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash1, sizeof(hash1));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const f32 y = flag->getValueRef().y;
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &y, sizeof(y));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const u32 hash2 = flag->getHash();
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash2, sizeof(hash2));
+    _e14 += 4;
+    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+        _3c = 3;
+        return true;
+    }
+    const f32 z = flag->getValueRef().z;
+    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &z, sizeof(z));
+    _e14 += 4;
+    if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+// NON_MATCHING: the component switch is a jump table in the original; its table address and
+// the buffer-selection registers differ.
+bool SaveMgr::sub_7100E093E8(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer) {
+    if (buffer->mVector4fFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    const gdt::FlagVector4f* flag = buffer->getVec4fFlag(entry.kv.value);
+    if (!flag)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    for (s32 i = 0; i < 4; ++i) {
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+            _3c = 3;
+            return true;
+        }
+        const u32 hash = flag->getHash();
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash, sizeof(hash));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+            _3c = 3;
+            return true;
+        }
+        const auto& value = flag->getValueRef();
+        const f32* component;
+        switch (i) {
+        case 0:
+            component = &value.x;
+            break;
+        case 1:
+            component = &value.y;
+            break;
+        case 2:
+            component = &value.z;
+            break;
+        case 3:
+            component = &value.w;
+            break;
+        }
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), component, sizeof(*component));
+        _e14 += 4;
+    }
+    if (_3c == 4)
+        _3c = 0;
+    return true;
+}
+
+
+
+bool SaveMgr::sub_7100E0958C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getBoolArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mBoolArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        gdt::FlagBool* flag = buffer->getBoolFlag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+        if (entry._8 == 0)
+            entry._8 = _e14;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+            _3c = 3;
+        } else {
+            const u32 hash = flag->getHash();
+            std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash, sizeof(hash));
+            _e14 += 4;
+            const u32 value = u32(flag->getValue());
+            if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+                _3c = 3;
+            } else {
+                std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &value, sizeof(value));
+                _e14 += 4;
+                if (_3c == 4)
+                    _3c = 0;
+            }
+        }
+            if (next >= count)
+                break;
+            flag = buffer->getBoolFlag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E09750(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getS32ArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mS32ArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        gdt::FlagS32* flag = buffer->getS32Flag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+        if (!x_18(entry, flag, 4, 1))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getS32Flag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E0985C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getF32ArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mF32ArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        gdt::FlagF32* flag = buffer->getF32Flag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+        if (!sub_7100E0A57C(entry, flag, 4, 1))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getF32Flag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
 // NON_MATCHING: reverse search and scalar/array call branches are scheduled differently.
 void SaveMgr::x_13(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records) {
     for (const auto& record : records) {
@@ -1663,7 +1929,7 @@ bool SaveMgr::sub_7100E0B28C(const res::GameSaveData::Flag& entry, gdt::TriggerP
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 break;
             base = entry._8;
             value = buffer->getBoolFlag(entry.kv.value, next);
@@ -1706,7 +1972,7 @@ bool SaveMgr::sub_7100E0B3E0(const res::GameSaveData::Flag& entry, gdt::TriggerP
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 break;
             base = entry._8;
             value = buffer->getS32Flag(entry.kv.value, next);
@@ -1749,7 +2015,7 @@ bool SaveMgr::sub_7100E0B534(const res::GameSaveData::Flag& entry, gdt::TriggerP
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 break;
             base = entry._8;
             value = buffer->getF32Flag(entry.kv.value, next);
@@ -1800,7 +2066,7 @@ bool SaveMgr::sub_7100E0B688(const res::GameSaveData::Flag& entry, gdt::TriggerP
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 break;
             base = entry._8;
             value = buffer->getVec2fFlag(entry.kv.value, next);
@@ -1859,7 +2125,7 @@ bool SaveMgr::sub_7100E0B830(const res::GameSaveData::Flag& entry, gdt::TriggerP
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 break;
             base = entry._8;
             value = buffer->getVec3fFlag(entry.kv.value, next);
@@ -1926,7 +2192,7 @@ bool SaveMgr::sub_7100E0BA2C(const res::GameSaveData::Flag& entry, gdt::TriggerP
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 break;
             base = entry._8;
             value = buffer->getVec4fFlag(entry.kv.value, next);
@@ -2096,7 +2362,7 @@ void SaveMgr::x_9(const res::GameSaveData::Flag& entry) {
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 return;
             base = entry._8;
             value = buffer->getStrFlag(entry.kv.value, next);
@@ -2122,7 +2388,7 @@ void SaveMgr::x_9(const res::GameSaveData::Flag& entry) {
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 return;
             base = entry._8;
             value = buffer->getStr64Flag(entry.kv.value, next);
@@ -2148,7 +2414,7 @@ void SaveMgr::x_9(const res::GameSaveData::Flag& entry) {
                 _3c = 3;
             else if (_3c == 4)
                 _3c = 0;
-            if (count <= next)
+            if (next >= count)
                 return;
             base = entry._8;
             value = buffer->getStr256Flag(entry.kv.value, next);
@@ -2165,6 +2431,386 @@ void SaveMgr::x_9(const res::GameSaveData::Flag& entry) {
         return;
     case gdt::FlagType::Vector4fArray:
         sub_7100E0BA2C(entry, buffer, hash);
+        return;
+    default:
+        return;
+    }
+}
+
+bool SaveMgr::sub_7100E09968(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getStrArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mStringArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        gdt::FlagString* flag = buffer->getStrFlag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+            if (!sub_7100E0A6C8(entry, flag, 32, 1))
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getStrFlag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E09A74(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getStr64ArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mString64ArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        gdt::FlagString64* flag = buffer->getStr64Flag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+            if (!sub_7100E0A934(entry, flag, 64, 1))
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getStr64Flag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E09B80(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getStr256ArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mString256ArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        gdt::FlagString256* flag = buffer->getStr256Flag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+            if (!sub_7100E0ABA0(entry, flag, 256, 1))
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getStr256Flag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E09C8C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getVec2fArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mVector2fArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        const gdt::FlagVector2f* flag = buffer->getVec2fFlag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+            bool success = false;
+            do {
+                if (entry._8 == 0)
+                    entry._8 = _e14;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const u32 hash0 = flag->getHash();
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash0, sizeof(hash0));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const f32 x = flag->getValueRef().x;
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &x, sizeof(x));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const u32 hash1 = flag->getHash();
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash1, sizeof(hash1));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const f32 y = flag->getValueRef().y;
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &y, sizeof(y));
+        _e14 += 4;
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getVec2fFlag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+bool SaveMgr::sub_7100E09EF8(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getVec3fArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mVector3fArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        const gdt::FlagVector3f* flag = buffer->getVec3fFlag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+            bool success = false;
+            do {
+                if (entry._8 == 0)
+                    entry._8 = _e14;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const u32 hash0 = flag->getHash();
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash0, sizeof(hash0));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const f32 x = flag->getValueRef().x;
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &x, sizeof(x));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const u32 hash1 = flag->getHash();
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash1, sizeof(hash1));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const f32 y = flag->getValueRef().y;
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &y, sizeof(y));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const u32 hash2 = flag->getHash();
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &hash2, sizeof(hash2));
+        _e14 += 4;
+        if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38))
+            break;
+        const f32 z = flag->getValueRef().z;
+        std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &z, sizeof(z));
+        _e14 += 4;
+                success = true;
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getVec3fFlag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: the component switch is a jump table in the original; its table address and
+// the buffer-selection registers differ.
+bool SaveMgr::sub_7100E0A208(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash) {
+    s32 count = 0;
+    const bool found = buffer->getVec4fArraySizeByHash(&count, hash);
+    if (count == 0 || !found)
+        return false;
+    if (buffer->mVector4fArrayFlags.size() <= entry.kv.value || entry.kv.value < 0)
+        return false;
+    if (entry._8 == 0)
+        entry._8 = _e14;
+    if (count > 0) {
+        const gdt::FlagVector4f* flag = buffer->getVec4fFlag(entry.kv.value, 0);
+        s32 next = 1;
+        while (flag) {
+            bool success = true;
+            do {
+                if (entry._8 == 0)
+                    entry._8 = _e14;
+                for (s32 i = 0; i < 4; ++i) {
+                    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+                        success = false;
+                        break;
+                    }
+                    const u32 component_hash = flag->getHash();
+                    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), &component_hash,
+                                sizeof(component_hash));
+                    _e14 += 4;
+                    if (_e14 + 4 >= (_e2c == 0 ? _e10 : _e38)) {
+                        success = false;
+                        break;
+                    }
+                    const auto& value = flag->getValueRef();
+                    const f32* component;
+                    switch (i) {
+                    case 0:
+                        component = &value.x;
+                        break;
+                    case 1:
+                        component = &value.y;
+                        break;
+                    case 2:
+                        component = &value.z;
+                        break;
+                    case 3:
+                        component = &value.w;
+                        break;
+                    }
+                    std::memcpy(_e14 + (_e2c == 0 ? _e08 : _e30), component,
+                                sizeof(*component));
+                    _e14 += 4;
+                }
+            } while (false);
+            if (!success)
+                _3c = 3;
+            else if (_3c == 4)
+                _3c = 0;
+            if (next >= count)
+                break;
+            flag = buffer->getVec4fFlag(entry.kv.value, next);
+            ++next;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: the original tail-calls the void-shaped helper cases; ours shares one return
+// block, and the dispatch jump table addresses differ.
+void SaveMgr::invoked(res::GameSaveData::Flag& entry) {
+    if (_3c == 3)
+        return;
+    if (!gdt::Manager::instance())
+        return;
+    auto* buffer = _f98;
+    if (!buffer)
+        return;
+    const u32 hash = entry.kv.name_hash;
+    const gdt::FlagType type = entry.type;
+    switch (type) {
+    case gdt::FlagType::S32: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mS32Flags.size() || index < 0)
+            return;
+        auto* value = buffer->getS32Flag(index);
+        if (!value)
+            return;
+        if (!x_18(entry, value, 4, 0))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::F32: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mF32Flags.size() || index < 0)
+            return;
+        auto* value = buffer->getF32Flag(index);
+        if (!value)
+            return;
+        if (!sub_7100E0A57C(entry, value, 4, 0))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::String: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mStringFlags.size() || index < 0)
+            return;
+        const auto* value = buffer->getStrFlag(index);
+        if (!value)
+            return;
+        if (!sub_7100E0A6C8(entry, value, 32, 0))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::String64: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mString64Flags.size() || index < 0)
+            return;
+        const auto* value = buffer->getStr64Flag(index);
+        if (!value)
+            return;
+        if (!sub_7100E0A934(entry, value, 64, 0))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::String256: {
+        const s32 index = entry.kv.value;
+        if (index >= buffer->mString256Flags.size() || index < 0)
+            return;
+        const auto* value = buffer->getStr256Flag(index);
+        if (!value)
+            return;
+        if (!sub_7100E0ABA0(entry, value, 256, 0))
+            _3c = 3;
+        else if (_3c == 4)
+            _3c = 0;
+        return;
+    }
+    case gdt::FlagType::Bool:
+        sub_7100E08E28(entry, buffer);
+        return;
+    case gdt::FlagType::Vector2f:
+        sub_7100E08F6C(entry, buffer);
+        return;
+    case gdt::FlagType::Vector3f:
+        sub_7100E09158(entry, buffer);
+        return;
+    case gdt::FlagType::Vector4f:
+        sub_7100E093E8(entry, buffer);
+        return;
+    case gdt::FlagType::BoolArray:
+        sub_7100E0958C(entry, buffer, hash);
+        return;
+    case gdt::FlagType::S32Array:
+        sub_7100E09750(entry, buffer, hash);
+        return;
+    case gdt::FlagType::F32Array:
+        sub_7100E0985C(entry, buffer, hash);
+        return;
+    case gdt::FlagType::StringArray:
+        sub_7100E09968(entry, buffer, hash);
+        return;
+    case gdt::FlagType::String64Array:
+        sub_7100E09A74(entry, buffer, hash);
+        return;
+    case gdt::FlagType::String256Array:
+        sub_7100E09B80(entry, buffer, hash);
+        return;
+    case gdt::FlagType::Vector2fArray:
+        sub_7100E09C8C(entry, buffer, hash);
+        return;
+    case gdt::FlagType::Vector3fArray:
+        sub_7100E09EF8(entry, buffer, hash);
+        return;
+    case gdt::FlagType::Vector4fArray:
+        sub_7100E0A208(entry, buffer, hash);
         return;
     default:
         return;

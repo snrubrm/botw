@@ -124,6 +124,33 @@ public:
                         const gdt::FlagT<sead::FixedSafeString<64>>* flag, u32 size, u32 offset);
     bool sub_7100E08574(const res::GameSaveData::Flag& entry,
                         const gdt::FlagT<sead::FixedSafeString<256>>* flag, u32 size, u32 offset);
+    // Mutable append serializers used by invoked(): each writes the flag hash and value(s) at
+    // _e14, or records state 3 when the selected buffer is full. The trailing u32 is 0 for a
+    // single flag and 1 when called from the array serializers.
+    bool sub_7100E08E28(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E08F6C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E09158(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E093E8(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer);
+    bool sub_7100E0958C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E09750(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0985C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E09968(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E09A74(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E09B80(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E09C8C(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E09EF8(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool sub_7100E0A208(res::GameSaveData::Flag& entry, gdt::TriggerParam* buffer, u32 hash);
+    bool x_18(res::GameSaveData::Flag& entry, gdt::FlagT<s32>* flag, u32 size, u32 is_array);
+    bool sub_7100E0A57C(res::GameSaveData::Flag& entry, gdt::FlagT<f32>* flag, u32 size, u32 is_array);
+    bool sub_7100E0A6C8(res::GameSaveData::Flag& entry,
+                        const gdt::FlagT<sead::FixedSafeString<32>>* flag, u32 size,
+                        u32 is_array);
+    bool sub_7100E0A934(res::GameSaveData::Flag& entry,
+                        const gdt::FlagT<sead::FixedSafeString<64>>* flag, u32 size,
+                        u32 is_array);
+    bool sub_7100E0ABA0(res::GameSaveData::Flag& entry,
+                        const gdt::FlagT<sead::FixedSafeString<256>>* flag, u32 size,
+                        u32 is_array);
     void x_7();
     void x_8(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
     void x_11(const sead::ObjArray<gdt::TriggerParam::FlagCopyRecord>& records);
@@ -227,8 +254,11 @@ private:
     u32 _e28;
     bool _e2c;
     u8 _e2d[3];
-    void* _e30;
-    u8 _e38[8];
+    // E03AC0 allocates this retry buffer with InitArg::size2; _e38 is that size, and E05E2C
+    // writes the file from it when _e2c is set.
+    u8* _e30;
+    u32 _e38;
+    u8 _e3c[4];
     u32 _e40;
     u32 _e44;
     u32 _e48;
@@ -255,7 +285,9 @@ private:
     u8 _fe0[0x1008 - 0xfe0];
     sead::TList<Callback*> mCallbacks;
     Unk1020* _1020;
-    u8 _1028[0x103c - 0x1028];
+    u8 _1028[0x1038 - 0x1028];
+    // Set to 0 by the constructor; x_18 records the offset of a match on this hash in _103c.
+    s32 _1038;
     s32 _103c;
     u8 _1040[0x1050 - 0x1040];
     u32 _1050;
