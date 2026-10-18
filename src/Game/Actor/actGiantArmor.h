@@ -31,6 +31,9 @@ public:
     bool sub_7100029E7C(Actor* owner, s32 index);
     void sub_7100029AF8(f32* out_scale, s32* out_level,
                         const ai::Unk_71023f36d8::Info* info);
+    // 0x7100029aa8 (declared only): when `actor` is one of the two linked armors, forwards it to
+    // sub_7100029308 and sets _c18. Called by GiantEnemy::Unk1::sub_710002A94C.
+    void sub_7100029AA8(Actor* actor);
 
 protected:
     bool canWakeUp_() override;

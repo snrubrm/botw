@@ -14,6 +14,15 @@ Unk_710235a050::~Unk_710235a050() { ; }
 
 GiantEnemy::GiantEnemy(const CreateArg& arg) : Enemy(arg) {}
 
+void GiantEnemy::Unk1::sub_710002A94C(Actor* actor) {
+    for (auto& link : _8) {
+        auto* proc = link.getProc(nullptr, nullptr);
+        if (auto* armor =
+                sead::DynamicCast<GiantArmor>(sead::DynamicCast<ksys::act::Actor>(proc)))
+            armor->sub_7100029AA8(actor);
+    }
+}
+
 ksys::act::BaseProc* GiantEnemy::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) GiantEnemy(arg);
 }
