@@ -50,7 +50,8 @@ public:
     sead::Vector3f _44;
     VFRValue _50;
     sead::Vector3f _5c;
-    s32 _68 = 0;
+    // Carried chemical setup copies its radius here; sub_71010F2248 adds it to the height.
+    f32 _68 = 0.0f;
     f32 _6c;
     f32 _70;
     f32 _74;
@@ -60,5 +61,7 @@ public:
     bool _7b;
 };
 KSYS_CHECK_SIZE_NX150(ActorX6A0, 0x80);
+static_assert(offsetof(ActorX6A0, _68) == 0x68);
+static_assert(offsetof(ActorX6A0, _6c) == 0x6c);
 
 }  // namespace ksys::act

@@ -234,6 +234,14 @@ public:
     // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
     // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
     void sub_7100E63424();
+
+    // Five native callers establish these movement requests. Signed scalar and
+    // read-only direction forms are inferred; original enum identity is unknown.
+    // Both bodies remain undecompiled.
+    bool sub_7100E63470(s32 gear_type, s32 gear, s32 min_gear_at_auto_down,
+                       s32 auto_stop_and_turn_mode);
+    bool sub_7100E63560(s32 gear_type, s32 gear, s32 min_gear_at_auto_down,
+                       const sead::Vector3f& direction, s32 auto_stop_and_turn_mode);
     // 0x7100e636d4: updates the rider position, with an optional local offset and height adjustment.
     // Declared only; full callee and HorseWaitAndLookAtNPC caller establish the pointer/bool inputs.
     void sub_7100E636D4(const sead::Vector3f* position, const sead::Vector3f* offset, bool adjust_height);
