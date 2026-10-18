@@ -466,6 +466,43 @@ void ScreenShopInfo::sub_7100A527CC(PouchItem* item) {
     sub_7100A525C8(item->getName(), flag);
 }
 
+// 0x7100a52a04
+void ScreenShopInfo::sub_7100A52A04(PouchItem* item, bool a2) {
+    if (!_3638)
+        return;
+    if (!item) {
+        _3638->sub_71009C28D0();
+        _3678.sub_71009C697C();
+        return;
+    }
+
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return;
+
+    al::ByamlIter iter;
+    if (!info->getActorIter(&iter, item->getName().cstr(), true))
+        return;
+
+    _3638->sub_71009C21F0(item->getName());
+    _3788.str.clear();
+    _3788._58 = 0xffffffff;
+    _3788._5c = 1;
+
+    sead::FixedSafeString<64> next_rank;
+    next_rank = ksys::act::getArmorNextRankName(iter);
+
+    if (next_rank.isEmpty() || !a2)
+        _3638->sub_71009C25A0(item->getName(), sead::SafeString::cEmptyString,
+                              item->isEquipped(), false);
+    else
+        _3638->sub_71009C25A0(next_rank, item->getName(), item->isEquipped(), true);
+
+    if (_3618 && _3618->mFrame != 0.0f)
+        _3618->StopAtMin();
+    _3678.sub_71009C68B8(ksys::act::getArmorStarNum(iter));
+}
+
 // 0x7100a52c88
 void ScreenShopInfo::sub_7100A52C88(s32 mode, s32 a2, u32 a3) {
     if (mode < 2) {
