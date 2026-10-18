@@ -26,7 +26,14 @@ class ScalableFontMgr {
 public:
     ScalableFontMgr();
     virtual ~ScalableFontMgr();
-    struct FontInfo;
+    // One font of the initialize argument: the name and its size (0x10 bytes; read by initialize).
+    struct FontInfo {
+        /* 0x00 */ const char* name;
+        /* 0x08 */ s32 font_size;
+        /* 0x0c */ u16 _c;
+        /* 0x0e */ u8 _e;
+        /* 0x0f */ u8 _f;
+    };
     struct InitializeArg {
         InitializeArg();
 
@@ -42,6 +49,13 @@ public:
     // Its construction and the manager's full layout remain undeclared.
     class UpdateTextureCacheThread : public sead::Thread {
     public:
+        // The original's constructor is inline (no CSV row): initialize passes a name, the heap, the priority and
+        // the queue settings straight to sead::Thread.
+        UpdateTextureCacheThread(const sead::SafeString& name, sead::Heap* heap, s32 priority,
+                                 sead::MessageQueue::BlockType block_type,
+                                 sead::MessageQueue::Element quit_msg, s32 stack_size,
+                                 s32 message_queue_size)
+            : sead::Thread(name, heap, priority, block_type, quit_msg, stack_size, message_queue_size) {}
         ~UpdateTextureCacheThread() override;
 
         /* 0x100 */ nn::font::TextureCache* mTextureCache;
@@ -61,6 +75,8 @@ public:
     Font* getFont(const sead::SafeString& name);
     // 0x7100be5b40: the name of the font (null if it does not belong to the manager)
     const char* findFontName(const nn::font::ScalableFont* font) const;
+    // 0x7100be5328: creates the texture cache, the scalable fonts and the cache update thread.
+    void initialize(const InitializeArg& arg);
     // 0x7100be55a8 (no CSV name): per-frame update of the texture cache (called from ScreenMgr::update)
     void sub_7100BE55A8();
 
