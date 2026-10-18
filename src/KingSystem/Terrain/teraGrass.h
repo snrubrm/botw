@@ -1,0 +1,122 @@
+#pragma once
+#include <common/aglGPUMemAddr.h>
+#include <common/aglGPUMemBlock.h>
+#include <common/aglIndexStream.h>
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
+#include <common/aglTextureSampler.h>
+#include <common/aglUniformBlock.h>
+#include <common/aglVertexAttribute.h>
+#include <common/aglVertexBuffer.h>
+#include <utility/aglDebugTexturePage.h>
+#include <container/seadBuffer.h>
+#include <gfx/seadGraphicsContext.h>
+#include <gfx/seadViewport.h>
+#include <math/seadVector.h>
+#include <thread/seadCriticalSection.h>
+#include <cstddef>
+
+namespace ksys::phys { class ContactLayerCollisionInfoGroup; }
+
+// Grass initialization at 0x710114eab0 allocates this 0xbe0-byte object at +0x28.
+// Constructor 0x7101063728 installs table 0x7102503a50, which has only D1/D0 slots.
+// No class name, namespace or nontrivial base is known.
+class Unk_7102503a50 {
+public:
+    // Texture storage initialized by 0x7101061024; 0x71010615d4 uses a 0x460 stride.
+    struct Cache {
+        u32 _0;
+        u32 mDimension;
+        agl::GPUMemVoidAddr mAddress;               // +8
+        agl::TextureData* mTextureData;              // +20
+        agl::TextureSampler mSampler;               // +28
+        u8 _198[0xa0];                             // ResTextureData (unresolved exact header)
+        agl::RenderBuffer mRenderBuffer;            // +238
+        agl::RenderTargetColor mRenderTarget;        // +2a0
+        sead::Viewport mViewport;                   // +418
+        sead::Vector3f mCenter;                     // +440
+        f32 _44c;
+        u64 _450;
+        u64 _458;
+        // init1061024 has real Heap*, dimension, format, attribute parameters;
+        // don't add guesses until final source declaration/mangling is selected.
+    };
+    static_assert(sizeof(Cache) == 0x460);
+    static_assert(offsetof(Cache, mAddress) == 8);
+    static_assert(offsetof(Cache, mCenter) == 0x440);
+
+    // Constructor 0x710106a7a4 runs on Record +0x20 and constructs three caches.
+    struct NearCaches {
+        NearCaches();                              //106a7a4
+        u32 _0;                                    // queried as ==0 to select other cache
+        u8 _4[4];
+        Cache mCaches[3];                           // +8,+468,+8c8
+        u32 _d28;
+        u8 _d2c[4];
+    };
+    static_assert(sizeof(NearCaches) == 0xd30);
+
+    // Initializer 0x7101063904 allocates records with an array cookie and a 0x7448 stride.
+    // Constructor 0x710106a5d4 and destructor 0x710106ab30 remain declared only.
+    struct Record {
+        Record();                                  //106a5d4
+        ~Record();                                 //106ab30
+        u8 _0[0x20];
+        NearCaches mNear;                          // +20
+        Cache mFar;                                // +d50
+        f32 mFarRadius;                            // +11b0
+        sead::Vector3f mFarBoundsCenter;            // +11b4
+        u8 _11c0[0x30];
+        u8 _11f0[0x160];  // Uniform-block owner with table 0x7102503a30; lifetime unresolved.
+        u8 _1350[0x70e0 - 0x1350];                 // real ctor106a914, size5d90; unresolved interior
+        agl::UniformBlock _70e0;
+        u8 _7158[8];
+        bool _7160;
+        u8 _7161[7];
+        agl::UniformBlock _7168;
+        agl::UniformBlock _71e0;
+        sead::CriticalSection _7258;
+        u32 _7298;
+        u8 _729c[0x72e8 - 0x729c];
+        u8 _72e8[0x160];  // Second instance of the same uniform-block owner.
+    };
+    static_assert(sizeof(Record) == 0x7448);
+    static_assert(offsetof(Record, mFar) == 0xd50);
+    static_assert(offsetof(Record, mFarRadius) == 0x11b0);
+    static_assert(offsetof(Record, _11f0) == 0x11f0);
+    static_assert(offsetof(Record, _70e0) == 0x70e0);
+    static_assert(offsetof(Record, _72e8) == 0x72e8);
+
+    Unk_7102503a50();                                //1063728
+    virtual ~Unk_7102503a50();                       //1063808
+    struct InitArg { sead::Heap* mHeap; s32 mCount; };
+    void sub_7101063904(const InitArg* arg);
+    f32 sub_7101069760(const sead::Vector2f* position);
+    f32 sub_71010699D0(const sead::Vector2f* position);
+    f32 sub_7101069C44(const sead::Vector2f* position);
+    u32 sub_7101069DB8(const sead::Vector2f* position, f32 radius);
+
+    sead::Heap* mHeap;                              // +8
+    sead::Buffer<Record> mRecords;                  // +10
+    u32 _20;
+    f32 mNearRadius;                                // +24, ctor32, queries/producer verified
+    f32 _28;
+    f32 _2c;
+    agl::utl::DebugTexturePage mDebugPages[2];         // +30,+270
+    u32 _4b0;
+    u16 _4b4;
+    u8 _4b6[2];
+    ksys::phys::ContactLayerCollisionInfoGroup* _4b8;
+    ksys::phys::ContactLayerCollisionInfoGroup* _4c0;
+    sead::GraphicsContext mGraphicsContexts[3];       // +4c8,+53c,+5b0
+    u8 _624[4];
+    u8 _628[0x38];                                 // genuine GPUMemBlockT, exact T unresolved
+    u8 _660[0x38];                                 // genuine GPUMemBlockT, exact T unresolved
+    agl::VertexBuffer mVertexBuffer;                 // +698
+    agl::IndexStream mIndexStream;                   // +7b8
+    agl::VertexAttribute mVertexAttribute;           // +818
+    u8 _9f8[0x1e0];
+    f32 _bd8;
+    u8 _bdc[4];
+};
+static_assert(sizeof(Unk_7102503a50) == 0xbe0);

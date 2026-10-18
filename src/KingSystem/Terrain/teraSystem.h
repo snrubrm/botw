@@ -35,6 +35,8 @@
 #include <common/aglRenderTarget.h>
 #include <common/aglTextureSampler.h>
 
+class Unk_7102503a50;
+
 namespace agl {
 class ShaderProgram;
 }
@@ -156,7 +158,7 @@ public:
         sead::Buffer<Entry> mEntries;
         u8 _20[0x28 - 0x20];
         // 0x7101150ba4 / 0x7101150f08 query this object (0x7101069db8).
-        void* _28;
+        Unk_7102503a50* _28;
     };
     struct Unk_71013010d4 {
         s8 mIndex;
@@ -1610,9 +1612,6 @@ bool checkTeraSystemStatus();
 // sub-objects of Core::Unk_140.
 void sub_7101084D04(void* object);
 void sub_7101084E78(void* object);
-// 0x7101069db8 (declaration only): a grass volume check at `xz`; the caller passes the grass manager
-// object (Core::Grass::_28) and the radius.
-u32 sub_7101069DB8(void* manager, const sead::Vector2f* xz, f32 radius);
 // 0x710106bc54 / 0x71012e258c (declaration only): release the two parts of one grass entry.
 void sub_710106BC54(void* entry);
 void sub_71012E258C(void* object);

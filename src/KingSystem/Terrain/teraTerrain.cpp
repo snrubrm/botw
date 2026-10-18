@@ -1,4 +1,5 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Terrain/teraGrass.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
@@ -457,9 +458,9 @@ bool teraGrassQueryForGroundObject(const sead::Vector3f* pos, f32 radius) {
 }
 
 bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
-    void* manager = _28;
+    auto* manager = _28;
     const sead::Vector2f xz(pos->x, pos->z);
-    return (sub_7101069DB8(manager, &xz, radius) & 1) != 0;
+    return (manager->sub_7101069DB8(&xz, radius) & 1) != 0;
 }
 
 void Core::Grass::sub_7101150990(bool enabled) {
