@@ -1,6 +1,11 @@
 #include "Game/Actor/actGiantArmor.h"
 #include <basis/seadNew.h>
+#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmor.h"
 
@@ -72,6 +77,80 @@ void GiantArmor::sub_7100029AA8(Actor* actor) {
     if (_b90._40.hasProcById(actor) || _be8.hasProcById(actor)) {
         _c00.sub_7100029308(actor);
         _c18 = 1;
+    }
+}
+
+// 0x71000294f0: finds the attack info of the actor linked at _be8 whose rigid body is the armor slot's
+// rigid body (GParamList GiantArmorSlot) and classifies it with sub_7100739634.
+bool GiantArmor::Unk_c00::sub_71000294F0(Unk_7100739634Result* out, Actor* actor) {
+    auto* other = sead::DynamicCast<Actor>(mOwner->_be8.getProc(nullptr, actor));
+    if (!other)
+        return false;
+    if (!sub_71007A2604(other))
+        return false;
+    ksys::act::Chemical* chemical = mOwner->getChemicalStuff();
+    if (!chemical)
+        return false;
+    const s32 count = sub_71007A26AC(other);
+    if (count < 1)
+        return false;
+
+    bool result = false;
+    for (s32 i = 0; i < count; ++i) {
+        auto* info = sub_71007A255C(other, i);
+        if (!info)
+            continue;
+        const sead::SafeString body_name = info->_c0->getHkBodyName();
+        if (sub_710072D53C(other, mOwner->_bf8) == body_name) {
+            result = sub_7100739634(out, chemical, info, nullptr);
+            break;
+        }
+    }
+    return result;
+}
+
+// NON_MATCHING: the two state-bit updates are the same; clang 4 keeps result.kind in x20 and lays the
+// skip path out of line, while this build reuses the result._c comparison (cset) across both halves.
+// 0x7100029308: refreshes the two weak-point state bits from the actor's attack classification.
+void GiantArmor::Unk_c00::sub_7100029308(Actor* actor) {
+    Unk_7100739634Result result{};
+    result._c = -1;
+    sub_71000294F0(&result, actor);
+
+    if (_8 & 4) {
+        ksys::act::Chemical* chemical = mOwner->getChemicalStuff();
+        if (!chemical || chemical->_c0 != 2)
+            _8 &= ~4;
+    } else {
+        if (result._c != 2) {
+            ksys::act::Chemical* chemical = mOwner->getChemicalStuff();
+            if (result.kind == 2 || (chemical && chemical->_c0 == 2)) {
+                chemical = mOwner->getChemicalStuff();
+                if (chemical && chemical->_c0 != 2)
+                    chemical->sub_7100D90858(false, 2, false, true, false);
+                _8 |= 4;
+            }
+        }
+    }
+
+    if (_8 & 0x10) {
+        bool keep = false;
+        if (result._c != 2) {
+            ksys::act::Chemical* chemical = mOwner->getChemicalStuff();
+            if (chemical && (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4)) {
+                chemical = mOwner->getChemicalStuff();
+                keep = result.kind == 4 || (chemical && chemical->_1b8 > 0);
+            }
+        }
+        if (!keep)
+            _8 &= ~0x10;
+    } else if (result._c != 2) {
+        ksys::act::Chemical* chemical = mOwner->getChemicalStuff();
+        if (chemical && (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4)) {
+            chemical = mOwner->getChemicalStuff();
+            if (result.kind == 4 || (chemical && chemical->_1b8 > 0))
+                _8 |= 0x10;
+        }
     }
 }
 

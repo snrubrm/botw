@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+struct Unk_7100739634Result;
+
 namespace uking::act {
 
 // Name from the CSV (GiantArmor::*, from the vtable analysis; the namespace is a guess). Direct child of
@@ -52,8 +54,10 @@ public:
     // `this`, so it is an embedded object rather than a bare self pointer.
     struct Unk_c00 {
         explicit Unk_c00(GiantArmor* owner) : mOwner(owner) {}
-        // 0x7100029308 (declared only): forwards `actor` to the weak point object.
+        // 0x7100029308: refreshes the two weak-point state bits from the actor's attacks.
         void sub_7100029308(Actor* actor);
+        // 0x71000294f0: classifies the matching attack of the actor linked at _be8.
+        bool sub_71000294F0(Unk_7100739634Result* out, Actor* actor);
 
         /* 0x00 */ GiantArmor* mOwner;
         /* 0x08 */ u16 _8 = 0;
