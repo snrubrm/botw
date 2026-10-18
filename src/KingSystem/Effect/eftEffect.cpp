@@ -57,6 +57,17 @@ void Effect::kill_0() {
     gsys::ParticleMgr::instance()->getSystem()->KillAllEmitterSet();
 }
 
+void Effect::kill() {
+    _9b98 = false;
+    gsys::ParticleMgr::instance()->getSystem()->KillAllEmitterSet();
+    if (mUserInstance) {
+        mUserInstance->destroy();
+        mUserInstance = nullptr;
+    }
+    mRainbow.stop();
+    _9fc0 = nullptr;
+}
+
 // NON_MATCHING: matrix copies use SIMD loads and stores and identity construction folds.
 void Effect::updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate) {
     auto& camera = gsys::ParticleMgr::instance()->getSystem()->getCameraMatrix();

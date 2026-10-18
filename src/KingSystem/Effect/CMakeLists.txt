@@ -10,4 +10,6 @@ target_sources(uking PRIVATE
   eftEffectUnkHelpers.h
   eftInfoData.cpp
   eftInfoData.h
+  eftRainbow.cpp
+  eftRainbow.h
 )

@@ -6,6 +6,7 @@
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Effect/eftEffectModelMgr.h"
+#include "KingSystem/Effect/eftRainbow.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
@@ -50,6 +51,7 @@ private:
 // pointer 0x7102621598, size 0x2a750, singleton disposer at +0x18). The namespace is a guess. Only
 // the flags word used by game code is declared, at its original offset.
 class Effect {
+    friend class Rainbow;
     u8 _8[0x10];
     SEAD_SINGLETON_DISPOSER(Effect)
     Effect();
@@ -94,10 +96,13 @@ public:
     // 0x71011b872c: searches and emits an ELink event through the xlink user instance.
     void searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle);
     void kill_0();
+    void kill();
     void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
 
 private:
-    u8 _38[0x9fb8 - 0x38];
+    u8 _38[0x9b98 - 0x38];
+    bool _9b98;
+    u8 _9b99[0x9fb8 - 0x9b99];
 
 public:
     // The player link (set by ksys::setPlayerLink) and the camera actor (set by ksys::sub_7100F40428).
@@ -109,13 +114,16 @@ private:
     u8 _9fcc[0x9fe0 - 0x9fcc];
     Unk_EffectActorTable _9fe0;
     EffectModelMgr mModelMgr;
-    u8 _a628_end[0x192c8 - 0xa628 - sizeof(EffectModelMgr)];
+    u8 _a628_end[0x192b4 - 0xa628 - sizeof(EffectModelMgr)];
+    f32 _192b4;
+    u8 _192b8[0x192c8 - 0x192b8];
     bool _192c8;
     u8 _192c9[0x192f4 - 0x192c9];
     u32 mFlags;
     u8 _192f8[0x19300 - 0x192f8];
     /* 0x19300 */ xlink2::UserInstance* mUserInstance = nullptr;
-    u8 _19308[0x193e0 - 0x19308];
+    u8 _19308[0x19370 - 0x19308];
+    Rainbow mRainbow;
     s32 _193e0;
     u8 _193e4[0x19c38 - 0x193e4];
     Unk_71012419b4 mFieldEnvEffect;
