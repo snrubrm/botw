@@ -52912,7 +52912,7 @@ Address,Quality,Size,Name
 0x000000710088d654,O,002532,_ZN4ksys3act6Player14sub_710088D654Ev
 0x000000710088e038,O,000692,_ZN4ksys3act6Player7m69_x_5Ev
 0x000000710088e2ec,U,003252,
-0x000000710088efa0,U,000508,_ZN4ksys3act6Player4x_37Ev
+0x000000710088efa0,W,000508,_ZN4ksys3act6Player4x_37Ev
 0x000000710088f19c,O,000992,_ZN4ksys3act6Player39updateFoodStatusEffectFlagsFromGameDataEv
 0x000000710088f57c,m,001080,_ZN4ksys3act6Player21syncStatusEffectFlagsEb
 0x000000710088f9b4,U,001420,Player::updateHpStaminaStatusEffectToGameData

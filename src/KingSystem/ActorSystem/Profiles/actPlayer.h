@@ -649,6 +649,9 @@ public:
     void sub_71008573CC();
     // 0x710086843c: forwards to sub_7100857014 (out of line in another TU in the original; ~7 Player actions).
     bool sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b);
+    // 0x7100868440 (932 B, declared only): the slow-time variant of sub_710086843C. The four
+    // arguments are the angle in radians and three rate-scaled limits, from x_37.
+    void sub_7100868440(f32 angle, f32 rate_a, f32 rate_b, f32 rate_c);
     // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =
     // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).
     bool sub_7100859EDC(bool a1, int mode, const sead::Vector3f* pos, BaseProcLink* link,

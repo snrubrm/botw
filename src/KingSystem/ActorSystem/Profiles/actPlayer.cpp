@@ -1,6 +1,9 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <algorithm>
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
+#include "Game/gameSceneSubsysMisc.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include <basis/seadNew.h>
@@ -2515,6 +2518,33 @@ void Player::sub_7100881104() {
 
 bool Player::sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b) {
     return sub_7100857014(speed, target, limit_a, limit_b);
+}
+
+// NON_MATCHING: the original reads 0.5f / 0x20000000 / 0x200000 from unnamed rodata globals (as
+// sub_710086843C's callers do), and its register allocation / stack slot for the angle differs.
+void Player::x_37() {
+    Unk1 angle(sead::Mathf::rad2idx(atan2f(_2258.mPos.x, _2258.mPos.z)));
+    if (GameSceneSubsys5::instance()->sub_71009059D4()) {
+        const sead::Vector3f pos = GameSceneSubsys5::instance()->sub_7100905E18();
+        angle = Unk1(sead::Mathf::rad2idx(atan2f(pos.x, pos.z)));
+    }
+
+    if (!isSlowTime()) {
+        sub_710086843C(0.5f, &angle, 0x20000000, 0x200000);
+        return;
+    }
+
+    // The same slow-time bow rate lookup is inlined three times (acc::PlayerBase::getBowSlowRateDiam).
+    const auto bow_rate = [this]() -> f32 {
+        if (isSlowTime() && _cf4.isOnBit(17))
+            return getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+        return 1.0f;
+    };
+    const f32 rate = bow_rate();
+    sub_7100868440(sead::Mathf::idx2rad(sub_71011EE4B8(angle)),
+                   sead::Mathf::min(rate * 0.5f, 1.0f),
+                   sead::Mathf::idx2rad(0x20000000) * bow_rate(),
+                   sead::Mathf::idx2rad(0x200000) * bow_rate());
 }
 
 bool Player::sub_7100887AC4() {
