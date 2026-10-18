@@ -10,7 +10,23 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 
+extern const f32 sUnk_710235b9f0[70];
+
 namespace uking::act {
+
+// NON_MATCHING: the body is the same; clang sinks the constant/scale loads into the body here while
+// the original hoists them above the rigid-body query, so the frame and register allocation differ.
+void Guardian::Unk1::sub_7100044B68(sead::Vector3f* out, s32 index) {
+    const sead::Vector2f& scale = _8->_15b8[index];
+    if (auto* body = sub_71000418C4()) {
+        const f32 radius = sUnk_710235b9f0[5];
+        const sead::Vector3f offset(scale.x * radius, 0.0f, scale.y * radius);
+        const sead::Matrix34f mtx = body->getTransform();
+        out->x = mtx(0, 0) * offset.x + mtx(0, 1) * offset.y + mtx(0, 2) * offset.z + mtx(0, 3);
+        out->y = mtx(1, 0) * offset.x + mtx(1, 1) * offset.y + mtx(1, 2) * offset.z + mtx(1, 3);
+        out->z = mtx(2, 0) * offset.x + mtx(2, 1) * offset.y + mtx(2, 2) * offset.z + mtx(2, 3);
+    }
+}
 
 ksys::act::BaseProc* Guardian::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Guardian(arg);
@@ -219,3 +235,4 @@ u32 sub_710003B71C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* guardian = sub_710003B738(accessor);
     return guardian ? guardian->_14d8 : 0;
 }
+

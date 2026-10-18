@@ -201,6 +201,8 @@ public:
         // (0x71000499f0 applies an impulse to it, 0x7100044b68 transforms a point with it).
         ksys::phys::RigidBody* sub_71000418B8() const;
         ksys::phys::RigidBody* sub_71000418C4() const;
+        // 0x7100044b68: transforms the point of the owner's _15b8 buffer at `index` with the rigid body.
+        void sub_7100044B68(sead::Vector3f* out, s32 index);
 
         u8 _0[0x8];
         Guardian* _8;  // the owner (sub_7100042338)
@@ -214,8 +216,7 @@ public:
         u32 _64;
     };
     /* 0x15b0 */ Unk1* _15b0 = nullptr;
-    /* 0x15b8 */ u32 _15b8 = 0;
-    /* 0x15c0 */ void* _15c0 = nullptr;
+    /* 0x15b8 */ sead::Buffer<sead::Vector2f> _15b8;
     /* 0x15c8 */ u32 _15c8 = 0;
     /* 0x15cc */ f32 _15cc;
     /* 0x15d0 */ void* _15d0 = nullptr;
