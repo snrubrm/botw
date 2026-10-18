@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <common/aglUniformBlock.h>
 #include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
@@ -10,6 +11,8 @@ class ViewFrustumCulling;
 
 namespace gsys {
 
+class ModelNW;
+
 // ModelRenderContext::initialize 0x7100c0820c allocates 0x58 bytes and calls
 // constructor 0x7100c5d7b8. The buffer element lifetimes are visible in
 // 0x7100c5d7d4; that row's existing PrimitiveOcclusionHolder identity is unresolved.
@@ -19,6 +22,11 @@ public:
     ~ShaderContext();
 
     void initialize(int, int, sead::Heap*);
+    void setEnvStruct(int index, void* ptr, u64 size);
+    void setAreaOverride(int index, f32 value, int first, int second);
+    // Name inferred from ModelSceneGI::setSceneMaterial (0x7100c309d0), which
+    // forwards the same ModelNW pointer to this method at 0x7100c5dd30.
+    void setSceneMaterial(ModelNW* model);
     agl::UniformBlock* getContextRenderUBO(int index) const;
     void calcGpuViewFlush(int index, const sead::Matrix34f& view,
                           const sead::Matrix44f& projection,
@@ -38,15 +46,29 @@ private:
     // Its remaining state is not modelled; no lifetime bodies are defined here.
     struct RenderUBO {
         agl::UniformBlock block;
-        u8 _78[0xb8 - 0x78];
+        // setAreaOverride 0x7100c5df0c stores the two integers and float here.
+        u16 _78;
+        u16 _7a;
+        f32 _7c;
+        // setEnvStruct 0x7100c5dd38 retains the pointer and low 32 bits of size.
+        void* mEnvStruct;
+        u32 mEnvStructSize;
+        u8 _8c[0xb8 - 0x8c];
     };
     static_assert(sizeof(RenderUBO) == 0xb8);
+    static_assert(offsetof(RenderUBO, _78) == 0x78);
+    static_assert(offsetof(RenderUBO, _7a) == 0x7a);
+    static_assert(offsetof(RenderUBO, _7c) == 0x7c);
+    static_assert(offsetof(RenderUBO, mEnvStruct) == 0x80);
+    static_assert(offsetof(RenderUBO, mEnvStructSize) == 0x88);
 
     sead::Buffer<ViewUBO> mViewUBOs;
     u8 _10[0x38 - 0x10];
     sead::Buffer<RenderUBO> mRenderUBOs;
-    bool _48;
-    u8 _49[0x58 - 0x49];
+    u8 _48;
+    u8 _49[7];
+    // Scene initialization and ModelSceneGI::setSceneMaterial supply ModelNW*.
+    ModelNW* mSceneMaterial;
 };
 static_assert(sizeof(ShaderContext) == 0x58);
 

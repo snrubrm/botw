@@ -60,6 +60,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelUnitDrawArray.cpp
   src/gsys/gsysModelDrawObj.cpp
   src/gsys/gsysModelRenderContext.cpp
+  src/gsys/gsysShaderContext.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysEffectModelDrawMgr.cpp
   src/gsys/gsysResourceEditor.cpp
