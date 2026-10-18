@@ -2,6 +2,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include <cmath>
+#include <math/seadQuat.h>
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/VFR.h"
@@ -88,6 +92,47 @@ void Windmill_Wing::m32(bool a1) {
 
 void Windmill_Wing::m33() {
     playAS("Rotate", false, 0, 0, -1.0f);
+}
+
+// NON_MATCHING: vector interpolation and quaternion/matrix scheduling differ.
+void Windmill_Wing::m34(f32 turn) {
+    sead::Vector3f wind = sead::Vector3f::ez;
+    f32 speed = 1.0f;
+    if (auto* manager = ksys::world::Manager::instance()) {
+        wind = -manager->getWindDirection();
+        speed = manager->getWindSpeed();
+        if (speed < 0.1f)
+            speed = 0.1f;
+        else if (speed > 10.0f)
+            speed = 10.0f;
+    }
+    wind.normalize();
+    sead::Matrix34f transform = mActor->getMtx();
+    auto* body = mActor->getMainBody();
+    if (body)
+        body->getTransform(&transform);
+    sead::Vector3f front(transform(0, 2), transform(1, 2), transform(2, 2));
+    f32 rate;
+    if (turn > 0.0f) {
+        rate = turn;
+    } else {
+        rate = (speed / 10.0f) * *mTurnRate_s;
+        rate *= rate;
+    }
+    ksys::VFR::lerp(&front, wind, rate);
+    ksys::Timer::update(&_58, speed * 0.01f);
+    if (_58 >= sead::Mathf::pi2())
+        ksys::Timer::update(&_58, -sead::Mathf::pi2());
+    sead::Quatf quaternion;
+    quaternion.setAxisRadian(sead::Vector3f::ey, std::sin(_58) * 0.001f);
+    sead::Matrix33f rotation;
+    rotation.fromQuat(quaternion);
+    front.rotate(rotation);
+    sead::Matrix34f result;
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    ksys::util::sub_71011F0260(&result, front, sead::Vector3f::ey, position, false);
+    if (body)
+        body->changeRotation(result, sead::Mathf::epsilon());
 }
 
 }  // namespace uking::action
