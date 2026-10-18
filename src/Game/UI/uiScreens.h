@@ -5760,6 +5760,9 @@ public:
     void sub_7100A66C3C();
     // 0x7100a66d00 (CSV unnamed): clears flag 10 of the window's buttons.
     void sub_7100A66D00();
+    // 0x7100a67068 (CSV unnamed): when the 0x3690 animator ends, releases the cursor and
+    // downs the 0x60 button off.
+    void sub_7100A67068();
 
     // Members from the ctor 0x7100a65ff0 and D1 0x7100a66208.
     /* 0x3610 */ eui::ButtonBase* _3610{};

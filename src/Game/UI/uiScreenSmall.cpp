@@ -628,6 +628,21 @@ void ScreenSystemWindow01::sub_7100A66D00() {
         _3648->setFlag10(false);
 }
 
+// 0x7100a67068
+void ScreenSystemWindow01::sub_7100A67068() {
+    if (_3690->mRate != 0.0f)
+        return;
+
+    if (_3690->mFrame == static_cast<f32>(_3690->GetFrameSize())) {
+        sub_71010AA894();
+        auto* button = mButtonGroup->FindButtonByTag(0x60);
+        if (auto* normal = nn::font::DynamicCast<eui::NormalButton>(button))
+            normal->DownOff(false);
+    } else {
+        close(-1);
+    }
+}
+
 // 0x7100a67704: waits until every texture controller is loaded
 void ScreenSystemWindow01::m89() {
     bool ready = true;
