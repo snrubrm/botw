@@ -1100,7 +1100,8 @@ protected:
     /* 0x71c */ sead::BitFlag32 mSignals;
     /* 0x720 */ sead::Atomic<u32> _720 = 0;  // incremented / decremented by ActorLinkConstDataAccess::sub_7100D15448 / 154DC
     /* 0x728 */ void* _728 = nullptr;
-    /* 0x730 */ u16 _730 = 0;
+    // Radius set by makeField598; signedness inferred from LOD's signed test and float conversion.
+    /* 0x730 */ s16 _730 = 0;
 public:
     // Bit 1 is set by AirOctaWoodBridge::init_ and AirOctaMgr::init_.
     /* 0x732 */ sead::BitFlag16 mDrawDistanceFlags;

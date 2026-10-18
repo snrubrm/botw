@@ -1,4 +1,5 @@
 #include "Game/Actor/aiUnk_71025ba778.h"
+#include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/System/VFR.h"
@@ -93,4 +94,35 @@ void Unk_71025ba778::sub_710070F400(ksys::act::Actor* actor) {
 
 Unk_7100710078::~Unk_7100710078() {
     delete _70;
+}
+
+// NON_MATCHING: matrix/vector temporary storage and quaternion arithmetic scheduling differ.
+void Unk_7100710078::m2(gsys::Model*) {
+    if (!_70)
+        return;
+    const s32 count = _70->_8.size();
+    _70->sub_7100F72FF4();
+    const auto& local = count < 1 ? sead::Matrix34f::ident : _70->_8[count - 1]._50;
+    sead::Vector3f discarded_rotation;
+    ksys::util::sub_71011EF4C0(&discarded_rotation, _78, local, sead::Vector3f::ey);
+    const auto& parent = count < 2 ? sead::Matrix34f::ident : _70->_8[count - 2]._80;
+    sead::Matrix34f combined;
+    combined.setMul(parent, _78);
+    sead::Vector3f rotation;
+    ksys::util::sub_71011EF4C0(&rotation, combined, _a8, sead::Vector3f::ey);
+    rotation.rotate(combined);
+    sead::Vector3f axis;
+    axis.x = rotation.dot(parent.getBase(0));
+    axis.y = rotation.dot(parent.getBase(1));
+    axis.z = rotation.dot(parent.getBase(2));
+    const f32 angle = axis.normalize();
+    sead::Quatf quat;
+    quat.setAxisRadian(axis, angle * _68);
+    sead::Matrix33f delta;
+    delta.fromQuat(quat);
+    sead::Matrix34f result;
+    const auto& final_local = count < 1 ? sead::Matrix34f::ident : _70->_8[count - 1]._50;
+    result.setMul(delta, final_local);
+    result.setTranslation(final_local.getTranslation());
+    _70->sub_7100F731F8(count - 1, result, false, false);
 }

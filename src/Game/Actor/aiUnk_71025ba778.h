@@ -46,7 +46,7 @@ KSYS_CHECK_SIZE_NX150(Unk_7100F72BF8, 0x18);
 class Unk_7100710078 : public ksys::act::BoneHandleBase {
 public:
     ~Unk_7100710078() override;
-    // 0x71007102c0 (1184 B) / 0x7100710124 (340 B) / 0x7100710760 (8 B): declared only.
+    // 0x71007102c0: applies the weighted relative bone rotation to the matrix chain.
     void m2(gsys::Model* model) override;
     bool m3(gsys::Model* model, bool sorted) override;
     const gsys::BoneAccessKey* m4() override;
