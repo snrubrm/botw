@@ -2,6 +2,7 @@
 #include <cmath>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelNW.h>
+#include <gsys/gsysModelRenderUnit.h>
 #include <gsys/gsysModelUnit.h>
 #include "Game/gameGraphics.h"
 
@@ -18,6 +19,12 @@ void Unk_710260af28::sub_7100F1D9B4(gsys::Model* model, f32 value, bool negate) 
                 unit->setMaterialParamF32(material, param, effect);
         }
     }
+}
+
+void Unk_710260af28::sub_7100F1ECE8(gsys::Model* model) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i)
+        model->getUnits()[i]->mModelUnit->getAttributeFlags().reset(
+            gsys::ModelUnit::Attribute::LodCalculation);
 }
 
 void Unk_710260af28::sub_7100F1ED28(gsys::Model* model, int mode) {

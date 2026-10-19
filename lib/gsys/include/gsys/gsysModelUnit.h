@@ -263,6 +263,11 @@ public:
     sead::TypedBitFlag<Attribute, u16>& getAttributeFlags() { return mAttributeFlags; }
     const sead::TypedBitFlag<Attribute, u16>& getAttributeFlags() const { return mAttributeFlags; }
 
+    // The byte at +0x9 (the ctor 0x7100c3d4b0 clears it): ksys::gfx 0x7100f1ed8c writes 22 to it
+    // for the first mode and 0 for the second one.
+    s8 getUnkIndex() const { return mUnkIndex; }
+    void setUnkIndex(s8 index) { mUnkIndex = index; }
+
 protected:
     friend class Model;
 

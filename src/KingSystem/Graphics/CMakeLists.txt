@@ -8,5 +8,6 @@ target_sources(uking PRIVATE
   gfxLocationalLightRig.h
   gfxObjectLight.cpp
   gfxUnk_710260af28.cpp
+  gfxUnk_710260af28RenderMode.cpp
   gfxUnk_710260af28.h
 )
