@@ -46,6 +46,45 @@ void Unk_SoundMgr38_28::sub_7101039208() {}
 
 Unk_SoundMgr38_38::~Unk_SoundMgr38_38() = default;
 
+// The tuning table of Unk_SoundMgr38_38 (0x71025020e0): distances, angles and ratios.
+namespace {
+const f32 cDegreeToAngle = 11930465.0f;
+f32 sUnk_71025020e0[14] = {
+    10.0f, 10.0f, 22.5f, 30.0f, -0.3f, 45.0f, 45.0f,
+    45.0f, 0.5f, 0.4f, 0.3f, 0.4f, 0.3f, 0.15f,
+};
+}  // namespace
+
+// NON_MATCHING: the field stores are scheduled in a different order (the tuning table is copied
+// after the vectors in ours); every value is the same.
+// 0x7101039f00
+Unk_SoundMgr38_38::Unk_SoundMgr38_38() {
+    _8 = nullptr;
+    _10 = 0;
+    _60 = {};
+    _70 = {};
+    _80 = {};
+    _14 = _20 = _2c = _38 = _50 = sead::Vector3f::zero;
+    _44.set(1.0f, 1.0f, 1.0f);
+    _90 = sUnk_71025020e0[0];
+    _94 = sUnk_71025020e0[1];
+    _b0 = sUnk_71025020e0[2];
+    _98 = s32(sUnk_71025020e0[5] * cDegreeToAngle);
+    _a4 = sUnk_71025020e0[8];
+    _b4 = sUnk_71025020e0[11];
+    _c0 = 0;
+    _9c = s32(sUnk_71025020e0[6] * cDegreeToAngle);
+    _a8 = sUnk_71025020e0[9];
+    _b8 = sUnk_71025020e0[12];
+    _c4 = 0x55805580;
+    _a0 = s32(sUnk_71025020e0[7] * cDegreeToAngle);
+    _ac = sUnk_71025020e0[10];
+    _bc = sUnk_71025020e0[13];
+    _c8 = 0xab00ab00;
+    _cc = 0;
+    _d0 = 0;
+}
+
 // Empty in the release build.
 void Unk_SoundMgr38_38::sub_710103A034(sead::Heap* heap) {}
 
@@ -106,7 +145,7 @@ void Unk_SoundMgr38_38::sub_710103A038() {
     _14 = _20 = _2c = sead::Vector3f::zero;
     _38 = sead::Vector3f::zero;
     _44.set(1.0f, 1.0f, 1.0f);
-    _50.reset();
+    _50 = sead::Vector3f::zero;
     _cc = 0;
 }
 

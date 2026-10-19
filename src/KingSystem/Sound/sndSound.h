@@ -476,14 +476,29 @@ public:
     /* 0x2c */ sead::Vector3f _2c;
     /* 0x38 */ sead::Vector3f _38;
     /* 0x44 */ sead::Vector3f _44;
-    // The first sound handle is reset by sub_710103A038; the other three are faded by sub_710103A084.
-    /* 0x50 */ xlink2::HandleSLink _50;
+    /* 0x50 */ sead::Vector3f _50;
+    // The three sound handles faded by sub_710103A084.
     /* 0x60 */ xlink2::HandleSLink _60;
     /* 0x70 */ xlink2::HandleSLink _70;
     /* 0x80 */ xlink2::HandleSLink _80;
-    u8 _90[0xcc - 0x90];
+    /* 0x90 */ f32 _90 = 0;
+    /* 0x94 */ f32 _94 = 0;
+    /* 0x98 */ s32 _98 = 0;
+    /* 0x9c */ s32 _9c = 0;
+    /* 0xa0 */ s32 _a0 = 0;
+    /* 0xa4 */ f32 _a4 = 0;
+    /* 0xa8 */ f32 _a8 = 0;
+    /* 0xac */ f32 _ac = 0;
+    /* 0xb0 */ f32 _b0 = 0;
+    /* 0xb4 */ f32 _b4 = 0;
+    /* 0xb8 */ f32 _b8 = 0;
+    /* 0xbc */ f32 _bc = 0;
+    /* 0xc0 */ u32 _c0 = 0;
+    /* 0xc4 */ u32 _c4 = 0;
+    /* 0xc8 */ u32 _c8 = 0;
     /* 0xcc */ u32 _cc = 0;
-    u8 _d0[0xd8 - 0xd0];
+    /* 0xd0 */ u16 _d0 = 0;
+    u8 _d2[0xd8 - 0xd2];
 };
 class Unk_SoundMgr38_40 {
 public:
