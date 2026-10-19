@@ -278,10 +278,6 @@ void Awareness::calc() {
     resetFlag(Flag::_0);
 }
 
-u32 Awareness::calcHash(const sead::SafeString& key) {
-    return agl::utl::ParameterBase::calcHash(key);
-}
-
 bool Awareness::Links::sub_7100D79574(const BaseProcLink& link) {
     const int idx = count++;
     if (idx >= buffer.size())
