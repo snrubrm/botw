@@ -17,6 +17,7 @@ class ManagedTaskHandle;
 
 namespace eui {
 class MassDrawPane;
+class TraceGaugeControl;
 class LetterAnimControl;
 class MessageString;
 class CapturePane;
@@ -46,8 +47,15 @@ public:
     void sub_71009C9568();
     void sub_71009C9580();
 
+    // 0x71009c83c0 (placeholder name): stores the two gauges and applies `flag` to their +0x6c byte
+    void sub_71009C83C0(eui::TraceGaugeControl* first, eui::TraceGaugeControl* second, bool flag);
+
     // Initial values from the ctor 0x9c81cc.
-    u8 _130[100]{};
+    u8 _130[0x30]{};
+    /* 0x160 */ eui::TraceGaugeControl* _160 = nullptr;
+    u8 _168[0x8]{};
+    /* 0x170 */ eui::TraceGaugeControl* _170 = nullptr;
+    u8 _178[0x20]{};
     /* 0x198 */ void* _198 = nullptr;
     /* 0x1a0 */ void* _1a0 = nullptr;
     /* 0x1a8 */ bool _1a8 = false;

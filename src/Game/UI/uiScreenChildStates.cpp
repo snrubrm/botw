@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/euiCapturePane.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -1340,6 +1341,18 @@ void Unk_710247dc90::m82() {
 Unk_710247e0c8::Unk_710247e0c8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247e0c8::~Unk_710247e0c8() = default;
+
+// 0x71009c83c0 (placeholder name): stores the two gauges and applies `flag` to their +0x6c byte
+void Unk_710247e0c8::sub_71009C83C0(eui::TraceGaugeControl* first, eui::TraceGaugeControl* second,
+                                   bool flag) {
+    _160 = first;
+    _170 = second;
+    if (first)
+        first->_6c = flag;
+    if (_170)
+        _170->_6c = flag;
+    _1a8 = flag;
+}
 
 // 0x71009c9420
 void Unk_710247e0c8::sub_71009C9420() {
