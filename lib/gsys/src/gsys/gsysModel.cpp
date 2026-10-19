@@ -590,6 +590,22 @@ void Model::gatherBounding_() const {
     }
 }
 
+// 0x7100bf9820
+void Model::calcBoundAABB(sead::BoundBox3f* aabb, bool flag) const {
+    aabb->setUndef();
+    for (auto& info : _48) {
+        const ModelUnit* unit = info.mModelUnit;
+        if (unit->getVisibilityMask() == 0)
+            continue;
+        if (!sead::IsDerivedFrom<ModelNW>(unit))
+            continue;
+
+        sead::BoundBox3f local;
+        unit->calcBoundAABB(&local, flag);
+        aabb->expand(local);
+    }
+}
+
 void Model::getBounding(sead::BoundSphere3f* bounding) const {
     const sead::BoundSphere3f* source = mBoundingOverrideMaybe;
     if (!source) {

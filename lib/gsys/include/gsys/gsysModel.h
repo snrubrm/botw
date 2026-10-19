@@ -9,6 +9,7 @@
 #include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
 #include <math/seadBoundSphere.h>
+#include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -159,6 +160,8 @@ public:
     /// Writes the bounding sphere of the model: the override if one is set, otherwise the union of the bounding
     /// spheres of the model units, gathered on demand. 0x7100bf97cc
     void getBounding(sead::BoundSphere3f* bounding) const;
+    // 0x7100bf9820: the union of the AABBs of the ModelNW units in _48.
+    void calcBoundAABB(sead::BoundBox3f* aabb, bool flag) const;
 
     // 0x7100bf8e9c (CSV name; declared only): recomputes the world matrices of the model units from
     // mMatrix. Callers set the matrix with setMatrix() (which flags it as changed) first.
