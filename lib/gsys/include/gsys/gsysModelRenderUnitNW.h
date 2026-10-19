@@ -80,7 +80,14 @@ protected:
     /* 0x224 */ u8 _224[4] = {};
     /// Array of 0x18-byte records, one per shape (getShapeNum()); the destructor frees each record's
     /// pointer at +0 and then the array.
-    /* 0x228 */ void* mShapeRecords = nullptr;
+    struct ShapeRecord {
+        void* _0;
+        void* _8;
+        u8 _10;
+        u8 _11[7];
+    };
+    static_assert(sizeof(ShapeRecord) == 0x18);
+    /* 0x228 */ ShapeRecord* mShapeRecords = nullptr;
     /// Bit mask of the shapes whose display lists were calculated (calcDisplayList 0x7100c0a0b4).
     /* 0x230 */ u8 mCalcDisplayListMask = 0;
     /// Bit 0: the shape display lists were created; bit 1: they are currently owned by the unit.
