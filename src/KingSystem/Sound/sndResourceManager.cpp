@@ -1,7 +1,9 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
+#include "KingSystem/Sound/sndBarslistArchive.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/System/OverlayArena.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::snd {
@@ -9,8 +11,16 @@ namespace ksys::snd {
 // The TU's static initialiser is 0x7101057c2c (`_GLOBAL__sub_I_sndResourceManager.cpp`).
 static util::InitTimeInfo sInitTimeInfo;
 
-Unk_7102502950::~Unk_7102502950() {
-    mHandles.freeBuffer();
+// 0x71010581d8: frees the bars pool, destroys the default heap and the overlay arena. The three base
+// destructors are empty.
+Unk_SoundMgr60::~Unk_SoundMgr60() {
+    mBars.freeBuffer();
+    if (mHeap)
+        mHeap->destroy();
+    if (mArena) {
+        delete mArena;
+        mArena = nullptr;
+    }
 }
 
 // 0x7101058348 (placeholder name): removes the overlay arena from the resource manager task.

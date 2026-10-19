@@ -20,7 +20,8 @@ void ScreenBase::doInitialize_(sead::Heap* heap) {
 
 // 0x71010a9f58
 void* ScreenBase::getSlink2ResourceList_(xlink2::UserInstanceSLink*) const {
-    return ksys::snd::SoundMgr::instance()->_60->mSlinkResources;
+    // The address of the resource manager's asset info reader is the SLink resource list.
+    return &ksys::snd::SoundMgr::instance()->_60->mSlinkResources;
 }
 
 // NON_MATCHING: only the register assignment of the first two loads differs (mMgr / mDrawInfo), as in eui::Screen::doSetupDrawInfo_

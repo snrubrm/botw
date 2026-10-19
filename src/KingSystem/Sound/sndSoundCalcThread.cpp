@@ -26,3 +26,5 @@ void SoundCalcThread2::calc_(sead::MessageQueue::Element msg) {
 }  // namespace ksys::snd
 
 Unk_710251b5c0::~Unk_710251b5c0() = default;
+
+ksys::snd::Unk_71025a36b0::~Unk_71025a36b0() = default;

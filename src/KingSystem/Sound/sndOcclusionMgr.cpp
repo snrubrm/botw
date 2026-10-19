@@ -57,6 +57,10 @@ bool Unk_7102502978::readAssetInfo(aal::AssetInfo* info, const sead::SafeString&
 }
 
 // NON_MATCHING: the inlined data-size result uses an extra move before the arbiter call.
+ksys::snd::Unk_7102502950::~Unk_7102502950() {
+    mHandles.freeBuffer();
+}
+
 Unk_7102502978::~Unk_7102502978() {
     if (mAudioResource) {
         if (auto* arbiter = aal::SystemAccessor::getArbiter()) {

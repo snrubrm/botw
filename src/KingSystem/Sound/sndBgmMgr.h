@@ -118,23 +118,7 @@ public:
     /* 0x10 */ aal::Handle mHandle;
 };
 
-// Placeholder (vtable 0x7102502950; D1 0x7101056bc8, readAssetInfo 0x7101056cac): the asset info reader at +0x68 of
-// Unk_710260f248. The D1 frees a buffer of 0x50-byte res::Handle objects (`_8` count, `_10` pointer).
-
-class Unk_7102502950 : public aal::IAssetInfoReadable {
-public:
-    // 0x7101057258 (declared only; 712 B): loads the asset info for `name`; true when done.
-    bool sub_7101057258(const sead::SafeString& name, sead::Heap* heap);
-    bool readAssetInfo(aal::AssetInfo* asset_info, const sead::SafeString& name, bool flag) override;
-    // 0x7101056bc8
-    virtual ~Unk_7102502950();
-
-    // The loaded asset info resources (0x50-byte res::Handle objects).
-    sead::Buffer<res::Handle> mHandles;
-    // Bit 0 makes the owner pass this reader to its xlink2 user instance (0x7101020988).
-    u8 _18 = 0;
-};
-KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
+// Unk_7102502950 moved to sndSound.h (the resource manager embeds it at +0x28).
 
 // Placeholder (vtable 0x71024fdde8: D1 0x71010073ac (empty), D0 0x71010073b0; 0x20 bytes): created by the field battle
 // BGM's init 0x71010099f0 (stored at +0x248): a small state machine over the BGM's node objects (`_8` the first node,
