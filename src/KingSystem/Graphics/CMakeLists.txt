@@ -7,6 +7,8 @@ target_sources(uking PRIVATE
   gfxLocationalLightRig.cpp
   gfxLocationalLightRig.h
   gfxObjectLight.cpp
+  gfxPrePassLightMgr.cpp
+  gfxPrePassLightMgr.h
   gfxUnk_710260af28.cpp
   gfxUnk_710260af28RenderMode.cpp
   gfxUnk_710260af28.h
