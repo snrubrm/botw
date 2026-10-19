@@ -60,6 +60,58 @@ void Guardian::onPreDeleteStart_(PrepareArg& arg) {
     _1908.sub_710066E15C();
 }
 
+void Guardian::preDelete2_(const PreDeleteArg& arg) {
+    if (!_14c8.isOnBit(20)) {
+        if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+            mgr->sub_7100FFBDC0(mId, _15b0 == nullptr);
+        else if (auto* mgr2 = ksys::snd::sub_7100FFDB28())
+            mgr2->sub_7100FF9830(mId, _15b0 == nullptr);
+    }
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_14f8, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _14f8.reset();
+
+    ksys::act::acquireActor(&_1508, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _1508.reset();
+
+    for (auto& link : _1538) {
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    for (s32 i = 0, n = _1518.size(); i < n; ++i) {
+        ksys::act::acquireActor(&_1518[i], &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    _1518.freeBuffer();
+
+    for (s32 i = 0, n = _1528.size(); i < n; ++i) {
+        ksys::act::acquireActor(&_1528[i], &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    _1528.freeBuffer();
+
+    if (_17a8) {
+        ksys::phys::Constraint::destroy(_17a8);
+        _17a8 = nullptr;
+    }
+    _15b8.freeBuffer();
+    if (_15a8) {
+        delete _15a8;
+        _15a8 = nullptr;
+    }
+    if (_15b0) {
+        delete _15b0;
+        _15b0 = nullptr;
+    }
+
+    sub_71005DA114(this, &_18c8);
+    Enemy::preDelete2_(arg);
+}
+
 void Guardian::onSleepRequested_(SleepWakeReason reason) {
     DynamicActor::onSleepRequested_(reason);
 

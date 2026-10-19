@@ -196,6 +196,14 @@ public:
     KSYS_CHECK_SIZE_NX150(Unk15a8, 0x4c);
     /* 0x15a8 */ Unk15a8* _15a8 = nullptr;
     struct Unk1 {
+        // Polymorphic (vtable 0x710235b970, vptr 0x710235b980; slots 0/1 are the RTTI pair, slots 2/3 the
+        // destructor): preDelete2_ deletes _15b0 through the deleting destructor. The vtable's other
+        // virtuals (0x710004b1d4, 0x710004bb40, 0x7100044278, 0x7100043f5c, 0x71000445d8, 0x7100041f74)
+        // are not modelled yet.
+        SEAD_RTTI_BASE(Unk1)
+    public:
+        virtual ~Unk1();
+
         // 0x7100042048: updates the navigation position (declaration only).
         void sub_7100042048();
         // 0x7100042b40: clears _64.
@@ -211,7 +219,6 @@ public:
         // 0x7100044b68: transforms the point of the owner's _15b8 buffer at `index` with the rigid body.
         void sub_7100044B68(sead::Vector3f* out, s32 index);
 
-        u8 _0[0x8];
         Guardian* _8;  // the owner (sub_7100042338)
         u8 _10[0x10];
         // 0x7100042048 transforms this local offset with the owner's main rigid body.
