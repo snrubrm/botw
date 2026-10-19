@@ -4731,6 +4731,9 @@ public:
     s32 sub_7100A05F94();
     // 0x7100a05f7c (placeholder name): stops the animator at 0x3870 at `frame`
     void sub_7100A05F7C(f32 frame);
+    // 0x7100a05cb4 (placeholder name): stops the animators, sets the title text to the message of the
+    // current DLC version and opens the window with the animator pair selected by `use_alt_animators`
+    void sub_7100A05CB4(bool use_alt_animators);
 
     // 0x7100a05528 (CSV ScreenDLCWindow::ctor)
     ScreenDLCWindow();
@@ -4752,9 +4755,11 @@ public:
     // the window's open / close animators (set as the layout's in m154)
     /* 0x3850 */ eui::Animator* _3850 = nullptr;
     /* 0x3858 */ eui::Animator* _3858 = nullptr;
-    u8 _3860[0x3870 - 0x3860] = {};
+    // the second open / close animator pair (used by sub_7100A05CB4 instead of 0x3850 / 0x3858)
+    /* 0x3860 */ eui::Animator* _3860 = nullptr;
+    /* 0x3868 */ eui::Animator* _3868 = nullptr;
     /* 0x3870 */ eui::Animator* _3870 = nullptr;
-    u8 _3878[0x3880 - 0x3878] = {};
+    /* 0x3878 */ eui::Animator* _3878 = nullptr;
     /* 0x3880 */ eui::Animator* _3880 = nullptr;
     /* 0x3888 */ s32 _3888 = 1;
     // the two buttons (T_BtnL_00 / T_BtnR_00 messages)

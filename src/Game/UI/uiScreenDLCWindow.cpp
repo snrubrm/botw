@@ -4,6 +4,7 @@
 #include "Game/UI/euiMessageMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/AOC/aocManager.h"
 
 namespace uking::ui {
 
@@ -28,6 +29,39 @@ void ScreenDLCWindow::m154() {
     mLayout->setCloseAnimator(_3858);
     if (_3880)
         _3880->PlayAuto(1.0f);
+}
+
+// NON_MATCHING: the original assigns the label inline (sead::SafeStringBase<char>::operator= is inline in the
+// game's sead: it only copies mStringTop), so the original has no second SafeString and no call to it. Ours
+// calls the out-of-line operator= (lib/sead declares it in the header and defines it in the .cpp), which adds
+// the call and a 0x20-larger frame. The control flow, the branch structure and the vtable/string stores match.
+// 0x7100a05cb4
+void ScreenDLCWindow::sub_7100A05CB4(bool use_alt_animators) {
+    _3870->StopAtMin();
+    if (_3878)
+        _3878->StopAtMin();
+    _3890->setFlag10(false);
+    _3898->setFlag10(false);
+
+    eui::MessageString message;
+    const u32 version = ksys::aoc::Manager::instance()->getVersion();
+    sead::SafeString label;
+    if (version >= 0x300)
+        label = sead::SafeString("0031");
+    else if (version >= 0x200)
+        label = sead::SafeString("0030");
+    else
+        label = sead::SafeString("0032");
+    getMessage(sUnk_7102486d38, label, &message);
+    setWidgetString(mLayout, "T_Title_00", message);
+    open(1);
+    if (use_alt_animators) {
+        mLayout->setOpenAnimator(_3860);
+        mLayout->setCloseAnimator(_3868);
+    } else {
+        mLayout->setOpenAnimator(_3850);
+        mLayout->setCloseAnimator(_3858);
+    }
 }
 
 // 0x7100a05f94
