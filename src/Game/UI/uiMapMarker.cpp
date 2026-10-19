@@ -291,6 +291,17 @@ void UiSubsys1Entry::m22() {
     _18 = -1.0f;
 }
 
+// 0x7100951d70 (placeholder name): binds `target` as this entry's pin at 0x50, or unbinds the current one
+void Unk_71024754c0::sub_7100951D70(Unk_7102477fc0* target) {
+    if (target) {
+        target->_18 = this;
+    } else if (_50) {
+        _50->_18 = nullptr;
+        _50->sub_710098CF9C();
+    }
+    _50 = target;
+}
+
 // NON_MATCHING: inlined base cleanup keeps an extra address register.
 void Unk_71024754c0::m22() {
     UiSubsys1Entry::m22();

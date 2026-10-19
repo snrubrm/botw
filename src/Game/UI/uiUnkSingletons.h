@@ -550,6 +550,8 @@ public:
     virtual void m30();
     virtual void m31();
     virtual void m32();
+    // 0x7100951d70 (placeholder name): binds `target` as this entry's pin at 0x50, or unbinds the current one
+    void sub_7100951D70(Unk_7102477fc0* target);
 
     /* 0x50 */ Unk_7102477fc0* _50;
     /* 0x58 */ Unk_710095192c* _58;
