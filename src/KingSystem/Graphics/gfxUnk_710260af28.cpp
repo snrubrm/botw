@@ -258,3 +258,11 @@ s32 Unk_710260af28::sub_7100F1EE98() {
 s32 Unk_710260af28::sub_7100F1EEA0() {
     return 0;
 }
+
+s32 Unk_710260af28::sub_7100F1C3E8() {
+    return 1;
+}
+
+s32 Unk_710260af28::sub_7100F1C774() {
+    return 0;
+}

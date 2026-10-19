@@ -74,6 +74,10 @@ public:
     s32 sub_7100F1EE98();
     // 0x7100f1eea0 (declaration only): returns 0; the counterpart of sub_7100F1EE98.
     s32 sub_7100F1EEA0();
+    // 0x7100f1c3e8 / 0x7100f1c774 (declarations only): constant 1 / 0 pair; sub_7100F34848 shifts
+    // 0x800000 by the result.
+    s32 sub_7100F1C3E8();
+    s32 sub_7100F1C774();
 
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.
