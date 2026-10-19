@@ -6,11 +6,12 @@ u32 PrePassLightMgr::getDrawLightNum(s32 index) const {
     return mDrawLightNums[index];
 }
 
-// NON_MATCHING: the compiler emits the and / orr pair in the opposite order (both branches are
-// computed and selected, as in the original).
 void PrePassLightMgr::enableLight(s32 index, bool on) {
     DrawLight& light = mLights[index];
-    light.mEnabled = on ? u16(light.mEnabled | 1) : u16(light.mEnabled & ~u16(1));
+    if (!on)
+        light.mEnabled &= ~u16(1);
+    else
+        light.mEnabled |= 1;
 }
 
 bool PrePassLightMgr::isLightEnabled(s32 index) const {
@@ -33,7 +34,7 @@ void PrePassLightMgr::setVisibleDirect(s32 index, u32 mask) {
 // NON_MATCHING: the compiler computes the all-ones mask before the buffer bounds select; the
 // original computes it after.
 void PrePassLightMgr::setVisibleAll(s32 index, bool on) {
-    mLights[index].mVisibleMask = u32(-s32(on));
+    setVisibleDirect(index, on ? ~u32(0) : 0);
 }
 
 bool PrePassLightMgr::isVisible(s32 index, s32 bit) const {
