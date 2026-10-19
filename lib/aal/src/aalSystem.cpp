@@ -10,6 +10,17 @@ void System::setLoopAssetListReader(LoopAssetListReader& reader) {
     mLoopAssetListReader = reader;
 }
 
+// 0x7100b7a044
+const LoopAssetListReader* System::getLoopAssetListReader() const {
+    if (mDevReaderMgr) {
+        const auto& readers = mDevReaderMgr->mReaders;
+        const LoopAssetListReader* reader = readers.unsafeGet(readers.size() - 1);
+        if (reader->hasEntries())
+            return readers.empty() ? nullptr : reader;
+    }
+    return &mLoopAssetListReader;
+}
+
 // 0x7100b7a0a4
 void System::drawInformation3D(sead::DrawContext*, const sead::Camera&, const sead::Projection&,
                                const sead::Viewport&) const {}

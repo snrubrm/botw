@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadRingBuffer.h>
 #include "aal/aalCurveReader.h"
 
 namespace sead {
@@ -25,6 +26,15 @@ class SoundSourceUnifier;
 class SDKFoundation;
 class MemoryPoolManager;
 class SpeakerBalanceUnifierMgr;
+
+// The debug reader manager behind System+0xd0. Only the reader ring at +0xc8 is proved:
+// 0x7100b7a044 indexes it with the RingBuffer wrap of size - 1 and reads the element's
+// LoopAssetListReader::hasEntries(). The class name and the bytes before +0xc8 are unknown.
+class LoopAssetListReaderMgr {
+public:
+    u8 _0[0xc8];
+    /* 0xc8 */ sead::RingBuffer<LoopAssetListReader> mReaders;
+};
 
 /// The aal system singleton. TODO: only the manager pointers read through aal::SystemAccessor are modeled.
 class System {
@@ -62,7 +72,10 @@ public:
     MemoryPoolManager* mMemoryPoolManager;
     /// The directory of the stream files.
     const char* mStreamFileRoot;
-    u8 _a8[0xe8 - 0xa8];
+    u8 _a8[0xd0 - 0xa8];
+    /// The debug reader manager; null when the debug reader is not used.
+    LoopAssetListReaderMgr* mDevReaderMgr;
+    u8 _d8[0xe8 - 0xd8];
     /// The heap of the debug tools (HostIO): the components that are created through HostIO are allocated on it.
     sead::Heap* mDebugHeap;
     u8 _f0[0x100 - 0xf0];
