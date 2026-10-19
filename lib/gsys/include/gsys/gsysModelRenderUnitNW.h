@@ -59,6 +59,8 @@ public:
 
     // 0x7100c0a098: sets mCalcDisplayListMask to (1 << the unit's buffer count) - 1.
     void updateCalcDisplayListMask();
+    // 0x7100c09fcc: allocates and clears one ShapeRecord per shape of the owning unit.
+    void createShapeRecords(sead::Heap* heap);
     // 0x7100c09d28: the shape object at mModelObj's 0x68-byte shape array at mIndex.
     nn::g3d::ShapeObj* getShape() const;
     // 0x7100c09d60: the material object of mModelObj's 0x80-byte material array at mMaterialIndex.

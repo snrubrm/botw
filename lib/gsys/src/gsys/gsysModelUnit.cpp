@@ -9,7 +9,7 @@ void ModelUnit::enableRenderViewOption(int material_idx, ModelEnum::RenderViewOp
                                        bool enable, int view) {
     const u32 mask = 1 << int(option);
     if (view != -1) {
-        ViewOption& record = mViewOptions[material_idx * getViewNum() + view];
+        ViewOption& record = mViewOptions[material_idx * getShapeNum() + view];
         if (((record.flags & mask) != 0) == enable)
             return;
         record.flags = enable ? record.flags | mask : record.flags & ~mask;
@@ -20,8 +20,8 @@ void ModelUnit::enableRenderViewOption(int material_idx, ModelEnum::RenderViewOp
 
     int i = 0;
     bool changed = false;
-    for (; i < getViewNum(); ++i) {
-        ViewOption& record = mViewOptions[material_idx * getViewNum() + i];
+    for (; i < getShapeNum(); ++i) {
+        ViewOption& record = mViewOptions[material_idx * getShapeNum() + i];
         if (enable) {
             if (!record.flags.isOn(mask)) {
                 record.flags.set(mask);
@@ -142,7 +142,7 @@ void ModelUnit::resetRenderViewOption(ModelEnum::RenderViewOption option, int vi
                                    view);
     } else {
         for (int i = 0; i < material_num; ++i) {
-            for (int v = 0; v < getViewNum(); ++v)
+            for (int v = 0; v < getShapeNum(); ++v)
                 enableRenderViewOption(i, option,
                                        isDefaultRenderViewOptionEnabled(i, option, v), v);
         }

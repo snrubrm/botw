@@ -69134,7 +69134,7 @@ Address,Quality,Size,Name
 0x0000007100c09d74,U,000112,_ZNK4gsys17ModelRenderUnitNW9isVisibleEv
 0x0000007100c09de4,U,000464,_ZN4gsys17ModelRenderUnitNW11resetShaderEPN4sead4HeapE
 0x0000007100c09fb4,U,000024,
-0x0000007100c09fcc,U,000204,
+0x0000007100c09fcc,O,000204,_ZN4gsys17ModelRenderUnitNW18createShapeRecordsEPN4sead4HeapE
 0x0000007100c0a098,O,000028,_ZN4gsys17ModelRenderUnitNW25updateCalcDisplayListMaskEv
 0x0000007100c0a0b4,U,000276,_ZN4gsys17ModelRenderUnitNW15calcDisplayListEi
 0x0000007100c0a1c8,U,000540,

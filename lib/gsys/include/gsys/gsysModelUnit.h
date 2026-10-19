@@ -155,8 +155,9 @@ public:
     virtual void setMaterialShaderAssignVariation(int material_idx,
                                                   ModelEnum::ShaderAssignType assign_type, int);
 
-    virtual int getShapeNum() const = 0;
-
+    // Native slot +0x1c8: the number of render units (ModelNW::initialize 0x7100c0334c loops the
+    // array at ModelNW+0x180 with this count).
+    virtual int getModelRenderUnitNum() const = 0;
     // TODO: reference or pointer?
     virtual ModelRenderUnit* getModelRenderUnit(int idx) = 0;
     virtual const ModelRenderUnit* getModelRenderUnit(int idx) const = 0;
@@ -167,7 +168,9 @@ public:
 
     virtual int countPolygonNum() const;
 
-    virtual int getViewNum() const;
+    // Native slot +0x200. Both the render-unit shape records and the per-material option records
+    // are sized/indexed with it.
+    virtual int getShapeNum() const;
     virtual void calcBoundAABB(sead::BoundBox3f* aabb, bool) const;
 
     virtual bool isDefaultRenderOptionEnabled(int, ModelEnum::RenderOption) const;
@@ -223,11 +226,11 @@ public:
     void sub_7100C3EE8C(u8 depth_shadow_cascade);
 
     // inline-only in the original; name is a guess: whether `option` is enabled for the shape `shape_idx` in the
-    // view `view_idx`. The option records `mViewOptions` (one per shape and view, shape-major) are read like in
+    // view `view_idx`. The option records `mViewOptions` (one per material and shape, shape-major) are read like in
     // enableRenderViewOption() / resetRenderViewOption(): the base pointer is loaded before the virtual
-    // getViewNum() call. Used by WeaponBase::sub_7100EE6AFC (shape 0, option 1, view 0).
+    // getShapeNum() call. Used by WeaponBase::sub_7100EE6AFC (shape 0, option 1, view 0).
     bool isRenderViewOptionEnabled(int shape_idx, ModelEnum::RenderViewOption option, int view_idx) const {
-        return (mViewOptions[shape_idx * getViewNum() + view_idx].flags & (1 << int(option))) != 0;
+        return (mViewOptions[shape_idx * getShapeNum() + view_idx].flags & (1 << int(option))) != 0;
     }
 
     // The center is tested for NaN by GelEnemy. The sphere radius at +0xc is

@@ -81,6 +81,8 @@ public:
     void clearBoneLocalMatrix() override;
     // The remaining ModelUnit pure virtuals have unnamed implementations in the original; declared only.
     int getMaterialNum() const override;
+    // 0x7100c07b80: the u16 render-unit count at ModelNW+0x110.
+    int getModelRenderUnitNum() const override;
     int getShapeNum() const override;
     ModelRenderUnit* getModelRenderUnit(int idx) override;
     const ModelRenderUnit* getModelRenderUnit(int idx) const override;
