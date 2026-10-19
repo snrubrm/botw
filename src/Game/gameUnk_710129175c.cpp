@@ -13,6 +13,14 @@ void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
 }
 
+// 0x7100f00018 (declaration only).
+void sub_7100F00018(void* object);
+
+void Unk_7100efd9b8::sub_7100EFE030() {
+    if (_120)
+        sub_7100F00018(_120);
+}
+
 void Unk_710129175c::sub_71012920C4(s32 index) {
     mRecords[index]._1ff4 = 1;
 }

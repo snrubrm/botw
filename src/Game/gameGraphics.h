@@ -151,7 +151,13 @@ public:
 class Unk_7100efd9b8 {
 public:
     void sub_7100EFE030();
+
+private:
+    u8 _0[0x120];
+    void* _120 = nullptr;
+    u8 _128[0x178 - 0x128];
 };
+KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
 class GrudgeRenderer {
 public:
     void sub_710128F2A4();
