@@ -1012,6 +1012,40 @@ Unk_710235a160::~Unk_710235a160() = default;
 
 Unk_710235a368::~Unk_710235a368() = default;
 
+namespace {
+// The DragonFollow payload (message 0x80000df; sender not modelled): the listener copies every field.
+struct Unk_71024506a8_Payload {
+    s32 _0;
+    ksys::act::BaseProcLink mLink;
+    sead::SafeString mName;
+    sead::Matrix34f mMtx;
+    sead::Matrix33f mMtx33;
+    sead::Vector3f _7c;
+    sead::Vector3f _88;
+    u8 _94[4];
+    bool _98;
+};
+}  // namespace
+
+bool Unk_71024506a8::m2(const ksys::Message& message) {
+    if (message.getType() != 0x80000df)
+        return false;
+
+    auto* payload = static_cast<Unk_71024506a8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    _38 = payload->_0;
+    _40 = payload->mLink;
+    _50 = payload->mName;
+    _60 = payload->mMtx;
+    _90 = payload->mMtx33;
+    _b4 = payload->_7c;
+    _c0 = payload->_88;
+    _d0 = payload->_98;
+    return true;
+}
+
 bool Unk_71023f9b08::sub_710070AFFC(const ksys::Message* message, ksys::act::Actor* actor) {
     if (message->getType() != 0x800001d)
         return false;
