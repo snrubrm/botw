@@ -19,6 +19,11 @@ KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30];
 
 
 
+// 0x710235ab6c / 0x710235ab70: the Guardian target-distance tunables (15 / 25). Writable in the
+// original, so clang loads them instead of folding the literals.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710235ab6c = 15.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710235ab70 = 25.0f;
+
 namespace uking::act {
 
 // NON_MATCHING: the body is the same; clang sinks the constant/scale loads into the body here while
@@ -198,12 +203,18 @@ bool Guardian::sub_710003B2A8() const {
     return sub_710003B098() >= 0;
 }
 
-// NON_MATCHING: the original loads the 25.0 from a float at 0x710235ab70 in .data instead of using an immediate
-// 0x710003b4c8: true without a target (_c48._8), else whether the target position (_c48._18) is more than 25 away.
+// 0x710003b43c / 0x710003b4c8: the target (link at Enemy::_c48._8, position _c48._18) is closer than
+// 15 / farther than 25.
+bool Guardian::sub_710003B43C() const {
+    if (!_c48._8.hasProc())
+        return false;
+    return (_c48._18 - getMtx().getTranslation()).length() < sUnk_710235ab6c;
+}
+
 bool Guardian::sub_710003B4C8() const {
     if (!_c48._8.hasProc())
         return true;
-    return (_c48._18 - getMtx().getTranslation()).length() > 25.0f;
+    return (_c48._18 - getMtx().getTranslation()).length() > sUnk_710235ab70;
 }
 
 void Guardian::sub_710003B564(s32* damage, s32*, u32*, u32* a4, s32* a5, DamageCallbackInfo*,
