@@ -151,6 +151,8 @@ add_library(hkStubs OBJECT
   Havok/Physics/Constraint/Data/Hinge/hkpHingeConstraintData.cpp
   Havok/Physics/Constraint/Data/BallAndSocket/hkpBallAndSocketConstraintData.h
   Havok/Physics/Constraint/Data/BallAndSocket/hkpBallAndSocketConstraintData.cpp
+  Havok/Physics/Constraint/Data/LimitedHinge/hkpLimitedHingeConstraintData.h
+  Havok/Physics/Constraint/Data/RackAndPinion/hkpRackAndPinionConstraintData.h
   Havok/Physics/Constraint/Util/hkpConstraintUtils.h
   Havok/Physics/Constraint/Util/hkpConstraintUtils.cpp
   Havok/Physics/Constraint/Data/hkpConstraintInfo.h

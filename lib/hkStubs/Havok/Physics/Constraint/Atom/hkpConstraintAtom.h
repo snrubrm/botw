@@ -3,6 +3,8 @@
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Common/Base/Types/hkUFloat8.h>
 
+class hkpConstraintMotor;
+
 struct hkpConstraintAtom {
 public:
     enum AtomType {
@@ -170,6 +172,72 @@ struct alignas(16) hkpAngConstraintAtom : hkpConstraintAtom {
 };
 static_assert(sizeof(hkpAngConstraintAtom) == 0x10);
 static_assert(offsetof(hkpAngConstraintAtom, m_constrainedAxes) == 2);
+
+// Reflection 0x71017BE6xx names these complete records. The limited-hinge
+// atoms class independently places them at 0xa0/0xc0/0xd0/0xf0.
+struct hkpAngMotorConstraintAtom : hkpConstraintAtom {
+    hkpAngMotorConstraintAtom();
+    hkBool m_isEnabled;
+    hkUint8 m_motorAxis;
+    hkInt16 m_initializedOffset;
+    hkInt16 m_previousTargetPositionOffset;
+    const hkpConstraintMotor* m_motor;
+    hkReal m_targetPosition;
+    hkUint8 m_padding[8];
+};
+static_assert(sizeof(hkpAngMotorConstraintAtom) == 0x20);
+static_assert(offsetof(hkpAngMotorConstraintAtom, m_initializedOffset) == 4);
+static_assert(offsetof(hkpAngMotorConstraintAtom, m_targetPosition) == 0x10);
+
+struct alignas(16) hkpAngFrictionConstraintAtom : hkpConstraintAtom {
+    hkpAngFrictionConstraintAtom();
+    hkBool m_isEnabled;
+    hkUint8 m_firstFrictionAxis;
+    hkUint8 m_numFrictionAxes;
+    hkReal m_maxFrictionTorque;
+    hkUint8 m_padding[4];
+};
+static_assert(sizeof(hkpAngFrictionConstraintAtom) == 0x10);
+static_assert(offsetof(hkpAngFrictionConstraintAtom, m_maxFrictionTorque) == 8);
+
+struct hkpAngLimitConstraintAtom : hkpConstraintAtom {
+    hkpAngLimitConstraintAtom();
+    hkBool m_isEnabled;
+    hkUint8 m_twistAxis;
+    hkUint8 m_refAxis;
+    hkReal m_minAngle;
+    hkReal m_maxAngle;
+    hkReal m_angularLimitsTauFactor;
+    hkReal m_angularLimitsDampFactor;
+    hkUint8 m_padding[8];
+};
+static_assert(sizeof(hkpAngLimitConstraintAtom) == 0x20);
+static_assert(offsetof(hkpAngLimitConstraintAtom, m_minAngle) == 8);
+static_assert(offsetof(hkpAngLimitConstraintAtom, m_angularLimitsTauFactor) == 0x10);
+
+struct alignas(16) hkp2dAngConstraintAtom : hkpConstraintAtom {
+    hkp2dAngConstraintAtom();
+    hkUint8 m_freeRotationAxis;
+    hkUint8 m_padding[13];
+};
+static_assert(sizeof(hkp2dAngConstraintAtom) == 0x10);
+static_assert(offsetof(hkp2dAngConstraintAtom, m_freeRotationAxis) == 2);
+
+// Reflection 0x71017BBE50 names the rack-and-pinion atoms extent 0xa0 and
+// records pinionRadiusOrScrewPitch/isScrew/memOffsetTo*; constructor 0x71015F7DD4
+// writes the pitch at +0xb4 (atom +4) and the four flag bytes at +0xb8.
+struct hkpRackAndPinionConstraintAtom : hkpConstraintAtom {
+    hkpRackAndPinionConstraintAtom();
+    hkReal m_pinionRadiusOrScrewPitch;
+    hkBool m_isScrew;
+    hkInt8 m_memOffsetToInitialAngleOffset;
+    hkInt8 m_memOffsetToPrevAngle;
+    hkInt8 m_memOffsetToRevolutionCounter;
+    hkUint8 m_padding[4];
+};
+static_assert(sizeof(hkpRackAndPinionConstraintAtom) == 0x10);
+static_assert(offsetof(hkpRackAndPinionConstraintAtom, m_pinionRadiusOrScrewPitch) == 4);
+static_assert(offsetof(hkpRackAndPinionConstraintAtom, m_isScrew) == 8);
 
 // hkpPulleyConstraintData constructor 0x71015f7640 writes type 20 at data +0x50 and zeroes both
 // fixed pivots (+0x60/+0x70), rope length (+0x80) and sets leverage (+0x84) to 1;
