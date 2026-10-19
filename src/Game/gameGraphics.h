@@ -178,13 +178,18 @@ public:
 // The DebugTexturePage at 10 and its lifetime remain unmodeled.
 class Unk_7101293bac : public sead::hostio::Node {
 public:
+    // 0x7101293bac: the item filter constructor.
+    Unk_7101293bac();
     virtual ~Unk_7101293bac();
     s32 _8;
     sead::BitFlag32 mFlags;
-    u8 _10[0x254 - 0x10];
+    agl::utl::DebugTexturePage mPage;
+    u8 _250;
+    u8 _251[3];
     // Graphics::setRainRatio 0x7100f2fcdc scales the rain ratio by 1 - this value.
     f32 _254;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7101293bac, 0x258);
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
