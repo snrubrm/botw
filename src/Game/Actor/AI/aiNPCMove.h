@@ -45,6 +45,10 @@ protected:
     // 0x71004d33e8 (placeholder name): applies the equipped-item AS state (Hold / Equip / Invisible) from the
     // selected _120 entry; a1 selects the entry used while the NPC's _1028 name is empty.
     void sub_71004D33E8(bool a1, bool a2);
+    // 0x71004d00cc (placeholder name): the arrival / wait state update. Copies the timeline name into the NPC,
+    // applies the item-state AS, then changes to the arrival child ("到着" / "雨宿り地点に到着") with the AS
+    // name, rain anchor and start-same-AS parameters.
+    void sub_71004D00CC(bool a1, bool a2);
     // static_param at offset 0x38
     const float* mTerritoryRange_s{};
     // static_param at offset 0x40
@@ -71,8 +75,10 @@ protected:
     s32 _ec = 0;
     s32 _f0 = 0;
     s32 _f4 = 0;
-    u64 _f8 = 0;
-    u64 _100 = 0;
+    s32 _f8 = 0;
+    s32 _fc = 0;  // fine-weather AS index passed to sub_710071300C
+    s32 _100 = 0;  // rain AS index
+    s32 _104 = 0;
     u64 _108 = 0;
     s32 _110 = 60;
     s32 _114 = -1;
@@ -85,7 +91,20 @@ protected:
     sead::SafeString _180{};
     sead::SafeString _190{};
     sead::SafeString _1a0{};
-    sead::SafeString _1b0[13]{};
+    // Separate members: the original addresses these directly (no array index arithmetic).
+    sead::SafeString _1b0{};
+    sead::SafeString _1c0{};
+    sead::SafeString _1d0{};
+    sead::SafeString _1e0{};
+    sead::SafeString _1f0{};
+    sead::SafeString _200{};
+    sead::SafeString _210{};
+    sead::SafeString _220{};
+    sead::SafeString _230{};
+    sead::SafeString _240{};
+    sead::SafeString _250{};
+    sead::SafeString _260{};
+    sead::SafeString _270{};
     sead::Vector3f _280;
     sead::Vector3f _28c;
     u8 _298[0x2a8 - 0x298];

@@ -80,7 +80,7 @@ void NPCMove::loadParams_() {
 void NPCMove::changeToTurnAround(const sead::Vector3f& rot) {
     const char* as_name = "Turn";
     if (_61 || _62)
-        as_name = _1b0[2].getStringTop();
+        as_name = _1d0.getStringTop();
 
     ksys::act::ai::InlineParamPack params;
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
@@ -182,6 +182,72 @@ void NPCMove::sub_71004D11F4() {
     }
 }
 
+// NON_MATCHING: the inline isEqual of the "Act_Wander" comparison is peeled and checks the right string
+// for the terminator in the original; ours keeps the generic loop. The destination of the _1028 assignment
+// is also addressed after the getName call in the original (ours computes it before).
+// 0x71004d00cc
+void NPCMove::sub_71004D00CC(bool a1, bool a2) {
+    const bool raining = _60 && wm::callIsRainingOrSnowingOrThunderStorm(true);
+    // C++14 evaluation order: the original evaluates the destination first
+    _2a8->_1028.operator=(getName());
+    auto* schedule = mActor->getSchedule();
+    schedule->_88 = schedule->_68;
+    sub_71004D33E8(false, raining);
+    if (_2a8->_104c == 0)
+        mActor->getASList()->goLimpFromHeadShotMaybe(
+            0x3b, sub_710071300C(raining ? _100 : _fc), 0);
+    sub_71004D44B0(false, raining);
+    if (schedule->_127 != 0)
+        sub_71005D7518(mActor, false);
+
+    if (sead::SafeString(raining ? _260 : _250) == "Act_Wander") {
+        sub_71004D4CA4();
+        return;
+    }
+
+    sead::SafeString as_name = _250;
+    const char* child;
+    if (raining) {
+        as_name = _260;
+        child = "雨宿り地点に到着";
+    } else {
+        if (sead::SafeString(getName()) == "Sleep" ||
+            sead::SafeString(getName()) == "Sleep2") {
+            if (!(_2a8->_fe8 & 0x100000)) {
+                if (_1b0 == "True") {
+                    sub_71007130BC(mActor, false);
+                    if (auto* attention = mActor->getAttention()) {
+                        if (auto* client = attention->getClientByName("Awake"))
+                            client->setEnabled(true);
+                        if (auto* client = attention->getClientByName("AwakeLockOn"))
+                            client->setEnabled(true);
+                    }
+                }
+                mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::InstEvent);
+            }
+        }
+        child = "到着";
+    }
+
+    if (_61 || _62) {
+        as_name = _1e0;
+    } else if (a1) {
+        const char* current = mActor->getASList()->sub_710115ECF4(0x3b, 1);
+        if (sead::SafeString(current) == "Sit")
+            as_name = "Rest";
+        else if (sead::SafeString(current) == "SitOnObject")
+            as_name = "Act_SitChair_Wait";
+        else
+            as_name = "Wait";
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(as_name, "ASName", -1);
+    pack.addBool(raining, "IsRainAnchor", -1);
+    pack.addBool(a2, "IsStartSameAS", -1);
+    changeChild(child, &pack);
+}
+
 // 0x71004d33e8
 void NPCMove::sub_71004D33E8(bool a1, bool a2) {
     if (_67) {
@@ -260,7 +326,7 @@ void NPCMove::sub_71004D44B0(bool a1, bool a2) {
 void NPCMove::sub_71004D4CA4() {
     _66 = true;
     sub_71004D44B0(true, false);
-    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _1b0[11] : _1b0[10];
+    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _260 : _250;
     ksys::act::ai::InlineParamPack pack;
     pack.addString(as_name, "WaitASName", -1);
     pack.addVec3(_28c, "BasisPos", -1);
