@@ -528,6 +528,11 @@ bool sub_7100A97B14();
 void sub_7100A98340();
 // 0x7100a985dc (placeholder name): the picture book category of an Obj_Photo_* item name (5: none of them)
 s32 sub_7100A985DC(const sead::SafeString& name);
+// 0x7100a98808 (defined in uiShopFacade.cpp): the number of free compendium slots of a category
+s32 sub_7100A98808(s32 category);
+// 0x7100a98908 (defined in uiShopFacade.cpp): the number of pictures of a category that are taken
+// but not registered in the compendium yet
+s32 sub_7100A98908(s32 category);
 void sub_7100A98358();
 bool sub_7100A98558();
 void sub_7100A98598();
