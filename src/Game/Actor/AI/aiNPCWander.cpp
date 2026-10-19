@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
+#include "Game/Actor/aiUnk_7100711020.h"
 #include "KingSystem/Map/mapRail.h"
 #include <math/seadMathCalcCommon.h>
 
@@ -71,6 +73,30 @@ bool NPCWander::sub_71004E9FF8() {
         return false;
     _e8->sub_7100EEBE9C(-_e8->_58);
     return true;
+}
+
+// 0x71004e8014
+void NPCWander::sub_71004E8014(bool a1, bool a2) {
+    auto* npc = sead::DynamicCast<act::NPC>(mActor);
+    auto* schedule = mActor->getSchedule();
+    if (npc && schedule) {
+        sead::SafeString as_name;
+        if (a2)
+            as_name = schedule->_238;
+        else
+            as_name = a1 ? schedule->_218 : schedule->_228;
+
+        if (as_name == "Hold") {
+            npc->_1060 = 0;
+            sub_7100712E00(mActor);
+        } else if (as_name == "Equip") {
+            npc->_1060 = 1;
+            mActor->getASList()->goLimpFromHeadShotMaybe(44, "", 0);
+        } else if (as_name == "Invisible") {
+            npc->_1060 = 2;
+            mActor->getASList()->goLimpFromHeadShotMaybe(44, "", 0);
+        }
+    }
 }
 
 void NPCWander::sub_71004EA108() {

@@ -25,6 +25,9 @@ protected:
     void sub_71004EA4B0();
     // 0x71004ea108: changes to the "振り向く" child
     void sub_71004EA108();
+    // 0x71004e8014 (placeholder name): applies the equipped-item AS state (Hold / Equip / Invisible) from the
+    // schedule's AS name entries; a1 selects the normal entry, a2 the rain entry.
+    void sub_71004E8014(bool a1, bool a2);
     // static_param at offset 0x78
     const float* mRainWaitTime_s{};
     // static_param at offset 0x80
