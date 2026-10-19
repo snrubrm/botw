@@ -46,6 +46,14 @@ public:
         ~PartsSetUserBin() override;
     };
 
+    // Partial model: the getter's data layout is not modelled, only getAccessoryKey
+    // 0x7100c2a8b4. isComposite / isViewDependence stay U: the natural short-circuit body
+    // compiles to csel here while the original branches.
+    class AreaEnvGetter {
+    public:
+        s32 getAccessoryKey(u32 a, u32 b, u32 c) const;
+    };
+
     // OpenWorldStage::unload 0x71007c5d20 passes the data-set array at +0xba0 to
     // clearImpl 0x7100c25294. The constructor 0x7100c21f8c clears count +0xb98 and this pointer.
     // 0x7100c29f7c: the base component draws no debug output.

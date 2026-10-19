@@ -17,6 +17,10 @@ ModelSceneEnv::PartsSetUserStr::~PartsSetUserStr() {}
 ModelSceneEnv::PartsSetUserBin::~PartsSetUserBin() {}
 
 
+s32 ModelSceneEnv::AreaEnvGetter::getAccessoryKey(u32 a, u32, u32 c) const {
+    return (a & ~1u) == 2 ? static_cast<s32>(c) : -1;
+}
+
 void ModelSceneEnv::drawDebug(agl::DrawContext*, const ModelSceneContext&) const {}
 
 }  // namespace gsys
