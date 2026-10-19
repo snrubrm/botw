@@ -25,6 +25,35 @@ void Unk_710260af28::sub_7100F1ED28(gsys::Model* model, int mode) {
         sub_7100F1ED8C(model->getUnits()[i]->mModelUnit, mode);
 }
 
+void Unk_710260af28::sub_7100F1E4DC(gsys::Model* model, f32 value) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i)
+        sub_7100F1E538(model->getUnits()[i]->mModelUnit, value);
+}
+
+void Unk_710260af28::sub_7100F1E538(gsys::ModelUnit* unit, f32 value) {
+    const s32 count = unit->getMaterialNum();
+    for (s32 material = 0; material < count; ++material) {
+        const s32 p0 = unit->searchMaterialParamIndex(material, "texture_array_index0");
+        if (p0 != -1)
+            unit->setMaterialParamF32(material, p0, value);
+        const s32 p1 = unit->searchMaterialParamIndex(material, "texture_array_index1");
+        if (p1 != -1)
+            unit->setMaterialParamF32(material, p1, value);
+        const s32 p2 = unit->searchMaterialParamIndex(material, "texture_array_index2");
+        if (p2 != -1)
+            unit->setMaterialParamF32(material, p2, value);
+        const s32 p3 = unit->searchMaterialParamIndex(material, "texture_array_index3");
+        if (p3 != -1)
+            unit->setMaterialParamF32(material, p3, value);
+        const s32 p4 = unit->searchMaterialParamIndex(material, "texture_array_index4");
+        if (p4 != -1)
+            unit->setMaterialParamF32(material, p4, value);
+        const s32 p5 = unit->searchMaterialParamIndex(material, "texture_array_index5");
+        if (p5 != -1)
+            unit->setMaterialParamF32(material, p5, value);
+    }
+}
+
 void Unk_710260af28::sub_7100F1EA00(gsys::Model* model, f32 value) {
     for (s32 i = 0; i < model->getUnits().size(); ++i) {
         auto* unit = model->getUnits()[i]->mModelUnit;

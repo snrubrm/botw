@@ -58,8 +58,12 @@ public:
     // every material of every unit of `model` to `value`. LumberjackTree 0x7100e18a38 passes the model's
     // y scale.
     void sub_7100F1EA00(gsys::Model* model, f32 value);
-    // Bullet and GolemRootBase pass their model and an unsigned value converted to float.
+    // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
+    // float.
     void sub_7100F1E4DC(gsys::Model* model, f32 value);
+    // 0x7100f1e538 (declaration only): sets the six texture_array_indexN material parameters of every
+    // material of `unit` to `value`.
+    void sub_7100F1E538(gsys::ModelUnit* unit, f32 value);
     // 0x7100f1e8a4 (declaration only): scene661a58 passes the ingredient model and opacity value.
     void sub_7100F1E8A4(gsys::Model* model, f32 value);
     // 0x7100f1ebf0 (declaration only): ItemRoot::enter_ passes the actor's model.
