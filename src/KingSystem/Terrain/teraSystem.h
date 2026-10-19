@@ -327,15 +327,24 @@ public:
                            const sead::Vector3f& rotate, const sead::Vector3f& scale, f32 unk);
         // 0x7101083b78 (unnamed; declaration only): updates the table entry for a changed tree record.
         void sub_7101083B78(u16 index, const sead::Vector3f& pos, bool b);
+        // 0x71010839c4 (placeholder name): stores value (clamped to 0..1) scaled to 4000..8000 at +0x14cb8.
+        void sub_71010839C4(f32 value);
+        // 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
+        // terrain debug flag or _8 bit 0 stops it.
+        void sub_7101080A0C();
 
         u8 _0[8];
         u32 _8;
+        /* 0x0c */ u32 _c;
         // +0x28: heap passed to every table entry setup and to the two sub-objects.
-        u8 _c[0x28 - 0xc];
+        u8 _d[0x28 - 0x10];
         sead::Heap* _28;
         // Ten tables of eight entries: table 0 / 1 at +0x30 / +0xd30 (0x7101083060 / 0x710108330c).
         TableEntry mTables[10][8];
-        u8 _8230[0x14cd0 - 0x8230];
+        u8 _8230[0x14cb8 - 0x8230];
+        /* 0x14cb8 */ f32 _14cb8;
+        u8 _14cbc[0x14ccc - 0x14cbc];
+        /* 0x14ccc */ u32 _14ccc;
         // Both are passed to 0x7101084d04 / 0x7101084e78.
         void* _14cd0;
         void* _14cd8;

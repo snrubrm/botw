@@ -1177,6 +1177,26 @@ void Core::Unk_140::sub_7101083028() {
     sub_7101084E78(_14cd8);
 }
 
+// 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
+// terrain debug flag or _8 bit 0 stops it.
+void Core::Unk_140::sub_7101080A0C() {
+    Terrain* terrain = Terrain::instance();
+    if (terrain && terrain->_a50 && (terrain->_a50->_18 & 0x20))
+        return;
+    if (!(_8 & 1))
+        return;
+    if ((_c & 3) == 3)
+        _c &= ~u32(3);
+    if (++_14ccc > 15)
+        _14ccc = 0;
+}
+
+// 0x71010839c4 (placeholder name): stores value (clamped to 0..1) scaled to 4000..8000 at +0x14cb8.
+void Core::Unk_140::sub_71010839C4(f32 value) {
+    const f32 clamped = sead::Mathf::clamp(value, 0.0f, 1.0f);
+    _14cb8 = clamped * 4000.0f + 4000.0f;
+}
+
 // NON_MATCHING: the two induction variables (entry index and byte offset) are initialised in the
 // opposite order from the original.
 void Core::Unk_140::sub_7101083060() {
