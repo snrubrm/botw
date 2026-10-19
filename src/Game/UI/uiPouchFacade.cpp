@@ -3,6 +3,8 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 // UI wrapper functions around uking::ui::PauseMenuDataMgr (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -245,6 +247,29 @@ bool sub_7100A82E20(s32 category) {
 // 0x7100a82e28 (placeholder name)
 bool sub_7100A82E28(s32 value) {
     return u32(value - 4) < 3;
+}
+
+// 0x7100a82e38 (placeholder name): whether the player may pick up material items right now
+// NON_MATCHING: the two flags land in different registers (the original keeps the PlayerBase::sub_710084BEF0 result
+// in w8 and the _cec bit in w9); the body, calls and control flow are the same.
+bool sub_7100A82E38() {
+    if (ksys::gdt::getFlag_CarryProhibition(false))
+        return false;
+    if (isOpenedMessageGet())
+        return false;
+    bool busy = false;
+    bool carrying = false;
+    if (auto* player_info = act::PlayerInfo::instance()) {
+        if (auto* player = player_info->getPlayer()) {
+            busy = player->sub_710084BEF0();
+            carrying = (player->_cec >> 9) & 1;
+        }
+    }
+    if (busy)
+        return false;
+    if (carrying)
+        return false;
+    return PauseMenuDataMgr::instance()->countItemsWithCategoryByType(PouchCategory::Material) > 0;
 }
 
 }  // namespace uking::ui
