@@ -5129,6 +5129,8 @@ public:
     // 0x7100a52db0 (CSV placeholder): mode select (1 = full refresh through sub_7100A52E60,
     // 0 = re-resolve the shop message into _3650; anything else only runs the _3620 animator).
     void sub_7100A52DB0(u32 mode, ShopInfoTagData* data);
+    // 0x7100a53328 (placeholder name): closes the number pane's current animation and shows `value` in T_Num_00
+    void sub_7100A53328(s32 value);
     // 0x7100a52e60 (CSV placeholder, not decompiled yet): the full shop refresh (888B; uses
     // _3690/_3698/_3658, calls sub_7100AA2BDC + unnamed 0x9c2c28/2c44/2c8c/2d44 + sub_7100AA3B50).
     // Declared only so sub_7100A52DB0 can tail-call it.

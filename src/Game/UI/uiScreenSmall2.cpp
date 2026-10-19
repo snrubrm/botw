@@ -552,6 +552,17 @@ void ScreenShopInfo::sub_7100A52DB0(u32 mode, ShopInfoTagData* data) {
     sub_7100A52E60(data, 0, -1);
 }
 
+// 0x7100a53328 (placeholder name): closes the number pane's current animation and shows `value` in T_Num_00
+void ScreenShopInfo::sub_7100A53328(s32 value) {
+    if (!_3690)
+        return;
+    if (_3690->_91 != 2)
+        _3690->sub_7100BDDE7C(false, 0, true);
+    sead::FixedSafeString<8> text;
+    text.format("%d", value);
+    setWidgetString(_3690, "T_Num_00", text);
+}
+
 // 0x7100a081e8
 void ScreenDoCommand::m100() {
     _3660 = -1;
