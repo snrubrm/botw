@@ -16,6 +16,8 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70];

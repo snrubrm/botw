@@ -213,7 +213,10 @@ public:
 
         u8 _0[0x8];
         Guardian* _8;  // the owner (sub_7100042338)
-        u8 _10[0x30 - 0x10];
+        u8 _10[0x10];
+        // 0x7100042048 transforms this local offset with the owner's main rigid body.
+        sead::Vector3f _20;
+        u8 _2c[4];
         ksys::phys::NavMeshCharacter* _30;  // m45
         u8 _38[0x50 - 0x38];
         // The movement provider (GuardianActionBase's second base), set in GuardianActionBase::enter_ and cleared
