@@ -35,4 +35,17 @@ void ModelRenderContext::bind(sead::DrawContext* draw_context) const {
     }
 }
 
+void ModelRenderContext::pushPassTexture(PassTextureType type, const agl::TextureData* texture) {
+    const agl::TextureData* previous = mPassTextures[type];
+    mPassTextures[type] = texture;
+    mSavedPassTextures[type] = previous;
+}
+
+void ModelRenderContext::popPassTexture(PassTextureType type) {
+    if (mSavedPassTextures[type]) {
+        mPassTextures[type] = mSavedPassTextures[type];
+        mSavedPassTextures[type] = nullptr;
+    }
+}
+
 }  // namespace gsys

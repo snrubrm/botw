@@ -66,6 +66,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Matrix/hkMatrix3f.inl
   Havok/Common/Base/Math/Matrix/hkMatrix4.h
   Havok/Common/Base/Math/Matrix/hkMatrix4f.h
+  Havok/Common/Base/Math/Matrix/hkMatrix4f.cpp
   Havok/Common/Base/Math/Matrix/hkRotation.h
   Havok/Common/Base/Math/Matrix/hkRotationf.h
   Havok/Common/Base/Math/Matrix/hkTransform.h
@@ -151,6 +152,10 @@ add_library(hkStubs OBJECT
   Havok/Physics/Constraint/Data/Hinge/hkpHingeConstraintData.cpp
   Havok/Physics/Constraint/Data/BallAndSocket/hkpBallAndSocketConstraintData.h
   Havok/Physics/Constraint/Data/BallAndSocket/hkpBallAndSocketConstraintData.cpp
+  Havok/Physics/Constraint/Data/LimitedHinge/hkpLimitedHingeConstraintData.h
+  Havok/Physics/Constraint/Data/RackAndPinion/hkpRackAndPinionConstraintData.h
+  Havok/Physics/Constraint/Data/Generic/hkpGenericConstraintData.h
+  Havok/Physics/Constraint/Data/Generic/hkpGenericConstraintData.cpp
   Havok/Physics/Constraint/Util/hkpConstraintUtils.h
   Havok/Physics/Constraint/Util/hkpConstraintUtils.cpp
   Havok/Physics/Constraint/Data/hkpConstraintInfo.h

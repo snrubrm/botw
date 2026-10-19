@@ -10,20 +10,12 @@ namespace ksys::phys {
 
 HingeCs::~HingeCs() = default;
 
-// NON_MATCHING: vector loads and the constructor argument's stack slot differ.
 HingeCs* HingeCs::make(const Param& param, sead::Heap* heap) {
     auto* body_a = getPhysicsMemSysField190Or(param);
     auto* body_b = sub_7100F69FAC(param);
     auto* data = new (heap->alloc(sizeof(hkpHingeConstraintData), 16)) hkpHingeConstraintData;
-    hkVector4 pivot_a;
-    hkVector4 pivot_b;
-    hkVector4 axis_a;
-    hkVector4 axis_b;
-    loadFromVec3(&pivot_a, param.pivot_a);
-    loadFromVec3(&pivot_b, param.pivot_b);
-    loadFromVec3(&axis_a, param.axis_a);
-    loadFromVec3(&axis_b, param.axis_b);
-    data->sub_71015F6B54(pivot_a, pivot_b, axis_a, axis_b);
+    data->sub_71015F6B54(toHkVec4(param.pivot_a), toHkVec4(param.pivot_b),
+                        toHkVec4(param.axis_a), toHkVec4(param.axis_b));
     const auto priority = param._18 ? hkpConstraintInstance::PRIORITY_TOI :
                                     hkpConstraintInstance::PRIORITY_PSI;
     auto* breakable = sub_7100F6ACA8(data, param, heap);
@@ -37,10 +29,17 @@ HingeCs* HingeCs::make(const Param& param, sead::Heap* heap) {
     return constraint;
 }
 
-// NON_MATCHING: the compiler loads the vector components separately.
 void HingeCs::sub_7100F6DEAC(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b,
                             const sead::Vector3f& axis_a, const sead::Vector3f& axis_b) {
-    mData->sub_71015F6B54(toHkVec4(pivot_a), toHkVec4(pivot_b), toHkVec4(axis_a), toHkVec4(axis_b));
+    hkVector4 pivot_a_hk;
+    hkVector4 pivot_b_hk;
+    hkVector4 axis_a_hk;
+    hkVector4 axis_b_hk;
+    loadFromVec3(&pivot_a_hk, pivot_a);
+    loadFromVec3(&pivot_b_hk, pivot_b);
+    loadFromVec3(&axis_a_hk, axis_a);
+    loadFromVec3(&axis_b_hk, axis_b);
+    mData->sub_71015F6B54(pivot_a_hk, pivot_b_hk, axis_a_hk, axis_b_hk);
 }
 
 sead::Vector3f HingeCs::sub_7100F6DF30() const {
@@ -52,10 +51,6 @@ sead::Vector3f HingeCs::sub_7100F6DF30() const {
 u32 sub_7100F6DC48(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x1c0;
 }
-
-}  // namespace ksys::phys
-
-namespace ksys::phys {
 
 // 0x7100f6dbb0 (unnamed): builds the default hinge parameters and calls HingeCs::make.
 HingeCs* sub_7100F6DBB0(sead::Heap* heap) {

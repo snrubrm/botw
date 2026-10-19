@@ -12,17 +12,12 @@ namespace ksys::phys {
 
 BAndSCs::~BAndSCs() = default;
 
-// NON_MATCHING: vector loads and temporary constructor argument stack slots differ.
 BAndSCs* BAndSCs::make(const Param& param, sead::Heap* heap) {
     auto* body_a = getPhysicsMemSysField190Or(param);
     auto* body_b = sub_7100F69FAC(param);
     auto* data = new (heap->alloc(sizeof(hkpBallAndSocketConstraintData), 16))
         hkpBallAndSocketConstraintData;
-    hkVector4 pivot_a;
-    hkVector4 pivot_b;
-    loadFromVec3(&pivot_a, param.pivot_a);
-    loadFromVec3(&pivot_b, param.pivot_b);
-    data->sub_71015F47C8(pivot_a, pivot_b);
+    data->sub_71015F47C8(toHkVec4(param.pivot_a), toHkVec4(param.pivot_b));
     const auto priority = param._18 ? hkpConstraintInstance::PRIORITY_TOI :
                                     hkpConstraintInstance::PRIORITY_PSI;
     auto* breakable = sub_7100F6ACA8(data, param, heap);
@@ -32,16 +27,20 @@ BAndSCs* BAndSCs::make(const Param& param, sead::Heap* heap) {
     auto* instance = new (heap->alloc(sizeof(hkpConstraintInstance), 16))
         hkpConstraintInstance(sub_7100F69FD8(), nullptr, instance_data, priority);
     hkArray<hkpConstraintInstance*> instances;
-    instances.pushBack(instance);
+    instances.setSize(1);
+    instances[0] = instance;
     sub_71015FBE7C(instances, hkpConstraintAtom::METHOD_STABILIZED);
     auto* constraint = new (heap, 8) BAndSCs(instance, body_a, body_b, breakable, data);
     constraint->sub_7100F6A180(heap);
     return constraint;
 }
 
-// NON_MATCHING: the compiler loads the vector components separately.
 void BAndSCs::sub_7100F6B144(const sead::Vector3f& pivot_a, const sead::Vector3f& pivot_b) {
-    mData->sub_71015F47C8(toHkVec4(pivot_a), toHkVec4(pivot_b));
+    hkVector4 pivot_a_hk;
+    hkVector4 pivot_b_hk;
+    loadFromVec3(&pivot_a_hk, pivot_a);
+    loadFromVec3(&pivot_b_hk, pivot_b);
+    mData->sub_71015F47C8(pivot_a_hk, pivot_b_hk);
 }
 
 void BAndSCs::sub_7100F6B198(const sead::Matrix34f& body_a_mtx,

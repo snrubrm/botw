@@ -35,7 +35,7 @@ void Unk_71024f5e90::m4() {
 
 Unk_71024f5e90::~Unk_71024f5e90() = default;
 
-// NON_MATCHING: instruction scheduling (the y sums and the offset.z load are ordered differently)
+// NON_MATCHING: instruction scheduling (the y sums and the offset.z load are ordered differently).
 void Unk_71024f5e90::m6(const sead::Vector3f& offset) {
     mOffset = offset;
     for (s32 i = 0; i < 2; ++i) {

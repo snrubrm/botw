@@ -85,11 +85,12 @@ KSYS_CHECK_SIZE_NX150(CharacterControllerUnk50, 0x40);
 // NON_MATCHING: scalar register assignment differs.
 void CharacterControllerUnk58::m8(hkpCharacterContext&, const hkpCharacterInput& input,
                                   hkpCharacterOutput& output) {
+    const hkVector4f forward = input.m_forward;
     const f32 speed = -_c * input.m_inputUD;
-    output.m_velocity = toHkVec4(toVec3(input.m_forward) * speed);
+    output.m_velocity.set(forward[0] * speed, forward[1] * speed, forward[2] * speed);
 }
 
-// NON_MATCHING: register assignment
+// NON_MATCHING: the holder and value registers are swapped.
 void CharacterController::sub_7100F5E754(bool value) {
     _48->_50 = value;
 }
