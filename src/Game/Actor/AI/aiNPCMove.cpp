@@ -326,7 +326,8 @@ void NPCMove::sub_71004D44B0(bool a1, bool a2) {
 void NPCMove::sub_71004D4CA4() {
     _66 = true;
     sub_71004D44B0(true, false);
-    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _260 : _250;
+    const sead::SafeString as_name =
+        wm::callIsRainingOrSnowingOrThunderStorm(true) ? (_60 ? _260 : _250) : _250;
     ksys::act::ai::InlineParamPack pack;
     pack.addString(as_name, "WaitASName", -1);
     pack.addVec3(_28c, "BasisPos", -1);
