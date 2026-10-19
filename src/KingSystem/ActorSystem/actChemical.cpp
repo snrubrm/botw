@@ -7,9 +7,34 @@
 #include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Chemical/chmChemical.h"
+#include "KingSystem/Chemical/chmElement.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 
 namespace ksys::act {
+
+// 0x7100d8cf1c: links the holder and the element both ways.
+void Unk_71024dd1c8::sub_7100D8CF1C(Element* element) {
+    if (_10)
+        return;
+    _10 = element;
+    if (element->mHolder)
+        return;
+    element->setHolderMaybe(this);
+}
+
+// 0x7100d8cf88: sets flag 8 and calls the element's m30.
+void Unk_71024dd1c8::sub_7100D8CF88() {
+    _18 |= 8;
+    if (_10)
+        _10->m30();
+}
+
+// 0x7100d8cfac: calls the element's m32 and sets flag 1.
+void Unk_71024dd1c8::sub_7100D8CFAC() {
+    if (_10 && !(_18 & 0x10))
+        _10->m32();
+    _18 |= 1;
+}
 
 void Chemical::sub_7100D8F0FC() {
     sub_7100D8EEE0();
