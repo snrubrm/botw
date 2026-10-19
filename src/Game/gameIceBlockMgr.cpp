@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 
 namespace uking {
 
@@ -48,6 +50,55 @@ void IceBlockMgr::fadeEffectAndReleaseActorMaybe() {
         mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
                                  ksys::MessageType(0x80000b7), nullptr, true);
         _180.reset();
+    }
+}
+
+// NON_MATCHING: same calls and checks; ours keeps the transceiver in x22 and the accessor address
+// in x21, while the original keeps the transceiver in x21 and recomputes sp+8 for the destructor.
+void IceBlockMgr::createBlockMaybe() {
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_180, &accessor)) {
+            mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
+                                     ksys::MessageType(0x80000b7), nullptr, true);
+            _180.reset();
+        }
+    }
+
+    if (_170.isAllocatedOrFailed()) {
+        if (!_170.hasProcCreationFailed())
+            return;
+        _170.deleteProc();
+    }
+    if (_170.isAllocatedOrFailed()) {
+        if (!_170.hasProcCreationFailed())
+            return;
+        _170.deleteProc();
+    }
+
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        "Obj_IceMakerBlock", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_170,
+        nullptr, nullptr, 2);
+}
+
+// NON_MATCHING: same calls; ours keeps the message type in w24 and the accessor address in x22,
+// while the original keeps the type in w23 and recomputes sp+8 for the destructor.
+void IceBlockMgr::handOverToActorMaybe(ksys::act::ActorLinkConstDataAccess& other) {
+    if (other.hasProc(_180))
+        return;
+
+    {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_180, &accessor)) {
+            mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
+                                     ksys::MessageType(0x80000b7), nullptr, true);
+            _180.reset();
+        }
+    }
+
+    if (other.linkAcquire(&_180)) {
+        mTransceiver.sendMessage(*other.getMessageTransceiverId(), ksys::MessageType(0x80000b6),
+                                 nullptr, true);
     }
 }
 

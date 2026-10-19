@@ -10,6 +10,10 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class ActorLinkConstDataAccess;
+}
+
 namespace ksys::phys {
 class QueryContactPointInfo;
 class RigidBody;
@@ -40,6 +44,12 @@ public:
     // 0x710066f538: fades the current effect handle (_100[_14c]), resets the effect position to
     // (0, 0, 1) and tells the linked actor (message 0x80000b7) to release the ice block.
     void fadeEffectAndReleaseActorMaybe();
+    // 0x710066f7b4 (placeholder name): releases the current linked actor (message 0x80000b7), drops
+    // a failed handle, then requests an Obj_IceMakerBlock actor into _170.
+    void createBlockMaybe();
+    // 0x710066f6d0 (placeholder name): hands the linked actor over to `other`: message 0x80000b7 to
+    // the old link, then 0x80000b6 to `other` when it acquires the link.
+    void handOverToActorMaybe(ksys::act::ActorLinkConstDataAccess& other);
 
     // Element type unknown (the ctor sets up a three-pointer buffer at 0x48; the dtor clears it first).
     /* 0x038 */ sead::FixedPtrArray<u8, 3> _38;
