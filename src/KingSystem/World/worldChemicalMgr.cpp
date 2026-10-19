@@ -506,6 +506,29 @@ void Unk_71010cb1f0::sub_71010CB1F0(s32 count, sead::Heap* heap) {
         free.pushBack(&entry);
 }
 
+// The FarObj shape table at 0x710261fb30 (filled by 0x71010c7fc8): a 64-bit flag word, the shape name and
+// the three resource type ids selected by Unk_710250c880::_8.
+struct FarObjShapeTable {
+    u64 _0;
+    sead::SafeString name;
+    sead::SafeString res_type_ids[3];
+};
+KSYS_CHECK_SIZE_NX150(FarObjShapeTable, 0x48);
+
+KSYS_VISIBILITY_HIDDEN FarObjShapeTable sUnk_710261FB30 = {
+    0,
+    "(FarObj)",
+    {"wood_fuel_noburnout", "wood_bluefire", "cook_pot"},
+};
+
+const sead::SafeString& Unk_710250c880::getResTypeId() const {
+    return sUnk_710261FB30.res_type_ids[_8];
+}
+
+const sead::SafeString& Unk_710250c880::getName() const {
+    return sUnk_710261FB30.name;
+}
+
 f32 Unk_710250c880::getVolumeOccupancy() const {
     return 1.0f;
 }
