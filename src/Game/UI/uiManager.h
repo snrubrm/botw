@@ -126,6 +126,8 @@ public:
     void sub_7100A7A4C0();
     void sub_7100A7A4C4();
     void sub_7100A7A6E4(s32 a1);
+    // 0x7100a7e840: whether the pause menu may open
+    bool sub_7100A7E840(bool a2);
     void sub_7100A7A704(s32 a1);
     // 0x7100a7a72c (declared only; ScreenAppMenuBtn::m107 passes the Pa_CheckBtn_00 check state)
     void sub_7100A7A72C(bool checked);

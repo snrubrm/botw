@@ -55,6 +55,8 @@ public:
 
     // 0x710089bb14 (CSV, 4 bytes, still U): whether the loading screen has started (nxargs::handleArgs).
     bool hasLoadingScreenStarted();
+    // 0x710089bb18 (declared only; 16 bytes): the Root38 flag byte at 0x30 (the instance is unused)
+    bool sub_710089BB18();
     // 0x710089ba4c: sets or clears bit 0x20000 of _44c0 (GameScene::startLoadingScreen passes true).
     void sub_710089BA4C(bool on);
     // 0x710089ba6c: when `on` changes, sets the _4530 entries to 2 (on) or entries 1 and 7 to 1 (off).

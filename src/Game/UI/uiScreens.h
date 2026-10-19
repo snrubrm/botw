@@ -6073,6 +6073,8 @@ void sub_7100AA930C(eui::LayoutEx* layout, const sead::SafeString& pane_name, s3
 
 // 0x7100aa948c (declared only)
 bool sub_7100AA948C();
+// 0x7100a9a9f4 (uiScreenFacade.cpp): whether the UI is in the state that allows the pause menu
+bool sub_7100A9A9F4();
 // 0x7100a1b9d0 (placeholder name; ScreenMainScreen TU): opens the DLC energy meter while the Master Cycle is out
 // (unless the pause menu info screen exists) and closes it otherwise
 void sub_7100A1B9D0();

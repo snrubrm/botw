@@ -27,6 +27,10 @@
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameRoot38.h"
+#include "Game/Scene/gameScene.h"
+#include "KingSystem/System/DebugBoard.h"
+#include "KingSystem/Event/evtManager.h"
+#include <nn/font/font_Util.h>
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiSwkbdMgr.h"
@@ -647,6 +651,44 @@ void sub_7100A7E254() {
             (game_screen->mId != 0x2d || sub_7100AA948C()))
             game_screen->m80(true);
     }
+}
+
+// The world state flag compared by sub_7100A7E840; set while a loading screen is up.
+s32 sUnk_7102606b08;
+
+// 0x7100a7e840
+// NON_MATCHING: the boolean combinations use different instruction forms (bic / mvn vs tst / cset) than the
+// original; the conditions themselves are the same.
+bool Manager::sub_7100A7E840(bool a2) {
+    bool ok = !GameScene::hasLoadingScreenStarted() & ((_64c30_bytes[2] & 0x20) == 0);
+    if (!a2)
+        ok = ok && !Root38::instance()->hasAnyFlag();
+
+    bool screen_ok;
+    auto* camera = sead::DynamicCast<ScreenAppCamera>(eui::ScreenMgr::instance()->getScreen(4));
+    if (!camera) {
+        screen_ok = true;
+    } else {
+        screen_ok = false;
+        uking::act::PlayerBase* player = uking::act::PlayerInfo::instance()->getPlayer();
+        if (!camera->isTrigMaybe(1) && (!player || !player->_17d0->controllerCheckPressedMaybe(0x1f))) {
+            if (camera->getStateMachine().getState()->getId() != (&sUnk_71025dcd00)->getId() &&
+                camera->getStateMachine().getState()->getId() != (&sUnk_71025dcd60)->getId())
+                screen_ok = true;
+        }
+    }
+    ok = ok && screen_ok;
+
+    if (DebugBoardMgr::sInstance)
+        ok = ok && !DebugBoardMgr::instance()->sub_710089BB18();
+    ok = ok && _64c68 == 0;
+    ksys::evt::Manager* evt = ksys::evt::Manager::instance();
+    if (evt)
+        ok = ok && (evt->_1d2f4_bytes[1] & 1) == 0;
+    if (auto* event = evt ? evt->getActiveEvent() : nullptr)
+        ok = ok && (event->_340_bytes[4] & 0x20) == 0;
+    ok = ok && sUnk_7102606b08 < 1;
+    return sub_7100A9A9F4() && ok;
 }
 
 // 0x7100a7a6c0 (CSV uiManager::__auto6)
