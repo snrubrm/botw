@@ -2459,6 +2459,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // distance to the clamped cursor at 0xb520 and, once the 0xb4fc frame counter expires, resets it to 0x20 and
     // calls setMode(2).
     void sub_71009ADEF0();
+    // 0x71009af35c: forwards to the normal map's reset (sub_71009A7FA4)
+    void sub_71009AF35C();
 
     // 0x71009a8be8 (slot 14): sets the second half of the map tiles' textures to state 1, resets the map timer
     void m14() override;

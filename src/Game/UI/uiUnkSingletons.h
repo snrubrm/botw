@@ -1229,10 +1229,14 @@ public:
     // 0x7100958fcc / 0x710095900c (placeholder names): find / erase an entry of the list at 0x620
     UiSubsys1Entry** sub_7100958FCC(UiSubsys1Entry* key);
     bool sub_710095900C(UiSubsys1Entry** entry);
+    // 0x710095f584 (declared only; 960 bytes): resets the marker and entry tables; `a1` selects the full reset
+    void sub_710095F584(bool a1);
     // 0x71009595fc: find the element of the list at 0x668 whose stored pointer is `key`
     UiSubsys1Entry** sub_71009595FC(UiSubsys1Entry* key);
     // 0x710095963c: erase the element found by sub_71009595FC and return it to the list's free list
     bool sub_710095963C(UiSubsys1Entry** entry);
+    // 0x7100963724: the full reset of sub_710095F584
+    void sub_7100963724();
     bool sub_7100958D18() const;
     void sub_71009637D4();
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec

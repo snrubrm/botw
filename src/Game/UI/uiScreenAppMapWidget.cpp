@@ -50,6 +50,11 @@ void ScreenAppMapWidget::sub_71009AF344() {
     mNormalMap.sub_71009A80D0(0, mNormalMap._8->_128);
 }
 
+// 0x71009af35c
+void ScreenAppMapWidget::sub_71009AF35C() {
+    mNormalMap.sub_71009A7FA4();
+}
+
 // 0x71009af364 (placeholder name): queues the current area's second tile bank
 void ScreenAppMapWidget::sub_71009AF364() {
     mNormalMap.sub_71009A80D0(1, mNormalMap._8->_128);

@@ -75,6 +75,8 @@ public:
     void sub_71009A6FF4();
     void sub_71009A75AC();
     void sub_71009A6F34();
+    // 0x71009a7fa4 (declared only; 300 bytes): resets the normal map tiles' state when the UI mode allows it
+    void sub_71009A7FA4();
     // 0x71009a61dc (placeholder name): sizes the map view (_10) from the first tile pane
     void sub_71009A61DC();
     // 0x71009a82a8: the byte at 0xa8ea (ScreenAppMap has loaded the normal map)
