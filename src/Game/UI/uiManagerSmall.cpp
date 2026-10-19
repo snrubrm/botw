@@ -1005,9 +1005,29 @@ bool Manager::parseMainFieldAreas() {
 // hidden visibility)
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64e8;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64ec;
-KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6540;
-// Extra-energy threshold written by 947444 and read by 94745C / 947520.
-KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d6544;
+// Extra-energy threshold written by 947444 and read by 94745C / 947520; the byte is its valid flag.
+struct GaugeThreshold {
+    bool valid = false;
+    u8 _1[3];
+    f32 value = 0;
+};
+KSYS_VISIBILITY_HIDDEN GaugeThreshold sUnk_71025d6540;
+
+// 0x71009452a4
+void sub_71009452A4(bool value) {
+    sUnk_71025d64e8 = value;
+}
+
+// 0x71009452b4
+void sub_71009452B4(bool value) {
+    sUnk_71025d64ec = value;
+}
+
+// 0x7100947444
+void sub_7100947444(f32 value) {
+    sUnk_71025d6540.value = value;
+    sUnk_71025d6540.valid = true;
+}
 
 // 0x71009452c4
 bool sub_71009452C4() {
@@ -1022,7 +1042,7 @@ void Unk_7102474fd8::sub_7100945DB8() {
     if (!uking::ui::sub_7100AA8F30()) {
         sUnk_71025d64e8 = false;
         sUnk_71025d64ec = false;
-        sUnk_71025d6540 = false;
+        sUnk_71025d6540.valid = false;
     }
     if (_8 && _8->_91 != 0) {
         for (auto& pane : _60)
@@ -1573,7 +1593,7 @@ bool Unk_71024750c8::sub_7100947520() {
         uking::ui::playSound("mc_ExtraGanbari_Up", nullptr);
         sub_7100945D04(m7());
         sub_710094574C(m6());
-        sub_71009457B4(sUnk_71025d6544);
+        sub_71009457B4(sUnk_71025d6540.value);
         sub_7100945D84(false);
         _28->PlayAuto(1.0f);
         _b8 = 1;
@@ -1587,7 +1607,7 @@ bool Unk_71024750c8::sub_7100947520() {
             _b8 = 3;
         return false;
     default:
-        sUnk_71025d6540 = false;
+        sUnk_71025d6540.valid = false;
         return true;
     }
 }
