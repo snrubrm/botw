@@ -2846,6 +2846,50 @@ void ScreenSystemWindow00::m99() {
     }
 }
 
+// 0x7100a61c40 (placeholder name): sets a one-button window's text and button state
+void ScreenSystemWindow00::sub_7100A61C40(const eui::MessageString& text,
+                                          const eui::MessageString& button) {
+    _36c4 = 0x58;
+    _36c8 = (_36b0 == 0xa || _36b0 == 0xc) ? 0x59 : 0x58;
+    _3610->Stop(0.0f);
+    if (_3638 && _3640) {
+        setWidgetString(_3638, "T_Text_00", text);
+        setWidgetString(_3640, "T_Btn_00", button);
+    }
+    if (_3678[1] && _3678[2] && _3678[0]) {
+        _3678[1]->setFlag10(false);
+        _3678[2]->setFlag10(false);
+        _3678[0]->setFlag10(true);
+        _3678[3]->setFlag10(false);
+        _3678[4]->setFlag10(false);
+        _3678[5]->setFlag10(false);
+        _3678[6]->setFlag10(false);
+    }
+}
+
+// 0x7100a61d94 (placeholder name): sets a two-button window's text and button states
+void ScreenSystemWindow00::sub_7100A61D94(const eui::MessageString& text,
+                                          const eui::MessageString& button1,
+                                          const eui::MessageString& button2) {
+    _36c4 = 0x59;
+    _36c8 = 0x59;
+    _3610->Stop(1.0f);
+    if (_3638 && _3648 && _3650) {
+        setWidgetString(_3638, "T_Text_00", text);
+        setWidgetString(_3648, "T_Btn_00", button1);
+        setWidgetString(_3650, "T_Btn_00", button2);
+    }
+    if (_3678[1] && _3678[2] && _3678[0]) {
+        _3678[1]->setFlag10(true);
+        _3678[2]->setFlag10(true);
+        _3678[0]->setFlag10(false);
+        _3678[3]->setFlag10(false);
+        _3678[4]->setFlag10(false);
+        _3678[5]->setFlag10(false);
+        _3678[6]->setFlag10(false);
+    }
+}
+
 // 0x7100a02ca0
 void ScreenControllerWindow::m99() {
     if (_3851) {

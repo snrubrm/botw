@@ -4278,12 +4278,16 @@ public:
     void m98() override;
     void m99() override;
 
-    /* 0x3610 */ u64 _3610{};
+    /* 0x3610 */ eui::Animator* _3610 = nullptr;
     u64 _3618{};
     u64 _3620{};
     u64 _3628{};
     u64 _3630{};
-    u8 _3638[0x3678 - 0x3638];
+    /* 0x3638 */ eui::LayoutEx* _3638;
+    /* 0x3640 */ eui::LayoutEx* _3640;
+    /* 0x3648 */ eui::LayoutEx* _3648;
+    /* 0x3650 */ eui::LayoutEx* _3650;
+    u8 _3658[0x3678 - 0x3658];
     /* 0x3678 */ eui::AnimButton* _3678[7];  // indexed by button tag - 0x58 (m99)
     /* 0x36b0 */ s32 _36b0 = 15;
     s32 _36b4;
@@ -4298,6 +4302,10 @@ public:
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
     virtual void m154(s32 type, s32 draw_target, void* arg);
+    // 0x7100a61c40 / 0x7100a61d94 (placeholder names): one / two button window text and button state
+    void sub_7100A61C40(const eui::MessageString& text, const eui::MessageString& button);
+    void sub_7100A61D94(const eui::MessageString& text, const eui::MessageString& button1,
+                        const eui::MessageString& button2);
     virtual void m155();
 
 };
