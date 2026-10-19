@@ -496,7 +496,7 @@ gsys::Model* Terrain::sub_710114DEE0() { return _360->_f8; }
 bool Terrain::sub_710114DD40() { return false; }
 f64 Terrain::sub_710114D9E8() { return _a48; }
 void* Terrain::sub_710114DED4() { return _360->_f0; }
-void* Terrain::sub_710114D8D0() { return _360 ? _360->_168 : nullptr; }
+void* Terrain::sub_710114D8D0() { return _360 ? &_360->mSystems : nullptr; }
 sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
     return system->_10 * _3c8;
 }
@@ -948,6 +948,25 @@ u32 Core::Grass::sub_71011516D0(f32* out, const sead::Vector2f* xz) {
     if (*out > 0.0f && sub_71011096D0(&height, &normal, xz, mEntries(0).mSystem, -1, 0) > 0)
         *out *= sead::Mathf::clamp((normal.y - 0.62f) * 10.0f, 0.0f, 1.0f);
     return result;
+}
+
+}  // namespace ksys::tera
+
+namespace ksys::tera {
+
+// NON_MATCHING: the original has a dmb ish after the lock (an atomic read of the manager); ours reads
+// the flags directly.
+void Terrain::resumeImageResourceMgrMaybe() {
+    if (!mImageResourceMgr || (_a58 & 0x10000) == 0)
+        return;
+    auto& lock = mImageResourceMgr->mCS28;
+    lock.lock();
+    if ((_a58 & 0x20000) != 0 && _360)
+        _360->sub_7101301068(true);
+    mImageResourceMgr->_6473 |= 4;
+    mImageResourceMgr->sub_71011315BC();
+    _a58 &= ~0x30000u;
+    lock.unlock();
 }
 
 }  // namespace ksys::tera

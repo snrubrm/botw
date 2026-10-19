@@ -284,6 +284,8 @@ public:
     // for true).
     void sub_7101300AAC(bool visible);
     void sub_71013008E4(sead::Heap* heap, System* system);
+    // 0x7101301068 (declared only; 108 B): runs sub_7101115158 on every registered System.
+    void sub_7101301068(bool update);
     void sub_71013009C4(sead::Heap* heap);
     bool sub_7101300D50(u32 index, bool a, bool b);
 
@@ -343,7 +345,8 @@ public:
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
     sead::Buffer<Unk_7101300b4c> mPositions;
-    u8 _168[0x180 - 0x168];
+    // The registered systems (0x7101301068 iterates it and calls System::sub_7101115158).
+    sead::OffsetList<System> mSystems;
     // Four 0x78-byte records (0x710114deb8 indexes them as 3 * b + a).
     struct Record {
         u8 _0[0x78];
@@ -448,6 +451,10 @@ public:
     // 0x710114e074 (CSV Terrain::__auto2; placeholder name): under the image manager's lock, sets bit 2
     // of its _6473 and refreshes it through sub_71011315BC.
     void startImageResourceMgrMaybe();
+    // 0x710114df24 (CSV Terrain::__auto14; placeholder name): finishes a pending image-manager resume:
+    // runs the core systems' update, sets bit 2 of _6473, refreshes the manager and clears bits 16 / 17
+    // of _a58.
+    void resumeImageResourceMgrMaybe();
     // 0x710114dfac (placeholder name): clears bit 2 of the image manager's _6473 and sets / clears
     // bit 17 of _a58 while bit 16 guards re-entry; `resume` also restarts the image manager.
     void sub_710114DFAC(bool resume);
