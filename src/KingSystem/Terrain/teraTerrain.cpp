@@ -181,6 +181,35 @@ void Terrain::clearImageResourceMgrFlagMaybe() {
     lock.unlock();
 }
 
+// NON_MATCHING: the original has a dmb ish and reloads mImageResourceMgr before the resume test
+// (an atomic read of the manager); ours reads it once.
+void Terrain::sub_710114DFAC(bool resume) {
+    if (!mImageResourceMgr || (_a58 & 0x10000) != 0)
+        return;
+
+    sead::CriticalSection* outer_lock = nullptr;
+    if (!resume) {
+        outer_lock = &mImageResourceMgr->mCS28;
+        outer_lock->lock();
+    }
+
+    mImageResourceMgr->_6473 &= ~4;
+
+    auto& lock = mImageResourceMgr->mCS28;
+    lock.lock();
+    if (resume) {
+        mImageResourceMgr->sub_71011311BC();
+        _a58 |= 0x20000;
+    } else {
+        _a58 &= ~0x20000;
+    }
+    _a58 |= 0x10000;
+    lock.unlock();
+
+    if (outer_lock)
+        outer_lock->unlock();
+}
+
 void Terrain::startImageResourceMgrMaybe() {
     if (!mImageResourceMgr)
         return;
