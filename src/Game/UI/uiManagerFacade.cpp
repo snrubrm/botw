@@ -17,6 +17,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiShopCookInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
@@ -208,6 +209,21 @@ bool sub_7100AA6D54(const sead::SafeString& name) {
         }
     }
     return false;
+}
+
+// 0x7100aa6dd4 (placeholder name): the _1c metadata of the shop modifier record with `id` (-1 if none)
+s32 sub_7100AA6DD4(s32 id) {
+    const s32 count = sUnk_71025F6960.modifiers.size();
+    s32 index = -1;
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == id) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return -1;
+    return sUnk_71025F6960.modifiers[index]._1c;
 }
 
 // 0x7100aa6f90 (placeholder name): 1 without a value; with one, 2 for the true form Master Sword and 0 otherwise.

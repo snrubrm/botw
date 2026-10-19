@@ -1,6 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiRecipe.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiShopCookInfo.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -66,44 +67,7 @@ bool sub_7100A90A34(const RecipeItems& items) {
     return true;
 }
 
-namespace {
-
-// The global info block at 0x71025f6960 is filled by static initializer A9FD94.
-// Its effect and modifier buffers are at +0x180 / +0x190, with inline records at
-// +0x2e0 / +0x7c0. Unmodelled fields retain their storage. The MovingSpeed name is "AllSpeed".
-struct ShopCookEffectEntry {
-    CookEffectId effect;
-    sead::SafeString name;
-};
-static_assert(sizeof(ShopCookEffectEntry) == 0x18);
-
-// A9FD94 initializes 31 modifier records, each 0x20 bytes. The two final integers
-// are producer-backed metadata; the message lookup reads only id and name.
-struct ShopModifierEntry {
-    s32 id;
-    sead::SafeString name;
-    s32 _18;
-    s32 _1c;
-};
-static_assert(sizeof(ShopModifierEntry) == 0x20);
-
-struct ShopCookInfo {
-    u8 _0[0x180];
-    sead::Buffer<ShopCookEffectEntry> effects;
-    sead::Buffer<ShopModifierEntry> modifiers;
-    u8 _1a0[0x2e0 - 0x1a0];
-    ShopCookEffectEntry entries[11];
-    u8 _3e8[0x7c0 - 0x3e8];
-    ShopModifierEntry modifier_entries[31];
-};
-static_assert(offsetof(ShopCookInfo, effects) == 0x180);
-static_assert(offsetof(ShopCookInfo, modifiers) == 0x190);
-static_assert(offsetof(ShopCookInfo, entries) == 0x2e0);
-static_assert(offsetof(ShopCookInfo, modifier_entries) == 0x7c0);
-
-}  // namespace
-
-static ShopCookInfo sUnk_71025F6960{
+KSYS_VISIBILITY_HIDDEN ShopCookInfo sUnk_71025F6960{
     {},
     {11, sUnk_71025F6960.entries},
     {31, sUnk_71025F6960.modifier_entries},
