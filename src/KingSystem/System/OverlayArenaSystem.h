@@ -73,6 +73,10 @@ public:
     sead::Heap* getSzsDecompressorInstHeap() const { return mSzsDecompressorInstHeap; }
     sead::Heap* getSzsHeap() const { return mSzsHeap; }
     sead::Heap* getTexArcWorkHeap() const { return mTexArcWorkHeap; }
+    // The overlay arena's own bfres resource handle (Actor::sub_71011D4E88 uses its model resource).
+    res::Handle& getResHandle() { return mResHandle; }
+    // 0x7100fdf4d0 (CSV nullsub_4271): empty; Actor::sub_71011D4E88 calls it on the instance.
+    void nullsub_4271();
 
     void createTeraWorkHeap();
     void createStubbed();

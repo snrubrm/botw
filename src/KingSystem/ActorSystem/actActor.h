@@ -233,6 +233,8 @@ public:
         _3d = 0x3d,
         _32 = 0x32,
         _3f = 0x3f,
+        // Read by sub_71011D4E88 (a model animation uses the overlay arena's bfres resource).
+        _17 = 0x17,
     };
 
     enum class ActorFlag2 : u32 {
@@ -1073,8 +1075,9 @@ protected:
     /* 0x658 */ res::Unk_71024f9938* mTextureCache = nullptr;
     /* 0x660 */ sead::Buffer<res::Unk_71024f9958*> mTextureBindings;
     /* 0x670 */ sead::Buffer<res::ResDerived> mModelResources;
-    /* 0x680 */ u8 _680 = 0;
-    /* 0x681 */ u8 _681 = 0;
+    // Both counts are signed: sub_71011D4E88 reads them with a sign-extending byte load.
+    /* 0x680 */ s8 _680 = 0;
+    /* 0x681 */ s8 _681 = 0;
     /* 0x682 */ u8 _682 = 0;
     /* 0x683 */ u8 _683 = 0;
     /* 0x684 */ u8 mSkipJobPushTimer = 0;

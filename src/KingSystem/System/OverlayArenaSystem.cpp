@@ -473,4 +473,7 @@ void OverlayArenaSystem::x() {
     res::stubbedLogFunction();
 }
 
+// 0x7100fdf4d0 (CSV nullsub_4271): empty.
+void OverlayArenaSystem::nullsub_4271() {}
+
 }  // namespace ksys

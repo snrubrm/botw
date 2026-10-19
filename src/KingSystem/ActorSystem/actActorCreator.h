@@ -22,6 +22,25 @@ class BaseProc;
 struct BaseProcCreateArg;
 class BaseProcHandle;
 
+// The optional model-animation heap profiler at ActorCreator + 0x60 (only installed when the game
+// enables the model profiling hooks). It records the free size of the actor's dual heap before and
+// after Model::createAnimation and keeps the two differences.
+class ModelCreationProfiler {
+public:
+    // 0x7101241f6c: starts a measurement of `heap`; `slot` selects one of the two result slots.
+    void begin(sead::Heap* heap, s32 slot);
+    // 0x7101241fb4: ends the measurement and stores the free-size difference.
+    void end();
+
+    /* 0x00 */ s32 mDeltas[2];
+    /* 0x08 */ s32 _8;
+    /* 0x0c */ s32 _c;
+    /* 0x10 */ void* _10;
+    /* 0x18 */ s32 mStartFreeSize;
+    /* 0x20 */ sead::Heap* mHeap;
+    /* 0x28 */ s32 mSlot;
+};
+
 class IActorFactory {
 public:
     virtual void dummy() = 0;
@@ -51,6 +70,8 @@ public:
     void setActorFactory(IActorFactory* factory) { mActorFactory = factory; }
     bool get5a() const { return _5a; }
     bool isBlockSpawns() const { return mBlockSpawns; }
+    // The optional model creation profiler (only installed when the game enables it).
+    ModelCreationProfiler* getProfiler() const { return _60; }
 
     sead::OffsetList<Actor>& getActorList() { return mActorList; }
     sead::CriticalSection& getCS() { return mActorListCS; }
@@ -86,7 +107,7 @@ private:
     bool mEnableDistanceChecks;
     bool mBlockSpawns;
     bool _5a;
-    void* _60{};
+    ModelCreationProfiler* _60{};
     sead::Delegate1R<ActorCreator, BaseProcCreateArg&, BaseProc*> mCreateProcDelegate{
         this, &ActorCreator::doCreateProc};
     TaskRemoveCallbackT<ActorCreator> mTaskRemovedDelegate{this,

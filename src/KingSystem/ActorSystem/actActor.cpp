@@ -55,6 +55,11 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
+#include "KingSystem/Resource/resBfRes.h"
+#include "KingSystem/System/OverlayArenaSystem.h"
+#include <nn/g3d/ResFile.h>
+#include <nn/g3d/ResModel.h>
+#include <nn/g3d/ResSkeleton.h>
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -2720,6 +2725,143 @@ bool Actor::sub_71011D00AC(sead::Heap* heap) {
     return true;
 }
 
+// 0x71011d4e88: creates the actor's model animation from the model resources, the AS add-res
+// entries and the extra model resources of the _5b0 list. The AS add-res retarget model name is
+// looked up in the model resource's ResFile; the matched skeleton is handed to Model::createAnimation.
+// NON_MATCHING: the calcLength() emptiness check unrolls into a different induction shape, and the
+// UMii skeleton fixup at the end cannot store the skeleton to ModelAnimation::SkeletalResource
+// + 0x18 because the lib/gsys header does not model that field (logged as a library request).
+bool Actor::sub_71011D4E88(sead::Heap* heap) {
+    if (!mModel)
+        return true;
+
+    const auto* model_list = mActorParam->getRes().mModelList;
+    const sead::SafeString& variation_anim =
+        model_list->getControllerInfo().mVariationMatAnim.ref();
+
+    res::ASList* as_list = nullptr;
+    if (variation_anim.calcLength() == 0 && !(mActorParam->getProfile() == "Armor") &&
+        !hasTag(this, 0x216a3a63)) {
+        as_list = mActorParam->getRes().mASList;
+        if (as_list->getASDefines().size() == 0 && !_5b0)
+            return true;
+    } else if (getName().findIndex("Keese") != -1) {
+        as_list = mActorParam->getRes().mASList;
+        if (as_list->getASDefines().size() == 0 && !_5b0)
+            return true;
+    }
+    as_list = mActorParam->getRes().mASList;
+
+    const s32 num_add_res = as_list->getAddReses().size();
+    gsys::ModelResource* model_resources[32];
+    nn::g3d::ResSkeleton* skeletons[32];
+    memset(skeletons, 0, sizeof(skeletons));
+
+    s32 num_models = 0;
+    if (mActorFlags.isOnBit(ActorFlag::_17)) {
+        auto* system = OverlayArenaSystem::instance();
+        system->nullsub_4271();
+        auto* bfres = sead::DynamicCast<res::BfRes>(system->getResHandle().getResource());
+        if (bfres) {
+            model_resources[0] = bfres->_50;
+            num_models = 1;
+        }
+    }
+
+    u32 skeleton_flags = 0;
+    nn::g3d::ResFile* umii_res_file = nullptr;
+    for (s32 i = 0; i < _680; ++i) {
+        auto* model_res = mModelResources[i].sub_71011FC6AC();
+        if (!model_res)
+            continue;
+
+        const s32 model_idx = num_models < 0x20 ? num_models : 0;
+        model_resources[model_idx] = model_res;
+
+        const s32 add_res_idx = i - _681;
+        if (add_res_idx >= 0 && add_res_idx < num_add_res) {
+            const auto& add_res = as_list->getAddReses()[num_add_res - 1 - add_res_idx];
+            const sead::SafeString retarget = add_res.retarget_model.ref();
+            const sead::SafeString anim = add_res.anim.ref();
+            if (retarget.cstr()[0] != '\0') {
+                nn::g3d::ResModel* res_model = nullptr;
+                const bool umii = mActorFlags.isOnBit(ActorFlag::_8) &&
+                                  anim.findIndex("UMii_Common_Face_") != -1 &&
+                                  anim.findIndex("_Animation") != -1;
+                if (umii) {
+                    umii_res_file = model_res->getResFile();
+                    res_model = umii_res_file->sub_71011D55F4(retarget.cstr());
+                    if (!res_model) {
+                        umii_res_file = model_resources[0]->getResFile();
+                        res_model = umii_res_file->sub_71011D55F4(retarget.cstr());
+                    }
+                } else {
+                    res_model = model_res->getResFile()->sub_71011D55F4(retarget.cstr());
+                    if (!res_model)
+                        res_model =
+                            model_resources[0]->getResFile()->sub_71011D55F4(retarget.cstr());
+                }
+                if (res_model) {
+                    skeleton_flags |= 1u << num_models;
+                    skeletons[model_idx] = res_model->pSkeleton.Get();
+                }
+            }
+        }
+        ++num_models;
+    }
+
+    for (auto* node = _5b0; node; node = node->mNext) {
+        if (!node->_0)
+            continue;
+        const s32 model_idx = num_models < 0x20 ? num_models : 0;
+        model_resources[model_idx] = static_cast<res::BfRes*>(node->_0)->_50;
+        ++num_models;
+    }
+
+    if (num_models < 1)
+        return true;
+
+    gsys::ModelAnimation::CreateArg arg;
+    sub_71011C9C80(arg);
+    if (skeleton_flags != 0)
+        arg._8 = skeletons;
+
+    auto* tracker = ActorCreator::instance()->getProfiler();
+    if (tracker) {
+        tracker->begin(mDualHeap, 1);
+        tracker->_8 = arg._0;
+        tracker->_c = arg._4;
+        tracker->_10 = arg._8;
+    }
+
+    auto* animation = mModel->createAnimation(model_resources, num_models, arg, heap);
+    if (tracker)
+        tracker->end();
+    if (!animation)
+        return false;
+
+    // The UMii skeletons of the animation are renamed to Skeleton_<group> so that they bind to the
+    // model's skeletons. The skeleton pointer itself goes to SkeletalResource + 0x18 (see above).
+    if (umii_res_file) {
+        for (s32 i = 0; i < animation->mSkeletalResources.size(); ++i) {
+            const auto& resource = animation->mSkeletalResources[i];
+            const auto* skeletal =
+                static_cast<const nn::g3d::ResSkeletalAnim*>(resource.resource->resource);
+            const char* name = skeletal->GetName();
+            const s32 idx = sead::SafeString(name).findIndex("_Grp");
+            if (idx < 0)
+                continue;
+            sead::FixedSafeString<8> group;
+            group.copy(sead::SafeString(name + idx + 1), 4);
+            sead::FormatFixedSafeString<16> skeleton_name("Skeleton_%s", group.cstr());
+            auto* res_model = umii_res_file->sub_71011D55F4(skeleton_name.cstr());
+            (void)res_model;
+        }
+    }
+
+    return true;
+}
+
 bool Actor::sub_71011D573C(sead::Heap* heap) {
     if (isDelete() || !sub_71011D4E88(heap))
         return false;
@@ -2728,6 +2870,26 @@ bool Actor::sub_71011D573C(sead::Heap* heap) {
         mUMiiHylianInfo->sub_71012A5304(mModel->getAnimation(), mTextureCache, nullptr);
     }
     return true;
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// 0x7101241f6c: starts a heap free-size measurement for the model animation creation.
+void ModelCreationProfiler::begin(sead::Heap* heap, s32 slot) {
+    mStartFreeSize = heap->getFreeSize();
+    mHeap = heap;
+    mSlot = slot;
+}
+
+// 0x7101241fb4: ends the measurement and stores the difference in the selected slot.
+void ModelCreationProfiler::end() {
+    const s32 start = mStartFreeSize;
+    const s32 delta = start - mHeap->getFreeSize();
+    const s32 slot = mSlot;
+    mDeltas[slot < 2u ? slot : 0] = delta;
+    mHeap = nullptr;
 }
 
 }  // namespace ksys::act
