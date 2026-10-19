@@ -18,8 +18,26 @@ namespace gsys {
 // TODO: incomplete. Only functions that game code calls are declared; the members are not modeled yet.
 class ModelSceneEnv : public ModelSceneComponent {
 public:
-    struct DataSet;
     struct Parts;
+
+    // Env-set record: 0x1e8 bytes; enabled byte at +0, SafeString name at +8.
+    struct EnvSet {
+        u8 mEnabled;
+        u8 _1[7];
+        sead::SafeString mName;
+        u8 _18[0x1e8 - 0x18];
+    };
+    static_assert(sizeof(EnvSet) == 0x1e8);
+
+    // Data-set record: 0x5f0 bytes; env-set count at +0x438 and array at +0x440.
+    struct DataSet {
+        u8 _0[0x438];
+        s32 mEnvSetCount;
+        u8 _43c[4];
+        EnvSet* mEnvSets;
+        u8 _448[0x5f0 - 0x448];
+    };
+    static_assert(sizeof(DataSet) == 0x5f0);
 
     // The env-set parts interface (its defaults are empty; the working sets are the two derived
     // classes below). Native rows are all 4-8 bytes.
