@@ -11,6 +11,8 @@
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiShopCookInfo.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -333,6 +335,48 @@ bool sub_7100AA8FCC(f32* out, f32 value, f32 max) {
     const f32 percent = ratio < 0 ? 0 : ratio * 100;
     *out = ratio > 1 ? 100 : percent;
     return in_range;
+}
+
+// 0x7100aa901c
+f32 getResistHotVal(s32 level) {
+    s32 value = -1;
+    s32 index = -1;
+    const s32 count = sUnk_71025F6960.modifiers.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == 4) {
+            index = i;
+            break;
+        }
+    }
+    if (index >= 0)
+        value = sUnk_71025F6960.modifiers[index]._1c;
+    if (!ksys::eco::Ecosystem::instance())
+        return 0.0f;
+    ksys::eco::StatusEffectInfo info;
+    ksys::eco::Ecosystem::instance()->getStatusEffectInfo(
+        ksys::eco::StatusEffect_ResistHot, sead::Mathu::min(u32(value), u32(level)), &info);
+    return info.val._f32;
+}
+
+// 0x7100aa90d0
+f32 getResistColdVal(s32 level) {
+    s32 value = -1;
+    s32 index = -1;
+    const s32 count = sUnk_71025F6960.modifiers.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == 5) {
+            index = i;
+            break;
+        }
+    }
+    if (index >= 0)
+        value = sUnk_71025F6960.modifiers[index]._1c;
+    if (!ksys::eco::Ecosystem::instance())
+        return 0.0f;
+    ksys::eco::StatusEffectInfo info;
+    ksys::eco::Ecosystem::instance()->getStatusEffectInfo(
+        ksys::eco::StatusEffect_ResistCold, sead::Mathu::min(u32(value), u32(level)), &info);
+    return info.val._f32;
 }
 
 // 0x7100aa946c
