@@ -32,6 +32,8 @@ public:
     s32 getSize() const;
     // 0x7100c49954. ksys::gfx::ForestRenderer 0x7100f06904 calls it for every index below `_18`.
     void flushUBO(s32 index);
+    // 0x7100c49a48: bit 1 of +0x68.
+    bool isZSortEnabled() const;
 
     // Inlined by ksys::gfx::ForestRenderer::requestDraw 0x7100f03964 before setSize: stores the unit
     // pointer array at +0x10 and its length at +0x18. flushUBO reads entry `index` of the array; the
@@ -52,7 +54,10 @@ public:
 
 private:
     s32 mSize;
-    u8 _20[0x88 - 0x20];
+    u8 _20[0x68 - 0x20];
+    // Bit 1 is the z-sort flag (isZSortEnabled 0x7100c49a48).
+    u8 _68;
+    u8 _69[0x88 - 0x69];
 };
 static_assert(sizeof(ModelUnitDrawArray) == 0x88);
 
