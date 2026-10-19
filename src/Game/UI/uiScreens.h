@@ -4932,6 +4932,19 @@ struct ShopInfoTagData {
     u32 _5c = 1;
 };
 
+// Placeholder name: the shop info tag row that shows a tag as either the item name or the cook name
+// (0x71009b0c34 / 0x71009b0cf4). Only the fields those two methods use are modelled.
+class ShopInfoTagRow {
+public:
+    void sub_71009B0C34(ShopInfoTagData* data);
+    void sub_71009B0CF4(ShopInfoTagData* data);
+
+    u8 _0[0x20];
+    /* 0x20 */ eui::LayoutEx* _20 = nullptr;
+    u8 _28[0x148 - 0x28];
+    /* 0x148 */ eui::LetterAnimControl* _148 = nullptr;
+};
+
 class ScreenMessageGet : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
