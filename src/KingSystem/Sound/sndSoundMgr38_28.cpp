@@ -2,6 +2,7 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/Actor/actEnvSeEmitPoint.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -49,6 +50,25 @@ void Unk_SoundMgr38_38::sub_710103A034(sead::Heap* heap) {}
 
 // Empty in the release build.
 void Unk_SoundMgr38_38::sub_710103A294() {}
+
+// 0x710103920c (placeholder name): fades the four sound handles.
+void Unk_SoundMgr38_28::sub_710103920C() {
+    for (s32 i = 0; i < 2; ++i) {
+        _1c0[i].fade();
+        _1e0[i].fade();
+    }
+}
+
+// 0x71010391ac (placeholder name): requests the "WaterObjSound" actor once and clears the
+// occlusion state.
+void Unk_SoundMgr38_28::sub_71010391AC(sead::Heap* heap, act::ActorCreator* creator) {
+    if (!_18)
+        creator->requestCreateActor("WaterObjSound", heap, &mProcHandle, nullptr, nullptr, 1);
+    _39c = false;
+    _3b8 = nullptr;
+    _3b0 = nullptr;
+    _3a8 = nullptr;
+}
 
 // 0x710103a038 (placeholder name): resets the handle, the three vectors and the unit scales.
 // NON_MATCHING: the zero-vector stores are paired and scheduled differently (0x2c / 0x30 / 0x34

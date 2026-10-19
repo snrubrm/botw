@@ -65,6 +65,10 @@ class Emitter;
 class SpeakerBalanceUnifier;
 }
 
+namespace ksys::act {
+class ActorCreator;
+}
+
 namespace xlink2 {
 class HandleSLink;
 class IUser;
@@ -220,8 +224,11 @@ public:
     void sub_7101037F64(bool enabled);
     // 0x7101037f7c: stores `value` in the byte at +0x39c.
     void sub_7101037F7C(bool value);
-    // 0x710103920c (declared only)
+    // 0x710103920c (placeholder name): fades the four sound handles.
     void sub_710103920C();
+    // 0x71010391ac (placeholder name): requests the "WaterObjSound" actor once and clears the
+    // occlusion state; called by sound::setEnv.
+    void sub_71010391AC(sead::Heap* heap, act::ActorCreator* creator);
     // 0x710103937c / 0x71010375cc (declared only): called by Unk_SoundMgr38::sub_710102AF84 (the second before
     // deletion).
     void sub_710103937C();
@@ -231,7 +238,12 @@ public:
     virtual ~Unk_SoundMgr38_28();
 
     /* 0x008 */ act::BaseProcHandle mProcHandle;
-    u8 _18[0x268 - 0x18];
+    /* 0x018 */ void* _18 = nullptr;
+    u8 _20[0x1c0 - 0x20];
+    // The four sound handles faded by sub_710103920C.
+    /* 0x1c0 */ xlink2::HandleSLink _1c0[2];
+    /* 0x1e0 */ xlink2::HandleSLink _1e0[2];
+    u8 _200[0x268 - 0x200];
     /* 0x268 */ sead::CriticalSection _268;
     /* 0x2a8 */ sead::CriticalSection _2a8;
     /* 0x2e8 */ sead::CriticalSection _2e8;
@@ -242,7 +254,10 @@ public:
     u8 _345[0x398 - 0x345];
     /* 0x398 */ f32 _398;
     /* 0x39c */ bool _39c;
-    u8 _39d[0x3c0 - 0x39d];
+    u8 _39d[0x3a8 - 0x39d];
+    /* 0x3a8 */ void* _3a8 = nullptr;
+    /* 0x3b0 */ void* _3b0 = nullptr;
+    /* 0x3b8 */ void* _3b8 = nullptr;
     /* 0x3c0 */ void* _3c0;
     /* 0x3c8 */ void* _3c8;
     u8 _3d0[0x3d8 - 0x3d0];
