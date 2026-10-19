@@ -3,10 +3,15 @@
 #include <basis/seadTypes.h>
 #include <thread/seadAtomic.h>
 #include <cstddef>
+#include "gsys/gsysModelJobQueue.h"
 #include "gsys/gsysModelSceneEnv.h"
 
 namespace agl::pfx {
 class DepthOfField;
+}
+
+namespace sead {
+class WorkerMgr;
 }
 
 namespace gsys {
@@ -28,6 +33,10 @@ public:
     // OpenWorldStage::unload 0x71007c5d20 passes -1 to process every scene entry.
     // 0x7100c13cb4 releases each entry's +0x3a0 object and clears flag 0x10 at +0x391.
     void sub_7100C13CB4(s32 index);
+
+    // 0x7100c1016c / 0x7100c10c88.
+    void skipDraw();
+    void calcModelUnit_(sead::WorkerMgr* wm);
 
     u8 _0[0x130];
 
@@ -63,7 +72,8 @@ public:
     };
     /* 0x52e0 */ Unk_52e0* _52e0;
 
-    u8 _52e8[0x5630 - 0x52e8];
+    u8 _52e8[0x5550 - 0x52e8];
+    ModelJobQueue mJobQueue;  // +0x5550
     // Model::requestDraw 0x7100bf9b88 appends to this counter/array pair.
     sead::Atomic<s32> mDrawRequestCount;
     u8 _5634[4];

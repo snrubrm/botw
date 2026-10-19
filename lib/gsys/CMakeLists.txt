@@ -68,6 +68,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysEffectModelDrawMgr.cpp
   src/gsys/gsysModelDynamicEnvInfo.cpp
+  src/gsys/gsysModelScene.cpp
   src/gsys/gsysResourceEditor.cpp
   src/gsys/gsysParticleMgr.cpp
   src/gsys/gsysParticleConfig.cpp
