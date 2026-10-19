@@ -653,8 +653,9 @@ class Unk_71024f1358 {
     SEAD_RTTI_BASE(Unk_71024f1358)
 public:
     virtual ~Unk_71024f1358();
-    virtual void m4();
-    virtual void m5();
+    // 0x7100edc204 / 0x7100edc210: the tool name and its Japanese label.
+    virtual const char* getName();
+    virtual const char* getJpName();
     virtual void m6();
     virtual void m7();
     virtual void m8();

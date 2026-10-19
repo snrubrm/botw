@@ -852,6 +852,14 @@ Unk_71024f13f0::~Unk_71024f13f0() = default;
 
 Unk_71024f1358::~Unk_71024f1358() = default;
 
+const char* Unk_71024f1358::getName() {
+    return "GameTool";
+}
+
+const char* Unk_71024f1358::getJpName() {
+    return "ゲームツールです";
+}
+
 // NON_MATCHING: the SeadController member is constructed from the initializer list, so its call lands after the
 // _34 / _40 stores; the original stores _8.._30 first and only then constructs it (store order in the ctor).
 Unk_7102513630::Unk_7102513630() : _34{0, 0, 1}, _40(0), mController(0xb) {
