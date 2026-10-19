@@ -80,7 +80,9 @@ public:
         // EAB7C0: writes _1c0 while _1f0 bit 5 is set and _1c0 is not zero (Player 0x7100883bc4 tests its y).
         bool sub_7100EAB7C0(sead::Vector3f* out) const;
 
-        u8 _0[0x1a8];
+        u8 _0[0x190];
+        /* 0x190 */ sead::Vector3f _190;
+        u8 _19c[0x1a8 - 0x19c];
         /* 0x1a8 */ sead::Vector3f _1a8;
         u8 _1b4[0x1c0 - 0x1b4];
         /* 0x1c0 */ sead::Vector3f _1c0;
@@ -137,6 +139,9 @@ public:
     void sub_7100EB5664(bool a, const sead::Vector3f* v);
     void sub_7100EB56B4(bool a);
     void sub_7100EB56E8();
+    // 0x7100eb584c (placeholder name): the attach axis: ey when the attach info flags (low two
+    // bits) are 2, otherwise Unk2::_190.
+    void getAttachAxisMaybe(sead::Vector3f* out) const;
     // 0x7100eb508c (placeholder name): sets the contact layer of body _80 and of the bodies listed
     // in _90 / _a0 to EntityNoHit when `no_hit` is set, EntityRagdoll otherwise.
     void setSelectedBodiesNoHitMaybe(bool no_hit);

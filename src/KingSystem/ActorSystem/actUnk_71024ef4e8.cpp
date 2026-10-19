@@ -187,6 +187,13 @@ void Unk_71024ef4e8::sub_7100EB57F0(const sead::Matrix34f& mtx) {
 
 // NON_MATCHING: same bodies and contact layers; the original loads the index array and the body
 // buffer in a different order and reloads both inside each loop (292 bytes, ours 244).
+void Unk_71024ef4e8::getAttachAxisMaybe(sead::Vector3f* out) const {
+    if ((mAttachInfo->_48 & 3) == 2)
+        *out = sead::Vector3f::ey;
+    else
+        *out = _c8->_190;
+}
+
 void Unk_71024ef4e8::setSelectedBodiesNoHitMaybe(bool no_hit) {
     const auto layer = no_hit ? phys::ContactLayer::EntityNoHit : phys::ContactLayer::EntityRagdoll;
 
