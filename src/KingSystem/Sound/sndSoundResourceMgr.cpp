@@ -55,6 +55,25 @@ void Unk_SoundMgr60::sub_7101059354(Unk_7102502950* reader) {
     delete reader;
 }
 
+// 0x7101058734: loads every entry of the bars list `name` into `reader` as a direct resource load and
+// marks the reader as loaded.
+void Unk_SoundMgr60::sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader,
+                                    sead::Heap* heap, bool flag) {
+    if (!reader)
+        return;
+    al::ByamlIter iter = _15e8->getIter(name);
+    const s32 count = _15e8->getSize(iter);
+    if (count >= 1) {
+        reader->sub_71010571A4(count, heap);
+        for (s32 i = 0; i < count; ++i) {
+            res::Handle* handle = &reader->mHandles[i];
+            const char* entry_name = _15e8->getEntryName(iter, i);
+            sub_710105844C(handle, entry_name, flag, false);
+        }
+    }
+    reader->_18 |= 1;
+}
+
 // 0x7101058c44: loads every entry of the bars list `name` into `reader`, requesting each asset.
 bool Unk_SoundMgr60::loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap,
                               bool a4, bool a5, res::Handle* pack) {

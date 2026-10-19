@@ -29,6 +29,7 @@
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/DebugMessage.h"
+#include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Sound/sndMiiSound.h"
 
 namespace ksys::phys { class SphereRigidBody; }
@@ -1250,6 +1251,9 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     // 0x7101058364 (placeholder name): loads the four UI bars files into the SLink reader's buffer and the
     // three handle members.
     void sub_7101058364();
+    // 0x7101058b74 (placeholder name): submits a low-priority request that runs mDelegate's function
+    // 0x7101057e74 (clears the ".bars" cache and loads the title BGM pack voices).
+    bool sub_7101058B74(TaskPostRunCallback* callback);
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
     void sub_7101059454(aal::AudioResource* resource);
@@ -1292,7 +1296,8 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     // Allocated with 16 slots by Sound_initBarsFactoryAndHeap (0x7101057ed4) and freed by the destructor.
     /* 0x14f8 */ sead::PtrArrayImpl mBars;
     /* 0x1508 */ sead::CriticalSection _1508;
-    /* 0x1548 */ u8 _1548[0x20];
+    // The delegate of the low-priority request submitted by sub_7101058B74; its function is 0x7101057e74.
+    /* 0x1548 */ sead::Delegate1R<Unk_SoundMgr60, void*, bool> mDelegate;
     /* 0x1568 */ sead::CriticalSection _1568;
     /* 0x15a8 */ sead::FixedSafeString<32> _15a8;
     /* 0x15e0 */ sead::DirectResource* _15e0 = nullptr;

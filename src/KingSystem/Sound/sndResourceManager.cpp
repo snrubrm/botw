@@ -3,6 +3,7 @@
 #include "KingSystem/Sound/sndBarslistArchive.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 #include "KingSystem/System/OverlayArena.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
@@ -38,6 +39,19 @@ void Unk_SoundMgr60::sub_7101058364() {
     sub_710105844C(&_15f8, "M_UI_DLC1.bars", false, false);
     sub_710105844C(&_1648, "M_UI_DLC2.bars", false, false);
     sub_710105844C(&_1458, "M_StaticPrefetch.bars", false, false);
+}
+
+// NON_MATCHING: the original stores user_data / remove_callback as two separate words, ours merges them
+// into one stp (4 bytes shorter).
+// 0x7101058b74 (placeholder name): submits the low-priority request that runs mDelegate's function
+// 0x7101057e74 (clear the ".bars" cache and load the title BGM pack voices).
+bool Unk_SoundMgr60::sub_7101058B74(TaskPostRunCallback* callback) {
+    LowPrioThreadMgr::Request request;
+    request.lane_id = 1;
+    request.flags = 6;
+    request.delegate = &mDelegate;
+    request.post_callback = callback;
+    return LowPrioThreadMgr::instance()->submitRequest(request);
 }
 
 // ResourceBars construction/destruction notifications: empty in the release build.
