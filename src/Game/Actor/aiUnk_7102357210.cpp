@@ -1011,3 +1011,26 @@ void Unk_7102450410::Entry::sub_71007083DC() {
 Unk_710235a160::~Unk_710235a160() = default;
 
 Unk_710235a368::~Unk_710235a368() = default;
+
+bool Unk_71023f9b08::sub_710070AFFC(const ksys::Message* message, ksys::act::Actor* actor) {
+    if (message->getType() != 0x800001d)
+        return false;
+
+    auto* payload = static_cast<Unk_7102399748_Payload*>(message->getUserData());
+    const f32 radius = payload->_10;
+    const f32 x = actor->getMtx()(0, 3);
+    const f32 z = actor->getMtx()(2, 3);
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(
+        &static_cast<Unk_7102399748_Payload*>(message->getUserData())->mLink, &accessor);
+    const sead::Matrix34f& mtx = accessor.getActorMtx();
+    const f32 dx = x - mtx(0, 3);
+    const f32 dz = z - mtx(2, 3);
+    if (sead::Mathf::sqrt(dx * dx + dz * dz) > radius)
+        return false;
+
+    _30 = true;
+    _18 = message->getSource();
+    return true;
+}
