@@ -21,6 +21,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiTexSlots.h"
+#include "Game/Scene/gameScene.h"
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/uiGauge.h"
 #include "Game/UI/uiLocationRecord.h"
@@ -349,7 +350,12 @@ private:
     // forwards to its run()).
     u8 _8[0x40 - 0x8];
     ksys::StateMachine mStateMachine;
+    // The draw-method list at +0x68. The constructor calls sb::init with the buffer that follows the
+    // object at +0x90, and the destructor at 0x710092de00 destroys this member before the base that
+    // owns the state machine.
+    uking::GameScene::sb mSb;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024742f0, 0x90);
 
 namespace eui {
 class Animator;

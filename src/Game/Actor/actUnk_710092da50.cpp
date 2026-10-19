@@ -88,9 +88,16 @@ bool sub_710092DC00() {
     return camera->_860.sub_710079C120(1);
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x710092de00) also destroys members or bases
-// this class does not declare yet.
-Unk_71024742f0::~Unk_71024742f0() = default;
+// 0x710092de00: complete destructor; 0x710092ded0: deleting destructor. The sb member is destroyed
+// before the base sub-object that owns the state machine, so the bindings are released here after it
+// in the original; see the NON_MATCHING note.
+// NON_MATCHING: our flat class emits one base vtable store instead of the original's two (the
+// original derives from an empty polymorphic class at +8 over the state-machine owner at +0x10), and
+// the member is destroyed after the body rather than before it.
+Unk_71024742f0::~Unk_71024742f0() {
+    mStateMachine._0->m3(&mStateMachine.mPrevious);
+    mStateMachine._0->m3(&mStateMachine.mCurrent);
+}
 
 // 0x710092e088: the state machine at +0x40 runs its current state.
 void Unk_71024742f0::m5() {

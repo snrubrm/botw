@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include "KingSystem/Utils/Types.h"
 
+class Unk_71024742f0;
+
 namespace uking {
 class StateMachineWrapper;
 class Unk_710245b690;
@@ -120,6 +122,9 @@ public:
 private:
     friend class ::uking::StateMachineWrapper;
     friend class ::uking::Unk_710245b690;
+    // The title stage machine at 0x71024742f0 releases its two bindings in its destructor like the
+    // wrappers above.
+    friend class ::Unk_71024742f0;
     template <typename Owner>
     friend class ::uking::ui::Unk_7102474a70;
     template <typename Owner>
