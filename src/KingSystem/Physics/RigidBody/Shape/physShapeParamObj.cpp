@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/physPolytopeShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
+#include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::phys {
@@ -150,9 +151,20 @@ void Unk_7102519378::m9() {}
 void Unk_7102519378::m10() {}
 void Unk_7102519378::m11() {}
 
-// NON_MATCHING: placeholder destructor; the original (0x7101296100) also destroys members or bases
-// this class does not declare yet.
-Unk_71025193e8::~Unk_71025193e8() = default;
+// 0x7101296100 / 0x7101296178: returns the record to the render-light pool, frees the particle
+// buffer and then destroys the uniform block and the base lock.
+Unk_71025193e8::~Unk_71025193e8() {
+    _128 = 0;
+    if (mPoolLink) {
+        static_cast<ksys::gfx::LocationalLightMgr*>(_50)->releaseRenderLight(mPoolLink);
+        mPoolLink = nullptr;
+    }
+    if (mBuffer) {
+        delete[] mBuffer;
+        mBuffer = nullptr;
+        mBufferCount = 0;
+    }
+}
 
 Unk_71025193e8::Unk_71025193e8() = default;
 

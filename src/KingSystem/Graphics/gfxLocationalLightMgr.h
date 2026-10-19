@@ -88,6 +88,9 @@ public:
     void sub_7100F0EC30(map::Object* object);
     // 0x7100f13a58: returns a typed light record to its pool after checking its RTTI.
     bool sub_7100F13A58(Unk_7102519378* record);
+    // The record destructors 0x7101296100 / 0x7101296178 hand their record at +0x120 to the
+    // render-light pool at +0x538 through the manager stored at record +0x50.
+    bool releaseRenderLight(Unk_7102519378* light) { return mRenderLightPool.release(light); }
     // Record updates 0x7101296bc4 / 0x7101298558 pass their manager at +0x50.
     // These read the manager's shared light thresholds, rather than record fields.
     f32 sub_7100F143E4() const;

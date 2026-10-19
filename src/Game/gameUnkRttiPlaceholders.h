@@ -1266,7 +1266,7 @@ private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
     u32 mBufferCount = 0;
-    void* mBuffer = nullptr;
+    u8* mBuffer = nullptr;
     sead::Vector3f mPosition = sead::Vector3f(0, 0, 0);
     f32 _f4 = 5.0f;
     f32 _f8 = 0;
@@ -1278,7 +1278,7 @@ private:
     f32 _110 = 1.0f;
     f32 _114 = 1.0f;
     void* _118 = nullptr;
-    void* mPoolLink = nullptr;
+    Unk_7102519378* mPoolLink = nullptr;
     u32 _128 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025193e8, 0x130);
