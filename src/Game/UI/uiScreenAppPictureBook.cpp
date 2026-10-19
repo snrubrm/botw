@@ -37,6 +37,11 @@ KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025eb0af0[2] = {"Weapon_Bow_071",
 // optional layout size by 93bb48 and copied by both parameter lifetime bodies.
 KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
 
+// 0x71009f8284
+bool ScreenAppPictureBook::sub_71009F8284() const {
+    return _3628 && _3628->mFrame != 0.0f;
+}
+
 // 0x7100938c94
 // NON_MATCHING: Vector2 component copies differ (the original copies sUnk_71025D5CE8 as one 64-bit value).
 ScreenAppPictureBookEntry::Params::Params() {

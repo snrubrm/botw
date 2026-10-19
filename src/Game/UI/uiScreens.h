@@ -3682,8 +3682,13 @@ public:
     ~ScreenAppPictureBook() override;
     SEAD_RTTI_OVERRIDE(ScreenAppPictureBook, ScreenEx)
 
+    // 0x71009f8284: whether the picture book's frame animator is playing
+    bool sub_71009F8284() const;
+
     // state callbacks (slots 154-165, trivial ones defined in uiScreenLeafSlots.cpp)
-    u8 _pad_3610[0x3658 - 0x3610];
+    u8 _pad_3610[0x3628 - 0x3610];
+    /* 0x3628 */ eui::Animator* _3628;
+    u8 _pad_3630[0x3658 - 0x3630];
     /* 0x3658 */ ScreenAppPictureBookUnk* _3658;
     /* 0x3660 */ ScreenAppPictureBookUnk* _3660;
     u8 _pad_3668[0x3ab8 - 0x3668];
