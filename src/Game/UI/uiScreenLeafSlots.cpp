@@ -73,6 +73,11 @@ void ScreenPauseMenuInfo::doBuildLayout_(const sead::SafeString& name, nn::ui2d:
     sub_71010ABF8C(creator.getEntries());
 }
 
+// 0x7100a35098
+void ScreenPauseMenu::sub_7100A35098() {
+    invokeSoundLink2Event_("mc_Decide");
+}
+
 // 0x7100a350e0
 void ScreenPauseMenu::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_71024934f8 creator(mButtonGroup, &mControls, &_50);

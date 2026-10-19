@@ -2870,6 +2870,8 @@ public:
     void sub_7100A3840C(eui::AnimButton* button);
     // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
     void sub_7100A392D8();
+    // 0x7100a35098: plays the decide sound
+    void sub_7100A35098();
     // 0x7100a38fe8 (CSV unnamed): updates the 20 button layout pairs for the category and state.
     bool sub_7100A38FE8(u8 category, bool a2);
     void sub_7100A379BC(s32 tab);
