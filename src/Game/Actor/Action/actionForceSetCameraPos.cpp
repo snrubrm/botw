@@ -16,16 +16,16 @@ void forceSetCameraPos::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void forceSetCameraPos::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
-void forceSetCameraPos::loadParams_() {}
-
 void forceSetCameraPos::calc_() {
     sead::Matrix34f mtx;
     mtx.setTranslation(ksys::world::Manager::instance()->getCameraPos());
     mActor->setMtx(mtx, false, true);
 }
+
+void forceSetCameraPos::leave_() {
+    ksys::act::ai::Action::leave_();
+}
+
+void forceSetCameraPos::loadParams_() {}
 
 }  // namespace uking::action

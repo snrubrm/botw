@@ -32,20 +32,6 @@ void inWaterSelForkASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     _60 = 0.0f;
 }
 
-void inWaterSelForkASPlay::leave_() {
-    ksys::act::ai::Action::leave_();
-}
-
-void inWaterSelForkASPlay::loadParams_() {
-    getStaticParam(&mEndState_s, "EndState");
-    getStaticParam(&mChangeableTiming_s, "ChangeableTiming");
-    getStaticParam(&mSeqBank_s, "SeqBank");
-    getStaticParam(&mTargetBone_s, "TargetBone");
-    getStaticParam(&mFirstRandomRatio_s, "FirstRandomRatio");
-    getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
-    getStaticParam(&mASName_s, "ASName");
-}
-
 // NON_MATCHING: regalloc only (the original loads the mSeqBank_s pointer before mTargetBone_s in each arm; x20 / x21 swapped)
 void inWaterSelForkASPlay::calc_() {
     if (*mChangeableTiming_s == 2) {
@@ -72,6 +58,20 @@ void inWaterSelForkASPlay::calc_() {
         }
     }
     _60 += ksys::VFR::instance()->getDeltaFrame();
+}
+
+void inWaterSelForkASPlay::leave_() {
+    ksys::act::ai::Action::leave_();
+}
+
+void inWaterSelForkASPlay::loadParams_() {
+    getStaticParam(&mEndState_s, "EndState");
+    getStaticParam(&mChangeableTiming_s, "ChangeableTiming");
+    getStaticParam(&mSeqBank_s, "SeqBank");
+    getStaticParam(&mTargetBone_s, "TargetBone");
+    getStaticParam(&mFirstRandomRatio_s, "FirstRandomRatio");
+    getStaticParam(&mIsIgnoreSame_s, "IsIgnoreSame");
+    getStaticParam(&mASName_s, "ASName");
 }
 
 }  // namespace uking::action

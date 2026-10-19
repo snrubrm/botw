@@ -335,8 +335,6 @@ RailRoute::RailRoute() {
     mFlags.set(Flag::Walkable);
 }
 
-RailRoute::~RailRoute() = default;
-
 RailPoint* RailRoute::allocPoint(sead::Heap* heap) {
     return new (heap) RailRoutePoint(this);
 }
@@ -364,6 +362,8 @@ const char* RailRoute::getRouteId() const {
 const char* RailRoute::getCheckPointName(s32 idx) const {
     return static_cast<RailRoutePoint*>(mRailPoints[idx])->mCheckPointName;
 }
+
+RailRoute::~RailRoute() = default;
 
 bool RailRoute::parse(MubinIter* iter) {
     int success = Rail::parse(iter);
