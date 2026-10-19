@@ -822,6 +822,13 @@ void ScreenSystemWindow01::m102(eui::AnimButton* button) {
     _49e0[index].sub_7100937DA4(false);
 }
 
+// 0x7100a66824 (placeholder name): whether the window shows the E3-only state
+bool ScreenSystemWindow01::sub_7100A66824() const {
+    if (uking::ui::isE3DemoMode() && !uking::ui::isRIDDemo())
+        return false;
+    return sUnk_71025f5741 != 0;
+}
+
 // 0x7100a6814c (CSV ScreenSystemWindow01::m100)
 void ScreenSystemWindow01::m100() {
     if (_4b5c && u32(sUnk_710249ad74 - 1) <= 1)
