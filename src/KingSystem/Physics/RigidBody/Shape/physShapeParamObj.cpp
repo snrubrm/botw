@@ -118,6 +118,10 @@ void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
 // this class does not declare yet.
 Unk_7102519378::~Unk_7102519378() = default;
 
+// The render-light record's debug draw; the Light slot forwards the draw arguments here.
+void Unk_7102519378::drawDebug(agl::DrawContext*, const sead::Matrix34f&, const sead::Matrix44f&,
+                               int) const {}
+
 // NON_MATCHING: placeholder destructor; the original (0x7101296100) also destroys members or bases
 // this class does not declare yet.
 Unk_71025193e8::~Unk_71025193e8() = default;

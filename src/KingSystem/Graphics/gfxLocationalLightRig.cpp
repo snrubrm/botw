@@ -1,8 +1,39 @@
 #include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <gsys/gsysModel.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 #include <prim/seadScopedLock.h>
 
 namespace ksys::gfx {
+
+LocationalLightMgr::ObjectLight::Light::Light() = default;
+
+// NON_MATCHING: the bone-index store is scheduled before the flag / rig stores (same instructions,
+// different order).
+LocationalLightMgr::ObjectLight::Light::~Light() {
+    if (mRenderLight) {
+        mRig->mLightMgr->sub_7100F13A58(mRenderLight);
+        mRenderLight = nullptr;
+    }
+    mFlags = 0;
+    mRig = nullptr;
+    mObjectLight = nullptr;
+    mBoneIndex = -1;
+    mEndBoneIndex = -1;
+    mVisibilityMask = 0xffff;
+}
+
+// NON_MATCHING: clang folds the redundant `& 0xffff` after the mask test (one instruction).
+void LocationalLightMgr::ObjectLight::Light::drawDebug(agl::DrawContext* context,
+                                                       const sead::Matrix34f& view,
+                                                       const sead::Matrix44f& projection,
+                                                       int view_index) const {
+    const u16 mask = mVisibilityMask & (1 << view_index);
+    if (!mask)
+        return;
+    if (!mRenderLight)
+        return;
+    mRenderLight->drawDebug(context, view, projection, view_index);
+}
 
 void LocationalLightRig::m11(int index, sead::Heap* heap) {
     gsys::ModelRig::m11(index, heap);
