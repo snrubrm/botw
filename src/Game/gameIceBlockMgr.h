@@ -39,6 +39,12 @@ public:
     f32 sub_710066F004() const;
     bool sub_710066F038() const;
 
+    // 0x710066f1e8 (placeholder name): clears _38 and releases the three linked blocks: message
+    // 0x8000004 when the proc is in the calc state, deleteLater(0) otherwise.
+    void cleanupLinksMaybe();
+    // 0x710066f5ec (placeholder name): resets the manager: releases the links, fades the effect,
+    // drops the pending handle, tells the linked actor to release the block and clears the state.
+    void resetAllMaybe();
     // 0x710066f8c4: declaration only; removes all linked ice blocks.
     void sub_710066F8C4();
     // 0x710066f538: fades the current effect handle (_100[_14c]), resets the effect position to

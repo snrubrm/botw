@@ -102,4 +102,83 @@ void IceBlockMgr::handOverToActorMaybe(ksys::act::ActorLinkConstDataAccess& othe
     }
 }
 
+void IceBlockMgr::cleanupLinksMaybe() {
+    _38.clear();
+
+    auto* transceiver = &mTransceiver;
+
+    if (_60.hasProcInCalcState()) {
+        const ksys::MesTransceiverId* id;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_60, &accessor);
+            id = accessor.getMessageTransceiverId();
+        }
+        transceiver->sendMessage(*id, ksys::MessageType(0x8000004), nullptr, true);
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_60, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    if (_70.hasProcInCalcState()) {
+        const ksys::MesTransceiverId* id;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_70, &accessor);
+            id = accessor.getMessageTransceiverId();
+        }
+        transceiver->sendMessage(*id, ksys::MessageType(0x8000004), nullptr, true);
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_70, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    if (_80.hasProcInCalcState()) {
+        const ksys::MesTransceiverId* id;
+        {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_80, &accessor);
+            id = accessor.getMessageTransceiverId();
+        }
+        transceiver->sendMessage(*id, ksys::MessageType(0x8000004), nullptr, true);
+    } else {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_80, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
+
+// NON_MATCHING: same calls; ours keeps the accessor address in x21 across getMessageTransceiverId,
+// the original recomputes sp+8 for the destructor and keeps the transceiver in x21.
+void IceBlockMgr::resetAllMaybe() {
+    cleanupLinksMaybe();
+    _60.reset();
+    _70.reset();
+    _80.reset();
+    _e8 = 0;
+    _f8 = 0;
+    fadeEffectAndReleaseActorMaybe();
+
+    if (_170.isAllocatedOrFailed())
+        _170.deleteProc();
+
+    {
+        auto* transceiver = &mTransceiver;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_180, &accessor)) {
+            transceiver->sendMessage(*accessor.getMessageTransceiverId(),
+                                     ksys::MessageType(0x80000b7), nullptr, true);
+            _180.reset();
+        }
+    }
+
+    _140 = 0;
+    _144 = 0;
+    _148 = -4.0f;
+    _14d = 0;
+    _14e = 0;
+}
+
 }  // namespace uking
