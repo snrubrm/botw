@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <thread/seadAtomic.h>
 #include <cstddef>
+#include <environment/aglEnvObjBuffer.h>
 #include "gsys/gsysModelJobQueue.h"
 #include "gsys/gsysModelSceneEnv.h"
 
@@ -26,6 +27,15 @@ class EffectModelDrawMgr;
 
 class ModelScene {
 public:
+    // Constructor 0x7100c0d8f0: one, an empty name, a zero at +0x18 and an
+    // agl::env::EnvObjBuffer::AllocateArg at +0x20.
+    struct CreateArg {
+        CreateArg();
+        s32 _0;
+        sead::SafeString mName;
+        u64 _18;
+        agl::env::EnvObjBuffer::AllocateArg mAllocateArg;
+    };
     // 0x7100c0ff48 / 0x7100c0ffe4 (CSV names; declared only): attach / detach a model.
     void bind_(Model* model);
     void unbind_(Model* model);
