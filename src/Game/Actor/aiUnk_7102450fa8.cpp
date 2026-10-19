@@ -1,4 +1,5 @@
 #include "Game/Actor/aiUnk_7102450fa8.h"
+#include "Game/Actor/aiPriestBossPhaseMembers.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -127,6 +128,14 @@ bool Unk_7102450fa8::sub_710071984C(s32 idx, const sead::Matrix34f& mtx) {
             return true;
         }
     }
+    return false;
+}
+
+// 0x7100719b78: the position of the entry `idx` in the phase member list.
+// The original falls off the end when there is no member list (it does not store a false result).
+bool Unk_7102450fa8::sub_7100719B78(sead::Vector3f* out, s32 idx) {
+    if (_90)
+        return _90->sub_710071CDCC(out, idx);
     return false;
 }
 
