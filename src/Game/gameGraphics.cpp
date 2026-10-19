@@ -225,9 +225,9 @@ void Graphics::sub_7100F2F1E8(Unk_7100f35df8* settings) {
 
 // NON_MATCHING: the mode byte store is scheduled before the comparisons.
 void Unk_71012a20e0::sub_71012A2268(u32 mode) {
-    const bool reset = _1b0 == 2 || mode == 2;
-    _1b0 = mode;
-    switch (_1b0) {
+    const bool reset = _1b0b == 2 || mode == 2;
+    _1b0b = mode;
+    switch (_1b0b) {
     case 0:
         _194 = 0.2f;
         break;
@@ -240,6 +240,26 @@ void Unk_71012a20e0::sub_71012A2268(u32 mode) {
     }
     if (reset)
         _190 = _194;
+}
+
+// NON_MATCHING: the compiler computes the list address (add) before the index mask (and); the
+// original computes the mask first. The body and every other instruction match.
+bool Unk_71012a20e0::sub_71012A2768() {
+    if (!(_498 & 1))
+        return false;
+    if (mCubeMapMgr->mUnits.size() < 2u)
+        return false;
+    const s32 index = _1b3 & 1;
+    auto* unit = mCubeMapMgr->mUnits.nth(index);
+    if (!mCubeMapMgr->isUnitRenderingFinished(unit))
+        return false;
+    mCubeMapMgr->setUnitPosition(unit, _198);
+    mCubeMapMgr->setUnitBufferClear(unit, false);
+    mCubeMapMgr->pushUpdateRequest(unit);
+    const f32 next = _190 - 1.0f;
+    _1b0 ^= 0x1000000;
+    _190 = next > _194 ? next : _194;
+    return true;
 }
 
 

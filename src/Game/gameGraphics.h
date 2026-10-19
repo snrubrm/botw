@@ -19,6 +19,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
+#include "Game/gameAglEnvCubeMapMgr.h"
 
 namespace sead {
 class Heap;
@@ -75,16 +76,35 @@ public:
     // 12A2268 stores the low byte of mode at 0x1b0; the full word is tested for mode 2.
     // EnvMgr reset 10D326C, doCalc 10D62C0 and wrapper 10DB0B0 call this same receiver.
     void sub_71012A2268(u32 mode);
+    // 0x71012a2768 (unnamed in the CSV): when this object is enabled (bit 0 of _498) and the cube
+    // map manager has at least two reserved units, sets up unit `_1b3 & 1` at _198, pushes its update
+    // request, advances _190 down towards _194 and toggles bit 24 of _1b0. True when the unit was set
+    // up.
+    bool sub_71012A2768();
 
 private:
     // Complete constructor 12A20E0 and cleanup 12A22B0 establish the Node prefix.
     // 12A2768 consumes these two floats and the low mode byte independently.
     // Texture objects and the rest of the lifetime remain undeclared; do not allocate this prefix.
-    u8 _8[0x190 - 0x8];
+    u8 _8[0x10 - 0x8];
+    agl::env::CubeMapMgr* mCubeMapMgr;
+    u8 _18[0x190 - 0x18];
     f32 _190;
     f32 _194;
-    u8 _198[0x1b0 - 0x198];
-    u8 _1b0;
+    sead::Vector3f _198;
+    u8 _1a4[0x1b0 - 0x1a4];
+    // The mode byte (12A2268) and the unit index byte share this word; 12A2768 toggles bit 24.
+    union {
+        u32 _1b0;
+        struct {
+            u8 _1b0b;
+            u8 _1b1;
+            u8 _1b2;
+            u8 _1b3;
+        };
+    };
+    u8 _1b4[0x498 - 0x1b4];
+    u8 _498;
 };
 
 // Declaration only: F2C140 constructs a 0x268-byte object at 129175C and stores it at B38.

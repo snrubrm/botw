@@ -28,6 +28,7 @@ target_sources(uking PRIVATE
   gameGraphics.cpp
   gameUnk_710129175c.cpp
   gameGraphics.h
+  gameAglEnvCubeMapMgr.h
   gameIceBlockMgr.cpp
   gameIceBlockMgr.h
   gameStasisMgr.cpp
