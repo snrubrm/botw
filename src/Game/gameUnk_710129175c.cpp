@@ -9,6 +9,10 @@ Unk_710129175c::~Unk_710129175c() = default;
 Unk_7101293bac::Unk_7101293bac() : _8(0), mFlags(2), mPage(), _250(0), _254(0) {}
 Unk_7101293bac::~Unk_7101293bac() = default;
 
+void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
+    mPage.setUp(1, "ItemFilter", heap);
+}
+
 void Unk_710129175c::sub_71012920C4(s32 index) {
     mRecords[index]._1ff4 = 1;
 }

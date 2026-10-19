@@ -18,6 +18,10 @@
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 
+namespace sead {
+class Heap;
+}
+
 namespace nn::gfx {
 class ResTexture;
 }
@@ -180,6 +184,8 @@ class Unk_7101293bac : public sead::hostio::Node {
 public:
     // 0x7101293bac: the item filter constructor.
     Unk_7101293bac();
+    // 0x7101293c9c: sets up the debug texture page with the "ItemFilter" name.
+    void sub_7101293C9C(s32 unused, sead::Heap* heap);
     virtual ~Unk_7101293bac();
     s32 _8;
     sead::BitFlag32 mFlags;
