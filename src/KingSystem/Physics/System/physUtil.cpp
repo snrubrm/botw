@@ -1,4 +1,4 @@
-#include "KingSystem/Physics/System/physStaticCompoundUtil.h"
+#include "KingSystem/Physics/System/physUtil.h"
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldShape.h>
