@@ -27,7 +27,12 @@ public:
 private:
     u8 _0[8];
     VegeTeraMat mRecords[3];
+    // Read by the per-record update 0x710107873c: an index and the buffer whose 0x90-byte
+    // entries it indexes (count at +0xd8, array at +0xe0).
+    u8 _f98[4];
+    s32 _f9c;
+    void* _fa0;
 };
-KSYS_CHECK_SIZE_NX150(VegeTeraMatMgr, 0xf98);
+KSYS_CHECK_SIZE_NX150(VegeTeraMatMgr, 0xfa8);
 
 }  // namespace ksys::tera
