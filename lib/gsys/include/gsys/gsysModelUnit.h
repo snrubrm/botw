@@ -259,6 +259,10 @@ public:
     // Inlined by ksys::gfx::ForestRenderer 0x7100f06904 (+0x28).
     ModelUnitDrawArray* getDrawArray() const { return mDrawArray; }
 
+    // ksys::gfx 0x7100f1ece8 clears bit 2 (Attribute::LodCalculation) of every unit's flags.
+    sead::TypedBitFlag<Attribute, u16>& getAttributeFlags() { return mAttributeFlags; }
+    const sead::TypedBitFlag<Attribute, u16>& getAttributeFlags() const { return mAttributeFlags; }
+
 protected:
     friend class Model;
 

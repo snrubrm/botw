@@ -25,9 +25,13 @@ public:
     // Graphics 0x7100f2e0f4 compares +0x16 of ModelNW's render units with a material index.
     u16 getMaterialIndex() const { return mMaterialIndex; }
 
+    // Render-unit option word at +0x10. ksys::gfx 0x7100f1ed8c clears bits 26/31 and sets bit 27.
+    u32& getFlags10() { return _10; }
+    const u32& getFlags10() const { return _10; }
+
 protected:
     const ModelUnit* mModelUnit = nullptr;
-    u8 _10[0x14 - 0x10] = {};
+    u32 _10 = 0;
     u16 mIndex = 0;
     u16 mMaterialIndex = 0;
     // Zeroed by the ctor 0x7100c82ca0; the derived RenderUnit's first own byte follows it.
