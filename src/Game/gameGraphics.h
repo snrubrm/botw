@@ -240,6 +240,9 @@ public:
     // 0x7100f2ddf0: declaration only; selects a lens-flare preset, negative disables it.
     void sub_7100F2DDF0(s32 preset);
 
+    // 0x7100f2b3dc: pushes the objects in the array at +0x178 into `array`.
+    void sub_7100F2B3DC(sead::PtrArrayImpl* array);
+
     void sub_7100F2F1C8(Unk_7100f35df8* settings);
     void sub_7100F2F1E8(Unk_7100f35df8* settings);
 
@@ -383,7 +386,12 @@ public:
     sead::PtrArray<gsys::ModelScene> mModelScenes;
 
 private:
-    u8 _160[0x280 - 0x160];
+    u8 _160[0x170 - 0x160];
+    // 0x7100f2b3dc iterates this array and pushes each element into a PtrArray.
+    s32 _170;
+    s32 _174;
+    void** _178;
+    u8 _180[0x280 - 0x180];
     u32 _280;
     sead::BitFlag32 _284;
     u8 _288[0x360 - 0x288];

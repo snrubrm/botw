@@ -252,6 +252,18 @@ void Graphics::sub_7100F35DB0() {
     _284.set(0x10000);
 }
 
+// 0x7100c0a9b8: sead::PtrArrayImpl's out-of-line push (declaration only).
+void sub_7100C0A9B8(sead::PtrArrayImpl* array, void* element);
+
+void Graphics::sub_7100F2B3DC(sead::PtrArrayImpl* array) {
+    if (_170 == 0)
+        return;
+    void** it = _178;
+    void** end = it + _170;
+    while (it != end)
+        sub_7100C0A9B8(array, *it++);
+}
+
 namespace ksys::tera {
 extern u8 sUnk_710260B184 KSYS_VISIBILITY_HIDDEN;
 extern u8 sUnk_710260B188 KSYS_VISIBILITY_HIDDEN;
