@@ -25,6 +25,8 @@ public:
     };
 
     const char* getNullStr(HashUnused* u);
+    // 0x7100d29da0: clears the pointer at +0x28.
+    void sub_7100D29DA0();
     bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
 
     void* _28;

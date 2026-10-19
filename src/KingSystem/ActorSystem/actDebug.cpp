@@ -10,6 +10,11 @@ const char* ActorDebug::getNullStr(HashUnused*) {
     return &sead::SafeString::cNullChar;
 }
 
+// 0x7100d29da0: clears the pointer at +0x28.
+void ActorDebug::sub_7100D29DA0() {
+    _28 = nullptr;
+}
+
 }  // namespace ksys::act
 
 // NON_MATCHING: placeholder destructor; the original (0x7100d2b1ac) also destroys members or bases
