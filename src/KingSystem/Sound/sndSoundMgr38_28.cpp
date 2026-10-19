@@ -50,4 +50,24 @@ void Unk_SoundMgr38_38::sub_710103A034(sead::Heap* heap) {}
 // Empty in the release build.
 void Unk_SoundMgr38_38::sub_710103A294() {}
 
+// 0x710103a038 (placeholder name): resets the handle, the three vectors and the unit scales.
+// NON_MATCHING: the zero-vector stores are paired and scheduled differently (0x2c / 0x30 / 0x34
+// are stored before 0x14 in ours); the value of every store is the same.
+void Unk_SoundMgr38_38::sub_710103A038() {
+    _8 = nullptr;
+    _10 = 0;
+    _14 = _20 = _2c = sead::Vector3f::zero;
+    _38 = sead::Vector3f::zero;
+    _44.set(1.0f, 1.0f, 1.0f);
+    _50.reset();
+    _cc = 0;
+}
+
+// 0x710103a084 (placeholder name): fades the three effect handles.
+void Unk_SoundMgr38_38::sub_710103A084() {
+    _60.fade();
+    _70.fade();
+    _80.fade();
+}
+
 }  // namespace ksys::snd

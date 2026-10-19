@@ -437,11 +437,29 @@ public:
     virtual ~Unk_SoundMgr38_38();
     // 0x710103a034 (empty in the release build): called with the heap right after construction.
     void sub_710103A034(sead::Heap* heap);
+    // 0x710103a084 (placeholder name): fades the three effect handles.
     void sub_710103A084();
     // 0x710103a294 (empty in the release build): called by Unk_SoundMgr38::sub_710102AF84.
     void sub_710103A294();
+    // 0x710103a038 (placeholder name): resets the vectors, the first handle and the unit scale;
+    // called by sound::setEnv on _38.
+    void sub_710103A038();
 
-    u8 _8[0xd8 - 0x8];
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ u32 _10 = 0;
+    /* 0x14 */ sead::Vector3f _14;
+    /* 0x20 */ sead::Vector3f _20;
+    /* 0x2c */ sead::Vector3f _2c;
+    /* 0x38 */ sead::Vector3f _38;
+    /* 0x44 */ sead::Vector3f _44;
+    // The first sound handle is reset by sub_710103A038; the other three are faded by sub_710103A084.
+    /* 0x50 */ xlink2::HandleSLink _50;
+    /* 0x60 */ xlink2::HandleSLink _60;
+    /* 0x70 */ xlink2::HandleSLink _70;
+    /* 0x80 */ xlink2::HandleSLink _80;
+    u8 _90[0xcc - 0x90];
+    /* 0xcc */ u32 _cc = 0;
+    u8 _d0[0xd8 - 0xd0];
 };
 class Unk_SoundMgr38_40 {
 public:
