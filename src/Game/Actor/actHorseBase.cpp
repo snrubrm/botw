@@ -484,6 +484,22 @@ void HorseBase::sub_7100E6B230(HorseReins* reins, ksys::act::BaseProcLink* link)
         getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
 }
 
+// 0x7100e6db24: binds the reins actor to `horse`: the old actor behind `link` is deleted, the link
+// and the horse's _840 link are acquired, the reins are attached to the horse's model and the reins'
+// model is set to render to the depth shadow only as the horse's first material record asks for.
+void sub_7100E6DB24(HorseBase* horse, HorseReins* reins, ksys::act::BaseProcLink* link) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(link, &accessor))
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+
+    link->acquire(reins, false);
+    reins->_840.acquire(horse, false);
+    reins->sub_71011C9964(horse);
+    horse->sub_71011C5630(reins->getModel());
+    reins->getModel()->resetRenderToDepthShadowOnly(
+        horse->getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+}
+
 // 0x7100e6b4a8: asks the horse objects behind _840 / _850 and the reins behind _860 / _870 / _880
 // to fade out (the fade request flag of Actor::_68c).
 // NON_MATCHING: the original tests the link's proc twice (cbz before and after the RTTI call) and
