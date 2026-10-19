@@ -528,11 +528,7 @@ Unk_710247ada8::Unk_710247ada8() = default;
 
 // 0x71009b1a90
 Unk_710247ada8::~Unk_710247ada8() {
-    if (_30) {
-        delete[] _30;
-        _30 = nullptr;
-        _28 = 0;
-    }
+    mIcons.freeBuffer();
 }
 
 // 0x71009b1b74 (placeholder name): binds the layout and heap, creates the Gauge / Type animators and the three
@@ -545,13 +541,14 @@ void Unk_710247ada8::sub_71009B1B74(eui::LayoutEx* layout, sead::Heap* heap) {
     mLayout = layout;
     _18 = layout->createAnimatorAuto("Gauge", false);
     _20 = mLayout->createAnimatorAuto("Type", false);
-    _30 = new (heap, 8, std::nothrow) Unk_71024774c8[3];
-    _28 = 3;
-    for (s32 i = 0; i < 3; ++i) {
-        sead::FixedSafeString<0x20> name;
-        name.format("Pa_SpIcon_%02d", i);
-        _30[i].sub_7100988EF0(mLayout->findPartsLayout(name.cstr()));
-    }
+    mIcons.setBuffer(3, new (heap, 8, std::nothrow) Unk_71024774c8[3]);
+    sead::FixedSafeString<0x20> name;
+    name.format("Pa_SpIcon_%02d", 0);
+    mIcons[0].sub_7100988EF0(mLayout->findPartsLayout(name.cstr()));
+    name.format("Pa_SpIcon_%02d", 1);
+    mIcons[1].sub_7100988EF0(mLayout->findPartsLayout(name.cstr()));
+    name.format("Pa_SpIcon_%02d", 2);
+    mIcons[2].sub_7100988EF0(mLayout->findPartsLayout(name.cstr()));
 }
 
 // 0x71009b24c4

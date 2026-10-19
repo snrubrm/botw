@@ -530,8 +530,7 @@ public:
     /* 0x10 */ void* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ void* _20 = nullptr;
-    /* 0x28 */ s32 _28 = 0;
-    /* 0x30 */ Unk_71024774c8* _30 = nullptr;
+    /* 0x28 */ sead::Buffer<Unk_71024774c8> mIcons;
 };
 static_assert(sizeof(Unk_710247ada8) == 0x38);
 
