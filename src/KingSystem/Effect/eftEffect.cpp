@@ -89,6 +89,34 @@ void Effect::calc() {
 }
 
 
+// NON_MATCHING: the final bit test becomes cset instead of the original's orr/branch pair (4 bytes shorter).
+bool Effect::sub_71011B7DA0(const sead::Vector3f* wind) {
+    if (!_9b98 || !_192c8)
+        return false;
+    auto* stats = uking::StatisticsMgr::instance();
+    if (!stats)
+        return false;
+    u32 mask;
+    if (stats->sub_7100E33EA0(&mask, 1, mWindStatsMaybe, wind) == 0)
+        return false;
+
+    f32 a = 0.0f;
+    if (sead::Mathf::abs(wind->x) > 1.1920929e-06f)
+        a = wind->x / 5.0f;
+    f32 b = 0.0f;
+    if (sead::Mathf::abs(wind->z) > 1.1920929e-06f)
+        b = wind->z / 5.0f;
+
+    const s32 fa = sead::Mathf::floor(a);
+    const s32 fb = sead::Mathf::floor(b);
+    const u32 ia = u32((a - f32(fa)) * 5.0f);
+    const u32 ib = u32((b - f32(fb)) * 5.0f);
+    const u32 bit = 1u << (ib * 5 + ia);
+    if (bit & mask)
+        return true;
+    return false;
+}
+
 void Effect::kill() {
     _9b98 = false;
     gsys::ParticleMgr::instance()->getSystem()->KillAllEmitterSet();

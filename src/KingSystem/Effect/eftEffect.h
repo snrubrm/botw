@@ -103,6 +103,9 @@ public:
     void searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle);
     void kill_0();
     void kill();
+    // 0x71011b7da0 (placeholder name): whether the wind vector selects an enabled bit of the wind
+    // stats mask (a 5x5 wind grid).
+    bool sub_71011B7DA0(const sead::Vector3f* wind);
     // 0x71011b630c: runs the ambient effect manager when the scene and camera are ready.
     void calc();
     void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
@@ -135,7 +138,8 @@ private:
     u32 mFlags;
     u8 _192f8[0x19300 - 0x192f8];
     /* 0x19300 */ xlink2::UserInstance* mUserInstance = nullptr;
-    u8 _19308[8];
+    // Stats table of the wind mask queried by sub_71011B7DA0.
+    /* 0x19308 */ void* mWindStatsMaybe = nullptr;
     void* mForestDensityStats;
     u8 _19318[0x19328 - 0x19318];
     AmbientEffectMgr* mAmbientEffectMgr;
