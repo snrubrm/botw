@@ -238,6 +238,20 @@ public:
     const sead::Vector3f* get50() const { return &_50->getCenter(); }
     const sead::BoundSphere3f* getBoundSphere() const { return _50; }
 
+    /// One record per material (getMaterialNum()).
+    struct MaterialInfo {
+        u32 renderOptions;  // one bit per RenderOption
+        u16 _4;
+        sead::BitFlag16 flags;  // bit 1: changed
+        sead::BitFlag16 _8;
+        u8 _a;
+        u8 _b;
+    };
+
+    // HorseBase 0x7100e6b230 reads the first unit's material record (_4) through Model+0x40.
+    MaterialInfo* getMaterialInfo() { return mMaterialInfo; }
+    const MaterialInfo* getMaterialInfo() const { return mMaterialInfo; }
+
     // Inlined by ksys::mii 0x7100f5c964 (strh of 0 / 0xffff to +0xc).
     void setVisibilityMask(u16 mask) { mVisibilityMask.setDirect(mask); }
     u16 getVisibilityMask() const { return mVisibilityMask.getDirect(); }
@@ -275,15 +289,6 @@ protected:
     };
     ViewOption* mViewOptions;
     void* _60;
-    /// One record per material (getMaterialNum()).
-    struct MaterialInfo {
-        u32 renderOptions;  // one bit per RenderOption
-        u16 _4;
-        sead::BitFlag16 flags;  // bit 1: changed
-        sead::BitFlag16 _8;
-        u8 _a;
-        u8 _b;
-    };
     MaterialInfo* mMaterialInfo;
     void* _70;
     void* _78;

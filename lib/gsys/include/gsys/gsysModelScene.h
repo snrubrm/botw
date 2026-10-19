@@ -39,7 +39,14 @@ public:
     // DepthOfField::setIndirectTextureData; 0x7100c11a80 copies context parameters into it.
     /* 0x3428 */ agl::pfx::DepthOfField* mDepthOfField;
 
-    u8 _3430[0x3758 - 0x3430];
+    u8 _3430[0x3700 - 0x3430];
+
+    // Ofx preset manager. Graphics 0x7100f2ddf0 looks up a preset through it and calls
+    // agl::fx::OfxBase::loadPresetByIndex; ModelScene 0x7100c2c840 / 0x7100c2c854 also dispatch
+    // through it. The concrete class is not modelled.
+    /* 0x3700 */ void* mOfxManager;
+
+    u8 _3708[0x3758 - 0x3708];
 
     // Effect-model draw manager of the scene. EffectModelData::addEffectModel 0x7100d9f8ac reads it from
     // the first Graphics model scene (`**(Graphics + 0x158)` = mModelScenes[0]) and calls
@@ -65,9 +72,18 @@ public:
 
     // Flags (0xa39 after construction). Game code sets bit 1 after it applied an env set (SystemApplyEnvSetAction)
     // and bit 13 when it creates the scene; ModelScene's own code reads bits 0, 1, 2, 5 and 8.
+    // The byte at +0x5d81 is the high byte of this word (bits 8..15): MassRenderer::requestDraw
+    // 0x71011e3cd0 tests bit 8 and ModelScene's own code tests bits 12 and 13. A u32 test such as
+    // (mFlags & 0x100) is narrowed by the compiler to the original ldrb [x8, #0x5d81].
     /* 0x5d80 */ u32 mFlags;
 
-    u8 _5d84[0x5f20 - 0x5d84];
+    u8 _5d84[0x5da0 - 0x5d84];
+    // Rain/snow intensity. ModelScene 0x7100c1020c computes it from +0x5da0 and a scale and stores it
+    // here; MassRenderer::requestDraw 0x71011e3cd0 compares it with 0.0f.
+    /* 0x5da0 */ f32 _5da0;
+    /* 0x5da4 */ f32 mRainRatio;
+
+    u8 _5da8[0x5f20 - 0x5da8];
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
 static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);
