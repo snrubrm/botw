@@ -1485,6 +1485,34 @@ u32 sub_710072C494(f32* out_height, const sead::Vector3f* pos) {
     return ksys::tera::sub_710110B4A4(out_height, &xz, tera_system);
 }
 
+bool sub_710072C388(u32* out, const sead::Vector3f* pos, f32 max_height_diff) {
+    sead::Vector2f xz;
+    f32 height = 0;
+    ksys::tera::MaterialRecordMaybe record;
+    auto* placement = ksys::map::PlacementMgr::instance();
+    if (!placement)
+        return false;
+    auto* tera_system = placement->mTeraSystem;
+    if (!tera_system)
+        return false;
+    xz = sead::Vector2f(pos->x, pos->z);
+    if (ksys::tera::sub_71011094A0(&height, &xz, tera_system, -1, 0) == 0)
+        return false;
+    if (sead::Mathf::abs(pos->y - height) > max_height_diff)
+        return false;
+
+    tera_system = ksys::map::PlacementMgr::instance()->mTeraSystem;
+    record.raw = 0xff;
+    if (!tera_system)
+        return false;
+    xz = sead::Vector2f(pos->x, pos->z);
+    if (ksys::tera::sub_710110BD78(&record, &xz, tera_system, false) == 0)
+        return false;
+    const u32 index = record._1 >= 0 ? record._3 : record._2;
+    *out = tera_system->_e8[index].value;
+    return true;
+}
+
 // NON_MATCHING: the original adds 0.0f to every ray y coordinate (source form unknown).
 bool sub_710072C4E8(sead::Vector3f* out, const sead::Vector3f& pos) {
     *out = pos;
