@@ -33,7 +33,11 @@ Unk_710129175c::~Unk_710129175c() {
 }
 
 Unk_7101293bac::Unk_7101293bac() : _8(0), mFlags(2), mPage(), _250(0), _254(0) {}
-Unk_7101293bac::~Unk_7101293bac() = default;
+// NON_MATCHING: the inlined DebugTexturePage teardown stores only the IDisposer vtable, not the
+// hostio::Node vtable at +0x30; the cleanUp / base-destructor calls match.
+Unk_7101293bac::~Unk_7101293bac() {
+    mPage.~DebugTexturePage();
+}
 
 void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
