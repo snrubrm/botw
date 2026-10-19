@@ -108,6 +108,33 @@ void OnUiActorMgr::x_4() {
     }
 }
 
+// 0x7100907b74 (placeholder name): sets the pause menu player's heat resist level
+void OnUiActorMgr::sub_7100907B74(const s32* value) {
+    auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    if (player) {
+        player->sub_71006E9E24();
+        player->_c3c = *value;
+    }
+}
+
+// 0x7100907ba8 (placeholder name): sets the pause menu player's cold resist level
+void OnUiActorMgr::sub_7100907BA8(const s32* value) {
+    auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    if (player) {
+        player->sub_71006E9E24();
+        player->_c40 = *value;
+    }
+}
+
+// 0x7100907bdc (placeholder name): sets the pause menu player's burn resist level
+void OnUiActorMgr::sub_7100907BDC(const s32* value) {
+    auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    if (player) {
+        player->sub_71006E9E24();
+        player->_c44 = *value;
+    }
+}
+
 // 0x7100907c10 (placeholder name): sets the pause menu player's _c35 flag
 void OnUiActorMgr::sub_7100907C10() {
     auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
