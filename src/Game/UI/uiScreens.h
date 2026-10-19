@@ -303,6 +303,8 @@ public:
     void sub_71009B0F60(bool on);
     // 0x71009b0eec: stops _130 at frame `frame`; closes the _1d8 layout unless the frame is 2
     void sub_71009B0EEC(u32 frame);
+    // 0x71009b0fcc: fills the weapon modifier display from a pouch item
+    void sub_71009B0FCC(const PouchItem* item);
     // 0x71009b0c24: sets the gauge _150 and clears its byte at 0x6c
     void sub_71009B0C24(eui::TraceGaugeControl* gauge);
     // 0x71009b10ec: sets the gauge to `value` out of 120 and closes the _190 layout

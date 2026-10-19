@@ -397,6 +397,13 @@ void Unk_710247a6d8::sub_71009B0EEC(u32 frame) {
         _1d8.sub_71009C697C();
 }
 
+// 0x71009b0fcc: fills the weapon modifier display from a pouch item
+void Unk_710247a6d8::sub_71009B0FCC(const PouchItem* item) {
+    WeaponStats stats;
+    getWeaponStats(*item, &stats);
+    _158.sub_71009B25AC(stats, item->getType() == PouchItemType::Bow, item->isEquipped());
+}
+
 // 0x71009b1024
 // NON_MATCHING: Unk_710247ade8::sub_71009B26A0 is defined in this file and gets inlined
 void Unk_710247a6d8::sub_71009B1024() {
@@ -542,6 +549,29 @@ void Unk_710247ade8::sub_71009B252C(eui::LayoutEx* layout) {
     _10 = layout->createAnimatorAuto("Num", false);
     _18 = _8->createAnimatorAuto("Color", false);
     _20.sub_7100988EF0(_8->findPartsLayout("Pa_SpIcon_00"));
+}
+
+// 0x71009b25ac (placeholder name): shows the weapon modifier text and drives the icon animators
+void Unk_710247ade8::sub_71009B25AC(const WeaponStats& stats, bool is_bow, bool old) {
+    if (!_8)
+        return;
+    if (stats.modifier.flags.isZero()) {
+        if (_10)
+            _10->StopAtMin();
+        return;
+    }
+    if (_10)
+        _10->StopAtMax();
+    sub_7100AA73E8(_8, "T_Text_00", stats.modifier);
+    f32 frame = -1.0f;
+    sub_7100AA7290(stats.modifier, is_bow, &frame);
+    _20.sub_7100988F30(frame);
+    if (_18) {
+        if (old)
+            _18->StopAtMax();
+        else
+            _18->StopAtMin();
+    }
 }
 
 // 0x71009b26a0

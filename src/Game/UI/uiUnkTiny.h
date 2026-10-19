@@ -494,12 +494,15 @@ public:
 };
 
 // Constructed at 0x71009b24c4 (vtable 0x710247ade8); a member of Unk_710247a6d8 / Unk_710247ca18.
+struct WeaponStats;
 class Unk_710247ade8 {
 public:
     Unk_710247ade8();
     virtual ~Unk_710247ade8();
     // 0x71009b252c (placeholder name): binds the layout and creates the Num / Color animators and the icon layout
     void sub_71009B252C(eui::LayoutEx* layout);
+    // 0x71009b25ac (placeholder name): shows the weapon modifier text and drives the icon animators
+    void sub_71009B25AC(const WeaponStats& stats, bool is_bow, bool old);
     // 0x71009b26a0: stops _10 at its start
     void sub_71009B26A0();
     // 0x71009b26b8: shows the armor effect message and stops the texture/color animators at the right end
