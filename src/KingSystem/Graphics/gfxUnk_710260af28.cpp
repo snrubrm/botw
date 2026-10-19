@@ -30,7 +30,8 @@ void Unk_710260af28::sub_7100F1E100(gsys::Model* model, f32 value) {
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_shadow_alpha");
+            const sead::SafeString name("uk_shadow_alpha");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamF32(material, param, value);
         }
@@ -42,7 +43,8 @@ void Unk_710260af28::sub_7100F1E1F8(gsys::Model* model, f32 value) {
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_proc_discard");
+            const sead::SafeString name("uk_proc_discard");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamF32(material, param, 1.0f - value);
         }
@@ -54,7 +56,8 @@ void Unk_710260af28::sub_7100F1E2F4(gsys::Model* model, const sead::Color4f& col
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_damage_color");
+            const sead::SafeString name("uk_damage_color");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamColor4f(material, param, color);
         }
@@ -66,7 +69,8 @@ void Unk_710260af28::sub_7100F1E8A4(gsys::Model* model, f32 value) {
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_cook_ratio");
+            const sead::SafeString name("uk_cook_ratio");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamF32(material, param, value);
         }
@@ -78,7 +82,8 @@ void Unk_710260af28::sub_7100F1EAF8(gsys::Model* model, f32 value) {
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_kari_chemical_ice_ratio0");
+            const sead::SafeString name("uk_kari_chemical_ice_ratio0");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamF32(material, param, value);
         }
@@ -103,7 +108,8 @@ void Unk_710260af28::sub_7100F1E3E4(gsys::Model* model, f32 value) {
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_special_effect_B");
+            const sead::SafeString name("uk_special_effect_B");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamF32(material, param, value);
         }
@@ -116,7 +122,8 @@ void Unk_710260af28::sub_7100F1E794(gsys::Model* model, f32 value, f32 step) {
         auto* unit = model->getUnits()[i]->mModelUnit;
         const s32 count = unit->getMaterialNum();
         for (s32 material = 0; material < count; ++material) {
-            const s32 param = unit->searchMaterialParamIndex(material, "uk_mimicly_ratio");
+            const sead::SafeString name("uk_mimicly_ratio");
+            const s32 param = unit->searchMaterialParamIndex(material, name);
             if (param != -1)
                 unit->setMaterialParamF32(material, param, ratio);
         }
