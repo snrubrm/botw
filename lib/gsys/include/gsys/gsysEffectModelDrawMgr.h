@@ -21,6 +21,7 @@ class Model;
 class ModelDrawObj;
 class ModelResource;
 class ModelScene;
+class ModelUnit;
 
 // Native 0x7100c55364 (initialize), 0x7100c555f0 (createModel), 0x7100c5571c (addInstance) and
 // 0x7100c558bc (pushBack) establish the class. The manager's entry array is
@@ -59,13 +60,13 @@ public:
 
     Model* mModel;   // +0x00, released through Model::sub_7100BF69F8
     void* _8;        // +0x08, cleared by clear()
-    void* _10;       // +0x10, cleared by clear()
+    u16* _10;        // +0x10, instance records consumed by pushBack
     u32 mUnkCount;   // +0x18, set from CreateArg::_4 by initialize
     u32 mUnkCount2;  // +0x1c
     u32 _20;         // +0x20, reset by preCalc
     u32 _24;         // +0x24
     u16* _28;        // +0x28, cleared by clear() and zeroed element-wise by preCalc
-    void* _30;       // +0x30, cleared by clear()
+    ModelUnit** _30; // +0x30, per-instance model units, cleared by clear()
     u32 mFlags;      // +0x38, bit 0 owned, bit 1 delete requested, bit 2 used
     u32 _3c;         // +0x3c
     void* _40;       // +0x40, deleted by clear()
@@ -75,6 +76,8 @@ static_assert(sizeof(EffectModelDrawUnit) == 0x50);
 
 // Native ctor 0x7100c559dc, size 0xa8.
 class EffectModelDrawMgr {
+    friend class EffectModelDrawUnit;
+
 public:
     EffectModelDrawMgr();
     ~EffectModelDrawMgr();
@@ -95,7 +98,7 @@ public:
 
 private:
     u32 mCapacity;  // +0x00, addModel rejects id >= mCapacity
-    u32 _4;         // +0x04, count of the ModelDrawObj array at +0x20
+    s32 _4;         // +0x04, count of the ModelDrawObj array at +0x20
     u16 _8;         // +0x08
     u8 _a[6];
     sead::Buffer<EffectModelDrawUnit> mEntries;  // +0x10 size, +0x18 buffer

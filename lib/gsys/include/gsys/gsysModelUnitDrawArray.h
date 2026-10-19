@@ -11,6 +11,8 @@ class ModelUnit;
 // c49050 and retains the result at ModelUnit+28. Destructor c490c8 releases
 // the remaining owned arrays, which are not modelled yet.
 class ModelUnitDrawArray : public sead::hostio::Node {
+    friend class EffectModelDrawUnit;
+
 public:
     struct CreateArg {
         CreateArg();

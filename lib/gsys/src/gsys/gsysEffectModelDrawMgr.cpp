@@ -27,8 +27,7 @@ inline void EffectModelDrawUnit::clear() {
     }
 }
 
-bool EffectModelDrawUnit::createModel(const CreateArg& arg, sead::Heap* heap) {
-    Model::CreateArg model_arg;
+bool EffectModelDrawUnit::createModel(const CreateArg& arg, sead::Heap* heap) {    Model::CreateArg model_arg;
     model_arg._4 = arg._0;
 
     if (arg.mNames && arg.mCount)
@@ -48,6 +47,38 @@ bool EffectModelDrawUnit::createModel(const CreateArg& arg, sead::Heap* heap) {
     }
 
     return true;
+}
+
+void EffectModelDrawUnit::pushBack(EffectModelDrawMgr* mgr) {
+    for (u32 i = 0; i < mUnkCount2; ++i)
+        mModel->getUnits()[i]->mModelUnit->getDrawArray()->mSize = 0;
+
+    if (_20) {
+        bool any = false;
+        for (u32 i = 0; i < _20; ++i) {
+            u16 record = _10[i];
+            s32 index = record & 0xfff;
+            u16 group = record >> 12;
+            ModelUnit* unit = _30[group];
+
+            mgr->mCS2.lock();
+            ModelDrawObj* obj = nullptr;
+            if (index < mgr->_4)
+                obj = &mgr->mModelDrawObjs[index];
+            mgr->mCS2.unlock();
+
+            if (obj) {
+                ModelUnitDrawArray* draw_array = unit->getDrawArray();
+                s32 n = draw_array->mSize;
+                draw_array->mSize = n + 1;
+                draw_array->mUnits[n] = obj;
+                any = true;
+            }
+        }
+
+        if (any)
+            mModel->requestDraw();
+    }
 }
 
 EffectModelDrawUnit::~EffectModelDrawUnit() {
