@@ -945,6 +945,22 @@ s32 sub_71010BA648(sead::BufferedSafeString* out, const eui::MessageString& mess
         out->getBuffer(), out->getBufferSize(), text.cstr(), -1);
 }
 
+// 0x7100aa688c
+void setArmorInfoMessage(eui::LayoutEx* layout, const sead::SafeString& widget_name, const ArmorInfo& info) {
+    if (info.effect == -1) {
+        const sead::WSafeString& empty = sead::WSafeString::cEmptyString;
+        const eui::MessageString message(empty.calcLength(), empty.cstr());
+        if (layout)
+            layout->setMessageStringForEachId(widget_name.cstr(), message, true, nullptr);
+        return;
+    }
+
+    eui::MessageString message;
+    sub_7100AA69B4(info.effect, &message);
+    if (layout)
+        layout->setMessageStringForEachId(widget_name.cstr(), message, true, nullptr);
+}
+
 // 0x7100aa73e8
 // NON_MATCHING: flag-dispatch block layout and string scheduling differ.
 void sub_7100AA73E8(eui::LayoutEx* layout, const sead::SafeString& widget,

@@ -482,6 +482,34 @@ void Unk_710247ade8::sub_71009B26A0() {
         _10->StopAtMin();
 }
 
+// 0x71009b26b8
+void Unk_710247ade8::sub_71009B26B8(const ArmorInfo& info, bool old) {
+    if (!_8)
+        return;
+
+    if (info.effect == -1) {
+        if (_10)
+            _10->StopAtMin();
+        return;
+    }
+
+    if (_10)
+        _10->StopAtMax();
+
+    setArmorInfoMessage(_8, "T_Text_00", info);
+
+    f32 frame = -1.0f;
+    sub_7100AA4ACC(info.effect, &frame);
+    _20.sub_7100988F30(frame);
+
+    if (_18) {
+        if (old)
+            _18->StopAtMax();
+        else
+            _18->StopAtMin();
+    }
+}
+
 // 0x71009b5fc8
 void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {
     if (active) {

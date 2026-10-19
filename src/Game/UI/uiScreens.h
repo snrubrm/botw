@@ -382,7 +382,8 @@ public:
     /* 0x138 */ eui::Animator* _138 = nullptr;
     u8 _140[0x170 - 0x140];
     /* 0x170 */ eui::TraceGaugeControl* _170 = nullptr;
-    u8 _178[0x1e8 - 0x178];
+    /* 0x178 */ Unk_710247ade8 _178;
+    u8 _1b0[0x1e8 - 0x1b0];
 };
 static_assert(sizeof(Unk_710247ca18) == 0x1e8);
 

@@ -38,6 +38,7 @@ struct Quest;
 namespace uking::ui {
 
 class Screen;
+struct ArmorInfo;
 
 class Unk_7102474b38 {
 public:
@@ -481,10 +482,12 @@ public:
     virtual ~Unk_710247ade8();
     // 0x71009b26a0: stops _10 at its start
     void sub_71009B26A0();
+    // 0x71009b26b8: shows the armor effect message and stops the texture/color animators at the right end
+    void sub_71009B26B8(const ArmorInfo& info, bool old);
 
-    /* 0x08 */ void* _8 = nullptr;
+    /* 0x08 */ eui::LayoutEx* _8 = nullptr;
     /* 0x10 */ eui::Animator* _10 = nullptr;
-    /* 0x18 */ void* _18 = nullptr;
+    /* 0x18 */ eui::Animator* _18 = nullptr;
     /* 0x20 */ Unk_71024774c8 _20;
 };
 static_assert(sizeof(Unk_710247ade8) == 0x38);

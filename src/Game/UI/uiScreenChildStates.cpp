@@ -1207,6 +1207,11 @@ void Unk_7102478048::m16() {
         entry->m22();
 }
 
+// 0x7100994e88
+bool Unk_7102478048::sub_7100994E88() const {
+    return _410 != nullptr;
+}
+
 // 0x7100993c08
 void Unk_7102478048::m34() {
     for (auto* entry : UiSubsys1::instance()->_5d8)

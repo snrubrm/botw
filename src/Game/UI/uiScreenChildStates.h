@@ -364,6 +364,8 @@ public:
     void m34() override;
     // 0x7100994e98 (CSV unnamed; not decompiled): called at the end of m34
     void sub_7100994E98();
+    // 0x7100994e88: the +0x410 state object is set
+    bool sub_7100994E88() const;
     // 0x710099e384 / 0x71009919cc / 0x7100991b90 / 0x710099e49c (CSV unnamed; not decompiled): called by m31
     void sub_710099E384();
     void sub_71009919CC(bool a1);
@@ -389,7 +391,12 @@ public:
     /* 0x358 */ f32 _358 = 1.0f;
     /* 0x35c */ u8 _35c[0x370 - 0x35c]{};
     /* 0x370 */ eui::MassDrawPane* _370 = nullptr;
-    u8 _378[0x428 - 0x378]{};
+    u8 _378[0x408 - 0x378]{};
+    // the current map marker / message state (cleared by sub_7100994E98; +0x410 is read through +0x18)
+    /* 0x408 */ void* _408 = nullptr;
+    /* 0x410 */ void* _410 = nullptr;
+    /* 0x418 */ void* _418 = nullptr;
+    u8 _420[0x428 - 0x420]{};
     /* 0x428 */ ksys::StringBoard _428[5];
 };
 static_assert(sizeof(Unk_7102478048) == 0x450);

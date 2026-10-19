@@ -171,6 +171,8 @@ struct CookingInfo {
     s32 _18 = 0;
 };
 void getArmorInfoMaybe(const sead::SafeString& name, ArmorInfo* out);
+// 0x7100aa688c: sets `widget_name` of `layout` to the message of `info`'s effect (the armor effect name).
+void setArmorInfoMessage(eui::LayoutEx* layout, const sead::SafeString& widget_name, const ArmorInfo& info);
 s32 sub_7100949CE8(u32 count);
 void sub_71009452D0(CookingInfo* out, s32 level);
 void sub_71009452FC(CookingInfo* out, s32 level);
