@@ -8,6 +8,12 @@ class Heap;
 }
 
 namespace gsys {
+class Model;
+class ModelSceneConfig;
+class ModelSceneContext;
+}
+
+namespace gsys {
 
 // Base class of the sub-objects of a ModelScene (the env, ...). Partial: the constructor (0x7100c19b4c) clears +0x8
 // and constructs an agl::utl::DebugTexturePage at +0x10; the derived classes' own members start at +0x250
@@ -18,9 +24,18 @@ public:
     virtual ~ModelSceneComponent();
 
     void setUpComponent(int, sead::Heap*, sead::Heap*);
+    // 0x7100c19c0c: stores the config pointer at +0x08.
+    void initializeComponent(const ModelSceneConfig* config, sead::Heap* heap);
+
+    // Default virtuals (4 bytes each): the base component does nothing.
+    virtual void bind();
+    virtual void unbind(Model*);
+    virtual void preCalcView(ModelSceneContext*);
+    virtual void calcViewGPU(const ModelSceneContext&);
+    virtual void attachHostIO(sead::hostio::Node*);
 
 protected:
-    /* 0x08 */ void* _8;
+    /* 0x08 */ const ModelSceneConfig* _8 = nullptr;
     /* 0x10 */ u8 _10[0x250 - 0x10];
 };
 static_assert(sizeof(ModelSceneComponent) == 0x250);

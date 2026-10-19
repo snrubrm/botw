@@ -59,6 +59,8 @@ public:
 
     // 0x7100c0a098: sets mCalcDisplayListMask to (1 << the unit's buffer count) - 1.
     void updateCalcDisplayListMask();
+    // 0x7100c0a65c: stores the polygon control byte at +0x30.
+    void setPolygonCtrl(u32 value);
     // 0x7100c09fcc: allocates and clears one ShapeRecord per shape of the owning unit.
     void createShapeRecords(sead::Heap* heap);
     // 0x7100c09d28: the shape object at mModelObj's 0x68-byte shape array at mIndex.
@@ -69,7 +71,8 @@ public:
 protected:
     /* 0x20 */ ModelAssignRenderInfo* mAssignRenderInfo = nullptr;
     /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ u16 _30 = 0;
+    /* 0x30 */ u8 mPolygonCtrl = 0;  // setPolygonCtrl 0x7100c0a65c stores one byte
+    /* 0x31 */ u8 _31 = 0;
     /* 0x32 */ u8 mFlags32 = 0;
     /* 0x33 */ u8 _33 = 1;
     /* 0x34 */ u16 _34 = 0;

@@ -6,6 +6,11 @@
 
 namespace gsys {
 
+void ModelRenderUnitNW::setPolygonCtrl(u32 value) {
+    mPolygonCtrl = value;
+}
+
+
 // 0x7100c09fcc
 void ModelRenderUnitNW::createShapeRecords(sead::Heap* heap) {
     const int shape_num = mModelUnit->getShapeNum();
