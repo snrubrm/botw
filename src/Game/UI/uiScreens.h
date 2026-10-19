@@ -2429,6 +2429,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009a9b48 / 0x71009a9b7c / 0x71009a9e74 (placeholder names): set the mode at 0xb350 (0 / 1 / 2) and tell the map state
     void sub_71009A9B48();
     void sub_71009A9B7C();
+    // 0x71009a9b08 (placeholder name): sets the map view's scale and its second scale from `value`
+    void sub_71009A9B08(f32 value);
     void sub_71009A9E74(const sead::Vector3f* pos);
     // 0x71009a9f4c: removes the map rotation / offset from `position` and divides by the scale and the +0x60 factors
     void sub_71009A9F4C(const sead::Vector2f& position, sead::Vector2f* result);

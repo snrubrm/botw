@@ -104,6 +104,12 @@ bool ScreenAppMapWidget::sub_71009AF194() const {
     return (_b4ff & 5) == 5;
 }
 
+// 0x71009a9b08 (placeholder name): sets the map view's scale and its second scale from `value`
+void ScreenAppMapWidget::sub_71009A9B08(f32 value) {
+    mSubsys->_850.set2c(value);
+    mSubsys->_850.set3c(value);
+}
+
 // 0x71009a9b48
 void ScreenAppMapWidget::sub_71009A9B48() {
     UiSubsys1::instance()->sub_7100966894();
