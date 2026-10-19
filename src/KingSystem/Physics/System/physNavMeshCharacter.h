@@ -217,6 +217,9 @@ public:
     void sub_7100F76314();
     void sub_7100F76778();
     void sub_7100F76790();
+    // 0x7100f767a8 (unnamed in the CSV): forwards the character's state manager to the hkAi query
+    // (0x710151c3b0); the two callers 0x7100f84484 / 0x7100f8688c pass the character. Body stays U.
+    void sub_7100F767A8();
     void sub_7100F7D2C8();
     void sub_7100F7D308(s32 value);
     void sub_7100F7D350();
