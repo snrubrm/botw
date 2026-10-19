@@ -454,6 +454,8 @@ class Unk_710247af10 : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     ~Unk_710247af10() override;
+    // 0x71009b5e1c (placeholder name): clears the selected group and the four +0x30c pointers
+    void sub_71009B5E1C();
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
     void sub_71009B7A1C(Unk_710247ae28* record);
@@ -495,7 +497,10 @@ public:
     /* 0x300 */ ScreenAppPictureBookUnk* _300;
     // Native reset uses -1; 9b6ec0 consumes this as the selected group index.
     /* 0x308 */ s32 _308;
-    u8 _30c[0x32c - 0x30c];
+    /* 0x30c */ sead::Vector2f _30c{0, 0};
+    /* 0x314 */ sead::Vector2f _314{0, 0};
+    /* 0x31c */ sead::Vector2f _31c{0, 0};
+    /* 0x324 */ sead::Vector2f _324{0, 0};
     /* 0x32c */ s32 _32c;
 };
 

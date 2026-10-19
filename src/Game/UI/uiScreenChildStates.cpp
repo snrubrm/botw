@@ -1347,6 +1347,16 @@ bool Unk_7102478048::sub_710099EE8C() const {
     return _420 ? _420->is3888Equal(1) : false;
 }
 
+// 0x71009b5e1c (placeholder name): clears the selected group and the four +0x30c pointers
+void Unk_710247af10::sub_71009B5E1C() {
+    _1a8 = nullptr;
+    _308 = -1;
+    _30c = sead::Vector2f(0, 0);
+    _314 = sead::Vector2f(0, 0);
+    _31c = sead::Vector2f(0, 0);
+    _324 = sead::Vector2f(0, 0);
+}
+
 // 0x71009c83c0 (placeholder name): stores the two gauges and applies `flag` to their +0x6c byte
 void Unk_710247e0c8::sub_71009C83C0(eui::TraceGaugeControl* first, eui::TraceGaugeControl* second,
                                    bool flag) {
