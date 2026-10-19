@@ -12,6 +12,10 @@ class LimitHingeCs : public Constraint {
 public:
     ~LimitHingeCs() override;
 
+    // 0x7100f6e584: converts the six frame vectors and passes them to the Havok data at +0xb8.
+    void sub_7100F6E584(const sead::Vector3f& a, const sead::Vector3f& b, const sead::Vector3f& c,
+                        const sead::Vector3f& d, const sead::Vector3f& e, const sead::Vector3f& f);
+
     // 0x7100f6e300 .. 0x7100f6e358 (placeholder names): limit and friction accessors of the hinge data.
     void sub_7100F6E300(f32 angle);
     void sub_7100F6E314(f32 min_angle, f32 max_angle);
