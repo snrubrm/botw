@@ -58,8 +58,9 @@ public:
     void* _10;       // +0x10, cleared by clear()
     u32 mUnkCount;   // +0x18, set from CreateArg::_4 by initialize
     u32 mUnkCount2;  // +0x1c
-    void* _20;       // +0x20
-    void* _28;       // +0x28, cleared by clear()
+    u32 _20;         // +0x20, reset by preCalc
+    u32 _24;         // +0x24
+    u16* _28;        // +0x28, cleared by clear() and zeroed element-wise by preCalc
     void* _30;       // +0x30, cleared by clear()
     u32 mFlags;      // +0x38, bit 0 owned, bit 1 delete requested, bit 2 used
     u32 _3c;         // +0x3c
@@ -80,6 +81,9 @@ public:
     int addModel(EffectModelDrawUnit::CreateArg arg, sead::Heap* heap);
     bool requestDeleteModel(u32 id);
     bool execDeleteModel(u32 id);
+    // 0x7100c55f64 / 0x7100c5610c: clear / refresh the used records before and after drawing.
+    void preCalc();
+    void postCalc();
 
 private:
     u32 mCapacity;  // +0x00, addModel rejects id >= mCapacity

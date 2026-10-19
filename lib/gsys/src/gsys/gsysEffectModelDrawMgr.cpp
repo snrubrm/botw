@@ -98,4 +98,34 @@ bool EffectModelDrawMgr::execDeleteModel(u32 id) {
     return result;
 }
 
+void EffectModelDrawMgr::preCalc() {
+    mCS2.lock();
+
+    _8 = 0;
+    for (u32 i = 0; i < mCapacity; ++i) {
+        EffectModelDrawUnit& entry = mEntries[i];
+        if ((entry.mFlags & 3) != 1)
+            continue;
+
+        entry._20 = 0;
+        for (u32 j = 0; j < entry.mUnkCount2; ++j)
+            entry._28[j] = 0;
+    }
+
+    mCS2.unlock();
+}
+
+void EffectModelDrawMgr::postCalc() {
+    mCS2.lock();
+
+    for (u32 i = 0; i < mCapacity; ++i) {
+        if ((mEntries[i].mFlags & 3) != 1)
+            continue;
+
+        mEntries[i].pushBack(this);
+    }
+
+    mCS2.unlock();
+}
+
 }  // namespace gsys
