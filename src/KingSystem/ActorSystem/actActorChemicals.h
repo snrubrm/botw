@@ -140,9 +140,14 @@ public:
     /* 0x010 */ xlink::XLink* mPlacementXLink;
     // 2026-10-07: setup E37224 passes Root's IRoot base to E39E8C; E3AA34 calls getShape.
     /* 0x018 */ const chm::IRoot* _18;
-    /* 0x020 */ u8 _20[0x30 - 0x20];
+    /* 0x020 */ u8 _20[0x2d - 0x20];
+    /* 0x02d */ u8 _2d[3];
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
-    /* 0x034 */ u8 _34[0x3c - 0x34];
+    /* 0x034 */ u8 _34;
+    /* 0x035 */ u8 _35 = 10;
+    /* 0x036 */ u16 _36 = 0;
+    /* 0x038 */ u8 _38 = 0;
+    /* 0x039 */ u8 _39[0x3c - 0x39];
     /* 0x03c */ u32 _3c;  // flags (RootAi::setChemicalFlags3cMaybe)
     /* 0x040 */ Chemical mChemical;
     /* 0x278 */ sead::Buffer<BodyEntry> _278;
@@ -150,7 +155,7 @@ public:
     /* 0x28c */ f32 _28c;
     /* 0x290 */ f32 _290;
     /* 0x294 */ f32 _294;
-    /* 0x298 */ u8 _298[0x2a4 - 0x298];
+    /* 0x298 */ sead::Vector3f _298;
     /* 0x2a4 */ sead::Vector3f _2a4;
     /* 0x2b0 */ sead::Vector3f _2b0;
     /* 0x2bc */ s32 _2bc;
@@ -172,6 +177,8 @@ public:
     // World record 10C8748 and ChemicalMgr::init_ establish the independent owner input.
     void sub_7100E3742C(chm::IRoot* root, phys::RigidBody* body, world::ChemicalMgr* mgr,
                        sead::Heap* heap);
+    // 0x7100e37990: allocates `count` elements into _70 (under mCS) and resets _80.
+    void sub_7100E37990(s32 count, sead::Heap* heap);
     // 0x7100e37eb0: binds ActorX6A0's state to each chemical element.
     void init2(Unk_7101265a6c* state);
 

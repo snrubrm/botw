@@ -17,8 +17,43 @@ Unk_71024e6560::~Unk_71024e6560() {
     ;
 }
 
-void Unk_71024e6428::sub_7100E3B6D8(phys::UserTag* tag) {
-    for (auto& entry : _278) {
+// NON_MATCHING: the store schedule differs from the original (the instruction set and size are the same);
+// this build hoists the vptr load and the member zeroing differently.
+Unk_71024e6428::Unk_71024e6428()
+    : mActor(nullptr),
+      mPlacementXLink(nullptr),
+      _18(nullptr),
+      _20{},
+      _2d{},
+      _30(0),
+      _34(0),
+      _36{},
+      _38{},
+      _3c(0),
+      _288(0),
+      _28c(0.0f),
+      _290(0.0f),
+      _294(0.0f),
+      _298(sead::Vector3f::ones),
+      _2bc(0),
+      _2c0{} {
+    _2a4.set(0.0f, 0.0f, 0.0f);
+    _2b0.set(0.0f, 0.0f, 0.0f);
+}
+
+// NON_MATCHING: the element constructor is defined in this translation unit, so clang inlines it into the
+// new[] loop; the original calls it out of line at 0x7100e399c0.
+void ActorChemicals::sub_7100E37990(s32 count, sead::Heap* heap) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    _80 = 0;
+    if (count < 1)
+        return;
+    auto* elements = new (heap, 8, std::nothrow) Unk_71024e6428[count];
+    if (elements)
+        _70.setBuffer(count, elements);
+}
+
+void Unk_71024e6428::sub_7100E3B6D8(phys::UserTag* tag) {    for (auto& entry : _278) {
         if (entry.owns_body && entry.body)
             entry.body->setUserTag(tag);
     }
