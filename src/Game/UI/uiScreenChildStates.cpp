@@ -169,6 +169,21 @@ ScreenChildEx* ScreenShopInfo::getChildExMaybe(s32 group, s32 index) {
     return child;
 }
 
+// 0x7100963034 (placeholder name): the child of group / index of `screen` cast to ScreenChildEx, with the
+// original's second cast through the cached type info
+// NON_MATCHING: the original addresses the cached type info and its guard through their GOT entries; ours uses
+// adrp + add for the function-local static.
+ScreenChildEx* sub_7100963034(Screen* screen, s32 group, s32 index) {
+    auto* child = nn::font::DynamicCast<ScreenChildEx>(screen->getChild(group, index));
+    static const nn::font::detail::RuntimeTypeInfo* sTypeInfo =
+        ScreenChildEx::GetRuntimeTypeInfoStatic();
+    if (!child)
+        return nullptr;
+    if (!child->GetRuntimeTypeInfo()->IsDerivedFrom(sTypeInfo))
+        return nullptr;
+    return child;
+}
+
 // 0x71009beb44
 bool sub_71009BEB44() {
     return UiSubsys1::instance()->get38ac();

@@ -514,6 +514,8 @@ void sub_7100A94B40(bool display, bool display_ex, bool get_demo);
 void sub_7100A95B44(const sead::SafeString& item_name);
 // 0x7100a82e28 (uiPouchFacade.cpp; placeholder name): `u32(value - 4) < 3` (the armor item types)
 bool sub_7100A82E28(s32 value);
+// 0x7100963034 (placeholder name): the child of group / index of `screen` cast to ScreenChildEx
+ScreenChildEx* sub_7100963034(Screen* screen, s32 group, s32 index);
 // 0x7100a9b248 (uiMiscFacade.cpp; declared for the pouch facade): whether a message-get screen is open
 bool isOpenedMessageGet();
 // 0x7100a95a10 (CSV ui::showCannotPickupBuyAnyMoreMessageMaybe)
