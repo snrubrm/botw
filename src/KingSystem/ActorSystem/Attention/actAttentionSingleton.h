@@ -30,6 +30,8 @@ class Attention {
     virtual ~Attention();
 
 public:
+    // 0x7100d754b8 (CSV Attention::init): clears every target list and the request state.
+    void init();
     // 0x7100d741a8 (CSV Attention::x): acquires the current target; false if there is none.
     bool x(BaseProcAccessor* out);
     // 0x7100d74148 (CSV Attention::__auto9): same for a BaseProcLink.
@@ -138,7 +140,7 @@ public:
     /* 0xc34 */ f32 _c34;
     /* 0xc38 */ f32 _c38;
     /* 0xc3c */ f32 _c3c;
-    /* 0xc40 */ u8 _c40[4];
+    /* 0xc40 */ u32 _c40;
     // D75680 updates the floating timer at C44 and reloads its duration from C48.
     /* 0xc44 */ f32 _c44;
     /* 0xc48 */ f32 _c48;

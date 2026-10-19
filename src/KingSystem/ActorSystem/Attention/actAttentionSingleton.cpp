@@ -9,6 +9,34 @@ namespace ksys::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Attention)
 
+// 0x7100d7549c (placeholder name): clears `value` and sets `scale` to 0.65.
+void sub_7100D7549C(u32* value, f32* scale) {
+    if (value)
+        *value = 0;
+    if (scale)
+        *scale = 0.65f;
+}
+
+// 0x7100d754b8: clears every target list and the request state.
+void Attention::init() {
+    for (auto& group : _28)
+        for (auto& list : group)
+            list.clear();
+    for (auto& list : mLists)
+        list.clear();
+    _a28.clear();
+    _a78.clear();
+    _ac8.clear();
+    _b18.clear();
+    _b68.clear();
+    _bb8.clear();
+    _c08 = nullptr;
+    _c40 = 0;
+    _c44 = 0.0f;
+    mEnabled = 0;
+    mFlagsE21 = 0;
+}
+
 bool Attention::sub_7100D753B0() const {
     return (mFlagsE22.isOn(2) || (mFlagsE21 & 8)) && !mEnabled;
 }
