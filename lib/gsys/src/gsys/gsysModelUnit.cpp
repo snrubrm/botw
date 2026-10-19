@@ -393,4 +393,38 @@ bool ModelUnit::isMaterialVisible(int) const {
     return true;
 }
 
+// 0x7100c44e2c / 0x7100c14584 / 0x7100c145f0 / 0x7100c14618
+sead::SafeString ModelUnit::getName() const {
+    return sead::SafeStringBase<char>::cEmptyString;
+}
+
+sead::SafeString ModelUnit::getBoneName(int) const {
+    return sead::SafeStringBase<char>::cEmptyString;
+}
+
+sead::SafeString ModelUnit::getMaterialName(int) const {
+    return sead::SafeStringBase<char>::cEmptyString;
+}
+
+sead::SafeString ModelUnit::getMaterialParamName(int, int) const {
+    return sead::SafeStringBase<char>::cEmptyString;
+}
+
+// 0x7100c14668 / 0x7100c14678 / 0x7100c14688 / 0x7100c14698
+const sead::Vector2f& ModelUnit::getMaterialParamVector2f(int, int) const {
+    return sead::Vector2f::zero;
+}
+
+const sead::Vector3f& ModelUnit::getMaterialParamVector3f(int, int) const {
+    return sead::Vector3f::zero;
+}
+
+const sead::Vector4f& ModelUnit::getMaterialParamVector4f(int, int) const {
+    return sead::Vector4f::zero;
+}
+
+const sead::Color4f& ModelUnit::getMaterialParamColor4f(int, int) const {
+    return sead::Color4f::cBlack;
+}
+
 }  // namespace gsys
