@@ -181,4 +181,34 @@ void IceBlockMgr::resetAllMaybe() {
     _14e = 0;
 }
 
+void IceBlockMgr::sub_710066F8C4() {
+    _38.clear();
+
+    auto* transceiver = &mTransceiver;
+    auto* links = &_60;
+    for (u32 i = 0; i < 3; ++i) {
+        auto& link = links[i];
+        if (link.hasProcInCalcState()) {
+            const ksys::MesTransceiverId* id;
+            {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&link, &accessor);
+                id = accessor.getMessageTransceiverId();
+            }
+            transceiver->sendMessage(*id, ksys::MessageType(0x3000011), nullptr, true);
+
+            {
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&link, &accessor);
+                id = accessor.getMessageTransceiverId();
+            }
+            transceiver->sendMessage(*id, ksys::MessageType(0x8000004), nullptr, true);
+        } else {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            if (ksys::act::acquireActor(&link, &accessor))
+                accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+    }
+}
+
 }  // namespace uking
