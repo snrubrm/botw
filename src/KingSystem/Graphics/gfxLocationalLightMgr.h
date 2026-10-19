@@ -77,9 +77,16 @@ public:
 
     // 0x7100f13368: detach and return an active binding to the free list.
     bool sub_7100F13368(ObjectLight* light);
-    // 0x7100f1356c / 0x7100f135f8: allocate a render-light record of type 0 / 1.
+    // 0x7100f1356c .. 0x7100f139cc: allocate a record from one of the nine record pools.
     Unk_7102519378* sub_7100F1356C();
     Unk_7102519378* sub_7100F135F8();
+    Unk_7102519378* sub_7100F13684();
+    Unk_7102519378* sub_7100F13710();
+    Unk_7102519378* sub_7100F1379C();
+    Unk_7102519378* sub_7100F13828();
+    Unk_7102519378* sub_7100F138B4();
+    Unk_7102519378* sub_7100F13940();
+    Unk_7102519378* sub_7100F139CC();
     // 0x7100f13420: remove the bindings of a model unit.
     void sub_7100F13420(gsys::ModelUnit* unit);
     // 0x7100f134e8: remove bindings whose objects lie in the open range.
@@ -99,12 +106,26 @@ public:
     // 0x7100f1334c (placeholder name): sets bit 29 of the manager flags at +0x60.
     void sub_7100F1334C();
 
+    // 0x7100f1356c / 0x7100f135f8: the nine identical record pools at +0x68..+0x3e8.
+    // Each one stores 0x130-byte render-light records and returns them through init().
+    class RecordLightPool {
+    public:
+        Unk_7102519378* allocate();
+
+        sead::CriticalSection mCS;
+        sead::Buffer<Unk_71025193e8> mLights;
+        sead::PtrArray<Unk_7102519378> mFreeLights;
+        sead::PtrArray<Unk_7102519378> mActiveLights;
+    };
+    KSYS_CHECK_SIZE_NX150(RecordLightPool, 0x70);
+
 private:
     sead::CriticalSection mCS;
     u8 _48[0x18];
     // Ctor initialises this word to 0x1ff00000.
     u32 _60;
-    u8 _64[0x458 - 0x64];
+    u8 _64[4];
+    RecordLightPool mRecordPools[9];
     RigLightPool mRigLightPool;
     sead::CriticalSection mObjectLightCS;
     sead::Buffer<ObjectLight> mObjectLights;

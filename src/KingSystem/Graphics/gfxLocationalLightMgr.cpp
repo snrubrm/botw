@@ -72,6 +72,54 @@ bool LocationalLightMgr::RenderLightPool::release(Unk_7102519378* light) {
     return false;
 }
 
+// 0x7100f1356c / 0x7100f135f8: pops a record from the free list, pushes it on the active list
+// and runs its init hook under the pool's lock.
+Unk_7102519378* LocationalLightMgr::RecordLightPool::allocate() {
+    auto lock = sead::makeScopedLock(mCS);
+    auto* light = mFreeLights.popBack();
+    if (light) {
+        mActiveLights.pushBack(light);
+        light->init();
+    }
+    return light;
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F1356C() {
+    return mRecordPools[0].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F135F8() {
+    return mRecordPools[1].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F13684() {
+    return mRecordPools[2].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F13710() {
+    return mRecordPools[3].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F1379C() {
+    return mRecordPools[4].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F13828() {
+    return mRecordPools[5].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F138B4() {
+    return mRecordPools[6].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F13940() {
+    return mRecordPools[7].allocate();
+}
+
+Unk_7102519378* LocationalLightMgr::sub_7100F139CC() {
+    return mRecordPools[8].allocate();
+}
+
 bool LocationalLightMgr::sub_7100F13368(ObjectLight* light) {
     static_assert(offsetof(LocationalLightMgr, mRigLightPool) == 0x458);
     static_assert(offsetof(LocationalLightMgr, mObjectLightCS) == 0x4c8);
