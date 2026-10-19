@@ -6,6 +6,13 @@
 
 namespace gsys {
 
+ModelRenderContext::~ModelRenderContext() {
+    delete mShaderContext;
+    mShaderContext = nullptr;
+    mViewData.freeBuffer();
+}
+
+
 void ModelRenderContext::setPolygonOffset(ModelEnum::PolygonOffsetType type, f32 a, f32 b) {
     FloatPair& pair = mUnk2d0[int(type)];
     pair._4 = a;
