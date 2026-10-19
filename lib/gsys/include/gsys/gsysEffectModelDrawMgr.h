@@ -10,6 +10,10 @@ namespace sead {
 class Heap;
 }
 
+namespace agl::lght {
+class LocalLightMapObj;
+}
+
 namespace gsys {
 
 class EffectModelDrawMgr;
@@ -49,8 +53,8 @@ public:
     // 0x7100c55364 / 0x7100c555f0 / 0x7100c5571c / 0x7100c558bc (declared only; bodies U).
     bool initialize(const CreateArg& arg, sead::Heap* heap);
     bool createModel(const CreateArg& arg, sead::Heap* heap);
-    void addInstance(EffectModelDrawMgr* mgr, u32, const sead::Matrix34f&, const sead::Vector3f&,
-                     const void*, u16);
+    bool addInstance(EffectModelDrawMgr* mgr, u32, const sead::Matrix34f&, const sead::Vector3f&,
+                     const agl::lght::LocalLightMapObj*, u16);
     void pushBack(EffectModelDrawMgr* mgr);
 
     Model* mModel;   // +0x00, released through Model::sub_7100BF69F8
@@ -84,6 +88,10 @@ public:
     // 0x7100c55f64 / 0x7100c5610c: clear / refresh the used records before and after drawing.
     void preCalc();
     void postCalc();
+    // 0x7100c56000: adds an instance to the owned record `id`; returns false when it is absent or
+    // marked for deletion.
+    bool addInstance(u32 id, u32 type, const sead::Matrix34f& matrix, const sead::Vector3f& pos,
+                     const agl::lght::LocalLightMapObj* light, u16);
 
 private:
     u32 mCapacity;  // +0x00, addModel rejects id >= mCapacity

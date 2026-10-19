@@ -128,4 +128,26 @@ void EffectModelDrawMgr::postCalc() {
     mCS2.unlock();
 }
 
+bool EffectModelDrawMgr::addInstance(u32 id, u32 type, const sead::Matrix34f& matrix,
+                                     const sead::Vector3f& pos,
+                                     const agl::lght::LocalLightMapObj* light, u16 a) {
+    bool result = false;
+
+    if (id < mCapacity) {
+        mCS2.lock();
+        if (mEntries[id].mFlags & 2) {
+            mCS2.unlock();
+        } else {
+            if (mEntries[id].mFlags & 1) {
+                mCS.lock();
+                result = mEntries[id].addInstance(this, type, matrix, pos, light, a);
+                mCS.unlock();
+            }
+            mCS2.unlock();
+        }
+    }
+
+    return result;
+}
+
 }  // namespace gsys
