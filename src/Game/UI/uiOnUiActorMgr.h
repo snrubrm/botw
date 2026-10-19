@@ -60,6 +60,10 @@ public:
     // 0x7100907914: puts the pause-menu actor to sleep (bit 5 of _1f4, _50's actor sleeps) and hands over the
     // transceiver entry; called by ScreenPauseMenu::m99 (true) and m100 (false)
     void sub_7100907914(bool on);
+    // 0x7100907c10 (placeholder name): sets the pause menu player's _c35 flag
+    void sub_7100907C10();
+    // 0x7100907c24 (placeholder name): updates the pause menu player's resist state
+    void sub_7100907C24();
     void sub_7100907A30();
     // 0x7100906f18 (CSV OnUiActorMgr::x_0, declared only): pushes the pause menu player's resist levels, stores the
     // model matrix scale at 0x1e8 / 0x1f0, sets bit 4 of _1f4 and either applies a rotation to the actor's pose or

@@ -108,6 +108,20 @@ void OnUiActorMgr::x_4() {
     }
 }
 
+// 0x7100907c10 (placeholder name): sets the pause menu player's _c35 flag
+void OnUiActorMgr::sub_7100907C10() {
+    auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    if (player)
+        player->_c35 = true;
+}
+
+// 0x7100907c24 (placeholder name): updates the pause menu player's resist state
+void OnUiActorMgr::sub_7100907C24() {
+    auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    if (player)
+        player->sub_71006E9E24();
+}
+
 // 0x7100907914
 void OnUiActorMgr::sub_7100907914(bool on) {
     if (!on) {
