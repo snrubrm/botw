@@ -246,7 +246,8 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // Slot 11 (0x710129daf4) returns true; the derived records return bit 1 of their state word.
+    virtual bool m11() const { return true; }
 };
 
 // vtable 0x7102357ab0 (10 slots); placeholder generated from the vtable (genskel.py).
@@ -1257,9 +1258,12 @@ public:
     virtual void m6();
     virtual void m7();
     virtual void m8();
+    // 0x7101296840: clears the state word at +0x5c.
     virtual void m9();
+    // 0x7101296848: returns the pool link and clears +0x128 / +0x5c.
     virtual void m10();
-    virtual void m11();
+    // 0x7101296884: bit 1 of the state word at +0x5c.
+    virtual bool m11() const;
     virtual void m12();
 
 private:

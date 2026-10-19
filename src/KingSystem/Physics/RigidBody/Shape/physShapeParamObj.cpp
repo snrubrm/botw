@@ -143,13 +143,12 @@ void Unk_7102519378::reset() {
     mCS.unlock();
 }
 
-// Slots 6..11 are empty in the base vtable (0x710129dae0 .. 0x710129daf0).
+// Slots 6..10 are empty in the base vtable (0x710129dae0 .. 0x710129daf0).
 void Unk_7102519378::m6() {}
 void Unk_7102519378::m7() {}
 void Unk_7102519378::m8() {}
 void Unk_7102519378::m9() {}
 void Unk_7102519378::m10() {}
-void Unk_7102519378::m11() {}
 
 // 0x7101296100 / 0x7101296178: returns the record to the render-light pool, frees the particle
 // buffer and then destroys the uniform block and the base lock.
@@ -167,6 +166,23 @@ Unk_71025193e8::~Unk_71025193e8() {
 }
 
 Unk_71025193e8::Unk_71025193e8() = default;
+
+void Unk_71025193e8::m9() {
+    _5c = 0;
+}
+
+void Unk_71025193e8::m10() {
+    if (mPoolLink) {
+        static_cast<ksys::gfx::LocationalLightMgr*>(_50)->releaseRenderLight(mPoolLink);
+        mPoolLink = nullptr;
+    }
+    _128 = 0;
+    _5c = 0;
+}
+
+bool Unk_71025193e8::m11() const {
+    return (_5c & 2) != 0;
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x7101296aac) also destroys members or bases
 // this class does not declare yet.
