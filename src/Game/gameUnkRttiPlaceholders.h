@@ -219,9 +219,11 @@ class Unk_7102519378 {
 public:
     virtual ~Unk_7102519378();
 
-    // The locational light copies its visibility mask here before the record update
-    // (LocationalLightMgr::ObjectLight::Light::update).
-    u8 _8[0x50];
+    // The record's lock (0x7101295ee4 destroys it) and the locational-light fields: the
+    // visibility mask at +0x58 and the words the record reset clears at +0x48 / +0x58.
+    sead::CriticalSection mCS;
+    u32 _48;
+    u8 _4c[0x58 - 0x4c];
     u16 _58;
     // Slot 4 of the record vtable: the render-light debug draw that
     // LocationalLightMgr::ObjectLight::Light::drawDebug forwards to (0x7100f1839c).
