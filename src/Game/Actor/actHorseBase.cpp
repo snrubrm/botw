@@ -467,6 +467,23 @@ void HorseBase::sub_7100E6BA08() {
     _b74.set(0x100);
 }
 
+// 0x7100e6b230: binds the reins actor to this horse. The actor behind the link is deleted, the reins
+// are linked to the horse and to the link, and the reins model takes the horse's shader data. The
+// reins model is then set to render to the depth shadow only, as the horse's first material record
+// asks for.
+void HorseBase::sub_7100E6B230(HorseReins* reins, ksys::act::BaseProcLink* link) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(link, &accessor))
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+
+    link->acquire(reins, false);
+    reins->sub_7100E7BC10(this);
+    reins->sub_71011C9964(this);
+    sub_71011C5630(reins->getModel());
+    reins->getModel()->resetRenderToDepthShadowOnly(
+        getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+}
+
 // NON_MATCHING: row selection uses registers instead of a stack enum; vector additions are scheduled differently.
 void HorseBase::m88() {
     Actor::m88();

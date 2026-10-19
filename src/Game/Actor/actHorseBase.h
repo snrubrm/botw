@@ -175,6 +175,10 @@ public:
     bool sub_7100E6AF2C(ksys::act::BaseProc* proc) const;
     bool sub_7100E6B068(ksys::act::BaseProc* proc) const;
     void sub_7100E6BA08();
+    // 0x7100e6b230: binds the reins actor to this horse (the reins are linked to the horse and to
+    // the link, the actor behind the link is deleted and the reins model is set to render to the
+    // depth shadow only as the horse's first material record asks for).
+    void sub_7100E6B230(HorseReins* reins, ksys::act::BaseProcLink* link);
     // 0x7100e6b4a8 / 0x7100e6b764 (lane3 s71; declared only): called by HorseReturnToSafePos::calc_ when the
     // horse starts to fade out (0x7100e6b4a8, reads the link at _840) and after it reappeared (0x7100e6b764).
     void sub_7100E6B4A8();
