@@ -4,6 +4,17 @@
 
 // The class's own TU (destructor 0x7100f72b94, factory 0x7100f72bf8 and the functions after it).
 
+Unk_7100F72BF8* Unk_7100F72BF8::create(sead::Heap* heap, const InitArg& arg) {
+    auto* obj = new (heap, 8) Unk_7100F72BF8;
+    obj->_0 = nullptr;
+    obj->_8 = {};
+    if (!obj || !obj->init(heap, arg)) {
+        delete obj;
+        return nullptr;
+    }
+    return obj;
+}
+
 Unk_7100F72BF8::~Unk_7100F72BF8() {
     _8.freeBuffer();
 }

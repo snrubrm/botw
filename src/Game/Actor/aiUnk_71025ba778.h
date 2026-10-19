@@ -32,6 +32,15 @@ public:
     static_assert(offsetof(Entry, _50) == 0x50);
     static_assert(offsetof(Entry, _80) == 0x80);
 
+    // 0x7100f72ca0 (placeholder name): builds the bone table of `arg.model` for `arg.name`.
+    struct InitArg {
+        gsys::Model* model;
+        const char* name;
+    };
+    // 0x7100f72bf8 (placeholder name): allocates the object and runs init; null on failure.
+    static Unk_7100F72BF8* create(sead::Heap* heap, const InitArg& arg);
+    bool init(sead::Heap* heap, const InitArg& arg);
+
     ~Unk_7100F72BF8();
     void sub_7100F72FF4();
     void sub_7100F73114(s32 index);
