@@ -2853,6 +2853,8 @@ public:
     void sub_7100A3840C(eui::AnimButton* button);
     // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
     void sub_7100A392D8();
+    // 0x7100a38fe8 (CSV unnamed): updates the 20 button layout pairs for the category and state.
+    bool sub_7100A38FE8(u8 category, bool a2);
     void sub_7100A379BC(s32 tab);
     // 0x7100a38028 (CSV unnamed, 296 bytes; declared only)
     void sub_7100A38028();
@@ -2944,7 +2946,11 @@ public:
     /* 0x3bb4 */ s32 _3bb4;
     /* 0x3bb8 */ UiTimer _3bb8;
     /* 0x3bd0 */ s32 _3bd0;  // button index in _3a00[_3a18] (m175)
-    u8 _pad_3bd4[0x3c10 - 0x3bd4];
+    u8 _pad_3bd4[0x3be8 - 0x3bd4];
+    // The 20 layout pairs updated by sub_7100A38FE8 and the state (0 / 1 / 2) it uses.
+    /* 0x3be8 */ sead::Buffer<Unk_7102474b38> _3be8;
+    /* 0x3bf8 */ s32 _3bf8;
+    u8 _pad_3bfc[0x3c10 - 0x3bfc];
     /* 0x3c10 */ u8 _3c10;
     u8 _pad_3c11[3];
     /* 0x3c14 */ UiTimer _3c14;

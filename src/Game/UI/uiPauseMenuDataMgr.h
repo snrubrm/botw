@@ -362,6 +362,8 @@ public:
     void sortItems(PouchCategory category, bool do_not_save = false);
 
     const sead::SafeString* getEquippedItemName(PouchItemType type) const;
+    // 0x7100979044 (CSV placeholder): the item of category `a` at value `b` (null when out of range).
+    PouchItem* __auto8(s32 a, s32 b);
     const PouchItem* getEquippedItem(PouchItemType type) const;
     int getItemValue(const sead::SafeString& name) const;
 

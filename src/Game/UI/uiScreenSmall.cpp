@@ -41,6 +41,60 @@ void ScreenPauseMenu::sub_7100A34A28() {
     _3642 = false;
 }
 
+// NON_MATCHING: register allocation (the category entry pointer and the layout-pair counters) and the
+// pane call / layouts pointer order differ; the logic matches.
+// 0x7100a38fe8
+bool ScreenPauseMenu::sub_7100A38FE8(u8 category, bool a2) {
+    if (_3bf8 == 2)
+        return false;
+
+    auto* entry = _3a00[category < 3 ? category : 0];
+    const s32 id = entry->_130;
+    if (s32(sub_7100A82D08(id)) > 2)
+        return false;
+
+    for (s32 i = 0; i < 0x14; ++i) {
+        bool valid = false;
+        const s32 value = entry->_c78[i];
+        if (value >= 0) {
+            PouchItem* item = mPauseMenuDataMgr->__auto8(id, value);
+            if (item && item->isInInventory()) {
+                bool ok;
+                if (_3bf8 == 1)
+                    ok = sub_7100AA6D54(item->getName());
+                else if (_3bf8 == 0)
+                    ok = sub_7100AA6C84(item->getName());
+                else
+                    ok = false;
+                if (ok)
+                    valid = true;
+            }
+        }
+
+        if (!valid) {
+            _3be8[i].sub_7100932FDC(_3bf8, a2);
+            continue;
+        }
+
+        if (entry) {
+            auto* pane = entry->mButtons[i].mBreakNewController.sub_71009B170C();
+            _3be8[i].sub_710093307C(_3bf8, pane);
+        }
+
+        eui::LayoutEx* layout = nullptr;
+        for (s32 j = 0; j < 0x14; ++j) {
+            if (j == i)
+                continue;
+            if (_3be8[j].sub_7100933038(_3bf8)) {
+                layout = _3be8[j].sub_7100932F7C(_3bf8);
+                break;
+            }
+        }
+        _3be8[i].sub_7100932FA8(_3bf8, layout, a2);
+    }
+    return true;
+}
+
 // 0x7100a392d8
 // NON_MATCHING: the two _3620 reads inside the else are hoisted before the two sub_7100A82D08
 // calls here (the original reloads the second one after them), and the dir checks take branches
