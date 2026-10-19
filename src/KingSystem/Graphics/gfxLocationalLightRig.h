@@ -56,11 +56,10 @@ static_assert(offsetof(LocationalLightMgr::ObjectLight::Light, mFadeTimer) == 0x
 // Lifetime and virtual bodies remain undecompiled. The appended event slot's
 // signature is unresolved, so no complete vtable is emitted or mapped here.
 class LocationalLightRig : public gsys::ModelRig {
+    SEAD_RTTI_OVERRIDE(LocationalLightRig, agl::env::EnvObj)
 public:
     LocationalLightRig();
     ~LocationalLightRig() override;
-    bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* info) const override;
-    const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
     s32 getTypeID() const override;
     void m23(gsys::Model* model) override;
     void m24(gsys::Model* model, const gsys::BoneAccessKey& key,
@@ -74,7 +73,8 @@ public:
     // This new game slot is separate from ModelRig's four registration callbacks.
     virtual void genMessage(sead::hostio::Context* context);
 
-    sead::CriticalSection mCS;
+    // drawDebug locks it from a const method.
+    mutable sead::CriticalSection mCS;
     LocationalLightMgr* mLightMgr = nullptr;
     sead::OffsetList<LocationalLightMgr::ObjectLight::Light> mLights;
     agl::utl::Parameter<s32> mLightType;

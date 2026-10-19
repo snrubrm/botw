@@ -5,6 +5,13 @@
 
 namespace ksys::gfx {
 
+// 0x710260ad70: the rig type id the factory registration 0x7100f18540 stores.
+s16* sTypeId;
+
+s32 LocationalLightRig::getTypeID() const {
+    return *sTypeId;
+}
+
 LocationalLightMgr::ObjectLight::Light::Light() = default;
 
 // NON_MATCHING: the bone-index store is scheduled before the flag / rig stores (same instructions,
@@ -33,6 +40,15 @@ void LocationalLightMgr::ObjectLight::Light::drawDebug(agl::DrawContext* context
     if (!mRenderLight)
         return;
     mRenderLight->drawDebug(context, view, projection, view_index);
+}
+
+void LocationalLightRig::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                                   const sead::Matrix44f& projection, int view_index) const {
+    auto lock = sead::makeScopedLock(mCS);
+    for (const auto& light : mLights) {
+        if ((light.mFlags & 1) && light.mVisibilityMask != 0)
+            light.drawDebug(context, view, projection, view_index);
+    }
 }
 
 void LocationalLightRig::m11(int index, sead::Heap* heap) {
