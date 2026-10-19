@@ -17,6 +17,9 @@ public:
     IModelProcedural();
     ~IModelProcedural() override;
 
+    // 0x7100c145e0: the render unit count.
+    int getMaterialNum() const override;
+
     void setProcedualPassName(int index, const sead::SafeString& name);
     void setProcedualPassPriority(int index, int a, int b);
     void setMaterialVisible(int index, bool visible);
