@@ -56,6 +56,7 @@ class BoxCursorMgr;
 class ButtonGroup;
 class ScreenMgr;
 class ScreenTargetMgr;
+class TraceGaugeControl;
 class MessageMgr;
 class FontMgr;
 class ArcResourceMgr;
@@ -281,6 +282,8 @@ public:
     ControlBase* findControlWithParts_(const char* name, const char* parts_name);
     // 0x7100beafb8: the same, but the root pane of the control's parent layout is compared
     ControlBase* findControlWithParentParts_(const char* name, const char* parts_name);
+    // 0x7100a192ec: findControlWithParentParts_ narrowed to a TraceGaugeControl
+    TraceGaugeControl* findTraceGaugeControl(const char* name, const char* parts_name);
     // 0x7100a52150 (CSV placeholder): find the LetterAnimControl with the given pane name.
     LetterAnimControl* sub_7100A52150(const char* name);
     void moveBoxCursor_(BoxCursorNode* node);

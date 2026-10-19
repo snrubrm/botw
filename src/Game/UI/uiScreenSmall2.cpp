@@ -38,6 +38,7 @@
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/AOC/aocManager.h"
 #include "Game/Scene/gameScene.h"
@@ -3375,3 +3376,12 @@ template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_710247faf0>(
 // 0x7100a4e5dc
 template void uking::ui::ScreenAppPictureBookUnk::setupEntry<Unk_71024975d0>(
     sead::Heap* heap, s32 index, const uking::ui::ScreenAppPictureBookEntry::Params& params);
+
+namespace eui {
+
+// 0x7100a192ec (kept out of euiScreen.cpp so the findControlWithParentParts_ call stays out of line)
+TraceGaugeControl* Screen::findTraceGaugeControl(const char* name, const char* parts_name) {
+    return nn::font::DynamicCast<TraceGaugeControl>(findControlWithParentParts_(name, parts_name));
+}
+
+}  // namespace eui
