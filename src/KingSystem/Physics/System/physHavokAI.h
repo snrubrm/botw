@@ -456,6 +456,18 @@ public:
     bool sub_7100F84910(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
                         const void* b, u64 flag, void* result, const void* user);
 
+    // 0x7100f84d64 / 0x7100f851bc (placeholder names; declared only): the graph and the direct path
+    // searches behind sub_7100F84484 / sub_7100F84910. Both build a path-search parameter object, query
+    // the closest navmesh point (ClosestPointInput at +0x30 / +0x40), then run the search and copy four
+    // points and a flag into `result` (Unk1). `a9` is passed in a stack slot. The two are static
+    // because the callee never reads its first argument (x0).
+    static bool sub_7100F84D64(f32 half_extent, f32 radius, hkaiWorld* world,
+                               const sead::Vector3f& from, s32 key, const sead::Vector3f& pos,
+                               Unk1* result, u32* out_key, const void* user, u32 a9);
+    static bool sub_7100F851BC(f32 half_extent, f32 radius, hkaiWorld* world,
+                               const sead::Vector3f& from, s32 key, const sead::Vector3f& pos,
+                               Unk1* result, u32* out_key, const void* user, u32 a9);
+
     // 0x7100f81ee0 (declaration only; placeholder name): under the lock, removes `obj` from the query pool and
     // its pending requests (unless `queued`), then unregisters it if flags 0x3c00 are set.
     void sub_7100F81EE0(Unk_7102519a98* obj, bool queued);
