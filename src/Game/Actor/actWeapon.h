@@ -652,3 +652,7 @@ const sead::SafeString& sub_71002EF884(const ksys::act::ActorLinkConstDataAccess
 
 // 0x71002f1104: the accessor is an electrically active weapon whose chemical state is not blocked.
 bool sub_71002F1104(const ksys::act::ActorLinkConstDataAccess& accessor);
+
+// 0x71002e38b4: the item life at which a weapon counts as nearly broken (the global
+// "WeaponRickeyLife" percent, scaled to the item life units).
+s32 getWeaponLifeLimit();

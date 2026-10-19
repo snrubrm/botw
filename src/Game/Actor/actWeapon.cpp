@@ -2031,6 +2031,18 @@ s32 getShieldMirrorLevel(const ActorLinkConstDataAccess& accessor) {
 
 }  // namespace ksys::act
 
+// 0x71002e38b4: the item life at which a weapon counts as nearly broken. The global
+// "WeaponRickeyLife" parameter holds a percent, the item life is in 1/100 units.
+s32 getWeaponLifeLimit() {
+    const auto* global = ksys::act::GlobalParameter::instance();
+    if (!global)
+        return 0;
+    const auto* param = global->getGlobalParam();
+    if (!param)
+        return 0;
+    return param->mWeaponRickeyLife.ref() * 100;
+}
+
 bool sub_71002EFC98(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* actor = static_cast<ksys::act::Actor*>(ksys::act::acc::getProcIfActor(accessor.getProc()));
     if (!actor)
