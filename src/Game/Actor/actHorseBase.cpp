@@ -1043,6 +1043,87 @@ s32 sub_7100E6ECC4(const ksys::act::ActorLinkConstDataAccess& accessor) {
     return unit ? unit->mRiddenAnimalType.ref() : 1;
 }
 
+void HorseBase::initFieldB48(sead::Heap* heap) {
+    if (_b48)
+        return;
+
+    auto* broker = new (heap) Mystery2Horse;
+    _b48 = broker;
+
+    ksys::IMessageBroker::SetIdArg arg(1);
+    broker->setId(&arg);
+
+    _b68 = new (heap) Unk_b68;
+}
+
+Mystery2Horse::Register::~Register() = default;
+
+Mystery2Horse::~Mystery2Horse() = default;
+
+// NON_MATCHING: the RTTI static guard is initialised before the null check in the original, and it
+// keeps the virtual check pointer in x8; ours hoists the pointer and the null check.
+bool Mystery2Horse::setId(const SetIdArg* arg) {
+    if (!arg || !arg->checkDerivedRuntimeTypeInfo(SetIdArg::getRuntimeTypeInfoStatic()))
+        return false;
+    mRegister.mId = arg->getId();
+    return true;
+}
+
+ksys::IMessageBrokerRegister* Mystery2Horse::getRegister() {
+    return &mRegister;
+}
+
+// NON_MATCHING: same checks and stores, but the original addresses each entry through its self_ref
+// field (pre-indexed) while ours uses constant offsets from `this`; ten blocks, 8 bytes each.
+bool Mystery2Horse::Register::registerTransceiver(const ksys::MesTransceiverId& id) {
+    if (!id.isRegistered())
+        return false;
+    u32 i = 0;
+    for (; i < 10; ++i) {
+        if (!mIds[i].isRegistered())
+            break;
+    }
+    if (i == 10)
+        return false;
+    mIds[i] = id;
+    return true;
+}
+
+void Mystery2Horse::Register::deregisterTransceiver(const ksys::MesTransceiverId& id) {
+    if (!id.isRegistered())
+        return;
+    for (auto& entry : mIds) {
+        if (entry.isRegistered() && entry.queue_id == id.queue_id && entry.id == id.id)
+            entry.reset();
+    }
+}
+
+void Mystery2Horse::Register::forEachRegistered(IForEachContext& context) {
+    for (auto& entry : mIds) {
+        if (entry.isRegistered())
+            context.process(entry);
+        else
+            entry.reset();
+    }
+}
+
+void Mystery2Horse::Register::setId(const u32& id) {
+    mId = id;
+}
+
+const u32& Mystery2Horse::Register::getId() const {
+    return mId;
+}
+
+int Mystery2Horse::Register::countTransceivers() const {
+    int count = 0;
+    for (const auto& entry : mIds) {
+        if (entry.isRegistered())
+            ++count;
+    }
+    return count;
+}
+
 }  // namespace uking::act
 
 Unk_71024eb480::~Unk_71024eb480() = default;

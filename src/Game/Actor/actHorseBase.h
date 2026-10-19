@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -58,6 +59,41 @@ public:
     /* 0x8 */ sead::BitFlag8 _8;  // = 4 (bit _2)
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024eb548, 0x10);
+
+// Name from the CSV (Mystery2Horse). The horse's message broker: IMessageBroker plus its own
+// IMessageBrokerRegister (vtables 0x71024eb410 / 0x71024eb440). HorseBase::initFieldB48 allocates
+// 0x108 bytes for it at +0xb48. The register holds ten transceiver ids; each method that walks them
+// first checks MesTransceiverId::isRegistered() and resets the stale entries.
+class Mystery2Horse : public ksys::IMessageBroker {
+public:
+    // The register at +8 is a member, not a second base: its virtuals take the register subobject
+    // as `this` (the original has no this-adjusting thunks).
+    class Register : public ksys::IMessageBrokerRegister {
+    public:
+        Register() = default;
+        ~Register() override;
+
+        bool registerTransceiver(const ksys::MesTransceiverId& id) override;
+        void deregisterTransceiver(const ksys::MesTransceiverId& id) override;
+        void forEachRegistered(IForEachContext& context) override;
+        void setId(const u32& id) override;
+        const u32& getId() const override;
+        int countTransceivers() const override;
+
+        /* 0x08 */ u32 mId = 0xffffffff;
+        /* 0x10 */ ksys::MesTransceiverId mIds[10];
+    };
+    KSYS_CHECK_SIZE_NX150(Register, 0x100);
+
+    Mystery2Horse() = default;
+    ~Mystery2Horse() override;
+
+    bool setId(const SetIdArg* arg) override;
+    ksys::IMessageBrokerRegister* getRegister() override;
+
+    /* 0x08 */ Register mRegister;
+};
+KSYS_CHECK_SIZE_NX150(Mystery2Horse, 0x108);
 
 // Name from the CSV (HorseBase::*). Base class of Horse. vtable 0x71024eaef8 (149 slots: Actor's
 // 148 + m148), RTTI static 0x71025aeeb8 (parent: Actor). ctor 0x7100e64f00 (CSV HorseBase::ctor).
@@ -175,6 +211,9 @@ public:
     bool sub_7100E6AF2C(ksys::act::BaseProc* proc) const;
     bool sub_7100E6B068(ksys::act::BaseProc* proc) const;
     void sub_7100E6BA08();
+    // 0x7100e6bf80 (placeholder name): allocates the message broker `_b48` and its id table `_b68`
+    // (only once), then sets the broker's id to 1.
+    void initFieldB48(sead::Heap* heap);
     // 0x7100e6b230: binds the reins actor to this horse (the reins are linked to the horse and to
     // the link, the actor behind the link is deleted and the reins model is set to render to the
     // depth shadow only as the horse's first material record asks for).
@@ -196,7 +235,7 @@ public:
     // sub_7100E6C12C / removed by sub_7100E6C464 (shared with the parent horse through `_b30`).
     struct Unk_b68 {
         sead::CriticalSection _0;
-        s32 _40[10];
+        s32 _40[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     };
     static_assert(sizeof(Unk_b68) >= 0x68);
 
@@ -233,7 +272,7 @@ public:
     /* 0xb28 */ void* _b28 = nullptr;
     /* 0xb30 */ ksys::act::BaseProcLink _b30;
     /* 0xb40 */ ksys::map::Rail* _b40 = nullptr;  // the rail of the horse (HorseLoopTargetAndWaitAI::m34)
-    /* 0xb48 */ void* _b48 = nullptr;
+    /* 0xb48 */ Mystery2Horse* _b48 = nullptr;
     /* 0xb50 */ ksys::MesTransceiverId _b50;
     /* 0xb68 */ Unk_b68* _b68 = nullptr;
     /* 0xb70 */ sead::Atomic<u32> _b70 = 0;  // flags (m109)
