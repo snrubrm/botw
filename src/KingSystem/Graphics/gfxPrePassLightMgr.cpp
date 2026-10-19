@@ -31,10 +31,9 @@ void PrePassLightMgr::setVisibleDirect(s32 index, u32 mask) {
     mLights[index].mVisibleMask = mask;
 }
 
-// NON_MATCHING: the compiler computes the all-ones mask before the buffer bounds select; the
-// original computes it after.
 void PrePassLightMgr::setVisibleAll(s32 index, bool on) {
-    setVisibleDirect(index, on ? ~u32(0) : 0);
+    DrawLight& light = mLights[index];
+    light.mVisibleMask = on ? ~u32(0) : 0;
 }
 
 bool PrePassLightMgr::isVisible(s32 index, s32 bit) const {

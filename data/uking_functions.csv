@@ -81760,7 +81760,7 @@ Address,Quality,Size,Name
 0x0000007100f15788,O,000036,_ZNK4ksys3gfx15PrePassLightMgr14isLightEnabledEi
 0x0000007100f157ac,O,000068,_ZN4ksys3gfx15PrePassLightMgr10setVisibleEiib
 0x0000007100f157f0,O,000032,_ZN4ksys3gfx15PrePassLightMgr16setVisibleDirectEij
-0x0000007100f15810,m,000036,_ZN4ksys3gfx15PrePassLightMgr13setVisibleAllEib
+0x0000007100f15810,O,000036,_ZN4ksys3gfx15PrePassLightMgr13setVisibleAllEib
 0x0000007100f15834,O,000048,_ZNK4ksys3gfx15PrePassLightMgr9isVisibleEii
 0x0000007100f15864,U,000204,ksys::gfx::PrePassLightMgr::genMessage
 0x0000007100f15930,U,000132,ksys::gfx::PrePassLightMgr::listenPropertyEvent
