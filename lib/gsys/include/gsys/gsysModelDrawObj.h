@@ -16,6 +16,17 @@ class ModelDynamicEnvInfo;
 // owned environment objects and the embedded occlusion query at +0x28.
 class ModelDrawObj {
 public:
+    // 0x7100c00af4: sets the two s32 fields and the byte at +0x08 to 1. initialize 0x7100c00c94
+    // reads +0x00 (a 0x20-byte record stride) and the flag at +0x08.
+    struct CreateArg {
+        CreateArg();
+        s32 _0;
+        s32 _4;
+        bool _8;
+        u8 _9[3];
+    };
+    static_assert(sizeof(CreateArg) == 0xc);
+
     ModelDrawObj();
     virtual ~ModelDrawObj();
 
