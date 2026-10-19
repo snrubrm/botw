@@ -211,4 +211,186 @@ bool ModelUnit::isReverseCullingEnabled(int) const {
     return false;
 }
 
+// The bone and material accessors below are the ModelUnit defaults; the concrete
+// units (ModelUnitNW and the procedural units) override them.
+
+// 0x7100c14574
+int ModelUnit::getBoneNum() const {
+    return 1;
+}
+
+// 0x7100c1457c
+int ModelUnit::searchBoneIndex(const sead::SafeString&) const {
+    return -1;
+}
+
+// 0x7100c145a4
+void ModelUnit::setBoneLocalMatrix(const sead::Matrix34f&, const sead::Vector3f&, int) {}
+
+// 0x7100c145a8
+void ModelUnit::setBoneLocalRTMatrix(const sead::Matrix34f&, int) {}
+
+// 0x7100c145ac
+void ModelUnit::setBoneLocalScale(const sead::Vector3f&, int) {}
+
+// 0x7100c145b0
+void ModelUnit::getBoneLocalMatrix(sead::Matrix34f*, sead::Vector3f*, int) const {}
+
+// 0x7100c145b4
+void ModelUnit::setBoneWorldMatrix(const sead::Matrix34f&, int) {}
+
+// 0x7100c145b8
+void ModelUnit::getBoneWorldMatrix(sead::Matrix34f*, int) const {}
+
+// 0x7100c145bc
+sead::Matrix34f* ModelUnit::getBoneWorldMatrixPtr(int) const {
+    return nullptr;
+}
+
+// 0x7100c145c4
+void ModelUnit::safeGetBoneWorldMatrix(sead::Matrix34f*, int) const {}
+
+// 0x7100c145c8
+void ModelUnit::setBoneVisible(int, bool) {}
+
+// 0x7100c145cc
+bool ModelUnit::isBoneVisible(int) const {
+    return true;
+}
+
+// 0x7100c145d4
+int ModelUnit::getBoneParentIndex(int) const {
+    return -1;
+}
+
+// 0x7100c145dc
+void ModelUnit::clearBoneLocalMatrix() {}
+
+// 0x7100c145e8
+int ModelUnit::searchMaterialIndex(const sead::SafeString&) const {
+    return -1;
+}
+
+// 0x7100c14610
+int ModelUnit::searchMaterialParamIndex(int, const sead::SafeString&) const {
+    return -1;
+}
+
+// 0x7100c14638
+bool ModelUnit::getMaterialParamBool(int, int) const {
+    return false;
+}
+
+// 0x7100c14640
+void ModelUnit::setMaterialParamBool(int, int, bool) {}
+
+// 0x7100c14644
+int ModelUnit::getMaterialParamInt(int, int) const {
+    return 0;
+}
+
+// 0x7100c1464c
+void ModelUnit::setMaterialParamInt(int, int, int) {}
+
+// 0x7100c14650
+u32 ModelUnit::getMaterialParamU32(int, int) const {
+    return 0;
+}
+
+// 0x7100c14658
+void ModelUnit::setMaterialParamU32(int, int, u32) {}
+
+// 0x7100c1465c
+float ModelUnit::getMaterialParamF32(int, int) const {
+    return 0.0f;
+}
+
+// 0x7100c14664
+void ModelUnit::setMaterialParamF32(int, int, float) {}
+
+// 0x7100c14674
+void ModelUnit::setMaterialParamVector2f(int, int, const sead::Vector2f&) {}
+
+// 0x7100c14684
+void ModelUnit::setMaterialParamVector3f(int, int, const sead::Vector3f&) {}
+
+// 0x7100c14694
+void ModelUnit::setMaterialParamVector4f(int, int, const sead::Vector4f&) {}
+
+// 0x7100c146a4
+void ModelUnit::setMaterialParamColor4f(int, int, const sead::Color4f&) {}
+
+// 0x7100c146bc
+void ModelUnit::setMaterialParamColor3f(int, int, const sead::Color4f&) {}
+
+// 0x7100c146c8
+sead::Matrix34f* ModelUnit::getMaterialParamEffectMatrixPtr(int, int) const {
+    return nullptr;
+}
+
+// 0x7100c146d0
+void ModelUnit::setMaterialParamEffectMatrixPtr(int, int, sead::Matrix34f*) {}
+
+// 0x7100c146d4
+float ModelUnit::getMaterialParamXluAlpha(int, int) const {
+    return 1.0f;
+}
+
+// 0x7100c146e4
+void ModelUnit::clearMaterialParameter(int) {}
+
+// 0x7100c146e8
+void ModelUnit::clearTexture(int) {}
+
+// 0x7100c146ec
+void ModelUnit::setMaterialShaderAssignVariation(int, ModelEnum::ShaderAssignType, int) {}
+
+// 0x7100c14708
+int ModelUnit::countPolygonNum() const {
+    return 1;
+}
+
+// 0x7100c14734
+void ModelUnit::enableReverseCulling(int, bool) {}
+
+// 0x7100c14740
+void ModelUnit::setLodLevelNum(int lod_level_num) {
+    mNumLods = lod_level_num;
+}
+
+// 0x7100c14750
+void ModelUnit::calcBounding() {}
+
+// 0x7100c14754
+void ModelUnit::bind(const ModelScene*) {}
+
+// 0x7100c14758
+void ModelUnit::bindResource() {}
+
+// 0x7100c1475c
+void ModelUnit::syncResource() {}
+
+// 0x7100c14760
+void ModelUnit::unbindResource() {}
+
+// 0x7100c14764
+void ModelUnit::calcWorld(const sead::Matrix34f&, const sead::Vector3f&) {}
+
+// 0x7100c14768
+void ModelUnit::postCalcWorld(const ModelScene*, u32, u32, const ModelViewData*, int) {}
+
+// 0x7100c1476c
+void ModelUnit::calcBeforeDraw(ModelScene*, const ModelViewData*, int) {}
+
+// 0x7100c14770
+void ModelUnit::forceCalcDrawSetup() {}
+
+// 0x7100c44e4c
+void ModelUnit::setMaterialVisible(int, bool) {}
+
+// 0x7100c44e50
+bool ModelUnit::isMaterialVisible(int) const {
+    return true;
+}
+
 }  // namespace gsys
