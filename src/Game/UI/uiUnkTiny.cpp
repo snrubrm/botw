@@ -30,6 +30,16 @@ KSYS_VISIBILITY_HIDDEN float sScrollConsts[] = {0.6f, 0.35f, 50.0f, 100.0f, 100.
 // Map parameters written by sinitMapStrings. Hidden so that readers use adrp + add like the original.
 KSYS_VISIBILITY_HIDDEN Unk_71025d6c70 sUnk_71025d6c70;
 
+// 0x71009630fc (placeholder name): the map parameter pointer at +0x50
+void* sub_71009630FC() {
+    return sUnk_71025d6c70._50;
+}
+
+// 0x7100965eb0 (placeholder name): the map parameter value at +0x28
+f32 sub_7100965EB0() {
+    return sUnk_71025d6c70._28;
+}
+
 // 0x7100934a6c
 UiStringEntry::UiStringEntry() {}
 

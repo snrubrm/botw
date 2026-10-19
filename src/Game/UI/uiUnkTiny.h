@@ -325,10 +325,17 @@ private:
 static_assert(sizeof(Unk_71024753a8) == 0xa8);
 // Map parameters, written by sinitMapStrings (0x710094f9e4); +0x3c is the map size in world units.
 struct Unk_71025d6c70 {
-    u8 _00[0x3c];
-    sead::Vector2f size;
+    u8 _00[0x28];
+    /* 0x28 */ f32 _28 = 0;  // returned by sub_7100965EB0
+    u8 _2c[0x3c - 0x2c];
+    /* 0x3c */ sead::Vector2f size;
+    u8 _44[0xc];
+    /* 0x50 */ void* _50 = nullptr;  // returned by sub_71009630FC
 };
 extern Unk_71025d6c70 sUnk_71025d6c70;
+// 0x71009630fc / 0x7100965eb0 (placeholder names): the map parameter fields at +0x50 / +0x28
+void* sub_71009630FC();
+f32 sub_7100965EB0();
 
 class Unk_7102476a80 {
 public:
