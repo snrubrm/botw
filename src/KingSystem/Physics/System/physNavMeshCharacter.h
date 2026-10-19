@@ -460,6 +460,11 @@ public:
     sead::Matrix34f* sub_7100F74F44();
     // 0x7100f74f68 (placeholder name): applies the local matrix of entry `index` to the model.
     void sub_7100F74F68(s32 index);
+    // 0x7100f71cd0 (unnamed in the CSV): with `flag` and a caller-supplied direction, aligns the
+    // chain's target matrices (reads the direction, writes the bone chain's local matrices through the
+    // helpers above). The four callers (0x7100e9888c, 0x7100e9b36c, 0x710002ef24, 0x7100028590) pass
+    // the object at +0x40 / +0x28 of their owner, a `flag` and a sead::Vector3f.
+    void sub_7100F71CD0(bool flag, const sead::Vector3f* dir);
 
     gsys::Model* mModel = nullptr;
     sead::Vector3f _10;
