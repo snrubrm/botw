@@ -6,10 +6,21 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h"
+#include "KingSystem/Resource/resHandle.h"
 
 namespace uking::act {
 
 RideableBase::SpeedEntry::Gear sUnk_7102603058{};
+
+// 0x710259d120 (placeholder name): the animal animation-driven speed resource handle.
+ksys::res::Handle sUnk_710259D120;
+
+// 0x7100e625e0 (CSV name): loads the shared animal animation-driven speed table and builds the
+// animal move name table.
+void loadAnimationDrivenSpeedAnimal() {
+    sUnk_710259D120.load("AnimationDrivenSpeed/AnimalUnitSpeed.bin", nullptr, nullptr);
+    formatAnimalMoveStrings();
+}
 
 RideableBase* RideableBase::make(sead::Heap* heap) {
     return new (heap, std::nothrow) RideableBase;
@@ -61,6 +72,28 @@ void RideableBase::sub_7100E63424() {
     if (animal) {
         _18._52 = animal->mIsSetWaitASAtGear0.ref() ? (_18._52 | 2) : (_18._52 & ~2);
     }
+}
+
+// NON_MATCHING: the body is complete, but the original keeps the current gear and the gear
+// argument in stack slots (the register allocator spills them in the entry block) and reloads
+// them for the two comparisons, while this build keeps them in registers.
+// 0x7100e63198: the gear the rider's AS controller is in, limited by the current gear of the
+// controller (_18._b, or _18._9 when _18._b is 0).
+s32 RideableBase::sub_7100E63198(s32 gear) {
+    const s32 cur = _18._b == 0 ? _18._9 : _18._b;
+    s32 result;
+    if ((_18._9 == _18._b && _18._8 == _18._a) || !(_18._c > 0.0f)) {
+        if (gear == 0) {
+            result = 0;
+        } else {
+            const s32 g = cur < 3 && gear == 4 ? 3 : gear;
+            const s32 r = cur - 1;
+            result = cur <= gear ? g : r;
+        }
+    } else {
+        result = cur;
+    }
+    return result;
 }
 
 void RideableBase::sub_7100E63900() {

@@ -2624,6 +2624,16 @@ void ksys::act::Actor::sub_71011CED70(gsys::Model* model) {
     Unk_710260af28::instance()->sub_7100F1C77C(model, (flags & ~0x7000u) == 0 ? nullptr : &mUnk1);
 }
 
+// 0x71011cedc4: the attention info of the actor's model list; false if the actor has no model list.
+bool ksys::act::Actor::sub_71011CEDC4(res::ModelList::AttentionInfo* out) {
+    if (!mActorParam)
+        return false;
+    res::ModelList* model_list = mActorParam->getRes().mModelList;
+    if (!model_list)
+        return false;
+    return model_list->getAttentionInfo(out);
+}
+
 namespace ksys::act {
 // NON_MATCHING: aggregate initialization calls the default material constructors and schedules request stores differently.
 void Actor::reactionStuff() {

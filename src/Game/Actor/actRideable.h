@@ -258,7 +258,8 @@ public:
     void sub_7100E63900();
     // 0x7100e6314c: keeps the larger value for rank 1 or 2 (only the id for the larger value is stored).
     void sub_7100E6314C(Rank rank, f32 value, u32 id);
-
+    // 0x7100e63198: the gear of the rider's AS controller, limited by the current gear.
+    s32 sub_7100E63198(s32 gear);
     /*  4 */ virtual bool m4(ksys::act::Actor* actor, sead::Heap* heap);
     /*  5 */ virtual void m5();
     /*  6 */ virtual void m6() {}
@@ -429,6 +430,9 @@ void sub_7100E80D4C(ksys::act::Actor* actor, bool first, bool flag3, bool other_
 // 0x7100e8160c: nullable scalar outputs and a horizontal position output.
 bool sub_7100E8160C(ksys::phys::CharacterController* controller, f32* a, f32* b,
                   sead::Vector3f* position);
+
+// 0x7100e74498 (CSV name): builds the animal move name table.
+void formatAnimalMoveStrings();
 
 }  // namespace uking::act
 

@@ -19,6 +19,7 @@
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/AtomicLongBitFlag.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
@@ -66,6 +67,7 @@ class ASList;
 
 namespace evt {
 class ActorBase;
+class Context;
 }  // namespace evt
 
 namespace map {
@@ -914,6 +916,7 @@ protected:
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
     friend class ModelBindInfo;  // copies the bound pose to mMtx.
     friend class evt::ActorBase;  // sub_7100DAB470 writes the event transform pointer to _7d0.
+    friend class evt::Context;  // the event context copies the actor's matrix in its constructor.
     friend class acc::WeaponBase;  // acc::WeaponBase::sub_7100EFA6B8 reads mSpecialJobTypesMaskOverride
     friend class PhysicsUserTag;  // D40620 writes Actor6F4/6F8 before forwarding its collision record.
     friend struct ActorBindEntry;  // writes mMtx / mScale
@@ -960,6 +963,8 @@ protected:
     void xlinkAlwaysEffectStuff();
     // 11CED70 forwards existing stasis flags and the actor record to the model manager.
     void sub_71011CED70(gsys::Model* model);
+    // 0x71011cedc4: the attention info of the actor's model list (false if it has none).
+    bool sub_71011CEDC4(res::ModelList::AttentionInfo* out);
 
     // Inline-only in the original (name is a guess): rebinds the Calc1 job's regular delegate to job1_2.
     // Evidence: the same stores (`this`, &Actor::job1_2 and an adjustment of 0 into mJob1's delegate at
