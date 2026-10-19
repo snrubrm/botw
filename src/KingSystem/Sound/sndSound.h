@@ -684,6 +684,15 @@ public:
     void sub_710105AF00(const sead::SafeString& name, bool skip_event_info);
     bool sub_710105B090();
     void sub_710105B37C();
+    // 0x710105b0c8: loads the RelicBeamBgm control resources when `mask` is set, otherwise loads the
+    // named bars resource through the 0x828 list.
+    void sub_710105B0C8(const sead::SafeString& name, res::Handle* pack, u8 mask);
+    // 0x710105b0f0: holds RelicBeamBgm and loads the Demo143 resources selected by `mask`.
+    void sub_710105B0F0(const sead::SafeString& name, u8 mask);
+    // 0x710105b224: whether the RelicBeamBgm and the Demo143 resources selected by _39 have finished.
+    bool sub_710105B224(const sead::SafeString& name);
+    // 0x710105b7d0: releases RelicBeamBgm and releases the Demo143 resources selected by _39.
+    void sub_710105B7D0();
     void sub_710105B394(const sead::SafeString& type);
     void sub_710105B8EC();
     // 0x710105ba88: this control guard and the shared RelicBeamBgm stop path.
@@ -694,7 +703,7 @@ public:
     aal::SimpleTimedFader _20{1.0f};
     sead::BitFlag8 _38;
     // 0x710105abc0 clears this byte alongside _38.
-    bool _39;
+    u8 _39;
     u8 _3a[2];
     f32 _3c;
 };
