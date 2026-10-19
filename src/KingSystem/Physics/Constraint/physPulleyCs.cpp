@@ -1,18 +1,12 @@
 #include <Havok/Physics/Constraint/Data/Pulley/hkpPulleyConstraintData.h>
 #include <Havok/Physics2012/Dynamics/Constraint/hkpConstraintInstance.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
-#include "KingSystem/Physics/Constraint/physMotorcycleType1Cs.h"
 #include "KingSystem/Physics/Constraint/physPulleyCs.h"
 #include "KingSystem/Physics/Constraint/physConstraintCallbacks.h"
 
 namespace ksys::phys {
 
 // Adjacent constraint lifetime families at 0x7100f6ee80 and 0x7100f6f7c8.
-MotorcycleType1Cs::~MotorcycleType1Cs() = default;
-
-void MotorcycleType1Cs::sub_7100F6F1B4(f32 value) {
-    mData->_b4 = value;
-}
 PulleyCs::~PulleyCs() = default;
 
 void PulleyCs::sub_7100F6F7F0(f32 length) {

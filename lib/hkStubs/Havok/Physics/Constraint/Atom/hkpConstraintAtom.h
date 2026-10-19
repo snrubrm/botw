@@ -96,7 +96,11 @@ public:
 // Native atom reflection initializer 0x71017BD944 establishes these names,
 // extents and fields. Constructors are left undecompiled; no defaults are added.
 struct hkpSetLocalTransformsConstraintAtom : hkpConstraintAtom {
-    hkpSetLocalTransformsConstraintAtom();
+    HK_FORCE_INLINE hkpSetLocalTransformsConstraintAtom()
+        : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {
+        m_transformA.setIdentity();
+        m_transformB.setIdentity();
+    }
     hkUint8 m_padding[14];
     hkTransform m_transformA;
     hkTransform m_transformB;
@@ -157,6 +161,12 @@ static_assert(offsetof(hkpLinLimitConstraintAtom, m_max) == 8);
 // Full native atom reflection 17BD944 names these complete 0x10-byte
 // records. Prismatic construction 15F5E74 independently sets their fields.
 struct alignas(16) hkpLinFrictionConstraintAtom : hkpConstraintAtom {
+    HK_FORCE_INLINE hkpLinFrictionConstraintAtom()
+        : hkpConstraintAtom(TYPE_LIN_FRICTION) {
+        m_isEnabled = false;
+        m_frictionAxis = 0;
+        m_maxFrictionForce = 0;
+    }
     hkUint8 m_isEnabled;
     hkUint8 m_frictionAxis;
     hkReal m_maxFrictionForce;
