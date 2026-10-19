@@ -80,11 +80,10 @@ void Unk_71024fd448::m12(f32 fade_sec) {
     sub_710101D9D8();
 }
 
-// NON_MATCHING: the original calls the destructor address 0x710103ab10 (ICF-folded with Unk_710103AB10::stop).
 void Unk_71024fd448::sub_71010007B4() {
     sub_710101D9F4(3.0f);
     _190 = _190 == 1 ? 3 : _190 == 2 ? 4 : 0;
-    _1a0.stop();
+    _1a0.~Unk_710103AB10();
     ksys::snd::Unk_710104e5b4::instance()->_294.stop(false);
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
@@ -92,11 +91,10 @@ void Unk_71024fd448::sub_71010007B4() {
     }
 }
 
-// NON_MATCHING: the original calls the destructor address 0x710103ab10 (ICF-folded with Unk_710103AB10::stop).
 void Unk_71024fd448::sub_7101000514() {
     sub_710101D9F4(1.0f);
     _190 = _190 == 1 ? 3 : _190 == 2 ? 4 : 0;
-    _1a0.stop();
+    _1a0.~Unk_710103AB10();
     ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
@@ -168,7 +166,7 @@ void Unk_71024fd448::sub_7101000598() {
 void Unk_71024fd448::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     _190 = _190 == 1 ? 3 : _190 == 2 ? 4 : 0;
-    _1a0.stop();
+    _1a0.~Unk_710103AB10();
 }
 
 // 0x710260f3f8: debug flag (never written).
