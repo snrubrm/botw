@@ -851,6 +851,23 @@ bool HorseBase::sub_7100E6BA5C() {
     return result;
 }
 
+// NON_MATCHING: the body matches; the original spills the RiddenAnimalType word across the state
+// call, this build keeps it in a callee-saved register.
+bool HorseBase::sub_7100E6BC90() {
+    auto* controller = getCharacterController();
+    if (!controller || !(controller->_116 & 4))
+        return true;
+
+    const f32 height = sub_7100E6BB4C(controller);
+    const s32 type = x();
+    const bool is_type7 = type == 7;
+    const s32 state = controller->sub_7100F5F0E4();
+    f32 scale = is_type7 ? 0.48f : 0.6f;
+    if (type == 6)
+        scale = 0.9f;
+    return height < scale && state != ksys::act::MotionType::_1;
+}
+
 // NON_MATCHING: the body is the same; the original checks the controller state after computing the
 // scale and spills the RiddenAnimalType word, this build branches on the state first and uses a
 // smaller frame.

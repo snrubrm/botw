@@ -129,6 +129,10 @@ public:
     // 0x7100e6bd78 (unnamed in the CSV): whether the ride height is above the RiddenAnimalType
     // scale (7: 1.48, 6: 2.775, else 1.8) while the controller is in state 1 at +0x18d.
     bool sub_7100E6BD78();
+    // 0x7100e6bc90 (unnamed in the CSV): whether the ride height is below the RiddenAnimalType
+    // scale (7: 0.48, 6: 0.9, else 0.6) while the controller is not in state 1; true without a
+    // usable controller.
+    bool sub_7100E6BC90();
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);
