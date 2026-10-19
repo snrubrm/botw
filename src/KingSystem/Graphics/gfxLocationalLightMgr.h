@@ -31,6 +31,9 @@ public:
     public:
         class Light;
         ObjectLight();
+        // 0x7100f18030 (unnamed in the CSV): binds `object` and stores `this` in its +0x50 hook.
+        // The counterpart of detachObject.
+        void attachObject(map::Object* object);
         void detachObject();
         // 0x7100f18050: updates every attached light under the binding's lock.
         void updateLights();
