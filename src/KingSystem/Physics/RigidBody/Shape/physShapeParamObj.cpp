@@ -128,6 +128,7 @@ void Unk_7102519378::init() {
     mCS.lock();
     _48 = 0;
     _58 = 0;
+    _5a = 0;
     m9();
     mCS.unlock();
 }
@@ -152,6 +153,8 @@ void Unk_7102519378::m11() {}
 // NON_MATCHING: placeholder destructor; the original (0x7101296100) also destroys members or bases
 // this class does not declare yet.
 Unk_71025193e8::~Unk_71025193e8() = default;
+
+Unk_71025193e8::Unk_71025193e8() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x7101296aac) also destroys members or bases
 // this class does not declare yet.

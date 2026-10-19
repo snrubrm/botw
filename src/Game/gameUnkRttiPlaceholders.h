@@ -10,6 +10,7 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <common/aglUniformBlock.h>
 #include <nn/ui2d/TextureInfo.h>
 #include "Game/Actor/aiUnk_71025afb58.h"
 #include "Game/Actor/actHorseRideInfo.h"
@@ -227,9 +228,11 @@ public:
     // The record's lock (0x7101295ee4 destroys it) and the locational-light fields: the
     // visibility mask at +0x58 and the words the record reset clears at +0x48 / +0x58.
     sead::CriticalSection mCS;
-    u32 _48;
-    u8 _4c[0x58 - 0x4c];
-    u32 _58;
+    u32 _48 = 0;
+    u8 _4c[0x50 - 0x4c];
+    void* _50 = nullptr;
+    u16 _58 = 0xffff;
+    u16 _5a = 0xffff;
     // Slot 4 of the record vtable: the render-light debug draw that
     // LocationalLightMgr::ObjectLight::Light::drawDebug forwards to (0x7100f1839c).
     virtual void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
@@ -1247,6 +1250,8 @@ public:
 class Unk_71025193e8 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025193e8, Unk_7102519378)
 public:
+    // 0x7101296058: the 0x130-byte record constructor (UniformBlock at +0x60).
+    Unk_71025193e8();
     ~Unk_71025193e8() override;
     virtual s32 m5() { return 0; }
     virtual void m6();
@@ -1256,7 +1261,27 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
+    u32 mBufferCount = 0;
+    void* mBuffer = nullptr;
+    sead::Vector3f mPosition = sead::Vector3f(0, 0, 0);
+    f32 _f4 = 5.0f;
+    f32 _f8 = 0;
+    f32 _fc = 0;
+    f32 _100 = 1.0f;
+    f32 _104 = 0;
+    f32 _108 = 0.3f;
+    f32 _10c = 0;
+    f32 _110 = 1.0f;
+    f32 _114 = 1.0f;
+    void* _118 = nullptr;
+    void* mPoolLink = nullptr;
+    u32 _128 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025193e8, 0x130);
 
 // vtable 0x7102519460 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519460 : public Unk_7102519378 {
