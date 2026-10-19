@@ -4,6 +4,13 @@
 
 namespace gsys {
 
+// 0x7100c0a098
+void ModelRenderUnitNW::updateCalcDisplayListMask() {
+    const auto* model = static_cast<const ModelNW*>(mModelUnit);
+    const u8 buffer_num = model->mBufferNum;
+    mCalcDisplayListMask = (1 << buffer_num) - 1;
+}
+
 // 0x7100c09d28
 nn::g3d::ShapeObj* ModelRenderUnitNW::getShape() const {
     auto* model = const_cast<ModelNW*>(static_cast<const ModelNW*>(mModelUnit));

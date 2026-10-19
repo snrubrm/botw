@@ -101,6 +101,7 @@ protected:
 
 private:
     friend class Model;
+    friend class ModelRenderUnitNW;
 
     u8 _168;
     nn::g3d::ModelObj mModelObj;
