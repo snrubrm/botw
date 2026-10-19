@@ -6,6 +6,13 @@
 
 namespace gsys {
 
+void ModelRenderContext::setPolygonOffset(ModelEnum::PolygonOffsetType type, f32 a, f32 b) {
+    FloatPair& pair = mUnk2d0[int(type)];
+    pair._4 = a;
+    pair._0 = b;
+}
+
+
 ModelRenderContext::CreateArg::CreateArg() : _0(8), viewCount(1) {}
 
 void ModelRenderContext::initialize(const CreateArg& arg, sead::Heap* heap) {

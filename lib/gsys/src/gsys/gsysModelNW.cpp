@@ -1,4 +1,5 @@
 #include "gsys/gsysModelNW.h"
+#include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysModelDynamicEnvInfo.h"
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
@@ -65,6 +66,27 @@ void ModelNW::clearBoneLocalMatrix() {
 
 void ModelNW::safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const {
     getBoneWorldMatrix(matrix, bone_idx);
+}
+
+void ModelNW::setDisplayListDirty() {
+    _201 = (_201 & 0xf0) | ((1 << mBufferNum) + 0xff);
+
+    int num = getModelRenderUnitNum();
+    for (int i = 0; i < num; ++i)
+        mRenderUnits[i]->updateCalcDisplayListMask();
+}
+
+void ModelNW::setDisplayListDirty(int index) {
+    _201 = (_201 & 0xf0) | ((1 << mBufferNum) + 0xff);
+    mRenderUnits[index]->updateCalcDisplayListMask();
+}
+
+ModelRenderUnit* ModelNW::getModelRenderUnit(int idx) {
+    return mRenderUnits[idx];
+}
+
+const ModelRenderUnit* ModelNW::getModelRenderUnit(int idx) const {
+    return mRenderUnits[idx];
 }
 
 }  // namespace gsys

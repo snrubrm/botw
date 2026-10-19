@@ -17,6 +17,11 @@ namespace gsys {
 
 class ShaderContext;
 
+namespace ModelEnum {
+// 0x7100c08334 indexes the eight float pairs at +0x2d0 with this type.
+enum class PolygonOffsetType;
+}
+
 // Two independent allocations (0x7100c2e1e0 and 0x7100f273ac) reserve 0x388
 // bytes, call constructor 0x7100c07fb0, then the named initialize method.
 class ModelRenderContext {
@@ -34,6 +39,8 @@ public:
     void calcGPU(bool flag) const;
     // 0x7100c0887c (name is a guess): binds the render buffer, then applies the viewport to it.
     void bind(sead::DrawContext* draw_context) const;
+    // 0x7100c08334: stores the two values in the pair selected by `type`.
+    void setPolygonOffset(ModelEnum::PolygonOffsetType type, f32 a, f32 b);
 
     // Native 0x7100c082fc/0x7100c08310 index the two 43-entry pointer arrays
     // at +0x20/+0x178 with the sign-extended type. The original enumerator

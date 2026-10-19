@@ -109,7 +109,7 @@ private:
     nn::g3d::ModelObj mModelObj;
     u8 _200;
     u8 _201;
-    s8 mBufferNum;
+    u8 mBufferNum;
     u8 _203;
     u8 _204;
     u8 _205;
