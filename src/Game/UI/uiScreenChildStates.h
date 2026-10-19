@@ -139,11 +139,15 @@ public:
         xlink2::HandleELink handle;
         u8 _10[0x10];
     };
-    // 0x160 - 0x298: value-initialised by the constructor (one 0x138-byte memset).
+    // 0x160 - 0x298: value-initialised by the constructor (one 0x138-byte memset). 0x160 - 0x1d8 holds three
+    // arrays of five pointers (guide layouts and their animators, filled by m24).
     struct Unk160 {
         u8 _0[0x78];
         EffectEntry effects[5];
-        u8 _118[0x20];
+        u8 _118[0x8];
+        /* 0x280 */ eui::LayoutEx* mPartsLayout;
+        /* 0x288 */ eui::Animator* _288;
+        /* 0x290 */ eui::Animator* _290;
     };
 
     /* 0x130 */ eui::Animator* _130 = nullptr;
@@ -156,6 +160,12 @@ public:
     /* 0x160 */ Unk160 _160;
     /* 0x298 */ Unk_7102474bc8 _298;
     /* 0x3f0 */ sead::PtrArray<u8> _3f0;
+
+    // 0x7100986acc (placeholder name): copies the parts layout's animator frame to the manager and re-sets the
+    // guide texts, then marks the guide hidden
+    void sub_7100986ACC();
+    // 0x7100986b0c (placeholder name): sets the three guide text records for the current / other guide state
+    void sub_7100986B0C(bool flag, bool a2);
 };
 static_assert(sizeof(Unk_7102477110) == 0x400);
 

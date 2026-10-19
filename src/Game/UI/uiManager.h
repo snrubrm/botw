@@ -30,6 +30,7 @@ class CriticalSection;
 }
 
 namespace eui {
+class Animator;
 class UIController;
 }
 
@@ -45,11 +46,7 @@ class Unk_710249c338;
 
 namespace uking::ui {
 
-// Placeholder: the object whose +0x20 field the manager's `_651e0` mirrors (the pin of the map / camera screens).
-struct Unk_UiPinInfo {
-    u8 _0[0x20];
-    /* 0x20 */ s32 _20;
-};
+// Placeholder removed: all five call sites pass eui::LayoutEx::_70, an eui::Animator*.
 
 // 0x7100a6c0ec (declaration only): stores `value` at controller + 0x4bc and forwards to
 // sead::ControllerBase::setLeftStickCrossThreshold with the default pair for the sign of `value`.
@@ -166,9 +163,9 @@ public:
     // 0x7100a702e8 (CSV uiManager::x_1)
     void sub_7100A702E8(eui::UIController* controller);
     // 0x7100a7f8e8 / 0x7100a7f900 (CSV uiManager::__auto1 / __auto15; placeholder names): copy `_651e0` from / to
-    // the pin info (ignored for null)
-    void sub_7100A7F8E8(const Unk_UiPinInfo* info);
-    void sub_7100A7F900(Unk_UiPinInfo* info) const;
+    // the animator's frame (ignored for null)
+    void sub_7100A7F8E8(const eui::Animator* animator);
+    void sub_7100A7F900(eui::Animator* animator) const;
     // 0x7100a7f918 / 0x7100a7fdb4 (CSV uiManager::__auto4 / __auto11; placeholder names)
     bool sub_7100A7F918() const;
     bool sub_7100A7FDB4() const;
@@ -330,7 +327,7 @@ public:
     /* 0x651c4 */ bool _651c4;
     u8 _651c5[3];
     /* 0x651c8 */ UiTimer _651c8;
-    /* 0x651e0 */ s32 _651e0;
+    /* 0x651e0 */ f32 _651e0;
     u8 _651e4[0x651e8 - 0x651e4];
     /* 0x651e8 */ ManagerTaskList mTaskList;
     /* 0x65218 */ bool _65218;

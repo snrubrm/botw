@@ -370,15 +370,15 @@ void Manager::sub_7100A702E8(eui::UIController* controller) {
 }
 
 // 0x7100a7f8e8
-void Manager::sub_7100A7F8E8(const Unk_UiPinInfo* info) {
-    if (info)
-        _651e0 = info->_20;
+void Manager::sub_7100A7F8E8(const eui::Animator* animator) {
+    if (animator)
+        _651e0 = animator->mFrame;
 }
 
 // 0x7100a7f900
-void Manager::sub_7100A7F900(Unk_UiPinInfo* info) const {
-    if (info)
-        info->_20 = _651e0;
+void Manager::sub_7100A7F900(eui::Animator* animator) const {
+    if (animator)
+        animator->mFrame = _651e0;
 }
 
 // 0x7100a7f81c
