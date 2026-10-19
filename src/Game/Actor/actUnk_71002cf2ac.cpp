@@ -36,6 +36,47 @@ SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
     sub_710066BC04();
 }
 
+void SiteBoss::Unk_71002cf2ac::sub_710066BC04() {
+    for (auto& link : _320) {
+        if (!link.hasProc())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (!accessor.isDeletedOrDeleting())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    {
+        auto& link = _360;
+        if (link.hasProc()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (!accessor.isDeletedOrDeleting())
+                accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+    }
+
+    auto* links = &_3b0[0];
+    for (u32 i = 0; i < 24; ++i) {
+        auto& link = links[i];
+        if (!link.hasProc())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (!accessor.isDeletedOrDeleting())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    for (auto& link : _370) {
+        if (!link.hasProc())
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (!accessor.isDeletedOrDeleting())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
+
 // NON_MATCHING: the loop and the wrap match; the original tests the negated ready flag with
 // `eor` + `tbnz`, this build uses `tbz` (one instruction shorter).
 void SiteBoss::Unk_71002cf2ac::sub_710066C738(sead::Vector3f* pos, f32 a, f32 b) {
