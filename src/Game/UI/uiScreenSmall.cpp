@@ -534,6 +534,16 @@ Unk_710247ade8::Unk_710247ade8() = default;
 // 0x71009b24e4
 Unk_710247ade8::~Unk_710247ade8() = default;
 
+// 0x71009b252c (placeholder name): binds the layout and creates the Num / Color animators and the icon layout
+void Unk_710247ade8::sub_71009B252C(eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    _8 = layout;
+    _10 = layout->createAnimatorAuto("Num", false);
+    _18 = _8->createAnimatorAuto("Color", false);
+    _20.sub_7100988EF0(_8->findPartsLayout("Pa_SpIcon_00"));
+}
+
 // 0x71009b26a0
 void Unk_710247ade8::sub_71009B26A0() {
     if (_10)

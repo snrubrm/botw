@@ -498,6 +498,8 @@ class Unk_710247ade8 {
 public:
     Unk_710247ade8();
     virtual ~Unk_710247ade8();
+    // 0x71009b252c (placeholder name): binds the layout and creates the Num / Color animators and the icon layout
+    void sub_71009B252C(eui::LayoutEx* layout);
     // 0x71009b26a0: stops _10 at its start
     void sub_71009B26A0();
     // 0x71009b26b8: shows the armor effect message and stops the texture/color animators at the right end
