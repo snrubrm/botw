@@ -495,6 +495,7 @@ public:
 
 // Constructed at 0x71009b24c4 (vtable 0x710247ade8); a member of Unk_710247a6d8 / Unk_710247ca18.
 struct WeaponStats;
+struct CookingInfo;
 class Unk_710247ade8 {
 public:
     Unk_710247ade8();
@@ -523,6 +524,9 @@ public:
     // 0x71009b1b74 (placeholder name): binds the layout and heap, creates the Gauge / Type animators and the three
     // Pa_SpIcon_NN icon slots
     void sub_71009B1B74(eui::LayoutEx* layout, sead::Heap* heap);
+    // 0x71009b1d74 (placeholder name; declared only, 668 bytes): shows a CookingInfo's effect kind, level and cook
+    // time on the icon slots
+    void sub_71009B1D74(const CookingInfo& info);
     // 0x71009b2010: closes the layout when it is open or opening
     void sub_71009B2010();
 
