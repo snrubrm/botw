@@ -153,8 +153,9 @@ void Guardian::sub_7100034514(bool on) {
 // 0x7100035a90: switches the guardian state. State 5 tells the registered last-boss transceiver
 // that this guardian is present; states 12 / 13 toggle the "LockOn" attention client. The new state
 // also gets a random +-1 sign in _14f0.
-// NON_MATCHING: only the early "same state or 3 -> 2" check differs; the original precomputes both
-// equality results (cset / and) before the first branch, this build branches on each test.
+// NON_MATCHING: only the early "same state or 3 -> 2" check differs; the original hoists both
+// equality csets above the first branch and combines them with and / tbnz, this build branches on
+// each test.
 void Guardian::sub_7100035A90(s32 state) {
     if (_14d8 == state || (_14d8 == 3 && state == 2))
         return;
