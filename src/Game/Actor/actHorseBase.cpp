@@ -808,6 +808,29 @@ const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorLinkConstDataAccess
     return horse->_8d0._40;
 }
 
+// NON_MATCHING: the transform and the four vectors are the same; the local stack layout and the
+// matrix-vector multiply scheduling differ.
+void HorseBase::m44(ksys::phys::NavMeshCharacter* nav) {
+    auto* controller = getCharacterController();
+    if (controller) {
+        sead::Vector3f pos;
+        if (sub_7100E8160C(controller, nullptr, nullptr, &pos)) {
+            sead::Matrix34f mtx;
+            controller->sub_7100F626E8(&mtx);
+            sead::Vector3f world;
+            world.x = mtx(0, 0) * pos.x + mtx(0, 1) * pos.y + mtx(0, 2) * pos.z + mtx(0, 3);
+            world.y = mtx(1, 0) * pos.x + mtx(1, 1) * pos.y + mtx(1, 2) * pos.z + mtx(1, 3);
+            world.z = mtx(2, 0) * pos.x + mtx(2, 1) * pos.y + mtx(2, 2) * pos.z + mtx(2, 3);
+            sead::Vector3f dir;
+            controller->sub_7100F5F598(&dir);
+            const sead::Vector3f up(mtx(0, 2), mtx(1, 2), mtx(2, 2));
+            nav->sub_7100F76380(world, controller->get64(), dir, up);
+            return;
+        }
+    }
+    Actor::m44(nav);
+}
+
 s32 sub_7100E6ECC4(const ksys::act::ActorLinkConstDataAccess& accessor) {
     const auto* unit = accessor.getGParamList()->getHorseUnit();
     return unit ? unit->mRiddenAnimalType.ref() : 1;
