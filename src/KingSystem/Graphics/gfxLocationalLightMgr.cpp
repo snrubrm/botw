@@ -1,6 +1,7 @@
 #include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 #include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <prim/seadScopedLock.h>
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace ksys::gfx {

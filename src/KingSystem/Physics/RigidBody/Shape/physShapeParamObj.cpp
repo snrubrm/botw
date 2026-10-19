@@ -122,6 +122,33 @@ Unk_7102519378::~Unk_7102519378() = default;
 void Unk_7102519378::drawDebug(agl::DrawContext*, const sead::Matrix34f&, const sead::Matrix44f&,
                                int) const {}
 
+// 0x7101295f80: clears the record's dirty words and runs the subclass hook (slot 9) under the
+// record's lock; RenderLightPool's allocator calls it on every record it hands out.
+void Unk_7102519378::init() {
+    mCS.lock();
+    _48 = 0;
+    _58 = 0;
+    m9();
+    mCS.unlock();
+}
+
+// 0x7101295fc4: runs the subclass hook (slot 10) and clears _48 under the record's lock;
+// LocationalLightMgr::sub_7100F13A58 calls it when it detaches a record.
+void Unk_7102519378::reset() {
+    mCS.lock();
+    m10();
+    _48 = 0;
+    mCS.unlock();
+}
+
+// Slots 6..11 are empty in the base vtable (0x710129dae0 .. 0x710129daf0).
+void Unk_7102519378::m6() {}
+void Unk_7102519378::m7() {}
+void Unk_7102519378::m8() {}
+void Unk_7102519378::m9() {}
+void Unk_7102519378::m10() {}
+void Unk_7102519378::m11() {}
+
 // NON_MATCHING: placeholder destructor; the original (0x7101296100) also destroys members or bases
 // this class does not declare yet.
 Unk_71025193e8::~Unk_71025193e8() = default;

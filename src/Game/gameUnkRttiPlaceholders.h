@@ -213,22 +213,37 @@ public:
     virtual ~Unk_71024f13f0();
 };
 
-// vtable 0x7102519378 (5 slots); placeholder generated from the vtable (genskel.py).
+// vtable 0x7102519378 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519378 {
     SEAD_RTTI_BASE(Unk_7102519378)
 public:
     virtual ~Unk_7102519378();
+
+    // 0x7101295f80: takes a record from the pool: clears _48 and _58 and runs the subclass hook.
+    void init();
+    // 0x7101295fc4: detaches the record: runs the subclass hook and clears _48.
+    void reset();
 
     // The record's lock (0x7101295ee4 destroys it) and the locational-light fields: the
     // visibility mask at +0x58 and the words the record reset clears at +0x48 / +0x58.
     sead::CriticalSection mCS;
     u32 _48;
     u8 _4c[0x58 - 0x4c];
-    u16 _58;
+    u32 _58;
     // Slot 4 of the record vtable: the render-light debug draw that
     // LocationalLightMgr::ObjectLight::Light::drawDebug forwards to (0x7100f1839c).
     virtual void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                            const sead::Matrix44f& projection, int view_index) const;
+    // Slot 5 is pure (__cxa_pure_virtual in the original vtable); the derived records return
+    // their type tag there (0x710129dc24 returns 0, 0x7101297a3c.. return 1..4).
+    virtual s32 m5() = 0;
+    // Slots 6..11 are the empty hooks 0x710129dae0 .. 0x710129daf0 in the original vtable.
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
 };
 
 // vtable 0x7102357ab0 (10 slots); placeholder generated from the vtable (genskel.py).
@@ -1233,7 +1248,7 @@ class Unk_71025193e8 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025193e8, Unk_7102519378)
 public:
     ~Unk_71025193e8() override;
-    virtual bool m5() { return false; }
+    virtual s32 m5() { return 0; }
     virtual void m6();
     virtual void m7();
     virtual void m8();

@@ -12,6 +12,7 @@ namespace gsys { class ModelUnit; }
 namespace ksys::map { class Object; }
 namespace ksys::eft { class MothEffectEmitter; }
 class Unk_7102519378;
+class Unk_71025193e8;
 
 namespace ksys::gfx {
 
@@ -66,7 +67,9 @@ public:
         bool release(Unk_7102519378* light);
 
         sead::CriticalSection mCS;
-        sead::Buffer<Unk_7102519378> mLights;
+        /// Records are stored as the first concrete record type; the base record is abstract
+        /// (vtable slot 5 is __cxa_pure_virtual) and the subclasses only add virtuals.
+        sead::Buffer<Unk_71025193e8> mLights;
         sead::PtrArray<Unk_7102519378> mFreeLights;
         sead::PtrArray<Unk_7102519378> mActiveLights;
     };
