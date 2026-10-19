@@ -483,6 +483,9 @@ struct UiSubsys1Entry {
     // 0x7100951388: sets flag 8, then forwards to the virtual control update.
     void sub_7100951388(bool enabled);
     void sub_710095156C(bool enabled);
+    // 0x7100950f88 (placeholder name): binds `target` as this entry's pin (keeping its layout's open animator in
+    // _10), or unbinds the current pin
+    void sub_7100950F88(Unk_7102477fc0* target);
     bool sub_7100951048() const;
     // 0x7100951058: whether the kind _24 is one of 0-31 other than 23 and 24
     bool sub_7100951058() const;

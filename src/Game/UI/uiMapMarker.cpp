@@ -10,6 +10,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiMessageString.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "Game/gameSceneSubsys13.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -258,6 +259,25 @@ bool UiSubsys1Entry::sub_7100951058() const {
 // 0x7100951074
 bool UiSubsys1Entry::sub_7100951074() const {
     return u32(_24) < 18;
+}
+
+// 0x7100950f88 (placeholder name): binds `target` as this entry's pin (keeping its layout's open animator in
+// _10), or unbinds the current pin
+void UiSubsys1Entry::sub_7100950F88(Unk_7102477fc0* target) {
+    if (target) {
+        target->_18 = this;
+        _10 = target->_8 ? target->_8->mOpenAnimator : nullptr;
+        _18 = -1.0f;
+        _3c |= 0x4000;
+    } else {
+        if (_8) {
+            _8->_18 = nullptr;
+            _8->sub_710098CF9C();
+        }
+        _10 = nullptr;
+        _18 = -1.0f;
+    }
+    _8 = target;
 }
 
 // NON_MATCHING: cleanup keeps an extra address register across the control call.
