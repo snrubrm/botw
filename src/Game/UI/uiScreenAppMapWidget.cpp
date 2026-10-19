@@ -45,6 +45,15 @@ void ScreenAppMapWidget::sub_71009A99F0(s32 level) {
     mSubsys->set898(level);
 }
 
+// 0x71009a9a38 (placeholder name): applies the scale level to both the map view scale and its raw value
+void ScreenAppMapWidget::sub_71009A9A38(s32 level) {
+    mSubsys->_850.get28();
+    const f32 scale = sub_7100965960(level);
+    mSubsys->_850.set28(scale);
+    mSubsys->_850.set38(scale);
+    mSubsys->set898(level);
+}
+
 // 0x71009af344 (placeholder name): queues the current area's first tile bank
 void ScreenAppMapWidget::sub_71009AF344() {
     mNormalMap.sub_71009A80D0(0, mNormalMap._8->_128);

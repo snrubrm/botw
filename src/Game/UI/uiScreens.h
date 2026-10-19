@@ -2415,6 +2415,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009A995C();
     // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
     void sub_71009A99F0(s32 level);
+    // 0x71009a9a38 (placeholder name): applies the scale level to the widget's map view parameters
+    void sub_71009A9A38(s32 level);
     // 0x71009af058 (placeholder name): stores the tracker progress (per-block percentage) and hands the block
     // count to the save tracker object
     void sub_71009AF058(s8 count);
