@@ -155,6 +155,9 @@ public:
     virtual void setMaterialShaderAssignVariation(int material_idx,
                                                   ModelEnum::ShaderAssignType assign_type, int);
 
+    // 0x7100c44e58: the base default has one view.
+    int getViewNum();
+
     // Native slot +0x1c8: the number of render units (ModelNW::initialize 0x7100c0334c loops the
     // array at ModelNW+0x180 with this count).
     virtual int getModelRenderUnitNum() const = 0;

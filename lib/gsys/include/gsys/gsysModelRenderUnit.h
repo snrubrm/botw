@@ -2,6 +2,14 @@
 
 #include <basis/seadTypes.h>
 
+namespace agl::cull {
+class ViewFrustumCulling;
+}
+
+namespace nn::g3d {
+class ViewVolume;
+}
+
 namespace sead {
 class Heap;
 }
@@ -20,6 +28,9 @@ public:
     virtual ~ModelRenderUnit();
     // 0x7100c82cc4: stores the unit at +8 and the index at +0x14 and +0x16; returns true.
     virtual bool initialize(const ModelUnit* unit, int index, sead::Heap* heap);
+    // 0x7100c800d8: the base default accepts every view volume.
+    bool calcViewFrustumCulling(int, int, int, const agl::cull::ViewFrustumCulling&,
+                                const nn::g3d::ViewVolume&, float*);
 
     const ModelUnit* getModelUnit() const { return mModelUnit; }
     // Graphics 0x7100f2e0f4 compares +0x16 of ModelNW's render units with a material index.

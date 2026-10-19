@@ -2,6 +2,12 @@
 
 namespace gsys {
 
+bool ModelRenderUnit::calcViewFrustumCulling(int, int, int, const agl::cull::ViewFrustumCulling&,
+                                            const nn::g3d::ViewVolume&, float*) {
+    return true;
+}
+
+
 ModelRenderUnit::ModelRenderUnit() = default;
 
 ModelRenderUnit::~ModelRenderUnit() = default;

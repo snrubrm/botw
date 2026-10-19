@@ -2,6 +2,11 @@
 
 namespace gsys {
 
+int ModelUnit::getViewNum() {
+    return 1;
+}
+
+
 void ModelUnit::sub_7100C44D58(const sead::SafeString& name) { mName = name; }
 
 // 0x7100c3e2d0
