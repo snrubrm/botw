@@ -25,6 +25,9 @@ public:
     void sub_710066E15C();
     // 0x710066e134: Guardian prepareInit_ passes its s32 controller type and one flag bit.
     void sub_710066E134(s32 controller_type, bool enabled);
+    // 0x710066e178 (28 B, declared only): forwards this object and `pos` to the manager method at
+    // 0x710066e710 (manager at 0x71025c5d98 + 0xb90); called by Guardian::updatePositionMaybe.
+    void sub_710066E178(const sead::Vector3f& pos);
 
     /* 0x28 */ ksys::act::BaseProcLink _28;
     /* 0x38 */ f32 _38 = std::numeric_limits<f32>::max();
@@ -231,7 +234,7 @@ public:
     /* 0x16d8 */ gsys::BoneAccessKeyEx _16d8;
     /* 0x1710 */ gsys::BoneAccessKeyEx _1710;
     /* 0x1748 */ gsys::BoneAccessKeyEx _1748;
-    /* 0x1780 */ void* _1780 = nullptr;
+    /* 0x1780 */ ksys::phys::RigidBody* _1780 = nullptr;  // the raycast/instance-set body
     /* 0x1788 */ void* _1788 = nullptr;
     /* 0x1790 */ void* _1790 = nullptr;
     /* 0x1798 */ void* _1798 = nullptr;

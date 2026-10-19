@@ -12,6 +12,10 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70];
 KSYS_VISIBILITY_HIDDEN extern u32 sUnk_71025af300;
@@ -201,6 +205,38 @@ s32 Guardian::sub_710003B098() const {
 
 bool Guardian::sub_710003B2A8() const {
     return sub_710003B098() >= 0;
+}
+
+// NON_MATCHING: the body is complete; this build schedules the position/start copies with stp and
+// delays the start stores past the end computation, while the original stores each component first.
+// 0x710003733c: after the static compound is ready, update the position holder; while flag bit 4 is
+// set and a body exists, cast 3 m down and drop the flag (and the instance-set body) when it misses.
+void Guardian::updatePositionMaybe() {
+    const sead::Vector3f pos = getMtx().getTranslation();
+    if (!ksys::map::PlacementMgr::instance()->isStaticCompoundReady(pos, false))
+        return;
+
+    _1908.sub_710066E178(pos);
+
+    if (_14c8.isOnBit(4) && _1780) {
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+        query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+        query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+        query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::DoNotCheck);
+        const sead::Vector3f start = getMtx().getTranslation();
+        const sead::Vector3f end = start - sead::Vector3f::ey * 3.0f;
+        query.setStartAndEnd(start, end);
+        query.setGroupHandlerIfAny(sub_710072E804(this, 0));
+        if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            if (mPhysics && _1780)
+                mPhysics->sub_7100FBAF18(_1780);
+            _14c8.resetBit(4);
+        }
+    }
+
+    Enemy::updatePositionMaybe();
 }
 
 // 0x710003b43c / 0x710003b4c8: the target (link at Enemy::_c48._8, position _c48._18) is closer than
