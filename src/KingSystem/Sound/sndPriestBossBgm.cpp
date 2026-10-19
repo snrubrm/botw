@@ -4,6 +4,7 @@
 #include <aal/aalHandle.h>
 #include <aal/aalMarkerController.h>
 #include <aal/aalSoundSource.h>
+#include <nn/atk.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2Event.h>
 #include <xlink2/xlink2EventSLink.h>
@@ -249,6 +250,58 @@ namespace {
 // 0x71024feaa0
 const char* sPriestBossBgmLevelNames[] = {"Level1", "Level2", "Level3", "Level4", "Transform"};
 }  // namespace
+
+// 0x710100dac8 (unnamed in the CSV): the stream region callback installed on a slot's sound source.
+nn::atk::StreamRegionCallbackResult sub_710100DAC8(nn::atk::StreamRegionCallbackParam* param,
+                                                   void* user) {
+    auto* slot = static_cast<Unk_71024fe970::Slot*>(user);
+    if (!slot)
+        return nn::atk::StreamRegionCallbackResult(0);
+
+    s32 region;
+    if (slot->_40) {
+        region = 0;
+        slot->_44 = 0;
+        slot->_40 = false;
+    } else if (slot->_41) {
+        region = param->mRegion > 2 ? 3 : param->mRegion + 1;
+    } else {
+        region = 1;
+    }
+    slot->_44 = region;
+    param->mRegion = region;
+    return nn::atk::StreamRegionCallbackResult(1);
+}
+
+void Unk_71024fe970::Slot::sub_710100D9FC(ksys::snd::Unk_710260f248Entry* entry) {
+    if (!entry)
+        return;
+
+    _34 = -1;
+    _38 = 0.0f;
+    mEntry = entry;
+    _3c = 3;
+    _40 = true;
+
+    if (entry->mHandle.isActive()) {
+        static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent())->resetFlagBit(1);
+        entry = mEntry;
+    }
+
+    if (entry) {
+        auto* event = static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent());
+        if (event && event->getCreateId() == entry->mHandle.getCreateId()) {
+            if (auto* executor = event->getAliveAssetExecutor()) {
+                if (auto* source = executor->getHandle()->getSoundSource()) {
+                    source->setStreamRegionCallback(sub_710100DAC8, this);
+                    source->setVirtualizeMode(aal::VirtualizeMode::Restart);
+                }
+            }
+        }
+    }
+
+    mFader.setValueImmediate(1.0f);
+}
 
 // NON_MATCHING: the level name and the SafeString vtable are loaded in another order around the stores.
 void Unk_71024fe970::sub_710100E6A8() {
