@@ -6,6 +6,9 @@
 #include "Game/Actor/aiUnk_7102357210.h"
 #include <random/seadGlobalRandom.h>
 #include <common/aglTextureDataInitializerRAW.h>
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -32,6 +35,37 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
 }  // namespace uking::act
 
 namespace uking::ai {
+
+// NON_MATCHING: the frame is 0x10 larger (a second SafeString temporary is not shared) and the
+// register allocation differs.
+void Unk_71024e1b58::sub_7100E18B90(const char* name1, const char* name2) {
+    if (_18.isAllocatedOrFailed() || _28.isAllocatedOrFailed() || (_10 & 4) != 0)
+        return;
+
+    if (name1 && *name1 != sead::SafeString::cNullChar) {
+        ksys::act::InstParamPack pack;
+        pack->addMatrix(mActor->getMtx());
+        pack->addScale(mActor->getScale());
+        const char* unique = mActor->getUniqueName();
+        if (unique)
+            pack->addModelUser(unique);
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            name1, ksys::map::PlacementMgr::instance()->mDynamicHeap, &_18, &pack, nullptr, 2);
+    }
+
+    if (name2 && *name2 != sead::SafeString::cNullChar) {
+        if (_28.isAllocatedOrFailed())
+            _28.deleteProc();
+        ksys::act::InstParamPack pack;
+        pack->addMatrix(mActor->getMtx());
+        pack->addScale(mActor->getScale());
+        const char* unique = mActor->getUniqueName();
+        if (unique)
+            pack->addModelUser(unique);
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            name2, ksys::map::PlacementMgr::instance()->mDynamicHeap, &_28, &pack, nullptr, 2);
+    }
+}
 
 // NON_MATCHING: the checkerboard value becomes one ubfiz instead of and + lsl, and the eor operands
 // are swapped (4 bytes shorter).

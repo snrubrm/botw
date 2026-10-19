@@ -16,6 +16,7 @@ class Model;
 }
 
 namespace ksys::act {
+class Actor;
 class PhysicsUserTag;
 }
 
@@ -51,9 +52,12 @@ public:
     bool sub_7100E18EC4();
     // 0x7100e18110 (placeholder name): sizes the cut-mask texture, allocates its GPU block, generates
     // the mask and replaces the model's "ForReplace_Lumberjack" texture.
-    void sub_7100E18110(u8 format, gsys::Model* model, sead::Heap* heap);
+    void sub_7100E18110(u8 format, ksys::act::Actor* actor, sead::Heap* heap);
     // 0x7100e18274 (placeholder name): fills the cut-mask texture from the 24 alpha values.
     void sub_7100E18274();
+    // 0x7100e18b90 (placeholder name): requests the two fallen-tree actors (the second replaces the
+    // first handle's actor).
+    void sub_7100E18B90(const char* name1, const char* name2);
 
     u8 _8[8];
     u16 _10;
@@ -62,7 +66,7 @@ public:
     u8 _13[5];
     ksys::act::BaseProcHandle _18;
     ksys::act::BaseProcHandle _28;
-    gsys::Model* mModel;
+    ksys::act::Actor* mActor;
     u64 _40;
     u64 _48;
     s32 _50;
