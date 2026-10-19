@@ -4,6 +4,10 @@
 #include <prim/seadSafeString.h>
 #include "gsys/gsysModelSceneComponent.h"
 
+namespace agl {
+class DrawContext;
+}
+
 namespace gsys {
 
 // The environment (env sets, sky/light parameters) of a ModelScene; it is the sub-object at
@@ -15,9 +19,38 @@ namespace gsys {
 class ModelSceneEnv : public ModelSceneComponent {
 public:
     struct DataSet;
+    struct Parts;
+
+    // The env-set parts interface (its defaults are empty; the working sets are the two derived
+    // classes below). Native rows are all 4-8 bytes.
+    class PartsSet {
+    public:
+        virtual ~PartsSet();
+        virtual void preprocess() const;
+        virtual void postprocess() const;
+        virtual void prepareBinary() const;
+        virtual void releaseBinary() const;
+        virtual void interpolate(const Parts*, const Parts*, f32) const;
+        virtual void setup(const Parts*, const sead::SafeString&) const;
+        virtual bool save(sead::BufferedSafeStringBase<char>*, const Parts*,
+                          const sead::SafeString&) const;
+    };
+
+    class PartsSetUserStr : public PartsSet {
+    public:
+        ~PartsSetUserStr() override;
+    };
+
+    class PartsSetUserBin : public PartsSet {
+    public:
+        ~PartsSetUserBin() override;
+    };
 
     // OpenWorldStage::unload 0x71007c5d20 passes the data-set array at +0xba0 to
     // clearImpl 0x7100c25294. The constructor 0x7100c21f8c clears count +0xb98 and this pointer.
+    // 0x7100c29f7c: the base component draws no debug output.
+    virtual void drawDebug(agl::DrawContext*, const ModelSceneContext&) const;
+
     DataSet* getDataSets() const { return mDataSets; }
     void clearImpl(DataSet* data_set, bool free_resource);
 
