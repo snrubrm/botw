@@ -93,4 +93,9 @@ void Core::sub_7101301068(bool update) {
         system.sub_7101115158(update);
 }
 
+void Core::releaseAllNodeGroups() {
+    for (auto& system : mSystems)
+        system.sub_7101117874();
+}
+
 }  // namespace ksys::tera

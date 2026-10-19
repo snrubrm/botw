@@ -286,6 +286,8 @@ public:
     void sub_71013008E4(sead::Heap* heap, System* system);
     // 0x7101301068 (declared only; 108 B): runs sub_7101115158 on every registered System.
     void sub_7101301068(bool update);
+    // 0x710130100c (declared only; 92 B): clears the terrain images of every registered System.
+    void releaseAllNodeGroups();
     void sub_71013009C4(sead::Heap* heap);
     bool sub_7101300D50(u32 index, bool a, bool b);
 
