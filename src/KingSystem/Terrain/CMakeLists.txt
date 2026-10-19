@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   teraGrass.cpp
   teraGrass.h
   teraVegeTeraMat.cpp
+  teraAreaEnv.cpp
+  teraAreaEnv.h
   teraVegeTeraMat.h
   teraCore.cpp
   teraHeap.cpp
