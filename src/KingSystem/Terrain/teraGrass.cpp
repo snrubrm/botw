@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraGrass.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/Utils/Types.h"
 
 // NON_MATCHING: record iteration, address copies and the pool-null guard differ.
 f32 Unk_7102503a50::sub_7101069760(const sead::Vector2f* position) {
@@ -179,4 +180,13 @@ bool Unk_7102503a50::sub_710106A2C4() {
             return true;
     }
     return false;
+}
+
+// 0x7102615910 (placeholder name): the byte flag read and written through sub_7101076A98 by
+// S7EventFlow::play / setup_1_1.
+KSYS_VISIBILITY_HIDDEN u8 sUnk_7102615910;
+
+// 0x7101076a98 (placeholder name): address of the flag above.
+u8* sub_7101076A98() {
+    return &sUnk_7102615910;
 }
