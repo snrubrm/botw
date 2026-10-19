@@ -137,6 +137,9 @@ public:
     void sub_7100EB5664(bool a, const sead::Vector3f* v);
     void sub_7100EB56B4(bool a);
     void sub_7100EB56E8();
+    // 0x7100eb508c (placeholder name): sets the contact layer of body _80 and of the bodies listed
+    // in _90 / _a0 to EntityNoHit when `no_hit` is set, EntityRagdoll otherwise.
+    void setSelectedBodiesNoHitMaybe(bool no_hit);
 
     /* 0x008 */ phys::InstanceSet* _8;
     /* 0x010 */ phys::CharacterController* _10;
@@ -150,7 +153,16 @@ public:
     u8 _58[4];
     /* 0x05c */ f32 _5c;  // mass
     /* 0x060 */ sead::Buffer<f32> _60;  // the mass of each ragdoll body
-    u8 _70[0xb0 - 0x70];
+    u8 _70[0x80 - 0x70];
+    /* 0x080 */ s32 _80;
+    u8 _84[0x88 - 0x84];
+    /* 0x088 */ s32 _88;
+    u8 _8c[4];
+    /* 0x090 */ u32* _90;
+    /* 0x098 */ s32 _98;
+    u8 _9c[4];
+    /* 0x0a0 */ u32* _a0;
+    u8 _a8[0xb0 - 0xa8];
     /* 0x0b0 */ AttachInfo* mAttachInfo;
     /* 0x0b8 */ Unk3* _b8;
     /* 0x0c0 */ Unk_71024ef620* _c0;

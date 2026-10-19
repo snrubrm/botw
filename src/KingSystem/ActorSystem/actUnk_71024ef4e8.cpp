@@ -185,6 +185,20 @@ void Unk_71024ef4e8::sub_7100EB57F0(const sead::Matrix34f& mtx) {
     _1bc = 1.0f;
 }
 
+// NON_MATCHING: same bodies and contact layers; the original loads the index array and the body
+// buffer in a different order and reloads both inside each loop (292 bytes, ours 244).
+void Unk_71024ef4e8::setSelectedBodiesNoHitMaybe(bool no_hit) {
+    const auto layer = no_hit ? phys::ContactLayer::EntityNoHit : phys::ContactLayer::EntityRagdoll;
+
+    _18->getRigidBodies_()[_80]->setContactLayer(layer);
+
+    for (s32 i = 0; i < _88; ++i)
+        _18->getRigidBodies_()[_90[i]]->setContactLayer(layer);
+
+    for (s32 i = 0; i < _98; ++i)
+        _18->getRigidBodies_()[_a0[i]]->setContactLayer(layer);
+}
+
 void Unk_71024ef4e8::sub_7100EB51B0(const sead::Vector3f& a, const sead::Vector3f& b, int c) {
     _110.set(0x40);
     sub_7100EB4928(0, c, a, b, false, 0.0f);
