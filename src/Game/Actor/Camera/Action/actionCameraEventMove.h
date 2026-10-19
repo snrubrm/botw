@@ -31,6 +31,9 @@ protected:
     // PlayerRelative is true / false, otherwise the event actor's link (or the speaker's if _2a3 is 0).
     void sub_710075D338(ksys::act::BaseProcLink* link);
     void sub_710075D3CC(ksys::act::BaseProcLink* link);
+    // 0x710075e014 (placeholder name): interpolates the polar offset and the look-at point between the
+    // event's current and target states by _1d8._18 and writes them to the camera.
+    void sub_710075E014();
 
     uking::act::Unk_71009214b8 _4c;
     uking::act::Unk_71009214b8 _84;

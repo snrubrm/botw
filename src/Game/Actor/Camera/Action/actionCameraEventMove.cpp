@@ -89,6 +89,24 @@ bool CameraEventMove::handleMessage_(const ksys::Message* message) {
     return true;
 }
 
+void CameraEventMove::sub_710075E014() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+
+    const sead::Vector3f diff = _84._0 - _84._c;
+    const act::Unk_7100922700 polar(diff);
+    act::Unk_7100922700 out;
+    out._0 = _1bc._0 + (polar._0 - _1bc._0) * _1d8._18;
+    out._4 = angleStuff(angleStuff(angleStuff(polar._4 - _1bc._4) * _1d8._18) + _1bc._4);
+    out._8 = angleStuff(angleStuff(angleStuff(polar._8 - _1bc._8) * _1d8._18) + _1bc._8);
+
+    camera->_860._0._c = _4c._c + (_84._c - _4c._c) * _1d8._18;
+    const sead::Vector3f offset = out.sub_7100923254();
+    camera->_860._0._0 = camera->_860._0._c + offset;
+    camera->_860._0._24 = _4c._24 + (_84._24 - _4c._24) * _1d8._18;
+}
+
 void CameraEventMove::m46() {
     getStaticParam(&mTargetActor_s, "TargetActor");
     getStaticParam(&mFrontBoneAxis_s, "FrontBoneAxis");
