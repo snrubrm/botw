@@ -3,17 +3,28 @@
 
 namespace uking::ui {
 
-// Message strings (set up by the TU's static init 0x7100a0d770; addressed directly, so internal).
-// The original merges them with the TU's other statics (base 0x71025eea50, the strings from + 0x148), so every
-// user loads them at other offsets from one base: those functions are m.
-static const sead::SafeString sUnk_71025eeb98 = "StaticMsg/HardMode";
-static const sead::SafeString sUnk_71025eeba8 = "LayoutMsg/SystemWindow_00";
-static const sead::SafeString sUnk_71025eebc8 = "0001";
-static const sead::SafeString sUnk_71025eebd8 = "0002";
-static const sead::SafeString sUnk_71025eebe8 = "0005";
-static const sead::SafeString sUnk_71025eebf8 = "0003";
-static const sead::SafeString sUnk_71025eec08 = "0013";
-static const sead::SafeString sUnk_71025eec18 = "0014";
+// The TU's merged static block (base 0x71025eea50; the static init 0x7100a0d770 sets it up). The message
+// strings start at +0x148, so every user addresses them at a fixed offset from one base.
+namespace {
+struct ScreenHardModeStatics {
+    ScreenHardModeStatics()
+        : mHardMode("StaticMsg/HardMode"), mSystemWindow("LayoutMsg/SystemWindow_00"), mZero("0000"),
+          mOne("0001"), mTwo("0002"), mFive("0005"), mThree("0003"), mThirteen("0013"),
+          mFourteen("0014") {}
+
+    u8 _0[0x148];
+    sead::SafeString mHardMode;      // 0x148
+    sead::SafeString mSystemWindow;  // 0x158
+    sead::SafeString mZero;          // 0x168
+    sead::SafeString mOne;           // 0x178
+    sead::SafeString mTwo;           // 0x188
+    sead::SafeString mFive;          // 0x198
+    sead::SafeString mThree;         // 0x1a8
+    sead::SafeString mThirteen;      // 0x1b8
+    sead::SafeString mFourteen;      // 0x1c8
+};
+ScreenHardModeStatics sHardModeStatics;
+}  // namespace
 
 // 0x7100a0bc24
 void ScreenHardMode::m93(sead::Heap*) {
@@ -311,7 +322,7 @@ void ScreenHardMode::m191() {
 // 0x7100a0c084
 void ScreenHardMode::sub_7100A0C084(const sead::SafeString& text, const sead::SafeString& left,
                                     const sead::SafeString& right) {
-    sead::FixedSafeString<128> message_set(sUnk_71025eeb98);
+    sead::FixedSafeString<128> message_set(sHardModeStatics.mHardMode);
     if (!_3668.isEmpty()) {
         message_set = _3668;
         _3668.clear();
@@ -330,7 +341,7 @@ void ScreenHardMode::sub_7100A0C084(const sead::SafeString& text, const sead::Sa
 // NON_MATCHING: as sub_7100A0C084
 // 0x7100a0c368
 void ScreenHardMode::sub_7100A0C368(const sead::SafeString& text, const sead::SafeString& button) {
-    sead::FixedSafeString<128> message_set(sUnk_71025eeb98);
+    sead::FixedSafeString<128> message_set(sHardModeStatics.mHardMode);
     if (!_3668.isEmpty()) {
         message_set = _3668;
         _3668.clear();
@@ -348,7 +359,7 @@ void ScreenHardMode::sub_7100A0C368(const sead::SafeString& text, const sead::Sa
 void ScreenHardMode::m154() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mThree, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -356,7 +367,7 @@ void ScreenHardMode::m154() {
 void ScreenHardMode::m158() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mThree, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -364,7 +375,7 @@ void ScreenHardMode::m158() {
 void ScreenHardMode::m162() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mThree, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -372,7 +383,7 @@ void ScreenHardMode::m162() {
 void ScreenHardMode::m166() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084("0009", sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084("0009", sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -380,7 +391,7 @@ void ScreenHardMode::m166() {
 void ScreenHardMode::m171() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+        sub_7100A0C084("0007", sHardModeStatics.mOne, sHardModeStatics.mTwo);
     switch (_3718) {
     case 0x90:
         _3708 = 3;
@@ -398,7 +409,7 @@ void ScreenHardMode::m171() {
 void ScreenHardMode::m174() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebf8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mThree, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -406,7 +417,7 @@ void ScreenHardMode::m174() {
 void ScreenHardMode::m179() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+        sub_7100A0C084("0007", sHardModeStatics.mOne, sHardModeStatics.mTwo);
     switch (_3718) {
     case 0x90:
         _3704 = 3;
@@ -424,7 +435,7 @@ void ScreenHardMode::m179() {
 void ScreenHardMode::m182() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mFive, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -432,7 +443,7 @@ void ScreenHardMode::m182() {
 void ScreenHardMode::m186() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mFive, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -440,7 +451,7 @@ void ScreenHardMode::m186() {
 void ScreenHardMode::m190() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mFive, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -448,7 +459,7 @@ void ScreenHardMode::m190() {
 void ScreenHardMode::m194() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084("0010", sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084("0010", sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -456,7 +467,7 @@ void ScreenHardMode::m194() {
 void ScreenHardMode::m199() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+        sub_7100A0C084("0007", sHardModeStatics.mOne, sHardModeStatics.mTwo);
     switch (_3718) {
     case 0x90:
         _3704 = 3;
@@ -474,7 +485,7 @@ void ScreenHardMode::m199() {
 void ScreenHardMode::m202() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084(sUnk_71025eebe8, sUnk_71025eebc8, sUnk_71025eebd8);
+    sub_7100A0C084(sHardModeStatics.mFive, sHardModeStatics.mOne, sHardModeStatics.mTwo);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -482,7 +493,7 @@ void ScreenHardMode::m202() {
 void ScreenHardMode::m207() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+        sub_7100A0C084("0007", sHardModeStatics.mOne, sHardModeStatics.mTwo);
     switch (_3718) {
     case 0x90:
         _3704 = 3;
@@ -500,7 +511,7 @@ void ScreenHardMode::m207() {
 void ScreenHardMode::m218() {
     _3710 = getStateMachine().getState();
     sub_7100A0BFC8(1);
-    sub_7100A0C084("0011", sUnk_71025eec18, sUnk_71025eec08);
+    sub_7100A0C084("0011", sHardModeStatics.mFourteen, sHardModeStatics.mThirteen);
 }
 
 // NON_MATCHING: offsets of the merged static strings (see the note at the top)
@@ -508,7 +519,7 @@ void ScreenHardMode::m218() {
 void ScreenHardMode::m223() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0012", sUnk_71025eebc8, sUnk_71025eebd8);
+        sub_7100A0C084("0012", sHardModeStatics.mOne, sHardModeStatics.mTwo);
     switch (_3718) {
     case 0x90:
         getStateMachine().changeState(&sUnk_71025ee870);
@@ -524,7 +535,7 @@ void ScreenHardMode::m223() {
 void ScreenHardMode::m227() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0007", sUnk_71025eebc8, sUnk_71025eebd8);
+        sub_7100A0C084("0007", sHardModeStatics.mOne, sHardModeStatics.mTwo);
     switch (_3718) {
     case 0x90:
         _3708 = 4;
@@ -541,7 +552,7 @@ void ScreenHardMode::m227() {
 void ScreenHardMode::m231() {
     // 0x57 bit 1 of the ContentOut animator
     if (_3620->mFlags & 2)
-        sub_7100A0C084("0011", sUnk_71025eec18, sUnk_71025eec08);
+        sub_7100A0C084("0011", sHardModeStatics.mFourteen, sHardModeStatics.mThirteen);
     switch (_3718) {
     case 0x90:
         _3704 = 5;
@@ -557,7 +568,7 @@ void ScreenHardMode::m231() {
 // 0x7100a0d3d0
 void ScreenHardMode::m239() {
     if (_3620->mFlags & 2) {
-        _3668 = sUnk_71025eeba8;
+        _3668 = sHardModeStatics.mSystemWindow;
         sub_7100A0C368("0066", "0067");
     }
     if (_3718 == 0x8e)
