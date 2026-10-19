@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "Game/Actor/aiUnk_7102357210.h"
 #include <random/seadGlobalRandom.h>
+#include <common/aglTextureDataInitializerRAW.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -31,6 +32,79 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
 }  // namespace uking::act
 
 namespace uking::ai {
+
+// NON_MATCHING: the checkerboard value becomes one ubfiz instead of and + lsl, and the eor operands
+// are swapped (4 bytes shorter).
+void Unk_71024e1b58::sub_7100E18274() {
+    agl::TextureData& texture = mTextureData;
+    if (texture.getImageByteSize() != 0) {
+        for (u32 i = 0; i < texture.getImageByteSize(); ++i) {
+            s32 value;
+            if ((_10 & 8) != 0) {
+                u32 width = texture.getWidth();
+                if (width < 2)
+                    width = 1;
+                const u32 row = i / width;
+                const u32 col = i % width;
+                value = s32((col ^ row) % 2) * 2 - 1;
+            } else if ((_10 & 4) != 0) {
+                u32 width = texture.getWidth();
+                if (width < 2)
+                    width = 1;
+                const u32 row = i / width;
+                const u32 col = i % width;
+                const u32 min_height = texture.getMinHeight_();
+                f32 v = 0.0f;
+                if (((row ^ col) & 1) == 0) {
+                    const u32 height = s32(min_height) > s32(texture.getHeight())
+                                           ? min_height
+                                           : texture.getHeight();
+                    const f32 t = (f32(row) - 1.0f) / (f32(height) - 1.0f);
+                    v = sead::Mathf::clamp(t, 0.0f, 1.0f);
+                }
+                const u32 index = col < 24 ? col : 0;
+                const f32 alpha = mAlphas[index] < 1.0f ? 0.0f : 1.0f;
+                const f32 a = v * alpha;
+                if (a <= 0.0f) {
+                    value = 0;
+                } else {
+                    const s32 x = s32(a * 255.0f);
+                    value = x != 0 ? x : 1;
+                }
+            } else {
+                value = 0;
+            }
+            static_cast<u8*>(mMaskMemAddr.getAddress())[i] = u8(value);
+        }
+    }
+
+    for (u32 i = 0; i < sead::Mathu::max(texture.getWidth(), 1u); ++i) {
+        f32 value;
+        if ((_10 & 8) == 0) {
+            const s32 index = i < 24 ? s32(i) : 0;
+            value = mAlphas[index];
+            if ((_10 & 4) != 0) {
+                if (value >= 1.0f && i % 3 == 0)
+                    value = 0.75f;
+                if (value <= 0.5f)
+                    value = sead::GlobalRandom::instance()->getF32() * 0.5f;
+            }
+        } else {
+            const f32 r = sead::GlobalRandom::instance()->getF32();
+            value = r < 0.2f ? 0.75f : 1.0f;
+            const s32 index = i < 24 ? s32(i) : 0;
+            value *= mAlphas[index];
+        }
+        static_cast<u8*>(mMaskMemAddr.getAddress())[i] = u8(s32(value * 255.0f));
+    }
+
+    const s32 min_height = s32(texture.getMinHeight_());
+    agl::TextureDataInitializerRAW::initialize(
+        &texture, mMaskMemAddr, texture.getImageByteSize(), texture.getFormat(),
+        s32(sead::Mathu::max(texture.getWidth(), 1u)),
+        min_height > s32(texture.getHeight()) ? min_height : s32(texture.getHeight()), nullptr);
+    mMaskMemAddr.flushCPUCache(texture.getImageByteSize());
+}
 
 void Unk_7102403fe8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, act::DamageCallbackInfo* a6) {
     if (*a5 == -1)

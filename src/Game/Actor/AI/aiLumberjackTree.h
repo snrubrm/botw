@@ -1,12 +1,19 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include <common/aglGPUMemAddr.h>
+#include <common/aglTextureData.h>
+#include <g3d/aglResTextureDataEx.h>
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+
+namespace gsys {
+class Model;
+}
 
 namespace ksys::act {
 class PhysicsUserTag;
@@ -42,11 +49,32 @@ public:
     // 0x7100e18ec4 (declared only; placeholder name): LumberjackTree::handleMessage_ tests it before
     // forwarding a 0x8000018 message.
     bool sub_7100E18EC4();
+    // 0x7100e18110 (placeholder name): sizes the cut-mask texture, allocates its GPU block, generates
+    // the mask and replaces the model's "ForReplace_Lumberjack" texture.
+    void sub_7100E18110(u8 format, gsys::Model* model, sead::Heap* heap);
+    // 0x7100e18274 (placeholder name): fills the cut-mask texture from the 24 alpha values.
+    void sub_7100E18274();
 
-    u8 _8[0x18 - 0x8];
+    u8 _8[8];
+    u16 _10;
+    // Texture format passed to sub_7100E18110.
+    u8 _12;
+    u8 _13[5];
     ksys::act::BaseProcHandle _18;
     ksys::act::BaseProcHandle _28;
+    gsys::Model* mModel;
+    u64 _40;
+    u64 _48;
+    s32 _50;
+    // Per-type cut alpha; values above 24 use index 0.
+    f32 mAlphas[24];
+    u8 _b4[4];
+    nn::gfx::ResTextureData* mResTexture;
+    agl::g3d::ResTextureDataEx mResTextureData;
+    agl::TextureData mTextureData;
+    agl::GPUMemVoidAddr mMaskMemAddr;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024e1b58, 0x3c8);
 
 // Placeholder name (vtable 0x7102404020). `_70` of LumberjackTree; registered as an attack sensor
 // listener (leave_ unregisters it with sub_71007A4440).
