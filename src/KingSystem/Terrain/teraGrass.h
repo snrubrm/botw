@@ -94,7 +94,9 @@ public:
     struct Record {
         Record();                                  //106a5d4
         ~Record();                                 //106ab30
-        u8 _0[0x20];
+        u8 _0[0x1c];
+        // Bit 0 is cleared by 0x71011509ec.
+        u32 _1c;
         NearCaches mNear;                          // +20
         Cache mFar;                                // +d50
         f32 mFarRadius;                            // +11b0

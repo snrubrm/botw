@@ -221,6 +221,18 @@ void Terrain::startImageResourceMgrMaybe() {
     lock.unlock();
 }
 
+// NON_MATCHING: the original walks the entry buffer with a pointer and a bounds-checked record
+// index; ours indexes both buffers, so the loop shapes and the prologue differ.
+void Core::Grass::sub_71011509EC() {
+    for (u32 i = 0; i < mEntries.size(); ++i)
+        _28->mRecords[i]._1c &= ~1u;
+    for (u32 i = 0; i < mEntries.size(); ++i) {
+        auto& entry = mEntries[i];
+        sub_710106BC54(entry._0);
+        sub_71012E258C(entry._8);
+    }
+}
+
 void Core::Grass::sub_7101151A1C() {
     _c |= 1;
 }

@@ -128,6 +128,9 @@ public:
         bool sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value);
         // 0x7101150990 (placeholder name): sets or clears flag 0x4000 and releases every entry.
         void sub_7101150990(bool enabled);
+        // 0x71011509ec (unnamed in the CSV): clears bit 0 of the far-cache records and releases both
+        // pointers of every entry.
+        void sub_71011509EC();
         // 0x7101151a1c (placeholder name): sets bit 0 of _c.
         void sub_7101151A1C();
         // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
