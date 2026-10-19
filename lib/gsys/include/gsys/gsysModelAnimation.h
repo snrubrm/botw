@@ -11,6 +11,7 @@ class AnimFrameCtrl;
 class ModelAnimObj;
 class ResSkeletalAnim;
 class ResFile;
+class ResSkeleton;
 }
 
 namespace ksys::as {
@@ -87,7 +88,10 @@ public:
     struct SkeletalResource {
         const G3dResAnimationEx* resource;
         s32 count;
-        u8 _c[0x28 - 0xc];
+        u8 _c[0x18 - 0xc];
+        // 0x71011d4e88 stores ResModel::pSkeleton here after renaming the UMii skeletons.
+        nn::g3d::ResSkeleton* mSkeleton;
+        u8 _20[0x28 - 0x20];
     };
 
     static_assert(sizeof(SkeletalAnm) == 0xa8);
