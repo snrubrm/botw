@@ -54,6 +54,36 @@ bool Unk_SoundMgr60::sub_7101058B74(TaskPostRunCallback* callback) {
     return LowPrioThreadMgr::instance()->submitRequest(request);
 }
 
+// 0x7101058bf4 (placeholder name): runs the +0x48 entry work and the Mii voice queue hook.
+void Unk_SoundMgr60::sub_7101058BF4() {
+    _48.sub_71012C917C();
+    mMiiSoundRequests.sub_71012CE054();
+}
+
+// 0x710105936c (placeholder name): unloads the SLink reader's handle and the scene static bars handle, then
+// the +0x48 member's handles.
+void Unk_SoundMgr60::sub_710105936C() {
+    mSlinkResources.mHandles[0].requestUnload();
+    _1408.requestUnload();
+    _48.sub_71012CBB90();
+}
+
+// 0x71010593a0 (placeholder name): loads the UI bars into the SLink reader and the scene static bars into
+// _1408, then the +0x48 member's bars.
+void Unk_SoundMgr60::sub_71010593A0() {
+    sub_710105844C(&mSlinkResources.mHandles[0], "M_UI.bars", true, false);
+    sub_710105844C(&_1408, "M_SceneStatic.bars", true, false);
+    _48.sub_71012CBC3C();
+}
+
+// 0x7101059420 (placeholder name): runs the +0x48 entry work, the Mii voice queue reset and the +0x828
+// entry loads.
+void Unk_SoundMgr60::sub_7101059420() {
+    _48.sub_71012CACD4();
+    mMiiSoundRequests.sub_71012CE100();
+    _828.sub_710105BD04();
+}
+
 // ResourceBars construction/destruction notifications: empty in the release build.
 void Unk_SoundMgr60::sub_7101059450(aal::AudioResource* resource) {}
 

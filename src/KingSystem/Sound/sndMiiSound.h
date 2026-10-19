@@ -60,6 +60,9 @@ public:
     void sub_71012CDF98(sead::Heap* heap);
     // 0x7101232084 passes XLink +0xa8 and uses the result to request unload.
     bool sub_71012CE4D8(Unk_710251b6f0* sound);
+    // 0x71012ce100 (declared only; 984 B) and 0x71012ce054 (empty): the voice queue reset and its hook.
+    void sub_71012CE100();
+    void sub_71012CE054();
 
     // 0x71012ce100 constructs 64-character strings in the 16 free-list nodes,
     // with each ListNode at +0x58 and each node occupying 0x68 bytes.

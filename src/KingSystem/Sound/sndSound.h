@@ -1166,6 +1166,15 @@ class Unk_71025a36b0 {
 public:
     virtual ~Unk_71025a36b0();
 
+    // 0x71012c911c / 0x71012c917c (declared only; both large): the entry work run before the bars loads.
+    void sub_71012C911C();
+    void sub_71012C917C();
+    // 0x71012cbb90: unloads mHandle and the handles of the asset list at +0x8.
+    void sub_71012CBB90();
+    // 0x71012cbc3c / 0x71012cacd4 (declared only).
+    void sub_71012CBC3C();
+    void sub_71012CACD4();
+
     u8 _8[0x68];
     /* 0x70 */ res::Handle mHandle;
     u8 _c0[8];
@@ -1226,6 +1235,8 @@ struct Unk_SoundMgr60_828 {
     bool sub_710105C70C(const sead::SafeString& name);
     bool sub_710105CA84(aal::AssetInfo* info, const sead::SafeString& name, bool use_barefoot);
     void sub_710105CD4C(const sead::SafeString& name, aal::Handle handle);
+    // 0x710105bd04 (declared only; 1,740 B): loads the bars the entry list refers to.
+    void sub_710105BD04();
 
     // The constructor links 16 free slots of 0xb8 bytes at +0x34. Each slot
     // contains the 0xa8-byte entry and the ObjList node at its end.
@@ -1254,6 +1265,17 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     // 0x7101058b74 (placeholder name): submits a low-priority request that runs mDelegate's function
     // 0x7101057e74 (clears the ".bars" cache and loads the title BGM pack voices).
     bool sub_7101058B74(TaskPostRunCallback* callback);
+    // 0x7101058bf4 (placeholder name): runs the +0x48 entry work and the Mii voice queue hook.
+    void sub_7101058BF4();
+    // 0x710105936c (placeholder name): unloads the SLink reader's handle and the scene static bars handle,
+    // then the +0x48 member's handles.
+    void sub_710105936C();
+    // 0x71010593a0 (placeholder name): loads the UI bars into the SLink reader and the scene static bars into
+    // _1408, then the +0x48 member's bars.
+    void sub_71010593A0();
+    // 0x7101059420 (placeholder name): runs the +0x48 entry work, the Mii voice queue reset and the +0x828
+    // entry loads.
+    void sub_7101059420();
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
     void sub_7101059454(aal::AudioResource* resource);
