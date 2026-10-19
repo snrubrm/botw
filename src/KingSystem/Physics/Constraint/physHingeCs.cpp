@@ -54,3 +54,13 @@ u32 sub_7100F6DC48(bool breakable, bool) {
 }
 
 }  // namespace ksys::phys
+
+namespace ksys::phys {
+
+// 0x7100f6dbb0 (unnamed): builds the default hinge parameters and calls HingeCs::make.
+HingeCs* sub_7100F6DBB0(sead::Heap* heap) {
+    HingeCs::Param param;
+    return HingeCs::make(param, heap);
+}
+
+}  // namespace ksys::phys
