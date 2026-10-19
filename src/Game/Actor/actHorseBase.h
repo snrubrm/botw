@@ -126,6 +126,9 @@ public:
     // 0x7100e6ba5c (unnamed in the CSV): whether the ride height is above the controller's ground
     // limit (1.8x the RiddenAnimalType scale, or 1.5x in the ground state).
     bool sub_7100E6BA5C();
+    // 0x7100e6bd78 (unnamed in the CSV): whether the ride height is above the RiddenAnimalType
+    // scale (7: 1.48, 6: 2.775, else 1.8) while the controller is in state 1 at +0x18d.
+    bool sub_7100E6BD78();
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);

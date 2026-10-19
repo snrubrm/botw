@@ -851,6 +851,23 @@ bool HorseBase::sub_7100E6BA5C() {
     return result;
 }
 
+// NON_MATCHING: the body is the same; the original checks the controller state after computing the
+// scale and spills the RiddenAnimalType word, this build branches on the state first and uses a
+// smaller frame.
+bool HorseBase::sub_7100E6BD78() {
+    auto* controller = getCharacterController();
+    bool result = false;
+    if (controller && (controller->_116 & 4)) {
+        const f32 height = sub_7100E6BB4C(controller);
+        const s32 type = x();
+        f32 scale = type == 7 ? 1.48f : 1.8f;
+        if (type == 6)
+            scale = 2.775f;
+        result = controller->_18d[0] == 1 && height > scale;
+    }
+    return result;
+}
+
 // NON_MATCHING: the original spills the RiddenAnimalType word to the stack after the inlined x()
 // (str / ldr at sp+0x1c); this build keeps it in w8. Everything else matches.
 f32 HorseBase::sub_7100E6BB4C(ksys::phys::CharacterController* controller) {
