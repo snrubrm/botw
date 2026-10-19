@@ -80,19 +80,20 @@ void Guardian::Unk1::sub_7100042048() {
         sead::Mathf::isNan(world.z))
         return;
 
+    sead::Vector3f velocity;
+
     if (_8->sub_710003955C()->mGuardianControllerType.ref() == 2 &&
         (_30->_2a4.load() & 0xffff) == 0x17) {
         auto* havok_ai = ksys::phys::HavokAI::instance();
-        const sead::Vector3f from = world - sead::Vector3f::ey * 250.0f;
         sead::Vector3f hit;
-        auto result = havok_ai->sub_7100F87A80(&hit, world, from);
+        auto result = havok_ai->sub_7100F87A80(&hit, world,
+                                                world - sead::Vector3f::ey * 250.0f);
         if (!result.sub_7100F7EB40())
             result = havok_ai->sub_7100F87ED0(&hit, world, 200.0f);
         if (result.sub_7100F7EB40() && !hit.isNan())
             world = hit;
     }
 
-    sead::Vector3f velocity;
     body->getLinearVelocity(&velocity);
     velocity.y = 0.0f;
 
