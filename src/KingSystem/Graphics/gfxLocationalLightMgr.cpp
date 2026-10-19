@@ -52,6 +52,12 @@ bool LocationalLightMgr::RigLightPool::release(ObjectLight::Light* light) {
     return false;
 }
 
+// NON_MATCHING: the original sets the bit with `(_60 & 0x20000000) + 0x20000000 | _60`, which also
+// carries into bit 30 when bit 29 was already set.
+void LocationalLightMgr::sub_7100F1334C() {
+    _60 |= 0x20000000;
+}
+
 bool LocationalLightMgr::RenderLightPool::release(Unk_7102519378* light) {
     auto lock = sead::makeScopedLock(mCS);
     s32 index = 0;

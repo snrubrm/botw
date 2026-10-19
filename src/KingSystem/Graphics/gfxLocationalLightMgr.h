@@ -90,9 +90,15 @@ public:
     f32 sub_7100F143E4() const;
     f32 sub_7100F143FC() const;
 
+    // 0x7100f1334c (placeholder name): sets bit 29 of the manager flags at +0x60.
+    void sub_7100F1334C();
+
 private:
     sead::CriticalSection mCS;
-    u8 _48[0x458 - 0x48];
+    u8 _48[0x18];
+    // Ctor initialises this word to 0x1ff00000.
+    u32 _60;
+    u8 _64[0x458 - 0x64];
     RigLightPool mRigLightPool;
     sead::CriticalSection mObjectLightCS;
     sead::Buffer<ObjectLight> mObjectLights;
