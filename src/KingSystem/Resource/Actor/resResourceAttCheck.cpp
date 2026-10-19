@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionParams.h"
 #include <algorithm>
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -9,6 +10,37 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
+
+// The Attention parameter member constructors are emitted in this TU in the original (0x710108b2b0,
+// 0x710108c3ac, 0x710108dfac). Kept here so Attention::ctor keeps calling them out of line.
+namespace ksys::act {
+
+Unk_7102505020::Unk_7102505020() : mValues{} {
+    mValues[0].mValue = 0.1f;
+    mValues[1].mValue = 1.0f;
+    mValues[2].mValue = 1.0f;
+    mValues[3].mValue = 1.0f;
+}
+
+Unk_7102505060::Unk_7102505060() : mValues{} {
+    mValues[0].mValue = sead::Vector3f(0.1f, 0.1f, 0.1f);
+    mValues[1].mValue = sead::Vector3f(1.0f, 1.0f, 1.0f);
+    mValues[2].mValue = sead::Vector3f(1.0f, 1.0f, 1.0f);
+    mValues[3].mValue = sead::Vector3f(1.0f, 1.0f, 1.0f);
+}
+
+Unk_71025050a0::Unk_71025050a0() : mValues{} {
+    mValues[0].mA.set(0.1f, 0.1f, 0.1f);
+    mValues[0].mB.set(0.1f, 0.1f, 0.1f);
+    mValues[1].mA.set(1.0f, 1.0f, 1.0f);
+    mValues[1].mB.set(1.0f, 1.0f, 1.0f);
+    mValues[2].mA.set(1.0f, 1.0f, 1.0f);
+    mValues[2].mB.set(1.0f, 1.0f, 1.0f);
+    mValues[3].mA.set(1.0f, 1.0f, 1.0f);
+    mValues[3].mB.set(1.0f, 1.0f, 1.0f);
+}
+
+}  // namespace ksys::act
 
 namespace ksys::res {
 
