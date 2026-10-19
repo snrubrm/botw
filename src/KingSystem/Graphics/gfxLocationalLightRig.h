@@ -66,6 +66,8 @@ static_assert(offsetof(LocationalLightMgr::ObjectLight::Light, mFadeTimer) == 0x
 class LocationalLightRig : public gsys::ModelRig {
     SEAD_RTTI_OVERRIDE(LocationalLightRig, agl::env::EnvObj)
 public:
+    // 0x7100f18508: the factory the rig registration 0x7100f18540 passes.
+    static LocationalLightRig* create(sead::Heap* heap);
     LocationalLightRig();
     ~LocationalLightRig() override;
     s32 getTypeID() const override;

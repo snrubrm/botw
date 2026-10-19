@@ -12,6 +12,10 @@ s32 LocationalLightRig::getTypeID() const {
     return *sTypeId;
 }
 
+LocationalLightRig* LocationalLightRig::create(sead::Heap* heap) {
+    return new (heap, 8) LocationalLightRig;
+}
+
 LocationalLightMgr::ObjectLight::Light::Light() = default;
 
 // NON_MATCHING: the bone-index store is scheduled before the flag / rig stores (same instructions,
