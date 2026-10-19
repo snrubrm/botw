@@ -19,6 +19,9 @@ public:
     ModelDrawObj();
     virtual ~ModelDrawObj();
 
+    // 0x7100c01294 (declared only; body U): destroys `count` records, the first one by tail call.
+    static void freeBuffer(ModelDrawObj* array, int count);
+
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
 
 private:

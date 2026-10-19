@@ -3,10 +3,11 @@
 #include <new>
 
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelDrawObj.h>
 
 namespace gsys {
 
-inline void EffectModelDrawMgr::Entry::clear() {
+inline void EffectModelDrawUnit::clear() {
     mFlags &= ~1;
     if (_28)
         _28 = nullptr;
@@ -26,7 +27,47 @@ inline void EffectModelDrawMgr::Entry::clear() {
     }
 }
 
-EffectModelDrawMgr::EffectModelDrawMgr() : mCapacity(0), _4(0), _8(0), _20(nullptr) {}
+EffectModelDrawUnit::~EffectModelDrawUnit() {
+    clear();
+}
+
+EffectModelDrawMgr::EffectModelDrawMgr() : mCapacity(0), _4(0), _8(0), mModelDrawObjs(nullptr) {}
+
+EffectModelDrawMgr::~EffectModelDrawMgr() {
+    ModelDrawObj::freeBuffer(mModelDrawObjs, _4);
+    if (mModelDrawObjs)
+        ::operator delete(mModelDrawObjs);
+    mEntries.freeBuffer();
+}
+
+int EffectModelDrawMgr::addModel(EffectModelDrawUnit::CreateArg arg, sead::Heap* heap) {
+    mCS2.lock();
+
+    for (u32 i = 0; i < mCapacity; ++i) {
+        if (mEntries[i].mFlags & 5)
+            continue;
+
+        mEntries[i].mFlags |= 4;
+        mCS2.unlock();
+
+        bool result = mEntries[i].initialize(arg, heap);
+
+        mCS2.lock();
+        if (result) {
+            mEntries[i].mFlags |= 1;
+            mEntries[i].mFlags &= ~4;
+            mCS2.unlock();
+            return i;
+        }
+
+        mEntries[i].mFlags &= ~1;
+        mEntries[i].mFlags &= ~4;
+        break;
+    }
+
+    mCS2.unlock();
+    return -1;
+}
 
 bool EffectModelDrawMgr::requestDeleteModel(u32 id) {
     if (mCapacity <= id)
