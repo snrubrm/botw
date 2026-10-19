@@ -107,6 +107,36 @@ void CameraEventMove::sub_710075E014() {
     camera->_860._0._24 = _4c._24 + (_84._24 - _4c._24) * _1d8._18;
 }
 
+void CameraEventMove::m43() {
+    _84._24 = *mFovy_s;
+    _2a3 = *mTargetActor_s < 2 ? *mTargetActor_s : 1;
+    sub_710075D338(&_f8);
+    sub_710075D3CC(&_108);
+    _2a4 = *mReviseModeRunning_s < 3 ? *mReviseModeRunning_s : 1;
+    _2a5 = *mReviseModeEnd_s < 3 ? *mReviseModeEnd_s : 1;
+    _1d4 = 0.0f;
+    _1d8.sub_710079C384(*mCount_d, 0.0f);
+    _2a0 = 0;
+    _2a1 = 0;
+    _2a2 = 0;
+
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+
+    camera->_860._a8 = camera->_860._e0;
+    camera->_860._70 = camera->_860._e0;
+    camera->_860._38 = camera->_860._e0;
+    camera->_860._0 = camera->_860._e0;
+    _bc = camera->_860._0;
+    _4c = camera->_860._0;
+    const sead::Vector3f diff = camera->_860._0._0 - camera->_860._0._c;
+    _1bc.set(diff);
+
+    if (*mCount_d == 0.0f)
+        camera->sub_71007929E0();
+}
+
 void CameraEventMove::m46() {
     getStaticParam(&mTargetActor_s, "TargetActor");
     getStaticParam(&mFrontBoneAxis_s, "FrontBoneAxis");
