@@ -190,6 +190,9 @@ public:
     void sub_7100F75AB8();
     // 0x7100f75af0 (placeholder name): hands the query `_2e0` to HavokAI::sub_7100F83A9C.
     void sub_7100F75AF0();
+    // 0x7100f75b0c (unnamed in the CSV): the per-frame navmesh update; the Actor job0_1 caller
+    // passes a float (the frame delta) and ignores the result. Body stays U.
+    void sub_7100F75B0C(f32 value);
     // 0x7100f760f0 / 0x7100f76168 / 0x7100f761c8 (placeholder names): forward to HavokAI (the `_18` of the character, or
     // the singleton) after the NaN checks of the arguments; the last two pass the radius `_2a8 * _2ac`.
     Unk_7100f7e9f0 sub_7100F760F0(sead::Vector3f* out, const sead::Vector3f& to, f32 value);
