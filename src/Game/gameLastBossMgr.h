@@ -2,6 +2,7 @@
 
 #include <mc/seadJobQueue.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -32,11 +33,15 @@ public:
     void sub_710067807C(ksys::act::Actor* actor);
     // lane1 s39: the registered actor link (read by GerudoHeroSoulGiftRoot::sub_71003F3154).
     ksys::act::BaseProcLink* getActorLink() { return &mActorLink; }
+    // 0x7100035a90 tests isRegistered() on it before sending message 0xd8000000.
+    ksys::MesTransceiverId& getMesTransceiverId() { return mMesTransceiverId; }
 
 private:
     static LastBossMgr* sInstance;
 
-    u8 _0[0x550];
+    u8 _0[0x238];
+    /* 0x238 */ ksys::MesTransceiverId mMesTransceiverId;
+    u8 _250[0x550 - 0x250];
     /* 0x550 */ ksys::act::BaseProcLink mActorLink;
     u8 _560[4];
     /* 0x564 */ sead::JobQueueLock mLock;

@@ -157,7 +157,7 @@ public:
     // alone by sub_710003B090 and _14d8 / _14dc by sub_7100035A90 (so they are 32-bit fields).
     /* 0x14d0 */ u32 _14d0 = 0;
     /* 0x14d4 */ u32 _14d4 = 0;
-    /* 0x14d8 */ u32 _14d8 = 0;  // state (sub_7100035A90)
+    /* 0x14d8 */ s32 _14d8 = 0;  // state (sub_7100035A90)
     /* 0x14dc */ f32 _14dc = 0;  // (GuardianStopWait: stop time limit)
     /* 0x14e0 */ void* _14e0 = nullptr;
     /* 0x14e8 */ void* _14e8 = nullptr;

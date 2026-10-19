@@ -10,6 +10,8 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70];
 KSYS_VISIBILITY_HIDDEN extern u32 sUnk_71025af300;
@@ -146,6 +148,33 @@ const sead::SafeString& Guardian::sub_710003B2EC() const {
 
 void Guardian::sub_7100034514(bool on) {
     _14c8.change(4, on);
+}
+
+// 0x7100035a90: switches the guardian state. State 5 tells the registered last-boss transceiver
+// that this guardian is present; states 12 / 13 toggle the "LockOn" attention client. The new state
+// also gets a random +-1 sign in _14f0.
+// NON_MATCHING: only the early "same state or 3 -> 2" check differs; the original precomputes both
+// equality results (cset / and) before the first branch, this build branches on each test.
+void Guardian::sub_7100035A90(s32 state) {
+    if (_14d8 == state || (_14d8 == 3 && state == 2))
+        return;
+
+    if (state == 5) {
+        if (auto* mgr = LastBossMgr::instance()) {
+            if (mgr->getMesTransceiverId().isRegistered())
+                sendMessage(mgr->getMesTransceiverId(), ksys::MessageType(0x800000d), nullptr,
+                            true);
+        }
+    } else if (state == 12 || state == 13) {
+        if (mAttention) {
+            if (auto* client = mAttention->getClientByName("LockOn"))
+                client->setEnabled(_14d8 == 12);
+        }
+    }
+
+    _14dc = 0.0f;
+    _14f0 = s32(sead::GlobalRandom::instance()->getU32() & 2) - 1;
+    _14d8 = state;
 }
 
 void Guardian::sub_710003B3FC() {
