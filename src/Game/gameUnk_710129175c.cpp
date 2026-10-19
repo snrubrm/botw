@@ -3,8 +3,34 @@
 // Graphics' render-record TUs (0x71012915bc .. 0x71012955xx). Unk_710129175c and Unk_710129421c
 // are constructed by gameGraphics.cpp's initializer but their methods live here.
 
+// 0x71012938a0: agl::sdw::ShadowPrePass::Context's destructor (declaration only).
+void sub_71012938A0(void* context);
+
+Unk_710129175c::Record::~Record() {
+    sub_71012938A0(this);
+}
+
 Unk_710129175c::Unk_710129175c() : _8(0), mRecords(), mPage(), _260() {}
-Unk_710129175c::~Unk_710129175c() = default;
+
+// NON_MATCHING: the record count is loaded one instruction later and the loop increments the
+// count before the record pointer; the teardown sequence matches.
+Unk_710129175c::~Unk_710129175c() {
+    auto delete_block = [](const agl::GPUMemAddrBase& block) {
+        agl::GPUMemVoidAddr copy(block);
+        copy.deleteGPUMemBlock();
+    };
+    Record* record = mRecords.getBufferPtr();
+    for (u64 i = u64(mRecords.size()); i != 0; ++record, --i) {
+        delete_block(record->_12c8);
+        delete_block(record->_13f0);
+        delete_block(record->_1518);
+        delete_block(record->_1b60);
+        delete_block(record->_1c88);
+        delete_block(record->_1db0);
+    }
+    mRecords.freeBuffer();
+    mPage.~DebugTexturePage();
+}
 
 Unk_7101293bac::Unk_7101293bac() : _8(0), mFlags(2), mPage(), _250(0), _254(0) {}
 Unk_7101293bac::~Unk_7101293bac() = default;

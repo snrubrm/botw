@@ -15,6 +15,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <common/aglTextureSampler.h>
 #include <utility/aglDebugTexturePage.h>
+#include <common/aglGPUMemAddr.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 
@@ -93,7 +94,20 @@ public:
     // sub_710129276C and Graphics::sub_7100F2E2A4 are modelled).
     // sub_710129276C copies the fields at 0x1f98..0x1fdc into Result; sub_71012920C4 sets _1ff4.
     struct Record {
-        u8 _0[0x1f91];
+        u8 _0[0x12c8];
+        agl::GPUMemAddrBase _12c8;
+        u8 _12e0[0x13f0 - 0x12e0];
+        agl::GPUMemAddrBase _13f0;
+        u8 _1408[0x1518 - 0x1408];
+        agl::GPUMemAddrBase _1518;
+        u8 _1530[0x1b60 - 0x1530];
+        agl::GPUMemAddrBase _1b60;
+        u8 _1b78[0x1c88 - 0x1b78];
+        agl::GPUMemAddrBase _1c88;
+        u8 _1ca0[0x1db0 - 0x1ca0];
+        agl::GPUMemAddrBase _1db0;
+        u8 _1dc8[0x1f91 - 0x1dc8];
+        ~Record();
         u8 _1f91;  // Graphics::sub_7100F2E2A4 tests bit 1 of record 0
         u8 _1f92[0x1f98 - 0x1f92];
         u64 _1f98;
