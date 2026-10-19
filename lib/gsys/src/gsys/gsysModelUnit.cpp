@@ -178,4 +178,37 @@ void ModelUnit::calcBoundAABB(sead::BoundBox3f* aabb, bool) const {
     aabb->setMax(_50->getCenter() + extent);
 }
 
+// 0x7100c146f8
+void* ModelUnit::createSubMeshRangeBuffer(sead::Heap* heap) const {
+    return nullptr;
+}
+
+// 0x7100c146c0
+void ModelUnit::getMaterialParamTexSRT(int, int, sead::Vector2f*, float*, sead::Vector2f*) const {}
+
+// 0x7100c146c4
+void ModelUnit::setMaterialParamTexSRT(int, int, const sead::Vector2f&, float,
+                                       const sead::Vector2f&) {}
+
+// 0x7100c14700
+void ModelUnit::setSubMeshRangeBuffer(int, void*) {}
+
+// 0x7100c14704
+void ModelUnit::setSubMeshRangeBufferVisible(int, int, const bool*) {}
+
+// 0x7100c14718
+bool ModelUnit::isDefaultRenderOptionEnabled(int, ModelEnum::RenderOption) const {
+    return false;
+}
+
+// 0x7100c14720
+bool ModelUnit::isDefaultRenderViewOptionEnabled(int, ModelEnum::RenderViewOption, int) const {
+    return false;
+}
+
+// 0x7100c14738
+bool ModelUnit::isReverseCullingEnabled(int) const {
+    return false;
+}
+
 }  // namespace gsys
