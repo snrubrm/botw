@@ -94,12 +94,11 @@ void CameraEventMove::sub_710075E014() {
     if (!camera)
         return;
 
-    const sead::Vector3f diff = _84._0 - _84._c;
-    const act::Unk_7100922700 polar(diff);
-    act::Unk_7100922700 out;
-    out._0 = _1bc._0 + (polar._0 - _1bc._0) * _1d8._18;
-    out._4 = angleStuff(angleStuff(angleStuff(polar._4 - _1bc._4) * _1d8._18) + _1bc._4);
-    out._8 = angleStuff(angleStuff(angleStuff(polar._8 - _1bc._8) * _1d8._18) + _1bc._8);
+    const act::Unk_7100922700 polar(_84._0 - _84._c);
+    act::Unk_7100922700 out = _1bc;
+    out._0 += (polar._0 - _1bc._0) * _1d8._18;
+    out._4 = angleStuff(angleStuff(angleStuff(out._4 - _1bc._4) * _1d8._18) + out._4);
+    out._8 = angleStuff(angleStuff(angleStuff(out._8 - _1bc._8) * _1d8._18) + out._8);
 
     camera->_860._0._c = _4c._c + (_84._c - _4c._c) * _1d8._18;
     const sead::Vector3f offset = out.sub_7100923254();
