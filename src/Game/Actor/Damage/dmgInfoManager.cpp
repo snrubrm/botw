@@ -1,4 +1,5 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
+#include "Game/Scene/gameStageInfo.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -119,7 +120,7 @@ bool DamageInfoMgr::isTrueFormMasterSword() const {
     if (ksys::gdt::getFlag_LastBossGanonBeastGenerateFlag())
         return true;
 
-    const sead::SafeString& map = GameScene::getCurrentMapName();
+    const sead::SafeString& map = uking::StageInfo::getCurrentMapName();
 
     if (!ksys::gdt::getFlag_Die_PGanonElectric() && map == "RemainsElectric")
         return true;

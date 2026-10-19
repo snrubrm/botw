@@ -1,4 +1,5 @@
 #include "Game/NXArgs.h"
+#include "Game/Scene/gameStageInfo.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Scene/gameScene.h"
 #include "Game/gameRoot4.h"
@@ -38,7 +39,7 @@ void nxargs::handleArgs() {
     if (mType == ArgsType::None)
         return;
 
-    const sead::SafeString& map_type = GameScene::getCurrentMapType();
+    const sead::SafeString& map_type = uking::StageInfo::getCurrentMapType();
     if (map_type == "TitleMenu")
         return;
     if (map_type == "STAGESELECT")

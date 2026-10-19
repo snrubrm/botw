@@ -1,4 +1,5 @@
 #include "Game/gameSceneSubsys14.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/UI/uiManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -180,7 +181,7 @@ void GameSceneSubsys14::initCurrentLocation() {
 
     if (ksys::StageInfo::sIsCDungeon || ksys::StageInfo::sIsMainFieldDungeon) {
         _12e2 = true;
-        const sead::SafeString& name = uking::GameScene::getCurrentMapName();
+        const sead::SafeString& name = uking::StageInfo::getCurrentMapName();
         _38.name = name;
         ksys::gdt::setFlag_SaveLocationName(name, false);
         return;

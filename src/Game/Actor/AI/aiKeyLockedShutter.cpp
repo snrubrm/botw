@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiKeyLockedShutter.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -24,7 +25,7 @@ void KeyLockedShutter::enter_(ksys::act::ai::InlineParamPack* params) {
 void KeyLockedShutter::calc_() {
     auto* actor = mActor;
     auto* child = getCurrentChild();
-    const s32 num_keys = ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName());
+    const s32 num_keys = ksys::gdt::getSmallKeyNum(uking::StageInfo::getCurrentMapName());
 
     if (num_keys >= 1 && isCurrentChild("クローズ待機"))
         ksys::act::enableAttClient(actor, "Open");
@@ -34,7 +35,7 @@ void KeyLockedShutter::calc_() {
     if (isCurrentChild("クローズ待機")) {
         if (child->isChangeable() && num_keys >= 1 && _38._30) {
             _38.x();
-            ksys::gdt::incrementSmallKeyNum(GameScene::getCurrentMapName(), -1);
+            ksys::gdt::incrementSmallKeyNum(uking::StageInfo::getCurrentMapName(), -1);
             changeChild("オープン");
             return;
         }
@@ -50,7 +51,7 @@ void KeyLockedShutter::loadParams_() {}
 
 bool KeyLockedShutter::handleMessage_(const ksys::Message* message) {
     if (isCurrentChild("クローズ待機") &&
-        ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName()) >= 1 && _38.m2(*message)) {
+        ksys::gdt::getSmallKeyNum(uking::StageInfo::getCurrentMapName()) >= 1 && _38.m2(*message)) {
         return true;
     }
     return false;

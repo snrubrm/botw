@@ -1,4 +1,5 @@
 #include "Game/gameOpenWorldStage.h"
+#include "Game/Scene/gameStageInfo.h"
 #include <gfx/seadCamera.h>
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "Game/gameRadarMgr.h"
@@ -132,7 +133,7 @@ void OpenWorldStage::postCalc() {
     GameSceneSubsys5::instance()->postCalc();
     LastBossMgr::instance()->postCalc();
     GameSceneSubsys14::instance()->postCalc();
-    if (GameScene::getCurrentMapType() != "AocField") {
+    if (uking::StageInfo::getCurrentMapType() != "AocField") {
         if (auto* mgr = HorseMgr::instance())
             mgr->postCalc();
     }

@@ -1,4 +1,5 @@
 #include "Game/Actor/Query/queryCheck100EnemyActiveTiming.h"
+#include "Game/Scene/gameStageInfo.h"
 #include <evfl/Query.h>
 #include "KingSystem/AOC/aocManager.h"
 #include "Game/Scene/gameScene.h"
@@ -14,7 +15,7 @@ Check100EnemyActiveTiming::Check100EnemyActiveTiming(const InitArg& arg)
 Check100EnemyActiveTiming::~Check100EnemyActiveTiming() = default;
 
 int Check100EnemyActiveTiming::doQuery() {
-    if (GameScene::getCurrentMapType() != "MainField")
+    if (uking::StageInfo::getCurrentMapType() != "MainField")
         return 0;
     if (!ksys::aoc::Manager::instance()->hasAoc2())
         return 0;

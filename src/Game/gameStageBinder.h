@@ -76,7 +76,7 @@ public:
 // Describes the stage to create (the type, the map type / name, ...) and owns the created stage. The 13 virtuals
 // are implemented by one binder class per stage kind.
 // Names: the CSV (IDA) names where there are some (getType, getName); the others are placeholders. m8 / m9 are
-// compared against GameScene::getCurrentMapType / getCurrentMapName by initAndReportDungeonLeaveEnter
+// compared against uking::StageInfo::getCurrentMapType / getCurrentMapName by initAndReportDungeonLeaveEnter
 // (0x71007b79a8).
 class StageBinder {
     SEAD_RTTI_BASE(StageBinder)

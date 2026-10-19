@@ -698,9 +698,9 @@ bool GameScene::initBeforeStageGen(s32 state) {
 
 bool GameScene::loadTera() {
     sead::SafeString map_type = "MainField";
-    if (getCurrentMapType() == "GameTestField")
+    if (StageInfo::getCurrentMapType() == "GameTestField")
         map_type = "GameTestField";
-    else if (getCurrentMapType() == "AocField")
+    else if (StageInfo::getCurrentMapType() == "AocField")
         map_type = "AocField";
 
     const s32 type = _2a8->getType();

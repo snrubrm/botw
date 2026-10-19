@@ -76,8 +76,8 @@ void StageBinder::initAndReportDungeonLeaveEnter() {
     if (getType() != 4 && !m12())
         eventMgrHasActiveEvent();
 
-    const sead::SafeString& current_type = GameScene::getCurrentMapType();
-    const sead::SafeString& current_name = GameScene::getCurrentMapName();
+    const sead::SafeString& current_type = uking::StageInfo::getCurrentMapType();
+    const sead::SafeString& current_name = uking::StageInfo::getCurrentMapName();
     const sead::SafeString& next_type = m8();
     const sead::SafeString& next_name = m9();
 
@@ -130,8 +130,8 @@ void GameScene::sub_71007B1C64() {
         return;
     ksys::gdt::setFlag_PlayerSavePos(StageInfo::getPSavePosForStageGen(), false);
     ksys::gdt::setFlag_PlayerSavePosAngleYDegree(StageInfo::getPSavePosAngleForStageGen().y, false);
-    ksys::gdt::setFlag_PlayerSavePosMapType(getCurrentMapType().cstr(), false);
-    ksys::gdt::setFlag_PlayerSavePosMapName(getCurrentMapName().cstr(), false);
+    ksys::gdt::setFlag_PlayerSavePosMapType(StageInfo::getCurrentMapType().cstr(), false);
+    ksys::gdt::setFlag_PlayerSavePosMapName(StageInfo::getCurrentMapName().cstr(), false);
 }
 
 void recoverLifeAndStamina() {
@@ -356,7 +356,7 @@ void IndoorStage::m4(int* x, int* z, const sead::SafeString& name) {
 }
 
 void IndoorStage::getMapType(sead::BufferedSafeString* out) {
-    out->copy(GameScene::getCurrentMapType());
+    out->copy(uking::StageInfo::getCurrentMapType());
 }
 
 int IndoorStage::m0() {
@@ -415,7 +415,7 @@ void MainFieldDungeonStage::m4(int* x, int* z, const sead::SafeString& name) {
 }
 
 void MainFieldDungeonStage::getMapType(sead::BufferedSafeString* out) {
-    out->copy(GameScene::getCurrentMapType());
+    out->copy(uking::StageInfo::getCurrentMapType());
 }
 
 int MainFieldDungeonStage::m0() {

@@ -143,12 +143,6 @@ public:
     // 0x71007aef94 (placeholder name; RestartStageFromGameOver::enter_): `resetStage(SaveSystem::instance()->_30, true)`.
     static void sub_71007AEF94();
 
-    /// Get the current map type (e.g. MainFieldDungeon)
-    static const sead::SafeString& getCurrentMapType();
-
-    /// Get the current map name (e.g. RemainsWind, FinalTrial, ...)
-    static const sead::SafeString& getCurrentMapName();
-
     // 0x71007b2554 (CSV GameScene::loadTera): loads the terrain scene of the current map type and points the
     // camera at the stage binder's initial position.
     bool loadTera();

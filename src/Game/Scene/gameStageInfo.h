@@ -17,6 +17,13 @@ public:
     static void setPSavePosForStageGen(const sead::Vector3f& pos);
     static void setCurrentMapNameFromPlayerPos();
     static bool getIsStageDebug();
+
+    /// Get the current map type (e.g. MainFieldDungeon)
+    static const sead::SafeString& getCurrentMapType();
+
+    /// Get the current map name (e.g. RemainsWind, FinalTrial, ...)
+    static const sead::SafeString& getCurrentMapName();
+
     static bool isDebugOrDevMap() { return sInfo.mIsDebugOrDevMap; }
     static bool isViewerMapType() { return sInfo.mIsViewerMapType; }
     static bool isDungeon() { return sInfo.mIsDungeon; }

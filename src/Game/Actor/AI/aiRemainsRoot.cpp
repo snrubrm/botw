@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiRemainsRoot.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/Actor/aiUnk_71002CA6AC.h"
 #include "Game/Actor/aiUnk_71024f15c0.h"
 #include "Game/UI/uiUtils.h"
@@ -32,7 +33,7 @@ void RemainsRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     _49 = actor->getName().findIndex("_Far") != -1;
     ui::sub_7100A9A644(actor);
-    _48 = GameScene::getCurrentMapType() == "MainField";
+    _48 = uking::StageInfo::getCurrentMapType() == "MainField";
     m34();
     m35(true);
 }

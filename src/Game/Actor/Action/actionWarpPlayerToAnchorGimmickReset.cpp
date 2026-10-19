@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionWarpPlayerToAnchorGimmickReset.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/gameResetter.h"
 #include <resource/seadResource.h>
 #include "Game/Scene/gameScene.h"
@@ -36,7 +37,7 @@ void WarpPlayerToAnchorGimmickReset::enter_(ksys::act::ai::InlineParamPack* para
         setFailed();
         return;
     }
-    auto* handle = getMapStaticMubin(GameScene::getCurrentMapType());
+    auto* handle = getMapStaticMubin(uking::StageInfo::getCurrentMapType());
     if (!handle || !handle->isSuccess()) {
         setFailed();
         return;

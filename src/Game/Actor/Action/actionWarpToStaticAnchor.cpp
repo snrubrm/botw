@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionWarpToStaticAnchor.h"
+#include "Game/Scene/gameStageInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include <resource/seadResource.h>
 #include "Game/Scene/gameScene.h"
@@ -20,7 +21,7 @@ bool WarpToStaticAnchor::init_(sead::Heap* heap) {
 }
 
 bool WarpToStaticAnchor::oneShot_() {
-    auto* handle = getMapStaticMubin(GameScene::getCurrentMapType());
+    auto* handle = getMapStaticMubin(uking::StageInfo::getCurrentMapType());
     if (!handle || !handle->isSuccess())
         return false;
     auto* resource = sead::DynamicCast<sead::DirectResource>(handle->getResource());

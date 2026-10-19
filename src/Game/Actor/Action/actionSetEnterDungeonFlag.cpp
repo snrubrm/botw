@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionSetEnterDungeonFlag.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/gamePlayReport.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -14,8 +15,8 @@ bool SetEnterDungeonFlag::init_(sead::Heap* heap) {
 }
 
 bool SetEnterDungeonFlag::oneShot_() {
-    ksys::gdt::setDungeonEntered(GameScene::getCurrentMapName(), true);
-    reportDungeon(GameScene::getCurrentMapName(), "first");
+    ksys::gdt::setDungeonEntered(uking::StageInfo::getCurrentMapName(), true);
+    reportDungeon(uking::StageInfo::getCurrentMapName(), "first");
     return true;
 }
 

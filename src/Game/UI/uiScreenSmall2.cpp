@@ -1,4 +1,5 @@
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/AOC/aocHardModeManager.h"
 #include <algorithm>
 #include <thread/seadThread.h>
@@ -1518,7 +1519,7 @@ bool sub_7100A25D7C(s32 kind) {
 // 0x7100a0e7fc
 void ScreenKeyNum::open(s32 option) {
     if (mState != 1 && mState != 2 && ksys::StageInfo::sIsDungeon) {
-        if (ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName(), false) < 1)
+        if (ksys::gdt::getSmallKeyNum(uking::StageInfo::getCurrentMapName(), false) < 1)
             return;
         if (sub_7100A98038(mId))
             return;
@@ -1528,7 +1529,7 @@ void ScreenKeyNum::open(s32 option) {
 
 // 0x7100a0e8a4
 void ScreenKeyNum::m84() {
-    _3610 = ksys::StageInfo::sIsDungeon ? ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName(), false) : 0;
+    _3610 = ksys::StageInfo::sIsDungeon ? ksys::gdt::getSmallKeyNum(uking::StageInfo::getCurrentMapName(), false) : 0;
     sub_7100AA930C(mLayout, "T_KeyNum_00", _3610, 0, 0);
 }
 

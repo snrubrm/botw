@@ -1,4 +1,5 @@
 #include <nn/util/util_Compression.h>
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include <filedevice/seadFileDevice.h>
@@ -171,7 +172,7 @@ bool SaveSystem::sub_7100914A40() {
 }
 
 const sead::SafeString* SaveSystem::invokedGetMapName() {
-    const sead::SafeString& map_type = GameScene::getCurrentMapType();
+    const sead::SafeString& map_type = uking::StageInfo::getCurrentMapType();
     if (map_type == sTitleMenuMapType || gameSceneStartedBgProcessingAndNotFinished())
         return &sUnk_71025D1BF8;
     if (_1e68.isEmpty())
@@ -870,7 +871,7 @@ bool SaveSystem::sub_7100912BE0(bool check_ui) {
             return true;
     }
 
-    return GameScene::getCurrentMapType().isEmpty();
+    return uking::StageInfo::getCurrentMapType().isEmpty();
 }
 
 void SaveSystem::sub_7100911BB8() {
@@ -960,7 +961,7 @@ bool SaveSystem::triggerAutoSaveFromArea(ksys::act::Actor* actor) {
 bool SaveSystem::startLoad2(s32 slot) {
     if (E3Mgr::instance() && E3Mgr::instance()->isDemoMode() &&
         !E3Mgr::instance()->isRidDemoAnd28IsOne()) {
-        if (GameScene::getCurrentMapType() == sTitleMenuMapType)
+        if (uking::StageInfo::getCurrentMapType() == sTitleMenuMapType)
             return sub_7100914A40();
     }
 
@@ -1301,7 +1302,7 @@ bool SaveSystem::x_3(s32 slot) {
                 return false;
             if (_1a50 & 0x1008)
                 return false;
-            if (GameScene::getCurrentMapType().isEmpty())
+            if (uking::StageInfo::getCurrentMapType().isEmpty())
                 return false;
 
             _1a50 |= 0x4200;

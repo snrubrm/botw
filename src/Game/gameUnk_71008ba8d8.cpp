@@ -1,4 +1,5 @@
 #include "Game/gameUnk_71008ba8d8.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/System/Vibration.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -221,8 +222,8 @@ bool callDemo005_0(ksys::act::Actor* player, const sead::SafeString& a, const se
                 arg.metadata = &metadata;
                 arg.proc = player;
                 if (manager->callEvent(arg)) {
-                    if (GameScene::getCurrentMapType() == "MainFieldDungeon") {
-                        if (GameScene::getCurrentMapName() == "FinalTrial")
+                    if (uking::StageInfo::getCurrentMapType() == "MainFieldDungeon") {
+                        if (uking::StageInfo::getCurrentMapName() == "FinalTrial")
                             ksys::Vibration::instance()->sub_71010BB36C();
                     }
                     result = true;

@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionOpenDungeonSmallTitle.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/UI/uiUI.h"
 
@@ -18,8 +19,8 @@ void OpenDungeonSmallTitle::enter_(ksys::act::ai::InlineParamPack* params) {
         setFailed();
         return;
     }
-    sead::FixedSafeString<256> label(GameScene::getCurrentMapName());
-    sead::FixedSafeString<256> secondary_label(GameScene::getCurrentMapName());
+    sead::FixedSafeString<256> label(uking::StageInfo::getCurrentMapName());
+    sead::FixedSafeString<256> secondary_label(uking::StageInfo::getCurrentMapName());
     ui->sub_71010A6800(mMstxt_s, label, mSubMstxt_d, secondary_label);
 }
 

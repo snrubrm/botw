@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiRailMoveRemainsBGCamera.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/Actor/aiUnk_71002CA6AC.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/Map/mapPlacement18.h"
@@ -22,14 +23,14 @@ bool RailMoveRemainsBGCamera::init_(sead::Heap* heap) {
 }
 
 void RailMoveRemainsBGCamera::enter_(ksys::act::ai::InlineParamPack* params) {
-    const s32 id = getMainFieldDungeonType(GameScene::getCurrentMapName());
+    const s32 id = getMainFieldDungeonType(uking::StageInfo::getCurrentMapName());
     auto* actor = mActor;
     sub_71002CA954(actor, id, sub_71002CA808(id), *mIsAllowRotAxisX_s);
     RailMoveRemains::enter_(params);
 }
 
 ksys::map::Rail* RailMoveRemainsBGCamera::m34() {
-    const sead::SafeString map_name = GameScene::getCurrentMapName();
+    const sead::SafeString map_name = uking::StageInfo::getCurrentMapName();
     if (map_name.findIndex(mDungeonName_s) == -1)
         return nullptr;
     return ksys::StagePreActorCache::instance()->getPlacement18()->sub_7100D48744(mRailName_s);

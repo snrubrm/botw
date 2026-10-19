@@ -1,17 +1,16 @@
 #include "Game/Scene/gameStageInfo.h"
-#include "Game/Scene/gameScene.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking {
 
-// 0x71007cc064 / 0x71007cc078: in this TU in the original (their neighbours are the StageInfo functions).
-const sead::SafeString& GameScene::getCurrentMapType() {
+// 0x71007cc064 / 0x71007cc078: linked before this TU's sinit, so they are StageInfo members.
+const sead::SafeString& StageInfo::getCurrentMapType() {
     return ksys::StageInfo::getCurrentMapType();
 }
 
-const sead::SafeString& GameScene::getCurrentMapName() {
+const sead::SafeString& StageInfo::getCurrentMapName() {
     return ksys::StageInfo::getCurrentMapName();
 }
 
