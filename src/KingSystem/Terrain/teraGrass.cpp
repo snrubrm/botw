@@ -220,18 +220,37 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
     f32 low = 0.0f;
     f32 high = 0.0f;
     f32 weight = 1.0f;
-    f32 t = 0.0f;
     u32 value = 0;
     s32 t_index = 0;
     u32 override = 0;
-    bool t_from_record = true;
+
+    const auto finish = [&](f32 t) {
+        t = t * _38450 - _3844c;
+        if (t < 0.0f)
+            t = 0.0f;
+        else if (t > 1.0f)
+            t = 1.0f;
+        if (out)
+            *out = value;
+        return weight * (low + (high - low) * t);
+    };
+    const auto recordT = [&] {
+        f32 t = f32(rec->_38[t_index]) / 255.0f;
+        if ((override & 1) != 0 && (cell->mFlags & 0x1800) != 0) {
+            t = 1.0f;
+            value = 0;
+        }
+        return t;
+    };
 
     switch (type) {
     case 0:
     case 1: {
         if ((cell->mFlags & 0x420) == 0x20)
             return 0.0f;
-        if ((cell->mFlags & 0x1c0) != 0 && (cell->mFlags & 0x2000000) == 0)
+        const bool has_flags = (cell->mFlags & 0x1c0) != 0;
+        const bool no_indoor = (cell->mFlags & 0x2000000) == 0;
+        if (has_flags && no_indoor)
             return 0.0f;
         const s32 attr_index = rec->_35;
         if (attr_index == -1)
@@ -266,7 +285,7 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
             if (weight <= 0.0f)
                 return 0.0f;
         } else {
-            const u16 mask = rec->_12 & rec->_14;
+            const u32 mask = rec->_12 & rec->_14;
             if (type == 1) {
                 if ((~mask & 0xffff) == 0)
                     return 0.0f;
@@ -286,7 +305,7 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
                 override = attr->_118;
             }
         }
-        break;
+        return finish(recordT());
     }
     case 2: {
         ksys::tera::AreaEnvEntry1* entry = getter->sub_710107C9F4(rec->_36);
@@ -300,7 +319,7 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
         weight = f32(rec->_26) / 255.0f;
         if (weight <= 0.0f)
             return 0.0f;
-        break;
+        return finish(recordT());
     }
     case 3: {
         const f32 v = f32(rec->_3e) / 255.0f;
@@ -330,7 +349,7 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
             if (weight <= 0.0f)
                 return 0.0f;
         }
-        break;
+        return finish(recordT());
     }
     case 4: {
         const f32 a = (rec->_7 & 0xfe) == 6 ? 1.0f : 0.0f;
@@ -341,7 +360,7 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
         const f32 base = rec->_34 == 0x3e || rec->_34 == 0x1c ? 1.0f : 0.0f;
         low = 0.0f;
         high = base * mix * sead::Mathf::max(1.0f - d, 0.1f);
-        break;
+        return finish(recordT());
     }
     case 5: {
         const f32 a = rec->_8 == 0x52 ? 1.0f : 0.0f;
@@ -351,34 +370,14 @@ f32 ksys::tera::Core::Grass::EntryPart::sub_71010723C8(s32 type, const Cell* cel
         const f32 mix = d + (a - d) * c;
         low = 0.0f;
         high = rec->_18 < 2 ? 0.0f : mix * 0.25f;
-        t = b;
-        t_from_record = false;
-        break;
+        return finish(b);
     }
     default:
         low = 0.0f;
         high = 1.0f;
         weight = 1.0f;
-        break;
+        return finish(recordT());
     }
-
-    if (t_from_record) {
-        t = f32(rec->_38[t_index]) / 255.0f;
-        if ((override & 1) != 0 && (cell->mFlags & 0x1800) != 0) {
-            t = 1.0f;
-            value = 0;
-        }
-    }
-
-    t = t * _38450 - _3844c;
-    if (t < 0.0f)
-        t = 0.0f;
-    else if (t > 1.0f)
-        t = 1.0f;
-
-    if (out)
-        *out = value;
-    return weight * (low + (high - low) * t);
 }
 
 // NON_MATCHING: the shared cell index helper is scheduled differently (the z division is hoisted).
@@ -426,3 +425,124 @@ s32 ksys::tera::Core::Grass::EntryPart::sub_7101075038(const sead::Vector2f& pos
     mCS.unlock();
     return result;
 }
+
+namespace {
+
+// The grass attribute types and their weight scale (0x7102504038): petal, normal, long.
+struct AttributeTypeInfo {
+    const char* mName;
+    const char* mLabel;
+    f32 mScale;
+    u32 _14;
+};
+const AttributeTypeInfo sAttributeTypes[3] = {
+    {"petal", "Petal", 1.0f, 0},
+    {"normal", "Normal", 1.0f, 0},
+    {"long", "Long", 4.0f, 0},
+};
+
+// One 0x300-byte row of the grass attribute table filled by 0x710106bd54. The first table of the
+// area environment entry fills mValues1 / mExtras1, the second mValues0 / mExtras0.
+struct GrassAttributeValue {
+    f32 mValue;
+    f32 _4;
+    f32 mWeight;
+    f32 _c;
+};
+struct GrassAttributeExtra {
+    u32 _0;
+    f32 _4;
+    f32 _8;
+    u32 _c;
+};
+struct GrassAttributeEntry {
+    GrassAttributeValue mValues1[3][4];  // 0x000
+    GrassAttributeExtra mExtras1[3][4];  // 0x0c0
+    GrassAttributeValue mValues0[3][4];  // 0x180
+    GrassAttributeExtra mExtras0[3][4];  // 0x240
+};
+static_assert(sizeof(GrassAttributeEntry) == 0x300);
+
+// The static grass attribute table (0x7102615830): the entry buffer at +0x30 and the second
+// array at +0x40 / +0x48.
+struct GrassAttributeTable {
+    u8 _0[0x30];
+    sead::Buffer<GrassAttributeEntry> mEntries;
+    s32 mCount;
+    u32 _44;
+    void* mData;
+};
+GrassAttributeTable sGrassAttributeTable;
+
+}  // namespace
+
+namespace ksys::tera {
+
+// 0x710107b624 (placeholder name): the weight scale of grass attribute type `layer`.
+f32 AreaEnvEntry0::sub_710107B624(s32 layer) {
+    return sAttributeTypes[layer].mScale;
+}
+
+// NON_MATCHING: the original reloads the table buffer pointer after each call and keeps four float
+// values live (frame 0x90); ours hoists the buffer base and the constants (frame 0x60).
+// 0x710106bd54 (placeholder name): fills the grass attribute table from the area environment
+// entries of the first AreaEnvGetter table.
+void sub_710106BD54() {
+    ksys::tera::Core::Grass* grass = ksys::tera::Terrain::instance()->sub_710114DE4C();
+    ksys::tera::AreaEnvGetter* getter = grass->_38;
+    const s32 count = getter->mData->mEntries0.size();
+    if (count <= 0)
+        return;
+    const f32 grass_scale = grass->_17b0;
+
+    for (s32 i = 0; i < count; ++i) {
+        ksys::tera::AreaEnvEntry0* entry = getter->sub_710107C9C4(i);
+        if (!entry)
+            continue;
+        GrassAttributeEntry& row = sGrassAttributeTable.mEntries[i];
+
+        for (u32 layer = 0; layer < 3; ++layer) {
+            const ksys::tera::AreaEnvAttribute* attr = entry->mAttributes1[layer];
+            for (u32 j = 0; j < 4; ++j) {
+                const s32 index = attr->mIndices[j];
+                if (index < 0) {
+                    row.mValues1[layer][j]._4 = 0.0f;
+                    row.mExtras1[layer][j]._8 = 0.0f;
+                    continue;
+                }
+                const ksys::tera::AreaEnvColumn* data = getter->mData->mAttributes[layer];
+                row.mValues1[layer][j].mValue = f32(data->mIndices[index]);
+                row.mValues1[layer][j]._4 = data->mValues[index];
+                row.mValues1[layer][j].mWeight =
+                    data->mWeights[index] * data->mValues[index] * entry->sub_710107B624(s32(layer));
+                row.mValues1[layer][j]._c = 0.0f;
+                row.mExtras1[layer][j]._0 = data->mIds[index];
+                row.mExtras1[layer][j]._4 = sead::Mathf::max(data->mLimits[index], 0.01f);
+                row.mExtras1[layer][j]._8 = attr->mValues[j];
+            }
+        }
+
+        for (u32 layer = 0; layer < 3; ++layer) {
+            const ksys::tera::AreaEnvAttribute* attr = entry->mAttributes0[layer];
+            for (u32 j = 0; j < 4; ++j) {
+                const s32 index = attr->mIndices[j];
+                if (index < 0) {
+                    row.mValues0[layer][j]._4 = 0.0f;
+                    row.mExtras0[layer][j]._8 = 0.0f;
+                    continue;
+                }
+                const ksys::tera::AreaEnvColumn* data = getter->mData->mAttributes[layer];
+                row.mValues0[layer][j].mValue = f32(data->mIndices[index]);
+                row.mValues0[layer][j]._4 = data->mValues[index];
+                row.mValues0[layer][j].mWeight =
+                    data->mWeights[index] * data->mValues[index] * entry->sub_710107B624(s32(layer));
+                row.mValues0[layer][j]._c = grass_scale * data->mScales[index];
+                row.mExtras0[layer][j]._0 = data->mIds[index];
+                row.mExtras0[layer][j]._4 = sead::Mathf::max(data->mLimits[index], 0.01f);
+                row.mExtras0[layer][j]._8 = attr->mValues[j];
+            }
+        }
+    }
+}
+
+}  // namespace ksys::tera

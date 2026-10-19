@@ -15,7 +15,9 @@ namespace ksys::tera {
 struct AreaEnvAttribute {
     u8 _0[0x48];
     /* 0x48 */ s32* mIndices;
-    u8 _50[0x98 - 0x50];
+    u8 _50[0x70 - 0x50];
+    /* 0x70 */ f32* mValues;
+    u8 _78[0x98 - 0x78];
     /* 0x98 */ f32 _98;
     u8 _9c[0xb8 - 0x9c];
     /* 0xb8 */ f32 _b8;
@@ -27,9 +29,29 @@ struct AreaEnvAttribute {
     /* 0x118 */ u32 _118;
 };
 
+// One column of the area environment data (AreaEnvGetter::Data::mAttributes): an index array and
+// the five per-index arrays read by 0x710106bd54.
+struct AreaEnvColumn {
+    u8 _0[0x48];
+    /* 0x48 */ s32* mIndices;
+    u8 _50[0x70 - 0x50];
+    /* 0x70 */ f32* mValues;
+    u8 _78[0x98 - 0x78];
+    /* 0x98 */ f32* mWeights;
+    u8 _a0[0xc0 - 0xa0];
+    /* 0xc0 */ f32* mScales;
+    u8 _c8[0xe8 - 0xc8];
+    /* 0xe8 */ u32* mIds;
+    u8 _f0[0x110 - 0xf0];
+    /* 0x110 */ f32* mLimits;
+};
+
 // The three entry types of the AreaEnvGetter tables (the record fields _35 / _36 / _37 index them).
 // Only the fields read by 0x71010723c8 / 0x7101074d40 are modelled.
 struct AreaEnvEntry0 {
+    // 0x710107b624 (placeholder name): the weight scale of attribute type `layer` (0 - 2).
+    f32 sub_710107B624(s32 layer);
+
     u8 _0[0xe8];
     /* 0xe8 */ AreaEnvAttribute* mAttributes0[3];
     /* 0x100 */ AreaEnvAttribute* mAttributes1[3];
@@ -80,7 +102,7 @@ public:
     // +0x278 and the three sead::Buffer tables at +0x290 / +0x2a0 / +0x2b0.
     struct Data {
         u8 _0[0x278];
-        /* 0x278 */ AreaEnvAttribute* mAttributes[3];
+        /* 0x278 */ AreaEnvColumn* mAttributes[3];
         /* 0x290 */ sead::Buffer<AreaEnvEntry0*> mEntries0;
         /* 0x2a0 */ sead::Buffer<AreaEnvEntry1*> mEntries1;
         /* 0x2b0 */ sead::Buffer<AreaEnvEntry2*> mEntries2;

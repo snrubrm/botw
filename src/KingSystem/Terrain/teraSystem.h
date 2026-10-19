@@ -256,6 +256,9 @@ public:
         u8 _30[0x38 - 0x30];
         // The area environment getter, built by the grass initialiser 0x710114eab0.
         AreaEnvGetter* _38;
+        u8 _40[0x17b0 - 0x40];
+        // Grass scale used by the attribute table builder 0x710106bd54.
+        f32 _17b0;
     };
     struct Unk_71013010d4 {
         s8 mIndex;
