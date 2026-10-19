@@ -20,6 +20,8 @@ class LayoutEx;
 
 namespace uking::ui {
 
+class UiSubsys1;
+
 // Texture loader embedded at +0x10 of each 0xa0-byte map tile (9A5930 / 9A62C0).
 class Unk_7102479bd0 {
 public:
@@ -78,7 +80,7 @@ public:
     // 0x71009a82a8: the byte at 0xa8ea (ScreenAppMap has loaded the normal map)
     bool sub_71009A82A8() const;
 
-    u8 _8[0x10 - 8];
+    /* 0x08 */ UiSubsys1* _8 = nullptr;  // the UI subsystem (its _128 is the current map area)
     /* 0x10 */ Unk_71024753a8* _10;
     u8 _18[0x28 - 0x18];
     /* 0x28 */ Unk_7102479bb0 mEntries[120];
