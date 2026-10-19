@@ -184,6 +184,11 @@ bool Unk_71025193e8::m11() const {
     return (_5c & 2) != 0;
 }
 
+void Unk_71025193e8::m12() {
+    if (_50 && (_48 & 1))
+        m11();
+}
+
 // NON_MATCHING: placeholder destructor; the original (0x7101296aac) also destroys members or bases
 // this class does not declare yet.
 Unk_7102519460::~Unk_7102519460() = default;
