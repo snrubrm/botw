@@ -255,6 +255,29 @@ void Unk_7102477fc0::sub_710098CF9C() {
         _20->RemoveChild(_8->mPane);
 }
 
+// 0x710098cfd4 (placeholder name): applies a show (1) / hide (-1) direction to the marker icon.
+// NON_MATCHING: the original spills both operands of the kind test to the stack and uses lt for the
+// two float compares; ours keeps the compare in registers and uses mi (same branches otherwise).
+void Unk_7102477fc0::sub_710098CFD4(f32 direction) {
+    if (_10) {
+        if (!_18)
+            return;
+        const s32 index = _18->_40;
+        if (index < 0)
+            return;
+        _10->_230[index] = direction < 0.0f ? 0xff : 0;
+        return;
+    }
+    if (_28 == 0x16 || _28 == 0x1b) {
+        auto* control = sead::DynamicCast<Unk_71025d9170>(this);
+        if (control && control->_38)
+            control->_38->PlayAuto(direction);
+        return;
+    }
+    if (_8)
+        _8->mPane->SetVisible(direction < 0.0f);
+}
+
 Unk_71024783b0::~Unk_71024783b0() {
     _30 = {0.0f, 0.0f};
 }

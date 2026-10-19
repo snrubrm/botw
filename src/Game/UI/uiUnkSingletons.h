@@ -866,6 +866,8 @@ public:
     virtual s32 m14() const;
     void sub_710098CB98(bool enabled);
     void sub_710098CF9C();
+    // 0x710098cfd4 (placeholder name): applies a show (1) / hide (-1) direction to the marker icon
+    void sub_710098CFD4(f32 direction);
 
     eui::LayoutEx* _8 = nullptr;
     eui::MassDrawPane* _10 = nullptr;
