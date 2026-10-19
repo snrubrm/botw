@@ -1526,7 +1526,10 @@ private:
     // The bounds of the map view (min / max corner)
     /* 0x8c0 */ sead::Vector2f _8c0;
     /* 0x8c8 */ sead::Vector2f _8c8;
-    u8 _8d0[0x3820 - 0x8d0];
+    u8 _8d0[0xd88 - 0x8d0];
+    // The map mode table: 5 groups of 0x888 bytes, 12 entries of 0xa8 (indexed in sub_71009635DC).
+    /* 0xd88 */ s32 _d88[0xa57];
+    u8 _36e4[0x3820 - 0x36e4];
     /* 0x3820 */ s32 _3820;
     u8 _3824[0x3830 - 0x3824];
     /* 0x3830 */ s32 _3830;

@@ -196,6 +196,38 @@ UiSubsys1Entry** UiSubsys1::sub_71009595FC(UiSubsys1Entry* key) {
     return nullptr;
 }
 
+// 0x71009635dc
+// NON_MATCHING: the second `return false` block is placed before the second phase in ours and after it in the
+// original, so the two identical blocks land at different relative offsets.
+bool UiSubsys1::sub_71009635DC() {
+    if (_3860 == 0)
+        return false;
+    s32 mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
+    if (mode != 1) {
+        if (_3860 == 0)
+            return false;
+        mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
+        if (mode != 2)
+            return false;
+    }
+    if (_3820 > 0)
+        return false;
+    const s32 index = _3830;
+    if (index == -1)
+        return true;
+    if (_3860 == 0)
+        return true;
+    mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
+    if (mode == 6)
+        return true;
+    mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
+    if (index > 0xb)
+        return true;
+    if (mode >= 5)
+        mode = 0;
+    return _d88[mode * 0x222 + index * 0x2a] < 3;
+}
+
 // 0x7100963598
 u32 UiSubsys1::sub_7100963598() {
     u32 value = _120;
