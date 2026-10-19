@@ -1,6 +1,10 @@
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/UI/euiScreen.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 // UI wrapper functions around uking::ui::UiShopMgr (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -247,6 +251,66 @@ s32 sub_7100A985DC(const sead::SafeString& name) {
     if (name == "Obj_Photo_Weapon")
         return 4;
     return 5;
+}
+
+// 0x7100a98908: the number of pictures of `category` that were taken but are not registered in the
+// compendium yet.
+s32 sub_7100A98908(s32 category) {
+    s32 count = 0;
+    switch (category) {
+    case 2:
+        for (auto it = newEnemyPictureBookNamesBegin(), end = newEnemyPictureBookNamesEnd();
+             it != end; ++it) {
+            sead::FormatFixedSafeString<128> name("IsRegisteredPictureBook_%s", (*it).cstr());
+            count += !ksys::gdt::getBoolByKey(name, false);
+        }
+        break;
+    case 4:
+        for (auto it = newWeaponPictureBookNamesBegin(), end = newWeaponPictureBookNamesEnd();
+             it != end; ++it) {
+            sead::FormatFixedSafeString<128> name("IsRegisteredPictureBook_%s", (*it).cstr());
+            count += !ksys::gdt::getBoolByKey(name, false);
+        }
+        break;
+    case 6:
+        for (auto it = newBossPictureBookNamesBegin(), end = newBossPictureBookNamesEnd();
+             it != end; ++it) {
+            sead::FormatFixedSafeString<128> name("IsRegisteredPictureBook_%s", (*it).cstr());
+            count += !ksys::gdt::getBoolByKey(name, false);
+        }
+        break;
+    default:
+        break;
+    }
+    return count;
+}
+
+// 0x7100a98808: the number of free compendium slots of `category`. The category's flag count minus the
+// count at load time is the number of entries; the new pictures that are not registered yet and (for
+// weapons, before the game is cleared) the two starting weapons are subtracted from it.
+s32 sub_7100A98808(s32 category) {
+    if (u32(category - 1) < 6) {
+        auto* param = ksys::gdt::Manager::instance()->getParam().get().getBuffer0();
+        s32 count = param->getNumBoolFlagsPerCategory(category) -
+                    param->getNumBoolFlagsPerCategory0(category);
+
+        if (category == 4 && !ksys::gdt::getFlag_GameClear(false)) {
+            const sead::SafeString* names = getInitialWeaponPictureBookNames();
+            {
+                sead::FormatFixedSafeString<128> name("IsRegisteredPictureBook_%s",
+                                                      names[0].cstr());
+                count -= !ksys::gdt::getBoolByKey(name, false);
+            }
+            {
+                sead::FormatFixedSafeString<128> name("IsRegisteredPictureBook_%s",
+                                                      names[1].cstr());
+                count -= !ksys::gdt::getBoolByKey(name, false);
+            }
+        }
+
+        return count - sub_7100A98908(category);
+    }
+    return 0;
 }
 
 }  // namespace uking::ui

@@ -6059,4 +6059,32 @@ void sub_7100A96EB8();
 bool sub_7100A97DDC(s32 index);
 void sub_7100A97860(s32 index);
 
+// Iterator over one of the new-picture name lists. The original compares only the indices.
+struct PictureBookNameIterator {
+    PictureBookNameIterator(sead::FixedSafeString<64>* buffer, s32 index)
+        : mBuffer(buffer), mIndex(index) {}
+    bool operator!=(const PictureBookNameIterator& rhs) const { return mIndex != rhs.mIndex; }
+    PictureBookNameIterator& operator++() {
+        ++mIndex;
+        return *this;
+    }
+    sead::SafeString& operator*() const { return mBuffer[mIndex]; }
+    sead::FixedSafeString<64>* operator->() const { return &mBuffer[mIndex]; }
+
+    sead::FixedSafeString<64>* mBuffer;
+    s32 mIndex;
+};
+
+// 0x71009f8474 / 0x71009f8484: begin / end of the new enemy picture names (category 2, at most 16)
+PictureBookNameIterator newEnemyPictureBookNamesBegin();
+PictureBookNameIterator newEnemyPictureBookNamesEnd();
+// 0x71009f84a8 / 0x71009f84b8: begin / end of the new boss picture names (category 6, at most 16)
+PictureBookNameIterator newBossPictureBookNamesBegin();
+PictureBookNameIterator newBossPictureBookNamesEnd();
+// 0x71009f84dc / 0x71009f84ec: begin / end of the new weapon picture names (category 4, at most 2)
+PictureBookNameIterator newWeaponPictureBookNamesBegin();
+PictureBookNameIterator newWeaponPictureBookNamesEnd();
+// 0x71009f8464: the two starting weapon pictures (bow / sword), used by the weapon vacancy check
+const sead::SafeString* getInitialWeaponPictureBookNames();
+
 }  // namespace uking::ui

@@ -468,6 +468,9 @@ public:
                           bool ignore_temp_flags);
 
     s32 getNumBoolFlagsPerCategory0(s32 idx) const { return mNumBoolFlagsPerCategory0[idx]; }
+    // The bool flag count per category (filled by updateBoolFlagCounts, adjusted when flags are copied);
+    // the difference from the count at load time is the picture book's registered entry count.
+    s32 getNumBoolFlagsPerCategory(s32 idx) const { return mNumBoolFlagsPerCategory[idx]; }
 
 private:
     friend class Manager;
