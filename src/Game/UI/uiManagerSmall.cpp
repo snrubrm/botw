@@ -636,6 +636,19 @@ void Manager::sub_7100A79968() {
         _cc = -1;
 }
 
+// 0x7100a7e254
+// Shows every game screen again unless it is already on draw target 0, or it is screen 0x2d and the UI mode
+// helper says not to.
+void sub_7100A7E254() {
+    for (s32 i = 0; i != 99; ++i) {
+        eui::Screen* screen = eui::ScreenMgr::instance()->getScreen(i);
+        auto* game_screen = sead::DynamicCast<Screen>(screen);
+        if (game_screen && game_screen->mDrawTarget == 0 &&
+            (game_screen->mId != 0x2d || sub_7100AA948C()))
+            game_screen->m80(true);
+    }
+}
+
 // 0x7100a7a6c0 (CSV uiManager::__auto6)
 void Manager::sub_7100A7A6C0(f32 value) {
     _653a8 = value;
