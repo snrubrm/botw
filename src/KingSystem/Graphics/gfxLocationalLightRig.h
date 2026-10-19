@@ -9,6 +9,12 @@ namespace sead::hostio {
 class Context;
 }
 
+class Unk_7102519378;
+
+namespace gsys {
+class ModelUnit;
+}
+
 namespace ksys::gfx {
 
 class LocationalLightRig;
@@ -20,6 +26,8 @@ public:
     Light();
     virtual ~Light();
     void update(gsys::ModelUnit* unit, u16 visibility_mask, f32 delta_time) override;
+    // 0x7100f180c0: the same update without a model unit (the binding's per-frame refresh).
+    void update();
     // The named EnvObj drawDebug ABI is forwarded by F17D90 to this slot.
     // Receiver constness is inferred from the read-only debug traversal.
     virtual void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
@@ -72,6 +80,10 @@ public:
     // F17E50 forwards the actual context to ParameterBase::genMessageParameter.
     // This new game slot is separate from ModelRig's four registration callbacks.
     virtual void genMessage(sead::hostio::Context* context);
+
+    // 0x7100f177f4 (declaration only): computes the light transform and writes the record.
+    void sub_7100F177F4(Unk_7102519378* render_light,
+                        LocationalLightMgr::ObjectLight::Light* light, gsys::ModelUnit* unit);
 
     // drawDebug locks it from a const method.
     mutable sead::CriticalSection mCS;

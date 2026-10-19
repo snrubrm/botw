@@ -31,6 +31,8 @@ public:
         class Light;
         ObjectLight();
         void detachObject();
+        // 0x7100f18050: updates every attached light under the binding's lock.
+        void updateLights();
 
         sead::CriticalSection mCS;
         sead::OffsetList<Light> mLights;
@@ -72,6 +74,9 @@ public:
 
     // 0x7100f13368: detach and return an active binding to the free list.
     bool sub_7100F13368(ObjectLight* light);
+    // 0x7100f1356c / 0x7100f135f8: allocate a render-light record of type 0 / 1.
+    Unk_7102519378* sub_7100F1356C();
+    Unk_7102519378* sub_7100F135F8();
     // 0x7100f13420: remove the bindings of a model unit.
     void sub_7100F13420(gsys::ModelUnit* unit);
     // 0x7100f134e8: remove bindings whose objects lie in the open range.

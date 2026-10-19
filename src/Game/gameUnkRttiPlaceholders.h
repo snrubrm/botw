@@ -218,6 +218,11 @@ class Unk_7102519378 {
     SEAD_RTTI_BASE(Unk_7102519378)
 public:
     virtual ~Unk_7102519378();
+
+    // The locational light copies its visibility mask here before the record update
+    // (LocationalLightMgr::ObjectLight::Light::update).
+    u8 _8[0x50];
+    u16 _58;
     // Slot 4 of the record vtable: the render-light debug draw that
     // LocationalLightMgr::ObjectLight::Light::drawDebug forwards to (0x7100f1839c).
     virtual void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,

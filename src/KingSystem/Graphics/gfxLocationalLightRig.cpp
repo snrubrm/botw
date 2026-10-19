@@ -42,6 +42,35 @@ void LocationalLightMgr::ObjectLight::Light::drawDebug(agl::DrawContext* context
     mRenderLight->drawDebug(context, view, projection, view_index);
 }
 
+// NON_MATCHING: the render-light pointer stays in a register instead of being reloaded for the
+// release call and the record store.
+void LocationalLightMgr::ObjectLight::Light::update() {
+    if ((mFlags & 1) && mVisibilityMask != 0) {
+        auto* mgr = mRig->mLightMgr;
+        if (mRenderLight && mLightType != mRig->mLightType.ref()) {
+            mgr->sub_7100F13A58(mRenderLight);
+            mRenderLight = nullptr;
+        }
+        mLightType = mRig->mLightType.ref();
+        mRenderLight = mLightType == 1 ? mgr->sub_7100F135F8()
+                      : mLightType == 0 ? mgr->sub_7100F1356C()
+                                        : nullptr;
+        if (!mRenderLight)
+            return;
+        mRenderLight->_58 = mVisibilityMask;
+        mRig->sub_7100F177F4(mRenderLight, this, nullptr);
+    } else if (mRenderLight) {
+        mRig->mLightMgr->sub_7100F13A58(mRenderLight);
+        mRenderLight = nullptr;
+    }
+}
+
+void LocationalLightMgr::ObjectLight::updateLights() {
+    auto lock = sead::makeScopedLock(mCS);
+    for (auto& light : mLights)
+        light.update();
+}
+
 void LocationalLightRig::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                                    const sead::Matrix44f& projection, int view_index) const {
     auto lock = sead::makeScopedLock(mCS);
