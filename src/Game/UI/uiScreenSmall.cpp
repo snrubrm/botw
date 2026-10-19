@@ -95,6 +95,24 @@ bool ScreenPauseMenu::sub_7100A38FE8(u8 category, bool a2) {
     return true;
 }
 
+// 0x7100a391cc
+void ScreenPauseMenu::sub_7100A391CC(bool a1) {
+    if (_3640)
+        return;
+    _3640 = true;
+    _3620 = mSelectedCategory;
+    sub_7100A392D8();
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        info->sub_7100A300AC();
+        info->sub_7100A30380(0);
+        if (a1)
+            info->sub_7100A30DF0(true);
+    }
+    if (auto* mgr = OnUiActorMgr::instance())
+        mgr->sub_71009079EC(true);
+}
+
 // 0x7100a392d8
 // NON_MATCHING: the two _3620 reads inside the else are hoisted before the two sub_7100A82D08
 // calls here (the original reloads the second one after them), and the dir checks take branches
