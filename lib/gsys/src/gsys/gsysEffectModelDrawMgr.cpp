@@ -27,6 +27,29 @@ inline void EffectModelDrawUnit::clear() {
     }
 }
 
+bool EffectModelDrawUnit::createModel(const CreateArg& arg, sead::Heap* heap) {
+    Model::CreateArg model_arg;
+    model_arg._4 = arg._0;
+
+    if (arg.mNames && arg.mCount)
+        mModel = Model::create(arg.mResource, arg.mNames, arg.mCount, "EffectModelDrawUnit",
+                               model_arg, heap, nullptr);
+    else
+        mModel = Model::create(arg.mResource, "EffectModelDrawUnit", model_arg, heap, nullptr);
+
+    mModel->bind(arg.mModelScene);
+
+    for (s32 i = 0; i < mModel->getUnits().size(); ++i) {
+        ModelUnit* unit = mModel->getUnits()[i]->mModelUnit;
+        ModelUnitDrawArray::CreateArg draw_arg;
+        draw_arg._0 = 0;
+        draw_arg._4 = 0;
+        unit->createDrawArray(draw_arg, heap);
+    }
+
+    return true;
+}
+
 EffectModelDrawUnit::~EffectModelDrawUnit() {
     clear();
 }

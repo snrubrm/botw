@@ -14,7 +14,11 @@ class ModelUnitDrawArray : public sead::hostio::Node {
 public:
     struct CreateArg {
         CreateArg();
+        s32 _0;
+        u16 _4;
+        u16 _6;
     };
+    static_assert(sizeof(CreateArg) == 8);
 
     ModelUnitDrawArray();
     virtual ~ModelUnitDrawArray();

@@ -37,7 +37,7 @@ public:
         u32 _4;                     // +0x04
         ModelScene* mModelScene;    // +0x08
         ModelResource* mResource;   // +0x10
-        const char* const* mNames;  // +0x18
+        const char** mNames;        // +0x18
         u32 mCount;                 // +0x20
     };
     static_assert(sizeof(CreateArg) == 0x28);

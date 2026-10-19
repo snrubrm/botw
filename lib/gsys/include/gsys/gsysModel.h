@@ -37,6 +37,7 @@ class ModelBone;
 class ModelDebugInfo;
 class Model;
 class ModelResource;
+class FFLResource;
 
 // Interface of the object at Model +0xd8 (names are placeholders): slot 0 is called before animations are applied
 // to a model, slots 1 / 2 around the world matrix update of the model units, slot 3 after the material parameters
@@ -86,6 +87,14 @@ public:
     static_assert(sizeof(CreateArg) == 0x18, "Model::CreateArg size");
 
     static Model* create_(const sead::SafeString& name, const CreateArg& arg, sead::Heap* heap);
+    // 0x7100bf66b0 / 0x7100bf6764 (declared only; bodies U): create a model from a resource and
+    // bind it later. The second form passes explicit model names; EffectModelDrawUnit::createModel
+    // 0x7100c555f0 uses both.
+    static Model* create(ModelResource* resource, const sead::SafeString& name, const CreateArg& arg,
+                         sead::Heap* heap, const FFLResource* ffl);
+    static Model* create(ModelResource* resource, const char** names, u32 name_num,
+                         const sead::SafeString& name, const CreateArg& arg, sead::Heap* heap,
+                         const FFLResource* ffl);
     static Model* postCreateModel_(Model* model, ModelResource* resource, sead::Heap* heap,
                                   bool success);
     // Native BF69F8 performs null-safe virtual deletion. The model manager
