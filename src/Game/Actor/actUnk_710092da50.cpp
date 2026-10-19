@@ -97,11 +97,11 @@ void Unk_71024742f0::m5() {
     mStateMachine.run();
 }
 
-// 0x710092e090: sets the volume of the "eBookSize_Weapon_Sword_004" sound group to 1.
+// 0x710092e090: sets the volume of the "World" sound group to 1.
 void Unk_71024742f0::m6() {
     auto* group_mgr = aal::SystemAccessor::getGroupMgr();
     if (!group_mgr)
         return;
-    if (auto* group = group_mgr->findGroup("eBookSize_Weapon_Sword_004"))
+    if (auto* group = group_mgr->findGroup("World"))
         group->getParam().setVolume(1.0f);
 }
