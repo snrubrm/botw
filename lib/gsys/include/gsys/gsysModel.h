@@ -137,12 +137,12 @@ public:
     ModelAnimation* createAnimation(ModelResource** resources, int count,
                                     const ModelAnimation::CreateArg& arg, sead::Heap* heap);
 
-    // 0x7100bf8aa0 (declaration only; body U): applies the texture to every material of every unit.
-    // Native walks mUnitAccess (+0x38 count, +0x40 pointer) and calls ModelUnit slot +0xb8 for the
-    // material count before forwarding to the MaterialAccessKey overload below.
+    // 0x7100bf8aa0: applies the texture to every material of every unit. Native walks mUnitAccess
+    // (+0x38 count, +0x40 pointer) and calls ModelUnit slot +0xb8 for the material count before
+    // forwarding to the MaterialAccessKey overload below.
     void replaceTexture(const nn::gfx::ResTexture* texture, const sead::SafeString& name);
-    // 0x7100bf88d4 (declaration only; body U): replaces the texture with `name` in the one material.
-    // The body needs the ModelNW material array at +0x128 and the ResMaterial texture-name array.
+    // 0x7100bf88d4: replaces the texture with `name` in the one material. The body resolves the
+    // ModelNW material array at +0x128 and compares the ResMaterial texture names.
     void replaceTexture(const nn::gfx::ResTexture* texture, const sead::SafeString& name,
                         const MaterialAccessKey& key);
 

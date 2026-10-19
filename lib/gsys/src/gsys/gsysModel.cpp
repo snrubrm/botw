@@ -12,6 +12,8 @@
 #include <nn/g3d/ResModel.h>
 #include <math/seadMathCalcCommon.h>
 #include "gsys/gsysModelUnit.h"
+#include <g3d/aglNW4FToNN.h>
+#include <nn/g3d/ResMaterial.h>
 #include <prim/seadScopedLock.h>
 #include "gsys/gsysModelScene.h"
 
@@ -338,6 +340,45 @@ void Model::add_(IModelAccesssHandle* handle) const {
 void Model::remove_(IModelAccesssHandle* handle) const {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
     mHandleList.erase(handle);
+}
+
+// 0x7100bf8aa0
+void Model::replaceTexture(const nn::gfx::ResTexture* texture, const sead::SafeString& name) {
+    if (mUnitAccess.size() == 0)
+        return;
+    s16 unit_index = 0;
+    auto** it = mUnitAccess.dataBegin();
+    auto** end = mUnitAccess.dataEnd();
+    for (; it != end; ++it, ++unit_index) {
+        const int material_num = (*it)->mModelUnit->getMaterialNum();
+        for (int i = 0; i < material_num; ++i) {
+            MaterialAccessKey key;
+            key.model_unit_index = unit_index;
+            key.material_index = i;
+            replaceTexture(texture, name, key);
+        }
+    }
+}
+
+// 0x7100bf88d4
+void Model::replaceTexture(const nn::gfx::ResTexture* texture, const sead::SafeString& name,
+                           const MaterialAccessKey& key) {
+    ModelUnit* unit = mUnitAccess(key.model_unit_index)->mModelUnit;
+    if (!sead::IsDerivedFrom<ModelNW>(unit))
+        return;
+
+    auto* model_nw = static_cast<ModelNW*>(unit);
+    nn::g3d::MaterialObj* material =
+        model_nw->getModelObj()->GetMaterial(key.material_index);
+    if (material->GetResource()->_a9 == 0)
+        return;
+
+    for (int i = 0; i < material->GetResource()->_a9; ++i) {
+        const char* texture_name = agl::g3d::MaterialObj::GetResTextureName(material, i);
+        if (name.isEqual(texture_name))
+            agl::g3d::MaterialObj::SetResTexture(
+                material, i, const_cast<nn::gfx::ResTexture*>(texture));
+    }
 }
 
 // 0x7100bf8e24
