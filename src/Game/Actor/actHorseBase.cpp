@@ -831,6 +831,35 @@ void HorseBase::m44(ksys::phys::NavMeshCharacter* nav) {
     Actor::m44(nav);
 }
 
+// NON_MATCHING: the original spills the RiddenAnimalType word to the stack after the inlined x()
+// (str / ldr at sp+0x1c); this build keeps it in w8. Everything else matches.
+f32 HorseBase::sub_7100E6BB4C(ksys::phys::CharacterController* controller) {
+    const f32 m01 = mMtx(0, 1);
+    const f32 m11 = mMtx(1, 1);
+    const f32 m21 = mMtx(2, 1);
+
+    sead::Vector3f pos;
+    if (!sub_7100E8160C(controller, nullptr, nullptr, &pos))
+        pos = sead::Vector3f(0.0f, 0.0f, 0.0f);
+
+    if (m11 <= 0.0f)
+        return 0.0f;
+
+    const f32 inv = 1.0f / m11;
+    const f32 dot = m01 * controller->_64.x + m11 * controller->_64.y + m21 * controller->_64.z;
+    const f32 sign = dot >= 0.0f ? 1.0f : -1.0f;
+    f32 s = sead::Mathf::sqrt(sead::Mathf::clampMin(inv * inv - 1.0f, 0.0f));
+    s *= sign;
+
+    const s32 type = x();
+
+    f32 scale = type == 7 ? 1.2f : 1.5f;
+    if (type == 6)
+        scale = 2.25f;
+
+    return s * (scale - pos.z) + inv * controller->_210;
+}
+
 s32 sub_7100E6ECC4(const ksys::act::ActorLinkConstDataAccess& accessor) {
     const auto* unit = accessor.getGParamList()->getHorseUnit();
     return unit ? unit->mRiddenAnimalType.ref() : 1;

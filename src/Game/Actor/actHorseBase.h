@@ -119,6 +119,10 @@ public:
     s32 x() const;
     // 0x7100e668c0 (lane4 s45, unnamed in the CSV): a speed factor by the RiddenAnimalType: 1.5 for 6, 0.8 for 7, else 1.
     f32 sub_7100E668C0() const;
+    // 0x7100e6bb4c (unnamed in the CSV): the ride height above the character controller, scaled by
+    // the actor matrix's Y axis, the controller velocity and the RiddenAnimalType (7: 1.2, 6: 2.25,
+    // else 1.5).
+    f32 sub_7100E6BB4C(ksys::phys::CharacterController* controller);
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);
