@@ -13,6 +13,8 @@ add_library(hkStubs OBJECT
   Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h
   Havok/Ai/Pathfinding/NavMesh/Query/hkaiPathSearchConfig.h
   Havok/Ai/Pathfinding/NavMesh/Query/hkaiPathSearchConfig.cpp
+  Havok/Ai/Pathfinding/NavMesh/Query/hkaiPathSearchParams.h
+  Havok/Ai/Pathfinding/NavMesh/Query/hkaiPathSearchParams.cpp
   Havok/Ai/Pathfinding/World/hkaiWorld.cpp
   Havok/Ai/Pathfinding/World/hkaiWorld.h
   Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h
