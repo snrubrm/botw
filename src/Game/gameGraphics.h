@@ -177,6 +177,10 @@ public:
     virtual void m0();
     virtual void m1();
     virtual void m2();
+
+    u8 _8[0x638 - 0x8];
+    // 0x7100f00018 clears bit 3 of this word.
+    u32 _638 = 0;
 };
 
 class Unk_7100efd9b8 : public sead::hostio::Node {

@@ -43,8 +43,8 @@ void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
 }
 
-// 0x7100f00018 (declaration only).
-void sub_7100F00018(void* object);
+// 0x7100f00018: clears bit 3 of the object's flag word (defined in gameGraphics.cpp to stay out of line).
+void sub_7100F00018(Unk_7100efd9b8Obj* object);
 
 Unk_7100efd9b8::Unk_7100efd9b8() = default;
 

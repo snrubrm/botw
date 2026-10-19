@@ -11,6 +11,12 @@
 #include "KingSystem/World/worldDofMgr.h"
 #include "KingSystem/World/worldManager.h"
 
+// 0x7100f00018: clears bit 3 of the object's flag word.
+void sub_7100F00018(Unk_7100efd9b8Obj* object) {
+    if (object->_638 & 8)
+        object->_638 &= ~8;
+}
+
 Unk_7100f35df8::Unk_7100f35df8() = default;
 
 Unk_7100f35df8* Graphics::sub_7100F35E54() const {
