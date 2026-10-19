@@ -89,6 +89,7 @@ class ApertureMaps {
 class ApertureMapsCollector;
 class System;
 class Unk_7101106F44;
+class AreaEnvGetter;
 
 class Core {
 public:
@@ -143,9 +144,86 @@ public:
         u8 _c;
         u8 _d[3];
         // The two objects of a grass entry (0x710114ee5c sets bit 5 of a word at +0x50 / +0x280).
+        // The 0x38720-byte part 0 of a grass entry (constructor 0x710106ad3c, allocated by
+        // 0x710114eab0). It holds the 47 x 47 cell grid of the terrain attributes.
         struct EntryPart {
-            u8 _0[0x50];
-            u32 mFlags;
+            // The per-cell attribute record read by the sampler 0x71010723c8.
+            struct Record {
+                u8 _0[7];
+                /* 0x07 */ u8 _7;
+                /* 0x08 */ u8 _8;
+                /* 0x09 */ u8 _9;
+                /* 0x0a */ u8 _a;
+                u8 _b[0x12 - 0xb];
+                /* 0x12 */ u16 _12;
+                /* 0x14 */ u16 _14;
+                u8 _16[0x18 - 0x16];
+                /* 0x18 */ u8 _18;
+                /* 0x19 */ u8 _19;
+                u8 _1a[0x24 - 0x1a];
+                /* 0x24 */ u8 _24;
+                /* 0x25 */ u8 _25;
+                /* 0x26 */ u8 _26;
+                /* 0x27 */ u8 _27;
+                u8 _28[0x34 - 0x28];
+                /* 0x34 */ u8 _34;
+                /* 0x35 */ s8 _35;
+                /* 0x36 */ s8 _36;
+                /* 0x37 */ s8 _37;
+                /* 0x38 */ u8 _38[0x3b - 0x38];
+                /* 0x3b */ u8 _3b;
+                u8 _3c[0x3e - 0x3c];
+                /* 0x3e */ u8 _3e;
+            };
+            // One cell of the grid at +0x1088: the flag at +0x8 (bit 0: cell present) and the
+            // record at +0x10.
+            struct Cell {
+                u8 _0[8];
+                /* 0x08 */ u32 mFlags;
+                u8 _c[4];
+                /* 0x10 */ Record* mRecord;
+                u8 _18[8];
+            };
+            static_assert(sizeof(Cell) == 0x20);
+
+            // 0x71010723c8 (placeholder name): the attribute weight of `cell` for attribute type
+            // `type` (0 - 5), with the attribute value in `out`.
+            f32 sub_71010723C8(s32 type, const Cell* cell, s32 index, u32* out);
+            // 0x7101074d40 (placeholder name): the strongest of the three attribute layers at
+            // `pos`; `out_kind` receives the layer and `out_value` its attribute value.
+            f32 sub_7101074D40(const sead::Vector2f& pos, s32* out_kind, u32* out_value);
+            // 0x7101075038 (placeholder name): the record's _37 minus one at `pos` (or -1), with the
+            // attribute type 3 weight in `out`.
+            s32 sub_7101075038(const sead::Vector2f& pos, f32* out);
+
+            // inline-only in the original (0x7101074d40 and 0x7101075038 repeat it); name is a guess
+            Cell* getCellMaybe(const sead::Vector2f& pos) {
+                s32 i = 23 - _124b0 + sead::Mathf::floor(pos.x / 3.0f) + _124a8;
+                i %= 47;
+                s32 j = 23 - _124b4 + sead::Mathf::floor(pos.y / 3.0f) + _124ac;
+                j %= 47;
+                if ((i | j) < 0)
+                    return nullptr;
+                Cell* cell = &mCells[j][i];
+                if (!(cell->mFlags & 1))
+                    return nullptr;
+                return cell;
+            }
+
+            u64 _0;
+            u64 _8;
+            /* 0x10 */ sead::CriticalSection mCS;
+            /* 0x50 */ u32 mFlags;
+            u8 _54[0x1088 - 0x54];
+            /* 0x1088 */ Cell mCells[47][47];
+            /* 0x124a8 */ s32 _124a8;
+            /* 0x124ac */ s32 _124ac;
+            /* 0x124b0 */ s32 _124b0;
+            /* 0x124b4 */ s32 _124b4;
+            u8 _124b8[0x3844c - 0x124b8];
+            /* 0x3844c */ f32 _3844c;
+            /* 0x38450 */ f32 _38450;
+            u8 _38454[0x38720 - 0x38454];
         };
         struct EntryPart2 {
             u8 _0[0x280];
@@ -175,6 +253,9 @@ public:
         u8 _20[0x28 - 0x20];
         // 0x7101150ba4 / 0x7101150f08 query this object (0x7101069db8).
         Unk_7102503a50* _28;
+        u8 _30[0x38 - 0x30];
+        // The area environment getter, built by the grass initialiser 0x710114eab0.
+        AreaEnvGetter* _38;
     };
     struct Unk_71013010d4 {
         s8 mIndex;
