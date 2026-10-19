@@ -640,7 +640,13 @@ public:
     u8 _410[0x440 - 0x410];
     /* 0x440 */ uking::ui::Unk_710249c3d0 _440;
     /* 0x468 */ uking::ui::Unk_710249c3f0 _468;
+    // The controller ctor 0x7100a6bf14 stores the float pair (1.0f, -1.0f) at +0x4b8/+0x4bc;
+    // uiManager::x_0 0x7100a701e0 writes +0x4b8 and sub_7100A6C0EC 0x7100a6c0ec writes +0x4bc.
+    // MaskController::init allocates exactly 0x4c0 bytes for this object.
+    /* 0x4b8 */ f32 _4b8 = 1.0f;
+    /* 0x4bc */ f32 _4bc = -1.0f;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710249c338, 0x4c0);
 
 // vtable 0x710249c5b8 (4 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710249c5b8 : public Unk_710249c5e8 {
