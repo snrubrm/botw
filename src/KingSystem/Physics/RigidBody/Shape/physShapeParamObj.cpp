@@ -189,9 +189,20 @@ void Unk_71025193e8::m12() {
         m11();
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x7101296aac) also destroys members or bases
-// this class does not declare yet.
+Unk_7102519460::Unk_7102519460() = default;
 Unk_7102519460::~Unk_7102519460() = default;
+
+void Unk_7102519460::m9() {
+    _5c = 0;
+}
+
+void Unk_7102519460::m10() {
+    _5c = 0;
+}
+
+bool Unk_7102519460::m11() const {
+    return (_5c & 2) != 0;
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x7101297acc) also destroys members or bases
 // this class does not declare yet.

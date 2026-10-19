@@ -1291,15 +1291,42 @@ KSYS_CHECK_SIZE_NX150(Unk_71025193e8, 0x130);
 class Unk_7102519460 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519460, Unk_7102519378)
 public:
+    // 0x7101296a20: the 0x120-byte record constructor.
+    Unk_7102519460();
     ~Unk_7102519460() override;
     virtual s32 m5() { return 1; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
+    // 0x71012977e0: clears the state word at +0x5c.
     virtual void m9();
+    // 0x71012977e8: clears the state word at +0x5c.
     virtual void m10();
-    virtual void m11();
+    // 0x71012977f0: bit 1 of the state word at +0x5c.
+    virtual bool m11() const;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
+    u32 _d8 = 0;
+    u32 _dc = 0;
+    u32 _e0 = 0;
+    u32 _e4 = 0;
+    f32 _e8 = 0;
+    f32 _ec = 0;
+    f32 _f0 = 5.0f;
+    f32 _f4 = 0;
+    f32 _f8 = 0;
+    f32 _fc = 1.0f;
+    f32 _100 = 0;
+    f32 _104 = 0.3f;
+    f32 _108 = 0;
+    f32 _10c = 1.0f;
+    f32 _110 = 0;
+    f32 _114 = 0.3f;
+    u32 _118 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102519460, 0x120);
 
 // vtable 0x71025194d0 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71025194d0 : public Unk_7102519378 {
