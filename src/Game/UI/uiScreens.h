@@ -5103,6 +5103,8 @@ public:
     // sub_7100AA4E60, type 8 to sub_7100AA5140; anything else returns 0).
     u32 sub_7100A51790(const sead::MessageSet<char16>::TagInfo* tag,
                        sead::WBufferedSafeString* out);
+    // 0x7100a52088 (placeholder name): the child at (group, index) if it is a ScreenChildEx
+    ScreenChildEx* getChildExMaybe(s32 group, s32 index);
 
     // 0x7100a52db0 (CSV placeholder): mode select (1 = full refresh through sub_7100A52E60,
     // 0 = re-resolve the shop message into _3650; anything else only runs the _3620 animator).

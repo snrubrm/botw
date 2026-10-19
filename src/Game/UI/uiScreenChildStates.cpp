@@ -153,6 +153,22 @@ ScreenChildEx* ScreenAppMap::getChildExMaybe(s32 group, s32 index) {
     return nn::font::DynamicCast<ScreenChildEx>(getChild(group, index));
 }
 
+// 0x7100a52088 (placeholder name): the ScreenShopInfo child at (group, index) if it is a
+// ScreenChildEx. Kept in this TU: a static in the ScreenShopInfo TU shifts its literal pool and
+// breaks the matched ScreenPauseMenuMantan::sub_7100A31FA4.
+// NON_MATCHING: the original runs the cast twice (the second through a cached typeInfo) and
+// addresses the cache through its GOT entry; ours uses adrp + add for the function-local static.
+ScreenChildEx* ScreenShopInfo::getChildExMaybe(s32 group, s32 index) {
+    auto* child = nn::font::DynamicCast<ScreenChildEx>(getChild(group, index));
+    static const nn::font::detail::RuntimeTypeInfo* sTypeInfo =
+        ScreenChildEx::GetRuntimeTypeInfoStatic();
+    if (!child)
+        return nullptr;
+    if (!child->GetRuntimeTypeInfo()->IsDerivedFrom(sTypeInfo))
+        return nullptr;
+    return child;
+}
+
 // 0x71009beb44
 bool sub_71009BEB44() {
     return UiSubsys1::instance()->get38ac();
