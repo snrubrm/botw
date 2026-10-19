@@ -144,7 +144,7 @@ public:
                                                  sead::Matrix34f* matrix);
 
     virtual float getMaterialParamXluAlpha(int material_idx, int param_idx) const;
-    virtual void setMaterialParamXluAlpha(int material_idx, int param_idx, float xlu_alpha);
+    virtual bool setMaterialParamXluAlpha(int material_idx, int param_idx, float xlu_alpha);
 
     virtual void clearMaterialParameter(int material_idx);
     virtual void clearTexture(int unk);
@@ -183,7 +183,7 @@ public:
 
     virtual void setLodLevelNum(int lod_level_num);
 
-    virtual void check(BoolType) const;
+    virtual bool check(BoolType) const;
     virtual void calcBounding();
     // Original c3e484: gathers visible shape render units; callback callers discard no result.
     void gatherVisibleModelRenderUnit();
@@ -196,7 +196,7 @@ public:
                                const ModelViewData* model_view_data, int);
     virtual void calcBeforeDraw(ModelScene* scene, const gsys::ModelViewData* model_view_data, int);
     virtual void forceCalcDrawSetup();
-    virtual void setUpMaterialImpl(int, sead::Heap* heap);
+    virtual bool setUpMaterialImpl(int, sead::Heap* heap);
 
     // Non-virtual members (declared only): 0x7100c3ea8c / 0x7100c3eb54 / 0x7100c3ebd0 / 0x7100c3f7c0, and the
     // unnamed 0x7100c3e79c / 0x7100c3e9b8 (called by Model::resetRenderToDepthShadowOnly / Model::sub_7100BF8D18).

@@ -427,4 +427,19 @@ const sead::Color4f& ModelUnit::getMaterialParamColor4f(int, int) const {
     return sead::Color4f::cBlack;
 }
 
+// 0x7100c146dc
+bool ModelUnit::setMaterialParamXluAlpha(int, int, float) {
+    return false;
+}
+
+// 0x7100c14748
+bool ModelUnit::check(BoolType) const {
+    return false;
+}
+
+// 0x7100c14774
+bool ModelUnit::setUpMaterialImpl(int, sead::Heap*) {
+    return true;
+}
+
 }  // namespace gsys
