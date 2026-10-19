@@ -309,6 +309,8 @@ public:
     void sub_71009B10EC(s32 value);
     // 0x71009b1024: forwards to _158.sub_71009B26A0
     void sub_71009B1024();
+    // 0x71009b102c: fills the armor effect display from a pouch item
+    void sub_71009B102C(const PouchItem* item);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     /* 0x140 */ eui::Animator* _140 = nullptr;

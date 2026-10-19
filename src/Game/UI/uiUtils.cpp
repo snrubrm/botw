@@ -26,6 +26,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "Game/Actor/actArmorStrings.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
@@ -943,6 +944,73 @@ s32 sub_71010BA648(sead::BufferedSafeString* out, const eui::MessageString& mess
         return -1;
     return sead::StringUtil::convertUtf16ToUtf8(
         out->getBuffer(), out->getBufferSize(), text.cstr(), -1);
+}
+
+// 0x7100aa524c
+// NON_MATCHING: the original shares one constant block per effect id between the branches that produce the same
+// id; ours duplicates the id block on two pointer-equality fast paths, so the function is 164 bytes larger.
+void getArmorInfoMaybe(const sead::SafeString& name, ArmorInfo* out) {
+    ksys::act::InfoData* data = ksys::act::InfoData::instance();
+    if (!data)
+        return;
+
+    al::ByamlIter iter;
+    if (!data->getActorIter(&iter, name.cstr(), true))
+        return;
+
+    out->star_num = ksys::act::getArmorStarNum(iter);
+    out->defence = ksys::act::getArmorDefenceAddLevel(iter);
+    if (ksys::act::getArmorEffectAncientPowUp(iter))
+        out->ancient_effect = 23;
+
+    const s32 level = ksys::act::getArmorEffectEffectLevel(iter);
+    if (level < 1)
+        return;
+
+    // The effect type is one of the armor effect strings; map it to the message id the UI shows.
+    const sead::SafeString effect_type = ksys::act::getArmorEffectEffectType(iter);
+    s32 effect;
+    if (effect_type == ksys::act::sUnk_7102602358[1])  // ResistHot
+        effect = 4;
+    else if (effect_type == ksys::act::sUnk_7102602358[2])  // ResistBurn
+        effect = 16;
+    else if (effect_type == ksys::act::sUnk_7102602358[3])  // ResistCold
+        effect = 5;
+    else if (effect_type == ksys::act::sUnk_7102602358[4])  // ResistElectric
+        effect = 6;
+    else if (effect_type == ksys::act::sUnk_7102602358[5])  // ResistLightning
+        effect = 17;
+    else if (effect_type == ksys::act::sUnk_7102602358[12])  // ResistAncient
+        effect = 22;
+    else if (effect_type == ksys::act::sUnk_7102602358[9])  // Quietness
+        effect = 12;
+    else if (effect_type == ksys::act::sUnk_7102602358[6])  // SwimSpeed
+        effect = 18;
+    else if (effect_type == ksys::act::sUnk_7102602358[7])  // ClimbSpeed
+        effect = 19;
+    else if (effect_type == ksys::act::sUnk_7102602358[8])  // AttackUp
+        effect = 10;
+    else if (effect_type == ksys::act::sUnk_7102602358[11])  // SnowMove
+        effect = 21;
+    else if (effect_type == ksys::act::sUnk_7102602358[10])  // SandMove
+        effect = 20;
+    else if (effect_type == ksys::act::sUnk_7102602358[13])  // ResistBurnAndResistAncient
+        effect = 4;
+    else if (effect_type == ksys::act::sUnk_7102602358[14])  // ResistColdAndResistAncient
+        effect = 5;
+    else if (effect_type == ksys::act::sUnk_7102602358[15])  // ResistElectricAndResistAncient
+        effect = 6;
+    else if (effect_type == ksys::act::sUnk_7102602358[16])  // SwimSpeedAndResistAncient
+        effect = 18;
+    else if (effect_type == ksys::act::sUnk_7102602358[17])  // ResistFreeze
+        effect = 37;
+    else if (effect_type == ksys::act::sUnk_7102602358[21])  // ResistHotAndWakeWind
+        effect = 4;
+    else
+        return;
+
+    out->effect = effect;
+    out->effect_level = level;
 }
 
 // 0x7100aa688c

@@ -385,6 +385,14 @@ void Unk_710247a6d8::sub_71009B1024() {
     _158.sub_71009B26A0();
 }
 
+// 0x71009b102c
+void Unk_710247a6d8::sub_71009B102C(const PouchItem* item) {
+    ArmorInfo info;
+    getArmorInfoMaybe(item->getName(), &info);
+    _158.sub_71009B26B8(info, item->isEquipped());
+    _1d8.sub_71009C68B8(info.star_num);
+}
+
 // 0x71009b10ec
 void Unk_710247a6d8::sub_71009B10EC(s32 value) {
     if (_150) {
