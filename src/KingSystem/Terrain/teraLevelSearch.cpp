@@ -8,6 +8,16 @@
 
 namespace ksys::tera {
 
+// 0x71010f9170 (placeholder name): advances _3 to _2 + 1, clamped to _1 unless bit 4 of _0 is set.
+void Unk_7101108AE8Flags::sub_71010F9170() {
+    const u8 next = _2 + 1;
+    const u8 flags = _0;
+    const u8 max = _1;
+    _3 = next;
+    if ((flags & 0x10) == 0 || next > max)
+        _3 = max;
+}
+
 void Unk_7101108AE8Flags::sub_71010F94F4(bool free_memory) {
     if (free_memory)
         _20.deleteGPUMemBlock();

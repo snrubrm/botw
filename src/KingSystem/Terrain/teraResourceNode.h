@@ -258,11 +258,14 @@ struct Unk_7101108AE8Flags {
     // 0x71010f94f4 (placeholder name): frees the GPU memory block of _20 if `free_memory`, and clears
     // flag 2.
     void sub_71010F94F4(bool free_memory);
+    // 0x71010f9170 (placeholder name): advances _3 to _2 + 1, clamped to _1 unless bit 4 of _0 is set.
+    void sub_71010F9170();
 
     u8 _0;
     u8 _1;
     u8 _2;
-    u8 _3[0x8 - 0x3];
+    u8 _3;
+    u8 _4[0x8 - 0x4];
     // Frames per layer.
     u8 _8;
     u8 _9;
