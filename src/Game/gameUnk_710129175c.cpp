@@ -3,6 +3,9 @@
 // Graphics' render-record TUs (0x71012915bc .. 0x71012955xx). Unk_710129175c and Unk_710129421c
 // are constructed by gameGraphics.cpp's initializer but their methods live here.
 
+Unk_710129175c::Unk_710129175c() : _8(0), mRecords(), mPage(), _260() {}
+Unk_710129175c::~Unk_710129175c() = default;
+
 void Unk_710129175c::sub_71012920C4(s32 index) {
     mRecords[index]._1ff4 = 1;
 }

@@ -14,6 +14,7 @@
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglTextureSampler.h>
+#include <utility/aglDebugTexturePage.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 
@@ -82,7 +83,7 @@ private:
 
 // Declaration only: F2C140 constructs a 0x268-byte object at 129175C and stores it at B38.
 // 12920C4 selects a signed buffer index and sets byte 1FF4 in its record.
-class Unk_710129175c {
+class Unk_710129175c : public sead::hostio::Node {
 public:
     // Placeholder: the 0x2088-byte records of the buffer at 0x10 (only the fields read through
     // sub_710129276C and Graphics::sub_7100F2E2A4 are modelled).
@@ -119,14 +120,22 @@ public:
         f32 _2c;
     };
 
+    // 0x710129175c: the constructor (vtable 0x7102519290, hostio::Node base).
+    Unk_710129175c();
+    virtual ~Unk_710129175c();
+
     void sub_71012920C4(s32 index);
     // 0x710129276c (declaration only; placeholder name): copies record `index` (the first if out of range)
     // into `result`.
     void sub_710129276C(s32 index, Result* result);
 
-    u8 _0[0x10];
+    u32 _8;
+    u8 _c[4];
     sead::Buffer<Record> mRecords;
+    agl::utl::DebugTexturePage mPage;
+    u8 _260[8];
 };
+KSYS_CHECK_SIZE_NX150(Unk_710129175c, 0x268);
 
 // Declaration only: F2C140 constructs these (0x1010 bytes at 0x7100f185a4, stored at Graphics + 0x388;
 // 0x178 bytes at 0x7100efd9b8, stored at + 0x3a8) and the GrudgeRenderer at + 0x3a0 (0x2fb0 bytes; name from
