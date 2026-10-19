@@ -238,6 +238,33 @@ void ActorChemicals::sub_7100E37CE4() {
     }
 }
 
+// 0x7100e39458: true when an element whose rigid has attribute 4 set has chemical state 3; false
+// as soon as such an element is in another state.
+// NON_MATCHING: the original looks the element up twice (the second getStuff result is only tested
+// for null) and tests the first pointer before the second lookup; our clang merges the two inlined
+// lookups and folds the Chemical offset into the state read.
+bool ActorChemicals::sub_7100E39458() {
+    const auto lock = sead::makeScopedLock(mCS);
+    if (_58.size() < 1 || _58.size() + _80 < 1)
+        return false;
+
+    bool found = false;
+    s32 i = 0;
+    do {
+        const auto* element = getElement_(i);
+        if (!element)
+            continue;
+        if (!getStuff(i))
+            continue;
+        if (!element->_18->isRigidAttribute4Set(element->_288))
+            continue;
+        if (element->mChemical._c0 != 3)
+            return false;
+        found = true;
+    } while (++i < _58.size() + _80);
+    return found;
+}
+
 Chemical* ActorChemicals::sub_7100E380FC(int idx) {
     const auto lock = sead::makeScopedLock(mCS);
     if (idx < 0 || idx >= _70.size())
