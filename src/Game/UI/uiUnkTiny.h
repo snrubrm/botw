@@ -334,9 +334,14 @@ struct Unk_71025d6c70 {
     u8 _58[0x78 - 0x58];
     // Initialised to FLT_MAX by 0x710094f9e4; compared against the map position in sub_7100961CD4.
     /* 0x78 */ sead::Vector3f _78;
-    u8 _84[0xa8 - 0x84];
+    /* 0x84 */ sead::Vector3f _84{0.2f, 0.0f, -0.2f};
+    /* 0x90 */ sead::Vector3f _90{2.0f, 0.0f, -2.0f};
+    /* 0x9c */ sead::Vector3f _9c{-100000.0f, 0.0f, 0.0f};
     // The Final Trial boss battle area position (-1102.8, 0, 1888) set by 0x710094f9e4.
     /* 0xa8 */ sead::Vector3f _a8;
+    u8 _b4[0x298 - 0xb4];
+    // The map tower name prefix set by 0x710094f9e4.
+    /* 0x298 */ sead::SafeString _298 = "MapTower_";
 };
 KSYS_VISIBILITY_HIDDEN extern Unk_71025d6c70 sUnk_71025d6c70;
 // 0x71009630fc / 0x7100965eb0 (placeholder names): the map parameter fields at +0x50 / +0x28

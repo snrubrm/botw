@@ -23,15 +23,12 @@ namespace uking::ui {
 
 KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025d6a98;
 
-// Written by the native marker initializer at 0x94F9E4.
-static sead::Vector3f sUnk_71025d6cf4{0.2f, 0.0f, -0.2f};
-static sead::Vector3f sUnk_71025d6d00{2.0f, 0.0f, -2.0f};
-
+// Written by the native marker initializer at 0x94F9E4. The three vectors and the tower name prefix are
+// members of the TU's merged static block sUnk_71025d6c70.
 static sead::Vector2f sUnk_71025d6a88{-100000.0f, 0.0f};
-static sead::Vector3f sUnk_71025d6d0c{-100000.0f, 0.0f, 0.0f};
 
 
-// NON_MATCHING: the original reaches sUnk_71025d6d0c through the TU's merged static block at 0x71025d6c70
+// NON_MATCHING: the original reaches sUnk_71025d6c70._9c through the TU's merged static block at 0x71025d6c70
 // (+0x9c); the statics before it (0x25d6c70..0x25d6cf4) are not defined yet, so our offset differs.
 UiSubsys1Entry::~UiSubsys1Entry() {
     _8 = nullptr;
@@ -40,7 +37,7 @@ UiSubsys1Entry::~UiSubsys1Entry() {
     _1c = 45;
     _20 = 25;
     _24 = 33;
-    _28.set(sUnk_71025d6d0c);
+    _28.set(sUnk_71025d6c70._9c);
     _34.set(sUnk_71025d6a88);
     _3c = 0;
     _40 = -1;
@@ -284,7 +281,7 @@ void Unk_71024754c0::m22() {
     _50 = nullptr;
 }
 
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_71024755d8::~Unk_71024755d8() {
     _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
@@ -359,7 +356,7 @@ void Unk_71024755d8::m32() {
 }  // namespace uking::ui
 
 // 0x71009529f8
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_71024756f0::~Unk_71024756f0() {
     _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
@@ -432,7 +429,7 @@ bool Unk_71024756f0::isDungeonEntered() const {
 }
 
 // 0x710095394c
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475920::~Unk_7102475920() {
     _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
@@ -477,7 +474,7 @@ void Unk_7102475920::m21() {
 }
 
 // 0x71009540e4
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475a38::~Unk_7102475a38() {
     if (_68.hasProc())
         _68.reset();
@@ -544,7 +541,7 @@ void Unk_7102475a38::m21() {
 }
 
 // 0x71009550f8
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475b50::~Unk_7102475b50() {
     _68 = sead::SafeString();
     _78 = ksys::gdt::InvalidHandle;
@@ -590,20 +587,17 @@ void Unk_7102475b50::m21() {
 
 namespace uking::ui {
 
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102475808::~Unk_7102475808() {
     _64 = false;
     _68 = ksys::gdt::InvalidHandle;
 }
 
-// 0x71025d6f08 (in the TU's merged static block at 0x71025d6c70)
-static sead::SafeString sUnk_71025d6f08 = "MapTower_";
-
 // 0x7100953684
-// NON_MATCHING: the original reaches sUnk_71025d6f08 through the TU's merged static block (+0x298).
+// NON_MATCHING: the original reaches sUnk_71025d6c70._298 through the TU's merged static block (+0x298).
 void Unk_7102475808::m30() {
     Unk_71024754c0::m30();
-    sead::FormatFixedSafeString<64> name("%s%02d", sUnk_71025d6f08.cstr(), _44 + 1);
+    sead::FormatFixedSafeString<64> name("%s%02d", sUnk_71025d6c70._298.cstr(), _44 + 1);
     _68 = ksys::gdt::Manager::instance()->getBoolHandle(name);
 }
 
@@ -958,7 +952,7 @@ void Unk_7102476150::m14() {
     if (_50) {
         auto position = _50->getPosition();
         if (_50->kind == 1)
-            position += _50->is_remains ? sUnk_71025d6d00 : sUnk_71025d6cf4;
+            position += _50->is_remains ? sUnk_71025d6c70._90 : sUnk_71025d6c70._84;
         updateDistrictFromPos(&position);
     }
 }
@@ -968,7 +962,7 @@ void Unk_7102476150::m16() {
     if (_50) {
         auto position = _50->getPosition();
         if (_50->kind == 1)
-            position += _50->is_remains ? sUnk_71025d6d00 : sUnk_71025d6cf4;
+            position += _50->is_remains ? sUnk_71025d6c70._90 : sUnk_71025d6c70._84;
         updateDistrictFromPos(&position);
     }
 }
@@ -1114,7 +1108,7 @@ void Unk_7102476350::m17() {
     UiSubsys1Entry::m17();
 }
 
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102476350::~Unk_7102476350() {
     _50 = nullptr;
     _58 = nullptr;
@@ -1166,7 +1160,7 @@ void Unk_7102476548::m21() {
     sub_710095156C(true);
 }
 
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102476548::~Unk_7102476548() {
     _50 = -1;
     _54 = -1;
@@ -1457,7 +1451,7 @@ void Unk_7102476640::sub_7100958D4C() {
     }
 }
 
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102476640::~Unk_7102476640() {
     if (_60.hasProc())
         _60.reset();
@@ -1626,7 +1620,7 @@ void Unk_7102476830::m25(bool enabled) {
     }
 }
 
-// NON_MATCHING: static block offset of sUnk_71025d6d0c only (see UiSubsys1Entry::~UiSubsys1Entry).
+// NON_MATCHING: static block offset of sUnk_71025d6c70._9c only (see UiSubsys1Entry::~UiSubsys1Entry).
 Unk_7102476830::~Unk_7102476830() {
     _50.init(0.0f);
     _68.init(0.0f);
