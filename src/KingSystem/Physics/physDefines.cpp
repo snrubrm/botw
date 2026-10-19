@@ -84,25 +84,6 @@ WallCode wallCodeFromText(const sead::SafeString& text) {
     return 0;
 }
 
-MotionType motionTypeFromText(const sead::SafeString& text) {
-    static constexpr const char* texts[] = {
-        "Dynamic",
-        "Fixed",
-        "Keyframed",
-    };
-    static_assert(int(MotionType::Dynamic) == 0);
-    static_assert(int(MotionType::Fixed) == 1);
-    static_assert(int(MotionType::Keyframed) == 2);
-
-    int type = 0;
-    for (const char* type_text : texts) {
-        if (text == type_text)
-            return static_cast<MotionType>(type);
-        ++type;
-    }
-    return MotionType::Unknown;
-}
-
 // 0x7100e94740. Layer numbers match ContactLayer (2 = EntityGroundObject,
 // 8/9/10 = EntityGround/Smooth/Rough, 12 = EntityTree).
 bool xxx_2(int layer) {

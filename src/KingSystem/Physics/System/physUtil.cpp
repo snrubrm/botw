@@ -7,8 +7,28 @@
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::phys {
+
+MotionType motionTypeFromText(const sead::SafeString& text) {
+    static constexpr const char* texts[] = {
+        "Dynamic",
+        "Fixed",
+        "Keyframed",
+    };
+    static_assert(int(MotionType::Dynamic) == 0);
+    static_assert(int(MotionType::Fixed) == 1);
+    static_assert(int(MotionType::Keyframed) == 2);
+
+    int type = 0;
+    for (const char* type_text : texts) {
+        if (text == type_text)
+            return static_cast<MotionType>(type);
+        ++type;
+    }
+    return MotionType::Unknown;
+}
 
 // NON_MATCHING: the original's mask temporary is 4 bytes (getMaterialMaskFromCollidable only writes
 // material_mask), so it keeps one frame instead of tail-calling the height field slot.

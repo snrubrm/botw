@@ -19,6 +19,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physShapeParamObj.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::phys {
