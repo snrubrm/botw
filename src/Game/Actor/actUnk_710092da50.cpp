@@ -5,6 +5,10 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/System/CameraS1.h"
+#include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSoundParam.h>
+#include <aal/aalSystemAccessor.h>
 
 void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
 
@@ -87,3 +91,17 @@ bool sub_710092DC00() {
 // NON_MATCHING: placeholder destructor; the original (0x710092de00) also destroys members or bases
 // this class does not declare yet.
 Unk_71024742f0::~Unk_71024742f0() = default;
+
+// 0x710092e088: the state machine at +0x40 runs its current state.
+void Unk_71024742f0::m5() {
+    mStateMachine.run();
+}
+
+// 0x710092e090: sets the volume of the "eBookSize_Weapon_Sword_004" sound group to 1.
+void Unk_71024742f0::m6() {
+    auto* group_mgr = aal::SystemAccessor::getGroupMgr();
+    if (!group_mgr)
+        return;
+    if (auto* group = group_mgr->findGroup("eBookSize_Weapon_Sword_004"))
+        group->getParam().setVolume(1.0f);
+}

@@ -36,6 +36,7 @@
 #include "KingSystem/Resource/resResourceJpg.h"
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/Utils/Thread/TaskData.h"
+#include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Camera/camUnk_71025136c8.h"
 #include <aal/aalSpatialCalculator.h>
 #include <aal/aalSpeakerChannelVolume.h>
@@ -341,6 +342,13 @@ public:
     virtual void m32() {}
     virtual void m33() {}
     virtual bool m34() { return false; }
+
+private:
+    // The original class has four polymorphic bases (vtable pointers at 0x0 / 0x8 / 0x10 / 0x18) and a
+    // ksys::StateMachine sub-object at 0x40 (the constructor at 0x710092dd2c builds it there and m5
+    // forwards to its run()).
+    u8 _8[0x40 - 0x8];
+    ksys::StateMachine mStateMachine;
 };
 
 namespace eui {
