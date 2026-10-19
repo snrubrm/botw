@@ -1,4 +1,6 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "Game/UI/uiManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/Quest/qstQuest.h"
@@ -730,6 +732,16 @@ Unk_7102481118::~Unk_7102481118() = default;
 
 // 0x71009ec6c8
 Unk_7102481e50::~Unk_7102481e50() = default;
+
+// 0x7100a6c0ec
+void sub_7100A6C0EC(Unk_710249c338* controller, f32 value) {
+    controller->_4bc = value;
+    if (value >= 0.0f)
+        controller->setLeftStickCrossThreshold(sead::ControllerBase::cStickHoldThresholdDefault,
+                                               sead::ControllerBase::cStickReleaseThresholdDefault);
+    else
+        controller->setLeftStickCrossThreshold(0.95f, 0.9f);
+}
 
 // 0x7100a6cb6c
 Unk_710249c3b0::~Unk_710249c3b0() = default;

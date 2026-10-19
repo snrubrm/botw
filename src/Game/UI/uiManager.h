@@ -41,6 +41,8 @@ namespace ksys::res {
 class EntryFactoryBase;
 }
 
+class Unk_710249c338;
+
 namespace uking::ui {
 
 // Placeholder: the object whose +0x20 field the manager's `_651e0` mirrors (the pin of the map / camera screens).
@@ -51,7 +53,7 @@ struct Unk_UiPinInfo {
 
 // 0x7100a6c0ec (declaration only): stores `value` at controller + 0x4bc and forwards to
 // sead::ControllerBase::setLeftStickCrossThreshold with the default pair for the sign of `value`.
-void sub_7100A6C0EC(sead::Controller* controller, f32 value);
+void sub_7100A6C0EC(Unk_710249c338* controller, f32 value);
 
 // A795D4 constructs a task ID, a timer initialized to 60 seconds, and the
 // dismissal flag. ObjList appends its node at +0x20 (slot stride 0x30).
@@ -248,7 +250,7 @@ public:
     u8 _649e8[4];
     /* 0x649ec */ sead::BitFlag8 _649ec;
     u8 _649ed[0x649f0 - 0x649ed];
-    /* 0x649f0 */ sead::Controller* _649f0;  // the controller the screens' UIControllers are registered with
+    /* 0x649f0 */ Unk_710249c338* _649f0;  // the controller the screens' UIControllers are registered with
     // Pad repeat settings applied to every screen's UIController (Manager::sub_7100A702E8).
     struct PadRepeat {
         u32 mask;

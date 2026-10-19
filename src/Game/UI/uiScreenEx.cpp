@@ -2,6 +2,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/uiManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ui {

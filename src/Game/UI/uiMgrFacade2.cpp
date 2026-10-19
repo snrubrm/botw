@@ -11,6 +11,7 @@
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
