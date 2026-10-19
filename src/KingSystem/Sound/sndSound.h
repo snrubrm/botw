@@ -244,13 +244,40 @@ public:
     // 0x710103757c: runs 0x71010375cc first.
     virtual ~Unk_SoundMgr38_28();
 
+    // One queued splash (0x20 bytes): its position, the 10.0 weight and its list node. The first
+    // word is the free-list link while the entry is free.
+    struct SplashEntry {
+        union {
+            struct {
+                /* 0x00 */ sead::Vector3f mPos;
+                /* 0x0c */ f32 _0c;
+            };
+            /* 0x00 */ SplashEntry* mNextFree;
+        };
+        /* 0x10 */ sead::ListNode mNode;
+    };
+    KSYS_CHECK_SIZE_NX150(SplashEntry, 0x20);
+    // A splash pool (0x30 bytes) at +0x208: the active list, the free-list head and the capacity.
+    struct SplashPool : sead::ListImpl {
+        // 0x7101039920 (placeholder name): appends `entry` to the active list.
+        void pushFront(SplashEntry* entry) { sead::ListImpl::pushFront(&entry->mNode); }
+
+        /* 0x18 */ SplashEntry* mFree = nullptr;
+        /* 0x20 */ u32 _20 = 0;
+        /* 0x24 */ u32 _24 = 0;
+        /* 0x28 */ u32 mMax = 0;
+        /* 0x2c */ u32 _2c = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(SplashPool, 0x30);
+
     /* 0x008 */ act::BaseProcHandle mProcHandle;
     /* 0x018 */ void* _18 = nullptr;
     u8 _20[0x1c0 - 0x20];
     // The four sound handles faded by sub_710103920C.
     /* 0x1c0 */ xlink2::HandleSLink _1c0[2];
     /* 0x1e0 */ xlink2::HandleSLink _1e0[2];
-    u8 _200[0x268 - 0x200];
+    u8 _200[0x208 - 0x200];
+    /* 0x208 */ SplashPool mSplashPools[2];
     /* 0x268 */ sead::CriticalSection _268;
     /* 0x2a8 */ sead::CriticalSection _2a8;
     /* 0x2e8 */ sead::CriticalSection _2e8;

@@ -85,6 +85,37 @@ Unk_SoundMgr38_38::Unk_SoundMgr38_38() {
     _d0 = 0;
 }
 
+// 0x7102502080: the splash distance / size table; +0x10 is the large-splash threshold.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_7102502080[5] = {1.2f, 0.5f, 0.5f, 1.25f, 3.0f};
+
+// NON_MATCHING: the original spills the pool index to the stack and sign-extends it for the pool
+// address; ours keeps it in a callee-saved register and uses umaddl.
+// 0x7101039920 (placeholder name): queues a splash of `size` at `pos` in the small or large pool.
+bool Unk_SoundMgr38_28::sub_7101039920(f32 size, const sead::Vector3f& pos) {
+    if (_39c)
+        _39c = false;
+    const s32 index = size > sUnk_7102502080[4];
+    _2e8.lock();
+    SplashPool& pool = mSplashPools[index];
+    bool result = false;
+    if (pool.size() < s32(pool.mMax)) {
+        SplashEntry* entry = pool.mFree;
+        if (entry)
+            pool.mFree = entry->mNextFree;
+        entry->mPos = sead::Vector3f::zero;
+        entry->_0c = 0;
+        entry->mNode = {};
+        pool.pushFront(entry);
+        if (entry) {
+            entry->mPos = pos;
+            entry->_0c = 10.0f;
+            result = true;
+        }
+    }
+    _2e8.unlock();
+    return result;
+}
+
 // Empty in the release build.
 void Unk_SoundMgr38_38::sub_710103A034(sead::Heap* heap) {}
 
