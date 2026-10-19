@@ -277,6 +277,8 @@ public:
     void x_2();
     ControlBase* findControlWithParentLayout_(const char* name, const LayoutEx* layout);
     ControlBase* findControlWithLayout_(const char* name, const LayoutEx* layout);
+    // 0x7100beb26c: the control with this name whose layout's root pane has the given name
+    ControlBase* findControlWithParts_(const char* name, const char* parts_name);
     // 0x7100a52150 (CSV placeholder): find the LetterAnimControl with the given pane name.
     LetterAnimControl* sub_7100A52150(const char* name);
     void moveBoxCursor_(BoxCursorNode* node);

@@ -568,6 +568,19 @@ LayoutEx* Screen::sub_7100BEAFB0(const char* name) {
     return mLayout->findPartsLayout(name);
 }
 
+// 0x7100beb26c
+ControlBase* Screen::findControlWithParts_(const char* name, const char* parts_name) {
+    const sead::SafeString search(name);
+    for (ListNode* node = mControls.next; node != &mControls; node = node->next) {
+        ControlBase* control = ControlBase::fromNode(node);
+        LayoutEx* layout = control->mLayout;
+        if (search == sead::SafeString(control->mName) && layout &&
+            IsNameEqual(parts_name, layout->mPane->GetName()))
+            return control;
+    }
+    return nullptr;
+}
+
 // 0x7100beb12c
 ControlBase* Screen::findControlWithParentLayout_(const char* name, const LayoutEx* layout) {
     const sead::SafeString search(name);
