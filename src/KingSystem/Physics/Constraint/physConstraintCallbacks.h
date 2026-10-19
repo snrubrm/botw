@@ -8,6 +8,7 @@ namespace ksys::phys {
 // constructor with its Constraint, and installs the seven-slot 0x71024f6420.
 struct Unk_71024f6420 : Unk_71012a6844::ItemA {
     SEAD_RTTI_OVERRIDE(Unk_71024f6420, Unk_71012a6844::ItemA)
+    explicit Unk_71024f6420(Constraint* constraint) : ItemA(constraint) {}
     ~Unk_71024f6420() override;
     // Native 0x7100f6e660 / 0x7100f6e83c require the library data interface.
     bool m0() const override;

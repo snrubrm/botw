@@ -1,15 +1,42 @@
 #pragma once
 
+#include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::phys {
+
+class RigidBody;
 
 // 0x7100f6e06c allocates 0xc0 and installs vtable 0x71024f63f0 after
 // constructing Constraint. The table has RTTI queries and two destructors.
 class LimitHingeCs : public Constraint {
     SEAD_RTTI_OVERRIDE(LimitHingeCs, Constraint)
 public:
+    // Layout read by the factory: a bool at +0x20, six frame vectors and four
+    // limit scalars after the shared Constraint prefix.
+    struct Param : Constraint::Param {
+        bool _20;
+        u8 _21[3];
+        sead::Vector3f _24;
+        sead::Vector3f _30;
+        sead::Vector3f _3c;
+        sead::Vector3f _48;
+        sead::Vector3f _54;
+        sead::Vector3f _60;
+        f32 _6c;
+        f32 _70;
+        f32 _74;
+        f32 _78;
+    };
+    static_assert(sizeof(Param) == 0x80);
+
+    static LimitHingeCs* make(const Param& param, sead::Heap* heap);
+
     ~LimitHingeCs() override;
 
     // 0x7100f6e584: converts the six frame vectors and passes them to the Havok data at +0xb8.
@@ -35,7 +62,13 @@ private:
         f32 mMinAngle;
         f32 mMaxAngle;
         f32 mAngularLimitsTauFactor;
+        u8 _104[0x130 - 0x104];
     };
+    static_assert(sizeof(Data) == 0x130);
+
+    LimitHingeCs(hkpConstraintInstance* instance, RigidBody* body_a, RigidBody* body_b,
+                 const u32& value, ConstraintUnk18* breakable, Data* data)
+        : Constraint(instance, body_a, body_b, value, breakable), mData(data) {}
 
     Data* mData;
 };
