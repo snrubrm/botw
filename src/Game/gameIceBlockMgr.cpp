@@ -2,6 +2,9 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking {
 
@@ -29,6 +32,23 @@ f32 IceBlockMgr::sub_710066F004() const {
 
 bool IceBlockMgr::sub_710066F038() const {
     return _140 > 0.0f;
+}
+
+// NON_MATCHING: same calls and stores; the original keeps the transceiver in x20 and the message
+// type at sp+4, ours uses x21 and a 0x50 frame, and it copies the ez vector as three words instead
+// of one 8-byte and one 4-byte load.
+void IceBlockMgr::fadeEffectAndReleaseActorMaybe() {
+    _100[_14c].fadeXLink();
+    _fc = 0;
+    _e9 = 0;
+    _ec = sead::Vector3f::ez;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_180, &accessor)) {
+        mTransceiver.sendMessage(*accessor.getMessageTransceiverId(),
+                                 ksys::MessageType(0x80000b7), nullptr, true);
+        _180.reset();
+    }
 }
 
 }  // namespace uking
