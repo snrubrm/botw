@@ -4,8 +4,10 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Sound/sndBarslistArchive.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::snd {
@@ -51,6 +53,31 @@ Unk_7102502978* Unk_SoundMgr60::sub_710105844C(res::Handle* handle, const sead::
 
 void Unk_SoundMgr60::sub_7101059354(Unk_7102502950* reader) {
     delete reader;
+}
+
+// 0x7101058c44: loads every entry of the bars list `name` into `reader`, requesting each asset.
+bool Unk_SoundMgr60::loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap,
+                              bool a4, bool a5, res::Handle* pack) {
+    if (!reader)
+        return false;
+    al::ByamlIter iter = _15e8->getIter(name);
+    reader->_18 = 0;
+    if (!iter.isValid()) {
+        reader->_18 |= 2;
+        return false;
+    }
+    const s32 count = _15e8->getSize(iter);
+    if (count <= 0) {
+        reader->_18 |= 1;
+        return true;
+    }
+    reader->sub_71010571A4(count, heap);
+    for (s32 i = 0; i < count; ++i) {
+        res::Handle* handle = &reader->mHandles[i];
+        const char* entry_name = _15e8->getEntryName(iter, i);
+        requestLoadBars(handle, entry_name, a4, a5, 0, pack);
+    }
+    return true;
 }
 
 // NON_MATCHING: the requester temporary uses a different stack slot.

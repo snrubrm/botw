@@ -29,6 +29,17 @@ void Unk_SoundMgr60::sub_7101058348() {
         res::ResourceMgrTask::instance()->removeOverlayArena(mArena);
 }
 
+// 0x7101058364 (placeholder name): loads the four UI bars files into the SLink reader's buffer and the
+// three handle members.
+void Unk_SoundMgr60::sub_7101058364() {
+    mSlinkResources.sub_71010571A4(1, mHeap);
+    sub_710105844C(&mSlinkResources.mHandles[0], "M_UI.bars", true, false);
+    mSlinkResources._18 |= 1;
+    sub_710105844C(&_15f8, "M_UI_DLC1.bars", false, false);
+    sub_710105844C(&_1648, "M_UI_DLC2.bars", false, false);
+    sub_710105844C(&_1458, "M_StaticPrefetch.bars", false, false);
+}
+
 // ResourceBars construction/destruction notifications: empty in the release build.
 void Unk_SoundMgr60::sub_7101059450(aal::AudioResource* resource) {}
 

@@ -1145,6 +1145,8 @@ class Unk_7102502950 : public aal::IAssetInfoReadable {
 public:
     // 0x7101057258 (declared only; 712 B): loads the asset info for `name`; true when done.
     bool sub_7101057258(const sead::SafeString& name, sead::Heap* heap);
+    // 0x71010571a4: allocates `count` res::Handle objects (0x50 bytes each) into mHandles.
+    void sub_71010571A4(s32 count, sead::Heap* heap);
     bool readAssetInfo(aal::AssetInfo* asset_info, const sead::SafeString& name, bool flag) override;
     // 0x7101056bc8
     virtual ~Unk_7102502950();
@@ -1245,6 +1247,9 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
 
     // 0x7101058348 (placeholder name): removes mArena from the resource manager task.
     void sub_7101058348();
+    // 0x7101058364 (placeholder name): loads the four UI bars files into the SLink reader's buffer and the
+    // three handle members.
+    void sub_7101058364();
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
     void sub_7101059454(aal::AudioResource* resource);

@@ -112,4 +112,24 @@ void BarslistArchive::load(sead::Heap* heap) {
     mIter = new (heap, 8) al::ByamlIter(resource->getRawData());
 }
 
+// NON_MATCHING: the original copy-constructs the returned iterator into the result slot instead of
+// eliding the copy (20 bytes longer).
+// 0x7101057520: the sub-iterator of the bars list at `key`.
+al::ByamlIter BarslistArchive::getIter(const sead::SafeString& key) const {
+    al::ByamlIter iter = mIter->getIterByKey(key.cstr());
+    return iter;
+}
+
+// 0x7101057580: the entry count of `iter`.
+s32 BarslistArchive::getSize(const al::ByamlIter& iter) const {
+    return iter.getSize();
+}
+
+// 0x710105767c: the asset name at `index` in `iter`.
+const char* BarslistArchive::getEntryName(const al::ByamlIter& iter, s32 index) const {
+    const char* name;
+    iter.tryGetStringByIndex(&name, index);
+    return name;
+}
+
 }  // namespace ksys::snd
