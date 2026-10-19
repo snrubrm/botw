@@ -221,6 +221,11 @@ void Unk_71025d6578::sub_710094BF98(u32 current_increment, u32 max_increment) {
 }
 
 // 0x710094be14
+// 0x7100949d28 (placeholder name): sets the low nibble of the gauge flags (_63) to 0xa
+void Unk_71025d6578::sub_7100949D28() {
+    _63 = (_63 & 0xf0) | 0xa;
+}
+
 void Unk_71025d6578::sub_710094BE14() {
     if (_61 & 2)
         _61 = (_61 & ~6) | 4;

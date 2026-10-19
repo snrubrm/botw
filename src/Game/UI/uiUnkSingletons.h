@@ -171,6 +171,8 @@ public:
     virtual ~Unk_71025d6578();
 
     void sub_710094B844(bool a1, bool a2, bool a3);
+    // 0x7100949d28 (placeholder name): sets the low nibble of the gauge flags (_63) to 0xa
+    void sub_7100949D28();
     void sub_710094B8A4(bool a1);
     bool sub_710094B8D4() const;
     void sub_710094B9A0();
