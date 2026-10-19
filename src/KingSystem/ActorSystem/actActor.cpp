@@ -2047,7 +2047,7 @@ void Actor::x_3(f32 value) {
     if (_4f4 != value) {
         _4f4 = value;
         if (mModel)
-            Unk_710260af28::instance()->sub_7100F1E1F8(mModel);
+            Unk_710260af28::instance()->sub_7100F1E1F8(mModel, value);
     }
 }
 

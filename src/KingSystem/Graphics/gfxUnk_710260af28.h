@@ -50,8 +50,8 @@ public:
     // passes a zeroed 16 byte value (a colour) by reference.
     void sub_7100F1E2F4(gsys::Model* model, const sead::Color4f& color);
     // 0x7100f1e1f8 (CSV: uk_proc_discard_stuff; declaration only; lane4 s31): Actor::x_3 calls it with the actor's model
-    // after changing `_4f4`.
-    void sub_7100F1E1F8(gsys::Model* model);
+    // after changing `_4f4`; sets uk_proc_discard to 1 - the value.
+    void sub_7100F1E1F8(gsys::Model* model, f32 value);
     // 0x7100f1eaf8 (declaration only; lane4 s28): HorseReins::initMaybe passes 0.0.
     void sub_7100F1EAF8(gsys::Model* model, f32 value);
     // 0x7100f1ea00 (declaration only; lane3 s115): sets the "uk_model_tree_scale" material parameter of
