@@ -18,8 +18,7 @@ ScalableFontMgr::~ScalableFontMgr() {
 }
 
 // NON_MATCHING: the update-thread block is scheduled differently (the original loads the texture cache before the
-// thread constructor and stores the thread's fields before its vtable), and the SDK InitializeArg header merges the
-// original's two byte fields _e / _f, so the flag store is 16-bit here.
+// thread constructor and stores the thread's fields before its vtable).
 // 0x7100be5328
 void ScalableFontMgr::initialize(const InitializeArg& arg) {
     sead::Graphics::instance()->lockDrawContext();
@@ -48,18 +47,18 @@ void ScalableFontMgr::initialize(const InitializeArg& arg) {
         font_arg.pTextureCache = mTextureCache;
         font_arg.fontSize = info.font_size;
         font_arg._c = info._c;
-        // The original's InitializeArg has two byte fields here (_e, _f); our SDK header merges them.
-        font_arg._e = 0x100;
+        font_arg._f = 1;
         entry.font.Initialize(font_arg);
         ++index;
     }
 
-    mUpdateThread = new (arg.heap, 8) UpdateTextureCacheThread(
+    auto* thread = new (arg.heap, 8) UpdateTextureCacheThread(
         "UpdateTextureCacheThread", arg.heap, arg.thread_priority, sead::MessageQueue::BlockType::Blocking,
         0x7fffffff, 0x8000, 0x20);
-    mUpdateThread->mTextureCache = mTextureCache;
-    mUpdateThread->mUpdatePending = false;
-    mUpdateThread->setAffinity(arg.affinity);
+    thread->mTextureCache = mTextureCache;
+    thread->mUpdatePending = false;
+    mUpdateThread = thread;
+    thread->setAffinity(arg.affinity);
     mUpdateThread->start();
 
     sead::Graphics::instance()->unlockDrawContext();
