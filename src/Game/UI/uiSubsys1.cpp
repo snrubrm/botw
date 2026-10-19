@@ -196,6 +196,14 @@ UiSubsys1Entry** UiSubsys1::sub_71009595FC(UiSubsys1Entry* key) {
     return nullptr;
 }
 
+// 0x7100963598
+u32 UiSubsys1::sub_7100963598() {
+    u32 value = _120;
+    if (sub_71009635DC() && _128 != -1)
+        value &= ~(1u << _128);
+    return value;
+}
+
 // 0x7100963724
 void UiSubsys1::sub_7100963724() {
     sub_710095F584(true);
