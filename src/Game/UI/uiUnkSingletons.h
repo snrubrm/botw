@@ -504,6 +504,18 @@ struct UiSubsys1Entry {
 };
 static_assert(sizeof(UiSubsys1Entry) == 0x50);
 
+// Map pin entries (kinds 2 and 0x2b). Factory 0x710095c0a8 allocates 0x88 bytes for both; native vtables
+// 0x71024755e8 / 0x7102475700. The index at 0x78 starts at -1 and is matched against Manager::_64c40.
+class UiSubsys1PinEntry : public UiSubsys1Entry {
+public:
+    u8 _50[0x78 - 0x50];
+    /* 0x78 */ s32 _78;
+    /* 0x7c */ s32 _7c;
+    /* 0x80 */ s32 _80;
+    /* 0x84 */ s32 _84;
+};
+static_assert(sizeof(UiSubsys1PinEntry) == 0x88);
+
 // Marker records referenced by native 95192C / 951A04 / 951B28.
 struct Unk_710095192c {
     u8 _0[8];
@@ -1269,6 +1281,9 @@ public:
     // (_64c38: the Master Sword position in state 6, sub_7100957500 in states 0 .. 4 and 7, otherwise
     // sub_7100A9B800 or _478's position)
     void sub_7100961CD4(sead::Vector3f* out);
+    // 0x7100957500 (placeholder name): the position of the marker for the current manager state
+    // (Divine Beast / Final Trial / selected pin; sead::Vector3f::zero when there is none)
+    const sead::Vector3f* getMapMarkerPosition() const;
     bool get38b8() const;
     bool is128EqualTo6() const;
     void set848(s32 value);
@@ -1435,9 +1450,17 @@ private:
     /* 0x250 */ sead::ObjList<void*> _250;
     /* 0x280 */ sead::ObjList<void*> _280;
     /* 0x2b0 */ sead::ObjList<void*> _2b0;
-    u8 _2e0[0x310 - 0x2e0];
+    // Marker lists filled by factory 0x710095c0a8: the filtered entries, then kinds 2 and 0x2b.
+    /* 0x2e0 */ sead::PtrArray<UiSubsys1Entry> _2e0;
+    /* 0x2f0 */ sead::PtrArray<UiSubsys1PinEntry> _2f0;
+    /* 0x300 */ sead::PtrArray<UiSubsys1PinEntry> _300;
     /* 0x310 */ sead::PtrArray<UiSubsys1Marker> _310;
-    u8 _320[0x378 - 0x320];
+    // The current Divine Beast / Final Trial marker (kinds 8, 9, 7, 10), stored by the same factory.
+    /* 0x320 */ UiSubsys1Entry* _320;
+    /* 0x328 */ UiSubsys1Entry* _328;
+    /* 0x330 */ UiSubsys1Entry* _330;
+    /* 0x338 */ UiSubsys1Entry* _338;
+    u8 _340[0x378 - 0x340];
     /* 0x378 */ UiSubsys1Unk378* _378;
     u8 _380[0x3a0 - 0x380];
 

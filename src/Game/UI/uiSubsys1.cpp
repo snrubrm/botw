@@ -2,7 +2,10 @@
 #include <limits>
 #include <prim/seadBitFlag.h>
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiManager.h"
+#include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameSceneMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -37,6 +40,80 @@ void UiSubsys1::sub_71009637D4() {
             ksys::gdt::resetFlag_MapApp_MapIconPos(i, false);
         }
     }
+}
+
+// 0x7100957500 (placeholder name): the marker position for the current manager state.
+// NON_MATCHING: the state 4 loop in the original spills the kind and the literal to the stack before
+// the compare and shares the found block with the state 7 loops; this is the natural form.
+const sead::Vector3f* UiSubsys1::getMapMarkerPosition() const {
+    auto* manager = Manager::instance();
+    switch (manager->_64c38) {
+    case 0:
+        return _338 ? &_338->_28 : &sead::Vector3f::zero;
+    case 1:
+        return _320 ? &_320->_28 : &sead::Vector3f::zero;
+    case 2:
+        return _328 ? &_328->_28 : &sead::Vector3f::zero;
+    case 3:
+        return _330 ? &_330->_28 : &sead::Vector3f::zero;
+    case 4:
+        if (ksys::gdt::getFlag_FinalTrial_InBossBattleArea(false))
+            return &sUnk_71025d6c70._a8;
+        for (auto& entry : _2e0) {
+            if (entry._1c == 4)
+                return &entry._28;
+        }
+        return &sead::Vector3f::zero;
+    case 7: {
+        const s32 pin = manager->_64c40;
+        for (auto& entry : _2f0) {
+            if (entry._78 == pin)
+                return &entry._28;
+        }
+        for (auto& entry : _300) {
+            if (entry._78 == pin)
+                return &entry._28;
+        }
+        return &sead::Vector3f::zero;
+    }
+    default:
+        return &sead::Vector3f::zero;
+    }
+}
+
+// 0x7100961cd4: the position to centre the map on for the current manager state.
+// NON_MATCHING: the original copies the marker position through the stack at the join; ours keeps
+// the X / Y components in registers (same instructions otherwise).
+void UiSubsys1::sub_7100961CD4(sead::Vector3f* out) {
+    sead::Vector3f pos(0, 0, 0);
+    const u32 state = Manager::instance()->_64c38;
+    switch (state) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 7:
+        pos = *getMapMarkerPosition();
+        break;
+    case 6: {
+        sead::Vector3f dest[2];
+        SceneMgr::instance()->getMapPosition("MasterSword", dest, "MainField", nullptr);
+        pos = dest[0];
+        break;
+    }
+    default:
+        sub_7100A9B800(&pos);
+        if (pos == sUnk_71025d6c70._78) {
+            if (!_478)
+                return;
+            pos = _478->_28;
+            if (pos == sUnk_71025d6c70._78)
+                return;
+        }
+        break;
+    }
+    *out = pos;
 }
 
 // 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`

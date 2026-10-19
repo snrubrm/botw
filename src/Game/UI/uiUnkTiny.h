@@ -331,8 +331,14 @@ struct Unk_71025d6c70 {
     /* 0x3c */ sead::Vector2f size;
     u8 _44[0xc];
     /* 0x50 */ void* _50 = nullptr;  // returned by sub_71009630FC
+    u8 _58[0x78 - 0x58];
+    // Initialised to FLT_MAX by 0x710094f9e4; compared against the map position in sub_7100961CD4.
+    /* 0x78 */ sead::Vector3f _78;
+    u8 _84[0xa8 - 0x84];
+    // The Final Trial boss battle area position (-1102.8, 0, 1888) set by 0x710094f9e4.
+    /* 0xa8 */ sead::Vector3f _a8;
 };
-extern Unk_71025d6c70 sUnk_71025d6c70;
+KSYS_VISIBILITY_HIDDEN extern Unk_71025d6c70 sUnk_71025d6c70;
 // 0x71009630fc / 0x7100965eb0 (placeholder names): the map parameter fields at +0x50 / +0x28
 void* sub_71009630FC();
 f32 sub_7100965EB0();
