@@ -212,7 +212,7 @@ bool UiSubsys1::sub_71009635DC() {
     }
     if (_3820 > 0)
         return false;
-    const s32 index = _3830;
+    const s64 index = _3830;
     if (index == -1)
         return true;
     if (_3860 == 0)
