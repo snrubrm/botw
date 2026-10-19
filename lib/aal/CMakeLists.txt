@@ -109,6 +109,7 @@ add_library(aal OBJECT
   src/aalAttenuator.cpp
   src/aalAttenuationReader.cpp
   src/aalAssetInfo.cpp
+  src/aalAssetType.cpp
   src/aalAudioMetaReader.cpp
   src/aalAudioResource.cpp
   src/aalMemoryPoolManager.cpp
