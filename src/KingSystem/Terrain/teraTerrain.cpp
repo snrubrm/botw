@@ -237,6 +237,11 @@ void Core::Grass::sub_7101151A1C() {
     _c |= 1;
 }
 
+// 0x7101151a14 (unnamed in the CSV): forwards to the _28 object's near-set query result.
+bool Core::Grass::sub_7101151A14() {
+    return _28->sub_710106A2C4();
+}
+
 // NON_MATCHING: vector normalization and matrix stores are scheduled differently.
 void Core::Grass::sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
                                     const sead::Vector3f* target) {
@@ -562,6 +567,11 @@ bool Core::Grass::sub_7101150F48(const sead::Vector3f* pos, f32 a, f32 b) {
 bool Core::Grass::sub_7101150F88(const sead::Vector3f* pos, f32 a, f32 b, bool flag) {
     const Unk_7101150c24 arg{2, pos, a, b, true, false, false, false, flag};
     return (sub_7101150C24(&arg) & 1) != 0;
+}
+
+// 0x7101150fcc (unnamed in the CSV): forwards to the _28 object's near-set query.
+bool Core::Grass::sub_7101150FCC(f32 a, f32 b, const sead::Vector2f* position) {
+    return _28->sub_710106A0C8(a, b, position);
 }
 
 bool Core::Grass::sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b) {

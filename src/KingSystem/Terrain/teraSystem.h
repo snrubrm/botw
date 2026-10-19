@@ -111,6 +111,8 @@ public:
         bool sub_7101150F08(const sead::Vector3f* pos, f32 a, f32 b);
         bool sub_7101150F48(const sead::Vector3f* pos, f32 a, f32 b);
         bool sub_7101150F88(const sead::Vector3f* pos, f32 a, f32 b, bool flag);
+        // 0x7101150fcc (unnamed in the CSV): forwards to the _28 object's near-set query.
+        bool sub_7101150FCC(f32 a, f32 b, const sead::Vector2f* position);
         bool sub_7101150FD4(const sead::Vector3f* pos, f32 a, f32 b);
         bool sub_710115101C(const sead::Vector3f* pos, f32 radius);
         // Position and radius from ActorUtil and the independent terrain-cull caller.
@@ -133,6 +135,8 @@ public:
         void sub_71011509EC();
         // 0x7101151a1c (placeholder name): sets bit 0 of _c.
         void sub_7101151A1C();
+        // 0x7101151a14 (unnamed in the CSV): the _28 object's near-set query result.
+        bool sub_7101151A14();
         // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
         sead::Vector3f* sub_7101152DA0(s32 index);
         void sub_7101152B3C(f32 fovy, const sead::Vector3f* position,

@@ -131,6 +131,10 @@ public:
     f32 sub_7101069C44(const sead::Vector2f* position);
     u32 sub_7101069DB8(const sead::Vector2f* position, f32 radius);
     bool sub_710106A2C4();
+    // 0x710106a0c8 (unnamed in the CSV): walks the near-set records, checks `position` against each
+    // record's near position (a/2 as the extent) and, on a hit, appends the position to the record's
+    // buffer under its critical section. b is the radius. Called by Core::Grass::sub_7101150FCC.
+    bool sub_710106A0C8(f32 a, f32 b, const sead::Vector2f* position);
 
     sead::Heap* mHeap;                              // +8
     sead::Buffer<Record> mRecords;                  // +10
