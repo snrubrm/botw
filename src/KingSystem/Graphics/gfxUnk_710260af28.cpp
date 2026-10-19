@@ -98,6 +98,40 @@ void Unk_710260af28::sub_7100F1EBF0(gsys::Model* model) {
     }
 }
 
+void Unk_710260af28::sub_7100F1E3E4(gsys::Model* model, f32 value) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i) {
+        auto* unit = model->getUnits()[i]->mModelUnit;
+        const s32 count = unit->getMaterialNum();
+        for (s32 material = 0; material < count; ++material) {
+            const s32 param = unit->searchMaterialParamIndex(material, "uk_special_effect_B");
+            if (param != -1)
+                unit->setMaterialParamF32(material, param, value);
+        }
+    }
+}
+
+void Unk_710260af28::sub_7100F1E794(gsys::Model* model, f32 value, f32 step) {
+    const f32 ratio = value + step * 0.99999;
+    for (s32 i = 0; i < model->getUnits().size(); ++i) {
+        auto* unit = model->getUnits()[i]->mModelUnit;
+        const s32 count = unit->getMaterialNum();
+        for (s32 material = 0; material < count; ++material) {
+            const s32 param = unit->searchMaterialParamIndex(material, "uk_mimicly_ratio");
+            if (param != -1)
+                unit->setMaterialParamF32(material, param, ratio);
+        }
+    }
+}
+
+void Unk_710260af28::sub_7100F1E99C(gsys::Model* model) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i)
+        model->getUnits()[i]->mModelUnit->getMaterialNum();
+}
+
+s32 Unk_710260af28::sub_7100F1E9F0(gsys::ModelUnit* unit) {
+    return unit->getMaterialNum();
+}
+
 void Unk_710260af28::sub_7100F1E4DC(gsys::Model* model, f32 value) {
     for (s32 i = 0; i < model->getUnits().size(); ++i)
         sub_7100F1E538(model->getUnits()[i]->mModelUnit, value);

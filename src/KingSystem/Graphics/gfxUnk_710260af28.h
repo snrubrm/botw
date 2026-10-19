@@ -58,6 +58,17 @@ public:
     // every material of every unit of `model` to `value`. LumberjackTree 0x7100e18a38 passes the model's
     // y scale.
     void sub_7100F1EA00(gsys::Model* model, f32 value);
+    // 0x7100f1e3e4 (unnamed in the CSV; declaration only): sets uk_special_effect_B of every material.
+    void sub_7100F1E3E4(gsys::Model* model, f32 value);
+    // 0x7100f1e794 (unnamed in the CSV; declaration only): sets uk_mimicly_ratio to `value + step * 0.99999`
+    // (the arithmetic is done in double).
+    void sub_7100F1E794(gsys::Model* model, f32 value, f32 step);
+    // 0x7100f1e99c (unnamed in the CSV; declaration only): calls getMaterialNum() on every unit and
+    // discards the result.
+    void sub_7100F1E99C(gsys::Model* model);
+    // 0x7100f1e9f0 (unnamed in the CSV; declaration only): returns the material count of `unit`.
+    s32 sub_7100F1E9F0(gsys::ModelUnit* unit);
+
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.
     void sub_7100F1E4DC(gsys::Model* model, f32 value);
