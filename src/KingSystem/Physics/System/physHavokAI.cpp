@@ -604,6 +604,27 @@ Unk_7100f7e9f0 HavokAI::sub_7100F87D88(sead::Vector3f* out, const sead::Vector3f
 
 // NON_MATCHING: the input-vector setup is scheduled differently (the original loads the position
 // with lane loads and stores the half-extent lanes separately); the query and lock sequence match.
+bool HavokAI::sub_7100F842A8(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
+                             const void* b, u64 flag, void* result, const void* user) {
+    if (sead::ThreadMgr::instance()->getCurrentThread() != _38) {
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(
+            sead::ThreadMgr::instance()->getCurrentThread()->getPriority()));
+        static_cast<void>(sead::ThreadUtil::ConvertPriorityPlatformToSead(_38->getPriority()));
+    }
+
+    if (_90.tryLock()) {
+        const bool hit = sub_7100F84484(nav, out, a, b, flag, result, user);
+        _90.unlock();
+        return hit;
+    }
+    if (_c8.tryLock()) {
+        const bool hit = sub_7100F84910(nav, out, a, b, flag, result, user);
+        _c8.unlock();
+        return hit;
+    }
+    return false;
+}
+
 Unk_7100f7e9f0 HavokAI::sub_7100F8885C(NavMeshCharacter* nav, sead::Vector3f* out,
                                        const sead::Vector3f& to, f32 radius) {
     hkaiNavMeshQueryMediator::ClosestPointInput input;

@@ -446,6 +446,16 @@ public:
     Unk_7100f7e9f0 sub_7100F88CF8(sead::Vector3f* out, Unk_7100f7e9f0Event* event, hkaiWorld* world,
                                   NavMeshCharacter* nav, const sead::Vector3f& to, f32 a3);
 
+    // 0x7100f842a8 (unnamed): the _90 / _c8 dispatcher for the path queries 0xf84484 / 0xf84910.
+    // The argument list is inferred from the call site 0x71007428ec: nav, an output vector, an
+    // unused pointer (0), a second vector, a flag, a stack result block and an unused pointer.
+    bool sub_7100F842A8(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
+                        const void* b, u64 flag, void* result, const void* user);
+    bool sub_7100F84484(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
+                        const void* b, u64 flag, void* result, const void* user);
+    bool sub_7100F84910(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
+                        const void* b, u64 flag, void* result, const void* user);
+
     // 0x7100f81ee0 (declaration only; placeholder name): under the lock, removes `obj` from the query pool and
     // its pending requests (unless `queued`), then unregisters it if flags 0x3c00 are set.
     void sub_7100F81EE0(Unk_7102519a98* obj, bool queued);
