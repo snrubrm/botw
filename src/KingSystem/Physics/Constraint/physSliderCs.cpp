@@ -150,6 +150,15 @@ bool Unk_71024f6778::sub_7100F718B8(const Param& param) {
 Unk_71024f6778::~Unk_71024f6778() = default;
 Unk_71024f67a8::~Unk_71024f67a8() = default;
 
+Unk_71024f67a8* Unk_71024f67a8::create(const InitArg& arg, sead::Heap* heap) {
+    auto* object = new (heap, 8) Unk_71024f67a8;
+    object->_8 = arg._0;
+    object->_10 = arg._8;
+    object->_1c = arg._14;
+    object->_2c = arg._20;
+    return object;
+}
+
 void Unk_71024f67a8::sub_7100F71CB4(Unk_71024f67a8* object) {
     delete object;
 }
