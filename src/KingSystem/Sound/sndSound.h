@@ -22,6 +22,10 @@
 #include <aal/aalTimedFader.h>
 #include <aal/aalUnifiablePosition.h>
 #include <aal/aalAssetInfo.h>
+#include <gfx/seadCamera.h>
+#include <gfx/seadGraphicsContext.h>
+#include <gfx/seadPrimitiveRenderer.h>
+#include <gfx/seadProjection.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/System/DebugMessage.h"
@@ -226,6 +230,9 @@ public:
     void sub_7101037F7C(bool value);
     // 0x710103920c (placeholder name): fades the four sound handles.
     void sub_710103920C();
+    // 0x7101039dd8 (placeholder name): draws the occlusion box in blue when _3d0 bit 0 is set.
+    void sub_7101039DD8(sead::DrawContext* context, const sead::Camera& camera,
+                        const sead::Projection& projection);
     // 0x71010391ac (placeholder name): requests the "WaterObjSound" actor once and clears the
     // occlusion state; called by sound::setEnv.
     void sub_71010391AC(sead::Heap* heap, act::ActorCreator* creator);
@@ -260,7 +267,9 @@ public:
     /* 0x3b8 */ void* _3b8 = nullptr;
     /* 0x3c0 */ void* _3c0;
     /* 0x3c8 */ void* _3c8;
-    u8 _3d0[0x3d8 - 0x3d0];
+    /* 0x3d0 */ u32 _3d0 = 0;
+    /* 0x3d4 */ u8 _3d4 = 0;
+    u8 _3d5[0x3d8 - 0x3d5];
     /* 0x3d8 */ sead::Vector3f mBoxCenter;
     /* 0x3e4 */ sead::Vector3f mBoxSize;
 };

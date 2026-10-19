@@ -8,6 +8,7 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
+#include <aal/aalDebugDrawUtil.h>
 #include <aal/aalSpeakerBalanceUnifier.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -50,6 +51,32 @@ void Unk_SoundMgr38_38::sub_710103A034(sead::Heap* heap) {}
 
 // Empty in the release build.
 void Unk_SoundMgr38_38::sub_710103A294() {}
+
+// NON_MATCHING: the box centre loads are scheduled in a different order (the compiler pairs
+// mMin.y with mMax.x first); every value and the draw argument are the same.
+// 0x7101039dd8 (placeholder name): draws the occlusion box in blue when _3d0 bit 0 is set.
+void Unk_SoundMgr38_28::sub_7101039DD8(sead::DrawContext* context, const sead::Camera& camera,
+                                       const sead::Projection& projection) {
+    if (_3d0 == 0)
+        return;
+    if (_3d4) {
+        sead::GraphicsContext gfx;
+        gfx.setCullFace(2);
+        gfx.setDepthTestEnable(true);
+        gfx.setDepthWriteEnable(true);
+        gfx.apply(context);
+    }
+    sead::PrimitiveDrawer drawer(context);
+    aal::DebugDrawUtil::initializePrimitiveDrawer(&drawer, camera, projection);
+    drawer.begin();
+    if ((_3d0 & 1) != 0 && _328) {
+        const sead::BoundBox3f box(mBoxMin, mBoxMax);
+        const sead::Vector3f center = box.getCenter();
+        const sead::Vector3f size(box.getSizeX(), box.getSizeY(), box.getSizeZ());
+        drawer.drawWireCube(sead::PrimitiveDrawer::CubeArg(center, size, sead::Color4f::cBlue));
+    }
+    drawer.end();
+}
 
 // 0x710103920c (placeholder name): fades the four sound handles.
 void Unk_SoundMgr38_28::sub_710103920C() {
