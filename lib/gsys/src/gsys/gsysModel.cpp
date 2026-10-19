@@ -551,6 +551,45 @@ bool Model::erase(int unit_idx, IModelRigObj* obj) {
     return true;
 }
 
+// 0x7100bf9600
+void Model::gatherBounding_() const {
+    if (_48.size() == 0)
+        return;
+
+    sead::BoundSphere3f* bound = nullptr;
+    for (auto& info : _48) {
+        const ModelUnit* unit = info.mModelUnit;
+        if (unit->getVisibilityMask() == 0)
+            continue;
+
+        const sead::BoundSphere3f* sphere = unit->getBoundSphere();
+        if (!bound) {
+            mBounding = *sphere;
+            bound = &mBounding;
+            continue;
+        }
+
+        sead::Vector3f delta = bound->getCenter() - sphere->getCenter();
+        const f32 dist = delta.length();
+        if (dist > 0.0f) {
+            const f32 inv_dist = 1.0f / dist;
+            delta *= inv_dist;
+        }
+
+        const f32 radius_diff = bound->getRadius() - sphere->getRadius();
+        if (!(dist < sead::Mathf::abs(radius_diff))) {
+            const sead::Vector3f center =
+                (delta * bound->getRadius() + bound->getCenter() +
+                 (sphere->getCenter() - delta * sphere->getRadius())) *
+                0.5f;
+            bound->setCenter(center);
+            bound->setRadius((dist + bound->getRadius() + sphere->getRadius()) * 0.5f);
+        } else if (radius_diff < 0.0f) {
+            *bound = *sphere;
+        }
+    }
+}
+
 void Model::getBounding(sead::BoundSphere3f* bounding) const {
     const sead::BoundSphere3f* source = mBoundingOverrideMaybe;
     if (!source) {

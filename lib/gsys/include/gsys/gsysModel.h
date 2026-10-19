@@ -292,8 +292,8 @@ private:
     /// Total bone count (the sum over the model units unless overridden; see 0x7100bf7b2c).
     s32 _ac;
     f32 mAutoAnimationFrameRate;
-    /// Result of gatherBounding_ (0x7100bf9600, CSV name; declared only): the union of the bounding spheres of
-    /// the model units.
+    /// Result of gatherBounding_ (0x7100bf9600): the union of the bounding spheres of the units in the
+    /// reference-depth array _48.
     mutable sead::BoundSphere3f mBounding;
     u8 _c4[0xc8 - 0xc4];
     /// If set, getBounding returns this instead of gathering the unit bounds. The name is a guess.
