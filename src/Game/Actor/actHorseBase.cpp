@@ -832,61 +832,85 @@ void HorseBase::m44(ksys::phys::NavMeshCharacter* nav) {
     Actor::m44(nav);
 }
 
-// NON_MATCHING: the body matches; this build lays the false path out as an early return, while the
-// original branches to the shared epilogue, and the original spills the RiddenAnimalType word.
+// NON_MATCHING: the original shares one epilogue between the early false path and the final return;
+// this build duplicates it for the guard. The final `&&` is also lowered to cset/and here while the
+// original uses ccmp.
 bool HorseBase::sub_7100E6BA5C() {
     auto* controller = getCharacterController();
     bool result = false;
     if (controller && (controller->_116 & 4)) {
         const f32 height = sub_7100E6BB4C(controller);
-        const s32 type = x();
-        const f32 a = type == 7 ? 0.8f : 1.0f;
-        const f32 scale = type == 6 ? 1.5f : a;
+        const HorseMgr::RiddenAnimalType type(x());
+        f32 scale;
+        switch (type) {
+        case HorseMgr::RiddenAnimalType::_6:
+            scale = 1.5f;
+            break;
+        case HorseMgr::RiddenAnimalType::_7:
+            scale = 0.8f;
+            break;
+        default:
+            scale = 1.0f;
+            break;
+        }
         if (height > scale * 1.8f)
             result = true;
-        else
-            result = controller->sub_7100F5F0E4() == ksys::act::MotionType::_1 &&
-                     height > scale * 1.5f;
+        else if (controller->sub_7100F5F0E4() == ksys::act::MotionType::_1 &&
+                 height > scale * 1.5f)
+            result = true;
     }
     return result;
 }
 
-// NON_MATCHING: the body matches; the original spills the RiddenAnimalType word across the state
-// call, this build keeps it in a callee-saved register.
+// NON_MATCHING: the scale selection and the final `&&` match; this build keeps the RiddenAnimalType
+// word in a callee-saved register and compares the state after the scale, while the original spills
+// it at sp+0xc and compares the state first.
 bool HorseBase::sub_7100E6BC90() {
     auto* controller = getCharacterController();
     if (!controller || !(controller->_116 & 4))
         return true;
 
     const f32 height = sub_7100E6BB4C(controller);
-    const s32 type = x();
-    const bool is_type7 = type == 7;
+    const HorseMgr::RiddenAnimalType type(x());
+    const bool is_type7 = type == HorseMgr::RiddenAnimalType::_7;
     const s32 state = controller->sub_7100F5F0E4();
     f32 scale = is_type7 ? 0.48f : 0.6f;
-    if (type == 6)
+    if (type == HorseMgr::RiddenAnimalType::_6)
         scale = 0.9f;
     return height < scale && state != ksys::act::MotionType::_1;
 }
 
-// NON_MATCHING: the body is the same; the original checks the controller state after computing the
-// scale and spills the RiddenAnimalType word, this build branches on the state first and uses a
-// smaller frame.
+// NON_MATCHING: the scale table and the type spill match; this build loads the controller state
+// before the type reload and lowers the final `&&` to cset/and, while the original loads the state
+// after the reload and branches.
 bool HorseBase::sub_7100E6BD78() {
     auto* controller = getCharacterController();
-    bool result = false;
-    if (controller && (controller->_116 & 4)) {
-        const f32 height = sub_7100E6BB4C(controller);
-        const s32 type = x();
-        f32 scale = type == 7 ? 1.48f : 1.8f;
-        if (type == 6)
-            scale = 2.775f;
-        result = controller->_18d[0] == 1 && height > scale;
+    if (!controller)
+        return false;
+    if (!(controller->_116 & 4))
+        return false;
+
+    const f32 height = sub_7100E6BB4C(controller);
+    const HorseMgr::RiddenAnimalType type(x());
+    const u8 state = controller->_18d[0];
+    f32 scale;
+    switch (type) {
+    case HorseMgr::RiddenAnimalType::_6:
+        scale = 2.775f;
+        break;
+    case HorseMgr::RiddenAnimalType::_7:
+        scale = 1.48f;
+        break;
+    default:
+        scale = 1.8f;
+        break;
     }
+    bool result = false;
+    if (state == 1 && height > scale)
+        result = true;
     return result;
 }
 
-// NON_MATCHING: the original spills the RiddenAnimalType word to the stack after the inlined x()
-// (str / ldr at sp+0x1c); this build keeps it in w8. Everything else matches.
 f32 HorseBase::sub_7100E6BB4C(ksys::phys::CharacterController* controller) {
     const f32 m01 = mMtx(0, 1);
     const f32 m11 = mMtx(1, 1);
@@ -905,11 +929,20 @@ f32 HorseBase::sub_7100E6BB4C(ksys::phys::CharacterController* controller) {
     f32 s = sead::Mathf::sqrt(sead::Mathf::clampMin(inv * inv - 1.0f, 0.0f));
     s *= sign;
 
-    const s32 type = x();
+    const HorseMgr::RiddenAnimalType type(x());
 
-    f32 scale = type == 7 ? 1.2f : 1.5f;
-    if (type == 6)
+    f32 scale;
+    switch (type) {
+    case HorseMgr::RiddenAnimalType::_6:
         scale = 2.25f;
+        break;
+    case HorseMgr::RiddenAnimalType::_7:
+        scale = 1.2f;
+        break;
+    default:
+        scale = 1.5f;
+        break;
+    }
 
     return s * (scale - pos.z) + inv * controller->_210;
 }
