@@ -58,6 +58,7 @@ add_library(gsys OBJECT
   src/gsys/gsysPartialSkeletalAnm.cpp
   src/gsys/gsysIModelProcedural.cpp
   src/gsys/gsysModelRenderUnit.cpp
+  src/gsys/gsysModelRenderUnitNW.cpp
   src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelUnitGroup.cpp
   src/gsys/gsysModelUnitDrawArray.cpp

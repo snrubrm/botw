@@ -9,6 +9,11 @@ namespace sead {
 class Heap;
 }
 
+namespace nn::g3d {
+class MaterialObj;
+class ShapeObj;
+}
+
 namespace gsys {
 
 class ModelAssignRenderInfo;
@@ -51,6 +56,11 @@ public:
     virtual void m60();
     // vptr+0x68, 0x7100c0a664: draws one shape (signature not recovered).
     virtual void m68();
+
+    // 0x7100c09d28: the shape object at mModelObj's 0x68-byte shape array at mIndex.
+    nn::g3d::ShapeObj* getShape() const;
+    // 0x7100c09d60: the material object of mModelObj's 0x80-byte material array at mMaterialIndex.
+    nn::g3d::MaterialObj* getMaterial() const;
 
 protected:
     /* 0x20 */ ModelAssignRenderInfo* mAssignRenderInfo = nullptr;
