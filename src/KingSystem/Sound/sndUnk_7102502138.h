@@ -158,11 +158,25 @@ public:
 
     // Placeholder (an entry of the list at +0x70; 0x68 bytes, declaration only).
     struct Unk70Entry {
+        Unk70Entry();
         // 0x710103b5c8 (declared only)
         bool sub_710103B5C8(void* user, bool a);
 
-        u8 _0[0x68];
+        f32 _0 = 1.0f;
+        u32 _4 = 0;
+        f32 _8 = 1.0f;
+        u32 _c = 0;
+        f32 _10 = 0.4f;
+        u32 _14;
+        sead::FixedSafeString<0x30> _18;
+        bool _60 = false;
+        u8 _61[7];
     };
+
+    // 0x710103b488: takes an entry from the fixed list (null when full).
+    Unk70Entry* sub_710103B488();
+    // 0x710103b4f8: the name of the first entry whose _60 flag is set, or null.
+    const sead::SafeString* sub_710103B4F8();
 
 private:
     /* 0x28 */ sead::CriticalSection mCS;

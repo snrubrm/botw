@@ -27,6 +27,7 @@ class Constraint;
 namespace ksys::phys {
 class PolytopeRigidBody;
 class PolytopeShape;
+class ContactPointInfo;
 }
 
 namespace uking::ai {
@@ -62,8 +63,12 @@ public:
     // requests the fallen-tree actors, removes the "Tgt" body from the world, rebuilds the cut mask
     // and applies the tree scale.
     void sub_7100E18A38(const char* name1, const char* name2, bool arg);
+    // 0x7100e18578 (placeholder name): resets the cut state. For tree kinds 1..4 it rebuilds the cut
+    // mask and applies the tree scale; for kind 0 it fills the alpha table, adds the "Tgt" body to the
+    // world and subscribes its contact point info to layers 39 and 40.
+    void sub_7100E18578();
 
-    u8 _8[8];
+    ksys::phys::ContactPointInfo* mContactPointInfo = nullptr;
     u16 _10;
     // Texture format passed to sub_7100E18110.
     u8 _12;
@@ -73,7 +78,7 @@ public:
     ksys::act::Actor* mActor;
     u64 _40;
     u64 _48;
-    s32 _50;
+    f32 _50;
     // Per-type cut alpha; values above 24 use index 0.
     f32 mAlphas[24];
     u8 _b4[4];

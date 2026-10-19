@@ -12,6 +12,7 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -68,6 +69,46 @@ void Unk_71024e1b58::sub_7100E18B90(const char* name1, const char* name2) {
         ksys::act::ActorCreator::instance()->requestCreateActor(
             name2, ksys::map::PlacementMgr::instance()->mDynamicHeap, &_28, &pack, nullptr, 2);
     }
+}
+
+void Unk_71024e1b58::sub_7100E18578() {
+    if ((_10 & 0x100) != 0)
+        return;
+
+    _50 = 1.0f;
+    _40 = 0;
+    _48 = 0;
+    mContactPointInfo = nullptr;
+
+    if (u32(_12 - 1) < 4) {
+        _10 |= 4;
+        sub_7100E18274();
+        if (auto* model = mActor->getModel())
+            Unk_710260af28::instance()->sub_7100F1EA00(model, model->getScale().y);
+        return;
+    }
+
+    if (_12 != 0)
+        return;
+
+    for (u32 i = 0; i < 24; ++i)
+        mAlphas[i] = 1.0f;
+
+    auto* set = mActor->getPhysics()->findBodyByName("Tgt");
+    if (!set || set->getRigidBodies().size() == 0)
+        return;
+    auto* body = set->getRigidBodies()[0];
+    if (!body)
+        return;
+
+    body->addToWorld();
+    auto* info = body->getContactPointInfo();
+    mContactPointInfo = info;
+    if (!info)
+        return;
+
+    info->subscribeLayer(ksys::phys::ContactLayer::SensorAttackPlayer);
+    info->subscribeLayer(ksys::phys::ContactLayer::SensorAttackEnemy);
 }
 
 void Unk_71024e1b58::sub_7100E18A38(const char* name1, const char* name2, bool arg) {

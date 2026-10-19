@@ -10,6 +10,21 @@ namespace ksys::snd {
 // FixedObjList (`str wzr, [x19, #0x98]` before the node links) and schedules the first list stores differently.
 Unk_7102502138::Unk_7102502138() = default;
 
+Unk_7102502138::Unk70Entry::Unk70Entry()
+    : _0(1.0f), _4(0), _8(1.0f), _c(0), _10(0.4f), _60(false) {}
+
+Unk_7102502138::Unk70Entry* Unk_7102502138::sub_710103B488() {
+    return mList.emplaceBack();
+}
+
+const sead::SafeString* Unk_7102502138::sub_710103B4F8() {
+    for (auto& entry : mList) {
+        if (entry._60)
+            return &entry._18;
+    }
+    return nullptr;
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(Unk_7102502138)
 
 Unk_7102502138::~Unk_7102502138() {
