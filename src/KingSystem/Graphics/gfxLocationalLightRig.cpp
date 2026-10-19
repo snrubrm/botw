@@ -1,3 +1,4 @@
+#include "Game/gameGraphics.h"
 #include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <gsys/gsysModel.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -161,3 +162,9 @@ void LocationalLightRig::genMessage(sead::hostio::Context* context) {
 }
 
 }  // namespace ksys::gfx
+
+// 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
+void Unk_7100f185a4::setPosXY(s32 x, s32 y) {
+    _50 = static_cast<u16>(x);
+    _54 = static_cast<u16>(y);
+}

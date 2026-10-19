@@ -162,6 +162,14 @@ KSYS_CHECK_SIZE_NX150(Unk_710129175c, 0x268);
 class Unk_7100f185a4 {
 public:
     void sub_7100F1AC58();
+    // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
+    void setPosXY(s32 x, s32 y);
+
+private:
+    u8 _0[0x50];
+    u32 _50;
+    u32 _54;
+    u8 _58[0x1010 - 0x58];
 };
 // Placeholder: the object at Unk_7100efd9b8::_120 (the destructor calls its third virtual slot).
 class Unk_7100efd9b8Obj {
