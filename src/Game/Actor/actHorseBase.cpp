@@ -484,6 +484,80 @@ void HorseBase::sub_7100E6B230(HorseReins* reins, ksys::act::BaseProcLink* link)
         getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
 }
 
+// 0x7100e6b4a8: asks the horse objects behind _840 / _850 and the reins behind _860 / _870 / _880
+// to fade out (the fade request flag of Actor::_68c).
+// NON_MATCHING: the original tests the link's proc twice (cbz before and after the RTTI call) and
+// negates the check result (eor / tbnz); our clang folds the cast test into the check result.
+void HorseBase::sub_7100E6B4A8() {
+    {
+        auto* proc = _840.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->get68c() = 1;
+    }
+    {
+        auto* proc = _850.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->get68c() = 1;
+    }
+    {
+        auto* proc = _860.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->get68c() = 1;
+    }
+    {
+        auto* proc = _870.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->get68c() = 1;
+    }
+    {
+        auto* proc = _880.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->get68c() = 1;
+    }
+    get68c() = 1;
+}
+
+// 0x7100e6b764: clears the fade request of the same actors.
+// NON_MATCHING: same as sub_7100E6B4A8: the original re-tests the proc and negates the check result.
+void HorseBase::sub_7100E6B764() {
+    {
+        auto* proc = _840.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->get68c() = 0;
+    }
+    {
+        auto* proc = _850.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->get68c() = 0;
+    }
+    {
+        auto* proc = _860.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->get68c() = 0;
+    }
+    {
+        auto* proc = _870.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->get68c() = 0;
+    }
+    {
+        auto* proc = _880.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->get68c() = 0;
+    }
+    get68c() = 0;
+}
+
 // NON_MATCHING: row selection uses registers instead of a stack enum; vector additions are scheduled differently.
 void HorseBase::m88() {
     Actor::m88();
