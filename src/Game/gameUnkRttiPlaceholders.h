@@ -760,8 +760,10 @@ class Unk_7102504260 : public Unk_71024f13f0 {
     SEAD_RTTI_OVERRIDE(Unk_7102504260, Unk_71024f13f0)
 public:
     ~Unk_7102504260() override;
-    virtual void m4();
-    virtual void m5();
+    // 0x710107ed78 / 0x710107ed84: the hostio names. Slots 4 / 5 of the class vtable (the original
+    // class is the terrain editor; the strings are "Terrain" and "地形編集").
+    virtual const char* getName() const { return "Terrain"; }
+    virtual const char* getJpName() const { return "地形編集"; }
     virtual void m6();
     virtual bool m7() { return false; }
     virtual void m8();
