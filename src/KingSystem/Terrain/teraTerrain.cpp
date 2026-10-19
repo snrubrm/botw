@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Terrain/teraGrass.h"
+#include "KingSystem/Terrain/teraVegeTeraMat.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
@@ -240,6 +241,11 @@ void Core::Grass::sub_7101151A1C() {
 // 0x7101151a14 (unnamed in the CSV): forwards to the _28 object's near-set query result.
 bool Core::Grass::sub_7101151A14() {
     return _28->sub_710106A2C4();
+}
+
+// 0x7101150a70 (unnamed in the CSV): marks the first grass entry's vegetation material dirty.
+void Core::Grass::sub_7101150A70() {
+    mEntries.getBufferPtr()->_10->setDirty();
 }
 
 // NON_MATCHING: vector normalization and matrix stores are scheduled differently.

@@ -90,6 +90,9 @@ class ApertureMapsCollector;
 class System;
 class Unk_7101106F44;
 class AreaEnvGetter;
+// The vegetation terrain material manager (0x7101078674 setDirty); Core::Grass::sub_7101150A70
+// calls it through the first grass entry.
+class VegeTeraMatMgr;
 
 class Core {
 public:
@@ -125,6 +128,8 @@ public:
         // 0x71011516d0 (declared only): grass amount at `xz` written to `out`; returns the terrain query result
         // (2 when the grass is disabled, 0 without terrain data).
         u32 sub_71011516D0(f32* out, const sead::Vector2f* xz);
+        // 0x7101150a70 (unnamed in the CSV): marks the first grass entry's vegetation material dirty.
+        void sub_7101150A70();
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
         // 0x7101150be0 (placeholder name; ExpandChemicalField::calc_ with cut grass type 3).
         bool sub_7101150BE0(const sead::Vector3f* pos, f32 radius, f32 value);
@@ -240,7 +245,9 @@ public:
         struct Entry {
             EntryPart* _0;
             EntryPart2* _8;
-            u8 _10[0x28 - 0x10];
+            // 0x7101150a70 (unnamed in the CSV) calls setDirty on the first entry's manager.
+            VegeTeraMatMgr* _10;
+            u8 _18[0x28 - 0x18];
             // 0x710114f978 stores the System passed by Core 0x71013019bc.
             System* mSystem;
             u8 _30[0x3c - 0x30];
