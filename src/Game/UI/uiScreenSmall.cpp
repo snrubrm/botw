@@ -810,6 +810,18 @@ void ScreenSystemWindow01::m99() {
     mActiveCursorNode = nullptr;
 }
 
+// 0x7100a6818c
+void ScreenSystemWindow01::m102(eui::AnimButton* button) {
+    const s32 tag = button->mTag;
+    if ((tag & ~1) == 0x60) {
+        sUnk_710249ad68 = -1;
+        return;
+    }
+    const s32 index = tag - 0x62;
+    sUnk_710249ad68 = index;
+    _49e0[index].sub_7100937DA4(false);
+}
+
 // 0x7100a6814c (CSV ScreenSystemWindow01::m100)
 void ScreenSystemWindow01::m100() {
     if (_4b5c && u32(sUnk_710249ad74 - 1) <= 1)

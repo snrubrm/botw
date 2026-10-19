@@ -5794,6 +5794,7 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow01, ScreenEx)
 
     void m100() override;
+    void m102(eui::AnimButton* button) override;
     // 0x7100a6637c
     void m128() override;
     void m129() override;
@@ -5846,7 +5847,7 @@ public:
     /* 0x3730 */ nn::ui2d::ExternalTextureInfo _3730;
     /* 0x3748 */ Unk_71009cb0c8 _3748[6];
     /* 0x48b8 */ agl::TextureData _48b8;
-    /* 0x49e0 */ Unk_7102474dd0 _49e0[6];
+    /* 0x49e0 */ sead::SafeArray<Unk_7102474dd0, 6> _49e0;
     /* 0x4ad0 */ Unk_7102474df8 _4ad0;
     u8 _pad_4b58[0x4b5c - 0x4b58];
     /* 0x4b5c */ bool _4b5c;
