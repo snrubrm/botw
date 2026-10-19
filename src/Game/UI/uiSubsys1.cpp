@@ -185,6 +185,25 @@ bool UiSubsys1::freeListEntry(UiSubsys1ListEntry* entry) {
     return true;
 }
 
+// 0x71009595fc
+UiSubsys1Entry** UiSubsys1::sub_71009595FC(UiSubsys1Entry* key) {
+    if (!key)
+        return nullptr;
+    for (auto& entry : _668) {
+        if (entry == key)
+            return &entry;
+    }
+    return nullptr;
+}
+
+// 0x710095963c
+bool UiSubsys1::sub_710095963C(UiSubsys1Entry** entry) {
+    if (!entry)
+        return false;
+    _668.erase(entry);
+    return true;
+}
+
 // 0x7100963c78
 void UiSubsys1::sub_7100963C78(bool a1) {
     if (_378)
