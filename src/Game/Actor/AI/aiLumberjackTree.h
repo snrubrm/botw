@@ -51,9 +51,10 @@ public:
     // 0x7100e18ec4 (declared only; placeholder name): LumberjackTree::handleMessage_ tests it before
     // forwarding a 0x8000018 message.
     bool sub_7100E18EC4();
-    // 0x7100e18110 (placeholder name): sizes the cut-mask texture, allocates its GPU block, generates
-    // the mask and replaces the model's "ForReplace_Lumberjack" texture.
-    void sub_7100E18110(u8 format, ksys::act::Actor* actor, sead::Heap* heap);
+    // 0x7100e18110 (placeholder name): stores the tree kind, sizes the 24x4 cut-mask texture,
+    // allocates its GPU block, generates the mask and replaces the model's "ForReplace_Lumberjack"
+    // texture.
+    void sub_7100E18110(u8 kind, ksys::act::Actor* actor, sead::Heap* heap);
     // 0x7100e18274 (placeholder name): fills the cut-mask texture from the 24 alpha values.
     void sub_7100E18274();
     // 0x7100e18b90 (placeholder name): requests the two fallen-tree actors (the second replaces the
@@ -70,7 +71,7 @@ public:
 
     ksys::phys::ContactPointInfo* mContactPointInfo = nullptr;
     u16 _10;
-    // Texture format passed to sub_7100E18110.
+    // Tree kind passed to sub_7100E18110 (0..4; also selects the mask pattern).
     u8 _12;
     u8 _13[5];
     ksys::act::BaseProcHandle _18;
@@ -85,7 +86,7 @@ public:
     nn::gfx::ResTextureData* mResTexture;
     agl::g3d::ResTextureDataEx mResTextureData;
     agl::TextureData mTextureData;
-    agl::GPUMemVoidAddr mMaskMemAddr;
+    agl::GPUMemAddrBase mMaskMemAddr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024e1b58, 0x3c8);
 

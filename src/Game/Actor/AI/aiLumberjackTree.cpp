@@ -6,6 +6,9 @@
 #include "Game/Actor/aiUnk_7102357210.h"
 #include <random/seadGlobalRandom.h>
 #include <common/aglTextureDataInitializerRAW.h>
+#include <common/aglGPUMemBlock.h>
+#include <g3d/aglTextureUtilG3D.h>
+#include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -142,6 +145,38 @@ void Unk_71024e1b58::sub_7100E18A38(const char* name1, const char* name2, bool a
 
     if (auto* model = mActor->getModel())
         Unk_710260af28::instance()->sub_7100F1EA00(model, model->getScale().y);
+}
+
+// NON_MATCHING: the two image-size getter loads and the temporary stack slots differ; the member
+// stores, allocation, mask generation and texture replacement follow the original.
+void Unk_71024e1b58::sub_7100E18110(u8 kind, ksys::act::Actor* actor, sead::Heap* heap) {
+    if (!heap)
+        return;
+
+    _12 = kind;
+    mActor = actor;
+    _40 = 0;
+    _48 = 0;
+    mTextureData.initialize_(agl::TextureType::cTextureType_2D, agl::TextureFormat::cTextureFormat_R8_uNorm,
+                             24, 4, 1, 1, static_cast<agl::TextureAttribute>(1),
+                             agl::MultiSampleType{}, true);
+
+    const u32 size = mTextureData.getImageByteSize();
+    const u32 alignment = mTextureData.getImageAlignment();
+    auto* memory = new (heap, 8) agl::GPUMemBlock<u8>;
+    memory->allocBuffer_(size, heap, alignment, agl::MemoryAttribute::Default);
+    mMaskMemAddr = agl::GPUMemAddrBase(*memory, 0);
+    if (mMaskMemAddr.isValid())
+        mTextureData.setImagePtr(mMaskMemAddr, 0);
+
+    sub_7100E18274();
+
+    mResTexture = agl::g3d::TextureUtilG3D::convertToResTexture(&mResTextureData, mTextureData, nullptr);
+    // The agl declaration returns ResTextureData*; the model API takes the SDK accessor for the
+    // same object.
+    mActor->getModel()->replaceTexture(
+        static_cast<nn::gfx::ResTexture*>(static_cast<void*>(mResTexture)),
+        sead::SafeString("ForReplace_Lumberjack"));
 }
 
 // NON_MATCHING: the checkerboard value becomes one ubfiz instead of and + lsl, and the eor operands
