@@ -7,6 +7,7 @@
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -157,6 +158,81 @@ const sead::SafeString& Guardian::sub_710003B2EC() const {
 
 void Guardian::sub_7100034514(bool on) {
     _14c8.change(4, on);
+}
+
+// NON_MATCHING: the body is complete; this build lays the controller-type tests out as 2, 1, 0 and
+// schedules the flag/body setup slightly differently, while the original tests 0, 1, 2.
+// 0x71000374c4: the GuardianControllerType switch that adds/removes the two rigid bodies and moves
+// the active one onto the inactive one when the controller type changes.
+void Guardian::m73() {
+    const auto* guardian = getParam()->getRes().mGParamList->getGuardian();
+    if (!_1790 || !_17a0)
+        return;
+
+    const s32 controller_type = guardian->mGuardianControllerType.ref();
+    const bool flag2 = _14c8.isOnBit(1);
+    const u32 flags = _14c8.getDirect();
+    const bool c = _1908._3c != 0;
+
+    if (controller_type == 0) {
+        const bool bit14 = flag2 != c;
+        const u32 value = bit14 ? (flags | 0x4000) : (flags & ~0x4000u);
+        _14c8.setDirect(value);
+        if (!c) {
+            _14c8.setDirect(value | 2);
+            if (value & 0x4000) {
+                _1790->addToWorld();
+                if (_1780)
+                    _1780->addToWorld();
+            }
+        } else {
+            _14c8.setDirect(value & ~2u);
+            if (value & 0x4000) {
+                _1790->removeFromWorld();
+                if (_1780)
+                    _1780->removeFromWorld();
+            }
+        }
+    } else if (controller_type == 1) {
+        const u32 value = flag2 ? (flags & ~0x4002u) : (flags | 0x4000);
+        _14c8.setDirect(value | 2);
+    } else if (controller_type == 2) {
+        if (!_1788 || !_1798)
+            return;
+        const bool bit14 = flag2 != c;
+        const u32 value = bit14 ? (flags | 0x4000) : (flags & ~0x4000u);
+        const u32 new_flags = c ? (value & ~2u) : (value | 2);
+        _14c8.setDirect(new_flags);
+        if (new_flags & 0x4000) {
+            if (!c) {
+                _1798->removeFromWorld();
+                _1788->removeFromWorld();
+                _17a0->addToWorld();
+                _1790->addToWorld();
+                _1790->setTransform(_1788->getTransform());
+                _1790->setLinearVelocity(_1788->getLinearVelocity());
+                _1790->setAngularVelocity(_1788->getAngularVelocity());
+                _17a8->sub_7100F6AAA4(_1790, _1780);
+                _17a8->sub_7100F69FF0();
+                sub_71011DB364(_1790);
+                sub_710011DBB8(_17a0);
+            } else {
+                _17a0->removeFromWorld();
+                _1790->removeFromWorld();
+                _1798->addToWorld();
+                _1788->addToWorld();
+                _1788->setTransform(_1790->getTransform());
+                _1788->setLinearVelocity(_1790->getLinearVelocity());
+                _1788->setAngularVelocity(_1790->getAngularVelocity());
+                _17a8->sub_7100F6AAA4(_1788, _1780);
+                _17a8->sub_7100F69FF0();
+                sub_71011DB364(_1788);
+                sub_710011DBB8(_1798);
+            }
+        }
+    }
+
+    Enemy::m73();
 }
 
 // 0x7100035a90: switches the guardian state. State 5 tells the registered last-boss transceiver

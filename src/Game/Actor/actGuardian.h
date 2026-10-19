@@ -44,6 +44,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710243c250, 0x48);
 
+namespace ksys::phys {
+class Constraint;
+}
+
 class Unk_7100041da4;  // actionGuardianActionBase.h
 
 namespace ksys::res {
@@ -235,11 +239,11 @@ public:
     /* 0x1710 */ gsys::BoneAccessKeyEx _1710;
     /* 0x1748 */ gsys::BoneAccessKeyEx _1748;
     /* 0x1780 */ ksys::phys::RigidBody* _1780 = nullptr;  // the raycast/instance-set body
-    /* 0x1788 */ void* _1788 = nullptr;
-    /* 0x1790 */ void* _1790 = nullptr;
-    /* 0x1798 */ void* _1798 = nullptr;
-    /* 0x17a0 */ void* _17a0 = nullptr;
-    /* 0x17a8 */ void* _17a8 = nullptr;
+    /* 0x1788 */ ksys::phys::RigidBody* _1788 = nullptr;
+    /* 0x1790 */ ksys::phys::RigidBody* _1790 = nullptr;
+    /* 0x1798 */ ksys::phys::RigidBody* _1798 = nullptr;
+    /* 0x17a0 */ ksys::phys::RigidBody* _17a0 = nullptr;
+    /* 0x17a8 */ ksys::phys::Constraint* _17a8 = nullptr;
     /* 0x17b0 */ void* _17b0 = nullptr;
     /* 0x17b8 */ u32 _17b8 = 0;
     /* 0x17bc */ u32 _17bc;
