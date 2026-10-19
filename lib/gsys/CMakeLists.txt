@@ -30,6 +30,7 @@ add_library(gsys OBJECT
   include/gsys/gsysPartialSkeletalAnm.h
   include/gsys/gsysIModelProcedural.h
   include/gsys/gsysModelRenderUnit.h
+  include/gsys/gsysModelRenderUnitNW.h
   include/gsys/gsysModelUnit.h
   include/gsys/gsysModelUnitGroup.h
   include/gsys/gsysModelUnitDrawArray.h
