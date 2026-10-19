@@ -93,6 +93,22 @@ void Core::sub_7101301068(bool update) {
         system.sub_7101115158(update);
 }
 
+// NON_MATCHING: the linker folds sead::ListNode::insertFront_ into insertBack_ (identical code), so
+// the call target symbol differs even though the bytes are the same.
+void Core::sub_71013008E4(sead::Heap* heap, System* system) {
+    mSystems.pushFront(system);
+    for (u32 i = 0; i <= 0xff; ++i) {
+        system->_1334.slot = _374.fetchAdd(1);
+        if (Terrain::instance()->mImageResourceMgr->sub_7101131CDC(system))
+            break;
+    }
+    System::InitArgMaybe arg;
+    arg.heap = heap;
+    arg.model = _f0 ? _f8 : nullptr;
+    arg.count = mStates.size();
+    system->sub_7101112E78(arg);
+}
+
 void Core::releaseAllNodeGroups() {
     for (auto& system : mSystems)
         system.sub_7101117874();

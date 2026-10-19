@@ -357,7 +357,10 @@ public:
     static_assert(sizeof(Record) == 0x78);
     // Original 0x710130085c and 0x710130089c reset this word with exclusive-loop exchanges.
     sead::Atomic<u32> _360;
-    u8 _364[0x18];
+    u8 _364[0x10];
+    // 0x71013008e4 increments this counter for every registered system.
+    sead::Atomic<u32> _374;
+    u8 _378[0x37c - 0x378];
     u8 _37c;
 };
 
@@ -1242,6 +1245,13 @@ public:
     void sub_7101112B80(s32 a, s32 b, s32 c, s32 d);
     // 0x7101112c30 (placeholder name): stores `vec` in every scene (_2760) and sets its flag 4.
     void sub_7101112C30(const sead::Vector3f& vec);
+    // 0x7101112e78 (declaration only; 576 B): registers the scene with the system's model and state count.
+    struct InitArgMaybe {
+        sead::Heap* heap = nullptr;
+        gsys::Model* model = nullptr;
+        u32 count = 1;
+    };
+    void sub_7101112E78(const InitArgMaybe& arg);
     // 0x7101112c94 (placeholder name): destroys `area` and its subtree (children first): waits until its
     // images are unused, tells `listener`, releases its images from the image resource manager and deletes it.
     void sub_7101112C94(Unk_7101106F44* area, Unk_7101112C94Listener* listener);
