@@ -15,6 +15,7 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
@@ -829,6 +830,25 @@ void HorseBase::m44(ksys::phys::NavMeshCharacter* nav) {
         }
     }
     Actor::m44(nav);
+}
+
+// NON_MATCHING: the body matches; this build lays the false path out as an early return, while the
+// original branches to the shared epilogue, and the original spills the RiddenAnimalType word.
+bool HorseBase::sub_7100E6BA5C() {
+    auto* controller = getCharacterController();
+    bool result = false;
+    if (controller && (controller->_116 & 4)) {
+        const f32 height = sub_7100E6BB4C(controller);
+        const s32 type = x();
+        const f32 a = type == 7 ? 0.8f : 1.0f;
+        const f32 scale = type == 6 ? 1.5f : a;
+        if (height > scale * 1.8f)
+            result = true;
+        else
+            result = controller->sub_7100F5F0E4() == ksys::act::MotionType::_1 &&
+                     height > scale * 1.5f;
+    }
+    return result;
 }
 
 // NON_MATCHING: the original spills the RiddenAnimalType word to the stack after the inlined x()

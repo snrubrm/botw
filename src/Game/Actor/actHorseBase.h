@@ -123,6 +123,9 @@ public:
     // the actor matrix's Y axis, the controller velocity and the RiddenAnimalType (7: 1.2, 6: 2.25,
     // else 1.5).
     f32 sub_7100E6BB4C(ksys::phys::CharacterController* controller);
+    // 0x7100e6ba5c (unnamed in the CSV): whether the ride height is above the controller's ground
+    // limit (1.8x the RiddenAnimalType scale, or 1.5x in the ground state).
+    bool sub_7100E6BA5C();
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);
