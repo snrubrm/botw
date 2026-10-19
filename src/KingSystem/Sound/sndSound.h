@@ -1133,6 +1133,8 @@ struct Unk_SoundMgr60_828 {
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr60_828, 0xbc0);
 
 struct Unk_SoundMgr60 {
+    // 0x7101058348 (placeholder name): removes mArena from the resource manager task.
+    void sub_7101058348();
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
     void sub_7101059454(aal::AudioResource* resource);
