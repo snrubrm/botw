@@ -1,6 +1,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
+#include <devenv/seadEnvUtil.h>
 
 // World manager wrappers of the 0x7100a94000 UI wrapper TU (CSV names wm::*, not namespaced further).
 namespace wm {
@@ -12,6 +13,27 @@ int getHour() {
             return time_mgr->getHour();
     }
     return 0;
+}
+
+// 0x7100a9d760
+f32 getWorldTemperatureForUI() {
+    f32 temperature = 0.0f;
+    if (auto* manager = ksys::world::Manager::instance()) {
+        if (auto* temp_mgr = static_cast<ksys::world::TempMgr*>(manager->getMgrMaybe(4)))
+            temperature = temp_mgr->get_3c();
+    }
+    const sead::RegionLanguageID language = sead::EnvUtil::getRegionLanguage();
+    const f32 fahrenheit = temperature * 1.8f + 32.0f;
+    return language == sead::RegionLanguageID::USen ? fahrenheit : temperature;
+}
+
+// 0x7100a9d7cc: the second temperature (`TempMgr::_40`), without the region conversion
+f32 sub_7100A9D7CC() {
+    if (auto* manager = ksys::world::Manager::instance()) {
+        if (auto* temp_mgr = static_cast<ksys::world::TempMgr*>(manager->getMgrMaybe(4)))
+            return temp_mgr->get_40();
+    }
+    return 0.0f;
 }
 
 // 0x7100a9d800
