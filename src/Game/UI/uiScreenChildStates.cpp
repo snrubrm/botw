@@ -1342,6 +1342,11 @@ Unk_710247e0c8::Unk_710247e0c8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247e0c8::~Unk_710247e0c8() = default;
 
+// 0x710099ee8c (placeholder name): whether the map state's 0x3888 value is 1
+bool Unk_7102478048::sub_710099EE8C() const {
+    return _420 ? _420->is3888Equal(1) : false;
+}
+
 // 0x71009c83c0 (placeholder name): stores the two gauges and applies `flag` to their +0x6c byte
 void Unk_710247e0c8::sub_71009C83C0(eui::TraceGaugeControl* first, eui::TraceGaugeControl* second,
                                    bool flag) {

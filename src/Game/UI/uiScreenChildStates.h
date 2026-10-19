@@ -25,6 +25,7 @@ class CapturePane;
 
 namespace uking::ui {
 class Unk_7102477fc0;
+class UiSubsys1;
 
 // Temperature child: factory a1764c, full ctor 9c81cc and D1 9c8248.
 class Unk_710247e0c8 : public ScreenChildEx {
@@ -404,8 +405,10 @@ public:
     /* 0x408 */ void* _408 = nullptr;
     /* 0x410 */ void* _410 = nullptr;
     /* 0x418 */ void* _418 = nullptr;
-    u8 _420[0x428 - 0x420]{};
+    /* 0x420 */ UiSubsys1* _420 = nullptr;
     /* 0x428 */ ksys::StringBoard _428[5];
+    // 0x710099ee8c (placeholder name): whether the map state's 0x3888 value is 1
+    bool sub_710099EE8C() const;
 };
 static_assert(sizeof(Unk_7102478048) == 0x450);
 
