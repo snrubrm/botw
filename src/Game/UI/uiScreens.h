@@ -2429,6 +2429,10 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009A9B48();
     void sub_71009A9B7C();
     void sub_71009A9E74(const sead::Vector3f* pos);
+    // 0x71009a9f4c: removes the map rotation / offset from `position` and divides by the scale and the +0x60 factors
+    void sub_71009A9F4C(const sead::Vector2f& position, sead::Vector2f* result);
+    // 0x71009a9e90: the inverse of sub_71009A9F4C for a 3D position (factors, rotation, scale, +0x20 offset)
+    void sub_71009A9E90(const sead::Vector3f& position, sead::Vector2f* result);
     // 0x71009a9b8c (364 bytes) / 0x71009aa024 (344 bytes): declared only
     void sub_71009A9B8C();
     void sub_71009AA024();
@@ -2455,7 +2459,7 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     u8 _130[0x8d8 - 0x130];
     // the UI subsystem and the map position controller (sub_71009ADEF0)
     /* 0x8d8 */ UiSubsys1* mSubsys = nullptr;
-    /* 0x8e0 */ Unk_71024753a8* _8e0 = nullptr;
+    /* 0x8e0 */ Unk_7102475368* _8e0 = nullptr;
     /* 0x8e8 */ bool _8e8;
     /* 0x8f0 */ Unk_7102479c10 mNormalMap;
     /* 0xb338 */ bool _b338 = false;

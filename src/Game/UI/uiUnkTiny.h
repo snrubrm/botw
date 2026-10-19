@@ -267,6 +267,8 @@ public:
     Pair* get40();
     s32 get48() const;
     Pair* get60();
+    // 0x7100950464: map-space position (x/z times the +0x60 scale factors)
+    void sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result);
 
 private:
     friend class UiSubsys1;
@@ -306,7 +308,6 @@ public:
     void set58(const sead::Vector2f& value);
     sead::Vector2f* get58();
     void set60(const sead::Vector2f& value);
-    void sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result);
 
 private:
     u8 _8[0x50 - 0x8];

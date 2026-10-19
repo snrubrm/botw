@@ -1660,7 +1660,7 @@ void Unk_71024753a8::sub_7100950408() {
     _70 = sead::BoundBox2f(sead::Vector2f::zero - half_size, sead::Vector2f::zero + half_size);
 }
 
-void Unk_71024753a8::sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result) {
+void Unk_7102475368::sub_7100950464(const sead::Vector3f& position, sead::Vector2f* result) {
     result->set(position.x * _60.x, -position.z * _60.y);
 }
 

@@ -122,6 +122,39 @@ void ScreenAppMapWidget::sub_71009A9E74(const sead::Vector3f* pos) {
     UiSubsys1::instance()->sub_7100966684(pos);
 }
 
+// NON_MATCHING: register allocation only (the result is copied through the stack in the original; ours forwards
+// the last two values to the output directly).
+// 0x71009a9e90
+void ScreenAppMapWidget::sub_71009A9E90(const sead::Vector3f& position, sead::Vector2f* result) {
+    const sead::Vector2f* factor = _8e0->get60();
+    sead::Vector2f pos = sead::Vector2f::zero;
+    pos.x = factor->x * position.x;
+    pos.y = -(factor->y * position.z);
+    sub_7100AA0BB0(&pos, mSubsys->_850.get2c());
+    const f32 scale = mSubsys->_850.get28();
+    pos.x *= scale;
+    pos.y *= scale;
+    const sead::Vector2f* offset = mSubsys->_850.get20();
+    pos.x += offset->x;
+    pos.y += offset->y;
+    *result = pos;
+}
+
+// NON_MATCHING: register allocation only (the offset and scale-factor registers are swapped and the y offset load
+// is hoisted).
+// 0x71009a9f4c
+void ScreenAppMapWidget::sub_71009A9F4C(const sead::Vector2f& position, sead::Vector2f* result) {
+    sead::Vector2f pos = position;
+    sub_7100AA0BB0(&pos, -mSubsys->_850.get2c());
+    const f32 scale = mSubsys->_850.get28();
+    const sead::Vector2f offset = *mSubsys->_850.get30();
+    pos.x -= scale * offset.x;
+    pos.y -= scale * offset.y;
+    const sead::Vector2f factor = *_8e0->get60();
+    const f32 inv_scale = 1.0f / scale;
+    result->set(inv_scale * (pos.x / factor.x), -((pos.y / factor.y) * inv_scale));
+}
+
 // 0x71009aa004
 void ScreenAppMapWidget::sub_71009AA004() {
     if (ksys::aoc::Manager::instance()->getVersion() >= 0x200)
