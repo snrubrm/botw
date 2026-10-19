@@ -896,7 +896,8 @@ public:
     /* 0x1db8 */ ksys::Timer _1db8;  // reset to HitSlowTimeS * HitSlowRate by PlayerCutAfterJump::calc_
     /* 0x1dc4 */ u8 _1dc4[0x1dd0 - 0x1dc4];
     /* 0x1dd0 */ ksys::Timer _1dd0;  // set by PlayerFall::enter_
-    /* 0x1ddc */ u8 _1ddc[0x1de8 - 0x1ddc];
+    /* 0x1ddc */ f32 _1ddc;  // compared with the player parameter AutoDashUpTime (sub_7100878110)
+    /* 0x1de0 */ u8 _1de0[0x1de8 - 0x1de0];
     // Reset with Timer(5, 5) by PlayerCutTurnLSword::leave_.
     /* 0x1de8 */ ksys::Timer _1de8;
     /* 0x1df4 */ f32 _1df4;
@@ -1002,7 +1003,10 @@ public:
     /* 0x2094 */ f32 _2094;
     /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
-    /* 0x20a0 */ u8 _20a0[0x20b4 - 0x20a0];
+    /* 0x20a0 */ u8 _20a0[0x20a8 - 0x20a0];
+    /* 0x20a8 */ f32 _20a8;  // upper bound of WaitUnsteadyApplyVel (sub_7100878110)
+    /* 0x20ac */ u8 _20ac[0x20b0 - 0x20ac];
+    /* 0x20b0 */ f32 _20b0;  // lower bound of WaitUnsteadyApplyVel (sub_7100878110)
     /* 0x20b4 */ f32 _20b4;
     /* 0x20b8 */ f32 _20b8;  // stamina added back by sub_710086D5B8
     /* 0x20bc */ ksys::VFRValue _20bc;  // PlayerSuperBlow::calc_ calls VFRValue::chase on it

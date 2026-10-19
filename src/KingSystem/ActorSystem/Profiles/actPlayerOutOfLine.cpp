@@ -36,6 +36,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Sound/sndUnk_7102502138.h"
+#include "KingSystem/Map/mapObject.h"
 
 // Declaration only (CSV name; original namespace unknown).
 bool fadeSlowEffect();
@@ -262,6 +263,217 @@ bool Player::sub_7100878044() {
     return !(_1e90 <= sead::Mathf::epsilon());
 }
 
+
+// 0x7100878110 (8524 B): the event start-wait animation selector, called by
+// PlayerEventStartWait::enter_. Checks the current AS names, the player's equipment and the
+// temperature / stamina parameters, then starts the matching wait animation.
+// NON_MATCHING: this build calls SafeStringBase::assureTerminationImpl_() out of line at most of
+// the name comparisons (the original inlines the empty virtual and then elides the literal
+// temporary), so the function is about 3.4 KB larger and the branches are laid out differently.
+void Player::sub_7100878110() {
+    if (mASList->x_1(1, 1) == "Get") {
+        if (mASList->x_1(0, 0) != "Get")
+            switchToAnimSequenceMaybe("Get", true, -1.0f);
+        sub_7100855824();
+    }
+
+    if (mASList->x_1(1, 1) == "WeaponThrowCatch") {
+        if (mASList->x_1(0, 0) != "WeaponThrowCatch")
+            switchToAnimSequenceMaybe("WeaponThrowCatch", true, -1.0f);
+        sub_7100855824();
+    }
+
+    if (mASList->x_1(2, 0) == "WeaponEquipOn") {
+        if (mASList->x_1(0, 0) != "WeaponEquipOn") {
+            if (mASList->mSlots[0]._8._c >= 1.0f &&
+                !mASList->x_7(0, 0, &as::ASList::Unk2::sub_7101163AF4))
+                mASList->startAnimationMaybe(-1.0f, -1.0f, "WeaponEquipOn", 0, 0, true);
+        }
+        if (mASList->x_1(0, 0) == "WeaponEquipOn")
+            mASList->sub_710115C1D0(0, 2, 0, 0);
+    }
+
+    if (mASList->x_1(2, 0) == "WeaponEquipOff") {
+        if (mASList->x_1(0, 0) != "WeaponEquipOff") {
+            if (mASList->mSlots[0]._8._c >= 1.0f &&
+                !mASList->x_7(0, 0, &as::ASList::Unk2::sub_7101163AF4) && _1cdc != -1)
+                mASList->startAnimationMaybe(-1.0f, -1.0f, "WeaponEquipOff", 0, 0, true);
+        }
+        if (mASList->x_1(0, 0) == "WeaponEquipOff")
+            mASList->sub_710115C1D0(0, 2, 0, 0);
+    }
+
+    if (mASList->x_1(2, 0) == "WeaponEquipNG") {
+        if (mASList->x_1(0, 0) != "WeaponEquipNG") {
+            if (mASList->mSlots[0]._8._c >= 1.0f &&
+                !mASList->x_7(0, 0, &as::ASList::Unk2::sub_7101163AF4))
+                mASList->startAnimationMaybe(-1.0f, -1.0f, "WeaponEquipNG", 0, 0, true);
+        }
+        if (mASList->x_1(0, 0) == "WeaponEquipNG")
+            mASList->sub_710115C1D0(0, 2, 0, 0);
+    }
+
+    if (mASList->x_1(1, 1) == "DamageSUpper") {
+        if (mASList->x_1(0, 0) != "DamageSUpper") {
+            switchToAnimSequenceMaybe("DamageSUpper", true, -1.0f);
+            sub_7100855824();
+        }
+    } else if (_d30 == getEquipmentTypeName(6)) {
+        sub_710088C5A4();
+    } else if (mASList->x_1(1, 1) == "ItemBombStart") {
+        if (mASList->x_1(0, 0) != "ItemBombStart") {
+            switchToAnimSequenceMaybe("ItemBombStart", true, -1.0f);
+            sub_7100855824();
+        }
+    } else if (mASList->x_1(0, 0) == "Get" || mASList->x_1(0, 0) == "WeaponThrowCatch" ||
+               mASList->x_1(0, 0) == "WeaponEquipOn" || mASList->x_1(0, 0) == "WeaponEquipOff" ||
+               mASList->x_1(0, 0) == "WeaponEquipNG") {
+        if (!mASList->x_4(0, 0)) {
+            if (mASList->x_7(2, 0, &as::ASList::Unk2::sub_710002E82C))
+                return;
+            if (mASList->x_1(0, 0) != "WeaponEquipOn" &&
+                mASList->x_1(0, 0) != "WeaponEquipOff" &&
+                mASList->x_1(0, 0) != "WeaponEquipNG")
+                return;
+        }
+        if (mASList->x_1(0, 0) == mASList->x_1(1, 1))
+            x_18(true);
+        if (mASList->x_1(0, 0) == mASList->x_1(2, 0)) {
+            if (mASList->x_1(0, 0) == "WeaponEquipOn")
+                mASList->x_2(0x42, 0x14, false, false);
+            x_24(-1.0f);
+        }
+
+        const char* animation;
+        if (get1a0() || (getMapObject() && getMapObject()->getFlags0().isOn(
+                                                  map::Object::Flag0::_20000))) {
+            animation = "DemoWait";
+        } else if (mASList->sub_710115EC98(0x17, nullptr, 0) != 0.0f && !_d11 &&
+                   !sub_71007D86B4(this)) {
+            animation = "WaitHotCold";
+        } else if (x_44() && !_d11 && !sub_71007D86B4(this)) {
+            animation = "StaminaOut";
+        } else {
+            animation = "Wait";
+        }
+        switchToAnimSequenceMaybe(animation, true, -1.0f);
+    } else {
+        if ((_2550.sub_7100850CF4() && !_2550.sub_7100850CE4()) || _c98.isOnBit(19)) {
+            if (mASList->x_1(0, 0) != "WaitDamage") {
+                switchToAnimSequenceMaybe("WaitDamage", true, -1.0f);
+                if (mASList->x_1(1, 1) == "WaitUpper" ||
+                    mASList->x_1(1, 1) == "WaitAttentionUpper")
+                    x_18(true);
+            }
+        } else {
+            const auto* params = getParam()->getRes().mGParamList->getPlayer();
+            if (_1ddc != params->mAutoDashUpTime.ref())
+                return;
+            const f32 unsteady_vel = params->mWaitUnsteadyApplyVel.ref();
+            if (_20b0 <= unsteady_vel && unsteady_vel < _20a8) {
+                if (mASList->x_1(0, 0) != "WaitUnsteady") {
+                    switchToAnimSequenceMaybe("WaitUnsteady", true, -1.0f);
+                    if (mASList->x_1(1, 1) == "WaitUpper" ||
+                        mASList->x_1(1, 1) == "WaitAttentionUpper")
+                        x_18(true);
+                }
+            }
+
+            if (mASList->x_1(0, 0) == "WaitUnsteady" && !mASList->x_4(0, 0))
+                return;
+
+            if (get1a0() || (getMapObject() && getMapObject()->getFlags0().isOn(
+                                                      map::Object::Flag0::_20000))) {
+                if (mASList->x_1(0, 0) != "DemoWait")
+                    switchToAnimSequenceMaybe("DemoWait", true, -1.0f);
+                return;
+            }
+
+            if (mASList->sub_710115EC98(0x17, nullptr, 0) != 0.0f && !_d11 &&
+                !sub_71007D86B4(this)) {
+                if (mASList->x_1(0, 0) != "WaitHotCold") {
+                    switchToAnimSequenceMaybe("WaitHotCold", true, -1.0f);
+                    if (mASList->x_1(1, 1) == "WaitUpper" ||
+                        mASList->x_1(1, 1) == "WaitAttentionUpper")
+                        x_18(true);
+                }
+                return;
+            }
+
+            if (x_44() && !_d11 && !sub_71007D86B4(this)) {
+                if (mASList->x_1(0, 0) != "StaminaOut") {
+                    switchToAnimSequenceMaybe("StaminaOut", true, -1.0f);
+                    if (mASList->x_1(1, 1) == "WaitUpper" ||
+                        mASList->x_1(1, 1) == "WaitAttentionUpper")
+                        x_18(true);
+                }
+                return;
+            }
+
+            if (mASList->x_1(0, 0) == "Wait") {
+                if (get1a0() || (getMapObject() && getMapObject()->getFlags0().isOn(
+                                                          map::Object::Flag0::_20000))) {
+                    if (mASList->x_1(0, 0) != "DemoWait")
+                        switchToAnimSequenceMaybe("DemoWait", true, -1.0f);
+                }
+                return;
+            }
+
+            if (mASList->x_1(0, 0) == "StaminaOut" && !_d11 && !sub_71007D86B4(this)) {
+                if (mASList->x_1(0, 0) != "StaminaOutEd")
+                    switchToAnimSequenceMaybe("StaminaOutEd", true, -1.0f);
+                return;
+            }
+
+            if (mASList->x_1(0, 0) == "StaminaOutEd" && !mASList->x_4(0, 0))
+                return;
+
+            if (get1a0() || (getMapObject() && getMapObject()->getFlags0().isOn(
+                                                      map::Object::Flag0::_20000))) {
+                if (mASList->x_1(0, 0) != "DemoWait")
+                    switchToAnimSequenceMaybe("DemoWait", true, -1.0f);
+            } else if (mASList->x_1(0, 0) != "Wait") {
+                switchToAnimSequenceMaybe("Wait", true, -1.0f);
+            }
+        }
+    }
+
+    if (sub_7100890394())
+        return;
+
+    if (_d30 != getEquipmentTypeName(1)) {
+        if (_c40.isOffBit(3)) {
+            if (_d30 != getEquipmentTypeName(3))
+                return;
+        }
+    }
+
+    if (mASList->x_1(1, 1) == "WaitUpper")
+        return;
+    if (mASList->x_7(2, 0, &as::ASList::Unk2::sub_710002E82C))
+        return;
+    if (mASList->x_1(0, 0) == "WaitDamage")
+        return;
+    if (mASList->x_1(0, 0) == "WaitUnsteady")
+        return;
+    if (mASList->x_1(0, 0) == "StaminaOut")
+        return;
+    if (mASList->x_1(0, 0) == "StaminaOutEd")
+        return;
+    if (mASList->x_1(0, 0) == "WaitHotCold")
+        return;
+    if (mASList->x(0x2e, nullptr, 0, 0, &as::ASList::Unk2::sub_71011638DC, true))
+        return;
+
+    if (mASList->x_1(1, 1) == "Get" || mASList->x_1(1, 1) == "WeaponThrowCatch" ||
+        mASList->x_1(0, 0) == "WeaponEquipOn" || mASList->x_1(0, 0) == "WeaponEquipOff" ||
+        mASList->x_1(0, 0) == "WeaponEquipNG") {
+        if (_d30 != getEquipmentTypeName(3))
+            return;
+    }
+
+    x_23("WaitUpper", false, -1.0f);
+}
 
 // Out of line in the original: sub_7100893F1C calls it.
 bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
