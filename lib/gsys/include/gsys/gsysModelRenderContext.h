@@ -6,6 +6,7 @@
 
 namespace agl {
 class RenderBuffer;
+class TextureData;
 }
 namespace sead {
 class DrawContext;
@@ -34,6 +35,16 @@ public:
     // 0x7100c0887c (name is a guess): binds the render buffer, then applies the viewport to it.
     void bind(sead::DrawContext* draw_context) const;
 
+    // Native 0x7100c082fc/0x7100c08310 index the two 43-entry pointer arrays
+    // at +0x20/+0x178 with the sign-extended type. The original enumerator
+    // spellings are unrecovered; only the type values used by callers (4, 5,
+    // 7, 0x15, 0x16, ...) are proved.
+    enum PassTextureType : int {
+        PassTextureType_Count = 43,
+    };
+    void pushPassTexture(PassTextureType type, const agl::TextureData* texture);
+    void popPassTexture(PassTextureType type);
+
 private:
     // initialize allocates this buffer with 0x3a0-byte entries and constructs
     // each frustum at +0x60. reset 0x7100c08098 initializes both leading matrices.
@@ -50,7 +61,8 @@ private:
 
     u8 _8[8];
     sead::Buffer<ViewData> mViewData;  // +0x10
-    u8 _20[0x2d0 - 0x20];
+    const agl::TextureData* mPassTextures[43];       // +0x20
+    const agl::TextureData* mSavedPassTextures[43];  // +0x178
     // initialize clears eight pairs. 0x7100c08334 sets two floats at the indexed
     // pair's +0/+4; their meanings are not known.
     struct FloatPair {
