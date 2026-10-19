@@ -183,10 +183,19 @@ public:
 
     // 0x710102780c obtains this actor through the handle; 0x7101027ce8 clears both.
     act::BaseProcHandle mHandle;
-    act::Actor* mActor;
+    act::Actor* mActor = nullptr;
     /* 0x20 */ sead::CriticalSection mCS;
     /* 0x60 */ sead::PtrArray<aal::SpeakerBalanceUnifier> mUnifiers;
-    u8 _70[0xb0 - 0x70];
+    // 0x7101027554 (the constructor): the count of the unifiers and three (pointer, value) pairs.
+    /* 0x70 */ u32 _70 = 0;
+    /* 0x74 */ u32 _74 = 0;
+    /* 0x78 */ u32 _78 = 0;
+    /* 0x80 */ void* _80 = nullptr;
+    /* 0x88 */ u32 _88 = 0;
+    /* 0x90 */ void* _90 = nullptr;
+    /* 0x98 */ u32 _98 = 0;
+    /* 0xa0 */ void* _a0 = nullptr;
+    /* 0xa8 */ u32 _a8 = 0;
 };
 
 // Placeholder name (SoundMgr::_38::_28; lane5 s6): the occlusion volume state of the sound manager, used by the

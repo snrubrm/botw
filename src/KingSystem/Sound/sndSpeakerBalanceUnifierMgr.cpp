@@ -10,6 +10,9 @@ namespace ksys::snd {
 
 f32 SpeakerBalanceUnifierMgr::sSizeThresholds[3] = {2.0f, 5.0f, 40.0f};
 
+// 0x7101027554
+SpeakerBalanceUnifierMgr::SpeakerBalanceUnifierMgr() = default;
+
 // NON_MATCHING: the original reads the thresholds through a direct adrp of a file-local table that is not constant (it
 // is written elsewhere in its translation unit); a never-written local table gets folded, so it is an external member here
 // (GOT access).
