@@ -1,5 +1,7 @@
 #include "Game/Actor/Camera/Action/actionCameraEventMove.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
@@ -40,6 +42,51 @@ void CameraEventMove::sub_710075D3CC(ksys::act::BaseProcLink* link) {
     ksys::act::ActorLinkConstDataAccess accessor;
     sub_7100924BE4(&accessor);
     accessor.linkAcquire(link);
+}
+
+bool CameraEventMove::handleMessage_(const ksys::Message* message) {
+    if (!message)
+        return false;
+    if (message->getType() != ksys::MessageType(0x8800006))
+        return false;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_f8, &accessor);
+    const sead::Matrix34f mtx = accessor.getActorMtx();
+    _118 = mtx;
+
+    sead::Matrix34f bone_mtx = sead::Matrix34f::ident;
+    if (mFrontBoneName_s.isEmpty()) {
+        _184 = mtx;
+        _1b4 = 2;
+        _1b8 = 1.0f;
+    } else if (accessor.sub_7100D12944(&bone_mtx, mFrontBoneName_s)) {
+        _184 = bone_mtx;
+        _1b4 = *mFrontBoneAxis_s;
+        _1b8 = *mFrontBoneAxisReverse_s ? -1.0f : 1.0f;
+    } else {
+        _184 = mtx;
+        _1b4 = 2;
+        _1b8 = 1.0f;
+    }
+
+    if (sub_7100EE1D34(accessor)) {
+        _178 = _118.getTranslation();
+    } else if (accessor.isPlayerProfile()) {
+        ksys::act::acc::PlayerBase player;
+        ksys::act::acquireActor(&_f8, &player);
+        _178 = player.getLookAtPosForCamera();
+    } else {
+        _178 = accessor.getPreviousPos2();
+    }
+
+    {
+        ksys::act::acc::PlayerBase player;
+        ksys::act::acquireActor(&_108, &player);
+        _148 = player.getActorMtx();
+        _2a0 |= 1;
+    }
+    return true;
 }
 
 void CameraEventMove::m46() {

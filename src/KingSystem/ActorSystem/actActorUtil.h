@@ -136,6 +136,9 @@ bool isCameraProfile(Actor* actor);
 // Native profile query at 0x7100ee1b60; descriptive name is a guess.
 bool isTagProfileMaybe(const sead::SafeString& profile);
 bool isTagProfileMaybe(Actor* actor);
+// 0x7100ee1d34 (unnamed in the CSV; declaration only): whether the acquired actor has a tag profile.
+// CameraEventMove 0x710075e584 calls it on its target accessor.
+bool sub_7100EE1D34(const ActorLinkConstDataAccess& accessor);
 
 bool isNPCProfile(const ActorLinkConstDataAccess& accessor);
 bool isNPCProfile(Actor* actor);

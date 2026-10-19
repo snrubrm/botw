@@ -579,14 +579,20 @@ public:
     void hm15() override;
 
     HorseBgmInfo* mInfo = nullptr;
+    // State (0 stopped, 1 playing, 2 fading out, 3 fading out the outro; set by hm14 / hm15 / m5).
     u32 _198 = 0;
     u8 _19c = 0;
     s32 _1a0 = 0;
+    // Whether the current time is outside the day window (hm14 plays the night asset when it is set).
     u32 _1a4 = 0;
-    u64 _1a8 = 0;
-    u32 _1b0 = 0;
-    u64 _1b8 = 0;
+    // The play / fade-out wait counters (m5 / hm15) and the ignored-request countdown (m5).
+    f32 _1a8 = 0.0f;
+    f32 _1ac = 0.0f;
+    f32 _1b0 = 0.0f;
+    // The playing entry (set by hm15's outro; hm15 keeps it alive).
+    Unk_710260f248Entry* _1b8 = nullptr;
     aal::TimedFader _1c0{0.0, aal::FadeCurveType::Linear, 1.0};
+    // The stop request (checked by hm15 / m5; the BGM is stopped when it is set).
     bool _1e8 = false;
 };
 

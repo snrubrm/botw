@@ -108,6 +108,16 @@ void Unk_71024fefe8::sub_7101012340(s32 value, bool flag, s32 id) {
 
 namespace ksys::snd {
 
+// 0x710260fd64 / 0x710260fd68 / 0x710260fd6c: the horse BGM's debug flags (nothing in the game writes
+// them): 0x...64 forces the state checks to pass, 0x...68 makes m5 / hm15 read the state counter from
+// 0x...6c instead of _1a0.
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FD64;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FD68;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710260FD6C;
+
+// The loop assets hm14 plays by the time of day (0x71024ff248; the night one when _1a4 is set).
+const char* const sHorseLoopNames[] = {"horseDay_loop", "horseNight_loop"};
+
 Unk_710260f278::Unk_710260f278(const BgmInitArg& arg) : Unk_71025ce380(arg) {
     _1c0.setCurveType(aal::FadeCurveType::Square);
     auto* heap = arg.heap;
@@ -121,7 +131,87 @@ void Unk_710260f278::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     _198 = 0;
     _1a8 = 0;
+    _1ac = 0;
     _1b0 = 0;
+}
+
+void Unk_710260f278::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+
+    const f32 dt = sub_710105E3A4();
+    if (_1b0 >= 0.0f) {
+        _1b0 -= dt;
+        if (_1b0 < 0.0f)
+            _1b0 = 0.0f;
+    }
+
+    if (_198 == 0) {
+        const f32 wait_target = mInfo->mPlayWaitSec.ref();
+        if (sUnk_710260FD64 || _19c) {
+            const s32 state = sUnk_710260FD68 ? sUnk_710260FD6C : _1a0;
+            if (state >= 3) {
+                f32 wait = _1a8;
+                if (wait < wait_target) {
+                    wait += dt;
+                    _1a8 = wait;
+                    if (wait > wait_target) {
+                        wait = wait_target;
+                        _1a8 = wait_target;
+                    }
+                }
+                if (wait >= wait_target && _1b0 <= 0.0f)
+                    sub_710101D9D8();
+            } else {
+                _1a8 = 0.0f;
+            }
+        } else {
+            _1a8 = 0.0f;
+        }
+    }
+
+    if (_1e8) {
+        sub_710101D9F4(0.0f);
+        _1a8 = 0.0f;
+        _1ac = 0.0f;
+        _1c0.setValueImmediate(0.0f);
+        _198 = 0;
+        _1e8 = false;
+    }
+
+    _1c0.calc();
+    if (auto* status = SoundMgr::instance()->_288) {
+        if (_19c) {
+            PlayingPart part = PlayingPart::RidingHorse;
+            status->mPlayingPart[part] = true;
+        }
+    }
+}
+
+void Unk_710260f278::hm14() {
+    if (!(sUnk_710260FD64 || _19c)) {
+        _1e8 = true;
+        return;
+    }
+
+    const s32* state = sUnk_710260FD68 == false ? &_1a0 : &sUnk_710260FD6C;
+    if (*state <= 1) {
+        _1e8 = true;
+        return;
+    }
+
+    const f32 time = world::Manager::instance()->getTimeMgrUnchecked()->getTime() / 15.0f;
+    bool night = false;
+    if (!(time >= mInfo->mTimeDay.ref()))
+        night = true;
+    else if (!(time < mInfo->mTimeNight.ref()))
+        night = true;
+    _1a4 = night;
+    sub_71010209FC(sHorseLoopNames[night]);
+    _198 = 1;
+    _1c0.setValueImmediate(mInfo->mMinVolume.ref());
+    _1c0.moveTo(1.0f, mInfo->mFadeInSec.ref());
+    _1b0 = 0.0f;
 }
 
 }  // namespace ksys::snd

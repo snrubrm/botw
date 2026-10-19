@@ -1364,6 +1364,13 @@ public:
     virtual bool m9() = 0;
 };
 
+// The parts whose playing state Unk_SoundMgrStatus::mPlayingPart tracks (SEAD_ENUM text 0x7101e26605, its
+// out-of-line text function 0x7101048f38; snd::debugReportStatus prints all eight). 3 / 4 are the environment
+// BGM's day / night parts, 5 the riding-horse part and 6 the horse BGM part. Every marking call site spills
+// and range-checks the index because the SEAD_ENUM conversion loads it from memory.
+SEAD_ENUM(PlayingPart, PlayingFieldBattleBgmEasy, PlayingFieldBattleBgmMiddle, PlayingFieldBattleBgmHard,
+          PlayingEnvBgmDay, PlayingEnvBgmNight, RidingHorse, PlayingHorseBgm, PlayingSpotBgm)
+
 // The status object at SoundMgr::_288 (snd::debugReportStatus 0x7101048b94 reads it; the environment BGM's
 // hm15 marks the playing part in the byte array at +8).
 class Unk_SoundMgrStatus {

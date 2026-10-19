@@ -58,6 +58,10 @@ public:
     // 0x7100e18b90 (placeholder name): requests the two fallen-tree actors (the second replaces the
     // first handle's actor).
     void sub_7100E18B90(const char* name1, const char* name2);
+    // 0x7100e18a38 (placeholder name): switches the cut state (0x400 flag, 0x408 with the argument),
+    // requests the fallen-tree actors, removes the "Tgt" body from the world, rebuilds the cut mask
+    // and applies the tree scale.
+    void sub_7100E18A38(const char* name1, const char* name2, bool arg);
 
     u8 _8[8];
     u16 _10;

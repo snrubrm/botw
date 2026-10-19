@@ -9,6 +9,9 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -65,6 +68,39 @@ void Unk_71024e1b58::sub_7100E18B90(const char* name1, const char* name2) {
         ksys::act::ActorCreator::instance()->requestCreateActor(
             name2, ksys::map::PlacementMgr::instance()->mDynamicHeap, &_28, &pack, nullptr, 2);
     }
+}
+
+void Unk_71024e1b58::sub_7100E18A38(const char* name1, const char* name2, bool arg) {
+    const u16 flags = _10;
+    _10 = flags | 0x400;
+    if ((flags & 4) != 0)
+        return;
+    _10 = arg ? (flags | 0x408) : ((flags | 0x400) & ~u16(8));
+    _50 = 0;
+
+    if (_18.isAllocatedOrFailed() || _28.isAllocatedOrFailed()) {
+        const bool ready = (_18.isProcReady() || _18.hasProcCreationFailed()) &&
+                           (_28.isProcReady() || _28.hasProcCreationFailed());
+        if (!ready)
+            sub_7100E18B90(name1, name2);
+    } else {
+        sub_7100E18B90(name1, name2);
+    }
+
+    _10 |= 0x30;
+
+    ksys::phys::RigidBody* body = nullptr;
+    if (auto* set = mActor->getPhysics()->findBodyByName("Tgt")) {
+        if (set->getRigidBodies().size() != 0)
+            body = set->getRigidBodies()[0];
+    }
+    body->removeFromWorld();
+
+    _10 |= 4;
+    sub_7100E18274();
+
+    if (auto* model = mActor->getModel())
+        Unk_710260af28::instance()->sub_7100F1EA00(model, model->getScale().y);
 }
 
 // NON_MATCHING: the checkerboard value becomes one ubfiz instead of and + lsl, and the eor operands

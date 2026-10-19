@@ -54,6 +54,10 @@ public:
     void sub_7100F1E1F8(gsys::Model* model);
     // 0x7100f1eaf8 (declaration only; lane4 s28): HorseReins::initMaybe passes 0.0.
     void sub_7100F1EAF8(gsys::Model* model, f32 value);
+    // 0x7100f1ea00 (declaration only; lane3 s115): sets the "uk_model_tree_scale" material parameter of
+    // every material of every unit of `model` to `value`. LumberjackTree 0x7100e18a38 passes the model's
+    // y scale.
+    void sub_7100F1EA00(gsys::Model* model, f32 value);
     // Bullet and GolemRootBase pass their model and an unsigned value converted to float.
     void sub_7100F1E4DC(gsys::Model* model, f32 value);
     // 0x7100f1e8a4 (declaration only): scene661a58 passes the ingredient model and opacity value.

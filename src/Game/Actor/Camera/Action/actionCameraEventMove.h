@@ -26,6 +26,7 @@ protected:
     void m44() override;
     void m45() override;
     void m46() override;
+    bool handleMessage_(const ksys::Message* message) override;
     // 0x710075d338 / 0x710075d3cc (placeholder names): `link` becomes the player (acquired through an accessor) when
     // PlayerRelative is true / false, otherwise the event actor's link (or the speaker's if _2a3 is 0).
     void sub_710075D338(ksys::act::BaseProcLink* link);

@@ -449,6 +449,7 @@ static_assert(offsetof(PlacementMgr, mPlacementMapMgr) == 0x200);
 static_assert(offsetof(PlacementMgr, mVillagerMgr) == 0x218);
 static_assert(offsetof(PlacementMgr, mNumStaticObjs) == 0x22c);
 static_assert(offsetof(PlacementMgr, mPreActorNumDone) == 0x28c);
+static_assert(offsetof(PlacementMgr, mDynamicHeap) == 0x198);
 
 // 0x7101249df4 (declared only): writes the x and z cell indices of `pos` (25 m cells, relative to the origin global
 // 0x2580000+0x6d8) to `out`.
