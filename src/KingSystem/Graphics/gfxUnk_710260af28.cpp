@@ -250,3 +250,11 @@ void Unk_710260af28::sub_7100F1CEF4(gsys::Model* model, f32 value) {
 }
 
 
+
+s32 Unk_710260af28::sub_7100F1EE98() {
+    return 22;
+}
+
+s32 Unk_710260af28::sub_7100F1EEA0() {
+    return 0;
+}

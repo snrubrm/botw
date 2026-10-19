@@ -69,6 +69,12 @@ public:
     // 0x7100f1e9f0 (unnamed in the CSV; declaration only): returns the material count of `unit`.
     s32 sub_7100F1E9F0(gsys::ModelUnit* unit);
 
+    // 0x7100f1ee98 (declaration only): returns the constant 22. sub_7100F2E5CC stores the result in
+    // a byte of the caller's state; the meaning is unknown.
+    s32 sub_7100F1EE98();
+    // 0x7100f1eea0 (declaration only): returns 0; the counterpart of sub_7100F1EE98.
+    s32 sub_7100F1EEA0();
+
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.
     void sub_7100F1E4DC(gsys::Model* model, f32 value);
