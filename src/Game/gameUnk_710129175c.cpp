@@ -47,7 +47,33 @@ void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
 void sub_7100F00018(void* object);
 
 Unk_7100efd9b8::Unk_7100efd9b8() = default;
-Unk_7100efd9b8::~Unk_7100efd9b8() = default;
+
+Unk_7100efd9b8::~Unk_7100efd9b8() {
+    if (_a8) {
+        ::operator delete[](_a8);
+        _a8 = nullptr;
+        _a0 = 0;
+    }
+    if (_110) {
+        ::operator delete[](_110);
+        _110 = nullptr;
+        _108 = 0;
+    }
+    if (_20) {
+        ::operator delete[](_20);
+        _20 = nullptr;
+        _18 = 0;
+    }
+    if (_10) {
+        ::operator delete[](static_cast<u8*>(_10) - 8);
+        _10 = nullptr;
+        _8 = 0;
+    }
+    if (_120) {
+        _120->m2();
+        _120 = nullptr;
+    }
+}
 
 void Unk_7100efd9b8::sub_7100EFE030() {
     if (_120)

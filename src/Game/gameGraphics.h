@@ -163,6 +163,14 @@ class Unk_7100f185a4 {
 public:
     void sub_7100F1AC58();
 };
+// Placeholder: the object at Unk_7100efd9b8::_120 (the destructor calls its third virtual slot).
+class Unk_7100efd9b8Obj {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+};
+
 class Unk_7100efd9b8 : public sead::hostio::Node {
 public:
     // 0x7100efd9b8: the two-handle resource holder constructor.
@@ -196,7 +204,7 @@ private:
     void* _110 = nullptr;
     u32 _118 = ~0u;
     u8 _11c[4];
-    void* _120 = nullptr;
+    Unk_7100efd9b8Obj* _120 = nullptr;
     void* _128 = nullptr;
     u32 _130 = 0;
     u32 _134 = ~0u;
