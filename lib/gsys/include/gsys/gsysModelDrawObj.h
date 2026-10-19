@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 
 namespace agl::lght {
 class LocalLightMapObj;
@@ -34,9 +36,21 @@ public:
     static void freeBuffer(ModelDrawObj* array, int count);
 
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
+    // 0x7100c01468 (declared only; body U): forwards to the environment info when present.
+    void setReferenceLocalLightMapObj(const agl::lght::LocalLightMapObj* obj);
 
 private:
-    u8 _8[0x128 - 8];
+    u8 _8[0x0a - 0x08];
+    // Instance flag byte; EffectModelDrawUnit::addInstance sets bit 1.
+    u8 _a;
+    u8 _b[0x12 - 0x0b];
+    // Instance parameter stored by EffectModelDrawUnit::addInstance.
+    u16 _12;
+    u8 _14[0xb0 - 0x14];
+    // Per-instance transform and position written by EffectModelDrawUnit::addInstance.
+    sead::Matrix34f mMatrix;
+    sead::Vector3f mPosition;
+    u8 _ec[0x128 - 0xec];
     ModelDynamicEnvInfo* mDynamicEnvInfo;
 };
 static_assert(sizeof(ModelDrawObj) == 0x130);

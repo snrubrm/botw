@@ -16,6 +16,8 @@ public:
     // inline-only in the original; name is a guess: ModelNW and ModelDrawObj
     // getReferenceLocalLightMapObj both read this reference at +0x10.
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const { return mReference; }
+    // 0x7100c01590 (declared only; body U).
+    void setReferenceLocalLightMapObj(const agl::lght::LocalLightMapObj* obj, bool flag);
 
 private:
     agl::lght::LocalLightMapObj* mOwned;

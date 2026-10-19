@@ -65,7 +65,7 @@ public:
     u32 mUnkCount2;  // +0x1c
     u32 _20;         // +0x20, reset by preCalc
     u32 _24;         // +0x24
-    u16* _28;        // +0x28, cleared by clear() and zeroed element-wise by preCalc
+    u16* _28;        // +0x28, per-unit instance count, cleared by clear() and preCalc
     ModelUnit** _30; // +0x30, per-instance model units, cleared by clear()
     u32 mFlags;      // +0x38, bit 0 owned, bit 1 delete requested, bit 2 used
     u32 _3c;         // +0x3c

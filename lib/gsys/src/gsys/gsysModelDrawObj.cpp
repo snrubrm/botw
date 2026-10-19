@@ -18,4 +18,9 @@ agl::lght::LocalLightMapObj* ModelDrawObj::getReferenceLocalLightMapObj() const 
     return mDynamicEnvInfo->getReferenceLocalLightMapObj();
 }
 
+void ModelDrawObj::setReferenceLocalLightMapObj(const agl::lght::LocalLightMapObj* obj) {
+    if (mDynamicEnvInfo)
+        mDynamicEnvInfo->setReferenceLocalLightMapObj(obj, true);
+}
+
 }  // namespace gsys
