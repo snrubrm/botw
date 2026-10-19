@@ -74,6 +74,8 @@ public:
     void sub_71011E4090(PlacementMgr* mgr, bool a);
     // 0x71011e3cd0 (CSV MassRenderer::requestDraw): queues the draw of the mass-rendered models.
     void requestDraw(PlacementMgr* mgr, bool a);
+    // 0x71011e41d8 (CSV MassRenderer::x_1): the object's mass-render distance scale, clamped to 1.
+    f32 x_1(const Object* obj) const;
     void sub_71011E1FFC(const void* traverse_results, const sead::Vector3f* camera_pos, f32 distance);
     void sub_71011E264C(PlacementMgr* mgr);
     // 0x71011e41f4: whether `p` is one of the three pointers at 0xc8 / 0x138 / 0x1a8 (the draw arrays; the type of `p`

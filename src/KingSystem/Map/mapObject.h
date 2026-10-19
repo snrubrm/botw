@@ -36,6 +36,8 @@ class LinkTag;
 
 class Object {
     friend class PlacementActors;
+    // MassRenderer::x_1 scales the mass-render distance by the byte at +0xb.
+    friend class MassRenderer;
     friend class ksys::gfx::LocationalLightMgr;  // ObjectLight::detachObject clears the binding at +0x50.
     friend bool shouldSpawn(Object* obj);
     friend class GenGroup;

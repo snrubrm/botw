@@ -3,7 +3,9 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelUnitDrawArray.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 
 namespace ksys::map {
@@ -69,6 +71,10 @@ void MassRenderer::sub_71011E4090(PlacementMgr* mgr, bool a) {
         for (u32 j = 0; j < size; ++j)
             draw_array->flushUBO(j);
     }
+}
+
+f32 MassRenderer::x_1(const Object* obj) const {
+    return sead::Mathf::min(f32(obj->_b) * _98, 1.0f);
 }
 
 bool MassRenderer::sub_71011E41F4(const void* p) const {
