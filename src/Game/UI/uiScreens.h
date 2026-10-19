@@ -1047,6 +1047,7 @@ public:
     ScreenMessageTipsRunTime();
     ~ScreenMessageTipsRunTime() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsRunTime, ScreenEx)
+    const char* getLayoutName_() const override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m93(sead::Heap* heap) override;
@@ -1269,6 +1270,7 @@ public:
     void m90() override;
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
+    const char* getLayoutName_() const override;
     // 0x7100a19c7c
     void m84() override;
     // 0x7100a19d78
@@ -2851,6 +2853,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
+    const char* getLayoutName_() const override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m101() override;
@@ -5688,6 +5691,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenOptionWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
+    const char* getLayoutName_() const override;
 
     // 0x7100a28c20
     ScreenOptionWindow();
@@ -6019,6 +6023,7 @@ public:
     bool isPlayPartsInOut_() const override;
     ~ScreenFadeStatus() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeStatus, ScreenEx)
+    const char* getLayoutName_() const override;
 
     /* 0x3610 */ u64 _3610 = 0;
     /* 0x3618 */ u64 _3618 = 0;

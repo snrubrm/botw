@@ -59146,7 +59146,7 @@ Address,Quality,Size,Name
 0x0000007100a09b08,O,000120,_ZThn272_N5uking2ui16ScreenFadeStatusD0Ev
 0x0000007100a09b80,U,000804,ScreenFadeStatus::m93
 0x0000007100a09ea4,U,001120,ScreenFadeStatus::m98
-0x0000007100a0a304,U,000052,ScreenFadeStatus::m15
+0x0000007100a0a304,O,000052,_ZNK5uking2ui16ScreenFadeStatus14getLayoutName_Ev
 0x0000007100a0a338,O,000132,_ZNK5uking2ui16ScreenFadeStatus27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100a0a3bc,O,000092,_ZNK5uking2ui16ScreenFadeStatus18getRuntimeTypeInfoEv
 0x0000007100a0a418,O,000008,_ZNK5uking2ui16ScreenFadeStatus17isPlayPartsInOut_Ev
@@ -59582,7 +59582,7 @@ Address,Quality,Size,Name
 0x0000007100a18240,O,000204,_ZN5uking2ui16ScreenMainScreenD0Ev
 0x0000007100a1830c,O,000008,_ZThn264_N5uking2ui16ScreenMainScreenD0Ev
 0x0000007100a18314,O,000008,_ZThn272_N5uking2ui16ScreenMainScreenD0Ev
-0x0000007100a1831c,U,000052,ScreenMainScreen::m15
+0x0000007100a1831c,O,000052,_ZNK5uking2ui16ScreenMainScreen14getLayoutName_Ev
 0x0000007100a18350,O,000276,_ZN5uking2ui16ScreenMainScreen14doBuildLayout_ERKN4sead14SafeStringBaseIcEEPN2nn4ui2d16ResourceAccessorE
 0x0000007100a18464,U,003720,ScreenMainScreen::m93
 0x0000007100a192ec,U,000208,
@@ -59828,7 +59828,7 @@ Address,Quality,Size,Name
 0x0000007100a26770,O,000088,_ZN5uking2ui24ScreenMessageTipsRunTimeD0Ev
 0x0000007100a267c8,O,000088,_ZThn264_N5uking2ui24ScreenMessageTipsRunTimeD0Ev
 0x0000007100a26820,O,000088,_ZThn272_N5uking2ui24ScreenMessageTipsRunTimeD0Ev
-0x0000007100a26878,U,000052,ScreenMessageTipsRunTime::m15
+0x0000007100a26878,O,000052,_ZNK5uking2ui24ScreenMessageTipsRunTime14getLayoutName_Ev
 0x0000007100a268ac,m,000168,_ZN5uking2ui24ScreenMessageTipsRunTime14sub_7100A268ACEii
 0x0000007100a26954,O,000264,_ZN5uking2ui24ScreenMessageTipsRunTime14sub_7100A26954Ev
 0x0000007100a26a5c,U,000336,_ZN5uking2ui24ScreenMessageTipsRunTime14sub_7100A26A5CEi
@@ -59896,7 +59896,7 @@ Address,Quality,Size,Name
 0x0000007100a2900c,U,000080,
 0x0000007100a2905c,U,000652,
 0x0000007100a292e8,U,000080,
-0x0000007100a29338,U,000052,ScreenOptionWindow::m15
+0x0000007100a29338,O,000052,_ZNK5uking2ui18ScreenOptionWindow14getLayoutName_Ev
 0x0000007100a2936c,U,000932,ScreenOptionWindow::m92
 0x0000007100a29710,U,000496,ScreenOptionWindow::m93
 0x0000007100a29900,U,000332,
@@ -60083,7 +60083,7 @@ Address,Quality,Size,Name
 0x0000007100a34bac,U,000260,
 0x0000007100a34cb0,U,001000,
 0x0000007100a35098,U,000020,
-0x0000007100a350ac,U,000052,PauseMenuScreen::getLayoutName
+0x0000007100a350ac,O,000052,_ZNK5uking2ui15ScreenPauseMenu14getLayoutName_Ev
 0x0000007100a350e0,O,000276,_ZN5uking2ui15ScreenPauseMenu14doBuildLayout_ERKN4sead14SafeStringBaseIcEEPN2nn4ui2d16ResourceAccessorE
 0x0000007100a351f4,O,000004,_ZN5uking2ui15ScreenPauseMenu21doCreateTagProcessor_EPN4sead4HeapE
 0x0000007100a351f8,U,003440,
