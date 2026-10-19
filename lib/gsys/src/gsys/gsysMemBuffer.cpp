@@ -17,13 +17,14 @@ void* MemAllocator::tryAlloc(size_t size, u32 alignment) {
 MemBuffer::MemBuffer() = default;
 MemBuffer::~MemBuffer() = default;
 
-void MemBuffer::tryAlloc(sead::Heap* heap, size_t size, u32 align) {
+void* MemBuffer::tryAlloc(sead::Heap* heap, size_t size, u32 align) {
     if (!heap)
         heap = sead::HeapMgr::sInstancePtr->getCurrentHeap();
     void* buffer = heap->tryAlloc(size, static_cast<s32>(align));
     mSize = size;
     mOffset = 0;
     mBuffer = buffer;
+    return buffer;
 }
 
 void* MemBuffer::alloc(size_t size, u32 align) {

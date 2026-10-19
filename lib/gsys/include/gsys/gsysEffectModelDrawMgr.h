@@ -59,10 +59,10 @@ public:
     void pushBack(EffectModelDrawMgr* mgr);
 
     Model* mModel = nullptr;  // +0x00, released through Model::sub_7100BF69F8
-    void* _8 = nullptr;  // +0x08, cleared by clear()
+    void** _8 = nullptr;  // +0x08, cleared by clear()
     u16* _10;        // +0x10, instance records consumed by pushBack
     s32 mUnkCount = 0;  // +0x18, set from CreateArg::_4 by initialize
-    u32 mUnkCount2;  // +0x1c
+    s32 mUnkCount2;  // +0x1c
     u32 _20 = 0;  // +0x20, reset by preCalc
     u32 _24;         // +0x24
     s16* _28 = nullptr;  // +0x28, per-unit instance count
@@ -70,7 +70,7 @@ public:
     u32 mFlags = 0;  // +0x38, bit 0 owned, bit 1 delete requested, bit 2 used
     u32 _3c;         // +0x3c
     void* _40 = nullptr;  // +0x40, deleted by clear()
-    u8 _48[8];       // +0x48
+    s32 _48[2];      // +0x48
 };
 static_assert(sizeof(EffectModelDrawUnit) == 0x50);
 

@@ -11,7 +11,7 @@ public:
     virtual ~MemBuffer();
 
     void* alloc(size_t size, u32 align);
-    void tryAlloc(sead::Heap* heap, size_t size, u32 align);
+    void* tryAlloc(sead::Heap* heap, size_t size, u32 align);
     void free();
 
 private:
