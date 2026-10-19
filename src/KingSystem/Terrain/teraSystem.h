@@ -1245,7 +1245,12 @@ public:
     // and its slot bits (_1334) index ImageResourceMgr::mSystems.
     // Placeholder: an image change queued by sub_71011171D8 / sub_710111731C.
     struct Entry {
-        Unk_7101106F44* area;
+        // The first word is the free-list link while the entry sits in Unk_7101088B24's pool
+        // (0x71010887cc chains the entries through it).
+        union {
+            Unk_7101106F44* area;
+            Entry* nextFree;
+        };
         ImageTypeMaybe type;
     };
 

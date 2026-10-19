@@ -278,9 +278,15 @@ public:
     // 0x7101088bb4 (placeholder name): moves the images that are now ready (flag 4) behind the first
     // mNumPending entries; true when all are ready.
     bool sub_7101088BB4();
+    // 0x71010887cc (placeholder name): returns every entry to the free list and clears the array and
+    // the pending count (S7EventFlow::delete and the terrain reset call it).
+    void sub_71010887CC();
 
     sead::PtrArray<System::Entry> mEntries;
-    u8 _10[0x20 - 0x10];
+    // The pool the array's entries are allocated from; 0x7101088654 links them here and
+    // 0x710108872c frees the buffer at +0x18.
+    System::Entry* mFreeList;
+    void* mBuffer;
     u16 mNumPending;
     // 0x7101088b24 stores one bit with bfi.
     u8 _22_0 : 2;

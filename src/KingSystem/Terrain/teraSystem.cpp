@@ -1204,6 +1204,17 @@ void Core::Unk_140::sub_710108330C() {
     }
 }
 
+void Unk_7101088B24::sub_71010887CC() {
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        System::Entry* entry = mEntries(i);
+        entry->nextFree = mFreeList;
+        mFreeList = entry;
+    }
+    mEntries.clear();
+    mNumPending = 0;
+    _22_0 &= ~2u;
+}
+
 void Unk_7101088B24::sub_7101088B24(System* system, bool add) {
     if (add) {
         for (auto& entry : mEntries)
