@@ -271,6 +271,11 @@ public:
     void sub_7100F5E898();
     // 0x7100f5e95c: multiplies _218 by the scale change and scales the main body (and _298).
     void sub_7100F5E95C(f32 scale);
+    // 0x7100f5e9d0 (unnamed in the CSV): drops the two delegates at _250 / _258, unregisters from the
+    // physics System (flag 0x10 of _119), clears the +0xa8 word of _48, removes every _288 body and the
+    // main body from the world, then releases _10 / _28 (refcounted) and the _30 / _40 members, frees
+    // _288's buffer and disposes the controller through its own virtual. The body is a teardown.
+    void sub_7100F5E9D0();
     // 0x7100f5ecc4: removes every body of _288 and the main body from the world (false if one fails).
     bool sub_7100F5ECC4();
     // 0x7100f5ef30: sets the max linear velocity of the main body (and _10->_48) from `value`.
