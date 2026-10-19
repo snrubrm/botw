@@ -36,6 +36,26 @@ SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
     sub_710066BC04();
 }
 
+// NON_MATCHING: the loop and the wrap match; the original tests the negated ready flag with
+// `eor` + `tbnz`, this build uses `tbz` (one instruction shorter).
+void SiteBoss::Unk_71002cf2ac::sub_710066C738(sead::Vector3f* pos, f32 a, f32 b) {
+    s32 tries = 20;
+    s32 index = 11;
+    while (true) {
+        const auto& handle = _a0[index];
+        const bool ready = handle.isAllocatedOrFailed() && handle.isProcReady();
+        if (--tries < 0)
+            break;
+        if (ready)
+            break;
+        index = index + 1;
+        index = index < 0 ? 19 : (index < 20 ? index : 0);
+        if (index == 0)
+            index = 1;
+    }
+    sub_710066C800(pos, index, a, b);
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066DABC(ksys::act::BaseProc* proc, s32 idx) {
     if (proc && !_320[idx].hasProc()) {
         _320[idx].acquire(proc, false);

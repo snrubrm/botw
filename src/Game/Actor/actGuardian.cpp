@@ -9,6 +9,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70];
 KSYS_VISIBILITY_HIDDEN extern u32 sUnk_71025af300;
@@ -220,6 +221,16 @@ void Guardian::m44(ksys::phys::NavMeshCharacter* nav) {
         _15b0->sub_7100042048();
     else
         Actor::m44(nav);
+}
+
+void Guardian::onDeleteRequested_(DeleteReason reason) {
+    Enemy::onDeleteRequested_(reason);
+    if (_14c8.isOnBit(20))
+        return;
+    if (auto* mgr = ksys::snd::sub_7100FFD7CC())
+        mgr->sub_7100FFBE38(false, mId, _15b0 == nullptr);
+    else if (auto* mgr2 = ksys::snd::sub_7100FFDB28())
+        mgr2->sub_7100FF987C(false, mId, _15b0 == nullptr);
 }
 
 bool Guardian::sub_71000370B4() const {
