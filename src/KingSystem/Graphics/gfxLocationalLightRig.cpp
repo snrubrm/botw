@@ -70,6 +70,43 @@ void LocationalLightMgr::ObjectLight::Light::update() {
     }
 }
 
+// 0x7100f18278: the per-frame update with a model unit; the unit's bone visibility and
+// visibility mask select the light, then the render light is refreshed exactly as in update().
+// NON_MATCHING: the render-light pointer and the rig type stay in different registers than the
+// original's (the light store and the null test use the call result instead of a moved copy).
+void LocationalLightMgr::ObjectLight::Light::update(gsys::ModelUnit* unit, u16 visibility_mask,
+                                                   f32 delta_time) {
+    if (delta_time > 0.0f) {
+        if (unit->isBoneVisible(mBoneIndex) && mRig->isEnable())
+            mVisibilityMask = unit->getVisibilityMask() & visibility_mask;
+        else
+            mVisibilityMask = 0;
+    }
+    if ((mFlags & 1) && mVisibilityMask != 0) {
+        auto* mgr = mRig->mLightMgr;
+        if (mRenderLight && mLightType != mRig->mLightType.ref()) {
+            mgr->sub_7100F13A58(mRenderLight);
+            mRenderLight = nullptr;
+        }
+        mLightType = mRig->mLightType.ref();
+        Unk_7102519378* light;
+        if (mLightType == 1)
+            light = mgr->sub_7100F135F8();
+        else if (mLightType == 0)
+            light = mgr->sub_7100F1356C();
+        else
+            return;
+        mRenderLight = light;
+        if (!mRenderLight)
+            return;
+        mRenderLight->_58 = mVisibilityMask;
+        mRig->sub_7100F177F4(mRenderLight, this, unit);
+    } else if (mRenderLight) {
+        mRig->mLightMgr->sub_7100F13A58(mRenderLight);
+        mRenderLight = nullptr;
+    }
+}
+
 void LocationalLightMgr::ObjectLight::updateLights() {
     auto lock = sead::makeScopedLock(mCS);
     for (auto& light : mLights)
