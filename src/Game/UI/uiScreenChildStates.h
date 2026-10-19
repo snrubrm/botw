@@ -456,6 +456,8 @@ public:
     ~Unk_710247af10() override;
     // 0x71009b5e1c (placeholder name): clears the selected group and the four +0x30c pointers
     void sub_71009B5E1C();
+    // 0x71009b5f80 (placeholder name): takes the picture book group index and unloads the texture slot
+    void sub_71009B5F80();
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
     void sub_71009B7A1C(Unk_710247ae28* record);
@@ -493,7 +495,10 @@ public:
     /* 0x160 */ eui::LetterAnimControl* mQuestCaption;
     u8 _168[0x1a8 - 0x168];
     /* 0x1a8 */ void* _1a8;
-    u8 _1b0[0x300 - 0x1b0];
+    /* 0x1b0 */ UiTexSlots _1b0;
+    /* 0x280 */ u64 _280 = 0;
+    /* 0x288 */ s32 _288 = 0;
+    u8 _28c[0x300 - 0x28c];
     /* 0x300 */ ScreenAppPictureBookUnk* _300;
     // Native reset uses -1; 9b6ec0 consumes this as the selected group index.
     /* 0x308 */ s32 _308;

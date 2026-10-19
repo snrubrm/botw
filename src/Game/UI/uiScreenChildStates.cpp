@@ -1347,6 +1347,16 @@ bool Unk_7102478048::sub_710099EE8C() const {
     return _420 ? _420->is3888Equal(1) : false;
 }
 
+// 0x71009b5f80 (placeholder name): takes the picture book group index and unloads the texture slot
+void Unk_710247af10::sub_71009B5F80() {
+    if (_300) {
+        _308 = _300->_2e4;
+        _1b0.unload(0);
+        _280 = -1;
+        _288 = -1;
+    }
+}
+
 // 0x71009b5e1c (placeholder name): clears the selected group and the four +0x30c pointers
 void Unk_710247af10::sub_71009B5E1C() {
     _1a8 = nullptr;
