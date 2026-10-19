@@ -84,6 +84,28 @@ void Unk_SoundMgr60::sub_7101059420() {
     _828.sub_710105BD04();
 }
 
+// 0x7101057e74 (placeholder name): mDelegate's function: clears the "bars" cache and loads the title BGM
+// pack voices.
+bool Unk_SoundMgr60::sub_7101057E74(void*) {
+    res::ResourceMgrTask::instance()->clearCacheWithFileExtension("bars");
+    loadVoiceFromTitleBGPack(this);
+    return true;
+}
+
+// 0x7101058650 (placeholder name): reloads the scene static bars, the voice cache and the expression sound
+// bars, then the title BGM pack voices.
+void Unk_SoundMgr60::sub_7101058650() {
+    _48.sub_71012C911C();
+    if (!_1408.isSuccess())
+        sub_710105844C(&_1408, "M_SceneStatic.bars", true, false);
+    auto* cache = SoundMgr::instance()->_48->_8;
+    if (!cache->_8)
+        StaticVoicePackStuff(cache, mHeap, true);
+    if (!(_13e8._18 & 1))
+        sub_7101058734("ExpressionSound", &_13e8, mHeap, false);
+    loadVoiceFromTitleBGPack(this);
+}
+
 // ResourceBars construction/destruction notifications: empty in the release build.
 void Unk_SoundMgr60::sub_7101059450(aal::AudioResource* resource) {}
 

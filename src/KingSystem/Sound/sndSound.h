@@ -760,6 +760,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710105fe78, 0xb8);
 
+// 0x710105ffc4 (placeholder name; 3,136 B, declared only): loads the regional voice pack into the
+// resource cache (x1 is the heap, x2 a flag).
+void StaticVoicePackStuff(Unk_710105fe78* cache, sead::Heap* heap, bool flag);
+
 // Placeholder name (SoundMgr::_48), used by the UI message screens.
 class Unk_SoundMgr48 {
 public:
@@ -1276,6 +1280,12 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     // 0x7101059420 (placeholder name): runs the +0x48 entry work, the Mii voice queue reset and the +0x828
     // entry loads.
     void sub_7101059420();
+    // 0x7101058650 (placeholder name): reloads the scene static bars, the voice cache and the expression
+    // sound bars, then the title BGM pack voices.
+    void sub_7101058650();
+    // 0x7101057e74 (placeholder name): mDelegate's function: clears the "bars" cache and loads the title BGM
+    // pack voices. Always true.
+    bool sub_7101057E74(void* arg);
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
     void sub_7101059454(aal::AudioResource* resource);
@@ -1329,6 +1339,9 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     /* 0x1648 */ res::Handle _1648;
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr60, 0x1698);
+
+// 0x710105882c (CSV loadVoiceFromTitleBGPack; 840 B, declared only): loads the voices of the title BGM pack.
+void loadVoiceFromTitleBGPack(Unk_SoundMgr60* resource_manager);
 
 // Placeholder: the property definition source passed to sub_710105E3D0 (it reads the definitions and their
 // count through vtable slots 3 and 4).
