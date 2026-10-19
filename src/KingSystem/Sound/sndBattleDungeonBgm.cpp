@@ -882,7 +882,6 @@ void Unk_71024fd318::m5() {
     _10->_a4 = _20.getValue();
 }
 
-// NON_MATCHING: the second handle keeps its own state store instead of sharing one block.
 void Unk_71024fd0a8::m5() {
     if (!mActive)
         return;
@@ -911,7 +910,9 @@ void Unk_71024fd0a8::m5() {
     if (second->_180 == 0 && animal) {
         second->sub_710101D9D8();
         second->_180 = 1;
-    } else if (second->_180 == 1 && !animal) {
+        return;
+    }
+    if (second->_180 == 1 && !animal) {
         second->sub_710101D9F4(0.0f);
         second->_180 = 0;
     }
