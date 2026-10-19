@@ -1513,9 +1513,44 @@ bool sub_710072C388(u32* out, const sead::Vector3f* pos, f32 max_height_diff) {
     return true;
 }
 
+// NON_MATCHING: the two float locals sit 8 bytes higher in the frame and the sampled height stays in s0
+// instead of a callee-saved register; the instruction sequence is otherwise identical.
+u32 sub_710072C278(f32* out, const sead::Vector3f* pos) {
+    sead::Vector2f xz;
+    f32 grass_amount = 0;
+    f32 height = 0;
+
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (!terrain || !terrain->isGrassEnabled()) {
+        *out = 0;
+        return 0;
+    }
+    auto* grass = terrain->sub_710114DE58();
+    xz = sead::Vector2f(pos->x, pos->z);
+    const u32 grass_result = grass->sub_71011516D0(&grass_amount, &xz);
+    if (grass_result == 0) {
+        *out = 0;
+        return 0;
+    }
+
+    bool on_material = false;
+    f32 material_height = 0;
+    auto* placement = ksys::map::PlacementMgr::instance();
+    if (placement && placement->mTeraSystem) {
+        xz = sead::Vector2f(pos->x, pos->z);
+        on_material =
+            ksys::tera::sub_71011094A0(&height, &xz, placement->mTeraSystem, -1, 0) == 2;
+        material_height = height;
+    }
+
+    if (grass_amount * 1.2f <= pos->y - material_height)
+        grass_amount = 0;
+    *out = grass_amount;
+    return grass_result == 2 && on_material ? 2 : 1;
+}
+
 // NON_MATCHING: the original adds 0.0f to every ray y coordinate (source form unknown).
-bool sub_710072C4E8(sead::Vector3f* out, const sead::Vector3f& pos) {
-    *out = pos;
+bool sub_710072C4E8(sead::Vector3f* out, const sead::Vector3f& pos) {    *out = pos;
     sead::Vector3f dir = sead::Vector3f::zero;
     sead::Vector3f player_pos = sead::Vector3f::zero;
     if (sub_710084D068()) {
