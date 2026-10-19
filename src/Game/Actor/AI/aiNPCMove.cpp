@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
+#include "Game/Actor/aiUnk_7100711020.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -79,7 +80,7 @@ void NPCMove::loadParams_() {
 void NPCMove::changeToTurnAround(const sead::Vector3f& rot) {
     const char* as_name = "Turn";
     if (_61 || _62)
-        as_name = _120[11].getStringTop();
+        as_name = _190[4].getStringTop();
 
     ksys::act::ai::InlineParamPack params;
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
@@ -130,7 +131,7 @@ bool NPCMove::handleAck_(const ksys::MessageAck* ack) {
 // 0x71004cfc88
 bool NPCMove::sub_71004CFC88() {
     const sead::SafeString name =
-        wm::callIsRainingOrSnowingOrThunderStorm(true) && _60 ? _120[8] : _120[7];
+        wm::callIsRainingOrSnowingOrThunderStorm(true) && _60 ? _190[1] : _190[0];
     const bool changed = name != mActor->getASList()->sub_710115ECF4(55, 1);
     mActor->getASList()->goLimpFromHeadShotMaybe(55, name, 0);
     mActor->getASList()->goLimpFromHeadShotMaybe(56, name, 0);
@@ -179,6 +180,33 @@ void NPCMove::sub_71004D11F4() {
         changeChild("ベッドから起きる", nullptr);
     } else {
         changeChild("起きる", nullptr);
+    }
+}
+
+// 0x71004d33e8
+void NPCMove::sub_71004D33E8(bool a1, bool a2) {
+    if (_67) {
+        if (sead::SafeString(getName()) != "Sleep" &&
+            sead::SafeString(getName()) != "Sleep2") {
+            if (_2a8->_1028.getStringTop()[0] != sead::SafeString::cNullChar)
+                return;
+        }
+    }
+
+    sead::SafeString as_name;
+    as_name = a1 && _2a8->_1028.getStringTop()[0] == sead::SafeString::cNullChar
+                  ? _160
+                  : (a2 ? _180 : _170);
+
+    if (as_name == "Hold") {
+        _2a8->_1060 = 0;
+        sub_7100712E00(mActor);
+    } else if (as_name == "Equip") {
+        _2a8->_1060 = 1;
+        mActor->getASList()->goLimpFromHeadShotMaybe(44, "", 0);
+    } else if (as_name == "Invisible") {
+        _2a8->_1060 = 2;
+        mActor->getASList()->goLimpFromHeadShotMaybe(44, "", 0);
     }
 }
 
@@ -233,7 +261,7 @@ void NPCMove::sub_71004D44B0(bool a1, bool a2) {
 void NPCMove::sub_71004D4CA4() {
     _66 = true;
     sub_71004D44B0(true, false);
-    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _120[20] : _120[19];
+    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _190[13] : _190[12];
     ksys::act::ai::InlineParamPack pack;
     pack.addString(as_name, "WaitASName", -1);
     pack.addVec3(_28c, "BasisPos", -1);

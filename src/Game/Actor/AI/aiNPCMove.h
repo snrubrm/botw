@@ -42,6 +42,9 @@ protected:
     bool sub_71004CFC88();
     // 0x71004d11f4: stands up: "Standing" physics preset, then "ベッドから起きる" (hover motion) or "起きる"
     void sub_71004D11F4();
+    // 0x71004d33e8 (placeholder name): applies the equipped-item AS state (Hold / Equip / Invisible) from the
+    // selected _120 entry; a1 selects the entry used while the NPC's _1028 name is empty.
+    void sub_71004D33E8(bool a1, bool a2);
     // static_param at offset 0x38
     const float* mTerritoryRange_s{};
     // static_param at offset 0x40
@@ -75,7 +78,12 @@ protected:
     s32 _114 = -1;
     s32 _118 = -1;
     s32 _11c = 5;
-    sead::SafeString _120[22]{};
+    sead::SafeString _120[4]{};
+    // Separate members: the original selects these with a csel of two addresses.
+    sead::SafeString _160{};
+    sead::SafeString _170{};
+    sead::SafeString _180{};
+    sead::SafeString _190[15]{};
     sead::Vector3f _280;
     sead::Vector3f _28c;
     u8 _298[0x2a8 - 0x298];
