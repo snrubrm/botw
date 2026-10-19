@@ -345,6 +345,8 @@ public:
     void m32() override;
     // 0x7100952c00 (CSV unnamed; not decompiled): called at the end of m29 (as Unk_71024755d8::sub_71009520D4)
     void sub_7100952C00();
+    // 0x7100953518 (placeholder name): whether the area's dungeon has been entered
+    bool isDungeonEntered() const;
 
     sead::SafeString _68;
     ksys::gdt::FlagHandle _78;

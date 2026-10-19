@@ -15,6 +15,7 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Map/mapObject.h"
 
@@ -318,6 +319,11 @@ void Unk_71024755d8::m21() {
         sub_710095156C((_3c & 0x20000) != 0);
 }
 
+// 0x71009529ec (placeholder name): whether the area's dungeon has been entered
+bool Unk_71024755d8::isDungeonEntered() const {
+    return ksys::gdt::isDungeonEntered(_68);
+}
+
 void Unk_71024755d8::m31() {
     Unk_71024754c0::m31();
     _3c &= ~0x140000;
@@ -418,6 +424,11 @@ void Unk_71024756f0::m32() {
 void Unk_71024756f0::m21() {
     if (_3c & 1)
         sub_710095156C((_3c & 0x20000) != 0);
+}
+
+// 0x7100953518 (placeholder name): whether the area's dungeon has been entered
+bool Unk_71024756f0::isDungeonEntered() const {
+    return ksys::gdt::isDungeonEntered(_68);
 }
 
 // 0x710095394c
