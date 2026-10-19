@@ -182,6 +182,33 @@ void EffectModelDrawMgr::postCalc() {
     mCS2.unlock();
 }
 
+bool EffectModelDrawMgr::initialize(int capacity, int model_draw_obj_num, u32 arg,
+                                    sead::Heap* heap) {
+    mCapacity = capacity;
+    _4 = model_draw_obj_num;
+    _8 = 0;
+
+    if (mCapacity >= 1)
+        mEntries.tryAllocBuffer(mCapacity, heap, 8);
+
+    ModelDrawObj::CreateArg create_arg;
+    create_arg._0 = arg;
+    create_arg._4 = 2;
+
+    ModelDrawObj* objs = static_cast<ModelDrawObj*>(
+        operator new[](_4 * sizeof(ModelDrawObj), heap, 8));
+    ModelDrawObj* p = objs;
+    for (s64 i = 0; i < _4; ++i) {
+        new (p) ModelDrawObj();
+        ++p;
+    }
+
+    mModelDrawObjs = objs;
+    ModelDrawObj::initialize(objs, _4, create_arg, heap);
+
+    return true;
+}
+
 bool EffectModelDrawMgr::addInstance(u32 id, u32 type, const sead::Matrix34f& matrix,
                                      const sead::Vector3f& pos,
                                      const agl::lght::LocalLightMapObj* light, u16 a) {

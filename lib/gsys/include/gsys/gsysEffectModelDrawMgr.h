@@ -58,18 +58,18 @@ public:
                      const agl::lght::LocalLightMapObj*, u16);
     void pushBack(EffectModelDrawMgr* mgr);
 
-    Model* mModel;   // +0x00, released through Model::sub_7100BF69F8
-    void* _8;        // +0x08, cleared by clear()
+    Model* mModel = nullptr;  // +0x00, released through Model::sub_7100BF69F8
+    void* _8 = nullptr;  // +0x08, cleared by clear()
     u16* _10;        // +0x10, instance records consumed by pushBack
-    u32 mUnkCount;   // +0x18, set from CreateArg::_4 by initialize
+    s32 mUnkCount = 0;  // +0x18, set from CreateArg::_4 by initialize
     u32 mUnkCount2;  // +0x1c
-    u32 _20;         // +0x20, reset by preCalc
+    u32 _20 = 0;  // +0x20, reset by preCalc
     u32 _24;         // +0x24
-    u16* _28;        // +0x28, per-unit instance count, cleared by clear() and preCalc
-    ModelUnit** _30; // +0x30, per-instance model units, cleared by clear()
-    u32 mFlags;      // +0x38, bit 0 owned, bit 1 delete requested, bit 2 used
+    s16* _28 = nullptr;  // +0x28, per-unit instance count
+    ModelUnit** _30 = nullptr;  // +0x30, per-instance model units
+    u32 mFlags = 0;  // +0x38, bit 0 owned, bit 1 delete requested, bit 2 used
     u32 _3c;         // +0x3c
-    void* _40;       // +0x40, deleted by clear()
+    void* _40 = nullptr;  // +0x40, deleted by clear()
     u8 _48[8];       // +0x48
 };
 static_assert(sizeof(EffectModelDrawUnit) == 0x50);
@@ -82,8 +82,8 @@ public:
     EffectModelDrawMgr();
     ~EffectModelDrawMgr();
 
-    // 0x7100c55b28 (declared only): allocates the unit buffer and the model draw object array.
-    void initialize(int, int, int, sead::Heap*);
+    // 0x7100c55b28: allocates the unit buffer and the model draw object array.
+    bool initialize(int capacity, int model_draw_obj_num, u32 arg, sead::Heap* heap);
     // 0x7100c55c74: returns the index of the first free record after initializing it, or -1.
     int addModel(EffectModelDrawUnit::CreateArg arg, sead::Heap* heap);
     bool requestDeleteModel(u32 id);

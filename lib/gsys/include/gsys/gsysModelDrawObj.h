@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadHeap.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 
@@ -34,6 +35,8 @@ public:
 
     // 0x7100c01294 (declared only; body U): destroys `count` records, the first one by tail call.
     static void freeBuffer(ModelDrawObj* array, int count);
+    // 0x7100c00c94 (declared only; body U): initializes `count` records in `array`.
+    static void initialize(ModelDrawObj* array, int count, const CreateArg& arg, sead::Heap* heap);
 
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
     // 0x7100c01468 (declared only; body U): forwards to the environment info when present.
