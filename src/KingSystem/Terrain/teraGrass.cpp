@@ -183,10 +183,12 @@ bool Unk_7102503a50::sub_710106A2C4() {
 }
 
 // 0x7102615910 (placeholder name): the byte flag read and written through sub_7101076A98 by
-// S7EventFlow::play / setup_1_1.
-KSYS_VISIBILITY_HIDDEN u8 sUnk_7102615910;
+// S7EventFlow::play / setup_1_1. It is defined in teraVegeTeraMat.cpp in the terrain namespace.
+namespace ksys::tera {
+KSYS_VISIBILITY_HIDDEN extern u8 sUnk_7102615910;
+}
 
 // 0x7101076a98 (placeholder name): address of the flag above.
 u8* sub_7101076A98() {
-    return &sUnk_7102615910;
+    return &ksys::tera::sUnk_7102615910;
 }
