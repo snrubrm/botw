@@ -2,6 +2,9 @@
 
 namespace gsys {
 
+ModelSceneComponent::ModelSceneComponent() : _8(nullptr) {}
+
+
 void ModelSceneComponent::bind() {}
 void ModelSceneComponent::unbind(Model*) {}
 void ModelSceneComponent::preCalcView(ModelSceneContext*) {}

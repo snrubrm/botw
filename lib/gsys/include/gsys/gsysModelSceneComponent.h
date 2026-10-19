@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
+#include <utility/aglDebugTexturePage.h>
 
 namespace sead {
 class Heap;
@@ -36,7 +37,7 @@ public:
 
 protected:
     /* 0x08 */ const ModelSceneConfig* _8 = nullptr;
-    /* 0x10 */ u8 _10[0x250 - 0x10];
+    /* 0x10 */ agl::utl::DebugTexturePage mDebugTexturePage;
 };
 static_assert(sizeof(ModelSceneComponent) == 0x250);
 
