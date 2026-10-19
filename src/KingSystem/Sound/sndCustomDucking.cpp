@@ -5,6 +5,7 @@
 #include <aal/aalSystemAccessor.h>
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::snd {
 
@@ -16,8 +17,8 @@ static_assert(offsetof(Unk_7102610960, mParam) == 0x28);
 
 // 0x7102610958 / 0x7102610960 (placeholder names): the custom ducking default start parameters. The
 // byte selects the defaults instead of the caller's parameters.
-[[gnu::visibility("hidden")]] bool sUnk_7102610958;
-[[gnu::visibility("hidden")]] Unk_7102610960 sUnk_7102610960;
+KSYS_VISIBILITY_HIDDEN bool sUnk_7102610958;
+KSYS_VISIBILITY_HIDDEN Unk_7102610960 sUnk_7102610960;
 
 Unk_710103b704::Unk_710103b704(sead::Heap* heap)
     : _5c8(-1), _5cc(false), _5d0(6), _5d4(3), _5d8(false), _5d9(false), _5e0(heap), _620(0) {}
