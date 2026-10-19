@@ -208,6 +208,9 @@ public:
     void updateQueueInfo_();
     // 0x7100c3f720 (declared only): called by 0x7100c7fd68 with (-1, -1, mNumLods - 1).
     void setLodThreshold(f32 threshold, int a, int b);
+    // 0x7100c3dc2c (declared only; body U): stores 1 / (min - max) and the two distances on the
+    // shape record at `_60` indexed by `index`, or on every record when index is -1.
+    void setLodParameter(f32 min, f32 max, int index);
     // 0x7100c3d634 (declared only; placeholder name): allocates the unit's buffer and calls
     // setUpModelUnit; 0x7100c7fd68 calls it after creating the render units.
     bool sub_7100C3D634(sead::Heap* heap);
