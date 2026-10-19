@@ -39,6 +39,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "Game/gameStage.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -891,6 +892,15 @@ bool GameScene::doGenStageStep6() {
 }
 
 Unk_710245a980::~Unk_710245a980() = default;
+
+namespace Effect {
+// 0x7100f3de88 (CSV Effect::kill): the shutdown step GameScene::unloadStage runs after setting its
+// status string. The original has no `this`, so this is the effect namespace's helper.
+void kill() {
+    if (auto* effect = ksys::eft::Effect::instance())
+        effect->kill();
+}
+}  // namespace Effect
 
 }  // namespace uking
 
