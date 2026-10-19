@@ -520,6 +520,9 @@ class Unk_710247ada8 {
 public:
     Unk_710247ada8();
     virtual ~Unk_710247ada8();
+    // 0x71009b1b74 (placeholder name): binds the layout and heap, creates the Gauge / Type animators and the three
+    // Pa_SpIcon_NN icon slots
+    void sub_71009B1B74(eui::LayoutEx* layout, sead::Heap* heap);
     // 0x71009b2010: closes the layout when it is open or opening
     void sub_71009B2010();
 

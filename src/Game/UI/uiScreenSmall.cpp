@@ -535,6 +535,25 @@ Unk_710247ada8::~Unk_710247ada8() {
     }
 }
 
+// 0x71009b1b74 (placeholder name): binds the layout and heap, creates the Gauge / Type animators and the three
+// Pa_SpIcon_NN icon slots
+// NON_MATCHING: register allocation and the 0x80 vs 0xa0 stack frame differ (the original keeps the array base and the
+// 3 in x20 / x23 through the unrolled loop); the body, allocation and calls are the same.
+void Unk_710247ada8::sub_71009B1B74(eui::LayoutEx* layout, sead::Heap* heap) {
+    if (!layout || !heap)
+        return;
+    mLayout = layout;
+    _18 = layout->createAnimatorAuto("Gauge", false);
+    _20 = mLayout->createAnimatorAuto("Type", false);
+    _30 = new (heap, 8, std::nothrow) Unk_71024774c8[3];
+    _28 = 3;
+    for (s32 i = 0; i < 3; ++i) {
+        sead::FixedSafeString<0x20> name;
+        name.format("Pa_SpIcon_%02d", i);
+        _30[i].sub_7100988EF0(mLayout->findPartsLayout(name.cstr()));
+    }
+}
+
 // 0x71009b24c4
 Unk_710247ade8::Unk_710247ade8() = default;
 
