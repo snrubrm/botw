@@ -228,6 +228,15 @@ public:
     // Inline-only in the original; name is a guess. Evidence: GerudoQueenBattle::sub_71003F4648 reads `mMgrs[6]`
     // (+0x5c8 -> +0x30) without the bounds check of getEnvMgr().
     EnvMgr* getEnvMgrUnchecked() const { return static_cast<EnvMgr*>(mMgrs.unsafeAt(6)); }
+    // Reads the manager in slot `index`, but only when the array holds that many entries.
+    // Evidence: Unk_71024fd318::m5 and Unk_71024fd0a8::m5 check the count against 7 before reading slot 6.
+    Job* getMgrMaybe(u32 index) const {
+        if (static_cast<u32>(mMgrs.size()) < index + 1)
+            return nullptr;
+        return mMgrs.unsafeAt(static_cast<s32>(index));
+    }
+    // The environment manager of slot 6, or null when the world manager has too few managers.
+    EnvMgr* getEnvMgrMaybe() const { return static_cast<EnvMgr*>(getMgrMaybe(6)); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     // Inline-only in the original; name is a guess. Evidence: Graphics::sub_7100F309FC reads `mMgrs[7]`
     // (+0x5c8 -> +0x38) without the bounds check of getDofMgr().

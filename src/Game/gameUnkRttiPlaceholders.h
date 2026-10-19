@@ -2530,7 +2530,7 @@ public:
     /* 0x10 */ Unk_71024fd010* _10 = nullptr;
     /* 0x18 */ Unk_71024fd010* _18 = nullptr;
     // Set by Unk_710260f198::sub_7100FFBEA8 (BGM kind 4).
-    /* 0x20 */ bool _20 = false;
+    /* 0x20 */ u8 _20 = 0;
     /* 0x24 */ ksys::gdt::FlagHandle mAppearanceFlag = ksys::gdt::InvalidHandle;
 };
 
@@ -2601,6 +2601,8 @@ public:
     /* 0x10 */ Unk_71024fd3a0* _10;
     /* 0x18 */ f32 _18;
     /* 0x1c */ u32 _1c;
+    // The volume fader of the concentration BGM (m5 moves it to 1 and back).
+    /* 0x20 */ aal::SimpleTimedFader _20{0.0f};
 };
 
 // vtable 0x71024fd448 (17 slots); placeholder generated from the vtable (genskel.py).

@@ -810,3 +810,109 @@ void Unk_71024fd318::m13(f32 fade_sec) {
     ksys::snd::SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(
         ksys::snd::DuckingMgr::DuckerType::cBloody, false);
 }
+
+// 0x710260f3c0: debug flag (never written); it forces the concentration BGM to fade in.
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260F3C0;
+
+// The blood moon BGM's night hours and its fade time. The original keeps the three values in one
+// global (0x71024fd438) and reads them back from it, so they are not compile time constants here.
+struct NightHours {
+    f32 start;
+    f32 end;
+    f32 fade_sec;
+};
+KSYS_VISIBILITY_HIDDEN NightHours sNightHours = {23.0f, 24.0f, 1.0f};
+
+// NON_MATCHING: the manager count check is a branch in the other direction and the "near zero"
+// test keeps its two comparisons as branches instead of a combined value.
+void Unk_71024fd318::m5() {
+    if (!mActive)
+        return;
+    if (!_10)
+        return;
+
+    const f32 concentration =
+        ksys::world::Manager::instance()->getEnvMgrMaybe()->getConcentrationBM();
+
+    const f32 old_concentration = _18;
+    const bool near_zero = (old_concentration <= 0.01f) & (old_concentration >= -0.01f);
+    _18 = concentration;
+
+    bool in_time_range = false;
+    if (old_concentration <= concentration) {
+        if (!near_zero) {
+            const f32 hour = ksys::world::Manager::instance()->getTimeMgrUnchecked()->getTime() / 15.0f;
+            in_time_range = !(hour < sNightHours.start) & !(hour > sNightHours.end);
+        }
+    }
+
+    const bool debug = sUnk_710260F3C0 != 0;
+    const bool fade_in = in_time_range || debug;
+
+    if (_1c == 2) {
+        if (!fade_in) {
+            if (_20.getValue() == 0.0f) {
+                _10->sub_710101D9F4(0.0f);
+                _1c = 0;
+            }
+        } else {
+            _20.moveTo(1.0f, 1.0f);
+            ksys::snd::SoundMgr::instance()->mDuckingMgr->sub_7101042024(
+                ksys::snd::DuckingMgr::DuckerType::cBloody);
+            _1c = 1;
+        }
+    } else if (_1c == 1) {
+        if (!fade_in) {
+            _20.moveTo(0.0f, sNightHours.fade_sec);
+            ksys::snd::SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(
+                ksys::snd::DuckingMgr::DuckerType::cBloody, false);
+            _1c = 2;
+        }
+    } else if (_1c == 0) {
+        if (fade_in && (_10->_68._18 & 1)) {
+            _10->sub_710101D9D8();
+            _20.setValueImmediate(1.0f);
+            ksys::snd::SoundMgr::instance()->mDuckingMgr->sub_7101042024(
+                ksys::snd::DuckingMgr::DuckerType::cBloody);
+            _1c = 1;
+        }
+    }
+
+    _20.calc();
+    _10->_a4 = _20.getValue();
+}
+
+// NON_MATCHING: the second handle keeps its own state store instead of sharing one block.
+void Unk_71024fd0a8::m5() {
+    if (!mActive)
+        return;
+
+    bool in_palette = false;
+    if (auto* wm = ksys::world::Manager::instance()) {
+        if (auto* env_mgr = wm->getEnvMgrMaybe()) {
+            const int palette = env_mgr->getPaletteSet();
+            in_palette = palette == 4 || palette == 8;
+        }
+    }
+    const bool play = in_palette || _20;
+
+    const bool animal = animalMasterBgmStuff(this);
+
+    Unk_71024fd010* first = _10;
+    if (first->_180 == 0 && play) {
+        first->sub_710101D9D8();
+        first->_180 = 1;
+    } else if (first->_180 == 1 && !play) {
+        first->sub_710101D9F4(0.0f);
+        first->_180 = 0;
+    }
+
+    Unk_71024fd010* second = _18;
+    if (second->_180 == 0 && animal) {
+        second->sub_710101D9D8();
+        second->_180 = 1;
+    } else if (second->_180 == 1 && !animal) {
+        second->sub_710101D9F4(0.0f);
+        second->_180 = 0;
+    }
+}
