@@ -16,6 +16,7 @@
 #include <common/aglTextureSampler.h>
 #include <utility/aglDebugTexturePage.h>
 #include <common/aglGPUMemAddr.h>
+#include "KingSystem/Resource/resHandle.h"
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 
@@ -162,14 +163,57 @@ class Unk_7100f185a4 {
 public:
     void sub_7100F1AC58();
 };
-class Unk_7100efd9b8 {
+class Unk_7100efd9b8 : public sead::hostio::Node {
 public:
+    // 0x7100efd9b8: the two-handle resource holder constructor.
+    Unk_7100efd9b8();
+    virtual ~Unk_7100efd9b8();
+
     void sub_7100EFE030();
 
 private:
-    u8 _0[0x120];
+    u32 _8 = 0;
+    u8 _c[4];
+    void* _10 = nullptr;
+    u32 _18 = 0;
+    u8 _1c[4];
+    void* _20 = nullptr;
+    u32 _28 = 0;
+    u8 _2c[4];
+    void* _30 = nullptr;
+    u32 _38 = 0;
+    u8 _3c[4];
+    void* _40 = nullptr;
+    ksys::res::Handle mHandleA;
+    void* _98 = nullptr;
+    u32 _a0 = 0;
+    u8 _a4[4];
+    void* _a8 = nullptr;
+    u64 _b0 = ~0ull;
+    ksys::res::Handle mHandleB;
+    u32 _108 = 0;
+    u8 _10c[4];
+    void* _110 = nullptr;
+    u32 _118 = ~0u;
+    u8 _11c[4];
     void* _120 = nullptr;
-    u8 _128[0x178 - 0x128];
+    void* _128 = nullptr;
+    u32 _130 = 0;
+    u32 _134 = ~0u;
+    u32 _138 = ~0u;
+    u32 _13c = ~0u;
+    u32 _140 = ~0u;
+    u32 _144 = ~0u;
+    u32 _148 = ~0u;
+    u32 _14c = ~0u;
+    u32 _150 = ~0u;
+    u32 _154 = ~0u;
+    u32 _158 = ~0u;
+    u32 _15c = 0;
+    f32 _160 = -1.0f;
+    f32 _164 = -1.0f;
+    u32 _168 = 0xFFFFFFFF;
+    u8 _16c[0x178 - 0x16c];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
 class GrudgeRenderer {

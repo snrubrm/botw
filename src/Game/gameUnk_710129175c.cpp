@@ -46,6 +46,9 @@ void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
 // 0x7100f00018 (declaration only).
 void sub_7100F00018(void* object);
 
+Unk_7100efd9b8::Unk_7100efd9b8() = default;
+Unk_7100efd9b8::~Unk_7100efd9b8() = default;
+
 void Unk_7100efd9b8::sub_7100EFE030() {
     if (_120)
         sub_7100F00018(_120);
