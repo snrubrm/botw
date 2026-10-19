@@ -83,7 +83,9 @@ protected:
     sead::SafeString _160{};
     sead::SafeString _170{};
     sead::SafeString _180{};
-    sead::SafeString _190[15]{};
+    sead::SafeString _190{};
+    sead::SafeString _1a0{};
+    sead::SafeString _1b0[13]{};
     sead::Vector3f _280;
     sead::Vector3f _28c;
     u8 _298[0x2a8 - 0x298];

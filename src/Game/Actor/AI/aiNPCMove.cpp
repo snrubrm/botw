@@ -80,7 +80,7 @@ void NPCMove::loadParams_() {
 void NPCMove::changeToTurnAround(const sead::Vector3f& rot) {
     const char* as_name = "Turn";
     if (_61 || _62)
-        as_name = _190[4].getStringTop();
+        as_name = _1b0[2].getStringTop();
 
     ksys::act::ai::InlineParamPack params;
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
@@ -126,12 +126,11 @@ bool NPCMove::handleAck_(const ksys::MessageAck* ack) {
     return true;
 }
 
-// NON_MATCHING: ours selects the name by array index (_120 is an array here); the original selects one of two
-// addresses, so _120[7] / _120[8] are probably separate members
+// The original selects the name with a csel of two addresses (the entries at +0x190 / +0x1a0).
 // 0x71004cfc88
 bool NPCMove::sub_71004CFC88() {
     const sead::SafeString name =
-        wm::callIsRainingOrSnowingOrThunderStorm(true) && _60 ? _190[1] : _190[0];
+        wm::callIsRainingOrSnowingOrThunderStorm(true) ? (_60 ? _1a0 : _190) : _190;
     const bool changed = name != mActor->getASList()->sub_710115ECF4(55, 1);
     mActor->getASList()->goLimpFromHeadShotMaybe(55, name, 0);
     mActor->getASList()->goLimpFromHeadShotMaybe(56, name, 0);
@@ -261,7 +260,7 @@ void NPCMove::sub_71004D44B0(bool a1, bool a2) {
 void NPCMove::sub_71004D4CA4() {
     _66 = true;
     sub_71004D44B0(true, false);
-    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _190[13] : _190[12];
+    const sead::SafeString as_name = (wm::callIsRainingOrSnowingOrThunderStorm(true) && _60) ? _1b0[11] : _1b0[10];
     ksys::act::ai::InlineParamPack pack;
     pack.addString(as_name, "WaitASName", -1);
     pack.addVec3(_28c, "BasisPos", -1);
