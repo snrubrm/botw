@@ -27,6 +27,22 @@ void Unk_710260af28::sub_7100F1ECE8(gsys::Model* model) {
             gsys::ModelUnit::Attribute::LodCalculation);
 }
 
+void Unk_710260af28::sub_7100F1C700(gsys::ModelUnit* unit) {
+    unit->enableRenderViewOption(static_cast<gsys::ModelEnum::RenderViewOption>(0), false, -1);
+    unit->enableRenderOption(static_cast<gsys::ModelEnum::RenderOption>(2), false);
+    unit->sub_7100C3E898(1, false);
+    unit->sub_7100C3ECF0(1, false);
+    unit->sub_7100C3ECF0(0, false);
+    unit->updateQueueInfo();
+}
+
+void Unk_710260af28::sub_7100F1DCA8(gsys::Model* model, f32 opacity, bool fade) {
+    if ((_5c & 8) != 0)
+        return;
+    for (s32 i = 0; i < model->getUnits().size(); ++i)
+        sub_7100F1DD24(model->getUnits()[i]->mModelUnit, opacity, fade);
+}
+
 void Unk_710260af28::sub_7100F1ED28(gsys::Model* model, int mode) {
     for (s32 i = 0; i < model->getUnits().size(); ++i)
         sub_7100F1ED8C(model->getUnits()[i]->mModelUnit, mode);

@@ -33,6 +33,8 @@ public:
     void sub_7100F1CACC(gsys::Model* model, bool on);
     // 0x7100f1dca8: applies the model opacity to each model unit, with the fade flag.
     void sub_7100F1DCA8(gsys::Model* model, f32 opacity, bool fade);
+    // 0x7100f1dd24 (declaration only; 716 B): the per-unit body of sub_7100F1DCA8.
+    void sub_7100F1DD24(gsys::ModelUnit* unit, f32 opacity, bool fade);
     void sub_7100F1CEF4(gsys::Model* model, f32 value);
     // 0x7100f1d9b4 (declaration only; lane4 s106): sets uk_special_effect_A of every material to
     // fmodf(value, Graphics +0xf9c), negated with `negate`. StasisMgr::m0 passes 0.0 and 0x7101da2328.
@@ -90,6 +92,12 @@ public:
     // 0x7100f1ebf0 (declaration only): ItemRoot::enter_ passes the actor's model.
     void sub_7100F1EBF0(gsys::Model* model);
 
+    // 0x7100f1c700 (unnamed in the CSV): disables the unit's render options and refreshes its queue.
+    void sub_7100F1C700(gsys::ModelUnit* unit);
+
 private:
+    // Opaque state up to the flag byte at +0x5c; bit 3 skips the per-unit fade update.
+    u8 _0[0x5c];
+    u8 _5c;
     static Unk_710260af28* sInstance;
 };
