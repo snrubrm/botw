@@ -1106,13 +1106,6 @@ public:
     void sub_710110028C();
     // 0x7101100f08 (declaration only; placeholder name and signature; 1648 bytes).
     void sub_7101100F08(System* system, Unk_7101115584Arg* arg, bool flag);
-    // Placeholder type: passed by sub_710110234C to sub_71011021E4 (0x7101100330 reads _0 and _8).
-    struct Unk_276c {
-        u32 _0;
-        u32 _4;
-        u32 _8;
-        u8 _c[0x14 - 0xc];
-    };
 
     // 0x71011001d4 (declaration only; placeholder name): stores the two levels at 0x2940 / 0x2941
     // (clamped) and sets flag 4.
@@ -1133,9 +1126,9 @@ public:
     void sub_710110234C(System* system);
     // 0x71011021e4 (placeholder name): with `request_all`, sub_7101101578 for all four image types (inlined),
     // then sub_7101100330.
-    void sub_71011021E4(System* system, const Unk_276c* arg, bool request_all);
+    void sub_71011021E4(System* system, const sead::Vector3f* arg, bool request_all);
     // 0x7101100330 (declaration only; placeholder name and signature).
-    void sub_7101100330(System* system, const Unk_276c* arg, bool a, bool b);
+    void sub_7101100330(System* system, const sead::Vector3f* arg, bool a, bool b);
     // Placeholder: an image type with its two request flags (sub_7101101578 builds four).
     struct Unk_7101101DFC {
         ImageTypeMaybe type;
@@ -1164,7 +1157,9 @@ public:
     Unk_71010FEDBC _0[9];
     // Set on every scene by System::sub_7101112C30.
     sead::Vector3f _2760;
-    Unk_276c _276c;
+    // The centre position passed by sub_710110234C (0x7101100330 reads x and z).
+    sead::Vector3f _276c;
+    u8 _2778[8];
     s32 _2780;
     s32 _2784;
     u8 _2788[0x278c - 0x2788];
@@ -1279,12 +1274,12 @@ public:
     void sub_7101119278(const sead::SafeString& path, bool split);
     // 0x7101117048 (placeholder name): under the write lock, runs ApertureMapsCollector::sub_71011021E4 on scene `index`
     // and then sub_7101115BAC (only with Terrain flags 2 and 4).
-    void sub_7101117048(s32 index, const ApertureMapsCollector::Unk_276c* arg, bool request_all);
+    void sub_7101117048(s32 index, const sead::Vector3f* arg, bool request_all);
     // 0x71011170f4 (CSV TeraSystem::x; placeholder name): ApertureMapsCollector::sub_71011020C0 of scene `index` (true
     // unless Terrain flags 2 and 4 are set).
     bool sub_71011170F4(s32 index, u32 level);
     // 0x710111713c (CSV TeraSystem::x_1; placeholder name): ApertureMapsCollector::_276c of scene `index`.
-    ApertureMapsCollector::Unk_276c* sub_710111713C(s32 index);
+    sead::Vector3f* sub_710111713C(s32 index);
     // 0x7101117874 (CSV eui::BoxCursorNode::clearRouteAll is a wrong owner): clears the terrain images
     // of every scene through ApertureMapsCollector::sub_7101101578(this, 0xff0000).
     void sub_7101117874();

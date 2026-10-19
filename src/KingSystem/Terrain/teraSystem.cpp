@@ -1564,7 +1564,7 @@ void System::sub_7101119278(const sead::SafeString& path, bool split) {
         _1338 |= 0x80000000;
 }
 
-void System::sub_7101117048(s32 index, const ApertureMapsCollector::Unk_276c* arg, bool request_all) {
+void System::sub_7101117048(s32 index, const sead::Vector3f* arg, bool request_all) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;
     mLock.writeLock();
@@ -1579,7 +1579,7 @@ bool System::sub_71011170F4(s32 index, u32 level) {
     return mScenes[index].collector->sub_71011020C0(level);
 }
 
-ApertureMapsCollector::Unk_276c* System::sub_710111713C(s32 index) {
+sead::Vector3f* System::sub_710111713C(s32 index) {
     return &mScenes[index].collector->_276c;
 }
 

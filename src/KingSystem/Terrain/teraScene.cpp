@@ -117,7 +117,7 @@ void ApertureMapsCollector::sub_7101101578(System* system, u32 flags) {
 }
 
 // NON_MATCHING: the original tail-calls sub_7101100330 (ours calls it after the inlined request table).
-void ApertureMapsCollector::sub_71011021E4(System* system, const Unk_276c* arg, bool request_all) {
+void ApertureMapsCollector::sub_71011021E4(System* system, const sead::Vector3f* arg, bool request_all) {
     if (request_all)
         sub_7101101578(system, 0xff0000);
     sub_7101100330(system, arg, true, true);

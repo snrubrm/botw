@@ -65,6 +65,43 @@ void Core::sub_710130089C() {
     _37c |= 4;
 }
 
+// NON_MATCHING: clang keeps two induction variables (an index and a byte offset) here and uses a
+// 64-bit counter; the original keeps the 32-bit index and scales it in the address. The memset and
+// the loop shapes are otherwise reproduced. The inner loop in the original runs mStates.size() times
+// but always reads mStates[i] (the counter is not used as the index).
+void Core::sub_7101300BF0() {
+    u8 table[32];
+    const s32 num_positions = mPositions.size();
+    for (s32 i = 0; i != num_positions; ++i)
+        table[i] = 0xff;
+    const s32 num_states = mStates.size();
+    for (s32 i = 0; i != num_states; ++i) {
+        auto& state = mStates[i];
+        if (!(state.mFlags & 1)) {
+            state.mIndex = -1;
+            state.mFlags &= ~u32(3);
+        } else if (!(state.mFlags & 2)) {
+            if (table[u8(state.mIndex)] == 0xff)
+                table[u8(state.mIndex)] = 0xfe;
+        } else if (table[u8(state.mIndex)] < 0xfe) {
+            state.mFlags &= ~u32(2);
+        } else {
+            table[u8(state.mIndex)] = u8(i);
+        }
+    }
+    for (s32 i = 0; i != num_positions; ++i) {
+        if (table[i] != 0xfe)
+            continue;
+        for (s32 j = num_states - 1; j >= 0; --j) {
+            auto& state = mStates[i];
+            if (state.mIndex == s8(i)) {
+                state.mIndex = -1;
+                state.mFlags &= ~u32(3);
+            }
+        }
+    }
+}
+
 void Core::sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update) {
     if (_37c & 2) {
         sub_7101300BF0();
@@ -73,6 +110,17 @@ void Core::sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update
     mPositions[index].mPosition = *position;
     if (update)
         sub_7101300D50(index, true, true);
+}
+
+void Core::sub_7101300F1C(u32 index, const sead::Vector3f* position, bool update) {
+    if (_37c & 2) {
+        sub_7101300BF0();
+        _37c &= ~2;
+    }
+    mPositions[index].mPosition = *position;
+    sub_7101300D50(index, true, true);
+    for (auto& system : mSystems)
+        system.sub_7101117048(index, position, update);
 }
 
 void Core::sub_71013010D4(const Unk_71013010d4& state, s32 index) {
