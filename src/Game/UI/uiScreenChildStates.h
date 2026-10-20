@@ -612,6 +612,9 @@ public:
     // 0x71009b9e10 (placeholder name): enables / disables the buttons depending on E3 demo mode, the save data
     // and SaveSystem::_1a44.
     void sub_71009B9E10();
+    // 0x71009bb3bc (placeholder name): sets flag 0x10 of the six buttons (in E3 demo mode the fifth one only when
+    // it plays no disable animation)
+    void sub_71009BB3BC(bool on);
     // 0x71009ba09c: builds the "Pa_AllTips_00" layout and its animators, then enters the tips state.
     void m24(sead::Heap* heap) override;
     // 0x71009ba1d8

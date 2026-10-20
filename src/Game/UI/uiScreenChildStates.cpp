@@ -786,6 +786,37 @@ bool ScreenPauseMenuUnk3b90::sub_71009BA010() {
     return mStateMachine.getState()->getId() != (&sUnk_71025d9e00)->getId();
 }
 
+// 0x71009bb3bc
+// NON_MATCHING: the original keeps the second isE3DemoMode result in a callee-saved register (unused)
+void Unk_710247b428::sub_71009BB3BC(bool on) {
+    if (_130 && !_130->IsPlayDisableAnim())
+        _130->setFlag10(on);
+    if (_138 && !_138->IsPlayDisableAnim())
+        _138->setFlag10(on);
+    if (_140)
+        _140->setFlag10(on);
+    if (_148)
+        _148->setFlag10(on);
+    if (_150 && (!isE3DemoMode() || !_150->IsPlayDisableAnim()))
+        _150->setFlag10(on);
+    if (_158) {
+        // discarded call: the original calls isE3DemoMode and ignores the result
+        isE3DemoMode();
+        if (!_158->IsPlayDisableAnim())
+            _158->setFlag10(on);
+    }
+}
+
+// 0x71009bb4cc
+void Unk_710247b428::m105() {
+    sub_71009BB3BC(true);
+}
+
+// 0x71009bb58c
+void Unk_710247b428::m107() {
+    sub_71009BB3BC(false);
+}
+
 // 0x71009bb594
 void Unk_710247b428::m109() {}
 
