@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Havok/Common/Base/hkBase.h>
 #include <Havok/Common/Base/Container/Array/hkArray.h>
 #include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
 
@@ -10,8 +11,13 @@ class hkLocalArray : public hkArray<T> {
 public:
     HK_FORCE_INLINE explicit hkLocalArray(int initialCapacity) {
         m_initialCapacity = initialCapacity;
-        const int bytes = (initialCapacity * int(sizeof(T)) + 127) & ~127;
-        m_localMemory = static_cast<T*>(hkMemoryRouter::getInstance().stack().fastBlockAlloc(bytes));
+        m_localMemory = nullptr;
+        // F694C4 skips the TLS lookup and allocation for an empty local array.
+        if (initialCapacity > 0) {
+            const int bytes = (initialCapacity * int(sizeof(T)) + 127) & ~127;
+            m_localMemory =
+                static_cast<T*>(hkMemoryRouter::getInstance().stack().fastBlockAlloc(bytes));
+        }
         this->m_data = m_localMemory;
         this->m_capacityAndFlags = initialCapacity | hkArrayBase<T>::DONT_DEALLOCATE_FLAG;
     }
