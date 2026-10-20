@@ -92,6 +92,20 @@ void UiSoundMgr::sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator) {
         creator->requestCreateActor("GetItemSound", heap, &_8, nullptr, nullptr, 1);
 }
 
+// The empty name the user instance is created with (the original keeps it in the TU statics).
+static const sead::SafeString sEmptyUiSoundName;
+
+// NON_MATCHING: the empty name is at block + 0x38 of the original's merged static block (the one
+// sndEmitterControl's initialiser builds, so the original TU holds both); ours addresses a standalone
+// symbol, which also folds the pre-indexed load. The calls and values are the same.
+// 0x710105d1d0 (placeholder name): creates the user instance at _20 from the sound resource manager's
+// embedded asset info reader.
+void UiSoundMgr::sub_710105D1D0(sead::Heap* heap) {
+    auto* resource_mgr = SoundMgr::instance()->_60;
+    _20 = sub_710105E3D0(sEmptyUiSoundName.cstr(), heap, &resource_mgr->mSlinkResources, nullptr,
+                         nullptr);
+}
+
 void UiSoundMgr::sub_710105D308() {
     _8.deleteProc();
     _18 = nullptr;

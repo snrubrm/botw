@@ -148,6 +148,9 @@ public:
     // 0x710105d23c: requests its GetItemSound actor outside the TitleMenu map.
     void sub_710105D23C(sead::Heap* heap, act::ActorCreator* creator);
     void sub_710105D308();
+    // 0x710105d1d0 (placeholder name): creates the user instance at _20 from the sound resource manager's
+    // embedded asset info reader.
+    void sub_710105D1D0(sead::Heap* heap);
     void sub_710105D9F8(aal::SoundSource* source);
     // 0x710105d5ac: stops the previous HeartUp sound and emits mc_HeartUp (`mode` picks the handle).
     bool sub_710105D5AC(const s32* mode);
