@@ -184,9 +184,14 @@ public:
     void sub_7100F1AC58();
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
     void setPosXY(s32 x, s32 y);
+    // Inline-only in the original; name is a guess. ScreenAppMapDungeon 0x71009e78d8
+    // changes bit 3 of the constructor's flags word at +8.
+    void setMapModeMaybe(bool enabled) { mFlags.changeBit(3, enabled); }
 
 private:
-    u8 _0[0x50];
+    u8 _0[8];
+    sead::BitFlag32 mFlags;
+    u8 _c[0x50 - 0xc];
     u32 _50;
     u32 _54;
     u8 _58[0x1010 - 0x58];
@@ -479,6 +484,7 @@ public:
     ksys::gfx::LocationalLightMgr* getLocationalLightMgr() const { return _aa0; }
     Unk_7100efd9b8* getFarModelRendererMaybe() const { return _3a8; }
     Unk_a98* getUnk_a98() const { return _a98; }
+    Unk_7100f185a4* getMapRendererMaybe() const { return _388; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
 
 public:
@@ -531,7 +537,9 @@ private:
     Unk_7101293bac* _398;
     GrudgeRenderer* _3a0;
     Unk_7100efd9b8* _3a8;
-    u8 _3b0[0xa98 - 0x3b0];
+    u8 _3b0[0x660 - 0x3b0];
+    s32 mLensFlarePreset;  // 0x7100f2ddf0 compares and updates this preset index.
+    u8 _664[0xa98 - 0x664];
     Unk_a98* _a98;
     ksys::gfx::LocationalLightMgr* _aa0;
     Unk_aa8* _aa8;

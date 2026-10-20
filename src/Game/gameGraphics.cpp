@@ -1,5 +1,7 @@
 #include "Game/gameGraphics.h"
 #include <prim/seadScopedLock.h>
+#include <effect/aglFxOfxBase.h>
+#include <effect/aglFxOfxLensFlare.h>
 #include <g3d/aglNW4FToNN.h>
 #include <gsys/gsysModelNW.h>
 #include <gsys/gsysModelRenderUnit.h>
@@ -318,4 +320,19 @@ u8 sub_7100F3A51C() {
 
 void sub_7100F3A528(u32 value) {
     ksys::tera::sUnk_710260B188 = value & 1;
+}
+
+void Graphics::sub_7100F2DDF0(s32 preset) {
+    auto* lens_flare = mModelScenes[0]->mOfxManager->getOfx<agl::fx::OfxLensFlare>(0);
+    if (!lens_flare)
+        return;
+    if (preset < 0) {
+        _284.resetBit(10);
+    } else {
+        _284.setBit(10);
+        if (mLensFlarePreset != preset) {
+            mLensFlarePreset = preset;
+            lens_flare->loadPresetByIndex(preset, false);
+        }
+    }
 }
