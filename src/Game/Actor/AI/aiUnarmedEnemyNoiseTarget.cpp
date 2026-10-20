@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiUnarmedEnemyNoiseTarget.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
@@ -89,6 +90,81 @@ void UnarmedEnemyNoiseTarget::sub_71005D4C28() {
         enemy->sub_7100019A9C(*nearest);
     }
     _d0 = *nearest;
+}
+
+// 0x71005d40e8
+// NON_MATCHING: iterator setup and accessor initialization stores are scheduled differently.
+bool UnarmedEnemyNoiseTarget::sub_71005D40E8() {
+    if (isGoStraightOrMove() && _d0.hasProc()) {
+        sead::Vector3f target;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_d0, &accessor);
+        accessor.getActorMtx().getTranslation(target);
+        if (sub_710072E154(mActor, target, nullptr, -1)) {
+            if (isMove())
+                startMoveToTargetMaybe(target);
+            return true;
+        }
+    }
+
+    {
+        _100.clear();
+        sead::FixedObjList<sead::Vector3f, 8> points;
+        sub_71005D56B4();
+        if (_100.size() != 0) {
+            for (auto& entry : _100) {
+                auto& link = entry._0.mLink;
+                sead::Vector3f target;
+                ksys::act::ActorLinkConstDataAccess accessor;
+                ksys::act::acquireActor(&link, &accessor);
+                accessor.getActorMtx().getTranslation(target);
+                if (sub_710072E154(mActor, target, nullptr, -1)) {
+                    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                        enemy->sub_7100019D38(_d0);
+                        enemy->sub_7100019A9C(link);
+                    }
+                    _d0 = link;
+                    if (!isGoStraight())
+                        startMoveToTargetMaybe(target);
+                    return true;
+                }
+                points.emplaceBack(target);
+            }
+            if (!isGoStraightOrMove())
+                changeToLookAround();
+            m41(points);
+            return true;
+        }
+    }
+    {
+        _100.clear();
+        sead::FixedObjList<sead::Vector3f, 8> points;
+        sub_71005D5A58();
+        if (_100.size() == 0)
+            return false;
+        for (auto& entry : _100) {
+            auto& link = entry._0.mLink;
+            sead::Vector3f target;
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            accessor.getActorMtx().getTranslation(target);
+            if (sub_710072E154(mActor, target, nullptr, -1)) {
+                if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                    enemy->sub_7100019D38(_d0);
+                    enemy->sub_7100019A9C(link);
+                }
+                _d0 = link;
+                if (!isGoStraight())
+                    startMoveToTargetMaybe(target);
+                return true;
+            }
+            points.emplaceBack(target);
+        }
+        if (!isGoStraightOrMove())
+            changeToLookAround();
+        m41(points);
+        return true;
+    }
 }
 
 // 0x71005d46fc: switch to the anger child with the target position (the equipped weapon's owner, the
