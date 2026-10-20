@@ -68,7 +68,10 @@ public:
     };
     static_assert(sizeof(Record) == 0x40);
     struct Cell {
-        u8 _0[8];
+        s16 mX;
+        u16 _2;
+        s16 mZ;
+        u16 _6;
         Record* mRecord;
         u8 mFlags;
         u8 _11[3];
@@ -84,7 +87,7 @@ public:
         };
         s32 count;
         Key entries[768];
-        Cell* cells;
+        Cell (*cells)[59];
 
         void sort();
     };
@@ -96,6 +99,7 @@ public:
     void sub_71012E7990(f32 diameter, f32 intensity, const sead::Vector2f* position);
     void resetCells();
     void setBufferIndex(u32 index);
+    void uploadCellData();
     void initialize(sead::Heap* heap, tera::GrassEntry* entry);
     f32 sub_71012E7864(s32 kind, const Cell* cell, u32 flags, u32* result) const;
 

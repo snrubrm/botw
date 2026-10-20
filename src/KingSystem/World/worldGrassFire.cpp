@@ -1,5 +1,6 @@
 #include "KingSystem/World/worldGrassFire.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/Terrain/teraVegeTeraMat.h"
 #include "Game/gameStatisticsMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -8,6 +9,12 @@
 #include <limits>
 
 namespace ksys::world {
+
+// Mutable shader coefficients read by 12E6814; original initialized data.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF10 = 0.3f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF14 = 0.4f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF18 = 0.22f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF1C = 0.215f;
 
 // Constructor 0x71012e1d5c computes these four mutable distance coefficients.
 KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF30 = 0.0f;
@@ -271,6 +278,116 @@ void Unk_710251cea8::setBufferIndex(u32 index) {
     const u32 count = mCellSortLists[0].count;
     for (u32 i = 0; i < count && i < 768; ++i)
         _50[i].setBufferIndexMaybe(u8(index));
+}
+
+// NON_MATCHING: color conversion loops remain compact; distance arithmetic and stores differ in scheduling.
+void Unk_710251cea8::uploadCellData() {
+    sead::ScopedLock<sead::CriticalSection> lock(&_10);
+    const f32 scale = mViewScale;
+    f32 near = std::numeric_limits<f32>::max();
+    if (!(sUnk_710251CF30 <= 0.0f)) {
+        if (sUnk_710251CF30 == std::numeric_limits<f32>::max())
+            near = 0.0f;
+        else
+            near = 1.0f / (scale * sUnk_710251CF30);
+    }
+    f32 near2 = std::numeric_limits<f32>::max();
+    if (!(sUnk_710251CF34 <= 0.0f)) {
+        if (sUnk_710251CF34 == std::numeric_limits<f32>::max())
+            near2 = 0.0f;
+        else
+            near2 = 1.0f / (scale * sUnk_710251CF34);
+    }
+    f32 far = std::numeric_limits<f32>::max();
+    if (!(sUnk_710251CF38 <= 0.0f)) {
+        if (sUnk_710251CF38 == std::numeric_limits<f32>::max())
+            far = 0.0f;
+        else
+            far = 1.0f / (scale * sUnk_710251CF38);
+    }
+    f32 far2 = std::numeric_limits<f32>::max();
+    if (!(sUnk_710251CF3C <= 0.0f)) {
+        if (sUnk_710251CF3C == std::numeric_limits<f32>::max())
+            far2 = 0.0f;
+        else
+            far2 = 1.0f / (scale * sUnk_710251CF3C);
+    }
+    const u32 count = mCellSortLists[0].count;
+    if (count == 0)
+        return;
+    const f32 inverse_range = 1.0f / std::max(near - far, 0.1f);
+    const f32 inverse_range2 = 1.0f / std::max(far2 - near2, 0.1f);
+    for (u32 i = 0; i < count && i < 768; ++i) {
+        const u16 index = mCellSortLists[0].entries[i].index;
+        const Cell& cell = mCellSortLists[0].cells[index / 59][index % 59];
+        const Record& record = *cell.mRecord;
+        f32 weight = near * inverse_range +
+                     inverse_range * (static_cast<f32>(cell._14) / -65535.0f * 1000.0f);
+        if (weight < 0.0f)
+            weight = 0.0f;
+        else if (weight > 1.0f)
+            weight = 1.0f;
+        const f32 offset = sUnk_710251CF10 *
+                           (static_cast<f32>(record._14[1]) / 255.0f > 0.5f ? 0.0f : 1.0f);
+        const f32 inverse_scale = 1.0f / (sUnk_710251CF14 - offset);
+        u8* data = _60.getBufferPtr();
+        // Inline-only in the original; name is a guess. Native 12E6814 serializes
+        // floats into this 0xe0-byte buffer before uploading its first 0xd0 bytes.
+        // Copy only the written spans; texture coordinates 4..7 stay unchanged
+        // when neither material contains the cell.
+        const auto write = [data](u32 index, f32 value) {
+            std::memcpy(data + index * sizeof(f32), &value, sizeof(value));
+        };
+        const f32 x = cell.mX;
+        const f32 z = cell.mZ;
+        write(0, static_cast<f32>(cell.mX + 10) - x);
+        write(1, static_cast<f32>(cell.mZ + 10) - z);
+        write(2, x);
+        write(3, z);
+        const f32 lower_x = cell.mX - 5.0f;
+        const f32 lower_z = cell.mZ - 5.0f;
+        const f32 upper_x = static_cast<f32>(cell.mX + 15);
+        const f32 upper_z = static_cast<f32>(cell.mZ + 15);
+        const auto& materials = *_8->_10;
+        s32 material_index = -1;
+        for (s32 j = 1; j < 3; ++j) {
+            const auto& bounds = materials.getMaterial(j).mBounds;
+            if (bounds.getMin().x < lower_x && upper_x < bounds.getMax().x &&
+                bounds.getMin().y < lower_z && upper_z < bounds.getMax().y) {
+                material_index = j;
+                break;
+            }
+        }
+        if (material_index != -1) {
+            const auto& transform = materials.getMaterial(material_index).mTransform;
+            const f32 u = x * transform.x + transform.z;
+            const f32 v = z * transform.y + transform.w;
+            write(4, (transform.z + transform.x * static_cast<f32>(cell.mX + 10)) - u);
+            write(5, (transform.y * static_cast<f32>(cell.mZ + 10) + transform.w) - v);
+            write(6, u);
+            write(7, v);
+        }
+        write(8, (cell.mFlags & 0x40) ? 1.0f : 0.0f);
+        write(9, 0.0f);
+        write(10, near2 * inverse_range);
+        write(11, inverse_range2);
+        write(12, sUnk_710251CF18);
+        write(13, sUnk_710251CF1C);
+        write(14, weight);
+        write(15, inverse_scale * (static_cast<f32>(record._1a) / 255.0f - offset));
+        write(16, inverse_scale * (static_cast<f32>(record._14[2]) / 255.0f - offset));
+        write(17, inverse_scale * (static_cast<f32>(record._14[3]) / 255.0f - offset));
+        write(18, inverse_scale * (static_cast<f32>(record._18 & 0xff) / 255.0f - offset));
+        write(19, inverse_scale * (static_cast<f32>(record._18 >> 8) / 255.0f - offset));
+        for (u32 group = 0; group < 8; ++group)
+            for (u32 component = 0; component < 4; ++component)
+                write(20 + group * 4 + component,
+                      static_cast<f32>(record._1c[group * 4 + 3 - component]) / 255.0f);
+        auto& block = _50[i];
+        block.dcbz(0);
+        block.setDataStruct(0, data, 0xd0);
+        block.flushCPUCache();
+    }
 }
 
 }  // namespace ksys::world
