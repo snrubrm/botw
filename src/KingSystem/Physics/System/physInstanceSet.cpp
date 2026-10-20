@@ -1,6 +1,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include <limits>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <basis/seadNew.h>
 #include <resource/seadArchiveRes.h>
@@ -808,6 +809,36 @@ void InstanceSet::sub_7100FBD410(const sead::Vector3f* vec) {
 
 // NON_MATCHING: the original reloads _e8 before the second ragdoll test, keeps the scale test inside the
 // first rigid body loop and stores the navmesh vectors per component.
+// NON_MATCHING: the linked-body entry load is reused after world removal.
+void InstanceSet::sub_7100FBA568(const sead::Matrix34f& mtx, bool remove_from_world,
+                                  bool clear_velocity, bool update_model) {
+    if (mModel && update_model) {
+        mModel->setMatrix(mtx);
+        mModel->safeUpdateWorldMatrix();
+    }
+    for (auto& entry : mLinkMatricesMaybe) {
+        auto* body = entry._38;
+        if (remove_from_world)
+            body->removeFromWorld();
+        if (entry._45[0])
+            continue;
+        if (!entry._44 && body->getMotionType() != MotionType::Keyframed)
+            continue;
+        if (entry._30.isValid()) {
+            sead::Matrix34f bone_mtx;
+            mModel->getUnits()(entry._30.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &bone_mtx, entry._30.bone_index);
+            body->setTransform(bone_mtx, PropagateToLinkedMotions{true});
+        } else {
+            body->setTransform(mtx, PropagateToLinkedMotions{true});
+        }
+        if (clear_velocity) {
+            body->setLinearVelocity(sead::Vector3f::zero, std::numeric_limits<f32>::epsilon());
+            body->setAngularVelocity(sead::Vector3f::zero, std::numeric_limits<f32>::epsilon());
+        }
+    }
+}
+
 void InstanceSet::setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale) {
     const bool same_scale = sead::Mathf::equalsEpsilon(mScale, scale);
     auto* support_bone = _e8;

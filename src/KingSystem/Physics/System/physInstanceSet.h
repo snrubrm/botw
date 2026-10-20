@@ -211,7 +211,7 @@ public:
     // 0x7100fbb18c: called with the actor's "Tgt" body set (actActorSensorUtil sub_71007A3800).
     bool sub_7100FBB18C(RigidBodySet* set);
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
-    // 0x7100fba568 (CSV ActorPhysics::setMtx_x; placeholder name; declared only): called by setMtxAndScale.
+    // 0x7100fba568: updates linked-body transforms, optionally removing bodies and clearing velocity.
     void sub_7100FBA568(const sead::Matrix34f& mtx, bool a2, bool a3, bool a4);
     // 0x7100fbb4b4: whether the ragdoll contact point info (_a8) has any contact (declaration only).
     bool sub_7100FBB4B4() const;
@@ -394,7 +394,7 @@ private:
         /* 0x00 */ u8 _0[0x30];
         /* 0x30 */ gsys::BoneAccessKey _30;
         /* 0x34 */ u8 _34[4];
-        /* 0x38 */ const void* _38;  // the key sub_7100FBD918 / sub_7100FBD94C look entries up by
+        /* 0x38 */ RigidBody* _38;  // linked body; also the key used by sub_7100FBD918 / sub_7100FBD94C
         /* 0x40 */ s32 _40;
         /* 0x44 */ bool _44;
         /* 0x45 */ u8 _45[3];
