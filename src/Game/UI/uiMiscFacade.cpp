@@ -620,7 +620,7 @@ void sub_7100A980F8() {
 }
 
 // 0x7100a9a430
-void sub_7100A9A430(const void* a0) {
+void sub_7100A9A430(ksys::act::Actor* a0) {
     auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap);
     if (!screen)
         return;

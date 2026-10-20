@@ -1275,7 +1275,8 @@ public:
     // 0x71009644e8: entry `index` of the table at 0x658 (null if out of range).
     UiSubsys1Entry* sub_71009644E8(s32 index);
     void sub_71009645D0(const void* a1);
-    void sub_710096372C(const void* a1);
+    // 0x710096372c: binds the matching map entry to its actor while holding _808.
+    void sub_710096372C(ksys::act::Actor* actor);
     // 0x71009686f0 (placeholder name): whether the map scale _850._28 equals the threshold selected by
     // _128 and _7c4 (false for the -1 entries).
     bool sub_71009686F0() const;

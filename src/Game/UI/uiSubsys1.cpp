@@ -1,6 +1,7 @@
 #include <container/seadBuffer.h>
 #include <limits>
 #include <prim/seadBitFlag.h>
+#include <prim/seadScopedLock.h>
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUnkTiny.h"
@@ -274,6 +275,28 @@ u32 UiSubsys1::sub_7100963598() {
 }
 
 // 0x7100963724
+// 0x710096372c
+// NON_MATCHING: the compiler folds the null entry and actor tests after their earlier dereferences.
+void UiSubsys1::sub_710096372C(ksys::act::Actor* actor) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_808);
+    for (auto** it = _598.dataBegin(); it != _598.dataEnd(); ++it) {
+        auto* entry = *it;
+        if (entry->_50 != actor->getMapObject())
+            continue;
+        if (entry) {
+            const bool has_proc = entry->_60.hasProc();
+            if (actor) {
+                if (has_proc)
+                    entry->_60.reset();
+                entry->_60.acquire(actor, false);
+            } else if (has_proc) {
+                entry->_60.reset();
+            }
+        }
+        break;
+    }
+}
+
 void UiSubsys1::sub_7100963724() {
     sub_710095F584(true);
 }
