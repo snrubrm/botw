@@ -33,6 +33,8 @@ void Unk_SoundMgr38_20::sub_7101029958(sead::Heap* heap) {
     _8[1].initOffset(0x850);
 }
 
+void Unk_SoundMgr38_20::sub_710102996C() {}
+
 void Unk_SoundMgr38_20::sub_7101029970() {
     if (_78) {
         sub_71010299AC();

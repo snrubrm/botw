@@ -132,8 +132,6 @@ class Unk_7102502950;
 class FxMgr;
 class ExpressionSoundCtrl;
 
-// 0x710104ee4c (CSV nullsub_4416, 4 bytes): empty hook called by Sound::__auto3.
-void nullsub_4416(ExpressionSoundCtrl* sound, bool a);
 
 f32 sub_710105E3A4();
 const char* sub_710105E7B4(bool* flag);
@@ -340,6 +338,8 @@ public:
     Unk_SoundMgr38_20();
     virtual ~Unk_SoundMgr38_20();
     void sub_7101029958(sead::Heap* heap);
+    // 0x710102996c (was nullsub_4392): empty in the release build; called by Unk_SoundMgr38's update.
+    void sub_710102996C();
     void sub_7101029970();
     void sub_71010299AC();
     void sub_7101029AA0();
@@ -1101,6 +1101,12 @@ public:
     // 0x710104ed9c: re-enables emission in the root group, un-pauses it, stops the pause duckers and restores the
     // stream fader (used when the pause menu / event pause ends).
     void sub_710104ED9C();
+    // 0x710104ee4c (was nullsub_4416): empty in the release build; called by SoundMgr::sub_71011FBD58.
+    void sub_710104EE4C(bool a);
+    // 0x710104f4bc / 0x710104f4c0 (were nullsub_4417 / nullsub_4418): empty in the release build; called on the
+    // instance by 0x71009ebec8.
+    void sub_710104F4BC();
+    void sub_710104F4C0();
     // 0x710104f86c: starts the dialogue ducker (SoundMgr::_80 ducker 0x10) while an event is active.
     void sub_710104F86C();
     // 0x710104f8c4: `suspend` the dialogue ducker (SoundMgr::_80 ducker 0x10).

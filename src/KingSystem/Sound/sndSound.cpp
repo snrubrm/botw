@@ -62,7 +62,7 @@ void SoundMgr::sub_71011FC394(sead::Thread* thread) {
 
 void SoundMgr::sub_71011FBD58(bool a) {
     _38->sub_710102AE50();
-    nullsub_4416(_90, a);
+    _90->sub_710104EE4C(a);
     if (_c8)
         _c8->m3();
     _e4 = 1;

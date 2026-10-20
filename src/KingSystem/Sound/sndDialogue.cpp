@@ -106,6 +106,10 @@ void ExpressionSoundCtrl::sub_710104F4A0() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
+void ExpressionSoundCtrl::sub_710104F4BC() {}
+
+void ExpressionSoundCtrl::sub_710104F4C0() {}
+
 // inline-only in the original; name is a guess (the same locked loop is inlined in 0x710104e964, 0x710104ee64
 // and 0x710104f1b8): drops the handles whose event is gone and refreshes the others while bit 0 of _2a0 is set.
 inline void ExpressionSoundCtrl::updateHandles() {
@@ -153,6 +157,8 @@ void ExpressionSoundCtrl::sub_710104EE64() {
     _2a0.set(1);
     updateHandles();
 }
+
+void ExpressionSoundCtrl::sub_710104EE4C(bool a) {}
 
 void ExpressionSoundCtrl::sub_710104EE50() {
     if (_30 != 2)
