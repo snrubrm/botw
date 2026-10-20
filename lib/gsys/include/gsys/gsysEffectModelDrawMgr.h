@@ -86,6 +86,11 @@ public:
     bool initialize(int capacity, int model_draw_obj_num, u32 arg, sead::Heap* heap);
     // 0x7100c55c74: returns the index of the first free record after initializing it, or -1.
     int addModel(EffectModelDrawUnit::CreateArg arg, sead::Heap* heap);
+    // Inline-only in the original; name is a guess. addEffectModel_0 0x7100d9f8ac
+    // selects mEntries[id] with Buffer's unsigned bounds check and element-zero
+    // fallback before reading the unit's mModel.
+    EffectModelDrawUnit* getUnit(u32 id) { return &mEntries[id]; }
+    const EffectModelDrawUnit* getUnit(u32 id) const { return &mEntries[id]; }
     bool requestDeleteModel(u32 id);
     bool execDeleteModel(u32 id);
     // 0x7100c55f64 / 0x7100c5610c: clear / refresh the used records before and after drawing.

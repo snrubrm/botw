@@ -6,7 +6,7 @@
 
 class hkaiAstarCostModifier;
 class hkaiAstarEdgeFilter;
-class hkaiNavMeshQueryMediator;
+class hkaiStreamingCollection;
 
 // The reflection class names for these records are in the image:
 // "hkaiLineOfSightUtilInputBase" (0x50), ...DirectPathInput (0x60),
@@ -100,17 +100,18 @@ public:
     };
 
     // 0x710154b6bc, 340 B. Profile name "TtfindDirectPath"; the CSV name
-    // "findDirectPathMaybe" is a guess.
-    static LineOfSightResult findDirectPathMaybe(const hkaiNavMeshQueryMediator* mediator,
-                                                 const DirectPathInput& input,
-                                                 LineOfSightOutput& output);
+    // "findDirectPathMaybe" is a guess. The callers load the collection from
+    // hkaiWorld +0x20; the query mediator is the distinct +0x40 member.
+    static LineOfSightResult findDirectPathMaybe(const hkaiStreamingCollection* collection,
+                                                const DirectPathInput& input,
+                                                LineOfSightOutput& output);
 
     // 0x71015498ac, 7696 B. Called with a goal direction, a goal point, the
-    // start face key, the mediator, the input and the output; the name is a
+    // start face key, the streaming collection, the input and the output; the name is a
     // guess. 0x7100f84d64 / 0x7100f851bc call it directly.
     static LineOfSightResult graphSearchMaybe(const hkVector4f& goalDirection,
                                               const hkVector4f& goalPoint, hkUint32 startFaceKey,
-                                              const hkaiNavMeshQueryMediator* mediator,
+                                              const hkaiStreamingCollection* collection,
                                               const InputBase& input, LineOfSightOutput& output);
 };
 
