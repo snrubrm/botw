@@ -386,6 +386,47 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CDF8(ksys::act::Actor* owner,
     }
 }
 
+// NON_MATCHING: same body and calls. The original copies the boss rotation matrix as paired 8-byte
+// loads and keeps a wider frame; this build copies it element by element, 0x28 bytes shorter.
+// 0x710066d708: moves a ready handle proc into the bound-actor link (like sub_710066CDF8) and,
+// when _8 is set, positions the actor at the boss matrix three units up; otherwise wakes the linked
+// actor, or places it with an identity rotation at the boss position.
+void SiteBoss::Unk_71002cf2ac::sub_710066D708(s32 idx) {
+    const s32 i = u32(idx) < 20 ? idx : 0;
+    auto& handle = _a0[i];
+    if (handle.isAllocatedOrFailed() && handle.isProcReady()) {
+        auto* proc = sead::DynamicCast<ksys::act::Actor>(handle.getProc());
+        if (proc) {
+            if (_8) {
+                const sead::Matrix34f& mtx = mOwner->getMtx();
+                const sead::Matrix33f rot(mtx);
+                sead::Vector3f pos = mtx.getTranslation();
+                pos.y += 3.0f;
+                const sead::Vector3f scale(_7c, _7c, _7c);
+                proc->sub_71011C7020(&pos, &rot, &scale);
+            }
+            handle.releaseAndWakeProc();
+            _1e0[i].acquire(proc, false);
+            _530[i] = *proc->getMesTransceiverId();
+            _9c |= 1u << idx;
+        }
+    } else if (_1e0[i].hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_1e0[i], &accessor);
+        if (_8) {
+            accessor.setThisActorAsChild(mOwner, false);
+            sead::Matrix34f mtx = sead::Matrix34f::ident;
+            mtx(0, 3) = mOwner->getMtx()(0, 3);
+            mtx(1, 3) = mOwner->getMtx()(1, 3) + 3.0f;
+            mtx(2, 3) = mOwner->getMtx()(2, 3);
+            const sead::Vector3f scale(_7c, _7c, _7c);
+            accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 3, -1);
+        } else {
+            accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+        }
+    }
+}
+
 // The int argument is unused.
 ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE04(int) {
     return &_360;
