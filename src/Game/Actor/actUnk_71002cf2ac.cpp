@@ -44,6 +44,23 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C028() {
     _8 = false;
 }
 
+// NON_MATCHING: same operations, but we compute the link reference once, so the frame is 0x20 bytes
+// smaller and the index/registers differ from the original, which rebuilds it in both blocks.
+void SiteBoss::Unk_71002cf2ac::sub_710066DC34(ksys::act::Actor* proc, s32 idx) {
+    const s32 i = u32(idx) < 4 ? idx : 0;
+    auto& link = _370[i];
+    if (proc && !link.hasProc()) {
+        link.acquire(proc, false);
+        return;
+    }
+    if (link.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        link.acquire(proc, false);
+    }
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066DA34(ksys::act::Actor* proc, s32 idx) {
     if (!proc)
         return;
