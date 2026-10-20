@@ -75,6 +75,22 @@ void CompactedHeap::Allocation::sub_71012B8C7C() {
     }
 }
 
+// NON_MATCHING: the two tag words are computed in the other order (the original makes the cleared
+// word the false arm and the set word the true arm; ours has them swapped). Every instruction and
+// value is otherwise the same.
+// 0x71012b8ce8 (placeholder name): sets or clears tag bit 1 of the allocation, under the heap lock
+// while the allocation has data.
+void CompactedHeap::Allocation::sub_71012B8CE8(bool x) {
+    if (mData) {
+        auto* heap = reinterpret_cast<CompactedHeap*>(mTaggedHeap & ~u64(3));
+        heap->_5cf8.lock();
+        mTaggedHeap = x ? (mTaggedHeap | 2) : (mTaggedHeap & ~u64(2));
+        heap->_5cf8.unlock();
+    } else {
+        mTaggedHeap = x ? (mTaggedHeap | 2) : (mTaggedHeap & ~u64(2));
+    }
+}
+
 bool CompactedHeap::Allocation::sub_71012B8C10() {
     if (mData) {
         auto* heap = reinterpret_cast<CompactedHeap*>(mTaggedHeap & ~u64(3));

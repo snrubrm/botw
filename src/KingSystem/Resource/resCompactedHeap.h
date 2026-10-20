@@ -56,6 +56,9 @@ public:
         void sub_71012B8C7C();
         // Complete 12B8C10 sets tag bit 0 and returns true; declaration only.
         bool sub_71012B8C10();
+        // 0x71012b8ce8 (placeholder name): sets or clears tag bit 1, under the heap lock when the
+        // allocation has data.
+        void sub_71012B8CE8(bool x);
         // 0x71012B8A78: updates the block record for this allocation while the heap lock is held.
         void sub_71012B8A78(bool x);
         void* mData;
