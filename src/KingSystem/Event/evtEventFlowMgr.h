@@ -96,6 +96,8 @@ public:
                         EventMgrStruct3A* nearest, EventMgrStruct3A* farthest);
     // Native DBFA00 / DBFE98 consume one actor binding / the player position.
     void x_4(EventMgrStruct3A* entry);
+    // 0x7100dbf72c (CSV EventFlowMgr::x)
+    void x(EventMgrStruct3A* entry);
     void x_5(const sead::Vector3f& position);
     // 0x7100dbf2b4 (CSV unnamed; declared only; placeholder name): with a1, EventFlow::sub_7100DC1160 on every slot,
     // else unloads the slots whose _120 is clear

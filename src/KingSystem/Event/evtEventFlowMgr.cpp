@@ -102,6 +102,15 @@ EventFlow* EventFlowMgr::acquireEventFlow(const sead::SafeString& event_name,
     return nullptr;
 }
 
+// 0x7100dbf72c: releases the slot's flow record and clears the slot
+void EventFlowMgr::x(EventMgrStruct3A* entry) {
+    if (auto* record = entry->mFlowRecord) {
+        if (!record->_0.isEmpty())
+            record->sub_7100DC22E0(entry->mActor);
+    }
+    entry->sub_7101279FFC();
+}
+
 // 0x7100dbf778
 // NON_MATCHING: the loop index comparison is extended to 64 bits instead of 32 bits.
 void EventFlowMgr::x_3(u64* visited, const sead::Vector3f& position,
@@ -155,7 +164,7 @@ void EventFlowMgr::sub_7100DBFBAC(f32 nearest_distance, f32 farthest_distance,
             if (entry.mAssigned && entry.mFlowRecord == record) {
                 entry.setFlowRecord(nullptr);
                 if (!record->_0.isEmpty())
-                    record->sub_7100DC22E0();
+                    record->sub_7100DC22E0(nullptr);
             }
         }
     }
@@ -216,11 +225,11 @@ void EventFlowMgr::x_0() {
     x_5(player->getMtx().getTranslation());
     for (s32 i = 0; i < _58.size(); ++i) {
         if (!_58[i]._0.isEmpty() && _58[i]._168 != mCalcCount)
-            _58[i].sub_7100DC22E0();
+            _58[i].sub_7100DC22E0(nullptr);
     }
     for (s32 i = 0; i < _68.size(); ++i) {
         if (!_68[i]._0.isEmpty() && _68[i]._168 != mCalcCount)
-            _68[i].sub_7100DC22E0();
+            _68[i].sub_7100DC22E0(nullptr);
     }
 }
 

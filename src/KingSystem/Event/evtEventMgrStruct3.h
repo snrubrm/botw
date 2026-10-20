@@ -70,6 +70,8 @@ public:
     void formatActorName(sead::BufferedSafeString* name) const;
     // 127A008 sets/clears the shared flow-record association in the native schedule callers.
     void setFlowRecord(EventMgrStruct3B* record);
+    // 0x7101279ffc (placeholder name; declared only): clears mFlowRecord and mAssigned
+    void sub_7101279FFC();
 
     /* 0x00 */ act::Actor* mActor = nullptr;
     /* 0x08 */ EventMgrStruct3B* mFlowRecord = nullptr;
@@ -88,8 +90,9 @@ public:
     // 0x7100dc1448 (placeholder name): unloads the flows (with `force`, all of them; else those whose _120 is
     // clear) and resets the record
     void sub_7100DC1448(bool force);
-    // 0x7100dc22e0 (placeholder name): drops a reference; the last one unloads all flows and resets the record
-    void sub_7100DC22E0();
+    // 0x7100dc22e0 (placeholder name): drops a reference; the last one unloads all flows and resets the record.
+    // `actor` is unused (callers pass the slot's actor or nullptr).
+    void sub_7100DC22E0(act::Actor* actor);
     // 0x7100dc14f0: load the first actor's default/conditional schedule timelines, then retain.
     void loadBaischeduleStuff(EventMgrStruct3A* entry);
     // Load the quest actor timelines / map-tag event flows, retaining the owning record.

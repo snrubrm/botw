@@ -38,7 +38,7 @@ void EventMgrStruct3B::sub_7100DC1448(bool force) {
 }
 
 // 0x7100dc22e0
-void EventMgrStruct3B::sub_7100DC22E0() {
+void EventMgrStruct3B::sub_7100DC22E0(act::Actor* actor) {
     if (--_58 != 0)
         return;
     for (s32 i = 0; i < _160; ++i)
