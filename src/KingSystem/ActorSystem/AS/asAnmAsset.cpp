@@ -146,17 +146,22 @@ void AnmAsset::sub_7101315328(f32* position, f32* start, f32* end,
     *end = m4();
 }
 
-// NON_MATCHING: loop override branches appear in the opposite order.
 void AnmAsset::sub_710131586C(bool loop, const res::ASResource* resource) {
     _9 = loop;
     _8 = loop;
     if (resource) {
         if (const auto* parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
                 resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl))) {
-            if (parser->getAnmLoop() == 2)
-                _8 = true;
-            else if (parser->getAnmLoop() == 1)
+            switch (parser->getAnmLoop()) {
+            case 1:
                 _8 = false;
+                break;
+            case 2:
+                _8 = true;
+                break;
+            default:
+                break;
+            }
         }
     }
 }
