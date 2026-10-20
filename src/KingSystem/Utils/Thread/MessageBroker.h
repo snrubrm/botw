@@ -26,10 +26,18 @@ public:
     virtual int countTransceivers() const = 0;
 };
 
+// Placeholder base of the message argument classes (typeinfo 0x71025d0530; the original has no
+// vtable for it). Also the base of the placeholder classes Unk_710246c410 / Unk_710250b7c0.
+class Unk_71025d0530 {
+    SEAD_RTTI_BASE(Unk_71025d0530)
+public:
+    virtual ~Unk_71025d0530() = default;
+};
+
 class IMessageBroker {
 public:
-    class SetIdArg {
-        SEAD_RTTI_BASE(SetIdArg)
+    class SetIdArg : public Unk_71025d0530 {
+        SEAD_RTTI_OVERRIDE(SetIdArg, Unk_71025d0530)
     public:
         SetIdArg() = default;
         explicit SetIdArg(u32 id) { setId(id); }

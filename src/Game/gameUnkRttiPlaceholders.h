@@ -10,6 +10,7 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/Utils/Thread/MessageBroker.h"
 #include <common/aglUniformBlock.h>
 #include <nn/ui2d/TextureInfo.h>
 #include "Game/Actor/aiUnk_71025afb58.h"
@@ -1971,13 +1972,9 @@ public:
     virtual ~Unk_710245b8a8();
 };
 
-// typeinfo 0x71025d0530; the original has no vtable for this class (an abstract base: only its RTTI
-// checks remain). Placeholder generated from its children (genskel.py).
-class Unk_71025d0530 {
-    SEAD_RTTI_BASE(Unk_71025d0530)
-public:
-    virtual ~Unk_71025d0530() = default;
-};
+// The RTTI-only base Unk_71025d0530 lives in MessageBroker.h (ksys) because SetIdArg derives
+// from it.
+using ksys::Unk_71025d0530;
 
 // vtable 0x710246c410 (4 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710246c410 : public Unk_71025d0530 {
@@ -2179,13 +2176,6 @@ class Unk_71024d8ff0 : public Unk_71025fffa8 {
     SEAD_RTTI_OVERRIDE(Unk_71024d8ff0, Unk_71025fffa8)
 public:
     ~Unk_71024d8ff0() override;
-};
-
-// vtable 0x71024eb480 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024eb480 : public Unk_71025d0530 {
-    SEAD_RTTI_OVERRIDE(Unk_71024eb480, Unk_71025d0530)
-public:
-    ~Unk_71024eb480() override;
 };
 
 // typeinfo 0x710260dda0; the original has no vtable for this class (an abstract base: only its RTTI

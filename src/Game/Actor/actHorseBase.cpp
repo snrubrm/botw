@@ -1141,5 +1141,3 @@ int Mystery2Horse::Register::countTransceivers() const {
 }
 
 }  // namespace uking::act
-
-Unk_71024eb480::~Unk_71024eb480() = default;
