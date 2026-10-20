@@ -113,6 +113,37 @@ void CameraChase::sub_71007534B8(sead::Vector3f* out, const sead::Vector3f* angl
     }
 }
 
+// NON_MATCHING: the original shares one epilogue between the early return and the main path and
+// keeps the radius in the first operand of the two clamp selects; ours duplicates the epilogue and
+// swaps the select operands. Every value and call is the same.
+// 0x7100754f00 (placeholder name): the radius blend for the lat angle. The lat and _104 are
+// clamped into the lat range and mapped through the lat curve; the fraction between the two curve
+// values lerps the clamped radius towards +-1 and the result goes back through the radius curve.
+f32 CameraChase::sub_7100754F00() {
+    if (_f4 == _f8 || _140 == _144)
+        return _2a8;
+
+    f32 min = 0.0f;
+    f32 max = 0.0f;
+    sub_7100924C94(_f4, _f8, &min, &max);
+
+    const f32 base = sub_7100751710(sead::Mathf::clamp(_2a0, min, max));
+    const f32 target = sub_7100751710(sead::Mathf::clamp(_104, min, max));
+
+    const f32 edge = base < target ? 1.0f : -1.0f;
+    f32 blend = 1.0f;
+    if (edge - base != 0.0f)
+        blend = (target - base) / (edge - base);
+
+    f32 rmin = 1.0f;
+    f32 rmax = 1.0f;
+    sub_7100924C94(_140, _144, &rmin, &rmax);
+    const f32 radius = sead::Mathf::clampMin(sead::Mathf::clampMax(_2a8, rmax), rmin);
+
+    const f32 curve = sub_7100752EB8(radius);
+    return sub_7100924D40(sub_710075315C(curve + blend * (edge - curve)));
+}
+
 // NON_MATCHING: the original clamps the widths with branch-free selects (ours: branches)
 f32 CameraChase::sub_7100752EB8(f32 value) {
     act::Unk_71024741b8 curve1;
