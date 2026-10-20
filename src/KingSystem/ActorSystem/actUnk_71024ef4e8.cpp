@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -29,6 +30,75 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 };
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
+
+// NON_MATCHING: output-statistic stores and vector-math register scheduling differ.
+bool Unk_71024ef4e8::Unk2::sub_7100EA86A8(Fit* out,
+                                         const sead::RingBuffer<s32>& indices) {
+    *out = Fit{};
+    const s32 count = indices.size();
+    if (count < 2)
+        return false;
+    auto sum = sead::Vector2f::zero;
+    for (s32 i = 0; i < count; ++i) {
+        const auto& point = mProjectedPoints[indices[i]];
+        sum += point;
+        // Preserve the original selection on unordered comparisons.
+        out->min_x = out->min_x < point.x ? out->min_x : point.x;
+        out->min_y = out->min_y < point.y ? out->min_y : point.y;
+        out->max_y = out->max_y > point.y ? out->max_y : point.y;
+    }
+    const f32 range = out->max_y - out->min_y;
+    out->range_y = range > 0.0f ? range : -range;
+    const f32 reciprocal = 1.0f / static_cast<f32>(count);
+    const auto mean = sum * reciprocal;
+    auto variance = sead::Vector2f::zero;
+    f32 covariance = 0.0f;
+    for (s32 i = 0; i < count; ++i) {
+        const auto delta = mProjectedPoints[indices[i]] - mean;
+        variance.x += delta.x * delta.x;
+        variance.y += delta.y * delta.y;
+        covariance += delta.x * delta.y;
+    }
+    variance *= reciprocal;
+    covariance *= reciprocal;
+    const f32 trace = variance.x + variance.y;
+    const f32 discriminant = trace * trace + (variance.x * variance.y - covariance * covariance) * -4.0f;
+    if (discriminant < 0.0f)
+        return false;
+    const f32 root = sead::Mathf::sqrt(discriminant);
+    const f32 first = (trace + root) * 0.5f;
+    const f32 second = (trace - root) * 0.5f;
+    f32 a;
+    f32 b;
+    f32 smallest;
+    if (first > second) {
+        a = covariance;
+        b = variance.y - second;
+        smallest = second;
+    } else {
+        a = variance.x - first;
+        b = covariance;
+        smallest = first;
+    }
+    const f32 abs_a = a > 0.0f ? a : -a;
+    const f32 abs_b = b > 0.0f ? b : -b;
+    f32 slope = 0.0f;
+    s32 kind = 2;
+    if (abs_a > 0.01f && abs_b <= 0.00001f) {
+        kind = 2;
+    } else if (abs_b > 0.01f && abs_a <= 0.00001f) {
+        kind = 3;
+    } else if (abs_a > 0.00001f) {
+        slope = b / a;
+        kind = slope > 0.0f ? 0 : 1;
+    }
+    out->eigenvalues.set(first, second);
+    out->smallest = smallest;
+    out->slope = slope;
+    out->intercept = mean.y - mean.x * slope;
+    out->kind = kind;
+    return true;
+}
 
 // NON_MATCHING: contact-record buffer reloads and flag scheduling differ.
 // The unused QueryArgs input is inferred from the enclosing query chain.

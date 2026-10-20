@@ -100,12 +100,26 @@ public:
             bool _4c;
         };
         static_assert(sizeof(QueryArgs) == 0x50);
+        // EA86A8 fits the projected contact points selected by an index ring.
+        struct Fit {
+            sead::Vector2f eigenvalues{0, 0};
+            f32 smallest = 0;
+            f32 slope = 0;
+            f32 intercept = 0;
+            s32 kind = 4;
+            f32 min_x = 10;
+            f32 min_y = 0;
+            f32 max_y = 0;
+            f32 range_y = 0;
+        };
+        static_assert(sizeof(Fit) == 0x28);
 
         explicit Unk2(phys::CharacterController* controller);
         virtual ~Unk2();
         static Unk2* sub_7100EA7300(phys::CharacterController* controller, sead::Heap* heap);
         void sub_7100EA7350(sead::Heap* heap);
         void sub_7100EA79DC();
+        bool sub_7100EA86A8(Fit* out, const sead::RingBuffer<s32>& indices);
         ContactRecord* sub_7100EAA344(QueryArgs& args, phys::ShapeCast& cast, s32 index,
                                      bool check_material, bool special);
         void sub_7100EAB618(const QueryArgs& args, s32 index, const sead::Vector3f& position,
@@ -126,7 +140,9 @@ public:
         /* 0x028 */ sead::Buffer<ContactRecord> mContactRecords;
         /* 0x038 */ sead::RingBuffer<s32> mContactIndices;
         /* 0x050 */ sead::Buffer<sead::Vector2f> mProjectedPoints;
-        u8 _60[0x148 - 0x60];
+        u8 _60[0xf8 - 0x60];
+        /* 0x0f8 */ Fit _f8;
+        /* 0x120 */ Fit _120;
         /* 0x148 */ sead::RingBuffer<s32> _148;
         /* 0x160 */ sead::RingBuffer<s32> _160;
         /* 0x178 */ sead::RingBuffer<s32> _178;
