@@ -957,6 +957,24 @@ void Unk_7102478d00::m5() {
 }
 
 // 0x710098f584
+// 0x710098f458
+// NON_MATCHING: pane lookup precedes the position load in the 0x4001 path (as in Unk_7102477fc0::m10)
+void Unk_7102478d00::m10() {
+    UiSubsys1Entry* entry = _18;
+    if (_50 == 2 || _50 == 3) {
+        if (!entry || !(entry->_3c & 1) || !_8)
+            return;
+        if (!sead::IsDerivedFrom<Unk_7102476640>(entry))
+            return;
+        sead::Vector2f pos{0.0f, 0.0f};
+        if (auto* widget = sub_71009630FC())
+            widget->sub_71009A9E90(static_cast<Unk_7102476640*>(entry)->_74, &pos);
+        _8->mPane->SetPosition(nn::util::Float3{pos.x, pos.y, 0.0f});
+    } else if (entry && (entry->_3c & 0x4001) == 0x4001 && _8) {
+        _8->mPane->SetPosition(nn::util::Float3{entry->_34.x, entry->_34.y, 0.0f});
+    }
+}
+
 // NON_MATCHING: ours hoists the _8->mPane load above the state test; the original loads it in both branches
 void Unk_7102478d00::m11() {
     Unk_7102477fc0::m11();

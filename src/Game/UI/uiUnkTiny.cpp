@@ -33,7 +33,7 @@ KSYS_VISIBILITY_HIDDEN float sScrollConsts[] = {0.6f, 0.35f, 50.0f, 100.0f, 100.
 KSYS_VISIBILITY_HIDDEN Unk_71025d6c70 sUnk_71025d6c70;
 
 // 0x71009630fc (placeholder name): the map parameter pointer at +0x50
-void* sub_71009630FC() {
+ScreenAppMapWidget* sub_71009630FC() {
     return sUnk_71025d6c70._50;
 }
 

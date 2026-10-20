@@ -40,6 +40,7 @@ namespace uking::ui {
 
 class Screen;
 class ScreenOptionWindow;
+struct ScreenAppMapWidget;
 struct ArmorInfo;
 
 class Unk_7102474b38 {
@@ -335,7 +336,7 @@ struct Unk_71025d6c70 {
     /* 0x38 */ f32 _38;
     /* 0x3c */ sead::Vector2f size;
     u8 _44[0xc];
-    /* 0x50 */ void* _50 = nullptr;  // returned by sub_71009630FC
+    /* 0x50 */ ScreenAppMapWidget* _50 = nullptr;  // returned by sub_71009630FC (the map widget: Unk_7102478d00::m10)
     u8 _58[0x78 - 0x58];
     // Initialised to FLT_MAX by 0x710094f9e4; compared against the map position in sub_7100961CD4.
     /* 0x78 */ sead::Vector3f _78;
@@ -353,7 +354,7 @@ struct Unk_71025d6c70 {
 };
 KSYS_VISIBILITY_HIDDEN extern Unk_71025d6c70 sUnk_71025d6c70;
 // 0x71009630fc / 0x7100965eb0 (placeholder names): the map parameter fields at +0x50 / +0x28
-void* sub_71009630FC();
+ScreenAppMapWidget* sub_71009630FC();
 f32 sub_7100965EB0();
 
 class Unk_7102476a80 {
