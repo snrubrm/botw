@@ -3511,6 +3511,9 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     // 0x710093dafc (declared only; 704 bytes): selects item `index` of entry `entry` (clamped; mode 2 also for a
     // locked entry); false when there is nothing to select
     bool sub_710093DAFC(s32 index, s32 entry, s32 mode);
+    // 93DDBC preserves the selected grid cell across a page/entry change; 93E048 clamps it.
+    void sub_710093DDBC(s32 page, s32 entry_index, s32 mode);
+    void sub_710093E048(s32* col, s32* row, s32 entry_index, s32 page);
     // 0x710093e42c (placeholder name): selects the overall item `index` (clamped to _2ac) through sub_710093DAFC
     bool sub_710093E42C(s32 index, s32 mode);
     // 0x7100943fe0 (placeholder name): allocates room for `count` group lists

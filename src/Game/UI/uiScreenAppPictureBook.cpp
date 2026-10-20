@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Game/UI/uiScreens.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -2702,6 +2703,91 @@ PictureBookNameIterator newWeaponPictureBookNamesEnd() {
 // NON_MATCHING: the two names are a separate object here (they are at state + 0x2a0 in the original)
 const sead::SafeString* getInitialWeaponPictureBookNames() {
     return sUnk_71025eb0af0;
+}
+
+// 0x710093ddbc
+// NON_MATCHING: native entry traversal, inlined coordinates and register allocation differ.
+void ScreenAppPictureBookUnk::sub_710093DDBC(s32 page, s32 entry_index, s32 mode) {
+    const s32 entry_id = sead::Mathi::clamp(entry_index, 0, _2a8 - 1);
+    const s32 item = sead::Mathi::clamp(page, 0, mEntries(entry_id)->_2f4 - 1);
+    if (_2e8 == entry_id && _2f0 == item)
+        return;
+    s32 col = 0;
+    s32 row = 0;
+    const auto find_coordinates = [&] {
+        s32 rest = _310;
+        for (s32 i = 0; i < _2a8; ++i) {
+            const auto* entry = mEntries(i);
+            if (rest - entry->mParams._29c >= 0) {
+                rest -= entry->mParams._29c;
+                continue;
+            }
+            for (s32 p = 0; p < entry->_2f4; ++p) {
+                if (rest - entry->mParams._2a0 * entry->mParams._2a4 < 0) {
+                    sub_7100944D18(entry, rest, &col, &row);
+                    return;
+                }
+                rest -= entry->mParams._2a0 * entry->mParams._2a4;
+            }
+        }
+    };
+    find_coordinates();
+    sub_710093E048(&col, &row, entry_id, item);
+    if (sub_710093DAFC(item, entry_id, mode)) {
+        s32 overall_index = -1;
+        sub_710093E258(entry_id, item, col, row, &overall_index);
+        sub_710093E784(overall_index);
+    }
+}
+
+// 0x710093e048
+// NON_MATCHING: native grid bounds and output-pointer alias scheduling differ.
+void ScreenAppPictureBookUnk::sub_710093E048(s32* col, s32* row, s32 entry_index, s32 page) {
+    const auto* entry = mEntries(entry_index);
+    const s32 cols = entry->mParams._2a0;
+    const s32 rows = entry->mParams._2a4;
+    if (entry->_2f4 - 1 != page) {
+        *col = sead::Mathi::clamp(*col, 0, cols - 1);
+        *row = sead::Mathi::clamp(*row, 0, rows - 1);
+        return;
+    }
+    const s32 remaining = entry->mParams._29c - rows * page * cols;
+    const s32 relative_row = (mConfig._64 | 1) == 3 ? rows - 1 - *row : *row;
+    s32 available_cols;
+    if ((mConfig._68 | 1) == 1) {
+        available_cols = std::min(remaining - relative_row * cols, cols);
+    } else {
+        available_cols = 0;
+        for (s32 rest = remaining - relative_row; rest > 0; rest -= rows)
+            ++available_cols;
+    }
+    if ((mConfig._64 | 2) == 3)
+        *col = std::max(*col, cols - available_cols);
+    else if (*col >= available_cols)
+        *col = available_cols - 1;
+    *col = sead::Mathi::clamp(*col, 0, cols - 1);
+
+    entry = mEntries(entry_index);
+    s32 available_rows = entry->mParams._2a4;
+    if (entry->_2f4 - 1 == page) {
+        const s32 width = entry->mParams._2a0;
+        const s32 height = entry->mParams._2a4;
+        const s32 count = entry->mParams._29c - height * page * width;
+        const s32 relative_col = (mConfig._64 | 2) == 3 ? width - 1 - *col : *col;
+        if ((mConfig._68 | 1) == 1) {
+            available_rows = 0;
+            for (s32 rest = count - relative_col; rest > 0; rest -= width)
+                ++available_rows;
+        } else {
+            available_rows = std::min(count - relative_col * height, height);
+        }
+    }
+    if ((mConfig._64 | 1) == 3)
+        *row = std::max(*row, rows - available_rows);
+    else if (*row >= available_rows)
+        *row = available_rows - 1;
+    // The final-page path permits the upper boundary itself in the native helper.
+    *row = sead::Mathi::clamp(*row, 0, rows);
 }
 
 }  // namespace uking::ui
