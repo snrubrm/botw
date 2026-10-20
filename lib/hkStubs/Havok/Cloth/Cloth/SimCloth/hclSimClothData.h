@@ -26,9 +26,15 @@ public:
     hkStringPtr m_name;
     hkArray<ParticleData> m_particleDatas;
 private:
-    hkUint8 _48[0x180 - 0x48];
+    hkUint8 _48[0x78 - 0x48];
+public:
+    // Reflected member record 0x7102534308: "totalMass", type hkReal, offset 0x78.
+    hkReal m_totalMass;
+private:
+    hkUint8 _7c[0x180 - 0x7c];
 };
 static_assert(sizeof(hclSimClothData) == 0x180);
 static_assert(sizeof(hclSimClothData::SimulationInfo) == 0x20);
 static_assert(sizeof(hclSimClothData::ParticleData) == 0x10);
 static_assert(offsetof(hclSimClothData, m_particleDatas) == 0x38);
+static_assert(offsetof(hclSimClothData, m_totalMass) == 0x78);

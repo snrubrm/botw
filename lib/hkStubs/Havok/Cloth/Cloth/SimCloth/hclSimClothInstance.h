@@ -15,8 +15,15 @@ public:
     const hclSimClothData::SimulationInfo* getSimulationInfoMaybe() const;
 
     hclSimClothData* m_simClothData;
+    // Constructor 0x710140c694 sizes these three hkVector4 arrays to the particle
+    // count (m_particleDatas size). ClothWind::m3 0x71013086bc takes
+    // (+0x18[i] - +0x28[i]) / timestep as the particle velocity, so these are the
+    // current and previous particle positions. Names are guesses.
+    hkArray<hkVector4> m_positionsMaybe;
+    hkArray<hkVector4> m_prevPositionsMaybe;
 private:
-    hkUint8 _18[0xd0 - 0x18];
+    hkArray<hkVector4> _38;
+    hkUint8 _48[0xd0 - 0x48];
 public:
     hkArray<hclCollidable*> m_collidables;
 private:

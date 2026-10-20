@@ -19,7 +19,6 @@ public:
     ~ClothWind() override;
     // 0x71013083c4 (placeholder name; declared only): updates mWind and enables or disables the action.
     virtual void m4(const Arg& arg, f32 delta_time);
-    // 0x71013086bc (declared only): needs Unk_71025335A8 fields that lib does not model yet.
     void m3(Unk_71025335A8* sim_cloth, hkVector4f* output, hkReal timestep) override;
 
     sead::Vector3f mWind;
