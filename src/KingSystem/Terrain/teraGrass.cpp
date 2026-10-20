@@ -1,5 +1,6 @@
 #include <g3d/aglTextureUtilG3D.h>
 #include <cstring>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/Terrain/teraGrass.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadBitFlag.h>
@@ -589,4 +590,54 @@ void Unk_7102503a50::NearCaches::initialize(sead::Heap* heap, u32 dimension) {
     mCaches[1].mSampler.setBorderColor(sead::Color4f::cWhite);
     mCaches[2].initialize(heap, dimension, agl::TextureFormat::cTextureFormat_R8_G8_uNorm, 1);
     _d28 = 2;
+}
+
+u8 sUnk_7102615819 KSYS_VISIBILITY_HIDDEN;
+
+// NON_MATCHING: event pool iteration, nested locks and kind selection differ in scheduling.
+bool Unk_7102503a50::queueEvent(f32 radius, f32 value, s32 kind,
+                               const sead::Vector2f* position, bool flag) {
+    bool queued = false;
+    for (auto& record : mRecords) {
+        const f32 dx = record.mPosition.x - position->x;
+        const f32 dz = record.mPosition.z - position->y;
+        const f32 distance = sead::Mathf::sqrt(dx * dx + dz * dz);
+        if ((kind == 4 || flag) && distance + radius > 256.0f)
+            continue;
+        auto& pool = record.mEventPool;
+        sead::ScopedLock<sead::CriticalSection> lock(&pool.mCriticalSection);
+        bool duplicate = false;
+        for (const auto& event : pool.mActiveEvents) {
+            if (event.mPosition == *position && event.mRadius == radius && event.mValue == value) {
+                duplicate = true;
+                break;
+            }
+        }
+        if (duplicate)
+            continue;
+        Event* event;
+        {
+            sead::ScopedLock<sead::CriticalSection> inner_lock(&pool.mCriticalSection);
+            event = pool.mFreeEvents.popBack();
+            if (event)
+                pool.mActiveEvents.pushBack(event);
+        }
+        if (!event) {
+            if (!flag && !(sUnk_7102615819 & 1))
+                sUnk_7102615819 = 1;
+            continue;
+        }
+        event->mPosition = *position;
+        event->mRadius = radius;
+        event->mValue = value;
+        event->mAge = 0;
+        switch (kind) {
+        case 1: event->mKind = 0; break;
+        case 2: event->mKind = 1; break;
+        case 4: event->mKind = 2; break;
+        case 8: event->mKind = 3; break;
+        }
+        queued = true;
+    }
+    return queued;
 }

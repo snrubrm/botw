@@ -95,7 +95,8 @@ public:
     struct Record {
         Record();                                  //106a5d4
         ~Record();                                 //106ab30
-        u8 _0[0x1c];
+        sead::Vector3f mPosition;
+        u8 _c[0x1c - 0xc];
         // Bit 0 is cleared by 0x71011509ec.
         u32 _1c;
         NearCaches mNear;                          // +20
@@ -131,6 +132,7 @@ public:
     f32 sub_71010699D0(const sead::Vector2f* position);
     f32 sub_7101069C44(const sead::Vector2f* position);
     u32 sub_7101069DB8(const sead::Vector2f* position, f32 radius);
+    bool queueEvent(f32 radius, f32 value, s32 kind, const sead::Vector2f* position, bool flag);
     bool sub_710106A2C4();
     // 0x710106a0c8 (unnamed in the CSV): walks the near-set records, checks `position` against each
     // record's near position (a/2 as the extent) and, on a hit, appends the position to the record's
