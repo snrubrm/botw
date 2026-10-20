@@ -49,6 +49,8 @@ public:
     // 0x7100dc0eec (CSV unnamed): true if the slot is free; for a used slot with a resource the init status is
     // formatted into a local buffer (the original discards it) and false is returned.
     bool sub_7100DC0EEC();
+    // 0x7100dc0f88 (CSV EventFlow::x_0): the actor of the table entry with `key` (null if none or not an Actor)
+    act::Actor* x_0(u64 key);
 
     /* 0x00 */ EventResource* mResource;
     /* 0x08 */ s32 mState;  // 0: free; 3: ?

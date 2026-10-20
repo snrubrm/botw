@@ -1,6 +1,7 @@
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 s32 getSceneStatus();
 
@@ -103,6 +104,15 @@ bool EventFlow::sub_7100DC0EEC() {
         mResource->formatInitStatus(&status);
     }
     return false;
+}
+
+// 0x7100dc0f88
+act::Actor* EventFlow::x_0(u64 key) {
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        if (mActors[i].mKey == key)
+            return sead::DynamicCast<act::Actor>(mActors[i].mLink.getProc(nullptr));
+    }
+    return nullptr;
 }
 
 }  // namespace ksys::evt
