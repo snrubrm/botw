@@ -1277,12 +1277,21 @@ void Core::Unk_140::sub_710108330C() {
     }
 }
 
+Unk_7101088B24::Unk_7101088B24() : mNumPending(0), _22_0(0), mAdded(false) {}
+
+bool Unk_7101088B24::sub_7101088654(const InitArg& arg) {
+    if (!mEntries.tryAllocBuffer(arg.count, arg.heap))
+        return false;
+    _22_0 |= 1;
+    return true;
+}
+
+void Unk_7101088B24::sub_710108872C() {
+    mEntries.freeBuffer();
+    _22_0 &= ~1u;
+}
+
 void Unk_7101088B24::sub_71010887CC() {
-    for (s32 i = 0; i < mEntries.size(); ++i) {
-        System::Entry* entry = mEntries(i);
-        entry->nextFree = mFreeList;
-        mFreeList = entry;
-    }
     mEntries.clear();
     mNumPending = 0;
     _22_0 &= ~2u;

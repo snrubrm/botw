@@ -2,6 +2,7 @@
 
 #include <math/seadBoundBox.h>
 
+#include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
 #include <container/seadTList.h>
 #include <math/seadVector.h>
@@ -272,6 +273,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7101106F44, 0xc8);
 // ready yet.
 class Unk_7101088B24 {
 public:
+    // 0x7101088634 (placeholder name)
+    Unk_7101088B24();
     // 0x7101088b24 (placeholder name): adds (`add`) or removes a user of every image through `system`
     // (sub_71011171D8 / sub_710111731C) and remembers which.
     void sub_7101088B24(System* system, bool add);
@@ -282,11 +285,17 @@ public:
     // the pending count (S7EventFlow::delete and the terrain reset call it).
     void sub_71010887CC();
 
-    sead::PtrArray<System::Entry> mEntries;
-    // The pool the array's entries are allocated from; 0x7101088654 links them here and
-    // 0x710108872c frees the buffer at +0x18.
-    System::Entry* mFreeList;
-    void* mBuffer;
+    struct InitArg {
+        sead::Heap* heap;
+        s32 count;
+    };
+    // 0x7101088654 (placeholder name): allocates the entry pool; sets bit 0 of _22_0.
+    bool sub_7101088654(const InitArg& arg);
+    // 0x710108872c (placeholder name): frees the entry pool; clears bit 0 of _22_0.
+    void sub_710108872C();
+
+    // The entries live in the array's own pool (allocated by 0x7101088654, freed by 0x710108872c).
+    sead::ObjArray<System::Entry> mEntries;
     u16 mNumPending;
     // 0x7101088b24 stores one bit with bfi.
     u8 _22_0 : 2;
