@@ -1637,10 +1637,22 @@ public:
     // is not negative) in mTimeZone.
     void sub_710102880C();
 
-    // Placeholder: a named sound reference with 0x20 more bytes (four of them from +8).
-    struct Entry : Unk_7102502430 {
-        u8 _a0[0xc0 - 0xa0];
+    // CSV name (BirdChirpSoundEmitter::onPreEmit at 0x7101029104): a named sound reference with a position and a
+    // property value (0xc0 bytes; four of them from +8).
+    struct BirdChirpSoundEmitter : Unk_7102502430 {
+        // 0x71010290dc / 0x71010290e0
+        ~BirdChirpSoundEmitter() override;
+        // 0x7101029104 (CSV onPreEmit): sets property 0 of the user instance to mPropertyValue.
+        void m4(xlink2::UserInstanceSLink* user_instance) override;
+        // 0x710102911c: moves the emitted event to mPos.
+        void m5(xlink2::UserInstanceSLink* user_instance, xlink2::HandleSLink* handle) override;
+
+        /* 0xa0 */ u32 _a0 = 0;
+        /* 0xa4 */ sead::Vector3f mPos = sead::Vector3f::zero;
+        /* 0xb0 */ f32 mPropertyValue = 0.0f;
+        u8 _b4[0xc0 - 0xb4];
     };
+    using Entry = BirdChirpSoundEmitter;
 
     /* 0x008 */ Entry mEntries[4];
     /* 0x308 */ u8 mTimeZone : 3;

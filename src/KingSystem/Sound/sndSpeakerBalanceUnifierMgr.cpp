@@ -192,6 +192,19 @@ void Unk_SoundMgr38_58::sub_7101028954(s32 arg) {
     }
 }
 
+Unk_SoundMgr38_58::BirdChirpSoundEmitter::~BirdChirpSoundEmitter() = default;
+
+void Unk_SoundMgr38_58::BirdChirpSoundEmitter::m4(xlink2::UserInstanceSLink* user_instance) {
+    if (user_instance)
+        user_instance->setPropertyValue(0, mPropertyValue);
+}
+
+void Unk_SoundMgr38_58::BirdChirpSoundEmitter::m5(xlink2::UserInstanceSLink* user_instance,
+                                                  xlink2::HandleSLink* handle) {
+    if (handle)
+        handle->setPosition(mPos);
+}
+
 void Unk_SoundMgr38_58::sub_71010289CC() {}
 
 }  // namespace ksys::snd
