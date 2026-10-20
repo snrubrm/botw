@@ -60,6 +60,12 @@ void Unk_SoundMgr60::sub_7101058BF4() {
     mMiiSoundRequests.sub_71012CE054();
 }
 
+// 0x7101058c1c (placeholder name): the same pair of hooks with the other entry and queue methods.
+void Unk_SoundMgr60::sub_7101058C1C() {
+    _48.sub_71012CABB4();
+    mMiiSoundRequests.sub_71012CE058();
+}
+
 // 0x710105936c (placeholder name): unloads the SLink reader's handle and the scene static bars handle, then
 // the +0x48 member's handles.
 void Unk_SoundMgr60::sub_710105936C() {

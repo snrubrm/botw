@@ -1175,9 +1175,10 @@ public:
     void sub_71012C917C();
     // 0x71012cbb90: unloads mHandle and the handles of the asset list at +0x8.
     void sub_71012CBB90();
-    // 0x71012cbc3c / 0x71012cacd4 (declared only).
+    // 0x71012cbc3c / 0x71012cacd4 / 0x71012cabb4 (declared only).
     void sub_71012CBC3C();
     void sub_71012CACD4();
+    void sub_71012CABB4();
 
     u8 _8[0x68];
     /* 0x70 */ res::Handle mHandle;
@@ -1271,6 +1272,8 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     bool sub_7101058B74(TaskPostRunCallback* callback);
     // 0x7101058bf4 (placeholder name): runs the +0x48 entry work and the Mii voice queue hook.
     void sub_7101058BF4();
+    // 0x7101058c1c (placeholder name): the same pair of hooks with the other entry and queue methods.
+    void sub_7101058C1C();
     // 0x710105936c (placeholder name): unloads the SLink reader's handle and the scene static bars handle,
     // then the +0x48 member's handles.
     void sub_710105936C();

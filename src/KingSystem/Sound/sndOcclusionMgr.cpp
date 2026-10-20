@@ -57,6 +57,16 @@ bool Unk_7102502978::readAssetInfo(aal::AssetInfo* info, const sead::SafeString&
 }
 
 // NON_MATCHING: the inlined data-size result uses an extra move before the arbiter call.
+// 0x71010571a4: allocates the handle array (`count` res::Handle objects).
+void ksys::snd::Unk_7102502950::sub_71010571A4(s32 count, sead::Heap* heap) {
+    if (count < 1)
+        return;
+    auto* handles = new (heap, 8, std::nothrow) res::Handle[count];
+    if (!handles)
+        return;
+    mHandles = sead::Buffer<res::Handle>(count, handles);
+}
+
 ksys::snd::Unk_7102502950::~Unk_7102502950() {
     mHandles.freeBuffer();
 }
