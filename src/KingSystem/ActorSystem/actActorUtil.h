@@ -37,6 +37,8 @@ namespace ksys::act {
 
 class Actor;
 class BaseProc;
+// EDD390 reads DamageParam::mIsMetamorBurnout when the resource exists.
+bool isMetamorBurnout(Actor* actor);
 
 // DomesticNormal 364F7C uses the named rail, anchor outputs and nearest point index.
 map::Rail* sub_7100EEF0FC(Actor* actor, const sead::SafeString& name);

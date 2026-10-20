@@ -683,6 +683,12 @@ s32 sub_7100EDD218(Actor* actor) {
     return 1;
 }
 
+bool isMetamorBurnout(Actor* actor) {
+    if (const auto* param = actor->getParam()->getRes().mDamageParam)
+        return param->mIsMetamorBurnout.ref();
+    return false;
+}
+
 // NON_MATCHING: the switch selects Parameter objects before loading their values; level update scheduling differs.
 s32 sub_7100EDD308(Actor* actor, s32 level) {
     const auto* param = actor->getParam()->getRes().mDamageParam;

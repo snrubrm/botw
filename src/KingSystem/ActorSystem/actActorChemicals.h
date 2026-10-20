@@ -3,8 +3,10 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
@@ -31,6 +33,8 @@ class UserTag;
 namespace ksys::act {
 
 class Actor;
+// E40448 selects the shape centre from real Sphere / Box / Cylinder / Capsule bodies.
+void sub_7100E40448(sead::Vector3f* out, phys::RigidBody* body);
 void sub_7100E3F3E8(phys::RigidBody* body, const Chemical* chemical, world::ChemicalMgr* manager);
 
 // Placeholder name (vtable 0x71024e6560, 37 slots): the interface the Chemical calls back through its owner
@@ -144,7 +148,9 @@ public:
         // E3A570 sets this for a cloned body; E39A70 deletes only owned bodies.
         /* 0x18 */ bool owns_body;
         u8 _19[0x24 - 0x19];
-        u8 _24[0x40 - 0x24];
+        // E3AE40 fills this bounds record with RigidBody::getAabbInLocal.
+        /* 0x24 */ sead::BoundBox3f aabb;
+        u8 _3c[4];
     };
 
     /* 0x008 */ Actor* mActor;
@@ -171,7 +177,10 @@ public:
     /* 0x2a4 */ sead::Vector3f _2a4;
     /* 0x2b0 */ sead::Vector3f _2b0;
     /* 0x2bc */ s32 _2bc;
-    /* 0x2c0 */ u8 _2c0[0x2d8 - 0x2c0];
+    /* 0x2c0 */ u32 _2c0;
+    // E3B3F4 builds the twenty chemical-event eligibility flags here.
+    /* 0x2c4 */ sead::BitFlag32 _2c4;
+    /* 0x2c8 */ u8 _2c8[0x2d8 - 0x2c8];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024e6428, 0x2d8);
 static_assert(offsetof(Unk_71024e6428, mPlacementXLink) == 0x10);

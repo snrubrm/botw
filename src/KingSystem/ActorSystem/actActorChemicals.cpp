@@ -11,7 +11,170 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Chemical/chmChemical.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/World/worldManager.h"
+#include <thread/seadThread.h>
+
 namespace ksys::act {
+
+void sub_7100E40448(sead::Vector3f* out, phys::RigidBody* body) {
+    if (auto* sphere = sead::DynamicCast<phys::SphereRigidBody>(body)) {
+        sphere->getTransformedTranslate(out);
+        return;
+    }
+    if (auto* box = sead::DynamicCast<phys::BoxRigidBody>(body)) {
+        box->getTransformedTranslate(out);
+        return;
+    }
+    sead::Vector3f a;
+    sead::Vector3f b;
+    if (auto* cylinder = sead::DynamicCast<phys::CylinderRigidBody>(body)) {
+        cylinder->transformVertices(&a, &b);
+    } else if (auto* capsule = sead::DynamicCast<phys::CapsuleRigidBody>(body)) {
+        capsule->transformVertices(&a, &b);
+    } else {
+        *out = body->getCenterOfMassInWorld();
+        return;
+    }
+    *out = (a + b) * 0.5f;
+}
+
+// NON_MATCHING: virtual queries, scalar accumulations and branch layout are scheduled differently.
+void Unk_71024e6428::sub_7100E3AE40(u32 unused) {
+    _28c = 0;
+    _294 = 0;
+    if (!mActor) {
+        _28c = 15.0f;
+        _294 = _278(0).body->getVolume();
+    } else {
+        phys::RigidBody* body;
+        if (auto* controller = mActor->getCharacterController()) {
+            body = controller->sub_7100F61A34();
+        } else {
+            body = mActor->getMainBody();
+            if (!body) {
+                // Both native virtual attribute queries are called even when their results are unused.
+                _18->isRigidAttribute3Set(_288);
+                _18->isRigidAttribute9Set(_288);
+            }
+        }
+        const f32 mass = body ? body->getMass() : 1.0f;
+        const f32 volume = body ? body->getVolume() : 1.0f;
+        if (_278.size() < 1) {
+            _28c = mass;
+            _294 = volume;
+        } else {
+            for (const auto& entry : _278) {
+                auto* body = entry.body;
+                if (!body)
+                    continue;
+                if (_18->isRigidAttribute3Set(_288))
+                    _294 += body->getVolume();
+                if (_18->isRigidAttribute9Set(_288))
+                    _28c = mass;
+            }
+        }
+        if (!_18->isRigidAttribute3Set(_288)) {
+            if (_18->isRigidAttribute15Set(_288))
+                _294 = volume;
+            else
+                _294 = _18->getRigidVolume(_288) * _298.x * _298.y * _298.z;
+        }
+        if (!_18->isRigidAttribute9Set(_288)) {
+            if (_18->isRigidAttribute10Set(_288)) {
+                _28c = mass * _294 / volume;
+            } else {
+                _28c = _18->getRigidMass(_288) * _298.x * _298.y * _298.z;
+                _290 = _18->getRigidMass(_288);
+            }
+        }
+        if (_294 == 0)
+            _294 = _28c * 0.001f;
+    }
+    _290 = _28c;
+    if (!_18->isRigidAttribute9Set(_288) && !_18->isRigidAttribute10Set(_288))
+        _290 = _18->getRigidMass(_288);
+    for (auto& entry : _278) {
+        if (entry.body)
+            entry.body->getAabbInLocal(&entry.aabb);
+    }
+}
+
+// NON_MATCHING: body lookup branches and linked-body selection differ.
+void Unk_71024e6428::sub_7100E3B144() {
+    if (_278.size() < 1) {
+        if (mActor)
+            _2a4 = mActor->getMtx().getTranslation();
+        else
+            _2a4.set(0, 0, 0);
+    } else {
+        if (!_278(0).body) {
+            _2a4 = sead::Vector3f::zero;
+            return;
+        }
+        sead::Vector3f position;
+        sub_7100E40448(&position, _278(0).body);
+        _2a4 = position;
+        if (mChemical._60 && Chemical::sub_7100D9CB54(mChemical._60, &mChemical) &&
+            (chm::Chemical::instance()->_84 & 1)) {
+            // The original discards this current-thread lookup result.
+            sead::ThreadMgr::instance()->getCurrentThread();
+            if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                chm::Chemical::instance()->_85 = 100;
+        }
+        if (_278.size() > 0 && _278(0).body) {
+            auto* body = _278(0).body;
+            if (auto* linked = body->getLinkedRigidBody())
+                body = linked;
+            _2b0 = body->getLinearVelocity();
+            return;
+        }
+    }
+    _2b0.set(0, 0, 0);
+}
+
+// NON_MATCHING: the compiler merges repeated property tests and uses different flag selects.
+void Unk_71024e6428::sub_7100E3B3F4(Chemical* chemical) {
+    const bool metamor = mActor && isMetamorBurnout(mActor);
+    _2c4.setDirect(0xffffffff);
+    _2c4.change(1, (chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1));
+    if (!(chemical->mMaterial->attribute.ref() & 1) || (chemical->_be & 1))
+        _2c4.reset(0x80000);
+    _2c4.change(0x400, (chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1));
+    _2c4.change(2, (chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1) && !metamor);
+    _2c4.change(4, (chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1) && metamor);
+    _2c4.change(0x40, chemical->mMaterial->attribute.ref() & 0x10);
+    _2c4.change(0x80, chemical->mMaterial->attribute.ref() & 0x10);
+    _2c4.change(8, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x800, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x1000, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x2000, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x4000, chemical->mMaterial->attribute.ref() & 0x8000);
+    _2c4.change(0x10, chemical->mMaterial->attribute.ref() & 0x80040);
+    _2c4.change(0x20, chemical->mMaterial->attribute.ref() & 0x80040);
+    _2c4.change(0x8000, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x10000, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x20000, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x40000, (chemical->mMaterial->attribute.ref() & 8) && !(chemical->_be & 4));
+    _2c4.change(0x100, chemical->mMaterial->attribute.ref() & 0x10000);
+    _2c4.change(0x200, (chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1));
+}
+
+void sub_7100E3F3E8(phys::RigidBody* body, const Chemical* chemical, world::ChemicalMgr* manager) {
+    if (chemical->mMaterial->attribute.ref() & 0x90040) {
+        body->setSystemGroupHandler(nullptr);
+        return;
+    }
+    if (!manager)
+        manager = world::Manager::instance()->getChemicalMgrUnchecked();
+    body->setSystemGroupHandler(manager->_a8);
+}
 
 namespace {
 // The fallback name object at 0x71024e6418 is used when the chemical has no actor.
@@ -43,7 +206,9 @@ Unk_71024e6428::Unk_71024e6428()
       _294(0.0f),
       _298(sead::Vector3f::ones),
       _2bc(0),
-      _2c0{} {
+      _2c0(0),
+      _2c4(0),
+      _2c8{} {
     _2a4.set(0.0f, 0.0f, 0.0f);
     _2b0.set(0.0f, 0.0f, 0.0f);
 }
@@ -346,7 +511,7 @@ bool Unk_71024e6428::m28() {
 f32 Unk_71024e6428::m30(const void* a1) {
     f32 sum = 0;
     for (auto& entry : _278)
-        sum += sub_7100E40B7C(entry.body, a1, entry._24);
+        sum += sub_7100E40B7C(entry.body, a1, &entry.aabb);
     return sum;
 }
 

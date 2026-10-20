@@ -8,7 +8,7 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::act { class Chemical; class Unk_71024dd490; }
+namespace ksys::act { class Chemical; class Unk_71024dd490; class Unk_71024e6428; }
 class Element;
 class Unk_7102518688;
 class Unk_71025187d0;
@@ -41,6 +41,8 @@ public:
 private:
     sead::CriticalSection _28;
     friend class act::Chemical;
+    // E3B144 performs the native watch notification using the element owner pointer.
+    friend class act::Unk_71024e6428;
     // lane1 s90: the elements read the heap and the watch flags.
     friend class ::Element;
     friend class ::Unk_7102518688;
