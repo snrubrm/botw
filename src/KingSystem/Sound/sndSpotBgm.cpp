@@ -325,6 +325,23 @@ void Unk_71025008d0::m13(f32 fade_sec) {
     mWaitTimer = 0;
 }
 
+void Unk_71025008d0::m14(sead::TextWriter& writer) {
+    if (!mDebugDraw)
+        return;
+    writer.setCursorFromTopLeft(mDebugDrawPos);
+    writer.printf("---- %s ----\n", mName.cstr());
+    writer.printf("処理            :%s\n", mActive ? "有効" : "無効");
+    bool in_palette = false;
+    if (auto* world = ksys::world::Manager::instance()) {
+        if (auto* env_mgr = world->getEnvMgr())
+            in_palette = env_mgr->getPaletteSet() == mPaletteSet;
+    }
+    writer.printf("パレット有効?   :%s\n", in_palette ? "Yes" : "No");
+    writer.printf("状態            :%s\n", State::text(mState) ? State::text(mState) : "不明");
+    writer.printf("再生待ちカウント:%.2f\n", mWaitTimer);
+    writer.printf("フェード音量    :%.2f\n", _250.getValue());
+}
+
 void Unk_71025008d0::hm14() {
     _278 = sub_71010209FC(mAssetName);
     if (_278 && _278->sub_7100FF6DF4(this)) {

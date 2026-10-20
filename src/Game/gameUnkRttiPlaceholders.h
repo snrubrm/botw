@@ -3154,23 +3154,36 @@ public:
     void m5() override;
     // 0x7101021668: fades out the handle and resets the state.
     void m13(f32 fade_sec) override;
+    // 0x71010213f4 (CSV someBGMDebug): prints the state when mDebugDraw is set.
+    void m14(sead::TextWriter& writer) override;
     // The primary vtable has hm15 (0x7101021690, empty) before hm14 (0x7101021340), so hm15 is declared first.
     void hm15() override {}
     // 0x7101021340 (CSV OneHitKillTrialBgm::onPlayStart): emits the asset and fades in over FadeInSec.
     void hm14() override;
 
+    // The states of mState (enum text "停止,本体再生中,フェードアウト"; text_ is 0x710102183c).
+    // clang-format off
+    SEAD_ENUM(State,停止,本体再生中,フェードアウト)
+    // clang-format on
+
     /* 0x190 */ ksys::snd::EnvPaletteReactiveBgmInfo::ParamPerType* mParams;
     // Compared with EnvMgr::getPaletteSet() by m5.
     /* 0x198 */ s32 mPaletteSet;
-    u8 _19c[0x210 - 0x19c];
+    u8 _19c[0x1d8 - 0x19c];
+    // Printed as the title by m14.
+    /* 0x1d8 */ sead::FixedSafeString<32> mName;
     /* 0x210 */ sead::FixedSafeString<32> mAssetName;
     // 0: waiting to play (counts _24c up to PlayWaitSec), 1: playing, 2: fading out.
     /* 0x248 */ u32 mState;
     /* 0x24c */ f32 mWaitTimer;
     /* 0x250 */ aal::TimedFader _250;
     /* 0x278 */ ksys::snd::Unk_710260f248Entry* _278;
+    /* 0x280 */ bool mDebugDraw;
+    /* 0x284 */ sead::Vector2f mDebugDrawPos;
 };
 static_assert(offsetof(Unk_71025008d0, mParams) == 0x190);
+static_assert(offsetof(Unk_71025008d0, mName) == 0x1d8);
+static_assert(offsetof(Unk_71025008d0, mDebugDrawPos) == 0x284);
 static_assert(offsetof(Unk_71025008d0, mAssetName) == 0x210);
 static_assert(offsetof(Unk_71025008d0, _278) == 0x278);
 
