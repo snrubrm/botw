@@ -67,6 +67,10 @@ public:
 };
 static_assert(offsetof(ClothSet, _70) == 0x70);
 
+// 0x7101218588 (unnamed in the CSV): the out-of-line null-checked delete of a ClothSet (it calls
+// the deleting destructor at vtable + 0x10); called by InstanceSet::init.
+void sub_7101218588(ClothSet* cloth_set);
+
 // 0x7101409fc8 (declared only; unnamed): releases the hkArray at `array` (count +0x18, data +0x10) and fills it
 // with the freed pattern; called for every element of ClothSet::Unk1::_8.
 void sub_1409FC8(void* array);

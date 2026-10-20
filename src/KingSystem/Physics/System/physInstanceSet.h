@@ -272,6 +272,14 @@ public:
     void systemGroupHandlerStuff(SystemGroupHandler* handler, ContactLayerType layer_type);
     void sub_7100FBC890(const sead::Matrix34f& mtx, bool a2, bool a3);
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
+    // 0x7100fb8464 (CSV ActorPhysics::init): initialises the sets from the param data: contact
+    // info, rigid bodies, character controller, ragdoll, cloth and the support bone.
+    bool init(UserTag* user_tag, res::RagdollBlendWeight* ragdoll_blend_wt,
+              res::RagdollConfigList* ragdoll_config_list, sead::Heap* heap,
+              res::Handle* pack_handle, Unk_7102519a10* arg, bool flag);
+    // 0x7100fb86b8 (CSV ActorPhysics::initRigidBodies; declaration only): builds the rigid body sets
+    // named by the param data.
+    void initRigidBodies(sead::Heap* heap, res::Handle* pack_handle);
     // 0x7100fbe808 (lane4 s48; placeholder name; called by the ragdoll part of init): creates the RagdollInstance and
     // loads "Physics/Ragdoll/<ragdoll_setup_file_path>" (false without a ragdoll param or file name).
     bool sub_7100FBE808(sead::Heap* heap, res::Handle* pack_handle);

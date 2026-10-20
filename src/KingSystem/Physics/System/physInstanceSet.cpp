@@ -96,6 +96,95 @@ template ClothResource* loadFromRomOrActorPack<ClothResource>(
 template SupportBoneResource* loadFromRomOrActorPack<SupportBoneResource>(
     res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
 
+// NON_MATCHING: the ragdoll check and the cloth check load mParamSet in the other order: the original
+// reloads it before the `arg` test, ours inside the branch (the load sits two instructions later).
+// 0x7100fb8464 (CSV ActorPhysics::init): initialises the sets from the param data.
+bool InstanceSet::init(UserTag* user_tag, res::RagdollBlendWeight* ragdoll_blend_wt,
+                       res::RagdollConfigList* ragdoll_config_list, sead::Heap* heap,
+                       res::Handle* pack_handle, Unk_7102519a10* arg, bool flag) {
+    if (!(_26 & 0x10) && (mFlags.getDirect() & 0x100))
+        return false;
+
+    mUserTag = user_tag;
+    mRagdollBlendWt = ragdoll_blend_wt;
+    mRagdollConfigList = ragdoll_config_list;
+
+    if (*mParamSet->use_contact_info)
+        initContactInfo(heap);
+    if (*mParamSet->use_rigid_body_set_num >= 1)
+        initRigidBodies(heap, pack_handle);
+    if (*mParamSet->use_character_controller) {
+        if (mCharacterController) {
+            mCharacterController->sub_7100F5E9D0();
+            mCharacterController = nullptr;
+        }
+        if (mCharacterFormSet)
+            mCharacterFormSet = nullptr;
+        if (!sub_7100FBE4E4(heap, flag)) {
+            if (mCharacterController) {
+                mCharacterController->sub_7100F5E9D0();
+                mCharacterController = nullptr;
+            }
+            if (mCharacterFormSet)
+                mCharacterFormSet = nullptr;
+        }
+        if (mNavMeshCharacter) {
+            delete mNavMeshCharacter;
+            mNavMeshCharacter = nullptr;
+        }
+        if (mParamSet->character_controller) {
+            mNavMeshCharacter =
+                mParamSet->character_controller->createNavMeshCharacter(mName, heap, mScale);
+        }
+    }
+    if (*mParamSet->use_ragdoll)
+        sub_7100FB8F10(heap, pack_handle);
+    if (arg || *mParamSet->use_cloth) {
+        if (mClothSet) {
+            sub_7101218588(mClothSet);
+            mClothSet = nullptr;
+        }
+        if (mClothResHandle) {
+            delete mClothResHandle;
+            mClothResHandle = nullptr;
+            mClothRes = nullptr;
+        }
+        if (!sub_7100FBF368(heap, arg, pack_handle)) {
+            if (mClothSet) {
+                sub_7101218588(mClothSet);
+                mClothSet = nullptr;
+            }
+            if (mClothResHandle) {
+                delete mClothResHandle;
+                mClothResHandle = nullptr;
+                mClothRes = nullptr;
+            }
+        }
+    }
+    if (arg || *mParamSet->use_support_bone) {
+        if (_e8) {
+            delete _e8;
+            _e8 = nullptr;
+        }
+        if (mSupportBoneResHandle) {
+            delete mSupportBoneResHandle;
+            mSupportBoneResHandle = nullptr;
+        }
+        if (!sub_7100FBF87C(heap, arg, pack_handle)) {
+            if (_e8) {
+                delete _e8;
+                _e8 = nullptr;
+            }
+            if (mSupportBoneResHandle) {
+                delete mSupportBoneResHandle;
+                mSupportBoneResHandle = nullptr;
+            }
+        }
+    }
+    sub_7100FB90C4(heap);
+    return true;
+}
+
 // NON_MATCHING: the original keeps the ragdoll param pointer in the register that becomes the string `this`
 // (`ldr x8, [x21, #0x98]!`); ours computes the +0x98 address up front and needs one more saved register
 bool InstanceSet::sub_7100FBE808(sead::Heap* heap, res::Handle* pack_handle) {
