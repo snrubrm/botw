@@ -31,6 +31,10 @@ void Unk_7102504260::sub_710107E900(gsys::Model* model, bool visible) {
     }
 }
 
+bool Unk_7102504260::sub_710107EC48() const {
+    return false;
+}
+
 bool Unk_7102504260::m9() {
     sub_710107E900(ksys::tera::Terrain::instance()->sub_710114DEE0(), true);
     return true;

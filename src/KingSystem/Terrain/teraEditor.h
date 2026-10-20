@@ -21,6 +21,8 @@ public:
     Unk_7102504260();
     ~Unk_7102504260() override;
     void sub_710107E900(gsys::Model* model, bool visible);
+    // Six terrain callers pass their editor base at +0x20; false in this release.
+    bool sub_710107EC48() const;
     // 0x710107ed78 / 0x710107ed84: the hostio names. Slots 4 / 5 of the class vtable (the original
     // class is the terrain editor; the strings are "Terrain" and "地形編集").
     virtual const char* getName() const { return "Terrain"; }
