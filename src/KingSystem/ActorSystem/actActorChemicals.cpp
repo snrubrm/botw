@@ -33,6 +33,22 @@
 
 namespace ksys::act {
 
+void ActorChemicals::sub_7100E37B10(s32 index, phys::RigidBody* body, Actor* actor,
+                                   Unk_71024dd490* holder, Unk_7101265a6c* state,
+                                   sead::Heap* heap) {
+    auto lock = sead::makeScopedLock(mCS);
+    if (_80 == _70.size())
+        return;
+    auto* element = _70.get(_80);
+    ++_80;
+    element->sub_7100E3ABD0(index, _50, body, actor, heap, nullptr);
+    sub_7100E38588(_6c);
+    // The native call discards the holder assignment result.
+    element->mChemical.sub_7100D8F124(holder);
+    element->mChemical._68 = state;
+}
+
+
 bool sub_7100E412D0(const sead::Vector3f& element_pos, const Chemical* chemical,
                    const sead::Vector3f& pos, phys::SystemGroupHandler* handler, bool flag) {
     auto target = pos;
