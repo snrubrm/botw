@@ -21,6 +21,8 @@ public:
     int getMaterialNum() const override;
     // 0x7100c146f0: the same render-unit count (the original body loads the buffer size at +0xd0).
     int getShapeNum() const override;
+    // 0x7100c7fd4c: the fixed procedural pass name.
+    sead::SafeString getName() const override;
 
     // 0x7100c14710: the render-unit count stored by initRenderUnits_ at +0xc8.
     int getViewNum() const;

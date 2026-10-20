@@ -18,6 +18,10 @@ int IModelProcedural::getViewNum() const {
     return _c8;
 }
 
+sead::SafeString IModelProcedural::getName() const {
+    return "gsys::IModelProcedural";
+}
+
 void IModelProcedural::setProcedualPassName(int index, const sead::SafeString& name) {
     mRenderUnits[index].mName = name;
 }
