@@ -29,6 +29,9 @@ public:
     void sub_710102413C(f32 fade_sec);
     void sub_710102418C(f32 fade_sec);
     void sub_7101023EC8();
+    void sub_71010239A8();
+    void sub_7101023F68(f32 volume);
+    void sub_71010241D0(bool allow, bool fade_in);
     // 0x71010242c8 (placeholder name): if flag 4 is set, clears flags 0xc and stores 1.0 in `_260` when flag
     // 0x8000 is set (0.0 otherwise).
     void sub_71010242C8();
@@ -65,7 +68,7 @@ public:
     /* 0x25c */ f32 _25c = 0.0f;
     /* 0x260 */ f32 _260 = 0.0f;
     /* 0x264 */ f32 _264 = 9999.0f;
-    /* 0x268 */ s32 _268 = 0;
+    /* 0x268 */ f32 _268 = 0.0f;
     u32 _26c = 0;
     /* 0x270 */ void* _270 = nullptr;
     /* 0x278 */ aal::SimpleTimedFader _278{1.0f};
@@ -96,6 +99,10 @@ public:
     /* 0x388 */ sead::FixedSafeString<32> mCategory;
 };
 KSYS_CHECK_SIZE_NX150(Unk_SpotBgmInstance, 0x3c0);
+
+void setSubTrack0DistanceMaybe(f32 distance);
+void setSubTrack1DistanceMaybe(f32 distance);
+void clearSubTrackDistancesMaybe();
 
 // 0x7101024374 (declared only; 824 B): re-emits the spot BGM handle when it has no entry.
 void sub_7101024374(Unk_SpotBgmInstance* instance);

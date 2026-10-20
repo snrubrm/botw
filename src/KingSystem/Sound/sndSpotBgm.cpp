@@ -432,3 +432,25 @@ void Unk_SpotBgmInstance::sub_7101023EC8() {
     if (flags & 0x4000)
         _368 = flags | 0x8004;
 }
+
+void Unk_SpotBgmInstance::sub_71010241D0(bool allow, bool fade_in) {
+    if (allow) {
+        if (_368 & 0x20)
+            return;
+        if (fade_in) {
+            _278.setValueImmediate(0.0f);
+            _278.moveTo(1.0f, mInfo->mAllowFadeInSec.ref());
+        } else {
+            _278.setValueImmediate(1.0f);
+        }
+        if (_124 == 0)
+            sub_710101D9D8();
+        _368 |= 0x20;
+    } else {
+        if (!(_368 & 0x20))
+            return;
+        if (_124 != 0)
+            sub_710101D9F4(mInfo->mAllowFadeOutSec.ref());
+        _368 &= ~0x20u;
+    }
+}

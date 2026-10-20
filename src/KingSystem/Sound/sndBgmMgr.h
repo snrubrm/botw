@@ -754,9 +754,9 @@ public:
     // 0x71010255d0: clears _80 and resets the volume of mGroup to 1.
     void sub_71010255D0();
 
+    explicit Unk_710260f1a8(const BgmInitArg& arg);
     ~Unk_710260f1a8() override;
     void sub_7101024AD4(sead::Heap* heap);
-    // 0x7101024cc0 (declared only)
     void m5() override;
     bool m9() override { return true; }
     void m14(sead::TextWriter& writer) override {}
@@ -765,18 +765,24 @@ public:
     void m13(f32 fade_sec) override;
 
     /* 0x10 */ sead::Buffer<Unk_SpotBgmInstance*> mInstances;
-    u8 _20[0x28 - 0x20];
-    /* 0x28 */ u64 _28;
+    /* 0x20 */ f32 _20 = 0.0f;
+    /* 0x28 */ Unk_SpotBgmInstance* _28 = nullptr;
     /* 0x30 */ sead::SpinLock mLock;
-    u8 _40[0x60 - 0x40];
+    /* 0x40 */ aal::Handle _40;
+    /* 0x50 */ u32 _50 = 0;
+    /* 0x54 */ sead::Vector3f _54{0, 0, 0};
     /* 0x60 */ sead::Buffer<PositionRequest> _60;
-    u8 _70[0x78 - 0x70];
+    /* 0x70 */ f32 _70 = 1.0f;
     // The "EnvNoisy" group (0x7101024ad4).
-    /* 0x78 */ aal::Group* mGroup;
-    /* 0x80 */ f32 _80;
+    /* 0x78 */ aal::Group* mGroup = nullptr;
+    /* 0x80 */ f32 _80 = 0.0f;
+    /* 0x84 */ bool _84 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260f1a8, 0x88);
+static_assert(offsetof(Unk_710260f1a8, _40) == 0x40);
+static_assert(offsetof(Unk_710260f1a8, _54) == 0x54);
 static_assert(offsetof(Unk_710260f1a8, _60) == 0x60);
+static_assert(offsetof(Unk_710260f1a8, _84) == 0x84);
 
 // Four-byte practice-state argument, passed by reference to sub_71010267A8.
 struct Unk_71010267A8 {
