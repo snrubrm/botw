@@ -27,6 +27,7 @@
 #include <nn/ui2d/Pane.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/UI/uiManager.h"
 
 namespace uking::ui {
 
@@ -337,6 +338,12 @@ void ScreenMainScreenUnk3648::m16() {
     if (state != 7 && !(u32(state - 1) <= 4 && ((state - 1) & 1) == 0))
         return;
     clearAndClose_(false);
+}
+
+// 0x710098b07c
+void ScreenMainScreenUnk3648::sub_710098B07C() {
+    if (sub_7100A9BA78(0) && (_148 | 1) == 9)
+        clearAndClose_(false);
 }
 
 // 0x710098b59c
@@ -1304,6 +1311,54 @@ Unk_7102477110::~Unk_7102477110() {
         entry.handle.kill();
     _3f0.freeBuffer();
 }
+
+namespace {
+// The guide text records of the main screen child, the sead::Buffer at 0x71025d7ec0 + 0x160 that the TU
+// initialiser 0x71009866c0 fills with the three message ids below (values 6 / 0x1c / 0xb).
+struct GuideTextRecord {
+    s32 value;
+    u32 _4;
+    sead::SafeString text;
+};
+static_assert(sizeof(GuideTextRecord) == 0x18);
+
+struct GuideTextBlock {
+    GuideTextBlock() : mRecords(3, mRecordArray) {}
+
+    u8 _0[0x160];
+    sead::Buffer<GuideTextRecord> mRecords;
+    GuideTextRecord mRecordArray[3] = {
+        {6, 0, sead::SafeString("0037")},
+        {0x1c, 0, sead::SafeString("0038")},
+        {0xb, 0, sead::SafeString("0048")},
+    };
+};
+static_assert(offsetof(GuideTextBlock, mRecords) == 0x160);
+
+GuideTextBlock sUnk_71025d7ec0;
+}  // namespace
+
+// NON_MATCHING: clang inlines the 184-byte sub_7100986B0C into this body (the original keeps it as a tail
+// call, 64 bytes).
+// 0x7100986acc
+void Unk_7102477110::sub_7100986ACC() {
+    Manager::instance()->sub_7100A7F900(_160.mPartsLayout->_70);
+    sub_7100986B0C(_148, false);
+}
+
+// NON_MATCHING: the original duplicates the mRecords[1] load in both arms of the flag branch (184 bytes);
+// clang shares one copy after the branch (160 bytes).
+// 0x7100986b0c
+void Unk_7102477110::sub_7100986B0C(bool flag, bool a2) {
+    if (flag) {
+        _298.sub_7100934308(0, sUnk_71025d7ec0.mRecords[0].text, sUnk_71025d7ec0.mRecords[0].value);
+        _298.sub_7100934308(2, sUnk_71025d7ec0.mRecords[2].text, sUnk_71025d7ec0.mRecords[2].value);
+    }
+    const auto& record = sUnk_71025d7ec0.mRecords[1];
+    _298.sub_7100934308(1, record.text, record.value);
+    _298.sub_7100934478(a2);
+}
+
 
 // 0x710098fc08
 Unk_7102478048::Unk_7102478048(eui::LayoutEx* layout) : ScreenChildEx(layout) {}

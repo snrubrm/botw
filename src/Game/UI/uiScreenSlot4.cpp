@@ -2,6 +2,7 @@
 #include "Game/UI/uiShopItemElementChildren.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiShortcutIconButton.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
@@ -346,6 +347,22 @@ f32 ScreenMainScreen::sub_7100A1AB68() const {
 // 0x7100a1ab94
 void ScreenMainScreen::sub_7100A1AB94() {
     _3678.sub_7100936254(getAnimationStep_(), false);
+}
+
+// 0x7100a1adc4
+void ScreenMainScreen::sub_7100A1ADC4() {
+    sub_7100A1AE54();
+    if (_3640)
+        _3640->sub_7100986ACC();
+    if (_3670) {
+        _3670 = false;
+        _3678.sub_7100936254(getAnimationStep_(), true);
+        if (_3660)
+            _3660->sub_71009BCFF8();
+    }
+    _3dca = 1;
+    if (_3648)
+        _3648->sub_710098B07C();
 }
 
 // 0x7100a513a4

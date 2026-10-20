@@ -91,6 +91,7 @@ class Unk_71025d6578;
 class TagProcessor;
 class ScreenEx;
 class UiSubsys1;
+class Unk_7102477110;
 class Unk_710247bcb8;
 class Unk_710247e0c8;
 class Unk_710247c368;
@@ -1175,6 +1176,9 @@ struct ScreenMainScreenUnk3648 : ScreenChildEx {
     void sub_710098A93C(s32 type, const sead::SafeString& text);
     // 0x710098ae8c (declared only)
     void sub_710098AE8C(s32 a1);
+    // 0x710098b07c (placeholder name): when the option guide is up and the shown entry is one of the controller
+    // types (8 / 9), clears the entry list and closes the child.
+    void sub_710098B07C();
 
     // Element of the three-entry list at 0x1f0 (0x78-byte list nodes), as constructed inline by 0x98ae8c.
     struct Entry {
@@ -1287,11 +1291,11 @@ public:
     // The screen's children (indices 0 - 6 of sub_7100A1A3C8 / sub_7100A1A460 are 3638, 3640, 3648, 3678, 3650, 3660,
     // 3658)
     /* 0x3638 */ ScreenChild* _3638;
-    /* 0x3640 */ ScreenChild* _3640;
+    /* 0x3640 */ Unk_7102477110* _3640;
     /* 0x3648 */ ScreenMainScreenUnk3648* _3648;
     /* 0x3650 */ ScreenChild* _3650;
     /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
-    /* 0x3660 */ ScreenChild* _3660;
+    /* 0x3660 */ Unk_710247bcb8* _3660;
     u8 _pad_3668[4];
     /* 0x366c */ s32 _366c;  // the frame _3628 was last stopped at
     /* 0x3670 */ bool _3670;
@@ -1376,6 +1380,8 @@ public:
     void sub_7100A1DE04();
     // 0x7100a1ab94 (placeholder name): runs the gauge update with this screen's animation step
     void sub_7100A1AB94();
+    // 0x7100a1adc4 (placeholder name): closes the child screens on leaving the main screen.
+    void sub_7100A1ADC4();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).
