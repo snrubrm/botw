@@ -1,4 +1,9 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include <gfx/seadColor.h>
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectEffect.h"
@@ -247,8 +252,6 @@ Unk_71024e6560::~Unk_71024e6560() {
     ;
 }
 
-// NON_MATCHING: the store schedule differs from the original (the instruction set and size are the same);
-// this build hoists the vptr load and the member zeroing differently.
 Unk_71024e6428::Unk_71024e6428()
     : mActor(nullptr),
       mPlacementXLink(nullptr),
@@ -258,6 +261,7 @@ Unk_71024e6428::Unk_71024e6428()
       _30(0),
       _34(0),
       _36{},
+      _37{},
       _38{},
       _3c(0),
       _288(0),
@@ -268,7 +272,8 @@ Unk_71024e6428::Unk_71024e6428()
       _2bc(0),
       _2c0(0),
       _2c4(0),
-      _2c8{} {
+      _2c8{},
+      _2d4(0) {
     _2a4.set(0.0f, 0.0f, 0.0f);
     _2b0.set(0.0f, 0.0f, 0.0f);
 }
@@ -763,6 +768,284 @@ void ActorChemicals::sub_7100E39614(bool on) {
     for (s32 i = 0; i < _58.size() + _80; ++i) {
         if (auto* chemical = getStuff(i))
             chemical->sub_7100D91098(on);
+    }
+}
+
+// NON_MATCHING: body iteration and event-slot traversal are scheduled differently.
+void Unk_71024e6428::m10() {
+    for (const auto& entry : _278) {
+        auto* body = entry.body;
+        if (body && entry.owns_body &&
+            (body->isAddedToWorld() || !body->isRemovingBodyFromWorld()))
+            body->removeFromWorld();
+    }
+    for (u32 i = 0; i < 21; ++i) {
+        if (_20 && ((_20->mActiveMask & (1u << i)) ||
+                    (mActor && _20->mHandles[i].mELink.isActive())))
+            sub_7100E3D4E8(i, false);
+    }
+    _2d4 = 0;
+    _38 = 0;
+}
+
+// NON_MATCHING: color construction and body traversal are scheduled differently.
+void Unk_71024e6428::m11() {
+    for (const auto& entry : _278) {
+        auto* body = entry.body;
+        if (!body || body->getContactLayer() == phys::ContactLayer::SensorNoHit ||
+            !body->isAddedToWorld())
+            continue;
+        sead::Color4f color(0, 0, 0, 1);
+        sead::Color4f overlay(0.5f, 0.5f, 0.5f, 0.1f);
+        if (mChemical._b8 & 4)
+            color = sead::Color4f(1, mChemical._1b8 > 0 ? 0.7f : 0, 0, 1);
+        else if (mChemical._1b8 > 0)
+            color = sead::Color4f(1, 1, 0, 1);
+        if (mChemical._bc & 0x300)
+            overlay = sead::Color4f(1, 1, 1, 1);
+        body->setColor(color, &overlay, true);
+    }
+}
+
+// NON_MATCHING: debug-name temporaries and formatting branches differ.
+void Unk_71024e6428::m14(sead::BufferedSafeString* out) const {
+    if (!mActor) {
+        out->appendWithFormat("(FarObj)");
+        return;
+    }
+    const s32 count = _278.size();
+    const char* actor_name = mActor->getName().cstr();
+    if (count > 0) {
+        const auto& entry = _278[0];
+        const char* set_name = entry.body_set ? entry.body_set->getName().cstr() : "(null)";
+        const sead::SafeString body_name = entry.original_body ?
+            entry.original_body->getHkBodyName() : sead::SafeString("(null)");
+        out->appendWithFormat("%s (%d: %s, %s) %s", actor_name, count, set_name,
+                              body_name.cstr(), entry.owns_body ? "[Chm剛体生成]" : "");
+    } else {
+        out->appendWithFormat("%s (no rigid)", actor_name);
+    }
+}
+
+// NON_MATCHING: runtime casts, parent tests and radius-reset loops differ.
+void Unk_71024e6428::m32(bool on) {
+    if (!on || !mActor || !sead::IsDerivedFrom<WeaponBase>(mActor))
+        return;
+    auto* weapon = static_cast<WeaponBase*>(mActor);
+    if (!weapon->hasParentActor())
+        return;
+    if ((mChemical._c & 0x40) && weapon->hasParentActor()) {
+        for (const auto& entry : _278) {
+            if (auto* capsule = sead::DynamicCast<phys::CapsuleRigidBody>(entry.body))
+                capsule->setRadius(mChemical._60->sub_7100D9A19C());
+            else if (auto* sphere = sead::DynamicCast<phys::SphereRigidBody>(entry.body))
+                sphere->setRadius(mChemical._60->sub_7100D9A19C());
+        }
+    } else {
+        for (const auto& entry : _278) {
+            if (auto* capsule = sead::DynamicCast<phys::CapsuleRigidBody>(entry.body))
+                capsule->setRadius(entry.original_radius);
+            else if (auto* sphere = sead::DynamicCast<phys::SphereRigidBody>(entry.body))
+                sphere->setRadius(entry.original_radius);
+        }
+    }
+}
+
+bool Unk_71024e6428::m35() {
+    return mActor && (mActor->getName() == "Weapon_Lsword_035" ||
+                      mActor->getName() == "Weapon_Spear_035" ||
+                      mActor->getName() == "Weapon_Sword_035");
+}
+
+void Unk_71024e6428::m7() {
+    if (_30 & 2)
+        _30 |= 4;
+    if (mActor && mActor->sub_71011D8F44()) {
+        _30 |= 2;
+        if (mChemical._60->sub_7100D9D520())
+            mActor->sub_71011D8F44();  // The native callback discards this second result.
+    } else {
+        _30 &= ~2u;
+    }
+    sub_7100E3B87C();
+    sub_7100E3B144();
+    _2bc = -1;
+    sub_7100E3BE78();
+}
+
+// NON_MATCHING: stationary counters and sensor-layer loops are scheduled differently.
+void Unk_71024e6428::sub_7100E3BE78() {
+    if (_30 & 0x10)
+        _30 |= 0x20;
+    else
+        _30 &= ~0x20u;
+    u8 stationary_frames = _37;
+    if (_2b0.equals(sead::Vector3f::zero, 0.05f)) {
+        if (stationary_frames != 0xff)
+            ++stationary_frames;
+    } else {
+        stationary_frames = 0;
+    }
+    _37 = stationary_frames;
+    if (mChemical._60 && !(mChemical._60->_c8 & 0x180000) && _38 != 0xff)
+        ++_38;
+    auto* placement = map::PlacementMgr::instance();
+    if (placement && !placement->isStaticCompoundReady(m5(), false))
+        _38 = 0;
+    if (stationary_frames < 11 || _38 < 11) {
+        if (!(_30 & 0x10))
+            return;
+        for (s32 i = 0; i < _278.size(); ++i) {
+            _278[i].body->clearSensorReceiverIgnoredLayer();
+            _278[i].body->setMotionFlag(phys::RigidBody::MotionFlag::_20000);
+        }
+        _30 &= ~0x10u;
+    } else {
+        if (_30 & 0x10)
+            return;
+        for (s32 i = 0; i < _278.size(); ++i)
+            _278[i].body->setSensorReceiverIgnoredLayer(phys::ContactLayer::SensorInDoor);
+        _30 |= 0x10;
+    }
+}
+
+f32 sub_7100E40698(phys::RigidBody* body) {
+    if (auto* sphere = sead::DynamicCast<phys::SphereRigidBody>(body))
+        return sphere->getRadius();
+    if (auto* cylinder = sead::DynamicCast<phys::CylinderRigidBody>(body))
+        return cylinder->getRadius();
+    if (auto* capsule = sead::DynamicCast<phys::CapsuleRigidBody>(body))
+        return capsule->getRadius();
+    return 1.0f;
+}
+
+// NON_MATCHING: link synchronization, watch notifications and world-transition scheduling differ.
+void Unk_71024e6428::sub_7100E3B87C() {
+    _30 &= ~0x100u;
+    if (!mActor) {
+        const f32 previous_mass = _28c;
+        const f32 previous_volume = _294;
+        sub_7100E3AE40(0);
+        if (previous_mass != _28c || previous_volume != _294)
+            mChemical.sub_7100D97578();
+        return;
+    }
+    if (_30 & 0x2000) {
+        for (const auto& entry : _278) {
+            auto* body = entry.body;
+            if (!body || !entry.owns_body)
+                continue;
+            auto* original = entry.original_body;
+            if (original->hasFlag(phys::RigidBody::Flag::_4)) {
+                body->removeFromWorldAndResetLinks();
+            } else if (!(_30 & 0x1000)) {
+                const bool original_added = original->isAddedToWorld();
+                const bool body_added = body->isAddedToWorld();
+                if (!original_added) {
+                    if (body_added || body->isAddingBodyToWorld())
+                        body->removeFromWorld();
+                } else if (!body_added && !body->isAddingBodyToWorld()) {
+                    body->addToWorld();
+                }
+            }
+        }
+        return;
+    }
+    for (const auto& entry : _278) {
+        auto* body = entry.body;
+        if (body) {
+            auto* original = entry.original_body;
+            auto* linked = body->getLinkedRigidBody();
+            if (entry.owns_body) {
+                if (!linked) {
+                    if (!original->isAddedToWorld() || !body->isAddedToWorld() ||
+                        mActor->getPhysics()->getFlags().isOn(phys::InstanceSet::Flag::_8)) {
+                        if (mChemical._60 && Chemical::sub_7100D9CB54(mChemical._60, &mChemical) &&
+                            (chm::Chemical::instance()->_84 & 1)) {
+                            sead::ThreadMgr::instance()->getCurrentThread();
+                            if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                                chm::Chemical::instance()->_85 = 100;
+                        }
+                        const sead::Matrix34f transform = original->getTransform();
+                        body->setTransform(transform, phys::PropagateToLinkedMotions{true});
+                        _30 |= 0x100;
+                    } else {
+                        if (mChemical._60 && Chemical::sub_7100D9CB54(mChemical._60, &mChemical) &&
+                            (chm::Chemical::instance()->_84 & 1)) {
+                            sead::ThreadMgr::instance()->getCurrentThread();
+                            if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                                chm::Chemical::instance()->_85 = 100;
+                        }
+                        const sead::Matrix34f transform = original->getTransform();
+                        body->changePositionAndRotation(transform, 1.1920929e-07f);
+                    }
+                } else if (!body->isAddedToWorld()) {
+                    if (mChemical._60 && Chemical::sub_7100D9CB54(mChemical._60, &mChemical) &&
+                        (chm::Chemical::instance()->_84 & 1)) {
+                        sead::ThreadMgr::instance()->getCurrentThread();
+                        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                            chm::Chemical::instance()->_85 = 100;
+                    }
+                    const sead::Matrix34f transform = body->getLinkedRigidBody()->getTransform();
+                    body->setTransform(transform, phys::PropagateToLinkedMotions{true});
+                    _30 |= 0x100;
+                }
+                body->setScale(original->getScale() / entry.original_scale);
+                if (original->hasFlag(phys::RigidBody::Flag::_4)) {
+                    body->removeFromWorldAndResetLinks();
+                } else if (!(_30 & 0x1000)) {
+                    const bool original_added = original->isAddedToWorld();
+                    const bool body_added = body->isAddedToWorld();
+                    if (!original_added) {
+                        if (body_added || body->isAddingBodyToWorld()) {
+                            if (mChemical._60 && Chemical::sub_7100D9CB54(mChemical._60, &mChemical) &&
+                                (chm::Chemical::instance()->_84 & 1)) {
+                                sead::ThreadMgr::instance()->getCurrentThread();
+                                if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                                    chm::Chemical::instance()->_85 = 100;
+                            }
+                            body->removeFromWorld();
+                        }
+                    } else if (!body_added && !body->isAddingBodyToWorld()) {
+                        if (mChemical._60 && Chemical::sub_7100D9CB54(mChemical._60, &mChemical) &&
+                            (chm::Chemical::instance()->_84 & 1)) {
+                            sead::ThreadMgr::instance()->getCurrentThread();
+                            if (static_cast<const void*>(chm::Chemical::instance()) != this)
+                                chm::Chemical::instance()->_85 = 100;
+                        }
+                        body->addToWorld();
+                    }
+                }
+                continue;
+            }
+        }
+        auto* tag = sead::DynamicCast<PhysicsUserTag>(body->getUserTag());
+        auto* actor = tag ? tag->getActor(nullptr, nullptr) : nullptr;
+        if (!actor)
+            continue;
+        if (actor->getPhysics() &&
+            actor->getPhysics()->getFlags().isOn(phys::InstanceSet::Flag::_8))
+            _30 |= 0x100;
+        auto* controller = actor->getCharacterController();
+        if (controller && !entry._19) {
+            if (!controller->sub_7100F61A34()->isAddedToWorld()) {
+                if (body->getLinkedRigidBody())
+                    body->resetLinkedRigidBody();
+                const bool propagate = actor->getPhysics()->getFlags().isOn(phys::InstanceSet::Flag::_8);
+                const sead::Matrix34f transform = controller->sub_7100F61A34()->getTransform();
+                if (!propagate)
+                    body->changePositionAndRotation(transform, 1.1920929e-07f);
+                else
+                    body->setTransform(transform, phys::PropagateToLinkedMotions{true});
+            } else {
+                body->setLinkedRigidBody(controller->sub_7100F61A34());
+            }
+        }
+    }
+    if (_298 != mActor->getScale()) {
+        _298 = mActor->getScale();
+        sub_7100E3AE40(0);
+        mChemical.sub_7100D97578();
     }
 }
 

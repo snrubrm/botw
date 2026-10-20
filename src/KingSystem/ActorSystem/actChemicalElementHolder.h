@@ -120,6 +120,9 @@ public:
     f32 sub_7100D9A17C() const;
     f32 sub_7100D9A18C() const;
     f32 sub_7100D9A19C() const;
+    // Declaration only: both native holder-context callers pass this owner; the body reads
+    // its global watch flag without using the receiver.
+    bool sub_7100D9D520() const;
     // 0x7100d99fec .. 0x7100d9a1b8 (placeholder names): the floats sUnk_71024DD450 ..
     // sUnk_71024DD488 (.data, read only by these getters).
     f32 sub_7100D99FEC() const;

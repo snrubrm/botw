@@ -26,6 +26,7 @@ class ChemicalEventState;
 
 namespace ksys::phys {
 class RigidBody;
+class RigidBodySet;
 class SystemGroupHandler;
 class UserTag;
 }
@@ -35,6 +36,7 @@ namespace ksys::act {
 class Actor;
 // E40448 selects the shape centre from real Sphere / Box / Cylinder / Capsule bodies.
 void sub_7100E40448(sead::Vector3f* out, phys::RigidBody* body);
+f32 sub_7100E40698(phys::RigidBody* body);
 void sub_7100E3F3E8(phys::RigidBody* body, const Chemical* chemical, world::ChemicalMgr* manager);
 
 // Placeholder name (vtable 0x71024e6560, 37 slots): the interface the Chemical calls back through its owner
@@ -106,6 +108,8 @@ public:
     void sub_7100E3AE40(u32 unused);
     void sub_7100E3B144();
     void sub_7100E3B3F4(Chemical* chemical);
+    void sub_7100E3B87C();
+    void sub_7100E3BE78();
 
     // 0x7100e3e2e8: marks the element and resets each linked rigid body.
     void sub_7100E3E2E8();
@@ -158,14 +162,26 @@ public:
     // The rigid bodies of the element (stride 0x40; the entry's first member is the body).
     struct BodyEntry {
         phys::RigidBody* body;
-        u8 _8[0x18 - 0x8];
+        // E3A570 keeps the source body and its actual InstanceSet body set.
+        /* 0x08 */ phys::RigidBody* original_body;
+        /* 0x10 */ phys::RigidBodySet* body_set;
         // E3A570 sets this for a cloned body; E39A70 deletes only owned bodies.
         /* 0x18 */ bool owns_body;
-        u8 _19[0x24 - 0x19];
+        /* 0x19 */ u8 _19;
+        u8 _1a[2];
+        /* 0x1c */ f32 original_scale;
+        // E40698 supplies this radius; m32 restores it when the parent condition changes.
+        /* 0x20 */ f32 original_radius;
         // E3AE40 fills this bounds record with RigidBody::getAabbInLocal.
         /* 0x24 */ sead::BoundBox3f aabb;
         u8 _3c[4];
     };
+
+    static_assert(sizeof(BodyEntry) == 0x40);
+    static_assert(offsetof(BodyEntry, original_body) == 0x8);
+    static_assert(offsetof(BodyEntry, body_set) == 0x10);
+    static_assert(offsetof(BodyEntry, original_radius) == 0x20);
+    static_assert(offsetof(BodyEntry, aabb) == 0x24);
 
     /* 0x008 */ Actor* mActor;
     // E3AA34 and carried activation copy the placement EffectEntry's XLink here.
@@ -177,7 +193,9 @@ public:
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
     /* 0x034 */ u8 _34;
     /* 0x035 */ u8 _35 = 10;
-    /* 0x036 */ u16 _36 = 0;
+    /* 0x036 */ u8 _36 = 0;
+    // E3BE78 counts consecutive stationary frames here, saturating at 255.
+    /* 0x037 */ u8 _37 = 0;
     /* 0x038 */ u8 _38 = 0;
     /* 0x039 */ u8 _39[0x3c - 0x39];
     /* 0x03c */ u32 _3c;  // flags (RootAi::setChemicalFlags3cMaybe)
@@ -194,7 +212,9 @@ public:
     /* 0x2c0 */ u32 _2c0;
     // E3B3F4 builds the twenty chemical-event eligibility flags here.
     /* 0x2c4 */ sead::BitFlag32 _2c4;
-    /* 0x2c8 */ u8 _2c8[0x2d8 - 0x2c8];
+    /* 0x2c8 */ u8 _2c8[0x2d4 - 0x2c8];
+    // E3DB6C starts this at 120.0f; E3C34C decrements it by one.
+    /* 0x2d4 */ f32 _2d4;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024e6428, 0x2d8);
 static_assert(offsetof(Unk_71024e6428, mPlacementXLink) == 0x10);
