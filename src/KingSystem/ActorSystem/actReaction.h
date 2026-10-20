@@ -99,6 +99,8 @@ public:
         // Two AI callers pass Reaction::_a8, their actor and its matrix translation.
         void sub_7100EC6C00(Actor* actor, const sead::Vector3f& position);
 
+        // 0x7100ec7edc (placeholder name): emits the roll-drag asset of the size class for `speed`.
+        bool sub_7100EC7EDC(f32 speed, xlink2::HandleSLink* handle);
         // 0x7100ec86f4 (placeholder name): sets the event position of `handle`, then applies the
         // volume and pitch scales from the four values (sub_7100EC7D50).
         // The parameter order is (handle, position, volume base, distance, volume factor, pitch factor).

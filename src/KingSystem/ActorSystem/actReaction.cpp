@@ -848,3 +848,50 @@ void Reaction::Unk1::sub_7100EC86F4(xlink2::HandleSLink* handle, const sead::Vec
 }
 
 }  // namespace ksys::act
+
+namespace {
+
+struct RollDragSize {
+    const char* name;
+    f32 limit;
+};
+
+}  // namespace
+
+// 0x71024efef8: the roll-drag asset of each size class and its speed limit.
+KSYS_VISIBILITY_HIDDEN const RollDragSize sRollDragSizes[6] = {
+    {"CmnObj_Base_TinySize_RollDrag", 5.0f},
+    {"CmnObj_Base_SmallSize_RollDrag", 50.0f},
+    {"CmnObj_Base_HalfSize_RollDrag", 300.0f},
+    {"CmnObj_Base_NormalSize_RollDrag", 1000.0f},
+    {"CmnObj_Base_DoubleSize_RollDrag", 3000.0f},
+    {"CmnObj_Base_GiantSize_RollDrag", 20000.0f},
+};
+
+namespace ksys::act {
+
+// NON_MATCHING: the original evaluates the asset name before the handle argument (ours passes the
+// handle first) and adds the table's low address bits one slot later; every value is the same.
+// 0x7100ec7edc (placeholder name): emits the roll-drag asset of the size class for `speed` and
+// returns whether the handle is active afterwards.
+bool Reaction::Unk1::sub_7100EC7EDC(f32 speed, xlink2::HandleSLink* handle) {
+    if (speed > sRollDragSizes[0].limit) {
+        s32 size = 0;
+        if (speed > sRollDragSizes[5].limit)
+            size = 5;
+        else if (speed > sRollDragSizes[4].limit)
+            size = 4;
+        else if (speed > sRollDragSizes[3].limit)
+            size = 3;
+        else if (speed > sRollDragSizes[2].limit)
+            size = 2;
+        else if (speed > sRollDragSizes[1].limit)
+            size = 1;
+
+        eft::sub_710105DDB8(_8, sRollDragSizes[size].name, handle);
+        return handle->isActive();
+    }
+    return false;
+}
+
+}  // namespace ksys::act
