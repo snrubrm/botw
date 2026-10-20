@@ -13,6 +13,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <math/seadMathCalcCommon.h>
+#include <math/seadQuat.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnitGroup.h>
 #include <prim/seadScopedLock.h>
@@ -247,7 +248,7 @@ void HorseBase::initMaybe() {
         ksys::gdt::Manager::instance()->setBool(true, "AnimalMaster_Existence");
     }
     _bac.set(0, 0, 0);
-    _bbc = 0;
+    _bb8._4 = 0;
     _bec = 0;
     _bf0 = 0;
     _be4 = 0;
@@ -258,7 +259,7 @@ void HorseBase::initMaybe() {
     _bd8 = 0;
     _bcc = 0;
     _bd0 = 0;
-    _bc4 = 0;
+    _bc0._4 = 0;
     _bc8 = 0;
     _b74.setDirect((_b74.getDirect() & 0x1486) | 0x100);
     _b70 &= 0xffffff30;
@@ -1678,6 +1679,84 @@ int Mystery2Horse::Register::countTransceivers() const {
             ++count;
     }
     return count;
+}
+
+// NON_MATCHING: event-string temporaries, chain reset scheduling and smoothing arithmetic differ.
+bool HorseBase::m146() {
+    if (!_b28) {
+        _bb8._4 = 0;
+        _bc0._4 = 0;
+        return false;
+    }
+    if ((_b20 && _b20->getCurrentModelInfo()->mModelUnit == _b20->getUnits().unsafeAt(1)->mModelUnit) ||
+        (_b28->_1f0 & 1)) {
+        for (auto& value : _b28->_1d8)
+            value = 0;
+        _bb8.sub_7100E726E0(0);
+        _bc0.sub_7100E726E0(0);
+        return false;
+    }
+    auto* controller = getCharacterController();
+    if (!controller)
+        return false;
+    ksys::as::ASList::EventQueryResults query;
+    _b28->_1f0 &= ~0x1e;
+    if (!mASList->x_7(0, 0, &ksys::as::ASList::Unk2::sub_710116392C)) {
+        for (auto& value : _b28->_1d8)
+            value = 0;
+    } else if (!mASList->x(15, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true) &&
+               mASList->sub_710115FB60(&query, 12, 0, 0,
+                                      &ksys::as::ASList::Unk2::sub_7101163908, true)) {
+        for (s32 i = 0; i < query.count; ++i) {
+            const auto& event = query.events[i];
+            if (event.name == "Toe_2_FL")
+                _b28->_1f0 |= 2;
+            else if (event.name == "Toe_2_FR")
+                _b28->_1f0 |= 4;
+            else if (event.name == "Toe_2_BL")
+                _b28->_1f0 |= 8;
+            else if (event.name == "Toe_2_BR")
+                _b28->_1f0 |= 0x10;
+        }
+    }
+    sead::Vector3f normal;
+    const bool supported = controller->sub_7100F5F234(&normal);
+    _b28->sub_7100E73488(mMtx, supported, normal);
+    const f32 front_left = _b28->_1d8[0];
+    const f32 front_right = _b28->_1d8[1];
+    const f32 back_left = _b28->_1d8[2];
+    const f32 back_right = _b28->_1d8[3];
+    _bb8.sub_7100E726E0((front_left + front_right + back_left + back_right) * 0.25f * 10.0f);
+    _bc0.sub_7100E726E0(((back_left + back_right) - front_left - front_right) * 0.5f * 6.6f);
+    return false;
+}
+
+// NON_MATCHING: quaternion arithmetic and rotation-matrix multiplication are scheduled differently.
+void HorseBase::setMtx(const sead::Matrix34f& matrix, bool a2, bool a3) {
+    if (!mActorFlags2.isOn(ActorFlag2::_10)) {
+        const sead::Vector3f translation = matrix.getTranslation();
+        sead::Quatf rotation;
+        sead::Matrix34f adjusted;
+        if (rotation.makeVectorRotation(matrix.getBase(1), sead::Vector3f::ey)) {
+            sead::Matrix34f correction;
+            correction.fromQuat(rotation);
+            adjusted.setMul(correction, matrix);
+        } else {
+            adjusted.makeIdentity();
+        }
+        adjusted.setTranslation(translation);
+        Actor::setMtx(adjusted, a2, a3);
+    } else {
+        Actor::setMtx(matrix, a2, a3);
+    }
+    _b74.set(0x100);
+    if (_b10)
+        _b10->RideableBase::_8.setBitOn(15);
+    if (_b28) {
+        for (auto& value : _b28->_1d8)
+            value = 0;
+    }
+    _a98._58 |= 2;
 }
 
 }  // namespace uking::act

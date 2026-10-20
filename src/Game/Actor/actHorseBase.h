@@ -14,6 +14,7 @@
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace sead {
@@ -295,10 +296,9 @@ public:
     /* 0xb9c */ u32 _b9c = 0;
     /* 0xba0 */ sead::Vector3f _ba0 = sead::Vector3f::ez;
     /* 0xbac */ sead::Vector3f _bac = sead::Vector3f::zero;
-    /* 0xbb8 */ f32 _bb8 = 0.02;
-    /* 0xbbc */ f32 _bbc = 0;
-    /* 0xbc0 */ f32 _bc0 = 0.02;
-    /* 0xbc4 */ u32 _bc4 = 0;
+    // E6A77C updates two native eight-byte scalar smoothers through E726E0.
+    /* 0xbb8 */ Unk_7100e726e0 _bb8{0.02f, 0};
+    /* 0xbc0 */ Unk_7100e726e0 _bc0{0.02f, 0};
     /* 0xbc8 */ u32 _bc8 = 0;
     /* 0xbcc */ u32 _bcc = 0;
     /* 0xbd0 */ u32 _bd0 = 0;

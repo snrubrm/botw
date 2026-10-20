@@ -34,6 +34,10 @@ public:
     virtual ~Unk_71024eb5e0();
     // 0x7100e7332c releases the chains before invoking the deleting destructor.
     void destroy();
+    // E6A77C supplies the transform and the controller support query; the native body ignores
+    // the two trailing support arguments.
+    void sub_7100E73488(const sead::Matrix34f& transform, bool supported,
+                       const sead::Vector3f& normal);
 
     struct BoneSet {
         bool init(gsys::Model* model, const gsys::BoneAccessKey& end,
@@ -60,7 +64,8 @@ public:
     /* 0x0d8 */ sead::SafeArray<BoneSet, 4> mBoneSets;
     /* 0x178 */ sead::Vector3f _178[4]{};
     /* 0x1a8 */ sead::Vector3f _1a8[4]{};
-    /* 0x1d8 */ u32 _1d8[4]{};
+    // E73488 stores four projected floating-point foot offsets here.
+    /* 0x1d8 */ f32 _1d8[4]{};
     /* 0x1e8 */ gsys::Model* mModel = nullptr;
     /* 0x1f0 */ u32 _1f0 = 0;
     /* 0x1f4 */ f32 _1f4 = 1.0f;
