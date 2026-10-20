@@ -2410,6 +2410,37 @@ struct ScreenAppMapUnk3c90 : ScreenChildEx {
 };
 static_assert(sizeof(ScreenAppMapUnk3c90) == 0x160);
 
+// The map footprint work buffer embedded in ScreenAppMapWidget at 0xb358 (vtable 0x710249d320, size 0x148).
+// It holds the packed map cells and their flag bytes (one entry per cell, 0x38400 of each = 32 maps of
+// 0x1c20), a state (0 idle, 1 allocated) and the heap the arrays live in. The step 0x7100a843c0 and the
+// append 0x7100a866bc drive it; 0x7100a843f4 (not decompiled) consumes the pending cell.
+class Unk_710249d330 {
+public:
+    virtual ~Unk_710249d330();
+    // 0x7100a862a4 (placeholder name): allocates the arrays and the "FootPrintWorkHeap" and sets the state
+    void init(sead::Heap* heap);
+    // 0x7100a863c4 (placeholder name): allocates only the heap, when the arrays already exist
+    void initHeap();
+    // 0x7100a843c0 (placeholder name): steps the state (1 -> 2, 2 -> the work, 3 -> 0)
+    void step();
+    // 0x7100a86950 (placeholder name): the state is 0
+    bool isIdle() const;
+    // 0x7100a866bc (placeholder name): appends the packed cell for (x, y)
+    void sub_7100A866BC(f32 x, f32 y, bool flag);
+    // 0x7100a843f4 (not decompiled, 3184 bytes): the state-2 step that consumes the pending cell
+    void sub_7100A843F4();
+
+    /* 0x08 */ s32 mState = 0;
+    /* 0x10 */ sead::Buffer<u32> mCells;
+    /* 0x20 */ sead::Buffer<u8> mFlags;
+    /* 0x30 */ s32 mCount = 0;
+    /* 0x38 */ sead::Heap* mHeap = nullptr;
+    u8 _40[0x141 - 0x40];
+    /* 0x141 */ bool mPending = false;
+    u8 _142[6];
+};
+static_assert(sizeof(Unk_710249d330) == 0x148);
+
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009ae3c8: toggles map selection mode and refreshes the AppHome screen
@@ -2493,13 +2524,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb34c */ u8 _b34c;
     u8 _b34d[0xb350 - 0xb34d];
     /* 0xb350 */ s32 _b350;
-    u8 _b354[0xb370 - 0xb354];
-    /* 0xb370 */ u32* _b370;  // points at a packed (x, y) word
-    u8 _b378[0xb388 - 0xb378];
-    /* 0xb388 */ s32 _b388;
-    u8 _b38c[0xb499 - 0xb38c];
-    /* 0xb499 */ u8 _b499;
-    u8 _b49a[0xb4a0 - 0xb49a];
+    u8 _b354[0xb358 - 0xb354];
+    /* 0xb358 */ Unk_710249d330 mFootPrint;
     /* 0xb4a0 */ s32 _b4a0;
     /* 0xb4a4 */ s32 _b4a4;
     /* 0xb4a8 */ s32 _b4a8;

@@ -1,6 +1,10 @@
 #include "KingSystem/AOC/aocManager.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiUtils.h"
+#include <heap/seadExpHeap.h>
+#include <math/seadMathCalcCommon.h>
+#include <new>
 
 namespace uking::ui {
 
@@ -17,7 +21,7 @@ KSYS_VISIBILITY_HIDDEN Unk_710260b150* sUnk_710260b150;
 void ScreenAppMapWidget::sub_71009AF058(s8 count) {
     if (count <= 0)
         return;
-    const s32 value = (_b388 + _b499) / count;
+    const s32 value = (mFootPrint.mCount + mFootPrint.mPending) / count;
     _b4f8 = s16(value);
     if (sUnk_710260b150 && _b4ac == 3) {
         sUnk_710260b150->_19c = u32(value) & 0xffff;
@@ -206,8 +210,8 @@ f32 ScreenAppMapWidget::sub_71009AF034() const {
 void ScreenAppMapWidget::sub_71009AEF88() {
     _b4ec = 0;
     _b4f0 = 0;
-    if (_b499 + _b388 >= 1) {
-        const u32 packed = *_b370;
+    if (mFootPrint.mCount + mFootPrint.mPending >= 1) {
+        const u32 packed = *mFootPrint.mCells.getBufferPtr();
         s32 x = (packed >> 13) & 0x1fff;
         if (packed & 0x4000000)
             x = -x;
@@ -227,8 +231,8 @@ KSYS_VISIBILITY_HIDDEN bool sUnk_71025D9610 = false;
 void ScreenAppMapWidget::sub_71009ADEF0() {
     f32 x = 0.0f;
     f32 y = 0.0f;
-    if (_b499 + _b388 >= 1) {
-        const u32 packed = *_b370;
+    if (mFootPrint.mCount + mFootPrint.mPending >= 1) {
+        const u32 packed = *mFootPrint.mCells.getBufferPtr();
         s32 px = (packed >> 13) & 0x1fff;
         if (packed & 0x4000000)
             px = -px;
@@ -325,5 +329,139 @@ u8 ScreenAppMapWidget::sub_71009AF37C() const {
 }
 
 ScreenAppMapWidget::~ScreenAppMapWidget() = default;
+
+// 0x7100a842e4
+Unk_710249d330::~Unk_710249d330() {
+    mCells.freeBuffer();
+    mFlags.freeBuffer();
+    if (mHeap) {
+        mHeap->destroy();
+        mHeap = nullptr;
+    }
+    mCount = 0;
+}
+
+// 0x7100a862a4
+void Unk_710249d330::init(sead::Heap* heap) {
+    if (mState != 0)
+        return;
+    if (mHeap) {
+        mCells.freeBuffer();
+        mFlags.freeBuffer();
+        mHeap->destroy();
+        mHeap = nullptr;
+        mCount = 0;
+    }
+    if (auto* cells = new (heap, 4, std::nothrow) u32[0x38400])
+        mCells.setBuffer(0x38400, cells);
+    if (auto* flags = new (heap, 4, std::nothrow) u8[0x38400])
+        mFlags.setBuffer(0x38400, flags);
+    mHeap = sead::ExpHeap::create(0x227100, "FootPrintWorkHeap", heap, 8,
+                                  sead::Heap::cHeapDirection_Reverse, false);
+    mState = 1;
+}
+
+// 0x7100a863c4
+void Unk_710249d330::initHeap() {
+    if (mState != 0)
+        return;
+    if (mHeap) {
+        mHeap->destroy();
+        mHeap = nullptr;
+        mCount = 0;
+    }
+    if (mCells.getBufferPtr() && mFlags.getBufferPtr()) {
+        mHeap = sead::ExpHeap::create(0x227100, "FootPrintWorkHeap", getHeap(), 8,
+                                      sead::Heap::cHeapDirection_Reverse, false);
+        mState = 1;
+    }
+}
+
+// 0x7100a843c0
+void Unk_710249d330::step() {
+    switch (mState) {
+    case 1:
+        mState = 2;
+        break;
+    case 2:
+        sub_7100A843F4();
+        break;
+    case 3:
+        mState = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+// 0x7100a86950
+bool Unk_710249d330::isIdle() const {
+    return mState == 0;
+}
+
+// NON_MATCHING: the original decodes both cell coordinates before the compare and folds them into a ccmp
+// pair (660 bytes); clang short-circuits the second decode (636 bytes).
+// 0x7100a866bc
+void Unk_710249d330::sub_7100A866BC(f32 x, f32 y, bool flag) {
+    if (!ksys::aoc::Manager::instance()->hasAoc2())
+        return;
+
+    const s32 count = mCount;
+    if (count > 0) {
+        const u32 last = mCells[count - 1];
+        s32 last_x = (last >> 13) & 0x1fff;
+        if (last & 0x4000000)
+            last_x = -last_x;
+        s32 last_y = last & 0xfff;
+        if (last & 0x1000)
+            last_y = -last_y;
+        if (s32(x) == s32(f32(last_x)) && s32(y) == s32(f32(last_y)))
+            return;
+    }
+
+    const s32 x_i = s32(x);
+    const s32 y_i = s32(y);
+    if (x_i == 0 && y_i == 0)
+        return;
+    if (x_i == -0x60 && y_i == 0x140)
+        return;
+
+    const s32 x_abs = sead::Mathi::abs(x_i);
+    const s32 y_abs = sead::Mathi::abs(y_i);
+    const u32 packed_x = (u32(x_abs) & 0x1fff) | (x < 0.0f ? 0x2000 : 0);
+    const u32 packed_y = (u32(y_abs) & 0xfff) | (y < 0.0f ? 0x1000 : 0);
+    const s32 zone = (y_i + 4000) / 0x96 + ((x_i + 5000) / 0x96) * 0x36;
+    if (zone & 0xf000)
+        return;
+    u32 packed = packed_y | (packed_x << 13);
+    if (flag)
+        packed |= 0x8000000;
+    packed |= u32(zone) << 28;
+
+    if ((u32(count) >> 10) < 0xe1) {
+        mFlags[count] = u8(u32(zone) >> 4);
+        mCells[mCount] = packed;
+        if (mPending)
+            return;
+        mPending = true;
+        return;
+    }
+
+    const s32 n = mCells.size() - 0x1c20;
+    if (n > 0) {
+        for (s32 i = 0; i < n; ++i) {
+            mCells[i] = mCells[i + 0x1c20];
+            mFlags[i] = mFlags[i + 0x1c20];
+        }
+    }
+    mCount = count - 0x1c20;
+    mFlags[mCount] = u8(u32(zone) >> 4);
+    const s32 idx = mCount;
+    mCount = idx + 1;
+    mCells[idx] = packed;
+    if (!mPending)
+        return;
+    mPending = false;
+}
 
 }  // namespace uking::ui
