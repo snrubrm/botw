@@ -23,6 +23,8 @@ add_library(gsys OBJECT
   include/gsys/gsysModelDynamicEnvInfo.h
   include/gsys/gsysModelNW.h
   include/gsys/gsysModelDrawObj.h
+  include/gsys/gsysModelDrawObjStream.h
+  include/gsys/gsysModelOcclusionQuery.h
   include/gsys/gsysModelRenderContext.h
   include/gsys/gsysModelRenderQueue.h
   include/gsys/gsysModelRenderUnitNodeArray.h
@@ -81,6 +83,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelWorkBuffer.cpp
   src/gsys/gsysModelUnitDrawArray.cpp
   src/gsys/gsysModelDrawObj.cpp
+  src/gsys/gsysModelDrawObjStream.cpp
   src/gsys/gsysModelRenderContext.cpp
   src/gsys/gsysModelRenderQueue.cpp
   src/gsys/gsysModelRenderUnitNodeArray.cpp

@@ -4,6 +4,7 @@
 #include <heap/seadHeap.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include "gsys/gsysModelOcclusionQuery.h"
 
 namespace agl::lght {
 class LocalLightMapObj;
@@ -18,6 +19,9 @@ class ModelDynamicEnvInfo;
 // The lifetime stays out of line: the original destructor 0x7100c00bcc releases its
 // owned environment objects and the embedded occlusion query at +0x28.
 class ModelDrawObj {
+    // ModelDrawObjStream::add 0x7100c7e144 copies +0x08..+0x20 and takes the address of +0x28.
+    friend class ModelDrawObjStream;
+
 public:
     // 0x7100c00af4: sets the two s32 fields and the byte at +0x08 to 1. initialize 0x7100c00c94
     // reads +0x00 (a 0x20-byte record stride) and the flag at +0x08.
@@ -43,13 +47,23 @@ public:
     void setReferenceLocalLightMapObj(const agl::lght::LocalLightMapObj* obj);
 
 private:
-    u8 _8[0x0a - 0x08];
+    // The constructor zeroes +0x08, +0x0b, +0x0c, +0x10 and +0x18; the destructor skips
+    // releasing +0x20 when +0x08 is non-zero.
+    u16 _8;
     // Instance flag byte; EffectModelDrawUnit::addInstance sets bit 1.
     u8 _a;
-    u8 _b[0x12 - 0x0b];
+    u8 _b;
+    u8 _c;
+    u8 _d[0x10 - 0x0d];
+    u16 _10;
     // Instance parameter stored by EffectModelDrawUnit::addInstance.
     u16 _12;
-    u8 _14[0xb0 - 0x14];
+    u8 _14[0x18 - 0x14];
+    void* _18;
+    // Released through vtable slot 1 by the destructor unless +0x08 is set.
+    void* _20;
+    ModelOcclusionQuery mOcclusionQuery;
+    u8 _a0[0xb0 - 0xa0];
     // Per-instance transform and position written by EffectModelDrawUnit::addInstance.
     sead::Matrix34f mMatrix;
     sead::Vector3f mPosition;
