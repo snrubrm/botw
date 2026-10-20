@@ -211,6 +211,14 @@ KSYS_VISIBILITY_HIDDEN s32 sUnk_710260F5B8;
 nn::atk::StreamRegionCallbackResult sub_7101002374(nn::atk::StreamRegionCallbackParam* param,
                                                    void* user);
 
+void Unk_71024fd6c8::sub_710100215C(const ksys::snd::Unk_BgmControllerM8Arg& arg) {
+    _1d8 = arg;
+    if (_1d8._c & 0xff)
+        _1e8 = 2;
+    else if (_1d8._4 >= 1)
+        _1e8 = 1;
+}
+
 void Unk_71024fd6c8::hm14() {
     mEntry = sub_71010209FC(sStr_Main);
     if (mEntry && mEntry->sub_7100FF6DF4(this)) {

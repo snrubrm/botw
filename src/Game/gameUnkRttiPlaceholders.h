@@ -2615,8 +2615,8 @@ public:
     ksys::snd::Unk_710260f248Entry* mEntry = nullptr;
     // The "outro" entry (sub_7101002194).
     ksys::snd::Unk_710260f248Entry* _1d0;
-    u64 _1d8 = 0;
-    u64 _1e0 = 0;
+    // Copied by sub_710100215C.
+    ksys::snd::Unk_BgmControllerM8Arg _1d8{};
     u32 _1e8 = 0;
     f32 _1ec = 0;
     s32 _1f0 = -1;
