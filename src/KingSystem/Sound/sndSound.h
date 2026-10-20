@@ -69,7 +69,7 @@ class Shape;
 class Emitter;
 class SpeakerBalanceUnifier;
 
-// The primary base of Unk_SoundMgr60 (vtable at 0x7102502a68; the object's three vtable pointers at +0 / +0x8 /
+// The primary base of ResourceManager (vtable at 0x7102502a68; the object's three vtable pointers at +0 / +0x8 /
 // +0x10 come from one group). Its two named virtuals are IAssetList::isDirty / clearDirty (upstream's IDB names
 // for 0x710105947c / 0x7101059484). The interface belongs in lib/aal (requested from the library worker); it is
 // declared here so that the resource manager's hierarchy can be modelled.
@@ -114,7 +114,7 @@ class SoundProxy;
 }
 
 // gameUnkRttiPlaceholders.h (the bars resource).
-class Unk_7102502978;
+class ResourceBars;
 
 namespace ksys::snd {
 
@@ -807,7 +807,7 @@ public:
     Unk_710105fe78();
     virtual ~Unk_710105fe78();
     // Native lookup/provider use this existing resource-cache receiver.
-    Unk_7102502978* sub_7101060C04(const sead::SafeString& name);
+    ResourceBars* sub_7101060C04(const sead::SafeString& name);
     bool sub_7101060D14(aal::AssetInfo* info, const sead::SafeString& path,
                         const sead::SafeString& asset);
     // Lookup 0x7101060C04 proves the hash/handle pair and sixteen-byte stride.
@@ -1212,9 +1212,9 @@ public:
 static_assert(sizeof(ListenerPoser) == 0xe0);
 
 // Placeholder (vtable 0x7102502950; D1 0x7101056bc8, readAssetInfo 0x7101056cac): an asset info reader. At +0x68 of
-// Unk_710260f248, and embedded at Unk_SoundMgr60 +0x28 (its address is the xlink2 SLink resource list the UI screens
+// Unk_710260f248, and embedded at ResourceManager +0x28 (its address is the xlink2 SLink resource list the UI screens
 // hand to their sound link users). The D1 frees a buffer of 0x50-byte res::Handle objects (`_8` count, `_10` pointer).
-// Moved here from sndBgmMgr.h so that Unk_SoundMgr60 can embed it.
+// Moved here from sndBgmMgr.h so that ResourceManager can embed it.
 class Unk_7102502950 : public aal::IAssetInfoReadable {
 public:
     // 0x7101057258 (declared only; 712 B): loads the asset info for `name`; true when done.
@@ -1233,7 +1233,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
 
 // Placeholder (vtable 0x71025a36b0; constructor 0x71012c8968, destructor 0x71012c89e8): the 0xc8-byte member at
-// Unk_SoundMgr60 +0x48. Only the res::Handle at +0x70 is non-trivial; the constructor zeroes the other fields and
+// ResourceManager +0x48. Only the res::Handle at +0x70 is non-trivial; the constructor zeroes the other fields and
 // sets -1 at +0x3c and 0x101 at +0xc0.
 class Unk_71025a36b0 {
 public:
@@ -1255,12 +1255,12 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025a36b0, 0xc8);
 
-// The primary base of Unk_SoundMgr60 (vtable at 0x7102502a68; the object's three vtable pointers at +0 / +0x8 /
+// The primary base of ResourceManager (vtable at 0x7102502a68; the object's three vtable pointers at +0 / +0x8 /
 // +0x10 come from one group). Its two named virtuals are aal::IAssetList::isDirty / clearDirty (upstream's
 // IDB names for 0x710105947c / 0x7101059484). This interface belongs in lib/aal (requested from the library
 // worker); it is declared in the aal namespace above so the resource manager's hierarchy can be modelled.
 
-// Placeholder (the second base of Unk_SoundMgr60; its secondary vtable address point is 0x7102502ac8). A concrete
+// Placeholder (the second base of ResourceManager; its secondary vtable address point is 0x7102502ac8). A concrete
 // asset info reader that never finds an asset: readAssetInfo is 0x7101059460 and the constructor stores its vtable
 // at +0x8. The derived class does not override readAssetInfo, so the vtable slot points at this class's function
 // directly (the original has no adjusting thunk for it).
@@ -1271,7 +1271,7 @@ public:
     }
 };
 
-// Placeholder (the third base of Unk_SoundMgr60; its vtable at 0x7102502ae0 holds only the destructor pair, so the
+// Placeholder (the third base of ResourceManager; its vtable at 0x7102502ae0 holds only the destructor pair, so the
 // interface is empty apart from its virtual destructor).
 class Unk_7102502ae0 {
 public:
@@ -1282,7 +1282,7 @@ class BarslistArchive;
 
 // Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
 // (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.
-// Placeholder (the member at Unk_SoundMgr60 +0x828, built by the ResourceManager constructor 0x7101057c4c):
+// Placeholder (the member at ResourceManager +0x828, built by the ResourceManager constructor 0x7101057c4c):
 // a list of named sound resources (0x710105c3d0 adds entries; 0x710105c70c / ca84 / cd4c walk the list).
 struct Unk_SoundMgr60_828 {
     Unk_SoundMgr60_828();
@@ -1319,8 +1319,9 @@ struct Unk_SoundMgr60_828 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr60_828, 0xbc0);
 
-struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Unk_7102502ae0 {
-    ~Unk_SoundMgr60() override;
+struct ResourceManager : public aal::IAssetList, public Unk_7102502ac0, public Unk_7102502ae0 {
+    ResourceManager();
+    ~ResourceManager() override;
 
     // The aal::IAssetList slots (0x7101059468 ... 0x7101059458): the resource manager answers "nothing to list /
     // not dirty".
@@ -1362,7 +1363,7 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     // bars file name when it is a loaded ResourceBars.
     void sub_7101059120(res::Handle* handle, res::Handle* pack, const sead::SafeString& name);
     // 0x7101058f20 (placeholder name): loads "<dir>/<name>.bars" into `handle` and returns it as a bars resource.
-    Unk_7102502978* sub_7101058F20(res::Handle* handle, const sead::SafeString& name,
+    ResourceBars* sub_7101058F20(res::Handle* handle, const sead::SafeString& name,
                                    const sead::SafeString& dir, bool use_audio_arena, bool lane2);
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
@@ -1380,7 +1381,7 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     void sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap, bool flag);
     // 0x710105844c: loads "Sound/Resource/<name>" into `handle` (on the audio arena when `use_audio_arena`, lane 2
     // when `lane2`) and returns it as a bars resource; once it is loaded (status 4) its file name is set.
-    Unk_7102502978* sub_710105844C(res::Handle* handle, const sead::SafeString& name, bool use_audio_arena,
+    ResourceBars* sub_710105844C(res::Handle* handle, const sead::SafeString& name, bool use_audio_arena,
                                    bool lane2);
     // 0x7101059354 (CSV Curl_protocol_getsock was wrong): deletes the asset info reader (vtable slot 2 is its D0).
     void sub_7101059354(Unk_7102502950* reader);
@@ -1407,7 +1408,7 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     /* 0x14f8 */ sead::PtrArrayImpl mBars;
     /* 0x1508 */ sead::CriticalSection _1508;
     // The delegate of the low-priority request submitted by sub_7101058B74; its function is 0x7101057e74.
-    /* 0x1548 */ sead::Delegate1R<Unk_SoundMgr60, void*, bool> mDelegate;
+    /* 0x1548 */ sead::Delegate1R<ResourceManager, void*, bool> mDelegate;
     /* 0x1568 */ sead::CriticalSection _1568;
     /* 0x15a8 */ sead::FixedSafeString<32> _15a8;
     /* 0x15e0 */ sead::DirectResource* _15e0 = nullptr;
@@ -1416,10 +1417,10 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     /* 0x15f8 */ res::Handle _15f8;
     /* 0x1648 */ res::Handle _1648;
 };
-KSYS_CHECK_SIZE_NX150(Unk_SoundMgr60, 0x1698);
+KSYS_CHECK_SIZE_NX150(ResourceManager, 0x1698);
 
 // 0x710105882c (CSV loadVoiceFromTitleBGPack; 840 B, declared only): loads the voices of the title BGM pack.
-void loadVoiceFromTitleBGPack(Unk_SoundMgr60* resource_manager);
+void loadVoiceFromTitleBGPack(ResourceManager* resource_manager);
 
 // Placeholder: the property definition source passed to sub_710105E3D0 (it reads the definitions and their
 // count through vtable slots 3 and 4).
@@ -1746,7 +1747,7 @@ public:
     /* 0x48 */ Unk_SoundMgr48* _48;
     /* 0x50 */ FxMgr* _50;
     ListenerPoser* _58;
-    /* 0x60 */ Unk_SoundMgr60* _60;
+    /* 0x60 */ ResourceManager* _60;
     u8 _68[0x78 - 0x68];
     /* 0x78 */ OcclusionMgr* mOcclusionMgr;
     /* 0x80 */ DuckingMgr* mDuckingMgr;

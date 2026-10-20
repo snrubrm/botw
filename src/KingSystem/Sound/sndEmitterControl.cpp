@@ -164,7 +164,7 @@ bool Unk_SoundMgr60_828::sub_710105C70C(const sead::SafeString& name) {
             return true;
         if (!entry.mHandle.isReadyOrNeedsParse() || !entry.mHandle.parseResource(nullptr))
             return false;
-        auto* bars = sead::DynamicCast<Unk_7102502978>(entry.mHandle.getResource());
+        auto* bars = sead::DynamicCast<ResourceBars>(entry.mHandle.getResource());
         if (entry.mHandle.isSuccess() && bars) {
             sead::FixedSafeString<64> path;
             path.format("M_%s.bars", entry.mName.cstr());
@@ -193,7 +193,7 @@ bool Unk_SoundMgr60_828::sub_710105CA84(aal::AssetInfo* info, const sead::SafeSt
             continue;
         if (!entry.mHandle.isSuccess())
             return false;
-        auto* bars = sead::DynamicCast<Unk_7102502978>(entry.mHandle.getResource());
+        auto* bars = sead::DynamicCast<ResourceBars>(entry.mHandle.getResource());
         if (!bars)
             return false;
         sead::FixedSafeString<128> asset;

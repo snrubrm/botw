@@ -29,7 +29,7 @@ sead::SafeString sTestArchivePath = "Sound/test.sarc";
 }  // namespace
 
 // NON_MATCHING: the status local sits at a frame-pointer offset in the original.
-Unk_7102502978* Unk_SoundMgr60::sub_710105844C(res::Handle* handle, const sead::SafeString& name,
+ResourceBars* ResourceManager::sub_710105844C(res::Handle* handle, const sead::SafeString& name,
                                                bool use_audio_arena, bool lane2) {
     sead::FixedSafeString<128> path;
     path.format("%s%s", sResourceDirectory.cstr(), name.cstr());
@@ -43,7 +43,7 @@ Unk_7102502978* Unk_SoundMgr60::sub_710105844C(res::Handle* handle, const sead::
         request.mLaneId = 2;
     res::Handle::Status status;
     auto* resource = handle->load(path, &request, &status);
-    auto* bars = sead::DynamicCast<Unk_7102502978>(resource);
+    auto* bars = sead::DynamicCast<ResourceBars>(resource);
     if (bars && status == res::Handle::Status::_4) {
         bars->sub_7101057588(name);
         return bars;
@@ -51,13 +51,13 @@ Unk_7102502978* Unk_SoundMgr60::sub_710105844C(res::Handle* handle, const sead::
     return bars;
 }
 
-void Unk_SoundMgr60::sub_7101059354(Unk_7102502950* reader) {
+void ResourceManager::sub_7101059354(Unk_7102502950* reader) {
     delete reader;
 }
 
 // 0x7101058734: loads every entry of the bars list `name` into `reader` as a direct resource load and
 // marks the reader as loaded.
-void Unk_SoundMgr60::sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader,
+void ResourceManager::sub_7101058734(const sead::SafeString& name, Unk_7102502950* reader,
                                     sead::Heap* heap, bool flag) {
     if (!reader)
         return;
@@ -77,7 +77,7 @@ void Unk_SoundMgr60::sub_7101058734(const sead::SafeString& name, Unk_7102502950
 // NON_MATCHING: every local sits 0x10 higher than the original's (the request, the path string and the reused
 // status / requester temporary); the instructions are otherwise the same.
 // 0x7101058f20 (placeholder name): loads "<dir>/<name>.bars" into `handle` and returns it as a bars resource.
-Unk_7102502978* Unk_SoundMgr60::sub_7101058F20(res::Handle* handle, const sead::SafeString& name,
+ResourceBars* ResourceManager::sub_7101058F20(res::Handle* handle, const sead::SafeString& name,
                                                const sead::SafeString& dir, bool use_audio_arena,
                                                bool lane2) {
     sead::FixedSafeString<128> path;
@@ -91,7 +91,7 @@ Unk_7102502978* Unk_SoundMgr60::sub_7101058F20(res::Handle* handle, const sead::
     if (lane2)
         request.mLaneId = 2;
     auto* resource = handle->load(path, &request, &status);
-    auto* bars = sead::DynamicCast<Unk_7102502978>(resource);
+    auto* bars = sead::DynamicCast<ResourceBars>(resource);
     if (bars && status == res::Handle::Status::_4)
         bars->sub_7101057588(name);
     return bars;
@@ -99,7 +99,7 @@ Unk_7102502978* Unk_SoundMgr60::sub_7101058F20(res::Handle* handle, const sead::
 
 // 0x7101059120 (placeholder name): loads `name` into `handle` with `pack` as the pack handle, then sets the
 // bars file name when the result is a loaded ResourceBars.
-void Unk_SoundMgr60::sub_7101059120(res::Handle* handle, res::Handle* pack, const sead::SafeString& name) {
+void ResourceManager::sub_7101059120(res::Handle* handle, res::Handle* pack, const sead::SafeString& name) {
     res::LoadRequest request;
     request.mRequester = "Sound";
     request.mLoadDataAlignment = 0x80;
@@ -108,13 +108,13 @@ void Unk_SoundMgr60::sub_7101059120(res::Handle* handle, res::Handle* pack, cons
     request._26 = false;
     res::Handle::Status status;
     auto* resource = handle->load(name, &request, &status);
-    auto* bars = sead::DynamicCast<Unk_7102502978>(resource);
+    auto* bars = sead::DynamicCast<ResourceBars>(resource);
     if (bars && status == res::Handle::Status::_4)
         bars->sub_7101057588(name);
 }
 
 // 0x7101058c44: loads every entry of the bars list `name` into `reader`, requesting each asset.
-bool Unk_SoundMgr60::loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap,
+bool ResourceManager::loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap,
                               bool a4, bool a5, res::Handle* pack) {
     if (!reader)
         return false;
@@ -139,7 +139,7 @@ bool Unk_SoundMgr60::loadBars(const sead::SafeString& name, Unk_7102502950* read
 }
 
 // NON_MATCHING: the requester temporary uses a different stack slot.
-bool Unk_SoundMgr60::requestLoadBars(res::Handle* handle, const sead::SafeString& name,
+bool ResourceManager::requestLoadBars(res::Handle* handle, const sead::SafeString& name,
                                     bool use_audio_arena, bool lane2, u32 buffer_size,
                                     res::Handle* pack) {
     sead::FixedSafeString<128> path;
@@ -159,7 +159,7 @@ bool Unk_SoundMgr60::requestLoadBars(res::Handle* handle, const sead::SafeString
     return handle->requestLoad(path, &request, nullptr);
 }
 
-sead::DirectResource* Unk_SoundMgr60::tryLoadResource(const sead::SafeString& path, sead::Heap* heap,
+sead::DirectResource* ResourceManager::tryLoadResource(const sead::SafeString& path, sead::Heap* heap,
                                                       s32 alignment) {
     sead::DirectResource* resource = nullptr;
     loadDirectResource(&resource, path, heap, alignment);
@@ -167,7 +167,7 @@ sead::DirectResource* Unk_SoundMgr60::tryLoadResource(const sead::SafeString& pa
 }
 
 // NON_MATCHING: the heap and alignment registers are swapped (x20 / x21).
-bool Unk_SoundMgr60::loadDirectResource(sead::DirectResource** out, const sead::SafeString& path,
+bool ResourceManager::loadDirectResource(sead::DirectResource** out, const sead::SafeString& path,
                                         sead::Heap* heap, s32 alignment) {
     if (!heap)
         heap = mHeap;
@@ -185,3 +185,9 @@ bool Unk_SoundMgr60::loadDirectResource(sead::DirectResource** out, const sead::
 }
 
 }  // namespace ksys::snd
+
+sead::DirectResource* Unk_7102502b50::newResource_(sead::Heap* heap_, s32 alignment) {
+    sead::Heap* heap = ksys::util::getHeapOrCurrentHeap(heap_);
+    sead::ScopedCurrentHeapSetter setter{heap};
+    return new (heap, alignment, std::nothrow_t{}) ResourceBars;
+}

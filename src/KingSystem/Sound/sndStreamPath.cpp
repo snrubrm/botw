@@ -40,7 +40,7 @@ bool Unk_710105fe78::sub_7101060D14(aal::AssetInfo* info,
 }
 
 // NON_MATCHING: cache-bound and entry-pointer loads are scheduled differently.
-Unk_7102502978* Unk_710105fe78::sub_7101060C04(const sead::SafeString& name) {
+ResourceBars* Unk_710105fe78::sub_7101060C04(const sead::SafeString& name) {
     const u32 hash = sead::HashCRC32::calcStringHash(name.cstr());
     const auto* entries = _8->getBufferPtr();
     s32 low = 0;
@@ -49,7 +49,7 @@ Unk_7102502978* Unk_710105fe78::sub_7101060C04(const sead::SafeString& name) {
         const s32 middle = (low + high) / 2;
         const auto& entry = entries[middle];
         if (entry.mHash == hash)
-            return sead::DynamicCast<Unk_7102502978>(entry.mHandle->getResource());
+            return sead::DynamicCast<ResourceBars>(entry.mHandle->getResource());
         if (entry.mHash < hash) {
             if (low == middle)
                 return nullptr;

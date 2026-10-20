@@ -32,7 +32,7 @@ Unk_710251b6f0::~Unk_710251b6f0() {
 
 void Unk_710251b6f0::sub_71012CD614() {
     if (mHandle.requestedLoad() && mHandle.isReadyOrNeedsParse() && mHandle.parseResource(nullptr)) {
-        auto* resource = sead::DynamicCast<Unk_7102502978>(mHandle.getResource());
+        auto* resource = sead::DynamicCast<ResourceBars>(mHandle.getResource());
         if (mHandle.isSuccess() && resource) {
             sead::FixedSafeString<64> path;
             path.format("%s.bars", mName.cstr());
