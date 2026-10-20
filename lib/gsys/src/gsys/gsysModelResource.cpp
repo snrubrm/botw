@@ -50,4 +50,7 @@ void ModelResource::countDownAnimationReferenceCounter() {
 s32 ModelResource::getAnimationReferenceCounter() const {
     return mAnimationReferenceCounter.load();
 }
+
+// 0x7100f1fe68: the base callback ignores shader assignment (a four-byte body).
+void IModelResourceCallback::m2(const ShaderAssignArg&) {}
 }  // namespace gsys
