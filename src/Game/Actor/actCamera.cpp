@@ -162,6 +162,16 @@ EditCamera::CameraNames* Camera::sub_7100795414() {
     return sub_7100791B00(accessor);
 }
 
+// NON_MATCHING: the original tests the sub_71009223C4 result with `cmp w0, #0` (ours `tst w0, #1`).
+void Camera::someCalculation(const sead::Matrix34f& mtx, sead::Vector3f* at, sead::Vector3f* pos) {
+    *pos = mtx.getTranslation() + sead::Vector3f::ey * 1.6f;
+    sead::Vector3f dir(-mtx(0, 2), -mtx(1, 2), -mtx(2, 2));
+    const f32 len = dir.length();
+    if (len > 0.0f)
+        dir *= 6.0f / len;
+    *at = (sub_71009223C4() ? dir : -dir) + *pos;
+}
+
 // Takes the camera pack request with the highest priority (the first one on ties) and clears all of them.
 void Camera::sub_7100795518() {
     auto& requests = _860._5a0;

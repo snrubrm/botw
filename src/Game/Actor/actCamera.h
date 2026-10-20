@@ -530,6 +530,9 @@ public:
     // 0x7100793db4: takes the player's look-at position (or the current look-at point of `_860._0`) as the camera target:
     // stores it in `_860._164`, calls m153 with it and updates the matrix.
     void sub_7100793DB4();
+    // 0x7100793e80 (CSV act::Camera::someCalculation): `pos` = 1.6 above the translation of `mtx`, `at` = 6 along
+    // the backward (or, with sub_71009223C4, forward) axis of `mtx` from `pos`.
+    void someCalculation(const sead::Matrix34f& mtx, sead::Vector3f* at, sead::Vector3f* pos);
     // 0x710079572c (CSV act::Camera::updateMatrix; declared only).
     void updateMatrix(bool a1);
     void sub_7100793BD8();
