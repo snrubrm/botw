@@ -133,13 +133,30 @@ public:
         u8 _8[0xbc - 0x8];
         /* 0xbc */ bool _bc;
         /* 0xc0 */ Unk_71012C5034* _c0;
-        u8 _c8[0x15c - 0xc8];
+        // The part names: the sead string is followed by the group's skip flag and part object. The
+        // original's strings are 0x94 bytes (4-byte aligned, a 0x80 buffer) instead of our 0x98, so the
+        // 0x78 buffer plus the explicit pad keeps every later member at its real offset.
+        /* 0xc8 */ sead::FixedSafeString<0x78> _c8;
+        /* 0x158 */ u8 _c8_pad[4];
         /* 0x15c */ bool _15c;
         /* 0x160 */ Unk_71012C5034* _160;
-        u8 _168[0x1fc - 0x168];
+        /* 0x168 */ sead::FixedSafeString<0x78> _168;
+        /* 0x1f8 */ u8 _168_pad[4];
         /* 0x1fc */ bool _1fc;
         /* 0x200 */ Unk_71012C5034* _200;
-        u8 _208[0x480 - 0x208];
+        /* 0x208 */ sead::FixedSafeString<0x78> _208;
+        /* 0x298 */ u8 _208_pad[4];
+        /* 0x29c */ bool _29c;
+        /* 0x2a0 */ Unk_71012C5034* _2a0;
+        /* 0x2a8 */ sead::FixedSafeString<0x78> _2a8;
+        /* 0x338 */ u8 _2a8_pad[4];
+        /* 0x33c */ bool _33c;
+        /* 0x340 */ Unk_71012C5034* _340;
+        /* 0x348 */ sead::FixedSafeString<0x78> _348;
+        /* 0x3d8 */ u8 _348_pad[4];
+        /* 0x3dc */ bool _3dc;
+        /* 0x3e0 */ Unk_71012C5034* _3e0;
+        u8 _3e8[0x480 - 0x3e8];
         /* 0x480 */ Unk_71012C5034* _480;
         u8 _488[0x520 - 0x488];
         /* 0x520 */ Unk_71012C5034* _520;

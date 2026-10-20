@@ -99,4 +99,69 @@ void Unk_7102502138::Unk68::sub_710104D834(bool flag) {
     _56c |= 8;
 }
 
+// 0x710104d068 (placeholder name): sets the arms part name: when bit 1 of _56e is set, only names that
+// are empty or start with "Arms_" pass the filter, the name is copied to _c8 and the arms part object
+// is pointed at it (or reset). Then the part is marked dirty.
+void Unk_7102502138::Unk68::sub_710104D068(const sead::SafeString& name) {
+    if ((_56e[0] & 2) && !sub_710104D204(name, "Arms_"))
+        return;
+    _c8.copy(name);
+    if (name.startsWith("Arms_"))
+        _160->sub_71012C384C(name);
+    else
+        _160->sub_71012C3968();
+    _56c |= 8;
+}
+
+// 0x710104d84c (placeholder name): the same for the head part and the "Head_" prefix.
+void Unk_7102502138::Unk68::sub_710104D84C(const sead::SafeString& name) {
+    if ((_56e[0] & 2) && !sub_710104D204(name, "Head_"))
+        return;
+    _208.copy(name);
+    if (name.startsWith("Head_"))
+        _2a0->sub_71012C384C(name);
+    else
+        _2a0->sub_71012C3968();
+    _56c |= 0xc;
+}
+
+// 0x710104d9e8 (placeholder name): the same for the upper body part and the "Upper_" prefix.
+void Unk_7102502138::Unk68::sub_710104D9E8(const sead::SafeString& name) {
+    if ((_56e[0] & 2) && !sub_710104D204(name, "Upper_"))
+        return;
+    _2a8.copy(name);
+    if (name.startsWith("Upper_"))
+        _340->sub_71012C384C(name);
+    else
+        _340->sub_71012C3968();
+    _56c |= 0xc;
+}
+
+// 0x710104db84 (placeholder name): the same for the lower body part and the "Lower_" prefix.
+void Unk_7102502138::Unk68::sub_710104DB84(const sead::SafeString& name) {
+    if ((_56e[0] & 2) && !sub_710104D204(name, "Lower_"))
+        return;
+    _348.copy(name);
+    if (name.startsWith("Lower_"))
+        _3e0->sub_71012C384C(name);
+    else
+        _3e0->sub_71012C3968();
+    _56c |= 0xc;
+}
+
+// 0x710104d638 (placeholder name): the same for the bow part and the "Bow_" prefix, but it leaves the
+// dirty bits alone while the upper body name is still the initial one.
+void Unk_7102502138::Unk68::sub_710104D638(const sead::SafeString& name) {
+    if ((_56e[0] & 2) && !sub_710104D204(name, "Bow_"))
+        return;
+    _168.copy(name);
+    if (name.startsWith("Bow_"))
+        _200->sub_71012C384C(name);
+    else
+        _200->sub_71012C3968();
+    if (_2a8 == "Initial")
+        return;
+    _56c |= 0xc;
+}
+
 }  // namespace ksys::snd
