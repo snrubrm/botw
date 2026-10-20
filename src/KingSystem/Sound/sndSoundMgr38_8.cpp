@@ -1,4 +1,7 @@
 #include "KingSystem/Sound/sndSound.h"
+#include "Game/gameStatisticsMgr.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include <aal/aalAttenuationMgr.h>
 #include <aal/aalSpeakerBalanceUnifierMgr.h>
 #include <aal/aalSystemAccessor.h>
@@ -242,3 +245,218 @@ void Unk_7102501f10::calcSpeakerBalance(aal::SpeakerChannelVolume* volume, aal::
     for (auto& v : volume->volume)
         v *= spread;
 }
+
+namespace ksys::snd {
+
+// Native 102F884 reads this mutable slope factor, initially 100.0f.
+KSYS_VISIBILITY_HIDDEN f32 sWaterFlowSlopeFactor = 100.0f;
+
+// NON_MATCHING: sampling temporaries and the flow value use different stack slots.
+bool Unk_SoundMgr38_18::sub_710102F884(s32 x, s32 z, const sead::Vector2f& origin,
+                                     tera::System* terrain, uking::StatisticsMgr* statistics,
+                                     bool* updated) {
+    const sead::Vector3f position(f32(x) * 5.0f + origin.x, 0.0f,
+                                  f32(z) * 5.0f + origin.y);
+    auto* cell = mCells[x][z];
+    cell->_0 = 0.0f;
+    cell->_4 = 0.0f;
+    cell->_8 = 0.0f;
+    cell->_18 = 0;
+    cell->mPosition = position;
+    const sead::Vector2f xz(position.x, position.z);
+    f32 height = 0.0f;
+    sead::Vector3f normal;
+    const u32 height_result = tera::sub_710110B52C(&height, &normal, &xz, terrain);
+    if (height_result == 1) {
+        if (updated)
+            *updated = true;
+    } else if (height_result == 0) {
+        return false;
+    } else if (height_result == u32(-1)) {
+        cell->_0 = 0.0f;
+        cell->_4 = 0.0f;
+        cell->_8 = 0.0f;
+        cell->mPosition = sead::Vector3f::zero;
+        cell->_18 = 0;
+        return true;
+    }
+    cell->mPosition.y = height;
+    const f32 normal_y = normal.y;
+    f32 baseline_height = 0.0f;
+    const u32 baseline_result = tera::sub_71011094A0(&baseline_height, &xz, terrain, -1, 0);
+    if (baseline_result == 1) {
+        if (updated)
+            *updated = true;
+    } else if (baseline_result == 0) {
+        return false;
+    } else if (baseline_result == u32(-1)) {
+        cell->_0 = 0.0f;
+        cell->_4 = 0.0f;
+        cell->_8 = 0.0f;
+        cell->mPosition = sead::Vector3f::zero;
+        cell->_18 = 0;
+        return true;
+    }
+    cell->_0 = sead::Mathf::clampMin(height - baseline_height, 0.0f);
+    if (cell->_0 > 0.0f) {
+        f32 flow = 0.0f;
+        if (mWaterFlowStats) {
+            if (statistics->sub_7100E33B10(&flow, 1, mWaterFlowStats, &position) != 0) {
+                flow *= 50.0f;
+            } else {
+                flow = 0.0f;
+                // Preserve the native negated upper-bound tests, including unordered inputs.
+                if (!(sead::Mathf::abs(position.x) >= 5000.0f) && updated &&
+                    !(sead::Mathf::abs(position.z) >= 4000.0f))
+                    *updated = true;
+            }
+        }
+        cell->_4 = flow;
+        if (normal_y <= 0.0f) {
+            cell->_4 = sWaterFlowSlopeFactor + 1.0f;
+            cell->_8 = sead::Mathf::piHalf();
+        } else {
+            const f32 angle = std::acos(normal_y);
+            cell->_4 *= (angle / sead::Mathf::piHalf()) * sWaterFlowSlopeFactor + 1.0f;
+            cell->_8 = angle;
+        }
+        cell->_18 = 0;
+        u32 attribute;
+        if (tera::sub_710110B634(&attribute, &xz, terrain)) {
+            const s32 index = s32(attribute >> 8);
+            s32 first;
+            s32 second;
+            tera::sub_710110B7A4(&first, &second, index);
+            if (first != -1) {
+                if (index == 7)
+                    cell->_18 = 3;
+                else if (first == 12)
+                    cell->_18 = 2;
+                else if (first == 11)
+                    cell->_18 = 1;
+            }
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: grid-center stores and bool aggregation are scheduled differently.
+bool Unk_SoundMgr38_18::sub_710102F1E4() {
+    const sead::Vector2i previous = mGridCenter;
+    mGridCenter.x = s32(mListenerPosition.x / 5.0f);
+    mGridCenter.y = s32(mListenerPosition.z / 5.0f);
+    mGridShift.x = mGridCenter.x - previous.x;
+    mGridShift.y = mGridCenter.y - previous.y;
+    mGridPosition.x = f32(mGridCenter.x) * 5.0f;
+    mGridPosition.y = f32(mGridCenter.y) * 5.0f;
+    auto* placement = map::PlacementMgr::instance();
+    if (!placement || !placement->mTeraSystem || !placement->mTeraSystem->_8 ||
+        !uking::StatisticsMgr::instance()) {
+        _962c = 2;
+        return false;
+    }
+    auto* terrain = placement->mTeraSystem;
+    auto* statistics = uking::StatisticsMgr::instance();
+    const sead::Vector2f origin(f32(mGridCenter.x - 16) * 5.0f,
+                                f32(mGridCenter.y - 16) * 5.0f);
+    bool any_updated = false;
+    for (s32 x = 0; x < 33; ++x) {
+        for (s32 z = 0; z < 33; ++z) {
+            bool updated = false;
+            if (!sub_710102F884(x, z, origin, terrain, statistics, &updated)) {
+                _962c = 2;
+                return false;
+            }
+            if (updated)
+                any_updated = true;
+        }
+    }
+    _962c = any_updated ? 3 : 4;
+    return true;
+}
+
+// NON_MATCHING: copy loops differ in index reloads and cell assignment scheduling.
+bool Unk_SoundMgr38_18::sub_710102F33C(const sead::Vector2i& shift, bool* updated) {
+    if (shift.x == 0 && shift.y == 0)
+        return true;
+    auto* placement = map::PlacementMgr::instance();
+    if (!placement || !placement->mTeraSystem || !placement->mTeraSystem->_8 ||
+        !uking::StatisticsMgr::instance())
+        return false;
+    auto* terrain = placement->mTeraSystem;
+    auto* statistics = uking::StatisticsMgr::instance();
+    const sead::Vector2f origin(f32(mGridCenter.x - 16) * 5.0f,
+                                f32(mGridCenter.y - 16) * 5.0f);
+    if (updated)
+        *updated = false;
+    if (shift.x < 0) {
+        if (shift.y < 0) {
+            if (shift.x > -33) {
+                for (s32 x = 32; x >= -shift.x; --x) {
+                    if (shift.y > -33) {
+                        for (s32 z = 32; z >= -shift.y; --z)
+                            *mCells[x][z] = *mCells[x + shift.x][z + shift.y];
+                    }
+                }
+            }
+            for (s32 x = 0; x < 33; ++x) {
+                for (s32 z = 0; z < 33; ++z) {
+                    if ((x < -shift.x || z < -shift.y) &&
+                        !sub_710102F884(x, z, origin, terrain, statistics, updated))
+                        return false;
+                }
+            }
+        } else {
+            if (shift.x > -33) {
+                for (s32 x = 32; x >= -shift.x; --x) {
+                    if (shift.y < 33) {
+                        for (s32 z = 0; z < 33 - shift.y; ++z)
+                            *mCells[x][z] = *mCells[x + shift.x][z + shift.y];
+                    }
+                }
+            }
+            for (s32 x = 0; x < 33; ++x) {
+                for (s32 z = 0; z < 33; ++z) {
+                    if ((x < -shift.x || z >= 33 - shift.y) &&
+                        !sub_710102F884(x, z, origin, terrain, statistics, updated))
+                        return false;
+                }
+            }
+        }
+    } else if (shift.y < 0) {
+        if (shift.x < 33) {
+            for (s32 x = 0; x < 33 - shift.x; ++x) {
+                if (shift.y > -33) {
+                    for (s32 z = 32; z >= -shift.y; --z)
+                        *mCells[x][z] = *mCells[x + shift.x][z + shift.y];
+                }
+            }
+        }
+        for (s32 x = 0; x < 33; ++x) {
+            for (s32 z = 0; z < 33; ++z) {
+                if ((x >= 33 - shift.x || z < -shift.y) &&
+                    !sub_710102F884(x, z, origin, terrain, statistics, updated))
+                    return false;
+            }
+        }
+    } else {
+        if (shift.x < 33) {
+            for (s32 x = 0; x < 33 - shift.x; ++x) {
+                if (shift.y < 33) {
+                    for (s32 z = 0; z < 33 - shift.y; ++z)
+                        *mCells[x][z] = *mCells[x + shift.x][z + shift.y];
+                }
+            }
+        }
+        for (s32 x = 0; x < 33; ++x) {
+            for (s32 z = 0; z < 33; ++z) {
+                if ((x >= 33 - shift.x || z >= 33 - shift.y) &&
+                    !sub_710102F884(x, z, origin, terrain, statistics, updated))
+                    return false;
+            }
+        }
+    }
+    return true;
+}
+
+}  // namespace ksys::snd

@@ -23,6 +23,8 @@ public:
     // 0x7100e34230 (declaration only; a thunk to 0x7100e34234): looks `count` values of the stats
     // `stats` up at `pos` (only x / z select the map cell) into `out`. Placeholder signature.
     s32 query(f32* out, s32 count, void* stats, const sead::Vector3f* pos);
+    // E33B10 is the float statistics query thunk; the native result is a value count.
+    u32 sub_7100E33B10(f32* out, u32 count, void* stats, const sead::Vector3f* pos);
     // Full E33EA0/E33EA4 and independent 12CB14C query 32-bit values and return the count.
     u32 sub_7100E33EA0(u32* out, u32 count, void* stats, const sead::Vector3f* pos);
 };

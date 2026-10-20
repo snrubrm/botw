@@ -7,6 +7,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 #include <container/seadOffsetList.h>
 #include <nn/util/util_IntrusiveList.h>
 #include <container/seadObjArray.h>
@@ -33,6 +34,8 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Sound/sndMiiSound.h"
 
+namespace uking { class StatisticsMgr; }
+namespace ksys::tera { class System; }
 namespace ksys::phys { class SphereRigidBody; }
 
 namespace ksys::snd {
@@ -501,14 +504,48 @@ public:
     // 0x710102ee40: sets three flags (Unk_SoundMgr38::sub_710102AE50).
     void sub_710102EE40();
 
-    u8 _8[0x9624 - 0x8];
+    bool sub_710102F1E4();
+    bool sub_710102F33C(const sead::Vector2i& shift, bool* updated);
+    bool sub_710102F884(s32 x, s32 z, const sead::Vector2f& origin, tera::System* terrain,
+                        uking::StatisticsMgr* statistics, bool* updated);
+
+    // Native 102D9C0 allocates 1089 cells and initializes only their type words.
+    struct Cell {
+        f32 _0;
+        f32 _4;
+        f32 _8;
+        sead::Vector3f mPosition;
+        u32 _18 = 0;
+    };
+    KSYS_CHECK_SIZE_NX150(Cell, 0x1c);
+
+    u8 _8[0x20 - 0x8];
+    /* 0x20 */ sead::SafeArray<sead::SafeArray<Cell*, 33>, 33> mCells;
+    /* 0x2228 */ Cell* mCellStorage;
+    /* 0x2230 */ sead::Vector2i mGridCenter;
+    /* 0x2238 */ sead::Vector2i mGridShift;
+    /* 0x2240 */ sead::Vector2f mGridPosition;
+    u8 _2248[0x7400 - 0x2248];
+    /* 0x7400 */ sead::Vector3f mListenerPosition;
+    u8 _740c[0x9624 - 0x740c];
     /* 0x9624 */ bool _9624;
     u8 _9625[0x9627 - 0x9625];
     /* 0x9627 */ bool _9627;
     u8 _9628;
     /* 0x9629 */ bool _9629;
-    u8 _962a[0xa828 - 0x962a];
+    u8 _962a[0x962c - 0x962a];
+    /* 0x962c */ u32 _962c;
+    u8 _9630[0x96b8 - 0x9630];
+    /* 0x96b8 */ void* mWaterFlowStats;
+    u8 _96c0[0xa828 - 0x96c0];
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_18, 0xa828);
+static_assert(offsetof(Unk_SoundMgr38_18, mCells) == 0x20);
+static_assert(offsetof(Unk_SoundMgr38_18, mCellStorage) == 0x2228);
+static_assert(offsetof(Unk_SoundMgr38_18, mGridCenter) == 0x2230);
+static_assert(offsetof(Unk_SoundMgr38_18, mListenerPosition) == 0x7400);
+static_assert(offsetof(Unk_SoundMgr38_18, _962c) == 0x962c);
+static_assert(offsetof(Unk_SoundMgr38_18, mWaterFlowStats) == 0x96b8);
 class Unk_SoundMgr38_38 {
 public:
     // 0x7101039f00 (declared only)
