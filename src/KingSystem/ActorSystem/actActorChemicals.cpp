@@ -16,6 +16,7 @@
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/XLink/xlinkChemicalEventState.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actReaction.h"
@@ -31,6 +32,52 @@
 #include <thread/seadThread.h>
 
 namespace ksys::act {
+
+bool sub_7100E412D0(const sead::Vector3f& element_pos, const Chemical* chemical,
+                   const sead::Vector3f& pos, phys::SystemGroupHandler* handler, bool flag) {
+    auto target = pos;
+    if (chemical) {
+        target = chemical->sub_7100D9155C();
+        if (chemical->_18) {
+            auto* element = sead::DynamicCast<Unk_71024e6428>(chemical->_18);
+            if (element && element->mActor)
+                target = element->mActor->get454();
+        }
+    }
+    phys::RayCastBodyQuery ray(nullptr, phys::GroundHit::HitAll);
+    ray.setGroundHit(phys::GroundHit::Bomb);
+    ray.enableLayer(phys::ContactLayer::EntityGroundObject);
+    ray.enableLayer(phys::ContactLayer::EntityGround);
+    ray.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    ray.enableLayer(phys::ContactLayer::EntityTree);
+    if (handler)
+        ray.addIgnoredGroup(handler);
+    ray.setStart(element_pos);
+    ray.setEnd(target);
+    if (ray.worldRayCast(phys::ContactLayerType::Entity))
+        return true;
+    ray.setStart(target);
+    ray.setEnd(element_pos);
+    return ray.worldRayCast(phys::ContactLayerType::Entity);
+}
+
+bool sub_7100E41470(const sead::Vector3f& pos, phys::SystemGroupHandler* handler) {
+    phys::RayCastBodyQuery ray(nullptr, phys::GroundHit::HitAll);
+    ray.setGroundHit(phys::GroundHit::HitAll);
+    ray.enableLayer(phys::ContactLayer::EntityGroundObject);
+    ray.enableLayer(phys::ContactLayer::EntityGround);
+    ray.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    auto target = pos;
+    target.y += 256.0f;
+    ray.setStart(pos);
+    ray.setEnd(target);
+    if (world::Manager::instance()->isAocField())
+        ray.setGroundHit(phys::GroundHit::MovingTrolley);
+    if (handler)
+        ray.addIgnoredGroup(handler);
+    return ray.worldRayCast(phys::ContactLayerType::Entity);
+}
+
 
 bool Unk_71024e6428::m29(const Chemical* chemical) {
     if (!chemical)
