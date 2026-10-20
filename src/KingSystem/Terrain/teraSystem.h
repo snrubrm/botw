@@ -121,6 +121,8 @@ public:
         // Position and radius from ActorUtil and the independent terrain-cull caller.
         // Declaration only; the implementation remains with the Grass owner.
         bool sub_7101150BA4(const sead::Vector3f* pos, f32 radius);
+        // 0x7101150bd8 (unnamed in the CSV): forwards the near-set query to _28 with a 2D position.
+        u32 sub_7101150BD8(const sead::Vector2f* position, f32 radius);
         // CutGrass and independent Motorcycle/Sandworm callers establish the position and flags.
         // Declaration only; the implementation remains with the Grass owner.
         bool sub_7101151064(const sead::Vector3f* pos, f32 radius, f32 intensity, bool call_effect,

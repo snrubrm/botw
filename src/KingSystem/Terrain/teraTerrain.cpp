@@ -542,6 +542,11 @@ bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
     return (manager->sub_7101069DB8(&xz, radius) & 1) != 0;
 }
 
+// 0x7101150bd8 (unnamed in the CSV): forwards to the _28 object's near-set query.
+u32 Core::Grass::sub_7101150BD8(const sead::Vector2f* position, f32 radius) {
+    return _28->sub_7101069DB8(position, radius);
+}
+
 void Core::Grass::sub_7101150990(bool enabled) {
     const u32 flags = mFlags;
     const u32 set = flags | 0x4000;
