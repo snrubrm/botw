@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -83,6 +84,36 @@ void HorseNotRidden::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
     changeChild("うろつく");
+}
+
+// NON_MATCHING: loop counter form. The original keeps i + 1 in a register and indexes with (i + 1) - 1.
+bool HorseNotRidden::sub_710043B6D8(ksys::act::AwarenessInstance* awareness) {
+    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    if (!horse)
+        return false;
+    if (!awareness->_260[0])
+        return false;
+
+    const s32 count = awareness->_260[0]->_8.size();
+    for (s32 i = 0; i < count; ++i) {
+        ksys::act::Unk_7100d78e50* entry = nullptr;
+        if (auto* sensor = awareness->_260[0]) {
+            if (sensor->_8.size() > i)
+                entry = ksys::act::sub_7100D78E30(&sensor->_8, i);
+        }
+        if (!entry)
+            continue;
+
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) && accessor.getId() != _120 &&
+            act::sub_7100E806A4(horse, entry->_0.mLink) && horse->sub_7100E6C12C(accessor.getId())) {
+            ksys::act::ai::InlineParamPack params;
+            params.addActor(entry->_0.mLink, "TargetActor", -1);
+            changeChild("食べに行く", &params);
+            return true;
+        }
+    }
+    return false;
 }
 
 void HorseNotRidden::leave_() {

@@ -9,6 +9,10 @@
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/GameData/gdtManager.h"
 
+namespace ksys::act {
+class AwarenessInstance;
+}
+
 namespace uking::ai {
 
 class HorseNotRidden : public ksys::act::ai::Ai {
@@ -26,6 +30,8 @@ public:
 
     // 0x7100438bc0 (gdt reinit callback; CSV name).
     void setAnimalMasterAppearanceFlagIdx(ksys::gdt::Manager::ReinitEvent* event);
+    // 0x710043b6d8 (placeholder name): goes to eat (食べに行く) the first sight-sensor target the horse accepts.
+    bool sub_710043B6D8(ksys::act::AwarenessInstance* awareness);
 
 protected:
     struct Params {

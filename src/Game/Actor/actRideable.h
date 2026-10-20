@@ -403,6 +403,9 @@ inline SEAD_ENUM_EX_VALUES(Rideable::Unk278, 0, 1, 3, -1, -4, -2)
 
 // 0x7100e80d18 (placeholder name): Rideable::sub_7100E7EF1C for the rideable of `actor` while its state (_c) is 1.
 void sub_7100E80D18(ksys::act::Actor* actor);
+// 0x7100e806a4 (placeholder name; declared only): false for a null actor or when a global factor plus the
+// actor's float at 0xb84 exceeds 1; otherwise checks `link` against the actor's GParam object (0x7100e8072c).
+bool sub_7100E806A4(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link);
 
 // Ridden anim-driven movement helpers (TU 0x7100e7f25c-, after Rideable's RTTI functions).
 // 0x7100e7f318: applies the AS anim-driven movement of `as_list` to `controller` (`scale` = 1 / the
