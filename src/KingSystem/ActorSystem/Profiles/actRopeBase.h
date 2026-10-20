@@ -42,6 +42,7 @@ public:
     bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
     void m63() override;
+    void m74() override;
     void m76(VFR::ScopedDeltaSetter* setter) override;
     int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
 

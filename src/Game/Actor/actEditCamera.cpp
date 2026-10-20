@@ -5,6 +5,8 @@ namespace uking::act {
 
 EditCamera::EditCamera(const CreateArg& arg) : Actor(arg) {}
 
+EditCamera::~EditCamera() = default;
+
 ksys::act::BaseProc* EditCamera::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) EditCamera(arg);
 }

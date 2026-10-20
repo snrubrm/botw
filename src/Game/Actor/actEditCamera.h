@@ -15,6 +15,7 @@ class EditCamera : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(EditCamera, ksys::act::Actor)
 public:
     explicit EditCamera(const CreateArg& arg);
+    ~EditCamera() override;
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 

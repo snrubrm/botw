@@ -80,6 +80,10 @@ bool Item::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return true;
 }
 
+void Item::onPreDeleteStart_(PrepareArg& arg) {
+    DynamicActor::onPreDeleteStart_(arg);
+}
+
 void Item::preDelete2_(const PreDeleteArg& arg) {
     if (_b90) {
         delete _b90;

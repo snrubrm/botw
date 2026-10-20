@@ -29,6 +29,7 @@ class Anchor : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(Anchor, ksys::act::Actor)
 public:
     explicit Anchor(const CreateArg& arg);
+    ~Anchor() override;
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 

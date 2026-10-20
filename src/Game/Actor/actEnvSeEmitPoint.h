@@ -12,6 +12,7 @@ class EnvSeEmitPoint : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(EnvSeEmitPoint, ksys::act::Actor)
 public:
     explicit EnvSeEmitPoint(const CreateArg& arg);
+    ~EnvSeEmitPoint() override;
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 

@@ -29,6 +29,8 @@ EnvSeEmitPoint::EnvSeEmitPoint(const CreateArg& arg) : Actor(arg) {
     getJobHandler(ksys::act::JobType::Calc2) = nullptr;
 }
 
+EnvSeEmitPoint::~EnvSeEmitPoint() = default;
+
 ksys::act::BaseProc* EnvSeEmitPoint::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) EnvSeEmitPoint(arg);
 }

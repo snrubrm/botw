@@ -12,6 +12,10 @@ namespace ksys::act {
 RopeBase::~RopeBase() = default;
 
 // NON_MATCHING: translation temporary loads and stores are scheduled differently.
+void RopeBase::m74() {
+    Actor::m74();
+}
+
 void RopeBase::m76(VFR::ScopedDeltaSetter* setter) {
     if (!_988)
         return;

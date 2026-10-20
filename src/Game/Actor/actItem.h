@@ -20,6 +20,7 @@ public:
 protected:
     // CSV m18 / m20.
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
     void preDelete2_(const PreDeleteArg& arg) override;
 
 public:

@@ -12,6 +12,8 @@ Anchor::Anchor(const CreateArg& arg) : Actor(arg) {
     _1c0 = 2;
 }
 
+Anchor::~Anchor() = default;
+
 ksys::act::BaseProc* Anchor::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Anchor(arg);
 }
