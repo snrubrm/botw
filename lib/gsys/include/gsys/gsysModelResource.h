@@ -14,9 +14,11 @@ class ModelShaderVariationKey;
 class G3dResModelEx;
 class G3dResMaterialEx;
 class G3dResShapeEx;
+class G3dResAnimationEx;
 namespace ModelEnum {
 enum class ShaderAssignType;
 }
+enum class MaterialAnmType;
 
 // BfRes +38 is a borrowed callback receiver (11FE614); its constructor and
 // destructor install four-slot tables with no virtual destructor slots.
@@ -55,6 +57,8 @@ public:
         void* file;
         // c0b778 consumes this array as ModelShaderArchive pointers.
         sead::FixedPtrArray<ModelShaderArchive, 256> shader_archives;
+        // 0x7100c0a9b8: appends when the array has room.
+        void pushBack(ModelShaderArchive* archive);
         bool _818;
         u8 _819;
         bool _81a;
@@ -76,11 +80,20 @@ public:
     // 0x7100c0c26c (name is a guess): the G3dResModelEx of model `index` (array at +0x40, stride 0x3f0;
     // ksys::tera 0x71011413b4 passes a ResFile::FindModelIndex result).
     G3dResModelEx* getResModelEx(s32 index) const;
+    // 0x7100c0c27c / 0x7100c0c28c: the 0x18-byte skeletal animation records at +0x50 and, per
+    // material-animation type, the record array at +0x58 + type * 8.
+    G3dResAnimationEx* getG3dResSkeletalAnmEx(s32 index);
+    G3dResAnimationEx* getG3dResMaterialAnmEx(MaterialAnmType type, s32 index);
 
 private:
     // ModelResourceMgr c0c80c records the intrusive node offset as +28.
     sead::ListNode mResourceListNode;
     nn::g3d::ResFile* mResFile;
     G3dResModelEx* mResModelExs;
+    u8 _48[8];
+    G3dResAnimationEx* mSkeletalAnms;
+    // Inline array indexed by MaterialAnmType (0x7100c0c28c adds type * 8 to this and loads
+    // +0x58); the enum's extent is unproved, so eight slots are reserved.
+    G3dResAnimationEx* mMaterialAnms[8];
 };
 }  // namespace gsys
