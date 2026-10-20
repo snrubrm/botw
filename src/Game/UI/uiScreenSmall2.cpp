@@ -3590,6 +3590,59 @@ void ScreenSaveTransferWindow::m202() {
     _3640->setFlag10(false);
 }
 
+// 0x7100a43b64
+void ScreenSaveTransferWindow::m186() {
+    mSaveWork.mHeap = nullptr;
+    if (!mSaveWork.queue()) {
+        ksys::gdt::setFlag_STErrorCode(mSaveWork.mResult, false);
+        _3788 = "0062";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        return;
+    }
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 5;
+    _3798 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a4539c
+void ScreenSaveTransferWindow::m266() {
+    mLoadWork.mHeap = nullptr;
+    if (sUnk_71025f2eb0._c != 0) {
+        _3798 = 0;
+    } else {
+        if (!mLoadWork.queue(nullptr, 0)) {
+            ksys::gdt::setFlag_STErrorCode(mLoadWork.mError, false);
+            _3788 = "0066";
+            getStateMachine().changeState(&sUnk_71025f2cc0);
+            return;
+        }
+        _3798 = 0;
+        _379c = 0;
+    }
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 5;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a456c0
 void ScreenSaveTransferWindow::m271() {
     ksys::Timer::update(&_379c, 1.0f);
