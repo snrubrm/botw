@@ -11,7 +11,11 @@ namespace ksys::phys {
 // so this class's lifetime and vtable are not defined here.
 class Unk_71024f6ba8 : public hkaiAstarEdgeFilter {
 public:
+    HK_DECLARE_CLASS_ALLOCATOR(Unk_71024f6ba8)
+
     ~Unk_71024f6ba8() override;
+    // 0x7100f7e468: empty override.
+    void m5() override {}
     using hkaiAstarEdgeFilter::isEnabledMaybe;
     // 0x7100f7d674: game mesh traversal filter. The volume callback is inherited.
     bool isEnabledMaybe(const NavMeshIsEnabledCallbackContext& context) const override;

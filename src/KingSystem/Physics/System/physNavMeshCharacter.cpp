@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physNavMeshEdgeFilter.h"
 #include <gsys/gsysModel.h>
 #include <heap/seadHeapMgr.h>
 #include <heap/seadHeap.h>
@@ -586,5 +587,6 @@ void Unk_71024f67c8::sub_7100F74F68(s32 index) {
     mModel->setBoneLocalMatrix(entry.mBone.getKey(), entry._60, entry.mScale);
 }
 
-}  // namespace ksys::phys
+Unk_71024f6ba8::~Unk_71024f6ba8() = default;
 
+}  // namespace ksys::phys
