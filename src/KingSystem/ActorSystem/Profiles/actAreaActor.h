@@ -30,6 +30,10 @@ public:
 
     void preDelete2_(const PreDeleteArg& arg) override;
     bool shouldInit_() override;
+    PreDeletePrepareResult prepareForPreDelete_() override;
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void calcMaybe() override;
+    void updatePositionMaybe() override;
     int getCalcTiming() override { return 0; }
 
     /* 148 */ virtual void m148() {}
@@ -44,6 +48,13 @@ public:
 
     // 0x7100e26620: index of the "Shape" map unit parameter in Sphere / Box / Capsule / Cylinder / Hull (0 if unknown).
     u8 getShape();
+    // 0x7100e2552c (CSV AreaActor::initPhysics; declared only): creates the body `_840`.
+    void initPhysics(sead::Heap* heap);
+    // 0x7100e25d84 (CSV AreaActor::init_m64; placeholder name): sets the link type `_889` (SensorBlind link 1,
+    // field body group 2, none 3: Calc1 runs job1_2) and places the actor at the home / collision body matrix.
+    void sub_7100E25D84();
+    // 0x7100e26084 (declared only, 968 B): the area matrix for the body.
+    void sub_7100E26084(sead::Matrix34f* mtx);
 
     // 0x7100e2677c: `_88a = 0`.
     void sub_7100E2677C();
@@ -74,7 +85,7 @@ public:
     /* 0x88a */ u8 _88a = 2;
     /* 0x88b */ u8 _88b = 0;
     /* 0x88c */ u8 _88c = 0;
-    /* 0x88d */ u8 _88d = 0;
+    /* 0x88d */ bool _88d = false;
 };
 KSYS_CHECK_SIZE_NX150(AreaActor, 0x890);
 
