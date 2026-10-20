@@ -67,6 +67,12 @@ public:
     };
     static_assert(sizeof(Entry) == 0x30);
 
+    // 0x7100dca228 / 0x7100dca244 / 0x7100dca264 (CSV unnamed; declared only): the three strings of _28[idx]
+    // (actor name, entry name, xlink name; the names are guesses from S7EventFlow::x)
+    const sead::SafeString& sub_7100DCA228(s32 idx) const;
+    const sead::SafeString& sub_7100DCA244(s32 idx) const;
+    const sead::SafeString& sub_7100DCA264(s32 idx) const;
+
     /* 0x08 */ act::BaseProcHandle _8;
     /* 0x18 */ act::BaseProcLink _18;
     /* 0x28 */ sead::Buffer<Entry> _28;

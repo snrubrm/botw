@@ -1,4 +1,8 @@
 #include "KingSystem/Event/evtS7.h"
+#include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "Game/gameRoot38.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUI.h"
@@ -34,6 +38,33 @@ void S7EventFlow::m4() {
 // 0x71008b84e0 (CSV evt::S7EventFlow::isPlaying)
 bool S7EventFlow::isPlaying() {
     return mState == 3;
+}
+
+// NON_MATCHING: stack layout only (the original reuses the type spill slot for `entry`; frame 0x10 smaller)
+// 0x71008b53f0: emits the xlink entries of the event resource on the event's actors
+void S7EventFlow::x(bool a1) {
+    if (int(mFlow->getType()) == EventFlowType::MovieWithNoPath)
+        return;
+    const auto* info = mFlow->_108->_1b8;
+    if (!info)
+        return;
+    for (s32 i = 0; i < info->_28.size(); ++i) {
+        auto* set = mFlow->_110;
+        if (!set)
+            continue;
+        const sead::SafeString entry = info->sub_7100DCA244(i).cstr();
+        if (entry.isEmpty())
+            continue;
+        const sead::SafeString name = info->sub_7100DCA228(i).cstr();
+        auto* actor = set->sub_7100DA2A28(name, entry);
+        if (!actor)
+            continue;
+        auto* proc = sead::DynamicCast<act::Actor>(actor->mLink.getProc(nullptr));
+        if (!proc)
+            continue;
+        if (auto* xlink = proc->getXLink())
+            xlink->sub_71012345B4(info->sub_7100DCA264(i).cstr(), a1);
+    }
 }
 
 // 0x71008b6748

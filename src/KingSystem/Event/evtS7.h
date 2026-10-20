@@ -143,7 +143,7 @@ public:
     // 0x71008b44ac (CSV evt::S7EventFlow::setup_1_1; not decompiled)
     void setup_1_1();
     // 0x71008b53f0 (CSV evt::S7EventFlow::x; not decompiled)
-    void x(int a1);
+    void x(bool a1);
 
 private:
     /* 0x1c */ s32 _1c;
