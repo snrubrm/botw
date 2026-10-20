@@ -1,6 +1,13 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndMusicDefinition.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
+
+namespace {
+// The static initialiser 0x710101e10c sets these (0x71026101c0).
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 Unk_SpotBgmHandle::Unk_SpotBgmHandle(ksys::snd::Unk_710260f248Type type) : Unk_710260f248(type) {}
 
