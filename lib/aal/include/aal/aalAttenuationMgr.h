@@ -46,6 +46,7 @@ public:
     void setupFromArchiveResource(const void* data, size_t size, sead::Heap* heap,
                                   sead::Heap* load_heap);
     void calc();
+    void drawGraphBackground(DebugDrawer* drawer);
 
     /// Creates the table of the attenuators sorted by the hash of their name (findAttenuator uses it if it exists).
     void createAttenuatorHashTable(sead::Heap* heap);

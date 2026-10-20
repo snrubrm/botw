@@ -1,4 +1,5 @@
 #include "aal/aalAttenuationMgr.h"
+#include "aal/aalDebugDrawer.h"
 #include <resource/seadResourceMgr.h>
 #include <resource/seadSharcArchiveRes.h>
 #include <basis/seadNew.h>
@@ -591,6 +592,39 @@ void AttenuationMgr::setupFromArchiveResource(const void* data, size_t size,
     setupFromFileDevice_(device, "Attenuation", heap, load_heap);
     delete device;
     delete archive;
+}
+
+// NON_MATCHING: native coordinate references avoid temporary vector and color copies.
+void AttenuationMgr::drawGraphBackground(DebugDrawer* drawer) {
+    if (_17c)
+        return;
+    const auto& arg = mDrawGraphArg;
+    drawer->drawRect({arg._4, arg._8}, {arg._c, arg._10},
+                     {arg._34, arg._38, arg._3c, arg._40}, false, sead::Color4f::cGray);
+    const sead::Color4f grid_color(0.6f, 0.6f, 0.6f, sead::Color4f::cElementMax);
+    if (arg._c > 0.0f) {
+        const f32 step = (arg._14 / arg._0) * arg._c;
+        f32 offset = 0.0f;
+        do {
+            drawer->drawLine({arg._4 + offset, arg._8},
+                             {arg._4 + offset, arg._8 + arg._10}, grid_color);
+            offset += step;
+        } while (offset < arg._c);
+    }
+    drawer->drawLine({arg._4 + arg._c, arg._8},
+                     {arg._4 + arg._c, arg._8 + arg._10}, grid_color);
+    if (arg._10 > 0.0f) {
+        const f32 step = arg._18 * arg._10;
+        f32 offset = 0.0f;
+        do {
+            drawer->drawLine({arg._4, arg._8 + offset},
+                             {arg._4 + arg._c, arg._8 + offset}, grid_color);
+            offset += step;
+        } while (offset < arg._10);
+    }
+    drawer->drawLine({arg._4, arg._8 + arg._10},
+                     {arg._4 + arg._c, arg._8 + arg._10}, grid_color);
+    _17c = true;
 }
 
 }  // namespace aal
