@@ -5,6 +5,12 @@ namespace gsys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(ParticleMgr)
 
+void ParticleMgr::manualCalcEmitter() {
+    mCalcJob._28 = nullptr;
+    mCalcJob._20 = 0;
+    mCalcJob.invoke();
+}
+
 void ParticleMgr::clearGroupInfo() {
     if (_8c == 2)
         return;
