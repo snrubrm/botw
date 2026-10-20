@@ -11,6 +11,8 @@ class Heap;
 
 namespace gsys {
 
+class ModelShader;
+
 // Only the members ModelShaderHolder uses are declared (constructor 0x7100c3cc14 builds 0x58 bytes).
 class ModelShaderArchive {
 public:
@@ -19,6 +21,7 @@ public:
 
     void setBinary(void* binary);
     void setup(sead::Heap* heap, sead::Heap* debug_heap);
+    const ModelShader* getModelShader(int index) const;
 
 private:
     u8 _8[0x58 - 0x8];
@@ -34,6 +37,9 @@ public:
     void initialize(sead::Heap* heap, sead::Heap* debug_heap);
     ModelShaderArchive* addModelShaderArchive(void* binary, sead::Heap* heap, sead::Heap* debug_heap);
     void setInvalidModelShaderArchive(ModelShaderArchive* archive);
+    const ModelShader* searchModelShader(const sead::SafeString& archive_name,
+                                         const sead::SafeString& shader_name) const;
+    ModelShaderArchive* getInvalidModelShaderArchive() const { return mInvalidArchive; }
 
 private:
     sead::PtrArray<ModelShaderArchive> mArchives;

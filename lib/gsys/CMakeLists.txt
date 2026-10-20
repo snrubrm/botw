@@ -98,6 +98,7 @@ add_library(gsys OBJECT
   src/gsys/gsysViewer.cpp
   src/gsys/gsysDebugCtrl.cpp
   src/gsys/gsysShaderHolder.cpp
+  src/gsys/gsysApplicationPackage.cpp
 )
 
 target_compile_options(gsys PRIVATE -fno-exceptions)
