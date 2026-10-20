@@ -229,6 +229,24 @@ bool UiSubsys1::sub_71009635DC() {
     return _d88[mode * 0x222 + index * 0x2a] < 3;
 }
 
+// NON_MATCHING: same instructions, the scheduler hoists the two bounds loads above the flag stores and
+// mirrors the fsel operands; the source order is the natural one
+// 0x7100961088 (placeholder name): resets the map marker bounds from the map scale.
+void UiSubsys1::sub_7100961088() {
+    const f32 inv_scale = 1.0f / _850._28;
+    const bool old = _8f0;
+    _8f0 = true;
+    _8f1 = old;
+
+    const f32 half_x = (_8e8 - _8e0 - inv_scale * sUnk_71025d6c70._34) * 0.5f;
+    const f32 half_y = sead::Mathf::abs(_8ec) - inv_scale * sUnk_71025d6c70._38 * 0.5f;
+
+    _8dc = sead::Mathf::maxNumber();
+    _8d0 = -sead::Mathf::max(half_x, 0.0f);
+    _8d4 = -sead::Mathf::max(half_y, 0.0f);
+    _8d8 = sead::Mathf::max(half_x, 0.0f);
+}
+
 // 0x7100963598
 u32 UiSubsys1::sub_7100963598() {
     u32 value = _120;

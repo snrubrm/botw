@@ -1535,7 +1535,19 @@ private:
     // The bounds of the map view (min / max corner)
     /* 0x8c0 */ sead::Vector2f _8c0;
     /* 0x8c8 */ sead::Vector2f _8c8;
-    u8 _8d0[0xd88 - 0x8d0];
+    // The map marker bounds written by sub_7100961088: left (-x), bottom (-y), right (x) and the view
+    // limit (FLT_MAX), then the two values the bounds are computed from and the two flags.
+    /* 0x8d0 */ f32 _8d0;
+    /* 0x8d4 */ f32 _8d4;
+    /* 0x8d8 */ f32 _8d8;
+    /* 0x8dc */ f32 _8dc;
+    /* 0x8e0 */ f32 _8e0;
+    u8 _8e4[4];
+    /* 0x8e8 */ f32 _8e8;
+    /* 0x8ec */ f32 _8ec;
+    /* 0x8f0 */ bool _8f0;
+    /* 0x8f1 */ bool _8f1;
+    u8 _8f2[0xd88 - 0x8f2];
     // The map mode table: 5 groups of 0x888 bytes, 12 entries of 0xa8 (indexed in sub_71009635DC).
     /* 0xd88 */ s32 _d88[0xa57];
     u8 _36e4[0x3820 - 0x36e4];

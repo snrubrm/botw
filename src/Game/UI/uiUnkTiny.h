@@ -327,7 +327,10 @@ static_assert(sizeof(Unk_71024753a8) == 0xa8);
 struct Unk_71025d6c70 {
     u8 _00[0x28];
     /* 0x28 */ f32 _28 = 0;  // returned by sub_7100965EB0
-    u8 _2c[0x3c - 0x2c];
+    u8 _2c[0x34 - 0x2c];
+    // Read by UiSubsys1::sub_7100961088 (the marker bounds numerator).
+    /* 0x34 */ f32 _34;
+    /* 0x38 */ f32 _38;
     /* 0x3c */ sead::Vector2f size;
     u8 _44[0xc];
     /* 0x50 */ void* _50 = nullptr;  // returned by sub_71009630FC
