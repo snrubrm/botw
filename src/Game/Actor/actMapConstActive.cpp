@@ -65,6 +65,14 @@ ksys::act::Unk_71025ae640* MapConstActive::getAtk() {
     return _850;
 }
 
+void MapConstActive::onPreDeleteStart_(PrepareArg& arg) {
+    MapConstActiveOrMergedDungeonParts::onPreDeleteStart_(arg);
+}
+
+void MapConstActive::calcMaybe() {
+    MapConstActiveOrMergedDungeonParts::calcMaybe();
+}
+
 void MapConstActive::m63() {
     MapConstActiveOrMergedDungeonParts::m63();
     sub_71007394E8(this);

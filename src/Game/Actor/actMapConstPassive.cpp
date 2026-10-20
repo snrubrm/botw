@@ -11,4 +11,12 @@ ksys::act::BaseProc* MapConstPassive::construct(const CreateArg& arg, sead::Heap
     return new (heap, std::nothrow) MapConstPassive(arg);
 }
 
+void MapConstPassive::m63() {
+    MapConstPassiveBase::m63();
+}
+
+void MapConstPassive::initMaybe() {
+    MapConstPassiveBase::initMaybe();
+}
+
 }  // namespace uking::act

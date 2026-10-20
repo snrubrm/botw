@@ -28,8 +28,8 @@ public:
     // lane4 s46: CSV MapConst::m87 / m135 (0x71002dd638 / 0x71002dd650).
     s32* getLife() override { return &_83c; }
     Unk3* m135() override { return &_848; }
-    void onPreDeleteStart_(PrepareArg&) override {}
-    void calcMaybe() override {}
+    void onPreDeleteStart_(PrepareArg& arg) override;
+    void calcMaybe() override;
 
     /* 0x83c */ s32 _83c = 0;
     /* 0x840 */ f32 _840 = 0;  // traverse distance of the actor
@@ -54,10 +54,12 @@ protected:
     void preDelete2_(const PreDeleteArg& arg) override;
     void onDeleteRequested_(DeleteReason reason) override;
     bool canWakeUp_() override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
 
 public:
     void m63() override;
     void initMaybe() override;
+    void calcMaybe() override;
     void updatePositionMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstActiveOrMergedDungeonParts, 0x850);
@@ -75,10 +77,12 @@ public:
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void preDelete2_(const PreDeleteArg& arg) override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
 
 public:
     void m63() override;
     void initMaybe() override;
+    void calcMaybe() override;
     void updatePositionMaybe() override;
     ksys::act::Unk_71025ae640* getAtk() override;
     uking::act::DamageManagerBase* getDamageMgr() override;
@@ -105,10 +109,12 @@ protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void preDelete2_(const PreDeleteArg& arg) override;
     void onDeleteRequested_(DeleteReason reason) override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
 
 public:
     void m63() override;
     void initMaybe() override;
+    void calcMaybe() override;
     void updatePositionMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstPassiveBase, 0x850);
@@ -121,6 +127,9 @@ public:
     ~MapConstPassive() override;
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
+    void m63() override;
+    void initMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstPassive, 0x850);
 

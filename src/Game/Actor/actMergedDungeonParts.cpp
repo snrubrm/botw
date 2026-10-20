@@ -22,6 +22,16 @@ ksys::act::BaseProc* MergedDungeonParts::construct(const CreateArg& arg, sead::H
     return new (heap, std::nothrow) MergedDungeonParts(arg);
 }
 
+MergedDungeonParts::~MergedDungeonParts() = default;
+
+bool MergedDungeonParts::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    return MapConstActiveOrMergedDungeonParts::prepareInit_(heap, arg);
+}
+
+void MergedDungeonParts::onPreDeleteStart_(PrepareArg& arg) {
+    MapConstActiveOrMergedDungeonParts::onPreDeleteStart_(arg);
+}
+
 // NON_MATCHING: map-parameter pointer stack slots and one format-argument scheduling difference.
 void MergedDungeonParts::m63() {
     MapConstActiveOrMergedDungeonParts::m63();
@@ -54,6 +64,14 @@ void MergedDungeonParts::m63() {
         _b80[i] = mModel->searchUnitIndex(unit_name);
         _850[i].makeRT(angles, *position);
     }
+}
+
+void MergedDungeonParts::initMaybe() {
+    MapConstActiveOrMergedDungeonParts::initMaybe();
+}
+
+void MergedDungeonParts::calcMaybe() {
+    MapConstActiveOrMergedDungeonParts::calcMaybe();
 }
 
 void MergedDungeonParts::updatePositionMaybe() {

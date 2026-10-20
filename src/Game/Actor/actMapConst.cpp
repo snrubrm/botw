@@ -24,6 +24,10 @@ void MapConst::preDelete2_(const PreDeleteArg& arg) {}
 
 void MapConst::initMaybe() {}
 
+void MapConst::onPreDeleteStart_(PrepareArg&) {}
+
+void MapConst::calcMaybe() {}
+
 void MapConst::m63() {
     _83c = getMaxLife();
     _844 = true;

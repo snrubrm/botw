@@ -11,9 +11,18 @@ class MergedDungeonParts : public MapConstActiveOrMergedDungeonParts {
     SEAD_RTTI_OVERRIDE(MergedDungeonParts, MapConstActiveOrMergedDungeonParts)
 public:
     explicit MergedDungeonParts(const CreateArg& arg);
+    ~MergedDungeonParts() override;
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
+protected:
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void onPreDeleteStart_(PrepareArg& arg) override;
+
+public:
     void m63() override;
+    void initMaybe() override;
+    void calcMaybe() override;
     void updatePositionMaybe() override;
 
     /* 0x850 */ sead::Matrix34f _850[17];

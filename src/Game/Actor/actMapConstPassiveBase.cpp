@@ -7,6 +7,14 @@ namespace uking::act {
 
 MapConstPassiveBase::MapConstPassiveBase(const CreateArg& arg) : MapConst(arg) {}
 
+void MapConstPassiveBase::onPreDeleteStart_(PrepareArg& arg) {
+    MapConst::onPreDeleteStart_(arg);
+}
+
+void MapConstPassiveBase::calcMaybe() {
+    MapConst::calcMaybe();
+}
+
 bool MapConstPassiveBase::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return MapConst::prepareInit_(heap, arg);
 }

@@ -17,6 +17,14 @@ void MapConstActiveOrMergedDungeonParts::preDelete2_(const PreDeleteArg& arg) {
     MapConst::preDelete2_(arg);
 }
 
+void MapConstActiveOrMergedDungeonParts::onPreDeleteStart_(PrepareArg& arg) {
+    MapConst::onPreDeleteStart_(arg);
+}
+
+void MapConstActiveOrMergedDungeonParts::calcMaybe() {
+    MapConst::calcMaybe();
+}
+
 void MapConstActiveOrMergedDungeonParts::initMaybe() {
     MapConst::initMaybe();
 }
