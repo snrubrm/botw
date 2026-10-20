@@ -26,7 +26,7 @@ public:
     bool mHasPosition;
 };
 
-/// TODO: incomplete. calcSpeakerBalance and calcAttenuationExceptVolume_ are not declared.
+/// TODO: incomplete. calcSpeakerBalance is not declared.
 class SpeakerBalanceUnifierArea {
 public:
     static constexpr s32 cSegmentNum = 64;
@@ -48,6 +48,9 @@ public:
     void setListenerDirectivityEnabled(bool enabled) { _214 = enabled; }
 
 private:
+    void calcAttenuationExceptVolume_(f32* parameter, f32* filter, f32* priority_factor,
+                                     f32 distance) const;
+
     SpeakerBalanceUnifierAreaSegment* mSegments[cSegmentNum];
     Attenuator* mAttenuator;
     f32 mRegisterCullingDistanceSquared;

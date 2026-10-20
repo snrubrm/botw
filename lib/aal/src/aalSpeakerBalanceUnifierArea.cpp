@@ -3,6 +3,8 @@
 #include <cfloat>
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalMeter.h"
+#include "aal/aalAttenuator.h"
+#include "aal/aalAttenuationCulling.h"
 
 namespace aal {
 
@@ -92,4 +94,32 @@ void SpeakerBalanceUnifierArea::setInteriorNum(s32 num) {
 void SpeakerBalanceUnifierArea::setSpread(f32 spread) {
     mSpread = spread;
 }
+// 0x7100b93d0c
+void SpeakerBalanceUnifierArea::calcAttenuationExceptVolume_(f32* parameter, f32* filter,
+                                                            f32* priority_factor,
+                                                            f32 distance) const {
+    if (distance == FLT_MAX || !mAttenuator) {
+        *parameter = 0.0f;
+        *filter = 0.0f;
+        *priority_factor = 0.0f;
+        return;
+    }
+
+    f32 parameter_value = 0.0f;
+    f32 filter_value = 0.0f;
+    if (Curve* curve = mAttenuator->getCurve(DistanceParamTarget::Unk1))
+        parameter_value = curve->interpolate(distance);
+    *parameter = parameter_value;
+    if (Curve* curve = mAttenuator->getCurve(DistanceParamTarget::Filter))
+        filter_value = curve->interpolate(distance);
+    *filter = filter_value;
+    Curve* priority_curve = mAttenuator->getCurve(DistanceParamTarget::PriorityFactor);
+    *priority_factor = priority_curve ? priority_curve->interpolate(distance) : 1.0f;
+    AttenuationCulling* culling = mAttenuator->getAttenuationCulling();
+    if (culling && culling->isPriorityDownEnabled()) {
+        const f32 gain = culling->calcCullingGain(distance, mAttenuator->getCurve(DistanceParamTarget::Volume));
+        *priority_factor = gain * *priority_factor;
+    }
+}
+
 }  // namespace aal
