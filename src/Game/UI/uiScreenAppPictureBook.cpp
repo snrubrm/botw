@@ -769,6 +769,22 @@ u32 ScreenAppPictureBookUnk::sub_710093E900(s32 base, s32 count) {
     return sub_710093E784(sum + base);
 }
 
+// 0x710093f05c
+sead::Vector2f ScreenAppPictureBookUnk::sub_710093F05C(s32 index) {
+    s32 local_index = -1;
+    s32 entry_index = -1;
+    sub_710093F10C(index, &local_index, &entry_index);
+    if (local_index == -1 || entry_index == -1)
+        return sead::Vector2f::zero;
+    auto* entry = mEntries.at(entry_index);
+    if (!entry)
+        return sead::Vector2f::zero;
+    const s32 per_page = entry->mParams._2a0 * entry->mParams._2a4;
+    const s32 rest = local_index % per_page;
+    return sub_7100944BC4(local_index / per_page, rest / entry->mParams._2a4, rest % entry->mParams._2a4,
+                          entry_index);
+}
+
 // 0x710093f10c
 void ScreenAppPictureBookUnk::sub_710093F10C(s32 index, s32* out_index, s32* out_value) {
     if (!mEntries.data())
