@@ -9,6 +9,7 @@
 #include "Game/Actor/actGuardianRegistry.h"
 #include "Game/Actor/Damage/dmgClothStiffnessMgr.h"
 #include "Game/Actor/Damage/dmgUnk_7100671794.h"
+#include "Game/Actor/aiUnk_71007024d4.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Resource/resHandle.h"
 
@@ -132,6 +133,23 @@ public:
 
     // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
+    struct Unk790;
+
+    // Placeholder name (vtable 0x710243c3a0, no RTTI): the actor "rain" component embedded at
+    // Unk790 + 0x20. It creates the actor named by its owner's _68 around the owner's actor.
+    class Unk_710243c3a0 : public Unk_71007024d4 {
+    public:
+        // 0x7100672b60: the position of the owner's actor.
+        bool m1(sead::Vector3f* out) override;
+        // 0x7100672be4: the owner's actor name.
+        bool m2(sead::BufferedSafeString* out) override;
+        // 0x7100672d00: links a created actor with the owner's actor.
+        void m3(ksys::act::Actor* actor) override;
+
+        /* 0x40 */ Unk790* mOwner;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk_710243c3a0, 0x48);
+
     struct Unk790 {
         // 0x71006726dc; declaration only, weather availability test.
         bool sub_71006726DC(s32 weather);
@@ -141,7 +159,10 @@ public:
         s32 mStatus;
         s32 _4;
         ksys::act::BaseProcLink mLink;
-        u8 _18[0xd8 - 0x18];
+        u8 _18[0x20 - 0x18];
+        /* 0x20 */ Unk_710243c3a0 _20;
+        /* 0x68 */ sead::FixedSafeString<64> mActorName;
+        u8 _c0[0xd8 - 0xc0];
     };
     KSYS_CHECK_SIZE_NX150(Unk790, 0xd8);
     // Inline-only in the original; name is a guess. WizzrobeWeatherMagic::leave_

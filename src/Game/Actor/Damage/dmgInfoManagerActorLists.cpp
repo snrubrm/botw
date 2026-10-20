@@ -1,6 +1,8 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace uking::act {
@@ -29,6 +31,31 @@ bool DamageInfoMgr::Unk790::sub_7100672B00(ksys::act::Actor* actor) const {
 
 bool DamageInfoMgr::Unk790::sub_7100672B1C(ksys::act::Actor* actor) const {
     return mStatus == 1 && mLink.hasProcById(actor);
+}
+
+bool DamageInfoMgr::Unk_710243c3a0::m1(sead::Vector3f* out) {
+    if (!mOwner)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&mOwner->mLink, &accessor))
+        return false;
+    accessor.getActorMtx().getTranslation(*out);
+    return true;
+}
+
+bool DamageInfoMgr::Unk_710243c3a0::m2(sead::BufferedSafeString* out) {
+    if (!mOwner)
+        return false;
+    out->copy(mOwner->mActorName);
+    return !out->isEmpty();
+}
+
+void DamageInfoMgr::Unk_710243c3a0::m3(ksys::act::Actor* actor) {
+    if (!actor || !mOwner)
+        return;
+    auto* link = &mOwner->mLink;
+    sub_7100738CB0(actor, link);
+    sub_7100738D50(actor, link);
 }
 
 void DamageInfoMgr::Unk28::sub_710065CB68() {}
