@@ -912,6 +912,15 @@ RigidBody* InstanceSet::sub_7100FC0580(RigidBodyFromShape* shape, sead::Heap* he
     return body;
 }
 
+void InstanceSet::sub_7100FB90C4(sead::Heap* heap) {
+    _100.freeBuffer();
+    _110 = 0;
+    if (!sub_7100FBFD54(heap)) {
+        _100.freeBuffer();
+        _110 = 0;
+    }
+}
+
 bool InstanceSet::sub_7100FBAB68() const {
     for (auto& set : mRigidBodySets) {
         if (!set.hasNoRigidBodyWithFlag8(true))

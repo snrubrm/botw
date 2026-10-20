@@ -312,6 +312,12 @@ public:
     // AddRigidBodyToWorld and RemoveNavMeshObj (EnableNavMeshCut); names are placeholders.
     void sub_7100FC012C(HavokAI* havok_ai);
     void sub_7100FC01B0();
+    // 0x7100fbfd54 (placeholder name; declared only): builds the navmesh object buffer _100 from the
+    // rigid body sets of the param. False when the sets do not line up with the rigid body set params.
+    bool sub_7100FBFD54(sead::Heap* heap);
+    // 0x7100fb90c4 (placeholder name): clears the navmesh object buffer and rebuilds it with
+    // sub_7100FBFD54, clearing it again if that fails. Called at the end of init.
+    void sub_7100FB90C4(sead::Heap* heap);
     // 0x7100fc0300: makes a sphere rigid body (group handler from _188 unless the param has one)
     // and links it into the body list at 0x148. Used by ksys::act::AITerror.
     SphereRigidBody* sub_7100FC0300(SphereParam* param, sead::Heap* heap);
