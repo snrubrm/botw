@@ -124,6 +124,8 @@ public:
     void updateButton_() override;
     // 0x71010a9eb8
     void registerController_() override;
+    // 0x71010aa22c: forwards to eui::Screen::createSoundLink2User_ (vtable slot 65)
+    void createSoundLink2User_(sead::Heap* heap) override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
     nn::ui2d::ResourceAccessor* doCreateResourceAccessor_(sead::Heap* heap) override;
     // 0x71010a9b44 (placeholder name): empty; called with `true` by ScreenChangeController::m98 and Screen::doInitialize
@@ -480,6 +482,8 @@ public:
     void open(s32 option) override;
     void close(s32 option) override;
     void update() override;
+    // 0x71010abf88: forwards to eui::Screen::doDraw_ (vtable slot 33 of every screen)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
     // 0x71010aa7a0 (CSV Screen::x_0): the child with index `index` of the group `group` (null if out of range)
     ScreenChild* getChild(s32 group, s32 index);
     // 0x71010ab66c (CSV Screen::doUpdate_WorldMgrStuff): sets the _298 animators to the EnvMgr's mExposure frame

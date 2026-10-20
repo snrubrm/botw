@@ -415,6 +415,16 @@ void Screen::doButtonCancelEnd_(eui::AnimButton* button) {
         child.m68(button);
 }
 
+// 0x71010aa22c
+void ScreenBase::createSoundLink2User_(sead::Heap* heap) {
+    eui::Screen::createSoundLink2User_(heap);
+}
+
+// 0x71010abf88
+void Screen::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    eui::Screen::doDraw_(info);
+}
+
 // 0x71010abaa8
 void Screen::sub_71010ABAA8(eui::AnimButton* button) {
     m103(button);
