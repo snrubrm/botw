@@ -458,20 +458,13 @@ public:
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100bc0c
-    // NON_MATCHING: the original computes the wrap-around as (key + 1 > 2 ? key - 2 : key + 1) and loads the
-    // random instance before the key.
+    // NON_MATCHING: clang folds key + 1 > 2 to key > 1 (the original compares key + 1) and loads the key before the
+    // random instance.
     void start() override {
         if (sead::GlobalRandom::instance()->getF32() * 100.0f < mOdds->ref())
             return;
-        s32 key = mOwner->mKey + sead::GlobalRandom::instance()->getBool() + 1;
-        if (key > 2)
-            key -= 3;
-        auto* owner = mOwner;
-        owner->mKey = key;
-        if (owner->mUserInstance)
-            owner->mUserInstance->setPropertyValue(1, owner->mKey);
-        if (owner->mSubHandle->mUserInstance)
-            owner->mSubHandle->mUserInstance->setPropertyValue(1, owner->mKey);
+        const s32 key = mOwner->mKey + sead::GlobalRandom::instance()->getBool();
+        mOwner->setKeyMaybe(key + 1 > 2 ? key - 2 : key + 1);
     }
 
 private:
@@ -523,10 +516,10 @@ public:
 
     bool isDone() override { return true; }
     // 0x710100bd64
-    // NON_MATCHING: the original loads the owner unconditionally and selects the tension address with csel.
+    // NON_MATCHING: the original loads the owner before the flag test and selects the tension address with csel.
     Unk_EnvBgmNode* getNext() override {
-        const s32& tension = sUnk_710260F858 ? sUnk_710260F85C : mOwner->_1d8._0;
-        return mBranches[tension >= mThreshold->ref()];
+        const s32* tension = sUnk_710260F858 == false ? &mOwner->_1d8._0 : &sUnk_710260F85C;
+        return mBranches[*tension >= mThreshold->ref()];
     }
     void setNext(Unk_EnvBgmNode* next) override {}
     // 0x710100be34
