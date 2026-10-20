@@ -135,6 +135,18 @@ public:
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
     struct Unk790;
 
+    // The setup of the actor rain (Unk790 + 0x68), copied in by Unk790::sub_710067298C.
+    struct Unk790Params {
+        sead::FixedSafeString<64> mActorName;
+        /* 0x58 */ f32 _58;  // Unk_71007024d4::_1c
+        /* 0x5c */ f32 _5c;  // Unk_71007024d4::_34
+        /* 0x60 */ f32 _60;  // Unk_71007024d4::_30
+        /* 0x64 */ f32 _64;  // Unk_71007024d4::_38
+        /* 0x68 */ f32 _68;  // the maximum interval (frames)
+        /* 0x6c */ f32 _6c;  // the minimum interval (frames)
+    };
+    KSYS_CHECK_SIZE_NX150(Unk790Params, 0x70);
+
     // Placeholder name (vtable 0x710243c3a0, no RTTI): the actor "rain" component embedded at
     // Unk790 + 0x20. It creates the actor named by its owner's _68 around the owner's actor.
     class Unk_710243c3a0 : public Unk_71007024d4 {
@@ -156,13 +168,14 @@ public:
         bool sub_7100672B00(ksys::act::Actor* actor) const;
         bool sub_7100672B1C(ksys::act::Actor* actor) const;
         void sub_7100672888(ksys::act::Actor* actor);
+        // 0x710067298c: when `proc` is the linked actor, takes `params` and restarts the actor rain (status 2).
+        bool sub_710067298C(ksys::act::BaseProc* proc, const Unk790Params& params);
         s32 mStatus;
         s32 _4;
         ksys::act::BaseProcLink mLink;
         u8 _18[0x20 - 0x18];
         /* 0x20 */ Unk_710243c3a0 _20;
-        /* 0x68 */ sead::FixedSafeString<64> mActorName;
-        u8 _c0[0xd8 - 0xc0];
+        /* 0x68 */ Unk790Params mParams;
     };
     KSYS_CHECK_SIZE_NX150(Unk790, 0xd8);
     // Inline-only in the original; name is a guess. WizzrobeWeatherMagic::leave_

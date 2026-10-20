@@ -33,6 +33,26 @@ bool DamageInfoMgr::Unk790::sub_7100672B1C(ksys::act::Actor* actor) const {
     return mStatus == 1 && mLink.hasProcById(actor);
 }
 
+bool DamageInfoMgr::Unk790::sub_710067298C(ksys::act::BaseProc* proc, const Unk790Params& params) {
+    if (!mLink.hasProcById(proc))
+        return false;
+    mParams.mActorName = params.mActorName;
+    mParams._58 = params._58;
+    mParams._5c = params._5c;
+    mParams._60 = params._60;
+    mParams._64 = params._64;
+    mParams._68 = params._68;
+    mParams._6c = params._6c;
+    _20.sub_7100710DE4();
+    _20.sub_7100710890(s32(mParams._6c), s32(mParams._68));
+    _20._1c = mParams._58;
+    _20._38 = mParams._64;
+    _20._30 = mParams._60;
+    _20._34 = mParams._5c;
+    mStatus = 2;
+    return true;
+}
+
 bool DamageInfoMgr::Unk_710243c3a0::m1(sead::Vector3f* out) {
     if (!mOwner)
         return false;
@@ -46,7 +66,7 @@ bool DamageInfoMgr::Unk_710243c3a0::m1(sead::Vector3f* out) {
 bool DamageInfoMgr::Unk_710243c3a0::m2(sead::BufferedSafeString* out) {
     if (!mOwner)
         return false;
-    out->copy(mOwner->mActorName);
+    out->copy(mOwner->mParams.mActorName);
     return !out->isEmpty();
 }
 
