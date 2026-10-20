@@ -5,6 +5,13 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Utils/InitTimeInfo.h"
+
+namespace {
+// Set up by the TU's 52-byte static initialiser.
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 namespace ksys::snd {
 

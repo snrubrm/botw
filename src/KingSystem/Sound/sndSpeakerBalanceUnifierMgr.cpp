@@ -11,6 +11,13 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldTimeMgr.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
+
+namespace {
+// Set up by the TU's 52-byte static initialiser.
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 namespace ksys::snd {
 

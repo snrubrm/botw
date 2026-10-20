@@ -22,6 +22,12 @@
 #include <aal/aalSpeakerBalanceUnifier.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
+namespace {
+// Set up by the TU's 52-byte static initialiser 0x71010349dc.
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
+
 namespace ksys::snd {
 
 // TU 0x710102c1d8..0x71010349dc in the original (static initialiser 0x710102c1a4 ends the previous TU): also
