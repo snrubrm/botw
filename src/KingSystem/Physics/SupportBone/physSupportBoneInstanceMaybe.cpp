@@ -124,4 +124,16 @@ bool SupportBoneInstanceMaybe::updateWeightsMaybe(f32 step) {
     return max_weight != 0.0f;
 }
 
+void SupportBoneInstanceMaybe::updateBonesMaybe() {
+    if (!_8 || !mResource)
+        return;
+    sub_7101226E44();
+    const s32 num_bones = *mResource->mSupportBoneNum;
+    for (s32 i = 0; i < num_bones; ++i) {
+        const f32 weight = _48[i].weight;
+        if (weight != 0.0f)
+            sub_7101227580(mResource->mSupportBoneBuffer[i], weight);
+    }
+}
+
 }  // namespace ksys::phys

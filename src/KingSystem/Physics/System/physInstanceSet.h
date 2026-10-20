@@ -12,6 +12,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/Rig/physBoneAccessor.h"
+#include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 
 namespace gsys {
 class Model;
@@ -91,6 +92,9 @@ public:
     void sub_7101226E44();
     // Native 0x71012273bc: chase enabled support-bone weights and report any nonzero weight.
     bool updateWeightsMaybe(f32 step);
+    void updateBonesMaybe();
+    // Native 0x7101227580 reads a resource bone and applies its weighted transform.
+    void sub_7101227580(const SupportBoneResource::SupportBone& bone, f32 weight);
     // 0x710122ad34 (declaration only; placeholder name): computes the aim rotation of a main bone, false if none.
     static bool sub_710122AD34(sead::Quatf* out, const MainBoneWork& work, const sead::Vector3f& aim,
                                const sead::Vector3f& up, const sead::Vector3f& side);
