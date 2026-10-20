@@ -2,7 +2,12 @@
 
 namespace gsys {
 
-ResourceEditor* ResourceEditor::sInstance = nullptr;
+SEAD_SINGLETON_DISPOSER_IMPL(ResourceEditor)
+
+ResourceEditor::ResourceEditor() {
+    _1c58[0] = "0:off";
+    _1c58[1] = "1:on";
+}
 
 ResourceEditor::~ResourceEditor() = default;
 

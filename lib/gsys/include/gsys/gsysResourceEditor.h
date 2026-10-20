@@ -42,13 +42,22 @@ public:
 
 private:
     // calc 0x7100c5d444 passes this pointer to Model::bind as a ModelScene*.
-    ModelScene* mScene;  // +0x28
-    u8 _30[0x2458 - 0x30];
-    /* 0x2458 */ IResourceEditorCallback* mCallback;
-    u8 _2460[0x2468 - 0x2460];
+    ModelScene* mScene = nullptr;  // +0x28
+    u8 _30[0x50 - 0x30];
+    // The constructor (inlined into createInstance 0x7100c5d1d8) initializes everything below.
+    /* 0x50 */ sead::FixedSafeString<1024> _50;
+    /* 0x468 */ bool _468 = false;
+    u8 _469[0x1c58 - 0x469];
+    // Option labels; the constructor sets them after the members below.
+    /* 0x1c58 */ const char* _1c58[2];
+    u8 _1c68[0x2450 - 0x1c68];
+    /* 0x2450 */ u32 _2450 = 0;
+    /* 0x2458 */ IResourceEditorCallback* mCallback = nullptr;
+    /* 0x2460 */ void* _2460 = nullptr;
     // The destructor C5D380 finalizes this critical section.
     /* 0x2468 */ sead::CriticalSection mCriticalSection;
-    u8 _24a8[0x24b8 - 0x24a8];
+    /* 0x24a8 */ void* _24a8 = nullptr;
+    /* 0x24b0 */ void* _24b0 = nullptr;
 };
 static_assert(sizeof(ResourceEditor) == 0x24b8);
 
