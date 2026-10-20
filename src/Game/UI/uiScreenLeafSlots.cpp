@@ -411,6 +411,11 @@ void ScreenAppCamera::sub_71009D9AD8() {
     }
 }
 
+// 0x71009db8e4
+void ScreenAppCamera::m110() {
+    sub_71009D9AD8();
+}
+
 // 0x71009da700 (placeholder name): the number of panes below `pane` whose names start with `prefix` (all of them for
 // an empty prefix)
 s32 sub_71009DA700(nn::ui2d::Pane* pane, const sead::SafeString& prefix) {

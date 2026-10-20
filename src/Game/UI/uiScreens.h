@@ -5054,6 +5054,8 @@ public:
     void m99() override;
     // 0x71009db754: closes the camera screen
     void m100() override;
+    // 0x71009db8e4: runs sub_71009D9AD8
+    void m110() override;
     // 0x71009d94e8 (CSV ScreenAppCamera::calledFromM159; declared only)
     void sub_71009D94E8();
 
