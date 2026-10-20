@@ -1,5 +1,7 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <gsys/gsysModel.h>
+#include <heap/seadHeapMgr.h>
+#include <heap/seadHeap.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -398,6 +400,27 @@ void NavMeshCharacter::sub_7100F7E624(NavMeshCharacterUnk8A0* obj, s32 type) {
     obj->_70 = params._3c;
     obj->_74 = params._40;
     obj->_68 = params._48;
+}
+
+// NON_MATCHING: heap-range branches are selected differently and the type getter is inlined.
+NavMeshCharacter::CharacterInfo NavMeshCharacter::sub_7100F7D104(u32 value) {
+    if (value & 1)
+        return {nullptr, NavMeshCharacterType(s32(value >> 1))};
+
+    NavMeshCharacter* character = nullptr;
+    if (value != 0) {
+        const uintptr_t start = sead::HeapMgr::getRootHeap(0)->getStartAddress();
+        const uintptr_t end = sead::HeapMgr::getRootHeap(0)->getEndAddress();
+        uintptr_t base = start;
+        if (value < u32(start >> 1))
+            base = end;
+        if (!(value < u32(start >> 1) && u32(end >> 1) <= value)) {
+            // The ID stores pointer bits 1..32; the heap endpoint supplies the upper bits.
+            const uintptr_t address = (base & 0xfffffffe00000000ULL) | (u64(value) << 1);
+            character = reinterpret_cast<NavMeshCharacter*>(address);
+        }
+    }
+    return {character, sub_7100F74F94(character)};
 }
 
 void NavMeshCharacter::sub_7100F7D1B4(const NavMeshCharacter* other) {

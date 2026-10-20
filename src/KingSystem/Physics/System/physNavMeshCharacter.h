@@ -284,6 +284,13 @@ public:
     // 0x7100f74f94 (placeholder name): _1d8 of `character`, 0 without one. Returns NavMeshCharacterType
     // by value: the callers zero-extend the 4-byte SEAD_ENUM object (and x0, x0, #0xffffffff).
     static NavMeshCharacterType sub_7100F74F94(const NavMeshCharacter* character);
+    // 0x7100f7d104 decodes an odd type tag or an even compressed character pointer.
+    // The return is a 16-byte pair of a pointer and its NavMeshCharacterType.
+    struct CharacterInfo {
+        NavMeshCharacter* character;
+        NavMeshCharacterType type;
+    };
+    static CharacterInfo sub_7100F7D104(u32 value);
     // 0x7100f74fa0 (placeholder name): true for type Player, or when `material` is SmallAnimal and
     // `type` is not. `type` is NavMeshCharacterType by value (the body spills it).
     static bool sub_7100F74FA0(NavMeshCharacterType type, s32 material);
@@ -430,8 +437,11 @@ public:
         bool _41;
         f32 _44;
         f32 _48;
-        f32 _4c;
+        // Copied into the two vector members at +0xdc and +0xe8 by 0x7100f73714.
+        sead::Vector3f _4c;
+        sead::Vector3f _58;
     };
+    static_assert(sizeof(InitArg) == 0x68);
 
     virtual ~Unk_71024f67c8();
 
