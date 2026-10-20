@@ -28,6 +28,7 @@
 #include <thread/seadThread.h>
 #include "KingSystem/Physics/System/physClosestPointQueryWithInfo.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace ksys::tera {
 
@@ -862,6 +863,24 @@ bool teraGrassQueryForGroundObject(const sead::Vector3f* pos, f32 radius) {
                                              "teraGrass IsThereGroundObject", 1, phys::LowPriority::No);
     query.getContactPointInfo()->subscribeLayer(phys::ContactLayer::EntityGroundObject);
     return query.execute(false);
+}
+
+f32 sub_7101159054(const sead::Vector3f* pos, f32 depth) {
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.setGroundHit(phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    sead::Vector3f end = *pos;
+    end.y -= depth;
+    query.setStart(*pos);
+    query.setEnd(end);
+    if (query.worldRayCast(phys::ContactLayerType::Entity)) {
+        sead::Vector3f hit;
+        query.getHitPosition(&hit);
+        return hit.y;
+    }
+    return end.y;
 }
 
 bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
