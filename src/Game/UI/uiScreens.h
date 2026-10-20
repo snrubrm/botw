@@ -6015,8 +6015,9 @@ public:
 
     void m100() override;
     void m102(eui::AnimButton* button) override;
-    // 0x7100a66824 (placeholder name): whether the window shows the E3-only state
-    bool sub_7100A66824() const;
+    // 0x7100a66824 (placeholder name): whether the window shows the E3-only state. Static: Unk_710247b428::m122
+    // calls it without setting x0.
+    static bool sub_7100A66824();
     // 0x7100a6637c
     void m128() override;
     void m129() override;

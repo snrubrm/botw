@@ -14,6 +14,8 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Scene/gameScene.h"
+#include "Game/gameUnk_71008ba8d8.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/gameSaveSystem.h"
@@ -906,6 +908,39 @@ s32 Unk_710247b428::m120() { return 0; }
 
 // 0x71009bb8cc
 void Unk_710247b428::m121() {}
+
+// 0x71009bb8d0
+void Unk_710247b428::m122() {
+    switch (_1c0) {
+    case 0: {
+        auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+        if (screen && !screen->isClosed())
+            return;
+        break;
+    }
+    case 1: {
+        if (ScreenSystemWindow01::sub_7100A66824() && ScreenSystemWindow01::sub_7100A66760() != -1) {
+            if (!_268) {
+                if (auto* player = act::PlayerInfo::instance()->getPlayer()) {
+                    _268 = ksys::evt::callEvent(nullptr, "Demo025_2", "Demo025_2", player->getMtx(),
+                                                false, true);
+                }
+            }
+            GameScene::resetStage(ScreenSystemWindow01::sub_7100A667EC(), true);
+        }
+        auto* screen = sead::DynamicCast<ScreenSystemWindow01>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow01));
+        if (screen && !screen->isClosed()) {
+            if (screen->_291 & 4)
+                sub_71009B9E10();
+            return;
+        }
+        break;
+    }
+    }
+    getStateMachine().changeState(&sUnk_71025d9e00);
+}
 
 // 0x71009bbad0
 void Unk_710247b428::m123() {}

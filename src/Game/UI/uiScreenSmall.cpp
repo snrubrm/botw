@@ -1051,7 +1051,7 @@ void ScreenSystemWindow01::m102(eui::AnimButton* button) {
 }
 
 // 0x7100a66824 (placeholder name): whether the window shows the E3-only state
-bool ScreenSystemWindow01::sub_7100A66824() const {
+bool ScreenSystemWindow01::sub_7100A66824() {
     if (uking::ui::isE3DemoMode() && !uking::ui::isRIDDemo())
         return false;
     return sUnk_71025f5741 != 0;
