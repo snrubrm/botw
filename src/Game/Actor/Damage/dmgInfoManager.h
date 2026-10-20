@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <mc/seadJobQueue.h>
+#include <thread/seadAtomic.h>
 #include <thread/seadReadWriteLock.h>
 #include "Game/Actor/actGuardianRegistry.h"
 #include "Game/Actor/Damage/dmgClothStiffnessMgr.h"
@@ -168,12 +169,14 @@ public:
         bool sub_7100672B00(ksys::act::Actor* actor) const;
         bool sub_7100672B1C(ksys::act::Actor* actor) const;
         void sub_7100672888(ksys::act::Actor* actor);
+        // 0x71006727e4 (CSV name): links `proc` (status 1, weather `weather`) unless an actor is already linked.
+        bool tryAcquireWizzrobeWeatherRequest(ksys::act::BaseProc* proc, s32 weather);
         // 0x710067298c: when `proc` is the linked actor, takes `params` and restarts the actor rain (status 2).
         bool sub_710067298C(ksys::act::BaseProc* proc, const Unk790Params& params);
         s32 mStatus;
         s32 _4;
         ksys::act::BaseProcLink mLink;
-        u8 _18[0x20 - 0x18];
+        /* 0x18 */ sead::Atomic<u32> mLock;  // a spin lock (0 / 1)
         /* 0x20 */ Unk_710243c3a0 _20;
         /* 0x68 */ Unk790Params mParams;
     };

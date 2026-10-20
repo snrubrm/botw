@@ -1,4 +1,5 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
+#include <atomic>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -31,6 +32,28 @@ bool DamageInfoMgr::Unk790::sub_7100672B00(ksys::act::Actor* actor) const {
 
 bool DamageInfoMgr::Unk790::sub_7100672B1C(ksys::act::Actor* actor) const {
     return mStatus == 1 && mLink.hasProcById(actor);
+}
+
+bool DamageInfoMgr::Unk790::tryAcquireWizzrobeWeatherRequest(ksys::act::BaseProc* proc, s32 weather) {
+    while (mLock.load() == 1) {
+    }
+    while (!mLock.compareExchange(0, 1)) {
+    }
+
+    bool acquired;
+    if (mLink.hasProc()) {
+        acquired = false;
+    } else {
+        _4 = weather;
+        mLink.acquire(proc, false);
+        mStatus = 1;
+        acquired = true;
+    }
+
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    while (!mLock.compareExchange(1, 0)) {
+    }
+    return acquired;
 }
 
 bool DamageInfoMgr::Unk790::sub_710067298C(ksys::act::BaseProc* proc, const Unk790Params& params) {
