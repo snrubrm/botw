@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -14,6 +15,10 @@ public:
     void getSupportInfo(const hkStepInfo& step, hkArray<SupportInfo>& support) override;
     void getGround(const hkArray<SupportInfo>& support, hkBool use_dynamic,
                    hkpSurfaceInfo& surface) override;
+
+    void updateSurfaceVelocityMaybe(const hkArray<SupportInfo>& support, hkBool use_dynamic,
+                                    hkpSurfaceInfo& surface, ContactLayer layer,
+                                    bool clamp_upward) const;
 
     // Derived constructor reuses the native tail padding.
     f32 _88;
