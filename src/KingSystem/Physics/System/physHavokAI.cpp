@@ -1,4 +1,6 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include <Havok/Ai/Pathfinding/Utilities/hkaiNavMeshUtils.h>
+#include "Game/Actor/aiUnk_NavMeshCallback.h"
 #include "KingSystem/Physics/System/physNavMeshEdgeFilter.h"
 #include "KingSystem/Physics/System/physNavMeshEdgeResult.h"
 #include <geom/seadGeometry.h>
@@ -555,6 +557,45 @@ void HavokAI::sub_7100F832B4(NavMeshObjMaybe* obj, bool on) {
     HavokAI* pending = obj->_a0.exchange(this);
     if (!pending || uintptr_t(pending) == (uintptr_t(this) | 1))
         _40->_150.push(obj);
+}
+
+
+// NON_MATCHING: bounds and edge-result temporaries use separate stack storage.
+void HavokAI::sub_7100F854C4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb) {
+    hkArray<hkaiNavMeshUtils::FaceEdgePair> hits;
+    if (_90.tryLock()) {
+        auto* collection = _28->m_streamingCollection.val();
+        auto* mediator = _28->getMediator();
+        hkAabb bounds;
+        toHkVec4(&bounds.m_min, aabb->getMin());
+        toHkVec4(&bounds.m_max, aabb->getMax());
+        hkaiNavMeshUtils::queryAabbEdgesMaybe(collection, mediator, bounds, hits);
+        for (const auto& hit : hits) {
+            Unk_7100f7e64c edge(_28->m_streamingCollection.val(), hit.m_edgeKey, nullptr);
+            if (callback->m0(&edge))
+                break;
+        }
+        _90.unlock();
+    }
+}
+
+// NON_MATCHING: bounds and edge-result temporaries use separate stack storage.
+void HavokAI::sub_7100F8565C(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb) {
+    hkArray<hkaiNavMeshUtils::FaceEdgePair> hits;
+    if (_c8.tryLock()) {
+        auto* collection = _30->m_streamingCollection.val();
+        auto* mediator = _30->getMediator();
+        hkAabb bounds;
+        toHkVec4(&bounds.m_min, aabb->getMin());
+        toHkVec4(&bounds.m_max, aabb->getMax());
+        hkaiNavMeshUtils::queryAabbEdgesMaybe(collection, mediator, bounds, hits);
+        for (const auto& hit : hits) {
+            Unk_7100f7e64c edge(_30->m_streamingCollection.val(), hit.m_edgeKey, nullptr);
+            if (callback->m0(&edge))
+                break;
+        }
+        _c8.unlock();
+    }
 }
 
 void HavokAI::sub_7100F857F4(Unk_NavMeshCallback* callback, const sead::BoundBox3f* aabb) {
