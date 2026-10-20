@@ -16,6 +16,7 @@ class ManagedTaskHandle;
 }
 
 namespace eui {
+class AnimButton;
 class MassDrawPane;
 class TraceGaugeControl;
 class LetterAnimControl;
@@ -575,10 +576,23 @@ public:
     void m35(void* a1) override {}
     void m37(void* a1) override {}
 
-    u8 _130[0x1a8 - 0x130];
-    /* 0x1a8 */ eui::Animator* _1a8;  // stopped at max / min by m114 depending on the JumpButtonChange flag
-    u8 _1b0[0x1c4 - 0x1b0];
-    u8 _1c4[4];
+    // 0x71009b9d30 (placeholder name): looks up the six buttons by tag (77 - 82) and creates their animators.
+    void sub_71009B9D30();
+    // 0x71009b9e10 (placeholder name): enables / disables the buttons depending on E3 demo mode, the save data
+    // and SaveSystem::_1a44.
+    void sub_71009B9E10();
+
+    /* 0x130 */ eui::AnimButton* _130{};
+    /* 0x138 */ eui::AnimButton* _138{};
+    /* 0x140 */ eui::AnimButton* _140{};
+    /* 0x148 */ eui::AnimButton* _148{};
+    /* 0x150 */ eui::AnimButton* _150{};
+    /* 0x158 */ eui::AnimButton* _158{};
+    u8 _160[0x1a8 - 0x160]{};
+    /* 0x1a8 */ eui::Animator* _1a8{};  // stopped at max / min by m114 depending on the JumpButtonChange flag
+    /* 0x1b0 */ eui::Animator* _1b0{};  // the "New" animator of _148's layout
+    /* 0x1b8 */ eui::Animator* _1b8{};  // the "DLCbtn" animator of the screen layout
+    u8 _1c4[4]{};
     // Constructed by 0x7100a82fbc in this class' constructor.
     /* 0x1c8 */ Unk_710249d300 _1c8;
     /* 0x268 */ bool _268 = false;

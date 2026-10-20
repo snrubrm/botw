@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resResourceFileUtil.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiButton.h"
 #include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/euiCapturePane.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -923,6 +924,55 @@ void Unk_710247b428::m151() {}
 
 // 0x71009bc0b4
 s32 Unk_710247b428::m152() { return 0; }
+
+// 0x71009b9d30
+void Unk_710247b428::sub_71009B9D30() {
+    _130 = static_cast<eui::AnimButton*>(sub_71010A9008(0x4d));
+    _138 = static_cast<eui::AnimButton*>(sub_71010A9008(0x4e));
+    _140 = static_cast<eui::AnimButton*>(sub_71010A9008(0x4f));
+    _148 = static_cast<eui::AnimButton*>(sub_71010A9008(0x50));
+    _150 = static_cast<eui::AnimButton*>(sub_71010A9008(0x51));
+    _158 = static_cast<eui::AnimButton*>(sub_71010A9008(0x52));
+    if (_148) {
+        _1b0 = _148->mLayout->createAnimatorAuto("New", false);
+        if (_1b0)
+            _1b0->StopAtMin();
+    }
+    if (_150) {
+        _1b8 = mLayout->createAnimatorAuto("DLCbtn", true);
+        if (_1b8)
+            _1b8->StopAtMax();
+    }
+}
+
+// 0x71009b9e10
+void Unk_710247b428::sub_71009B9E10() {
+    if (isE3DemoMode()) {
+        if (_130)
+            _130->StopDisableAnim(true);
+        if (_138)
+            _138->StopDisableAnim(true);
+        if (_150)
+            _150->StopDisableAnim(true);
+        if (_158)
+            _158->StopDisableAnim(true);
+        return;
+    }
+    if (_138)
+        _138->StopDisableAnim(true);
+    SaveSystem* save = SaveSystem::instance();
+    if (!save)
+        return;
+    if (save->sub_7100914DA0(0)->_300 || save->sub_7100914DA0(1)->_300 ||
+        save->sub_7100914DA0(2)->_300 || save->sub_7100914DA0(3)->_300 ||
+        save->sub_7100914DA0(4)->_300 || save->sub_7100914DA0(5)->_300 ||
+        save->sub_7100914DA0(6)->_300 || save->sub_7100914DA0(7)->_300) {
+        if (_138)
+            _138->StopDisableAnim(false);
+    }
+    if (_158 && save->_1a44)
+        _158->StopDisableAnim(true);
+}
 
 Unk_710247b428::~Unk_710247b428() = default;
 
