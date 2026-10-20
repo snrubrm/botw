@@ -20,18 +20,19 @@ public:
     // Layout read by the factory: a bool at +0x20, six frame vectors and four
     // limit scalars after the shared Constraint prefix.
     struct Param : Constraint::Param {
-        bool _20;
+        // Defaults established before the body setup in ExtendedEntity::init (0x7100e63ba4).
+        bool _20 = true;
         u8 _21[3];
-        sead::Vector3f _24;
-        sead::Vector3f _30;
-        sead::Vector3f _3c;
-        sead::Vector3f _48;
-        sead::Vector3f _54;
-        sead::Vector3f _60;
-        f32 _6c;
-        f32 _70;
-        f32 _74;
-        f32 _78;
+        sead::Vector3f _24 = sead::Vector3f::zero;
+        sead::Vector3f _30 = sead::Vector3f::zero;
+        sead::Vector3f _3c = sead::Vector3f::ez;
+        sead::Vector3f _48 = sead::Vector3f::ez;
+        sead::Vector3f _54 = sead::Vector3f::ey;
+        sead::Vector3f _60 = sead::Vector3f::ey;
+        f32 _6c = -3.14159265358979323846f;
+        f32 _70 = 3.14159265358979323846f;
+        f32 _74 = 0;
+        f32 _78 = 1;
     };
     static_assert(sizeof(Param) == 0x80);
 

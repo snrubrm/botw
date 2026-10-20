@@ -12,6 +12,56 @@ ExtendedEntity::ExtendedEntity() = default;
 
 ExtendedEntity::~ExtendedEntity() = default;
 
+// NON_MATCHING: the compiler combines the two repeated copies of each hinge frame axis.
+bool ExtendedEntity::init(const InitArg& arg) {
+    if (!arg.controller || !arg.body)
+        return true;
+    _20 = arg._18;
+    _2c = arg._24;
+    _30 = arg._28;
+    _34 = arg._2c;
+    _38 = arg._30;
+    _3c = arg._34;
+    _40 = arg._38;
+    _44 = arg._3c;
+    _48 = arg._40;
+    _4c = arg._44;
+    _50 = arg._48;
+    _54 = arg._4c;
+    ksys::phys::LimitHingeCs::Param param;
+    param.body_a = arg.controller->sub_7100F61A34();
+    param.body_b = arg.body;
+    param._18 = false;
+    param._24 = _20;
+    arg.body->getCenterOfMassInLocal(&param._30);
+    param._3c = sead::Vector3f::ex;
+    param._48 = sead::Vector3f::ex;
+    param._54 = sead::Vector3f::ez;
+    param._60 = sead::Vector3f::ez;
+    param._6c = -sead::Mathf::pi() / 6;
+    param._70 = sead::Mathf::pi() / 6;
+    _10 = ksys::phys::LimitHingeCs::make(param, arg.heap);
+    if (arg.radius > sead::Mathf::epsilon()) {
+        _60 = new (arg.heap) FrameSet;
+        if (!_60)
+            return false;
+        _60->_0 = param._24;
+        _60->_c = param._30;
+        _60->_18 = param._3c;
+        _60->_24 = param._48;
+        _60->_30 = param._54;
+        _60->_3c = param._60;
+        _60->_48 = arg.radius;
+    }
+    _68 = 0;
+    _18 = ksys::phys::Unk_71024f9510::make(arg.heap, arg.body, arg.controller, false);
+    if (!_10)
+        return false;
+    _0 = arg.controller;
+    _8 = arg.body;
+    return true;
+}
+
 void ExtendedEntity::sub_7100E64E60() {
     if (_10) {
         if (_10->_50 & 1)

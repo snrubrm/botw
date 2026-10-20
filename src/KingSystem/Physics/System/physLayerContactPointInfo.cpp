@@ -171,7 +171,7 @@ void Unk_71024f9510::contactPointCallback(const hkpContactPointEvent& event) {
     event.m_contactPointProperties->m_flags |= hkContactPointMaterial::CONTACT_IS_DISABLED;
 }
 
-void sub_7100FCFEB8(Unk_71024f9570* listener) {
+void sub_7100FCFEB8(Unk_71024f9510* listener) {
     listener->mBody->getHkBody()->removeContactListener(listener);
     delete listener;
 }

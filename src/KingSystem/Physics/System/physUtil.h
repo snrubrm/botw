@@ -60,9 +60,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024f9570, 0x18);
 
-// 0x7100fcfeb8 (placeholder name; a second copy of Unk_71024f9570::destroy that lives in the
-// LayerContactPointInfo TU): detaches `listener` and deletes it.
-void sub_7100FCFEB8(Unk_71024f9570* listener);
+// 0x7100fcfeb8 (placeholder name): detaches the character contact listener and deletes it.
+void sub_7100FCFEB8(Unk_71024f9510* listener);
 
 // Placeholder (vtable 0x71024f95b0; object 0x10 bytes): a second contact point listener attached to a
 // rigid body. It ignores disabled contacts and characters, then points the contact normal from the
