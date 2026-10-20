@@ -293,6 +293,9 @@ public:
     bool sub_7101088654(const InitArg& arg);
     // 0x710108872c (placeholder name): frees the entry pool; clears bit 0 of _22_0.
     void sub_710108872C();
+    // 0x7101088820 (placeholder name): adds an entry for (area, type); with `climb`, moves it to the first
+    // ancestor node that has the image (Unk_7101106F44::sub_7101120598).
+    void sub_7101088820(Unk_7101106F44* area, const ImageTypeMaybe& type, bool climb);
 
     // The entries live in the array's own pool (allocated by 0x7101088654, freed by 0x710108872c).
     sead::ObjArray<System::Entry> mEntries;

@@ -1291,6 +1291,17 @@ void Unk_7101088B24::sub_710108872C() {
     _22_0 &= ~1u;
 }
 
+void Unk_7101088B24::sub_7101088820(Unk_7101106F44* area, const ImageTypeMaybe& type, bool climb) {
+    auto* entry = mEntries.emplaceBack();
+    entry->area = area;
+    entry->type = type;
+    if (climb) {
+        sead::Vector2f center{0.0f, 0.0f};
+        f32 size = 0.0f;
+        Unk_7101106F44::sub_7101120598(&entry->area, &center, &size, entry->type);
+    }
+}
+
 void Unk_7101088B24::sub_71010887CC() {
     mEntries.clear();
     mNumPending = 0;
