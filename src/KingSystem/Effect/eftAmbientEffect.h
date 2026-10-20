@@ -19,7 +19,7 @@ class Effect;
 // Names follow the asset keys used by the derived calc methods.
 class AmbientEffectEmitter {
 public:
-    virtual ~AmbientEffectEmitter();
+    virtual ~AmbientEffectEmitter() = default;
     virtual void calc(Effect* effect) = 0;
     virtual void reset() = 0;
     virtual bool getSpawnPosition(Effect* effect, const sead::Vector3f& position,
@@ -53,7 +53,9 @@ public:
     void calc(Effect* effect) override;
     void reset() override;
     bool getSpawnPosition(Effect* effect, const sead::Vector3f& position,
-                          sead::Vector3f& output) override;
+                          sead::Vector3f& output) override {
+        return true;
+    }
     s32 mLightIndex;
 };
 KSYS_CHECK_SIZE_NX150(MothEffectEmitter, 0x88);
@@ -105,7 +107,7 @@ static_assert(offsetof(ButterflyEffectEmitter, mFlowerCount) == 0x88);
 // CriticalSection at +0x50. Requests are queued under that lock and processed by calc.
 class AmbientEffectRequest {
 public:
-    virtual ~AmbientEffectRequest();
+    virtual ~AmbientEffectRequest() = default;
     virtual void reset();
     virtual void emit(const sead::Vector3f& position);
 
