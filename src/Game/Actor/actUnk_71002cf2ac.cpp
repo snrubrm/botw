@@ -20,6 +20,12 @@ Unk_71025c5d60 sUnk_71025c5d60;
 
 namespace uking::act {
 
+// NON_MATCHING: same member initialisation. The original value-initialises the SafeArray members
+// and the payload array, so it zeroes each of them (five memsets) before constructing the elements;
+// our clang expands the value initialisation into element constructors and drops the zeroing, so the
+// natural default-initialised form is kept. The frame and the register allocation differ too.
+SiteBoss::Unk_71002cf2ac::Unk_71002cf2ac(SiteBoss* boss) : mOwner(boss) {}
+
 SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
     mOwner = nullptr;
     for (s32 i = 0; i < 20; ++i) {

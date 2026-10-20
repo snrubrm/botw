@@ -268,32 +268,32 @@ public:
 
         // Message payload (sendMessage's void* argument); 0x710066c164 fills it.
         struct Payload {
-            ksys::act::Actor* owner;
-            ksys::act::BaseProcLink* target;
-            sead::Vector3f pos;  // average of the rail points (zero without a rail)
-            s32 idx;
-            u32 flags;
+            ksys::act::Actor* owner = nullptr;
+            ksys::act::BaseProcLink* target = nullptr;
+            sead::Vector3f pos = sead::Vector3f::zero;  // average of the rail points (zero without a rail)
+            s32 idx = 0;
+            u32 flags = 0;
         };
 
-        /* 0x000 */ ksys::act::Actor* mOwner;
+        /* 0x000 */ ksys::act::Actor* mOwner = nullptr;
         // 0x008-0x094: fire ball spawn parameters (SiteBossLswordFirstCreateFBall::enter_).
-        /* 0x008 */ bool _8;
-        /* 0x00c */ f32 _c;
-        /* 0x010 */ u32 _10;
+        /* 0x008 */ bool _8 = false;
+        /* 0x00c */ f32 _c = 0;
+        /* 0x010 */ u32 _10 = 0;
         /* 0x018 */ sead::FixedSafeString<64> _18;  // actor name
-        /* 0x070 */ s32 _70;
-        /* 0x074 */ f32 _74;
-        /* 0x078 */ f32 _78;
-        /* 0x07c */ f32 _7c;
-        /* 0x080 */ f32 _80;
-        /* 0x084 */ s32 _84;
+        /* 0x070 */ s32 _70 = 0;
+        /* 0x074 */ f32 _74 = 0;
+        /* 0x078 */ f32 _78 = 0;
+        /* 0x07c */ f32 _7c = 0;
+        /* 0x080 */ f32 _80 = 0;
+        /* 0x084 */ s32 _84 = 0;
         /* 0x088 */ sead::Vector3f _88;
-        /* 0x094 */ u32 _94;
-        /* 0x098 */ u8 _98;
+        /* 0x094 */ u32 _94 = 0;
+        /* 0x098 */ u8 _98 = 0;
         // 2026-10-07: SiteBossSwordRoot::init_ 0x710059881c sets this from _1534 bits 2/3.
-        /* 0x099 */ bool _99;
-        /* 0x09a */ u8 _9a[2];
-        /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by GanonFlameBall)
+        /* 0x099 */ bool _99 = false;
+        /* 0x09a */ u8 _9a[2] = {};
+        /* 0x09c */ u32 _9c = 0;  // bit idx: bound actor idx (cleared by GanonFlameBall)
         /* 0x0a0 */ sead::SafeArray<ksys::act::BaseProcHandle, 20> _a0;
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
         /* 0x320 */ sead::SafeArray<ksys::act::BaseProcLink, 4> _320;
@@ -302,9 +302,9 @@ public:
         /* 0x3b0 */ sead::SafeArray<ksys::act::BaseProcLink, 24> _3b0;
         /* 0x530 */ sead::SafeArray<ksys::MesTransceiverId, 20> _530;
         /* 0x710 */ sead::SafeArray<Payload, 24> _710;
-        /* 0xad0 */ u8 _ad0[0xd50 - 0xad0];
+        /* 0xad0 */ u8 _ad0[0xd50 - 0xad0] = {};
         // 2026-10-07: sub_710066D9B8 tests, sends and clears a 24-entry message-type array.
-        /* 0xd50 */ sead::SafeArray<ksys::MessageType, 24> mPendingMessages;
+        /* 0xd50 */ sead::SafeArray<ksys::MessageType, 24> mPendingMessages{};
         /* 0xdb0 */ sead::JobQueueLock _db0;
     };
     /* 0x1560 */ Unk_71002cf2ac _1560{this};
