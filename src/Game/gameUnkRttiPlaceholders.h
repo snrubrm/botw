@@ -1478,13 +1478,6 @@ private:
     agl::UniformBlock mUniformBlock;
 };
 
-// vtable 0x7102519a68 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102519a68 {
-    SEAD_RTTI_BASE(Unk_7102519a68)
-public:
-    virtual ~Unk_7102519a68();
-};
-
 // vtable 0x710251ba58 (10 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710251ba58 : public aal::SpatialCalculator {
     SEAD_RTTI_OVERRIDE(Unk_710251ba58, aal::SpatialCalculator)

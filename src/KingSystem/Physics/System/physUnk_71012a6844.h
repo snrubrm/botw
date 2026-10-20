@@ -15,8 +15,12 @@ class Constraint;
 
 // Placeholder name (created by 0x71012a6844 in System::init; stored in System::_150). Keeps two mutex-guarded
 // intrusive lists. TODO: incomplete (the TU 0x71012a605c - 0x71012a70xx is not decompiled).
+// Its vtable is 0x7102519a68 (RTTI root; the destructor 0x71012a67c8 destroys the two mutexes).
 class Unk_71012a6844 {
+    SEAD_RTTI_BASE(Unk_71012a6844)
 public:
+    virtual ~Unk_71012a6844();
+
     // ItemA's own constructor 0x7100f70c24 installs the complete root table
     // 0x71024f66b8 and initializes its Constraint pointer and list node.
     struct ItemA {
@@ -65,7 +69,6 @@ public:
     void sub_71012A6B48();
     void sub_71012A6BB0();
 
-    /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ sead::OffsetList<ItemA> mListA;
     /* 0x20 */ sead::OffsetList<ItemB> mListB;
     /* 0x38 */ sead::Buffer<Record> mRecords;

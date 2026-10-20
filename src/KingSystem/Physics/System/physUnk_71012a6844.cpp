@@ -4,6 +4,8 @@
 
 namespace ksys::phys {
 
+Unk_71012a6844::~Unk_71012a6844() = default;
+
 void Unk_71012a6844::sub_71012A69E0(ItemA* item) {
     auto lock = sead::makeScopedLock(mMutexA);
     if (!item->isLinked())
@@ -60,6 +62,3 @@ void Unk_71012a6844::sub_71012A6BB0() {
 
 }  // namespace ksys::phys
 
-// NON_MATCHING: placeholder destructor; the original (0x71012a67c8) also destroys members or bases
-// this class does not declare yet.
-Unk_7102519a68::~Unk_7102519a68() = default;
