@@ -35,7 +35,279 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
+#include <algorithm>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/physConversions.h"
+#include "KingSystem/World/worldManager.h"
+
 namespace uking::act {
+
+// Horse's grounded character state: native allocation/free use 0xc0 bytes,
+// the secondary vptr is at +0x20, and E67578 initializes the reused tail at +0xb4.
+class Unk_71024eb4c0 : public ksys::phys::CharacterControllerUnk48 {
+    SEAD_RTTI_OVERRIDE(Unk_71024eb4c0, ksys::phys::CharacterControllerUnk48)
+public:
+    Unk_71024eb4c0() : CharacterControllerUnk48(2) {}
+    // NON_MATCHING: the inline base destructor removes the original calls in D0 and its thunks.
+    ~Unk_71024eb4c0() override = default;
+    void sub_7100F69014(const sead::Vector3f& normal, const hkpCharacterInput& input,
+                       hkpCharacterOutput& output) override;
+
+    f32 mSlopeThreshold = 50.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024eb4c0, 0xc0);
+static_assert(offsetof(Unk_71024eb4c0, mSlopeThreshold) == 0xb4);
+
+// NON_MATCHING: initialization branches, matrix copies and scalar resets are scheduled differently.
+void HorseBase::initMaybe() {
+    setMtx(mMtx, true, true);
+    Actor::nullsub_4648();
+    if (mModel) {
+        mModel->setScale(mScale);
+        mModel->setMatrix(mMtx);
+        mASList->sub_710115BAF8("Root");
+    }
+    if (mPhysics) {
+        mPhysics->setFlag2();
+        if (auto* target = mPhysics->findBodyByName("Tgt"))
+            target->addToWorld();
+        _a78 = mPhysics->get188(0);
+    } else {
+        _a78 = nullptr;
+    }
+    sub_71011D7E68();
+    _b9c = 0;
+    _ba0 = mMtx.getBase(2);
+    if (auto* controller = getCharacterController()) {
+        controller->sub_7100F60500(mMtx);
+        controller->sub_7100F5EDBC(_ba0);
+        controller->sub_7100F60AE0();
+        controller->sub_7100F63140(new Unk_71024eb4c0);
+        controller->sub_7100F631B8(true);
+        controller->sub_7100F5E754(false);
+        controller->sub_7100F5EC30();
+        bool blocked = false;
+        if ((get1a0() || (getMapObject() && getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))) &&
+            !_b10->isFlag10On(Unk_7100e8b2b8::Flag(Unk_7100e8b2b8::Flag::_6))) {
+            if (auto* event = ksys::evt::Manager::instance()->getActiveEvent())
+                blocked = event->getEventFlowType() == 1;
+        }
+        if (!blocked) {
+            if (_b10 && _b10->RideableBase::_8.isBitOn(19)) {
+                blocked = true;
+            } else if (_b74.isOn(0x1000)) {
+                blocked = !controller->sub_7100F5F14C() || !controller->sub_7100F5F234(nullptr);
+            }
+        }
+        _b74.change(0x1000, blocked);
+        _a98.sub_7100E63F70(mMtx, !blocked);
+        if (_b08 && mPhysics) {
+            if (auto* group = mPhysics->findBodyGroupByName("Body")) {
+                if (group->getRigidBodies().size() > 1) {
+                    if (auto* body = group->getRigidBody(1)) {
+                        sead::Matrix34f transform;
+                        _b08->x_0(0)->getTransform(&transform);
+                        body->setTransform(transform);
+                        body->addToWorld();
+                        // The original discards the constraint operation's bool result.
+                        _b08->sub_7100F6A92C(body);
+                        _b08->sub_7100F69FF0();
+                    }
+                }
+            }
+        }
+    }
+    if (auto* nav = m45()) {
+        nav->sub_7100F765E8(mMtx.getTranslation());
+        nav->sub_7100F76694(_ba0);
+        if (nav->_2ac != 4.0f) {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            nav->_2ac = 4.0f;
+            nav->_220.setBitOn(4);
+        }
+        {
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            nav->_2c8 = 0.25f;
+            nav->_220.setBitOn(7);
+        }
+        ksys::phys::HavokAI::instance()->sub_7100F82BCC(nav);
+    }
+    if (_b10) {
+        _b10->m6();
+        _b10->RideableBase::_8.setBitOn(5);
+    }
+    const s32 type = x();
+    if (_b10 && mASList->mSlots.size() > 0 && mASList->mSlots[0]._20.size() > 3) {
+        if (_b10->sub_7100E8BFF4())
+            _b74.set(4);
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "Horseshoe", 0, 3, true);
+        mASList->x_3(0, 3, &ksys::as::ASList::Unk2::sub_7101163298,
+                    _b74.isOn(4) ? 0.0f : 1.0f);
+    }
+    if (_b10 && mASList->mSlots.size() > 0 && mASList->mSlots[0]._20.size() > 5) {
+        sead::Random* random = _bf8 ? _bf8 : sead::GlobalRandom::instance();
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "Foot_Visibility", 0, 5, true);
+        if (type == 4 || type == 3) {
+            mASList->startAnimationMaybe(-1.0f, -1.0f,
+                type == 4 ? sUnk_7102603490 : sUnk_7102603470, 0, 4, true);
+            _b78 = 0;
+            _b7c = 0;
+        } else {
+            const u32 nature = getParam()->getRes().mGParamList->getHorse()->mNature.ref();
+            mASList->startAnimationMaybe(-1.0f, -1.0f, sUnk_7102603410[nature < 3 ? nature : 0], 0, 4, true);
+            if (_b78 < 0) {
+                const s32 frames = mASList->x_5(0, 4, &ksys::as::ASList::Unk2::sub_710116323C);
+                _b78 = random->getU32(frames + 1);
+            }
+            if (_b7c < 0) {
+                const s32 frames = mASList->x_5(0, 5, &ksys::as::ASList::Unk2::sub_710116323C);
+                _b7c = random->getU32(frames + 1);
+            }
+        }
+        mASList->x_3(0, 4, &ksys::as::ASList::Unk2::sub_7101163298, _b78);
+        mASList->x_3(0, 5, &ksys::as::ASList::Unk2::sub_7101163298, _b7c);
+    } else {
+        if (_b78 < 0)
+            _b78 = 0;
+        if (_b7c < 0)
+            _b7c = 0;
+    }
+    if (type == 9)
+        mASList->startAnimationMaybe(-1.0f, -1.0f, "Eyeblink", 2, 0, true);
+    const bool fading = _b74.isOn(0x2000);
+    if (fading)
+        clearFadeInCreate();
+    if (getParam()->getRes().mGParamList->getHorse()->mHasMane.ref() &&
+        !ksys::act::ActorCreator::instance()->isBlockSpawns()) {
+        bool special = true;
+        if (_840.hasProc()) {
+            special = getName() == "HorseMannequin" || getName() == "HorseModelForRegistration" ||
+                      getName() == "BigHorseModelForRegistration" ||
+                      (_b10 && (int(_b10->Unk_7100e8b2b8::_8) & 0xff) == 1) ||
+                      (_b10 && _b10->sub_7100E8BFF4());
+        }
+        if (auto* object = sead::DynamicCast<HorseObject>(_850.getProc(nullptr))) {
+            if (special) {
+                if (!(get4f8() <= 0.0f))
+                    object->sub_71011C75D4();
+                else if (fading)
+                    object->_1410 |= 1;
+                object->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+        }
+        if (auto* object = sead::DynamicCast<HorseObject>(_840.getProc(nullptr))) {
+            if (!special) {
+                if (!(get4f8() <= 0.0f))
+                    object->sub_71011C75D4();
+                else if (fading)
+                    object->_1410 |= 1;
+                object->wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+        }
+    }
+    auto* heap = ksys::act::BaseProcHeapMgr::instance()->getHeap();
+    {
+        auto lock = sead::makeScopedLock(_890);
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_870, &accessor)) {
+            if (fading) {
+                if (auto* reins = sead::DynamicCast<HorseReins>(_870.getProc(nullptr)))
+                    reins->_868.set(4);
+            }
+            accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+        } else if (!_8d0._f0.isEmpty() && !_8d0._20.isAllocatedOrFailed()) {
+            sub_7100E682C0(_8d0._f0, heap, &_8d0._20);
+        }
+        if (ksys::act::acquireActor(&_880, &accessor)) {
+            if (fading) {
+                if (auto* reins = sead::DynamicCast<HorseReins>(_880.getProc(nullptr)))
+                    reins->_868.set(4);
+            }
+            accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+        } else if (!_8d0._148.isEmpty() && !_8d0._30.isAllocatedOrFailed()) {
+            sub_7100E682C0(_8d0._148, heap, &_8d0._30);
+        }
+    }
+    if (mAttention) {
+        if (auto* client = mAttention->getClientByName("Ride2"))
+            client->disable();
+    }
+    if (type == 3) {
+        if (auto* manager = HorseMgr::instance())
+            manager->x_2(this);
+    } else if (type == 6) {
+        if (auto* manager = HorseMgr::instance())
+            manager->x_0(this);
+    } else if (type == 9) {
+        ksys::gdt::Manager::instance()->setBool(true, "AnimalMaster_Existence");
+    }
+    _bac.set(0, 0, 0);
+    _bbc = 0;
+    _bec = 0;
+    _bf0 = 0;
+    _be4 = 0;
+    _be8 = 0;
+    _bdc = 0;
+    _be0 = 0;
+    _bd4 = 0;
+    _bd8 = 0;
+    _bcc = 0;
+    _bd0 = 0;
+    _bc4 = 0;
+    _bc8 = 0;
+    _b74.setDirect((_b74.getDirect() & 0x1486) | 0x100);
+    _b70 &= 0xffffff30;
+    _b80 = getMaxLife();
+    _b84 = 0;
+    _b88 = ksys::world::Manager::instance()->getTimeMgrUnchecked()->getNumberOfDays();
+    _b8c = ksys::world::Manager::instance()->getTimeMgrUnchecked()->getTime();
+    _b50 = ksys::MesTransceiverId();
+    _b94 = {0, 0, 0, 0};
+    _b98 = 0;
+    Unk_710260af28::instance()->sub_7100F1E2F4(mModel, sead::Color4f(0, 0, 0, 0));
+    if (_a70) {
+        _a70->release();
+        _a70 = nullptr;
+    }
+    _a8c = 0;
+    _a90.makeAllZero();
+}
+
+// NON_MATCHING: scalar cross product and normalization scheduling differs.
+void Unk_71024eb4c0::sub_7100F69014(const sead::Vector3f& normal,
+                                    const hkpCharacterInput& input, hkpCharacterOutput& output) {
+    const f32 angle = sead::Mathf::rad2deg(sead::Mathf::acos(normal.y < -1.0f ? -1.0f : normal.y <= 1.0f ? normal.y : 1.0f));
+    const sead::Vector3f forward = ksys::phys::toVec3(input.m_forward);
+    sead::Vector3f side;
+    side.setCross(sead::Vector3f::ey, forward);
+    const f32 side_length = side.length();
+    if (!(side_length <= 0.0f))
+        side *= 1.0f / side_length;
+    const f32 dot = side.dot(normal);
+    const f32 projected_y = normal.y * (1.0f / sead::Mathf::sqrt(1.0f - std::min(dot * dot, 1.0f)));
+    const f32 projected_angle = sead::Mathf::rad2deg(
+        sead::Mathf::acos(projected_y < -1.0f ? -1.0f : projected_y <= 1.0f ? projected_y : 1.0f));
+    sead::Vector3f adjusted;
+    if (angle < mSlopeThreshold && angle > _5c) {
+        const f32 blend = (mSlopeThreshold - angle) / (mSlopeThreshold - _5c);
+        const f32 target_angle = angle + (projected_angle - angle) * blend;
+        adjusted = normal * sead::Mathf::sin(sead::Mathf::deg2rad(target_angle));
+        adjusted.y += sead::Mathf::sin(sead::Mathf::deg2rad(angle - target_angle));
+        const f32 adjusted_length = adjusted.length();
+        if (!(adjusted_length <= 0.0f))
+            adjusted *= 1.0f / adjusted_length;
+    } else {
+        adjusted = normal;
+    }
+    sub_7100F683C0(adjusted, input, output);
+}
+
 
 // NON_MATCHING: actor creation branches, string temporaries and initialization stores differ.
 bool HorseBase::prepareInit_(sead::Heap* heap, PrepareArg& arg) {

@@ -400,7 +400,9 @@ public:
     /* 0x2b4 */ u8 _2b4[0x2bc - 0x2b4];
     /* 0x2bc */ f32 _2bc;
     /* 0x2c0 */ f32 _2c0;
-    /* 0x2c4 */ u8 _2c4[0x2cc - 0x2c4];
+    /* 0x2c4 */ u8 _2c4[0x2c8 - 0x2c4];
+    // HorseBase::initMaybe writes 0.25f here under _1e0 and sets _220 bit 7.
+    /* 0x2c8 */ f32 _2c8;
     /* 0x2cc */ f32 _2cc;
     /* 0x2d0 */ f32 _2d0;
     /* 0x2d4 */ f32 _2d4;

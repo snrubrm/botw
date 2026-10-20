@@ -287,7 +287,8 @@ public:
     /* 0xb80 */ s32 _b80 = 0;  // getLife
     /* 0xb84 */ f32 _b84 = 0;  // 0..1 (sub_7100E6BE8C)
     /* 0xb88 */ u32 _b88 = 0;
-    /* 0xb8c */ u32 _b8c = 0;
+    // E67F38 snapshots TimeMgr::mTime at +0xb8.
+    /* 0xb8c */ f32 _b8c = 0;
     /* 0xb90 */ u32 _b90 = 0;
     /* 0xb94 */ sead::Color4u8 _b94{0, 0, 0, 0};
     /* 0xb98 */ u32 _b98 = 0;
