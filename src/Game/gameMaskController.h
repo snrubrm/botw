@@ -16,6 +16,15 @@ class Heap;
 
 namespace uking {
 
+// Name from the CSV (sead::RuntimeTypeInfo::Derive<uking::JumpButtonControllerWrapper>::isDerived 0x71008999c0).
+// The wrapper at MaskController + 0x40 (vtable 0x710246c070). calc 0x71008997fc lives in the gameRumble.cpp TU.
+class JumpButtonControllerWrapper : public sead::MaskControllerWrapper {
+    SEAD_RTTI_OVERRIDE(JumpButtonControllerWrapper, sead::MaskControllerWrapper)
+public:
+    // Uses pad config {8} instead of {2} while the JumpButtonChange option is set, then updates as usual.
+    void calc(u32 prev_hold, bool prev_pointer_on) override;
+};
+
 // Name from the CSV (MaskController::createInstance 0x71008bc0d8, init, calc, getController,
 // getControllerSafe). A sead singleton (size 0x2c8, instance pointer at 0x71025d1538) that is also a
 // message handler (vtable 0x710246cf18: D1, D0, handleMessage). It owns the game's controllers
@@ -48,7 +57,7 @@ public:
 private:
     u8 _28[8];
     sead::Buffer<sead::Controller*> mControllers;
-    sead::MaskControllerWrapper _40;
+    JumpButtonControllerWrapper _40;
     u8 _258[0x2c8 - 0x258];
 };
 KSYS_CHECK_SIZE_NX150(MaskController, 0x2c8);

@@ -1,4 +1,6 @@
 #include "Game/gameRumble.h"
+#include "Game/gameMaskController.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <container/seadSafeArray.h>
 #include <controller/seadPatternRumbleAddon.h>
 #include <prim/seadScopedLock.h>
@@ -154,6 +156,15 @@ f32 Rumble::sub_7100899108(RumblePattern pattern) const {
     if (str == nullptr)
         return 0.5f;
     return str->calcLength() / 120.0f;
+}
+
+static const u32 sJumpPadConfig[] = {2};
+static const u32 sJumpPadConfigChanged[] = {8};
+
+void JumpButtonControllerWrapper::calc(u32 prev_hold, bool prev_pointer_on) {
+    setPadConfig(1, ksys::gdt::getFlag_JumpButtonChange() ? sJumpPadConfigChanged : sJumpPadConfig,
+                 false);
+    MaskControllerWrapper::calc(prev_hold, prev_pointer_on);
 }
 
 }  // namespace uking
