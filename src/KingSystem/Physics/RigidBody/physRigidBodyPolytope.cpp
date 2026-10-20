@@ -23,7 +23,7 @@ bool PolytopeRigidBody::setVertex(int vertex_idx, const sead::Vector3f& vertex) 
     return mShape->setVertex(vertex_idx, vertex);
 }
 
-u16 PolytopeRigidBody::getNumVertices() const {
+int PolytopeRigidBody::getNumVertices() const {
     return mShape->getNumVertices();
 }
 

@@ -16,7 +16,7 @@ public:
     ~PolytopeRigidBody() override;
 
     bool setVertex(int vertex_idx, const sead::Vector3f& vertex);
-    u16 getNumVertices() const;
+    int getNumVertices() const;
     const sead::Vector3f& getVertex(int vertex_idx) const;
 
     void setMaterialMask(const MaterialMask& mask);

@@ -364,8 +364,7 @@ bool LumberjackTree::sub_710048A50C(ksys::phys::PolytopeShape* shape, bool upper
     return true;
 }
 
-// NON_MATCHING: the original uses the vertex count unmasked and signed (PolytopeRigidBody::getNumVertices returns
-// int there; ours is declared u16), which also changes the loop register allocation
+// NON_MATCHING: regalloc (the two zero-initialised loop registers are swapped)
 bool LumberjackTree::sub_710048A708(ksys::phys::PolytopeRigidBody* body, bool upper, f32* min_y,
                                     f32* max_y) {
     const f32 volume = body->getVolume();
