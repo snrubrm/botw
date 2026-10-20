@@ -3,6 +3,7 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
 #include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -342,6 +343,46 @@ void CameraChase::sub_710075156C() {
         _90 = _120;
     else
         _90 = camera->_860._808.sub_710079AE50(0x40) ? _124 : _11c;
+}
+
+// NON_MATCHING: the state machine's store block is laid out differently (ours shares one store, the
+// original keeps it in the two changing paths) and the original clamps the timer with two compares
+// and a select where ours uses fmin / fmax. The values and the branches are the same.
+// 0x7100752c2c (placeholder name): moves the delay state (_2bd) from 0 to 1 and 1 to 2 when the
+// timer (_150) passes 12, resets the timer on a state change and otherwise advances it towards 150 by
+// the current core's delta frame. _154 is the timer's fraction of 12, clamped to 0..1.
+void CameraChase::sub_7100752C2C() {
+    const u8 state = _2bd;
+    u8 next = state;
+    if (state == 0) {
+        if (_150 > 12.0f)
+            next = 1;
+    } else if (state == 1) {
+        if (_150 > 12.0f)
+            next = 2;
+    }
+
+    _2bd = next;
+    if (state != next) {
+        _150 = 0.0f;
+    } else {
+        const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+        if (_150 < 150.0f)
+            _150 = sead::Mathf::clampMax(_150 + delta, 150.0f);
+        else if (_150 > 150.0f)
+            _150 = sead::Mathf::clampMin(_150 - delta, 150.0f);
+    }
+
+    f32 value;
+    if (_2bd == 1) {
+        _154 = _150 / 12.0f;
+        value = sead::Mathf::clamp(_154, 0.0f, 1.0f);
+    } else if (_2bd == 0) {
+        value = 0.0f;
+    } else {
+        value = 1.0f;
+    }
+    _154 = value;
 }
 
 }  // namespace uking::action

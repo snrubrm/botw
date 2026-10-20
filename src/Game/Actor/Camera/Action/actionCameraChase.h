@@ -54,6 +54,8 @@ protected:
     void sub_7100755108(sead::Vector3f* out, const sead::Vector3f* angles);
     // 0x7100754f00 (placeholder name): the radius blend for the lat angle.
     f32 sub_7100754F00();
+    // 0x7100752c2c (placeholder name): advances the 0..2 delay state (_2bd) and its timer (_150).
+    void sub_7100752C2C();
     // 0x7100752fa4: the blend factor of the stick input `value` (clamped to [-1, 1]).
     f32 sub_7100752FA4(f32 value);
     // 0x7100753084 / 0x7100751710: maps `value` through the lat curve with the widths (and back through the
