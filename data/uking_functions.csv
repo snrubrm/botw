@@ -69123,7 +69123,7 @@ Address,Quality,Size,Name
 0x0000007100c09974,O,000064,_ZN4gsys24ModelRenderUnitNodeArrayD1Ev
 0x0000007100c099b4,O,000060,_ZN4gsys24ModelRenderUnitNodeArrayD0Ev
 0x0000007100c099f0,O,000164,_ZN4gsys24ModelRenderUnitNodeArray10initializeEiPN4sead4HeapE
-0x0000007100c09a94,U,000060,_ZN4gsys21ModelAssignRenderInfoD2Ev
+0x0000007100c09a94,O,000060,_ZN4gsys21ModelAssignRenderInfoD2Ev
 0x0000007100c09ad0,U,000092,_ZN4gsys17ModelRenderUnitNWC1Ev
 0x0000007100c09b2c,U,000212,_ZN4gsys17ModelRenderUnitNWD1Ev
 0x0000007100c09c00,U,000036,_ZN4gsys17ModelRenderUnitNWD0Ev
@@ -70852,7 +70852,7 @@ Address,Quality,Size,Name
 0x0000007100c7cf7c,O,000052,_ZN4gsys9MemBuffer5allocEmj
 0x0000007100c7cfb0,U,000060,_ZN4gsys23ModelAnimationDebugInfoD1Ev
 0x0000007100c7cfec,U,000244,gsys::ModelAnimationDebugInfo::initialize
-0x0000007100c7d0e0,U,000060,_ZN4gsys21ModelAssignRenderInfoC2Ev
+0x0000007100c7d0e0,O,000060,_ZN4gsys21ModelAssignRenderInfoC2Ev
 0x0000007100c7d11c,U,000092,
 0x0000007100c7d178,U,000032,_ZN4gsys18ModelCubeMapDrawer9CreateArgC2Ev
 0x0000007100c7d198,U,000192,_ZN4gsys18ModelCubeMapDrawerC1Ev
