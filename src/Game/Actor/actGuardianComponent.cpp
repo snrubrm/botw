@@ -157,6 +157,8 @@ void GuardianComponent::updateMtxFromPhysics() {
     _ba8->m13();
 }
 
+void GuardianComponent::m36(const sead::Vector3f&, const sead::Vector3f&, bool, bool, bool) {}
+
 void GuardianComponent::m63() {
     if (auto* awareness = getAwareness())
         awareness->enable();

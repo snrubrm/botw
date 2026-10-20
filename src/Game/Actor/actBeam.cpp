@@ -10,6 +10,14 @@ ksys::act::BaseProc* Beam::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Beam(arg);
 }
 
+bool Beam::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    return BeamBase::prepareInit_(heap, arg);
+}
+
+void Beam::updatePositionMaybe() {
+    BeamBase::updatePositionMaybe();
+}
+
 void Beam::initMaybe() {
     BeamBase::initMaybe();
     _c88 = mMainBody;

@@ -41,9 +41,14 @@ public:
     // 0x7100002080: never unloads.
     bool shouldUnload(s32* a1) override { return false; }
 
+    // 0x710000262c (CSV BeamBase::m18; declared only).
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void initMaybe() override;
     void preDelete2_(const PreDeleteArg& arg) override;
     void updateMtxFromPhysics() override;
+    // 0x7100002b60 (CSV BeamBase::m69; declared only).
+    void calcMaybe() override;
+    void updatePositionMaybe() override;
     /* 163 */ virtual void m163();
     /* 164 */ virtual void m164(void* arg);
     // The position of the beam (the actor's translation).
@@ -126,7 +131,9 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void initMaybe() override;
+    void updatePositionMaybe() override;
     void m165(sead::Vector3f* out) override;
 
     /* 0xc88 */ ksys::phys::RigidBody* _c88 = nullptr;  // the main body
@@ -147,8 +154,12 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void m63() override;
     void initMaybe() override;
+    void calcMaybe() override;
+    bool m81(const ksys::Message& message) override;
+    void updatePositionMaybe() override;
     void m165(sead::Vector3f* out) override;
     void m166() override;
 

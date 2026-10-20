@@ -46,6 +46,10 @@ void BeamBase::updateMtxFromPhysics() {
     ksys::act::Actor::updateMtxFromPhysics();
 }
 
+void BeamBase::updatePositionMaybe() {
+    DynamicActor::updatePositionMaybe();
+}
+
 void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {
     auto* physics = getPhysics();
     auto* other_physics = actor->getPhysics();

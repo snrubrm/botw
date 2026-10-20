@@ -165,6 +165,8 @@ public:
     void preDelete2_(const PreDeleteArg& arg) override;
     void initMaybe() override;
     void updateMtxFromPhysics() override;
+    // 0x710004065c: empty; the component ignores these requests.
+    void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
     void m63() override;
     void calcMaybe() override;
     bool m81(const ksys::Message& message) override;

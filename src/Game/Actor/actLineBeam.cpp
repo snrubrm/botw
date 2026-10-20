@@ -33,6 +33,22 @@ void LineBeam::m166() {
     _d10 = 0;
 }
 
+bool LineBeam::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    return BeamBase::prepareInit_(heap, arg);
+}
+
+bool LineBeam::m81(const ksys::Message& message) {
+    return BeamBase::m81(message);
+}
+
+void LineBeam::calcMaybe() {
+    BeamBase::calcMaybe();
+}
+
+void LineBeam::updatePositionMaybe() {
+    BeamBase::updatePositionMaybe();
+}
+
 }  // namespace uking::act
 
 // Accessor-based wrapper in the LineBeam TU (0x71002c7d1c; lane4 s44; placeholder name, the CSV has none): sets `_cc8`
