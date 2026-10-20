@@ -740,6 +740,13 @@ KSYS_CHECK_SIZE_NX150(Unk_710260f048, 0x1c0);
 class Unk_710260f1a8 : public Bgm {
     SEAD_RTTI_OVERRIDE(Unk_710260f1a8, Bgm)
 public:
+    struct PositionRequest {
+        u32 mActive = 0;
+        sead::Vector3f mPosition{0, 0, 0};
+    };
+    KSYS_CHECK_SIZE_NX150(PositionRequest, 0x10);
+    static_assert(offsetof(PositionRequest, mPosition) == 4);
+
     // 0x71010252c0 / 0x7101025388 (declared only): add / remove a spot BGM instance (`started`: the controller runs).
     void sub_71010252C0(Unk_SpotBgmInstance* instance, bool started);
     void sub_7101025388(Unk_SpotBgmInstance* instance);
@@ -748,6 +755,7 @@ public:
     void sub_71010255D0();
 
     ~Unk_710260f1a8() override;
+    void sub_7101024AD4(sead::Heap* heap);
     // 0x7101024cc0 (declared only)
     void m5() override;
     bool m9() override { return true; }
@@ -761,12 +769,14 @@ public:
     /* 0x28 */ u64 _28;
     /* 0x30 */ sead::SpinLock mLock;
     u8 _40[0x60 - 0x40];
-    /* 0x60 */ sead::Buffer<void*> _60;
+    /* 0x60 */ sead::Buffer<PositionRequest> _60;
     u8 _70[0x78 - 0x70];
     // The "EnvNoisy" group (0x7101024ad4).
     /* 0x78 */ aal::Group* mGroup;
     /* 0x80 */ f32 _80;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710260f1a8, 0x88);
+static_assert(offsetof(Unk_710260f1a8, _60) == 0x60);
 
 // Four-byte practice-state argument, passed by reference to sub_71010267A8.
 struct Unk_71010267A8 {

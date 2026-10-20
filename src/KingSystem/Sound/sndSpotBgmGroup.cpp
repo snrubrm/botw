@@ -1,4 +1,7 @@
 #include <aal/aalGroup.h>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSystemAccessor.h>
+#include <new>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/Actor/Action/actionSpotBgmTriggerAction.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -79,6 +82,20 @@ void Unk_710260f1a8::sub_710102544C(bool entering) {
                 mInstances[i]->sub_71010242C8();
         }
     }
+}
+
+}  // namespace ksys::snd
+
+namespace ksys::snd {
+
+void Unk_710260f1a8::sub_7101024AD4(sead::Heap* heap) {
+    mInstances.tryAllocBuffer(4, heap);
+    mInstances.fill(nullptr);
+    auto* positions = new (heap, 8, std::nothrow) PositionRequest[5];
+    if (positions)
+        _60.setBuffer(5, positions);
+    if (auto* groups = aal::SystemAccessor::getGroupMgr())
+        mGroup = groups->findGroup("EnvNoisy");
 }
 
 }  // namespace ksys::snd
