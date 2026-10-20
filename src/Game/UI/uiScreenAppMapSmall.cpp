@@ -1,3 +1,4 @@
+#include "Game/gameGraphics.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/gameSceneSubsys14.h"
@@ -1070,6 +1071,27 @@ void ScreenAppMapDungeon::sub_71009E65D4() {
     _365c = yaw;
     if (look.x < 0.0f)
         _365c = -yaw;
+}
+
+// 0x71009e78d8
+// NON_MATCHING: the compiler duplicates the final mode store instead of merging it after both refresh calls.
+void ScreenAppMapDungeon::sub_71009E78D8(s32 mode) {
+    Unk_71025d6550::instance()->setD78(mode);
+    if (auto* renderer = Graphics::instance()->getMapRendererMaybe())
+        renderer->setMapModeMaybe(Unk_71025d6550::instance()->isD78One());
+    if (Unk_71025d6550::instance()->isD78Zero())
+        _114e8->StopAtMax();
+    else if (Unk_71025d6550::instance()->isD78One())
+        _114e8->StopAtMin();
+    else
+        return;
+    if (Unk_71025d6550::instance()->isD78Zero()) {
+        sub_71009E79C8();
+        _118a8 = 0;
+    } else if (Unk_71025d6550::instance()->isD78One()) {
+        sub_71009E4984();
+        _118a8 = 1;
+    }
 }
 
 }  // namespace uking::ui

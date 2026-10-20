@@ -5356,6 +5356,12 @@ public:
     virtual void m164();
     virtual s32 m165();
 
+    // 0x71009e78d8: changes the map display mode and stops its animator at the endpoint.
+    void sub_71009E78D8(s32 mode);
+    // Display refresh helpers called after changing mode (declared only).
+    void sub_71009E79C8();
+    void sub_71009E4984();
+
     // 0x71009e62fc (placeholder name): whether the layer 1 camera looks along the current dungeon's direction
     // (the look vector of the camera target minus _3668)
     bool sub_71009E62FC() const;
@@ -5373,7 +5379,10 @@ public:
     /* 0x3680 */ sead::LookAtCamera _3680;
     u8 _36e0[0x36e4 - 0x36e0];
     /* 0x36e4 */ bool _36e4;
-    u8 _36e5[0x11518 - 0x36e5];
+    u8 _36e5[0x114e8 - 0x36e5];
+    // Animator created by 0x71009e1364; 0x71009e78d8 stops it at either endpoint.
+    /* 0x114e8 */ eui::Animator* _114e8;
+    u8 _114f0[0x11518 - 0x114f0];
     /* 0x11518 */ ScreenAppMapUnk3c90* _11518;
     /* 0x11520 */ Unk_710247c010* mSensorChild;
     u8 _11528[0x11530 - 0x11528];
@@ -5398,7 +5407,7 @@ public:
         u8 _8[0x30 - 0x8];
     };
     /* 0x11818 */ sead::SafeArray<Entry11818, 3> _11818;
-    u8 _118a8[0x118ac - 0x118a8];
+    /* 0x118a8 */ s32 _118a8;  // dungeon display mode, set by sub_71009E78D8
     /* 0x118ac */ s32 _118ac;  // selected entry (-1: none)
     u8 _118b0[0x118d0 - 0x118b0];
     /* 0x118d0 */ s32 _118d0;  // last selected entry
