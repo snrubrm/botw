@@ -42,6 +42,8 @@ public:
     bool setQuestStep(const sead::SafeString& quest_name, const sead::SafeString& step_name,
                       bool copy_name, bool force_run_telop, bool setAocVersionFlag1);
 
+    // Native FD7610 hashes this name and searches the existing quest array.
+    Quest* sub_7100FD7610(const sead::SafeString& name) const;
     bool isQuestActor(act::Actor* actor) const;
     static act::BaseProc* sub_7100FD5848(const sead::SafeString& s1, const sead::SafeString& s2);
     // 0x71007b15a8 / GameScene::unloadStage store the byte at +0x5d.
