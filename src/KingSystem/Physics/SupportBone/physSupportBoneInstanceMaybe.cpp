@@ -2,6 +2,7 @@
 #include <cstring>
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
 
@@ -67,7 +68,7 @@ void SupportBoneInstanceMaybe::sub_7101226E44() {
 
         const sead::Vector3f translate = work.translate + *bone.base_translate;
         sead::Quatf rotate;
-        if (sub_710122AD34(&rotate, work, *bone.aim, *bone.up, bone.side))
+        if (sub_710122AD34(&rotate, work._0, *bone.aim, *bone.up, bone.side))
             rotate.setMul(*bone.base_rotate, rotate);
         else
             rotate.set(1, 0, 0, 0);
@@ -163,6 +164,193 @@ f32 SupportBoneInstanceMaybe::getOutputDoubleMaybe(u32 index) {
     }
     return first * *mResource->mOutputDoubleBuffer[index].weight_0 +
            second * *mResource->mOutputDoubleBuffer[index].weight_1;
+}
+
+// NON_MATCHING: local transforms, connection evaluation and quaternion interpolation are scheduled differently.
+void SupportBoneInstanceMaybe::sub_7101227580(const SupportBoneResource::SupportBone& bone,
+                                             f32 weight) {
+    const auto& index = _18[*bone.bone];
+    if (index.unk == -1 || index.havok_index == -1)
+        return;
+    const s32 space = *bone.space;
+    hkQsTransformf transform;
+    if (space == -1) {
+        transform = _8->getBoneLocalSpace(index);
+    } else if (space == -2) {
+        transform = _8->getBoneModelSpace(index);
+    } else {
+        const auto& parent = _18[space];
+        if (parent.unk == -1 || parent.havok_index == -1)
+            return;
+        transform.setMulInverseMul(_8->getBoneModelSpace(parent), _8->getBoneModelSpace(index));
+    }
+    const hkVector4 translation = transform.m_translation;
+    if (u32(*bone.translateX) != 0xffffffff)
+        transform.m_translation(0) = getOutputMaybe(*bone.translateX) + bone.base_translate->x;
+    if (u32(*bone.translateY) != 0xffffffff)
+        transform.m_translation(1) = getOutputMaybe(*bone.translateY) + bone.base_translate->y;
+    if (u32(*bone.translateZ) != 0xffffffff)
+        transform.m_translation(2) = getOutputMaybe(*bone.translateZ) + bone.base_translate->z;
+    if (weight != 1.0f)
+        transform.m_translation.setInterpolate(translation, transform.m_translation, hkSimdReal(weight));
+    if (u32(*bone.bendH) != 0xffffffff) {
+        const sead::Vector3f angles{getOutputMaybe(*bone.bendH), getOutputMaybe(*bone.bendV),
+                                   getOutputMaybe(*bone.roll)};
+        sead::Quatf rotation;
+        if (sub_710122AD34(&rotation, angles, *bone.aim, *bone.up, bone.side)) {
+            rotation.setMul(*bone.base_rotate, rotation);
+            rotation.normalize();
+            if (weight != 1.0f)
+                rotation.slerpTo(toQuat(transform.m_rotation), rotation, weight);
+            toHkQuat(&transform.m_rotation, rotation);
+        }
+    }
+    if (space == -1) {
+        _8->setBoneLocalSpace(index, transform);
+    } else {
+        if (space != -2)
+            transform.setMul(_8->getBoneModelSpace(_18[space]), transform);
+        _8->setBoneModelSpace(index, transform, BoneAccessor::Propagate::Yes);
+    }
+}
+
+// NON_MATCHING: main-bone index extension and buffer loads differ in scheduling.
+f32 SupportBoneInstanceMaybe::getLinearConnectionMaybe(u32 index) {
+    const u32 attribute = *mResource->mConnectionLinearBuffer[index].bone_attribute;
+    const u32 bone = attribute >> 16;
+    f32 value;
+    switch (attribute & 0xffff) {
+    case 0:
+        if (!_28[bone]._18)
+            sub_71012285F4(bone);
+        value = _28[bone]._0.x;
+        break;
+    case 1:
+        if (!_28[bone]._18)
+            sub_71012285F4(bone);
+        value = _28[bone]._0.y;
+        break;
+    case 2:
+        if (!_28[bone]._18)
+            sub_71012285F4(bone);
+        value = _28[bone]._0.z;
+        break;
+    case 3:
+        if (!_28[bone]._19)
+            sub_71012288A8(bone);
+        value = _28[bone].translate.x;
+        break;
+    case 4:
+        if (!_28[bone]._19)
+            sub_71012288A8(bone);
+        value = _28[bone].translate.y;
+        break;
+    case 5:
+        if (!_28[bone]._19)
+            sub_71012288A8(bone);
+        value = _28[bone].translate.z;
+        break;
+    default:
+        return 0.0f;
+    }
+    return mResource->somethingGetLinearConnection(index, value);
+}
+
+// NON_MATCHING: main-bone index extension and buffer loads differ in scheduling.
+f32 SupportBoneInstanceMaybe::getCurveConnectionMaybe(u32 index) {
+    const u32 attribute = *mResource->mConnectionCurveBuffer[index].bone_attribute;
+    const u32 bone = attribute >> 16;
+    f32 value;
+    switch (attribute & 0xffff) {
+    case 0:
+        if (!_28[bone]._18)
+            sub_71012285F4(bone);
+        value = _28[bone]._0.x;
+        break;
+    case 1:
+        if (!_28[bone]._18)
+            sub_71012285F4(bone);
+        value = _28[bone]._0.y;
+        break;
+    case 2:
+        if (!_28[bone]._18)
+            sub_71012285F4(bone);
+        value = _28[bone]._0.z;
+        break;
+    case 3:
+        if (!_28[bone]._19)
+            sub_71012288A8(bone);
+        value = _28[bone].translate.x;
+        break;
+    case 4:
+        if (!_28[bone]._19)
+            sub_71012288A8(bone);
+        value = _28[bone].translate.y;
+        break;
+    case 5:
+        if (!_28[bone]._19)
+            sub_71012288A8(bone);
+        value = _28[bone].translate.z;
+        break;
+    default:
+        return 0.0f;
+    }
+    return mResource->getInterpolatedConnectionCurve(index, value);
+}
+
+
+// NON_MATCHING: quaternion and buffer temporaries differ in scheduling.
+void SupportBoneInstanceMaybe::sub_71012285F4(u32 index) {
+    const auto& bone = mResource->mMainBoneBuffer[index];
+    const auto& bone_index = _18[*bone.bone];
+    if (bone_index.unk == -1 || bone_index.havok_index == -1)
+        return;
+    const s32 space = *bone.space;
+    hkQuaternionf rotation;
+    if (space == -1) {
+        rotation = _8->getBoneLocalSpace(bone_index).m_rotation;
+    } else if (space == -2) {
+        rotation = _8->getBoneModelSpace(bone_index).m_rotation;
+    } else {
+        const auto& parent = _18[space];
+        if (parent.unk == -1 || parent.havok_index == -1)
+            return;
+        const auto& parent_transform = _8->getBoneModelSpace(parent);
+        rotation.setInverseMul(parent_transform.m_rotation,
+                                _8->getBoneModelSpace(bone_index).m_rotation);
+    }
+    sead::Quatf adjusted;
+    adjusted.setMul(bone.reverse_rotate, toQuat(rotation));
+    sead::Matrix34f matrix;
+    matrix.fromQuat(adjusted);
+    sub_710122A9AC(&_28[index]._0, matrix, *bone.aim, *bone.up, bone.side);
+    _28[index]._18 = true;
+}
+
+// NON_MATCHING: translation and buffer temporaries differ in scheduling.
+void SupportBoneInstanceMaybe::sub_71012288A8(u32 index) {
+    const auto& bone = mResource->mMainBoneBuffer[index];
+    const auto& bone_index = _18[*bone.bone];
+    if (bone_index.unk == -1 || bone_index.havok_index == -1)
+        return;
+    const s32 space = *bone.space;
+    hkVector4 translation;
+    if (space == -1) {
+        translation = _8->getBoneLocalSpace(bone_index).m_translation;
+    } else if (space == -2) {
+        translation = _8->getBoneModelSpace(bone_index).m_translation;
+    } else {
+        const auto& parent = _18[space];
+        if (parent.unk == -1 || parent.havok_index == -1)
+            return;
+        const auto& parent_transform = _8->getBoneModelSpace(parent);
+        translation.setTransformedInversePos(parent_transform,
+                                               _8->getBoneModelSpace(bone_index).m_translation);
+    }
+    _28[index]._19 = true;
+    _28[index].translate.set(translation(0) - bone.base_translate->x,
+                              translation(1) - bone.base_translate->y,
+                              translation(2) - bone.base_translate->z);
 }
 
 }  // namespace ksys::phys

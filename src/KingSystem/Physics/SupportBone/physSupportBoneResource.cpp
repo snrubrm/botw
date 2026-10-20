@@ -253,17 +253,48 @@ void SupportBoneResource::BaseBone::postRead_() {
     reverse_rotate.setInverse(*base_rotate);
 }
 
+bool SupportBoneInstanceMaybe::sub_710122A9AC(sead::Vector3f* out,
+                                              const sead::Matrix34f& matrix,
+                                              const sead::Vector3f& aim,
+                                              const sead::Vector3f& up,
+                                              const sead::Vector3f& side) {
+    sead::Vector3f direction = aim;
+    direction.rotate(matrix);
+    direction.normalize();
+    sead::Quatf swing;
+    if (!swing.makeVectorRotation(aim, direction)) {
+        out->set(0, 0, 0);
+        return false;
+    }
+    const f32 denominator = direction.dot(aim) + 1.0f;
+    out->x = 2.0f * std::atan2(-direction.dot(side), denominator);
+    out->y = 2.0f * std::atan2(direction.dot(up), denominator);
+    sead::Quatf rotation;
+    matrix.toQuat(rotation);
+    swing.inverse();
+    sead::Quatf twist;
+    twist.setMul(swing, rotation);
+    out->z = 2.0f * std::acos(sead::Mathf::clamp(twist.w, -1.0f, 1.0f));
+    if (twist.x * aim.x + twist.y * aim.y + twist.z * aim.z < 0.0f)
+        out->z = -out->z;
+    if (out->z < -sead::Mathf::pi())
+        out->z += sead::Mathf::pi2();
+    if (out->z > sead::Mathf::pi())
+        out->z -= sead::Mathf::pi2();
+    return true;
+}
+
 // In this TU in the original (0x710122ad34 follows the SupportBoneResource functions); defining it next
 // to sub_7101226E44 inlines it there.
 // NON_MATCHING: float register allocation (the sin table value is spilled in the original).
-bool SupportBoneInstanceMaybe::sub_710122AD34(sead::Quatf* out, const MainBoneWork& work,
+bool SupportBoneInstanceMaybe::sub_710122AD34(sead::Quatf* out, const sead::Vector3f& angles,
                                               const sead::Vector3f& aim, const sead::Vector3f& up,
                                               const sead::Vector3f& side) {
     f32 roll_sin, roll_cos;
-    sead::Mathf::sinCosIdx(&roll_sin, &roll_cos, sead::Mathf::rad2idx(work._0.z) / 2);
+    sead::Mathf::sinCosIdx(&roll_sin, &roll_cos, sead::Mathf::rad2idx(angles.z) / 2);
 
-    const f32 tan_h = std::tan(work._0.x * 0.5f);
-    const f32 tan_v = std::tan(work._0.y * 0.5f);
+    const f32 tan_h = std::tan(angles.x * 0.5f);
+    const f32 tan_v = std::tan(angles.y * 0.5f);
     const f32 scale = 2.0f / (tan_h * tan_h + tan_v * tan_v + 1.0f);
     sead::Vector3f dir = aim * (scale - 1.0f) + up * (tan_v * scale) - side * (tan_h * scale);
 

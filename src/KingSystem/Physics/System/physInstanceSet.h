@@ -100,8 +100,43 @@ public:
     // Native 0x7101227580 reads a resource bone and applies its weighted transform.
     void sub_7101227580(const SupportBoneResource::SupportBone& bone, f32 weight);
     // 0x710122ad34 (declaration only; placeholder name): computes the aim rotation of a main bone, false if none.
-    static bool sub_710122AD34(sead::Quatf* out, const MainBoneWork& work, const sead::Vector3f& aim,
+    static bool sub_710122AD34(sead::Quatf* out, const sead::Vector3f& angles, const sead::Vector3f& aim,
                                const sead::Vector3f& up, const sead::Vector3f& side);
+
+    // Native lazy main-bone angle / translation updates, called by both connection evaluators.
+    void sub_71012285F4(u32 index);
+    void sub_71012288A8(u32 index);
+    // Native 0x710122a9ac decomposes a main-bone rotation into the aim/up/side angles.
+    static bool sub_710122A9AC(sead::Vector3f* out, const sead::Matrix34f& matrix,
+                               const sead::Vector3f& aim, const sead::Vector3f& up,
+                               const sead::Vector3f& side);
+
+    // inline-only in the original; name is a guess: the same output dispatch is
+    // inlined for the six support-bone attributes in native 0x7101227580.
+    f32 getOutputMaybe(u32 output) {
+        switch (output >> 16) {
+        case 0: {
+            const u32 index = output & 0xffff;
+            const u32 connection = *mResource->mOutputSingleBuffer[index].connection;
+            f32 value = 0.0f;
+            if (connection != 0xffffffff) {
+                switch (connection >> 16) {
+                case 0:
+                    value = getLinearConnectionMaybe(connection & 0xffff);
+                    break;
+                case 1:
+                    value = getCurveConnectionMaybe(connection & 0xffff);
+                    break;
+                }
+            }
+            return value * *mResource->mOutputSingleBuffer[index].weight;
+        }
+        case 1:
+            return getOutputDoubleMaybe(output & 0xffff);
+        default:
+            return 0.0f;
+        }
+    }
 
     // inline-only in the original; name is a guess: the same frees open the destructor 0x7101226ae0 and the
     // init function 0x7101226bb4.
