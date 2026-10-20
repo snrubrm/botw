@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Havok/Ai/Pathfinding/hkaiAgentTraversalInfo.h>
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Common/Base/Container/Array/hkArray.h>
 #include <Havok/Common/Base/Math/Vector/hkVector4f.h>
@@ -44,13 +45,9 @@ public:
         USER_EDGE_IGNORE_WINDING = 16,
     };
 
-    // The 8-byte by-value member at +0x28 is reflected as one struct named
-    // agentInfo with no class record. 0x7100f84d64 / 0x7100f851bc write a
-    // radius in the first word and an encoded type in the second.
-    struct AgentInfo {
-        hkReal m_radius;
-        hkUint32 m_agentType;
-    };
+    // Reflection initializer 0x7101770770 proves the real traversal-info
+    // type and its diameter/filterInfo fields. Kept as an alias for callers.
+    using AgentInfo = hkaiAgentTraversalInfo;
 
     struct InputBase {
         InputBase();
