@@ -3,11 +3,52 @@
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapTypes.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physBAndSCs.h"
+#include "KingSystem/Physics/Constraint/physBAndSLimitAngYCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
 
 RopeBase::~RopeBase() = default;
+
+// NON_MATCHING: translation temporary loads and stores are scheduled differently.
+void RopeBase::m76(VFR::ScopedDeltaSetter* setter) {
+    if (!_988)
+        return;
+    const f32 length = _944 * _94c;
+    _93c = length * 0.5f;
+    _938 = length;
+    _940 = 1.0f / length;
+    for (s32 i = 0; i <= _930; ++i)
+        _860[i]->setScale(_94c);
+    for (s32 i = 0; i <= _930 + 1; ++i) {
+        auto* constraint = _840[i];
+        if (!constraint)
+            continue;
+        if (auto* limited = sead::DynamicCast<phys::BAndSLimitAngYCs>(constraint)) {
+            sead::Matrix34f first = _8f0[i].first;
+            sead::Matrix34f second = _8f0[i].second;
+            first.m[0][3] *= _94c;
+            first.m[1][3] *= _94c;
+            first.m[2][3] *= _94c;
+            if (i != 0 && i != _930 + 1) {
+                second.m[0][3] *= _94c;
+                second.m[1][3] *= _94c;
+                second.m[2][3] *= _94c;
+            }
+            limited->sub_7100F6BD8C(first, second);
+        } else if (auto* ball = sead::DynamicCast<phys::BAndSCs>(_840[i])) {
+            const auto& frames = _8f0[i];
+            sead::Vector3f first(frames.first.m[0][3], frames.first.m[1][3], frames.first.m[2][3]);
+            sead::Vector3f second(frames.second.m[0][3], frames.second.m[1][3], frames.second.m[2][3]);
+            first *= _94c;
+            if (i != 0 && i != _930 + 1)
+                second *= _94c;
+            ball->sub_7100F6B144(first, second);
+        }
+    }
+    sub_7100ECDAB8();
+}
 
 void RopeBase::m43(bool on) {
     for (int i = 0; i < _92c; ++i) {
@@ -61,6 +102,30 @@ void RopeBase::sub_7100ECD620(s32 idx) {
         }
     }
     _840[idx] = nullptr;
+}
+
+// NON_MATCHING: equivalent initial loop-bound comparisons differ.
+void RopeBase::sub_7100ECDE98() {
+    for (s32 i = 0; i < _928; ++i) {
+        if (_840[i])
+            _840[i]->sub_7100F6A074();
+    }
+    if (_8b0)
+        _8b0->sub_7100F6A074();
+    if (_8b8)
+        _8b8->sub_7100F6A074();
+    for (s32 i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->removeFromWorld();
+        if (_870[i])
+            _870[i]->removeFromWorld();
+    }
+    for (s32 i = 0; i < _92c; ++i) {
+        if (_880[i])
+            _880[i]->removeFromWorld();
+        if (_890[i])
+            _890[i]->removeFromWorld();
+    }
 }
 
 void RopeBase::sub_7100ECDAB8() {
@@ -133,6 +198,18 @@ void RopeBase::sub_7100ECE394(f32 value) {
         if (_860[i])
             _860[i]->setGravityFactor(value);
     }
+}
+
+// NON_MATCHING: one vector-component negation is scheduled before the final component load.
+sead::Vector3f RopeBase::sub_7100ECE61C(f32 length) {
+    s32 index = (length - 0.001f) * _940;
+    if (index < 0 || index > _930)
+        index = length < 0.0f ? 0 : _930;
+    const f32 fraction = _940 * (length - index * _938) - 0.5f;
+    const sead::Matrix34f mtx = _860[index]->getTransform();
+    sead::Vector3f direction(-mtx.m[0][1], -mtx.m[1][1], -mtx.m[2][1]);
+    direction.normalize();
+    return _860[index]->getPosition() + direction * (fraction * _938);
 }
 
 f32 RopeBase::sub_7100ECE76C() const {

@@ -42,9 +42,10 @@ public:
     bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
     void m63() override;
+    void m76(VFR::ScopedDeltaSetter* setter) override;
     int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
 
-    // 0x7100ecde98 (declared only): cancels the constraints and removes the rigid bodies of the rope from the world.
+    // 0x7100ecde98: cancels the constraints and removes the rigid bodies of the rope from the world.
     void sub_7100ECDE98();
     // 0x7100ecd620 (placeholder name): switches off and clears the constraint of segment `idx`; for an end segment
     // (0 or _928 - 1) also the matching active actor constraint and end attachment, else it keeps it in _850.
@@ -105,14 +106,22 @@ protected:
     sead::Buffer<phys::Constraint*> _840;
     sead::Buffer<phys::Constraint*> _850;
     sead::Buffer<phys::RigidBody*> _860;
-    u8 _870[0x880 - 0x870];
+    sead::Buffer<phys::RigidBody*> _870;
     sead::Buffer<phys::RigidBody*> _880;
-    u8 _890[0x8b0 - 0x890];
+    sead::Buffer<phys::RigidBody*> _890;
+    u8 _8a0[0x8b0 - 0x8a0];
     // The constraints attaching the rope ends (0x7100ecd620 switches them off with their segment).
     phys::Constraint* _8b0;
     phys::Constraint* _8b8;
     BaseProcLink _8c0[2];
-    u8 _8e0[0x928 - 0x8e0];
+    u8 _8e0[0x8f0 - 0x8e0];
+    struct ConstraintFrames {
+        sead::Matrix34f first;
+        sead::Matrix34f second;
+    };
+    // Native scale update reads each pair at a 0x60-byte stride.
+    sead::Buffer<ConstraintFrames> _8f0;
+    u8 _900[0x928 - 0x900];
     s32 _928;  // number of constraint entries (the last index is an end segment)
     s32 _92c;
     s32 _930;
@@ -120,7 +129,9 @@ protected:
     f32 _938;  // length of one rope segment (lane1 s41)
     f32 _93c;  // scale of the (1 - dot) term in sub_7100ECE410
     f32 _940;  // sub_7100ED68B4 multiplies the rope position by this to get a segment index
-    u8 _944[0x950 - 0x944];
+    f32 _944;  // unscaled segment length
+    u8 _948[4];
+    f32 _94c;  // rope scale
     f32 _950;  // default end weight (sub_7100ED2C24)
     u8 _954;
     // 2026-10-07: ECAA68 clears this flag; ED4A80 sets it together with _956 after detachment.
@@ -137,13 +148,16 @@ protected:
     bool _971;
     u8 _972[0x974 - 0x972];
     s32 _974;
-    u8 _978[0x98a - 0x978];
+    u8 _978[0x988 - 0x978];
+    bool _988;  // scale update enabled
+    u8 _989;
     // BalloonRopeBase::enter_ clears this after attaching the rope (lane3 s70).
     bool _98a;
     u8 _98b[0x9d0 - 0x98b];
     BaseProcHandle _9d0;
     u8 _9e0[0xa00 - 0x9e0];
 };
+KSYS_CHECK_SIZE_NX150(RopeBase, 0xa00);
 
 }  // namespace ksys::act
 
