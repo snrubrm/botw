@@ -163,6 +163,9 @@ public:
     void m165(sead::Vector3f* out) override;
     void m166() override;
 
+    // 0x71002c78f4 (placeholder name): sets _cc8 under the lock (Unk_71006f3044::sub_71006F331C).
+    void sub_71002C78F4(const sead::Vector3f& value);
+
     /* 0xc88 */ sead::CriticalSection _c88;
     /* 0xcc8 */ sead::Vector3f _cc8 = sead::Vector3f::ez;
     /* 0xcd8 */ u64 _cd8 = 0;

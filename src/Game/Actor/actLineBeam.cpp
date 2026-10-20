@@ -49,6 +49,11 @@ void LineBeam::updatePositionMaybe() {
     BeamBase::updatePositionMaybe();
 }
 
+void LineBeam::sub_71002C78F4(const sead::Vector3f& value) {
+    auto lock = sead::makeScopedLock(_c88);
+    _cc8 = value;
+}
+
 }  // namespace uking::act
 
 // Accessor-based wrapper in the LineBeam TU (0x71002c7d1c; lane4 s44; placeholder name, the CSV has none): sets `_cc8`
