@@ -41,6 +41,7 @@ public:
     // 0x7100ecea74 (CSV RopeBase::m18; declared only).
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void preDelete2_(const PreDeleteArg& arg) override;
+    void m73() override;
     void onEnterSleep_() override;
     void m43(bool on) override;
     bool shouldUnload(s32* a1) override;
@@ -50,6 +51,13 @@ public:
     void m76(VFR::ScopedDeltaSetter* setter) override;
     int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
 
+    // 0x7100ed3498 / 0x7100ed3cec / 0x7100ed4a80 / 0x7100ed4e50 / 0x7100ed5010 (CSV RopeBase::x / x_0 / x_1 / x_2 and
+    // unnamed; declared only): the per-frame rope steps m73 runs in order.
+    void sub_7100ED3498();
+    void sub_7100ED3CEC();
+    void sub_7100ED4A80();
+    void sub_7100ED4E50();
+    void sub_7100ED5010();
     // 0x7100eced04 (declared only, 1672 B): the pre-delete teardown; preDelete2_ forwards its flag.
     void sub_7100ECED04(bool do_not_destruct_immediately);
     // 0x7100ecde98: cancels the constraints and removes the rigid bodies of the rope from the world.
@@ -137,17 +145,20 @@ protected:
     f32 _93c;  // scale of the (1 - dot) term in sub_7100ECE410
     f32 _940;  // sub_7100ED68B4 multiplies the rope position by this to get a segment index
     f32 _944;  // unscaled segment length
-    u8 _948[4];
+    f32 _948;
     f32 _94c;  // rope scale
     f32 _950;  // default end weight (sub_7100ED2C24)
-    u8 _954;
+    bool _954;
     // 2026-10-07: ECAA68 clears this flag; ED4A80 sets it together with _956 after detachment.
     bool _955;
     u8 _956;
-    u8 _957[0x95a - 0x957];
+    u8 _957;
+    bool _958;
+    bool _959;
     bool _95a;
     bool _95b;  // 0x7100ecdab8: slows the bodies and switches the constraints to PSI priority
-    u8 _95c[0x96c - 0x95c];
+    s32 _95c;
+    u8 _960[0x96c - 0x960];
     // 2026-10-07: ED1B00/ED1D78/ED33F0 write states 1/2/3; ED5010 switches on the state.
     s32 _96c;
     // ED4E50 clears this flag and sets it when a rigid body is detached.
@@ -160,9 +171,16 @@ protected:
     u8 _989;
     // BalloonRopeBase::enter_ clears this after attaching the rope (lane3 s70).
     bool _98a;
-    u8 _98b[0x9d0 - 0x98b];
+    u8 _98b[0x9b0 - 0x98b];
+    // Copied from _930 / _938 / _948 by m73.
+    s32 _9b0;
+    f32 _9b4;
+    f32 _9b8;
+    u8 _9bc[0x9d0 - 0x9bc];
     BaseProcHandle _9d0;
-    u8 _9e0[0xa00 - 0x9e0];
+    u8 _9e0[0x9f0 - 0x9e0];
+    bool _9f0;
+    u8 _9f1[0xa00 - 0x9f1];
 };
 KSYS_CHECK_SIZE_NX150(RopeBase, 0xa00);
 

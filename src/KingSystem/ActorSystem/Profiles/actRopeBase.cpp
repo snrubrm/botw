@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
+#include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapTypes.h"
@@ -14,6 +15,29 @@ RopeBase::~RopeBase() = default;
 // NON_MATCHING: translation temporary loads and stores are scheduled differently.
 void RopeBase::preDelete2_(const PreDeleteArg& arg) {
     sub_7100ECED04(arg.do_not_destruct_immediately);
+}
+
+void RopeBase::m73() {
+    sub_7100ED3498();
+    sub_7100ED3CEC();
+    _9b0 = _930;
+    _9b4 = _938;
+    _9b8 = _948;
+    mModel->updateWorldMatrix();
+    if (!_9f0 && _971) {
+        if (!_954 || _96c < 3) {
+            _95c = _974;
+            _954 = true;
+            _958 = false;
+            _959 = false;
+            _96c = 3;
+        }
+        _971 = false;
+        _974 = -1;
+    }
+    sub_7100ED4A80();
+    sub_7100ED4E50();
+    sub_7100ED5010();
 }
 
 void RopeBase::m74() {
