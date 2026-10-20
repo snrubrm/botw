@@ -49,6 +49,7 @@ public:
     // 0x7100002b60 (CSV BeamBase::m69; declared only).
     void calcMaybe() override;
     void updatePositionMaybe() override;
+    Actor* m48() override;
     /* 163 */ virtual void m163();
     /* 164 */ virtual void m164(void* arg);
     // The position of the beam (the actor's translation).

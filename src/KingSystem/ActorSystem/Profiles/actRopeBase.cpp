@@ -136,6 +136,30 @@ void RopeBase::sub_7100ECDE98() {
     }
 }
 
+void RopeBase::onEnterSleep_() {
+    Actor::onEnterSleep_();
+    if (_928 <= 0)
+        return;
+
+    for (s32 i = 0; i < _928; ++i) {
+        if (_840[i])
+            _840[i]->sub_7100F6A21C();
+        if (i == 0 || i == _928 - 1)
+            _840[i] = nullptr;
+    }
+    if (_8b0) {
+        _8b0->sub_7100F6A21C();
+        phys::Constraint::destroy(_8b0);
+        _8b0 = nullptr;
+    }
+    if (_8b8) {
+        _8b8->sub_7100F6A21C();
+        phys::Constraint::destroy(_8b8);
+        _8b8 = nullptr;
+    }
+    resetConnectedCalcParent(false);
+}
+
 void RopeBase::sub_7100ECDAB8() {
     EndState first;
     EndState last;

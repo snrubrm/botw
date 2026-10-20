@@ -39,6 +39,7 @@ public:
     // Primary vtable24F0440 slot64 points toECF66C; Actor names this slot initMaybe.
     void initMaybe() override;
     void preDelete2_(const PreDeleteArg& arg) override;
+    void onEnterSleep_() override;
     void m43(bool on) override;
     bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
