@@ -2603,7 +2603,7 @@ public:
     bool m11() override;
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
-    // 0x7101002290 (declared only)
+    // 0x7101002290: emits "main" and installs the stream region callback 0x7101002374.
     void hm14() override;
     void hm15() override;
 

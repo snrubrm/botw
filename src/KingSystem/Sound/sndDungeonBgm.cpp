@@ -8,6 +8,11 @@
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Sound/sndMusicInfo.h"
 #include <gfx/seadTextWriter.h>
+#include <nn/atk.h>
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
+#include <xlink2/xlink2EventSLink.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -198,6 +203,37 @@ namespace {
 const sead::SafeString sStr_Main = "main";
 const sead::SafeString sStr_Outro = "outro";
 }  // namespace
+
+// 0x710260f5b8 (placeholder name): a debug override of _1e8 read by the stream region callback; hm14 resets it.
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710260F5B8;
+
+// 0x7101002374 (declared only): the stream region callback of Unk_71024fd6c8.
+nn::atk::StreamRegionCallbackResult sub_7101002374(nn::atk::StreamRegionCallbackParam* param,
+                                                   void* user);
+
+void Unk_71024fd6c8::hm14() {
+    mEntry = sub_71010209FC(sStr_Main);
+    if (mEntry && mEntry->sub_7100FF6DF4(this)) {
+        auto* entry = mEntry;
+        if (entry->mHandle.isActive())
+            entry->mHandle.getEvent()->resetFlagBit(1);
+        if (entry->mHandle.isActive()) {
+            auto* event = static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent());
+            if (auto* executor = event->getAliveAssetExecutor()) {
+                auto* handle = executor->getHandle();
+                if (handle->isActive()) {
+                    auto* source = handle->getSoundSource();
+                    source->setStreamRegionCallback(sub_7101002374, this);
+                    source->setVirtualizeMode(aal::VirtualizeMode::Restart);
+                }
+            }
+        }
+    }
+    _1f0 = -1;
+    _1f4 |= 7;
+    _1e8 = 0;
+    sUnk_710260F5B8 = 0;
+}
 
 // NON_MATCHING: the base pointer this + 0x10 is computed once up front in the original; block order of the tail.
 void Unk_71024fd6c8::sub_7101002194() {
