@@ -4661,10 +4661,13 @@ public:
     void m94() override;
     void m101() override;
     void m106(eui::AnimButton* button) override;
+    void m98() override;
+    void m93(sead::Heap* heap) override;
+    void m107(eui::AnimButton* button) override;
 
     /* 0x3610 */ s32 _3610 = 10;
     s32 _3614;
-    u64 _3618{};
+    eui::Animator* _3618{};
     sead::SafeArray<eui::LayoutEx*, 3> _3620{};
     sead::SafeArray<eui::AnimButton*, 3> _3638{};
     // 0x71009fcb7c (placeholder name): sets flag 0x10 of button `index` and, when on, its label to message `msg_id`

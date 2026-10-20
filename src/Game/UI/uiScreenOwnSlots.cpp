@@ -407,6 +407,70 @@ void ScreenSaveTransferWindow::m247() {
     close(-1);
 }
 
+// 0x71009fc4ec
+void ScreenAppSystemWindow::m93(sead::Heap*) {
+    _3618 = mLayout->createAnimatorAuto("BtnNum", false);
+    for (s32 i = 0; i < 3; ++i) {
+        sead::FixedSafeString<64> name;
+        name.format("Pa_Btn_%02d", i);
+        _3620[i] = sub_7100BEAFB0(name.cstr());
+    }
+    for (s32 i = 0; i < 3; ++i) {
+        sead::FixedSafeString<64> name;
+        name.format("Pa_Btn_%02d", i);
+        _3638[i] = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName(name.cstr()));
+    }
+    eui::ButtonGroup* group = mButtonGroup;
+    for (eui::ListNode* node = group->mButtons.next; node != &group->mButtons; node = node->next)
+        static_cast<eui::ButtonBase*>(eui::ControlBase::fromNode(node))->mFlags |= 0x20;
+}
+
+// 0x71009fca24
+// NON_MATCHING: block order of the final close() (the original puts the -4 call first); tried a ternary and a local
+void ScreenAppSystemWindow::m107(eui::AnimButton* button) {
+    if (button->IsPlayDisableAnim())
+        return;
+    const f32 count = _3618->mFrame;
+    if (count == 1.0f) {
+        if (_3638[0] == button)
+            sUnk_7102483490 = 2;
+    } else if (count == 2.0f) {
+        if (_3638[0] == button)
+            sUnk_7102483490 = 1;
+        else if (_3638[1] == button)
+            sUnk_7102483490 = 0;
+    } else if (count == 3.0f && (_3610 == 5 || _3610 == 6)) {
+        if (_3638[2] == button)
+            sUnk_7102483490 = 4;
+        else if (_3638[1] == button)
+            sUnk_7102483490 = 5;
+        else if (_3638[0] == button)
+            sUnk_7102483490 = 3;
+    }
+    if ((_3610 == 3 || _3610 == 7) && _3638[1] == button)
+        close(-4);
+    else
+        close(-1);
+}
+
+// 0x71009fc810
+// NON_MATCHING: clang turns the button choice into an index lookup table (the original loads each element directly)
+void ScreenAppSystemWindow::m98() {
+    sUnk_7102483490 = 6;
+    const eui::AnimButton* button;
+    if (_3610 == 5 || _3610 == 6)
+        button = _3638[2];
+    else if (_3610 == 7 || _3610 == 3)
+        button = _3638[1];
+    else
+        button = _3638[0];
+    setReservedBoxCursorNode(findBoxCursorNodeByButton(button));
+    mActiveCursorNode = nullptr;
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        home->sub_71009DD7A8();
+    x_2();
+}
+
 // 0x71009fc91c
 void ScreenAppSystemWindow::m99() {
     mButtonGroup->_38 |= 2;
