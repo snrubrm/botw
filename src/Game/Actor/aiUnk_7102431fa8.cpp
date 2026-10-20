@@ -1,8 +1,12 @@
 #include "Game/Actor/aiUnk_7102431fa8.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7100742478.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include <limits>
 
 // NON_MATCHING: cancellation and animation-state stores are scheduled differently.
 void Unk_7102431fa8::sub_7100741C24() {
@@ -64,4 +68,62 @@ void Unk_7102431fa8::sub_71007420B8(const sead::SafeString& start_as_name,
     _14[1] = target_idx;
     _8 = 0;
     _c = 0;
+}
+
+namespace {
+constexpr f32 cNaN = std::numeric_limits<f32>::quiet_NaN();
+}
+
+// 0x7100742278: the HavokAI closest-point query for `out`, then the character's material filter.
+bool sub_7100742278(f32 radius, void* a2, ksys::phys::NavMeshCharacter* nav,
+                    const sead::Vector3f* pos) {
+    const auto query = ksys::phys::HavokAI::instance()->sub_7100F87ED0(
+        static_cast<sead::Vector3f*>(a2), *pos, radius);
+    if (!query.sub_7100F7EB40())
+        return false;
+    return nav->isMaterialUsableMaybe(query.sub_7100F7EEE4());
+}
+
+// 0x7100742588: a navmesh point query around `pos` with `radius`; writes the hit to `out`.
+// NON_MATCHING: scheduling only; the original saves `out` and the result pointer later and orders a few
+// constant stores differently.
+bool sub_7100742588(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav,
+                    const sead::Vector3f* pos, f32 radius) {
+    ksys::phys::HavokAI::Unk1 result;
+    ksys::phys::HavokAI::Unk2 query;
+    query.from = sead::Vector3f(cNaN, cNaN, cNaN);
+    query.dir = sead::Vector3f::ex;
+    query.distance = -4.0f;
+    query._30 = 0xff;
+    query._10 = *pos;
+    query.radius = radius;
+    query.tolerance = 0.1f;
+
+    ksys::phys::HavokAI* havok = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+    const bool hit = havok->sub_7100F86324(nav, query, &result);
+    if (out)
+        out->set(result._18);
+    return hit;
+}
+
+// 0x7100742664: a line-of-sight probe of `length` from `position` along the character's direction;
+// `tolerance` becomes the query radius.
+// NON_MATCHING: scheduling only, like sub_7100742588.
+bool sub_7100742664(sead::Vector3f* hit, ksys::phys::NavMeshCharacter* nav,
+                    const sead::Vector3f* position, f32 length, f32 tolerance) {
+    ksys::phys::HavokAI::Unk1 result;
+    ksys::phys::HavokAI::Unk2 query;
+    query.from = sead::Vector3f(cNaN, cNaN, cNaN);
+    query.tolerance = 0.1f;
+    query._10 = sead::Vector3f::zero;
+    query.dir = *position;
+    query.distance = length;
+    query.radius = tolerance;
+    query._30 = 0xff;
+
+    ksys::phys::HavokAI* havok = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+    const bool found = havok->sub_7100F86324(nav, query, &result);
+    if (hit)
+        hit->set(result._18);
+    return found;
 }
