@@ -57,6 +57,22 @@ bool ScreenAppMapWidget::sub_71009A9438() {
     return mNormalMap._a9a0.isDone() || mNormalMap._a8eb;
 }
 
+// NON_MATCHING: the original has two copies of the _850.get38() call (one per branch of the mode test); ours
+// merges them.
+// 0x71009a947c
+void ScreenAppMapWidget::sub_71009A947C() {
+    f32 target;
+    if (mSubsys->sub_7100965EA8() == 2 && _b34c)
+        target = sub_7100965EB0();
+    else
+        target = mSubsys->_850.get38();
+    const f32 height = sub_7100966008()->y;
+    f32 value = height / mSubsys->_850.get28();
+    const f32 diff = height / target - value;
+    sub_7100AA2350(_130, &value, height / target, 0.15f, diff > 0.0f ? diff : -diff, 1.0f);
+    mSubsys->_850.set28(height / value);
+}
+
 // 0x71009a995c
 void ScreenAppMapWidget::sub_71009A995C() {
     _b34c = 1;

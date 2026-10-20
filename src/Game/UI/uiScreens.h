@@ -2613,6 +2613,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009AEF88();
     // 0x71009aeef0 (placeholder name): selects the last footprint cell (_b4ec / _b4f0) and decodes it into _b4b8 / _b4bc
     void sub_71009AEEF0();
+    // 0x71009a947c (placeholder name): eases the map view scale (_850._28) toward the target scale
+    void sub_71009A947C();
     // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
     // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
     void setMode(s32 mode);
@@ -2629,7 +2631,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void m21() override;
     void m31() override;
 
-    u8 _130[0x8d8 - 0x130];
+    // the owning screen (passed to sub_7100AA2350 by sub_71009A947C)
+    /* 0x130 */ eui::Screen* _130;
+    u8 _138[0x8d8 - 0x138];
     // the UI subsystem and the map position controller (sub_71009ADEF0)
     /* 0x8d8 */ UiSubsys1* mSubsys = nullptr;
     /* 0x8e0 */ Unk_7102475368* _8e0 = nullptr;
