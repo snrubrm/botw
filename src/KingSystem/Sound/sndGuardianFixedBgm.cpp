@@ -159,8 +159,11 @@ void Unk_71024fec18::m12(f32 fade_sec) {
     sub_710101D9D8();
 }
 
-// Requests the ducker of ExpressionSoundCtrl +0x294, sets the FX mode 3 and fades the listener's _a8 in.
+// Enters the wait state, requests the ducker of ExpressionSoundCtrl +0x294, sets the FX mode 3 and fades the
+// listener's _a8 in.
 inline void Unk_71024fec18::startWaitDucking() {
+    _198 = 2;
+    _19c = 0;
     ksys::snd::ExpressionSoundCtrl::instance()->_294.start();
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
@@ -181,8 +184,6 @@ void Unk_71024fec18::sub_710100FE0C(const Level* level) {
             _1a8->sub_7100FF6A64(0.1f);
         _1a4 = *level;
         _1a0 = mInfo->mStartDelaySec.ref();
-        _198 = 2;
-        _19c = 0;
         startWaitDucking();
     } else {
         _1a4 = *level;
@@ -195,14 +196,12 @@ void Unk_71024fec18::sub_710100FE0C(const Level* level) {
     }
 }
 
-// NON_MATCHING: the original stores the state twice (once merged with the timer).
 void Unk_71024fec18::sub_710100FF38() {
     if (_1a8 && _1a8->sub_7100FF6DF4(this))
         return;
     _1a4 = 0;
     _198 = 2;
     _1a0 = mInfo->mRetryDelaySec.ref();
-    _19c = 0;
     startWaitDucking();
 }
 
