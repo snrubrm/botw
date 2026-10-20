@@ -211,6 +211,144 @@ void CameraEventMove::sub_710075DCC4() {
     _2a1 |= 2;
 }
 
+// 0x710075d6d8 (placeholder name): the first orbit update, run at the start of m44. It builds the
+// orbit polar from the front-bone axis (or the camera state for the imaginary line), decides the near
+// side, then searches the 2.5 degree ring around the look-at point for a visible two-step orbit.
+// NON_MATCHING: the same body, but clang keeps the radius and the elevation in registers instead of
+// the two stack spills the original has, so every local slot is 0x10 higher and the register names
+// differ throughout. The near-side check, the two offset additions and the four ring searches match
+// instruction for instruction.
+void CameraEventMove::sub_710075D6D8() {
+    if (_2a1 & 1)
+        return;
+    if (!(_2a0 & 1))
+        return;
+
+    const s32 axis = _1b4;
+    const sead::Vector3f dir(_184.m[0][axis] * _1b8, _184.m[1][axis] * _1b8,
+                             _184.m[2][axis] * _1b8);
+
+    f32 elevation = 0.0f;
+    if (dir.x != 0.0f || dir.y != 0.0f || dir.z != 0.0f) {
+        const f32 xz = std::sqrt(dir.x * dir.x + dir.z * dir.z);
+        elevation = sub_7100924CAC(std::atan2(dir.y, xz) * (180.0f / sead::Mathf::pi()));
+    }
+
+    f32 azimuth = 0.0f;
+    if (*mUseImaginaryLineAngle_d) {
+        const sead::Vector3f delta = _148.getTranslation() - _118.getTranslation();
+        if (delta.x != 0.0f || delta.z != 0.0f)
+            azimuth = std::atan2(delta.x, delta.z) * (180.0f / sead::Mathf::pi());
+    } else if (dir.x != 0.0f || dir.z != 0.0f) {
+        azimuth = std::atan2(dir.x, dir.z) * (180.0f / sead::Mathf::pi());
+    }
+
+    const sead::Vector3f side(dir.z, 0.0f, -dir.x);
+
+    if (*mNearSide_d) {
+        if (auto* camera = getCamera()) {
+            const sead::Vector3f delta(camera->_860._0._0.x - _178.x, 0.0f,
+                                       camera->_860._0._0.z - _178.z);
+            _2a2 = side.dot(delta) > 0.0f ? 1 : 2;
+        } else {
+            _2a2 = 0;
+        }
+    } else {
+        _2a2 = 0;
+    }
+
+    const f32 radius = std::max(*mRadius_s, 0.01f);
+    const act::Unk_7100922700 base(radius, elevation, azimuth);
+
+    sead::Vector3f point = _178;
+    point.y = _178.y + mOffset_d->y;
+
+    const sead::Vector3f vector = base.sub_7100923254();
+
+    f32 lat;
+    if (_2a2 != 0) {
+        const f32 value = mOffset_d->x > 0.0f ? mOffset_d->x : -mOffset_d->x;
+        lat = _2a2 == 1 ? value : -value;
+    } else {
+        lat = (*mLngReverse_d ? -1.0f : 1.0f) * mOffset_d->x;
+    }
+
+    sead::Vector3f side_offset(vector.z, 0.0f, -vector.x);
+    const f32 side_len = std::sqrt(vector.x * vector.x + vector.z * vector.z);
+    if (side_len > 0.0f)
+        side_offset *= lat / side_len;
+    point += side_offset;
+
+    sead::Vector3f forward(vector.x, 0.0f, vector.z);
+    const f32 forward_len = std::sqrt(vector.x * vector.x + vector.z * vector.z);
+    if (forward_len > 0.0f)
+        forward *= mOffset_d->z / forward_len;
+    point += forward;
+
+    f32 lat_angle;
+    if (_2a2 != 0) {
+        const f32 value = *mLat_d > 0.0f ? *mLat_d : -*mLat_d;
+        lat_angle = _2a2 == 1 ? value : -value;
+    } else {
+        lat_angle = (*mLatReverse_d ? -1.0f : 1.0f) * *mLat_d;
+    }
+
+    f32 lng_angle;
+    if (_2a2 != 0) {
+        const f32 value = *mLng_d > 0.0f ? *mLng_d : -*mLng_d;
+        lng_angle = _2a2 == 1 ? value : -value;
+    } else {
+        lng_angle = (*mLngReverse_d ? -1.0f : 1.0f) * *mLng_d;
+    }
+
+    const act::Unk_7100922700 adjusted(radius, sub_7100924CAC(elevation + lat_angle),
+                                       azimuth + lng_angle);
+    sead::Vector3f candidate = point + adjusted.sub_7100923254();
+
+    if (sub_710075E810(candidate, point)) {
+        for (s32 i = 0; i < 2; ++i) {
+            const f32 sign1 =
+                s32(sead::GlobalRandom::instance()->getU32()) >= 0 ? 1.0f : -1.0f;
+            const f32 step1 = f32(i + 1) * sign1 * 2.5f;
+
+            act::Unk_7100922700 polar = base;
+            polar._8 = angleStuff(polar._8 + step1);
+            candidate = point + polar.sub_7100923254();
+            if (!sub_710075E9B4(&candidate, point, i + 1))
+                break;
+
+            polar = base;
+            polar._8 = angleStuff(polar._8 - step1);
+            candidate = point + polar.sub_7100923254();
+            if (!sub_710075E9B4(&candidate, point, i + 1))
+                break;
+
+            const f32 sign2 =
+                s32(sead::GlobalRandom::instance()->getU32()) >= 0 ? 1.0f : -1.0f;
+            const f32 step2 = f32(i + 1) * sign2 * 2.5f;
+
+            polar = base;
+            polar._4 = angleStuff(polar._4 + step2);
+            polar._4 = angleStuff(sub_7100924CAC(polar._4));
+            candidate = point + polar.sub_7100923254();
+            if (!sub_710075EB98(&candidate, point, i))
+                break;
+
+            polar = base;
+            polar._4 = angleStuff(polar._4 - step2);
+            polar._4 = angleStuff(sub_7100924CAC(polar._4));
+            candidate = point + polar.sub_7100923254();
+            if (!sub_710075EB98(&candidate, point, i))
+                break;
+        }
+    }
+
+    _1c8._0 = radius;
+    _1c8._4 = angleStuff(adjusted._4 - base._4);
+    _1c8._8 = angleStuff(adjusted._8 - base._8);
+    _2a1 |= 1;
+}
+
 void CameraEventMove::m44() {
     auto* camera = getCamera();
     if (!camera)
