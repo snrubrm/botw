@@ -663,6 +663,20 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38, 0x160);
 
+// Placeholder (the per-ducker settings DuckingMgr::init passes to DuckingMgr::Ducker::setup; the static instances
+// start at 0x7102612628 and are 0x130 bytes apart). A name string at +0, the group ducker settings at +0x58, the
+// ducking duration at +0x64, a flag at +0x68, the target count at +0x6c and the target array at +0x70.
+struct Unk_7102612628 {
+    /* 0x00 */ sead::FixedSafeString<32> mName;
+    /* 0x38 */ u8 _38[0x20];
+    /* 0x58 */ aal::GroupDucker::Settings mSettings;
+    /* 0x64 */ f32 mDuration;
+    /* 0x68 */ bool _68;
+    /* 0x6c */ s32 mTargetNum;
+    /* 0x70 */ u8 _70[0xc0];
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102612628, 0x130);
+
 // The two empty polymorphic bases of DuckingMgr::Ducker (placeholder names = the vtable group they appear in:
 // the primary base shares Ducker's vtable 0x71025021b8, the second base's secondary vtable is 0x7102502200).
 // Both have only a virtual destructor.
@@ -714,16 +728,18 @@ public:
         void deactivateMaybe(bool suspend);
         // 0x710103e2c4: activateMaybe() and resets mDucker's state.
         void activateAndResetMaybe();
-        // 0x710103df60 (declared only; needs aal::GroupDucker's private mInitialized): per-frame update while
-        // active or ducking.
+        // 0x710103df60: per-frame update while active or ducking.
         void calc();
+        // 0x710103e2dc (placeholder name) and 0x710103e020 (the target volume update it calls).
+        void sub_710103E2DC(f32 f);
+        void sub_710103E020(f32 f);
 
         u8 _10[0x58];
         /* 0x68 */ aal::GroupDucker mDucker;
-        /* 0xb0 */ void* _b0;
+        /* 0xb0 */ Unk_7102612628* _b0 = nullptr;
         u8 _b8[8];
         /* 0xc0 */ f32 _c0;
-        u8 _c4[4];
+        /* 0xc4 */ f32 _c4;
         /* 0xc8 */ u8 _c8;  // bit 0: active
     };
 

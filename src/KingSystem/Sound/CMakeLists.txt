@@ -24,6 +24,7 @@ target_sources(uking PRIVATE
   sndEnvBgm.cpp
   sndEnvBgm.h
   sndDuckingMgr.cpp
+  sndDuckingMgrApi.cpp
   sndInfoData.cpp
   sndListenerPoser.cpp
   sndListenerPoserImpl.cpp
