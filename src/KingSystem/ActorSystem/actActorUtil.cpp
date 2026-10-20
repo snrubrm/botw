@@ -1740,6 +1740,30 @@ bool sub_7100EE2800(ksys::act::BaseProcAccessor* accessor, ksys::act::Actor* act
     return accessor->acquire(nullptr);
 }
 
+namespace ksys::act {
+
+// NON_MATCHING: chemical-element traversal, cached bounds and string temporary scheduling differ.
+phys::RigidBody* sub_7100EE5DD0(Actor* actor, const sead::SafeString& name) {
+    auto* chemicals = actor ? actor->getChemicalContainer() : nullptr;
+    if (!chemicals)
+        return nullptr;
+    const s32 count = chemicals->_58.size() + chemicals->_80;
+    for (s32 i = 0; i < count; ++i) {
+        auto* element = chemicals->sub_7100E3718C(i);
+        if (!element)
+            return nullptr;
+        const s32 body_count = element->_278.size();
+        for (s32 j = 0; j < body_count; ++j) {
+            auto* body = element->_278[j].body;
+            if (body && body->getHkBodyName() == name)
+                return body;
+        }
+    }
+    return nullptr;
+}
+
+}  // namespace ksys::act
+
 // NON_MATCHING: the direct first-body return simplifies the original search loop and final indexed selection.
 ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor) {
     if (!actor)

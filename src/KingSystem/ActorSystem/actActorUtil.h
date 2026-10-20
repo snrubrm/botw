@@ -382,6 +382,9 @@ bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_val
 // 0x7100ee68c0 (CSV name): s32 map unit parameter `name`, or `default_value` if it has none.
 s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value);
 
+// EE5DD0 searches all chemical elements for the first body with this native Havok name.
+phys::RigidBody* sub_7100EE5DD0(Actor* actor, const sead::SafeString& name);
+
 }  // namespace ksys::act
 
 // Native EE27B4 / EE3A88 acquire ForSale / SensorBlind linked actors, or clear the output.
