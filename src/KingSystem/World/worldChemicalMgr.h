@@ -117,6 +117,9 @@ static_assert(offsetof(FarChemicalInfo, radius) == 8);
 static_assert(offsetof(FarChemicalInfo, offset) == 0xc);
 static_assert(offsetof(FarChemicalInfo, name) == 0x18);
 
+// 0x71010c8f50: actor-name lookup in the existing 31-entry far-chemical table.
+bool isFarChemicalActorNameMaybe(const sead::SafeString& name);
+
 // Complete E0-byte producer 10C9274 embeds the existing chemicals, root/shape and tag.
 // 10C8748 supplies the body and ActorX6A0; independent actor-copy/reset paths use them.
 class Unk_710250c840 {

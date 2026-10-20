@@ -98,6 +98,16 @@ const FarChemicalInfo sFarChemicalInfos[] = {
 static_assert(sizeof(sFarChemicalInfos) == 31 * 0x20);
 }  // namespace
 
+// 0x71010c8f50: callers pass the actor name directly; no chemical-object receiver.
+// NON_MATCHING: the table is addressed independently of its neighboring descriptor block.
+bool isFarChemicalActorNameMaybe(const sead::SafeString& name) {
+    for (s32 i = 0; i < 31; ++i) {
+        if (name == sead::SafeString(sFarChemicalInfos[i].name))
+            return true;
+    }
+    return false;
+}
+
 Unk_710250c840::~Unk_710250c840() {
     if (_d0) {
         delete _d0;
