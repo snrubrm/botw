@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "KingSystem/GameData/gdtFlag.h"
 #include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
@@ -38,6 +39,7 @@ struct Quest;
 namespace uking::ui {
 
 class Screen;
+class ScreenOptionWindow;
 struct ArmorInfo;
 
 class Unk_7102474b38 {
@@ -968,13 +970,36 @@ struct Unk_OptionWindowEntry {
     // hides the other two
     void sub_7100A2B76C(s32 mode);
 
-    u8 _0[0x18];
-    /* 0x18 */ eui::ButtonBase* _18;
-    /* 0x20 */ eui::ButtonBase* _20;
-    /* 0x28 */ eui::ButtonBase* _28;
-    u8 _30[0x70 - 0x30];
+    // 0x7100a2a570 / 0x7100a2b91c: refresh the value text/check and its navigation animators.
+    void sub_7100A2A570(bool notify);
+    void sub_7100A2B91C(bool notify);
+
+    void sub_7100A2A450();
+    void sub_7100A29900();
+
+    ScreenOptionWindow* _0;
+    u8 _8[8];
+    /* 0x10 */ eui::LayoutEx* _10;
+    /* 0x18 */ eui::UniteButton* _18;
+    /* 0x20 */ eui::UniteButton* _20;
+    /* 0x28 */ eui::UniteButton* _28;
+    /* 0x30 */ eui::Animator* _30;
+    /* 0x38 */ eui::Animator* _38;
+    /* 0x40 */ eui::Animator* _40;
+    /* 0x48 */ eui::Animator* _48;
+    /* 0x50 */ s32 _50;
+    /* 0x54 */ bool _54;
+    u8 _55[3];
+    /* 0x58 */ s32 _58;
+    /* 0x5c */ s32 _5c;
+    /* 0x60 */ s32 _60;
+    /* 0x64 */ bool _64;
+    u8 _65[3];
+    /* 0x68 */ ksys::gdt::FlagType _68;
+    u8 _6c[4];
     Unk_7102474dd0 _70;
 };
+static_assert(sizeof(Unk_OptionWindowEntry) == 0x98);
 
 // Member of ScreenMessageTips (0x318, 0x90 bytes). Vtable 0x7102509148; the constructor (0x71010a7bcc) clears the 0x88
 // bytes after the vtable pointer. Declared only.
