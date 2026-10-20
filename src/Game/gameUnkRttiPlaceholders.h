@@ -245,9 +245,10 @@ public:
     // their type tag there (0x710129dc24 returns 0, 0x7101297a3c.. return 1..4).
     virtual s32 m5() = 0;
     // Slots 6..11 are the empty hooks 0x710129dae0 .. 0x710129daf0 in the original vtable.
-    virtual void m6();
+    // Slot 6 declares and creates the uniform block; slot 8 selects its buffer.
+    virtual void m6(sead::Heap* heap);
     virtual void m7();
-    virtual void m8();
+    virtual void m8(u8 index);
     virtual void m9();
     virtual void m10();
     // Slot 11 (0x710129daf4) returns true; the derived records return bit 1 of their state word.
@@ -1255,9 +1256,9 @@ public:
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 0; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     // 0x7101296840: clears the state word at +0x5c.
     virtual void m9();
     // 0x7101296848: returns the pool link and clears +0x128 / +0x5c.
@@ -1295,9 +1296,9 @@ public:
     Unk_7102519460();
     ~Unk_7102519460() override;
     virtual s32 m5() { return 1; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     // 0x71012977e0: clears the state word at +0x5c.
     virtual void m9();
     // 0x71012977e8: clears the state word at +0x5c.
@@ -1334,9 +1335,9 @@ class Unk_71025194d0 : public Unk_7102519378 {
 public:
     ~Unk_71025194d0() override;
     virtual s32 m5() { return 2; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
     // 0x7101297fb4: bit 0 of the state word at +0x5c.
@@ -1353,9 +1354,9 @@ class Unk_7102519540 : public Unk_7102519378 {
 public:
     ~Unk_7102519540() override;
     virtual s32 m5() { return 3; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
     // 0x7101299184: bit 1 of the state word at +0x5c.
@@ -1372,9 +1373,9 @@ class Unk_71025195b0 : public Unk_7102519378 {
 public:
     ~Unk_71025195b0() override;
     virtual s32 m5() { return 4; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
     // 0x7101299dac: bit 1 of the state word at +0x5c.
@@ -1391,9 +1392,9 @@ class Unk_7102519620 : public Unk_7102519378 {
 public:
     ~Unk_7102519620() override;
     virtual s32 m5() { return 5; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
     // 0x710129ac30: bit 0 of the state word at +0x5c.
@@ -1414,9 +1415,9 @@ public:
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 6; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     // 0x710129b590: clears the state word at +0x5c.
     virtual void m9();
     // 0x710129b598: returns the pool link and clears +0x128 / +0x5c.
@@ -1441,9 +1442,9 @@ class Unk_7102519708 : public Unk_7102519378 {
 public:
     ~Unk_7102519708() override;
     virtual s32 m5() { return 7; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
     // 0x710129c3b4: bit 0 of the state word at +0x5c.
@@ -1460,9 +1461,9 @@ class Unk_7102519778 : public Unk_7102519378 {
 public:
     ~Unk_7102519778() override;
     virtual s32 m5() { return 8; }
-    virtual void m6();
+    void m6(sead::Heap* heap) override;
     virtual void m7();
-    virtual void m8();
+    void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
     // 0x710129cd3c: bit 0 of the state word at +0x5c.

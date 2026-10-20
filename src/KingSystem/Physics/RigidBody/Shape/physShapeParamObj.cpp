@@ -142,9 +142,9 @@ void Unk_7102519378::reset() {
 }
 
 // Slots 6..10 are empty in the base vtable (0x710129dae0 .. 0x710129daf0).
-void Unk_7102519378::m6() {}
+void Unk_7102519378::m6(sead::Heap*) {}
 void Unk_7102519378::m7() {}
-void Unk_7102519378::m8() {}
+void Unk_7102519378::m8(u8) {}
 void Unk_7102519378::m9() {}
 void Unk_7102519378::m10() {}
 
@@ -334,3 +334,115 @@ void Unk_7102519778::m10() {
 bool Unk_7102519778::m11() const {
     return (_5c & 1) != 0;
 }
+
+// The render-light records declare one to three float4 uniform arrays and select the
+// current uniform buffer by index. NON_MATCHING (all m8): two registers swapped in the inlined
+// agl::UniformBlock::setBufferIndexMaybe multiply.
+void Unk_71025193e8::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(1, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 7, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+    u8* buffer = new (heap, 0x20, std::nothrow) u8[0x80];
+    if (buffer) {
+        mBufferCount = 0x80;
+        mBuffer = buffer;
+    }
+}
+
+void Unk_71025193e8::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_7102519460::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(3, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 6, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 4, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 4, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_7102519460::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_71025194d0::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(1, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 10, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_71025194d0::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_7102519540::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(3, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 6, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 4, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 4, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_7102519540::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_71025195b0::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(3, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 6, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 3, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 3, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_71025195b0::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_7102519620::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(2, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 4, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 7, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_7102519620::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_7102519690::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(1, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 7, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+    u8* buffer = new (heap, 0x20, std::nothrow) u8[0x80];
+    if (buffer) {
+        mBufferCount = 0x80;
+        mBuffer = buffer;
+    }
+}
+
+void Unk_7102519690::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_7102519708::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(2, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 4, 0, 1);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 7, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_7102519708::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
+void Unk_7102519778::m6(sead::Heap* heap) {
+    mUniformBlock.startDeclare(1, heap);
+    mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 10, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+}
+
+void Unk_7102519778::m8(u8 index) {
+    mUniformBlock.setBufferIndexMaybe(index);
+}
+
