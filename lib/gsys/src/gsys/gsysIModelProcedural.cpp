@@ -30,6 +30,14 @@ bool IModelProcedural::isMaterialVisible(int index) const {
     return mRenderUnits[index]._30 & 1;
 }
 
+ModelRenderUnit* IModelProcedural::getModelRenderUnit(int index) {
+    return &mRenderUnits[index];
+}
+
+const ModelRenderUnit* IModelProcedural::getModelRenderUnit(int index) const {
+    return &mRenderUnits[index];
+}
+
 void IModelProcedural::setMaterialVisible(int index, bool visible) {
     if (!visible)
         mRenderUnits[index]._30 &= ~1;

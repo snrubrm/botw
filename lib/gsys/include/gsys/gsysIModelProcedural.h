@@ -30,6 +30,9 @@ public:
     void setProcedualPassName(int index, const sead::SafeString& name);
     // 0x7100c7ffb4: the low bit of the render unit's +0x30 word.
     bool isMaterialVisible(int index) const override;
+    // 0x7100c7ffd8 / 0x7100c7fff4: the render unit at `index` (the buffer's bounds check).
+    ModelRenderUnit* getModelRenderUnit(int index) override;
+    const ModelRenderUnit* getModelRenderUnit(int index) const override;
     void setProcedualPassPriority(int index, int a, int b);
     void setMaterialVisible(int index, bool visible);
 
