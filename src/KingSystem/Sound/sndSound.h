@@ -363,7 +363,8 @@ public:
     // 0x71010359b0 (placeholder name): loads the asset info reader at _1da0 with an empty name and hands it to
     // the user instance at _1d98 once it is ready; releases both when the load fails.
     bool sub_71010359B0();
-    // 0x7101035888 (declared only)
+    // 0x7101035888 (placeholder name): creates the empty-name user instance and its asset info reader,
+    // then loads the bars file for it; releases both when either step fails.
     void sub_7101035888();
     // 1036530: completes a sphere query; writes the indoor result only after execution status 1.
     bool sub_7101036530(bool* indoor, const sead::Vector3f& position);
@@ -1765,7 +1766,10 @@ public:
     u32 _ec;
     u8 _f0[8];
     sead::BitFlag8 _f8;
-    u8 _f9[0x238 - 0xf9];
+    u8 _f9[0x198 - 0xf9];
+    // Read by 0x7101035888 as the heap of the empty-name user instance and bars load.
+    /* 0x198 */ sead::Heap* _198 = nullptr;
+    u8 _1a0[0x238 - 0x1a0];
     u8 _238;
     u8 _239[0x270 - 0x239];
     AudioChannelType mAudioChannelType;

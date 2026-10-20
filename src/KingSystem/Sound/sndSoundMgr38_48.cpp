@@ -21,6 +21,33 @@ void Unk_SoundMgr38_48::sub_7101035A50() {
 static const sead::SafeString sEmptyName;
 
 // NON_MATCHING: the empty name's address is block + 0x30 in the original (GlobalMerge of the TU
+// statics) and the original keeps &_1da0 in a saved register across the calls, so its frame is 0x10
+// larger; ours addresses a standalone symbol and reloads the member. The calls and values are the same.
+// 0x7101035888 (placeholder name): creates the empty-name user instance and its asset info reader and
+// loads the bars file for it; releases both when either step fails.
+void Unk_SoundMgr38_48::sub_7101035888() {
+    auto* sound = SoundMgr::instance();
+    auto* resource_mgr = sound->_60;
+    sead::Heap* heap = sound->_198;
+
+    _1d98 = sub_710105E3D0(sEmptyName.cstr(), heap, nullptr, nullptr, nullptr);
+    if (_1d98) {
+        _1da0 = new (resource_mgr->mHeap, 8) Unk_7102502950;
+        if (_1da0 && resource_mgr->loadBars(sEmptyName, _1da0, heap, false, false, nullptr))
+            return;
+    }
+
+    if (_1da0) {
+        resource_mgr->sub_7101059354(_1da0);
+        _1da0 = nullptr;
+    }
+    if (_1d98) {
+        _1d98->destroy();
+        _1d98 = nullptr;
+    }
+}
+
+// NON_MATCHING: the empty name's address is block + 0x30 in the original (GlobalMerge of the TU
 // statics); ours addresses a standalone symbol. The rest of the body matches.
 // 0x71010359b0 (placeholder name): loads the asset info reader at _1da0 with an empty name and hands
 // it to the user instance at _1d98 once it is ready; releases both when the load fails.
