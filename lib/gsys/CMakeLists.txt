@@ -47,6 +47,7 @@ add_library(gsys OBJECT
   src/gsys/gsysRenderDisplay.cpp
   src/gsys/gsysModelRig.cpp
   src/gsys/gsysModelResource.cpp
+  src/gsys/gsysG3dResMaterialEx.cpp
   src/gsys/gsysG3dResModelEx.cpp
   src/gsys/gsysCameraAnimation.cpp
   src/gsys/gsysModelAccessKey.cpp

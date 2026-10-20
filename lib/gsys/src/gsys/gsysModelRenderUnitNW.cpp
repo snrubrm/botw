@@ -45,4 +45,8 @@ s32 ModelRenderUnitNW::getPassTextureBit() const {
     return _220;
 }
 
+s32 ModelRenderUnitNW::getType() const {
+    return 0;
+}
+
 }  // namespace gsys
