@@ -4,6 +4,8 @@ namespace gsys {
 
 ResourceEditor* ResourceEditor::sInstance = nullptr;
 
+ResourceEditor::~ResourceEditor() = default;
+
 void ResourceEditor::sub_7100C5D3E0(ModelScene* scene, bool) {
     if (mScene != scene)
         mScene = scene;

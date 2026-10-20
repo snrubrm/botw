@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <thread/seadCriticalSection.h>
 
 namespace agl {
 class DrawContext;
@@ -44,7 +45,10 @@ private:
     ModelScene* mScene;  // +0x28
     u8 _30[0x2458 - 0x30];
     /* 0x2458 */ IResourceEditorCallback* mCallback;
-    u8 _2460[0x24b8 - 0x2460];
+    u8 _2460[0x2468 - 0x2460];
+    // The destructor C5D380 finalizes this critical section.
+    /* 0x2468 */ sead::CriticalSection mCriticalSection;
+    u8 _24a8[0x24b8 - 0x24a8];
 };
 static_assert(sizeof(ResourceEditor) == 0x24b8);
 
