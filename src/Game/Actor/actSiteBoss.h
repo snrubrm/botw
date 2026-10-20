@@ -219,6 +219,8 @@ public:
         // 0x710066ccd0 (placeholder name): the same handle cleanup, then deletes the actor behind every
         // link in _1e0.
         void sub_710066CCD0();
+        // 0x710066da34: binds `proc` to link `idx` and copies its message transceiver id.
+        void sub_710066DA34(ksys::act::Actor* proc, s32 idx);
         // 0x710066bfec: requests the named actor in the existing handle slot.
         bool sub_710066BFEC(s32 index, const char* name, ksys::act::InstParamPack* params,
                            bool flag);

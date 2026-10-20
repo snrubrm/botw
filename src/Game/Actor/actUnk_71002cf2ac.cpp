@@ -44,6 +44,17 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C028() {
     _8 = false;
 }
 
+void SiteBoss::Unk_71002cf2ac::sub_710066DA34(ksys::act::Actor* proc, s32 idx) {
+    if (!proc)
+        return;
+    const s32 i = u32(idx) < 20 ? idx : 0;
+    auto& link = _1e0[i];
+    if (link.hasProc())
+        return;
+    link.acquire(proc, false);
+    _530[i] = *proc->getMesTransceiverId();
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066CCD0() {
     for (s32 i = 0; i < 20; ++i) {
         if (_a0[i].isAllocatedOrFailed())
