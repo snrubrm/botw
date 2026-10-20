@@ -2161,7 +2161,12 @@ public:
     s32 _36bc = 0;
     /* 0x36c0 */ s32 _36c0 = -1;
     u8 _36c4[4];
-    u64 _36c8[0x70 / 8] = {};
+    u64 _36c8[0x38 / 8] = {};
+    /* 0x3700 */ eui::Animator* _3700 = nullptr;
+    /* 0x3708 */ eui::Animator* _3708 = nullptr;
+    /* 0x3710 */ eui::Animator* _3710 = nullptr;
+    /* 0x3718 */ eui::Animator* _3718 = nullptr;
+    u64 _3720[3] = {};
     /* 0x3738 */ u32 _3738;
     /* 0x373c */ u32 _373c;
     /* 0x3740 */ u32 _3740;
@@ -2169,6 +2174,12 @@ public:
     /* 0x3748 */ u8 _3748 = 0;
 
     void sub_7100A4EBA0(s32);
+    // 0x7100a50648: refreshes the preview colors and texture animation frames.
+    void sub_7100A50648(const s32* kind, const s32* variant, s32 frame);
+    void sub_7100A50C28(const sead::Color4f& color);
+    void sub_7100A50DC4(const sead::Color4f& color);
+    void sub_7100A50F5C(const sead::Color4f& color);
+    void sub_7100A510F4(sead::Color4f color);
     // 0x7100a50750: parses the two-digit frame from `param` and stops `animator` at it (clamped to its size).
     void sub_7100A50750(eui::Animator* animator, const sead::SafeString& param);
 };

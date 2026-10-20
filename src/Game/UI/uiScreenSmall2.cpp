@@ -1,4 +1,5 @@
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/gameHorseColorInfoMgr.h"
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/AOC/aocHardModeManager.h"
 #include <algorithm>
@@ -178,6 +179,28 @@ s32 sub_71009D3E40(const sead::SafeString& name) {
     return result;
 }
 
+
+// 0x7100a50648
+void ScreenShopHorse::sub_7100A50648(const s32* kind, const s32* variant, s32 frame) {
+    if (_3700) {
+        if (*kind == 6) {
+            _3700->Stop(1.0f);
+            return;
+        }
+        _3700->Stop(0.0f);
+    }
+    if (auto* mgr = HorseColorInfoMgr::instance()) {
+        mgr->sub_710094CDCC(kind, variant, &frame);
+        HorseColorInfo info;
+        mgr->sub_710094C8CC(&info);
+        sub_7100A50C28(info.mColors[0]);
+        sub_7100A50DC4(info.mColors[1]);
+        sub_7100A50F5C(info.mColors[2]);
+        sub_7100A510F4(info.mColors[3]);
+        sub_7100A50750(_3718, info.mTextureName2);
+        sub_7100A50750(_3708, info.mTextureName);
+    }
+}
 
 // NON_MATCHING: the getPart temporary is at sp+8 instead of sp and x23 is saved unused; the rest matches.
 // 0x7100a50750
