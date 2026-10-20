@@ -1,6 +1,10 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Framework/frmFramework.h"
 #include "Game/gameRoot38.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/System/StagePreActorCache.h"
+#include "KingSystem/Graphics/gfxForestRenderer.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadPtrUtil.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
@@ -40,7 +44,8 @@ struct TeraManagerMaybe {
     u32 _10;
     // 0: not started, 7: not started (0x7100f406f4 returns true for every other value).
     u32 _14;
-    u8 _18[0x30 - 0x18];
+    u32 _18;
+    u8 _1c[0x30 - 0x1c];
     void* _30;
     u8 _38[0x50 - 0x38];
     void* _50;
@@ -67,6 +72,24 @@ KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B188;
 KSYS_VISIBILITY_HIDDEN u32 sUnk_710260B18C;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B190;
 KSYS_VISIBILITY_HIDDEN void* sUnk_710260B198;
+
+void resetStageRenderersMaybe() {
+    if (Terrain::instance()->isGrassEnabled())
+        Terrain::instance()->sub_710114DE4C()->sub_7101151A1C();
+    if (auto* height_map = Graphics::instance()->getUnk_ab0())
+        height_map->_e48 |= 0x80000000;
+    auto* terrain = Terrain::instance();
+    sUnk_710260B220._18 = 0;
+    if (terrain) {
+        auto* placement = map::PlacementMgr::instance();
+        if (placement && placement->mTeraSystem) {
+            terrain->sub_710114DE4C()->mFlags &= ~0x8000;
+            terrain->sub_710114DE4C()->sub_7101150A70();
+        }
+    }
+    if (auto* forest = StagePreActorCache::instance()->getForestRenderer())
+        forest->sub_7100F03B68();
+}
 
 void sub_7100F3DF74() {
     if (sUnk_710260B220._14 != 0 && sUnk_710260B220._14 != 7)
