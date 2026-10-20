@@ -57,6 +57,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModel.cpp
   src/gsys/gsysRenderDisplay.cpp
   src/gsys/gsysModelRig.cpp
+  src/gsys/gsysPointLight.cpp
   src/gsys/gsysModelMgr.cpp
   src/gsys/gsysModelResource.cpp
   src/gsys/gsysG3dResMaterialEx.cpp
