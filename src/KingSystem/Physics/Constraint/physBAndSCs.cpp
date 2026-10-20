@@ -70,6 +70,18 @@ void BAndSLimitAngYCs::sub_7100F6BD8C(const sead::Matrix34f& a,
     transforms.m_transformB = transform_b;
 }
 
+// NON_MATCHING: the two quaternion temporaries occupy separate stack slots.
+void BAndSLimitAngYCs::sub_7100F6C280(sead::Matrix34f* a, sead::Matrix34f* b) const {
+    const auto& transform_a = mData->m_transforms.m_transformA;
+    hkQuaternion rotation_a;
+    rotation_a.set(transform_a.getRotation());
+    a->makeQT(toQuat(rotation_a), toVec3(transform_a.getTranslation()));
+    const auto& transform_b = mData->m_transforms.m_transformB;
+    hkQuaternion rotation_b;
+    rotation_b.set(transform_b.getRotation());
+    b->makeQT(toQuat(rotation_b), toVec3(transform_b.getTranslation()));
+}
+
 u32 sub_7100F6B100(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x150;
 }
