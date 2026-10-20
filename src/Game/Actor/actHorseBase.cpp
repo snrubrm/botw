@@ -302,15 +302,16 @@ void HorseBase::sub_7100E66544() {
 
 // NON_MATCHING: the original keeps the address of _b70 in a register across both updates.
 void HorseBase::sub_7100E6665C() {
+    auto& flags = _b70;
     const sead::SafeString* reins;
     {
         auto lock = sead::makeScopedLock(_890);
         reins = &_8d0._f0;
     }
     if (*reins == "GameRomHorseReins_10")
-        _b70.setBitOn(9);
+        flags.setBitOn(9);
     else
-        _b70.setBitOff(9);
+        flags.setBitOff(9);
 
     const sead::SafeString* saddle;
     {
@@ -318,9 +319,9 @@ void HorseBase::sub_7100E6665C() {
         saddle = &_8d0._148;
     }
     if (*saddle == "GameRomHorseSaddle_10")
-        _b70.setBitOn(10);
+        flags.setBitOn(10);
     else
-        _b70.setBitOff(10);
+        flags.setBitOff(10);
 
     loadReduceAncientEnemyDamageInfo();
 }
@@ -357,7 +358,7 @@ f32 HorseBase::sub_7100E668C0() const {
 // result is cached in bit 8 of _b70 (set = no extra heap).
 int HorseBase::getExtraHeapSize(const ksys::act::ActorHeapInitArgMaybe& arg) {
     if (!(_b70 & 0x100)) {
-        bool increase_limit = false;
+        u8 increase_limit = 0;
         if (arg.params) {
             s32 position = 0;
             for (s32 i = 0, n = arg.params->getNumParams(); i < n; ++i) {
@@ -372,7 +373,7 @@ int HorseBase::getExtraHeapSize(const ksys::act::ActorHeapInitArgMaybe& arg) {
                 break;
             }
         }
-        if (!increase_limit)
+        if (increase_limit != 1)
             _b70.setBitOn(8);
     }
     return (_b70 & 0x100) ? 0 : 0x3000;
