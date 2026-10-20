@@ -493,10 +493,13 @@ struct UiSubsys1Entry {
     bool sub_7100951074() const;
 
     /* 0x08 */ Unk_7102477fc0* _8;
-    /* 0x10 */ void* _10;
+    /* 0x10 */ eui::Animator* _10;  // the pin layout's open animator
     /* 0x18 */ f32 _18;
     /* 0x1c */ s32 _1c;
-    /* 0x20 */ s32 _20;
+    // The marker kind (0 - 25; column of the map mode table 0x7101e7cfc4). A 4-byte SEAD_ENUM-like id: reading it
+    // goes through a stack copy (placeholder name and no enumerators)
+    SEAD_ENUM(Kind, _0)
+    /* 0x20 */ Kind _20;
     /* 0x24 */ s32 _24;
     /* 0x28 */ sead::Vector3f _28;  // map pin position (CopyMapPinPosition::oneShot_)
     /* 0x34 */ sead::Vector2f _34;
@@ -1368,6 +1371,9 @@ public:
     // set `_3868` / `_3870` to the given vector clamped to half the extent of the map bounds when `_848` is set
     bool sub_7100964174() const;
     void sub_7100968D10(bool set);
+    // inline-only in the original; name is a guess (defined in uiMapMarker.cpp): whether markers of `kind` are
+    // shown in the current map mode (_6e4) and _6e8 is negative
+    bool isMarkerKindShown(UiSubsys1Entry::Kind kind) const;
 
     // A 4-byte SEAD_ENUM-like id (the argument is spilled to the stack and reloaded; placeholder name and no enumerators)
     SEAD_ENUM(Pin, _0)
@@ -1526,7 +1532,7 @@ private:
     /* 0x6dc */ f32 _6dc;
     /* 0x6e0 */ f32 _6e0;
     /* 0x6e4 */ s32 _6e4;
-    u8 _6e8[0x6ec - 0x6e8];
+    /* 0x6e8 */ s32 _6e8;
     /* 0x6ec */ bool _6ec;
     /* 0x6f0 */ UiTimer _6f0;
     u8 _708[0x7c4 - 0x708];

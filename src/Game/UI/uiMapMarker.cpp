@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/euiAnimator.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/uiManager.h"
 #include "Game/Actor/actGuardian.h"
@@ -28,6 +29,39 @@ KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025d6a98;
 // members of the TU's merged static block sUnk_71025d6c70.
 static sead::Vector2f sUnk_71025d6a88{-100000.0f, 0.0f};
 
+
+// 0x7101e7cfc4: whether a marker of kind `_20` (0 - 25) is shown in map mode UiSubsys1::_6e4 (0 - 28)
+static const bool sUnk_7101e7cfc4[29][26] = {
+    {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {true, true, true, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false},
+    {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false},
+    {true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+    {true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+    {true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+    {false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+};
 
 // NON_MATCHING: the original reaches sUnk_71025d6c70._9c through the TU's merged static block at 0x71025d6c70
 // (+0x9c); the statics before it (0x25d6c70..0x25d6cf4) are not defined yet, so our offset differs.
@@ -89,6 +123,28 @@ s32 UiSubsys1Entry::m10() {
     if ((_3c & 0x800) || _1c == 42)
         return (_3c >> 9) & 1;
     return 3;
+}
+
+// inline-only in the original; name is a guess. The same table test repeats in UiSubsys1Entry::m15 / m17,
+// Unk_7102475c68::m15, Unk_7102476350::m15, Unk_7102476548::m6, Unk_7102476640::m17 and 0x7100957b94.
+inline bool UiSubsys1::isMarkerKindShown(UiSubsys1Entry::Kind kind) const {
+    return sUnk_7101e7cfc4[_6e4][kind] && _6e8 < 0;
+}
+
+// 0x71009507fc
+void UiSubsys1Entry::m15() {
+    const u32 flags = _3c;
+    _3c = flags & ~7u;
+    if ((flags & 0x10) && UiSubsys1::instance()->isMarkerKindShown(_20)) {
+        if (UiSubsys1::instance()->_848)
+            m19();
+        else
+            m18();
+    } else {
+        m24(false);
+    }
+    if (_10)
+        _18 = _10->mFrame;
 }
 
 // NON_MATCHING: virtual-target loading and boolean-setup branches differ.
@@ -876,6 +932,13 @@ void Unk_7102475c68::m12() {
     } else if (_50 && _50->_8 != ksys::gdt::InvalidHandle) {
         _3c = ksys::gdt::getFlagGenericBool(_50->_8) ? _3c | 0x80 : _3c & ~0x80;
     }
+}
+
+// 0x7100955afc
+void Unk_7102475c68::m15() {
+    if (!(_3c & 0x10) && UiSubsys1::instance()->_848 == 0)
+        m24(false);
+    UiSubsys1Entry::m15();
 }
 
 void Unk_7102475c68::m17() {
