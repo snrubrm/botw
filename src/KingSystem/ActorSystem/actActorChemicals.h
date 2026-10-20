@@ -27,6 +27,7 @@ class ChemicalEventState;
 namespace ksys::phys {
 class RigidBody;
 class RigidBodySet;
+class InstanceSet;
 class SystemGroupHandler;
 class UserTag;
 }
@@ -101,6 +102,9 @@ public:
     ~Unk_71024e6428() override;
     // E39BF0 fades the state, removes every body and returns whether the chemical was reset.
     bool sub_7100E39BF0(bool force);
+    // E37224 supplies the actual root, physics instance and optional actor to this full setup.
+    void sub_7100E39E8C(s32 index, const chm::IRoot* root, phys::InstanceSet* instance,
+                       Actor* actor, sead::Heap* heap);
     // Full E3B708 copies chemical event state; independent carried-record transfers supply both elements.
     void sub_7100E3B708(const Unk_71024e6428& other);
     void sub_7100E3AA34(sead::Heap* heap);

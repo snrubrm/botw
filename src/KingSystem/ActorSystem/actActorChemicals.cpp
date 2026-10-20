@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include <container/seadObjArray.h>
+#include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -1047,6 +1049,168 @@ void Unk_71024e6428::sub_7100E3B87C() {
         sub_7100E3AE40(0);
         mChemical.sub_7100D97578();
     }
+}
+
+// NON_MATCHING: scratch entry allocation, clone cleanup and linked-body selection differ.
+void sub_7100E3A570(sead::ObjArray<Unk_71024e6428::BodyEntry>* entries, phys::RigidBody* body,
+                   phys::RigidBodySet* set, phys::InstanceSet* instance, Actor* actor,
+                   sead::Heap* heap, bool fallback) {
+    Unk_71024e6428::BodyEntry* entry;
+    if (!actor) {
+        entry = entries->emplaceBack();
+        entry->body = body;
+        entry->original_body = body;
+        entry->body_set = nullptr;
+        entry->owns_body = false;
+        entry->_19 = 0;
+        entry->original_scale = 1;
+        entry->original_radius = sub_7100E40698(body);
+    } else {
+        const bool use_original = set && !fallback && set->getName() == "Chemical";
+        entry = entries->emplaceBack();
+        if (use_original) {
+            entry->body = body;
+            entry->original_body = body;
+            entry->body_set = set;
+            entry->owns_body = false;
+            entry->_19 = instance->sub_7100FBDF08(body);
+            entry->original_scale = 1;
+            entry->original_radius = sub_7100E40698(body);
+        } else {
+            entry->body = nullptr;
+            entry->original_body = nullptr;
+            entry->body_set = nullptr;
+            entry->owns_body = false;
+            entry->_19 = 0;
+            entry->original_scale = 1;
+            entry->original_radius = 1;
+            auto* shape = sead::DynamicCast<phys::RigidBodyFromShape>(body);
+            if (!shape) {
+                entry->body = nullptr;
+                entry->original_body = nullptr;
+                entry->body_set = nullptr;
+                entry->owns_body = false;
+                entry->_19 = 0;
+                entry->original_scale = 1;
+                entry->original_radius = 1;
+                entries->erase(entries->size() - 1);
+                return;
+            }
+            entry->body = shape->clone(heap, nullptr);
+            entry->original_body = body;
+            entry->body_set = set;
+            entry->owns_body = true;
+            entry->_19 = 0;
+            entry->original_scale = body->getScale();
+            if (!entry->body) {
+                entry->body = nullptr;
+                entry->original_body = nullptr;
+                entry->body_set = nullptr;
+                entry->owns_body = false;
+                entry->_19 = 0;
+                entry->original_scale = 1;
+                entry->original_radius = 1;
+                entries->erase(entries->size() - 1);
+                return;
+            }
+            if (auto* linked = body->getLinkedRigidBody()) {
+                entry->body->setLinkedRigidBody(linked);
+            } else if (!instance || !instance->sub_7100FBDF08(body)) {
+                if (actor->getProfile() != "MapConstPassive" &&
+                    actor->getProfile() != "MapConstActive") {
+                    if (auto* controller = actor->getCharacterController())
+                        entry->body->setLinkedRigidBody(controller->sub_7100F61A34());
+                    else if (auto* main_body = actor->getMainBody())
+                        entry->body->setLinkedRigidBody(main_body);
+                }
+            }
+            entry->body->setUserTag(body->getUserTag());
+        }
+    }
+    if (!entry || !entry->body)
+        return;
+    entry->body->changeMotionType(phys::MotionType::Keyframed);
+    entry->body->setContactLayer(phys::ContactLayer::SensorChemical);
+}
+
+// NON_MATCHING: fixed scratch-array setup, body selection and entry-copy scheduling differ.
+void Unk_71024e6428::sub_7100E39E8C(s32 index, const chm::IRoot* root,
+                                   phys::InstanceSet* instance, Actor* actor, sead::Heap* heap) {
+    _28 = world::Manager::instance()->getChemicalMgr();
+    if (chm::Chemical::instance()->_84 & 1) {
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    mActor = actor;
+    _18 = root;
+    _288 = index;
+    _298 = actor ? actor->getScale() : sead::Vector3f::ones;
+    _3c = 0xffefffff;
+    _2bc = -1;
+    if (actor && hasTag(actor, 0x19f6c13a))
+        _30 |= 0x4000;
+    sead::FixedObjArray<BodyEntry, 255> entries;
+    const s32 num_sets = instance->getNumRigidBodySets();
+    const bool select_body = root->isRigidAttribute2Set(index);
+    const bool select_set = root->isRigidAttribute1Set(index);
+    const bool chemical_first = root->isRigidAttribute0Set(index);
+    if (chemical_first) {
+        auto* set = instance->findBodyByName("Chemical");
+        const bool fallback = !set;
+        if (!set)
+            set = instance->findBodyByName("Tgt");
+        if (set) {
+            const s32 count = set->getRigidBodies().size();
+            for (s32 i = 0; i < count; ++i)
+                sub_7100E3A570(&entries, set->getRigidBody(i), set, instance, actor, heap, fallback);
+        }
+    } else {
+        s32 first = 0;
+        s32 last = num_sets - 1;
+        if (select_set) {
+            first = instance->sub_7100FBB668(root->getRigidSetName(index));
+            last = first;
+        }
+        s32 processed = 0;
+        if (first >= 0) {
+            for (s32 i = first; i <= last; ++i) {
+                auto* set = instance->getRigidBodySet(i);
+                if (select_body) {
+                    auto* body = set->findBodyByHavokName(root->getRigidName(index));
+                    if (body) {
+                        sub_7100E3A570(&entries, body, set, instance, actor, heap, false);
+                        ++processed;
+                    }
+                } else {
+                    s32 j = 0;
+                    for (; j < set->getRigidBodies().size(); ++j)
+                        sub_7100E3A570(&entries, set->getRigidBody(j), set, instance, actor, heap, false);
+                    processed += j;
+                }
+            }
+        }
+        if (root->getRigidSetName(index) != "Chemical") {
+            auto* set = instance->findBodyByName("Chemical");
+            if (processed == 0 && set) {
+                set = instance->findBodyByName("Chemical");
+                s32 i = 0;
+                for (; i < set->getRigidBodies().size(); ++i)
+                    sub_7100E3A570(&entries, set->getRigidBody(i), set, instance, actor, heap, false);
+                processed = i;
+            }
+        }
+        if (processed <= 0) {
+            // The original repeats this set-name query on the empty-result path and discards it.
+            (void)(root->getRigidSetName(index) == "Chemical");
+        }
+    }
+    if (entries.size() > 0) {
+        _278.tryAllocBuffer(entries.size(), heap, 8);
+        for (s32 i = 0; i < _278.size(); ++i)
+            _278[i] = *entries.at(i);
+    }
+    sub_7100E3AA34(heap);
 }
 
 }  // namespace ksys::act
