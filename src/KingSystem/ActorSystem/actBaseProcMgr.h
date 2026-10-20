@@ -244,6 +244,7 @@ public:
 
 private:
     friend class ksys::map::LinkTag;  // writes mPushActorJobType3InsteadOf6 (LinkTag::sub_7100D39120)
+    friend class EventTag;  // writes mPushActorJobType3InsteadOf6 (EventTag::m107)
 
     void doAddToUpdateStateList_(BaseProc& proc);
 

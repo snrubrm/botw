@@ -130,6 +130,8 @@ target_sources(uking PRIVATE
     actClusteredRenderer.h
     actDebug.cpp
     actDebug.h
+    actEventTag.cpp
+    actEventTag.h
     actDropActorList.cpp
     actDropData.cpp
     actDropData.h

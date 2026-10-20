@@ -2472,13 +2472,6 @@ public:
     ~Unk_71024cfdf8() override;
 };
 
-// vtable 0x71024d9160 (148 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024d9160 : public ksys::act::Actor {
-    SEAD_RTTI_OVERRIDE(Unk_71024d9160, ksys::act::Actor)
-public:
-    ~Unk_71024d9160() override;
-};
-
 // vtable 0x71024de2f0 (148 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71024de2f0 : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(Unk_71024de2f0, ksys::act::Actor)

@@ -12,6 +12,10 @@ namespace ksys::act {
 RopeBase::~RopeBase() = default;
 
 // NON_MATCHING: translation temporary loads and stores are scheduled differently.
+void RopeBase::preDelete2_(const PreDeleteArg& arg) {
+    sub_7100ECED04(arg.do_not_destruct_immediately);
+}
+
 void RopeBase::m74() {
     Actor::m74();
 }

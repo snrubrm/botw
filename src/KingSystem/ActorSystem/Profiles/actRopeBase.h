@@ -38,6 +38,7 @@ public:
 
     // Primary vtable24F0440 slot64 points toECF66C; Actor names this slot initMaybe.
     void initMaybe() override;
+    void preDelete2_(const PreDeleteArg& arg) override;
     void m43(bool on) override;
     bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
@@ -46,6 +47,8 @@ public:
     void m76(VFR::ScopedDeltaSetter* setter) override;
     int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
 
+    // 0x7100eced04 (declared only, 1672 B): the pre-delete teardown; preDelete2_ forwards its flag.
+    void sub_7100ECED04(bool do_not_destruct_immediately);
     // 0x7100ecde98: cancels the constraints and removes the rigid bodies of the rope from the world.
     void sub_7100ECDE98();
     // 0x7100ecd620 (placeholder name): switches off and clears the constraint of segment `idx`; for an end segment
