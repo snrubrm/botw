@@ -717,142 +717,6 @@ public:
     virtual ~Unk_7102502200() = default;
 };
 
-// Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
-// SoundMgr::_80. A buffer (size at +8, data at +0x10) of 50 duckers (0xd0 bytes each: aal::GroupDucker at +0x68,
-// `_c0` / `_c8` state) indexed by a SEAD_ENUM of ducker names (the enum's text function is 0x7101042f30);
-// entries 0x30 / 0x31 are the "custom" duckers used by Unk_710103b704.
-// TODO: incomplete.
-class DuckingMgr {
-public:
-    DuckingMgr();
-    virtual ~DuckingMgr();
-
-    // The names are the strings at 0x7101e26516 (the SEAD_ENUM text; text function 0x7101042f30).
-    // clang-format off
-    // (the original text has a space before each comma: `text_all` is 737 bytes)
-    SEAD_ENUM(DuckerType,
-              cSlowBgm , cSlowSe , cFocus , cSquat , cPauseIngame , cPauseEvent , cBattleEnv , cGrudgeEnv ,
-              cGrudgeEnvBoost , cBloody , cBossDialogHero , cBossDialogZelda , cFieldRemainsFire ,
-              cFieldRemainsOrGanon , cRaceAudience , cTalk , cDialog , cScreenFadeS , cScreenFadeM ,
-              cScreenFadeL , cScreenFadeLogo , cScreenFadeForce , cHomeMenu , cEvtBgmReduce , cEvtBgmMute ,
-              cEvtEnvReduce , cEvtWorldMute , cTmlnWorldMute , cTmlnThruShake , cTmlnThruShakeWeather ,
-              cTmlnMovie , cTmlnLoading , cTitleMute , cEventSkip , cEventSkipBeam , cPlayTimeOver ,
-              cExplosion , cImpact , cLocationUI , cWaveShockL , cParasailOpen , cDive , cHorseJump ,
-              cFairyRecover , cLightningNear , cExplosionRemote , cEnemyWeaponSwing , cEnemyImpact ,
-              cCustomEvt , cCustomEvt2)
-    // clang-format on
-
-    struct Ducker : public aal::IDuckingSource, public Unk_7102502200 {
-        // Vtable order (0x71025021b8): destructor pair and the ducking source interface.
-        bool isOnDucking() const override;
-        void invalidateORNode() override {}
-        const sead::SafeString& getDuckingSourceName() const override { return mName; }
-        ~Ducker() override;
-        bool sub_710103E368() const;
-        // 0x710103e00c: sets the active bit and clears _c0.
-        void activateMaybe();
-        // 0x710103e2a8: clears the active bit (`suspend`: also suspends mDucker).
-        void deactivateMaybe(bool suspend);
-        // 0x710103e2c4: activateMaybe() and resets mDucker's state.
-        void activateAndResetMaybe();
-        // 0x710103df60: per-frame update while active or ducking.
-        void calc();
-        // 0x710103ddf0: copies the settings' name and sets the group ducker up from them.
-        void setup(sead::Heap* heap, Unk_7102612628* settings);
-        // 0x710103e128 (placeholder name): the same setup from a request, adding every group of the request.
-        void sub_710103E128(sead::Heap* heap, Unk_71025022a0* request);
-        // 0x710103e2dc (placeholder name) and 0x710103e020 (the target volume update it calls).
-        void sub_710103E2DC(f32 f);
-        void sub_710103E020(f32 f);
-
-        // The ducker's name (the ducker array allocator 0x7101041a5c constructs it over its own buffer).
-        /* 0x10 */ sead::FixedSafeString<64> mName;
-        /* 0x68 */ aal::GroupDucker mDucker;
-        /* 0xb0 */ Unk_7102612628* _b0 = nullptr;
-        u8 _b8[8];
-        /* 0xc0 */ f32 _c0;
-        /* 0xc4 */ f32 _c4;
-        /* 0xc8 */ u8 _c8;  // bit 0: active
-    };
-
-    // 0x7101041f4c (placeholder name): suspends every ducker that asked to be suspended and clears the flag.
-    void sub_7101041F4C();
-    // 0x7101042078: starts the ducker called `type` (looked up by name); null when there is none.
-    Ducker* startDucking(const sead::SafeString& type);
-    // 0x7101042db4: stops the ducker called `type` (`suspend`: also suspends its aal::GroupDucker).
-    void sub_7101042DB4(const sead::SafeString& type, bool suspend);
-    // 0x7101042024: starts the ducker `type`.
-    // 0x7101041fec: updates every ducker.
-    void calc();
-    Ducker* sub_7101042024(DuckerType type);
-    // 0x7101042d6c: clears bit 0 of the ducker `type`'s flags byte (+0xc8) and suspends its aal::GroupDucker if
-    // `suspend`.
-    void sub_7101042D6C(DuckerType type, bool suspend);
-
-    // inline-only in the original; name is a guess (the type is copied to the stack before indexing in
-    // 0x710103aa3c, 0x710103ab10, 0x710103ab98 and 0x710103acc8).
-    Ducker& getDucker(DuckerType type) { return mDuckers[type]; }
-
-    /* 0x08 */ sead::Buffer<Ducker> mDuckers;
-    // The heap of the duckers, destroyed with them (the destructor calls destroy() through its vtable).
-    /* 0x18 */ sead::Heap* mHeap = nullptr;
-    /* 0x20 */ bool _20 = false;
-};
-
-// Actual sound-owned B8 allocation in 0x710105590C and embedded stream-path callback.
-class Unk_710105fe78 {
-public:
-    Unk_710105fe78();
-    virtual ~Unk_710105fe78();
-    // Native lookup/provider use this existing resource-cache receiver.
-    ResourceBars* sub_7101060C04(const sead::SafeString& name);
-    bool sub_7101060D14(aal::AssetInfo* info, const sead::SafeString& path,
-                        const sead::SafeString& asset);
-    // Lookup 0x7101060C04 proves the hash/handle pair and sixteen-byte stride.
-    struct Entry {
-        u32 mHash;
-        res::Handle* mHandle;
-    };
-    static_assert(sizeof(Entry) == 0x10);
-    class Callback : public aal::Unk_7100BA1AEC {
-    public:
-        bool sub_7100BA1AEC(sead::BufferedSafeStringBase<char>* path, aal::AssetInfo* info) override;
-        // 0x710105fe08: variadic formatter for this callback's actual path string.
-        void sub_710105FE08(const char* format, ...);
-        sead::FixedSafeString<128> mString;
-    };
-    static_assert(sizeof(Callback) == 0xa0);
-    /* 0x08 */ sead::Buffer<Entry>* _8 = nullptr;
-    /* 0x10 */ s32 _10 = 0;
-    u8 _14[4];
-    /* 0x18 */ Callback mCallback;
-};
-KSYS_CHECK_SIZE_NX150(Unk_710105fe78, 0xb8);
-
-// 0x710105ffc4 (placeholder name; 3,136 B, declared only): loads the regional voice pack into the
-// resource cache (x1 is the heap, x2 a flag).
-void StaticVoicePackStuff(Unk_710105fe78* cache, sead::Heap* heap, bool flag);
-
-// Placeholder name (SoundMgr::_48), used by the UI message screens.
-class Unk_SoundMgr48 {
-public:
-    Unk_SoundMgr48();
-    virtual ~Unk_SoundMgr48();
-    void sub_710105590C(sead::Heap* heap);
-    void sub_7101055B44();
-    void sub_710105598C(const sead::SafeString& path, const sead::SafeString& name, s32 suffix);
-    // Outside-TU callers pass SoundMgr::_48. The unused bool and formal FP order
-    // are interface inferences from the handle / 0-or-1 / delay argument protocol.
-    void sub_7101055B88(aal::Handle* handle, bool flag, f32 delay);
-    f32 sub_7101055E3C() const;
-
-    /* 0x08 */ Unk_710105fe78* _8 = nullptr;
-    /* 0x10 */ aal::Emitter* _10 = nullptr;
-    /* 0x18 */ aal::Handle _18;
-    /* 0x28 */ aal::Handle _28;
-};
-KSYS_CHECK_SIZE_NX150(Unk_SoundMgr48, 0x38);
-
 // Root subobject at 0x5e0 of Unk_710103b704, constructed at 0x710105abc0.
 // Its original vtable has only the two destructor slots.
 class Unk_710105abc0 {
@@ -989,9 +853,145 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 
-// 0x71010421f0: starts custom ducking from comma-separated roots and exclusions.
-DuckingMgr::Ducker* sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type,
-                                  Unk_710103b704::StartParam& param);
+// Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
+// SoundMgr::_80. A buffer (size at +8, data at +0x10) of 50 duckers (0xd0 bytes each: aal::GroupDucker at +0x68,
+// `_c0` / `_c8` state) indexed by a SEAD_ENUM of ducker names (the enum's text function is 0x7101042f30);
+// entries 0x30 / 0x31 are the "custom" duckers used by Unk_710103b704.
+// TODO: incomplete.
+class DuckingMgr {
+public:
+    DuckingMgr();
+    virtual ~DuckingMgr();
+
+    // The names are the strings at 0x7101e26516 (the SEAD_ENUM text; text function 0x7101042f30).
+    // clang-format off
+    // (the original text has a space before each comma: `text_all` is 737 bytes)
+    SEAD_ENUM(DuckerType,
+              cSlowBgm , cSlowSe , cFocus , cSquat , cPauseIngame , cPauseEvent , cBattleEnv , cGrudgeEnv ,
+              cGrudgeEnvBoost , cBloody , cBossDialogHero , cBossDialogZelda , cFieldRemainsFire ,
+              cFieldRemainsOrGanon , cRaceAudience , cTalk , cDialog , cScreenFadeS , cScreenFadeM ,
+              cScreenFadeL , cScreenFadeLogo , cScreenFadeForce , cHomeMenu , cEvtBgmReduce , cEvtBgmMute ,
+              cEvtEnvReduce , cEvtWorldMute , cTmlnWorldMute , cTmlnThruShake , cTmlnThruShakeWeather ,
+              cTmlnMovie , cTmlnLoading , cTitleMute , cEventSkip , cEventSkipBeam , cPlayTimeOver ,
+              cExplosion , cImpact , cLocationUI , cWaveShockL , cParasailOpen , cDive , cHorseJump ,
+              cFairyRecover , cLightningNear , cExplosionRemote , cEnemyWeaponSwing , cEnemyImpact ,
+              cCustomEvt , cCustomEvt2)
+    // clang-format on
+
+    struct Ducker : public aal::IDuckingSource, public Unk_7102502200 {
+        // Vtable order (0x71025021b8): destructor pair and the ducking source interface.
+        bool isOnDucking() const override;
+        void invalidateORNode() override {}
+        const sead::SafeString& getDuckingSourceName() const override { return mName; }
+        ~Ducker() override;
+        bool sub_710103E368() const;
+        // 0x710103e00c: sets the active bit and clears _c0.
+        void activateMaybe();
+        // 0x710103e2a8: clears the active bit (`suspend`: also suspends mDucker).
+        void deactivateMaybe(bool suspend);
+        // 0x710103e2c4: activateMaybe() and resets mDucker's state.
+        void activateAndResetMaybe();
+        // 0x710103df60: per-frame update while active or ducking.
+        void calc();
+        // 0x710103ddf0: copies the settings' name and sets the group ducker up from them.
+        void setup(sead::Heap* heap, Unk_7102612628* settings);
+        // 0x710103e128 (placeholder name): the same setup from a request, adding every group of the request.
+        void sub_710103E128(sead::Heap* heap, Unk_71025022a0* request);
+        // 0x710103e2dc (placeholder name) and 0x710103e020 (the target volume update it calls).
+        void sub_710103E2DC(f32 f);
+        void sub_710103E020(f32 f);
+
+        // The ducker's name (the ducker array allocator 0x7101041a5c constructs it over its own buffer).
+        /* 0x10 */ sead::FixedSafeString<64> mName;
+        /* 0x68 */ aal::GroupDucker mDucker;
+        /* 0xb0 */ Unk_7102612628* _b0 = nullptr;
+        u8 _b8[8];
+        /* 0xc0 */ f32 _c0;
+        /* 0xc4 */ f32 _c4;
+        /* 0xc8 */ u8 _c8;  // bit 0: active
+    };
+
+    // 0x7101041f4c (placeholder name): suspends every ducker that asked to be suspended and clears the flag.
+    void sub_7101041F4C();
+    // 0x7101042078: starts the ducker called `type` (looked up by name); null when there is none.
+    Ducker* startDucking(const sead::SafeString& type);
+    // 0x71010421f0: selects custom ducking roots, exclusions, and targets.
+    Ducker* sub_71010421F0(DuckerType type, Unk_710103b704::StartParam& param);
+    // 0x7101042db4: stops the ducker called `type` (`suspend`: also suspends its aal::GroupDucker).
+    void sub_7101042DB4(const sead::SafeString& type, bool suspend);
+    // 0x7101042024: starts the ducker `type`.
+    // 0x7101041fec: updates every ducker.
+    void calc();
+    Ducker* sub_7101042024(DuckerType type);
+    // 0x7101042d6c: clears bit 0 of the ducker `type`'s flags byte (+0xc8) and suspends its aal::GroupDucker if
+    // `suspend`.
+    void sub_7101042D6C(DuckerType type, bool suspend);
+
+    // inline-only in the original; name is a guess (the type is copied to the stack before indexing in
+    // 0x710103aa3c, 0x710103ab10, 0x710103ab98 and 0x710103acc8).
+    Ducker& getDucker(DuckerType type) { return mDuckers[type]; }
+
+    /* 0x08 */ sead::Buffer<Ducker> mDuckers;
+    // The heap of the duckers, destroyed with them (the destructor calls destroy() through its vtable).
+    /* 0x18 */ sead::Heap* mHeap = nullptr;
+    /* 0x20 */ bool _20 = false;
+};
+
+// Actual sound-owned B8 allocation in 0x710105590C and embedded stream-path callback.
+class Unk_710105fe78 {
+public:
+    Unk_710105fe78();
+    virtual ~Unk_710105fe78();
+    // Native lookup/provider use this existing resource-cache receiver.
+    ResourceBars* sub_7101060C04(const sead::SafeString& name);
+    bool sub_7101060D14(aal::AssetInfo* info, const sead::SafeString& path,
+                        const sead::SafeString& asset);
+    // Lookup 0x7101060C04 proves the hash/handle pair and sixteen-byte stride.
+    struct Entry {
+        u32 mHash;
+        res::Handle* mHandle;
+    };
+    static_assert(sizeof(Entry) == 0x10);
+    class Callback : public aal::Unk_7100BA1AEC {
+    public:
+        bool sub_7100BA1AEC(sead::BufferedSafeStringBase<char>* path, aal::AssetInfo* info) override;
+        // 0x710105fe08: variadic formatter for this callback's actual path string.
+        void sub_710105FE08(const char* format, ...);
+        sead::FixedSafeString<128> mString;
+    };
+    static_assert(sizeof(Callback) == 0xa0);
+    /* 0x08 */ sead::Buffer<Entry>* _8 = nullptr;
+    /* 0x10 */ s32 _10 = 0;
+    u8 _14[4];
+    /* 0x18 */ Callback mCallback;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710105fe78, 0xb8);
+
+// 0x710105ffc4 (placeholder name; 3,136 B, declared only): loads the regional voice pack into the
+// resource cache (x1 is the heap, x2 a flag).
+void StaticVoicePackStuff(Unk_710105fe78* cache, sead::Heap* heap, bool flag);
+
+// Placeholder name (SoundMgr::_48), used by the UI message screens.
+class Unk_SoundMgr48 {
+public:
+    Unk_SoundMgr48();
+    virtual ~Unk_SoundMgr48();
+    void sub_710105590C(sead::Heap* heap);
+    void sub_7101055B44();
+    void sub_710105598C(const sead::SafeString& path, const sead::SafeString& name, s32 suffix);
+    // Outside-TU callers pass SoundMgr::_48. The unused bool and formal FP order
+    // are interface inferences from the handle / 0-or-1 / delay argument protocol.
+    void sub_7101055B88(aal::Handle* handle, bool flag, f32 delay);
+    f32 sub_7101055E3C() const;
+
+    /* 0x08 */ Unk_710105fe78* _8 = nullptr;
+    /* 0x10 */ aal::Emitter* _10 = nullptr;
+    /* 0x18 */ aal::Handle _18;
+    /* 0x28 */ aal::Handle _28;
+};
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgr48, 0x38);
+
+
 
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).

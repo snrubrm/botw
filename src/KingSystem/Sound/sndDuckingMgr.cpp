@@ -167,8 +167,8 @@ static const char* const sCustomDuckerNames[] = {"Evt:カスタム", "Evt:カス
 
 // NON_MATCHING: token iterator and pointer-array temporaries use different stack slots,
 // with minor loop and store scheduling differences.
-DuckingMgr::Ducker* sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type,
-                                  Unk_710103b704::StartParam& param) {
+DuckingMgr::Ducker* DuckingMgr::sub_71010421F0(DuckerType type,
+                                              Unk_710103b704::StartParam& param) {
     if (type < DuckingMgr::DuckerType::cCustomEvt)
         return nullptr;
     auto* group_mgr = aal::SystemAccessor::getGroupMgr();
@@ -225,9 +225,9 @@ DuckingMgr::Ducker* sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type,
     request.mTargetSettings = {param._20, param._24, param._28, 1};
     const u32 name_index = u32(s32(type) - DuckingMgr::DuckerType::cCustomEvt);
     request.mName.copy(sCustomDuckerNames[name_index < 2 ? name_index : 0]);
-    mgr->mHeap->freeAll();
-    mgr->mDuckers[type].sub_710103E128(mgr->mHeap, &request);
-    return &mgr->mDuckers[type];
+    mHeap->freeAll();
+    mDuckers[type].sub_710103E128(mHeap, &request);
+    return &mDuckers[type];
 }
 
 }  // namespace ksys::snd

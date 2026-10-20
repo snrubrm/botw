@@ -228,11 +228,11 @@ void Unk_710103b704::sub_710103CFF4(StartParam& param) {
     StartParam& start = sUnk_7102610958 ? sUnk_7102610960.mParam : param;
     auto* mgr = SoundMgr::instance()->mDuckingMgr;
     if (!mgr->getDucker(DuckingMgr::DuckerType(0x30)).mDucker.isInitialized()) {
-        sub_71010421F0(mgr, DuckingMgr::DuckerType(0x30), start);
+        mgr->sub_71010421F0(DuckingMgr::DuckerType(0x30), start);
         return;
     }
     if (!mgr->getDucker(DuckingMgr::DuckerType(0x31)).mDucker.isInitialized())
-        sub_71010421F0(mgr, DuckingMgr::DuckerType(0x31), start);
+        mgr->sub_71010421F0(DuckingMgr::DuckerType(0x31), start);
 }
 
 }  // namespace ksys::snd
