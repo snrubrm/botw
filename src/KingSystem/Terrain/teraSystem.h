@@ -268,6 +268,9 @@ public:
                                 bool second_layer, bool spawn);
             // Native 10751C0 dispatches this after updating a cut mask.
             void sub_7101075788(const sead::Vector2f* position);
+            // Caller 1150C24 supplies f1; these two bodies do not consume it.
+            void sub_7101076258(f32 diameter, f32 intensity, const sead::Vector2f* position);
+            void sub_7101076488(f32 diameter, f32 intensity, const sead::Vector2f* position);
 
             struct CellState {
                 u16 _0;

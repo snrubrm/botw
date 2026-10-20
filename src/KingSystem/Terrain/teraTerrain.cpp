@@ -34,6 +34,56 @@ namespace ksys::tera {
 const f32 sUnk_7101E79608[4] = {0.0f, 0.5f, 0.0f, 0.5f};
 const f32 sUnk_7101E79618[4] = {0.0f, 0.0f, 0.5f, 0.5f};
 
+// NON_MATCHING: bounded grid iteration and floor arithmetic differ in scheduling.
+void Core::Grass::EntryPart::sub_7101076258(f32 diameter, f32, const sead::Vector2f* position) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    f32 radius = diameter * 0.5f;
+    if (radius > 3.0f)
+        radius = 3.0f;
+    const s32 min_x = sead::Mathi::max(23 - mGridPosition.x +
+        sead::Mathf::floor((position->x - radius) / 3.0f), 0);
+    const s32 min_y = sead::Mathi::max(23 - mGridPosition.y +
+        sead::Mathf::floor((position->y - radius) / 3.0f), 0);
+    const s32 max_x = sead::Mathi::min(23 - mGridPosition.x +
+        sead::Mathf::floor((position->x + radius) / 3.0f), 46);
+    const s32 max_y = sead::Mathi::min(23 - mGridPosition.y +
+        sead::Mathf::floor((position->y + radius) / 3.0f), 46);
+    for (s32 y = min_y; y <= max_y; ++y) {
+        for (s32 x = min_x; x <= max_x; ++x) {
+            auto& cell = mCells[(y + mCellIndices.y) % 47][(x + mCellIndices.x) % 47];
+            if (!(cell.mFlags & 1))
+                continue;
+            cell.mRecord->_3f = 3;
+            cell.mFlags &= ~8u;
+        }
+    }
+}
+
+// NON_MATCHING: bounded grid iteration and floor arithmetic differ in scheduling.
+void Core::Grass::EntryPart::sub_7101076488(f32 diameter, f32, const sead::Vector2f* position) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    f32 radius = diameter * 0.5f;
+    if (radius > 3.0f)
+        radius = 3.0f;
+    const s32 min_x = sead::Mathi::max(23 - mGridPosition.x +
+        sead::Mathf::floor((position->x - radius) / 3.0f), 0);
+    const s32 min_y = sead::Mathi::max(23 - mGridPosition.y +
+        sead::Mathf::floor((position->y - radius) / 3.0f), 0);
+    const s32 max_x = sead::Mathi::min(23 - mGridPosition.x +
+        sead::Mathf::floor((position->x + radius) / 3.0f), 46);
+    const s32 max_y = sead::Mathi::min(23 - mGridPosition.y +
+        sead::Mathf::floor((position->y + radius) / 3.0f), 46);
+    for (s32 y = min_y; y <= max_y; ++y) {
+        for (s32 x = min_x; x <= max_x; ++x) {
+            auto& cell = mCells[(y + mCellIndices.y) % 47][(x + mCellIndices.x) % 47];
+            if (!(cell.mFlags & 1))
+                continue;
+            cell.mRecord->_3f = 3;
+            cell.mFlags &= ~16u;
+        }
+    }
+}
+
 // NON_MATCHING: handle selection, item iteration and transform scheduling differ.
 void Core::Grass::EntryPart::sub_7101075788(const sead::Vector2f* position) {
     if (_384c8 < 17.777779f)
