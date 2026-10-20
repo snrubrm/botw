@@ -114,6 +114,9 @@ public:
         // Two AI callers pass Reaction::_a8, their actor and its matrix translation.
         void sub_7100EC6C00(Actor* actor, const sead::Vector3f& position);
 
+        // 0x7100ec7aa0 (placeholder name): sets the material and wetness properties of the effect
+        // link from the material mask.
+        bool sub_7100EC7AA0(const phys::MaterialMask& mask, s32 flag, f32 value);
         // 0x7100ec7edc (placeholder name): emits the roll-drag asset of the size class for `speed`.
         bool sub_7100EC7EDC(f32 speed, xlink2::HandleSLink* handle);
         // 0x7100ec86f4 (placeholder name): sets the event position of `handle`, then applies the

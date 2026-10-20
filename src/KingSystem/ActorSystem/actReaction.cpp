@@ -895,3 +895,39 @@ bool Reaction::Unk1::sub_7100EC7EDC(f32 speed, xlink2::HandleSLink* handle) {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: the original tests the material before the flag in the wetness check; ours hoists
+// the flag test. The values and the branch targets are the same.
+// 0x7100ec7aa0 (placeholder name): sets the material properties and the wetness property of the
+// actor's effect link from the material mask, and returns whether the link has an event.
+bool Reaction::Unk1::sub_7100EC7AA0(const phys::MaterialMask& mask, s32 flag, f32 value) {
+    if (!_8)
+        return false;
+    auto* xlink = _8->getXLink();
+    if (!xlink)
+        return false;
+    auto* user = xlink->_50;
+    if (!user)
+        return false;
+
+    const int material = mask.getMaterial();
+    user->setPropertyValue(0, material);
+    const int sub_material = mask.getSubMaterialIdx();
+    user->setPropertyValue(1,
+                           ksys::xlink::Manager::instance()->getSubMaterialIndex(material, sub_material));
+    user->setPropertyValue(4, value);
+
+    f32 wetness = 0.0f;
+    if (material == 8)
+        wetness = 1.0f;
+    if (material != 8) {
+        if (!(flag & 1))
+            wetness = ksys::world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+    }
+    user->setPropertyValue(7, wetness);
+    return true;
+}
+
+}  // namespace ksys::act
