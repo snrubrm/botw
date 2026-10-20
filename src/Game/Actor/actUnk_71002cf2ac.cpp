@@ -391,6 +391,52 @@ s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
 // last matrix element store and keeps the ones address in a different register.
 // 0x710066cdf8: binds / spawns the actor `idx` at the pose `mtx`. When the handle already holds a
 // ready proc, moves it into the link, copies its transceiver id and records the spawn slot.
+// 0x710066c800: places a ready handle proc at the linked actor's matrix (with the scale `b`) and
+// throws it towards `pos` (offset two units up) with speed `a`; when the handle is not ready it moves
+// the linked actor the same way.
+void SiteBoss::Unk_71002cf2ac::sub_710066C800(sead::Vector3f* pos, s32 index, f32 a, f32 b) {
+    const s32 i = u32(index) < 20 ? index : 0;
+    auto& handle = _a0[i];
+    if (handle.isAllocatedOrFailed() && handle.isProcReady()) {
+        auto* proc = sead::DynamicCast<ksys::act::Actor>(handle.getProc());
+        if (proc) {
+            if (!_1e0[0].hasProc())
+                return;
+
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_1e0[0], &accessor);
+            sead::Vector3f trans;
+            accessor.getActorMtx().getTranslation(trans);
+            const sead::Matrix33f rot(accessor.getActorMtx());
+            const sead::Vector3f scale(b, b, b);
+            proc->sub_71011C7020(&trans, &rot, &scale);
+            proc->sub_71011C8BA4(2);
+
+            sead::Vector3f dir = *pos;
+            dir.y += 2.0f;
+            dir -= trans;
+            dir.normalize();
+            dir *= a;
+            proc->setVelocity(&dir, nullptr);
+        }
+        handle.releaseAndWakeProc();
+        _1e0[i].acquire(proc, false);
+        _530[i] = *proc->getMesTransceiverId();
+    } else if (_1e0[i].hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_1e0[i], &accessor);
+        const sead::Vector3f trans = accessor.getActorMtx().getTranslation();
+        const sead::Vector3f scale(b, b, b);
+
+        sead::Vector3f dir = *pos;
+        dir.y += 2.0f;
+        dir -= trans;
+        dir.normalize();
+        dir *= a;
+        accessor.setProperties(accessor.getActorMtx(), &dir, nullptr, &scale, false, 2, -1);
+    }
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066CDF8(ksys::act::Actor* owner,
                                               const sead::Matrix34f& mtx, int idx,
                                               const SpawnArg& arg) {
