@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Game/Actor/Camera/Action/actionCameraEventMove.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -142,6 +143,74 @@ void CameraEventMove::m43() {
 // NON_MATCHING: everything matches except the camera view-mode block after the two position updates.
 // The original loads _2a5 / _2a4 before the getCamera() call and tests the mode against 2 before 0;
 // ours loads the mode after the call and tests 0 first (the same stores and the same result).
+// NON_MATCHING: the body matches instruction for instruction, but the compiler keeps four fewer
+// float values live than the original (d8-d11 instead of d8-d15), so the frame is 0x50 instead of
+// 0x70 and the register names in the whole function differ. The elevation guard also compares z
+// before x and y in the original.
+void CameraEventMove::sub_710075DCC4() {
+    if (*mStartCalcOnly_d && (_2a1 & 2))
+        return;
+
+    if (mActor)
+        sendMessage(*mActor->getMesTransceiverId(), ksys::MessageType(0x8800006), nullptr);
+
+    if (!(_2a0 & 1))
+        return;
+
+    const s32 axis = _1b4;
+    const sead::Vector3f dir(_184.m[0][axis] * _1b8, _184.m[1][axis] * _1b8,
+                             _184.m[2][axis] * _1b8);
+
+    f32 elevation = 0.0f;
+    if (dir.x != 0.0f || dir.y != 0.0f || dir.z != 0.0f) {
+        const f32 xz = std::sqrt(dir.x * dir.x + dir.z * dir.z);
+        elevation = sub_7100924CAC(std::atan2(dir.y, xz) * (180.0f / sead::Mathf::pi()));
+    }
+
+    f32 azimuth = 0.0f;
+    if (*mUseImaginaryLineAngle_d) {
+        const sead::Vector3f delta = _148.getTranslation() - _118.getTranslation();
+        if (delta.x != 0.0f || delta.z != 0.0f)
+            azimuth = std::atan2(delta.x, delta.z) * (180.0f / sead::Mathf::pi());
+    } else if (dir.x != 0.0f || dir.z != 0.0f) {
+        azimuth = std::atan2(dir.x, dir.z) * (180.0f / sead::Mathf::pi());
+    }
+
+    act::Unk_7100922700 polar(std::max(*mRadius_s, 0.01f), elevation, azimuth);
+
+    _84._c = _178;
+    _84._c.y = _178.y + mOffset_d->y;
+
+    const sead::Vector3f vector = polar.sub_7100923254();
+
+    f32 lat;
+    if (_2a2 != 0) {
+        const f32 value = sead::Mathf::abs(mOffset_d->x);
+        lat = _2a2 == 1 ? value : -value;
+    } else {
+        lat = mOffset_d->x * (*mLngReverse_d ? -1.0f : 1.0f);
+    }
+
+    sead::Vector3f side(vector.z, 0.0f, -vector.x);
+    const f32 side_len = std::sqrt(vector.x * vector.x + vector.z * vector.z);
+    if (side_len > 0.0f)
+        side *= lat / side_len;
+    _84._c += side;
+
+    sead::Vector3f forward(vector.x, 0.0f, vector.z);
+    const f32 forward_len = std::sqrt(vector.x * vector.x + vector.z * vector.z);
+    if (forward_len > 0.0f)
+        forward *= mOffset_d->z / forward_len;
+    _84._c += forward;
+
+    polar._4 = angleStuff(_1c8._4 + polar._4);
+    polar._8 = angleStuff(_1c8._8 + polar._8);
+    polar._4 = angleStuff(sub_7100924CAC(polar._4));
+
+    _84._0 = _84._c + polar.sub_7100923254();
+    _2a1 |= 2;
+}
+
 void CameraEventMove::m44() {
     auto* camera = getCamera();
     if (!camera)
