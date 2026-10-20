@@ -342,7 +342,10 @@ struct Unk_71025d6c70 {
     /* 0x9c */ sead::Vector3f _9c{-100000.0f, 0.0f, 0.0f};
     // The Final Trial boss battle area position (-1102.8, 0, 1888) set by 0x710094f9e4.
     /* 0xa8 */ sead::Vector3f _a8;
-    u8 _b4[0x298 - 0xb4];
+    u8 _b4[0x1e8 - 0xb4];
+    // The marker threshold values indexed by the selected _7c4 entry (UiSubsys1::sub_71009686F0).
+    /* 0x1e8 */ sead::Buffer<f32> _1e8;
+    u8 _1f8[0x298 - 0x1f8];
     // The map tower name prefix set by 0x710094f9e4.
     /* 0x298 */ sead::SafeString _298 = "MapTower_";
 };

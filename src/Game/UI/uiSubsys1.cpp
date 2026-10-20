@@ -247,6 +247,24 @@ void UiSubsys1::sub_7100961088() {
     _8d8 = sead::Mathf::max(half_x, 0.0f);
 }
 
+// 0x71009686f0 (placeholder name): whether the map scale matches the selected threshold.
+bool UiSubsys1::sub_71009686F0() const {
+    if (_128 == -1)
+        return false;
+    const s32 index = u32(_128) < 15 ? _128 : 0;
+    const s32 value = _7c4[index];
+    if (value == -1)
+        return false;
+
+    f32 threshold;
+    if (u32(value) > 3)
+        threshold = -1.0f;
+    else
+        threshold = sUnk_71025d6c70._1e8[value];
+
+    return _850._28 == threshold;
+}
+
 // 0x7100963598
 u32 UiSubsys1::sub_7100963598() {
     u32 value = _120;
