@@ -90,6 +90,35 @@ s8 Reaction::Unk1::sub_7100EC89BC() const {
 
 // NON_MATCHING: min / max operand order, the 2 / 3 choice becomes a csel, and the size is returned as a
 // 64-bit register move.
+void Reaction::sub_7100EC1C24(Actor* actor, const phys::MaterialMask& mask) const {
+    if (!actor)
+        return;
+    const int material = mask.getMaterial();
+    const int sub_material_idx = mask.getSubMaterialIdx();
+    const int sub_material =
+        xlink::Manager::instance()->getSubMaterialIndex(material, sub_material_idx);
+    f32 wetness;
+    if (material == 8 && sead::SafeString(mask.getSubMaterialName()) == "Water_StoneBottom")
+        wetness = 1.0f;
+    else if (actor->_6a0->_10._8 & 8)
+        wetness = 0.0f;
+    else
+        wetness = world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+    auto* xlink = actor->getXLink();
+    if (!xlink)
+        return;
+    if (auto* user = xlink->_48) {
+        user->setPropertyValue(0, material);
+        user->setPropertyValue(1, sub_material);
+        user->setPropertyValue(7, wetness);
+    }
+    if (auto* user = xlink->_50) {
+        user->setPropertyValue(0, material);
+        user->setPropertyValue(1, sub_material);
+        user->setPropertyValue(7, wetness);
+    }
+}
+
 f32 Reaction::sub_7100EC1D98(const sead::Vector3f& pos) const {
     f32 height = -9999.0f;
     if (::Graphics::instance()->getMapStateMaybe() > 1)

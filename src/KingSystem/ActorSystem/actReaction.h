@@ -155,6 +155,9 @@ public:
     };
 
     static Reaction* instance() { return sInstance; }
+    // 0x7100ec1c24 (placeholder name): sets the material, sub material and wetness properties of
+    // both xlink user instances of `actor`. Called twice by 0x7100ec134c.
+    void sub_7100EC1C24(Actor* actor, const phys::MaterialMask& mask) const;
     // 0x7100ec1d98 (placeholder name): terrain height below `pos`, or -9999 while the terrain is
     // not shown. Called twice by 0x7101285930, which passes its +0x28 pointer as the receiver.
     f32 sub_7100EC1D98(const sead::Vector3f& pos) const;
