@@ -108,4 +108,20 @@ s32 SupportBoneInstanceMaybe::sub_71012273A8(const sead::SafeString& name) const
     return mResource->getSupportBoneIndexByName(name);
 }
 
+// NON_MATCHING: the state-buffer checks and weight maximum are scheduled differently.
+bool SupportBoneInstanceMaybe::updateWeightsMaybe(f32 step) {
+    const s32 num_bones = *mResource->mSupportBoneNum;
+    if (num_bones <= 0)
+        return false;
+    f32 max_weight = 0.0f;
+    for (s32 i = 0; i < num_bones; ++i) {
+        f32 target = 0.0f;
+        if ((_44 & 1) && _48[i].enabled && _48[i]._1)
+            target = _48[i]._2 ? 1.0f : 0.0f;
+        sead::Mathf::chase(&_48[i].weight, target, step);
+        max_weight = sead::Mathf::max(max_weight, _48[i].weight);
+    }
+    return max_weight != 0.0f;
+}
+
 }  // namespace ksys::phys

@@ -89,6 +89,8 @@ public:
     // rotation, translation = base_translate + the work translation) in model space, local space or relative to
     // its parent bone (`space`: -2, -1 or the parent bone index).
     void sub_7101226E44();
+    // Native 0x71012273bc: chase enabled support-bone weights and report any nonzero weight.
+    bool updateWeightsMaybe(f32 step);
     // 0x710122ad34 (declaration only; placeholder name): computes the aim rotation of a main bone, false if none.
     static bool sub_710122AD34(sead::Quatf* out, const MainBoneWork& work, const sead::Vector3f& aim,
                                const sead::Vector3f& up, const sead::Vector3f& side);
