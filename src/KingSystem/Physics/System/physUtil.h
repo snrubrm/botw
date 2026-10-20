@@ -47,6 +47,23 @@ KSYS_CHECK_SIZE_NX150(Unk_71024f9570, 0x18);
 // LayerContactPointInfo TU): detaches `listener` and deletes it.
 void sub_7100FCFEB8(Unk_71024f9570* listener);
 
+// Placeholder (vtable 0x71024f95b0; object 0x10 bytes): a second contact point listener attached to a
+// rigid body. It ignores disabled contacts and characters, then points the contact normal from the
+// body towards the contact point when the contact is more than 0.02 below the body.
+class Unk_71024f95b0 : public hkpContactListener {
+public:
+    explicit Unk_71024f95b0(RigidBody* body) : mBody(body) {}
+    // 0x7100fd04ac (placeholder name).
+    void contactPointCallback(const hkpContactPointEvent& event) override;
+    // 0x7100fd0410: attaches a new listener to `body`.
+    static Unk_71024f95b0* make(sead::Heap* heap, RigidBody* body);
+    // 0x7100fd0464: detaches `listener` from its body and deletes it.
+    static void destroy(Unk_71024f95b0* listener);
+
+    /* 0x08 */ RigidBody* mBody;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f95b0, 0x10);
+
 // 0x0000007100fd069c
 MotionType motionTypeFromText(const sead::SafeString& text);
 

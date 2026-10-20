@@ -1,8 +1,11 @@
 #include "KingSystem/Physics/System/physUtil.h"
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
 #include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h>
+#include <Havok/Physics2012/Dynamics/Constraint/Contact/hkpContactPointProperties.h>
 #include <Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
 #include <math/seadMatrix.h>
+#include <math/seadMathCalcCommon.h>
+#include <limits>
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldShape.h>
 #include <Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h>
@@ -163,6 +166,47 @@ void Unk_71024f9570::contactPointCallback(const hkpContactPointEvent& event) {
     up *= sign;
 
     contact_point->setNormalOnly(toHkVec4(up));
+}
+
+Unk_71024f95b0* Unk_71024f95b0::make(sead::Heap* heap, RigidBody* body) {
+    auto* listener = new (heap, 8) Unk_71024f95b0(body);
+    body->getHkBody()->addContactListener(listener);
+    return listener;
+}
+
+void Unk_71024f95b0::destroy(Unk_71024f95b0* listener) {
+    listener->mBody->getHkBody()->removeContactListener(listener);
+    delete listener;
+}
+
+// NON_MATCHING: the direction build is scheduled differently from the original.
+void Unk_71024f95b0::contactPointCallback(const hkpContactPointEvent& event) {
+    if (event.m_contactPointProperties->m_flags & hkContactPointMaterial::CONTACT_IS_DISABLED)
+        return;
+
+    auto* contact_point = event.m_contactPoint;
+    if (contact_point->getPosition().getInt24W() == hkpCharacterRigidBody::m_magicNumber)
+        return;
+
+    const f32 sign = getRigidBody(*event.getBody(1)) == mBody ? -1.0f : 1.0f;
+
+    const sead::Vector3f normal = toVec3(contact_point->getSeparatingNormal());
+    sead::Matrix34f mtx;
+    mBody->getTransform(&mtx);
+
+    if (static_cast<f32>(sead::Mathf::round(sign * normal.dot(sead::Vector3f::ey) * 100.0f)) *
+            0.01f >
+        0.5f)
+        return;
+
+    const sead::Vector3f contact_pos = toVec3(contact_point->getPosition());
+    const sead::Vector3f body_pos = toVec3(mBody->getHkBody()->getPosition());
+    if (contact_pos.y - body_pos.y > -0.02f)
+        return;
+
+    sead::Vector3f dir = body_pos - contact_pos;
+    if (dir.normalize() >= std::numeric_limits<f32>::epsilon())
+        contact_point->setNormalOnly(toHkVec4(dir * sign));
 }
 
 }  // namespace ksys::phys
