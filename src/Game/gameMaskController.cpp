@@ -4,6 +4,17 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(MaskController)
 
+MaskController::MaskController() = default;
+
+MaskController::~MaskController() {
+    _40.unregister();
+    for (auto*& controller : mControllers) {
+        delete controller;
+        controller = nullptr;
+    }
+    mControllers.freeBuffer();
+}
+
 sead::Controller* MaskController::getController(ControllerIdx idx) {
     return mControllers(idx);
 }

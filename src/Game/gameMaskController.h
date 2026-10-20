@@ -5,6 +5,7 @@
 #include <controller/seadMaskControllerWrapper.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadEnum.h>
+#include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverRxOnly.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -55,10 +56,13 @@ public:
     sead::ControllerWrapperBase* sub_71008BCA40();
 
 private:
-    u8 _28[8];
+    u8 _28 = 0;
+    u32 _2c = 0;
     sead::Buffer<sead::Controller*> mControllers;
     JumpButtonControllerWrapper _40;
-    u8 _258[0x2c8 - 0x258];
+    ksys::MessageTransceiverRxOnly mTransceiver{*this};
+    Unk_710246c458 _2a8;
+    Unk_710246c4d8 _2b8;
 };
 KSYS_CHECK_SIZE_NX150(MaskController, 0x2c8);
 
