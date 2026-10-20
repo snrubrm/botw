@@ -775,6 +775,10 @@ void Unk_71024fd188::m14(sead::TextWriter& writer) {
 
 Unk_71024fd3a0::~Unk_71024fd3a0() = default;
 
+Unk_71024fd318::Unk_71024fd318(const ksys::snd::BgmInitArg& arg) : Bgm(arg.kind) {
+    sub_7100FFFCF0(arg);
+}
+
 void Unk_71024fd318::sub_7100FFFCF0(const ksys::snd::BgmInitArg& arg) {
     sead::Heap* heap = arg.heap;
     _10 = new (heap, 8) Unk_71024fd3a0(arg.handle_type);

@@ -2523,6 +2523,8 @@ KSYS_CHECK_SIZE_NX150(Unk_71024fd3a0, 0x1b8);
 class Unk_71024fd318 : public ksys::snd::Bgm {
     SEAD_RTTI_OVERRIDE(Unk_71024fd318, ksys::snd::Bgm)
 public:
+    // 0x7100fffc9c
+    explicit Unk_71024fd318(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd318() override;
     // 0x7100fffcf0 (placeholder name): creates the "OmenOfBloodyMoonBgm" handle (asset "Omen").
     void sub_7100FFFCF0(const ksys::snd::BgmInitArg& arg);
@@ -2533,11 +2535,11 @@ public:
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
 
-    /* 0x10 */ Unk_71024fd3a0* _10;
-    /* 0x18 */ f32 _18;
-    /* 0x1c */ u32 _1c;
+    /* 0x10 */ Unk_71024fd3a0* _10 = nullptr;
+    /* 0x18 */ f32 _18 = 0;
+    /* 0x1c */ u32 _1c = 0;
     // The volume fader of the concentration BGM (m5 moves it to 1 and back).
-    /* 0x20 */ aal::SimpleTimedFader _20{0.0f};
+    /* 0x20 */ aal::SimpleTimedFader _20{1.0f};
 };
 
 // vtable 0x71024fd448 (17 slots); placeholder generated from the vtable (genskel.py).
