@@ -2937,6 +2937,9 @@ struct ScreenPauseMenuUnk3a00 {
     void sub_71009AFF74(s32 index, s32 value);
     // 0x71009b014c (placeholder name): sub_71009AFF74, then enables button `index`
     void sub_71009B014C(s32 index, s32 value);
+    // 0x71009b0348 (placeholder name): refreshes the enabled state of every shown button from its item
+    // (arrows in the bow tab and key items are never shown as equipped)
+    void sub_71009B0348();
     // 0x71009b0468 / 0x71009b0484 (placeholder names): the button slot of item `index` (-1 when it is not shown) /
     // that slot's _c78 value (-1 when it is not shown)
     s32 sub_71009B0468(s32 index) const;

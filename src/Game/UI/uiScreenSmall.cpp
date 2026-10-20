@@ -326,6 +326,38 @@ void ScreenPauseMenuUnk3a00::sub_71009AFF74(s32 index, s32 value) {
     _cc8.sub_7100A81B1C(path, index);
 }
 
+// 0x71009b0348
+void ScreenPauseMenuUnk3a00::sub_71009B0348() {
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return;
+    if (sub_7100A82D08(_130) == PouchCategory::Bow && sub_7100AA7BAC(nullptr)) {
+        for (s32 i = 0; i < mButtons.size(); ++i) {
+            if (_c78[i] == -1)
+                continue;
+            const PouchItem* item = mgr->__auto8(_130, _c78[i]);
+            if (!item)
+                continue;
+            const auto type = item->getType();
+            const bool equipped = type == PouchItemType::Arrow || type == PouchItemType::KeyItem ?
+                                      false :
+                                      item->isEquipped();
+            mButtons[i].sub_7100989888(equipped, true);
+        }
+    } else {
+        for (s32 i = 0; i < mButtons.size(); ++i) {
+            if (_c78[i] == -1)
+                continue;
+            const PouchItem* item = mgr->__auto8(_130, _c78[i]);
+            if (!item)
+                continue;
+            const bool equipped =
+                item->getType() == PouchItemType::KeyItem ? false : item->isEquipped();
+            mButtons[i].sub_7100989888(equipped, true);
+        }
+    }
+}
+
 // 0x71009b00e0
 void ScreenPauseMenuUnk3a00::sub_71009B00E0(s32 index) {
     _c78[index] = -1;
