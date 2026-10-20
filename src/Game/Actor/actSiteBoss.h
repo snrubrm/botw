@@ -214,6 +214,11 @@ public:
         // 0x710066bc04 (declared only; placeholder name): deletes every bound actor that is still alive (the links
         // at 0x320 - 0x3a0 and _3b0); called by the destructors of SiteBoss*Root.
         void sub_710066BC04();
+        // 0x710066c028: deletes every bound actor handle in _a0 and clears _8.
+        void sub_710066C028();
+        // 0x710066ccd0 (placeholder name): the same handle cleanup, then deletes the actor behind every
+        // link in _1e0.
+        void sub_710066CCD0();
         // 0x710066bfec: requests the named actor in the existing handle slot.
         bool sub_710066BFEC(s32 index, const char* name, ksys::act::InstParamPack* params,
                            bool flag);

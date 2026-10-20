@@ -36,6 +36,30 @@ SiteBoss::Unk_71002cf2ac::~Unk_71002cf2ac() {
     sub_710066BC04();
 }
 
+void SiteBoss::Unk_71002cf2ac::sub_710066C028() {
+    for (s32 i = 0; i < 20; ++i) {
+        if (_a0[i].isAllocatedOrFailed())
+            _a0[i].deleteProc();
+    }
+    _8 = false;
+}
+
+void SiteBoss::Unk_71002cf2ac::sub_710066CCD0() {
+    for (s32 i = 0; i < 20; ++i) {
+        if (_a0[i].isAllocatedOrFailed())
+            _a0[i].deleteProc();
+    }
+    _8 = false;
+    for (s32 i = 0; i < 20; ++i) {
+        auto& link = _1e0[i];
+        if (link.hasProc()) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+    }
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066BC04() {
     for (auto& link : _320) {
         if (!link.hasProc())
