@@ -378,7 +378,7 @@ ScreenChild* sub_7100A5159C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
     if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
         return nullptr;
-    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247cd70(layout_ex);
+    return new (layout_ex->mScreen->mInitializeHeap, 8) ShopInfoItem(layout_ex);
 }
 
 }  // namespace uking::ui

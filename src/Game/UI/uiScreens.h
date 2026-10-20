@@ -31,7 +31,6 @@
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
 #include "Game/UI/uiArchiveHandle.h"
-#include "Game/UI/uiShopItemElement.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiTextureLoad.h"
 #include "Game/UI/uiUnkTiny.h"
@@ -396,16 +395,24 @@ public:
 };
 static_assert(sizeof(Unk_710247ca18) == 0x1e8);
 
-// sub_7100A5159C creates it (0x140 bytes, ctor 0x71009c2a40).
-class Unk_710247cd70 : public ScreenChildEx {
+// ShopInfoItem is the 0x140-byte ScreenChildEx leaf created by A5159C / 9C2A40.
+// Native vtable 247CD80 overrides slot 24 with 9C2BF4; its other child slots are inherited.
+class ShopInfoItem : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
-    explicit Unk_710247cd70(eui::LayoutEx* layout);
-    /* 0x130 */ void* _130 = nullptr;
+    explicit ShopInfoItem(eui::LayoutEx* layout);
+    ~ShopInfoItem() override;
+    void m24(sead::Heap* heap) override;
+    void sub_71009C2C28(u32 value);
+    void sub_71009C2C44(const eui::MessageString& msg);
+    void sub_71009C2C8C(u32 value);
+    void sub_71009C2D44(u32 value);
+    nn::ui2d::Material* sub_71009C2DFC();
+
+    /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ s32 _138 = -1;
 };
-static_assert(sizeof(Unk_710247cd70) == 0x140);
-
+static_assert(sizeof(ShopInfoItem) == 0x140);
 
 
 // A state of Unk_710247af10's state machine (a plain StateBase object; uiScreenChildStates.h).
