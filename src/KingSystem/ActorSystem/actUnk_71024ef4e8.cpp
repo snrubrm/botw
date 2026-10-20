@@ -31,6 +31,58 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
 
+// NON_MATCHING: contact iteration uses different loop-bound loads and branches.
+void Unk_71024ef4e8::Unk2::sub_7100EA8994() {
+    mController->sub_7100F5F234(&_190);
+    auto normal = sead::Vector3f::zero;
+    bool found = false;
+    for (s32 i = 0; i < mContactIndices.size(); ++i) {
+        const auto& record = mContactRecords[i];
+        if (record._18) {
+            normal += record.normal;
+            found = true;
+        }
+    }
+    if (found)
+        normal.normalize();
+    else
+        normal = sead::Vector3f::ey;
+    // The native query also discards this temporary output and its boolean result.
+    sead::Vector3f unused;
+    mController->sub_7100F5F234(&unused);
+    if (mController->sub_7100F5F0E4() == MotionType::_0) {
+        const f32 candidate_y = normal.y > 0.0f ? normal.y : -normal.y;
+        const f32 current_y = _190.y > 0.0f ? _190.y : -_190.y;
+        if (candidate_y > current_y)
+            _190 = normal;
+    }
+}
+
+// NON_MATCHING: the final end-position sum reverses two floating-point operands.
+void Unk_71024ef4e8::Unk2::sub_7100EAA6A0(QueryArgs& args, phys::ShapeCast& cast,
+                                          s32 index, const sead::Vector3f& direction,
+                                          bool check_material) {
+    const auto start = args.end;
+    const f32 sign = args._18.dot(direction) > 0.0f ? -1.0f : 1.0f;
+    const auto offset = args._24 * sign;
+    const auto target = start + (offset + offset);
+    cast.setStartAndEnd(start, target);
+    cast.executeQuery(phys::ShapeCast::WeldClosestPoints::Yes);
+    if (cast.get40()) {
+        auto* record = sub_7100EAA344(args, cast, index, check_material, false);
+        record->_1a = 1;
+    } else if (sign > 0.0f) {
+        args.start += args._24 * 0.24f * _10;
+        args.end = args.start + args._3c * (_14 * 0.24f);
+    } else {
+        args._4c = true;
+        args.start = start;
+        args.end = target;
+    }
+    if (!mContactRecords[index]._18)
+        _1f0 |= 0x100;
+}
+
 // NON_MATCHING: output-statistic stores and vector-math register scheduling differ.
 bool Unk_71024ef4e8::Unk2::sub_7100EA86A8(Fit* out,
                                          const sead::RingBuffer<s32>& indices) {

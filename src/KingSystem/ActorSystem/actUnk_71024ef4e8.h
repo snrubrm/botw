@@ -119,6 +119,9 @@ public:
         static Unk2* sub_7100EA7300(phys::CharacterController* controller, sead::Heap* heap);
         void sub_7100EA7350(sead::Heap* heap);
         void sub_7100EA79DC();
+        void sub_7100EA8994();
+        void sub_7100EAA6A0(QueryArgs& args, phys::ShapeCast& cast, s32 index,
+                            const sead::Vector3f& direction, bool check_material);
         bool sub_7100EA86A8(Fit* out, const sead::RingBuffer<s32>& indices);
         ContactRecord* sub_7100EAA344(QueryArgs& args, phys::ShapeCast& cast, s32 index,
                                      bool check_material, bool special);
