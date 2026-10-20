@@ -14,13 +14,11 @@ public:
     void* blockAlloc(int numBytes) override;
 
     /// Inline equivalent of blockAlloc
-    // TODO: add this if this is actually used by BotW
     HK_FORCE_INLINE void* fastBlockAlloc(int numBytes);
 
     void blockFree(void* p, int numBytes) override;
 
     /// Inline equivalent of blockFree
-    // TODO: add this if this is actually used by BotW
     HK_FORCE_INLINE void fastBlockFree(void* p, int numBytes);
 
     void* bufAlloc(int& reqNumBytesInOut) override;
@@ -55,3 +53,24 @@ protected:
     hkMemoryAllocator* m_largeAllocator;
     hkMemoryAllocator* m_internalAllocator;
 };
+
+// Inlined by the local arrays in CharacterRigidBody::getSupportInfo F69190.
+HK_FORCE_INLINE void* hkLifoAllocator::fastBlockAlloc(int numBytes) {
+    const int aligned_size = (numBytes + 15) & ~15;
+    char* next = static_cast<char*>(m_cur) + aligned_size;
+    if (aligned_size > m_slabSize || next > m_end)
+        return allocateFromNewSlab(aligned_size);
+    void* block = m_cur;
+    m_cur = next;
+    return block;
+}
+
+HK_FORCE_INLINE void hkLifoAllocator::fastBlockFree(void* p, int numBytes) {
+    const int aligned_size = (numBytes + 15) & ~15;
+    if (numBytes <= m_slabSize && static_cast<char*>(p) + aligned_size == m_cur &&
+        p != m_firstNonLifoEnd) {
+        m_cur = p;
+    } else {
+        slowBlockFree(p, numBytes);
+    }
+}

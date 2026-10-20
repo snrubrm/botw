@@ -103993,10 +103993,10 @@ Address,Quality,Size,Name
 0x000000710158e210,L,000064,hkLifoAllocator::bufAlloc
 0x000000710158e250,L,000136,hkLifoAllocator::bufFree
 0x000000710158e2d8,L,000188,hkLifoAllocator::bufRealloc
-0x000000710158e394,L,000384,hkLifoAllocator::allocateFromNewSlab
+0x000000710158e394,L,000384,_ZN15hkLifoAllocator19allocateFromNewSlabEi
 0x000000710158e514,L,000360,hkLifoAllocator::popNonLifoFrees
 0x000000710158e67c,L,000400,hkLifoAllocator::insertNonLifoFree
-0x000000710158e80c,L,000088,hkLifoAllocator::slowBlockFree
+0x000000710158e80c,L,000088,_ZN15hkLifoAllocator13slowBlockFreeEPvi
 0x000000710158e864,L,000004,j_nullsub_5077_3
 0x000000710158e868,L,000004,hkLifoAllocator::getMemoryStatistics
 0x000000710158e86c,L,000008,hkLifoAllocator::getAllocatedSize
@@ -104414,7 +104414,7 @@ Address,Quality,Size,Name
 0x00000071015a38f8,L,000004,_ZN10hkTypeInfo19cleanupFunctionImplIN14hkcdStaticTree11Codec3Axis6EEEvPv
 0x00000071015a38fc,L,000004,_ZN10hkTypeInfo19cleanupFunctionImplIN14hkcdStaticTree8CodecRawEEEvPv
 0x00000071015a3900,L,000640,sinit_hkcdStaticTree
-0x00000071015a3b80,L,002828,hkSimplexSolverSolve
+0x00000071015a3b80,L,002828,_Z20hkSimplexSolverSolveRK20hkSimplexSolverInputR21hkSimplexSolverOutput
 0x00000071015a468c,L,000664,
 0x00000071015a4924,L,000888,
 0x00000071015a4c9c,L,000876,
