@@ -1,3 +1,4 @@
+#include <nn/atk.h>
 #include <gfx/seadTextWriter.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndBgmMgr.h"
@@ -485,4 +486,61 @@ void Unk_SpotBgmInstance::sub_71010246CC() {
     }
     if (auto* status = ksys::snd::SoundMgr::instance()->_288)
         status->mPlayingPart[7] = 1;
+}
+
+// 0x710102498c (unnamed in the CSV): the stream region callback of a spot BGM instance.
+nn::atk::StreamRegionCallbackResult sub_710102498C(nn::atk::StreamRegionCallbackParam* param,
+                                                   void* user) {
+    auto* instance = static_cast<Unk_SpotBgmInstance*>(user);
+    if (instance->_188 != 0xca11bac4)
+        return nn::atk::StreamRegionCallbackResult(0);
+
+    if (instance->_368 & 0x80) {
+        instance->_2d4 = (instance->_368 >> 4) & 4;
+        instance->_368 &= ~0x80u;
+    } else {
+        switch (param->mRegion) {
+        case 1:
+            if (instance->_368 & 0x40)
+                instance->_2d4 = 8;
+            else
+                instance->_2d4 = instance->_2d4 + 1;
+            break;
+        case 2:
+            if (instance->_368 & 0x40) {
+                instance->_2d4 = 12;
+                break;
+            }
+            [[fallthrough]];
+        case 10:
+            instance->_2d4 = 1;
+            break;
+        case 5:
+            if (instance->_368 & 0x40)
+                instance->_2d4 = instance->_2d4 + 1;
+            else
+                instance->_2d4 = 10;
+            break;
+        case 6:
+            if (!(instance->_368 & 0x40)) {
+                instance->_2d4 = 14;
+                break;
+            }
+            [[fallthrough]];
+        case 8:
+            instance->_2d4 = 5;
+            break;
+        case 12:
+            instance->_2d4 = 6;
+            break;
+        case 14:
+            instance->_2d4 = 2;
+            break;
+        default:
+            instance->_2d4 = instance->_2d4 + 1;
+            break;
+        }
+    }
+    param->mRegion = instance->_2d4;
+    return nn::atk::StreamRegionCallbackResult(1);
 }
