@@ -1,12 +1,23 @@
 #include <prim/seadStringBuilder.h>
+#include <xlink2/xlink2ToolConnectionContext.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
+#include "Game/UI/euiEffectLinkUser.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiScreenSoundLinkUser.h"
 #include "Game/UI/euiTextSearcher.h"
 
 namespace eui {
+
+// 0x71009cf5b4
+void Screen::createEffectLinkUser_(sead::Heap* heap, u32 count) {
+    if (count == 0)
+        return;
+    auto* user = new (heap, 8) EffectLinkUser;
+    user->initialize(heap, count, mLayout, _c8.cstr());
+    _e8 = user;
+}
 
 // 0x71009cf66c
 void Screen::invokeSoundLink2Event_(const char* name) {
@@ -34,6 +45,126 @@ void Screen::invokeSoundLink2AnimPlayEvent(Animator* animator, const char* name)
     AppendLayoutItemUniqueName(&label, animator->mName, animator->mLayout);
     label.append(name, -1);
     static_cast<ScreenSoundLinkUserImpl*>(_f0)->searchAndEmit(label.cstr());
+}
+
+// 0x71009cfe08
+sead::Matrix34f* EffectLinkUser::getBoneWorldMtxPtr(const char* name) const {
+    for (const auto& bone : mBones) {
+        const char* bone_name = bone.mName;
+        bool equal = true;
+        for (s32 j = 0; j < 128; ++j) {
+            if (name[j] != bone_name[j]) {
+                equal = false;
+                break;
+            }
+            if (name[j] == '\0')
+                break;
+        }
+        // IUser returns a mutable matrix pointer from a const function
+        if (equal)
+            return const_cast<sead::Matrix34f*>(&bone.mMtx);
+    }
+    return nullptr;
+}
+
+// 0x71009cfe70
+const char* EffectLinkUser::getActionSlotName(s32 action_slot_idx) const {
+    return mActionSlots[action_slot_idx].mName;
+}
+
+// 0x71009cfeb0
+void EffectLinkUser::getReservedAssetName(xlink2::ToolConnectionContext* ctx) const {
+    const u16 num_actions = mNumActions;
+    const ActionSlot* slots = mActionSlots.getBufferPtr();
+    for (s32 i = 0; i < num_actions; ++i)
+        ctx->addLabel(slots[i].mName);
+}
+
+// 0x71009cfef8
+u32 EffectLinkUser::getNumBone() const {
+    return mBones.size();
+}
+
+// 0x71009cff00
+const char* EffectLinkUser::getBoneName(s32 bone_idx) const {
+    return mBones[bone_idx].mName;
+}
+
+// 0x71009cff20
+u32 EffectLinkUser::getNumAction(s32) const {
+    return 2;
+}
+
+// 0x71009cff28
+char* EffectLinkUser::getActionName(s32, s32 index) const {
+    // IUser returns a mutable pointer; the names are literals
+    if (index == 0)
+        return const_cast<char*>("normal");
+    if (index == 1)
+        return const_cast<char*>("reverse");
+    return const_cast<char*>("");
+}
+
+// 0x71009cff54
+void EffectLinkUser::captureScreen(const char*) {}
+
+// 0x71009cff58
+f32 EffectLinkUser::getSortKey(const sead::Vector3f&) const {
+    return 0.0f;
+}
+
+// 0x71009cff60
+sead::Matrix34f EffectLinkUser::getAutoInputMtxSource() const {
+    return sead::Matrix34f::ident;
+}
+
+// 0x71009cff74
+sead::Matrix34f EffectLinkUser::getMtxCorrectingDrawBone() const {
+    return sead::Matrix34f::ident;
+}
+
+// 0x71009cff88
+void EffectLinkUser::m2() {
+    mUserInstance->destroy();
+}
+
+// 0x71009cff90: starts, follows and stops the action of each slot with the playback of its animator
+void EffectLinkUser::m0() {
+    const u16 num_actions = mNumActions;
+    ActionSlot* slots = mActionSlots.getBufferPtr();
+    for (s32 i = 0; i < num_actions; ++i) {
+        Animator* animator = slots[i].mAnimator;
+        if (!animator)
+            continue;
+
+        bool active = false;
+        if (animator->mEnabled) {
+            const s32 frame = animator->mRate >= 0 ? s32(animator->mFrame) :
+                                                     s32(animator->GetFrameSize() - animator->mFrame);
+            if (slots[i].mActive)
+                mUserInstance->setActionFrame(frame, i);
+            else
+                mUserInstance->changeAction(getActionName(0, animator->mRate >= 0 ? 0 : 1), frame, i);
+            active = true;
+        } else if (slots[i].mActive) {
+            mUserInstance->stopAction(i);
+        }
+        slots[i].mActive = active;
+    }
+}
+
+// 0x71009d0144
+void EffectLinkUser::m3() {
+    mUserInstance->setIsActive(true);
+    const u16 num_actions = mNumActions;
+    ActionSlot* slots = mActionSlots.getBufferPtr();
+    for (s32 i = 0; i < num_actions; ++i)
+        slots[i].mActive = false;
+}
+
+// 0x71009d01d0
+void EffectLinkUser::m4() {
+    mUserInstance->setIsActive(false);
 }
 
 }  // namespace eui
