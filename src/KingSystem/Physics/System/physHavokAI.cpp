@@ -1,4 +1,9 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshEdgeFilter.h"
+#include "KingSystem/Physics/System/physNavMeshEdgeResult.h"
+#include <geom/seadGeometry.h>
+#include <geom/seadRay.h>
+#include <geom/seadSegment.h>
 #include <thread/seadThread.h>
 #include <prim/seadScopedLock.h>
 #include <Havok/Ai/Pathfinding/World/hkaiWorld.h>
@@ -15,6 +20,292 @@
 #include <Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h>
 
 namespace ksys::phys {
+
+// NON_MATCHING: query temporaries and vector normalization are scheduled differently.
+bool HavokAI::sub_7100F851BC(f32 distance, f32 diameter, hkaiWorld* world,
+                             const hkVector4f& from, s32 key, const hkVector4f& direction,
+                             Unk1* result, u32* out_key,
+                             const hkaiAstarEdgeFilter* filter, u32 filter_info) {
+    hkaiLineOfSightUtil::DirectPathInput input;
+    input.m_startPoint = from;
+    input.m_startFaceKey = key;
+    if (key == -1) {
+        if (result) {
+            result->_0.set(std::numeric_limits<f32>::quiet_NaN(),
+                           std::numeric_limits<f32>::quiet_NaN(),
+                           std::numeric_limits<f32>::quiet_NaN());
+            result->_30 = false;
+        }
+        return false;
+    }
+    input.m_direction = direction;
+    input.m_direction.setY(0.0f);
+    input.m_direction.normalize<3>();
+    input.m_searchRadius = distance;
+    if (distance <= std::numeric_limits<f32>::epsilon() ||
+        input.m_direction.equalZero().allAreSet(hkVector4fComparison::MASK_XYZ)) {
+        if (result) {
+            storeToVec3(&result->_0, input.m_startPoint);
+            result->_c = result->_0;
+            result->_18 = result->_0;
+            result->_24 = result->_0;
+            result->_30 = true;
+        }
+        return true;
+    }
+    input.m_searchRadius = diameter * 0.5f + distance;
+    input.m_up = world->m_up;
+    input.m_agentInfo.m_diameter = diameter;
+    input.m_agentInfo.m_filterInfo = filter_info;
+    input.m_edgeFilter = filter ? filter : &sUnk_710260ddf0;
+    input.m_outputEdgesOnFailure = true;
+    hkaiLineOfSightUtil::LineOfSightOutput output;
+    const auto status = hkaiLineOfSightUtil::findDirectPathMaybe(
+        world->m_streamingCollection.val(), input, output);
+    bool hit = status == hkaiLineOfSightUtil::RESULT_REACHED_RADIUS_LIMIT;
+    sead::Vector3f final_point;
+    sub_7100F86DE4(result ? &final_point : nullptr, &hit, world, input, output,
+                    &input.m_direction);
+    if (result) {
+        storeToVec3(&result->_0, input.m_startPoint);
+        storeToVec3(&result->_c, output.m_finalPoint);
+        result->_18 = result->_c;
+        result->_24 = final_point;
+        result->_30 = hit;
+    }
+    if (out_key)
+        *out_key = output.m_finalFaceKey;
+    return hit;
+}
+
+// NON_MATCHING: query temporaries and vector normalization are scheduled differently.
+bool HavokAI::sub_7100F84D64(f32 half_extent, f32 diameter, hkaiWorld* world,
+                             const hkVector4f& from, s32 key, const hkVector4f& position,
+                             Unk1* result, u32* out_key,
+                             const hkaiAstarEdgeFilter* filter, u32 filter_info) {
+    hkaiLineOfSightUtil::LineOfSightInput input;
+    input.m_startPoint = from;
+    input.m_startFaceKey = key;
+    if (key == -1) {
+        if (result) {
+            result->_0.set(std::numeric_limits<f32>::quiet_NaN(),
+                           std::numeric_limits<f32>::quiet_NaN(),
+                           std::numeric_limits<f32>::quiet_NaN());
+            result->_30 = false;
+        }
+        return false;
+    }
+    hkaiNavMeshQueryMediator::ClosestPointInput closest_input;
+    closest_input.m_position.load<3>(&position(0));
+    closest_input.m_halfExtents.set(half_extent, half_extent, 0.0f, 0.0f);
+    input.m_goalFaceKey = world->getMediator()->getClosestPoint(closest_input, input.m_goalPoint);
+    if (input.m_goalFaceKey == u32(-1)) {
+        if (result) {
+            storeToVec3(&result->_0, input.m_startPoint);
+            result->_c.set(std::numeric_limits<f32>::quiet_NaN(),
+                           std::numeric_limits<f32>::quiet_NaN(),
+                           std::numeric_limits<f32>::quiet_NaN());
+            result->_30 = false;
+        }
+        return false;
+    }
+    hkVector4f direction;
+    direction.setSub(input.m_goalPoint, input.m_startPoint);
+    const f32 length = direction.normalizeWithLength<3>();
+    input.m_searchRadius = length;
+    if (length <= std::numeric_limits<f32>::epsilon()) {
+        if (result) {
+            storeToVec3(&result->_0, input.m_startPoint);
+            result->_c = result->_0;
+            result->_18 = result->_0;
+            result->_24 = result->_0;
+            result->_30 = true;
+        }
+        return true;
+    }
+    input.m_searchRadius = diameter * 0.5f + length + 0.1f;
+    input.m_up = world->m_up;
+    input.m_agentInfo.m_diameter = diameter;
+    input.m_agentInfo.m_filterInfo = filter_info;
+    input.m_edgeFilter = filter ? filter : &sUnk_710260ddf0;
+    input.m_outputEdgesOnFailure = true;
+    hkaiLineOfSightUtil::LineOfSightOutput output;
+    const auto status = hkaiLineOfSightUtil::graphSearchMaybe(
+        direction, input.m_goalPoint, input.m_goalFaceKey,
+        world->m_streamingCollection.val(), input, output);
+    bool hit = status == hkaiLineOfSightUtil::RESULT_REACHED_GOAL;
+    sead::Vector3f final_point;
+    if (status == hkaiLineOfSightUtil::RESULT_REACHED_RADIUS_LIMIT) {
+        final_point.set(std::numeric_limits<f32>::quiet_NaN(),
+                        std::numeric_limits<f32>::quiet_NaN(),
+                        std::numeric_limits<f32>::quiet_NaN());
+    } else if (result) {
+        hkVector4f horizontal = direction;
+        horizontal.setY(0.0f);
+        const bool has_direction = horizontal.lengthSquared<3>() > 0.0f;
+        if (has_direction)
+            horizontal.normalize<3>();
+        sub_7100F86DE4(&final_point, &hit, world, input, output,
+                        has_direction ? &horizontal : nullptr);
+    } else {
+        sub_7100F86DE4(nullptr, &hit, world, input, output, nullptr);
+    }
+    if (result) {
+        storeToVec3(&result->_0, input.m_startPoint);
+        storeToVec3(&result->_c, input.m_goalPoint);
+        storeToVec3(&result->_18, output.m_finalPoint);
+        result->_24 = final_point;
+        result->_30 = hit;
+    }
+    if (out_key)
+        *out_key = output.m_finalFaceKey;
+    return hit;
+}
+
+// NON_MATCHING: face/edge remap branches and vector calculations are scheduled differently.
+void HavokAI::sub_7100F86DE4(sead::Vector3f* out, bool* hit, hkaiWorld* world,
+                            const hkaiLineOfSightUtil::InputBase& input,
+                            const hkaiLineOfSightUtil::LineOfSightOutput& output,
+                            const hkVector4f* direction) {
+    auto* collection = world->m_streamingCollection.val();
+    if (output.m_numIterationsOut < 2) {
+        hkaiAstarEdgeFilter::NavMeshQuery query{};
+        query.m_start = {0xffffffff, nullptr, nullptr, input.m_startPoint};
+        query.m_goal = {0xffffffff, nullptr, nullptr, output.m_finalPoint};
+        query.m_faceKey = input.m_startFaceKey;
+        auto* instance = collection->m_instances[input.m_startFaceKey >> 22].m_instancePtr;
+        const s32 index = input.m_startFaceKey & 0x3fffff;
+        if (index < instance->m_originalFaces.m_size) {
+            const s32 mapped = instance->m_faceMap.isEmpty() ? index : instance->m_faceMap[index];
+            if (mapped == -1) {
+                query.m_face = &instance->m_originalFaces.m_data[index];
+                query.m_faceData = static_cast<const hkInt32*>(instance->m_originalFaceData) +
+                                  index * instance->m_faceDataStriding;
+            } else {
+                query.m_face = &instance->m_instancedFaces[mapped];
+                query.m_faceData = instance->m_instancedFaceData.begin() +
+                                  mapped * instance->m_faceDataStriding;
+            }
+        } else {
+            const s32 owned = index - instance->m_originalFaces.m_size;
+            query.m_face = &instance->m_ownedFaces[owned];
+            query.m_faceData = instance->m_ownedFaceData.begin() +
+                              owned * instance->m_faceDataStriding;
+        }
+        hkaiAstarEdgeFilter::NavMeshIsEnabledCallbackContext context{
+            collection, &input.m_agentInfo, &query, 0x52};
+        if (!input.m_edgeFilter->isEnabledMaybe(context)) {
+            *hit = false;
+            if (out)
+                storeToVec3(out, input.m_startPoint);
+            return;
+        }
+    }
+    if (!out)
+        return;
+    if (*hit) {
+        out->set(std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN());
+        return;
+    }
+    storeToVec3(out, output.m_finalPoint);
+    if (!direction)
+        return;
+
+    u32 boundary_key = 0xffffffff;
+    bool inspect_final_face = true;
+    if (!output.m_visitedEdgesOut.isEmpty()) {
+        const u32 key = output.m_visitedEdgesOut[output.m_visitedEdgesOut.getSize() - 1];
+        auto* instance = collection->m_instances[key >> 22].m_instancePtr;
+        const s32 index = key & 0x3fffff;
+        const hkaiNavMesh::Edge* edge;
+        if (index < instance->m_originalEdges.m_size) {
+            const s32 mapped = instance->m_edgeMap.isEmpty() ? index : instance->m_edgeMap[index];
+            edge = mapped == -1 ? &instance->m_originalEdges.m_data[index] :
+                                 &instance->m_instancedEdges[mapped];
+        } else {
+            edge = &instance->m_ownedEdges[index - instance->m_originalEdges.m_size];
+        }
+        u32 opposite = edge->m_oppositeFace;
+        if (opposite != 0xffffffff) {
+            const u32 section = edge->m_flags.anyIsSet(hkaiNavMesh::EDGE_EXTERNAL_OPPOSITE) ?
+                                    opposite & 0xffc00000 : u32(instance->m_runtimeId) << 22;
+            opposite = section | (opposite & 0x3fffff);
+        }
+        if (opposite != output.m_finalFaceKey) {
+            boundary_key = key;
+            inspect_final_face = false;
+        }
+    }
+    if (inspect_final_face) {
+        auto* instance = collection->m_instances[output.m_finalFaceKey >> 22].m_instancePtr;
+        const s32 face_index = output.m_finalFaceKey & 0x3fffff;
+        const hkaiNavMesh::Face* face;
+        if (face_index < instance->m_originalFaces.m_size) {
+            const s32 mapped = instance->m_faceMap.isEmpty() ? face_index :
+                                                               instance->m_faceMap[face_index];
+            face = mapped == -1 ? &instance->m_originalFaces.m_data[face_index] :
+                                 &instance->m_instancedFaces[mapped];
+        } else {
+            face = &instance->m_ownedFaces[face_index - instance->m_originalFaces.m_size];
+        }
+        const sead::Ray2f ray(sead::Vector2f(out->x, out->z),
+                              sead::Vector2f((*direction)(0), (*direction)(2)));
+        s32 edge_index = face->m_numUserEdges > 0 ? face->m_startUserEdgeIndex :
+                                                   face->m_startEdgeIndex;
+        while (edge_index != -1) {
+            const hkaiNavMesh::Edge* edge;
+            if (edge_index < instance->m_originalEdges.m_size) {
+                const s32 mapped = instance->m_edgeMap.isEmpty() ? edge_index :
+                                                                   instance->m_edgeMap[edge_index];
+                edge = mapped == -1 ? &instance->m_originalEdges.m_data[edge_index] :
+                                     &instance->m_instancedEdges[mapped];
+            } else {
+                edge = &instance->m_ownedEdges[edge_index - instance->m_originalEdges.m_size];
+            }
+            const s32 vertex_count = instance->m_originalVertices.m_size;
+            const hkVector4& a = edge->m_a < vertex_count ?
+                instance->m_originalVertices.m_data[edge->m_a] :
+                instance->m_ownedVertices[edge->m_a - vertex_count];
+            const hkVector4& b = edge->m_b < vertex_count ?
+                instance->m_originalVertices.m_data[edge->m_b] :
+                instance->m_ownedVertices[edge->m_b - vertex_count];
+            hkVector4 world_a;
+            hkVector4 world_b;
+            world_a._setTransformedPos(instance->m_referenceFrame.m_transform, a);
+            world_b._setTransformedPos(instance->m_referenceFrame.m_transform, b);
+            const sead::Segment2f segment(sead::Vector2f(world_a(0), world_a(2)),
+                                          sead::Vector2f(world_b(0), world_b(2)));
+            if (sead::Geometry::calcSquaredDistanceRayToSegment(ray, segment, nullptr, nullptr) <
+                0.010000001f) {
+                boundary_key = (output.m_finalFaceKey & 0xffc00000) | u32(edge_index);
+                break;
+            }
+            const s32 user_end = face->m_startUserEdgeIndex + face->m_numUserEdges - 1;
+            if (edge_index >= face->m_startUserEdgeIndex && edge_index < user_end) {
+                ++edge_index;
+            } else if (edge_index == user_end) {
+                edge_index = face->m_startEdgeIndex;
+            } else if (edge_index >= face->m_startEdgeIndex &&
+                       edge_index < face->m_startEdgeIndex + face->m_numEdges - 1) {
+                ++edge_index;
+            } else {
+                return;
+            }
+        }
+    }
+    if (boundary_key == 0xffffffff)
+        return;
+    Unk_7100f7e64c edge(collection, boundary_key, nullptr);
+    sead::Vector3f start;
+    sead::Vector3f end;
+    edge.sub_7100F7E754(&start, &end, nullptr, nullptr, nullptr, nullptr, nullptr);
+    const sead::Vector3f delta = end - start;
+    const f32 parameter = delta.dot(*out - start) / delta.squaredLength();
+    *out = start + delta * parameter;
+}
+
 
 // NON_MATCHING: face/edge traversal and remap selection use different induction registers.
 void HavokAI::sub_7100F82278(Unk_7102519a98* obj) {
