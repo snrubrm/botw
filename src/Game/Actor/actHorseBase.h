@@ -16,6 +16,10 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
+namespace sead {
+class Random;
+}
+
 namespace gsys {
 class ModelUnitGroup;
 }
@@ -305,7 +309,7 @@ public:
     /* 0xbe8 */ u32 _be8 = 0;
     /* 0xbec */ u32 _bec = 0;
     /* 0xbf0 */ u32 _bf0 = 0;
-    /* 0xbf8 */ void* _bf8 = nullptr;
+    /* 0xbf8 */ sead::Random* _bf8 = nullptr;
     /* 0xc00 */ sead::FixedSafeString<48> _c00;
     /* 0xc48 */ f32 _c48 = 0;  // m63 sets 2.5
     /* 0xc4c */ f32 _c4c = 0;  // m63 sets pi / 4

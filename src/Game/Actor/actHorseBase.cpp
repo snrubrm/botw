@@ -1,4 +1,12 @@
 #include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actRideableHorse.h"
+#include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include <gsys/gsysModelUnit.h>
+#include <random/seadRandom.h>
 #include "Game/Actor/actHorseBoneController.h"
 #include <limits>
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -28,6 +36,194 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::act {
+
+// NON_MATCHING: actor creation branches, string temporaries and initialization stores differ.
+bool HorseBase::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    const bool block_spawns = ksys::act::ActorCreator::instance()->isBlockSpawns();
+    const HorseMgr::RiddenAnimalType type(x());
+    const s32* seed;
+    if (mRootAi->getMapUnitParam(&seed, "HorseRandomSeed"))
+        _bf8 = new (heap, 8) sead::Random(*seed);
+
+    if (!block_spawns) {
+        auto* child_heap = ksys::act::BaseProcHeapMgr::instance()->getHeap();
+        sead::ScopedLock<sead::CriticalSection> lock(&_890);
+        ksys::act::InstParamPack pack;
+        pack->addPosition(mMtx.getTranslation());
+        if (getParam()->getRes().mGParamList->getHorse()->mHasMane.ref()) {
+            sead::SafeString mane_name;
+            sead::SafeString extra_name;
+            if (!mRootAi->getMapUnitParam(&mane_name, "HorseManeName")) {
+                const auto* names = uking::sub_7100E82094(type, _bf8);
+                mane_name = names[0];
+                extra_name = names[1];
+            }
+            if (!extra_name.isEmpty()) {
+                auto* object = sead::DynamicCast<HorseObject>(
+                    ksys::act::ActorCreator::instance()->createActor(
+                        extra_name.cstr(), child_heap, &pack, true, false));
+                if (!object)
+                    return false;
+                object->_840.acquire(this, false);
+                sub_71011C5630(object->getModel());
+                object->getModel()->resetRenderToDepthShadowOnly(
+                    getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+                _840.acquire(object, false);
+            }
+            auto* object = sead::DynamicCast<HorseObject>(
+                ksys::act::ActorCreator::instance()->createActor(
+                    mane_name.cstr(), child_heap, &pack, true, false));
+            if (!object)
+                return false;
+            object->_840.acquire(this, false);
+            sub_71011C5630(object->getModel());
+            object->getModel()->resetRenderToDepthShadowOnly(
+                getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+            _850.acquire(object, false);
+            _8d0._40.copy(mane_name);
+            _8d0._98.copy(extra_name);
+        }
+        const auto& mane_reins_name = getHorseManeName(type);
+        if (!mane_reins_name.isEmpty()) {
+            auto* reins = sead::DynamicCast<HorseReins>(
+                ksys::act::ActorCreator::instance()->createActor(
+                    mane_reins_name.cstr(), child_heap, &pack, true, false));
+            if (!reins)
+                return false;
+            reins->sub_7100E7BC10(this);
+            sub_71011C5630(reins->getModel());
+            reins->getModel()->resetRenderToDepthShadowOnly(
+                getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+            _860.acquire(reins, false);
+        }
+        if (get4f8() > 0.0f)
+            pack->addNoDisplay();
+        bool changed = false;
+        sead::SafeString reins_name;
+        if (mRootAi->getMapUnitParam(&reins_name, "HorseReinsName")) {
+            if (reins_name == "default")
+                reins_name = getHorseReinsName(type);
+            if (!reins_name.isEmpty()) {
+                auto* reins = sead::DynamicCast<HorseReins>(
+                    ksys::act::ActorCreator::instance()->createActor(
+                        reins_name.cstr(), child_heap, &pack, true, false));
+                if (!reins)
+                    return false;
+                reins->sub_7100E7BC10(this);
+                sub_71011C5630(reins->getModel());
+                reins->getModel()->resetRenderToDepthShadowOnly(
+                    getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+                _870.acquire(reins, false);
+                _8d0._f0.copy(reins_name);
+                changed = true;
+            }
+        }
+        sead::SafeString saddle_name;
+        if (mRootAi->getMapUnitParam(&saddle_name, "HorseSaddleName")) {
+            if (saddle_name == "default")
+                saddle_name = getHorseSaddleName(type);
+            if (!saddle_name.isEmpty()) {
+                auto* reins = sead::DynamicCast<HorseReins>(
+                    ksys::act::ActorCreator::instance()->createActor(
+                        saddle_name.cstr(), child_heap, &pack, true, false));
+                if (!reins)
+                    return false;
+                reins->sub_7100E7BC10(this);
+                sub_71011C5630(reins->getModel());
+                reins->getModel()->resetRenderToDepthShadowOnly(
+                    getModel()->getUnits()(0)->mModelUnit->getMaterialInfo()->_4);
+                _880.acquire(reins, false);
+                _8d0._148.copy(saddle_name);
+                changed = true;
+            }
+        }
+        if (changed) {
+            if (mASList->mSlots.size() > 0 && mASList->mSlots[0]._20.size() > 3)
+                _b74.set(4);
+            sub_7100E66544();
+            sub_7100E6665C();
+            if (sub_7100E667F8())
+                _b70.setBitOn(4);
+            else
+                _b70.setBitOff(4);
+        }
+    }
+    if (getName() == "HorseMannequin" || getName() == "HorseModelForRegistration" ||
+        getName() == "BigHorseModelForRegistration") {
+        _b10 = nullptr;
+    } else {
+        _b10 = static_cast<Rideable*>(RideableHorse::make(heap));
+        if (!_b10 || !_b10->m4(this, heap))
+            return false;
+    }
+    if (auto* nav = m45()) {
+        _b18 = new (heap, 8) Unk_71024eb548;
+        if (_b18) {
+            sead::ScopedLock<sead::CriticalSection> lock(&nav->_68);
+            nav->_58 = _b18;
+        }
+    }
+    if (getName() != "HorseMannequin" && getName() != "HorseModelForRegistration" &&
+        getName() != "BigHorseModelForRegistration") {
+        Unk_71024eb5e0::InitArg bone_arg;
+        bone_arg.model = getModel();
+        bone_arg._8 = x() == 6 ? 0.75f : x() == 7 ? 0.4f : 0.5f;
+        bone_arg._c = x() == 6 ? 1.5f : x() == 7 ? 0.8f : 1.0f;
+        bone_arg._10 = x() == 6 ? 1.2f : x() == 7 ? 0.64000005f : 0.8f;
+        const s32 body_type = x();
+        const f32 scale = body_type == 6 ? 1.5f : body_type == 7 ? 0.8f : 1.0f;
+        _b28 = Unk_71024eb5e0::make(bone_arg, heap, scale);
+        _b28->_1f0 |= 1;
+    }
+    auto* controller = getCharacterController();
+    if (!controller)
+        return true;
+    ksys::phys::RigidBody* body_a = nullptr;
+    if (mPhysics) {
+        if (auto* group = mPhysics->findBodyGroupByName("Body")) {
+            if (group->getRigidBodies().size() > 0)
+                body_a = group->getRigidBody(0);
+        }
+    }
+    ksys::phys::RigidBody* body_b = nullptr;
+    if (mPhysics) {
+        if (auto* group = mPhysics->findBodyGroupByName("Body")) {
+            if (group->getRigidBodies().size() > 1)
+                body_b = group->getRigidBody(1);
+        }
+    }
+    ExtendedEntity::InitArg entity_arg;
+    entity_arg.heap = heap;
+    entity_arg.controller = controller;
+    entity_arg.body = body_a;
+    entity_arg._18.set(0.0f, 1.7f, 0.0f);
+    entity_arg._24 = body_b ? 0.080000006f : 0.1f;
+    entity_arg._28 = 1.0f;
+    entity_arg._2c = 0.5236f;
+    entity_arg._30 = -0.5236f;
+    entity_arg._34 = 0.10472f;
+    entity_arg._38 = 0.10472f;
+    entity_arg._3c = sead::Mathf::pi() / 4.0f;
+    entity_arg._40 = sead::Mathf::pi() / 4.0f;
+    entity_arg._44 = 2.0f;
+    entity_arg._48 = sead::Mathf::pi();
+    entity_arg._4c = 0.098696f;
+    entity_arg.radius = 0.0f;
+    f32 height;
+    sead::Vector3f position;
+    if (sub_7100E8160C(controller, nullptr, &height, &position))
+        entity_arg._18.set(0.0f, 0.0f, position.z);
+    if (!_a98.init(entity_arg))
+        return false;
+    if (body_a && body_b) {
+        ksys::phys::FixedCs::Param fixed;
+        fixed.body_a = body_a;
+        fixed.body_b = body_b;
+        _b08 = ksys::phys::FixedCs::make(fixed, heap);
+    }
+    return true;
+}
+
 
 void HorseBase::preDelete2_(const PreDeleteArg& arg) {
     if (_b20)
@@ -435,6 +631,47 @@ bool HorseBase::sub_7100E68270() const {
 
 HorseBase::Nature HorseBase::sub_7100E68298() const {
     return Nature(getParam()->getRes().mGParamList->getHorse()->mNature.ref());
+}
+
+// NON_MATCHING: flag selection and byte-field updates use different instruction scheduling.
+void HorseBase::sub_7100E693B8() {
+    const bool on = getActorFlags2().isOn(ActorFlag2::_20);
+    if (on == _b74.isOn(0x200))
+        return;
+    if (on)
+        _b74.set(0x200);
+    else
+        _b74.reset(0x200);
+    {
+        auto* proc = _840.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->_1410 |= on ? 4 : 2;
+    }
+    {
+        auto* proc = _850.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->_1410 |= on ? 4 : 2;
+    }
+    {
+        auto* proc = _860.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->_868.set(on ? 0x20 : 0x10);
+    }
+    {
+        auto* proc = _870.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->_868.set(on ? 0x20 : 0x10);
+    }
+    {
+        auto* proc = _880.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->_868.set(on ? 0x20 : 0x10);
+    }
 }
 
 bool HorseBase::sub_7100E696D4() const {

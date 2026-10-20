@@ -14,6 +14,10 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
+namespace sead {
+class Random;
+}
+
 namespace ksys::phys {
 class NavMeshQuery;
 }
@@ -248,6 +252,7 @@ KSYS_CHECK_SIZE_NX150(HorseMgr, 0x2c0);
 // 0x7100e82130 / 0x7100e8216c / 0x7100e821a8 (unnamed in the CSV; placeholder names): the mane / reins /
 // saddle model name of horse type `type` (1 - 10; 0 and 11+ give the empty string). The safe strings are
 // initialised by 0x7100e89eec.
+const sead::SafeString* sub_7100E82094(HorseMgr::RiddenAnimalType type, sead::Random* random);
 const sead::SafeString& getHorseManeName(HorseMgr::RiddenAnimalType type);
 const sead::SafeString& getHorseReinsName(HorseMgr::RiddenAnimalType type);
 const sead::SafeString& getHorseSaddleName(HorseMgr::RiddenAnimalType type);
