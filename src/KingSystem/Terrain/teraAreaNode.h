@@ -275,6 +275,8 @@ class Unk_7101088B24 {
 public:
     // 0x7101088634 (placeholder name)
     Unk_7101088B24();
+    // 0x7101088650 (CSV nullsub_4454; declared only): empty; S7EventFlow's destructor calls it before freeing
+    ~Unk_7101088B24();
     // 0x7101088b24 (placeholder name): adds (`add`) or removes a user of every image through `system`
     // (sub_71011171D8 / sub_710111731C) and remembers which.
     void sub_7101088B24(System* system, bool add);

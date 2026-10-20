@@ -86,7 +86,7 @@ public:
     SEAD_RTTI_BASE(EventFlowHandle)
     virtual ~EventFlowHandle() = default;
     virtual void m4() = 0;
-    virtual bool m5() = 0;  // updates the flow (EventFlowBase::calc)
+    virtual bool calc() = 0;  // slot 5: updates the flow (EventFlowBase::calc; S7EventFlow's is CSV calc)
     virtual void m6() = 0;
     virtual const char* m7() = 0;
     virtual void m8(void* a1, void* a2) = 0;

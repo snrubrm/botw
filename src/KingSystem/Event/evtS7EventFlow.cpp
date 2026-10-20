@@ -1,4 +1,6 @@
 #include "KingSystem/Event/evtS7.h"
+#include "KingSystem/Terrain/teraAreaNode.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -15,6 +17,20 @@
 namespace ksys::evt {
 
 const char* sub_71008B84F0(s32 state);
+
+// 0x71008afc2c
+S7EventFlow::~S7EventFlow() {
+    if (_50) {
+        if (_50->_22_0 & 2) {
+            if (_50->mAdded)
+                _50->sub_7101088B24(tera::System::instance(), false);
+            _50->sub_71010887CC();
+        }
+        _50->sub_710108872C();
+        delete _50;
+        _50 = nullptr;
+    }
+}
 
 // 0x71008afb38
 void S7EventFlow::m4() {
@@ -128,4 +144,3 @@ const char* S7EventFlow::m7() {
 
 }  // namespace ksys::evt
 
-Unk_710246cb78::~Unk_710246cb78() = default;

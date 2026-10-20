@@ -5,6 +5,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Event/evtEventFlow.h"
 
+namespace ksys::tera {
+class Unk_7101088B24;
+}
+
 namespace ksys::evt {
 
 
@@ -95,7 +99,7 @@ public:
     ~S7Movie() override;
 
     void m4() override;
-    bool m5() override;
+    bool calc() override;
     const char* m7() override;
     void m8(void* a1, void* a2) override {}
     void m9() override {}
@@ -125,14 +129,13 @@ public:
     ~S7EventFlow() override;
 
     void m4() override;
-    bool m5() override;
     void m6() override;
     const char* m7() override;
     void m8(void* a1, void* a2) override;
     void m9() override;
     bool isPlaying() override;
-    // 0x71008afcdc (CSV evt::S7EventFlow::calc)
-    bool calc();
+    // 0x71008afcdc (CSV evt::S7EventFlow::calc): slot 5
+    bool calc() override;
     // 0x71008afd40 (CSV evt::S7EventFlow::calc_; not decompiled)
     u32 calc_();
     // 0x71008b2eb4 (CSV evt::S7EventFlow::m9; defined in evtS7EventFlow.cpp)
@@ -157,7 +160,10 @@ private:
     /* 0x40 */ bool _40;
     u8 _41[7];
     /* 0x48 */ s32 _48;
-    u8 _4c[0x64 - 0x4c];
+    u8 _4c[0x50 - 0x4c];
+    // terrain images kept loaded for the event (deleted by the destructor)
+    /* 0x50 */ tera::Unk_7101088B24* _50;
+    u8 _58[0x64 - 0x58];
     /* 0x64 */ s32 _64;
     /* 0x68 */ s32 _68;
     u8 _6c[4];

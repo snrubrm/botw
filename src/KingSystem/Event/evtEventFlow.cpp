@@ -113,7 +113,7 @@ void EventFlowBase::sub_7100DB6CFC() {
 // 0x7100db6ad0
 bool EventFlowBase::calc() {
     sUnk_7102601528 = this;
-    const bool result = _100->m5();
+    const bool result = _100->calc();
     sUnk_7102601528 = nullptr;
     ++_2c8;
     return result;

@@ -308,12 +308,7 @@ public:
     ~Unk_710245c368() override;
 };
 
-// vtable 0x710246cb78 (12 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710246cb78 : public ksys::evt::S7 {
-    SEAD_RTTI_OVERRIDE(Unk_710246cb78, ksys::evt::S7)
-public:
-    ~Unk_710246cb78() override;
-};
+// vtable 0x710246cb78 is ksys::evt::S7EventFlow (evtS7.h).
 
 // vtable 0x710246d1e8 (4 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710246d1e8 {
