@@ -314,6 +314,9 @@ public:
     void sub_71009B1024();
     // 0x71009b102c: fills the armor effect display from a pouch item
     void sub_71009B102C(const PouchItem* item);
+    // 0x71009b1148 (placeholder name): sets the gauge speed from the food's value out of 120 and fills the
+    // cooking info display
+    void sub_71009B1148(const CookingInfo& info);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     /* 0x140 */ eui::Animator* _140 = nullptr;

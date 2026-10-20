@@ -429,6 +429,19 @@ void Unk_710247a6d8::sub_71009B10EC(s32 value) {
     _190.sub_71009B2010();
 }
 
+// 0x71009b1148 (placeholder name): sets the gauge speed from the food's value out of 120 and fills the
+// cooking info display.
+void Unk_710247a6d8::sub_71009B1148(const CookingInfo& info) {
+    if (_150) {
+        const s32 value = info.healthRecover;
+        f32 ratio = 0.0f;
+        sub_7100AA8FCC(&ratio, f32(value), 120.0f);
+        _150->setTracingSpeed(ratio);
+        _150->set50(ratio);
+    }
+    _190.sub_71009B1D74(info);
+}
+
 // 0x7100a3df9c
 void ScreenPauseMenu::m179() {
     if ((_361c & 0x24) == 0 || (_361c & 0x4000) == 0)
