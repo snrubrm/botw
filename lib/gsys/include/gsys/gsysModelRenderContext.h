@@ -31,6 +31,7 @@ enum class ShaderAssignType;
 // Two independent allocations (0x7100c2e1e0 and 0x7100f273ac) reserve 0x388
 // bytes, call constructor 0x7100c07fb0, then the named initialize method.
 class ModelRenderContext {
+    friend class ModelRenderCache;
 public:
     struct CreateArg {
         CreateArg();

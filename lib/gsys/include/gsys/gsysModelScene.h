@@ -6,6 +6,7 @@
 #include <environment/aglEnvObjBuffer.h>
 #include "gsys/gsysModelJobQueue.h"
 #include "gsys/gsysModelSceneEnv.h"
+#include "gsys/gsysModelSceneBuffer.h"
 
 namespace agl::pfx {
 class DepthOfField;
@@ -87,7 +88,9 @@ public:
     // EffectModelDrawMgr::requestDeleteModel / execDeleteModel on it (0x7100d9fcfc / 0x7100d9fde4).
     /* 0x3758 */ EffectModelDrawMgr* mEffectModelDrawMgr;
 
-    u8 _3760[0x52e0 - 0x3760];
+    u8 _3760[0x3778 - 0x3760];
+    /* 0x3778 */ ModelSceneBuffer mBuffer;
+    u8 _4ea0[0x52e0 - 0x4ea0];
 
     // Placeholder type: the object at +0x52e0 (read by the accessor 0x7100c2ca78). Graphics::setRainRatio
     // 0x7100f2fcdc picks shader variation 2 when its byte at +0x230 is set.
@@ -127,6 +130,7 @@ public:
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
 static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);
+static_assert(offsetof(ModelScene, mBuffer) == 0x3778);
 static_assert(offsetof(ModelScene, _52e0) == 0x52e0);
 static_assert(offsetof(ModelScene, mSceneModel) == 0x56d0);
 static_assert(offsetof(ModelScene, mFlags) == 0x5d80);

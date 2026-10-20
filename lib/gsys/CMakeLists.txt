@@ -1,6 +1,11 @@
 project(gsys CXX ASM)
 
 add_library(gsys OBJECT
+  include/gsys/gsysModelRenderCache.h
+  src/gsys/gsysModelRenderCache.cpp
+  include/gsys/gsysGBuffer.h
+  include/gsys/gsysRenderBufferContext.h
+  include/gsys/gsysModelSceneBuffer.h
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedSpotLight.h
