@@ -56,7 +56,8 @@ public:
     /* 0xc5 */ bool _c5;
     u8 _c6;
     /* 0xc7 */ bool _c7;
-    u8 _c8[0xcd - 0xc8];
+    /* 0xc8 */ s32 _c8;
+    u8 _cc;
     bool _cd;
     u8 _ce[0xd0 - 0xce];
     NpcShopData* _d0;
@@ -68,6 +69,9 @@ public:
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
     bool sub_71009816B0(s32 state, s32 a2);
+    // Open / close the button list selected by the shop-state table.
+    void sub_7100981888(bool value, s32 index);
+    void sub_7100981FAC();
     bool sub_71009821F0(s32 state);  // returns true (its last block)
     // 0x710098411c (320 bytes, declared only)
     void sub_710098411C(s32 value);

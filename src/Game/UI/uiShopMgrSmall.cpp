@@ -1,10 +1,50 @@
 #include "Game/UI/uiShopMgr.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/gameHorseMgr.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
+
+// The shop-state to screen-list table. The native TU initializer 0x7100985584 sets
+// the buffer to these 16 entries (count 0x71025d7ca0, pointer 0x71025d7ca8).
+static s32 sUnk_7102476ca0[] = {3, 1, 0, 1, 0, 1, 0, 3, 3, 2, 0, 1, 1, 1, 1, 3};
+static sead::Buffer<s32> sUnk_71025d7ca0(sUnk_7102476ca0);
+
+// 0x7100981888
+// NON_MATCHING: the original merges the static buffer into the TU globals; branch layout also differs.
+void UiShopMgr::sub_7100981888(bool value, s32 index) {
+    _c8 = 0;
+    _c6 = value;
+    const s32 type = sUnk_71025d7ca0[_30];
+    if (type == 0) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList20>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList20)))
+            screen->sub_7100A4CD5C(value);
+    } else if (type == 2) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList15>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList15))) {
+            screen->sub_7100A4B0B4(value);
+            if (index >= 0)
+                screen->sub_7100A4B10C(index);
+        }
+    } else if (type == 1) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList5>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList5)))
+            screen->sub_7100A4E070(value);
+    }
+}
+
+// 0x7100981fac
+// NON_MATCHING: the original merges the static buffer into the TU globals; branch layout also differs.
+void UiShopMgr::sub_7100981FAC() {
+    const s32 type = sUnk_71025d7ca0[_30];
+    if (type == 0) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList20>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList20)))
+            screen->sub_7100A4CD70();
+    } else if (type == 1) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList5>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList5)))
+            screen->sub_7100A4E084();
+    }
+}
 
 // 0x7100984ee0
 void UiShopMgr::sub_7100984EE0() {
