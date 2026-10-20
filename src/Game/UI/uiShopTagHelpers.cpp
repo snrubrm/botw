@@ -445,6 +445,42 @@ void sub_7100AA3B50(const sead::SafeString& name, sead::BufferedSafeStringBase<c
     out->copy(path);
 }
 
+// NON_MATCHING: clang puts the type-0 block last instead of first, which adds three branches (240 bytes
+// against 224).
+// 0x7100a91e84 (placeholder name): the item's dye / stock state from its mode.
+u32 sub_7100A91E84(const sead::SafeString& name, s32 type, s32 a3, bool flag) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info) {
+        if (flag)
+            return 0xe;
+    } else if (type == 2) {
+        const bool has = info->hasTag(name.cstr(), 0xd7c5d3b2);
+        if (flag)
+            return has ? 0xe : 0xd;
+        if (!has)
+            return 0xd;
+    } else if (type == 0) {
+        const bool has = info->hasTag(name.cstr(), 0x2cef9fdc);
+        if (has)
+            return 0xd;
+        if (flag)
+            return 0xe;
+    } else if (flag) {
+        return 0xe;
+    }
+    return a3 == 0 ? 0xc : 0;
+}
+
+// 0x7100a92180 (placeholder name): the stain colour state of the item, for the dye shop.
+u32 sub_7100A92180(const sead::SafeString& name, s32 a2, s32 a3) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return 0xffffffff;
+    if (ksys::act::getItemStainColor(info, name.cstr()) == a3)
+        return a2 > 0 ? 0 : 0xb;
+    return 0xa;
+}
+
 // 0x7100a91e40 (CSV unnamed): the item count for `name` (0 when the name is empty or there is no
 // pouch manager).
 s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped) {

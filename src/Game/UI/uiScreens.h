@@ -5164,6 +5164,8 @@ void sub_7100AA4354(const PouchItem* item, sead::BufferedSafeString* out);
 // 0x7100a91e40 (CSV unnamed): the item count for `name` (0 when the name is empty or there is
 // no pouch manager).
 s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped);
+u32 sub_7100A92180(const sead::SafeString& name, s32 a2, s32 a3);
+u32 sub_7100A91E84(const sead::SafeString& name, s32 type, s32 a3, bool flag);
 // 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers
 // (called by the ScreenMessage3D tag invoke).
 void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);
