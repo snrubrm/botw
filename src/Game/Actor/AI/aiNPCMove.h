@@ -30,6 +30,8 @@ public:
     void changeToTurnAround(const sead::Vector3f& rot);
 
 protected:
+    // 0x71004d0fb0: checks the ground direction and the angle to the stored rotation.
+    bool sub_71004D0FB0();
     // 0x71004d4ca4: shelter from the rain: starts the "うろつく" child with the wait AS name (_120[19] / _120[20]) and the base position _28c
     void sub_71004D4CA4();
     // 0x71004d44b0: starts the "meeting" state: sets the NPC flags and updates them from the selected state value (_e8 / _ec / _f0 / _f4)
@@ -110,7 +112,8 @@ protected:
     sead::SafeString _270{};
     sead::Vector3f _280;
     sead::Vector3f _28c;
-    u8 _298[0x2a8 - 0x298];
+    /* 0x298 */ sead::Vector3f _298;  // rotation used by the ground / upright check
+    u8 _2a4[4];
     act::NPC* _2a8 = nullptr;
     ksys::act::BaseProcLink _2b0;
     Unk_710240bc48 _2c0{mActor, 0x8000009};

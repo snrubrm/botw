@@ -35,6 +35,24 @@ bool NPCMove::init_(sead::Heap* heap) {
     return true;
 }
 
+// 0x71004d0fb0
+// NON_MATCHING: dot/cross scheduling around the square root changes register allocation.
+bool NPCMove::sub_71004D0FB0() {
+    const sead::Vector3f ground = mActor->getMtx().getTranslation();
+    const sead::Vector3f direction = mActor->getMtx().getBase(2);
+    const sead::Vector3f forward = sead::Vector3f::ez;
+    sead::Matrix33f rotation;
+    rotation.makeR(_298);
+    if ((ground - _28c).length() < 1.0f) {
+        const sead::Vector3f target = rotation * forward;
+        sead::Vector3f cross;
+        cross.setCross(direction, target);
+        if (sead::Mathf::atan2(cross.length(), direction.dot(target)) < sead::Mathf::deg2rad(5.0f) && _fc != 0)
+            return true;
+    }
+    return false;
+}
+
 void NPCMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
