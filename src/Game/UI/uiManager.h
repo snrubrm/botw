@@ -135,6 +135,9 @@ public:
     void sub_7100A7C904();
     void sub_7100A7DA38();
     void sub_7100A7C71C();
+    // 0x7100a7af7c (placeholder name): sets the hide / suspend flags (_292 bits 1 / 3 / 4) of every screen
+    // from the manager state _64c24 and the flag word _64c30, using the static id lists at 0x71025f5f90.
+    void sub_7100A7AF7C();
     void sub_7100A7F0D0();
     bool checkLoadResource(ksys::res::Handle* handle, const sead::SafeString& path);
     bool parseLocations();

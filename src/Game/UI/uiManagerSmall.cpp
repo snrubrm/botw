@@ -56,9 +56,93 @@ struct ScreenLoadLists {
     sead::Buffer<ScreenLoadEntry> mListD;  // 0x1a0
     sead::Buffer<ScreenLoadEntry> mListE;  // 0x1b0
     sead::Buffer<s32> mListF;              // 0x1c0
+    // The four id lists sub_7100A7AF7C filters the screens with (0x1d0 - 0x208; nothing else reads them).
+    sead::Buffer<s32> mListG;  // 0x1d0
+    sead::Buffer<s32> mListH;  // 0x1e0
+    sead::Buffer<s32> mListI;  // 0x1f0
+    sead::Buffer<s32> mListJ;  // 0x200
 };
 ScreenLoadLists sUnk_71025F5F90;
 }  // namespace
+
+// NON_MATCHING: the block layout differs - the original shares one "hide = false" + flag test block for the
+// state-3 (id 0x29) and state-4 (id != 0x25) paths and orders the state-3 / state-4 tests the other way
+// round; same instructions otherwise
+// 0x7100a7af7c (placeholder name): sets the hide / suspend flags of every screen from the manager state.
+void Manager::sub_7100A7AF7C() {
+    for (s32 i = 0; i < 99; ++i) {
+        auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(i));
+        if (!screen)
+            continue;
+
+        bool hide = true;
+        if (_64c24 == 1 || _64c24 == 2) {
+            const s32 count = sUnk_71025F5F90.mListH.size();
+            for (s32 k = 0; k < count; ++k) {
+                if (sUnk_71025F5F90.mListH[k] == screen->getId()) {
+                    hide = false;
+                    break;
+                }
+            }
+        }
+
+        if (_64c24 == 3) {
+            hide = false;
+            if (screen->getId() != 0x29) {
+                const s32 count = sUnk_71025F5F90.mListI.size();
+                for (s32 k = 0; k < count; ++k) {
+                    if (sUnk_71025F5F90.mListI[k] == screen->getId()) {
+                        hide = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (_64c24 == 4) {
+            bool found = false;
+            const s32 count = sUnk_71025F5F90.mListI.size();
+            for (s32 k = 0; k < count; ++k) {
+                if (sUnk_71025F5F90.mListI[k] == screen->getId()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found && screen->getId() != 0x25)
+                hide = false;
+        }
+
+        if (_64c30 & 8) {
+            bool found = false;
+            const s32 count = sUnk_71025F5F90.mListG.size();
+            for (s32 k = 0; k < count; ++k) {
+                if (sUnk_71025F5F90.mListG[k] == screen->getId()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found)
+                hide = false;
+        }
+
+        const bool special = i == 68 || i == 97 || i == 98;
+        if ((_64c30 & 0x10) && !special)
+            hide = false;
+
+        bool should_show = hide && (!(_64c30 & 0x100) || special || i == 0);
+        if (!should_show) {
+            const s32 count = sUnk_71025F5F90.mListJ.size();
+            for (s32 k = 0; k < count; ++k) {
+                if (sUnk_71025F5F90.mListJ[k] == i) {
+                    should_show = true;
+                    break;
+                }
+            }
+        }
+        if (should_show)
+            screen->_292 |= 0x1a;
+    }
+}
 
 // 0x7100a7b8cc
 bool Manager::sub_7100A7B8CC(s32 id) {
