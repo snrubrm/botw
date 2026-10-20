@@ -136,6 +136,8 @@ public:
     void m17() override;
     // 0x7100d8128c: the longer of the two sight ranges.
     f32 m14() override;
+    bool m5(Unk_71023e2708* request) override;
+    bool m6(Unk_71023e2708* request) override;
     // 0x7100d81c58: frees the target entries.
     void m8() override;
     // 0x7100d816fc: as the base m15, with the ratio against the sight ranges.
@@ -148,33 +150,19 @@ public:
     /* 0x78 */ void* mForestDensity;
     u8 _80[0x8c - 0x80];
     // The setup producer supplies the sight ranges/angles; the setter caches their cosines.
-    /* 0x8c */ f32 _8c;
-    /* 0x90 */ f32 _90;
-    /* 0x94 */ f32 _94;
-    /* 0x98 */ f32 _98;
-    /* 0x9c */ f32 _9c;
-    /* 0xa0 */ f32 _a0;
-    /* 0xa4 */ f32 _a4;
-    /* 0xa8 */ f32 _a8;
-    /* 0xac */ f32 _ac;
-    /* 0xb0 */ f32 _b0;
-    /* 0xb4 */ f32 _b4;
-    /* 0xb8 */ f32 _b8;
-    /* 0xbc */ f32 _bc;
-    /* 0xc0 */ f32 _c0;
-    /* 0xc4 */ f32 _c4;
-    /* 0xc8 */ f32 _c8;
-    /* 0xcc */ bool _cc;
-    /* 0xd0 */ f32 _d0;
-    /* 0xd4 */ f32 _d4;
-    /* 0xd8 */ f32 _d8;
+    /* 0x8c */ SightParams mSight;
+    /* 0xa4 */ f32 mSightAngleCos;
+    /* 0xa8 */ SightParams mAlert;
+    /* 0xc0 */ f32 mAlertAngleCos;
+    /* 0xc4 */ SightFarParams mFar;
+    /* 0xd8 */ f32 mFarAngleCos;
     /* 0xdc */ bool _dc;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024dcea8, 0xe0);
 static_assert(offsetof(Unk_71024dcea8, _70) == 0x70);
-static_assert(offsetof(Unk_71024dcea8, _8c) == 0x8c);
-static_assert(offsetof(Unk_71024dcea8, _cc) == 0xcc);
-static_assert(offsetof(Unk_71024dcea8, _d8) == 0xd8);
+static_assert(offsetof(Unk_71024dcea8, mSight) == 0x8c);
+static_assert(offsetof(Unk_71024dcea8, mFar) == 0xc4);
+static_assert(offsetof(Unk_71024dcea8, mFarAngleCos) == 0xd8);
 
 // Placeholder name (vtable 0x71024dcfd0, RTTI static 0x7102600a70): another awareness sensor. D1 is the base destructor
 // (0x7100d7f7b4), D0 0x7100d8271c; overrides m4 0x7100d82400, m5 0x7100d824b4, m6 0x7100d8254c, m12 0x7100d82158 (declared only) and

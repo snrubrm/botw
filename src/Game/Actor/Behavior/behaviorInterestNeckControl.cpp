@@ -117,7 +117,7 @@ void InterestNeckControl::enter() {
             Unk_71023e26d8 request;
             if (auto* sensor = awareness->_260[0]) {
                 if (sensor->m5(&request))
-                    _38 = request._c;
+                    _38 = request.params.sight.angle;
             }
         }
     }

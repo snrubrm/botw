@@ -61,7 +61,7 @@ bool AwarenessInstance::sub_7100D7E74C(f32 level) {
     Unk_71023e26d8 request;
     if (!_260[0]->m4(&request))
         return false;
-    request._c = level;
+    request.params.sight.angle = level;
     return _260[0]->m6(&request);
 }
 
@@ -327,26 +327,26 @@ namespace ksys::act {
 void AwarenessInstance::sub_7100D7C160(const SetupArg& arg) {
     if (auto* sensor = sead::DynamicCast<Unk_71024dcea8>(_260[0])) {
         sensor->sub_7100D7FDDC(arg.sight_delay_time_max);
-        sensor->_8c = arg.sight_radius;
-        sensor->_90 = arg.sight_angle;
-        sensor->_94 = arg.sight_height_max;
-        sensor->_98 = arg.sight_height_min;
-        sensor->_9c = arg.sight_height_near_max;
-        sensor->_a0 = arg.sight_height_near_min;
-        sensor->_a4 = std::cos(arg.sight_angle);
-        sensor->_a8 = arg.sight_alert_radius;
-        sensor->_ac = arg.sight_alert_angle;
-        sensor->_b0 = arg.sight_alert_height_max;
-        sensor->_b4 = arg.sight_alert_height_min;
-        sensor->_b8 = arg.sight_alert_height_near_max;
-        sensor->_bc = arg.sight_alert_height_near_min;
-        sensor->_c0 = std::cos(arg.sight_alert_angle);
-        sensor->_c4 = arg.sight_ignore_grass_radius;
-        sensor->_c8 = arg.sight_ray_check_range_max;
-        sensor->_cc = arg.sight_far_use;
-        sensor->_d0 = arg.sight_radius_far;
-        sensor->_d4 = arg.sight_angle_far;
-        sensor->_d8 = std::cos(arg.sight_angle_far);
+        sensor->mSight.radius = arg.sight_radius;
+        sensor->mSight.angle = arg.sight_angle;
+        sensor->mSight.height_max = arg.sight_height_max;
+        sensor->mSight.height_min = arg.sight_height_min;
+        sensor->mSight.height_near_max = arg.sight_height_near_max;
+        sensor->mSight.height_near_min = arg.sight_height_near_min;
+        sensor->mSightAngleCos = std::cos(arg.sight_angle);
+        sensor->mAlert.radius = arg.sight_alert_radius;
+        sensor->mAlert.angle = arg.sight_alert_angle;
+        sensor->mAlert.height_max = arg.sight_alert_height_max;
+        sensor->mAlert.height_min = arg.sight_alert_height_min;
+        sensor->mAlert.height_near_max = arg.sight_alert_height_near_max;
+        sensor->mAlert.height_near_min = arg.sight_alert_height_near_min;
+        sensor->mAlertAngleCos = std::cos(arg.sight_alert_angle);
+        sensor->mFar.ignore_grass_radius = arg.sight_ignore_grass_radius;
+        sensor->mFar.ray_check_range_max = arg.sight_ray_check_range_max;
+        sensor->mFar.far_use = arg.sight_far_use;
+        sensor->mFar.radius_far = arg.sight_radius_far;
+        sensor->mFar.angle_far = arg.sight_angle_far;
+        sensor->mFarAngleCos = std::cos(arg.sight_angle_far);
         sensor->_70 = _2e0;
         sensor->_4c = 1.0f;
         if (arg.invalidate_weather_ratio)

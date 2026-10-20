@@ -81,11 +81,38 @@ sead::BitFlag8* Unk_71024dcea8::m16() {
 }
 
 f32 Unk_71024dcea8::m14() {
-    const f32 a = std::max(sead::Mathf::abs(_94), sead::Mathf::abs(_98));
-    const f32 range_a = std::sqrt(_8c * _8c + a * a);
-    const f32 b = std::max(sead::Mathf::abs(_b0), sead::Mathf::abs(_b4));
-    const f32 range_b = std::sqrt(_a8 * _a8 + b * b);
+    const f32 a = std::max(sead::Mathf::abs(mSight.height_max), sead::Mathf::abs(mSight.height_min));
+    const f32 range_a = std::sqrt(mSight.radius * mSight.radius + a * a);
+    const f32 b = std::max(sead::Mathf::abs(mAlert.height_max), sead::Mathf::abs(mAlert.height_min));
+    const f32 range_b = std::sqrt(mAlert.radius * mAlert.radius + b * b);
     return range_a > range_b ? range_a : range_b;
+}
+
+// NON_MATCHING: the original loads every field before the first store (as if the fields were first copied into a
+// local Params and that was assigned to the request); ours copies each group in turn.
+bool Unk_71024dcea8::m5(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e26d8>(request);
+    if (!req)
+        return false;
+    req->params.sight = mSight;
+    req->params.alert = mAlert;
+    req->params.far = mFar;
+    return true;
+}
+
+// NON_MATCHING: the original loads every request field before the first store (as if the request params were first
+// copied into a local); ours reloads them after each store.
+bool Unk_71024dcea8::m6(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e26d8>(request);
+    if (!req)
+        return false;
+    mSight = req->params.sight;
+    mSightAngleCos = std::cos(req->params.sight.angle);
+    mAlert = req->params.alert;
+    mAlertAngleCos = std::cos(req->params.alert.angle);
+    mFar = req->params.far;
+    mFarAngleCos = std::cos(req->params.far.angle_far);
+    return true;
 }
 
 void Unk_71024dcea8::m8() {
@@ -97,8 +124,8 @@ s32 Unk_71024dcea8::m15(f32 a, f32 b) {
     const s32 count = _48 >= 0 ? _48 : _40;
     if (count < 1)
         return 0;
-    const f32 ratio = sead::Mathf::clamp(a * 2, 0.0f, 1.0f) * b / (_8c * sub_7100D8010C()) +
-                      (_94 * sub_7100D8010C() + _98 * sub_7100D8010C()) * 0.25f - 0.3f;
+    const f32 ratio = sead::Mathf::clamp(a * 2, 0.0f, 1.0f) * b / (mSight.radius * sub_7100D8010C()) +
+                      (mSight.height_max * sub_7100D8010C() + mSight.height_min * sub_7100D8010C()) * 0.25f - 0.3f;
     const s32 min = s32(count * std::max(ratio, 0.0f));
     if (min < count)
         return sead::GlobalRandom::instance()->getU32(count - min) + min;
@@ -106,7 +133,7 @@ s32 Unk_71024dcea8::m15(f32 a, f32 b) {
 }
 
 void Unk_71024dcea8::m17() {
-    if (_c8 == 0.0f)
+    if (mFar.ray_check_range_max == 0.0f)
         _8.clear();
     else
         _dc = true;

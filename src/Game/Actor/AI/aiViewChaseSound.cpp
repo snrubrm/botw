@@ -31,7 +31,7 @@ inline bool ViewChaseSound::isTargetInViewMaybe() const {
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
     const sead::Vector3f dir = mActor->getMtx().getBase(2);
-    return sub_710072DEF0(target, request._20, request._24, request._2c, pos, dir, request._28, 1.0f, 1.2f);
+    return sub_710072DEF0(target, request.params.alert.radius, request.params.alert.angle, request.params.alert.height_min, pos, dir, request.params.alert.height_max, 1.0f, 1.2f);
 }
 
 void ViewChaseSound::enter_(ksys::act::ai::InlineParamPack* params) {

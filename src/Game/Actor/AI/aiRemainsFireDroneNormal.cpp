@@ -76,14 +76,14 @@ void RemainsFireDroneNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* awareness = actor->getAwareness()) {
         awareness->sub_7100D7E9BC(0);
         Unk_71023e26d8 request;
-        request._c = 0.0f;
+        request.params.sight.angle = 0.0f;
         if (auto* sensor = awareness->_260[0])
             sensor->m5(&request);
-        request._8 = *mLightRadius_m;
+        request.params.sight.radius = *mLightRadius_m;
         const f32 length = -*mLightLength_m;
-        request._10 = length;
-        request._14 = length;
-        request._1c = length;
+        request.params.sight.height_max = length;
+        request.params.sight.height_min = length;
+        request.params.sight.height_near_min = length;
         awareness->sub_7100D7E6F4(&request, 0);
     }
     _334 = 0.0f;

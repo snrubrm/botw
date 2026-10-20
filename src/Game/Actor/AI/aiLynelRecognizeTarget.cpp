@@ -148,7 +148,7 @@ bool LynelRecognizeTarget::sub_7100496EE4() {
         if (auto* sensor = awareness->_260[0]) {
             Unk_71023e26d8 request;
             sensor->m4(&request);
-            range = request._20;
+            range = request.params.alert.radius;
         }
     }
     const f32 dx = home.x - target.x;

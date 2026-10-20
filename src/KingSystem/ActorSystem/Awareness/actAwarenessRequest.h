@@ -22,10 +22,30 @@ public:
     // sensor copies Unk_71023e2750's 0x8-0x20 as one block).
 };
 
-// Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). `_c` is the interest level (output of the sensor's
-// m5 for InterestNeckControl::m8, input of m6 for AwarenessInstance::sub_7100D7E74C). The other result fields are not
-// known in detail (read: `_20` / `_24` / `_28` / `_2c` by ViewChaseSound, `_8` and `_20` by
-// DistanceLostCheck).
+// Sight parameters of the sight sensor and its request (0x18 bytes).
+struct SightParams {
+    f32 radius = 0;
+    f32 angle;
+    f32 height_max = 0;
+    f32 height_min = 0;
+    f32 height_near_max = 0;
+    f32 height_near_min = 0;
+};
+KSYS_CHECK_SIZE_NX150(SightParams, 0x18);
+
+// Far sight parameters of the sight sensor and its request (0x14 bytes).
+struct SightFarParams {
+    f32 ignore_grass_radius = 0;
+    f32 ray_check_range_max = -1.0f;
+    bool far_use = false;
+    f32 radius_far = 0;
+    f32 angle_far = 0;
+};
+KSYS_CHECK_SIZE_NX150(SightFarParams, 0x14);
+
+// Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). The sensor's m5 copies its sight parameters
+// out (InterestNeckControl::m8 reads sight.angle), m6 copies them in (AwarenessInstance::sub_7100D7E74C sets
+// sight.angle) and caches the angle cosines.
 class Unk_71023e26d8 : public Unk_71023e2708 {
     SEAD_RTTI_OVERRIDE(Unk_71023e26d8, Unk_71023e2708)
 public:
@@ -33,27 +53,16 @@ public:
     // destructor inlined): written as `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     ~Unk_71023e26d8() override { ; }
 
-    /* 0x08 */ f32 _8 = 0;
-    // No initializer (the original request construction only stores _8: HiddenOctarockSearchTarget /
-    // HiddenOctarockFindPlayer store just the vtable and _8; _c is always set explicitly before use).
-    /* 0x0c */ f32 _c;
-
-    // Sensor m4 D81348 scales these separately; m5 D814F8 / m6 D815D0 copy both floats.
-    /* 0x10 */ f32 _10 = 0;
-    /* 0x14 */ f32 _14 = 0;
-    /* 0x18 */ f32 _18 = 0;
-    /* 0x1c */ f32 _1c = 0;
-    /* 0x20 */ f32 _20 = 0;
-    /* 0x24 */ f32 _24 = 0;
-    /* 0x28 */ f32 _28 = 0;
-    /* 0x2c */ f32 _2c = 0;
-    /* 0x30 */ f32 _30 = 0;
-    /* 0x34 */ f32 _34 = 0;
-    /* 0x38 */ f32 _38 = 0;
-    /* 0x3c */ f32 _3c = -1.0f;
-    /* 0x40 */ bool _40 = false;
-    /* 0x44 */ u32 _44 = 0;
-    /* 0x48 */ u32 _48 = 0;
+    // The sight, sight alert and far sight parameters (names from AwarenessInstance::SetupArg). The sensor's m5 / m6
+    // load every field before storing any, as from a whole Params copy.
+    // sight.angle has no initializer (the original request construction only stores radius:
+    // HiddenOctarockSearchTarget / HiddenOctarockFindPlayer; the angle is always set explicitly before use).
+    struct Params {
+        /* 0x00 */ SightParams sight;
+        /* 0x18 */ SightParams alert{0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+        /* 0x30 */ SightFarParams far;
+    };
+    /* 0x08 */ Params params;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023e26d8, 0x50);
 

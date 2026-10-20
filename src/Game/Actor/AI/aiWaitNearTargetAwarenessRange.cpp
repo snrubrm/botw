@@ -110,7 +110,7 @@ f32 WaitNearTargetAwarenessRange::sub_71005EA1AC() {
         case 1: {
             Unk_71023e26d8 request{};
             if (auto* sensor = awareness->_260[0]; sensor && sensor->m4(&request))
-                range = request._8;
+                range = request.params.sight.radius;
             break;
         }
         case 2: {
@@ -128,7 +128,7 @@ f32 WaitNearTargetAwarenessRange::sub_71005EA1AC() {
         case 4: {
             Unk_71023e26d8 request{};
             if (auto* sensor = awareness->_260[0]; sensor && sensor->m4(&request))
-                range = request._20;
+                range = request.params.alert.radius;
             break;
         }
         }

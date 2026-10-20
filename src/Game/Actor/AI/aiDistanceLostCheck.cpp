@@ -27,7 +27,7 @@ void DistanceLostCheck::enter_(ksys::act::ai::InlineParamPack* params) {
             Unk_71023e26d8 request;
             if (auto* sensor = awareness->_260[0]) {
                 if (sensor->m4(&request))
-                    _58 = request._8;
+                    _58 = request.params.sight.radius;
             }
             break;
         }
@@ -51,7 +51,7 @@ void DistanceLostCheck::enter_(ksys::act::ai::InlineParamPack* params) {
             Unk_71023e26d8 request;
             if (auto* sensor = awareness->_260[0]) {
                 if (sensor->m4(&request))
-                    _58 = request._20;
+                    _58 = request.params.alert.radius;
             }
             break;
         }

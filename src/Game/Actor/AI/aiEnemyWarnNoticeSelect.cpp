@@ -43,7 +43,7 @@ bool EnemyWarnNoticeSelect::sub_71003C544C() {
             const f32 distance = std::sqrt(x * x + z * z);
             f32 proximity = 0.0f;
             if (distance > 0.0f) {
-                const f32 ratio = (request._20 - distance) / request._20;
+                const f32 ratio = (request.params.alert.radius - distance) / request.params.alert.radius;
                 proximity = sead::Mathf::clamp(ratio, 0.0f, 1.0f);
             }
             rate = proximity * (*mMaxCountUp_s - 1.0f) + 1.0f;
