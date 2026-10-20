@@ -26,6 +26,7 @@ target_sources(uking PRIVATE
   gameNavMeshSystem.cpp
   gameNavMeshSystem.h
   gameGraphics.cpp
+  gameGrudgeRenderer.cpp
   gameUnk_710129175c.cpp
   gameGraphics.h
   gameAglEnvCubeMapMgr.h

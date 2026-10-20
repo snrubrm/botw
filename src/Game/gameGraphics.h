@@ -266,6 +266,10 @@ public:
     void sub_710128F2A4();
 };
 
+// 0x7101290034 (placeholder name; in GrudgeRenderer's TU): ray cast from `start` along `displacement` against
+// the ground layer with the Grudge ground-hit filter; stores the hit position.
+bool sub_7101290034(const sead::Vector3f& start, const sead::Vector3f& displacement, sead::Vector3f* hit_pos);
+
 // Declaration only: F2C140 allocates 0x6c0 bytes, constructs this object at 129421C and stores it at
 // Graphics + 0x370. Its source name is unknown.
 class Unk_710129421c {
