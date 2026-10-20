@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <common/aglUniformBlock.h>
 #include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
@@ -10,8 +11,40 @@ namespace ksys::tera {
 // Placeholder: the 0x530-byte vegetation terrain material used by the three manager helpers.
 // Initializer 0x7101077330 and position update 0x7101077574 establish the trailing fields.
 struct VegeTeraMat {
+    // Transient region table built by 10784E0: 16 lower/upper bounds and
+    // reciprocal extents, consumed by 1076D38 and 10776E4.
+    struct RegionList {
+        s32 count;
+        sead::Vector2f min[16];
+        sead::Vector2f max[16];
+        sead::Vector2f inverseSize[16];
+    };
+    static_assert(offsetof(RegionList, max) == 0x84);
+    static_assert(offsetof(RegionList, inverseSize) == 0x104);
+    static_assert(sizeof(RegionList) == 0x184);
+
+    // Five native packets at +8, stride d8; 1077330 declares each block,
+    // 1076D38 fills the vectors/index, and 1077CFC uploads all five vectors.
+    struct UniformPacket {
+        u32 flags;
+        u8 _4[4];
+        agl::UniformBlock block;
+        sead::Vector4f data[5];
+        s32 index;
+        u8 _d4[4];
+
+        void setRegion(f32 x0, f32 z0, f32 x1, f32 z1, f32 size, const RegionList& regions,
+                       const sead::Vector2f& position, const sead::Vector2f& origin, bool alternate);
+    };
+    static_assert(offsetof(UniformPacket, block) == 8);
+    static_assert(offsetof(UniformPacket, data) == 0x80);
+    static_assert(offsetof(UniformPacket, index) == 0xd0);
+    static_assert(sizeof(UniformPacket) == 0xd8);
+
     u32 _0;
-    u8 _4[0x4e0 - 0x4];
+    u8 _4[4];
+    UniformPacket mPackets[5];
+    u8 _440[0x4e0 - 0x440];
     sead::Vector2f mOrigin;
     sead::Vector2f mPosition;
     sead::Vector2f mDelta;
@@ -24,7 +57,10 @@ struct VegeTeraMat {
     u8 _528[8];
 
     void updatePosition(const sead::Vector3f& position);
+    void setBufferIndex(u8 index);
+    void upload();
 };
+static_assert(offsetof(VegeTeraMat, mPackets) == 8);
 static_assert(offsetof(VegeTeraMat, mBounds) == 0x4f8);
 static_assert(offsetof(VegeTeraMat, mTransform) == 0x508);
 static_assert(offsetof(VegeTeraMat, mDimension) == 0x518);
