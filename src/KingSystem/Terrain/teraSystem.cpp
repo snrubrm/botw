@@ -164,6 +164,36 @@ void Terrain::Unk4ae0::Unk_10::sub_71011406CC(u32 count) {
     _700 = count;
 }
 
+// 0x71011406d4 (placeholder name): allocates the scale table for the _700 materials, initialises the
+// material texture (R8_G8_B8_A8, one level) and stores the scale of every table entry.
+// NON_MATCHING: the fill loop keeps an entry guard the original does not have (a register choice),
+// and the 0.25 / 1.0 pair of the second loop is materialised differently; everything else follows.
+void Terrain::Unk4ae0::Unk_10::sub_71011406D4(sead::Heap* heap) {
+    const s32 count = _700;
+    _748 = 0;
+    _888 = false;
+    if (count == 0)
+        return;
+
+    if (count > 0) {
+        auto* buffer = new (heap, 8) sead::Vector4f[count];
+        if (buffer) {
+            const sead::Vector4f value(sead::Color4f::cElementMin, sead::Color4f::cElementMin,
+                                       sead::Color4f::cElementMin, sead::Color4f::cElementMax);
+            sead::Vector4f* p = buffer;
+            for (sead::Vector4f* const end = buffer + count; p != end; ++p)
+                *p = value;
+            _878.setBuffer(count, buffer);
+        }
+    }
+
+    initTextureBufferMaybe(&_750, heap, 0, agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm, 1, 1,
+                           1, true, true);
+
+    for (u32 i = 0; i < u32(_878.size()); ++i)
+        _878(i) = sead::Vector4f(0.25f, 0.25f, 0.25f, 1.0f);
+}
+
 void System::sub_7101117874() {
     for (s32 i = 0; i < mScenes.size(); ++i)
         mScenes[i].collector->sub_7101101578(this, 0xff0000);
