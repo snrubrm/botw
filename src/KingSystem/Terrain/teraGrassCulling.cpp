@@ -1,10 +1,25 @@
 #include "KingSystem/Terrain/teraGrassCulling.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include <math/seadMathCalcCommon.h>
 #include <cmath>
 #include <cstring>
 #include <limits>
 
 namespace ksys::tera {
+
+// NON_MATCHING: area pointer reloads and coordinate stores differ in scheduling.
+void GrassAreaInfo::initialize(f32 cell_size, const ApertureMapsCollector& collector) {
+    count = collector._2942;
+    for (s32 i = 0; i < 16; ++i) {
+        const auto& position = collector._0[0]._0[i];
+        const f32 half_size = position._18 * 0.5f;
+        min[i].set(position.pos.x - half_size, position.pos.y - half_size);
+        max[i].set(position.pos.x + half_size, half_size + position.pos.y);
+        const f32 width = max[i].x - min[i].x;
+        const f32 height = max[i].y - min[i].y;
+        scales[i].set(1.0f / width, 1.0f / height, cell_size / width);
+    }
+}
 
 // NON_MATCHING: scalar arithmetic and normalized vector stores differ in scheduling.
 void GrassViewInfo::initialize(f32 scale, f32 near_coefficient, f32 far_coefficient, f32 cell_size,

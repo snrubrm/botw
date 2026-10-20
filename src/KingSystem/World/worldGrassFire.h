@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Terrain/teraGrassCulling.h"
 
 namespace ksys::tera { struct GrassEntry; }
 
@@ -110,7 +111,8 @@ public:
     };
     static_assert(sizeof(CellState) == 4);
 
-    u8 _b8[0x280 - 0xb8];
+    tera::GrassAreaInfo mAreaInfo;
+    u8 _27c[4];
     u32 mFlags;
     u8 _284[4];
     CellSortList mCellSortLists[2];
@@ -128,6 +130,7 @@ public:
     void* mIndoorStat;
     void* mHiddenStat;
 };
+static_assert(offsetof(Unk_710251cea8, mAreaInfo) == 0xb8);
 static_assert(offsetof(Unk_710251cea8, mCellSortLists) == 0x288);
 static_assert(offsetof(Unk_710251cea8, mCells) == 0x1aa8);
 static_assert(offsetof(Unk_710251cea8, mCellIndices) == 0x16100);

@@ -8,6 +8,23 @@
 
 namespace ksys::tera {
 
+class ApertureMapsCollector;
+
+// Shared embedded area metadata: second grid+b8 and first grid+371f8.
+// Producer1076A24 copies all16 area bounds and three scales per area.
+struct GrassAreaInfo {
+    s32 count;
+    sead::Vector2f min[16];
+    sead::Vector2f max[16];
+    sead::Vector3f scales[16];
+
+    void initialize(f32 cell_size, const ApertureMapsCollector& collector);
+};
+static_assert(offsetof(GrassAreaInfo, min) == 4);
+static_assert(offsetof(GrassAreaInfo, max) == 0x84);
+static_assert(offsetof(GrassAreaInfo, scales) == 0x104);
+static_assert(sizeof(GrassAreaInfo) == 0x1c4);
+
 // Transient 0x4c-byte view information built by 10711EC for both grass grids.
 struct GrassViewInfo {
     sead::Vector3f mCameraPosition;

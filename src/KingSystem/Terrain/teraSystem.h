@@ -298,7 +298,9 @@ public:
             /* 0x124b0 */ sead::Vector2i mGridPosition;
             Record mRecords[47][47];
             CellState mCellStates[47][47];
-            u8 _36f7c[0x373c0 - 0x36f7c];
+            u8 _36f7c[0x371f8 - 0x36f7c];
+            GrassAreaInfo mAreaInfo;
+            u8 _373bc[4];
             // Initializer 0x710106b4f8 allocates 256 UniformBlocks with array lifetime.
             sead::Buffer<agl::UniformBlock> mUniformBlocks;
             u8 _373d0[0x3844c - 0x373d0];
@@ -313,6 +315,7 @@ public:
         };
         static_assert(offsetof(EntryPart, mRecords) == 0x124b8);
         static_assert(offsetof(EntryPart, mCellStates) == 0x34cf8);
+        static_assert(offsetof(EntryPart, mAreaInfo) == 0x371f8);
         static_assert(offsetof(EntryPart, mUniformBlocks) == 0x373c0);
         static_assert(offsetof(EntryPart, _384c8) == 0x384c8);
         static_assert(sizeof(EntryPart) == 0x38720);
