@@ -1,9 +1,14 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 
 namespace sead {
 class Heap;
+}
+
+namespace ksys::phys {
+class RigidBody;
 }
 
 namespace ksys::snd {
@@ -23,6 +28,8 @@ public:
     OcclusionMgr();
     void sub_71010560D4(sead::Heap* heap);
     void sub_7101056868();
+    bool sub_710105687C(bool* indoor, const sead::Vector3f& position, bool* material_flag);
+    bool sub_7101056A84(bool* material_flag);
     f32 sub_7101056A4C() const;
     f32 sub_7101056A68() const;
     // 0x7101055ffc (D1) / 0x7101056068 (D0)
@@ -41,7 +48,7 @@ private:
     /* 0x1c */ f32 _1c = 0.1f;
     /* 0x20 */ f32 _20 = 0.6f;
     /* 0x24 */ s32 _24 = 1;
-    /* 0x28 */ Unk_OcclusionMgrMember* _28 = nullptr;
+    /* 0x28 */ phys::RigidBody* _28 = nullptr;
     /* 0x30 */ u8* _30 = nullptr;
     /* 0x38 */ u8 _38[0x70 - 0x38] = {};
     /* 0x70 */ f32 _70{};

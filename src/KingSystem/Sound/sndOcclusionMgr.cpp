@@ -2,6 +2,10 @@
 #include <resource/seadResource.h>
 #include <aal/aalArbiter.h>
 #include <aal/aalSystemAccessor.h>
+#include <gsys/gsysLayer3D.h>
+#include <layer/aglRenderer.h>
+#include "KingSystem/Physics/System/physClosestPointQueryWithInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -46,6 +50,49 @@ OcclusionMgr::~OcclusionMgr() {
         delete _80;
         _80 = nullptr;
     }
+}
+
+// NON_MATCHING: query and contact iterator temporaries occupy a different frame,
+// with different iteration and status-load scheduling.
+bool OcclusionMgr::sub_710105687C(bool* indoor, const sead::Vector3f& position,
+                                 bool* material_flag) {
+    static_assert(offsetof(OcclusionMgr, _28) == 0x28);
+    static_assert(offsetof(phys::ClosestPointQuery, _18) == 0x18);
+    if (!_28)
+        return false;
+    phys::SphereBasedClosestPointQuery query(_28, position, 1, "SndOcclusion InDoor", 0,
+                                             phys::LowPriority::Yes);
+    query.getContactPointInfo()->subscribeLayer(phys::ContactLayer::SensorInDoor);
+    const bool result = query.execute(false);
+    if (query._18 == 1) {
+        *indoor = result;
+        if (material_flag && result) {
+            *material_flag = true;
+            if (auto* info = query.getContactPointInfo()) {
+                for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+                    const u32 type = (it.getPoint()->material_mask_b.getRawData() >> 20) & 7;
+                    if (type == 3 || type == 4) {
+                        *material_flag = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return query._18 == 1;
+}
+
+// NON_MATCHING: the bool output combination is simplified; the original normalises
+// the output byte separately.
+bool OcclusionMgr::sub_7101056A84(bool* material_flag) {
+    auto* layer = sead::DynamicCast<gsys::Layer3D>(agl::lyr::Renderer::instance()->getLayer(1));
+    if (!layer)
+        return false;
+    auto* camera = sead::DynamicCast<const sead::LookAtCamera>(layer->getCamera());
+    if (!camera)
+        return false;
+    bool indoor;
+    return sub_710105687C(&indoor, camera->getPos(), material_flag) && indoor;
 }
 
 }  // namespace ksys::snd
