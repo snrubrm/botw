@@ -1,3 +1,6 @@
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include <algorithm>
+#include "Game/UI/euiButton.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiUtils.h"
@@ -171,6 +174,74 @@ void Unk_OptionWindowEntry::sub_7100A29900() {
     _68 = ksys::gdt::Manager::instance()->getParam().get1().getBuffer()->getFlagType(option.flag);
     sub_7100A2A450();
     sub_7100A2A570(true);
+}
+
+// 0x7100a2bb7c
+// NON_MATCHING: native global-block addressing and flag branch scheduling differ.
+void Unk_OptionWindowEntry::sub_7100A2BB7C() {
+    const auto& option = sUnk_71025f0678[_50];
+    if (option.type == 2) {
+        if (_68 == ksys::gdt::FlagType::Bool)
+            ksys::gdt::setBoolByKey(_64, option.flag);
+    } else if (option.type == 1) {
+        if (_68 == ksys::gdt::FlagType::Bool)
+            ksys::gdt::setBoolByKey(_58 > 0, option.flag);
+        else if (_68 == ksys::gdt::FlagType::S32)
+            ksys::gdt::setS32ByKey(_58, option.flag);
+    } else if (option.type == 0 && _68 == ksys::gdt::FlagType::Bool) {
+        ksys::gdt::setBoolByKey(_54, option.flag);
+    }
+}
+
+// 0x7100a2b0fc
+// NON_MATCHING: native global-block addressing and value-clamp branch scheduling differ.
+void Unk_OptionWindowEntry::sub_7100A2B0FC() {
+    const auto& option = sUnk_71025f0678[_50];
+    if (option.type == 1) {
+        if (_0) {
+            if (_0->_36a8 == 2)
+                ++_58;
+            else if (_0->_36a8 == 1)
+                --_58;
+        }
+        _58 = std::clamp(_58, _60, _5c);
+    } else if (option.type == 0 && _0) {
+        if (_0->_36a8 == 2) {
+            _58 = std::clamp(_58 - 1, _60, _5c);
+            _54 = _58 != 0;
+        } else if (_0->_36a8 == 1) {
+            _58 = std::clamp(_58 + 1, _60, _5c);
+            _54 = _58 != 0;
+        } else if (_0->_36a8 == 0) {
+            _54 = !_54;
+            _58 = _54 ? _5c : _60;
+        }
+    }
+    if (_50 == 11) {
+        createAndLoadScreenIfNeededImpl(ScreenId::SystemWindow00, nullptr);
+        if (auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00))) {
+            screen->m154(11, 0, nullptr);
+            if (_0) {
+                _0->mButtonGroup->_38 &= ~2;
+                _0->_36be &= ~u8(1);
+            }
+        }
+    } else if (_50 == 9) {
+        createAndLoadScreenIfNeededImpl(ScreenId::AmiiboWindow, nullptr);
+        if (auto* screen = sead::DynamicCast<ScreenAmiiboWindow>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::AmiiboWindow))) {
+            if (_0 && _0->_36bc) {
+                s32 type = 0;
+                if (_0->_36bd)
+                    type = ksys::gdt::getFlag_AmiiboItemOnOff() ? 2 : 1;
+                screen->m154(type, false);
+                _0->mButtonGroup->_38 &= ~2;
+            }
+        }
+    }
+    sub_7100A2BB7C();
+    sub_7100A2A570(false);
 }
 
 }  // namespace uking::ui

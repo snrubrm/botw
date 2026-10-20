@@ -976,6 +976,8 @@ struct Unk_OptionWindowEntry {
 
     void sub_7100A2A450();
     void sub_7100A29900();
+    void sub_7100A2B0FC();
+    void sub_7100A2BB7C();
 
     ScreenOptionWindow* _0;
     u8 _8[8];

@@ -5868,7 +5868,7 @@ public:
     /* 0x36b8 */ s32 _36b8 = 99;
     /* 0x36bc */ bool _36bc = false;
     /* 0x36bd */ bool _36bd = false;
-    /* 0x36be */ bool _36be = false;
+    /* 0x36be */ u8 _36be = 0;
     /* 0x36c0 */ Settings* _36c0 = nullptr;
     /* 0x36c8 */ sead::Delegate<ScreenOptionWindow> _36c8;
     /* 0x36e8 */ sead::Atomic<u32> _36e8 = 0;
