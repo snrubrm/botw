@@ -56,7 +56,7 @@ struct CharacterControllerUnk48 : public hkpCharacterStateOnGround,
 public:
     // 0x7100f67b54 (D1 is the empty 0x7100f67c1c, D0 0x7100f67c24).
     explicit CharacterControllerUnk48(u32 x);
-    ~CharacterControllerUnk48() override = default;
+    ~CharacterControllerUnk48() override;
 
     // 0x7100f67cf8: empty.
     void sub_7101675D34(hkpCharacterContext& context, hkpCharacterStateType type,

@@ -5,6 +5,9 @@ namespace ksys::phys {
 
 CharacterControllerUnk48::CharacterControllerUnk48(u32 x) : _8c(x) {}
 
+// Native Horse deleting destructors call this base destructor across translation units.
+CharacterControllerUnk48::~CharacterControllerUnk48() = default;
+
 void CharacterControllerUnk48::sub_7101675D38(hkpCharacterContext& context,
                                               hkpCharacterStateType type,
                                               const hkpCharacterInput& input,
