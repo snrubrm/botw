@@ -16,4 +16,12 @@ void ModelSceneComponent::initializeComponent(const ModelSceneConfig* config, se
     _8 = config;
 }
 
+// NON_MATCHING: the original copies cEmptyString into a stack temporary and keeps the vtable
+// and the string pointer in two registers; our build reuses one register, so only the register
+// allocation of the temporary differs.
+void ModelSceneComponent::setUpComponent(int index, sead::Heap*, sead::Heap* heap) {
+    const sead::SafeString empty = sead::SafeString::cEmptyString;
+    mDebugTexturePage.setUp(index, empty, heap);
+}
+
 }  // namespace gsys
