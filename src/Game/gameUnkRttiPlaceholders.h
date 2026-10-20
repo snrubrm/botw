@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/Physics/Constraint/physUnk_7102519e58.h"
+
 #include "KingSystem/Terrain/teraEditor.h"
 
 #include <prim/seadSafeString.h>
@@ -712,23 +714,6 @@ public:
 class Unk_71024f4720 : public gsys::IModelProcedural {
 public:
     ~Unk_71024f4720() override;
-};
-
-// vtable 0x7102519e58 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102519e58 {
-    SEAD_RTTI_BASE(Unk_7102519e58)
-public:
-    virtual ~Unk_7102519e58();
-};
-
-// vtable 0x71024f7180 (7 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f7180 : public Unk_7102519e58 {
-    SEAD_RTTI_OVERRIDE(Unk_71024f7180, Unk_7102519e58)
-public:
-    ~Unk_71024f7180() override;
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
 };
 
 // vtable 0x7102502978 (15 slots); placeholder generated from the vtable (genskel.py).

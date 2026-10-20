@@ -1028,7 +1028,3 @@ bool sub_7100F7C274(const Unk_7100F7C274Maybe* obj) {
 u32 sub_7100F7C5E0(const Unk_7100F7C274Maybe* obj) {
     return obj->_c0;
 }
-
-u32 sub_7100F8C540(const Unk_7100F7C274Maybe* obj) {
-    return obj->_9c;
-}

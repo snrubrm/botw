@@ -95,7 +95,3 @@ float RagdollRigidBody::getVolume() {
 }
 
 }  // namespace ksys::phys
-
-// NON_MATCHING: placeholder destructor; the original (0x71012ad354) also destroys members or bases
-// this class does not declare yet.
-Unk_7102519e58::~Unk_7102519e58() = default;

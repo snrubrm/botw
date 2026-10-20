@@ -159,10 +159,6 @@ void NavMeshLoadMgr::x_2() {
 
 }  // namespace ksys::phys
 
-// NON_MATCHING: placeholder destructor; the original (0x7100f8bba8) also destroys members or bases
-// this class does not declare yet.
-Unk_71024f7180::~Unk_71024f7180() = default;
-
 // Placeholder: a load record with a state word at 0x48.
 struct Unk_7100F894D0Maybe {
     u8 _0[0x48];

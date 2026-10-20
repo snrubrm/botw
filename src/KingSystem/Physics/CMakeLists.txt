@@ -9,6 +9,9 @@ target_sources(uking PRIVATE
 
     Constraint/physConstraint.cpp
     Constraint/physConstraint.h
+    Constraint/physUnk_71024f7180.cpp
+    Constraint/physUnk_7102519e58.cpp
+    Constraint/physUnk_7102519e58.h
 
     Ragdoll/physRagdollConfig.cpp
     Ragdoll/physRagdollConfig.h
