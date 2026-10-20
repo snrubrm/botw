@@ -181,6 +181,36 @@ bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap
 // 0x7100dc6e20 (next to bindActorActions; EventResource calls it out of line)
 EventBgmInfo::EventBgmInfo() = default;
 
+// NON_MATCHING: two call sites. The original passes a 64-bit zero as the third argument of sub_710105B0C8 (declared
+// u8 in sndSound.h) and tests bit 0 of sub_710100754C's result (declared u32; its body returns true / false).
+// 0x7100dc7180
+void EventBgmInfo::init(const sead::SafeString& event_name, sead::Heap* heap, bool is_timeline,
+                        al::ByamlIter* info, res::Handle* pack_handle) {
+    if (is_timeline) {
+        _18 = event_name;
+        snd::SoundMgr::instance()->_98->_5e0.sub_710105B0C8(_18, pack_handle, 0);
+    }
+
+    al::ByamlIter bgms;
+    if (!info->tryGetIterByKey(&bgms, "bgm"))
+        return;
+    const s32 num = bgms.getSize();
+    if (num < 1)
+        return;
+    _8.tryAllocBuffer(num, heap);
+    for (s32 i = 0; i < num; ++i) {
+        al::ByamlIter bgm;
+        if (!bgms.tryGetIterByIndex(&bgm, i))
+            continue;
+        const char* name;
+        if (!bgm.tryGetStringByKey(&name, "name"))
+            continue;
+        if (!snd::SoundMgr::instance()->_30->_78->sub_710100754C(name))
+            continue;
+        _8[i].format(name);
+    }
+}
+
 // 0x7100dc7450
 bool EventBgmInfo::finishLoad() {
     bool loaded = _18.isEmpty() ? true : snd::SoundMgr::instance()->_98->_5e0.sub_710105B224(_18);
