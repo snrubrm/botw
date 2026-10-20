@@ -2552,7 +2552,7 @@ public:
     bool m10() override;
     // 0x7101000374: restarts the BGM after a stop (state 3 -> 1, 4 -> 2).
     void m12(f32 fade_sec) override;
-    // 0x710100064c / 0x7101000b00 (declared only)
+    // 0x710100064c / 0x7101000b00 (empty)
     void hm14() override;
     void hm15() override;
     // 0x7101000ab8: stops the BGM (state 1 -> 3, 2 -> 4, else 0) and the message ducking.

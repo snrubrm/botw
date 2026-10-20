@@ -55,6 +55,8 @@ void Unk_71024fd448::hm14() {
         _198->mHandle.setLpfScale(_1a8);
 }
 
+void Unk_71024fd448::hm15() {}
+
 void Unk_71024fd448::sub_7101000838(f32 value) {
     _1a8 = value;
     if (_198 && _198->sub_7100FF6DF4(this))
