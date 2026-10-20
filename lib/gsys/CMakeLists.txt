@@ -16,6 +16,8 @@ add_library(gsys OBJECT
   include/gsys/gsysModelNW.h
   include/gsys/gsysModelDrawObj.h
   include/gsys/gsysModelRenderContext.h
+  include/gsys/gsysModelRenderQueue.h
+  include/gsys/gsysModelRenderUnitNodeArray.h
   include/gsys/gsysShaderContext.h
   include/gsys/gsysModelScene.h
   include/gsys/gsysModelSceneComponent.h
@@ -68,6 +70,8 @@ add_library(gsys OBJECT
   src/gsys/gsysModelUnitDrawArray.cpp
   src/gsys/gsysModelDrawObj.cpp
   src/gsys/gsysModelRenderContext.cpp
+  src/gsys/gsysModelRenderQueue.cpp
+  src/gsys/gsysModelRenderUnitNodeArray.cpp
   src/gsys/gsysShaderContext.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysEffectModelDrawMgr.cpp

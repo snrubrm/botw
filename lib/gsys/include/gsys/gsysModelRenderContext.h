@@ -3,23 +3,29 @@
 #include <container/seadBuffer.h>
 #include <cull/aglViewFrustumCulling.h>
 #include <math/seadMatrix.h>
+#include <prim/seadBitFlag.h>
+#include <prim/seadSafeString.h>
 
 namespace agl {
+class DrawContext;
 class RenderBuffer;
 class TextureData;
 }
 namespace sead {
 class DrawContext;
 class Viewport;
+class Projection;
 }
 
 namespace gsys {
 
 class ShaderContext;
+class ModelRenderQueue;
 
 namespace ModelEnum {
 // 0x7100c08334 indexes the eight float pairs at +0x2d0 with this type.
 enum class PolygonOffsetType;
+enum class ShaderAssignType;
 }
 
 // Two independent allocations (0x7100c2e1e0 and 0x7100f273ac) reserve 0x388
@@ -32,11 +38,43 @@ public:
         int viewCount;
     };
 
+    // Both native constructors (0x7100c07f18 / 0x7100c07f60) copy a SafeString,
+    // retain the queue, and initialize this 0x48-byte draw request. draw consumes
+    // every field below; the unnamed options keep their offset names.
+    struct DrawArg {
+        DrawArg(const sead::SafeString& name, const ModelRenderQueue& queue,
+                const sead::BitFlag32& mask, u32 value, ModelEnum::ShaderAssignType type,
+                int view, u32 options, u32 material);
+        DrawArg(const sead::SafeString& name, const ModelRenderQueue& queue,
+                const sead::BitFlag32& mask, ModelEnum::ShaderAssignType type, int view,
+                u32 options, u32 material);
+
+        sead::SafeString mName;
+        const ModelRenderQueue& mQueue;
+        sead::BitFlag32 mMask;
+        u32 _1c;
+        ModelEnum::ShaderAssignType mShaderAssignType;
+        int mViewIndex;
+        u32 mOptions;
+        u32 mMaterialIndex;
+        u32 _30 = 0xf;
+        u32 _34 = 1;
+        u32 _38 = 0;
+        s32 _3c = -1;
+        s32 _40 = -1;
+        u32 _44 = 0;
+    };
+    static_assert(sizeof(DrawArg) == 0x48);
+
     ModelRenderContext();
     virtual ~ModelRenderContext();
 
     void initialize(const CreateArg&, sead::Heap*);
     void calcGPU(bool flag) const;
+    // 0x7100c08344 / 0x7100c08564: original names and signatures in the CSV.
+    void calcView(int view, const sead::Matrix34f&, const sead::Projection&,
+                  const sead::Matrix34f&);
+    void draw(agl::DrawContext*, const DrawArg&) const;
     // 0x7100c0887c (name is a guess): binds the render buffer, then applies the viewport to it.
     void bind(sead::DrawContext* draw_context) const;
     // 0x7100c08334: stores the two values in the pair selected by `type`.

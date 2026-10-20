@@ -6,6 +6,20 @@
 
 namespace gsys {
 
+ModelRenderContext::DrawArg::DrawArg(const sead::SafeString& name, const ModelRenderQueue& queue,
+                                   const sead::BitFlag32& mask, u32 value,
+                                   ModelEnum::ShaderAssignType type, int view, u32 options,
+                                   u32 material)
+    : mName(name), mQueue(queue), mMask(mask), _1c(value), mShaderAssignType(type), mViewIndex(view),
+      mOptions(options), mMaterialIndex(material) {}
+
+ModelRenderContext::DrawArg::DrawArg(const sead::SafeString& name, const ModelRenderQueue& queue,
+                                   const sead::BitFlag32& mask, ModelEnum::ShaderAssignType type,
+                                   int view, u32 options, u32 material)
+    : mName(name), mQueue(queue), mMask(mask), _1c(0), mShaderAssignType(type), mViewIndex(view),
+      mOptions(options), mMaterialIndex(material) {}
+
+
 ModelRenderContext::~ModelRenderContext() {
     delete mShaderContext;
     mShaderContext = nullptr;
