@@ -10,6 +10,13 @@ class RenderBufferContext;
 // at +0x4ea0. C17558 initializes its owned context pointer; C176EC creates it.
 class ModelSceneBuffer : public ModelSceneComponent {
 public:
+    // Constructor 0x7100c1754c stores 1 in the first word; initialize 0x7100c176ec takes it.
+    struct CreateArg {
+        CreateArg();
+
+        s32 _0;
+    };
+
     ModelSceneBuffer();
     ~ModelSceneBuffer() override;
 

@@ -100,6 +100,7 @@ add_library(gsys OBJECT
   src/gsys/gsysShaderHolder.cpp
   src/gsys/gsysApplicationPackage.cpp
   src/gsys/gsysModelAssignRenderInfo.cpp
+  src/gsys/gsysModelSceneBuffer.cpp
 )
 
 target_compile_options(gsys PRIVATE -fno-exceptions)
