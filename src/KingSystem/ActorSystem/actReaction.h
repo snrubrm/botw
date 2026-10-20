@@ -99,6 +99,16 @@ public:
         // Two AI callers pass Reaction::_a8, their actor and its matrix translation.
         void sub_7100EC6C00(Actor* actor, const sead::Vector3f& position);
 
+        // 0x7100ec86f4 (placeholder name): sets the event position of `handle`, then applies the
+        // volume and pitch scales from the four values (sub_7100EC7D50).
+        // The parameter order is (handle, position, volume base, distance, volume factor, pitch factor).
+        void sub_7100EC86F4(xlink2::HandleSLink* handle, const sead::Vector3f& position, f32 a, f32 b,
+                            f32 c, f32 d);
+        // 0x7100ec7d50 (placeholder name; declared only): the volume / pitch scale calculation behind
+        // sub_7100EC86F4. Blocked on xlink2::HandleSLink::setPitchScale, which lib/xlink2 lacks.
+        void sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d, xlink2::HandleSLink* handle, f32* volume,
+                            f32* pitch);
+
         u8 _0[8];
         /* 0x08 */ Actor* _8;
         /* 0x10 */ Actor* _10;

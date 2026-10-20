@@ -832,3 +832,19 @@ void Reaction::Unk1::sub_7100EC6C00(Actor* actor, const sead::Vector3f& position
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+// 0x7100ec86f4 (placeholder name): sets the event position of `handle`, then applies the volume and
+// pitch scales computed by sub_7100EC7D50. The results are not used here.
+void Reaction::Unk1::sub_7100EC86F4(xlink2::HandleSLink* handle, const sead::Vector3f& position, f32 a,
+                                   f32 b, f32 c, f32 d) {
+    if (!handle)
+        return;
+    handle->setPosition(position);
+    f32 volume = 0.0f;
+    f32 pitch = 1.0f;
+    sub_7100EC7D50(a, b, c, d, handle, &volume, &pitch);
+}
+
+}  // namespace ksys::act
