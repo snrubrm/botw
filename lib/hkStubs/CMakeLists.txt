@@ -7,6 +7,7 @@ add_library(hkStubs OBJECT
   Havok/Cloth/Cloth/Cloth/hclClothData.h
   Havok/Cloth/Cloth/SimCloth/hclSimClothData.h
   Havok/Cloth/Cloth/SimCloth/hclSimClothInstance.h
+  Havok/Cloth/Cloth/SimCloth/hclSimClothInstance.cpp
   Havok/Cloth/Cloth/Cloth/hclClothInstance.h
   Havok/Cloth/Cloth/World/hclWorld.h
   Havok/Ai/Pathfinding/NavMesh/Query/hkaiNavMeshQueryMediator.h

@@ -10,13 +10,20 @@ class Unk_71025335A8 : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(Unk_71025335A8)
     ~Unk_71025335A8() override;
+    // 0x710140d5a4: an optional simulation-info override, otherwise the
+    // data's embedded SimulationInfo at +0x10. The getter name is a guess.
+    const hclSimClothData::SimulationInfo* getSimulationInfoMaybe() const;
+
     hclSimClothData* m_simClothData;
 private:
     hkUint8 _18[0xd0 - 0x18];
 public:
     hkArray<hclCollidable*> m_collidables;
 private:
-    hkUint8 _e0[0x1e0 - 0xe0];
+    hkUint8 _e0[0x1d8 - 0xe0];
+    // Zeroed by constructor 0x710140c694. The 17 simulation callers read
+    // the same flags/floats as hclSimClothData::m_simulationInfo.
+    const hclSimClothData::SimulationInfo* m_simulationInfoOverride;
 };
 static_assert(sizeof(Unk_71025335A8) == 0x1e0);
 static_assert(offsetof(Unk_71025335A8, m_collidables) == 0xd0);
