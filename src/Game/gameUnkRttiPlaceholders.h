@@ -2845,6 +2845,8 @@ public:
     void sub_710100E194(const s32& state);
     // 0x710100e2fc: prepares `state` in the idle slot to start in sync at `position` (samples); -1 on failure.
     s32 sub_710100E2FC(const s32& state, s32 position);
+    // 0x710100f0b0 (was nullsub_4367)
+    void m5() override {}
     bool m10() override;
     void m12(f32 fade_sec) override;
     void m13(f32 fade_sec) override;
