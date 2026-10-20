@@ -3281,6 +3281,19 @@ void ScreenSaveTransferWindow::m219() {
     }
 }
 
+// 0x7100a4400c
+// NON_MATCHING: the original masks the flag test result to a byte (`and #0xff`) and loads _3678 later
+void ScreenSaveTransferWindow::m194() {
+    if (sUnk_71025f2eb0._8 == 0) {
+        getStateMachine().changeState(&sUnk_71025f2de0);
+        return;
+    }
+    if ((1 << Flag(Flag::_5)) & _3678)
+        getStateMachine().changeState(&sUnk_71025f23c0);
+    else
+        getStateMachine().changeState(&sUnk_71025f2360);
+}
+
 // 0x7100a44624
 void ScreenSaveTransferWindow::m222() {
     if (sUnk_71025f2eb0._c == 0) {
@@ -3300,6 +3313,19 @@ void ScreenSaveTransferWindow::m222() {
     _3630->setFlag10(false);
     _3638->setFlag10(false);
     _3640->setFlag10(false);
+}
+
+// 0x7100a446f0
+// NON_MATCHING: ours clamps with fminnm and a second compare; the original uses fcsel and reuses the flags
+void ScreenSaveTransferWindow::m223() {
+    if (sUnk_71025f2eb0._c == 0) {
+        getStateMachine().changeState(&sUnk_71025f2de0);
+        return;
+    }
+    const f32 progress = _3798 + 1.0f / 30.0f;
+    _3798 = progress < 1.0f ? progress : 1.0f;
+    if (progress >= 1.0f)
+        sub_7100A4473C();
 }
 
 // 0x7100a44be4

@@ -5641,7 +5641,9 @@ extern const ksys::StateBase sUnk_71025f2900;
 extern const ksys::StateBase sUnk_71025f2cc0;
 // The save transfer's static state block (0x71025f2eb0): the transfer state at +0xc and its mode at +0x10.
 struct Unk_71025f2eb0 {
-    u8 _0[0xc];
+    u8 _0[0x8];
+    // m194 / m190 test it before changing state
+    /* 0x8 */ s32 _8;
     /* 0xc */ s32 _c;
     /* 0x10 */ s32 _10;
 };
