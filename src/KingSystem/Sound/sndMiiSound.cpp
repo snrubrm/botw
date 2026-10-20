@@ -112,6 +112,10 @@ void Unk_710251b710::sub_71012CDF98(sead::Heap* heap) {
 
 void Unk_710251b710::sub_71012CE054() {}
 
+void Unk_710251b710::sub_71012CE058() {
+    mQueue.clear();
+}
+
 // NON_MATCHING: the list sentinel and sound name addresses are scheduled in a different order.
 bool Unk_710251b710::sub_71012CE4D8(Unk_710251b6f0* sound) {
     if (sound->_114 == mCounter)

@@ -27,6 +27,13 @@ public:
 
     void freeBuffer() { mBuffer.freeBuffer(); }
 
+    void clear() {
+        mWriteIdx = 0;
+        mReadIdx = 0;
+        if (mBuffer.isBufferReady())
+            mBuffer.fill(nullptr);
+    }
+
     int getSize() const { return mWriteIdx - mReadIdx; }
     int getCapacity() const { return mBuffer.size(); }
 
