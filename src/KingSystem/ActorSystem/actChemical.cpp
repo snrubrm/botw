@@ -36,6 +36,12 @@ void Unk_71024dd1c8::sub_7100D8CFAC() {
     _18 |= 1;
 }
 
+const sead::Vector3f& Unk_71024dd1c8::sub_7100D8D1E0() const {
+    if (_10)
+        return _10->m6();
+    return sead::Vector3f::zero;
+}
+
 void Chemical::sub_7100D8F0FC() {
     sub_7100D8EEE0();
     for (auto& value : _c8)
