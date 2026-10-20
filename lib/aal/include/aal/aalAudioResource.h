@@ -42,7 +42,9 @@ public:
     }
 
 private:
-    AudioResource();
+    AudioResource()
+        : mData(nullptr), _10(nullptr), mFilename(nullptr), mValid(false),
+          mOwnsFilename(false), mAssetInfos(nullptr), _98(false), mArchive(nullptr) {}
 
     const u8* mData;
     const void* _10;
