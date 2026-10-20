@@ -119,3 +119,11 @@ void Unk_71007024d4::sub_7100710E3C() {
         entry->handle.deleteProc();
     }
 }
+
+void Unk_71007024d4::sub_7100710E94() {
+    if (mEntries) {
+        delete[] mEntries;
+        mEntries = nullptr;
+        mCount = 0;
+    }
+}

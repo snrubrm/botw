@@ -62,6 +62,8 @@ public:
     // 0x7100710de4 / 0x7100710e3c: two identical functions (resetting every entry).
     void sub_7100710DE4();
     void sub_7100710E3C();
+    // 0x7100710e94: frees the entries (CSV name procLinkHandleBuffer32_dtor; called by the DamageInfoMgr destructor).
+    void sub_7100710E94();
 
     /* 0x08 */ ksys::Timer _8;
     /* 0x14 */ s32 _14 = 0;
