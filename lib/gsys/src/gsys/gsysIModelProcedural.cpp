@@ -30,6 +30,14 @@ bool IModelProcedural::isMaterialVisible(int index) const {
     return mRenderUnits[index]._30 & 1;
 }
 
+void IModelProcedural::setMaterialVisible(int index, bool visible) {
+    if (!visible)
+        mRenderUnits[index]._30 &= ~1;
+    else
+        mRenderUnits[index]._30 |= 1;
+    gatherVisibleModelRenderUnit();
+}
+
 // NON_MATCHING: the original keeps the RenderUnit vtable store before each element's base destructor; our
 // RenderUnit destructor has a trivial body, so Clang skips it. What makes the original body non-trivial is unknown.
 IModelProcedural::~IModelProcedural() {
