@@ -1277,6 +1277,7 @@ public:
     // Native 0x71012c8968, called by ResourceManager construction.
     Unk_71025a36b0();
     virtual ~Unk_71025a36b0();
+    void sub_71012C8A30(sead::Heap* heap);
 
     // 0x71012c911c / 0x71012c917c (declared only; both large): the entry work run before the bars loads.
     void sub_71012C911C();

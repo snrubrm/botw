@@ -3,6 +3,11 @@
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include <aal/aalEmitter.h>
+#include "KingSystem/Physics/System/physMaterialTable.h"
+#include "KingSystem/XLink/xlinkManager.h"
+#include <algorithm>
+#include <iterator>
+#include <new>
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include <prim/seadNamable.h>
@@ -314,6 +319,80 @@ bool Unk_71025a36b0::sub_71012CB14C() {
         }
     }
     return true;
+}
+
+}  // namespace ksys::snd
+
+namespace ksys::snd {
+
+// NON_MATCHING: buffer allocation and material-name table construction use different scheduling.
+void Unk_71025a36b0::sub_71012C8A30(sead::Heap* heap) {
+    auto* xlink_manager = xlink::Manager::instance();
+    mEntryCount = xlink_manager->getNumSubMaterials();
+    mEntries.tryAllocBuffer(mEntryCount, heap);
+    mEntryIndices.tryAllocBuffer(mEntryCount, heap);
+    mActiveEntries.initOffset(offsetof(Entry, mNode));
+    mActiveEntries.clear();
+    auto* queue = new (heap, 8, std::nothrow) Entry*[16];
+    if (queue) {
+        mQueueCapacity = 16;
+        mQueueEntries = queue;
+    }
+    if (mQueueCapacity > 0) {
+        for (s32 i = 0; i < mQueueCapacity; ++i)
+            mQueueEntries[i] = nullptr;
+    }
+    // Native queue initialization is followed by a separate reset, including both clearing passes.
+    mQueueWrite = 0;
+    mQueueRead = 0;
+    if (mQueueEntries) {
+        for (s32 i = 0; i < mQueueCapacity; ++i)
+            mQueueEntries[i] = nullptr;
+    }
+    s32 materials[128]{};
+    s32 submaterials[128]{};
+    s32 sound_indices[128];
+    std::fill(std::begin(sound_indices), std::end(sound_indices), -1);
+    auto* table = phys::System::instance()->getMaterialTable();
+    s32 offset = 0;
+    s32 sound_index = 0;
+    for (s32 material = 0; material < phys::Material::size(); ++material) {
+        const s32 count = table->getNumSubMaterials(phys::Material(material));
+        if (count > 0) {
+            for (s32 submaterial = 0; submaterial < count; ++submaterial) {
+                const bool has_sound = table->subMaterialHasSound(phys::Material(material), submaterial);
+                materials[offset + submaterial] = material;
+                submaterials[offset + submaterial] = submaterial;
+                sound_indices[offset + submaterial] = has_sound ? sound_index : -1;
+                sound_index += has_sound;
+            }
+            offset += count;
+        }
+    }
+    for (s32 i = 0; i < mEntryCount; ++i) {
+        auto& entry = mEntries[i];
+        entry.mState = 0;
+        entry.mFlags = 0;
+        entry.mName.setReplaceString(xlink_manager->getSubMaterialName(i), "_", "");
+        entry.mMaterialIndex = sound_indices[i];
+        if (sound_indices[i] == -1)
+            entry.mFlags |= 2;
+        const auto& matching = table->getSoundMatchingSubMaterial(phys::Material(materials[i]),
+                                                                  submaterials[i]);
+        s32 matching_index = i;
+        if (matching == "None") {
+            entry.mMaterialIndex = -1;
+            entry.mFlags |= 2;
+        } else {
+            for (s32 j = 0; j < mEntryCount; ++j) {
+                if (matching == xlink_manager->getSubMaterialName(j)) {
+                    matching_index = j;
+                    break;
+                }
+            }
+        }
+        mEntryIndices[i] = matching_index;
+    }
 }
 
 }  // namespace ksys::snd
