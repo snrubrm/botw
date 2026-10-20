@@ -57,6 +57,8 @@ public:
     void sub_7100E64154(bool disable);
     // 0x7100e64318 returns whether the body was repositioned; both trailing arguments are bools.
     bool sub_7100E64318(const sead::Matrix34f& transform, bool force, bool reset_rotation);
+    // E64730 updates the angular velocity, hinge limits and optional frame centre.
+    void sub_7100E64730(f32 angle, bool* below_upper_limit);
     void sub_7100E64E60();
     void sub_7100E64EAC(f32 scale);
     // 0x7100e63f20: releases the contact listener, the constraint and the frame data.

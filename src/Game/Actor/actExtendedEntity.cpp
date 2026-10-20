@@ -242,4 +242,77 @@ f32 sub_7100E64B60(const sead::Vector3f& a, const sead::Vector3f& b) {
     return angle * sead::Mathf::sign(proj.dot(b));
 }
 
+// NON_MATCHING: matrix axis extraction, angular-velocity arithmetic and branch layout differ.
+void ExtendedEntity::sub_7100E64730(f32 angle, bool* below_upper_limit) {
+    if (!_10)
+        return;
+    const f32 target = sead::Mathf::clamp(-angle, _38, _34) * _30;
+    sead::Matrix34f controller_transform;
+    _0->physicsXXXGetMtx_1(&controller_transform);
+    sead::Matrix34f body_transform;
+    _8->getTransform(&body_transform);
+    const sead::Vector3f controller_y = controller_transform.getBase(1);
+    const sead::Vector3f body_y = body_transform.getBase(1);
+    const sead::Vector3f body_x = body_transform.getBase(0);
+    const f32 cosine = sead::Mathf::clamp(controller_y.dot(body_y), -1.0f, 1.0f);
+    sead::Vector3f cross;
+    cross.setCross(controller_y, body_y);
+    const f32 sign = body_x.dot(cross) >= 0.0f ? 1.0f : -1.0f;
+    const f32 signed_angle = sign * sead::Mathf::acos(cosine);
+    const f32 current_angle = -signed_angle;
+    if (below_upper_limit)
+        *below_upper_limit = current_angle < _10->sub_7100F6E34C();
+    const f32 rate = (target + signed_angle) * _4c;
+    f32 speed;
+    if (rate > _50) {
+        speed = -_50;
+    } else {
+        speed = -rate;
+        if (speed > _50)
+            speed = _50;
+    }
+    sead::Vector3f velocity;
+    _8->getAngularVelocity(&velocity);
+    velocity = body_x * speed + (velocity - body_x * body_x.dot(velocity));
+    const f32 speed_squared = velocity.squaredLength();
+    const f32 threshold = _54;
+    if (speed_squared < threshold)
+        _8->setAngularVelocity(sead::Vector3f::zero, 1.1920929e-07f);
+    else
+        _8->setAngularVelocity(velocity, 1.1920929e-07f);
+    if ((_58 & (1 << int(Flag(Flag::_3)))) || !(_10->_50 & 1)) {
+        _10->sub_7100F6E300(target);
+    } else {
+        const bool single_limit = _58 & (1 << int(Flag(Flag::_2)));
+        const f32 delta = ksys::VFR::instance()->getRawDeltaTime();
+        if (single_limit && speed_squared < threshold) {
+            _10->sub_7100F6E300(target);
+        } else {
+            const f32 predicted_angle = current_angle - speed * delta;
+            if (single_limit) {
+                if (predicted_angle < target)
+                    _10->sub_7100F6E314(predicted_angle, target);
+                else if (predicted_angle > target)
+                    _10->sub_7100F6E314(target, predicted_angle);
+                else
+                    _10->sub_7100F6E300(target);
+            } else {
+                const f32 lower = target - _3c;
+                const f32 upper = target + _40;
+                _10->sub_7100F6E314(predicted_angle < lower ? predicted_angle : lower,
+                                    predicted_angle > upper ? predicted_angle : upper);
+            }
+        }
+    }
+    if (_60) {
+        const sead::Vector3f pivot = _60->_0;
+        sead::Vector3f centre = _60->_c;
+        const f32 offset = _60->_48 * sead::Mathf::clamp(current_angle / _34, -1.0f, 1.0f);
+        ksys::VFR::lerp(&_68, offset, 0.35f, 0.15f, 0.005f);
+        centre.z += _68;
+        _10->sub_7100F6E584(pivot, centre, _60->_18, _60->_24, _60->_30, _60->_3c);
+        _8->setCenterOfMassInLocal(centre);
+    }
+}
+
 }  // namespace uking::act
