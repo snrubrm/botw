@@ -160,8 +160,8 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C738(sead::Vector3f* pos, f32 a, f32 b)
     sub_710066C800(pos, index, a, b);
 }
 
-// NON_MATCHING: same selection logic. The original lowers the wrap-around and the retry loop
-// differently (it tests the retry counter before the mask), so the function is 4 bytes smaller.
+// NON_MATCHING: same selection logic and size; the original tests the retry counter before the mask
+// test, so the loop layout and a few registers differ.
 ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE3C(s32 start) {
     u32 mask = 0;
     auto* link = &_1e0[0];
@@ -174,7 +174,7 @@ ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE3C(s32 start) {
     s32 idx = r;
     if (!(mask & (1u << r))) {
         s32 next = start == 0 ? 1 : start + 1;
-        if (next == 20)
+        if (start + 1 == 20)
             next = 0;
         for (s32 tries = 20; tries >= 2; --tries) {
             idx = idx + 1 == 20 ? 0 : idx + 1;
