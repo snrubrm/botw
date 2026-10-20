@@ -360,12 +360,18 @@ public:
     void sub_7101035C50(u32 id, u32 hash_id);
     // 0x7101035a50: sets bit 0 of _1e08; the first time (bit 1 clear) also runs 0x7101035888 and sets _1dc0 to 1.
     void sub_7101035A50();
+    // 0x71010359b0 (placeholder name): loads the asset info reader at _1da0 with an empty name and hands it to
+    // the user instance at _1d98 once it is ready; releases both when the load fails.
+    bool sub_71010359B0();
     // 0x7101035888 (declared only)
     void sub_7101035888();
     // 1036530: completes a sphere query; writes the indoor result only after execution status 1.
     bool sub_7101036530(bool* indoor, const sead::Vector3f& position);
 
-    u8 _8[0x1dc0 - 0x8];
+    u8 _8[0x1d98 - 0x8];
+    /* 0x1d98 */ xlink2::UserInstanceSLink* _1d98 = nullptr;
+    /* 0x1da0 */ Unk_7102502950* _1da0 = nullptr;
+    u8 _1da8[0x1dc0 - 0x1da8];
     /* 0x1dc0 */ u32 _1dc0;
     u8 _1dc4[0x1e00 - 0x1dc4];
     // 1034A10 stores SphereRigidBody::make's result here; 1036530 borrows it for the query.

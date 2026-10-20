@@ -15,6 +15,39 @@ void Unk_SoundMgr38_48::sub_7101035A50() {
     }
 }
 
+// The empty name the reader is loaded with. The original keeps it in the TU's merged static block at
+// 0x7102610840 + 0x30 (GlobalMerge, together with the InitTimeInfoEx and two constant pairs), so ours
+// addresses a standalone symbol.
+static const sead::SafeString sEmptyName;
+
+// NON_MATCHING: the empty name's address is block + 0x30 in the original (GlobalMerge of the TU
+// statics); ours addresses a standalone symbol. The rest of the body matches.
+// 0x71010359b0 (placeholder name): loads the asset info reader at _1da0 with an empty name and hands
+// it to the user instance at _1d98 once it is ready; releases both when the load fails.
+bool Unk_SoundMgr38_48::sub_71010359B0() {
+    if (!_1da0 || (_1da0->_18 & 1))
+        return true;
+
+    if (!_1da0->sub_7101057258(sEmptyName, SoundMgr::instance()->_60->mHeap))
+        return false;
+
+    if (_1da0->_18 & 1) {
+        if (!_1d98)
+            return false;
+        _1d98->setAssetInfoReader(_1da0);
+    } else {
+        if (_1da0) {
+            SoundMgr::instance()->_60->sub_7101059354(_1da0);
+            _1da0 = nullptr;
+        }
+        if (_1d98) {
+            _1d98->destroy();
+            _1d98 = nullptr;
+        }
+    }
+    return true;
+}
+
 // NON_MATCHING: query and contact iterator stack layout and status loads differ.
 bool Unk_SoundMgr38_48::sub_7101036530(bool* indoor, const sead::Vector3f& position) {
     static_assert(offsetof(Unk_SoundMgr38_48, mSphere) == 0x1e00);
