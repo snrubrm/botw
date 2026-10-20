@@ -63,3 +63,22 @@ void Unk_710260f1a8::sub_71010255D0() {
 }
 
 }  // namespace ksys::snd
+
+namespace ksys::snd {
+
+// NON_MATCHING: instance traversal and control forwarding use different loop scheduling.
+void Unk_710260f1a8::sub_710102544C(bool entering) {
+    if (entering) {
+        for (s32 i = 0; i < mInstances.size(); ++i) {
+            if (mInstances[i])
+                mInstances[i]->sub_7101023EC8();
+        }
+    } else {
+        for (s32 i = 0; i < mInstances.size(); ++i) {
+            if (mInstances[i])
+                mInstances[i]->sub_71010242C8();
+        }
+    }
+}
+
+}  // namespace ksys::snd

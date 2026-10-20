@@ -411,3 +411,24 @@ void Unk_71024fd3a0::sub_7101022DEC(sead::Heap* heap, const sead::SafeString& na
     _180.clear();
     _180.append(asset);
 }
+
+// NON_MATCHING: the listener position and flag snapshot use different register allocation.
+void Unk_SpotBgmInstance::sub_7101023EC8() {
+    if (_368 & 4)
+        return;
+    auto* listener = ksys::snd::SoundMgr::instance()->sub_71011FC2D0();
+    if (_264 <= 0.0f) {
+        _248 = 0.0f;
+        _24c = 0.0f;
+        _250 = 0.0f;
+    } else {
+        _248 = _254 - listener->getMatrix()(0, 3);
+        _24c = _258 - listener->getMatrix()(1, 3);
+        _250 = _25c - listener->getMatrix()(2, 3);
+    }
+    _260 = 0.0f;
+    const u32 flags = _368;
+    _368 = flags | 4;
+    if (flags & 0x4000)
+        _368 = flags | 0x8004;
+}

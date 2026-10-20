@@ -779,6 +779,8 @@ public:
     bool sub_710105B224(const sead::SafeString& name);
     // 0x710105b7d0: releases RelicBeamBgm and releases the Demo143 resources selected by _39.
     void sub_710105B7D0();
+    void sub_710105B5D4(const sead::SafeString& name, bool use_barefoot, bool);
+    void sub_710105B934(const sead::SafeString&, bool defer_bgm);
     void sub_710105B394(const sead::SafeString& type);
     void sub_710105B8EC();
     // 0x710105ba88: this control guard and the shared RelicBeamBgm stop path.
@@ -843,6 +845,11 @@ public:
     explicit Unk_710103b704(sead::Heap* heap);
     void sub_710103BA44();
     void sub_710103BD88(const sead::SafeString& name, bool skip_event_info);
+    void sub_710103BE18(const sead::SafeString& name, const sead::SafeString& type,
+                        bool mixed, bool start_control, bool use_barefoot, bool flag);
+    void sub_710103C334(const sead::SafeString& name, const sead::SafeString& type,
+                        bool defer_bgm);
+    void sub_710103C7D0();
     // Whole 103BDD8 / 103BDE0 operate on the embedded control at +5e0.
     bool isBgmReady();
     void setWorldMuteType(bool movie, const sead::SafeString& type);

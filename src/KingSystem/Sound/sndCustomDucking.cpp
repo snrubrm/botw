@@ -1,6 +1,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include <aal/aalGroup.h>
+#include <aal/aalSoundSource.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSystemAccessor.h>
 #include "KingSystem/Event/evtEventFlow.h"
@@ -233,6 +234,109 @@ void Unk_710103b704::sub_710103CFF4(StartParam& param) {
     }
     if (!mgr->getDucker(DuckingMgr::DuckerType(0x31)).mDucker.isInitialized())
         mgr->sub_71010421F0(DuckingMgr::DuckerType(0x31), start);
+}
+
+}  // namespace ksys::snd
+
+namespace ksys::snd {
+
+// NON_MATCHING: string copies, group operations and the scene-state stores are scheduled differently.
+void Unk_710103b704::sub_710103BE18(const sead::SafeString& name,
+                                   const sead::SafeString& type, bool mixed, bool start_control,
+                                   bool use_barefoot, bool flag) {
+    const s32 previous = _5c8;
+    ++_5c8;
+    if (previous < -1 || _5c8 > 7) {
+        _5c8 = previous;
+        return;
+    }
+    _8.getEntry(_5c8)._0.copy(name);
+    _8.getEntry(_5c8)._58.copy(type);
+    _8.getEntry(_5c8)._b0 = mixed;
+    if (mixed) {
+        if (start_control)
+            _5e0.sub_710105B5D4(name, use_barefoot, flag);
+        SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType(0x1f), false);
+    }
+    if (_5c8 != 0)
+        return;
+    if (auto* bgm = sub_7100FFE14C())
+        bgm->sub_710102544C(true);
+    SoundMgr::instance()->_58->sub_7101055100();
+    if (auto* groups = aal::SystemAccessor::getGroupMgr()) {
+        if (auto* group = groups->findGroup("NpcVoice")) {
+            if (name == "Demo344_1" && type == "Demo344_1") {
+                if (auto* sound_group = sead::DynamicCast<aal::SoundGroup>(group)) {
+                    for (auto& source : sound_group->getPlayingSoundSources()) {
+                        if (source.mSpatialCalculator)
+                            source.mSpatialCalculator->detachPositioningInfo();
+                    }
+                }
+            } else {
+                group->stopAllSound(0.5f);
+            }
+            if (name == "Demo346_4") {
+                group->allowEmit(sead::BitFlag8(0x20), false);
+                _620 = 0;
+            }
+        }
+    }
+    _5d0 = mixed ? 0 : 6;
+    _5d4 = mixed ? 0 : 3;
+    _5cc = 3;
+    _5d8 = false;
+}
+
+void Unk_710103b704::sub_710103C334(const sead::SafeString& name,
+                                   const sead::SafeString& type, bool defer_bgm) {
+    if (_5c8 < 0)
+        return;
+    if (_8.getEntry(_5c8)._b0)
+        _5e0.sub_710105B934(_8.getEntry(_5c8)._0, defer_bgm);
+    if (auto* groups = aal::SystemAccessor::getGroupMgr()) {
+        if (auto* group = groups->findGroup("NpcVoice")) {
+            group->allowEmit(sead::BitFlag8(0x20), true);
+            _620 = 0;
+        }
+    }
+    if (_5e0._39) {
+        if (_8.getEntry(_5c8)._0 != name)
+            return;
+        if (_8.getEntry(_5c8)._58 != type)
+            return;
+    }
+    if (_5c8 == 0) {
+        _5cc = 0;
+        SoundMgr::instance()->_58->sub_71010554C8();
+        if (auto* bgm = sub_7100FFE14C())
+            bgm->sub_710102544C(false);
+        sub_710103C5F4(defer_bgm);
+    }
+    auto& entry = _8.getEntry(_5c8);
+    entry._0.clear();
+    entry._58.clear();
+    entry._b0 = false;
+    --_5c8;
+}
+
+void Unk_710103b704::sub_710103C7D0() {
+    if (_5e0._39) {
+        SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType(0x22));
+        return;
+    }
+    SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType(0x21));
+    _5d9 = false;
+    if (_5c8 >= 0) {
+        const auto& entry = _8.getEntry(_5c8);
+        if (entry._b0) {
+            const auto& name = entry._0;
+            if (name == "Demo155_0" || name == "Demo158_0" || name == "Demo160_0" ||
+                name == "Demo162_0" || name == "Demo141_0" || name == "Demo141_1" ||
+                name == "Demo141_2" || name == "Demo141_3" || name == "Demo670_0" ||
+                name == "Demo670_1" || name == "Demo670_2" || name == "Demo670_3")
+                _5d9 = true;
+        }
+    }
 }
 
 }  // namespace ksys::snd

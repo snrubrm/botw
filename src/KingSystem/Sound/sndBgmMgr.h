@@ -743,6 +743,7 @@ public:
     // 0x71010252c0 / 0x7101025388 (declared only): add / remove a spot BGM instance (`started`: the controller runs).
     void sub_71010252C0(Unk_SpotBgmInstance* instance, bool started);
     void sub_7101025388(Unk_SpotBgmInstance* instance);
+    void sub_710102544C(bool entering);
     // 0x71010255d0: clears _80 and resets the volume of mGroup to 1.
     void sub_71010255D0();
 

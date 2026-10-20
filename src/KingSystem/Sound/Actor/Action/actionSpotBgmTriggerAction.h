@@ -28,6 +28,7 @@ public:
     // 0x710102413c / 0x710102418c (declared only): fade in / fade out (Unk_710260f1a8::m12 / m13).
     void sub_710102413C(f32 fade_sec);
     void sub_710102418C(f32 fade_sec);
+    void sub_7101023EC8();
     // 0x71010242c8 (placeholder name): if flag 4 is set, clears flags 0xc and stores 1.0 in `_260` when flag
     // 0x8000 is set (0.0 otherwise).
     void sub_71010242C8();
@@ -56,12 +57,12 @@ public:
     /* 0x23c */ u32 _23c = 0;
     /* 0x240 */ u32 _240 = 0;
     /* 0x244 */ u32 _244 = 0;
-    /* 0x248 */ u32 _248 = 0;
-    /* 0x24c */ u32 _24c = 0;
-    /* 0x250 */ u32 _250 = 0;
-    /* 0x254 */ u32 _254 = 0;
-    /* 0x258 */ u32 _258 = 0;
-    /* 0x25c */ u32 _25c = 0;
+    /* 0x248 */ f32 _248 = 0.0f;
+    /* 0x24c */ f32 _24c = 0.0f;
+    /* 0x250 */ f32 _250 = 0.0f;
+    /* 0x254 */ f32 _254 = 0.0f;
+    /* 0x258 */ f32 _258 = 0.0f;
+    /* 0x25c */ f32 _25c = 0.0f;
     /* 0x260 */ f32 _260 = 0.0f;
     /* 0x264 */ f32 _264 = 9999.0f;
     /* 0x268 */ s32 _268 = 0;
