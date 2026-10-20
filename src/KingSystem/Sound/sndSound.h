@@ -699,13 +699,17 @@ KSYS_CHECK_SIZE_NX150(Unk_7102612628, 0x130);
 // Placeholder (the ducking request of 0x71010421f0: a buffered name at +0, the group ducker settings at +0x58, the
 // group list at +0x68, one target setting at +0x70 and a flag at +0x80).
 struct Unk_71025022a0 {
-    /* 0x00 */ sead::BufferedSafeString mName;
-    /* 0x18 */ u8 _18[0x40];
+    /* 0x00 */ sead::FixedSafeString<64> mName;
     /* 0x58 */ aal::GroupDucker::Settings mSettings;
-    /* 0x68 */ sead::Buffer<aal::Group*>* mGroups;
+    /* 0x68 */ sead::PtrArray<aal::Group>* mGroups;
     /* 0x70 */ aal::GroupDucker::TargetSettings mTargetSettings;
     /* 0x80 */ bool _80;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025022a0, 0x88);
+static_assert(offsetof(Unk_71025022a0, mSettings) == 0x58);
+static_assert(offsetof(Unk_71025022a0, mGroups) == 0x68);
+static_assert(offsetof(Unk_71025022a0, mTargetSettings) == 0x70);
+static_assert(offsetof(Unk_71025022a0, _80) == 0x80);
 
 // The secondary polymorphic base of DuckingMgr::Ducker (vtable at 0x7102502200).
 class Unk_7102502200 {
@@ -985,9 +989,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710103b704, 0x628);
 
-// 0x71010421f0 (declared only; 2940 B): starts the custom ducking of `type` on `mgr` from `param`. The
-// address neighbours are the DuckingMgr methods, but its first argument is the manager pointer.
-void sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type, Unk_710103b704::StartParam& param);
+// 0x71010421f0: starts custom ducking from comma-separated roots and exclusions.
+DuckingMgr::Ducker* sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type,
+                                  Unk_710103b704::StartParam& param);
 
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).

@@ -1,5 +1,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include <cstring>
+#include <aal/aalGroupMgr.h>
+#include <aal/aalSystemAccessor.h>
 
 namespace ksys::snd {
 
@@ -91,7 +93,7 @@ void DuckingMgr::Ducker::sub_710103E128(sead::Heap* heap, Unk_71025022a0* reques
     mDucker.initialize(nullptr);
     mDucker.setup(request->mSettings);
     auto* groups = request->mGroups;
-    auto* group = groups->getBufferPtr();
+    auto* group = groups->dataBegin();
     auto* const end = group + groups->size();
     for (; group != end; ++group)
         mDucker.createAndAddTarget(*group, request->mTargetSettings, heap);
@@ -159,6 +161,73 @@ bool DuckingMgr::Ducker::sub_710103E368() const {
             return true;
     }
     return false;
+}
+
+static const char* const sCustomDuckerNames[] = {"Evt:カスタム", "Evt:カスタム予備"};
+
+// NON_MATCHING: token iterator and pointer-array temporaries use different stack slots,
+// with minor loop and store scheduling differences.
+DuckingMgr::Ducker* sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type,
+                                  Unk_710103b704::StartParam& param) {
+    if (type < DuckingMgr::DuckerType::cCustomEvt)
+        return nullptr;
+    auto* group_mgr = aal::SystemAccessor::getGroupMgr();
+    if (!group_mgr)
+        return nullptr;
+
+    sead::FixedSafeString<128> name;
+    sead::FixedPtrArray<aal::Group, 4> roots;
+    s32 root_count = 0;
+    for (auto it = param._0.tokenBegin(","), end = param._0.tokenEnd(","); it != end;) {
+        it.getAndForward(&name);
+        if (name.isEmpty())
+            continue;
+        auto* group = group_mgr->findGroup(name);
+        if (group && root_count < 4) {
+            roots.pushBack(group);
+            ++root_count;
+        }
+    }
+
+    sead::FixedPtrArray<aal::Group, 4> excluded;
+    s32 excluded_count = 0;
+    for (auto it = param._10.tokenBegin(","), end = param._10.tokenEnd(","); it != end;) {
+        it.getAndForward(&name);
+        if (name.isEmpty())
+            continue;
+        auto* group = group_mgr->findGroup(name);
+        if (group && excluded_count < 4) {
+            excluded.pushBack(group);
+            ++excluded_count;
+        }
+    }
+
+    sead::FixedPtrArray<aal::Group, 24> targets;
+    s32 target_count = 0;
+    for (auto& root : roots) {
+        sead::FixedPtrArray<aal::Group, 24> expanded;
+        sub_710105E5CC(&expanded, &excluded, &root);
+        for (auto& group : expanded) {
+            if (targets.indexOf(&group) == -1 && target_count < 24) {
+                targets.pushBack(&group);
+                ++target_count;
+            }
+        }
+    }
+    if (targets.isEmpty())
+        return nullptr;
+
+    // Native construction sets the name and settings but leaves _80 unset. The setup method
+    // reads that flag only after rejecting an already initialized group ducker.
+    Unk_71025022a0 request;
+    request.mSettings = {param._2c, 0.0f, 0.0f};
+    request.mGroups = &targets;
+    request.mTargetSettings = {param._20, param._24, param._28, 1};
+    const u32 name_index = u32(s32(type) - DuckingMgr::DuckerType::cCustomEvt);
+    request.mName.copy(sCustomDuckerNames[name_index < 2 ? name_index : 0]);
+    mgr->mHeap->freeAll();
+    mgr->mDuckers[type].sub_710103E128(mgr->mHeap, &request);
+    return &mgr->mDuckers[type];
 }
 
 }  // namespace ksys::snd
