@@ -411,7 +411,8 @@ public:
     u8 _b0[8];
     sead::FixedObjList<ChemicalPair, 64> mChemicalPairs;
     act::Unk_71024dd490* _ae8;  // Actual Element holder created by sub_7100D9A1D0.
-    u8 _af0[8];
+    // ChemicalObject contact info allocated by init_ and released by the destructor.
+    phys::ContactPointInfo* _af0;
     // lane1 s91: element rigid body contact infos (Unk_7102518688::setRigidBody).
     phys::ContactPointInfo* _af8;
     phys::ContactPointInfo* _b00;
