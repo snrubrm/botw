@@ -2615,6 +2615,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009AEEF0();
     // 0x71009a947c (placeholder name): eases the map view scale (_850._28) toward the target scale
     void sub_71009A947C();
+    // 0x71009ae1c0 (placeholder name): sets _b4ff bit 0, clears the UiSubsys1 map flag and refreshes the home screen
+    void sub_71009AE1C0();
     // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
     // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
     void setMode(s32 mode);

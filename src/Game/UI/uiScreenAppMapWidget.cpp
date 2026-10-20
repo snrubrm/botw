@@ -73,6 +73,16 @@ void ScreenAppMapWidget::sub_71009A947C() {
     mSubsys->_850.set28(height / value);
 }
 
+// 0x71009ae1c0
+void ScreenAppMapWidget::sub_71009AE1C0() {
+    _b4ff |= 1;
+    UiSubsys1::instance()->clear38c8();
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC99C(false);
+        home->x_2();
+    }
+}
+
 // 0x71009a995c
 void ScreenAppMapWidget::sub_71009A995C() {
     _b34c = 1;
