@@ -28,8 +28,7 @@ void Model::requestDraw() {
     ModelScene* scene = mScene;
     if ((scene->mFlags & 0x100) == 0)
         return;
-    const s32 index = scene->mDrawRequestCount.fetchAdd(1);
-    scene->mDrawRequestModels[index] = this;
+    scene->mJobQueue.getDrawList().pushBack(this);
     _a1 |= 2;
 }
 

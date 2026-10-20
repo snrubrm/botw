@@ -93,6 +93,7 @@ add_library(gsys OBJECT
   src/gsys/gsysParticleMgr.cpp
   src/gsys/gsysParticleConfig.cpp
   src/gsys/gsysORUtil.cpp
+  src/gsys/gsysModelJobQueue.cpp
 )
 
 target_compile_options(gsys PRIVATE -fno-exceptions)

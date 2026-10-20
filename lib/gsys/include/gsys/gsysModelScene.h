@@ -102,11 +102,7 @@ public:
 
     u8 _52e8[0x5550 - 0x52e8];
     ModelJobQueue mJobQueue;  // +0x5550
-    // Model::requestDraw 0x7100bf9b88 appends to this counter/array pair.
-    sead::Atomic<s32> mDrawRequestCount;
-    u8 _5634[4];
-    Model** mDrawRequestModels;
-    u8 _5640[0x56d0 - 0x5640];
+    u8 _56c0[0x56d0 - 0x56c0];
     // Owned scene-pass model: initialize 0x7100c0d9fc stores postCreateModel_
     // here, binds the scene/procedural units, then binds the model to this scene.
     // ItemFilter 0x7101293d68 searches its named units; calc requests its draw.
