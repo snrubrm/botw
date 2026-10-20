@@ -343,9 +343,9 @@ const sead::Buffer<ButtonPanePath>* ScreenAppMap::m143() {
 void ScreenAppMap::m94() {
     sub_71009EB0E0();
     if (_3c38)
-        _3c48 = _3c38->_50 * 0.5f;
+        _3c48 = _3c38->GetSize().width * 0.5f;
     if (_3c40)
-        _3c4c = _3c40->_48;
+        _3c4c = _3c40->GetScale().x;
     if (UiSubsys1::instance()->get38f8() == 1)
         sub_71009EB178();
     getStateMachine().run();
@@ -723,9 +723,8 @@ void ScreenAppMap::sub_71009F05C0() {
     sead::Vector2f pos(scale * x, scale * y);
     UiSubsys1::instance()->set3878(pos);
     auto* pane = _3c30;
-    pane->_30 = *UiSubsys1::instance()->getVec3878();
-    pane->_38 = 0.0f;
-    pane->_58 |= 0x10;
+    const sead::Vector2f position = *UiSubsys1::instance()->getVec3878();
+    pane->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
 }
 
 // 0x71009f1a64

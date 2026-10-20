@@ -3226,7 +3226,7 @@ void ScreenAppHome::m99() {
 }
 
 // 0x71009dc77c
-void ScreenAppHome::sub_71009DC77C(s32 index, Unk_PaneTransform* value) {
+void ScreenAppHome::sub_71009DC77C(s32 index, nn::ui2d::Pane* value) {
     if (u32(index) <= 3)
         _38a0[index]._10 = value;
 }

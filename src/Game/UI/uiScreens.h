@@ -2800,9 +2800,9 @@ public:
     /* 0x3c20 */ eui::Animator* _3c20;
     /* 0x3c28 */ eui::Animator* _3c28;
     // The icon area / map panes found by m93 (N_IconArea_00 / Pa_Map_00).
-    /* 0x3c30 */ Unk_PaneTransform* _3c30;
-    /* 0x3c38 */ Unk_PaneTransform* _3c38;
-    /* 0x3c40 */ Unk_PaneTransform* _3c40;
+    /* 0x3c30 */ nn::ui2d::Pane* _3c30;
+    /* 0x3c38 */ nn::ui2d::Pane* _3c38;
+    /* 0x3c40 */ nn::ui2d::Pane* _3c40;
     /* 0x3c48 */ f32 _3c48;
     /* 0x3c4c */ f32 _3c4c;
     /* 0x3c50 */ s32 _3c50;  // the map scale level applied to _3610
@@ -5576,7 +5576,7 @@ public:
     // 0x71009ddfb8 (slot 99): when the byte at 0x3811 is set, calls ui::sub_7100AA86EC(1, false)
     void m99() override;
     // 0x71009dc77c (placeholder name): stores `value` in the third word (+0x10) of the Unk_7102474dd0 `index` (0-3)
-    void sub_71009DC77C(s32 index, Unk_PaneTransform* value);
+    void sub_71009DC77C(s32 index, nn::ui2d::Pane* value);
     // 0x71009dd838 (placeholder name): forwards the float to the _3818 Unk_7102474df8 check
     bool sub_71009DD838(f32 a1) const;
 };

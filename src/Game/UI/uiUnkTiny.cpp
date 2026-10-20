@@ -1494,11 +1494,8 @@ void Unk_7102474dd0::m2(const sead::Vector2f& a, const sead::Vector2f& b) {
     _20 = _18;
     const sead::Vector2f pos = a + b + _20;
     _20 = pos;
-    if (Unk_PaneTransform* pane = _10) {
-        pane->_30.x = pos.x;
-        pane->_30.y = pos.y;
-        pane->_38 = 0;
-        pane->_58 |= 0x10;
+    if (nn::ui2d::Pane* pane = _10) {
+        pane->SetPosition(nn::util::Float3{pos.x, pos.y, 0.0f});
     }
 }
 

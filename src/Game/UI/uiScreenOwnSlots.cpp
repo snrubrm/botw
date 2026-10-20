@@ -879,24 +879,17 @@ Unk_7102493bd0::~Unk_7102493bd0() {
 }
 
 // 0x7100a3eca4
-// NON_MATCHING: in the original the per-object position copy stays one 8-byte copy and the z store sits between the
-// load and the store of the flag byte; ours merges the y and z stores
 void Unk_7102493bd0::m2(const sead::Vector2f& a, const sead::Vector2f& b) {
     _20 = _18;
     const sead::Vector2f pos = a + b + _20;
     _20 = pos;
-    if (Unk_PaneTransform* pane = _10) {
-        pane->_30.x = pos.x;
-        pane->_30.y = pos.y;
-        pane->_38 = 0;
-        pane->_58 |= 0x10;
+    if (nn::ui2d::Pane* pane = _10) {
+        pane->SetPosition(nn::util::Float3{pos.x, pos.y, 0.0f});
     }
     const s32 count = _38;
     for (s32 i = 0; i < count; ++i) {
-        if (Unk_PaneTransform* pane = _28[i]) {
-            pane->_30 = _20;
-            pane->_38 = 0;
-            pane->_58 |= 0x10;
+        if (nn::ui2d::Pane* pane = _28[i]) {
+            pane->SetPosition(nn::util::Float3{_20.x, _20.y, 0.0f});
         }
     }
 }

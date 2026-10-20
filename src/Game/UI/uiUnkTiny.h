@@ -919,19 +919,7 @@ public:
     /* 0x151 */ u8 _151 = 0;
 };
 
-// Placeholder for the pane-like object Unk_7102474dd0 positions (a translation at 0x30 and a dirty bit in the byte at 0x58).
-struct Unk_PaneTransform {
-    u8 _0[0x30];
-    sead::Vector2f _30;
-    f32 _38;
-    u8 _3c[0x48 - 0x3c];
-    /* 0x48 */ f32 _48;  // read by ScreenAppMap::m94 (Pa_Map_00)
-    /* 0x4c */ u8 _4c[4];
-    /* 0x50 */ f32 _50;  // read by ScreenAppMap::m94 (N_IconArea_00)
-    u8 _54[0x58 - 0x54];
-    u8 _58;
-};
-
+// Scroll entries position the SDK Pane stored by LayoutEx::GetPane().
 // Member of several screens (0x28 bytes, e.g. ScreenAppHome 0x38a0 ... 0x3918): a position (`_18` + the offsets
 // passed to m2) applied to one object.
 class Unk_7102474dd0 {
@@ -947,7 +935,7 @@ public:
 
     // set to the owning Unk_7102474df8 by 0x7100938408
     Unk_7102474df8* _8 = nullptr;
-    Unk_PaneTransform* _10 = nullptr;
+    nn::ui2d::Pane* _10 = nullptr;
     sead::Vector2f _18 = sead::Vector2f::zero;
     sead::Vector2f _20 = sead::Vector2f::zero;
 };
@@ -960,12 +948,16 @@ public:
     // 0x7100a3eca4
     void m2(const sead::Vector2f& a, const sead::Vector2f& b) override;
 
-    sead::Buffer<Unk_PaneTransform*> _28;
+    sead::Buffer<nn::ui2d::Pane*> _28;
     s32 _38;
 };
 
 // Element of ScreenOptionWindow::_3698 (owned by the screen; `delete` destroys the member at 0x70).
 struct Unk_OptionWindowEntry {
+    // 0x7100a2b53c
+    Unk_OptionWindowEntry(ScreenOptionWindow* screen, eui::LayoutEx* caption,
+                          eui::LayoutEx* layout, s32 index);
+
     // 0x7100a2b76c (placeholder name): enables and shows the button of `mode` (0: _18, 1: _20, 2: _28), disables and
     // hides the other two
     void sub_7100A2B76C(s32 mode);

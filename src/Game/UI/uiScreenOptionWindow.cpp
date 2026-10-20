@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiBoxCursor.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/gameStageBinder.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkTiny.h"
@@ -44,6 +45,34 @@ static OptionDefinition sUnk_71025f0290[] = {
 };
 static sead::Buffer<OptionDefinition> sUnk_71025f0678(sUnk_71025f0290);
 static sead::SafeString sUnk_71025f0668 = "LayoutMsg/OptionWindow_00";
+
+// 0x7100a2b53c
+Unk_OptionWindowEntry::Unk_OptionWindowEntry(ScreenOptionWindow* screen, eui::LayoutEx* caption,
+                                           eui::LayoutEx* layout, s32 index)
+    : _0(screen), _8(caption), _10(layout), _18(nullptr), _20(nullptr), _28(nullptr),
+      _30(nullptr), _38(nullptr), _40(nullptr), _48(nullptr), _50(index), _54(false),
+      _58(-1), _5c(-1), _60(-1), _64(false), _68(ksys::gdt::FlagType::Invalid) {
+    if (!_10)
+        return;
+    if (auto* parts = _10->findPartsLayout("Pa_Btn_00"))
+        _18 = nn::font::DynamicCast<eui::UniteButton>(_0->sub_7100A4810C(parts));
+    if (auto* parts = _10->findPartsLayout("Pa_Btn_01")) {
+        _20 = nn::font::DynamicCast<eui::UniteButton>(_0->sub_7100A4810C(parts));
+        if (_20) {
+            if (auto* arrow = _20->mLayout->findPartsLayout("Pa_ArrowL_00")) {
+                _30 = arrow->tryCreateAnimatorAuto("Decide", true);
+                _38 = arrow->tryCreateAnimatorAuto("Invalid", true);
+            }
+            if (auto* arrow = _20->mLayout->findPartsLayout("Pa_ArrowR_00")) {
+                _40 = arrow->tryCreateAnimatorAuto("Decide", true);
+                _48 = arrow->tryCreateAnimatorAuto("Invalid", true);
+            }
+        }
+    }
+    if (auto* parts = _10->findPartsLayout("Pa_Btn_02"))
+        _28 = nn::font::DynamicCast<eui::UniteButton>(_0->sub_7100A4810C(parts));
+    _70._10 = _10->GetPane();
+}
 
 // 0x7100a2a570
 // NON_MATCHING: native global block addressing and branch scheduling differ.
