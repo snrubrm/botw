@@ -89,6 +89,14 @@ public:
     void calc(bool a1);
     // 0x7100dbe85c (CSV EventFlowMgr::x_0; not decompiled)
     void x_0();
+    // The 64 actor slots are grouped by formatted schedule name and selected by planar distance.
+    void x_3(u64* visited, const sead::Vector3f& position, const sead::SafeString& name,
+             EventMgrStruct3A** farthest, f32* farthest_distance, EventMgrStruct3A* source);
+    void sub_7100DBFBAC(f32 nearest_distance, f32 farthest_distance,
+                        EventMgrStruct3A* nearest, EventMgrStruct3A* farthest);
+    // Native DBFA00 / DBFE98 consume one actor binding / the player position.
+    void x_4(EventMgrStruct3A* entry);
+    void x_5(const sead::Vector3f& position);
     // 0x7100dbf2b4 (CSV unnamed; declared only; placeholder name): with a1, EventFlow::sub_7100DC1160 on every slot,
     // else unloads the slots whose _120 is clear
     void sub_7100DBF2B4(bool a1);

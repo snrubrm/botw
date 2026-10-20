@@ -1,3 +1,5 @@
+#include "KingSystem/Resource/Actor/resResourceAISchedule.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 #include "Game/Actor/actNPCBase.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Event/evtContext.h"
@@ -186,6 +188,41 @@ void EventActorLinkPool::removeOwner(EventFlowBase* flow) {
         if (link.mActive)
             link.removeOwner(flow);
     }
+}
+
+// 0x710127a008: the association is set and cleared by EventFlowMgr's schedule selection.
+void EventMgrStruct3A::setFlowRecord(EventMgrStruct3B* record) {
+    mFlowRecord = record;
+}
+
+// 0x7100dc14f0
+// NON_MATCHING: native Byaml temporary lifetimes and timeline traversal scheduling differ.
+void EventMgrStruct3B::loadBaischeduleStuff(EventMgrStruct3A* entry) {
+    if (_58 == 0) {
+        auto* actor = entry->mActor;
+        const al::ByamlIter schedule(actor->getParam()->getRes().mAISchedule->getData());
+        al::ByamlIter default_timeline;
+        if (schedule.tryGetIterByKey(&default_timeline, "DefaultTimeline")) {
+            loadAIScheduleTimelineInfo(default_timeline, actor,
+                                      entry->mHasUniqueName ? actor->getUniqueName() : nullptr);
+        } else {
+            // Native DC14F0 constructs this diagnostic filename and discards its contents.
+            sead::FormatFixedSafeString<128> filename("%s.baischedule",
+                    actor->getParam()->getRes().mActorLink->getUserName(res::ActorLink::User::AISchedule));
+        }
+        al::ByamlIter conditional_timelines;
+        if (schedule.tryGetIterByKey(&conditional_timelines, "ConditionalTimelines")) {
+            for (s32 i = 0; i < conditional_timelines.getSize(); ++i) {
+                al::ByamlIter timeline;
+                if (conditional_timelines.tryGetIterByIndex(&timeline, i)) {
+                    actor = entry->mActor;
+                    loadAIScheduleTimelineInfo(timeline, actor,
+                                      entry->mHasUniqueName ? actor->getUniqueName() : nullptr);
+                }
+            }
+        }
+    }
+    ++_58;
 }
 
 }  // namespace ksys::evt

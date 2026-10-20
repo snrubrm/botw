@@ -6,6 +6,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace al {
+class ByamlIter;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -14,6 +18,7 @@ namespace ksys::evt {
 
 class EventFlow;
 class EventFlowBase;
+class EventMgrStruct3B;
 
 // The event's actor ownership record. Native 127961C selects one of 200 0x58-byte
 // records, binds mLink, adds a flow/data pair, and stores the record in Actor +0x1a0.
@@ -63,9 +68,11 @@ public:
     void assignToActor(act::Actor* actor);
     // 0x7101279a54: AIScheduleUser plus NPC and unique-name suffixes for event binding.
     void formatActorName(sead::BufferedSafeString* name) const;
+    // 127A008 sets/clears the shared flow-record association in the native schedule callers.
+    void setFlowRecord(EventMgrStruct3B* record);
 
     /* 0x00 */ act::Actor* mActor = nullptr;
-    /* 0x08 */ void* _8 = nullptr;
+    /* 0x08 */ EventMgrStruct3B* mFlowRecord = nullptr;
     /* 0x10 */ bool mAssigned = false;
     /* 0x11 */ bool mHasUniqueName = false;
 };
@@ -83,6 +90,11 @@ public:
     void sub_7100DC1448(bool force);
     // 0x7100dc22e0 (placeholder name): drops a reference; the last one unloads all flows and resets the record
     void sub_7100DC22E0();
+    // 0x7100dc14f0: load the first actor's default/conditional schedule timelines, then retain.
+    void loadBaischeduleStuff(EventMgrStruct3A* entry);
+    // 0x7100dc1680: consumes a timeline entry, actor and optional unique-name selector.
+    void loadAIScheduleTimelineInfo(const al::ByamlIter& timeline, act::Actor* actor,
+                                    const char* unique_name);
 
     /* 0x000 */ sead::FixedSafeString<64> _0;
     /* 0x058 */ s32 _58 = 0;  // reference count

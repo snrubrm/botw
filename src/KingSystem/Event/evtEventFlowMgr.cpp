@@ -1,3 +1,6 @@
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include <limits>
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include <prim/seadScopedLock.h>
 #include <thread/seadCriticalSection.h>
@@ -96,6 +99,128 @@ EventFlow* EventFlowMgr::acquireEventFlow(const sead::SafeString& event_name,
     }
     _b8 = false;
     return nullptr;
+}
+
+// 0x7100dbf778
+// NON_MATCHING: the loop index comparison is extended to 64 bits instead of 32 bits.
+void EventFlowMgr::x_3(u64* visited, const sead::Vector3f& position,
+                      const sead::SafeString& name, EventMgrStruct3A** farthest,
+                      f32* farthest_distance, EventMgrStruct3A* source) {
+    EventMgrStruct3A* nearest = nullptr;
+    f32 nearest_distance = std::numeric_limits<f32>::infinity();
+    for (s32 i = 0; i < _28.size(); ++i) {
+        auto& entry = _28[i];
+        const u64 bit = u64(1) << i;
+        if ((*visited & bit) || !entry.mAssigned)
+            continue;
+        sead::FixedSafeString<64> actor_name;
+        entry.formatActorName(&actor_name);
+        if (actor_name != name)
+            continue;
+        *visited |= bit;
+        const auto actor_position = entry.mActor->getMtx().getTranslation();
+        const f32 distance = sead::Vector2f(actor_position.x - position.x,
+                                          actor_position.z - position.z).length();
+        if (distance < nearest_distance) {
+            nearest = &entry;
+            nearest_distance = distance;
+        }
+        if (!entry.mFlowRecord) {
+            entry.setFlowRecord(source->mFlowRecord);
+            source->mFlowRecord->loadBaischeduleStuff(&entry);
+        }
+    }
+    if (nearest && nearest_distance > *farthest_distance) {
+        *farthest_distance = nearest_distance;
+        *farthest = nearest;
+    }
+}
+
+// 0x7100dbfbac
+// NON_MATCHING: native record traversal and actor-name comparison scheduling differ.
+void EventFlowMgr::sub_7100DBFBAC(f32 nearest_distance, f32 farthest_distance,
+                                 EventMgrStruct3A* nearest, EventMgrStruct3A* farthest) {
+    EventMgrStruct3B* record = nullptr;
+    for (s32 i = 0; i < _48.size(); ++i) {
+        if (_48[i]._0.isEmpty()) {
+            record = &_48[i];
+            break;
+        }
+    }
+    if (nearest_distance < farthest_distance - 3.0f && farthest && !record) {
+        record = farthest->mFlowRecord;
+        for (s32 i = 0; i < _28.size(); ++i) {
+            auto& entry = _28[i];
+            if (entry.mAssigned && entry.mFlowRecord == record) {
+                entry.setFlowRecord(nullptr);
+                if (!record->_0.isEmpty())
+                    record->sub_7100DC22E0();
+            }
+        }
+    }
+    if (!record)
+        return;
+    sead::FixedSafeString<64> name;
+    nearest->formatActorName(&name);
+    record->sub_7100DC1340(0, mCalcCount, name);
+    for (s32 i = 0; i < _28.size(); ++i) {
+        auto& entry = _28[i];
+        if (!entry.mAssigned)
+            continue;
+        sead::FixedSafeString<64> actor_name;
+        entry.formatActorName(&actor_name);
+        if (actor_name == name) {
+            entry.setFlowRecord(record);
+            record->loadBaischeduleStuff(&entry);
+        }
+    }
+}
+
+// 0x7100dbe85c
+// NON_MATCHING: native actor traversal and planar-distance scheduling differ.
+void EventFlowMgr::x_0() {
+    auto* player = act::ActorSystem::instance()->getPlayer();
+    if (!player)
+        return;
+    EventMgrStruct3A* farthest = nullptr;
+    f32 farthest_distance = 0;
+    u64 visited = 0;
+    EventMgrStruct3A* nearest = nullptr;
+    f32 nearest_distance = std::numeric_limits<f32>::infinity();
+    for (s32 i = 0; i < _28.size(); ++i) {
+        auto& entry = _28[i];
+        if (!entry.mAssigned)
+            continue;
+        sead::FixedSafeString<64> name;
+        entry.formatActorName(&name);
+        const auto position = entry.mActor->getMtx().getTranslation();
+        const auto player_position = player->getMtx().getTranslation();
+        const f32 distance = sead::Vector2f(position.x - player_position.x,
+                                          position.z - player_position.z).length();
+        if (!entry.mFlowRecord) {
+            if (distance < nearest_distance) {
+                nearest = &entry;
+                nearest_distance = distance;
+            }
+        } else {
+            if (visited & (u64(1) << i))
+                continue;
+            x_3(&visited, player->getMtx().getTranslation(), name, &farthest,
+                &farthest_distance, &entry);
+        }
+        x_4(&entry);
+    }
+    if (nearest)
+        sub_7100DBFBAC(nearest_distance, farthest_distance, nearest, farthest);
+    x_5(player->getMtx().getTranslation());
+    for (s32 i = 0; i < _58.size(); ++i) {
+        if (!_58[i]._0.isEmpty() && _58[i]._168 != mCalcCount)
+            _58[i].sub_7100DC22E0();
+    }
+    for (s32 i = 0; i < _68.size(); ++i) {
+        if (!_68[i]._0.isEmpty() && _68[i]._168 != mCalcCount)
+            _68[i].sub_7100DC22E0();
+    }
 }
 
 }  // namespace ksys::evt
