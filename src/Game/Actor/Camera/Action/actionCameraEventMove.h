@@ -34,6 +34,13 @@ protected:
     // 0x710075e014 (placeholder name): interpolates the polar offset and the look-at point between the
     // event's current and target states by _1d8._18 and writes them to the camera.
     void sub_710075E014();
+    // 0x710075e9b4 / 0x710075eb98 (placeholder names): tries up to `count` directions on a 2.5 degree
+    // ring around `target` and on both sides of the elevation of `pos - target`, keeping the first
+    // direction from `target` where `pos` is visible. `pos` receives the failing point; false means no
+    // direction was found. The second form skips the elevation clamping of the offsets.
+    bool sub_710075E810(const sead::Vector3f& pos, const sead::Vector3f& target);
+    bool sub_710075E9B4(sead::Vector3f* pos, const sead::Vector3f& target, s32 count);
+    bool sub_710075EB98(sead::Vector3f* pos, const sead::Vector3f& target, s32 count);
 
     uking::act::Unk_71009214b8 _4c;
     uking::act::Unk_71009214b8 _84;

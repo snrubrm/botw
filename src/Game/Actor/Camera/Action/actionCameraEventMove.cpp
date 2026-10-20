@@ -1,5 +1,7 @@
 #include "Game/Actor/Camera/Action/actionCameraEventMove.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
@@ -157,6 +159,114 @@ void CameraEventMove::m46() {
     getDynamicParam_2(&mLngReverse_d, "LngReverse");
     getDynamicParam_2(&mNearSide_d, "NearSide");
     getDynamicParam_2(&mOffset_d, "Offset");
+}
+
+// 0x710075e810 (unnamed): whether `pos` is visible from `target`. A ray from `target` to `pos` on the
+// ground layers blocks; then two rays from `pos` to `target` on the object layers decide, the one with
+// normal checking losing when it hits closer to `target`.
+bool CameraEventMove::sub_710075E810(const sead::Vector3f& pos, const sead::Vector3f& target) {
+    uking::Unk_71024739d0 ground(ksys::phys::GroundHit::HitAll);
+    ground.sub_710090D73C();
+    ground.setStart(target);
+    ground.setEnd(pos);
+    // called through a pointer in the original (not devirtualised)
+    if ((&ground)->worldRayCast())
+        return true;
+
+    uking::Unk_71024739d0 normal(ksys::phys::GroundHit::HitAll);
+    normal.sub_710090D808();
+    normal.mQuery.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_1);
+    normal.setStart(pos);
+    normal.setEnd(target);
+    // called through a pointer in the original (not devirtualised)
+    if (!(&normal)->worldRayCast())
+        return false;
+
+    uking::Unk_71024739d0 plain(ksys::phys::GroundHit::HitAll);
+    plain.sub_710090D808();
+    plain.mQuery.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    plain.setStart(pos);
+    plain.setEnd(target);
+    // called through a pointer in the original (not devirtualised)
+    if (!(&plain)->worldRayCast())
+        return true;
+
+    sead::Vector3f plain_hit;
+    sead::Vector3f normal_hit;
+    plain.getHitPosition(&plain_hit);
+    normal.getHitPosition(&normal_hit);
+    const f32 plain_distance = (plain_hit - target).squaredLength();
+    const f32 normal_distance = (normal_hit - target).squaredLength();
+    return normal_distance < plain_distance;
+}
+
+// NON_MATCHING: the original peels the first iteration's copy of the polar offset into the loop
+// preheader and re-copies only the elevation at the loop head; ours keeps the whole copy at the loop
+// head, so the function is 24 bytes shorter. Everything else matches.
+bool CameraEventMove::sub_710075E9B4(sead::Vector3f* pos, const sead::Vector3f& target, s32 count) {
+    if (count < 0)
+        return false;
+    if (!sub_710075E810(*pos, target))
+        return false;
+
+    sead::Vector3f point = *pos;
+    act::Unk_7100922700 dir(*pos - target);
+    dir._4 = angleStuff(sub_7100924CAC(dir._4));
+
+    for (s32 i = 0; i < count; ++i) {
+        act::Unk_7100922700 polar = dir;
+        const f32 sign = s32(sead::GlobalRandom::instance()->getU32()) >= 0 ? 1.0f : -1.0f;
+        const f32 angle = f32(i) * sign * 2.5f;
+
+        polar._4 = angleStuff(angle);
+        polar._4 = angleStuff(sub_7100924CAC(polar._4));
+        point = target + polar.sub_7100923254();
+        if (!sub_710075E810(point, target)) {
+            *pos = point;
+            return false;
+        }
+
+        polar._4 = angleStuff(-angle);
+        polar._4 = angleStuff(sub_7100924CAC(polar._4));
+        point = target + polar.sub_7100923254();
+        if (!sub_710075E810(point, target)) {
+            *pos = point;
+            return false;
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: same loop rotation as sub_710075E9B4 (the polar offset copy is not peeled).
+bool CameraEventMove::sub_710075EB98(sead::Vector3f* pos, const sead::Vector3f& target, s32 count) {
+    if (count < 0)
+        return false;
+    if (!sub_710075E810(*pos, target))
+        return false;
+
+    sead::Vector3f point = *pos;
+    const act::Unk_7100922700 dir(*pos - target);
+
+    for (s32 i = 0; i < count; ++i) {
+        act::Unk_7100922700 polar = dir;
+        const f32 sign = s32(sead::GlobalRandom::instance()->getU32()) >= 0 ? 1.0f : -1.0f;
+        const f32 angle = f32(i) * sign * 2.5f;
+
+        polar._4 = angleStuff(angle);
+        point = target + polar.sub_7100923254();
+        if (!sub_710075E810(point, target)) {
+            *pos = point;
+            return false;
+        }
+
+        polar._4 = angleStuff(-angle);
+        point = target + polar.sub_7100923254();
+        if (!sub_710075E810(point, target)) {
+            *pos = point;
+            return false;
+        }
+    }
+    return true;
 }
 
 }  // namespace uking::action
