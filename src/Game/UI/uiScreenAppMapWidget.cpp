@@ -153,6 +153,39 @@ bool ScreenAppMapWidget::sub_71009AF194() const {
     return (_b4ff & 5) == 5;
 }
 
+// 0x71009a967c
+// NON_MATCHING: the original loads _128 after getVec3870 (argument evaluation order)
+void ScreenAppMapWidget::sub_71009A967C() {
+    UiSubsys1::instance()->clear3864();
+    if (_b350 == 1)
+        sub_71009A9B8C();
+    sead::Vector2f pos = *mSubsys->getVec3868();
+    sub_7100AA21F4(_128, &pos, *mSubsys->getVec3870(), _b51c, _b520, _b524);
+    mSubsys->sub_7100966D0C(pos);
+}
+
+// 0x71009a9820
+void ScreenAppMapWidget::sub_71009A9820() {
+    const s32 level = mSubsys->_850.get48();
+    if (mSubsys->is898EqualTo3()) {
+        _128->invokeSoundLink2Event_("mc_mapZoom_in_limit");
+    } else if (mSubsys->is898Below3()) {
+        sub_71009A98A4(level + 1);
+        _128->invokeSoundLink2Event_("mc_mapZoom_in");
+    }
+}
+
+// 0x71009a996c
+void ScreenAppMapWidget::sub_71009A996C() {
+    const s32 level = mSubsys->_850.get48();
+    if (mSubsys->is898Zero()) {
+        _128->invokeSoundLink2Event_("mc_mapZoom_out_limit");
+    } else if (mSubsys->is898Positive()) {
+        sub_71009A98A4(level - 1);
+        _128->invokeSoundLink2Event_("mc_mapZoom_out");
+    }
+}
+
 // 0x71009a9a9c
 void ScreenAppMapWidget::sub_71009A9A9C(s32 index) {
     const s32 level = sub_71009661BC(index);

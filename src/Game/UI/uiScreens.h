@@ -2520,6 +2520,13 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009A93E0();
     // 0x71009a9a9c (placeholder name): sub_71009A9A38 for the level of a scale index
     void sub_71009A9A9C(s32 index);
+    // 0x71009a9820 / 0x71009a996c (placeholder names): zoom the map in / out by one level, or play the limit sound
+    void sub_71009A9820();
+    void sub_71009A996C();
+    // 0x71009a98a4 (declared only): applies a zoom level, saves its scale to a GameData f32 flag and updates the view
+    void sub_71009A98A4(s32 level);
+    // 0x71009a967c (placeholder name): moves the view position towards its target with the 0xb51c - 0xb524 rates
+    void sub_71009A967C();
     // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
     void sub_71009A99F0(s32 level);
     // 0x71009a9a38 (placeholder name): applies the scale level to the widget's map view parameters
