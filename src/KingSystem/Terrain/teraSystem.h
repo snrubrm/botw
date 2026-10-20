@@ -258,21 +258,44 @@ public:
                 return cell;
             }
 
+            void resetCells();
+
+            struct CellState {
+                u16 _0;
+                u8 _2;
+                u8 _3;
+            };
+            static_assert(sizeof(CellState) == 4);
+
             u64 _0;
             u64 _8;
             /* 0x10 */ sead::CriticalSection mCS;
             /* 0x50 */ u32 mFlags;
-            u8 _54[0x1088 - 0x54];
+            u8 _54[0x68 - 0x54];
+            u32 _68;
+            u8 _6c[0x878 - 0x6c];
+            u32 _878;
+            u8 _87c[0x1088 - 0x87c];
             /* 0x1088 */ Cell mCells[47][47];
             /* 0x124a8 */ s32 _124a8;
             /* 0x124ac */ s32 _124ac;
             /* 0x124b0 */ s32 _124b0;
             /* 0x124b4 */ s32 _124b4;
-            u8 _124b8[0x3844c - 0x124b8];
+            Record mRecords[47][47];
+            CellState mCellStates[47][47];
+            u8 _36f7c[0x3844c - 0x36f7c];
             /* 0x3844c */ f32 _3844c;
             /* 0x38450 */ f32 _38450;
-            u8 _38454[0x38720 - 0x38454];
+            u8 _38454[0x384c8 - 0x38454];
+            f32 _384c8;
+            u8 _384cc[4];
+            s32 _384d0;
+            u8 _384d4[0x38720 - 0x384d4];
         };
+        static_assert(offsetof(EntryPart, mRecords) == 0x124b8);
+        static_assert(offsetof(EntryPart, mCellStates) == 0x34cf8);
+        static_assert(offsetof(EntryPart, _384c8) == 0x384c8);
+        static_assert(sizeof(EntryPart) == 0x38720);
         struct EntryPart2 {
             u8 _0[0x280];
             u32 mFlags;

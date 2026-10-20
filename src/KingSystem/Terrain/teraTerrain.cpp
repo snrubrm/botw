@@ -5,6 +5,7 @@
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <cmath>
+#include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
 #include <prim/seadBitUtil.h>
 #include <filedevice/seadFileDevice.h>
@@ -24,6 +25,24 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
 namespace ksys::tera {
+
+// NON_MATCHING: the compiler inlines the cell reset and unrolls the state clearing loop.
+void Core::Grass::EntryPart::resetCells() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    _68 = 0;
+    _878 = 0;
+    for (auto& row : mCells)
+        for (auto& cell : row)
+            cell.reset();
+    for (auto& row : mCellStates) {
+        for (auto& state : row) {
+            state._0 = 0;
+            state._2 = 0;
+        }
+    }
+    _384c8 = 0.0f;
+    _384d0 = -1;
+}
 
 // NON_MATCHING: the first record stores reload its pointer once more.
 void Core::Grass::EntryPart::Cell::reset() {
