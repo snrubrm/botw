@@ -3,6 +3,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -88,6 +89,35 @@ void UnarmedEnemyNoiseTarget::sub_71005D4C28() {
         enemy->sub_7100019A9C(*nearest);
     }
     _d0 = *nearest;
+}
+
+// 0x71005d46fc: switch to the anger child with the target position (the equipped weapon's owner, the
+// current target's translation, or the player).
+void UnarmedEnemyNoiseTarget::sub_71005D46FC() {
+    ksys::act::ai::InlineParamPack pack;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->sub_7100016284(*mWeaponIdx_s)) {
+        sub_71005D7270(&pack, "TargetPos");
+        // C++14 evaluation order: the original evaluates the destination first
+        _f0.operator=(act::PlayerInfo::getSomeProcLink());
+    } else if (_d0.hasProc()) {
+        pack.addVec3(sead::DynamicCast<ksys::act::Actor>(_d0.getProc(nullptr, nullptr))
+                         ->getMtx()
+                         .getTranslation(),
+                     "TargetPos", -1);
+        _f0 = _d0;
+    } else {
+        sub_71005D7270(&pack, "TargetPos");
+        _f0.operator=(act::PlayerInfo::getSomeProcLink());
+    }
+
+    if (enemy) {
+        const s32 idx = *mWeaponIdx_s;
+        enemy->_c38[idx].reset();
+        enemy->_e80.resetBit(idx);
+    }
+
+    changeChild("怒り", &pack);
 }
 
 }  // namespace uking::ai

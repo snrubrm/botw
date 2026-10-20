@@ -24,6 +24,9 @@ protected:
     // 0x71005d4ab0: "武器発見" with the target weapon
     void sub_71005D4AB0();
     void sub_71005D4C28();
+    // 0x71005d46fc: switch to "怒り" with the target position: the equipped weapon's target (player),
+    // the current target's translation, or the player when there is no target.
+    void sub_71005D46FC();
     // static_param at offset 0x68
     const int* mLostTime_s{};
     // static_param at offset 0x70
