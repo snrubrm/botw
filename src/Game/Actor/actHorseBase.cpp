@@ -54,7 +54,6 @@ class Unk_71024eb4c0 : public ksys::phys::CharacterControllerUnk48 {
     SEAD_RTTI_OVERRIDE(Unk_71024eb4c0, ksys::phys::CharacterControllerUnk48)
 public:
     Unk_71024eb4c0() : CharacterControllerUnk48(2) {}
-    // NON_MATCHING: the inline base destructor removes the original calls in D0 and its thunks.
     ~Unk_71024eb4c0() override = default;
     void sub_7100F69014(const sead::Vector3f& normal, const hkpCharacterInput& input,
                        hkpCharacterOutput& output) override;
