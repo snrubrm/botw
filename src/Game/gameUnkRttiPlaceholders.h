@@ -3148,6 +3148,9 @@ public:
     void sub_7101012340(s32 value, bool flag, s32 id);
     bool m10() override;
     bool m11() override;
+    // 0x7101011e94: counts the entries, plays the BGM after the play wait while one is set and fades it out (or
+    // plays the outro) when none is.
+    void m5() override;
     // 0x710101214c: stops the handle and resets the play state.
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
@@ -3173,16 +3176,16 @@ public:
     // 0x1dc..0x1e8 and 0x1f4..0x228 are reset by m13 (0x710101214c); meanings unknown.
     // Compared with DamageThresholdHitReserve by hm15.
     /* 0x1dc */ s32 _1dc;
-    /* 0x1e0 */ u8 _1e0;
-    /* 0x1e1 */ u8 _1e1;
-    /* 0x1e2 */ u8 _1e2;
-    /* 0x1e3 */ u8 _1e3;
-    /* 0x1e4 */ u32 _1e4;
-    /* 0x1e8 */ u8 _1e8;
+    // The numbers of used entries and of entries with _4 set and _5 clear (m5).
+    /* 0x1e0 */ s32 _1e0;
+    /* 0x1e4 */ s32 _1e4;
+    // Whether to play the outro (m5).
+    /* 0x1e8 */ bool _1e8;
     /* 0x1ec */ s32 _1ec;
     /* 0x1f0 */ bool _1f0;
-    /* 0x1f4 */ u32 _1f4;
-    u8 _1f8[0x1fc - 0x1f8];
+    // The play wait and fade-out wait counters (m5).
+    /* 0x1f4 */ f32 _1f4;
+    /* 0x1f8 */ f32 _1f8;
     /* 0x1fc */ s32 _1fc;
     /* 0x200 */ sead::FixedSafeString<8> _200;
     // The playing time when a hit part was reserved (hm15); reset by the marker callback 0x7101012470.
@@ -3190,7 +3193,10 @@ public:
     /* 0x224 */ f32 _224;
     // Set by hm14.
     /* 0x228 */ ksys::snd::Unk_710260f248Entry* _228;
-    u8 _230[0x240 - 0x230];
+    // The "outro" entry (m5).
+    /* 0x230 */ ksys::snd::Unk_710260f248Entry* _230;
+    /* 0x238 */ s32 _238;
+    u8 _23c[0x240 - 0x23c];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 

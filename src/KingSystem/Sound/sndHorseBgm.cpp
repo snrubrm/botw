@@ -27,11 +27,8 @@ void Unk_71024fefe8::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     _1dc = 0;
     _1e0 = 0;
-    _1e1 = 0;
-    _1e2 = 0;
-    _1e3 = 0;
     _1e4 = 0;
-    _1e8 = 0;
+    _1e8 = false;
     _1f4 = 0;
     _1fc = -1;
     _200.clear();
@@ -65,6 +62,117 @@ void Unk_71024fefe8::sub_71010121D8(s32 id) {
     std::atomic_thread_fence(std::memory_order_seq_cst);
     while (!mEntriesLock.compareExchange(1, 0)) {
     }
+}
+
+namespace {
+// 0x71024fefd8
+sead::SafeString sStr_GuardianBgmOutro = "outro";
+}  // namespace
+
+// 0x710260fd60 / 0x710260fd61 (placeholder names): debug flags read by m5 (keep playing / play the outro once);
+// nothing in the game writes them.
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FD60;
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260FD61;
+
+// NON_MATCHING: the state is loaded before the _1ec / _1f0 stores (the original loads it after).
+void Unk_71024fefe8::m5() {
+    if (!mActive)
+        return;
+    if ((mState == 1 || mState == 2) && _124 == 0)
+        sub_710101D9D8();
+
+    _1dc = 0;
+    _1e0 = 0;
+    _1e4 = 0;
+    _1e8 = false;
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        const auto& entry = mEntries[i];
+        if (entry.id != 0) {
+            ++_1e0;
+            if (entry._4 && !entry._5)
+                ++_1e4;
+        }
+    }
+    if (_1f0 && _1e4 == 0)
+        _1e8 = true;
+    if (_1ec >= 1) {
+        _1dc = _1ec;
+        _238 = _1ec;
+    }
+    _1ec = 0;
+    _1f0 = false;
+
+    switch (mState) {
+    case 0:
+        if (sUnk_710260FD60 || _1e4 != 0) {
+            _1f4 += ksys::snd::sub_710105E3A4();
+            const f32 wait = mInfo->mPlayWaitSec.ref();
+            if (_1f4 >= wait) {
+                _1f4 = wait;
+                if (_68._18 & 1) {
+                    sub_710101D9D8();
+                    _1a0.setValueImmediate(1.0f);
+                    mState = 1;
+                }
+            }
+        } else {
+            _1f4 = 0.0f;
+        }
+        break;
+    case 1: {
+        bool outro = false;
+        if (sUnk_710260FD61 == 1) {
+            sUnk_710260FD61 = 0;
+            outro = true;
+        }
+        if ((outro || _1e8) && (_124 == 3 || _124 == 4)) {
+            sub_7101020C08(0.0f);
+            _230 = sub_71010209FC(sStr_GuardianBgmOutro);
+            if (_230 && _230->sub_7100FF6DF4(this)) {
+                mState = 3;
+                break;
+            }
+            sub_710101D9F4(0.0f);
+            _1f4 = 0.0f;
+            mState = 0;
+            break;
+        }
+        if (sUnk_710260FD60 || _1e4 != 0) {
+            _1f8 = 0.0f;
+            break;
+        }
+        _1f8 += ksys::snd::sub_710105E3A4();
+        const f32 wait = mInfo->mFadeOutWaitSec.ref();
+        if (_1f8 >= wait) {
+            _1f8 = wait;
+            _1a0.moveTo(0.0f, mInfo->mFadeOutSec.ref());
+            mState = 2;
+        }
+        break;
+    }
+    case 2:
+        if (sUnk_710260FD60 || _1e4 != 0) {
+            _1a0.moveTo(1.0f, 1.0f);
+            mState = 1;
+            break;
+        }
+        if (_1a0.getValue() != _1a0.getNextValue())
+            break;
+        sub_710101D9F4(0.0f);
+        _1f4 = 0.0f;
+        mState = 0;
+        break;
+    case 3:
+        if (_230 && _230->sub_7100FF6DF4(this))
+            break;
+        sub_710101D9F4(0.0f);
+        _1f4 = 0.0f;
+        mState = 0;
+        break;
+    }
+
+    _1a0.calc();
+    _a4 = _1a0.getValue();
 }
 
 bool Unk_71024fefe8::m10() {
