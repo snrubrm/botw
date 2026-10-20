@@ -2,6 +2,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/World/worldChemicalMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 Unk_710250d530::Unk_710250d530() = default;
 
@@ -77,6 +79,16 @@ bool Unk_710250d3e8::m29(const ElementName& name, sead::Heap* heap) {
 void Unk_710250d3e8::m35(f32 delta_frame) {
     if (mHolder)
         mHolder->_3c = mArg._4;
+}
+
+f32 Unk_710250d3e8::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
+    out->e = mArg._8.e;
+    f32 value = mArg._4;
+    if (auto* mgr = ksys::world::Manager::instance()->getChemicalMgr())
+        mgr->x_2(out, &value, mHolder, chemical);
+    if (_68 && _69)
+        value = 0.0f;
+    return value;
 }
 
 void Unk_710250d3e8::m33(bool a, bool fixed) {

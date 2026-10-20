@@ -1025,7 +1025,9 @@ public:
 struct Unk_710250d3e8Arg {
     u32 _0;
     f32 _4;
-    u8 _8[0x18 - 0x8];
+    // m14 copies it to the out vector (the wind direction).
+    sead::Vector3f _8;
+    u8 _14[0x18 - 0x14];
     ksys::phys::RigidBody* body;
 };
 
@@ -1043,6 +1045,7 @@ public:
     bool m37() override { return true; }
     void m38() override {}
     bool m18() override { return true; }
+    f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
 
     // lane1 s91: m29 / m35 copy mArg._4 to the holder's _3c; m33 stores its first flag in _69.
     Unk_710250d3e8Arg mArg;
