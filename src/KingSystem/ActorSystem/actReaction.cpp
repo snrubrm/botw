@@ -22,6 +22,8 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/gameGraphics.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -88,6 +90,21 @@ s8 Reaction::Unk1::sub_7100EC89BC() const {
 
 // NON_MATCHING: min / max operand order, the 2 / 3 choice becomes a csel, and the size is returned as a
 // 64-bit register move.
+f32 Reaction::sub_7100EC1D98(const sead::Vector3f& pos) const {
+    f32 height = -9999.0f;
+    if (::Graphics::instance()->getMapStateMaybe() > 1)
+        return height;
+    auto* terrain = tera::Terrain::instance();
+    if (!terrain || !terrain->isGrassEnabled())
+        return height;
+    auto* placement = map::PlacementMgr::instance();
+    if (!placement || !placement->mTeraSystem)
+        return height;
+    sead::Vector2f xz{pos.x, pos.z};
+    tera::sub_71011094A0(&height, &xz, placement->mTeraSystem, -1, 0);
+    return height;
+}
+
 u32 Reaction::sub_7100EC2278(Actor* actor, bool* is_long) {
     if (auto* body = actor->getMainBody()) {
         sead::BoundBox3f aabb;

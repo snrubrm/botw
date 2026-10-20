@@ -155,6 +155,9 @@ public:
     };
 
     static Reaction* instance() { return sInstance; }
+    // 0x7100ec1d98 (placeholder name): terrain height below `pos`, or -9999 while the terrain is
+    // not shown. Called twice by 0x7101285930, which passes its +0x28 pointer as the receiver.
+    f32 sub_7100EC1D98(const sead::Vector3f& pos) const;
     // 0x7100ec10b8 (CSV __auto6): passes `request` on to the reaction targets when the instance's
     // +0xb0 flag is set (bits 2 / 1 of request->_c4 select 0x7101284954 / 0x7100ec313c); true.
     bool sub_7100EC10B8(::DamageReactionRequest* request);
