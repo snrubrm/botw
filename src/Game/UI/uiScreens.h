@@ -2932,6 +2932,11 @@ struct ScreenPauseMenuUnk3a00 {
     void sub_71009B0190(s32 index, bool a2);
     // 0x71009b00e0: clears button `index` (value -1, reset, disabled) and unloads its texture
     void sub_71009B00E0(s32 index);
+    // 0x71009aff74 (placeholder name): shows the item `value` of category _130 on button `index` (clears the
+    // button when there is no such item in the inventory)
+    void sub_71009AFF74(s32 index, s32 value);
+    // 0x71009b014c (placeholder name): sub_71009AFF74, then enables button `index`
+    void sub_71009B014C(s32 index, s32 value);
     // 0x71009b0468 / 0x71009b0484 (placeholder names): the button slot of item `index` (-1 when it is not shown) /
     // that slot's _c78 value (-1 when it is not shown)
     s32 sub_71009B0468(s32 index) const;

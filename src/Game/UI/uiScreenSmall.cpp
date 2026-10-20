@@ -290,12 +290,40 @@ void ScreenPauseMenuUnk3a00::sub_71009B020C(bool visible) {
     mLayout->mPane->SetVisible(visible);
 }
 
+// 0x71009b014c
+void ScreenPauseMenuUnk3a00::sub_71009B014C(s32 index, s32 value) {
+    sub_71009AFF74(index, value);
+    mButtons[index].sub_710098993C(true, false);
+}
+
 // 0x71009b0190
 void ScreenPauseMenuUnk3a00::sub_71009B0190(s32 index, bool a2) {
     if (a2)
         mButtons[index].sub_710098923C();
     else
         mButtons[index].sub_71009892B0();
+}
+
+// 0x71009aff74
+void ScreenPauseMenuUnk3a00::sub_71009AFF74(s32 index, s32 value) {
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return;
+    const PouchItem* item = mgr->__auto8(_130, value);
+    if (!item || !item->isInInventory()) {
+        sub_71009B00E0(index);
+        return;
+    }
+    _c78[index] = value;
+    mButtons[index].sub_710098931C(item);
+    mButtons[index].sub_710098993C(false, false);
+    if (sub_7100AA45CC(item->getName())) {
+        _cc8.unload(index);
+        return;
+    }
+    sead::FixedSafeString<128> path;
+    sub_7100AA3EA0(item, &path);
+    _cc8.sub_7100A81B1C(path, index);
 }
 
 // 0x71009b00e0
