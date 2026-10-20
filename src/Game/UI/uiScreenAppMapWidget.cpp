@@ -13,6 +13,14 @@
 
 namespace uking::ui {
 
+// inline-only in the original; name is a guess (see the declaration)
+inline void ScreenAppMapWidget::refreshHomePage() {
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC99C(false);
+        home->x_2();
+    }
+}
+
 // 0x710260b150: the save tracker's progress object (block count at +0x19c, block total at +0x1a0)
 struct Unk_710260b150 {
     u8 _0[0x19c];
@@ -77,10 +85,7 @@ void ScreenAppMapWidget::sub_71009A947C() {
 void ScreenAppMapWidget::sub_71009AE1C0() {
     _b4ff |= 1;
     UiSubsys1::instance()->clear38c8();
-    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
-        home->sub_71009DC99C(false);
-        home->x_2();
-    }
+    refreshHomePage();
 }
 
 // 0x71009ae29c
@@ -98,9 +103,21 @@ void ScreenAppMapWidget::sub_71009AE29C(bool up) {
             _b4a4 = 8;
         }
     }
-    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
-        home->sub_71009DC99C(false);
-        home->x_2();
+    refreshHomePage();
+}
+
+// NON_MATCHING: the original passes the 0 to set6e4 as a 64-bit zero (mov x1, xzr); set6e4 is declared with s32.
+// 0x71009af1ac
+void ScreenAppMapWidget::sub_71009AF1AC() {
+    _b4ff ^= 8;
+    if (_b4ff & 8) {
+        UiSubsys1::instance()->set6e4(19);
+        refreshHomePage();
+        _b4a4 = 17;
+    } else {
+        UiSubsys1::instance()->set6e4(0);
+        refreshHomePage();
+        _b4a4 = 16;
     }
 }
 

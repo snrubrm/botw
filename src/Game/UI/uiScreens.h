@@ -2622,6 +2622,10 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009AE29C(bool up);
     // 0x71009af1ac (placeholder name; declared only): called by ScreenAppMap::sub_71009EED18 when _b4ff bit 3 is set
     void sub_71009AF1AC();
+    // inline-only in the original; name is a guess (repeats in 0x71009ae1c0, 0x71009ae29c and twice in 0x71009af1ac):
+    // refreshes the home screen's page
+    // (defined in uiScreenAppMapWidget.cpp)
+    void refreshHomePage();
     // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
     // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
     void setMode(s32 mode);
