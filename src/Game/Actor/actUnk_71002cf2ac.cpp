@@ -159,6 +159,20 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C738(sead::Vector3f* pos, f32 a, f32 b)
     sub_710066C800(pos, index, a, b);
 }
 
+void SiteBoss::Unk_71002cf2ac::sub_710066DD10(ksys::act::Actor* proc, int idx) {
+    if (proc && !_3b0[idx].hasProc()) {
+        _3b0[idx].acquire(proc, false);
+        return;
+    }
+    auto& link = _3b0[idx];
+    if (link.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        link.acquire(proc, false);
+    }
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066DABC(ksys::act::BaseProc* proc, s32 idx) {
     if (proc && !_320[idx].hasProc()) {
         _320[idx].acquire(proc, false);
