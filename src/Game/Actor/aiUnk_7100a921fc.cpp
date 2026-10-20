@@ -332,3 +332,76 @@ s32 Unk_710251d010::m9() {
     }
     return extra + (cols * 12 - 12) * (rows - 1);
 }
+
+void Unk_710251cfa0::m7(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    auto* v = static_cast<sead::Vector2f*>(vertices) + mBaseVertex;
+    auto* i = static_cast<u16*>(indices) + mFirstIndex;
+    u32 num_vertices = 0;
+    u32 num_indices = 0;
+    sub_71012E8BF8(v, i, &num_vertices, &num_indices, 0, _30, false, true);
+    sub_71012E8BF8(v, i, &num_vertices, &num_indices, 0, _30, true, false);
+    sub_71012E8BF8(v, i, &num_vertices, &num_indices, 0, _30, true, true);
+    sub_71012E8BF8(v, i, &num_vertices, &num_indices, 0, _30, false, false);
+}
+
+// NON_MATCHING: the original keeps count + 3 as the loop variable and schedules the first stores differently.
+// Writes one strip of quad-grid vertices (x0 / x1 columns, rows 0.._30) and its indices.
+void Unk_710251cfa0::sub_71012E8BF8(sead::Vector2f* vertices, u16* indices, u32* num_vertices,
+                                    u32* num_indices, u32 x0, u32 x1, bool swap, bool flip) {
+    vertices[*num_vertices].e[!swap] = f32(x0) / _30;
+    vertices[*num_vertices].e[swap] = 0.0f / _30;
+    vertices[*num_vertices + 1].e[!swap] = f32(x1) / _30;
+    vertices[*num_vertices + 1].e[swap] = 0.0f / _30;
+
+    u32 count = 2;
+    const u32 n = _30;
+    for (u32 j = 1; j <= n; j += 2) {
+        vertices[*num_vertices + count].e[!swap] = f32(x0) / _30;
+        vertices[*num_vertices + count].e[swap] = f32(j) / _30;
+        vertices[*num_vertices + count + 1].e[!swap] = f32(x0) / _30;
+        vertices[*num_vertices + count + 1].e[swap] = f32(j + 1) / _30;
+        vertices[*num_vertices + count + 2].e[!swap] = f32(x1) / _30;
+        vertices[*num_vertices + count + 2].e[swap] = f32(j + 1) / _30;
+        count += 3;
+    }
+
+    const u32 written = sub_71012E8F3C(indices + *num_indices, *num_vertices, flip);
+    *num_vertices += count;
+    *num_indices += written;
+}
+
+// NON_MATCHING: instruction scheduling of the index stores.
+u32 Unk_710251cfa0::sub_71012E8F3C(u16* indices, u32 base, bool flip) {
+    u32 n = 0;
+    if (flip) {
+        for (u32 i = 0; i < _30; i += 2) {
+            const u32 next = base + 3;
+            indices[n++] = base;
+            indices[n++] = base + 2;
+            indices[n++] = base + 1;
+            indices[n++] = base + 1;
+            indices[n++] = base + 2;
+            indices[n++] = base + 4;
+            indices[n++] = base + 2;
+            indices[n++] = next;
+            indices[n++] = base + 4;
+            base = next;
+        }
+    } else {
+        for (u32 i = 0; i < _30; i += 2) {
+            const u32 next = base + 3;
+            indices[n++] = base;
+            indices[n++] = base + 1;
+            indices[n++] = base + 2;
+            indices[n++] = base + 1;
+            indices[n++] = base + 4;
+            indices[n++] = base + 2;
+            indices[n++] = base + 2;
+            indices[n++] = base + 4;
+            indices[n++] = next;
+            base = next;
+        }
+    }
+    return n;
+}

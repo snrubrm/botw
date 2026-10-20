@@ -459,7 +459,8 @@ public:
     virtual void m5(agl::DrawContext* context, u32 instances);
     virtual void m6(agl::DrawContext* context, u32 index_offset, u32 count, u32 instances,
                     u32 vertex_offset);
-    virtual void m7() = 0;
+    // Fills the vertex and index buffers (vertex stride 8, 16-bit indices in the known overrides).
+    virtual void m7(void* vertices, void* indices) = 0;
     virtual s32 m8() = 0;
     virtual s32 m9() = 0;
 

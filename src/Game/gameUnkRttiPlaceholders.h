@@ -764,7 +764,7 @@ class Unk_7102504470 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_7102504470, Unk_710251d230)
 public:
     ~Unk_7102504470() override;
-    virtual void m7();
+    void m7(void* vertices, void* indices) override;
 };
 
 // vtable 0x71025046d0 (8 slots); placeholder generated from the vtable (genskel.py).
@@ -1176,7 +1176,7 @@ class Unk_710250fdf8 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710250fdf8, Unk_710251d230)
 public:
     ~Unk_710250fdf8() override;
-    virtual void m7() {}
+    void m7(void*, void*) override {}
     virtual s32 m8() { return 918; }
     virtual s32 m9() { return 2808; }
     virtual void m10();
@@ -1486,7 +1486,7 @@ class Unk_710251bb98 : public Unk_710251d230 {
 public:
     // 0x71012da6bc (Unk_710251bf80's destructor is an alias of it): frees the five buffers.
     ~Unk_710251bb98() override;
-    virtual void m7();
+    void m7(void* vertices, void* indices) override;
 
     // Not modelled yet (the base's data or this class's first fields).
     u8 _30[0x38 - 0x30];
@@ -1928,7 +1928,7 @@ class Unk_710251cf40 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251cf40, Unk_710251d230)
 public:
     ~Unk_710251cf40() override;
-    virtual void m7() {}
+    void m7(void*, void*) override {}
     s32 m8() override;
     s32 m9() override;
 
@@ -1946,7 +1946,7 @@ class Unk_710251d160 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251d160, Unk_710251d230)
 public:
     ~Unk_710251d160() override;
-    virtual void m7();
+    void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
     virtual s32 m10();
@@ -2260,7 +2260,7 @@ class Unk_710251d0e0 : public Unk_71026205b8 {
     SEAD_RTTI_OVERRIDE(Unk_710251d0e0, Unk_71026205b8)
 public:
     ~Unk_710251d0e0() override;
-    virtual void m7();
+    void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
     virtual u32 m10() const;
@@ -2399,14 +2399,23 @@ class Unk_710251cfa0 : public Unk_71026205b8 {
     SEAD_RTTI_OVERRIDE(Unk_710251cfa0, Unk_71026205b8)
 public:
     ~Unk_710251cfa0() override;
-    virtual void m7();
+    void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
     virtual s32 m10();
     virtual s32 m11();
     void m5(agl::DrawContext*, u32) override {}
+    // 0x71012e8f10 is a tail call to the base.
+    void m6(agl::DrawContext* context, u32 index_offset, u32 count, u32 instances,
+            u32 vertex_offset) override {
+        Unk_710251d230::m6(context, index_offset, count, instances, vertex_offset);
+    }
 
-    s32 _30;
+    void sub_71012E8BF8(sead::Vector2f* vertices, u16* indices, u32* num_vertices,
+                        u32* num_indices, u32 x0, u32 x1, bool swap, bool flip);
+    u32 sub_71012E8F3C(u16* indices, u32 base, bool flip);
+
+    u32 _30;
     s32 _34;
     s32 _38;
 };
