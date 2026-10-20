@@ -1,3 +1,4 @@
+#include <random/seadGlobalRandom.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actSiteBoss.h"
@@ -157,6 +158,33 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C738(sead::Vector3f* pos, f32 a, f32 b)
             index = 1;
     }
     sub_710066C800(pos, index, a, b);
+}
+
+// NON_MATCHING: same selection logic. The original lowers the wrap-around and the retry loop
+// differently (it tests the retry counter before the mask), so the function is 4 bytes smaller.
+ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE3C(s32 start) {
+    u32 mask = 0;
+    auto* link = &_1e0[0];
+    for (u64 i = 0; i != 20; ++i, ++link) {
+        if (link->hasProc() && i != u32(start))
+            mask |= 1u << i;
+    }
+
+    const u32 r = sead::GlobalRandom::instance()->getU32(20);
+    s32 idx = r;
+    if (!(mask & (1u << r))) {
+        s32 next = start == 0 ? 1 : start + 1;
+        if (next == 20)
+            next = 0;
+        for (s32 tries = 20; tries >= 2; --tries) {
+            idx = idx + 1 == 20 ? 0 : idx + 1;
+            if (idx == start)
+                idx = next;
+            if (mask & (1u << idx))
+                break;
+        }
+    }
+    return &_1e0[idx];
 }
 
 void SiteBoss::Unk_71002cf2ac::sub_710066DD10(ksys::act::Actor* proc, int idx) {

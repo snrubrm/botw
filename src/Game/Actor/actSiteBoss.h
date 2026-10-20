@@ -243,6 +243,8 @@ public:
         void sub_710066DABC(ksys::act::BaseProc* proc, s32 idx);
         // 0x710066dd10 (declared only; placeholder name): binds `proc` to one of the _3b0 links.
         void sub_710066DD10(ksys::act::Actor* proc, int idx);
+        // 0x710066de3c (declared only; placeholder name): picks a bound-actor link that has a proc.
+        ksys::act::BaseProcLink* sub_710066DE3C(s32 start);
         void sub_710066D708(s32 idx);
         // 0x710066db98: replaces the actor linked at _360 with `proc` (deleting the old one).
         void sub_710066DB98(ksys::act::BaseProc* proc, int idx);
