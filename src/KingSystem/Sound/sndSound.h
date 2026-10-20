@@ -1297,6 +1297,11 @@ public:
         s32 mPriority = -1;
         sead::ListNode mNode;
     };
+    bool sub_71012CB14C();
+    void sub_71012CB3A0(Entry* entry);
+    bool sub_71012CB95C(aal::AssetInfo* info, Entry* entry, const sead::SafeString& asset_name,
+                        bool use_static_bars);
+
     KSYS_CHECK_SIZE_NX150(Entry, 0xa8);
     static_assert(offsetof(Entry, mHandle) == 0x40);
     static_assert(offsetof(Entry, mState) == 0x92);
