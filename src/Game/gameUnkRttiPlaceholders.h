@@ -3111,7 +3111,7 @@ public:
     void m14(sead::TextWriter& writer) override {}
     // 0x71010123ac: emits "main" and installs the marker callback 0x7101012470.
     void hm14() override;
-    // 0x71010124f4 (declared only)
+    // 0x71010124f4: reserves the "hit" part (A / B / C by the last marker) once enough damage was taken.
     void hm15() override;
 
     // 64 entries allocated by the constructor 0x7101011b90 (same zeroing loop as Unk_71024feae8's).
@@ -3129,7 +3129,8 @@ public:
     // Spin lock of mEntries (0x71010121d8).
     /* 0x1d8 */ sead::Atomic<s32> mEntriesLock;
     // 0x1dc..0x1e8 and 0x1f4..0x228 are reset by m13 (0x710101214c); meanings unknown.
-    /* 0x1dc */ u32 _1dc;
+    // Compared with DamageThresholdHitReserve by hm15.
+    /* 0x1dc */ s32 _1dc;
     /* 0x1e0 */ u8 _1e0;
     /* 0x1e1 */ u8 _1e1;
     /* 0x1e2 */ u8 _1e2;
@@ -3142,8 +3143,8 @@ public:
     u8 _1f8[0x1fc - 0x1f8];
     /* 0x1fc */ s32 _1fc;
     /* 0x200 */ sead::FixedSafeString<8> _200;
-    // Reset by the marker callback 0x7101012470 (_224 = IgnoreReserveCountDownSec).
-    /* 0x220 */ u32 _220;
+    // The playing time when a hit part was reserved (hm15); reset by the marker callback 0x7101012470.
+    /* 0x220 */ f32 _220;
     /* 0x224 */ f32 _224;
     // Set by hm14.
     /* 0x228 */ ksys::snd::Unk_710260f248Entry* _228;

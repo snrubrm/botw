@@ -35,8 +35,8 @@ void Unk_71024fefe8::m13(f32 fade_sec) {
     _1f4 = 0;
     _1fc = -1;
     _200.clear();
-    _220 = 0;
-    _224 = 0;
+    _220 = 0.0f;
+    _224 = 0.0f;
     mState = 0;
 }
 
@@ -112,8 +112,9 @@ void Unk_71024fefe8::sub_7101012340(s32 value, bool flag, s32 id) {
 }
 
 namespace {
-// 0x71024fefb8
+// 0x71024fefb8 / 0x71024fefc8
 sead::SafeString sStr_GuardianBgmMain = "main";
+sead::SafeString sStr_GuardianBgmHit = "hit";
 }  // namespace
 
 // 0x7101012470 (unnamed in the CSV): the marker callback installed by Unk_71024fefe8::hm14.
@@ -126,7 +127,7 @@ void sub_7101012470(const aal::MarkerController::MarkerCallbackInfo& info, void*
         return;
     if (bgm->mState == 1)
         bgm->sub_71010209FC(bgm->_200);
-    bgm->_220 = 0;
+    bgm->_220 = 0.0f;
     bgm->_224 = *bgm->mInfo->mIgnoreReserveCountDownSec;
     bgm->_200.clear();
 }
@@ -148,6 +149,42 @@ void Unk_71024fefe8::hm14() {
                                                              *mInfo->mMarkerCallbackOffsetSample, this);
             _1fc = -1;
         }
+    }
+}
+
+// NON_MATCHING: block placement of the "%sC" format call (the original puts it before the shared call)
+void Unk_71024fefe8::hm15() {
+    if (mState == 1 || mState == 2) {
+        if (_228 && !_228->sub_7100FF6DF4(this)) {
+            sub_710101D9F4(0.0f);
+            return;
+        }
+        if (mState == 1) {
+            if (_224 > 0.0f) {
+                _224 -= ksys::snd::sub_710105E3A4();
+                if (_224 < 0.0f)
+                    _224 = 0.0f;
+            }
+            if (_1dc >= *mInfo->mDamageThresholdHitReserve && _224 == 0.0f) {
+                const u32 next = _1fc + 1;
+                if (next >= *mInfo->mMarkerIdHitSectionB && next < *mInfo->mMarkerIdHitSectionA) {
+                    const u32 section_c = *mInfo->mMarkerIdHitSectionC;
+                    if (next >= section_c)
+                        _200.format("%sC", sStr_GuardianBgmHit.cstr());
+                    else
+                        _200.format("%sB", sStr_GuardianBgmHit.cstr());
+                } else {
+                    _200.format("%sA", sStr_GuardianBgmHit.cstr());
+                }
+                _220 = _160[1];
+                _224 = *mInfo->mCancelHitSec;
+            }
+        }
+    }
+    if (_220 > 0.0f && _160[1] >= _220 + *mInfo->mCancelHitSec) {
+        _200.clear();
+        _220 = 0.0f;
+        _224 = 0.0f;
     }
 }
 
