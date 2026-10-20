@@ -14,6 +14,8 @@
 #include "KingSystem/Physics/Rig/physBoneAccessor.h"
 #include "KingSystem/Physics/SupportBone/physSupportBoneResource.h"
 
+class Unk_7102519e58;
+
 namespace gsys {
 class Model;
 }
@@ -234,6 +236,8 @@ public:
     void sub_7100FBA508();
     void sub_7100FBBEC0();
     void sub_7100FBBEC4(const sead::Matrix34f& mtx, f32 scale);
+    // Native 0x7100fc0698 supplies the first linked bone matrix and registers its owner.
+    s32 sub_7100FC0698(Unk_7102519e58* owner, sead::Matrix34f* matrix);
     void sub_7100FBDA08(const sead::Vector3f& translation);
     // 0x7100fbaa3c: removeFromWorld.
     void sub_7100FBAA3C();
@@ -447,6 +451,15 @@ private:
         /* 0x45 */ u8 _45[3];
     };
 
+    // Native 0x7100fb9378 groups linked body records by model unit; 0x7100fb8138
+    // frees each pointer array before freeing the record buffer.
+    struct ModelUnitLinks {
+        sead::PtrArray<Unk1> mLinks;
+        s32 mModelUnitIndex = -1;
+        InstanceSet* mInstance = nullptr;
+    };
+    KSYS_CHECK_SIZE_NX150(ModelUnitLinks, 0x20);
+
     sead::SafeString mName;
     ParamSet* mParamSet;  // non-const: getRigidBodySet() is called on it (0x7100fbaf18)
     sead::TypedBitFlag<Flag> mFlags;
@@ -493,10 +506,9 @@ private:
     u16 _110{};
     s8 _112;
     sead::ObjArray<Unk1> mLinkMatricesMaybe;
-    sead::Buffer<void*> _138;
+    sead::Buffer<ModelUnitLinks> _138;
     sead::TList<RigidBody*> mList;
-    sead::ListNode _160;
-    u32 _170{};
+    sead::TList<Unk_7102519e58*> mConstraintOwners;
     sead::SafeArray<SystemGroupHandler*, 2> _178;
     sead::SafeArray<SystemGroupHandler*, 2> _188;
 };

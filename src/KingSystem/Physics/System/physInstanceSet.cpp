@@ -2,6 +2,7 @@
 #include <limits>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include "KingSystem/Physics/Constraint/physUnk_7102519e58.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <basis/seadNew.h>
@@ -1654,6 +1655,18 @@ NavMeshObjMaybe* InstanceSet::sub_7100FC00EC(s32 idx) {
 
 sead::Buffer<NavMeshObjMaybe>* InstanceSet::sub_7100FC0124() {
     return &_100;
+}
+
+// NON_MATCHING: model-unit and bone-key loads are scheduled differently.
+s32 InstanceSet::sub_7100FC0698(Unk_7102519e58* owner, sead::Matrix34f* matrix) {
+    if (mLinkMatricesMaybe.size() == 0)
+        return -1;
+    const auto& key = mLinkMatricesMaybe.front()->_30;
+    sead::Vector3f scale;
+    mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+        matrix, &scale, key.bone_index);
+    mConstraintOwners.pushBack(owner);
+    return 0;
 }
 
 }  // namespace ksys::phys
