@@ -5,6 +5,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Event/evtEventFlow.h"
 
+namespace evfl {
+class MetaDataPack;
+}
+
 namespace ksys::tera {
 class Unk_7101088B24;
 }
@@ -145,6 +149,8 @@ public:
     void setup_1();
     // 0x71008b44ac (CSV evt::S7EventFlow::setup_1_1; not decompiled)
     void setup_1_1();
+    // 0x71008b8118 (placeholder name): adds the target position and the Y / Z axes of `mtx` to `pack`
+    void sub_71008B8118(evfl::MetaDataPack* pack, const sead::Matrix34f& mtx);
     // 0x71008b53f0 (CSV evt::S7EventFlow::x; not decompiled)
     void x(bool a1);
 

@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtS7.h"
+#include <evfl/Param.h>
 #include "KingSystem/Terrain/teraAreaNode.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Event/evtActorBase.h"
@@ -135,6 +136,25 @@ void S7EventFlow::m9() {
     }
     setup_1_1();
     x(0);
+}
+
+// 0x71008b8118
+void S7EventFlow::sub_71008B8118(evfl::MetaDataPack* pack, const sead::Matrix34f& mtx) {
+    sead::Vector3f axis_y;
+    mtx.getBase(axis_y, 1);
+    sead::Vector3f axis_z;
+    mtx.getBase(axis_z, 2);
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    pack->AddFloat("arg_TargetPosX", pos.x);
+    pack->AddFloat("arg_TargetPosY", pos.y);
+    pack->AddFloat("arg_TargetPosZ", pos.z);
+    pack->AddFloat("arg_TargetMatrixY_x", axis_y.x);
+    pack->AddFloat("arg_TargetMatrixY_y", axis_y.y);
+    pack->AddFloat("arg_TargetMatrixY_z", axis_y.z);
+    pack->AddFloat("arg_TargetMatrixZ_x", axis_z.x);
+    pack->AddFloat("arg_TargetMatrixZ_y", axis_z.y);
+    pack->AddFloat("arg_TargetMatrixZ_z", axis_z.z);
 }
 
 // 0x71008b6f20 (CSV evt::S7EventFlow::getStatusStr)
