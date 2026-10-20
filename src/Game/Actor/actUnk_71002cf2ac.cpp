@@ -677,6 +677,12 @@ bool Unk_71007237d0::sub_7100723A84(const sead::SafeString& name) {
     return _8.search(model, name);
 }
 
+void Unk_71007237d0::sub_710072479C() {
+    const s32 num_parts = _70.size();
+    for (s32 i = 0; i < num_parts; ++i)
+        mActor->sub_71011DA868(&_70[i].handle);
+}
+
 // NON_MATCHING: the SafeArray iterator uses an element index instead of the original byte offset.
 void SiteBoss::Unk_71002cf2ac::sub_710066CD7C(u32 value) {
     _94 = value;

@@ -48,6 +48,9 @@ struct Unk_71007237d0 {
                         sead::Heap* heap);
     // 0x7100723a84 (placeholder name): searches the bone `name` of the actor's model for _8.
     bool sub_7100723A84(const sead::SafeString& name);
+    // 0x710072479c (placeholder name): passes every part's bone handle to the actor (Actor::sub_71011DA868).
+    // Called by Sandworm::preDelete2_ and startPreparingForPreDelete_.
+    void sub_710072479C();
 
     // 0x71002ccfd4 (placeholder name): frees the part buffer and both value buffers. Inline: the original
     // emits it in the Sandworm TU, away from the rest of this class.
