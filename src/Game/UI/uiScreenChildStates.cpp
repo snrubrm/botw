@@ -983,6 +983,23 @@ void Unk_710247b428::m134() {
         getStateMachine().changeState(&sUnk_71025da100);
 }
 
+// 0x71009bbba8
+void Unk_710247b428::m130() {
+    auto* screen = sead::DynamicCast<ScreenControllerWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::ControllerWindow));
+    if (screen) {
+        if ((screen->_291 & 4) && _1b0) {
+            if (Manager::instance()->sub_7100A7F918())
+                _1b0->StopAtMax();
+            else
+                _1b0->StopAtMin();
+        }
+        if (!screen->isClosed())
+            return;
+    }
+    getStateMachine().changeState(&sUnk_71025d9e00);
+}
+
 // 0x71009bbd80
 void Unk_710247b428::m135() {}
 
