@@ -181,6 +181,17 @@ bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap
 // 0x7100dc6e20 (next to bindActorActions; EventResource calls it out of line)
 EventBgmInfo::EventBgmInfo() = default;
 
+// 0x7100dc6f74 (D1) / 0x7100dc7080 (D0): releases the BGMs and the stream
+EventBgmInfo::~EventBgmInfo() {
+    for (s32 i = 0; i < _8.size(); ++i) {
+        if (!_8[i].isEmpty())
+            snd::SoundMgr::instance()->_30->_78->release(_8[i]);
+    }
+    _8.freeBuffer();
+    if (!_18.isEmpty())
+        snd::SoundMgr::instance()->_60->_828.sub_710105C96C(_18);
+}
+
 // NON_MATCHING: two call sites. The original passes a 64-bit zero as the third argument of sub_710105B0C8 (declared
 // u8 in sndSound.h) and tests bit 0 of sub_710100754C's result (declared u32; its body returns true / false).
 // 0x7100dc7180
