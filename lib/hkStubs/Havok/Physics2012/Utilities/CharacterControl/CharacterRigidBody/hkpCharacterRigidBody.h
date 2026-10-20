@@ -5,11 +5,11 @@
 #include <Havok/Common/Base/Types/Physics/ContactPoint/hkContactPoint.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpEntityListener.h>
 #include <Havok/Physics2012/Dynamics/World/Listener/hkpWorldPostSimulationListener.h>
+#include <Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterState.h>
 
 class hkpCharacterRigidBodyCinfo;
 class hkpCharacterRigidBodyListener;
 class hkpRigidBody;
-struct hkpSurfaceInfo;
 
 // Native ctor 0x710167853c and vtable 0x7102542fb8 establish the listener
 // bases at +0x10/+0x18. Native D0 0x7101678858 frees 0x90 bytes; the derived
@@ -36,7 +36,9 @@ public:
     static_assert(offsetof(SupportInfo, m_rigidBody) == 0x20);
     static_assert(offsetof(SupportInfo, m_surfaceVelocity) == 0x30);
     virtual void checkSupport(const hkStepInfo& step, hkpSurfaceInfo& surface);
-    virtual void getSupportInfo(const hkStepInfo& step, hkArray<SupportInfo>& support);
+    // checkSupport 1679738 stores this result directly in surface.m_supportedState.
+    virtual hkpSurfaceInfo::SupportedState getSupportInfo(const hkStepInfo& step,
+                                                         hkArray<SupportInfo>& support);
     virtual void getGround(const hkArray<SupportInfo>& support, hkBool use_dynamic,
                            hkpSurfaceInfo& surface);
     void entityAddedCallback(hkpEntity* entity) override;

@@ -12,7 +12,8 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(CharacterRigidBody)
     explicit CharacterRigidBody(const hkpCharacterRigidBodyCinfo& info);
     ~CharacterRigidBody() override;
-    void getSupportInfo(const hkStepInfo& step, hkArray<SupportInfo>& support) override;
+    hkpSurfaceInfo::SupportedState getSupportInfo(const hkStepInfo& step,
+                                                 hkArray<SupportInfo>& support) override;
     void getGround(const hkArray<SupportInfo>& support, hkBool use_dynamic,
                    hkpSurfaceInfo& surface) override;
 
