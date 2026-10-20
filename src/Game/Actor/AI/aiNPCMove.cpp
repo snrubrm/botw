@@ -1,3 +1,7 @@
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "Game/Actor/AI/aiNPCMove.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -364,6 +368,81 @@ void NPCMove::sub_71004D0610(const sead::SafeString& as_name, bool a2) {
     ksys::act::ai::InlineParamPack pack;
     pack.addString(as_name, "DynASName", -1);
     changeChild("遷移待機", &pack);
+}
+
+// 0x71004d3d9c: moves to the nearby target, selecting the rainy sleep AS when configured.
+void NPCMove::sub_71004D3D9C() {
+    _66 = true;
+    sub_71004D44B0(true, false);
+    sead::SafeString as_name = _230;
+    if (wm::callIsRainingOrSnowingOrThunderStorm(true) && !act::NPC::isZora(mActor) &&
+        (sead::SafeString(getName()) == "Sleep" || sead::SafeString(getName()) == "Sleep2")) {
+        if (mActor->getParam()->getRes().mGParamList->getNpc()->mIsRunRainWhenGoToSleep.ref())
+            as_name = _240;
+    }
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_28c, "TargetPos", -1);
+    params.addString(as_name, "DynASKeyName", -1);
+    changeChild("近傍移動", &params);
+}
+
+// NON_MATCHING: native vector and parameter-pack scheduling differ.
+// 0x71004cfda0: places the actor at the saved pose and adjusts its height to the ground.
+void NPCMove::sub_71004CFDA0() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    const sead::Vector3f rotation(0, _298.y, 0);
+    sead::Matrix34f pose;
+    pose.makeSRT(mActor->getScale(), rotation, _28c);
+    if (!act::NPC::isZora(mActor) ||
+        (sead::SafeString(getName()) != "Sleep" && sead::SafeString(getName()) != "Sleep2")) {
+        sead::Vector3f start = _28c;
+        start.y += 0.5f;
+        sead::Matrix33f direction;
+        direction.makeR(rotation);
+        sead::Vector3f end = start;
+        end.y -= 2.0f;
+        end += direction * sead::Vector3f(0, 0, 0.01f);
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+        ksys::act::sub_7100EEACE8(&query);
+        query.setStartAndEnd(start, end);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            query.getHitPosition(&start);
+            pose.setTranslation(_28c.x, start.y, _28c.z);
+        }
+    }
+    if (mActor->getState() == ksys::act::BaseProc::State::Calc) {
+        controller->sub_7100F60500(pose);
+    } else {
+        mActor->setMtx(pose, true, true);
+        mActor->nullsub_4648();
+    }
+}
+
+// 0x71004d3b3c: starts the normal or rain-shelter move child with the selected AS.
+void NPCMove::sub_71004D3B3C() {
+    _66 = true;
+    sub_71004D44B0(true, false);
+    mActor->getSchedule()->_88 = sead::SafeString::cEmptyString;
+    sead::SafeString as_name = _230;
+    const char* child = "移動";
+    if (wm::callIsRainingOrSnowingOrThunderStorm(true)) {
+        if (!act::NPC::isZora(mActor) &&
+            (sead::SafeString(getName()) == "Sleep" || sead::SafeString(getName()) == "Sleep2") &&
+            mActor->getParam()->getRes().mGParamList->getNpc()->mIsRunRainWhenGoToSleep.ref()) {
+            as_name = _240;
+        } else if (_60) {
+            if (wm::callIsRainingOrSnowingOrThunderStorm(false))
+                as_name = _240;
+            child = "雨宿り地点に移動";
+        }
+    }
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_28c, "TargetPos", -1);
+    params.addString(as_name, "DynASKeyName", -1);
+    changeChild(child, &params);
 }
 
 }  // namespace uking::ai

@@ -32,6 +32,10 @@ public:
 protected:
     // 0x71004d0fb0: checks the ground direction and the angle to the stored rotation.
     bool sub_71004D0FB0();
+    // Saved-pose placement and normal / nearby movement entry helpers.
+    void sub_71004CFDA0();
+    void sub_71004D3B3C();
+    void sub_71004D3D9C();
     // 0x71004d4ca4: shelter from the rain: starts the "うろつく" child with the wait AS name (_120[19] / _120[20]) and the base position _28c
     void sub_71004D4CA4();
     // 0x71004d44b0: starts the "meeting" state: sets the NPC flags and updates them from the selected state value (_e8 / _ec / _f0 / _f4)
