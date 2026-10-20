@@ -47,6 +47,12 @@ public:
     // 0x7100c1016c / 0x7100c10c88.
     void skipDraw();
     void calcModelUnit_(sead::WorkerMgr* wm);
+    // 0x7100c10ccc / 0x7100c10f28: the world / render-view passes of calc.
+    void calcWorld_(sead::WorkerMgr* wm);
+    void calcRenderView_(sead::WorkerMgr* wm);
+
+    // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
+    void calc(sead::WorkerMgr* wm, int, int, int);
 
     u8 _0[0x130];
 
