@@ -104,6 +104,28 @@ void ScreenAppMapUnk3c90::sub_71009C1218(s32 type) {
     setWidgetString(mLayout, sUnk_71025daf90, message);
 }
 
+// 0x71009c12dc
+void ScreenAppMapUnk3c90::sub_71009C12DC(s32 type) {
+    if (!mLayout)
+        return;
+    mLayout->startAnimCloseImpl_(false, true);
+    switch (type) {
+    case 0:
+        _138->StopAtMin();
+        _150->Stop(0.0f);
+        break;
+    case 1:
+        _138->StopAtMin();
+        _150->Stop(1.0f);
+        setWidgetString(mLayout, sUnk_71025daf90, sead::SafeString::cEmptyString);
+        break;
+    }
+    if (UiSubsys1::instance()->sub_7100960DAC(3) || UiSubsys1::instance()->sub_7100960DAC(4))
+        _158->StopAtMax();
+    _140->StopAtMin();
+    _130 = type;
+}
+
 // 0x71009c1900
 void ScreenAppMapUnk3c90::sub_71009C1900() {
     if (!mLayout)
