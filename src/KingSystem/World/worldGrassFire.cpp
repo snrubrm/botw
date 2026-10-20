@@ -4,8 +4,16 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <cstring>
+#include <algorithm>
+#include <limits>
 
 namespace ksys::world {
+
+// Constructor 0x71012e1d5c computes these four mutable distance coefficients.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF30 = 0.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF34 = 0.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF38 = 0.0f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251CF3C = 0.0f;
 
 Unk_710251cea8::~Unk_710251cea8() {
     _50.freeBuffer();
@@ -54,7 +62,7 @@ void Unk_710251cea8::resetCells() {
             std::memset(record._4, 0, sizeof(record._4));
             record._1a = 0;
             record._18 = 0;
-            record._14 = 0;
+            std::memset(record._14, 0, sizeof(record._14));
             std::memset(record._1c, 0, sizeof(record._1c));
             cell.mRecord->_4[0] = 0;
             cell.mRecord->_4[4] = 0;
@@ -157,7 +165,7 @@ void shiftSecondGrassCellGrid(Unk_710251cea8::Cell (*cells)[59], sead::Vector2i*
         auto& current_record = *cell.mRecord;
         current_record._1a = 0;
         current_record._18 = 0;
-        current_record._14 = 0;
+        std::memset(current_record._14, 0, sizeof(current_record._14));
         std::memset(current_record._1c, 0, sizeof(current_record._1c));
         cell.mRecord->_4[0] = 0;
         cell.mRecord->_4[4] = 0;
@@ -226,6 +234,36 @@ void shiftSecondGrassCellGrid(Unk_710251cea8::Cell (*cells)[59], sead::Vector2i*
         if (indices->y < 0)
             indices->y += 59;
     }
+}
+
+// NON_MATCHING: mutable coefficient addressing and arithmetic scheduling differ.
+f32 Unk_710251cea8::sub_71012E7864(s32 kind, const Cell* cell, u32, u32* result) const {
+    if (kind != 1 || !(cell->mFlags & 0xc) || cell->mRecord->_3e < 2)
+        return 0.0f;
+
+    const f32 view_scale = mViewScale;
+    f32 near = std::numeric_limits<f32>::max();
+    if (!(sUnk_710251CF30 <= 0.0f)) {
+        if (sUnk_710251CF30 == std::numeric_limits<f32>::max())
+            near = 0.0f;
+        else
+            near = 1.0f / (view_scale * sUnk_710251CF30);
+    }
+    f32 far = std::numeric_limits<f32>::max();
+    if (!(sUnk_710251CF38 <= 0.0f)) {
+        if (sUnk_710251CF38 == std::numeric_limits<f32>::max())
+            far = 0.0f;
+        else
+            far = 1.0f / (view_scale * sUnk_710251CF38);
+    }
+    const f32 range = std::max(near - far, 0.1f);
+    f32 value = near / range + (static_cast<f32>(cell->_14) / -65535.0f * 1000.0f) / range;
+    if (value < 0.0f)
+        value = 0.0f;
+    else if (value > 1.0f)
+        value = 1.0f;
+    *result = static_cast<f32>(cell->mRecord->_14[1]) / 255.0f > 0.5f;
+    return value;
 }
 
 }  // namespace ksys::world

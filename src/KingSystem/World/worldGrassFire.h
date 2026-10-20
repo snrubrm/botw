@@ -56,7 +56,7 @@ public:
         u16 _0;
         u8 _2[2];
         u8 _4[0x10];
-        u32 _14;
+        u8 _14[4];
         u16 _18;
         u8 _1a;
         u8 _1b;
@@ -96,6 +96,7 @@ public:
     void sub_71012E7990(f32 diameter, f32 intensity, const sead::Vector2f* position);
     void resetCells();
     void initialize(sead::Heap* heap, tera::GrassEntry* entry);
+    f32 sub_71012E7864(s32 kind, const Cell* cell, u32 flags, u32* result) const;
 
     struct CellState {
         u16 _0;
@@ -113,7 +114,9 @@ public:
     sead::Vector2i mGridPosition;
     Record mRecords[59][59];
     CellState mCellStates[59][59];
-    u8 _4fdb4[0x4fdc4 - 0x4fdb4];
+    f32 _4fdb4;
+    f32 mViewScale;
+    u8 _4fdbc[8];
     s32 _4fdc4;
     void* mWaterDistanceStat;
     void* mEmbeddedEdgeStat;
@@ -126,6 +129,7 @@ static_assert(offsetof(Unk_710251cea8, mCellIndices) == 0x16100);
 static_assert(offsetof(Unk_710251cea8, mGridPosition) == 0x16108);
 static_assert(offsetof(Unk_710251cea8, mRecords) == 0x16110);
 static_assert(offsetof(Unk_710251cea8, mCellStates) == 0x4c750);
+static_assert(offsetof(Unk_710251cea8, mViewScale) == 0x4fdb8);
 static_assert(offsetof(Unk_710251cea8, _4fdc4) == 0x4fdc4);
 KSYS_CHECK_SIZE_NX150(Unk_710251cea8, 0x4fde8);
 
