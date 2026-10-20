@@ -26,6 +26,59 @@
 
 namespace ksys::tera {
 
+const f32 sUnk_7101E79608[4] = {0.0f, 0.5f, 0.0f, 0.5f};
+const f32 sUnk_7101E79618[4] = {0.0f, 0.0f, 0.5f, 0.5f};
+
+// NON_MATCHING: the common mask-layer loop is merged and floating calculations are scheduled differently.
+void Core::Grass::EntryPart::applyMaskBrush(f32 diameter, f32 blend,
+                                            const sead::Vector2f* position,
+                                            bool second_layer, bool spawn) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    const f32 radius = diameter * 0.5f;
+    const s32 min_x = sead::Mathi::max(23 - mGridPosition.x +
+        sead::Mathf::floor((position->x - radius) / 3.0f), 0);
+    const s32 min_y = sead::Mathi::max(23 - mGridPosition.y +
+        sead::Mathf::floor((position->y - radius) / 3.0f), 0);
+    const s32 max_x = sead::Mathi::min(23 - mGridPosition.x +
+        sead::Mathf::floor((position->x + radius) / 3.0f), 46);
+    const s32 max_y = sead::Mathi::min(23 - mGridPosition.y +
+        sead::Mathf::floor((position->y + radius) / 3.0f), 46);
+    for (s32 y = min_y; y <= max_y; ++y) {
+        for (s32 x = min_x; x <= max_x; ++x) {
+            auto& cell = mCells[(y + mCellIndices.y) % 47][(x + mCellIndices.x) % 47];
+            if (!(cell.mFlags & 1))
+                continue;
+            auto& record = *cell.mRecord;
+            u16& mask = second_layer ? record._14 : record._12;
+            for (s32 quadrant = 0; quadrant < 4; ++quadrant) {
+                const f32 base_x = cell.mOriginX + sUnk_7101E79608[quadrant] * 3.0f + 0.375f;
+                const f32 base_y = cell.mOriginZ + sUnk_7101E79618[quadrant] * 3.0f + 0.375f;
+                for (s32 sub = 0; sub < 4; ++sub) {
+                    const u32 bit = 1u << (quadrant * 4 + sub);
+                    if (!(mask & bit))
+                        continue;
+                    const sead::Vector2f sample(base_x + sUnk_7101E79608[sub] * 3.0f * 0.5f,
+                                                base_y + sUnk_7101E79618[sub] * 3.0f * 0.5f);
+                    const f32 distance = (*position - sample).length();
+                    const f32 weight = sead::Mathf::clamp((1.0f - blend) +
+                                                         distance / radius * blend, 0.0f, 1.0f);
+                    if (weight > 0.25f)
+                        mask |= bit;
+                    else
+                        mask &= ~bit;
+                    const f32 coverage = mEntry->mGrass->_28->sub_7101069C44(&sample);
+                    if (spawn && weight <= 0.25f && coverage > 0.5f &&
+                        f32(record._24) / 255.0f > 0.25f) {
+                        _384c8 += 1.0f;
+                        sub_7101075788(&sample);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 // Clears newly exposed rows and columns while shifting the 47 x 47 rolling grid.
 void shiftGrassCellGrid(Core::Grass::EntryPart::Cell (*cells)[47],
                         sead::Vector2i* indices, sead::Vector2i* previous,

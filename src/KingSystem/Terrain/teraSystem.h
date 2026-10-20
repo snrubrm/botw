@@ -102,6 +102,7 @@ class Core {
 public:
     class Grass {
     public:
+        struct Entry;
         struct Unk_7101150c24 {
             u32 _0;
             const sead::Vector3f* mPosition;
@@ -219,7 +220,10 @@ public:
             // One cell of the grid at +0x1088: the flag at +0x8 (bit 0: cell present) and the
             // record at +0x10.
             struct Cell {
-                u8 _0[8];
+                s16 mOriginX;
+                u8 _2[2];
+                s16 mOriginZ;
+                u8 _6[2];
                 /* 0x08 */ u32 mFlags;
                 u8 _c[4];
                 /* 0x10 */ Record* mRecord;
@@ -259,6 +263,10 @@ public:
             }
 
             void resetCells();
+            void applyMaskBrush(f32 diameter, f32 blend, const sead::Vector2f* position,
+                                bool second_layer, bool spawn);
+            // Native 10751C0 dispatches this after updating a cut mask; body remains with this owner.
+            void sub_7101075788(const sead::Vector2f* position);
 
             struct CellState {
                 u16 _0;
@@ -268,7 +276,7 @@ public:
             static_assert(sizeof(CellState) == 4);
 
             u64 _0;
-            u64 _8;
+            Entry* mEntry;
             /* 0x10 */ sead::CriticalSection mCS;
             /* 0x50 */ u32 mFlags;
             u8 _54[0x68 - 0x54];
@@ -304,7 +312,8 @@ public:
             EntryPart2* _8;
             // 0x7101150a70 (unnamed in the CSV) calls setDirty on the first entry's manager.
             VegeTeraMatMgr* _10;
-            u8 _18[0x28 - 0x18];
+            u8 _18[8];
+            Grass* mGrass;
             // 0x710114f978 stores the System passed by Core 0x71013019bc.
             System* mSystem;
             u8 _30[0x3c - 0x30];
