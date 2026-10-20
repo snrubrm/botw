@@ -84,6 +84,8 @@ public:
     ~MotorcycleUserTag() override;
     void onImpulse(ksys::phys::RigidBody* body_a, ksys::phys::RigidBody* body_b,
                    f32 impulse_a) override;
+    // Only passes on contacts with the first entry's body.
+    void m5(Unk5* arg) override;
 
     Entry mEntries[3];
 };

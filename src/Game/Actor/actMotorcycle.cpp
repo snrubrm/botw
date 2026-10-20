@@ -494,6 +494,11 @@ void MotorcycleStruct0::updateEngineSoundMaybe(f32 speed, bool flag) {
 MotorcycleStruct1::MotorcycleStruct1() = default;
 MotorcycleStruct1::~MotorcycleStruct1() = default;
 
+void MotorcycleUserTag::m5(Unk5* arg) {
+    if (arg->_20 == mEntries[0].body)
+        PhysicsUserTag::m5(arg);
+}
+
 MotorcycleUserTag::~MotorcycleUserTag() = default;
 
 void MotorcycleUserTag::onImpulse(ksys::phys::RigidBody* body_a, ksys::phys::RigidBody* body_b,
