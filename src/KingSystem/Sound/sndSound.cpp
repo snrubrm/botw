@@ -197,7 +197,7 @@ void SoundMgr::sub_71011FC0C0(UiSoundKind kind, s32 bit) {
 void SoundMgr::sub_71011FC17C(UiSoundKind kind, s32 bit) {
     _f8.resetBit(bit);
     if (_f8.isZero()) {
-        bool active = mDuckingMgr->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cScreenFadeLogo)].isActive();
+        bool active = mDuckingMgr->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cScreenFadeLogo)].isOnDucking();
         mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeS, active);
         mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeM, active);
         mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cScreenFadeL, active);

@@ -19,7 +19,7 @@ static util::InitTimeInfoEx sInitTimeInfo;
 void Unk_710103AB10::calc() {
     auto* message = SoundMgr::instance()->_48;
     const bool playing = message->_18.isActive() || message->_28.isActive();
-    const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive();
+    const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isOnDucking();
     if (playing) {
         if (!active)
             SoundMgr::instance()->mDuckingMgr->sub_7101042024(mType);
@@ -29,12 +29,12 @@ void Unk_710103AB10::calc() {
 }
 
 Unk_710103AB10::~Unk_710103AB10() {
-    if (SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive())
+    if (SoundMgr::instance()->mDuckingMgr->getDucker(mType).isOnDucking())
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
 }
 
 void Unk_710103AB10::stop() {
-    if (SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive())
+    if (SoundMgr::instance()->mDuckingMgr->getDucker(mType).isOnDucking())
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
 }
 
@@ -42,7 +42,7 @@ void Unk_710103AC60::calc() {
     if (!mActive)
         return;
     const bool event = evt::Manager::instance()->hasActiveEvent();
-    const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive();
+    const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isOnDucking();
     if (event) {
         if (active)
             SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);
@@ -68,7 +68,7 @@ void Unk_710103AC60::stop() {
 void Unk_710103ACC8::calc() {
     if (mActive) {
         const bool event = evt::Manager::instance()->hasActiveEvent();
-        const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isActive();
+        const bool active = SoundMgr::instance()->mDuckingMgr->getDucker(mType).isOnDucking();
         if (event) {
             if (active)
                 SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(mType, false);

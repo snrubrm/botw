@@ -2,7 +2,12 @@
 
 namespace ksys::snd {
 
-bool DuckingMgr::Ducker::isActive() const {
+static_assert(sizeof(DuckingMgr::Ducker) == 0xd0);
+static_assert(offsetof(DuckingMgr::Ducker, mName) == 0x10);
+static_assert(offsetof(DuckingMgr::Ducker, mDucker) == 0x68);
+static_assert(offsetof(DuckingMgr::Ducker, _c8) == 0xc8);
+
+bool DuckingMgr::Ducker::isOnDucking() const {
     return _c8 & 1;
 }
 

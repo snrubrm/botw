@@ -186,8 +186,8 @@ void Unk_710103b704::sub_710103C5F4(bool defer_bgm) {
     if (_5d8 || (SoundMgr::instance()->_e4 & ~1) == 2)
         return;
     auto* ducking = SoundMgr::instance()->mDuckingMgr;
-    const bool dialog = ducking->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cTalk)].isActive() ||
-                        ducking->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cDialog)].isActive();
+    const bool dialog = ducking->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cTalk)].isOnDucking() ||
+                        ducking->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cDialog)].isOnDucking();
     auto* bgm = SoundMgr::instance()->_30;
     const bool suspend_bgm = !(bgm->_88 & 1) & !bgm->_78->sub_7101007C14();
     ducking->sub_7101042D6C(DuckingMgr::DuckerType::cEvtBgmMute, suspend_bgm);

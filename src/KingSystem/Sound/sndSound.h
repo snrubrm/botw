@@ -16,6 +16,7 @@
 #include <container/seadBuffer.h>
 #include <prim/seadEnum.h>
 #include <aal/aalGroupLimiter.h>
+#include <aal/aalGroup.h>
 #include <aal/aalListener.h>
 #include <aal/aalListenerPoser.h>
 #include <container/seadFreeList.h>
@@ -706,13 +707,7 @@ struct Unk_71025022a0 {
     /* 0x80 */ bool _80;
 };
 
-// The two empty polymorphic bases of DuckingMgr::Ducker (placeholder names = the vtable group they appear in:
-// the primary base shares Ducker's vtable 0x71025021b8, the second base's secondary vtable is 0x7102502200).
-// Both have only a virtual destructor.
-class Unk_71025021b8 {
-public:
-    virtual ~Unk_71025021b8() = default;
-};
+// The secondary polymorphic base of DuckingMgr::Ducker (vtable at 0x7102502200).
 class Unk_7102502200 {
 public:
     virtual ~Unk_7102502200() = default;
@@ -743,13 +738,12 @@ public:
               cCustomEvt , cCustomEvt2)
     // clang-format on
 
-    struct Ducker : public Unk_71025021b8, public Unk_7102502200 {
-        // Vtable order (0x71025021b8): destructor pair, isActive, v0, v1.
-        virtual bool isActive() const;
-        // 0x7101042f24 (empty) and 0x7101042f28 (returns the address of the member at +0x10).
-        virtual void v0() {}
-        virtual void* v1() { return &mName; }
-        virtual ~Ducker();
+    struct Ducker : public aal::IDuckingSource, public Unk_7102502200 {
+        // Vtable order (0x71025021b8): destructor pair and the ducking source interface.
+        bool isOnDucking() const override;
+        void invalidateORNode() override {}
+        const sead::SafeString& getDuckingSourceName() const override { return mName; }
+        ~Ducker() override;
         bool sub_710103E368() const;
         // 0x710103e00c: sets the active bit and clears _c0.
         void activateMaybe();
