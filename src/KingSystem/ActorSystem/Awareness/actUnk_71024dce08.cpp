@@ -76,6 +76,14 @@ sead::BitFlag8* Unk_71024dcea8::m16() {
     return &_68;
 }
 
+f32 Unk_71024dcea8::m14() {
+    const f32 a = std::max(sead::Mathf::abs(_94), sead::Mathf::abs(_98));
+    const f32 range_a = std::sqrt(_8c * _8c + a * a);
+    const f32 b = std::max(sead::Mathf::abs(_b0), sead::Mathf::abs(_b4));
+    const f32 range_b = std::sqrt(_a8 * _a8 + b * b);
+    return range_a > range_b ? range_a : range_b;
+}
+
 void Unk_71024dcea8::m17() {
     if (_c8 == 0.0f)
         _8.clear();

@@ -132,6 +132,8 @@ public:
              bool flag) override;
     // 0x7100d81dd0: clears the candidates unless _c8 is set; then only sets _dc.
     void m17() override;
+    // 0x7100d8128c: the longer of the two sight ranges.
+    f32 m14() override;
 
     // The 0x128-byte target entries the destructors free (only the in-use word is known).
     struct TargetEntry {
