@@ -1683,6 +1683,33 @@ void ScreenAppSystemWindowNoBtn::m93(sead::Heap*) {
     _3610 = mLayout->createAnimatorAuto("FadeOut", false);
 }
 
+namespace {
+// 0x7102483440: message set, label and text widget of ScreenAppSystemWindowNoBtn::m98
+const sead::SafeString sAppSystemWindowNoBtnText[] = {"LayoutMsg/AppSystemWindowNoBtn_00", "0002",
+                                                      "T_Text_00"};
+}  // namespace
+
+// 0x71009fba20
+// NON_MATCHING: GlobalMerge places the text array 0x20 into a merged constant block (the original addresses it directly)
+void ScreenAppSystemWindowNoBtn::m98() {
+    switch (_3618) {
+    case 1:
+        sub_71009FBADC();
+        break;
+    case 2: {
+        eui::MessageString message;
+        if (getMessage(sAppSystemWindowNoBtnText[0], sAppSystemWindowNoBtnText[1], &message))
+            setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], sead::SafeString::cEmptyString);
+        else
+            setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], message);
+        break;
+    }
+    default:
+        setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], sead::SafeString::cEmptyString);
+        break;
+    }
+}
+
 // 0x7100a321e8
 void ScreenPauseMenuMantan::m93(sead::Heap*) {
     eui::ButtonGroup* group = mButtonGroup;

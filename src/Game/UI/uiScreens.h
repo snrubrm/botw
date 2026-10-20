@@ -4337,6 +4337,10 @@ public:
     ~ScreenAppSystemWindowNoBtn() override;
     void m93(sead::Heap* heap) override;
     void m94() override;
+    // 0x71009fba20: sets T_Text_00 for the window mode in _3618 (mode 1 uses sub_71009FBADC)
+    void m98() override;
+    // 0x71009fbadc (declared only; 208 bytes)
+    void sub_71009FBADC();
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ u32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindowNoBtn, ScreenEx)
