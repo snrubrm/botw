@@ -38,6 +38,8 @@ public:
     void sub_710091D030(const sead::SafeString& actor_name);
     // 0x710091d6d8 (declared only; placeholder name): the same with two more flags (NPCMakeItem with IncludePorch).
     bool sub_710091D6D8(const ksys::res::Shop* shop, const sead::SafeString& table_name, bool a, bool b);
+    // 0x710091d4c8 (declared only; placeholder name): checks the items of the selected table (IsSoldOut).
+    bool sub_710091D4C8();
     // 0x710091d8e4 (declared only; placeholder name): static; checks whether the table can make items
     // (CanCreateMakeItemList passes its two porch-material flags).
     static bool sub_710091D8E4(const ksys::res::Shop* shop, const sead::SafeString& table_name, bool a,

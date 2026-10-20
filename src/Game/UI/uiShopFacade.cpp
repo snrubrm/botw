@@ -22,9 +22,10 @@ void sub_7100A98284(bool value) {
 }
 
 // 0x7100a982a4
-void sub_7100A982A4() {
+bool sub_7100A982A4() {
     if (auto* mgr = UiShopMgr::instance())
-        mgr->sub_71009853F4();
+        return mgr->sub_71009853F4();
+    return false;
 }
 
 // 0x7100a98304

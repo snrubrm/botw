@@ -107,7 +107,8 @@ public:
     void sub_7100984EE0();
     void sub_7100984EF8();
     void sub_71009852C0(bool value);
-    void sub_71009853F4();
+    // Returns true when the current shop items are sold out (IsSoldOut query).
+    bool sub_71009853F4();
 
     // 0x71009854fc (placeholder name): acquires `proc` through _140 without acquiring it immediately
     bool sub_71009854FC(ksys::act::BaseProc* proc);

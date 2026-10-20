@@ -604,6 +604,7 @@ void sub_7100A98284(bool a1);
 void sub_7100A9853C();
 void sub_7100A98580();
 void sub_7100A9826C();
+bool sub_7100A982A4();
 void sub_7100A98394();
 bool sub_7100A983DC();
 void sub_7100A98408(const sead::SafeString& name);
