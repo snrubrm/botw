@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiTreasureBox.h"
+#include "KingSystem/Physics/Constraint/physUnk_7102519e58.h"
+#include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -17,8 +19,25 @@ TreasureBox::~TreasureBox() {
         delete _c0._10;
 }
 
+// NON_MATCHING: name-search temporaries and hinge initialization are scheduled differently.
 bool TreasureBox::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    *mIsOpenTreasureBox_a = false;
+    *mIsSetupDropActor_a = false;
+    auto* actor = mActor;
+    const auto& name = actor->getName();
+    if (name.findIndex("Iron") != -1 || name.findIndex("Wood") != -1 ||
+        name.findIndex("Sandworm") != -1) {
+        _c0._10 = new (heap) Unk_71024f7180;
+        if (_c0._10) {
+            const Unk_71024f7180::InitArg arg{actor->getPhysics(), "Body", sead::Vector3f::ex,
+                                            sead::Vector3f::ez, "Cover"};
+            if (!_c0._10->init(arg, heap)) {
+                delete _c0._10;
+                _c0._10 = nullptr;
+            }
+        }
+    }
+    return true;
 }
 
 void TreasureBox::enter_(ksys::act::ai::InlineParamPack* params) {

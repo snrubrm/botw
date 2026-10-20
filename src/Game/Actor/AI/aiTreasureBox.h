@@ -5,6 +5,8 @@
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+class Unk_71024f7180;
+
 // Unnamed class of an object embedded in TreasureBox (+0xc0), derived from the AI tree variable
 // root class (own RTTI typeInfo at GOT 0x7102583e48). Placeholder name = vtable address
 // (0x710242cd08; D2 is a shared empty function, D0 0x71005ce834, RTTI 0x71005ce70c / 0x71005ce7d8).
@@ -12,7 +14,8 @@ class Unk_710242cd08 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_710242cd08, Unk_71025afb58)
 public:
     uking::act::WeaponModifierInfo _8;
-    Unk_71025afb58* _10 = nullptr;  // deleted by ~TreasureBox
+    // Native init_ allocates the linked hinge owner here; the destructor releases it.
+    Unk_71024f7180* _10 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710242cd08, 0x18);
 
