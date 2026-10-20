@@ -537,6 +537,10 @@ public:
     bool sub_7100795F40(f32** out);
     // 0x7100795414 (placeholder name): sub_7100791B00 (EditCamera names) of the actor in _850, null without one.
     EditCamera::CameraNames* sub_7100795414();
+    // 0x7100795518 (placeholder name; declared only): called by CameraEditRoot::calc_.
+    void sub_7100795518();
+    // 0x710079558c (placeholder name; declared only): a name string, used by CameraEditRoot::calc_ as the child name.
+    const char* sub_710079558C();
 
     /* 0x0850 */ ksys::act::BaseProcLink _850;
     /* 0x0860 */ Unk_710079a8e8 _860;

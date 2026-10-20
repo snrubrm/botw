@@ -10,6 +10,7 @@ public:
     explicit CameraEditRoot(const InitArg& arg);
 
     bool init_(sead::Heap* heap) override;
+    void calc_() override;
 
 protected:
 };
