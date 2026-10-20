@@ -2691,6 +2691,8 @@ static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
 
 class ScreenAppMap : public ScreenEx {
 public:
+    // 0x71009eed18 (placeholder name; declared only): resets the map widget's footprint selection and mode
+    void sub_71009EED18();
     void m98() override;
     void m101() override;
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
@@ -5703,11 +5705,16 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
     // 0x71009de0f0: shows the Skip screen and runs UiSubsys1::sub_7100966A74 when UiSubsys1::returnTrue
     void m101() override;
+    // 0x71009ddfd4: resets the page state and, for DLC version 0x200 and later, the map screen's widget
+    void m100() override;
 
     // 0x3610 .. 0x3660 is zeroed by one memset in the constructor; the pointer at 0x3640 is an animator
     // (0x71009dd81c reads its finished flag).
     struct Unk3610 {
-        u8 _0[0x30];
+        u8 _0[0x20];
+        // closed by m100
+        eui::LayoutEx* _20;
+        u8 _28[0x30 - 0x28];
         eui::Animator* _30;
         u8 _38[0x50 - 0x38];
     };

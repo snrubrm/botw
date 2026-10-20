@@ -3300,6 +3300,22 @@ bool ScreenAppHome::sub_71009DD81C() const {
     return _3610._30 && (_3610._30->mFlags & 1);
 }
 
+// 0x71009ddfd4
+void ScreenAppHome::m100() {
+    if (_3811)
+        sub_7100AA86EC(1, true);
+    if (_3610._20)
+        _3610._20->startAnimCloseImpl_(false, true);
+    _3808 = 0;
+    _36a0.sub_71009348D0(false);
+    _380c = 4;
+    _3811 = 0;
+    if (ksys::aoc::Manager::instance()->getVersion() >= 0x200) {
+        if (auto* map = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap)))
+            map->sub_71009EED18();
+    }
+}
+
 // 0x71009ddfb8
 void ScreenAppHome::m99() {
     if (_3811)
