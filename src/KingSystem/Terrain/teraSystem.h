@@ -96,6 +96,7 @@ class ApertureMaps {
 };
 class ApertureMapsCollector;
 class System;
+class MapPatcher;
 class Unk_7101106F44;
 class AreaEnvGetter;
 // The vegetation terrain material manager (0x7101078674 setDirty); Core::Grass::sub_7101150A70
@@ -1528,7 +1529,9 @@ public:
     // 0x90-byte entries; only the scene pointer at +0 is known.
     struct SceneSlot {
         ApertureMapsCollector* collector;
-        u8 _8[0x88 - 0x8];
+        u8 _8[8];
+        // 1077E30 binds this native scene-slot block; initialized by1111650.
+        agl::UniformBlock block;
         // Set by sub_7101115584.
         bool _88;
         u8 _89[0x90 - 0x89];
@@ -1550,7 +1553,9 @@ public:
     // Centre and size of _8.
     sead::Vector2f _1c;
     f32 _24;
-    u8 _28[0xd8 - 0x28];
+    u8 _28[0xc0 - 0x28];
+    // System ctor11113D4 sets node offset20; registration11191BC links MapPatcher.
+    sead::OffsetList<MapPatcher> mPatchers;
     sead::Buffer<SceneSlot> mScenes;
     // 0x7101115080 (placeholder name): the area node with id `id`: a binary search of the sorted _1018
     // when it is not empty, else a linear search of _fa8.

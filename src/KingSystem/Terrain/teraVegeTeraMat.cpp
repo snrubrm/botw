@@ -11,8 +11,6 @@ namespace ksys::tera {
 // 0x7102615910 (.bss): the gate byte the two update helpers test.
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102615910;
 
-// 0x7101077e30: per-record rendering helper (declaration only).
-void sub_7101077E30(VegeTeraMat* record, void* arg, VegeTeraMatMgr::Item* item, void* data);
 
 void VegeTeraMatMgr::setDirty() {
     mRecords[0]._0 |= 1;
@@ -28,19 +26,17 @@ void VegeTeraMatMgr::sub_710107869C(u8 value) {
     mRecords[2].setBufferIndex(value);
 }
 
-// NON_MATCHING: the two reloads of the entry use the other one of the x8/x9 pair; the
-// instruction sequence and call order match.
-void VegeTeraMatMgr::sub_710107873C(void* arg) {
+void VegeTeraMatMgr::sub_710107873C(agl::DrawContext* context) {
     if (!_fa0 || sUnk_7102615910)
         return;
-    Item* item = getEntry()->mItem;
+    Item* item = getEntry()->collector;
     if (!item)
         return;
-    if ((~item->mFlags & 3) != 0)
+    if ((~item->_0[0]._20._0 & 3) != 0)
         return;
-    sub_7101077E30(&mRecords[0], arg, item, getEntry()->_10);
-    sub_7101077E30(&mRecords[1], arg, item, getEntry()->_10);
-    sub_7101077E30(&mRecords[2], arg, item, getEntry()->_10);
+    mRecords[0].draw(context, *item, getEntry()->block);
+    mRecords[1].draw(context, *item, getEntry()->block);
+    mRecords[2].draw(context, *item, getEntry()->block);
 }
 
 void VegeTeraMatMgr::sub_71010786F4() {
@@ -317,6 +313,41 @@ void VegeTeraMat::updateRegions(const RegionList& regions) {
         break;
     }
     _0 &= ~1;
+}
+
+
+// Original BSS state read and written by10784E0 across the three material updates.
+KSYS_VISIBILITY_HIDDEN s32 sUnk_7102615914;
+
+// NON_MATCHING: position updates inline here; patcher traversal and table construction also differ.
+void VegeTeraMatMgr::update(s32 index, GrassEntry* entry) {
+    _f9c = index;
+    _fa0 = entry->mSystem;
+    if (sUnk_7102615910)
+        return;
+    for (auto it = _fa0->mPatchers.begin(); it != _fa0->mPatchers.end(); ++it)
+        setDirty();
+    const auto* collector = getEntry()->collector;
+    const s32 count = collector->_2942;
+    VegeTeraMat::RegionList regions;
+    regions.count = count;
+    const auto* positions = collector->_0[0]._0;
+    for (s32 i = 0; i < 16; ++i) {
+        const f32 half_size = positions[i]._18 * 0.5f;
+        regions.min[i].set(positions[i].pos.x - half_size, positions[i].pos.y - half_size);
+        regions.max[i].set(positions[i].pos.x + half_size, half_size + positions[i].pos.y);
+        regions.inverseSize[i].set(1.0f / (regions.max[i].x - regions.min[i].x),
+                                   1.0f / (regions.max[i].y - regions.min[i].y));
+    }
+    if (sUnk_7102615914 < 0)
+        sUnk_7102615914 = count;
+    mRecords[0].updatePosition(entry->mPosition);
+    mRecords[0].updateRegions(regions);
+    mRecords[1].updatePosition(entry->mPosition);
+    mRecords[1].updateRegions(regions);
+    mRecords[2].updatePosition(entry->mPosition);
+    mRecords[2].updateRegions(regions);
+    sUnk_7102615914 = count;
 }
 
 }  // namespace ksys::tera
