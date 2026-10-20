@@ -2863,6 +2863,7 @@ extern const ksys::StateBase sUnk_71025f0f90;
 extern const ksys::StateBase sUnk_71025f0ff0;
 extern const ksys::StateBase sUnk_710261ee00;
 extern const ksys::StateBase sUnk_71025d98a0;
+extern const ksys::StateBase sUnk_71025d9900;
 extern const ksys::StateBase sUnk_71025d9e00;
 
 // Placeholder for the object ScreenPauseMenu keeps at 0x3b90.
@@ -2960,7 +2961,7 @@ struct ScreenPauseMenuUnk3b98 {
     /* 0x1a0 */ s32 _1a0;
     // 0x71009b5fc8 (CSV unnamed; declared only)
     void sub_71009B5FC8(bool a1);
-    // 0x71009b6040 (CSV unnamed; declared only)
+    // 0x71009b6040: the state machine is in state sUnk_71025d9900 or sUnk_71025d9960
     bool sub_71009B6040();
 };
 

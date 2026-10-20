@@ -756,6 +756,14 @@ void ScreenPauseMenuUnk3b98::sub_71009B5FC8(bool active) {
     }
 }
 
+// 0x71009b6040
+bool ScreenPauseMenuUnk3b98::sub_71009B6040() {
+    // called through a pointer in the original (not devirtualised)
+    if (mStateMachine.getState()->getId() == (&sUnk_71025d9900)->getId())
+        return true;
+    return mStateMachine.getState()->getId() == (&sUnk_71025d9960)->getId();
+}
+
 // 0x71009b9f94
 bool ScreenPauseMenuUnk3b90::sub_71009B9F94(bool active) {
     if (active) {
