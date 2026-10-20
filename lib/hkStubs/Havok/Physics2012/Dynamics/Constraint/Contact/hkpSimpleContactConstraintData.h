@@ -3,6 +3,7 @@
 #include <Havok/Common/Base/Types/Physics/ContactPoint/hkContactPoint.h>
 #include <Havok/Physics/Constraint/Data/hkpConstraintData.h>
 #include <Havok/Physics2012/Dynamics/Constraint/Atom/hkpSimpleContactConstraintAtomUtil.h>
+#include <Havok/Physics2012/Dynamics/Constraint/Atom/hkpSimpleContactConstraintAtom.h>
 #include <Havok/Physics2012/Dynamics/Constraint/Contact/hkpDynamicsCpidMgr.h>
 
 class hkpConstraintInstance;
@@ -69,4 +70,25 @@ hkpSimpleContactConstraintData::~hkpSimpleContactConstraintData() {
     if (m_atom) {
         hkpSimpleContactConstraintAtomUtil::deallocateAtom(m_atom);
     }
+}
+
+inline int hkpSimpleContactConstraintData::getNumContactPoints() const {
+    return m_atom->m_numContactPoints;
+}
+
+inline hkContactPointId hkpSimpleContactConstraintData::getContactPointIdAt(int index) const {
+    return m_idMgrA.indexOf(index);
+}
+
+inline const hkContactPoint& hkpSimpleContactConstraintData::getContactPoint(int id) const {
+    return m_atom->getContactPoints()[m_idMgrA.getValueAt(id)];
+}
+
+inline hkContactPoint& hkpSimpleContactConstraintData::getContactPoint(int id) {
+    return m_atom->getContactPoints()[m_idMgrA.getValueAt(id)];
+}
+
+inline hkpContactPointProperties*
+hkpSimpleContactConstraintData::getContactPointProperties(int id) {
+    return m_atom->getContactPointPropertiesStream(m_idMgrA.getValueAt(id));
 }

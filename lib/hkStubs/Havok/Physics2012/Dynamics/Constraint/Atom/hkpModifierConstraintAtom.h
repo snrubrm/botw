@@ -26,3 +26,16 @@ public:
     hkpConstraintAtom* m_child;
     hkUint32 m_pad[2];
 };
+
+// Type identity is retained by finish/cleanup 1634990/1634994. The modifier
+// chain in F69190 and 1678B68 reads the surface velocity at +0x30.
+struct hkpMovingSurfaceModifierConstraintAtom : hkpModifierConstraintAtom {
+    HK_DECLARE_REFLECTION()
+    explicit hkpMovingSurfaceModifierConstraintAtom(hkFinishLoadedObjectFlag f)
+        : hkpModifierConstraintAtom(f) {}
+
+    hkVector4 m_velocity;
+};
+static_assert(sizeof(hkpModifierConstraintAtom) == 0x30);
+static_assert(sizeof(hkpMovingSurfaceModifierConstraintAtom) == 0x40);
+static_assert(offsetof(hkpMovingSurfaceModifierConstraintAtom, m_velocity) == 0x30);

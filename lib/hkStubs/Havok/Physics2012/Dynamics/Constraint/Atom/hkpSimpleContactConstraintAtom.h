@@ -45,3 +45,15 @@ public:
 
     alignas(16) hkpSimpleContactConstraintDataInfo m_info;
 };
+
+// The properties follow the reserved point storage; their byte stride is
+// stored in the atom (F69340..F69354 and 1678B68).
+inline int hkpSimpleContactConstraintAtom::getContactPointPropertiesStriding() const {
+    return m_contactPointPropertiesStriding;
+}
+
+inline hkpContactPointProperties*
+hkpSimpleContactConstraintAtom::getContactPointPropertiesStream(int i) const {
+    return const_cast<hkpContactPointProperties*>(hkAddByteOffsetConst(
+        getContactPointPropertiesStream(), i * getContactPointPropertiesStriding()));
+}

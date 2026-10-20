@@ -27,3 +27,16 @@ public:
 inline hkpDynamicsCpIdMgr::hkpDynamicsCpIdMgr() = default;
 
 inline hkpDynamicsCpIdMgr::~hkpDynamicsCpIdMgr() = default;
+
+// F69190 and 1678B68 search the ID-to-point table from its last entry.
+inline int hkpDynamicsCpIdMgr::indexOf(int value) const {
+    for (int i = m_values.getSize() - 1; i >= 0; --i) {
+        if (m_values[i] == value)
+            return i;
+    }
+    return -1;
+}
+
+inline hkpDynamicsCpIdMgr::hkpValueType hkpDynamicsCpIdMgr::getValueAt(int id) const {
+    return m_values[id];
+}
