@@ -308,7 +308,6 @@ class SandwormBgmInfo : public BossBgmInfo {
 public:
     SandwormBgmInfo();
 
-private:
     agl::utl::Parameter<float> mAngryStartFadeSec;
     agl::utl::Parameter<float> mAngryEndFadeSec;
     agl::utl::Parameter<float> mChanceStartWaitSec;

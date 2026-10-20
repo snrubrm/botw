@@ -2790,7 +2790,8 @@ public:
 class Unk_71024fe808 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71024fe808, ksys::snd::Unk_71025ce380)
 public:
-    ~Unk_71024fe808() override;
+    // 0x710100d2ec. Inline: Unk_7102500b50's D0 and D1 thunk inline it.
+    ~Unk_71024fe808() override = default;
     // 0x710100cf20
     void m5() override;
     // 0x710100d2a0: playing (handle state 3 or 4) for at least FeelPlayingSec.
@@ -3144,6 +3145,32 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 
 // vtable 0x71024ff268: the castle BGM, declared in KingSystem/Sound/sndBgmMgr.h.
+// vtable 0x7102500b50: the Sandworm (Molduga) boss BGM. Its mInfo is a SandwormBgmInfo; it plays "main_00", or
+// "main_01" after ChanceStartWaitSec, and loops the stream regions with sub_7101022A38.
+class Unk_7102500b50 : public Unk_71024fe808 {
+    SEAD_RTTI_OVERRIDE(Unk_7102500b50, Unk_71024fe808)
+public:
+    // 0x71010228ac
+    void m5() override;
+    // 0x7101022954: emits "main_00" / "main_01" and installs the stream region callback.
+    void hm14() override;
+    // 0x7101022aa8: restarts (hm14) when the entry ended in state 2 or 3.
+    void hm15() override;
+    // 0x7101022b5c
+    void m18() override {}
+
+    /* 0x1e8 */ ksys::snd::Unk_710260f248Entry* _1e8;
+    // Set by hm14 (the next stream region callback starts at region 0).
+    /* 0x1f0 */ bool mRegionReset;
+    /* 0x1f4 */ s32 mRegion;
+    // Whether "main_01" is played.
+    /* 0x1f8 */ bool mUseSecondPart;
+    /* 0x1f9 */ bool mWaitingForSecondPart;
+    /* 0x1fc */ f32 mWaitTimer;
+};
+static_assert(offsetof(Unk_7102500b50, _1e8) == 0x1e8);
+static_assert(offsetof(Unk_7102500b50, mWaitTimer) == 0x1fc);
+
 // vtable 0x71025008d0 (17 slots): the one-hit-kill trial BGM (CSV OneHitKillTrialBgm::onPlayStart; its info
 // is an EnvPaletteReactiveBgmInfo, type DLC2nd_OneHitKillTrial).
 class Unk_71025008d0 : public ksys::snd::Unk_71025ce380 {

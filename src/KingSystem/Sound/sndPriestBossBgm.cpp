@@ -18,7 +18,6 @@
 
 // TU 0x710100ce68..0x710100f268 (static initialiser) in the original.
 
-Unk_71024fe808::~Unk_71024fe808() = default;
 
 bool Unk_71024fe808::m10() {
     if (_124 == 3 || _124 == 4)

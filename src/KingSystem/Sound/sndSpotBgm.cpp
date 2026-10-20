@@ -9,6 +9,9 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2SystemSLink.h>
+#include <xlink2/xlink2EventSLink.h>
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
 #include "KingSystem/Sound/sndMusicDefinition.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
@@ -404,6 +407,84 @@ void Unk_7102500a00::hm14() {
         _1b8 = sub_71010209FC(sUnk_7102500B30[_1a0]);
     _20c &= ~4;
     _1e0.setValueImmediate(1.0f);
+}
+
+void Unk_7102500b50::m5() {
+    if (!mActive)
+        return;
+    if (mWaitingForSecondPart) {
+        mWaitTimer += ksys::snd::sub_710105E3A4();
+        const f32 wait_sec = *static_cast<ksys::snd::SandwormBgmInfo*>(mInfo)->mChanceStartWaitSec;
+        if (mWaitTimer >= wait_sec) {
+            mWaitTimer = wait_sec;
+            mUseSecondPart = true;
+            mWaitingForSecondPart = false;
+            sub_710101D9F4(0.0f);
+            sub_710101D9D8();
+        }
+    }
+    Unk_71024fe808::m5();
+}
+
+namespace {
+// 0x7102500c90 / 0x7102500ca0
+sead::SafeString sStr_main_00 = "main_00";
+sead::SafeString sStr_main_01 = "main_01";
+}  // namespace
+
+// 0x7101022a38 (unnamed in the CSV): the stream region callback of Unk_7102500b50.
+nn::atk::StreamRegionCallbackResult sub_7101022A38(nn::atk::StreamRegionCallbackParam* param,
+                                                   void* user) {
+    auto* bgm = static_cast<Unk_7102500b50*>(user);
+    if (!bgm)
+        return nn::atk::StreamRegionCallbackResult(0);
+
+    s32 region;
+    if (bgm->mRegionReset) {
+        region = 0;
+        bgm->mRegion = 0;
+        bgm->mRegionReset = false;
+    } else {
+        if (param->mRegion == 3)
+            region = 3;
+        else if (param->mRegion == 1 && bgm->mUseSecondPart)
+            region = 1;
+        else
+            region = bgm->mRegion + 1;
+        bgm->mRegion = region;
+    }
+    param->mRegion = region;
+    return nn::atk::StreamRegionCallbackResult(1);
+}
+
+// NON_MATCHING: the original keeps the two names in .data.rel.ro and selects between base and base + 0x10;
+// ours are dynamically initialised in .bss (one more add for the merged global base)
+void Unk_7102500b50::hm14() {
+    _1e8 = sub_71010209FC(mUseSecondPart ? sStr_main_01 : sStr_main_00);
+    if (_1e8 && _1e8->sub_7100FF6DF4(this)) {
+        auto* entry = _1e8;
+        if (entry->mHandle.isActive()) {
+            auto* event = static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent());
+            if (auto* executor = event->getAliveAssetExecutor()) {
+                auto* handle = executor->getHandle();
+                if (handle->isActive()) {
+                    auto* source = handle->getSoundSource();
+                    if (mUseSecondPart) {
+                        source->setStreamRegionCallback(sub_7101022A38, this);
+                        if (entry->mHandle.isActive())
+                            entry->mHandle.getEvent()->resetFlagBit(1);
+                    }
+                }
+            }
+        }
+    }
+    mRegionReset = true;
+    mRegion = -1;
+}
+
+void Unk_7102500b50::hm15() {
+    if (_1e8 && !_1e8->sub_7100FF6DF4(this) && (mState == 2 || mState == 3))
+        hm14();
 }
 
 Unk_7102500e08::Unk_7102500e08(const ksys::snd::BgmInitArg& arg) : Bgm(arg.kind) {
