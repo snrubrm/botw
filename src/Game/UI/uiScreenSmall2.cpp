@@ -3456,6 +3456,20 @@ void ScreenSaveTransferWindow::m259() {
     }
 }
 
+// 0x7100a45684
+void ScreenSaveTransferWindow::m270() {
+    mLoadWork.reset(true);
+    close(-1);
+}
+
+// 0x7100a45b50
+void ScreenSaveTransferWindow::m278() {
+    _379c = 0;
+    auto* save = SaveSystem::instance();
+    save->mOptions.mValid = false;
+    save->sub_7100913160();
+}
+
 // 0x7100a44ddc
 void ScreenSaveTransferWindow::m250() {
     _366c = -1;

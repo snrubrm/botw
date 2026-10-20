@@ -30,6 +30,7 @@
 #include "Game/UI/euiPictureEx.h"
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/uiButtonEventQueue.h"
+#include "Game/gameSaveSystem.h"
 #include "Game/UI/uiArchiveHandle.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiTextureLoad.h"
@@ -5808,7 +5809,10 @@ public:
     /* 0x3678 */ u8 _3678;
     u8 _3679;
     u8 _367a;
-    u8 _pad_367b[0x3760 - 0x367b];
+    u8 _pad_367b[0x3680 - 0x367b];
+    /* 0x3680 */ SaveArchiveWork mSaveWork;
+    /* 0x36c8 */ LoadArchiveWork mLoadWork;
+    u8 _pad_3718[0x3760 - 0x3718];
     /* 0x3760 */ s32 _3760;
     u8 _pad_3764[0x3788 - 0x3764];
     /* 0x3788 */ sead::SafeString _3788;
