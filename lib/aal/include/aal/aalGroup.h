@@ -174,6 +174,10 @@ public:
     bool addSound(SoundSource* sound_source);
     void addToPlayingSoundSources(SoundSource* sound_source);
     f32 getReleaseTime() const { return mReleaseTime; }
+    // Inline-only in the original; scene control 103C228 traverses this list.
+    const sead::OffsetList<SoundSource>& getPlayingSoundSources() const {
+        return mPlayingSoundSources;
+    }
     // Inline-only name: setup B778E8 requires every emit-permission bit to be set.
     u8 getEmitFlags() const { return mEmitFlags.getDirect(); }
     /// 0x7100b826f8 (declared only): removes the sound source from the playing sounds of the group.
