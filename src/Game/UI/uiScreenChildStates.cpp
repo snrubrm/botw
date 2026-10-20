@@ -1439,6 +1439,101 @@ Unk_710247dc90::Unk_710247dc90(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 Unk_710247dc90::~Unk_710247dc90() = default;
 
+// 0x71009c7454
+void Unk_710247dc90::m105() {
+    if (mBtnL01)
+        mBtnL01->setFlag10(true);
+    if (mBtnR01)
+        mBtnR01->setFlag10(true);
+    auto* screen = _128;
+    if (sead::IsDerivedFrom<ScreenAppCamera>(screen))
+        screen->moveBoxCursorByButton_(mBtnR01);
+}
+
+// 0x71009c751c
+void Unk_710247dc90::m106() {}
+
+// 0x71009c7520
+void Unk_710247dc90::m107() {}
+
+// 0x71009c7524
+void Unk_710247dc90::m109() {
+    if (mBtnL00)
+        mBtnL00->setFlag10(false);
+    if (mBtnR00)
+        mBtnR00->setFlag10(false);
+    if (mBtnL01)
+        mBtnL01->setFlag10(false);
+    if (mBtnR01)
+        mBtnR01->setFlag10(false);
+    if (mAlbumSaveOut && mAlbumSaveOut->mRate != 0.0f)
+        return;
+    mContentCross->PlayAuto(1.0f);
+}
+
+// 0x71009c75d0
+void Unk_710247dc90::m110() {
+    if (mAlbumSaveOut && (mAlbumSaveOut->mFlags & 2))
+        mContentCross->PlayAuto(1.0f);
+    else if (mContentCross && (mContentCross->mFlags & 2))
+        getStateMachine().changeState(&sUnk_71025db8e0);
+}
+
+// 0x71009c7618
+void Unk_710247dc90::m111() {}
+
+// 0x71009c761c
+void Unk_710247dc90::m113() {
+    if (mBtnL00)
+        mBtnL00->setFlag10(_6f0[1] == 0);
+    if (mBtnR00)
+        mBtnR00->setFlag10(true);
+    auto* screen = _128;
+    if (sead::IsDerivedFrom<ScreenAppCamera>(screen))
+        screen->moveBoxCursorByButton_(mBtnR00);
+}
+
+// 0x71009c76ec
+void Unk_710247dc90::m114() {
+    if (!(_128->mButtonGroup->_38 & 2))
+        return;
+    if (!(mBtnL00->mFlags & 0x10))
+        return;
+    if (!sub_71010A9064(2))
+        return;
+    _128->sub_71010AA894();
+    mBtnL00->DownOff(false);
+}
+
+// 0x71009c7750
+void Unk_710247dc90::m115() {}
+
+// 0x71009c7754
+void Unk_710247dc90::m117() {
+    if (mBtnL00)
+        mBtnL00->setFlag10(false);
+    if (mBtnR00)
+        mBtnR00->setFlag10(false);
+    if (mBtnL01)
+        mBtnL01->setFlag10(false);
+    if (mBtnR01)
+        mBtnR01->setFlag10(false);
+    if (mFirstCapture && mFirstCapture->mRate != 0.0f)
+        sub_7100AA86EC(1, true);
+}
+
+// 0x71009c77f8
+void Unk_710247dc90::m118() {
+    if ((mFirstCapture && (mFirstCapture->mFlags & 2)) ||
+        (mChooseNew && (mChooseNew->mFlags & 2)) || (mChooseNow && (mChooseNow->mFlags & 2)) ||
+        (mAlbumSaveOut && (mAlbumSaveOut->mFlags & 2))) {
+        m6(true);
+    }
+}
+
+// 0x71009c784c
+void Unk_710247dc90::m119() {}
+
 // 0x71009c7850
 void Unk_710247dc90::m24(sead::Heap* heap) {
     _408.sub_71009CBD48(heap, mLayout, "P_CaptureNow_00");
@@ -1452,14 +1547,14 @@ void Unk_710247dc90::m24(sead::Heap* heap) {
     mContentCross = mLayout->tryCreateAnimatorAuto("ContentCross", false);
     mAlbumSaveOut = mLayout->tryCreateAnimatorAuto("AlbumSaveOut", false);
     if (auto* screen = sead::DynamicCast<ScreenEx>(_128)) {
-        mBtnL01 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnL_01");
-        mBtnR01 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnR_01");
+        mBtnL01 = static_cast<eui::AnimButton*>(screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnL_01"));
+        mBtnR01 = static_cast<eui::AnimButton*>(screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnR_01"));
         if (mBtnL01)
             mBtnL01->setFlag10(false);
         if (mBtnR01)
             mBtnR01->setFlag10(false);
-        mBtnL00 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnL_00");
-        mBtnR00 = screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnR_00");
+        mBtnL00 = static_cast<eui::AnimButton*>(screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnL_00"));
+        mBtnR00 = static_cast<eui::AnimButton*>(screen->sub_7100A480B4("Pa_SystemWindow_00/Pa_BtnR_00"));
         if (mBtnL00)
             mBtnL00->setFlag10(false);
         if (mBtnR00)
@@ -1516,6 +1611,26 @@ void Unk_710247dc90::m40(void*) {
 // 0x71009c7d94
 void Unk_710247dc90::m82() {
     _408.sub_71009CC970();
+}
+
+// 0x71009c7da0
+s32 Unk_710247dc90::m108() {
+    return 0;
+}
+
+// 0x71009c7da8
+s32 Unk_710247dc90::m112() {
+    return 0;
+}
+
+// 0x71009c7db0
+s32 Unk_710247dc90::m116() {
+    return 0;
+}
+
+// 0x71009c7db8
+s32 Unk_710247dc90::m120() {
+    return 0;
 }
 
 // 0x71009c81cc

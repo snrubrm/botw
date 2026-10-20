@@ -294,6 +294,8 @@ static_assert(sizeof(Unk_7102477c30) == 0x130);
 // establish ScreenChildEx and native vtable 247dc90. Lifetime bodies remain undecompiled.
 // A state of Unk_710247dc90 (entered by its m28).
 extern const ksys::StateBase sUnk_71025db820;
+// The state Unk_710247dc90::m110 changes to.
+extern const ksys::StateBase sUnk_71025db8e0;
 
 class Unk_710247dc90 : public ScreenChildEx {
 public:
@@ -309,6 +311,24 @@ public:
     void m40(void* a1) override;
     void m82() override;
 
+    // New slots 105-120: four states of four callbacks each (enter, two updates, exit; the last returns 0).
+    virtual void m105();
+    virtual void m106();
+    virtual void m107();
+    virtual s32 m108();
+    virtual void m109();
+    virtual void m110();
+    virtual void m111();
+    virtual s32 m112();
+    virtual void m113();
+    virtual void m114();
+    virtual void m115();
+    virtual s32 m116();
+    virtual void m117();
+    virtual void m118();
+    virtual void m119();
+    virtual s32 m120();
+
     // Members from the ctor 0x9c69a4 and D1 0x9c6a2c.
     /* 0x130 */ nn::ui2d::Material* _130 = nullptr;  // P_CaptureNew_00
     /* 0x138 */ nn::ui2d::Material* _138 = nullptr;  // P_Album_00
@@ -317,10 +337,11 @@ public:
     /* 0x150 */ eui::Animator* mChooseNew = nullptr;
     /* 0x158 */ eui::Animator* mContentCross = nullptr;
     /* 0x160 */ eui::Animator* mAlbumSaveOut = nullptr;
-    /* 0x168 */ eui::ButtonBase* mBtnL01 = nullptr;
-    /* 0x170 */ eui::ButtonBase* mBtnR01 = nullptr;
-    /* 0x178 */ eui::ButtonBase* mBtnL00 = nullptr;
-    /* 0x180 */ eui::ButtonBase* mBtnR00 = nullptr;
+    // AnimButtons: m105 / m113 move the camera screen's box cursor to them and m114 calls DownOff.
+    /* 0x168 */ eui::AnimButton* mBtnL01 = nullptr;
+    /* 0x170 */ eui::AnimButton* mBtnR01 = nullptr;
+    /* 0x178 */ eui::AnimButton* mBtnL00 = nullptr;
+    /* 0x180 */ eui::AnimButton* mBtnR00 = nullptr;
     /* 0x188 */ nn::ui2d::ExternalTextureInfo _188;
     /* 0x1a0 */ nn::ui2d::ExternalTextureInfo _1a0;
     /* 0x1b8 */ agl::TextureData _1b8;
@@ -335,7 +356,8 @@ public:
     };
 
     /* 0x408 */ Unk_71009cb0c8 _408;
-    /* 0x6f0 */ u16 _6f0 = 0;
+    // The ctor clears both bytes with one halfword store; m113 reads _6f0[1].
+    /* 0x6f0 */ u8 _6f0[2]{};
     /* 0x6f8 */ void* _6f8 = nullptr;
     /* 0x700 */ void* _700 = nullptr;
 };
