@@ -1,4 +1,5 @@
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/XLink/xlinkChemicalEventState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMiiSound.h"
 #include "KingSystem/Sound/sndSound.h"
@@ -19,6 +20,27 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 
 namespace ksys::xlink {
+
+void ChemicalEventState::transferFrom(ChemicalEventState& other) {
+    mActiveMask = other.mActiveMask;
+    for (s32 i = 0; i < mHandles.size(); ++i) {
+        mHandles[i] = other.mHandles[i];
+        other.mHandles[i].mELink.reset();
+        other.mHandles[i].mSLink.reset();
+    }
+}
+
+void ChemicalEventState::fade() {
+    if (mFaded)
+        return;
+    mFaded = true;
+    for (s32 i = 0; i < mHandles.size(); ++i) {
+        auto& handles = mHandles[i];
+        handles.mELink.fade();
+        handles.mSLink.fade();
+    }
+    mActiveMask = 0;
+}
 
 KSYS_VISIBILITY_HIDDEN const f32 sUnk_7102516320[2] = {0.25f, 0.6f};
 

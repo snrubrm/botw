@@ -19,6 +19,7 @@ class ChemicalMgr;
 
 namespace ksys::xlink {
 class XLink;
+class ChemicalEventState;
 }
 
 namespace ksys::phys {
@@ -99,6 +100,11 @@ public:
     // E3B79C: the parent actor chemical, consumed by the wind/rigid-body update.
     Chemical* sub_7100E3B79C() const;
     void sub_7100E3B6D8(phys::UserTag* tag);
+    // E3D4E8 stops one chemical effect and optionally emits its end sound.
+    void sub_7100E3D4E8(u32 kind, bool emit_end);
+    // E39DF4 stops all twenty-one event slots; E3ECA4 stops slots 0 / 19 and their slot-20 alias.
+    void sub_7100E39DF4();
+    void sub_7100E3ECA4();
 
     // Slot numbering: mN is the virtual at vtable slot N + 2 (the first two are the RTTI functions), as in the CSV.
     void m4(sead::Matrix34f* out, Chemical* chemical) override;
@@ -140,7 +146,9 @@ public:
     /* 0x010 */ xlink::XLink* mPlacementXLink;
     // 2026-10-07: setup E37224 passes Root's IRoot base to E39E8C; E3AA34 calls getShape.
     /* 0x018 */ const chm::IRoot* _18;
-    /* 0x020 */ u8 _20[0x2d - 0x20];
+    /* 0x020 */ xlink::ChemicalEventState* _20;
+    /* 0x028 */ u32 _28;
+    /* 0x02c */ u8 _2c;
     /* 0x02d */ u8 _2d[3];
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
     /* 0x034 */ u8 _34;

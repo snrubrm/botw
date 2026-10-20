@@ -3,6 +3,9 @@
 #include "KingSystem/Chemical/chmShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/XLink/xlinkChemicalEventState.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actReaction.h"
 
 namespace ksys::act {
 
@@ -23,7 +26,9 @@ Unk_71024e6428::Unk_71024e6428()
     : mActor(nullptr),
       mPlacementXLink(nullptr),
       _18(nullptr),
-      _20{},
+      _20(nullptr),
+      _28(0),
+      _2c(0),
       _2d{},
       _30(0),
       _34(0),
@@ -53,10 +58,129 @@ void ActorChemicals::sub_7100E37990(s32 count, sead::Heap* heap) {
         _70.setBuffer(count, elements);
 }
 
-void Unk_71024e6428::sub_7100E3B6D8(phys::UserTag* tag) {    for (auto& entry : _278) {
+// NON_MATCHING: the flag select uses the opposite condition and different temporary registers.
+void Unk_71024e6428::sub_7100E3B708(const Unk_71024e6428& other) {
+    if (other._30 & 0x800)
+        _30 |= 0x800;
+    else
+        _30 &= ~0x800;
+    _20->transferFrom(*other._20);
+    for (s32 i = 0; i < _20->mHandles.size(); ++i) {
+        auto& handles = _20->mHandles[i];
+        if (!handles.mELink.isActive())
+            continue;
+        auto* event = static_cast<xlink2::EventELink*>(handles.mELink.getEvent());
+        auto* delayed = event->mDelayEmitParam._0xf8;
+        if (delayed) {
+            delayed->mActor = mActor;
+            delayed->mChemical = &mChemical;
+            delayed->mFlags |= 8;
+        }
+    }
+}
+
+void Unk_71024e6428::sub_7100E3B6D8(phys::UserTag* tag) {
+    for (auto& entry : _278) {
         if (entry.owns_body && entry.body)
             entry.body->setUserTag(tag);
     }
+}
+
+// NON_MATCHING: actor reloads, RTTI branches and end-sound temporary scheduling differ.
+void Unk_71024e6428::sub_7100E3D4E8(u32 kind, bool emit_end) {
+    if (!_20)
+        return;
+
+    auto& handles = _20->mHandles[kind];
+    const u32 mask = 1u << kind;
+    if (!(_20->mActiveMask & mask)) {
+        if (!mActor || !handles.mELink.isActive() ||
+            !sead::IsDerivedFrom<WeaponBase>(mActor) ||
+            !static_cast<WeaponBase*>(mActor)->m188())
+            return;
+        handles.mELink.kill();
+        handles.mELink.reset();
+        return;
+    }
+
+    _20->mActiveMask &= ~mask;
+    if (kind == 20)
+        kind = _20->mKind;
+
+    bool kill = false;
+    if (kind != 15 && kind != 16 && mActor && sead::IsDerivedFrom<WeaponBase>(mActor)) {
+        auto* weapon = static_cast<WeaponBase*>(mActor);
+        if (weapon->m153() || ((kind == 19 || kind == 0) && weapon->m194())) {
+            if (kind == 19 || kind == 0) {
+                Unk_71012419b4 emitted;
+                _20->sub_710122DE90(mActor, &emitted, nullptr, 10, false, false);
+            }
+            kill = true;
+        }
+        if ((kind == 0 || kind == 3 || kind == 14) && weapon->m188())
+            kill = true;
+    }
+    if (kill) {
+        handles.mELink.kill();
+        handles.mELink.reset();
+    } else {
+        handles.mELink.fadeIfLoopEffect();
+    }
+
+    sead::Vector3f position;
+    bool has_position = false;
+    if (handles.mSLink.isActive()) {
+        // The native call discards getPos's bool result and retains the handle validity instead.
+        static_cast<xlink2::EventSLink*>(handles.mSLink.getEvent())->getPos(&position);
+        has_position = true;
+    }
+    handles.mSLink.fadeIfLoopSound();
+
+    if (!emit_end || !mActor || (_30 & 2))
+        return;
+    const char* name;
+    switch (kind) {
+    case 3:
+        name = "Chemical_Electricity_End";
+        break;
+    case 12:
+        name = "Chemical_ElectricWater_End";
+        break;
+    case 11:
+        name = "Chemical_ElecConnect_End";
+        break;
+    default:
+        return;
+    }
+    const int type = sub_7101240FE8(mActor);
+    auto sound = eft::searchAndEmitSLink(
+        type == 1 || type == 2 ? mActor : Reaction::instance()->_38, name, false);
+    if (has_position)
+        sound.setPosition(position);
+}
+
+// NON_MATCHING: the bit-mask load and loop-shift registers are allocated differently.
+void Unk_71024e6428::sub_7100E39DF4() {
+    for (u32 i = 0; i < 21; ++i) {
+        if (_20 && ((_20->mActiveMask & (1u << i)) ||
+                    (mActor && _20->mHandles[i].mELink.isActive())))
+            sub_7100E3D4E8(i, false);
+    }
+}
+
+// NON_MATCHING: the three slot tests share different branch tails and actor reloads.
+void Unk_71024e6428::sub_7100E3ECA4() {
+    if (!_20)
+        return;
+    if ((_20->mActiveMask & 1) || (mActor && _20->mHandles[0].mELink.isActive()))
+        sub_7100E3D4E8(0, false);
+    if (!_20)
+        return;
+    if ((_20->mActiveMask & (1u << 19)) || (mActor && _20->mHandles[19].mELink.isActive()))
+        sub_7100E3D4E8(19, false);
+    if (_20 && (_20->mKind == 19 || _20->mKind == 0) &&
+        ((_20->mActiveMask & (1u << 20)) || (mActor && _20->mHandles[20].mELink.isActive())))
+        sub_7100E3D4E8(20, false);
 }
 
 Chemical* Unk_71024e6428::sub_7100E3B79C() const {
@@ -379,3 +503,9 @@ void ActorChemicals::sub_7100E39614(bool on) {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::xlink {
+
+ChemicalEventState::ChemicalEventState() = default;
+
+}  // namespace ksys::xlink
