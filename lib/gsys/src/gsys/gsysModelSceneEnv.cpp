@@ -21,6 +21,34 @@ s32 ModelSceneEnv::AreaEnvGetter::getAccessoryKey(u32 a, u32, u32 c) const {
     return (a & ~1u) == 2 ? static_cast<s32>(c) : -1;
 }
 
+bool ModelSceneEnv::AreaEnvGetter::isComposite(u32 index) const {
+    switch (index) {
+    case 0:
+    case 1:
+    case 4:
+        return false;
+    case 2:
+    case 3:
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool ModelSceneEnv::AreaEnvGetter::isViewDependence(u32 index) const {
+    switch (index) {
+    case 0:
+    case 1:
+    case 2:
+        return true;
+    case 3:
+    case 4:
+        return false;
+    default:
+        return false;
+    }
+}
+
 void ModelSceneEnv::drawDebug(agl::DrawContext*, const ModelSceneContext&) const {}
 
 }  // namespace gsys

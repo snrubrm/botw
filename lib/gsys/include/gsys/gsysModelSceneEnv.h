@@ -64,12 +64,16 @@ public:
         ~PartsSetUserBin() override;
     };
 
-    // Partial model: the getter's data layout is not modelled, only getAccessoryKey
-    // 0x7100c2a8b4. isComposite / isViewDependence stay U: the natural short-circuit body
-    // compiles to csel here while the original branches.
+    // Partial model: the getter's data layout is not modelled, only the two bit tests and
+    // getAccessoryKey 0x7100c2a8b4. Both bit tests are false above index 4 and read a
+    // constant mask (0xc / 0x7) below it, so they need no members.
     class AreaEnvGetter {
     public:
         s32 getAccessoryKey(u32 a, u32 b, u32 c) const;
+        // 0x7100c29fdc: bit `index` of 0xc (the composite entry types 2 and 3).
+        bool isComposite(u32 index) const;
+        // 0x7100c2a000: bit `index` of 0x7 (the view-dependent entry types 0, 1 and 2).
+        bool isViewDependence(u32 index) const;
     };
 
     // OpenWorldStage::unload 0x71007c5d20 passes the data-set array at +0xba0 to
