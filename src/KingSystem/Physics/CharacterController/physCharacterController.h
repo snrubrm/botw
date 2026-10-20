@@ -50,6 +50,10 @@ struct CharacterControllerUnk48Base {
 struct CharacterControllerUnk48 : public hkpCharacterStateOnGround,
                                   public CharacterControllerUnk48Base {
     HK_DECLARE_CLASS_ALLOCATOR(CharacterControllerUnk48)
+    // Native primary slots 10 / 11 are root SEAD RTTI, after the Havok state protocol.
+    SEAD_RTTI_BASE(CharacterControllerUnk48)
+
+public:
     // 0x7100f67b54 (D1 is the empty 0x7100f67c1c, D0 0x7100f67c24).
     explicit CharacterControllerUnk48(u32 x);
     ~CharacterControllerUnk48() override = default;
@@ -60,9 +64,19 @@ struct CharacterControllerUnk48 : public hkpCharacterStateOnGround,
     // 0x7100f68e84: resets the per-landing state.
     void sub_7101675D38(hkpCharacterContext& context, hkpCharacterStateType type,
                         const hkpCharacterInput& input, hkpCharacterOutput& output) override;
+    // 0x7100f67cfc: the grounded-state update.
+    void m8(hkpCharacterContext& context, const hkpCharacterInput& input,
+            hkpCharacterOutput& output) override;
     // 0x7100f67cd0: switches to the in-air state (1) on a jump or when not supported.
     void m9(hkpCharacterContext& context, const hkpCharacterInput& input,
             hkpCharacterOutput& output) override;
+
+    // Native slot 12: called by m8 with a three-float normal; Horse forwards
+    // the same arguments from its override to sub_7100F683C0.
+    virtual void sub_7100F69014(const sead::Vector3f& normal, const hkpCharacterInput& input,
+                               hkpCharacterOutput& output) {}
+    void sub_7100F683C0(const sead::Vector3f& normal, const hkpCharacterInput& input,
+                       hkpCharacterOutput& output);
 
     // 0x7100f68f38: the address of the field at 0x5c.
     f32* sub_7100F68F38();
@@ -71,10 +85,9 @@ struct CharacterControllerUnk48 : public hkpCharacterStateOnGround,
 
     /* 0x28 */ f32 _28 = 1.0f;
     /* 0x2c */ u8 _2c[4];
-    /* 0x30 */ f32 _30 = 0;
-    /* 0x34 */ f32 _34 = 0;
-    /* 0x38 */ f32 _38 = 0;
-    /* 0x3c */ f32 _3c = 0;
+    // Native m8 reads / writes the complete vector at +0x30. Its alignment
+    // supplies the tail padding reused by derived character states.
+    /* 0x30 */ hkVector4f _30{0, 0, 0, 0};
     /* 0x40 */ f32 _40 = 1.0f;
     /* 0x44 */ sead::Vector3f _44 = sead::Vector3f::zero;
     /* 0x50 */ bool _50 = false;
@@ -102,7 +115,6 @@ struct CharacterControllerUnk48 : public hkpCharacterStateOnGround,
     // 0x7100f63140 stores the controller's `_40` here.
     /* 0xa8 */ CharacterControllerUnk40* _a8 = nullptr;
     /* 0xb0 */ bool _b0 = false;
-    /* 0xb1 */ u8 _b1[0xc0 - 0xb1];
 };
 KSYS_CHECK_SIZE_NX150(CharacterControllerUnk48, 0xc0);
 

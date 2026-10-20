@@ -3,18 +3,13 @@
 
 namespace ksys::phys {
 
-// NON_MATCHING: the vtable lacks slots 10-12 (0x7100f68f48, 0x7100f68fb8, 0x7100f69014: undeclared), so the
-// second vtable pointer offset differs; the zero vector store is also scheduled differently.
 CharacterControllerUnk48::CharacterControllerUnk48(u32 x) : _8c(x) {}
 
 void CharacterControllerUnk48::sub_7101675D38(hkpCharacterContext& context,
                                               hkpCharacterStateType type,
                                               const hkpCharacterInput& input,
                                               hkpCharacterOutput& output) {
-    _30 = 0;
-    _34 = 0;
-    _38 = 0;
-    _3c = 0;
+    _30.setZero();
     _40 = 1.0f;
     _44.set(0, 0, 0);
     _90 = 0;
