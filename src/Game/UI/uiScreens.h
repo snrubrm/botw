@@ -2620,6 +2620,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009ae29c (placeholder name): steps the zoom index _b4fa up / down (0 - 2; _b4a4 = 6 / 7, or 8 at a limit)
     // and refreshes the home screen page
     void sub_71009AE29C(bool up);
+    // 0x71009af1ac (placeholder name; declared only): called by ScreenAppMap::sub_71009EED18 when _b4ff bit 3 is set
+    void sub_71009AF1AC();
     // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
     // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
     void setMode(s32 mode);
@@ -2691,7 +2693,8 @@ static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
 
 class ScreenAppMap : public ScreenEx {
 public:
-    // 0x71009eed18 (placeholder name; declared only): resets the map widget's footprint selection and mode
+    // 0x71009eed18 (placeholder name): resets the map widget's footprint selection and mode, shows the map panes and
+    // resets the mode animators
     void sub_71009EED18();
     void m98() override;
     void m101() override;

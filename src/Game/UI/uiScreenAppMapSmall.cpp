@@ -49,6 +49,23 @@ void ScreenAppMapDungeon::doBuildLayout_(const sead::SafeString& name, nn::ui2d:
     sub_71010ABF8C(creator.getEntries());
 }
 
+// 0x71009eed18
+void ScreenAppMap::sub_71009EED18() {
+    _3610->sub_71009AEEF0();
+    _3610->setMode(0);
+    _3c30->SetVisible(true);
+    _3750->SetVisible(true);
+    sub_7100A48104("Pa_PlayerNavi_00", nullptr)->SetVisible(true);
+    if (_3610->_b4ff & 8)
+        _3610->sub_71009AF1AC();
+    if (_3628[9])
+        _3628[9]->StopAtMin();
+    if (_3628[10])
+        _3628[10]->StopAtMax();
+    if (_3698)
+        _3698->StopAtMin();
+}
+
 // 0x71009eedf4
 void ScreenAppMap::sub_71009EEDF4() {
     if (_3610)
