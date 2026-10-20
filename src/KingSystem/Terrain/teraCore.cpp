@@ -158,6 +158,18 @@ void Core::sub_71013008E4(sead::Heap* heap, System* system) {
     system->sub_7101112E78(arg);
 }
 
+void Core::sub_71013009C4(sead::Heap* heap) {
+    if (!_f0)
+        return;
+
+    const u32 count = mModelUnits.size();
+    for (u32 i = 0; i != count; ++i)
+        _f8->sub_7100BF7114(mModelUnits[i].mUnit, true, heap);
+    _f8->bind(_f0);
+    _f8->sub_7100BF9CA8(sead::SafeString("テライン"));
+    sub_710107E900(Terrain::instance()->_20, _f8, false);
+}
+
 // inline-only in the original (0x7101300d50 repeats it four times); name is a guess.
 // NON_MATCHING: the original's NaN test is a bitwise (bits & 0x7fffffff) > 0x7f800000 check,
 // while our sead::Mathf::isNan and std::isnan compile to an unordered compare (see the log's gen

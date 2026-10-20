@@ -44,6 +44,8 @@ class ShaderProgram;
 namespace gsys {
 class Model;
 class ModelResource;
+class ModelScene;
+class ModelUnit;
 }
 
 namespace nn::g3d {
@@ -376,9 +378,17 @@ public:
     };
 
     u8 _0[0xf0];
-    void* _f0;
+    // The model scene the model _f8 is bound to (0x71013009c4 calls Model::bind with it).
+    gsys::ModelScene* _f0;
     gsys::Model* _f8;
-    u8 _100[0x38];
+    u8 _100[0x28];
+    // The model-unit records 0x71013009c4 binds (the buffer at 0x128, 0x10-byte entries).
+    struct ModelUnitRecord {
+        gsys::ModelUnit* mUnit;
+        u8 _8[8];
+    };
+    static_assert(sizeof(ModelUnitRecord) == 0x10);
+    sead::Buffer<ModelUnitRecord> mModelUnits;
     Grass* _138;
     Unk_140* _140;
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
@@ -404,6 +414,12 @@ public:
 // 0x71011501c8 (declaration only): Grass cleanup thunk called by world::ChemicalMgr::unload2;
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
+
+// 0x710107e900 (unnamed; declaration only): walks the model's units named "TeraTerrain" and
+// "TeraRoute" and hands them to the vegetation / route managers. It is a member of the terrain
+// editor object at Terrain + 0x20, whose class is not modelled, so the receiver is passed as an
+// opaque pointer (the function does not read it).
+void sub_710107E900(void* editor, gsys::Model* model, bool visible);
 
 // 0x7101159054 (unnamed in the CSV): the ground height at `pos` within `radius` (a ray cast
 // query); called by Core::Grass::sub_7101150A7C.
