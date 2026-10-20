@@ -13,6 +13,9 @@ class BAndSLimitAngYCs : public Constraint {
 public:
     ~BAndSLimitAngYCs() override;
 
+    // 0x7100f6bd8c: installs both local constraint frames.
+    void sub_7100F6BD8C(const sead::Matrix34f& a, const sead::Matrix34f& b);
+
     // 0x7100f6c254 (placeholder name): reads back the translations of the two local transforms.
     void sub_7100F6C254(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) const;
 

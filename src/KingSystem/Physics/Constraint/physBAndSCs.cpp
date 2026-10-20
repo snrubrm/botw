@@ -59,6 +59,17 @@ void BAndSCs::sub_7100F6B394(sead::Vector3f* pivot_a, sead::Vector3f* pivot_b) c
     storeToVec3(pivot_b, mData->m_atoms.m_pivots.m_translationB);
 }
 
+void BAndSLimitAngYCs::sub_7100F6BD8C(const sead::Matrix34f& a,
+                                    const sead::Matrix34f& b) {
+    hkTransform transform_a;
+    hkTransform transform_b;
+    toHkTransform(&transform_a, a);
+    toHkTransform(&transform_b, b);
+    auto& transforms = mData->m_transforms;
+    transforms.m_transformA = transform_a;
+    transforms.m_transformB = transform_b;
+}
+
 u32 sub_7100F6B100(bool breakable, bool) {
     return sub_7100F6ACF4(breakable) + 0x150;
 }
