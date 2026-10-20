@@ -685,6 +685,17 @@ struct Unk_7102612628 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102612628, 0x130);
 
+// Placeholder (the ducking request of 0x71010421f0: a buffered name at +0, the group ducker settings at +0x58, the
+// group list at +0x68, one target setting at +0x70 and a flag at +0x80).
+struct Unk_71025022a0 {
+    /* 0x00 */ sead::BufferedSafeString mName;
+    /* 0x18 */ u8 _18[0x40];
+    /* 0x58 */ aal::GroupDucker::Settings mSettings;
+    /* 0x68 */ sead::Buffer<aal::Group*>* mGroups;
+    /* 0x70 */ aal::GroupDucker::TargetSettings mTargetSettings;
+    /* 0x80 */ bool _80;
+};
+
 // The two empty polymorphic bases of DuckingMgr::Ducker (placeholder names = the vtable group they appear in:
 // the primary base shares Ducker's vtable 0x71025021b8, the second base's secondary vtable is 0x7102502200).
 // Both have only a virtual destructor.
@@ -740,6 +751,8 @@ public:
         void calc();
         // 0x710103ddf0: copies the settings' name and sets the group ducker up from them.
         void setup(sead::Heap* heap, Unk_7102612628* settings);
+        // 0x710103e128 (placeholder name): the same setup from a request, adding every group of the request.
+        void sub_710103E128(sead::Heap* heap, Unk_71025022a0* request);
         // 0x710103e2dc (placeholder name) and 0x710103e020 (the target volume update it calls).
         void sub_710103E2DC(f32 f);
         void sub_710103E020(f32 f);

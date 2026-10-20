@@ -88,6 +88,31 @@ void DuckingMgr::Ducker::setup(sead::Heap* heap, Unk_7102612628* settings) {
     _b0 = settings;
 }
 
+// 0x710103e128 (placeholder name): the same setup from a request, adding every group of the request as a target
+// with the request's target setting.
+void DuckingMgr::Ducker::sub_710103E128(sead::Heap* heap, Unk_71025022a0* request) {
+    if (mDucker.isInitialized())
+        return;
+    char* buffer = mNameBuffer;
+    const char* name = request->mName.cstr();
+    if (buffer != name) {
+        const s32 len = request->mName.calcLength();
+        const s32 n = len < mNameCapacity ? len : mNameCapacity - 1;
+        memcpy(buffer, name, n);
+        buffer[n] = sead::SafeStringBase<char>::cNullChar;
+    }
+    _c8 = request->_80 ? (_c8 | 2) : (_c8 & ~2);
+    mDucker.initialize(nullptr);
+    mDucker.setup(request->mSettings);
+    auto* groups = request->mGroups;
+    auto* group = groups->getBufferPtr();
+    auto* const end = group + groups->size();
+    for (; group != end; ++group)
+        mDucker.createAndAddTarget(*group, request->mTargetSettings, heap);
+    _c8 |= 1;
+    _c0 = 0;
+}
+
 // 0x710103e020 (placeholder name): rewrites the volume and the fade speed of every target when the group
 // ducker has as many targets as the settings, then starts the ducking with the given `f` factor.
 void DuckingMgr::Ducker::sub_710103E020(f32 f) {
