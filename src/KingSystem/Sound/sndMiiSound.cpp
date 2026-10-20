@@ -289,6 +289,23 @@ Unk_710251cd38* ksys::act::Unk_71024dd490::sub_71012DF384(void* arg) {
 // this class does not declare yet.
 Unk_710251cf40::~Unk_710251cf40() = default;
 
+namespace {
+struct ShapeCounts {
+    s32 vertices;
+    s32 _4;
+    s32 indices;
+};
+const ShapeCounts sShapeCounts[] = {{3, 1, 3}, {4, 2, 6}, {4, 2, 6}, {5, 3, 9}, {6, 4, 12}};
+}  // namespace
+
+s32 Unk_710251cf40::m8() {
+    return _30 * _30 * sShapeCounts[_34].vertices;
+}
+
+s32 Unk_710251cf40::m9() {
+    return _30 * _30 * sShapeCounts[_34].indices * 10;
+}
+
 Unk_710251b810::~Unk_710251b810() = default;
 
 Unk_710251b888::~Unk_710251b888() = default;

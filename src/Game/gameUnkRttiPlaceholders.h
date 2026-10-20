@@ -1932,7 +1932,10 @@ public:
     s32 m8() override;
     s32 m9() override;
 
-    u8 _30[0xd8 - 0x30];
+    s32 _30;
+    // Index into a table of {vertices, ?, indices} counts per shape.
+    u32 _34;
+    u8 _38[0xd8 - 0x38];
     Unk_71011595fc _d8;
     Unk_71011595fc _2e0;
 };
@@ -1946,10 +1949,13 @@ public:
     virtual void m7();
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
+    virtual s32 m10();
+    virtual s32 m11();
     virtual void m12();
     virtual void m13();
+
+    s32 _30;
+    s32 _34;
 };
 
 // vtable 0x710251f878 (85 slots); placeholder generated from the vtable (genskel.py).
@@ -2257,10 +2263,13 @@ public:
     virtual void m7();
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
+    virtual u32 m10() const;
+    virtual u32 m11() const;
     virtual void m12();
     virtual void m13();
+
+    u32 _30;
+    u32 _34;
 };
 
 // vtable 0x710250f758 (14 slots); placeholder generated from the vtable (genskel.py).
@@ -2279,6 +2288,7 @@ class Unk_710251d010 : public Unk_710251d0e0 {
     SEAD_RTTI_OVERRIDE(Unk_710251d010, Unk_710251d0e0)
 public:
     ~Unk_710251d010() override;
+    s32 m8() override;
 };
 
 // vtable 0x710250f7d8 (14 slots); placeholder generated from the vtable (genskel.py).
@@ -2391,9 +2401,13 @@ public:
     virtual void m7();
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
+    virtual s32 m10();
+    virtual s32 m11();
     void m5(agl::DrawContext*, u32) override {}
+
+    s32 _30;
+    s32 _34;
+    s32 _38;
 };
 
 // vtable 0x710252e558 (5 slots); placeholder generated from the vtable (genskel.py).

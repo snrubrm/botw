@@ -1304,19 +1304,13 @@ Unk_710110d278::Key* Terrain::Unk_380::sub_7101138494(const sead::SafeString& na
 
 }  // namespace ksys::tera
 
-// Placeholder: the object accessed at 0x7101148ba4 / 0x7101148bac (two u32 getters at +0x30 / +0x34).
-struct Unk_7101148BA4Maybe {
-    u8 _0[0x30];
-    u32 _30;
-    u32 _34;
-};
-
-u32 sub_7101148BA4(const Unk_7101148BA4Maybe* self) {
-    return self->_30;
+// Unk_710251d0e0's grid size getters (vtable slots 10 / 11).
+u32 Unk_710251d0e0::m10() const {
+    return _30;
 }
 
-u32 sub_7101148BAC(const Unk_7101148BA4Maybe* self) {
-    return self->_34;
+u32 Unk_710251d0e0::m11() const {
+    return _34;
 }
 
 namespace ksys::tera {

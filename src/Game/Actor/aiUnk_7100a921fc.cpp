@@ -230,3 +230,41 @@ s32 Unk_710249d608::convertPathToEntryIDImpl_(const sead::SafeString& file_path)
         }
     } while (true);
 }
+
+s32 Unk_710251cfa0::m8() {
+    return _34 * 4;
+}
+
+s32 Unk_710251cfa0::m9() {
+    return _38 * 4;
+}
+
+s32 Unk_710251cfa0::m10() {
+    return _30;
+}
+
+s32 Unk_710251cfa0::m11() {
+    return _30;
+}
+
+s32 Unk_710251d160::m8() {
+    return (_30 + 1) * (_34 + 1);
+}
+
+s32 Unk_710251d160::m10() {
+    return _30;
+}
+
+s32 Unk_710251d160::m11() {
+    return _34;
+}
+
+s32 Unk_710251d0e0::m8() {
+    return (m10() + 1) * (m11() + 1);
+}
+
+s32 Unk_710251d010::m8() {
+    const u32 cols = m10() + 1;
+    const u32 rows = m11() + 1;
+    return cols * rows + (cols - 1) * (rows - 1);
+}
