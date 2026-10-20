@@ -30,6 +30,13 @@ void HorseMgr::onGameDataReinit(ksys::gdt::Manager::ReinitEvent* event) {
     initHorseGameDataIters();
 }
 
+// NON_MATCHING: clang inlines ~Unk_7100e8a080 (_270); the original calls it out of line.
+HorseMgr::~HorseMgr() {
+    _80.deleteProc();
+    if (auto* gdm = ksys::gdt::Manager::instance())
+        gdm->removeReinitCallback(mReinitSlot);
+}
+
 void HorseMgr::initHorseGameDataItersAndStuff(sead::Heap* heap, bool on) {
     _228.change(1 << Flag(Flag::_0), on);
     initHorseGameDataIters();
@@ -493,12 +500,12 @@ void HorseMgr::sub_7100E87584(const sead::SafeString& name, sead::Heap* heap) {
 
 Unk_7100e8a080::Unk_7100e8a080() = default;
 
-void Unk_7100e8a080::sub_7100E8A0C4() {
+// 0x7100e8a0c4 (was sub_7100E8A0C4): ~HorseMgr calls it for HorseMgr::_270; the link reset is _8's destructor.
+Unk_7100e8a080::~Unk_7100e8a080() {
     if (mQuery) {
         ksys::phys::HavokAI::instance()->destroyQuery(mQuery);
         mQuery = nullptr;
     }
-    _8.reset();
 }
 
 // NON_MATCHING: horseStuff ignores `this`, so the original does not re-set x0 for the call (same-TU dead argument).

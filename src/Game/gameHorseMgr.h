@@ -46,7 +46,7 @@ class HorseMgr;
 struct Unk_7100e8a080 {
     Unk_7100e8a080();
     // 0x7100e8a0c4 (placeholder name): destroys the query and resets the link.
-    void sub_7100E8A0C4();
+    ~Unk_7100e8a080();
     // 0x7100e8a100 (placeholder name): unless busy (_4c, a query, or the timer _48 running), checks horseStuff and
     // then links `proc` and restarts the timer (66); false if horseStuff fails.
     bool sub_7100E8A100(HorseMgr* mgr, ksys::act::BaseProc* proc);
@@ -217,11 +217,14 @@ public:
     // 2026-10-07: ctor E821E4 constructs this link; registration E8527C assigns it.
     /* 0x70 */ ksys::act::BaseProcLink _70;
     /* 0x80 */ ksys::act::BaseProcHandle _80;  // the owned horse being created (WaitWhileCreatingOwnedHorse)
-    u8 _90[0xb0 - 0x90];
+    /* 0x90 */ ksys::act::BaseProcHandle _90;
+    /* 0xa0 */ ksys::act::BaseProcLink _a0;
     /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver
     u8 _c8[0xd0 - 0xc8];
     /* 0x0d0 */ s32 _d0;  // the selected horse (-1: none)
-    u8 _d4[0x180 - 0xd4];
+    u8 _d4[0xe0 - 0xd4];
+    // Torn down by the destructor (0x7100e82360) from the last to the first.
+    /* 0xe0 */ ksys::act::BaseProcLink _e0[10];
     // Game data handles set by initHorseGameDataIters (0x7100e82500).
     /* 0x180 */ ksys::gdt::FlagHandle _180;  // Horse_Pos
     /* 0x184 */ ksys::gdt::FlagHandle _184;  // Horse_RotY
