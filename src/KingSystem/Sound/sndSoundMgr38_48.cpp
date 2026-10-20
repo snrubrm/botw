@@ -7,6 +7,25 @@ namespace ksys::snd {
 
 // TU 0x71010349dc..0x71010366e4 (static initialiser) in the original.
 
+Unk_SoundMgr38_48::~Unk_SoundMgr38_48() {
+    if (_1dc8.isActive())
+        _1dc8.getEvent()->kill();
+    if (_1da0) {
+        SoundMgr::instance()->_60->sub_7101059354(_1da0);
+        _1da0 = nullptr;
+    }
+    if (_1d98) {
+        _1d98->destroy();
+        _1d98 = nullptr;
+    }
+    if (mSphere) {
+        delete mSphere;
+        mSphere = nullptr;
+    }
+    _1a88.freeBuffer();
+    _1a98.freeBuffer();
+}
+
 void Unk_SoundMgr38_48::sub_7101035A50() {
     _1e08.set(1);
     if (_1e08.isOff(2)) {

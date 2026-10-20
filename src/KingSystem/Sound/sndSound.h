@@ -368,6 +368,7 @@ KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_20, 0x88);
 // at +0x1d58) used by the GrudgeEyeball AI.
 class Unk_SoundMgr38_48 {
 public:
+    // 0x71010352f0 / 0x71010353b0
     virtual ~Unk_SoundMgr38_48();
     // 0x7101035b50 (declared only): adds `actor` to the list (if it has room).
     void sub_7101035B50(ksys::act::Actor* actor);
@@ -384,12 +385,24 @@ public:
     // 1036530: completes a sphere query; writes the indoor result only after execution status 1.
     bool sub_7101036530(bool* indoor, const sead::Vector3f& position);
 
-    u8 _8[0x1d98 - 0x8];
+    // 0x7101035a90 fills a 64-entry object list here.
+    u8 _8[0xc38 - 0x8];
+    /* 0xc38 */ sead::CriticalSection _c38;
+    u8 _c78[0x1a88 - 0xc78];
+    // Element type unknown (trivially destructible); the destructor frees the buffer.
+    /* 0x1a88 */ sead::Buffer<u8> _1a88;
+    // Element type unknown; the destructor frees the buffer.
+    /* 0x1a98 */ sead::PtrArrayImpl _1a98;
+    u8 _1aa8[0x1d58 - 0x1aa8];
+    /* 0x1d58 */ sead::CriticalSection _1d58;
     /* 0x1d98 */ xlink2::UserInstanceSLink* _1d98 = nullptr;
     /* 0x1da0 */ Unk_7102502950* _1da0 = nullptr;
     u8 _1da8[0x1dc0 - 0x1da8];
     /* 0x1dc0 */ u32 _1dc0;
-    u8 _1dc4[0x1e00 - 0x1dc4];
+    u8 _1dc4[0x1dc8 - 0x1dc4];
+    // Killed by the destructor.
+    /* 0x1dc8 */ xlink2::HandleSLink _1dc8;
+    u8 _1dd8[0x1e00 - 0x1dd8];
     // 1034A10 stores SphereRigidBody::make's result here; 1036530 borrows it for the query.
     /* 0x1e00 */ phys::SphereRigidBody* mSphere;
     /* 0x1e08 */ sead::BitFlag8 _1e08;
