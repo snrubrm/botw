@@ -135,6 +135,8 @@ public:
     // record's near position (a/2 as the extent) and, on a hit, appends the position to the record's
     // buffer under its critical section. b is the radius. Called by Core::Grass::sub_7101150FCC.
     bool sub_710106A0C8(f32 a, f32 b, const sead::Vector2f* position);
+    // 0x71010657dc (unnamed in the CSV): writes the grass fade of the entry nearest to `pos`.
+    void sub_71010657DC(const sead::Vector3f* pos, f32 a, f32 b);
 
     sead::Heap* mHeap;                              // +8
     sead::Buffer<Record> mRecords;                  // +10

@@ -248,6 +248,40 @@ void Core::Grass::sub_7101150A70() {
     mEntries.getBufferPtr()->_10->setDirty();
 }
 
+// 0x7101150a7c (unnamed in the CSV): fades the grass around `pos` by `radius`, scaled by `value`
+// (the second float), using the terrain height at the position unless the debug flag is set.
+void Core::Grass::sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value) {
+    if (!(mFlags & 1))
+        return;
+    if (const auto* terrain = Terrain::instance()) {
+        if (const auto* debug = terrain->_a50) {
+            if ((debug->_18 & 8) != 0)
+                return;
+        }
+    }
+
+    const sead::Vector2f xz(pos->x, pos->z);
+    bool flag = false;
+    mEntries.getBufferPtr()->_0->sub_7101075F10(&flag, &xz);
+    System* system = mEntries.getBufferPtr()->mSystem;
+    f32 scale = 1.0f;
+    if (system) {
+        f32 height = 0.0f;
+        if (flag) {
+            height = sub_7101159054(pos, radius);
+        } else if (!sub_71011094A0(&height, &xz, system, -1, 0)) {
+            return;
+        }
+
+        f32 t = (pos->y - radius - height) * 2.0f;
+        t = sead::Mathf::clamp(t, 0.0f, 1.0f);
+        scale = 1.0f - t;
+        if (scale <= 0.0f)
+            return;
+    }
+    _28->sub_71010657DC(pos, radius * scale, value * scale);
+}
+
 // NON_MATCHING: vector normalization and matrix stores are scheduled differently.
 void Core::Grass::sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
                                     const sead::Vector3f* target) {

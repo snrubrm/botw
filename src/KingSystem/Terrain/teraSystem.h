@@ -209,6 +209,9 @@ public:
             // 0x7101075038 (placeholder name): the record's _37 minus one at `pos` (or -1), with the
             // attribute type 3 weight in `out`.
             s32 sub_7101075038(const sead::Vector2f& pos, f32* out);
+            // 0x7101075f10 (unnamed in the CSV): looks the cell at `pos` up in this part, writes
+            // whether the cell is present to `out` and returns whether the part has the cell.
+            bool sub_7101075F10(bool* out, const sead::Vector2f* pos);
 
             // inline-only in the original (0x7101074d40 and 0x7101075038 repeat it); name is a guess
             Cell* getCellMaybe(const sead::Vector2f& pos) {
@@ -392,6 +395,10 @@ public:
 // 0x71011501c8 (declaration only): Grass cleanup thunk called by world::ChemicalMgr::unload2;
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
+
+// 0x7101159054 (unnamed in the CSV): the ground height at `pos` within `radius` (a ray cast
+// query); called by Core::Grass::sub_7101150A7C.
+f32 sub_7101159054(const sead::Vector3f* pos, f32 radius);
 
 // 0x7101128ac0 (unnamed): maps the two 2D points `a` and `b` by the scale / offset in `transform`
 // (transform[0], transform[2], transform[3]) into `out`.
