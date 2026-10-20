@@ -17,7 +17,6 @@
 
 // TU 0x7101011274..0x71010131cc (static initialiser) in the original.
 
-// NON_MATCHING: the two secondary-vtable thunks (0x7101011d98 / 0x7101011e3c) differ in register allocation.
 Unk_71024fefe8::~Unk_71024fefe8() {
     mEntries.freeBuffer();
 }
