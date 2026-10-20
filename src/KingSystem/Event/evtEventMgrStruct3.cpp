@@ -1,3 +1,4 @@
+#include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtEventMgrStruct3.h"
@@ -86,6 +87,87 @@ void EventMgrStruct3A::assignToActor(act::Actor* actor) {
     mHasUniqueName = act::InfoData::instance()->hasTag(actor->getName().cstr(), 0xcab53f3d);
     if (mHasUniqueName && !mActor->getUniqueName())
         mHasUniqueName = false;
+}
+
+// inline-only in the original; name is a guess. Repeated in 127961C and 1279784.
+// Retain a unique owner pair,
+// acquire the actor on the first new pair, and publish this record on the actor.
+inline void EventActorLink::bindActor(act::Actor* actor, EventFlowBase* flow, void* data) {
+    bool found = false;
+    for (const auto& owner : mOwners) {
+        if (owner.flow == flow) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        for (auto& owner : mOwners) {
+            if (!owner.flow) {
+                owner.flow = flow;
+                owner.data = data;
+                mLink.acquire(actor, false);
+                actor->m118(false);
+                mActive = true;
+                break;
+            }
+        }
+    }
+    actor->_1a0 = this;
+}
+
+// NON_MATCHING: native owner traversal and inline binding scheduling differ.
+// 0x710127961c
+void EventActorLinkPool::bindActor(act::Actor* actor, EventFlowBase* flow, void* data) {
+    if (!flow) {
+        auto* context = Manager::instance()->_1d2b8;
+        if (!context)
+            return;
+        flow = context->getCurrentFlow();
+        if (!flow)
+            return;
+    }
+    auto* link = static_cast<EventActorLink*>(actor->get1a0());
+    if (!link) {
+        for (auto& entry : mLinks) {
+            if (!entry.mActive) {
+                link = &entry;
+                break;
+            }
+        }
+        if (!link)
+            return;
+    }
+    link->bindActor(actor, flow, data);
+}
+
+// NON_MATCHING: native owner traversal and inline binding scheduling differ.
+// 0x7101279784
+void EventActorLinkPool::copyOwners(act::Actor* actor, const EventActorLink* source) {
+    auto* link = static_cast<EventActorLink*>(actor->get1a0());
+    if (link && link->mActive)
+        link->releaseActor(actor, !source || !source->mActive);
+    if (source) {
+        for (const auto& owner : source->mOwners) {
+            if (owner.flow)
+                bindActor(actor, owner.flow, owner.data);
+        }
+    }
+}
+
+// 0x710127995c
+void EventActorLinkPool::releaseActor(act::Actor* actor) {
+    auto* link = static_cast<EventActorLink*>(actor->get1a0());
+    if (link && link->mActive)
+        link->releaseActor(actor, true);
+}
+
+// NON_MATCHING: SafeArray traversal uses an index instead of a remaining count.
+// 0x7101279978
+void EventActorLinkPool::removeOwner(EventFlowBase* flow) {
+    for (auto& link : mLinks) {
+        if (link.mActive)
+            link.removeOwner(flow);
+    }
 }
 
 }  // namespace ksys::evt

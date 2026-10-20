@@ -32,8 +32,27 @@ public:
         void* data;  // initialized only when a flow owner is added by 127961C
     };
     /* 0x18 */ sead::SafeArray<Owner, 4> mOwners;
+
+private:
+    friend class EventActorLinkPool;
+    // Producer operation in 127961C / 1279784; kept inline with its pool callers.
+    void bindActor(act::Actor* actor, EventFlowBase* flow, void* data);
 };
 static_assert(sizeof(EventActorLink) == 0x58);
+
+// Manager::init (DB1D10) allocates 0x44c0 bytes at +1d2e8 and initializes
+// 200 actor ownership records. Release paths 127995C / 1279978 consume that pool.
+class EventActorLinkPool {
+public:
+    void bindActor(act::Actor* actor, EventFlowBase* flow, void* data);
+    void copyOwners(act::Actor* actor, const EventActorLink* source);
+    void releaseActor(act::Actor* actor);
+    void removeOwner(EventFlowBase* flow);
+
+    sead::SafeArray<EventActorLink, 200> mLinks;
+};
+static_assert(sizeof(EventActorLinkPool) == 0x44c0);
+
 
 
 // Native EventFlowMgr constructor owns two arrays of 0x18-byte entries (DBE0AC).
