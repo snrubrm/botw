@@ -19,6 +19,7 @@ template class ksys::StateTemplate<uking::ui::ScreenPauseMenuRecipe>;
 template class ksys::StateTemplate<uking::ui::ScreenRupee>;
 template class ksys::StateTemplate<uking::ui::Unk_710247af10>;
 template class ksys::StateTemplate<uking::ui::Unk_710247b428>;
+template class ksys::StateTemplate<uking::ui::Unk_710247dc90>;
 template class ksys::StateTemplate<uking::ui::Unk_710247e468>;
 template class ksys::StateTemplate<uking::ui::ScreenAppAlbum>;
 template class ksys::StateTemplate<uking::ui::ScreenAppCamera>;
