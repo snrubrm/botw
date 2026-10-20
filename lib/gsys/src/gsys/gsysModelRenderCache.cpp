@@ -20,4 +20,11 @@ void ModelRenderCache::setPassViewProjIndex(int index) {
     }
 }
 
+void ModelRenderCache::setForceBlendColor(const sead::Color4f& color) {
+    mForceBlendColor.r = color.r * color.a;
+    mForceBlendColor.g = color.g * color.a;
+    mForceBlendColor.b = color.b * color.a;
+    mForceBlendColor.a = color.a;
+}
+
 }  // namespace gsys

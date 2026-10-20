@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <cstddef>
+#include <gfx/seadColor.h>
 #include <prim/seadBitFlag.h>
 
 namespace agl {
@@ -27,6 +28,7 @@ public:
     void setBlendMask(u32 mask);
     void setChannelMask(u32 mask);
     void setPassViewProjIndex(int index);
+    void setForceBlendColor(const sead::Color4f& color);
 
     // Inline-only accessor names follow the fields read by Graphics F34F1C and
     // ModelScene::drawProcedural C13EA0.
@@ -52,7 +54,9 @@ private:
     u32 mChannelMask;
     u8 _40[0x148 - 0x40];
     s32 _148;
-    u8 _14c[0x250 - 0x14c];
+    u8 _14c[0x18c - 0x14c];
+    sead::Color4f mForceBlendColor;
+    u8 _19c[0x250 - 0x19c];
     ModelRenderStatistics* mStatistics;
 };
 static_assert(sizeof(ModelRenderCache) == 0x258);
