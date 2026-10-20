@@ -6,6 +6,9 @@
 #include "Game/Actor/aiUnk_710070284C.h"
 #include "Game/Actor/aiUnk_71025b2d88.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "Game/Actor/actUnk_71025ae680.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/System/Timer.h"
 
 // Full native helper uses the signed AS slot as an animation-slot offset; namespace unknown.
 void sub_7100703904(ksys::act::Actor* actor, s32 slot);
@@ -143,8 +146,38 @@ void ForkGanonBeastWeakPointCheck::loadParams_() {
     getAITreeVariable(&mWeakPointCounter_a, "WeakPointCounter");
 }
 
+// NON_MATCHING: the original branches for the 0x138 flag update; ours uses a csel
 void ForkGanonBeastWeakPointCheck::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mWeakPointCounter._8 > 0.0f) {
+        if (*mIsWeakPointAppearMode_a) {
+            ksys::Timer::update(&mWeakPointCounter._8, -1.0f);
+            if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_80000000) &&
+                mWeakPointCounter._8 <= 0.0f) {
+                mWeakPointCounter._8 = 1.0f;
+            }
+        } else {
+            mWeakPointCounter._8 = 0.0f;
+        }
+    }
+
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        if (auto* unit = sead::DynamicCast<uking::act::Unk_710244dd20>(actor->m159())) {
+            if (*mIsWeakPointAppearMode_a)
+                unit->_138 &= ~8;
+            else
+                unit->_138 |= 8;
+        }
+    }
+
+    const bool appear_mode = *mIsWeakPointAppearMode_a;
+    const bool playing = _1d8.sub_7101241B6C();
+    if (appear_mode) {
+        if (playing)
+            _1d8.fadeXLink();
+    } else if (!playing) {
+        xlinkSearchAndEmit(mActor, "Boost", 2, &_1d8);
+    }
+    sub_71001556D4();
 }
 
 }  // namespace uking::action

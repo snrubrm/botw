@@ -85,6 +85,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71001556d4 (declared only; placeholder name): updates the countdowns at 0x1f8 / 0x1fc.
+    void sub_71001556D4();
 
     // static_param at offset 0x20
     const int* mASSlot_s{};
