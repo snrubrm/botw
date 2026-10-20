@@ -31,6 +31,10 @@ public:
     // Native 0x7100c4bc9c selects a ModelInfo and returns its ModelUnit pointer.
     ModelUnit* setCurrent(s32 index);
 
+    // Inline-only in the original; names describe the records read by HorseBase E6A77C.
+    ModelInfo* getCurrentModelInfo() const { return mCurrent; }
+    const sead::PtrArray<ModelInfo>& getUnits() const { return mUnits; }
+
 private:
     Model* mModel;
     sead::PtrArray<ModelInfo> mUnits;

@@ -73,6 +73,9 @@ public:
     void setDisplayListDirty();
     void setDisplayListDirty(int shape_idx);
 
+    // Native C03E8C selects the skeleton callback bone; -1 disables the callback.
+    void setCallbackBoneIndex(int bone_idx);
+
     // ModelUnit slot 5 at 0x7100c06bc0 returns the actual resource name.
     sead::SafeString getName() const override;
 
