@@ -12,6 +12,9 @@ namespace ksys::snd {
 // The TU's static initialiser is 0x7101057c2c (`_GLOBAL__sub_I_sndResourceManager.cpp`).
 static util::InitTimeInfo sInitTimeInfo;
 
+ResourceManager::ResourceManager()
+    : mDelegate(this, &ResourceManager::sub_7101057E74), _15a8(sead::SafeString::cEmptyString) {}
+
 // 0x71010581d8: frees the bars pool, destroys the default heap and the overlay arena. The three base
 // destructors are empty.
 ResourceManager::~ResourceManager() {

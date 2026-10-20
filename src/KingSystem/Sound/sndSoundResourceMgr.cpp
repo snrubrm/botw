@@ -1,4 +1,6 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
+#include <prim/seadScopedLock.h>
+#include "KingSystem/System/StarterPackMgr.h"
 #include <resource/seadResource.h>
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -53,6 +55,38 @@ ResourceBars* ResourceManager::sub_710105844C(res::Handle* handle, const sead::S
 
 void ResourceManager::sub_7101059354(Unk_7102502950* reader) {
     delete reader;
+}
+
+// NON_MATCHING: request temporaries occupy different stack slots, and filename access is
+// scheduled differently around the dynamic cast.
+void loadVoiceFromTitleBGPack(ResourceManager* resource_manager) {
+    sead::ScopedLock<sead::CriticalSection> lock(&resource_manager->_1568);
+    const char* locale = sub_710105E7B4(nullptr);
+    auto* handle = &resource_manager->_14a8;
+    if (handle->isSuccess() && resource_manager->_15a8 == locale)
+        return;
+    if (handle->isSuccess())
+        handle->requestUnload();
+    if (!handle->isSuccess()) {
+        sead::FixedSafeString<128> path;
+        path.format("Voice/%s/%s", locale, sCustomVoiceNoActorBars.cstr());
+        res::LoadRequest request;
+        request.mRequester = "Sound";
+        request.mLoadDataAlignment = 0x80;
+        request.mBufferSize = 0;
+        request._22 = true;
+        request.mArena = resource_manager->mArena;
+        auto* pack = StarterPackMgr::instance()->getTitleBGLangPack();
+        if (pack && pack->isSuccess())
+            request.mPackHandle = pack;
+        request._26 = false;
+        res::Handle::Status status;
+        auto* bars = sead::DynamicCast<ResourceBars>(handle->load(path, &request, &status));
+        if (bars && status == res::Handle::Status::_4) {
+            bars->sub_7101057588(sCustomVoiceNoActorBars);
+            resource_manager->_15a8.copy(locale);
+        }
+    }
 }
 
 // 0x7101058734: loads every entry of the bars list `name` into `reader` as a direct resource load and

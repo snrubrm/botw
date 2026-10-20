@@ -1232,11 +1232,13 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
 
-// Placeholder (vtable 0x71025a36b0; constructor 0x71012c8968, destructor 0x71012c89e8): the 0xc8-byte member at
+// Placeholder (vtable 0x710251b500; constructor 0x71012c8968, destructor 0x71012c89e8): the 0xc8-byte member at
 // ResourceManager +0x48. Only the res::Handle at +0x70 is non-trivial; the constructor zeroes the other fields and
 // sets -1 at +0x3c and 0x101 at +0xc0.
 class Unk_71025a36b0 {
 public:
+    // Native 0x71012c8968, called by ResourceManager construction.
+    Unk_71025a36b0();
     virtual ~Unk_71025a36b0();
 
     // 0x71012c911c / 0x71012c917c (declared only; both large): the entry work run before the bars loads.
@@ -1412,14 +1414,15 @@ struct ResourceManager : public aal::IAssetList, public Unk_7102502ac0, public U
     /* 0x1568 */ sead::CriticalSection _1568;
     /* 0x15a8 */ sead::FixedSafeString<32> _15a8;
     /* 0x15e0 */ sead::DirectResource* _15e0 = nullptr;
-    /* 0x15e8 */ BarslistArchive* _15e8 = nullptr;
-    /* 0x15f0 */ u8 _15f0[8];
+    /* 0x15e8 */ BarslistArchive* _15e8;
+    // Native ResourceManager construction clears this whole word.
+    /* 0x15f0 */ u64 _15f0 = 0;
     /* 0x15f8 */ res::Handle _15f8;
     /* 0x1648 */ res::Handle _1648;
 };
 KSYS_CHECK_SIZE_NX150(ResourceManager, 0x1698);
 
-// 0x710105882c (CSV loadVoiceFromTitleBGPack; 840 B, declared only): loads the voices of the title BGM pack.
+// 0x710105882c: loads the voices of the title BGM pack.
 void loadVoiceFromTitleBGPack(ResourceManager* resource_manager);
 
 // Placeholder: the property definition source passed to sub_710105E3D0 (it reads the definitions and their
