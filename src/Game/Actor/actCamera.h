@@ -444,6 +444,7 @@ public:
     void sub_7100799770(const Unk_71009214b8& src, Unk_71009214b8* dst);
     void sub_710079984C(const Unk_71009214b8& src, Unk_71009214b8* dst);
     explicit Camera(const CreateArg& arg);
+    ~Camera() override;
 
     // Constructor 791F38 binds this callback into the task delegate at 1400;
     // complete 79691C submits it to WorkerSupportThreadMgr::submitRequest.
@@ -552,9 +553,8 @@ public:
     /* 0x1090 */ sead::Matrix34f _1090;
     /* 0x10c0 */ Unk_71009214b8 _10c0;
     /* 0x10f8 */ u32 _10f8 = 0;
-    /* 0x1100 */ ksys::act::BaseProcLink _1100{};
-    /* 0x1110 */ ksys::act::BaseProcLink _1110{};
-    /* 0x1120 */ ksys::act::BaseProcLink _1120{};
+    // The destructor keeps the array address in a register: an array.
+    /* 0x1100 */ ksys::act::BaseProcLink _1100[3]{};
     // Three 0x40-byte entries with a bool at +0x3c (cleared by the ctor body).
     /* 0x1130 */ u8 _1130[0x11f0 - 0x1130];
     /* 0x11f0 */ sead::Matrix34f _11f0;

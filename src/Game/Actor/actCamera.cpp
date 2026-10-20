@@ -145,6 +145,10 @@ bool sub_710079BE9C(int idx) {
     return idx < 1;
 }
 
+// The D1 / D0 thunks for the second and third bases (0x710079248c .. 0x710079268c) are non-matching (m:
+// they keep one more callee-saved register).
+Camera::~Camera() = default;
+
 Unk_710079a8e8::~Unk_710079a8e8() = default;
 
 void Camera::sub_71007953C8() {
