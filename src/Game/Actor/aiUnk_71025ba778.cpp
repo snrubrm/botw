@@ -2,6 +2,7 @@
 #include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -96,6 +97,11 @@ Unk_7100710078::~Unk_7100710078() {
     delete _70;
 }
 
+bool Unk_7100710078::m3(gsys::Model* model, bool) {
+    _20.search(model, _58);
+    return _20.isValid();
+}
+
 // NON_MATCHING: matrix/vector temporary storage and quaternion arithmetic scheduling differ.
 void Unk_7100710078::m2(gsys::Model*) {
     if (!_70)
@@ -125,4 +131,16 @@ void Unk_7100710078::m2(gsys::Model*) {
     result.setMul(delta, final_local);
     result.setTranslation(final_local.getTranslation());
     _70->sub_7100F731F8(count - 1, result, false, false);
+}
+
+const gsys::BoneAccessKey* Unk_7100710078::m4() {
+    return &_20.getKey();
+}
+
+s32 sub_7100710768(ksys::act::Actor* actor) {
+    if (!actor || !actor->getRootAi())
+        return 0;
+    s32* hit_num = nullptr;
+    actor->getRootAi()->getAITreeVariable(&hit_num, "LynelRodeoAttackHitNum");
+    return hit_num ? *hit_num : 0;
 }

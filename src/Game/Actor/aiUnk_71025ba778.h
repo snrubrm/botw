@@ -75,6 +75,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100710078, 0xe8);
 
+// 0x7100710768 (placeholder name): the actor's LynelRodeoAttackHitNum AI tree variable, or 0
+// (called by PlayerRideHorse 0x7100842b30 / 0x7100843d64).
+s32 sub_7100710768(ksys::act::Actor* actor);
+
 // Object shared by the Lynel body behaviors through the "LynelBodyControlUnit" AI tree variable.
 // Placeholder name from its RTTI typeInfo static (0x71025ba778; parent: Unk_71025afb58); size and most
 // members are unknown.
