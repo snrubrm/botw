@@ -2674,6 +2674,22 @@ void ScreenAppPictureBookUnk::sub_71009401E4() {
     }
 }
 
+// NON_MATCHING: the original tests _58 == 1 before _58 == 0 and places the after-check last (branch layout only)
+// 0x7100940ee8
+bool ScreenAppPictureBookUnk::sub_7100940EE8(s32 entry, s32 page) const {
+    if (mConfig._58 == 1 ? mConfig._60 == 0 : mConfig._58 == 0 && mConfig._60 == 2)
+        return hasPageAfter(entry, page);
+    return hasPageBefore(entry, page);
+}
+
+// NON_MATCHING: as 0x7100940ee8 (branch layout only)
+// 0x7100941000
+bool ScreenAppPictureBookUnk::sub_7100941000(s32 entry, s32 page) const {
+    if (mConfig._58 == 1 ? mConfig._60 == 0 : mConfig._58 == 0 && mConfig._60 == 2)
+        return hasPageBefore(entry, page);
+    return hasPageAfter(entry, page);
+}
+
 // 0x7100940288
 void ScreenAppPictureBookUnk::sub_7100940288() {
     s64 count = mGroupLists.size();

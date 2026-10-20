@@ -3574,6 +3574,36 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     sead::Vector2f sub_710093F05C(s32 index);
     // 0x710093edbc (placeholder name): the entry, page and column / row of the overall item `index`
     void sub_710093EDBC(s32 index, s32* out_entry, s32* out_page, s32* x, s32* y) const;
+    // 0x7100940ee8 / 0x7100941000 (placeholder names): whether there is a page before / after page `page` of
+    // entry `entry` in the list order (the config's _58 / _60 swap the directions); false while _2c bit 0 is clear
+    bool sub_7100940EE8(s32 entry, s32 page) const;
+    bool sub_7100941000(s32 entry, s32 page) const;
+    // inline-only in the original; name is a guess (repeats in 0x7100940ee8 and 0x7100941000)
+    bool hasPageBefore(s32 entry, s32 page) const {
+        if (!(_2c & 1))
+            return false;
+        if (page > 0)
+            return true;
+        for (s32 i = entry - 1; i >= 0; --i) {
+            const auto* e = mEntries(i);
+            if (e->mParams._29c > 0 && !e->_38c && !e->_38d)
+                return true;
+        }
+        return false;
+    }
+    // inline-only in the original; name is a guess (repeats in 0x7100940ee8 and 0x7100941000)
+    bool hasPageAfter(s32 entry, s32 page) const {
+        if (!(_2c & 1))
+            return false;
+        if (page < mEntries(entry)->_2f4 - 1)
+            return true;
+        for (s32 i = entry; i < mEntries.size() - 1; ++i) {
+            const auto* e = mEntries(i + 1);
+            if (e->mParams._29c > 0 && !e->_38c && !e->_38d)
+                return true;
+        }
+        return false;
+    }
     // 0x710093feac (declared only; 220 bytes): refreshes the groups' layouts
     void sub_710093FEAC();
     // 0x710093e428 (declared only; the 4-byte forwarder to sub_710093E784)
