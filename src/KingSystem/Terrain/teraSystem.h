@@ -246,9 +246,9 @@ public:
 
             // inline-only in the original (0x7101074d40 and 0x7101075038 repeat it); name is a guess
             Cell* getCellMaybe(const sead::Vector2f& pos) {
-                s32 i = 23 - _124b0 + sead::Mathf::floor(pos.x / 3.0f) + _124a8;
+                s32 i = 23 - mGridPosition.x + sead::Mathf::floor(pos.x / 3.0f) + mCellIndices.x;
                 i %= 47;
-                s32 j = 23 - _124b4 + sead::Mathf::floor(pos.y / 3.0f) + _124ac;
+                s32 j = 23 - mGridPosition.y + sead::Mathf::floor(pos.y / 3.0f) + mCellIndices.y;
                 j %= 47;
                 if ((i | j) < 0)
                     return nullptr;
@@ -277,10 +277,8 @@ public:
             u32 _878;
             u8 _87c[0x1088 - 0x87c];
             /* 0x1088 */ Cell mCells[47][47];
-            /* 0x124a8 */ s32 _124a8;
-            /* 0x124ac */ s32 _124ac;
-            /* 0x124b0 */ s32 _124b0;
-            /* 0x124b4 */ s32 _124b4;
+            /* 0x124a8 */ sead::Vector2i mCellIndices;
+            /* 0x124b0 */ sead::Vector2i mGridPosition;
             Record mRecords[47][47];
             CellState mCellStates[47][47];
             u8 _36f7c[0x3844c - 0x36f7c];
@@ -2009,6 +2007,12 @@ struct Unk_7101147C48 {
     u8 _bb4[0xcb4 - 0xbb4];
     s32 _cb4[1];
 };
+
+// Native 10714AC takes the grid/state arrays and two coordinate pairs; x3 is packed by value.
+void shiftGrassCellGrid(Core::Grass::EntryPart::Cell (*cells)[47],
+                       sead::Vector2i* indices, sead::Vector2i* previous,
+                       sead::Vector2i position,
+                       Core::Grass::EntryPart::CellState (*states)[47]);
 
 }  // namespace ksys::tera
 

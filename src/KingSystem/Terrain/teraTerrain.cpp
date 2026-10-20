@@ -26,6 +26,71 @@
 
 namespace ksys::tera {
 
+// Clears newly exposed rows and columns while shifting the 47 x 47 rolling grid.
+void shiftGrassCellGrid(Core::Grass::EntryPart::Cell (*cells)[47],
+                        sead::Vector2i* indices, sead::Vector2i* previous,
+                        sead::Vector2i position,
+                        Core::Grass::EntryPart::CellState (*states)[47]) {
+    const s32 dx = position.x - previous->x;
+    if (dx > 0) {
+        for (s32 i = 0; i < dx; ++i) {
+            const s32 x = (indices->x + i) % 47;
+            for (s32 y = 0; y < 47; ++y) {
+                cells[y][x].reset();
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dx < 0) {
+        for (s32 i = -1; i >= dx; --i) {
+            s32 x = (indices->x + i) % 47;
+            if (x < 0)
+                x += 47;
+            for (s32 y = 0; y < 47; ++y) {
+                cells[y][x].reset();
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dx != 0) {
+        previous->x += dx;
+        indices->x = (indices->x + dx) % 47;
+        if (indices->x < 0)
+            indices->x += 47;
+    }
+    const s32 dy = position.y - previous->y;
+    if (dy > 0) {
+        for (s32 i = 0; i < dy; ++i) {
+            const s32 y = (indices->y + i) % 47;
+            for (s32 x = 0; x < 47; ++x) {
+                cells[y][x].reset();
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dy < 0) {
+        for (s32 i = -1; i >= dy; --i) {
+            s32 y = (indices->y + i) % 47;
+            if (y < 0)
+                y += 47;
+            for (s32 x = 0; x < 47; ++x) {
+                cells[y][x].reset();
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dy != 0) {
+        previous->y += dy;
+        indices->y = (indices->y + dy) % 47;
+        if (indices->y < 0)
+            indices->y += 47;
+    }
+}
+
 // NON_MATCHING: the compiler inlines the cell reset and unrolls the state clearing loop.
 void Core::Grass::EntryPart::resetCells() {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
