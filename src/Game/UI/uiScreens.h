@@ -2611,6 +2611,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     f32 sub_71009AF034() const;
     // 0x71009aef88 (placeholder name): clears _b4ec / _b4f0 and decodes the packed signed (x, y) word at `_b370` into _b4b8 / _b4bc
     void sub_71009AEF88();
+    // 0x71009aeef0 (placeholder name): selects the last footprint cell (_b4ec / _b4f0) and decodes it into _b4b8 / _b4bc
+    void sub_71009AEEF0();
     // 0x71009ae04c (placeholder name): stores the map display mode at 0xb4a0; closes the home screen if it is open and,
     // unless the map flag is already set, sets / clears the UiSubsys1 map flag 0x38c8 and the widget's state bytes.
     void setMode(s32 mode);

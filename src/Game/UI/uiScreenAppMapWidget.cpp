@@ -316,6 +316,27 @@ f32 ScreenAppMapWidget::sub_71009AF034() const {
     return sTable[_b4fc];
 }
 
+// NON_MATCHING: the add operands are swapped (as in sub_71009AEF88) and the original keeps the redundant `last >= 0`
+// test that ours folds into the clamp.
+// 0x71009aeef0
+void ScreenAppMapWidget::sub_71009AEEF0() {
+    const s32 count = mFootPrint.mCount + mFootPrint.mPending;
+    const s32 last = count - 1 < 0 ? 0 : count - 1;
+    _b4ec = last;
+    _b4f0 = last;
+    if (last >= 0 && last < count) {
+        const u32 packed = mFootPrint.mCells[last];
+        s32 x = (packed >> 13) & 0x1fff;
+        if (packed & 0x4000000)
+            x = -x;
+        s32 y = packed & 0xfff;
+        if (packed & 0x1000)
+            y = -y;
+        _b4b8 = f32(x);
+        _b4bc = f32(y);
+    }
+}
+
 // NON_MATCHING: the original adds `_b388 + _b499` as `add w8, w8, w9`; ours emits the operands swapped (`add w8, w9, w8`)
 // 0x71009aef88
 void ScreenAppMapWidget::sub_71009AEF88() {
