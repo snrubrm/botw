@@ -812,6 +812,22 @@ void Unk_710247b428::m105() {
     sub_71009BB3BC(true);
 }
 
+// 0x71009bb4d4
+void Unk_710247b428::m106() {
+    if (!_158)
+        return;
+    SaveSystem* save = SaveSystem::instance();
+    if (!save)
+        return;
+    if (!_158->IsPlayDisableAnim() && save->_1a44) {
+        _158->StopDisableAnim(true);
+        _158->setFlag10(false);
+    } else if (_158->IsPlayDisableAnim() && !save->_1a44) {
+        _158->StopDisableAnim(false);
+        _158->setFlag10(true);
+    }
+}
+
 // 0x71009bb58c
 void Unk_710247b428::m107() {
     sub_71009BB3BC(false);
@@ -860,6 +876,27 @@ s32 Unk_710247b428::m116() { return 0; }
 
 // 0x71009bb76c
 void Unk_710247b428::m117() {}
+
+// 0x71009bb770
+void Unk_710247b428::m118() {
+    switch (_1c0) {
+    case 0: {
+        auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+        if (screen && !screen->isOpened())
+            return;
+        break;
+    }
+    case 1: {
+        auto* screen = sead::DynamicCast<ScreenSystemWindow01>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow01));
+        if (screen && !screen->isOpened())
+            return;
+        break;
+    }
+    }
+    getStateMachine().changeState(&sUnk_71025d9f80);
+}
 
 // 0x71009bb8c8
 void Unk_710247b428::m119() {}

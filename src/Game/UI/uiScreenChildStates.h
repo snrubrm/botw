@@ -638,7 +638,8 @@ public:
     /* 0x1a8 */ eui::Animator* _1a8{};  // Option
     /* 0x1b0 */ eui::Animator* _1b0{};  // the "New" animator of _148's layout
     /* 0x1b8 */ eui::Animator* _1b8{};  // the "DLCbtn" animator of the screen layout
-    u8 _1c4[4]{};
+    // which system window m118 waits for (0: SystemWindow00, 1: SystemWindow01)
+    /* 0x1c0 */ s32 _1c0 = 0;
     // Constructed by 0x7100a82fbc in this class' constructor.
     /* 0x1c8 */ Unk_710249d300 _1c8;
     /* 0x268 */ bool _268 = false;
@@ -647,6 +648,7 @@ public:
 // States of Unk_710247b428's state machine (plain StateBase objects; the transitions after the option / controller /
 // DLC / system window screens close).
 extern const ksys::StateBase sUnk_71025d9ec0;
+extern const ksys::StateBase sUnk_71025d9f80;
 extern const ksys::StateBase sUnk_71025da040;
 extern const ksys::StateBase sUnk_71025da100;
 extern const ksys::StateBase sUnk_71025da220;
