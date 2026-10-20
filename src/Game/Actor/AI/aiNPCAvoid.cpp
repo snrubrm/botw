@@ -6,6 +6,9 @@
 #include "Game/Actor/aiUnk_71007130BC.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -104,6 +107,34 @@ void NPCAvoid::sub_71004C22D4() {
         if (slot > 9)
             return;
     }
+}
+
+// NON_MATCHING: one branch: ours clears w0 before the kind test and shares the return block.
+// 0x71004c24ac
+bool NPCAvoid::sub_71004C24AC(sead::Vector3f* pos) {
+    auto* chemical = mActor->getChemicalStuff();
+    if (!chemical)
+        return false;
+    if (!sub_71007A2604(mActor))
+        return false;
+    auto* info = sub_71007A255C(mActor, 0);
+    if (!info)
+        return false;
+    Unk_7100739634Result result;
+    result.kind = 0;
+    result._4 = 0;
+    result._8 = 0;
+    result._c = 0;
+    result._10 = 0;
+    result._14 = -1;
+    result._18 = false;
+    if (sub_7100739634(&result, chemical, info, nullptr) && result.kind == 4) {
+        if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+            npc->_e30._10.getTranslation(*pos);
+            return true;
+        }
+    }
+    return false;
 }
 
 // 0x71004c25d4

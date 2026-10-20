@@ -25,6 +25,8 @@ public:
 protected:
     // 0x71004c2a4c: true unless ground within 2 below the actor is found by a downward ray (length 10)
     bool sub_71004C2A4C();
+    // 0x71004c24ac: when the current damage is a kind 4 attack on the actor, the NPC's last attack position (_e30)
+    bool sub_71004C24AC(sead::Vector3f* pos);
     // 0x71004c22d4: remembers the actors the third awareness sensor reports at terror level 5 (up to 10).
     void sub_71004C22D4();
     // 0x71004c25d4: switches to the threat-cleared child (and resets the NPC's travel state).
