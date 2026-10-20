@@ -1,6 +1,7 @@
 project(hkStubs CXX ASM)
 
 add_library(hkStubs OBJECT
+  Havok/Cloth/Cloth/Action/hclAction.h
   Havok/Cloth/Cloth/Collidable/hclCollidable.h
   Havok/Cloth/Cloth/Collidable/hclCollidable.cpp
   Havok/Cloth/Cloth/Shape/hclShape.h
