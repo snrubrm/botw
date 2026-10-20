@@ -51,6 +51,7 @@ public:
     // Constructor 0x710106a7a4 runs on Record +0x20 and constructs three caches.
     struct NearCaches {
         NearCaches();                              //106a7a4
+        void initialize(sead::Heap* heap, u32 dimension);
         u32 _0;                                    // queried as ==0 to select other cache
         u8 _4[4];
         Cache mCaches[3];                           // +8,+468,+8c8

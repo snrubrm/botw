@@ -579,3 +579,14 @@ void Unk_7102503a50::Cache::initialize(sead::Heap* heap, u32 dimension,
     mRenderBuffer.setRenderTargetColor(&mRenderTarget, 0);
     mViewport.setByFrameBuffer(mRenderBuffer);
 }
+
+void Unk_7102503a50::NearCaches::initialize(sead::Heap* heap, u32 dimension) {
+    mCaches[0].initialize(heap, dimension, agl::TextureFormat::cTextureFormat_R8_G8_uNorm, 0);
+    mCaches[0].mSampler.setWrap(5, 5, 5);
+    mCaches[0].mSampler.setBorderColor(sead::Color4f::cWhite);
+    mCaches[1].initialize(heap, dimension, agl::TextureFormat::cTextureFormat_R8_G8_uNorm, 0);
+    mCaches[1].mSampler.setWrap(5, 5, 5);
+    mCaches[1].mSampler.setBorderColor(sead::Color4f::cWhite);
+    mCaches[2].initialize(heap, dimension, agl::TextureFormat::cTextureFormat_R8_G8_uNorm, 1);
+    _d28 = 2;
+}
