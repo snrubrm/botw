@@ -10,6 +10,14 @@ int IModelProcedural::getMaterialNum() const {
     return mRenderUnits.size();
 }
 
+int IModelProcedural::getShapeNum() const {
+    return mRenderUnits.size();
+}
+
+int IModelProcedural::getViewNum() const {
+    return _c8;
+}
+
 // NON_MATCHING: the original keeps the RenderUnit vtable store before each element's base destructor; our
 // RenderUnit destructor has a trivial body, so Clang skips it. What makes the original body non-trivial is unknown.
 IModelProcedural::~IModelProcedural() {

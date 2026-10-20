@@ -48,8 +48,8 @@ public:
     virtual void m40();
     // vptr+0x48, 0x7100c0a530: copies five words of the indexed shape record (signature not recovered).
     virtual void m48();
-    // vptr+0x50, 0x7100c0a91c: the s32 at +0x220.
-    virtual s32 m50() const;
+    // vptr+0x50, 0x7100c0a91c: the s32 at +0x220 (named by the CSV row).
+    virtual s32 getPassTextureBit() const;
     // vptr+0x58, 0x7100c09de4: rebuilds the display lists and shader assignment of this unit.
     virtual void resetShader(sead::Heap* heap);
     // vptr+0x60, 0x7100c0a3e4: per-material draw setup (signature not recovered).

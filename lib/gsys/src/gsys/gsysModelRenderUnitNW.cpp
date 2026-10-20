@@ -41,4 +41,8 @@ nn::g3d::MaterialObj* ModelRenderUnitNW::getMaterial() const {
     return model->getModelObj()->GetMaterial(mMaterialIndex);
 }
 
+s32 ModelRenderUnitNW::getPassTextureBit() const {
+    return _220;
+}
+
 }  // namespace gsys

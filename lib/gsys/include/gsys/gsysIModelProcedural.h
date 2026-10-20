@@ -19,6 +19,11 @@ public:
 
     // 0x7100c145e0: the render unit count.
     int getMaterialNum() const override;
+    // 0x7100c146f0: the same render-unit count (the original body loads the buffer size at +0xd0).
+    int getShapeNum() const override;
+
+    // 0x7100c14710: the render-unit count stored by initRenderUnits_ at +0xc8.
+    int getViewNum() const;
 
     void setProcedualPassName(int index, const sead::SafeString& name);
     void setProcedualPassPriority(int index, int a, int b);
