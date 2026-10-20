@@ -286,6 +286,9 @@ public:
         // 0x7100f095b8
         virtual ~ModelSlot();
 
+        // 0x7100f05b5c: binds the model and selects its masked tree resources.
+        void sub_7100F05B5C(const sead::Buffer<TreeResMaybe>* resources, u32 mask);
+
         // inline-only in the original; name is a guess. ~ModelSlot and ~ModelSet (for each slot, before the
         // slot destructors) repeat it.
         void finalize() {

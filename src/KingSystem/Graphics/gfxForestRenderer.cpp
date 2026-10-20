@@ -1,4 +1,6 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Resource/resBfRes.h"
 #include <cstring>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
@@ -41,6 +43,32 @@ u32* ForestRenderer::sub_7100F01AC0() {
 }
 
 ForestRenderer::ForestRenderer() = default;
+
+// NON_MATCHING: resource-list insertion uses the local array rather than reloading InitArg::resources.
+void ForestRenderer::ModelSlot::sub_7100F05B5C(const sead::Buffer<TreeResMaybe>* resources,
+                                               u32 mask) {
+    mModel->bindToModelScene();
+    mModel->requestUpdate(6);
+    auto* heap = map::PlacementMgr::instance()->mDynamicHeap;
+    const s32 count = sead::BitFlagUtil::countOnBit(mask);
+    if (count > 0) {
+        sead::PtrArray<res::BfRes> selected;
+        selected.allocBuffer(count, heap, 8);
+        res::Unk_71024f9958::InitArg arg;
+        arg.heap = heap;
+        arg.model = mModel;
+        arg.name = "ForestRenderer";
+        arg.resources = &selected;
+        for (s32 i = 1; i <= count; ++i) {
+            const s32 index = sead::BitFlagUtil::findOnBitFromRight(mask, i);
+            selected.pushBack(static_cast<res::BfRes*>((*resources)[index].mRes.getResourceWithoutChecks_0()));
+        }
+        mRes.sub_7100FDD4A8(arg);
+        selected.freeBuffer();
+    }
+    mState = 2;
+}
+
 
 void ForestRenderer::Entry::sub_7100F02C40() {
     mRecords.freeBuffer();
