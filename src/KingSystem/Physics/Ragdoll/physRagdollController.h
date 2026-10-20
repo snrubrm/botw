@@ -12,6 +12,8 @@ class RagdollInstance;
 
 // TODO
 class RagdollController : public sead::hostio::Node {
+    friend class InstanceSet;
+
 public:
     RagdollController();
     virtual ~RagdollController();

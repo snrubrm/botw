@@ -2,6 +2,8 @@
 #include <limits>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModelNW.h>
+#include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/Constraint/physUnk_7102519e58.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -1667,6 +1669,132 @@ s32 InstanceSet::sub_7100FC0698(Unk_7102519e58* owner, sead::Matrix34f* matrix) 
         matrix, &scale, key.bone_index);
     mConstraintOwners.pushBack(owner);
     return 0;
+}
+
+// NON_MATCHING: flag updates, scale propagation and debug-string temporaries differ in scheduling.
+void InstanceSet::sub_7100FBBEC4(const sead::Matrix34f& matrix, f32 scale) {
+    if (mFlags.isOn(Flag(0x400))) {
+        for (auto& set : mRigidBodySets)
+            set.addToWorld();
+        for (auto* body : mList)
+            body->addToWorld();
+        if (mCharacterController)
+            mCharacterController->sub_7100F5EC30();
+    }
+    if (mFlags.isOff(Flag::_1))
+        return;
+    mFlags.reset(Flag::_8);
+    if (mFlags.isOn(Flag::_2)) {
+        setMtxAndScale(matrix, false, false, scale);
+        mScale = scale;
+    } else if (mFlags.isOn(Flag::DisableDraw)) {
+        mFlags.set(Flag::_8);
+    }
+    const f32 difference = mScale - scale;
+    if (!(difference <= std::numeric_limits<f32>::epsilon() &&
+          -std::numeric_limits<f32>::epsilon() <= difference)) {
+        for (auto& set : mRigidBodySets)
+            set.setScale(scale);
+        if (mRagdollInstance)
+            mRagdollInstance->setScale(scale / mScale);
+        if (mCharacterController)
+            mCharacterController->sub_7100F5E95C(scale);
+        if (mNavMeshCharacter && !sead::Mathf::isNan(scale) &&
+            sead::Mathf::abs(scale) <= std::numeric_limits<f32>::max() &&
+            mNavMeshCharacter->_2ac != scale) {
+            auto lock = sead::makeScopedLock(mNavMeshCharacter->_1e0);
+            mNavMeshCharacter->_2ac = scale;
+            mNavMeshCharacter->_220 |= 0x10;
+        }
+        mScale = scale;
+    }
+    if (_e8) {
+        const bool enabled = (mFlags.getDirect() & 0x180000) == 0;
+        const s32 num_states = _e8->_48.size();
+        for (s32 i = 0; i < num_states; ++i)
+            _e8->_48[i]._1 = enabled;
+        if ((mFlags.getDirect() & 0x1c00004) == 4) {
+            for (s32 i = 0; i < 10; ++i)
+                _e8->updateWeightsMaybe(0.1f);
+        }
+        mFlags.change(Flag::_200000, _e8->updateWeightsMaybe(0.1f));
+    }
+    if (mFlags.isOff(Flag::_40000000) &&
+        ((mRagdollInstance && mRagdollInstance->getWorldState() ==
+                                 RagdollInstance::WorldState::AddedToWorld) ||
+         (_e8 && mFlags.isOn(Flag::_200000)))) {
+        const bool ragdoll_active =
+            mRagdollInstance && mRagdollInstance->getWorldState() ==
+                                   RagdollInstance::WorldState::AddedToWorld;
+        if ((_e8 || ragdoll_active) && _f0)
+            _f0->copyModelPoseToHavok(ModelBoneAccessor::EnableScale(!ragdoll_active));
+    }
+    if (mRagdollInstance && mRagdollInstance->getWorldState() ==
+                                RagdollInstance::WorldState::AddedToWorld) {
+        hkQsTransform transform;
+        if (mModel) {
+            const auto& model_matrix = mModel->getMatrix();
+            sead::Quatf rotation;
+            model_matrix.toQuat(rotation);
+            rotation.normalize();
+            sead::Vector3f translation;
+            model_matrix.getTranslation(translation);
+            hkVector4 unit_scale;
+            unit_scale.setAll(1.0f);
+            transform.set(toHkVec4(translation), toHkQuat(rotation), unit_scale);
+        }
+        s32 controller_index = _112;
+        if (controller_index < 0 || controller_index >= _98.size()) {
+            controller_index = 1;
+            sub_7100FBC838(controller_index);
+        }
+        if (mFlags.isOn(Flag(0x8000000))) {
+            auto* controller = _98[controller_index];
+            const char* name;
+            if (controller_index == 1)
+                name = "full_dynamic";
+            else if (controller_index == 0)
+                name = "full_key_framed";
+            else if (!mRagdollBlendWt)
+                name = "unknown";
+            else
+                name = mRagdollBlendWt->getStates()[controller_index - 2].state_key->cstr();
+            sead::FormatFixedSafeString<256> label("[%d] %s : %.3f", controller_index, name,
+                                                  controller->mFactor);
+            const auto& bodies = mRagdollInstance->getRigidBodies_();
+            for (s32 i = 0; i < bodies.size(); ++i) {
+                sead::FixedSafeString<256> text;
+                for (s32 j = 0; j < i + 1; ++j)
+                    text.appendWithFormat("\n");
+                text.appendWithFormat("%.3f : %s", controller->mEffectiveBoneWeights[i],
+                                      bodies[i]->getHkBodyName().cstr());
+                text.replaceString("Ragdoll_", "");
+            }
+        }
+        const bool use_default = mFlags.isOn(Flag(0x40000000));
+        mRagdollInstance->sub_710121F7B4(transform, _98[use_default ? 0 : _112], use_default);
+    }
+    for (s32 i = 0; i < _138.size(); ++i) {
+        const auto& links = _138[i];
+        if (links.mLinks.size() > 0) {
+            auto* unit = mModel->getUnits()(links.mModelUnitIndex)->mModelUnit;
+            if (auto* model = sead::DynamicCast<gsys::ModelNW>(unit))
+                model->setCallbackBoneIndex(-1);
+        }
+    }
+    for (auto* owner : mConstraintOwners) {
+        auto* link = mLinkMatricesMaybe[owner->mLinkIndex];
+        sead::Matrix34f local_matrix;
+        sead::Vector3f local_scale;
+        mModel->getUnits()(link->_30.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &local_matrix, &local_scale, link->_30.bone_index);
+        owner->sub_71012AD478(local_matrix);
+        link->_45[0] = !(owner->_44 && owner->m6());
+    }
+    if (!mRagdollInstance || mRagdollInstance->getWorldState() !=
+                                 RagdollInstance::WorldState::AddedToWorld)
+        sub_7100FBC890(matrix, false, false);
+    mFlags.set(Flag::_80000000);
 }
 
 }  // namespace ksys::phys
