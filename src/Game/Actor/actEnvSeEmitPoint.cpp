@@ -1,9 +1,39 @@
 #include "Game/Actor/actEnvSeEmitPoint.h"
 #include <basis/seadNew.h>
+#include "Game/gameStatisticsMgr.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::act {
+
+// NON_MATCHING: the original builds the position after getStatsPointer and clears the result after it
+// (scheduling).
+// Reads the forest density at the actor once and passes it to the xlink property 0 (0 in AocField).
+void EnvSeEmitPoint::calcMaybe() {
+    if (_84c)
+        return;
+
+    if (ksys::StageInfo::getCurrentMapType() == "AocField") {
+        _848 = 0;
+        _84c = true;
+        if (mXLink)
+            mXLink->sub_7101231468(0, 0.0f, false);
+        return;
+    }
+
+    auto* stats = StatisticsMgr::instance();
+    if (!stats)
+        return;
+    f32 density = 0;
+    const sead::Vector3f pos = getMtx().getTranslation();
+    if (!stats->sub_7100E33B10(&density, 1, stats->getStatsPointer("forest_density"), &pos))
+        return;
+    _84c = true;
+    _848 = density;
+    if (mXLink)
+        mXLink->sub_7101231468(0, density, false);
+}
 
 void EnvSeEmitPoint::sub_7101029620(bool enabled) {
     if (auto* link = getXLink()) {
