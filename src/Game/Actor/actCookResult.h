@@ -20,6 +20,9 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    // 0x710000a3d0 (CSV unnamed; declared only): reads the CookActorInfo array of an event order
+    void sub_710000A3D0(void* info);
+
     /* 0xbb0 */ CookItem _bb0;
 };
 KSYS_CHECK_SIZE_NX150(CookResult, 0xdd8);

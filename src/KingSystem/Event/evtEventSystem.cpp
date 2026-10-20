@@ -14,6 +14,8 @@
 #include "KingSystem/Event/evtManager.h"
 #include "Game/gameEventDelegate.h"
 #include "KingSystem/Event/evtQuery.h"
+#include "KingSystem/Event/evtOrderParam.h"
+#include "Game/Actor/actCookResult.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 
 namespace uking::ui {
@@ -85,6 +87,19 @@ void EventSystem::x_4() {
             uking::Root4::instance()->sub_71008BCE5C(uking::Root4::FlagIdx::_1, _45[_50], 3);
     }
     _32 = false;
+}
+
+// 0x71008aaa68
+void EventSystem::x_7(act::Actor* actor, const OrderParam* param) {
+    if (!actor || !param)
+        return;
+    if (!act::hasTag(actor, 0x30a3552e))
+        return;
+    void* info = nullptr;
+    if (!param->getArrayByName("CookActorInfo", &info, nullptr))
+        return;
+    if (auto* cook = sead::DynamicCast<uking::act::CookResult>(actor))
+        cook->sub_710000A3D0(info);
 }
 
 // 0x71008ac148

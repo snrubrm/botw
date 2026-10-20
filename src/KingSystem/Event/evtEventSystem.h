@@ -20,6 +20,7 @@ class ActorLinkConstDataAccess;
 namespace ksys::evt {
 
 class EventFlowBase;
+class OrderParam;
 
 // The current speaker of the event system (EventSystem + 0xc0; CSV evt::S3, placeholder name).
 class EventSpeaker {
@@ -70,6 +71,8 @@ public:
     void init(sead::Heap* heap);
     // 0x71008aa970: per-frame speaker and UI update.
     void x();
+    // 0x71008aaa68 (CSV x_7): passes the order's CookActorInfo array to a CookResult actor
+    void x_7(act::Actor* actor, const OrderParam* param);
     // 0x71008aa9a0: applies pending input/control flags; declaration only.
     void x_4();
 
