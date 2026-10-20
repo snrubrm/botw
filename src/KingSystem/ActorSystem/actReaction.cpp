@@ -930,4 +930,64 @@ bool Reaction::Unk1::sub_7100EC7AA0(const phys::MaterialMask& mask, s32 flag, f3
     return true;
 }
 
+// NON_MATCHING: volume setter stores retain the existing library order.
+void Reaction::Unk1::sub_7100EC7B90(f32 a, f32, f32, f32 d, f32 e, f32 f, f32 g,
+                                    xlink2::HandleSLink* handle,
+                                    const xlink2::HandleSLink* other, f32* volume, f32* pitch) {
+    if (!handle || !handle->isActive())
+        return;
+    if (d >= 1.0f) {
+        handle->setVolumeScale(0.0f);
+        handle->setPitchScale(1.0f);
+        if (volume)
+            *volume = 0.0f;
+        if (pitch)
+            *pitch = 1.0f;
+        return;
+    }
+    const f32 normalized = sead::Mathf::clampMax(a, 4.0f) * 0.25f;
+    f32 volume_scale = (1.0f - d) * (1.0f - d) * (normalized * normalized * f);
+    if (other && other->isActive()) {
+        const auto* event = static_cast<const xlink2::EventSLink*>(other->getEvent());
+        volume_scale *= (1.0f - event->getVolumeScale()) * 0.6f + 0.4f;
+    }
+    handle->setVolumeScale(sead::Mathf::clampMin(volume_scale, 0.0f));
+    const f32 lpf_scale = e < 15.0f ? (e / -15.0f + 1.0f) * 0.75f : 0.0f;
+    handle->setPitchScale(sead::Mathf::clampMin(g, 0.0f));
+    handle->setLpfScale(lpf_scale);
+    if (volume)
+        *volume = volume_scale;
+    if (pitch)
+        *pitch = g;
+}
+
+// NON_MATCHING: volume setter stores retain the existing library order.
+void Reaction::Unk1::sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d,
+                                    xlink2::HandleSLink* handle, f32* volume, f32* pitch) {
+    if (!handle)
+        return;
+    if (b >= 1.0f) {
+        handle->setVolumeScale(0.0f);
+        handle->setPitchScale(1.0f);
+        if (volume)
+            *volume = 0.0f;
+        if (pitch)
+            *pitch = 1.0f;
+        return;
+    }
+    f32 volume_scale = 0.0f;
+    f32 pitch_scale = 1.0f;
+    if (a >= 0.0f) {
+        const f32 normalized = sead::Mathf::clamp(a / 3.0f, 0.0f, 1.0f);
+        volume_scale = (1.0f - b) * (1.0f - b) * (normalized * normalized * c);
+        pitch_scale = (normalized * 0.1f + 0.95f) * d;
+    }
+    handle->setVolumeScale(sead::Mathf::clampMin(volume_scale, 0.0f));
+    handle->setPitchScale(sead::Mathf::clampMin(pitch_scale, 0.0f));
+    if (volume)
+        *volume = volume_scale;
+    if (pitch)
+        *pitch = pitch_scale;
+}
+
 }  // namespace ksys::act

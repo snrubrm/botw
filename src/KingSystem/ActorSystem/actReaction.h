@@ -124,8 +124,11 @@ public:
         // The parameter order is (handle, position, volume base, distance, volume factor, pitch factor).
         void sub_7100EC86F4(xlink2::HandleSLink* handle, const sead::Vector3f& position, f32 a, f32 b,
                             f32 c, f32 d);
-        // 0x7100ec7d50 (placeholder name; declared only): the volume / pitch scale calculation behind
-        // sub_7100EC86F4. Blocked on xlink2::HandleSLink::setPitchScale, which lib/xlink2 lacks.
+        // Volume / pitch scale calculation behind sub_7100EC86F4.
+        // The second and third floating-point inputs are unused by the native callee.
+        void sub_7100EC7B90(f32 a, f32, f32, f32 d, f32 e, f32 f, f32 g,
+                            xlink2::HandleSLink* handle, const xlink2::HandleSLink* other,
+                            f32* volume, f32* pitch);
         void sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d, xlink2::HandleSLink* handle, f32* volume,
                             f32* pitch);
 
