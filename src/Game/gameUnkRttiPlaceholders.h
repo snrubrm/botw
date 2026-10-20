@@ -3317,7 +3317,11 @@ public:
     ~Unk_7102502b50() override;
     u32 getResourceSize() const override { return 176; }
     u32 getLoadDataAlignment() const override { return 128; }
+
+    // The 0x90-byte ResourceBars object the destructor 0x7101059518 destroys at +0x80.
+    /* 0x80 */ Unk_7102502978 _80;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102502b50, 0x110);
 
 // vtable 0x71025136c8: moved to KingSystem/Camera/camUnk_71025136c8.h (camera manager task).
 
