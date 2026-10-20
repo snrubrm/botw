@@ -1,3 +1,5 @@
+#include "KingSystem/Quest/qstManager.h"
+#include "KingSystem/Event/evtInfoData.h"
 #include "KingSystem/Resource/Actor/resResourceAISchedule.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "Game/Actor/actNPCBase.h"
@@ -223,6 +225,128 @@ void EventMgrStruct3B::loadBaischeduleStuff(EventMgrStruct3A* entry) {
         }
     }
     ++_58;
+}
+
+// 0x7100dc1e64
+void EventMgrStruct3B::sub_7100DC1E64() {
+    if (_58 == 0) {
+        const auto* quest = qst::Manager::instance()->sub_7100FD7610(_0);
+        const al::ByamlIter data(*quest->mDataIter);
+        al::ByamlIter steps;
+        if (data.tryGetIterByKey(&steps, "Steps")) {
+            for (s32 i = 0; i < steps.getSize(); ++i) {
+                al::ByamlIter step;
+                if (!steps.tryGetIterByIndex(&step, i))
+                    continue;
+                al::ByamlIter actors;
+                if (!step.tryGetIterByKey(&actors, "Actors"))
+                    continue;
+                for (s32 j = 0; j < actors.getSize(); ++j) {
+                    al::ByamlIter actor;
+                    if (!actors.tryGetIterByIndex(&actor, j))
+                        continue;
+                    al::ByamlIter default_timeline;
+                    if (actor.tryGetIterByKey(&default_timeline, "DefaultTimeline")) {
+                        loadAIScheduleTimelineInfo(default_timeline, nullptr, nullptr);
+                    } else {
+                        // Native DC1E64 formats and discards this diagnostic filename.
+                        sead::FormatFixedSafeString<128> filename("%s.quest", quest->mName.cstr());
+                    }
+                    al::ByamlIter conditional_timelines;
+                    if (actor.tryGetIterByKey(&conditional_timelines, "ConditionalTimelines")) {
+                        for (s32 k = 0; k < conditional_timelines.getSize(); ++k) {
+                            al::ByamlIter timeline;
+                            if (conditional_timelines.tryGetIterByIndex(&timeline, k))
+                                loadAIScheduleTimelineInfo(timeline, nullptr, nullptr);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ++_58;
+}
+
+// 0x7100dc2090
+// NON_MATCHING: native Byaml and parameter-string temporary scheduling differ.
+void EventMgrStruct3B::sub_7100DC2090(act::Actor* actor) {
+    if (_58 == 0) {
+        const char* flow_name;
+        if (actor->getMapObjIter().tryGetParamStringByKey(&flow_name, "EventFlowName")) {
+            const char* entry_name;
+            if (!actor->getMapObjIter().tryGetParamStringByKey(&entry_name, "EventFlowEntryName"))
+                entry_name = "";
+            if (auto* flow = Manager::instance()->getEventFlowMgr()->load(
+                        flow_name, entry_name, true, false, nullptr))
+                _60[_160++] = flow;
+            al::ByamlIter info;
+            if (InfoData::instance()->getEntry(&info, flow_name, entry_name)) {
+                al::ByamlIter children;
+                if (info.tryGetIterByKey(&children, "child")) {
+                    for (s32 i = 0; i < children.getSize(); ++i) {
+                        al::ByamlIter child;
+                        const char* child_file;
+                        const char* child_entry;
+                        if (!children.tryGetIterByIndex(&child, i) ||
+                            !child.tryGetStringByKey(&child_file, "file") ||
+                            !child.tryGetStringByKey(&child_entry, "entry"))
+                            continue;
+                        if (auto* flow = Manager::instance()->getEventFlowMgr()->load(
+                                    child_file, child_entry, true, false, nullptr))
+                            _60[_160++] = flow;
+                    }
+                }
+            }
+        }
+    }
+    _170 = actor;
+    ++_58;
+}
+
+// 0x7100dc1680
+// NON_MATCHING: native SafeString copy/append and Byaml temporary scheduling differ.
+void EventMgrStruct3B::loadAIScheduleTimelineInfo(const al::ByamlIter& timeline,
+                                                act::Actor* actor, const char* unique_name) {
+    if (_160 >= 32)
+        return;
+    al::ByamlIter triggers;
+    if (!timeline.tryGetIterByKey(&triggers, "TriggerEvents"))
+        return;
+    for (s32 i = 0; i < triggers.getSize(); ++i) {
+        al::ByamlIter event;
+        if (!triggers.tryGetIterByIndex(&event, i))
+            continue;
+        const char* trigger = nullptr;
+        const char* entry_name = nullptr;
+        bool pause_other_actors = false;
+        // Native DC1680 discards these lookup results and uses the stored values.
+        event.tryGetStringByKey(&trigger, "Trigger");
+        event.tryGetStringByKey(&entry_name, "EvflEntry");
+        event.tryGetBoolByKey(&pause_other_actors, "IsPauseOtherActors");
+        if (!pause_other_actors)
+            continue;
+        sead::FixedSafeString<128> entry;
+        entry.copy(entry_name);
+        if (actor && sead::SafeString(trigger) == "Talk" &&
+            sead::IsDerivedFrom<uking::act::NPCBase>(actor)) {
+            const auto* npc = static_cast<uking::act::NPCBase*>(actor);
+            const sead::SafeString suffix(npc->_9d8);
+            if (!suffix.isEmpty())
+                entry.copy(suffix);
+        }
+        if (unique_name) {
+            entry.append("_");
+            entry.append(unique_name);
+        }
+        sead::FixedSafeString<64> file;
+        if (actor)
+            file.copy(actor->getParam()->getRes().mActorLink->getUserName(res::ActorLink::User::AISchedule));
+        else
+            file.copy(_0);
+        if (auto* flow = Manager::instance()->getEventFlowMgr()->load(
+                    file, entry, true, false, nullptr))
+            _60[_160++] = flow;
+    }
 }
 
 }  // namespace ksys::evt

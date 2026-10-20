@@ -1,3 +1,4 @@
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include <limits>
@@ -220,6 +221,55 @@ void EventFlowMgr::x_0() {
     for (s32 i = 0; i < _68.size(); ++i) {
         if (!_68[i]._0.isEmpty() && _68[i]._168 != mCalcCount)
             _68[i].sub_7100DC22E0();
+    }
+}
+
+// 0x7100dbfa00
+// NON_MATCHING: empty-slot conditional-select operands are swapped.
+void EventFlowMgr::x_4(EventMgrStruct3A* entry) {
+    auto* schedule = entry->mActor->getSchedule();
+    if (!schedule || schedule->_10.isEmpty())
+        return;
+    EventMgrStruct3B* empty = nullptr;
+    for (s32 i = 0; i < _58.size(); ++i) {
+        auto& record = _58[i];
+        if (!record._0.isEmpty() && record._0 == schedule->_10) {
+            record._168 = mCalcCount;
+            return;
+        }
+        if (record._0.isEmpty())
+            empty = &record;
+    }
+    if (empty) {
+        empty->sub_7100DC1340(1, mCalcCount, schedule->_10);
+        empty->sub_7100DC1E64();
+    }
+}
+
+// 0x7100dbfe98
+// NON_MATCHING: empty-slot conditional-select operands are swapped.
+void EventFlowMgr::x_5(const sead::Vector3f& position) {
+    for (s32 i = 0; i < _38.size(); ++i) {
+        auto& entry = _38[i];
+        if (!entry.mAssigned)
+            continue;
+        EventMgrStruct3B* empty = nullptr;
+        bool found = false;
+        for (s32 j = 0; j < _68.size(); ++j) {
+            auto& record = _68[j];
+            if (!record._0.isEmpty() && record._170 == entry.mActor) {
+                record._168 = mCalcCount;
+                record._178 = (position - entry.mActor->getMtx().getTranslation()).length();
+                found = true;
+                break;
+            }
+            if (record._0.isEmpty())
+                empty = &record;
+        }
+        if (!found && empty) {
+            empty->sub_7100DC1340(2, mCalcCount, "EventTag");
+            empty->sub_7100DC2090(entry.mActor);
+        }
     }
 }
 

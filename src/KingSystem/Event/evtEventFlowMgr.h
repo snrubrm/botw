@@ -87,7 +87,7 @@ public:
     EventFlow* acquireEventFlow(const sead::SafeString& event_name, const sead::SafeString& entry_point);
     // 0x7100dbe73c (CSV EventFlowMgr::calc)
     void calc(bool a1);
-    // 0x7100dbe85c (CSV EventFlowMgr::x_0; not decompiled)
+    // 0x7100dbe85c (CSV EventFlowMgr::x_0): updates the actor, quest and map-tag records.
     void x_0();
     // The 64 actor slots are grouped by formatted schedule name and selected by planar distance.
     void x_3(u64* visited, const sead::Vector3f& position, const sead::SafeString& name,

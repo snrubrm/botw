@@ -92,6 +92,9 @@ public:
     void sub_7100DC22E0();
     // 0x7100dc14f0: load the first actor's default/conditional schedule timelines, then retain.
     void loadBaischeduleStuff(EventMgrStruct3A* entry);
+    // Load the quest actor timelines / map-tag event flows, retaining the owning record.
+    void sub_7100DC1E64();
+    void sub_7100DC2090(act::Actor* actor);
     // 0x7100dc1680: consumes a timeline entry, actor and optional unique-name selector.
     void loadAIScheduleTimelineInfo(const al::ByamlIter& timeline, act::Actor* actor,
                                     const char* unique_name);
@@ -103,8 +106,9 @@ public:
     /* 0x160 */ s32 _160 = 0;
     /* 0x164 */ s32 _164 = 3;
     /* 0x168 */ s32 _168 = 0;
-    /* 0x170 */ void* _170 = nullptr;
-    /* 0x178 */ s32 _178 = 0;
+    /* 0x170 */ act::Actor* _170 = nullptr;
+    // Native DBFE98 stores the distance to this record's actor.
+    /* 0x178 */ f32 _178 = 0;
     /* 0x17c */ sead::Vector2f _17c = sead::Vector2f::zero;
     /* 0x184 */ sead::Vector2f _184 = sead::Vector2f::zero;
 };
