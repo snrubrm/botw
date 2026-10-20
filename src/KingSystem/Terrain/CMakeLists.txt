@@ -7,6 +7,8 @@ target_sources(uking PRIVATE
   teraSystemScene.cpp
   teraTerrain.cpp
   teraGrass.cpp
+  teraGrassCulling.cpp
+  teraGrassCulling.h
   teraGrass.h
   teraVegeTeraMat.cpp
   teraAreaEnv.cpp
