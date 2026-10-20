@@ -49,4 +49,13 @@ s32 ModelRenderUnitNW::getType() const {
     return 0;
 }
 
+namespace {
+const s32 kPriorityHint[] = {0, 6, 5, 7, 2, 3, 4, 1, 1};
+}
+
+s32 ModelRenderUnitNW::getPriorityHintFromType(ModelEnum::PriorityHintType type, bool invert) {
+    const s32 value = kPriorityHint[static_cast<u32>(type)];
+    return invert ? -value : value;
+}
+
 }  // namespace gsys

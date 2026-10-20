@@ -16,6 +16,10 @@ class ShapeObj;
 
 namespace gsys {
 
+namespace ModelEnum {
+enum class PriorityHintType : int;
+}
+
 class ModelAssignRenderInfo;
 
 // Native 0x298-byte game subclass created by 0x7101409a30 over this 0x238-byte base. The vtable is
@@ -36,6 +40,8 @@ public:
 
     // vptr+0x18, 0x7100c0a8c8: the type word is always 0.
     virtual s32 getType() const;
+    // 0x7100c09fb4: the per-type priority hint, negated when `invert` is set.
+    static s32 getPriorityHintFromType(ModelEnum::PriorityHintType type, bool invert);
     // vptr+0x20, 0x7100c09d40: returns the name of the model unit's model (unit +0x20 -> +0xf50).
     virtual sead::SafeString getName() const;
     // vptr+0x28, 0x7100c09d74: tests the unit's shape visibility masks.
