@@ -1042,10 +1042,11 @@ struct Unk_710103ACC8 {
 };
 
 class Unk_710104e5b4 {
+    // Native 0x710104e5b4 constructs the singleton disposer at +8; vtable 0x71025024d0.
+    SEAD_SINGLETON_DISPOSER(Unk_710104e5b4)
+
 public:
-    // The singleton (instance pointer 0x7102614cb0, size 0x2a8, disposer at +8; SoundMgr::_90 points to it as well;
-    // it was a separate placeholder `Unk_7102614cb0` before). Defined by the symbol map only.
-    static Unk_710104e5b4* instance() { return sInstance; }
+    virtual ~Unk_710104e5b4();
 
     // 0x710104ed9c: re-enables emission in the root group, un-pauses it, stops the pause duckers and restores the
     // stream fader (used when the pause menu / event pause ends).
@@ -1108,7 +1109,6 @@ public:
 
     xlink2::HandleSLink sub_710104F30C(const sead::SafeString& label);
 
-    u8 _0[0x28];
     // The SLink user instance the sound triggers (SoundTrigger / SoundTriggerFadeAction) fall back to.
     /* 0x28 */ xlink2::UserInstanceSLink* _28;
     // Whole factory 104E5B4 initializes 2; whole EE64 reads and sets the state.
@@ -1147,9 +1147,8 @@ public:
     /* 0x294 */ Unk_710103ACC8 _294;
     /* 0x2a0 */ sead::BitFlag8 _2a0;
 
-private:
-    static Unk_710104e5b4* sInstance;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710104e5b4, 0x2a8);
 
 enum class AudioChannelType {
     Mono = 1,

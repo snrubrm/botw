@@ -11,6 +11,23 @@
 
 namespace ksys::snd {
 
+Unk_710104e5b4* Unk_710104e5b4::sInstance = nullptr;
+Unk_710104e5b4::SingletonDisposer_*
+    Unk_710104e5b4::SingletonDisposer_::sStaticDisposer = nullptr;
+
+Unk_710104e5b4::SingletonDisposer_::~SingletonDisposer_() {
+    if (this == sStaticDisposer) {
+        sStaticDisposer = nullptr;
+        sInstance->~Unk_710104e5b4();
+        sInstance = nullptr;
+    }
+}
+
+SEAD_DELETE_SINGLETON_INSTANCE(Unk_710104e5b4)
+
+// Keep the vtable store, as in GameDataFlagSelector::~GameDataFlagSelector (96101229).
+Unk_710104e5b4::~Unk_710104e5b4() { ; }
+
 void Unk_710104e5b4::sub_710104F030() {
     _38.fade(0);
     mFilter.fade(0);
