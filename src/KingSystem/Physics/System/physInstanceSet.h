@@ -93,6 +93,10 @@ public:
     // Native 0x71012273bc: chase enabled support-bone weights and report any nonzero weight.
     bool updateWeightsMaybe(f32 step);
     void updateBonesMaybe();
+    f32 getOutputDoubleMaybe(u32 index);
+    // Native 0x7101228154 / 0x71012283a4 evaluate a resource connection by index.
+    f32 getLinearConnectionMaybe(u32 index);
+    f32 getCurveConnectionMaybe(u32 index);
     // Native 0x7101227580 reads a resource bone and applies its weighted transform.
     void sub_7101227580(const SupportBoneResource::SupportBone& bone, f32 weight);
     // 0x710122ad34 (declaration only; placeholder name): computes the aim rotation of a main bone, false if none.

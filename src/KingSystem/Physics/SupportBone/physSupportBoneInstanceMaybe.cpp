@@ -136,4 +136,33 @@ void SupportBoneInstanceMaybe::updateBonesMaybe() {
     }
 }
 
+f32 SupportBoneInstanceMaybe::getOutputDoubleMaybe(u32 index) {
+    f32 first = 0.0f;
+    const u32 connection_0 = *mResource->mOutputDoubleBuffer[index].connection_0;
+    if (connection_0 != 0xffffffff) {
+        switch (connection_0 >> 16) {
+        case 0:
+            first = getLinearConnectionMaybe(connection_0 & 0xffff);
+            break;
+        case 1:
+            first = getCurveConnectionMaybe(connection_0 & 0xffff);
+            break;
+        }
+    }
+    f32 second = 0.0f;
+    const u32 connection_1 = *mResource->mOutputDoubleBuffer[index].connection_1;
+    if (connection_1 != 0xffffffff) {
+        switch (connection_1 >> 16) {
+        case 0:
+            second = getLinearConnectionMaybe(connection_1 & 0xffff);
+            break;
+        case 1:
+            second = getCurveConnectionMaybe(connection_1 & 0xffff);
+            break;
+        }
+    }
+    return first * *mResource->mOutputDoubleBuffer[index].weight_0 +
+           second * *mResource->mOutputDoubleBuffer[index].weight_1;
+}
+
 }  // namespace ksys::phys
