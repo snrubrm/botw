@@ -3,6 +3,9 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Sound/sndFxMgr.h"
 #include <cstring>
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::snd {
 
@@ -28,7 +31,7 @@ bool SoundReverbAreaTagAction::init_(sead::Heap* heap) {
 
 void SoundReverbAreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
     AreaActionBase::enter_(params);
-    std::memset(_b0.getBufferPtr(), 0, _b0.getByteSize());
+    std::memset(_b0, 0, sizeof(_b0));
     sub_7101059880(0);
     if (auto* sound = ksys::snd::SoundMgr::instance()) {
         if (auto* fx = sound->_50) {
@@ -70,6 +73,63 @@ void SoundReverbAreaTagAction::loadParams_() {
 
 void SoundReverbAreaTagAction::calc_() {
     AreaActionBase::calc_();
+}
+
+// NON_MATCHING: stack slot of the accessor and loop block layout differ (as in SoundShieldingAreaTagAction::m15).
+bool SoundReverbAreaTagAction::m15(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    if (_130) {
+        sub_7101059848(_134);
+        sub_7101059850(_138);
+        sub_7101059858(_13c);
+        sub_7101059860(_140);
+        sub_7101059868(_144);
+        sub_7101059870(_148);
+    } else {
+        if (mReverbSendAdd_m)
+            sub_7101059848(*mReverbSendAdd_m);
+        if (mReverbTimeAdd_m)
+            sub_7101059850(*mReverbTimeAdd_m);
+        if (mEarlyReflectionFeedbackAdd_m)
+            sub_7101059858(*mEarlyReflectionFeedbackAdd_m);
+        if (mRoomHfAdd_m)
+            sub_7101059860(*mRoomHfAdd_m);
+        if (mReverbAdd_m)
+            sub_7101059868(*mReverbAdd_m);
+        if (mMerginDistance_m)
+            sub_7101059870(*mMerginDistance_m);
+    }
+
+    ksys::act::acc::AreaActor area;
+    f32 value = 0.0f;
+    s32 index = getAreaCol(&area, -1);
+    if (index >= 0 && index < 32) {
+        f32 max_distance = 0.0f;
+        do {
+            if (area.hasProc()) {
+                auto* collision = area.getField848();
+                if (collision && collision->getCollidingBodies().size() != 0) {
+                    if (auto* contacts = area.getField850()) {
+                        if (contacts->getNumContactPoints() != 0 && !contacts->begin().isEnd()) {
+                            f32 distance = 0.0f;
+                            for (const auto* point : *contacts)
+                                distance = sead::Mathf::max(
+                                    sead::Mathf::abs(point->separating_distance), distance);
+                            _b0[index] = distance;
+                        }
+                        max_distance = sead::Mathf::max(_b0[index], max_distance);
+                    }
+                } else {
+                    _b0[index] = 0.0f;
+                }
+            }
+            index = getAreaCol(&area, index);
+        } while (index >= 0 && index < 32);
+        if (max_distance > 0.0f)
+            value = max_distance >= _1c ? 1.0f : max_distance / _1c;
+    }
+    sub_7101059878(value);
+    sub_7101059880(1);
+    return true;
 }
 
 }  // namespace ksys::snd

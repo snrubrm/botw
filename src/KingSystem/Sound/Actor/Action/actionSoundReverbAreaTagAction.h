@@ -39,7 +39,7 @@ protected:
 
     sead::Buffer<Payload> _a0;
     // Whole ff2a50 indexes the 32 area contact-distance values here.
-    sead::SafeArray<f32, 32> _b0;
+    f32 _b0[32];
     bool _130 = false;
     // Whole ff28f0 copies the six map parameters here, consumed by ff2a50.
     f32 _134 = 0.0f;
