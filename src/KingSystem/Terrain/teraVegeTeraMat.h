@@ -2,6 +2,12 @@
 
 #include <basis/seadTypes.h>
 #include <common/aglUniformBlock.h>
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
+#include <common/aglTextureSampler.h>
+#include <container/seadBuffer.h>
+#include <gfx/seadViewport.h>
+#include <nn/gfx/gfx_ResTextureData.h>
 #include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
@@ -41,10 +47,32 @@ struct VegeTeraMat {
     static_assert(offsetof(UniformPacket, index) == 0xd0);
     static_assert(sizeof(UniformPacket) == 0xd8);
 
+    // Native vtable address point 2503D38; allocation/array stride 3b8.
+    struct Texture {
+        Texture();
+        virtual ~Texture();
+        agl::GPUMemVoidAddr mAddress;
+        agl::TextureData* mTextureData = nullptr;
+        agl::TextureSampler mSampler;
+        nn::gfx::ResTextureData mResTexture;
+        u32 mImageSize;
+        u8 _23c[4];
+        agl::RenderTargetColor mRenderTarget;
+
+        void initialize(u32 dimension, agl::TextureFormat format, sead::Heap* heap);
+    };
+    static_assert(offsetof(Texture, mAddress) == 8);
+    static_assert(offsetof(Texture, mResTexture) == 0x198);
+    static_assert(offsetof(Texture, mImageSize) == 0x238);
+    static_assert(offsetof(Texture, mRenderTarget) == 0x240);
+    static_assert(sizeof(Texture) == 0x3b8);
+
     u32 _0;
     u8 _4[4];
     UniformPacket mPackets[5];
-    u8 _440[0x4e0 - 0x440];
+    sead::Buffer<Texture> mTextures;
+    agl::RenderBuffer mRenderBuffer;
+    sead::Viewport mViewport;
     sead::Vector2f mOrigin;
     sead::Vector2f mPosition;
     sead::Vector2f mDelta;
@@ -56,11 +84,15 @@ struct VegeTeraMat {
     f32 _524;
     u8 _528[8];
 
+    void initialize(f32 size, u32 dimension, u32 cell_size, s32 num_textures, sead::Heap* heap);
     void updatePosition(const sead::Vector3f& position);
     void setBufferIndex(u8 index);
     void upload();
 };
 static_assert(offsetof(VegeTeraMat, mPackets) == 8);
+static_assert(offsetof(VegeTeraMat, mTextures) == 0x440);
+static_assert(offsetof(VegeTeraMat, mRenderBuffer) == 0x450);
+static_assert(offsetof(VegeTeraMat, mViewport) == 0x4b8);
 static_assert(offsetof(VegeTeraMat, mBounds) == 0x4f8);
 static_assert(offsetof(VegeTeraMat, mTransform) == 0x508);
 static_assert(offsetof(VegeTeraMat, mDimension) == 0x518);
@@ -92,6 +124,7 @@ public:
 
     // 0x7101078674: marks all three records dirty.
     void setDirty();
+    void initialize(sead::Heap* heap);
     // 0x710107869c: forwards `value` to each record unless the global gate is set.
     void sub_710107869C(u8 value);
     // 0x71010786f4: runs the no-argument update on each record unless the global gate is set.

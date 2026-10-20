@@ -1,6 +1,8 @@
 #include "KingSystem/Terrain/teraVegeTeraMat.h"
 #include "KingSystem/Utils/Types.h"
 #include <math/seadMathCalcCommon.h>
+#include <g3d/aglTextureUtilG3D.h>
+#include <cstring>
 
 namespace ksys::tera {
 
@@ -138,6 +140,90 @@ void VegeTeraMat::UniformPacket::setRegion(f32 x0, f32 z0, f32 x1, f32 z1, f32 s
         index = region_index;
         return;
     }
+}
+
+// Inline-only in the original; native 1077330 constructs every 3b8-byte
+// texture entry and clears its resource image both before and after target construction.
+inline VegeTeraMat::Texture::Texture() : mResTexture{}, mImageSize(0) {
+    std::memset(&mResTexture, 0, sizeof(mResTexture));
+}
+
+// NON_MATCHING: TextureData destruction stays out of line instead of inlining its driver destructor.
+VegeTeraMat::Texture::~Texture() {
+    if (mTextureData) {
+        delete mTextureData;
+        mTextureData = nullptr;
+    }
+    if (mAddress.isValid())
+        mAddress.deleteGPUMemBlock();
+    mImageSize = 0;
+}
+
+// NON_MATCHING: GPU address copies and texture-state writes differ in scheduling.
+void VegeTeraMat::Texture::initialize(u32 dimension, agl::TextureFormat format, sead::Heap* heap) {
+    mTextureData = new (heap, 8) agl::TextureData;
+    mTextureData->initialize_(agl::TextureType::cTextureType_2D, format, dimension, dimension,
+                             1, 1, agl::TextureAttribute{}, agl::MultiSampleType{}, true);
+    mImageSize = mTextureData->getImageByteSize();
+    const u32 alignment = mTextureData->getImageAlignment();
+    auto* memory = new (heap, 8) agl::GPUMemBlock<u8>;
+    memory->allocBuffer_(mImageSize, heap, alignment, agl::MemoryAttribute::Default);
+    mAddress = agl::GPUMemVoidAddr(agl::GPUMemAddrBase(*memory, 0));
+    if (!mAddress.isValid())
+        return;
+    mTextureData->setImagePtr(mAddress, 0);
+    mAddress.flushCPUCache(mImageSize);
+    agl::g3d::TextureUtilG3D::convertToResTexture(&mResTexture, *mTextureData, nullptr);
+    mSampler.applyTextureData(*mTextureData);
+    mSampler.setFilter(1, 1, 1);
+    mSampler.setWrap(1, 1, 1);
+    mRenderTarget.applyTextureData(*mTextureData, mRenderTarget.getMipLevel(),
+                                  mRenderTarget.getLayer());
+}
+
+void VegeTeraMat::initialize(f32 size, u32 dimension, u32 cell_size, s32 num_textures,
+                             sead::Heap* heap) {
+    mTextures.tryAllocBuffer(num_textures, heap, 8);
+    mSize = size;
+    mDimension = dimension;
+    mCellSize = cell_size;
+    _524 = (static_cast<f32>(cell_size) * size) / static_cast<f32>(dimension);
+    mRenderBuffer.setRenderTargetColorNullAll();
+    mRenderBuffer.setRenderTargetDepth(nullptr);
+    mRenderBuffer.setVirtualSize(sead::Vector2f(dimension, dimension));
+    mRenderBuffer.setPhysicalArea(0.0f, 0.0f, f32(dimension), f32(dimension));
+    mViewport.setByFrameBuffer(mRenderBuffer);
+    mPackets[0].block.startDeclare(1, heap);
+    mPackets[0].block.declare_(static_cast<agl::UniformBlock::Type>(6), 5, 0, 1);
+    mPackets[0].block.create(heap, 2, 1);
+    for (s32 i = 1; i < 5; ++i) {
+        mPackets[i].block.declare(mPackets[0].block);
+        mPackets[i].block.create(heap, 2, 1);
+    }
+}
+
+void VegeTeraMatMgr::initialize(sead::Heap* heap) {
+    mRecords[0].initialize(48.0f, 128, 8, 2, heap);
+    auto& near0 = mRecords[0].mTextures[0];
+    near0.initialize(mRecords[0].mDimension, agl::TextureFormat::cTextureFormat_R16_G16_B16_A16_uNorm, heap);
+    mRecords[0].mRenderBuffer.setRenderTargetColor(&near0.mRenderTarget, 0);
+    auto& near1 = mRecords[0].mTextures[1];
+    near1.initialize(mRecords[0].mDimension, agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm, heap);
+    mRecords[0].mRenderBuffer.setRenderTargetColor(&near1.mRenderTarget, 1);
+    mRecords[1].initialize(160.0f, 160, 8, 2, heap);
+    auto& middle0 = mRecords[1].mTextures[0];
+    middle0.initialize(mRecords[1].mDimension, agl::TextureFormat::cTextureFormat_R16_G16_B16_A16_uNorm, heap);
+    mRecords[1].mRenderBuffer.setRenderTargetColor(&middle0.mRenderTarget, 0);
+    auto& middle1 = mRecords[1].mTextures[1];
+    middle1.initialize(mRecords[1].mDimension, agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm, heap);
+    mRecords[1].mRenderBuffer.setRenderTargetColor(&middle1.mRenderTarget, 1);
+    mRecords[2].initialize(660.0f, 192, 8, 2, heap);
+    auto& far0 = mRecords[2].mTextures[0];
+    far0.initialize(mRecords[2].mDimension, agl::TextureFormat::cTextureFormat_R16_G16_B16_A16_uNorm, heap);
+    mRecords[2].mRenderBuffer.setRenderTargetColor(&far0.mRenderTarget, 0);
+    auto& far1 = mRecords[2].mTextures[1];
+    far1.initialize(mRecords[2].mDimension, agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm, heap);
+    mRecords[2].mRenderBuffer.setRenderTargetColor(&far1.mRenderTarget, 1);
 }
 
 }  // namespace ksys::tera
