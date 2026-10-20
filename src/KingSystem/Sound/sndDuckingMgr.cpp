@@ -70,8 +70,6 @@ void DuckingMgr::Ducker::sub_710103E2DC(f32 f) {
     mDucker.resetState();
 }
 
-// NON_MATCHING: the original writes the copied null terminator from cNullChar and orders the two _c8 flag
-// computations differently; the instructions are otherwise the same.
 // 0x710103ddf0: copies the settings' name into the ducker's buffer and sets the group ducker up from them.
 void DuckingMgr::Ducker::setup(sead::Heap* heap, Unk_7102612628* settings) {
     char* buffer = mNameBuffer;
@@ -80,12 +78,9 @@ void DuckingMgr::Ducker::setup(sead::Heap* heap, Unk_7102612628* settings) {
         const s32 len = settings->mName.calcLength();
         const s32 n = len < mNameCapacity ? len : mNameCapacity - 1;
         memcpy(buffer, name, n);
-        buffer[n] = 0;
+        buffer[n] = sead::SafeStringBase<char>::cNullChar;
     }
-    if (settings->_68)
-        _c8 |= 2;
-    else
-        _c8 &= ~2;
+    _c8 = settings->_68 ? (_c8 | 2) : (_c8 & ~2);
     mDucker.initialize(nullptr);
     mDucker.setup(settings->mSettings);
     for (s32 i = 0; i < settings->mTargetNum; ++i)
