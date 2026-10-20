@@ -2514,6 +2514,12 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void sub_71009AECCC();
     // Small accessors of the widget (lane2 s46; placeholder names, the field meanings are not known)
     void sub_71009A995C();
+    // 0x71009a9388 / 0x71009a93e0 (placeholder names; same body, called from two ScreenAppMap states):
+    // in map mode 2 hide the field pane, then clear the UiSubsys1 flag 0x3904 and the normal map's _a8ea
+    void sub_71009A9388();
+    void sub_71009A93E0();
+    // 0x71009a9a9c (placeholder name): sub_71009A9A38 for the level of a scale index
+    void sub_71009A9A9C(s32 index);
     // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
     void sub_71009A99F0(s32 level);
     // 0x71009a9a38 (placeholder name): applies the scale level to the widget's map view parameters
@@ -2615,7 +2621,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb51c */ f32 _b51c;
     /* 0xb520 */ f32 _b520;
     /* 0xb524 */ f32 _b524;
-    u8 _b528[0xb538 - 0xb528];
+    u8 _b528[0xb530 - 0xb528];
+    // N_Field_00, looked up by 0x71009a89c0; its alpha is cleared by sub_71009A9388 / sub_71009A93E0
+    /* 0xb530 */ nn::ui2d::Pane* mFieldPane;
 };
 static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
 static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);

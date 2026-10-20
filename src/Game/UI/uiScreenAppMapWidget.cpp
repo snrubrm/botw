@@ -9,6 +9,7 @@
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
 #include <new>
+#include <nn/ui2d/Pane.h>
 
 namespace uking::ui {
 
@@ -34,6 +35,22 @@ void ScreenAppMapWidget::sub_71009AF058(s8 count) {
 }
 
 // The accessors below read the widget's zoom / cursor state (offsets 0xb4a0-0xb4ff).
+
+// 0x71009a9388
+void ScreenAppMapWidget::sub_71009A9388() {
+    if (UiSubsys1::instance()->get38f8() == 2 && mFieldPane)
+        mFieldPane->SetAlpha(0);
+    UiSubsys1::instance()->set3904(false);
+    mNormalMap._a8ea = false;
+}
+
+// 0x71009a93e0
+void ScreenAppMapWidget::sub_71009A93E0() {
+    if (UiSubsys1::instance()->get38f8() == 2 && mFieldPane)
+        mFieldPane->SetAlpha(0);
+    UiSubsys1::instance()->set3904(false);
+    mNormalMap._a8ea = false;
+}
 
 // 0x71009a9438
 bool ScreenAppMapWidget::sub_71009A9438() {
@@ -134,6 +151,16 @@ u8 ScreenAppMapWidget::sub_71009AF178() const {
 // 0x71009af194
 bool ScreenAppMapWidget::sub_71009AF194() const {
     return (_b4ff & 5) == 5;
+}
+
+// 0x71009a9a9c
+void ScreenAppMapWidget::sub_71009A9A9C(s32 index) {
+    const s32 level = sub_71009661BC(index);
+    mSubsys->_850.get28();
+    const f32 scale = sub_7100965960(level);
+    mSubsys->_850.set28(scale);
+    mSubsys->_850.set38(scale);
+    mSubsys->set898(level);
 }
 
 // 0x71009a9b08 (placeholder name): sets the map view's scale and its second scale from `value`
