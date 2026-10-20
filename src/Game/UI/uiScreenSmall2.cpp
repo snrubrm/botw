@@ -3380,6 +3380,39 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248ea90::getEntries()
     return nullptr;
 }
 
+// 0x7100a52c4c
+void ScreenShopInfo::setShopInfoSubTextPartsStateFrame2() {
+    if (_3640)
+        _3640->sub_71009C31D8();
+    if (_3648)
+        _3648->sub_71009C31D8();
+}
+
+// 0x7100a531d8
+void ScreenShopInfo::sub_7100A531D8(ShopInfoTagData* data, s32 value) {
+    if (_3620) {
+        _3620->Stop(1.0f);
+        sub_7100A52E60(data, 1, value);
+    }
+}
+
+// 0x7100a5323c
+void ScreenShopInfo::setPorchNumText(s32 value) {
+    if (_3668) {
+        sead::FixedSafeString<32> text;
+        text.format("%d", value);
+        setWidgetString(_3668, "T_PorchNum_00", text);
+        if (_3670)
+            _3670->StopAtMin();
+    }
+}
+
+// 0x7100a53310
+void ScreenShopInfo::hidePorchNum() {
+    if (_3670)
+        _3670->StopAtMax();
+}
+
 }  // namespace uking::ui
 
 // The enabled-content flags the picture book's entry mapping reads (0x71025dc540, 12 bytes; filled by the

@@ -5238,6 +5238,10 @@ public:
     void sub_7100A52DB0(u32 mode, ShopInfoTagData* data);
     // 0x7100a53328 (placeholder name): closes the number pane's current animation and shows `value` in T_Num_00
     void sub_7100A53328(s32 value);
+    void setShopInfoSubTextPartsStateFrame2();
+    void sub_7100A531D8(ShopInfoTagData* data, s32 value);
+    void setPorchNumText(s32 value);
+    void hidePorchNum();
     // 0x7100a52e60 (CSV placeholder, not decompiled yet): the full shop refresh (888B; uses
     // _3690/_3698/_3658, calls sub_7100AA2BDC + unnamed 0x9c2c28/2c44/2c8c/2d44 + sub_7100AA3B50).
     // Declared only so sub_7100A52DB0 can tail-call it.
@@ -5272,7 +5276,9 @@ public:
     // sub_7100BD9CDC / sub_7100BD9B5C (same tail as ScreenMessageDialog's 0x10b2b30).
     /* 0x3650 */ eui::LetterAnimControl* _3650 = nullptr;
     sead::PtrArray<ShopInfoItem> _3658;
-    u8 _pad_3668[0x3678 - 0x3668];
+    // Native A51BB0 stores Pa_Porch_00 and its State animator; A5323C / A53310 use them.
+    /* 0x3668 */ eui::LayoutEx* _3668;
+    /* 0x3670 */ eui::Animator* _3670;
     Unk_710247dc70 _3678;
     /* 0x3690 */ eui::LayoutEx* _3690 = nullptr;
 
