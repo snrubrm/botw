@@ -1256,6 +1256,9 @@ public:
     // 0x7101296058: the 0x130-byte record constructor (UniformBlock at +0x60).
     Unk_71025193e8();
     ~Unk_71025193e8() override;
+    // 0x71012969e0: same body as m12.
+    void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                   const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 0; }
     virtual void m6();
     virtual void m7();
@@ -1410,15 +1413,31 @@ private:
 class Unk_7102519690 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519690, Unk_7102519378)
 public:
+    // 0x710129ae9c: same teardown as Unk_71025193e8 (pool link, particle buffer, uniform block).
     ~Unk_7102519690() override;
+    // 0x710129b734: same body as m12.
+    void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                   const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 6; }
     virtual void m6();
     virtual void m7();
     virtual void m8();
+    // 0x710129b590: clears the state word at +0x5c.
     virtual void m9();
+    // 0x710129b598: returns the pool link and clears +0x128 / +0x5c.
     virtual void m10();
-    virtual void m11();
+    // 0x710129b5d4: whether the intensity at +0x128 is positive.
+    bool m11() const override;
     virtual void m12();
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
+    u32 mBufferCount = 0;
+    u8* mBuffer = nullptr;
+    u8 _e8[0x120 - 0xe8];
+    Unk_7102519378* mPoolLink = nullptr;
+    f32 _128 = 0;
 };
 
 // vtable 0x7102519708 (12 slots); placeholder generated from the vtable (genskel.py).

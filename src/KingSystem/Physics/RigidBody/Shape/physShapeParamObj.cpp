@@ -167,6 +167,13 @@ Unk_71025193e8::~Unk_71025193e8() {
 
 Unk_71025193e8::Unk_71025193e8() = default;
 
+// Discarded call: m11's result is unused (the original tail-calls slot 11), as in m12.
+void Unk_71025193e8::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                               const sead::Matrix44f& projection, int view_index) const {
+    if (_50 && (_48 & 1))
+        m11();
+}
+
 void Unk_71025193e8::m9() {
     _5c = 0;
 }
@@ -262,7 +269,47 @@ bool Unk_7102519620::m11() const {
 
 // NON_MATCHING: placeholder destructor; the original (0x710129ae9c) also destroys members or bases
 // this class does not declare yet.
-Unk_7102519690::~Unk_7102519690() = default;
+Unk_7102519690::~Unk_7102519690() {
+    _128 = 0;
+    if (mPoolLink) {
+        static_cast<ksys::gfx::LocationalLightMgr*>(_50)->releaseRenderLight(mPoolLink);
+        mPoolLink = nullptr;
+    }
+    if (mBuffer) {
+        delete[] mBuffer;
+        mBuffer = nullptr;
+        mBufferCount = 0;
+    }
+}
+
+// Discarded call: m11's result is unused (the original tail-calls slot 11), as in Unk_71025193e8::m12.
+void Unk_7102519690::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                               const sead::Matrix44f& projection, int view_index) const {
+    if (_50 && (_48 & 1))
+        m11();
+}
+
+void Unk_7102519690::m9() {
+    _5c = 0;
+}
+
+void Unk_7102519690::m10() {
+    if (mPoolLink) {
+        static_cast<ksys::gfx::LocationalLightMgr*>(_50)->releaseRenderLight(mPoolLink);
+        mPoolLink = nullptr;
+    }
+    _128 = 0;
+    _5c = 0;
+}
+
+bool Unk_7102519690::m11() const {
+    return _128 > 0.0f;
+}
+
+void Unk_7102519690::m12() {
+    if (_50 && (_48 & 1))
+        m11();
+}
 
 Unk_7102519708::~Unk_7102519708() = default;
 
