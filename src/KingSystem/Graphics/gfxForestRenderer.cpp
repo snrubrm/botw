@@ -242,6 +242,8 @@ void ForestRenderer::Entry::sub_7100F07060() {
 
 // NON_MATCHING: scheduling of the inlined floors (the original loads pos.z before the x floor compares) and
 // of the mask bits.
+// NON_MATCHING: the same 320 bytes, scheduled differently: the two floor divisions and the mask
+// compares are interleaved in another order.
 void ForestRenderer::GridCell::sub_7100F076D8(const sead::Vector3f& pos) {
     mX = sead::Mathf::floor(pos.x / 1000.0f) + 5;
     mZ = sead::Mathf::floor(pos.z / 1000.0f) + 4;
