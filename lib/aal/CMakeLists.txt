@@ -6,6 +6,7 @@ add_library(aal OBJECT
   include/aal/aalArbiter.h
   include/aal/aalAudioFrameProcessMgr.h
   include/aal/aalAssetInfo.h
+  include/aal/aalAssetList.h
   include/aal/aalAssetType.h
   include/aal/aalAuxBusMgr.h
   include/aal/aalAuxBusDataCtrl.h
@@ -109,6 +110,7 @@ add_library(aal OBJECT
   src/aalAttenuator.cpp
   src/aalAttenuationReader.cpp
   src/aalAssetInfo.cpp
+  src/aalAssetList.cpp
   src/aalAssetType.cpp
   src/aalAudioMetaReader.cpp
   src/aalAudioResource.cpp
