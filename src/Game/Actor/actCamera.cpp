@@ -1,4 +1,8 @@
 #include "Game/Actor/actCamera.h"
+#include <heap/seadHeapMgr.h>
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -154,6 +158,33 @@ bool sub_710079BE9C(int idx) {
 // The D1 / D0 thunks for the second and third bases (0x710079248c .. 0x710079268c) are non-matching (m:
 // they keep one more callee-saved register).
 Camera::~Camera() = default;
+
+Camera::InitResult Camera::init_() {
+    _1c0 = 5;
+    {
+        sead::Heap* heap = ksys::act::ActorHeapUtil::instance()->getBaseProcHeap();
+        sead::ScopedCurrentHeapSetter setter(heap);
+        auto* edit_camera = sead::DynamicCast<EditCamera>(
+            ksys::act::ActorCreator::instance()->createActor("EditCamera", heap, nullptr, false, false));
+        if (edit_camera) {
+            edit_camera->sub_71007917CC(this);
+            edit_camera->getActorFlags2().set(ActorFlag2::_2000);
+            _850.acquire(edit_camera, false);
+        }
+    }
+    _1080 = sub_7100923E74();
+    const Unk_7100928644::Params params{0.01f, sead::Mathf::deg2rad(88.0f), sead::Mathf::deg2rad(84.0f),
+                                        sead::Mathf::deg2rad(8.0f), sead::Mathf::deg2rad(12.0f)};
+    _13a4.sub_7100928650(params);
+    ksys::xlink::XLink::RebuildArg arg;
+    arg.rootMtx = &mMtx;
+    if (mXLink)
+        mXLink->sub_7101230100(arg);
+    ksys::sub_7100F40428(static_cast<Unk_7102459cc0*>(this));
+    if (auto* root6 = Root6::getInstance())
+        root6->sub_7100928838(this);
+    return InitResult::Ok;
+}
 
 // NON_MATCHING: the original computes &awareness->mLinks2 after the m148() argument (C++14 evaluation order;
 // we build as C++17). Everything else matches.

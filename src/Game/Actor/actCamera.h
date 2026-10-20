@@ -415,7 +415,18 @@ KSYS_CHECK_SIZE_NX150(Unk_7100928b6c, 0x150);
 // Placeholder name (out-of-line ctor 0x7100928644, zeroes 0x18 bytes): Camera::_13a4.
 class Unk_7100928644 {
 public:
+    // The five values 0x7100928650 copies to _4 .. _14 (placeholder names; the Camera passes 0.01 and four angles).
+    struct Params {
+        f32 _0;
+        f32 _4;
+        f32 _8;
+        f32 _c;
+        f32 _10;
+    };
+
     Unk_7100928644();
+    // 0x7100928650 (declared only).
+    void sub_7100928650(const Params& params);
 
     /* 0x00 */ u32 _0;
     /* 0x04 */ u32 _4;
@@ -446,6 +457,8 @@ public:
     explicit Camera(const CreateArg& arg);
     ~Camera() override;
 
+    // 0x7100796238: creates the EditCamera, sets the camera parameters and registers the camera.
+    InitResult init_() override;
     // 0x7100796654: per-frame camera state update (state _10f8 1 -> 2).
     void updatePositionMaybe() override;
     // 0x7100796830 (declared only; placeholder name): called first by updatePositionMaybe.
