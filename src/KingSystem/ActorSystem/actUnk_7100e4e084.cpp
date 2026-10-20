@@ -12,7 +12,30 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/System/VFR.h"
+
 namespace ksys::act {
+
+f32 Unk_7100e4e084::sub_7100E4E3CC() const {
+    const f32 delta = VFR::instance()->getDeltaFrame();
+    if (mActor) {
+        if (auto* parent = sead::DynamicCast<Actor>(mActor->getConnectedCalcParent())) {
+            if (auto* player = parent->m129())
+                return player->m360();
+        }
+    }
+    return delta;
+}
+
+void Unk_7100e4e084::sub_7100E4E304(const sead::SafeString& name, const sead::Matrix34f& matrix) {
+    sead::Matrix34f inverse;
+    inverse.setInverse(matrix);
+    inverse.setMul(mActor->getMtx(), inverse);
+    sub_7100E4E0F4(name, inverse);
+}
+
+
 
 bool Unk_7100e4e084::ContactCallback::invoke(phys::ContactPointInfo::ShouldDisableContact* disable,
                                              const phys::ContactPointInfo::Event& event) {

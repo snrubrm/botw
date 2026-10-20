@@ -24,6 +24,10 @@ public:
     explicit Unk_7100e4e084(Actor* actor) : mActor(actor) {}
 
     void sub_7100E4E084();
+    // 0x7100e4e0f4: stores a named carried transform; declared only while the +b0 vector is unresolved.
+    bool sub_7100E4E0F4(const sead::SafeString& name, const sead::Matrix34f& matrix);
+    void sub_7100E4E304(const sead::SafeString& name, const sead::Matrix34f& matrix);
+    f32 sub_7100E4E3CC() const;
     void sub_7100E50010(int state, const sead::Vector3f& pos, bool a3);
     void sub_7100E5007C(int state, const sead::Vector3f& pos);
     void sub_7100E500F8(int state, const sead::Vector3f& pos, f32 a3, f32 a4);
