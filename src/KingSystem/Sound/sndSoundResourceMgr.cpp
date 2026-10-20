@@ -6,6 +6,10 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/System/OverlayArena.h"
+#include <resource/seadResourceMgr.h>
+#include <heap/seadExpHeap.h>
 #include "KingSystem/Sound/sndBarslistArchive.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
@@ -29,6 +33,30 @@ sead::SafeString sCustomVoiceNoActorBars = "NV_Custom_NoActor.bars";
 sead::SafeString sUiBars = "M_UI.bars";
 sead::SafeString sTestArchivePath = "Sound/test.sarc";
 }  // namespace
+
+// NON_MATCHING: factory and overlay-arena temporaries have different stack placement
+// and initialization scheduling.
+void ResourceManager::initBarsFactoryAndHeap(sead::Heap* heap) {
+    mBars.allocBuffer(16, heap);
+    if (sead::ResourceMgr::instance())
+        res::registerEntryFactory(new (heap) Unk_7102502b50, "bars");
+    sead::DirectResource* database = nullptr;
+    loadDirectResource(&database, sSLinkDatabasePath, heap, 32);
+    _15e0 = database;
+    _15e8 = new (heap) BarslistArchive;
+    _15e8->loadRes(heap);
+    mMiiSoundRequests.sub_71012CDF98(heap);
+    mHeap = sead::ExpHeap::create(0x20000, "ResourceManagerWork", heap, 8,
+                                  sead::Heap::cHeapDirection_Forward, true);
+    OverlayArena::InitArg arg;
+    arg.set_flag_8 = true;
+    arg.name = "Audio";
+    arg.heap = SoundResource::instance()->mSoundResourceHeap;
+    arg.min_free_percentage = 5.0f;
+    arg.heap2 = SoundResource::instance()->getSoundDebugHeap();
+    mArena = new (heap) OverlayArena;
+    mArena->init(arg);
+}
 
 // NON_MATCHING: the status local sits at a frame-pointer offset in the original.
 ResourceBars* ResourceManager::sub_710105844C(res::Handle* handle, const sead::SafeString& name,

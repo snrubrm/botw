@@ -42,6 +42,8 @@ namespace ksys::snd {
 SEAD_ENUM(Unk_710105ec08, Greeting, CallFar, TalkPositive, TalkDeny, QuestionNormal, QuestionAngry, QuestionSurprise, LaughS, LaughL, Happy, Sad, Sigh, Angry, Shitauchi, Think, Trouble, Ease, Notice, SurpriseS, SurpriseM, SurpriseL, Admiration, Understand, Chat, Humming, CustomSavotta, CustomSavaaq, CustomSavsaaba, CustomVasaaq, Runaway, Tired, Sleep, Wakeup, LaughBad, Run, Cry, BecomeAssasin, SakuradaCM1, SakuradaCM2, SakuradaCM3, Scare, Unconscious, Painful, Work, WorkHeavy, Bukubuku)
 
 class SoundResource {
+    // Resource manager initialization assigns this resource heap to its overlay arena.
+    friend struct ResourceManager;
     SEAD_SINGLETON_DISPOSER(SoundResource)
     SoundResource() = default;
     virtual ~SoundResource();
@@ -1321,6 +1323,8 @@ KSYS_CHECK_SIZE_NX150(Unk_SoundMgr60_828, 0xbc0);
 
 struct ResourceManager : public aal::IAssetList, public Unk_7102502ac0, public Unk_7102502ae0 {
     ResourceManager();
+    // 0x7101057ed4 (CSV Sound_initBarsFactoryAndHeap).
+    void initBarsFactoryAndHeap(sead::Heap* heap);
     ~ResourceManager() override;
 
     // The aal::IAssetList slots (0x7101059468 ... 0x7101059458): the resource manager answers "nothing to list /
