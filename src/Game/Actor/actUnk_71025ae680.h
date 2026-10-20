@@ -104,9 +104,18 @@ public:
     void m5() override;
     void m7() override;
     bool m8(const ksys::Message& message) override;
-    // m10 0x71006e870c (declared nowhere yet) runs seven condition updates unless sub_71006DFB58().
+    // 0x71006e870c: runs seven condition updates unless sub_71006DFB58().
+    void m10() override;
     void m11(bool enable) override;
     void m13(int index) override;
+    // 0x71006e8770 .. 0x71006e916c (declared only; placeholder names): the condition updates m10 runs in order.
+    void sub_71006E8770();
+    void sub_71006E8AD0();
+    void sub_71006E8D00();
+    void sub_71006E8E04();
+    void sub_71006E8F20();
+    void sub_71006E90A0();
+    void sub_71006E916C();
 
     /* 0x1c */ u32 _1c = 0;
     /* 0x20 */ u32 _20 = 0;

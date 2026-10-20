@@ -50,6 +50,19 @@ void Unk_710244edc0::m5() {
     _8.makeAllZero();
 }
 
+// NON_MATCHING: ours inlines sub_71006DFB58 (defined in this file; the original calls it from another TU).
+void Unk_710244edc0::m10() {
+    if (sub_71006DFB58())
+        return;
+    sub_71006E8770();
+    sub_71006E8AD0();
+    sub_71006E8D00();
+    sub_71006E8E04();
+    sub_71006E8F20();
+    sub_71006E90A0();
+    sub_71006E916C();
+}
+
 void Unk_710244edc0::m13(int index) {
     _8.resetBit(index);
 }
