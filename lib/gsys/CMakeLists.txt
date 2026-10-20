@@ -25,6 +25,7 @@ add_library(gsys OBJECT
   include/gsys/gsysG3dResMaterialEx.h
   include/gsys/gsysG3dResModelEx.h
   include/gsys/gsysG3dResShapeEx.h
+  include/gsys/gsysModelShaderProgram.h
   include/gsys/gsysModelShaderVariationKey.h
   include/gsys/gsysG3dResAnimationEx.h
   include/gsys/gsysPartialSkeletalAnm.h
@@ -48,6 +49,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelRig.cpp
   src/gsys/gsysModelResource.cpp
   src/gsys/gsysG3dResMaterialEx.cpp
+  src/gsys/gsysModelShaderProgram.cpp
   src/gsys/gsysG3dResModelEx.cpp
   src/gsys/gsysCameraAnimation.cpp
   src/gsys/gsysModelAccessKey.cpp
