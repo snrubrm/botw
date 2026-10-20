@@ -1,3 +1,4 @@
+#include "KingSystem/System/Timer.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/gameHorseColorInfoMgr.h"
 #include "Game/Scene/gameStageInfo.h"
@@ -3469,6 +3470,39 @@ void ScreenSaveTransferWindow::m259() {
     case 0x8c:
         getStateMachine().changeState(&sUnk_71025f2d20);
         break;
+    }
+}
+
+// 0x7100a456c0
+void ScreenSaveTransferWindow::m271() {
+    ksys::Timer::update(&_379c, 1.0f);
+    _3798 = (1.0f - 90.0f / (_379c + 90.0f)) * 0.05f;
+    if (_3620->mRate == 0)
+        _3628->Stop(_3798 * 100.0f);
+    mLoadWork.reset(true);
+    close(-1);
+}
+
+// 0x7100a44d58
+void ScreenSaveTransferWindow::m243() {
+    _3788 = "0063";
+    getStateMachine().changeState(&sUnk_71025f2cc0);
+}
+
+// 0x7100a4383c
+// NON_MATCHING: the original selects the clamped value before the branch, reloads _8 and keeps a dead `cmp #1`
+void ScreenSaveTransferWindow::m163() {
+    if (sUnk_71025f2eb0._8 == 0) {
+        getStateMachine().changeState(&sUnk_71025f2de0);
+        return;
+    }
+    _3798 += 1.0f / 30.0f;
+    if (_3798 >= 1.0f) {
+        _3798 = 1.0f;
+        if (sUnk_71025f2eb0._8 == 2)
+            getStateMachine().changeState(&sUnk_71025f21e0);
+        else
+            getStateMachine().changeState(&sUnk_71025f2180);
     }
 }
 

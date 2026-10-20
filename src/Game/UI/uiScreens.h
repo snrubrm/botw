@@ -5894,7 +5894,7 @@ public:
     /* 0x3610 */ eui::Animator* _3610;
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;
-    u8 _pad_3628[0x3630 - 0x3628];
+    /* 0x3628 */ eui::Animator* _3628;
     /* 0x3630 */ eui::AnimButton* _3630;
     /* 0x3638 */ eui::AnimButton* _3638;
     /* 0x3640 */ eui::AnimButton* _3640;
@@ -5916,7 +5916,7 @@ public:
     u8 _pad_3764[0x3788 - 0x3764];
     /* 0x3788 */ sead::SafeString _3788;
     /* 0x3798 */ f32 _3798;
-    /* 0x379c */ s32 _379c;
+    /* 0x379c */ f32 _379c;
     /* 0x37a0 */ s32 _37a0;
     virtual void m186();
     virtual void m187();
