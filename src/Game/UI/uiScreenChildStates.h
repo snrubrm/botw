@@ -134,6 +134,8 @@ class Unk_7102477110 : public ScreenChildEx {
 public:
     explicit Unk_7102477110(eui::LayoutEx* layout);
     ~Unk_7102477110() override;
+    // 0x7100987e84: empty override
+    void m14() override;
 
     // One entry of the effect array at 0x1d8; the destructor kills each effect handle.
     struct EffectEntry {
@@ -487,6 +489,8 @@ class Unk_710247af10 : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     ~Unk_710247af10() override;
+    // 0x71009b5234: empty override
+    void m23(void* a1) override;
     // 0x71009b5e1c (placeholder name): clears the selected group and the four +0x30c pointers
     void sub_71009B5E1C();
     // 0x71009b5f80 (placeholder name): takes the picture book group index and unloads the texture slot

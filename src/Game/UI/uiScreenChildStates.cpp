@@ -708,6 +708,9 @@ void Unk_710247af10::sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* 
     getMessage(file, label, out);
 }
 
+// 0x71009b5234
+void Unk_710247af10::m23(void*) {}
+
 // 0x71009b8d58
 void Unk_710247af10::m105() {
     if (_300)
@@ -1499,6 +1502,9 @@ void Unk_7102477110::sub_7100986B0C(bool flag, bool a2) {
     _298.sub_7100934308(1, record.text, record.value);
     _298.sub_7100934478(a2);
 }
+
+// 0x7100987e84
+void Unk_7102477110::m14() {}
 
 
 // 0x710098fc08
