@@ -471,9 +471,9 @@ bool CameraEventMove::sub_710075E810(const sead::Vector3f& pos, const sead::Vect
     return normal_distance < plain_distance;
 }
 
-// NON_MATCHING: the original peels the first iteration's copy of the polar offset into the loop
-// preheader and re-copies only the elevation at the loop head; ours keeps the whole copy at the loop
-// head, so the function is 24 bytes shorter. Everything else matches.
+// NON_MATCHING: same body, but the original's copies of the polar offset are split into single fields
+// (only the elevation is re-copied per attempt), while ours copies the whole 0xc-byte struct, so the
+// loop is a few instructions longer.
 bool CameraEventMove::sub_710075E9B4(sead::Vector3f* pos, const sead::Vector3f& target, s32 count) {
     if (count < 0)
         return false;
@@ -483,9 +483,10 @@ bool CameraEventMove::sub_710075E9B4(sead::Vector3f* pos, const sead::Vector3f& 
     sead::Vector3f point = *pos;
     act::Unk_7100922700 dir(*pos - target);
     dir._4 = angleStuff(sub_7100924CAC(dir._4));
+    act::Unk_7100922700 polar = dir;
 
     for (s32 i = 0; i < count; ++i) {
-        act::Unk_7100922700 polar = dir;
+        polar = dir;
         const f32 sign = s32(sead::GlobalRandom::instance()->getU32()) >= 0 ? 1.0f : -1.0f;
         const f32 angle = f32(i) * sign * 2.5f;
 
@@ -497,6 +498,7 @@ bool CameraEventMove::sub_710075E9B4(sead::Vector3f* pos, const sead::Vector3f& 
             return false;
         }
 
+        polar = dir;
         polar._4 = angleStuff(-angle);
         polar._4 = angleStuff(sub_7100924CAC(polar._4));
         point = target + polar.sub_7100923254();
@@ -508,7 +510,8 @@ bool CameraEventMove::sub_710075E9B4(sead::Vector3f* pos, const sead::Vector3f& 
     return true;
 }
 
-// NON_MATCHING: same loop rotation as sub_710075E9B4 (the polar offset copy is not peeled).
+// NON_MATCHING: same field-wise copy difference as sub_710075E9B4; ours copies the whole struct
+// before the second attempt instead of only the azimuth.
 bool CameraEventMove::sub_710075EB98(sead::Vector3f* pos, const sead::Vector3f& target, s32 count) {
     if (count < 0)
         return false;
@@ -517,20 +520,22 @@ bool CameraEventMove::sub_710075EB98(sead::Vector3f* pos, const sead::Vector3f& 
 
     sead::Vector3f point = *pos;
     const act::Unk_7100922700 dir(*pos - target);
+    act::Unk_7100922700 polar = dir;
 
     for (s32 i = 0; i < count; ++i) {
-        act::Unk_7100922700 polar = dir;
+        polar = dir;
         const f32 sign = s32(sead::GlobalRandom::instance()->getU32()) >= 0 ? 1.0f : -1.0f;
         const f32 angle = f32(i) * sign * 2.5f;
 
-        polar._4 = angleStuff(angle);
+        polar._8 = angleStuff(angle);
         point = target + polar.sub_7100923254();
         if (!sub_710075E810(point, target)) {
             *pos = point;
             return false;
         }
 
-        polar._4 = angleStuff(-angle);
+        polar = dir;
+        polar._8 = angleStuff(-angle);
         point = target + polar.sub_7100923254();
         if (!sub_710075E810(point, target)) {
             *pos = point;
