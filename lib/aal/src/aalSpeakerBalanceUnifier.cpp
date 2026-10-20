@@ -1,5 +1,7 @@
 #include "aal/aalSpeakerBalanceUnifier.h"
 #include <prim/seadScopedLock.h>
+#include <limits>
+#include "aal/aalListenerMgr.h"
 #include "aal/aalArbiter.h"
 #include "aal/aalEmitter.h"
 #include "aal/aalIUnifiable.h"
@@ -300,6 +302,93 @@ Handle SpeakerBalanceUnifier::emit(const AssetInfo& asset, SoundSource::SetupInf
     if (result)
         *result = StartResult::Success;
     return handle;
+}
+
+// NON_MATCHING: native loop layout, temporary storage and register allocation differ.
+void SpeakerBalanceUnifier::calc() {
+    if (!mInitialized)
+        return;
+    bool active = mEmitter && mEmitter->isActive();
+    if (mExtSounds.isBufferReady()) {
+        for (s32 i = 0; i < mExtSounds.size(); ++i) {
+            if (mExtSounds[i].isActive()) {
+                active = true;
+                break;
+            }
+        }
+    }
+    if (!active && !_148)
+        return;
+    updateFaders_();
+    mNoUnifiable = mUnifiables.size() == 0;
+    if (mNoUnifiable) {
+        if (!active) {
+            mEnvFxReduction = 0.0f;
+            mFilterReduction = 0.0f;
+            mPriorityReduction = 0.0f;
+        }
+        return;
+    }
+    const f32 maximum = std::numeric_limits<f32>::max();
+    const f32 minimum = -maximum;
+    mLpf = maximum;
+    mFilterReduction2 = maximum;
+    f32 parameter = maximum;
+    f32 filter = maximum;
+    f32 priority = minimum;
+    s32 index = 0;
+    for (const Listener& listener : SystemAccessor::getListenerMgr()->mListeners) {
+        if (index >= mAreas.size())
+            break;
+        mAreas[index].reset();
+        if (index < 16 && !(mInteriorMask & (1 << index))) {
+            mListenerBalances[index].reset();
+            if (mReductionVolumeMax)
+                mReductionVolumeMax[index] = 0.0f;
+        } else {
+            {
+                sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+                for (IUnifiable* unifiable : mUnifiables) {
+                    sead::Vector3f position, direction;
+                    if (unifiable && unifiable->calcUnifiablePositions(listener, &position, &direction))
+                        mAreas[index].registerPosition(position, direction);
+                }
+            }
+            SpeakerChannelVolume volume{};
+            sead::Buffer<SpeakerChannelVolume> volumes(1, &volume);
+            f32 listener_parameter = 0.0f;
+            f32 listener_filter = 0.0f;
+            f32 listener_priority = 1.0f;
+            f32 max_gain = 0.0f;
+            mAreas[index].calcSpeakerBalance(&volumes, &listener_parameter, &listener_filter,
+                                             &listener_priority, listener, 1, &max_gain);
+            mListenerBalances[index].setSpeakerBalance(DeviceType::TV, volume,
+                                                       mSpeakerBalanceMoveStep);
+            parameter = sead::Mathf::min(parameter, listener_parameter);
+            filter = sead::Mathf::min(filter, listener_filter);
+            priority = sead::Mathf::max(priority, listener_priority);
+            mLpf = sead::Mathf::min(mLpf, listener.mLpf);
+            mFilterReduction2 = sead::Mathf::min(mFilterReduction2, listener.mBiquadValue);
+            if (mReductionVolumeMax)
+                mReductionVolumeMax[index] = max_gain;
+        }
+        ++index;
+    }
+    if (parameter == maximum)
+        parameter = 0.0f;
+    if (filter == maximum)
+        filter = 0.0f;
+    if (priority == minimum)
+        priority = 1.0f;
+    if (mLpf == maximum)
+        mLpf = 0.0f;
+    if (mFilterReduction2 == maximum)
+        mFilterReduction2 = 0.0f;
+    mEnvFxFader.moveToTargetByStep(parameter, mEnvFxMoveStep);
+    mEnvFxReduction = mEnvFxFader.getValue();
+    mDistFilterFader.moveToTargetByStep(filter, mDistFilterMoveStep);
+    mFilterReduction = mDistFilterFader.getValue();
+    mPriorityReduction = priority;
 }
 
 }  // namespace aal
