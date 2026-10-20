@@ -704,9 +704,48 @@ void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const s
 
 }  // namespace uking::act
 
-// NON_MATCHING: placeholder destructor; the original (0x710001b33c) also destroys members or bases
-// this class does not declare yet.
 Unk_7102357ab0::~Unk_7102357ab0() = default;
+
+void Unk_7102357ab0::m4() {
+    Unk_710244eaa0::m4();
+    mActor->sub_71011DA868(&_1f0);
+}
+
+bool Unk_7102357ab0::m5(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    if (!Unk_710244eaa0::m5(accessor))
+        return false;
+    auto* rideable = accessor.getHorseOptions();
+    if (!rideable)
+        return false;
+    if (!rideable->m22(uking::act::Unk_7100e8b2b8::Unk8::_2))
+        return false;
+    _1f0._68 = sead::Matrix34f::ident;
+    _2a4 = 0;
+    return true;
+}
+
+void Unk_7102357ab0::m6() {
+    Unk_710244eaa0::m6();
+    _30 &= ~0x40;
+}
+
+bool Unk_7102357ab0::m7() {
+    if (!Unk_710244eaa0::m7())
+        return false;
+    const auto* rider = mActor->getParam()->getRes().mGParamList->getHorseRider();
+    if (!rider)
+        return false;
+    _1f0.setName(rider->mRotBaseNode.ref());
+    return true;
+}
+
+void Unk_7102357ab0::m8() {
+    Unk_710244eaa0::m8();
+    _1f0._68 = sead::Matrix34f::ident;
+    _2a4 = 0;
+    _30 &= ~0x80;
+    mActor->sub_71011DA868(&_1f0);
+}
 
 const sead::SafeString& Unk_7102357ab0::getRootNodeName() const {
     const auto* rider = mActor->getParam()->getRes().mGParamList->getHorseRider();

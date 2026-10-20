@@ -252,10 +252,23 @@ class Unk_7102357ab0 : public uking::act::Unk_710244eaa0 {
 public:
     ~Unk_7102357ab0() override;
 
+    // The rider's RotBaseNode bone handle (_1f0) is added in m4 / m8 and named in m7.
+    void m4() override;
+    bool m5(const ksys::act::ActorLinkConstDataAccess& accessor) override;
+    void m6() override;
+    bool m7() override;
+    void m8() override;
+
     // 0x710001ba54 / 0x710001ba90: the RootNode / SpineNode bone names from the rider's HorseRider GParam object
     // (empty string without one).
     const sead::SafeString& getRootNodeName() const;
     const sead::SafeString& getSpineNodeName() const;
+
+    /* 0x1f0 */ ksys::act::BoneHandle _1f0;
+    // m9 0x710001b59c (declared nowhere yet) passes &_298 and reads _2a4 / _2a8.
+    /* 0x298 */ sead::Vector3f _298;
+    /* 0x2a4 */ f32 _2a4;
+    /* 0x2a8 */ f32 _2a8;
 };
 
 // vtable 0x7102451c48 (5 slots); placeholder generated from the vtable (genskel.py).
