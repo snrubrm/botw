@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
@@ -113,6 +115,24 @@ void GoronHeroDescendentRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     } else {
         changeToStopCommand();
     }
+}
+
+// NON_MATCHING: the original pairs the x / y stores of the rotation (stp s0, s1); ours stores them separately.
+bool GoronHeroDescendentRoot::sub_71004076D4(sead::Vector3f* pos, sead::Vector3f* rot) {
+    auto* object = mActor->getMapObject();
+    if (!object || !object->getLinkData())
+        return false;
+
+    sead::FixedSafeString<32> name{"Anchor"};
+    if (auto* schedule = mActor->getSchedule())
+        name.append(schedule->_68);
+
+    auto* anchor = object->getLinkData()->sub_7100D4EFA4(name);
+    if (!anchor)
+        return false;
+    *pos = anchor->getTranslate();
+    *rot = anchor->getRotate();
+    return true;
 }
 
 void GoronHeroDescendentRoot::leave_() {

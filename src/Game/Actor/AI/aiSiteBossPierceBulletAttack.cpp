@@ -43,8 +43,6 @@ bool SiteBossPierceBulletAttack::m34() {
     return sub_7100588164(false);
 }
 
-// NON_MATCHING: the original passes 0 to SiteBoss::Unk_71002cf2ac::sub_710066DE04 (an unused int parameter
-// that its declaration lacks)
 void SiteBossPierceBulletAttack::m37() {
     m41();
     ksys::act::ai::InlineParamPack params;
@@ -60,8 +58,8 @@ void SiteBossPierceBulletAttack::m37() {
     }
 }
 
-// NON_MATCHING: as m37 (the unused 0 argument of sub_710066DE04); the original also computes the length of the
-// actor matrix's z axis without using it (only the sqrtf call for a NaN remains), and regalloc differs
+// NON_MATCHING: the original computes the length of the actor matrix's z axis without using it (only the sqrtf
+// call for a NaN remains), and regalloc differs
 void SiteBossPierceBulletAttack::m39() {
     auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
     if (!boss)
