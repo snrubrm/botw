@@ -420,8 +420,9 @@ public:
     const sead::Vector3f& sub_710115F078();
     // 0x710115f3f0: queries normalized playback position.
     f32 sub_710115F3F0(int slot, int bank, bool a1);
-    // 0x710115ea64: copies one of five string parameter values.
-    bool sub_710115EA64(int kind);
+    // 0x710115ea64: copies one of five string parameter values. Every caller passes 0 as `a2`; the function does
+    // not read it.
+    bool sub_710115EA64(int kind, int a2);
     bool sub_710115EECC(int kind, s32 value, int a3);
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
     bool sub_710115FBC8(int a1, Unk4* query, bool (Unk2::*fn)(Unk4*, int, bool), bool a4);

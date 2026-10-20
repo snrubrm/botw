@@ -393,7 +393,7 @@ void PlayerRideHorse::sub_710080B670(ksys::as::ASList* list, act::HorseRideInfo*
         }
         if (!name.isEmpty() && name != current_name) {
             if (name == "Horse_Courbette")
-                list->sub_710115EA64(rideable->_18._2f);
+                list->sub_710115EA64(rideable->_18._2f, 0);
             list->startAnimationMaybe(-1.0f, -1.0f, name.cstr(), slot, 0, true);
             if (list->x_7(slot, 1, &ksys::as::ASList::Unk2::sub_710002E82C))
                 list->sub_710115F2EC(slot, 0, 0.0f);

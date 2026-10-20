@@ -114,8 +114,8 @@ void EnemyHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
 
 // Makes the root and spine bones partial bones of the upper / lower body AS slots and starts HorseWait on the
 // lower body slot (once).
-// NON_MATCHING: the original passes a second argument (0) to ASList::sub_710115EA64 (see calc_), and the
-// HorseWait string object sits at sp instead of sp + 8.
+// NON_MATCHING: stack layout. The original gives each bone key an 8-byte slot (sp + 0x18 / sp + 0x10) and puts
+// the HorseWait string object at sp; ours packs the keys and puts the string at sp + 8.
 void EnemyHorseRide::setUpRiderAnimation() {
     if (_f0)
         return;
@@ -147,14 +147,12 @@ void EnemyHorseRide::setUpRiderAnimation() {
         as_list->mSlots[slot].sub_7101164E38(false);
     }
     if (auto* as_list = actor->getASList()) {
-        as_list->sub_710115EA64(0);
+        as_list->sub_710115EA64(0, 0);
         as_list->startAnimationMaybe(-1.0f, -1.0f, "HorseWait", *mLowerBodyASSlot_s, 0, true);
     }
     _f0 = true;
 }
 
-// NON_MATCHING: the original passes a second argument (0) to ASList::sub_710115EA64, which the callee does not read;
-// the declared signature has one parameter.
 void EnemyHorseRide::calc_() {
     // Stops riding: m34, releases the upper body AS slot and changes to 復帰.
     const auto stopRiding = [this] {
@@ -191,7 +189,7 @@ void EnemyHorseRide::calc_() {
                 }
                 changeChild("復帰");
             } else if (auto* as_list = actor->getASList()) {
-                as_list->sub_710115EA64(int(horse.sub_7100D144EC()));
+                as_list->sub_710115EA64(int(horse.sub_7100D144EC()), 0);
             }
             return;
         }

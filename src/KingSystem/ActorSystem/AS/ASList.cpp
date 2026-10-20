@@ -994,7 +994,7 @@ f32 ASList::sub_710115F98C() {
 }
 
 // NON_MATCHING: table selection and destination lookup are scheduled in a different order.
-bool ASList::sub_710115EA64(int kind) {
+bool ASList::sub_710115EA64(int kind, int a2) {
     const s8 index = _f0[0x36];
     if (index < 0)
         return false;
