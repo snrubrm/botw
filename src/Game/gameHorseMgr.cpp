@@ -8,6 +8,12 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking {
 
@@ -580,6 +586,43 @@ const sead::SafeString& getHorseReinsName(HorseMgr::RiddenAnimalType type) {
     if (index < 10)
         return *sReinsNames[s32(index)];
     return sead::SafeString::cEmptyString;
+}
+
+// 0x7100e88610 (placeholder name; HorseMgr::postCalc calls it twice): after the placement and LOD
+// checks, whether `actor` is within sqrt(dist_sq) of the player on the XZ plane.
+// NON_MATCHING: same instructions, but we store the matrix translation three times at once and merge
+// the two "return true" blocks, so the frame and the block layout differ.
+bool sub_7100E88610(f32 dist_sq, const ksys::act::Actor* actor) {
+    if (actor->get1a0())
+        return false;
+    if (actor->getMapObject() &&
+        actor->getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000))
+        return false;
+    if (actor->getLodState()->mFlags10.isOn(0x40))
+        return true;
+
+    auto* placement = ksys::map::PlacementMgr::instance();
+    if (!placement)
+        return true;
+
+    const sead::Matrix34f& mtx = actor->getMtx();
+    const sead::Vector3f pos(mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]);
+    if (!placement->isStaticCompoundReady(pos, false))
+        return false;
+
+    auto* system = ksys::act::ActorSystem::instance();
+    if (!system)
+        return true;
+    auto* link = system->getPlayerLink();
+    if (!link)
+        return true;
+    auto* player = link->getPlayer();
+    if (!player)
+        return true;
+
+    const f32 dx = player->getMtx().m[0][3] - pos.x;
+    const f32 dz = player->getMtx().m[2][3] - pos.z;
+    return dx * dx + dz * dz < dist_sq;
 }
 
 const sead::SafeString& getHorseSaddleName(HorseMgr::RiddenAnimalType type) {
