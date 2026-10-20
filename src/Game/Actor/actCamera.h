@@ -454,8 +454,10 @@ public:
     // Both Camera state-update paths pass a typed source and destination.
     void sub_7100799770(const Unk_71009214b8& src, Unk_71009214b8* dst);
     void sub_710079984C(const Unk_71009214b8& src, Unk_71009214b8* dst);
+    // 0x7100791f38 (CSV act::Camera::ctor; declared only).
     explicit Camera(const CreateArg& arg);
     ~Camera() override;
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
     // 0x7100796238: creates the EditCamera, sets the camera parameters and registers the camera.
     InitResult init_() override;

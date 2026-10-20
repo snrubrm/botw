@@ -1,4 +1,5 @@
 #include "Game/Actor/actCamera.h"
+#include <basis/seadNew.h>
 #include "Game/gameUnk_710246d058.h"
 #include "Game/gameMaskController.h"
 #include <heap/seadHeapMgr.h>
@@ -160,6 +161,10 @@ bool sub_710079BE9C(int idx) {
 // The D1 / D0 thunks for the second and third bases (0x710079248c .. 0x710079268c) are non-matching (m:
 // they keep one more callee-saved register).
 Camera::~Camera() = default;
+
+ksys::act::BaseProc* Camera::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Camera(arg);
+}
 
 Camera::InitResult Camera::init_() {
     _1c0 = 5;
