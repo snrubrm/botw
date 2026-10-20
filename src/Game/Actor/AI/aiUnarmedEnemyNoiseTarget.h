@@ -17,15 +17,18 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void m35(const sead::Vector3f& target) override;
+    void m37() override;
+    void m38() override;
     void loadParams_() override;
 
 protected:
     // 0x71005d40e8: searches the awareness candidates for a reachable navigation target.
     bool sub_71005D40E8();
-    // Candidate searches that fill _100 (declared only, native calls have no extra arguments).
-    void sub_71005D56B4();
-    void sub_71005D5A58();
+    // Candidate searches that fill _100 and return whether a candidate was found.
+    bool sub_71005D56B4();
+    bool sub_71005D5A58();
     // 0x71005d4ab0: "武器発見" with the target weapon
     void sub_71005D4AB0();
     void sub_71005D4C28();
