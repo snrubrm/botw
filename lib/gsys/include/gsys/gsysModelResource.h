@@ -3,6 +3,8 @@
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <thread/seadAtomic.h>
+#include <thread/seadCriticalSection.h>
 
 namespace nn::g3d {
 class ResFile;
@@ -84,6 +86,12 @@ public:
     // material-animation type, the record array at +0x58 + type * 8.
     G3dResAnimationEx* getG3dResSkeletalAnmEx(s32 index);
     G3dResAnimationEx* getG3dResMaterialAnmEx(MaterialAnmType type, s32 index);
+    // 0x7100c0aad4: bit 5 of the word at +0x17c under the lock at +0x190.
+    bool isValid() const;
+    // 0x7100c0c534 / 0x7100c0c54c / 0x7100c0c564: the atomic animation reference counter at +0x188.
+    void countUpAnimationReferenceCounter();
+    void countDownAnimationReferenceCounter();
+    s32 getAnimationReferenceCounter() const;
 
 private:
     // ModelResourceMgr c0c80c records the intrusive node offset as +28.
@@ -95,5 +103,11 @@ private:
     // Inline array indexed by MaterialAnmType (0x7100c0c28c adds type * 8 to this and loads
     // +0x58); the enum's extent is unproved, so eight slots are reserved.
     G3dResAnimationEx* mMaterialAnms[8];
+    u8 _98[0x17c - 0x98];
+    u32 mFlags;
+    u8 _180[0x188 - 0x180];
+    sead::Atomic<s32> mAnimationReferenceCounter;
+    u8 _18c[0x190 - 0x18c];
+    mutable sead::CriticalSection mCS;
 };
 }  // namespace gsys
