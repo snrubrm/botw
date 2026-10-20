@@ -428,9 +428,8 @@ void ScreenEx::m116() {
 }
 
 // 0x7100a4815c
-// NON_MATCHING: PartsEx runtime type information is inlined rather than called out of line.
 eui::ControlBase* ScreenEx::sub_7100A4815C(nn::ui2d::Pane* pane, nn::ui2d::Pane* target, bool* found) {
-    if (pane == target)
+    if (target == pane)
         *found = true;
     if (*found) {
         auto* parts = nn::font::DynamicCast<eui::PartsEx>(pane);
