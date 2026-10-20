@@ -954,6 +954,8 @@ public:
 
 // Element of ScreenOptionWindow::_3698 (owned by the screen; `delete` destroys the member at 0x70).
 struct Unk_OptionWindowEntry {
+    // 0x7100a2905c
+    void setEnabledMaybe(bool enabled);
     // 0x7100a2b53c
     Unk_OptionWindowEntry(ScreenOptionWindow* screen, eui::LayoutEx* caption,
                           eui::LayoutEx* layout, s32 index);

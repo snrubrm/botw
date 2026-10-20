@@ -5,6 +5,10 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/gameStageBinder.h"
+#include "Game/UI/euiPartsEx.h"
+#include "Game/gameSaveSystem.h"
+#include <devenv/seadEnvUtil.h>
+#include <new>
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiUtils.h"
@@ -45,6 +49,9 @@ static OptionDefinition sUnk_71025f0290[] = {
 };
 static sead::Buffer<OptionDefinition> sUnk_71025f0678(sUnk_71025f0290);
 static sead::SafeString sUnk_71025f0668 = "LayoutMsg/OptionWindow_00";
+// Native A28824 binds the 12 displayed option IDs at 2491298.
+static const s32 sUnk_7102491298[] = {9, 1, 2, 7, 4, 3, 6, 8, 5, 10, 11, 12};
+static sead::Buffer<const s32> sUnk_71025f0688(sUnk_7102491298);
 
 // 0x7100a2b53c
 Unk_OptionWindowEntry::Unk_OptionWindowEntry(ScreenOptionWindow* screen, eui::LayoutEx* caption,
@@ -288,6 +295,155 @@ static inline eui::AnimButton* getOptionButtonMaybe(const Unk_OptionWindowEntry&
         return entry._28;
     default:
         return nullptr;
+    }
+}
+
+// 0x7100a2905c
+// NON_MATCHING: RTTI branch scheduling and message temporaries differ.
+void Unk_OptionWindowEntry::setEnabledMaybe(bool enabled) {
+    auto* button = getOptionButtonMaybe(*this);
+    if (!button)
+        return;
+    button->PlayDisableAnim(!enabled);
+    if (_50 == 4) {
+        auto* check = nn::font::DynamicCast<eui::UniteButton>(button);
+        if (!check)
+            return;
+        check->ForceSetChecked(enabled ? _54 : false);
+        if (!enabled)
+            check->mFlags &= ~4;
+        return;
+    }
+    if (_50 != 10)
+        return;
+    auto* layout = button->mLayout;
+    const sead::SafeString pane("T_Text_00");
+    if (layout) {
+        const s32 value = enabled ? _58 : _5c;
+        const s32 first = sUnk_71025f0678[10].choiceBegin;
+        sead::FixedSafeString<256> label;
+        label.format("%04d", value + first);
+        eui::MessageString text;
+        getMessage(sUnk_71025f0668, label, &text);
+        setWidgetString(layout, pane, text);
+    }
+    sub_7100A2B91C(false);
+}
+
+// 0x7100a2936c
+// NON_MATCHING: mode-specific option filtering and layout creation use different registers.
+void ScreenOptionWindow::m92(sead::Heap* heap) {
+    const s32 count = sUnk_71025f0688.size();
+    if (count < 1)
+        return;
+    _3698.allocBuffer(count, heap);
+    auto* parts = eui::sub_7100945088(sub_7100A48104("Pa_SlideBtn_00", nullptr));
+    if (!parts)
+        return;
+    const auto language = sead::EnvUtil::getRegionLanguage();
+    for (s32 i = count - 1; i > 0; --i) {
+        const s32 id = sUnk_71025f0688[i];
+        if (language != sead::RegionLanguageID::JPja && id == 5)
+            continue;
+        if (id == 11 || id == 12) {
+            if ((id == 12) != (Manager::instance()->_64c38 == 8))
+                continue;
+            if (isE3DemoMode())
+                continue;
+            if (auto* save = SaveSystem::instance(); save && save->_1a44)
+                continue;
+        }
+        sead::FormatFixedSafeString<64> name("Pa_SlideBtn_%02d", i);
+        // PartsEx owns an eui layout, as in the existing pick-up and map layout-copy callers.
+        auto* layout = sub_7100A47A5C(heap, 1,
+            static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout), name, parts, true, true);
+        if (layout) {
+            if (auto* entry = new (heap) Unk_OptionWindowEntry(this, mLayout, layout,
+                                                              sUnk_71025f0688[i]))
+                _3698.insert(0, entry);
+        }
+    }
+    _3698.insert(0, new (heap) Unk_OptionWindowEntry(
+        this, mLayout, static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout),
+        sUnk_71025f0688[0]));
+}
+
+// 0x7100a29710
+// NON_MATCHING: checked entry traversal and scroll-parameter temporaries differ.
+void ScreenOptionWindow::m93(sead::Heap* heap) {
+    if (Manager::instance()->_64c38 == 8)
+        _36bc = sub_7100AA88A4(&_36bd);
+    else {
+        _36bd = checkIsGetRune(7, 0);
+        _36bc = true;
+    }
+    const s32 count = _3698.size();
+    for (s32 i = 0; i < count; ++i)
+        _3698[i]->sub_7100A29900();
+    Unk_7102474df8_Params params;
+    params.corner1.set(0.0f, 0.0f);
+    params.corner2.set(0.0f, 0.0f);
+    params.count = sUnk_71025f0688.size();
+    if (auto* pane = static_cast<nn::ui2d::Pane*>(sub_7100A48328("N_SlideArea_00", nullptr))) {
+        sead::Vector2f bottom_left, top_left, top_right, bottom_right;
+        getPaneCorners(pane, &bottom_left, &top_left, &top_right, &bottom_right);
+        params.corner1.x = bottom_left.x < top_right.x ? bottom_left.x : top_right.x;
+        params.corner2.x = bottom_left.x < top_right.x ? top_right.x : bottom_left.x;
+        params.corner1.y = bottom_left.y < top_right.y ? bottom_left.y : top_right.y;
+        params.corner2.y = bottom_left.y < top_right.y ? top_right.y : bottom_left.y;
+    }
+    const Unk_7102474df8_Speeds speeds;
+    _3610.sub_7100937FA4(heap, this, &params, &speeds);
+    for (s32 i = 0, n = _3698.size(); i < n; ++i)
+        _3610.sub_7100938408(&_3698(i)->_70);
+    _36c0 = new (heap) Settings;
+    _36be = 0;
+    _36e8 = 0;
+}
+
+// 0x7100a2a80c
+// NON_MATCHING: entry searches and button-flag traversal use different registers.
+void ScreenOptionWindow::m98() {
+    mActiveCursorNode = nullptr;
+    for (s32 i = 0, count = _3698.size(); i < count; ++i) {
+        if (_3698(i)->_50 != sUnk_71025f0688[0])
+            continue;
+        if (auto* entry = _3698[i]) {
+            if (auto* button = getOptionButtonMaybe(*entry))
+                setReservedBoxCursorNode(findBoxCursorNodeByButton(button));
+            entry->sub_7100A2AAB8();
+        }
+        break;
+    }
+    for (s32 i = 0, count = _3698.size(); i < count; ++i) {
+        if (_3698(i)->_50 != 4)
+            continue;
+        if (auto* entry = _3698[i])
+            entry->setEnabledMaybe(true);
+        break;
+    }
+    const bool text_enabled = sub_7100A94A80();
+    for (s32 i = 0, count = _3698.size(); i < count; ++i) {
+        if (_3698(i)->_50 != 10)
+            continue;
+        if (auto* entry = _3698[i])
+            entry->setEnabledMaybe(text_enabled);
+        break;
+    }
+    // Native A2A9E0 calls the Settings constructor on the existing snapshot storage.
+    if (_36c0)
+        new (_36c0) Settings;
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        auto* entry = _3698[i];
+        if (!entry)
+            continue;
+        const s32 type = sUnk_71025f0678[entry->_50].type;
+        if (auto* button = getOptionButtonMaybe(*entry)) {
+            if ((type | 1) == 1)
+                button->mFlags &= ~4;
+            else
+                button->mFlags |= 4;
+        }
     }
 }
 

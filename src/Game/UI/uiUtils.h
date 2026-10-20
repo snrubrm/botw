@@ -270,6 +270,12 @@ void sub_7100AA9A40(const sead::BoundBox2f& box, eui::Screen* screen, const sead
 bool sub_7100AA6C84(const sead::SafeString& name);
 // 0x7100aa170c (uiUtils.cpp)
 void sub_7100AA170C(const nn::ui2d::Pane* pane, sead::Vector2f* scale, f32* rotation, sead::Vector2f* position);
+// 0x7100aa1a04: four rotated corners in the root pane's coordinate space.
+void getPaneCorners(const nn::ui2d::Pane* pane, sead::Vector2f* bottom_left,
+                    sead::Vector2f* top_left, sead::Vector2f* top_right,
+                    sead::Vector2f* bottom_right);
+// 0x7100a94a80: whether the debug setting permits the text-window option.
+bool sub_7100A94A80();
 // 0x7100aa20f0 (uiUtils.cpp)
 eui::AlignPane* sub_71009B0B44(eui::LayoutEx* layout, const char* name);
 bool sub_7100AA205C(eui::Animator* animator, nn::ui2d::Pane* pane);

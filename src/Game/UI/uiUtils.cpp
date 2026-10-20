@@ -628,6 +628,57 @@ void sub_7100AA170C(const nn::ui2d::Pane* pane, sead::Vector2f* scale, f32* rota
         *position = pos;
 }
 
+// 0x7100aa1a04
+// NON_MATCHING: corner traversal and temporary vector copies use different registers.
+void getPaneCorners(const nn::ui2d::Pane* pane, sead::Vector2f* bottom_left,
+                    sead::Vector2f* top_left, sead::Vector2f* top_right,
+                    sead::Vector2f* bottom_right) {
+    if (!pane)
+        return;
+    const f32 scaled_width = pane->GetSize().width * pane->GetScale().x;
+    const f32 scaled_height = pane->GetSize().height * pane->GetScale().y;
+    const f32 width = scaled_width > 0.0f ? scaled_width : -scaled_width;
+    const f32 height = scaled_height > 0.0f ? scaled_height : -scaled_height;
+    sead::Vector2f corners[] = {{width * -0.5f, height * -0.5f},
+                               {width * -0.5f, height * 0.5f},
+                               {width * 0.5f, height * 0.5f},
+                               {width * 0.5f, height * -0.5f}};
+    for (auto& corner : corners) {
+        sead::Vector3f point(corner.x, corner.y, 0.0f);
+        ksys::util::sub_71011EF070(&point, pane->GetRotation().z * sead::Mathf::deg2rad(1.0f));
+        corner.set(point.x, point.y);
+    }
+    sead::Vector2f translation(pane->GetPosition().x, pane->GetPosition().y);
+    for (auto& corner : corners)
+        corner += translation;
+    // Native also rotates the running origin for every ancestor, even though it is not returned.
+    sead::Vector2f origin(0.0f, 0.0f);
+    for (const auto* parent = pane->GetParent(); parent; parent = parent->GetParent()) {
+        const auto scale = parent->GetScale();
+        const f32 angle = parent->GetRotation().z * sead::Mathf::deg2rad(1.0f);
+        sead::Vector3f point((origin.x + translation.x) * scale.x,
+                             (origin.y + translation.y) * scale.y, 0.0f);
+        ksys::util::sub_71011EF070(&point, angle);
+        origin.set(point.x, point.y);
+        for (auto& corner : corners) {
+            point.set(corner.x * scale.x, corner.y * scale.y, 0.0f);
+            ksys::util::sub_71011EF070(&point, angle);
+            corner.set(point.x, point.y);
+        }
+        translation.set(parent->GetPosition().x, parent->GetPosition().y);
+        for (auto& corner : corners)
+            corner += translation;
+    }
+    if (bottom_left)
+        *bottom_left = corners[0];
+    if (top_left)
+        *top_left = corners[1];
+    if (top_right)
+        *top_right = corners[2];
+    if (bottom_right)
+        *bottom_right = corners[3];
+}
+
 // 0x7100aa205c
 // NON_MATCHING: resource-relative pointer additions have commuted operands.
 bool sub_7100AA205C(eui::Animator* animator, nn::ui2d::Pane* pane) {

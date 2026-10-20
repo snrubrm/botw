@@ -5842,6 +5842,9 @@ public:
 
 class ScreenOptionWindow : public ScreenEx {
 public:
+    void m92(sead::Heap* heap) override;
+    void m93(sead::Heap* heap) override;
+    void m98() override;
     void m94() override;
     bool isPlayPartsInOut_() const override;
     bool isEnableControl() const override;
