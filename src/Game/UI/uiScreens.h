@@ -374,12 +374,7 @@ public:
 static_assert(sizeof(Unk_710247b960) == 0x170);
 
 // sub_7100A33134 creates it (0xd98 bytes, ctor 0x71009af944).
-class Unk_710247a028 : public ScreenChildEx {
-public:
-    explicit Unk_710247a028(eui::LayoutEx* layout);
-    u8 _130[0xd98 - 0x130];
-};
-static_assert(sizeof(Unk_710247a028) == 0xd98);
+class Unk_710247a028;  // defined below, after ScreenButton_7100989968
 
 // sub_7100A513A4 creates it (0x1e8 bytes, ctor 0x71009c1edc).
 class Unk_710247ca18 : public ScreenChildEx {
@@ -2942,11 +2937,12 @@ struct ScreenButton_7100989968 {
 };
 KSYS_CHECK_SIZE_NX150(ScreenButton_7100989968, 0x90);
 
-// Placeholder for the three objects ScreenPauseMenu keeps at 0x3a00 (indexed by the byte at 0x3a18).
-struct ScreenPauseMenuUnk3a00 {
-    u8 _0[0x20];
-    /* 0x20 */ eui::LayoutEx* mLayout;  // as in eui::ControlBase (read by sub_71009B01B4)
-    u8 _28[0x130 - 0x28];
+// The three page controllers ScreenPauseMenu keeps at 0x3a00 (indexed by the byte at 0x3a18); vtable
+// 0x710247a028, created by sub_7100A33134 (0xd98 bytes). Was modelled separately as Unk_710247a028 before.
+class Unk_710247a028 : public ScreenChildEx {
+public:
+    explicit Unk_710247a028(eui::LayoutEx* layout);
+
     /* 0x130 */ s32 _130;
     // index of the first item shown in mButtons
     /* 0x134 */ s32 _134;
@@ -2987,6 +2983,7 @@ struct ScreenPauseMenuUnk3a00 {
     void sub_71009B04BC(s32 index, bool flag);
     void sub_71009B04E0(s32 index, bool flag);
 };
+static_assert(sizeof(Unk_710247a028) == 0xd98);
 
 // Placeholder for the object ScreenPauseMenu keeps at 0x3b98.
 struct ScreenPauseMenuUnk3b98 {
@@ -3111,7 +3108,7 @@ public:
     /* 0x3678 */ Unk_7100A341D0 mTabControls;
     /* 0x39f8 */ s32 mSelectedCategory;
     u8 _39fc[4];
-    /* 0x3a00 */ ScreenPauseMenuUnk3a00* _3a00[3];
+    /* 0x3a00 */ Unk_710247a028* _3a00[3];
     /* 0x3a18 */ u8 _3a18;
     /* 0x3a19 */ u8 _3a19;
     u8 _pad_3a1a[0x3a20 - 0x3a1a];

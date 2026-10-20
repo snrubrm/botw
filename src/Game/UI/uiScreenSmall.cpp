@@ -257,13 +257,13 @@ bool ScreenPauseMenu::sub_7100A3A7FC(s32 page, s32 offset) {
 }
 
 // 0x71009b01b4
-sead::Vector2f ScreenPauseMenuUnk3a00::sub_71009B01B4() const {
+sead::Vector2f Unk_710247a028::sub_71009B01B4() const {
     const auto& position = mLayout->mPane->GetPosition();
     return {position.x, position.y};
 }
 
 // 0x71009b01c4
-void ScreenPauseMenuUnk3a00::sub_71009B01C4(f32 x) {
+void Unk_710247a028::sub_71009B01C4(f32 x) {
     auto* pane = mLayout->mPane;
     nn::util::Float3 position = pane->GetPosition();
     position.x = x;
@@ -272,12 +272,12 @@ void ScreenPauseMenuUnk3a00::sub_71009B01C4(f32 x) {
 }
 
 // 0x71009aff68
-void ScreenPauseMenuUnk3a00::sub_71009AFF68() {
+void Unk_710247a028::sub_71009AFF68() {
     _130 = -1;
 }
 
 // 0x71009b01e4
-void ScreenPauseMenuUnk3a00::sub_71009B01E4(f32 dx) {
+void Unk_710247a028::sub_71009B01E4(f32 dx) {
     auto* pane = mLayout->mPane;
     nn::util::Float3 position = pane->GetPosition();
     position.x += dx;
@@ -286,18 +286,18 @@ void ScreenPauseMenuUnk3a00::sub_71009B01E4(f32 dx) {
 }
 
 // 0x71009b020c
-void ScreenPauseMenuUnk3a00::sub_71009B020C(bool visible) {
+void Unk_710247a028::sub_71009B020C(bool visible) {
     mLayout->mPane->SetVisible(visible);
 }
 
 // 0x71009b014c
-void ScreenPauseMenuUnk3a00::sub_71009B014C(s32 index, s32 value) {
+void Unk_710247a028::sub_71009B014C(s32 index, s32 value) {
     sub_71009AFF74(index, value);
     mButtons[index].sub_710098993C(true, false);
 }
 
 // 0x71009b0190
-void ScreenPauseMenuUnk3a00::sub_71009B0190(s32 index, bool a2) {
+void Unk_710247a028::sub_71009B0190(s32 index, bool a2) {
     if (a2)
         mButtons[index].sub_710098923C();
     else
@@ -305,7 +305,7 @@ void ScreenPauseMenuUnk3a00::sub_71009B0190(s32 index, bool a2) {
 }
 
 // 0x71009aff74
-void ScreenPauseMenuUnk3a00::sub_71009AFF74(s32 index, s32 value) {
+void Unk_710247a028::sub_71009AFF74(s32 index, s32 value) {
     auto* mgr = PauseMenuDataMgr::instance();
     if (!mgr)
         return;
@@ -327,7 +327,7 @@ void ScreenPauseMenuUnk3a00::sub_71009AFF74(s32 index, s32 value) {
 }
 
 // 0x71009b0348
-void ScreenPauseMenuUnk3a00::sub_71009B0348() {
+void Unk_710247a028::sub_71009B0348() {
     auto* mgr = PauseMenuDataMgr::instance();
     if (!mgr)
         return;
@@ -359,7 +359,7 @@ void ScreenPauseMenuUnk3a00::sub_71009B0348() {
 }
 
 // 0x71009b00e0
-void ScreenPauseMenuUnk3a00::sub_71009B00E0(s32 index) {
+void Unk_710247a028::sub_71009B00E0(s32 index) {
     _c78[index] = -1;
     mButtons[index].sub_71009896D8();
     mButtons[index].sub_710098993C(true, false);
@@ -367,7 +367,7 @@ void ScreenPauseMenuUnk3a00::sub_71009B00E0(s32 index) {
 }
 
 // 0x71009b0224
-void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
+void Unk_710247a028::sub_71009B0224(bool enabled) {
     if (_130 == -1)
         return;
     for (auto& button : mButtons.mBuffer)
@@ -375,26 +375,26 @@ void ScreenPauseMenuUnk3a00::sub_71009B0224(bool enabled) {
 }
 
 // 0x71009b0468
-s32 ScreenPauseMenuUnk3a00::sub_71009B0468(s32 index) const {
+s32 Unk_710247a028::sub_71009B0468(s32 index) const {
     if (index < _134 || index >= _134 + 20)
         return -1;
     return index - _134;
 }
 
 // 0x71009b0484
-s32 ScreenPauseMenuUnk3a00::sub_71009B0484(s32 index) const {
+s32 Unk_710247a028::sub_71009B0484(s32 index) const {
     if (index < _134 || index >= _134 + 20)
         return -1;
     return _c78[index - _134];
 }
 
 // 0x71009b04bc
-void ScreenPauseMenuUnk3a00::sub_71009B04BC(s32 index, bool flag) {
+void Unk_710247a028::sub_71009B04BC(s32 index, bool flag) {
     mButtons[index].sub_710098993C(flag, false);
 }
 
 // 0x71009b04e0
-void ScreenPauseMenuUnk3a00::sub_71009B04E0(s32 index, bool flag) {
+void Unk_710247a028::sub_71009B04E0(s32 index, bool flag) {
     mButtons[index].sub_7100989888(flag, true);
 }
 
