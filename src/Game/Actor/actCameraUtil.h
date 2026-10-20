@@ -18,6 +18,12 @@ class Object;
 // helpers, camera parameters and player-state queries used by the camera actor and the camera
 // AI / action classes. Function names are placeholders (`sub_<address>`) unless the CSV names them.
 
+// 0x71024741b0: "DefaultIndoor_031", the indoor camera child name (0x71024741a8 "Default" is sUnk_71024741A8
+// in actEditCamera.h).
+namespace uking::act {
+extern const char* sUnk_71024741b0;
+}  // namespace uking::act
+
 // Camera parameters (0x7100922030-0x7100922428; constants or globals that are never written).
 // 0x7100922030: whether `type` is valid (<= 5); `is5` (optional) receives `type == 5`.
 bool sub_7100922030(u32 type, bool* is5);

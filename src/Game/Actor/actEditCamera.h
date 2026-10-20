@@ -61,7 +61,7 @@ static inline ksys::act::BaseProc* getProcIfActor(ksys::act::BaseProc* proc) {
 }
 
 
-// 0x71024741a8 (placeholder name; defined in an unknown TU): "Default", the name of the default CameraEdit
+// 0x71024741a8 (placeholder name; defined in actCameraUtil.cpp): "Default", the name of the default CameraEdit
 // action (CameraEdit::loadParams_ copies its names into the EditCamera; also read by CameraEditRoot::calc_).
 extern const char* sUnk_71024741A8;
 

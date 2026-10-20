@@ -1,5 +1,6 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
+#include "Game/Actor/actEditCamera.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadCoreInfo.h>
@@ -10,6 +11,8 @@
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectCamera.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ksys.h"
@@ -157,6 +160,37 @@ EditCamera::CameraNames* Camera::sub_7100795414() {
     ksys::act::ActorLinkConstDataAccess accessor;
     ksys::act::acquireActor(&_850, &accessor);
     return sub_7100791B00(accessor);
+}
+
+// Takes the camera pack request with the highest priority (the first one on ties) and clears all of them.
+void Camera::sub_7100795518() {
+    auto& requests = _860._5a0;
+    s32 idx = 0;
+    s32 priority = requests[0]._58;
+    if (priority < requests[1]._58) {
+        idx = 1;
+        priority = requests[1]._58;
+    }
+    if (priority < requests[2]._58)
+        idx = 2;
+    _860._530.sub_7100791BAC(requests(idx));
+    for (auto& request : requests)
+        request.sub_7100791B88();
+}
+
+// NON_MATCHING: the original keeps the address of the chosen string pointer and loads it at one shared exit.
+// The camera child name: the requested camera pack, else "DefaultIndoor_031" when the player is indoors (outside
+// main field dungeons and Hyrule Castle), else "Default".
+const char* Camera::sub_710079558C() {
+    if (!_860._530._0.isEmpty())
+        return _860._530._0.cstr();
+    ksys::act::acc::PlayerBase accessor;
+    sub_7100926A50(&accessor);
+    if (!ksys::StageInfo::sIsMainFieldDungeon && !ksys::gdt::getFlag_IsInHyruleCastleArea(false) &&
+        (accessor.x_33() || accessor.x_35())) {
+        return sUnk_71024741b0;
+    }
+    return sUnk_71024741A8;
 }
 
 void Camera::sub_71007929E0() {

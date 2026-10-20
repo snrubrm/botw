@@ -45,6 +45,11 @@ KSYS_VISIBILITY_HIDDEN f32 sUnk_7102474194 = 0.08f;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_7102474198 = 0.2f;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_710247419c = 0.1f;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71024741a0 = 0.6f;
+// Camera child names returned by Camera::sub_710079558C (reached through the GOT).
+namespace uking::act {
+const char* sUnk_71024741A8 = "Default";
+const char* sUnk_71024741b0 = "DefaultIndoor_031";
+}  // namespace uking::act
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d24c8;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d24cc;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d24d0;
