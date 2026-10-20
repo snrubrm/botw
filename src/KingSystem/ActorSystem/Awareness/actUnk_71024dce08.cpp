@@ -88,6 +88,23 @@ f32 Unk_71024dcea8::m14() {
     return range_a > range_b ? range_a : range_b;
 }
 
+void Unk_71024dcea8::m8() {
+    _58.freeBuffer();
+}
+
+// NON_MATCHING: the clamp branches differ as in the base m15.
+s32 Unk_71024dcea8::m15(f32 a, f32 b) {
+    const s32 count = _48 >= 0 ? _48 : _40;
+    if (count < 1)
+        return 0;
+    const f32 ratio = sead::Mathf::clamp(a * 2, 0.0f, 1.0f) * b / (_8c * sub_7100D8010C()) +
+                      (_94 * sub_7100D8010C() + _98 * sub_7100D8010C()) * 0.25f - 0.3f;
+    const s32 min = s32(count * std::max(ratio, 0.0f));
+    if (min < count)
+        return sead::GlobalRandom::instance()->getU32(count - min) + min;
+    return count;
+}
+
 void Unk_71024dcea8::m17() {
     if (_c8 == 0.0f)
         _8.clear();

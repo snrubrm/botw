@@ -136,6 +136,10 @@ public:
     void m17() override;
     // 0x7100d8128c: the longer of the two sight ranges.
     f32 m14() override;
+    // 0x7100d81c58: frees the target entries.
+    void m8() override;
+    // 0x7100d816fc: as the base m15, with the ratio against the sight ranges.
+    s32 m15(f32 a, f32 b) override;
 
     u8 _52[0x58 - 0x52];
     /* 0x58 */ sead::Buffer<Unk_7102517ab0> _58;  // the 0x128-byte target entries
