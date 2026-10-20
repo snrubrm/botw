@@ -83,10 +83,11 @@ public:
     // 0x710098425c: the shop list entries pass (Unk_7102474e38::sub_7100939C68(), sub_7100939C78())
     void sub_710098425C(s32 a1, s32 a2);
     // 0x7100983e48 / 0x7100982c90 / 0x7100980f48 (CSV unnamed; not decompiled): called by sub_710098425C
-    void sub_7100983E48(s32 a1, s32 a2, sead::BufferedSafeString* name);
+    bool sub_7100983E48(s32 category, s32 index, ShopItem* item);
     void sub_7100982C90();
     bool sub_71009831B0(s32 index, ShopItem* item);
-    void sub_7100980F48(sead::BufferedSafeString* name);
+    // Native 980F48 consumes the item metadata through +0x70, not just its string.
+    void sub_7100980F48(ShopItem* item);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
     bool sub_7100982A60(s32 state, s32 value);
     // 0x7100982b9c (244 bytes): the state value the shop menu shows for `item` (state dispatch over

@@ -91,10 +91,10 @@ void UiShopMgr::sub_710098425C(s32 a1, s32 a2) {
             return;
     }
     _b0 = a2;
-    sub_7100983E48(a1, a2, &_38.name);
+    sub_7100983E48(a1, a2, &_38);
     sub_7100982C90();
     if (_30 != 9 && _30 != 11 && _30 != 12 && _30 != 13)
-        sub_7100980F48(&_38.name);
+        sub_7100980F48(&_38);
     if (u32(_30 - 11) <= 2)
         _c7 = false;
 }
@@ -249,6 +249,81 @@ bool UiShopMgr::sub_71009831B0(s32 index, ShopItem* item) {
     }
     item->_68 = sub_7100982B9C(*item);
     return true;
+}
+
+PouchCategory sub_7100A82CF0(PouchItemType type);
+
+// 0x7100983e48
+// NON_MATCHING: native record copies and price-selection branch scheduling differ.
+bool UiShopMgr::sub_7100983E48(s32 category, s32 index, ShopItem* item) {
+    const auto* source = sub_7100A82E00(PouchCategory(category), index);
+    if (!source) {
+        item->name.clear();
+        item->_58 = 0;
+        item->_5c = 0;
+        item->_60 = 0;
+        item->_64 = 0;
+        item->_6c = 0;
+        item->_70 = nullptr;
+        item->_68 = -1;
+        return false;
+    }
+    // The inventory owns mutable items; this record retains the item for sell/remove operations.
+    item->_70 = const_cast<PouchItem*>(source);
+    auto* info = ksys::act::InfoData::instance();
+    const PouchCategory item_category = sub_7100A82CF0(source->getType());
+    item->name = source->getName();
+    item->_58 = 0;
+    if (info && item->_70->isInInventory())
+        item->_58 = info->hasTag(item->name.cstr(), 0x9b44906f) ? source->getValue() : 1;
+    item->_5c = 1;
+    if (_30 == 6) {
+        item->_64 = 2;
+        if (item_category == PouchCategory::Armor) {
+            ArmorInfo armor;
+            getArmorInfoMaybe(item->name, &armor);
+            item->_60 = armor.star_num;
+        }
+    } else if (_30 == 4) {
+        item->_64 = 1;
+        item->_60 = info ? ksys::act::getMonsterShopSellMamo(info, item->name.cstr()) : 0;
+    } else if (_30 == 2) {
+        item->_64 = 0;
+        if (!info)
+            item->_60 = 0;
+        else if (info->hasTag(item->name.cstr(), 0x30a3552e))
+            item->_60 = source->getCookData().mSellPrice;
+        else
+            item->_60 = ksys::act::getItemSellingPrice(info, item->name.cstr());
+    }
+    if (!item->_6c)
+        item->_6c = source->isEquipped();
+    item->_68 = sub_7100982B9C(*item);
+    return true;
+}
+
+// 0x710098411c
+// NON_MATCHING: native shop-state dispatch and selected-record scheduling differ.
+void UiShopMgr::sub_710098411C(s32 value) {
+    if (_c0 == 2)
+        return;
+    if (_b4) {
+        _b4 = false;
+        if (_b0 == value)
+            return;
+    }
+    _b0 = value;
+    sub_71009831B0(value, &_38);
+    sub_7100982C90();
+    if (_30 == 9) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList15>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList15)))
+            screen->sub_7100A4B50C(_38.name);
+    } else if (_30 != 11 && _30 != 12 && _30 != 13) {
+        sub_7100980F48(&_38);
+    }
+    if (u32(_30 - 11) < 3)
+        _c7 = false;
 }
 
 }  // namespace uking::ui

@@ -2382,9 +2382,9 @@ void ScreenShopBtnList15::sub_7100A4B3C4() {
 }
 
 // 0x7100a4b50c
-void ScreenShopBtnList15::sub_7100A4B50C(ShopInfoTagData* data) {
+void ScreenShopBtnList15::sub_7100A4B50C(const sead::SafeString& name) {
     eui::MessageString message;
-    sub_7100AA2BDC(data->str, &message);
+    sub_7100AA2BDC(name, &message);
     setWidgetString(mLayout, "T_Name_00", message);
 }
 

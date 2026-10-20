@@ -5154,7 +5154,8 @@ public:
     // 0x7100a4b3c4 (placeholder name): closes the "Pa_GuideA_00" / "Pa_GuideB_00" layouts when they are opening or open
     void sub_7100A4B3C4();
     // 0x7100a4b50c (placeholder name): shows the name of the item described by `data` in "T_Name_00"
-    void sub_7100A4B50C(ShopInfoTagData* data);
+    // Native A4B50C forwards only the first string to the actor-name message helper.
+    void sub_7100A4B50C(const sead::SafeString& name);
 
     UiTexSlots _3610;
 };
