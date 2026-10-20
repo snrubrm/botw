@@ -131,6 +131,19 @@ void S7::sub_71008AF2BC(bool enabled) {
         dim->setEnabled(enabled);
 }
 
+// 0x71008af2d8
+void S7::sub_71008AF2D8(const sead::Vector3f* pos) {
+    S5* s5 = sub_71008AF3B8();
+    if (s5->_8)
+        return;
+    if (tera::System::instance()->sub_710111F618(0)) {
+        setInitBeforeStageGenDone(false);
+        if (auto* terrain = tera::Terrain::instance())
+            terrain->sub_710114DDF8(0, pos, false);
+    }
+    s5->_8 = this;
+}
+
 // 0x71008af3b8
 S5* S7::sub_71008AF3B8() const {
     return sead::DynamicCast<S5>(mFlow->_118->_200);

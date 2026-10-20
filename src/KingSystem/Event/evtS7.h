@@ -83,6 +83,9 @@ public:
     void sub_71008AF2BC(bool enabled);
     // 0x71008af3b8 (placeholder name): the flow's S5
     S5* sub_71008AF3B8() const;
+    // 0x71008af2d8 (placeholder name): takes the S5 for this handle; the first owner also prepares the terrain
+    // around `pos`
+    void sub_71008AF2D8(const sead::Vector3f* pos);
     // 0x71008af44c (placeholder name): releases the S5's current owner if it is this handle
     void sub_71008AF44C();
 
