@@ -1319,6 +1319,8 @@ public:
     // resets the main screen's item widget, clears the radar name and the search-mode flag, and with `a1`
     // loads the system window screen and closes it.
     void sub_7100966EA8(bool a1);
+    // 0x710096705c: opens the sensor UI for its saved target; optionally shows the app window.
+    void sub_710096705C(bool show_window);
     // 0x71009674e8 (placeholder name; does not use `this`): the byte at 0x29 of the 0x71025d6ac0 object.
     bool sub_71009674E8() const;
     void set38e4(s32 value);

@@ -497,6 +497,35 @@ void UiSubsys1::sub_7100966EA8(bool a1) {
     }
 }
 
+// 0x710096705c: opens the Sheikah sensor UI for its saved search target.
+// NON_MATCHING: RTTI cache setup and saved-register allocation differ.
+void UiSubsys1::sub_710096705C(bool show_window) {
+    _38a8 = 1;
+    if (_38ac)
+        _38d8 = true;
+
+    if (auto* main_screen = sead::DynamicCast<ScreenMainScreen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen)))
+        main_screen->sub_7100A1E958(1);
+
+    if (auto* radar = RadarMgr::instance()) {
+        sead::FixedSafeString<64> name;
+        const char* target;
+        ksys::gdt::getFlag_ActorName_SeakSensor_Slot0(&target);
+        name = target;
+        if (!name.isEmpty()) {
+            radar->__auto0(name);
+            ksys::gdt::setFlag_App_SeakSensor_SearchMode(1);
+            if (show_window) {
+                createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindowNoBtn, nullptr);
+                if (auto* screen = sead::DynamicCast<ScreenAppSystemWindowNoBtn>(
+                        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindowNoBtn)))
+                    screen->sub_71009FB958();
+            }
+        }
+    }
+}
+
 // 0x71009674e8
 bool UiSubsys1::sub_71009674E8() const {
     return Unk_71025d6ac0::instance()->_29;
