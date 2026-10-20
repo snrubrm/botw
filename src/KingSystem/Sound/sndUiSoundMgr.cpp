@@ -150,3 +150,19 @@ bool UiSoundMgr::emitGetItemSound(const sead::SafeString& label) {
 }
 
 }  // namespace ksys::snd
+
+namespace ksys::snd {
+
+// NON_MATCHING: the map-name comparisons use different loop unrolling.
+s32 getEnvTypeForXlink() {
+    const auto& map_type = StageInfo::getCurrentMapType();
+    if (map_type == "MainField" || map_type == "GameTestField" || map_type == "AocField")
+        return 1;
+    if (map_type == "CDungeon")
+        return 2;
+    if (map_type == "MainFieldDungeon")
+        return StageInfo::getCurrentMapName() == "EnduranceDungeon" ? 1 : 3;
+    return 0;
+}
+
+}  // namespace ksys::snd

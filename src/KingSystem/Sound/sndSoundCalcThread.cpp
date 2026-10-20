@@ -1,4 +1,6 @@
 #include "KingSystem/Sound/sndSoundCalcThread.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/System/StageInfo.h"
 #include "Game/gameStatisticsMgr.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -392,6 +394,171 @@ void Unk_71025a36b0::sub_71012C8A30(sead::Heap* heap) {
             }
         }
         mEntryIndices[i] = matching_index;
+    }
+}
+
+}  // namespace ksys::snd
+
+namespace ksys::snd {
+
+// NON_MATCHING: environment branches, string comparisons and queue loops use different scheduling.
+void Unk_71025a36b0::sub_71012C917C() {
+    mUseAudioArena = true;
+    const s32 environment = getEnvTypeForXlink();
+    if (environment == 1) {
+        if (StageInfo::getCurrentMapType() == "AocField") {
+            for (s32 i = 0; i < mEntryCount; ++i) {
+                auto& entry = mEntries[i];
+                if ((entry.mName == "StoneDgnLight" ||
+                    entry.mName == "StoneDgnHeavy" ||
+                    entry.mName == "Grass" ||
+                    entry.mName == "Soil" ||
+                    entry.mName == "Stone" ||
+                    entry.mName == "Wood") && !(entry.mFlags & 2)) {
+                    if (entry.mState == 0)
+                        entry.mState = 1;
+                    for (;;) {
+                        const u32 write = mQueueWrite.load();
+                        if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                            break;
+                        if (mQueueWrite.compareExchange(write, write + 1)) {
+                            mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (s32 i = 0; i < mEntryCount; ++i) {
+                auto& entry = mEntries[i];
+                if ((entry.mName == "Soil") && !(entry.mFlags & 2)) {
+                    if (entry.mState == 0)
+                        entry.mState = 1;
+                    for (;;) {
+                        const u32 write = mQueueWrite.load();
+                        if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                            break;
+                        if (mQueueWrite.compareExchange(write, write + 1)) {
+                            mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    } else if (environment == 2) {
+        for (s32 i = 0; i < mEntryCount; ++i) {
+            auto& entry = mEntries[i];
+            if ((entry.mName == "StoneDgnLight" ||
+                entry.mName == "StoneDgnHeavy" ||
+                entry.mName == "Metal" ||
+                entry.mName == "Wood") && !(entry.mFlags & 2)) {
+                if (entry.mState == 0)
+                    entry.mState = 1;
+                for (;;) {
+                    const u32 write = mQueueWrite.load();
+                    if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                        break;
+                    if (mQueueWrite.compareExchange(write, write + 1)) {
+                        mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                        break;
+                    }
+                }
+            }
+        }
+    } else if (auto* controller = sub_7100FFD878()) {
+        switch (controller->_94) {
+        case 0: {
+            for (s32 i = 0; i < mEntryCount; ++i) {
+                auto& entry = mEntries[i];
+                if ((entry.mName == "StoneDgnLight" ||
+                    entry.mName == "StoneDgnHeavy" ||
+                    entry.mName == "Grass" ||
+                    entry.mName == "GrassMoss") && !(entry.mFlags & 2)) {
+                    if (entry.mState == 0)
+                        entry.mState = 1;
+                    for (;;) {
+                        const u32 write = mQueueWrite.load();
+                        if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                            break;
+                        if (mQueueWrite.compareExchange(write, write + 1)) {
+                            mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case 1: {
+            for (s32 i = 0; i < mEntryCount; ++i) {
+                auto& entry = mEntries[i];
+                if ((entry.mName == "StoneDgnLight" ||
+                    entry.mName == "StoneDgnHeavy" ||
+                    entry.mName == "Grudge" ||
+                    entry.mName == "MetalLight") && !(entry.mFlags & 2)) {
+                    if (entry.mState == 0)
+                        entry.mState = 1;
+                    for (;;) {
+                        const u32 write = mQueueWrite.load();
+                        if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                            break;
+                        if (mQueueWrite.compareExchange(write, write + 1)) {
+                            mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case 2: {
+            for (s32 i = 0; i < mEntryCount; ++i) {
+                auto& entry = mEntries[i];
+                if ((entry.mName == "StoneDgnLight" ||
+                    entry.mName == "StoneDgnHeavy" ||
+                    entry.mName == "Grudge" ||
+                    entry.mName == "MetalLight") && !(entry.mFlags & 2)) {
+                    if (entry.mState == 0)
+                        entry.mState = 1;
+                    for (;;) {
+                        const u32 write = mQueueWrite.load();
+                        if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                            break;
+                        if (mQueueWrite.compareExchange(write, write + 1)) {
+                            mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case 3: {
+            for (s32 i = 0; i < mEntryCount; ++i) {
+                auto& entry = mEntries[i];
+                if ((entry.mName == "StoneDgnLight" ||
+                    entry.mName == "StoneDgnHeavy" ||
+                    entry.mName == "Grudge" ||
+                    entry.mName == "MetalLight") && !(entry.mFlags & 2)) {
+                    if (entry.mState == 0)
+                        entry.mState = 1;
+                    for (;;) {
+                        const u32 write = mQueueWrite.load();
+                        if (s32(write - mQueueRead.load()) >= mQueueCapacity)
+                            break;
+                        if (mQueueWrite.compareExchange(write, write + 1)) {
+                            mQueueEntries[s32((mQueueCapacity - 1U) & write)] = &entry;
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        default:
+            break;
+        }
     }
 }
 
