@@ -2289,6 +2289,7 @@ class Unk_710251d010 : public Unk_710251d0e0 {
 public:
     ~Unk_710251d010() override;
     s32 m8() override;
+    s32 m9() override;
 };
 
 // vtable 0x710250f7d8 (14 slots); placeholder generated from the vtable (genskel.py).

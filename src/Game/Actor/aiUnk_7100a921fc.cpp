@@ -251,6 +251,28 @@ s32 Unk_710251d160::m8() {
     return (_30 + 1) * (_34 + 1);
 }
 
+// NON_MATCHING: regalloc in the strip loop (index and extra-count registers swapped).
+// Index count: six per grid cell plus the strip-restart indices when flag bit 0 is set.
+s32 Unk_710251d160::m9() {
+    const u32 cols = _30 + 1;
+    const u32 rows = _34 + 1;
+    s32 extra = 0;
+    if (mFlags & 1) {
+        const u32 n = rows >= cols ? cols : rows;
+        u32 step = 12;
+        for (u32 i = 0; i <= n - 1; i += step) {
+            const u32 len = i + step <= n - 1 ? step : n - i;
+            const u32 add = i == 0 ? 1 : 2;
+            extra += (len + add) / 2 * 3;
+            if (i == 0) {
+                --step;
+                i = 1;
+            }
+        }
+    }
+    return extra + (cols * 6 - 6) * (rows - 1);
+}
+
 s32 Unk_710251d160::m10() {
     return _30;
 }
@@ -267,4 +289,46 @@ s32 Unk_710251d010::m8() {
     const u32 cols = m10() + 1;
     const u32 rows = m11() + 1;
     return cols * rows + (cols - 1) * (rows - 1);
+}
+
+// NON_MATCHING: regalloc in the strip loop (index register).
+s32 Unk_710251d0e0::m9() {
+    const u32 cols = m10() + 1;
+    const u32 rows = m11() + 1;
+    s32 extra = 0;
+    if (mFlags & 1) {
+        const u32 n = rows >= cols ? cols : rows;
+        u32 step = 12;
+        for (u32 i = 0; i <= n - 1; i += step) {
+            const u32 len = i + step <= n - 1 ? step : n - i;
+            const u32 add = i == 0 ? 1 : 2;
+            extra += (len + add) / 2 * 3;
+            if (i == 0) {
+                --step;
+                i = 1;
+            }
+        }
+    }
+    return extra + (cols * 6 - 6) * (rows - 1);
+}
+
+// NON_MATCHING: regalloc in the strip loop (same as Unk_710251d0e0::m9).
+s32 Unk_710251d010::m9() {
+    const u32 cols = m10() + 1;
+    const u32 rows = m11() + 1;
+    s32 extra = 0;
+    if (mFlags & 1) {
+        const u32 n = rows >= cols ? cols : rows;
+        u32 step = 7;
+        for (u32 i = 0; i <= n - 1; i += step) {
+            const u32 len = i + step <= n - 1 ? step : n - i;
+            const u32 add = i == 0 ? 1 : 2;
+            extra += (len + add) / 2 * 3;
+            if (i == 0) {
+                --step;
+                i = 1;
+            }
+        }
+    }
+    return extra + (cols * 12 - 12) * (rows - 1);
 }
