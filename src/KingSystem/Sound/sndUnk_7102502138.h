@@ -186,4 +186,8 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502138, 0xfa8);
 
+// 0x710104ddf8 (unnamed): whether `name` is a usable sound name, i.e. none of the three empty-name
+// placeholders "Dummy", "None" and "No_Sound". The same strings the entry lookup at 0x710104d204 uses.
+bool sub_710104DDF8(const sead::SafeString& name);
+
 }  // namespace ksys::snd

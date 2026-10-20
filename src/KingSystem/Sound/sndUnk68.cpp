@@ -2,6 +2,10 @@
 
 namespace ksys::snd {
 
+bool sub_710104DDF8(const sead::SafeString& name) {
+    return name != "Dummy" && name != "None" && name != "No_Sound";
+}
+
 void Unk_7102502138::Unk68::sub_710104DD7C(s32 value) {
     _568 = value;
     _480->sub_71012C5034(value);
