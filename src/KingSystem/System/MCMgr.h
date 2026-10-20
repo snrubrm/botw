@@ -4,6 +4,7 @@
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
 #include <mc/seadJob.h>
+#include <mc/seadJobQueue.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -51,8 +52,11 @@ public:
     // Compared with the s8 at +0x1dd of the map LinkTags (map::LinkTag::onJobPush2_); meaning unknown.
     s32 get1be4() const { return _1be4; }
 
+    sead::FixedSizeJQ& getJobQueue(s32 idx) { return mJobQueues[idx]; }
+
 private:
-    u8 _28[0x1be4 - 0x28];
+    sead::FixedSizeJQ mJobQueues[18];
+    u8 _b68[0x1be4 - 0xb68];
     s32 _1be4;
     u8 _1be8[0x1bf0 - 0x1be8];
     sead::Delegate1R<MCMgr, void*, bool> mInvoker2{this, &MCMgr::invoked2};
@@ -81,6 +85,14 @@ public:
 class CalcAwarenessJob : public sead::Job {
 public:
     void invoke() override;
+};
+
+// 0x7100dcd78c: pushes the pre-calc jobs of the BaseProcMgr into job queue 0, 2 or 6 of the MCMgr.
+class PushPreCalcJob : public sead::Job {
+public:
+    void invoke() override;
+
+    /* 0x18 */ u32 _18;  // 0, 2 or another value (queue 0 / 2 / 6); also the job priority
 };
 
 }  // namespace ksys

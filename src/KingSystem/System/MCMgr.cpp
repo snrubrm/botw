@@ -107,6 +107,20 @@ void CalcAwarenessJob::invoke() {
     act::Awareness::instance()->calc();
 }
 
+void PushPreCalcJob::invoke() {
+    sead::FixedSizeJQ* queue;
+    if (_18 == 0)
+        queue = &MCMgr::instance()->getJobQueue(0);
+    else if (_18 == 2)
+        queue = &MCMgr::instance()->getJobQueue(2);
+    else
+        queue = &MCMgr::instance()->getJobQueue(6);
+    queue->clear();
+    act::BaseProcMgr::instance()->setIsPushingJobs(true);
+    act::BaseProcMgr::instance()->pushPreCalcJobs(queue, act::JobType::PreCalc, _18, _18 == 0,
+                                                  false);
+}
+
 }  // namespace ksys
 
 void ParallelGsysCalcModelQueueJob::invoke() {
