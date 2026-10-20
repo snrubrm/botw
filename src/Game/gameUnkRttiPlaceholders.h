@@ -1341,7 +1341,12 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // 0x7101297fb4: bit 0 of the state word at +0x5c.
+    bool m11() const override;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
 };
 
 // vtable 0x7102519540 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -1355,7 +1360,12 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // 0x7101299184: bit 1 of the state word at +0x5c.
+    bool m11() const override;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
 };
 
 // vtable 0x71025195b0 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -1369,7 +1379,12 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // 0x7101299dac: bit 1 of the state word at +0x5c.
+    bool m11() const override;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
 };
 
 // vtable 0x7102519620 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -1383,7 +1398,12 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // 0x710129ac30: bit 0 of the state word at +0x5c.
+    bool m11() const override;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
 };
 
 // vtable 0x7102519690 (13 slots); placeholder generated from the vtable (genskel.py).
@@ -1412,7 +1432,12 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // 0x710129c3b4: bit 0 of the state word at +0x5c.
+    bool m11() const override;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
 };
 
 // vtable 0x7102519778 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -1426,7 +1451,12 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    // 0x710129cd3c: bit 0 of the state word at +0x5c.
+    bool m11() const override;
+
+private:
+    u32 _5c = 0;
+    agl::UniformBlock mUniformBlock;
 };
 
 // vtable 0x7102519a68 (4 slots); placeholder generated from the vtable (genskel.py).

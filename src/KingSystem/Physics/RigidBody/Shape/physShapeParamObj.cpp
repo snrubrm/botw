@@ -204,30 +204,90 @@ bool Unk_7102519460::m11() const {
     return (_5c & 2) != 0;
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x7101297acc) also destroys members or bases
-// this class does not declare yet.
 Unk_71025194d0::~Unk_71025194d0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101298440) also destroys members or bases
-// this class does not declare yet.
+void Unk_71025194d0::m9() {
+    _5c = 0;
+}
+
+void Unk_71025194d0::m10() {
+    _5c = 0;
+}
+
+bool Unk_71025194d0::m11() const {
+    return (_5c & 1) != 0;
+}
+
 Unk_7102519540::~Unk_7102519540() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7101299484) also destroys members or bases
-// this class does not declare yet.
+void Unk_7102519540::m9() {
+    _5c = 0;
+}
+
+void Unk_7102519540::m10() {
+    _5c = 0;
+}
+
+bool Unk_7102519540::m11() const {
+    return (_5c & 2) != 0;
+}
+
 Unk_71025195b0::~Unk_71025195b0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710129a1a0) also destroys members or bases
-// this class does not declare yet.
+void Unk_71025195b0::m9() {
+    _5c = 0;
+}
+
+void Unk_71025195b0::m10() {
+    _5c = 0;
+}
+
+bool Unk_71025195b0::m11() const {
+    return (_5c & 2) != 0;
+}
+
 Unk_7102519620::~Unk_7102519620() = default;
+
+void Unk_7102519620::m9() {
+    _5c = 0;
+}
+
+void Unk_7102519620::m10() {
+    _5c = 0;
+}
+
+bool Unk_7102519620::m11() const {
+    return (_5c & 1) != 0;
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x710129ae9c) also destroys members or bases
 // this class does not declare yet.
 Unk_7102519690::~Unk_7102519690() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710129b82c) also destroys members or bases
-// this class does not declare yet.
 Unk_7102519708::~Unk_7102519708() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x710129c7ac) also destroys members or bases
-// this class does not declare yet.
+void Unk_7102519708::m9() {
+    _5c = 0;
+}
+
+void Unk_7102519708::m10() {
+    _5c = 0;
+}
+
+bool Unk_7102519708::m11() const {
+    return (_5c & 1) != 0;
+}
+
 Unk_7102519778::~Unk_7102519778() = default;
+
+void Unk_7102519778::m9() {
+    _5c = 0;
+}
+
+void Unk_7102519778::m10() {
+    _5c = 0;
+}
+
+bool Unk_7102519778::m11() const {
+    return (_5c & 1) != 0;
+}
