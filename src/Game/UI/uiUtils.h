@@ -678,6 +678,16 @@ bool sub_7100A9C110(s32 value);
 // 0x7100a9b4c8: clamps the two gauge values; callers pass an unused third argument.
 void sub_7100A9B4C8(f32 a0, f32 a1, f32 unused);
 
+// The shop facade setters of uiGdtFacade.cpp (0x7100aa8108 - 0x7100aa8xxx; called by
+// UiShopMgr::sub_7100982C90). Definitions there, declarations here.
+namespace shop {
+void setSelectItemName(const sead::SafeString& name);
+void setSelectItemPrice(s32 price);
+void setSelectItemNum(s32 num);
+void setItemState(s32 state);
+void setColorChangeMaterialIndex(s32 index);
+}  // namespace shop
+
 }  // namespace uking::ui
 
 namespace wm {

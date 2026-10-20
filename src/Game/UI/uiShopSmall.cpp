@@ -1,6 +1,10 @@
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -16,6 +20,55 @@ bool UiShopMgr::sub_7100982A60(s32 state, s32 value) {
     _dc = value;
     sub_71009821F0(state);
     return true;
+}
+
+// NON_MATCHING: the original merges the state-9 and state-7/8 setColorChangeMaterialIndex calls into
+// one block and duplicates the _38._70 tag check into both the state-10 and the other path (tail
+// merging / duplication); ours keeps two calls and one shared tag check
+// 0x7100982c90 (placeholder name): pushes the selected item to the shop facade.
+void UiShopMgr::sub_7100982C90() {
+    auto* info = ksys::act::InfoData::instance();
+    shop::setSelectItemName(_38.name);
+    shop::setSelectItemPrice(_38._60);
+    shop::setSelectItemNum(_38._58);
+
+    if (_30 != 10) {
+        shop::setItemState(_38._68);
+        if (_30 == 9) {
+            if (info != nullptr) {
+                _e0 = ksys::act::getItemStainColor(info, _38.name.cstr());
+                shop::setColorChangeMaterialIndex(_e0);
+            }
+        } else if (u32(_30 - 7) < 2) {
+            shop::setColorChangeMaterialIndex(_e0);
+        } else if (_30 == 6) {
+            sead::FixedSafeString<64> rank;
+            if (*_38.name.cstr() != sead::SafeString::cNullChar)
+                rank = ksys::act::getArmorNextRankName(info, _38.name.cstr());
+            if (rank.isEmpty())
+                ksys::gdt::resetFlag_GreatFairy_ArmorRank();
+            else
+                ksys::gdt::setFlag_GreatFairy_ArmorRank(
+                    ksys::act::getArmorStarNum(info, rank.cstr()));
+        }
+    }
+
+    if (_38._70 != nullptr && info != nullptr && _38._70->getType() == PouchItemType::Food) {
+        if (info->hasTag(_38.name.cstr(), 0x30a3552e)) {
+            const s32 effect = s32(sub_7100AA42AC(*_38._70));
+            if (effect != -1) {
+                ksys::gdt::setFlag_MsgDialogCookActorName(_38.name);
+                ksys::gdt::setFlag_MsgDialogCookEffect(effect);
+                return;
+            }
+        }
+    }
+
+    const s32 effect = ksys::gdt::getFlag_MsgDialogCookEffect();
+    if (effect == -1)
+        return;
+    ksys::gdt::setFlag_MsgDialogCookActorName(sead::SafeString::cEmptyString);
+    ksys::gdt::setFlag_MsgDialogCookEffect(-1);
 }
 
 // 0x7100982124 (placeholder name): shows the selected item's name on the shop info screen.
