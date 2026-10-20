@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Terrain/teraEditor.h"
+#include "KingSystem/World/worldGrassFire.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 #include <cstddef>
@@ -307,10 +308,7 @@ public:
         static_assert(offsetof(EntryPart, mCellStates) == 0x34cf8);
         static_assert(offsetof(EntryPart, _384c8) == 0x384c8);
         static_assert(sizeof(EntryPart) == 0x38720);
-        struct EntryPart2 {
-            u8 _0[0x280];
-            u32 mFlags;
-        };
+        using EntryPart2 = world::Unk_710251cea8;
         // One 0x2c0-byte grass entry.
         struct Entry {
             EntryPart* _0;
