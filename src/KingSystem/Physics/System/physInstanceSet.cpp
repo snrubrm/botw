@@ -13,6 +13,8 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySetParamAccessor.h"
+#include "KingSystem/Physics/System/physStaticCompoundInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCylinderWater.h"
@@ -95,6 +97,123 @@ template ClothResource* loadFromRomOrActorPack<ClothResource>(
     res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
 template SupportBoneResource* loadFromRomOrActorPack<SupportBoneResource>(
     res::Handle*, const sead::SafeString&, res::Handle*, const sead::SafeString&, bool);
+
+// NON_MATCHING: the resource / shape branches and the contact-name loops are scheduled differently.
+void InstanceSet::initRigidBodies(sead::Heap* heap, res::Handle* pack_handle) {
+    const s32 num_sets = *mParamSet->use_rigid_body_set_num;
+    mRigidBodySets.allocBuffer(num_sets, heap);
+    mRigidBodySetResHandles.allocBuffer(num_sets, heap);
+    mLinkMatricesMaybe.allocBuffer(mParamSet->num_rigid_bodies_with_link_matrix, heap);
+
+    for (s32 set_idx = 0; set_idx < num_sets; ++set_idx) {
+        auto& param = mParamSet->getRigidBodySet(set_idx);
+        mRigidBodySetResHandles[set_idx] = nullptr;
+        RigidBodySet* set = nullptr;
+        bool initialized = false;
+        if (param.type_val == RigidBodySetParam::Type::FromResource) {
+            bool use_resource = true;
+            if (!(_26 & 0x10) && (mFlags.getDirect() & 0x200)) {
+                use_resource = false;
+                const s32 num_bodies = param.getNumRigidBodies();
+                for (s32 i = 0; i < num_bodies; ++i) {
+                    if (getBodyLayerType(param.rigid_bodies[i].getContactLayer()) ==
+                        BodyLayerType::Invalid) {
+                        use_resource = true;
+                        break;
+                    }
+                }
+            }
+            RigidBodyResource* resource = nullptr;
+            if (use_resource) {
+                sead::FormatFixedSafeString<128> path("Physics/RigidBody/%s",
+                                                       param.setup_file_path->cstr());
+                mRigidBodySetResHandles[set_idx] = new (heap, 8) res::Handle;
+                resource = loadFromRomOrActorPack<RigidBodyResource>(
+                    mRigidBodySetResHandles[set_idx], path, pack_handle, mName, true);
+            }
+            if (resource) {
+                auto* resource_set = new (heap, 8) RigidBodySet2(*param.set_name, resource);
+                RigidBodySetParamAccessor accessor(this, &param);
+                initialized = resource_set->sub_71012AFFB0(&accessor, heap);
+                set = resource_set;
+            } else {
+                auto* shape_set = new (heap, 8) RigidBodySet1(*param.set_name);
+                RigidBodySetParamAccessor accessor(this, &param);
+                initialized = shape_set->sub_71012B047C(&accessor, heap);
+                set = shape_set;
+            }
+        } else if (param.type_val == RigidBodySetParam::Type::FromShapeType) {
+            auto* shape_set = new (heap, 8) RigidBodySet1(*param.set_name);
+            RigidBodySetParamAccessor accessor(this, &param);
+            initialized = shape_set->sub_71012B047C(&accessor, heap);
+            set = shape_set;
+        }
+        if (!initialized) {
+            delete set;
+            set = nullptr;
+        }
+        if (!set)
+            continue;
+        if (!(mFlags.getDirect() & 0x400)) {
+            if (param.getNumRigidBodies() != set->getRigidBodies().size()) {
+                delete set;
+                continue;
+            }
+            const s32 num_bodies = param.getNumRigidBodies();
+            for (s32 i = 0; i < num_bodies; ++i) {
+                const auto& body_param = param.rigid_bodies[i];
+                if (!body_param.info.contact_point_info->isEmpty() &&
+                    mContactPointInfo.size() != 0) {
+                    s32 index = -1;
+                    s32 j = 0;
+                    for (const auto& info : mContactPointInfo) {
+                        if (*body_param.info.contact_point_info == info.getName()) {
+                            index = j;
+                            break;
+                        }
+                        ++j;
+                    }
+                    if (index >= 0)
+                        set->getRigidBody(i)->setContactPointInfo(mContactPointInfo[index]);
+                }
+                if (!body_param.info.collision_info->isEmpty() && mCollisionInfo.size() != 0) {
+                    s32 index = -1;
+                    s32 j = 0;
+                    for (const auto& info : mCollisionInfo) {
+                        if (*body_param.info.collision_info == info.getName()) {
+                            index = j;
+                            break;
+                        }
+                        ++j;
+                    }
+                    if (index >= 0)
+                        set->getRigidBody(i)->setCollisionInfo(mCollisionInfo[index]);
+                }
+            }
+        }
+        set->setUserTag(mUserTag);
+        mRigidBodySets.pushBack(set);
+    }
+
+    const s32 count = mRigidBodySets.size();
+    for (s32 set_idx = 0; set_idx < count; ++set_idx) {
+        auto& param = mParamSet->getRigidBodySet(set_idx);
+        auto* set = mRigidBodySets[set_idx];
+        if (!set || param.getNumRigidBodies() != set->getRigidBodies().size())
+            continue;
+        const s32 num_bodies = set->getRigidBodies().size();
+        for (s32 i = 0; i < num_bodies; ++i) {
+            const auto& body_param = param.rigid_bodies[i];
+            auto* body = set->getRigidBody(i);
+            if (body && body->isSensor() && !body_param.info.link_entity_set->isEmpty() &&
+                !body_param.info.link_entity_body->isEmpty()) {
+                if (auto* linked_body = findX(*body_param.info.link_entity_set,
+                                              *body_param.info.link_entity_body))
+                    body->setLinkedRigidBody(linked_body);
+            }
+        }
+    }
+}
 
 // NON_MATCHING: the ragdoll check and the cloth check load mParamSet in the other order: the original
 // reloads it before the `arg` test, ours inside the branch (the load sits two instructions later).

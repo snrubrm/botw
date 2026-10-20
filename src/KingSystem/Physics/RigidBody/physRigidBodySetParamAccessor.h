@@ -22,6 +22,9 @@ struct RigidBodyInstanceParam;
 // of the idx-th body, 1.0 if out of range).
 class RigidBodySetParamAccessor {
 public:
+    // 0x7100fb86b8 builds this stack accessor before initializing either body-set type.
+    RigidBodySetParamAccessor(InstanceSet* instance, RigidBodySetParam* param)
+        : _8(instance), _10(param) {}
     virtual int m0();
     virtual RigidBody* m1(s32 idx, sead::Heap* heap);
     virtual void m2(s32 idx, RigidBodyInstanceParam* param);

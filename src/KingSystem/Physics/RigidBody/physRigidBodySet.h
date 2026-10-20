@@ -95,6 +95,8 @@ class RigidBodySet2 : public RigidBodySet {
 public:
     RigidBodySet2(const sead::SafeString& name, RigidBodyResource* resource);
     ~RigidBodySet2() override;
+    // 0x71012affb0: creates the bodies from the resource through the supplied param accessor.
+    bool sub_71012AFFB0(RigidBodySetParamAccessor* accessor, sead::Heap* heap);
 
     RigidBodyResource* _28;
     void* _30;
