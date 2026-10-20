@@ -3,6 +3,9 @@
 #include "KingSystem/Event/evtAction.h"
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtQuery.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "Game/gameVillagerMgr.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
@@ -41,6 +44,27 @@ Query* ActorBase::getQueryByRes(const evfl::ResQuery* res) const {
 }
 
 // 0x7100daaa10
+// 0x7100dab6b8
+void ActorBase::m12() {
+    if (auto* actor = sead::DynamicCast<act::Actor>(mLink.getProc(nullptr))) {
+        actor->wakeUp(act::BaseProc::SleepWakeReason::_0);
+        if (!actor->getMapObject()) {
+            auto* root = actor->getRootAi();
+            if (root->getI() != 5)
+                root->setI(1);
+        }
+        if (_1b1 && mActorSet->mFlow->x_3())
+            actor->x_15(mActorSet->mFlow, nullptr);
+    }
+    _1b1 = false;
+    if (auto* actor = sead::DynamicCast<act::Actor>(mLink.getProc(nullptr))) {
+        if (actor->mVillagerListNode.isLinked())
+            map::PlacementMgr::instance()->mVillagerMgr->x_4(actor, 5);
+        actor->fadeOutWakeUp(act::BaseProc::SleepWakeReason::_0);
+        actor->fadeOutWakeUp(act::BaseProc::SleepWakeReason::_1);
+    }
+}
+
 bool ActorBase::m6() {
     if (mState == 0x15)
         mState = 0x16;

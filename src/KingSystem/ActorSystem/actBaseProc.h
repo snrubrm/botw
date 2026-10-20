@@ -54,6 +54,7 @@ public:
 
     enum class SleepWakeReason : u32 {
         _0 = 0,
+        _1 = 1,
     };
 
     struct ClassInfo {

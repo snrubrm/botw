@@ -29,6 +29,9 @@ public:
     // 0x7100d5f9cc (CSV VillagerMgr::x_6): registers / updates the actor's villager entry (called by
     // KakarikoKokkoTimeline::enter_ with `true`; returns immediately when bit 5 of the flag byte is set).
     void x_6(ksys::act::Actor* actor, bool flag);
+    // 0x7100d5f80c (CSV VillagerMgr::x_4; declared only): called by evt::ActorBase::m12 with 5 for an actor in the
+    // villager list.
+    void x_4(ksys::act::Actor* actor, s32 a2);
     // 0x7100d5eb2c (unnamed in the CSV; declaration only; lane5 s8): called by ksys::map::PlacementMgr::sub_71011E6E8C.
     void sub_7100D5EB2C();
 

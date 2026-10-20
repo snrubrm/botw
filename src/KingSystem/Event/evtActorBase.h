@@ -40,7 +40,7 @@ public:
     virtual void play();
     virtual void m10() = 0;
     virtual void m11() = 0;
-    virtual void m12() = 0;
+    virtual void m12();
 
     // 0x7100da9c2c (CSV evt::ActorBase::getActionByName): the action whose resource is `res`
     ActionBase* getActionByName(const evfl::ResAction* res) const;
@@ -64,7 +64,10 @@ public:
     /* 0x118 */ sead::Matrix34f mTransform;
     /* 0x148 */ sead::Matrix34f mOriginalTransform;
     /* 0x178 */ sead::Matrix34f mAppliedTransform;
-    u8 _1a8[0x1b4 - 0x1a8];
+    u8 _1a8[0x1b1 - 0x1a8];
+    // m12 passes the flow to Actor::x_15 when set, then clears it
+    /* 0x1b1 */ bool _1b1;
+    u8 _1b2[0x1b4 - 0x1b2];
     /* 0x1b4 */ bool _1b4;
     /* 0x1b5 */ u8 _1b5[0x1b8 - 0x1b5];
     /* 0x1b8 */ void* _1b8;
