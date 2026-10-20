@@ -2,6 +2,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <algorithm>
 #include "Game/UI/euiButton.h"
+#include "Game/UI/euiBoxCursor.h"
+#include "Game/gameStageBinder.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiUtils.h"
@@ -257,6 +259,143 @@ static inline eui::AnimButton* getOptionButtonMaybe(const Unk_OptionWindowEntry&
         return entry._28;
     default:
         return nullptr;
+    }
+}
+
+// 0x7100a29a4c
+// NON_MATCHING: dialog return paths, input tests and option traversal use different registers.
+void ScreenOptionWindow::m94() {
+    _3610.sub_7100938090(getAnimationStep_());
+    if (!_36bc) {
+        if (Manager::instance()->_64c38 == 8)
+            _36bc = sub_7100AA88A4(&_36bd);
+        else {
+            _36bd = checkIsGetRune(7, 0);
+            _36bc = true;
+        }
+    }
+    s32 dialog = 99;
+    if (eui::ScreenMgr::instance()->getScreen(ScreenId::AmiiboWindow))
+        dialog = ScreenId::AmiiboWindow;
+    else if (eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00))
+        dialog = ScreenId::SystemWindow00;
+    if ((_36be & 4) == 0) {
+        if (dialog != 99) {
+            _36b8 = dialog;
+            _36a8 = 3;
+            if (dialog != ScreenId::SystemWindow00)
+                return;
+            auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+            if ((_36be & 1) == 0) {
+                if (!screen || sub_7100A64304() != 0)
+                    return;
+                createTitleStageBinder(true, true);
+                _36be |= 2;
+            } else {
+                if (!screen || (screen->_291 & 4) == 0 || sub_7100A64304() != 0)
+                    return;
+                sub_7100A2A310();
+            }
+            return;
+        }
+        if ((_36e8.load() & 1) != 0) {
+            if ((_36e8.load() & 2) == 0)
+                return;
+            showLoadSaveIcon(false);
+            close(-1);
+            return;
+        }
+        if (_36b8 != 99) {
+            if (_36b8 == ScreenId::SystemWindow00) {
+                if ((_36be & 1) != 0 && _3698.size() != 0) {
+                    for (s32 i = 0, count = _3698.size(); i < count; ++i) {
+                        _3698(i)->sub_7100A2A450();
+                        auto* button = getOptionButtonMaybe(*_3698(i));
+                        if (!button || !button->IsPlayDisableAnim())
+                            _3698(i)->sub_7100A2A570(false);
+                    }
+                }
+                _36b8 = 99;
+            } else if (_36b8 == ScreenId::AmiiboWindow) {
+                const s32 count = _3698.size();
+                for (s32 i = 0; i < count; ++i) {
+                    if (_3698(i)->_50 != 9)
+                        continue;
+                    if (auto* entry = _3698[i]) {
+                        entry->sub_7100A2A450();
+                        entry->sub_7100A2A570(false);
+                    }
+                    break;
+                }
+            }
+            if ((_36be & 2) == 0)
+                mButtonGroup->_38 |= 2;
+        }
+    } else {
+        _36be &= ~u8(4);
+        mButtonGroup->_38 |= 2;
+    }
+    if (!isOpened())
+        return;
+    _36a8 = 3;
+    if (mActiveCursorNode) {
+        if (_36b0 && mActiveCursorNode->mButton == getOptionButtonMaybe(*_36b0)) {
+            bool press = false;
+            if (isTrigMaybe(1)) {
+                _36a8 = 0;
+                press = sUnk_71025f0678[_36b0->_50].type == 0;
+            } else if (isTrigMaybe(0x440000) ||
+                       ((_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+                        mUIController->isRepeat(0x440000))) {
+                _36a8 = 1;
+                const s32 type = sUnk_71025f0678[_36b0->_50].type;
+                if (type == 0)
+                    press = _36b0->_58 < _36b0->_5c;
+                else if (type == 1)
+                    press = _36b0->_60 < _36b0->_58;
+            } else if (isTrigMaybe(0x880000) ||
+                       ((_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+                        mUIController->isRepeat(0x880000))) {
+                _36a8 = 2;
+                const s32 type = sUnk_71025f0678[_36b0->_50].type;
+                if (type == 0)
+                    press = _36b0->_60 < _36b0->_58;
+                else if (type == 1)
+                    press = _36b0->_58 < _36b0->_5c;
+            }
+            if (press) {
+                if (auto* button = getOptionButtonMaybe(*_36b0)) {
+                    if (!button->IsPlayDisableAnim()) {
+                        button->mFlags |= 4;
+                        button->Down();
+                    }
+                }
+            }
+        }
+        if (_36a8 != 3)
+            return;
+    }
+    if ((mButtonGroup->_38 & 2) == 0)
+        return;
+    if (isTrigMaybe(0x10)) {
+        invokeSoundLink2Event_("mc_SetDefault");
+        createAndLoadScreenIfNeededImpl(ScreenId::SystemWindow00, nullptr);
+        if (auto* screen = sead::DynamicCast<ScreenSystemWindow00>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00))) {
+            screen->m154(8, 0, nullptr);
+            _36be |= 1;
+        }
+        mButtonGroup->_38 &= ~2;
+    } else if (isTrigMaybe(2) && (_36be & 2) == 0) {
+        sub_71010AA894();
+        mButtonGroup->_38 &= ~2;
+        if (!ksys::snd::SoundMgr::instance()->_60->sub_7101058B74(&_36c8)) {
+            close(-1);
+            return;
+        }
+        showLoadSaveIcon(true);
+        _36e8 |= 1;
     }
 }
 

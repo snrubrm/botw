@@ -262,7 +262,8 @@ ScreenShopBtnList20::ScreenShopBtnList20() : ScreenEx(), _3610() {}
 ScreenOptionWindow::ScreenOptionWindow() : ScreenEx(), _36c8(this, &ScreenOptionWindow::sub_7100A28CD0) {}
 
 // 0x7100a28cd0
-void ScreenOptionWindow::sub_7100A28CD0() {
+void ScreenOptionWindow::sub_7100A28CD0(ksys::TaskPostRunResult*,
+                                           const ksys::TaskPostRunContext&) {
     _36e8 |= 2;
 }
 

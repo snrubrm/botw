@@ -5842,6 +5842,7 @@ public:
 
 class ScreenOptionWindow : public ScreenEx {
 public:
+    void m94() override;
     bool isPlayPartsInOut_() const override;
     bool isEnableControl() const override;
     ~ScreenOptionWindow() override;
@@ -5851,7 +5852,7 @@ public:
     // 0x7100a28c20
     ScreenOptionWindow();
     // 0x7100a28cd0 (placeholder name; the _36c8 callback): sets bit 1 of _36e8
-    void sub_7100A28CD0();
+    void sub_7100A28CD0(ksys::TaskPostRunResult* result, const ksys::TaskPostRunContext& context);
 
     // The option values read from the game data flags (0x1c bytes; m93 allocates one at _36c0, m100 builds one on the
     // stack to compare).
@@ -5892,9 +5893,12 @@ public:
     /* 0x36bd */ bool _36bd = false;
     /* 0x36be */ u8 _36be = 0;
     /* 0x36c0 */ Settings* _36c0 = nullptr;
-    /* 0x36c8 */ sead::Delegate<ScreenOptionWindow> _36c8;
+    // Native A2BD04 forwards the task result/context through this 0x20-byte delegate.
+    /* 0x36c8 */ ksys::TaskPostRunCallbackT<ScreenOptionWindow> _36c8;
     /* 0x36e8 */ sead::Atomic<u32> _36e8 = 0;
 };
+
+static_assert(sizeof(ksys::TaskPostRunCallbackT<ScreenOptionWindow>) == 0x20);
 
 // 0x710249ad74 (placeholder name; a mode of the system window: 1 / 2 close the window without saving)
 extern s32 sUnk_710249ad74;
