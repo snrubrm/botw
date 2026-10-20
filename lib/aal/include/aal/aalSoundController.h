@@ -5,6 +5,7 @@
 #include <nn/atk/SoundHandle.h>
 #include <thread/seadCriticalSection.h>
 #include "aal/aalFadeCurveType.h"
+#include "aal/aalStartResult.h"
 #include "aal/aalAssetInfo.h"
 #include "aal/aalDeviceType.h"
 #include "aal/aalSpeakerChannelVolume.h"
@@ -79,6 +80,8 @@ public:
     void initialize(sead::Heap* heap);
     void finalize();
     void reset();
+    // 0x7100ba1fb4: checks the asset type and retains the description. Declared only.
+    StartResult setAssetInfo(const AssetInfo& asset);
     void calc();
     bool start(f32 fade_time, bool prepare);
     /// Fades the sound out; the controller counts as released (state 3) once the fade has been started.

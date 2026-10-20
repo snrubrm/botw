@@ -16,6 +16,11 @@
 #include "aal/aalSettings.h"
 #include "aal/aalSpeakerBalanceCalculator.h"
 #include "aal/aalSystemAccessor.h"
+#include "aal/aalListener.h"
+#include "aal/aalInterior.h"
+#include "aal/aalSystem.h"
+#include "aal/aalGroupMgr.h"
+#include "aal/aalAssetType.h"
 
 namespace aal {
 
@@ -40,6 +45,71 @@ SoundSource::SoundSource()
 // 0x7100b768a0 (D1) / 0x7100b76964 (D0)
 SoundSource::~SoundSource() {
     finalize();
+}
+
+// NON_MATCHING: the frame and register allocation differ; both bodies are 952 bytes.
+// 0x7100b778e8
+StartResult SoundSource::setup(const AssetInfo& asset, const SetupInfo* setup) {
+    if (!_8)
+        return StartResult(10);
+    if (!System::sInstance->mEnabled)
+        return StartResult(2);
+    if (setup)
+        mSoundGroup = setup->sound_group;
+    if (!mSoundGroup)
+        mSoundGroup = SystemAccessor::getGroupMgr()->getDefaultSoundGroup();
+    if (mSoundGroup->getEmitFlags() != 0xff)
+        return StartResult(3);
+    const StartResult result = mPlayingStateController->mSoundController->setAssetInfo(asset);
+    if (result > StartResult::Success)
+        return result;
+    if (setup) {
+        mSpeakerBalanceSupplier = static_cast<ISpeakerBalanceSupplier*>(setup->_8);
+        if (mSpeakerBalanceSupplier)
+            aggregateAndClampParams_();
+        mPrepareFlags = setup->prepare_flags;
+    }
+    mPlayingStateController->setReleaseTime(mSoundGroup->getReleaseTime());
+    _d8 = 1.0f;
+    mPriorityScale = 1.0f;
+    if (!(mPrepareFlags & 1))
+        mSpatialSetting.setPositionFollow(false);
+    for (auto& channels : mChannelSpeakerType)
+        for (auto& speaker : channels)
+            speaker = SpeakerChannel::FrontCenter;
+    if (asset.hasSurroundChannelsMaybe()) {
+        mChannelSpeakerType[0][0] = SpeakerChannel::FrontLeft;
+        mChannelSpeakerType[0][1] = SpeakerChannel::FrontRight;
+        mChannelSpeakerType[1][0] = SpeakerChannel::FrontCenter;
+        mChannelSpeakerType[1][1] = SpeakerChannel::Lfe;
+        mChannelSpeakerType[2][0] = SpeakerChannel::RearLeft;
+        mChannelSpeakerType[2][1] = SpeakerChannel::RearRight;
+    } else if (AssetType(asset._10) == AssetType::Stream && asset.getTrackNum() > 1) {
+        for (s32 track = 0; track < asset.getTrackNum(); ++track) {
+            AssetInfo::StreamTrack param;
+            asset.getTrackParam(&param, track);
+            mChannelSpeakerType[track][0] = param._0 < 2 ? SpeakerChannel::FrontCenter : SpeakerChannel::FrontLeft;
+            mChannelSpeakerType[track][1] = param._0 < 2 ? SpeakerChannel::FrontCenter : SpeakerChannel::FrontRight;
+        }
+    } else {
+        mChannelSpeakerType[0][0] = asset.getChannelNum() < 2 ? SpeakerChannel::FrontCenter : SpeakerChannel::FrontLeft;
+        mChannelSpeakerType[0][1] = asset.getChannelNum() < 2 ? SpeakerChannel::FrontCenter : SpeakerChannel::FrontRight;
+    }
+    mTrackNum = AssetType(asset._10) == AssetType::Stream ? asset.getTrackNum() : 1;
+    if (AssetType(asset._10) == AssetType::Stream) {
+        for (s32 track = 0; track < 8; ++track) {
+            AssetInfo::StreamTrack param;
+            asset.getTrackParam(&param, track);
+            mChannelNum[track] = param._0;
+        }
+    } else {
+        mChannelNum[0] = asset.getChannelNum();
+    }
+    if (mMarkerController)
+        mMarkerController->setup(this);
+    mState = 2;
+    mSoundGroup->addSound(this);
+    return StartResult::Success;
 }
 
 // 0x7100b768d4
@@ -329,6 +399,67 @@ void SoundSource::calcPlaying_() {
     else if (mSpeakerBalanceSupplier)
         priority *= mSpeakerBalanceSupplier->getPriorityReduction();
     controller->setChannelPriority(priority);
+}
+
+// NON_MATCHING: loop layout and register allocation differ (972 versus 940 bytes).
+// 0x7100b78a70
+void SoundSource::updateMixBalancePositional_(sead::SafeArray<SpeakerChannelVolume, 1>* volumes,
+                                              s32 track, s32 channel_num) {
+    if (!mSpatialPlayingParam)
+        return;
+    Settings* settings = SystemAccessor::getSettings();
+    if (!settings)
+        return;
+    if (mSpatialPlayingParam->getNumAggregated() < 1)
+        return;
+    f32 lfe = mAggregatedParam->getLfe();
+    bool first_listener = true;
+    for (s32 index = 0; index < mSpatialPlayingParam->getNumAggregated(); ++index) {
+        const s32 listener_index = mSpatialPlayingParam->getListenerIndex(index);
+        if (listener_index < 0)
+            continue;
+        Listener* listener = SystemAccessor::getListenerMgr()->getListener(listener_index);
+        if (!listener)
+            continue;
+        const f32 listener_spread = mSpatialPlayingParam->getSpread(index);
+        const f32 source_spread = mAggregatedParam->getSpread();
+        const f32 listener_gain = listener->_58;
+        OutputDevice* device = settings->getOutputDevice(DeviceType(0));
+        if (device) {
+            f32 interior_size = 1.0f;
+            if (Interior* interior = device->getCurrentInterior(mInteriorNum))
+                interior_size = interior->getInteriorSizeAsInGameLength();
+            const SpeakerBalanceMode balance_mode = settings->getCurrentSpeakerBalanceMode(DeviceType(0));
+            const f32 source_volume = mAggregatedParam->getDeviceVolume(DeviceType(0));
+            const f32 listener_device_volume = listener->_5c;
+            f32 device_volume = source_volume;
+            if (listener_device_volume >= 0.0f)
+                device_volume = source_volume < 0.0f ? listener_device_volume : source_volume * listener_device_volume;
+            if (device_volume <= 0.0f)
+                device_volume = 0.0f;
+            const f32 listener_volume = listener_gain * device_volume;
+            const f32 volume = mSpatialPlayingParam->getVolume(index) * listener_volume;
+            if (volume > 0.0f) {
+                const f32 spread = listener_spread + source_spread;
+                for (s32 channel = 0; channel < channel_num; ++channel) {
+                    const f32 output_volume = volume * device->get_20();
+                    const s32 listener_channel = channel % 2;
+                    const u32 angle = mSpatialPlayingParam->getAngleIdx(index, listener_channel) +
+                                      mAggregatedParam->getAngleIdx();
+                    const f32 distance = mSpatialPlayingParam->getDist2D(index, listener_channel);
+                    f32 distance_rate = 0.0f;
+                    if (interior_size > 0.0f)
+                        distance_rate = distance < 0.0f ? 1.0f : distance / interior_size;
+                    if (getChannelSpeakerType(track, channel) == SpeakerChannel::Lfe)
+                        lfe = 2.0f;
+                    SpeakerBalanceCalculator::calculate(&volumes[channel].mBuffer[0], output_volume,
+                        angle, distance_rate, spread, lfe, device->getCurrentInterior(mInteriorNum),
+                        SpeakerBalanceCalculator::Mode(first_listener ? 0 : 1), balance_mode);
+                }
+            }
+        }
+        first_listener = false;
+    }
 }
 
 // 0x7100b78860

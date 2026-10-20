@@ -57,6 +57,12 @@ public:
     /// 0x7100b959a8
     void setup(const void* audio_data, AudioMetaReader* reader);
     bool isValid() const;
+    // Inline-only names: setup B778E8 selects the six-speaker route with bit3
+    // and uses the byte at asset-block +0x12 as the stream track count.
+    bool hasSurroundChannelsMaybe() const {
+        return mReader.mData && (mReader.getAssetBlock_()->flags & 8);
+    }
+    u8 getTrackNum() const { return mReader.mData ? mReader.getAssetBlock_()->_12 : 0; }
     /// The name of the asset (nullptr if there is no string table).
     const char* getAssetName() const {
         if (!mReader.mData)

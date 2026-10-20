@@ -56,7 +56,7 @@ public:
 
     void initialize(sead::Heap* heap);
     void finalize();
-    /// 0x7100b778e8 (declared only): sets the source up to play the asset.
+    /// 0x7100b778e8: sets the source up to play the asset.
     StartResult setup(const AssetInfo& asset, const SetupInfo* setup);
 
     /// Life cycle state: 0 is unused and 7 is finished; states up to 2 are the ones before playback
@@ -151,7 +151,7 @@ public:
     void updateBusVolume_();
     /// 0x7100b78860: calculates the speaker balance of the channels of the track (in sSpeakerBalance) and sets it.
     void updateMixBalance_(s32 track, f32 volume);
-    /// 0x7100b78a70 / 0x7100b78e1c (declared only): the speaker balance from the position of the sound (for each
+    /// 0x7100b78a70 / 0x7100b78e1c: the speaker balance from the position of the sound (for each
     /// listener) / without a position.
     void updateMixBalancePositional_(sead::SafeArray<SpeakerChannelVolume, 1>* volumes, s32 track, s32 channel_num);
     void updateMixBalanceUnpositional_(sead::SafeArray<SpeakerChannelVolume, 1>* volumes, s32 track,

@@ -187,6 +187,8 @@ public:
     void deactivate() { mActivated = false; }
     void aggregate(s32 listener_index, const SpatialCalcResult& result);
 
+    // Inline-only name: SoundSource B78A70 loops over this aggregation count at +0x1c.
+    s32 getNumAggregated() const { return mNumAggregated; }
     s32 getListenerIndex(s32 index) const;
     f32 getVolume(s32 index) const;
     f32 getDist2D(s32 index, s32 listener_idx) const;

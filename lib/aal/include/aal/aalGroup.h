@@ -174,6 +174,8 @@ public:
     bool addSound(SoundSource* sound_source);
     void addToPlayingSoundSources(SoundSource* sound_source);
     f32 getReleaseTime() const { return mReleaseTime; }
+    // Inline-only name: setup B778E8 requires every emit-permission bit to be set.
+    u8 getEmitFlags() const { return mEmitFlags.getDirect(); }
     /// 0x7100b826f8 (declared only): removes the sound source from the playing sounds of the group.
     void removeSound(SoundSource* sound_source);
 

@@ -78,6 +78,8 @@ public:
     // inline-only in the original; name is a guess. ksys::snd 0x710104ed9c reads the root at +0x10
     // and calls its allowEmit / pauseAllSound slots.
     Group* getRootGroup() const { return mRootGroup; }
+    // Inline-only name: SoundSource::setup B778E8 uses the default group at +0x18.
+    SoundGroup* getDefaultSoundGroup() const { return mDefaultSoundGroup; }
     /// 0x7100b8148c: the name of the placeholder group (a child that is inserted after is not moved).
     static const sead::SafeString& getDummyGroupName();
 
