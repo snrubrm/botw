@@ -4,12 +4,9 @@
 
 namespace aal {
 
-/// Reads the audio meta binary (the description of the audio assets). TODO: incomplete: the constructor
-/// (0x7100b96058) and the asset lookups are not modeled, only the accessors of the header data.
 class AssetInfo;
 
-/// Reads the audio meta binary (the description of the audio assets). TODO: incomplete: the constructor
-/// (0x7100b96058) and the asset lookups are not modeled, only the accessors of the header data.
+/// Reads the audio meta binary and normalizes its byte order in place.
 class AudioMetaReader {
 public:
     explicit AudioMetaReader(const void* data = nullptr, const char* name = nullptr);
@@ -37,7 +34,8 @@ private:
 
     /// The block of the description of an asset.
     struct AssetBlock {
-        u8 _0[8];
+        u8 _0[4];
+        u32 _4;
         u32 stream_name_offset;
         u8 _c[4];
         u8 _10;
@@ -46,7 +44,7 @@ private:
         u8 _12;
         /// Bit 2: the asset is looped.
         u8 flags;
-        u8 _14[4];
+        u32 _14;
         u32 sample_rate;
         s32 loop_start;
         s32 loop_end;
@@ -57,19 +55,32 @@ private:
     static_assert(sizeof(AssetBlock) == 0x6c, "aal::AudioMetaReader::AssetBlock size mismatch");
 
     struct MarkerBlock {
-        u8 _0[8];
+        u8 _0[4];
+        u32 _4;
         u32 marker_num;
         Marker markers[1];
     };
 
+    struct TrackBlock {
+        u8 _0[4];
+        u32 _4;
+        u32 track_num;
+        StreamTrack tracks[1];
+    };
+
     struct Data {
-        u8 _0[6];
+        u8 signature[4];
+        u16 byte_order;
         /// 0x100 / 0x300 / 0x400.
         u16 version;
         u32 _8;
         u32 asset_block_offset;
         u32 marker_block_offset;
-        u32 string_table_offset_v1;
+        // Version 1 stores the string block here; versions 3/4 store the track block.
+        union {
+            u32 string_table_offset_v1;
+            u32 track_block_offset;
+        };
         u32 string_table_offset_v3;
     };
 
