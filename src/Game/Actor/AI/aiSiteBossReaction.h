@@ -21,6 +21,12 @@ public:
 
     // 0x710057fb10: when the boss wears or draws its flame: _73 = true, flame part state, x_1 and flag 0x80000
     void sub_710057FB10();
+    // 0x710057fc40: enters the flame reaction child when the boss wears or draws its flame, otherwise switches
+    // to the effective damage child; builds the six reaction parameters and runs EnemyDefaultReaction::m40.
+    void sub_710057FC40();
+    // 0x7100581050: starts the flame reaction: bit 9 of _14c8._30, bit 19 of _1558 at half life, disables the
+    // flame cloth entry and tells the boss through SiteBoss::sub_71002CFD04.
+    void sub_7100581050();
 
 protected:
     // static_param at offset 0x68
