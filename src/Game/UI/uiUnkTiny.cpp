@@ -553,6 +553,15 @@ Unk_710247aa30::~Unk_710247aa30() = default;
 
 Unk_710247aa50::Unk_710247aa50(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
+// 0x71009b194c
+void Unk_710247aa50::m24(sead::Heap*) {}
+
+// 0x71009b1950
+void Unk_710247aa50::m25() {}
+
+// 0x71009b1954
+void Unk_710247aa50::m31() {}
+
 // 0x71009b2054
 Unk_710247adc8::Unk_710247adc8() = default;
 

@@ -343,6 +343,10 @@ class Unk_710247aa50 : public ScreenChildEx {
 public:
     NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247aa50(eui::LayoutEx* layout);
+    // 0x71009b194c / 0x71009b1950 / 0x71009b1954: empty overrides
+    void m24(sead::Heap* heap) override;
+    void m25() override;
+    void m31() override;
 };
 static_assert(sizeof(Unk_710247aa50) == 0x130);
 
