@@ -3240,8 +3240,8 @@ void ScreenAppSystemWindow::m94() {
     if ((mButtonGroup->_38 & 2) && isOpened() && (_292 & 0x40) && sub_71010AA9D0() && mUIController &&
         mUIController->isTrig(2)) {
         sub_71010AA894();
-        if (_3638)
-            _3638->DownOff(false);
+        if (_3638[0])
+            _3638[0]->DownOff(false);
         else
             close(-1);
     }

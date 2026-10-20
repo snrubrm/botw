@@ -4665,12 +4665,10 @@ public:
     /* 0x3610 */ s32 _3610 = 10;
     s32 _3614;
     u64 _3618{};
-    u64 _3620{};
-    u64 _3628{};
-    u64 _3630{};
-    eui::AnimButton* _3638{};
-    u64 _3640{};
-    u64 _3648{};
+    sead::SafeArray<eui::LayoutEx*, 3> _3620{};
+    sead::SafeArray<eui::AnimButton*, 3> _3638{};
+    // 0x71009fcb7c (placeholder name): sets flag 0x10 of button `index` and, when on, its label to message `msg_id`
+    void sub_71009FCB7C(s32 index, s32 msg_id, bool on);
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     // 0x71009fbd7c (declared only, 1824 bytes): stores `type` at 0x3610 and opens the window for it (types 0 - 9)
     virtual void m154(s32 type);

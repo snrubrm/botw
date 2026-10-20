@@ -38,6 +38,23 @@ s32 ScreenAppSystemWindow::sub_71009FC4A0() {
     return value;
 }
 
+namespace {
+// 0x7102483480
+sead::SafeString sAppSystemWindowMsg = "LayoutMsg/AppSystemWindow_00";
+}  // namespace
+
+// 0x71009fcb7c
+void ScreenAppSystemWindow::sub_71009FCB7C(s32 index, s32 msg_id, bool on) {
+    if (_3638[index])
+        _3638[index]->setFlag10(on);
+    if (msg_id == -1 || !on || !mLayout || !_3620[index])
+        return;
+    sead::FormatFixedSafeString<64> label("%04d", msg_id);
+    eui::MessageString message;
+    getMessage(sAppSystemWindowMsg, label, &message);
+    setWidgetString(_3620[index], "T_Btn_00", message);
+}
+
 // 0x71009fff58
 void AppToolState::sub_71009FFF58() {
     _0 = -1;
