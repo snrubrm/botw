@@ -1,3 +1,4 @@
+#include <devenv/seadStackTrace.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -159,20 +160,5 @@ void NavMeshLoadMgr::x_2() {
 
 }  // namespace ksys::phys
 
-// Placeholder: a load record with a state word at 0x48.
-struct Unk_7100F894D0Maybe {
-    u8 _0[0x48];
-    s32 _48;
-};
-
-s32 sub_7100F894D0(const Unk_7100F894D0Maybe* obj) {
-    return obj->_48;
-}
-
-void sub_7100F894D8(Unk_7100F894D0Maybe* obj) {
-    obj->_48 = 0;
-}
-
-bool sub_7100F89504(const Unk_7100F894D0Maybe* obj) {
-    return obj->_48 > 7;
-}
+// The original emits sead::StackTrace<8> in this TU (vtable 0x71024f7060).
+template class sead::StackTrace<8>;
