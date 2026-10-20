@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
 class Actor;
@@ -12,6 +13,28 @@ class Actor;
 namespace ksys::evt {
 
 class EventFlow;
+class EventFlowBase;
+
+// The event's actor ownership record. Native 127961C selects one of 200 0x58-byte
+// records, binds mLink, adds a flow/data pair, and stores the record in Actor +0x1a0.
+// Native 12793EC releases the actor and clears the owner pointers and active flag.
+class EventActorLink {
+public:
+    // 0x71012793ec: release the actor, optionally notifying it before resetting the link.
+    void releaseActor(act::Actor* actor, bool notify);
+    // 0x710127950c: remove a flow owner, releasing the actor when none remain.
+    void removeOwner(EventFlowBase* flow);
+
+    act::BaseProcLink mLink;
+    /* 0x10 */ bool mActive = false;
+    struct Owner {
+        EventFlowBase* flow = nullptr;
+        void* data;  // initialized only when a flow owner is added by 127961C
+    };
+    /* 0x18 */ sead::SafeArray<Owner, 4> mOwners;
+};
+static_assert(sizeof(EventActorLink) == 0x58);
+
 
 // Native EventFlowMgr constructor owns two arrays of 0x18-byte entries (DBE0AC).
 class EventMgrStruct3A {

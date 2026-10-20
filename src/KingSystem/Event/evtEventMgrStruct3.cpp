@@ -1,3 +1,5 @@
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtEventMgrStruct3.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -37,6 +39,38 @@ void EventMgrStruct3B::sub_7100DC22E0() {
     _0.clear();
     _58 = 0;
     _160 = 0;
+}
+
+// 0x71012793ec
+// NON_MATCHING: accessor and native owner-pointer clearing scheduling differ.
+void EventActorLink::releaseActor(act::Actor* actor, bool notify) {
+    if (!actor)
+        actor = sead::DynamicCast<act::Actor>(mLink.getProc(nullptr));
+    if (actor) {
+        act::ActorLinkConstDataAccess accessor;
+        act::acquireActor(&mLink, &accessor);
+        if (notify)
+            Manager::instance()->sub_7100DB0FB0(*accessor.getMessageTransceiverId(), MessageType(0x80000f), nullptr);
+        actor->_1a0 = nullptr;
+        mLink.reset();
+    }
+    for (auto& owner : mOwners)
+        owner.flow = nullptr;
+    mActive = false;
+}
+
+// 0x710127950c
+// NON_MATCHING: owner iteration and native release-path scheduling differ.
+void EventActorLink::removeOwner(EventFlowBase* flow) {
+    for (auto& owner : mOwners) {
+        if (owner.flow == flow) {
+            owner.flow = nullptr;
+            if (!mOwners[0].flow && !mOwners[1].flow && !mOwners[2].flow && !mOwners[3].flow) {
+                auto* actor = sead::DynamicCast<act::Actor>(mLink.getProc(nullptr));
+                releaseActor(actor, true);
+            }
+        }
+    }
 }
 
 // 0x71012799c4
