@@ -13,6 +13,7 @@ target_sources(uking PRIVATE
   teraAreaEnv.h
   teraVegeTeraMat.h
   teraCore.cpp
+  teraEditor.cpp
   teraHeap.cpp
   teraResourceNode.h
   teraAreaNode.h

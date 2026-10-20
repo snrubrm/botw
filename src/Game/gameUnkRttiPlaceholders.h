@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/Terrain/teraEditor.h"
+
 #include <prim/seadSafeString.h>
 #include <aal/aalAudioResource.h>
 #include <xlink2/xlink2HandleELink.h>
@@ -210,12 +212,6 @@ public:
     ~Unk_71024dcf48() override;
 };
 
-// vtable 0x71024f13f0 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f13f0 {
-    SEAD_RTTI_BASE(Unk_71024f13f0)
-public:
-    virtual ~Unk_71024f13f0();
-};
 
 // vtable 0x7102519378 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519378 {
@@ -754,31 +750,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102502978, 0x90);
 
-// vtable 0x7102504260 (19 slots); placeholder generated from the vtable (genskel.py).
-// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
-// line, so its parent chain is deeper than the one declared here.
-class Unk_7102504260 : public Unk_71024f13f0 {
-    SEAD_RTTI_OVERRIDE(Unk_7102504260, Unk_71024f13f0)
-public:
-    ~Unk_7102504260() override;
-    // 0x710107ed78 / 0x710107ed84: the hostio names. Slots 4 / 5 of the class vtable (the original
-    // class is the terrain editor; the strings are "Terrain" and "地形編集").
-    virtual const char* getName() const { return "Terrain"; }
-    virtual const char* getJpName() const { return "地形編集"; }
-    virtual void m6();
-    virtual bool m7() { return false; }
-    virtual void m8();
-    virtual bool m9();
-    virtual void m10();
-    virtual void m11() {}
-    virtual void m12() {}
-    virtual void m13() {}
-    virtual void m14() {}
-    virtual void m15() {}
-    virtual void m16() {}
-    virtual void m17() {}
-    virtual void m18() {}
-};
 
 // vtable 0x7102504470 (8 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102504470 : public Unk_710251d230 {
@@ -1188,25 +1159,6 @@ public:
     virtual void m8() {}
 };
 
-// vtable 0x710250fb18 (24 slots); placeholder generated from the vtable (genskel.py).
-// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
-// line, so its parent chain is deeper than the one declared here.
-class Unk_710250fb18 : public Unk_7102504260 {
-    SEAD_RTTI_OVERRIDE(Unk_710250fb18, Unk_7102504260)
-public:
-    ~Unk_710250fb18() override;
-    virtual void m19() {}
-    virtual void m20();
-    virtual bool m21() { return false; }
-    virtual void m22() {}
-    virtual void m23() {}
-    bool m9() override { return false; }
-    void m10() override {}
-    void m14() override {}
-    void m16() override {}
-    void m17() override {}
-    void m18() override {}
-};
 
 // vtable 0x710250fdf8 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250fdf8 : public Unk_710251d230 {

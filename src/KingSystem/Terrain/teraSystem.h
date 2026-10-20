@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/Terrain/teraEditor.h"
+
 #include <cstddef>
 #include <cstring>
 #include <prim/seadSafeString.h>
@@ -421,12 +423,6 @@ public:
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
 
-// 0x710107e900 (unnamed; declaration only): walks the model's units named "TeraTerrain" and
-// "TeraRoute" and hands them to the vegetation / route managers. It is a member of the terrain
-// editor object at Terrain + 0x20, whose class is not modelled, so the receiver is passed as an
-// opaque pointer (the function does not read it).
-void sub_710107E900(void* editor, gsys::Model* model, bool visible);
-
 // 0x7101159054 (unnamed in the CSV): the ground height at `pos` within `radius` (a ray cast
 // query); called by Core::Grass::sub_7101150A7C.
 f32 sub_7101159054(const sead::Vector3f* pos, f32 radius);
@@ -496,8 +492,8 @@ struct ExtraInfoMaybe {
 
 class ImageResourceMgr;
 
-// 0x58 (vtable group 0x710250faa8); those and the remaining members are not modeled yet.
-class Terrain : public sead::IDisposer {
+// Native vtable group 0x710250faa8: IDisposer at +0 and the editor interface at +0x20.
+class Terrain : public sead::IDisposer, public Unk_710250fb18 {
 public:
     Terrain();
     ~Terrain() override;
@@ -595,7 +591,7 @@ public:
             virtual void m0();
             virtual void m1();
             virtual void m2();
-            virtual void m3();
+            virtual s32 getMaterialIndexMaybe(s32 index) const;
             virtual void m4();
             virtual void m5();
             virtual void m6();
@@ -621,7 +617,6 @@ public:
             // 0x7101147360 / 0x7101147370 / 0x710114737c / 0x7101147388 / 0x7101147394: per-index
             // accessors (sampler, material index, shader parameter index, constant table, texture entry).
             agl::TextureSampler* getSamplerMaybe(s32 index);
-            s32 getMaterialIndexMaybe(s32 index) const;
             s32 getShaderParamIndexMaybe(s32 index) const;
             s32 getConstantIndexMaybe(s32 index) const;
             struct TextureEntry {
@@ -664,6 +659,11 @@ public:
         // Placeholder: the object at 0xf98 (see Unk_10).
         class Unk_f98 {
         public:
+            // Native vtable 0x710250f048, slot 3 (0x71011474e8).
+            virtual void m0();
+            virtual void m1();
+            virtual void m2();
+            virtual s32 getMaterialIndexMaybe(s32 index) const;
             // 0x7101141e5c (placeholder name): the same as Water::setUpAttributeTable for this object's
             // tables (file names _6f8, main _708, sub _710; result in _718).
             void setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
@@ -671,7 +671,6 @@ public:
             // 0x71011474d8 / 0x71011474e8 / 0x71011474f4 / 0x7101147500 / 0x710114750c: the same
             // per-index accessors as Unk_10, with this object's offsets.
             agl::TextureSampler* getSamplerMaybe(s32 index);
-            s32 getMaterialIndexMaybe(s32 index) const;
             s32 getShaderParamIndexMaybe(s32 index) const;
             s32 getConstantIndexMaybe(s32 index) const;
             struct TextureEntry {
@@ -682,7 +681,7 @@ public:
             static_assert(sizeof(TextureEntry) == 0x10);
             TextureEntry* getTextureEntryMaybe(s32 index);
 
-            u8 _0[0x10];
+            u8 _8[0x10 - 0x8];
             TextureEntry _10[3];
             agl::TextureSampler _40[2];
             u8 _320[0x480 - 0x320];
@@ -700,7 +699,8 @@ public:
         void* _0;
         u8 _8[0x10 - 0x8];
         Unk_10 _10;
-        u8 _f98[0x3910 - 0xf98];
+        Unk_f98 _f98;
+        u8 _16c0[0x3910 - 0x16c0];
         u32 _3910;
         IndexPair* _3918;
         u8 _3920[0x3ad8 - 0x3920];
@@ -727,11 +727,6 @@ public:
     // The name of terrain material `index` (DragonMoveTo searches it for "雪").
     const char* sub_710114DE20(s32 index) const;
 
-    u8 _20[0x2e0 - 0x20];
-    // Arenas of the image load requests of ImageResourceMgr::sub_710113400C (_2e8 for the ".stera" pack).
-    OverlayArena* _2e0;
-    OverlayArena* _2e8;
-    u8 _2f0[0x300 - 0x2f0];
     // The disposer buffer (mSingletonDisposerBuf_) is at 0x300.
     SEAD_SINGLETON_DISPOSER(Terrain)
 public:

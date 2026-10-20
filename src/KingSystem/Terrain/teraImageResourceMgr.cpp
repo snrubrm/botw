@@ -1126,7 +1126,7 @@ s32 ImageResourceMgr::sub_710113400C(LoadTask* task) {
                 request._20 = false;
                 request.mLoadDataAlignment = 0x40;
                 request.mEntryFactory = nullptr;
-                request.mArena = Terrain::instance()->_2e8;
+                request.mArena = Terrain::instance()->mSteraArena;
                 request.mRequester = "teraImageResourceMgr";
                 request._8 = true;
                 pack_path.copy(path);
@@ -1192,7 +1192,7 @@ s32 ImageResourceMgr::sub_710113400C(LoadTask* task) {
                              (use_terrain_device ? Terrain::instance()->_428 :
                                                    sead::FileDeviceMgr::instance()->getMainFileDevice());
                 request.mPackHandle = packed ? &pack_handle : nullptr;
-                request.mArena = Terrain::instance()->_2e0;
+                request.mArena = Terrain::instance()->mTerrainArena;
                 request.mRequester = "teraImageResourceMgr";
                 request._8 = true;
                 request.mCanFallBackToNonArchiveLoad = false;

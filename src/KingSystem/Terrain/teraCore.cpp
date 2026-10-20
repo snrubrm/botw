@@ -167,7 +167,7 @@ void Core::sub_71013009C4(sead::Heap* heap) {
         _f8->sub_7100BF7114(mModelUnits[i].mUnit, true, heap);
     _f8->bind(_f0);
     _f8->sub_7100BF9CA8(sead::SafeString("テライン"));
-    sub_710107E900(Terrain::instance()->_20, _f8, false);
+    Terrain::instance()->sub_710107E900(_f8, false);
 }
 
 // inline-only in the original (0x7101300d50 validates x, z and the squared length); name is a guess.
