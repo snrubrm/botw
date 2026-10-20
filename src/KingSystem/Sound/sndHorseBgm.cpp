@@ -199,6 +199,8 @@ KSYS_VISIBILITY_HIDDEN s32 sUnk_710260FD6C;
 
 // The loop assets hm14 plays by the time of day (0x71024ff248; the night one when _1a4 is set).
 const char* const sHorseLoopNames[] = {"horseDay_loop", "horseNight_loop"};
+// The outro assets hm15 plays (0x71024ff258).
+const char* const sHorseEndNames[] = {"horseDay_end", "horseNight_end"};
 
 Unk_710260f278::Unk_710260f278(const BgmInitArg& arg) : Unk_71025ce380(arg) {
     _1c0.setCurveType(aal::FadeCurveType::Square);
@@ -294,6 +296,69 @@ void Unk_710260f278::hm14() {
     _1c0.setValueImmediate(mInfo->mMinVolume.ref());
     _1c0.moveTo(1.0f, mInfo->mFadeInSec.ref());
     _1b0 = 0.0f;
+}
+
+void Unk_710260f278::hm15() {
+    if (_1e8)
+        return;
+
+    switch (_198) {
+    case 1: {
+        bool fade_out;
+        if (sUnk_710260FD64 || _19c) {
+            const s32* state = sUnk_710260FD68 == false ? &_1a0 : &sUnk_710260FD6C;
+            if (*state <= 1)
+                _1ac += sub_710105E3A4();
+            else
+                _1ac = 0.0f;
+            fade_out = false;
+        } else {
+            fade_out = true;
+        }
+        const f32 wait = mInfo->mFadeOutWaitSec.ref();
+        if (_1ac >= wait) {
+            _1ac = wait;
+            fade_out = true;
+        }
+        if (fade_out) {
+            _1c0.moveTo(0.0f, mInfo->mFadeOutSec.ref());
+            _1b0 = mInfo->mIgnoreRequestSec.ref();
+            _198 = 2;
+        }
+        break;
+    }
+    case 2:
+        if (_1c0.getValue() != _1c0.getNextValue())
+            break;
+        if ((sUnk_710260FD64 || _19c) && _160[1] >= mInfo->mPlayingSecUseOutro.ref()) {
+            sub_7101020C08(0.0f);
+            _1b8 = sub_71010209FC(sHorseEndNames[_1a4]);
+            _1c0.setValueImmediate(1.0f);
+            _198 = 3;
+            break;
+        }
+        sub_710101D9F4(0.0f);
+        _1a8 = 0.0f;
+        _1ac = 0.0f;
+        _1c0.setValueImmediate(0.0f);
+        _198 = 0;
+        break;
+    case 3:
+        if (_1b8 && _1b8->sub_7100FF6DF4(this))
+            break;
+        sub_710101D9F4(0.0f);
+        _1a8 = 0.0f;
+        _1ac = 0.0f;
+        _1c0.setValueImmediate(0.0f);
+        _198 = 0;
+        break;
+    }
+
+    _a4 = _1c0.getValue();
+    if (auto* status = SoundMgr::instance()->_288) {
+        PlayingPart part = PlayingPart::PlayingHorseBgm;
+        status->mPlayingPart[part] = true;
+    }
 }
 
 }  // namespace ksys::snd
