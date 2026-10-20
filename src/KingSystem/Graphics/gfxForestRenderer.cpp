@@ -3,6 +3,7 @@
 #include "KingSystem/Resource/resBfRes.h"
 #include <cstring>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitDrawArray.h>
 #include <prim/seadScopedLock.h>
@@ -346,6 +347,21 @@ bool ForestRenderer::Item::sub_7100F0914C(Record* record, bool a, bool b) {
 
 ForestRenderer::Entry::~Entry() {
     sub_7100F02C40();
+}
+
+ForestRenderer::Unk_68::~Unk_68() {
+    mCS.lock();
+    if (mFlags & 1) {
+        _58.freeBuffer();
+        if (_50) {
+            gsys::ModelDrawObj::freeBuffer(_50, 0x900);
+            if (_50)
+                ::operator delete(_50);
+            _50 = nullptr;
+        }
+        mFlags &= ~1u;
+    }
+    mCS.unlock();
 }
 
 ForestRenderer::TreeResMaybe::~TreeResMaybe() {

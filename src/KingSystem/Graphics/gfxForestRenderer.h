@@ -16,6 +16,7 @@
 namespace gsys {
 class Model;
 class ModelUnit;
+class ModelDrawObj;
 }  // namespace gsys
 
 namespace ksys {
@@ -322,7 +323,8 @@ public:
 
         sead::CriticalSection mCS;
         u32 mFlags = 0;
-        void* _50 = nullptr;
+        // 0x900 draw objects, released by gsys::ModelDrawObj::freeBuffer.
+        gsys::ModelDrawObj* _50 = nullptr;
         sead::PtrArrayImpl _58;
     };
     static_assert(sizeof(Unk_68) == 0x68);
