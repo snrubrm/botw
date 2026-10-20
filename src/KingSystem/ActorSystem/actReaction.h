@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <mc/seadCoreInfo.h>
 #include <prim/seadSafeString.h>
 #include <xlink2/xlink2HandleSLink.h>
 
@@ -56,6 +57,20 @@ public:
     u8 _0[0x38];
     // Fallback actor used when the request actor has no emitted effect.
     /* 0x38 */ Actor* _38;
+};
+
+// Partially modelled: the per-core reaction queue at Reaction::Unk1 + 0x30. Its constructor is at
+// 0x7101287168 and its methods live in the 0x7101287000 TU (ActorReactionsMaybe in the CSV).
+class ActorReactionsMaybe {
+public:
+    // 0x710128810c (placeholder name): appends `actor` to the queue for the core `core`; 0 when full.
+    u32 sub_710128810C(Actor* actor, const sead::CoreId* core);
+
+    u8 _0[8];
+    /* 0x08 */ s32 _8;
+    u8 _c[4];
+    /* 0x10 */ void* _10;
+    u8 _18[0xb8 - 0x18];
 };
 
 class Reaction {
@@ -116,7 +131,9 @@ public:
         /* 0x10 */ Actor* _10;
         u8 _18[8];
         /* 0x20 */ xlink2::HandleSLink mGrassCutHandle;
-        u8 _30[0xe8 - 0x30];
+        // The per-core queue object; its constructor is at 0x7101287168 and its methods live in the
+        // 0x7101287000 TU (ActorReactionsMaybe in the CSV).
+        /* 0x30 */ ActorReactionsMaybe mReactions;
         /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
         // The BushTrack request producer stores its position, speed and emitted state here.
         /* 0xf0 */ sead::Vector3f mBushTrackPosition;
