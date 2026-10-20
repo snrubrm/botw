@@ -79,6 +79,9 @@ public:
 
 private:
     void removeAndDeleteAllComponents_();
+    void setupFromFileDevice_(sead::ArchiveFileDevice*, const sead::SafeString&,
+                              sead::Heap*, sead::Heap*);
+    void createComponentFromResourceName_(sead::SafeString name, sead::Heap* heap);
     /// `directory`/`name` followed by `extension`.
     void makeResourcdFullPath_(sead::BufferedSafeString* out, const sead::SafeString& directory,
                                const sead::SafeString& name, const sead::SafeString& extension) const;

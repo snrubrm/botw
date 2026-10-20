@@ -1,8 +1,11 @@
 #include "aal/aalAttenuationMgr.h"
 #include <basis/seadNew.h>
 #include <codec/seadHashCRC32.h>
+#include <filedevice/seadArchiveFileDevice.h>
 #include <filedevice/seadPath.h>
+#include "aal/aalAttenuationReader.h"
 #include "aal/aalAttenuator.h"
+#include "aal/aalCurveReader.h"
 #include "aal/aalSystem.h"
 #include "aal/aalSystemAccessor.h"
 
@@ -418,6 +421,147 @@ void AttenuationCurveListReflexer::debugDestroy_(const sead::SafeString& name) {
     if (mgr->mCurveReflexer)
         mgr->mCurveReflexer->updateChildren();
     delete component;
+}
+
+// NON_MATCHING: native string comparisons and temporary storage differ.
+void AttenuationMgr::createComponentFromResourceName_(sead::SafeString name, sead::Heap* heap) {
+    AttenuationMgr* manager = SystemAccessor::getAttenuationMgr();
+    if (!manager)
+        return;
+    sead::FixedSafeString<64> extension;
+    if (!sead::Path::getExt(&extension, name))
+        return;
+    sead::FixedSafeString<64> full_extension(".");
+    full_extension.append(extension);
+    sead::FixedSafeString<32> base_name;
+    if (!sead::Path::getBaseFileName(&base_name, name))
+        return;
+    if (full_extension == ".baatn")
+        manager->createAndAddAttenuator(base_name, heap);
+    else if (full_extension == ".baroc")
+        manager->createAndAddRollOffCurve(base_name, heap);
+    else if (full_extension == ".bactc")
+        manager->createAndAddCustomCurve(base_name, heap);
+    else if (full_extension == ".baudc")
+        manager->createAndAddUnitDistanceCurve(base_name, heap);
+    else if (full_extension == ".baadr")
+        manager->createAndAddAttenuationDirectivity(base_name, heap);
+    else if (full_extension == ".baacl")
+        manager->createAndAddAttenuationCulling(base_name, heap);
+}
+
+// NON_MATCHING: native list sorting, string temporaries and registers differ.
+void AttenuationMgr::setupFromFileDevice_(sead::ArchiveFileDevice* device,
+                                         const sead::SafeString& directory,
+                                         sead::Heap* heap, sead::Heap* load_heap) {
+    if (!device || !device->isAvailable())
+        return;
+    sead::DirectoryHandle handle;
+    if (!device->tryOpenDirectory(&handle, "/"))
+        return;
+    sead::DirectoryEntry entry;
+    u32 entries_read = 0;
+    while (device->tryReadDirectory(&entries_read, &handle, &entry, 1)) {
+        if (!entries_read)
+            break;
+        if (!entry.is_directory)
+            createComponentFromResourceName_(entry.name, heap);
+        entries_read = 0;
+    }
+    device->tryCloseDirectory(&handle);
+    const auto compare_names = [](const auto* a, const auto* b) {
+        return a->getObjName().compare(b->getObjName());
+    };
+    mAttenuators.insertionSort(compare_names);
+    if (mAttenuatorReflexer)
+        mAttenuatorReflexer->updateChildren();
+    mCurves.insertionSort(compare_names);
+    if (mCurveReflexer)
+        mCurveReflexer->updateChildren();
+    mDirectivities.insertionSort(compare_names);
+    if (mDirectivityReflexer)
+        mDirectivityReflexer->updateChildren();
+    mCullings.insertionSort(compare_names);
+    if (mCullingReflexer)
+        mCullingReflexer->updateChildren();
+    for (Curve& curve : mCurves) {
+        if (auto* roll_off = sead::DynamicCast<RollOffCurve>(&curve)) {
+            sead::FixedSafeString<256> path;
+            makeResourcdFullPath_(&path, directory, curve.getObjName(), ".baroc");
+            sead::FileDevice::LoadArg arg;
+            arg.path = path;
+            arg.heap = load_heap;
+            arg.alignment = -0x20;
+            if (u8* data = device->tryLoad(arg)) {
+                RollOffCurveReader reader(data);
+                roll_off->setupFromResourceReader(reader, heap);
+                ::operator delete(data);
+            }
+        } else if (auto* custom = sead::DynamicCast<CustomCurve>(&curve)) {
+            sead::FixedSafeString<256> path;
+            makeResourcdFullPath_(&path, directory, curve.getObjName(), ".bactc");
+            sead::FileDevice::LoadArg arg;
+            arg.path = path;
+            arg.heap = load_heap;
+            arg.alignment = -0x20;
+            if (u8* data = device->tryLoad(arg)) {
+                CustomCurveReader reader(data);
+                custom->setupFromResourceReader(reader, heap);
+                ::operator delete(data);
+            }
+        } else if (auto* unit_distance = sead::DynamicCast<UnitDistanceCurve>(&curve)) {
+            sead::FixedSafeString<256> path;
+            makeResourcdFullPath_(&path, directory, curve.getObjName(), ".baudc");
+            sead::FileDevice::LoadArg arg;
+            arg.path = path;
+            arg.heap = load_heap;
+            arg.alignment = -0x20;
+            if (u8* data = device->tryLoad(arg)) {
+                UnitDistanceCurveReader reader(data);
+                unit_distance->setupFromResourceReader(reader, heap);
+                ::operator delete(data);
+            }
+        }
+    }
+    for (AttenuationDirectivity& directivity : mDirectivities) {
+        sead::FixedSafeString<256> path;
+        makeResourcdFullPath_(&path, directory, directivity.getObjName(), ".baadr");
+        sead::FileDevice::LoadArg arg;
+        arg.path = path;
+        arg.heap = load_heap;
+        arg.alignment = -0x20;
+        if (u8* data = device->tryLoad(arg)) {
+            AttenuationDirectivityReader reader(data);
+            directivity.setupFromResourceReader(reader);
+            ::operator delete(data);
+        }
+    }
+    for (AttenuationCulling& culling : mCullings) {
+        sead::FixedSafeString<256> path;
+        makeResourcdFullPath_(&path, directory, culling.getObjName(), ".baacl");
+        sead::FileDevice::LoadArg arg;
+        arg.path = path;
+        arg.heap = load_heap;
+        arg.alignment = -0x20;
+        if (u8* data = device->tryLoad(arg)) {
+            AttenuationCullingReader reader(data);
+            culling.setupFromResourceReader(reader);
+            ::operator delete(data);
+        }
+    }
+    for (Attenuator& attenuator : mAttenuators) {
+        sead::FixedSafeString<256> path;
+        makeResourcdFullPath_(&path, directory, attenuator.getObjName(), ".baatn");
+        sead::FileDevice::LoadArg arg;
+        arg.path = path;
+        arg.heap = load_heap;
+        arg.alignment = -0x20;
+        if (u8* data = device->tryLoad(arg)) {
+            AttenuatorReader reader(data);
+            attenuator.setupFromResourceReader(reader);
+            ::operator delete(data);
+        }
+    }
 }
 
 }  // namespace aal
