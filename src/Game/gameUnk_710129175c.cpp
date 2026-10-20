@@ -1,4 +1,7 @@
 #include "Game/gameGraphics.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelScene.h>
+#include <gsys/gsysModelUnit.h>
 
 // Graphics' render-record TUs (0x71012915bc .. 0x71012955xx). Unk_710129175c and Unk_710129421c
 // are constructed by gameGraphics.cpp's initializer but their methods live here.
@@ -41,6 +44,27 @@ Unk_7101293bac::~Unk_7101293bac() {
 
 void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
+}
+
+void Unk_7101293bac::sub_7101293D68(u32 index, gsys::ModelScene* scene) {
+    auto* model = scene->mSceneModel;
+    const char* names[4] = {"none", "DeferredTypeA", "DeferredTypeC", "DeferredTypeD"};
+    gsys::ModelUnit* units[4];
+    for (s32 i = 0; i < 4; ++i) {
+        const s32 unit_index = model->searchUnitIndex(names[i]);
+        auto* unit = unit_index == -1 ? nullptr : model->getUnits()(unit_index)->mModelUnit;
+        units[i] = unit;
+        if (unit) {
+            unit->enableRenderOption(static_cast<gsys::ModelEnum::RenderOption>(0x12), false);
+            unit->enableRenderViewOption(static_cast<gsys::ModelEnum::RenderViewOption>(4), false, -1);
+            unit->sub_7100C3ECF0(_250, false);
+            unit->setVisibilityMask(0);
+        }
+    }
+    if (auto* unit = units[index]) {
+        unit->sub_7100C3ECF0(_250, true);
+        unit->setVisibilityMask(0xffff);
+    }
 }
 
 // 0x7100f00018: clears bit 3 of the object's flag word (defined in gameGraphics.cpp to stay out of line).

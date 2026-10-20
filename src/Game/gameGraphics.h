@@ -296,6 +296,8 @@ public:
     // 0x7101293c9c: sets up the debug texture page with the "ItemFilter" name.
     void sub_7101293C9C(s32 unused, sead::Heap* heap);
     virtual ~Unk_7101293bac();
+    // 0x7101293d68: selects one of the four named item-filter render units.
+    void sub_7101293D68(u32 index, gsys::ModelScene* scene);
     s32 _8;
     sead::BitFlag32 mFlags;
     agl::utl::DebugTexturePage mPage;
