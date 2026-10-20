@@ -10,6 +10,10 @@
 
 namespace ksys::phys {
 
+class ClothActionHandle;
+class ClothWind;
+struct ClothParam;
+
 // InstanceSet::mClothSet (no name known in the CSV). TODO: incomplete (size unknown).
 class ClothSet {
 public:
@@ -25,7 +29,9 @@ public:
         /* 0x00 */ hclClothInstance* _0;
         /* 0x08 */ sead::Buffer<Unk2> _8;
         /* 0x18 */ u32 _18;  // flags (bit 3 is set by the DisableCloth behavior)
-        /* 0x1c */ u8 _1c[0x30 - 0x1c];
+        /* 0x1c */ u8 _1c[4];
+        /* 0x20 */ ClothWind* mWind;
+        /* 0x28 */ const ClothParam* mClothParam;
         /* 0x30 */ u32 _30;
         /* 0x34 */ u8 _34[0x3c - 0x34];
         /* 0x3c */ f32 _3c;  // set to 1.0 by SiteBossReaction::leave_
@@ -49,6 +55,9 @@ public:
     void sub_71012197E0(const sead::SafeString& name);
     // 0x710121952c: restores saved collidables with this name to the cloth instances.
     void sub_710121952C(const sead::SafeString& name);
+
+    void addAction(ClothActionHandle* action, s32 index);
+    void removeAction(ClothActionHandle* action, s32 index);
 
     /* 0x00 */ u8 _0[0x8];
     /* 0x08 */ void* _8;  // tested by ClothStiffnessMgr::sub_7100665A84

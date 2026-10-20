@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Physics/Cloth/physClothAction.h"
 
 namespace ksys::phys {
 
@@ -130,6 +131,26 @@ void ClothSet::sub_710121952C(const sead::SafeString& name) {
         if (!in_world)
             mWorld->addCloth(cloth);
     }
+}
+
+void ClothSet::addAction(ClothActionHandle* action, s32 index) {
+    const s32 count = _18.size();
+    if (index >= 0) {
+        _18[index]._0->addAction(action->getAction());
+        return;
+    }
+    for (s32 i = 0; i < count; ++i)
+        _18[i]._0->addAction(action->getAction());
+}
+
+void ClothSet::removeAction(ClothActionHandle* action, s32 index) {
+    const s32 count = _18.size();
+    if (index >= 0) {
+        _18[index]._0->removeAction(action->getAction());
+        return;
+    }
+    for (s32 i = 0; i < count; ++i)
+        _18[i]._0->removeAction(action->getAction());
 }
 
 }  // namespace ksys::phys

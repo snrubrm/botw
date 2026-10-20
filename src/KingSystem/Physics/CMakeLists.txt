@@ -207,6 +207,8 @@ target_sources(uking PRIVATE
     CharacterController/physCharacterRigidBody.cpp
     CharacterController/physCharacterRigidBody.h
 
+    Cloth/physClothAction.cpp
+    Cloth/physClothAction.h
     Cloth/physClothSet.cpp
     Cloth/physClothSet.h
 
