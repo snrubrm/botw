@@ -6,7 +6,9 @@
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace ksys::phys {
+class Constraint;
 class ContactPointInfo;
+class RigidBody;
 }
 
 namespace uking::act {
@@ -76,6 +78,36 @@ public:
     /* 0x10 */ ksys::act::ModelBindInfo* mBind = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(GuardianWeakPointPart, 0x18);
+
+// Placeholder name (vtable 0x710235b5e8): the "BrokenLeg" part's bind object. prepareInit_ 3C41C
+// allocates it with 0x48 bytes and sets the -1 / null defaults. D1 is the shared empty 0x710003c2dc.
+// m6 0x710003ca24, m8 0x710003d534, m9 0x710003da80, m12 0x710003e8c8, m13 0x710003fe80 and
+// m14 0x71000402b8 are declared only.
+class Unk_710235b5e8 : public GuardianComponentBind {
+    SEAD_RTTI_OVERRIDE(Unk_710235b5e8, GuardianComponentBind)
+public:
+    ~Unk_710235b5e8() override = default;
+    bool m6(sead::Heap* heap) override;
+    void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
+    void m8(ksys::act::BaseProc* proc) override;
+    void m9() override;
+    void m10() override;
+    void m11() override;
+    void m12() override;
+    void m13() override;
+    void m14() override;
+
+    /* 0x10 */ s32 _10 = -1;
+    /* 0x14 */ s32 _14 = -1;
+    /* 0x18 */ s32 _18 = -1;
+    /* 0x1c */ s32 _1c = -1;
+    /* 0x20 */ ksys::phys::RigidBody* _20 = nullptr;
+    /* 0x28 */ ksys::phys::RigidBody* _28 = nullptr;
+    /* 0x30 */ ksys::phys::Constraint* _30 = nullptr;
+    /* 0x38 */ ksys::phys::Constraint* _38 = nullptr;
+    /* 0x40 */ s32 _40 = -1;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710235b5e8, 0x48);
 
 // vtable 0x710235b700 (placeholder name; no RTTI of its own): the GuardianComponent's damage callback, forwarding to
 // Guardian::sub_710003B564 with the component's part. `call` (0x7100040e9c) is the key function; D0 0x7100040e54.

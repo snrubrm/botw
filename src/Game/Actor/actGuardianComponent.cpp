@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -71,6 +73,31 @@ void GuardianWeakPointPart::m9() {
 }
 
 void GuardianWeakPointPart::m13() {}
+
+void Unk_710235b5e8::m7(const ksys::act::BaseProc::PreDeleteArg&) {
+    if (_30) {
+        ksys::phys::Constraint::destroy(_30);
+        _30 = nullptr;
+    }
+    if (_38) {
+        ksys::phys::Constraint::destroy(_38);
+        _38 = nullptr;
+    }
+}
+
+void Unk_710235b5e8::m10() {}
+
+// Fixes both leg bodies while the Guardian is in state 12.
+void Unk_710235b5e8::m11() {
+    if (auto* guardian = _8->sub_710003D2B4()) {
+        if (_28)
+            _28->changeMotionType(guardian->_14d8 == 12 ? ksys::phys::MotionType::Fixed :
+                                                          ksys::phys::MotionType::Dynamic);
+        if (_20)
+            _20->changeMotionType(guardian->_14d8 == 12 ? ksys::phys::MotionType::Fixed :
+                                                          ksys::phys::MotionType::Dynamic);
+    }
+}
 
 void GuardianComponentBind::m9() {}
 
