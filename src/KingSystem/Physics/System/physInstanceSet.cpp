@@ -958,6 +958,56 @@ void InstanceSet::setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f
     mFlags.set(Flag::_8);
 }
 
+// NON_MATCHING: bone normalization and movement branches are scheduled differently.
+void InstanceSet::sub_7100FBC890(const sead::Matrix34f& mtx, bool sensor, bool force_transform) {
+    bool model_updated = false;
+    for (auto& entry : mLinkMatricesMaybe) {
+        auto* body = entry._38;
+        const s32 mode = entry._40;
+        if (body->isSensor() != sensor || entry._45[0])
+            continue;
+        if (!entry._44 && body->getMotionType() != MotionType::Keyframed)
+            continue;
+        sead::Matrix34f bone_mtx;
+        const sead::Matrix34f* transform = &mtx;
+        if (entry._30.isValid()) {
+            if (!sensor && !model_updated &&
+                (!mRagdollInstance ||
+                 mRagdollInstance->getWorldState() != RagdollInstance::WorldState::AddedToWorld)) {
+                mModel->safeUpdateWorldMatrix();
+                model_updated = true;
+            }
+            mModel->getUnits()(entry._30.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &bone_mtx, entry._30.bone_index);
+            sead::Vector3f x = bone_mtx.getBase(0);
+            const sead::Vector3f y = bone_mtx.getBase(1);
+            x.normalize();
+            sead::Vector3f z;
+            z.setCross(x, y);
+            z.normalize();
+            sead::Vector3f normalized_y;
+            normalized_y.setCross(z, x);
+            bone_mtx.setBase(0, x);
+            bone_mtx.setBase(1, normalized_y);
+            bone_mtx.setBase(2, z);
+            transform = &bone_mtx;
+        }
+        if (mode == 0) {
+            if (!force_transform && body->isAddedToWorld())
+                body->changePositionAndRotation(*transform, 0.01f);
+            else
+                body->setTransform(*transform, PropagateToLinkedMotions{true});
+        } else if (mode == 1) {
+            const sead::Vector3f position = transform->getTranslation();
+            if (!force_transform && body->isAddedToWorld())
+                body->changePosition(position, KeepAngularVelocity{true},
+                                     std::numeric_limits<f32>::epsilon());
+            else
+                body->setPosition(position, PropagateToLinkedMotions{true});
+        }
+    }
+}
+
 void InstanceSet::sub_7100FBD284(const sead::Matrix34f& mtx) {
     if (mFlags.isOff(Flag::_1))
         return;
