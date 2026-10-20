@@ -40,6 +40,9 @@ public:
     // second property's 16 value names come from 0x7101006e6c (sub_7101006E6C).
     SEAD_ENUM(PropertyType,区間,パート0のID)
     SEAD_ENUM(Section,A,B,C)
+    // The values of the second property (0..15: an empty name, A0..A6, B0..B6, C0). The original's text function
+    // is 0x7101006e6c (sub_7101006E6C; its empty first name is not expressible here, so `Empty` is a placeholder).
+    SEAD_ENUM(Part0Id,Empty,A0,A1,A2,A3,A4,A5,A6,B0,B1,B2,B3,B4,B5,B6,C0)
 
     // 0x7101005874 (declared only; 580 B): plays the part `name` with the given volume and pan, at once when
     // `wait_count` is 0, else queued in a free entry of mEntries (placeholder name; argument order is a guess).
@@ -67,8 +70,8 @@ public:
     // The branch taken by Unk_71024fdd28.
     Section _1b4;
     u32 _1b8 = 0;
-    // 0..15; Unk_71024fdbe8::start multiplies the wait count by 2 or 3 for some values.
-    u32 _1bc = 0;
+    // Unk_71024fdbe8::start multiplies the wait count by 2 or 3 for some values.
+    Part0Id _1bc = Part0Id::Empty;
     sead::Buffer<Entry> mEntries;
     // The node machines of parts 0 to 3.
     Unk_71024fdde8* mPartMachines[4]{};

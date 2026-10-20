@@ -1834,6 +1834,10 @@ SEAD_ENUM(PlayingPart, PlayingFieldBattleBgmEasy, PlayingFieldBattleBgmMiddle, P
 // hm15 marks the playing part in the byte array at +8).
 class Unk_SoundMgrStatus {
 public:
+    // inline-only in the original; name is a guess (the environment BGM's hm15 0x7101005abc keeps the part in a
+    // stack slot above its own locals, as an inlined by-value parameter).
+    void setPlaying(PlayingPart part) { mPlayingPart[part] = 1; }
+
     u8 _0[8];
     sead::SafeArray<u8, 8> mPlayingPart;
 };

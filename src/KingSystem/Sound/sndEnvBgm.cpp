@@ -154,8 +154,6 @@ void Unk_71024fdb00::sub_7101005874(const sead::SafeString& name, s32 wait_count
 static const s32 sSectionTable[32] = {10, 11, 12, 13, 14, 14, 15, 15, 15, 0, 0, 0, 0, 0, 0, 0, 0,
                                       1,  2,  3,  3,  4,  4,  5,  5,  6, 7, 7, 8, 8, 9, 9};
 
-// NON_MATCHING: the section assignment is a select here (the original branches) and the old property is
-// spilled instead of kept in a callee-saved register.
 void Unk_71024fdb00::hm15() {
     const f32 prev = _1a8;
     _1a8 += sub_710105E3A4();
@@ -163,21 +161,20 @@ void Unk_71024fdb00::hm15() {
         if (prev != 0.0f)
             ++_1b0;
 
-        const u32 old_property = _1bc;
+        const Part0Id old_property = _1bc;
         _1bc = sSectionTable[(_1b0 / _1b8) % 25 ^ 0x10];
-        mUserInstance->setPropertyValue(1, s32(_1bc));
+        mUserInstance->setPropertyValue(1, _1bc.value());
         if (_1bc < 8)
             _1b4 = Section::A;
         else
-            _1b4 = _1bc >= 15 ? Section::C : Section::B;
-        mUserInstance->setPropertyValue(0, s32(_1b4));
+            _1b4 = _1bc < 15 ? Section::B : Section::C;
+        mUserInstance->setPropertyValue(0, _1b4.value());
 
-        if (old_property != _1bc && _1bc == 0) {
-            const s32 min = mInfo->mMasterBeatRate.mMin.ref();
-            const s32 max = mInfo->mMasterBeatRate.mMax.ref();
-            const s32 range = 1 - min + max;
-            const u32 random = sead::GlobalRandom::instance()->getU32();
-            _1b8 = (min + ((u64(random) * u32(range)) >> 32)) * mInfo->mMasterBeatBase.ref();
+        if (int(old_property) != int(_1bc) && _1bc == Part0Id::Empty) {
+            const auto& rate = mInfo->mMasterBeatRate;
+            const s32 min = rate.mMin.ref();
+            const s32 max = rate.mMax.ref();
+            _1b8 = sead::GlobalRandom::instance()->getS32Range(min, max + 1) * mInfo->mMasterBeatBase.ref();
             _1b0 = 0;
         }
 
@@ -208,8 +205,9 @@ void Unk_71024fdb00::hm15() {
             machine->sub_7101014320();
     }
 
-    if (auto* status = SoundMgr::instance()->_288)
-        status->mPlayingPart[mTimeType ? 4 : 3] = 1;
+    if (auto* status = SoundMgr::instance()->_288) {
+        status->setPlaying(mTimeType ? PlayingPart::PlayingEnvBgmNight : PlayingPart::PlayingEnvBgmDay);
+    }
 }
 
 // NON_MATCHING: written from the original's structure; not compared in detail (3140 B).
