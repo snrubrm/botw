@@ -157,7 +157,10 @@ public:
     };
     struct Key {
         u16 id;
-        u8 _2[0xa4 - 0x2];
+        u8 _2[0x8 - 0x2];
+        // The name Unk_380::sub_7101138494 matches (0x7101138494 compares a SafeString at +8).
+        sead::SafeString mName;
+        u8 _18[0xa4 - 0x18];
         // Texel count per square unit (0x710110d320 multiplies it by _a0 squared).
         f32 _a4;
         sead::PtrArray<Layer> _a8;

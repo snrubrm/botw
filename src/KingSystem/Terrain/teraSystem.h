@@ -715,8 +715,6 @@ public:
     ImageResourceMgr* mImageResourceMgr;
     // Placeholder type: System::loadScene 0x710111e04c calls sub_71011382EC on it.
     struct Unk_380 {
-        // Placeholder: the pooled items (only linked through the list).
-        struct Item;
         // 0x71011382ec (placeholder name): returns every item of mList to mFreeList.
         void sub_71011382EC();
         // 0x7101138494 (declaration only; placeholder name): the item of mList whose name (SafeString at +0x8)
@@ -724,7 +722,7 @@ public:
         Unk_710110d278::Key* sub_7101138494(const sead::SafeString& name);
 
         sead::FreeList mFreeList;
-        sead::OffsetList<Item> mList;
+        sead::OffsetList<Unk_710110d278::Key> mList;
     };
     Unk_380* _380;
     // Pack load modes by area depth (ImageResourceMgr::sub_710113400C, with bit 18 of _a58): image types 0

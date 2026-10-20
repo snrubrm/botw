@@ -879,10 +879,18 @@ void ApertureMapsCollector::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_7101
 }
 
 void Terrain::Unk_380::sub_71011382EC() {
-    for (Item& item : mList.robustRange()) {
+    for (Unk_710110d278::Key& item : mList.robustRange()) {
         mList.erase(&item);
         mFreeList.free(&item);
     }
+}
+
+Unk_710110d278::Key* Terrain::Unk_380::sub_7101138494(const sead::SafeString& name) {
+    for (Unk_710110d278::Key& item : mList) {
+        if (item.mName == name)
+            return &item;
+    }
+    return nullptr;
 }
 
 }  // namespace ksys::tera
