@@ -174,9 +174,17 @@ void Unk_710251cbf0::m33(bool a, bool fixed) {
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
 }
 
-// NON_MATCHING: the original copies the vector as 8 + 4 bytes (sead::Vector3f::operator= copies per member).
+f32 Unk_710251cd38::m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
+    const f32 distance = (pos - m6()).length() - 1.0f;
+    f32 value = 1.0f;
+    if (distance > 1.0f)
+        value = 1.0f / (distance * distance);
+    *out = value;
+    return mHolder->_30;
+}
+
 f32 Unk_710251cd38::m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
-    *out = mHolder->_1c;
+    out->e = mHolder->_1c.e;
     return mHolder->_3c;
 }
 

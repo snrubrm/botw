@@ -29,8 +29,7 @@ bool DungeonRotateTag3D::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original copies Vector3f::zero into _d8 as 8 + 4 bytes (our sead Vector3 has a memberwise
-// operator=) and loads mActor for sub_71005DDE8C earlier.
+// NON_MATCHING: the original loads mActor for sub_71005DDE8C earlier.
 void DungeonRotateTag3D::enter_(ksys::act::ai::InlineParamPack* params) {
     _68.fill(false);
     _a8 = sead::Matrix34f::ident;
@@ -39,7 +38,7 @@ void DungeonRotateTag3D::enter_(ksys::act::ai::InlineParamPack* params) {
     _f5 = false;
     sub_71005DDE8C(mActor, nullptr, *mRemainsPartType_m);
     _78 = sead::Matrix34f::ident;
-    _d8 = sead::Vector3f::zero;
+    _d8.e = sead::Vector3f::zero.e;
     _ec = 0;
     m36();
     changeChild("待機");

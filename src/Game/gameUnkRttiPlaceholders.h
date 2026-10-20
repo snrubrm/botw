@@ -1881,6 +1881,7 @@ class Unk_710251cd38 : public Unk_7102518688 {
 public:
     // lane1 s95: the "grass_fire_warm" element; built by Unk_71024dd490::sub_71012DF384.
     Unk_710251cd38(void* arg, sead::Heap* heap);
+    f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     f32 m14(sead::Vector3f* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
     ~Unk_710251cd38() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
