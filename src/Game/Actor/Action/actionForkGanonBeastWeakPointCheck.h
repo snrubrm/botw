@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "Game/Actor/aiUnk_71025afb58.h"
+#include "Game/Actor/aiUnk_71025b27b8.h"
+#include "Game/Actor/aiUnk_71025b2d88.h"
 
 namespace uking::action {
 
@@ -17,12 +20,31 @@ struct Unk_GanonBeastWeakPointXLinkHandles {
         s32 mIndex = -1;
     };
 
+    // 0x7100156b3c: same as sub_71001552E4.
+    ~Unk_GanonBeastWeakPointXLinkHandles();
+
     // 0x71001552e4 (placeholder name): kills the effects and fades out the sounds of the used entries.
     void sub_71001552E4();
 
     Entry mEntries[4];
 };
 KSYS_CHECK_SIZE_NX150(Unk_GanonBeastWeakPointXLinkHandles, 0xa0);
+
+}  // namespace uking::action
+
+// vtable 0x710238b148 (placeholder name): the object of the GanonBeastWeakPointXLinkHandle AI tree variable.
+// ForkGanonBeastWeakPointCheck embeds it, and its vtable and RTTI are emitted in this action's TU.
+class Unk_710238b148 : public Unk_71025afb58 {
+    SEAD_RTTI_OVERRIDE(Unk_710238b148, Unk_71025afb58)
+public:
+    // 0x7100155198
+    ~Unk_710238b148() override = default;
+
+    uking::action::Unk_GanonBeastWeakPointXLinkHandles mHandles;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710238b148, 0xa8);
+
+namespace uking::action {
 
 // Native tables share DamageCallback's RTTI and complete destructor slots.
 class Unk_710238b078 : public act::DamageCallback {
@@ -83,8 +105,11 @@ protected:
     // aitree_variable at offset 0x60
     void* mWeakPointCounter_a{};
 
-    // Members not recovered yet (class size from the factory).
-    u8 _68[0x140 - 0x68];
+    // The objects the four AI tree variables point to (set by init_).
+    Unk_71025b2d88 mWeakPointAliveFlag;
+    Unk_71025b2d88 mWeakPointActiveFlag;
+    ::Unk_710238b148 mXLinkHandles;
+    Unk_71025b27b8 mWeakPointCounter;
     Unk_710238b078 mWeakPointDamageCallback{this};
     Unk_710238b0b0 mLastWeakPointDamageCallback{this};
     Unk_710238b040 mDamageCallback;

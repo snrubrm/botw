@@ -19,7 +19,7 @@ class Unk_71025b2d88 : public Unk_71025b2d98 {
 public:
     ~Unk_71025b2d88() override;  // out of line (lane4 s47): the key function that emits the vtable 0x710238b0e8
 
-    /* 0x08 */ u32 mFlags;
+    /* 0x08 */ u32 mFlags = 0;
 };
 
 // 0x7100704128: selects a string by the active weak point groups (bits 0-17). Declaration only.

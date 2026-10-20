@@ -26,6 +26,17 @@ void Unk_GanonBeastWeakPointXLinkHandles::sub_71001552E4() {
     }
 }
 
+// NON_MATCHING: same codegen difference as sub_71001552E4
+Unk_GanonBeastWeakPointXLinkHandles::~Unk_GanonBeastWeakPointXLinkHandles() {
+    for (s32 i = 0; i < 4; ++i) {
+        if (mEntries[i].mIndex < 0)
+            continue;
+        mEntries[i].mIndex = -1;
+        mEntries[i].mEffect.kill();
+        mEntries[i].mSound.fade();
+    }
+}
+
 // NON_MATCHING: point-mask calculation is scheduled after the RTTI query.
 void Unk_710238b078::call(s32* damage, s32*, u32*, u32*, s32* reaction,
                          act::DamageCallbackInfo*) {
@@ -80,13 +91,24 @@ void Unk_710238b0b0::call(s32* damage, s32*, u32*, u32*, s32* reaction,
     }
 }
 
+// NON_MATCHING: the original schedules the zero stores of 0x70 and 0xc8..0x120 differently
 ForkGanonBeastWeakPointCheck::ForkGanonBeastWeakPointCheck(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
+// NON_MATCHING: the original has no calls to the destructors of Unk_71025b2d88 and Unk_71025b27b8 (inline there;
+// they are out of line here because they emit those vtables)
 ForkGanonBeastWeakPointCheck::~ForkGanonBeastWeakPointCheck() = default;
 
 bool ForkGanonBeastWeakPointCheck::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mWeakPointAliveFlag.mFlags = 0x23fff;
+    mWeakPointActiveFlag.mFlags = 0;
+    *static_cast<Unk_71025afb58**>(mWeakPointActiveFlag_a) = &mWeakPointActiveFlag;
+    *static_cast<Unk_71025afb58**>(mWeakPointAliveFlag_a) = &mWeakPointAliveFlag;
+    *static_cast<Unk_71025afb58**>(mGanonBeastWeakPointXLinkHandle_a) = &mXLinkHandles;
+    mXLinkHandles.mHandles.sub_71001552E4();
+    *static_cast<Unk_71025afb58**>(mWeakPointCounter_a) = &mWeakPointCounter;
+    mWeakPointCounter._8 = 0;
+    return true;
 }
 
 void ForkGanonBeastWeakPointCheck::enter_(ksys::act::ai::InlineParamPack* params) {

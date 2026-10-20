@@ -425,10 +425,6 @@ void Unk_71012EBDBC::write(const u8* data, u32 size, u32 a3, u32 a4) {
 
 }  // namespace ksys::tera
 
-// NON_MATCHING: placeholder destructor; the original (0x7100155198) also destroys members or bases
-// this class does not declare yet.
-Unk_710238b148::~Unk_710238b148() = default;
-
 // NON_MATCHING: placeholder destructor; the original (0x7100a57d80) also destroys members or bases
 // this class does not declare yet.
 Unk_71024993a0::~Unk_71024993a0() = default;

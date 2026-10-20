@@ -89,12 +89,7 @@ class Shape;
 // defined in the source file of the class's address neighbours (the key function there emits the vtable and RTTI).
 // Members are not known yet; destructors that destroy members in the original are marked NON_MATCHING.
 
-// vtable 0x710238b148 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710238b148 : public Unk_71025afb58 {
-    SEAD_RTTI_OVERRIDE(Unk_710238b148, Unk_71025afb58)
-public:
-    ~Unk_710238b148() override;
-};
+// vtable 0x710238b148: moved to Game/Actor/Action/actionForkGanonBeastWeakPointCheck.h.
 
 // vtable 0x710247faf0 (23 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710247faf0 : public uking::ui::Unk_7102474e38 {
