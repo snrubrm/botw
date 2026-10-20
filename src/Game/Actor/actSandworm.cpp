@@ -87,7 +87,6 @@ void Sandworm::killWithDropsAndEffects(int a1) {
     incrementGiantOrSandwormDefeatCount();
 }
 
-// NON_MATCHING: the original keeps `&_1644` in a register and copies the result back as 8 + 4 bytes.
 void Sandworm::sub_71002CDDE8() {
     auto* controller = getCharacterController();
     if (!controller || !controller->sub_7100F5F14C())
@@ -102,12 +101,12 @@ void Sandworm::sub_71002CDDE8() {
     sead::Vector3f pos = getMtx().getTranslation();
     const f32 dist = sead::Mathf::sqrt(sead::Mathf::square(from.x - pos.x) + sead::Mathf::square(from.z - pos.z));
     if (dist >= 30.0f || sead::Mathf::abs(from.y - pos.y) >= 15.0f) {
-        _1644 = pos;
+        _1644.e = pos.e;
         return;
     }
     if (dist >= 5.0f) {
         sub_710072FBD4(this, from, pos, &pos, -1, 0.0f, -1.0f);
-        _1644 = pos;
+        _1644.e = pos.e;
     }
 }
 
