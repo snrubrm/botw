@@ -316,6 +316,15 @@ void Model::bind(ModelScene* scene) {
     }
 }
 
+// 0x7100bf77ec
+void Model::bindToModelScene() {
+    if (mScene) {
+        mScene->bind_(this);
+        for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it)
+            it->mModelUnit->bind(mScene);
+    }
+}
+
 // 0x7100bf6e20
 void Model::clearModelAccesssHandle() {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);

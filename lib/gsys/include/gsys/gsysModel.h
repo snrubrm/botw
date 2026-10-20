@@ -247,6 +247,8 @@ public:
     void updateBounding();
     // 0x7100bf6d94 (CSV name): binds the model (and its used units) to a scene, unbinding it from the old one.
     void bind(ModelScene* scene);
+    // 0x7100bf77ec: rebinds this model and its used units to the saved scene.
+    void bindToModelScene();
     // 0x7100bf6e20 / 0x7100bf76d0 (CSV names): remove / search every registered access handle.
     void clearModelAccesssHandle();
     void updateModelAccesssHandle_();
