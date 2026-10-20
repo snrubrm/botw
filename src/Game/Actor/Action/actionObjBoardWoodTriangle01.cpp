@@ -23,10 +23,14 @@ struct Unk_80000c8_Payload {
 };
 }  // namespace
 
-// NON_MATCHING: the embedded message sender members remain unmodeled.
+// NON_MATCHING: store order of the message sender members
 ObjBoardWoodTriangle01::ObjBoardWoodTriangle01(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ObjBoardWoodTriangle01::~ObjBoardWoodTriangle01() = default;
+// NON_MATCHING: the original inlines the destructor of _2c0 (Unk_7102362e80's destructor is out of line here)
+ObjBoardWoodTriangle01::~ObjBoardWoodTriangle01() {
+    if (auto* body = mActor->getMainBody())
+        body->setUserTag(&mActor->mPhysicsUserTag);
+}
 
 bool ObjBoardWoodTriangle01::init_(sead::Heap* heap) {
     mActor->mDrawDistanceFlags.set(2);
