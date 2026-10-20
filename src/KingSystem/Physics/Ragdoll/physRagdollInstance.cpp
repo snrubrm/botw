@@ -1,6 +1,8 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include <Havok/Animation/Animation/Mapper/hkaSkeletonMapper.h>
 #include <Havok/Animation/Animation/Rig/hkaPose.h>
+#include <Havok/Animation/Animation/Rig/hkaSkeleton.h>
+#include <Havok/Common/Visualize/hkDebugDisplay.h>
 #include <Havok/Animation/Physics2012Bridge/Instance/hkaRagdollInstance.h>
 #include <Havok/Common/Serialize/Util/hkNativePackfileUtils.h>
 #include <Havok/Common/Serialize/Util/hkRootLevelContainer.h>
@@ -15,6 +17,7 @@
 #include <memory>
 #include <resource/seadResource.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollInstanceMgr.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/Rig/physModelBoneAccessor.h"
 #include "KingSystem/Physics/Rig/physSkeletonMapper.h"
@@ -67,6 +70,8 @@ void RagdollInstance::x_22(int index, float value) {
 
 
 static u8 sRagdollInstanceUnk1 = 15;
+// Native 0x710251585c: velocity threshold read by the controller update.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251585C = 0.5f;
 static RagdollInstance::Config sRagdollInstanceConfig;
 
 RagdollInstance::RagdollInstance(SystemGroupHandler* handler)
@@ -790,6 +795,54 @@ BoneAccessor* RagdollInstance::getBoneAccessor() const {
         return &mSkeletonMapper->getBoneAccessor();
 
     return mModelBoneAccessor;
+}
+
+// NON_MATCHING: flag updates and repeated pose accessors are scheduled differently.
+void RagdollInstance::sub_710121F7B4(const hkQsTransformf& transform,
+                                  RagdollController* controller, bool flag) {
+    transform.isOk(0.001f);
+    if (mFlags.isOn(Flag::_20)) {
+        controller->reinitController();
+        mFlags.reset(Flag::_20);
+        mFlags.reset(Flag::_2);
+        mFlags.reset(Flag::_4);
+    } else if (mFlags.isOn(Flag::AddedToWorld)) {
+        mFlags.change(Flag::_2, mFlags.isOn(Flag::_4));
+        bool all_still = true;
+        for (auto* body : mBoneRigidBodies) {
+            if (!body->getRigidBodyAccessor()->isVelocityGreaterEqual(sUnk_710251585C)) {
+                all_still = false;
+                break;
+            }
+        }
+        mFlags.change(Flag::_4, all_still);
+    } else {
+        mFlags.reset(Flag::_2);
+        mFlags.reset(Flag::_4);
+    }
+    mFlags.change(Flag(0x400), flag);
+    if (mSkeletonMapper)
+        mSkeletonMapper->mapPoseA();
+    sub_710121FA98(mSkeletonMapper ? &mSkeletonMapper->getBoneAccessor() : mModelBoneAccessor,
+                  transform, controller);
+    if (mFlags.isOn(Flag(0x10000))) {
+        hkDebugDisplay::getInstance().displayLocalPoseMaybe(
+            getModelBoneAccessor()->getPose()->getSkeleton()->m_bones.getSize(),
+            getModelBoneAccessor()->getPose()->getSkeleton()->m_parentIndices.begin(),
+            getModelBoneAccessor()->getPose()->getSyncedPoseLocalSpace().begin(),
+            transform, 0, sUnk_7102682950, 0xffffffff);
+    }
+    if (mFlags.isOn(Flag(0x20000))) {
+        hkDebugDisplay::getInstance().displayLocalPoseMaybe(
+            getBoneAccessor()->getPose()->getSkeleton()->m_bones.getSize(),
+            getBoneAccessor()->getPose()->getSkeleton()->m_parentIndices.begin(),
+            getBoneAccessor()->getPose()->getSyncedPoseLocalSpace().begin(),
+            transform, 0, sUnk_7102682950, 0xffff0000);
+        for (s32 i = 0; i < mBoneRigidBodies.size(); ++i) {
+            sead::FormatFixedSafeString<64> text("%d : %s", i,
+                                               mBoneRigidBodies[i]->getHkBodyName().cstr());
+        }
+    }
 }
 
 }  // namespace ksys::phys

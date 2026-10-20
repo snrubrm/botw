@@ -28,6 +28,7 @@ namespace ksys::phys {
 class BoneAccessor;
 class ModelBoneAccessor;
 class RagdollParam;
+class RagdollController;
 class RagdollRigidBody;
 class RigidBody;
 class SkeletonMapper;
@@ -134,6 +135,8 @@ public:
     void stopForcingKeyframing();
 
     void update();
+    // Native 0x710121f7b4: update controller state, map the pose and display debug skeletons.
+    void sub_710121F7B4(const hkQsTransformf& transform, RagdollController* controller, bool flag);
 
     static Config& getConfig();
     auto* getHavokRagdollInstance() const { return mRagdollInstance; }
@@ -183,6 +186,9 @@ private:
     void updateGravityFactorOverride();
 
     BoneAccessor* getBoneAccessor() const;
+    // Native 0x710121fa98 consumes the mapped pose, world transform and controller.
+    void sub_710121FA98(BoneAccessor* accessor, const hkQsTransformf& transform,
+                        RagdollController* controller);
 
     SkeletonMapper* mSkeletonMapper = nullptr;
     ModelBoneAccessor* mModelBoneAccessor = nullptr;
