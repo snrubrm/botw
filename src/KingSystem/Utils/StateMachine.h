@@ -108,6 +108,8 @@ public:
     StateMachine(Unk1* unk, const StateBase& state);
 
     const StateBase* getState() const;
+    // The state recorded at +0x18 (read directly by ScreenAppPictureBook::m158; name is a guess)
+    const StateBase* getPrevState() const { return mPrevState; }
     void run();
     void sub_71010BFE64();
     void changeState(const StateBase* state);

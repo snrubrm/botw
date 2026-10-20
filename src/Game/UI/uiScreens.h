@@ -3938,6 +3938,10 @@ extern bool sUnk_71025dc580;
 // 0x71025dc5e0 (placeholder name): the AppAlbum screen's texture controllers (stored as pointers to the controller pointers)
 extern sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 
+// States of ScreenAppPictureBook (placeholder names; m158 / m159).
+extern const ksys::StateBase sUnk_71025eb490;
+extern const ksys::StateBase sUnk_71025eb550;
+
 class ScreenAppPictureBook : public ScreenEx {
 public:
     // 0x71009fa3fc

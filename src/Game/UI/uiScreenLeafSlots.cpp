@@ -576,6 +576,42 @@ s32 ScreenAppMapDungeon::m165() {
 // ScreenAppPictureBook
 // 0x71009faecc
 void ScreenAppPictureBook::m164() {}
+// 0x71009faab0
+void ScreenAppPictureBook::m158() {
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        home->sub_71009DD800(false);
+    if (getStateMachine().getPrevState()->getId() == (&sUnk_71025eb490)->getId()) {
+        if (_3628)
+            _3628->PlayAuto(1.0f);
+        if (_3660)
+            _3660->sub_710093DAD4(4);
+    }
+}
+// 0x71009fabc0
+void ScreenAppPictureBook::m159() {
+    if (!_3628 || !_3660)
+        return;
+    if ((_3628->mFlags & 1) && _3658)
+        _3658->sub_710093FF88();
+    if (_3628->mFrame != _3628->GetFrameSize())
+        return;
+    if (_3660)
+        _3660->sub_710093F594(true);
+    if (isTrigMaybe(1)) {
+        if (ksys::gdt::getFlag_IsGet_Obj_SheikSensorLv2(false))
+            getStateMachine().changeState(&sUnk_71025eb550);
+    } else if (isTrigMaybe(2)) {
+        invokeSoundLink2Event_("mc_Individual_Cancel");
+        getStateMachine().changeState(&sUnk_71025eb490);
+    }
+}
+// 0x71009face0
+void ScreenAppPictureBook::m162() {
+    createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+    if (auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        screen->m154(2);
+}
 // 0x71009fb208
 s32 ScreenAppPictureBook::m157() {
     return 0;
