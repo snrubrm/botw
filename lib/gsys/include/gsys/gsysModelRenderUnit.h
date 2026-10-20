@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadBoundBox.h>
 
 namespace agl::cull {
 class ViewFrustumCulling;
@@ -35,6 +36,14 @@ public:
     const ModelUnit* getModelUnit() const { return mModelUnit; }
     // Graphics 0x7100f2e0f4 compares +0x16 of ModelNW's render units with a material index.
     u16 getMaterialIndex() const { return mMaterialIndex; }
+
+    // Base defaults of the render-unit virtuals: one mesh and one sub-mesh, no sub-mesh
+    // bounds, no pass texture and always visible.
+    s32 getMeshNum() const;
+    s32 getSubMeshNum(int) const;
+    bool getSubMeshBoundAABB(int, int, sead::BoundBox3f* aabb) const;
+    s32 getPassTextureBit() const;
+    bool isVisible() const;
 
     // Render-unit option word at +0x10. ksys::gfx 0x7100f1ed8c clears bits 26/31 and sets bit 27.
     u32& getFlags10() { return _10; }

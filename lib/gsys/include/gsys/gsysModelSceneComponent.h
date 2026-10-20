@@ -8,6 +8,10 @@ namespace sead {
 class Heap;
 }
 
+namespace agl {
+class DrawContext;
+}
+
 namespace gsys {
 class Model;
 class ModelSceneConfig;
@@ -34,6 +38,8 @@ public:
     virtual void preCalcView(ModelSceneContext*);
     virtual void calcViewGPU(const ModelSceneContext&);
     virtual void attachHostIO(sead::hostio::Node*);
+    // 0x7100c19c58: the base component draws no debug output.
+    virtual void drawDebug(agl::DrawContext*, const ModelSceneContext&) const;
 
 protected:
     /* 0x08 */ const ModelSceneConfig* _8 = nullptr;
