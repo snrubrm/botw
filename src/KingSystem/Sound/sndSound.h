@@ -663,6 +663,18 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38, 0x160);
 
+// The two empty polymorphic bases of DuckingMgr::Ducker (placeholder names = the vtable group they appear in:
+// the primary base shares Ducker's vtable 0x71025021b8, the second base's secondary vtable is 0x7102502200).
+// Both have only a virtual destructor.
+class Unk_71025021b8 {
+public:
+    virtual ~Unk_71025021b8() = default;
+};
+class Unk_7102502200 {
+public:
+    virtual ~Unk_7102502200() = default;
+};
+
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
 // SoundMgr::_80. A buffer (size at +8, data at +0x10) of 50 duckers (0xd0 bytes each: aal::GroupDucker at +0x68,
 // `_c0` / `_c8` state) indexed by a SEAD_ENUM of ducker names (the enum's text function is 0x7101042f30);
@@ -670,6 +682,9 @@ KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38, 0x160);
 // TODO: incomplete.
 class DuckingMgr {
 public:
+    DuckingMgr();
+    virtual ~DuckingMgr();
+
     // The names are the strings at 0x7101e26516 (the SEAD_ENUM text; text function 0x7101042f30).
     // clang-format off
     // (the original text has a space before each comma: `text_all` is 737 bytes)
@@ -685,11 +700,13 @@ public:
               cCustomEvt , cCustomEvt2)
     // clang-format on
 
-    struct Ducker {
-        virtual void v0();
-        virtual void v1();
-        // 0x7101042f18
+    struct Ducker : public Unk_71025021b8, public Unk_7102502200 {
+        // Vtable order (0x71025021b8): destructor pair, isActive, v0, v1.
         virtual bool isActive() const;
+        // 0x7101042f24 (empty) and 0x7101042f28 (returns the address of the member at +0x10).
+        virtual void v0() {}
+        virtual void* v1() { return _10; }
+        virtual ~Ducker();
         bool sub_710103E368() const;
         // 0x710103e00c: sets the active bit and clears _c0.
         void activateMaybe();
@@ -701,7 +718,7 @@ public:
         // active or ducking.
         void calc();
 
-        u8 _8[0x60];
+        u8 _10[0x58];
         /* 0x68 */ aal::GroupDucker mDucker;
         /* 0xb0 */ void* _b0;
         u8 _b8[8];
@@ -726,8 +743,10 @@ public:
     // 0x710103aa3c, 0x710103ab10, 0x710103ab98 and 0x710103acc8).
     Ducker& getDucker(DuckerType type) { return mDuckers[type]; }
 
-    void* _0;  // vtable
     /* 0x08 */ sead::Buffer<Ducker> mDuckers;
+    // The heap of the duckers, destroyed with them (the destructor calls destroy() through its vtable).
+    /* 0x18 */ sead::Heap* mHeap = nullptr;
+    /* 0x20 */ bool _20 = false;
 };
 
 // Actual sound-owned B8 allocation in 0x710105590C and embedded stream-path callback.

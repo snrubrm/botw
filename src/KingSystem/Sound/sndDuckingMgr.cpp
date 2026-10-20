@@ -2,6 +2,23 @@
 
 namespace ksys::snd {
 
+// 0x710103e404
+DuckingMgr::DuckingMgr() = default;
+
+// 0x710103e424: frees the ducker array and destroys its heap.
+DuckingMgr::~DuckingMgr() {
+    mDuckers.freeBuffer();
+    if (mHeap) {
+        mHeap->destroy();
+        mHeap = nullptr;
+    }
+}
+
+// 0x710103dce4: finalizes the group ducker; the member destructor then releases it.
+DuckingMgr::Ducker::~Ducker() {
+    mDucker.finalize();
+}
+
 void DuckingMgr::Ducker::activateMaybe() {
     _c8 |= 1;
     _c0 = 0;
