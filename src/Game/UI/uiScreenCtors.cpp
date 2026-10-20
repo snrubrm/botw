@@ -196,8 +196,8 @@ ScreenAppHome::ScreenAppHome() : ScreenEx() {
 
 // rodata words read by the ScreenShopHorse ctor (0x7101eb6d7c = 255, 0x7101eb6d80 = -1;
 // owner unknown, names are placeholders)
-const u32 sUnk_7101EB6D7C = 255;
-const u32 sUnk_7101EB6D80 = 0xFFFFFFFF;
+const sead::Color4u8 sUnk_7101EB6D7C(0, 0, 0, 255);
+const sead::Color4u8 sUnk_7101EB6D80(255, 255, 255, 255);
 
 // 0x7100a4ea68
 // NON_MATCHING: member-init scheduling only (original stores _3610 and the vtable/constant stores

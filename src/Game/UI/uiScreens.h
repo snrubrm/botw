@@ -12,6 +12,7 @@
 #include <prim/seadEnum.h>
 #include <math/seadVector.h>
 #include <gfx/seadCamera.h>
+#include <gfx/seadColor.h>
 #include <gfx/seadProjection.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -2161,19 +2162,30 @@ public:
     s32 _36bc = 0;
     /* 0x36c0 */ s32 _36c0 = -1;
     u8 _36c4[4];
-    u64 _36c8[0x38 / 8] = {};
+    u64 _36c8 = 0;
+    /* 0x36d0 */ eui::Animator* _36d0 = nullptr;
+    /* 0x36d8 */ eui::TraceGaugeControl* _36d8 = nullptr;
+    /* 0x36e0 */ eui::TraceGaugeControl* _36e0 = nullptr;
+    /* 0x36e8 */ eui::TraceGaugeControl* _36e8 = nullptr;
+    /* 0x36f0 */ eui::TraceGaugeControl* _36f0 = nullptr;
+    u64 _36f8 = 0;
     /* 0x3700 */ eui::Animator* _3700 = nullptr;
     /* 0x3708 */ eui::Animator* _3708 = nullptr;
     /* 0x3710 */ eui::Animator* _3710 = nullptr;
     /* 0x3718 */ eui::Animator* _3718 = nullptr;
-    u64 _3720[3] = {};
-    /* 0x3738 */ u32 _3738;
-    /* 0x373c */ u32 _373c;
-    /* 0x3740 */ u32 _3740;
-    /* 0x3744 */ u32 _3744;
+    // Materials written by A50C28 / A50DC4 / A50F5C / A510F4.
+    /* 0x3720 */ nn::ui2d::Material* _3720 = nullptr;
+    /* 0x3728 */ nn::ui2d::Material* _3728 = nullptr;
+    /* 0x3730 */ nn::ui2d::Material* _3730 = nullptr;
+    /* 0x3738 */ sead::Color4u8 _3738;
+    /* 0x373c */ sead::Color4u8 _373c;
+    /* 0x3740 */ sead::Color4u8 _3740;
+    /* 0x3744 */ sead::Color4u8 _3744;
     /* 0x3748 */ u8 _3748 = 0;
 
     void sub_7100A4EBA0(s32);
+    // 0x7100a4ee70: horse rating gauges, familiarity percentage and nature.
+    void sub_7100A4EE70(const sead::SafeString& actor_name, f32 familiarity);
     // 0x7100a50648: refreshes the preview colors and texture animation frames.
     void sub_7100A50648(const s32* kind, const s32* variant, s32 frame);
     void sub_7100A50C28(const sead::Color4f& color);
@@ -2184,9 +2196,9 @@ public:
     void sub_7100A50750(eui::Animator* animator, const sead::SafeString& param);
 };
 
-// 0x7101eb6d7c / 0x7101eb6d80 (rodata words read by the ScreenShopHorse ctor; owner unknown)
-extern const u32 sUnk_7101EB6D7C;
-extern const u32 sUnk_7101EB6D80;
+// 0x7101eb6d7c / 0x7101eb6d80: opaque black and white read by the ScreenShopHorse ctor.
+extern const sead::Color4u8 sUnk_7101EB6D7C;
+extern const sead::Color4u8 sUnk_7101EB6D80;
 
 // State objects of ScreenMainShortCut (StateTemplate<...>; 0x71025ef170 / 0x71025ef290) and ScreenAppTool (0x71025ec670).
 extern const ksys::StateBase sUnk_71025ef170;
