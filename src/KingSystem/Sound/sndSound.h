@@ -1603,6 +1603,8 @@ public:
     bool sub_710104A858() const;
     // 0x710104a8ac (placeholder name): no entry referenced and _10 empty.
     bool sub_710104A8AC() const;
+    // 0x710104a94c (CSV name SLinkSoundEmitter::getUserInstance): the user instance of the referenced entry.
+    xlink2::UserInstanceSLink* getUserInstance() const;
 
     /* 0x08 */ bool mIsSet = false;
     /* 0x10 */ sead::FixedSafeString<64> _10{sead::SafeString::cEmptyString};
@@ -1621,6 +1623,8 @@ public:
     void sub_71010289CC();
     // 0x7101028690: resets every entry, then frees and deletes mInstances (called before deletion).
     void sub_7101028690();
+    // 0x7101028954 (placeholder name): stops all events of the entries' user instances.
+    void sub_7101028954(s32 arg);
 
     // Placeholder: a named sound reference with 0x20 more bytes (four of them from +8).
     struct Entry : Unk_7102502430 {

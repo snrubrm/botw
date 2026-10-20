@@ -220,6 +220,12 @@ bool Unk_7102502430::sub_710104A8AC() const {
     return _10.isEmpty();
 }
 
+xlink2::UserInstanceSLink* Unk_7102502430::getUserInstance() const {
+    if (_98)
+        return _98->mUserInstance;
+    return nullptr;
+}
+
 void Unk_7102502430::sub_710104A108() {
     if (!mOwner)
         return;

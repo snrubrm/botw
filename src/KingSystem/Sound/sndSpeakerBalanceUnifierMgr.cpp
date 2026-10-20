@@ -131,6 +131,13 @@ void Unk_SoundMgr38_58::sub_7101028690() {
     }
 }
 
+void Unk_SoundMgr38_58::sub_7101028954(s32 arg) {
+    for (auto& entry : mEntries) {
+        if (auto* user_instance = entry.getUserInstance())
+            user_instance->stopAllEvent(arg);
+    }
+}
+
 void Unk_SoundMgr38_58::sub_71010289CC() {}
 
 }  // namespace ksys::snd
