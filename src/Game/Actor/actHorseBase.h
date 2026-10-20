@@ -323,7 +323,7 @@ KSYS_CHECK_SIZE_NX150(HorseBase, 0xc58);
 // 0x7100e6dc50 (CSV unnamed): whether the accessor's actor is a HorseBase.
 bool sub_7100E6DC50(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x7100e6dd40: `_b48`. 0x7100e6de34: `_b10->m31()`. 0x7100e6df38: `_b78`. 0x7100e6e02c: the Nature GParam (0 without a horse).
-void* sub_7100E6DD40(const ksys::act::ActorLinkConstDataAccess& accessor);
+Mystery2Horse* sub_7100E6DD40(const ksys::act::ActorLinkConstDataAccess& accessor);
 f32 sub_7100E6DE34(const ksys::act::ActorLinkConstDataAccess& accessor);
 s32 sub_7100E6DF38(const ksys::act::ActorLinkConstDataAccess& accessor);
 HorseBase::Nature sub_7100E6E02C(const ksys::act::ActorLinkConstDataAccess& accessor);

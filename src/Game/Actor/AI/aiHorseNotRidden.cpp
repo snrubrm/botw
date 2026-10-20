@@ -8,7 +8,9 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 #include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -84,7 +86,43 @@ void HorseNotRidden::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseNotRidden::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_1a9.isOnBit(Flag(Flag::_4)))
+        return;
+
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
+        horse->sub_7100E6C094(false);
+
+    if (_1a9.isOnBit(Flag(Flag::_0))) {
+        if (auto* awareness = mActor->getAwareness())
+            awareness->disable();
+    }
+
+    if (_1a9.isOnBit(Flag(Flag::_5))) {
+        if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
+            horse->sub_7100E6BF00();
+            horse->sub_7100E6BEC0(false);
+        }
+    }
+
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    if (!rideable || u8(rideable->act::Unk_7100e8b2b8::_8.load()) != 1)
+        return;
+
+    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    if (!horse)
+        return;
+
+    auto* broker = horse->_b48;
+    if (!broker) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&horse->_b30, &accessor))
+            broker = act::sub_7100E6DD40(accessor);
+    }
+    if (!broker)
+        return;
+
+    mActor->getMtx().getTranslation(_19c);
+    sendMessage(*broker, ksys::MessageType(0x3800010), &_19c);
 }
 
 // NON_MATCHING: the original switch is a jump table over 0x3800001..0x380001f (a fourth case we cannot see; ours is a

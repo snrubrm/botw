@@ -1389,7 +1389,7 @@ void sub_7100E6C5A4(const ksys::act::ActorLinkConstDataAccess& accessor, s32 id)
         horse->sub_7100E6C464(id);
 }
 
-void* sub_7100E6DD40(const ksys::act::ActorLinkConstDataAccess& accessor) {
+Mystery2Horse* sub_7100E6DD40(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->_b48 : nullptr;
 }
