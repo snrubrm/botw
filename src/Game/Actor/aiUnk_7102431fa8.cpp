@@ -127,3 +127,51 @@ bool sub_7100742664(sead::Vector3f* hit, ksys::phys::NavMeshCharacter* nav,
         hit->set(result._18);
     return found;
 }
+
+// 0x7100742478: navmesh query from `pos` down by `height` along Vector3f::ey; true when the hit material
+// cost is finite. Writes Vector3f::zero to `out` without a HavokAI.
+// NON_MATCHING: the type argument is narrowed to 32 bits earlier than in the original and the vector
+// subtraction is scheduled as a pair load.
+bool sub_7100742478(sead::Vector3f* out, const sead::Vector3f& pos, f32 height, s32 a3) {
+    sead::Vector3f from = sead::Vector3f::ey;
+    from *= height;
+    from.x = pos.x - from.x;
+    from.y = pos.y - from.y;
+    from.z = pos.z - from.z;
+    ksys::phys::HavokAI* havok = ksys::phys::HavokAI::instance();
+    if (!havok) {
+        out->set(sead::Vector3f::zero);
+        return false;
+    }
+
+    const ksys::phys::Unk_7100f7e9f0 query = havok->sub_7100F87A80(out, pos, from);
+    if (!query.sub_7100F7EB40())
+        return false;
+    const f32 cost = ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+        ksys::phys::NavMeshCharacterType(a3), query.sub_7100F7EEE4());
+    return !(sead::Mathf::abs(cost) > std::numeric_limits<f32>::max());
+}
+
+// 0x7100742334: whether the position is at most `height` above the navmesh two metres below it.
+// NON_MATCHING: the two vector additions / subtractions are scheduled differently.
+bool sub_7100742334(const sead::Vector3f* position, f32 height) {
+    sead::Vector3f from = *position;
+    from.y += 2.0f;
+    const sead::Vector3f to = from - sead::Vector3f::ey * (height + 2.0f);
+
+    ksys::phys::HavokAI* havok = ksys::phys::HavokAI::instance();
+    if (!havok)
+        return false;
+
+    sead::Vector3f hit;
+    const ksys::phys::Unk_7100f7e9f0 query = havok->sub_7100F87A80(&hit, from, to);
+    if (!query.sub_7100F7EB40())
+        return false;
+    const f32 cost = ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+        ksys::phys::NavMeshCharacterType::WolfLink, query.sub_7100F7EEE4());
+    if (sead::Mathf::abs(cost) > std::numeric_limits<f32>::max())
+        return false;
+    if (position->y <= hit.y)
+        return true;
+    return position->y - hit.y <= height;
+}
