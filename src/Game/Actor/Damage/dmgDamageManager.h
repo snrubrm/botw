@@ -67,6 +67,9 @@ struct DamageManagerUnk220 {
     // 0x71006da8e4 (placeholder name; called by StasisMgr::m0 for the target's model): ends a running hit
     // flash (_294 = -1) and clears the model's damage colour.
     void sub_71006DA8E4(gsys::Model* model);
+    // 0x71006da5c4 (declared only, 800 B; placeholder name): records a stasis blow (DamageManager slot 17).
+    void sub_71006DA5C4(ksys::act::Actor* actor, const sead::Vector3f& a, const sead::Vector3f& b, bool c, bool d,
+                        bool e, s32 f);
 
     // 0x71006d99a8 (called by StasisMgr::__auto5, which allocates it for DamageManager::_220).
     DamageManagerUnk220();
@@ -119,6 +122,9 @@ public:
     // Slot 13 (CSV DamageMgr::getStasisBlowPowerRatio): the stasis blow ratio of `_220` (0 without it).
     f32 getStasisBlowPowerRatio() override;
     bool m14(sead::Vector3f* out) override;
+    // Slot 17: forwards to `_220` (created by the StasisMgr on first use).
+    void accumulateStasisBlowVelocity(const sead::Vector3f& a, const sead::Vector3f& b, bool c, bool d, bool e,
+                                      s32 f) override;
     bool isSlowTime() override;
     bool getAttackDirType(s32* out) override;
     bool getAttackInfoFlagFC() override;

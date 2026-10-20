@@ -321,6 +321,16 @@ f32 DamageManager::getStasisBlowPowerRatio() {
     return 0.0f;
 }
 
+void DamageManager::accumulateStasisBlowVelocity(const sead::Vector3f& a, const sead::Vector3f& b, bool c,
+                                                 bool d, bool e, s32 f) {
+    if (!_220) {
+        _220 = StasisMgr::instance()->sub_7100681588(mActor);
+        if (!_220)
+            return;
+    }
+    _220->sub_71006DA5C4(mActor, a, b, c, d, e, f);
+}
+
 bool DamageManager::m14(sead::Vector3f* out) {
     if (_220 && _220->_27a) {
         *out = _220->_27c;

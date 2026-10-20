@@ -80,7 +80,8 @@ public:
     virtual bool applyDamage(s32& life);
     // Slot 16: message handler (DamageManager::handleMessage forwards to its listeners).
     virtual bool handleMessage(const ksys::Message& message) { return false; }
-    virtual void accumulateStasisBlowVelocity() {}
+    virtual void accumulateStasisBlowVelocity(const sead::Vector3f& a, const sead::Vector3f& b, bool c, bool d,
+                                              bool e, s32 f) {}
     virtual s32 getNumCallbacks();
     virtual bool initCallbacks(sead::Heap* heap);
 
