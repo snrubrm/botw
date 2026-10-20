@@ -16,19 +16,18 @@ class Heap;
 namespace aal {
 
 class SpeakerBalanceUnifier;
+class Interior;
+enum class SpeakerBalanceMode : u32;
 
-/// The speaker balances of an interior: five channel volumes (0..255) for each of the sixty four directions around
-/// the listener and for each of the forty eight spreads.
+// The native table calculators write one five-channel entry through this type.
 struct UnifierSpeakerBalanceData {
     UnifierSpeakerBalanceData() : mBalance{} {}
-
     using ChannelBalance = sead::SafeArray<u8, 5>;
-    sead::SafeArray<sead::SafeArray<ChannelBalance, 64>, 48> mBalance;
+    ChannelBalance mBalance;
 };
-static_assert(sizeof(UnifierSpeakerBalanceData) == 0x3c00, "aal::UnifierSpeakerBalanceData size mismatch");
+static_assert(sizeof(UnifierSpeakerBalanceData) == 5);
 
-/// The table of the speaker balances of the unifiers: one UnifierSpeakerBalanceData for each interior of each device.
-/// TODO: incomplete (makeTable and the calcSpeakerBalance functions are not decompiled, 0x7100b94830 declared only).
+/// Speaker balances indexed by device, interior, spread and direction.
 class UnifierSpeakerBalanceTable {
 public:
     UnifierSpeakerBalanceTable();
@@ -45,7 +44,21 @@ public:
                                             f32 spread) const;
 
 private:
-    UnifierSpeakerBalanceData** mData;
+    struct AngleSection {
+        u32 lower;
+        u32 upper;
+    };
+    static_assert(sizeof(AngleSection) == 8);
+    void calcSpeakerBalance_(UnifierSpeakerBalanceData*, const Interior&, u32, SpeakerBalanceMode);
+    void calcSpeakerBalanceStereo_(UnifierSpeakerBalanceData*, u32, SpeakerBalanceMode);
+    void calcSpeakerBalanceSpread_(UnifierSpeakerBalanceData*, const Interior&, u32, f32,
+                                   SpeakerBalanceMode);
+    void calcSpeakerBalanceSpreadStereo_(UnifierSpeakerBalanceData*, u32, f32, SpeakerBalanceMode);
+    void calcSpread_(f32*, f32*, const AngleSection&, const AngleSection*, f32,
+                     SpeakerBalanceMode) const;
+    using InteriorData = sead::SafeArray<sead::SafeArray<UnifierSpeakerBalanceData, 64>, 48>;
+    static_assert(sizeof(InteriorData) == 0x3c00);
+    InteriorData** mData;
     /// The maximum of the total volume of each direction, for each interior.
     f32* mTotalVolumeMax[DeviceType::size()];
     s32 mInteriorNum;
