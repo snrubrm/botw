@@ -132,6 +132,86 @@ Unk_71024fe368::~Unk_71024fe368() {
     }
 }
 
+// 0x710260fa58 / 0x710260fa5c / 0x710260fa60 (placeholder names): debug overrides read by m5 (a flag and the
+// tension that replace _1d8._0, and a flag that skips the play wait); nothing in the game writes them.
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FA58;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710260FA5C;
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FA60;
+
+void Unk_71024fe368::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+
+    switch (mState) {
+    case 0: {
+        const s32* tension = sUnk_710260FA58 == false ? &_1d8._0 : &sUnk_710260FA5C;
+        if (*tension >= 1) {
+            if (sUnk_710260FA60 || u8(_1d8._c >> 16)) {
+                _1e8 = 0.0f;
+                sub_710100AF98();
+            } else {
+                _1e8 += ksys::snd::sub_710105E3A4();
+                const f32 wait = *mInfo->mPlayWaitSec;
+                if (_1e8 >= wait) {
+                    _1e8 = wait;
+                    sub_710100AF98();
+                }
+            }
+        } else {
+            _1e8 = 0.0f;
+        }
+        break;
+    }
+    case 1: {
+        sub_710100B130();
+        const s32* tension = sUnk_710260FA58 == false ? &_1d8._0 : &sUnk_710260FA5C;
+        if (*tension > 0)
+            break;
+        _1b0.moveTo(0.0f, *mInfo->mFadeOutSec);
+        mState = 2;
+        break;
+    }
+    case 2: {
+        sub_710100B130();
+        const s32* tension = sUnk_710260FA58 == false ? &_1d8._0 : &sUnk_710260FA5C;
+        if (*tension >= 1) {
+            _1b0.moveTo(1.0f, 1.0f);
+            mState = 1;
+            break;
+        }
+        if (_1b0.getValue() != _1b0.getNextValue())
+            break;
+        sub_710101D9F4(0.0f);
+        mSubHandle->sub_7101020C08(0.0f);
+        _248->_18 = 0;
+        _1e8 = 0.0f;
+        mState = 0;
+        break;
+    }
+    case 3:
+        if (_124 == 3 || _124 == 4)
+            break;
+        sub_710101D9F4(0.0f);
+        mSubHandle->sub_7101020C08(0.0f);
+        _248->_18 = 0;
+        _1e8 = 0.0f;
+        mState = 0;
+        break;
+    case 4:
+        if (_230 && _230->sub_7100FF6DF4(this))
+            break;
+        sub_710101D9F4(0.0f);
+        mSubHandle->sub_7101020C08(0.0f);
+        _248->_18 = 0;
+        _1e8 = 0.0f;
+        mState = 0;
+        break;
+    }
+
+    _1b0.calc();
+    _a4 = _1b0.getValue();
+}
+
 void Unk_71024fe368::calc() {
     Unk_SpotBgmHandle::calc();
     mSubHandle->_a4 = _138.getValue() * _1b0.getValue();

@@ -2741,6 +2741,13 @@ public:
     void m14(sead::TextWriter& writer) override {}
     // 0x710100b30c: called by ksys::snd::Unk_710260f0c0::m8 on its kind 3 BGM.
     void sub_710100B30C(const ksys::snd::Unk_BgmControllerM8Arg& arg);
+    // 0x710100adb0: starts the BGM after the play wait while the battle tension is up and fades it out when it
+    // drops.
+    void m5() override;
+    // 0x710100af98 / 0x710100b130 (declared only; placeholder names): called by m5 to start the BGM and, while it
+    // plays, to reserve the hit parts.
+    void sub_710100AF98();
+    void sub_710100B130();
 
     // The field battle BGM (MusicInfoType 8 info, FieldBattleBgmInfo). lane3 s86.
     // 0x710100b320: playing (handle state 3 or 4) for longer than FeelPlayingSec.
@@ -2777,7 +2784,8 @@ public:
     /* 0x1a8 */ s32 mState;
     /* 0x1b0 */ aal::TimedFader _1b0;
     /* 0x1d8 */ ksys::snd::Unk_BgmControllerM8Arg _1d8;
-    /* 0x1e8 */ u32 _1e8;
+    // The play wait counter (m5).
+    /* 0x1e8 */ f32 _1e8;
     // Half a beat in seconds (hm14: 60 / Bpm / 2).
     /* 0x1ec */ f32 mHalfBeatSec;
     /* 0x1f0 */ u32 _1f0;
@@ -2798,7 +2806,7 @@ public:
     // Set by ksys::snd::Unk_710260f0c0::m10.
     bool _224;
     /* 0x228 */ s32 _228;
-    /* 0x230 */ void* _230;
+    /* 0x230 */ ksys::snd::Unk_710260f248Entry* _230;
     // The values of the xlink2 properties (PropertyType order).
     /* 0x238 */ Section mSection;
     /* 0x23c */ Key mKey;
