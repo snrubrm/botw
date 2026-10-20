@@ -83,6 +83,27 @@ void ScreenAppMapWidget::sub_71009AE1C0() {
     }
 }
 
+// 0x71009ae29c
+void ScreenAppMapWidget::sub_71009AE29C(bool up) {
+    if (up) {
+        _b4a4 = 6;
+        if (++_b4fa >= 3) {
+            _b4fa = 2;
+            _b4a4 = 8;
+        }
+    } else {
+        _b4a4 = 7;
+        if (--_b4fa < 0) {
+            _b4fa = 0;
+            _b4a4 = 8;
+        }
+    }
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC99C(false);
+        home->x_2();
+    }
+}
+
 // 0x71009a995c
 void ScreenAppMapWidget::sub_71009A995C() {
     _b34c = 1;
