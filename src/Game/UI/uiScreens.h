@@ -2300,7 +2300,9 @@ public:
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     u8 _pad_3610[0x3620 - 0x3610];
     /* 0x3620 */ eui::Animator* _3620;  // stopped at max while _3738 is empty (sub_7100A2080C)
-    u8 _pad_3628[0x3638 - 0x3628];
+    // the pause menu data the arrow count comes from (m168)
+    /* 0x3628 */ PauseMenuDataMgr* _3628;
+    u8 _pad_3630[0x3638 - 0x3630];
     nn::ui2d::ArchiveHandle _3638;
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ s32 _36e8;
@@ -2310,7 +2312,8 @@ public:
     /* 0x3720 */ s32 _3720;
     u8 _pad_3724[0x372c - 0x3724];
     /* 0x372c */ s32 _372c;  // arrow count shown in T_BowNum_00
-    u8 _pad_3730[0x3738 - 0x3730];
+    /* 0x3730 */ s32 _3730;  // the arrow count when m168 last refreshed it
+    /* 0x3734 */ bool _3734;  // an arrow is equipped (m168)
     /* 0x3738 */ sead::FixedSafeString<64> _3738;  // ctor 0x7100a1ef28; 0x58 bytes with its tail padding
     /* 0x3790 */ ScreenAppPictureBookUnk* _3790;
     /* 0x3798 */ eui::Animator* _3798;

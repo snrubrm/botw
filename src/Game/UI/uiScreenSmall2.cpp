@@ -2107,6 +2107,27 @@ void ScreenMainShortCut::m160() {
         _3790->sub_710093F594(false);
 }
 
+// 0x7100a22170
+void ScreenMainShortCut::m168() {
+    if (!sub_7100AA7BAC(&_3738))
+        _3738.clear();
+    const PouchItem* arrow = _3628 ? _3628->getEquippedItem(PouchItemType::Arrow) : nullptr;
+    if (arrow) {
+        _372c = arrow->getCount();
+        _3730 = arrow->getCount();
+        _3734 = true;
+    } else {
+        _372c = 0;
+        _3730 = 0;
+        _3734 = false;
+    }
+    sub_7100A2080C();
+    auto* rune = RuneMgr::instance();
+    sub_7100A1F684(rune ? rune->getCurrentItem() : -1);
+    sub_7100A20CBC();
+    m80(true);
+}
+
 // 0x7100a2192c
 // NON_MATCHING: the original forms the address of the byte at 0x3700 (`add x8, x19, x8; ldrb w8, [x8]`) instead of
 // the register-offset load
