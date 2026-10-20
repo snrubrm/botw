@@ -122,15 +122,28 @@ class Unk_71024dcea8 : public Unk_71024dce08 {
 public:
     // Declared first as the key function (see Unk_71024dcd68).
     sead::BitFlag8* m16() override;
+    // 0x7100d803d4: caches the forest_density statistic.
+    void m9() override;
+    // 0x7100d81d10: whether any target entry is in use.
+    bool m10() override;
     void m12(f32 level, Unk_71024dc978* target, const sead::Vector3f& position,
              const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
              const sead::Vector3f& base_position, const sead::Vector3f& target_position,
              bool flag) override;
 
-    u8 _52[0x68 - 0x52];
+    // The 0x128-byte target entries the destructors free (only the in-use word is known).
+    struct TargetEntry {
+        u8 _0[0x14];
+        /* 0x14 */ u32 _14;
+        u8 _18[0x128 - 0x18];
+    };
+
+    u8 _52[0x58 - 0x52];
+    /* 0x58 */ sead::Buffer<TargetEntry> _58;
     /* 0x68 */ sead::BitFlag8 _68;  // EnemyNormal::m41 clears bit 0
     /* 0x70 */ Actor* _70;
-    u8 _78[0x8c - 0x78];
+    /* 0x78 */ void* mForestDensity;
+    u8 _80[0x8c - 0x80];
     // The setup producer supplies the sight ranges/angles; the setter caches their cosines.
     /* 0x8c */ f32 _8c;
     /* 0x90 */ f32 _90;

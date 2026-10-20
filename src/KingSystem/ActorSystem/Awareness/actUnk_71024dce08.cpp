@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
+#include "Game/gameStatisticsMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -55,6 +56,20 @@ f32 Unk_71024dce08::sub_7100D8010C() const {
         }
     }
     return _4c;
+}
+
+void Unk_71024dcea8::m9() {
+    if (auto* stats = uking::StatisticsMgr::instance())
+        mForestDensity = stats->getStatsPointer("forest_density");
+}
+
+// NON_MATCHING: the loop counter decrement and the entry pointer step are swapped.
+bool Unk_71024dcea8::m10() {
+    for (const auto& entry : _58) {
+        if (entry._14 != 0)
+            return true;
+    }
+    return false;
 }
 
 sead::BitFlag8* Unk_71024dcea8::m16() {
