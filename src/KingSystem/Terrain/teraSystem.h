@@ -1704,7 +1704,7 @@ struct Unk_71012EBDBC {
     u32 _4c = 0;
     u32 _50 = 0;
     u32 _54 = 0;
-    u32 mMode = 2;
+    u32 mMode;
     // Bit 0: open; bit 1 set by ImageResourceMgr::sub_7101136328.
     sead::BitFlag32 mFlags;
 };

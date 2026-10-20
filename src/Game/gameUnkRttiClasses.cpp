@@ -392,7 +392,9 @@ bool Unk_71012eb6e8::isValid(System* const* systems, const Unk_7101106F44* entry
 }
 
 // NON_MATCHING: the mode and flag stores are merged into one in ours.
-Unk_71012EBDBC::Unk_71012EBDBC() = default;
+Unk_71012EBDBC::Unk_71012EBDBC() {
+    mMode = 2;
+}
 
 Unk_71012EBDBC::~Unk_71012EBDBC() {
     if (mFlags.isOnBit(0)) {
