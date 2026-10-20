@@ -5,6 +5,8 @@
 #include <thread/seadEvent.h>
 #include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h>
 #include <Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h>
+#include <Havok/Ai/Pathfinding/Utilities/hkaiNavMeshUtils.h>
+#include <Havok/Geometry/Internal/Types/hkcdRay.h>
 
 namespace ksys::phys {
 
@@ -219,6 +221,23 @@ f32 Unk_7100f7e9f0::sub_7100F7ED6C(sead::Vector3f* normal_out) const {
     if (normal_out)
         normal.store<3>(normal_out->e.data());
     return area;
+}
+
+// NON_MATCHING: ray vector construction and reciprocal/tag stores are scheduled differently.
+bool Unk_7100f7e9f0::sub_7100F7EDD8(const sead::Vector3f& position, f32 distance) const {
+    if (!_0 || _8 == -1)
+        return false;
+    const auto* instance = _0->m_instances[u32(_8) >> 22].m_instancePtr;
+    if (!instance)
+        return false;
+    hkVector4 origin;
+    origin.set(position.x, position.y, position.z, 0.0f);
+    hkVector4 direction;
+    direction.set(0, -distance, 0, 0);
+    hkcdRay ray;
+    ray.setOriginDirection(origin, direction, hkSimdReal::getConstant<HK_QUADREAL_1>());
+    hkSimdReal fraction;
+    return hkaiNavMeshUtils::castRayFaceMaybe(*instance, _8 & 0x3fffff, ray, fraction);
 }
 
 // NON_MATCHING: selected storage/index branches and register assignment differ.

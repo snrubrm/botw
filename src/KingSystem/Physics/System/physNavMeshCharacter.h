@@ -75,6 +75,8 @@ public:
     bool sub_7100F7EB60(sead::Vector3f* position_out) const;
     // 0x7100f7ed6c returns the packed face's area and optionally writes its world normal.
     f32 sub_7100F7ED6C(sead::Vector3f* normal_out) const;
+    // Native 0x7100f7edd8 casts downward against this packed navmesh face.
+    bool sub_7100F7EDD8(const sead::Vector3f& position, f32 distance) const;
     // 0x7100f7eee4 (declared only): compared with 5 by PriestBossMove::m35.
     s32 sub_7100F7EEE4() const;
 
