@@ -121,6 +121,7 @@ public:
     explicit Area(const CreateArg& arg);
     static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    void m148() override;
     void m149(phys::RigidBody* body) override;
     void m151() override;
     phys::ContactLayer m152() override;

@@ -1,5 +1,8 @@
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -13,6 +16,24 @@ Area::Area(const CreateArg& arg) : AreaActor(arg) {
 
 BaseProc* Area::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Area(arg);
+}
+
+// Sends message 0x4800002 to the actors with an AreaCol link to this area.
+void Area::m148() {
+    if (!mMapObject)
+        return;
+    auto* data = mMapObject->getLinkData();
+    if (!data)
+        return;
+    for (auto& link : data->mLinksToSelf.links) {
+        if (link.type != map::MapLinkDefType::AreaCol)
+            continue;
+        if (auto* obj = link.other_obj) {
+            ActorLinkConstDataAccess accessor;
+            obj->getActorWithAccessor(accessor);
+            sendMessage(*accessor.getMessageTransceiverId(), MessageType(0x4800002), nullptr, true);
+        }
+    }
 }
 
 void Area::m149(phys::RigidBody* body) {
