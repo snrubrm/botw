@@ -2,6 +2,6 @@
 
 namespace gsys {
 
-ParticleMgr* ParticleMgr::sInstance = nullptr;
+SEAD_SINGLETON_DISPOSER_IMPL(ParticleMgr)
 
 }  // namespace gsys
