@@ -114,6 +114,40 @@ void Unk_710260ecf8::hm15() {
 
 }  // namespace ksys::snd
 
+// inline-only in the original; name is a guess (sub_710100AF98 and the section node 0x710100bb6c repeat it).
+inline void Unk_71024fe368::setSectionMaybe(Section section) {
+    if (int(mSection) == int(section))
+        return;
+    for (s32 i = 0; i < mEntries4.size(); ++i)
+        mEntries4(i)._98 = -1;
+    _220 = 0;
+    _218 = 0;
+    _21c = 0;
+    mSection = section;
+    if (mUserInstance)
+        mUserInstance->setPropertyValue(0, mSection);
+    if (mSubHandle->mUserInstance)
+        mSubHandle->mUserInstance->setPropertyValue(0, mSection);
+}
+
+// inline-only in the original; name is a guess (sub_710100AF98 and the key node 0x710100b9f8 repeat it).
+inline void Unk_71024fe368::setKeyMaybe(Key key) {
+    mKey = key;
+    if (mUserInstance)
+        mUserInstance->setPropertyValue(1, mKey);
+    if (mSubHandle->mUserInstance)
+        mSubHandle->mUserInstance->setPropertyValue(1, mKey);
+}
+
+// inline-only in the original; name is a guess (sub_710100AF98 and the key type node 0x710100bac0 repeat it).
+inline void Unk_71024fe368::setKeyTypeMaybe(KeyType type) {
+    mKeyType = type;
+    if (mUserInstance)
+        mUserInstance->setPropertyValue(2, mKeyType);
+    if (mSubHandle->mUserInstance)
+        mSubHandle->mUserInstance->setPropertyValue(2, mKeyType);
+}
+
 Unk_71024fe368::~Unk_71024fe368() {
     if (_248) {
         delete _248;
@@ -219,29 +253,9 @@ void Unk_71024fe368::sub_710100AF98() {
     if (sUnk_710260FA60 || u8(_1d8._c >> 16)) {
         _1b0.setValueImmediate(1.0f);
         _248->_8 = _268;
-        const Section section = Section::Middle;
-        if (int(mSection) != int(section)) {
-            for (s32 i = 0; i < mEntries4.size(); ++i)
-                mEntries4(i)._98 = -1;
-            _220 = 0;
-            _218 = 0;
-            _21c = 0;
-            mSection = section;
-            if (mUserInstance)
-                mUserInstance->setPropertyValue(0, mSection);
-            if (mSubHandle->mUserInstance)
-                mSubHandle->mUserInstance->setPropertyValue(0, mSection);
-        }
-        mKey = Key::調2;
-        if (mUserInstance)
-            mUserInstance->setPropertyValue(1, mKey);
-        if (mSubHandle->mUserInstance)
-            mSubHandle->mUserInstance->setPropertyValue(1, mKey);
-        mKeyType = KeyType::B;
-        if (mUserInstance)
-            mUserInstance->setPropertyValue(2, mKeyType);
-        if (mSubHandle->mUserInstance)
-            mSubHandle->mUserInstance->setPropertyValue(2, mKeyType);
+        setSectionMaybe(Section::Middle);
+        setKeyMaybe(Key::調2);
+        setKeyTypeMaybe(KeyType::B);
     } else {
         _1b0.setValueImmediate(0.0f);
         _1b0.moveTo(1.0f, *mInfo->mFadeInSec);
@@ -373,19 +387,14 @@ public:
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100b9f8
-    // NON_MATCHING: the three key stores are merged into a select (the original keeps one store per branch).
     void start() override {
         const f32 value = sead::GlobalRandom::instance()->getF32() * 100.0f;
         if (value < mOdds0->ref())
-            mOwner->mKey = Unk_71024fe368::Key::調0;
+            mOwner->setKeyMaybe(Unk_71024fe368::Key::調0);
         else if (value < mOdds1->ref())
-            mOwner->mKey = Unk_71024fe368::Key::調1;
+            mOwner->setKeyMaybe(Unk_71024fe368::Key::調1);
         else
-            mOwner->mKey = Unk_71024fe368::Key::調2;
-        if (mOwner->mUserInstance)
-            mOwner->mUserInstance->setPropertyValue(1, mOwner->mKey);
-        if (mOwner->mSubHandle->mUserInstance)
-            mOwner->mSubHandle->mUserInstance->setPropertyValue(1, mOwner->mKey);
+            mOwner->setKeyMaybe(Unk_71024fe368::Key::調2);
     }
 
 private:
@@ -405,17 +414,12 @@ public:
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100bac0
-    // NON_MATCHING: the two stores are merged into a cset (the original keeps one store per branch).
     void start() override {
         const f32 value = sead::GlobalRandom::instance()->getF32() * 100.0f;
         if (value < mOdds->ref())
-            mOwner->mKeyType = Unk_71024fe368::KeyType::A;
+            mOwner->setKeyTypeMaybe(Unk_71024fe368::KeyType::A);
         else
-            mOwner->mKeyType = Unk_71024fe368::KeyType::B;
-        if (mOwner->mUserInstance)
-            mOwner->mUserInstance->setPropertyValue(2, mOwner->mKeyType);
-        if (mOwner->mSubHandle->mUserInstance)
-            mOwner->mSubHandle->mUserInstance->setPropertyValue(2, mOwner->mKeyType);
+            mOwner->setKeyTypeMaybe(Unk_71024fe368::KeyType::B);
     }
 
 private:
@@ -434,22 +438,8 @@ public:
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100bb6c
-    // NON_MATCHING: the original spills the section to the stack before the compare.
     void start() override {
-        const auto section = mSection;
-        auto* owner = mOwner;
-        if (owner->mSection == section)
-            return;
-        for (s32 i = 0; i < owner->mEntries4.size(); ++i)
-            owner->mEntries4(i)._98 = -1;
-        owner->_220 = 0;
-        owner->_218 = 0;
-        owner->_21c = 0;
-        owner->mSection = section;
-        if (owner->mUserInstance)
-            owner->mUserInstance->setPropertyValue(0, owner->mSection);
-        if (owner->mSubHandle->mUserInstance)
-            owner->mSubHandle->mUserInstance->setPropertyValue(0, owner->mSection);
+        mOwner->setSectionMaybe(mSection);
     }
 
 private:

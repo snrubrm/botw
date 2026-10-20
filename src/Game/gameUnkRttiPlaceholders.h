@@ -2778,6 +2778,10 @@ public:
     SEAD_ENUM(KeyType,A,B)
     // The parts started by the Unk_71024fe618 nodes (text 0x710100ca70).
     SEAD_ENUM(Part,Easy1,Easy2,Easy3,Easy4,Easy5,Easy6,Middle0,Middle1,Middle2,Hard0,Hard1,QuickIntro)
+    // Inline-only helpers (sndBgmList.cpp): set the section / key / key type property on both handles.
+    void setSectionMaybe(Section section);
+    void setKeyMaybe(Key key);
+    void setKeyTypeMaybe(KeyType type);
 
     /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
     /* 0x198 */ sead::PtrArray<xlink2::PropertyDefinition> mProperties;
