@@ -39,8 +39,8 @@ void Unk_710251cea8::sub_71012E7990(f32 diameter, f32,
 // NON_MATCHING: record clearing and two-dimensional loops differ in store grouping and unrolling.
 void Unk_710251cea8::resetCells() {
     sead::ScopedLock<sead::CriticalSection> lock(&_10);
-    _288 = 0;
-    _e98 = 0;
+    mCellSortLists[0].count = 0;
+    mCellSortLists[1].count = 0;
     for (auto& row : mCells) {
         for (auto& cell : row) {
             auto& record = *cell.mRecord;
@@ -104,5 +104,40 @@ void Unk_710251cea8::initialize(sead::Heap* heap, tera::GrassEntry* entry) {
     mHiddenStat = uking::StatisticsMgr::instance()->getStatsPointer("terrain_hidden");
 }
 
+
+// NON_MATCHING: heap construction and key moves differ in loop scheduling.
+void Unk_710251cea8::CellSortList::sort() {
+    if (count <= 1)
+        return;
+    for (s32 parent = count / 2; parent > 0; --parent) {
+        const auto value = entries[parent - 1];
+        s32 hole = parent;
+        while (hole * 2 <= count) {
+            s32 child = hole * 2;
+            if (child < count && entries[child - 1].key < entries[child].key)
+                ++child;
+            if (entries[child - 1].key <= value.key)
+                break;
+            entries[hole - 1] = entries[child - 1];
+            hole = child;
+        }
+        entries[hole - 1] = value;
+    }
+    for (s32 remaining = count; remaining > 1; --remaining) {
+        const auto value = entries[remaining - 1];
+        entries[remaining - 1] = entries[0];
+        s32 hole = 1;
+        while (hole * 2 < remaining) {
+            s32 child = hole * 2;
+            if (child < remaining - 1 && entries[child - 1].key < entries[child].key)
+                ++child;
+            if (entries[child - 1].key <= value.key)
+                break;
+            entries[hole - 1] = entries[child - 1];
+            hole = child;
+        }
+        entries[hole - 1] = value;
+    }
+}
 
 }  // namespace ksys::world

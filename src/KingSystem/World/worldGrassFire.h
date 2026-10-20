@@ -77,6 +77,22 @@ public:
         u8 _17;
     };
     static_assert(sizeof(Cell) == 0x18);
+    struct CellSortList {
+        struct Key {
+            u16 index;
+            u16 key;
+        };
+        s32 count;
+        Key entries[768];
+        Cell* cells;
+
+        void sort();
+    };
+    static_assert(sizeof(CellSortList::Key) == 4);
+    static_assert(offsetof(CellSortList, entries) == 4);
+    static_assert(offsetof(CellSortList, cells) == 0xc08);
+    static_assert(sizeof(CellSortList) == 0xc10);
+
     void sub_71012E7990(f32 diameter, f32 intensity, const sead::Vector2f* position);
     void resetCells();
     void initialize(sead::Heap* heap, tera::GrassEntry* entry);
@@ -91,10 +107,7 @@ public:
     u8 _b8[0x280 - 0xb8];
     u32 mFlags;
     u8 _284[4];
-    u32 _288;
-    u8 _28c[0xe98 - 0x28c];
-    u32 _e98;
-    u8 _e9c[0x1aa8 - 0xe9c];
+    CellSortList mCellSortLists[2];
     Cell mCells[59][59];
     sead::Vector2i mCellIndices;
     sead::Vector2i mGridPosition;
@@ -107,6 +120,7 @@ public:
     void* mIndoorStat;
     void* mHiddenStat;
 };
+static_assert(offsetof(Unk_710251cea8, mCellSortLists) == 0x288);
 static_assert(offsetof(Unk_710251cea8, mCells) == 0x1aa8);
 static_assert(offsetof(Unk_710251cea8, mCellIndices) == 0x16100);
 static_assert(offsetof(Unk_710251cea8, mGridPosition) == 0x16108);
