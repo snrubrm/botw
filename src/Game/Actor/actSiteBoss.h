@@ -275,6 +275,19 @@ public:
             u32 flags = 0;
         };
 
+        // 0x710066cdf8 fills this for bound actor `idx` once its link is live.
+        struct SpawnInfo {
+            ksys::act::Actor* owner = nullptr;
+            sead::Vector3f pos;
+            f32 _14 = 0;
+            bool _18 = false;
+            bool _19 = false;
+            bool _1a = false;
+            bool _1b = false;
+            u8 _1c[4] = {};  // padding to the 0x20 stride
+        };
+        static_assert(sizeof(SpawnInfo) == 0x20);
+
         /* 0x000 */ ksys::act::Actor* mOwner = nullptr;
         // 0x008-0x094: fire ball spawn parameters (SiteBossLswordFirstCreateFBall::enter_).
         /* 0x008 */ bool _8 = false;
@@ -302,7 +315,8 @@ public:
         /* 0x3b0 */ sead::SafeArray<ksys::act::BaseProcLink, 24> _3b0;
         /* 0x530 */ sead::SafeArray<ksys::MesTransceiverId, 20> _530;
         /* 0x710 */ sead::SafeArray<Payload, 24> _710;
-        /* 0xad0 */ u8 _ad0[0xd50 - 0xad0] = {};
+        // 0x710066cdf8 stores the owner and the spawn argument for bound actor `idx` here.
+        /* 0xad0 */ sead::SafeArray<SpawnInfo, 20> _ad0{};
         // 2026-10-07: sub_710066D9B8 tests, sends and clears a 24-entry message-type array.
         /* 0xd50 */ sead::SafeArray<ksys::MessageType, 24> mPendingMessages{};
         /* 0xdb0 */ sead::JobQueueLock _db0;

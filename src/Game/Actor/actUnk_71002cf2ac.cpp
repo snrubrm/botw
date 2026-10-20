@@ -1,3 +1,4 @@
+#include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Actor/actSandworm.h"
@@ -342,6 +343,48 @@ s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
     return count;
 }
 
+
+// NON_MATCHING: same body and calls; the scheduler interleaves the sead::Vector3f::ones copy with the
+// last matrix element store and keeps the ones address in a different register.
+// 0x710066cdf8: binds / spawns the actor `idx` at the pose `mtx`. When the handle already holds a
+// ready proc, moves it into the link, copies its transceiver id and records the spawn slot.
+void SiteBoss::Unk_71002cf2ac::sub_710066CDF8(ksys::act::Actor* owner,
+                                              const sead::Matrix34f& mtx, int idx,
+                                              const SpawnArg& arg) {
+    const s32 i = u32(idx) < 20 ? idx : 0;
+    auto& handle = _a0[i];
+    if (handle.isAllocatedOrFailed() && handle.isProcReady()) {
+        auto* proc = sead::DynamicCast<ksys::act::Actor>(handle.getProc());
+        if (proc) {
+            const sead::Vector3f trans = mtx.getTranslation();
+            const sead::Matrix33f rot(mtx);
+            const sead::Vector3f one = sead::Vector3f::ones;
+            proc->sub_71011C7020(&trans, &rot, &one);
+            handle.releaseAndWakeProc();
+            _1e0[i].acquire(proc, false);
+            _530[i] = *proc->getMesTransceiverId();
+            _9c |= 1u << idx;
+            proc->clearFadeInCreate();
+        }
+    } else if (_1e0[i].hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_1e0[i], &accessor);
+        if (accessor.isStateSleep())
+            accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+    }
+
+    const bool linked = _1e0[i].hasProc();
+    if (owner && linked) {
+        auto& info = _ad0[i];
+        info.owner = owner;
+        info.pos = arg.pos;
+        info._14 = arg._14;
+        info._18 = arg._18;
+        info._19 = arg._19;
+        info._1a = arg._1a;
+        info._1b = arg._1b;
+    }
+}
 
 // The int argument is unused.
 ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE04(int) {
