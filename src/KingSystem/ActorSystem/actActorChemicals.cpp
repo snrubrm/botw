@@ -23,6 +23,66 @@
 
 namespace ksys::act {
 
+bool Unk_71024e6428::sub_7100E39BF0(bool force) {
+    if (chm::Chemical::instance()->_84 & 1) {
+        // The original discards this current-thread lookup result.
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    if (_20)
+        _20->fade();
+    bool removed = true;
+    for (const auto& entry : _278) {
+        auto* body = entry.body;
+        if (force)
+            body->removeFromWorldImmediatelyAndResetLinks();
+        else
+            body->removeFromWorldAndResetLinks();
+        removed &= !body->isAddedToWorld();
+    }
+    if (!removed)
+        return false;
+    return mChemical.sub_7100D8E87C();
+}
+
+Unk_71024e6428::~Unk_71024e6428() {
+    if (chm::Chemical::instance()->_84 & 1) {
+        // The original discards this lookup, then the full reset repeats its own watch notification.
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    sub_7100E39BF0(false);
+    for (auto& entry : _278) {
+        auto* body = entry.body;
+        if (body && entry.owns_body) {
+            if (body->isAddedToWorld())
+                body->removeFromWorldImmediatelyAndResetLinks();
+            delete body;
+            entry.body = nullptr;
+        }
+    }
+    _278.freeBuffer();
+    if (_20) {
+        for (s32 i = 0; i < _20->mHandles.size(); ++i) {
+            auto& handles = _20->mHandles[i];
+            if (handles.mELink.isActive()) {
+                auto* event = static_cast<xlink2::EventELink*>(handles.mELink.getEvent());
+                if (auto* delayed = event->mDelayEmitParam._0xf8) {
+                    delayed->mActor = nullptr;
+                    delayed->mChemical = nullptr;
+                }
+            }
+        }
+        delete _20;
+        _20 = nullptr;
+    }
+    world::Manager::instance()->getChemicalMgr()->sub_71010CBEAC(&mChemical);
+}
+
+
+
 void sub_7100E40448(sead::Vector3f* out, phys::RigidBody* body) {
     if (auto* sphere = sead::DynamicCast<phys::SphereRigidBody>(body)) {
         sphere->getTransformedTranslate(out);
@@ -373,7 +433,7 @@ void Unk_71024e6428::sub_7100E39DF4() {
 }
 
 // NON_MATCHING: the three slot tests share different branch tails and actor reloads.
-void Unk_71024e6428::sub_7100E3ECA4() {
+void Unk_71024e6428::m34() {
     if (!_20)
         return;
     if ((_20->mActiveMask & 1) || (mActor && _20->mHandles[0].mELink.isActive()))

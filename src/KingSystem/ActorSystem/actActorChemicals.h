@@ -91,12 +91,14 @@ f32 sub_7100E40B7C(phys::RigidBody* body, const void* a1, const void* entry_24);
 
 // Placeholder name (vtable 0x71024e6428, 37 slots; ctor 0x7100e399c0; size 0x2d8): an element of
 // ActorChemicals' arrays and the owner of its Chemical (Chemical::_18).
-// TODO: incomplete (ctor / D1 / m7 / m8 / m10 / m11 / m14 / m20 / m29 / m32-m36 not decompiled).
+// TODO: complete the remaining virtual and initialization bodies.
 class Unk_71024e6428 : public Unk_71024e6560 {
     SEAD_RTTI_OVERRIDE(Unk_71024e6428, Unk_71024e6560)
 public:
     Unk_71024e6428();
     ~Unk_71024e6428() override;
+    // E39BF0 fades the state, removes every body and returns whether the chemical was reset.
+    bool sub_7100E39BF0(bool force);
     // Full E3B708 copies chemical event state; independent carried-record transfers supply both elements.
     void sub_7100E3B708(const Unk_71024e6428& other);
     void sub_7100E3AA34(sead::Heap* heap);
@@ -114,9 +116,21 @@ public:
     void sub_7100E3D4E8(u32 kind, bool emit_end);
     // E39DF4 stops all twenty-one event slots; E3ECA4 stops slots 0 / 19 and their slot-20 alias.
     void sub_7100E39DF4();
-    void sub_7100E3ECA4();
+    void m34() override;
 
     // Slot numbering: mN is the virtual at vtable slot N + 2 (the first two are the RTTI functions), as in the CSV.
+    // Native table 24e6438 retains these declarations even where their bodies are still U.
+    void m7() override;
+    void m8(const void* arg) override;
+    void m9() override;
+    void m10() override;
+    void m11() override;
+    void m12() override;
+    void m14(sead::BufferedSafeString* out) const override;
+    bool m29(const void* arg) override;
+    void m32(bool on) override;
+    bool m35() override;
+
     void m4(sead::Matrix34f* out, Chemical* chemical) override;
     const sead::Vector3f& m5() const override;
     const sead::Vector3f& m6() const override;
