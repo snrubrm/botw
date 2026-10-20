@@ -72,6 +72,10 @@ bool Unk_71024dcea8::m10() {
     return false;
 }
 
+Unk_71024dcea8::~Unk_71024dcea8() {
+    _58.freeBuffer();
+}
+
 sead::BitFlag8* Unk_71024dcea8::m16() {
     return &_68;
 }
@@ -161,9 +165,6 @@ bool Unk_71024dd070::m6(Unk_71023e2708* request) {
 
 }  // namespace ksys::act
 
-// NON_MATCHING: placeholder destructor; the original (0x7100d81f74) also destroys members or bases
-// this class does not declare yet.
-Unk_71024dcf48::~Unk_71024dcf48() = default;
 
 namespace ksys::act {
 

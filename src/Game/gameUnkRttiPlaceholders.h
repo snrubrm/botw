@@ -34,6 +34,7 @@
 #include "Game/gameUnkRttiClasses.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/Chemical/chmElement.h"
 #include "KingSystem/Event/evtS7.h"
@@ -203,11 +204,18 @@ public:
 };
 
 // vtable 0x71024dcf48 (4 slots); placeholder generated from the vtable (genskel.py).
+// The base of the sight sensor's target entries (Unk_7102517ab0); D1 0x7100d81f74 destroys _18.
 class Unk_71024dcf48 : public Unk_71024dcf80 {
     SEAD_RTTI_OVERRIDE(Unk_71024dcf48, Unk_71024dcf80)
 public:
-    ~Unk_71024dcf48() override;
+    // Inline: Unk_7102517ab0's destructor inlines it.
+    ~Unk_71024dcf48() override = default;
+
+    u8 _8[0x14 - 0x8];
+    /* 0x14 */ u32 _14;  // in use (Unk_71024dcea8::m10)
+    /* 0x18 */ ksys::act::Unk_71024dc858 _18;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024dcf48, 0x70);
 
 
 // vtable 0x7102519378 (12 slots); placeholder generated from the vtable (genskel.py).
@@ -1220,12 +1228,23 @@ public:
 };
 
 // vtable 0x7102517ab0 (5 slots); placeholder generated from the vtable (genskel.py).
+// The sight sensor's target entry (Unk_71024dcea8::_58); D1 0x7101265168 resets _f8.
 class Unk_7102517ab0 : public Unk_71024dcf48 {
     SEAD_RTTI_OVERRIDE(Unk_7102517ab0, Unk_71024dcf48)
 public:
-    ~Unk_7102517ab0() override;
+    // Inline: the sight sensor's destructor inlines it.
+    ~Unk_7102517ab0() override = default;
+    // 0x7101264ebc: line-of-sight ray cast from _108 to _114 that ignores both actors; sets _120
+    // when nothing is hit.
     virtual void m4();
+
+    u8 _70[0xf8 - 0x70];
+    /* 0xf8 */ ksys::act::BaseProcLink _f8;
+    /* 0x108 */ sead::Vector3f _108;
+    /* 0x114 */ sead::Vector3f _114;
+    /* 0x120 */ bool _120;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102517ab0, 0x128);
 
 // vtable 0x71025193e8 (13 slots); placeholder generated from the vtable (genskel.py).
 class Unk_71025193e8 : public Unk_7102519378 {

@@ -156,10 +156,12 @@ public:
 };
 
 // vtable 0x71024dcf80 (4 slots)
+// Inline: the derived destructors (0x7100d81f74, 0x7101265168) inline it. The body keeps the vtable
+// store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
 class Unk_71024dcf80 {
     SEAD_RTTI_BASE(Unk_71024dcf80)
 public:
-    virtual ~Unk_71024dcf80();
+    virtual ~Unk_71024dcf80() { ; }
 };
 
 // vtable 0x71024efd58 (11 slots)

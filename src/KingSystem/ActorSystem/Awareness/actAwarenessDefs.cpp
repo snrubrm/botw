@@ -2,6 +2,8 @@
 #include <container/seadSafeArray.h>
 #include <utility/aglParameter.h>
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessMiscUtils.h"
 
 namespace ksys::act {
@@ -48,6 +50,27 @@ u32 getAwarenessSensorFlags(u32 hash) {
 
 }  // namespace ksys::act
 
-// NON_MATCHING: placeholder destructor; the original (0x7101265168) also destroys members or bases
-// this class does not declare yet.
-Unk_7102517ab0::~Unk_7102517ab0() = default;
+void Unk_7102517ab0::m4() {
+    if (!_f8.hasProc())
+        return;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.setStartAndEnd(_108, _114);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    query.setGroundHit(ksys::phys::GroundHit::LineOfSight);
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_f8, &accessor);
+    query.setGroupHandler(accessor.x(0));
+
+    if (_18.mLink.hasProc()) {
+        ksys::act::ActorLinkConstDataAccess target;
+        ksys::act::acquireActor(&_18.mLink, &target);
+        query.addIgnoredGroup(target.x(0));
+    }
+
+    _120 = !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+}

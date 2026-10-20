@@ -16,6 +16,7 @@
 #include "KingSystem/Utils/Types.h"
 
 class Unk_71023e2708;
+class Unk_7102517ab0;
 
 namespace ksys::act {
 
@@ -115,13 +116,14 @@ public:
 };
 
 // Placeholder name (vtable 0x71024dcea8, RTTI static 0x7102600a40): the sight sensor (`_260[0]`; Unk_71023e26d8
-// requests). Overrides every slot: D1 0x7100d81ab8 / D0 0x7100d81b84 (not matched: they free a buffer of
-// 0x128-byte entries at _58 that is not modelled), m4-m15 and m17 (declaration only), m16 0x7100d81dc8.
+// requests). Overrides every slot: D1 0x7100d81ab8 / D0 0x7100d81b84 (free the
+// target entries at _58), m4-m15 and m17 (declaration only), m16 0x7100d81dc8.
 class Unk_71024dcea8 : public Unk_71024dce08 {
     SEAD_RTTI_OVERRIDE(Unk_71024dcea8, Unk_71024dce08)
 public:
     // Declared first as the key function (see Unk_71024dcd68).
     sead::BitFlag8* m16() override;
+    ~Unk_71024dcea8() override;
     // 0x7100d803d4: caches the forest_density statistic.
     void m9() override;
     // 0x7100d81d10: whether any target entry is in use.
@@ -135,15 +137,8 @@ public:
     // 0x7100d8128c: the longer of the two sight ranges.
     f32 m14() override;
 
-    // The 0x128-byte target entries the destructors free (only the in-use word is known).
-    struct TargetEntry {
-        u8 _0[0x14];
-        /* 0x14 */ u32 _14;
-        u8 _18[0x128 - 0x18];
-    };
-
     u8 _52[0x58 - 0x52];
-    /* 0x58 */ sead::Buffer<TargetEntry> _58;
+    /* 0x58 */ sead::Buffer<Unk_7102517ab0> _58;  // the 0x128-byte target entries
     /* 0x68 */ sead::BitFlag8 _68;  // EnemyNormal::m41 clears bit 0
     /* 0x70 */ Actor* _70;
     /* 0x78 */ void* mForestDensity;

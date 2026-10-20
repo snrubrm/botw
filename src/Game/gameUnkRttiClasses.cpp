@@ -61,11 +61,6 @@ Unk_710246c360::~Unk_710246c360() = default;
 
 Unk_710246cec8::~Unk_710246cec8() = default;
 
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_71024dcf80::~Unk_71024dcf80() {
-    ;
-}
 
 
 Unk_710250dcd8::Unk_710250dcd8() = default;
