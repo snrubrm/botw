@@ -29,6 +29,8 @@ public:
     void m63() override;
     void updatePositionMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
+    // Sends the _cc8 message to the actor attached at end `idx` (both ends for a negative index).
+    void m148(s32 idx) override;
     ksys::act::Unk_71025ae640* getAtk() override;
 
     // RopeBase slot 149.

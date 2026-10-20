@@ -80,6 +80,23 @@ void Rope::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     sub_7100733418(this, &info, nullptr);
 }
 
+// NON_MATCHING: block layout (the original checks hasProc for a single end before joining the shared tail, and
+// indexes the end with `idx != 0`).
+void Rope::m148(s32 idx) {
+    const auto send = [this](const ksys::act::BaseProcLink& link) {
+        if (!link.hasProc())
+            return;
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+        _cc8.sub_710070DBB0(*actor->getMesTransceiverId(), true);
+    };
+    if (idx < 0) {
+        send(_8c0[0]);
+        send(_8c0[1]);
+    } else if (idx < 2) {
+        send(_8c0[idx]);
+    }
+}
+
 ksys::act::Unk_71025ae640* Rope::getAtk() {
     return &_c30;
 }
