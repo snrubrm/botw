@@ -2,6 +2,7 @@
 #include <limits>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <basis/seadNew.h>
 #include <resource/seadArchiveRes.h>
@@ -807,8 +808,6 @@ void InstanceSet::sub_7100FBD410(const sead::Vector3f* vec) {
         mClothSet->_64 = *vec;
 }
 
-// NON_MATCHING: the original reloads _e8 before the second ragdoll test, keeps the scale test inside the
-// first rigid body loop and stores the navmesh vectors per component.
 // NON_MATCHING: the linked-body entry load is reused after world removal.
 void InstanceSet::sub_7100FBA568(const sead::Matrix34f& mtx, bool remove_from_world,
                                   bool clear_velocity, bool update_model) {
@@ -839,6 +838,52 @@ void InstanceSet::sub_7100FBA568(const sead::Matrix34f& mtx, bool remove_from_wo
     }
 }
 
+// NON_MATCHING: state flag tests and linked-body transform updates are scheduled differently.
+void InstanceSet::sub_7100FBA7BC(bool enabled, act::LodState* lod) {
+    enabled = enabled && !(_26 & 0x20);
+    if (mClothSet) {
+        const bool lod_enabled = !lod || lod->mFlags8.isOnBit(1);
+        const bool cloth_enabled = (_26 & 0x80) || (lod_enabled && !(_27 & 1));
+        const bool active = enabled && !mFlags.isOn(Flag::_8000) && cloth_enabled;
+        if (!mFlags.isOn(Flag::_20000)) {
+            if (active != mFlags.isOn(Flag::_2000))
+                mFlags.change(Flag::_2000, active);
+            mClothSet->sub_71012189B8(active);
+        }
+    }
+    if (_e8) {
+        const bool lod_enabled = !lod || lod->mFlags8.isOnBit(2);
+        mFlags.change(Flag::_100000, !(lod_enabled || (_27 & 2)));
+    }
+    if (enabled == mFlags.isOn(Flag::_1))
+        return;
+    mFlags.change(Flag::_1, enabled);
+    if (enabled) {
+        if (!mModel || mLinkMatricesMaybe.size() < 1)
+            return;
+        mModel->safeUpdateWorldMatrix();
+        for (auto& entry : mLinkMatricesMaybe) {
+            if (entry._45[0])
+                continue;
+            auto* body = entry._38;
+            if (!entry._44 && body->getMotionType() != MotionType::Keyframed)
+                continue;
+            if (entry._30.isValid()) {
+                sead::Matrix34f mtx;
+                mModel->getUnits()(entry._30.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                    &mtx, entry._30.bone_index);
+                body->setTransform(mtx, PropagateToLinkedMotions{true});
+            } else {
+                mFlags.set(Flag::_2);
+            }
+        }
+    } else if (mRagdollInstance) {
+        mRagdollInstance->changeWorldState(RagdollInstance::WorldState::NotAddedToWorld);
+    }
+}
+
+// NON_MATCHING: the original reloads _e8 before the second ragdoll test, keeps the scale test inside the
+// first rigid body loop and stores the navmesh vectors per component.
 void InstanceSet::setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale) {
     const bool same_scale = sead::Mathf::equalsEpsilon(mScale, scale);
     auto* support_bone = _e8;
