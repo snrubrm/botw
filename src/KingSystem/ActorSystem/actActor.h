@@ -68,6 +68,7 @@ class ASList;
 namespace evt {
 class ActorBase;
 class Context;
+class EventActorLink;
 }  // namespace evt
 
 namespace map {
@@ -919,6 +920,7 @@ protected:
     friend class ModelBindInfo;  // copies the bound pose to mMtx.
     friend class evt::ActorBase;  // sub_7100DAB470 writes the event transform pointer to _7d0.
     friend class evt::Context;  // the event context copies the actor's matrix in its constructor.
+    friend class evt::EventActorLink;  // 12793EC clears the event record from _1a0 on release.
     friend class acc::WeaponBase;  // acc::WeaponBase::sub_7100EFA6B8 reads mSpecialJobTypesMaskOverride
     friend class PhysicsUserTag;  // D40620 writes Actor6F4/6F8 before forwarding its collision record.
     friend struct ActorBindEntry;  // writes mMtx / mScale
