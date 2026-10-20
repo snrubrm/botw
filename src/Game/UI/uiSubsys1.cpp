@@ -5,6 +5,7 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameRadarMgr.h"
 #include "Game/gameSceneMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkManager.h"
@@ -413,6 +414,28 @@ s32 UiSubsys1::get38a8() const {
 // 0x710096746c (CSV uiSubsys1::__auto5)
 bool UiSubsys1::get38ac() const {
     return _38ac;
+}
+
+// 0x7100966ea8 (placeholder name): closes the Sheikah sensor UI.
+void UiSubsys1::sub_7100966EA8(bool a1) {
+    _38a8 = 0;
+    if (_38ac)
+        _38d8 = true;
+
+    if (auto* main_screen = sead::DynamicCast<ScreenMainScreen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen)))
+        main_screen->sub_7100A1E958(0);
+
+    if (auto* radar = RadarMgr::instance()) {
+        radar->__auto0("");
+        ksys::gdt::setFlag_App_SeakSensor_SearchMode(0);
+        if (a1) {
+            createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindowNoBtn, nullptr);
+            if (auto* screen = sead::DynamicCast<ScreenAppSystemWindowNoBtn>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindowNoBtn)))
+                screen->sub_71009FB958();
+        }
+    }
 }
 
 // 0x71009674e8

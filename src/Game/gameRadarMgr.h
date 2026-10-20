@@ -14,6 +14,9 @@ public:
 
     // 0x710067bfe8 (CSV RadarMgr::calc; declaration only)
     void calc();
+    // 0x710067cb84 (CSV RadarMgr::__auto0; not decompiled): copies `name` into the search target name at
+    // 0x168 (UiSubsys1::sub_7100966EA8 passes an empty string).
+    void __auto0(const sead::SafeString& name);
 
     u8 _0[0x52];
     /* 0x52 */ bool _52;

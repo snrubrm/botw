@@ -1311,6 +1311,10 @@ public:
     void set3884(bool value);
     s32 get38a8() const;
     bool get38ac() const;
+    // 0x7100966ea8 (placeholder name): closes the Sheikah sensor UI: clears _38a8, raises _38d8 when _38ac,
+    // resets the main screen's item widget, clears the radar name and the search-mode flag, and with `a1`
+    // loads the system window screen and closes it.
+    void sub_7100966EA8(bool a1);
     // 0x71009674e8 (placeholder name; does not use `this`): the byte at 0x29 of the 0x71025d6ac0 object.
     bool sub_71009674E8() const;
     void set38e4(s32 value);
