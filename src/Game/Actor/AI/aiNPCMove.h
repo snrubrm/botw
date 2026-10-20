@@ -49,6 +49,9 @@ protected:
     // applies the item-state AS, then changes to the arrival child ("到着" / "雨宿り地点に到着") with the AS
     // name, rain anchor and start-same-AS parameters.
     void sub_71004D00CC(bool a1, bool a2);
+    // 0x71004d0610 (placeholder name): changes to the 遷移待機 child with the dynamic AS name `as_name`
+    // and stores the actor's position at _280; `a2` skips the item-state / meeting setup.
+    void sub_71004D0610(const sead::SafeString& as_name, bool a2);
     // static_param at offset 0x38
     const float* mTerritoryRange_s{};
     // static_param at offset 0x40

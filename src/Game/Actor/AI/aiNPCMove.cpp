@@ -334,4 +334,18 @@ void NPCMove::sub_71004D4CA4() {
     changeChild("うろつく", &pack);
 }
 
+// 0x71004d0610 (placeholder name): changes to the transition-wait child with the dynamic AS name.
+void NPCMove::sub_71004D0610(const sead::SafeString& as_name, bool a2) {
+    if (!a2) {
+        sub_71004D33E8(true, false);
+        sub_71004D44B0(true, false);
+    }
+    sub_71004CFC88();
+    _280 = mActor->getMtx().getTranslation();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addString(as_name, "DynASName", -1);
+    changeChild("遷移待機", &pack);
+}
+
 }  // namespace uking::ai
