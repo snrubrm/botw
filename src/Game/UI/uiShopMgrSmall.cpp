@@ -16,6 +16,143 @@ namespace uking::ui {
 static s32 sUnk_7102476ca0[] = {3, 1, 0, 1, 0, 1, 0, 3, 3, 2, 0, 1, 1, 1, 1, 3};
 static sead::Buffer<s32> sUnk_71025d7ca0(sUnk_7102476ca0);
 
+// 0x7100980f48
+// NON_MATCHING: the state branches and currency/count lookup paths allocate registers differently.
+void UiShopMgr::sub_7100980F48(ShopItem* item) {
+    auto* info = ksys::act::InfoData::instance();
+    auto* data_mgr = PauseMenuDataMgr::instance();
+    if (!info || !data_mgr)
+        return;
+    if (item->_68 == 17 || item->_68 == -1) {
+        if (auto* screen = sead::DynamicCast<ScreenShopInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopInfo)))
+            screen->close(-1);
+        return;
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::ShopInfo, nullptr);
+    auto* screen = sead::DynamicCast<ScreenShopInfo>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::ShopInfo));
+    if (!screen)
+        return;
+    screen->sub_7100A52358(item->_68 == 0);
+    switch (_30) {
+    case 1:
+    case 3: {
+        screen->sub_7100A5233C(1);
+        screen->sub_7100A5237C(item->name, true, -1);
+        screen->sub_7100A525C8(item->name, false);
+        screen->sub_7100A52DB0(0, item->name);
+        s32 currency;
+        s32 mode;
+        if (_30 == 3) {
+            currency = ksys::gdt::getFlag_CurrentMamo(false);
+            mode = 2;
+        } else {
+            currency = ksys::gdt::getFlag_CurrentRupee(false);
+            mode = 0;
+        }
+        screen->sub_7100A52C88(mode, item->_60,
+                             currency < item->_60 ? 1 : item->_68 == 1 ? 3 : 0);
+        s32 owned;
+        if (sub_7100A82E28(s32(PauseMenuDataMgr::getType(item->name))))
+            owned = data_mgr->countArmors(item->name);
+        else
+            owned = PauseMenuDataMgr::instance()->getItemCount(item->name, true);
+        screen->setPorchNumText(owned);
+        break;
+    }
+    case 2:
+    case 4:
+        screen->sub_7100A5233C(2);
+        screen->sub_7100A524B0(item->_70, false);
+        screen->sub_7100A527CC(item->_70);
+        screen->sub_7100A52DB0(0, item->name);
+        if (info->hasTag(item->name.cstr(), 0x9b44906f))
+            screen->setPorchNumText(item->_70->getValue());
+        else
+            screen->hidePorchNum();
+        if (item->_68 == 13)
+            screen->setShopInfoSubTextPartsStateFrame2();
+        else
+            screen->sub_7100A52C88(_30 == 4 ? 2 : 0, item->_60, item->_68 == 0 ? 0 : 3);
+        break;
+    case 5: {
+        screen->sub_7100A5233C(1);
+        screen->sub_7100A5237C(item->name, true, -1);
+        screen->sub_7100A525C8(item->name, false);
+        screen->sub_7100A52DB0(1, item->name);
+        const s32 price = item->_60;
+        const s32 currency = ksys::gdt::getFlag_CurrentRupee(false);
+        screen->sub_7100A52C88(1, item->_60, currency < price ? 1 : 0);
+        s32 owned;
+        if (sub_7100A82E28(s32(PauseMenuDataMgr::getType(item->name))))
+            owned = data_mgr->countArmors(item->name);
+        else
+            owned = PauseMenuDataMgr::instance()->getItemCount(item->name, true);
+        screen->setPorchNumText(owned);
+        break;
+    }
+    case 6:
+        screen->sub_7100A5233C(2);
+        screen->sub_7100A524B0(item->_70, true);
+        screen->hidePorchNum();
+        screen->setShopInfoSubTextPartsStateFrame2();
+        if (item->_68 == 5 || item->_68 == 4) {
+            screen->sub_7100A52DB0(item->_68 == 5 ? 3 : 2, item->name);
+            screen->sub_7100A52A04(item->_70, false);
+        } else {
+            sead::FixedSafeString<64> next_name;
+            next_name = ksys::act::getArmorNextRankName(info, item->name.cstr());
+            screen->sub_7100A531D8(next_name, item->_70->getValue());
+            screen->sub_7100A52A04(item->_70, true);
+        }
+        break;
+    case 7:
+    case 8: {
+        screen->sub_7100A5233C(0);
+        screen->sub_7100A5237C(item->name, true, _e0);
+        screen->sub_7100A525C8(item->name, false);
+        const s32 currency = ksys::gdt::getFlag_CurrentRupee(false);
+        const s32 mode = _30 == 8 ? 1 : 0;
+        screen->sub_7100A52DB0(mode, item->name);
+        screen->sub_7100A52C88(mode, item->_60, currency < item->_60 ? 1 : 0);
+        s32 owned;
+        if (sub_7100A82E28(s32(PauseMenuDataMgr::getType(item->name))))
+            owned = data_mgr->countArmors(item->name);
+        else
+            owned = data_mgr->getItemCount(item->name, true);
+        screen->setPorchNumText(owned);
+        break;
+    }
+    case 10:
+    case 12:
+    case 13:
+        screen->sub_7100A5233C(3);
+        screen->sub_7100A527CC(item->_70);
+        screen->sub_7100A52DB0(0, item->name);
+        screen->setShopInfoSubTextPartsStateFrame2();
+        if (_30 == 10) {
+            auto* mgr = PauseMenuDataMgr::instance();
+            screen->sub_7100A53328(mgr ? mgr->getNextGrabbedItemIndex() : 0);
+        }
+        break;
+    case 14: {
+        screen->sub_7100A5233C(1);
+        screen->sub_7100A5237C(item->name, true, -1);
+        screen->sub_7100A525C8(item->name, false);
+        screen->sub_7100A52DB0(0, item->name);
+        screen->hidePorchNum();
+        const s32 price = item->_60;
+        const s32 currency = ksys::gdt::getFlag_CurrentRupee(false);
+        screen->sub_7100A52C88(0, item->_60,
+                             currency < price ? 1 : item->_68 == 1 ? 3 : 0);
+        break;
+    }
+    }
+    if (screen->isClosed() || screen->isClosedOrClosing())
+        screen->open(1);
+}
+
 // 0x7100981888
 // NON_MATCHING: the original merges the static buffer into the TU globals; branch layout also differs.
 void UiShopMgr::sub_7100981888(bool value, s32 index) {
