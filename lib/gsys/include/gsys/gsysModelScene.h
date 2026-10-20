@@ -54,7 +54,12 @@ public:
     // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
     void calc(sead::WorkerMgr* wm, int, int, int);
 
-    u8 _0[0x130];
+    u8 _0[0x108];
+    // 0x7100d9f8ac reads this word from Graphics' first scene and passes it as
+    // EffectModelDrawUnit::CreateArg::_0, which createModel 0x7100c555f0 forwards to
+    // Model::CreateArg::_4 (one of the two model counts). The array it counts is not modelled.
+    /* 0x108 */ s32 mContextNum;
+    u8 _10c[0x130 - 0x10c];
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor
 
