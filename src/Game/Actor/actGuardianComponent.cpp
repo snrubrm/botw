@@ -87,6 +87,12 @@ void Unk_710235b5e8::m7(const ksys::act::BaseProc::PreDeleteArg&) {
 
 void Unk_710235b5e8::m10() {}
 
+// NON_MATCHING: the original loads _8 once after getTransform and keeps it for the nullsub_4648 call.
+void Unk_710235b5e8::m13() {
+    _8->mMtx = _20->getTransform();
+    _8->nullsub_4648();
+}
+
 // Fixes both leg bodies while the Guardian is in state 12.
 void Unk_710235b5e8::m11() {
     if (auto* guardian = _8->sub_710003D2B4()) {
