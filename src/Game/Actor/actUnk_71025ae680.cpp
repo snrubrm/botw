@@ -41,6 +41,39 @@ void Unk_71025ae680::m6() {
     _a &= ~0x24;
 }
 
+bool Unk_710244edc0::m4(sead::Heap*) {
+    return true;
+}
+
+void Unk_710244edc0::m5() {
+    _68 = false;
+    _8.makeAllZero();
+}
+
+void Unk_710244edc0::m13(int index) {
+    _8.resetBit(index);
+}
+
+void Unk_710244edc0::m7() {
+    Unk_71025ae680::m7();
+}
+
+void Unk_710244edc0::m11(bool enable) {
+    auto* chemical = _10->getChemicalStuff();
+    if (!chemical)
+        return;
+    if (enable)
+        chemical->sub_7100D8EEE0();
+    chemical->sub_7100D90C2C(enable);
+    chemical->sub_7100D90CD8(enable);
+    chemical->sub_7100D90D7C(enable);
+    chemical->sub_7100D90F60(enable);
+}
+
+bool Unk_710244edc0::m8(const ksys::Message& message) {
+    return _30.m2(message);
+}
+
 void Unk_710244ff68::m11(bool enable) {
     auto* chemicals = _10->getChemicalContainer();
     if (!chemicals)

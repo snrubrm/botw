@@ -100,6 +100,14 @@ class Unk_710244edc0 : public Unk_71025ae680 {
 public:
     explicit Unk_710244edc0(ksys::act::Actor* actor) : Unk_71025ae680(actor) {}
 
+    bool m4(sead::Heap* heap) override;
+    void m5() override;
+    void m7() override;
+    bool m8(const ksys::Message& message) override;
+    // m10 0x71006e870c (declared nowhere yet) runs seven condition updates unless sub_71006DFB58().
+    void m11(bool enable) override;
+    void m13(int index) override;
+
     /* 0x1c */ u32 _1c = 0;
     /* 0x20 */ u32 _20 = 0;
     /* 0x24 */ u32 _24 = 0;
