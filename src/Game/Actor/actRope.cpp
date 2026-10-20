@@ -60,6 +60,26 @@ void Rope::updatePositionMaybe() {
     RopeBase::updatePositionMaybe();
 }
 
+void Rope::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    RopeBase::m76(setter);
+    auto* mgr = sead::DynamicCast<uking::act::DamageManager>(getDamageMgr());
+    if (!mgr)
+        return;
+    const s32 type = mgr->getField54();
+    auto* mask = mgr->tgSensorMaterialOnHitMaybe();
+    mgr->applyDamage(*getLife());
+    if (type == -1)
+        return;
+    sead::BitFlag8 flags;
+    sub_7100732864(&flags, this);
+    if (!flags.isOnBit(0))
+        return;
+    DamageReactionInfo info;
+    sub_7100732B28(&info, this);
+    info._30 = mask;
+    sub_7100733418(this, &info, nullptr);
+}
+
 ksys::act::Unk_71025ae640* Rope::getAtk() {
     return &_c30;
 }

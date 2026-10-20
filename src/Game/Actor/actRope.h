@@ -28,6 +28,7 @@ public:
     void initMaybe() override;
     void m63() override;
     void updatePositionMaybe() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     ksys::act::Unk_71025ae640* getAtk() override;
 
     // RopeBase slot 149.
