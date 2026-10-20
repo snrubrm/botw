@@ -69,7 +69,7 @@ void BackSwim::calc_() {
     WaterFloatBase::calc_();
 }
 
-// NON_MATCHING: fadd operand order of the offset point and the final bool (cset instead of two branches)
+// NON_MATCHING: fadd operand order of the offset point
 bool BackSwim::sub_71000B5798() {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     const sead::Vector3f& target = sub_71005D9330(mActor);
@@ -80,9 +80,9 @@ bool BackSwim::sub_71000B5798() {
     if (!sub_710072F8E4(mActor, point, nullptr, 3.0f))
         return true;
     const auto result = ksys::phys::HavokAI::instance()->sub_7100F87ED0(nullptr, point, 3.0f);
-    if (!result.sub_7100F7EB40() || result.sub_7100F7EEE4() == 6)
-        return false;
-    return true;
+    if (result.sub_7100F7EB40() && result.sub_7100F7EEE4() != 6)
+        return true;
+    return false;
 }
 
 }  // namespace uking::action

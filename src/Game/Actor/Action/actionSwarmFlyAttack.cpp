@@ -38,8 +38,6 @@ void SwarmFlyAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710028508C();
 }
 
-// NON_MATCHING: the budget decrement: the original branches (`cmp #2; b.lt exit; sub 1`), ours turns it into
-// `cset; sub` (the counter is dead after the loop)
 void SwarmFlyAttack::sub_710028508C() {
     if (mMaterialAnimName_s.isEmpty())
         return;
@@ -59,12 +57,10 @@ void SwarmFlyAttack::sub_710028508C() {
         auto* unit = swarm->_14c8[i];
         if (!unit)
             continue;
-        if ((unit->_8.getTranslation() - target).length() > *mApplyMaterialAnimDist_s)
-            continue;
-        if (unit->sub_71002DA3A0(*mMaterialAnimFrame_s, mMaterialAnimName_s)) {
-            if (remaining <= 1)
+        if ((unit->_8.getTranslation() - target).length() <= *mApplyMaterialAnimDist_s &&
+            unit->sub_71002DA3A0(*mMaterialAnimFrame_s, mMaterialAnimName_s)) {
+            if (--remaining < 1)
                 break;
-            --remaining;
         }
     }
 }
