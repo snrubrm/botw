@@ -757,6 +757,8 @@ public:
         /* 0xc8 */ u8 _c8;  // bit 0: active
     };
 
+    // 0x7101041f4c (placeholder name): suspends every ducker that asked to be suspended and clears the flag.
+    void sub_7101041F4C();
     // 0x7101042078: starts the ducker called `type` (looked up by name); null when there is none.
     Ducker* startDucking(const sead::SafeString& type);
     // 0x7101042db4: stops the ducker called `type` (`suspend`: also suspends its aal::GroupDucker).

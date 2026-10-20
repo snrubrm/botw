@@ -6,6 +6,21 @@ bool DuckingMgr::Ducker::isActive() const {
     return _c8 & 1;
 }
 
+// 0x7101041f4c (placeholder name): suspends every ducker whose flag bit 1 is set, then clears the flag.
+void DuckingMgr::sub_7101041F4C() {
+    for (auto it = DuckerType::begin(); it != DuckerType::end(); ++it) {
+        Ducker& ducker = mDuckers[*it];
+        // Bit 1 asks for a suspend; the original clears bit 0 here.
+        if (ducker._c8 & 2) {
+            Ducker& d = mDuckers[*it];
+            d._c8 &= ~1;
+            d.mDucker.suspend();
+        }
+    }
+    if (_20)
+        _20 = false;
+}
+
 void DuckingMgr::calc() {
     for (auto& ducker : mDuckers)
         ducker.calc();
