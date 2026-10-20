@@ -3473,6 +3473,123 @@ void ScreenSaveTransferWindow::m259() {
     }
 }
 
+// 0x7100a43770
+void ScreenSaveTransferWindow::m162() {
+    if (sUnk_71025f2eb0._8 == 0) {
+        close(-1);
+        return;
+    }
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 4;
+    _3798 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a44964
+void ScreenSaveTransferWindow::m238() {
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = -1;
+    if (old_index == -1) {
+        sub_7100A428D0();
+    } else {
+        _3618->StopAtMax();
+        _3620->PlayAuto(1.0f);
+        _3630->setFlag10(false);
+        _3638->setFlag10(false);
+        _3640->setFlag10(false);
+    }
+    SwkbdMgr::instance()->sub_710098590C();
+    _3678 &= ~(1 << Flag(Flag::_0));
+}
+
+// 0x7100a4516c
+void ScreenSaveTransferWindow::m262() {
+    if (sUnk_71025f2eb0._c == 0) {
+        getStateMachine().changeState(&sUnk_71025f2de0);
+        return;
+    }
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 5;
+    _3798 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a4408c
+void ScreenSaveTransferWindow::m198() {
+    if (sUnk_71025f2eb0._8 == 0)
+        _3678 |= 1 << Flag(Flag::_6);
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a4429c
+void ScreenSaveTransferWindow::m206() {
+    if (sUnk_71025f2eb0._8 == 0)
+        _3678 |= 1 << Flag(Flag::_6);
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 0;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
+// 0x7100a44184
+// NON_MATCHING: the stack slots of the two Flag spills are swapped
+void ScreenSaveTransferWindow::m202() {
+    if (sUnk_71025f2eb0._8 == 0) {
+        if ((1 << Flag(Flag::_5)) & _3678)
+            _3678 |= 1 << Flag(Flag::_6);
+    }
+    _366c = -1;
+    s32 old_index = _3668;
+    _3668 = 3;
+    if (old_index == -1) {
+        sub_7100A428D0();
+        return;
+    }
+    _3618->StopAtMax();
+    _3620->PlayAuto(1.0f);
+    _3630->setFlag10(false);
+    _3638->setFlag10(false);
+    _3640->setFlag10(false);
+}
+
 // 0x7100a456c0
 void ScreenSaveTransferWindow::m271() {
     ksys::Timer::update(&_379c, 1.0f);
