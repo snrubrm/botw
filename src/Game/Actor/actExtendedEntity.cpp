@@ -1,8 +1,9 @@
 #include "Game/Actor/actExtendedEntity.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
-#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physLimitHingeCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physUtil.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::act {
 
@@ -40,6 +41,40 @@ void ExtendedEntity::sub_7100E63F20() {
     if (_60) {
         operator delete(_60);
         _60 = nullptr;
+    }
+}
+
+// NON_MATCHING: every instruction corresponds, but our frame is 0x10 bytes larger (the two Flag
+// temporaries get separate slots instead of sharing one) and the frame data copies sit 0x10 higher.
+void ExtendedEntity::sub_7100E64CDC(f32 delta) {
+    if (!_10)
+        return;
+
+    if (!(_58 & (1 << int(Flag(Flag::_3))))) {
+        if (!(_58 & (1 << int(Flag(Flag::_2)))))
+            _10->sub_7100F6E314(-delta - _44, _48 - delta);
+    }
+
+    if (!_60)
+        return;
+
+    const sead::Vector3f frame = _60->_0;
+    sead::Vector3f center = _60->_c;
+
+    ksys::VFR::lerp(&_68, 0.0f, 0.35f, 0.15f, 0.005f);
+    center.z += _68;
+
+    _10->sub_7100F6E584(frame, center, _60->_18, _60->_24, _60->_30, _60->_3c);
+    _8->setCenterOfMassInLocal(center);
+}
+
+void ExtendedEntity::sub_7100E64DE8(bool on) {
+    const u8 mask = 1 << int(Flag(Flag::_0));
+    if (on) {
+        _58 |= mask;
+        sub_7100E64E60();
+    } else {
+        _58 &= ~mask;
     }
 }
 

@@ -7,7 +7,7 @@
 
 namespace ksys::phys {
 class CharacterController;
-class Constraint;
+class LimitHingeCs;
 class RigidBody;
 class Unk_71024f9570;
 }
@@ -29,10 +29,27 @@ public:
     void sub_7100E64EAC(f32 scale);
     // 0x7100e63f20: releases the contact listener, the constraint and the frame data.
     void sub_7100E63F20();
+    // 0x7100e64cdc: updates the hinge limits and the centre of mass from the frame data.
+    void sub_7100E64CDC(f32 delta);
+    // 0x7100e64de8: sets or clears flag _0; setting it also detaches the entity.
+    void sub_7100E64DE8(bool on);
+
+    // Placeholder name (allocated by init 0x7100e63ba4, 0x4c bytes): the six frame vectors the
+    // limited hinge and the centre of mass use, plus the radius that init reads from its argument.
+    struct FrameSet {
+        /* 0x00 */ sead::Vector3f _0;
+        /* 0x0c */ sead::Vector3f _c;
+        /* 0x18 */ sead::Vector3f _18;
+        /* 0x24 */ sead::Vector3f _24;
+        /* 0x30 */ sead::Vector3f _30;
+        /* 0x3c */ sead::Vector3f _3c;
+        /* 0x48 */ f32 _48 = 0;
+    };
+    static_assert(sizeof(FrameSet) == 0x4c);
 
     /* 0x00 */ ksys::phys::CharacterController* _0 = nullptr;
     /* 0x08 */ ksys::phys::RigidBody* _8 = nullptr;
-    /* 0x10 */ ksys::phys::Constraint* _10 = nullptr;
+    /* 0x10 */ ksys::phys::LimitHingeCs* _10 = nullptr;
     /* 0x18 */ ksys::phys::Unk_71024f9570* _18 = nullptr;
     /* 0x20 */ sead::Vector3f _20 = sead::Vector3f::zero;
     /* 0x2c */ f32 _2c = 0;
@@ -47,8 +64,8 @@ public:
     /* 0x50 */ f32 _50 = 0;
     /* 0x54 */ f32 _54 = 0;
     /* 0x58 */ u8 _58 = 0;  // flag bits, modified with raw `|= 1 << int(Flag(...))` (HorseDie::leave_)
-    /* 0x60 */ void* _60 = nullptr;
-    /* 0x68 */ u32 _68 = 0;
+    /* 0x60 */ FrameSet* _60 = nullptr;
+    /* 0x68 */ f32 _68 = 0;
 };
 KSYS_CHECK_SIZE_NX150(ExtendedEntity, 0x70);
 
