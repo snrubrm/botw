@@ -12,6 +12,8 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Chemical/chmShape.h"
+#include "KingSystem/Chemical/chmElement.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/XLink/xlinkChemicalEventState.h"
@@ -29,6 +31,65 @@
 #include <thread/seadThread.h>
 
 namespace ksys::act {
+
+bool Unk_71024e6428::m29(const Chemical* chemical) {
+    if (!chemical)
+        return false;
+    phys::SystemGroupHandler* handler = nullptr;
+    if (chemical->_18) {
+        auto* element = sead::DynamicCast<Unk_71024e6428>(chemical->_18);
+        if (element && element->mActor)
+            handler = element->mActor->getPhysics()->get188(0);
+    }
+    const auto& position = m5();
+    const auto other_position = chemical->sub_7100D9155C();
+    return !sub_7100E412D0(position, chemical, other_position, handler, false);
+}
+
+// NON_MATCHING: controller impulse multiplication and flag-load scheduling differ.
+void Unk_71024e6428::m8(const Chemical* chemical) {
+    if (mActor && mActor->isSleep())
+        return;
+    if ((chemical->_c & 1) && chemical->_c0 == 4)
+        _30 |= 8;
+    if (mActor && !(chemical->_c & 4)) {
+        auto* body = mActor->getMainBody();
+        if (body && body->isAddedToWorld() && !body->isRemovingBodyFromWorld()) {
+            if (!mActor->getActorFlags2().isOn(Actor::ActorFlag2::_40000000)) {
+                const auto& impulse = (chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_d8;
+                const f32 speed = impulse.length() / body->getMass();
+                if (speed > chemical->_60->sub_7100D9A158())
+                    body->applyLinearImpulse((chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_d8);
+            }
+            const auto& force = (chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_140;
+            if (force.x != 0.0f || force.y != 0.0f || force.z != 0.0f) {
+                mActor->m36(force, body->getCenterOfMassInWorld(), true, false, false);
+            }
+        }
+        if (auto* controller = mActor->getCharacterController()) {
+            if (controller->mFlags.isOn(0x200)) {
+                const auto& impulse = (chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_f0;
+                const sead::Vector3f delta{impulse.x * 0.15f, 0.0f, impulse.z * 0.15f};
+                auto velocity = controller->sub_7100F63304();
+                velocity += delta;
+                controller->sub_7100F632AC(velocity);
+            } else {
+                const u8 state = chemical->_c0;
+                bool blocked;
+                if ((chemical->mMaterial->attribute.ref() & 0x100000))
+                    blocked = state == 1;
+                else
+                    blocked = state == 1 && chemical->sub_7100D90B14();
+                if (!blocked)
+                    controller->sub_7100F603F8((chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_d8);
+            }
+        }
+    }
+    if (getSceneStatus() == 0)
+        sub_7100E3C34C();
+    _30 &= ~4;
+}
+
 
 bool Unk_71024e6428::sub_7100E39BF0(bool force) {
     if (chm::Chemical::instance()->_84 & 1) {

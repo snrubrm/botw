@@ -33,7 +33,7 @@ f32 sub_7100E40D94(phys::RigidBody* owner_body, phys::RigidBody* body);
 // lane1 s95: 0x7100e41584 (placeholder name, declared only): a free height above `pos`, at most `max`.
 f32 sub_7100E41584(const sead::Vector3f& pos, f32 max);
 f32 sub_7100E40814(phys::RigidBody* body, const sead::Vector3f& pos, f32 a, f32 b);
-bool sub_7100E412D0(const sead::Vector3f& element_pos, Chemical* chemical, const sead::Vector3f& pos,
+bool sub_7100E412D0(const sead::Vector3f& element_pos, const Chemical* chemical, const sead::Vector3f& pos,
                     phys::SystemGroupHandler* handler, bool flag);
 }  // namespace ksys::act
 

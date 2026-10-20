@@ -56,7 +56,7 @@ public:
     virtual const sead::Vector3f& m5() const { return sead::Vector3f::zero; }
     virtual const sead::Vector3f& m6() const { return sead::Vector3f::zero; }
     virtual void m7() {}
-    virtual void m8(const void* a1) {}
+    virtual void m8(const Chemical* chemical) {}
     virtual void m9() {}
     virtual void m10() {}
     virtual void m11() {}
@@ -77,7 +77,7 @@ public:
     virtual f32 m26() const { return 1.0f; }
     virtual void m27(f32 a1) {}
     virtual bool m28() { return false; }
-    virtual bool m29(const void* a1) { return true; }
+    virtual bool m29(const Chemical* chemical) { return true; }
     virtual f32 m30(const void* a1) { return 1.0f; }
     virtual bool m31() { return true; }
     virtual void m32(bool a1) {}
@@ -117,6 +117,8 @@ public:
     void sub_7100E3B3F4(Chemical* chemical);
     void sub_7100E3B87C();
     void sub_7100E3BE78();
+    // E3C0A8 calls this element's chemical-event update.
+    void sub_7100E3C34C();
 
     // 0x7100e3e2e8: marks the element and resets each linked rigid body.
     void sub_7100E3E2E8();
@@ -132,13 +134,13 @@ public:
     // Slot numbering: mN is the virtual at vtable slot N + 2 (the first two are the RTTI functions), as in the CSV.
     // Native table 24e6438 retains these declarations even where their bodies are still U.
     void m7() override;
-    void m8(const void* arg) override;
+    void m8(const Chemical* chemical) override;
     void m9() override;
     void m10() override;
     void m11() override;
     void m12() override;
     void m14(sead::BufferedSafeString* out) const override;
-    bool m29(const void* arg) override;
+    bool m29(const Chemical* chemical) override;
     void m32(bool on) override;
     bool m35() override;
 

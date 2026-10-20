@@ -275,7 +275,9 @@ public:
     /* 0x110 */ u8 _110[0x12c - 0x110];
     // Wind direction read with bit 13 of _bc (DamageManager::sub_71006D33FC copies it into the damage direction).
     /* 0x12c */ sead::Vector3f _12c;
-    /* 0x138 */ u8 _138[0x14c - 0x138];
+    /* 0x138 */ u8 _138[0x140 - 0x138];
+    // D948D0 resets and accumulates this force vector; the owner callback applies it.
+    /* 0x140 */ sead::Vector3f _140;
     /* 0x14c */ f32 _14c;  // wind force scale (behavior SetWindForceScale)
     /* 0x150 */ u8 _150[0x170 - 0x150];
     /* 0x170 */ f32 _170;
