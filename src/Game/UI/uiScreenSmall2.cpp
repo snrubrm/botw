@@ -3456,6 +3456,16 @@ void ScreenSaveTransferWindow::m259() {
     }
 }
 
+// 0x7100a43e18
+void ScreenSaveTransferWindow::m190() {
+    if (sUnk_71025f2eb0._8 != 0)
+        return;
+    // discarded call: the original loads the state and drops it
+    mSaveWork.mState.load();
+    mSaveWork.reset(true);
+    getStateMachine().changeState(&sUnk_71025f2de0);
+}
+
 // 0x7100a45684
 void ScreenSaveTransferWindow::m270() {
     mLoadWork.reset(true);
