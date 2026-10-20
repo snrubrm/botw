@@ -1376,6 +1376,8 @@ public:
     s32 sub_710096349C(Pin pin) const;
     void sub_7100966D0C(const sead::Vector2f& value);
     void sub_7100966350(const sead::Vector2f& value);
+    // 0x71009663d4 (declared only; 228 bytes)
+    void sub_71009663D4();
     sead::Vector2f* getVec3870();
     sead::Vector2f* getVec3878();
     void set880(const sead::Vector2f& value);

@@ -2531,6 +2531,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // the mode at 0xb350 to 2)
     void sub_71009A9CF8(const sead::Vector3f& position);
     void sub_71009A9DBC(const sead::Vector3f& position);
+    // 0x71009a970c (placeholder name): steps the map view position towards its target; stops when it arrives
+    void sub_71009A970C();
     // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
     void sub_71009A99F0(s32 level);
     // 0x71009a9a38 (placeholder name): applies the scale level to the widget's map view parameters

@@ -189,6 +189,28 @@ void ScreenAppMapWidget::sub_71009A9DBC(const sead::Vector3f& position) {
     _b338 = true;
 }
 
+// 0x71009a970c
+// NON_MATCHING: register allocation (the original keeps &mSubsys in a register for every access)
+void ScreenAppMapWidget::sub_71009A970C() {
+    UiSubsys1::instance()->clear3864();
+    if (_b338) {
+        UiSubsys1::instance()->sub_71009663D4();
+        mSubsys->set3884(false);
+    }
+    if (mSubsys->get3884())
+        return;
+
+    sead::Vector2f pos = *mSubsys->_850.get30();
+    const sead::Vector2f* target = mSubsys->_850.get40();
+    const f32 dx = pos.x - target->x;
+    const f32 dy = pos.y - target->y;
+    const f32 distance = sead::Mathf::sqrt(dx * dx + dy * dy);
+    const bool arrived = sub_7100AA21F4(_128, &pos, *target, 0.15f, distance, 1.0f);
+    mSubsys->set3884(arrived);
+    if (!arrived)
+        mSubsys->set880(pos);
+}
+
 // 0x71009a9820
 void ScreenAppMapWidget::sub_71009A9820() {
     const s32 level = mSubsys->_850.get48();
