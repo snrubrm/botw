@@ -48,7 +48,13 @@ private:
     u64 _50 = 0;
     s32 mTreeDepth = 0;
     agl::TextureSampler mSamplers[2];
-    u8 _340[0x144]{};
+    // Bit 3 of mFlags marks the image pointers as owned; sub_710110E408 clears it.
+    struct Unk_340 {
+        u8 _0[0x140];
+        u32 mFlags;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk_340, 0x144);
+    /* 0x340 */ Unk_340 _340{};
 };
 KSYS_CHECK_SIZE_NX150(Unk_710110e390, 0x488);
 
