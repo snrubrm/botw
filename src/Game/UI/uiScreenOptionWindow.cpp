@@ -1,3 +1,4 @@
+#include "Game/UI/uiManager.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <algorithm>
 #include "Game/UI/euiButton.h"
@@ -242,6 +243,120 @@ void Unk_OptionWindowEntry::sub_7100A2B0FC() {
     }
     sub_7100A2BB7C();
     sub_7100A2A570(false);
+}
+
+// inline-only in the original; name is a guess. The same type-to-button selection
+// appears in A2AD94, A2AF14 and A2B040, as well as the option update callbacks.
+static inline eui::AnimButton* getOptionButtonMaybe(const Unk_OptionWindowEntry& entry) {
+    switch (sUnk_71025f0678[entry._50].type) {
+    case 0:
+        return entry._18;
+    case 1:
+        return entry._20;
+    case 2:
+        return entry._28;
+    default:
+        return nullptr;
+    }
+}
+
+// 0x7100a2a310
+// NON_MATCHING: native mode-specific traversal and flag dispatch scheduling differ.
+void ScreenOptionWindow::sub_7100A2A310() {
+    if (_3698.size() == 0)
+        return;
+    const bool reset_all = Manager::instance()->_64c38 == 8;
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        auto* entry = _3698(i);
+        if (!reset_all && u32(entry->_50 - 11) <= 1)
+            continue;
+        const auto& option = sUnk_71025f0678[entry->_50];
+        if (entry->_68 == ksys::gdt::FlagType::Bool)
+            ksys::gdt::Manager::instance()->resetBool_(option.flag);
+        else if (entry->_68 == ksys::gdt::FlagType::S32)
+            ksys::gdt::Manager::instance()->resetS32_(option.flag);
+    }
+}
+
+// 0x7100a2aab8
+// NON_MATCHING: native global addressing and message temporaries differ.
+void Unk_OptionWindowEntry::sub_7100A2AAB8() {
+    const s32 id = sUnk_71025f0678[_50].setting;
+    const sead::SafeString pane("T_Caption_00");
+    if (_8) {
+        sead::FixedSafeString<256> label;
+        label.format("%04d", id);
+        eui::MessageString message;
+        getMessage(sUnk_71025f0668, label, &message);
+        setWidgetString(_8, pane, message);
+    }
+}
+
+// 0x7100a2ad94
+// NON_MATCHING: native entry traversal and inlined button selection differ.
+void ScreenOptionWindow::m102(eui::AnimButton* button) {
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        auto* entry = _3698(i);
+        if (!entry || getOptionButtonMaybe(*entry) != button)
+            continue;
+        entry = _3698(i);
+        const s32 type = sUnk_71025f0678[entry->_50].type;
+        if (auto* selected = getOptionButtonMaybe(*entry)) {
+            if ((type | 1) == 1)
+                selected->mFlags &= ~4;
+            else
+                selected->mFlags |= 4;
+        }
+        entry->sub_7100A2AAB8();
+        entry->_70.sub_7100937DA4(false);
+        _36b0 = _3698(i);
+        return;
+    }
+}
+
+// 0x7100a2af14
+// NON_MATCHING: native entry traversal and inlined button selection differ.
+void ScreenOptionWindow::m104(eui::AnimButton* button) {
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        auto* entry = _3698(i);
+        if (!entry || getOptionButtonMaybe(*entry) != button)
+            continue;
+        entry = _3698(i);
+        const s32 type = sUnk_71025f0678[entry->_50].type;
+        if (auto* selected = getOptionButtonMaybe(*entry)) {
+            if ((type | 1) == 1)
+                selected->mFlags &= ~4;
+            else
+                selected->mFlags |= 4;
+        }
+        return;
+    }
+}
+
+// 0x7100a2b040
+// NON_MATCHING: native entry traversal and inlined button selection differ.
+void ScreenOptionWindow::m106(eui::AnimButton* button) {
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        auto* entry = _3698(i);
+        if (entry && getOptionButtonMaybe(*entry) == button) {
+            _3698(i)->sub_7100A2B0FC();
+            return;
+        }
+    }
+}
+
+// 0x7100a2b458
+// NON_MATCHING: native entry traversal and inlined button selection differ.
+void ScreenOptionWindow::m107(eui::AnimButton* button) {
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        auto* entry = _3698(i);
+        if (!entry || getOptionButtonMaybe(*entry) != button)
+            continue;
+        entry = _3698(i);
+        if (sUnk_71025f0678[entry->_50].type == 1 && entry->_20)
+            entry->_20->mFlags &= ~4;
+        return;
+    }
 }
 
 }  // namespace uking::ui

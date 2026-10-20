@@ -5865,10 +5865,16 @@ public:
     // 0x7100a2ac88: saves (SaveSystem::sub_71009145F8) when the flags differ from the copy taken by m93
     void m100() override;
 
+    void sub_7100A2A310();
+    void m102(eui::AnimButton* button) override;
+    void m104(eui::AnimButton* button) override;
+    void m106(eui::AnimButton* button) override;
+    void m107(eui::AnimButton* button) override;
+
     /* 0x3610 */ Unk_7102474df8 _3610;
     /* 0x3698 */ sead::PtrArray<Unk_OptionWindowEntry> _3698;
     /* 0x36a8 */ s32 _36a8 = 3;
-    /* 0x36b0 */ u64 _36b0 = 0;
+    /* 0x36b0 */ Unk_OptionWindowEntry* _36b0 = nullptr;
     /* 0x36b8 */ s32 _36b8 = 99;
     /* 0x36bc */ bool _36bc = false;
     /* 0x36bd */ bool _36bd = false;
