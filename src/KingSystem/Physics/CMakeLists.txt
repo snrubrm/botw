@@ -211,6 +211,8 @@ target_sources(uking PRIVATE
     Cloth/physClothAction.h
     Cloth/physClothSet.cpp
     Cloth/physClothSet.h
+    Cloth/physClothWind.cpp
+    Cloth/physClothWind.h
 
     Constraint/physBAndSCs.cpp
     Constraint/physBAndSCs.h
