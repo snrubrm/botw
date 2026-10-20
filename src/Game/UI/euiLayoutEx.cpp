@@ -148,6 +148,9 @@ bool LayoutEx::isScalableFontTextBox_(const nn::ui2d::ResTextBox* resource,
     return nn::font::DynamicCast<nn::font::ScalableFont>(font) != nullptr;
 }
 
+// 0x7100bdeff8
+void LayoutEx::afterBuildPane_(nn::ui2d::Pane*, const nn::ui2d::BuildArgSet&) {}
+
 // 0x7100bdeffc
 nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* result,
                                            nn::gfx::Device* device, const char* name,

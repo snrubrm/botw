@@ -68,9 +68,10 @@ public:
                          const nn::ui2d::BuildArgSet&);
     virtual bool attachPartsLayoutArchive_(const sead::SafeString& name);
     virtual void doInitializeDefalutAnimator_();
-    virtual nn::ui2d::Pane* m24(nn::ui2d::BuildResultInformation*, u32, const void*, const void*,
-                              const nn::ui2d::BuildArgSet&);
-    virtual void m25(nn::ui2d::Pane*, const nn::ui2d::BuildArgSet&);
+    // 0x7100bde9f0 (declared only; names from the CSV)
+    virtual nn::ui2d::Pane* buildPaneObjImpl_(nn::ui2d::BuildResultInformation*, u32, const void*, const void*,
+                                              const nn::ui2d::BuildArgSet&);
+    virtual void afterBuildPane_(nn::ui2d::Pane*, const nn::ui2d::BuildArgSet&);
 
     // 0x7100bde308 / 0x7100bde39c
     bool isAnimOpenEnd(bool b) const;
