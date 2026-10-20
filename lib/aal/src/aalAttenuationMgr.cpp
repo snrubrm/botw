@@ -1,4 +1,6 @@
 #include "aal/aalAttenuationMgr.h"
+#include <resource/seadResourceMgr.h>
+#include <resource/seadSharcArchiveRes.h>
 #include <basis/seadNew.h>
 #include <codec/seadHashCRC32.h>
 #include <filedevice/seadArchiveFileDevice.h>
@@ -562,6 +564,33 @@ void AttenuationMgr::setupFromFileDevice_(sead::ArchiveFileDevice* device,
             ::operator delete(data);
         }
     }
+}
+
+// The native static initializer B8CA98 constructs this Sharc factory.
+extern sead::DirectResourceFactory<sead::SharcArchiveRes> sUnk_71025fbfa0;
+
+// NON_MATCHING: native argument construction and register allocation differ.
+void AttenuationMgr::setupFromArchiveResource(const void* data, size_t size,
+                                               sead::Heap* heap, sead::Heap* load_heap) {
+    if (!data)
+        return;
+    if (!load_heap)
+        load_heap = heap;
+    removeAndDeleteAllComponents_();
+    sead::ResourceMgr::CreateArg arg;
+    arg.buffer = const_cast<u8*>(static_cast<const u8*>(data));
+    arg.file_size = size;
+    arg.buffer_size = size;
+    arg.factory = &sUnk_71025fbfa0;
+    arg.heap = load_heap;
+    arg.alignment = -0x20;
+    auto* archive = sead::DynamicCast<sead::ArchiveRes>(sead::ResourceMgr::instance()->create(arg));
+    if (!archive)
+        return;
+    auto* device = new (load_heap, -0x20) sead::ArchiveFileDevice(archive);
+    setupFromFileDevice_(device, "Attenuation", heap, load_heap);
+    delete device;
+    delete archive;
 }
 
 }  // namespace aal

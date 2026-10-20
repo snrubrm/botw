@@ -35,7 +35,7 @@ struct AttenuatorHashEntry {
 };
 
 /// Owns the attenuators and their components (curves, directivities and cullings), loaded from the attenuation
-/// archive, and finds them by name. TODO: incomplete (the loading and the debug preview are not modeled).
+/// archive, and finds them by name. TODO: the debug preview is not modeled.
 class AttenuationMgr : public sead::hostio::Node {
 public:
     AttenuationMgr();
@@ -43,6 +43,8 @@ public:
 
     void initialize(sead::Heap* heap);
     void finalize();
+    void setupFromArchiveResource(const void* data, size_t size, sead::Heap* heap,
+                                  sead::Heap* load_heap);
     void calc();
 
     /// Creates the table of the attenuators sorted by the hash of their name (findAttenuator uses it if it exists).
