@@ -3,6 +3,8 @@
 #include <math/seadMathCalcCommon.h>
 #include <g3d/aglTextureUtilG3D.h>
 #include <cstring>
+#include <gsys/gsysModelScene.h>
+#include "Game/gameGraphics.h"
 
 namespace ksys::tera {
 
@@ -224,6 +226,97 @@ void VegeTeraMatMgr::initialize(sead::Heap* heap) {
     auto& far1 = mRecords[2].mTextures[1];
     far1.initialize(mRecords[2].mDimension, agl::TextureFormat::cTextureFormat_R8_G8_B8_A8_uNorm, heap);
     mRecords[2].mRenderBuffer.setRenderTargetColor(&far1.mRenderTarget, 1);
+}
+
+// NON_MATCHING: bounded region scanning, strip updates and ring iteration differ in scheduling.
+void VegeTeraMat::updateRegions(const RegionList& regions) {
+    if (mDelta.x != 0.0f || mDelta.y != 0.0f) {
+        mUpdateIndex = 0;
+        _52c = -1;
+    }
+    for (auto& packet : mPackets)
+        packet.flags &= ~1;
+    const f32 delta_x = mDelta.x > 0.0f ? mDelta.x : -mDelta.x;
+    const f32 delta_z = mDelta.y > 0.0f ? mDelta.y : -mDelta.y;
+    if (!(_0 & 1) && !(delta_x > _524 + _524) && !(delta_z > _524 + _524)) {
+        const f32 rain = Graphics::instance()->mModelScenes[0]->mRainRatio;
+        if (mDelta.x != 0.0f) {
+            const f32 x = mDelta.x > 0.0f ? mBounds.getMax().x - mDelta.x : mBounds.getMin().x;
+            mPackets[0].setRegion(x, mBounds.getMin().y, x + delta_x,
+                                  mBounds.getMin().y + mSize, mSize, regions,
+                                  mPosition, mOrigin, false);
+        }
+        if (mDelta.y != 0.0f) {
+            const f32 z = mDelta.y > 0.0f ? mBounds.getMax().y - mDelta.y : mBounds.getMin().y;
+            const f32 width = mDelta.y > 0.0f ? mDelta.y : -mDelta.y;
+            mPackets[1].setRegion(mBounds.getMin().x, z, mBounds.getMin().x + mSize,
+                                  z + width, mSize, regions, mPosition, mOrigin, false);
+        }
+        if (!(rain > 0.0f) || mDelta.x != 0.0f || mDelta.y != 0.0f)
+            return;
+        const s32 dimension = mDimension / (mCellSize * 2);
+        s32 remaining = mUpdateIndex;
+        for (s32 ring = 1; ring <= dimension / 2; ++ring) {
+            const s32 count = ring * 2 - 1;
+            if (remaining >= count) {
+                remaining -= count;
+                continue;
+            }
+            const s32 offset = remaining - (ring - 1);
+            for (s32 i = 0; i < 4; ++i) {
+                s32 x;
+                s32 z;
+                switch (i) {
+                case 1:
+                    x = -ring;
+                    z = -offset;
+                    break;
+                case 2:
+                    x = ~offset;
+                    z = -ring;
+                    break;
+                case 3:
+                    x = ring - 1;
+                    z = offset - 1;
+                    break;
+                default:
+                    x = offset;
+                    z = ring - 1;
+                    break;
+                }
+                const f32 size = (mSize * static_cast<f32>(mCellSize * 2)) /
+                                 static_cast<f32>(mDimension);
+                const f32 x0 = mPosition.x + static_cast<f32>(x) * size;
+                const f32 z0 = mPosition.y + static_cast<f32>(z) * size;
+                mPackets[i].setRegion(x0, z0, size + x0, size + z0, mSize, regions,
+                                      mPosition, mOrigin, true);
+            }
+            ++mUpdateIndex;
+            return;
+        }
+        mUpdateIndex = 0;
+        return;
+    }
+    for (s32 i = regions.count - 1; i != -1; --i) {
+        if (!(regions.min[i].x < mBounds.getMin().x &&
+              regions.min[i].y < mBounds.getMin().y &&
+              mBounds.getMax().x < regions.max[i].x &&
+              mBounds.getMax().y < regions.max[i].y))
+            continue;
+        const s8 first = i;
+        if (first < 0 || first >= regions.count)
+            break;
+        for (s32 j = 0; j < 5 && first + j < regions.count; ++j) {
+            const s32 index = first + j;
+            const f32 x0 = _524 * sead::Mathf::floor((regions.min[index].x + 1.0f) / _524 + 1.0f);
+            const f32 z0 = _524 * sead::Mathf::floor((regions.min[index].y + 1.0f) / _524 + 1.0f);
+            const f32 x1 = _524 * sead::Mathf::floor((regions.max[index].x - 1.0f) / _524 + 0.0f);
+            const f32 z1 = _524 * sead::Mathf::floor((regions.max[index].y - 1.0f) / _524 + 0.0f);
+            mPackets[j].setRegion(x0, z0, x1, z1, mSize, regions, mPosition, mOrigin, false);
+        }
+        break;
+    }
+    _0 &= ~1;
 }
 
 }  // namespace ksys::tera

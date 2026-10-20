@@ -82,12 +82,14 @@ struct VegeTeraMat {
     f32 mSize;
     u32 mCellSize;
     f32 _524;
-    u8 _528[8];
+    s32 mUpdateIndex;
+    s32 _52c;
 
     void initialize(f32 size, u32 dimension, u32 cell_size, s32 num_textures, sead::Heap* heap);
     void updatePosition(const sead::Vector3f& position);
     void setBufferIndex(u8 index);
     void upload();
+    void updateRegions(const RegionList& regions);
 };
 static_assert(offsetof(VegeTeraMat, mPackets) == 8);
 static_assert(offsetof(VegeTeraMat, mTextures) == 0x440);
