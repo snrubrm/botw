@@ -20,6 +20,11 @@ public:
     // which also passes this Context to ParameterBase::genMessageParameter.
     void sub_7100C83D44(sead::hostio::Context* context);
 
+    // 0x7100c83d48: the game LocationalLightRig vtable slot 0x7100f17ff8 forwards here.
+    // Event 0x2711 clears the three name filters; event 0x2710 registers every model that
+    // is bound to a scene (Model +0xf0) through the virtual m23.
+    void listenPropertyEventEnvObj(const sead::hostio::PropertyEvent* event);
+
     // Table 0x71024d1fd8, slots 23..26. The complete native traversal
     // 0x7100c8338c passes Model and its actual bone/material keys and names.
     virtual void m23(Model* model);

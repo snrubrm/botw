@@ -70,6 +70,8 @@ public:
 class Model : public sead::IDisposer, public sead::hostio::Node {
     // FishRoot's native model callback reads the existing scale factor at +0x94.
     friend class uking::ai::FishRoot;
+    // ModelRig::listenPropertyEventEnvObj (0x7100c83d48) tests the scene at +0xf0 directly.
+    friend class ModelRig;
 public:
     struct CreateArg {
         CreateArg();

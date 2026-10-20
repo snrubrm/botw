@@ -1,6 +1,8 @@
 #include "gsys/gsysModelRig.h"
 #include "gsys/gsysModel.h"
+#include "gsys/gsysModelMgr.h"
 #include "gsys/gsysModelNW.h"
+#include <hostio/seadHostIOEventListener.h>
 #include <nn/g3d/ResModel.h>
 
 namespace gsys {
@@ -68,6 +70,20 @@ ModelRig::~ModelRig() = default;
 void ModelRig::m11(int, sead::Heap*) {}
 
 void ModelRig::sub_7100C83D44(sead::hostio::Context*) {}
+
+// 0x7100c83d48. The event ids are the original literals (0x2710 / 0x2711).
+void ModelRig::listenPropertyEventEnvObj(const sead::hostio::PropertyEvent* event) {
+    if (event->getId() == 0x2710) {
+        for (Model& model : ModelMgr::instance()->getModelList()) {
+            if (model.mScene)
+                m23(&model);
+        }
+    } else if (event->getId() == 0x2711) {
+        mModelName.ref() = sead::SafeString::cEmptyString;
+        mBonePrefix.ref() = sead::SafeString::cEmptyString;
+        mMaterialPrefix.ref() = sead::SafeString::cEmptyString;
+    }
+}
 
 void ModelRig::m24(Model*, const BoneAccessKey&, const sead::SafeString&) {}
 
