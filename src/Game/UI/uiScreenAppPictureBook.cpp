@@ -757,6 +757,54 @@ u32 ScreenAppPictureBookUnk::sub_710093E428(s32 index) {
 }
 
 // NON_MATCHING: only the order of the two loop initialisers (`mov w9, wzr` before `mov x10, xzr` in the original)
+// 0x710093e574
+// NON_MATCHING: the original keeps the _38d test on the out-of-range (null) entry path and sets page 0 inside the loop
+void ScreenAppPictureBookUnk::sub_710093E574(s32 mode) {
+    s32 page = -1;
+    s32 entry = -1;
+    findPageMaybe(_2dc, &page, &entry);
+    const s32 last_page = mEntries(entry)->_2f4 - 1;
+    const s32 last_entry = _2a8 - 1;
+    if (page != last_page || entry != last_entry) {
+        if (page < last_page) {
+            ++page;
+        } else if (entry < last_entry) {
+            const ScreenAppPictureBookEntry* e;
+            do {
+                ++entry;
+                e = mEntries.at(entry);
+            } while ((e->_38c || e->_38d) && entry < last_entry);
+            page = 0;
+        } else {
+            page = 0;
+        }
+    }
+    sub_710093DDBC(page, entry, mode);
+}
+
+// 0x710093e674
+// NON_MATCHING: register allocation only (w10 / w11 swapped)
+void ScreenAppPictureBookUnk::sub_710093E674(s32 mode) {
+    s32 page = -1;
+    s32 entry = -1;
+    findPageMaybe(_2dc, &page, &entry);
+    if (page != 0 || entry != 0) {
+        if (page <= 0) {
+            if (entry > 0) {
+                const ScreenAppPictureBookEntry* e;
+                do {
+                    --entry;
+                    e = mEntries.at(entry);
+                } while ((e->_38c || e->_38d) && entry > 0);
+            }
+            page = mEntries(entry)->_2f4 - 1;
+        } else {
+            --page;
+        }
+    }
+    sub_710093DDBC(page, entry, mode);
+}
+
 // 0x710093e900
 u32 ScreenAppPictureBookUnk::sub_710093E900(s32 base, s32 count) {
     s32 sum = 0;

@@ -3626,6 +3626,32 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
         }
         return false;
     }
+    // inline-only in the original; name is a guess (repeats in 0x710093e574 and 0x710093e674): like sub_710093F10C,
+    // but walks the page counts (_2f4) of the entries
+    void findPageMaybe(s32 index, s32* out_page, s32* out_entry) const {
+        if (!mEntries.data())
+            return;
+        const s32 count = mEntries.size();
+        if (count == 0)
+            return;
+        ScreenAppPictureBookEntry* const* end = mEntries.data() + count;
+        for (ScreenAppPictureBookEntry* const* p = mEntries.data(); p != end; ++p) {
+            const ScreenAppPictureBookEntry* entry = *p;
+            if (entry) {
+                const s32 rest = index - entry->_2f4;
+                if (rest < 0) {
+                    *out_entry = entry->_2f0;
+                    *out_page = index;
+                    return;
+                }
+                index = rest;
+            }
+        }
+    }
+    // 0x710093e574 / 0x710093e674 (placeholder names): turn to the next / previous page of the page at _2dc
+    // (skipping entries with _38c or _38d set) through sub_710093DDBC
+    void sub_710093E574(s32 mode);
+    void sub_710093E674(s32 mode);
     // 0x710093feac (declared only; 220 bytes): refreshes the groups' layouts
     void sub_710093FEAC();
     // 0x710093e428 (declared only; the 4-byte forwarder to sub_710093E784)
