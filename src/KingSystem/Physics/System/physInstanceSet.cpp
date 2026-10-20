@@ -912,6 +912,109 @@ RigidBody* InstanceSet::sub_7100FC0580(RigidBodyFromShape* shape, sead::Heap* he
     return body;
 }
 
+// NON_MATCHING: same structure and calls; the compiler keeps one value fewer live across the switch
+// (the original spills the second loop's set count to the stack) and orders the loop checks differently.
+bool InstanceSet::sub_7100FBFD54(sead::Heap* heap) {
+    if (mFlags.isOn(Flag::_80))
+        return true;
+
+    const s32 num_sets = *mParamSet->use_rigid_body_set_num;
+    if (num_sets != mRigidBodySets.size())
+        return false;
+    if (num_sets < 1)
+        return true;
+
+    s32 num_navmesh_objs = 0;
+    for (s32 i = 0; i < num_sets; ++i) {
+        auto& set_param = mParamSet->getRigidBodySet(i);
+        const s32 num_bodies = set_param.getNumRigidBodies();
+        if (num_bodies != mRigidBodySets[i]->getRigidBodies().size())
+            return false;
+        if (i >= mRigidBodySets.size())
+            continue;
+
+        auto* set = mRigidBodySets[i];
+        for (s32 j = 0; j < num_bodies; ++j) {
+            if (j >= set->getRigidBodies().size())
+                break;
+            if (!set->getRigidBodies()[j])
+                break;
+
+            switch (set_param.rigid_bodies[j].info.navmesh_val) {
+            case NavMeshType::DYNAMIC_OBSTACLE:
+            case NavMeshType::DYNAMIC_SILHOUETTE_AND_OBSTACLE:
+            case NavMeshType::DYNAMIC_WITHOUT_TOLERANCE:
+            case NavMeshType::MATERIAL_PAINT_AND_OBSTACLE:
+            case NavMeshType::MATERIAL_PAINT:
+            case NavMeshType::MATERIAL_WITHOUT_TOLERANCE:
+                ++num_navmesh_objs;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    if (num_navmesh_objs == 0)
+        return true;
+
+    _110 = sub_7100F7F92C();
+    _100.allocBuffer(num_navmesh_objs, heap);
+
+    const s32 num_sets_2 = *mParamSet->use_rigid_body_set_num;
+    if (num_sets_2 < 1)
+        return true;
+
+    s32 obj_idx = 0;
+    for (s32 i = 0; i < num_sets_2; ++i) {
+        auto& set_param = mParamSet->getRigidBodySet(i);
+        const s32 num_bodies = set_param.getNumRigidBodies();
+        for (s32 j = 0; j < num_bodies; ++j) {
+            if (i >= mRigidBodySets.size())
+                break;
+
+            auto* set = mRigidBodySets[i];
+            if (j >= set->getRigidBodies().size())
+                break;
+            auto* body = set->getRigidBodies()[j];
+            if (!body)
+                break;
+
+            const auto& param = set_param.rigid_bodies[j];
+            const auto type = param.info.navmesh_val;
+            u32 mode;
+            bool force;
+            switch (type) {
+            case NavMeshType::DYNAMIC_OBSTACLE:
+                mode = 3;
+                force = true;
+                break;
+            case NavMeshType::DYNAMIC_SILHOUETTE_AND_OBSTACLE:
+            case NavMeshType::DYNAMIC_WITHOUT_TOLERANCE:
+                mode = 1;
+                force = type != NavMeshType::DYNAMIC_WITHOUT_TOLERANCE;
+                break;
+            case NavMeshType::MATERIAL_PAINT_AND_OBSTACLE:
+                mode = param.info.navmesh_sub_material_val == NavMeshSubMaterial::LiftableByEnemy;
+                force = true;
+                break;
+            case NavMeshType::MATERIAL_PAINT:
+            case NavMeshType::MATERIAL_WITHOUT_TOLERANCE:
+                mode = 2;
+                force = type != NavMeshType::MATERIAL_WITHOUT_TOLERANCE;
+                break;
+            default:
+                continue;
+            }
+
+            _100[obj_idx].sub_7100F7EF9C(body->getHkBody(), mode, force,
+                                         param.info.navmesh_sub_material_val, _110, mName);
+            ++obj_idx;
+        }
+    }
+    return true;
+}
+
 void InstanceSet::sub_7100FB90C4(sead::Heap* heap) {
     _100.freeBuffer();
     _110 = 0;

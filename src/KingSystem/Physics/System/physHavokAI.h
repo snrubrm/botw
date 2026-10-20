@@ -254,6 +254,10 @@ KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 // them for adding / removing (0x7100f8305c, 0x7100f83118, 0x7100f833a8). `_a0` is the HavokAI that should handle
 // the next request (exchanged with ldxr/stxr, compared against `this | 1`), `_a8` request flags (ldxr/stxr
 // and / orr in those functions: sead::Atomic).
+// 0x7100f7f92c (placeholder name; defined in the NavMeshCharacter TU): the next navmesh object id
+// (1 to 0x7ffe, wrapping).
+u32 sub_7100F7F92C();
+
 struct NavMeshObjMaybe {
     // Native 0x7100f7f5ac / 0x7100f7f604 and the two-slot vtable 0x71024f6d00.
     NavMeshObjMaybe();
