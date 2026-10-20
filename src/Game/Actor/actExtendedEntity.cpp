@@ -4,6 +4,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/System/VFR.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::act {
 
@@ -76,6 +77,20 @@ void ExtendedEntity::sub_7100E64DE8(bool on) {
     } else {
         _58 &= ~mask;
     }
+}
+
+// 0x7100e64b60: the signed angle of `a` around the Y axis relative to `b` (placeholder name).
+// NON_MATCHING: identical instructions; our scheduler swaps s9 and s10 for the cross product's y and z.
+f32 sub_7100E64B60(const sead::Vector3f& a, const sead::Vector3f& b) {
+    sead::Vector3f axis;
+    axis.setCross(sead::Vector3f::ey, b);
+    axis.normalize();
+
+    sead::Vector3f proj = a - axis * a.dot(axis);
+    proj.normalize();
+
+    const f32 angle = sead::Mathf::acos(sead::Mathf::clamp(proj.y, -1.0f, 1.0f));
+    return angle * sead::Mathf::sign(proj.dot(b));
 }
 
 }  // namespace uking::act

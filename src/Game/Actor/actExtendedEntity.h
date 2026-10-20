@@ -69,4 +69,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ExtendedEntity, 0x70);
 
+// 0x7100e64b60 (placeholder name): the signed angle of `a` around the Y axis relative to `b`.
+f32 sub_7100E64B60(const sead::Vector3f& a, const sead::Vector3f& b);
+
 }  // namespace uking::act
