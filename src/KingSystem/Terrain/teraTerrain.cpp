@@ -903,6 +903,35 @@ bool sub_710115912C(const sead::Vector3f* pos, f32 height) {
     return false;
 }
 
+f32 NoiseMapMaybe::Octave::sample(f32 x, f32 y) const {
+    f32 fx = (frequency * x + offset) * 32;
+    f32 fy = (frequency * y + offset) * 32;
+    if (fx >= 32)
+        fx -= 32;
+    if (fy >= 32)
+        fy -= 32;
+    const s32 ix = sead::Mathf::floor(fx);
+    const s32 iy = sead::Mathf::floor(fy);
+    const f32 tx = fx - u32(ix);
+    const f32 ty = fy - u32(iy);
+
+    const f32 v00 = at(ix, iy) / 255.0f;
+    if (tx == 0) {
+        if (ty == 0)
+            return v00;
+        const f32 v01 = at(ix, iy + 1) / 255.0f;
+        return v00 + ty * (v01 - v00);
+    }
+    const f32 v10 = at(ix + 1, iy) / 255.0f;
+    const f32 r0 = v00 + tx * (v10 - v00);
+    if (ty == 0)
+        return r0;
+    const f32 v01 = at(ix, iy + 1) / 255.0f;
+    const f32 v11 = at(ix + 1, iy + 1) / 255.0f;
+    const f32 r1 = v01 + tx * (v11 - v01);
+    return r0 + ty * (r1 - r0);
+}
+
 f32 NoiseMapMaybe::sample(f32 x, f32 y, s32 rotation) const {
     f32 u = x - sead::Mathf::floor(x);
     f32 v = y - sead::Mathf::floor(y);

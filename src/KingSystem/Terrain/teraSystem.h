@@ -15,6 +15,7 @@
 #include <container/seadSafeArray.h>
 #include <math/seadBoundBox.h>
 #include <math/seadVector.h>
+#include <random/seadRandom.h>
 #include <math/seadMatrix.h>
 #include <thread/seadAtomic.h>
 #include <heap/seadDisposer.h>
@@ -496,6 +497,31 @@ bool sub_710115912C(const sead::Vector3f* pos, f32 height);
 // Placeholder name: a 32 x 32 tileable noise map (built by 0x7101159398 from random octaves, sampled by
 // 0x7101159528). Embedded in a terrain object used by 0x710106c22c / 0x710106ad3c.
 struct NoiseMapMaybe {
+    // One octave of random bytes, sampled with wrapping and bilinear filtering (a local of build()).
+    struct Octave {
+        // 0x7101159224 (placeholder name): the filtered value (0 to 1) at (x, y) scaled by `frequency`
+        // and shifted by `offset`.
+        f32 sample(f32 x, f32 y) const;
+
+        // inline-only in the original; name is a guess (the wrapped table read repeats four times in
+        // 0x7101159224): out-of-range coordinates read row / column 0.
+        u8 at(s32 x, s32 y) const {
+            if (u32(y) >= 32)
+                y = 0;
+            if (u32(x) >= 32)
+                x = 0;
+            return table[y][x];
+        }
+
+        u8 table[32][32]{};
+        f32 offset = 0;
+        f32 frequency = 1.0f;
+        sead::Random random{0x23456789};
+    };
+
+    // 0x7101159398 (placeholder name; declared only): fills `values` with `num_octaves` octaves of noise
+    // (sums amplitude * Octave::sample, halving the octave size each step).
+    void build();
     // 0x7101159528 (placeholder name): the value at (x, y) wrapped to [0, 1), with the coordinates
     // rotated by `rotation` quarter turns (0 to 3).
     f32 sample(f32 x, f32 y, s32 rotation) const;
