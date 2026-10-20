@@ -41,11 +41,12 @@ public:
 
     // An item of the shop table (0x48 bytes; lane3 s86, from NPCGiveReward::enter_).
     struct Item {
-        sead::SafeString name;
-        u8 _10[0x3c - 0x10];
-        s32 count;
-        u8 _40[4];
-        s32 price;
+        // Native 91B7C8 constructs capacity 32 and initializes the four trailing words.
+        sead::FixedSafeString<32> name;
+        /* 0x38 */ s32 unitPrice;
+        /* 0x3c */ s32 count;
+        /* 0x40 */ s32 _40;
+        /* 0x44 */ s32 price;
     };
     static_assert(sizeof(Item) == 0x48);
 

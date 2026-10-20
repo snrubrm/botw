@@ -61,10 +61,12 @@ public:
     bool _cd;
     u8 _ce[0xd0 - 0xce];
     NpcShopData* _d0;
-    u8 _d8[4];
+    s32 _d8;
     s32 _dc;
     /* 0xe0 */ s32 _e0;  // passed to sub_7100A92180 for the state-10 item
-    u8 _e4[0x140 - 0xe4];
+    u8 _e4[4];
+    // createInstance constructs capacity 64; shop item selection compares against this name.
+    /* 0xe8 */ sead::FixedSafeString<64> _e8;
     /* 0x140 */ ksys::act::BaseProcLink _140;
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
@@ -83,6 +85,7 @@ public:
     // 0x7100983e48 / 0x7100982c90 / 0x7100980f48 (CSV unnamed; not decompiled): called by sub_710098425C
     void sub_7100983E48(s32 a1, s32 a2, sead::BufferedSafeString* name);
     void sub_7100982C90();
+    bool sub_71009831B0(s32 index, ShopItem* item);
     void sub_7100980F48(sead::BufferedSafeString* name);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
     bool sub_7100982A60(s32 state, s32 value);

@@ -1,3 +1,7 @@
+#include "Game/gameNpcShopData.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/gameHorseMgr.h"
@@ -122,5 +126,129 @@ KSYS_CHECK_SIZE_NX150(HorseItemString, 0x78);
 
 // 0x7100985510
 HorseItemString::HorseItemString() {}
+
+// Native 985584 initializes these four profile/default-name strings.
+static sead::SafeString sUnk_71025d7cb0 = "HorseReins";
+static sead::SafeString sUnk_71025d7cc0 = "HorseSaddle";
+static sead::SafeString sUnk_71025d7cd0 = "GameRomHorseReins_00";
+static sead::SafeString sUnk_71025d7ce0 = "GameRomHorseSaddle_00";
+
+s32 sub_7100A82DE8(PouchCategory category);
+const PouchItem* sub_7100A82E00(PouchCategory category, s32 index);
+
+// 0x71009831b0
+// NON_MATCHING: native shop-state dispatch, SafeString copies and register allocation differ.
+bool UiShopMgr::sub_71009831B0(s32 index, ShopItem* item) {
+    auto* info = ksys::act::InfoData::instance();
+    auto* pouch = PauseMenuDataMgr::instance();
+    bool npc_shop;
+    switch (_30) {
+    case 1: case 3: case 5: case 9: case 11: case 14:
+        npc_shop = true;
+        break;
+    default:
+        npc_shop = false;
+        break;
+    }
+    const auto clear_item = [&] {
+        item->name.clear();
+        item->_58 = 0;
+        item->_5c = 0;
+        item->_60 = 0;
+        item->_64 = 0;
+        item->_68 = -1;
+        item->_6c = 0;
+        item->_70 = nullptr;
+    };
+    if (index < 0 || (npc_shop ? !_d0 : !pouch) || index >= _d8) {
+        clear_item();
+        return false;
+    }
+    switch (_30) {
+    case 1: case 3: case 9: case 14: {
+        item->name = _d0->mItems[index].name;
+        item->_5c = 0;
+        item->_64 = _30 == 3;
+        item->_6c = 0;
+        if (item->name.isEmpty())
+            break;
+        item->_60 = _d0->mItems[index].unitPrice;
+        if (_30 == 14) {
+            item->_58 = sub_7100A98808(sub_7100A985DC(item->name));
+            if (_cc && item->name == _38.name) {
+                const s32 count = ksys::gdt::getFlag_Shop_TradeItemNum();
+                item->_58 = count <= item->_58 ? item->_58 - count : 0;
+            }
+        } else if (_30 == 9) {
+            item->_58 = -1;
+        } else {
+            item->_58 = _d0->mItems[index].count;
+            if (item->_58 < 1 && _d0->mItems[index]._40 >= 0)
+                item->_58 = 0;
+        }
+        break;
+    }
+    case 5:
+        item->name = _d0->mItems[index].name;
+        item->_5c = 1;
+        item->_64 = 0;
+        item->_6c = 0;
+        if (!item->name.isEmpty()) {
+            item->_60 = info ? ksys::act::getItemCreatingPrice(info, item->name.cstr()) : 0;
+            if (auto* mgr = PauseMenuDataMgr::instance())
+                item->_58 = mgr->getItemCount(item->name, true);
+        }
+        break;
+    case 11:
+        item->name = _d0->mItems[index].name;
+        item->_64 = 3;
+        if (!item->name.isEmpty()) {
+            item->_60 = 0;
+            item->_58 = -1;
+            item->_6c = item->name == _e8;
+        }
+        break;
+    case 12: case 13:
+        if (index == 0) {
+            item->name = _30 == 12 ? sUnk_71025d7cd0 : sUnk_71025d7ce0;
+        } else {
+            sead::FixedSafeString<64> profile;
+            profile = _30 == 12 ? sUnk_71025d7cb0 : sUnk_71025d7cc0;
+            const s32 count = sub_7100A82DE8(PouchCategory::KeyItem);
+            s32 match = 1;
+            for (s32 i = 0; i < count; ++i) {
+                const auto* candidate = sub_7100A82E00(PouchCategory::KeyItem, i);
+                if (candidate && info) {
+                    const char* candidate_profile = nullptr;
+                    info->getActorProfile(&candidate_profile, candidate->getName().cstr());
+                    if (candidate_profile && profile == candidate_profile) {
+                        if (match == index) {
+                            item->name = candidate->getName();
+                            break;
+                        }
+                        ++match;
+                    }
+                }
+            }
+        }
+        item->_64 = 3;
+        if (!item->name.isEmpty()) {
+            item->_60 = 0;
+            item->_58 = -1;
+            item->_6c = item->name == _e8;
+        }
+        break;
+    }
+    if (item->name.isEmpty()) {
+        clear_item();
+        return false;
+    }
+    if (item->_58 < 0) {
+        item->_5c = 2;
+        item->_58 = -1;
+    }
+    item->_68 = sub_7100982B9C(*item);
+    return true;
+}
 
 }  // namespace uking::ui
