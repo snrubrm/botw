@@ -1,4 +1,6 @@
 #include "Game/Actor/actCamera.h"
+#include "Game/gameUnk_710246d058.h"
+#include "Game/gameMaskController.h"
 #include <heap/seadHeapMgr.h>
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -184,6 +186,26 @@ Camera::InitResult Camera::init_() {
     if (auto* root6 = Root6::getInstance())
         root6->sub_7100928838(this);
     return InitResult::Ok;
+}
+
+// NON_MATCHING: the last flag update is a csel in ours (branches in the original).
+// Keeps bit 3 of _13fd as the previous bit 2 and sets bit 2 while controller key 13 is held.
+void Camera::sub_7100796830() {
+    if (_13fd & 4)
+        _13fd |= 8;
+    else
+        _13fd &= ~8;
+    _13fd &= ~4;
+    auto* controller = MaskController::getControllerSafe(MaskController::ControllerIdx::_1);
+    if (!controller)
+        return;
+    auto* mask_controller = sead::DynamicCast<Unk_710246d058>(controller);
+    if (!mask_controller)
+        return;
+    if (mask_controller->playerCheckController(13))
+        _13fd |= 4;
+    else
+        _13fd &= ~4;
 }
 
 // NON_MATCHING: the original computes &awareness->mLinks2 after the m148() argument (C++14 evaluation order;
