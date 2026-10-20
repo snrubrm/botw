@@ -9,6 +9,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromResource.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/Physics/System/physShapeCast.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act {
@@ -27,6 +29,81 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 };
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
+
+// NON_MATCHING: contact-record buffer reloads and flag scheduling differ.
+// The unused QueryArgs input is inferred from the enclosing query chain.
+void Unk_71024ef4e8::Unk2::sub_7100EAB618(const QueryArgs& args, s32 index,
+    const sead::Vector3f& position, const sead::Vector3f& normal,
+    const phys::MaterialMask& material, phys::ContactLayer layer, bool check_material,
+    bool special) {
+    _1f0 |= 0x200;
+    mContactIndices.pushBack(index);
+    auto& record = mContactRecords[index];
+    record._18 = true;
+    record.position = position;
+    record.normal = -normal;
+    bool valid = true;
+    if (check_material) {
+        valid = false;
+        if (phys::xxx_2(layer.value())) {
+            const auto wall = material.getWallCode();
+            switch (wall.value()) {
+            case phys::WallCode::NoClimb:
+            case phys::WallCode::Ladder:
+            case phys::WallCode::Slip:
+            case phys::WallCode::LadderSide:
+            case phys::WallCode::NoDashUpAndNoClimb:
+                break;
+            default:
+                valid = material.getFloorCode() != phys::FloorCode::Slip;
+                break;
+            }
+        }
+    }
+    record._19 = valid;
+    record._1b = special;
+    if (!mContactRecords[index]._19)
+        _1f0 |= 0x1000;
+    if (!special && (_1c < 0 || position.y < _24)) {
+        _1c = index;
+        _24 = position.y;
+    }
+}
+
+// NON_MATCHING: contact-iterator and vector-math register allocation / scheduling differ.
+// Callers guarantee a contact; this records the final valid query point.
+Unk_71024ef4e8::Unk2::ContactRecord* Unk_71024ef4e8::Unk2::sub_7100EAA344(
+    QueryArgs& args, phys::ShapeCast& cast, s32 index, bool check_material, bool special) {
+    auto& record = mContactRecords[index];
+    phys::MaterialMask material;
+    sead::Vector3f position;
+    sead::Vector3f normal;
+    sead::Vector3f hit_position;
+    phys::ContactLayer layer = phys::ContactLayer::EntityObject;
+    auto* info = cast.getContactPointInfo();
+    for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+        it.getPointPosition(&position, phys::ContactPointInfo::Iterator::Point::BodyB);
+        normal = it.getPoint()->separating_normal;
+        material = it.getPoint()->material_mask_b;
+        it.getHitPosition(&hit_position, cast);
+        layer = it.getPoint()->body_b->getContactLayer();
+    }
+    sub_7100EAB618(args, index, position, normal, material, layer, check_material, special);
+    if (!special) {
+        sead::Vector3f tangent;
+        tangent.setCross(normal, args._30);
+        tangent.normalize();
+        sead::Vector3f axis;
+        axis.setCross(tangent, args._30);
+        axis.normalize();
+        args._18 = tangent;
+        if (!args._4c) {
+            args.end = tangent * (_14 * 0.24f) + hit_position - axis * 0.2f;
+            args.start += args._24 * 0.24f * _10;
+        }
+    }
+    return &record;
+}
 
 // Full EA7300 / 80 B. EB16A0 loads InstanceSet::mController at +80 into x0,
 // heap into x1, calls here and stores the result at Unk_71024ef4e8::_c8 (Unk2*).

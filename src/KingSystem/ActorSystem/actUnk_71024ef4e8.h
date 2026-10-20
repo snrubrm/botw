@@ -14,6 +14,9 @@ class Constraint;
 class InstanceSet;
 class RagdollInstance;
 class RigidBody;
+class ShapeCast;
+class MaterialMask;
+class ContactLayer;
 }
 
 namespace ksys::act {
@@ -65,7 +68,6 @@ public:
         /* 0x180 */ sead::Vector3f _180;  // velocity of the attachment (Player::getStatusEffectSpeed)
     };
 
-    // Placeholder (object at `_c8`, size unknown): only the members Player::sub_710087CF54 reads are modelled.
     // Placeholder: the object at `_b8` (only the flag byte at +0x74 that sub_7100EB5784 tests is modeled).
     struct Unk3 {
         u8 _0[0x74];
@@ -86,12 +88,29 @@ public:
             u8 _1b = 0;
         };
         static_assert(sizeof(ContactRecord) == 0x1c);
+        // EA82DC builds this query state and passes it to the contact / retry helpers.
+        struct QueryArgs {
+            sead::Vector3f start;
+            sead::Vector3f end;
+            sead::Vector3f _18;
+            sead::Vector3f _24;
+            sead::Vector3f _30;
+            sead::Vector3f _3c;
+            u32 _48;
+            bool _4c;
+        };
+        static_assert(sizeof(QueryArgs) == 0x50);
 
         explicit Unk2(phys::CharacterController* controller);
         virtual ~Unk2();
         static Unk2* sub_7100EA7300(phys::CharacterController* controller, sead::Heap* heap);
         void sub_7100EA7350(sead::Heap* heap);
         void sub_7100EA79DC();
+        ContactRecord* sub_7100EAA344(QueryArgs& args, phys::ShapeCast& cast, s32 index,
+                                     bool check_material, bool special);
+        void sub_7100EAB618(const QueryArgs& args, s32 index, const sead::Vector3f& position,
+                            const sead::Vector3f& normal, const phys::MaterialMask& material,
+                            phys::ContactLayer layer, bool check_material, bool special);
         // EAB818: writes the target position when available; Player 87F29C consumes all three floats.
         bool sub_7100EAB818(sead::Vector3f* out) const;
         // EAB7C0: writes _1c0 while _1f0 bit 5 is set and _1c0 is not zero (Player 0x7100883bc4 tests its y).
