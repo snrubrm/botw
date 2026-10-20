@@ -48,6 +48,12 @@ void ScreenAppMapDungeon::doBuildLayout_(const sead::SafeString& name, nn::ui2d:
     sub_71010ABF8C(creator.getEntries());
 }
 
+// 0x71009ea048
+void ScreenAppMap::sub_71009EA048() {
+    if (_3610)
+        _3610->sub_71009AF35C();
+}
+
 // 0x71009ea030
 bool ScreenAppMap::sub_71009EA030() const {
     if (_3c98)

@@ -2467,6 +2467,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     ~ScreenAppMapWidget() override;
     // 0x71009a9438 (CSV unnamed): the timer at 0xb290 is done or the flag at 0xb1db is set
     bool sub_71009A9438();
+    // 0x71009aeccc (placeholder name): fills the footprint cells of the current map into the buffer and stores
+    // the last cell's position.
+    void sub_71009AECCC();
     // Small accessors of the widget (lane2 s46; placeholder names, the field meanings are not known)
     void sub_71009A995C();
     // 0x71009a99f0 (CSV unnamed; not decompiled): applies the map scale level
@@ -2560,7 +2563,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     u8 _b4f4[0xb4f8 - 0xb4f4];
     /* 0xb4f8 */ s16 _b4f8;  // save tracker progress written by sub_71009AF058
     /* 0xb4fa */ s8 _b4fa;
-    u8 _b4fb[0xb4fc - 0xb4fb];
+    /* 0xb4fb */ u8 _b4fb;
+
     /* 0xb4fc */ s8 _b4fc;
     u8 _b4fd;
     /* 0xb4fe */ s8 _b4fe;
@@ -2602,6 +2606,8 @@ public:
     // 0x71009f1a64 (declared only; Unk_7102475d70::m18 passes the marker position)
     bool sub_71009F1A64(const sead::Vector3f* pos);
     bool sub_71009EA030() const;
+    // 0x71009ea048 (placeholder name): resets the map widget when the screen owns one
+    void sub_71009EA048();
     // 0x71009ed41c (CSV Screen::x; placeholder name): the child of group / index cast to ScreenChildEx (the
     // original runs the cast twice)
     ScreenChildEx* getChildExMaybe(s32 group, s32 index);

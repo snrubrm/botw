@@ -1,6 +1,7 @@
 #include "KingSystem/AOC/aocManager.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "Game/UI/uiUtils.h"
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
@@ -405,6 +406,46 @@ bool Unk_710249d330::isIdle() const {
 // the last cell differ.
 // NON_MATCHING: the loops and stores match; clang unswitches the y loop for the last column where the original
 // unswitches it for the first, and it drops the x term of the last-cell check into the peeled copy.
+// NON_MATCHING: the calls and the stored values match; clang folds the clamp to 0 into a bic where the original
+// keeps a subs / csel pair, and it drops the redundant sign test (544 bytes against 548).
+// 0x71009aeccc
+void ScreenAppMapWidget::sub_71009AECCC() {
+    if (ksys::aoc::Manager::instance()->hasAoc2()) {
+        if (uking::StageInfo::getCurrentMapType() == "MainField") {
+            sead::Vector3f pos = {0.0f, 0.0f, 0.0f};
+            sub_7100A9B800(&pos);
+            mFootPrint.sub_7100A86468(pos.x, pos.z, false);
+        } else if (uking::StageInfo::getCurrentMapType() == "MainFieldDungeon") {
+            sead::Vector3f pos = {0.0f, 0.0f, 0.0f};
+            mSubsys->sub_7100961CD4(&pos);
+            mFootPrint.sub_7100A866BC(pos.x, pos.z, false);
+        } else {
+            sead::Vector3f pos = {0.0f, 0.0f, 0.0f};
+            mSubsys->sub_7100961CD4(&pos);
+            mFootPrint.sub_7100A86468(pos.x, pos.z, false);
+        }
+        _b4fb = 0;
+        const s32 count = mFootPrint.mCount + mFootPrint.mPending;
+        s32 idx = count - 1;
+        if (idx < 0)
+            idx = 0;
+        _b4ec = u32(idx);
+        _b4f0 = u32(idx);
+        if (idx >= 0 && count > idx) {
+            const u32 cell = mFootPrint.mCells[idx];
+            s32 x = (cell >> 13) & 0x1fff;
+            if (cell & 0x4000000)
+                x = -x;
+            s32 y = cell & 0xfff;
+            if (cell & 0x1000)
+                y = -y;
+            _b4b8 = f32(x);
+            _b4bc = f32(y);
+        }
+    }
+    _b4a4 = -1;
+}
+
 // 0x7100a85dc4
 void Unk_710249d330::sub_7100A85DC4(s32 x1, s32 y1, s32 t1, s32 x2, s32 y2, s32 t2) {
     mCount = 0;
