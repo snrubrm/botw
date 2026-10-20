@@ -48,9 +48,9 @@ void BoneBlendState::sub_7101257884(const gsys::AnimationAccessKey<gsys::Skeleta
 
 // NON_MATCHING: the separate mode/float stores are not combined with the pointer as a 64-bit pair.
 void BoneBlendState::sub_7101257920(const res::ASSetting::BoneParams* params) {
+    _28 = params;
     _20 = 1;
     _24 = 0.0f;
-    _28 = params;
 }
 
 void BoneBlendState::sub_710125792C() {

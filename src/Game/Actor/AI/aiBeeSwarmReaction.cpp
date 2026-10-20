@@ -82,7 +82,6 @@ void BeeSwarmReaction::calc_() {
     changeChild("死亡");
 }
 
-// NON_MATCHING: the 30 / 31 damage type test is `(type | 1) == 31` in the original (ours: `(type & ~1) == 30`).
 void BeeSwarmReaction::sub_710032AF18() {
     if (sub_710032B414()) {
         sub_710072AAE4(mActor);
@@ -133,7 +132,7 @@ void BeeSwarmReaction::sub_710032AF18() {
             changeChild("消滅");
             return;
         }
-        if (type != 30 && type != 31) {
+        if (!(type == 30 || type == 31)) {
             if (type == 20) {
                 sub_710072AAE4(mActor);
                 sub_710072BB28(mActor);
