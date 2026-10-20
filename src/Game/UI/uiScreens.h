@@ -3572,6 +3572,8 @@ struct ScreenAppPictureBookUnk : eui::ControlBase {
     void sub_710093F10C(s32 index, s32* out_index, s32* out_value);
     // 0x710093f05c (placeholder name): the position of the overall item `index` (zero when there is none)
     sead::Vector2f sub_710093F05C(s32 index);
+    // 0x710093edbc (placeholder name): the entry, page and column / row of the overall item `index`
+    void sub_710093EDBC(s32 index, s32* out_entry, s32* out_page, s32* x, s32* y) const;
     // 0x710093feac (declared only; 220 bytes): refreshes the groups' layouts
     void sub_710093FEAC();
     // 0x710093e428 (declared only; the 4-byte forwarder to sub_710093E784)
