@@ -7,6 +7,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::tera { struct GrassEntry; }
+
 namespace ksys::world {
 
 // Placeholder names for three small classes {vptr, sead::Buffer} whose destructors only free the buffer
@@ -42,10 +44,10 @@ class Unk_710251cea8 {
 public:
     virtual ~Unk_710251cea8();
 
-    void* _8;
+    tera::GrassEntry* _8;
     sead::CriticalSection _10;
     sead::Buffer<agl::UniformBlock> _50;
-    u8 _60[0x70 - 0x60];
+    sead::Buffer<u8> _60;
     Unk_7102503c88 _70;
     Unk_710251ced0 _88;
     Unk_710251cef0 _a0;
@@ -77,6 +79,7 @@ public:
     static_assert(sizeof(Cell) == 0x18);
     void sub_71012E7990(f32 diameter, f32 intensity, const sead::Vector2f* position);
     void resetCells();
+    void initialize(sead::Heap* heap, tera::GrassEntry* entry);
 
     struct CellState {
         u16 _0;
@@ -99,7 +102,10 @@ public:
     CellState mCellStates[59][59];
     u8 _4fdb4[0x4fdc4 - 0x4fdb4];
     s32 _4fdc4;
-    u8 _4fdc8[0x4fde8 - 0x4fdc8];
+    void* mWaterDistanceStat;
+    void* mEmbeddedEdgeStat;
+    void* mIndoorStat;
+    void* mHiddenStat;
 };
 static_assert(offsetof(Unk_710251cea8, mCells) == 0x1aa8);
 static_assert(offsetof(Unk_710251cea8, mCellIndices) == 0x16100);

@@ -77,6 +77,8 @@ class Handle;
 
 namespace ksys::tera {
 
+struct GrassEntry;
+
 // Existing terrain draw-state setter called by GearMgr teardown.
 void sub_7100F418B8(void* value);
 
@@ -104,7 +106,7 @@ class Core {
 public:
     class Grass {
     public:
-        struct Entry;
+        using Entry = GrassEntry;
         struct Unk_7101150c24 {
             u32 _0;
             const sead::Vector3f* mPosition;
@@ -309,28 +311,6 @@ public:
         static_assert(offsetof(EntryPart, _384c8) == 0x384c8);
         static_assert(sizeof(EntryPart) == 0x38720);
         using EntryPart2 = world::Unk_710251cea8;
-        // One 0x2c0-byte grass entry.
-        struct Entry {
-            EntryPart* _0;
-            EntryPart2* _8;
-            // 0x7101150a70 (unnamed in the CSV) calls setDirty on the first entry's manager.
-            VegeTeraMatMgr* _10;
-            u8 _18[8];
-            Grass* mGrass;
-            // 0x710114f978 stores the System passed by Core 0x71013019bc.
-            System* mSystem;
-            u8 _30[0x3c - 0x30];
-            // Camera setters 0x710114f978 and 0x7101152b3c update this frustum.
-            agl::cull::ViewFrustumCulling mFrustum;
-            sead::Vector3f mPosition;
-            u8 _280[0x28c - 0x280];
-            sead::Matrix34f mCamera;
-            u8 _2bc[4];
-        };
-        static_assert(sizeof(Entry) == 0x2c0);
-        static_assert(offsetof(Entry, mFrustum) == 0x3c);
-        static_assert(offsetof(Entry, mPosition) == 0x274);
-        static_assert(offsetof(Entry, mCamera) == 0x28c);
         // At 0x10: size (0x10) and pointer (0x18), like sead::Buffer.
         sead::Buffer<Entry> mEntries;
         u8 _20[0x28 - 0x20];
@@ -469,6 +449,29 @@ public:
     u8 _378[0x37c - 0x378];
     u8 _37c;
 };
+
+// One 0x2c0-byte grass entry shared by both actual grid owners.
+struct GrassEntry {
+    Core::Grass::EntryPart* _0;
+    Core::Grass::EntryPart2* _8;
+    // 0x7101150a70 (unnamed in the CSV) calls setDirty on the first entry's manager.
+    VegeTeraMatMgr* _10;
+    u8 _18[8];
+    Core::Grass* mGrass;
+    // 0x710114f978 stores the System passed by Core 0x71013019bc.
+    System* mSystem;
+    u8 _30[0x3c - 0x30];
+    // Camera setters 0x710114f978 and 0x7101152b3c update this frustum.
+    agl::cull::ViewFrustumCulling mFrustum;
+    sead::Vector3f mPosition;
+    u8 _280[0x28c - 0x280];
+    sead::Matrix34f mCamera;
+    u8 _2bc[4];
+};
+static_assert(sizeof(GrassEntry) == 0x2c0);
+static_assert(offsetof(GrassEntry, mFrustum) == 0x3c);
+static_assert(offsetof(GrassEntry, mPosition) == 0x274);
+static_assert(offsetof(GrassEntry, mCamera) == 0x28c);
 
 // 0x71011501c8 (declaration only): Grass cleanup thunk called by world::ChemicalMgr::unload2;
 // the body stays with the Grass owner.

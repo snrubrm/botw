@@ -1,4 +1,6 @@
 #include "KingSystem/World/worldGrassFire.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "Game/gameStatisticsMgr.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <cstring>
@@ -72,5 +74,35 @@ void Unk_710251cea8::resetCells() {
     }
     _4fdc4 = -1;
 }
+
+// NON_MATCHING: record pointer assignment, buffer allocation and declaration loops differ in scheduling.
+void Unk_710251cea8::initialize(sead::Heap* heap, tera::GrassEntry* entry) {
+    _8 = entry;
+    for (s32 y = 0; y < 59; ++y)
+        for (s32 x = 0; x < 59; ++x)
+            mCells[y][x].mRecord = &mRecords[y][x];
+    resetCells();
+    _50.tryAllocBuffer(0x300, heap);
+    const s32 count = _50.size();
+    for (s32 i = 0; i < count; ++i) {
+        auto& block = _50[i];
+        if (i == 0) {
+            block.startDeclare(1, heap);
+            block.declare_(agl::UniformBlock::cType_17, 1, 0xd0, 0x10);
+        } else {
+            block.declare(_50[0]);
+        }
+        block.create(heap, 2, 1);
+    }
+    _60.tryAllocBuffer(0xe0, heap, 0x20);
+    _70.mBuffer.tryAllocBuffer(0x20, heap, 0x20);
+    _88.mBuffer.tryAllocBuffer(0x20, heap, 0x20);
+    _a0.mBuffer.tryAllocBuffer(0x20, heap, 0x20);
+    mWaterDistanceStat = uking::StatisticsMgr::instance()->getStatsPointer("water_distance");
+    mEmbeddedEdgeStat = uking::StatisticsMgr::instance()->getStatsPointer("terrain_embedded_edge");
+    mIndoorStat = uking::StatisticsMgr::instance()->getStatsPointer("terrain_is_in_door");
+    mHiddenStat = uking::StatisticsMgr::instance()->getStatsPointer("terrain_hidden");
+}
+
 
 }  // namespace ksys::world
