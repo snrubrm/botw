@@ -2,6 +2,7 @@
 
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Common/Base/Container/Array/hkArray.h>
+#include <Havok/Common/Base/Types/Physics/ContactPoint/hkContactPoint.h>
 #include <Havok/Physics2012/Dynamics/Entity/hkpEntityListener.h>
 #include <Havok/Physics2012/Dynamics/World/Listener/hkpWorldPostSimulationListener.h>
 
@@ -22,7 +23,18 @@ public:
     explicit hkpCharacterRigidBody(const hkpCharacterRigidBodyCinfo& info);
     ~hkpCharacterRigidBody() override;
 
-    struct SupportInfo;
+    // Descriptive member names. Native getSupportInfo 1678B68 and game F69190
+    // reserve 0x40-byte elements and copy the contact point, body and surface velocity.
+    // The velocity comes from the moving-surface modifier atom (type 0x22).
+    struct SupportInfo {
+        hkContactPoint m_contactPoint;
+        hkpRigidBody* m_rigidBody;
+        hkVector4 m_surfaceVelocity;
+    };
+    static_assert(sizeof(SupportInfo) == 0x40);
+    static_assert(offsetof(SupportInfo, m_contactPoint) == 0);
+    static_assert(offsetof(SupportInfo, m_rigidBody) == 0x20);
+    static_assert(offsetof(SupportInfo, m_surfaceVelocity) == 0x30);
     virtual void checkSupport(const hkStepInfo& step, hkpSurfaceInfo& surface);
     virtual void getSupportInfo(const hkStepInfo& step, hkArray<SupportInfo>& support);
     virtual void getGround(const hkArray<SupportInfo>& support, hkBool use_dynamic,
