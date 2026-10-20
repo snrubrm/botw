@@ -65,4 +65,22 @@ void UiShopMgr::sub_7100985508() {
     _140.reset();
 }
 
+// One horse item name record (0x78 bytes): a fixed string and the two links / type the rider UI keeps.
+// Constructed in bulk by 0x7100985584 (sinitHorseItemStrings).
+struct HorseItemString {
+    HorseItemString();
+
+    sead::FixedSafeString<64> mName;
+    /* 0x58 */ void* _58 = nullptr;
+    /* 0x60 */ void* _60 = nullptr;
+    /* 0x68 */ s32 _68 = -1;
+    /* 0x6c */ u8 _6c = 0;
+    u8 _6d[3];
+    /* 0x70 */ void* _70 = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(HorseItemString, 0x78);
+
+// 0x7100985510
+HorseItemString::HorseItemString() {}
+
 }  // namespace uking::ui
