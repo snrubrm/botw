@@ -17,6 +17,22 @@ LocationalLightRig* LocationalLightRig::create(sead::Heap* heap) {
     return new (heap, 8) LocationalLightRig;
 }
 
+// Parameter names, labels and meta strings are the originals at 0x7101e1c976 .. 0x7101e1ca8b.
+// NON_MATCHING: the original's LocationalLightRig vtable has one more primary slot (its
+// secondary address point is at +0x108, ours at +0x100), and the parameter string
+// temporaries are scheduled differently.
+LocationalLightRig::LocationalLightRig()
+    : mLightType(0, "LightType", "ライト種類", "", this),
+      mColor(sead::Color4f(1, 0, 0, 1), "Color", "色（輝度で正規化されます）", "", this),
+      mIntensity(10.0f, "Intensity", "強度（明るさ）", "Min=0", this),
+      mInnerRadius(0.3f, "InnerRadius", "光源半径（内側ライトの半径。スペキュラサイズにも影響。）",
+                   "Min=0", this),
+      mEnableEffectMoth(false, "EnableEffectMoth", "蛾エフェクト", "", this),
+      mFlickeringIntensityRate(0.1f, "FlickeringIntensityRate", "揺れ強度率", "Min=0", this),
+      mFlickeringSpeed(1.0f, "FlickeringSpeed", "揺れ速度", "Min=0", this) {
+    mLights.initOffset(0x18);
+}
+
 LocationalLightMgr::ObjectLight::Light::Light() = default;
 
 // NON_MATCHING: the bone-index store is scheduled before the flag / rig stores (same instructions,
