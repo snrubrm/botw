@@ -1,3 +1,5 @@
+#include <g3d/aglTextureUtilG3D.h>
+#include <cstring>
 #include "KingSystem/Terrain/teraGrass.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadBitFlag.h>
@@ -546,3 +548,34 @@ void sub_710106BD54() {
 }
 
 }  // namespace ksys::tera
+
+// NON_MATCHING: allocation arguments, GPU address copies and framebuffer updates differ in scheduling.
+void Unk_7102503a50::Cache::initialize(sead::Heap* heap, u32 dimension,
+                                     agl::TextureFormat format, u32 flags) {
+    mTextureData = new (heap, 8) agl::TextureData;
+    mTextureData->initialize_(agl::TextureType::cTextureType_2D, format, dimension, dimension,
+                             1, 1, static_cast<agl::TextureAttribute>(flags & 1),
+                             agl::MultiSampleType{}, true);
+    const u32 alignment = mTextureData->getImageAlignment();
+    const u32 size = mTextureData->getImageByteSize();
+    auto* memory = new (heap, 8) agl::GPUMemBlock<u8>;
+    memory->allocBuffer_(size, heap, alignment, flags & 1 ? agl::MemoryAttribute::CpuCached :
+                                                         agl::MemoryAttribute::Default);
+    mAddress = agl::GPUMemVoidAddr(agl::GPUMemAddrBase(*memory, 0));
+    mTextureData->setImagePtr(mAddress, 0);
+    mAddress.flushCPUCache(mTextureData->getImageByteSize());
+    std::memset(&mResTexture, 0, sizeof(mResTexture));
+    agl::g3d::TextureUtilG3D::convertToResTexture(&mResTexture, *mTextureData, nullptr);
+    mDimension = dimension;
+    mSampler.applyTextureData(*mTextureData);
+    mSampler.setFilter(1, 1, 1);
+    mSampler.setWrap(1, 1, 1);
+    mRenderTarget.applyTextureData(*mTextureData, mRenderTarget.getMipLevel(),
+                                  mRenderTarget.getLayer());
+    mRenderBuffer.setRenderTargetColorNullAll();
+    mRenderBuffer.setRenderTargetDepth(nullptr);
+    mRenderBuffer.setVirtualSize(sead::Vector2f(dimension, dimension));
+    mRenderBuffer.setPhysicalArea(0.0f, 0.0f, f32(dimension), f32(dimension));
+    mRenderBuffer.setRenderTargetColor(&mRenderTarget, 0);
+    mViewport.setByFrameBuffer(mRenderBuffer);
+}

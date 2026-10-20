@@ -1,5 +1,6 @@
 #pragma once
 #include <common/aglGPUMemAddr.h>
+#include <nn/gfx/gfx_ResTextureData.h>
 #include <common/aglGPUMemBlock.h>
 #include <common/aglIndexStream.h>
 #include <common/aglRenderBuffer.h>
@@ -33,7 +34,7 @@ public:
         agl::GPUMemVoidAddr mAddress;               // +8
         agl::TextureData* mTextureData;              // +20
         agl::TextureSampler mSampler;               // +28
-        u8 _198[0xa0];                             // ResTextureData (unresolved exact header)
+        nn::gfx::ResTextureData mResTexture;        // +198
         agl::RenderBuffer mRenderBuffer;            // +238
         agl::RenderTargetColor mRenderTarget;        // +2a0
         sead::Viewport mViewport;                   // +418
@@ -41,8 +42,7 @@ public:
         f32 _44c;
         u64 _450;
         u64 _458;
-        // init1061024 has real Heap*, dimension, format, attribute parameters;
-        // don't add guesses until final source declaration/mangling is selected.
+        void initialize(sead::Heap* heap, u32 dimension, agl::TextureFormat format, u32 flags);
     };
     static_assert(sizeof(Cache) == 0x460);
     static_assert(offsetof(Cache, mAddress) == 8);
