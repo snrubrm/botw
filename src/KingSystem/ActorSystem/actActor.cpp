@@ -30,6 +30,9 @@
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
+#include "KingSystem/Resource/Actor/resResourceChemical.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -2892,6 +2895,21 @@ void ModelCreationProfiler::end() {
     const s32 slot = mSlot;
     mDeltas[slot < 2u ? slot : 0] = delta;
     mHeap = nullptr;
+}
+
+bool Actor::initChemicals(sead::Heap* heap) {
+    if (!mActorParam->isDummyParam(res::ActorLink::User::Chemical)) {
+        auto* resource = mActorParam->getRes().mChemical;
+        if (resource && mPhysics) {
+            mChemical = new (heap) ActorChemicals;
+            if (!mChemical)
+                return false;
+            mChemical->init1(mPhysics, &resource->getRoot(), this, heap);
+            if (world::Manager::instance() && _6a0)
+                mChemical->init2(&_6a0->_10);
+        }
+    }
+    return true;
 }
 
 }  // namespace ksys::act

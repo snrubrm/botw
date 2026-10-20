@@ -1213,6 +1213,26 @@ void Unk_71024e6428::sub_7100E39E8C(s32 index, const chm::IRoot* root,
     sub_7100E3AA34(heap);
 }
 
+// NON_MATCHING: the element constructor is inlined into the buffer allocation and loop scheduling differs.
+void ActorChemicals::init1(phys::InstanceSet* instance, const chm::Root* root, Actor* actor,
+                            sead::Heap* heap) {
+    const chm::IRoot* interface = root;
+    _50 = interface;
+    if (interface->getNumShapes() != 0)
+        _58.tryAllocBuffer(_50->getNumShapes(), heap, 8);
+    _68 = 0;
+    _6c = 0;
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        auto* element = getElement_(i);
+        if (!element)
+            continue;
+        element->sub_7100E39E8C(i, interface, instance, actor, heap);
+        if (_6c == 0 && !root->isRigidAttribute13Set(i))
+            _6c = element->mChemical._10;
+    }
+    sub_7100E38588(_6c);
+}
+
 }  // namespace ksys::act
 
 namespace ksys::xlink {

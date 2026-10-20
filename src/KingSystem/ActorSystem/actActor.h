@@ -491,6 +491,7 @@ public:
     // CSV name: the physics rigid body set called `name` (null without physics).
     phys::RigidBodySet* getRigidBodyByName(const char* name);
     // Inline in the original (GolemPartRoot::enter_ reads the field directly).
+    bool initChemicals(sead::Heap* heap);
     ActorChemicals* getChemicalContainer() const { return mChemical; }
     // CSV Actor::x_4: mChemical->getStuff(idx), if any.
     Chemical* sub_71011D8A34(int idx);
