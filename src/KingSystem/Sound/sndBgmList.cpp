@@ -212,6 +212,45 @@ void Unk_71024fe368::m5() {
     _a4 = _1b0.getValue();
 }
 
+// NON_MATCHING: the original computes the fader address in both arms of the first test and keeps -1 in a
+// callee-saved register.
+void Unk_71024fe368::sub_710100AF98() {
+    _228 = -1;
+    if (sUnk_710260FA60 || u8(_1d8._c >> 16)) {
+        _1b0.setValueImmediate(1.0f);
+        _248->_8 = _268;
+        const Section section = Section::Middle;
+        if (int(mSection) != int(section)) {
+            for (s32 i = 0; i < mEntries4.size(); ++i)
+                mEntries4(i)._98 = -1;
+            _220 = 0;
+            _218 = 0;
+            _21c = 0;
+            mSection = section;
+            if (mUserInstance)
+                mUserInstance->setPropertyValue(0, mSection);
+            if (mSubHandle->mUserInstance)
+                mSubHandle->mUserInstance->setPropertyValue(0, mSection);
+        }
+        mKey = Key::調2;
+        if (mUserInstance)
+            mUserInstance->setPropertyValue(1, mKey);
+        if (mSubHandle->mUserInstance)
+            mSubHandle->mUserInstance->setPropertyValue(1, mKey);
+        mKeyType = KeyType::B;
+        if (mUserInstance)
+            mUserInstance->setPropertyValue(2, mKeyType);
+        if (mSubHandle->mUserInstance)
+            mSubHandle->mUserInstance->setPropertyValue(2, mKeyType);
+    } else {
+        _1b0.setValueImmediate(0.0f);
+        _1b0.moveTo(1.0f, *mInfo->mFadeInSec);
+        _248->_8 = _260;
+    }
+    sub_710101D9D8();
+    mState = 1;
+}
+
 // 0x710260fa70 (placeholder name): debug request for a hit part (cleared by sub_710100B130; nothing in the game
 // sets it).
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260FA70;
