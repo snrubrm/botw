@@ -1,4 +1,6 @@
 #include "Game/Actor/Player/AI/aiPlayerClimb.h"
+#include "Game/gameUnk_71024739d0.h"
+#include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/gameUnk_710246d058.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/aiUnk_710073BB28.h"
@@ -75,6 +77,50 @@ bool PlayerClimb::sub_7100829F70() {
         break;
     }
     return false;
+}
+
+// 0x710082a058: casts a ray forward from just in front of the player's feet; on a ladder wall, sets up the ladder
+// from the hit and switches to the ladder child.
+bool PlayerClimb::sub_710082A058() {
+    using Player = ksys::act::Player;
+    sead::Vector3f dir;
+    static_cast<Player*>(mActor)->_1b18.getBase(dir, 2);
+    dir.normalize();
+
+    sead::Vector3f velocity = mActor->getVelocity();
+    velocity.y = 0.0f;
+    velocity.normalize();
+    velocity *= 0.5f;
+
+    sead::Vector3f start = static_cast<Player*>(mActor)->_1770;
+    start.y += 0.5f;
+    start += velocity;
+    sead::Vector3f end = start + dir * (sUnk_7101e7c5c4 + 0.2f);
+
+    Unk_71024739d0 ray(ksys::phys::GroundHit(11));
+    ray.mQuery.reset();
+    ray.sub_710090D73C();
+    ray.setStart(start);
+    ray.setEnd(end);
+    ray.worldRayCast();
+    if (!ray.hasHit())
+        return false;
+
+    ray.getHitPosition(&static_cast<Player*>(mActor)->_2160);
+    sead::Vector3f normal;
+    ray.getHitNormal(&normal);
+    static_cast<Player*>(mActor)->_1c84 = sead::Mathf::atan2Idx(normal.x, normal.z);
+    if (ray.mQuery.getMaterialMask().getData().getWallCode() != ksys::phys::WallCode::Ladder)
+        return false;
+
+    static_cast<Player*>(mActor)->_1cbc = 4;
+    sead::Vector3f a, b, c;
+    ray.mQuery.sub_7100FC488C(&a, &b, &c);
+    static_cast<Player*>(mActor)->sub_7100883F48(a, b, c);
+    static_cast<Player*>(mActor)->_2160.x = static_cast<Player*>(mActor)->_22f4.x;
+    static_cast<Player*>(mActor)->_2160.z = static_cast<Player*>(mActor)->_22f4.z;
+    changeChild("梯子");
+    return true;
 }
 
 void PlayerClimb::loadParams_() {

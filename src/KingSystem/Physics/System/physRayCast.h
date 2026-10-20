@@ -105,6 +105,9 @@ public:
     bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
                               u32 shape_key) const;
     void getHitNormal(sead::Vector3f* normal) const;
+    // 0x7100fc488c (CSV x_0; declared only): fills three vectors from the hit shape (called by
+    // uking::ai::PlayerClimb::sub_710082A058 when the hit wall is a ladder).
+    void sub_7100FC488C(sead::Vector3f* a, sead::Vector3f* b, sead::Vector3f* c);
     // Read inline by MotorcycleMgr::spawnMotorcycle_x (name is a guess).
     const sead::Vector3f& getHitNormalInline() const { return mHitNormal; }
     // TODO: rename
