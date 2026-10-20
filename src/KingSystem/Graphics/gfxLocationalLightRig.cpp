@@ -136,8 +136,8 @@ void LocationalLightRig::drawDebug(agl::DrawContext* context, const sead::Matrix
     }
 }
 
-void LocationalLightRig::m11(int index, sead::Heap* heap) {
-    gsys::ModelRig::m11(index, heap);
+void LocationalLightRig::initialize(int index, sead::Heap* heap) {
+    gsys::ModelRig::initialize(index, heap);
 }
 
 LocationalLightRig::~LocationalLightRig() {}

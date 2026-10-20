@@ -33,7 +33,7 @@ public:
     virtual void m26(Model* model, int unit_index);
 
 protected:
-    void m11(int index, sead::Heap* heap) override;
+    void initialize(int index, sead::Heap* heap) override;
 
     // Actual constructor parameter keys, each Parameter<FixedSafeString<64>>
     // has size 0x70 and is registered with this EnvObj's IParameterObj base.

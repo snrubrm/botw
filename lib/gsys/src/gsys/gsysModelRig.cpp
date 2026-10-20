@@ -67,7 +67,7 @@ void ModelRig::m23(Model* model) {
 
 ModelRig::~ModelRig() = default;
 
-void ModelRig::m11(int, sead::Heap*) {}
+void ModelRig::initialize(int, sead::Heap*) {}
 
 void ModelRig::sub_7100C83D44(sead::hostio::Context*) {}
 

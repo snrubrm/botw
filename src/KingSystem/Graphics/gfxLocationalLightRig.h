@@ -101,7 +101,7 @@ public:
     agl::utl::Parameter<f32> mFlickeringSpeed;
 
 protected:
-    void m11(int index, sead::Heap* heap) override;
+    void initialize(int index, sead::Heap* heap) override;
 };
 KSYS_CHECK_SIZE_NX150(LocationalLightRig, 0x3a8);
 static_assert(offsetof(LocationalLightRig, mCS) == 0x260);
