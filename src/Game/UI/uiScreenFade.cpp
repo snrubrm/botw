@@ -30,6 +30,11 @@ public:
 // 0x71010a0a90
 Fade::Fade() : Screen() {}
 
+// 0x71010a18ac
+void Fade::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
+
 Fade::~Fade() = default;
 
 // 0x71010a1ce0

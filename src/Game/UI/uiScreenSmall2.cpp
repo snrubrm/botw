@@ -1488,6 +1488,11 @@ void sub_71010B3188(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Act
     }
 }
 
+// 0x71010b5400
+void ScreenMessageDialog::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
+
 // 0x71010b5290
 void ScreenMessageDialog::m106(eui::AnimButton*) {
     if (_350 == 3) {
@@ -3158,6 +3163,11 @@ void ScreenPauseMenuMantan::m107(eui::AnimButton* button) {
         break;
     }
     close(-1);
+}
+
+// 0x7100a25ac0
+void ScreenMessageGet::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
 }
 
 // 0x7100a257f4

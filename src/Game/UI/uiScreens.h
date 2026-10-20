@@ -976,6 +976,8 @@ public:
     ~ScreenPauseMenuInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    // 0x7100a2dde0: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
 
     // 0x7100a3081c (1492 B, placeholder name): fills the info text records at _39f8 from the message set at
     // 0x71025f0710 for mode `mode` and ends with sub_7100934478(a2); mode 4 uses the extra record when
@@ -1435,6 +1437,8 @@ public:
     void m100() override;
     // 0x71010a8afc
     const char* getLayoutName_() const override;
+    // 0x71010a8a9c: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
     bool isEnableControl() const override { return true; }
 
     // 0x71010a87f0 (CSV unnamed, declared only): called by ui::sub_7100A981B0 with the tip type 18.
@@ -1474,6 +1478,8 @@ public:
     // (identical twins; overrides of Screen::m83/m101).
     void m83() override;
     void m101() override;
+    // 0x71010ae100: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
 
     // One message entry (0xd0 bytes, linked through +0; the last of the four has a null link).
     // The entries are plain buffers: ScreenMessage3D's D1 destroys only the CriticalSection, so they
@@ -1563,6 +1569,8 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
     // 0x71010b34d0
     const char* getLayoutName_() const override;
+    // 0x71010b5400: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
     void m99() override {}
 
     // 0x71010b25c8 (CSV ScreenMessageDialog::ctor)
@@ -1781,6 +1789,8 @@ public:
     void sub_71010A0EE8(f32 progress);
     // 0x71010a1b24 (slot 101): clears the tip queue, refreshes the tip message and the draw target, tells the sound manager
     void m101() override;
+    // 0x71010a18ac: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
     void m99() override {}
     // 0x71010a172c (CSV Fade::updateTipMessage; declared only)
     void updateTipMessage();
@@ -3139,6 +3149,8 @@ public:
 
     // inherited slot; the pause menu decides from it whether the state may settle
     void m99() override;
+    // 0x7100a36938: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -5169,6 +5181,8 @@ public:
     void m99() override;
     // 0x7100a257f4 (slot 101): clears the UI singleton's actor name and runs ui::sub_7100A9B2D0
     void m101() override;
+    // 0x7100a25ac0: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
 
     // 0x7100a23778 (CSV ScreenMessageGet::ctor)
     ScreenMessageGet();
@@ -6274,6 +6288,8 @@ public:
     void m97() override;
     ~ScreenKeyBoradTextArea() override;
     SEAD_RTTI_OVERRIDE(ScreenKeyBoradTextArea, ScreenEx)
+    // 0x7100a0e5b8: forwards to Screen::doDraw_ (vtable slot 33)
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
 
     /* 0x3610 */ s32 _3610 = 2;
     s32 _3614;

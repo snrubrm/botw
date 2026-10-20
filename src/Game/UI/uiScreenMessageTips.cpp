@@ -78,6 +78,11 @@ void ScreenMessageTips::m94() {
     close(-1);
 }
 
+// 0x71010a8a9c
+void ScreenMessageTips::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
+
 // 0x71010a8aa0
 void ScreenMessageTips::m98() {
     if (_300) {

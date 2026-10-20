@@ -84,6 +84,11 @@ void ScreenMainScreen::m85() {
 // 0x7100a22320
 void ScreenMainShortCut::m96() {}
 
+// 0x7100a36938
+void ScreenPauseMenu::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
+
 // 0x7100a3c904
 void ScreenPauseMenu::m69() {}
 
@@ -146,6 +151,11 @@ void ScreenDLCSinJuAkashiNum::m71() {}
 
 // 0x7100a0e5b0
 void ScreenKeyBoradTextArea::m93(sead::Heap*) {}
+
+// 0x7100a0e5b8
+void ScreenKeyBoradTextArea::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
 
 // 0x7100a0e5b4
 void ScreenKeyBoradTextArea::m94() {}

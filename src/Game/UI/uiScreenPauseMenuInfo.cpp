@@ -62,6 +62,11 @@ void ScreenPauseMenuInfo::sub_7100A2DC30(f32 delta) {
             _36e0.sub_7100946640(true);
     }
 }
+// 0x7100a2dde0
+void ScreenPauseMenuInfo::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
+
 // 0x7100a2dcd8, 264 B
 void ScreenPauseMenuInfo::sub_7100A2DCD8(f32 delta) {
     if (!(delta <= 0.01f && delta >= -0.01f)) {

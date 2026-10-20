@@ -48,6 +48,11 @@ struct Message3DMsgStatics {
 };
 static Message3DMsgStatics sUnk_710261EF20;
 
+// 0x71010ae100
+void ScreenMessage3D::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    Screen::doDraw_(info);
+}
+
 // 0x71010ae104 (CSV unnamed): message lookup into _680 (0 = found, 1 = no set, 2 = no message)
 s32 ScreenMessage3D::sub_71010AE104(const sead::SafeString& set, const sead::SafeString& label) {
     eui::MessageSet* message_set = eui::MessageMgr::instance()->getMessageSet(set);
