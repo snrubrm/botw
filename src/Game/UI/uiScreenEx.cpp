@@ -2,6 +2,9 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiUnk_71025d6560.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/UI/euiButton.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -398,6 +401,30 @@ eui::ControlBase* ScreenEx::sub_7100A4810C(const eui::LayoutEx* layout) {
             return control;
     }
     return nullptr;
+}
+
+// 0x7100a48930
+void ScreenEx::m116() {
+    for (s32 i = 1; i < 0x91; ++i) {
+        auto* entry = sub_7100931D40(i);
+        if (entry->screen_id != mId)
+            continue;
+        auto* pane = sub_7100AA0D40(mLayout, entry->path.entries, 5);
+        if (!pane)
+            continue;
+        auto* parts = nn::font::DynamicCast<eui::PartsEx>(pane);
+        if (!parts || !parts->mPartsLayoutLink.layout)
+            continue;
+        auto* parent = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout)->_88;
+        if (!parent)
+            continue;
+        auto* button = mButtonGroup->FindButton(parts->GetName(), parent);
+        if (!button)
+            continue;
+        button->mTag = i;
+        if (auto* table = Unk_71025d6560::instance())
+            table->sub_7100949A60(i, button);
+    }
 }
 
 // 0x7100a4815c

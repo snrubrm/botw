@@ -721,9 +721,12 @@ struct ButtonPanePath {
 };
 
 // 0x71025d5bc0 (placeholder name): table of 0x58-byte records read by sub_7100931D40 (capacity 145).
+// ScreenEx::m116 reads the screen id and the five-level path of a button.
 struct Unk_71025D5BC0Entry {
-    u8 _0[0x58];
+    /* 0x0 */ s32 screen_id;
+    /* 0x8 */ ButtonPanePath path;
 };
+static_assert(sizeof(Unk_71025D5BC0Entry) == 0x58);
 KSYS_VISIBILITY_HIDDEN extern sead::Buffer<Unk_71025D5BC0Entry> sUnk_71025D5BC0;
 // 0x7100931d40 (placeholder name): record `index` of sUnk_71025D5BC0 (sead::Buffer clamping)
 Unk_71025D5BC0Entry* sub_7100931D40(s32 index);
@@ -770,6 +773,8 @@ public:
     void m113() override;
     void m114(sead::Heap* heap) override;
     void m115() override;
+    // 0x7100a48930: tags the screen's buttons with their sUnk_71025D5BC0 index
+    void m116() override;
     eui::UIController* doCreateUIController_(sead::Heap* heap) override;
     void registerController_() override;
 
