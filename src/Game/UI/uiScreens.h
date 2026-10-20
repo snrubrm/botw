@@ -2414,6 +2414,13 @@ static_assert(sizeof(ScreenAppMapUnk3c90) == 0x160);
 // It holds the packed map cells and their flag bytes (one entry per cell, 0x38400 of each = 32 maps of
 // 0x1c20), a state (0 idle, 1 allocated) and the heap the arrays live in. The step 0x7100a843c0 and the
 // append 0x7100a866bc drive it; 0x7100a843f4 (not decompiled) consumes the pending cell.
+// One footprint block of Unk_710249d330: a 0x50-byte header, then 48 rows of 0x4c0 bytes (300 packed cells
+// and 4 unused words each).
+struct FootPrintBlock {
+    u8 _0[0x50];
+    u32 cells[0x30][0x130];
+};
+
 class Unk_710249d330 {
 public:
     virtual ~Unk_710249d330();
@@ -2432,13 +2439,20 @@ public:
     // 0x7100a85fac (placeholder name): drops the invalid cells and the repeated ones, rewriting each kept
     // cell's zone.
     void sub_7100A85FAC();
+    // 0x7100a86468 (placeholder name): appends the packed cell for (x, y), replacing the last cell when it is
+    // the same one.
+    void sub_7100A86468(f32 x, f32 y, bool flag);
+    // 0x7100a85dc4 (placeholder name): copies the packed cells of the x1..x2 / y1..y2 rectangle out of the
+    // blocks into the cell buffer (the first row / cell of each starts at t1 / ends at t2).
+    void sub_7100A85DC4(s32 x1, s32 y1, s32 t1, s32 x2, s32 y2, s32 t2);
 
     /* 0x08 */ s32 mState = 0;
     /* 0x10 */ sead::Buffer<u32> mCells;
     /* 0x20 */ sead::Buffer<u8> mFlags;
     /* 0x30 */ s32 mCount = 0;
     /* 0x38 */ sead::Heap* mHeap = nullptr;
-    u8 _40[0x141 - 0x40];
+    /* 0x40 */ FootPrintBlock* mBlocks[32]{};
+    /* 0x140 */ u8 _140 = 0;
     /* 0x141 */ bool mPending = false;
     u8 _142[6];
 };

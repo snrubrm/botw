@@ -403,6 +403,36 @@ bool Unk_710249d330::isIdle() const {
 // pair (660 bytes); clang short-circuits the second decode (636 bytes).
 // NON_MATCHING: same size and instructions; only the register numbers of the loop counter, the write index and
 // the last cell differ.
+// NON_MATCHING: the loops and stores match; clang unswitches the y loop for the last column where the original
+// unswitches it for the first, and it drops the x term of the last-cell check into the peeled copy.
+// 0x7100a85dc4
+void Unk_710249d330::sub_7100A85DC4(s32 x1, s32 y1, s32 t1, s32 x2, s32 y2, s32 t2) {
+    mCount = 0;
+    for (s32 x = x1; x <= x2; ++x) {
+        const s32 ys = (x == x1) ? y1 : 0;
+        const s32 ye = (x == x2) ? y2 : 0x2f;
+        if (ys > ye)
+            continue;
+        for (s32 y = ys; y <= ye; ++y) {
+            const s32 ts = (y == y1) ? t1 : 0;
+            const s32 te = (y == y2 && x == x2) ? t2 : 299;
+            if (ts > te)
+                continue;
+            for (s32 t = ts; t <= te; ++t) {
+                const u32 cell =
+                    mBlocks[u32(x) < 32 ? x : 0]->cells[u32(y) < 0x30 ? y : 0][u32(t) < 300 ? t : 0];
+                if (cell == 0xfbffdfff)
+                    continue;
+                if ((t & 1) == 0) {
+                    mCells[mCount++] = cell;
+                } else if ((cell & 0x20000000) && mCount > 0) {
+                    mCells[mCount - 1] = cell;
+                }
+            }
+        }
+    }
+}
+
 // 0x7100a85fac
 void Unk_710249d330::sub_7100A85FAC() {
     s32 out = 0;
@@ -434,6 +464,68 @@ void Unk_710249d330::sub_7100A85FAC() {
         }
     }
     mCount = out;
+}
+
+// NON_MATCHING: same size; the original folds the two cell-coordinate comparisons into a ccmp pair and clang
+// short-circuits the second decode, which also moves the later blocks.
+// 0x7100a86468
+void Unk_710249d330::sub_7100A86468(f32 x, f32 y, bool flag) {
+    if (!ksys::aoc::Manager::instance()->hasAoc2())
+        return;
+
+    s32 count = mCount;
+    if (count > 0) {
+        const u32 last = mCells[count - 1];
+        s32 last_x = (last >> 13) & 0x1fff;
+        if (last & 0x4000000)
+            last_x = -last_x;
+        s32 last_y = last & 0xfff;
+        if (last & 0x1000)
+            last_y = -last_y;
+        if (s32(x) == s32(f32(last_x)) && s32(y) == s32(f32(last_y))) {
+            if (!flag)
+                return;
+            count -= 1;
+            mCount = count;
+        }
+    }
+
+    const s32 x_i = s32(x);
+    const s32 y_i = s32(y);
+    if (x_i == 0 && y_i == 0 && !flag)
+        return;
+    if (x_i == -0x60 && y_i == 0x140 && !flag)
+        return;
+
+    const s32 x_abs = sead::Mathi::abs(x_i);
+    const s32 y_abs = sead::Mathi::abs(y_i);
+    const u32 packed_x = (u32(x_abs) & 0x1fff) | (x < 0.0f ? 0x2000 : 0);
+    const u32 packed_y = (u32(y_abs) & 0xfff) | (y < 0.0f ? 0x1000 : 0);
+    const s32 zone = (y_i + 4000) / 0x96 + ((x_i + 5000) / 0x96) * 0x36;
+    if (zone & 0xf000)
+        return;
+    u32 packed = packed_y | (packed_x << 13);
+    if (flag)
+        packed |= 0x8000000;
+    packed |= u32(zone) << 28;
+
+    if ((u32(count) >> 10) > 0xe0) {
+        const s32 n = mCells.size() - 0x1c20;
+        if (n > 0) {
+            for (s32 i = 0; i < n; ++i) {
+                mCells[i] = mCells[i + 0x1c20];
+                mFlags[i] = mFlags[i + 0x1c20];
+            }
+        }
+        count -= 0x1c20;
+        mCount = count;
+    }
+    mFlags[count] = u8(u32(zone) >> 4);
+    count = mCount;
+    mCount = count + 1;
+    mCells[count] = packed;
+    if (mPending)
+        mPending = false;
 }
 
 // 0x7100a866bc
