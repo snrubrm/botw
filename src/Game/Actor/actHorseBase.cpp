@@ -194,7 +194,7 @@ void HorseBase::initMaybe() {
         }
         if (auto* object = sead::DynamicCast<HorseObject>(_850.getProc(nullptr))) {
             if (special) {
-                if (!(get4f8() <= 0.0f))
+                if (get4f8() > 0.0f)
                     object->sub_71011C75D4();
                 else if (fading)
                     object->_1410 |= 1;
@@ -203,7 +203,7 @@ void HorseBase::initMaybe() {
         }
         if (auto* object = sead::DynamicCast<HorseObject>(_840.getProc(nullptr))) {
             if (!special) {
-                if (!(get4f8() <= 0.0f))
+                if (get4f8() > 0.0f)
                     object->sub_71011C75D4();
                 else if (fading)
                     object->_1410 |= 1;
@@ -282,28 +282,24 @@ void HorseBase::initMaybe() {
 // NON_MATCHING: scalar cross product and normalization scheduling differs.
 void Unk_71024eb4c0::sub_7100F69014(const sead::Vector3f& normal,
                                     const hkpCharacterInput& input, hkpCharacterOutput& output) {
-    const f32 angle = sead::Mathf::rad2deg(sead::Mathf::acos(normal.y < -1.0f ? -1.0f : normal.y <= 1.0f ? normal.y : 1.0f));
+    const f32 angle = sead::Mathf::rad2deg(sead::Mathf::acos(sead::Mathf::clamp(normal.y, -1.0f, 1.0f)));
     const sead::Vector3f forward = ksys::phys::toVec3(input.m_forward);
     sead::Vector3f side;
     side.setCross(sead::Vector3f::ey, forward);
-    const f32 side_length = side.length();
-    if (!(side_length <= 0.0f))
-        side *= 1.0f / side_length;
+    side.normalize();
     const f32 dot = side.dot(normal);
     const f32 projected_y = normal.y * (1.0f / sead::Mathf::sqrt(1.0f - std::min(dot * dot, 1.0f)));
     const f32 projected_angle = sead::Mathf::rad2deg(
-        sead::Mathf::acos(projected_y < -1.0f ? -1.0f : projected_y <= 1.0f ? projected_y : 1.0f));
+        sead::Mathf::acos(sead::Mathf::clamp(projected_y, -1.0f, 1.0f)));
     sead::Vector3f adjusted;
-    if (angle < mSlopeThreshold && angle > _5c) {
+    if (angle >= mSlopeThreshold || angle <= _5c) {
+        adjusted = normal;
+    } else {
         const f32 blend = (mSlopeThreshold - angle) / (mSlopeThreshold - _5c);
         const f32 target_angle = angle + (projected_angle - angle) * blend;
         adjusted = normal * sead::Mathf::sin(sead::Mathf::deg2rad(target_angle));
         adjusted.y += sead::Mathf::sin(sead::Mathf::deg2rad(angle - target_angle));
-        const f32 adjusted_length = adjusted.length();
-        if (!(adjusted_length <= 0.0f))
-            adjusted *= 1.0f / adjusted_length;
-    } else {
-        adjusted = normal;
+        adjusted.normalize();
     }
     sub_7100F683C0(adjusted, input, output);
 }
