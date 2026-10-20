@@ -5093,6 +5093,8 @@ extern const ksys::StateBase sUnk_71025dcd00;
 
 class ScreenAppCamera : public ScreenEx {
 public:
+    // 0x71009db8ec (placeholder name): shows the picture's name and sets _4360 from its picture book registration
+    void sub_71009DB8EC();
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m127() override;
     bool isEnableControl() const override;
@@ -5134,9 +5136,18 @@ public:
     /* 0x4040 */ u8 _4040[0x20];
     /* 0x4060 */ u8 _4060[0x20];
     /* 0x4080 */ bool _4080;
-    u8 _pad_4081[0x4198 - 0x4081];
+    u8 _pad_4081[0x4088 - 0x4081];
+    /* 0x4088 */ bool _4088;
+    u8 _4089;
+    /* 0x408a */ bool _408a;
+    u8 _pad_408b[0x40a8 - 0x408b];
+    // the actor name of the picture (T_Name_00; IsRegisteredPictureBook_<name>)
+    /* 0x40a8 */ sead::FixedSafeString<64> _40a8;
+    u8 _pad_4100[0x4198 - 0x4100];
     /* 0x4198 */ sead::SafeString _4198;
-    u8 _pad_41a8[0x4368 - 0x41a8];
+    u8 _pad_41a8[0x4360 - 0x41a8];
+    /* 0x4360 */ f32 _4360;
+    u8 _pad_4364[0x4368 - 0x4364];
     /* 0x4368 */ Unk_7102474bc8 _4368;
     u8 _pad_44c0[0x44c8 - 0x4368 - sizeof(Unk_7102474bc8)];
     /* 0x44c8 */ eui::Animator* _44c8;

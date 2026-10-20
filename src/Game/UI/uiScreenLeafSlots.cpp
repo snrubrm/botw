@@ -1,3 +1,4 @@
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
@@ -503,6 +504,19 @@ void ScreenAppCamera::m101() {
     delete[] _4030;
     _4020 = nullptr;
     _4030 = nullptr;
+}
+
+// 0x71009db8ec
+void ScreenAppCamera::sub_71009DB8EC() {
+    eui::MessageString name;
+    sub_7100AA2BDC(_40a8, &name);
+    setWidgetString(_3688, "T_Name_00", name);
+    if (_408a) {
+        _4360 = 2.0f;
+    } else if (_4088) {
+        sead::FormatFixedSafeString<128> flag("IsRegisteredPictureBook_%s", _40a8.cstr());
+        _4360 = ksys::gdt::getBoolByKey(flag) ? 1.0f : 0.0f;
+    }
 }
 
 // 0x71009d9a28
