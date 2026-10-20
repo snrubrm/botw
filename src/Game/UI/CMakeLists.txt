@@ -189,6 +189,7 @@ target_sources(uking PRIVATE
   uiScreenNameTable.h
   uiScreens.h
   uiShopFacade.cpp
+  uiItemInfoChild.cpp
   uiShopInfoItem.cpp
   uiShopItemElement.cpp
   uiShopItemElementChildren.h

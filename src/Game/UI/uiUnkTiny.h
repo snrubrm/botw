@@ -498,8 +498,9 @@ public:
     /* 0x18 */ eui::Animator* mColorAnimator = nullptr;
     /* 0x20 */ eui::Animator* mNumberAnimator = nullptr;
     /* 0x28 */ eui::Animator* mOldNumberAnimator = nullptr;
-    u8 _30[0x10];
 };
+// Unk_710247ca18 ctor 0x71009c1edc stores its own _170 right after this member at _140.
+static_assert(sizeof(Unk_710247adc8) == 0x30);
 
 // Constructed at 0x71009b24c4 (vtable 0x710247ade8); a member of Unk_710247a6d8 / Unk_710247ca18.
 struct WeaponStats;

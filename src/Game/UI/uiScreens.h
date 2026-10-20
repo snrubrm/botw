@@ -373,7 +373,8 @@ public:
     void sub_71009C28D0();
     // 0x71009c20f0: sets the gauge _170 and clears its byte at 0x6c
     void sub_71009C20F0(eui::TraceGaugeControl* gauge);
-    // 0x71009c21f0 / 0x71009c2274 / 0x71009c22f8: show `name` in the T_Name_00 / detail widgets.
+    // 0x71009c21f0 / 0x71009c2274: show `name` as the item / cook name and clear the other one.
+    // 0x71009c22f8: shows the weapon or shield values of `name` against the equipped item.
     void sub_71009C21F0(const sead::SafeString& name);
     void sub_71009C2274(const sead::SafeString& name);
     void sub_71009C22F8(const sead::SafeString& name);
@@ -388,10 +389,10 @@ public:
                         bool flag);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
-    u8 _140[0x170 - 0x140];
+    /* 0x140 */ Unk_710247adc8 _140;
     /* 0x170 */ eui::TraceGaugeControl* _170 = nullptr;
     /* 0x178 */ Unk_710247ade8 _178;
-    u8 _1b0[0x1e8 - 0x1b0];
+    /* 0x1b0 */ Unk_710247ada8 _1b0;
 };
 static_assert(sizeof(Unk_710247ca18) == 0x1e8);
 
@@ -5100,7 +5101,13 @@ public:
     /* 0x3651 */ u8 _3651 = 0;
     /* 0x3658 */ eui::ControlBase* _3658 = nullptr;
     u8 _pad_3660[0x3670 - 0x3660];
-    Unk_710247adc8 _3670[2];
+    // Array of 0x40-byte entries: the dtor destroys both through one base address, and
+    // Unk_710247adc8 itself is 0x30 bytes. The last 0x10 bytes of an entry are unknown.
+    struct Unk_3670Entry {
+        Unk_710247adc8 view;
+        u8 _30[0x10];
+    };
+    /* 0x3670 */ Unk_3670Entry _3670[2];
     /* 0x36f0 */ ShopInfoTagData _36f0;
     /* 0x3750 */ sead::Delegate2R<ScreenMessageGet, const sead::MessageSet<char16>::TagInfo*,
                                   sead::WBufferedSafeString*, u32>
