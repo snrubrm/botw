@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/Terrain/teraEditor.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 #include <cstddef>
 #include <cstring>
@@ -265,7 +266,7 @@ public:
             void resetCells();
             void applyMaskBrush(f32 diameter, f32 blend, const sead::Vector2f* position,
                                 bool second_layer, bool spawn);
-            // Native 10751C0 dispatches this after updating a cut mask; body remains with this owner.
+            // Native 10751C0 dispatches this after updating a cut mask.
             void sub_7101075788(const sead::Vector2f* position);
 
             struct CellState {
@@ -292,7 +293,8 @@ public:
             u8 _36f7c[0x3844c - 0x36f7c];
             /* 0x3844c */ f32 _3844c;
             /* 0x38450 */ f32 _38450;
-            u8 _38454[0x384c8 - 0x38454];
+            u8 _38454[0x38498 - 0x38454];
+            act::BaseProcHandle mSpawnHandles[3];
             f32 _384c8;
             u8 _384cc[4];
             s32 _384d0;

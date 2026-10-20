@@ -1,5 +1,10 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Terrain/teraGrass.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/Terrain/teraVegeTeraMat.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <g3d/aglNW4FToNN.h>
@@ -28,6 +33,54 @@ namespace ksys::tera {
 
 const f32 sUnk_7101E79608[4] = {0.0f, 0.5f, 0.0f, 0.5f};
 const f32 sUnk_7101E79618[4] = {0.0f, 0.0f, 0.5f, 0.5f};
+
+// NON_MATCHING: handle selection, item iteration and transform scheduling differ.
+void Core::Grass::EntryPart::sub_7101075788(const sead::Vector2f* position) {
+    if (_384c8 < 17.777779f)
+        return;
+    _384c8 -= 17.777779f;
+    act::BaseProcHandle* handle = nullptr;
+    for (auto& candidate : mSpawnHandles) {
+        if (!candidate.isAllocatedOrFailed()) {
+            handle = &candidate;
+            break;
+        }
+    }
+    if (!handle || world::Manager::instance()->isAocField())
+        return;
+    eco::AreaItemSet items;
+    const s32 area = eco::Ecosystem::instance()->getFieldMapArea(position->x, position->y);
+    eco::Ecosystem::instance()->getAreaItems(area, eco::AreaItemType::GrassCut, &items);
+    const eco::AreaItem* selected = nullptr;
+    for (s32 i = 0; i < items.count; ++i) {
+        const auto& item = items.items[i];
+        if (act::shouldSkipSpawnFairy(item.name))
+            continue;
+        if (sead::GlobalRandom::instance()->getU32(1001) < u32(item.num) &&
+            (!selected || item.num < selected->num)) {
+            selected = &item;
+        }
+    }
+    if (!selected)
+        return;
+    auto* entry = mEntry;
+    f32 height = 0.0f;
+    if (sub_71011094A0(&height, position, entry->mSystem, -1, 0) != 2)
+        return;
+    f32 water_height = 0.0f;
+    if (sub_710110B4A4(&water_height, position, entry->mSystem) != 2)
+        return;
+    if (height <= water_height && act::hasTag(selected->name, 0x5ad0d068))
+        return;
+    const f32 angle = sead::GlobalRandom::instance()->getF32() * (2.0f * sead::Mathf::pi());
+    sead::Matrix34f transform;
+    transform.makeRT(sead::Vector3f(0.0f, angle, 0.0f),
+                     sead::Vector3f(position->x, height + 0.15f, position->y));
+    act::InstParamPack params;
+    params->addMatrix(transform);
+    act::ActorCreator::instance()->requestCreateActor(selected->name,
+        map::PlacementMgr::instance()->mDynamicHeap, handle, &params, nullptr, 1);
+}
 
 // NON_MATCHING: the common mask-layer loop is merged and floating calculations are scheduled differently.
 void Core::Grass::EntryPart::applyMaskBrush(f32 diameter, f32 blend,
