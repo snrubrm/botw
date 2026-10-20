@@ -61,6 +61,8 @@ public:
     EventMgrStruct3A();
     ~EventMgrStruct3A();
     void assignToActor(act::Actor* actor);
+    // 0x7101279a54: AIScheduleUser plus NPC and unique-name suffixes for event binding.
+    void formatActorName(sead::BufferedSafeString* name) const;
 
     /* 0x00 */ act::Actor* mActor = nullptr;
     /* 0x08 */ void* _8 = nullptr;

@@ -1,3 +1,5 @@
+#include "Game/Actor/actNPCBase.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -87,6 +89,22 @@ void EventMgrStruct3A::assignToActor(act::Actor* actor) {
     mHasUniqueName = act::InfoData::instance()->hasTag(actor->getName().cstr(), 0xcab53f3d);
     if (mHasUniqueName && !mActor->getUniqueName())
         mHasUniqueName = false;
+}
+
+// 0x7101279a54
+void EventMgrStruct3A::formatActorName(sead::BufferedSafeString* name) const {
+    name->copy(mActor->getParam()->getRes().mActorLink->getUserName(res::ActorLink::User::AISchedule));
+    if (auto* npc = sead::DynamicCast<uking::act::NPCBase>(mActor)) {
+        const sead::SafeString suffix(npc->_9d8);
+        if (!suffix.isEmpty()) {
+            name->append("-");
+            name->append(suffix);
+        }
+    }
+    if (mHasUniqueName) {
+        name->append("-");
+        name->append(mActor->getUniqueName());
+    }
 }
 
 // inline-only in the original; name is a guess. Repeated in 127961C and 1279784.
