@@ -1008,8 +1008,8 @@ void Manager::allowPaletteOverride() {
 // NON_MATCHING: the original tests the stage type 5, 4, then 2 (ours sorts the cases as 2, 5, 4)
 void Manager::updateGraphicsMap(StageType type) {
     switch (type) {
-    case StageType::Viewer:
-        Graphics::instance()->sub_7100F2AF70(5);
+    case StageType::Indoor:
+        Graphics::instance()->sub_7100F2AF70(2);
         break;
     case StageType::MainFieldDungeon:
         if (mInFinalTrialBossBattleArea)
@@ -1019,8 +1019,8 @@ void Manager::updateGraphicsMap(StageType type) {
         else
             Graphics::instance()->sub_7100F2AF70(3);
         break;
-    case StageType::Indoor:
-        Graphics::instance()->sub_7100F2AF70(2);
+    case StageType::Viewer:
+        Graphics::instance()->sub_7100F2AF70(5);
         break;
     default:
         if (mFieldType == FieldType::AocField)
