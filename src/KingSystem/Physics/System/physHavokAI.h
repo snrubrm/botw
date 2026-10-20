@@ -92,16 +92,27 @@ public:
     /* 0x09 */ bool _9 = false;  // set by destroyQuery before it is queued
 };
 
+// Placeholder name: the callback interface of the face searches (HavokAI::sub_7100F87334). Its m1 / m2
+// defaults are 0x71000e43d0 / 0x71000e43e0 (not Unk_NavMeshCallback's out-of-line copies).
+class NavMeshFaceCallback {
+public:
+    // Visits one face; returning true takes it.
+    virtual bool m0(const Unk_7100f7e9f0& face) = 0;
+    virtual void* m1() { return nullptr; }
+    virtual bool m2() { return true; }
+};
+
 // Placeholder name (vtable 0x7102372790: D1 0x71000e43e8, D0 0x71000e4344, reset, process 0x71000e4350): a
 // position query that WolfLinkAmiibo derives from (vtable 0x71024ed690) and CreateEpona / HorseSwimAction use.
-// The fields come from process: 0x10 is an 8-byte result slot passed to the ray query, 0x18 the query position.
-class Unk_7102372790 : public NavMeshQuery {
+// The fields come from process: the face callback base (this + 0x10) is passed to the ray query, 0x18 the
+// query position. Its vtable has a pure primary m0 slot and the m1 thunk 0x71000e43d8 (secondary vtable).
+class Unk_7102372790 : public NavMeshQuery, public NavMeshFaceCallback {
 public:
     // 0x71000e4350
     void process(HavokAI* ai) override;
+    bool m0(const Unk_7100f7e9f0& face) override = 0;
+    void* m1() override { return nullptr; }
 
-    /* 0x0a */ u8 _a[6];
-    /* 0x10 */ u8 _10[8];  // opaque result slot handed to the ray collector (this + 0x10)
     /* 0x18 */ sead::Vector3f _18;
     /* 0x24 */ f32 _24;
     /* 0x28 */ f32 _28;
@@ -126,15 +137,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710239b220, 0x28);
 
-// Placeholder name: the callback interface of the face searches (HavokAI::sub_7100F87334). Its m1 / m2
-// defaults are 0x71000e43d0 / 0x71000e43e0 (not Unk_NavMeshCallback's out-of-line copies).
-class NavMeshFaceCallback {
-public:
-    // Visits one face; returning true takes it.
-    virtual bool m0(const Unk_7100f7e9f0& face) = 0;
-    virtual void* m1() { return nullptr; }
-    virtual bool m2() { return true; }
-};
 
 // Placeholder name (RTTI root; typeinfo static 0x71025b3c00, emitted with the HorseMoveToSafePos TU): a query
 // bound to a character. NavMeshCharacter::_2e0 holds one; HorseMoveToSafePos casts it to its own query class.

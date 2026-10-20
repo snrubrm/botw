@@ -779,7 +779,7 @@ void Unk_7102372790::process(HavokAI* ai) {
         z = 10.0f;
         flag = true;
     }
-    ai->sub_7100F85974(_10, &_18, flag, _24, y, z);
+    ai->sub_7100F85974(static_cast<NavMeshFaceCallback*>(this), &_18, flag, _24, y, z);
 }
 
 // NON_MATCHING: two argument copies in the prologue are scheduled the other way round
