@@ -3,8 +3,11 @@
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include <aal/aalSpeakerBalanceUnifier.h>
+#include <aal/aalSpeakerBalanceUnifierMgr.h>
+#include <aal/aalSystemAccessor.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 
 namespace ksys::snd {
 
@@ -13,12 +16,29 @@ f32 SpeakerBalanceUnifierMgr::sSizeThresholds[3] = {2.0f, 5.0f, 40.0f};
 // 0x7101027554
 SpeakerBalanceUnifierMgr::SpeakerBalanceUnifierMgr() = default;
 
+SpeakerBalanceUnifierMgr::~SpeakerBalanceUnifierMgr() {
+    if (auto* mgr = aal::SystemAccessor::getSpeakerBalanceUnifierMgr()) {
+        for (s32 i = 0; i < mUnifiers.size(); ++i) {
+            if (auto* unifier = mUnifiers[i])
+                mgr->freeSpeakerBalanceUnifier(unifier);
+        }
+    }
+    mUnifiers.freeBuffer();
+    mActor = nullptr;
+}
+
 // NON_MATCHING: the original reads the thresholds through a direct adrp of a file-local table that is not constant (it
 // is written elsewhere in its translation unit); a never-written local table gets folded, so it is an external member here
 // (GOT access).
 void SpeakerBalanceUnifierMgr::sub_7101027BF4() {}
 
 void SpeakerBalanceUnifierMgr::sub_7101027BBC() {}
+
+void SpeakerBalanceUnifierMgr::sub_7101027BC0(sead::Heap* heap, act::ActorCreator* creator) {
+    if (mActor)
+        return;
+    creator->requestCreateActor("BoxWaterSound", heap, &mHandle, nullptr, nullptr, 1);
+}
 
 void SpeakerBalanceUnifierMgr::sub_7101027D4C(f32 size, aal::Shape* shape) {
     if (!mUnifiers.isBufferReady())

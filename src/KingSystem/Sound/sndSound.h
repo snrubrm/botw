@@ -202,6 +202,8 @@ public:
     // attaches `shape` to its sound source.
     xlink2::HandleSLink sub_7101027E90(f32 size, int type, aal::Shape* shape);
     void sub_7101027CE8();
+    // 0x7101027bc0 (placeholder name): requests the "BoxWaterSound" actor into mHandle unless it exists.
+    void sub_7101027BC0(sead::Heap* heap, act::ActorCreator* creator);
     // 0x7101027bf4: empty in the release build (Unk_SoundMgr38::sub_710102AE50).
     void sub_7101027BF4();
     // 0x7101027bf8 (declared only)
