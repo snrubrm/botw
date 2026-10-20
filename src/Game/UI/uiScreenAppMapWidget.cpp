@@ -164,6 +164,31 @@ void ScreenAppMapWidget::sub_71009A967C() {
     mSubsys->sub_7100966D0C(pos);
 }
 
+// 0x71009a9cf8
+// NON_MATCHING: see sub_71009A9DBC
+void ScreenAppMapWidget::sub_71009A9CF8(const sead::Vector3f& position) {
+    _b350 = 2;
+    sub_71009A9DBC(position);
+}
+
+// 0x71009a9dbc
+// NON_MATCHING: the original copies the target into a second stack slot (64-bit copy) after getVec3868
+void ScreenAppMapWidget::sub_71009A9DBC(const sead::Vector3f& position) {
+    sead::Vector2f target{0.0f, 0.0f};
+    _8e0->sub_7100950464(position, &target);
+
+    const sead::Vector2f center = *mSubsys->getVec3868();
+    mSubsys->sub_7100966350(target);
+    const f32 dx = center.x - target.x;
+    const f32 dy = center.y - target.y;
+    const f32 distance = sead::Mathf::sqrt(dx * dx + dy * dy);
+
+    _b51c = 0.15f;
+    _b520 = distance;
+    _b524 = 5.0f;
+    _b338 = true;
+}
+
 // 0x71009a9820
 void ScreenAppMapWidget::sub_71009A9820() {
     const s32 level = mSubsys->_850.get48();
@@ -308,20 +333,7 @@ void ScreenAppMapWidget::sub_71009ADEF0() {
     }
 
     const sead::Vector3f position(x, 0.0f, y);
-    _b350 = 2;
-    sead::Vector2f target{0.0f, 0.0f};
-    _8e0->sub_7100950464(position, &target);
-
-    const sead::Vector2f* center = mSubsys->getVec3868();
-    mSubsys->sub_7100966350(target);
-    const f32 dx = center->x - target.x;
-    const f32 dy = center->y - target.y;
-    const f32 distance = sead::Mathf::sqrt(dx * dx + dy * dy);
-
-    _b51c = 0.15f;
-    _b520 = distance;
-    _b524 = 5.0f;
-    _b338 = true;
+    sub_71009A9CF8(position);
     if (_b4fc > 0) {
         --_b4fc;
     } else {
