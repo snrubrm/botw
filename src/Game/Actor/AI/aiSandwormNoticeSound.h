@@ -15,10 +15,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void sub_710055C538();
     // 0x710055c800: starts the notice if the "移動" child is close enough to the target
     void sub_710055C800();
     // 0x710055c714: changes to the "見失い" child
