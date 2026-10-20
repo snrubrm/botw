@@ -30,8 +30,10 @@ public:
 
     void preDelete2_(const PreDeleteArg& arg) override;
     bool shouldInit_() override;
+    void onJobPush2_(JobType type) override;
     PreDeletePrepareResult prepareForPreDelete_() override;
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void m66() override;
     void calcMaybe() override;
     void updatePositionMaybe() override;
     int getCalcTiming() override { return 0; }

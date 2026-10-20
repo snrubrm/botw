@@ -10,6 +10,7 @@
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::act {
 
@@ -26,6 +27,46 @@ AreaActor::PreDeletePrepareResult AreaActor::prepareForPreDelete_() {
         body->setContactPointInfo(nullptr);
     }
     return Actor::prepareForPreDelete_();
+}
+
+// NON_MATCHING: the _88b loads are merged in ours (the original loads it in each branch) and the _88d test
+// (tbz bit 0, ours cbz).
+void AreaActor::onJobPush2_(JobType type) {
+    if (type != JobType::PreCalc)
+        return;
+
+    deleteIfPlacementStuff();
+    if (_840) {
+        _840->setLinearVelocity(sead::Vector3f::zero);
+        _840->setAngularVelocity(sead::Vector3f::zero);
+    }
+    if (_889 == 1 || _889 == 2)
+        m107();
+
+    if (!mSpecialJobTypesMaskOverride.isOnBit(0)) {
+        m107();
+    } else if ((_848 && _848->getCollidingBodies().size() != 0) ||
+               (_850 && _850->getNumContactPoints() != 0 && !_850->begin().isEnd())) {
+        const u8 was_set = _88b;
+        m107();
+        if (!was_set)
+            _88b = 1;
+    } else if (_88b) {
+        _88b = 0;
+        m107();
+    }
+
+    decrementSkipJobPushTimer();
+    if (shouldSkipJobPush(JobType::PreCalc)) {
+        x_14(true);
+        x_16();
+        auto* body = getColBody();
+        if (body && _88d) {
+            sead::Color4f color = sead::Color4f::cRed;
+            sead::Color4f overlay(0, 0, 0, 0.1f);
+            body->setColor(color, &overlay, true);
+        }
+    }
 }
 
 bool AreaActor::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
@@ -117,6 +158,41 @@ void AreaActor::calcMaybe() {
         sead::Color4f overlay(0, 0, 0, 0.1f);
         body->setColor(color, &overlay, true);
     }
+}
+
+// NON_MATCHING: the shape compare (ours masks the result with `and`, the original uses `cmp w8, w0, uxtb`).
+// Rebuilds the body when the shape or scale changed (debug heap only), then calls m107.
+void AreaActor::m66() {
+    if (getShape() != _888 || _868 != mScale) {
+        if (auto* heap = util::getDebugHeap()) {
+            _888 = getShape();
+            _868 = mScale;
+            _878 = nullptr;
+            if (_840) {
+                if (_840->isAddedToWorld())
+                    _840->removeFromWorldImmediatelyAndResetLinks();
+                if (_840) {
+                    delete _840;
+                    _840 = nullptr;
+                }
+            }
+            if (_848) {
+                phys::CollisionInfo::free(_848);
+                _848 = nullptr;
+            }
+            if (_850) {
+                phys::ContactPointInfo::free(_850);
+                _850 = nullptr;
+            }
+            _848 = phys::CollisionInfo::make(heap, sead::SafeString::cEmptyString);
+            _850 = phys::ContactPointInfo::make(heap, 0x80, sead::SafeString::cEmptyString, 0, 0, 0);
+            _850->set30(1);
+            m151();
+            initPhysics(heap);
+            sub_7100E25D84();
+        }
+    }
+    m107();
 }
 
 void AreaActor::updatePositionMaybe() {
