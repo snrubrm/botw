@@ -131,8 +131,7 @@ void Core::sub_71013010D4(const Unk_71013010d4& state, s32 index) {
 
 }  // namespace ksys::tera
 
-// NON_MATCHING: placeholder destructor; the original (0x71012ff93c) also destroys members or bases
-// this class does not declare yet.
+// NON_MATCHING: one address computation (_180) is scheduled earlier.
 Unk_710251f878::~Unk_710251f878() = default;
 
 namespace ksys::tera {

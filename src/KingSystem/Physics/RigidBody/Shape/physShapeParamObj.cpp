@@ -115,8 +115,6 @@ void ShapeParamObj::getCharacterPrism(CharacterPrismShapeParam* param) const {
 
 }  // namespace ksys::phys
 
-// NON_MATCHING: placeholder destructor; the original (0x7101295ee4) also destroys members or bases
-// this class does not declare yet.
 Unk_7102519378::~Unk_7102519378() = default;
 
 // The render-light record's debug draw; the Light slot forwards the draw arguments here.
@@ -267,8 +265,6 @@ bool Unk_7102519620::m11() const {
     return (_5c & 1) != 0;
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x710129ae9c) also destroys members or bases
-// this class does not declare yet.
 Unk_7102519690::~Unk_7102519690() {
     _128 = 0;
     if (mPoolLink) {

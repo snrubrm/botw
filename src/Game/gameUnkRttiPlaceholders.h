@@ -1964,6 +1964,10 @@ class Unk_710251f878 : public gsys::IModelProcedural {
     SEAD_RTTI_OVERRIDE(Unk_710251f878, gsys::IModelProcedural)
 public:
     ~Unk_710251f878() override;
+
+    // The destructor 0x71012ff93c only destroys the four uniform blocks.
+    u8 _e0[0x180 - 0xe0];
+    agl::UniformBlock _180[4];
 };
 
 // vtable 0x710252e4b8 (9 slots); placeholder generated from the vtable (genskel.py).
