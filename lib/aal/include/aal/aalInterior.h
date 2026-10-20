@@ -31,6 +31,11 @@ public:
     f32 getFrontSpeakerAngle() const;
     f32 getUnk24() const { return _24; }
     f32 getRearSpeakerAngle() const;
+    // Inline-only in the original; the calculator reads these stored layout values.
+    u32 getFrontSpeakerAngleIdx() const { return mFrontSpeakerAngle; }
+    f32 getRearSpeakerGain() const { return mRearSpeakerGain; }
+    const sead::SafeArray<u32, 5>& getAngleBoundaries() const { return mAngleBoundaries; }
+
     /// Ignores gains outside of [0, 1].
     void setRearSpeakerGain(f32 gain);
     /// The angle (a sead angle index) of the speaker; the left speakers are the negated angles of the right ones.

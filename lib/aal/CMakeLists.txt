@@ -1,6 +1,8 @@
 project(aal CXX ASM)
 
 add_library(aal OBJECT
+  include/aal/aalSpeakerBalanceCalculator.h
+  src/aalSpeakerBalanceCalculator.cpp
   include/aal/aalATKAccessor.h
   include/aal/aalActiveSoundLimiter.h
   include/aal/aalArbiter.h
