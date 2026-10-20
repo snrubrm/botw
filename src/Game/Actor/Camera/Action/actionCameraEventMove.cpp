@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -136,6 +137,69 @@ void CameraEventMove::m43() {
 
     if (*mCount_d == 0.0f)
         camera->sub_71007929E0();
+}
+
+// NON_MATCHING: everything matches except the camera view-mode block after the two position updates.
+// The original loads _2a5 / _2a4 before the getCamera() call and tests the mode against 2 before 0;
+// ours loads the mode after the call and tests 0 first (the same stores and the same result).
+void CameraEventMove::m44() {
+    auto* camera = getCamera();
+    if (!camera)
+        return;
+
+    camera->sub_71007953C8();
+
+    if (*mCancelDrawOther_d) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_108, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000001), nullptr);
+    }
+
+    sub_710075D6D8();
+    sub_710075DCC4();
+
+    if (_2a1 & 2) {
+        ksys::Timer::update(&_1d4, 1.0f);
+        if (*mCount_d <= _1d4)
+            setFinished();
+        _1d8.sub_710079C408();
+        _bc = camera->_860._0;
+        sub_710075E014();
+        if (*mCollisionInterpolateSkip_s) {
+            if (auto* camera_actor = getCameraActor()) {
+                if (sub_7100925654(&camera_actor->_860._0, _bc, nullptr)) {
+                    _1d8.sub_710079C510(1.0f);
+                    sub_710075E014();
+                    setFinished();
+                }
+            }
+        }
+    }
+
+    if (isFinishedOrFailed()) {
+        if (auto* cam = getCamera()) {
+            cam->_860._818 = 0;
+            if (_2a5 == 2)
+                cam->_860._818 = 1;
+            else if (_2a5 == 0)
+                cam->_860._818 = 2;
+        }
+    } else {
+        if (auto* cam = getCamera()) {
+            cam->_860._818 = 0;
+            if (_2a4 == 2)
+                cam->_860._818 = 1;
+            else if (_2a4 == 0)
+                cam->_860._818 = 2;
+        }
+    }
+
+    _2a0 = 0;
+    auto* link = *mPlayerRelative_d != 0 ? &_108 : &_f8;
+    if (!link->hasProc())
+        return;
+
+    camera->_860._7c0[camera->_860._81a] = *link;
 }
 
 void CameraEventMove::m46() {

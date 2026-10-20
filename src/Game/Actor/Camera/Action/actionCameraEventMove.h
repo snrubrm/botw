@@ -34,6 +34,10 @@ protected:
     // 0x710075e014 (placeholder name): interpolates the polar offset and the look-at point between the
     // event's current and target states by _1d8._18 and writes them to the camera.
     void sub_710075E014();
+    // 0x710075d6d8 / 0x710075dcc4 (placeholder names): the two orbit-position updates called by m44
+    // (the first follows the front bone matrix, the second applies the interpolated offset).
+    void sub_710075D6D8();
+    void sub_710075DCC4();
     // 0x710075e9b4 / 0x710075eb98 (placeholder names): tries up to `count` directions on a 2.5 degree
     // ring around `target` and on both sides of the elevation of `pos - target`, keeping the first
     // direction from `target` where `pos` is visible. `pos` receives the failing point; false means no
