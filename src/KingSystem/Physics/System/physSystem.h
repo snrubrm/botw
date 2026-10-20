@@ -18,6 +18,8 @@ class INamable;
 class Thread;
 }
 
+class hkVisualDebugger;
+
 namespace ksys::phys {
 
 class CharacterController;
@@ -108,7 +110,7 @@ public:
     void sub_7101216328();
     // 0x710121652c (CSV PhysicsMemSys::__auto3; placeholder name): runs the physics frame steps under the world locks.
     void sub_710121652C();
-    // 0x7101216454 (CSV PhysicsMemSys::__auto8; declared only): sensor world step end, then the object at _f0 and
+    // 0x7101216454 (CSV PhysicsMemSys::__auto8): sensor world step end, then the object at _f0 and
     // the static compound transforms.
     void sub_7101216454();
     // 0x7101216790 (CSV PhysicsMemSys::__auto17; placeholder name): sets _61 when called from a thread whose
@@ -234,7 +236,7 @@ private:
     u8 _88[0xa8 - 0x88];
     sead::CriticalSection mCS;
     void* _e8{};
-    void* _f0{};
+    hkVisualDebugger* _f0{};
     GroupFilter* mEntityGroupFilter{};
     GroupFilter* mSensorGroupFilter{};
     sead::FixedPtrArray<GroupFilter, 2> mGroupFilters;

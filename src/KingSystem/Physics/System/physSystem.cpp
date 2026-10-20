@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/System/physSystem.h"
+#include <Havok/Common/Visualize/hkVisualDebugger.h>
 #include <new>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollInstanceMgr.h"
@@ -334,6 +335,21 @@ void System::sub_710121652C() {
     mWorlds[int(ContactLayerType::Entity)]->getCS().unlock();
     sub_71012163F0();
     sub_7101216454();
+}
+
+void System::sub_7101216454() {
+    if (_61)
+        return;
+    World* world = mWorlds[int(ContactLayerType::Sensor)];
+    if (!mPaused) {
+        world->sub_71012B3F50(_64);
+        mContactListeners[int(ContactLayerType::Sensor)]->clearTable();
+    }
+    mRigidBodyRequestMgr->calc1(ContactLayerType::Sensor, mPaused);
+    world->getCS().unlock();
+    _f0->step(_64 * 1000.0f);
+    if (mStaticCompoundMgr)
+        mStaticCompoundMgr->recomputeTransformMatrix();
 }
 
 void System::sub_7101216648() {
