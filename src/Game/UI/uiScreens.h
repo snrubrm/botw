@@ -2280,6 +2280,9 @@ struct ShortcutIconInfo {
 };
 static_assert(sizeof(ShortcutIconInfo) == 0xd8);
 
+class Unk_7102474d30;
+// The state ScreenMainShortCut::m159 changes to.
+extern const ksys::StateBase sUnk_71025ef230;
 class ScreenMainShortCut : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
@@ -2315,16 +2318,20 @@ public:
     /* 0x3730 */ s32 _3730;  // the arrow count when m168 last refreshed it
     /* 0x3734 */ bool _3734;  // an arrow is equipped (m168)
     /* 0x3738 */ sead::FixedSafeString<64> _3738;  // ctor 0x7100a1ef28; 0x58 bytes with its tail padding
-    /* 0x3790 */ ScreenAppPictureBookUnk* _3790;
+    // m159 calls Unk_7102474d30::sub_7100937368 on it
+    /* 0x3790 */ Unk_7102474d30* _3790;
     /* 0x3798 */ eui::Animator* _3798;
     /* 0x37a0 */ eui::Animator* _37a0;
-    u8 _pad_37a8[0x3850 - 0x37a8];
+    /* 0x37a8 */ eui::Animator* _37a8;
+    u8 _pad_37b0[0x3850 - 0x37b0];
     sead::Buffer<u8> _3850;  // element type not known
-    u8 _3860[4];
+    // the last selected shortcut (m159 compares it with _3864)
+    /* 0x3860 */ s32 _3860;
     /* 0x3864 */ s32 _3864;
     /* 0x3868 */ s32 _3868;
     /* 0x386c */ s32 _386c[0x15];
-    u8 _pad_38c0[0x38c8 - 0x38c0];
+    /* 0x38c0 */ u8 _38c0;
+    u8 _pad_38c1[0x38c8 - 0x38c1];
     /* 0x38c8 */ s32 _38c8;
     /* 0x38cc */ u8 _38cc;
     u8 _pad_38cd[3];

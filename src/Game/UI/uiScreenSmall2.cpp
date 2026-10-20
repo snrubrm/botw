@@ -2107,6 +2107,29 @@ void ScreenMainShortCut::m160() {
         _3790->sub_710093F594(false);
 }
 
+// 0x7100a21f9c
+void ScreenMainShortCut::m159() {
+    if (_3790 && !(_3790->_2c & 1))
+        _3790->sub_710093F594(true);
+    if (_38cc != 2)
+        return;
+    if (_3864 != _3860) {
+        _3860 = _3864;
+        if (_3720 == 4)
+            invokeSoundLink2Event_("mc_ItemDecide");
+        else
+            invokeSoundLink2Event_("mc_EquipDecide");
+    }
+    if (_3790) {
+        _38c0 = 1;
+        _3790->sub_710093FEAC();
+        _3790->sub_7100937368();
+    }
+    if (_37a8)
+        _37a8->PlayAuto(1.0f);
+    getStateMachine().changeState(&sUnk_71025ef230);
+}
+
 // 0x7100a22170
 void ScreenMainShortCut::m168() {
     if (!sub_7100AA7BAC(&_3738))
