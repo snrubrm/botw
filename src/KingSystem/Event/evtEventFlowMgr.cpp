@@ -102,6 +102,33 @@ EventFlow* EventFlowMgr::acquireEventFlow(const sead::SafeString& event_name,
     return nullptr;
 }
 
+// NON_MATCHING: branch layout; the original clears the result separately at each loop exit.
+// 0x7100dbf5dc
+EventMgrStruct3A* EventFlowMgr::findFreeStruct3A(act::Actor* actor) {
+    EventMgrStruct3A* entry = nullptr;
+    if (actor->getSchedule()) {
+        for (s32 i = 0; i < _28.size(); ++i) {
+            if (!_28[i].mAssigned) {
+                entry = &_28[i];
+                break;
+            }
+        }
+    } else if (actor->getName() == "EventTag") {
+        for (s32 i = 0; i < _38.size(); ++i) {
+            if (!_38[i].mAssigned) {
+                entry = &_38[i];
+                break;
+            }
+        }
+    } else {
+        return nullptr;
+    }
+    if (!entry)
+        return nullptr;
+    entry->assignToActor(actor);
+    return entry;
+}
+
 // 0x7100dbf72c: releases the slot's flow record and clears the slot
 void EventFlowMgr::x(EventMgrStruct3A* entry) {
     if (auto* record = entry->mFlowRecord) {

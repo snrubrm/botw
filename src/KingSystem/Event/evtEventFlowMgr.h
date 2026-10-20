@@ -96,6 +96,9 @@ public:
                         EventMgrStruct3A* nearest, EventMgrStruct3A* farthest);
     // Native DBFA00 / DBFE98 consume one actor binding / the player position.
     void x_4(EventMgrStruct3A* entry);
+    // 0x7100dbf5dc (CSV EventFlowMgr::findFreeStruct3A): a free slot for a scheduled actor (_28) or an EventTag
+    // actor (_38), assigned to `actor`
+    EventMgrStruct3A* findFreeStruct3A(act::Actor* actor);
     // 0x7100dbf72c (CSV EventFlowMgr::x)
     void x(EventMgrStruct3A* entry);
     void x_5(const sead::Vector3f& position);
