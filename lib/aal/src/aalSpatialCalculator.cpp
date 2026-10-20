@@ -386,6 +386,80 @@ void SpatialCalculator::calcAngle_(Result* result, const Listener& listener, boo
     result->angle_idx[1] = angle_idx;
 }
 
+// NON_MATCHING: the compiler arranges the angle stores and branch joins differently.
+// 0x7100b9041c
+void SpatialCalculator::calcAngleWithSoundSourceSize_(Result* result, const Listener& listener,
+                                                    bool unified) {
+    if (!(mSetting.flags & 1)) {
+        result->dist_2d[0] = mSetting.sound_source_size;
+        result->dist_2d[1] = mSetting.sound_source_size;
+        result->angle_idx[0] = unified ? -0x40000000 : 0;
+        result->angle_idx[1] = unified ? 0x40000000 : 0;
+        return;
+    }
+
+    sead::Vector3f position;
+    result->_5c.getTranslation(position);
+    if (mSetting.flags & 8) {
+        const f32 distance = position.length();
+        if (distance <= mSetting.sound_source_size)
+            position = sead::Vector3f::zero;
+        else
+            position *= 1.0f - mSetting.sound_source_size / distance;
+    }
+
+    if (!unified) {
+        f32 distance = std::sqrt(position.x * position.x + position.z * position.z);
+        result->dist_2d[0] = distance;
+        if (listener.mIs2D) {
+            distance *= listener._ec;
+            result->dist_2d[0] = distance;
+        }
+        s32 angle = 0;
+        if (distance != 0.0f)
+            angle = sead::MathCalcCommon<f32>::atan2Idx(-position.x, position.z) ^ 0x80000000;
+        result->dist_2d[1] = result->dist_2d[0];
+        result->angle_idx[0] = angle;
+        result->angle_idx[1] = angle;
+        return;
+    }
+
+    sead::Vector3f offset;
+    if ((mSetting.flags & 0x10) && position != sead::Vector3f::zero) {
+        offset.setCross(position, sead::Vector3f::ey);
+        offset.normalize();
+        offset *= mSetting.sound_source_size;
+    } else {
+        offset.set(mSetting.sound_source_size, 0.0f, 0.0f);
+    }
+
+    const f32 left_x = position.x - offset.x;
+    const f32 left_z = position.z - offset.z;
+    f32 left_distance = std::sqrt(left_x * left_x + left_z * left_z);
+    result->dist_2d[0] = left_distance;
+    if (listener.mIs2D) {
+        left_distance *= listener._ec;
+        result->dist_2d[0] = left_distance;
+    }
+    if (left_distance == 0.0f)
+        result->angle_idx[0] = 0;
+    else
+        result->angle_idx[0] = sead::MathCalcCommon<f32>::atan2Idx(-left_x, left_z) ^ 0x80000000;
+
+    const f32 right_x = position.x + offset.x;
+    const f32 right_z = position.z + offset.z;
+    f32 right_distance = std::sqrt(right_x * right_x + right_z * right_z);
+    result->dist_2d[1] = right_distance;
+    if (listener.mIs2D) {
+        right_distance *= listener._ec;
+        result->dist_2d[1] = right_distance;
+    }
+    if (right_distance == 0.0f)
+        result->angle_idx[1] = 0;
+    else
+        result->angle_idx[1] = sead::MathCalcCommon<f32>::atan2Idx(-right_x, right_z) ^ 0x80000000;
+}
+
 // NON_MATCHING: the original clamps the speed of the sound source before it asks the settings for the pitch limits
 // (here the clamp moves into the branch that uses it) and orders the loads and multiplications a bit differently.
 // 0x7100b9071c
