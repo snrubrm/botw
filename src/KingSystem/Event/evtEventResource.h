@@ -124,6 +124,8 @@ public:
     virtual ~EventBgmInfo();
     void init(const sead::SafeString& event_name, sead::Heap* heap, bool is_timeline, al::ByamlIter* info,
               res::Handle* pack_handle);
+    // 0x7100dc7450: whether the stream _18 and every BGM in _8 have finished loading
+    bool finishLoad();
 
     // BGM names (the destructor 0x7100dc6f74 releases each one from the sound system before freeing the buffer).
     sead::Buffer<sead::FixedSafeString<64>> _8;

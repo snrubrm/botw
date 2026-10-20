@@ -15,6 +15,8 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/System/GameConfig.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 namespace ksys::evt {
 
@@ -178,6 +180,18 @@ bool ResourceTimeline::buildTimeline(evfl::TimelineObj* obj, int idx, sead::Heap
 
 // 0x7100dc6e20 (next to bindActorActions; EventResource calls it out of line)
 EventBgmInfo::EventBgmInfo() = default;
+
+// 0x7100dc7450
+bool EventBgmInfo::finishLoad() {
+    bool loaded = _18.isEmpty() ? true : snd::SoundMgr::instance()->_98->_5e0.sub_710105B224(_18);
+    for (s32 i = 0; i < _8.size(); ++i) {
+        if (_8[i].isEmpty())
+            continue;
+        if (!snd::SoundMgr::instance()->_30->_78->isFinished(_8[i]))
+            return false;
+    }
+    return loaded;
+}
 
 }  // namespace ksys::evt
 
