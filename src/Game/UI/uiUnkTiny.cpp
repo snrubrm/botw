@@ -1895,3 +1895,17 @@ s32 Unk_710247d8d8::sub_71009C5368() const {
     return _8;
 }
 }  // namespace uking::ui
+
+// 0x7100a6c070
+const sead::Vector2f* Unk_710249c338::sub_7100A6C070() const {
+    if (!isPointerOn())
+        return &sead::ControllerBase::cInvalidPointer;
+    return sub_7100A6C0B8();
+}
+
+// 0x7100a6c0b8
+const sead::Vector2f* Unk_710249c338::sub_7100A6C0B8() const {
+    if (_210.size() == 0)
+        return &sead::ControllerBase::cInvalidPointer;
+    return &_210(0);
+}

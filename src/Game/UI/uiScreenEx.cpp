@@ -427,6 +427,20 @@ void ScreenEx::m116() {
     }
 }
 
+// 0x7100a48330
+const sead::Vector2f& ScreenEx::sub_7100A48330() {
+    if (auto* controller = sub_7100A483C8())
+        return *controller->sub_7100A6C070();
+    return sead::ControllerBase::cInvalidPointer;
+}
+
+// 0x7100a48458
+const sead::Vector2f& ScreenEx::sub_7100A48458() {
+    if (auto* controller = sub_7100A483C8())
+        return *controller->sub_7100A6C0B8();
+    return sead::ControllerBase::cInvalidPointer;
+}
+
 // 0x7100a483c8
 Unk_710249c338* ScreenEx::sub_7100A483C8() {
     return sead::DynamicCast<Unk_710249c338>(sub_71010AA9D0());

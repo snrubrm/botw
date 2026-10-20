@@ -656,7 +656,14 @@ class Unk_710249c338 : public uking::Unk_710246d448 {
 public:
     ~Unk_710249c338() override;
 
-    u8 _200[0x408 - 0x200];
+    // 0x7100a6c070 / 0x7100a6c0b8 (placeholder names): the oldest recorded pointer position (only while the
+    // pointer is on) / the oldest recorded position; ControllerBase::cInvalidPointer when there is none
+    const sead::Vector2f* sub_7100A6C070() const;
+    const sead::Vector2f* sub_7100A6C0B8() const;
+
+    u8 _200[0x210 - 0x200];
+    /* 0x210 */ sead::RingBuffer<sead::Vector2f> _210;
+    u8 _228[0x408 - 0x228];
     /* 0x408 */ uking::ui::Unk_710249c3b0 _408;
     u8 _410[0x440 - 0x410];
     /* 0x440 */ uking::ui::Unk_710249c3d0 _440;

@@ -753,6 +753,10 @@ class ScreenEx : public Screen {
 public:
     // 0x7100a483c8 (placeholder name): the screen's controller as an Unk_710249c338 (null if it is not one)
     Unk_710249c338* sub_7100A483C8();
+    // 0x7100a48330 / 0x7100a48458 (placeholder names): Unk_710249c338::sub_7100A6C070 / sub_7100A6C0B8 of the
+    // screen's controller (ControllerBase::cInvalidPointer without one)
+    const sead::Vector2f& sub_7100A48330();
+    const sead::Vector2f& sub_7100A48458();
     ScreenEx();
     ~ScreenEx() override;
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
