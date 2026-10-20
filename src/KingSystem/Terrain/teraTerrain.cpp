@@ -248,6 +248,17 @@ void Core::Grass::sub_7101150A70() {
     mEntries.getBufferPtr()->_10->setDirty();
 }
 
+// 0x71011501d8 (unnamed in the CSV): hands entry `index` and the position to the vegetation manager.
+void Core::Grass::sub_71011501D8(s32 index, const sead::Vector3f* pos) {
+    if (!(mFlags & 2))
+        return;
+    if (!_28)
+        return;
+    if (mEntries.size() <= index)
+        return;
+    _28->sub_71010658E8(index, &mEntries[index], *pos);
+}
+
 // 0x7101150a7c (unnamed in the CSV): fades the grass around `pos` by `radius`, scaled by `value`
 // (the second float), using the terrain height at the position unless the debug flag is set.
 void Core::Grass::sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value) {

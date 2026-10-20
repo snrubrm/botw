@@ -137,6 +137,9 @@ public:
     bool sub_710106A0C8(f32 a, f32 b, const sead::Vector2f* position);
     // 0x71010657dc (unnamed in the CSV): writes the grass fade of the entry nearest to `pos`.
     void sub_71010657DC(const sead::Vector3f* pos, f32 a, f32 b);
+    // 0x71010658e8 (unnamed in the CSV): stores `entry` and the position in the record for `index`
+    // (the entry type is Core::Grass::Entry, which this header cannot see, so the pointer is void).
+    void sub_71010658E8(s32 index, void* entry, const sead::Vector3f& pos);
 
     sead::Heap* mHeap;                              // +8
     sead::Buffer<Record> mRecords;                  // +10
