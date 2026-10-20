@@ -36,6 +36,9 @@ protected:
     bool sub_71004E5824();
     // 0x71004e58fc: advance the rail target by fifteen frames of XZ animation motion.
     bool sub_71004E58FC();
+    // 0x71004e39bc (placeholder name): changes to the 振り返る child with the actor position and the
+    // rotation from the _c8 basis' Z axis to ez.
+    void sub_71004E39BC();
     // 0x71004e3b10: with the horse ride info's actor of _88 acquired: locks _110, links this actor,
     // stores `value` and sends message 0x3800008 with _110 as its payload.
     void sub_71004E3B10(f32 value, bool onProcessingThread);

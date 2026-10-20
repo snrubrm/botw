@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -148,6 +149,20 @@ void NPCTravel::loadParams_() {
     NPCScheduleMove::loadParams_();
     getStaticParam(&mWaitHorseReturnDist_s, "WaitHorseReturnDist");
     getStaticParam(&mGiveUpWaitHorseTime_s, "GiveUpWaitHorseTime");
+}
+
+// 0x71004e39bc (placeholder name): turns to look along the stored basis.
+void NPCTravel::sub_71004E39BC() {
+    const sead::Vector3f basis = _c8.getBase(2);
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, sead::Vector3f::ez, basis, sead::Vector3f::ey);
+    const sead::Vector3f rot = axis * angle;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
+    pack.addVec3(rot, "TargetRot", -1);
+    changeChild("振り返る", &pack);
 }
 
 }  // namespace uking::ai
