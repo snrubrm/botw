@@ -883,6 +883,26 @@ f32 sub_7101159054(const sead::Vector3f* pos, f32 depth) {
     return end.y;
 }
 
+bool sub_710115912C(const sead::Vector3f* pos, f32 height) {
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.setGroundHit(phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.setIgnoredGroundHit(phys::GroundHit::HitAll);
+    const sead::Vector3f start = sead::Vector3f::ey * height + *pos;
+    query.setStart(start);
+    query.setEnd(*pos);
+    if (query.worldRayCast(phys::ContactLayerType::Entity)) {
+        switch (query.getMaterialMask().getMaterial()) {
+        case phys::Material::Grudge:
+        case phys::Material::GrudgeSlow:
+            return true;
+        default:
+            break;
+        }
+    }
+    return false;
+}
+
 bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
     auto* manager = _28;
     const sead::Vector2f xz(pos->x, pos->z);

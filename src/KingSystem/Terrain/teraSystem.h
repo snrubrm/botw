@@ -489,6 +489,9 @@ void sub_71011501C8(Core::Grass* grass);
 // 0x7101159054 (unnamed in the CSV): the ground height at `pos` within `radius` (a ray cast
 // query); called by Core::Grass::sub_7101150A7C.
 f32 sub_7101159054(const sead::Vector3f* pos, f32 depth);
+// 0x710115912c (placeholder name): whether the ground below pos (ray cast from `height` above it) is
+// Grudge or GrudgeSlow.
+bool sub_710115912C(const sead::Vector3f* pos, f32 height);
 
 // 0x7101128ac0 (unnamed): maps the two 2D points `a` and `b` by the scale / offset in `transform`
 // (transform[0], transform[2], transform[3]) into `out`.
