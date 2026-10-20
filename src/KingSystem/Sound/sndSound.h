@@ -1623,8 +1623,13 @@ public:
     void sub_71010289CC();
     // 0x7101028690: resets every entry, then frees and deletes mInstances (called before deletion).
     void sub_7101028690();
+    // 0x7101028710 (placeholder name): per-frame update of the time zone and the entries (under mCS).
+    void sub_7101028710();
     // 0x7101028954 (placeholder name): stops all events of the entries' user instances.
     void sub_7101028954(s32 arg);
+    // 0x710102880c (placeholder name): stores the time zone (from the world time, or Unk_SoundMgr38::_140 when it
+    // is not negative) in mTimeZone.
+    void sub_710102880C();
 
     // Placeholder: a named sound reference with 0x20 more bytes (four of them from +8).
     struct Entry : Unk_7102502430 {
@@ -1632,7 +1637,7 @@ public:
     };
 
     /* 0x008 */ Entry mEntries[4];
-    u8 _308[0x310 - 0x308];
+    /* 0x308 */ u8 mTimeZone : 3;
     /* 0x310 */ Unk_7102502410* mInstances;
     /* 0x318 */ sead::CriticalSection mCS;
 };

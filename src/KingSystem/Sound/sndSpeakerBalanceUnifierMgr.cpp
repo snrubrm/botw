@@ -8,6 +8,9 @@
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldTimeMgr.h"
 
 namespace ksys::snd {
 
@@ -129,6 +132,57 @@ void Unk_SoundMgr38_58::sub_7101028690() {
         delete mInstances;
         mInstances = nullptr;
     }
+}
+
+// NON_MATCHING: sub_710102880C is inlined here; the original calls it
+void Unk_SoundMgr38_58::sub_7101028710() {
+    auto lock = sead::makeScopedLock(mCS);
+    sub_710102880C();
+
+    if (auto* mgr = SoundMgr::instance()->_38) {
+        if (mgr->_a0)
+            sub_7101028954(45);
+    }
+
+    if (auto* env_mgr = world::Manager::instance()->getEnvMgr()) {
+        if (env_mgr->getPaletteSet() == 7 && env_mgr->getPaletteSetTransition() > 0.0f)
+            sub_7101028954(45);
+    }
+
+    if (mInstances)
+        mInstances->sub_7101049C60();
+
+    for (auto& entry : mEntries)
+        entry.sub_710104A1B8();
+}
+
+// NON_MATCHING: the original loads and masks the bit field in each branch; ours shares one load at the end
+void Unk_SoundMgr38_58::sub_710102880C() {
+    auto* world = world::Manager::instance();
+    if (!world)
+        return;
+    auto* time_mgr = world->getTimeMgr();
+    if (!time_mgr)
+        return;
+
+    f32 time = time_mgr->getTime();
+    if (auto* mgr = SoundMgr::instance()->_38) {
+        if (mgr->_140 >= 0.0f)
+            time = mgr->_140;
+    }
+
+    if (time >= 60.0f && time < 75.0f)
+        mTimeZone = 5;
+    else if (time >= 75.0f && time < 105.0f)
+        mTimeZone = 1;
+    else if (time >= 105.0f && time < 120.0f)
+        mTimeZone = 3;
+    else if (time >= 120.0f && time < 270.0f)
+        mTimeZone = 2;
+    else if (time >= 270.0f && time < 285.0f)
+        mTimeZone = 3;
+    else
+        mTimeZone = 4;
 }
 
 void Unk_SoundMgr38_58::sub_7101028954(s32 arg) {
