@@ -493,6 +493,19 @@ f32 sub_7101159054(const sead::Vector3f* pos, f32 depth);
 // Grudge or GrudgeSlow.
 bool sub_710115912C(const sead::Vector3f* pos, f32 height);
 
+// Placeholder name: a 32 x 32 tileable noise map (built by 0x7101159398 from random octaves, sampled by
+// 0x7101159528). Embedded in a terrain object used by 0x710106c22c / 0x710106ad3c.
+struct NoiseMapMaybe {
+    // 0x7101159528 (placeholder name): the value at (x, y) wrapped to [0, 1), with the coordinates
+    // rotated by `rotation` quarter turns (0 to 3).
+    f32 sample(f32 x, f32 y, s32 rotation) const;
+
+    f32 values[32][32];
+    u32 num_octaves;
+    f32 persistence;
+    f32 amplitude;
+};
+
 // 0x7101128ac0 (unnamed): maps the two 2D points `a` and `b` by the scale / offset in `transform`
 // (transform[0], transform[2], transform[3]) into `out`.
 void sub_7101128AC0(f32* out, const f32* a, const f32* b, const f32* transform);

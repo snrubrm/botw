@@ -903,6 +903,43 @@ bool sub_710115912C(const sead::Vector3f* pos, f32 height) {
     return false;
 }
 
+f32 NoiseMapMaybe::sample(f32 x, f32 y, s32 rotation) const {
+    f32 u = x - sead::Mathf::floor(x);
+    f32 v = y - sead::Mathf::floor(y);
+    if (u >= 1.0f)
+        u -= 1.0f;
+    if (v >= 1.0f)
+        v -= 1.0f;
+
+    switch (rotation) {
+    case 1: {
+        const f32 t = u;
+        u = 1.0f - v;
+        v = t;
+        break;
+    }
+    case 2:
+        u = 1.0f - u;
+        v = 1.0f - v;
+        break;
+    case 3: {
+        const f32 t = u;
+        u = 1.0f - v;
+        v = 1.0f - t;
+        break;
+    }
+    default:
+        break;
+    }
+    if (u >= 1.0f)
+        u -= 1.0f;
+    if (v >= 1.0f)
+        v -= 1.0f;
+    const s32 x_index = u32(u * 32);
+    const s32 y_index = u32(v * 32);
+    return values[x_index][y_index];
+}
+
 bool Core::Grass::sub_7101150BA4(const sead::Vector3f* pos, f32 radius) {
     auto* manager = _28;
     const sead::Vector2f xz(pos->x, pos->z);
