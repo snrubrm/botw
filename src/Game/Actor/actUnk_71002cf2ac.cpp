@@ -3,6 +3,7 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Actor/actSandworm.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/Map/mapRail.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -411,6 +412,64 @@ void SiteBoss::Unk_71002cf2ac::sub_710066D094() {
         sleepLinkIfCalc(links[i]);
     for (auto& link : _370)
         sleepLinkIfCalc(link);
+}
+
+// NON_MATCHING: same body and calls; the loop back-edge uses a signed compare (`b.lt` instead of
+// `b.lo`) and the _94/_98 loads get different registers. Size is identical.
+// 0x710066d3a4: the bound-actor update tick. Resets the transceiver ids of the free links, keeps
+// the bound-actor count, and calls the placement helper when spawning is enabled. Then decrements the
+// retry timer and, when it expires, respawns every bound actor whose creation failed. Finally it
+// sends message 0x800004d to the actors recorded in the spawn slots.
+void SiteBoss::Unk_71002cf2ac::sub_710066D3A4(f32 dt) {
+    for (s32 i = 0; i < 20; ++i) {
+        if (!_1e0[i].hasProc())
+            _530[i] = sUnk_71025c5d60._8;
+        if (_8 && u32(i) >= _94)
+            break;
+        if (!_98)
+            break;
+        sub_710066D708(i);
+    }
+
+    if (_8) {
+        _10 -= dt;
+        if (_10 < 0) {
+            _10 = _c;
+            for (s32 i = 0; i < 20; ++i) {
+                if (_1e0[i].hasProc())
+                    continue;
+                auto& handle = _a0[i];
+                if (handle.isAllocatedOrFailed() && handle.isProcReady()) {
+                    if (!handle.hasProcCreationFailed())
+                        continue;
+                } else if (!handle.isAllocatedOrFailed() || !handle.hasProcCreationFailed()) {
+                    continue;
+                }
+
+                ksys::act::InstParamPack pack;
+                pack->add(_70, "AttackPower");
+                pack->add(_74, "ScaleTime");
+                pack->add(_78, "Range");
+                ksys::act::ActorCreator::addScale(pack, _7c);
+                pack->add(_80, "AtkRadiusMax");
+                pack->add(_84, "AtMinDamage");
+                pack->add(_88, "PosOffset");
+                pack->add(i, "Count");
+                pack->add(i, "PatternID");
+                _98 = true;
+                sub_710073DB94(_18.cstr(), &_a0[i], &pack,
+                               ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+            }
+        }
+    }
+
+    for (s32 i = 0; i < 20; ++i) {
+        auto& info = _ad0[i];
+        if (!info.owner)
+            continue;
+        info.owner->sendMessage(_530[i], ksys::MessageType(0x800004d), &info, true);
+        info.owner = nullptr;
+    }
 }
 
 // 0x710066d708: moves a ready handle proc into the bound-actor link (like sub_710066CDF8) and,

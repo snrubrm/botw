@@ -226,8 +226,10 @@ public:
         // 0x710066bfec: requests the named actor in the existing handle slot.
         bool sub_710066BFEC(s32 index, const char* name, ksys::act::InstParamPack* params,
                            bool flag);
-        // 0x710066d094 (declared only; placeholder name): called by SiteBoss::sub_71002D2958.
+        // 0x710066d094 (placeholder name): called by SiteBoss::sub_71002D2958.
         void sub_710066D094();
+        // 0x710066d3a4 (declared only; placeholder name): the bound-actor update and respawn tick.
+        void sub_710066D3A4(f32 dt);
         // 0x710066c074: number of bound actors that are in the calc state.
         s32 sub_710066C074();
         // 0x710066c738: `pos`, then two floats (SiteBossMoveAndAttack passes 0.8 / 0.4); looks for a
@@ -292,7 +294,7 @@ public:
         // 0x008-0x094: fire ball spawn parameters (SiteBossLswordFirstCreateFBall::enter_).
         /* 0x008 */ bool _8 = false;
         /* 0x00c */ f32 _c = 0;
-        /* 0x010 */ u32 _10 = 0;
+        /* 0x010 */ f32 _10 = 0;  // spawn retry timer
         /* 0x018 */ sead::FixedSafeString<64> _18;  // actor name
         /* 0x070 */ s32 _70 = 0;
         /* 0x074 */ f32 _74 = 0;
