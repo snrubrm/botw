@@ -23,6 +23,8 @@ add_library(hkStubs OBJECT
   Havok/Ai/Pathfinding/Silhouette/hkaiSilhouetteReferenceFrame.h
   Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.cpp
   Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h
+  Havok/Ai/Pathfinding/Utilities/hkaiLineOfSightUtil.h
+  Havok/Ai/Pathfinding/Utilities/hkaiLineOfSightUtil.cpp
   Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h
   Havok/Animation/Animation/Animation/hkaAnimation.h
   Havok/Animation/Animation/Animation/hkaAnimationBinding.h
