@@ -223,38 +223,38 @@ void SoundMgr::sub_71011FBDA8() {
     _238 |= 4;
 }
 
-void Unk_710104e5b4::sub_710104F4C4() {
+void ExpressionSoundCtrl::sub_710104F4C4() {
     mFilter = _28->searchAndEmit("Filter");
     _2a0.set(8);
 }
 
-void Unk_710104e5b4::sub_710104F518() {
+void ExpressionSoundCtrl::sub_710104F518() {
     mFilter.fade();
     _28->searchAndEmit("Filter_Stop");
     _2a0.reset(8);
     _b8 = 60;
 }
 
-void Unk_710104e5b4::sub_710104F65C() {
+void ExpressionSoundCtrl::sub_710104F65C() {
     mFilter.fade();
     _28->searchAndEmit("Filter_Stop");
 }
 
-void Unk_710104e5b4::sub_710104F788() {
+void ExpressionSoundCtrl::sub_710104F788() {
     mFilter.fade();
     _28->searchAndEmit("Filter_Stop");
 }
 
-void Unk_710104e5b4::sub_710104F614() {
+void ExpressionSoundCtrl::sub_710104F614() {
     mFilter = _28->searchAndEmit("Filter");
 }
 
-void Unk_710104e5b4::sub_710104F740() {
+void ExpressionSoundCtrl::sub_710104F740() {
     mFilter = _28->searchAndEmit("Filter");
 }
 
 // NON_MATCHING: ObjList pushBack address calculation is scheduled three stores early.
-void Unk_710104e5b4::sub_710104FA78(const xlink2::HandleSLink& handle) {
+void ExpressionSoundCtrl::sub_710104FA78(const xlink2::HandleSLink& handle) {
     if (!aal::System::sInstance->mEnabled)
         return;
     auto lock = sead::makeScopedLock(mHandleCS);
@@ -263,25 +263,25 @@ void Unk_710104e5b4::sub_710104FA78(const xlink2::HandleSLink& handle) {
         sub_710104FB40(entry);
 }
 
-void Unk_710104e5b4::sub_710104F86C() {
+void ExpressionSoundCtrl::sub_710104F86C() {
     if (evt::Manager::instance()->hasActiveEvent() && !_2a0.isOn(4))
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(0x10);
 }
 
-void Unk_710104e5b4::sub_710104F8C4(bool suspend) {
+void ExpressionSoundCtrl::sub_710104F8C4(bool suspend) {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0x10, suspend);
 }
 
-void Unk_710104e5b4::sub_710104F8E0() {
+void ExpressionSoundCtrl::sub_710104F8E0() {
     if (!_2a0.isOn(4))
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(0xf);
 }
 
-void Unk_710104e5b4::sub_710104F904() {
+void ExpressionSoundCtrl::sub_710104F904() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0xf, false);
 }
 
-void Unk_710104e5b4::sub_710104F920(bool on) {
+void ExpressionSoundCtrl::sub_710104F920(bool on) {
     if (on) {
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0x10, false);
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(0xf, false);

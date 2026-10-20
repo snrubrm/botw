@@ -89,9 +89,9 @@ void Unk_71024fec18::m12(f32 fade_sec) {
     sub_710101D9D8();
 }
 
-// Requests the ducker of Unk_710104e5b4 +0x294, sets the FX mode 3 and fades the listener's _a8 in.
+// Requests the ducker of ExpressionSoundCtrl +0x294, sets the FX mode 3 and fades the listener's _a8 in.
 inline void Unk_71024fec18::startWaitDucking() {
-    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.start();
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 3;
@@ -158,7 +158,7 @@ void Unk_71024fec18::sub_71010101EC(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     _1b0.~Unk_710103AB10();
     _198 = 0;
-    ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.stop(true);
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 0;

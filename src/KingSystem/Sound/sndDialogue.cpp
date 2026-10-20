@@ -11,24 +11,24 @@
 
 namespace ksys::snd {
 
-Unk_710104e5b4* Unk_710104e5b4::sInstance = nullptr;
-Unk_710104e5b4::SingletonDisposer_*
-    Unk_710104e5b4::SingletonDisposer_::sStaticDisposer = nullptr;
+ExpressionSoundCtrl* ExpressionSoundCtrl::sInstance = nullptr;
+ExpressionSoundCtrl::SingletonDisposer_*
+    ExpressionSoundCtrl::SingletonDisposer_::sStaticDisposer = nullptr;
 
-Unk_710104e5b4::SingletonDisposer_::~SingletonDisposer_() {
+ExpressionSoundCtrl::SingletonDisposer_::~SingletonDisposer_() {
     if (this == sStaticDisposer) {
         sStaticDisposer = nullptr;
-        sInstance->~Unk_710104e5b4();
+        sInstance->~ExpressionSoundCtrl();
         sInstance = nullptr;
     }
 }
 
-SEAD_DELETE_SINGLETON_INSTANCE(Unk_710104e5b4)
+SEAD_DELETE_SINGLETON_INSTANCE(ExpressionSoundCtrl)
 
 // Keep the vtable store, as in GameDataFlagSelector::~GameDataFlagSelector (96101229).
-Unk_710104e5b4::~Unk_710104e5b4() { ; }
+ExpressionSoundCtrl::~ExpressionSoundCtrl() { ; }
 
-void Unk_710104e5b4::sub_710104F030() {
+void ExpressionSoundCtrl::sub_710104F030() {
     _38.fade(0);
     mFilter.fade(0);
     _b8 = 0;
@@ -38,7 +38,7 @@ void Unk_710104e5b4::sub_710104F030() {
 }
 
 // NON_MATCHING: the original copies the argument as a 64-bit register (a 4-byte class type, like UiSoundKind?).
-void Unk_710104e5b4::sub_710104F1B8(s32 state) {
+void ExpressionSoundCtrl::sub_710104F1B8(s32 state) {
     if (_30 != 2)
         return;
     _38 = _28->searchAndEmit("Slow");
@@ -56,59 +56,59 @@ void Unk_710104e5b4::sub_710104F1B8(s32 state) {
     updateHandles();
 }
 
-xlink2::HandleSLink Unk_710104e5b4::sub_710104F30C(const sead::SafeString& label) {
+xlink2::HandleSLink ExpressionSoundCtrl::sub_710104F30C(const sead::SafeString& label) {
     return _28->searchAndEmit(label.cstr());
 }
 
-void Unk_710104e5b4::sub_710104F354() {
+void ExpressionSoundCtrl::sub_710104F354() {
     if (!_2a0.isOn(2)) {
         SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cSquat);
         _2a0.set(2);
     }
 }
 
-void Unk_710104e5b4::sub_710104F39C() {
+void ExpressionSoundCtrl::sub_710104F39C() {
     if (_2a0.isOn(2)) {
         SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cSquat, false);
         _2a0.reset(2);
     }
 }
 
-void Unk_710104e5b4::sub_710104F3EC() {
+void ExpressionSoundCtrl::sub_710104F3EC() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
 }
 
-void Unk_710104e5b4::sub_710104F404() {
+void ExpressionSoundCtrl::sub_710104F404() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
-void Unk_710104e5b4::sub_710104F420() {
+void ExpressionSoundCtrl::sub_710104F420() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
 }
 
-void Unk_710104e5b4::sub_710104F438() {
+void ExpressionSoundCtrl::sub_710104F438() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
-void Unk_710104e5b4::sub_710104F454() {
+void ExpressionSoundCtrl::sub_710104F454() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
 }
 
-void Unk_710104e5b4::sub_710104F46C() {
+void ExpressionSoundCtrl::sub_710104F46C() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
-void Unk_710104e5b4::sub_710104F488() {
+void ExpressionSoundCtrl::sub_710104F488() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042024(DuckingMgr::DuckerType::cFocus);
 }
 
-void Unk_710104e5b4::sub_710104F4A0() {
+void ExpressionSoundCtrl::sub_710104F4A0() {
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cFocus, false);
 }
 
 // inline-only in the original; name is a guess (the same locked loop is inlined in 0x710104e964, 0x710104ee64
 // and 0x710104f1b8): drops the handles whose event is gone and refreshes the others while bit 0 of _2a0 is set.
-inline void Unk_710104e5b4::updateHandles() {
+inline void ExpressionSoundCtrl::updateHandles() {
     sead::ScopedLock<sead::CriticalSection> lock(&mHandleCS);
     for (auto it = mHandles.robustBegin(); it != mHandles.robustEnd(); ++it) {
         if (!it->isActive())
@@ -118,7 +118,7 @@ inline void Unk_710104e5b4::updateHandles() {
     }
 }
 
-void Unk_710104e5b4::sub_710104E964() {
+void ExpressionSoundCtrl::sub_710104E964() {
     auto* user = _28;
     user->preCalc();
     user->postCalc();
@@ -134,14 +134,14 @@ void Unk_710104e5b4::sub_710104E964() {
     _294.calc();
 }
 
-void Unk_710104e5b4::sub_710104E92C(sead::Heap* heap) {
+void ExpressionSoundCtrl::sub_710104E92C(sead::Heap* heap) {
     _28 = sub_710105E3D0("ExpressionSound", heap, nullptr, nullptr, nullptr);
 }
 
 // 0x71025024f0: the FX delay gain restored when the slow motion ends.
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025024F0 = 0.7f;
 
-void Unk_710104e5b4::sub_710104EE64() {
+void ExpressionSoundCtrl::sub_710104EE64() {
     if (_30 == 2)
         return;
     _38.fade();
@@ -154,19 +154,19 @@ void Unk_710104e5b4::sub_710104EE64() {
     updateHandles();
 }
 
-void Unk_710104e5b4::sub_710104EE50() {
+void ExpressionSoundCtrl::sub_710104EE50() {
     if (_30 != 2)
         sub_710104EE64();
 }
 
 extern const f32 sUnk_7102502518[2];
 
-void Unk_710104e5b4::sub_710104FD38(const xlink2::HandleSLink& handle) {
+void ExpressionSoundCtrl::sub_710104FD38(const xlink2::HandleSLink& handle) {
     _278 = handle;
 }
 
 // NON_MATCHING: state branches, clamp scheduling and mapped data access differ.
-void Unk_710104e5b4::sub_710104EA7C() {
+void ExpressionSoundCtrl::sub_710104EA7C() {
     if (_250 == 3) {
         _258.calc();
         _278.setVolumeScale(_258.getValue() <= 0.0f ? 0.0f : _258.getValue());
@@ -194,7 +194,7 @@ KSYS_VISIBILITY_HIDDEN f32 sUnk_7102502500[6] = {1.6f, 0.05f, 0.8f, 0.7f, 0.3f, 
 
 // NON_MATCHING: the original walks the buffer with an end pointer (sign-extended size) and schedules the last
 // filter argument differently.
-void Unk_710104e5b4::sub_710104EBBC() {
+void ExpressionSoundCtrl::sub_710104EBBC() {
     for (auto& group : _48) {
         if (_30 == 2) {
             group->getParam().setVolume(1.0f);
@@ -221,7 +221,7 @@ void Unk_710104e5b4::sub_710104EBBC() {
     }
 }
 
-void Unk_710104e5b4::sub_710104ED9C() {
+void ExpressionSoundCtrl::sub_710104ED9C() {
     SoundMgr::instance()->_50->sub_7101050CCC();
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cPauseEvent, false);
     SoundMgr::instance()->mDuckingMgr->sub_7101042D6C(DuckingMgr::DuckerType::cPauseIngame, false);
@@ -233,7 +233,7 @@ void Unk_710104e5b4::sub_710104ED9C() {
     SoundMgr::instance()->_98->_5e0._20.moveTo(1.0f, 0.3f);
 }
 
-void Unk_710104e5b4::sub_710104F98C() {
+void ExpressionSoundCtrl::sub_710104F98C() {
     SoundMgr::instance()->_50->sub_71010511DC(0.3f);
     const bool event = evt::Manager::instance()->hasActiveEvent();
     auto& groups = event ? mPauseEventGroups : mPauseIngameGroups;
@@ -247,7 +247,7 @@ void Unk_710104e5b4::sub_710104F98C() {
     SoundMgr::instance()->_98->_5e0._20.moveTo(0.0f, 0.3f);
 }
 
-void Unk_710104e5b4::sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group>* groups, s32 type) {
+void ExpressionSoundCtrl::sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group>* groups, s32 type) {
     if (group->get_13c() & (1 << type)) {
         groups->pushBack(group);
         return;
@@ -256,7 +256,7 @@ void Unk_710104e5b4::sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group
         sub_710104FD68(node->value(), groups, type);
 }
 
-void Unk_710104e5b4::sub_710104FD4C() {
+void ExpressionSoundCtrl::sub_710104FD4C() {
     _250 = 1;
     _258.moveTo(sUnk_7102502500[0], sUnk_7102502500[1]);
 }

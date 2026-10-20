@@ -359,7 +359,7 @@ void Reaction::Unk1::sub_7100EC447C(Actor* actor, DamageReactionRequest* request
         }
     }
     if (track)
-        snd::Unk_710104e5b4::instance()->sub_710104FA78(*handle);
+        snd::ExpressionSoundCtrl::instance()->sub_710104FA78(*handle);
 }
 
 // NON_MATCHING: clamp, material and sound-handle branches use different temporary storage.
@@ -802,7 +802,7 @@ void Reaction::Unk1::sub_7100EC545C(xlink2::HandleSLink* handle,
         }
     }
     if (track)
-        snd::Unk_710104e5b4::instance()->sub_710104FA78(*handle);
+        snd::ExpressionSoundCtrl::instance()->sub_710104FA78(*handle);
 }
 
 }  // namespace ksys::act

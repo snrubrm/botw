@@ -2572,7 +2572,7 @@ public:
     void hm15() override;
     // 0x7101000ab8: stops the BGM (state 1 -> 3, 2 -> 4, else 0) and the message ducking.
     void m13(f32 fade_sec) override;
-    // 0x71010007b4: stops the BGM in 3 s like m13, releases the ducker request at Unk_710104e5b4 +0x294 and resets
+    // 0x71010007b4: stops the BGM in 3 s like m13, releases the ducker request at ExpressionSoundCtrl +0x294 and resets
     // the FX mode.
     void sub_71010007B4();
     // 0x71010008a8: prints the state when the debug flag sUnk_710260F3F8 is set.
@@ -2990,7 +2990,7 @@ public:
     void m12(f32 fade_sec) override;
     // 0x71010104ac: stops the BGM and the message ducking.
     void m13(f32 fade_sec) override;
-    // 0x71010101ec: like m13, then clears the state, releases the ducker request at Unk_710104e5b4 +0x294 (with
+    // 0x71010101ec: like m13, then clears the state, releases the ducker request at ExpressionSoundCtrl +0x294 (with
     // hold) and resets the FX mode.
     void sub_71010101EC(f32 fade_sec);
     // 0x7101010250: prints the state when the debug flag sUnk_710260FAE4 is set.
@@ -3047,9 +3047,9 @@ public:
     // 0x7101010b84: unless playing (state 1 or 2), starts the second half.
     void sub_7101010B84();
     // 0x7101010b20: unless playing (state 1 or 2), starts the first half, requests the ducker at
-    // Unk_710104e5b4 +0x294 and sets the FX mode 1.
+    // ExpressionSoundCtrl +0x294 and sets the FX mode 1.
     void sub_7101010B20();
-    // 0x7101010c58: stops the BGM like m13, releases the ducker at Unk_710104e5b4 +0x294 (with hold) and resets
+    // 0x7101010c58: stops the BGM like m13, releases the ducker at ExpressionSoundCtrl +0x294 (with hold) and resets
     // the FX mode.
     void sub_7101010C58(f32 fade_sec);
     // 0x7101010cd0: prints the state when the debug flag sUnk_710260FBB8 is set.

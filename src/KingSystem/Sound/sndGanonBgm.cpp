@@ -34,7 +34,7 @@ void Unk_71024fed48::sub_7101010B20() {
         return;
     mState = 1;
     sub_710101D9D8();
-    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.start();
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 1;
@@ -51,7 +51,7 @@ void Unk_71024fed48::sub_7101010B84() {
 void Unk_71024fed48::sub_7101010C58(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     mState = mState == 1 ? 3 : mState == 2 ? 4 : 0;
-    ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.stop(true);
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 0;

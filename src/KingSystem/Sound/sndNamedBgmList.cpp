@@ -179,9 +179,9 @@ bool Unk_71010073f4::sub_7101007C90() {
 // NON_MATCHING: the original adds +0x28c in each branch; ours hoists it.
 void Unk_71025ce3a0::m6(bool started) {
     if (started)
-        Unk_710104e5b4::instance()->mRemainsDucking.start(mDuckingKind);
+        ExpressionSoundCtrl::instance()->mRemainsDucking.start(mDuckingKind);
     else
-        Unk_710104e5b4::instance()->mRemainsDucking.stop();
+        ExpressionSoundCtrl::instance()->mRemainsDucking.stop();
 }
 
 Unk_710260f2c8::Unk_710260f2c8(const BgmInitArg& arg)

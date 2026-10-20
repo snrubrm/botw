@@ -18,15 +18,15 @@ void SceneSoundNotifyTalkAction::loadParams_() {
 
 bool SceneSoundNotifyTalkAction::oneShot_() {
     if (mCtrlType_d == "BeginTalk") {
-        ksys::snd::Unk_710104e5b4::instance()->sub_710104F8E0();
+        ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F8E0();
         return true;
     }
     if (mCtrlType_d == "EndTalk") {
-        ksys::snd::Unk_710104e5b4::instance()->sub_710104F904();
+        ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F904();
         return true;
     }
     if (mCtrlType_d == "SkipNotify") {
-        ksys::snd::Unk_710104e5b4::instance()->sub_710104F920(true);
+        ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F920(true);
         return true;
     }
     return false;

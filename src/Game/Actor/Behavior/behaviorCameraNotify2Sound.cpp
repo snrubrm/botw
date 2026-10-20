@@ -7,16 +7,16 @@ namespace {
 
 struct SoundState {
     s32 mode;
-    void (ksys::snd::Unk_710104e5b4::*enter)();
-    void (ksys::snd::Unk_710104e5b4::*leave)();
+    void (ksys::snd::ExpressionSoundCtrl::*enter)();
+    void (ksys::snd::ExpressionSoundCtrl::*leave)();
 };
 static_assert(sizeof(SoundState) == 0x28);
 
 SoundState sSoundStates[] = {
-    {1, &ksys::snd::Unk_710104e5b4::sub_710104F420, &ksys::snd::Unk_710104e5b4::sub_710104F438},
-    {2, &ksys::snd::Unk_710104e5b4::sub_710104F3EC, &ksys::snd::Unk_710104e5b4::sub_710104F404},
-    {3, &ksys::snd::Unk_710104e5b4::sub_710104F454, &ksys::snd::Unk_710104e5b4::sub_710104F46C},
-    {4, &ksys::snd::Unk_710104e5b4::sub_710104F488, &ksys::snd::Unk_710104e5b4::sub_710104F4A0},
+    {1, &ksys::snd::ExpressionSoundCtrl::sub_710104F420, &ksys::snd::ExpressionSoundCtrl::sub_710104F438},
+    {2, &ksys::snd::ExpressionSoundCtrl::sub_710104F3EC, &ksys::snd::ExpressionSoundCtrl::sub_710104F404},
+    {3, &ksys::snd::ExpressionSoundCtrl::sub_710104F454, &ksys::snd::ExpressionSoundCtrl::sub_710104F46C},
+    {4, &ksys::snd::ExpressionSoundCtrl::sub_710104F488, &ksys::snd::ExpressionSoundCtrl::sub_710104F4A0},
 };
 
 }  // namespace
@@ -38,7 +38,7 @@ void CameraNotify2Sound::enter() {
         if (manager->_58)
             manager->_58->_78 = sSoundStates[_30].mode;
     }
-    if (auto* sound = ksys::snd::Unk_710104e5b4::instance())
+    if (auto* sound = ksys::snd::ExpressionSoundCtrl::instance())
         (sound->*sSoundStates[_30].enter)();
 }
 
@@ -48,7 +48,7 @@ void CameraNotify2Sound::leave() {
         if (manager->_58)
             manager->_58->_78 = 0;
     }
-    if (auto* sound = ksys::snd::Unk_710104e5b4::instance())
+    if (auto* sound = ksys::snd::ExpressionSoundCtrl::instance())
         (sound->*sSoundStates[_30].leave)();
 }
 

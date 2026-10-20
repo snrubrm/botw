@@ -120,10 +120,10 @@ namespace ksys::snd {
 
 class Unk_7102502950;
 class FxMgr;
-class Unk_710104e5b4;
+class ExpressionSoundCtrl;
 
 // 0x710104ee4c (CSV nullsub_4416, 4 bytes): empty hook called by Sound::__auto3.
-void nullsub_4416(Unk_710104e5b4* sound, bool a);
+void nullsub_4416(ExpressionSoundCtrl* sound, bool a);
 
 f32 sub_710105E3A4();
 const char* sub_710105E7B4(bool* flag);
@@ -998,7 +998,7 @@ void sub_71010421F0(DuckingMgr* mgr, DuckingMgr::DuckerType type, Unk_710103b704
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 // Placeholder name (0x710103ac60 / 0x710103ac84, in the sndSoundMgr38.cpp TU): a ducking request at
-// Unk_710104e5b4 +0x28c, held by the Remains battle BGMs while they play (Unk_71025ce3a0::m6).
+// ExpressionSoundCtrl +0x28c, held by the Remains battle BGMs while they play (Unk_71025ce3a0::m6).
 // Ducks while a message sound (SoundMgr::_48) plays (owned by value by the Remains boss and dungeon BGMs).
 class Unk_710103AB10 {
 public:
@@ -1041,12 +1041,12 @@ struct Unk_710103ACC8 {
     bool mActive;
 };
 
-class Unk_710104e5b4 {
+class ExpressionSoundCtrl {
     // Native 0x710104e5b4 constructs the singleton disposer at +8; vtable 0x71025024d0.
-    SEAD_SINGLETON_DISPOSER(Unk_710104e5b4)
+    SEAD_SINGLETON_DISPOSER(ExpressionSoundCtrl)
 
 public:
-    virtual ~Unk_710104e5b4();
+    virtual ~ExpressionSoundCtrl();
 
     // 0x710104ed9c: re-enables emission in the root group, un-pauses it, stops the pause duckers and restores the
     // stream fader (used when the pause menu / event pause ends).
@@ -1146,9 +1146,8 @@ public:
     // Requested by the Ganon beast BGM (Unk_71024fec18) while it waits to start a level.
     /* 0x294 */ Unk_710103ACC8 _294;
     /* 0x2a0 */ sead::BitFlag8 _2a0;
-
 };
-KSYS_CHECK_SIZE_NX150(Unk_710104e5b4, 0x2a8);
+KSYS_CHECK_SIZE_NX150(ExpressionSoundCtrl, 0x2a8);
 
 enum class AudioChannelType {
     Mono = 1,
@@ -1752,7 +1751,7 @@ public:
     /* 0x78 */ OcclusionMgr* mOcclusionMgr;
     /* 0x80 */ DuckingMgr* mDuckingMgr;
     u8 _88[8];
-    /* 0x90 */ Unk_710104e5b4* _90;
+    /* 0x90 */ ExpressionSoundCtrl* _90;
     /* 0x98 */ Unk_710103b704* _98;
     /* 0xa0 */ Unk_710105a6f0* _a0;
     /* 0xa8 */ Unk_SoundMgra8* _a8;

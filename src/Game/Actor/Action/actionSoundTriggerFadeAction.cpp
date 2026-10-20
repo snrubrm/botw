@@ -30,7 +30,7 @@ bool SoundTriggerFadeAction::oneShot_() {
                 return true;
         }
     }
-    if (auto* user = ksys::snd::Unk_710104e5b4::instance()->_28)
+    if (auto* user = ksys::snd::ExpressionSoundCtrl::instance()->_28)
         return sub_7100E16B70(user);
     return false;
 }

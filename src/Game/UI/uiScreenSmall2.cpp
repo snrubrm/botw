@@ -1400,7 +1400,7 @@ void ScreenMessageDialog::m101() {
     ui->_9c = _73c;
     _720 = nullptr;
     _728.reset();
-    ksys::snd::Unk_710104e5b4::instance()->sub_710104F8C4(false);
+    ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F8C4(false);
 }
 
 // 0x71010b25c8

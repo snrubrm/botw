@@ -84,7 +84,7 @@ void Unk_71024fd448::sub_71010007B4() {
     sub_710101D9F4(3.0f);
     _190 = _190 == 1 ? 3 : _190 == 2 ? 4 : 0;
     _1a0.~Unk_710103AB10();
-    ksys::snd::Unk_710104e5b4::instance()->_294.stop(false);
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.stop(false);
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 0;
@@ -95,7 +95,7 @@ void Unk_71024fd448::sub_7101000514() {
     sub_710101D9F4(1.0f);
     _190 = _190 == 1 ? 3 : _190 == 2 ? 4 : 0;
     _1a0.~Unk_710103AB10();
-    ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.stop(true);
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (mgr->_50)
             mgr->_50->_a8 = 0;
@@ -117,7 +117,7 @@ void Unk_71024fd448::sub_71010003A4() {
         bgm->sub_710101D9F4(1.0f);
         bgm->_190 = bgm->_190 == 1 ? 3 : bgm->_190 == 2 ? 4 : 0;
         bgm->_1a0.stop();
-        ksys::snd::Unk_710104e5b4::instance()->_294.stop(true);
+        ksys::snd::ExpressionSoundCtrl::instance()->_294.stop(true);
         if (auto* mgr = ksys::snd::SoundMgr::instance()) {
             if (mgr->_50)
                 mgr->_50->_a8 = 0;
@@ -126,7 +126,7 @@ void Unk_71024fd448::sub_71010003A4() {
 
     _190 = 1;
     sub_710101D9D8();
-    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.start();
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (auto* fx = mgr->_50) {
             s32 mode = 1;
@@ -142,7 +142,7 @@ void Unk_71024fd448::sub_7101000598() {
         return;
     _190 = 2;
     sub_710101D9D8();
-    ksys::snd::Unk_710104e5b4::instance()->_294.start();
+    ksys::snd::ExpressionSoundCtrl::instance()->_294.start();
     if (auto* mgr = ksys::snd::SoundMgr::instance()) {
         if (auto* fx = mgr->_50) {
             s32 mode = 1;

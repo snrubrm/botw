@@ -61,7 +61,7 @@ bool SoundTrigger::sub_7100E16614() {
             }
         }
     }
-    if (auto* user = ksys::snd::Unk_710104e5b4::instance()->_28) {
+    if (auto* user = ksys::snd::ExpressionSoundCtrl::instance()->_28) {
         xlink2::Locator locator;
         if (user->searchAsset(&locator, mSound_d.cstr())) {
             user->emit(locator, &_50);

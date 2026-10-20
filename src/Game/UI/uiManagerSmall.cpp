@@ -671,7 +671,7 @@ void Manager::sub_7100A7FD64(nn::ui2d::Pane* pane) {
 // 0x7100a79a04
 bool Manager::sub_7100A79A04() {
     if (isPausedMaybe()) {
-        if (auto* sound = ksys::snd::Unk_710104e5b4::instance())
+        if (auto* sound = ksys::snd::ExpressionSoundCtrl::instance())
             sound->sub_710104F98C();
     }
     Unk_71025d6ac0::instance()->sub_71009680DC();
