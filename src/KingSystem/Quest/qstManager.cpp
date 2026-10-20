@@ -43,6 +43,26 @@ void Manager::cleanUp() {
     mHandle.unloadAndResetUnitFlag20000();
 }
 
+bool Manager::sub_7100FD7460(const sead::SafeString& name) const {
+    for (s32 i = 0; i < _48.size(); ++i) {
+        const auto* target = _48[i];
+        if (target && target->enabled && target->name == name)
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: returns the cached quest pointer and removes the redundant final bounds check.
+Quest* Manager::sub_7100FD7610(const sead::SafeString& name) const {
+    const u32 hash = sead::HashCRC32::calcStringHash(name);
+    for (s32 i = 0; i < mQuests.size(); ++i) {
+        auto* quest = mQuests[i];
+        if (quest->mNameHash == hash)
+            return quest;
+    }
+    return nullptr;
+}
+
 bool Manager::isQuestActor(act::Actor* actor) const {
     for (int i = 0; i < mQuests.size(); ++i) {
         const auto* quest = mQuests[i];
