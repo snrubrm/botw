@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionGiantCatchTreeWeapon.h"
+#include "Game/Actor/actGiantEnemy.h"
+#include "KingSystem/ActorSystem/actUnk_71024eed28.h"
 
 namespace uking::action {
 
@@ -15,6 +17,11 @@ void GiantCatchTreeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GiantCatchTreeWeapon::leave_() {
+    if (auto* enemy = sead::DynamicCast<uking::act::GiantEnemy>(mActor)) {
+        auto* child = enemy->_1558 ? enemy->_1558->m7() : nullptr;
+        if (auto* grab = sead::DynamicCast<ksys::act::Unk_7102359478>(child))
+            grab->_98 = 0;
+    }
     Catch::leave_();
 }
 
