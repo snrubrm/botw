@@ -1,4 +1,5 @@
 #include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actHorseBoneController.h"
 #include <limits>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Map/mapObject.h"
@@ -27,6 +28,40 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::act {
+
+void HorseBase::preDelete2_(const PreDeleteArg& arg) {
+    if (_b20)
+        _b20 = nullptr;
+    if (_b18) {
+        if (auto* nav = m45()) {
+            sead::ScopedLock<sead::CriticalSection> lock(&nav->_68);
+            nav->_58 = nullptr;
+        }
+        delete _b18;
+        _b18 = nullptr;
+    }
+    if (_b10) {
+        delete _b10;
+        _b10 = nullptr;
+    }
+    if (_b48) {
+        delete _b48;
+        _b48 = nullptr;
+    }
+    if (_b28) {
+        _b28->destroy();
+        _b28 = nullptr;
+    }
+    if (_b08) {
+        ksys::phys::Constraint::destroy(_b08);
+        _b08 = nullptr;
+    }
+    if (_bf8) {
+        ::operator delete(_bf8);
+        _bf8 = nullptr;
+    }
+    _a98.sub_7100E63F20();
+}
 
 // NON_MATCHING: the stack slots for the type parameter and the Flag temporaries differ (the original
 // keeps the parameter at x29-4 and Flag::_0 at x29-8; ours reuses sp+0xc), and the and operands are

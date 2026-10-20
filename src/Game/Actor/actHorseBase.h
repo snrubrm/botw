@@ -37,6 +37,7 @@ namespace uking::act {
 
 class Rideable;
 class HorseReins;
+class Unk_71024eb5e0;
 
 // Placeholder name (vtable 0x71024eb548, 7 slots: empty inline dtor, D0, 5 more; ctor 0x7100e72034,
 // size 0x10). HorseBase::_b18; HorseBase::prepareInit_ registers it in the NavMeshCharacter (m45)
@@ -269,7 +270,7 @@ public:
     /* 0xb10 */ Rideable* _b10 = nullptr;  // getHorseOptionsMaybe (RideableHorse, ctor 0x7100e7c688)
     /* 0xb18 */ Unk_71024eb548* _b18 = nullptr;
     /* 0xb20 */ gsys::ModelUnitGroup* _b20 = nullptr;
-    /* 0xb28 */ void* _b28 = nullptr;
+    /* 0xb28 */ Unk_71024eb5e0* _b28 = nullptr;
     /* 0xb30 */ ksys::act::BaseProcLink _b30;
     /* 0xb40 */ ksys::map::Rail* _b40 = nullptr;  // the rail of the horse (HorseLoopTargetAndWaitAI::m34)
     /* 0xb48 */ Mystery2Horse* _b48 = nullptr;
