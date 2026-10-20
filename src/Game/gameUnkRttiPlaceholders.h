@@ -3150,6 +3150,8 @@ class Unk_71025008d0 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71025008d0, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71025008d0() override;
+    // 0x71010211c8: plays while the environment palette set is mPaletteSet, fades out otherwise.
+    void m5() override;
     // 0x7101021668: fades out the handle and resets the state.
     void m13(f32 fade_sec) override;
     // The primary vtable has hm15 (0x7101021690, empty) before hm14 (0x7101021340), so hm15 is declared first.
@@ -3162,8 +3164,9 @@ public:
     /* 0x198 */ s32 mPaletteSet;
     u8 _19c[0x210 - 0x19c];
     /* 0x210 */ sead::FixedSafeString<32> mAssetName;
+    // 0: waiting to play (counts _24c up to PlayWaitSec), 1: playing, 2: fading out.
     /* 0x248 */ u32 mState;
-    /* 0x24c */ u32 _24c;
+    /* 0x24c */ f32 mWaitTimer;
     /* 0x250 */ aal::TimedFader _250;
     /* 0x278 */ ksys::snd::Unk_710260f248Entry* _278;
 };

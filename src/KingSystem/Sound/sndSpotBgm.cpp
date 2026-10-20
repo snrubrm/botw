@@ -11,6 +11,7 @@
 #include <xlink2/xlink2SystemSLink.h>
 #include "KingSystem/Sound/sndMusicDefinition.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldEnvMgr.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 
@@ -270,10 +271,58 @@ void sub_7101024808(Unk_SpotBgmInstance* instance) {
 
 Unk_71025008d0::~Unk_71025008d0() = default;
 
+void Unk_71025008d0::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+
+    auto* world = ksys::world::Manager::instance();
+    bool in_palette;
+    if (world && world->getEnvMgr() && world->getEnvMgr()->getPaletteSet() == mPaletteSet)
+        in_palette = true;
+    else
+        in_palette = false;
+
+    switch (mState) {
+    case 0:
+        if (in_palette) {
+            mWaitTimer += ksys::snd::sub_710105E3A4();
+            if (mWaitTimer > *mParams->mPlayWaitSec) {
+                mWaitTimer = *mParams->mPlayWaitSec;
+                _250.setValueImmediate(0.0f);
+                sub_710101D9D8();
+            }
+        } else {
+            mWaitTimer = 0;
+        }
+        break;
+    case 1:
+        if (!in_palette) {
+            _250.moveTo(0.0f, *mParams->mFadeOutSec);
+            mState = 2;
+        }
+        break;
+    case 2:
+        if (in_palette) {
+            const f32 rate = sead::Mathf::clamp(1.0f - _250.getValue(), 0.0f, 1.0f);
+            _250.moveTo(1.0f, rate * *mParams->mFadeInSec);
+            mState = 1;
+        }
+        if (_250.getValue() == _250.getNextValue()) {
+            sub_710101D9F4(0.01f);
+            mState = 0;
+            mWaitTimer = 0;
+        }
+        break;
+    }
+
+    _250.calc();
+    _a4 = _250.getValue();
+}
+
 void Unk_71025008d0::m13(f32 fade_sec) {
     sub_710101D9F4(fade_sec);
     mState = 0;
-    _24c = 0;
+    mWaitTimer = 0;
 }
 
 void Unk_71025008d0::hm14() {
