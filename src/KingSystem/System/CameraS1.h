@@ -85,3 +85,6 @@ private:
 KSYS_CHECK_SIZE_NX150(CameraS1, 0xf0);
 
 }  // namespace ksys
+
+// 0x7100d8aed0: projection settings belong to the derived camera at +0x6c..+0x7c.
+void sub_7100D8AED0(ksys::Unk_71024dd110* camera, sead::PerspectiveProjection* projection);

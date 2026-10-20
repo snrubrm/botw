@@ -5,12 +5,12 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/System/CameraS1.h"
+#include <geom/seadRay.h>
+#include <gfx/seadViewport.h>
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
 #include <aal/aalSoundParam.h>
 #include <aal/aalSystemAccessor.h>
-
-void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
 
 bool sub_710092DA58(sead::PerspectiveProjection* projection) {
     if (auto* camera = sub_7100923E74()) {
@@ -111,4 +111,23 @@ void Unk_71024742f0::m6() {
         return;
     if (auto* group = group_mgr->findGroup("World"))
         group->getParam().setVolume(1.0f);
+}
+
+// NON_MATCHING: ray and projection stack slots and Boolean return scheduling differ.
+bool sub_710092DC38(const sead::Vector2f& screen, sead::Vector3f* direction) {
+    sead::PerspectiveProjection projection;
+    if (auto* camera = sub_7100923E74())
+        sub_7100D8AED0(camera, &projection);
+    const sead::Viewport* viewport = nullptr;
+    if (auto* mgr = ksys::CameraMgr::instance())
+        viewport = mgr->sub_7100D8C4C8();
+    auto* camera = sub_7100923E74();
+    bool success = false;
+    if (viewport && camera) {
+        sead::Ray3f ray(sead::Vector3f::zero, sead::Vector3f::ex);
+        viewport->unprojectRay(&ray, screen, projection, *camera);
+        *direction = ray.getDir();
+        success = true;
+    }
+    return success;
 }

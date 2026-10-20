@@ -319,6 +319,7 @@ ksys::Unk_71024dd110* sub_7100923E74();
 // 0x710092da58 / 0x710092da88: fill `projection` from the default camera (sub_7100D8AED0); false
 // without one.
 bool sub_710092DA58(sead::PerspectiveProjection* projection);
+bool sub_710092DC38(const sead::Vector2f& screen, sead::Vector3f* direction);
 bool sub_710092DA88(sead::PerspectiveProjection* projection);
 // 0x710092732c: player-state check returning a boolean for the gyro mode.
 bool sub_710092732C();
@@ -433,6 +434,16 @@ public:
     /* 0x34 */ f32 _34 = 100.0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71009214b8, 0x38);
+
+// 0x710092b214 / 0x710092b7ec: move the near-plane point to a collision hit and adjust the look-at
+// point. The latter casts from the supplied position and uses the first valid hit.
+void sub_710092B214(const Unk_71009214b8& src, const sead::Vector3f& position,
+                    const sead::Vector3f& hit, Unk_71009214b8* dst);
+void sub_710092B7EC(const Unk_71009214b8& src, Unk_71009214b8* dst,
+                    const sead::Vector3f& position, ksys::phys::ShapeCast* cast);
+// 0x710092d860 adjusts the destination look-at point to preserve the source's distance ratio.
+void sub_710092D860(const Unk_71009214b8& src, const sead::Vector3f& position,
+                    Unk_71009214b8* dst);
 
 // Placeholder name (out-of-line ctor 0x71008a45f0, TU 0x71008a45f0-0x71008a4ad4; not in a camera TU):
 // a rotation smoother starting with two rotation matrices (both set to Matrix33f::ident by the ctor;

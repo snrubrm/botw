@@ -38,7 +38,7 @@ void CameraMgr::sub_7100D8C4B0(s32 index) {
     _118.sub_7101265444(index);
 }
 
-sead::LookAtCamera* CameraMgr::getLookAtCamera() const {
+Unk_71024dd110* CameraMgr::getLookAtCamera() const {
     return _28.getLookAtCamera();
 }
 

@@ -49,7 +49,7 @@ public:
     void sub_7100D8C4A0(s32 index);
     void sub_7100D8C4A8(s32 index);
     void sub_7100D8C4B0(s32 index);
-    sead::LookAtCamera* getLookAtCamera() const;
+    Unk_71024dd110* getLookAtCamera() const;
     Unk_71024dd110* sub_7100D8C4C0() const;
     // 0x7100d8c4c8 (CSV Camera::__auto7): like getLookAtCamera, forwards to the object at +0x28.
     const sead::Viewport* sub_7100D8C4C8() const;

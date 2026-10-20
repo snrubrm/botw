@@ -87,3 +87,11 @@ void Unk_71024dd110::sub_7100D8B3E8(s32 id) {
 }
 
 }  // namespace ksys
+
+void sub_7100D8AED0(ksys::Unk_71024dd110* camera, sead::PerspectiveProjection* projection) {
+    if (projection) {
+        auto* current = ksys::CameraMgr::instance()->sub_7100D8C4E8();
+        projection->set(camera->_6c, camera->_70, camera->_74, current->getAspect());
+        projection->setOffset(camera->_78);
+    }
+}

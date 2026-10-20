@@ -18,6 +18,8 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Camera/camUnk_71025136c8.h"
 #include "KingSystem/System/CameraS1.h"
+#include "KingSystem/Physics/System/physShapeCast.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
 bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 
@@ -1103,6 +1105,66 @@ f32 Unk_71024741b8::sub_71009234D8(f32 value, int iterations) const {
         }
     } while (iterations > 0);
     return low;
+}
+
+// NON_MATCHING: the near-point stack slots and square-root result registers are exchanged.
+void sub_710092D860(const Unk_71009214b8& src, const sead::Vector3f& position,
+                    Unk_71009214b8* dst) {
+    sead::Vector3f near = sead::Vector3f::zero;
+    src.sub_7100921A90(&near);
+    const sead::Vector3f shifted_near = near - src._0 + dst->_0;
+    const f32 old_distance_sq = (near - position).squaredLength();
+    sead::Vector3f near_check = sead::Vector3f::zero;
+    src.sub_7100921A90(&near_check);
+    // Unordered distances also pass the original's distance guards.
+    if (!(old_distance_sq <= 0) && !((near_check - position).squaredLength() <= 0)) {
+        const f32 new_distance_sq = (shifted_near - position).squaredLength();
+        if (old_distance_sq != new_distance_sq) {
+            const f32 inverse_distance = 1.0f / std::sqrt(old_distance_sq);
+            const f32 scale = std::sqrt(new_distance_sq) * inverse_distance;
+            dst->_c = shifted_near + scale * (src._c - near);
+        } else {
+            dst->_c = src._c;
+        }
+    }
+}
+
+void sub_710092B214(const Unk_71009214b8& src, const sead::Vector3f& position,
+                    const sead::Vector3f& hit, Unk_71009214b8* dst) {
+    *dst = src;
+    sead::Vector3f near = sead::Vector3f::zero;
+    src.sub_7100921A90(&near);
+    // Unordered distances also enter the adjustment path.
+    if (!((near - position).squaredLength() <= 0)) {
+        dst->sub_7100921B48(hit);
+        sub_710092D860(src, position, dst);
+    }
+}
+
+void sub_710092B7EC(const Unk_71009214b8& src, Unk_71009214b8* dst,
+                    const sead::Vector3f& position, ksys::phys::ShapeCast* cast) {
+    *dst = src;
+    {
+        sead::Vector3f near = sead::Vector3f::zero;
+        src.sub_7100921A90(&near);
+        if ((near - position).squaredLength() <= 0)
+            return;
+    }
+    auto* info = cast->getContactPointInfo();
+    if (info) {
+        sead::Vector3f end = sead::Vector3f::zero;
+        src.sub_7100921A90(&end);
+        cast->reset();
+        cast->setStartAndEnd(position, end);
+        cast->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes);
+        auto it = info->begin();
+        if (it != info->end()) {
+            sead::Vector3f hit = sead::Vector3f::zero;
+            it.getHitPosition(&hit, *cast);
+            if (!ksys::util::sub_71011F1040(hit))
+                sub_710092B214(src, position, hit, dst);
+        }
+    }
 }
 
 }  // namespace uking::act

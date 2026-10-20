@@ -8,9 +8,6 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
-// 0x7100d8aed0 (declared only): fills `projection` from the camera manager's current projection settings.
-void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
-
 namespace uking::action {
 
 CollaboShootingStartFlying::CollaboShootingStartFlying(const InitArg& arg)

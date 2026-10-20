@@ -14,9 +14,6 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldShootingStarMgr.h"
 
-// 0x7100d8aed0 (declared only): sets `projection` up from the camera's parameters.
-void sub_7100D8AED0(sead::LookAtCamera* camera, sead::PerspectiveProjection* projection);
-
 namespace uking::action {
 
 ShootingStartFlying::ShootingStartFlying(const InitArg& arg) : ksys::act::ai::Action(arg) {}
