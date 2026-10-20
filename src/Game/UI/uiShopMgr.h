@@ -16,6 +16,22 @@ class PouchItem;
 // 0x7100a9127c (CSV shopBuyOrSellRupeeOrMamoStuff; declared only; placeholder name)
 void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count);
 
+// The item record the shop manager works on (0x78 bytes at UiShopMgr + 0x38). Its name comes first;
+// the state helpers (0x7100a90e40 / 0x7100a91e84 / 0x7100a91f64 / 0x7100a92180) read the fields after
+// it through the same pointer, which is why the item is passed as one record.
+struct ShopItem {
+    /* 0x00 */ sead::FixedSafeString<64> name;
+    /* 0x58 */ s32 _58;  // count (1 after sub_7100982A7C)
+    /* 0x5c */ s32 _5c;
+    /* 0x60 */ s32 _60;  // unit price
+    /* 0x64 */ s32 _64;
+    /* 0x68 */ s32 _68;
+    /* 0x6c */ u8 _6c;  // a flag the state helpers test for the 11 - 13 states
+    /* 0x6d */ u8 _6d[3];
+    /* 0x70 */ PouchItem* _70;
+};
+KSYS_CHECK_SIZE_NX150(ShopItem, 0x78);
+
 // Placeholder declaration (name from the CSV: UiShopMgr::createInstance 0x7100980794, deleteInstance
 // 0x7100980910; instance pointer at 0x71025d7ae0; namespace is a guess). The shop UI manager; only
 // what the AI classes use is declared.
@@ -31,13 +47,7 @@ public:
     // 6, 9, 10, 11-13, 14 are tested by the UI facade functions).
     s32 _30;
     u8 _34[0x38 - 0x34];
-    /* 0x38 */ sead::FixedSafeString<64> _38;  // item name
-    u8 _90[0x98 - 0x90];
-    /* 0x98 */ s32 _98;  // unit price
-    u8 _9c[0xa0 - 0x9c];
-    /* 0xa0 */ s32 _a0;
-    u8 _a4[0xa8 - 0xa4];
-    /* 0xa8 */ PouchItem* _a8;
+    /* 0x38 */ ShopItem _38;  // the selected item
     /* 0xb0 */ s32 _b0;  // the last value passed to sub_710098425C
     bool _b4;
     u8 _b5[0xc0 - 0xb5];
@@ -52,7 +62,8 @@ public:
     NpcShopData* _d0;
     u8 _d8[4];
     s32 _dc;
-    u8 _e0[0x140 - 0xe0];
+    /* 0xe0 */ s32 _e0;  // passed to sub_7100A92180 for the state-10 item
+    u8 _e4[0x140 - 0xe4];
     /* 0x140 */ ksys::act::BaseProcLink _140;
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
@@ -71,6 +82,9 @@ public:
     void sub_7100980F48(sead::BufferedSafeString* name);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
     bool sub_7100982A60(s32 state, s32 value);
+    // 0x7100982b9c (244 bytes): the state value the shop menu shows for `item` (state dispatch over
+    // _30, forwarded to the four shop tag state helpers).
+    u32 sub_7100982B9C(const ShopItem& item);
     // 0x71009843ac (1.5 KB, declared only): `out` receives a bool
     void sub_71009843AC(bool* out);
     void sub_7100984988();

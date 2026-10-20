@@ -5166,6 +5166,11 @@ void sub_7100AA4354(const PouchItem* item, sead::BufferedSafeString* out);
 s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped);
 u32 sub_7100A92180(const sead::SafeString& name, s32 a2, s32 a3);
 u32 sub_7100A91E84(const sead::SafeString& name, s32 type, s32 a3, bool flag);
+// 0x7100a90e40 (CSV unnamed): the trade state of the item for the shop states 3 / 7 / 8 and the rest
+// (payment check through the rupee / mamo flags; `a4` is the item count).
+u32 sub_7100A90E40(const sead::SafeString& name, s32 a2, s32 a3, s32 a4);
+// 0x7100a91f64 (CSV unnamed): the armour upgrade state of the item (next rank name lookup).
+u32 sub_7100A91F64(const sead::SafeString& name, s32 a2, s32 a3);
 // 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers
 // (called by the ScreenMessage3D tag invoke).
 void sub_71010B3468(const sead::MessageSet<char16>::TagInfo* tag, ksys::act::Actor* actor, bool flag);

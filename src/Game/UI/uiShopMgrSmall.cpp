@@ -15,7 +15,7 @@ void UiShopMgr::sub_7100984EE0() {
 // 0x7100984be8: sells the selected item (states 2 / 4: for rupees / mon)
 // NON_MATCHING: the original computes &_38 before the PauseMenuDataMgr call and keeps it in a callee-saved register
 void UiShopMgr::sub_7100984BE8() {
-    if (_a0 != 0)
+    if (_38._68 != 0)
         return;
     if (_30 != 4 && _30 != 2)
         return;
@@ -24,13 +24,13 @@ void UiShopMgr::sub_7100984BE8() {
         return;
 
     const s32 count = sead::Mathi::max(ksys::gdt::getFlag_Shop_TradeItemNum(), 1);
-    const s32 total = count * _98;
+    const s32 total = count * _38._60;
     if (_30 == 2)
         ksys::gdt::increaseFlag_CurrentRupee(total);
     else
         ksys::gdt::increaseFlag_CurrentMamo(total);
-    data_mgr->sub_710097D250(_a8, count);
-    sub_7100A9127C(_30, _38, count);
+    data_mgr->sub_710097D250(_38._70, count);
+    sub_7100A9127C(_30, _38.name, count);
     _c5 = true;
 }
 
@@ -47,10 +47,10 @@ void UiShopMgr::sub_710098425C(s32 a1, s32 a2) {
             return;
     }
     _b0 = a2;
-    sub_7100983E48(a1, a2, &_38);
+    sub_7100983E48(a1, a2, &_38.name);
     sub_7100982C90();
     if (_30 != 9 && _30 != 11 && _30 != 12 && _30 != 13)
-        sub_7100980F48(&_38);
+        sub_7100980F48(&_38.name);
     if (u32(_30 - 11) <= 2)
         _c7 = false;
 }
