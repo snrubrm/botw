@@ -388,6 +388,31 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CDF8(ksys::act::Actor* owner,
 
 // NON_MATCHING: same body and calls. The original copies the boss rotation matrix as paired 8-byte
 // loads and keeps a wider frame; this build copies it element by element, 0x28 bytes shorter.
+namespace {
+// Inline-only in the original; name is a guess. Evidence: 0x710066d094 repeats this exact block for
+// each of the nine part links (_320[0..3], _360, _370[0..3]).
+void sleepLinkIfCalc(ksys::act::BaseProcLink& link) {
+    if (!link.hasProc())
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    if (accessor.isStateCalc())
+        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+}
+}  // namespace
+
+// 0x710066d094: sleeps each part link that is in the calc state.
+void SiteBoss::Unk_71002cf2ac::sub_710066D094() {
+    for (auto& link : _320)
+        sleepLinkIfCalc(link);
+    sleepLinkIfCalc(_360);
+    auto* links = &_3b0[0];
+    for (u32 i = 0; i < 24; ++i)
+        sleepLinkIfCalc(links[i]);
+    for (auto& link : _370)
+        sleepLinkIfCalc(link);
+}
+
 // 0x710066d708: moves a ready handle proc into the bound-actor link (like sub_710066CDF8) and,
 // when _8 is set, positions the actor at the boss matrix three units up; otherwise wakes the linked
 // actor, or places it with an identity rotation at the boss position.
