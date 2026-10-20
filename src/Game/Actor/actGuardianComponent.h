@@ -109,6 +109,35 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710235b5e8, 0x48);
 
+// Placeholder name (vtable 0x710235b660): the "Propeller" part's bind object. prepareInit_ 3C41C
+// allocates it with 0xd8 bytes. m6 0x710003d08c, m8 0x710003d6a8, m9 0x710003dd28, m10 0x710003e198,
+// m11 0x710003eeec and m12 0x710003f108 are declared only.
+class Unk_710235b660 : public GuardianComponentBind {
+    SEAD_RTTI_OVERRIDE(Unk_710235b660, GuardianComponentBind)
+public:
+    ~Unk_710235b660() override;
+    bool m6(sead::Heap* heap) override;
+    void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
+    void m8(ksys::act::BaseProc* proc) override;
+    void m9() override;
+    void m10() override;
+    void m11() override;
+    void m12() override;
+    void m13() override;
+    void m14() override;
+
+    /* 0x10 */ s32 _10 = -1;
+    /* 0x18 */ gsys::BoneAccessKeyEx _18;
+    /* 0x50 */ gsys::BoneAccessKeyEx _50;
+    /* 0x88 */ gsys::BoneAccessKeyEx _88;
+    /* 0xc0 */ s32 _c0 = 0;
+    // Set by m8 from the Guardian's count.
+    /* 0xc4 */ f32 _c4 = 0;
+    /* 0xc8 */ sead::Vector3f _c8 = sead::Vector3f::ey;
+    /* 0xd4 */ u32 _d4 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710235b660, 0xd8);
+
 // vtable 0x710235b700 (placeholder name; no RTTI of its own): the GuardianComponent's damage callback, forwarding to
 // Guardian::sub_710003B564 with the component's part. `call` (0x7100040e9c) is the key function; D0 0x7100040e54.
 class Unk_710235b700 : public DamageCallback {

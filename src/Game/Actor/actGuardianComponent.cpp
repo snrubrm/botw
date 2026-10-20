@@ -99,6 +99,14 @@ void Unk_710235b5e8::m11() {
     }
 }
 
+Unk_710235b660::~Unk_710235b660() = default;
+
+void Unk_710235b660::m7(const ksys::act::BaseProc::PreDeleteArg&) {}
+
+void Unk_710235b660::m13() {}
+
+void Unk_710235b660::m14() {}
+
 void GuardianComponentBind::m9() {}
 
 void GuardianComponentBind::m10() {}
