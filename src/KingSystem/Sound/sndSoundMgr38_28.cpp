@@ -64,8 +64,13 @@ Unk_SoundMgr38_38::Unk_SoundMgr38_38() {
     _60 = {};
     _70 = {};
     _80 = {};
-    _14 = _20 = _2c = _38 = _50 = sead::Vector3f::zero;
+    const sead::Vector3f zero = sead::Vector3f::zero;
+    _14 = zero;
+    _20 = zero;
+    _2c = zero;
+    _38.set(0.0f, 0.0f, 0.0f);
     _44.set(1.0f, 1.0f, 1.0f);
+    _50.set(0.0f, 0.0f, 0.0f);
     _90 = sUnk_71025020e0[0];
     _94 = sUnk_71025020e0[1];
     _b0 = sUnk_71025020e0[2];
@@ -168,15 +173,18 @@ void Unk_SoundMgr38_28::sub_71010391AC(sead::Heap* heap, act::ActorCreator* crea
 }
 
 // 0x710103a038 (placeholder name): resets the handle, the three vectors and the unit scales.
-// NON_MATCHING: the zero-vector stores are paired and scheduled differently (0x2c / 0x30 / 0x34
-// are stored before 0x14 in ours); the value of every store is the same.
+// NON_MATCHING: the stores are ordered differently (the original starts with the unit-scale pair);
+// the two loads, every value and every store are the same.
 void Unk_SoundMgr38_38::sub_710103A038() {
     _8 = nullptr;
     _10 = 0;
-    _14 = _20 = _2c = sead::Vector3f::zero;
-    _38 = sead::Vector3f::zero;
+    const sead::Vector3f zero = sead::Vector3f::zero;
+    _14 = zero;
+    _20 = zero;
+    _2c = zero;
+    _38.set(0.0f, 0.0f, 0.0f);
     _44.set(1.0f, 1.0f, 1.0f);
-    _50 = sead::Vector3f::zero;
+    _50.set(0.0f, 0.0f, 0.0f);
     _cc = 0;
 }
 
