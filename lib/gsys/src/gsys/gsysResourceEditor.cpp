@@ -4,6 +4,8 @@ namespace gsys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(ResourceEditor)
 
+ResourceEditor::CreateArg::CreateArg() = default;
+
 ResourceEditor::ResourceEditor() {
     _1c58[0] = "0:off";
     _1c58[1] = "1:on";

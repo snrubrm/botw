@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
 namespace agl {
@@ -25,6 +26,20 @@ class ModelScene;
 class ResourceEditor : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(ResourceEditor)
 public:
+    // Constructor 0x7100c5d350: four null pointers and two option strings.
+    struct CreateArg {
+        CreateArg();
+
+        void* _0 = nullptr;
+        void* _8 = nullptr;
+        void* _10 = nullptr;
+        void* _18 = nullptr;
+        sead::SafeString mSkinningMacro = "GSYS_NUM_SKINNING_VTX";
+        sead::SafeString mRelationOption =
+            "-rel %AGL_ROOT%/../gsys/resources/raw/shader/model/gsys_uber/relations.txt";
+    };
+    static_assert(sizeof(CreateArg) == 0x40);
+
     ResourceEditor();
     virtual ~ResourceEditor();
 
