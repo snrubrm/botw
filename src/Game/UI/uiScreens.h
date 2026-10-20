@@ -2608,6 +2608,8 @@ public:
     bool sub_71009EA030() const;
     // 0x71009ea048 (placeholder name): resets the map widget when the screen owns one
     void sub_71009EA048();
+    // 0x71009eedf4 (placeholder name): fills the map widget's footprint cells when the screen owns one
+    void sub_71009EEDF4();
     // 0x71009ed41c (CSV Screen::x; placeholder name): the child of group / index cast to ScreenChildEx (the
     // original runs the cast twice)
     ScreenChildEx* getChildExMaybe(s32 group, s32 index);
