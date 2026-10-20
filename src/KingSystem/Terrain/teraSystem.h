@@ -176,32 +176,46 @@ public:
         struct EntryPart {
             // The per-cell attribute record read by the sampler 0x71010723c8.
             struct Record {
-                u8 _0[7];
+                u32 _0;
+                u8 _4;
+                u8 _5;
+                u8 _6;
                 /* 0x07 */ u8 _7;
                 /* 0x08 */ u8 _8;
                 /* 0x09 */ u8 _9;
                 /* 0x0a */ u8 _a;
-                u8 _b[0x12 - 0xb];
+                u8 _b;
+                u16 _c;
+                u16 _e;
+                u16 _10;
                 /* 0x12 */ u16 _12;
                 /* 0x14 */ u16 _14;
-                u8 _16[0x18 - 0x16];
+                u8 _16;
+                u8 _17;
                 /* 0x18 */ u8 _18;
                 /* 0x19 */ u8 _19;
-                u8 _1a[0x24 - 0x1a];
+                u8 _1a[2];
+                u32 _1c;
+                u32 _20;
                 /* 0x24 */ u8 _24;
                 /* 0x25 */ u8 _25;
                 /* 0x26 */ u8 _26;
                 /* 0x27 */ u8 _27;
-                u8 _28[0x34 - 0x28];
+                u32 _28;
+                u32 _2c;
+                f32 _30;
                 /* 0x34 */ u8 _34;
                 /* 0x35 */ s8 _35;
                 /* 0x36 */ s8 _36;
                 /* 0x37 */ s8 _37;
                 /* 0x38 */ u8 _38[0x3b - 0x38];
                 /* 0x3b */ u8 _3b;
-                u8 _3c[0x3e - 0x3c];
+                u8 _3c;
+                u8 _3d;
                 /* 0x3e */ u8 _3e;
+                u8 _3f;
             };
+            static_assert(sizeof(Record) == 0x40);
             // One cell of the grid at +0x1088: the flag at +0x8 (bit 0: cell present) and the
             // record at +0x10.
             struct Cell {
@@ -209,7 +223,11 @@ public:
                 /* 0x08 */ u32 mFlags;
                 u8 _c[4];
                 /* 0x10 */ Record* mRecord;
-                u8 _18[8];
+                u16 _18;
+                u16 _1a;
+                u32 _1c;
+
+                void reset();
             };
             static_assert(sizeof(Cell) == 0x20);
 

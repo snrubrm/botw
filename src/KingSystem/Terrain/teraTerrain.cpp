@@ -5,6 +5,7 @@
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <cmath>
+#include <random/seadGlobalRandom.h>
 #include <prim/seadBitUtil.h>
 #include <filedevice/seadFileDevice.h>
 #include <nn/gfx/gfx_ResTexture.h>
@@ -23,6 +24,48 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
 namespace ksys::tera {
+
+// NON_MATCHING: the first record stores reload its pointer once more.
+void Core::Grass::EntryPart::Cell::reset() {
+    mRecord->_0 = 0;
+    mRecord->_4 = 0;
+    _1c = 0xff0000;
+    mFlags = 0;
+    mRecord->_7 = 0;
+    mRecord->_8 = 0;
+    mRecord->_9 = 0;
+    mRecord->_a = 0;
+    _1a = 0;
+    mRecord->_c = 0;
+    mRecord->_e = 0;
+    mRecord->_10 = 0;
+    mRecord->_12 = 0xffff;
+    mRecord->_14 = 0xffff;
+    mRecord->_16 = 0;
+    mRecord->_17 = 0;
+    mRecord->_18 = 0xff;
+    mRecord->_19 = 0;
+    mRecord->_1c = 0;
+    mRecord->_20 = 0;
+    mRecord->_3f = 0;
+    _18 = 0;
+    mRecord->_24 = 0;
+    mRecord->_25 = 0;
+    mRecord->_26 = 0;
+    mRecord->_27 = 0;
+    mRecord->_28 = 0;
+    mRecord->_2c = 0;
+    mRecord->_30 = sead::GlobalRandom::instance()->getF32();
+    mRecord->_5 = sead::GlobalRandom::instance()->getU32(255);
+    mRecord->_6 = sead::GlobalRandom::instance()->getU32(255);
+    mRecord->_34 = 0;
+    mRecord->_35 = -1;
+    mRecord->_36 = -1;
+    mRecord->_37 = -1;
+    mRecord->_3c = 0;
+    mRecord->_3d = 0;
+    mRecord->_3e = 0;
+}
 
 // NON_MATCHING: index stream reads and the native buffer-address call are scheduled differently.
 void Terrain::sub_710114CE48(agl::DrawContext* context, const agl::ShaderProgram* program,
