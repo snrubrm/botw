@@ -266,4 +266,11 @@ f32 Unk_710251cea8::sub_71012E7864(s32 kind, const Cell* cell, u32, u32* result)
     return value;
 }
 
+// NON_MATCHING: the bounded uniform-buffer loop differs in scheduling.
+void Unk_710251cea8::setBufferIndex(u32 index) {
+    const u32 count = mCellSortLists[0].count;
+    for (u32 i = 0; i < count && i < 768; ++i)
+        _50[i].setBufferIndexMaybe(u8(index));
+}
+
 }  // namespace ksys::world

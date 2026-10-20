@@ -641,3 +641,14 @@ bool Unk_7102503a50::queueEvent(f32 radius, f32 value, s32 kind,
     }
     return queued;
 }
+
+namespace ksys::tera {
+
+// NON_MATCHING: the bounded uniform-buffer loop differs in scheduling.
+void Core::Grass::EntryPart::setBufferIndex(u32 index) {
+    const u32 count = _68;
+    for (u32 i = 0; i < count && i < 256; ++i)
+        mUniformBlocks[i].setBufferIndexMaybe(u8(index));
+}
+
+}  // namespace ksys::tera
