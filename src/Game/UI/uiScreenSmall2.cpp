@@ -3359,6 +3359,77 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248ea90::getEntries()
 
 }  // namespace uking::ui
 
+// The enabled-content flags the picture book's entry mapping reads (0x71025dc540, 12 bytes; filled by the
+// TU initialiser).
+KSYS_VISIBILITY_HIDDEN u8 sUnk_71025dc540[12];
+
+// NON_MATCHING: same size and instructions; clang evaluates the last enabled-content flag before the index
+// and mirrors the final ccmp / csel pair.
+// 0x71009d227c (placeholder name): the kind of the `index`-th enabled content, or 0.
+s32 sub_71009D227C(u32 index) {
+    u32 n = sUnk_71025dc540[0];
+    if (sUnk_71025dc540[0]) {
+        if (index == 0)
+            return index;
+        n = 1;
+    }
+    if (sUnk_71025dc540[1]) {
+        if (n == index)
+            return 1;
+        ++n;
+    }
+    if (sUnk_71025dc540[2]) {
+        if (n == index)
+            return 2;
+        ++n;
+    }
+    if (sUnk_71025dc540[3]) {
+        if (n == index)
+            return 3;
+        ++n;
+    }
+    if (sUnk_71025dc540[4]) {
+        if (n == index)
+            return 4;
+        ++n;
+    }
+    if (sUnk_71025dc540[5]) {
+        if (n == index)
+            return 5;
+        ++n;
+    }
+    if (sUnk_71025dc540[7]) {
+        if (n == index)
+            return 7;
+        ++n;
+    }
+    if (sUnk_71025dc540[8]) {
+        if (n == index)
+            return 8;
+        ++n;
+    }
+    if (sUnk_71025dc540[9]) {
+        if (n == index)
+            return 9;
+        ++n;
+    }
+    if (sUnk_71025dc540[6]) {
+        if (n == index)
+            return 6;
+        ++n;
+    }
+    if (sUnk_71025dc540[10]) {
+        if (n == index)
+            return 10;
+        ++n;
+    }
+    if (n == index) {
+        if (sUnk_71025dc540[11])
+            return 11;
+    }
+    return 0;
+}
+
 // 0x71009d1d08
 Unk_710247faf0::~Unk_710247faf0() = default;
 
