@@ -18,6 +18,15 @@ bool UiShopMgr::sub_7100982A60(s32 state, s32 value) {
     return true;
 }
 
+// 0x7100982124 (placeholder name): shows the selected item's name on the shop info screen.
+void UiShopMgr::sub_7100982124() {
+    if (u32(_30 - 7) < 2) {
+        if (auto* screen = sead::DynamicCast<ScreenShopInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopInfo)))
+            screen->sub_7100A525C8(_38.name, false);
+    }
+}
+
 // 0x7100982a7c (placeholder name): fills the selected item and its state value.
 bool UiShopMgr::sub_7100982A7C(s32 a1, const sead::SafeString& name, s32 price, s32 a2) {
     sub_71009821F0(a1);

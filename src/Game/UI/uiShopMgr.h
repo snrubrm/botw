@@ -85,6 +85,9 @@ public:
     // 0x7100982b9c (244 bytes): the state value the shop menu shows for `item` (state dispatch over
     // _30, forwarded to the four shop tag state helpers).
     u32 sub_7100982B9C(const ShopItem& item);
+    // 0x7100982124 (placeholder name): for the states 7 / 8, shows the selected item's name on the shop
+    // info screen.
+    void sub_7100982124();
     // 0x7100982a7c (placeholder name): fills the selected item (name, count 1, `price`) and its state,
     // then sets _c0 to 5 when the shop info screen is open and to 4 otherwise.
     bool sub_7100982A7C(s32 a1, const sead::SafeString& name, s32 price, s32 a2);
