@@ -22,13 +22,13 @@ GuardianComponentBind::~GuardianComponentBind() = default;
 // 0x710003c2dc / D0 0x710003c2e4: empty.
 Unk_710235b408::~Unk_710235b408() = default;
 
-bool Unk_710235b408::m6() {
+bool Unk_710235b408::m6(sead::Heap*) {
     return true;
 }
 
 void Unk_710235b408::m7(const ksys::act::BaseProc::PreDeleteArg&) {}
 
-void Unk_710235b408::m8() {}
+void Unk_710235b408::m8(ksys::act::BaseProc*) {}
 
 // Follows the owning Guardian's matrix.
 void Unk_710235b408::m9() {
@@ -37,6 +37,40 @@ void Unk_710235b408::m9() {
 }
 
 void Unk_710235b408::m13() {}
+
+// NON_MATCHING: the original writes _28 and the key through the new pointer without reloading mBind.
+bool GuardianWeakPointPart::m6(sead::Heap* heap) {
+    if (!mBind) {
+        mBind = new (heap) ksys::act::ModelBindInfo;
+        mBind->_28 = "Body";
+        mBind->_30.getKey() = {};
+        mBind->_68 = sead::Matrix34f::ident;
+        mBind->_98 = 3;
+        _8->sub_71011DA824(mBind);
+    }
+    return true;
+}
+
+void GuardianWeakPointPart::m7(const ksys::act::BaseProc::PreDeleteArg&) {
+    if (mBind) {
+        _8->sub_71011DA834(mBind);
+        delete mBind;
+        mBind = nullptr;
+    }
+}
+
+void GuardianWeakPointPart::m8(ksys::act::BaseProc* proc) {
+    if (mBind)
+        mBind->x(proc);
+}
+
+// Follows the owning Guardian's matrix.
+void GuardianWeakPointPart::m9() {
+    if (auto* guardian = _8->sub_710003D2B4())
+        _8->setMatrix(guardian->getMtx(), &sead::Vector3f::ones);
+}
+
+void GuardianWeakPointPart::m13() {}
 
 void GuardianComponentBind::m9() {}
 

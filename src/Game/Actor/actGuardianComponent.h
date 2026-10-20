@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace ksys::phys {
 class ContactPointInfo;
@@ -23,9 +24,11 @@ public:
     virtual ~GuardianComponentBind();
     // Slots 0x20-0x60 (vtable 0x710235b390; null entries are pure). Placeholder names; m7 is called by
     // GuardianComponent::preDelete2_, m10 by initMaybe, m13 by updateMtxFromPhysics.
-    virtual bool m6() = 0;
+    // m6 creates the subtype's binding objects on `heap`; m8 binds them to `proc`
+    // (GuardianWeakPointPart 0x710003c744 / 0x710003d4e0).
+    virtual bool m6(sead::Heap* heap) = 0;
     virtual void m7(const ksys::act::BaseProc::PreDeleteArg& arg) = 0;
-    virtual void m8() = 0;
+    virtual void m8(ksys::act::BaseProc* proc) = 0;
     virtual void m9();
     virtual void m10();
     virtual void m11();
@@ -46,9 +49,9 @@ class Unk_710235b408 : public GuardianComponentBind {
     SEAD_RTTI_OVERRIDE(Unk_710235b408, GuardianComponentBind)
 public:
     ~Unk_710235b408() override;
-    bool m6() override;
+    bool m6(sead::Heap* heap) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
-    void m8() override;
+    void m8(ksys::act::BaseProc* proc) override;
     void m9() override;
     void m13() override;
 
@@ -56,6 +59,23 @@ public:
     /* 0x30 */ f32 _30;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710235b408, 0x38);
+
+// Name from the CSV (GuardianWeakPointPart::getRuntimeTypeInfo 0x7100040944). vtable 0x710235b480;
+// prepareInit_ 3C41C allocates it with 0x18 bytes. D1 is the shared empty 0x710003c2dc.
+// It binds the component to the Guardian's "Body" bone with a ModelBindInfo.
+class GuardianWeakPointPart : public GuardianComponentBind {
+    SEAD_RTTI_OVERRIDE(GuardianWeakPointPart, GuardianComponentBind)
+public:
+    ~GuardianWeakPointPart() override = default;
+    bool m6(sead::Heap* heap) override;
+    void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
+    void m8(ksys::act::BaseProc* proc) override;
+    void m9() override;
+    void m13() override;
+
+    /* 0x10 */ ksys::act::ModelBindInfo* mBind = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(GuardianWeakPointPart, 0x18);
 
 // vtable 0x710235b700 (placeholder name; no RTTI of its own): the GuardianComponent's damage callback, forwarding to
 // Guardian::sub_710003B564 with the component's part. `call` (0x7100040e9c) is the key function; D0 0x7100040e54.
