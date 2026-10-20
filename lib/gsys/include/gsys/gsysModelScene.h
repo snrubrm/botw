@@ -103,7 +103,12 @@ public:
     sead::Atomic<s32> mDrawRequestCount;
     u8 _5634[4];
     Model** mDrawRequestModels;
-    u8 _5640[0x5d80 - 0x5640];
+    u8 _5640[0x56d0 - 0x5640];
+    // Owned scene-pass model: initialize 0x7100c0d9fc stores postCreateModel_
+    // here, binds the scene/procedural units, then binds the model to this scene.
+    // ItemFilter 0x7101293d68 searches its named units; calc requests its draw.
+    /* 0x56d0 */ Model* mSceneModel;
+    u8 _56d8[0x5d80 - 0x56d8];
 
     // Flags (0xa39 after construction). Game code sets bit 1 after it applied an env set (SystemApplyEnvSetAction)
     // and bit 13 when it creates the scene; ModelScene's own code reads bits 0, 1, 2, 5 and 8.
@@ -123,6 +128,7 @@ public:
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
 static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);
 static_assert(offsetof(ModelScene, _52e0) == 0x52e0);
+static_assert(offsetof(ModelScene, mSceneModel) == 0x56d0);
 static_assert(offsetof(ModelScene, mFlags) == 0x5d80);
 static_assert(sizeof(ModelScene) == 0x5f20);
 

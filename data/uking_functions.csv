@@ -102963,7 +102963,7 @@ Address,Quality,Size,Name
 0x000000710153047c,L,000004,nullsub_6164
 0x0000007101530480,L,001604,hkai_coherentGCP
 0x0000007101530ac4,L,000800,hkaiNavMeshQueryMediator::coherentCastBidirectionalRay
-0x0000007101530de4,L,000008,
+0x0000007101530de4,L,000008,_ZNK19hkaiAstarEdgeFilter14isEnabledMaybeERKNS_33NavVolumeIsEnabledCallbackContextE
 0x0000007101530dec,L,000008,
 0x0000007101530df4,L,000120,hkaiPlaneVolume::ctorFinish
 0x0000007101530e6c,L,000200,hkaiPlaneVolume::calcPointsInside

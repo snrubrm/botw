@@ -48,7 +48,8 @@ public:
     // The hook's signature is unknown; only its position is recovered.
     virtual void m5();
     virtual bool isEnabledMaybe(const NavMeshIsEnabledCallbackContext& context) const = 0;
-    virtual bool isEnabledMaybe(const NavVolumeIsEnabledCallbackContext& context) const = 0;
+    // Shared base default 0x7101530de4 returns true; game filters inherit it.
+    virtual bool isEnabledMaybe(const NavVolumeIsEnabledCallbackContext& context) const;
 
 private:
     // Reflected enum "type" has byte storage at +0xc; its values are unknown.
