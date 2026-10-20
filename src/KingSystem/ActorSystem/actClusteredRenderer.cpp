@@ -192,7 +192,7 @@ void ClusteredRenderer::postCalcWorld(const gsys::ModelScene*, u32, u32, const g
                                       int) {}
 
 // TODO: 0x7101248af0 (1964 bytes), not decompiled yet; the vtable needs a definition.
-void ClusteredRenderer::sub_7101248AF0(void*, const void*) {}
+void ClusteredRenderer::drawProceduralPassMaybe(int, gsys::ModelRenderCache*) const {}
 
 void ClusteredRenderer::startThread() {
     if ((mData2._c9c & 0x40000000) == 0)

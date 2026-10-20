@@ -31,6 +31,11 @@ bool ModelRenderUnit::getSubMeshBoundAABB(int, int, sead::BoundBox3f*) const {
     return false;
 }
 
+void ModelRenderUnit::getBoundSphereImpl(sead::Sphere3f* sphere) const {
+    sphere->setCenter(sead::Vector3f::zero);
+    sphere->setRadius(sead::Mathf::maxNumber());
+}
+
 s32 ModelRenderUnit::getPassTextureBit() const {
     return 0;
 }

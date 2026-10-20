@@ -282,8 +282,8 @@ public:
     // 0x71012481f8 (declaration only)
     void postCalcWorld(const gsys::ModelScene* scene, u32, u32,
                        const gsys::ModelViewData* model_view_data, int) override;
-    // 0x7101248af0 (declaration only; placeholder name and argument types): new virtual, slot 83.
-    virtual void sub_7101248AF0(void* unused, const void* arg);
+    // 0x7101248af0: procedural pass callback, primary vtable slot +0x298.
+    void drawProceduralPassMaybe(int index, gsys::ModelRenderCache* cache) const override;
 
     // 0x7101249fc0 (placeholder name): tries to lock _218, _198 and _1d8; on failure unlocks the ones taken.
     bool sub_7101249FC0();

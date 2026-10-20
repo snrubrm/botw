@@ -8,6 +8,8 @@
 
 namespace gsys {
 
+class ModelRenderCache;
+
 // Destructor 0x7100c7fc2c installs vtable 0x71024d1af8 and ends with ~ModelUnit. Its RTTI functions
 // 0x7100c1444c / 0x7100c14518 are shared by the game subclass with vtable 0x71024f4720.
 class IModelProcedural : public ModelUnit {
@@ -35,6 +37,11 @@ public:
     const ModelRenderUnit* getModelRenderUnit(int index) const override;
     void setProcedualPassPriority(int index, int a, int b);
     void setMaterialVisible(int index, bool visible);
+
+    // Native extra slot +0x298, after ModelUnit's final slot +0x290.
+    // Render-unit draw C800E0 forwards its material index and cache here;
+    // Graphics overrides it with F35028 -> F34F1C. Name is descriptive.
+    virtual void drawProceduralPassMaybe(int index, ModelRenderCache* cache) const = 0;
 
     // The pass array elements: 0x38 bytes (array stride in the destructor), vtable 0x71024d1da8.
     // The destructor 0x7100c7fc2c inlines their destructor (vtable store, then the base D2).

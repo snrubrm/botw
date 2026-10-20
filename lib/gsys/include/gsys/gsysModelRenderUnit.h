@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <geom/seadSphere.h>
 #include <math/seadBoundBox.h>
 
 namespace agl::cull {
@@ -42,6 +43,8 @@ public:
     s32 getMeshNum() const;
     s32 getSubMeshNum(int) const;
     bool getSubMeshBoundAABB(int, int, sead::BoundBox3f* aabb) const;
+    // 0x7100c800a0: the default bound is centered at zero with the maximum finite radius.
+    void getBoundSphereImpl(sead::Sphere3f* sphere) const;
     s32 getPassTextureBit() const;
     bool isVisible() const;
 
