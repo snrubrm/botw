@@ -11,6 +11,10 @@ namespace agl::pfx {
 class DepthOfField;
 }
 
+namespace agl::fx {
+class OccludedEffectMgr;
+}
+
 namespace sead {
 class WorkerMgr;
 }
@@ -71,10 +75,10 @@ public:
 
     u8 _3430[0x3700 - 0x3430];
 
-    // Ofx preset manager. Graphics 0x7100f2ddf0 looks up a preset through it and calls
-    // agl::fx::OfxBase::loadPresetByIndex; ModelScene 0x7100c2c840 / 0x7100c2c854 also dispatch
-    // through it. The concrete class is not modelled.
-    /* 0x3700 */ void* mOfxManager;
+    // Ofx preset manager. Graphics 0x7100f2ddf0 looks up a preset through it (the manager is the
+    // pointer it passes to OccludedEffectMgr::getOfx) and calls agl::fx::OfxBase::loadPresetByIndex;
+    // ModelScene 0x7100c2c840 / 0x7100c2c854 also dispatch through it.
+    /* 0x3700 */ agl::fx::OccludedEffectMgr* mOfxManager;
 
     u8 _3708[0x3758 - 0x3708];
 
