@@ -256,6 +256,22 @@ bool ScreenPauseMenu::sub_7100A3A7FC(s32 page, s32 offset) {
     return true;
 }
 
+// 0x71009afcf4
+void Unk_710247a028::m24(sead::Heap* heap) {
+    _cc8.sub_7100A814D8(heap, 0, mButtons.size(), "uiPage20_00PAScreen");
+}
+
+// 0x71009afe58
+void Unk_710247a028::m25() {
+    _cc8.sub_7100A816D8();
+}
+
+// 0x71009afe60
+void Unk_710247a028::m21() {
+    for (s32 i = 0; i < mButtons.size(); ++i)
+        _cc8.unload(i);
+}
+
 // 0x71009b01b4
 sead::Vector2f Unk_710247a028::sub_71009B01B4() const {
     const auto& position = mLayout->mPane->GetPosition();

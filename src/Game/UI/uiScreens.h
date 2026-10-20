@@ -2942,6 +2942,12 @@ KSYS_CHECK_SIZE_NX150(ScreenButton_7100989968, 0x90);
 class Unk_710247a028 : public ScreenChildEx {
 public:
     explicit Unk_710247a028(eui::LayoutEx* layout);
+    // 0x71009afe60: unloads every button texture
+    void m21() override;
+    // 0x71009afcf4: sets up one texture slot per button from uiPage20_00PAScreen
+    void m24(sead::Heap* heap) override;
+    // 0x71009afe58
+    void m25() override;
 
     /* 0x130 */ s32 _130;
     // index of the first item shown in mButtons
