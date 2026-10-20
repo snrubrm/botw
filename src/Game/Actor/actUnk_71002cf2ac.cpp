@@ -316,7 +316,8 @@ bool Unk_71007237d0::sub_7100723A84(const sead::SafeString& name) {
 // NON_MATCHING: the SafeArray iterator uses an element index instead of the original byte offset.
 void SiteBoss::Unk_71002cf2ac::sub_710066CD7C(u32 value) {
     _94 = value;
-    for (auto& link : _1e0) {
+    for (s32 i = 0; i < 20; ++i) {
+        auto& link = _1e0[i];
         if (link.hasProc()) {
             ksys::act::ActorLinkConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
