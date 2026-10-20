@@ -751,6 +751,10 @@ public:
     void sub_71010252C0(Unk_SpotBgmInstance* instance, bool started);
     void sub_7101025388(Unk_SpotBgmInstance* instance);
     void sub_710102544C(bool entering);
+    // 0x71010254f4 (placeholder name): sets the position of request `id` unless another one is set (bit 0 of _84).
+    void sub_71010254F4(u32 id, const sead::Vector3f& position);
+    // 0x7101025530 (placeholder name): updates the position request `id` or fills a free one (bit 1 of _84).
+    void sub_7101025530(u32 id, const sead::Vector3f& position);
     // 0x71010255d0: clears _80 and resets the volume of mGroup to 1.
     void sub_71010255D0();
 
@@ -776,7 +780,8 @@ public:
     // The "EnvNoisy" group (0x7101024ad4).
     /* 0x78 */ aal::Group* mGroup = nullptr;
     /* 0x80 */ f32 _80 = 0.0f;
-    /* 0x84 */ bool _84 = false;
+    // Bit 0: the position at _54 was set; bit 1: a request in _60 was set (m5 consumes both).
+    /* 0x84 */ u8 _84 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260f1a8, 0x88);
 static_assert(offsetof(Unk_710260f1a8, _40) == 0x40);

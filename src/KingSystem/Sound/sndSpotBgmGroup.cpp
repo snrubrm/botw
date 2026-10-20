@@ -63,6 +63,32 @@ void Unk_710260f1a8::sub_7101025388(Unk_SpotBgmInstance* instance) {
     }
 }
 
+void Unk_710260f1a8::sub_71010254F4(u32 id, const sead::Vector3f& position) {
+    if (_50 == 0 || _50 == id) {
+        _50 = id;
+        _54 = position;
+    }
+    _84 |= 1;
+}
+
+void Unk_710260f1a8::sub_7101025530(u32 id, const sead::Vector3f& position) {
+    PositionRequest* free_request = nullptr;
+    for (s32 i = 0; i < _60.size(); ++i) {
+        auto& request = _60[i];
+        if (request.mActive == id) {
+            request.mPosition = position;
+            return;
+        }
+        if (!free_request)
+            free_request = request.mActive == 0 ? &request : nullptr;
+    }
+    if (free_request) {
+        free_request->mActive = id;
+        free_request->mPosition = position;
+    }
+    _84 |= 2;
+}
+
 void Unk_710260f1a8::sub_71010255D0() {
     _80 = 0;
     if (mGroup)
@@ -137,7 +163,7 @@ void Unk_710260f1a8::m5() {
         }
         if (found)
             setSubTrack1DistanceMaybe(nearest);
-        _84 = false;
+        _84 = 0;
     }
     const bool active = _40.isActive();
     for (s32 i = 0; i < mInstances.size(); ++i) {
