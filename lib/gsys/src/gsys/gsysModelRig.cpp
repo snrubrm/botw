@@ -91,4 +91,8 @@ void ModelRig::m25(Model*, const MaterialAccessKey&, const sead::SafeString&) {}
 
 void ModelRig::m26(Model*, int) {}
 
+s32 ModelRig::getTypeID() const {
+    return sTypeInfo->id;
+}
+
 }  // namespace gsys

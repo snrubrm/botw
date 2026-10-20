@@ -16,6 +16,8 @@ public:
 
     s32 getTypeID() const override;
 
+    static const agl::env::TypeInfo* sTypeInfo;
+
     // Nonvirtual helper called by the game light owner 0x7100f17e50,
     // which also passes this Context to ParameterBase::genMessageParameter.
     void sub_7100C83D44(sead::hostio::Context* context);
