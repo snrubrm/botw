@@ -2429,6 +2429,9 @@ public:
     void sub_7100A866BC(f32 x, f32 y, bool flag);
     // 0x7100a843f4 (not decompiled, 3184 bytes): the state-2 step that consumes the pending cell
     void sub_7100A843F4();
+    // 0x7100a85fac (placeholder name): drops the invalid cells and the repeated ones, rewriting each kept
+    // cell's zone.
+    void sub_7100A85FAC();
 
     /* 0x08 */ s32 mState = 0;
     /* 0x10 */ sead::Buffer<u32> mCells;

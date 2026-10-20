@@ -401,6 +401,41 @@ bool Unk_710249d330::isIdle() const {
 
 // NON_MATCHING: the original decodes both cell coordinates before the compare and folds them into a ccmp
 // pair (660 bytes); clang short-circuits the second decode (636 bytes).
+// NON_MATCHING: same size and instructions; only the register numbers of the loop counter, the write index and
+// the last cell differ.
+// 0x7100a85fac
+void Unk_710249d330::sub_7100A85FAC() {
+    s32 out = 0;
+    s32 last_y = 0;
+    s32 last_x = 0;
+    for (s32 i = 0; i < mCount; ++i) {
+        const u32 cell = mCells[i];
+        s32 x = (cell >> 13) & 0x1fff;
+        if (cell & 0x4000000)
+            x = -x;
+        s32 y = cell & 0xfff;
+        if (cell & 0x1000)
+            y = -y;
+        if (s32(cell) < 0 && (x != 0 || y != 0)) {
+            if (last_y == y && out > 0 && last_x == x) {
+                if (!(cell & 0x20000000))
+                    continue;
+                --out;
+            }
+            const s32 zone = ((x + 5000) / 0x96) * 0x36 + (y + 4000) / 0x96;
+            if (!(zone & 0xf000)) {
+                const u32 packed = (cell & 0x20000000) == 0 ? (cell & 0x7ffffff) : (cell | 0x8000000);
+                mFlags[out] = u8(zone >> 4);
+                mCells[out] = (packed & 0xfffffff) | (u32(zone) << 28);
+                ++out;
+                last_y = y;
+                last_x = x;
+            }
+        }
+    }
+    mCount = out;
+}
+
 // 0x7100a866bc
 void Unk_710249d330::sub_7100A866BC(f32 x, f32 y, bool flag) {
     if (!ksys::aoc::Manager::instance()->hasAoc2())
