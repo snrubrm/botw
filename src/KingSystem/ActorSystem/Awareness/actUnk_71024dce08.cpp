@@ -76,6 +76,13 @@ sead::BitFlag8* Unk_71024dcea8::m16() {
     return &_68;
 }
 
+void Unk_71024dcea8::m17() {
+    if (_c8 == 0.0f)
+        _8.clear();
+    else
+        _dc = true;
+}
+
 f32 Unk_71024dcd68::m14() {
     return _54;
 }

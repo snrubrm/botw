@@ -130,6 +130,8 @@ public:
              const sead::Matrix34f& sensor_matrix, const sead::Matrix34f& target_matrix,
              const sead::Vector3f& base_position, const sead::Vector3f& target_position,
              bool flag) override;
+    // 0x7100d81dd0: clears the candidates unless _c8 is set; then only sets _dc.
+    void m17() override;
 
     // The 0x128-byte target entries the destructors free (only the in-use word is known).
     struct TargetEntry {
@@ -165,6 +167,7 @@ public:
     /* 0xd0 */ f32 _d0;
     /* 0xd4 */ f32 _d4;
     /* 0xd8 */ f32 _d8;
+    /* 0xdc */ bool _dc;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024dcea8, 0xe0);
 static_assert(offsetof(Unk_71024dcea8, _70) == 0x70);
