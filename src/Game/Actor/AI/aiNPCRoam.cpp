@@ -1,3 +1,5 @@
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/AI/aiNPCRoam.h"
 #include "random/seadGlobalRandom.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -83,6 +85,47 @@ void NPCRoam::sub_71004D8644() {
     pack.addInt(wait_frame, "DynWaitFrame", -1);
     pack.addString(mWaitASName_d, "DynASName", -1);
     changeChild("待機", &pack);
+}
+
+// Native two-element angle table: attempts 0..49 use pi/2, then attempts 50..99 use pi.
+static const f32 sUnk_7101e78ecc[] = {3.1415927410125732f, 1.5707963705062866f};
+
+// 0x71004d7dd8
+// NON_MATCHING: native navigation/no-navigation loop specialization and matrix scheduling differ.
+void NPCRoam::sub_71004D7DD8() {
+    auto* nav = mActor->m45();
+    const sead::Vector3f origin = mActor->getMtx().getTranslation();
+    bool found = false;
+    for (s32 i = 0; i < 100; ++i) {
+        const f32 distance = sead::GlobalRandom::instance()->getF32Range(*mWalkDistMin_s, *mWalkDistMax_s);
+        const sead::Vector3f forward = mActor->getMtx().getBase(2) * distance;
+        const f32 angle_range = sUnk_7101e78ecc[i < 50];
+        const f32 yaw = sead::GlobalRandom::instance()->getF32Range(-angle_range, angle_range);
+        sead::Matrix33f rotation;
+        rotation.makeR(sead::Vector3f(0.0f, yaw, 0.0f));
+        const sead::Vector3f candidate = origin + rotation * forward;
+        // Native also evaluates this length when there is no navigation character.
+        const f32 from_basis = (candidate - *mBasisPos_d).length();
+        if (nav && from_basis < *mRadius_s) {
+            ksys::phys::HavokAI::Unk2 query;
+            const f32 nan = std::numeric_limits<f32>::quiet_NaN();
+            query.from.set(nan, nan, nan);
+            query._10 = candidate;
+            query._30 = 0xff;
+            auto* havok = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+            if (havok->sub_7100F86324(nav, query, nullptr)) {
+                _78 = candidate;
+                found = true;
+                break;
+            }
+        }
+    }
+    if (!found)
+        _78 = *mBasisPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_78, "TargetPos", -1);
+    pack.addString(_88, "DynASKeyName", -1);
+    changeChild("移動", &pack);
 }
 
 }  // namespace uking::ai
