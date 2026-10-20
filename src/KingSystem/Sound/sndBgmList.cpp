@@ -383,7 +383,7 @@ public:
                    const agl::utl::Parameter<f32>* odds1)
         : mOwner(owner), mOdds0(odds0), mOdds1(odds1) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100b9f8
@@ -410,7 +410,7 @@ public:
     Unk_71024fe528(Unk_71024fe368* owner, const agl::utl::Parameter<f32>* odds)
         : mOwner(owner), mOdds(odds) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100bac0
@@ -434,7 +434,7 @@ public:
     Unk_71024fe578(Unk_71024fe368* owner, Unk_71024fe368::Section section)
         : mOwner(owner), mSection(section) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100bb6c
@@ -454,7 +454,7 @@ public:
     Unk_71024fe5c8(Unk_71024fe368* owner, const agl::utl::Parameter<f32>* odds)
         : mOwner(owner), mOdds(odds) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100bc0c
@@ -480,13 +480,12 @@ public:
         : mOwner(owner), mPart(part), mBeats(beats) {}
 
     // 0x710100bcd4
-    // NON_MATCHING: the original returns false as a 64-bit zero (mov x0, xzr).
-    bool isDone() override {
+    NodeResult isDone() override {
         if (mCounter != 0) {
             --mCounter;
-            return false;
+            return NodeResult::Running;
         }
-        return true;
+        return NodeResult::Next;
     }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
@@ -514,7 +513,7 @@ public:
     Unk_71024fe668(Unk_71024fe368* owner, const agl::utl::Parameter<s32>* threshold)
         : mOwner(owner), mThreshold(threshold) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     // 0x710100bd64
     // NON_MATCHING: the original loads the owner before the flag test and selects the tension address with csel.
     Unk_EnvBgmNode* getNext() override {
@@ -537,7 +536,7 @@ class Unk_71024fe748 : public Unk_EnvBgmNode {
 public:
     explicit Unk_71024fe748(Unk_71024fe368* owner) : mOwner(owner) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x710100ca60

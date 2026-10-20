@@ -78,13 +78,18 @@ KSYS_CHECK_SIZE_NX150(Unk_71024fdb00, 0x200);
 
 // Placeholder base of the environment and field battle BGM nodes (each node keeps its owner at +0x10; no vtable of its own is emitted: slots 0-2 and 4 are defined by each
 // node). Slots 3 and 5 are the shared empty functions 0x7101006960 / 0x7101006964.
+// What a node tells the node machine (Unk_71024fdde8::sub_7101014320) after an update: keep running it, move to
+// the next node, or stop the machine. A four-byte class returned in x0 (the nodes return 0 as `mov x0, xzr`); the
+// machine switches on it through the stack like a SEAD_ENUM. Names are guesses.
+SEAD_ENUM(NodeResult, Running, Next, End)
+
 class Unk_EnvBgmNode {
 public:
     Unk_EnvBgmNode() = default;
     virtual ~Unk_EnvBgmNode() = default;
 
-    // True when the node is finished and the machine may move on (placeholder name).
-    virtual bool isDone() = 0;
+    // Whether the node is finished and the machine may move on (placeholder name).
+    virtual NodeResult isDone() = 0;
     virtual Unk_EnvBgmNode* getNext() = 0;
     virtual void setNext(Unk_EnvBgmNode* next) = 0;
     virtual void setBranch(Unk_EnvBgmNode* next, s32 index) {}
@@ -105,7 +110,7 @@ public:
                    const agl::utl::Parameter<u32>* wait_count, const MusicInfo::MinMax<f32>* volume,
                    const MusicInfo::MinMax<f32>* pan);
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x7101005f44
@@ -138,7 +143,7 @@ public:
     Unk_71024fdbe8(Unk_71024fdb00* owner, const sead::SafeString& name,
                    const MusicInfo::MinMax<f32>* volume, const MusicInfo::MinMax<f32>* pan);
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x7101006204
@@ -201,13 +206,12 @@ public:
                    const MusicInfo::MinMax<f32>* pan);
 
     // 0x71010064f0
-    // NON_MATCHING: the original returns false as a 64-bit zero (mov x0, xzr).
-    bool isDone() override {
+    NodeResult isDone() override {
         if (mCounter != 0) {
             --mCounter;
-            return false;
+            return NodeResult::Running;
         }
-        return true;
+        return NodeResult::Next;
     }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
@@ -246,13 +250,12 @@ public:
                    const MusicInfo::MinMax<f32>* pan);
 
     // 0x71010067d4
-    // NON_MATCHING: the original returns false as a 64-bit zero (mov x0, xzr).
-    bool isDone() override {
+    NodeResult isDone() override {
         if (mCounter != 0) {
             --mCounter;
-            return false;
+            return NodeResult::Running;
         }
-        return true;
+        return NodeResult::Next;
     }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
@@ -290,7 +293,9 @@ public:
     explicit Unk_71024fdcd8(Unk_71024fdb00* owner) : mOwner(owner) {}
 
     // 0x7101006020
-    bool isDone() override { return mBeatState != mOwner->_1bc; }
+    NodeResult isDone() override {
+        return mBeatState != mOwner->_1bc ? NodeResult::Next : NodeResult::Running;
+    }
     Unk_EnvBgmNode* getNext() override { return mNext; }
     void setNext(Unk_EnvBgmNode* next) override { mNext = next; }
     // 0x7101006010
@@ -307,7 +312,7 @@ class Unk_71024fdd28 : public Unk_EnvBgmNode {
 public:
     explicit Unk_71024fdd28(Unk_71024fdb00* owner) : mOwner(owner) {}
 
-    bool isDone() override { return true; }
+    NodeResult isDone() override { return NodeResult::Next; }
     // 0x71010068fc
     Unk_EnvBgmNode* getNext() override {
         const auto section = mOwner->_1b4;

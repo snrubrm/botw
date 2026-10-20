@@ -16,6 +16,46 @@ void Unk_71024fdde8::start() {
     }
 }
 
+// NON_MATCHING: the original merges the return values into one `or` of a loop-limit flag and a status flag.
+bool Unk_71024fdde8::sub_7101014320() {
+    if (!_18 || !_10)
+        return true;
+    s32 count = 0;
+    do {
+        auto* node = _10;
+        if (!node->_8) {
+            node->start();
+            node->_8 = true;
+        }
+        switch (_10->isDone()) {
+        case NodeResult::Next: {
+            auto* current = _10;
+            if (current->_8) {
+                current->m5();
+                current->_8 = false;
+            }
+            auto* next = _10->getNext();
+            if (!next)
+                return true;
+            next->_8 = false;
+            _10 = next;
+            break;
+        }
+        case NodeResult::Running:
+            return false;
+        case NodeResult::End: {
+            auto* current = _10;
+            if (current->_8) {
+                current->m5();
+                current->_8 = false;
+            }
+            return true;
+        }
+        }
+    } while (++count < 20);
+    return true;
+}
+
 void Unk_71024fdde8::reset() {
     if (_10)
         _10->_8 = false;

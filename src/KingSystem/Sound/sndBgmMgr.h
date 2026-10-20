@@ -129,8 +129,9 @@ struct Unk_71024fdde8 {
 
     // 0x7101014300: makes `_8` the current node and sets `_18`, once.
     void start();
-    // 0x7101014320 (declared only): runs the current node and follows the chain.
-    void sub_7101014320();
+    // 0x7101014320: starts and updates the current node and follows the chain (at most 20 nodes per call); false
+    // while a node is still running.
+    bool sub_7101014320();
     // 0x7101014450: clears the started flag of the current node and goes back to the first one.
     void reset();
     // 0x7101014468: true when there is no first node, or the first node is current and not started.
