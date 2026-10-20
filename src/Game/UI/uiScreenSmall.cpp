@@ -21,7 +21,9 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include <math/seadMathCalcCommon.h>
 
 // Small leaf screen methods (named after their CSV address).
 namespace uking::ui {
@@ -389,6 +391,26 @@ void ShopInfoTagRow::sub_71009B0CF4(ShopInfoTagData* data) {
     }
 }
 
+// 0x71009b0db4
+void Unk_710247a6d8::sub_71009B0DB4(const PouchItem* item) {
+    const auto& item_name = item->getName();
+    {
+        eui::MessageString message;
+        sub_7100AA2BDC(item_name, &message);
+        setWidgetString(mLayout, "T_ItemName_00", message);
+        setWidgetString(mLayout, "T_CookName_00", sead::SafeString::cEmptyString);
+    }
+    sead::FixedSafeString<64> name;
+    sub_7100AA4354(item, &name);
+    eui::MessageString tag_message;
+    if (_148) {
+        if (sub_7100AA2E08(name, &tag_message))
+            sub_7100AA2E08(item_name, &tag_message);
+        _148->sub_7100BD9CDC(tag_message, 0);
+        _148->sub_7100BD9B5C();
+    }
+}
+
 // 0x71009b0eec
 void Unk_710247a6d8::sub_71009B0EEC(u32 frame) {
     if (_130)
@@ -418,6 +440,15 @@ void Unk_710247a6d8::sub_71009B102C(const PouchItem* item) {
     _1d8.sub_71009C68B8(info.star_num);
 }
 
+// 0x71009b108c
+// NON_MATCHING: Unk_710247ade8::sub_71009B26B8 is defined in this file and gets inlined
+void Unk_710247a6d8::sub_71009B108C(const sead::SafeString& name) {
+    ArmorInfo info;
+    getArmorInfoMaybe(name, &info);
+    _158.sub_71009B26B8(info, false);
+    _1d8.sub_71009C68B8(info.star_num);
+}
+
 // 0x71009b10ec
 void Unk_710247a6d8::sub_71009B10EC(s32 value) {
     if (_150) {
@@ -440,6 +471,37 @@ void Unk_710247a6d8::sub_71009B1148(const CookingInfo& info) {
         _150->set50(ratio);
     }
     _190.sub_71009B1D74(info);
+}
+
+// 0x71009b11b8
+void Unk_710247a6d8::sub_71009B11B8() {
+    if (!_1c8)
+        return;
+    const f32 time = ksys::gdt::getFlag_MasterSwordRecoverTime();
+    const s32 minutes = sead::Mathf::ceil(time / f32(sub_7100AA946C()));
+    sub_7100AA3914(_1c8, "T_Time_00", 1, minutes, -1);
+    eui::MessageString message;
+    getMessage("LayoutMsg/PauseMenuInfo_00", "0011", &message);
+    setWidgetString(_1c8, "T_SubText_00", message);
+    if (_1d0)
+        _1d0->StopAtMax();
+}
+
+// 0x71009b12b0
+void Unk_710247a6d8::sub_71009B12B0(f32 time) {
+    if (!_1c8)
+        return;
+    const s32 minutes = sead::Mathf::ceil(time / f32(sub_7100AA946C()));
+    sub_7100AA3914(_1c8, "T_Time_00", 1, minutes, -1);
+    eui::MessageString message;
+    getMessage("LayoutMsg/PauseMenuInfo_00", "0010", &message);
+    setWidgetString(_1c8, "T_SubText_00", message);
+    if (minutes <= 0) {
+        if (_1d0)
+            _1d0->StopAtMin();
+    } else if (_1d0) {
+        _1d0->StopAtMax();
+    }
 }
 
 // 0x7100a3df9c

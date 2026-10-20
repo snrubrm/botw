@@ -306,6 +306,8 @@ public:
     void sub_71009B0EEC(u32 frame);
     // 0x71009b0fcc: fills the weapon modifier display from a pouch item
     void sub_71009B0FCC(const PouchItem* item);
+    // 0x71009b0db4: shows the item name, clears the cook name and feeds the item's description to _148
+    void sub_71009B0DB4(const PouchItem* item);
     // 0x71009b0c24: sets the gauge _150 and clears its byte at 0x6c
     void sub_71009B0C24(eui::TraceGaugeControl* gauge);
     // 0x71009b10ec: sets the gauge to `value` out of 120 and closes the _190 layout
@@ -314,18 +316,24 @@ public:
     void sub_71009B1024();
     // 0x71009b102c: fills the armor effect display from a pouch item
     void sub_71009B102C(const PouchItem* item);
+    // 0x71009b108c: fills the armor effect display from an item name
+    void sub_71009B108C(const sead::SafeString& name);
     // 0x71009b1148 (placeholder name): sets the gauge speed from the food's value out of 120 and fills the
     // cooking info display
     void sub_71009B1148(const CookingInfo& info);
+    // 0x71009b11b8: shows the Master Sword recovery time in the _1c8 layout and plays _1d0
+    void sub_71009B11B8();
+    // 0x71009b12b0: shows a remaining time in the _1c8 layout; _1d0 at its end while time remains
+    void sub_71009B12B0(f32 time);
     /* 0x130 */ eui::Animator* _130 = nullptr;
     /* 0x138 */ eui::Animator* _138 = nullptr;
     /* 0x140 */ eui::Animator* _140 = nullptr;
-    /* 0x148 */ void* _148 = nullptr;
+    /* 0x148 */ eui::LetterAnimControl* _148 = nullptr;
     /* 0x150 */ eui::TraceGaugeControl* _150 = nullptr;
     /* 0x158 */ Unk_710247ade8 _158;
     /* 0x190 */ Unk_710247ada8 _190;
-    /* 0x1c8 */ void* _1c8 = nullptr;
-    /* 0x1d0 */ void* _1d0 = nullptr;
+    /* 0x1c8 */ eui::LayoutEx* _1c8 = nullptr;
+    /* 0x1d0 */ eui::Animator* _1d0 = nullptr;
     /* 0x1d8 */ Unk_710247dc70 _1d8;
 };
 static_assert(sizeof(Unk_710247a6d8) == 0x1f0);
