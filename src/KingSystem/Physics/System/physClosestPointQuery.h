@@ -4,7 +4,7 @@
 #include <math/seadMatrix.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
-namespace ksys::snd { class Unk_SoundMgr38_48; }
+namespace ksys::snd { class Unk_SoundMgr38_48; class OcclusionMgr; }
 namespace ksys::xlink { class ChemicalEventState; }
 
 namespace ksys::phys {
@@ -34,6 +34,8 @@ protected:
     friend class ksys::snd::Unk_SoundMgr38_48;
     // The chemical indoor probes inspect this same execution status after execute().
     friend class ksys::xlink::ChemicalEventState;
+    // The sound occlusion query checks the same execution status.
+    friend class ksys::snd::OcclusionMgr;
 
     void reset();
 
