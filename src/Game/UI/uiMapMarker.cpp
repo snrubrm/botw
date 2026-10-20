@@ -1196,6 +1196,13 @@ void Unk_7102476350::m12() {
         m25(false);
 }
 
+// 0x7100956e9c
+void Unk_7102476350::m15() {
+    if (!(_3c & 0x10) && UiSubsys1::instance()->_848 == 0)
+        m24(false);
+    UiSubsys1Entry::m15();
+}
+
 void Unk_7102476350::m17() {
     if (!(_3c & 0x10) && UiSubsys1::instance()->_848 == 0)
         m24(false);
@@ -1240,6 +1247,11 @@ void Unk_7102476548::m4() {
 void Unk_7102476548::m5() {
     UiSubsys1Entry::m13();
     m16();
+}
+
+// 0x7100957260
+void Unk_7102476548::m6() {
+    UiSubsys1Entry::m15();
 }
 
 void Unk_7102476548::m7() {
