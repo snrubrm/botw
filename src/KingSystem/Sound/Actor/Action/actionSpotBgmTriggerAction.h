@@ -32,6 +32,8 @@ public:
     void sub_71010239A8();
     void sub_7101023F68(f32 volume);
     void sub_71010241D0(bool allow, bool fade_in);
+    // Re-emits the spot BGM handle when it has no entry.
+    void sub_7101024374();
     // 0x71010242c8 (placeholder name): if flag 4 is set, clears flags 0xc and stores 1.0 in `_260` when flag
     // 0x8000 is set (0.0 otherwise).
     void sub_71010242C8();
@@ -104,8 +106,6 @@ void setSubTrack0DistanceMaybe(f32 distance);
 void setSubTrack1DistanceMaybe(f32 distance);
 void clearSubTrackDistancesMaybe();
 
-// 0x7101024374 (declared only; 824 B): re-emits the spot BGM handle when it has no entry.
-void sub_7101024374(Unk_SpotBgmInstance* instance);
 // 0x7101024808 (declared only): applies the instance's filter / volume state.
 void sub_7101024808(Unk_SpotBgmInstance* instance);
 

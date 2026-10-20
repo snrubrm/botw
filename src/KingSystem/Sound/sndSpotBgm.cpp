@@ -6,6 +6,8 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Sound/Actor/Action/actionSpotBgmTriggerAction.h"
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2SystemSLink.h>
 #include "KingSystem/Sound/sndMusicDefinition.h"
 #include "KingSystem/World/worldManager.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -167,7 +169,7 @@ void Unk_SpotBgmInstance::hm14() {
     if (mEntries.size() != 0)
         _368 |= 0x10000;
     else
-        sub_7101024374(this);
+        sub_7101024374();
 }
 
 void Unk_SpotBgmInstance::hm15() {
@@ -178,7 +180,7 @@ void Unk_SpotBgmInstance::sub_7101024358() {
     if (mEntries.size() != 0)
         _368 |= 0x10000;
     else
-        sub_7101024374(this);
+        sub_7101024374();
 }
 
 void Unk_SpotBgmInstance::sub_7101024280() {
@@ -453,4 +455,34 @@ void Unk_SpotBgmInstance::sub_71010241D0(bool allow, bool fade_in) {
             sub_710101D9F4(mInfo->mAllowFadeOutSec.ref());
         _368 &= ~0x20u;
     }
+}
+
+// NON_MATCHING: entry validation and event handle updates use different scheduling.
+void Unk_SpotBgmInstance::sub_71010246CC() {
+    if (_368 & 0x10000) {
+        if (mEntries.size() == 0) {
+            sub_7101024374();
+            _368 &= ~0x10000u;
+        }
+    } else if (mEntry) {
+        if (!mEntry->sub_7100FF6DF4(this)) {
+            // The native path checks the server connection and discards the result.
+            xlink2::SystemSLink::instance()->isServerConnecting();
+            sub_7101024374();
+        } else {
+            mEntry->mHandle.setLpfScale(_2a0.getValue());
+            auto* event = static_cast<xlink2::EventSLink*>(mEntry->mHandle.getEvent());
+            if (event && event->getCreateId() == mEntry->mHandle.getCreateId()) {
+                if (auto* executor = event->getAliveAssetExecutor()) {
+                    auto* handle = executor->getHandle();
+                    if (handle->isActive())
+                        handle->setBiquadFilter(2, _2b8.getValue());
+                }
+            }
+            if (_368 & 0x100)
+                sub_7101024808(this);
+        }
+    }
+    if (auto* status = ksys::snd::SoundMgr::instance()->_288)
+        status->mPlayingPart[7] = 1;
 }
