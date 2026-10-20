@@ -29,6 +29,7 @@ public:
     void setInteriorSize(f32 size);
     f32 getInteriorSizeAsInGameLength() const;
     f32 getFrontSpeakerAngle() const;
+    f32 getUnk24() const { return _24; }
     f32 getRearSpeakerAngle() const;
     /// Ignores gains outside of [0, 1].
     void setRearSpeakerGain(f32 gain);

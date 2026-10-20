@@ -36,6 +36,8 @@ public:
 
     void initialize(sead::Heap* heap);
     void makeTable();
+    // Inline-only in the original; name describes the per-device count at +0x14.
+    s32 getCurrentInteriorNum(DeviceType device) const { return mCurrentInteriorNum[device]; }
     f32 getTotalVolumeMax(DeviceType device, s32 interior) const;
     /// The speaker balance of the direction as a float in 0..255 (the first five channels).
     void getSpeakerBalanceU8Range(SpeakerChannelVolume* volume, s32 angle, DeviceType device, s32 interior) const;
@@ -47,7 +49,7 @@ private:
     /// The maximum of the total volume of each direction, for each interior.
     f32* mTotalVolumeMax[DeviceType::size()];
     s32 mInteriorNum;
-    s32 mCurrentInteriorNum;
+    s32 mCurrentInteriorNum[DeviceType::size()];
 };
 
 /// Manages the speaker balance unifiers: they are created at initialization and handed out (allocSpeakerBalanceUnifier)
@@ -68,6 +70,10 @@ public:
     void initialize(const InitializeArg& arg, sead::Heap* heap);
     /// Sets the interior size of the unifier areas from the current interior.
     void setupInteriorSize();
+    // Inline-only in the original; names describe fields read by B937CC.
+    UnifierSpeakerBalanceTable* getTable() const { return mTable; }
+    f32 getInteriorSize(s32 interior) const { return mInteriorSizes[interior]; }
+    u8 getEnabledDeviceMask() const { return _50; }
     void calc();
     void setupUnifierSpeakerBalanceTable();
     void setRegisterCullingDistance(f32 distance);

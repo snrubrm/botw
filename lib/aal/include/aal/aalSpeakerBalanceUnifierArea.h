@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <math/seadVector.h>
 
 namespace sead {
@@ -10,6 +11,8 @@ class Heap;
 namespace aal {
 
 class Attenuator;
+class Listener;
+struct SpeakerChannelVolume;
 
 /// One angular segment of a SpeakerBalanceUnifierArea: the nearest registered position.
 class SpeakerBalanceUnifierAreaSegment {
@@ -26,7 +29,7 @@ public:
     bool mHasPosition;
 };
 
-/// TODO: incomplete. calcSpeakerBalance is not declared.
+/// Accumulates speaker balances from the nearest registered position in each angular segment.
 class SpeakerBalanceUnifierArea {
 public:
     static constexpr s32 cSegmentNum = 64;
@@ -41,6 +44,9 @@ public:
     /// Registers `position` in the segment that `direction` points to. Returns whether it was registered.
     bool registerPosition(const sead::Vector3f& position, const sead::Vector3f& direction);
 
+    void calcSpeakerBalance(sead::Buffer<SpeakerChannelVolume>* volumes, f32* parameter,
+                            f32* filter, f32* priority_factor, const Listener& listener,
+                            s32 device_num, f32* max_gain);
     void setAttenuator(Attenuator* attenuator);
     void setRegisterCullingDistance(f32 distance);
     void setInteriorNum(s32 num);

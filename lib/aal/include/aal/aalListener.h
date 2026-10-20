@@ -47,6 +47,8 @@ public:
     /// The world matrix of the listener (ElectricCable::calc_ 0x710037c998 reads its translation at
     /// +0x13c / +0x14c / +0x15c).
     const sead::Matrix34f& getMatrix() const { return mMatrix; }
+    // Inline-only in the original; B93990 passes the existing directivity object.
+    const ListenerDirectivity& getDirectivity() const { return mDirectivity; }
 
 private:
     f32 _58;
