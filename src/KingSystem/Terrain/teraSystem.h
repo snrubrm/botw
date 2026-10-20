@@ -294,7 +294,13 @@ public:
     struct Unk_7101300b4c {
         u8 _0[8];
         sead::Vector3f mPosition;
-        u8 _14[0x1a0 - 0x14];
+        // The previous position: 0x7101300d50 copies mPosition here.
+        sead::Vector3f _14;
+        u8 _20[0x199 - 0x20];
+        // The two flags 0x7101300d50 stores from its arguments.
+        u8 _199;
+        u8 _19a;
+        u8 _19b[0x1a0 - 0x19b];
     };
     static_assert(sizeof(Unk_7101300b4c) == 0x1a0);
     void sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update);
@@ -812,7 +818,14 @@ public:
         u8 _19[0x1d - 0x19];
         // Bit 4: passed to ApertureMapsCollector::sub_7101100F08 by sub_7101115584 (unless System::_1338 bit 1).
         u8 _1d;
-        u8 _1e[0x70 - 0x1e];
+        u8 _1e[0x20 - 0x1e];
+        // The recent-position ring 0x7101300d50 appends to (mPosCount entries of a Vector2f).
+        u32 mPosCount;
+        u8 _24[0x28 - 0x24];
+        sead::Vector2f* mPositions;
+        // Next ring slot.
+        u32 mPosIndex;
+        u8 _34[0x70 - 0x34];
         // Debug log targets. 0x71011320b4 logs to _110 when its enabled flag (_88, at 0x198) is set.
         DebugMessage _70;
         u8 _100[0x110 - 0x100];

@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <gsys/gsysModel.h>
+#include <cmath>
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::tera {
@@ -155,6 +156,51 @@ void Core::sub_71013008E4(sead::Heap* heap, System* system) {
     arg.model = _f0 ? _f8 : nullptr;
     arg.count = mStates.size();
     system->sub_7101112E78(arg);
+}
+
+// inline-only in the original (0x7101300d50 repeats it four times); name is a guess.
+// NON_MATCHING: the original's NaN test is a bitwise (bits & 0x7fffffff) > 0x7f800000 check,
+// while our sead::Mathf::isNan and std::isnan compile to an unordered compare (see the log's gen
+// request).
+static bool isValidFloatMaybe(f32 value) {
+    if (std::isnan(value))
+        return false;
+    if (sead::Mathf::abs(value) > 3.4028235e+38f)
+        return false;
+    if (sead::Mathf::abs(value) > 2147483648.0f)
+        return false;
+    return true;
+}
+
+// NON_MATCHING: the NaN guard and the sead::Buffer index order differ (see isValidFloatMaybe).
+// 0x7101300d50 (unnamed in the CSV): validates the position of entry `index`, copies it to the
+// entry's previous position, stores the two flags and appends the XZ position to Terrain's ring.
+bool Core::sub_7101300D50(u32 index, bool a, bool b) {
+    const f32 x = mPositions[index].mPosition.x;
+    const f32 y = mPositions[index].mPosition.y;
+    const f32 z = mPositions[index].mPosition.z;
+    if (!isValidFloatMaybe(x))
+        return false;
+    if (!isValidFloatMaybe(z))
+        return false;
+    if (!isValidFloatMaybe(y))
+        return false;
+    if (!isValidFloatMaybe(x * x + y * y + z * z))
+        return false;
+
+    mPositions[index]._14 = sead::Vector3f(x, y, z);
+    mPositions[index]._199 = a;
+    mPositions[index]._19a = b;
+
+    auto* debug = Terrain::instance()->_a50;
+    const sead::Vector2f* slot = &debug->mPositions[debug->mPosIndex % debug->mPosCount];
+    const f32 dx = x - slot->x;
+    const f32 dz = z - slot->y;
+    if (dx * dx + dz * dz > 0.001f) {
+        ++debug->mPosIndex;
+        debug->mPositions[debug->mPosIndex % debug->mPosCount] = sead::Vector2f(x, z);
+    }
+    return true;
 }
 
 void Core::releaseAllNodeGroups() {
