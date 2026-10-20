@@ -20,10 +20,27 @@ class Object;
 
 namespace ksys::phys {
 
+class CharacterController;
 class RigidBody;
 class StaticCompoundRigidBodyGroup;
 struct RigidBodyCollisionMasks;
 enum class MotionType;
+
+// Placeholder (vtable 0x71024f9510; allocation 0x7100fcfe48): the character's contact
+// listener. It rejects contacts behind the active shape, or redirects them against movement.
+class Unk_71024f9510 : public hkpContactListener {
+public:
+    Unk_71024f9510(RigidBody* body, CharacterController* controller, bool enabled)
+        : mBody(body), mController(controller), mEnabled(enabled) {}
+    void contactPointCallback(const hkpContactPointEvent& event) override;
+    static Unk_71024f9510* make(sead::Heap* heap, RigidBody* body,
+                               CharacterController* controller, bool enabled);
+
+    /* 0x08 */ RigidBody* mBody;
+    /* 0x10 */ CharacterController* mController;
+    /* 0x18 */ bool mEnabled;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024f9510, 0x20);
 
 // Placeholder (vtable 0x71024f9570; object 0x18 bytes): a contact point listener attached to one rigid
 // body of a character. The contact point callback rewrites the contact normal of steep faces so the

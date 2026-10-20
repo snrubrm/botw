@@ -1,5 +1,12 @@
 #include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
+#include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h>
+#include <Havok/Physics2012/Dynamics/Constraint/Contact/hkpContactPointProperties.h>
+#include <Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
+#include <limits>
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/Physics/System/physSystem.h"
@@ -108,6 +115,61 @@ LayerContactPointInfo::Iterator::Iterator(const LayerContactPointInfo::Points& p
                                           IsEnd is_end)
     : mIdx(count), mPoints(points.getBufferPtr()), mPointsNum(count),
       mPointsStart(points.getBufferPtr()) {}
+
+Unk_71024f9510* Unk_71024f9510::make(sead::Heap* heap, RigidBody* body,
+                                     CharacterController* controller, bool enabled) {
+    auto* listener = new (heap, 8) Unk_71024f9510(body, controller, enabled);
+    body->getHkBody()->addContactListener(listener);
+    return listener;
+}
+
+// NON_MATCHING: vector calculations are scheduled differently, and the contact-layer argument
+// lacks the original zero-extension at the call boundary.
+void Unk_71024f9510::contactPointCallback(const hkpContactPointEvent& event) {
+    if (event.m_contactPoint->getPosition().getInt24W() == hkpCharacterRigidBody::m_magicNumber)
+        return;
+    if (event.m_contactPointProperties->m_flags & hkContactPointMaterial::CONTACT_IS_DISABLED)
+        return;
+
+    RigidBody* other_body = getRigidBody(*event.getBody(1));
+    f32 sign = 1.0f;
+    if (other_body == mBody) {
+        other_body = getRigidBody(*event.getBody(0));
+        sign = -1.0f;
+    }
+    if (!xxx_3(other_body->getContactLayer().value()))
+        return;
+
+    const sead::Vector3f normal = toVec3(event.m_contactPoint->getSeparatingNormal());
+    sead::Vector3f direction(sign * normal.x, 0.0f, sign * normal.z);
+    if (direction.normalize() >= std::numeric_limits<f32>::epsilon()) {
+        sead::Vector3f shape_position;
+        if (!mController->sub_7100F62EFC(&shape_position, mController->_224))
+            return;
+        sead::Matrix34f transform;
+        mController->physicsXXXGetMtx_1(&transform);
+        const sead::Vector3f world_position = transform * shape_position;
+        const sead::Vector3f contact_position = toVec3(event.m_contactPoint->getPosition());
+        const sead::Vector3f offset(contact_position.x - world_position.x, 0.0f,
+                                   contact_position.z - world_position.z);
+        if (!(direction.dot(offset) > 0.0f)) {
+            if (mEnabled)
+                return;
+            sead::Vector3f velocity;
+            mController->sub_7100F5F598(&velocity);
+            velocity.y = 0.0f;
+            if (velocity.normalize() < std::numeric_limits<f32>::epsilon())
+                return;
+            if (!(direction.dot(velocity) < 0.0f))
+                return;
+            event.m_contactPoint->setNormalOnly(toHkVec4(direction * sign));
+            return;
+        }
+    } else if (mEnabled) {
+        return;
+    }
+    event.m_contactPointProperties->m_flags |= hkContactPointMaterial::CONTACT_IS_DISABLED;
+}
 
 void sub_7100FCFEB8(Unk_71024f9570* listener) {
     listener->mBody->getHkBody()->removeContactListener(listener);
