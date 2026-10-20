@@ -24,6 +24,8 @@ public:
 
     void init(sead::Heap* heap);
     void cleanUp();
+    // 0x7100fd76d4: frees the quest data and requests the quest pack again unless it loaded.
+    void resetAndLoadQuestInfo();
     // 0x7100fd7820: polls the quest resource; parses it when needed. True once it is ready.
     bool sub_7100FD7820();
     // 0x7100fd7898: resets the stage-generation state and quest flags.

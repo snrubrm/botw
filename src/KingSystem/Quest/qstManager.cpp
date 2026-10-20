@@ -1,10 +1,30 @@
 
 #include "KingSystem/Quest/qstManager.h"
 #include "KingSystem/Quest/qstActorData.h"
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::qst {
+
+// Initialised by the TU's static initialiser at 0x7100fd7dc4.
+static sead::FixedSafeString<32> sManagerName("ksys::qst::Manager");
+static sead::FixedSafeString<128> sQuestPackPath("Quest/QuestProduct.bquestpack");
+static sead::FixedSafeString<32> sResetName("リセット");
+
+void Manager::resetAndLoadQuestInfo() {
+    _44 = 0;
+    _48.freeBuffer();
+    mQuests.freeBuffer();
+    if (mHandle.isSuccess())
+        return;
+    mHandle.unloadAndResetUnitFlag20000();
+    res::LoadRequest req;
+    req._22 = true;
+    req.mRequester = "qst::Manager";
+    mHandle.requestLoad(sQuestPackPath, &req);
+    mFlags |= 2;
+}
 
 bool Manager::sub_7100FD7820() {
     if (mHandle.isReady()) {
