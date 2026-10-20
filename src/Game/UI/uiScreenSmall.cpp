@@ -860,6 +860,37 @@ void ScreenSystemWindow01::sub_7100A67068() {
     }
 }
 
+// 0x7100a6716c
+// NON_MATCHING: scroll-parameter temporaries and fixed-row creation allocate registers differently.
+void ScreenSystemWindow01::m92(sead::Heap* heap) {
+    Unk_7102474df8_Params params;
+    params.spacing = 94.0f;
+    params.corner1.set(0.0f, 0.0f);
+    params.corner2.set(0.0f, 0.0f);
+    params.count = 6;
+    if (auto* pane = static_cast<nn::ui2d::Pane*>(sub_7100A48328("N_SlideArea_00", nullptr))) {
+        sead::Vector2f bottom_left, top_left, top_right, bottom_right;
+        getPaneCorners(pane, &bottom_left, &top_left, &top_right, &bottom_right);
+        params.corner1.x = bottom_left.x < top_right.x ? bottom_left.x : top_right.x;
+        params.corner2.x = bottom_left.x < top_right.x ? top_right.x : bottom_left.x;
+        params.corner1.y = bottom_left.y < top_right.y ? bottom_left.y : top_right.y;
+        params.corner2.y = bottom_left.y < top_right.y ? top_right.y : bottom_left.y;
+    }
+    const Unk_7102474df8_Speeds speeds;
+    _4ad0.sub_7100937FA4(heap, this, &params, &speeds);
+    if (auto* parts = eui::sub_7100945088(sub_7100A48104("Pa_File_00", nullptr))) {
+        for (s32 i = 5; i > 0; --i) {
+            sead::FormatFixedSafeString<64> name("Pa_File_%02d", i);
+            auto* layout = sub_7100A47A5C(heap, 1,
+                static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout), name, parts, true, true);
+            _49e0[i]._10 = layout->GetPane();
+        }
+        _49e0[0]._10 = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout)->GetPane();
+    }
+    for (auto& entry : _49e0)
+        _4ad0.sub_7100938408(&entry);
+}
+
 // 0x7100a67704: waits until every texture controller is loaded
 void ScreenSystemWindow01::m89() {
     bool ready = true;

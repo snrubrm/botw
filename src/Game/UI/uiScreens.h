@@ -5954,6 +5954,7 @@ static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
 class ScreenSystemWindow01 : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
+    void m92(sead::Heap* heap) override;
     void m96() override;
     void m97() override;
     void m101() override;
