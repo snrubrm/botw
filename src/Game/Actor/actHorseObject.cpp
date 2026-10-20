@@ -103,11 +103,10 @@ void HorseObject::calcMaybe() {
 }
 
 // NON_MATCHING: operand order of the merged `and` of the flag byte
+// NON_MATCHING: only the final `and` swaps its operands (the original ANDs the mask with the flags).
 void HorseObject::m70() {
-    f32 value;
     if (auto* horse = sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr)))
-        value = horse->m139();
-    sub_71011CCB1C(value);
+        sub_71011CCB1C(horse->m139());
     if ((_1410 & 6) == 6) {
         _1410 &= ~6;
     } else if (_1410 & 2) {
