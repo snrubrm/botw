@@ -11,6 +11,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiScreenSoundLinkUser.h"
 
 #include <common/aglDrawContext.h>
 #include "Game/UI/euiUIController.h"
@@ -936,4 +937,84 @@ LetterAnimControl* Screen::sub_7100A52150(const char* name) {
     return nullptr;
 }
 
+// 0x7100bebd58
+sead::Matrix34f* SoundLink2User::getBoneWorldMtxPtr(const char*) const {
+    return nullptr;
+}
+
+// 0x7100bebd68
+void SoundLink2User::getReservedAssetName(xlink2::ToolConnectionContext*) const {}
+
+// 0x7100bebd6c
+u32 SoundLink2User::getNumBone() const {
+    return 0;
+}
+
+// 0x7100bebd74
+const char* SoundLink2User::getBoneName(s32) const {
+    return sead::SafeString::cEmptyString.cstr();
+}
+
+// 0x7100bebda8
+u32 SoundLink2User::getNumAction(s32) const {
+    return 0;
+}
+
+// 0x7100bebdb0
+char* SoundLink2User::getActionName(s32, s32) const {
+    // IUser returns a mutable pointer
+    return const_cast<char*>(sead::SafeString::cEmptyString.cstr());
+}
+
+// 0x7100bebde4
+void SoundLink2User::captureScreen(const char*) {}
+
+// 0x7100bebde8
+f32 SoundLink2User::getSortKey(const sead::Vector3f&) const {
+    return 0.0f;
+}
+
+sead::Matrix34f SoundLink2User::getAutoInputMtxSource() const {
+    return sead::Matrix34f::ident;
+}
+
+// 0x7100bebe04
+void SoundLink2User::m1() {
+    if (mUser)
+        mUser->destroy();
+}
+
+// 0x7100bebe14
+void SoundLink2User::m0() {
+    if (auto* user = mUser) {
+        user->preCalc();
+        user->postCalc();
+    }
+}
+
+// 0x7100bebe4c
+void SoundLink2User::m2() {
+    if (mUser)
+        mUser->setIsActive(true);
+}
+
+// 0x7100bebe60
+void SoundLink2User::m3() {
+    if (mUser)
+        mUser->setIsActive(false);
+}
+
+// 0x7100bebe74
+void SoundLink2User::setDrawTarget(s32 target) {
+    if (mUser)
+        mUser->setPropertyValue(0, target);
+}
+
+// 0x7100bebe90
+void SoundLink2User::setButtonProperty(s32 property) {
+    if (mUser)
+        mUser->setPropertyValue(1, property);
+}
+
 }  // namespace eui
+
