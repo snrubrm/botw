@@ -6,6 +6,8 @@
 #include <mc/seadCoreInfo.h>
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
@@ -148,6 +150,28 @@ bool sub_710079BE9C(int idx) {
 // The D1 / D0 thunks for the second and third bases (0x710079248c .. 0x710079268c) are non-matching (m:
 // they keep one more callee-saved register).
 Camera::~Camera() = default;
+
+void Camera::initMaybe() {
+    _13fd &= ~0x80;
+    if (mPhysics)
+        mPhysics->sub_7100FBA9BC();
+    if (auto* awareness = _548) {
+        awareness->m8()->m9(0, 1.0f);
+        awareness->m8()->m9(1, 0.0f);
+        awareness->m8()->m9(2, 0.0f);
+        awareness->m8()->m9(3, 0.0f);
+    }
+    _860.sub_710079AE30();
+    _860.sub_710079AED0();
+    _860._815[1] = 0;
+    _860._817 = 0;
+    _860._7fc.sub_710079B62C(0x100000);
+    _860._804.sub_710079AE40(0x80000);
+    _860._804.sub_710079AE40(0x100000);
+    _860._7c0[0].reset();
+    _860._7c0[1].reset();
+    _860._81a = 0;
+}
 
 Unk_710079a8e8::~Unk_710079a8e8() = default;
 

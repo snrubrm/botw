@@ -446,6 +446,9 @@ public:
     explicit Camera(const CreateArg& arg);
     ~Camera() override;
 
+    // 0x7100796484: resets the physics, the awareness values, the camera flags and links.
+    void initMaybe() override;
+
     // Constructor 791F38 binds this callback into the task delegate at 1400;
     // complete 79691C submits it to WorkerSupportThreadMgr::submitRequest.
     bool sub_7100792360(void* arg);
