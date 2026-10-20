@@ -3837,9 +3837,20 @@ public:
 
     // 0x71009f8284: whether the picture book's frame animator is playing
     bool sub_71009F8284() const;
+    // 0x71009f8dfc: runs the two layout setup steps below
+    void m92(sead::Heap* heap) override;
+    // 0x71009f9bb8: keeps the two panes at the negated root pane position, then updates the screen and its states
+    void m94() override;
+    // 0x71009f71f4 / 0x71009f8e28 (declared only; 4240 / 1948 bytes): layout setup steps of m92
+    void sub_71009F71F4(sead::Heap* heap);
+    void sub_71009F8E28(sead::Heap* heap);
+    // 0x71009f9c30 (declared only; 308 bytes): called by m94 before the state machine runs
+    void sub_71009F9C30();
 
     // state callbacks (slots 154-165, trivial ones defined in uiScreenLeafSlots.cpp)
-    u8 _pad_3610[0x3628 - 0x3610];
+    /* 0x3610 */ nn::ui2d::Pane* _3610;
+    /* 0x3618 */ nn::ui2d::Pane* _3618;
+    u8 _pad_3620[0x3628 - 0x3620];
     /* 0x3628 */ eui::Animator* _3628;
     u8 _pad_3630[0x3658 - 0x3630];
     /* 0x3658 */ ScreenAppPictureBookUnk* _3658;

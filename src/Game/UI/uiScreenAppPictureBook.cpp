@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <nn/ui2d/Pane.h>
 #include "Game/UI/uiScreens.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -2662,6 +2663,24 @@ namespace uking::ui {
 // Picture-book TU objects initialized by 9F2EC0.
 static sead::SafeString sUnk_71025eb9f8 = "T_SubTextA_00";
 static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
+
+// 0x71009f8dfc
+void ScreenAppPictureBook::m92(sead::Heap* heap) {
+    sub_71009F71F4(heap);
+    sub_71009F8E28(heap);
+}
+
+// 0x71009f9bb8
+void ScreenAppPictureBook::m94() {
+    if (_3610 && _3618) {
+        const auto& root = mLayout->GetPane()->GetPosition();
+        const nn::util::Float3 position{-root.x, -root.y, 0.0f};
+        _3610->SetPosition(position);
+        _3618->SetPosition(position);
+    }
+    sub_71009F9C30();
+    getStateMachine().run();
+}
 
 // 0x71009f8474
 PictureBookNameIterator newEnemyPictureBookNamesBegin() {
