@@ -108,6 +108,9 @@ public:
     // 0x7100e0402c (CSV trackerFileExistsStuff): whether `path` exists on the file device named by the save mount
     // string at +0x80.
     bool sub_7100E0402C(const sead::SafeString& path);
+    // The save mount string at 0x80 (added for the footprint file loader 0x7100a86b40, which builds its
+    // tracker paths outside this class).
+    const sead::SafeString& getMountName() const { return _80; }
     // 0x7100e044a8 (CSV unnamed; declared only): writes `size` bytes of `data` for the save file `path`; `value` is the
     // UI manager field.
     bool sub_7100E044A8(const sead::SafeString& path, void* data, u32 value, u32 size);

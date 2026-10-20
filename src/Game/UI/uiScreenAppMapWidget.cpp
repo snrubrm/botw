@@ -2,6 +2,9 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/Scene/gameStageInfo.h"
+#include "Game/AOC/aocHardModeManager.h"
+#include "KingSystem/GameData/gdtSaveMgr.h"
+#include <filedevice/seadFileDeviceMgr.h>
 #include "Game/UI/uiUtils.h"
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
@@ -630,6 +633,21 @@ void Unk_710249d330::sub_7100A866BC(f32 x, f32 y, bool flag) {
     if (!mPending)
         return;
     mPending = false;
+}
+
+// NON_MATCHING: the calls and the LoadArg contents match; clang lays the filename and the LoadArg out in the
+// opposite stack order and merges two of the LoadArg stores (284 bytes against 288).
+// 0x7100a86b40
+u8* trackerLoadFileStuff(Unk_710249d330* work, u32 index) {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    sead::FormatFixedSafeString<64> path("%s://tracker/trackblock%02d.sav", save_mgr->getMountName().cstr(), index);
+    auto* hard_mode = uking::aoc::HardModeManager::instance();
+    if (hard_mode && hard_mode->checkFlag(uking::aoc::HardModeManager::Flag::EnableHardMode))
+        path.format("%s://tracker/trackblock_hard%02d.sav", save_mgr->getMountName().cstr(), index);
+    sead::FileDevice::LoadArg arg;
+    arg.heap = work->mHeap;
+    arg.path = path;
+    return sead::FileDeviceMgr::instance()->tryLoad(arg);
 }
 
 }  // namespace uking::ui
