@@ -1021,7 +1021,7 @@ u32 Core::Grass::sub_71011516D0(f32* out, const sead::Vector2f* xz) {
     }
 
     f32 height = 0.0f;
-    const sead::Vector2f position = *xz;
+    const sead::Vector2f position(xz->x, xz->y);
     const u32 result = sub_7101109BD8(&height, &position, mEntries(0).mSystem, true);
     const f32 level = height * 10.0f;
     const f32 weight = sead::Mathf::clamp(level - 4.5f, 0.0f, 1.0f) * 0.3f +
@@ -1036,9 +1036,43 @@ u32 Core::Grass::sub_71011516D0(f32* out, const sead::Vector2f* xz) {
     return result;
 }
 
-}  // namespace ksys::tera
+}
 
 namespace ksys::tera {
+
+// 0x7101152000 (placeholder name): the grass amount of sub_71011516D0 with the ground normal
+// correction and the grass scale; returns 2 when the grass is disabled and 1 without terrain data.
+// NON_MATCHING: the position copy and the normal share one stack slot in the original, ours gives
+// them separate slots, and the original reloads *out after the normal clamp; the rest follows.
+u32 Core::Grass::sub_7101152000(f32* out, const sead::Vector2f* xz) {
+    if (mFlags & 0x4000) {
+        *out = 0.0f;
+        return 2;
+    }
+
+    if (!mEntries(0).mSystem) {
+        *out = 0.0f;
+        return 1;
+    }
+
+    f32 height = 0.0f;
+    const sead::Vector2f position(xz->x, xz->y);
+    const u32 result = sub_7101109BD8(&height, &position, mEntries(0).mSystem, true);
+    const f32 level = height * 10.0f;
+    const f32 weight = sead::Mathf::clamp(level - 4.5f, 0.0f, 1.0f) * 0.3f +
+                       sead::Mathf::clamp(level - 6.5f, 0.0f, 1.0f) * 0.3f +
+                       sead::Mathf::clamp(level - 8.5f, 0.0f, 1.0f) * 0.4f;
+    *out = _17b0 * weight * _28->sub_71010699D0(xz);
+
+    if (*out > 0.0f) {
+        f32 normal_height = 0.0f;
+        sead::Vector3f normal;
+        const s32 hit = sub_71011096D0(&normal_height, &normal, xz, mEntries(0).mSystem, -1, 0);
+        if (hit > 0)
+            *out *= sead::Mathf::clamp((normal.y - 0.62f) * 10.0f, 0.0f, 1.0f);
+    }
+    return result;
+}
 
 // NON_MATCHING: the original has a dmb ish after the lock (an atomic read of the manager); ours reads
 // the flags directly.

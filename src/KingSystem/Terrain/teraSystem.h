@@ -135,6 +135,9 @@ public:
         // 0x71011516d0 (declared only): grass amount at `xz` written to `out`; returns the terrain query result
         // (2 when the grass is disabled, 0 without terrain data).
         u32 sub_71011516D0(f32* out, const sead::Vector2f* xz);
+        // 0x7101152000 (declared only): the same grass amount query with the ground normal correction and
+        // the grass scale _17b0; returns 2 when the grass is disabled, 1 without terrain data.
+        u32 sub_7101152000(f32* out, const sead::Vector2f* xz);
         // 0x7101150a70 (unnamed in the CSV): marks the first grass entry's vegetation material dirty.
         void sub_7101150A70();
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
