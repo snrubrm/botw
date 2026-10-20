@@ -882,6 +882,8 @@ struct Unk_SoundMgr30_10 {
     Unk_SoundMgr30_10();
     // Deleted through slot 1 by Unk_SoundMgr30's destructor.
     virtual ~Unk_SoundMgr30_10();
+    // 0x710101d778: vtable slot 2, empty (placeholder name).
+    virtual void m2() {}
     // 0x710101cfa4: creates the 0x3e0-byte object at _8 on `heap` and initializes it.
     void init(sead::Heap* heap);
     // 0x710101d5ec adds the handle to mHandles (front) unless linked.
