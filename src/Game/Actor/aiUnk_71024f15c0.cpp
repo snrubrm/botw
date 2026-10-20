@@ -430,3 +430,77 @@ bool Unk_71024f1658::sub_7100EEDF78(const sead::Vector3f& position, s32 directio
         return sub_7100EED62C(position, nullptr, direction);
     return sub_7100EEDDA4(position);
 }
+
+// NON_MATCHING: endpoint branch layout and recursive result handling differ.
+bool Unk_71024f1658::sub_7100EEC8A8(const ksys::map::RailConnectablePoint* start,
+                                  const ksys::map::RailConnectablePoint* end, s32 direction,
+                                  s32* out_direction, bool allow_junction, bool* changed) {
+    const auto* rail = start->getJunctionRail();
+    if (rail == end->getJunctionRail()) {
+        if ((sub_7100EEB610(end) - sub_7100EEB610(start)) * direction < 0)
+            return false;
+        const auto* end_rail = end->getJunctionRail();
+        s32 endpoint_direction;
+        if (end_rail->getPoint(0) == end)
+            endpoint_direction = 1;
+        else
+            endpoint_direction = end_rail->getPoint(end_rail->getNumPoints() - 1) == end ? -1 : 0;
+        if (endpoint_direction != 0)
+            direction = -endpoint_direction;
+        *out_direction = direction;
+        return true;
+    }
+    if (allow_junction) {
+        auto* junctions = start->getJunctionPoint();
+        if (!junctions) {
+            const s32 index = direction < 0 ? 0 : rail->getNumPoints() - 1;
+            const auto* point = static_cast<const ksys::map::RailConnectablePoint*>(rail->getPoint(index));
+            if (point)
+                junctions = point->getJunctionPoint();
+        }
+        if (junctions) {
+            for (auto** entry = junctions; *entry; ++entry) {
+                if (*entry != end)
+                    continue;
+                const auto* end_rail = end->getJunctionRail();
+                if (end_rail->getPoint(0) == end) {
+                    *out_direction = 1;
+                } else {
+                    *out_direction = end_rail->getPoint(end_rail->getNumPoints() - 1) == end ? -1 : 0;
+                    if (*out_direction == 0)
+                        return false;
+                }
+                *changed = true;
+                return true;
+            }
+        }
+    }
+    const s32 index = direction == 1 ? rail->getNumPoints() - 1 : 0;
+    const auto* point = static_cast<const ksys::map::RailConnectablePoint*>(rail->getPoint(index));
+    if (!point)
+        return false;
+    auto* junctions = point->getJunctionPoint();
+    if (!junctions)
+        return false;
+    const ksys::map::RailConnectablePoint* next = nullptr;
+    for (auto** entry = junctions; *entry; ++entry) {
+        const auto* next_rail = static_cast<const ksys::map::RailRoute*>((*entry)->getJunctionRail());
+        if (next_rail->isWalkable()) {
+            if (next)
+                return false;
+            next = *entry;
+        }
+    }
+    if (!next)
+        return false;
+    const auto* next_rail = next->getJunctionRail();
+    s32 next_direction;
+    if (next_rail->getPoint(0) == next) {
+        next_direction = 1;
+    } else {
+        if (next_rail->getPoint(next_rail->getNumPoints() - 1) != next)
+            return false;
+        next_direction = -1;
+    }
+    return sub_7100EEC8A8(next, end, next_direction, out_direction, false, changed);
+}

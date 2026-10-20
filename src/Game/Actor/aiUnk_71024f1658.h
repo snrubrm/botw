@@ -26,6 +26,11 @@ public:
     // sub_7100EED62C; otherwise it attaches _30 to the connectable rail point near `position` of route _60.
     virtual bool sub_7100EEDDA4(const sead::Vector3f& position);
 
+    // 0x7100eec8a8: follows connectable rail endpoints, junctions, and walkable routes.
+    bool sub_7100EEC8A8(const ksys::map::RailConnectablePoint* start,
+                       const ksys::map::RailConnectablePoint* end, s32 direction,
+                       s32* out_direction, bool allow_junction, bool* changed);
+
     // 0x7100eed62c (592 B, declaration only; placeholder name). The second argument is passed on to
     // 0x7100eedac4 (type unknown; callers pass null).
     bool sub_7100EED62C(const sead::Vector3f& position, void* a3, s32 direction);
