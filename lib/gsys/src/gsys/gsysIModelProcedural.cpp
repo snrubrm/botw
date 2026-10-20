@@ -38,6 +38,14 @@ const ModelRenderUnit* IModelProcedural::getModelRenderUnit(int index) const {
     return &mRenderUnits[index];
 }
 
+// The two priorities are stored biased (+8 and +0x20) in bit fields of the render unit option word.
+void IModelProcedural::setProcedualPassPriority(int index, int a, int b) {
+    u32& flags_a = getModelRenderUnit(index)->getFlags10();
+    flags_a = (flags_a & 0xc3ffffff) | ((a + 8) << 26);
+    u32& flags_b = getModelRenderUnit(index)->getFlags10();
+    flags_b = (flags_b & 0xffc0ffff) | ((b + 0x20) << 16);
+}
+
 void IModelProcedural::setMaterialVisible(int index, bool visible) {
     if (!visible)
         mRenderUnits[index]._30 &= ~1;
