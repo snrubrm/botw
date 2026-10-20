@@ -52,6 +52,8 @@ target_sources(uking PRIVATE
   gameMotorcycleMgr.cpp
   gameNFP.cpp
   gameNFP.h
+  gameNpcShopData.cpp
+  gameNpcShopData.h
   gameMotorcycleMgr.h
   gameResetter.cpp
   gameRuneMgr.cpp
