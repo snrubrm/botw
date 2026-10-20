@@ -1,10 +1,29 @@
 #include "aal/aalInterior.h"
+#include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalMeter.h"
 #include "aal/aalSpeakerBalanceUnifierMgr.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
+
+// NON_MATCHING: native stores and register allocation differ in the factory cases.
+Interior* Interior::create(InteriorType type, sead::Heap* heap) {
+    switch (type) {
+    case InteriorType::Stereo:
+        return new (heap, 8) InteriorStereo;
+    case InteriorType::Surround5point1ch:
+        return new (heap, 8) Interior5point1ch;
+    case InteriorType::Surround4point1ch:
+        return new (heap, 8) Interior4point1ch;
+    case InteriorType::Square:
+        return new (heap, 8) InteriorSquare;
+    case InteriorType::Wide:
+        return new (heap, 8) InteriorWide;
+    default:
+        return nullptr;
+    }
+}
 
 // 0x7100b85634
 s32 Interior::getSpeakerChannelAngleIdx(SpeakerChannel channel) const {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "aal/aalInteriorType.h"
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
 #include "aal/aalDeviceType.h"
@@ -19,7 +20,6 @@ class FinalFxCtrl;
 class Interior;
 class InteriorSet;
 class VirtualSurroundCtrl;
-enum class InteriorType : u32;
 
 /// An audio output device: owns the interior sets of the speaker setups it supports.
 class OutputDevice : public sead::hostio::Node {

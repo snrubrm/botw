@@ -1,5 +1,6 @@
 #pragma once
 
+#include "aal/aalInteriorType.h"
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
@@ -12,7 +13,6 @@ class Heap;
 namespace aal {
 
 class Interior;
-enum class InteriorType : u32;
 
 /// The interiors (one per speaker setup type) of an output device.
 class InteriorSet : public sead::hostio::Node {
