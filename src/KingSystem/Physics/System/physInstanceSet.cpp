@@ -231,6 +231,38 @@ bool InstanceSet::initContactInfo(sead::Heap* heap) {
     return true;
 }
 
+bool InstanceSet::sub_7100FBE4E4(sead::Heap* heap, bool a2) {
+    auto* param = mParamSet->character_controller;
+    if (!param)
+        return false;
+
+    mCharacterFormSet = param->createFormSet(heap);
+    if (!mCharacterFormSet)
+        return false;
+
+    mCharacterController = param->createController(mName, mCharacterFormSet, _178[0], a2, heap);
+    if (!mCharacterController)
+        return false;
+
+    if (!param->contact_point_info.ref().isEmpty()) {
+        const s32 idx = findContactPointInfo(param->contact_point_info.ref());
+        if (idx >= 0)
+            mCharacterController->sub_7100F635D0(getContactPointInfoAt(idx));
+    }
+
+    if (!param->collision_info.ref().isEmpty()) {
+        const s32 idx = findCollisionInfo(param->collision_info.ref());
+        if (idx >= 0)
+            mCharacterController->sub_7100F635F0(getCollisionInfoAt(idx));
+    }
+
+    if (!sead::Mathf::equalsEpsilon(mScale, 1.0f))
+        mCharacterController->sub_7100F5E95C(mScale);
+
+    mCharacterController->sub_7100F5ED4C(mUserTag);
+    return true;
+}
+
 bool InstanceSet::sub_7100FBE184(RigidBody* body) const {
     return body->hasFlag(RigidBody::Flag::_20);
 }

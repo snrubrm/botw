@@ -338,6 +338,10 @@ public:
     bool sub_7100FBB420() const;
     // 0x7100fc0600: unlinks `body` from that list and deletes it.
     void sub_7100FC0600(RigidBody* body);
+    // 0x7100fbe4e4 (declared only; called by init): creates the character form set and the character controller,
+    // applies the contact point / collision info named by the param, rescales the controller when the actor scale
+    // changed and attaches the user tag.
+    bool sub_7100FBE4E4(sead::Heap* heap, bool a2);
     // 0x7100fb83b8 (called by the destructor; lane4 s47, placeholder name): frees every collision info / contact
     // point info (and the arrays) and the ragdoll's contact point info.
     void sub_7100FB83B8();
