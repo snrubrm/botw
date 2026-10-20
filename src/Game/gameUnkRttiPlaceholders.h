@@ -2962,6 +2962,8 @@ public:
     void sub_710100F860(s32 id);
     void sub_710100F8B0(bool value, s32 id);
     void sub_710100F900(bool value, s32 id);
+    // 0x710100f53c: counts the active entries and plays / fades the BGM while one of them is set.
+    void m5() override;
     void m14(sead::TextWriter& writer) override {}
     bool m10() override;
     bool m11() override;
@@ -2986,8 +2988,9 @@ public:
     sead::Atomic<s32> mEntriesLock = 0;
     u32 _1dc = 0;
     u32 _1e0 = 0;
-    u32 _1e4 = 0;
-    u32 _1e8 = 0;
+    // The play wait (m5 state 0) and fade wait (state 3) counters.
+    f32 _1e4 = 0.0f;
+    f32 _1e8 = 0.0f;
     ksys::snd::Unk_710260f248Entry* mMainEntry = nullptr;
     s32 _1f8 = -1;
 };

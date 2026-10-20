@@ -31,6 +31,76 @@ Unk_71024feae8::~Unk_71024feae8() {
     mEntries.freeBuffer();
 }
 
+// 0x710260fae0 (placeholder name): debug flag that keeps the BGM playing (nothing in the game writes it).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260FAE0;
+
+// NON_MATCHING: state 1 schedules the _1e8 store before the state constant.
+void Unk_71024feae8::m5() {
+    if (!mActive)
+        return;
+    if ((mState == 1 || mState == 2) && _124 == 0)
+        sub_710101D9D8();
+
+    _1dc = 0;
+    _1e0 = 0;
+    for (s32 i = 0; i < mEntries.size(); ++i) {
+        const auto& entry = mEntries[i];
+        if (entry.id != 0) {
+            ++_1dc;
+            if (entry._4 && !entry._5)
+                ++_1e0;
+        }
+    }
+
+    switch (mState) {
+    case 0:
+        if (sUnk_710260FAE0 || _1e0 != 0) {
+            _1e4 += ksys::snd::sub_710105E3A4();
+            const f32 wait = mInfo->mPlayWaitSec.ref();
+            if (_1e4 >= wait) {
+                _1e4 = wait;
+                if (_68._18 & 1) {
+                    sub_710101D9D8();
+                    _1a0.setValueImmediate(1.0f);
+                    mState = 1;
+                }
+            }
+        } else {
+            _1e4 = 0.0f;
+        }
+        break;
+    case 1:
+        if (!sUnk_710260FAE0 && _1e0 == 0) {
+            _1e8 = 0.0f;
+            mState = 3;
+        }
+        break;
+    case 2:
+        if (sUnk_710260FAE0 || _1e0 != 0) {
+            _1a0.moveTo(1.0f, 1.0f);
+            mState = 1;
+            _1e8 = 0.0f;
+            break;
+        }
+        if (_1a0.getValue() != _1a0.getNextValue())
+            break;
+        sub_710101D9F4(0.0f);
+        _1e4 = 0.0f;
+        mState = 0;
+        break;
+    case 3:
+        _1e8 += ksys::snd::sub_710105E3A4();
+        if (_1e8 > mInfo->mFadeWaitSec.ref()) {
+            _1a0.moveTo(0.0f, mInfo->mFadeOutSec.ref());
+            mState = 2;
+        }
+        break;
+    }
+
+    _1a0.calc();
+    _a4 = _1a0.getValue();
+}
+
 void Unk_71024feae8::hm14() {
     mMainEntry = sub_71010209FC(sStr_GuardianFixedBgmMain);
     if (mMainEntry)
