@@ -3144,12 +3144,32 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 
 // vtable 0x71024ff268: the castle BGM, declared in KingSystem/Sound/sndBgmMgr.h.
-// vtable 0x71025008d0 (17 slots); placeholder generated from the vtable (genskel.py).
+// vtable 0x71025008d0 (17 slots): the one-hit-kill trial BGM (CSV OneHitKillTrialBgm::onPlayStart; its info
+// is an EnvPaletteReactiveBgmInfo, type DLC2nd_OneHitKillTrial).
 class Unk_71025008d0 : public ksys::snd::Unk_71025ce380 {
     SEAD_RTTI_OVERRIDE(Unk_71025008d0, ksys::snd::Unk_71025ce380)
 public:
     ~Unk_71025008d0() override;
+    // 0x7101021668: fades out the handle and resets the state.
+    void m13(f32 fade_sec) override;
+    // The primary vtable has hm15 (0x7101021690, empty) before hm14 (0x7101021340), so hm15 is declared first.
+    void hm15() override {}
+    // 0x7101021340 (CSV OneHitKillTrialBgm::onPlayStart): emits the asset and fades in over FadeInSec.
+    void hm14() override;
+
+    /* 0x190 */ ksys::snd::EnvPaletteReactiveBgmInfo::ParamPerType* mParams;
+    // Compared with EnvMgr::getPaletteSet() by m5.
+    /* 0x198 */ s32 mPaletteSet;
+    u8 _19c[0x210 - 0x19c];
+    /* 0x210 */ sead::FixedSafeString<32> mAssetName;
+    /* 0x248 */ u32 mState;
+    /* 0x24c */ u32 _24c;
+    /* 0x250 */ aal::TimedFader _250;
+    /* 0x278 */ ksys::snd::Unk_710260f248Entry* _278;
 };
+static_assert(offsetof(Unk_71025008d0, mParams) == 0x190);
+static_assert(offsetof(Unk_71025008d0, mAssetName) == 0x210);
+static_assert(offsetof(Unk_71025008d0, _278) == 0x278);
 
 // vtable 0x7102500a00 (17 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102500a00 : public ksys::snd::Unk_71025ce380 {

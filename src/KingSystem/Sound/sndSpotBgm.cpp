@@ -270,6 +270,20 @@ void sub_7101024808(Unk_SpotBgmInstance* instance) {
 
 Unk_71025008d0::~Unk_71025008d0() = default;
 
+void Unk_71025008d0::m13(f32 fade_sec) {
+    sub_710101D9F4(fade_sec);
+    mState = 0;
+    _24c = 0;
+}
+
+void Unk_71025008d0::hm14() {
+    _278 = sub_71010209FC(mAssetName);
+    if (_278 && _278->sub_7100FF6DF4(this)) {
+        _250.moveTo(1.0f, *mParams->mFadeInSec);
+        mState = 1;
+    }
+}
+
 Unk_7102500a00::~Unk_7102500a00() {
     mFaders.freeBuffer();
     if (mPartNames.isBufferReady()) {
