@@ -6,10 +6,18 @@
 
 class hkaiNavMeshQueryMediator;
 class hkaiStreamingCollection;
+class hkaiNavMeshInstance;
+struct hkcdRay;
 
 // Utility owner identified by the neighboring removeOwnedFaces/getNearbyBoundaries entries.
 class hkaiNavMeshUtils {
 public:
+    // 1527624 triangulates the face in world space and returns the nearest
+    // ray fraction. Game F7EDD8 supplies an instance and the local face key.
+    // Declaration only; function name is descriptive.
+    static bool castRayFaceMaybe(const hkaiNavMeshInstance& instance, hkInt32 faceIndex,
+                                 const hkcdRay& ray, hkSimdReal& fractionOut);
+
     // Descriptive name: 1524EA8 appends the face key followed by the packed edge key.
     // HavokAI F854C4/F8565C consume the second word as an edge key for their callbacks.
     struct FaceEdgePair {

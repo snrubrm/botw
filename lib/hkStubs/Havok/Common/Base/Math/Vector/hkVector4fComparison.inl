@@ -55,3 +55,16 @@ inline hkBool32 hkVector4fComparison::anyIsSet(Mask m) const {
     return ((m & MASK_X) != 0 && m_mask[0] != 0) || ((m & MASK_Y) != 0 && m_mask[1] != 0) ||
            ((m & MASK_Z) != 0 && m_mask[2] != 0) || ((m & MASK_W) != 0 && m_mask[3] != 0);
 }
+
+inline int hkVector4fComparison::getMask() const {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    const m128u bits = {1, 2, 4, 8};
+    const m128u masked = m_mask & bits;
+    uint32x2_t sum = vpadd_u32(vget_low_u32(masked), vget_high_u32(masked));
+    sum = vpadd_u32(sum, sum);
+    return vget_lane_u32(sum, 0);
+#else
+    return (m_mask[0] & MASK_X) | (m_mask[1] & MASK_Y) |
+           (m_mask[2] & MASK_Z) | (m_mask[3] & MASK_W);
+#endif
+}

@@ -61,5 +61,7 @@ public:
     HK_FORCE_INLINE hkBool32 anyIsSet() const;
     HK_FORCE_INLINE hkBool32 anyIsSet(Mask m) const;
 
+    HK_FORCE_INLINE int getMask() const;
+
     m128u m_mask;
 };

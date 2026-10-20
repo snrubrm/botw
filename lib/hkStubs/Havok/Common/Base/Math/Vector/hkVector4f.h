@@ -117,6 +117,11 @@ public:
     /// Whether the sign bit is cleared.
     HK_FORCE_INLINE hkVector4fComparison signBitClear() const;
 
+    HK_FORCE_INLINE void setSelect(hkVector4fComparisonParameter mask,
+                                    hkVector4fParameter trueValue,
+                                    hkVector4fParameter falseValue);
+    HK_FORCE_INLINE void zeroIfTrue(hkVector4fComparisonParameter mask);
+
     // ========== Matrix operations (out-of-line)
 
     void setRotatedDir(const hkMatrix3f& a, hkVector4fParameter b);

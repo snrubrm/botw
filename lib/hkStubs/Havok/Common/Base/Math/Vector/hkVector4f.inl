@@ -647,3 +647,24 @@ inline void hkVector4f::store(hkFloat32* out) const {
         out[i] = v[i];
 #endif
 }
+
+inline void hkVector4f::setSelect(hkVector4fComparisonParameter mask,
+                                 hkVector4fParameter trueValue,
+                                 hkVector4fParameter falseValue) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    v = vbslq_f32(mask.m_mask, trueValue.v, falseValue.v);
+#else
+    for (int i = 0; i < 4; ++i)
+        v[i] = mask.m_mask[i] ? trueValue.v[i] : falseValue.v[i];
+#endif
+}
+
+inline void hkVector4f::zeroIfTrue(hkVector4fComparisonParameter mask) {
+#ifdef HK_VECTOR4F_AARCH64_NEON
+    v = vreinterpretq_f32_u32(vbicq_u32(vreinterpretq_u32_f32(v), mask.m_mask));
+#else
+    for (int i = 0; i < 4; ++i)
+        if (mask.m_mask[i])
+            v[i] = 0;
+#endif
+}
