@@ -44,6 +44,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelRenderUnitNW.h
   include/gsys/gsysModelUnit.h
   include/gsys/gsysModelUnitGroup.h
+  include/gsys/gsysModelWorkBuffer.h
   include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
   include/gsys/gsysResourceEditor.h
@@ -77,6 +78,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelRenderUnitNW.cpp
   src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelUnitGroup.cpp
+  src/gsys/gsysModelWorkBuffer.cpp
   src/gsys/gsysModelUnitDrawArray.cpp
   src/gsys/gsysModelDrawObj.cpp
   src/gsys/gsysModelRenderContext.cpp

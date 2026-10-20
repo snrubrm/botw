@@ -16,6 +16,7 @@ enum class Icon {
 
 enum class Category {
     _0 = 0,
+    _1 = 1,
 };
 
 enum class Attribute {
