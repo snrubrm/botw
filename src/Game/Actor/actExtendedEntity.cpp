@@ -5,6 +5,7 @@
 #include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/System/VFR.h"
 #include <math/seadMathCalcCommon.h>
+#include <math/seadQuat.h>
 
 namespace uking::act {
 
@@ -59,6 +60,104 @@ bool ExtendedEntity::init(const InitArg& arg) {
         return false;
     _0 = arg.controller;
     _8 = arg.body;
+    return true;
+}
+
+// NON_MATCHING: the final translation additions and stores are scheduled differently.
+void ExtendedEntity::sub_7100E63F70(const sead::Matrix34f& transform, bool attach) {
+    _58 = 0;
+    if (!_10)
+        return;
+    _0->sub_7100F5E864(true);
+    _8->setFlag100000();
+    if (attach && (_0->sub_7100F5E954() || _0->sub_7100F635B4())) {
+        sead::Vector3f pivot;
+        pivot.setRotated(transform, _20);
+        sead::Vector3f center;
+        _8->getCenterOfMassInLocal(&center);
+        center.setRotated(transform, -center);
+        sead::Matrix34f body_transform = transform;
+        body_transform.m[0][3] = center.x + (pivot.x + body_transform.m[0][3]);
+        body_transform.m[1][3] = center.y + (pivot.y + body_transform.m[1][3]);
+        body_transform.m[2][3] = center.z + (pivot.z + body_transform.m[2][3]);
+        _8->setTransform(body_transform);
+        _8->addToWorld();
+        _10->sub_7100F6A0FC(1.0f, _2c);
+        // The original discards the constraint operation's bool result.
+        _10->sub_7100F6A92C(_8);
+        _10->sub_7100F69FF0();
+    }
+}
+
+// NON_MATCHING: enum temporaries use separate stack slots and the branch layout differs.
+void ExtendedEntity::sub_7100E64154(bool disable) {
+    if (!_10)
+        return;
+    if (disable || (_58 & (1 << int(Flag(Flag::_0)))) || !_0->sub_7100F5E954()) {
+        if (_10->_50 & 1)
+            _10->sub_7100F6A074();
+        if (_8->isAddedToWorld())
+            _8->removeFromWorld();
+    } else {
+        if (!(_10->_50 & 1)) {
+            if (_60) {
+                _10->sub_7100F6E584(_60->_0, _60->_c, _60->_18, _60->_24, _60->_30, _60->_3c);
+                _8->setCenterOfMassInLocal(_60->_c);
+                _68 = 0;
+            }
+            _10->sub_7100F6A0FC(1.0f, _2c);
+            // The original discards the constraint operation's bool result.
+            _10->sub_7100F6A92C(_8);
+            _10->sub_7100F69FF0();
+        } else if (_58 & (1 << int(Flag(Flag::_4)))) {
+            _10->sub_7100F6A0FC(1.0f, _2c);
+        }
+        const bool force = _58 & (1 << int(Flag(Flag::_1)));
+        bool added = false;
+        if (!_8->isAddedToWorld()) {
+            _8->addToWorld();
+            added = true;
+        }
+        sead::Matrix34f transform;
+        _0->physicsXXXGetMtx_1(&transform);
+        sub_7100E64318(transform, force || added, added);
+        _58 &= ~(1 << int(Flag(Flag::_1)));
+    }
+    _58 &= ~(1 << int(Flag(Flag::_4)));
+}
+
+// NON_MATCHING: matrix and vector arithmetic scheduling differs in the rotation reset path.
+bool ExtendedEntity::sub_7100E64318(const sead::Matrix34f& transform, bool force,
+                                    bool reset_rotation) {
+    sead::Vector3f pivot;
+    pivot.setMul(transform, _20);
+    sead::Vector3f position;
+    _8->getPosition(&position);
+    sead::Vector3f center;
+    _8->getCenterOfMassInLocal(&center);
+    position -= pivot;
+    const f32 ratio = position.squaredLength() / center.squaredLength();
+    if (!(ratio > 5.76f || ratio < 0.1736111f || force))
+        return false;
+
+    center.setRotated(transform, -center);
+    sead::Matrix34f body_transform;
+    if (reset_rotation) {
+        const f32 upper = _10->sub_7100F6E34C();
+        const f32 lower = _10->sub_7100F6E340();
+        sead::Quatf rotation;
+        rotation.setAxisRadian(transform.getBase(0), -((upper + lower) * 0.5f));
+        sead::Matrix33f rotation_mtx;
+        rotation_mtx.fromQuat(rotation);
+        body_transform.setMul(rotation_mtx, transform);
+        center.setRotated(rotation_mtx, center);
+    } else {
+        body_transform = transform;
+    }
+    body_transform.setTranslation(center + pivot);
+    _8->setTransform(body_transform);
+    _8->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+    _8->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
     return true;
 }
 

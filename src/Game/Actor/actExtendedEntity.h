@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
@@ -50,6 +51,12 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(InitArg, 0x58);
     bool init(const InitArg& arg);
+    // 0x7100e63f70 resets and optionally attaches the entity at the controller transform.
+    void sub_7100E63F70(const sead::Matrix34f& transform, bool attach);
+    // 0x7100e64154 toggles participation and refreshes the body transform when enabled.
+    void sub_7100E64154(bool disable);
+    // 0x7100e64318 returns whether the body was repositioned; both trailing arguments are bools.
+    bool sub_7100E64318(const sead::Matrix34f& transform, bool force, bool reset_rotation);
     void sub_7100E64E60();
     void sub_7100E64EAC(f32 scale);
     // 0x7100e63f20: releases the contact listener, the constraint and the frame data.
