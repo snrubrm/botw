@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndUnk_7102502138.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace ksys::snd {
 
@@ -162,6 +163,31 @@ void Unk_7102502138::Unk68::sub_710104D638(const sead::SafeString& name) {
     if (_2a8 == "Initial")
         return;
     _56c |= 0xc;
+}
+
+// NON_MATCHING: same body; clang keeps one more value live (x27) and names the registers differently
+// throughout (the frame is 0x70 instead of 0x60).
+// 0x710104d3b0 (placeholder name): sets the shield part name. It also looks the name up in the shield
+// name list and passes the index (or -1) to the xlink property 0x20.
+void Unk_7102502138::Unk68::sub_710104D3B0(const sead::SafeString& name, xlink::XLink* xlink) {
+    if ((_56e[0] & 2) && !sub_710104D204(name, "Shield_"))
+        return;
+
+    s32 idx = -1;
+    for (s32 i = 0; i < mShieldNames.size(); ++i) {
+        if (*mShieldNames[i] == name) {
+            idx = i;
+            break;
+        }
+    }
+    xlink->sub_71012313DC(0x20, idx, false);
+
+    _28.copy(name);
+    if (name.startsWith("Shield_"))
+        _c0->sub_71012C384C(name);
+    else
+        _c0->sub_71012C3968();
+    _56c |= 8;
 }
 
 }  // namespace ksys::snd

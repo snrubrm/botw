@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadObjList.h>
+#include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -130,7 +131,12 @@ public:
             Unk_71012C5034* _98;
         };
 
-        u8 _8[0xbc - 0x8];
+        // The shield names searched by sub_710104D3B0 (count at +0x8, array at +0x10).
+        /* 0x08 */ sead::PtrArray<sead::SafeString> mShieldNames;
+        u8 _18[0x28 - 0x18];
+        // The shield part name (same 0x94-byte string layout as the five below).
+        /* 0x28 */ sead::FixedSafeString<0x78> _28;
+        /* 0xb8 */ u8 _28_pad[4];
         /* 0xbc */ bool _bc;
         /* 0xc0 */ Unk_71012C5034* _c0;
         // The part names: the sead string is followed by the group's skip flag and part object. The
