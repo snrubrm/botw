@@ -1,5 +1,8 @@
 #include "KingSystem/Physics/System/physUtil.h"
 #include <Havok/Physics2012/Collide/Agent/Collidable/hkpCollidable.h>
+#include <Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactPointEvent.h>
+#include <Havok/Physics2012/Utilities/CharacterControl/CharacterRigidBody/hkpCharacterRigidBody.h>
+#include <math/seadMatrix.h>
 #include <Havok/Physics2012/Collide/Shape/Compound/Collection/List/hkpListShape.h>
 #include <Havok/Physics2012/Collide/Shape/HeightField/SampledHeightField/hkpSampledHeightFieldShape.h>
 #include <Havok/Physics2012/Internal/Collide/BvCompressedMesh/hkpBvCompressedMeshShape.h>
@@ -7,6 +10,7 @@
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/physConversions.h"
 #include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::phys {
@@ -119,6 +123,46 @@ u32 getCollisionFilterInfoFromCollidable(RigidBodyCollisionMasks* p_masks,
     *p_collision_filter_info = collidable.getCollisionFilterInfo();
     return getMaterialMaskFromCollidable(p_masks, p_collision_filter_info,
                                          *collidable.getShape(), shape_key);
+}
+
+Unk_71024f9570* Unk_71024f9570::make(sead::Heap* heap, RigidBody* body) {
+    auto* listener = new (heap, 8) Unk_71024f9570(body);
+    body->getHkBody()->addContactListener(listener);
+    return listener;
+}
+
+void Unk_71024f9570::destroy(Unk_71024f9570* listener) {
+    listener->mBody->getHkBody()->removeContactListener(listener);
+    delete listener;
+}
+
+// NON_MATCHING: the vector build (the two normalizes and the sign multiply) is scheduled differently; the
+// callback is otherwise the original's: it keeps clear of character rigid bodies and only rewrites the
+// normal of faces that are steeper than 0.707 and shallower than 0.98.
+void Unk_71024f9570::contactPointCallback(const hkpContactPointEvent& event) {
+    auto* contact_point = event.m_contactPoint;
+    if (contact_point->getPosition().getInt24W() == hkpCharacterRigidBody::m_magicNumber)
+        return;
+    if (!_10)
+        return;
+
+    const f32 sign = getRigidBody(*event.getBody(1)) == mBody ? -1.0f : 1.0f;
+
+    const sead::Vector3f normal = toVec3(contact_point->getSeparatingNormal());
+    const f32 dot = -sign * normal.dot(sead::Vector3f::ey);
+    if (dot <= 0.707f || dot >= 0.98f)
+        return;
+
+    sead::Matrix34f mtx;
+    mBody->getTransform(&mtx);
+
+    sead::Vector3f up(-mtx(0, 2), 0.0f, -mtx(2, 2));
+    up.normalize();
+    up.y = -1.0f;
+    up.normalize();
+    up *= sign;
+
+    contact_point->setNormalOnly(toHkVec4(up));
 }
 
 }  // namespace ksys::phys

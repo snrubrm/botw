@@ -1,5 +1,7 @@
 #include "KingSystem/Physics/System/physLayerContactPointInfo.h"
+#include <Havok/Physics2012/Dynamics/Entity/hkpRigidBody.h>
 #include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physUtil.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::phys {
@@ -106,5 +108,10 @@ LayerContactPointInfo::Iterator::Iterator(const LayerContactPointInfo::Points& p
                                           IsEnd is_end)
     : mIdx(count), mPoints(points.getBufferPtr()), mPointsNum(count),
       mPointsStart(points.getBufferPtr()) {}
+
+void sub_7100FCFEB8(Unk_71024f9570* listener) {
+    listener->mBody->getHkBody()->removeContactListener(listener);
+    delete listener;
+}
 
 }  // namespace ksys::phys
