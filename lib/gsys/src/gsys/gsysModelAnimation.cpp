@@ -47,4 +47,15 @@ bool ModelAnimation::sub_7100BFF2A0() {
     return false;
 }
 
+void ModelAnimation::setEnableDebugSkeletalAnm(bool) {}
+void ModelAnimation::setDebugSkeletalAnmKey(AnimationAccessKey<SkeletalAnmType>,
+                                            DebugSkeletalAnmSlotType) {}
+AnimationAccessKey<SkeletalAnmType> ModelAnimation::getDebugSkeletalAnmKey(
+    DebugSkeletalAnmSlotType) const {
+    return {};
+}
+f32 ModelAnimation::getDebugSkeletalAnmFrame(DebugSkeletalAnmSlotType) const {
+    return 0.0f;
+}
+
 }  // namespace gsys

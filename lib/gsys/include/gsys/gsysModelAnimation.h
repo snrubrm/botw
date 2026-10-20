@@ -97,6 +97,16 @@ public:
     static_assert(sizeof(SkeletalAnm) == 0xa8);
     static_assert(sizeof(SkeletalResource) == 0x28);
 
+    // The debug skeletal-animation accessors are compiled out in the release build: the
+    // setters are empty and the getters return an invalid key / frame 0 (0x7100bff29c..b4).
+    enum class DebugSkeletalAnmSlotType : int;
+    void setEnableDebugSkeletalAnm(bool);
+    void setDebugSkeletalAnmKey(AnimationAccessKey<SkeletalAnmType> key,
+                                DebugSkeletalAnmSlotType slot);
+    AnimationAccessKey<SkeletalAnmType> getDebugSkeletalAnmKey(
+        DebugSkeletalAnmSlotType slot) const;
+    f32 getDebugSkeletalAnmFrame(DebugSkeletalAnmSlotType slot) const;
+
     AnimationAccessKey<SkeletalAnmType> searchSkeletalKey(const sead::SafeString& name) const;
     nn::g3d::ResFile* searchResFile(AnimationAccessKey<SkeletalAnmType> key) const;
 
