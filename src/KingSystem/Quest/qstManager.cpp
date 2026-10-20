@@ -6,6 +6,18 @@
 
 namespace ksys::qst {
 
+bool Manager::sub_7100FD7820() {
+    if (mHandle.isReady()) {
+        mFlags &= ~2;
+        if (mHandle.isSuccess())
+            mFlags |= 1;
+        return true;
+    }
+    if (mHandle.isReadyOrNeedsParse())
+        mHandle.parseResource(nullptr);
+    return false;
+}
+
 // NON_MATCHING: the two final u32 stores merge to an unaligned u64 store rather than stp.
 void Manager::prepareFirstTimeGenStage() {
     _28 = _2c;
