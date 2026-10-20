@@ -932,6 +932,27 @@ f32 NoiseMapMaybe::Octave::sample(f32 x, f32 y) const {
     return r0 + ty * (r1 - r0);
 }
 
+// NON_MATCHING: regalloc in the table fill. The original rematerialises &octave.random (x29 - 0x70) for each
+// getF32 call; ours keeps it in a callee-saved register.
+void NoiseMapMaybe::build() {
+    Octave octave;
+    std::memset(values, 0, sizeof(values));
+    f32 amp = amplitude;
+    u32 octave_idx = 0;
+    for (u32 size = 32; size > 1; size /= 2, ++octave_idx) {
+        if (octave_idx >= num_octaves)
+            break;
+        octave.offset = (size / 2) / 32.0f;
+        octave.frequency = size / 32.0f;
+        for (u32 i = 0; i < 32; ++i) {
+            const f32 y = i / 32.0f;
+            for (u32 j = 0; j < 32; ++j)
+                values[i][j] += amp * octave.sample(j / 32.0f, y);
+        }
+        amp *= persistence;
+    }
+}
+
 f32 NoiseMapMaybe::sample(f32 x, f32 y, s32 rotation) const {
     f32 u = x - sead::Mathf::floor(x);
     f32 v = y - sead::Mathf::floor(y);

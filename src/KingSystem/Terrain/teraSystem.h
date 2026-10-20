@@ -499,6 +499,14 @@ bool sub_710115912C(const sead::Vector3f* pos, f32 height);
 struct NoiseMapMaybe {
     // One octave of random bytes, sampled with wrapping and bilinear filtering (a local of build()).
     struct Octave {
+        // Fills the table with random bytes (inlined into build()).
+        Octave() {
+            for (s32 i = 0; i < 32; ++i) {
+                for (s32 j = 0; j < 32; ++j)
+                    table[i][j] = random.getF32() * 255.0f;
+            }
+        }
+
         // 0x7101159224 (placeholder name): the filtered value (0 to 1) at (x, y) scaled by `frequency`
         // and shifted by `offset`.
         f32 sample(f32 x, f32 y) const;
@@ -519,8 +527,8 @@ struct NoiseMapMaybe {
         sead::Random random{0x23456789};
     };
 
-    // 0x7101159398 (placeholder name; declared only): fills `values` with `num_octaves` octaves of noise
-    // (sums amplitude * Octave::sample, halving the octave size each step).
+    // 0x7101159398 (placeholder name): fills `values` with up to `num_octaves` octaves of noise (sums
+    // amplitude * Octave::sample, halving the octave size from 32 each step).
     void build();
     // 0x7101159528 (placeholder name): the value at (x, y) wrapped to [0, 1), with the coordinates
     // rotated by `rotation` quarter turns (0 to 3).
