@@ -53547,7 +53547,7 @@ Address,Quality,Size,Name
 0x00000071008bc0d8,O,000216,_ZN5uking14MaskController14createInstanceEPN4sead4HeapE
 0x00000071008bc1b0,O,000160,_ZN5uking14MaskControllerD2Ev
 0x00000071008bc250,O,000036,_ZN5uking14MaskControllerD0Ev
-0x00000071008bc274,U,000204,
+0x00000071008bc274,O,000204,_ZN5uking14MaskController13handleMessageEPKN4ksys7MessageE
 0x00000071008bc340,U,000844,MaskController::calc
 0x00000071008bc68c,U,000920,MaskController::init
 0x00000071008bca24,O,000028,_ZN5uking14MaskController13getControllerENS0_13ControllerIdxE
