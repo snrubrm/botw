@@ -26,6 +26,8 @@ public:
     int getViewNum() const;
 
     void setProcedualPassName(int index, const sead::SafeString& name);
+    // 0x7100c7ffb4: the low bit of the render unit's +0x30 word.
+    bool isMaterialVisible(int index) const override;
     void setProcedualPassPriority(int index, int a, int b);
     void setMaterialVisible(int index, bool visible);
 
@@ -34,6 +36,7 @@ public:
     // 0x7100c7fd68 constructs an array of these: base ModelRenderUnit ctor, the RenderUnit
     // vtable, then the name "Proc(unnamed)" (+0x20) and the word 1 (+0x30).
     class RenderUnit : public ModelRenderUnit {
+        friend class IModelProcedural;
     public:
         // `{ ; }` keeps the original's vtable store in D2/D0 (the defaulted body drops it);
         // precedent: upstream GameDataFlagSelector::~GameDataFlagSelector().
