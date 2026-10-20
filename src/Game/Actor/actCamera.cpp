@@ -1,4 +1,8 @@
 #include "Game/Actor/actCamera.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/World/worldManager.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "Game/Actor/actEditCamera.h"
 #include <cmath>
@@ -150,6 +154,46 @@ bool sub_710079BE9C(int idx) {
 // The D1 / D0 thunks for the second and third bases (0x710079248c .. 0x710079268c) are non-matching (m:
 // they keep one more callee-saved register).
 Camera::~Camera() = default;
+
+// NON_MATCHING: the original computes &awareness->mLinks2 after the m148() argument (C++14 evaluation order;
+// we build as C++17). Everything else matches.
+void Camera::updatePositionMaybe() {
+    if (_860._804.sub_710079ADC8(1))
+        return;
+    sub_7100796830();
+    if (_10f8 != 1) {
+        _10f8 = 0;
+        return;
+    }
+
+    _860._0._30 = _860.sub_710079ADA0();
+    _860._80e.sub_710079C1EC();
+    if (_860._815[1] == 1)
+        _860._80f.sub_710079C218();
+
+    ksys::act::acc::PlayerBase accessor;
+    sub_7100926A50(&accessor);
+    if (accessor.hasProc() && accessor.m328())
+        ksys::eft::searchAndEmitELink(this, "FireAreaEnter");
+
+    if (_860._7fc.sub_710079C0CC(0x100) && ui::sub_7100A9C15C()) {
+        if (auto* awareness = ksys::act::Awareness::instance())
+            awareness->mLinks2.sub_7100D79640(m148(), 1, 0xffffffff);
+    }
+    if (!sub_7100926D24() && !_860._80c.isOnBit(0) && (_860._810 == 1 || _860._810 == 2))
+        _860._810 = 0;
+    if (_860.sub_710079C134(2) && _860._812 == 1)
+        _860._812 = 0;
+    if (auto* manager = ksys::world::Manager::instance()) {
+        f32 dist = 1.0f;
+        if (_860.sub_710079C0F4(&dist))
+            manager->setFocusDist(dist);
+    }
+    _860.sub_710079AD90();
+    _10f8 = 2;
+    if (sub_7100922428())
+        sub_710079691C();
+}
 
 void Camera::initMaybe() {
     _13fd &= ~0x80;

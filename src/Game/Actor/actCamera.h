@@ -446,6 +446,10 @@ public:
     explicit Camera(const CreateArg& arg);
     ~Camera() override;
 
+    // 0x7100796654: per-frame camera state update (state _10f8 1 -> 2).
+    void updatePositionMaybe() override;
+    // 0x7100796830 (declared only; placeholder name): called first by updatePositionMaybe.
+    void sub_7100796830();
     // 0x7100796484: resets the physics, the awareness values, the camera flags and links.
     void initMaybe() override;
 

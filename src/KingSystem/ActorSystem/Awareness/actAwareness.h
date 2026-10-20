@@ -11,6 +11,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace uking::act {
+class Camera;
+}  // namespace uking::act
+
 namespace ksys::phys {
 class RigidBody;
 }
@@ -45,6 +49,7 @@ private:
     friend class AwarenessInstance;
     friend class Unk_71024dc858;
     friend class AITerror;
+    friend class uking::act::Camera;  // Camera::updatePositionMaybe adds a mLinks2 entry
 
     SEAD_ENUM(Flag, _0, Paused, _2, _3, EventActive, _5, _6)
 
