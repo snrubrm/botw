@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <mc/seadJob.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -59,5 +60,41 @@ private:
     sead::Delegate1R<MCMgr, void*, bool> mInvoker4{this, &MCMgr::invoked4};
 };
 KSYS_CHECK_SIZE_NX150(MCMgr, 0x1c50);
+
+// The frame jobs of the MCMgr TU (vtables 0x71024deaa0 - 0x71024deb68; destructor slot sead::Job::~Job).
+// Class names from the CSV.
+class CalcFrameJob1 : public sead::Job {
+public:
+    void invoke() override;
+};
+
+class CalcFrameJob2 : public sead::Job {
+public:
+    void invoke() override;
+};
+
+class CalcView1Job : public sead::Job {
+public:
+    void invoke() override;
+};
+
+class CalcAwarenessJob : public sead::Job {
+public:
+    void invoke() override;
+};
+
+}  // namespace ksys
+
+class ParallelGsysCalcModelQueueJob : public sead::Job {
+public:
+    void invoke() override;
+};
+
+class LODJob : public sead::Job {
+public:
+    void invoke() override;
+};
+
+namespace ksys {
 
 }  // namespace ksys

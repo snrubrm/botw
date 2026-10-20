@@ -1,5 +1,9 @@
 #include "KingSystem/System/MCMgr.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actDebug.h"
+#include "KingSystem/ActorSystem/LOD/actLODMgr.h"
+#include "KingSystem/ksys.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "Game/Scene/gameScene.h"
@@ -79,4 +83,42 @@ void MCMgr::requestInvoker4OrSound() {
     }
 }
 
+void CalcFrameJob1::invoke() {
+    CalcAttentionAndVibration();
+    CalcPlayReportAndStatsMgr();
+    auto* debug = act::ActorDebug::instance();
+    if (!debug || debug->hasFlag(act::ActorDebug::Flag::_40000000))
+        CalcQuestAndEventAndActorDeleteOrPreload();
+}
+
+void CalcFrameJob2::invoke() {
+    auto* debug = act::ActorDebug::instance();
+    if (!debug || debug->hasFlag(act::ActorDebug::Flag::_40000000))
+        CalcWorldMgr();
+}
+
+void CalcView1Job::invoke() {
+    CalcView1();
+    if (snd::SoundMgr::instance())
+        snd::SoundMgr::instance()->calc();
+}
+
+void CalcAwarenessJob::invoke() {
+    act::Awareness::instance()->calc();
+}
+
 }  // namespace ksys
+
+void ParallelGsysCalcModelQueueJob::invoke() {
+    auto* debug = ksys::act::ActorDebug::instance();
+    if (debug && !debug->hasFlag(ksys::act::ActorDebug::Flag::_40000000)) {
+        ksys::CalcQuestAndEventAndActorDeleteOrPreload();
+        ksys::CalcWorldMgr();
+    }
+    ksys::CalcParticleAndBaseProcMgr();
+}
+
+void LODJob::invoke() {
+    ksys::act::LODMgr::instance()->calc();
+}
+

@@ -36,6 +36,14 @@ void setStartingDemoName(const char* name);
 // 0x7100f3ed80 / 0x7100f3ee94 (placeholder names): forward to the placement manager and the world
 // manager when they exist.
 // 0x7100f3ed50 (placeholder name): calls the UI handler 0x7102606a90 unless ActorDebug exists without flag 0x200000.
+// Per-frame calc steps run by the MCMgr jobs (declared only).
+void CalcQuestAndEventAndActorDeleteOrPreload();
+void CalcWorldMgr();
+void CalcParticleAndBaseProcMgr();
+void CalcPlayReportAndStatsMgr();
+void CalcAttentionAndVibration();
+void CalcView1();
+
 void sub_7100F3ED50();
 void sub_7100F3ED80();
 void sub_7100F3EE94();
