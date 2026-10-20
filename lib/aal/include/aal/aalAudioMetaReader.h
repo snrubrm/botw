@@ -18,6 +18,7 @@ public:
 
 private:
     friend class AssetInfo;
+    friend class AudioResource;
 
     struct Marker {
         u32 _0;
