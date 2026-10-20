@@ -2872,7 +2872,7 @@ struct ScreenPauseMenuUnk3b90 {
     /* 0x80 */ ksys::StateMachine mStateMachine;
     // 0x71009b9f94 (CSV unnamed; declared only)
     bool sub_71009B9F94(bool a1);
-    // 0x71009ba010 (CSV unnamed; declared only): whether the state machine's current state id is the target
+    // 0x71009ba010: the state machine is neither in state sUnk_710261ee00 nor in sUnk_71025d9e00
     bool sub_71009BA010();
 };
 

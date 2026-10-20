@@ -764,19 +764,6 @@ bool ScreenPauseMenuUnk3b98::sub_71009B6040() {
     return mStateMachine.getState()->getId() == (&sUnk_71025d9960)->getId();
 }
 
-// 0x71009b9f94
-bool ScreenPauseMenuUnk3b90::sub_71009B9F94(bool active) {
-    if (active) {
-        // Pointer virtual form retains the original state descriptor getId call.
-        if (mStateMachine.getState()->getId() != (&sUnk_710261ee00)->getId())
-            return false;
-        mStateMachine.changeState(&sUnk_71025d9e00);
-    } else {
-        mStateMachine.changeState(&sUnk_710261ee00);
-    }
-    return true;
-}
-
 bool sub_7100AA8DD4();
 
 struct CommandInfo {

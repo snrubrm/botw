@@ -765,6 +765,27 @@ s32 Unk_710247af10::m116() { return 0; }
 // 0x71009bc05c
 s32 Unk_710247b428::m108() { return 0; }
 
+// 0x71009b9f94
+bool ScreenPauseMenuUnk3b90::sub_71009B9F94(bool active) {
+    if (active) {
+        // Pointer virtual form retains the original state descriptor getId call.
+        if (mStateMachine.getState()->getId() != (&sUnk_710261ee00)->getId())
+            return false;
+        mStateMachine.changeState(&sUnk_71025d9e00);
+    } else {
+        mStateMachine.changeState(&sUnk_710261ee00);
+    }
+    return true;
+}
+
+// 0x71009ba010
+bool ScreenPauseMenuUnk3b90::sub_71009BA010() {
+    // called through a pointer in the original (not devirtualised)
+    if (mStateMachine.getState()->getId() == (&sUnk_710261ee00)->getId())
+        return false;
+    return mStateMachine.getState()->getId() != (&sUnk_71025d9e00)->getId();
+}
+
 // 0x71009bb594
 void Unk_710247b428::m109() {}
 
