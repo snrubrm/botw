@@ -3109,8 +3109,9 @@ public:
     // 0x710101214c: stops the handle and resets the play state.
     void m13(f32 fade_sec) override;
     void m14(sead::TextWriter& writer) override {}
-    // 0x71010123ac / 0x71010124f4 (declared only)
+    // 0x71010123ac: emits "main" and installs the marker callback 0x7101012470.
     void hm14() override;
+    // 0x71010124f4 (declared only)
     void hm15() override;
 
     // 64 entries allocated by the constructor 0x7101011b90 (same zeroing loop as Unk_71024feae8's).
@@ -3141,8 +3142,12 @@ public:
     u8 _1f8[0x1fc - 0x1f8];
     /* 0x1fc */ s32 _1fc;
     /* 0x200 */ sead::FixedSafeString<8> _200;
-    /* 0x220 */ u64 _220;
-    u8 _228[0x240 - 0x228];
+    // Reset by the marker callback 0x7101012470 (_224 = IgnoreReserveCountDownSec).
+    /* 0x220 */ u32 _220;
+    /* 0x224 */ f32 _224;
+    // Set by hm14.
+    /* 0x228 */ ksys::snd::Unk_710260f248Entry* _228;
+    u8 _230[0x240 - 0x230];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024fefe8, 0x240);
 

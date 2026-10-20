@@ -3,6 +3,10 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2EventSLink.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <aal/aalHandle.h>
+#include <aal/aalMarkerController.h>
 #include <xlink2/xlink2ResourceAccessorSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -32,6 +36,7 @@ void Unk_71024fefe8::m13(f32 fade_sec) {
     _1fc = -1;
     _200.clear();
     _220 = 0;
+    _224 = 0;
     mState = 0;
 }
 
@@ -102,6 +107,46 @@ void Unk_71024fefe8::sub_7101012340(s32 value, bool flag, s32 id) {
         if (entry.id == id) {
             entry._5 = flag;
             return;
+        }
+    }
+}
+
+namespace {
+// 0x71024fefb8
+sead::SafeString sStr_GuardianBgmMain = "main";
+}  // namespace
+
+// 0x7101012470 (unnamed in the CSV): the marker callback installed by Unk_71024fefe8::hm14.
+void sub_7101012470(const aal::MarkerController::MarkerCallbackInfo& info, void* user) {
+    auto* bgm = static_cast<Unk_71024fefe8*>(user);
+    if (info.type != 1)
+        return;
+    bgm->_1fc = info.id;
+    if (bgm->_200.isEmpty())
+        return;
+    if (bgm->mState == 1)
+        bgm->sub_71010209FC(bgm->_200);
+    bgm->_220 = 0;
+    bgm->_224 = *bgm->mInfo->mIgnoreReserveCountDownSec;
+    bgm->_200.clear();
+}
+
+void Unk_71024fefe8::hm14() {
+    _228 = sub_71010209FC(sStr_GuardianBgmMain);
+    if (!_228 || !_228->sub_7100FF6DF4(this))
+        return;
+    auto* entry = _228;
+    if (entry->mHandle.isActive())
+        entry->mHandle.getEvent()->resetFlagBit(1);
+    if (!entry->mHandle.isActive())
+        return;
+    auto* event = static_cast<xlink2::EventSLink*>(entry->mHandle.getEvent());
+    if (auto* executor = event->getAliveAssetExecutor()) {
+        auto* handle = executor->getHandle();
+        if (handle->getMarkerController()) {
+            handle->getMarkerController()->setMarkerCallback(sub_7101012470,
+                                                             *mInfo->mMarkerCallbackOffsetSample, this);
+            _1fc = -1;
         }
     }
 }
