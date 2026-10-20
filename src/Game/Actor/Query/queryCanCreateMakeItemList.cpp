@@ -1,5 +1,8 @@
 #include "Game/Actor/Query/queryCanCreateMakeItemList.h"
 #include <evfl/Query.h>
+#include "Game/gameNpcShopData.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 
 namespace uking::query {
 
@@ -7,9 +10,12 @@ CanCreateMakeItemList::CanCreateMakeItemList(const InitArg& arg) : ksys::act::ai
 
 CanCreateMakeItemList::~CanCreateMakeItemList() = default;
 
-// FIXME: implement
+static const char* const sShopTypeNames[] = {"Cooking", "Jewelry", "Compound", "Ancient"};
+
 int CanCreateMakeItemList::doQuery() {
-    return -1;
+    return NpcShopData::sub_710091D8E4(mActor->getParam()->getRes().mShopData,
+                                       sShopTypeNames[*mShopType], *mIncludePorchMainMat,
+                                       *mIncludePorchSubMat);
 }
 
 void CanCreateMakeItemList::loadParams(const evfl::QueryArg& arg) {
