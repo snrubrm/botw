@@ -59,6 +59,10 @@ struct CharacterControllerUnk38 {
     /* 0x44 */ sead::Vector3f _44;
     /* 0x50 */ sead::Vector3f _50;
     void sub_7100F652F8(const sead::Vector3f& velocity);
+    // 0x7100f653b0 (declaration only): the ground / edge check that reads the controller at _10.
+    void sub_7100F653B0(const sead::Vector3f& a, const sead::Vector3f& b);
+    // 0x7100f659fc (unnamed in the CSV): the check at _38 / _44, run only when _34 is set.
+    void sub_7100F659FC();
 };
 
 
@@ -1449,6 +1453,13 @@ void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
     } else {
         _50 = velocity;
     }
+}
+
+// 0x7100f659fc (unnamed in the CSV): the _38 / _44 check, only while _34 is set.
+void CharacterControllerUnk38::sub_7100F659FC() {
+    if (!_34)
+        return;
+    sub_7100F653B0(_38, _44);
 }
 
 // NON_MATCHING: the compiler inlines the listener's clamp; the original calls it.
