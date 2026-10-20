@@ -5,6 +5,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 
 namespace ksys::snd { class Unk_SoundMgr38_48; }
+namespace ksys::xlink { class ChemicalEventState; }
 
 namespace ksys::phys {
 
@@ -31,6 +32,8 @@ public:
 protected:
     // Grudge sound's full query helper 1036530 checks this base query's execution status.
     friend class ksys::snd::Unk_SoundMgr38_48;
+    // The chemical indoor probes inspect this same execution status after execute().
+    friend class ksys::xlink::ChemicalEventState;
 
     void reset();
 

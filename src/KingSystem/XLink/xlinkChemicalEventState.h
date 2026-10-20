@@ -10,6 +10,8 @@ class Chemical;
 
 namespace ksys::xlink {
 
+extern const char* const sUnk_7102516100[20];
+
 // Placeholder name: E3AA34 allocates 0x2b0 bytes and E3B298 constructs this chemical event state.
 // 0x710122E6E8 transfers twenty-one ELink/SLink pairs and 0x710122E740 fades the same pairs.
 class ChemicalEventState {
@@ -27,10 +29,19 @@ public:
                         Unk_71012419b4* handles, act::Chemical* chemical, u32 kind,
                         bool a, bool force_fallback, bool aoc);
 
+    // 0x710122e56c chooses from an explicitly supplied XLink and the reaction fallback.
+    void sub_710122E56C(XLink* supplied, Unk_71012419b4* handles, act::Chemical* chemical,
+                        u32 kind, bool emit_start, bool force_fallback, act::Actor* actor);
+
     /* 0x00 */ bool mFaded = false;
     /* 0x04 */ u32 mActiveMask = 0;
     /* 0x08 */ u32 mKind = 0;
     /* 0x10 */ sead::SafeArray<Unk_71012419b4, 21> mHandles;
+
+private:
+    // The emitter's adjacent helpers query the actor position or an explicit position for indoor hits.
+    bool sub_710122E8CC(bool* indoor, act::Actor* actor) const;
+    bool sub_710122EABC(bool* indoor, const sead::Vector3f& position) const;
 };
 KSYS_CHECK_SIZE_NX150(ChemicalEventState, 0x2b0);
 
