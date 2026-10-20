@@ -28,6 +28,7 @@ public:
     void setPositionFollow(bool follow);
     /// Also points the spatial calculator setting at the stored matrix / velocity.
     void setActorMatrix(const sead::Matrix34f& matrix);
+    void setActorPositioning(const sead::Vector3f& position, const sead::Vector3f& rotation);
     void setVelocity(const sead::Vector3f& velocity);
     void getPosition(sead::Vector3f* position) const;
     void setDopplerFactor(f32 factor);

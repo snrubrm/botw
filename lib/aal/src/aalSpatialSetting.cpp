@@ -47,6 +47,13 @@ void SpatialSetting::setVelocity(const sead::Vector3f& velocity) {
     mSetting.velocity = &mVelocity;
 }
 
+// 0x7100b918c0
+void SpatialSetting::setActorPositioning(const sead::Vector3f& position,
+                                       const sead::Vector3f& rotation) {
+    mActorMatrix.makeRT(rotation, position);
+    mSetting.actor_matrix = &mActorMatrix;
+}
+
 // 0x7100b919d0
 void SpatialSetting::getPosition(sead::Vector3f* position) const {
     if (position)
