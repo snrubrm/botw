@@ -17,14 +17,14 @@ Unk_7100000fd0::Unk_7100000fd0()
       _18(&sUnk_7101EC1934), _20(&sUnk_7101EC1938), _28(&sUnk_7101EC193C),
       _30(0, 0, 0), _40{&sUnk_7101DA3518, 0} {}
 
-// NON_MATCHING: vector copy uses three scalar stores; original uses a z store and an xy pair.
+// NON_MATCHING: the original computes controller->get64() before the lock (register allocation follows).
 bool Unk_7100000fd0::sub_7100001050(ksys::as::ASList* as_list,
                                   ksys::phys::NavMeshCharacter* nav,
                                   ksys::phys::CharacterController* controller, f32 max_rotate) {
     sead::Vector3f direction;
     {
         auto lock = sead::makeScopedLock(nav->_1e0);
-        direction = nav->_23c;
+        direction.e = nav->_23c.e;
     }
     sub_71000010E0(as_list, direction, controller->get64(), max_rotate);
     return false;

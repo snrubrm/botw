@@ -32,14 +32,13 @@ bool AirOctaFloat::init_(sead::Heap* heap) {
     return AirOctaMoveBase::init_(heap);
 }
 
-// NON_MATCHING: vector address scheduling and zero-vector copy stores differ.
 void AirOctaFloat::enter_(ksys::act::ai::InlineParamPack* params) {
     AirOctaMoveBase::enter_(params);
     if (auto* manager = sub_7100088DA8()) {
         if (manager->mBaseProcLink2.hasProc())
             _1c4.set(0.005f, 1.7f, 0.005f);
         else
-            _1c4 = sead::Vector3f::zero;
+            _1c4.e = sead::Vector3f::zero.e;
     }
 }
 

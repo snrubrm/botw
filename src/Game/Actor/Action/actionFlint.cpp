@@ -44,7 +44,6 @@ void Flint::loadParams_() {
     getStaticParam(&mParams.mSetDelete_s, "SetDelete");
 }
 
-// NON_MATCHING: the zero-vector copy uses different load grouping and register allocation.
 void Flint::calc_() {
     auto* actor = mActor;
     if (!sub_71007A2604(actor))
@@ -56,7 +55,7 @@ void Flint::calc_() {
             continue;
         ElementSparkCreateArg arg;
         arg.actor = nullptr;
-        arg.position = sead::Vector3f::zero;
+        arg.position.e = sead::Vector3f::zero.e;
         arg.radius = 1.0f;
         arg.life = 15.0f;
         arg.position = info->_0;
