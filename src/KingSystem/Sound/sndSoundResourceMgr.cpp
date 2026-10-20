@@ -74,6 +74,45 @@ void Unk_SoundMgr60::sub_7101058734(const sead::SafeString& name, Unk_7102502950
     reader->_18 |= 1;
 }
 
+// NON_MATCHING: every local sits 0x10 higher than the original's (the request, the path string and the reused
+// status / requester temporary); the instructions are otherwise the same.
+// 0x7101058f20 (placeholder name): loads "<dir>/<name>.bars" into `handle` and returns it as a bars resource.
+Unk_7102502978* Unk_SoundMgr60::sub_7101058F20(res::Handle* handle, const sead::SafeString& name,
+                                               const sead::SafeString& dir, bool use_audio_arena,
+                                               bool lane2) {
+    sead::FixedSafeString<128> path;
+    path.format("%s/%s.bars", dir.cstr(), name.cstr());
+    res::Handle::Status status;
+    res::LoadRequest request;
+    request.mRequester = "Sound";
+    request.mLoadDataAlignment = 0x80;
+    request._22 = true;
+    request.mArena = use_audio_arena ? OverlayArenaSystem::instance()->getAudioArena() : mArena;
+    if (lane2)
+        request.mLaneId = 2;
+    auto* resource = handle->load(path, &request, &status);
+    auto* bars = sead::DynamicCast<Unk_7102502978>(resource);
+    if (bars && status == res::Handle::Status::_4)
+        bars->sub_7101057588(name);
+    return bars;
+}
+
+// 0x7101059120 (placeholder name): loads `name` into `handle` with `pack` as the pack handle, then sets the
+// bars file name when the result is a loaded ResourceBars.
+void Unk_SoundMgr60::sub_7101059120(res::Handle* handle, res::Handle* pack, const sead::SafeString& name) {
+    res::LoadRequest request;
+    request.mRequester = "Sound";
+    request.mLoadDataAlignment = 0x80;
+    request.mPackHandle = pack;
+    request.mArena = mArena;
+    request._26 = false;
+    res::Handle::Status status;
+    auto* resource = handle->load(name, &request, &status);
+    auto* bars = sead::DynamicCast<Unk_7102502978>(resource);
+    if (bars && status == res::Handle::Status::_4)
+        bars->sub_7101057588(name);
+}
+
 // 0x7101058c44: loads every entry of the bars list `name` into `reader`, requesting each asset.
 bool Unk_SoundMgr60::loadBars(const sead::SafeString& name, Unk_7102502950* reader, sead::Heap* heap,
                               bool a4, bool a5, res::Handle* pack) {

@@ -1286,6 +1286,12 @@ struct Unk_SoundMgr60 : public aal::IAssetList, public Unk_7102502ac0, public Un
     // 0x7101057e74 (placeholder name): mDelegate's function: clears the "bars" cache and loads the title BGM
     // pack voices. Always true.
     bool sub_7101057E74(void* arg);
+    // 0x7101059120 (placeholder name): loads `name` into `handle` (with `pack` as the pack handle) and sets the
+    // bars file name when it is a loaded ResourceBars.
+    void sub_7101059120(res::Handle* handle, res::Handle* pack, const sead::SafeString& name);
+    // 0x7101058f20 (placeholder name): loads "<dir>/<name>.bars" into `handle` and returns it as a bars resource.
+    Unk_7102502978* sub_7101058F20(res::Handle* handle, const sead::SafeString& name,
+                                   const sead::SafeString& dir, bool use_audio_arena, bool lane2);
     // ResourceBars construction/destruction notifications (empty in the release build).
     void sub_7101059450(aal::AudioResource* resource);
     void sub_7101059454(aal::AudioResource* resource);
