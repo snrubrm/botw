@@ -28,6 +28,37 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
 
+// Full EA7300 / 80 B. EB16A0 loads InstanceSet::mController at +80 into x0,
+// heap into x1, calls here and stores the result at Unk_71024ef4e8::_c8 (Unk2*).
+Unk_71024ef4e8::Unk2* Unk_71024ef4e8::Unk2::sub_7100EA7300(
+    phys::CharacterController* controller, sead::Heap* heap) {
+    auto* object = new (heap, 8) Unk2(controller);
+    object->sub_7100EA7350(heap);
+    return object;
+}
+
+// Full EA7350 / 900 B. Native allocates 16 records at 28 B each, one 16-entry
+// ring, 16 projected Vector2f entries, then three additional 16-entry rings.
+void Unk_71024ef4e8::Unk2::sub_7100EA7350(sead::Heap* heap) {
+    mContactRecords.tryAllocBuffer(16, heap, 8);
+    mContactIndices.tryAllocBuffer(16, heap, 8);
+    mProjectedPoints.tryAllocBuffer(16, heap, 8);
+    _148.tryAllocBuffer(16, heap, 8);
+    _160.tryAllocBuffer(16, heap, 8);
+    _178.tryAllocBuffer(16, heap, 8);
+}
+
+// Full EA79DC / 176 B. The last native branch is virtual slot 1, D0 EA79D8.
+void Unk_71024ef4e8::Unk2::sub_7100EA79DC() {
+    mContactRecords.freeBuffer();
+    mContactIndices.freeBuffer();
+    mProjectedPoints.freeBuffer();
+    _148.freeBuffer();
+    _160.freeBuffer();
+    _178.freeBuffer();
+    delete this;
+}
+
 bool Unk_71024ef4e8::Unk2::sub_7100EAB7C0(sead::Vector3f* out) const {
     if (!(_1f0 & 0x20))
         return false;

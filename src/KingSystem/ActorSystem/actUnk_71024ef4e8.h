@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadRingBuffer.h>
 #include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -74,13 +75,42 @@ public:
         /* 0xd8 */ sead::Vector3f _d8;
     };
 
+    // EA7300 constructs this 0x210-byte controller contact solver; EA79DC frees its buffers.
     struct Unk2 {
+        struct ContactRecord {
+            sead::Vector3f position = sead::Vector3f::zero;
+            sead::Vector3f normal = sead::Vector3f::ey;
+            u8 _18 = 0;
+            u8 _19 = 1;
+            u8 _1a = 0;
+            u8 _1b = 0;
+        };
+        static_assert(sizeof(ContactRecord) == 0x1c);
+
+        explicit Unk2(phys::CharacterController* controller);
+        virtual ~Unk2();
+        static Unk2* sub_7100EA7300(phys::CharacterController* controller, sead::Heap* heap);
+        void sub_7100EA7350(sead::Heap* heap);
+        void sub_7100EA79DC();
         // EAB818: writes the target position when available; Player 87F29C consumes all three floats.
         bool sub_7100EAB818(sead::Vector3f* out) const;
         // EAB7C0: writes _1c0 while _1f0 bit 5 is set and _1c0 is not zero (Player 0x7100883bc4 tests its y).
         bool sub_7100EAB7C0(sead::Vector3f* out) const;
 
-        u8 _0[0x190];
+        /* 0x008 */ phys::CharacterController* mController;
+        /* 0x010 */ f32 _10;
+        /* 0x014 */ f32 _14;
+        /* 0x018 */ u32 _18;
+        /* 0x01c */ s32 _1c;
+        /* 0x020 */ s32 _20;
+        /* 0x024 */ f32 _24;
+        /* 0x028 */ sead::Buffer<ContactRecord> mContactRecords;
+        /* 0x038 */ sead::RingBuffer<s32> mContactIndices;
+        /* 0x050 */ sead::Buffer<sead::Vector2f> mProjectedPoints;
+        u8 _60[0x148 - 0x60];
+        /* 0x148 */ sead::RingBuffer<s32> _148;
+        /* 0x160 */ sead::RingBuffer<s32> _160;
+        /* 0x178 */ sead::RingBuffer<s32> _178;
         /* 0x190 */ sead::Vector3f _190;
         u8 _19c[0x1a8 - 0x19c];
         /* 0x1a8 */ sead::Vector3f _1a8;
@@ -90,7 +120,12 @@ public:
         /* 0x1d8 */ sead::Vector3f _1d8;  // the target position (valid while _1f0 bit 5 is set)
         u8 _1e4[0x1f0 - 0x1e4];
         /* 0x1f0 */ u32 _1f0;  // tested with 0x1002 by Player::sub_710087CF54
+        u8 _1f4[0x210 - 0x1f4];
     };
+    static_assert(sizeof(Unk2) == 0x210);
+    static_assert(offsetof(Unk2, mContactRecords) == 0x28);
+    static_assert(offsetof(Unk2, mProjectedPoints) == 0x50);
+    static_assert(offsetof(Unk2, _190) == 0x190);
 
     virtual ~Unk_71024ef4e8() = default;
 
