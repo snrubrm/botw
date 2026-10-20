@@ -32,6 +32,8 @@ public:
     void setAnimalMasterAppearanceFlagIdx(ksys::gdt::Manager::ReinitEvent* event);
     // 0x710043b6d8 (placeholder name): goes to eat (食べに行く) the first sight-sensor target the horse accepts.
     bool sub_710043B6D8(ksys::act::AwarenessInstance* awareness);
+    // 0x710043b418 (placeholder name): goes to eat (食べる(手持ち)) an item carried by a player the sight sensor sees.
+    bool sub_710043B418(ksys::act::AwarenessInstance* awareness);
 
 protected:
     struct Params {

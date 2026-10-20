@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiHorseNotRidden.h"
+#include "Game/gameSceneSubsys12.h"
 #include <random/seadGlobalRandom.h>
 #include <limits>
 #include "Game/Actor/actRideable.h"
@@ -84,6 +85,50 @@ void HorseNotRidden::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     }
     changeChild("うろつく");
+}
+
+// NON_MATCHING: regalloc. The original reloads the GameSceneSubsys12 instance pointer each outer iteration and
+// spills it; ours keeps the GOT address and spills the carrier link instead.
+bool HorseNotRidden::sub_710043B418(ksys::act::AwarenessInstance* awareness) {
+    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    if (!horse)
+        return false;
+    if (!awareness->_260[0])
+        return false;
+
+    const s32 count = awareness->_260[0]->_8.size();
+    for (s32 i = 0; i < count; ++i) {
+        ksys::act::Unk_7100d78e50* entry = nullptr;
+        if (auto* sensor = awareness->_260[0]) {
+            if (sensor->_8.size() > i)
+                entry = ksys::act::sub_7100D78E30(&sensor->_8, i);
+        }
+        if (!entry)
+            continue;
+
+        ksys::act::ActorLinkConstDataAccess player;
+        if (!ksys::act::acquireActor(&entry->_0.mLink, &player) || !player.isPlayerProfile())
+            continue;
+        auto* subsys = GameSceneSubsys12::instance();
+        if (!subsys)
+            continue;
+        const s32 num_items = subsys->sub_710066358C();
+        for (s32 j = 0; j < num_items; ++j) {
+            auto* item = subsys->sub_7100664BC8(j);
+            ksys::act::ActorLinkConstDataAccess item_accessor;
+            if (!item || !ksys::act::acquireActor(item, &item_accessor))
+                continue;
+            if (act::sub_7100E808A4(horse, *item, entry->_0.mLink,
+                                    *mParams.mCarriedItemCosThresholdForEat_s,
+                                    mParams.mCarriedItemPosRTYOffset_s, mParams.mCarriedItemPosRTYWidth_s)) {
+                ksys::act::ai::InlineParamPack params;
+                params.addActor(*item, "TargetActor", -1);
+                changeChild("食べる(手持ち)", &params);
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 // NON_MATCHING: loop counter form. The original keeps i + 1 in a register and indexes with (i + 1) - 1.
