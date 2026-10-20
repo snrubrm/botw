@@ -9,6 +9,7 @@
 #include <prim/seadStringUtil.h>
 #include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/uiShopItemElementChildren.h"
+#include "Game/UI/uiRecipe.h"
 #include "Game/UI/uiSwkbdMgr.h"
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
@@ -319,6 +320,110 @@ void ScreenShopBtnList15::m94() {
     _3610.sub_7100A816D8();
 }
 
+// 0x7100a51bb0
+// NON_MATCHING: nested RTTI casts and buffer traversal allocate registers differently.
+void ScreenShopInfo::m93(sead::Heap* heap) {
+    sub_7100A23ED8(mTagProcessor)->_50 = &_3768;
+    _3610 = mLayout->createAnimatorAuto("Type", true);
+    if (_3610)
+        _3610->StopAtMin();
+    _3618 = mLayout->createAnimatorAuto("Param", true);
+    if (_3618)
+        _3618->StopAtMin();
+    _3620 = mLayout->createAnimatorAuto("State", true);
+    if (_3620)
+        _3620->StopAtMin();
+    _3628 = mLayout->createAnimatorAuto("Alpha", true);
+    if (_3628)
+        _3628->StopAtMin();
+    auto* icon_layout = mLayout->findPartsLayout("Pa_ItemIcon_00");
+    if (icon_layout) {
+        _3630 = icon_layout->createAnimatorAuto("State", true);
+        if (_3630)
+            _3630->StopAtMin();
+    }
+    _3638 = nn::font::DynamicCast<Unk_710247ca18>(
+        nn::font::DynamicCast<ScreenChildEx>(getChild(0, 0)));
+    if (_3638)
+        _3638->sub_71009C20F0(findTraceGaugeControl("Pa_ParamHeart_00", "Pa_ItemName_00"));
+    _3640 = static_cast<Unk_710247d0c8*>(getChildExMaybe(1, 0));
+    _3648 = static_cast<Unk_710247d0c8*>(getChildExMaybe(2, 0));
+    _3650 = sub_7100A52150("T_Caption_00");
+    const s32 count = sub_71010AA868(3);
+    _3658.allocBuffer(count, heap);
+    for (s32 i = 0; i < count; ++i)
+        _3658.insert(i, nn::font::DynamicCast<ShopInfoItem>(
+                           nn::font::DynamicCast<ScreenChildEx>(getChild(3, i))));
+    _3668 = mLayout->findPartsLayout("Pa_Porch_00");
+    if (_3668)
+        _3670 = _3668->createAnimatorAuto("State", true);
+    _3678.sub_71009C6878(mLayout->findPartsLayout("Pa_Star_00"));
+    _3690 = mLayout->findPartsLayout("Pa_HaveNum_00");
+    if (_3690) {
+        _3690->startAnimCloseImpl_(false, true);
+        sub_7100AA34A4(_3690, "T_Icon_01", 7);
+    }
+    _3698.sub_7100A814D8(heap, 0, count + 1, "ShopInfo_00Screen");
+    if (icon_layout) {
+        if (auto* pane = icon_layout->mPane->FindPaneByName("P_Icon_00", true))
+            _3698.setMaterial(0, pane->GetMaterial(0), true);
+    }
+    for (s64 i = 0; i < count; ++i) {
+        if (_3658[i]) {
+            const s32 slot = s32(i) + 1;
+            _3698.setMaterial(slot, _3658[i]->sub_71009C2DFC(), false);
+            _3658[i]->_138 = slot;
+        }
+    }
+}
+
+// 0x7100a52e60
+// NON_MATCHING: recipe construction and checked row traversal use different registers.
+void ScreenShopInfo::sub_7100A52E60(const sead::SafeString& name, u32 count_equipped,
+                                  s32 texture_count) {
+    RecipeItems items;
+    sub_7100A91784(&items, name);
+    s32 num_items;
+    if (items[0].name.isEmpty())
+        num_items = 0;
+    else if (items[1].name.isEmpty())
+        num_items = 1;
+    else if (items[2].name.isEmpty())
+        num_items = 2;
+    else
+        num_items = 3;
+    s32 texture_index = -1;
+    if (texture_count >= 0 && PauseMenuDataMgr::instance()) {
+        const s32 count = _3658.size();
+        for (s64 i = 0; i < count; ++i) {
+            if (sub_7100A82E28(s32(PauseMenuDataMgr::getType(items[i].name, nullptr)))) {
+                texture_index = s32(i);
+                break;
+            }
+        }
+    }
+    eui::MessageString message;
+    sead::FixedSafeString<128> path;
+    const s32 count = _3658.size();
+    for (s64 i = 0; i < count; ++i) {
+        if (!_3658[i])
+            continue;
+        if (i < num_items) {
+            const s32 owned = sub_7100A91E40(items[i].name, (count_equipped & 1) != 0);
+            _3658[i]->sub_71009C2C28(owned < items[i].num);
+            sub_7100AA2BDC(items[i].name, &message);
+            _3658[i]->sub_71009C2C44(message);
+            _3658[i]->sub_71009C2C8C(owned);
+            _3658[i]->sub_71009C2D44(items[i].num);
+            sub_7100AA3B50(items[i].name, &path, texture_index == i ? texture_count : -1);
+            _3698.sub_7100A81B1C(path, _3658[i]->_138);
+        } else {
+            _3658[i]->sub_71009C2C28(3);
+            _3698.unload(_3658[i]->_138);
+        }
+    }
+}
+
 // 0x7100a52310
 void ScreenShopInfo::m94() {
     _3698.sub_7100A816D8();
@@ -557,7 +662,7 @@ void ScreenShopInfo::sub_7100A52C88(s32 mode, s32 a2, u32 a3) {
 }
 
 // 0x7100a52db0
-void ScreenShopInfo::sub_7100A52DB0(u32 mode, ShopInfoTagData* data) {
+void ScreenShopInfo::sub_7100A52DB0(u32 mode, const sead::SafeString& name) {
     if (_3620 == nullptr)
         return;
     _3620->Stop(mode);
@@ -567,12 +672,12 @@ void ScreenShopInfo::sub_7100A52DB0(u32 mode, ShopInfoTagData* data) {
         if (_3650 == nullptr)
             return;
         eui::MessageString msg;
-        sub_7100AA2E08(data, &msg);
+        sub_7100AA2E08(name, &msg);
         _3650->sub_7100BD9CDC(msg, 0);
         _3650->sub_7100BD9B5C();
         return;
     }
-    sub_7100A52E60(data, 0, -1);
+    sub_7100A52E60(name, 0, -1);
 }
 
 // 0x7100a53328 (placeholder name): closes the number pane's current animation and shows `value` in T_Num_00
@@ -3389,10 +3494,10 @@ void ScreenShopInfo::setShopInfoSubTextPartsStateFrame2() {
 }
 
 // 0x7100a531d8
-void ScreenShopInfo::sub_7100A531D8(ShopInfoTagData* data, s32 value) {
+void ScreenShopInfo::sub_7100A531D8(const sead::SafeString& name, s32 value) {
     if (_3620) {
         _3620->Stop(1.0f);
-        sub_7100A52E60(data, 1, value);
+        sub_7100A52E60(name, 1, value);
     }
 }
 

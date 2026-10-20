@@ -367,7 +367,7 @@ void ShopInfoTagRow::sub_71009B0C34(ShopInfoTagData* data) {
     }
     if (_148) {
         eui::MessageString tag_message;
-        sub_7100AA2E08(data, &tag_message);
+        sub_7100AA2E08(data->str, &tag_message);
         _148->sub_7100BD9CDC(tag_message, 0);
         _148->sub_7100BD9B5C();
     }
@@ -383,7 +383,7 @@ void ShopInfoTagRow::sub_71009B0CF4(ShopInfoTagData* data) {
     }
     if (_148) {
         eui::MessageString tag_message;
-        sub_7100AA2E08(data, &tag_message);
+        sub_7100AA2E08(data->str, &tag_message);
         _148->sub_7100BD9CDC(tag_message, 0);
         _148->sub_7100BD9B5C();
     }

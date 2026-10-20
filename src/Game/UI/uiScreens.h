@@ -5181,10 +5181,10 @@ u32 sub_7100AA4E60(ShopInfoTagData* data, sead::WBufferedSafeString* out);
 u32 sub_7100AA5140(ShopInfoTagData* data, sead::WBufferedSafeString* out);
 // 0x7100aa2e08 (CSV unnamed): resolve the tag data's string into a message (empty message when
 // the string is empty, else the "<profile>" / "<name>_Desc" lookup through sub_7100AA2FA0).
-u32 sub_7100AA2E08(ShopInfoTagData* data, eui::MessageString* out);
+u32 sub_7100AA2E08(const sead::SafeString& name, eui::MessageString* out);
 // 0x7100aa2fa0 (CSV unnamed): fill `arg1` with "ActorType/<profile>" and `arg2` with
 // "<name>_Desc" for the tag data's (suffix-stripped) actor name.
-void sub_7100AA2FA0(ShopInfoTagData* data, sead::BufferedSafeStringBase<char>* arg1,
+void sub_7100AA2FA0(const sead::SafeString& name, sead::BufferedSafeStringBase<char>* arg1,
                     sead::BufferedSafeStringBase<char>* arg2);
 // 0x7100aa29c4 (CSV unnamed): strip the "_Far" suffix from the name, reporting whether it changed.
 bool sub_7100AA29C4(const sead::SafeString& actor_name, sead::SafeString& name);
@@ -5227,6 +5227,7 @@ public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     ScreenShopInfo();
     const char* getLayoutName_() const override;
+    void m93(sead::Heap* heap) override;
     void m94() override;
     void m96() override;
     void m101() override;
@@ -5242,17 +5243,15 @@ public:
 
     // 0x7100a52db0 (CSV placeholder): mode select (1 = full refresh through sub_7100A52E60,
     // 0 = re-resolve the shop message into _3650; anything else only runs the _3620 animator).
-    void sub_7100A52DB0(u32 mode, ShopInfoTagData* data);
+    void sub_7100A52DB0(u32 mode, const sead::SafeString& name);
     // 0x7100a53328 (placeholder name): closes the number pane's current animation and shows `value` in T_Num_00
     void sub_7100A53328(s32 value);
     void setShopInfoSubTextPartsStateFrame2();
-    void sub_7100A531D8(ShopInfoTagData* data, s32 value);
+    void sub_7100A531D8(const sead::SafeString& name, s32 value);
     void setPorchNumText(s32 value);
     void hidePorchNum();
-    // 0x7100a52e60 (CSV placeholder, not decompiled yet): the full shop refresh (888B; uses
-    // _3690/_3698/_3658, calls sub_7100AA2BDC + unnamed 0x9c2c28/2c44/2c8c/2d44 + sub_7100AA3B50).
-    // Declared only so sub_7100A52DB0 can tail-call it.
-    void sub_7100A52E60(ShopInfoTagData* data, u32 a2, s32 a3);
+    // 0x7100a52e60: refreshes the recipe ingredient rows and their textures.
+    void sub_7100A52E60(const sead::SafeString& name, u32 a2, s32 a3);
     // 0x7100a5233c / 0x7100a52358 (CSV unnamed): the two shop info animators.
     void sub_7100A5233C(u32 value);
     void sub_7100A52358(bool flag);

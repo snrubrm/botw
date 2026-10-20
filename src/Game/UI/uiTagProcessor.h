@@ -26,6 +26,7 @@ public:
 
 private:
     friend class ScreenMessageDialog;
+    friend class ScreenShopInfo;
 
     /* 0x50 */ void* _50 = nullptr;
     /* 0x58 */ f32 _58 = 1.4f;
@@ -36,5 +37,8 @@ public:
     /* 0x5d */ bool _5d = false;
 };
 KSYS_CHECK_SIZE_NX150(TagProcessor, 0x60);
+
+// 0x7100a23ed8: casts the screen tag processor to the game tag processor.
+TagProcessor* sub_7100A23ED8(nn::font::TagProcessorBase<u16>* processor);
 
 }  // namespace uking::ui
