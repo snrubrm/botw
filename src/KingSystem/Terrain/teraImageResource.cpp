@@ -200,6 +200,58 @@ u32 Unk_710250dd60::m9() {
 
 namespace ksys::tera {
 
+// 0x7101122fc8 (placeholder name): initialises `texture` and allocates its image buffer from `heap`.
+// With a mip chain the image is rounded up to the block alignment and the mips follow it in the
+// same buffer. `zero` clears the new buffer through the CPU mapping.
+// NON_MATCHING: the image-size load is merged with the alignment load (one 64-bit load instead of
+// two 32-bit ones), which shifts the register allocation and makes the frame 0x10 larger; the two
+// branches, the calls and their arguments follow the original.
+bool initTextureBufferMaybe(agl::TextureData* texture, sead::Heap* heap, u32 alignment,
+                            agl::TextureFormat format, u32 width, u32 height, u32 mip_count,
+                            bool attribute, bool zero) {
+    texture->initialize_(agl::TextureType::cTextureType_2D, format, width, height, 1, mip_count,
+                         static_cast<agl::TextureAttribute>(attribute),
+                         agl::MultiSampleType{}, true);
+
+    const u32 image_alignment = texture->getImageAlignment();
+    const u32 block_alignment = image_alignment > alignment ? image_alignment : alignment;
+
+    if (mip_count == 1) {
+        const u32 size = texture->getImageByteSize();
+        const agl::MemoryAttribute memory_attribute =
+            attribute ? agl::MemoryAttribute::CpuCached : agl::MemoryAttribute::Default;
+        auto* memory = new (heap, 8) agl::GPUMemBlock<u8>;
+        memory->allocBuffer_(size, heap, block_alignment, memory_attribute);
+        const agl::GPUMemAddrBase addr(*memory, 0);
+        if (!addr.isValid())
+            return false;
+        if (zero) {
+            std::memset(addr.getAddress(), 0, texture->getImageByteSize());
+            addr.flushCPUCache(texture->getImageByteSize());
+        }
+        texture->setImagePtr(addr, 0);
+        return true;
+    }
+
+    const u32 size = texture->getImageByteSize();
+    const u32 mip_offset = ((block_alignment + size - 1) / block_alignment) * block_alignment;
+    const u32 total = mip_offset + texture->getMipSize();
+    const agl::MemoryAttribute memory_attribute =
+        attribute ? agl::MemoryAttribute::CpuCached : agl::MemoryAttribute::Default;
+    auto* memory = new (heap, 8) agl::GPUMemBlock<u8>;
+    memory->allocBuffer_(total, heap, block_alignment, memory_attribute);
+    const agl::GPUMemAddrBase addr(*memory, 0);
+    if (!addr.isValid())
+        return false;
+    if (zero) {
+        std::memset(addr.getAddress(), 0, total);
+        addr.flushCPUCache(total);
+    }
+    texture->setImagePtr(addr, 0);
+    texture->setMipPtr(agl::GPUMemAddrBase(addr, mip_offset));
+    return true;
+}
+
 // NON_MATCHING: scheduling in the level loop (the height clamp is computed before the width store).
 void sub_710110DE64(TextureMipTableMaybe* table, const agl::TextureData& texture) {
     u8* image = static_cast<u8*>(texture.getImagePtr().getAddress());

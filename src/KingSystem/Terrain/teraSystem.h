@@ -1795,6 +1795,10 @@ u32 sub_710110B52C(f32* out_height, sead::Vector3f* out_normal, const sead::Vect
 u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vector2f* xz,
                    System* system);
 
+// 0x7101122fc8 (placeholder name): initialises a texture and allocates its image (and mip) buffer.
+bool initTextureBufferMaybe(agl::TextureData* texture, sead::Heap* heap, u32 alignment,
+                            agl::TextureFormat format, u32 width, u32 height, u32 mip_count,
+                            bool attribute, bool zero);
 // 0x7101123258 (declaration only; placeholder name): forwards to 0x7101372840 (a path helper outside
 // tera) with the flag masked to one bit.
 void sub_7101123258(sead::BufferedSafeString* out, const sead::SafeString& path, char separator,
