@@ -7,8 +7,9 @@ namespace gsys {
 ModelRenderQueue::ModelRenderQueue() = default;
 
 ModelRenderQueue::~ModelRenderQueue() {
-    // The native destructor releases this pointer array with scalar delete.
-    delete mNodes;
+    // Release the raw pointer storage through the native scalar deallocator.
+    if (mNodes)
+        ::operator delete(mNodes);
 }
 
 void ModelRenderQueue::initialize(int capacity, sead::Heap* heap) {
