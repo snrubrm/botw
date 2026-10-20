@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
@@ -31,6 +32,15 @@ void AreaActor::preDelete2_(const PreDeleteArg& arg) {
         phys::ContactPointInfo::free(_850);
         _850 = nullptr;
     }
+}
+
+// Discarded call: the original calls the base shouldInit_ and drops its result.
+bool AreaActor::shouldInit_() {
+    Actor::shouldInit_();
+    getJobHandler(JobType::Calc2) = nullptr;
+    _888 = getShape();
+    _868 = mScale;
+    return true;
 }
 
 void AreaActor::m149(phys::RigidBody* body) {
@@ -72,6 +82,18 @@ void AreaActor::sub_7100E268F8(phys::MaterialMask* mask) {
 void AreaActor::sub_7100E26990(phys::MaterialMask* mask) {
     if (auto* body = sead::DynamicCast<phys::PolytopeRigidBody>(_840))
         body->setMaterialMask(*mask);
+}
+
+u8 AreaActor::getShape() {
+    static const char* sShapeNames[] = {"Sphere", "Box", "Capsule", "Cylinder", "Hull"};
+    sead::SafeString shape;
+    if (!mRootAi || !mRootAi->getMapUnitParam(&shape, "Shape"))
+        shape = "Sphere";
+    for (int i = 0; i < 5; ++i) {
+        if (shape == sShapeNames[i])
+            return i;
+    }
+    return 0;
 }
 
 void AreaActor::sub_7100E2677C() {

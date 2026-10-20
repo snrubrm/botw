@@ -29,6 +29,7 @@ public:
     ~AreaActor() override = default;
 
     void preDelete2_(const PreDeleteArg& arg) override;
+    bool shouldInit_() override;
     int getCalcTiming() override { return 0; }
 
     /* 148 */ virtual void m148() {}
@@ -40,6 +41,9 @@ public:
     // The contact layer of the body.
     /* 152 */ virtual phys::ContactLayer m152();
     /* 153 */ virtual void* m153() { return nullptr; }
+
+    // 0x7100e26620: index of the "Shape" map unit parameter in Sphere / Box / Capsule / Cylinder / Hull (0 if unknown).
+    u8 getShape();
 
     // 0x7100e2677c: `_88a = 0`.
     void sub_7100E2677C();
