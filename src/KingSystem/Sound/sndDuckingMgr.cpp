@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndSound.h"
+#include <cstring>
 
 namespace ksys::snd {
 
@@ -67,6 +68,56 @@ void DuckingMgr::Ducker::sub_710103E2DC(f32 f) {
     }
     sub_710103E020(f);
     mDucker.resetState();
+}
+
+// NON_MATCHING: the original writes the copied null terminator from cNullChar and orders the two _c8 flag
+// computations differently; the instructions are otherwise the same.
+// 0x710103ddf0: copies the settings' name into the ducker's buffer and sets the group ducker up from them.
+void DuckingMgr::Ducker::setup(sead::Heap* heap, Unk_7102612628* settings) {
+    char* buffer = mNameBuffer;
+    const char* name = settings->mName.cstr();
+    if (buffer != name) {
+        const s32 len = settings->mName.calcLength();
+        const s32 n = len < mNameCapacity ? len : mNameCapacity - 1;
+        memcpy(buffer, name, n);
+        buffer[n] = 0;
+    }
+    if (settings->_68)
+        _c8 |= 2;
+    else
+        _c8 &= ~2;
+    mDucker.initialize(nullptr);
+    mDucker.setup(settings->mSettings);
+    for (s32 i = 0; i < settings->mTargetNum; ++i)
+        mDucker.createAndAddTarget(settings->mTargets[i]->mName, settings->mTargets[i]->mSettings, heap);
+    _b0 = settings;
+}
+
+// 0x710103e020 (placeholder name): rewrites the volume and the fade speed of every target when the group
+// ducker has as many targets as the settings, then starts the ducking with the given `f` factor.
+void DuckingMgr::Ducker::sub_710103E020(f32 f) {
+    const s32 num = mDucker.getTargetNum();
+    if (num != _b0->mTargetNum)
+        return;
+    if (num >= 1) {
+        for (s32 i = 0; i < num; ++i) {
+            auto* target = mDucker.getTarget(i);
+            const f32 old = target->getSettings()._0;
+            const f32 volume = 1.0f - (1.0f - _b0->mTargets[i]->mSettings._0) * f;
+            target->getSettings()._0 = volume;
+            const f32 fader_volume = target->getFaderVolume();
+            f32 value;
+            if (volume > fader_volume)
+                value = target->getSettings()._8 * (volume - fader_volume) / (1.0f - old);
+            else
+                value = _b0->mTargets[i]->mSettings._4;
+            target->getSettings()._4 = value;
+        }
+    }
+    mDucker.getSettings()._0 = _b0->mSettings._0;
+    _c8 |= 1;
+    _c0 = 0;
+    _c4 = f;
 }
 
 void DuckingMgr::Ducker::activateMaybe() {

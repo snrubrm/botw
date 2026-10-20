@@ -663,6 +663,14 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38, 0x160);
 
+// Placeholder (a target of one of the per-ducker settings: the group name at +0 and the target settings at +0x58;
+// Ducker::setup passes the name and 0x710103e020 reads the settings).
+struct Unk_7102612758 {
+    /* 0x00 */ sead::FixedSafeString<32> mName;
+    /* 0x38 */ u8 _38[0x20];
+    /* 0x58 */ aal::GroupDucker::TargetSettings mSettings;
+};
+
 // Placeholder (the per-ducker settings DuckingMgr::init passes to DuckingMgr::Ducker::setup; the static instances
 // start at 0x7102612628 and are 0x130 bytes apart). A name string at +0, the group ducker settings at +0x58, the
 // ducking duration at +0x64, a flag at +0x68, the target count at +0x6c and the target array at +0x70.
@@ -673,7 +681,7 @@ struct Unk_7102612628 {
     /* 0x64 */ f32 mDuration;
     /* 0x68 */ bool _68;
     /* 0x6c */ s32 mTargetNum;
-    /* 0x70 */ u8 _70[0xc0];
+    /* 0x70 */ Unk_7102612758* mTargets[24];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102612628, 0x130);
 
@@ -730,11 +738,17 @@ public:
         void activateAndResetMaybe();
         // 0x710103df60: per-frame update while active or ducking.
         void calc();
+        // 0x710103ddf0: copies the settings' name and sets the group ducker up from them.
+        void setup(sead::Heap* heap, Unk_7102612628* settings);
         // 0x710103e2dc (placeholder name) and 0x710103e020 (the target volume update it calls).
         void sub_710103E2DC(f32 f);
         void sub_710103E020(f32 f);
 
-        u8 _10[0x58];
+        /* 0x10 */ u8 _10[8];
+        // The ducker's name buffer and its capacity (set by the ducker array allocator 0x7101041a5c).
+        /* 0x18 */ char* mNameBuffer = nullptr;
+        /* 0x20 */ s32 mNameCapacity = 0;
+        /* 0x24 */ u8 _24[0x44];
         /* 0x68 */ aal::GroupDucker mDucker;
         /* 0xb0 */ Unk_7102612628* _b0 = nullptr;
         u8 _b8[8];
