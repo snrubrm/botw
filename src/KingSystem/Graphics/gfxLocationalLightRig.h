@@ -61,10 +61,7 @@ static_assert(offsetof(LocationalLightMgr::ObjectLight::Light, mFadeTimer) == 0x
 // Native F18540 registers "LocationalLightRig", factory F18508 and size 0x3a8.
 // The namespace follows the owning game graphics subsystem. F160DC constructs
 // ModelRig at +0, the mutex at +0x260, and these seven named parameter objects.
-// Lifetime and virtual bodies remain undecompiled. The appended event slot is
-// still unresolved: our vtable has one slot fewer than the original's, so the
-// secondary vtable address point is at +0x100 instead of +0x108 in the
-// constructor.
+// Lifetime and virtual bodies use the reconstructed EnvObj / ModelRig interfaces.
 class LocationalLightRig : public gsys::ModelRig {
     SEAD_RTTI_OVERRIDE(LocationalLightRig, agl::env::EnvObj)
 public:
@@ -84,6 +81,8 @@ public:
     // F17E50 forwards the actual context to ParameterBase::genMessageParameter.
     // This new game slot is separate from ModelRig's four registration callbacks.
     virtual void genMessage(sead::hostio::Context* context);
+    // 0x7100f17ff8 forwards this game-only slot to the ModelRig nonvirtual helper.
+    virtual void listenPropertyEventEnvObj(const sead::hostio::PropertyEvent* event);
 
     // 0x7100f177f4 (declaration only): computes the light transform and writes the record.
     void sub_7100F177F4(Unk_7102519378* render_light,

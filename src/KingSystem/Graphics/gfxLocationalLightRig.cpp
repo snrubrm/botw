@@ -18,9 +18,7 @@ LocationalLightRig* LocationalLightRig::create(sead::Heap* heap) {
 }
 
 // Parameter names, labels and meta strings are the originals at 0x7101e1c976 .. 0x7101e1ca8b.
-// NON_MATCHING: the original's LocationalLightRig vtable has one more primary slot (its
-// secondary address point is at +0x108, ours at +0x100), and the parameter string
-// temporaries are scheduled differently.
+// NON_MATCHING: the parameter string temporaries are scheduled differently.
 LocationalLightRig::LocationalLightRig()
     : mLightType(0, "LightType", "ライト種類", "", this),
       mColor(sead::Color4f(1, 0, 0, 1), "Color", "色（輝度で正規化されます）", "", this),
@@ -142,7 +140,6 @@ void LocationalLightRig::m11(int index, sead::Heap* heap) {
     gsys::ModelRig::m11(index, heap);
 }
 
-// NON_MATCHING: the secondary-base vtable is one slot earlier than the original.
 LocationalLightRig::~LocationalLightRig() {}
 
 // NON_MATCHING: adjacent halfword stores merge and initialization is reordered.
@@ -212,6 +209,10 @@ void LocationalLightRig::genMessage(sead::hostio::Context* context) {
     mFlickeringIntensityRate.genMessageParameter(context, mFlickeringIntensityRate.getMeta());
     mFlickeringSpeed.genMessageParameter(context, mFlickeringSpeed.getMeta());
     mEnableEffectMoth.genMessageParameter(context, mEnableEffectMoth.getMeta());
+}
+
+void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyEvent* event) {
+    gsys::ModelRig::listenPropertyEventEnvObj(event);
 }
 
 }  // namespace ksys::gfx
