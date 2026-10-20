@@ -96,6 +96,9 @@ public:
     void init(ActorBinding* binding, EventFlow* slot);
     // 0x7100dab86c (CSV evt::Actor::x_0)
     bool x_0();
+    // 0x7100dab8e0 (placeholder name): casts a 0.35 sphere and three pairs of ground rays around `pos` to
+    // tell whether the ground there is flat.
+    bool sub_7100DAB8E0(const sead::Vector3f& pos);
     // 0x7100dab548 / 0x7100dac578 (CSV unnamed; placeholder names)
     void sub_7100DAB548();
     void sub_7100DAC578();
