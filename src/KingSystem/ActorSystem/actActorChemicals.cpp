@@ -1,4 +1,8 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectEffect.h"
+#include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Chemical/chmShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -27,9 +31,7 @@ Unk_71024e6428::Unk_71024e6428()
       mPlacementXLink(nullptr),
       _18(nullptr),
       _20(nullptr),
-      _28(0),
-      _2c(0),
-      _2d{},
+      _28(nullptr),
       _30(0),
       _34(0),
       _36{},
@@ -77,6 +79,43 @@ void Unk_71024e6428::sub_7100E3B708(const Unk_71024e6428& other) {
             delayed->mFlags |= 8;
         }
     }
+}
+
+// NON_MATCHING: the two flag selects use different temporary registers and operation order.
+void Unk_71024e6428::sub_7100E3AA34(sead::Heap* heap) {
+    sub_7100E3AE40(0);
+    if (mActor && _28c == 0.0f)
+        _28c = 1.0f;
+    mChemical.sub_7100D8EA50(heap);
+    mChemical.sub_7100D8EABC(&_18->getShape(_288), this);
+    if (mActor) {
+        if (hasTag(mActor, 0x19f6c13a))
+            mChemical._c |= 0x2000000;
+        else
+            mChemical._c &= ~0x2000000;
+        if (hasTag(mActor, 0x2bc52291))
+            mChemical._c |= 0x80000;
+        else
+            mChemical._c &= ~0x80000;
+        if (mActor && isFarChemicalActorNameMaybe(mActor->getName()) &&
+            map::PlacementMgr::instance() && map::PlacementMgr::instance()->mPlacementActors &&
+            mActor->getMapObject()) {
+            const auto* entry = mActor->getMapObject()->getActorData().mEffectEntry;
+            mPlacementXLink = entry ? entry->mXLink : nullptr;
+        }
+    }
+    const u32 count = _278.size();
+    if (count) {
+        auto* manager = _28;
+        const auto* entries = _278.getBufferPtr();
+        for (u32 i = 0; i < count; ++i) {
+            sub_7100E3F3E8(entries[i].body, &mChemical, manager);
+            entries[i].body->setContactPointInfo(manager->_af0);
+        }
+    }
+    sub_7100E3B144();
+    _20 = new (heap, 8) xlink::ChemicalEventState;
+    sub_7100E3B3F4(&mChemical);
 }
 
 void Unk_71024e6428::sub_7100E3B6D8(phys::UserTag* tag) {

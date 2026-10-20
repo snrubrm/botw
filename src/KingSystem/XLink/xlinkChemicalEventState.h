@@ -22,6 +22,11 @@ public:
     void sub_710122DE90(act::Actor* actor, Unk_71012419b4* handles, act::Chemical* chemical,
                         u32 kind, bool a, bool force_fallback);
 
+    // 0x710122e018 emits the selected chemical ELink/SLink pair.
+    void sub_710122E018(act::Actor* actor, XLink* effect, XLink* sound,
+                        Unk_71012419b4* handles, act::Chemical* chemical, u32 kind,
+                        bool a, bool force_fallback, bool aoc);
+
     /* 0x00 */ bool mFaded = false;
     /* 0x04 */ u32 mActiveMask = 0;
     /* 0x08 */ u32 mKind = 0;

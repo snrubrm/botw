@@ -31,6 +31,7 @@ class UserTag;
 namespace ksys::act {
 
 class Actor;
+void sub_7100E3F3E8(phys::RigidBody* body, const Chemical* chemical, world::ChemicalMgr* manager);
 
 // Placeholder name (vtable 0x71024e6560, 37 slots): the interface the Chemical calls back through its owner
 // (Chemical::_18) and the base class of Unk_71024e6428. All virtuals have trivial default bodies (the
@@ -94,6 +95,11 @@ public:
     ~Unk_71024e6428() override;
     // Full E3B708 copies chemical event state; independent carried-record transfers supply both elements.
     void sub_7100E3B708(const Unk_71024e6428& other);
+    void sub_7100E3AA34(sead::Heap* heap);
+    // Native caller passes zero; the full callee does not consume its second input.
+    void sub_7100E3AE40(u32 unused);
+    void sub_7100E3B144();
+    void sub_7100E3B3F4(Chemical* chemical);
 
     // 0x7100e3e2e8: marks the element and resets each linked rigid body.
     void sub_7100E3E2E8();
@@ -147,9 +153,7 @@ public:
     // 2026-10-07: setup E37224 passes Root's IRoot base to E39E8C; E3AA34 calls getShape.
     /* 0x018 */ const chm::IRoot* _18;
     /* 0x020 */ xlink::ChemicalEventState* _20;
-    /* 0x028 */ u32 _28;
-    /* 0x02c */ u8 _2c;
-    /* 0x02d */ u8 _2d[3];
+    /* 0x028 */ world::ChemicalMgr* _28;
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
     /* 0x034 */ u8 _34;
     /* 0x035 */ u8 _35 = 10;

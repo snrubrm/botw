@@ -1,4 +1,7 @@
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/System/StageInfo.h"
+#include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/XLink/xlinkChemicalEventState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMiiSound.h"
@@ -20,6 +23,30 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 
 namespace ksys::xlink {
+
+// NON_MATCHING: the two actor fallback selects are scheduled in the opposite order.
+void ChemicalEventState::sub_710122DE90(act::Actor* actor, Unk_71012419b4* handles,
+                                      act::Chemical* chemical, u32 kind, bool a,
+                                      bool force_fallback) {
+    auto* reaction = act::Reaction::instance();
+    if (!reaction || !reaction->_38)
+        return;
+    auto* fallback = reaction->_38;
+    const int effect_type = sub_7101240FE8(actor);
+    auto* effect_actor = (effect_type | 2) == 2 ? actor : fallback;
+    const int sound_type = sub_7101240FE8(actor);
+    auto* sound_actor = sound_type == 1 || sound_type == 2 ? actor : fallback;
+    if (force_fallback) {
+        effect_actor = fallback;
+        sound_actor = fallback;
+    }
+    const bool aoc = StageInfo::getCurrentMapType() == "AocField";
+    if (aoc && actor && isFarChemicalActorNameMaybe(actor->getName()))
+        sound_actor = fallback;
+    sub_710122E018(actor, effect_actor ? effect_actor->getXLink() : nullptr,
+                  sound_actor ? sound_actor->getXLink() : nullptr, handles, chemical, kind, a,
+                  force_fallback, aoc);
+}
 
 void ChemicalEventState::transferFrom(ChemicalEventState& other) {
     mActiveMask = other.mActiveMask;
