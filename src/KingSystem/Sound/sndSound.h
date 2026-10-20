@@ -738,7 +738,7 @@ public:
         virtual bool isActive() const;
         // 0x7101042f24 (empty) and 0x7101042f28 (returns the address of the member at +0x10).
         virtual void v0() {}
-        virtual void* v1() { return _10; }
+        virtual void* v1() { return &mName; }
         virtual ~Ducker();
         bool sub_710103E368() const;
         // 0x710103e00c: sets the active bit and clears _c0.
@@ -757,11 +757,8 @@ public:
         void sub_710103E2DC(f32 f);
         void sub_710103E020(f32 f);
 
-        /* 0x10 */ u8 _10[8];
-        // The ducker's name buffer and its capacity (set by the ducker array allocator 0x7101041a5c).
-        /* 0x18 */ char* mNameBuffer = nullptr;
-        /* 0x20 */ s32 mNameCapacity = 0;
-        /* 0x24 */ u8 _24[0x44];
+        // The ducker's name (the ducker array allocator 0x7101041a5c constructs it over its own buffer).
+        /* 0x10 */ sead::FixedSafeString<64> mName;
         /* 0x68 */ aal::GroupDucker mDucker;
         /* 0xb0 */ Unk_7102612628* _b0 = nullptr;
         u8 _b8[8];

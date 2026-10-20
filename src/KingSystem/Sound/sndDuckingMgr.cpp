@@ -72,14 +72,7 @@ void DuckingMgr::Ducker::sub_710103E2DC(f32 f) {
 
 // 0x710103ddf0: copies the settings' name into the ducker's buffer and sets the group ducker up from them.
 void DuckingMgr::Ducker::setup(sead::Heap* heap, Unk_7102612628* settings) {
-    char* buffer = mNameBuffer;
-    const char* name = settings->mName.cstr();
-    if (buffer != name) {
-        const s32 len = settings->mName.calcLength();
-        const s32 n = len < mNameCapacity ? len : mNameCapacity - 1;
-        memcpy(buffer, name, n);
-        buffer[n] = sead::SafeStringBase<char>::cNullChar;
-    }
+    mName.copy(settings->mName);
     _c8 = settings->_68 ? (_c8 | 2) : (_c8 & ~2);
     mDucker.initialize(nullptr);
     mDucker.setup(settings->mSettings);
@@ -93,14 +86,7 @@ void DuckingMgr::Ducker::setup(sead::Heap* heap, Unk_7102612628* settings) {
 void DuckingMgr::Ducker::sub_710103E128(sead::Heap* heap, Unk_71025022a0* request) {
     if (mDucker.isInitialized())
         return;
-    char* buffer = mNameBuffer;
-    const char* name = request->mName.cstr();
-    if (buffer != name) {
-        const s32 len = request->mName.calcLength();
-        const s32 n = len < mNameCapacity ? len : mNameCapacity - 1;
-        memcpy(buffer, name, n);
-        buffer[n] = sead::SafeStringBase<char>::cNullChar;
-    }
+    mName.copy(request->mName);
     _c8 = request->_80 ? (_c8 | 2) : (_c8 & ~2);
     mDucker.initialize(nullptr);
     mDucker.setup(request->mSettings);
