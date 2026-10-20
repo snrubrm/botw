@@ -9,6 +9,7 @@ namespace ksys::phys {
 class CharacterController;
 class Constraint;
 class RigidBody;
+class Unk_71024f9570;
 }
 
 namespace uking::act {
@@ -26,11 +27,13 @@ public:
     ~ExtendedEntity();
     void sub_7100E64E60();
     void sub_7100E64EAC(f32 scale);
+    // 0x7100e63f20: releases the contact listener, the constraint and the frame data.
+    void sub_7100E63F20();
 
     /* 0x00 */ ksys::phys::CharacterController* _0 = nullptr;
     /* 0x08 */ ksys::phys::RigidBody* _8 = nullptr;
     /* 0x10 */ ksys::phys::Constraint* _10 = nullptr;
-    /* 0x18 */ void* _18 = nullptr;
+    /* 0x18 */ ksys::phys::Unk_71024f9570* _18 = nullptr;
     /* 0x20 */ sead::Vector3f _20 = sead::Vector3f::zero;
     /* 0x2c */ f32 _2c = 0;
     /* 0x30 */ f32 _30 = 0;
