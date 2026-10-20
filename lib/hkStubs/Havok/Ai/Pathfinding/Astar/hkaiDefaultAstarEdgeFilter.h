@@ -19,6 +19,3 @@ private:
 };
 static_assert(sizeof(hkaiDefaultAstarEdgeFilter) == 0x120);
 
-// Native default object at 0x710260ddf0 (GOT 0x710259e438). The game passes
-// its address when no caller-supplied filter exists. This is declaration-only.
-extern hkaiDefaultAstarEdgeFilter sUnk_710260ddf0;

@@ -45,7 +45,7 @@ public:
         USER_EDGE_IGNORE_WINDING = 16,
     };
 
-    // Reflection initializer 0x7101770770 proves the real traversal-info
+    // Reflection initializer 0x7101770770 identifies the real traversal-info
     // type and its diameter/filterInfo fields. Kept as an alias for callers.
     using AgentInfo = hkaiAgentTraversalInfo;
 
@@ -104,10 +104,10 @@ public:
                                                 LineOfSightOutput& output);
 
     // 0x71015498ac, 7696 B. Called with a goal direction, a goal point, the
-    // start face key, the streaming collection, the input and the output; the name is a
+    // goal face key, the streaming collection, the input and the output; the name is a
     // guess. 0x7100f84d64 / 0x7100f851bc call it directly.
     static LineOfSightResult graphSearchMaybe(const hkVector4f& goalDirection,
-                                              const hkVector4f& goalPoint, hkUint32 startFaceKey,
+                                              const hkVector4f& goalPoint, hkUint32 goalFaceKey,
                                               const hkaiStreamingCollection* collection,
                                               const InputBase& input, LineOfSightOutput& output);
 };
