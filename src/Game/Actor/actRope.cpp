@@ -23,6 +23,26 @@ ksys::act::BaseProc* Rope::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Rope(arg);
 }
 
+bool Rope::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!RopeBase::prepareInit_(heap, arg))
+        return false;
+    if (!_c30.init(heap))
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    const s32 num_callbacks = (&_a00)->getNumCallbacks();
+    if (num_callbacks != 0) {
+        _a00.mCallbacks.tryAllocBuffer(num_callbacks, heap);
+        _a00.mCallbacks.fill(nullptr);
+        if (!_a00.mCallbacks.getBufferPtr())
+            return false;
+    }
+    // called through a pointer in the original (not devirtualised)
+    if (!(&_a00)->allocStruct20(heap))
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    return (&_a00)->initCallbacks(heap);
+}
+
 void Rope::onPreDeleteStart_(PrepareArg& arg) {
     sub_7100D2D424(&_a00);
     // called through a pointer in the original (not devirtualised)

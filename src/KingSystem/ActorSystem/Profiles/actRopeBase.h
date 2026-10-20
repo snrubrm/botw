@@ -38,6 +38,8 @@ public:
 
     // Primary vtable24F0440 slot64 points toECF66C; Actor names this slot initMaybe.
     void initMaybe() override;
+    // 0x7100ecea74 (CSV RopeBase::m18; declared only).
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void preDelete2_(const PreDeleteArg& arg) override;
     void onEnterSleep_() override;
     void m43(bool on) override;

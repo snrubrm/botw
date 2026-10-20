@@ -23,6 +23,7 @@ public:
     // CSV Rope::construct (0x71000241dc): the actor factory function.
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     // Primary vtable slot19 at2358950 points to243E0.
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void onPreDeleteStart_(PrepareArg& arg) override;
     void initMaybe() override;
     void m63() override;
