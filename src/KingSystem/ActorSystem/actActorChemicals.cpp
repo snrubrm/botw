@@ -607,6 +607,51 @@ bool Unk_71024e6428::m36() {
 
 ActorChemicals::ActorChemicals() = default;
 
+ActorChemicals::~ActorChemicals() {
+    if (chm::Chemical::instance()->_84 & 1) {
+        // The original discards this current-thread lookup result.
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    sub_7100E37010(false);
+    _58.freeBuffer();
+    _70.freeBuffer();
+    _80 = 0;
+}
+
+// NON_MATCHING: the loop-end element count is widened before addition.
+bool ActorChemicals::sub_7100E37010(bool force) {
+    const auto lock = sead::makeScopedLock(mCS);
+    if (chm::Chemical::instance()->_84 & 1) {
+        // The original discards this current-thread lookup result.
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    bool removed = true;
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        if (auto* element = getElement_(i))
+            removed &= element->sub_7100E39BF0(force);
+    }
+    return removed;
+}
+
+// NON_MATCHING: inlined getStuff null-path branches and loop-end sum width differ.
+void ActorChemicals::sub_7100E3762C(Unk_71024dd490* holder) {
+    const auto lock = sead::makeScopedLock(mCS);
+    if (chm::Chemical::instance()->_84 & 1) {
+        // The original discards this current-thread lookup result.
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        if (auto* chemical = getStuff(i))
+            chemical->sub_7100D8F124(holder);
+    }
+}
+
 // NON_MATCHING: the loop-end element count is widened before addition.
 void ActorChemicals::init2(Unk_7101265a6c* state) {
     const auto lock = sead::makeScopedLock(mCS);

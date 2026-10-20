@@ -232,6 +232,8 @@ class ActorChemicals : public sead::hostio::Node {
 public:
     ActorChemicals();
     virtual ~ActorChemicals();
+    bool sub_7100E37010(bool force);
+    void sub_7100E3762C(Unk_71024dd490* holder);
     void init1(phys::InstanceSet* instance, const chm::Root* root, Actor* actor, sead::Heap* heap);
     // Full E3742C initializes the supplied root/body with a heap and ChemicalMgr owner.
     // World record 10C8748 and ChemicalMgr::init_ establish the independent owner input.
