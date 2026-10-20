@@ -400,7 +400,8 @@ public:
     // global 3.5 at 0x7101ec27f8. `from` and `_30` have no default; `_34` is not written by the caller
     // (sub_7100F86324 passes its address on to 0x7100f86334).
     struct Unk2 {
-        sead::Vector3f from;
+        sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                            std::numeric_limits<f32>::quiet_NaN()};
         f32 tolerance = -1.0f;
         sead::Vector3f _10 = sead::Vector3f::zero;
         sead::Vector3f dir = sead::Vector3f::ex;
