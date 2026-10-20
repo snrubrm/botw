@@ -755,6 +755,56 @@ KSYS_VISIBILITY_HIDDEN bool sUnk_710260F338;
 // 0x71024fd180: the debug text position.
 KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71024FD180{920.0f, 80.0f};
 
+// NON_MATCHING: the palette test is a cset here; the original branches to a separate `true` block.
+void Unk_71024fd188::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+
+    bool in_maze = sUnk_710260F338;
+    if (!in_maze) {
+        auto* wm = ksys::world::Manager::instance();
+        ksys::world::EnvMgr* env_mgr;
+        in_maze = wm && (env_mgr = wm->getEnvMgr()) && env_mgr->getPaletteSet() == 11;
+    }
+
+    switch (_198) {
+    case 0:
+        if (in_maze) {
+            _19c += ksys::snd::sub_710105E3A4();
+            const f32 wait = *mInfo->mPlayWaitSec;
+            if (_19c > wait) {
+                _19c = wait;
+                _1a0.setValueImmediate(0.0f);
+                sub_710101D9D8();
+                _198 = 1;
+            }
+        } else {
+            _19c = 0.0f;
+        }
+        break;
+    case 1:
+        if (!in_maze) {
+            _1a0.moveTo(0.0f, *mInfo->mFadeOutSec);
+            _198 = 2;
+        }
+        break;
+    case 2:
+        if (in_maze) {
+            _1a0.moveTo(1.0f, 1.0f);
+            _198 = 1;
+        }
+        if (_1a0.getValue() == _1a0.getNextValue()) {
+            sub_710101D9F4(0.1f);
+            _198 = 0;
+            _19c = 0.0f;
+        }
+        break;
+    }
+
+    _1a0.calc();
+    _a4 = _1a0.getValue();
+}
+
 void Unk_71024fd188::m14(sead::TextWriter& writer) {
     if (!sUnk_710260F33C)
         return;

@@ -2496,6 +2496,9 @@ class Unk_71024fd188 : public ksys::snd::Unk_71025ce380 {
 public:
     explicit Unk_71024fd188(const ksys::snd::BgmInitArg& arg);
     ~Unk_71024fd188() override;
+    // 0x7100fff2c0: starts the BGM after the play wait while the player is in the big maze and fades it out
+    // outside.
+    void m5() override;
     void hm14() override;
     void hm15() override {}
     // 0x7100fff73c
