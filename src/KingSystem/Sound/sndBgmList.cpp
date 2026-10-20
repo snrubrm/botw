@@ -212,6 +212,49 @@ void Unk_71024fe368::m5() {
     _a4 = _1b0.getValue();
 }
 
+// 0x710260fa70 (placeholder name): debug request for a hit part (cleared by sub_710100B130; nothing in the game
+// sets it).
+KSYS_VISIBILITY_HIDDEN u8 sUnk_710260FA70;
+
+void Unk_71024fe368::sub_710100B130() {
+    bool request = false;
+    if (sUnk_710260FA70 == 1) {
+        sUnk_710260FA70 = 0;
+        request = true;
+    }
+    if (_1d8._4 >= 1)
+        _1d8._4 = 0;
+    else if (!request)
+        return;
+
+    if (_124 != 3 && _124 != 4)
+        return;
+    if (_220 != 0)
+        return;
+    if (mState != 1 && mState != 2)
+        return;
+
+    sead::FormatFixedSafeString<32> name("Hit_Chain%d", _218);
+    sub_710100B7E0(name, *mInfo->mReserveHitWaitBeat, false);
+    const u32 chain = _218;
+    auto* info = mInfo;
+    const agl::utl::Parameter<u32>* ignore_grid;
+    switch (chain) {
+    case 2:
+        ignore_grid = &info->mIgnoreReserveHitGrid_Chain2;
+        break;
+    case 1:
+        ignore_grid = &info->mIgnoreReserveHitGrid_Chain1;
+        break;
+    default:
+        ignore_grid = &info->mIgnoreReserveHitGrid_Chain0;
+        break;
+    }
+    _220 = **ignore_grid;
+    _21c = *info->mHitChainGridThreshold;
+    _218 = chain + 1 > 2 ? 0 : chain + 1;
+}
+
 void Unk_71024fe368::calc() {
     Unk_SpotBgmHandle::calc();
     mSubHandle->_a4 = _138.getValue() * _1b0.getValue();

@@ -2781,7 +2781,7 @@ public:
 
     /* 0x190 */ ksys::snd::FieldBattleBgmInfo* mInfo;
     /* 0x198 */ sead::PtrArray<xlink2::PropertyDefinition> mProperties;
-    /* 0x1a8 */ s32 mState;
+    /* 0x1a8 */ sead::Atomic<s32> mState;
     /* 0x1b0 */ aal::TimedFader _1b0;
     /* 0x1d8 */ ksys::snd::Unk_BgmControllerM8Arg _1d8;
     // The play wait counter (m5).
