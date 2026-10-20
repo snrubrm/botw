@@ -2623,6 +2623,8 @@ public:
     void sub_7101002194();
     // 0x7101002274: sets bit 3 of _1f4 and _1ec to the info's PlayWaitSec.
     void sub_7101002274();
+    // 0x7101001fb0: starts the BGM after the play wait while the battle tension is up, fades it out when it drops.
+    void m5() override;
     // 0x7101002244: in state 3 / 4 with _160[1] above the info's VolumeNormal.
     bool m10() override;
     bool m11() override;

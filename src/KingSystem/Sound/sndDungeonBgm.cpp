@@ -207,6 +207,68 @@ const sead::SafeString sStr_Outro = "outro";
 // 0x710260f5b8 (placeholder name): a debug override of _1e8 read by the stream region callback; hm14 resets it.
 KSYS_VISIBILITY_HIDDEN s32 sUnk_710260F5B8;
 
+// 0x710260f5bc / 0x710260f5c0 (placeholder names): debug flag and value that replace _1d8._0 in m5 (nothing in the
+// game writes them).
+KSYS_VISIBILITY_HIDDEN bool sUnk_710260F5BC;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710260F5C0;
+
+void Unk_71024fd6c8::m5() {
+    if (!mActive || !(_68._18 & 1))
+        return;
+
+    switch (mState) {
+    case 0: {
+        const s32* tension = sUnk_710260F5BC == false ? &_1d8._0 : &sUnk_710260F5C0;
+        if (*tension > 0 || (_1f4 & 8)) {
+            _1ec += ksys::snd::sub_710105E3A4();
+            const f32 wait = mInfo->mPlayWaitSec.ref();
+            if (_1ec >= wait) {
+                _1ec = wait;
+                _1e8 = 0;
+                sub_710101D9D8();
+                _1a0.setValueImmediate(1.0f);
+                mState = 1;
+            }
+        } else {
+            _1ec = 0.0f;
+        }
+        break;
+    }
+    case 1: {
+        const s32* tension = sUnk_710260F5BC == false ? &_1d8._0 : &sUnk_710260F5C0;
+        if (*tension > 0 || (_1f4 & 8))
+            break;
+        _1a0.moveTo(0.0f, mInfo->mFadeOutSec.ref());
+        mState = 2;
+        break;
+    }
+    case 2: {
+        const s32* tension = sUnk_710260F5BC == false ? &_1d8._0 : &sUnk_710260F5C0;
+        if (*tension > 0 || (_1f4 & 8)) {
+            _1a0.moveTo(1.0f, 1.0f);
+            mState = 1;
+            break;
+        }
+        if (_1a0.getValue() != _1a0.getNextValue())
+            break;
+        sub_710101D9F4(0.0f);
+        _1ec = 0.0f;
+        mState = 0;
+        break;
+    }
+    case 4:
+        if (_1d0 && _1d0->sub_7100FF6DF4(this))
+            break;
+        sub_710101D9F4(0.0f);
+        _1ec = 0.0f;
+        mState = 0;
+        break;
+    }
+
+    _1a0.calc();
+    _a4 = _1a0.getValue();
+}
+
 // 0x7101002374 (declared only): the stream region callback of Unk_71024fd6c8.
 nn::atk::StreamRegionCallbackResult sub_7101002374(nn::atk::StreamRegionCallbackParam* param,
                                                    void* user);
