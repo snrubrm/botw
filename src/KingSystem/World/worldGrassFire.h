@@ -129,4 +129,9 @@ static_assert(offsetof(Unk_710251cea8, mCellStates) == 0x4c750);
 static_assert(offsetof(Unk_710251cea8, _4fdc4) == 0x4fdc4);
 KSYS_CHECK_SIZE_NX150(Unk_710251cea8, 0x4fde8);
 
+// Rolling-grid utility called by the second grass-grid update at 0x71012e26d8.
+void shiftSecondGrassCellGrid(Unk_710251cea8::Cell (*cells)[59], sead::Vector2i* indices,
+                              sead::Vector2i* previous, sead::Vector2i position,
+                              Unk_710251cea8::CellState (*states)[59]);
+
 }  // namespace ksys::world

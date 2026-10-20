@@ -140,4 +140,92 @@ void Unk_710251cea8::CellSortList::sort() {
     }
 }
 
+// NON_MATCHING: grid address calculations differ in scheduling and register allocation.
+void shiftSecondGrassCellGrid(Unk_710251cea8::Cell (*cells)[59], sead::Vector2i* indices,
+                              sead::Vector2i* previous, sead::Vector2i position,
+                              Unk_710251cea8::CellState (*states)[59]) {
+    const auto reset = [](Unk_710251cea8::Cell& cell) {
+        auto& record = *cell.mRecord;
+        cell._14 = 0;
+        cell.mFlags = 0;
+        cell._11[0] = 0;
+        cell._11[1] = 0;
+        cell._11[2] = 0;
+        cell._16 = 0xff;
+        record._0 = 0;
+        std::memset(record._4, 0, sizeof(record._4));
+        auto& current_record = *cell.mRecord;
+        current_record._1a = 0;
+        current_record._18 = 0;
+        current_record._14 = 0;
+        std::memset(current_record._1c, 0, sizeof(current_record._1c));
+        cell.mRecord->_4[0] = 0;
+        cell.mRecord->_4[4] = 0;
+        cell.mRecord->_4[8] = 0;
+        cell.mRecord->_4[12] = 0;
+        cell.mRecord->_3f = 0;
+        cell.mRecord->_3c = 0;
+        cell.mRecord->_3d = 0;
+        cell.mRecord->_3e = 0;
+    };
+    const s32 dx = position.x - previous->x;
+    if (dx > 0) {
+        for (s32 i = 0; i < dx; ++i) {
+            const s32 x = (indices->x + i) % 59;
+            for (s32 y = 0; y < 59; ++y) {
+                reset(cells[y][x]);
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dx < 0) {
+        for (s32 i = -1; i >= dx; --i) {
+            s32 x = (indices->x + i) % 59;
+            if (x < 0)
+                x += 59;
+            for (s32 y = 0; y < 59; ++y) {
+                reset(cells[y][x]);
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dx != 0) {
+        previous->x += dx;
+        indices->x = (indices->x + dx) % 59;
+        if (indices->x < 0)
+            indices->x += 59;
+    }
+    const s32 dy = position.y - previous->y;
+    if (dy > 0) {
+        for (s32 i = 0; i < dy; ++i) {
+            const s32 y = (indices->y + i) % 59;
+            for (s32 x = 0; x < 59; ++x) {
+                reset(cells[y][x]);
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dy < 0) {
+        for (s32 i = -1; i >= dy; --i) {
+            s32 y = (indices->y + i) % 59;
+            if (y < 0)
+                y += 59;
+            for (s32 x = 0; x < 59; ++x) {
+                reset(cells[y][x]);
+                states[y][x]._0 = 0;
+                states[y][x]._2 = 0;
+            }
+        }
+    }
+    if (dy != 0) {
+        previous->y += dy;
+        indices->y = (indices->y + dy) % 59;
+        if (indices->y < 0)
+            indices->y += 59;
+    }
+}
+
 }  // namespace ksys::world
