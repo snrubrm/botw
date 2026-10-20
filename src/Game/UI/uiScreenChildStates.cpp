@@ -925,6 +925,31 @@ void Unk_710247b428::m151() {}
 // 0x71009bc0b4
 s32 Unk_710247b428::m152() { return 0; }
 
+// 0x71009ba09c
+void Unk_710247b428::m24(sead::Heap*) {
+    _160 = mLayout->findPartsLayout("Pa_AllTips_00");
+    if (_160) {
+        _168 = _160->tryCreateAnimatorAuto("Type", true);
+        if (_168)
+            _168->StopAtMin();
+        _170 = _160->tryCreateAnimatorAuto("OpenL", true);
+        _178 = _160->tryCreateAnimatorAuto("OpenZR", true);
+        _180 = _160->tryCreateAnimatorAuto("OpenR", true);
+        _188 = _160->tryCreateAnimatorAuto("OpenY", true);
+        _190 = _160->tryCreateAnimatorAuto("OpenPlusMinus", true);
+        _198 = _160->tryCreateAnimatorAuto("OpenCrossKey", true);
+        _1a0 = _160->tryCreateAnimatorAuto("OpenRStickPress", true);
+        _1a8 = _160->tryCreateAnimatorAuto("Option", true);
+    }
+    getStateMachine().startState(&sUnk_710261ee00);
+}
+
+// 0x71009ba1d8
+void Unk_710247b428::m25() {
+    _1c8.sub_7100A83334();
+    getStateMachine().run();
+}
+
 // 0x71009b9d30
 void Unk_710247b428::sub_71009B9D30() {
     _130 = static_cast<eui::AnimButton*>(sub_71010A9008(0x4d));

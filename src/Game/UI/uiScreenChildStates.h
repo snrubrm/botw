@@ -581,6 +581,10 @@ public:
     // 0x71009b9e10 (placeholder name): enables / disables the buttons depending on E3 demo mode, the save data
     // and SaveSystem::_1a44.
     void sub_71009B9E10();
+    // 0x71009ba09c: builds the "Pa_AllTips_00" layout and its animators, then enters the tips state.
+    void m24(sead::Heap* heap) override;
+    // 0x71009ba1d8
+    void m25() override;
 
     /* 0x130 */ eui::AnimButton* _130{};
     /* 0x138 */ eui::AnimButton* _138{};
@@ -588,8 +592,16 @@ public:
     /* 0x148 */ eui::AnimButton* _148{};
     /* 0x150 */ eui::AnimButton* _150{};
     /* 0x158 */ eui::AnimButton* _158{};
-    u8 _160[0x1a8 - 0x160]{};
-    /* 0x1a8 */ eui::Animator* _1a8{};  // stopped at max / min by m114 depending on the JumpButtonChange flag
+    /* 0x160 */ eui::LayoutEx* _160{};  // the "Pa_AllTips_00" parts layout
+    /* 0x168 */ eui::Animator* _168{};  // Type
+    /* 0x170 */ eui::Animator* _170{};  // OpenL
+    /* 0x178 */ eui::Animator* _178{};  // OpenZR
+    /* 0x180 */ eui::Animator* _180{};  // OpenR
+    /* 0x188 */ eui::Animator* _188{};  // OpenY
+    /* 0x190 */ eui::Animator* _190{};  // OpenPlusMinus
+    /* 0x198 */ eui::Animator* _198{};  // OpenCrossKey
+    /* 0x1a0 */ eui::Animator* _1a0{};  // OpenRStickPress
+    /* 0x1a8 */ eui::Animator* _1a8{};  // Option
     /* 0x1b0 */ eui::Animator* _1b0{};  // the "New" animator of _148's layout
     /* 0x1b8 */ eui::Animator* _1b8{};  // the "DLCbtn" animator of the screen layout
     u8 _1c4[4]{};

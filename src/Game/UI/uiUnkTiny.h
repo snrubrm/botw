@@ -758,6 +758,9 @@ public:
 
     // 0x7100a83ec0: completion byte read by ScreenTitle and Unk_710247b428.
     bool sub_7100A83EC0() const;
+    // 0x7100a83334 (placeholder name): the AoC shop state step, switched on _8 (0 - 4); called by
+    // Unk_710247b428::m25.
+    void sub_7100A83334();
     void sub_7100A83EC8(bool value);
     void sub_7100A83ED4(s32 value);
     // 0x7100a83ea4 / 0x7100a83eac (placeholder names; called by 0x71009bad4c and 0x7100a6b278 as
