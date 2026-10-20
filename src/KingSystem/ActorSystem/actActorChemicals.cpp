@@ -1258,6 +1258,51 @@ void Unk_71024e6428::sub_7100E39E8C(s32 index, const chm::IRoot* root,
     sub_7100E3AA34(heap);
 }
 
+// NON_MATCHING: fixed-array initialization, entry-copy bounds and scheduling differ.
+void Unk_71024e6428::sub_7100E3ABD0(s32 index, const chm::IRoot* root,
+                                       phys::RigidBody* body, Actor* actor, sead::Heap* heap,
+                                       world::ChemicalMgr* manager) {
+    _28 = manager ? manager : world::Manager::instance()->getChemicalMgr();
+    if (chm::Chemical::instance()->_84 & 1) {
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (static_cast<const void*>(chm::Chemical::instance()) != this)
+            chm::Chemical::instance()->_85 = 100;
+    }
+    mActor = actor;
+    _18 = root;
+    _288 = index;
+    _298 = actor ? actor->getScale() : sead::Vector3f::ones;
+    _3c = 0xffefffff;
+    _2bc = -1;
+    if (actor && hasTag(actor, 0x19f6c13a))
+        _30 |= 0x4000;
+    sead::FixedObjArray<BodyEntry, 255> entries;
+    sub_7100E3A570(&entries, body, nullptr, nullptr, actor, heap, false);
+    _278.tryAllocBuffer(1, heap, 8);
+    for (s32 i = 0; i < _278.size(); ++i)
+        _278[i] = *entries.at(i);
+    sub_7100E3AA34(heap);
+}
+
+// NON_MATCHING: the element constructor is inlined into allocation and loop scheduling differs.
+void ActorChemicals::sub_7100E3742C(chm::IRoot* root, phys::RigidBody* body,
+                                   world::ChemicalMgr* manager, sead::Heap* heap) {
+    _50 = root;
+    if (root->getNumShapes() != 0)
+        _58.tryAllocBuffer(_50->getNumShapes(), heap, 8);
+    _68 = 0;
+    _6c = 0;
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        auto* element = getElement_(i);
+        if (!element)
+            continue;
+        element->sub_7100E3ABD0(i, root, body, nullptr, heap, manager);
+        if (_6c == 0 && !root->isRigidAttribute13Set(i))
+            _6c = element->mChemical._10;
+    }
+    sub_7100E38588(_6c);
+}
+
 // NON_MATCHING: the element constructor is inlined into the buffer allocation and loop scheduling differs.
 void ActorChemicals::init1(phys::InstanceSet* instance, const chm::Root* root, Actor* actor,
                             sead::Heap* heap) {

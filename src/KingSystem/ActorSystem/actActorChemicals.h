@@ -107,6 +107,9 @@ public:
                        Actor* actor, sead::Heap* heap);
     // Full E3B708 copies chemical event state; independent carried-record transfers supply both elements.
     void sub_7100E3B708(const Unk_71024e6428& other);
+    // E3742C supplies one body and an optional ChemicalMgr to the element initializer.
+    void sub_7100E3ABD0(s32 index, const chm::IRoot* root, phys::RigidBody* body,
+                       Actor* actor, sead::Heap* heap, world::ChemicalMgr* manager);
     void sub_7100E3AA34(sead::Heap* heap);
     // Native caller passes zero; the full callee does not consume its second input.
     void sub_7100E3AE40(u32 unused);
