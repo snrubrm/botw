@@ -14,6 +14,7 @@
 #include <container/seadObjList.h>
 #include <aal/aalHandle.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadAtomic.h>
 #include <container/seadBuffer.h>
 #include <prim/seadEnum.h>
 #include <aal/aalGroupLimiter.h>
@@ -1270,8 +1271,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_7102502950, 0x20);
 
 // Placeholder (vtable 0x710251b500; constructor 0x71012c8968, destructor 0x71012c89e8): the 0xc8-byte member at
-// ResourceManager +0x48. Only the res::Handle at +0x70 is non-trivial; the constructor zeroes the other fields and
-// sets -1 at +0x3c and 0x101 at +0xc0.
+// ResourceManager +0x48. Owns the material entry buffers, active list, request queue and static bars handle.
 class Unk_71025a36b0 {
 public:
     // Native 0x71012c8968, called by ResourceManager construction.
@@ -1288,11 +1288,43 @@ public:
     void sub_71012CACD4();
     void sub_71012CABB4();
 
-    u8 _8[0x68];
+    struct Entry {
+        sead::FixedSafeString<40> mName;
+        res::Handle mHandle;
+        s16 mMaterialIndex = -1;
+        u8 mState = 0;
+        u8 mFlags = 0;
+        s32 mPriority = -1;
+        sead::ListNode mNode;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0xa8);
+    static_assert(offsetof(Entry, mHandle) == 0x40);
+    static_assert(offsetof(Entry, mState) == 0x92);
+    static_assert(offsetof(Entry, mNode) == 0x98);
+
+    /* 0x08 */ sead::Buffer<Entry> mEntries;
+    /* 0x18 */ sead::Buffer<s32> mEntryIndices;
+    /* 0x28 */ sead::OffsetList<Entry> mActiveEntries;
+    /* 0x40 */ s32 mQueueCapacity = 0;
+    /* 0x48 */ Entry** mQueueEntries = nullptr;
+    /* 0x50 */ sead::Atomic<u32> mQueueWrite;
+    /* 0x54 */ sead::Atomic<u32> mQueueRead;
+    /* 0x58 */ Entry* mCurrentEntry = nullptr;
+    /* 0x60 */ sead::Vector2i mGridCell = sead::Vector2i::zero;
+    /* 0x68 */ s32 mEntryCount = 0;
+    // Native 12CACD4 tests this counter modulo the update interval and increments it.
+    /* 0x6c */ s32 mFrameCount = 0;
     /* 0x70 */ res::Handle mHandle;
-    u8 _c0[8];
+    /* 0xc0 */ bool mUseAudioArena = true;
+    /* 0xc1 */ bool mEnabled = true;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025a36b0, 0xc8);
+static_assert(offsetof(Unk_71025a36b0, mEntries) == 0x8);
+static_assert(offsetof(Unk_71025a36b0, mActiveEntries) == 0x28);
+static_assert(offsetof(Unk_71025a36b0, mQueueWrite) == 0x50);
+static_assert(offsetof(Unk_71025a36b0, mFrameCount) == 0x6c);
+static_assert(offsetof(Unk_71025a36b0, mHandle) == 0x70);
+static_assert(offsetof(Unk_71025a36b0, mEnabled) == 0xc1);
 
 // The primary base of ResourceManager (vtable at 0x7102502a68; the object's three vtable pointers at +0 / +0x8 /
 // +0x10 come from one group). Its two named virtuals are aal::IAssetList::isDirty / clearDirty (upstream's
