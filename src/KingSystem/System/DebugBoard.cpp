@@ -33,6 +33,8 @@ bool Unk_710246c498::sub_710089C88C(const DebugBoardTransceiverArgMaybe& arg) {
     return true;
 }
 
+Unk_710246c4b8::~Unk_710246c4b8() = default;
+
 // 0x710089c94c / 0x710089c960 (D1) / 0x710089c9b4 (D0)
 Unk_710246c4d8::Unk_710246c4d8() : mTransceiver(nullptr) {}
 
@@ -48,6 +50,8 @@ bool Unk_710246c4d8::sub_710089CA04(const DebugBoardTransceiverArgMaybe& arg) {
     DebugBoardMgr::instance()->getBroker2()->registerTransceiver(*arg.mTransceiver);
     return true;
 }
+
+Unk_710246c4f8::~Unk_710246c4f8() = default;
 
 void DebugBoardMgr::sub_710089BA4C(bool on) {
     _44c0 = on ? _44c0 | 0x20000 : _44c0 & ~0x20000u;

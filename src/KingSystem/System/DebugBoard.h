@@ -130,7 +130,7 @@ public:
 
 class Unk_710246c4b8 {
 public:
-    virtual ~Unk_710246c4b8() = default;
+    virtual ~Unk_710246c4b8();
 };
 
 class Unk_710246c498 : public Unk_710246c4b8 {
@@ -144,7 +144,7 @@ public:
 
 class Unk_710246c4f8 {
 public:
-    virtual ~Unk_710246c4f8() = default;
+    virtual ~Unk_710246c4f8();
 };
 
 class Unk_710246c4d8 : public Unk_710246c4f8 {
