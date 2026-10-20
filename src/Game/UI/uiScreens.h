@@ -85,6 +85,8 @@ namespace uking {
 extern bool sForceEnableGlidingSurfingRupee;
 }  // namespace uking
 
+class Unk_710249c338;
+
 namespace uking::ui {
 class Unk_71025d6578;
 
@@ -754,6 +756,8 @@ static_assert(sizeof(Unk_71024746b0) == 0x38);
 
 class ScreenEx : public Screen {
 public:
+    // 0x7100a483c8 (placeholder name): the screen's controller as an Unk_710249c338 (null if it is not one)
+    Unk_710249c338* sub_7100A483C8();
     ScreenEx();
     ~ScreenEx() override;
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
@@ -6203,6 +6207,8 @@ public:
     void m74(f32 progress) override;
     // 0x7100a58508 (CSV unnamed; not decompiled)
     void sub_7100A58508(f32 progress, f32 end);
+    // 0x7100a59168: resets the controller's +0x4bc value to -1
+    void m99() override;
 
     /* 0x3610 */ u32 _3610 = 0;
     /* 0x3614 */ u32 _3614 = 0;

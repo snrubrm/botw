@@ -1,5 +1,6 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiManager.h"
 
 // Overrides that only forward to ScreenBase's version (the original has a 4-byte `b` for each of them).
 namespace uking::ui {
@@ -87,6 +88,12 @@ void ScreenStaffRoll::m101() {
 void ScreenStaffRollDLC::m73(f32 value) {
     _270 = value;
     open(1);
+}
+
+// 0x7100a59168
+void ScreenStaffRollDLC::m99() {
+    if (auto* controller = sub_7100A483C8())
+        sub_7100A6C0EC(controller, -1.0f);
 }
 
 // 0x7100a58c70

@@ -427,6 +427,11 @@ void ScreenEx::m116() {
     }
 }
 
+// 0x7100a483c8
+Unk_710249c338* ScreenEx::sub_7100A483C8() {
+    return sead::DynamicCast<Unk_710249c338>(sub_71010AA9D0());
+}
+
 // 0x7100a4815c
 eui::ControlBase* ScreenEx::sub_7100A4815C(nn::ui2d::Pane* pane, nn::ui2d::Pane* target, bool* found) {
     if (target == pane)
