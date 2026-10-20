@@ -882,7 +882,6 @@ void TextureHandleMgr::x_1(s32* count) {
     mCS.unlock();
 }
 
-// NON_MATCHING: the status query is inlined and the u16 result is masked.
 bool TextureHandleMgr::invoked4(void* data) {
     auto* task_data = sead::DynamicCast<::Unk_71024f9e28>(static_cast<TaskData*>(data));
     if (!task_data)
@@ -892,7 +891,7 @@ bool TextureHandleMgr::invoked4(void* data) {
         return false;
     mCS.lock();
     resource->sub_7100FE10D8();
-    const u16 count = resource->sub_7100FE0DE8();
+    const u32 count = resource->sub_7100FE0DE8();
     mCS.unlock();
     if (count == 0) {
         if (sub_7100FE0F14(resource)) {

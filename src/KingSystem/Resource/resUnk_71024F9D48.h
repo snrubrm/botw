@@ -100,7 +100,7 @@ public:
     bool sub_7100FE0D1C() const;
     bool sub_7100FE0D0C() const;
     s64 sub_7100FE10C0() const;
-    u16 sub_7100FE0DE8() const;
+    u32 sub_7100FE0DE8() const;
     void sub_7100FE0EC8();
     sead::SafeString sub_7100FE0DF0() const;
     sead::SafeString sub_7100FE10A8() const;
