@@ -61,6 +61,8 @@ public:
     // 0x7100da288c / 0x7100da3878 (CSV evt::S6::x_1 / x_0)
     void x_1();
     void x_0();
+    // 0x7100da2f00 (CSV evt::S6::x): whether an actor passing sub_7100DAA2E0 is called `name` or `<name>_Far`
+    bool x(const sead::SafeString& name);
     // 0x7100da2700 (CSV unnamed; placeholder name): calls every actor's slot 5 and sets the state to 2
     void sub_7100DA2700(bool a1, bool a2);
 

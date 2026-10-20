@@ -153,6 +153,21 @@ bool EventActorSet::x_4() {
 
 // NON_MATCHING: same instructions, but the original re-reads the (checked) action pointer for the entry instead of
 // reusing the one it used for the slot test, and orders the first array reads slightly differently.
+// 0x7100da2f00
+bool EventActorSet::x(const sead::SafeString& name) {
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        auto* actor = mActors.at(i);
+        if (!actor->sub_7100DAA2E0())
+            continue;
+        sead::FormatFixedSafeString<64> far_name("%s_Far", actor->mName.cstr());
+        if (actor->mName == name)
+            return true;
+        if (far_name == name)
+            return true;
+    }
+    return false;
+}
+
 // 0x7100da375c
 void EventActorSet::x_2() {
     struct Entry {
