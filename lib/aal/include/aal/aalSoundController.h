@@ -80,7 +80,7 @@ public:
     void initialize(sead::Heap* heap);
     void finalize();
     void reset();
-    // 0x7100ba1fb4: checks the asset type and retains the description. Declared only.
+    // 0x7100ba1fb4: checks the asset type and retains the description.
     StartResult setAssetInfo(const AssetInfo& asset);
     void calc();
     bool start(f32 fade_time, bool prepare);

@@ -73,4 +73,10 @@ int AssetType::findRelativeIndex_(ValueType value)
     }
     return -1;
 }
+// 0x7100ba1838
+int AssetType::value() const
+{
+    return getArray()[mIdx];
+}
+
 }  // namespace aal

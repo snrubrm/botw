@@ -2,8 +2,8 @@
 
 // Known API subset of the SEAD_ENUM_EX wrapper documented in seadEnum.h.
 // Enumerator spellings come from that existing source documentation; native
-// lookup 0x7100b7906c independently proves the values 0, 1 and 0xff.
-// The remaining enum text/value-array API is not modelled here.
+// lookup 0x7100b7906c uses the values 0, 1 and 0xff.
+// The enum text API is not modelled here.
 namespace aal {
 class AssetType {
 public:
@@ -23,9 +23,11 @@ public:
     AssetType(ValueType value) : AssetType(static_cast<int>(value)) {}
     bool operator==(ValueType value) const { return mIdx == findRelativeIndex_(value); }
     bool operator!=(ValueType value) const { return mIdx != findRelativeIndex_(value); }
+    // 0x7100ba1838: the SEAD_ENUM_EX query reads the indexed value from its shared array.
+    int value() const;
 
 private:
-    // The actual named lookup; its implementation remains undecompiled.
+    // Maps the sparse enum value to its relative array index.
     static int findRelativeIndex_(ValueType value);
     int mIdx;
 };

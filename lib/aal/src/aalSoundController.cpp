@@ -1,6 +1,7 @@
 #include "aal/aalSoundController.h"
 #include <basis/seadNew.h>
 #include "aal/aalATKAccessor.h"
+#include "aal/aalAssetType.h"
 #include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 
@@ -136,6 +137,22 @@ void SoundController::pause(bool pause, f32 fade_time) {
             }
         }
     }
+}
+
+// NON_MATCHING: the success return uses a 32-bit result register rather than 64 bits.
+// 0x7100ba1fb4
+StartResult SoundController::setAssetInfo(const AssetInfo& asset) {
+    if (!mAssetInfo)
+        return StartResult(10);
+    const int type = AssetType(asset._10).value();
+    if (type != AssetType::Wave) {
+        if (type != AssetType::Stream)
+            return StartResult(6);
+        if (!(SystemAccessor::getSettings()->_50 & 1))
+            return StartResult(4);
+    }
+    *mAssetInfo = asset;
+    return StartResult::Success;
 }
 
 }  // namespace aal
