@@ -343,6 +343,12 @@ public:
     static Graphics* instance() { return sInstance; }
     static Graphics* sInstance;
 
+    // 0x7100f2a6bc (placeholder name): the docked screen size (1920 x 1080). The UI layout scales it
+    // down to the 1280 x 720 reference size below.
+    static const sead::Vector2i& getScreenSize();
+    // 0x7100f2a708 (placeholder name): the 1280 x 720 reference size of the UI layout.
+    static const sead::Vector2i& getReferenceScreenSize();
+
     // Native F2E0F4 compares MaterialObj texture resources, or dirties all when texture is null.
     // Texture identity is also proved by initializer 128F724 and native finalizer FE0FE4.
     void sub_7100F2E0F4(gsys::ModelNW* model, const nn::gfx::ResTexture* texture);

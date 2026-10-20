@@ -50,6 +50,19 @@ void Graphics::sub_7100F35F68(bool value) {
     }
 }
 
+// NON_MATCHING: the original's static object sits 12 bytes before its guard variable (a 12-byte static
+// precedes it in its translation unit), so the guard and value offsets differ from ours.
+const sead::Vector2i& Graphics::getScreenSize() {
+    static const sead::Vector2i size(1920, 1080);
+    return size;
+}
+
+// NON_MATCHING: same static block layout difference as getScreenSize.
+const sead::Vector2i& Graphics::getReferenceScreenSize() {
+    static const sead::Vector2i size(1280, 720);
+    return size;
+}
+
 void Graphics::sub_7100F2AF70(u8 map) {
     auto lock = sead::makeScopedLock(_f18);
     _f59 = map;
