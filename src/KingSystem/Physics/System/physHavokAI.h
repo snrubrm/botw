@@ -2,6 +2,7 @@
 
 #include <Havok/Common/Base/hkBase.h>
 #include <Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h>
+#include <Havok/Ai/Pathfinding/Utilities/hkaiLineOfSightUtil.h>
 #include <limits>
 #include <basis/seadTypes.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -463,14 +464,27 @@ public:
     // 0x7100f84d64 / 0x7100f851bc (placeholder names; declared only): the graph and the direct path
     // searches behind sub_7100F84484 / sub_7100F84910. Both build a path-search parameter object, query
     // the closest navmesh point (ClosestPointInput at +0x30 / +0x40), then run the search and copy four
-    // points and a flag into `result` (Unk1). `a9` is passed in a stack slot. The two are static
-    // because the callee never reads its first argument (x0).
-    static bool sub_7100F84D64(f32 half_extent, f32 radius, hkaiWorld* world,
-                               const sead::Vector3f& from, s32 key, const sead::Vector3f& pos,
-                               Unk1* result, u32* out_key, const void* user, u32 a9);
-    static bool sub_7100F851BC(f32 half_extent, f32 radius, hkaiWorld* world,
-                               const sead::Vector3f& from, s32 key, const sead::Vector3f& pos,
-                               Unk1* result, u32* out_key, const void* user, u32 a9);
+    // points and a flag into `result` (Unk1). `a9` is passed in a stack slot.
+    // These are non-static members: the call sites 0x7100f84860 / 0x7100f84898 pass the world in x1,
+    // the start point in x2, the face key in w3, the second point in x4, the result in x5, the key out
+    // pointer in x6 and the cost pointer in x7. The implicit `this` (x0) is the unused first argument
+    // the previous declaration modelled as a static function's `world`, which shifted every parameter
+    // by one register. Both bodies are blocked on the library's line-of-sight signature: they pass
+    // hkaiWorld + 0x20 (the streaming collection, proved by 0x7100f87890 and by hkaiWorld::getMediator
+    // returning + 0x40 for the closest-point query) where lib declares hkaiNavMeshQueryMediator*.
+    bool sub_7100F84D64(f32 half_extent, f32 radius, hkaiWorld* world,
+                        const sead::Vector3f& from, s32 key, const sead::Vector3f& pos,
+                        Unk1* result, u32* out_key, const void* user, u32 a9);
+    bool sub_7100F851BC(f32 half_extent, f32 radius, hkaiWorld* world,
+                        const sead::Vector3f& from, s32 key, const sead::Vector3f& pos,
+                        Unk1* result, u32* out_key, const void* user, u32 a9);
+    // 0x7100f86de4 (unnamed, 1,360 B): fills `out` with the query's final point and may clear `hit`;
+    // called by both searches above with the input, the output and the search direction. `world` supplies
+    // the navmesh instance through + 0x20 (see the note above).
+    static void sub_7100F86DE4(sead::Vector3f* out, bool* hit, hkaiWorld* world,
+                               const hkaiLineOfSightUtil::InputBase& input,
+                               const hkaiLineOfSightUtil::LineOfSightOutput& output,
+                               const hkVector4f& direction);
 
     // 0x7100f81ee0 (declaration only; placeholder name): under the lock, removes `obj` from the query pool and
     // its pending requests (unless `queued`), then unregisters it if flags 0x3c00 are set.
