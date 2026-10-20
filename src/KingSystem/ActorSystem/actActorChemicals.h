@@ -119,6 +119,8 @@ public:
     void sub_7100E3BE78();
     // E3C0A8 calls this element's chemical-event update.
     void sub_7100E3C34C();
+    // E3C34C supplies its embedded Chemical and the selected event kind.
+    bool sub_7100E3DB6C(const Chemical* chemical, u32 kind);
 
     // 0x7100e3e2e8: marks the element and resets each linked rigid body.
     void sub_7100E3E2E8();
@@ -221,7 +223,8 @@ public:
     /* 0x2c0 */ u32 _2c0;
     // E3B3F4 builds the twenty chemical-event eligibility flags here.
     /* 0x2c4 */ sead::BitFlag32 _2c4;
-    /* 0x2c8 */ u8 _2c8[0x2d4 - 0x2c8];
+    // E3C34C decrements these independent event timers; constructor zeroing is retained.
+    /* 0x2c8 */ f32 _2c8[3];
     // E3DB6C starts this at 120.0f; E3C34C decrements it by one.
     /* 0x2d4 */ f32 _2d4;
 };

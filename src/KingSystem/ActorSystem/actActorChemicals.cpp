@@ -33,6 +33,110 @@
 
 namespace ksys::act {
 
+// NON_MATCHING: emit-kind dispatch is combined and handle / timer scheduling differs.
+void Unk_71024e6428::sub_7100E3C34C() {
+    const bool update = !mActor || !mActor->checkFlag(Actor::ActorFlag::_18);
+    if (!_20)
+        return;
+    const auto& position = m5();
+    for (u32 i = 0; i < 21; ++i) {
+        const u32 kind = i == 20 ? _20->mKind : i;
+        if (!_2c4.isOn(1u << kind))
+            continue;
+        if (update && sub_7100E3DB6C(&mChemical, kind)) {
+            auto* state = _20;
+            auto& handles = state->mHandles[i];
+            const u32 mask = 1u << i;
+            if (i == 20 || (state->mActiveMask & mask)) {
+                if (!handles.mELink.isActive())
+                    state->mActiveMask &= ~mask;
+            } else {
+                state->mActiveMask |= mask;
+                bool started_special = kind == 18;
+                if (handles.mELink.isActive() && kind != 18) {
+                    auto* current = _20;
+                    current->mHandles[20].mELink.kill();
+                    current->mHandles[20] = handles;
+                    _20->mKind = kind;
+                    started_special = false;
+                }
+                if (kind < 20) {
+                    const bool fallback = kind >= 15 && kind <= 18;
+                    if (mPlacementXLink) {
+                        _20->sub_710122E56C(mPlacementXLink, &handles, &mChemical, kind,
+                                           !(_30 & 4), fallback, mActor);
+                    } else {
+                        _20->sub_710122DE90(mActor, &handles, &mChemical, kind,
+                                           !(_30 & 4), fallback);
+                    }
+                }
+                if (handles.mELink.isActive()) {
+                    auto* event = static_cast<xlink2::EventELink*>(handles.mELink.getEvent());
+                    if (auto* delayed = event->mDelayEmitParam._0xf8) {
+                        delayed->mActor = mActor;
+                        delayed->mChemical = &mChemical;
+                        delayed->mFlags |= 8;
+                    }
+                } else {
+                    _20->mActiveMask &= ~mask;
+                }
+                if (handles.mELink.isActive() &&
+                    static_cast<xlink2::EventELink*>(handles.mELink.getEvent())->getMtxSetType() == 0 &&
+                    (kind == 6 || kind == 7)) {
+                    _30 &= ~8;
+                    sead::Matrix34f matrix;
+                    matrix.makeIdentity();
+                    matrix.setTranslation(position);
+                    handles.sub_7101241A44(matrix);
+                }
+                if (kind == 6 || kind == 7)
+                    _2c8[0] = 3.0f;
+                if (started_special)
+                    _34 = 4;
+            }
+            if (kind == 6 || kind == 7) {
+                _2c8[0] -= 1.0f;
+                if (_2c8[0] < 0.0f)
+                    _2c8[0] = 0.0f;
+            }
+        } else {
+            auto* state = _20;
+            if (state && ((state->mActiveMask & (1u << i)) ||
+                          (mActor && state->mHandles[i].mELink.isActive())))
+                sub_7100E3D4E8(i, true);
+        }
+        if (i != kind)
+            continue;
+        switch (kind) {
+        case 3:
+            if (mChemical._1b8 > 0.0f)
+                _2c8[1] = 3.0f;
+            _2c8[1] -= 1.0f;
+            if (_2c8[1] < 0.0f)
+                _2c8[1] = 0.0f;
+            break;
+        case 9:
+            _2d4 -= 1.0f;
+            if (_2d4 < 0.0f)
+                _2d4 = 0.0f;
+            break;
+        case 11:
+            if (_30 & 0x80)
+                _2c8[2] = 3.0f;
+            _2c8[2] -= 1.0f;
+            if (_2c8[2] < 0.0f)
+                _2c8[2] = 0.0f;
+            break;
+        case 18:
+            --_34;
+            if (_34 & 0x80)
+                _34 = 0;
+            break;
+        }
+    }
+}
+
+
 void ActorChemicals::sub_7100E37B10(s32 index, phys::RigidBody* body, Actor* actor,
                                    Unk_71024dd490* holder, Unk_7101265a6c* state,
                                    sead::Heap* heap) {
