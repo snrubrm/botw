@@ -270,9 +270,10 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C634(ksys::act::BaseProcLink* target, i
     }
 }
 
-// NON_MATCHING: same body and calls; our frame is 0x10 bytes larger because the scheduler keeps a
-// different set of callee-saved registers (target is kept in a register, owner spilled, and the
-// no-rail loop uses a byte offset in the loop-carried register).
+// NON_MATCHING: same body and calls, but this build unswitches the loop-invariant `idx >= 20`
+// condition and ends up with four copies of the loop body (both loops duplicated) instead of the
+// original's two, so the function is 312 bytes larger. The scheduler also keeps a different set of
+// callee-saved registers.
 // Sends `type` to bound actor `idx` (to every bound actor when idx >= 20). With a rail, the
 // payload position is the average of the rail's points.
 void SiteBoss::Unk_71002cf2ac::sub_710066C164(ksys::act::Actor* owner,
@@ -299,8 +300,7 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C164(ksys::act::Actor* owner,
             payload.owner = owner;
             payload.target = target;
             payload.pos = pos;
-            if (_99)
-                flags |= 2;
+            flags = _99 ? (flags | 2) : flags;
             payload.flags = flags;
             payload.idx = i;
             if (idx >= 20 || idx == i) {
@@ -319,7 +319,6 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C164(ksys::act::Actor* owner,
         return;
     }
 
-    const bool all = idx >= 20;
     s32 sent = 0;
     for (s32 i = 0; i < 20; ++i) {
         auto& payload = _710[i];
@@ -328,18 +327,17 @@ void SiteBoss::Unk_71002cf2ac::sub_710066C164(ksys::act::Actor* owner,
         payload.pos = pos;
         payload.flags = flags;
         payload.idx = i;
-        const bool shouldSend = all || idx == i;
-        if (!shouldSend)
-            continue;
-        auto& link = _1e0[i];
-        if (link.hasProc()) {
-            if (all)
-                payload.idx = sent++;
-            owner->sendMessage(_530[i], type, &payload, true);
-        } else if (_a0[i].isAllocatedOrFailed()) {
-            if (all)
-                payload.idx = sent++;
-            mPendingMessages[i] = type;
+        if (idx >= 20 || idx == i) {
+            auto& link = _1e0[i];
+            if (link.hasProc()) {
+                if (idx >= 20)
+                    payload.idx = sent++;
+                owner->sendMessage(_530[i], type, &payload, true);
+            } else if (_a0[i].isAllocatedOrFailed()) {
+                if (idx >= 20)
+                    payload.idx = sent++;
+                mPendingMessages[i] = type;
+            }
         }
     }
 }
