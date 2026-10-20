@@ -138,6 +138,9 @@ public:
         // 0x7101152000 (declared only): the same grass amount query with the ground normal correction and
         // the grass scale _17b0; returns 2 when the grass is disabled, 1 without terrain data.
         u32 sub_7101152000(f32* out, const sead::Vector2f* xz);
+        // 0x71011521c0: the plain height query (no grass scale); returns 2 when the grass
+        // is disabled, 0 without terrain data.
+        u32 sub_71011521C0(f32* out, const sead::Vector2f* xz);
         // 0x7101150a70 (unnamed in the CSV): marks the first grass entry's vegetation material dirty.
         void sub_7101150A70();
         void sub_7101150A7C(const sead::Vector3f* pos, f32 radius, f32 value);
@@ -1807,8 +1810,7 @@ u32 sub_710110B6A4(phys::Material* material, s32* submaterial, const sead::Vecto
 bool initTextureBufferMaybe(agl::TextureData* texture, sead::Heap* heap, u32 alignment,
                             agl::TextureFormat format, u32 width, u32 height, u32 mip_count,
                             bool attribute, bool zero);
-// 0x7101123258 (declaration only; placeholder name): forwards to 0x7101372840 (a path helper outside
-// tera) with the flag masked to one bit.
+// 0x7101123258 (placeholder name): normalizes the path, forwarding to agl::detail::NormalizePath.
 void sub_7101123258(sead::BufferedSafeString* out, const sead::SafeString& path, char separator,
                     bool flag);
 // Full 110C1E4 looks up the texture name and writes its indexed 32-bit value.

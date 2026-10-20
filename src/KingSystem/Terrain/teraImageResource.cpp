@@ -1,4 +1,5 @@
 #include <common/aglTextureData.h>
+#include <detail/aglFileIO.h>
 #include <common/aglTextureFormatInfo.h>
 #include <cstring>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -294,6 +295,11 @@ void sub_710110DE64(TextureMipTableMaybe* table, const agl::TextureData& texture
         table->levels[i].half_texel_x = 0;
         table->levels[i].half_texel_y = 0;
     }
+}
+
+void sub_7101123258(sead::BufferedSafeString* out, const sead::SafeString& path,
+                      char separator, bool flag) {
+    agl::detail::NormalizePath(out, path, separator, flag);
 }
 
 }  // namespace ksys::tera

@@ -1074,6 +1074,22 @@ u32 Core::Grass::sub_7101152000(f32* out, const sead::Vector2f* xz) {
     return result;
 }
 
+// 0x71011521c0 (placeholder name): the plain terrain height of `xz`; returns 2 when the grass is
+// disabled and 0 without terrain data.
+u32 Core::Grass::sub_71011521C0(f32* out, const sead::Vector2f* xz) {
+    System* system = mEntries(0).mSystem;
+    if (!system)
+        return 0;
+
+    if (mFlags & 0x4000) {
+        *out = 0.0f;
+        return 2;
+    }
+
+    const sead::Vector2f position(xz->x, xz->y);
+    return sub_7101109BD8(out, &position, system, true);
+}
+
 // NON_MATCHING: the original has a dmb ish after the lock (an atomic read of the manager); ours reads
 // the flags directly.
 void Terrain::resumeImageResourceMgrMaybe() {
