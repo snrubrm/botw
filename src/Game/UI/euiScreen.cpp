@@ -316,8 +316,6 @@ void Screen::setupPaneAfterBuild_(nn::ui2d::Pane* pane, LayoutEx* layout, u32* c
     countEffectLinkPane_(pane, count);
 }
 
-// NON_MATCHING: the original tests the controller count with a signed compare (`cmp w8, #2; b.lt`) where the
-// inlined PtrArray::at gives an unsigned one (`b.lo`); everything else is identical.
 // 0x7100bea518
 void Screen::registerController_() {
     auto* mgr = sead::ControllerMgr::instance();
@@ -327,6 +325,8 @@ void Screen::registerController_() {
     if (!_104) {
         mUIController->registerWith(sead::ControllerMgr::instance()->getController(0), true);
     } else {
+        if (mgr->getControllerNum() < 2)
+            return;
         sead::Controller* controller = mgr->getController(1);
         if (!controller)
             return;
