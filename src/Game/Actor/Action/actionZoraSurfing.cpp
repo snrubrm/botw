@@ -170,9 +170,10 @@ void ZoraSurfing::m38() {
     playAS(m39()->cstr(), true, 0, 0, -1.0f);
 }
 
-// NON_MATCHING: select operand order only (the original adds 0x130 first and selects with eq).
 const sead::SafeString* ZoraSurfing::m39() {
-    return _1d5 != 0 ? &mASNameJump_s : &mASName_s;
+    if (_1d5)
+        return &mASNameJump_s;
+    return &mASName_s;
 }
 
 }  // namespace uking::action

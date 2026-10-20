@@ -17,6 +17,7 @@ class HorseSwimFaceQuery : public ksys::phys::NavMeshFaceQuery {
     SEAD_RTTI_OVERRIDE(HorseSwimFaceQuery, ksys::phys::NavMeshFaceQuery)
 public:
     bool m0(const ksys::phys::Unk_7100f7e9f0& face) override;
+    void* m1() override { return nullptr; }
 
     /* 0x34 */ f32 _34 = 0;
     /* 0x38 */ f32 _38 = 0;
