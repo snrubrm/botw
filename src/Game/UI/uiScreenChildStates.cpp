@@ -1518,6 +1518,22 @@ void Unk_710247af10::sub_71009B5F80() {
     }
 }
 
+// 0x71009b61d0
+void Unk_710247af10::sub_71009B61D0() {
+    if (!_300)
+        return;
+    _300->sub_710093FE1C();
+    if (_188 == 0)
+        _300->sub_710093FDCC(0);
+    if (_18c == 0)
+        _300->sub_710093FDCC(1);
+    if (_190 == 0)
+        _300->sub_710093FDCC(2);
+    sub_71009B6EC0();
+    if (_300)
+        _300->sub_710093F594(false);
+}
+
 // 0x71009b5e1c (placeholder name): clears the selected group and the four +0x30c pointers
 void Unk_710247af10::sub_71009B5E1C() {
     _1a8 = nullptr;

@@ -471,6 +471,10 @@ public:
     void sub_71009B5F80();
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
+    // 0x71009b61d0 (placeholder name): refreshes the picture book object _300 (resets groups 0-2 whose flag is 0)
+    void sub_71009B61D0();
+    // 0x71009b6ec0 (declared only; 1364 bytes)
+    void sub_71009B6EC0();
     void sub_71009B7A1C(Unk_710247ae28* record);
     void sub_71009B7D88();
     void sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out);
@@ -504,7 +508,12 @@ public:
     u8 _150[0x160 - 0x150];
     // Found by 9b5238 via 9b53f4's LetterAnimControl RTTI lookup.
     /* 0x160 */ eui::LetterAnimControl* mQuestCaption;
-    u8 _168[0x1a8 - 0x168];
+    u8 _168[0x188 - 0x168];
+    // per picture book group flags; sub_71009B61D0 resets the groups whose value is 0
+    /* 0x188 */ s32 _188;
+    /* 0x18c */ s32 _18c;
+    /* 0x190 */ s32 _190;
+    u8 _194[0x1a8 - 0x194];
     /* 0x1a8 */ void* _1a8;
     /* 0x1b0 */ UiTexSlots _1b0;
     /* 0x280 */ u64 _280 = 0;
