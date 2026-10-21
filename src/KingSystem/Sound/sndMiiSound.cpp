@@ -159,6 +159,19 @@ void Unk_710251bb98::m31(agl::DrawContext* context, s32 part, s32 mask, bool use
         m30(context, part, 3, 0, false, 1.0f);
 }
 
+void Unk_710251bb98::initialize(agl::VertexAttribute* attribute, agl::IndexStream* stream,
+                                sead::Heap* heap) {
+    mAttribute = attribute;
+    mIndexStream = stream;
+    mFlags |= 0x20000000;
+    sub_71012EB478(0, 0);
+    _38.tryAllocBuffer(m13(), heap);
+    _48.tryAllocBuffer(m13(), heap);
+    _58.tryAllocBuffer(m13(), heap);
+    _68.tryAllocBuffer(m13(), heap);
+    _78.tryAllocBuffer(m13(), 16, heap);
+}
+
 Unk_710251bb98::~Unk_710251bb98() {
     _38.freeBuffer();
     _48.freeBuffer();

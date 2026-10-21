@@ -1505,6 +1505,20 @@ struct Unk_71011595fc;
 // mBuffer[mWidth * y + x] with bounds checks like sead::Buffer's operator[]).
 template <typename T>
 struct Unk_Buffer2D {
+    bool tryAllocBuffer(s32 width, s32 height, sead::Heap* heap, s32 alignment = sizeof(void*)) {
+        const s32 size = width * height;
+        if (size > 0) {
+            T* buffer = new (heap, alignment, std::nothrow) T[size];
+            if (buffer) {
+                mWidth = width;
+                mHeight = height;
+                mBuffer = buffer;
+                return true;
+            }
+        }
+        return false;
+    }
+
     void freeBuffer() {
         if (mBuffer) {
             delete[] mBuffer;
@@ -1522,6 +1536,8 @@ struct Unk_Buffer2D {
 class Unk_710251bb98 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251bb98, Unk_710251d230)
 public:
+    // Sets the vertex attribute and index stream and allocates the per-part buffers.
+    void initialize(agl::VertexAttribute* attribute, agl::IndexStream* stream, sead::Heap* heap);
     // 0x71012da6bc (Unk_710251bf80's destructor is an alias of it): frees the five buffers.
     ~Unk_710251bb98() override;
     void m7(void* vertices, void* indices) override;
@@ -1564,9 +1580,9 @@ public:
     // Five buffers freed by the destructor.
     // First index of each part.
     sead::Buffer<u16> _38;
-    sead::Buffer<u8> _48;
-    sead::Buffer<u8> _58;
-    sead::Buffer<u8> _68;
+    sead::Buffer<u16> _48;
+    sead::Buffer<u16> _58;
+    sead::Buffer<u16> _68;
     // Instance count per part (x) and cell (y).
     Unk_Buffer2D<u32> _78;
     u8 _88[0xa0 - 0x88];
