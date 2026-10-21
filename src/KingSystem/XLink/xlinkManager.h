@@ -41,6 +41,9 @@ public:
     void removeSleep(XLink* xlink);
     void queueTransform(XLink* xlink, const sead::Matrix34f& matrix, bool flag);
     void removeTransform(XLink* xlink);
+    // The climate index at +0x1c8 (1240944 selects the climate name from it; 0x71010289d0 compares the
+    // bird chirp type with it).
+    s32 getClimateMaybe() const { return _1c8; }
 
 private:
     friend class act::Reaction;

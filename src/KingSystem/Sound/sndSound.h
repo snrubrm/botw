@@ -1743,7 +1743,7 @@ public:
     // 0x71010284c4 / 0x7101028524
     virtual ~Unk_SoundMgr38_58();
     void sub_71010289CC();
-    // 0x71010289d0 (declared only): plays a bird chirp of `type` at `pos` (EnvSeEmitPointBirdPlayAction::calc_).
+    // 0x71010289d0: plays a bird chirp of `type` at `pos` (EnvSeEmitPointBirdPlayAction::calc_).
     void sub_71010289D0(f32 value, s32 type, const sead::Vector3f* pos);
     // 0x7101028690: resets every entry, then frees and deletes mInstances (called before deletion).
     void sub_7101028690();
@@ -1768,9 +1768,16 @@ public:
         /* 0xa0 */ u32 _a0 = 0;
         /* 0xa4 */ sead::Vector3f mPos = sead::Vector3f::zero;
         /* 0xb0 */ f32 mPropertyValue = 0.0f;
-        u8 _b4[0xc0 - 0xb4];
+        /* 0xb4 */ s32 mZone = 0;
+        /* 0xb8 */ s32 mType = 0;
+        u8 _bc[0xc0 - 0xbc];
     };
     using Entry = BirdChirpSoundEmitter;
+
+    // 0x7101028c64 (declared only; placeholder name): updates the mInstances buffer.
+    void sub_7101028C64();
+    // 0x7101028e7c (declared only; placeholder name): finds the entry for the chirp `name`.
+    Entry* sub_7101028E7C(const sead::SafeString& name, s32 category);
 
     /* 0x008 */ Entry mEntries[4];
     /* 0x308 */ u8 mTimeZone : 3;

@@ -5,9 +5,13 @@
 #include <aal/aalSpeakerBalanceUnifier.h>
 #include <aal/aalSpeakerBalanceUnifierMgr.h>
 #include <aal/aalSystemAccessor.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadScopedLock.h>
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldTimeMgr.h"
@@ -197,6 +201,85 @@ void Unk_SoundMgr38_58::sub_7101028954(s32 arg) {
         if (auto* user_instance = entry.getUserInstance())
             user_instance->stopAllEvent(arg);
     }
+}
+
+namespace {
+// 0x7102501200: the chirp names by climate type and time of day.
+const char* const sBirdNames[4][3] = {
+    {"EnvSeEmitPointBirdTemperate_Morning", "EnvSeEmitPointBirdTemperate_Noon",
+     "EnvSeEmitPointBirdTemperate_Night"},
+    {"EnvSeEmitPointBirdSubtropic_Morning", "EnvSeEmitPointBirdSubtropic_Noon",
+     "EnvSeEmitPointBirdSubtropic_Night"},
+    {"EnvSeEmitPointBirdTropical_Morning", "EnvSeEmitPointBirdTropical_Noon",
+     "EnvSeEmitPointBirdTropical_Night"},
+    {"EnvSeEmitPointBirdSubarctic_Morning", "EnvSeEmitPointBirdSubarctic_Noon",
+     "EnvSeEmitPointBirdSubarctic_Night"},
+};
+}  // namespace
+
+// 0x71010289d0: plays the chirp `type` at `pos` with property value `value`. The distance to the player picks
+// the playback category (3 when the type matches the current climate, 2 when close, 1 when far); the time-of-day
+// bit set picks the name variant.
+// NON_MATCHING: the entry scan is an if / else chain in the original (it compares each entry's _a0 at fixed
+// offsets); the range-for lowers to a csel chain, and the surrounding register allocation differs (592 B vs 660 B).
+void Unk_SoundMgr38_58::sub_71010289D0(f32 value, s32 type, const sead::Vector3f* pos) {
+    sead::Vector3f player_position = sead::Vector3f::zero;
+    const s32 climate = xlink::Manager::instance()->getClimateMaybe();
+    act::ActorSystem::instance()->getPlayerPosition(&player_position);
+
+    s32 category;
+    if (type == climate) {
+        category = 3;
+    } else {
+        f32 distance = pos->y - player_position.y;
+        distance = distance > 0.0f ? distance : -distance;
+        category = distance <= 20.0f ? 2 : 1;
+    }
+
+    auto lock = sead::makeScopedLock(mCS);
+    sub_7101028C64();
+
+    const u32 num_zones = sead::BitFlagUtil::countOnBit(mTimeZone);
+    if (num_zones == 0)
+        return;
+
+    const u32 target = sead::GlobalRandom::instance()->getU32(num_zones);
+    s32 zone = -1;
+    u32 seen = 0;
+    for (s32 i = 0; i < 3; ++i) {
+        if (!(mTimeZone & (1 << i)))
+            continue;
+        if (seen == target) {
+            zone = i;
+            break;
+        }
+        ++seen;
+    }
+    if (zone < 0)
+        return;
+
+    const char* name = sBirdNames[type][zone];
+    Entry* entry = sub_7101028E7C(name, category);
+    if (!entry) {
+        for (auto& candidate : mEntries) {
+            if (candidate._a0 == u32(category)) {
+                entry = &candidate;
+                break;
+            }
+        }
+        if (!entry)
+            return;
+        entry->mPos = *pos;
+        entry->mPropertyValue = value;
+        entry->sub_710104A5E8();
+    } else {
+        entry->mPos = *pos;
+        entry->mPropertyValue = value;
+        entry->sub_710104A308(name);
+    }
+    entry->mZone = zone;
+    entry->mType = type;
+    entry->_a0 = category;
 }
 
 Unk_SoundMgr38_58::BirdChirpSoundEmitter::~BirdChirpSoundEmitter() = default;
