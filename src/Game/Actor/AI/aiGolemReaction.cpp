@@ -19,8 +19,10 @@
 namespace uking::ai {
 
 // Placeholder name for the original 16-byte callback constructed by the arm-contact query.
-// Its vtable has invoke, clone and isNoDummy slots of the IDelegate2R interface.
-class Unk_71023f52d0 : public sead::IDelegate2R<ksys::phys::RigidBody*, ksys::phys::RigidBody*, bool> {
+// Its vtable has invoke, clone and isNoDummy slots of the IDelegate2R interface. Hidden so the
+// vtable is addressed directly (adrp/add) as in the original, not through the GOT.
+class KSYS_VISIBILITY_HIDDEN Unk_71023f52d0
+    : public sead::IDelegate2R<ksys::phys::RigidBody*, ksys::phys::RigidBody*, bool> {
 public:
     explicit Unk_71023f52d0(ksys::act::ActorAtk::Unk_710079e64c::Unk1* entry) : mEntry(entry) {}
     bool invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other) override;
@@ -35,7 +37,6 @@ bool Unk_71023f52d0::invoke(ksys::phys::RigidBody*, ksys::phys::RigidBody* other
     return other == mEntry->_c8;
 }
 
-// NON_MATCHING: the recovered callback vtable is loaded through the GOT rather than addressed directly.
 void GolemReaction::sub_71003FF3F8(bool* right, bool* left) {
     if (!right || !left)
         return;
