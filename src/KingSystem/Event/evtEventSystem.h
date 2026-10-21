@@ -3,6 +3,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/DebugBoard.h"
@@ -67,6 +68,8 @@ public:
     bool x_0(void* arg);
     // 0x71008aab4c (CSV x_1; not decompiled): takes the actor's +0x108 word
     bool x_1(void* arg);
+    // 0x71008aad18 (CSV x_8): equips the default left-hand weapon or requests the named armor
+    bool x_8(const sead::SafeString& name);
     // 0x71008aa8b4: creates the transceiver, registers it with the debug board and installs the game's event delegate
     void init(sead::Heap* heap);
     // 0x71008aa970: per-frame speaker and UI update.

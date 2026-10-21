@@ -17,6 +17,10 @@
 #include "KingSystem/Event/evtOrderParam.h"
 #include "Game/Actor/actCookResult.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
+#include "Game/UI/uiTUStatics.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 
 namespace uking::ui {
 void sub_7100A941DC();
@@ -24,7 +28,15 @@ void sub_7100A941DC();
 
 namespace ksys::evt {
 
+// 0x71025d0bf0: built by the static initializer, otherwise unused.
+static sead::FixedSafeString<64> sUnk_71025D0BF0("ukingEventMgr");
+
 SEAD_SINGLETON_DISPOSER_IMPL(EventSystem)
+
+// The default weapon actor names (merged block 0x71025d0c60, after the uiTUStatics.h objects).
+static sead::SafeString sUnk_71025D0DA8 = "Weapon_Default_Bow";
+static sead::SafeString sUnk_71025D0DB8 = "Weapon_Default_Left";
+static sead::SafeString sUnk_71025D0DC8 = "Weapon_Default_Right";
 
 // NON_MATCHING (createInstance, which has this constructor inlined): the original loads the disposer pointer's GOT slot
 // before the vtable's, and stores the first three members (0x30 / 0x32 / 0x34) before the vptrs; ours schedules the
@@ -53,6 +65,24 @@ void EventSystem::init(sead::Heap* heap) {
     _58.sub_710089CA04(Unk_710246bdc8(&mTransceiver));
     manager->_1d2c8 = new (heap) uking::EventDelegate;
     setEventSystemQueryHandler(&uking::eventSystemQueryHandler);
+}
+
+// 0x71008aad18
+bool EventSystem::x_8(const sead::SafeString& name) {
+    if (name == sUnk_71025D0DB8) {
+        if (auto* info = uking::act::PlayerInfo::instance()) {
+            if (auto* player = info->getPlayer())
+                player->switchEquipment(name, 30);
+        }
+        return false;
+    }
+    if (name.isEmpty())
+        return false;
+    if (auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance()) {
+        mgr->requestCreateArmor(name, -1, sead::SafeString::cEmptyString);
+        return true;
+    }
+    return false;
 }
 
 // 0x71008aa970
