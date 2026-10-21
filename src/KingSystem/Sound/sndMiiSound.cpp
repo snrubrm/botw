@@ -8,6 +8,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "Game/gameNavMeshSystem.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldManager.h"
@@ -391,6 +392,23 @@ Unk_710251cd38::~Unk_710251cd38() {
         delete _50;
         _50 = nullptr;
     }
+}
+
+// NON_MATCHING: scheduling of the matrix stores (same as ElementLightningFire::m29).
+bool Unk_710251cd38::m29(const ElementName& name, sead::Heap* heap) {
+    ksys::phys::SphereParam param;
+    param.name = "GrassFireWarm(Sphere)";
+    param.contact_layer = ksys::phys::ContactLayer::SensorChemicalElement;
+    param.radius = 6.0f;
+    param.motion_type = ksys::phys::MotionType::Keyframed;
+    _50 = ksys::phys::SphereRigidBody::make(&param, heap);
+    if (!_50)
+        return false;
+    sead::Matrix34f mtx;
+    mtx.makeT(_48->_c);
+    _50->setTransform(mtx, ksys::phys::PropagateToLinkedMotions(true));
+    setRigidBody(_50, true);
+    return true;
 }
 
 void Unk_710251cd38::m35(f32 delta_frame) {
