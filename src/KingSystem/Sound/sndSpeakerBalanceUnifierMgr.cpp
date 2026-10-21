@@ -217,6 +217,37 @@ const char* const sBirdNames[4][3] = {
 };
 }  // namespace
 
+// 0x7101028e7c: finds the chirp entry that already uses `name`, else a free entry, else one whose category
+// matches.
+// NON_MATCHING: the inlined name comparison is shorter here (pointer compare first, then a two-byte loop) than the
+// original's temp-SafeString compare chain, so the body is 824 B against 608 B.
+Unk_SoundMgr38_58::Entry* Unk_SoundMgr38_58::sub_7101028E7C(const sead::SafeString& name, s32 category) {
+    for (s32 i = 0; i < 4; ++i) {
+        const char* user_name = mEntries[i].sub_710104A8DC();
+        if (user_name && sead::SafeString(user_name) == name)
+            return &mEntries[i];
+    }
+    if (mEntries[0].sub_710104A8AC())
+        return &mEntries[0];
+    if (mEntries[1].sub_710104A8AC())
+        return &mEntries[1];
+    if (mEntries[2].sub_710104A8AC())
+        return &mEntries[2];
+    if (mEntries[3].sub_710104A8AC())
+        return &mEntries[3];
+    for (s32 i = 0; i < category; ++i) {
+        if (i == int(mEntries[0]._a0))
+            return &mEntries[0];
+        if (i == int(mEntries[1]._a0))
+            return &mEntries[1];
+        if (i == int(mEntries[2]._a0))
+            return &mEntries[2];
+        if (i == int(mEntries[3]._a0))
+            return &mEntries[3];
+    }
+    return nullptr;
+}
+
 // 0x7101028c64: drops or downgrades the entries whose time-of-day zone is not enabled any more.
 // NON_MATCHING: the original converts the entry's zone field (and the time zone byte) through the stack, which
 // means they are 4-byte enum / plain-byte fields there; ours keeps the shift and mask in registers.

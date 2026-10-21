@@ -1725,6 +1725,8 @@ public:
     bool sub_710104A858() const;
     // 0x710104a8ac (placeholder name): no entry referenced and _10 empty.
     bool sub_710104A8AC() const;
+    // 0x710104a8dc (declared only; placeholder name): the user name of the referenced entry.
+    const char* sub_710104A8DC() const;
     // 0x710104a94c (CSV name SLinkSoundEmitter::getUserInstance): the user instance of the referenced entry.
     xlink2::UserInstanceSLink* getUserInstance() const;
 
