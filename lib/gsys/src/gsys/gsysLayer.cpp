@@ -42,6 +42,16 @@ bool Layer::checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* 
 const sead::RuntimeTypeInfo::Interface* Layer::getRuntimeTypeInfo() const {
     return getRuntimeTypeInfoStatic();
 }
+// The render step names (pointer table 0x71024c9d10).
+static const char* const sRenderStepName[11] = {
+    "CalcView", "CalcGPU",    "BG",        "Opa(Debug)", "Opa",        "Xlu",
+    "Xlu(Debug)", "PostEffect", "DebugInfo", "FinalImage", "Text(Debug)",
+};
+
+sead::SafeString Layer3D::getRenderStepName(s32 step) const {
+    return sRenderStepName[step];
+}
+
 Layer3D::~Layer3D() {
     if (mModelScene) {
         mModelScene->remove_(this);
