@@ -416,27 +416,26 @@ void ScreenPauseMenuInfo::sub_7100A30510(u32 mode) {
 }
 
 // 0x7100a30df0
-// NON_MATCHING: the original addresses the info Buffer from its merged-static base.
 void ScreenPauseMenuInfo::sub_7100A30DF0(bool flag) {
     {
         UiStringEntry entry;
         entry._0 = 2;
         entry._8.copy(sUnk_71025f08a0[2].label);
-        entry._124 = sUnk_71025f08a0[2].icon;
+        entry._120 = sUnk_71025f08a0[2].icon;
         _39f8.sub_7100933FE0(entry);
     }
     {
         UiStringEntry entry;
         entry._0 = 5;
         entry._8.copy(sUnk_71025f08a0[5].label);
-        entry._124 = sUnk_71025f08a0[5].icon;
+        entry._120 = sUnk_71025f08a0[5].icon;
         _39f8.sub_7100933FE0(entry);
     }
     {
         UiStringEntry entry;
         entry._0 = 4;
         entry._8.copy(sUnk_71025f08a0[4].label);
-        entry._124 = sUnk_71025f08a0[4].icon;
+        entry._120 = sUnk_71025f08a0[4].icon;
         _39f8.sub_7100933FE0(entry);
     }
     _39f8.sub_7100934478(flag);
@@ -445,13 +444,12 @@ void ScreenPauseMenuInfo::sub_7100A30DF0(bool flag) {
 }
 
 // 0x7100a31190
-// NON_MATCHING: the original addresses the info Buffer and message set from its merged-static base.
 void ScreenPauseMenuInfo::sub_7100A31190(bool flag) {
     {
         UiStringEntry entry;
         entry._0 = 7;
         entry._8.copy(sUnk_71025f08a0[7].label);
-        entry._124 = sUnk_71025f08a0[7].icon;
+        entry._120 = sUnk_71025f08a0[7].icon;
         _39f8.sub_7100933FE0(entry);
     }
     _39f8.sub_7100934478(flag);
@@ -466,26 +464,44 @@ void ScreenPauseMenuInfo::sub_7100A31190(bool flag) {
 }
 
 // 0x7100a313a8
-// NON_MATCHING: the original addresses the info Buffer from its merged-static base.
 void ScreenPauseMenuInfo::sub_7100A313A8(s32 page, bool flag) {
-    if (page == 2) {
-        UiStringEntry entry;
-        entry._0 = 1;
-        entry._8.copy(sUnk_71025f08a0[1].label);
-        entry._124 = sUnk_71025f08a0[1].icon;
-        _39f8.sub_7100933FE0(entry);
-    } else if (page == 1) {
+    if (page == 1) {
         UiStringEntry entry;
         entry._0 = 8;
         entry._8.copy(sUnk_71025f08a0[8].label);
-        entry._124 = sUnk_71025f08a0[8].icon;
+        entry._120 = sUnk_71025f08a0[8].icon;
+        _39f8.sub_7100933FE0(entry);
+    } else if (page == 2) {
+        UiStringEntry entry;
+        entry._0 = 1;
+        entry._8.copy(sUnk_71025f08a0[1].label);
+        entry._120 = sUnk_71025f08a0[1].icon;
         _39f8.sub_7100933FE0(entry);
     }
     {
         UiStringEntry entry;
         entry._0 = 2;
         entry._8.copy(sUnk_71025f08a0[2].label);
-        entry._124 = sUnk_71025f08a0[2].icon;
+        entry._120 = sUnk_71025f08a0[2].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    _39f8.sub_7100934478(flag);
+}
+
+// 0x7100a31738
+void ScreenPauseMenuInfo::sub_7100A31738(bool flag) {
+    {
+        UiStringEntry entry;
+        entry._0 = 0;
+        entry._8.copy(sUnk_71025f08a0[0].label);
+        entry._120 = sUnk_71025f08a0[0].icon;
+        _39f8.sub_7100933FE0(entry);
+    }
+    {
+        UiStringEntry entry;
+        entry._0 = 2;
+        entry._8.copy(sUnk_71025f08a0[2].label);
+        entry._120 = sUnk_71025f08a0[2].icon;
         _39f8.sub_7100933FE0(entry);
     }
     _39f8.sub_7100934478(flag);

@@ -1000,6 +1000,8 @@ public:
     void sub_7100A306F4(s32 previous_mode, u32 mode);
     // 0x7100a313a8 (CSV unnamed, declared only): shows the info page for `page`
     void sub_7100A313A8(s32 page, bool a2);
+    // 0x7100a31738 (placeholder name): lists info entries 0 and 2
+    void sub_7100A31738(bool flag);
     // 0x7100a31190 (CSV unnamed, declared only): refreshes the info when the pause menu closes
     void sub_7100A31190(bool a2);
     // 0x7100a30194 (CSV unnamed, declared only): resets the info panes before refilling them
