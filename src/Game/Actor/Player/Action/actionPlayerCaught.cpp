@@ -1,4 +1,5 @@
 #include "Game/Actor/Player/Action/actionPlayerCaught.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -9,8 +10,9 @@ namespace uking::action {
 
 // 0x7100eeb19c (declared only; 416 B): finds the contact point of `body` in its contact list (a3: its position, a4:
 // its normal-like vector; the null pointers are optional outputs).
-bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* a2, sead::Vector3f* a3,
-                    sead::Vector3f* a4, void* a5, void* a6, void* a7);
+bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* position_a, sead::Vector3f* position_b,
+                    sead::Vector3f* normal, ksys::phys::MaterialMask* material_a,
+                    ksys::phys::MaterialMask* material_b, ksys::phys::RigidBody** other);
 
 PlayerCaught::PlayerCaught(const InitArg& arg) : PlayerAction(arg) {}
 

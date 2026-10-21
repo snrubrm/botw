@@ -1,12 +1,14 @@
 #include "Game/Actor/Action/actionForkEmitShockWaveByContact.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
-bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* a2, sead::Vector3f* a3,
-                    sead::Vector3f* a4, void* a5, void* a6, void* a7);
+bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* position_a, sead::Vector3f* position_b,
+                    sead::Vector3f* normal, ksys::phys::MaterialMask* material_a,
+                    ksys::phys::MaterialMask* material_b, ksys::phys::RigidBody** other);
 
 ForkEmitShockWaveByContact::ForkEmitShockWaveByContact(const InitArg& arg)
     : ForkEmitShockWave(arg) {}

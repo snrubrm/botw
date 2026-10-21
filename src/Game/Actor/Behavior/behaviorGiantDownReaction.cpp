@@ -1,4 +1,5 @@
 #include "Game/Actor/Behavior/behaviorGiantDownReaction.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include <prim/seadFormatPrint.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
@@ -8,8 +9,9 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
-bool sub_7100EEB19C(ksys::phys::RigidBody*, sead::Vector3f*, sead::Vector3f*,
-                    sead::Vector3f*, void*, void*, void*);
+bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* position_a, sead::Vector3f* position_b,
+                    sead::Vector3f* normal, ksys::phys::MaterialMask* material_a,
+                    ksys::phys::MaterialMask* material_b, ksys::phys::RigidBody** other);
 }
 
 namespace uking::behavior {

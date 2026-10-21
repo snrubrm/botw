@@ -37,6 +37,8 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
@@ -1824,3 +1826,36 @@ bool isRainingOrSnowingOrThunderStorm(bool a1) {
 }
 
 }  // namespace wm
+
+namespace uking::action {
+
+// 0x7100eeb19c (placeholder name): finds the first contact point of `body` with `body` as body A and copies
+// the requested parts of it (each output is optional).
+bool sub_7100EEB19C(ksys::phys::RigidBody* body, sead::Vector3f* position_a, sead::Vector3f* position_b,
+                    sead::Vector3f* normal, ksys::phys::MaterialMask* material_a,
+                    ksys::phys::MaterialMask* material_b, ksys::phys::RigidBody** other) {
+    auto* info = body->getContactPointInfo();
+    if (!info)
+        return false;
+
+    for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+        if ((*it)->body_a != body)
+            continue;
+        if (position_a)
+            *position_a = it.getPointPosition(ksys::phys::ContactPointInfo::Iterator::Point::BodyA);
+        if (position_b)
+            *position_b = it.getPointPosition(ksys::phys::ContactPointInfo::Iterator::Point::BodyB);
+        if (normal)
+            *normal = (*it)->separating_normal;
+        if (material_a)
+            *material_a = (*it)->material_mask_a;
+        if (material_b)
+            *material_b = (*it)->material_mask_b;
+        if (other)
+            *other = (*it)->body_b;
+        return true;
+    }
+    return false;
+}
+
+}  // namespace uking::action
