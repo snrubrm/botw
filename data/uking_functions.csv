@@ -75993,7 +75993,7 @@ Address,Quality,Size,Name
 0x0000007100daf304,U,000004,nullsub_3835
 0x0000007100daf308,O,000100,_ZN4ksys3evt7Manager18SingletonDisposer_D1Ev
 0x0000007100daf36c,O,000108,_ZN4ksys3evt7Manager18SingletonDisposer_D0Ev
-0x0000007100daf3d8,U,000140,EventMgr::createInstance
+0x0000007100daf3d8,O,000140,_ZN4ksys3evt7Manager14createInstanceEPN4sead4HeapE
 0x0000007100daf464,U,000936,EventMgr::ctor
 0x0000007100daf80c,O,000076,_ZN4ksys3evt7Manager13patrolPreCalcEv
 0x0000007100daf858,U,001632,EventMgr::calc
