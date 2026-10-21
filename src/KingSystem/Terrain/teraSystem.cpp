@@ -29,6 +29,18 @@ s32 sub_710107FA0C(f32 z) {
     return sead::Mathi::clamp(sead::Mathf::floor(z / 1000.0f) + 4, 0, 7);
 }
 
+// The 4 x 4 sub-cell index of x / z inside their 1000-unit cell (bit 2 / 3: the 500-unit half).
+// NON_MATCHING: the shift of the x half bit is scheduled after the z compare (one lsl moves).
+s32 sub_710107FA54(f32 x, f32 z) {
+    f32 local_x = x - sead::Mathf::floor(x / 1000.0f) * 1000.0f;
+    f32 local_z = z - sead::Mathf::floor(z / 1000.0f) * 1000.0f;
+    const bool right = local_x >= 500.0f;
+    const bool bottom = local_z >= 500.0f;
+    local_z -= bottom ? 500.0f : 0.0f;
+    local_x -= right ? 500.0f : 0.0f;
+    return (local_x >= 250.0f) + (local_z >= 250.0f) * 2 + right * 4 + bottom * 8;
+}
+
 bool System::sub_71011171AC(s32 index) {
     return (mScenes[index].collector->_2998 >> 1) & 1;
 }
