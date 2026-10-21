@@ -45,8 +45,11 @@ void Cone::getPosition(sead::Vector3f* out) const {
 // NON_MATCHING: the original min/max compile to fmin/fmax (not fminnm/fmaxnm); the clamping itself is the same
 // 0x7100b8dc30
 void Cone::setAngle(f32 start, f32 end) {
-    end = sead::Mathf::min(sead::Mathf::max(end, 0.0f), sead::Mathf::pi());
-    start = sead::Mathf::max(start, 0.0f);
+    const f32 zero = 0.0f;
+    const f32 pi = sead::Mathf::pi();
+    end = end < zero ? zero : end;
+    end = end > pi ? pi : end;
+    start = start < zero ? zero : start;
     if (start > end)
         start = end;
     mAngleStart = start;

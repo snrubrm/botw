@@ -52,7 +52,7 @@ void MarkerController::calcMarker(s32 sample_position, s32 loop_count) {
             }
             position = asset->addOffsetToPosition(sample_position, -mCallbackParam, loop_count);
             previous_position = _28;
-            position = sead::Mathi::max(position, previous_position);
+            position = std::max(position, previous_position);
         } else {
             position = asset->addOffsetToPosition(sample_position, -mCallbackParam, loop_count);
             previous_position = asset->addOffsetToPosition(_28, -mCallbackParam, loop_count);
