@@ -2,12 +2,47 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiTraceGaugeControl.h"
+#include "Game/gameHorseColorInfoMgr.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include <algorithm>
 #include <math/seadMathCalcCommon.h>
 #include <nn/ui2d/Material.h>
 #include <prim/seadStorageFor.h>
+
+// The material colors 0x7100a5090c converts into the horse color info. They sit at the head of the
+// TU's merged static block (0x71025f3238) right after the header objects.
+static sead::Color4u8 sUnk_71025F3238[4] = {
+    sead::Color4u8(0x46, 0x14, 0x00, 0x00),
+    sead::Color4u8(0xff, 0xa4, 0x81, 0xff),
+    sead::Color4u8(0x18, 0x08, 0x04, 0xff),
+    sead::Color4u8(0x2d, 0x08, 0x00, 0xff),
+};
+
+// 0x7100a5090c
+// NON_MATCHING: the four material colors sit in the TU merged block at +8 in the original; our clang
+// constant-folds the Color4u8 array into .data, so the loads use its own address.
+HorseColorInfo::HorseColorInfo()
+    : mColors{
+          sead::Color4f(static_cast<f32>(sUnk_71025F3238[0].r) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[0].g) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[0].b) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[0].a) / 255.0f),
+          sead::Color4f(static_cast<f32>(sUnk_71025F3238[1].r) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[1].g) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[1].b) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[1].a) / 255.0f),
+          sead::Color4f(static_cast<f32>(sUnk_71025F3238[2].r) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[2].g) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[2].b) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[2].a) / 255.0f),
+          sead::Color4f(static_cast<f32>(sUnk_71025F3238[3].r) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[3].g) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[3].b) / 255.0f,
+                        static_cast<f32>(sUnk_71025F3238[3].a) / 255.0f),
+      },
+      mTextureName(sead::SafeString::cEmptyString),
+      mTextureName2(sead::SafeString::cEmptyString) {}
 
 namespace uking::ui {
 
