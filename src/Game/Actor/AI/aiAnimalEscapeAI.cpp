@@ -206,7 +206,7 @@ void AnimalEscapeAI::leave_() {
         }
         const f32 radius_scale = _12c;
         if (!sead::Mathf::isNan(radius_scale) &&
-            sead::Mathf::abs(radius_scale) <= sead::Mathf::maxNumber() &&
+            !(sead::Mathf::abs(radius_scale) > sead::Mathf::maxNumber()) &&
             nav->_2ac != radius_scale) {
             auto lock = sead::makeScopedLock(nav->_1e0);
             nav->_2ac = radius_scale;
