@@ -1534,9 +1534,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 0; }
     virtual void m30();
     virtual void m31();
@@ -1570,9 +1570,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 7; }
     virtual void m30();
     virtual void m31();
@@ -1606,9 +1606,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 1; }
     virtual void m30();
     virtual void m31();
@@ -1642,9 +1642,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 2; }
     virtual void m30();
     virtual void m31();
@@ -1678,9 +1678,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 3; }
     virtual void m30();
     virtual void m31();
@@ -1714,9 +1714,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 4; }
     virtual void m30();
     virtual void m31();
@@ -1750,9 +1750,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 5; }
     virtual void m30();
     virtual void m31();
@@ -1786,9 +1786,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 6; }
     virtual void m30();
     virtual void m31();
@@ -1822,9 +1822,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 8; }
     virtual void m30();
     virtual void m31();
@@ -1858,9 +1858,9 @@ public:
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual const char* m26();
+    virtual const char* m27();
+    virtual f32 m28();
     virtual s32 m29() { return 9; }
     virtual void m30();
     virtual void m31();

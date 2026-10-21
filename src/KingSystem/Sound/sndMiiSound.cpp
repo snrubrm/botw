@@ -263,6 +263,127 @@ s32 Unk_710251ca78::m9() {
     return total;
 }
 
+// Grass draw commands: shader and model names, and the inverse of the vertex budget.
+const char* Unk_710251bf80::m26() {
+    return "DrawTurf__Turf";
+}
+
+const char* Unk_710251bf80::m27() {
+    return "Turf";
+}
+
+f32 Unk_710251bf80::m28() {
+    return 1.0f / 6400.0f;
+}
+
+const char* Unk_710251c0b8::m26() {
+    return "DrawCross__Cross";
+}
+
+const char* Unk_710251c0b8::m27() {
+    return "Cross";
+}
+
+f32 Unk_710251c0b8::m28() {
+    return 1.0f / 576.0f;
+}
+
+const char* Unk_710251c1f0::m26() {
+    return "DrawPetal__Petal";
+}
+
+const char* Unk_710251c1f0::m27() {
+    return "Petal";
+}
+
+f32 Unk_710251c1f0::m28() {
+    return 1.0f / 1024.0f;
+}
+
+const char* Unk_710251c328::m26() {
+    return "DrawNormal__Normal";
+}
+
+const char* Unk_710251c328::m27() {
+    return "Normal";
+}
+
+f32 Unk_710251c328::m28() {
+    return 1.0f / 1024.0f;
+}
+
+const char* Unk_710251c460::m26() {
+    return "DrawLong__Long";
+}
+
+const char* Unk_710251c460::m27() {
+    return "Long";
+}
+
+f32 Unk_710251c460::m28() {
+    return 1.0f / 1024.0f;
+}
+
+const char* Unk_710251c598::m26() {
+    return "DrawStone__Stone";
+}
+
+const char* Unk_710251c598::m27() {
+    return "Stone";
+}
+
+f32 Unk_710251c598::m28() {
+    return 1.0f / 256.0f;
+}
+
+const char* Unk_710251c6d0::m26() {
+    return "DrawFallenLeaves__FallenLeaves";
+}
+
+const char* Unk_710251c6d0::m27() {
+    return "FallenLeaves";
+}
+
+f32 Unk_710251c6d0::m28() {
+    return 1.0f / 1024.0f;
+}
+
+const char* Unk_710251c808::m26() {
+    return "DrawFallenLeavesWater__FallenLeavesWater";
+}
+
+const char* Unk_710251c808::m27() {
+    return "FallenLeavesWater";
+}
+
+f32 Unk_710251c808::m28() {
+    return 1.0f / 1024.0f;
+}
+
+const char* Unk_710251c940::m26() {
+    return "DrawShell__Shell";
+}
+
+const char* Unk_710251c940::m27() {
+    return "Shell";
+}
+
+f32 Unk_710251c940::m28() {
+    return 1.0f / 64.0f;
+}
+
+const char* Unk_710251ca78::m26() {
+    return "DrawChips__Chips";
+}
+
+const char* Unk_710251ca78::m27() {
+    return "Chips";
+}
+
+f32 Unk_710251ca78::m28() {
+    return 1.0f / 256.0f;
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
