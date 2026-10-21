@@ -32,6 +32,10 @@ protected:
     void sub_71002C2AD0(f32 wait_time);
     // 0x71002c2770 (placeholder name): like sub_71002C2AD0 but _94 is the current rail position; state 2.
     void sub_71002C2770();
+    // 0x71002c2354 (declared only): the Bezier rail variant of sub_71002C2770.
+    void sub_71002C2354();
+    // 0x71002c30a4 (declared only): moves towards the rail point `rail_pos` from `pos` (too far from the rail).
+    void sub_71002C30A4(const sead::Vector3f& rail_pos, const sead::Vector3f& pos);
 
     // FIXME: remove this
     /* 0x20 */ Unk_71024f15c0 _20;

@@ -124,6 +124,41 @@ void ZoraSurfing::m34() {
     (&_20)->m4(distance, nullptr, nullptr);
 }
 
+// NON_MATCHING: regalloc (the original reuses the rail register for &_20 in both branches).
+void ZoraSurfing::m35() {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f rail_pos;
+    if (auto* rail = _20._8.rail) {
+        const f32 progress = sub_7100EEF7AC(rail, pos, false, 0.2f, -0.0f);
+        rail->calcTranslate(&rail_pos, progress);
+    } else {
+        _20.sub_7100EEBAE0(m33(), 0.0f);
+        _20.sub_7100EEBE9C(1);
+    }
+
+    if (_20.sub_7100EEBB74()) {
+        if ((rail_pos - pos).length() > *mOnRailDistance_s) {
+            sub_71002C30A4(rail_pos, pos);
+        } else {
+            m34();
+            if (_20._8.rail && _20._8.rail->isBezier())
+                sub_71002C2354();
+            else
+                sub_71002C2770();
+        }
+        return;
+    }
+
+    mActor->getMtx().getTranslation(_88);
+    _ac = 9999.0f;
+    sead::Vector3f direction = _20._8.sub_7100EEB370();
+    direction -= _20._30.sub_7100EEB370();
+    direction.normalize();
+    _a0 = direction;
+    _80 = 0;
+}
+
 void ZoraSurfing::m36() {
     sub_71002C2AD0(sub_7100EEF078(_20._8.rail, _20._30.progress));
 }
