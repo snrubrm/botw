@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hostio/seadHostIONode.h>
+#include <basis/seadTypes.h>
 
 namespace agl::lght {
 class LocalLightMapObj;
@@ -8,7 +8,7 @@ class LocalLightMapObj;
 
 namespace gsys {
 
-class ModelDynamicEnvInfo : public sead::hostio::Node {
+class ModelDynamicEnvInfo {
 public:
     ModelDynamicEnvInfo();
     virtual ~ModelDynamicEnvInfo();
