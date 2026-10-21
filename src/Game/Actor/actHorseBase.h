@@ -15,6 +15,7 @@
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Utils/Unk_7100e7277c.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace sead {
@@ -42,7 +43,22 @@ namespace uking::act {
 
 class Rideable;
 class HorseReins;
+class Unk_71024eb4c0;
 class Unk_71024eb5e0;
+
+// Horse's grounded character state: native allocation/free use 0xc0 bytes,
+// the secondary vptr is at +0x20, and E67578 initializes the reused tail at +0xb4.
+class Unk_71024eb4c0 : public ksys::phys::CharacterControllerUnk48 {
+    SEAD_RTTI_OVERRIDE(Unk_71024eb4c0, ksys::phys::CharacterControllerUnk48)
+public:
+    Unk_71024eb4c0() : CharacterControllerUnk48(2) {}
+    ~Unk_71024eb4c0() override = default;
+    void sub_7100F69014(const sead::Vector3f& normal, const hkpCharacterInput& input,
+                       hkpCharacterOutput& output) override;
+
+    f32 mSlopeThreshold = 50.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024eb4c0, 0xc0);
 
 // Placeholder name (vtable 0x71024eb548, 7 slots: empty inline dtor, D0, 5 more; ctor 0x7100e72034,
 // size 0x10). HorseBase::_b18; HorseBase::prepareInit_ registers it in the NavMeshCharacter (m45)

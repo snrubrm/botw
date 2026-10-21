@@ -49,19 +49,6 @@
 
 namespace uking::act {
 
-// Horse's grounded character state: native allocation/free use 0xc0 bytes,
-// the secondary vptr is at +0x20, and E67578 initializes the reused tail at +0xb4.
-class Unk_71024eb4c0 : public ksys::phys::CharacterControllerUnk48 {
-    SEAD_RTTI_OVERRIDE(Unk_71024eb4c0, ksys::phys::CharacterControllerUnk48)
-public:
-    Unk_71024eb4c0() : CharacterControllerUnk48(2) {}
-    ~Unk_71024eb4c0() override = default;
-    void sub_7100F69014(const sead::Vector3f& normal, const hkpCharacterInput& input,
-                       hkpCharacterOutput& output) override;
-
-    f32 mSlopeThreshold = 50.0f;
-};
-KSYS_CHECK_SIZE_NX150(Unk_71024eb4c0, 0xc0);
 static_assert(offsetof(Unk_71024eb4c0, mSlopeThreshold) == 0xb4);
 
 // NON_MATCHING: initialization branches, matrix copies and scalar resets are scheduled differently.

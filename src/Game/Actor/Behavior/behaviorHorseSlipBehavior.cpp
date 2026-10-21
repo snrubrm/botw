@@ -1,4 +1,5 @@
 #include "Game/Actor/Behavior/behaviorHorseSlipBehavior.h"
+#include "Game/Actor/actHorseBase.h"
 #include "Game/Actor/actHorseStrings.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -38,6 +39,21 @@ void HorseSlipBehavior::sub_7100E61830(ksys::phys::CharacterController* controll
     default:
         break;
     }
+}
+
+void HorseSlipBehavior::enter() {
+    auto* controller = mActor->getCharacterController();
+    if (controller) {
+        controller->sub_7100F5E754(true);
+        controller->sub_7100F5F07C(*mSlipAngleDeg_s);
+        controller->_48->sub_7100F68F38()[3] = *mSlipVelocityMax_s;
+        controller->_48->sub_7100F68F38()[4] = *mSlipVelocityAddScale_s;
+        controller->_48->sub_7100F68F38()[1] = *mSlipSpeedAttn_s;
+        if (auto* state = sead::DynamicCast<act::Unk_71024eb4c0>(controller->_48))
+            state->mSlopeThreshold = *mMaxSlipAngleDeg_s;
+    }
+    _98 = 0.0f;
+    _9c = 0;
 }
 
 void HorseSlipBehavior::leave() {
