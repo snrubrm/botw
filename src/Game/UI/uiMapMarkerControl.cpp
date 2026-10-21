@@ -69,7 +69,8 @@ void Unk_7102477fc0::m7() {
             _10->_250[_18->_40] = {_18->_34.x / _10->GetScale().x,
                                   _18->_34.y / _10->GetScale().y};
     } else if (_18 && (_18->_3c & 1) && _8) {
-        _8->mPane->SetPosition(nn::util::Float3{_18->_34.x, _18->_34.y, 0.0f});
+        const nn::util::Float3 position{_18->_34.x, _18->_34.y, 0.0f};
+        _8->mPane->SetPosition(position);
     }
 }
 
@@ -123,7 +124,8 @@ void Unk_7102477fc0::m10() {
             _10->_250[_18->_40] = {_18->_34.x / _10->GetScale().x,
                                   _18->_34.y / _10->GetScale().y};
     } else if (_18 && (_18->_3c & 0x4001) == 0x4001 && _8) {
-        _8->mPane->SetPosition(nn::util::Float3{_18->_34.x, _18->_34.y, 0.0f});
+        const nn::util::Float3 position{_18->_34.x, _18->_34.y, 0.0f};
+        _8->mPane->SetPosition(position);
     }
 }
 
