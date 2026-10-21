@@ -102,6 +102,7 @@ class ActorCreator;
 namespace xlink2 {
 class HandleSLink;
 class IUser;
+class System;
 class UserInstanceSLink;
 }
 
@@ -116,6 +117,16 @@ class OverlayArena;
 namespace ksys::snd {
 class Unk_710251af10;
 class Unk_710251af30;
+
+// Placeholder name (SoundMgr::_2a0; the final output measure user, TU 0x71012c629c .. 0x71012c7350). Only the
+// methods SoundMgr calls are declared.
+class Unk_SoundMgr2a0 {
+public:
+    // 0x71012c629c (declared only): per-frame update (SoundMgr::calc).
+    void sub_71012C629C();
+    // 0x71012c6dc4 (declared only): activates the final output measure (Sound::init2).
+    void sub_71012C6DC4();
+};
 }  // namespace ksys::snd
 
 namespace ksys::act {
@@ -1897,7 +1908,9 @@ public:
     sead::Thread* sub_71011FC348();
     void sub_71011FC394(sead::Thread* thread);
 
-    u8 _28[0x30 - 0x28];
+    // Tested by calc (nothing runs before Sound::init sets it).
+    /* 0x28 */ bool _28;
+    u8 _29[0x30 - 0x29];
     /* 0x30 */ Unk_SoundMgr30* _30;
     /* 0x38 */ Unk_SoundMgr38* _38;
     /* 0x40 */ UiSoundMgr* mUiSoundMgr;
@@ -1905,7 +1918,7 @@ public:
     /* 0x50 */ FxMgr* _50;
     ListenerPoser* _58;
     /* 0x60 */ ResourceManager* _60;
-    u8 _68[0x70 - 0x68];
+    /* 0x68 */ xlink2::System* _68;
     /* 0x70 */ Unk_710251af30* _70;
     /* 0x78 */ OcclusionMgr* mOcclusionMgr;
     /* 0x80 */ DuckingMgr* mDuckingMgr;
@@ -1919,7 +1932,8 @@ public:
     u8 _d0[0xd8 - 0xd0];
     // Created by 0x71011fab7c and queried through the Heap virtual interface.
     sead::Heap* mSLinkUserCreateHeap;
-    u8 _e0[4];
+    // The number of calc calls.
+    /* 0xe0 */ u32 _e0;
     // Whole factory 11FA364 sets 3; whole 11FB748 tests state 2.
     u32 _e4;
     u8 _e8[4];
@@ -1931,14 +1945,26 @@ public:
     /* 0x198 */ sead::Heap* _198 = nullptr;
     u8 _1a0[0x238 - 0x1a0];
     u8 _238;
-    u8 _239[0x270 - 0x239];
+    // Cleared by calc after it ran sub_71011FB5AC.
+    /* 0x239 */ bool _239;
+    u8 _23a[0x23c - 0x23a];
+    // Bit 0 is set while calc runs (an atomic test-and-set: calc returns false if it was already set).
+    /* 0x23c */ sead::Atomic<u32> _23c;
+    u8 _240[0x270 - 0x240];
     AudioChannelType mAudioChannelType;
     u8 _274[4];
     // Whole allocator 11FC348 passes the heap at 278 to new and the thread constructor.
     sead::Heap* _278;
     u8 _280[8];
     /* 0x288 */ Unk_SoundMgrStatus* _288;
+    void* _290;
+    void* _298;
+    /* 0x2a0 */ Unk_SoundMgr2a0* _2a0;
 };
+KSYS_CHECK_SIZE_NX150(SoundMgr, 0x2a8);
+
+// 0x7101048b94 (CSV snd::debugReportStatus; declared only): prints the status (debug report).
+void debugReportStatus(Unk_SoundMgrStatus* status);
 
 // Defined here because it needs SoundMgr.
 inline void Unk_7102502410::Entry::finalize() {
