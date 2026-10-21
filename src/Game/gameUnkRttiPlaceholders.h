@@ -1531,7 +1531,7 @@ public:
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual bool m29() { return false; }
+    virtual s32 m29() { return 0; }
     virtual void m30();
     virtual void m31();
     virtual void m32();
@@ -1862,7 +1862,7 @@ public:
     virtual void m33();
     virtual void m34() {}
     virtual void m35() {}
-    virtual void m36();
+    virtual s32 m36() { return 0; }
 };
 
 // vtable 0x710251cbf0 (39 slots); placeholder generated from the vtable (genskel.py).

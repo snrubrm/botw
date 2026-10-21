@@ -162,6 +162,104 @@ Unk_710251c940::~Unk_710251c940() = default;
 
 Unk_710251ca78::~Unk_710251ca78() = default;
 
+namespace {
+// Per-part vertex / index counts of the draw commands (two parts each).
+struct PartCounts {
+    u16 vertices;
+    u16 indices;
+};
+const PartCounts sBf80Parts[] = {{3, 1}, {3, 1}};
+const PartCounts sC0b8Parts[] = {{4, 2}, {4, 2}};
+const PartCounts sC1f0Parts[] = {{5, 4}, {5, 4}};
+const PartCounts sC328Parts[] = {{4, 2}, {4, 2}};
+const PartCounts sC460Parts[] = {{4, 2}, {4, 2}};
+const PartCounts sC598Parts[] = {{12, 20}, {12, 20}};
+const PartCounts sC6d0Parts[] = {{5, 3}, {6, 4}};
+const PartCounts sC808Parts[] = {{5, 3}, {6, 4}};
+const PartCounts sC940Parts[] = {{5, 4}, {5, 4}};
+const PartCounts sCa78Parts[] = {{8, 6}, {8, 6}};
+}  // namespace
+
+// NON_MATCHING: the original loads the part's vertex count before the m29() call.
+s32 Unk_710251bf80::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i) {
+        const s32 type = m29();
+        total += sBf80Parts[i].vertices * (type == 7 || type == 0 ? 2 : 1) * 6400;
+    }
+    return total;
+}
+
+s32 Unk_710251bf80::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sBf80Parts[i].indices * 19200;
+    return total;
+}
+
+s32 Unk_710251c0b8::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC0b8Parts[i].indices * 1728;
+    return total;
+}
+
+s32 Unk_710251c1f0::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC1f0Parts[i].indices * 3072;
+    return total;
+}
+
+s32 Unk_710251c328::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC328Parts[i].indices * 3072;
+    return total;
+}
+
+s32 Unk_710251c460::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC460Parts[i].indices * 3072;
+    return total;
+}
+
+s32 Unk_710251c598::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC598Parts[i].indices * 768;
+    return total;
+}
+
+s32 Unk_710251c6d0::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC6d0Parts[i].indices * 3072;
+    return total;
+}
+
+s32 Unk_710251c808::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC808Parts[i].indices * 3072;
+    return total;
+}
+
+s32 Unk_710251c940::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC940Parts[i].indices * 192;
+    return total;
+}
+
+s32 Unk_710251ca78::m9() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sCa78Parts[i].indices * 768;
+    return total;
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
