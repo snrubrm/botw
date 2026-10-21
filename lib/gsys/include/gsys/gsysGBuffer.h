@@ -22,6 +22,8 @@ public:
     GBuffer();
     virtual ~GBuffer();
     void initialize(sead::Heap* heap);
+    // 0x7100c73834 (declared only)
+    void invalidate();
     void invalidateGPUWriteCache(agl::DrawContext*, const sead::SafeString&, Resolution) const;
 
     // 0x7100c73af4: per-buffer format. setReduceFilter 0x7100c73b30 stays U because

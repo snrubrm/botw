@@ -1,6 +1,7 @@
 #include "gsys/gsysModelSceneBuffer.h"
 #include "gsys/gsysModelSceneConfig.h"
 #include "gsys/gsysModelSceneContext.h"
+#include "gsys/gsysGBuffer.h"
 #include "gsys/gsysRenderBufferContext.h"
 
 namespace gsys {
@@ -46,6 +47,12 @@ bool ModelSceneBuffer::isZPrePassEnabled(const ModelSceneContext& context) const
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::ZPrePass))
         return false;
     return (context._390 >> 4) & 1;
+}
+
+// 0x7100c191bc
+void ModelSceneBuffer::releaseXlu(const ModelSceneContext& context) const {
+    mRenderBufferContext->release(context._8, 0x7fe60000);
+    mRenderBufferContext->getContext(context._8)->mGBuffer->invalidate();
 }
 
 // 0x7100c19b44

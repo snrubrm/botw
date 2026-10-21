@@ -31,8 +31,9 @@ public:
     void beginReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void endReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void endReducedBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
-    // 0x7100c191a8
+    // 0x7100c191a8 / 0x7100c191bc
     void releaseOpa(const ModelSceneContext& context) const;
+    void releaseXlu(const ModelSceneContext& context) const;
     // 0x7100c183b0
     bool isZPrePassEnabled(const ModelSceneContext& context) const;
     // 0x7100c19b44 / 0x7100c19b48: the buffer draws no debug output and attaches nothing.
