@@ -74,6 +74,8 @@ public:
     // 0x7100002f78 (placeholder name): the translation of the pose from `sub_7100003494` into `_c68`.
     void sub_7100002F78();
     void reflectMaybe(const sead::Vector3f& start, const sead::Vector3f& target);
+    // 0x7100002fc0 (placeholder name; LineBeam::m163 calls it): reflectMaybe from m165's position to _c68.
+    void sub_7100002FC0();
     void sub_71000029CC();
 
     // 0x7100002bf8: fades the beam effects and detaches the sound shape.

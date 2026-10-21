@@ -162,6 +162,13 @@ ksys::act::Actor* BeamBase::m48() {
     return sead::DynamicCast<ksys::act::Actor>(_c38.getProc(nullptr, nullptr));
 }
 
+// NON_MATCHING: the original passes a stack copy of _c68.
+void BeamBase::sub_7100002FC0() {
+    sead::Vector3f pos;
+    m165(&pos);
+    reflectMaybe(pos, _c68);
+}
+
 void BeamBase::m164(void* arg) {
     uking::xlink::fade(_c48, -1);
     _c48 = ksys::eft::searchAndEmitELink(this, "Tail");
