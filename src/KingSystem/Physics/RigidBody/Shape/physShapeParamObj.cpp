@@ -190,6 +190,22 @@ bool Unk_71025193e8::m11() const {
     return (_5c & 2) != 0;
 }
 
+f32 Unk_71025193e8::setColor(const sead::Color4f& color) {
+    const f32 luminance = sead::Mathf::clampMin(
+        color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f, 0.0f);
+    if (luminance > 0.0f) {
+        mColor = color / luminance;
+        mColor.a = color.a;
+    } else {
+        mColor = sead::Color4f(0, 0, 0, color.a);
+    }
+    return luminance;
+}
+
+void Unk_71025193e8::setColorAndLuminance(const sead::Color4f& color) {
+    _104 = setColor(color);
+}
+
 void Unk_71025193e8::m12() {
     if (_50 && (_48 & 1))
         m11();
@@ -359,6 +375,8 @@ bool Unk_7102519620::m11() const {
     return (_5c & 1) != 0;
 }
 
+Unk_7102519690::Unk_7102519690() = default;
+
 Unk_7102519690::~Unk_7102519690() {
     _128 = 0;
     if (mPoolLink) {
@@ -394,6 +412,22 @@ void Unk_7102519690::m10() {
 
 bool Unk_7102519690::m11() const {
     return _128 > 0.0f;
+}
+
+f32 Unk_7102519690::setColor(const sead::Color4f& color) {
+    const f32 luminance = sead::Mathf::clampMin(
+        color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f, 0.0f);
+    if (luminance > 0.0f) {
+        mColor = color / luminance;
+        mColor.a = color.a;
+    } else {
+        mColor = sead::Color4f(0, 0, 0, color.a);
+    }
+    return luminance;
+}
+
+void Unk_7102519690::setColorAndLuminance(const sead::Color4f& color) {
+    _104 = setColor(color);
 }
 
 void Unk_7102519690::m12() {

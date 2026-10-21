@@ -1268,6 +1268,11 @@ public:
     // 0x7101296058: the 0x130-byte record constructor (UniformBlock at +0x60).
     Unk_71025193e8();
     ~Unk_71025193e8() override;
+    // Stores the colour divided by its luminance (black if the luminance is not positive; alpha
+    // kept) and returns the luminance (at least 0).
+    f32 setColor(const sead::Color4f& color);
+    // The same, also storing the luminance at _104.
+    void setColorAndLuminance(const sead::Color4f& color);
     // 0x71012969e0: same body as m12.
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
@@ -1289,10 +1294,7 @@ private:
     u32 mBufferCount = 0;
     u8* mBuffer = nullptr;
     sead::Vector3f mPosition = sead::Vector3f(0, 0, 0);
-    f32 _f4 = 5.0f;
-    f32 _f8 = 0;
-    f32 _fc = 0;
-    f32 _100 = 1.0f;
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
     f32 _104 = 0;
     f32 _108 = 0.3f;
     f32 _10c = 0;
@@ -1478,7 +1480,14 @@ class Unk_7102519690 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519690, Unk_7102519378)
 public:
     // 0x710129ae9c: same teardown as Unk_71025193e8 (pool link, particle buffer, uniform block).
+    // 0x710129adf4
+    Unk_7102519690();
     ~Unk_7102519690() override;
+    // Stores the colour divided by its luminance (black if the luminance is not positive; alpha
+    // kept) and returns the luminance (at least 0).
+    f32 setColor(const sead::Color4f& color);
+    // The same, also storing the luminance at _104.
+    void setColorAndLuminance(const sead::Color4f& color);
     // 0x710129b734: same body as m12.
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
@@ -1499,7 +1508,14 @@ private:
     agl::UniformBlock mUniformBlock;
     u32 mBufferCount = 0;
     u8* mBuffer = nullptr;
-    u8 _e8[0x120 - 0xe8];
+    sead::Vector3f mPosition = sead::Vector3f(0, 0, 0);
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
+    f32 _104 = 0;
+    f32 _108 = 0.3f;
+    f32 _10c = 0;
+    f32 _110 = 1.0f;
+    f32 _114 = 1.0f;
+    void* _118 = nullptr;
     Unk_7102519378* mPoolLink = nullptr;
     f32 _128 = 0;
 };
