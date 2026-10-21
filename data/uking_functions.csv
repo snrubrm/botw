@@ -73629,8 +73629,8 @@ Address,Quality,Size,Name
 0x0000007100d2545c,O,000032,_ZN4ksys3act2ai9Behaviors12setFactoriesEiPNS1_15BehaviorFactoryE
 0x0000007100d2547c,O,000096,_ZNK4ksys3act2ai9Behaviors18updateForPreDeleteEv
 0x0000007100d254dc,O,000068,_ZNK4ksys3act2ai9Behaviors11onPreDeleteEv
-0x0000007100d25520,U,000100,
-0x0000007100d25584,U,000108,
+0x0000007100d25520,O,000100,_ZN4ksys3act10ActorDebug18SingletonDisposer_D2Ev
+0x0000007100d25584,O,000108,_ZN4ksys3act10ActorDebug18SingletonDisposer_D0Ev
 0x0000007100d255f0,W,000136,_ZN4ksys3act10ActorDebug14createInstanceEPN4sead4HeapE
 0x0000007100d25678,U,000620,ActorDebug::ctor
 0x0000007100d258e4,U,016820,ActorDebug::main
