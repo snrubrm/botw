@@ -245,10 +245,6 @@ void Unk_71010c90f4::sub_71010C9274(s32 count, sead::Heap* heap) {
 
 WorldMgrStruct0_8_a::WorldMgrStruct0_8_a() = default;
 
-WorldMgrStruct0_8_a::~WorldMgrStruct0_8_a() {
-    _8.sub_71010C90F4();
-}
-
 void WorldMgrStruct0_8_a::sub_71010C9210(sead::Heap* heap, ksys::world::ChemicalMgr* mgr) {
     _8.sub_71010C9274(80, heap);
     for (auto& entry : _8._40)
@@ -428,15 +424,6 @@ void Unk_710250c530::sub_71010C587C(sead::Heap* heap) {
 }
 
 Unk_710250c698::Unk_710250c698() = default;
-
-Unk_710250c698::~Unk_710250c698() {
-    if (_18) {
-        if (_18->isAddedToWorld())
-            _18->removeFromWorldImmediately(nullptr);
-        delete _18;
-        _18 = nullptr;
-    }
-}
 
 void Unk_710250c698::sub_71010C5DEC(sead::Heap* heap) {
     ksys::phys::SphereParam param;
