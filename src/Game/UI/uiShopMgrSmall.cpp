@@ -5,6 +5,7 @@
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/gameHorseMgr.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <math/seadMathCalcCommon.h>
@@ -234,6 +235,24 @@ void UiShopMgr::sub_710098425C(s32 a1, s32 a2) {
         sub_7100980F48(&_38);
     if (u32(_30 - 11) <= 2)
         _c7 = false;
+}
+
+// 0x71009842f8: in the horse shop states (11 - 13), registers / changes the selected horse item with the horse
+// manager, then sets _c7
+void UiShopMgr::sub_71009842F8() {
+    if (u32(_30 - 11) > 2)
+        return;
+    if (!_38.name.isEmpty() && _38._68 != 12) {
+        if (auto* horse_mgr = HorseMgr::instance()) {
+            if (_30 == 11)
+                horse_mgr->sub_7100E87340(_38.name, ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+            else if (_30 == 12)
+                horse_mgr->sub_7100E87424(_38.name, ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+            else
+                horse_mgr->sub_7100E87508(_38.name, ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+        }
+    }
+    _c7 = true;
 }
 
 // 0x71009854fc
