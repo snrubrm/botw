@@ -308,6 +308,9 @@ public:
     bool x_1();
     bool bowHasArrowName();
     bool bowIsUsedByPlayerAndHasArrowName();
+    // 0x71002ee06c (placeholder name): true unless the player holds a bow without its own arrow name and has
+    // no arrows of the bow's arrow type in the pouch.
+    bool sub_71002EE06C();
     // Bow modifier helpers (placeholder names, lane4 s45). The bow param's IsLeadShot / LeadShotNum /
     // IsRapidFire / RapidFireNum, overridden by the AddSpreadFire / AddZoomRapid modifiers.
     bool sub_71002EA0D4();
