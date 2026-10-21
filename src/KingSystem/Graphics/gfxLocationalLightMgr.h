@@ -108,6 +108,9 @@ public:
 
     // 0x7100f1334c (placeholder name): sets bit 29 of the manager flags at +0x60.
     void sub_7100F1334C();
+    // inline-only in the original; name is a guess: the record updates (0x7101296bc4, 0x7101297bb4,
+    // 0x7101298558) test bit 13 of the manager flags at +0x60.
+    bool testFlag2000() const { return _60 & 0x2000; }
 
     // 0x7100f1356c / 0x7100f135f8: the nine identical record pools at +0x68..+0x3e8.
     // Each one stores 0x130-byte render-light records and returns them through init().

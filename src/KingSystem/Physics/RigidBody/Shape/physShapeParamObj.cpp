@@ -9,6 +9,8 @@
 #include "KingSystem/Physics/RigidBody/Shape/physShape.h"
 #include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include <gfx/seadCamera.h>
+#include <gfx/seadProjection.h>
 
 namespace ksys::phys {
 
@@ -576,6 +578,47 @@ void Unk_71025194d0::m6(sead::Heap* heap) {
     mUniformBlock.startDeclare(1, heap);
     mUniformBlock.declare_(static_cast<agl::UniformBlock::Type>(6), 10, 0, 1);
     mUniformBlock.create(heap, 2, 1);
+}
+
+// Updates the light's range and intensity from its screen size and writes the uniform block.
+// NON_MATCHING: same size; the view transform is scheduled differently and the original computes the
+// fall-off test as `(_108 == 0) | flag` with float / address selects.
+void Unk_71025194d0::m7(const CalcArg& arg) {
+    // Discarded call: the original calls getFovy once more without using the result.
+    arg.projection->getFovy();
+    const f32 distance = (arg.camera_pos - mPos).length();
+    const f32 radius = _104;
+    auto* mgr = static_cast<ksys::gfx::LocationalLightMgr*>(_50);
+    const f32 size = radius / (distance * arg.projection->getFovy());
+    const f32 threshold = mgr->sub_7100F143FC();
+    const f32 rate = sead::Mathf::clamp((size - threshold) / threshold, 0.0f, 1.0f);
+    _108 = sead::Mathf::clampMin(radius * rate, 0.01f);
+    _114 = sead::Mathf::clampMin(_100 * 4.0f * sead::Mathf::pi(), 0.0f);
+    _118 = _114 / (_108 * _108 * (4.0f * sead::Mathf::pi()));
+    _10c = _110 = std::sqrt(_114 / (mgr->sub_7100F143E4() * (4.0f * sead::Mathf::pi())));
+    _5c |= 1;
+
+    const sead::Matrix34f& view = arg.camera->getMatrix();
+    sead::Vector3f view_pos;
+    view_pos.setMul(view, mPos);
+    sead::Vector3f view_dir;
+    view_dir.setRotated(view, _e4);
+    const bool no_falloff = _108 == 0.0f || mgr->testFlag2000();
+    const f32 intensity = no_falloff ? _100 : _118;
+    const f32 range = no_falloff ? 0.0f : _108;
+
+    mUniformBlock.dcbz(0);
+    sead::Vector4f data{_110, 1.0f / (_10c * _10c), 0.0f, 0.0f};
+    mUniformBlock.setData(0, &data, 0);
+    data = {intensity * mColor.r, intensity * mColor.g, intensity * mColor.b, range};
+    mUniformBlock.setData(0, &data, 1);
+    data = {mPos.x, mPos.y, mPos.z, 0.0f};
+    mUniformBlock.setData(0, &data, 2);
+    data = {view_pos.x, view_pos.y, view_pos.z, 0.0f};
+    mUniformBlock.setData(0, &data, 3);
+    data = {view_dir.x, view_dir.y, view_dir.z, 0.0f};
+    mUniformBlock.setData(0, &data, 4);
+    mUniformBlock.flushCPUCache();
 }
 
 void Unk_71025194d0::m8(u8 index) {
