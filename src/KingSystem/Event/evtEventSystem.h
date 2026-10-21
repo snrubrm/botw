@@ -64,7 +64,8 @@ public:
     // 0x71008abf28
     int handleMessage(const Message* message) override;
 
-    // 0x71008ab24c (CSV x_0; not decompiled): takes the actor's +0x108 word
+    // 0x71008ab24c (CSV x_0): once the equipment actors are ready, has the player equip the armor and weapons named
+    // in `arg`; true while they are still loading
     bool x_0(void* arg);
     // 0x71008aab4c (CSV x_1): equips the armor and weapons named in `arg`; true if any was requested
     bool x_1(void* arg);

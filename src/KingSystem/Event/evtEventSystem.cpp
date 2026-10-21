@@ -104,6 +104,42 @@ bool EventSystem::x_1(void* arg) {
     return requested;
 }
 
+// 0x71008ab24c
+// NON_MATCHING: as x_1 (the dead `this` of the sub_71008AB474 calls).
+bool EventSystem::x_0(void* arg) {
+    auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance();
+    if (!mgr)
+        return false;
+    if (!mgr->areAllWeaponActorsReady())
+        return true;
+    auto* info = uking::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    auto* player = info->getPlayer();
+    if (!player)
+        return false;
+
+    const sead::SafeString head = sub_71008AB474(arg, "ArmorHead");
+    const sead::SafeString lower = sub_71008AB474(arg, "ArmorLower");
+    const sead::SafeString upper = sub_71008AB474(arg, "ArmorUpper");
+    const sead::SafeString bow = sub_71008AB474(arg, "Bow");
+    const sead::SafeString shield = sub_71008AB474(arg, "Shield");
+    const sead::SafeString weapon = sub_71008AB474(arg, "Weapon");
+    if (!head.isEmpty())
+        player->m266(head, -1);
+    if (!lower.isEmpty())
+        player->m266(lower, -1);
+    if (!upper.isEmpty())
+        player->m266(upper, -1);
+    if (!bow.isEmpty())
+        player->m266(bow, -1);
+    if (!shield.isEmpty())
+        player->m266(shield, -1);
+    if (!weapon.isEmpty())
+        player->m266(weapon, -1);
+    return false;
+}
+
 // 0x71008aad18
 bool EventSystem::x_8(const sead::SafeString& name) {
     if (name == sUnk_71025D0DB8) {
