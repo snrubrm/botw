@@ -183,6 +183,15 @@ void Unk_710235b660::m13() {}
 
 void Unk_710235b660::m14() {}
 
+void Unk_710235b4f8::m9() {
+    if (auto* component = sub_710003D700(GuardianComponentBind::_8)) {
+        sead::Matrix34f mtx;
+        component->sub_7100044C5C(&mtx, _38);
+        GuardianComponentBind::_8->setMatrix(mtx, &sead::Vector3f::ones);
+    }
+    _40->addToWorld();
+}
+
 void GuardianComponentBind::m9() {}
 
 void GuardianComponentBind::m10() {}

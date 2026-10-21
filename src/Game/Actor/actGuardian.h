@@ -223,6 +223,8 @@ public:
         ksys::phys::RigidBody* sub_71000418C4() const;
         // 0x7100044b68: transforms the point of the owner's _15b8 buffer at `index` with the rigid body.
         void sub_7100044B68(sead::Vector3f* out, s32 index);
+        // 0x7100044c5c (declaration only; placeholder name): the local matrix of the position at `index`.
+        void sub_7100044C5C(sead::Matrix34f* mtx, s32 index);
 
         Guardian* _8;  // the owner (sub_7100042338)
         u8 _10[0x10];
@@ -270,6 +272,12 @@ public:
     /* 0x1908 */ Unk_710243c250 _1908{this};
 };
 KSYS_CHECK_SIZE_NX150(Guardian, 0x1950);
+
+class GuardianComponent;
+
+// 0x710003d700 (declaration only; placeholder name): the Guardian component (Guardian::_15b0) behind
+// `component`'s link, or null.
+Guardian::Unk1* sub_710003D700(GuardianComponent* component);
 
 }  // namespace uking::act
 
