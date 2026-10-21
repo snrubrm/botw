@@ -35,7 +35,7 @@
 const char* sub_7100E367C0(s32 index);
 
 namespace ksys::act {
-Reaction* Reaction::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(Reaction)
 
 xlink::XLink* Unk_7100ebf9e4::getXLink() const {
     if (mActor)

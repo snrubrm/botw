@@ -208,7 +208,7 @@ void GameSceneSubsys5::sub_71009059EC(ksys::act::ActorLinkConstDataAccess* acces
 void GameSceneSubsys5::sub_7100905F30() {
     if (_48.isActive())
         return;
-    _48 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::sInstance->_30, "MagneConnect");
+    _48 = ksys::eft::searchAndEmitELink(ksys::act::Reaction::instance()->_30, "MagneConnect");
 }
 
 void GameSceneSubsys5::sub_7100905F9C(const sead::Matrix34f& mtx, f32 value) {

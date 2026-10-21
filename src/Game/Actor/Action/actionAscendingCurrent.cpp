@@ -131,7 +131,7 @@ void AscendingCurrent::sub_71000A71B0() {
         }
     }
     if (!_68.isActive()) {
-        auto* actor = ksys::act::Reaction::sInstance->_38;
+        auto* actor = ksys::act::Reaction::instance()->_38;
         if (!actor)
             return;
         auto* xlink = actor->getXLink();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadDisposer.h>
 #include <cstddef>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -74,6 +75,11 @@ public:
 };
 
 class Reaction {
+    SEAD_SINGLETON_DISPOSER(Reaction)
+    // 0x7100ec01c0 / 0x7100ec0374 (declared only)
+    Reaction();
+    virtual ~Reaction();
+
 public:
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
@@ -154,7 +160,6 @@ public:
         u8 _11c[4];
     };
 
-    static Reaction* instance() { return sInstance; }
     // 0x7100ec1c24 (placeholder name): sets the material, sub material and wetness properties of
     // both xlink user instances of `actor`. Called twice by 0x7100ec134c.
     void sub_7100EC1C24(Actor* actor, const phys::MaterialMask& mask) const;
@@ -168,7 +173,6 @@ public:
     bool sub_7100EC2980(Actor* actor);
     void sub_7100EC299C(f32 value, ::DamageReactionRequest* request, bool flag);
     void sub_7100EC29B8(::DamageReactionRequest* request);
-    static Reaction* sInstance;
     // Surface raycast/XLink update called by GolemRootBase::calc_; declaration only.
     void sub_7100EC29D0(Actor* actor);
     // 0x7100ec2278 (placeholder name): size class 0-4 of the actor from the local AABB of its main body
@@ -187,7 +191,6 @@ public:
 
     // EC04D0 stores an Actor cast from the released handle; EC0D20 deletes the same actor.
     // EC04D0 releases the first handle and dynamically casts it to Actor here.
-    u8 _0[0x28];
     Actor* _28;
     Actor* _30;
     Actor* _38;
@@ -195,8 +198,11 @@ public:
     /* 0xa0 */ Unk_7101286868* _a0;
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
+    u8 _b1[0x180 - 0xb1];
 };
 static_assert(offsetof(Unk_7101286868, _38) == 0x38);
+static_assert(offsetof(Reaction, _28) == 0x28);
+KSYS_CHECK_SIZE_NX150(Reaction, 0x180);
 static_assert(offsetof(Reaction::Unk1, _8) == 0x8);
 static_assert(offsetof(Reaction::Unk1, _10) == 0x10);
 static_assert(offsetof(Reaction::Unk1, mGrassCutHandle) == 0x20);
