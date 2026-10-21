@@ -3,6 +3,8 @@
 
 namespace ksys {
 
+SEAD_SINGLETON_DISPOSER_IMPL(ModelPicker)
+
 void ModelPicker::init(void* arg) {
     _20 = arg;
 }

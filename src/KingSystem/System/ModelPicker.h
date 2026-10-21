@@ -25,7 +25,7 @@ class Object;
 class ModelPicker {
     SEAD_SINGLETON_DISPOSER(ModelPicker)
     ModelPicker();
-    ~ModelPicker();
+    ~ModelPicker() = default;
 
 public:
     // Placeholder: the named target copied field by field by x_1.
