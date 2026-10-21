@@ -79,6 +79,8 @@ public:
     // EventFlowTimeline::m8 with (on, true) when a timeline pauses / resumes
     void sub_71011B8584(bool on);
     void sub_71011B8658(bool on);
+    // 0x71011b6154 (declared only): clears and sets up the particle groups of the model scene.
+    void initParticleGroups(bool flag);
 
     // 0x71011b2a34 (placeholder name; `this` is not read): water height at `pos` (a water-layer ray cast or the
     // terrain water query) against the terrain height. Writes the water height (or the terrain height when
@@ -120,7 +122,9 @@ private:
     u8 _38[0x96b0 - 0x38];
     // Set to skip Effect::calc.
     bool _96b0;
-    u8 _96b1[0x9b98 - 0x96b1];
+    // Set while the timeline is paused (sub_71011B8658).
+    bool _96b1;
+    u8 _96b2[0x9b98 - 0x96b2];
     bool _9b98;
     u8 _9b99[0x9fb8 - 0x9b99];
 
@@ -150,7 +154,10 @@ private:
     u8 _19330[0x19370 - 0x19330];
     Rainbow mRainbow;
     s32 _193e0;
-    u8 _193e4[0x19c38 - 0x193e4];
+    u8 _193e4[4];
+    // Counted up by sub_71011B8584 / sub_71011B8658 while the particle groups are off; reset to 0 otherwise.
+    s32 _193e8;
+    u8 _193ec[0x19c38 - 0x193ec];
     Unk_71012419b4 mFieldEnvEffect;
     u8 _19c58[0x2a43c - 0x19c58];
     /// Demo resource ids (initialised to -1 by the constructor).

@@ -141,6 +141,34 @@ void Effect::updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34
     }
 }
 
+// NON_MATCHING: the setBit `orr` has its operands swapped (sead::LongBitFlag::setBit in lib).
+void Effect::sub_71011B8584(bool on) {
+    const bool flag = _96b1;
+    _96b0 = on;
+    gsys::ParticleMgr::instance()->set_90(on);
+    initParticleGroups(flag);
+    if (on)
+        ++_193e8;
+    else
+        _193e8 = 0;
+    for (u32 i = 0; i < 61; ++i)
+        gsys::ParticleMgr::instance()->get_58().changeBit(i, !on);
+}
+
+// NON_MATCHING: the setBit `orr` has its operands swapped (sead::LongBitFlag::setBit in lib).
+void Effect::sub_71011B8658(bool on) {
+    const bool flag = _96b0;
+    _96b1 = on;
+    gsys::ParticleMgr::instance()->set_90(flag);
+    initParticleGroups(on);
+    if (flag)
+        ++_193e8;
+    else
+        _193e8 = 0;
+    for (u32 i = 0; i < 61; ++i)
+        gsys::ParticleMgr::instance()->get_58().changeBit(i, !flag);
+}
+
 void Effect::searchAndEmit(const sead::SafeString& name, xlink2::HandleELink* handle) {
     if (!mUserInstance)
         return;
