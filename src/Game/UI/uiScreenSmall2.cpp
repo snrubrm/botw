@@ -3687,6 +3687,25 @@ void ScreenSaveTransferWindow::m190() {
 }
 
 // 0x7100a45684
+// 0x7100a44c30
+void ScreenSaveTransferWindow::m242() {
+    if (sUnk_71025f2eb0._10 != 0) {
+        _3788 = "0063";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        return;
+    }
+    if (sUnk_71025f2eb0._c != 0) {
+        _3679 = 1;
+        sub_7100A4473C();
+        return;
+    }
+    sead::FixedSafeString<20> name;
+    const char16* text = SwkbdMgr::instance()->sub_7100985C98();
+    sead::StringUtil::convertUtf16ToUtf8(name.getBuffer(), name.getBufferSize(), text, -1);
+    getStateMachine().changeState(&sUnk_71025f2de0);
+}
+
+
 void ScreenSaveTransferWindow::m270() {
     mLoadWork.reset(true);
     close(-1);
