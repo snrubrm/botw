@@ -96,6 +96,18 @@ void GearMgr::sub_71006692F0(ksys::act::Actor* actor, bool join_system_group) {
     mCS.unlock();
 }
 
+void GearMgr::sub_71006693F4(Entry* entry) {
+    if (entry->_10) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(entry->mLink.getProc(nullptr, nullptr))) {
+            if (auto* physics = actor->getPhysics()) {
+                physics->sub_7100FBDFA4(physics->get178(0));
+                physics->sub_7100FBDFA4(physics->get178(1));
+            }
+        }
+    }
+    entry->mLink.reset();
+}
+
 void GearMgr::sub_71006694B4(ksys::act::Actor* actor) {
     if (!actor)
         return;

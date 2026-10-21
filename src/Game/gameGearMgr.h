@@ -102,6 +102,10 @@ public:
         bool _10;
         void* _18;
     };
+    // 0x71006693f4 (placeholder name): leaves the system groups of the entry's actor (when the entry joined
+    // them) and resets its link.
+    void sub_71006693F4(Entry* entry);
+
     Entry mEntries[0x80];
     // A second entry (0x1030; sub_710066956C / sub_71006695DC).
     Entry _1030;
