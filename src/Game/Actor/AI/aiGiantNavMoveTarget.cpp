@@ -29,9 +29,10 @@ void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 
     if (auto* nav = mActor->m45()) {
         nav->_1e0.lock();
-        const u8 state = nav->_294;
+        const u8 raw_state = nav->_294;
+        const u8 state = raw_state | 1;
         nav->_1e0.unlock();
-        if (state == 4 || state == 5)
+        if (state == 5)
             nav->sub_7100F76790();
     }
 
