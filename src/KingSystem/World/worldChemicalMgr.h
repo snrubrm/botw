@@ -407,38 +407,42 @@ public:
     sead::CriticalSection mChemicalPairLock;
     sead::CriticalSection _68;
     // lane1 s91: given to element rigid bodies by 0x7100e3f3ac.
-    phys::SystemGroupHandler* _a8;
+    phys::SystemGroupHandler* _a8 = nullptr;
     // Removed from the physics system with _a8 by the destructor.
-    phys::SystemGroupHandler* _b0;
+    phys::SystemGroupHandler* _b0 = nullptr;
     sead::FixedObjList<ChemicalPair, 64> mChemicalPairs;
-    act::Unk_71024dd490* _ae8;  // Actual Element holder created by sub_7100D9A1D0.
+    act::Unk_71024dd490* _ae8 = nullptr;  // Actual Element holder created by sub_7100D9A1D0.
     // ChemicalObject contact info allocated by init_ and released by the destructor.
-    phys::ContactPointInfo* _af0;
+    phys::ContactPointInfo* _af0 = nullptr;
     // lane1 s91: element rigid body contact infos (Unk_7102518688::setRigidBody).
-    phys::ContactPointInfo* _af8;
-    phys::ContactPointInfo* _b00;
-    phys::CollisionInfo* _b08;
-    u8 _b10;
+    phys::ContactPointInfo* _af8 = nullptr;
+    phys::ContactPointInfo* _b00 = nullptr;
+    phys::CollisionInfo* _b08 = nullptr;
+    u8 _b10 = 0;
     u8 _b11[3];
-    sead::BitFlag32 _b14;
-    u8 _b18[8];
+    sead::BitFlag32 _b14 = 13;
+    u32 _b18 = 0;
+    u8 _b1c[4];
     Unk_71010cb39c _b20;
     Unk_71010cb0b8 _b98;
     Unk_71010cb1f0 _c10;
     Unk_71010cb8ac _c80;
     // lane1 s95: a time value; x_2 uses it to flicker the result.
-    f32 _cf0;
+    f32 _cf0 = 0;
     u8 _cf4[0xcf8 - 0xcf4];
     WorldMgrStruct0_8_a _cf8;
     // The actor whose chemical state is put to sleep on unload (acquireActor in unload2).
     act::BaseProcLink _d88;
-    u8 _d98[4];
-    u16 _d9c;
-    u8 _d9e[0xda8 - 0xd9e];
+    // init_ stores a sub material index here.
+    s32 _d98 = 0;
+    u16 _d9c = 0;
+    u16 _d9e = 0;
+    u64 _da0 = 0;
     // Created by init_ 0x71010ca680; deleted by the destructor.
-    Unk_710250c530* _da8;
-    Unk_710250c6b8* _db0;
-    u8 _db8[0xdc0 - 0xdb8];
+    Unk_710250c530* _da8 = nullptr;
+    Unk_710250c6b8* _db0 = nullptr;
+    u32 _db8 = 0;
+    u8 _dbc[0xdc0 - 0xdbc];
 };
 KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);
 

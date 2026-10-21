@@ -563,6 +563,9 @@ Unk_710250cac8::~Unk_710250cac8() {
 namespace ksys::world {
 
 // NON_MATCHING: placeholder; the original destructor (0x71010ca33c) frees the pools and phys handlers first.
+// NON_MATCHING: ours inlines the WorldMgrStruct0_8_a constructor (the original calls 0x71010c9074).
+ChemicalMgr::ChemicalMgr() = default;
+
 // NON_MATCHING: ours inlines ~Unk_710250c698 (in the _c10 buffer delete) and ~WorldMgrStruct0_8_a;
 // the original calls them. The teardown sequence itself is the same.
 ChemicalMgr::~ChemicalMgr() {
