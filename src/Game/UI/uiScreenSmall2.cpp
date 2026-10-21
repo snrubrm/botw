@@ -291,6 +291,32 @@ void ScreenMainShortCut::sub_7100A209E4() {
     }
 }
 
+// 0x7100a20ad4: marks the shortcut slots that became available (open item categories, arrows, runes) and plays their
+// animators once
+void ScreenMainShortCut::sub_7100A20AD4() {
+    if (!_3700.isOnBit(0) && sub_7100A82E20(0)) {
+        playSlotAnimator(0);
+        _3700.setBit(0);
+    }
+    if (!_3700.isOnBit(1) && sub_7100A82E20(2)) {
+        playSlotAnimator(1);
+        _3700.setBit(1);
+    }
+    if (!_3700.isOnBit(3) && sub_7100A82E20(1)) {
+        playSlotAnimator(3);
+        _3700.setBit(3);
+    }
+    if (!_3700.isOnBit(2) && _3628 && _3628->countItems(PouchItemType::Arrow) > 0) {
+        playSlotAnimator(2);
+        _3700.setBit(2);
+    }
+    if (!_3700.isOnBit(4) &&
+        (!_3700.isZero() || (RuneMgr::instance() && RuneMgr::instance()->getCurrentItem() != -1))) {
+        playSlotAnimator(4);
+        _3700.setBit(4);
+    }
+}
+
 // NON_MATCHING: the original builds the mode as ((flags >> 27) & 2) | 1 and compares it with 1 / 3; clang folds our
 // select into a bit test.
 // 0x7100a20cbc: shows the bow shortcut (with the arrow count) while the player's bow flag is set, hides it otherwise

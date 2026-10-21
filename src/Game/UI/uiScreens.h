@@ -2339,7 +2339,8 @@ public:
     nn::ui2d::ArchiveHandle _3638;
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ s32 _36e8;
-    sead::PtrArray<Unk_Elem> _36f0;
+    // one per shortcut slot; played when the slot first becomes available (sub_7100A20AD4)
+    sead::PtrArray<eui::Animator> _36f0;
     /* 0x3700 */ sead::BitFlag8 _3700;
     u8 _pad_3701[0x3720 - 0x3701];
     /* 0x3720 */ s32 _3720;
@@ -2401,6 +2402,12 @@ public:
     void sub_7100A209E4();
     void sub_7100A20AD4();
     void sub_7100A20CBC();
+    // inline-only in the original; name is a guess: the PlayFromCurrent call on _36f0[idx] repeats five times in
+    // sub_7100A20AD4.
+    void playSlotAnimator(s32 idx) {
+        if (auto* animator = _36f0.at(idx))
+            animator->PlayFromCurrent(eui::Animator::PlayType(animator->mPlayType), 1.0f);
+    }
     // 0x7100a2080c: shows the arrow count when _3738 is empty and passes it on to the main screen
     void sub_7100A2080C();
 };

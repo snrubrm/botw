@@ -430,6 +430,8 @@ bool uiManagerInitialised();
 bool sub_7100AA8F10();
 // 0x7100a99188: sets PauseMenuDataMgr::_444fc and calls Manager::sub_7100A7F890.
 void sub_7100A99188();
+// 0x7100a82e20: whether the inventory category tab is open (IsOpenItemCategory)
+bool sub_7100A82E20(s32 category);
 // 0x7100aa8dd4 (declared only)
 bool sub_7100AA8DD4();
 bool sub_7100AA8F74();
