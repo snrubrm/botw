@@ -5178,6 +5178,8 @@ public:
     void sub_7100A69B28();
     // 0x7100a6af64 (placeholder name): stops the open animation while a system / option window is open
     void sub_7100A6AF64();
+    // 0x7100a69670 (placeholder name): opens the screen and sets the button texts for the demo / save state
+    void sub_7100A69670();
 
     /* 0x3610 */ eui::Animator* _3610;  // zeroed in the constructor body
     u64 _3618;
@@ -5190,13 +5192,13 @@ public:
     s32 _363c = -1;
     s32 _3640 = -1;
     u8 _3644[4];
-    u64 _3648{};
-    u64 _3650{};
-    u64 _3658{};
-    u64 _3660{};
-    u64 _3668{};
+    eui::LayoutEx* _3648{};
+    eui::LayoutEx* _3650{};
+    eui::LayoutEx* _3658{};
+    eui::LayoutEx* _3660{};
+    eui::LayoutEx* _3668{};
     u64 _3670{};
-    u64 _3678{};
+    eui::LayoutEx* _3678{};
     s32 _3680 = -1;
     u8 _3684[4];
     Unk_710249d300 _3688;

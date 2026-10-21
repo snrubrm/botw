@@ -8,6 +8,10 @@
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTUStatics.h"
+#include "Game/UI/euiMessageString.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/AOC/aocHardModeManager.h"
+#include "KingSystem/AOC/aocManager.h"
 
 namespace uking::ui {
 
@@ -41,6 +45,56 @@ static sead::SafeString sMessageSet = "LayoutMsg/Title_00";
 // 0x7100a69ba0
 const char* ScreenTitle::getLayoutName_() const {
     return sLayoutName.cstr();
+}
+
+// 0x7100a69670
+// NON_MATCHING: the original keeps dead `>= 0x300` / `>= 0x200` AOC version compares before the "0005" label
+// (probably a version switch whose arms all pick it) and allocates registers differently
+void ScreenTitle::sub_7100A69670() {
+    Screen::open(1);
+    _3640 = -1;
+    if (isRIDDemo()) {
+        eui::MessageString message;
+        getMessage(sMessageSet, "0012", &message);
+        setWidgetString(_3648, "T_Btn_00", message);
+        getMessage(sMessageSet, "0013", &message);
+        setWidgetString(_3650, "T_Btn_00", message);
+    } else if (isE3DemoMode()) {
+        eui::MessageString message;
+        getMessage(sMessageSet, "0001", &message);
+        setWidgetString(_3648, "T_Btn_00", message);
+    } else if (_3639) {
+        eui::MessageString message;
+        getMessage(sMessageSet, "0001", &message);
+        auto* aoc = ksys::aoc::Manager::instance();
+        setWidgetString(aoc && aoc->getVersion() != 0 ? _3658 : _3650, "T_Btn_00", message);
+        getMessage(sMessageSet, "0003", &message);
+        setWidgetString(_3660, "T_Btn_00", message);
+        getMessage(sMessageSet, ksys::aoc::Manager::instance()->getVersion() == 0 ? "0004" : "0005",
+                   &message);
+        setWidgetString(_3668, "T_Btn_00", message);
+    } else {
+        eui::MessageString message;
+        getMessage(sMessageSet, "0000", &message);
+        setWidgetString(_3648, "T_Btn_00", message);
+        getMessage(sMessageSet, "0001", &message);
+        setWidgetString(_3650, "T_Btn_00", message);
+        getMessage(sMessageSet, "0002", &message);
+        setWidgetString(_3658, "T_Btn_00", message);
+        getMessage(sMessageSet, "0003", &message);
+        setWidgetString(_3660, "T_Btn_00", message);
+        getMessage(sMessageSet, ksys::aoc::Manager::instance()->getVersion() == 0 ? "0004" : "0005",
+                   &message);
+        setWidgetString(_3668, "T_Btn_00", message);
+    }
+    if (aoc::HardModeManager::instance()) {
+        eui::MessageString message;
+        auto* hard_mode = aoc::HardModeManager::instance();
+        const bool enabled =
+            hard_mode && hard_mode->checkFlag(aoc::HardModeManager::Flag::EnableHardMode);
+        getMessage(sMessageSet, enabled ? "0010" : "0009", &message);
+        setWidgetString(_3678, "T_Btn_00", message);
+    }
 }
 
 // 0x7100a6af64
