@@ -1547,7 +1547,8 @@ public:
     virtual void m30();
     virtual void m31();
     virtual void m32();
-    virtual void m33();
+    // Writes the triangle indices of part `part` (two parts), starting at vertex `base`.
+    virtual void m33(u16* indices, s32 part, u16 base);
     virtual void m34() {}
     virtual void m35() {}
     virtual void m36();

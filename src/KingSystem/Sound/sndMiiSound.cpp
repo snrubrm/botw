@@ -766,6 +766,18 @@ u32 Unk_710251ca78::m25(s32 index) {
     return sGrassSamplers[index].slot;
 }
 
+// NON_MATCHING: the original sign-extends `part` before the 0 / 1 test (64-bit compare).
+void Unk_710251bf80::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        u32 i = 0;
+        do {
+            *indices++ = base + i;
+            *indices++ = base + i + 1;
+            *indices++ = base + i + 2;
+        } while (++i < sBf80Parts[part].indices);
+    }
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
