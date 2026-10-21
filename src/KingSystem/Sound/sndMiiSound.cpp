@@ -778,6 +778,18 @@ void Unk_710251bf80::m33(u16* indices, s32 part, u16 base) {
     }
 }
 
+// NON_MATCHING: same as Unk_710251bf80::m33 (64-bit part test).
+void Unk_710251ca78::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        u32 i = 0;
+        do {
+            *indices++ = base + i;
+            *indices++ = base + i + 1;
+            *indices++ = base + i + 2;
+        } while (++i < sCa78Parts[part].indices);
+    }
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
