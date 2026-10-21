@@ -4,6 +4,7 @@
 #include <gfx/seadColor.h>
 #include <math/seadBoundBox.h>
 #include <prim/seadSafeString.h>
+#include "Game/UI/euiMessageString.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Cooking/cookManager.h"
 #include <math/seadVector.h>
@@ -374,6 +375,19 @@ bool sub_7100A9B1BC();
 void sub_7100AA9808(nn::ui2d::Pane* pane);
 void sub_7100AA9838();
 void sub_7100AA9848();
+
+// The texture path and the two message strings of a rune icon, filled by sub_7100A9C374 (built on the stack by
+// ScreenMainShortCut::sub_7100A1F684; 0xc0 bytes).
+struct RuneUiInfo {
+    bool _0 = false;
+    sead::FixedSafeString<128> texture;
+    eui::MessageString _a0;
+    eui::MessageString _b0;
+};
+// 0x7100a9c374 (placeholder name; declared only): fills `info` for the UI rune `rune`
+void sub_7100A9C374(s32 rune, RuneUiInfo* info, s32 a3);
+// 0x7100a9c728 (placeholder name): sub_7100A9C374 for the RuneMgr item `item` (false for a bad item)
+bool sub_7100A9C728(s32 item, RuneUiInfo* info, s32 a3);
 // 0x7100aa94c4 (placeholder name): shows / hides the root pane of the (built) layout; returns whether it changed.
 bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible);
 // 0x7100aa94a8: the byte at 0x64b15 of the UI manager (a bool; the callers convert it with `and #1`)

@@ -2335,7 +2335,8 @@ public:
     /* 0x3620 */ eui::Animator* _3620;  // stopped at max while _3738 is empty (sub_7100A2080C)
     // the pause menu data the arrow count comes from (m168)
     /* 0x3628 */ PauseMenuDataMgr* _3628;
-    u8 _pad_3630[0x3638 - 0x3630];
+    /* 0x3630 */ u32 _3630;  // shortcut slot flags (sub_7100A1F684)
+    u8 _pad_3634[0x3638 - 0x3634];
     nn::ui2d::ArchiveHandle _3638;
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ s32 _36e8;

@@ -263,6 +263,34 @@ void ScreenMainShortCut::sub_7100A2080C() {
         screen->sub_7100A1AB48();
 }
 
+// NON_MATCHING: the original tests the two flag bits separately (cset + csel); clang folds ours into one mask
+// compare. Tried the reversed order, ternaries and a switch.
+// 0x7100a1f684: loads the icon texture of the RuneMgr item `item` (or unloads it for -1) and updates the archive state
+void ScreenMainShortCut::sub_7100A1F684(s32 item) {
+    if (_36e8 != item) {
+        if (item == -1) {
+            _38d0.unload(0);
+            _3638.sub_71009C36E4(false);
+            _36e8 = item;
+            return;
+        }
+        RuneUiInfo info;
+        sub_7100A9C728(item, &info, -1);
+        sub_7100AA9838();
+        _38d0.sub_7100A81B1C(info.texture, 0);
+        sub_7100AA9848();
+    }
+    bool active;
+    if (item == 1)
+        active = (_3630 & 1) && !(_3630 & 4);
+    else if (item == 0)
+        active = (_3630 & 2) && !(_3630 & 8);
+    else
+        active = false;
+    _3638.sub_71009C36E4(active);
+    _36e8 = item;
+}
+
 // NON_MATCHING: the original keeps `equipped` and tests it with cbz (ours keeps its negation)
 // 0x7100a209e4: refreshes the arrow count while no arrow name is shown and counts the shown number towards it
 void ScreenMainShortCut::sub_7100A209E4() {

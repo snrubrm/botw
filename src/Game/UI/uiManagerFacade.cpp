@@ -32,8 +32,6 @@ ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
 void sub_7100945320(f32, f32);
 // 0x7100a9ed78 (uiMiscFacade.cpp)
 void sub_7100A9ED78(const char* from, const char* to, ksys::act::Actor* actor);
-// 0x7100a9c374 (declared only)
-void sub_7100A9C374(s32 rune);
 void sub_7100945344(f32, f32);
 
 // 0x7100a9c0dc (placeholder name): table lookup, -1 when out of range.
@@ -517,7 +515,7 @@ const sead::Vector2f& sub_7100A9B928() {
 
 // 0x7100a9c728 (placeholder name): the UI rune of the RuneMgr item `item` (false for a bad item); the callee 0x7100a9c374
 // is declared only
-bool sub_7100A9C728(s32 item) {
+bool sub_7100A9C728(s32 item, RuneUiInfo* info, s32 a3) {
     s32 rune;
     switch (item) {
     case 0:
@@ -547,7 +545,7 @@ bool sub_7100A9C728(s32 item) {
     default:
         return false;
     }
-    sub_7100A9C374(rune);
+    sub_7100A9C374(rune, info, a3);
     return true;
 }
 
