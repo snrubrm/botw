@@ -4,6 +4,8 @@ namespace gsys {
 
 ModelSceneComponent::ModelSceneComponent() : _8(nullptr) {}
 
+ModelSceneComponent::~ModelSceneComponent() = default;
+
 
 void ModelSceneComponent::bind() {}
 void ModelSceneComponent::unbind(Model*) {}

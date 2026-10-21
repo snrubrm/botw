@@ -2,6 +2,12 @@
 
 namespace gsys {
 
+// 0x7100c22124
+ModelSceneEnv::~ModelSceneEnv() {
+    m_b40 = false;
+    finalize();
+}
+
 ModelSceneEnv::PartsSet::~PartsSet() {}
 void ModelSceneEnv::PartsSet::preprocess() const {}
 void ModelSceneEnv::PartsSet::postprocess() const {}

@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include "gsys/gsysModelSceneComponent.h"
+#include <common/aglTextureData.h>
+#include <common/aglTextureSampler.h>
 
 namespace agl {
 class DrawContext;
@@ -19,6 +21,11 @@ namespace gsys {
 class ModelSceneEnv : public ModelSceneComponent {
 public:
     struct Parts;
+
+    ModelSceneEnv();
+    ~ModelSceneEnv() override;
+    // 0x7100c221d8 (declared only): released by the destructor before the texture members.
+    void finalize();
 
     // Env-set record: 0x1e8 bytes; enabled byte at +0, SafeString name at +8.
     struct EnvSet {
@@ -97,13 +104,27 @@ public:
     void sub_7100C286EC(u32 env_set, bool reset, u32 data_set);
 
 private:
-    /* 0x250 */ u8 _250[0xb40 - 0x250];
+    /* 0x250 */ u8 _250[0x268 - 0x250];
+    // Destructor 0x7100c22124 destroys two samplers and five texture records in this order.
+    /* 0x268 */ agl::TextureSampler mSampler0;
+    /* 0x3d8 */ agl::TextureData mData0;
+    /* 0x500 */ u8 _500[0x510 - 0x500];
+    /* 0x510 */ agl::TextureSampler mSampler1;
+    /* 0x680 */ agl::TextureData mData1;
+    /* 0x7a8 */ u8 _7a8[0x7b0 - 0x7a8];
+    /* 0x7b0 */ agl::TextureData mData2;
+    /* 0x8d8 */ agl::TextureData mData3;
+    /* 0xa00 */ u8 _a00[0xa10 - 0xa00];
+    /* 0xa10 */ agl::TextureData mData4;
+    /* 0xb38 */ u8 _b38[0xb40 - 0xb38];
     /* 0xb40 */ bool m_b40;
     /* 0xb41 */ u8 _b41[0xb98 - 0xb41];
     /* 0xb98 */ s32 mDataSetCount;
     /* 0xb9c */ u8 _b9c[4];
     /* 0xba0 */ DataSet* mDataSets;
-    /* 0xba8 */ u8 _ba8[0x1158 - 0xba8];
+    /* 0xba8 */ u8 _ba8[0xd88 - 0xba8];
+    /* 0xd88 */ agl::utl::DebugTexturePage mDebugTexturePage;
+    /* 0xfc8 */ u8 _fc8[0x1158 - 0xfc8];
 };
 static_assert(sizeof(ModelSceneEnv) == 0x1158);
 
