@@ -23,8 +23,8 @@ void AnmToRagdollDie::enter_(ksys::act::ai::InlineParamPack* params) {
     _58 = 1.0f;
     _5c = 0.0f;
     _64 = false;
-    _60 = 0.0f;
     _65 = true;
+    _60 = 0.0f;
     auto* actor = mActor;
     auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor);
     if (!dynamic_actor || !dynamic_actor->_868) {
