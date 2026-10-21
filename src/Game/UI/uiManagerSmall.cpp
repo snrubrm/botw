@@ -763,7 +763,7 @@ bool Manager::sub_7100A7E840(bool a2) {
     }
     ok = ok && screen_ok;
 
-    if (DebugBoardMgr::sInstance)
+    if (DebugBoardMgr::instance())
         ok = ok && !DebugBoardMgr::instance()->sub_710089BB18();
     ok = ok && _64c68 == 0;
     ksys::evt::Manager* evt = ksys::evt::Manager::instance();

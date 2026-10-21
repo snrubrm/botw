@@ -1,7 +1,7 @@
 #include "KingSystem/System/DebugBoard.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
-DebugBoardMgr* DebugBoardMgr::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(DebugBoardMgr)
 
 // 0x710089baf4
 ksys::IMessageBroker* DebugBoardMgr::getBroker0() {

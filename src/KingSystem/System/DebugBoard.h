@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadDisposer.h>
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
@@ -43,10 +44,20 @@ public:
 };
 static_assert(sizeof(Unk_DebugBoardBroker) == 0x12d8);
 
+// Vtable 0x710246c1c0 (slot 0 is the destructor); a second base's vtable pointer sits at 0x8 and the singleton
+// disposer at 0x10. Size 0x4578 (createInstance 0x7100899e14).
 class DebugBoardMgr {
 public:
-    static DebugBoardMgr* instance() { return sInstance; }
-    static DebugBoardMgr* sInstance;
+    virtual ~DebugBoardMgr();
+
+private:
+    // The second base's vtable pointer (vtable 0x710246c1c0 + 0x28); that base is not modelled.
+    u8 _8[0x10 - 0x8];
+
+    SEAD_SINGLETON_DISPOSER(DebugBoardMgr)
+    DebugBoardMgr();
+
+public:
 
     // 0x710089baf4 (CSV x_0) / 0x710089bafc (CSV __auto0) / 0x710089bb08 (CSV __auto1): out of line.
     ksys::IMessageBroker* getBroker0();
@@ -62,7 +73,7 @@ public:
     // 0x710089ba6c: when `on` changes, sets the _4530 entries to 2 (on) or entries 1 and 7 to 1 (off).
     void sub_710089BA6C(bool on);
 
-    u8 _0[0x60];
+    u8 _30[0x60 - 0x30];
     /* 0x60 */ Unk_DebugBoardBroker mBroker0;
     /* 0x1338 */ Unk_DebugBoardBroker mBroker1;
     /* 0x2610 */ Unk_DebugBoardBroker mBroker2;
@@ -74,7 +85,9 @@ public:
     /* 0x44c0 */ u32 _44c0;
     u8 _44c4[0x4530 - 0x44c4];
     /* 0x4530 */ s32 _4530[17];
+    u8 _4574[0x4578 - 0x4574];
 };
+KSYS_CHECK_SIZE_NX150(DebugBoardMgr, 0x4578);
 
 // The three board components (no RTTI; vtables 0x710246c458 / 0x710246c498 / 0x710246c4d8 with the destructor pair
 // only). Each holds the transceiver it registered (+8) and deregisters it from its broker in the destructor. The base
