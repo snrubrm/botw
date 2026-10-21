@@ -12,6 +12,7 @@ class ModelRenderUnitSortNode;
 // name, sort mode and masks. initialize owns the node-pointer array at +0x28;
 // sort reads the selected array at +0x30 and its count at +0x3c.
 class ModelRenderQueue : public sead::Job {
+    friend class ModelSceneContext;
 public:
     ModelRenderQueue();
     ~ModelRenderQueue() override;

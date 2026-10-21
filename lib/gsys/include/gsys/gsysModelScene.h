@@ -68,6 +68,10 @@ public:
     // 0x7100c10ccc / 0x7100c10f28: the world / render-view passes of calc.
     void calcWorld_(sead::WorkerMgr* wm);
     void calcRenderView_(sead::WorkerMgr* wm);
+    // 0x7100c10c94 / 0x7100c12114 / 0x7100c12264: the remaining calc steps.
+    void sortQueue_(sead::WorkerMgr* wm);
+    void calcDrawBackGround_(sead::WorkerMgr* wm);
+    void calcGPU_(sead::WorkerMgr* wm);
 
     // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
     void calc(sead::WorkerMgr* wm, int, int, int);

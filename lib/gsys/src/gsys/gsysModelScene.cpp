@@ -14,6 +14,16 @@ ModelRenderQueue* ModelSceneContext::getRenderQueue(QueueType type) const {
     return &mRenderQueues[type];
 }
 
+// 0x7100c21450
+bool ModelSceneContext::isQueueMaskValid(QueueType type, const sead::BitFlag32& mask) const {
+    if (!mRenderQueues)
+        return false;
+    const ModelRenderQueue& queue = mRenderQueues[type];
+    if (queue.mSize < 1)
+        return false;
+    return mask & queue.mRenderMask;
+}
+
 // 0x7100c0fe14
 void ModelScene::bindEnv_() {
     ModelMgr::instance()->rebindModelScene(this);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadBitFlag.h>
 
 namespace gsys {
 
@@ -18,6 +19,8 @@ public:
     ModelSceneContext();
     // 0x7100c21490
     ModelRenderQueue* getRenderQueue(QueueType type) const;
+    // 0x7100c21450
+    bool isQueueMaskValid(QueueType type, const sead::BitFlag32& mask) const;
 
     u8 _0[8];
     // The view byte the ModelSceneBuffer switches pass to RenderBufferContext.

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadOffsetList.h>
+#include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
 #include <thread/seadAtomic.h>
@@ -8,6 +9,7 @@
 namespace sead
 {
 class Heap;
+class WorkerMgr;
 }
 
 namespace agl
@@ -50,8 +52,20 @@ public:
     // 0x7100c02d64: a rolling 11-bit XluZ pre-pass ID.
     s32 getXluZPrePassID();
 
+    // 0x7100c0288c / 0x7100c028f0 / 0x7100c02954 / 0x7100c029b8 / 0x7100c02a1c: run one step on every
+    // scene. The step's flag bit selects whether the worker manager is forwarded.
+    void sortQueue(sead::WorkerMgr* wm);
+    void calcWorld(sead::WorkerMgr* wm);
+    void calcRenderView(sead::WorkerMgr* wm);
+    void calcDrawBackGround(sead::WorkerMgr* wm);
+    void calcGPU(sead::WorkerMgr* wm);
+
 private:
-    /* 0x28 */ u8 _28[0xcc - 0x28];
+    // Bit 0 enables the worker manager; bits 1 / 3 / 4 / 6 select the scene step.
+    /* 0x28 */ u32 mFlags;
+    /* 0x2c */ u8 _2c[0x50 - 0x2c];
+    /* 0x50 */ sead::PtrArray<ModelScene> mScenes;
+    /* 0x60 */ u8 _60[0xcc - 0x60];
     /* 0xcc */ sead::Atomic<s32> mXluZPrePassId;
     /* 0xd0 */ u8 _d0[0x190 - 0xd0];
 
