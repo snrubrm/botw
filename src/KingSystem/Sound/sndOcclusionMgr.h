@@ -43,7 +43,8 @@ public:
     bool isInsideMaybe() const { return _a; }
 
 private:
-    /* 0x08 */ u16 _8 = 0;
+    /* 0x08 */ u8 _8 = 0;
+    /* 0x09 */ u8 _9 = 0;
     /* 0x0a */ u8 _a = 0;
     /* 0x0c */ u32 _c = 0;
     /* 0x10 */ u32 _10 = 0;
@@ -59,9 +60,10 @@ private:
     /* 0x74 */ bool _74{};
     u8 _75[3];
     /* 0x78 */ u32 _78{};
-    /* 0x7c */ u32 _7c{};
+    /* 0x7c */ s32 _7c{};
     /* 0x80 */ Unk_OcclusionMgrMember* _80 = nullptr;
-    /* 0x88 */ u16 _88 = 0;
+    /* 0x88 */ u8 _88 = 0;
+    /* 0x89 */ u8 _89 = 0;
     u8 _8a[2];
     /* 0x8c */ f32 _8c = 100.0f;
     /* 0x90 */ f32 _90 = 500.0f;

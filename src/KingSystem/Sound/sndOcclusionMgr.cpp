@@ -9,6 +9,8 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Sound/sndBarslistArchive.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
@@ -31,6 +33,32 @@ void OcclusionMgr::sub_71010560D4(sead::Heap* heap) {}
 void OcclusionMgr::sub_7101056868() {
     _74 = true;
     _7c = 2;
+}
+
+// 0x71010567c0: per-frame update of the event-driven occlusion state and its countdown.
+// NON_MATCHING: the original lays out the sub_7100DB19DC / _74 merge the other way round and stores _74 before
+// loading the countdown; ours inverts that branch and sinks the store (same instructions, different order).
+void OcclusionMgr::sub_71010567C0() {
+    if (!_8)
+        return;
+
+    if (evt::Manager::instance() && (evt::Manager::instance()->_1d2f4_bytes[2] & 1))
+        return;
+
+    if (!evt::Manager::instance() || evt::Manager::instance()->sub_7100DB19DC() || !_74) {
+        _74 = false;
+        if (_7c > 0)
+            --_7c;
+    }
+
+    if (evt::Manager::instance() && evt::Manager::instance()->hasActiveEvent()) {
+        if (auto* event = evt::Manager::instance()->getActiveEvent())
+            _88 = !(event->_340 & 0x400000);
+        else
+            _88 = 0;
+    } else {
+        _88 = 0;
+    }
 }
 
 // NON_MATCHING: only the schedule of the constant stores (the original stores the vtable pointer and the pair at +0x20 after
