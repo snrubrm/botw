@@ -4004,6 +4004,9 @@ extern sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 extern const ksys::StateBase sUnk_71025eb490;
 extern const ksys::StateBase sUnk_71025eb550;
 
+// 0x71009f70b0 (declared only; placeholder name): shows the picture book page of the picture `name`
+void sub_71009F70B0(const sead::SafeString& name);
+
 class ScreenAppPictureBook : public ScreenEx {
 public:
     // 0x71009fa3fc
@@ -5210,6 +5213,8 @@ class ScreenAppCamera : public ScreenEx {
 public:
     // 0x71009db8ec (placeholder name): shows the picture's name and sets _4360 from its picture book registration
     void sub_71009DB8EC();
+    // 0x71009d7c40: saves the photo as a picture book page, then hands its name to the picture book screen
+    void invoked2();
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m127() override;
     bool isEnableControl() const override;

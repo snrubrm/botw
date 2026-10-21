@@ -9,6 +9,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/uiManager.h"
 #include "Game/Scene/gameScene.h"
+#include "Game/gameSaveSystem.h"
 
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiMessageMgr.h"
@@ -504,6 +505,14 @@ void ScreenAppCamera::m100() {
         }
     }
     getStateMachine().changeState(&sUnk_710261ee98);
+}
+
+// 0x71009d7c40
+void ScreenAppCamera::invoked2() {
+    if (!_4038)
+        return;
+    SaveSystem::instance()->savePictureBook(_4030, _4198, _4038);
+    sub_71009F70B0(_4198);
 }
 
 // 0x71009d9a4c
