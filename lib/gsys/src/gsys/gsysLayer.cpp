@@ -1,5 +1,7 @@
 #include <gsys/gsysLayer3D.h>
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysORUtil.h>
+#include <detail/aglPrivateResource.h>
 #include <common/aglDrawContext.h>
 #include <layer/aglRenderInfo.h>
 
@@ -53,6 +55,13 @@ bool Layer3D::isRenderStepNoDependency(s32 step) const {
     if (step == 2)
         return _ef1 >> 1 & 1;
     return false;
+}
+
+void Layer3D::doInitialize(sead::Heap* heap) {
+    getCameraFlags().setBit(1);
+    pushBackDrawMethod(&mDrawMethod);
+    sead::Heap* debug_heap = agl::detail::PrivateResource::instance()->getDebugHeap();
+    ORUtil::setNodeMeta(this, ORUtil::Category::_4, "rndr_3D", debug_heap);
 }
 
 bool Layer3D::checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* type) const {
