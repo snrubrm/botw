@@ -344,6 +344,56 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+// The bool argument is not read.
+void Camera::m150(const sead::Vector3f* pos, const sead::Vector3f* at, f32 fovy, f32 roll, bool a5) {
+    Unk_71009214b8 camera;
+    camera = _860._0;
+    camera._0 = *pos;
+    camera._c = *at;
+    camera._24 = fovy;
+    camera._28 = roll;
+    camera.sub_71009237BC();
+    u32 error = 0;
+    camera.sub_7100921CAC(&error);
+    if (error != 0) {
+        nullsub_4649();
+        return;
+    }
+    _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0 = camera;
+    _860._7fc.sub_710079B62C(0x800);
+    _860._7fc.sub_710079B62C(0x1000);
+    _860._7fc.sub_710079B62C(0x2000);
+    _860._818 |= 1;
+    _860._150 = camera._c;
+    sub_71007929E0();
+    _10f8 = 0;
+    _860.sub_710079BC8C();
+}
+
+// The bool argument is not read.
+void Camera::m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3) {
+    Unk_71009214b8 camera;
+    camera = _860._0;
+    camera._0 = *pos;
+    camera._c = *at;
+    camera.sub_71009237BC();
+    u32 error = 0;
+    camera.sub_7100921CAC(&error);
+    if (error != 0) {
+        nullsub_4649();
+        return;
+    }
+    _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0 = camera;
+    _860._7fc.sub_710079B62C(0x800);
+    _860._7fc.sub_710079B62C(0x1000);
+    _860._7fc.sub_710079B62C(0x2000);
+    _860._818 |= 1;
+    _860._150 = camera._c;
+    sub_71007929E0();
+    _10f8 = 0;
+    _860.sub_710079BC8C();
+}
+
 // NON_MATCHING: the two fadd of the length have their operands swapped (y*y + x*x, then z*z + sum).
 // The bool argument is not read.
 void Camera::m153(const sead::Vector3f* pos, bool a2) {

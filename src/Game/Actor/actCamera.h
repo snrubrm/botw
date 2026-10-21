@@ -340,7 +340,7 @@ class Unk_7102459cc0 {
 public:
     virtual Camera* m148() = 0;
     virtual Camera* m149() = 0;
-    virtual void m150(const sead::Vector3f* a1, const sead::Vector3f* a2, bool a3) = 0;
+    virtual void m150(const sead::Vector3f* pos, const sead::Vector3f* at, f32 fovy, f32 roll, bool a5) = 0;
     virtual void m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3) = 0;
     virtual void m152(f32 a1, f32 a2, f32 a3, f32 a4, bool a5) = 0;
     virtual void m153(const sead::Vector3f* pos, bool a2) = 0;
@@ -479,7 +479,9 @@ public:
     /* 149 */ virtual Camera* m149();
     // m150 / m152: the int / bool arguments come from the thunks (0x7100792b98: bool in w3; 0x71007931e8: bool in w1,
     // m152 reads s0 - s3); the float count of m152 is a guess.
-    /* 150 */ virtual void m150(const sead::Vector3f* a1, const sead::Vector3f* a2, bool a3);
+    // m150: as m151 with the field of view (s0) and roll (s1) of the state; the position of the float
+    // parameters among the others is a guess (no caller is known).
+    /* 150 */ virtual void m150(const sead::Vector3f* pos, const sead::Vector3f* at, f32 fovy, f32 roll, bool a5);
     /* 151 */ virtual void m151(const sead::Vector3f* pos, const sead::Vector3f* at, bool a3);  // lane1 s44: signature from PlayerResetPosMgr
     /* 152 */ virtual void m152(f32 a1, f32 a2, f32 a3, f32 a4, bool a5);
     /* 153 */ virtual void m153(const sead::Vector3f* pos, bool a2);  // lane4 s51: arguments from Camera::sub_7100793DB4
