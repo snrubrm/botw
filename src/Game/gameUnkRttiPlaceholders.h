@@ -1311,6 +1311,8 @@ public:
     // 0x7101296a20: the 0x120-byte record constructor.
     Unk_7102519460();
     ~Unk_7102519460() override;
+    void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                   const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 1; }
     void m6(sead::Heap* heap) override;
     virtual void m7();
@@ -1325,22 +1327,16 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
-    u32 _d8 = 0;
-    u32 _dc = 0;
-    u32 _e0 = 0;
-    u32 _e4 = 0;
-    f32 _e8 = 0;
-    f32 _ec = 0;
-    f32 _f0 = 5.0f;
-    f32 _f4 = 0;
-    f32 _f8 = 0;
-    f32 _fc = 1.0f;
+    // The light's segment and colour (drawDebug draws a capsule or a line between the ends).
+    sead::Vector3f mStart{0, 0, 0};
+    sead::Vector3f mEnd{0, 0, 0};
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
     f32 _100 = 0;
-    f32 _104 = 0.3f;
+    f32 mRadius = 0.3f;
     f32 _108 = 0;
     f32 _10c = 1.0f;
-    f32 _110 = 0;
-    f32 _114 = 0.3f;
+    f32 _110 = 1.0f;
+    f32 _114 = 0;
     u32 _118 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102519460, 0x120);
