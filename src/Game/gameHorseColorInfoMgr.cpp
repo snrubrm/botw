@@ -82,9 +82,9 @@ void HorseColorInfoMgr::sub_710094C638() {
     _28 = 0;
 }
 
-// NON_MATCHING: the original builds the lane mask as `1 << int(lane)` from a 4-byte class value
-// (the lane is spilled to the stack twice) and assigns the request's lane_id once more before the
-// name assignment; the live lane-id type is still unknown.
+// NON_MATCHING: the lane is a 4-byte SEAD_ENUM-like class, so converting it to int spills it to the
+// stack; the original reuses the lane temporary's slot (sp+8) for the mask, ours gets a separate
+// slot (sp+4). The rest of the body is instruction-identical.
 namespace {
 // 0x71025d6710: the horse model string table, filled in by sinitHorseModelStrings 0x710094d3c8. Only
 // the three model paths used here are named (0x168 / 0x178 / 0x188); the prefix and the tail hold the
@@ -143,11 +143,15 @@ void HorseColorInfoMgr::sub_710094D018() {
     _28 &= ~2;
     _29 = 0;
     ksys::LowPrioThreadMgr::Request request;
-    request.lane_id = 2;
-    request.flags.setDirect(1 << request.lane_id);
     request.delegate = &mLoadDelegate;
-    request.task = &mLoadTask;
     request.name = "HorseColorInfoMgr";
+    request.task = &mLoadTask;
+    // The original reaches the lane through a SEAD_ENUM-like 4-byte class: the conversion to int
+    // spills the value to the stack, and the mask is shifted through a second such value.
+    const ksys::LowPrioThreadMgr::Lane lane = ksys::LowPrioThreadMgr::Lane::_2;
+    const ksys::LowPrioThreadMgr::Lane mask = 1 << int(lane);
+    request.flags.setDirect(int(mask));
+    request.lane_id = lane;
     ksys::evt::submitLowPriorityRequest(request);
     _2c = 1;
 }

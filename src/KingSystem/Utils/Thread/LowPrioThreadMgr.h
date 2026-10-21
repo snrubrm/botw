@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/Utils/Thread/TaskMgr.h"
 #include "KingSystem/Utils/Thread/TaskThread.h"
@@ -27,9 +28,13 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(CoreThreadTask, 0x10);
 
+    // Placeholder SEAD_ENUM: the lane a low-priority request is queued on. Values 1 and 2 are used by
+    // the horse colour loader; the enumerator names are unknown.
+    SEAD_ENUM(Lane, _0, _1, _2, _3)
+
     struct Request {
         bool try_submit = false;
-        s32 lane_id = 0;
+        Lane lane_id = Lane::_1;
         sead::BitFlag32 flags;
         TaskDelegate* delegate = nullptr;
         void* user_data = nullptr;

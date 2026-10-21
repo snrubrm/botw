@@ -1134,14 +1134,13 @@ ActorReactionQueue::~ActorReactionQueue() {
 // NON_MATCHING: the bodies are instruction-identical; the original computes the two loop
 // preheader end pointers as a byte count (lsl #3 + cbz), ours tests the element count.
 void ActorReactionQueue::sub_7101287B10() {
-    for (auto it = mHandles.begin(); it != mHandles.end(); ++it) {
-        ActorReactionHandle& handle = *it;
+    for (auto& handle : mHandles) {
         uking::xlink::fade(handle.mHandle, -1);
         handle.mActive = false;
     }
     mHandles.freeBuffer();
-    for (auto it = mCoreQueues.begin(); it != mCoreQueues.end(); ++it)
-        it->freeBuffer();
+    for (auto& queue : mCoreQueues)
+        queue.freeBuffer();
     mCoreQueues.freeBuffer();
     mActor = nullptr;
 }
@@ -1181,9 +1180,7 @@ void ActorReactionQueue::calc() {
 }
 
 // The queued actors are walked one by one; the reaction of `actor` is emitted into the first free
-// handle, or resumed when it already has one.
-// NON_MATCHING: same instructions; the original places the actor-loop increment right after the
-// emit call, ours after the resume-failure path.
+// handle, or resumed when it already has one. Stops when no free handle could emit the reaction.
 void ActorReactionQueue::emit(Actor* actor) {
     for (auto it = mActors.begin(); it != mActors.end(); ++it) {
         ActorReactionHandle* handle = nullptr;
@@ -1193,15 +1190,17 @@ void ActorReactionQueue::emit(Actor* actor) {
                 break;
             }
         }
-        if (!handle || !handle->resume(actor, mActor, mName)) {
-            for (auto jt = mHandles.begin(); jt != mHandles.end(); ++jt) {
-                if (jt->mHandle.isActive())
-                    continue;
-                if (!jt->emit(actor, mActor, mName))
-                    return;
-                break;
-            }
+        if (handle && handle->resume(actor, mActor, mName))
+            continue;
+        bool emitted = false;
+        for (auto jt = mHandles.begin(); jt != mHandles.end(); ++jt) {
+            if (jt->mHandle.isActive())
+                continue;
+            emitted = jt->emit(actor, mActor, mName);
+            break;
         }
+        if (!emitted)
+            return;
     }
 }
 
