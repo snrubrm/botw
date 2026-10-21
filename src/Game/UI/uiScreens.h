@@ -1119,6 +1119,7 @@ public:
 class ScreenDoCommand : public ScreenEx {
 public:
     ScreenDoCommand();
+    const char* getLayoutName_() const override;
     void m100() override;
     void m101() override;
     void m130() override;
@@ -1145,6 +1146,15 @@ public:
     void sub_7100A0772C(s32);
     // 0x7100a07830 (placeholder name): while the player rides a horse, switches command 4 / 20 to the riding variant 5 / 21
     void sub_7100A07830();
+    // 0x7100a07734 (placeholder name): whether the requested command (0x3658) still has to be shown
+    bool sub_7100A07734();
+    // 0x7100a0789c (placeholder name): opens the screen for the requested command (0x3658)
+    void sub_7100A0789C();
+    // 0x7100a07990 (placeholder name; declared only): sets up the panes for a command
+    void sub_7100A07990(s32 command);
+    // inline-only in the original; name is a guess: the table walk and the state test repeat in sub_7100A07734
+    // and sub_7100A0789C.
+    bool isSameCommandState(s32 state) const;
 };
 
 // Placeholder for the object ScreenMainScreen3D keeps at 0x4090 (0xb0 bytes).
