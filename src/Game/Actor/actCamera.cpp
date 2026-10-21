@@ -344,6 +344,38 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+// NON_MATCHING: the two fadd of the length have their operands swapped (y*y + x*x, then z*z + sum).
+// The bool argument is not read.
+void Camera::m153(const sead::Vector3f* pos, bool a2) {
+    Unk_71009214b8 camera;
+    camera = _860._0;
+    camera._c = *pos;
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    sub_7100924BE4(&accessor);
+    const auto& player_mtx = accessor.getActorMtx();
+    if (!ksys::util::sub_71011F10F4(player_mtx))
+        mtx = player_mtx;
+    sead::Vector3f dir = -mtx.getBase(2);
+    const f32 length = dir.length();
+    if (length > 0.0f)
+        dir *= 6.0f / length;
+    camera._0 = dir + camera._c;
+    camera.sub_71009237BC();
+    u32 error = 0;
+    camera.sub_7100921CAC(&error);
+    if (error != 0) {
+        nullsub_4649();
+        return;
+    }
+    _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0 = camera;
+    _860._7fc.sub_710079B62C(0x800);
+    _860._150 = camera._c;
+    sub_71007929E0();
+    _10f8 = 0;
+    _860.sub_710079BC8C();
+}
+
 // The bool argument is not read.
 void Camera::m154(f32 value, bool a2) {
     Unk_71009214b8 camera;
