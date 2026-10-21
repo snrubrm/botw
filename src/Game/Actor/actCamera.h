@@ -575,6 +575,10 @@ public:
     // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
     // matrix has a NaN.
     bool x_5();
+    // 0x7100794424 (placeholder name): ratio of the depth of the _860._e0 state between the two limits
+    // sub_710092215C / sub_7100922164 (+0.05 while bit 0x40 of _13fd is set) into _13f4, with that bit as a
+    // hysteresis flag; whether the depth is below sub_7100922170().
+    bool sub_7100794424();
     // 0x710079482c (placeholder name): the smallest view depth (sub_7100921710 z) in `state` of the point _860._2b8,
     // the player, its previous position (when sub_7100926AC4() or m187()) and, unless `a2`, 0.6 times that of the
     // actor connected to the player (sub_7100794750); 5 if the player position is invalid.

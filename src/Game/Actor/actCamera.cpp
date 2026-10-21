@@ -361,6 +361,25 @@ bool Camera::sub_7100794750(sead::Vector3f* out) {
     return !invalid;
 }
 
+bool Camera::sub_7100794424() {
+    f32 depth = sub_710079482C(_860._e0, false);
+    const f32 offset = (_13fd & 0x40) ? 0.05f : 0.0f;
+    const f32 near = _860._e0._30;
+    const f32 min = sub_710092215C() + offset;
+    const f32 max = sub_7100922164() + offset;
+    if (min == max)
+        return false;
+    depth -= near;
+    _13f4 = (depth - min) / (max - min);
+    _13f4 = sead::Mathf::clamp(_13f4, 0.0f, 1.0f);
+    const u32 near_flag = _13fd & 0x40;
+    if (depth <= min && !near_flag)
+        _13fd |= 0x40;
+    else if (depth >= max && near_flag)
+        _13fd &= ~0x40;
+    return depth < sub_7100922170();
+}
+
 f32 Camera::sub_710079482C(const Unk_71009214b8& state, bool a2) {
     sead::Vector3f view = sead::Vector3f::zero;
     state.sub_7100921710(_860._2b8, &view);
