@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiPriestBossActorGiantRoot.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
@@ -193,6 +195,31 @@ PriestBossActorGiantRoot::Attack PriestBossActorGiantRoot::m46() {
         attack = Attack(record->mIndex);
     ++_b0[attack];
     return attack;
+}
+
+// NON_MATCHING: stack layout (the original keeps the query above the positions) and the ey * 9 scheduling
+// 0x7100508668 (placeholder name): whether the navmesh below the actor (within 9 m) reaches the target position
+bool PriestBossActorGiantRoot::sub_7100508668() {
+    auto* havok = ksys::phys::HavokAI::instance();
+    if (!havok)
+        return false;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f to = pos;
+    to -= sead::Vector3f::ey * 9.0f;
+    sead::Vector3f hit;
+    const auto ground = havok->sub_7100F87A80(&hit, pos, to);
+    if (!ground.sub_7100F7EB40())
+        return false;
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+    ksys::phys::HavokAI::Unk2 query;
+    query.from = hit;
+    query._10 = sub_71005D9330(mActor);
+    query._30 = 0xff;
+    auto* havok_ai = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+    return havok_ai->sub_7100F86324(nav, query, nullptr);
 }
 
 }  // namespace uking::ai

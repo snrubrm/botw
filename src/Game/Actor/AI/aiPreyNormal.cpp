@@ -14,6 +14,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -406,6 +407,19 @@ bool PreyNormal::sub_71004FFED0() {
     _158 = ksys::Timer(duration, duration);
     _18e = 1;
     return false;
+}
+
+// 0x7100500a0c
+// NON_MATCHING: the original loads the character's _58 / _1d8 before the material query (callee-saved registers)
+bool PreyNormal::sub_7100500A0C(const sead::Vector3f* pos) {
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+    sead::Vector3f out;
+    const auto query = ksys::phys::HavokAI::instance()->sub_7100F87ED0(&out, *pos, 7.5f);
+    if (!query.sub_7100F7EB40())
+        return false;
+    return nav->isMaterialUsableMaybe(query.sub_7100F7EEE4());
 }
 
 }  // namespace uking::ai
