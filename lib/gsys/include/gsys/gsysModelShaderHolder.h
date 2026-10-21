@@ -22,9 +22,16 @@ public:
     void setBinary(void* binary);
     void setup(sead::Heap* heap, sead::Heap* debug_heap);
     const ModelShader* getModelShader(int index) const;
+    // 0x7100c3d244 (declared only; the CSV had an nn::g3d name, but it takes a sead::SafeString and
+    // sits in this class's TU).
+    const ModelShader* searchModelShader(const sead::SafeString& name) const;
+    // ModelShaderHolder::searchModelShader 0x7100c6a768 compares this name.
+    const sead::SafeString& getName() const { return mName; }
 
 private:
-    u8 _8[0x58 - 0x8];
+    u8 _8[0x40 - 0x8];
+    sead::SafeString mName;
+    u8 _50[0x58 - 0x50];
 };
 static_assert(sizeof(ModelShaderArchive) == 0x58);
 
