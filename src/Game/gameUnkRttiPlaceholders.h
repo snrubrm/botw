@@ -222,10 +222,20 @@ KSYS_CHECK_SIZE_NX150(Unk_71024dcf48, 0x70);
 class Unk_7102519378 {
     SEAD_RTTI_BASE(Unk_7102519378)
 public:
+    // The light manager's view for the per-frame update (built by 0x7100f10080).
+    struct CalcArg {
+        sead::Camera* camera;
+        sead::Projection* projection;
+        void* _10;
+        sead::Vector3f camera_pos;
+    };
+
     virtual ~Unk_7102519378();
 
     // Sets the owning manager and creates the uniform block (slot 6) under the lock.
     void create(void* owner, sead::Heap* heap);
+    // Copies the visibility mask (_58 to _5a) and runs the per-frame update (slot 7) under the lock.
+    void calc(const CalcArg& arg);
     // 0x7101295f80: takes a record from the pool: clears _48 and _58 and runs the subclass hook.
     void init();
     // 0x7101295fc4: detaches the record: runs the subclass hook and clears _48.
@@ -249,7 +259,7 @@ public:
     // Slots 6..11 are the empty hooks 0x710129dae0 .. 0x710129daf0 in the original vtable.
     // Slot 6 declares and creates the uniform block; slot 8 selects its buffer.
     virtual void m6(sead::Heap* heap);
-    virtual void m7();
+    virtual void m7(const CalcArg& arg);
     virtual void m8(u8 index);
     virtual void m9();
     virtual void m10();
@@ -1280,7 +1290,7 @@ public:
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 0; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     // 0x7101296840: clears the state word at +0x5c.
     virtual void m9();
@@ -1323,7 +1333,7 @@ public:
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 1; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     // 0x71012977e0: clears the state word at +0x5c.
     virtual void m9();
@@ -1363,7 +1373,7 @@ public:
     void setColorAndLuminance(const sead::Color4f& color);
     virtual s32 m5() { return 2; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
@@ -1401,7 +1411,7 @@ public:
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 3; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
@@ -1436,7 +1446,7 @@ public:
     void setColorAndLuminance(const sead::Color4f& color);
     virtual s32 m5() { return 4; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
@@ -1470,7 +1480,7 @@ public:
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 5; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
@@ -1509,7 +1519,7 @@ public:
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 6; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     // 0x710129b590: clears the state word at +0x5c.
     virtual void m9();
@@ -1551,7 +1561,7 @@ public:
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 7; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     virtual void m9();
     virtual void m10();
@@ -1594,7 +1604,7 @@ public:
     void setColorAndLuminance(const sead::Color4f& color);
     virtual s32 m5() { return 8; }
     void m6(sead::Heap* heap) override;
-    virtual void m7();
+    void m7(const CalcArg& arg) override;
     void m8(u8 index) override;
     virtual void m9();
     virtual void m10();

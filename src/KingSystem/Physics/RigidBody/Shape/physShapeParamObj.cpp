@@ -129,6 +129,13 @@ void Unk_7102519378::create(void* owner, sead::Heap* heap) {
     mCS.unlock();
 }
 
+void Unk_7102519378::calc(const CalcArg& arg) {
+    mCS.lock();
+    _5a = _58;
+    m7(arg);
+    mCS.unlock();
+}
+
 // 0x7101295f80: clears the record's dirty words and runs the subclass hook (slot 9) under the
 // record's lock; RenderLightPool's allocator calls it on every record it hands out.
 void Unk_7102519378::init() {
@@ -151,7 +158,7 @@ void Unk_7102519378::reset() {
 
 // Slots 6..10 are empty in the base vtable (0x710129dae0 .. 0x710129daf0).
 void Unk_7102519378::m6(sead::Heap*) {}
-void Unk_7102519378::m7() {}
+void Unk_7102519378::m7(const CalcArg&) {}
 void Unk_7102519378::m8(u8) {}
 void Unk_7102519378::m9() {}
 void Unk_7102519378::m10() {}
