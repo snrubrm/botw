@@ -566,6 +566,9 @@ public:
     // 0x7100798f24 (placeholder name): counts _13cc / _13d0 while sub_710079959C() is / is not set and
     // updates _860._814 / _815 and bit 1 of _13fd.
     void sub_7100798F24();
+    // 0x7100799094 (placeholder name): moves _860._184 (towards 0 or to sub_71009220E4()) and stores its ratio
+    // within the clamped range in _860._188.
+    void sub_7100799094();
     // 0x710079572c (CSV act::Camera::updateMatrix; declared only).
     void updateMatrix(bool a1);
     void sub_7100793BD8();

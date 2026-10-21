@@ -345,6 +345,24 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+void Camera::sub_7100799094() {
+    const bool active = sub_71009271B0();
+    const f32 max = std::max(sub_71009220E4(), 0.0f);
+    const f32 min = sead::Mathf::clamp(sub_71009220F0(), 0.0f, max);
+    if (active && _860.sub_710079B63C(1))
+        _860._184 = sub_71009220E4();
+    else if (active && _860._7fc.sub_710079C0CC(1))
+        sead::Mathf::chase(&_860._184, 0.0f, _8);
+    else
+        _860._184 = 0;
+
+    const f32 range = max - min;
+    if (range == 0.0f)
+        _860._188 = 1.0f;
+    else
+        _860._188 = sead::Mathf::clamp(_860._184 / range, 0.0f, 1.0f);
+}
+
 bool sub_710079959C() {
     auto* rune_mgr = RuneMgr::instance();
     if (!rune_mgr)
