@@ -1123,6 +1123,13 @@ bool ActorReactionHandle::resume(Actor* actor, Actor* source, const sead::SafeSt
     return active;
 }
 
+ActorReactionQueue::ActorReactionQueue() = default;
+
+// Both destructors of the queue only call the teardown member.
+ActorReactionQueue::~ActorReactionQueue() {
+    sub_7101287B10();
+}
+
 void ActorReactionQueue::setActor(Actor* actor) {
     mActor = actor;
 }

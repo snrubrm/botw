@@ -108,9 +108,13 @@ public:
     // 0x71012884e8: orders two actors by their distance to the default sound listener.
     static s32 compareDistance(const Actor* a, const Actor* b);
 
-    /* 0x08 */ sead::ObjArray<sead::PtrArray<Actor>> mCoreQueues;
-    /* 0x28 */ sead::PtrArray<Actor> mActors;
-    /* 0x38 */ sead::ObjArray<ActorReactionHandle> mHandles;
+    // 0x7101287b10 (placeholder name): fades the held events and releases the queues; both
+    // destructors of the queue tail-call it.
+    void sub_7101287B10();
+
+    /* 0x08 */ sead::ObjArray<sead::PtrArray<Actor>> mCoreQueues{};
+    /* 0x28 */ sead::PtrArray<Actor> mActors{};
+    /* 0x38 */ sead::ObjArray<ActorReactionHandle> mHandles{};
     /* 0x58 */ sead::FixedSafeString<64> mName;
     /* 0xb0 */ Actor* mActor = nullptr;
 };
