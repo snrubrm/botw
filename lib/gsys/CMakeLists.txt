@@ -94,6 +94,9 @@ add_library(gsys OBJECT
   src/gsys/gsysModelSceneComponent.cpp
   src/gsys/gsysModelSceneEnv.cpp
   src/gsys/gsysResourceEditor.cpp
+  include/gsys/gsysModelSceneContext.h
+  include/gsys/gsysParticleDrawArg.h
+  src/gsys/gsysParticleDrawArg.cpp
   src/gsys/gsysParticleMgr.cpp
   src/gsys/gsysParticleConfig.cpp
   src/gsys/gsysORUtil.cpp

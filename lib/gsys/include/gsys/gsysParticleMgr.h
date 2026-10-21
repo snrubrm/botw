@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <mc/seadJob.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadLongBitFlag.h>
 
 namespace sead::ptcl {
@@ -30,6 +31,8 @@ public:
     // bits 0..60 of +0x58 (re-reading the singleton for every bit). Names are ours.
     sead::LongBitFlag<64>& get_58() { return _58; }
     void set_90(bool value) { _90 = value; }
+    // Inline in the original: ksys::eft::Effect::initParticleGroups 0x71011b6154 sets bit 2 (mask 4) of +0x68.
+    sead::BitFlag32& get_68() { return _68; }
 
     void manualCalcEmitter();
     void clearGroupInfo();
@@ -61,7 +64,9 @@ private:
     sead::ptcl::PtclSystem* mSystem;  // +0x28
     u8 _30[0x58 - 0x30];
     sead::LongBitFlag<64> _58;
-    u8 _60[0x8c - 0x60];
+    u8 _60[0x68 - 0x60];
+    sead::BitFlag32 _68;
+    u8 _6c[0x8c - 0x6c];
     // clearGroupInfo keeps the groups when this is 2.
     u32 _8c;
     bool _90;

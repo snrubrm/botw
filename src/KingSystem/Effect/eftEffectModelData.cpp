@@ -42,7 +42,7 @@ bool EffectModelData::addEffectModel_0(sead::Heap* heap, const char* name,
     mRes = resource;
     auto* scene = Graphics::instance()->mModelScenes(0);
     gsys::EffectModelDrawUnit::CreateArg arg;
-    arg._0 = scene->mContextNum;
+    arg._0 = scene->mContexts.size();
     arg._4 = 64;
     arg.mModelScene = scene;
     arg.mResource = model_resource;

@@ -60,6 +60,8 @@ public:
     bool isDebugMuted() const;
     /// The spread (added to the spread of the sounds that are unified into one sound).
     f32 getSpread() const { return mSoundParam.getSpread(); }
+    /// Inline in the original: ksys::snd 0x710105e3d0 calls SpatialSetting::setPositioned on emitter +0xa8.
+    SpatialSetting& getSpatialSetting() { return mSpatialSetting; }
 
 private:
     void disconnectAllSoundSource_();

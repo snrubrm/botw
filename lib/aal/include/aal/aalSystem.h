@@ -27,6 +27,7 @@ class SoundSourceUnifier;
 class SDKFoundation;
 class MemoryPoolManager;
 class SpeakerBalanceUnifierMgr;
+class StreamingViewer;
 
 // The debug reader manager behind System+0xd0. Only the reader ring at +0xc8 is proved:
 // 0x7100b7a044 indexes it with the RingBuffer wrap of size - 1 and reads the element's
@@ -87,7 +88,10 @@ public:
     u8 _d8[0xe8 - 0xd8];
     /// The heap of the debug tools (HostIO): the components that are created through HostIO are allocated on it.
     sead::Heap* mDebugHeap;
-    u8 _f0[0x100 - 0xf0];
+    u8 _f0[0xf8 - 0xf0];
+    /// The debug viewer of the streaming sounds (nullptr when unused); the game's sound status init 0x7101048ae8 sets
+    /// it to the viewer it creates on the debug heap.
+    StreamingViewer* mStreamingViewer;
     LoopAssetListReader mLoopAssetListReader;
     /// The audio manager of the sound library (nullptr if the library is not used).
     sead::AudioMgr* mAudioMgr;

@@ -287,7 +287,7 @@ void IndoorStage::unload() {
     }
     if (auto* scene = Graphics::instance()->mModelScenes[0]) {
         scene->mEnv.clearImpl(scene->mEnv.getDataSets(), false);
-        scene->sub_7100C13CB4(-1);
+        scene->clearParticleGroup(-1);
     }
     if (auto* scene = Graphics::instance()->mModelScenes[1])
         scene->mEnv.clearImpl(scene->mEnv.getDataSets(), true);

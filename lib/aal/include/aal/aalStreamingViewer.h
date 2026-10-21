@@ -25,15 +25,28 @@ public:
     virtual void BeginRead(void* stream);
     virtual void EndRead(void* stream);
 
+    /// The game's sound status init 0x7101048ae8 sets it; calc only runs while it (or +0x9) is set.
+    void setEnabled(bool enabled) { mEnabled = enabled; }
+    /// The current numbers of stream sounds / tracks / channels (read by the game's sound status report 0x7101048b94).
+    s32 getStreamSoundNum() const { return mStreamSoundNum; }
+    s32 getStreamTrackNum() const { return mStreamTrackNum; }
+    s32 getStreamChannelNum() const { return mStreamChannelNum; }
+
 private:
     struct ReadRecord {
         void* stream;
         s32 state;
     };
 
-    bool _8;
+    bool mEnabled;
     bool _9;
-    f32 _c[6];
+    s32 mStreamSoundNum;
+    /// initialize copies the stream sound / track / channel counts of nn::atk::SoundArchive::SoundArchivePlayerInfo.
+    s32 mMaxStreamSoundNum;
+    s32 mStreamTrackNum;
+    s32 mMaxStreamTrackNum;
+    s32 mStreamChannelNum;
+    s32 mMaxStreamChannelNum;
     u32 _24;
     u64 _28;
     ReadRecord mRecords[32];

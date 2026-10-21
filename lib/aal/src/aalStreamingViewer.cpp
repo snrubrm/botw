@@ -2,10 +2,10 @@
 
 namespace aal {
 
-// NON_MATCHING: same stores; the original stores the two flags and the member at 0x28 before the vtable pointer and the
-// zeroed block (0xc..0x24) after it.
 // 0x7100b7d6f8
-StreamingViewer::StreamingViewer() : _8(false), _9(false), _c(), _28(0), mRecordNum(0), _234() {}
+StreamingViewer::StreamingViewer()
+    : mEnabled(false), _9(false), mStreamSoundNum(0), mMaxStreamSoundNum(0), mStreamTrackNum(0),
+      mMaxStreamTrackNum(0), mStreamChannelNum(0), mMaxStreamChannelNum(0), _28(0), mRecordNum(0), _234() {}
 
 // 0x7100b7d9b4 (D2) / 0x7100b7d9b8 (D0)
 StreamingViewer::~StreamingViewer() = default;

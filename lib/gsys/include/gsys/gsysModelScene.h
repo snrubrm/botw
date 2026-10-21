@@ -1,10 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <thread/seadAtomic.h>
 #include <cstddef>
 #include <environment/aglEnvObjBuffer.h>
 #include "gsys/gsysModelJobQueue.h"
+#include "gsys/gsysModelSceneContext.h"
 #include "gsys/gsysModelSceneEnv.h"
 #include "gsys/gsysModelSceneBuffer.h"
 
@@ -52,9 +54,10 @@ public:
     void bind_(Model* model);
     void unbind_(Model* model);
 
-    // OpenWorldStage::unload 0x71007c5d20 passes -1 to process every scene entry.
-    // 0x7100c13cb4 releases each entry's +0x3a0 object and clears flag 0x10 at +0x391.
-    void sub_7100C13CB4(s32 index);
+    // 0x7100c13bfc / 0x7100c13cb4: add a particle group to / clear the particle groups of the context `index`
+    // (all contexts for a negative index). OpenWorldStage::unload 0x71007c5d20 passes -1.
+    void addParticleGroup(int group, int index);
+    void clearParticleGroup(int index);
 
     // 0x7100c1016c / 0x7100c10c88.
     void skipDraw();
@@ -67,11 +70,11 @@ public:
     void calc(sead::WorkerMgr* wm, int, int, int);
 
     u8 _0[0x108];
-    // 0x7100d9f8ac reads this word from Graphics' first scene and passes it as
-    // EffectModelDrawUnit::CreateArg::_0, which createModel 0x7100c555f0 forwards to
-    // Model::CreateArg::_4 (one of the two model counts). The array it counts is not modelled.
-    /* 0x108 */ s32 mContextNum;
-    u8 _10c[0x130 - 0x10c];
+    // The render contexts (initialize 0x7100c0d9fc). 0x7100d9f8ac reads their number from Graphics' first scene
+    // and passes it as EffectModelDrawUnit::CreateArg::_0, which createModel 0x7100c555f0 forwards to
+    // Model::CreateArg::_4 (one of the two model counts).
+    /* 0x108 */ sead::Buffer<ModelSceneContext> mContexts;
+    u8 _118[0x130 - 0x118];
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor
 
