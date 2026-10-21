@@ -1349,7 +1349,14 @@ KSYS_CHECK_SIZE_NX150(Unk_7102519460, 0x120);
 class Unk_71025194d0 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025194d0, Unk_7102519378)
 public:
+    // 0x7101297a2c
+    Unk_71025194d0();
     ~Unk_71025194d0() override;
+    // Stores the colour divided by its luminance (black if the luminance is not positive; alpha
+    // kept) and returns the luminance (at least 0).
+    f32 setColor(const sead::Color4f& color);
+    // The same, also storing the luminance at _100.
+    void setColorAndLuminance(const sead::Color4f& color);
     virtual s32 m5() { return 2; }
     void m6(sead::Heap* heap) override;
     virtual void m7();
@@ -1362,7 +1369,19 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
+    sead::Vector3f mPos{0, 0, 0};
+    // Not set by the constructor.
+    sead::Vector3f _e4;
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
+    f32 _100 = 0;
+    f32 _104 = 0.3f;
+    f32 _108 = 0;
+    f32 _10c = 1.0f;
+    f32 _110 = 1.0f;
+    f32 _114 = 0;
+    f32 _118 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025194d0, 0x120);
 
 // vtable 0x7102519540 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519540 : public Unk_7102519378 {
@@ -1533,7 +1552,14 @@ KSYS_CHECK_SIZE_NX150(Unk_7102519708, 0x130);
 class Unk_7102519778 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519778, Unk_7102519378)
 public:
+    // 0x710129c708
+    Unk_7102519778();
     ~Unk_7102519778() override;
+    // Stores the colour divided by its luminance (black if the luminance is not positive; alpha
+    // kept) and returns the luminance (at least 0).
+    f32 setColor(const sead::Color4f& color);
+    // The same, also storing the luminance at _100.
+    void setColorAndLuminance(const sead::Color4f& color);
     virtual s32 m5() { return 8; }
     void m6(sead::Heap* heap) override;
     virtual void m7();
@@ -1546,7 +1572,19 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
+    sead::Vector3f mPos{0, 0, 0};
+    // Not set by the constructor.
+    sead::Vector3f _e4;
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
+    f32 _100 = 0;
+    f32 _104 = 1.5f;
+    f32 _108 = 0.4f;
+    f32 _10c = 1.0f;
+    f32 _110 = 1.0f;
+    f32 _114 = 0;
+    f32 _118 = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102519778, 0x120);
 
 // vtable 0x710251ba58 (10 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710251ba58 : public aal::SpatialCalculator {

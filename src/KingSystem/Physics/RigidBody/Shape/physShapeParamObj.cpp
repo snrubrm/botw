@@ -240,6 +240,7 @@ bool Unk_7102519460::m11() const {
     return (_5c & 2) != 0;
 }
 
+Unk_71025194d0::Unk_71025194d0() = default;
 Unk_71025194d0::~Unk_71025194d0() = default;
 
 void Unk_71025194d0::m9() {
@@ -252,6 +253,26 @@ void Unk_71025194d0::m10() {
 
 bool Unk_71025194d0::m11() const {
     return (_5c & 1) != 0;
+}
+
+// NON_MATCHING: the original keeps the green store in both branches; ours merges it.
+f32 Unk_71025194d0::setColor(const sead::Color4f& color) {
+    const f32 luminance = sead::Mathf::clampMin(
+        color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f, 0.0f);
+    if (luminance > 0.0f) {
+        mColor = color / luminance;
+    } else {
+        mColor.r = 0;
+        mColor.g = 0;
+        mColor.b = 0;
+    }
+    mColor.a = color.a;
+    return luminance;
+}
+
+// NON_MATCHING: same store merge as setColor.
+void Unk_71025194d0::setColorAndLuminance(const sead::Color4f& color) {
+    _100 = setColor(color);
 }
 
 Unk_7102519540::~Unk_7102519540() = default;
@@ -435,6 +456,7 @@ bool Unk_7102519708::m11() const {
     return (_5c & 1) != 0;
 }
 
+Unk_7102519778::Unk_7102519778() = default;
 Unk_7102519778::~Unk_7102519778() = default;
 
 void Unk_7102519778::m9() {
@@ -447,6 +469,26 @@ void Unk_7102519778::m10() {
 
 bool Unk_7102519778::m11() const {
     return (_5c & 1) != 0;
+}
+
+// NON_MATCHING: the original keeps the green store in both branches; ours merges it.
+f32 Unk_7102519778::setColor(const sead::Color4f& color) {
+    const f32 luminance = sead::Mathf::clampMin(
+        color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f, 0.0f);
+    if (luminance > 0.0f) {
+        mColor = color / luminance;
+    } else {
+        mColor.r = 0;
+        mColor.g = 0;
+        mColor.b = 0;
+    }
+    mColor.a = color.a;
+    return luminance;
+}
+
+// NON_MATCHING: same store merge as setColor.
+void Unk_7102519778::setColorAndLuminance(const sead::Color4f& color) {
+    _100 = setColor(color);
 }
 
 // The render-light records declare one to three float4 uniform arrays and select the
