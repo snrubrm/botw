@@ -563,6 +563,9 @@ public:
     // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
     // matrix has a NaN.
     bool x_5();
+    // 0x7100798f24 (placeholder name): counts _13cc / _13d0 while sub_710079959C() is / is not set and
+    // updates _860._814 / _815 and bit 1 of _13fd.
+    void sub_7100798F24();
     // 0x710079572c (CSV act::Camera::updateMatrix; declared only).
     void updateMatrix(bool a1);
     void sub_7100793BD8();
@@ -606,7 +609,10 @@ public:
     /* 0x139c */ ksys::util::Unk_7101EC6BAC _139c{0};
     /* 0x13a0 */ u32 _13a0 = 0;
     /* 0x13a4 */ Unk_7100928644 _13a4;
-    /* 0x13bc */ u32 _13bc[6]{};
+    /* 0x13bc */ u32 _13bc[4]{};
+    // Counted up to 10000 by sub_7100798F24 while a camera rune is (_13cc) / is not (_13d0) selected.
+    /* 0x13cc */ f32 _13cc = 0;
+    /* 0x13d0 */ f32 _13d0 = 0;
     // 0x7100796174 (prepareInit_) allocates it (sub_7100922080() entries); 0x7100796200 frees it.
     /* 0x13d8 */ sead::RingBuffer<Unk13d8Entry> _13d8;
     /* 0x13f0 */ u32 _13f0 = 0;

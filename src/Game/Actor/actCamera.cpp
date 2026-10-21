@@ -356,6 +356,41 @@ bool sub_710079959C() {
            (rune_mgr->_90 & 0x10 && rune_mgr->isSelectedRune(7));
 }
 
+// NON_MATCHING: the original tests the call result in w0 directly (ours keeps it masked in w8) and keeps the
+// address of _860._815 in a register across the sub_710092233C call.
+void Camera::sub_7100798F24() {
+    const bool rune_selected = sub_710079959C();
+    if (rune_selected) {
+        sead::Mathf::chase(&_13cc, 10000.0f, _8);
+        _13d0 = 0;
+        _860._815[0] = 0;
+        _13fd |= 2;
+    } else {
+        _13cc = 0;
+        sead::Mathf::chase(&_13d0, 10000.0f, _8);
+        _860._815[0] = 0;
+        _13fd &= ~2;
+    }
+
+    switch (_860._814) {
+    case 1:
+        if (!rune_selected) {
+            if ((_13fd & 2) || _13d0 < sub_710092233C())
+                _860._815[0] = 1;
+            else
+                _860._814 = 0;
+        }
+        break;
+    case 2:
+        _860._814 = rune_selected;
+        break;
+    default:
+        if (rune_selected)
+            _860._814 = 1;
+        break;
+    }
+}
+
 void Camera::sub_7100793BD8() {
     if (_860._804.sub_710079ADC8(1))
         return;
