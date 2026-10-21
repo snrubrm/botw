@@ -25,7 +25,7 @@ void BeamTailDelete::loadParams_() {}
 
 void BeamTailDelete::calc_() {
     if (auto* beam = sead::DynamicCast<uking::act::Beam>(mActor)) {
-        if (beam->_c48 && beam->_c48->getCreateId() == beam->_c50)
+        if (beam->_c48.isActive())
             return;
     }
     setFinished();

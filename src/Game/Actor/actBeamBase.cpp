@@ -2,9 +2,11 @@
 #include <aal/aalShape.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBeam.h"
 
@@ -41,6 +43,16 @@ void BeamBase::preDelete2_(const PreDeleteArg& arg) {
     m158();
 }
 
+void BeamBase::onEnterDelete_() {
+    DynamicActor::onEnterDelete_();
+    uking::xlink::fade(_c58, 0);
+}
+
+void BeamBase::onEnterSleep_() {
+    DynamicActor::onEnterSleep_();
+    uking::xlink::fade(_c58, 0);
+}
+
 void BeamBase::updateMtxFromPhysics() {
     m163();
     ksys::act::Actor::updateMtxFromPhysics();
@@ -48,6 +60,21 @@ void BeamBase::updateMtxFromPhysics() {
 
 void BeamBase::updatePositionMaybe() {
     DynamicActor::updatePositionMaybe();
+}
+
+void BeamBase::calcMaybe() {
+    if (_c84.isBitOn(0)) {
+        if (auto* physics = getPhysics()) {
+            if (_c28.hasProc()) {
+                physics->sub_7100FBDFA4(sub_7100738C18(&_c28, 0));
+                physics->sub_7100FBDFA4(sub_7100738C18(&_c28, 1));
+            } else {
+                physics->sub_7100FBDFA4(nullptr);
+            }
+        }
+        _c84.setBitOff(0);
+    }
+    DynamicActor::calcMaybe();
 }
 
 void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {
@@ -64,6 +91,14 @@ ksys::act::Actor* BeamBase::m48() {
     if (!_c38.hasProc())
         return DynamicActor::m48();
     return sead::DynamicCast<ksys::act::Actor>(_c38.getProc(nullptr, nullptr));
+}
+
+void BeamBase::m164(void* arg) {
+    uking::xlink::fade(_c48, -1);
+    _c48 = ksys::eft::searchAndEmitELink(this, "Tail");
+    _c68 = *static_cast<const sead::Vector3f*>(arg);
+    _b90._40.reset();
+    _be0.getKey().reset();
 }
 
 void BeamBase::sub_7100002F78() {

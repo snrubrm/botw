@@ -4,6 +4,8 @@
 #include <limits>
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
+#include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/Physics/physMaterialMask.h"
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
@@ -45,8 +47,11 @@ public:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void initMaybe() override;
     void preDelete2_(const PreDeleteArg& arg) override;
+    // 0x7100002790 / 0x710000286c: fade the sound handle _c58.
+    void onEnterDelete_() override;
+    void onEnterSleep_() override;
     void updateMtxFromPhysics() override;
-    // 0x7100002b60 (CSV BeamBase::m69; declared only).
+    // 0x7100002b60
     void calcMaybe() override;
     void updatePositionMaybe() override;
     Actor* m48() override;
@@ -87,12 +92,8 @@ public:
     /* 0xc24 */ f32 _c24 = std::numeric_limits<f32>::max();
     /* 0xc28 */ ksys::act::BaseProcLink _c28;
     /* 0xc38 */ ksys::act::BaseProcLink _c38;
-    /* 0xc48 */ xlink2::Event* _c48 = nullptr;
-    /* 0xc50 */ u32 _c50 = 0;
-    /* 0xc54 */ u8 _c54[4];
-    /* 0xc58 */ xlink2::EventSLink* _c58 = nullptr;
-    /* 0xc60 */ u32 _c60 = 0;
-    /* 0xc64 */ u8 _c64[4];
+    /* 0xc48 */ xlink2::HandleELink _c48;  // the "Tail" effect (m164)
+    /* 0xc58 */ xlink2::HandleSLink _c58;
     /* 0xc68 */ sead::Vector3f _c68 = sead::Vector3f::zero;  // a position (the beam's target / hit point)
     /* 0xc78 */ aal::Shape* _c78 = nullptr;
     /* 0xc80 */ f32 _c80 = 1.0f;
