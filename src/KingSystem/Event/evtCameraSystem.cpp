@@ -1,4 +1,9 @@
 #include "KingSystem/Event/evtEventResource.h"
+#include <gsys/gsysCameraAnimation.h>
+#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/Actor/actCamera.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Resource/resUnk_71024F9898.h"
 
 namespace ksys::evt {
 
@@ -23,6 +28,43 @@ bool CameraSystem::sub_7100DA3D14(void*) {
     }
     _8 = all_success ? 3 : 4;
     return true;
+}
+
+// NON_MATCHING: the identity matrix into the scene animation is a copy-constructed 48-byte block copy in
+// the original; ours copies ident element-wise (two instructions longer).
+// 0x7100da44ec
+bool CameraSystem::sub_7100DA44EC(const sead::SafeString& name, const sead::Matrix34f& mtx) {
+    if (_8 != 3)
+        return false;
+    if (_30 < 1)
+        return false;
+
+    for (s32 i = 0; i < _30; ++i) {
+        if (!(name == _20[i]))
+            continue;
+
+        auto* camera = Manager::instance()->getCamera();
+        auto* resource = sead::DynamicCast<res::Unk_71024F9898>(_10[i].getResource());
+        if (resource->_40) {
+            resource->_40->mMatrix = sead::Matrix34f::ident;
+            mAnimSource.mAnim = resource->_40;
+            mAnimSource.mSceneAnim = nullptr;
+        } else if (resource->_48) {
+            auto* anim = _2c0;
+            anim->mData = resource->_48;
+            anim->_100 = 1;
+            // C++14 evaluation order: the original evaluates the destination first
+            _2c0->mMatrix.operator=(sead::Matrix34f::ident);
+            mAnimSource.mSceneAnim = _2c0;
+            mAnimSource.mAnim = nullptr;
+        }
+
+        _280 = mtx;
+        camera->m157(&mAnimSource, _280);
+        return true;
+    }
+
+    return false;
 }
 
 // NON_MATCHING: the original stores `lane_id = 2` / `flags = 4` as one `stp w8, w9` (ours: two `str`, scheduled around

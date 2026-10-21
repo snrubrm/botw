@@ -22,6 +22,9 @@ class Heap;
 namespace al {
 class ByamlIter;
 }
+namespace gsys {
+class CameraAnimation;
+}
 
 namespace ksys::xlink {
 class XLink;
@@ -94,13 +97,50 @@ static_assert(sizeof(EventXlinkInfo) == 0x188);
 bool isCameraActor(const sead::SafeString& name);
 bool isCameraAnimAction(const sead::SafeString& name);
 
+// The data of a scene camera animation (placeholder name: no RTTI and no string). The CameraSystem
+// constructor 0x7100da3b8c allocates one (0x1a0 bytes) into _2c0; it plays the animation data at +0
+// (res::Unk_71024F9898::_48) on the actor of its link. The source accessors 0x7100d8abe8 .. 0x7100d8ac68
+// read its frame fields.
+class CameraAnimData {
+public:
+    /* 0x00 */ void* mData = nullptr;
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ sead::Matrix34f mMatrix;
+    /* 0x40 */ act::BaseProcLink mLink;
+    /* 0x50 */ void* _50 = nullptr;
+    /* 0x58 */ s32 _58 = 0;
+    /* 0x5c */ f32 _5c = 0;
+    u8 _60[0x68 - 0x60];
+    /* 0x68 */ f32 _68 = 0;
+    u8 _6c[0x74 - 0x6c];
+    /* 0x74 */ s32 _74 = 0;
+    /* 0x78 */ f32 _78 = 0;
+    /* 0x7c */ f32 _7c = -4.0f;
+    u8 _80[0x100 - 0x80];
+    /* 0x100 */ u8 _100 = 1;
+    /* 0x101 */ u8 _101 = 0;
+    u8 _102[0x108 - 0x102];
+    /* 0x108 */ sead::FixedSafeString<128> mName;
+};
+KSYS_CHECK_SIZE_NX150(CameraAnimData, 0x1a0);
+
+// The animation source of the event camera (placeholder name): either a gsys::CameraAnimation (+0) or a
+// scene animation (CameraAnimData, +8); at most one is set. The camera keeps the address of this object
+// (Camera::m157 stores it and m158 returns it); 0x7100d8ab48 .. 0x7100d8ac68 dispatch on the two pointers.
+class CameraAnimSource {
+public:
+    /* 0x0 */ gsys::CameraAnimation* mAnim = nullptr;
+    /* 0x8 */ CameraAnimData* mSceneAnim = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(CameraAnimSource, 0x10);
+
 // The event camera data of a resource (CSV CameraSystem; at EventResource + 0x148; ctor 0x7100da3b8c, init
 // 0x7100da3fe0, not decompiled).
 class CameraSystem {
 public:
     using LoadFn = sead::Delegate1R<CameraSystem, void*, bool>;
 
-    // 0x7100da3db4 / 0x7100da3edc (CSV unnamed; not decompiled)
+    // 0x7100da3db4 / 0x7100da3edc (CSV unnamed)
     virtual ~CameraSystem();
 
     // 0x7100da3f00: polls the loading of the camera resources; true once they are loaded
@@ -113,9 +153,12 @@ public:
     /* 0x08 */ s32 _8;  // 1: loading, 2: the low priority request has been submitted
     u8 _c[4];
     /* 0x10 */ sead::Buffer<res::Handle> _10;
-    u8 _20[0x30 - 0x20];
-    /* 0x30 */ s32 _30;
-    u8 _34[0x2c8 - 0x34];
+    /* 0x20 */ sead::Buffer<sead::FixedSafeString<32>> _20;  // the camera names of the resource
+    /* 0x30 */ s32 _30;  // the number of loaded camera names
+    u8 _34[0x280 - 0x34];
+    /* 0x280 */ sead::Matrix34f _280;
+    /* 0x2b0 */ CameraAnimSource mAnimSource;
+    /* 0x2c0 */ CameraAnimData* _2c0;
     /* 0x2c8 */ LoadFn _2c8;
 };
 

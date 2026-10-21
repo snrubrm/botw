@@ -27,6 +27,10 @@ class Actor;
 class PlayerLink;
 }
 
+namespace uking::act {
+class Unk_7102459cc0;
+}
+
 namespace ksys {
 class Message;
 struct MesTransceiverId;
@@ -184,6 +188,13 @@ public:
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
     // inline-only in the original; name is a guess
     ManagerDelegate* getDelegate() const { return _1d2c8; }
+    // The camera actor (set by ksys::sub_7100F40428); null while _1d118 is set.
+    // inline-only in the original; name is a guess
+    uking::act::Unk_7102459cc0* getCamera() const {
+        if (_1d118)
+            return nullptr;
+        return static_cast<uking::act::Unk_7102459cc0*>(_1d100);
+    }
 
     void setNoDeleteCurrentActor(bool no_delete);
 
@@ -302,7 +313,9 @@ public:
 
 private:
     /* 0x1d110 */ EventDebugA* _1d110;
-    u8 pad_1d118[0x1d120 - 0x1d118];
+    // true while the event camera is not available (CameraSystem skips the camera while it is set)
+    /* 0x1d118 */ bool _1d118;
+    u8 pad_1d119[0x1d120 - 0x1d119];
     /* 0x1d120 */ EventDebugB* _1d120;
     u8 pad_1d128[0x1d129 - 0x1d128];
 

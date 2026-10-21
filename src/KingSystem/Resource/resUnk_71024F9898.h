@@ -8,10 +8,15 @@ class ModelResource;
 class CameraAnimation;
 }
 
+namespace ksys::evt {
+class CameraSystem;
+}
+
 namespace ksys::res {
 
 // Resource carrying a model and camera animation; vtable 0x71024f9898, constructor 0x7100fdc9f8.
 class Unk_71024F9898 : public Resource {
+    friend class ksys::evt::CameraSystem;
 public:
     // The original virtual check tail-calls the separate static check at 0x7100fdccb8.
     static const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfoStatic() {
