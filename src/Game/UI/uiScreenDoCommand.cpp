@@ -163,6 +163,23 @@ static CommandInfo sUnk_71025ED5B8[] = {
 };
 static sead::Buffer<CommandInfo> sUnk_71025ED468(sUnk_71025ED5B8);
 
+// inline-only in the original; name is a guess: the jump and the dash buttons (message values 8 to 10) swap with the
+// JumpButtonChange option. Repeats in sub_7100A07990 and m94.
+inline s32 getCommandButton(s32 value) {
+    if (value >= 8 && value <= 10) {
+        const bool changed = ksys::gdt::getFlag_JumpButtonChange();
+        switch (value) {
+        case 8:
+            return changed ? 1 : 2;
+        case 9:
+            return changed ? 2 : 1;
+        case 10:
+            return changed ? 6 : 5;
+        }
+    }
+    return value;
+}
+
 // 0x7100a07658
 const char* ScreenDoCommand::getLayoutName_() const {
     return sUnk_71025ED428.cstr();
@@ -195,8 +212,6 @@ void ScreenDoCommand::sub_7100A0772C(s32 a1) {
 
 // inline-only in the original; name is a guess: the index of a command in the table, or -1.
 inline s32 findCommandIndex(s32 command) {
-    if (command < 0)
-        return -1;
     for (u32 i = 0; i < u32(sUnk_71025ED468.size()); ++i) {
         if (sUnk_71025ED468[i].command == command)
             return i;
@@ -205,14 +220,16 @@ inline s32 findCommandIndex(s32 command) {
 }
 
 // inline-only in the original; name is a guess (see the declaration).
-inline bool ScreenDoCommand::isSameCommandState(s32 state) const {
-    const s32 index = findCommandIndex(_365c);
+inline bool ScreenDoCommand::isSameCommandState(s32 command, s32 state) const {
+    if (command < 0)
+        return false;
+    const s32 index = findCommandIndex(command);
     if (index < 0)
         return false;
     if (_3660 == 5)
-        return _365c == 18;
+        return command == 18;
     if (_3660 == 21)
-        return _365c == 56;
+        return command == 56;
     return sUnk_71025ED468[index].state == state;
 }
 
@@ -223,7 +240,7 @@ bool ScreenDoCommand::sub_7100A07734() {
         return false;
     if (_3658 == -1)
         return true;
-    if (isSameCommandState(_3658))
+    if (isSameCommandState(_365c, _3658))
         return false;
     if (isClosedOrClosing())
         return true;
@@ -235,7 +252,7 @@ bool ScreenDoCommand::sub_7100A07734() {
 void ScreenDoCommand::sub_7100A0789C() {
     if (_3658 == -1)
         return;
-    if (_3658 != _3660 && isSameCommandState(_3658)) {
+    if (_3658 != _3660 && isSameCommandState(_365c, _3658)) {
         sub_7100A07990(_3658);
         Screen::open(3);
     } else if (isClosed()) {
@@ -252,17 +269,7 @@ void ScreenDoCommand::sub_7100A07990(s32 command) {
         return;
     _3660 = command;
 
-    s32 button = sUnk_71025ED448[command].value;
-    if (button >= 8 && button <= 10) {
-        // The jump and the dash buttons swap with the JumpButtonChange option.
-        const bool changed = ksys::gdt::getFlag_JumpButtonChange();
-        if (button == 8)
-            button = changed ? 1 : 2;
-        else if (button == 9)
-            button = changed ? 2 : 1;
-        else if (button == 10)
-            button = changed ? 6 : 5;
-    }
+    const s32 button = getCommandButton(sUnk_71025ED448[command].value);
 
     s32 direction = (_3660 == 5 || _3660 == 21) ? 1 : -1;
     if (_3660 == 16)
@@ -356,6 +363,28 @@ void ScreenDoCommand::m93(sead::Heap* heap) {
             break;
         }
     }
+}
+
+// 0x7100a07fb0
+// NON_MATCHING: the table walk keeps a separate 64-bit index (the original reuses the element address of the walk).
+void ScreenDoCommand::m94() {
+    if (isSameCommandState(_3664, _3660)) {
+        const s32 button = getCommandButton(sUnk_71025ED448[_3660].value);
+        const s32 slot = sUnk_71025ED438[button]._24;
+        if (slot != -1) {
+            if (auto* animator = _3638.at(slot)) {
+                animator->PlayAuto(1.0f);
+                if (_3628 && (button == 5 || button == 6 || button == 7 || button == 10))
+                    _3628->PlayAuto(1.0f);
+            }
+        }
+        const auto& info = sUnk_71025ED468[findCommandIndex(_3664)];
+        if (!info.animation.isEmpty()) {
+            const char* name = info.animation.cstr();
+            invokeSoundLink2Event_(name);
+        }
+    }
+    _3664 = -1;
 }
 
 // 0x7100a07d24

@@ -1121,6 +1121,7 @@ public:
     ScreenDoCommand();
     const char* getLayoutName_() const override;
     void m93(sead::Heap* heap) override;
+    void m94() override;
     void m100() override;
     void m101() override;
     void m130() override;
@@ -1159,9 +1160,9 @@ public:
     void sub_7100A07990(s32 command);
     // 0x7100a07d24 (placeholder name): sets the panes up again when the shown command's message value is 8 to 10
     void sub_7100A07D24();
-    // inline-only in the original; name is a guess: the table walk and the state test repeat in sub_7100A07734
-    // and sub_7100A0789C.
-    bool isSameCommandState(s32 state) const;
+    // inline-only in the original; name is a guess: the table walk and the state test repeat in sub_7100A07734,
+    // sub_7100A0789C and m94.
+    bool isSameCommandState(s32 command, s32 state) const;
 };
 
 // Placeholder for the object ScreenMainScreen3D keeps at 0x4090 (0xb0 bytes).
