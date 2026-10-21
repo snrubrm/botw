@@ -44,6 +44,8 @@ public:
     void bind(Model* model);
     void unbind(Model* model);
     void invoke_(int, int, int, int);
+    // 0x7100c7f5bc (declared only): sorts the queues before the scenes run sortQueue_.
+    void preSort(sead::WorkerMgr* wm);
     void clear();
     void swapDrawList();
     void calc(bool);

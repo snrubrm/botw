@@ -96,6 +96,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelDynamicEnvInfo.cpp
   src/gsys/gsysModelScene.cpp
   src/gsys/gsysModelSceneComponent.cpp
+  src/gsys/gsysModelSceneShadow.cpp
   src/gsys/gsysModelSceneEnv.cpp
   src/gsys/gsysResourceEditor.cpp
   include/gsys/gsysModelSceneContext.h

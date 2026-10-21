@@ -53,6 +53,18 @@ void ModelScene::calcModelUnit_(sead::WorkerMgr* wm) {
     mJobQueue.updateModelUnit(wm);
 }
 
+// 0x7100c10c94
+void ModelScene::sortQueue_(sead::WorkerMgr* wm) {
+    mJobQueue.preSort(wm);
+    mShadow.calc(wm);
+}
+
+// 0x7100c12114
+void ModelScene::calcDrawBackGround_(sead::WorkerMgr* wm) {
+    calc(wm, 4, 3, 0);
+    calc(wm, 1, 4, 3);
+}
+
 // 0x7100c13bfc
 void ModelScene::addParticleGroup(int group, int index) {
     if (index >= 0) {

@@ -8,6 +8,7 @@
 #include "gsys/gsysModelJobQueue.h"
 #include "gsys/gsysModelSceneContext.h"
 #include "gsys/gsysModelSceneEnv.h"
+#include "gsys/gsysModelSceneShadow.h"
 #include "gsys/gsysModelSceneBuffer.h"
 
 namespace agl::pfx {
@@ -89,7 +90,10 @@ public:
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor
 
-    u8 _1288[0x3428 - 0x1288];
+    u8 _1288[0x19c8 - 0x1288];
+    // sortQueue_ 0x7100c10c94 calls calc on the shadow object at +0x19c8.
+    /* 0x19c8 */ ModelSceneShadow mShadow;
+    u8 _afterShadow[0x3428 - 0x19c8 - sizeof(ModelSceneShadow)];
 
     // Null when the scene has no depth of field. 0x7100c2b674 / 0x7100c2b63c pass it to
     // DepthOfField::setIndirectTextureData; 0x7100c11a80 copies context parameters into it.

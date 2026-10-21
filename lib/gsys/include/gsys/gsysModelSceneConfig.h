@@ -111,6 +111,9 @@ public:
     // Inline-only in the original; name is a guess. ModelSceneBuffer::isZPrePassEnabled
     // 0x7100c183b0 reads the ZPrePass feature's value byte this way.
     bool isFeatureEnabled(Feature feature) const { return *mEnabledFeatures[int(feature)]; }
+    // Inline-only in the original; name is a guess. ModelSceneShadow::isDepthShadowEnabled
+    // 0x7100c3acf4 reads mShouldCreateFeatures' depth-shadow value at +0xa48.
+    bool shouldCreateFeature(Feature feature) const { return *mShouldCreateFeatures[int(feature)]; }
     // Inline-only in the original; name is a guess. ModelScene::isForceZPrePassEnabled
     // 0x7100c13d40 reads mZPrePassSelectable's value byte at +0x1138.
     bool isZPrePassSelectable() const { return *mZPrePassSelectable; }
