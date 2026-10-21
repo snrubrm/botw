@@ -790,6 +790,29 @@ void Unk_710251ca78::m33(u16* indices, s32 part, u16 base) {
     }
 }
 
+// NON_MATCHING: same 64-bit part test as Unk_710251bf80::m33, and the i == 0 / i == 1 blocks are laid out
+// in the other order.
+// Two triangles per quad: (base, base + 1, base + 2) and (base + 1, base + 2, base + 3).
+void Unk_710251c0b8::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        for (u16 i = 0; i < sC0b8Parts[part].indices; ++i) {
+            u16 a = base;
+            u16 b = base + 1;
+            u16 c = base + 2;
+            if (i != 0) {
+                if (i != 1)
+                    continue;
+                a = base + 1;
+                b = base + 2;
+                c = base + 3;
+            }
+            *indices++ = a;
+            *indices++ = b;
+            *indices++ = c;
+        }
+    }
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
