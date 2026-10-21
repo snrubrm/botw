@@ -141,10 +141,3 @@ s32 RIDDemoSaveFileDevice::doGetLastRawError_() const {
     return mDevice->getLastRawError();
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x71013ebd7c) also destroys members or bases
-// this class does not declare yet.
-Unk_7102531eb0::~Unk_7102531eb0() = default;
-
-// NON_MATCHING: placeholder destructor; the original (0x71013ebacc) also destroys members or bases
-// this class does not declare yet.
-Unk_7102531f08::~Unk_7102531f08() = default;

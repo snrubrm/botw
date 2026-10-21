@@ -24,7 +24,6 @@ add_library(gsys OBJECT
   include/gsys/gsysModelNW.h
   include/gsys/gsysModelDrawObj.h
   include/gsys/gsysModelDrawObjStream.h
-  include/gsys/gsysModelOcclusionQuery.h
   include/gsys/gsysModelRenderContext.h
   include/gsys/gsysModelRenderQueue.h
   include/gsys/gsysModelRenderUnitNodeArray.h

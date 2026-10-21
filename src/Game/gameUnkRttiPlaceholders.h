@@ -1204,18 +1204,6 @@ public:
     ksys::tera::ImageSizeMaybe mSize = ksys::tera::ImageSizeMaybe(10);
 };
 
-// vtable 0x710250e490 (9 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710250e490 {
-    SEAD_RTTI_BASE(Unk_710250e490)
-public:
-    virtual ~Unk_710250e490();
-    virtual void m4();
-    virtual void m5() {}
-    virtual bool m6() { return false; }
-    virtual void m7() {}
-    virtual void m8() {}
-};
-
 
 // vtable 0x710250fdf8 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710250fdf8 : public Unk_710251d230 {
@@ -2805,28 +2793,6 @@ public:
     ~Unk_710252e590() override;
     virtual void m5() {}
     virtual void m6() {}
-};
-
-// vtable 0x7102531eb0 (9 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102531eb0 : public Unk_710250e490 {
-    SEAD_RTTI_OVERRIDE(Unk_7102531eb0, Unk_710250e490)
-public:
-    ~Unk_7102531eb0() override;
-    bool m6() override { return false; }
-};
-
-// vtable 0x7102531f08 (9 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102531f08 : public Unk_710250e490 {
-    SEAD_RTTI_OVERRIDE(Unk_7102531f08, Unk_710250e490)
-public:
-    ~Unk_7102531f08() override;
-};
-
-// vtable 0x7102531f60 (9 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102531f60 : public Unk_710250e490 {
-    SEAD_RTTI_OVERRIDE(Unk_7102531f60, Unk_710250e490)
-public:
-    ~Unk_7102531f60() override;
 };
 
 // vtable 0x710245b7a0 (24 slots); placeholder generated from the vtable (genskel.py).

@@ -3,6 +3,10 @@
 #include <basis/seadTypes.h>
 #include <prim/seadBitFlag.h>
 
+namespace agl::cull {
+class OcclusionQuery;
+}
+
 namespace agl::lght {
 class LocalLightMapObj;
 }
@@ -10,7 +14,6 @@ class LocalLightMapObj;
 namespace gsys {
 
 class ModelDrawObj;
-class ModelOcclusionQuery;
 
 // A per-frame list of draw objects written into the ModelWorkBuffer of one core: either plain
 // object pointers or 0x30-byte entries (flag bit 1), see begin/add/end.
@@ -22,7 +25,7 @@ public:
         u8 _6;
         const agl::lght::LocalLightMapObj* mLocalLightMapObj;
         void* _10;
-        const ModelOcclusionQuery* mOcclusionQuery;
+        const agl::cull::OcclusionQuery* mOcclusionQuery;
         u16 _20;
         u8 _22[0x30 - 0x22];
     };

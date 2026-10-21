@@ -4,7 +4,7 @@
 #include <heap/seadHeap.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
-#include "gsys/gsysModelOcclusionQuery.h"
+#include <cull/aglOcclusionQuery.h>
 
 namespace agl::lght {
 class LocalLightMapObj;
@@ -62,10 +62,9 @@ private:
     void* _18;
     // Released through vtable slot 1 by the destructor unless +0x08 is set.
     void* _20;
-    ModelOcclusionQuery mOcclusionQuery;
-    // The constructor copies sead::Vector3f::zero here and zeroes +0xac.
-    sead::Vector3f _a0;
-    u32 _ac;
+    // The constructor runs the OcclusionQuery constructor here, stores the vtable 0x7102531f60
+    // and zeroes the sphere (+0xa0 centre, +0xac radius).
+    agl::cull::OcclusionQuerySphere3f mOcclusionQuery;
     // Per-instance transform and position written by EffectModelDrawUnit::addInstance.
     sead::Matrix34f mMatrix;
     // The constructor initializes this to sead::Vector3f::ones.
