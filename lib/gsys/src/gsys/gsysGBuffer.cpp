@@ -2,6 +2,20 @@
 
 namespace gsys {
 
+// 0x7100c7158c
+void GBuffer::setMaterialIdMask(MaterialIdMask mask, u8 value) {
+    mMaterialIdMasks[int(mask)] = value;
+}
+
+// 0x7100c72f08
+void GBuffer::forwardPreShadingStepForXlu(agl::DrawContext* draw_context, int) {
+    expandMaterialID_(draw_context, Resolution(1), MaterialIdMask(2), agl::TextureCompSel(2));
+}
+
+// 0x7100c73cf4
+void GBuffer::entryToDebugTexturePagePreShading(agl::DrawContext*, int,
+                                                const agl::utl::DebugTexturePage*) {}
+
 // 0x7100c73af4
 void GBuffer::setFormat(BufferType type, agl::TextureFormat format) {
     mBufferRecords[int(type)].mFormat = format;
