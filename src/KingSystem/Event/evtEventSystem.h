@@ -70,6 +70,8 @@ public:
     bool x_1(void* arg);
     // 0x71008aad18 (CSV x_8): equips the default left-hand weapon or requests the named armor
     bool x_8(const sead::SafeString& name);
+    // 0x71008aae54 (placeholder name): equips the default right-hand weapon or bow, or requests the named weapon
+    bool sub_71008AAE54(const sead::SafeString& name);
     // 0x71008aa8b4: creates the transceiver, registers it with the debug board and installs the game's event delegate
     void init(sead::Heap* heap);
     // 0x71008aa970: per-frame speaker and UI update.

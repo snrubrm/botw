@@ -85,6 +85,24 @@ bool EventSystem::x_8(const sead::SafeString& name) {
     return false;
 }
 
+// 0x71008aae54
+bool EventSystem::sub_71008AAE54(const sead::SafeString& name) {
+    if (name == sUnk_71025D0DC8 || name == sUnk_71025D0DA8) {
+        if (auto* info = uking::act::PlayerInfo::instance()) {
+            if (auto* player = info->getPlayer())
+                player->switchEquipment(name, 30);
+        }
+        return false;
+    }
+    if (name.isEmpty())
+        return false;
+    if (auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance()) {
+        mgr->requestCreateWeapon(name, 1, nullptr, sead::SafeString::cEmptyString);
+        return true;
+    }
+    return false;
+}
+
 // 0x71008aa970
 void EventSystem::x() {
     _30 = 0;
