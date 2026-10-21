@@ -41,6 +41,18 @@ nn::g3d::MaterialObj* ModelRenderUnitNW::getMaterial() const {
     return model->getModelObj()->GetMaterial(mMaterialIndex);
 }
 
+// 0x7100c0a8d0
+s32 ModelRenderUnitNW::getMeshNum() const {
+    const auto* model = static_cast<const ModelNW*>(mModelUnit);
+    return model->mModelObj.GetShape(mIndex)->GetResource()->GetMeshCount();
+}
+
+// 0x7100c0a8f0
+s32 ModelRenderUnitNW::getSubMeshNum(int index) const {
+    const auto* model = static_cast<const ModelNW*>(mModelUnit);
+    return model->mModelObj.GetShape(mIndex)->GetResource()->GetMesh(index)->GetSubMeshCount();
+}
+
 s32 ModelRenderUnitNW::getPassTextureBit() const {
     return _220;
 }
