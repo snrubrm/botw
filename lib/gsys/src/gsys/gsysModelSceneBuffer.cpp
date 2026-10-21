@@ -1,7 +1,43 @@
 #include "gsys/gsysModelSceneBuffer.h"
+#include "gsys/gsysModelSceneContext.h"
+#include "gsys/gsysRenderBufferContext.h"
 
 namespace gsys {
 
 ModelSceneBuffer::CreateArg::CreateArg() : _0(1) {}
+
+// 0x7100c17b60
+void ModelSceneBuffer::preCalcView(ModelSceneContext* context) {
+    mRenderBufferContext->clear(context->_8);
+}
+
+// 0x7100c19628
+void ModelSceneBuffer::beginReducedBuffer(agl::DrawContext* draw_context,
+                                          ModelSceneContext* context, bool flag) const {
+    mRenderBufferContext->beginHalfBuffer(draw_context, context->_8, flag);
+}
+
+// 0x7100c19638
+void ModelSceneBuffer::beginReducedQuarterBuffer(agl::DrawContext* draw_context,
+                                                 ModelSceneContext* context) const {
+    mRenderBufferContext->beginQuarterBuffer(draw_context, context->_8);
+}
+
+// 0x7100c19644
+void ModelSceneBuffer::endReducedQuarterBuffer(agl::DrawContext* draw_context,
+                                               ModelSceneContext* context) const {
+    mRenderBufferContext->endQuarterBuffer(draw_context, context->_8);
+}
+
+// 0x7100c19650
+void ModelSceneBuffer::endReducedBuffer(agl::DrawContext* draw_context,
+                                        ModelSceneContext* context) const {
+    mRenderBufferContext->endHalfBuffer(draw_context, context->_8);
+}
+
+// 0x7100c191a8
+void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
+    mRenderBufferContext->release(context._8, 0x3e2000);
+}
 
 }  // namespace gsys

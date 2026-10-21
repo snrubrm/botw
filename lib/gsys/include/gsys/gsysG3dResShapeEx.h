@@ -2,6 +2,7 @@
 
 #include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
+#include <prim/seadSafeString.h>
 
 namespace agl::g3d {
 class ModelShaderAttribute;
@@ -34,6 +35,9 @@ public:
 
     // 0x7100c70794 (declared only): called by ~ModelRenderUnitNW 0x7100c09b2c.
     void destroyShapeDL(sead::UnsafeArray<ModelAssignRenderInfo*, 60>* infos) const;
+    // ModelRenderUnitNW::getName 0x7100c09d40 returns the string that
+    // updateShapeName 0x7100c6f58c formats at +0xf48.
+    const sead::BufferedSafeString& getShapeName() const { return mShapeName; }
 
 private:
     struct Pass {
@@ -44,7 +48,9 @@ private:
     nn::g3d::ResShape* mResShape;
     u8 _10[0x30 - 0x10];
     Pass mPasses[15];
-    u8 _f30[0x1190 - 0xf30];
+    u8 _f30[0xf48 - 0xf30];
+    /* 0xf48 */ sead::BufferedSafeString mShapeName;
+    u8 _f60[0x1190 - 0xf60];
 };
 static_assert(sizeof(G3dResShapeEx) == 0x1190);
 }  // namespace gsys

@@ -3,10 +3,16 @@
 #include <container/seadOffsetList.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <thread/seadAtomic.h>
 
 namespace sead
 {
 class Heap;
+}
+
+namespace agl
+{
+class DrawContext;
 }
 
 namespace gsys
@@ -35,8 +41,19 @@ public:
     sead::OffsetList<Model>& getModelList() { return mModelList; }
     const sead::OffsetList<Model>& getModelList() const { return mModelList; }
 
+    // 0x7100c030a8: nothing in the retail build.
+    void createFFLTexturePerFrame(agl::DrawContext* context);
+    // 0x7100c030ac: forwards to the AGL meter.
+    f32 getMeterScale() const;
+    // 0x7100c02cc8 (declared only): re-registers a scene with every live model.
+    void rebindModelScene(const ModelScene* scene);
+    // 0x7100c02d64: a rolling 11-bit XluZ pre-pass ID.
+    s32 getXluZPrePassID();
+
 private:
-    /* 0x28 */ u8 _28[0x190 - 0x28];
+    /* 0x28 */ u8 _28[0xcc - 0x28];
+    /* 0xcc */ sead::Atomic<s32> mXluZPrePassId;
+    /* 0xd0 */ u8 _d0[0x190 - 0xd0];
 
 public:
     // Walked directly by ModelRig::listenPropertyEventEnvObj (0x7100c83d48).

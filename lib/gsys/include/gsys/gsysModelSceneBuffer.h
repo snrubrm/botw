@@ -23,6 +23,17 @@ public:
     // Inline-only accessor name: Graphics F34F1C reads this pointer through the scene.
     RenderBufferContext* getRenderBufferContext() const { return mRenderBufferContext; }
 
+    // 0x7100c17b60 / 0x7100c19628 .. 0x7100c19650: the view switches, forwarded to the
+    // render buffer context with the context's view byte.
+    void preCalcView(ModelSceneContext* context) override;
+    void beginReducedBuffer(agl::DrawContext* draw_context, ModelSceneContext* context,
+                            bool flag) const;
+    void beginReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    void endReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    void endReducedBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    // 0x7100c191a8
+    void releaseOpa(const ModelSceneContext& context) const;
+
 private:
     RenderBufferContext* mRenderBufferContext;
     u8 _258[0x1728 - 0x258];

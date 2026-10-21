@@ -4,6 +4,10 @@
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
 
+namespace agl {
+class DrawContext;
+}
+
 namespace gsys {
 class GBuffer;
 
@@ -31,6 +35,14 @@ public:
     // unsigned index fallback to element zero.
     Context* getContext(u32 index) { return &mContexts[index]; }
     const Context* getContext(u32 index) const { return &mContexts[index]; }
+
+    // Declared only; the ModelSceneBuffer view switches tail-call these.
+    void clear(int index);
+    void beginHalfBuffer(agl::DrawContext* context, int index, bool flag);
+    void beginQuarterBuffer(agl::DrawContext* context, int index);
+    void endQuarterBuffer(agl::DrawContext* context, int index);
+    void endHalfBuffer(agl::DrawContext* context, int index);
+    void release(int index, u32 mask);
 
 private:
     sead::Buffer<Context> mContexts;

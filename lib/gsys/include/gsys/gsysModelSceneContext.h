@@ -13,7 +13,10 @@ class ModelSceneContext {
 public:
     ModelSceneContext();
 
-    u8 _0[0x390];
+    u8 _0[8];
+    // The view byte the ModelSceneBuffer switches pass to RenderBufferContext.
+    u8 _8;
+    u8 _9[0x390 - 9];
     // Flag bytes. ModelScene::addParticleGroup sets bit 4 of +0x391 for group 0 and clearParticleGroup clears it.
     u8 _390;
     u8 _391;

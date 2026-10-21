@@ -1,4 +1,5 @@
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysModelMgr.h>
 #include <gsys/gsysParticleDrawArg.h>
 
 namespace gsys {
@@ -6,6 +7,11 @@ namespace gsys {
 ModelScene::CreateArg::CreateArg()
     : _0(1), mName(sead::SafeString::cEmptyString), _18(0) {}
 
+
+// 0x7100c0fe14
+void ModelScene::bindEnv_() {
+    ModelMgr::instance()->rebindModelScene(this);
+}
 
 void ModelScene::skipDraw() {
     mJobQueue.changeRequestFlag(true, true, false);

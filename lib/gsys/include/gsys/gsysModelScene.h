@@ -36,6 +36,9 @@ class Layer3D;
 
 class ModelScene {
 public:
+    // 0x7100c0fe14: re-registers this scene with the model manager.
+    void bindEnv_();
+
     // 0x7100c0fe2c / 0x7100c0fedc (declared only): register a 3D layer and return its index,
     // and unregister it (Layer3D::setModelScene).
     s8 add_(Layer3D* layer);
