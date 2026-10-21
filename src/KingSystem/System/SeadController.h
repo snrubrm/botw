@@ -40,6 +40,9 @@ public:
     static void setInstance(SeadController* controller);
 
     // Unnamed accessors (lane4 s47; placeholder names): the flag word at +0x188 and the values at +0x190 / 0x194 / 0x1a4.
+    // 0x7100d9d7fc (placeholder name): the Controller accepts mId, every ancestor in the tree has flag 0x10 and
+    // passes this check too, and slot 11 returns true.
+    bool sub_7100D9D7FC();
     u32 sub_7100D9D874() const;
     // 0x7100d9d87c (placeholder name): the pointer position (_40) of the Controller's input snapshot, or
     // sead::ControllerBase::cInvalidPointer.

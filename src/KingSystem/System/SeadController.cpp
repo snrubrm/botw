@@ -37,6 +37,20 @@ void SeadController::setInstance(SeadController* controller) {
     sInstance = controller;
 }
 
+// NON_MATCHING: ours merges the first parent load into the loop (it starts from &mTreeNode); the original loads
+// mTreeNode's parent before the loop.
+bool SeadController::sub_7100D9D7FC() {
+    auto* controller = ::Controller::instance();
+    if (!controller || !controller->sub_7100D9F7C8(mId))
+        return false;
+    for (auto* node = mTreeNode.parent(); node; node = node->parent()) {
+        auto* parent = node->value();
+        if (!(parent->_188 & 0x10) || !parent->sub_7100D9D7FC())
+            return false;
+    }
+    return sub_7100D9DF58();
+}
+
 u32 SeadController::sub_7100D9D874() const {
     return _1a4;
 }
