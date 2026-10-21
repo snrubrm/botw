@@ -448,11 +448,8 @@ public:
     void sub_7100928650(const Params& params);
 
     /* 0x00 */ u32 _0;
-    /* 0x04 */ u32 _4;
-    /* 0x08 */ u32 _8;
-    /* 0x0c */ u32 _c;
-    /* 0x10 */ u32 _10;
-    /* 0x14 */ u32 _14;
+    // The five copied values (0x7100928650 copies the whole Params here: two 8-byte chunks and the last float).
+    /* 0x04 */ Params _4;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100928644, 0x18);
 

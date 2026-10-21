@@ -6,6 +6,13 @@
 
 namespace uking::act {
 
+// Camera's angle parameters (0x7100928644 / 8650, the address neighbours of this TU).
+Unk_7100928644::Unk_7100928644() : _0(0), _4() {}
+
+void Unk_7100928644::sub_7100928650(const Params& params) {
+    _4 = params;
+}
+
 Unk_7100928b6c::Unk_7100928b6c(Camera* camera) : mCamera(camera) {}
 
 void Unk_7100928b6c::sub_7100928C10(u8 mask) {
