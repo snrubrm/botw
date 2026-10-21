@@ -174,6 +174,7 @@ target_sources(uking PRIVATE
   uiScreenMainScreenMS.cpp
   uiScreenDemoNameEnemy.cpp
   uiScreenMiniGame.cpp
+  uiScreenSousaGuide.cpp
   uiScreenAppMenuBtn.cpp
   uiScreenMessage3D.cpp
   uiScreenSmall2.cpp

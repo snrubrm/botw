@@ -5390,6 +5390,7 @@ public:
     ScreenSousaGuide();
     ~ScreenSousaGuide() override;
     SEAD_RTTI_OVERRIDE(ScreenSousaGuide, ScreenEx)
+    const char* getLayoutName_() const override;
 
     /* 0x3610 */ s32 _3610 = -1;
     u8 _pad_3614[0x3618 - 0x3614];
