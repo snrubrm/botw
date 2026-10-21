@@ -559,6 +559,12 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
 
+// 0x7100849348 / 0x71008493a4 / 0x7100849400 (placeholder names): the same hold-mask guard, then controller
+// key 39 (pressed / held) or 40 (pressed).
+bool sub_7100849348(PlayerBase* player);
+bool sub_71008493A4(PlayerBase* player);
+bool sub_7100849400(PlayerBase* player);
+
 // 0x7100849144 (IDA name): whether the motorcycle's controller input is being held (bits 16, 18 and 19 of the
 // controller's hold mask), unless PlayerBase::sub_7100849198 reports otherwise.
 bool motorcycleControllerAPressedMaybe(PlayerBase* player);

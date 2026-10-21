@@ -1543,6 +1543,28 @@ namespace uking::act {
 // Placeholder name: while riding a horse (ride info flag 0, ridden actor type 11) that moves slower than
 // sUnk_7101e7c2a0 / 30 per frame: true when the attention action is 0x1800001 / 0x1800003 on an NPC, or
 // 0x1800010 without m230().
+bool sub_7100849348(PlayerBase* player) {
+    if (player->_17d0->getHoldMask() & 0xd0000)
+        return false;
+    if (player->m287())
+        return false;
+    return player->_17d0->controllerCheckPressedMaybe(39);
+}
+
+bool sub_71008493A4(PlayerBase* player) {
+    if (player->_17d0->getHoldMask() & 0xd0000)
+        return false;
+    if (player->m287())
+        return false;
+    return player->_17d0->playerCheckController(39);
+}
+
+bool sub_7100849400(PlayerBase* player) {
+    if (player->_17d0->getHoldMask() & 0xd0000)
+        return false;
+    return player->_17d0->controllerCheckPressedMaybe(40);
+}
+
 bool motorcycleControllerAPressedMaybe(PlayerBase* player) {
     if (player->_17d0->getHoldMask() & 0xd0000)
         return false;
