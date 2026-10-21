@@ -48,9 +48,10 @@ void AddSwarmMove::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: only the first four instructions: the original loads `mActor` (first argument), then stores the
 // zero `flag`, then loads the SubSpeed pointer / value; ours stores `flag` first and loads `mActor` last
 void AddSwarmMove::calc_() {
+    auto* actor = mActor;
     s32 flag = 0;
     sead::Vector3f next;
-    const bool ok = sub_7100729D18(mActor, &next, _88, *mSubSpeed_s, &flag, false);
+    const bool ok = sub_7100729D18(actor, &next, _88, *mSubSpeed_s, &flag, false);
     if (flag)
         _94.reset();
     else
