@@ -146,7 +146,6 @@ inline VegeTeraMat::Texture::Texture() : mResTexture{}, mImageSize(0) {
     std::memset(&mResTexture, 0, sizeof(mResTexture));
 }
 
-// NON_MATCHING: TextureData destruction stays out of line instead of inlining its driver destructor.
 VegeTeraMat::Texture::~Texture() {
     if (mTextureData) {
         delete mTextureData;

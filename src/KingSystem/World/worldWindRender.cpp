@@ -24,7 +24,6 @@ Unk_710251F868::Unk_710251F868()
     std::memset(sUnk_7102660D10[1], 0, sizeof(sUnk_7102660D10[1]));
 }
 
-// NON_MATCHING: the existing TextureData destructor remains an out-of-line call.
 Unk_710251F868::~Unk_710251F868() {
     if (_40) {
         _28.deleteGPUMemBlock();

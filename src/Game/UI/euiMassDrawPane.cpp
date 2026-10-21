@@ -7,7 +7,6 @@ MassDrawPane::MassDrawPane(const nn::ui2d::ResPicture* resource,
                            const nn::ui2d::BuildArgSet& args)
     : PictureEx(resource, replacement, args) {}
 
-// NON_MATCHING: TextureData destruction remains out-of-line instead of its NVN texture member.
 MassDrawPane::~MassDrawPane() = default;
 
 void MassDrawPane::sub_7100BDFA6C(sead::Heap* heap, s32 count) {

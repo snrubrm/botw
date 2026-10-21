@@ -19,7 +19,6 @@ namespace ksys::res {
 
 ResourceJpg::ResourceJpg() = default;
 
-// NON_MATCHING: the original inlines TextureData destruction; the real library destructor stays emitted.
 ResourceJpg::~ResourceJpg() {
     _50 = false;
     if (_70) {
@@ -44,7 +43,6 @@ bool ResourceJpg::m2_() {
     return _50;
 }
 
-// NON_MATCHING: TextureData destruction remains an actual library call rather than its inlined NVNtexture body.
 u32 ResourceJpg::sub_71009CD408() {
     if (!getCurrentLoadContext())
         return 8;
@@ -72,7 +70,6 @@ void ResourceJpg::onDestroy_() {
 
 Unk_710247eb88::Unk_710247eb88() = default;
 
-// NON_MATCHING: TextureData destruction is emitted rather than the original inlined NVNtexture body.
 Unk_710247eb88::~Unk_710247eb88() {
     _38 = false;
     if (_70) {
@@ -102,7 +99,6 @@ bool Unk_710247eb88::sub_71009CDAE0(s32 denominator) {
     return sub_71009CD73C(denominator, true);
 }
 
-// NON_MATCHING: TextureData destruction stays emitted instead of its inlined NVNtexture body.
 void Unk_710247eb88::sub_71009CD5F8() {
     _38 = false;
     if (_70) {
@@ -113,7 +109,6 @@ void Unk_710247eb88::sub_71009CD5F8() {
     }
 }
 
-// NON_MATCHING: TextureData destruction stays emitted instead of its inlined NVNtexture body.
 void Unk_710247eb88::sub_71009CD66C() {
     _39 = false;
     if (_78) {
@@ -204,7 +199,6 @@ Unk_710247ee68::Unk_710247ee68() {
         texture = new (uking::ui::getHeap(), 0x2000) agl::TextureData;
 }
 
-// NON_MATCHING: TextureData destruction stays emitted rather than its inlined NVNtexture body.
 Unk_710247ee68::~Unk_710247ee68() {
     for (auto& texture : mTextures) {
         delete texture;
