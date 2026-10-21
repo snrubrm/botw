@@ -11,7 +11,7 @@ class Unk_7102438dd0 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102438dd0, uking::act::DamageCallback)
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
-              uking::act::DamageCallbackInfo* a6) override;  // not decompiled yet
+              uking::act::DamageCallbackInfo* a6) override;  // 0x6385bc
 };
 
 // vtable 0x7102438e08 (functions in this behavior's translation unit).

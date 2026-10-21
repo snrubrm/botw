@@ -11,6 +11,13 @@ bool SetBasicThrownEnemyDCCallback::init_(sead::Heap* heap) {
     return true;
 }
 
+void Unk_7102438dd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, uking::act::DamageCallbackInfo* a6) {
+    if (*a5 >= 6 && *a5 <= 8)
+        *a5 = 22;
+    else if (*a5 == 25)
+        *a5 = 26;
+}
+
 void Unk_7102438e08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, uking::act::DamageCallbackInfo* a6) {
     if (*a5 == 25)
         *a5 = 26;
