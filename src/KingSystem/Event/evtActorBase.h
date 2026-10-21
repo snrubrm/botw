@@ -109,6 +109,8 @@ public:
     bool sub_7100DAA2E0() const;
 
 private:
+    friend class Action;
+
     /* 0x1cc */ s32 _1cc = 0;
 };
 KSYS_CHECK_SIZE_NX150(Actor, 0x1d0);

@@ -101,6 +101,8 @@ public:
 
     // 0x7100da3f00: polls the loading of the camera resources; true once they are loaded
     bool finishLoad();
+    // 0x7100da44ec (declared only; placeholder name): starts the camera whose name matches `name`.
+    bool sub_7100DA44EC(const sead::SafeString& name, const sead::Matrix34f& mtx);
     // Constructor DA3B8C binds this member to LoadFn; finishLoad submits that callback.
     bool sub_7100DA3D14(void* user_data);
 
