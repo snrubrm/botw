@@ -16,6 +16,7 @@ public:
     static RideableEnemy* make(sead::Heap* heap);
     Gear m23() override;
     void m24() override;
+    void m42(int a1) override;
     bool m44() override;
     // Slot 45: the override of Unk_7100e8b2b8::procLink13 (RiddenAnimalType-gated speed factor; its thunk
     // 0x71002cb704 inlines the body, like RideableHorse's).

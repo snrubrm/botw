@@ -1,7 +1,9 @@
 #include "Game/Actor/actRideableEnemy.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseObject.h"
+#include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 
 namespace uking::act {
 
@@ -30,6 +32,26 @@ Rideable::Gear RideableEnemy::m23() {
 }
 
 void RideableEnemy::m24() {}
+
+// 0x71002cb428: clears the ridden horse when the actor stops being ridden and marks it as a
+// non-vehicle (bit 0x400 of the rideable flags) unless it carries the IsVehicle tag.
+// NON_MATCHING: the second-base thunk (0x71002cb4bc) inlines this body with a different callee-saved
+// register (it keeps the subobject pointer and re-derives mActor); the override itself matches.
+void RideableEnemy::m42(int a1) {
+    s32 value;
+    {
+        const Unk8 state = Unk8(u8(Unk_7100e8b2b8::_8));
+        value = state;
+    }
+    if (a1 == 1 && value == 0) {
+        if (auto* mgr = HorseMgr::instance()) {
+            if (mgr->isLinkedToActor(RideableBase::mActor))
+                mgr->setRiddenHorseMaybe(nullptr);
+        }
+        if (!ksys::act::hasTag(RideableBase::mActor, ksys::act::tags::IsVehicle))
+            RideableBase::_8 |= 0x400;
+    }
+}
 
 bool RideableEnemy::m44() {
     return m23() > Gear::_1;
