@@ -559,6 +559,10 @@ protected:
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
 
+// 0x7100849144 (IDA name): whether the motorcycle's controller input is being held (bits 16, 18 and 19 of the
+// controller's hold mask), unless PlayerBase::sub_7100849198 reports otherwise.
+bool motorcycleControllerAPressedMaybe(PlayerBase* player);
+
 }  // namespace uking::act
 
 namespace ksys::act::acc {
