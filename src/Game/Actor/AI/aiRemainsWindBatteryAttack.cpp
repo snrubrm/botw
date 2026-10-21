@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/Map/mapObjectLink.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 
@@ -117,6 +119,45 @@ void RemainsWindBatteryAttack::sub_710054CFB0(bool prepare) {
         linked->getActorWithAccessor(accessor);
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800000e), nullptr);
     }
+}
+
+// 0x710054d19c
+bool RemainsWindBatteryAttack::sub_710054D19C() {
+    const s32 index = sub_710054D36C();
+    if (index < 0)
+        return false;
+    sead::Vector3f pos;
+    if (_88.isValid()) {
+        sead::Matrix34f bone_mtx;
+        mActor->getModel()->getBoneWorldMatrix(_88.getKey(), &bone_mtx);
+        bone_mtx.getTranslation(pos);
+    } else {
+        mActor->getMtx().getTranslation(pos);
+    }
+    sead::Vector3f dir = *mTargetPos_d - pos;
+    const f32 distance = dir.length();
+    if (distance > 0.0f)
+        dir *= 1.0f / distance;
+    else
+        mActor->getMtx().getBase(dir, 0);
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F0260(&mtx, dir, sead::Vector3f::ey, pos, false);
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&_38[index], &accessor);
+    const bool ok = accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+    act::sub_7100003B1C(accessor, distance);
+    return ok;
+}
+
+// 0x710054d36c
+s32 RemainsWindBatteryAttack::sub_710054D36C() {
+    for (s32 i = 0; i < 5; ++i) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_38[i], &accessor);
+        if (accessor.isStateSleep())
+            return i;
+    }
+    return -1;
 }
 
 }  // namespace uking::ai

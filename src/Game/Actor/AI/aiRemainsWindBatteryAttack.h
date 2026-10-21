@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/Actor/AI/aiGuardianCommonBeamAttack.h"
+#include <container/seadSafeArray.h>
 #include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -25,8 +26,10 @@ protected:
     void sub_710054CFB0(bool prepare);
     // 0x710054d19c (declared only; 464 bytes): aims the free beam at the target; false when none is free
     bool sub_710054D19C();
+    // 0x710054d36c (placeholder name): the index of the first sleeping beam actor in _38 (-1: none)
+    s32 sub_710054D36C();
 
-    ksys::act::BaseProcLink _38[5];
+    sead::SafeArray<ksys::act::BaseProcLink, 5> _38;
     gsys::BoneAccessKeyEx _88;
     // dynamic_param at offset 0xc0
     sead::Vector3f* mTargetPos_d{};
