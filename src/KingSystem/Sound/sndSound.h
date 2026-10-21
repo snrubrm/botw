@@ -1934,15 +1934,30 @@ SEAD_ENUM(PlayingPart, PlayingFieldBattleBgmEasy, PlayingFieldBattleBgmMiddle, P
 
 // The status object at SoundMgr::_288 (snd::debugReportStatus 0x7101048b94 reads it; the environment BGM's
 // hm15 marks the playing part in the byte array at +8).
+// The events of snd::debugReportStatus2 (SEAD_ENUM text 0x7101e268ff, text function 0x71010492cc).
+SEAD_ENUM(PlayReportEvent, BgmStopSoon, UpdateStreamMax)
+
 class Unk_SoundMgrStatus {
 public:
+    // 0x7101048ac0
+    Unk_SoundMgrStatus();
+    // 0x7101048f30 / 0x7101048f34 (vtable 0x7102502310)
+    virtual ~Unk_SoundMgrStatus();
+
     // inline-only in the original; name is a guess (the environment BGM's hm15 0x7101005abc keeps the part in a
     // stack slot above its own locals, as an inlined by-value parameter).
     void setPlaying(PlayingPart part) { mPlayingPart[part] = 1; }
 
-    u8 _0[8];
-    sead::SafeArray<u8, 8> mPlayingPart;
+    sead::SafeArray<u8, 8> mPlayingPart{};
+    // How many frames each part has been playing (-1 while it is not).
+    /* 0x10 */ sead::SafeArray<s32, 8> mPlayingFrames{{-1, -1, -1, -1, -1, -1, -1, -1}};
+    /* 0x30 */ void* mStreamingViewer = nullptr;
+    // The highest instance / track / channel counts of the streaming viewer.
+    /* 0x38 */ s32 mMaxInstanceNum = 0;
+    /* 0x3c */ s32 mMaxTrackNum = 0;
+    /* 0x40 */ s32 mMaxChannelNum = 0;
 };
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgrStatus, 0x48);
 
 // FIXME: incomplete
 struct SoundMgr {
@@ -2042,6 +2057,8 @@ KSYS_CHECK_SIZE_NX150(SoundMgr, 0x2a8);
 
 // 0x7101048b94 (CSV snd::debugReportStatus; declared only): prints the status (debug report).
 void debugReportStatus(Unk_SoundMgrStatus* status);
+// 0x7101048dcc (CSV snd::debugReportStatus2; `status` is not read): reports "Snd_<event>" with the formatted text.
+void debugReportStatus2(Unk_SoundMgrStatus* status, PlayReportEvent event, const char* format, ...);
 
 // Defined here because it needs SoundMgr.
 inline void Unk_7102502410::Entry::finalize() {
