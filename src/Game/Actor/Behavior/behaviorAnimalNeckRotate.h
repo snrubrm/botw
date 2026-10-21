@@ -13,7 +13,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void loadParams() override;
     void calc() override;  // not decompiled yet (0x7100617618)
-    void enter() override;  // not decompiled yet (0x7100617490)
+    void enter() override;
     void leave() override;
 
     /* 0x28 */ const float* mLimitAngleLR_s{};
