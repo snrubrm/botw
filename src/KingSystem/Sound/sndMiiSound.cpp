@@ -187,6 +187,15 @@ struct VertexAttribute {
     u32 buffer;
     const char* name;
 };
+struct Sampler {
+    const char* name;
+    u32 slot;
+};
+const Sampler sGrassSamplers[] = {
+    {"grass_wind_swell", 0}, {"grass_mow", 1},      {"grass_mow_wide", 2},
+    {"grass_lie", 3},        {"grass_summary0", 4}, {"_a0", 5},
+};
+
 const VertexAttribute sTurfAttributes[] = {
     {37, 2817, 0, 0, "_p0"},
     {38, 2818, 4, 1, "_n0"},
@@ -675,6 +684,86 @@ const char* Unk_710251ca78::m18(s32 index) {
 
 u32 Unk_710251ca78::m19(s32 index) {
     return sGrassAttributes[index].format;
+}
+
+const char* Unk_710251bf80::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251bf80::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c0b8::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c0b8::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c1f0::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c1f0::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c328::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c328::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c460::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c460::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c598::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c598::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c6d0::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c6d0::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c808::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c808::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251c940::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251c940::m25(s32 index) {
+    return sGrassSamplers[index].slot;
+}
+
+const char* Unk_710251ca78::m24(s32 index) {
+    return sGrassSamplers[index].name;
+}
+
+u32 Unk_710251ca78::m25(s32 index) {
+    return sGrassSamplers[index].slot;
 }
 
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,

@@ -163,6 +163,15 @@ struct VertexAttribute {
     u32 buffer;
     const char* name;
 };
+struct Sampler {
+    const char* name;
+    u32 slot;
+};
+const Sampler sTreeSamplers[] = {
+    {"tera_height", 0},      {"tera_grass", 1}, {"tera_normal", 2},
+    {"grass_wind_swell", 3}, {"grass_mow", 4},  {"grass_lie", 5},
+};
+
 const VertexAttribute sTreeAttributes[] = {
     {42, 5377, 0, 0, "_p0"},
     {37, 2817, 8, 1, "_n0"},
@@ -209,6 +218,22 @@ const char* Unk_71025049d0::m17(s32 index) {
 
 u32 Unk_71025049d0::m18(s32 index) {
     return sTreeAttributes[index].format;
+}
+
+const char* Unk_7102504850::m24(s32 index) {
+    return sTreeSamplers[index].name;
+}
+
+u32 Unk_7102504850::m25(s32 index) {
+    return sTreeSamplers[index].slot;
+}
+
+const char* Unk_71025049d0::m24(s32 index) {
+    return sTreeSamplers[index].name;
+}
+
+u32 Unk_71025049d0::m25(s32 index) {
+    return sTreeSamplers[index].slot;
 }
 
 u32 Unk_7102504850::m21(s32 index) {

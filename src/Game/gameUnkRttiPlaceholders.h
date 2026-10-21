@@ -817,8 +817,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual bool m23() { return false; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     // Shader and model names of the tree draw command.
     virtual const char* m26();
     virtual const char* m27();
@@ -866,8 +867,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual bool m23() { return false; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     // Shader and model names of the tree draw command.
     virtual const char* m26();
     virtual const char* m27();
@@ -1535,8 +1537,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1572,8 +1575,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1609,8 +1613,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1646,8 +1651,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1683,8 +1689,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1720,8 +1727,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1757,8 +1765,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1794,8 +1803,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1831,8 +1841,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
@@ -1868,8 +1879,9 @@ public:
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
-    virtual void m24();
-    virtual void m25();
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index);
+    virtual u32 m25(s32 index);
     virtual const char* m26();
     virtual const char* m27();
     virtual f32 m28();
