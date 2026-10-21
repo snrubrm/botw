@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadObjArray.h>
+
 #include <container/seadBuffer.h>
 #include <container/seadTList.h>
 #include <gsys/gsysModelAccessKey.h>
@@ -203,6 +205,9 @@ public:
         SEAD_RTTI_BASE(Unk1)
     public:
         virtual ~Unk1();
+        // 0x710004b1d4 (slot 4, declared only): adds the target positions to `out` (only the owner's
+        // position in one mode). Returns 0x3c or 0x78.
+        virtual s32 sub_710004B1D4(sead::ObjArray<sead::Vector3f>* out);
 
         // 0x7100042048: updates the navigation position (declaration only).
         void sub_7100042048();
