@@ -289,6 +289,14 @@ void ScreenAppAlbum::m160() {
         _3640->sub_710093F594(false);
 }
 
+// 0x71009d68b0
+void ScreenAppAlbum::m176() {
+    sUnk_71025DC54C.fill(false);
+    sUnk_71025DC890._10 = 0;
+    sUnk_71025DC890._1 = 0;
+    Unk_71025d1740::instance()->sub_7100901A90(true);
+}
+
 // 0x71009d63d8
 void ScreenAppAlbum::m170() {
     createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
@@ -4235,6 +4243,23 @@ void ScreenShopInfo::hidePorchNum() {
 // The enabled-content flags the picture book's entry mapping reads (0x71025dc540, 12 bytes; filled by the
 // TU initialiser).
 KSYS_VISIBILITY_HIDDEN u8 sUnk_71025dc540[12];
+
+namespace uking::ui {
+// 0x71009d3aa0 (placeholder name): reads the twelve "already taken" memory photo flags, counts them into
+// the album's _14 and stores that count plus `arg` as the album position.
+void sub_71009D3AA0(u32 arg) {
+    sUnk_71025DC890._14 = 0;
+    for (s32 i = 0; i < 12; ++i) {
+        sead::FormatFixedSafeString<25> key("IsGet_MemoryPhoto_%03d", i);
+        const bool flag = ksys::gdt::getBoolByKey(key, false);
+        ::sUnk_71025dc540[i] = flag;
+        if (flag)
+            ++sUnk_71025DC890._14;
+    }
+    sUnk_71025dc57c = sUnk_71025DC890._14 + arg;
+    sUnk_71025dc580 = false;
+}
+}  // namespace uking::ui
 
 // NON_MATCHING: same size and instructions; clang evaluates the last enabled-content flag before the index
 // and mirrors the final ccmp / csel pair.
