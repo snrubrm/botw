@@ -45,16 +45,18 @@ public:
     bool sub_710090DD9C() const;
 
 private:
-    u32 mHold;
+    u32 mHold = 0;
     u8 _c[4];
     // Full concrete 8BE174 producer / 246D198 table establish the existing delegate interface.
     sead::SafeArray<sead::AnyDelegate1<bool*>, 32> mButtonDelegates;
-    sead::Vector2f mSticks[2];
-    u8 _420[0x20];
-    PointerState mPointerState;
+    sead::Vector2f mSticks[2]{sead::Vector2f::zero, sead::Vector2f::zero};
+    // update() passes mSticks / &mPointerState to these when they are bound.
+    sead::AnyDelegate1<sead::Vector2f*> mSticksDelegate;
+    PointerState mPointerState{false, false, sead::Vector2f::zero};
     u8 _44c[4];
-    u8 _450[0x20];
-    u8 _470[0x10];
+    sead::AnyDelegate1<PointerState*> mPointerStateDelegate;
+    u64 _470 = 0;
+    u64 _478 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024739f8::PointerState, 0xc);
 KSYS_CHECK_SIZE_NX150(Unk_71024739f8, 0x480);
