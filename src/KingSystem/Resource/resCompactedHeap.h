@@ -49,9 +49,36 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk3, 0x2000);
 
+    // Block record (stride 0x80, array at +0x5cb0). 12B8A78 / 12B78BC read the in-use byte at
+    // +0x18, the used-byte state at +0x19, the data pointer at +0x30 and lock at +0x40.
+    struct Block {
+        u8 _0[0x18];
+        bool mInUse;
+        u8 mState;
+        u8 _1a[0x16];
+        void* mData;
+        u8 _38[0x8];
+        sead::CriticalSection mLock;
+    };
+    KSYS_CHECK_SIZE_NX150(Block, 0x80);
+
     // Complete 12B77A8 produces this record; 12B78BC releases it.
     // The tagged heap word is opaque until its native helpers are established.
     struct Allocation {
+        // Header in front of the data block. The distance from the header to the data is stored as
+        // a u16 right before the data; 12B8A78 / 12B78BC check the magic word then read the flag
+        // byte at +0x1a, the block index at +0x1c and the state byte at +0x1d.
+        struct Header {
+            static constexpr u32 cMagic = 0xad000d1e;
+            u32 mMagic;
+            u8 _4[0x16];
+            u8 mInUse : 1;
+            u8 _1a : 7;
+            u8 _1b;
+            u8 mBlockIndex;
+            u8 _1d[3];
+        };
+        KSYS_CHECK_SIZE_NX150(Header, 0x20);
         // Complete 12B8C7C clears tag bit 0 under the owning heap lock; declaration only.
         void sub_71012B8C7C();
         // Complete 12B8C10 sets tag bit 0 and returns true; declaration only.
@@ -67,7 +94,16 @@ public:
         s32 mSize;
     };
     KSYS_CHECK_SIZE_NX150(Allocation, 0x20);
+    // Bounds-checked block record lookup. The original has no out-of-line copy: the same sequence
+    // (compare against _5ca8, then index the records) recurs in 12B8A78 and 12B78BC.
+    Block* getBlock(s32 index) {
+        if (u32(index) >= _5ca8)
+            return nullptr;
+        return &_5cb0[index];
+    }
     void x_21(Allocation* allocation);
+    // 0x71012b5900 (CSV CompactedHeap::x). The allocation argument is unread in the original.
+    void x(Allocation* allocation, bool sync);
     // Complete 12B7354 / 12B7448 and archive callers establish these raw helpers.
     // Bodies remain undecompiled because their tagged allocation headers are opaque.
     void* x_17(u32 size, s32 alignment, s32 mode, bool sync);
@@ -99,9 +135,15 @@ private:
     void* _5c98;
     // 8A5700 adds these sizes after widening each signed word.
     s32 _5ca0;
-    u8 _5ca4[0x5cb8 - 0x5ca4];
-    s32 _5cb8;
-    u8 _5cbc[0x5cf8 - 0x5cbc];
+    u8 _5ca4[0x5ca8 - 0x5ca4];
+    // Number of block records; _5cb8 is the number the allocation walk scans.
+    u32 _5ca8;
+    Block* _5cb0;
+    u32 _5cb8;
+    u8 _5cbc[0x5ce0 - 0x5cbc];
+    void* _5ce0;
+    u8* _5ce8;
+    u8* _5cf0;
     sead::CriticalSection _5cf8;
     sead::CriticalSection _5d38;
     sead::CriticalSection _5d78;
