@@ -57,4 +57,6 @@ void PlayReportMgr::setPlayerTrackReporter30() {
 
 }  // namespace ksys
 
+void ksys::PlayReportMgr::sub_7100FD3A4C() {}
+
 void ksys::PlayReportMgr::sub_7100FD3A50() {}
