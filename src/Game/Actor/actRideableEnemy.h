@@ -14,6 +14,7 @@ class RideableEnemy : public Rideable {
 public:
     // 0x71002cb158 (CSV "RideableEnemy::ctor"; placeholder name): the factory.
     static RideableEnemy* make(sead::Heap* heap);
+    void m6() override;
     Gear m23() override;
     void m24() override;
     void m42(int a1) override;

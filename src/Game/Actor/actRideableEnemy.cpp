@@ -33,6 +33,31 @@ Rideable::Gear RideableEnemy::m23() {
 
 void RideableEnemy::m24() {}
 
+// 0x71002cb1b4: after the rideable reset, bit 0x800 of the rideable flags marks the actor as a
+// vehicle owner; bit 0x800 is cleared first, and both bits 0x800 / 0x400 are set when no linked
+// horse is left.
+// NON_MATCHING: the original writes each flag group with ONE atomic read-modify-write loop that
+// computes `(old & ~mask) | mask` (a game-side atomic bit helper); sead::Atomic only has fetchOr, so
+// our loop is one `and` shorter (same form as the physNavMeshCharacter inline setters).
+void RideableEnemy::m6() {
+    Rideable::m6();
+    if (ksys::act::hasTag(RideableBase::mActor, ksys::act::tags::IsVehicle)) {
+        RideableBase::_8 &= ~0x800u;
+        RideableBase::_8 |= 0x800u;
+    } else if (auto* mgr = HorseMgr::instance()) {
+        if (mgr->isLinkedToActor(RideableBase::mActor)) {
+            RideableBase::_8 &= ~0x800u;
+            RideableBase::_8 |= 0x800u;
+        } else {
+            RideableBase::_8 &= ~0xc00u;
+            RideableBase::_8 |= 0xc00u;
+        }
+    } else {
+        RideableBase::_8 &= ~0xc00u;
+        RideableBase::_8 |= 0xc00u;
+    }
+}
+
 // 0x71002cb428: clears the ridden horse when the actor stops being ridden and marks it as a
 // non-vehicle (bit 0x400 of the rideable flags) unless it carries the IsVehicle tag.
 // NON_MATCHING: the second-base thunk (0x71002cb4bc) inlines this body with a different callee-saved
