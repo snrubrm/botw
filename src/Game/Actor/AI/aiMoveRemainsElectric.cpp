@@ -12,8 +12,17 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/UI/uiTUStatics.h"
 
 namespace uking::ai {
+
+// The TU's statics; the original merges them into the block at 0x71025baa30 after the uiTUStatics.h
+// objects. The two 8-byte statics at +0x8 / +0x10 are only zeroed by the static initializer
+// 0x71004b2f2c; their type is a guess.
+namespace {
+sead::TickSpan sUnk_71025BAA38;
+sead::TickSpan sUnk_71025BAA40;
+}  // namespace
 
 // File-scope names set up by this file's static initializer 0x71004b2f2c (placeholder names = addresses).
 static const sead::SafeString sUnk_71025bab88 = "RemainsElectricCannon";
@@ -59,7 +68,7 @@ MoveRemainsElectric::~MoveRemainsElectric() {
 
 // Creates the cannon (RemainsElectricCannon) at the actor, binds it to the Spine_1 bone with CannonOffset
 // and links it as a calc child (_308).
-// NON_MATCHING: base address of the static name (data layout) and the offset load order in the matrix.
+// NON_MATCHING: the offset load order in the matrix.
 void MoveRemainsElectric::sub_71004B1A00() {
     auto* actor = mActor;
     ksys::act::BaseProcLink link;
@@ -114,7 +123,6 @@ void MoveRemainsElectric::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 // Starts the weak point AS (WeakPoint<suffix>) in slots 0 .. 3, except for the far LOD actor.
-// NON_MATCHING: the base address of the file-scope name table (our .bss places the TU statics differently).
 void MoveRemainsElectric::sub_71004B2288() {
     if (mActor->getName().findIndex("_Far") != -1)
         return;
@@ -147,7 +155,7 @@ bool MoveRemainsElectric::reenter_(ksys::act::ai::ActionBase* other, bool x) {
 
 // Updates the weak point life values and their AS blend weights (slots 0x20, 0x1f, 0x22, 0x21); emits the
 // DamageFoot_<suffix> effect when a weak point is destroyed.
-// NON_MATCHING: the original walks the parts with a pointer (index kept separately); static data base address.
+// NON_MATCHING: the original walks the parts with a pointer (index kept separately).
 void MoveRemainsElectric::sub_71004B2718() {
     if (mActor->getName().findIndex("_Far") != -1)
         return;
