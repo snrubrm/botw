@@ -4,10 +4,15 @@
 
 namespace gsys {
 
+// Particle pass selector; the enumerators are unrecovered.
+enum class ParticlePass : int;
+
 // The particle draw parameters of a ModelSceneContext (ModelScene 0x7100c21004 allocates 0x11e8 bytes on the heap,
 // runs the constructor 0x7100c50554 and stores the object at context +0x3a0).
 // TODO: incomplete. Only the particle group list is modelled.
 class ParticleDrawArg {
+    friend class ModelSceneContext;
+
 public:
     explicit ParticleDrawArg(int index);
     virtual ~ParticleDrawArg();

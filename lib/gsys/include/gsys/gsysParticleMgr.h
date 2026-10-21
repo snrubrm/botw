@@ -37,6 +37,8 @@ public:
     void manualCalcEmitter();
     void clearGroupInfo();
     void addGroupInfo(int group, ParticleScene* scene);
+    // 0x7100c53dc8 (declared only)
+    bool isNeedDraw(const int* groups, int group_num, u32 mask) const;
 
 private:
     // Emitter calculation job at +0xc1d8 (invoke 0x7100c524c8, D0 0x7100c542b0).

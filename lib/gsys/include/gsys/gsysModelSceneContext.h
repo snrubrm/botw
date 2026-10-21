@@ -6,6 +6,7 @@
 namespace gsys {
 
 class ModelRenderQueue;
+enum class ParticlePass : int;
 class ParticleDrawArg;
 
 // One render context of a ModelScene: ModelScene initialize 0x7100c0d9fc allocates the array of 0x3f8-byte
@@ -21,6 +22,8 @@ public:
     ModelRenderQueue* getRenderQueue(QueueType type) const;
     // 0x7100c21450
     bool isQueueMaskValid(QueueType type, const sead::BitFlag32& mask) const;
+    // 0x7100c21514
+    bool isDrawParticle(ParticlePass pass) const;
 
     u8 _0[8];
     // The view byte the ModelSceneBuffer switches pass to RenderBufferContext.

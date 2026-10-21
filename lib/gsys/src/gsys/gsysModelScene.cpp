@@ -3,6 +3,8 @@
 #include <gsys/gsysModelSceneConfig.h>
 #include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysParticleDrawArg.h>
+#include <gsys/gsysParticleMgr.h>
+#include <gsys/gsysParticleDrawArg.h>
 
 namespace gsys {
 
@@ -15,6 +17,17 @@ bool ModelScene::isForceZPrePassEnabled(int index) const {
     if (!mBuffer.isZPrePassEnabled(mContexts[index]))
         return false;
     return mConfig->isZPrePassSelectable();
+}
+
+// 0x7100c21514
+bool ModelSceneContext::isDrawParticle(ParticlePass pass) const {
+    if ((~_391 & 3) != 0)
+        return false;
+    ParticleMgr* mgr = ParticleMgr::instance();
+    if (!mgr)
+        return false;
+    return mgr->isNeedDraw(mParticleDrawArg->mParticleGroups, mParticleDrawArg->mParticleGroupNum,
+                           1u << int(pass));
 }
 
 // 0x7100c21490
