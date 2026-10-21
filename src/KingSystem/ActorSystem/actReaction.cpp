@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actReaction.h"
+#include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -1039,6 +1040,21 @@ void Reaction::Unk1::sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d,
 }  // namespace ksys::act
 
 namespace ksys::act {
+
+void ActorReactionHandle::update() {
+    if (!mActive) {
+        if (mEvent && mEvent->getCreateId() == u32(mCreateId)) {
+            auto* user = mEvent->getUserInstance();
+            user->checkAndErrorCallInCalc("HandleSLink::fade(%s)",
+                                          uking::xlink::detail::getKeyName(mEvent));
+            user->printLogFadeOrKill(mEvent, "HandleSLink::fade(%s)",
+                                     uking::xlink::detail::getKeyName(mEvent));
+            mEvent->fade(-1);
+        }
+        mActive = false;
+    }
+    mActive = false;
+}
 
 void ActorReactionQueue::setActor(Actor* actor) {
     mActor = actor;
