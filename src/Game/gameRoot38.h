@@ -13,10 +13,11 @@ namespace uking {
 // Only what the callers use is declared so far.
 class Root38 {
     SEAD_SINGLETON_DISPOSER(Root38)
-    Root38();
+    Root38() = default;
 
 public:
-    virtual ~Root38();
+    // 0x710090bfd0
+    virtual ~Root38() {}
 
     // 0x710090c07c (declared only): sets / clears bit `flag` of the global flag word
     bool setFlag(int flag, bool on);
@@ -31,10 +32,11 @@ public:
     // 0x7100f41808 (CSV name): stores the scene's Root38 pointer in the framework block.
     static void setInstance2(Root38* value);
 
-    u8 _28[0x2f - 0x28];
+    u8 _28[0x2f - 0x28]{};
     // Checked by setFlag: no flag may change while it is set.
     bool _2f = false;
-    u8 _30[0x38 - 0x30];
+    u8 _30 = 0;
+    u8 _31[0x38 - 0x31];
 };
 KSYS_CHECK_SIZE_NX150(Root38, 0x38);
 
