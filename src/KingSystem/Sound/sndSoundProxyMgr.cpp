@@ -113,6 +113,27 @@ void Unk_710105abc0::sub_710105BA88() {
 
 namespace ksys::snd {
 
+void Unk_710105abc0::sub_710105B394(const sead::SafeString& type) {
+    auto* ducking = SoundMgr::instance()->mDuckingMgr;
+    if (type == "AllMute") {
+        ducking->sub_7101042024(DuckingMgr::DuckerType::cTmlnWorldMute);
+        return;
+    }
+    if (type == "NotMute")
+        return;
+
+    if (ducking->getDucker(DuckingMgr::DuckerType::cEvtWorldMute).isOnDucking()) {
+        ducking->sub_7101042D6C(DuckingMgr::DuckerType::cEvtWorldMute, false);
+        _38.set(4);
+    }
+    if (type == "Thru_ShakeNoise") {
+        ducking->sub_7101042024(DuckingMgr::DuckerType::cTmlnThruShake);
+        return;
+    }
+    if (type == "Thru_ShakeNoiseWeather")
+        ducking->sub_7101042024(DuckingMgr::DuckerType::cTmlnThruShakeWeather);
+}
+
 // NON_MATCHING: asset/setup temporaries and the volume state have different stack placement.
 void Unk_710105abc0::sub_710105B5D4(const sead::SafeString& name, bool use_barefoot, bool) {
     if (!_38.isOn(8)) {
