@@ -1031,7 +1031,8 @@ private:
 
     // 0x710125b650 (the inserted node carries its key and value; the compare uses the key index)
     SkeltalAsset::Unk18* insert(SkeltalAsset::Unk18* root, SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node);    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node);
     static SkeltalAsset::Unk18* moveRedLeft(SkeltalAsset::Unk18* node);
     static SkeltalAsset::Unk18* moveRedRight(SkeltalAsset::Unk18* node);
     static SkeltalAsset::Unk18* findMin(SkeltalAsset::Unk18* node);
