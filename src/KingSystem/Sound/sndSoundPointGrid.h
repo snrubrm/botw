@@ -15,6 +15,7 @@ class Heap;
 }
 
 namespace ksys::map {
+class PlacementMgr;
 struct Unk_71012497f8Entry;
 }
 
@@ -52,6 +53,9 @@ public:
     void init(sead::Heap* heap);
     // 0x71012c0c14: empties the lists and resets the cell map.
     void reset();
+    // 0x71012c0034: moves the lists with the listener's map cell (each list keeps its cell, new cells get the
+    // lists of the cells that were left), then fills the list of one sub-cell around the listener (one per call).
+    void updateCells(map::PlacementMgr* mgr, const aal::Listener* listener);
     // 0x71012c0898: the PlacementMgr query callback; sorts the sound point of a plant into the list of its kind
     // (bush or grass) for the current cell.
     bool sub_71012C0898(map::Unk_71012497f8Entry* entry);
@@ -63,7 +67,8 @@ public:
     /* 0x4b8 */ sead::SafeArray<sead::SafeArray<Point, 32>, 2> mPoints;
     /* 0x8b8 */ s32 mCellMap[9];
     /* 0x8dc */ sead::Vector2i mCell{sead::Vector2i(-0x80000000, -0x80000000)};
-    /* 0x8e4 */ u32 _8e4 = 0;
+    // The sub-cell that the next updateCells call fills (an index into the offsets 0x7101ec76f8).
+    /* 0x8e4 */ s32 _8e4 = 0;
     // The list (cell) that new points go to.
     /* 0x8e8 */ s32 _8e8 = 0;
     /* 0x8ec */ u8 _8ec[4];

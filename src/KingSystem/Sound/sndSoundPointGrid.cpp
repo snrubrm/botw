@@ -1,11 +1,20 @@
 // The TU at 0x71012bf7b4 .. 0x71012c1308 (before sndSoundMgr38_60.cpp): Unk_SoundMgr38_10::_11c0.
 #include "KingSystem/Sound/sndSoundPointGrid.h"
+#include <cstring>
 #include <aal/aalListener.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Sound/sndInfoData.h"
 
 namespace ksys::snd {
+
+namespace {
+// The sub-cells around the listener that updateCells fills in turn.
+const sead::Vector2i sOffsets[9] = {{0, 0},  {-1, -1}, {0, -1}, {1, -1}, {1, 0},
+                                    {1, 1},  {0, 1},   {-1, 1}, {-1, 0}};
+}  // namespace
 
 // NON_MATCHING: clang merges the zero stores at 0xa34 .. 0xa3c and the two floats into wider stores.
 Unk_710251ad68::Unk_710251ad68() = default;
@@ -45,6 +54,82 @@ void Unk_710251ad68::reset() {
     for (s32 i = 0; i < 9; ++i)
         mCellMap[i] = i;
     mState = 0;
+}
+
+// NON_MATCHING: regalloc in the list clears, the row index of the old cell map and scheduling of the sub-cell
+// index.
+void Unk_710251ad68::updateCells(map::PlacementMgr* mgr, const aal::Listener* listener) {
+    sead::Vector3f pos;
+    listener->getMatrix().getTranslation(pos);
+    sead::Vector2i cell;
+    mgr->sub_71011EB43C(&cell, &pos);
+
+    if (cell.x != mCell.x || cell.y != mCell.y) {
+        const s32 dx = cell.x - mCell.x;
+        const s32 dy = cell.y - mCell.y;
+        s32 map[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+        bool free[9] = {true, true, true, true, true, true, true, true, true};
+
+        for (s32 y = 0; y < 3; ++y) {
+            const s32 old_y = y + dy;
+            if (0 <= old_y && old_y < 3) {
+                for (s32 x = 0; x < 3; ++x) {
+                    const s32 old_x = x + dx;
+                    if (0 <= old_x && old_x < 3) {
+                        const s32 list = mCellMap[old_y * 3 + old_x];
+                        free[list] = false;
+                        map[y * 3 + x] = list;
+                    }
+                }
+            }
+        }
+
+        for (s32 i = 0; i < 9; ++i) {
+            if (map[i] >= 0)
+                continue;
+            for (s32 list = 0; list < 9; ++list) {
+                if (!free[list])
+                    continue;
+                mLists[0].mLists[list].clear();
+                mLists[0].mNumActors = 0;
+                mLists[1].mLists[list].clear();
+                mLists[1].mNumActors = 0;
+                free[list] = false;
+                map[i] = list;
+                break;
+            }
+        }
+
+        std::memcpy(mCellMap, map, sizeof(map));
+    }
+
+    mCell = cell;
+
+    const sead::Vector2i offset = sOffsets[_8e4];
+    sead::Vector3f query = pos;
+    sead::Vector3f d = sead::Vector3f::zero;
+    d.x = offset.x * 20.0f;
+    d.z = offset.y * 20.0f;
+    query.setAdd(d, query);
+    _8e4 = _8e4 >= 8 ? 0 : _8e4 + 1;
+
+    _8e8 = mCellMap[4 + offset.x + offset.y * 3];
+    mLists[0].mLists[_8e8].clear();
+    mLists[0].mNumActors = 0;
+    mLists[1].mLists[_8e8].clear();
+    mLists[1].mNumActors = 0;
+    _a30 = 0;
+
+    sead::Delegate1R<Unk_710251ad68, map::Unk_71012497f8Entry*, bool> callback(
+        this, &Unk_710251ad68::sub_71012C0898);
+    mgr->sub_71011EB428(&query, 0.0f, false, &callback);
+
+    if (!mgr)
+        return;
+    for (auto& obj : mgr->mTraverseResults[1 - mgr->mTraverseResultIdx]._70) {
+        if (auto* p = mLists[0].mLists[_8e8].emplaceBack())
+            *p = obj.getTranslate();
+    }
 }
 
 // NON_MATCHING: the original keeps `set` on the stack (an out-parameter or enum?) and keeps the actor in a
