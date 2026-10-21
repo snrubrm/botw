@@ -104,6 +104,12 @@ Unk_7102504260::~Unk_7102504260() = default;
 
 Unk_7102504470::~Unk_7102504470() = default;
 
+void Unk_7102504470::m7(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    mVertices = vertices;
+    mIndices = indices;
+}
+
 Unk_71025046d0::~Unk_71025046d0() = default;
 
 Unk_7102504850::~Unk_7102504850() = default;

@@ -765,7 +765,17 @@ class Unk_7102504470 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_7102504470, Unk_710251d230)
 public:
     ~Unk_7102504470() override;
+    // Keeps the buffers for the later fill.
     void m7(void* vertices, void* indices) override;
+
+    u32 _30;
+    u32 _34;
+    u8 _38[0x40 - 0x38];
+    void* mVertices;
+    void* mIndices;
+    u8 _50[0x60 - 0x50];
+    s32 _60;
+    u8 _64[0x68 - 0x64];
 };
 
 // vtable 0x71025046d0 (8 slots); placeholder generated from the vtable (genskel.py).
@@ -778,12 +788,6 @@ public:
     // Unk_710251d230 base (Unk_7102504470's destructor is trivial).
     ~Unk_71025046d0() override;
 
-    // Not modelled yet (base data or this class's first fields).
-    u32 _30;
-    u32 _34;
-    u8 _38[0x60 - 0x38];
-    s32 _60;
-    u8 _64[0x68 - 0x64];
     sead::CriticalSection mCS;
     u8 _a8[0x30a8 - 0xa8];
     s32 _30a8;
