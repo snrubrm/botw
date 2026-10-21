@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/Map/mapMapProperties.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/System/physStaticCompound.h"
 #include "KingSystem/Physics/System/physStaticCompoundRigidBodyGroup.h"
@@ -450,3 +451,18 @@ void PlacementMap::HkscRes::cleanup() {
 }
 
 }  // namespace ksys::map
+
+namespace placement {
+
+// 0x7100d44fe0: formats the mubin path of the map the properties describe ("Map/<type>/<name>.mubin").
+bool getMubinPath(ksys::map::MapProperties* props, sead::BufferedSafeString* out, int x, int z) {
+    sead::FixedSafeString<32> map_type;
+    sead::FixedSafeString<64> map_name;
+    props->getMapType(&map_type);
+    if (!props->getMapName(&map_name, x, z))
+        return false;
+    out->format("Map/%s/%s.mubin", map_type.cstr(), map_name.cstr());
+    return true;
+}
+
+}  // namespace placement
