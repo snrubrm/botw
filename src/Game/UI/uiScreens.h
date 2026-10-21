@@ -1169,13 +1169,6 @@ public:
     bool isSameCommandState(s32 command, s32 state) const;
 };
 
-// Placeholder for the object ScreenMainScreen3D keeps at 0x4090 (0xb0 bytes).
-struct ScreenMainScreen3DSub {
-    u8 _0[0xb0];
-    // 0x710094745c (CSV unnamed; not decompiled)
-    void sub_710094745C();
-};
-
 // Intrusive list entry tested by ScreenMainScreen3D::sub_7100A11D34.
 struct ScreenMainScreen3DEntry {
     u8 _0[0x3c];
@@ -1205,8 +1198,7 @@ public:
     u8 _pad_3f39[0x4010 - 0x3f39];
     /* 0x4010 */ u64 _4010;
     u8 _pad_4018[0x4090 - 0x4018];
-    /* 0x4090 */ ScreenMainScreen3DSub _4090;
-    /* 0x4140 */ u64 _4140;
+    /* 0x4090 */ ::Unk_71024750c8 _4090;
 
     void sub_7100A115E4(s64);
     bool sub_7100A11B10(s64);

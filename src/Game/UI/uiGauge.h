@@ -197,6 +197,8 @@ public:
     s32 m5() override { return 10; }
 
     bool sub_7100947520();
+    // 0x710094745c: starts the extra-energy gauge once its threshold has been exceeded
+    void sub_710094745C();
     // The ctor does not initialize this state word; do not add a default.
     /* 0xb8 */ s32 _b8;
     /* 0xc0 */ sead::DelegateR<Unk_71024750c8, bool> _c0{this, &Unk_71024750c8::sub_7100947520};

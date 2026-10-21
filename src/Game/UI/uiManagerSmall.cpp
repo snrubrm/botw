@@ -1173,7 +1173,7 @@ KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64e8;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d64ec;
 // Extra-energy threshold written by 947444 and read by 94745C / 947520; the byte is its valid flag.
 struct GaugeThreshold {
-    bool valid = false;
+    u8 valid = 0;
     u8 _1[3];
     f32 value = 0;
 };
@@ -1192,7 +1192,7 @@ void sub_71009452B4(bool value) {
 // 0x7100947444
 void sub_7100947444(f32 value) {
     sUnk_71025d6540.value = value;
-    sUnk_71025d6540.valid = true;
+    sUnk_71025d6540.valid = 1;
 }
 
 // 0x71009452c4
@@ -1218,7 +1218,7 @@ void Unk_7102474fd8::sub_7100945DB8() {
     if (!uking::ui::sub_7100AA8F30()) {
         sUnk_71025d64e8 = false;
         sUnk_71025d64ec = false;
-        sUnk_71025d6540.valid = false;
+        sUnk_71025d6540.valid = 0;
     }
     if (_8 && _8->_91 != 0) {
         for (auto& pane : _60)
@@ -1759,6 +1759,30 @@ bool Unk_7102475050::sub_7100946F88() {
     return done;
 }
 
+// 0x710094745c
+// NON_MATCHING: the _b8 / _b0 / _a0 stores are scheduled around the layout load in a different
+// order (two instructions moved).
+void Unk_71024750c8::sub_710094745C() {
+    if (sUnk_71025d6540.valid != 1)
+        return;
+    if (!(m6() <= sUnk_71025d6540.value)) {
+        sUnk_71025d64ec = true;
+        _b8 = 0;
+        _b0 = &_c0;
+        auto* layout = _8;
+        _a0 = &Unk_7102474fd8::sub_7100945F28;
+        if (!layout)
+            return;
+        if (layout->_91 != 3 && layout->_91 != 0)
+            return;
+        sub_7100945F78();
+        _8->sub_7100BDDE7C(false, 0, true);
+        m12();
+    } else {
+        sUnk_71025d6540.valid = 0;
+    }
+}
+
 // 0x7100947520
 // NON_MATCHING: the threshold uses its own address instead of the original merged-storage base.
 bool Unk_71024750c8::sub_7100947520() {
@@ -1783,7 +1807,7 @@ bool Unk_71024750c8::sub_7100947520() {
             _b8 = 3;
         return false;
     default:
-        sUnk_71025d6540.valid = false;
+        sUnk_71025d6540.valid = 0;
         return true;
     }
 }
