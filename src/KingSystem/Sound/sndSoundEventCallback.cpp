@@ -36,6 +36,14 @@ Unk_710251b7a0::Unk_710251b7a0() = default;
 
 Unk_710251b7a0::~Unk_710251b7a0() = default;
 
+// 0x71012d1f4c (declared only; placeholder name): the priority / interior setup behind _350.
+u32 sub_71012D1F4C(void* object, const xlink2::IEventCallbackSLink::EventArg& arg);
+
+// 0x71012cf2c0: forwards to the object at _350.
+u32 Unk_710251b7a0::soundPrePlay(const EventArg& arg) {
+    return sub_71012D1F4C(_350, arg);
+}
+
 void Unk_710251b7a0::sub_71012CEE90(sead::Heap* heap) {}
 
 // NON_MATCHING: the first duplicate loop's entry test is `size < 2` here (`size <= 1` in the original).
