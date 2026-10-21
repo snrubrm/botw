@@ -1006,16 +1006,6 @@ void ScreenPickUp::setItemAndOpen(const sead::SafeString& item, bool show) {
         sub_7100A3F450(item, 5.0f);
 }
 
-// 0x71025f1a28 (initialised by the TU's static initialiser 0x7100a406dc)
-static sead::SafeString sPickUpLayoutName = "PickUpWin_00";
-
-// 0x7100a3f768
-// NON_MATCHING: the original addresses the string from the TU's merged-static base (+0x148); ours has other
-// statics around it (+0x10).
-const char* ScreenPickUp::getLayoutName_() const {
-    return sPickUpLayoutName.cstr();
-}
-
 // 0x7100a3f450
 // NON_MATCHING: the original null-checks the found window pointer (the loop exits to the unlock instead of a csel);
 // it matches with `if (it->mOrder >= 0) continue; if (PickUpWin* win = it.operator->()) {...} break;`.
