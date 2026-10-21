@@ -230,6 +230,13 @@ public:
         sead::Projection* projection;
         void* _10;
         sead::Vector3f camera_pos;
+        // Read by Unk_7102519778::m7 0x710129c894 (projects the light position: rows 0, 1 and 3,
+        // then the four values below as screen scale / offset). Names are guesses.
+        sead::Matrix44f view_projection;
+        f32 _64;
+        f32 _68;
+        f32 _6c;
+        f32 _70;
     };
 
     virtual ~Unk_7102519378();

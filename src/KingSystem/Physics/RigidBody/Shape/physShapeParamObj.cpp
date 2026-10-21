@@ -692,6 +692,51 @@ void Unk_7102519778::m6(sead::Heap* heap) {
     mUniformBlock.create(heap, 2, 1);
 }
 
+// Updates the light's intensity and range, normalises its direction and writes the uniform block
+// (also the projected screen position of the light).
+// NON_MATCHING: same size; scheduling of the view / projection transforms and the fall-off selects
+// (as in Unk_71025194d0::m7).
+void Unk_7102519778::m7(const CalcArg& arg) {
+    // Discarded call: the original calls getFovy without using the result.
+    arg.projection->getFovy();
+    auto* mgr = static_cast<ksys::gfx::LocationalLightMgr*>(_50);
+    _114 = sead::Mathf::clampMin(_100 * 4.0f * sead::Mathf::pi(), 0.0f);
+    _118 = _114 / (_108 * _108 * (4.0f * sead::Mathf::pi()));
+    _10c = std::sqrt(_114 / (mgr->sub_7100F143E4() * (4.0f * sead::Mathf::pi())));
+    _110 = _10c + _104 + _108;
+    _5c |= 1;
+    _e4.normalize();
+
+    const sead::Matrix34f& view = arg.camera->getMatrix();
+    sead::Vector3f view_pos;
+    view_pos.setMul(view, mPos);
+    sead::Vector3f view_dir;
+    view_dir.setRotated(view, _e4);
+    const auto& m = arg.view_projection;
+    const f32 w = m(3, 0) * mPos.x + m(3, 1) * mPos.y + m(3, 2) * mPos.z + m(3, 3);
+    const f32 x = m(0, 0) * mPos.x + m(0, 1) * mPos.y + m(0, 2) * mPos.z + m(0, 3);
+    const f32 y = m(1, 0) * mPos.x + m(1, 1) * mPos.y + m(1, 2) * mPos.z + m(1, 3);
+    const bool no_falloff = _108 == 0.0f || mgr->testFlag2000();
+    const f32 intensity = no_falloff ? _100 : _118;
+    const f32 range = no_falloff ? 0.0f : _108;
+
+    mUniformBlock.dcbz(0);
+    sead::Vector4f data{_110, 1.0f / (_10c * _10c), range, 0.0f};
+    mUniformBlock.setData(0, &data, 0);
+    data = {intensity * mColor.r, intensity * mColor.g, intensity * mColor.b, _104};
+    mUniformBlock.setData(0, &data, 1);
+    data = {mPos.x, mPos.y, mPos.z, 0.0f};
+    mUniformBlock.setData(0, &data, 2);
+    data = {view_pos.x, view_pos.y, view_pos.z, 0.0f};
+    mUniformBlock.setData(0, &data, 3);
+    data = {view_dir.x, view_dir.y, view_dir.z, 0.0f};
+    mUniformBlock.setData(0, &data, 4);
+    data = {-(arg._68 * (x / w)) - arg._6c, -(arg._64 * (y / w)) - arg._70, w * w * (1.0f / (_110 * _110)),
+            0.0f};
+    mUniformBlock.setData(0, &data, 5);
+    mUniformBlock.flushCPUCache();
+}
+
 void Unk_7102519778::m8(u8 index) {
     mUniformBlock.setBufferIndexMaybe(index);
 }
