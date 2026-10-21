@@ -3918,27 +3918,6 @@ void ScreenSaveTransferWindow::m310() {
 }
 
 
-// ScreenMainScreen creator; native getter/D0 precede its screen constructor.
-static const ChildControlCreatorEntry sUnk_710248e3c0[] = {
-    {"Pa_ArrowPointer_00", sub_7100A17160, 0},
-    {"Pa_CameraPointer_00", sub_7100A1725C, 0},
-    {"Pa_Information_00", sub_7100A17358, 0},
-    {"Pa_ThrowingPointer_00", sub_71009D7198, 0},
-    {"Pa_PlayerStatusUp_00", sub_7100A17454, 0},
-    {"Pa_ItemPointer_00", sub_7100A17550, 0},
-    {"Pa_TempMeter_00", sub_7100A1764C, 0},
-    {"Pa_Sensor_00", sub_71009E8350, 0},
-    {"Pa_Weather_00", sub_7100A17748, 0},
-    {"Pa_Time_00", sub_71009D7198, 0},
-    {"Pa_Guide_", sub_71009D7198, 1},
-    {"Pa_SinJu_", sub_7100A17844, 1},
-};
-static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248e3b0(sUnk_710248e3c0);
-// 0x7100a17130
-// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
-const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248e4e0::getEntries() const {
-    return &sUnk_710248e3b0;
-}
 
 ScreenChild* sub_7100A17160(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);

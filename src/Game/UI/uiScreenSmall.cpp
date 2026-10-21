@@ -1344,19 +1344,6 @@ eui::AlignPane* sub_71009B0B44(eui::LayoutEx* layout, const char* name) {
     return nn::font::DynamicCast<eui::AlignPane>(layout->mPane->FindPaneByName(name, true));
 }
 
-// ScreenPauseMenu creator; native getter/D0 precede its screen constructor.
-static const ChildControlCreatorEntry sUnk_71024934b0[] = {
-    {"Pa_Save_00", sub_7100A32F3C, 0},
-    {"Pa_Quest_00", sub_7100A33038, 0},
-    {"Pa_PagePorch_", sub_7100A33134, 1},
-};
-static const sead::Buffer<const ChildControlCreatorEntry> sUnk_71024934a0(sUnk_71024934b0);
-// 0x7100a32f0c
-// NON_MATCHING: adjacent owner-TU statics are merged, adding an address offset instruction.
-const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024934f8::getEntries() const {
-    return &sUnk_71024934a0;
-}
-
 // 0x7100a32f3c
 ScreenChild* sub_7100A32F3C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);

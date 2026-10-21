@@ -351,4 +351,37 @@ ScreenChild* sub_7100A2C4D4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247b960(layout_ex);
 }
 
+// ScreenPauseMenu creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_71024934b0[] = {
+    {"Pa_Save_00", sub_7100A32F3C, 0},
+    {"Pa_Quest_00", sub_7100A33038, 0},
+    {"Pa_PagePorch_", sub_7100A33134, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_71024934a0(sUnk_71024934b0);
+// 0x7100a32f0c
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024934f8::getEntries() const {
+    return &sUnk_71024934a0;
+}
+
+
+// ScreenMainScreen creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_710248e3c0[] = {
+    {"Pa_ArrowPointer_00", sub_7100A17160, 0},
+    {"Pa_CameraPointer_00", sub_7100A1725C, 0},
+    {"Pa_Information_00", sub_7100A17358, 0},
+    {"Pa_ThrowingPointer_00", sub_71009D7198, 0},
+    {"Pa_PlayerStatusUp_00", sub_7100A17454, 0},
+    {"Pa_ItemPointer_00", sub_7100A17550, 0},
+    {"Pa_TempMeter_00", sub_7100A1764C, 0},
+    {"Pa_Sensor_00", sub_71009E8350, 0},
+    {"Pa_Weather_00", sub_7100A17748, 0},
+    {"Pa_Time_00", sub_71009D7198, 0},
+    {"Pa_Guide_", sub_71009D7198, 1},
+    {"Pa_SinJu_", sub_7100A17844, 1},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248e3b0(sUnk_710248e3c0);
+// 0x7100a17130
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248e4e0::getEntries() const {
+    return &sUnk_710248e3b0;
+}
 }  // namespace uking::ui
