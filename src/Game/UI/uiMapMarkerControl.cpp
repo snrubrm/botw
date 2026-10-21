@@ -874,6 +874,41 @@ Unk_7102478e30::~Unk_7102478e30() {
     _50 = nullptr;
 }
 
+// 0x710098f96c (placeholder name): stops the marker's animator and, for the Unk_7102476830 entries, plays
+// or parks the second animator while the entry's timer runs.
+// NON_MATCHING: two differences. The three flag branches share one `if (_48) _48->Stop(...)` body in ours
+// (the original keeps three copies, each spilling the pin id to its own stack slot: its +0x1c is an enum
+// whose conversion is volatile, ours is a plain s32), and the tail's PlayAuto / StopAtMin blocks are
+// laid out in the other order.
+void Unk_7102478e30::m11() {
+    Unk_7102477fc0::m11();
+    if (!_18 || !(_18->_3c & 1))
+        return;
+    const u32 flags = _18->_3c;
+    if ((flags & 0x30) == 0x30) {
+        if (_48)
+            _48->Stop(f32(_18->_1c - 0x25));
+    } else if ((flags & 3) == 3) {
+        if (_48)
+            _48->Stop(f32(_18->_1c - 0x25));
+    } else if (flags & 0x4000) {
+        if (_48)
+            _48->Stop(f32(_18->_1c - 0x25));
+    }
+    auto* entry = sead::DynamicCast<Unk_7102476830>(_18);
+    if (!entry || !_50)
+        return;
+    if (UiSubsys1::instance()->sub_7100959438(entry)) {
+        if (!entry->_68.isDone()) {
+            if (_50->mRate == 0.0f)
+                _50->PlayAuto(1.0f);
+            return;
+        }
+    }
+    if (_50->mFrame != 0.0f)
+        _50->StopAtMin();
+}
+
 // 0x710098fb10 (placeholder name): when the entry carries the 0x40 / 0x4 state bits, drops it from the
 // UiSubsys1 marker list and advances the animator.
 void Unk_7102478e30::m12() {
