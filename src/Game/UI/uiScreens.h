@@ -5158,7 +5158,8 @@ public:
     u8 _pad_3698[0x36e8 - 0x3698];
     /* 0x36e8 */ s32 _36e8;
     /* 0x36ec */ s32 _36ec;  // frames counted by m159 while _3618 is stopped
-    u8 _pad_36f0[0x36f8 - 0x36f0];
+    /* 0x36f0 */ u32 _36f0;  // the photo number shown in T_Num_00
+    u8 _pad_36f4[0x36f8 - 0x36f4];
     // The two textures the photo is encoded into (m162 -> sub_71009DB9C8).
     /* 0x36f8 */ agl::TextureData _36f8;
     u8 _pad_3878[0x3b70 - 0x36f8 - sizeof(agl::TextureData)];
@@ -5185,7 +5186,9 @@ public:
     u8 _pad_408b[0x40a8 - 0x408b];
     // the actor name of the picture (T_Name_00; IsRegisteredPictureBook_<name>)
     /* 0x40a8 */ sead::FixedSafeString<64> _40a8;
-    u8 _pad_4100[0x4198 - 0x4100];
+    u8 _pad_4100[0x4118 - 0x4100];
+    /* 0x4118 */ s32 _4118;
+    u8 _pad_411c[0x4198 - 0x411c];
     /* 0x4198 */ sead::SafeString _4198;
     u8 _pad_41a8[0x4360 - 0x41a8];
     /* 0x4360 */ f32 _4360;
@@ -5203,6 +5206,8 @@ public:
     void m100() override;
     // 0x71009db8e4: runs sub_71009D9AD8
     void m110() override;
+    // 0x71009d84a4 (CSV ScreenAppCamera::x; declared only, 1892 bytes)
+    void x();
     // 0x71009d94e8 (CSV ScreenAppCamera::calledFromM159; declared only)
     void sub_71009D94E8();
 

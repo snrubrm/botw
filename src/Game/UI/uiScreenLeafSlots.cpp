@@ -302,6 +302,33 @@ s32 ScreenAppMap::demoReenter() {
     return 0;
 }
 
+// 0x71009d832c
+// NON_MATCHING: clang hoists the animator frame load above the photo count test (the original loads it in each branch)
+void ScreenAppCamera::m154() {
+    if (_36f0 < 48) {
+        if (_3628->mFrame == _3628->GetFrameSize())
+            _3628->StopAtMin();
+    } else if (_3628->mFrame == 0.0f) {
+        _3628->StopAtMax();
+    }
+    _401a = false;
+    sead::FormatFixedSafeString<8> number("%02d", _36f0);
+    setWidgetString(mLayout, "T_Num_00", number);
+    _4118 = 0;
+    x();
+    const auto* state = getStateMachine().getPrevState();
+    // called through a pointer in the original (not devirtualised)
+    if (state->getId() == (&sUnk_71025dcd60)->getId() ||
+        // called through a pointer in the original (not devirtualised)
+        state->getId() == (&sUnk_71025dcd00)->getId()) {
+        Manager::instance()->sub_7100A7CACC();
+        if (_4019) {
+            Unk_71025d1740::instance()->sub_7100901A90(true);
+            _4019 = false;
+        }
+    }
+}
+
 // ScreenAppPictureBook
 // 0x71009faa9c
 void ScreenAppPictureBook::m156() {
