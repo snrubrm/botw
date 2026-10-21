@@ -1,4 +1,5 @@
 #include "Game/Actor/actCamera.h"
+#include "Game/gameRuneMgr.h"
 #include <basis/seadNew.h>
 #include "Game/gameUnk_710246d058.h"
 #include "Game/gameMaskController.h"
@@ -342,6 +343,17 @@ void Camera::sub_71007929E0() {
     _13f8 = 0;
     _13fd &= ~0x80;
     _860._7c0[!(_860._81a & 1)].reset();
+}
+
+bool sub_710079959C() {
+    auto* rune_mgr = RuneMgr::instance();
+    if (!rune_mgr)
+        return false;
+    return (rune_mgr->_90 & 0x10 && rune_mgr->isSelectedRune(2)) ||
+           (rune_mgr->_90 & 0x10 && rune_mgr->isSelectedRune(3)) ||
+           (rune_mgr->_90 & 0x10 && rune_mgr->isSelectedRune(4)) ||
+           (rune_mgr->_90 & 0x10 && rune_mgr->isSelectedRune(6)) ||
+           (rune_mgr->_90 & 0x10 && rune_mgr->isSelectedRune(7));
 }
 
 void Camera::sub_7100793BD8() {

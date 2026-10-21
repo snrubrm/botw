@@ -622,6 +622,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Camera, 0x1428);
 
+// 0x710079959c (placeholder name): whether the rune state flag (RuneMgr::_90 bit 4) is set with magnesis,
+// stasis, cryonis, amiibo or the motorcycle selected. Called by 0x7100798f24.
+bool sub_710079959C();
+
 }  // namespace uking::act
 
 // Unnamed secondary base of the camera AI and action classes (CameraAI, CameraAction, ...; vtable
