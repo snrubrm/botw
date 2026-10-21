@@ -15,6 +15,28 @@ public:
     void sub_71012C3074();
     bool isInitialized() const { return mInitialized; }
 
+    // inline-only in the original; name is a guess (0x71012c3e94 and the other m4 overrides repeat it): the
+    // locator of `speed`, loading the locators first if needed.
+    xlink2::Locator* getSpeedLocator(const Speed& speed) {
+        if (!mInitialized) {
+            sub_71012C3074();
+            if (!mInitialized)
+                return nullptr;
+        }
+        return mSpeedLocators.at(speed);
+    }
+
+    // inline-only in the original; name is a guess (0x71012c43b0 and the other m5 overrides repeat it): the
+    // locator of `strength`, loading the locators first if needed.
+    xlink2::Locator* getStrengthLocator(const Strength& strength) {
+        if (!mInitialized) {
+            sub_71012C3074();
+            if (!mInitialized)
+                return nullptr;
+        }
+        return mStrengthLocators.at(strength);
+    }
+
 private:
     sead::FixedObjArray<xlink2::Locator, 4> mSpeedLocators;
     sead::FixedObjArray<xlink2::Locator, 4> mStrengthLocators;
@@ -22,6 +44,14 @@ private:
 };
 
 extern Unk_710251b170 sEquipmentNoiseCache;
+
+// 0x710251b018: the chance of the delayed variant of a step noise (and two factors used by 0x71012c4bbc).
+struct Unk_710251b018 {
+    f32 delayChance;
+    f32 _4;
+    f32 _8;
+};
+extern Unk_710251b018 sUnk_710251b018;
 KSYS_CHECK_SIZE_NX150(Unk_710251b170, 0x150);
 
 // Placeholder type named after its method at 0x71012c5034 (now a method of the subclass Unk_710251b128). The base
@@ -73,6 +103,10 @@ public:
 
     // 0x71012c3bc8 (declared only): searches the equipment noise locator of `name` in the player's SLink user.
     bool sub_71012C3BC8(const sead::SafeString& name);
+    // 0x71012c3fc8: picks the next of three variants at random and writes the asset name for `speed`.
+    void sub_71012C3FC8(sead::BufferedSafeString* out, const Unk_710251b170::Speed* speed);
+    // 0x71012c40c8 (declared only): plays the asset of `locator` with the delay and the asset name.
+    void sub_71012C40C8(const xlink2::Locator* locator, f32 delay, const sead::SafeString& name);
     // 0x71012c44a0: picks the next of three variants at random and writes the asset name for `strength`.
     void sub_71012C44A0(sead::BufferedSafeString* out, const Unk_710251b170::Strength* strength);
 
