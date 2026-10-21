@@ -1130,6 +1130,22 @@ ActorReactionQueue::~ActorReactionQueue() {
     sub_7101287B10();
 }
 
+// Fades the held events out and releases both container arrays.
+// NON_MATCHING: the bodies are instruction-identical; the original computes the two loop
+// preheader end pointers as a byte count (lsl #3 + cbz), ours tests the element count.
+void ActorReactionQueue::sub_7101287B10() {
+    for (auto it = mHandles.begin(); it != mHandles.end(); ++it) {
+        ActorReactionHandle& handle = *it;
+        uking::xlink::fade(handle.mHandle, -1);
+        handle.mActive = false;
+    }
+    mHandles.freeBuffer();
+    for (auto it = mCoreQueues.begin(); it != mCoreQueues.end(); ++it)
+        it->freeBuffer();
+    mCoreQueues.freeBuffer();
+    mActor = nullptr;
+}
+
 void ActorReactionQueue::setActor(Actor* actor) {
     mActor = actor;
 }
