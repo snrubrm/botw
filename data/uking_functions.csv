@@ -19790,7 +19790,7 @@ Address,Quality,Size,Name
 0x00000071002e23d8,U,001420,
 0x00000071002e2964,U,002348,Weapon::m69_attack_maybe_durabilityCalcStuff_pullOutOrInMaybe
 0x00000071002e3290,U,001056,Weapon::attackScaleStuff
-0x00000071002e36b0,W,000160,_ZN5uking3act6Weapon13doAttackMaybeEv
+0x00000071002e36b0,O,000160,_ZN5uking3act6Weapon13doAttackMaybeEv
 0x00000071002e3750,U,000356,
 0x00000071002e38b4,O,000056,_Z18getWeaponLifeLimitv
 0x00000071002e38ec,O,000072,_ZN5uking3act6Weapon21isTrueFormMasterSwordEv
