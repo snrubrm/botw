@@ -17,4 +17,43 @@ bool ModelSceneShadow::isDepthShadowEnabled() const {
     return mConfig->isFeatureEnabled(ModelSceneConfig::Feature::DepthShadow);
 }
 
+// 0x7100c3ad18
+bool ModelSceneShadow::enableMaskedLightShadow(const MaskedLight* light) {
+    MaskedLightShadow* slot = mMaskedLightShadows;
+    for (int i = mMaskedLightShadowNum; i != 0; ++slot, --i) {
+        if (!slot->mLight) {
+            slot->mLight = light;
+            return true;
+        }
+    }
+    return false;
+}
+
+// 0x7100c3ad58
+bool ModelSceneShadow::disableMaskedLightShadow(const MaskedLight* light) {
+    MaskedLightShadow* slot = mMaskedLightShadows;
+    for (int i = mMaskedLightShadowNum; i != 0; ++slot, --i) {
+        if (slot->mLight == light) {
+            slot->mLight = nullptr;
+            return true;
+        }
+    }
+    return false;
+}
+
+// 0x7100c3ad9c
+bool ModelSceneShadow::isEnableMaskedLightShadow(const MaskedLight* light) const {
+    if (!mConfig->isFeatureEnabled(ModelSceneConfig::Feature::MaskedLight))
+        return false;
+    const MaskedLightShadow* slot = mMaskedLightShadows;
+    for (int i = mMaskedLightShadowNum; i != 0; ++slot, --i) {
+        if (slot->mLight == light)
+            return true;
+    }
+    return false;
+}
+
+// 0x7100c3adf0
+void ModelSceneShadow::attachHostIO(sead::hostio::Node*) {}
+
 }

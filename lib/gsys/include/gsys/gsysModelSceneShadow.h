@@ -4,6 +4,9 @@
 
 namespace sead {
 class WorkerMgr;
+namespace hostio {
+class Node;
+}
 }
 
 namespace gsys {
@@ -28,6 +31,8 @@ public:
     bool disableMaskedLightShadow(const MaskedLight* light);
     // 0x7100c3ad9c
     bool isEnableMaskedLightShadow(const MaskedLight* light) const;
+    // 0x7100c3adf0: nothing in the retail build.
+    void attachHostIO(sead::hostio::Node* node);
 
 private:
     u8 _0[8];
@@ -36,7 +41,18 @@ private:
     /* 0x428 */ void* mSSAO;
     /* 0x430 */ u8 _430[0x438 - 0x430];
     /* 0x438 */ void* mShadowPrePass;
-    u8 _440[0x480 - 0x440];
+    u8 _440[0x17a8 - 0x440];
+    // Masked-light shadow slots; enable / disable / isEnable 0xc3ad18 .. 0xc3ad9c walk this array
+    // with a 0x68 stride and the MaskedLight pointer at +0x30.
+    struct MaskedLightShadow {
+        u8 _0[0x30];
+        const MaskedLight* mLight;
+        u8 _38[0x68 - 0x38];
+    };
+    static_assert(sizeof(MaskedLightShadow) == 0x68);
+    /* 0x17a8 */ s32 mMaskedLightShadowNum;
+    u8 _17ac[0x17b0 - 0x17ac];
+    /* 0x17b0 */ MaskedLightShadow* mMaskedLightShadows;
 };
 
 }  // namespace gsys
