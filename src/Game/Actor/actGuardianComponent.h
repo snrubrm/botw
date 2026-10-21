@@ -132,7 +132,7 @@ public:
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
     void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;   // 0x710003da28 (declared only)
-    void m10() override;  // 0x710003e050 (declared only)
+    void m10() override;
     void m11() override;
     void m12() override;  // 0x710003e6dc (declared only)
     void m13() override;

@@ -150,6 +150,16 @@ void Unk_710235b4f8::m8(ksys::act::BaseProc*, s32 value) {
     _38 = value;
 }
 
+void Unk_710235b4f8::m10() {
+    if (_38 < 0)
+        return;
+    auto* drop = sead::DynamicCast<ksys::act::DropData>(GuardianComponentBind::_8->getDropData());
+    if (!drop)
+        return;
+    if (sub_710073200C(GuardianComponentBind::_8->sub_710003D2B4(), _38))
+        drop->_c |= 1;
+}
+
 // Fixes the body while the Guardian is in state 12.
 void Unk_710235b4f8::m11() {
     if (auto* guardian = GuardianComponentBind::_8->sub_710003D2B4()) {
