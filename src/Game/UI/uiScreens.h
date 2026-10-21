@@ -2330,7 +2330,8 @@ public:
     void m84() override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
-    u8 _pad_3610[0x3620 - 0x3610];
+    /* 0x3610 */ eui::Animator* _3610;  // played to its end while the bow shortcut is shown (sub_7100A20CBC)
+    u8 _pad_3618[0x3620 - 0x3618];
     /* 0x3620 */ eui::Animator* _3620;  // stopped at max while _3738 is empty (sub_7100A2080C)
     // the pause menu data the arrow count comes from (m168)
     /* 0x3628 */ PauseMenuDataMgr* _3628;
@@ -2342,7 +2343,9 @@ public:
     /* 0x3700 */ sead::BitFlag8 _3700;
     u8 _pad_3701[0x3720 - 0x3701];
     /* 0x3720 */ s32 _3720;
-    u8 _pad_3724[0x372c - 0x3724];
+    u8 _pad_3724[0x3728 - 0x3724];
+    /* 0x3728 */ bool _3728;  // the bow shortcut is shown (sub_7100A20CBC)
+    u8 _pad_3729[0x372c - 0x3729];
     /* 0x372c */ s32 _372c;  // arrow count shown in T_BowNum_00
     /* 0x3730 */ s32 _3730;  // the arrow count when m168 last refreshed it
     /* 0x3734 */ bool _3734;  // an arrow is equipped (m168)

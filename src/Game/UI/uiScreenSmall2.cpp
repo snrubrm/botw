@@ -291,6 +291,38 @@ void ScreenMainShortCut::sub_7100A209E4() {
     }
 }
 
+// NON_MATCHING: the original builds the mode as ((flags >> 27) & 2) | 1 and compares it with 1 / 3; clang folds our
+// select into a bit test.
+// 0x7100a20cbc: shows the bow shortcut (with the arrow count) while the player's bow flag is set, hides it otherwise
+void ScreenMainShortCut::sub_7100A20CBC() {
+    auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr));
+    const s32 mode = player && player->_c48.isOnBit(28) ? 3 : 1;
+    if (_3728) {
+        if (mode != 1)
+            return;
+        if (_3610)
+            _3610->StopAtMin();
+        _3728 = false;
+    } else if (mode == 3 && _3700.isOn(0xc)) {
+        if (!sub_7100AA7BAC(&_3738))
+            _3738.clear();
+        const PouchItem* arrow = _3628 ? _3628->getEquippedItem(PouchItemType::Arrow) : nullptr;
+        if (arrow) {
+            _372c = arrow->getCount();
+            _3730 = arrow->getCount();
+            _3734 = true;
+        } else {
+            _372c = 0;
+            _3730 = 0;
+            _3734 = false;
+        }
+        sub_7100A2080C();
+        if (_3610)
+            _3610->StopAtMax();
+        _3728 = true;
+    }
+}
+
 bool ScreenMainShortCut::sub_7100A20DD0() {
     // called through a pointer in the original (not devirtualised)
     if (getStateMachine().getState()->getId() == (&sUnk_71025ef170)->getId())
