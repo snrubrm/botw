@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/AI/aiPriestBossPhase.h"
+#include "Game/Actor/aiUnk_710071edf8.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtMetadata.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -10,6 +11,9 @@
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+
+// Declaration only; the original source namespace is unknown (as in aiPriestBossGiantEnemyRoot.cpp).
+bool sub_710071E80C(ksys::act::Actor* actor, Unk_7102450fa8* unit);
 
 namespace uking::ai {
 
@@ -103,9 +107,35 @@ bool PriestBossPhase::sub_71005289C4() {
     return false;
 }
 
+// 0x710052902c
+void PriestBossPhase::sub_710052902C() {
+    sub_7100525A88()->resetFlag(Unk_7102450fa8::Flag::_1);
+    ksys::act::ActorLinkConstDataAccess accessor;
+    switch (m38()) {
+    case Flag::_1:
+        sub_7100525A88()->sub_71007194D4(2, &accessor);
+        break;
+    case Flag::_3:
+        sub_7100525A88()->sub_71007194D4(1, &accessor);
+        break;
+    default:
+        break;
+    }
+    if (!accessor.hasProc())
+        return;
+    ksys::act::BaseProcLink link;
+    accessor.linkAcquire(&link);
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, mActor));
+    if (!sead::IsDerivedFrom<ksys::act::Actor>(actor))
+        return;
+    const Flag phase = m38();
+    auto* unit = sub_7100525A88();
+    if (phase == Flag::_1 ? sub_710071E64C(actor, unit) : sub_710071E80C(actor, unit))
+        sub_7100525A88()->setFlag(Unk_7102450fa8::Flag::_1);
+}
+
 // 0x7100528f10
-// NON_MATCHING: the flag 2 temporary gets its own stack slot (the original shares the phase temporary's) and the
-// orr operands are swapped
+// NON_MATCHING: the orr operands of the flag 2 set are swapped
 void PriestBossPhase::sub_7100528F10() {
     auto* unit = sub_7100525A88();
     if (!unit)
@@ -113,7 +143,7 @@ void PriestBossPhase::sub_7100528F10() {
     if (unit->getPhaseFlags(m38())._0) {
         const auto& flags = unit->getPhaseFlags(m38());
         if (flags._0 && flags._1 && !flags._2)
-            _60.setBit(Flag(Flag::_2));
+            setFlag(Flag::_2);
     } else if (m36()) {
         m35();
         auto& flags = unit->_248[m38()];
@@ -146,6 +176,52 @@ void PriestBossPhase::enter_(ksys::act::ai::InlineParamPack* params) {
     unit->_3c = phase;
     unit->_40 = *mPercentLifePrevious_s;
     _70.value = _70.previous_value = 5.0f;
+}
+
+// 0x71005293ec
+// NON_MATCHING: sub_7100528B5C is inlined at the end here (the original calls it); the m37 output slot and two orr
+// operand orders differ
+void PriestBossPhase::calc_() {
+    if (isFlagOn(Flag::_3)) {
+        resetFlag(Flag::_3);
+        return;
+    }
+    if (isFlagOn(Flag::_2)) {
+        if (isFlagOn(Flag::_0)) {
+            const bool started = isFlagOn(Flag::_1);
+            const bool active = sub_71005289C4();
+            if (started) {
+                if (!active)
+                    setFinished();
+            } else if (active) {
+                setFlag(Flag::_1);
+            }
+        } else {
+            m39();
+            if (sUnk_71025bb880[m38()].isEmpty()) {
+                setFlag(Flag::_0);
+                setFlag(Flag::_1);
+            } else {
+                sead::FormatFixedSafeString<256> name("%s%s", sUnk_7102414930, sUnk_71025bb880[m38()].cstr());
+                changeFlag(Flag::_0, sub_7100528854(name, sUnk_71025bb830[m38()]));
+            }
+        }
+    } else {
+        sub_7100528F10();
+        sub_710052902C();
+        f32 x;
+        if (m37(&x)) {
+            const f32 max_life = *mMetaAIMaxLife_a;
+            const s32 low = max_life * *mPercentLifeTransition_s;
+            const f32 high_f = max_life * *mPercentLifePrevious_s;
+            const s32 high = high_f;
+            *mMetaAILife_a = low + high_f * x / high_f * (high - low);
+        }
+        m40();
+        sub_7100525A88()->sub_710071A258();
+        sub_7100525A88()->sub_710071A2E8();
+    }
+    sub_7100528B5C();
 }
 
 void PriestBossPhase::leave_() {

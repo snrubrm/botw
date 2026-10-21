@@ -33,6 +33,14 @@ public:
     virtual void m40();
 
 protected:
+    // inline-only in the original; names are guesses. The `_60` bit tests and sets of calc_ (0x71005293ec, eight
+    // uses) and sub_7100528F10 pass the phase index through one shared stack slot, as an inlined by-value enum
+    // parameter does (same form as Unk_7102450fa8::isFlagOn).
+    bool isFlagOn(Flag flag) const { return _60.isOnBit(flag); }
+    void setFlag(Flag flag) { _60.setBit(flag); }
+    void resetFlag(Flag flag) { _60.resetBit(flag); }
+    void changeFlag(Flag flag, bool on) { _60.changeBit(flag, on); }
+
     void sub_7100528B5C();
     // 0x7100528f10 (placeholder name): marks the phase as started once m36 holds (after m35), or sets flag 2 while
     // the phase's flags are _0 and _1 without _2
@@ -42,6 +50,9 @@ protected:
     // 0x7100528854 (placeholder name): calls the event `name` / `entry`; in phases 0 and 1 only after the player
     // has stood on level ground (|y| <= 0.25) for the _70 timer
     bool sub_7100528854(const sead::SafeString& name, const sead::SafeString& entry);
+    // 0x710052902c (placeholder name): sets the unit's flag 1 when the phase's member actor (unit member 1 in phase 3,
+    // member 2 in phase 1) passes sub_710071E64C (phase 1) or sub_710071E80C
+    void sub_710052902C();
     bool sub_7100528C48();
     // static_param at offset 0x50
     const float* mPercentLifeTransition_s{};
