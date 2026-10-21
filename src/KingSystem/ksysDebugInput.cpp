@@ -7,6 +7,10 @@ Unk_7102517d58::~Unk_7102517d58() = default;
 
 void Unk_7102517d58::sub_7101266EA0() {}
 
+bool Unk_7102517d58::isOnBit(u32 bit) const {
+    return mFlags.isOnBit(int(bit));
+}
+
 namespace ksys {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DebugInput)

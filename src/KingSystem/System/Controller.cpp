@@ -20,6 +20,11 @@ bool Controller::sub_7100D9F7D4() const {
     return mSnapshot.sub_7100D9E48C();
 }
 
+// NON_MATCHING: the original zero-extends the argument with and x1, x1, #0xffffffff; ours uses mov w1, w1.
+bool Controller::sub_7100D9F7C8(u32 id) {
+    return mFlags.isOnBit(id);
+}
+
 Unk_71024dd5c8* Controller::sub_7100D9F7DC() {
     return &mSnapshot;
 }

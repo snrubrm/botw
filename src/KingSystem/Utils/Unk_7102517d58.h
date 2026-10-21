@@ -12,6 +12,10 @@ public:
     virtual ~Unk_7102517d58();
     // 0x7101266ea0: empty update called by Controller::calc.
     void sub_7101266EA0();
+    // Bit `bit` of mFlags.
+    // NON_MATCHING: the original spills the argument to the frame and builds the mask with 1 << bit; ours shifts
+    // the flag word directly.
+    bool isOnBit(u32 bit) const;
 
 private:
     sead::BitFlag32 mFlags;
