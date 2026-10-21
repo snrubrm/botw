@@ -4006,6 +4006,8 @@ extern const ksys::StateBase sUnk_71025eb550;
 
 // 0x71009f70b0 (declared only; placeholder name): shows the picture book page of the picture `name`
 void sub_71009F70B0(const sead::SafeString& name);
+// 0x71009d3aa0 (declared only; placeholder name): updates the album screen for the saved picture `index`
+void sub_71009D3AA0(u32 index);
 
 class ScreenAppPictureBook : public ScreenEx {
 public:
@@ -5213,6 +5215,8 @@ class ScreenAppCamera : public ScreenEx {
 public:
     // 0x71009db8ec (placeholder name): shows the picture's name and sets _4360 from its picture book registration
     void sub_71009DB8EC();
+    // 0x71009d7b80: saves the captured photo as an album picture and closes the camera layout
+    void invoked1();
     // 0x71009d7c40: saves the photo as a picture book page, then hands its name to the picture book screen
     void invoked2();
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
@@ -5264,11 +5268,22 @@ public:
     u8 _pad_408b[0x40a8 - 0x408b];
     // the actor name of the picture (T_Name_00; IsRegisteredPictureBook_<name>)
     /* 0x40a8 */ sead::FixedSafeString<64> _40a8;
-    u8 _pad_4100[0x4118 - 0x4100];
+    u8 _pad_4100[0x4102 - 0x4100];
+    // cleared when the album picture has been saved (invoked1)
+    /* 0x4102 */ u8 _4102;
+    u8 _pad_4103[0x4118 - 0x4103];
     /* 0x4118 */ s32 _4118;
-    u8 _pad_411c[0x4198 - 0x411c];
+    u8 _pad_411c[0x4179 - 0x411c];
+    // whether the album picture is saved under the user's name (_417c)
+    /* 0x4179 */ u8 _4179;
+    u8 _pad_417a[0x417c - 0x417a];
+    /* 0x417c */ u8 _417c;
+    u8 _pad_417d[0x4198 - 0x417d];
     /* 0x4198 */ sead::SafeString _4198;
-    u8 _pad_41a8[0x4360 - 0x41a8];
+    u8 _pad_41a8[0x41f0 - 0x41a8];
+    // set by invoked1 once the album picture's layout has closed
+    /* 0x41f0 */ u8 _41f0;
+    u8 _pad_41f1[0x4360 - 0x41f1];
     /* 0x4360 */ f32 _4360;
     u8 _pad_4364[0x4368 - 0x4364];
     /* 0x4368 */ Unk_7102474bc8 _4368;

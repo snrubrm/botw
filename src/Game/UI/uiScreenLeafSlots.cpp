@@ -507,6 +507,22 @@ void ScreenAppCamera::m100() {
     getStateMachine().changeState(&sUnk_710261ee98);
 }
 
+// 0x71009d7b80
+void ScreenAppCamera::invoked1() {
+    if (!_4028)
+        return;
+    const bool has_name = _4179 && _417c;
+    const sead::SafeString& name = has_name ? _4198 : sead::SafeString::cEmptyString;
+    SaveSystem::instance()->saveAlbumPicture(_4020, name, _4028);
+    if (has_name) {
+        _3688->startAnimCloseImpl_(false, true);
+        _4102 = 0;
+        _408a = 0;
+        _41f0 = 1;
+    }
+    sub_71009D3AA0(_36f0++);
+}
+
 // 0x71009d7c40
 void ScreenAppCamera::invoked2() {
     if (!_4038)
