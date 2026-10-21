@@ -113,6 +113,11 @@ namespace ksys {
 class OverlayArena;
 }
 
+namespace ksys::snd {
+class Unk_710251af10;
+class Unk_710251af30;
+}  // namespace ksys::snd
+
 namespace ksys::act {
 class Actor;
 class ActorCreator;
@@ -943,6 +948,19 @@ public:
               cCustomEvt , cCustomEvt2)
     // clang-format on
 
+    // The ducking settings of an attenuation entry (Unk_710251aef0::calc; 0xc bytes, an array in
+    // DuckingMgr::init 0x710103e58c).
+    struct AttenuationParam {
+        // Whether the entry keeps ducking while the ducker is already on.
+        /* 0x0 */ bool _0;
+        // Multiplies the volume by the spatial volume of positioned sounds.
+        /* 0x1 */ bool _1;
+        // Starts from the value given with the handle.
+        /* 0x2 */ bool _2;
+        /* 0x4 */ f32 _4;
+        /* 0x8 */ f32 _8;
+    };
+
     struct Ducker : public aal::IDuckingSource, public Unk_7102502200 {
         // Vtable order (0x71025021b8): destructor pair and the ducking source interface.
         bool isOnDucking() const override;
@@ -970,7 +988,8 @@ public:
         /* 0x10 */ sead::FixedSafeString<64> mName;
         /* 0x68 */ aal::GroupDucker mDucker;
         /* 0xb0 */ Unk_7102612628* _b0 = nullptr;
-        u8 _b8[8];
+        // Set by DuckingMgr::init 0x710103e58c for the duckers of the attenuation entries (Unk_710251aef0).
+        /* 0xb8 */ AttenuationParam* mAttenuationParam;
         /* 0xc0 */ f32 _c0;
         /* 0xc4 */ f32 _c4;
         /* 0xc8 */ u8 _c8;  // bit 0: active
@@ -1886,10 +1905,11 @@ public:
     /* 0x50 */ FxMgr* _50;
     ListenerPoser* _58;
     /* 0x60 */ ResourceManager* _60;
-    u8 _68[0x78 - 0x68];
+    u8 _68[0x70 - 0x68];
+    /* 0x70 */ Unk_710251af30* _70;
     /* 0x78 */ OcclusionMgr* mOcclusionMgr;
     /* 0x80 */ DuckingMgr* mDuckingMgr;
-    u8 _88[8];
+    /* 0x88 */ Unk_710251af10* _88;
     /* 0x90 */ ExpressionSoundCtrl* _90;
     /* 0x98 */ Unk_710103b704* _98;
     /* 0xa0 */ Unk_710105a6f0* _a0;

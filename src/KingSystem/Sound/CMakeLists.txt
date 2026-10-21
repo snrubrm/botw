@@ -55,6 +55,10 @@ target_sources(uking PRIVATE
   sndDuckingRequest.cpp
   sndSoundMgr38_40.cpp
   sndSoundMgr38_60.cpp
+  sndAttenuationDucker.cpp
+  sndSoundAttenuationMgr.h
+  sndSoundAttenuationMgr.cpp
+  sndEmitterAllocateCallback.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp
   sndStreamPath.cpp
