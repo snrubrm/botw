@@ -28,6 +28,52 @@ Unk_710251d160::~Unk_710251d160() = default;
 
 // NON_MATCHING: the original copies the two stream pointers with one ldp / stp pair (and the
 // flag select has its operands swapped).
+// inline-only in the original; name is a guess: Unk_710251d0e0::sub_71012EA228 and
+// Unk_710251d160::sub_71012EAE10 repeat this loop with f32 and u16 values.
+// Writes convert(x, width) / convert(y, height) at x_offset / y_offset of each stride-byte vertex, in
+// strips of `step` along the longer side.
+template <typename T>
+static void generateGridVertices(sead::IDelegate2R<f32, f32, T>* convert, void* vertices,
+                                 u32 x_offset, u32 y_offset, u32 stride, u32 width, u32 height,
+                                 u32 x0, u32 x1, u32 y0, u32 y1, u32 step) {
+    u8* out = static_cast<u8*>(vertices);
+    const f32 w = static_cast<f32>(width);
+    const f32 h = static_cast<f32>(height);
+    if (y1 - y0 < x1 - x0 && step != 0) {
+        for (u32 y = y0; y <= y1; y += step) {
+            const u32 n = y + step <= y1 ? step : y1 + 1 - y;
+            for (u32 x = x0; x <= x1; ++x) {
+                for (u32 i = 0; i < n; ++i) {
+                    *reinterpret_cast<T*>(out + x_offset) = (*convert)(static_cast<f32>(x), w);
+                    *reinterpret_cast<T*>(out + y_offset) = (*convert)(static_cast<f32>(y + i), h);
+                    out += stride;
+                }
+            }
+            if (y == y0) {
+                ++y;
+                --step;
+            }
+        }
+    } else {
+        if (step == 0)
+            step = x1 - x0 + 1;
+        for (u32 x = x0; x <= x1; x += step) {
+            const u32 n = x + step <= x1 ? step : x1 + 1 - x;
+            for (u32 y = y0; y <= y1; ++y) {
+                for (u32 i = 0; i < n; ++i) {
+                    *reinterpret_cast<T*>(out + x_offset) = (*convert)(static_cast<f32>(x + i), w);
+                    *reinterpret_cast<T*>(out + y_offset) = (*convert)(static_cast<f32>(y), h);
+                    out += stride;
+                }
+            }
+            if (x == x0) {
+                ++x;
+                --step;
+            }
+        }
+    }
+}
+
 void Unk_710251d160::initialize(const InitArg& arg) {
     mFlags |= 0x20000000;
     mAttribute = arg.attribute;
@@ -304,6 +350,14 @@ void Unk_710251d160::m12(u32* vertices, u32 x0, u32 x1, u32 y0, u32 y1) {
 }
 
 // NON_MATCHING: the original converts unconditionally and selects 0 for a negative ratio at the end.
+// NON_MATCHING: register allocation and the loop counter increments are scheduled differently.
+void Unk_710251d160::sub_71012EAE10(sead::IDelegate2R<f32, f32, u16>* convert, void* vertices,
+                                    u32 x_offset, u32 y_offset, u32 stride, u32 width, u32 height,
+                                    u32 x0, u32 x1, u32 y0, u32 y1, u32 step) {
+    generateGridVertices(convert, vertices, x_offset, y_offset, stride, width, height, x0, x1, y0, y1,
+                         step);
+}
+
 u16 Unk_710251d160::sub_71012EB11C(f32 value, f32 max) {
     const f32 ratio = value / max;
     return ratio < 0.0f ? 0 : static_cast<s32>(std::min(ratio, 1.0f) * 65535.0f + 0.5f);
@@ -417,6 +471,16 @@ void Unk_710251d0e0::m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y
 f32 Unk_710251d0e0::sub_71012EA534(f32 value, f32 max) {
     return value / max;
 }
+
+// NON_MATCHING: the y-strip branch updates the step with csetm / add (the original: cset / sub), and the
+// convert pointer is moved later; same size.
+void Unk_710251d0e0::sub_71012EA228(sead::IDelegate2R<f32, f32, f32>* convert, void* vertices,
+                                    u32 x_offset, u32 y_offset, u32 stride, u32 width, u32 height,
+                                    u32 x0, u32 x1, u32 y0, u32 y1, u32 step) {
+    generateGridVertices(convert, vertices, x_offset, y_offset, stride, width, height, x0, x1, y0, y1,
+                         step);
+}
+
 
 void Unk_710251d0e0::m7(void* vertices, void* indices) {
     mFlags |= 0x80000000;

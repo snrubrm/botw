@@ -2234,9 +2234,9 @@ public:
     // 0x71012eb11c: value / max as a 16-bit unorm (0 for negative ratios).
     static u16 sub_71012EB11C(f32 value, f32 max);
     // 0x71012eae10: the grid vertex generator m12 calls with sub_71012EB11C as the converter.
-    static void sub_71012EAE10(sead::IDelegate2R<f32, f32, u16>* convert, u32* vertices, u32 a,
-                               u32 b, u32 c, s32 width, s32 height, u32 x0, u32 x1, u32 y0,
-                               u32 y1, u32 restart_step);
+    static void sub_71012EAE10(sead::IDelegate2R<f32, f32, u16>* convert, void* vertices, u32 x_offset,
+                               u32 y_offset, u32 stride, u32 width, u32 height, u32 x0, u32 x1,
+                               u32 y0, u32 y1, u32 step);
 
     s32 _30 = 0;
     s32 _34 = 0;
@@ -2571,9 +2571,9 @@ public:
     // 0x71012ea534: the generator's coordinate converter (value / max).
     static f32 sub_71012EA534(f32 value, f32 max);
     // 0x71012ea228: the grid vertex generator m12 calls with sub_71012EA534 as the converter.
-    static void sub_71012EA228(sead::IDelegate2R<f32, f32, f32>* convert, sead::Vector2f* vertices, u32 a,
-                               u32 b, u32 c, s32 width, s32 height, u32 x0, u32 x1, u32 y0,
-                               u32 y1, u32 restart_step);
+    static void sub_71012EA228(sead::IDelegate2R<f32, f32, f32>* convert, void* vertices, u32 x_offset,
+                               u32 y_offset, u32 stride, u32 width, u32 height, u32 x0, u32 x1,
+                               u32 y0, u32 y1, u32 step);
     virtual void m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1);
     virtual void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex);
 
