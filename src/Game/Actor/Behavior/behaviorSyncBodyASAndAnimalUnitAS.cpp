@@ -1,4 +1,5 @@
 #include "Game/Actor/Behavior/behaviorSyncBodyASAndAnimalUnitAS.h"
+#include <prim/seadFormatPrint.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -49,6 +50,21 @@ void SyncBodyASAndAnimalUnitAS::Callback::sub_71006459BC(ksys::act::Actor* actor
     sub_7100645E24(list, name, target_bone, seq_bank);
     list->sub_710115F158(list, target_bone, 0, seq_bank, bank);
     mBank = bank;
+}
+
+// NON_MATCHING: argument setup order of the two merged startAnimationMaybe calls.
+void SyncBodyASAndAnimalUnitAS::Callback::sub_7100645E24(ksys::as::ASList* list,
+                                                          const sead::SafeString& name,
+                                                          int target_bone, int seq_bank) {
+    if (!mPreFix_s.isEmpty()) {
+        sead::FixedSafeString<128> key;
+        (sead::StringCutOffPrintFormatter(&key) << "%s%s" << mPreFix_s.cstr(), name) << sead::flush;
+        if (list->sub_710115AA68(key)) {
+            list->startAnimationMaybe(-1.0f, -1.0f, key, target_bone, seq_bank, true);
+            return;
+        }
+    }
+    list->startAnimationMaybe(-1.0f, -1.0f, name, target_bone, seq_bank, true);
 }
 
 void SyncBodyASAndAnimalUnitAS::enter() {
