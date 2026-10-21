@@ -58,6 +58,7 @@
 #include <common/aglGPUMemBlock.h>
 
 namespace agl { class DisplayList; }
+namespace uking { class Unk_71024739f8; }
 #include "Game/gameUnk_71024739f8.h"
 #include "controller/seadControllerAddon.h"
 #include "framework/seadSingleScreenMethodTreeMgr.h"
@@ -325,10 +326,16 @@ public:
 // vtable 0x710246cb78 is ksys::evt::S7EventFlow (evtS7.h).
 
 // vtable 0x710246d1e8 (4 slots); placeholder generated from the vtable (genskel.py).
+// ctor 0x71008be9c0, D1 0x71008be9dc, D0 0x71008bea58: owns an input source; bit 0 of mFlags means
+// the source is in the Root5 list.
 class Unk_710246d1e8 {
     SEAD_RTTI_BASE(Unk_710246d1e8)
 public:
+    Unk_710246d1e8();
     virtual ~Unk_710246d1e8();
+
+    u32 mFlags = 0;
+    uking::Unk_71024739f8* mSource = nullptr;
 };
 
 // vtable 0x71024742f0 (35 slots); placeholder generated from the vtable (genskel.py).

@@ -76,6 +76,8 @@ target_sources(uking PRIVATE
   gameRadarMgr.h
   gameRoot38.cpp
   gameRoot38.h
+  gameRoot5.cpp
+  gameRoot5.h
   gameRumble.h
   gameUnk_71024739d0.cpp
   gameUnk_71024739d0.h

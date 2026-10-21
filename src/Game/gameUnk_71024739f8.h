@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadDelegate.h>
@@ -55,8 +56,10 @@ private:
     PointerState mPointerState{false, false, sead::Vector2f::zero};
     u8 _44c[4];
     sead::AnyDelegate1<PointerState*> mPointerStateDelegate;
-    u64 _470 = 0;
-    u64 _478 = 0;
+    // Links the source into the Root5 list.
+    sead::ListNode mListNode;
+
+    friend class Root5;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024739f8::PointerState, 0xc);
 KSYS_CHECK_SIZE_NX150(Unk_71024739f8, 0x480);

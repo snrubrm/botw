@@ -1,4 +1,5 @@
 #include "Game/gameUnk_71008be174.h"
+#include "Game/gameRoot5.h"
 #include <prim/seadXmlDocument.h>
 #include <controller/seadController.h>
 #include "Game/gameMaskController.h"
@@ -88,9 +89,18 @@ void Unk_71008be174::sub_71008BE778(bool* out) {
 
 }  // namespace uking
 
-// NON_MATCHING: placeholder destructor; the original (0x71008be9dc) also destroys members or bases
-// this class does not declare yet.
-Unk_710246d1e8::~Unk_710246d1e8() = default;
+Unk_710246d1e8::Unk_710246d1e8() = default;
+
+Unk_710246d1e8::~Unk_710246d1e8() {
+    if (mFlags & 1) {
+        uking::Root5::instance()->removeFromList(mSource);
+        mFlags &= ~1u;
+    }
+    if (mSource) {
+        delete mSource;
+        mSource = nullptr;
+    }
+}
 
 Unk_710246d140::Unk_710246d140() = default;
 
