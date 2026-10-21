@@ -230,7 +230,9 @@ void Unk_710260f0c0::m4(sead::Heap* heap) {
     _8.sub_7100FF7920(20, heap);
 }
 
-// NON_MATCHING: the original loads 1.25f from 0x71024fca70 (next to the root vtable) instead of an fmov immediate.
+// 0x71024fca70: the 1.25 second threshold (next to the TU's root vtable).
+KSYS_VISIBILITY_HIDDEN f32 sUnk_71024FCA70 = 1.25f;
+
 void Unk_710260f0c0::m5() {
     if (!(_c4 & 1))
         return;
@@ -243,7 +245,7 @@ void Unk_710260f0c0::m5() {
     if (wm && (env_mgr = wm->getEnvMgr()) && env_mgr->getPaletteSet() == 40) {
         if (_b8 && (_c4 & 4)) {
             _c0 += sub_710105E3A4();
-            if (_c0 > 1.25f) {
+            if (_c0 > sUnk_71024FCA70) {
                 _b8->sub_71010038C0();
                 _c4 &= ~4;
             }
