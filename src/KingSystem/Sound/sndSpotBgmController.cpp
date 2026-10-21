@@ -9,6 +9,8 @@
 #include "KingSystem/Sound/sndBgmMgr.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 // The TU statics (static initialiser 0x7100ffc100).
 namespace {
@@ -60,6 +62,72 @@ void Unk_710260f198::m5() {
         mBossBgms->sub_710100D694();
     _8.sub_7100FF7698();
     sub_7100FFB7E8();
+}
+
+// NON_MATCHING: the original loads _ec once before the concentration test and keeps it in a register across the
+// blocks; ours reloads it in each block (through this + 0xec).
+// Starts and stops the environment BGMs that depend on the world: BloodyMoon (blood moon concentration), MazeForest
+// (palette sets 1 and 7), AnimalMaster (palette set 12), BigMaze (palette set 11) and OneHitKillTrial (45).
+void Unk_710260f198::sub_7100FFB5B0() {
+    auto* placement = map::PlacementMgr::instance();
+    sead::Heap* heap = placement ? placement->mDynamicHeap : nullptr;
+
+    s32 palette = -1;
+    if (auto* world = world::Manager::instance()) {
+        if (auto* env = world->getEnvMgr())
+            palette = env->getPaletteSet();
+    }
+    const f32 concentration = world::Manager::instance()->getEnvMgr()->getConcentrationBM();
+
+    if (concentration > 0.0f) {
+        if (heap && !(_ec & 8)) {
+            _8.sub_7100FF7920(BgmKind::cBloodyMoon, heap);
+            _ec |= 8;
+        }
+    } else if (_ec & 8) {
+        _8.sub_7100FF7BE0(BgmKind::cBloodyMoon);
+        _ec &= ~8;
+    }
+
+    if (palette == 7 || palette == 1) {
+        if (heap && !(_ec & 0x10)) {
+            _8.sub_7100FF7920(BgmKind::cMazeForest, heap);
+            _ec |= 0x10;
+        }
+    } else if (_ec & 0x10) {
+        _8.sub_7100FF7BE0(BgmKind::cMazeForest);
+        _ec &= ~0x10;
+    }
+
+    if (palette == 12) {
+        if (heap && !(_ec & 0x40)) {
+            _8.sub_7100FF7920(BgmKind::cAnimalMaster, heap);
+            _ec |= 0x40;
+        }
+    } else if (_ec & 0x40) {
+        _8.sub_7100FF7BE0(BgmKind::cAnimalMaster);
+        _ec &= ~0x40;
+    }
+
+    if (palette == 11) {
+        if (heap && !(_ec & 0x20)) {
+            _8.sub_7100FF7920(BgmKind::cBigMaze, heap);
+            _ec |= 0x20;
+        }
+    } else if (_ec & 0x20) {
+        _8.sub_7100FF7BE0(BgmKind::cBigMaze);
+        _ec &= ~0x20;
+    }
+
+    if (palette == 45) {
+        if (heap && !(_ec & 0x80)) {
+            _8.sub_7100FF7920(BgmKind::cOneHitKillTrial, heap);
+            _ec |= 0x80;
+        }
+    } else if (_ec & 0x80) {
+        _8.sub_7100FF7BE0(BgmKind::cOneHitKillTrial);
+        _ec &= ~0x80;
+    }
 }
 
 // 0x710260f1d8: the fade curve 0x7100ffb7e8 applies to the source volume (never written; hidden so that it is not
