@@ -2454,6 +2454,7 @@ public:
     ScreenMiniGame();
     ~ScreenMiniGame() override;
     SEAD_RTTI_OVERRIDE(ScreenMiniGame, ScreenEx)
+    const char* getLayoutName_() const override;
     void m100() override;
 
     /* 0x3610 */ eui::LayoutEx* _3610[7];

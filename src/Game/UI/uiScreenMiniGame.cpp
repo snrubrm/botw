@@ -2,6 +2,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTUStatics.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiCapturePane.h"
 #include <container/seadBuffer.h>
@@ -9,6 +10,30 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
+
+// The TU's statics (static initializer 0x7100a26ebc). The FixedSafeString sits on its own at 0x71025eff00;
+// the others are merged into the block at 0x71025f0020 after the uiTUStatics.h objects.
+static sead::FixedSafeString<256> sUnk_71025EFF00;
+static sead::SafeString sLayoutName = "MiniGame_00";
+static sead::SafeString sUnk_71025F0218[] = {"Pa_Timer_00",      "Pa_Golf_00",   "Pa_Mato_00",
+                                             "Pa_Distance_00",   "Pa_CheckPoint_00", "Pa_Finish_00",
+                                             "Pa_NewRecord_00"};
+static sead::Buffer<sead::SafeString> sUnk_71025F0178(sUnk_71025F0218);
+static sead::SafeString sUnk_71025F0188[] = {"State"};
+static sead::Buffer<sead::SafeString> sUnk_71025F0198(sUnk_71025F0188);
+static sead::SafeString sUnk_71025F01F8[] = {"CountUp", "Mode"};
+static sead::Buffer<sead::SafeString> sUnk_71025F01A8(sUnk_71025F01F8);
+static sead::SafeString sUnk_71025F01B8 = "T_Num_00";
+static sead::SafeString sUnk_71025F01C8 = "0000";
+static sead::SafeString sUnk_71025F01D8 = "0001";
+// 0x71024907e0 / 0x71025f01e8: the mini game layouts that stay closed while another screen blocks them
+static const s32 sUnk_71024907e0[] = {4, 2, 1};
+static sead::Buffer<const s32> sUnk_71025f01e8(sUnk_71024907e0);
+
+// 0x7100a27688
+const char* ScreenMiniGame::getLayoutName_() const {
+    return sLayoutName.cstr();
+}
 
 // NON_MATCHING: scalar zero stores are scheduled differently around string initialization.
 ScreenMiniGame::ScreenMiniGame()
@@ -122,12 +147,8 @@ bool ScreenMiniGame::openMinigameScreen(s32 index, s32) {
     return sub_7100A2747C(index, false);
 }
 
-// 0x71024907e0 / 0x71025f01e8: the mini game layouts that stay closed while another screen blocks them
-static const s32 sUnk_71024907e0[] = {4, 2, 1};
-static sead::Buffer<const s32> sUnk_71025f01e8(sUnk_71024907e0);
-
 // 0x7100a2747c
-// NON_MATCHING: the original addresses sUnk_71025f01e8 from the TU's merged static block (+0x1c8); the search loop
+// NON_MATCHING: the search loop
 // keeps a separate "not found" flag and the index checks are ordered 6, 0, > 6.
 bool ScreenMiniGame::sub_7100A2747C(s32 index, bool a2) {
     if (!isOpened())
