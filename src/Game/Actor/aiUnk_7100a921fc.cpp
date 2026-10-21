@@ -296,6 +296,19 @@ s32 Unk_710251cfa0::m11() {
     return _30;
 }
 
+void Unk_710251d160::m12(u32* vertices, u32 x0, u32 x1, u32 y0, u32 y1) {
+    sead::AnyDelegate2R<f32, f32, u16> convert =
+        sead::Delegate2RFunc<f32, f32, u16>(&sub_71012EB11C);
+    sub_71012EAE10(convert.getDelegate(), vertices, 0, 2, 4, m10(), m11(), x0, x1, y0, y1,
+                   mFlags & 1 ? 12 : 0);
+}
+
+// NON_MATCHING: the original converts unconditionally and selects 0 for a negative ratio at the end.
+u16 Unk_710251d160::sub_71012EB11C(f32 value, f32 max) {
+    const f32 ratio = value / max;
+    return ratio < 0.0f ? 0 : static_cast<s32>(std::min(ratio, 1.0f) * 65535.0f + 0.5f);
+}
+
 void Unk_710251d160::m7(void* vertices, void* indices) {
     mFlags |= 0x80000000;
     auto* v = static_cast<u32*>(vertices) + mBaseVertex;
