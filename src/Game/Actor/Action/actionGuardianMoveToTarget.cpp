@@ -1,5 +1,6 @@
 #include "Game/Actor/Action/actionGuardianMoveToTarget.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -93,8 +94,32 @@ void GuardianMoveToTarget::m0(Data* data, ksys::act::Actor* actor) {
     data->_40 = sead::Vector3f::ey;
 }
 
+// NON_MATCHING: the FixedObjArray constructor stores are scheduled differently (as in m0).
 void GuardianMoveToTarget::calc_() {
     GuardianActionBase::calc_();
+    auto* nav = mActor->m45();
+    if (nav) {
+        if (auto* unk = sub_7100192770()) {
+            const int state = nav->getPathState();
+            if (state != ksys::phys::NavMeshPathState::State3) {
+                if (state == ksys::phys::NavMeshPathState::State2) {
+                    setFinished();
+                    return;
+                }
+                if (_30 > 0.0f) {
+                    ksys::Timer::update(&_30, -1.0f);
+                    if (_30 <= 0.0f) {
+                        sead::FixedObjArray<sead::Vector3f, 16> targets;
+                        _30 = static_cast<f32>(unk->sub_710004B1D4(&targets));
+                        if (!targets.isEmpty())
+                            nav->sub_710019960C(targets.data(), targets.data() + targets.size());
+                    }
+                }
+                return;
+            }
+        }
+    }
+    setFailed();
 }
 
 }  // namespace uking::action
