@@ -245,6 +245,25 @@ bool Unk_71025194d0::m11() const {
 
 Unk_7102519540::~Unk_7102519540() = default;
 
+// NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
+void Unk_7102519540::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                               const sead::Matrix44f& projection, int view_index) const {
+    if (!_50 || !(_48 & 1) || !m11())
+        return;
+    if (!(_5a & (1 << view_index)))
+        return;
+
+    const f32 radius = std::max(mRadius, 0.0f);
+    if (radius <= 0.0f) {
+        agl::utl::DevTools::beginDrawImm(context, view, projection);
+        agl::utl::DevTools::drawLineImm(context, mStart, mEnd, mColor, 1.0f);
+    } else {
+        agl::utl::DevTools::drawCapsule(context, mStart, mEnd, radius, mColor, view, projection,
+                                        false);
+    }
+    agl::utl::DevTools::drawCapsule(context, mStart, mEnd, _110, mColor, view, projection, false);
+}
+
 void Unk_7102519540::m9() {
     _5c = 0;
 }
