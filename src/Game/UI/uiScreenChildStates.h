@@ -462,6 +462,11 @@ public:
 };
 static_assert(sizeof(AppMapIconPart) == 0x450);
 
+// 0x71025d80ad8 (placeholder name): the AppMapIconPart the map marker classes read the re-registration
+// floats at +0x350 from. Written by the AppMapIconPart setup 0x710099099c (still undecompiled); it is
+// hidden external because the marker code lives in another translation unit.
+KSYS_VISIBILITY_HIDDEN extern AppMapIconPart* sUnk_71025D80AD8;
+
 // 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
 void sub_710099EF18(AppMapIconPart* self, s32 mode);
 // 0x710099ef78 / 0x710099f0f0 / 0x710099f490 (declared only; not decompiled)

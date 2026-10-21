@@ -840,6 +840,26 @@ void Unk_7102478be0::m8() {
     }
 }
 
+// 0x710098eb9c
+void Unk_7102478be0::m11() {
+    Unk_7102477fc0::m11();
+    if (!_18)
+        return;
+    u32 flags = _18->_3c;
+    if (!(flags & 1))
+        return;
+    if ((flags & 0x30) == 0x30 || (flags & 3) == 3) {
+        setMapMarkerAncientText();
+        flags = _18->_3c;
+    }
+    if ((flags & 0x30) != 0x30 && (flags & 3) != 3) {
+        const AppMapIconPart* part = sUnk_71025D80AD8;
+        if (part->_350.x == part->_350.y)
+            return;
+    }
+    sub_710098EAB8();
+}
+
 // NON_MATCHING: the original reuses the message's stack slot for the T_Ancient_00 name and addresses the guard of
 // sTypes from a merged base
 // 0x710098e848

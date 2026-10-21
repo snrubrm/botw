@@ -1508,6 +1508,9 @@ void Unk_7102477110::m14() {}
 
 
 // 0x710098fc08
+// 0x71025d80ad8: hidden external so the marker TU loads it with adrp + ldr instead of folding it.
+KSYS_VISIBILITY_HIDDEN AppMapIconPart* sUnk_71025D80AD8;
+
 AppMapIconPart::AppMapIconPart(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x710099ec7c
