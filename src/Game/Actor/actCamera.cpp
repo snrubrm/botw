@@ -344,6 +344,28 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+void Camera::sub_7100793BD8() {
+    if (_860._804.sub_710079ADC8(1))
+        return;
+    if (_10f8 != 4) {
+        _10f8 = 0;
+        return;
+    }
+    _10f8 = 5;
+    if (_860._7fc.sub_710079C0CC(0x2000)) {
+        _860._818 = 0;
+        return;
+    }
+    _1240.sub_7100929F44();
+    if (!_1240._40.isInvalid()) {
+        _860._70 = _1240._40;
+    } else {
+        nullsub_4649();
+        _860._70 = _860._0;
+        _1240.sub_71009298C4();
+    }
+}
+
 void Camera::setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3f& pos) {
     if (ksys::util::sub_71011F10F4(mtx)) {
         sead::FormatFixedSafeString<128> message("mtx = \n%f", mtx);

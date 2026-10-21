@@ -381,6 +381,8 @@ public:
     void sub_710092A83C();
     // 0x71009298c4 (placeholder name): like sub_710092A83C, but leaves _145 / _148 alone.
     void sub_71009298C4();
+    // 0x7100929f44 (placeholder name; declared only): updates the state _40 (Camera::sub_7100793BD8 copies it).
+    void sub_7100929F44();
     // 0x7100928c50 (placeholder name): sets up a camera ray cast (GroundHit Camera, the ground / water / object layers).
     void sub_7100928C50(ksys::phys::RayCast* ray_cast);
 
