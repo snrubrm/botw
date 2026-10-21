@@ -94,6 +94,32 @@ void BeamBase::updatePositionMaybe() {
     DynamicActor::updatePositionMaybe();
 }
 
+void BeamBase::sub_71000029CC() {
+    if (!_c48.isActive() || _c48.getEvent()->getBitFlag().isOnBit(4)) {
+        _c48 = ksys::eft::searchAndEmitELink(this, "Tail");
+        _c48.setMatrix(getMtx());
+        getMtx().getTranslation(_c68);
+    }
+
+    if (!_c58.isActive() || _c58.getEvent()->getBitFlag().isOnBit(4)) {
+        ksys::eft::sub_710105DDB8(this, "Tail", &_c58);
+        if (_c78) {
+            sead::Vector3f pos;
+            getMtx().getTranslation(pos);
+            _c78->setPosition(pos);
+            auto* shape = _c78;
+            if (shape && _c58.isActive()) {
+                if (auto* executor =
+                        static_cast<xlink2::EventSLink*>(_c58.getEvent())->getAliveAssetExecutor())
+                    if (auto* source = executor->getHandle()->getSoundSource())
+                        source->mSpatialSetting.setShape(shape);
+            }
+        }
+    }
+
+    m166();
+}
+
 void BeamBase::calcMaybe() {
     if (_c84.isBitOn(0)) {
         if (auto* physics = getPhysics()) {
