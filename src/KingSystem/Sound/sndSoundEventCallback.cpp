@@ -1,5 +1,11 @@
 // The TU at 0x71012ceddc ..: the second SLink event callback of SoundMgr::_70 (Unk_710251b7a0).
 #include <aal/aalGroupMgr.h>
+#include <aal/aalHandle.h>
+#include <algorithm>
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
+#include <xlink2/xlink2ResourceAccessorSLink.h>
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include <aal/aalSystemAccessor.h>
 #include "KingSystem/Sound/sndSoundAttenuationMgr.h"
 
@@ -61,6 +67,25 @@ void Unk_710251b7a0::sub_71012CEE94() {
     pushGroup(mgr, mGrassShakeGroups, "ObjGrassShake");
     pushGroup(mgr, mGrassShakeGroups, "ObjOutdoor");
     removeDuplicates(mGrassShakeGroups);
+}
+
+// NON_MATCHING: the bit moves of the NaN tests are scheduled after the first compare.
+void Unk_710251b7a0::sub_71012CF50C(f32 volume, const EventArg& arg) {
+    const auto& accessor = arg.pUserInstance->getResourceAccessor();
+    const f32 base = accessor.getCustomParamValueFloat(0u, *arg.pAssetCallTable, arg.pUserInstance);
+    const f32 scale1 = accessor.getCustomParamValueFloat(4, *arg.pAssetCallTable, arg.pUserInstance);
+    f32 value = scale1 != 1.0f ? base * scale1 : base;
+    const f32 scale2 = accessor.getCustomParamValueFloat(6, *arg.pAssetCallTable, arg.pUserInstance);
+    value = scale2 != 1.0f ? value * scale2 : value;
+    if (sead::Mathf::isNan(scale2) | sead::Mathf::isNan(scale1) | sead::Mathf::isNan(base) |
+        sead::Mathf::isNan(volume))
+        value = 0.0f;
+
+    if (volume >= 0.0f)
+        value *= volume;
+    else if (value == 1.0f)
+        return;
+    arg.pHandle->setVolume(std::max(value, 0.0f));
 }
 
 }  // namespace ksys::snd

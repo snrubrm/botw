@@ -137,6 +137,9 @@ public:
     void sub_71012CEE90(sead::Heap* heap);
     // 0x71012cee94: fills the four group arrays from the group manager.
     void sub_71012CEE94();
+    // 0x71012cf50c (placeholder name; `this` is not read): sets the handle volume from custom params 0, 4 and 6,
+    // scaled by `volume` when it is not negative.
+    void sub_71012CF50C(f32 volume, const EventArg& arg);
 
     // The environment, chemical fire and object groups (indoor and outdoor) and their descendants.
     /* 0x010 */ sead::FixedPtrArray<aal::Group, 32> mIndoorOutdoorGroups;
