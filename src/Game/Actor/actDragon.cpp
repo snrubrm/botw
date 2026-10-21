@@ -59,6 +59,17 @@ void Dragon::updatePositionMaybe() {
     _1f70.set(0x40000000);
 }
 
+void Dragon::sub_710000DBE0() {
+    if (auto* controller = getCharacterController())
+        controller->warpActorToPosition(_1f40);
+    sead::Matrix34f mtx = *_14c8.sub_71006FC514();
+    mtx.setTranslation(_1f40);
+    x(mtx);
+    _14c8.sub_71006FC348(mtx);
+    sub_710000D474();
+    _1f70.reset(0x800000);
+}
+
 void Dragon::afterModelMatrixUpdate() {
     if (_1e0c != 0)
         return;

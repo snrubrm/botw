@@ -194,6 +194,8 @@ public:
     // 0x710000bc38 (CSV name; lane1 s45): sets the game data flag `name` of the dragon (`idx` -1: the dragon's own).
     bool setGameDataFlag(bool value, const sead::SafeString& name, int idx);
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
+    // 0x710000dbe0 (placeholder name): warps the dragon to _1f40 and moves the body matrix there.
+    void sub_710000DBE0();
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
     // 0x710001014c: *_14c8.sub_71006FC514() (DragonMoveTo::enter_).
     const sead::Matrix34f& sub_710001014C() const;
@@ -208,6 +210,8 @@ public:
         // Reset part snapshots, then place the segment chain from the transform history.
         void sub_71006FB998();
         void sub_71006FC6C8(const sead::Matrix34f& matrix);
+        // 0x71006fc348 (declared only): stores the matrix at +0x20 (identity if it has a NaN).
+        void sub_71006FC348(const sead::Matrix34f& matrix);
 
         // 0x71006fb8a8 (placeholder name): with flags 2 and 3 set, detaches the three bone parts and every
         // valid named part of _850 from the actor (Actor::sub_71011DA868), then clears flag 3.
@@ -278,7 +282,7 @@ public:
     /* 0x1ec0 */ Unk_710250d530 _1ec0;
     /* 0x1ef0 */ sead::FixedSafeString<20> _1ef0;
     /* 0x1f18 */ sead::FixedSafeString<20> _1f18;  // current horn animation (sub_710000EA88)
-    /* 0x1f40 */ u8 _1f40[0x1f4c - 0x1f40];
+    /* 0x1f40 */ sead::Vector3f _1f40;
     // FC70 writes these; calcMaybe D5E0 passes them in s0/s1 to6FD6BC.
     /* 0x1f4c */ f32 _1f4c;
     /* 0x1f50 */ f32 _1f50;
