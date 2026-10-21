@@ -155,6 +155,14 @@ void ScreenAppAlbum::m170() {
         window->m154(0);
 }
 
+// 0x71009d620c
+void ScreenAppAlbum::m166() {
+    createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+    if (auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        window->m154(1);
+}
+
 // 0x71009d64a0
 void ScreenAppAlbum::m171() {
     auto* window = sead::DynamicCast<ScreenAppSystemWindow>(

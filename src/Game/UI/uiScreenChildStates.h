@@ -438,7 +438,7 @@ public:
     u8 _320[0x341 - 0x320]{};
     /* 0x344 */ u32 _344[2]{};
     /* 0x34c */ bool _34c = false;
-    /* 0x350 */ void* _350 = nullptr;
+    /* 0x350 */ sead::Vector2f _350{0, 0};
     /* 0x358 */ f32 _358 = 1.0f;
     /* 0x35c */ u8 _35c[0x370 - 0x35c]{};
     /* 0x370 */ eui::MassDrawPane* _370 = nullptr;
