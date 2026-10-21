@@ -22,6 +22,13 @@ public:
     // matrix from a perspective nn::ui2d::DrawInfo (1280 x 720).
     void doInitialize(sead::Heap* heap) override;
 
+    // 0x7100f0a728 (placeholder name): the draw method callback; render step 0 draws particle group
+    // 10 and step 2 group 11.
+    void drawParticlesMaybe(const agl::lyr::RenderInfo& info);
+    // 0x7100f0a898 (declaration only; placeholder name): draws the layout particles of `group` when
+    // the particle manager has any to draw.
+    void drawParticleGroupMaybe(s32 group, const agl::lyr::RenderInfo& info);
+
 private:
     agl::lyr::DrawMethod mParticleBeforeLayout;
     agl::lyr::DrawMethod mParticleAfterLayout;
