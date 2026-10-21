@@ -18,11 +18,11 @@ namespace ksys::snd {
 
 // The level thresholds (0x710251b2d0, in .data): volume over now, volume over held (with the hold time), true
 // peak over.
-f32 sUnk_710251b2d0[4] = {-13.0f, -14.0f, 0.5f, -3.0f};
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710251b2d0[4] = {-13.0f, -14.0f, 0.5f, -3.0f};
 
-// NON_MATCHING: the thresholds are read through the GOT here (the original reads its own .data directly), the
-// over kind is passed as a 32-bit value (the original uses a 64-bit register: probably a 4-byte class) and the
-// delta time multiply is scheduled later.
+// NON_MATCHING: the over kind's zero is materialised as w1 here where the original uses x1 (the 1 / 2 calls use
+// w1 in both), and the delta-time / group checks are scheduled slightly differently. The threshold table is now a
+// hidden global, so it is read with adrp + add like the original.
 void Unk_SoundMgr2a0::sub_71012C629C() {
     if (!_8)
         return;
