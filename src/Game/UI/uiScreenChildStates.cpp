@@ -1841,6 +1841,56 @@ void sub_710099EF78(AppMapIconPart* self) {
     self->_408 = nullptr;
 }
 
+// 0x71009f490 (placeholder name): the map icon mode 3 body.
+// NON_MATCHING: two block-shape differences. The three frame ranges collapse into one `frame - 0xf < 0xb`
+// test plus a select (the original keeps every range separate), and the kind test folds to `kind - 0x15 <=
+// 1` (the original compares the kind and the temporary through stack slots). The rest matches. The pin index comes from the frame of the
+// animator _390 (three frame ranges map to 0..5, 6..10 and 11..13, otherwise -1); mode 0 hands the position
+// of the selected entry (or the subsystem position) to the pin widget, mode 1 also records the pin and
+// resets the two animators outside the 6..10 range.
+void sub_71009F490(AppMapIconPart* self) {
+    s32 index = -1;
+    if (self->_390) {
+        const s32 frame = s32(self->_390->mFrame);
+        if (u32(frame - 0xf) < 6) {
+            index = frame - 0xf;
+        } else if (u32(frame - 0x15) <= 4) {
+            index = frame - 0x15 + 6;
+        } else if (u32(frame - 0x22) < 4) {
+            index = frame - 0x22 + 11;
+        }
+    }
+    if (self->_420->is38e0Equal(0)) {
+        sead::Vector2f position;
+        if (self->_410) {
+            if (self->_410->_18)
+                position = self->_410->_18->_34;
+        } else {
+            position = *self->_420->getVec3878();
+        }
+        self->_420->sub_7100964518(index, position, false);
+    } else if (self->_420->is38e0Equal(1)) {
+        if (self->_410 && self->_410->_18) {
+            auto* entry = self->_410->_18;
+            const sead::Vector2f position = entry->_34;
+            const auto kind = entry->_20;
+            if (kind == UiSubsys1Entry::Kind(0x15) || kind == UiSubsys1Entry::Kind(0x16)) {
+                entry->sub_7100951388(false);
+                UiSubsys1::instance()->sub_71009645A0();
+            }
+            self->_420->sub_7100964518(index, position, true);
+            self->_420->set38f4(index);
+        }
+    }
+    if (u32(index - 6) >= 5) {
+        if (self->_388)
+            self->_388->PlayAuto(1.0f);
+        if (self->_400)
+            self->_400->PlayAuto(1.0f);
+    }
+    self->_420->set38ec(self->_420->get38e0(), 3);
+}
+
 // 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
 void sub_710099EF18(AppMapIconPart* self, s32 mode) {
     switch (mode) {

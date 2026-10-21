@@ -1338,6 +1338,9 @@ public:
     void set38e8(s32 value);
     s32 get38f4() const;
     void set38f4(s32 value);
+    // 0x7100964518 (placeholder name; 136 B, declared only): resolves the map position of `pos` and hands
+    // pin `index` to the widget; `flag` selects the pin assignment path.
+    void sub_7100964518(s32 index, const sead::Vector2f& pos, bool flag);
     s32 get38fc() const;
     void set3820(s32 value);
     void set3904(bool value);
