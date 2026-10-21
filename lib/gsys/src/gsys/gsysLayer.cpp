@@ -1,7 +1,30 @@
 #include <gsys/gsysLayer3D.h>
 #include <gsys/gsysModelScene.h>
+#include <common/aglDrawContext.h>
+#include <layer/aglRenderInfo.h>
 
 namespace gsys {
+// The original calls isRenderStepGPUCalc in these hooks and discards the result.
+void Layer::preDrawRenderStepImpl(const agl::lyr::RenderInfo& info) const {
+    agl::DrawContext* context = info.getDrawContext();
+    isRenderStepGPUCalc(info.getStepIndexMaybe());
+    context->changeShaderMode(agl::cShaderMode_UniformRegister, agl::ShaderOptimizeType(0));
+}
+
+void Layer::preDrawRenderStepMethodImpl(const agl::lyr::RenderInfo& info,
+                                        const agl::lyr::DrawMethod& method) const {
+    isRenderStepGPUCalc(info.getStepIndexMaybe());
+}
+
+void Layer::postDrawRenderStepMethodImpl(const agl::lyr::RenderInfo& info,
+                                         const agl::lyr::DrawMethod& method) const {
+    isRenderStepGPUCalc(info.getStepIndexMaybe());
+}
+
+void Layer::postDrawRenderStepImpl(const agl::lyr::RenderInfo& info) const {
+    isRenderStepGPUCalc(info.getStepIndexMaybe());
+}
+
 bool Layer::checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface* type) const {
     return checkDerivedRuntimeTypeInfoStatic(type);
 }

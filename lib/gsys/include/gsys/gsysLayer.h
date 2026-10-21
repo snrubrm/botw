@@ -29,16 +29,20 @@ public:
                                      const agl::lyr::DrawMethod& method) const override;
     void postDrawRenderStepImpl(const agl::lyr::RenderInfo& info) const override;
     void postDrawImpl(const agl::lyr::RenderInfo& info) const override;
-    bool isForceInvisible() const override;
-    void calcJobWeight() override;
+    // Inline in the original (emitted at 0x71008bf300..0x71008bf320, outside this TU).
+    bool isForceInvisible() const override { return mFlags >> 1 & 1; }
+    void calcJobWeight() override {}
     virtual void doInitialize(sead::Heap* heap);
-    virtual void doCalc();
-    virtual void doPreDraw(const agl::lyr::RenderInfo& info) const;
-    virtual void doPostDraw(const agl::lyr::RenderInfo& info) const;
+    virtual void doCalc() {}
+    virtual void doPreDraw(const agl::lyr::RenderInfo& info) const {}
+    virtual void doPostDraw(const agl::lyr::RenderInfo& info) const {}
 
 private:
     // Constructor BF4378 initializes components through the E88-byte extent.
-    u8 _208[0xe88 - 0x208];
+    u8 _208[0xc44 - 0x208];
+    // Bit 1: force invisible.
+    u8 mFlags;
+    u8 _c45[0xe88 - 0xc45];
 };
 static_assert(sizeof(agl::lyr::Layer) == 0x208);
 static_assert(sizeof(Layer) == 0xe88);
