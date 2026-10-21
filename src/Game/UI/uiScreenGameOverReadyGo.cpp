@@ -132,10 +132,4 @@ void ScreenGameOver::m156() {
         button->setFlag10(false);
 }
 
-// 0x7100a40bf8
-bool ScreenReadyGo::sub_7100A40BF8() {
-    eui::Animator* animator = mLayout->mOpenAnimator;
-    return animator && animator->mFrame >= 90.0f;
-}
-
 }  // namespace uking::ui

@@ -2140,13 +2140,6 @@ void ScreenBootUp::m94() {
     }
 }
 
-// 0x7100a40c58
-void ScreenReadyGo::m94() {
-    eui::Animator* animator = mLayout->mOpenAnimator;
-    if (animator && animator->mFrame == static_cast<f32>(animator->GetFrameSize()))
-        close(-4);
-}
-
 // 0x71009fb958
 void ScreenAppSystemWindowNoBtn::sub_71009FB958() {
     _3618 = 1;

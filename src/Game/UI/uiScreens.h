@@ -2442,10 +2442,11 @@ public:
     ScreenReadyGo();
     ~ScreenReadyGo() override;
     SEAD_RTTI_OVERRIDE(ScreenReadyGo, ScreenEx)
+    const char* getLayoutName_() const override;
     void m94() override;
 
     bool sub_7100A40BF8();
-    // 0x7100a40b58 (CSV unnamed; not decompiled)
+    // 0x7100a40b58: shows message a1 (clamped to the table) in T_Go_00
     void sub_7100A40B58(s32 a1);
 };
 
