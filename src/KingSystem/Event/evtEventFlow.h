@@ -39,6 +39,8 @@ public:
 
     // 0x7100da283c (CSV evt::S6::callActorStuff): calls ActorBase::m8 of every actor
     void callActorStuff();
+    // 0x7100da34e8 (declared only; placeholder name): per-actor setup at flow init (checks each actor's proc)
+    void sub_7100DA34E8();
     // 0x7100da28e8 (CSV evt::S6::playActors)
     void playActors();
     // 0x7100da2c18 (CSV evt::S6::getActorByPointer): the actor whose proc link refers to `proc`
@@ -202,6 +204,10 @@ public:
     bool x_4() const;
     // 0x7100db75dc: calls the actors' m8, the resource's xlink start and the sound listener, then m13
     void start();
+    // 0x7100db7198: actor setup, m11, the metadata pack (64 entries) for the handle's m8, the alive flow count
+    void init();
+    // 0x7100db6294 (CSV evt::EventFlowBase::initNoPauseActors; declared only)
+    void initNoPauseActors();
     // 0x7100db6c94 (CSV evt::EventFlowBase::x_1): 0 = not ready, 1 = loaded, 2 = loaded without extra model resources
     s32 x_1();
     // 0x7100db7a1c (CSV evt::EventFlowBase::x_8, 3.6 KB; not decompiled): the (bool) result is returned unchanged by
@@ -218,7 +224,7 @@ public:
     /* 0x108 */ EventResource* _108;
     /* 0x110 */ EventActorSet* _110;
     /* 0x118 */ EventFlowActorInfo* _118;
-    /* 0x120 */ u8* _120;
+    /* 0x120 */ char* _120;  // the buffer of mMetaData (init)
     /* 0x128 */ evfl::MetaDataPack mMetaData;
     /* 0x148 */ evfl::ActionDoneHandler _148;
     /* 0x178 */ evfl::ActionDoneHandler _178;

@@ -126,6 +126,24 @@ void EventFlowBase::initActors() {
     _110->sub_7100DA2618(_108->mActorBindings);
 }
 
+// 0x7100db7198
+void EventFlowBase::init() {
+    _110->sub_7100DA34E8();
+    m11();
+    evfl::MetaDataPack::Builder builder;
+    builder.SetNumEntries(64);
+    builder.CalcMemSize();
+    const s32 size = builder.GetRequiredSize();
+    _120 = new (mHeap, std::nothrow_t()) char[size];
+    builder.Build(&mMetaData, {_120, size});
+    _100->m8(&mMetaData, &_118->mLink);
+    if ((_340 & 0x1000100) == 0x1000000) {
+        Manager::instance()->incrementAliveEventFlowCount();
+        _340 |= 0x100;
+    }
+    initNoPauseActors();
+}
+
 // 0x7100db75dc
 void EventFlowBase::start() {
     _110->callActorStuff();
