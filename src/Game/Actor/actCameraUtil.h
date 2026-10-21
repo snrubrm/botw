@@ -427,6 +427,13 @@ public:
     // 0x7100921cac: validity check; `flags` (optional) receives the error bits (NaN components,
     // _24 outside (0, pi), non-positive _2c/_30/_34, position == look-at, _34 <= _30).
     void sub_7100921CAC(u32* flags) const;
+    // inline-only in the original; name is a guess (Camera::x_5 runs it on its five states; m150 / m151 / m153 /
+    // m154 inline the same check before copying a state).
+    bool isInvalid() const {
+        u32 flags = 0;
+        sub_7100921CAC(&flags);
+        return flags != 0;
+    }
     // 0x71009237bc: recomputes the up vector (_18) from the look direction and the roll _28.
     void sub_71009237BC();
 

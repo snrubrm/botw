@@ -344,6 +344,14 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+bool Camera::x_5() {
+    if (_860._0.isInvalid() || _860._38.isInvalid() || _860._70.isInvalid() || _860._a8.isInvalid() ||
+        _860._e0.isInvalid() || ksys::util::isMatrixInvalid(getMtx())) {
+        return true;
+    }
+    return false;
+}
+
 // The bool argument is not read.
 void Camera::m150(const sead::Vector3f* pos, const sead::Vector3f* at, f32 fovy, f32 roll, bool a5) {
     Unk_71009214b8 camera;

@@ -558,6 +558,9 @@ public:
     // 0x7100793e80 (CSV act::Camera::someCalculation): `pos` = 1.6 above the translation of `mtx`, `at` = 6 along
     // the backward (or, with sub_71009223C4, forward) axis of `mtx` from `pos`.
     void someCalculation(const sead::Matrix34f& mtx, sead::Vector3f* at, sead::Vector3f* pos);
+    // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
+    // matrix has a NaN.
+    bool x_5();
     // 0x710079572c (CSV act::Camera::updateMatrix; declared only).
     void updateMatrix(bool a1);
     void sub_7100793BD8();
