@@ -268,27 +268,27 @@ const char* Unk_71025049d0::m27() {
     return "Tree1";
 }
 
-u32 Unk_71025049d0::m42() {
+u32 Unk_71025046d0::m42() {
     return m28();
 }
 
-u32 Unk_71025049d0::m28() {
+u32 Unk_71025046d0::m28() {
     return _30;
 }
 
-u32 Unk_71025049d0::m29() {
+u32 Unk_71025046d0::m29() {
     return _34;
 }
 
-bool Unk_71025049d0::m30() {
+bool Unk_71025046d0::m30() {
     return _30a8 > 2037;
 }
 
-s32 Unk_71025049d0::m31() {
+s32 Unk_71025046d0::m31() {
     return 0x800;
 }
 
-s32 Unk_71025049d0::m32() {
+s32 Unk_71025046d0::m32() {
     return _30a8;
 }
 

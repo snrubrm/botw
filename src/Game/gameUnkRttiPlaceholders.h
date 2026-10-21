@@ -800,92 +800,28 @@ public:
     // 0x7101087a48 (D1; the CSV had it as an nn::nex destructor): destroys the lock, then the
     // Unk_710251d230 base (Unk_7102504470's destructor is trivial).
     ~Unk_71025046d0() override;
-
-    sead::CriticalSection mCS;
-    u8 _a8[0x30a8 - 0xa8];
-    s32 _30a8;
-};
-
-// vtable 0x7102504850 (46 slots); placeholder generated from the vtable (genskel.py).
-// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
-// line, so its parent chain is deeper than the one declared here.
-class Unk_7102504850 : public Unk_71025046d0 {
-    SEAD_RTTI_OVERRIDE(Unk_7102504850, Unk_71025046d0)
-public:
-    ~Unk_7102504850() override;
-    s32 m8() override;
-    s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12() { return 20; }
-    virtual s32 m13() { return 4; }
+    virtual s32 m10() = 0;
+    virtual s32 m11() = 0;
+    virtual s32 m12() = 0;
+    virtual s32 m13() = 0;
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m14(s32 index);
-    virtual u16 m15(s32 index);
-    virtual u32 m16(s32 index);
-    virtual const char* m17(s32 index);
-    virtual u32 m18(s32 index);
-    virtual s32 m19() { return 4; }
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual bool m23() { return false; }
+    virtual u32 m14(s32 index) = 0;
+    virtual u16 m15(s32 index) = 0;
+    virtual u32 m16(s32 index) = 0;
+    virtual const char* m17(s32 index) = 0;
+    virtual u32 m18(s32 index) = 0;
+    virtual s32 m19() = 0;
+    virtual s32 m20() = 0;
+    virtual u32 m21(s32 index) = 0;
+    virtual u32 m22(s32 index) = 0;
+    virtual bool m23() = 0;
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
+    virtual const char* m24(s32 index) = 0;
+    virtual u32 m25(s32 index) = 0;
     // Shader and model names of the tree draw command.
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39() {}
-    virtual void m40();
-    virtual void m41() {}
-    virtual void m42();
-    virtual void m43();
-    virtual void m44() {}
-    virtual void m45() {}
-};
-
-// vtable 0x71025049d0 (46 slots); placeholder generated from the vtable (genskel.py).
-// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
-// line, so its parent chain is deeper than the one declared here.
-class Unk_71025049d0 : public Unk_71025046d0 {
-    SEAD_RTTI_OVERRIDE(Unk_71025049d0, Unk_71025046d0)
-public:
-    ~Unk_71025049d0() override;
-    s32 m8() override;
-    s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12() { return 20; }
-    virtual s32 m13() { return 4; }
-    // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m14(s32 index);
-    virtual u16 m15(s32 index);
-    virtual u32 m16(s32 index);
-    virtual const char* m17(s32 index);
-    virtual u32 m18(s32 index);
-    virtual s32 m19() { return 4; }
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual bool m23() { return false; }
-    // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    // Shader and model names of the tree draw command.
-    virtual const char* m26();
-    virtual const char* m27();
+    virtual const char* m26() = 0;
+    virtual const char* m27() = 0;
+    // Slots 28 to 45 are shared by both tree draw commands.
     virtual u32 m28();
     virtual u32 m29();
     virtual bool m30();
@@ -904,6 +840,74 @@ public:
     virtual void m43();
     virtual void m44() {}
     virtual void m45() {}
+
+    sead::CriticalSection mCS;
+    u8 _a8[0x30a8 - 0xa8];
+    s32 _30a8;
+};
+
+// vtable 0x7102504850 (46 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_7102504850 : public Unk_71025046d0 {
+    SEAD_RTTI_OVERRIDE(Unk_7102504850, Unk_71025046d0)
+public:
+    ~Unk_7102504850() override;
+    s32 m8() override;
+    s32 m9() override;
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override { return 20; }
+    s32 m13() override { return 4; }
+    // Vertex attribute i: type, offset, buffer index, name and format.
+    u32 m14(s32 index) override;
+    u16 m15(s32 index) override;
+    u32 m16(s32 index) override;
+    const char* m17(s32 index) override;
+    u32 m18(s32 index) override;
+    s32 m19() override { return 4; }
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    bool m23() override { return false; }
+    // Texture sampler i: name and slot.
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    // Shader and model names of the tree draw command.
+    const char* m26() override;
+    const char* m27() override;
+};
+
+// vtable 0x71025049d0 (46 slots); placeholder generated from the vtable (genskel.py).
+// checkDerivedRuntimeTypeInfo does not match yet: the original calls checkDerivedRuntimeTypeInfoStatic out of
+// line, so its parent chain is deeper than the one declared here.
+class Unk_71025049d0 : public Unk_71025046d0 {
+    SEAD_RTTI_OVERRIDE(Unk_71025049d0, Unk_71025046d0)
+public:
+    ~Unk_71025049d0() override;
+    s32 m8() override;
+    s32 m9() override;
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override { return 20; }
+    s32 m13() override { return 4; }
+    // Vertex attribute i: type, offset, buffer index, name and format.
+    u32 m14(s32 index) override;
+    u16 m15(s32 index) override;
+    u32 m16(s32 index) override;
+    const char* m17(s32 index) override;
+    u32 m18(s32 index) override;
+    s32 m19() override { return 4; }
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    bool m23() override { return false; }
+    // Texture sampler i: name and slot.
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    // Shader and model names of the tree draw command.
+    const char* m26() override;
+    const char* m27() override;
 };
 
 // lane1 s95: the request passed to Unk_71024dd490::sub_71010C760C.
