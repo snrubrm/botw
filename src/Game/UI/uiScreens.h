@@ -4380,6 +4380,7 @@ public:
     // EventPlayUiActorName's ActorName) and returns true
     virtual bool m154(const sead::SafeString& name);
     SEAD_RTTI_OVERRIDE(ScreenDemoNameEnemy, ScreenEx)
+    const char* getLayoutName_() const override;
 };
 
 class ScreenShopBG : public ScreenEx {
