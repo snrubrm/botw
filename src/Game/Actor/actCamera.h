@@ -209,6 +209,12 @@ public:
     bool sub_710079BEBC() const;
     // 0x710079bed0: _7e0 = value (unless it is NaN or negative).
     void sub_710079BED0(f32 value);
+    // 0x710079bf64: unless bit 0x80000 of _7fc is set, updates _7ec / _7e8 from `angle` (sub_710079BFC0, with
+    // bit 0x10000 of _804) and sets that bit; returns _7e8.
+    f32 sub_710079BF64(const f32& angle, bool a2);
+    // 0x710079bfc0: moves _7ec to `angle` (by 0.01 degree steps when `smooth` and not `a3`) and stores
+    // sub_7100927AE0 of its horizontal direction in _7e8.
+    void sub_710079BFC0(const f32& angle, bool smooth, bool a3);
     f32 sub_710079BF0C() const;
     void sub_710079BF14();
     bool sub_710079BF20() const;
@@ -303,7 +309,7 @@ public:
     /* 0x7c0 */ sead::SafeArray<ksys::act::BaseProcLink, 2> _7c0{};
     /* 0x7e0 */ f32 _7e0 = -1.0;
     /* 0x7e4 */ f32 _7e4 = -1.0;
-    /* 0x7e8 */ u32 _7e8 = 0;
+    /* 0x7e8 */ f32 _7e8 = 0;
     /* 0x7ec */ f32 _7ec;  // angleStuff(0)
     /* 0x7f0 */ sead::SafeArray<f32, 2> _7f0{{-1.0, -1.0}};
     // _7f8 bit 0 is restored from _7fa bit 0 by CameraRoot::m35.

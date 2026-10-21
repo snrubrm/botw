@@ -444,4 +444,28 @@ void Unk_710079a8e8::sub_710079BED0(f32 value) {
     _7e0 = value;
 }
 
+f32 Unk_710079a8e8::sub_710079BF64(const f32& angle, bool a2) {
+    if (!(_7fc._0 & 0x80000)) {
+        sub_710079BFC0(angle, _804._0 & 0x10000, a2);
+        _7fc._0 |= 0x80000;
+    }
+    return _7e8;
+}
+
+// NON_MATCHING: the original loads `angle` before _7ec for the first difference (load order only).
+void Unk_710079a8e8::sub_710079BFC0(const f32& angle, bool smooth, bool a3) {
+    if (smooth && !a3) {
+        const f32 diff = angleStuff(_7ec - angle);
+        if (sub_71009226D8(diff) > 0.01f) {
+            const bool positive = angleStuff(diff) > angleStuff(0.0f);
+            _7ec = angleStuff(angle + (positive ? 0.01f : -0.01f));
+        }
+    } else {
+        _7ec = angle;
+    }
+    const f32 rad = sead::Mathf::deg2rad(_7ec);
+    const sead::Vector3f dir(std::sin(rad), 0.0f, std::cos(rad));
+    _7e8 = sub_7100927AE0(dir);
+}
+
 }  // namespace uking::act

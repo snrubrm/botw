@@ -124,6 +124,9 @@ f32 sub_7100922408(s32 idx);
 
 // 0x7100922468 (CSV angleStuff): wraps an angle in degrees into [-180, 180).
 f32 angleStuff(f32 deg);
+// 0x7100927ae0 (placeholder name; declared only): a value for the horizontal direction `dir`
+// (Unk_710079a8e8::sub_710079BFC0 stores it in _7e8).
+f32 sub_7100927AE0(const sead::Vector3f& dir);
 // Helpers on an angle in degrees passed by reference (callers pass fields such as
 // Unk_7100922700::_4 / _8 or Unk_710079a8e8::_1b8):
 // 0x7100922530: angleStuff(deg + 180).
