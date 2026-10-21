@@ -122,6 +122,14 @@ void Unk_710129175c::sub_710129276C(s32 index, Result* result) {
     result->_2c = record._1fcc;
 }
 
+void Unk_710129421c::sub_7101295560(s32 index, const sead::Color4f& color) {
+    mEntries[index]._7d0 = color;
+}
+
+void Unk_710129421c::sub_710129558C(f32 value, s32 index) {
+    mEntries[index]._7e0 = value;
+}
+
 void Unk_710129421c::sub_71012955AC(f32 value, s32 index) {
     mEntries[index]._7e4 = value;
 }

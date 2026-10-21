@@ -8,6 +8,7 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 #include <gfx/seadCamera.h>
+#include <gfx/seadColor.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
@@ -276,13 +277,19 @@ class Unk_710129421c {
 public:
     // Placeholder: the 0x7e8-byte entries of the buffer at 0x1e0.
     struct Entry {
-        u8 _0[0x7e4];
+        u8 _0[0x7d0];
+        sead::Color4f _7d0;
+        f32 _7e0;
         f32 _7e4;
     };
     static_assert(sizeof(Entry) == 0x7e8);
 
     // 0x71012955ac (placeholder name): stores value at +0x7e4 of entry index of the 0x7e8-byte entry
     // buffer at 0x1e0.
+    // 0x7101295560 (placeholder name): stores the colour at +0x7d0 of entry index.
+    void sub_7101295560(s32 index, const sead::Color4f& color);
+    // 0x710129558c (placeholder name): stores value at +0x7e0 of entry index.
+    void sub_710129558C(f32 value, s32 index);
     void sub_71012955AC(f32 value, s32 index);
 
     u8 _0[0x1e0];
@@ -388,6 +395,10 @@ public:
     void sub_7100F2AFE8(u8 value);
     void sub_7100F2B024(u8 value);
     // 0x7100f35f28 / 0x7100f35f38 (lane4 s64): `_378->_18->_1520` / `_1524`.
+    // 0x7100f3590c / 0x7100f35918 (placeholder names; SkyMgr::doCalc): set the value at +0x7e0 and
+    // the colour at +0x7d0 of _370's first entry.
+    void sub_7100F3590C(f32 value);
+    void sub_7100F35918(const sead::Color4f& color);
     f32 sub_7100F35F28() const;
     f32 sub_7100F35F38() const;
     void sub_7100F35F50(agl::lyr::Layer* layer, bool value);

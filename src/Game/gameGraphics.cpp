@@ -85,6 +85,14 @@ void Graphics::sub_7100F2B024(u8 value) {
     _f5f = value;
 }
 
+void Graphics::sub_7100F3590C(f32 value) {
+    _370->sub_710129558C(value, 0);
+}
+
+void Graphics::sub_7100F35918(const sead::Color4f& color) {
+    _370->sub_7101295560(0, color);
+}
+
 f32 Graphics::sub_7100F35F28() const {
     return _378->_18->_1520;
 }
