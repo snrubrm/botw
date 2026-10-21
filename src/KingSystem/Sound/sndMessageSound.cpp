@@ -148,6 +148,26 @@ s32 Unk_71025049d0::m11() {
     return mIndexCount * 4;
 }
 
+const char* Unk_7102504850::m26() {
+    return "DrawTree0__Tree0";
+}
+
+const char* Unk_7102504850::m27() {
+    return "Tree0";
+}
+
+const char* Unk_71025049d0::m26() {
+    return "DrawTree1__Tree1";
+}
+
+const char* Unk_71025049d0::m27() {
+    return "Tree1";
+}
+
+u32 Unk_71025049d0::m42() {
+    return m28();
+}
+
 u32 Unk_71025049d0::m28() {
     return _30;
 }

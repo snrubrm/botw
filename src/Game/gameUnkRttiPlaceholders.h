@@ -818,8 +818,9 @@ public:
     virtual bool m23() { return false; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
+    // Shader and model names of the tree draw command.
+    virtual const char* m26();
+    virtual const char* m27();
     virtual void m28();
     virtual void m29();
     virtual void m30();
@@ -865,8 +866,9 @@ public:
     virtual bool m23() { return false; }
     virtual void m24();
     virtual void m25();
-    virtual void m26();
-    virtual void m27();
+    // Shader and model names of the tree draw command.
+    virtual const char* m26();
+    virtual const char* m27();
     virtual u32 m28();
     virtual u32 m29();
     virtual bool m30();
@@ -881,7 +883,7 @@ public:
     virtual void m39() {}
     virtual void m40();
     virtual void m41() {}
-    virtual void m42();
+    virtual u32 m42();
     virtual void m43();
     virtual void m44() {}
     virtual void m45() {}
