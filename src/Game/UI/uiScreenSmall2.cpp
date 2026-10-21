@@ -65,7 +65,7 @@ sead::SafeArray<bool, 0x30> sUnk_71025DC54C;
 // The original block is 16-byte aligned (0x71025dc890); the alignment keeps this object first in the
 // TU's merged statics, ahead of the 8-byte-aligned SafeString statics.
 struct alignas(16) AlbumState {
-    /* 0x00 */ bool _0;  // set by sub_71009D3B54 when the album page is open
+    /* 0x00 */ u8 _0;    // bit 0 read by sub_71009D3B54 / sub_71009D3C78
     /* 0x01 */ u8 _1;    // bit 0 set by m162; m154 / m158 clear it, m163 / m167 / m175 test it
     /* 0x04 */ ScreenNameTableHeader _4;
     /* 0x0c */ s32 _c;   // 1: the picture book page is open
@@ -324,6 +324,39 @@ void ScreenAppAlbum::m171() {
 // 0x71009d656c
 void ScreenAppAlbum::m174() {
     _3a9c = Unk_71025d1740::instance()->sub_7100901A90(false) ? 0 : -1;
+}
+
+// NON_MATCHING: same instructions, but the two `return false` blocks are tail-merged into one (the
+// original keeps each in place, so its early-out branches are tbz where ours are tbnz).
+// 0x71009d3b54
+bool ScreenAppAlbum::sub_71009D3B54() {
+    auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (window)
+        return false;
+    if (sUnk_71025DC890._c == 1 && (sUnk_71025DC890._0 & 1))
+        return false;
+    if (_3630 && _3630->mRate != 0.0f)
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    return getStateMachine().getState()->getId() != (&sUnk_71025dc4e0)->getId();
+}
+
+// NON_MATCHING: same tail-merging difference as sub_71009D3B54.
+// 0x71009d3c78
+bool ScreenAppAlbum::sub_71009D3C78() {
+    auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (window) {
+        if (window->isOpened())
+            return false;
+        if (window->isOpening())
+            return false;
+    }
+    if (sUnk_71025DC890._c == 1 && (sUnk_71025DC890._0 & 1))
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    return getStateMachine().getState()->getId() != (&sUnk_71025dc4e0)->getId();
 }
 
 bool ScreenAppAlbum::sub_71009D3DA0() const {

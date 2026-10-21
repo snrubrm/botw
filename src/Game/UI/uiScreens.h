@@ -5654,6 +5654,10 @@ public:
 
     bool sub_71009D3DA0() const;
     bool sub_71009D3DC0() const;
+    // 0x71009d3b54 / 0x71009d3c78 (CSV unnamed; placeholder names): whether the album shows the system
+    // window's page and is not waiting on an animator / on the state sUnk_71025dc4e0
+    bool sub_71009D3B54();
+    bool sub_71009D3C78();
     void m128() override;
     void m94() override;
     void m100() override;
