@@ -25,6 +25,7 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiShopCookInfo.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "Game/Actor/actArmorStrings.h"
@@ -251,25 +252,15 @@ void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle) {
 // NON_MATCHING: enum comparisons, static initialization and the result branches are scheduled differently.
 const char* getDecimalSeparator(bool a1) {
     const auto language = sead::EnvUtil::getRegionLanguage();
-    static sead::RegionLanguageID sUnk_71025F6B40[] = {
-        sead::RegionLanguageID::JPja, sead::RegionLanguageID::USen,
-        sead::RegionLanguageID::USes, sead::RegionLanguageID::EUen,
-        sead::RegionLanguageID::EUnl, sead::RegionLanguageID::KRko,
-        sead::RegionLanguageID::CNzh, sead::RegionLanguageID::TWzh,
-    };
-    for (const auto& entry : sUnk_71025F6B40) {
+    for (const auto& entry : sUnk_71025F6960.decimalPointLanguages) {
         if (language == entry)
             return a1 || language != sead::RegionLanguageID::EUnl ? "." : ",";
     }
     return ",";
 }
 
-// 0x71025f6b20: the separator between hours, minutes and seconds
-static sead::SafeString sUnk_71025f6b20 = ":";
-
 // 0x7100aa3914
-// NON_MATCHING: the original reaches sUnk_71025f6b20 through the TU's merged globals; the 359999 constant is
-// rematerialised instead of kept in a register
+// NON_MATCHING: the 359999 constant is rematerialised instead of kept in a register
 void sub_7100AA3914(eui::LayoutEx* layout, const sead::SafeString& widget_name, s32 format, s32 time,
                     s32 fraction) {
     sead::FixedSafeString<32> text;
@@ -281,7 +272,7 @@ void sub_7100AA3914(eui::LayoutEx* layout, const sead::SafeString& widget_name, 
         const s32 clamped = time > 5999 ? 5999 : time;
         const s32 minutes = clamped / 60;
         const s32 seconds = clamped % 60;
-        text.format("%02d%s%02d", minutes, sUnk_71025f6b20.cstr(), seconds);
+        text.format("%02d%s%02d", minutes, sUnk_71025F6960.timeSeparator.cstr(), seconds);
         if (time >= 6000 && fraction >= 0)
             fraction = 99;
         break;
@@ -292,7 +283,7 @@ void sub_7100AA3914(eui::LayoutEx* layout, const sead::SafeString& widget_name, 
         const s32 rest = clamped % 3600;
         const s32 minutes = rest / 60;
         const s32 seconds = rest % 60;
-        text.format("%02d%s%02d%s%02d", hours, sUnk_71025f6b20.cstr(), minutes, sUnk_71025f6b20.cstr(),
+        text.format("%02d%s%02d%s%02d", hours, sUnk_71025F6960.timeSeparator.cstr(), minutes, sUnk_71025F6960.timeSeparator.cstr(),
                     seconds);
         if (time > 359999 && fraction >= 0)
             fraction = 99;

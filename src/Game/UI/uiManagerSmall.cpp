@@ -418,16 +418,14 @@ SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
 
 // 0x71009452d0
-// NON_MATCHING: Mathf::min lowers to fminnm instead of the native fmin.
 void sub_71009452D0(CookingInfo* out, s32 level) {
-    out->_10 = sead::Mathf::min(f32(level), 3000.0f);
+    out->_10 = sead::Mathf::clampMax(f32(level), 3000.0f);
     out->level = s32(out->_10 / 200.0f);
 }
 
 // 0x71009452fc
-// NON_MATCHING: Mathf::min lowers to fminnm instead of the native fmin.
 void sub_71009452FC(CookingInfo* out, s32 level) {
-    out->_10 = sead::Mathf::min(f32(level) * 200.0f, 2000.0f);
+    out->_10 = sead::Mathf::clampMax(f32(level) * 200.0f, 2000.0f);
 }
 
 // 0x7100945320 / 0x7100945344: the two gauge ranges (value, maximum, default limit); names are guesses

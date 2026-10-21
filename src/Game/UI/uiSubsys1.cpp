@@ -239,8 +239,8 @@ void UiSubsys1::sub_7100961088() {
     _8f0 = true;
     _8f1 = old;
 
-    const f32 half_x = (_8e8 - _8e0 - inv_scale * sUnk_71025d6c70._34) * 0.5f;
-    const f32 half_y = sead::Mathf::abs(_8ec) - inv_scale * sUnk_71025d6c70._38 * 0.5f;
+    const f32 half_x = (_8e8 - _8e0 - inv_scale * sUnk_71025d6c70.mLayoutSize.x) * 0.5f;
+    const f32 half_y = sead::Mathf::abs(_8ec) - inv_scale * sUnk_71025d6c70.mLayoutSize.y * 0.5f;
 
     _8dc = sead::Mathf::maxNumber();
     _8d0 = -sead::Mathf::max(half_x, 0.0f);
@@ -395,33 +395,26 @@ bool UiSubsys1::is898Positive() const {
     return _850._48 > 0;
 }
 
-// 0x71025d6ca4: the layout screen size (written by the initialiser at 0x710094f9e4)
-static sead::Vector2f sUnk_71025d6ca4{1280.0f, 720.0f};
-
 // 0x7100966008
-// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
 const sead::Vector2f* sub_7100966008() {
-    return &sUnk_71025d6ca4;
+    return &sUnk_71025d6c70.mLayoutSize;
 }
 
 // 0x7100966018
-// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
 void sub_7100966018(sead::Vector2f* out) {
-    *out = sUnk_71025d6ca4 * 0.5f;
+    *out = sUnk_71025d6c70.mLayoutSize * 0.5f;
 }
 
 // 0x710096603c
-// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
 void UiSubsys1::sub_710096603C(sead::Vector2f* out) const {
     const f32 scale = 1.0f / _850._28;
-    *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
+    *out = {scale * sUnk_71025d6c70.mLayoutSize.x, scale * sUnk_71025d6c70.mLayoutSize.y};
 }
 
 // 0x7100966064
-// NON_MATCHING: the original addresses sUnk_71025d6ca4 through the TU's merged globals
 void UiSubsys1::sub_7100966064(sead::Vector2f* out) const {
     const f32 scale = 1.0f / _850._38;
-    *out = {scale * sUnk_71025d6ca4.x, scale * sUnk_71025d6ca4.y};
+    *out = {scale * sUnk_71025d6c70.mLayoutSize.x, scale * sUnk_71025d6c70.mLayoutSize.y};
 }
 
 // 0x7100965ea8
@@ -929,7 +922,8 @@ bool UiSubsys1::sub_7100963538(s32 value) const {
     return value >= 11 && value <= 13;
 }
 
-// NON_MATCHING: only the operand order of the final `and` differs (the original ands the (value - 6 < 5) flag first)
+// NON_MATCHING: only the operand order of the final `and` differs (the original ands the
+// (value - 6 < 5) flag first).
 // 0x7100963560
 bool UiSubsys1::sub_7100963560(s32 value) const {
     return u32(value - 6) < 5 && u32(value) > 5;

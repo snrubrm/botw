@@ -331,9 +331,9 @@ struct Unk_71025d6c70 {
     u8 _00[0x28];
     /* 0x28 */ f32 _28 = 0;  // returned by sub_7100965EB0
     u8 _2c[0x34 - 0x2c];
-    // Read by UiSubsys1::sub_7100961088 (the marker bounds numerator).
-    /* 0x34 */ f32 _34;
-    /* 0x38 */ f32 _38;
+    // The layout screen size (1280x720), written by the initialiser at 0x710094f9e4 and read by
+    // UiSubsys1::sub_7100961088 / the sub_7100966008 helpers.
+    /* 0x34 */ sead::Vector2f mLayoutSize;
     /* 0x3c */ sead::Vector2f size;
     u8 _44[0xc];
     /* 0x50 */ ScreenAppMapWidget* _50 = nullptr;  // returned by sub_71009630FC (the map widget: Unk_7102478d00::m10)

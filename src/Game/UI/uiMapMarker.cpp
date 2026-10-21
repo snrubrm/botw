@@ -991,22 +991,26 @@ void Unk_7102476058::m12() {
         m25(manager->x_0());
 }
 
-// NON_MATCHING: the flag test uses a word load instead of the native byte load.
 void Unk_7102476058::m14() {
-    if ((_3c & 0x10) && MotorcycleMgr::instance()) {
-        sead::Vector3f position{0.0f, 0.0f, 0.0f};
-        if (MotorcycleMgr::instance()->sub_710067B63C(&position))
-            updateDistrictFromPos(&position);
-    }
+    if (!(_3c & 0x10))
+        return;
+    auto* mgr = MotorcycleMgr::instance();
+    if (!mgr)
+        return;
+    sead::Vector3f position{0.0f, 0.0f, 0.0f};
+    if (mgr->sub_710067B63C(&position))
+        updateDistrictFromPos(&position);
 }
 
-// NON_MATCHING: the flag test uses a word load instead of the native byte load.
 void Unk_7102476058::m16() {
-    if ((_3c & 0x10) && MotorcycleMgr::instance()) {
-        sead::Vector3f position{0.0f, 0.0f, 0.0f};
-        if (MotorcycleMgr::instance()->sub_710067B63C(&position))
-            updateDistrictFromPos(&position);
-    }
+    if (!(_3c & 0x10))
+        return;
+    auto* mgr = MotorcycleMgr::instance();
+    if (!mgr)
+        return;
+    sead::Vector3f position{0.0f, 0.0f, 0.0f};
+    if (mgr->sub_710067B63C(&position))
+        updateDistrictFromPos(&position);
 }
 
 Unk_7102475f60::~Unk_7102475f60() = default;
