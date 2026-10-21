@@ -2182,7 +2182,22 @@ KSYS_CHECK_SIZE_NX150(Unk_710251cf40, 0x4e8);
 class Unk_710251d160 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251d160, Unk_710251d230)
 public:
+    struct InitArg {
+        agl::VertexAttribute* attribute;
+        agl::IndexStream* index_stream;
+        u32 base_vertex;
+        u32 first_index;
+        u32 width;
+        u32 height;
+        // Sets bit 0 of mFlags.
+        bool flag;
+    };
+
+    // 0x71012eab74
+    Unk_710251d160();
     ~Unk_710251d160() override;
+    // 0x71012eace8: stores the streams, the grid size and the buffer range.
+    void initialize(const InitArg& arg);
     void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
@@ -2192,8 +2207,8 @@ public:
     virtual void m12(u32* vertices, u32 x0, u32 x1, u32 y0, u32 y1);
     virtual void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex);
 
-    s32 _30;
-    s32 _34;
+    s32 _30 = 0;
+    s32 _34 = 0;
 };
 
 // vtable 0x710251f878 (85 slots); placeholder generated from the vtable (genskel.py).
@@ -2500,7 +2515,22 @@ public:
 class Unk_710251d0e0 : public Unk_71026205b8 {
     SEAD_RTTI_OVERRIDE(Unk_710251d0e0, Unk_71026205b8)
 public:
+    struct InitArg {
+        agl::VertexAttribute* attribute;
+        agl::IndexStream* index_stream;
+        u32 base_vertex;
+        u32 first_index;
+        u32 width;
+        u32 height;
+        // Sets bit 0 of mFlags.
+        bool flag;
+    };
+
+    // 0x71012e9f24
+    Unk_710251d0e0();
     ~Unk_710251d0e0() override;
+    // 0x71012ea100: stores the streams, the grid size and the buffer range.
+    void initialize(const InitArg& arg);
     void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
@@ -2514,8 +2544,8 @@ public:
     static u32 sub_71012E9F80(u32 cols, u32 rows);
     static s32 sub_71012E9F88(u32 cols, u32 rows, bool restart);
 
-    u32 _30;
-    u32 _34;
+    u32 _30 = 0;
+    u32 _34 = 0;
 };
 
 // vtable 0x710250f758 (14 slots); placeholder generated from the vtable (genskel.py).
@@ -2671,7 +2701,19 @@ public:
 class Unk_710251cfa0 : public Unk_71026205b8 {
     SEAD_RTTI_OVERRIDE(Unk_710251cfa0, Unk_71026205b8)
 public:
+    struct InitArg {
+        agl::VertexAttribute* attribute;
+        agl::IndexStream* index_stream;
+        u32 base_vertex;
+        u32 first_index;
+        u32 count;
+    };
+
+    // 0x71012e8a74
+    Unk_710251cfa0();
     ~Unk_710251cfa0() override;
+    // 0x71012e8ad4: stores the streams, the grid size and the buffer range.
+    void initialize(const InitArg& arg);
     void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
@@ -2688,9 +2730,9 @@ public:
                         u32* num_indices, u32 x0, u32 x1, bool swap, bool flip);
     u32 sub_71012E8F3C(u16* indices, u32 base, bool flip);
 
-    u32 _30;
-    s32 _34;
-    s32 _38;
+    u32 _30 = 0;
+    s32 _34 = 0;
+    s32 _38 = 0;
 };
 
 // vtable 0x710252e558 (5 slots); placeholder generated from the vtable (genskel.py).

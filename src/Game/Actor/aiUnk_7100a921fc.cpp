@@ -22,7 +22,24 @@ bool Unk_7100a921fc::sub_7100A92248() {
     return prev == count - 1;
 }
 
+Unk_710251d160::Unk_710251d160() = default;
+
 Unk_710251d160::~Unk_710251d160() = default;
+
+// NON_MATCHING: the original copies the two stream pointers with one ldp / stp pair (and the
+// flag select has its operands swapped).
+void Unk_710251d160::initialize(const InitArg& arg) {
+    mFlags |= 0x20000000;
+    mAttribute = arg.attribute;
+    mIndexStream = arg.index_stream;
+    _30 = arg.width - 1;
+    _34 = arg.height - 1;
+    if (arg.flag)
+        mFlags |= 1;
+    else
+        mFlags &= ~1u;
+    sub_71012EB478(arg.base_vertex, arg.first_index);
+}
 
 Unk_710249d608::~Unk_710249d608() = default;
 
@@ -40,13 +57,45 @@ bool Unk_710249d608::setCurrentDirectoryImpl_(const sead::SafeString&) {
     return false;
 }
 
+Unk_710251d0e0::Unk_710251d0e0() = default;
+
 Unk_710251d0e0::~Unk_710251d0e0() = default;
+
+// NON_MATCHING: the original copies the two stream pointers with one ldp / stp pair (and the
+// flag select has its operands swapped).
+void Unk_710251d0e0::initialize(const InitArg& arg) {
+    mFlags |= 0x20000000;
+    mAttribute = arg.attribute;
+    mIndexStream = arg.index_stream;
+    _30 = arg.width - 1;
+    _34 = arg.height - 1;
+    if (arg.flag)
+        mFlags |= 1;
+    else
+        mFlags &= ~1u;
+    sub_71012EB478(arg.base_vertex, arg.first_index);
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x71012e906c) also destroys members or bases
 // this class does not declare yet.
 Unk_710251d010::~Unk_710251d010() = default;
 
+Unk_710251cfa0::Unk_710251cfa0() = default;
+
 Unk_710251cfa0::~Unk_710251cfa0() = default;
+
+// NON_MATCHING: the original copies the two stream pointers with one ldp / stp pair.
+void Unk_710251cfa0::initialize(const InitArg& arg) {
+    mFlags |= 0x20000000;
+    mAttribute = arg.attribute;
+    mIndexStream = arg.index_stream;
+    const u32 count = arg.count;
+    const u32 rows = count + count / 2;
+    _30 = count;
+    _34 = rows + 2;
+    _38 = rows * 3;
+    sub_71012EB478(arg.base_vertex, arg.first_index);
+}
 
 namespace {
 
