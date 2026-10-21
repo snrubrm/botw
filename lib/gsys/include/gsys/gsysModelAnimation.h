@@ -31,10 +31,17 @@ enum class SkeletalAnmType;
 /// (passed by value as one 32-bit word, type in the low half).
 template <typename T>
 struct AnimationAccessKey {
+    // The default value is a pair of -1 halfwords at +0 / +2. The two constructors that inline this
+    // (SkeltalAsset 0x710125c568, GraphicsAsset 0x710125ba2c) store them index first, then type.
+    AnimationAccessKey() {
+        index = -1;
+        type = -1;
+    }
+
     bool isValid() const { return type != -1 && index != -1; }
 
-    s16 type = -1;
-    s16 index = -1;
+    s16 type;
+    s16 index;
 };
 
 // TODO
