@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadObjList.h>
 #include <hostio/seadHostIONode.h>
 #include <thread/seadAtomic.h>
 
@@ -17,7 +18,7 @@ public:
     StreamingViewer();
     virtual ~StreamingViewer();
 
-    /// 0x7100b7d730 / 0x7100b7d88c (declared only)
+    /// 0x7100b7d730 / 0x7100b7d88c
     void initialize(sead::Heap* heap);
     void calc();
 
@@ -33,6 +34,24 @@ public:
     s32 getStreamChannelNum() const { return mStreamChannelNum; }
 
 private:
+    /// An entry of the stream list (the members are unknown; initialize and calc clear the 14 bytes before the
+    /// list node).
+    struct StreamInfo {
+        // inline-only in the original; name is a guess (the same clearing in initialize and calc).
+        void reset() {
+            _0 = nullptr;
+            _8 = 0;
+            _c = 0;
+            _d = false;
+        }
+
+        void* _0;
+        u32 _8;
+        u8 _c;
+        /// calc keeps (and clears) the entries that have it set and removes the others.
+        bool _d;
+    };
+
     struct ReadRecord {
         void* stream;
         s32 state;
@@ -48,7 +67,8 @@ private:
     s32 mStreamChannelNum;
     s32 mMaxStreamChannelNum;
     u32 _24;
-    u64 _28;
+    /// Allocated by initialize with room for the maximum number of stream sounds plus two.
+    sead::ObjList<StreamInfo>* mStreamInfos;
     ReadRecord mRecords[32];
     sead::Atomic<s32> mRecordNum;
     u32 _234[2];
