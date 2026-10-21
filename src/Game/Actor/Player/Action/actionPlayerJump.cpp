@@ -1,5 +1,7 @@
 #include "Game/Actor/Player/Action/actionPlayerJump.h"
+#include <algorithm>
 #include <cstring>
+#include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
@@ -142,6 +144,63 @@ void PlayerJump::calc_() {
         }
     }
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
+}
+
+// 0x71007f80bc (placeholder name): turns the anim-driven jump angle and the water depth into the jump
+// height and charges the stamina for the jump.
+// NON_MATCHING: util::sub_71011EE4B8 takes its 4-byte angle by value (indirectly); the original passes the
+// address of _1c90 straight in, ours copies it to a stack temporary, and the original copies _1c68 for
+// sub_710087CEEC where ours passes its address. The reads of _20d4 are scheduled a little differently too.
+void PlayerJump::sub_71007F80BC() {
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x2);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x20000);
+
+    f32 height = *mJumpHeight_s;
+    f32 angle = static_cast<f32>(ksys::util::sub_71011EE4B8(
+                    static_cast<ksys::act::Player*>(mActor)->sub_710087CEEC(
+                        static_cast<ksys::act::Player*>(mActor)->_1c68))) *
+                ksys::util::sUnk_7101EC6BA4;
+    if (angle > 180.0f)
+        angle -= 360.0f;
+
+    const f32 factor = std::min(static_cast<ksys::act::Player*>(mActor)->_20bc.value, 0.3f);
+    height += factor * (angle * *mJumpHeightAddByAngle_s) / (uking::sUnk_7101e7c2e0 * 1.5f);
+    height += factor * *mJumpHeightAddBySpeed_s;
+    height = std::max(height, 0.0f);
+
+    if (static_cast<ksys::act::Player*>(mActor)->_20d4 >
+        static_cast<ksys::act::Player*>(mActor)->_1770.y) {
+        const f32 depth = (static_cast<ksys::act::Player*>(mActor)->_20d4 -
+                           static_cast<ksys::act::Player*>(mActor)->_1770.y) -
+                          *mIgnoreWaterHeight_s;
+        if (depth > 0.0f) {
+            height *= 1.0f - *mJumpHeightMaxDecRateByWater_s *
+                                (depth / (uking::sUnk_7101e7c5c8 - *mIgnoreWaterHeight_s));
+            if (height < 0.0f)
+                height = 0.0f;
+        }
+    }
+
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EF08(true);
+        controller->sub_7100F62B70(height *
+                                   static_cast<ksys::act::Player*>(mActor)->getStatusEffectSpeed());
+    }
+
+    static_cast<ksys::act::Player*>(mActor)->_185c = ksys::Timer(21.0f, 21.0f);
+
+    f32 energy = *mEnergyJump_s;
+    const f32 energy_angle =
+        static_cast<f32>(ksys::util::sub_71011EE4B8(
+            static_cast<ksys::act::Player*>(mActor)->_1c90)) *
+        ksys::util::sUnk_7101EC6BA4;
+    if (energy_angle >= 45.0f)
+        energy *= *mEnergyUseDiam3_s;
+    else if (energy_angle >= 30.0f)
+        energy *= *mEnergyUseDiam2_s;
+    else if (energy_angle >= 15.0f)
+        energy *= *mEnergyUseDiam1_s;
+    static_cast<ksys::act::Player*>(mActor)->decreaseStaminaForActionMaybe(energy);
 }
 
 bool PlayerJump::isChangeable() const {
