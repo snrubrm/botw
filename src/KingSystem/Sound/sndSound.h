@@ -1742,6 +1742,8 @@ public:
     // 0x71010284c4 / 0x7101028524
     virtual ~Unk_SoundMgr38_58();
     void sub_71010289CC();
+    // 0x71010289d0 (declared only): plays a bird chirp of `type` at `pos` (EnvSeEmitPointBirdPlayAction::calc_).
+    void sub_71010289D0(f32 value, s32 type, const sead::Vector3f* pos);
     // 0x7101028690: resets every entry, then frees and deletes mInstances (called before deletion).
     void sub_7101028690();
     // 0x7101028710 (placeholder name): per-frame update of the time zone and the entries (under mCS).

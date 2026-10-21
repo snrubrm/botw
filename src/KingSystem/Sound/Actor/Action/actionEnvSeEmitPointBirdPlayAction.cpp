@@ -1,5 +1,7 @@
 #include "KingSystem/Sound/Actor/Action/actionEnvSeEmitPointBirdPlayAction.h"
+#include "Game/Actor/actEnvSeEmitPoint.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
@@ -61,8 +63,44 @@ void EnvSeEmitPointBirdPlayAction::leave_() {
 
 void EnvSeEmitPointBirdPlayAction::loadParams_() {}
 
+// NON_MATCHING: the mgr null test is placed before the IsDerivedFrom result test (branch order).
 void EnvSeEmitPointBirdPlayAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* mgr = SoundMgr::instance()->_38;
+    if (mgr && mgr->_a0) {
+        _30.setNow();
+        _28 = 0;
+        _30 += sead::TickSpan::makeFromSeconds(6);
+    }
+
+    if (_20.diffToNow().toS64() <= _28.toS64())
+        return;
+
+    if (_28.toS64() > 0) {
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<uking::act::EnvSeEmitPoint>(actor)) {
+            auto* point = static_cast<uking::act::EnvSeEmitPoint*>(actor);
+            if (mgr && !point->_844) {
+                if (auto* birds = mgr->_58) {
+                    sead::Vector3f pos = mActor->getMtx().getTranslation();
+                    pos.x += sead::GlobalRandom::instance()->getF32Range(-10.0f, 10.0f);
+                    pos.z += sead::GlobalRandom::instance()->getF32Range(-10.0f, 10.0f);
+                    birds->sub_71010289D0(point->_848, _38, &pos);
+                }
+            }
+        }
+    }
+
+    _20.setNow();
+    f32 rate = sub_7100FEA4E4();
+    s64 milliseconds;
+    if (rate > 0.0f) {
+        rate = sead::Mathf::clampMin(rate, 0.2f);
+        milliseconds = static_cast<s64>(
+            sead::GlobalRandom::instance()->getF32Range(0.5f / rate, 8.0f / rate) * 1000.0f);
+    } else {
+        milliseconds = -1000;
+    }
+    _28.setMilliSeconds(milliseconds);
 }
 
 }  // namespace ksys::snd
