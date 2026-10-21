@@ -192,10 +192,10 @@ bool Unk_7102357908::Unk50::sub_71006F0800(const CalcArg& arg) {
 }
 
 
-// NON_MATCHING: Existing atomic bool conversion and accessor stack placement differ.
+// NON_MATCHING: the accessor stack placement differs (the candidate accessor sits at sp+0x18 in ours).
 void Enemy::onDeleteRequested_(DeleteReason reason) {
     PlayerOrEnemy::onDeleteRequested_(reason);
-    if (!sub_71011CBC28() && !_540)
+    if (!sub_71011CBC28() && !_540.isOnBit(0))
         return;
     getWeapons();
     for (s32 i = 0; i < 6; ++i) {

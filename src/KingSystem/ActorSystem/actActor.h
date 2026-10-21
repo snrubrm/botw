@@ -1054,7 +1054,7 @@ public:
     /* 0x528 */ PhysicsUserTag mPhysicsUserTag{this};
 
 protected:
-    /* 0x540 */ sead::Atomic<bool> _540 = false;
+    /* 0x540 */ sead::BitFlag8 _540;
 
     // Created by 0x71011c57c0 (CSV Actor::x_27; new(0x80)).
     /* 0x548 */ Unk_71024dc900* _548 = nullptr;

@@ -2442,7 +2442,7 @@ bool Actor::deleteIfPlacementStuff() {
         if (!isDeletedOrDeleting()) {
             if (deleteEx(DeleteType::_3, DeleteReason(8)))
                 updatePlacementObjDistanceFlags();
-            if (_540)
+            if (_540.isOnBit(0))
                 mMapObject->resetFlags0(map::Object::Flag0::_400000);
         }
         auto* links = mMapObject ? mMapObject->getLinkData() : nullptr;
