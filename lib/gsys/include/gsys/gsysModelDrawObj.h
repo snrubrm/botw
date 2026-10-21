@@ -63,11 +63,17 @@ private:
     // Released through vtable slot 1 by the destructor unless +0x08 is set.
     void* _20;
     ModelOcclusionQuery mOcclusionQuery;
-    u8 _a0[0xb0 - 0xa0];
+    // The constructor copies sead::Vector3f::zero here and zeroes +0xac.
+    sead::Vector3f _a0;
+    u32 _ac;
     // Per-instance transform and position written by EffectModelDrawUnit::addInstance.
     sead::Matrix34f mMatrix;
+    // The constructor initializes this to sead::Vector3f::ones.
     sead::Vector3f mPosition;
-    u8 _ec[0x128 - 0xec];
+    // The constructor copies sead::Matrix34f::ident here.
+    sead::Matrix34f _ec;
+    u8 _11c[0x120 - 0x11c];
+    void* _120;
     ModelDynamicEnvInfo* mDynamicEnvInfo;
 };
 static_assert(sizeof(ModelDrawObj) == 0x130);
