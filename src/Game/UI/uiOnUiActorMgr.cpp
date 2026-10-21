@@ -1,4 +1,5 @@
 #include "Game/UI/uiOnUiActorMgr.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <gsys/gsysModel.h>
 #include <layer/aglLayer.h>
@@ -105,6 +106,14 @@ void OnUiActorMgr::x_4() {
         }
     } else if (auto* player = static_cast<uking::act::PauseMenuPlayer*>(mActor)) {
         player->sub_71006E9E24();
+    }
+}
+
+// 0x7100907b24
+void OnUiActorMgr::sub_7100907B24(const f32* value) {
+    if (mActor && mActor->getChemicalStuff()) {
+        auto* chemical = mActor->getChemicalStuff();
+        chemical->_170 = *value;
     }
 }
 

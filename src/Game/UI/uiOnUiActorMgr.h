@@ -60,6 +60,8 @@ public:
     // 0x7100907914: puts the pause-menu actor to sleep (bit 5 of _1f4, _50's actor sleeps) and hands over the
     // transceiver entry; called by ScreenPauseMenu::m99 (true) and m100 (false)
     void sub_7100907914(bool on);
+    // 0x7100907b24 (placeholder name): sets _170 of the pause menu actor's chemical object
+    void sub_7100907B24(const f32* value);
     // 0x7100907b74 / 0x7100907ba8 / 0x7100907bdc (placeholder names): set the pause menu player's heat / cold /
     // burn resist level and refresh its resist state
     void sub_7100907B74(const s32* value);
