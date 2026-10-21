@@ -39,6 +39,9 @@ public:
     f32 getVU(SpeakerChannel channel) const;
     /// The sample peak of the channel in dB (-100 if the channel is silent).
     f32 getSamplePeak(SpeakerChannel channel) const;
+    /// Inline in the original: ksys::snd::Unk_SoundMgr2a0 0x71012c629c reads +0x35 and +0xe8 directly.
+    bool isFrameProcessAdded() const { return mIsFrameProcessAdded; }
+    f32 get_e8() const { return _e8; }
 
 private:
     void workerThreadProc_(bool is_quitting) override;
@@ -56,9 +59,16 @@ private:
     void drawInformationVerticalSurround_(sead::DrawContext* context, sead::TextWriter* writer) const;
     void drawInformationVerticalSimpleLFE_(sead::DrawContext* context, sead::TextWriter* writer) const;
 
-    u8 _30[0x37 - 0x30];
+    u8 _30[0x35 - 0x30];
+    /// Set from AudioFrameProcessMgr::addProcess's result in updateActivation (0x7100baa2f8).
+    bool mIsFrameProcessAdded;
+    u8 _36;
     bool mIsActive;
-    u8 _38[0xf4 - 0x38];
+    u8 _38[0xe8 - 0x38];
+    /// reset (0x7100baa0f8) sets both to -100; analyze_ writes them, calc takes the maximum of +0xe8.
+    f32 _e8;
+    f32 _ec;
+    u8 _f0[0xf4 - 0xf0];
     f32 mVU[6];
     f32 mSamplePeak[6];
     u8 _124[0x160 - 0x124];

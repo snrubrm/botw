@@ -113,6 +113,12 @@ public:
     sead::TTreeNode<Group*>& treeNode() { return *this; }
     const sead::TTreeNode<Group*>& treeNode() const { return *this; }
     u32 get_13c() const { return _13c; }
+    /// Inline in the original: ksys::snd::SoundMgr 0x71011fb748 reads +0x150 of the "Demo" group directly.
+    s32 getDuckingCount() const { return mDuckingCount; }
+    /// Inline in the original: the game's GroupFactory subclass (0x71012cd0d0 / 0x71012cd128) stores an object
+    /// (vtable 0x710251b678) here after creating a group, and 0x71012cd180 deletes it before destroying the group.
+    void* get_98() const { return _98; }
+    void set_98(void* value) { _98 = value; }
 
 protected:
 

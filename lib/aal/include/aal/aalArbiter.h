@@ -66,6 +66,8 @@ public:
     SpatialPlayingParamPool* getSpatialPlayingParamPool() const { return mSpatialPlayingParamPool; }
     /// Zero-initialized by the constructor; SoundSourceUnifier::allocSource puts it into the condition of non-looped sounds.
     s32 get_8() const { return _8; }
+    /// Inline in the original: ksys::snd 0x71012c2ef4 (an emitter allocate callback) reads +0x28.
+    sead::Heap* getEmitterHeap() const { return mEmitterHeap; }
 
 private:
     s32 _8;

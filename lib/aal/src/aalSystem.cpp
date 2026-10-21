@@ -1,9 +1,28 @@
 #include "aal/aalSystem.h"
 #include "aal/aalSystemAccessor.h"
+#include <audio/seadAudioMgr.h>
+#include <nn/atk/SoundSystem.h>
+#include "aal/aalMemoryPoolManager.h"
+#include "aal/aalSDKFoundation.h"
 
 namespace aal {
 
 System* System::sInstance;
+
+// 0x7100b79f34
+void System::calc(int voice_command_frames) {
+    preCalc();
+    if (mMemoryPoolManager)
+        mMemoryPoolManager->flushMemoryPoolAcquireRequest();
+    if (mSDKFoundation)
+        mSDKFoundation->calc();
+    if (mMemoryPoolManager)
+        mMemoryPoolManager->flushMemoryPoolReleaseRequest();
+    if (mAudioMgr)
+        mAudioMgr->calc();
+    if (voice_command_frames > 0)
+        nn::atk::SoundSystem::VoiceCommandProcess(voice_command_frames);
+}
 
 // 0x7100b7a098
 void System::setLoopAssetListReader(LoopAssetListReader& reader) {

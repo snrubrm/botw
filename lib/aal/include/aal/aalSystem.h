@@ -46,6 +46,12 @@ public:
     // its read-only consumers; the dev-manager implementation remains unknown.
     const LoopAssetListReader* getLoopAssetListReader() const;
 
+    /// 0x7100b79f34: updates the components once per frame; `voice_command_frames` > 0 also makes the sound
+    /// library process that many frames of voice commands.
+    void calc(int voice_command_frames);
+    /// 0x7100b79fa0 (declared only)
+    void preCalc();
+
     /// 0x7100b7a098
     void setLoopAssetListReader(LoopAssetListReader& reader);
 

@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <mc/seadJob.h>
+#include <prim/seadLongBitFlag.h>
 
 namespace sead::ptcl {
 class PtclSystem;
@@ -24,6 +25,11 @@ public:
     // initialize 0x7100c51694 constructs a sead::ptcl::PtclSystem (derived from
     // nn::vfx::System) at +0x28. Effect kill/updatePlayerPos 0x71011b7ee0 / 0x71011b8808 use it.
     sead::ptcl::PtclSystem* getSystem() const { return mSystem; }
+
+    // Inline in the original: ksys::eft::Effect 0x71011b8584 / 0x71011b8658 store +0x90 and set or reset
+    // bits 0..60 of +0x58 (re-reading the singleton for every bit). Names are ours.
+    sead::LongBitFlag<64>& get_58() { return _58; }
+    void set_90(bool value) { _90 = value; }
 
     void manualCalcEmitter();
     void clearGroupInfo();
@@ -53,10 +59,13 @@ private:
     static_assert(sizeof(GroupInfo) == 0x50);
 
     sead::ptcl::PtclSystem* mSystem;  // +0x28
-    u8 _30[0x8c - 0x30];
+    u8 _30[0x58 - 0x30];
+    sead::LongBitFlag<64> _58;
+    u8 _60[0x8c - 0x60];
     // clearGroupInfo keeps the groups when this is 2.
     u32 _8c;
-    u8 _90[0xc1d8 - 0x90];
+    bool _90;
+    u8 _91[0xc1d8 - 0x91];
     ParticleCalcJob mCalcJob;  // +0xc1d8
     u8 _c210[0xc3d0 - 0xc210];
     GroupInfo mGroupInfos[64];  // +0xc3d0
