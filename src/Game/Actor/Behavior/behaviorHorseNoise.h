@@ -13,7 +13,7 @@ public:
     void enter() override;
     void leave() override;
     void loadParams() override;
-    void calc() override;  // not decompiled yet (0x7100628fe8)
+    void calc() override;
 
     struct Params {
         const float* mNoiseWait_s{};
