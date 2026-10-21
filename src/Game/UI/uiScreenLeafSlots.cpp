@@ -10,6 +10,8 @@
 #include "Game/UI/uiManager.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/gameSaveSystem.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiMessageMgr.h"
@@ -505,6 +507,24 @@ void ScreenAppCamera::m100() {
         }
     }
     getStateMachine().changeState(&sUnk_710261ee98);
+}
+
+// 0x71009da8ec
+void ScreenAppCamera::m94() {
+    Manager::instance()->sub_7100A7F8E8(_44c0->_70);
+    if (u32(mState - 1) <= 1)
+        _4368.sub_7100933BDC();
+    if (!sub_7100AA8DD4() && !(Manager::instance()->_64c30_bytes[2] & 0x20))
+        sub_71009DA9E4();
+    getStateMachine().run();
+    if (ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread()) {
+        _1e0.sendMessageOnProcessingThread(_3658, static_cast<ksys::MessageType>(0x8800001), &_3640,
+                                           false);
+    } else {
+        _1e0.sendMessage(_3658, static_cast<ksys::MessageType>(0x8800001), &_3640, false);
+    }
+    if (!isOpening())
+        _44d8 = 0;
 }
 
 // 0x71009d7b80

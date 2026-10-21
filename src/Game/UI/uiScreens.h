@@ -5232,9 +5232,12 @@ public:
     /* 0x3628 */ eui::Animator* _3628;
     /* 0x3630 */ eui::Animator* _3630;
     /* 0x3638 */ eui::Animator* _3638;
-    u8 _pad_3640[0x3648 - 0x3640];
+    // passed as the user data of the message m94 sends to the manager
+    /* 0x3640 */ u8 _3640[8];
     /* 0x3648 */ xlink2::HandleSLink _3648;  // the camera sound
-    u8 _pad_3658[0x3688 - 0x3658];
+    // the destination of the message m94 sends to the manager
+    /* 0x3658 */ ksys::MesTransceiverId _3658;
+    u8 _pad_3670[0x3688 - 0x3670];
     /* 0x3688 */ eui::LayoutEx* _3688;
     /* 0x3690 */ eui::Animator* _3690;
     u8 _pad_3698[0x36e8 - 0x3698];
@@ -5287,9 +5290,11 @@ public:
     /* 0x4360 */ f32 _4360;
     u8 _pad_4364[0x4368 - 0x4364];
     /* 0x4368 */ Unk_7102474bc8 _4368;
-    u8 _pad_44c0[0x44c8 - 0x4368 - sizeof(Unk_7102474bc8)];
+    /* 0x44c0 */ eui::LayoutEx* _44c0;
     /* 0x44c8 */ eui::Animator* _44c8;
     /* 0x44d0 */ eui::Animator* _44d0;
+    // cleared by m94 when the screen is not opening
+    /* 0x44d8 */ u8 _44d8;
 
     // 0x71009d9ad8 (placeholder name): stops every animator of the screen at its start and applies it
     void sub_71009D9AD8();
@@ -5303,6 +5308,10 @@ public:
     void x();
     // 0x71009d94e8 (CSV ScreenAppCamera::calledFromM159; declared only)
     void sub_71009D94E8();
+    // 0x71009da8ec
+    void m94() override;
+    // 0x71009da9e4 (declared only; placeholder name)
+    void sub_71009DA9E4();
 
     // 0x71009db888: frees the photo image memory and the two work buffers
     void m101() override;
