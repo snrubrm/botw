@@ -12,6 +12,8 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -30,7 +32,7 @@ bool Unk_710235b408::m6(sead::Heap*) {
 
 void Unk_710235b408::m7(const ksys::act::BaseProc::PreDeleteArg&) {}
 
-void Unk_710235b408::m8(ksys::act::BaseProc*) {}
+void Unk_710235b408::m8(ksys::act::BaseProc*, s32) {}
 
 // Follows the owning Guardian's matrix.
 void Unk_710235b408::m9() {
@@ -61,7 +63,7 @@ void GuardianWeakPointPart::m7(const ksys::act::BaseProc::PreDeleteArg&) {
     }
 }
 
-void GuardianWeakPointPart::m8(ksys::act::BaseProc* proc) {
+void GuardianWeakPointPart::m8(ksys::act::BaseProc* proc, s32) {
     if (mBind)
         mBind->x(proc);
 }
@@ -103,6 +105,64 @@ void Unk_710235b5e8::m11() {
             _20->changeMotionType(guardian->_14d8 == 12 ? ksys::phys::MotionType::Fixed :
                                                           ksys::phys::MotionType::Dynamic);
     }
+}
+
+bool sub_71002C802C(const ksys::act::ActorLinkConstDataAccess& accessor);
+
+bool Unk_710235b6d8::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
+                            const ksys::phys::ContactPointInfo::Event& event) {
+    if (event.body) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::getCollidedActorMaybe(&accessor, event.body);
+        if (sub_71002C802C(accessor)) {
+            *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Unk_710235b4f8::m6(sead::Heap*) {
+    _40 = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(GuardianComponentBind::_8->findPhysicsBodyByName("Body", "Tibia"));
+    GuardianComponentBind::_8->sub_71011DA824(this);
+    if (auto* physics = GuardianComponentBind::_8->getPhysics()) {
+        const s32 idx = physics->findContactPointInfo("Tgt");
+        if (idx >= 0) {
+            if (auto* info = physics->getContactPointInfoAt(idx))
+                info->setContactCallback(&_48);
+        }
+    }
+    return true;
+}
+
+void Unk_710235b4f8::m7(const ksys::act::BaseProc::PreDeleteArg&) {
+    if (auto* physics = GuardianComponentBind::_8->getPhysics()) {
+        const s32 idx = physics->findContactPointInfo("Tgt");
+        if (idx >= 0) {
+            if (auto* info = physics->getContactPointInfoAt(idx))
+                info->setContactCallback(nullptr);
+        }
+    }
+    GuardianComponentBind::_8->sub_71011DA834(this);
+}
+
+void Unk_710235b4f8::m8(ksys::act::BaseProc*, s32 value) {
+    _38 = value;
+}
+
+// Fixes the body while the Guardian is in state 12.
+void Unk_710235b4f8::m11() {
+    if (auto* guardian = GuardianComponentBind::_8->sub_710003D2B4()) {
+        if (_40)
+            _40->changeMotionType(guardian->_14d8 == 12 ? ksys::phys::MotionType::Fixed :
+                                                          ksys::phys::MotionType::Dynamic);
+    }
+}
+
+// NON_MATCHING: as Unk_710235b5e8::m13 (the original loads _8 once after getTransform).
+void Unk_710235b4f8::m13() {
+    GuardianComponentBind::_8->mMtx = _40->getTransform();
+    GuardianComponentBind::_8->nullsub_4648();
 }
 
 Unk_710235b660::~Unk_710235b660() = default;

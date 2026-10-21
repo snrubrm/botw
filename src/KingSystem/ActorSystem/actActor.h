@@ -36,6 +36,7 @@ class Unk_7100d3cd74;
 class Unk_71024e8738;
 class Unk_7100e8b2b8;
 class Unk_710235b5e8;
+class Unk_710235b4f8;
 }  // namespace uking::act
 
 namespace uking::action {
@@ -928,6 +929,7 @@ protected:
     friend struct ActorBindEntry;  // writes mMtx / mScale
     friend class uking::act::Unk_71024e8738;  // writes mMtx / mScale (ActorBind subclass copying a pose)
     friend class uking::act::Unk_710235b5e8;  // Guardian broken leg bind: copies its body transform to mMtx (m13)
+    friend class uking::act::Unk_710235b4f8;  // Guardian tibia bind: copies its body transform to mMtx (m13)
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::action::NPCTargetMove;  // checks ActorX6A0 flags.
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags

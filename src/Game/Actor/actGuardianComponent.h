@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace ksys::phys {
 class Constraint;
@@ -30,7 +32,8 @@ public:
     // (GuardianWeakPointPart 0x710003c744 / 0x710003d4e0).
     virtual bool m6(sead::Heap* heap) = 0;
     virtual void m7(const ksys::act::BaseProc::PreDeleteArg& arg) = 0;
-    virtual void m8(ksys::act::BaseProc* proc) = 0;
+    // The s32 argument: Unk_710235b4f8 stores it in _38, Unk_710235b660 in _10.
+    virtual void m8(ksys::act::BaseProc* proc, s32 value) = 0;
     virtual void m9();
     virtual void m10();
     virtual void m11();
@@ -53,7 +56,7 @@ public:
     ~Unk_710235b408() override;
     bool m6(sead::Heap* heap) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
-    void m8(ksys::act::BaseProc* proc) override;
+    void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
     void m13() override;
 
@@ -71,7 +74,7 @@ public:
     ~GuardianWeakPointPart() override = default;
     bool m6(sead::Heap* heap) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
-    void m8(ksys::act::BaseProc* proc) override;
+    void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
     void m13() override;
 
@@ -89,7 +92,7 @@ public:
     ~Unk_710235b5e8() override = default;
     bool m6(sead::Heap* heap) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
-    void m8(ksys::act::BaseProc* proc) override;
+    void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
     void m10() override;
     void m11() override;
@@ -109,6 +112,40 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710235b5e8, 0x48);
 
+// Contact callback of Unk_710235b4f8 (vtable 0x710235b6d8, invoke 0x710003c930; placeholder name):
+// disables contacts with the actors that sub_71002C802C accepts.
+class Unk_710235b6d8 : public ksys::phys::ContactPointInfo::ContactCallback {
+public:
+    bool invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
+                const ksys::phys::ContactPointInfo::Event& event) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710235b6d8, 0x8);
+
+// Placeholder name (vtable 0x710235b4f8, ActorBind vtable at 0x710235b580): the "Tibia" part's bind
+// object. prepareInit_ 3C41C allocates it with 0x50 bytes. m6 finds the "Body" / "Tibia" rigid body
+// and installs _48 on the "Tgt" contact point info.
+class Unk_710235b4f8 : public GuardianComponentBind, public ksys::act::ActorBind {
+    SEAD_RTTI_OVERRIDE(Unk_710235b4f8, GuardianComponentBind)
+public:
+    ~Unk_710235b4f8() override = default;
+    bool m6(sead::Heap* heap) override;
+    void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
+    void m8(ksys::act::BaseProc* proc, s32 value) override;
+    void m9() override;   // 0x710003da28 (declared only)
+    void m10() override;  // 0x710003e050 (declared only)
+    void m11() override;
+    void m12() override;  // 0x710003e6dc (declared only)
+    void m13() override;
+    void m14() override {}
+    bool m4(ksys::act::BaseProc* proc) override { return false; }
+    bool m5(ksys::act::BaseProc* proc) override;  // 0x71000404b8 (declared only)
+
+    /* 0x38 */ s32 _38 = -1;
+    /* 0x40 */ ksys::phys::RigidBody* _40 = nullptr;
+    /* 0x48 */ Unk_710235b6d8 _48;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710235b4f8, 0x50);
+
 // Placeholder name (vtable 0x710235b660): the "Propeller" part's bind object. prepareInit_ 3C41C
 // allocates it with 0xd8 bytes. m6 0x710003d08c, m8 0x710003d6a8, m9 0x710003dd28, m10 0x710003e198,
 // m11 0x710003eeec and m12 0x710003f108 are declared only.
@@ -118,7 +155,7 @@ public:
     ~Unk_710235b660() override;
     bool m6(sead::Heap* heap) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
-    void m8(ksys::act::BaseProc* proc) override;
+    void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
     void m10() override;
     void m11() override;
