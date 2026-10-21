@@ -226,7 +226,7 @@ void ActorBindSet::m9(BaseProc* proc) {
     if (!own_physics)
         return;
     auto* entry = mEntries;
-    for (u32 n = mCount; n != 0; --n, ++entry) {
+    for (u32 n = mCount; n != 0; ++entry, --n) {
         auto* actor = sead::DynamicCast<Actor>(entry->mLink.getProc(nullptr, proc));
         if (actor && actor->getPhysics()) {
             own_physics->sub_7100FB9BAC(actor->getPhysics());
