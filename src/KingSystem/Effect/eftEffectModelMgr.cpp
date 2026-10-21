@@ -1,4 +1,5 @@
 #include "KingSystem/Effect/eftEffectModelMgr.h"
+#include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Resource/resBfRes.h"
@@ -12,6 +13,10 @@
 namespace ksys::eft {
 
 // NON_MATCHING: model-count accumulation and formatted-message temporaries differ.
+void EffectModelMgr::drawDebugInfo() {
+    auto lock = sead::makeScopedLock(mCS);
+}
+
 EffectModelData* EffectModelMgr::entry(sead::Heap* heap, act::Actor* actor,
                                         res::BfRes* resource, const char* name) {
     const char* actor_name = actor ? actor->getName().cstr() : "clusteredRenderer";

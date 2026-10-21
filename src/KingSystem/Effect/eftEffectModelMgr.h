@@ -53,6 +53,8 @@ public:
                            const char* name);
     bool requestDeleteModel(act::Actor* actor, EffectModelData* data);
     bool release(act::Actor* actor, EffectModelData* data);
+    // 0x7100da0678: in release builds only the lock around the debug rendering is left.
+    void drawDebugInfo();
 
 private:
     bool mDebugLog;
