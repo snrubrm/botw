@@ -861,6 +861,14 @@ Unk_710250fdf8::Unk_710250fdf8() = default;
 // Restored: removed by accident in 37bb657eed, which left the vtable and its O rows unemitted.
 Unk_710250fdf8::~Unk_710250fdf8() = default;
 
+void Unk_710250fdf8::fill(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    _50 = vertices;
+    _58 = indices;
+    sub_7101157C54(static_cast<u32*>(vertices) + mBaseVertex,
+                   static_cast<u16*>(indices) + mFirstIndex);
+}
+
 // Discarded calls: the original builds the debug group headers of the six shapes and drops them
 // (whatever used them is not in the release build).
 void Unk_710250fdf8::m10() {

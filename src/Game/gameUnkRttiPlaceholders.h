@@ -1224,6 +1224,9 @@ public:
     // 0x7101158bd4
     Unk_710250fdf8();
     ~Unk_710250fdf8() override;
+    // 0x7101158c74: keeps the buffers and fills them through 0x7101157c54.
+    void fill(void* vertices, void* indices);
+    void sub_7101157C54(u32* vertices, u16* indices);
     void m7(void*, void*) override {}
     virtual s32 m8() { return 918; }
     virtual s32 m9() { return 2808; }
