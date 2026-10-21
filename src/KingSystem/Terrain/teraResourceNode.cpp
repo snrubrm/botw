@@ -127,12 +127,13 @@ const Unk_710250dbc8* Unk_7101108460::getA() const {
     return mA;
 }
 
-// NON_MATCHING: store order of mName / mNameLength / mNameHash.
 Unk_7101106F44::Unk_7101106F44() {
     _8 = {1.0f, 0.0f};
     _10 = {1.0f, 0.0f};
     for (auto*& child : mChildren)
         child = nullptr;
+    mName[0] = '\0';
+    mNameLength = 0;
 }
 
 Unk_7101106F44::~Unk_7101106F44() {

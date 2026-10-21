@@ -262,8 +262,8 @@ public:
     Unk_710250dd60 mImage1;
     sead::TList<Unk_7101108460*> mNodes;
     sead::TList<Unk_710250db28*> mImages;
-    char mName[11]{};
-    u8 mNameLength = 0;
+    char mName[11];
+    u8 mNameLength;
     u32 mNameHash = -1;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101106F44, 0xc8);
