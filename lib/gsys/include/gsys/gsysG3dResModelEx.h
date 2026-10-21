@@ -4,6 +4,7 @@
 #include <thread/seadAtomic.h>
 #include "gsys/gsysG3dResMaterialEx.h"
 #include "gsys/gsysG3dResShapeEx.h"
+#include "gsys/gsysModelAutoAnimation.h"
 
 namespace nn::g3d {
 class ResModel;
@@ -33,13 +34,15 @@ public:
     void countDownReferenceCounter();
 
 private:
-    ModelResource* mResource;
+    ModelResource* mResource = nullptr;
     nn::g3d::ResModel* mResModel;
     G3dResMaterialEx* mMaterials;
     G3dResShapeEx* mShapes;
-    u8 _28[0x3e0 - 0x28];
+    // Constructor 0x7100c6db2c constructs this InitArg at +0x28.
+    ModelAutoAnimation::InitArg mInitArg;
     sead::Atomic<s32> mReferenceCounter;
-    u8 _3e4[0x3f0 - 0x3e4];
+    u8 _3e4[8] = {};
+    u8 _3ec[0x3f0 - 0x3ec];
 };
 static_assert(sizeof(G3dResModelEx) == 0x3f0);
 }  // namespace gsys

@@ -2,6 +2,8 @@
 
 namespace gsys {
 
+G3dResModelEx::G3dResModelEx() = default;
+
 void G3dResModelEx::countUpReferenceCounter() {
     mReferenceCounter.increment();
 }
