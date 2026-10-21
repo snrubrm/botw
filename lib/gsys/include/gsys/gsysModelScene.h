@@ -75,6 +75,8 @@ public:
     void calcGPU_(sead::WorkerMgr* wm);
     // 0x7100c13d40
     bool isForceZPrePassEnabled(int index) const;
+    // 0x7100c10148
+    bool isSnapshotMgrEnabled() const;
 
     // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
     void calc(sead::WorkerMgr* wm, int, int, int);
@@ -147,7 +149,10 @@ public:
     /* 0x5da0 */ f32 _5da0;
     /* 0x5da4 */ f32 mRainRatio;
 
-    u8 _5da8[0x5f20 - 0x5da8];
+    u8 _5da8[0x5db0 - 0x5da8];
+    // isSnapshotMgrEnabled 0x7100c10148 null-tests this pointer.
+    /* 0x5db0 */ void* mSnapshotMgr;
+    u8 _5db8[0x5f20 - 0x5db8];
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
 static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);

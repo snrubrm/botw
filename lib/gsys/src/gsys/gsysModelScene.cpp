@@ -12,6 +12,15 @@ ModelScene::CreateArg::CreateArg()
     : _0(1), mName(sead::SafeString::cEmptyString), _18(0) {}
 
 
+// 0x7100c10148
+bool ModelScene::isSnapshotMgrEnabled() const {
+    if (!mSnapshotMgr)
+        return false;
+    // The native body reads the OcclusionQeuery feature value at config +0x6c8; the CSV name
+    // suggests a snapshot manager, whose type is unmodelled.
+    return mConfig->isFeatureEnabled(ModelSceneConfig::Feature::OcclusionQeuery);
+}
+
 // 0x7100c13d40
 bool ModelScene::isForceZPrePassEnabled(int index) const {
     if (!mBuffer.isZPrePassEnabled(mContexts[index]))
