@@ -224,6 +224,8 @@ class Unk_7102519378 {
 public:
     virtual ~Unk_7102519378();
 
+    // Sets the owning manager and creates the uniform block (slot 6) under the lock.
+    void create(void* owner, sead::Heap* heap);
     // 0x7101295f80: takes a record from the pool: clears _48 and _58 and runs the subclass hook.
     void init();
     // 0x7101295fc4: detaches the record: runs the subclass hook and clears _48.
@@ -1462,6 +1464,7 @@ public:
     // 0x710129a0dc
     Unk_7102519620();
     ~Unk_7102519620() override;
+    void setColor(const sead::Color4f& color);
     // Draws the spot light (a straight-up direction is nudged off the y axis first).
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;

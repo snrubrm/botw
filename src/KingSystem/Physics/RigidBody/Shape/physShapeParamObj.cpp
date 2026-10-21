@@ -122,6 +122,13 @@ Unk_7102519378::~Unk_7102519378() = default;
 void Unk_7102519378::drawDebug(agl::DrawContext*, const sead::Matrix34f&, const sead::Matrix44f&,
                                int) const {}
 
+void Unk_7102519378::create(void* owner, sead::Heap* heap) {
+    mCS.lock();
+    _50 = owner;
+    m6(heap);
+    mCS.unlock();
+}
+
 // 0x7101295f80: clears the record's dirty words and runs the subclass hook (slot 9) under the
 // record's lock; RenderLightPool's allocator calls it on every record it hands out.
 void Unk_7102519378::init() {
@@ -384,6 +391,10 @@ void Unk_7102519620::m10() {
 
 bool Unk_7102519620::m11() const {
     return (_5c & 1) != 0;
+}
+
+void Unk_7102519620::setColor(const sead::Color4f& color) {
+    mColor = color;
 }
 
 Unk_7102519690::Unk_7102519690() = default;
