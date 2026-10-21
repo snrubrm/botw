@@ -3,6 +3,7 @@
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/Terrain/teraSystem.h"
 
+// 0x710107e7cc
 Unk_7102504260::~Unk_7102504260() = default;
 
 void Unk_7102504260::sub_710107E900(gsys::Model* model, bool visible) {
