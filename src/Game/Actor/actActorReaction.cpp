@@ -283,10 +283,9 @@ bool ActorReactionQueue::queue(Actor* actor, const sead::CoreId& core) {
 // NON_MATCHING: same body and instruction order; the original keeps &mActors (x9) and &mActors.mPtrs
 // (x8) in registers for the inlined pushBack, ours addresses both through `this`.
 void ActorReactionQueue::merge() {
-    sead::PtrArray<Actor>* actors = &mActors;
-    for (auto it = mCoreQueues.begin(); it != mCoreQueues.end(); ++it) {
-        for (auto jt = it->begin(); jt != it->end(); ++jt)
-            actors->pushBack(&*jt);
+    for (auto& queue : mCoreQueues) {
+        for (auto& actor : queue)
+            mActors.pushBack(&actor);
     }
     mActors.sort(&compareDistance);
 }
