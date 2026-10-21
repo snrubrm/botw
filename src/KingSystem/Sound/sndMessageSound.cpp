@@ -270,12 +270,12 @@ const char* Unk_71025049d0::m27() {
 }
 
 namespace {
-// Per-type count table of the tree draw commands (bss 0x710261df90; slot 36 reads it).
-u32 sUnk_710261DF90[2][8][10];
+// Per-type count tables of the tree draw commands (bss 0x710261df90): two tables of [type][z][x].
+u32 sUnk_710261DF90[2][2][8][10];
 }  // namespace
 
 void Unk_71025046d0::sub_7101084F6C() {
-    std::memset(sUnk_710261DF90[m28()], 0, sizeof(sUnk_710261DF90[0]));
+    std::memset(sUnk_710261DF90[0][m28()], 0, sizeof(sUnk_710261DF90[0][0]));
     m39();
 }
 

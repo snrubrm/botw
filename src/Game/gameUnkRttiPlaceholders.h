@@ -788,7 +788,7 @@ public:
     void* mIndices;
     u8 _50[0x58 - 0x50];
     s32 _58;
-    u8 _5c[0x60 - 0x5c];
+    s32 _5c;
     s32 _60;
     u8 _64[0x68 - 0x64];
 };
@@ -832,7 +832,8 @@ public:
     virtual void m33();
     virtual void m34();
     virtual void m35();
-    virtual void m36();
+    // The value of record `index` at `pos` (-1 if there is none).
+    virtual f32 m36(u32 index, const sead::Vector3f& pos);
     virtual void m37();
     virtual void m38();
     virtual void m39() {}
