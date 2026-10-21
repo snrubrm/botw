@@ -16,6 +16,7 @@
 #include "KingSystem/Terrain/teraResourceNode.h"
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <devenv/seadDebugMenuSkin.h>
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include <common/aglUniformBlock.h>
 #include <nn/ui2d/TextureInfo.h>
@@ -2411,37 +2412,6 @@ private:
 };
 static_assert(sizeof(Unk_710249d608) == 0x28);
 
-// typeinfo 0x71025f89a8; the original has no vtable for this class (an abstract base: only its RTTI
-// checks remain). Placeholder generated from its children (genskel.py).
-class Unk_71025f89a8 {
-    SEAD_RTTI_BASE(Unk_71025f89a8)
-public:
-    virtual ~Unk_71025f89a8() = default;
-};
-
-// vtable 0x71024bd4f0 (20 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024bd4f0 : public Unk_71025f89a8 {
-    SEAD_RTTI_OVERRIDE(Unk_71024bd4f0, Unk_71025f89a8)
-public:
-    ~Unk_71024bd4f0() override;
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-};
-
 // typeinfo 0x71025d0328; the original has no vtable for this class (an abstract base: only its RTTI
 // checks remain). Placeholder generated from its children (genskel.py).
 class Unk_71025d0328 {
@@ -2652,11 +2622,11 @@ public:
 };
 
 // vtable 0x71025138e8 (20 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71025138e8 : public Unk_71024bd4f0 {
-    SEAD_RTTI_OVERRIDE(Unk_71025138e8, Unk_71024bd4f0)
+class Unk_71025138e8 : public sead::DebugMenuSkinDefault {
+    SEAD_RTTI_OVERRIDE(Unk_71025138e8, sead::DebugMenuSkinDefault)
 public:
     ~Unk_71025138e8() override;
-    void m5() override {}
+    void endDrawImage(DrawInstance* instance) override {}
 };
 
 // vtable 0x7102513d70 (8 slots); placeholder generated from the vtable (genskel.py).

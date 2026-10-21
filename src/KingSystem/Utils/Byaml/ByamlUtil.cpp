@@ -43,8 +43,6 @@ bool tryGetByamlV3f(sead::Vector3f* value, const ByamlIter& iter, const char* ke
 
 }  // namespace al
 
-Unk_71024bd4f0::~Unk_71024bd4f0() = default;
-
 Unk_71024bf6f8::~Unk_71024bf6f8() = default;
 
 Unk_71024bfe10::~Unk_71024bfe10() = default;
