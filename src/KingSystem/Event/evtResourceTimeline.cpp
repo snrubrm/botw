@@ -192,8 +192,7 @@ EventBgmInfo::~EventBgmInfo() {
         snd::SoundMgr::instance()->_60->_828.sub_710105C96C(_18);
 }
 
-// NON_MATCHING: two call sites. The original passes a 64-bit zero as the third argument of sub_710105B0C8 (declared
-// u8 in sndSound.h) and tests bit 0 of sub_710100754C's result (declared u32; its body returns true / false).
+// NON_MATCHING: the original tests bit 0 of sub_710100754C's result (declared u32; its body returns true / false).
 // 0x7100dc7180
 void EventBgmInfo::init(const sead::SafeString& event_name, sead::Heap* heap, bool is_timeline,
                         al::ByamlIter* info, res::Handle* pack_handle) {

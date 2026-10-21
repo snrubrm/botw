@@ -57,8 +57,9 @@ uking::act::SoundProxy* Unk_710105a6f0::sub_710105A830(map::Object* object) {
 }
 
 // NON_MATCHING: the original re-masks the mask to 64 bits for the callee; ours reuses the byte test.
-void Unk_710105abc0::sub_710105B0C8(const sead::SafeString& name, res::Handle* pack, u8 mask) {
-    if ((mask & 0xff) != 0)
+void Unk_710105abc0::sub_710105B0C8(const sead::SafeString& name, res::Handle* pack,
+                                    sead::BitFlag8 mask) {
+    if (!mask.isZero())
         sub_710105B0F0(name, mask);
     else
         SoundMgr::instance()->_60->_828.sub_710105C3D0(name, pack);
@@ -66,7 +67,7 @@ void Unk_710105abc0::sub_710105B0C8(const sead::SafeString& name, res::Handle* p
 
 // NON_MATCHING: the original unrolled loop keeps its induction variable on the stack; ours folds
 // the bit tests into tbz.
-void Unk_710105abc0::sub_710105B0F0(const sead::SafeString& name, u8 mask) {
+void Unk_710105abc0::sub_710105B0F0(const sead::SafeString& name, sead::BitFlag8 mask) {
     SoundMgr::instance()->_30->_78->sub_710100754C(sStr_RelicBeamBgm);
     auto* list = &SoundMgr::instance()->_60->_828;
     for (s32 i = 0; i < 4; ++i) {

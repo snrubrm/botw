@@ -874,9 +874,10 @@ public:
     void sub_710105B37C();
     // 0x710105b0c8: loads the RelicBeamBgm control resources when `mask` is set, otherwise loads the
     // named bars resource through the 0x828 list.
-    void sub_710105B0C8(const sead::SafeString& name, res::Handle* pack, u8 mask);
+    // `mask` travels as a 64-bit value (`and x2, x3, #0xff`; callers pass a 64-bit zero): a BitFlag8 by value.
+    void sub_710105B0C8(const sead::SafeString& name, res::Handle* pack, sead::BitFlag8 mask);
     // 0x710105b0f0: holds RelicBeamBgm and loads the Demo143 resources selected by `mask`.
-    void sub_710105B0F0(const sead::SafeString& name, u8 mask);
+    void sub_710105B0F0(const sead::SafeString& name, sead::BitFlag8 mask);
     // 0x710105b224: whether the RelicBeamBgm and the Demo143 resources selected by _39 have finished.
     bool sub_710105B224(const sead::SafeString& name);
     // 0x710105b7d0: releases RelicBeamBgm and releases the Demo143 resources selected by _39.
