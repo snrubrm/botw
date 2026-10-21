@@ -4,6 +4,7 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <aal/aalShape.h>
+#include <gsys/gsysSystemTask.h>
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
@@ -684,6 +685,31 @@ void ChemicalMgr::unload2() {
 
 void ChemicalMgr::sub_71010CC5AC() {
     _cf8.sub_71010C9438();
+}
+
+void ChemicalMgr::sub_71010CC5B4() {
+    if (gsys::SystemTask::instance()->mFlags.isOnBit(0))
+        return;
+    // The holder's word at 0xc8 bit 21 pauses the chemical update while the elements exist.
+    if (_ae8 && !(_ae8->_c8 & 0x200000))
+        return;
+
+    const f32 delta = VFR::instance() ? VFR::instance()->getDeltaFrame() : 1.0f;
+    _cf0 += delta / 1000.0f;
+    sub_71010CC710();
+    sub_71010CCB30(delta);
+    sub_71010CCDA0(delta);
+    sub_71010CD440(delta);
+    sub_71010CD758();
+    if (ksys::tera::Terrain::instance() && ksys::tera::Terrain::instance()->isGrassEnabled() &&
+        _b14.isOnBit(2)) {
+        ksys::tera::sub_71011501C0(ksys::tera::Terrain::instance()->sub_710114DE4C());
+    }
+    sub_71010CDB00();
+    for (auto& entry : _c10.entries)
+        entry.sub_71010C5F2C();
+    if (_b10 != 0xff)
+        ++_b10;
 }
 
 bool ChemicalMgr::x_4() const {

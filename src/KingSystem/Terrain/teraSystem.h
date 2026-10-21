@@ -491,6 +491,8 @@ static_assert(offsetof(GrassEntry, mCamera) == 0x28c);
 // 0x71011501c8 (declaration only): Grass cleanup thunk called by world::ChemicalMgr::unload2;
 // the body stays with the Grass owner.
 void sub_71011501C8(Core::Grass* grass);
+// 0x71011501c0 (declaration only): the same Grass thunk shape, called by world::ChemicalMgr::sub_71010CC5B4.
+void sub_71011501C0(Core::Grass* grass);
 
 // 0x7101159054 (unnamed in the CSV): the ground height at `pos` within `radius` (a ray cast
 // query); called by Core::Grass::sub_7101150A7C.
