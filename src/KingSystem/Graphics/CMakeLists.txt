@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   gfxObjectLight.cpp
   gfxPrePassLightMgr.cpp
   gfxPrePassLightMgr.h
+  gfxUnk_71024f3a60.cpp
+  gfxUnk_71024f3a60.h
   gfxUnk_710260af28.cpp
   gfxUnk_710260af28RenderMode.cpp
   gfxUnk_710260af28.h
