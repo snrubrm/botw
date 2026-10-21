@@ -162,6 +162,89 @@ Unk_710251c940::~Unk_710251c940() = default;
 
 Unk_710251ca78::~Unk_710251ca78() = default;
 
+// Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
+// m11 twice the index count.
+s32 Unk_710251bf80::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251bf80::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c0b8::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c0b8::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c1f0::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c1f0::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c328::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c328::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c460::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c460::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c598::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c598::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c6d0::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c6d0::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c808::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c808::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251c940::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251c940::m11() {
+    return mIndexCount * 2;
+}
+
+s32 Unk_710251ca78::m10() {
+    return m12() * _20;
+}
+
+s32 Unk_710251ca78::m11() {
+    return mIndexCount * 2;
+}
+
+
 Unk_710251cbf0::~Unk_710251cbf0() = default;
 
 f32 Unk_710251cbf0::m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {

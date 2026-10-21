@@ -1512,9 +1512,9 @@ public:
     ~Unk_710251bf80() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 2; }
     virtual void m15();
@@ -1548,9 +1548,9 @@ public:
     ~Unk_710251c0b8() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 1; }
     virtual s32 m15() { return 37; }
@@ -1584,9 +1584,9 @@ public:
     ~Unk_710251c1f0() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1620,9 +1620,9 @@ public:
     ~Unk_710251c328() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1656,9 +1656,9 @@ public:
     ~Unk_710251c460() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1692,9 +1692,9 @@ public:
     ~Unk_710251c598() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1728,9 +1728,9 @@ public:
     ~Unk_710251c6d0() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1764,9 +1764,9 @@ public:
     ~Unk_710251c808() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1800,9 +1800,9 @@ public:
     ~Unk_710251c940() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
@@ -1836,9 +1836,9 @@ public:
     ~Unk_710251ca78() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
+    virtual s32 m10();
+    virtual s32 m11();
+    virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 3; }
     virtual void m15();
