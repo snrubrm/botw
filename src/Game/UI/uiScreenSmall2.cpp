@@ -4205,4 +4205,9 @@ TraceGaugeControl* Screen::findTraceGaugeControl(const char* name, const char* p
     return nn::font::DynamicCast<TraceGaugeControl>(findControlWithParentParts_(name, parts_name));
 }
 
+// 0x71009d2994
+void Screen::invokeSoundLink2Event(const char* name) {
+    invokeSoundLink2Event_(name);
+}
+
 }  // namespace eui

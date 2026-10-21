@@ -284,6 +284,8 @@ public:
     ControlBase* findControlWithParentParts_(const char* name, const char* parts_name);
     // 0x7100a192ec: findControlWithParentParts_ narrowed to a TraceGaugeControl
     TraceGaugeControl* findTraceGaugeControl(const char* name, const char* parts_name);
+    // 0x71009d2994: forwards to invokeSoundLink2Event_
+    void invokeSoundLink2Event(const char* name);
     // 0x7100a52150 (CSV placeholder): find the LetterAnimControl with the given pane name.
     LetterAnimControl* sub_7100A52150(const char* name);
     void moveBoxCursor_(BoxCursorNode* node);
