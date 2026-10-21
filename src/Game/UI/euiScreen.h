@@ -383,6 +383,9 @@ public:
     // 0x7100bec840
     void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
 
+    // Added to a screen's draw target by sub_7100BE8F04 (the xlink2 default group).
+    u8 get_b42() const { return _b42; }
+
 private:
     // Screen::update clears the target flag through its owning manager.
     friend class Screen;

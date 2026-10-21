@@ -38,7 +38,7 @@ public:
     };
     static_assert(sizeof(ActionSlot) == 0x18);
 
-    // 0x71009cfb14 (declared only)
+    // 0x71009cfb14
     void initialize(sead::Heap* heap, s32 num_bones, LayoutEx* layout, const char* name);
 
     sead::Matrix34f* getBoneWorldMtxPtr(const char* name) const override;
@@ -67,5 +67,27 @@ public:
     /* 0x38 */ u16 mNumActions = 0;
 };
 static_assert(sizeof(EffectLinkUser) == 0x40);
+
+// The state of the EffectLinkOn pane walk (0x48 bytes, on the stack of EffectLinkUser::initialize): the layout of
+// each nesting depth, the current depth, the heap and the bone buffer to fill.
+struct Unk_7100be81bc {
+    // 0x7100be81bc
+    Unk_7100be81bc(LayoutEx* layout, sead::Heap* heap, sead::Buffer<EffectLinkUser::Bone>* bones);
+
+    LayoutEx* mLayouts[6];
+    s32 mDepth;
+    sead::Heap* mHeap;
+    sead::Buffer<EffectLinkUser::Bone>* mBones;
+};
+static_assert(sizeof(Unk_7100be81bc) == 0x48);
+
+// 0x7100be81cc (declared only): walks the panes below `pane` for the EffectLinkOn user data, fills the bones and
+// returns the number of action slots needed.
+s32 sub_7100BE81CC(nn::ui2d::Pane* pane, s32 depth, Unk_7100be81bc* ctx);
+// 0x7100be86f8 (declared only): sets up the action slots from the bones' user data; returns the action count.
+u16 sub_7100BE86F8(sead::Buffer<EffectLinkUser::ActionSlot>* slots, sead::Buffer<EffectLinkUser::Bone>* bones,
+                   sead::Heap* heap);
+// 0x7100be8f04: the screen's draw target plus a ScreenMgr byte.
+u8 sub_7100BE8F04(LayoutEx* layout);
 
 }  // namespace eui

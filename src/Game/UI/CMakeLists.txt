@@ -5,6 +5,7 @@ target_sources(uking PRIVATE
   euiAnimButton.cpp
   euiAlignPane.cpp
   euiAnimator.cpp
+  euiEffectLinkUtil.cpp
   euiBoxCursorControl.cpp
   euiBoxCursorMgr.cpp
   euiBoxCursorNode.cpp

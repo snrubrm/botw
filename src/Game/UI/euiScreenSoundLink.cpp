@@ -1,3 +1,5 @@
+#include <xlink2/xlink2SystemELink.h>
+#include <xlink2/xlink2UserInstanceELink.h>
 #include <prim/seadStringBuilder.h>
 #include <xlink2/xlink2ToolConnectionContext.h>
 #include "Game/UI/euiAnimator.h"
@@ -45,6 +47,34 @@ void Screen::invokeSoundLink2AnimPlayEvent(Animator* animator, const char* name)
     AppendLayoutItemUniqueName(&label, animator->mName, animator->mLayout);
     label.append(name, -1);
     static_cast<SoundLink2User*>(_f0)->searchAndEmit(label.cstr());
+}
+
+// 0x71009cfb14
+void EffectLinkUser::initialize(sead::Heap* heap, s32 num_bones, LayoutEx* layout, const char* name) {
+    mBones.tryAllocBuffer(num_bones, heap, 16);
+    s32 num_slots;
+    {
+        Unk_7100be81bc ctx(layout, heap, &mBones);
+        num_slots = sub_7100BE81CC(layout->GetPane(), 0, &ctx);
+    }
+    mActionSlots.tryAllocBuffer(num_slots, heap, 8);
+    mNumActions = sub_7100BE86F8(&mActionSlots, &mBones, heap);
+
+    const u32 size = sead::SafeString(name).calcLength() + 5;
+    sead::BufferedSafeString user_name(static_cast<char*>(heap->alloc(size, 8)), size);
+    user_name.format("[UI]%s", name);
+
+    xlink2::UserInstance::CreateArg arg(user_name.cstr(), this);
+    arg.numActionSlot = mNumActions;
+    const char** names = new (heap, 8) const char*[mNumActions];
+    for (s32 i = 0; i < mNumActions; ++i)
+        names[i] = mActionSlots[i].mName;
+    arg.actionSlotNames = names;
+    arg.rootMtx.reset();
+    mUserInstance = xlink2::SystemELink::instance()->createUserInstance(arg, heap, 0);
+    mUserInstance->setupResource(heap);
+    static_cast<xlink2::UserInstanceELink*>(mUserInstance)->setDefaultGroup(sub_7100BE8F04(layout));
+    mUserInstance->setIsActive(false);
 }
 
 // 0x71009cfe08
