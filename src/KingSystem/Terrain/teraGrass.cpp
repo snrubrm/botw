@@ -10,6 +10,12 @@
 #include "KingSystem/Physics/System/physContactLayerCollisionInfoGroup.h"
 
 // NON_MATCHING: record iteration, address copies and the pool-null guard differ.
+// NON_MATCHING: the original stores _4b4 before _4b0 (store order).
+Unk_7102503a50::Unk_7102503a50() {
+    for (auto& value : _9f8)
+        value = 0;
+}
+
 // NON_MATCHING: the original computes the address of mVertexMemory before the member destructors
 // (scheduling).
 Unk_7102503a50::~Unk_7102503a50() {

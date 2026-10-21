@@ -144,30 +144,30 @@ public:
     // (the entry type is Core::Grass::Entry, which this header cannot see, so the pointer is void).
     void sub_71010658E8(s32 index, void* entry, const sead::Vector3f& pos);
 
-    sead::Heap* mHeap;                              // +8
+    sead::Heap* mHeap = nullptr;                    // +8
     sead::Buffer<Record> mRecords;                  // +10
-    u32 _20;
-    f32 mNearRadius;                                // +24, ctor32, queries/producer verified
-    f32 _28;
-    f32 _2c;
+    u32 _20 = 0;
+    f32 mNearRadius = 32.0f;                        // +24, queries/producer verified
+    f32 _28 = 1.0f;
+    f32 _2c = 1.0f;
     agl::utl::DebugTexturePage mDebugPages[2];         // +30,+270
-    u32 _4b0;
-    u16 _4b4;
+    u32 _4b0 = 0;
+    u16 _4b4 = 0;
     u8 _4b6[2];
-    ksys::phys::ContactLayerCollisionInfoGroup* _4b8;
-    ksys::phys::ContactLayerCollisionInfoGroup* _4c0;
+    ksys::phys::ContactLayerCollisionInfoGroup* _4b8 = nullptr;
+    ksys::phys::ContactLayerCollisionInfoGroup* _4c0 = nullptr;
     sead::GraphicsContext mGraphicsContexts[3];       // +4c8,+53c,+5b0
     u8 _624[4];
     // Placeholder: the vertex record of mVertexMemory (its GPUMemBlockT vtable is 0x7102503a90,
     // D2 / D0 0x710106a4c8 / 0x710106a4dc in this TU); the layout is not modelled.
     struct Vertex;
-    agl::GPUMemBlockT<Vertex> mVertexMemory;          // +628
-    agl::GPUMemBlockT<u16> mIndexMemory;              // +660 (vtable 0x71024c20a0)
+    agl::GPUMemBlock<Vertex> mVertexMemory;           // +628
+    agl::GPUMemBlock<u16> mIndexMemory;               // +660
     agl::VertexBuffer mVertexBuffer;                 // +698
     agl::IndexStream mIndexStream;                   // +7b8
     agl::VertexAttribute mVertexAttribute;           // +818
     u8 _9f8[0x1e0];
-    f32 _bd8;
+    f32 _bd8 = 1.0f;
     u8 _bdc[4];
 };
 static_assert(sizeof(Unk_7102503a50) == 0xbe0);
