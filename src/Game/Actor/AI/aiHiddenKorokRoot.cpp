@@ -33,8 +33,7 @@ bool HiddenKorokRoot::init_(sead::Heap* heap) {
         npc->_fe8 |= 0x20000000;
 
     _78 = ksys::phys::CollisionInfo::make(heap, mActor->getName());
-    _78->getLayerMask(ksys::phys::ContactLayerType::Entity).makeAllZero();
-    _78->getLayerMask(ksys::phys::ContactLayerType::Sensor).makeAllZero();
+    _78->clearLayerMasks();
     _78->enableLayer(ksys::phys::ContactLayer::EntityObject);
     _78->enableLayer(ksys::phys::ContactLayer::EntitySmallObject);
     _78->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);

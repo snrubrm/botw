@@ -31,6 +31,13 @@ public:
     void disableLayer(ContactLayer layer);
     bool isLayerEnabled(ContactLayer layer) const;
 
+    // inline-only in the original; name is a guess. The two adjacent masks are cleared with one
+    // 64-bit store (both callers read `this` once).
+    void clearLayerMasks() {
+        mLayerMasks[0].makeAllZero();
+        mLayerMasks[1].makeAllZero();
+    }
+
     void lock();
     void unlock();
 
