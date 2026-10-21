@@ -3,11 +3,13 @@
 #include <evfl/Action.h>
 #include <evfl/Flowchart.h>
 #include <evfl/Param.h>
+#include <evfl/ResTimeline.h>
 #include <evfl/TimelineObj.h>
 #include <container/seadBuffer.h>
 #include <heap/seadHeap.h>
 #include <math/seadMatrix.h>
 #include <container/seadPtrArray.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -277,6 +279,7 @@ public:
     s32 getEventFlowType() const override;
     void* m7() override;
     void m8(Command command) override;
+    void printStatus(sead::BufferedSafeString* out) override;
     bool m10(const evfl::ActionArg& arg) override;
     void m13() override;
     bool m14() override;
