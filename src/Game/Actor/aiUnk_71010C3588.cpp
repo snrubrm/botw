@@ -19,6 +19,7 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldChemicalMgr.h"
+#include "KingSystem/Sound/sndSound.h"
 
 Unk_710250c260::Unk_710250c260() = default;
 
@@ -396,6 +397,28 @@ bool Unk_710250c6d8::m29(const ElementName& name, sead::Heap* heap) {
 void Unk_710250c6d8::m33(bool a, bool fixed) {
     if (_50)
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
+}
+
+// The fire sphere is handed to the grass sound manager as a point with the body's radius.
+void Unk_710250c6d8::m35(f32 delta_frame) {
+    auto* manager = ksys::snd::SoundMgr::instance()->_38;
+    if (!manager)
+        return;
+    auto* grass = manager->_10;
+    if (!grass)
+        return;
+    auto* body = mRigidBody;
+    if (!body)
+        return;
+
+    sead::Vector3f pos;
+    body->getPosition(&pos);
+    f32 radius;
+    if (auto* sphere = sead::DynamicCast<ksys::phys::SphereRigidBody>(body))
+        radius = sphere->getRadius();
+    else
+        radius = 0.1f;
+    grass->sub_71010336F8(pos, radius);
 }
 
 // NON_MATCHING: prologue argument moves are ordered differently.

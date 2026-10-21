@@ -524,6 +524,8 @@ public:
     void sub_710103362C();
     // 0x7101032940 (declared only; 2536 B): the per-frame position update called by sub_7101032870.
     void sub_7101032940();
+    // 0x71010336f8 (declared only; lane1 s154): the grass point the chemical fire sphere covers.
+    void sub_71010336F8(const sead::Vector3f& pos, f32 radius);
 
     // 0x71010333e0: sets _10c1 (Unk_SoundMgr38::sub_710102AE50).
     void sub_71010333E0();
