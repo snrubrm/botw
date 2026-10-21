@@ -1417,7 +1417,12 @@ private:
 class Unk_7102519620 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519620, Unk_7102519378)
 public:
+    // 0x710129a0dc
+    Unk_7102519620();
     ~Unk_7102519620() override;
+    // Draws the spot light (a straight-up direction is nudged off the y axis first).
+    void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                   const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 5; }
     void m6(sead::Heap* heap) override;
     virtual void m7();
@@ -1430,7 +1435,16 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
+    sead::Vector3f mPos{0, 0, 0};
+    sead::Vector3f mDir = -sead::Vector3f::ey;
+    // drawSpotLight's two float arguments.
+    f32 _f0 = 0.45f;
+    f32 _f4 = 10.0f;
+    f32 _f8 = 1.0f;
+    f32 _fc = 0.5f;
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102519620, 0x110);
 
 // vtable 0x7102519690 (13 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519690 : public Unk_7102519378 {
