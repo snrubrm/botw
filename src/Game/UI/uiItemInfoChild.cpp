@@ -14,6 +14,9 @@
 
 namespace uking::ui {
 
+// 0x71009c1edc
+Unk_710247ca18::Unk_710247ca18(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+
 // 0x71009c20f0
 void Unk_710247ca18::sub_71009C20F0(eui::TraceGaugeControl* gauge) {
     _170 = gauge;
