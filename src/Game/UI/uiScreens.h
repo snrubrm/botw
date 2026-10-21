@@ -1095,6 +1095,7 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m93(sead::Heap* heap) override;
+    void m94() override;
     void m101() override;
 
     /* 0x3610 */ eui::Animator* _3610{};
