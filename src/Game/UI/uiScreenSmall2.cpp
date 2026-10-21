@@ -205,8 +205,8 @@ void ScreenAppAlbum::m162() {
     }
 }
 
-// NON_MATCHING: the original lays the three button bodies out after all three checks and keeps the
-// vtable load before the _3a98 test; ours keeps each body in place. Behaviour is the same.
+// NON_MATCHING: the camera count is loaded sign-extended in the original and its fill loop keeps the
+// signed end compare; ours zero-extends the count load and ends the unrolled loop on !=.
 // 0x71009d5fa4
 void ScreenAppAlbum::m163() {
     if (isTrigMaybe(8)) {
@@ -217,6 +217,7 @@ void ScreenAppAlbum::m163() {
             state_machine.changeState(&sUnk_71025dc420);
         else
             state_machine.changeState(&sUnk_71025dc300);
+        return;
     }
     if (isTrigMaybe(2)) {
         if (_3638)
@@ -224,6 +225,7 @@ void ScreenAppAlbum::m163() {
         sUnk_71025DC54C.fill(false);
         sUnk_71025DC890._10 = 0;
         getStateMachine().changeState(&sUnk_71025dc300);
+        return;
     }
     if (isTrigMaybe(0x10)) {
         if (_3638)
@@ -235,12 +237,14 @@ void ScreenAppAlbum::m163() {
         } else {
             invokeSoundLink2Event_("mc_Select_AllPicture");
             sUnk_71025DC54C.fill(false);
-            sUnk_71025DC890._10 = _3610;
-            for (s32 i = 0; i < _3610; ++i)
+            const s32 count = _3610;
+            sUnk_71025DC890._10 = count;
+            for (s32 i = 0; i < count; ++i)
                 sUnk_71025DC54C[i] = true;
         }
         _3a98 = !_3a98;
         _3a99 = true;
+        return;
     }
 }
 
