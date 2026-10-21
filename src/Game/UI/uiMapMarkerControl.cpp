@@ -874,6 +874,22 @@ Unk_7102478e30::~Unk_7102478e30() {
     _50 = nullptr;
 }
 
+// 0x710098fb10 (placeholder name): when the entry carries the 0x40 / 0x4 state bits, drops it from the
+// UiSubsys1 marker list and advances the animator.
+void Unk_7102478e30::m12() {
+    auto* entry = _18;
+    if (!entry)
+        return;
+    const u32 flags = entry->_3c;
+    if ((flags & 0x41) != 0x40 && (flags & 5) != 4)
+        return;
+    if (sead::DynamicCast<Unk_7102476830>(entry)) {
+        if (auto** found = UiSubsys1::instance()->sub_71009595FC(entry))
+            UiSubsys1::instance()->sub_710095963C(found);
+    }
+    _18->m22();
+}
+
 // NON_MATCHING: native spills an enum conversion; the entry kind is still declared as an integer.
 void Unk_7102478e30::m8() {
     Unk_7102477fc0::m8();
