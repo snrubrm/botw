@@ -150,7 +150,7 @@ public:
     void sub_7100DC3698();
 
     // 0x7100dc245c (CSV EventResource::invokedParseExtraModelRes)
-    bool invokedParseExtraModelRes();
+    bool invokedParseExtraModelRes(void* arg);
     // 0x7100dc2d50 / 0x7100dc2eb4 (CSV EventResource::loadEventResources / finishLoad; not decompiled)
     void loadEventResources(bool a1);
     // 0x7100dc25b8 (CSV EventResource::loadCommon_DemoAndModel; not decompiled)
@@ -191,7 +191,7 @@ public:
         /* 0x1e0 */ u32 _1e0 = 0;
         u8 _1e0_bytes[4];
     };
-    /* 0x1e8 */ sead::DelegateR<EventResource, bool> _1e8{this, &EventResource::invokedParseExtraModelRes};
+    /* 0x1e8 */ sead::Delegate1R<EventResource, void*, bool> _1e8{this, &EventResource::invokedParseExtraModelRes};
 };
 static_assert(sizeof(EventResource) == 0x208);
 

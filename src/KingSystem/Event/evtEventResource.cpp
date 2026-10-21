@@ -34,7 +34,7 @@ EventResource::EventResource(sead::Heap* heap) {
     _1d3 = false;
 }
 
-bool EventResource::invokedParseExtraModelRes() {
+bool EventResource::invokedParseExtraModelRes(void*) {
     _158.parseResource(nullptr);
     if (_158.isSuccess())
         _1b0 = _158.getModelRes();
