@@ -8,12 +8,14 @@
 
 // Placeholder for the small primary base of Unk_SpotBgmInstance: a virtual destructor and the two
 // virtuals the instance overrides (vtable 0x7102500cb0, no RTTI). The second base
-// Unk_71024fc7f8 sits at +8 with its own vtable (0x7102500cf0, offset to top -8).
+// Unk_71024fc7f8 sits at +8 with its own vtable (0x7102500cf0, offset to top -8). Its two virtuals
+// have the same names as the handle base's, so the instance's one override fills the primary slots
+// 2 / 3 and the secondary hm14 / hm15 slots (the original primary vtable has only four slots).
 class Unk_SpotBgmInstanceBase {
 public:
     virtual ~Unk_SpotBgmInstanceBase();
-    virtual void sub_7101024358() = 0;
-    virtual void sub_71010246CC() = 0;
+    virtual void hm14() = 0;
+    virtual void hm15() = 0;
 };
 
 // The spot BGM instance a SpotBgmTriggerAction creates in init_ (size 0x3c0).
@@ -46,9 +48,7 @@ public:
     // 0x71010233cc (declared only; 1500 B): `name` is the sound name parameter; `a3` is 1 for a box area, 0 otherwise.
     void sub_71010233CC(sead::Heap* heap, const sead::SafeString* name, u64 a3, ksys::act::Actor* actor);
 
-    // The class's own virtuals (primary vtable slots 2 / 3).
-    void sub_7101024358() override;
-    void sub_71010246CC() override;
+    // The class's own virtuals (primary vtable slots 2 / 3, and the handle base's hm14 / hm15).
     void hm14() override;
     void hm15() override;
 

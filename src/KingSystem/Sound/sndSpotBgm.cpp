@@ -160,8 +160,6 @@ Unk_SpotBgmInstance::Unk_SpotBgmInstance(bool a)
     _368 |= 0x90;
 }
 
-// NON_MATCHING: the handle base's hm14 / hm15 overrides also go into our primary vtable, so our
-// secondary vptr is stored at +0x50 instead of +0x40; the four destructors are otherwise identical.
 Unk_SpotBgmInstance::~Unk_SpotBgmInstance() {
     _188 = 0xdeadca11;
     if (mShape) {
@@ -171,17 +169,6 @@ Unk_SpotBgmInstance::~Unk_SpotBgmInstance() {
 }
 
 void Unk_SpotBgmInstance::hm14() {
-    if (mEntries.size() != 0)
-        _368 |= 0x10000;
-    else
-        sub_7101024374();
-}
-
-void Unk_SpotBgmInstance::hm15() {
-    Unk_SpotBgmInstance::sub_71010246CC();
-}
-
-void Unk_SpotBgmInstance::sub_7101024358() {
     if (mEntries.size() != 0)
         _368 |= 0x10000;
     else
@@ -620,7 +607,7 @@ void Unk_SpotBgmInstance::sub_71010241D0(bool allow, bool fade_in) {
 }
 
 // NON_MATCHING: entry validation and event handle updates use different scheduling.
-void Unk_SpotBgmInstance::sub_71010246CC() {
+void Unk_SpotBgmInstance::hm15() {
     if (_368 & 0x10000) {
         if (mEntries.size() == 0) {
             sub_7101024374();
