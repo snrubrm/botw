@@ -50,7 +50,7 @@ public:
     void sub_710094C8CC(HorseColorInfo* info);
     // 0x710094c640 / 0x710094d114 (placeholder names): the resource load step and the model creation.
     void sub_710094C640();
-    void createModels();
+    bool createModels();
 
 public:
     /* 0x28 */ u8 _28;  // bit 1: the horse layout is already available

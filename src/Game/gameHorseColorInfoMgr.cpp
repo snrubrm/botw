@@ -1,4 +1,5 @@
 #include "Game/gameHorseColorInfoMgr.h"
+#include "Game/UI/uiUtils.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(HorseColorInfoMgr)
 
@@ -13,6 +14,40 @@ HorseColorInfoMgr::HorseColorInfoMgr()
 
 HorseColorInfoMgr::~HorseColorInfoMgr() {
     sub_710094C810();
+}
+
+// NON_MATCHING: same calls and constants; the original materialises 0x40060000 in two steps
+// (mov/movk), keeps the resource in a callee-saved register and places the name SafeString temporary
+// in a 0x10 larger frame (our temporary sits at the bottom of the frame).
+bool HorseColorInfoMgr::createModels() {
+    mHeap = sead::ExpHeap::tryCreate(0x40060000, "HorseColorInfoMgr", uking::ui::getHeap(), 8,
+                                     sead::Heap::cHeapDirection_Reverse, false);
+    if (!mHeap)
+        return false;
+
+    gsys::Model::CreateArg model_arg;
+    model_arg._4 = 2;
+    gsys::ModelAnimation::CreateArg anim_arg;
+    anim_arg._4 = 4;
+
+    if (auto* resource = mModelRes.sub_71011FC6AC()) {
+        mModel = gsys::Model::create(resource, "HorseColorInfo_Body", model_arg, mHeap, nullptr);
+        if (mModel)
+            mModel->createAnimation(&resource, 1, anim_arg, mHeap);
+    }
+
+    if (auto* resource = mTextureRes.sub_71011FC6AC()) {
+        mTextureModel =
+            gsys::Model::create(resource, "HorseColorInfo_Mane", model_arg, mHeap, nullptr);
+        if (mTextureModel) {
+            if (auto* anim_resource = mAnimRes.sub_71011FC6AC())
+                mTextureModel->createAnimation(&anim_resource, 1, anim_arg, mHeap);
+        }
+    }
+
+    // The result is discarded in the original.
+    mHeap->adjust();
+    return mModel && mTextureModel;
 }
 
 void HorseColorInfoMgr::sub_710094C810() {
