@@ -217,6 +217,25 @@ const char* const sBirdNames[4][3] = {
 };
 }  // namespace
 
+// 0x7101028c64: drops or downgrades the entries whose time-of-day zone is not enabled any more.
+// NON_MATCHING: the original converts the entry's zone field (and the time zone byte) through the stack, which
+// means they are 4-byte enum / plain-byte fields there; ours keeps the shift and mask in registers.
+void Unk_SoundMgr38_58::sub_7101028C64() {
+    const s32 climate = xlink::Manager::instance()->getClimateMaybe();
+    for (auto& entry : mEntries) {
+        if (!(mTimeZone & (1 << entry.mZone))) {
+            if (entry.sub_710104A858()) {
+                entry._a0 = 1;
+            } else {
+                entry._a0 = 0;
+                entry.sub_710104A108();
+            }
+        } else if (entry._a0 == 3 && entry.mType != climate) {
+            entry._a0 = 2;
+        }
+    }
+}
+
 // 0x71010289d0: plays the chirp `type` at `pos` with property value `value`. The distance to the player picks
 // the playback category (3 when the type matches the current climate, 2 when close, 1 when far); the time-of-day
 // bit set picks the name variant.
