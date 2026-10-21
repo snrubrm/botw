@@ -40,4 +40,10 @@ void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
     mRenderBufferContext->release(context._8, 0x3e2000);
 }
 
+// 0x7100c19b44
+void ModelSceneBuffer::drawDebug(agl::DrawContext*, const ModelSceneContext&) const {}
+
+// 0x7100c19b48
+void ModelSceneBuffer::attachHostIO(sead::hostio::Node*) {}
+
 }  // namespace gsys

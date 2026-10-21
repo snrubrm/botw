@@ -1,5 +1,6 @@
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelMgr.h>
+#include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysParticleDrawArg.h>
 
 namespace gsys {
@@ -7,6 +8,11 @@ namespace gsys {
 ModelScene::CreateArg::CreateArg()
     : _0(1), mName(sead::SafeString::cEmptyString), _18(0) {}
 
+
+// 0x7100c21490
+ModelRenderQueue* ModelSceneContext::getRenderQueue(QueueType type) const {
+    return &mRenderQueues[type];
+}
 
 // 0x7100c0fe14
 void ModelScene::bindEnv_() {
