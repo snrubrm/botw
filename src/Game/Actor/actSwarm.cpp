@@ -436,7 +436,6 @@ Unk_71023d0e08::~Unk_71023d0e08() {
     ;
 }
 
-// NON_MATCHING: vector addition changes register allocation and load scheduling.
 // Resets the unit: state flags, full opacity, identity pose, and re-registers its model with the owner.
 void uking::act::Swarm::Unit::m6() {
     _b8 = 0;
