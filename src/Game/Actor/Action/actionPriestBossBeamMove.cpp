@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physListShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 
 namespace uking::action {
 
@@ -9,8 +12,27 @@ PriestBossBeamMove::PriestBossBeamMove(const InitArg& arg) : ksys::act::ai::Acti
 
 PriestBossBeamMove::~PriestBossBeamMove() = default;
 
+// NON_MATCHING: the three body null tests are emitted _c8, _b8, _c0 here; the original tests
+// _b8 first with its own return block (same instructions otherwise).
 bool PriestBossBeamMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    auto* actor = mActor;
+    _b8 = actor->getMainBody();
+    _c0 = actor->findPhysicsBodyByName("Atk", "AtkBody");
+    _c8 = actor->findPhysicsBodyByName("Atk", "AtkExplode");
+    if (!_b8 || !_c8)
+        return false;
+    if (!_c0)
+        return false;
+
+    _b8->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+    _b8->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+
+    if (auto* body = sead::DynamicCast<ksys::phys::ListShapeRigidBody>(_b8)) {
+        auto* child = body->mShape ? body->mShape->mShapes[0] : nullptr;
+        if (auto* sphere = sead::DynamicCast<ksys::phys::SphereShape>(child))
+            _ac = sphere->mRadius;
+    }
+    return true;
 }
 
 void PriestBossBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {

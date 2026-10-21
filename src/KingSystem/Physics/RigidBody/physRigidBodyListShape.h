@@ -6,6 +6,10 @@ namespace uking::ai {
 class AirOctaState;
 }
 
+namespace uking::action {
+class PriestBossBeamMove;
+}
+
 namespace ksys::phys {
 
 struct BoxShapeParam;
@@ -67,6 +71,7 @@ protected:
 
 private:
     friend class uking::ai::AirOctaState;  // updates the existing sphere child directly.
+    friend class uking::action::PriestBossBeamMove;  // reads the first child sphere in init_.
     ListShape* mShape{};
 };
 

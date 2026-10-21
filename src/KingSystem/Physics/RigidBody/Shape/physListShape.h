@@ -12,6 +12,10 @@ namespace uking::ai {
 class AirOctaState;
 }
 
+namespace uking::action {
+class PriestBossBeamMove;
+}
+
 namespace ksys::phys {
 
 struct BoxShapeParam;
@@ -81,6 +85,7 @@ public:
 
 private:
     friend class uking::ai::AirOctaState;  // updates a child sphere and marks the list dirty.
+    friend class uking::action::PriestBossBeamMove;  // reads the child shapes in init_.
     enum class Flag {
         /// Whether the Havok list shape needs to be recreated.
         NeedsHavokShapeUpdate = 1 << 0,
