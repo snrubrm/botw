@@ -134,13 +134,17 @@ void SwarmDamagedBase::sub_71002844D0() {
     }
 }
 
-// NON_MATCHING: rotation temporaries use different stack slots and the shared angle branch is duplicated.
+// NON_MATCHING: the int temporary of add(10, "@I") is placed above the name temporary (frame offsets differ by 8).
 void SwarmDamagedBase::sub_71002847E0(Entry* entry) {
-    sead::Vector3f position = entry->mPtr->_8.getTranslation();
+    sead::Vector3f position;
+    entry->mPtr->_8.getTranslation(position);
     f32 height;
-    if (sub_710072C21C(&height, &position) == 2 && height + 0.1f > position.y)
-        position.y = height + 0.1f;
-    const sead::Vector3f rotation = entry->mPtr->_8.getRotation();
+    if (sub_710072C21C(&height, &position) == 2) {
+        const f32 min_y = height + 0.1f;
+        position.y = min_y > position.y ? min_y : position.y;
+    }
+    sead::Vector3f rotation;
+    entry->mPtr->_8.getRotation(rotation);
     ksys::act::InstParamPack params;
     params->addPosition(position);
     params->addRotation(rotation);
