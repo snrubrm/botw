@@ -1,6 +1,8 @@
 #pragma once
 
 #include <layer/aglLayer.h>
+#include <prim/seadSafeString.h>
+#include <utility/aglDebugTexturePage.h>
 
 namespace gsys {
 
@@ -39,10 +41,14 @@ public:
 
 private:
     // Constructor BF4378 initializes components through the E88-byte extent.
-    u8 _208[0xc44 - 0x208];
+    u8 _208[0x3b0 - 0x208];
+    // initializeImpl formats the layer name into this string and passes it to the debug page.
+    sead::FixedSafeString<32> mDebugName;
+    u8 _3e8[0xc44 - 0x3e8];
     // Bit 1: force invisible.
     u8 mFlags;
-    u8 _c45[0xe88 - 0xc45];
+    u8 _c45[0xc48 - 0xc45];
+    agl::utl::DebugTexturePage mDebugTexturePage;
 };
 static_assert(sizeof(agl::lyr::Layer) == 0x208);
 static_assert(sizeof(Layer) == 0xe88);

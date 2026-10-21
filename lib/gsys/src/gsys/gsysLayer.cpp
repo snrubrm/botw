@@ -6,6 +6,15 @@
 #include <layer/aglRenderInfo.h>
 
 namespace gsys {
+void Layer::initializeImpl(sead::Heap* heap) {
+    mDebugName.format("%s", getName().cstr(), getRegisteredIndexMaybe());
+    getCameraFlags().resetBit(1);
+    sead::Heap* debug_heap = agl::detail::PrivateResource::instance()->getDebugHeap();
+    ORUtil::setNodeMeta(this, ORUtil::Category::_4, "rndr_2D", debug_heap);
+    doInitialize(heap);
+    mDebugTexturePage.setUp(1, mDebugName, debug_heap);
+}
+
 // The original calls isRenderStepGPUCalc in these hooks and discards the result.
 void Layer::preDrawRenderStepImpl(const agl::lyr::RenderInfo& info) const {
     agl::DrawContext* context = info.getDrawContext();
