@@ -1,5 +1,6 @@
 #include "KingSystem/Sound/sndSound.h"
 #include <cstring>
+#include "KingSystem/Terrain/teraSystem.h"
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
 #include <aal/aalSettings.h>
@@ -272,7 +273,41 @@ const char* Unk_71025049d0::m27() {
 namespace {
 // Per-type count tables of the tree draw commands (bss 0x710261df90): two tables of [type][z][x].
 u32 sUnk_710261DF90[2][2][8][10];
+// Per-area sub-cell counts (bss 0x7102616760).
+u32 sUnk_7102616760[2][8][10][16];
+// Per-area tree count limits of the two tree types (0x7101ec3644).
+const u32 sTreeCountLimits[2][8][10] = {
+    {
+        {61, 24, 33, 22, 11, 269, 29, 67, 333, 389},
+        {41, 94, 25, 109, 101, 983, 10, 10, 604, 374},
+        {21, 24, 78, 66, 70, 681, 309, 37, 388, 143},
+        {10, 43, 232, 157, 519, 429, 166, 60, 13, 53},
+        {10, 156, 695, 296, 525, 859, 634, 232, 35, 10},
+        {15, 10, 363, 461, 949, 1340, 178, 210, 134, 10},
+        {22, 49, 31, 41, 80, 602, 395, 653, 356, 10},
+        {10, 32, 10, 12, 188, 531, 453, 80, 27, 35},
+    },
+    {
+        {58, 215, 62, 65, 12, 128, 10, 10, 61, 10},
+        {139, 154, 166, 217, 26, 91, 11, 10, 91, 10},
+        {47, 383, 165, 315, 283, 94, 10, 68, 10, 53},
+        {10, 16, 10, 10, 76, 43, 29, 630, 253, 228},
+        {10, 24, 152, 78, 10, 51, 10, 227, 169, 179},
+        {17, 54, 37, 46, 21, 10, 10, 30, 264, 92},
+        {10, 10, 10, 61, 104, 10, 104, 14, 10, 10},
+        {10, 10, 10, 10, 36, 10, 10, 10, 10, 10},
+    },
+};
 }  // namespace
+
+void Unk_71025046d0::sub_7101084D9C(const sead::Vector3f& pos) {
+    const u32 type = m28();
+    const s32 ix = ksys::tera::sub_710107F9C4(pos.x);
+    const s32 iz = ksys::tera::sub_710107FA0C(pos.z);
+    const s32 sub = ksys::tera::sub_710107FA54(pos.x, pos.z);
+    if (++sUnk_710261DF90[0][type][iz][ix] <= sTreeCountLimits[type][iz][ix])
+        ++sUnk_7102616760[type][iz][ix][sub];
+}
 
 void Unk_71025046d0::sub_7101084F6C() {
     std::memset(sUnk_710261DF90[0][m28()], 0, sizeof(sUnk_710261DF90[0][0]));

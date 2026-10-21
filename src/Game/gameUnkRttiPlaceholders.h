@@ -844,6 +844,8 @@ public:
     virtual void m44() {}
     virtual void m45() {}
 
+    // 0x7101084d9c: counts a tree at `pos` (and its sub-cell while under the area limit).
+    void sub_7101084D9C(const sead::Vector3f& pos);
     // 0x7101084f6c: clears this type's count table, then runs slot 39.
     void sub_7101084F6C();
     // 0x710108515c: slot 41 with `arg` (slot 28's result is discarded).

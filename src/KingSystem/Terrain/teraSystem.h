@@ -86,6 +86,8 @@ void sub_7100F418B8(void* value);
 // 0x7101086ee0 maps world x/z coordinates into the 10-by-8 terrain cells.
 s32 sub_710107F9C4(f32 x);
 s32 sub_710107FA0C(f32 z);
+// 0x710107fa54: the 4-by-4 sub-cell of x / z inside its cell (declaration only).
+s32 sub_710107FA54(f32 x, f32 z);
 
 // ResourceHolder 1138A2C supplies a size, name, parent and heap direction.
 sead::ExpHeap* sub_7101120314(u32 size, const sead::SafeString& name, sead::Heap* parent,
