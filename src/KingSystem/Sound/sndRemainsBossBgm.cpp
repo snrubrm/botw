@@ -25,16 +25,16 @@ Unk_71024fd448::Unk_71024fd448(const ksys::snd::BgmInitArg& arg) : Unk_71025ce38
     auto* heap = arg.heap;
     ksys::snd::RemainsBossBgmType type;
     switch (arg.kind) {
-    case ksys::snd::BgmKind::_27:
+    case ksys::snd::BgmKind::cCurseGanonWind:
         type = ksys::snd::RemainsBossBgmType::Wind;
         break;
-    case ksys::snd::BgmKind::_28:
+    case ksys::snd::BgmKind::cCurseGanonElec:
         type = ksys::snd::RemainsBossBgmType::Elec;
         break;
-    case ksys::snd::BgmKind::_29:
+    case ksys::snd::BgmKind::cCurseGanonFire:
         type = ksys::snd::RemainsBossBgmType::Fire;
         break;
-    case ksys::snd::BgmKind::_30:
+    case ksys::snd::BgmKind::cCurseGanonWater:
         type = ksys::snd::RemainsBossBgmType::Water;
         break;
     default:

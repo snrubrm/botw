@@ -285,28 +285,28 @@ void Unk_710260f0c0::m7(f32 fade_sec) {
 void Unk_710260f0c0::sub_7100FF8F34(Bgm* bgm) {
     bgm->m8(_c4 & 1);
     switch (bgm->getKind()) {
-    case BgmKind::_3:
+    case BgmKind::cFieldBattle:
         _a8 = sead::DynamicCast<::Unk_71024fe368>(bgm);
         break;
-    case BgmKind::_11:
+    case BgmKind::cGolem:
         if (_90)
             _90->sub_710100D874(Unk_71024fe948Slot::_1, sead::DynamicCast<::Unk_71024fe808>(bgm));
         break;
-    case BgmKind::_12:
+    case BgmKind::cGiant:
         if (_90)
             _90->sub_710100D874(Unk_71024fe948Slot::_2, sead::DynamicCast<::Unk_71024fe808>(bgm));
         break;
-    case BgmKind::_16:
+    case BgmKind::cGuardian:
         _98 = sead::DynamicCast<::Unk_71024fefe8>(bgm);
         break;
-    case BgmKind::_17:
+    case BgmKind::cGuardianFixed:
         _a0 = sead::DynamicCast<::Unk_71024feae8>(bgm);
         break;
-    case BgmKind::_18:
+    case BgmKind::cDungeonBattle:
         _b0 = sead::DynamicCast<::Unk_71024fd6c8>(bgm);
         _b0->_1f4 |= 0x10;
         break;
-    case BgmKind::_20:
+    case BgmKind::cDungeonReward:
         _b8 = sead::DynamicCast<::Unk_71024fd948>(bgm);
         break;
     default:
@@ -316,21 +316,21 @@ void Unk_710260f0c0::sub_7100FF8F34(Bgm* bgm) {
 
 void Unk_710260f0c0::sub_7100FF92BC(Bgm* bgm) {
     switch (bgm->getKind()) {
-    case BgmKind::_11:
+    case BgmKind::cGolem:
         if (_90)
             _90->sub_710100D874(Unk_71024fe948Slot::_1, nullptr);
         break;
-    case BgmKind::_12:
+    case BgmKind::cGiant:
         if (_90)
             _90->sub_710100D874(Unk_71024fe948Slot::_2, nullptr);
         break;
-    case BgmKind::_16:
+    case BgmKind::cGuardian:
         _98 = nullptr;
         break;
-    case BgmKind::_17:
+    case BgmKind::cGuardianFixed:
         _a0 = nullptr;
         break;
-    case BgmKind::_20:
+    case BgmKind::cDungeonReward:
         _b8 = nullptr;
         break;
     default:

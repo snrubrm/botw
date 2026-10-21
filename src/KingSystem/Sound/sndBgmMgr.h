@@ -446,10 +446,19 @@ NamedBgm* bgmStuff(const sead::SafeString& name, sead::Heap* heap);
 void sub_7100FFF0E4(NamedBgm* bgm);
 
 
-// The kind of a BGM (Bgm::_c). A four-byte enum wrapper: sub_7100FF7920 / sub_7100FF7C74 and the controller BGM
-// callbacks spill and reload it like SEAD_ENUM values, and a zero kind is passed as `mov x1, xzr`. Enumerator names are
-// unknown; the controllers use kinds 0..35.
-SEAD_ENUM(BgmKind, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35)
+// The kind of a BGM (Bgm::_c). The names are the SEAD_ENUM text at 0x7101dbe02b (the original text has a space
+// before each comma).
+// clang-format off
+SEAD_ENUM(BgmKind,
+          cEnv , cTemperature , cHorse , cFieldBattle , cSilence , cSpotBgmMgr , cMazeForest , cBigMaze ,
+          cAnimalMaster , cBloodyMoon , cCastle , cGolem , cGiant , cSandworm , cAssassinSenior , cDragon ,
+          cGuardian , cGuardianFixed , cDungeonBattle , cDungeonNormal , cDungeonReward ,
+          cTutorialDungeonBattle , cRemainsNormalWind , cRemainsNormalElec , cRemainsNormalFire ,
+          cRemainsNormalWater , cGanonGrudgeBattle , cCurseGanonWind , cCurseGanonElec , cCurseGanonFire ,
+          cCurseGanonWater , cGanon , cGanonBeast , cEvent , cFinalTrialNormal , cFinalTrialPriestBoss ,
+          cOneHitKillTrial , cCurseGanonWindR , cCurseGanonElecR , cCurseGanonFireR , cCurseGanonWaterR ,
+          cInvalid)
+// clang-format on
 
 class MusicInfo;
 class CastleBgmInfo;

@@ -146,16 +146,16 @@ Unk_7102500a00* sub_7100FFE7A4() {
         const auto type = controller->_94;
         switch (type) {
         case Unk_710260f1f8::Kind::_0:
-            kind = BgmKind::_22;
+            kind = BgmKind::cRemainsNormalWind;
             break;
         case Unk_710260f1f8::Kind::_1:
-            kind = BgmKind::_24;
+            kind = BgmKind::cRemainsNormalFire;
             break;
         case Unk_710260f1f8::Kind::_2:
-            kind = BgmKind::_23;
+            kind = BgmKind::cRemainsNormalElec;
             break;
         case Unk_710260f1f8::Kind::_3:
-            kind = BgmKind::_25;
+            kind = BgmKind::cRemainsNormalWater;
             break;
         }
         if (int(kind) != 41) {
@@ -198,16 +198,16 @@ void sub_7100FFEBE0(const RemainsBossBgmType& type) {
     Bgm* bgm;
     switch (type) {
     case RemainsBossBgmType::Wind:
-        bgm = getControllerBgm(BgmKind::_27);
+        bgm = getControllerBgm(BgmKind::cCurseGanonWind);
         break;
     case RemainsBossBgmType::Fire:
-        bgm = getControllerBgm(BgmKind::_29);
+        bgm = getControllerBgm(BgmKind::cCurseGanonFire);
         break;
     case RemainsBossBgmType::Elec:
-        bgm = getControllerBgm(BgmKind::_28);
+        bgm = getControllerBgm(BgmKind::cCurseGanonElec);
         break;
     case RemainsBossBgmType::Water:
-        bgm = getControllerBgm(BgmKind::_30);
+        bgm = getControllerBgm(BgmKind::cCurseGanonWater);
         break;
     default:
         return;
@@ -220,16 +220,16 @@ void sub_7100FFECB0(const RemainsBossBgmType& type) {
     Bgm* bgm;
     switch (type) {
     case RemainsBossBgmType::Wind:
-        bgm = getControllerBgm(BgmKind::_27);
+        bgm = getControllerBgm(BgmKind::cCurseGanonWind);
         break;
     case RemainsBossBgmType::Fire:
-        bgm = getControllerBgm(BgmKind::_29);
+        bgm = getControllerBgm(BgmKind::cCurseGanonFire);
         break;
     case RemainsBossBgmType::Elec:
-        bgm = getControllerBgm(BgmKind::_28);
+        bgm = getControllerBgm(BgmKind::cCurseGanonElec);
         break;
     case RemainsBossBgmType::Water:
-        bgm = getControllerBgm(BgmKind::_30);
+        bgm = getControllerBgm(BgmKind::cCurseGanonWater);
         break;
     default:
         return;
@@ -273,7 +273,7 @@ Unk_710260ecf8::Unk_710260ecf8(const BgmInitArg& arg, const sead::SafeString& na
 
 // NON_MATCHING: the original stores the kind and handle type of the init arg as one 64-bit constant.
 NamedBgm* bgmStuff(const sead::SafeString& name, sead::Heap* heap) {
-    const BgmInitArg arg{BgmKind::_33, Unk_710260f248Type::_0, heap};
+    const BgmInitArg arg{BgmKind::cEvent, Unk_710260f248Type::_0, heap};
     NamedBgm* bgm;
     if (name == "RemainsWindBattleBgm")
         bgm = new (heap) Unk_710260f2b8(arg);
@@ -437,9 +437,9 @@ void Unk_710260f130::sub_7100FFA1E0(bool value) {
         return;
     _91 = value;
     if (value)
-        _8.sub_7100FF7BE0(BgmKind::_19);
+        _8.sub_7100FF7BE0(BgmKind::cDungeonNormal);
     else
-        _8.sub_7100FF7BE0(BgmKind::_20);
+        _8.sub_7100FF7BE0(BgmKind::cDungeonReward);
 }
 
 Unk_710260f150::Unk_710260f150(BgmControllerType type) : _91(type == BgmControllerType::_3) {}
@@ -500,12 +500,12 @@ Unk_710260f160::Unk_710260f160() = default;
 
 void Unk_710260f160::sub_7100FFAAB0(Bgm* bgm) {
     bgm->m8(_90);
-    if (bgm->_c == BgmKind::_34)
+    if (bgm->_c == BgmKind::cFinalTrialNormal)
         _d8 = sead::DynamicCast<::Unk_7102500a00>(bgm);
 }
 
 void Unk_710260f160::sub_7100FFAB58(Bgm* bgm) {
-    if (bgm->_c == BgmKind::_34)
+    if (bgm->_c == BgmKind::cFinalTrialNormal)
         _d8 = nullptr;
 }
 
@@ -628,16 +628,16 @@ Unk_71024fd448* sub_7100FFE520(const ksys::snd::RemainsBossBgmType* type) {
     ksys::snd::Bgm* bgm;
     switch (*type) {
     case ksys::snd::RemainsBossBgmType::Wind:
-        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_27);
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::cCurseGanonWind);
         break;
     case ksys::snd::RemainsBossBgmType::Fire:
-        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_29);
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::cCurseGanonFire);
         break;
     case ksys::snd::RemainsBossBgmType::Elec:
-        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_28);
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::cCurseGanonElec);
         break;
     case ksys::snd::RemainsBossBgmType::Water:
-        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::_30);
+        bgm = ksys::snd::getControllerBgm(ksys::snd::BgmKind::cCurseGanonWater);
         break;
     default:
         return nullptr;
@@ -655,7 +655,7 @@ Unk_7100ffe5ec* sub_7100FFE5EC() {
 }
 
 Unk_71024fe970* sub_7100FFEB28() {
-    return sead::DynamicCast<Unk_71024fe970>(ksys::snd::getControllerBgm(ksys::snd::BgmKind::_35));
+    return sead::DynamicCast<Unk_71024fe970>(ksys::snd::getControllerBgm(ksys::snd::BgmKind::cFinalTrialPriestBoss));
 }
 
 void* sub_7100FFEAF4() {
