@@ -206,6 +206,56 @@ void Unk_SoundMgr38_10::sub_7101031BB0() {
     _10d0 = false;
 }
 
+// NON_MATCHING: the original reads _18f8 before the flag search, reuses the event after the emission and keeps the
+// second handle test before getAliveAssetExecutor.
+void Unk_SoundMgr38_10::sub_7101033DD8() {
+    auto lock = sead::makeScopedLock(mCS);
+    if (!_18)
+        return;
+
+    bool any = false;
+    for (s32 i = 0; i < 32; ++i) {
+        if (_18d0[i]) {
+            any = true;
+            break;
+        }
+    }
+
+    if (_18f8 && !any) {
+        _18f0->fade(90);
+        _18f8 = false;
+        return;
+    }
+    if (!any)
+        return;
+
+    if (!_18f0->isActive()) {
+        *_18f0 = eft::searchAndEmitSLink(_18, "BushShake", false);
+        if (!_18f0->isActive())
+            return;
+        _18f0->getEvent()->resetFlagBit(1);
+    }
+    if (!_18f0->isActive())
+        return;
+
+    if (_18f0->isActive()) {
+        auto* event = static_cast<xlink2::EventSLink*>(_18f0->getEvent());
+        if (auto* executor = event->getAliveAssetExecutor()) {
+            if (auto* source = executor->getHandle()->getSoundSource()) {
+                if (_11c8->isExtSoundSourceAddable(source)) {
+                    _11c8->addExtSoundSource(source);
+                    source->setFadeInTime(1.5f);
+                    source->setReleaseTime(1.5f);
+                    const auto& setting = source->mSpatialSetting.getSpatialCalculatorSetting();
+                    _11c8->setAttenuator(setting.attenuator);
+                    _11c8->setListenerDirectivityEnabled(setting.flags & 0x20);
+                }
+            }
+        }
+    }
+    _18f8 = true;
+}
+
 // NON_MATCHING: the original stores _10a8 = 0 inside the reset loop (once per point).
 void Unk_SoundMgr38_10::sub_7101033328(sead::Heap* heap, act::ActorCreator* creator) {
     if (!_18)

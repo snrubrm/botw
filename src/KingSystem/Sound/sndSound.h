@@ -541,11 +541,13 @@ public:
     u8 _10d1[0x11c0 - 0x10d1];
     // The plant sound point grid (created by sub_71010317B4).
     /* 0x11c0 */ Unk_710251ad68* _11c0;
-    u8 _11c8[0x11d0 - 0x11c8];
+    // The speaker balance unifier of the bush shake sound (sub_7101033DD8 adds the sound to it).
+    /* 0x11c8 */ aal::SpeakerBalanceUnifier* _11c8;
     /// A second per-position cache, reset with the first one by sub_7101032870.
     /* 0x11d0 */ PositionCache _11d0[32];
     /* 0x18d0 */ bool _18d0[32];
-    /* 0x18f0 */ void* _18f0;
+    // The BushShake sound (sub_7101033DD8).
+    /* 0x18f0 */ xlink2::HandleSLink* _18f0;
     /* 0x18f8 */ bool _18f8 = false;
     u8 _18f9[0x1900 - 0x18f9];
     /* 0x1900 */ sead::CriticalSection mCS;
