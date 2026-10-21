@@ -2,6 +2,8 @@
 
 namespace uking::act {
 
+SEAD_SINGLETON_DISPOSER_IMPL(CreatePlayerTrashActorMgr)
+
 CreatePlayerTrashActorMgr::~CreatePlayerTrashActorMgr() {
     _28.finish();
 }
