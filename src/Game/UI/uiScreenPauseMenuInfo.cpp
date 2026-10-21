@@ -533,25 +533,31 @@ void ScreenPauseMenuInfo::sub_7100A30444(u32 mode) {
 }
 
 // 0x7100a306f4
-// NON_MATCHING: animation branch order and merged-static addressing differ.
+// NON_MATCHING: this / mode swap callee-saved registers and the frame multiply is scheduled differently
 void ScreenPauseMenuInfo::sub_7100A306F4(s32 previous_mode, u32 mode) {
     if (_36c0) {
-        u32 index = 1;
+        u32 index;
         f32 speed = 1.0f;
-        if (mode == 1) {
-            index = 0;
-        } else if (mode == 0) {
+        switch (mode) {
+        case 0:
             index = previous_mode != 1;
             speed = -1.0f;
+            break;
+        case 1:
+            index = 0;
+            break;
+        default:
+            index = 1;
+            break;
         }
         auto* animator = _36c0->select(index);
         if (animator) {
-            if (animator->mRate == 0.0f) {
+            if (animator->mRate != 0.0f) {
+                animator->PlayFromCurrent(eui::Animator::PlayType(0), speed);
+            } else {
                 if (_36c8 != 3)
                     sub_7100A30510(_36c8);
                 animator->PlayAuto(speed);
-            } else {
-                animator->PlayFromCurrent(eui::Animator::PlayType(0), speed);
             }
             _36c8 = mode;
         }
