@@ -40,9 +40,8 @@ public:
     Unk_7102474a28(Owner* owner, const ksys::StateBase& state) : mReceiver(owner, state), mAdapter(&mReceiver) {
         registerReceiver(mAdapter);
     }
-    // NON_MATCHING: the original takes the adapter address after the getDispatcher call.
     // Inline: ScreenChild subclass destructors in other TUs inline this teardown.
-    ~Unk_7102474a28() override { deregisterReceiver(mAdapter); }
+    ~Unk_7102474a28() override { getDispatcher()->deregisterTransceiver(mAdapter); }
     bool sendMessage(const ksys::MesTransceiverId& dest, const ksys::MessageType& type,
                      void* user_data, bool ack) override;
     bool sendMessageOnProcessingThread(const ksys::MesTransceiverId& dest,

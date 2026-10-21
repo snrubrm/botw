@@ -999,15 +999,11 @@ s32 UiSubsys1::get614() const {
     return _610.capacity();
 }
 
-// 0x71025d6e58: a .bss float buffer read by sub_7100965960 (no writer found in this TU)
-static sead::Buffer<f32> sUnk_71025d6e58;
-
-// 0x7100965960: entry of sUnk_71025d6e58 for an index 0-3, or -1 for any other index
-// NON_MATCHING: the original reaches the buffer through merged TU globals (base 0x71025d6c70 + 0x1e8)
+// 0x7100965960: entry of the threshold table for an index 0-3, or -1 for any other index
 f32 sub_7100965960(s32 index) {
     if (index < 0 || index > 3)
         return -1.0f;
-    return sUnk_71025d6e58[index];
+    return sUnk_71025d6c70._1e8[index];
 }
 
 // 0x7100965938
