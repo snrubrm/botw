@@ -216,6 +216,9 @@ public:
     // Unk_71024fd318::m5 read slot 0 without a bounds check.
     TimeMgr* getTimeMgrUnchecked() const { return static_cast<TimeMgr*>(mMgrs.unsafeAt(0)); }
     SkyMgr* getSkyMgr() const { return static_cast<SkyMgr*>(mMgrs[1]); }
+    // Inline-only in the original; name is a guess. SkyMgr::sub_71010E35D8 reads `mMgrs[1]`
+    // (+0x5c8 -> +0x8) without the bounds check.
+    SkyMgr* getSkyMgrUnchecked() const { return static_cast<SkyMgr*>(mMgrs.unsafeAt(1)); }
     ShootingStarMgr* getShootingStarMgr() const { return static_cast<ShootingStarMgr*>(mMgrs[2]); }
     WeatherMgr* getWeatherMgr() const { return static_cast<WeatherMgr*>(mMgrs[3]); }
     // Inline-only in the original; name is a guess. Evidence: Puddle::enter_ / calc_ and

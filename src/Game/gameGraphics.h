@@ -497,6 +497,29 @@ public:
     };
     Unk_aa8* getUnk_aa8() const { return _aa8; }
 
+    // The object at 0xac0. Only SkyMgr::sub_71010E35D8 reads it: it copies the parameter block at
+    // +0x18 through a temporary, writes the dusk/dawn blend factor at +0x30 and sets bit 1 of the
+    // flag at +0xa0 while the blend is active.
+    struct Unk_ac0 {
+        struct Params {
+            u32 _0;               // 0x18
+            u8 _4[8];             // 0x1c
+            sead::Vector3f _c;    // 0x24
+            f32 _18;              // 0x30
+            u8 _1c[0xc];          // 0x34
+            sead::Color4f _28;    // 0x40
+            u32 _38;              // 0x50
+        };
+        static_assert(sizeof(Params) == 0x3c);
+
+        u8 _0[0x18];
+        Params mParams;  // 0x18
+        u8 _54[0x4c];
+        u32 _a0;  // 0xa0
+    };
+    static_assert(sizeof(Unk_ac0) == 0xa4);
+    Unk_ac0* getSkyEnvMaybe() const { return _ac0; }
+
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     ksys::gfx::LocationalLightMgr* getLocationalLightMgr() const { return _aa0; }
     Unk_7100efd9b8* getFarModelRendererMaybe() const { return _3a8; }
@@ -564,7 +587,9 @@ private:
     // EnvMgr reset/update and mode dispatch access this native field directly.
     friend class ksys::world::EnvMgr;
     Unk_71012a20e0* _ab8;
-    u8 _ac0[0xad8 - 0xac0];
+    // 0xac0: the sky environment parameters (only SkyMgr::sub_71010E35D8 reads them).
+    Unk_ac0* _ac0;
+    u8 _ac8[0xad8 - 0xac8];
     // Pointer whose byte +0x508 is set by sub_7100F35DE8.
     u8* _ad8;
     Unk_7100f35df8* _ae0;

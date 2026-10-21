@@ -151,7 +151,7 @@ public:
     void sub_71010E386C();
     void sub_71010E3AF8();
     void sub_71010E49A0();
-    // 0x71010e4ce8 / 0x71010e35d8 (declared only; called without an object).
+    // 0x71010e4ce8 / 0x71010e35d8 (0x71010e35d8 is the Graphics + 0xac0 sky env blend; no object).
     static void sub_71010E4CE8();
     static void sub_71010E35D8();
     // 0x71010e2468 / 0x71010e2908: wind/cloud and sun-direction updates (declarations only).

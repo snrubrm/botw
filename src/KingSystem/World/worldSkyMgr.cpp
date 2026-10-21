@@ -496,6 +496,58 @@ void SkyMgr::sub_71010E37C8() {
         unk->_1c0 = _3f08;
 }
 
+// NON_MATCHING: the original copies four separate members of the parameter block at 0x18 (the
+// 0x1c..0x24 and 0x34..0x40 gaps are not loaded or stored), while a copy of the whole block adds
+// those two gap moves. The rest of the body matches.
+void SkyMgr::sub_71010E35D8() {
+    Manager* mgr = Manager::instance();
+    if (mgr->getStageType() == StageType::Invalid || mgr->getStageType() == StageType::Viewer)
+        return;
+
+    auto* sky = Graphics::instance()->getSkyEnvMaybe();
+    const f32 time = mgr->getTimeMgr()->getTimeForSkyEnv();
+
+    if (mgr->getStageType() == StageType::Indoor) {
+        sky->_a0 &= ~2u;
+        return;
+    }
+
+    if (time > 60.0f && time <= 300.0f) {
+        sky->_a0 &= ~2u;
+        return;
+    }
+
+    if (mgr->getTimeMgr()->willBloodMoonHappenTonight()) {
+        sky->_a0 &= ~2u;
+        return;
+    }
+    EnvMgr* env = mgr->getEnvMgrMaybe();
+    if (env->getBloodMoonProgress() > 0.0f) {
+        sky->_a0 &= ~2u;
+        return;
+    }
+
+    auto params = sky->mParams;
+
+    const f32 delta = Manager::instance()->getSkyMgrUnchecked()->_3f3c;
+    sky->_a0 |= 2u;
+    const f32 fade = 1.0f - delta;
+
+    f32 factor;
+    if (time > 330.0f) {
+        factor = 1.0f;
+    } else if (time < 45.0f) {
+        factor = 1.0f;
+    } else if (time > 300.0f) {
+        factor = 1.0f - (330.0f - time) / 30.0f;
+    } else {
+        factor = (60.0f - time) / 15.0f;
+    }
+
+    params._18 = fade * (factor * 2.5f);
+    sky->mParams = params;
+}
+
 void SkyMgr::sub_71010E2AAC() {
     sub_71010E2B44();
     switch (Manager::instance()->getStageType()) {
