@@ -154,13 +154,14 @@ public:
         // 0x710103b5c8 (declared only)
         bool sub_710103B5C8(void* user, bool a);
 
-        f32 _0 = 1.0f;
-        u32 _4 = 0;
-        f32 _8 = 1.0f;
-        u32 _c = 0;
-        f32 _10 = 0.4f;
+        // Set by Unk_710251b028::sub_71012C40C8 from the assets of the step noise.
+        f32 volume = 1.0f;
+        f32 delay = 0.0f;
+        f32 pitch = 1.0f;
+        f32 lpf = 0.0f;
+        f32 priority = 0.4f;
         u32 _14;
-        sead::FixedSafeString<0x30> _18;
+        sead::FixedSafeString<0x30> name;
         bool _60 = false;
         u8 _61[7];
     };

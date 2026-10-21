@@ -11,7 +11,7 @@ namespace ksys::snd {
 Unk_7102502138::Unk_7102502138() = default;
 
 Unk_7102502138::Unk70Entry::Unk70Entry()
-    : _0(1.0f), _4(0), _8(1.0f), _c(0), _10(0.4f), _60(false) {}
+    : volume(1.0f), delay(0), pitch(1.0f), lpf(0), priority(0.4f), _60(false) {}
 
 Unk_7102502138::Unk70Entry* Unk_7102502138::sub_710103B488() {
     return mList.emplaceBack();
@@ -20,7 +20,7 @@ Unk_7102502138::Unk70Entry* Unk_7102502138::sub_710103B488() {
 const sead::SafeString* Unk_7102502138::sub_710103B4F8() {
     for (auto& entry : mList) {
         if (entry._60)
-            return &entry._18;
+            return &entry.name;
     }
     return nullptr;
 }

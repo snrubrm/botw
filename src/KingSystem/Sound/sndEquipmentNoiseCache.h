@@ -45,13 +45,11 @@ private:
 
 extern Unk_710251b170 sEquipmentNoiseCache;
 
-// 0x710251b018: the chance of the delayed variant of a step noise (and two factors used by 0x71012c4bbc).
-struct Unk_710251b018 {
-    f32 delayChance;
-    f32 _4;
-    f32 _8;
-};
-extern Unk_710251b018 sUnk_710251b018;
+// 0x710251b018 / 0x710251b01c / 0x710251b020: the chance of the delayed variant of a step noise, and the volume
+// factor and the LPF offset of a delayed noise.
+extern f32 sUnk_710251b018;
+extern f32 sUnk_710251b01c;
+extern f32 sUnk_710251b020;
 KSYS_CHECK_SIZE_NX150(Unk_710251b170, 0x150);
 
 // Placeholder type named after its method at 0x71012c5034 (now a method of the subclass Unk_710251b128). The base

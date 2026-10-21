@@ -1,5 +1,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Sound/sndEquipmentNoiseCache.h"
+#include "KingSystem/Sound/sndUnk_7102502138.h"
+#include <xlink2/xlink2ResourceAccessorSLink.h>
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -60,7 +62,9 @@ const char* const sOtherVariantNames[3] = {"04", "05", "06"};
 const f32 sSpeedDelays[4] = {4.5f, 5.5f, 7.0f, 9.0f};
 }  // namespace
 
-Unk_710251b018 sUnk_710251b018 = {0.1f, 0.8f, 0.2f};
+f32 sUnk_710251b018 = 0.1f;
+f32 sUnk_710251b01c = 0.8f;
+f32 sUnk_710251b020 = 0.2f;
 
 Unk_710251b028::Unk_710251b028() {
     if (!sEquipmentNoiseCache.isInitialized())
@@ -97,12 +101,51 @@ bool Unk_710251b028::m3() {
     return sub_71012C3BC8(mName);
 }
 
+// NON_MATCHING: the two argument moves before the first getVolume call are swapped.
+void Unk_710251b028::sub_71012C40C8(const xlink2::Locator* locator, f32 delay,
+                                     const sead::SafeString& name) {
+    if (!locator || !sEquipmentNoiseCache.isInitialized())
+        return;
+
+    auto* entry = Unk_7102502138::instance()->sub_710103B488();
+    xlink2::UserInstanceSLink* user;
+    {
+        act::ActorLinkConstDataAccess player;
+        act::ActorSystem::instance()->getPlayer(&player);
+        auto* xlink = player.hasProc() ? player.sub_7100D0F214() : nullptr;
+        user = xlink ? xlink->_50 : nullptr;
+    }
+    if (!entry || !user)
+        return;
+
+    const auto& accessor = user->getResourceAccessor();
+    const auto& asset = *locator->getAssetCallTable();
+    const auto& part_asset = *mLocator.getAssetCallTable();
+
+    const f32 asset_volume = accessor.getVolume(asset, user);
+    const f32 part_volume = accessor.getVolume(part_asset, user);
+    const f32 asset_scale = accessor.getCustomParamValueFloat(0u, asset, user);
+    const f32 part_scale = accessor.getCustomParamValueFloat(0u, part_asset, user);
+    f32 volume = asset_volume * part_volume * asset_scale * part_scale;
+    if (delay > 0.0f)
+        volume *= sUnk_710251b01c;
+    entry->volume = volume;
+    entry->delay = (accessor.getDelay(asset, user) + accessor.getDelay(part_asset, user) + delay) / 30.0f;
+    entry->pitch = accessor.getPitch(asset, user) * accessor.getPitch(part_asset, user);
+    const f32 lpf = accessor.getLpf(asset, user) + accessor.getLpf(part_asset, user);
+    entry->lpf = delay > 0.0f ? lpf + sUnk_710251b020 : lpf;
+    const f32 priority = accessor.getPriority(asset, user);
+    const f32 part_priority = accessor.getPriority(part_asset, user);
+    entry->priority = priority > part_priority ? priority : part_priority;
+    entry->name = name;
+}
+
 void Unk_710251b028::m4(const Unk_710251b170::Speed* speed) {
     sead::FixedSafeString<48> name;
     sub_71012C3FC8(&name, speed);
     const xlink2::Locator* locator = sEquipmentNoiseCache.getSpeedLocator(*speed);
     f32 delay = 0.0f;
-    if (sead::GlobalRandom::instance()->getF32() < sUnk_710251b018.delayChance) {
+    if (sead::GlobalRandom::instance()->getF32() < sUnk_710251b018) {
         const s32 idx = *speed;
         if (u32(idx) < 4)
             delay = sSpeedDelays[idx];
