@@ -14,6 +14,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Resource/resHandle.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -56,7 +60,8 @@ public:
     // Native readiness forwards to the reaction table at +0x5d0.
     bool isReady();
     void stubbed();
-    void sub_7100673D8C();
+    // The heap argument is unused here; the caller still loads it (GameScene : 0x71007a8e78).
+    void sub_7100673D8C(sead::Heap* heap);
     void sub_7100674058();
 
     using DamageItem = act::DamageItem;

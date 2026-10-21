@@ -40395,7 +40395,7 @@ Address,Quality,Size,Name
 0x0000007100673ad0,U,000268,
 0x0000007100673bdc,U,000396,
 0x0000007100673d68,U,000036,
-0x0000007100673d8c,O,000008,_ZN5uking3act13DamageInfoMgr14sub_7100673D8CEv
+0x0000007100673d8c,O,000008,_ZN5uking3act13DamageInfoMgr14sub_7100673D8CEPN4sead4HeapE
 0x0000007100673d94,O,000008,_ZN5uking3act13DamageInfoMgr7isReadyEv
 0x0000007100673d9c,O,000008,_ZN5uking3act13DamageInfoMgr7stubbedEv
 0x0000007100673da4,U,000128,DamageInfoMgr::init
@@ -48942,7 +48942,7 @@ Address,Quality,Size,Name
 0x00000071007a8014,U,002052,GameScene::initialize
 0x00000071007a8818,O,000020,_ZN5uking33setForceEnableGlidingSurfingRupeeEb
 0x00000071007a882c,U,001444,GameScene::initializeGraphicsLayer_
-0x00000071007a8dd0,m,000196,_ZN5uking9GameScene38initGlobalParamE3TipsActorAndPlacementEv
+0x00000071007a8dd0,O,000196,_ZN5uking9GameScene38initGlobalParamE3TipsActorAndPlacementEv
 0x00000071007a8e94,O,000212,_ZN5uking9GameScene22areResourcesReadyMaybeEv
 0x00000071007a8f68,U,000352,
 0x00000071007a90c8,U,001340,GameScene::preCalc

@@ -70,7 +70,7 @@ bool DamageInfoMgr::UnkCe0::sub_7100673444(const sead::Vector3f& position) const
     return false;
 }
 
-void DamageInfoMgr::sub_7100673D8C() {
+void DamageInfoMgr::sub_7100673D8C(sead::Heap* heap) {
     mReactionTable.sub_71006681D4();
 }
 

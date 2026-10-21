@@ -465,7 +465,6 @@ void setForceEnableGlidingSurfingRupee(bool value) {
     sForceEnableGlidingSurfingRupee = value;
 }
 
-// NON_MATCHING: the existing Damage interface consumes no heap argument; the native caller loads one.
 void GameScene::initGlobalParamE3TipsActorAndPlacement() {
     if (ksys::util::getDebugHeap())
         ksys::StarterPackMgr::instance()->loadTitlePack();
@@ -479,7 +478,7 @@ void GameScene::initGlobalParamE3TipsActorAndPlacement() {
     ResidentActorMgr::instance()->loadByml();
     uking::AutoPlacementFlowMgr::instance()->loadEventFlows();
     if (act::DamageInfoMgr::instance())
-        act::DamageInfoMgr::instance()->sub_7100673D8C();
+        act::DamageInfoMgr::instance()->sub_7100673D8C(_280);
 }
 
 // 0x71025cb334 (placeholder name): counts the calls of areResourcesReadyMaybe (nothing else reads it).
