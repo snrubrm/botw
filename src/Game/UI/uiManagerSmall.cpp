@@ -1205,6 +1205,16 @@ bool sub_71009452C4() {
 // 0x7100945364
 Unk_7102474fd8::Unk_7102474fd8() = default;
 
+// 0x7100945f28
+void Unk_7102474fd8::sub_7100945F28() {
+    if (_b0 && !_b0->invoke())
+        return;
+    _a0 = &Unk_7102474fd8::sub_710094581C;
+    _b0 = nullptr;
+    static_cast<Unk_7102474fd8Gauge*>(this)->sub_7100945F78();
+    _9c = false;
+}
+
 // 0x7100945db8
 void Unk_7102474fd8::sub_7100945DB8() {
     if (!uking::ui::sub_7100AA8F30()) {

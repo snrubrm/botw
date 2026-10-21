@@ -26,6 +26,9 @@ public:
     Unk_7102474fd8();
     // 0x710094581c (declared only; 796 bytes): a state function stored in _a0
     void sub_710094581C();
+    // 0x7100945f28 (placeholder name): the state function that follows the gauge's delegate _b0; reverts to
+    // sub_710094581C once the delegate is gone or returns false
+    void sub_7100945F28();
     // 0x7100945c98 (placeholder name): closes the layout if it is open or opening; with `a1`, also when it is not
     // closed
     void sub_7100945C98(bool a1);
@@ -93,7 +96,7 @@ public:
     /* 0x9e */ bool _9e = false;
     // a member function pointer (Unk_7102475050::m12 compares it with sub_710094581C)
     /* 0xa0 */ void (Unk_7102474fd8::*_a0)() = nullptr;
-    /* 0xb0 */ void* _b0 = nullptr;
+    /* 0xb0 */ sead::IDelegateR<bool>* _b0 = nullptr;
 };
 
 // 0x71009452c4 (placeholder name): the gauge flag sUnk_71025d64ec of the gauge TU
