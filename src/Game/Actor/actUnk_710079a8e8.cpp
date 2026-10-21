@@ -438,6 +438,39 @@ void Unk_710079a8e8::sub_710079BC98() {
     _804.sub_710079AE20(0x800);
 }
 
+void Unk_710079a8e8::sub_710079B660() {
+    auto* player = sub_7100926A14();
+    if (!player || !player->m193())
+        return;
+    auto* parent = sead::DynamicCast<ksys::act::Actor>(player->getConnectedCalcParent());
+    if (!parent)
+        return;
+    _7fc._0 |= 0x40000;
+    ksys::act::ActorLinkConstDataAccess accessor(parent);
+    const auto& mtx = accessor.getActorMtx();
+    if (!ksys::util::sub_71011F10F4(mtx))
+        _414 = mtx;
+}
+
+void Unk_710079a8e8::sub_710079B778() {
+    auto* player = sub_7100926A14();
+    if (!player)
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&player->_e98, &accessor);
+    if (accessor.hasProc()) {
+        const auto& mtx = accessor.getActorMtx();
+        if (!ksys::util::sub_71011F10F4(mtx))
+            _444 = mtx;
+        const auto& pos = accessor.getPreviousPos2();
+        if (!ksys::util::sub_71011F1040(pos))
+            _474 = pos;
+        const auto& velocity = accessor.getVelocity();
+        if (!ksys::util::sub_71011F1040(velocity))
+            _480 = velocity;
+    }
+}
+
 void Unk_710079a8e8::sub_710079BED0(f32 value) {
     if (ksys::util::sub_71011F0F88(value) || value < 0.0f)
         return;

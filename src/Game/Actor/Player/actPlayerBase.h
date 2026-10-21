@@ -368,6 +368,8 @@ protected:
     friend class ksys::act::acc::PlayerBase;
     friend class PlayerInfo;
     friend class uking::ai::PlayerWaterFall;
+    // Reads _e98 (Unk_710079a8e8::sub_710079B778).
+    friend class Unk_710079a8e8;
 
 public:
     // State flags; also read and written directly by action code (inlined accesses).

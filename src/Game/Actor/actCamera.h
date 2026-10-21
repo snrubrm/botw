@@ -209,6 +209,12 @@ public:
     bool sub_710079BEBC() const;
     // 0x710079bed0: _7e0 = value (unless it is NaN or negative).
     void sub_710079BED0(f32 value);
+    // 0x710079b660 (placeholder name): while the player's m193() is set, copies the matrix of the actor the
+    // player is connected to into _414 (if valid) and sets bit 0x40000 of _7fc.
+    void sub_710079B660();
+    // 0x710079b778 (placeholder name): copies the matrix, previous position and velocity of the actor linked
+    // by the player's _e98 into _444 / _474 / _480 (each only if valid).
+    void sub_710079B778();
     // 0x710079bf64: unless bit 0x80000 of _7fc is set, updates _7ec / _7e8 from `angle` (sub_710079BFC0, with
     // bit 0x10000 of _804) and sets that bit; returns _7e8.
     f32 sub_710079BF64(const f32& angle, bool a2);
