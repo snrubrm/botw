@@ -28,6 +28,8 @@ public:
     OcclusionMgr();
     void sub_71010560D4(sead::Heap* heap);
     void sub_7101056868();
+    // 0x71010563f8 (declared only): called by SoundMgr::sub_71011FB5AC.
+    void sub_71010563F8();
     // 0x71010567c0 (declared only): per-frame update (SoundMgr::calc).
     void sub_71010567C0();
     bool sub_710105687C(bool* indoor, const sead::Vector3f& position, bool* material_flag);

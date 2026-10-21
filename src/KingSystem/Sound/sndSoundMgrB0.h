@@ -48,6 +48,8 @@ public:
 
     // 0x71012c77f0: allocates the lists.
     void init(sead::Heap* heap, sead::Heap* heap2);
+    // 0x71012c7a08 (declared only): per-frame update of the lists.
+    void calc();
 
     /* 0x008 */ bool mInitialized = false;
     /* 0x010 */ sead::SafeArray<Entry, 11> mEntries;

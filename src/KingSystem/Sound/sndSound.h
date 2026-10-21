@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <nn/os.h>
 #include "KingSystem/Utils/Types.h"
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
@@ -121,6 +122,15 @@ class Unk_710251af30;
 
 // Placeholder name (SoundMgr::_2a0; the final output measure user, TU 0x71012c629c .. 0x71012c7350). Only the
 // methods SoundMgr calls are declared.
+class Unk_710251b2e8;
+
+// Placeholder name (SoundMgr::_b8, 0x10 bytes, constructor 0x71012d1cf0). Only the method SoundMgr calls is declared.
+class Unk_SoundMgrB8 {
+public:
+    // 0x71012d1f3c (declared only)
+    void sub_71012D1F3C();
+};
+
 class Unk_SoundMgr2a0 {
 public:
     // 0x71012c629c (declared only): per-frame update (SoundMgr::calc).
@@ -719,6 +729,8 @@ public:
 
     // 0x710102c098 (placeholder name): runs the per-frame update of each sub-manager.
     void sub_710102C098();
+    // 0x710102b120 (declared only): called by SoundMgr::sub_71011FB5AC.
+    void sub_710102B120();
     // 0x710102c104: returns `_28`.
     Unk_SoundMgr38_28* sub_710102C104() const;
     // 0x710102c10c: unavailable while the manager's mode byte is set.
@@ -1298,6 +1310,8 @@ class ListenerPoser {
 public:
     // 0x71010549d8
     ListenerPoser();
+    // 0x7101054e24 (declared only): called by SoundMgr::sub_71011FB5AC.
+    void sub_7101054E24();
     // 0x7101054a88 (D1) / 0x7101054adc (D0)
     virtual ~ListenerPoser();
 
@@ -1934,6 +1948,9 @@ public:
     void sub_71011FC17C(UiSoundKind kind, s32 bit);
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
+    // 0x71011fb69c / 0x71011fb748 (declared only): steps of sub_71011FB5AC (the first does not use `this`).
+    static void sub_71011FB69C();
+    void sub_71011FB748();
     // 0x71011fbd58 (CSV Sound::__auto3; placeholder name): stops the sound work and marks state 1.
     void sub_71011FBD58(bool a);
     bool calc();
@@ -1960,7 +1977,9 @@ public:
     /* 0x98 */ Unk_710103b704* _98;
     /* 0xa0 */ Unk_710105a6f0* _a0;
     /* 0xa8 */ Unk_SoundMgra8* _a8;
-    u8 _b0[0xc8 - 0xb0];
+    /* 0xb0 */ Unk_710251b2e8* _b0;
+    /* 0xb8 */ Unk_SoundMgrB8* _b8;
+    u8 _c0[0xc8 - 0xc0];
     /* 0xc8 */ Unk_710246be38* _c8;
     u8 _d0[0xd8 - 0xd0];
     // Created by 0x71011fab7c and queried through the Heap virtual interface.
@@ -1983,7 +2002,9 @@ public:
     u8 _23a[0x23c - 0x23a];
     // Bit 0 is set while calc runs (an atomic test-and-set: calc returns false if it was already set).
     /* 0x23c */ sead::Atomic<u32> _23c;
-    u8 _240[0x270 - 0x240];
+    // Signalled when the audio output changes (sub_71011FB5AC then reads the active channel count).
+    /* 0x240 */ nn::os::SystemEventType _240;
+    u8 _240_end[0x270 - 0x240 - sizeof(nn::os::SystemEventType)];
     AudioChannelType mAudioChannelType;
     u8 _274[4];
     // Whole allocator 11FC348 passes the heap at 278 to new and the thread constructor.

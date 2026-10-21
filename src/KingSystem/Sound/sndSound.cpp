@@ -1,4 +1,7 @@
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Sound/sndSoundMgrB0.h"
+#include "KingSystem/Sound/sndOcclusionMgr.h"
+#include <nn/audio.h>
 #include <heap/seadDisposer.h>
 #include <heap/seadExpHeap.h>
 #include <heap/seadFrameHeap.h>
@@ -58,6 +61,43 @@ void SoundMgr::sub_71011FC394(sead::Thread* thread) {
     if (auto* system = phys::System::instance())
         system->sub_71012157B4(thread, false);
     delete thread;
+}
+
+// NON_MATCHING: the output mode is chosen with a select here (the original branches to one call).
+void SoundMgr::sub_71011FB5AC() {
+    if (!_28)
+        return;
+
+    sub_71011FB69C();
+    if (nn::os::TryWaitSystemEvent(&_240)) {
+        const auto count = nn::audio::GetActiveChannelCount();
+        if (count != u32(mAudioChannelType)) {
+            if (auto* settings = aal::SystemAccessor::getSettings()) {
+                mAudioChannelType = AudioChannelType(count);
+                aal::OutputMode mode;
+                if (count == 6)
+                    mode = aal::OutputMode::Surround;
+                else
+                    mode = aal::OutputMode::Stereo;
+                settings->setOutputMode(mode, aal::DeviceType::TV);
+            }
+        }
+    }
+    if (auto* settings = aal::SystemAccessor::getSettings())
+        _ec = settings->getOutputMode(aal::DeviceType::TV).value();
+
+    sub_71011FB748();
+    _90->sub_710104E964();
+    _98->sub_710103BA44();
+    _38->sub_710102B120();
+    mUiSoundMgr->sub_710105D0E8();
+    _50->sub_7101050070();
+    _58->sub_7101054E24();
+    mOcclusionMgr->sub_71010563F8();
+    _a8->sub_710104B408();
+    _b0->calc();
+    _b8->sub_71012D1F3C();
+    _239 = true;
 }
 
 void SoundMgr::sub_71011FBD58(bool a) {

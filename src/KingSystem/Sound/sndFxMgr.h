@@ -55,6 +55,8 @@ public:
     void init(sead::Heap* heap);
     // Whole SoundMgr::calc 11FB8A4 calls 1050348 with its FxMgr pointer.
     void sub_7101050348();
+    // 0x7101050070 (declared only): called by SoundMgr::sub_71011FB5AC.
+    void sub_7101050070();
     // Whole 105034C updates effect state using only this.
     void sub_710105034C();
     // 0x7101050ccc: applies the I3DL2 room of _18 to the two effects at +0x8 / +0x10.
