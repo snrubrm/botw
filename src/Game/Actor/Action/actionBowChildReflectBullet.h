@@ -57,11 +57,7 @@ protected:
     sead::Vector2f _a8 = {0, 0};
     f32 _b0 = 0;
     u8 _b4[0xd8 - 0xb4];
-    void* _d8{};
-    void* _e0{};
-    void* _e8{};
-    void* _f0{};
-    void* _f8{};
+    void* _d8[5]{};
     u8 _100[0x10c - 0x100];
     sead::Vector2f _10c = {0, 0};
 };
