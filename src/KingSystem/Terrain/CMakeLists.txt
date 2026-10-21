@@ -16,6 +16,8 @@ target_sources(uking PRIVATE
   teraVegeTeraMat.h
   teraCore.cpp
   teraEditor.cpp
+  teraUnk_710251ce88.cpp
+  teraUnk_710251ce88.h
   teraHeap.cpp
   teraResourceNode.h
   teraAreaNode.h
