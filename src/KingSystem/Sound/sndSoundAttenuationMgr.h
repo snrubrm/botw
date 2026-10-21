@@ -6,6 +6,7 @@
 #include <container/seadObjList.h>
 #include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
+#include <xlink2/xlink2IEventCallbackSLink.h>
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -106,11 +107,25 @@ public:
     virtual ~Unk_710251b730Base();
 };
 
-// Vtable 0x710251b730 (0x10 bytes; constructor 0x71012ceb94, declared only). Slots 0 .. 5 are not modelled.
-class Unk_710251b730 : public Unk_710251b730Base, public Unk_710251aff8 {
+// Vtable 0x710251b730 (0x10 bytes; SoundMgr::_70->_18): an xlink2 SLink event callback for the sound events of
+// actors (expression sounds, voice groups, interior sounds and loop re-emits).
+// lib/xlink2 declares replaceAssetInfo before soundPlayed; in the original vtable soundPlayed is slot 4. Until
+// that is fixed, the constructor and the destructors (0x71012ceb94 .. 0x71012cebb8, which emit the vtable) stay
+// declared only.
+class Unk_710251b730 : public xlink2::IEventCallbackSLink, public Unk_710251aff8 {
 public:
     Unk_710251b730();
     ~Unk_710251b730() override;
+
+    // 0x71012cebc4: forwards the event to ExpressionSoundCtrl for player actors and XLinks with _cc bit 6.
+    void eventActivated(const EventArg& arg) override;
+    // 0x71012cec40: 1 when the XLink allows it and the asset's group name contains "Voice".
+    u32 soundPrePlay(const EventArg& arg) override;
+    // 0x71012cecc8 (declared only: it uses EventArg::pHandle as an aal::Handle, lib/xlink2 types it as
+    // HandleSLink).
+    void eventCalced(const EventArg& arg) override;
+    // 0x71012ced14: asks looping assets with custom param 3 to re-emit (XLink _cc bit 7).
+    void soundPlayed(const EventArg& arg) override;
 
     // 0x71012cebc0 (empty in the release build).
     void sub_71012CEBC0(sead::Heap* heap);

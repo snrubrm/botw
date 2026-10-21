@@ -59,6 +59,7 @@ target_sources(uking PRIVATE
   sndSoundAttenuationMgr.h
   sndSoundAttenuationMgr.cpp
   sndEmitterAllocateCallback.cpp
+  sndSLinkEventCallback.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp
   sndStreamPath.cpp
