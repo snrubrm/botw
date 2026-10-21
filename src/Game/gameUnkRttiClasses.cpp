@@ -74,9 +74,8 @@ void Unk_710250dcd8::m11(agl::TextureSampler* sampler, const agl::GPUMemVoidAddr
     _8 |= 8;
 }
 
-// NON_MATCHING: lib agl::TextureData's destructor is out of line (the original inlines ~NVNtexture_ at
-// TextureData + 0x58), so ours calls ~TextureData and the stack slots of the image copy / texture are
-// swapped. Everything else follows the original instruction for instruction.
+// NON_MATCHING: the stack slots of the image copy / texture are swapped. Everything else follows the
+// original instruction for instruction.
 // Placeholder name. Builds the image's TextureData from the image virtuals, constructs the sampler in
 // `sampler` (the caller passes unconstructed storage) and applies the texture data to it.
 void Unk_710250dcd8::sub_710110DB28(void* storage, const agl::GPUMemVoidAddr& addr, s32 mip_offset,

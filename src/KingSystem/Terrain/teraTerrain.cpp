@@ -642,7 +642,6 @@ bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTy
     return exists;
 }
 
-// NON_MATCHING: our sead::Viewport destructor is out of line (the original has no destructor call).
 void Terrain::sub_710114C648(agl::DrawContext* context) {
     RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
     set.mRenderBuffer.bind(context);
@@ -652,8 +651,7 @@ void Terrain::sub_710114C648(agl::DrawContext* context) {
         !(_a58 & 0x8000) || _a40->mThread != sead::ThreadMgr::instance()->getCurrentThread());
 }
 
-// NON_MATCHING: our sead::Viewport destructor is out of line (the original inlines it away), and the
-// colour flag update is scheduled differently.
+// NON_MATCHING: the colour flag update is scheduled differently.
 void Terrain::sub_710114C3C4(agl::DrawContext* context, const agl::TextureData& texture, u32 mip,
                              u32 layer, u32 index, u32 flags) {
     RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
@@ -687,7 +685,7 @@ void Terrain::sub_710114C3C4(agl::DrawContext* context, const agl::TextureData& 
     viewport.apply(context, set.mRenderBuffer);
 }
 
-// NON_MATCHING: our sead::Viewport destructor is out of line.
+// NON_MATCHING: still differs after the inline Viewport destructor (not investigated).
 void Terrain::sub_710114C72C(agl::DrawContext* context, const agl::TextureData& texture,
                              const agl::GPUMemVoidAddr& storage, u32 mip, u32 flags) {
     RenderSet& set = mRenderSets[sead::CoreInfo::getCurrentCoreId()];
