@@ -1,3 +1,4 @@
+#include "aal/aalCurve3DDraw.h"
 #include "aal/aalRollOffCurve.h"
 #include "aal/aalCurveXml.h"
 #include "aal/aalSystem.h"
@@ -276,6 +277,15 @@ void RollOffCurve::loadFromXmlDocument(const sead::SafeString& path) {
         }
     }
     heap->destroy();
+}
+
+void RollOffCurve::draw3DGraph(sead::DrawContext* context, const sead::Camera& camera,
+                              const sead::Projection& projection, const sead::Viewport& viewport,
+                              const Curve3DDrawArg* arg) const {
+    if (arg->_13c & 0x10)
+        RollOffCurve3DDraw::draw3DGraph(*this, context, camera, projection, viewport, arg);
+    else
+        RollOffCurve3DDraw::drawScreenSpaceGraph(*this, context, camera, projection, viewport, arg);
 }
 
 }  // namespace aal

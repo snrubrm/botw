@@ -18,7 +18,12 @@ class Viewport;
 
 namespace aal {
 
-struct Curve3DDrawArg;
+// Partial: only the flag byte read by the draw3DGraph overrides (0x7100ba3a54, 0x7100ba521c,
+// 0x7100ba754c) is known. Bit 4 set draws the 3D graph, clear the screen-space graph.
+struct Curve3DDrawArg {
+    u8 _0[0x13c];
+    u8 _13c;
+};
 
 /// A curve that maps a value (a distance, usually) to a gain, edited and shown (graph drawing) in the debug tools.
 /// The subclasses are the CustomCurve, the RollOffCurve and the UnitDistanceCurve.

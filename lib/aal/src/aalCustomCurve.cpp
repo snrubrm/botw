@@ -1,3 +1,4 @@
+#include "aal/aalCurve3DDraw.h"
 #include "aal/aalCustomCurve.h"
 #include "aal/aalCustomCurveXml.h"
 #include "aal/aalSystem.h"
@@ -153,6 +154,15 @@ void CustomCurve::loadFromXmlDocument(const sead::SafeString& path) {
         }
     }
     heap->destroy();
+}
+
+void CustomCurve::draw3DGraph(sead::DrawContext* context, const sead::Camera& camera,
+                              const sead::Projection& projection, const sead::Viewport& viewport,
+                              const Curve3DDrawArg* arg) const {
+    if (arg->_13c & 0x10)
+        CustomCurve3DDraw::draw3DGraph(*this, context, camera, projection, viewport, arg);
+    else
+        CustomCurve3DDraw::drawScreenSpaceGraph(*this, context, camera, projection, viewport, arg);
 }
 
 }  // namespace aal
