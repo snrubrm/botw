@@ -2561,6 +2561,12 @@ public:
     virtual u32 m10() const;
     virtual u32 m11() const;
     // Write the vertices / indices of the grid range [x0, x1] x [y0, y1] (declaration only).
+    // 0x71012ea534: the generator's coordinate converter (value / max).
+    static f32 sub_71012EA534(f32 value, f32 max);
+    // 0x71012ea228: the grid vertex generator m12 calls with sub_71012EA534 as the converter.
+    static void sub_71012EA228(sead::IDelegate2R<f32, f32, f32>* convert, sead::Vector2f* vertices, u32 a,
+                               u32 b, u32 c, s32 width, s32 height, u32 x0, u32 x1, u32 y0,
+                               u32 y1, u32 restart_step);
     virtual void m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1);
     virtual void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex);
 
@@ -2601,6 +2607,12 @@ public:
     ~Unk_710251d010() override;
     s32 m8() override;
     s32 m9() override;
+    // 0x71012e97b4: the generator's coordinate converter (value / max).
+    static f32 sub_71012E97B4(f32 value, f32 max);
+    // 0x71012e92fc: the grid vertex generator m12 calls with sub_71012E97B4 as the converter.
+    static void sub_71012E92FC(sead::IDelegate2R<f32, f32, f32>* convert, sead::Vector2f* vertices, u32 a,
+                               u32 b, u32 c, s32 width, s32 height, u32 x0, u32 x1, u32 y0,
+                               u32 y1, u32 restart_step);
     void m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1) override;
     void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex) override;
     // Vertex / index counts of the d010 grid (0x71012e9090 / 0x71012e90a4).

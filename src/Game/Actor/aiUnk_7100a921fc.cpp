@@ -379,6 +379,16 @@ u32 Unk_710251d010::sub_71012E9090(u32 cols, u32 rows) {
     return cols * rows + (cols - 1) * (rows - 1);
 }
 
+void Unk_710251d010::m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1) {
+    sead::AnyDelegate2R<f32, f32, f32> convert = sead::Delegate2RFunc<f32, f32, f32>(&sub_71012E97B4);
+    sub_71012E92FC(convert.getDelegate(), vertices, 0, 4, 8, m10(), m11(), x0, x1, y0, y1,
+                   mFlags & 1 ? 7 : 0);
+}
+
+f32 Unk_710251d010::sub_71012E97B4(f32 value, f32 max) {
+    return value / max;
+}
+
 // NON_MATCHING: regalloc in the strip loop (same as Unk_710251d0e0::sub_71012E9F88).
 s32 Unk_710251d010::sub_71012E90A4(u32 cols, u32 rows, bool restart) {
     s32 extra = 0;
@@ -396,6 +406,16 @@ s32 Unk_710251d010::sub_71012E90A4(u32 cols, u32 rows, bool restart) {
         }
     }
     return extra + (cols * 12 - 12) * (rows - 1);
+}
+
+void Unk_710251d0e0::m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1) {
+    sead::AnyDelegate2R<f32, f32, f32> convert = sead::Delegate2RFunc<f32, f32, f32>(&sub_71012EA534);
+    sub_71012EA228(convert.getDelegate(), vertices, 0, 4, 8, m10(), m11(), x0, x1, y0, y1,
+                   mFlags & 1 ? 12 : 0);
+}
+
+f32 Unk_710251d0e0::sub_71012EA534(f32 value, f32 max) {
+    return value / max;
 }
 
 void Unk_710251d0e0::m7(void* vertices, void* indices) {
