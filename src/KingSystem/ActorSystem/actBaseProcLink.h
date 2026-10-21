@@ -9,6 +9,8 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+class Unk_71024f14a8;
+
 namespace uking::ai {
 class EnemyTreeWeaponSearchOrBattle;
 }
@@ -55,6 +57,7 @@ public:
 
 private:
     friend class uking::ai::EnemyTreeWeaponSearchOrBattle;
+    friend class ::Unk_71024f14a8;  // its m2 reads the linked proc directly (0x7100edd0ac)
 
     static constexpr u32 cInvalidId = -1;
 

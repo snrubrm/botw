@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
 namespace ksys::act {
 
@@ -43,3 +44,9 @@ public:
 static_assert(sizeof(ActorNameSearch) == 0xc0);
 
 }  // namespace ksys::act
+
+// Awareness filter, vtable 0x71024f14a8 (m2 0x7100edd0ac, D0 0x7100edd1b4): accepts linked NPCs.
+class Unk_71024f14a8 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};

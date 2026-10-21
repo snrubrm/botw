@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorNameSearch.h"
+#include "Game/Actor/actNPCBase.h"
 #include <cfloat>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -64,3 +65,10 @@ void ActorNearestSearch::sub_7100EDC9E8(BaseProc* proc) {
 }
 
 }  // namespace ksys::act
+
+bool Unk_71024f14a8::m2(ksys::act::Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target || target->mLink.mId == ksys::act::BaseProcLink::cInvalidId)
+        return false;
+    return sead::IsDerivedFrom<uking::act::NPCBase>(target->mLink.getProc());
+}
