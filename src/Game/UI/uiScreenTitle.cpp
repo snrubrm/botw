@@ -3,6 +3,9 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <time/seadTickTime.h>
+#include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTUStatics.h"
 
@@ -38,6 +41,27 @@ static sead::SafeString sMessageSet = "LayoutMsg/Title_00";
 // 0x7100a69ba0
 const char* ScreenTitle::getLayoutName_() const {
     return sLayoutName.cstr();
+}
+
+// 0x7100a6af64
+void ScreenTitle::sub_7100A6AF64() {
+    eui::Animator* animator = mLayout->_70;
+    if (!animator)
+        return;
+    static constexpr s32 sBlockingScreens[] = {
+        ScreenId::SystemWindow00, ScreenId::SystemWindow01, ScreenId::OptionWindow, ScreenId::AmiiboWindow,
+        ScreenId::DLCWindow,      ScreenId::SaveTransferWindow, ScreenId::HardMode};
+    for (const s32 id : sBlockingScreens) {
+        auto* screen = eui::ScreenMgr::instance()->getScreen(id);
+        if (screen && (screen->isOpened() || screen->isOpening())) {
+            if (animator->mRate != 0.0f)
+                animator->StopCurrent();
+            return;
+        }
+    }
+    if (animator->mRate != 0.0f)
+        return;
+    animator->PlayFromCurrent(eui::Animator::PlayType(1), 1.0f);
 }
 
 }  // namespace uking::ui
