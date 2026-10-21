@@ -126,6 +126,9 @@ public:
 
     // Placeholder-named members (the CSV calls them uiManager::__autoN / x_N or leaves them unnamed).
     void sub_7100A76180();  // CSV loadSaveForStageUnload's target
+    // 0x7100a76108 (CSV uiManager::x; placeholder name): marks every screen whose id is in the unload
+    // list E
+    void x();
     void sub_7100A76420();  // empty (CSV nullsub_6139)
     void sub_7100A76424();
     void sub_7100A79968();

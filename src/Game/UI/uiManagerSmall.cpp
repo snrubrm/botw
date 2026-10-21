@@ -702,6 +702,21 @@ bool Manager::sub_7100A7FDB4() const {
     return _65387 != 0;
 }
 
+// 0x7100a76108 (CSV uiManager::x; placeholder name): marks every screen whose id is in the manager's
+// static unload list E
+// NON_MATCHING: the original keeps the list bounds check (its Buffer operator[] csel) and loads the list
+// count / buffer once, with an up-counting index; ours drops the csel and reloads both after the store,
+// which may alias the list.
+void Manager::x() {
+    for (s32 i = 0; i < sUnk_71025F5F90.mListE.size(); ++i) {
+        const s32 id = sUnk_71025F5F90.mListE[i].id;
+        auto* screen = eui::ScreenMgr::instance()->getScreen(id);
+        if (id > 0x4e || !screen)
+            continue;
+        screen->_102 = 1;
+    }
+}
+
 // 0x7100a76420 (CSV nullsub_6139)
 void Manager::sub_7100A76420() {}
 
