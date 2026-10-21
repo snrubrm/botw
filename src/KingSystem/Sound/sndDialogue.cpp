@@ -253,6 +253,23 @@ void ExpressionSoundCtrl::sub_710104F98C() {
     SoundMgr::instance()->_98->_5e0._20.moveTo(0.0f, 0.3f);
 }
 
+// NON_MATCHING: the inlined HandleSLink setters differ in store order (setPitchScale stores the
+// value before bit 2 of the first flag word here, after it in the original) and clang hoists the
+// volume division's table load above the event check. The calls and the values agree.
+void ExpressionSoundCtrl::sub_710104FB40(xlink2::HandleSLink* handle) {
+    if (_30 == 2) {
+        handle->setPitchScale(1.0f);
+        handle->setVolumeScale(1.0f);
+        handle->setBiquadType(-1);
+        handle->setBiquadValue(0.0f);
+    } else {
+        handle->setPitchScale(std::max(1.0f / sUnk_7102502500[3], 0.0f));
+        handle->setVolumeScale(std::max(1.0f / sUnk_7102502500[2], 0.0f));
+        handle->setBiquadType(2);
+        handle->setBiquadType(s32(-sUnk_7102502500[4]));
+    }
+}
+
 void ExpressionSoundCtrl::sub_710104FD68(aal::Group* group, sead::PtrArray<aal::Group>* groups, s32 type) {
     if (group->get_13c() & (1 << type)) {
         groups->pushBack(group);
