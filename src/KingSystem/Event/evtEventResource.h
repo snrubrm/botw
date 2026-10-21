@@ -90,6 +90,10 @@ public:
 };
 static_assert(sizeof(EventXlinkInfo) == 0x188);
 
+// 0x7100da38d4 / 0x7100da39d4 (placeholder names): whether `name` is a camera actor / a camera animation action
+bool isCameraActor(const sead::SafeString& name);
+bool isCameraAnimAction(const sead::SafeString& name);
+
 // The event camera data of a resource (CSV CameraSystem; at EventResource + 0x148; ctor 0x7100da3b8c, init
 // 0x7100da3fe0, not decompiled).
 class CameraSystem {

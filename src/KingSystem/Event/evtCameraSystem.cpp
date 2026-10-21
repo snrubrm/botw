@@ -2,6 +2,17 @@
 
 namespace ksys::evt {
 
+// 0x7100da38d4
+bool isCameraActor(const sead::SafeString& name) {
+    return name == "eraCamera" || name == "GameRomCamera";
+}
+
+// 0x7100da39d4
+bool isCameraAnimAction(const sead::SafeString& name) {
+    return name == "Demo_CameraAnim" || name == "Demo_CameraAnimFlow" ||
+           name == "Demo_AnimFlowForMapTower" || name == "Demo_CameraAnimFlowAbs";
+}
+
 // 0x7100da3d14
 bool CameraSystem::sub_7100DA3D14(void*) {
     bool all_success = true;

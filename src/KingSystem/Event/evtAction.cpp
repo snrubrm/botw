@@ -13,11 +13,6 @@
 
 namespace ksys::evt {
 
-// 0x7100da39d4 (declared only; placeholder name): whether `name` is a camera animation action.
-bool isCameraAnimAction(const sead::SafeString& name);
-// 0x7100da38d4 (declared only; placeholder name): whether `name` is a camera actor.
-bool isCameraActor(const sead::SafeString& name);
-
 // 0x71008a71fc (CSV evt::Action::ctor)
 Action::Action(const evfl::ResAction* res, ActorBase* actor) : ActionBase(res, actor) {}
 
