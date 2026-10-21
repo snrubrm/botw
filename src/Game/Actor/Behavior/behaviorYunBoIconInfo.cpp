@@ -19,8 +19,9 @@ bool YunBoIconInfo::init_(sead::Heap* heap) {
 
 // NON_MATCHING: actor access is scheduled after pin initialization.
 void YunBoIconInfo::calc() {
+    const auto& mtx = mActor->getMtx();
     ui::UiSubsys1PinArg arg{};
-    mActor->getMtx().getTranslation(arg.pos);
+    mtx.getTranslation(arg.pos);
     switch (*mType_s) {
     case 0:
         arg.index = 1;
