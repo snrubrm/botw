@@ -197,6 +197,38 @@ s32 sub_7100AA4A2C(s32 index) {
     return -1;
 }
 
+// 0x7100aa4a4c (placeholder name): the _18 metadata of the shop modifier record for `effect` as a float
+bool sub_7100AA4A4C(CookEffectId effect, f32* out) {
+    const s32 count = sUnk_71025F6960.modifiers.size();
+    s32 index = -1;
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == s32(effect)) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return false;
+    *out = static_cast<f32>(sUnk_71025F6960.modifiers[index]._18);
+    return true;
+}
+
+// 0x7100aa4acc (placeholder name): the same lookup with a raw id
+bool sub_7100AA4ACC(s32 effect, f32* out) {
+    const s32 count = sUnk_71025F6960.modifiers.size();
+    s32 index = -1;
+    for (s32 i = 0; i < count; ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == effect) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return false;
+    *out = static_cast<f32>(sUnk_71025F6960.modifiers[index]._18);
+    return true;
+}
+
 // 0x7100aa6d54 (placeholder name): whether the actor `name` (a weapon, bow or shield; not an arrow) has a capacity parameter
 bool sub_7100AA6D54(const sead::SafeString& name) {
     if (PauseMenuDataMgr::instance()) {
