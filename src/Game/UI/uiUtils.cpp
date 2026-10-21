@@ -1,3 +1,4 @@
+#include <nn/ui2d/Material.h>
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -560,6 +561,21 @@ nn::ui2d::Parts* sub_7100AA0D40(nn::ui2d::Layout* layout, const WidgetPathEntry*
         layout = parts->mPartsLayoutLink.layout;
     }
     return parts;
+}
+
+// 0x7100aa1cb8 (placeholder name): sets the alpha of the material's white colour
+void sub_7100AA1CB8(nn::ui2d::Material* material, u8 alpha) {
+    if (!material)
+        return;
+    const nn::util::Unorm8x4& white = material->GetColor(1);
+    material->SetColor(1, {{white.v[0], white.v[1], white.v[2], alpha}});
+}
+
+// 0x7100aa2190 (placeholder name): turns `angle` towards `target` by `step` scaled with the screen's animation step
+bool sub_7100AA2190(eui::Screen* screen, ksys::util::Unk_7101EC6BAC* angle, u32 target, u32 step) {
+    if (!screen || !angle)
+        return false;
+    return ksys::util::sub_71011EE4EC(angle, target, u32(step * screen->getAnimationStep_()));
 }
 
 // 0x7100aa1d5c (placeholder name): restarts `layout` (when it is stopped / closed) and lets its animator continue from
