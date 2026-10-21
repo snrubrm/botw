@@ -1292,6 +1292,9 @@ void Core::Unk_140::sub_710108330C() {
 
 Unk_7101088B24::Unk_7101088B24() : mNumPending(0), _22_0(0), mAdded(false) {}
 
+// Empty in this release (S7EventFlow's destructor calls it before freeing the object).
+Unk_7101088B24::~Unk_7101088B24() {}
+
 bool Unk_7101088B24::sub_7101088654(const InitArg& arg) {
     if (!mEntries.tryAllocBuffer(arg.count, arg.heap))
         return false;

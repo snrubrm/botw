@@ -52,6 +52,9 @@ s32 ExtraInfoMaybe::findLayerIndex(const ExtraInfoLayerMaybe* layer) const {
     return index;
 }
 
+// Empty in this release (Terrain::m20 calls it).
+void Core::sub_71013019B8() {}
+
 void Core::sub_710130085C() {
     if (_37c & 1)
         _f8->requestUpdate(6);

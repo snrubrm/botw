@@ -2585,6 +2585,7 @@ public:
 class Unk_710251d010 : public Unk_710251d0e0 {
     SEAD_RTTI_OVERRIDE(Unk_710251d010, Unk_710251d0e0)
 public:
+    Unk_710251d010();
     ~Unk_710251d010() override;
     s32 m8() override;
     s32 m9() override;

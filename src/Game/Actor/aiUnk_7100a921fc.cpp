@@ -122,6 +122,11 @@ void Unk_710251d0e0::initialize(const InitArg& arg) {
     sub_71012EB478(arg.base_vertex, arg.first_index);
 }
 
+// NON_MATCHING: clang inlines the base constructor here, so the base's _30 store lands in this
+// function; the original calls Unk_710251d0e0::Unk_710251d0e0 (0x71012e9f24) out of line. The base
+// definition is in this TU, so it cannot be kept out of line without moving it to its own file.
+Unk_710251d010::Unk_710251d010() = default;
+
 // NON_MATCHING: placeholder destructor; the original (0x71012e906c) also destroys members or bases
 // this class does not declare yet.
 Unk_710251d010::~Unk_710251d010() = default;
