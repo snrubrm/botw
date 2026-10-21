@@ -13,6 +13,9 @@
 class Unk_71024f13f0 {
     SEAD_RTTI_BASE(Unk_71024f13f0)
 public:
+    Unk_71024f13f0() = default;
+    // The tools point _28 at their SeadController during construction.
+    explicit Unk_71024f13f0(ksys::SeadController* controller) : _28(controller) {}
     // 0x7100edc270. The original keeps the vtable store that a defaulted destructor drops; written like
     // upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229). Inlined into the
     // PlacementNavi destructor.
@@ -32,6 +35,13 @@ public:
     virtual void m14() {}
     virtual void m15() {}
     virtual void m16() {}
+
+    u64 _8 = 0;
+    u64 _10 = 0;
+    u64 _18 = 0;
+    u64 _20 = 0;
+    void* _28 = nullptr;
+    u32 _30 = 5;
 };
 
 namespace ksys {
@@ -49,13 +59,6 @@ public:
     bool m7() override;
     void m14() override;
     void m16() override {}
-
-    u64 _8 = 0;
-    u64 _10 = 0;
-    u64 _18 = 0;
-    u64 _20 = 0;
-    void* _28 = &mController;
-    u32 _30 = 5;
 
     SEAD_SINGLETON_DISPOSER(GameTool)
 

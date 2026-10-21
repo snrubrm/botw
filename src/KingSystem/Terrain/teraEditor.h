@@ -9,27 +9,8 @@
 namespace gsys { class Model; }
 namespace ksys { class OverlayArena; }
 
-// Terrain editor RTTI root, vtable 0x71024f13f0.
-class Unk_71024f13f0 {
-    SEAD_RTTI_BASE(Unk_71024f13f0)
-public:
-    // Inline: Unk_7102504260's destructor 0x710107e7cc inlines it (its own D1 is 0x7100edc270).
-    // `{ ; }` keeps the vtable store the original has (as upstream's
-    // GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
-    virtual ~Unk_71024f13f0() { ; }
-
-    // Set up before the derived members (Unk_7102513630 ctor 0x71011ece14).
-    u64 _8 = 0;
-    u64 _10 = 0;
-    u64 _18 = 0;
-    u64 _20 = 0;
-    // Unk_7102513630 / Unk_7102504260 point it at their SeadController (+0x48).
-    void* _28 = nullptr;
-    u32 _30 = 5;
-};
-
 // Editor base vtable 0x7102504260; constructor 0x710107e724. The constructor stores the hostio::Node
-// vtable (0x7102504340) at +0x38.
+// vtable (0x7102504340) at +0x38, after the base's tail padding.
 class Unk_7102504260 : public Unk_71024f13f0, public sead::hostio::Node {
     SEAD_RTTI_OVERRIDE(Unk_7102504260, Unk_71024f13f0)
 public:

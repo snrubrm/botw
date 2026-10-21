@@ -846,16 +846,6 @@ Object* PlacementMgr::sub_71011EC398(const sead::SafeString& name,
 
 }  // namespace ksys::map
 
-Unk_71024f1358::~Unk_71024f1358() = default;
-
-const char* Unk_71024f1358::getName() {
-    return "GameTool";
-}
-
-const char* Unk_71024f1358::getJpName() {
-    return "ゲームツールです";
-}
-
 // NON_MATCHING: the original stores _28 with the other base fields before constructing the SeadController and
 // writes _34 / _40 after it (store order in the ctor).
 // NON_MATCHING: the SeadController member is constructed from the initializer list, so its call lands after the
