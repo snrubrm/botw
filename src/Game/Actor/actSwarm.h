@@ -65,7 +65,7 @@ public:
         /* 0xc0 */ u64 _c0;
         /* 0xc8 */ u32 _c8;
         u8 _cc[0xd0 - 0xcc];
-        /* 0xd0 */ s32 _d0;  // cleared by m6
+        /* 0xd0 */ f32 _d0;  // cry interval (requested by lane3); cleared by m6
 
         // 0x71002daa98 (SwarmPatternMovingSphere::m8): unless bit 1 is set, replaces bits 2 / 3 with 8.
         void sub_71002DAA98();

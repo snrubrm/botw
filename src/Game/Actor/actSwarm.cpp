@@ -2,6 +2,7 @@
 #include <basis/seadNew.h>
 #include <math/seadMatrixCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/Actor/aiUnk_7100736460.h"
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Resource/resResDerived.h"
@@ -402,6 +403,17 @@ void Swarm::sub_71002D484C(Unit* unit) {
         return;
     --_1610;
     unit->_b8 |= 1;
+}
+
+// The original tests the Enemy::init_ status against zero (cbz), not against InitResult::Ok.
+Swarm::InitResult Swarm::init_() {
+    const InitResult result = Enemy::init_();
+    if (s32(result) == 0)
+        return result;
+    if (dlc::isPlayingOneHitObliteratorQuest() && mName != "Enemy_Bee_Swarm")
+        return InitResult::Ok;
+    mDeleteDistanceSq = mDeleteDistanceSq * std::pow(f32(_14c8.size()), 2.0f / 3.0f);
+    return InitResult::Ok;
 }
 
 }  // namespace uking::act
