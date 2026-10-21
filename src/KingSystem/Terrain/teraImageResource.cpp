@@ -44,6 +44,21 @@ u32 Unk_710250db28::m9() {
     return getImageSizeMaybe(ImageSizeMaybe(mSize));
 }
 
+// Copies the source into the image buffer, then flushes the image (and the mip chain when it has
+// one) from the CPU cache.
+void Unk_710250db28::m13(void* unused, const void* src, u32 size) {
+    Unk_710250dcd8::m13(unused, src, size);
+    {
+        agl::GPUMemVoidAddr addr = getTextureDataMaybe().getImagePtr();
+        addr.flushCPUCache(getTextureDataMaybe().getImageByteSize());
+    }
+    const u32 mip_size = getTextureDataMaybe().getMipSize();
+    if (mip_size != 0) {
+        agl::GPUMemVoidAddr addr = getTextureDataMaybe().getMipPtr();
+        addr.flushCPUCache(mip_size);
+    }
+}
+
 Unk_710250dbc8::Unk_710250dbc8() = default;
 
 void Unk_710250dbc8::init(const ImageSizeMaybe& size) {
@@ -169,6 +184,19 @@ u32 Unk_710250dc50::m9() {
     return ksys::tera::Terrain::instance()->_3d0;
 }
 
+void Unk_710250dc50::m13(void* unused, const void* src, u32 size) {
+    Unk_710250dcd8::m13(unused, src, size);
+    {
+        agl::GPUMemVoidAddr addr = getTextureDataMaybe().getImagePtr();
+        addr.flushCPUCache(getTextureDataMaybe().getImageByteSize());
+    }
+    const u32 mip_size = getTextureDataMaybe().getMipSize();
+    if (mip_size != 0) {
+        agl::GPUMemVoidAddr addr = getTextureDataMaybe().getMipPtr();
+        addr.flushCPUCache(mip_size);
+    }
+}
+
 Unk_710250dd60::Unk_710250dd60() = default;
 
 void Unk_710250dd60::init(const ImageSizeMaybe& size) {
@@ -197,6 +225,19 @@ u16 Unk_710250dd60::m8() {
 
 u32 Unk_710250dd60::m9() {
     return getImageSizeMaybe(mSize);
+}
+
+void Unk_710250dd60::m13(void* unused, const void* src, u32 size) {
+    Unk_710250dcd8::m13(unused, src, size);
+    {
+        agl::GPUMemVoidAddr addr = getTextureDataMaybe().getImagePtr();
+        addr.flushCPUCache(getTextureDataMaybe().getImageByteSize());
+    }
+    const u32 mip_size = getTextureDataMaybe().getMipSize();
+    if (mip_size != 0) {
+        agl::GPUMemVoidAddr addr = getTextureDataMaybe().getMipPtr();
+        addr.flushCPUCache(mip_size);
+    }
 }
 
 namespace ksys::tera {
