@@ -5,6 +5,9 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "Game/gameSceneSubsys14.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 // UI wrapper functions around uking::ui::PauseMenuDataMgr (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -270,6 +273,34 @@ bool sub_7100A82E38() {
     if (carrying)
         return false;
     return PauseMenuDataMgr::instance()->countItemsWithCategoryByType(PouchCategory::Material) > 0;
+}
+
+// 0x7100a82ee0 (placeholder name): whether the player may pick up an item of the fifth category right now
+// NON_MATCHING: the early false returns share the final result register in ours; the original returns 0 directly
+bool sub_7100A82EE0() {
+    if (!ksys::gdt::getFlag_IsOpenItemCategory(4, false))
+        return false;
+    auto* subsys = GameSceneSubsys14::instance();
+    if (!subsys)
+        return false;
+    const bool ready = subsys->sub_7100904F28();
+    if (!act::DamageInfoMgr::instance() || !ready)
+        return false;
+    if (ksys::snd::sub_7100FFED80())
+        return false;
+    if (ksys::gdt::getFlag_CarryProhibition(false))
+        return false;
+    if (isOpenedMessageGet())
+        return false;
+    bool busy = false;
+    bool carrying = false;
+    if (auto* player_info = act::PlayerInfo::instance()) {
+        if (auto* player = player_info->getPlayer()) {
+            busy = player->sub_710084BEF0();
+            carrying = (player->_cec >> 9) & 1;
+        }
+    }
+    return !busy && !carrying;
 }
 
 }  // namespace uking::ui
