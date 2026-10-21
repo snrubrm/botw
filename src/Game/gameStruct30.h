@@ -14,6 +14,9 @@ public:
 
     bool isTitleMonitoringOrDemo() const { return mIsTitleMonitoringOrDemo; }
     void setIsTitleMonitoringOrDemo(bool value);
+    // 0x71008bf558 (CSV Struct30::__auto0; placeholder name): clears (`on`) or sets bit 0x20000 of the Terminal
+    // flags, then calls PlayReportMgr::sub_7100FD3A4C / sub_7100FD3A50.
+    void sub_71008BF558(bool on);
     void setField29(bool value);
     u8 getField2B() const;
     bool isPanicBloodMoon() const;

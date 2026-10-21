@@ -1,4 +1,6 @@
 #include "Game/gameStruct30.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/Terminal.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(Struct30)
 
@@ -6,6 +8,19 @@ Struct30::~Struct30() = default;
 
 void Struct30::setIsTitleMonitoringOrDemo(bool value) {
     mIsTitleMonitoringOrDemo = value;
+}
+
+void Struct30::sub_71008BF558(bool on) {
+    auto* terminal = ksys::Terminal::instance();
+    if (on) {
+        terminal->mFlag &= ~0x20000;
+        if (auto* mgr = ksys::PlayReportMgr::instance())
+            mgr->sub_7100FD3A4C();
+    } else {
+        terminal->mFlag |= 0x20000;
+        if (auto* mgr = ksys::PlayReportMgr::instance())
+            mgr->sub_7100FD3A50();
+    }
 }
 
 void Struct30::setField29(bool value) {

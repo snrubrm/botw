@@ -36,7 +36,8 @@ public:
     void setPlayerTrackReporter28();
     void setPlayerTrackReporter29();
     void setPlayerTrackReporter30();
-    // 0x7100fd3a50 (placeholder name): empty.
+    // 0x7100fd3a4c (declared only) / 0x7100fd3a50 (placeholder names): empty.
+    void sub_7100FD3A4C();
     void sub_7100FD3A50();
 
     ProductReporter* getReporter() const { return mReporter; }
