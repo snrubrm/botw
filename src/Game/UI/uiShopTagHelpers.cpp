@@ -53,6 +53,14 @@ bool sub_7100A90700(ksys::act::ActorLinkConstDataAccess* dst, ksys::act::BasePro
     return true;
 }
 
+// 0x7100a909c0 (placeholder name): whether sub_7100A90700 succeeds and finds a proc for `src`
+bool sub_7100A909C0(const ksys::act::ActorLinkConstDataAccess* src) {
+    ksys::act::ActorLinkConstDataAccess actor;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    s32 value;
+    return sub_7100A90700(&actor, &accessor, &value, src) && accessor.hasProc();
+}
+
 // 0x7100a90a34
 bool sub_7100A90A34(const RecipeItems& items) {
     for (s32 i = 0; i < 3; ++i) {
