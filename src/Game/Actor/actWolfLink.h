@@ -77,6 +77,9 @@ public:
     bool sub_71002F3234(f32 range, s32 a, s32 b, s32 c);
     void sub_71002F4B3C();
     void sub_71002F493C();
+    // 0x71002f4988 (placeholder name): a point of the linked actor (_c48._8) near this actor computed by
+    // sub_7100742C7C, or _c48._18 without a linked actor.
+    sead::Vector3f sub_71002F4988();
     void sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b);
     void sub_71002F4008(ksys::act::BaseProcLink* link, s32 a);
 

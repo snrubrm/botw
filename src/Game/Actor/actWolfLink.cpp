@@ -1,5 +1,6 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
@@ -95,6 +96,16 @@ void WolfLink::sub_71002F493C() {
         _c48._8.reset();
         _c48._7c = 0;
     }
+}
+
+// NON_MATCHING: regalloc (ours keeps the accessor address in a callee-saved register).
+sead::Vector3f WolfLink::sub_71002F4988() {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&_c48._8, &accessor))
+        return _c48._18;
+    sead::Vector3f out;
+    sub_7100742C7C(&out, accessor.getActorMtx(), accessor.sub_7100D0FD54(), getMtx().getTranslation());
+    return out;
 }
 
 bool WolfLink::shouldUnload(s32* a1) {

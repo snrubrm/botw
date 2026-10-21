@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <cstddef>
+#include <math/seadBoundBox.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -626,6 +627,11 @@ void sub_71007428EC(f32 distance, f32 radius, sead::Vector3f* out,
 // 7428DC searches the complete circle by supplying the same axis at both ends.
 void sub_71007428DC(f32 distance, f32 radius, sead::Vector3f* out,
                    ksys::phys::NavMeshCharacter* character, const sead::Vector3f* axis, s32 count);
+
+// 0x7100742c7c (declaration only; placeholder): uses the inverse of `mtx` to bring `pos` into the space of `box`
+// and writes a point into `out` (WolfLink::sub_71002F4988 passes the linked actor's matrix and bounding box).
+void sub_7100742C7C(sead::Vector3f* out, const sead::Matrix34f& mtx, const sead::BoundBox3f& box,
+                    const sead::Vector3f& pos);
 
 const sead::SafeString& sub_710072DAD0(const ksys::act::BaseProcLink* link);
 const sead::SafeString& sub_710072DB1C(const ksys::act::ActorLinkConstDataAccess& accessor);
