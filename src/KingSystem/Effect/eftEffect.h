@@ -75,6 +75,10 @@ public:
     void calcMostProbably();
     void sub_71011B7930();
     void calcMostProbably2();
+    // 0x71011b8584 / 0x71011b8658 (CSV Effect::__auto4 / __auto5; declared only, placeholder names): called by
+    // EventFlowTimeline::m8 with (on, true) when a timeline pauses / resumes
+    void sub_71011B8584(bool on);
+    void sub_71011B8658(bool on);
 
     // 0x71011b2a34 (placeholder name; `this` is not read): water height at `pos` (a water-layer ray cast or the
     // terrain water query) against the terrain height. Writes the water height (or the terrain height when

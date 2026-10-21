@@ -76126,7 +76126,7 @@ Address,Quality,Size,Name
 0x0000007100db8c40,O,000092,_ZNK4ksys3evt13EventFlowBase18getRuntimeTypeInfoEv
 0x0000007100db8c9c,O,000004,_ZN4ksys3evt13EventFlowBase2m4Ev
 0x0000007100db8ca0,O,000008,_ZN4ksys3evt13EventFlowBase2m7Ev
-0x0000007100db8ca8,O,000004,_ZN4ksys3evt13EventFlowBase2m8Ev
+0x0000007100db8ca8,O,000004,_ZN4ksys3evt13EventFlowBase2m8ENS1_7CommandE
 0x0000007100db8cac,O,000008,_ZN4ksys3evt13EventFlowBase3m10ERKN4evfl9ActionArgE
 0x0000007100db8cb4,U,000052,
 0x0000007100db8ce8,U,001348,evt::Context::ctor
@@ -76203,7 +76203,7 @@ Address,Quality,Size,Name
 0x0000007100dbd388,O,000036,_ZN4ksys3evt17EventFlowTimeline3m10ERKN4evfl9ActionArgE
 0x0000007100dbd3ac,O,000004,_ZN4ksys3evt17EventFlowTimeline3m16Ev
 0x0000007100dbd3b0,O,000004,_ZN4ksys3evt17EventFlowTimeline3m17Ev
-0x0000007100dbd3b4,U,000240,evt::EventFlowTimeline::m8
+0x0000007100dbd3b4,O,000240,_ZN4ksys3evt17EventFlowTimeline2m8ENS0_13EventFlowBase7CommandE
 0x0000007100dbd4a4,U,000496,evt::EventFlowTimeline::m9
 0x0000007100dbd694,O,000204,_ZNK4ksys3evt17EventFlowTimeline27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100dbd760,O,000092,_ZNK4ksys3evt17EventFlowTimeline18getRuntimeTypeInfoEv
@@ -92222,8 +92222,8 @@ Address,Quality,Size,Name
 0x00000071011b7f4c,O,000020,_ZN4ksys3eft6Effect6kill_0Ev
 0x00000071011b7f60,U,001080,
 0x00000071011b8398,U,000492,
-0x00000071011b8584,U,000212,Effect::__auto4
-0x00000071011b8658,U,000212,Effect::__auto5
+0x00000071011b8584,U,000212,_ZN4ksys3eft6Effect14sub_71011B8584Eb
+0x00000071011b8658,U,000212,_ZN4ksys3eft6Effect14sub_71011B8658Eb
 0x00000071011b872c,O,000128,_ZN4ksys3eft6Effect13searchAndEmitERKN4sead14SafeStringBaseIcEEPN6xlink211HandleELinkE
 0x00000071011b87ac,m,000092,_ZN4ksys3eft6Effect18queryForestDensityEPKN4sead7Vector3IfEE
 0x00000071011b8808,m,000168,_ZN4ksys3eft6Effect15updatePlayerPosERKN4sead8Matrix34IfEES6_

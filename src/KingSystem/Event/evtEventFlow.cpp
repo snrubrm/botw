@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/PlayReportMgr.h"
@@ -64,7 +65,7 @@ void* EventFlowBase::m7() {
 }
 
 // 0x7100db8ca8 (CSV evt::EventFlowBase::m8_null)
-void EventFlowBase::m8() {}
+void EventFlowBase::m8(Command) {}
 
 // 0x7100db8cac (CSV evt::EventFlowBase::m10)
 bool EventFlowBase::m10(const evfl::ActionArg& arg) {
@@ -286,6 +287,40 @@ const char* EventFlowBase::sub_7100DB8A14() {
 // 0x7100db8a24
 bool EventFlowBase::isPlaying() {
     return _100->isPlaying();
+}
+
+// 0x7100dbd3b4
+void EventFlowTimeline::m8(Command command) {
+    switch (command) {
+    case Command::_1:
+        _644 |= 4;
+        break;
+    case Command::_2:
+        _644 |= 0x20;
+        break;
+    case Command::_3:
+        _644 |= 8;
+        break;
+    case Command::_4:
+        _644 |= 1;
+        eft::Effect::instance()->sub_71011B8584(true);
+        eft::Effect::instance()->sub_71011B8658(true);
+        break;
+    case Command::_5:
+        _644 &= ~1;
+        eft::Effect::instance()->sub_71011B8584(false);
+        eft::Effect::instance()->sub_71011B8658(true);
+        break;
+    case Command::_6:
+        _644 = (_644 & ~3) | 2;
+        break;
+    case Command::_7:
+        _644 |= 0x10;
+        break;
+    default:
+        break;
+    }
+    Manager::instance()->_1d2f4 |= 0x800;
 }
 
 // 0x7100dbd370

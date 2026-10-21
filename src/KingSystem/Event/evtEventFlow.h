@@ -140,7 +140,9 @@ public:
     virtual f32 getFrameCount() const = 0;
     virtual s32 getEventFlowType() const = 0;  // 0 = flowchart, 1 = timeline, 2 / 3 = movie
     virtual void* m7();                        // returns nullptr
-    virtual void m8();                         // empty
+    // Command of m8 (placeholder; EventFlowTimeline::m8 switches on it through a stack spill, so it is a SEAD_ENUM)
+    SEAD_ENUM(Command, _0, _1, _2, _3, _4, _5, _6, _7)
+    virtual void m8(Command command);  // empty
     virtual void printStatus(sead::BufferedSafeString* out);
     // returns false (EventFlowTimeline compares the action's time with the timeline's); ActionBase::m6 sets bit 3 of
     // the context's _af4 when it is true
@@ -274,6 +276,7 @@ public:
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
     void* m7() override;
+    void m8(Command command) override;
     bool m10(const evfl::ActionArg& arg) override;
     void m13() override;
     bool m14() override;
@@ -291,6 +294,13 @@ public:
     /* 0x630 */ s32 _630;
     u8 _634[0x638 - 0x634];
     /* 0x638 */ EventMgrStruct1::Clock* _638;
+    /* 0x640 */ f32 _640;
+    // flag bits set by m8
+    /* 0x644 */ u16 _644;
+    /* 0x648 */ s32 _648;
+    /* 0x64c */ bool _64c;
+    /* 0x64d */ bool _64d;
+    /* 0x650 */ s32 _650;
 };
 
 class EventFlowMovie : public EventFlowBase {
