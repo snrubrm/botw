@@ -12,6 +12,11 @@
 
 namespace ksys::act {
 
+Unk_71024dd1c8::Unk_71024dd1c8()
+    : _8(nullptr), _10(nullptr), _18(0), _1a(0), _1b(0), _1c(sead::Vector3f::ex), _28{}, _30(0), _34(0),
+      _38(0), _3c(0), _40(0), _44(0), _48(sead::Vector3f::zero), _54(0), _58(0), _5c(0), _60(0),
+      _64(0, 0, 0), _70{}, _78(0), _80(nullptr), _88(nullptr), _90(0), _94(0), _98(0) {}
+
 // 0x7100d8cf1c: links the holder and the element both ways.
 void Unk_71024dd1c8::sub_7100D8CF1C(Element* element) {
     if (_10)

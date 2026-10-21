@@ -73,10 +73,13 @@ public:
     /* 0x3c */ f32 _3c;
     /* 0x40 */ f32 _40;
     /* 0x44 */ f32 _44;
-    /* 0x48 */ u8 _48[0x58 - 0x48];
+    /* 0x48 */ sead::Vector3f _48;
+    /* 0x54 */ u32 _54;
     // lane1 s104: ElementWater::m35 0x71010e9368 ends the element when bit 1 is set.
     /* 0x58 */ u8 _58;
-    u8 _59[0x64 - 0x59];
+    u8 _59[0x5c - 0x59];
+    /* 0x5c */ f32 _5c;
+    /* 0x60 */ f32 _60;
     // lane1 s104: impulse ElementWater::m35 applies to its core body when it is not zero.
     /* 0x64 */ sead::Vector3f _64;
     u8 _70[0x78 - 0x70];
@@ -85,7 +88,8 @@ public:
     /* 0x80 */ Chemical* _80;
     /* 0x88 */ void* _88;
     /* 0x90 */ s32 _90;
-    /* 0x94 */ u8 _94[0xa0 - 0x94];
+    /* 0x94 */ u32 _94;
+    /* 0x98 */ u32 _98;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024dd1c8, 0xa0);
 
