@@ -138,13 +138,15 @@ public:
 
     // The setup of the actor rain (Unk790 + 0x68), copied in by Unk790::sub_710067298C.
     struct Unk790Params {
-        sead::FixedSafeString<64> mActorName;
-        /* 0x58 */ f32 _58;  // Unk_71007024d4::_1c
-        /* 0x5c */ f32 _5c;  // Unk_71007024d4::_34
-        /* 0x60 */ f32 _60;  // Unk_71007024d4::_30
-        /* 0x64 */ f32 _64;  // Unk_71007024d4::_38
-        /* 0x68 */ f32 _68;  // the maximum interval (frames)
-        /* 0x6c */ f32 _6c;  // the minimum interval (frames)
+        // Field names and defaults from GParamListObjectWizzrobe (MagicFall*), which
+        // Unk_7102431fa8::sub_7100741E54 copies in.
+        sead::FixedSafeString<64> mActorName{""};
+        /* 0x58 */ f32 mIgniteRotSpd = 0.0f;  // Unk_71007024d4::_1c (radians per frame)
+        /* 0x5c */ f32 mOffsetY = 6.0f;  // Unk_71007024d4::_34
+        /* 0x60 */ f32 mCenterOffsetXZ = 5.0f;  // Unk_71007024d4::_30
+        /* 0x64 */ f32 mRandRadius = 12.0f;  // Unk_71007024d4::_38
+        /* 0x68 */ f32 mIntervalMax = 20.0f;  // frames
+        /* 0x6c */ f32 mIntervalMin = 15.0f;  // frames
     };
     KSYS_CHECK_SIZE_NX150(Unk790Params, 0x70);
 

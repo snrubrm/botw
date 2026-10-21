@@ -56,22 +56,48 @@ bool DamageInfoMgr::Unk790::tryAcquireWizzrobeWeatherRequest(ksys::act::BaseProc
     return acquired;
 }
 
+void DamageInfoMgr::Unk790::sub_7100672888(ksys::act::Actor* actor) {
+    while (mLock.load() == 1) {
+    }
+    while (!mLock.compareExchange(0, 1)) {
+    }
+
+    if (mLink.hasProcById(actor)) {
+        mLink.reset();
+        mStatus = 0;
+        _4 = -1;
+        _20.sub_7100710DE4();
+        mParams.mActorName = "";
+        mParams.mIgniteRotSpd = 0.0f;
+        mParams.mOffsetY = 6.0f;
+        mParams.mCenterOffsetXZ = 5.0f;
+        mParams.mRandRadius = 12.0f;
+        mParams.mIntervalMax = 20.0f;
+        mParams.mIntervalMin = 15.0f;
+        _20.sub_7100710890(s32(mParams.mIntervalMin), s32(mParams.mIntervalMax));
+    }
+
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    while (!mLock.compareExchange(1, 0)) {
+    }
+}
+
 bool DamageInfoMgr::Unk790::sub_710067298C(ksys::act::BaseProc* proc, const Unk790Params& params) {
     if (!mLink.hasProcById(proc))
         return false;
     mParams.mActorName = params.mActorName;
-    mParams._58 = params._58;
-    mParams._5c = params._5c;
-    mParams._60 = params._60;
-    mParams._64 = params._64;
-    mParams._68 = params._68;
-    mParams._6c = params._6c;
+    mParams.mIgniteRotSpd = params.mIgniteRotSpd;
+    mParams.mOffsetY = params.mOffsetY;
+    mParams.mCenterOffsetXZ = params.mCenterOffsetXZ;
+    mParams.mRandRadius = params.mRandRadius;
+    mParams.mIntervalMax = params.mIntervalMax;
+    mParams.mIntervalMin = params.mIntervalMin;
     _20.sub_7100710DE4();
-    _20.sub_7100710890(s32(mParams._6c), s32(mParams._68));
-    _20._1c = mParams._58;
-    _20._38 = mParams._64;
-    _20._30 = mParams._60;
-    _20._34 = mParams._5c;
+    _20.sub_7100710890(s32(mParams.mIntervalMin), s32(mParams.mIntervalMax));
+    _20._1c = mParams.mIgniteRotSpd;
+    _20._38 = mParams.mRandRadius;
+    _20._30 = mParams.mCenterOffsetXZ;
+    _20._34 = mParams.mOffsetY;
     mStatus = 2;
     return true;
 }

@@ -1,4 +1,8 @@
 #include "Game/Actor/aiUnk_7102431fa8.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWizzrobe.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_7100742478.h"
@@ -59,6 +63,25 @@ void Unk_7102431fa8::sub_7100741E14() {
     uking::act::DamageInfoMgr::instance()->get790().sub_7100672888(_d0);
     _c = 2;
     _10 = false;
+}
+
+void Unk_7102431fa8::sub_7100741E54(s32 weather_type) {
+    auto& unk790 = uking::act::DamageInfoMgr::instance()->get790();
+    uking::act::DamageInfoMgr::Unk790Params params;
+    if (const auto* wizzrobe = _d0->getParam()->getRes().mGParamList->getWizzrobe()) {
+        params.mActorName = wizzrobe->mMagicFallActorName.ref();
+        params.mCenterOffsetXZ = wizzrobe->mMagicFallCenterOffsetXZ.ref();
+        params.mOffsetY = wizzrobe->mMagicFallOffsetY.ref();
+        params.mIgniteRotSpd = sead::Mathf::deg2rad(wizzrobe->mMagicFallIgniteRotSpd.ref()) / 30.0f;
+        params.mRandRadius = wizzrobe->mMagicFallRandRadius.ref();
+        params.mIntervalMax = wizzrobe->mMagicFallIntervalMax.ref();
+        params.mIntervalMin = wizzrobe->mMagicFallIntervalMin.ref();
+    }
+    if (!unk790.sub_710067298C(_d0, params))
+        return;
+    xlinkSearchAndEmit(_d0, "WeatherFlash", 2, nullptr);
+    _14[0] = weather_type;
+    _10 = true;
 }
 
 void Unk_7102431fa8::sub_71007420B8(const sead::SafeString& start_as_name,
