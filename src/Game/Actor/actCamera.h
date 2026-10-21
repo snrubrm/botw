@@ -395,6 +395,10 @@ public:
     void sub_71009298C4();
     // 0x7100929f44 (placeholder name; declared only): updates the state _40 (Camera::sub_7100793BD8 copies it).
     void sub_7100929F44();
+    // 0x7100929c40 (placeholder name): runs sub_7100929C64 on _8 / _78 with _138 unless _143 or _147 is set.
+    void sub_7100929C40();
+    // 0x7100929c64 (placeholder name; declared only).
+    void sub_7100929C64(Unk_71009214b8* a, Unk_71009214b8* b, void* c);
     // 0x7100928c50 (placeholder name): sets up a camera ray cast (GroundHit Camera, the ground / water / object layers).
     void sub_7100928C50(ksys::phys::RayCast* ray_cast);
 
@@ -421,7 +425,8 @@ public:
     /* 0x143 */ u8 _143 = 0;
     /* 0x144 */ bool _144 = false;  // sub_7100928C50: keep EntityGroundObject out of the camera ray casts
     /* 0x145 */ u8 _145 = 0;
-    /* 0x146 */ u8 _146[0x148 - 0x146]{};
+    /* 0x146 */ u8 _146 = 0;
+    /* 0x147 */ u8 _147 = 0;  // sub_7100929C40 skips the update while it (or _143) is set
     /* 0x148 */ bool _148 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100928b6c, 0x150);
