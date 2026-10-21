@@ -575,6 +575,8 @@ public:
     // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
     // matrix has a NaN.
     bool x_5();
+    // 0x7100795fc4 (placeholder name): whether the active event flow and entry are both "Demo006_0".
+    bool sub_7100795FC4();
     // 0x7100794424 (placeholder name): ratio of the depth of the _860._e0 state between the two limits
     // sub_710092215C / sub_7100922164 (+0.05 while bit 0x40 of _13fd is set) into _13f4, with that bit as a
     // hysteresis flag; whether the depth is below sub_7100922170().

@@ -1,5 +1,7 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/gameRuneMgr.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include <basis/seadNew.h>
 #include "Game/gameUnk_710246d058.h"
 #include "Game/gameMaskController.h"
@@ -359,6 +361,15 @@ bool Camera::sub_7100794750(sead::Vector3f* out) {
     if (!invalid)
         *out = pos;
     return !invalid;
+}
+
+bool Camera::sub_7100795FC4() {
+    if (!ksys::evt::sub_7100DC866C())
+        return false;
+    sead::FixedSafeString<64> flow;
+    sead::FixedSafeString<64> entry;
+    getActiveEventFlowPath_0(this, &flow, &entry);
+    return flow == "Demo006_0" && entry == "Demo006_0";
 }
 
 bool Camera::sub_7100794424() {
