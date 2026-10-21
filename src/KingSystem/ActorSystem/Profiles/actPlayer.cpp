@@ -2188,13 +2188,13 @@ bool Player::m365() {
            (!_17d0->playerCheckController(2) && _c44.isOnBit(25));
 }
 
-// NON_MATCHING: the original returns the null pointer itself as false (skips one `mov w0, wzr`).
 bool Player::sub_7100883BC4() {
     sead::Vector3f dir;
-    if (auto* target = _1870->_c8) {
-        if (target->sub_7100EAB7C0(&dir) && dir.y < -0.1f)
-            return true;
-    }
+    auto* target = _1870->_c8;
+    if (!target)
+        return false;
+    if (target->sub_7100EAB7C0(&dir) && dir.y < -0.1f)
+        return true;
     return false;
 }
 

@@ -1970,15 +1970,11 @@ void Actor::sub_71011D0228(u32 flags) {
     }
 }
 
-// NON_MATCHING: register allocation of the two candidate values of the xlink flag word
 void Actor::setModelDrawEnabled(bool enabled) {
     mActorFlags2.change(ActorFlag2::_20, enabled);
-    if (mXLink) {
-        if (enabled)
-            mXLink->_cc.reset(0x80000);
-        else
-            mXLink->_cc.set(0x80000);
-    }
+    if (mXLink)
+        mXLink->_cc = !enabled ? mXLink->_cc.getDirect() | 0x80000u
+                               : mXLink->_cc.getDirect() & ~0x80000u;
 }
 
 void* Actor::m119() {

@@ -1326,21 +1326,21 @@ void HorseBase::m117(ksys::act::Unk117* arg) {
 }
 
 
-// NON_MATCHING: orr/and/csel operand order differs for the _b74 flag update and LodState bit select
 bool HorseBase::sub_7100E6C094(bool on) {
     _b74.change(0x4000, on);
     const bool lod_flag = ((_b74.getDirect() >> 14) & 3) != 0;
     if (auto* lod = getLodState())
-        lod->mFlags10.changeBit(6, lod_flag);
+        lod->mFlags10 = lod_flag ? lod->mFlags10.getDirect() | 0x40u
+                                 : lod->mFlags10.getDirect() & ~0x40u;
     return lod_flag;
 }
 
-// NON_MATCHING: orr/and/csel operand order differs for the _b74 flag update and LodState bit select
 bool HorseBase::sub_7100E6C0E0(bool on) {
     _b74.change(0x8000, on);
     const bool lod_flag = ((_b74.getDirect() >> 14) & 3) != 0;
     if (auto* lod = getLodState())
-        lod->mFlags10.changeBit(6, lod_flag);
+        lod->mFlags10 = lod_flag ? lod->mFlags10.getDirect() | 0x40u
+                                 : lod->mFlags10.getDirect() & ~0x40u;
     return lod_flag;
 }
 
