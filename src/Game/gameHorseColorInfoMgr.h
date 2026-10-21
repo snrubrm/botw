@@ -2,7 +2,9 @@
 
 #include <basis/seadTypes.h>
 #include <gfx/seadColor.h>
+#include <gsys/gsysModel.h>
 #include <heap/seadDisposer.h>
+#include <heap/seadExpHeap.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resResDerived.h"
@@ -34,7 +36,8 @@ public:
     void sub_710094C638();
     // 0x710094c4b8: the managed task's body, loads the three res::ResDerived resources.
     bool loadResources(void* arg);
-    // 0x710094c810 (declared only): the destructor's cleanup; body still U.
+    // 0x710094c810: the destructor's cleanup: cancels the load task, frees the models and the heap
+    // and unloads the three resources.
     void sub_710094C810();
     // 0x710094d018: declaration-only model creation request.
     void sub_710094D018();
@@ -54,15 +57,12 @@ public:
     /* 0x29 */ u8 _29;
     u8 _2a[2];
     /* 0x2c */ s32 _2c;  // 2: the layout resource is loaded on request
-    /* 0x30 */ s32 _30;
-    /* 0x34 */ s32 _34;
-    /* 0x38 */ s32 _38;
-    /* 0x3c */ s32 _3c;
-    /* 0x40 */ s32 _40;
-    /* 0x44 */ s32 _44;
+    /* 0x30 */ sead::ExpHeap* mHeap;
+    /* 0x38 */ gsys::Model* mModel;
+    /* 0x40 */ gsys::Model* mTextureModel;
     /* 0x48 */ ksys::res::ResDerived mModelRes;
     /* 0x98 */ ksys::res::ResDerived mTextureRes;
-    /* 0xe8 */ ksys::res::ResDerived mUnkRes;
+    /* 0xe8 */ ksys::res::ResDerived mAnimRes;
     /* 0x138 */ ksys::TaskDelegateT<HorseColorInfoMgr> mLoadDelegate;
     /* 0x158 */ ksys::ManagedTask mLoadTask;
 };
