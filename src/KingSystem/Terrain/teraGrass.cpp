@@ -7,8 +7,18 @@
 #include "KingSystem/Terrain/teraAreaEnv.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Physics/System/physContactLayerCollisionInfoGroup.h"
 
 // NON_MATCHING: record iteration, address copies and the pool-null guard differ.
+// NON_MATCHING: the original computes the address of mVertexMemory before the member destructors
+// (scheduling).
+Unk_7102503a50::~Unk_7102503a50() {
+    if (_4b8)
+        ksys::phys::ContactLayerCollisionInfoGroup::free(_4b8);
+    if (_4c0)
+        ksys::phys::ContactLayerCollisionInfoGroup::free(_4c0);
+}
+
 f32 Unk_7102503a50::sub_7101069760(const sead::Vector2f* position) {
     for (const auto& record : mRecords) {
         const auto& cache = record.mNear.mCaches[record.mNear._0 == 0];

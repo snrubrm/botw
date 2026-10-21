@@ -158,8 +158,11 @@ public:
     ksys::phys::ContactLayerCollisionInfoGroup* _4c0;
     sead::GraphicsContext mGraphicsContexts[3];       // +4c8,+53c,+5b0
     u8 _624[4];
-    u8 _628[0x38];                                 // genuine GPUMemBlockT, exact T unresolved
-    u8 _660[0x38];                                 // genuine GPUMemBlockT, exact T unresolved
+    // Placeholder: the vertex record of mVertexMemory (its GPUMemBlockT vtable is 0x7102503a90,
+    // D2 / D0 0x710106a4c8 / 0x710106a4dc in this TU); the layout is not modelled.
+    struct Vertex;
+    agl::GPUMemBlockT<Vertex> mVertexMemory;          // +628
+    agl::GPUMemBlockT<u16> mIndexMemory;              // +660 (vtable 0x71024c20a0)
     agl::VertexBuffer mVertexBuffer;                 // +698
     agl::IndexStream mIndexStream;                   // +7b8
     agl::VertexAttribute mVertexAttribute;           // +818
