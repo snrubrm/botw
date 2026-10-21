@@ -164,6 +164,10 @@ public:
     bool sub_7100946F88();
     // Both callbacks pass their Animator; the body updates this leaf's translation/state.
     bool sub_7100946BE8(eui::Animator* animator);
+    // 0x71009470cc / 0x7100947188 (placeholder names): save the root pane position in _e0, follow the Born (_f0) /
+    // Dead (_110) animator and restart the gauge sequence
+    void sub_71009470CC(bool a1);
+    void sub_7100947188(bool a1);
 
     /* 0xb8 */ eui::Animator* _b8 = nullptr;
     /* 0xc0 */ eui::Animator* _c0 = nullptr;

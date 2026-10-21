@@ -1759,6 +1759,47 @@ bool Unk_7102475050::sub_7100946F88() {
     return done;
 }
 
+// 0x71009470cc
+// NON_MATCHING: the original selects the two position source addresses with a csel pair (a `const sead::Vector2f&`
+// between sead::Vector2f::zero and the root pane position); our Pane::GetPosition() returns an Float3, so the
+// natural x / y copy loads the pair instead (5 instructions).
+void Unk_7102475050::sub_71009470CC(bool a1) {
+    sead::Vector2f position = sead::Vector2f::zero;
+    if (_8 && _8->mPane) {
+        const auto& root_position = _8->mPane->GetPosition();
+        position.x = root_position.x;
+        position.y = root_position.y;
+    }
+    _e0 = position;
+    _e8 = !a1;
+    _a0 = &Unk_7102474fd8::sub_7100945F28;
+    _b0 = &_f0;
+    if (_8 && (_8->_91 == 3 || _8->_91 == 0)) {
+        sub_7100945F78();
+        _8->sub_7100BDDE7C(false, 0, true);
+        m12();
+    }
+}
+
+// 0x7100947188
+void Unk_7102475050::sub_7100947188(bool a1) {
+    sead::Vector2f position = sead::Vector2f::zero;
+    if (_8 && _8->mPane) {
+        const auto& root_position = _8->mPane->GetPosition();
+        position.x = root_position.x;
+        position.y = root_position.y;
+    }
+    _e0 = position;
+    _e8 = !a1;
+    _a0 = &Unk_7102474fd8::sub_7100945F28;
+    _b0 = &_110;
+    if (_8 && (_8->_91 == 3 || _8->_91 == 0)) {
+        sub_7100945F78();
+        _8->sub_7100BDDE7C(false, 0, true);
+        m12();
+    }
+}
+
 // 0x710094745c
 // NON_MATCHING: the _b8 / _b0 / _a0 stores are scheduled around the layout load in a different
 // order (two instructions moved).
