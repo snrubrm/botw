@@ -1347,6 +1347,10 @@ public:
     void sub_7101055538(s32 value);
     // 0x7101054c10: fades _a8 to 1 (`on`) or 0 in 0.5 s and stores the flag in _85.
     void sub_7101054C10(bool on);
+    // 0x7101054ba8: resets the mode / fade flag and applies the current mode pair.
+    void sub_7101054BA8();
+    // 0x7101054c50 (declared only; 468 bytes): mode change shared with the camera actions.
+    void sub_7101054C50(u32 a1, s32 a2, bool a3);
     // 0x7101054b30 (declaration only): creates the poser (in `heap`) and the default listener.
     void init(sead::Heap* heap);
 

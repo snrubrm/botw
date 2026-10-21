@@ -18,6 +18,17 @@ void ListenerPoser::init(sead::Heap* heap) {
     mListener->_f0 = true;
 }
 
+void ListenerPoser::sub_7101054BA8() {
+    _78 = 0;
+    _a8.moveTo(0.0f, 0.5f);
+    _85 = false;
+    sub_7101054C50(_7c, _78, true);
+    if (mPoser) {
+        mPoser->_d8 = 1;
+        mPoser->sub_71012C60C0(0.0f);
+    }
+}
+
 void ListenerPoser::sub_7101054C10(bool on) {
     _a8.moveTo(on ? 1.0f : 0.0f, 0.5f);
     _85 = on;
