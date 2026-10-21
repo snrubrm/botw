@@ -147,6 +147,28 @@ void UiSubsys1Entry::m15() {
         _18 = _10->mFrame;
 }
 
+// NON_MATCHING: the original tests the kind with a 64-bit shift of the mask 0x141d000 and no range check
+// 0x7100950bb8: shown for the kinds 12, 14, 15, 16, 22 and 24, else when the map screen says the pin is visible
+void UiSubsys1Entry::m18() {
+    switch (int(_20)) {
+    case 12:
+    case 14:
+    case 15:
+    case 16:
+    case 22:
+    case 24:
+        m24(true);
+        return;
+    default:
+        break;
+    }
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (screen && screen->sub_71009F1A64(&_28))
+        m24(true);
+    else
+        m24(false);
+}
+
 // NON_MATCHING: virtual-target loading and boolean-setup branches differ.
 void UiSubsys1Entry::m19() {
     m24(UiSubsys1::instance()->_6d4 <= _28.x && _28.x <= UiSubsys1::instance()->_6dc &&
