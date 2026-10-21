@@ -36,13 +36,20 @@ public:
     void releaseXlu(const ModelSceneContext& context) const;
     // 0x7100c183b0
     bool isZPrePassEnabled(const ModelSceneContext& context) const;
+    // 0x7100c18c00 / 0x7100c18d70 / 0x7100c18df4
+    void endGBufferPreShading(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    void expandGBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    void expandDepthBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     // 0x7100c19b44 / 0x7100c19b48: the buffer draws no debug output and attaches nothing.
     void drawDebug(agl::DrawContext* draw_context, const ModelSceneContext& context) const override;
     void attachHostIO(sead::hostio::Node* node) override;
 
 private:
     RenderBufferContext* mRenderBufferContext;
-    u8 _258[0x1728 - 0x258];
+    u8 _258[0x1712 - 0x258];
+    // endGBufferPreShading tests bit 3, expandGBuffer bit 2.
+    u8 _1712;
+    u8 _1713[0x1728 - 0x1713];
 };
 static_assert(sizeof(ModelSceneBuffer) == 0x1728);
 

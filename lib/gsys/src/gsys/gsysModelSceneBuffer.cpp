@@ -42,6 +42,25 @@ void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
     mRenderBufferContext->release(context._8, 0x3e2000);
 }
 
+// 0x7100c18c00
+void ModelSceneBuffer::endGBufferPreShading(agl::DrawContext* draw_context,
+                                            ModelSceneContext* context) const {
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context->_8)->mGBuffer;
+    if (_1712 & 8)
+        gbuffer->entryToDebugTexturePagePreShading(draw_context, context->_8, &mDebugTexturePage);
+    gbuffer->endPreShading(draw_context);
+}
+
+// 0x7100c18d70
+void ModelSceneBuffer::expandGBuffer(agl::DrawContext* draw_context,
+                                     ModelSceneContext* context) const {
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context->_8)->mGBuffer;
+    gbuffer->expand(draw_context);
+    if (_1712 & 4)
+        gbuffer->entryToDebugTexturePage(draw_context, context->_8, &mDebugTexturePage);
+    expandDepthBuffer(draw_context, context);
+}
+
 // 0x7100c183b0
 bool ModelSceneBuffer::isZPrePassEnabled(const ModelSceneContext& context) const {
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::ZPrePass))

@@ -14,6 +14,10 @@ class ResShape;
 
 namespace gsys {
 
+namespace ModelEnum {
+enum class ShaderAssignType;
+}
+
 class ModelAssignRenderInfo;
 
 // C6DD78 allocates arrays with stride 0x1190. Native table 24D0D50 has
@@ -35,6 +39,14 @@ public:
 
     // 0x7100c70794 (declared only): called by ~ModelRenderUnitNW 0x7100c09b2c.
     void destroyShapeDL(sead::UnsafeArray<ModelAssignRenderInfo*, 60>* infos) const;
+
+    // The 0x14-byte shader information record cleared by calcShaderInfo.
+    struct ShaderInfo {
+        u8 _0[0x14];
+    };
+    // 0x7100c70564: clears the record.
+    void calcShaderInfo(ModelEnum::ShaderAssignType assign_type, int variation,
+                        ShaderInfo* info) const;
     // ModelRenderUnitNW::getName 0x7100c09d40 returns the string that
     // updateShapeName 0x7100c6f58c formats at +0xf48.
     const sead::BufferedSafeString& getShapeName() const { return mShapeName; }

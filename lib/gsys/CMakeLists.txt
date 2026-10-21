@@ -66,6 +66,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelMgr.cpp
   src/gsys/gsysModelResource.cpp
   src/gsys/gsysModelResourceMgr.cpp
+  src/gsys/gsysG3dResShapeEx.cpp
   src/gsys/gsysG3dResMaterialEx.cpp
   src/gsys/gsysModelShaderProgram.cpp
   src/gsys/gsysGBuffer.cpp
