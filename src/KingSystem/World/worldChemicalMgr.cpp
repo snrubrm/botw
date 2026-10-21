@@ -1,3 +1,6 @@
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <aal/aalShape.h>
@@ -560,7 +563,68 @@ Unk_710250cac8::~Unk_710250cac8() {
 namespace ksys::world {
 
 // NON_MATCHING: placeholder; the original destructor (0x71010ca33c) frees the pools and phys handlers first.
-ChemicalMgr::~ChemicalMgr() = default;
+// NON_MATCHING: ours inlines ~Unk_710250c698 (in the _c10 buffer delete) and ~WorldMgrStruct0_8_a;
+// the original calls them. The teardown sequence itself is the same.
+ChemicalMgr::~ChemicalMgr() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
+    act::Unk_71024dd490::sub_7100D9A8F8(_ae8);
+    if (_af0) {
+        phys::ContactPointInfo::free(_af0);
+        _af0 = nullptr;
+    }
+    if (_b08) {
+        phys::CollisionInfo::free(_b08);
+        _b08 = nullptr;
+    }
+    if (_b00) {
+        phys::ContactPointInfo::free(_b00);
+        _b00 = nullptr;
+    }
+    if (_af8) {
+        phys::ContactPointInfo::free(_af8);
+        _af8 = nullptr;
+    }
+    mChemicalPairs.clear();
+    phys::System::instance()->removeSystemGroupHandler(_a8);
+    _a8 = nullptr;
+    phys::System::instance()->removeSystemGroupHandler(_b0);
+    _b0 = nullptr;
+
+    for (auto& entry : _c80.entries) {
+        if (entry._0)
+            delete entry._0;
+        entry._0 = nullptr;
+    }
+    for (auto& entry : _b98.entries) {
+        if (entry._0) {
+            delete entry._0;
+            entry._0 = nullptr;
+        }
+    }
+    for (auto& entry : _b20.entries) {
+        if (entry._0)
+            delete entry._0;
+        entry._0 = nullptr;
+    }
+    if (_da8) {
+        delete _da8;
+        _da8 = nullptr;
+    }
+    if (_db0) {
+        delete _db0;
+        _db0 = nullptr;
+    }
+
+    _b20.used.freeBuffer();
+    _b20.free.freeBuffer();
+    _b20.entries.freeBuffer();
+    _b98.used.freeBuffer();
+    _b98.free.freeBuffer();
+    _b98.entries.freeBuffer();
+    _c10.used.freeBuffer();
+    _c10.free.freeBuffer();
+    _c10.entries.freeBuffer();
+}
 
 // The three overriders of Unk_710250cac8 are inline in the original: the vtable group at +0x20 has copies of
 // their bodies (0x71010cc0e8, 0x71010cc1a8, 0x71010cc244) instead of branches to them.

@@ -408,7 +408,8 @@ public:
     sead::CriticalSection _68;
     // lane1 s91: given to element rigid bodies by 0x7100e3f3ac.
     phys::SystemGroupHandler* _a8;
-    u8 _b0[8];
+    // Removed from the physics system with _a8 by the destructor.
+    phys::SystemGroupHandler* _b0;
     sead::FixedObjList<ChemicalPair, 64> mChemicalPairs;
     act::Unk_71024dd490* _ae8;  // Actual Element holder created by sub_7100D9A1D0.
     // ChemicalObject contact info allocated by init_ and released by the destructor.
@@ -433,7 +434,11 @@ public:
     act::BaseProcLink _d88;
     u8 _d98[4];
     u16 _d9c;
-    u8 _d9e[0xdc0 - 0xd9e];
+    u8 _d9e[0xda8 - 0xd9e];
+    // Created by init_ 0x71010ca680; deleted by the destructor.
+    Unk_710250c530* _da8;
+    Unk_710250c6b8* _db0;
+    u8 _db8[0xdc0 - 0xdb8];
 };
 KSYS_CHECK_SIZE_NX150(ChemicalMgr, 0xdc0);
 
