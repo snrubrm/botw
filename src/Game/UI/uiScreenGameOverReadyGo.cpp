@@ -2,9 +2,26 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTUStatics.h"
 #include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
+
+// The TU's statics; the original merges the layout name into the block at 0x71025ede70 (after the
+// uiTUStatics.h objects). The states are external objects just before it.
+static sead::SafeString sLayoutName = "GameOver_00";
+
+ksys::StateTemplate<ScreenGameOver> sUnk_71025edda0(
+    ++ksys::sUnk_71025cb4c8, "::StateID_Wait", &ScreenGameOver::m154, &ScreenGameOver::m155,
+    &ScreenGameOver::m156, &ScreenGameOver::m157, &ksys::sUnk_710250bcd8);
+ksys::StateTemplate<ScreenGameOver> sUnk_71025ede00(
+    ++ksys::sUnk_71025cb4c8, "::StateID_ExitConfirmation", &ScreenGameOver::m158, &ScreenGameOver::m159,
+    &ScreenGameOver::m160, &ScreenGameOver::m161, &ksys::sUnk_710250bcd8);
+
+// 0x7100a0a504
+const char* ScreenGameOver::getLayoutName_() const {
+    return sLayoutName.cstr();
+}
 
 // 0x7100a0a538
 void ScreenGameOver::m93(sead::Heap*) {

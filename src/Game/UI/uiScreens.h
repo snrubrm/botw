@@ -1962,8 +1962,9 @@ public:
 };
 
 // State objects of ScreenGameOver (CSV: unnamed data, 0x71025edda0 / 0x71025ede00).
-extern const ksys::StateBase sUnk_71025edda0;
-extern const ksys::StateBase sUnk_71025ede00;
+class ScreenGameOver;
+extern ksys::StateTemplate<ScreenGameOver> sUnk_71025edda0;
+extern ksys::StateTemplate<ScreenGameOver> sUnk_71025ede00;
 
 class ScreenGameOver : public ScreenEx {
 public:
@@ -1979,16 +1980,17 @@ public:
     bool isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
+    const char* getLayoutName_() const override;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();
-    virtual s32 m161();
+    virtual bool m161(void* arg);
 
     /* 0x3610 */ u8 _3610{};
     u8 _pad_3611[3];
@@ -2000,11 +2002,12 @@ public:
     bool sub_7100A0A914();
 };
 
-extern const ksys::StateBase sUnk_71025f1bf0;
-extern const ksys::StateBase sUnk_71025f1cb0;
-extern const ksys::StateBase sUnk_71025f1c50;
-extern const ksys::StateBase sUnk_71025f1d10;
-extern const ksys::StateBase sUnk_71025f1d70;
+class ScreenRupee;
+extern ksys::StateTemplate<ScreenRupee> sUnk_71025f1bf0;
+extern ksys::StateTemplate<ScreenRupee> sUnk_71025f1cb0;
+extern ksys::StateTemplate<ScreenRupee> sUnk_71025f1c50;
+extern ksys::StateTemplate<ScreenRupee> sUnk_71025f1d10;
+extern ksys::StateTemplate<ScreenRupee> sUnk_71025f1d70;
 
 class ScreenRupee : public ScreenEx {
 public:
@@ -2014,6 +2017,7 @@ public:
     void m71() override;
     ~ScreenRupee() override;
     SEAD_RTTI_OVERRIDE(ScreenRupee, ScreenEx)
+    const char* getLayoutName_() const override;
     void m93(sead::Heap* heap) override;
     void m94() override;
     void m98() override;
@@ -2025,19 +2029,19 @@ public:
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();
-    virtual s32 m161();
+    virtual bool m161(void* arg);
     virtual void m162();
     virtual void m163();
     virtual void m164();
-    virtual s32 m165();
+    virtual bool m165(void* arg);
     virtual void m166();
     virtual void m167();
     virtual void m168();
-    virtual s32 m169();
+    virtual bool m169(void* arg);
 
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
@@ -4048,10 +4052,11 @@ public:
     void sub_71009F8510(s32);
 };
 
-extern const ksys::StateBase sUnk_71025ecb40;
-extern const ksys::StateBase sUnk_71025ecc00;
-extern const ksys::StateBase sUnk_71025ecba0;
-extern const ksys::StateBase sUnk_71025ecc60;
+class ScreenDLCSinJuAkashiNum;
+extern ksys::StateTemplate<ScreenDLCSinJuAkashiNum> sUnk_71025ecb40;
+extern ksys::StateTemplate<ScreenDLCSinJuAkashiNum> sUnk_71025ecc00;
+extern ksys::StateTemplate<ScreenDLCSinJuAkashiNum> sUnk_71025ecba0;
+extern ksys::StateTemplate<ScreenDLCSinJuAkashiNum> sUnk_71025ecc60;
 
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
@@ -4061,6 +4066,7 @@ public:
     void m71() override;
     ~ScreenDLCSinJuAkashiNum() override;
     SEAD_RTTI_OVERRIDE(ScreenDLCSinJuAkashiNum, ScreenEx)
+    const char* getLayoutName_() const override;
     void m93(sead::Heap* heap) override;
     void m94() override;
     void m98() override;
@@ -4072,15 +4078,15 @@ public:
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();
-    virtual s32 m161();
+    virtual bool m161(void* arg);
     virtual void m162();
     virtual void m163();
     virtual void m164();
-    virtual s32 m165();
+    virtual bool m165(void* arg);
 
     // 0x7100a0488c: the number of the Hero Seal item (Goron / Zora / Rito / Gerudo) selected by `_3688`.
     s32 sub_7100A0488C();

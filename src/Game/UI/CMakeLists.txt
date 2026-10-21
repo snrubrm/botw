@@ -104,6 +104,7 @@ target_sources(uking PRIVATE
   uiScreenLoadSaveIcon.cpp
   uiScreenCtors.cpp
   uiScreenDLCNum.cpp
+  uiScreenRupee.cpp
   uiScreenDLCWindow.cpp
   uiScreenDtors.cpp
   uiScreenDtors2.cpp

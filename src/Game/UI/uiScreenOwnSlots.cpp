@@ -1046,13 +1046,13 @@ void ScreenDLCSinJuAkashiNum::m160() {}
 void ScreenDLCSinJuAkashiNum::m164() {}
 
 // 0x7100a05004
-s32 ScreenDLCSinJuAkashiNum::m157() { return 0; }
+bool ScreenDLCSinJuAkashiNum::m157(void*) { return false; }
 
 // 0x7100a0500c
-s32 ScreenDLCSinJuAkashiNum::m161() { return 0; }
+bool ScreenDLCSinJuAkashiNum::m161(void*) { return false; }
 
 // 0x7100a05014
-s32 ScreenDLCSinJuAkashiNum::m165() { return 0; }
+bool ScreenDLCSinJuAkashiNum::m165(void*) { return false; }
 
 // 0x7100a0a9a4
 void ScreenGameOver::m155() {}
@@ -1061,10 +1061,10 @@ void ScreenGameOver::m155() {}
 void ScreenGameOver::m160() {}
 
 // 0x7100a0ac40
-s32 ScreenGameOver::m157() { return 0; }
+bool ScreenGameOver::m157(void*) { return false; }
 
 // 0x7100a0ac48
-s32 ScreenGameOver::m161() { return 0; }
+bool ScreenGameOver::m161(void*) { return false; }
 
 // 0x7100a0f238
 void ScreenKologNum::m154() {}
@@ -1151,16 +1151,16 @@ void ScreenRupee::m160() {}
 void ScreenRupee::m164() {}
 
 // 0x7100a41c8c
-s32 ScreenRupee::m157() { return 0; }
+bool ScreenRupee::m157(void*) { return false; }
 
 // 0x7100a41c94
-s32 ScreenRupee::m161() { return 0; }
+bool ScreenRupee::m161(void*) { return false; }
 
 // 0x7100a41c9c
-s32 ScreenRupee::m165() { return 0; }
+bool ScreenRupee::m165(void*) { return false; }
 
 // 0x7100a41ca4
-s32 ScreenRupee::m169() { return 0; }
+bool ScreenRupee::m169(void*) { return false; }
 
 // 0x7100a4368c
 void ScreenSaveTransferWindow::m156() {}
