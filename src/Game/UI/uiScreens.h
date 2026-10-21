@@ -2328,6 +2328,7 @@ class ScreenMainShortCut : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     void m83() override;
+    void m93(sead::Heap* heap) override;
     void m90() override;
     void sub_7100A1F684(s32 index);
     // 0x7100a21668 (CSV unnamed, declared only): builds the shortcut icon's text / icon from _3864
@@ -2344,7 +2345,7 @@ public:
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     /* 0x3610 */ eui::Animator* _3610;  // played to its end while the bow shortcut is shown (sub_7100A20CBC)
-    u8 _pad_3618[0x3620 - 0x3618];
+    /* 0x3618 */ eui::Animator* _3618;  // "Pos"
     /* 0x3620 */ eui::Animator* _3620;  // stopped at max while _3738 is empty (sub_7100A2080C)
     // the pause menu data the arrow count comes from (m168)
     /* 0x3628 */ PauseMenuDataMgr* _3628;
@@ -2374,7 +2375,7 @@ public:
     /* 0x37a0 */ eui::Animator* _37a0;
     /* 0x37a8 */ eui::Animator* _37a8;
     u8 _pad_37b0[0x3850 - 0x37b0];
-    sead::Buffer<u8> _3850;  // element type not known
+    sead::Buffer<s32> _3850;  // 4-byte elements (m93 allocates 8); element type is a guess
     // the last selected shortcut (m159 compares it with _3864)
     /* 0x3860 */ s32 _3860;
     /* 0x3864 */ s32 _3864;

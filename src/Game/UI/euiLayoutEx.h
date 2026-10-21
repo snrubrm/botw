@@ -45,6 +45,7 @@ public:
 
     using nn::ui2d::Layout::mName;
     using nn::ui2d::Layout::mPane;
+    using nn::ui2d::Layout::_20;
     using nn::ui2d::Layout::mResourceAccessor;
 
     // 0x7100bdd16c (not decompiled)
