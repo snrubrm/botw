@@ -134,6 +134,26 @@ void Core::sub_71013010D4(const Unk_71013010d4& state, s32 index) {
 // NON_MATCHING: one address computation (_180) is scheduled earlier.
 Unk_710251f878::~Unk_710251f878() = default;
 
+void Unk_710251f878::postCalcWorld(const gsys::ModelScene* scene, u32 a, u32 b,
+                                   const gsys::ModelViewData* model_view_data, int view_index) {
+    if (mScene != scene)
+        return;
+    if ((~ksys::tera::Terrain::instance()->_a58 & 6) != 0)
+        return;
+    _378 = b;
+    sub_71013019BC(model_view_data, view_index);
+}
+
+void Unk_710251f878::calcBeforeDraw(gsys::ModelScene* scene,
+                                    const gsys::ModelViewData* model_view_data, int view_index) {
+    if (mScene != scene)
+        return;
+    if ((~ksys::tera::Terrain::instance()->_a58 & 6) != 0)
+        return;
+    sub_7101302080();
+    sub_71013021E0(model_view_data, view_index);
+}
+
 namespace ksys::tera {
 
 void Core::sub_7101301068(bool update) {

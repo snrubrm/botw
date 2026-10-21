@@ -2182,10 +2182,23 @@ class Unk_710251f878 : public gsys::IModelProcedural {
     SEAD_RTTI_OVERRIDE(Unk_710251f878, gsys::IModelProcedural)
 public:
     ~Unk_710251f878() override;
+    // Both run only for the bound scene and while Terrain's _a58 bits 1 and 2 are set.
+    void postCalcWorld(const gsys::ModelScene* scene, u32 a, u32 b,
+                       const gsys::ModelViewData* model_view_data, int view_index) override;
+    void calcBeforeDraw(gsys::ModelScene* scene, const gsys::ModelViewData* model_view_data,
+                        int view_index) override;
+
+    void sub_71013019BC(const gsys::ModelViewData* model_view_data, int view_index);
+    void sub_7101302080();
+    void sub_71013021E0(const gsys::ModelViewData* model_view_data, int view_index);
 
     // The destructor 0x71012ff93c only destroys the four uniform blocks.
-    u8 _e0[0x180 - 0xe0];
+    u8 _e0[0xf0 - 0xe0];
+    const gsys::ModelScene* mScene;
+    u8 _f8[0x180 - 0xf8];
     agl::UniformBlock _180[4];
+    u8 _360[0x378 - 0x360];
+    u32 _378;
 };
 
 // vtable 0x710252e4b8 (9 slots); placeholder generated from the vtable (genskel.py).
