@@ -4,6 +4,6 @@ namespace ksys {
 
 void MoviePlayer::init(sead::Heap* heap) {}
 
-MoviePlayer* MoviePlayer::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(MoviePlayer)
 
 }  // namespace ksys
