@@ -574,6 +574,9 @@ public:
     void someCalculation(const sead::Matrix34f& mtx, sead::Vector3f* at, sead::Vector3f* pos);
     // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
     // matrix has a NaN.
+    // 0x7100795ec4: sets the debug camera twist of layer 1 to the negated roll unless its camera
+    // flags (bit 1 with 0x21) block it or the camera state is invalid.
+    void x_4();
     bool x_5();
     // 0x7100795fc4 (placeholder name): whether the active event flow and entry are both "Demo006_0".
     bool sub_7100795FC4();

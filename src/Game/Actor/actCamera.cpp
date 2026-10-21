@@ -16,6 +16,8 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "Game/Actor/actEditCamera.h"
 #include <cmath>
+#include <layer/aglLayer.h>
+#include <layer/aglRenderer.h>
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadCoreInfo.h>
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -527,6 +529,17 @@ void Camera::setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3
     data.mtx = mtx;
     data.pos = pos;
     data.valid = true;
+}
+
+void Camera::x_4() {
+    auto* layer = agl::lyr::Renderer::instance()->getLayer(1);
+    if (!layer)
+        return;
+    if (layer->getCameraFlags().isOnBit(1) && layer->getCameraFlags().isOn(0x21))
+        return;
+    if (x_5())
+        return;
+    layer->setDebugCameraTwist(-_860._e0._28);
 }
 
 bool Camera::x_5() {
