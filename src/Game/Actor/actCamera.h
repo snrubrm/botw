@@ -575,6 +575,9 @@ public:
     // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
     // matrix has a NaN.
     bool x_5();
+    // 0x7100794750 (placeholder name; `this` is not used): the position (sub_7100D11B14) of the actor connected
+    // to the player as its calc child when sub_7100D146D8() holds; false if there is none or it is invalid.
+    bool sub_7100794750(sead::Vector3f* out);
     // 0x7100798f24 (placeholder name): counts _13cc / _13d0 while sub_710079959C() is / is not set and
     // updates _860._814 / _815 and bit 1 of _13fd.
     void sub_7100798F24();

@@ -345,6 +345,22 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+bool Camera::sub_7100794750(sead::Vector3f* out) {
+    ksys::act::ActorLinkConstDataAccess player;
+    sub_7100924BE4(&player);
+    if (!player.hasProc())
+        return false;
+    ksys::act::ActorLinkConstDataAccess child;
+    if (!player.acquireConnectedCalcChild(&child) || !child.sub_7100D146D8())
+        return false;
+    sead::Vector3f pos = sead::Vector3f::zero;
+    child.sub_7100D11B14(&pos);
+    const bool invalid = ksys::util::sub_71011F1040(pos);
+    if (!invalid)
+        *out = pos;
+    return !invalid;
+}
+
 void Camera::sub_7100799094() {
     const bool active = sub_71009271B0();
     const f32 max = std::max(sub_71009220E4(), 0.0f);
