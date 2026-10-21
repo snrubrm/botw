@@ -975,6 +975,7 @@ public:
     void m96() override;
     ~ScreenPauseMenuInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
+    const char* getLayoutName_() const override;
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
     // 0x7100a2dde0: forwards to Screen::doDraw_ (vtable slot 33)
     void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;

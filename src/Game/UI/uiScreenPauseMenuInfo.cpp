@@ -4,6 +4,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTUStatics.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -14,39 +15,6 @@
 #include "Game/UI/uiScreenControlCreators.h"
 
 namespace uking::ui {
-
-// ScreenPauseMenuInfo creator; native getter/D0 precede its screen constructor.
-static const ChildControlCreatorEntry sUnk_7102492320[] = {
-    {"Pa_Gear_00", sub_7100A233EC, 0},
-    {"Pa_PlayerStatusUp_00", sub_7100A17454, 0},
-    {"Pa_TempMeter_00", sub_7100A1764C, 0},
-    {"Pa_HaveNum_00", sub_7100A2C3D8, 0},
-    {"Pa_SetBonus_00", sub_71009D7198, 0},
-    {"Pa_RotateGuide_00", sub_71009D7198, 0},
-    {"Pa_Guide_", sub_71009D7198, 1},
-    {"Pa_Sp_", sub_7100A2C4D4, 1},
-};
-static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102492310(sUnk_7102492320);
-// 0x7100a2c3a8
-const sead::Buffer<const ChildControlCreatorEntry>* Unk_71024923e0::getEntries() const {
-    return &sUnk_7102492310;
-}
-
-// 0x7100a2c3d8
-ScreenChild* sub_7100A2C3D8(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
-    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
-    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
-        return nullptr;
-    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247aa50(layout_ex);
-}
-
-// 0x7100a2c4d4
-ScreenChild* sub_7100A2C4D4(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
-    auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
-    if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
-        return nullptr;
-    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_710247b960(layout_ex);
-}
 
 // 0x7100a2dc30, 168 B
 void ScreenPauseMenuInfo::sub_7100A2DC30(f32 delta) {
@@ -354,23 +322,31 @@ void ScreenPauseMenuInfo::sub_7100A300AC() {
     _39f0 = 1;
 }
 
-// Tables initialized by the PauseMenuInfo startup routine at 0x7100a2c5d8.
+// Tables initialized by the PauseMenuInfo startup routine at 0x7100a2c5d8. The original merges them
+// into the block at 0x71025f0710 after the uiTUStatics.h objects (the tab messages at 0x71025f06c0 stay
+// outside it).
 struct PauseTabMessage {
     sead::SafeString label;
     u32 frame;
 };
-static PauseTabMessage sUnk_71025f06c0[] = {{"0014", 1}, {"0013", 2}, {"0012", 0}};
-static sead::Buffer<PauseTabMessage> sUnk_71025f0890(sUnk_71025f06c0);
 struct PauseInfoMessage {
     s32 icon;
     sead::SafeString label;
 };
+// Unused 8-byte FLT_MAX object: the block holds five FLT_MAX floats where other UI TUs have three.
+static sead::Vector2f sUnk_71025f0718{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
+static sead::SafeString sLayoutName = "PauseMenuInfo_00";
+static sead::SafeString sUnk_71025f0870 = "LayoutMsg/PauseMenuInfo_00";
+static const PouchItemType sArmorTypes[] = {PouchItemType::ArmorHead, PouchItemType::ArmorUpper,
+                                            PouchItemType::ArmorLower};
+static sead::Buffer<const PouchItemType> sUnk_71025f0880(sArmorTypes);
+static PauseTabMessage sUnk_71025f06c0[] = {{"0014", 1}, {"0013", 2}, {"0012", 0}};
+static sead::Buffer<PauseTabMessage> sUnk_71025f0890(sUnk_71025f06c0);
 static PauseInfoMessage sUnk_71025f08b0[] = {
     {6, "0003"}, {6, "0002"}, {7, "0004"}, {8, "0000"}, {9, "0005"},
     {5, "0006"}, {4, "0009"}, {7, "0008"}, {6, "0015"},
 };
 static sead::Buffer<PauseInfoMessage> sUnk_71025f08a0(sUnk_71025f08b0);
-static sead::SafeString sUnk_71025f0870 = "LayoutMsg/PauseMenuInfo_00";
 static_assert(sizeof(PauseTabMessage) == 0x18);
 static_assert(sizeof(PauseInfoMessage) == 0x18);
 
@@ -411,7 +387,6 @@ void ScreenPauseMenuInfo::sub_7100A30194() {
 }
 
 // 0x7100a30510
-// NON_MATCHING: the original addresses the message tables from its merged-static base.
 void ScreenPauseMenuInfo::sub_7100A30510(u32 mode) {
     u32 left = 3;
     u32 right = 0;
@@ -560,6 +535,15 @@ void ScreenPauseMenuInfo::sub_7100A306F4(s32 previous_mode, u32 mode) {
     }
     if (_36d0)
         _36d0->Stop(_36d8 * f32(sUnk_71025f0890[mode].frame));
+}
+
+}  // namespace uking::ui
+
+namespace uking::ui {
+
+// 0x7100a2cd1c
+const char* ScreenPauseMenuInfo::getLayoutName_() const {
+    return sLayoutName.cstr();
 }
 
 }  // namespace uking::ui
