@@ -67,6 +67,8 @@ public:
 class Unk_710251afc8 : public aal::Arbiter::IEmitterAllocateCallback, public Unk_710251aff8 {
 public:
     struct Item {
+        Item() {}
+
         aal::Emitter* emitter = nullptr;
         // aal::Arbiter::get_8() when the emitter was created.
         s32 _8 = 0;
@@ -74,7 +76,6 @@ public:
 
     Unk_710251afc8();
     ~Unk_710251afc8() override;
-    // 0x71012c2ef4 (declared only: it reads the private emitter heap of aal::Arbiter).
     void onAllocEmitter(sead::Heap* heap, aal::Emitter* emitter, const sead::SafeString& name) override;
     void onFreeEmitter(aal::Emitter* emitter) override;
 

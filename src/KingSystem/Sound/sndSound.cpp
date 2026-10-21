@@ -14,6 +14,8 @@
 #include <heap/seadHeap.h>
 #include <aal/aalSettings.h>
 #include <aal/aalSystem.h>
+#include <xlink2/xlink2SystemSLink.h>
+#include "KingSystem/Sound/sndSoundAttenuationMgr.h"
 #include <aal/aalSystemAccessor.h>
 #include <aal/aalGroup.h>
 #include <aal/aalGroupMgr.h>
@@ -98,6 +100,57 @@ void SoundMgr::sub_71011FB5AC() {
     _b0->calc();
     _b8->sub_71012D1F3C();
     _239 = true;
+}
+
+void SoundMgr::sub_71011FB748() {
+    if (_e4 != 2 || !(_238 & 4) || _f8.isZero() || _30->sub_7100FF8774() != 0)
+        return;
+
+    if (mDuckingMgr->getDucker(DuckingMgr::DuckerType::cEvtWorldMute).isOnDucking()) {
+        if (mDuckingMgr->getDucker(DuckingMgr::DuckerType::cEvtWorldMute).sub_710103E368())
+            return;
+        if (mDuckingMgr->getDucker(DuckingMgr::DuckerType::cScreenFadeLogo).sub_710103E368()) {
+            if (auto* group_mgr = aal::SystemAccessor::getGroupMgr()) {
+                if (auto* group = group_mgr->findGroup("Demo")) {
+                    if (group->getDuckingCount() > 0)
+                        return;
+                }
+            }
+        }
+    } else if (mDuckingMgr->getDucker(DuckingMgr::DuckerType::cScreenFadeLogo).sub_710103E368()) {
+        return;
+    }
+    _238 &= ~4;
+}
+
+bool SoundMgr::calc() {
+    if (!_28)
+        return false;
+    if (!_23c.setBitOn(0))
+        return false;
+
+    if (!_239)
+        sub_71011FB5AC();
+    _239 = false;
+    _50->sub_7101050348();
+    mOcclusionMgr->sub_71010567C0();
+    _30->sub_7100FF88D0();
+    _88->calc();
+    mDuckingMgr->calc();
+    {
+        auto lock = sead::makeScopedLock(*xlink2::SystemSLink::sLockProxy);
+        _68->calc();
+    }
+    _60->sub_7101059420();
+    aal::System::sInstance->calc(1);
+    if (_288)
+        debugReportStatus(_288);
+    if (_2a0)
+        _2a0->sub_71012C629C();
+    _38->sub_710102C098();
+    ++_e0;
+    _23c.setBitOff(0);
+    return true;
 }
 
 void SoundMgr::sub_71011FBD58(bool a) {

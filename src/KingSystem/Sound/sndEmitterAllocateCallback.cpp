@@ -1,4 +1,5 @@
 // The TU at 0x71012c2b98 .. 0x71012c3070: the emitter allocate callback of Unk_710251af30.
+#include <aal/aalSystemAccessor.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Sound/sndSoundAttenuationMgr.h"
 
@@ -12,6 +13,21 @@ Unk_710251afc8::~Unk_710251afc8() {
 
 void Unk_710251afc8::init(sead::Heap* heap) {
     mEmitters.allocBuffer(400, heap);
+}
+
+void Unk_710251afc8::onAllocEmitter(sead::Heap* heap, aal::Emitter* emitter,
+                                    const sead::SafeString& name) {
+    if (!emitter)
+        return;
+    auto* arbiter = aal::SystemAccessor::getArbiter();
+    if (!arbiter || arbiter->getEmitterHeap() != heap)
+        return;
+
+    auto lock = sead::makeScopedLock(mCS);
+    if (auto* item = mEmitters.emplaceBack()) {
+        item->emitter = emitter;
+        item->_8 = arbiter->get_8();
+    }
 }
 
 void Unk_710251afc8::onFreeEmitter(aal::Emitter* emitter) {
