@@ -472,8 +472,7 @@ NavMeshObjMaybe::~NavMeshObjMaybe() {
     sub_7100F7F6A0();
 }
 
-// NON_MATCHING: the native wrapper clears the upper mode bits before forwarding.
-void NavMeshObjMaybe::sub_7100F7EF8C(RigidBody* body, u32 mode, bool forceTolerance,
+void NavMeshObjMaybe::sub_7100F7EF8C(RigidBody* body, u64 mode, bool forceTolerance,
                                     NavMeshSubMaterial material, u16 group,
                                     const sead::SafeString& name) {
     sub_7100F7EF9C(body->getHkBody(), mode, forceTolerance, material, group, name);
