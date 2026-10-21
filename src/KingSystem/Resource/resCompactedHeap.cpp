@@ -1,4 +1,5 @@
 #include "KingSystem/Resource/resCompactedHeap.h"
+#include <math/seadMathCalcCommon.h>
 #include <atomic>
 #include <prim/seadScopedLock.h>
 
@@ -143,6 +144,46 @@ void CompactedHeap::Allocation::sub_71012B8A78(bool x) {
         }
     }
     header->mInUse = x;
+}
+
+// NON_MATCHING: the abs() tail is scheduled after the seq_cst fence here (the original keeps only the
+// asr above it), and clang merges the two header bit writes into one read-modify-write byte store
+// where the original writes mInUse and mFlag separately (bfxil / ubfx + bfi).
+// 0x71012b77a8 (placeholder name): allocates a block of `size` bytes for `allocation`, then fills
+// the allocation record and its block header (the record's low tag bits are copied to the header).
+bool CompactedHeap::x_20(Allocation* allocation, size_t size, s32 alignment) {
+    auto lock = sead::makeScopedLock(_5cf8);
+
+    void* data;
+    {
+        auto inner_lock = sead::makeScopedLock(_5cf8);
+
+        s32 align = alignment;
+        if (align == 0)
+            align = 8;
+        align = sead::Mathi::abs(align);
+        std::atomic_thread_fence(std::memory_order_seq_cst);
+
+        const auto block = x_13(size, align);
+        if (!block.mBlock)
+            return false;
+
+        data = x_16(block.mBlock, size, block.mTagged, align);
+    }
+
+    if (!data)
+        return false;
+
+    allocation->mTaggedHeap = (allocation->mTaggedHeap & u64(3)) | u64(this);
+    allocation->mData = data;
+    allocation->mSize = size;
+
+    auto* bytes = static_cast<u8*>(data);
+    auto* header = reinterpret_cast<Allocation::Header*>(bytes - *reinterpret_cast<u16*>(bytes - 2));
+    header->_14 = allocation->_8;
+    header->mInUse = allocation->mTaggedHeap & 1;
+    header->mFlag = (allocation->mTaggedHeap & 2) >> 1;
+    return true;
 }
 
 bool CompactedHeap::Allocation::sub_71012B8C10() {

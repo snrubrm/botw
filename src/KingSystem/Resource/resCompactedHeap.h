@@ -71,9 +71,12 @@ public:
         struct Header {
             static constexpr u32 cMagic = 0xad000d1e;
             u32 mMagic;
-            u8 _4[0x16];
+            u8 _4[0x10];
+            u32 _14;
+            u8 _18[2];
             u8 mInUse : 1;
-            u8 _1a : 7;
+            u8 mFlag : 1;
+            u8 _1a : 6;
             u8 _1b;
             u8 mBlockIndex;
             u8 _1d[3];
@@ -108,6 +111,15 @@ public:
     // Bodies remain undecompiled because their tagged allocation headers are opaque.
     void* x_17(u32 size, s32 alignment, s32 mode, bool sync);
     void x_19(void* data, bool sync);
+
+    // The result of the raw block allocator x_13 (two pointers returned in x0 / x1).
+    struct BlockInfo {
+        void* mBlock;
+        void* mTagged;
+    };
+    BlockInfo x_13(u32 size, s32 alignment);
+    void* x_16(void* block, u32 size, void* tagged, s32 alignment);
+    bool x_20(Allocation* allocation, size_t size, s32 alignment);
 
     void destroy();
     void incrementCompactionCount();
