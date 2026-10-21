@@ -36,6 +36,7 @@ class ModelAnimation;
 class ModelBone;
 class ModelDebugInfo;
 class Model;
+class ModelOcclusionQuery;
 class ModelResource;
 class FFLResource;
 
@@ -317,7 +318,10 @@ private:
     ModelAnimation* mAnimation;
     /// The update hook (name is a guess); may be null.
     ModelUpdateHook* mUpdateHook;
-    u8 _e0[0xf0 - 0xe0];
+    /// The model's occlusion query; the destructor 0x7100bf6bdc deletes it through
+    /// ModelOcclusionQuery::destroy.
+    ModelOcclusionQuery* mOcclusionQuery;
+    u8 _e8[0xf0 - 0xe8];
     /// The scene the model is bound to (bind()).
     ModelScene* mScene;
     u8 _f8[0x100 - 0xf8];

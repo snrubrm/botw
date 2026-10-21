@@ -112,6 +112,8 @@ add_library(gsys OBJECT
   src/gsys/gsysDebugCtrl.cpp
   src/gsys/gsysShaderHolder.cpp
   src/gsys/gsysApplicationPackage.cpp
+  include/gsys/gsysModelOcclusionQuery.h
+  src/gsys/gsysModelOcclusionQuery.cpp
   include/gsys/gsysSystemTask.h
   src/gsys/gsysSystemTask.cpp
   src/gsys/gsysModelAssignRenderInfo.cpp
