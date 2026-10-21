@@ -1508,21 +1508,42 @@ void Unk_7102477110::m14() {}
 
 
 // 0x710098fc08
-Unk_7102478048::Unk_7102478048(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
+AppMapIconPart::AppMapIconPart(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
 // 0x710099ec7c
-void Unk_7102478048::m16() {
+void AppMapIconPart::m16() {
     for (auto* entry : UiSubsys1::instance()->_5d8)
         entry->m22();
 }
 
 // 0x7100994e88
-bool Unk_7102478048::sub_7100994E88() const {
+bool AppMapIconPart::sub_7100994E88() const {
     return _410 != nullptr;
 }
 
+// 0x7100990984
+UiSubsys1Entry* AppMapIconPart::getHoveredIconData() const {
+    if (!_410)
+        return nullptr;
+    return _410->_18;
+}
+
+// 0x7100994374
+bool AppMapIconPart::isHoveredIconChangedMaybe() const {
+    if (!_410)
+        return false;
+    return _410 != _418;
+}
+
+// 0x7100994e68
+bool AppMapIconPart::isPrevHoveredIconLostMaybe() const {
+    if (!_418)
+        return false;
+    return _410 != _418;
+}
+
 // 0x7100993c08
-void Unk_7102478048::m34() {
+void AppMapIconPart::m34() {
     for (auto* entry : UiSubsys1::instance()->_5d8)
         entry->m22();
     UiSubsys1::instance()->_5d8.clear();
@@ -1530,7 +1551,7 @@ void Unk_7102478048::m34() {
 }
 
 // 0x7100993bc0
-void Unk_7102478048::m31() {
+void AppMapIconPart::m31() {
     sub_710099E384();
     sub_71009919CC(true);
     UiSubsys1::instance()->sub_7100960AD8();
@@ -1540,7 +1561,7 @@ void Unk_7102478048::m31() {
 
 // 0x710098fc90
 // NON_MATCHING: the inlined ScreenChild member teardown differs in scheduling only.
-Unk_7102478048::~Unk_7102478048() {
+AppMapIconPart::~AppMapIconPart() {
     sub_710098FD5C();
 }
 
@@ -1766,8 +1787,29 @@ Unk_710247e0c8::Unk_710247e0c8(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 Unk_710247e0c8::~Unk_710247e0c8() = default;
 
 // 0x710099ee8c (placeholder name): whether the map state's 0x3888 value is 1
-bool Unk_7102478048::sub_710099EE8C() const {
+bool AppMapIconPart::sub_710099EE8C() const {
     return _420 ? _420->is3888Equal(1) : false;
+}
+
+// 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
+void sub_710099EF18(AppMapIconPart* self, s32 mode) {
+    switch (mode) {
+    case 0:
+    case 1:
+        sub_710099EF78(self);
+        break;
+    case 2:
+        sub_71009F0F0(self);
+        break;
+    case 3:
+        sub_71009F490(self);
+        break;
+    case 4: {
+        UiSubsys1* subsys = self->_420;
+        subsys->set38ec(subsys->get38e0(), 4);
+        break;
+    }
+    }
 }
 
 // 0x71009b5f80 (placeholder name): takes the picture book group index and unloads the texture slot

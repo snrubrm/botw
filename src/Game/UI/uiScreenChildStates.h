@@ -27,6 +27,7 @@ class CapturePane;
 namespace uking::ui {
 class Unk_7102477fc0;
 class UiSubsys1;
+struct UiSubsys1Entry;
 
 // Temperature child: factory a1764c, full ctor 9c81cc and D1 9c8248.
 class Unk_710247e0c8 : public ScreenChildEx {
@@ -397,10 +398,10 @@ static_assert(sizeof(Unk_710247c010) == 0x480);
 using Unk_710247c6c0 = ScreenAppMapUnk3c90;
 
 // Full ctor 98fc08/dtor 98fc90 and factory 9e805c prove this 0x450-byte child.
-class Unk_7102478048 : public ScreenChildEx {
+class AppMapIconPart : public ScreenChildEx {
 public:
-    explicit Unk_7102478048(eui::LayoutEx* layout);
-    ~Unk_7102478048() override;
+    explicit AppMapIconPart(eui::LayoutEx* layout);
+    ~AppMapIconPart() override;
     // 0x710098fd5c (declared only; the destructor calls it first)
     void sub_710098FD5C();
     void m16() override;
@@ -410,6 +411,12 @@ public:
     void sub_7100994E98();
     // 0x7100994e88: the +0x410 state object is set
     bool sub_7100994E88() const;
+    // 0x7100990984: the hovered icon's subsystem entry (the +0x410 marker's +0x18), or null
+    UiSubsys1Entry* getHoveredIconData() const;
+    // 0x7100994374 / 0x7100994e68 (placeholder names): whether the hovered icon changed / the previous one
+    // was lost
+    bool isHoveredIconChangedMaybe() const;
+    bool isPrevHoveredIconLostMaybe() const;
     // 0x710099e384 / 0x71009919cc / 0x7100991b90 / 0x710099e49c (CSV unnamed; not decompiled): called by m31
     void sub_710099E384();
     void sub_71009919CC(bool a1);
@@ -437,15 +444,22 @@ public:
     /* 0x370 */ eui::MassDrawPane* _370 = nullptr;
     u8 _378[0x408 - 0x378]{};
     // the current map marker / message state (cleared by sub_7100994E98; +0x410 is read through +0x18)
-    /* 0x408 */ void* _408 = nullptr;
-    /* 0x410 */ void* _410 = nullptr;
-    /* 0x418 */ void* _418 = nullptr;
+    /* 0x408 */ Unk_7102477fc0* _408 = nullptr;
+    /* 0x410 */ Unk_7102477fc0* _410 = nullptr;
+    /* 0x418 */ Unk_7102477fc0* _418 = nullptr;
     /* 0x420 */ UiSubsys1* _420 = nullptr;
     /* 0x428 */ ksys::StringBoard _428[5];
     // 0x710099ee8c (placeholder name): whether the map state's 0x3888 value is 1
     bool sub_710099EE8C() const;
 };
-static_assert(sizeof(Unk_7102478048) == 0x450);
+static_assert(sizeof(AppMapIconPart) == 0x450);
+
+// 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
+void sub_710099EF18(AppMapIconPart* self, s32 mode);
+// 0x710099ef78 / 0x710099f0f0 / 0x710099f490 (declared only; not decompiled)
+void sub_710099EF78(AppMapIconPart* self);
+void sub_71009F0F0(AppMapIconPart* self);
+void sub_71009F490(AppMapIconPart* self);
 
 // A list unit of the Unk_710247af10 TU (vtable 0x710247ae48, 0x58 bytes; created by 0x71009b951c, which allocates
 // them into a PtrArray). Only the overridden slots are declared.

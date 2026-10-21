@@ -1212,7 +1212,7 @@ class UiSubsys1 {
     friend class Unk_7102476830;
     friend class Unk_7102476738;
     friend class Unk_7102476928;
-    friend class Unk_7102478048;  // m16 / m34 walk _5d8
+    friend class AppMapIconPart;  // m16 / m34 walk _5d8
     // Native 9A99F0 reads the map view object at 0x850 and its scale at +0x38 directly.
     friend class ScreenAppMapWidget;
     // Native 9F05C0 reads the map view offsets (+0x30) and scale (+0x28) directly.
@@ -1453,7 +1453,7 @@ public:
     void sub_7100963C70();
     // 0x71009638f8 (CSV unnamed; not decompiled)
     void sub_71009638F8();
-    // 0x7100960ad8 (CSV unnamed; not decompiled; called by Unk_7102478048::m31)
+    // 0x7100960ad8 (CSV unnamed; not decompiled; called by AppMapIconPart::m31)
     void sub_7100960AD8();
     // 0x710095b530 (CSV uiSubsys1::x_0; not decompiled; called by ScreenAppMapWidget::m31)
     void sub_710095B530();

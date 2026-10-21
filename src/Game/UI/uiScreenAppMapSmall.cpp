@@ -230,7 +230,7 @@ ScreenChild* sub_71009E805C(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
     if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)
         return nullptr;
-    return new (layout_ex->mScreen->mInitializeHeap, 8) Unk_7102478048(layout_ex);
+    return new (layout_ex->mScreen->mInitializeHeap, 8) AppMapIconPart(layout_ex);
 }
 
 ScreenChild* sub_71009E8158(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {

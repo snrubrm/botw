@@ -1062,7 +1062,7 @@ Unk_7102479510::~Unk_7102479510() = default;
 
 // NON_MATCHING: DynamicCast failure paths merge differently; equivalent count tests use different immediates.
 // 0x71009952c4
-void Unk_7102478048::sub_71009952C4(sead::Heap* heap, const sead::SafeString& name,
+void AppMapIconPart::sub_71009952C4(sead::Heap* heap, const sead::SafeString& name,
                                     s32 count, const sead::SafeString& mass_name) {
     sead::FormatFixedSafeString<64> path("%s/%s%02d", "Pa_MapIcon_00", name.cstr(), 0);
     auto* parts = eui::sub_7100945088(_128->sub_7100A48104(path, nullptr));
@@ -1134,7 +1134,7 @@ void Unk_7102478048::sub_71009952C4(sead::Heap* heap, const sead::SafeString& na
 
 // 0x710099d618
 // NON_MATCHING: DynamicCast failure paths and marker stores merge differently; stack allocation differs.
-void Unk_7102478048::sub_710099D618(sead::Heap* heap, const sead::SafeString& name,
+void AppMapIconPart::sub_710099D618(sead::Heap* heap, const sead::SafeString& name,
                                   s32 count, const sead::SafeString& mass_name) {
     sead::FormatFixedSafeString<64> path("%s/%s%02d", "Pa_MapIcon_00", name.cstr(), 0);
     auto* parts = eui::sub_7100945088(_128->sub_7100A48104(path, nullptr));
