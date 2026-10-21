@@ -67,5 +67,7 @@ extern sead::SafeArray<sead::SafeString, 5> sUnk_71025bb7e0;
 // "Main" x5 and "0", "1", "", "", "" (used by PriestBossPhase::calc_).
 extern sead::SafeArray<sead::SafeString, 5> sUnk_71025bb830;
 extern sead::SafeArray<sead::SafeString, 5> sUnk_71025bb880;
+// 0x7102414930: the event name prefix "Demo644_" (PriestBossPhase::sub_71005289C4)
+extern const char* sUnk_7102414930;
 
 }  // namespace uking::ai

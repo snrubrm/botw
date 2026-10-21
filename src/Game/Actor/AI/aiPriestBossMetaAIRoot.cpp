@@ -25,6 +25,7 @@ sead::SafeArray<sead::SafeString, 5> sUnk_71025bb7e0{{
 }};
 sead::SafeArray<sead::SafeString, 5> sUnk_71025bb830{{"Main", "Main", "Main", "Main", "Main"}};
 sead::SafeArray<sead::SafeString, 5> sUnk_71025bb880{{"0", "1", "", "", ""}};
+const char* sUnk_7102414930 = "Demo644_";
 
 PriestBossMetaAIRoot::PriestBossMetaAIRoot(const InitArg& arg) : PriestBossMeta(arg) {}
 

@@ -34,6 +34,14 @@ public:
 
 protected:
     void sub_7100528B5C();
+    // 0x7100528f10 (placeholder name): marks the phase as started once m36 holds (after m35), or sets flag 2 while
+    // the phase's flags are _0 and _1 without _2
+    void sub_7100528F10();
+    // 0x71005289c4 (placeholder name): whether one of the Demo644_0 .. Demo644_3 events is the active one
+    bool sub_71005289C4();
+    // 0x7100528854 (placeholder name): calls the event `name` / `entry`; in phases 0 and 1 only after the player
+    // has stood on level ground (|y| <= 0.25) for the _70 timer
+    bool sub_7100528854(const sead::SafeString& name, const sead::SafeString& entry);
     bool sub_7100528C48();
     // static_param at offset 0x50
     const float* mPercentLifeTransition_s{};

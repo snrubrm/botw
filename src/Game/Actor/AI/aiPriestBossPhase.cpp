@@ -1,5 +1,11 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/AI/aiPriestBossPhase.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
+#include "KingSystem/Event/evtMetadata.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/AI/aiPriestBossMetaAIRoot.h"
+#include "KingSystem/Event/evtManager.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -61,6 +67,60 @@ bool PriestBossPhase::sub_7100528C48() {
         return true;
     }
     return false;
+}
+
+// 0x7100528854
+bool PriestBossPhase::sub_7100528854(const sead::SafeString& name, const sead::SafeString& entry) {
+    if (m38() == Flag::_0 || m38() == Flag::_1) {
+        ksys::act::acc::PlayerBase player;
+        if (!ksys::act::acquireActor(&act::PlayerInfo::getSomeProcLink(), &player))
+            return false;
+        const f32 y = player.getActorMtx()(1, 3);
+        if (!player.isGroundForEvent() || !(sead::Mathf::abs(y) <= 0.25f)) {
+            _70.value = _70.previous_value = 5.0f;
+            return false;
+        }
+        _70.update();
+        if (!(_70.value <= sead::Mathf::epsilon()))
+            return false;
+    }
+    auto* mgr = ksys::evt::Manager::instance();
+    ksys::evt::Metadata metadata(name.cstr(), entry.cstr(), "");
+    ksys::evt::CallArg arg;
+    arg.metadata = &metadata;
+    arg.proc = mActor;
+    return mgr->callEvent(arg);
+}
+
+// 0x71005289c4
+bool PriestBossPhase::sub_71005289C4() {
+    auto* mgr = ksys::evt::Manager::instance();
+    for (s32 i = 0; i < 4; ++i) {
+        sead::FormatFixedSafeString<256> name("%s%s", sUnk_7102414930, sUnk_71025bb880[i].cstr());
+        if (mgr->checkActiveContextEventName(name, sUnk_71025bb830[i]))
+            return true;
+    }
+    return false;
+}
+
+// 0x7100528f10
+// NON_MATCHING: the flag 2 temporary gets its own stack slot (the original shares the phase temporary's) and the
+// orr operands are swapped
+void PriestBossPhase::sub_7100528F10() {
+    auto* unit = sub_7100525A88();
+    if (!unit)
+        return;
+    if (unit->getPhaseFlags(m38())._0) {
+        const auto& flags = unit->getPhaseFlags(m38());
+        if (flags._0 && flags._1 && !flags._2)
+            _60.setBit(Flag(Flag::_2));
+    } else if (m36()) {
+        m35();
+        auto& flags = unit->_248[m38()];
+        flags._0 = true;
+        flags._1 = false;
+        flags._2 = false;
+    }
 }
 
 PriestBossPhase::PriestBossPhase(const InitArg& arg) : PriestBossMeta(arg) {}
