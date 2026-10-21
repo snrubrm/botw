@@ -2062,12 +2062,7 @@ public:
 
 // Unk_710246d140 (vtable 0x710246d140): see Game/gameUnk_71008be174.h.
 
-// vtable 0x710246d258 (5 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710246d258 : public uking::Unk_71024739f8 {
-    SEAD_RTTI_OVERRIDE(Unk_710246d258, uking::Unk_71024739f8)
-public:
-    ~Unk_710246d258() override;
-};
+// Unk_710246d258 (vtable 0x710246d258): see Game/gameUnk_71008be174.h.
 
 // typeinfo 0x71025d9ad8; the original has no vtable for this class (an abstract base: only its RTTI
 // checks remain). Placeholder generated from its children (genskel.py).

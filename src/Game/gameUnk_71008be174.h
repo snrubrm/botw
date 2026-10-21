@@ -93,3 +93,26 @@ public:
     /* 0x4e4 */ u8 _4e4 = 0;
     /* 0x4e8 */ u32 _4e8 = 0;
 };
+
+// vtable 0x710246d258 (ctor 0x71008bed58, D1 0x71008bedc4, D0 0x71008bee34): the sibling input source of
+// Unk_710246d140 with a file handle and an owned document (the replay player, by its neighbours).
+class Unk_710246d258 : public uking::Unk_71024739f8 {
+    SEAD_RTTI_OVERRIDE(Unk_710246d258, uking::Unk_71024739f8)
+public:
+    Unk_710246d258();
+    ~Unk_710246d258() override;
+    // 0x71008beeb4
+    void update() override {
+        mOwnsDocument = false;
+        Unk_71024739f8::update();
+    }
+
+    /* 0x480 */ sead::FileHandle mFileHandle;
+    // Deleted through its virtual destructor when mOwnsDocument is set; type taken from Unk_710246d140.
+    /* 0x4c0 */ sead::XmlDocument* mDocument = nullptr;
+    /* 0x4c8 */ u64 _4c8 = 0;
+    /* 0x4d0 */ u32 _4d0 = 0;
+    u8 _4d4[0x4e4 - 0x4d4];
+    /* 0x4e4 */ u8 _4e4 = 0;
+    /* 0x4e5 */ bool mOwnsDocument = false;
+};

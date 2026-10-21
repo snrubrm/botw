@@ -101,6 +101,11 @@ Unk_710246d140::~Unk_710246d140() {
     mDocument = nullptr;
 }
 
-// NON_MATCHING: placeholder destructor; the original (0x71008bedc4) also destroys members or bases
-// this class does not declare yet.
-Unk_710246d258::~Unk_710246d258() = default;
+Unk_710246d258::Unk_710246d258() = default;
+
+Unk_710246d258::~Unk_710246d258() {
+    if (mOwnsDocument) {
+        delete mDocument;
+        mDocument = nullptr;
+    }
+}
